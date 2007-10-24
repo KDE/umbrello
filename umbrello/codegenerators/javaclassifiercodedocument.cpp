@@ -345,7 +345,12 @@ void JavaClassifierCodeDocument::updateContent( )
     CodeClassFieldList compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
 
     bool isInterface = parentIsInterface();
-    bool hasOperationMethods = c->getOpList().last() ? true : false;
+    bool hasOperationMethods = false;
+    Q_ASSERT(c != NULL);
+    if (c) {
+        UMLOperationList list = c->getOpList();
+        hasOperationMethods = ! list.isEmpty();
+    }
     QString endLine = commonPolicy->getNewLineEndingChars(); // a shortcut..so we don't have to call this all the time
 
     //

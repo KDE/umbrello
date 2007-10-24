@@ -22,7 +22,6 @@
 #include "../codeclassfieldlist.h"
 #include "../classifiercodedocument.h"
 #include "../hierarchicalcodeblock.h"
-#include "classifierinfo.h"
 
 class CPPHeaderClassDeclarationBlock;
 

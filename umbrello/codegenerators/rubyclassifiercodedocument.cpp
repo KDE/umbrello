@@ -385,7 +385,12 @@ void RubyClassifierCodeDocument::updateContent( )
     CodeClassFieldList privCompositionClassFields = getSpecificClassFields ( CodeClassField::Composition, Uml::Visibility::Private);
 
     bool isInterface = parentIsInterface();
-    bool hasOperationMethods = c->getOpList().last() ? true : false;
+    bool hasOperationMethods = false;
+    Q_ASSERT(c != NULL);
+    if (c) {
+        UMLOperationList list = c->getOpList();
+        hasOperationMethods = ! list.isEmpty();
+    }
     CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
     QString endLine = pol->getNewLineEndingChars(); // a shortcut..so we don't have to call this all the time
 

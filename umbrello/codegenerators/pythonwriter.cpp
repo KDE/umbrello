@@ -204,33 +204,35 @@ void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h) {
 
     //write operations to file
     if(forceSections() || !oppub.isEmpty()) {
-        writeOperations(classname,oppub,h,PUBLIC);
+        writeOperations(classname, oppub, h, Uml::Visibility::Public);
     }
 
     if(forceSections() || !opprot.isEmpty()) {
-        writeOperations(classname,opprot,h,PROTECTED);
+        writeOperations(classname, opprot, h, Uml::Visibility::Protected);
     }
 
     if(forceSections() || !oppriv.isEmpty()) {
-        writeOperations(classname,oppriv,h,PRIVATE);
+        writeOperations(classname, oppriv, h, Uml::Visibility::Private);
     }
 
 }
 
 void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationList &opList,
-                                   QTextStream &h, Access access) {
+                                   QTextStream &h, Uml::Visibility access) {
     QString sAccess;
 
-    switch (access) {
-
-    case PUBLIC:
+    switch (access)
+    {
+    case Uml::Visibility::Public:
         sAccess = QString("");
         break;
-    case PRIVATE:
+    case Uml::Visibility::Private:
         sAccess = QString("__");
         break;
-    case PROTECTED:
+    case Uml::Visibility::Protected:
         sAccess = QString("_");
+        break;
+    default:
         break;
     }
 

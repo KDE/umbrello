@@ -23,13 +23,16 @@
 #include "../umlattributelist.h"
 #include "../umloperationlist.h"
 
-enum Access {PRIVATE, PUBLIC, PROTECTED};
 
 /**
   * class PythonWriter is a python code generator for UMLClassifier objects
   * Just call writeClass and feed it a UMLClassifier;
+  *
+  * NOTE: There is a unit test available for this class.
+  *       Please, use and adapt it when necessary.
   */
-class PythonWriter : public SimpleCodeGenerator {
+class PythonWriter : public SimpleCodeGenerator
+{
     Q_OBJECT
 public:
 
@@ -78,7 +81,7 @@ private:
       * @param h output stream for the header file
       */
     void writeOperations(const QString& classname, UMLOperationList &opList,
-                         QTextStream &h, Access access);
+                         QTextStream &h, Uml::Visibility access);
 
     bool m_bNeedPass;  ///< True as long as no "pass" has been written
 };

@@ -19,7 +19,6 @@
 #include "../classifiercodedocument.h"
 #include "../classifier.h"
 #include "../hierarchicalcodeblock.h"
-#include "classifierinfo.h"
 #include "dcodeclassfield.h"
 #include "dcodeoperation.h"
 
@@ -91,7 +90,6 @@ private:
     HierarchicalCodeBlock * constructorBlock;
     HierarchicalCodeBlock * operationsBlock;
 
-    ClassifierInfo * info;
 /*    QString fileName; // Just for our convience in creating code
     QString endLine; // characters for ending line. Just for our convience in creating code
     QString DClassName;

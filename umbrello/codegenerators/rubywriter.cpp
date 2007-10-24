@@ -25,7 +25,6 @@
 #include <qtextstream.h>
 #include <qregexp.h>
 
-#include "classifierinfo.h"
 #include "../umldoc.h"
 #include "../umlattributelist.h"
 #include "../association.h"
@@ -45,30 +44,25 @@ void RubyWriter::writeClass(UMLClassifier *c) {
         return;
     }
 
-    QString classname = cleanName(c->getName());
-
     UMLClassifierList superclasses = c->getSuperClasses();
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
 
     //find an appropriate name for our file
-    QString fileName = findFileName(c, ".rb");
-    if (fileName.isEmpty()) {
+    fileName_ = findFileName(c, ".rb");
+    if (fileName_.isEmpty()) {
         emit codeGenerated(c, false);
         return;
     }
 
     QFile fileh;
-    if( !openFile(fileh, fileName) ) {
+    if( !openFile(fileh, fileName_) ) {
         emit codeGenerated(c, false);
         return;
     }
     QTextStream h(&fileh);
 
-    // preparations
-    classifierInfo = new ClassifierInfo(c);
-    classifierInfo->fileName = fileName;
-    classifierInfo->className = cleanName(c->getName());
+    className_ = cleanName(c->getName());
 
     //////////////////////////////
     //Start generating the code!!
@@ -80,7 +74,7 @@ void RubyWriter::writeClass(UMLClassifier *c) {
 
     str = getHeadingFile(".rb");
     if(!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), fileName);
+        str.replace(QRegExp("%filename%"), fileName_);
         str.replace(QRegExp("%filepath%"), fileh.fileName());
         h<<str<<m_endl;
     }
@@ -100,7 +94,7 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     // write inheritances out
     UMLClassifier *concept;
 
-    h<< "class " << cppToRubyType(classname) << (superclasses.count() > 0 ? " < ":"");
+    h<< "class " << cppToRubyType(className_) << (superclasses.count() > 0 ? " < ":"");
 
     int i = 0;
     foreach (concept , superclasses ) {
@@ -117,15 +111,15 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     h << m_endl;
 
     // write comment for sub-section IF needed
-    if (forceDoc() || classifierInfo->hasAccessorMethods) {
+    if (forceDoc() || c->hasAccessorMethods()) {
         h << m_indentation << "#" << m_endl;
         h << m_indentation << "# Accessor Methods" << m_endl;
         h << m_indentation << "#" << m_endl << m_endl;
 
         // Accessor methods for attributes
-        writeAttributeMethods(&(classifierInfo->atpub), Uml::Visibility::Public, h);
-        writeAttributeMethods(&(classifierInfo->atprot), Uml::Visibility::Protected, h);
-        writeAttributeMethods(&(classifierInfo->atpriv), Uml::Visibility::Private, h);
+        writeAttributeMethods(c->getAttributeList(Uml::Visibility::Public), Uml::Visibility::Public, h);
+        writeAttributeMethods(c->getAttributeList(Uml::Visibility::Protected), Uml::Visibility::Protected, h);
+        writeAttributeMethods(c->getAttributeList(Uml::Visibility::Private), Uml::Visibility::Private, h);
         h << m_endl;
     }
 
@@ -349,15 +343,15 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
 
 // this is for writing file attribute methods
 //
-void RubyWriter::writeAttributeMethods(UMLAttributeList *attribs,
+void RubyWriter::writeAttributeMethods(UMLAttributeList attribs,
                                       Uml::Visibility visibility, QTextStream &stream)
 {
     // return now if NO attributes to work on
-    if (attribs->count() == 0 || visibility == Uml::Visibility::Private)
+    if (attribs.count() == 0 || visibility == Uml::Visibility::Private)
         return;
 
     UMLAttribute *at;
-    foreach (at ,  *attribs)
+    foreach (at ,  attribs)
     {
         QString varName = cppToRubyName(cleanName(at->getName()));
 

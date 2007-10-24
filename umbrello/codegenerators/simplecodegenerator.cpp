@@ -74,8 +74,8 @@ QString SimpleCodeGenerator::getIndent ()
     return myIndent;
 }
 
-QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ext) {
-
+QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ext)
+{
     //if we already know to which file this class was written/should be written, just return it.
     if (m_fileMap.contains(concept))
         return m_fileMap[concept];
@@ -143,7 +143,8 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
     return overwritableName(concept, name, extension);
 }
 
-QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString &name, const QString &ext) {
+QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString &name, const QString &ext)
+{
     //check if a file named "name" with extension "ext" already exists
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     QDir outputDir = commonPolicy->getOutputDirectory();
@@ -212,7 +213,8 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
 }
 
 
-bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c) {
+bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c)
+{
     UMLAttributeList atl = c->getAttributeList();
     foreach (UMLAttribute* at, atl ) {
         if(!at->getInitialValue().isEmpty())
@@ -221,7 +223,8 @@ bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c) {
     return false;
 }
 
-bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c) {
+bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c)
+{
     UMLOperationList opl(c->getOpList());
     foreach (UMLOperation* op, opl ) {
         if(op->getAbstract())
@@ -241,7 +244,8 @@ CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* /*c
 }
 
 // write all concepts in project to file
-void SimpleCodeGenerator::writeCodeToFile ( ) {
+void SimpleCodeGenerator::writeCodeToFile ( )
+{
     m_fileMap.clear(); // need to do this, else just keep getting same directory to write to.
     UMLClassifierList concepts = m_doc->getClassesAndInterfaces();
     foreach (UMLClassifier* c, concepts ) {
@@ -251,15 +255,16 @@ void SimpleCodeGenerator::writeCodeToFile ( ) {
 }
 
 // write only selected concepts to file
-void SimpleCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts) {
+void SimpleCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts)
+{
     m_fileMap.clear(); // ??
     foreach (UMLClassifier* c, concepts ) {
         this->writeClass(c); // call the writer for each class.
     }
 }
 
-void SimpleCodeGenerator::initFields ( UMLDoc * parentDoc ) {
-
+void SimpleCodeGenerator::initFields ( UMLDoc * parentDoc )
+{
     // load Classifier documents from parent document
     // initFromParentDocument();
 
@@ -274,8 +279,8 @@ void SimpleCodeGenerator::initFields ( UMLDoc * parentDoc ) {
 
 // a little method to provide some compatibility between
 // the newer codegenpolicy object and the older class fields.
-void SimpleCodeGenerator::syncCodeToDocument() {
-
+void SimpleCodeGenerator::syncCodeToDocument()
+{
     CodeGenerationPolicy *policy = UMLApp::app()->getCommonPolicy();
 
     m_indentation = policy->getIndentation();

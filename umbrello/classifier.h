@@ -30,12 +30,16 @@ class IDChangeLog;
  * This class inherits from @ref UMLPackage which allows classifiers
  * to also act as namespaces, i.e. it allows classifiers to nest.
  *
+ * NOTE: There is a unit test available for this class.
+ *       Please, use and adapt it when necessary.
+ *
  * @short Information for a non-graphical Concept/Class.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLClassifier : public UMLPackage {
+class UMLClassifier : public UMLPackage
+{
     Q_OBJECT
 public:
 
@@ -143,6 +147,22 @@ public:
      * @return  List of true attributes for the class.
      */
     UMLAttributeList getAttributeList() const;
+
+    /**
+     * Returns the attributes for the specified scope.
+     *
+     * @param scope    The scope of the attribute.
+     * @return  List of true attributes for the class.
+     */
+    UMLAttributeList getAttributeList(Uml::Visibility scope) const;
+
+    /**
+     * Returns the static attributes for the specified scope.
+     *
+     * @param scope    The scope of the attribute.
+     * @return  List of true attributes for the class.
+     */
+    UMLAttributeList getAttributeListStatic(Uml::Visibility scope) const;
 
     /**
      * Creates an operation in the current document.
@@ -432,7 +452,51 @@ public:
     /**
      * Return true if this classifier has abstract operations.
      */
-    bool hasAbstractOps ();
+    bool hasAbstractOps();
+
+    /**
+     * Return true if this classifier has associations.
+     */
+    bool hasAssociations();
+
+    /**
+     * Return true if this classifier has attributes.
+     */
+    bool hasAttributes();
+
+    /**
+     * Return true if this classifier has static attributes.
+     */
+    bool hasStaticAttributes();
+
+    /**
+     * Return true if this classifier has methods.
+     */
+    bool hasMethods();
+
+    /**
+     * Return true if this classifier has accessor methods.
+     */
+    bool hasAccessorMethods();
+
+    /**
+     * Return true if this classifier has operation methods.
+     */
+    bool hasOperationMethods();
+
+    /**
+     * Return true if this classifier has vector fields.
+     */
+    bool hasVectorFields();
+
+    /**
+     * utility functions to allow easy determination of what classifiers
+     * are "owned" by the current one via named association type (e.g.
+     * plain, aggregate or compositions).
+     */
+//    UMLClassifierList getPlainAssocChildClassifierList();
+//    UMLClassifierList getAggregateChildClassifierList();
+//    UMLClassifierList getCompositionChildClassifierList();
 
     /**
      * Create a new ClassifierListObject (attribute, operation, template)
@@ -466,14 +530,17 @@ signals:
 
 private:
 
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
-
     UMLAssociation *m_pClassAssoc;
 
     bool m_isRef;
+
+    /**
+     * Utility method called by "get*ChildClassfierList()" methods. It basically
+     * finds all the classifiers named in each association in the given association list
+     * which aren't the current one. Useful for finding which classifiers are "owned" by the
+     * current one via declared associations such as in aggregations/compositions.
+     */
+//    UMLClassifierList findAssocClassifierObjsInRoles (UMLAssociationList * list);
 
 protected:
 

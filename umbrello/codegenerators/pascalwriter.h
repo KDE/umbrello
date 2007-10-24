@@ -22,7 +22,8 @@ class UMLOperation;
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PascalWriter : public SimpleCodeGenerator {
+class PascalWriter : public SimpleCodeGenerator
+{
     Q_OBJECT
 public:
 

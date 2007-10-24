@@ -25,7 +25,6 @@
 #include "../codeblockwithcomments.h"
 #include "../umldoc.h"
 
-#include "classifierinfo.h"
 #include "javaclassifiercodedocument.h"
 #include "javaantcodedocument.h"
 
@@ -131,7 +130,7 @@ protected:
     /** create the codeblock that will represent the class declaration
      *  for this classifier
      */
-    CodeBlockWithComments * createClassDecl ( UMLClassifier *c, ClassifierInfo *info, JavaClassifierCodeDocument * doc);
+    CodeBlockWithComments * createClassDecl ( UMLClassifier *c, JavaClassifierCodeDocument * doc);
 
     /**
      * @return  JavaANTCodeDocument

@@ -42,16 +42,13 @@ using namespace Uml;
 UMLClassifier::UMLClassifier(const QString & name, Uml::IDType id)
         : UMLPackage(name, id)
 {
-    init();
-}
-
-UMLClassifier::~UMLClassifier() {
-}
-
-void UMLClassifier::init() {
     m_BaseType = Uml::ot_Class;  // default value
     m_pClassAssoc = NULL;
     m_isRef = false;
+}
+
+UMLClassifier::~UMLClassifier()
+{
 }
 
 void UMLClassifier::setBaseType(Uml::Object_Type ot) {
@@ -314,6 +311,62 @@ UMLAttributeList UMLClassifier::getAttributeList() const{
         }
     }
     return attributeList;
+}
+
+UMLAttributeList UMLClassifier::getAttributeList(Uml::Visibility scope) const
+{
+    UMLAttributeList list;
+    if (!isInterface())
+    {
+        UMLAttributeList atl = getAttributeList();
+        foreach(UMLAttribute* at, atl )
+        {
+            if (! at->getStatic())
+            {
+                if (scope == Uml::Visibility::Private)
+                {
+                    if ((at->getVisibility() == Uml::Visibility::Private) ||
+                       (at->getVisibility() == Uml::Visibility::Implementation))
+                    {
+                        list.append(at);
+                    }
+                }
+                else if (scope == at->getVisibility())
+                {
+                   list.append(at);
+                }
+            }
+        }
+    }
+    return list;
+}
+
+UMLAttributeList UMLClassifier::getAttributeListStatic(Uml::Visibility scope) const
+{
+    UMLAttributeList list;
+    if (!isInterface())
+    {
+        UMLAttributeList atl = getAttributeList();
+        foreach(UMLAttribute* at, atl )
+        {
+            if (at->getStatic())
+            {
+                if (scope == Uml::Visibility::Private)
+                {
+                    if ((at->getVisibility() == Uml::Visibility::Private) ||
+                       (at->getVisibility() == Uml::Visibility::Implementation))
+                    {
+                        list.append(at);
+                    }
+                }
+                else if (scope == at->getVisibility())
+                {
+                    list.append(at);
+                }
+            }
+        }
+    }
+    return list;
 }
 
 UMLOperationList UMLClassifier::findOperations(const QString &n) {
@@ -820,6 +873,54 @@ bool UMLClassifier::isReference() const{
     return m_isRef;
 }
 
+bool UMLClassifier::hasAssociations()
+{
+    return getSpecificAssocs(Uml::at_Association).count() > 0
+            || getAggregations().count() > 0
+            || getCompositions().count() > 0
+            || getUniAssociationToBeImplemented().count() > 0;
+}
+
+bool UMLClassifier::hasAttributes()
+{
+    return getAttributeList(Uml::Visibility::Public).count() > 0
+            || getAttributeList(Uml::Visibility::Protected).count() > 0
+            || getAttributeList(Uml::Visibility::Private).count() > 0
+            || getAttributeListStatic(Uml::Visibility::Public).count() > 0
+            || getAttributeListStatic(Uml::Visibility::Protected).count() > 0
+            || getAttributeListStatic(Uml::Visibility::Private).count() > 0;
+}
+
+bool UMLClassifier::hasStaticAttributes()
+{
+    return getAttributeListStatic(Uml::Visibility::Public).count() > 0
+            || getAttributeListStatic(Uml::Visibility::Protected).count() > 0
+            || getAttributeListStatic(Uml::Visibility::Private).count() > 0;
+}
+
+bool UMLClassifier::hasAccessorMethods()
+{
+    return hasAttributes() || hasAssociations();
+}
+
+bool UMLClassifier::hasOperationMethods()
+{
+    return getOpList().last() ? true : false;
+}
+
+bool UMLClassifier::hasMethods()
+{
+    return hasOperationMethods() || hasAccessorMethods();
+}
+
+// this is a bit too simplistic..some associations are for
+// SINGLE objects, and WONT be declared as Vectors, so this
+// is a bit overly inclusive (I guess that's better than the other way around)
+bool UMLClassifier::hasVectorFields()
+{
+    return hasAssociations();
+}
+
 UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented() {
     UMLAssociationList associations = getSpecificAssocs(Uml::at_UniAssociation);
     UMLAssociationList uniAssocListToBeImplemented;
@@ -996,6 +1097,50 @@ bool UMLClassifier::load(QDomElement& element) {
     return totalSuccess;
 }
 
+/*
+UMLClassifierList UMLClassifier::getPlainAssocChildClassifierList()
+{
+    UMLAssociationList plainAssociations = getSpecificAssocs(Uml::at_Association);
+    return findAssocClassifierObjsInRoles(&plainAssociations);
+}
+
+UMLClassifierList UMLClassifier::getAggregateChildClassifierList()
+{
+    UMLAssociationList aggregations = getAggregations();
+    return findAssocClassifierObjsInRoles(&aggregations);
+}
+
+UMLClassifierList UMLClassifier::getCompositionChildClassifierList() 
+{
+    UMLAssociationList compositions = getCompositions();
+    return findAssocClassifierObjsInRoles(&compositions);
+}
+
+UMLClassifierList UMLClassifier::findAssocClassifierObjsInRoles (UMLAssociationList * list)
+{
+    UMLClassifierList classifiers;
+
+    for (UMLAssociationListIt alit(*list); alit.hasNext(); ) {
+        UMLAssociation* a = alit.next();
+        // DON'T accept a classifier IF the association role is empty, by
+        // convention, that means to ignore the classifier on that end of
+        // the association.
+        // We also ignore classifiers which are the same as the current one
+        // (e.g. id matches), we only want the "other" classifiers
+        if (a->getObjectId(Uml::A) == getID() && !a->getRoleName(Uml::B).isEmpty()) {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
+            if(c)
+                classifiers.append(c);
+        } else if (a->getObjectId(Uml::B) == getID() && !a->getRoleName(Uml::A).isEmpty()) {
+            UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
+            if(c)
+                classifiers.append(c);
+        }
+    }
+
+    return classifiers;
+}
+*/
 
 
 #include "classifier.moc"

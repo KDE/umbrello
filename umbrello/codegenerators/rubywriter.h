@@ -23,7 +23,7 @@
 #include "../umloperationlist.h"
 #include "../umlattributelist.h"
 
-#include <qstringlist.h>
+#include <QtCore/QStringList>
 
 class ClassifierInfo;
 
@@ -31,7 +31,8 @@ class ClassifierInfo;
   * class RubyWriter is a ruby code generator for UMLClassifier objects
   * Just call writeClass and feed it a UMLClassifier;
   */
-class RubyWriter : public SimpleCodeGenerator {
+class RubyWriter : public SimpleCodeGenerator
+{
     Q_OBJECT
 public:
 
@@ -74,7 +75,7 @@ private:
     /**
      * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
      */
-    void writeAttributeMethods(UMLAttributeList *attribs,
+    void writeAttributeMethods(UMLAttributeList attribs,
                                Uml::Visibility visibility, QTextStream &stream);
 
 
@@ -104,10 +105,6 @@ private:
     void writeOperations(const QString &classname, UMLOperationList &opList,
                          Uml::Visibility permitScope, QTextStream &h);
 
-    /**
-     * Summary information about current classifier.
-     */
-    ClassifierInfo * classifierInfo;
 };
 
 #endif //RUBYWRITER

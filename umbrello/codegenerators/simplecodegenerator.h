@@ -19,9 +19,9 @@
 #ifndef SIMPLECODEGENERATOR_H
 #define SIMPLECODEGENERATOR_H
 
-#include <qstringlist.h>
-#include <qstring.h>
-#include <qmap.h>
+#include <QtCore/QStringList>
+#include <QtCore/QString>
+#include <QtCore/QMap>
 
 #include "../codegenerator.h"
 #include "../umlnamespace.h"
@@ -70,6 +70,9 @@ public:
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 
 protected:
+
+    QString className_;
+    QString fileName_;
 
     // compatibility methods..
     QString findFileName(UMLPackage* concept, const QString &ext);

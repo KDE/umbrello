@@ -22,9 +22,9 @@
 #include <qregexp.h>
 #include <kdebug.h>
 // app includes
-#include "classifierinfo.h"
 #include "codegen_utils.h"
 #include "../umldoc.h"
+#include "../association.h"
 #include "../classifier.h"
 #include "../operation.h"
 #include "../template.h"
@@ -102,27 +102,24 @@ TclWriter::writeClass(UMLClassifier * c)
     QFile           fileh, filetcl;
 
     // find an appropriate name for our file
-    QString         fileName = findFileName(c, ".tcl");
-    if (fileName.isEmpty()) {
+    fileName_ = findFileName(c, ".tcl");
+    if (fileName_.isEmpty()) {
         emit            codeGenerated(c, false);
         return;
     }
 
-    if (!openFile(fileh, fileName)) {
+    if (!openFile(fileh, fileName_)) {
         emit            codeGenerated(c, false);
         return;
     }
     // preparations
-    classifierInfo = new ClassifierInfo(c);
-    classifierInfo->fileName = fileName;
-    classifierInfo->className = cleanName(c->getName());
-    mClass = cleanName(c->getName());
+    className_ = cleanName(c->getName());
     if (!c->getPackage().isEmpty()) {
         mNamespace = "::" + cleanName(c->getPackage());
-        mClassGlobal = mNamespace + "::" + mClass;
+        mClassGlobal = mNamespace + "::" + className_;
     } else {
         mNamespace = "::";
-        mClassGlobal = "::" + mClass;
+        mClassGlobal = "::" + className_;
     }
 
     // write Header file
@@ -132,12 +129,12 @@ TclWriter::writeClass(UMLClassifier * c)
     // Determine whether the implementation file is required.
     // (It is not required if the class is an enumeration.)
     bool            need_impl = true;
-    if (!classifierInfo->isInterface) {
+    if (!c->isInterface()) {
         if (c->getBaseType() == Uml::ot_Enum)
             need_impl = false;
     }
     if (need_impl) {
-        if (!openFile(filetcl, fileName + "body")) {
+        if (!openFile(filetcl, fileName_ + "body")) {
             emit            codeGenerated(c, false);
             return;
         }
@@ -145,10 +142,8 @@ TclWriter::writeClass(UMLClassifier * c)
         writeSourceFile(c, filetcl);
         filetcl.close();
     }
-    // Wrap up: free classifierInfo, emit done code
-    classifierInfo = 0;
-
-    emit            codeGenerated(c, true);
+    // emit done code
+    emit codeGenerated(c, true);
 
 }
 
@@ -165,7 +160,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     // write header blurb
     QString         str = getHeadingFile(".tcl");
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), classifierInfo->fileName);
+        str.replace(QRegExp("%filename%"), fileName_);
         str.replace(QRegExp("%filepath%"), fileh.fileName());
         writeCode(str);
     }
@@ -175,10 +170,10 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
 
     // check on already existing
     writeComm("Do not load twice");
-    writeCode("if {[namespace exist " + mClass + "]} return");
+    writeCode("if {[namespace exist " + className_ + "]} return");
 
     // source used superclass files
-    UMLClassifierList superclasses = classifierInfo->superclasses;
+    UMLClassifierList superclasses = c->getSuperClasses();
     if (superclasses.count() > 0) {
         writeComm
         ("Source found and used class files and import class command if necessary");
@@ -188,30 +183,30 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
         }
     }
     // write all "source" we need to include other classes, that arent us.
-    if (classifierInfo->hasAssociations) {
-        writeAssociationIncl(classifierInfo->plainAssociations, c->getID(),
+    if (c->hasAssociations()) {
+        writeAssociationIncl(c->getSpecificAssocs(Uml::at_Association), c->getID(),
                              "Associations");
-        writeAssociationIncl(classifierInfo->aggregations, c->getID(),
+        writeAssociationIncl(c->getAggregations(), c->getID(),
                              "Aggregations");
-        writeAssociationIncl(classifierInfo->compositions, c->getID(),
+        writeAssociationIncl(c->getCompositions(), c->getID(),
                              "Compositions");
     }
     //Write class Documentation
-    writeDocu("\n@class\t" + mClass + m_endl + c->getDoc());
+    writeDocu("\n@class\t" + className_ + m_endl + c->getDoc());
 
     //check if class is abstract and / or has abstract methods
-    if ((c->getAbstract() || classifierInfo->isInterface)
+    if ((c->getAbstract() || c->isInterface())
             && !hasAbstractOps(c)) {
-        writeComm("TODO abstract class" + mClass +
+        writeComm("TODO abstract class" + className_ +
                   "\nInherit from it and create only objects from the derived classes");
     }
     // check on enum classes
-    if (!classifierInfo->isInterface) {
+    if (!c->isInterface()) {
         // use tcl-list for enum's
         if (c->getBaseType() == Uml::ot_Enum) {
             UMLClassifierListItemList litList =
                 c->getFilteredList(Uml::ot_EnumLiteral);
-            writeCode("set enum_" + mClass + " [list\\");
+            writeCode("set enum_" + className_ + " [list\\");
             m_indentLevel++;
             foreach (UMLClassifierListItem * lit , litList ) {
                 QString         enumLiteral = cleanName(lit->getName());
@@ -235,11 +230,11 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
         }
     }
     // start my own class
-    writeCode("class " + mClass + " {");
+    writeCode("class " + className_ + " {");
     m_indentLevel++;
-    if (classifierInfo->superclasses.count() > 0) {
+    if (c->getSuperClasses().count() > 0) {
         QString         code = "inherit";
-        foreach (UMLClassifier * superClass , classifierInfo->superclasses ) {
+        foreach (UMLClassifier * superClass , c->getSuperClasses()) {
             /*
             if (superClass->getAbstract() || superClass->isInterface())
                 stream << getIndent() << "virtual ";
@@ -262,19 +257,19 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
 
     // PUBLIC attribs/methods
     // for public: constructors are first ops we print out
-    if (!classifierInfo->isInterface) {
+    if (!c->isInterface()) {
         writeConstructorHeader();
         writeDestructorHeader();
     }
     // attributes
-    writeAttributeDecl(Uml::Visibility::Public, true);      // write static attributes first
-    writeAttributeDecl(Uml::Visibility::Public, false);
+    writeAttributeDecl(c, Uml::Visibility::Public, true);      // write static attributes first
+    writeAttributeDecl(c, Uml::Visibility::Public, false);
     // associations
-    writeAssociationDecl(classifierInfo->plainAssociations, Uml::Visibility::Public,
+    writeAssociationDecl(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Public,
                          c->getID(), "Associations");
-    writeAssociationDecl(classifierInfo->aggregations, Uml::Visibility::Public, c->getID(),
+    writeAssociationDecl(c->getAggregations(), Uml::Visibility::Public, c->getID(),
                          "Aggregations");
-    writeAssociationDecl(classifierInfo->compositions, Uml::Visibility::Public, c->getID(),
+    writeAssociationDecl(c->getCompositions(), Uml::Visibility::Public, c->getID(),
                          "Compositions");
     //TODO  writeHeaderAccessorMethodDecl(c, Uml::Visibility::Public, stream);
     writeOperationHeader(c, Uml::Visibility::Public);
@@ -282,14 +277,14 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     // PROTECTED attribs/methods
     //
     // attributes
-    writeAttributeDecl(Uml::Visibility::Protected, true);   // write static attributes first
-    writeAttributeDecl(Uml::Visibility::Protected, false);
+    writeAttributeDecl(c, Uml::Visibility::Protected, true);   // write static attributes first
+    writeAttributeDecl(c, Uml::Visibility::Protected, false);
     // associations
-    writeAssociationDecl(classifierInfo->plainAssociations, Uml::Visibility::Protected,
+    writeAssociationDecl(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Protected,
                          c->getID(), "Association");
-    writeAssociationDecl(classifierInfo->aggregations, Uml::Visibility::Protected,
+    writeAssociationDecl(c->getAggregations(), Uml::Visibility::Protected,
                          c->getID(), "Aggregation");
-    writeAssociationDecl(classifierInfo->compositions, Uml::Visibility::Protected,
+    writeAssociationDecl(c->getCompositions(), Uml::Visibility::Protected,
                          c->getID(), "Composition");
     //TODO  writeHeaderAccessorMethodDecl(c, Uml::Visibility::Protected, stream);
     writeOperationHeader(c, Uml::Visibility::Protected);
@@ -297,18 +292,18 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     // PRIVATE attribs/methods
     //
     // attributes
-    writeAttributeDecl(Uml::Visibility::Private, true);     // write static attributes first
-    writeAttributeDecl(Uml::Visibility::Private, false);
+    writeAttributeDecl(c, Uml::Visibility::Private, true);     // write static attributes first
+    writeAttributeDecl(c, Uml::Visibility::Private, false);
     // associations
-    writeAssociationDecl(classifierInfo->plainAssociations, Uml::Visibility::Private,
+    writeAssociationDecl(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Private,
                          c->getID(), "Associations");
-    writeAssociationDecl(classifierInfo->aggregations, Uml::Visibility::Private, c->getID(),
+    writeAssociationDecl(c->getAggregations(), Uml::Visibility::Private, c->getID(),
                          "Aggregations");
-    writeAssociationDecl(classifierInfo->compositions, Uml::Visibility::Private, c->getID(),
+    writeAssociationDecl(c->getCompositions(), Uml::Visibility::Private, c->getID(),
                          "Compositions");
     //TODO  writeHeaderAccessorMethodDecl(c, Uml::Visibility::Public, stream);
     writeOperationHeader(c, Uml::Visibility::Private);
-    writeInitAttributeHeader(); // this is always private, used by constructors to initialize class
+    writeInitAttributeHeader(c); // this is always private, used by constructors to initialize class
 
     // end of class header
     m_indentLevel--;
@@ -333,29 +328,29 @@ TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
     QString         str;
     str = getHeadingFile(".tclbody");
     if (!str.isEmpty()) {
-        str.replace(QRegExp("%filename%"), classifierInfo->fileName + "body");
+        str.replace(QRegExp("%filename%"), fileName_ + "body");
         str.replace(QRegExp("%filepath%"), filetcl.fileName());
         writeCode(str);
     }
     // Start body of class
 
     // constructors are first ops we print out
-    if (!classifierInfo->isInterface) {
-        writeConstructorSource();
+    if (!c->isInterface()) {
+        writeConstructorSource(c);
         writeDestructorSource();
     }
     // Public attributes have in tcl a configbody method
-    writeAttributeSource();
+    writeAttributeSource(c);
     // Association access functions
-    writeAssociationSource(classifierInfo->plainAssociations, c->getID());
-    writeAssociationSource(classifierInfo->aggregations, c->getID());
-    writeAssociationSource(classifierInfo->compositions, c->getID());
+    writeAssociationSource(c->getSpecificAssocs(Uml::at_Association), c->getID());
+    writeAssociationSource(c->getAggregations(), c->getID());
+    writeAssociationSource(c->getCompositions(), c->getID());
     // Procedures and methods
     writeOperationSource(c, Uml::Visibility::Public);
     writeOperationSource(c, Uml::Visibility::Protected);
     writeOperationSource(c, Uml::Visibility::Private);
     // Yep, bringing up the back of the bus, our initialization method for attributes
-    writeInitAttributeSource();
+    writeInitAttributeSource(c);
 }
 
 void
@@ -453,12 +448,12 @@ TclWriter::writeConstructorHeader()
 }
 
 void
-TclWriter::writeConstructorSource()
+TclWriter::writeConstructorSource(UMLClassifier * c)
 {
     writeComm(mClassGlobal + "::constructor");
     writeCode(mClassGlobal + "::constructor {args} {");
     m_indentLevel++;
-    if (classifierInfo->hasAttributes) {
+    if (c->hasAttributes()) {
         writeCode("initAttributes");
     }
     writeCode("eval configure $args");
@@ -483,9 +478,9 @@ TclWriter::writeDestructorSource()
 }
 
 void
-TclWriter::writeAttributeDecl(Uml::Visibility visibility, bool writeStatic)
+TclWriter::writeAttributeDecl(UMLClassifier * c, Uml::Visibility visibility, bool writeStatic)
 {
-    if (classifierInfo->isInterface)
+    if (c->isInterface())
         return;
 
     QString scope = visibility.toString();
@@ -495,43 +490,22 @@ TclWriter::writeAttributeDecl(Uml::Visibility visibility, bool writeStatic)
     } else {
         type = "variable";
     }
-    UMLAttributeList *list = NULL;
-    switch (visibility) {
-    case Uml::Visibility::Private:
-        if (writeStatic) {
-            list = &(classifierInfo->static_atpriv);
-        } else {
-            list = &(classifierInfo->atpriv);
-        }
-        break;
-
-    case Uml::Visibility::Protected:
-        if (writeStatic) {
-            list = &(classifierInfo->static_atprot);
-        } else {
-            list = &(classifierInfo->atprot);
-        }
-        break;
-
-    case Uml::Visibility::Public:
-        if (writeStatic) {
-            list = &(classifierInfo->static_atpub);
-        } else {
-            list = &(classifierInfo->atpub);
-        }
-        break;
-    default:
-        break;
+    UMLAttributeList list;
+    if (writeStatic) {
+        list = c->getAttributeListStatic(visibility);
+    }
+    else {
+        list = c->getAttributeList(visibility);
     }
 
-    if (list && list->count() > 0) {
+    if (list.count() > 0) {
         writeComm(m_endl + scope + ' ' + type + " attributes" + m_endl);
         // write attrib declarations now
-        QString         documentation;
-        foreach (UMLAttribute * at , *list ) {
+        QString documentation;
+        foreach (UMLAttribute * at , list ) {
             documentation = at->getDoc();
-            QString         varName = cleanName(at->getName());
-            QString         typeName = fixTypeName(at->getTypeName());
+            QString varName = cleanName(at->getName());
+            QString typeName = fixTypeName(at->getTypeName());
             writeDocu(m_endl + "@var " + scope + ' ' + type + ' ' + typeName + ' ' +
                       varName + m_endl + documentation);
             writeCode(scope + ' ' + type + ' ' + varName + m_endl);
@@ -623,9 +597,9 @@ TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QString
 }
 
 void
-TclWriter::writeInitAttributeHeader()
+TclWriter::writeInitAttributeHeader(UMLClassifier * c)
 {
-    if (classifierInfo->hasAttributes) {
+    if (c->hasAttributes()) {
         writeDocu("@method private initAttributes" + m_endl +
                   "Initialize all internal variables");
         writeCode("private method initAttributes {}");
@@ -633,10 +607,10 @@ TclWriter::writeInitAttributeHeader()
 }
 
 void
-TclWriter::writeInitAttributeSource()
+TclWriter::writeInitAttributeSource(UMLClassifier* c)
 {
     // only need to do this under certain conditions
-    if (classifierInfo->hasAttributes) {
+    if (c->hasAttributes()) {
         QString         varName;
 
         writeComm(mClassGlobal + "::initAttributes");
@@ -644,7 +618,7 @@ TclWriter::writeInitAttributeSource()
         m_indentLevel++;
 
         // first, initiation of fields derived from attributes
-        UMLAttributeList atl = classifierInfo->getAttList();
+        UMLAttributeList atl = c->getAttributeList();
         foreach (UMLAttribute * at , atl ) {
             if (!at->getInitialValue().isEmpty()) {
                 varName = cleanName(at->getName());
@@ -713,7 +687,7 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
         QString         methodReturnType = fixTypeName(op->getTypeName());
         QString         name = cleanName(op->getName());
         QString         scope = permitScope.toString();
-        if (op->getAbstract() || classifierInfo->isInterface) {
+        if (op->getAbstract() || c->isInterface()) {
             //TODO declare abstract method as 'virtual'
             // str += "virtual ";
         }
@@ -786,7 +760,7 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
         QString         methodReturnType = fixTypeName(op->getTypeName());
         QString         name;
         // no code needed
-        if (op->getAbstract() || classifierInfo->isInterface) {
+        if (op->getAbstract() || c->isInterface()) {
             continue;
         }
         name = mClassGlobal + "::" + cleanName(op->getName());
@@ -817,12 +791,12 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
 }
 
 void
-TclWriter::writeAttributeSource()
+TclWriter::writeAttributeSource(UMLClassifier * c)
 {
-    UMLAttributeList *list = &(classifierInfo->atpub);
+    UMLAttributeList list = c->getAttributeList(Uml::Visibility::Public);
 
-    foreach ( UMLAttribute* at , *list ) {
-        QString         name = mClassGlobal + "::" + cleanName(at->getName());
+    foreach ( UMLAttribute* at , list ) {
+        QString name = mClassGlobal + "::" + cleanName(at->getName());
 
         writeComm(name);
         writeCode("configbody " + name + " {} {" + m_endl + '}' + m_endl);

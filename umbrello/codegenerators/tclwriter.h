@@ -25,9 +25,8 @@
 #include "../umlattributelist.h"
 #include "../umlassociationlist.h"
 
-class           QFile;
-class           QTextStream;
-class           ClassifierInfo;
+class QFile;
+class QTextStream;
 
 /**
   * class TclWriter is a code generator for UMLClassifier objects.
@@ -47,13 +46,13 @@ public:
     /**
      * Destructor, empty
      */
-    virtual ~ TclWriter();
+    virtual ~TclWriter();
 
     /**
      * call this method to generate tcl code for a UMLClassifier
      * @param c the class to generate code for
      */
-    virtual void    writeClass(UMLClassifier * c);
+    virtual void writeClass(UMLClassifier * c);
 
     /**
      * returns "Tcl"
@@ -70,42 +69,41 @@ private:
      * Current output stream.
      */
     QTextStream * mStream;
+
     /**
      * write the header file for this classifier.
      */
-    void            writeHeaderFile(UMLClassifier * c, QFile & file);
+    void writeHeaderFile(UMLClassifier * c, QFile & file);
 
     /**
      * write the source code body file for this classifier.
      */
-    void            writeSourceFile(UMLClassifier * c, QFile & file);
+    void writeSourceFile(UMLClassifier * c, QFile & file);
 
     /**
      * write the source codei text.
      */
-    void            writeCode(const QString &text);
+    void writeCode(const QString &text);
 
     /**
      * write comment text.
      */
-    void            writeComm(const QString &text);
+    void writeComm(const QString &text);
 
     /**
      * write documentation text.
      */
-    void            writeDocu(const QString &text);
+    void writeDocu(const QString &text);
 
-    void            writeConstructorDecl();
+    void writeConstructorDecl();
 
-    void            writeDestructorDecl();
+    void writeDestructorDecl();
 
     /**
      * Summary information about current classifier.
      */
-    ClassifierInfo *classifierInfo;
-    QString         mNamespace;
-    QString         mClass;
-    QString         mClassGlobal;
+    QString mNamespace;
+    QString mClassGlobal;
 
     /**
      * writes the Attribute declarations
@@ -113,59 +111,60 @@ private:
      * @param writeStatic whether to write static or non-static attributes out
      * @param stream text stream
      */
-    void            writeAttributeDecl(Uml::Visibility visibility, bool writeStatic);
+    void writeAttributeDecl(UMLClassifier * c, Uml::Visibility visibility, bool writeStatic);
 
-    void            writeAssociationIncl(UMLAssociationList list,
-            Uml::IDType myId, const QString &type);
+    void writeAssociationIncl(UMLAssociationList list,
+                              Uml::IDType myId, const QString &type);
     /**
      * Searches a list of associations for appropriate ones to write out as attributes
      */
-    void            writeAssociationDecl(UMLAssociationList associations,
-                                         Uml::Visibility permit, Uml::IDType id,
-                                         const QString &type);
+    void writeAssociationDecl(UMLAssociationList associations,
+                              Uml::Visibility permit, Uml::IDType id,
+                              const QString &type);
 
     /**
      * Writes out an association as an attribute using Vector
      */
-    void            writeAssociationRoleDecl(const QString &fieldClassName,
-            const QString &roleName, const QString &multi, const QString &doc, const QString &docname);
+    void writeAssociationRoleDecl(const QString &fieldClassName,
+                                  const QString &roleName, const QString &multi,
+                                  const QString &doc, const QString &docname);
 
     /**
      * If needed, write out the declaration for the method to initialize attributes of our class.
      */
-    void            writeInitAttributeHeader();
-    void            writeInitAttributeSource();
+    void writeInitAttributeHeader(UMLClassifier * c);
+    void writeInitAttributeSource(UMLClassifier* c);
 
-    void            writeConstructorHeader();
-    void            writeConstructorSource();
-    void            writeDestructorHeader();
-    void            writeDestructorSource();
-    void            writeOperationHeader(UMLClassifier * c,
-                                         Uml::Visibility permitScope);
-    void            writeOperationSource(UMLClassifier * c,
-                                         Uml::Visibility permitScope);
-    void            writeAttributeSource();
-    void            writeAssociationSource(UMLAssociationList associations,
-                                           Uml::IDType id);
-    void            writeAssociationRoleSource(const QString &fieldClassName,
-                                               const QString &roleName,
-                                               const QString &multi);
-    void            writeUse(UMLClassifier * c);
+    void writeConstructorHeader();
+    void writeConstructorSource(UMLClassifier * c);
+    void writeDestructorHeader();
+    void writeDestructorSource();
+    void writeOperationHeader(UMLClassifier * c,
+                              Uml::Visibility permitScope);
+    void writeOperationSource(UMLClassifier * c,
+                              Uml::Visibility permitScope);
+    void writeAttributeSource(UMLClassifier * c);
+    void writeAssociationSource(UMLAssociationList associations,
+                                Uml::IDType id);
+    void writeAssociationRoleSource(const QString &fieldClassName,
+                                    const QString &roleName,
+                                    const QString &multi);
+    void writeUse(UMLClassifier * c);
 
 
 
     /**
      * Returns the name of the given object (if it exists)
      */
-    QString         getUMLObjectName(UMLObject * obj);
+    QString getUMLObjectName(UMLObject * obj);
 
     /**
      * Replaces `string' with STRING_TYPENAME.
      */
-    QString         fixTypeName(const QString &string);
+    QString fixTypeName(const QString &string);
 
-    QStringList     ObjectFieldVariables;
-    QStringList     VectorFieldVariables;
+    QStringList ObjectFieldVariables;
+    QStringList VectorFieldVariables;
 
 };
 

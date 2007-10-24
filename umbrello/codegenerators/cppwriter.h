@@ -27,7 +27,6 @@
 #include "../umlassociationlist.h"
 
 class QFile;
-class ClassifierInfo;
 
 /**
   * class CppWriter is a code generator for UMLClassifier objects.
@@ -35,7 +34,8 @@ class ClassifierInfo;
   * calling writeClass and it will generate both a header (.h) and
   * source (.cpp) file for that classifier.
   */
-class CppWriter : public SimpleCodeGenerator {
+class CppWriter : public SimpleCodeGenerator
+{
 public:
 
     /**
@@ -81,7 +81,7 @@ private:
      * Writes the comment and class constructor declaration or methods
      */
     void writeConstructorDecls(QTextStream &h);
-    void writeConstructorMethods(QTextStream &cpp);
+    void writeConstructorMethods(UMLClassifier * c, QTextStream &cpp);
 
     /**
      * write all field declarations, for both attributes and associations for the
@@ -106,11 +106,12 @@ private:
 
     /**
      * write a list of operations for a given class
+     * @param c the class for which we are generating code
      * @param list the list of operations you want to write
      * @param isHeaderMethod true when writing to a header file, false for body file
      * @param j the stream associated with the output file
      */
-    void writeOperations(UMLOperationList &list, bool isHeaderMethod, QTextStream &j);
+    void writeOperations(UMLClassifier *c, UMLOperationList &list, bool isHeaderMethod, QTextStream &j);
 
     /**
      * write all attributes for a given class
@@ -125,7 +126,7 @@ private:
      * @param writeStatic whether to write static or non-static attributes out
      * @param stream text stream
      */
-    void writeAttributeDecls (Uml::Visibility visibility, bool writeStatic, QTextStream &stream );
+    void writeAttributeDecls (UMLClassifier *c, Uml::Visibility visibility, bool writeStatic, QTextStream &stream );
 
     /**
      * Write out fields and operations for this class selected on a particular
@@ -133,7 +134,7 @@ private:
      */
     void writeHeaderFieldDecl(UMLClassifier *c, Uml::Visibility permitVisibility, QTextStream &stream);
 
-    void writeHeaderAttributeAccessorMethods (Uml::Visibility visibility, bool writeStatic, QTextStream &stream );
+    void writeHeaderAttributeAccessorMethods(UMLClassifier *c, Uml::Visibility visibility, bool writeStatic, QTextStream &stream );
 
     void writeHeaderAttributeAccessorMethodDecls(UMLClassifier *c, Uml::Visibility permitVisibility, QTextStream &stream);
     void writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility permitScope, QTextStream &stream);
@@ -153,7 +154,7 @@ private:
     /**
      * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
      */
-    void writeAttributeMethods(UMLAttributeList *attribs, Uml::Visibility visib, bool isHeaderMethod,
+    void writeAttributeMethods(UMLAttributeList attribs, Uml::Visibility visib, bool isHeaderMethod,
                                bool isStatic,
                                bool writeMethodBody, QTextStream &stream);
 
@@ -231,12 +232,12 @@ private:
     /**
      * If needed, write out the method to initialize attributes of our class.
      */
-    void writeInitAttibuteMethod (QTextStream &stream);
+    void writeInitAttributeMethod (UMLClassifier * c, QTextStream &stream);
 
     /**
      * If needed, write out the declaration for the method to initialize attributes of our class.
      */
-    void writeInitAttibuteDecl (QTextStream &stream);
+    void writeInitAttributeDecl (UMLClassifier * c, QTextStream &stream);
 
     /**
      * Returns the name of the given object (if it exists)
@@ -267,11 +268,6 @@ private:
      * Return the policy object
      */
     CPPCodeGenerationPolicy *policyExt();
-
-    /**
-     * Summary information about current classifier.
-     */
-    ClassifierInfo * m_classifierInfo;
 
     QString VECTOR_METHOD_APPEND;
     QString VECTOR_METHOD_REMOVE;

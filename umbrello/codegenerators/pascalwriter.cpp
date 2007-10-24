@@ -31,7 +31,6 @@
 #include "../operation.h"
 #include "../template.h"
 #include "../umlnamespace.h"
-#include "classifierinfo.h"
 
 const QString PascalWriter::defaultPackageSuffix = "_Holder";
 
@@ -249,8 +248,7 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     }
     pas << m_endl;
 
-    ClassifierInfo info(c);
-    UMLAttributeList atpub = info.atpub;
+    UMLAttributeList atpub = c->getAttributeList(Uml::Visibility::Public);
     if (isClass && (forceSections() || atpub.count())) {
         pas << getIndent() << "// Public attributes:" << m_endl;
 
@@ -279,10 +277,10 @@ void PascalWriter::writeClass(UMLClassifier *c) {
     foreach (UMLOperation* op , oppub )
         writeOperation(op, pas);
 
-    if (info.atprot.count()) {
+    UMLAttributeList atprot = c->getAttributeList(Uml::Visibility::Protected);
+    if (atprot.count()) {
         pas << "protected" << m_endl << m_endl;
 
-        UMLAttributeList atprot = info.atprot;
         foreach (UMLAttribute*  at , atprot ) {
             // if (at->getStatic())
             //     continue;
@@ -294,10 +292,11 @@ void PascalWriter::writeClass(UMLClassifier *c) {
         }
         pas << m_endl;
     }
-    if (info.atpriv.count()) {
+
+    UMLAttributeList atpriv = c->getAttributeList(Uml::Visibility::Private);
+    if (atpriv.count()) {
         pas << "private" << m_endl << m_endl;
 
-        UMLAttributeList atpriv = info.atpriv;
         foreach (UMLAttribute* at , atpriv ) {
             // if (at->getStatic())
             //     continue;

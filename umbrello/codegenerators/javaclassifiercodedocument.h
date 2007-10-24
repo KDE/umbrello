@@ -25,7 +25,6 @@
 #include "../classifiercodedocument.h"
 #include "../classifier.h"
 #include "../hierarchicalcodeblock.h"
-#include "classifierinfo.h"
 #include "javacodeclassfield.h"
 #include "javacodeoperation.h"
 
@@ -96,8 +95,6 @@ private:
     JavaClassDeclarationBlock * classDeclCodeBlock;
     HierarchicalCodeBlock * constructorBlock;
     HierarchicalCodeBlock * operationsBlock;
-
-    ClassifierInfo * info;
 
     void init ( );
     JavaClassDeclarationBlock * getClassDecl();

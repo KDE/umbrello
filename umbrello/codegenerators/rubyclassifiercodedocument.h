@@ -27,7 +27,6 @@
 #include "../classifiercodedocument.h"
 #include "../classifier.h"
 #include "../hierarchicalcodeblock.h"
-#include "classifierinfo.h"
 #include "rubycodeclassfield.h"
 #include "rubycodeoperation.h"
 
@@ -112,8 +111,6 @@ private:
     HierarchicalCodeBlock * pubOperationsBlock;
     HierarchicalCodeBlock * privOperationsBlock;
     HierarchicalCodeBlock * protOperationsBlock;
-
-    ClassifierInfo * info;
 
     void init ( );
     RubyClassDeclarationBlock * getClassDecl();
