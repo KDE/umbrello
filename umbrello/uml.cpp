@@ -793,7 +793,7 @@ void UMLApp::saveProperties(KConfigGroup &_config) {
 }
 
 void UMLApp::readProperties(const KConfigGroup& _config) {
-    QString filename = _config.readPathEntry("filename");
+    QString filename = _config.readPathEntry("filename", QString());
     KUrl url(filename);
     bool modified = _config.readEntry("modified", false);
     if(modified) {
