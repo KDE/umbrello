@@ -143,15 +143,12 @@ Plugin::configure()
     }
 
     if(ret) {
-        // set the config group to Load Actions
-        conf->setGroup("Load Actions");
-
         // load standard plugins by default
-        loadPlugins(conf, "Load");
+        loadPlugins(conf, "Load Actions", "Load");
 
         // only load GUI plugins if this is not a terminal app
         if(KApplication::kApplication()->type() != QApplication::Tty) {
-            loadPlugins(conf, "LoadGUI");
+            loadPlugins(conf, "Load Actions", "LoadGUI");
         }
     }
 

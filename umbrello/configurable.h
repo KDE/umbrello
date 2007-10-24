@@ -91,11 +91,12 @@ protected:
      * Each name corresponds the the share object implementing the plugin.
      *
      * @param config    The object used for configuration.
+     * @param key   The group in the config objec.
      * @param key   The key in the group that contains libraries to load.
      *
      * @return True on success, false on failure.
      */
-    bool loadPlugins(KConfig *config, const QString &key);
+    bool loadPlugins(KConfig *config, const QString &group, const QString &key);
 
     /**
      * This is a convenience method for derived classes. When a functional object

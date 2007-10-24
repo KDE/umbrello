@@ -45,10 +45,11 @@ Configurable::~Configurable()
 
 bool
 Configurable::loadPlugins(KConfig *config,
+                          const QString &group,
                           const QString &key)
 {
     bool ret = true;
-    KConfigGroup grp(config, config->group());
+    KConfigGroup grp(config, group);
 
     QStringList names = grp.readEntry(key,QStringList());
     for (int i = 0; i != names.size(); i++) {
