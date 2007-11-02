@@ -613,7 +613,9 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
             return false;
         }
         saveToXMI(tmpfile); // save the xmi stuff to it
-
+#ifdef Q_WS_WIN
+        tmpfile.close();        
+#endif
         // if it is a remote file, we have to upload the tmp file
         if ( !url.isLocalFile() ) {
             uploaded = KIO::NetAccess::upload( tmpfile.fileName(), m_doc_url
