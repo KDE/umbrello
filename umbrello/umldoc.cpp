@@ -613,15 +613,22 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
             return false;
         }
         saveToXMI(tmpfile); // save the xmi stuff to it
-#ifdef Q_WS_WIN
-        tmpfile.close();        
-#endif
+
         // if it is a remote file, we have to upload the tmp file
         if ( !url.isLocalFile() ) {
             uploaded = KIO::NetAccess::upload( tmpfile.fileName(), m_doc_url
                                                , UMLApp::app()
                                              );
         } else {
+#ifdef Q_WS_WIN
+            // use Qt way of file copying until broken KIO::file_move() is fixed 
+            QFile::remove(url.toLocalFile());
+            if ( !QFile::copy(tmpfile.fileName(),url.toLocalFile()) ) {
+                KMessageBox::error(0, i18n("There was a problem saving file: %1", url.toLocalFile()), i18n("Save Error"));
+                m_doc_url.setFileName(i18n("Untitled"));
+                return false;
+            }
+#else 
             // now remove the original file
             KIO::FileCopyJob* fcj = KIO::file_move( tmpfile.fileName(), d.path(), -1, KIO::Overwrite );
             if ( KIO::NetAccess::synchronousRun( fcj, (QWidget*)UMLApp::app() ) == false ) {
@@ -629,6 +636,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
                 m_doc_url.setFileName(i18n("Untitled"));
                 return false;
             }
+#endif
         }
     }
     if( !uploaded )
