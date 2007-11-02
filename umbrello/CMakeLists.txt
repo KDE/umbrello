@@ -392,6 +392,10 @@ if (WIN32)
     set (libcmds_SRCS)
 
     set (LIBS codeimport dialogs generators docgenerator cmds)
+    KDE4_ADD_WIN32_APP_ICON(umbrello_SRCS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/hi32-app-umbrello.png 
+        ${CMAKE_CURRENT_SOURCE_DIR}/hi16-app-umbrello.png 
+    )
 else (WIN32)
     set (LIBS )
     kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
