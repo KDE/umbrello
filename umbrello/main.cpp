@@ -28,9 +28,13 @@
 #include "cmdlineexportallviewsevent.h"
 #include "umbrellosettings.h"
 
+
+/**
+ * Description for this application
+ */
 static const char description[] =
     I18N_NOOP("Umbrello UML Modeller");
-// INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
+
 
 /**
  * @todo Add options to use the documentation generators from command line.
@@ -54,6 +58,7 @@ bool getShowGUI(KCmdLineArgs *args);
  */
 void initDocument(KCmdLineArgs *args);
 
+
 /**
  * Export all the views in the document using the command line args set by the user.
  * Errors that occurred while exporting, if any, are shown using uError().
@@ -63,12 +68,9 @@ void initDocument(KCmdLineArgs *args);
  */
 void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt);
 
-extern "C" int flushEvents() {
-    qApp->processEvents();
-    return 0;
-}
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     KAboutData aboutData( "umbrello", 0, ki18n("Umbrello UML Modeller"),
                           UMBRELLO_VERSION, ki18n(description), KAboutData::License_GPL,
                           ki18n("(c) 2001 Paul Hensgen, (c) 2002-2006 Umbrello UML Modeller Authors"), KLocalizedString(),
@@ -85,14 +87,14 @@ int main(int argc, char *argv[]) {
     KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
     KApplication app;
-    if( app.isSessionRestored() ) {
-        RESTORE( UMLApp );
+    if (app.isSessionRestored()) {
+        kRestoreMainWindows< UMLApp >();
     } else {
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
         bool showGUI = getShowGUI(args);
 
-        UMLApp *uml = new UMLApp();
-        flushEvents();
+        UMLApp* uml = new UMLApp();
+        app.processEvents();
 
         if (showGUI) {
             uml->show();
@@ -105,22 +107,21 @@ int main(int argc, char *argv[]) {
         if (exportOpt.size() > 0) {
              exportAllViews(args, exportOpt);
         }
-
-
     }
     return app.exec();
 }
 
-bool getShowGUI(KCmdLineArgs *args) {
+bool getShowGUI(KCmdLineArgs *args)
+{
     if (args->getOptionList("export").size() > 0) {
         return false;
     }
-
     return true;
 }
 
 
-void initDocument(KCmdLineArgs *args) {
+void initDocument(KCmdLineArgs *args)
+{
     if ( args -> count() ) {
         UMLApp::app()->openDocumentFile( args->url( 0 ) );
     } else {
@@ -135,7 +136,8 @@ void initDocument(KCmdLineArgs *args) {
 }
 
 
-void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt) {
+void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
+{
     QString extension(exportOpt.last());
     uDebug() << "extension: " << extension;
 

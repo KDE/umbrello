@@ -20,10 +20,9 @@
 #include <qtoolbutton.h>
 //Added by qt3to4:
 #include <QKeyEvent>
-#include <QFrame>
 #include <QMenuItem>
-#include <QDockWidget>
-#include <QStackedWidget>
+#include <QtGui/QDockWidget>
+#include <QtGui/QStackedWidget>
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
 
@@ -92,6 +91,9 @@
 #include "cmds.h"
 #include "umbrellosettings.h"
 
+// Static pointer, holding the last created instance.
+UMLApp* UMLApp::s_instance;
+
 /// @todo This is an ugly _HACK_ to allow to compile umbrello.
 /// All the menu stuff should be ported to KDE4 (using actions)
 QMenu* UMLApp::findMenu(KMenuBar* /*menu*/, const QString &name)
@@ -103,7 +105,8 @@ QMenu* UMLApp::findMenu(KMenuBar* /*menu*/, const QString &name)
     return 0;
 }
 
-UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent) {
+UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
+{
     s_instance = this;
     m_pDocWindow = 0;
     m_config = KGlobal::config();
@@ -160,9 +163,8 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent) {
     }
 
     //connect zoomSelect menu
-    m_zoomSelect->setCheckable(true);
     connect(m_zoomSelect,SIGNAL(aboutToShow()),this,SLOT(setupZoomMenu()));
-    connect(m_zoomSelect,SIGNAL(activated(int)),this,SLOT(setZoom(int)));
+    connect(m_zoomSelect,SIGNAL(triggered(QAction*)),this,SLOT(slotSetZoom(QAction*)));
 
     m_refactoringAssist = 0L;
 
@@ -171,7 +173,8 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent) {
     m_imageExporterAll = new UMLViewImageExporterAll();
 }
 
-UMLApp::~UMLApp() {
+UMLApp::~UMLApp()
+{
     delete m_imageExporterAll;
 
     delete m_clipTimer;
@@ -187,7 +190,8 @@ UMLApp* UMLApp::app()
     return s_instance;
 }
 
-void UMLApp::initActions() {
+void UMLApp::initActions()
+{
     fileNew = KStandardAction::openNew(this, SLOT(slotFileNew()), actionCollection());
     fileOpen = KStandardAction::open(this, SLOT(slotFileOpen()), actionCollection());
     fileOpenRecent = KStandardAction::openRecent(this, SLOT(slotFileOpenRecent(const KUrl&)), actionCollection());
@@ -248,7 +252,6 @@ void UMLApp::initActions() {
 
 #define setProgLangAction(pl, name, action) \
         m_langAct[pl] = actionCollection()->addAction(action);          \
-        m_langAct[pl]->setCheckable( true );                            \
         m_langAct[pl]->setText(name);                                   \
         connect(m_langAct[pl], SIGNAL(triggered()), this, "1"action"()")
     setProgLangAction(Uml::pl_ActionScript, "ActionScript", "set_lang_actionscript");
@@ -490,36 +493,59 @@ void UMLApp::initActions() {
 //     menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
 }
 
-void UMLApp::slotZoomSliderMoved(int value) {
+void UMLApp::slotZoomSliderMoved(int value)
+{
     int zoom = (int)(value*0.01);
     getCurrentView()->setZoom(zoom*zoom);
 }
 
-void UMLApp::slotZoom100()  {
+void UMLApp::slotZoom100()
+{
     setZoom(100);
 }
 
-void UMLApp::setZoom(int zoom) {
+void UMLApp::setZoom(int zoom)
+{
     getCurrentView()->setZoom(zoom);
 }
 
-void UMLApp::setupZoomMenu() {
+void UMLApp::slotSetZoom(QAction* action)
+{
+    QVariant var = action->data();
+    if (var.canConvert<int>()) {
+        getCurrentView()->setZoom(var.toInt());
+    }
+}
+
+QAction* UMLApp::createZoomAction(int zoom, int currentZoom)
+{
+    //IMPORTANT: The zoom value is added to the action.
+    QAction* action = new QAction(this);
+    action->setCheckable(true);
+    action->setText(" &" + QString::number(zoom) + "%");
+    action->setData(zoom);
+    if (zoom == currentZoom)
+        action->setChecked(true);
+    return action;
+}
+
+void UMLApp::setupZoomMenu()
+{
     m_zoomSelect->clear();
 
-    //IMPORTANT: The ID's must match the zoom value (text)
-    m_zoomSelect->insertItem(i18n(" &33%"),33);
-    m_zoomSelect->insertItem(i18n(" &50%"),50);
-    m_zoomSelect->insertItem(i18n(" &75%"),75);
-    m_zoomSelect->insertItem(i18n("&100%"),100);
-    m_zoomSelect->insertItem(i18n("1&50%"),150);
-    m_zoomSelect->insertItem(i18n("&200%"),200);
-    m_zoomSelect->insertItem(i18n("3&00%"),300);
+    int currentZoom = getCurrentView()->currentZoom();
 
+    m_zoomSelect->addAction(createZoomAction(33, currentZoom));
+    m_zoomSelect->addAction(createZoomAction(50, currentZoom));
+    m_zoomSelect->addAction(createZoomAction(75, currentZoom));
+    m_zoomSelect->addAction(createZoomAction(100, currentZoom));
+    m_zoomSelect->addAction(createZoomAction(150, currentZoom));
+    m_zoomSelect->addAction(createZoomAction(200, currentZoom));
+    m_zoomSelect->addAction(createZoomAction(300, currentZoom));
 
-    int zoom = getCurrentView()->currentZoom();
-    //if current zoom is not a "standard zoom" (because of zoom in / zoom out step
-    //we add it for information
-    switch(zoom){
+    // if currentZoom is not a "standard zoom" (because of zoom in / zoom out step
+    // we add it for information
+    switch (currentZoom) {
     case 33:
     case 50:
     case 75:
@@ -529,22 +555,23 @@ void UMLApp::setupZoomMenu() {
     case 300:
         break;
     default:
-        m_zoomSelect->insertSeparator();
-        m_zoomSelect->insertItem(QString::number(zoom)+" %",zoom);
+        m_zoomSelect->addSeparator();
+        m_zoomSelect->addAction(createZoomAction(currentZoom, currentZoom));
     }
-    m_zoomSelect->setItemChecked(zoom, true);
 }
 
-void UMLApp::initStatusBar() {
+void UMLApp::initStatusBar() 
+{
     statusBar()->insertPermanentItem( i18n( "Ready" ), 1 );
     connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
 }
 
-void UMLApp::initView() {
+void UMLApp::initView()
+{
     setCaption(m_doc->url().fileName(),false);
     m_view = NULL;
     toolsbar = new WorkToolBar(this);
-    toolsbar->setLabel(i18n("Diagram Toolbar"));
+    toolsbar->setWindowTitle(i18n("Diagram Toolbar"));
     addToolBar(Qt::TopToolBarArea, toolsbar);
 
     //setupGUI();
@@ -562,14 +589,14 @@ void UMLApp::initView() {
     m_tabWidget->setAutomaticResizeTabs( true );
 
     m_newSessionButton = new QToolButton(m_tabWidget);
-    m_newSessionButton->setIconSet(SmallIcon("tab-new"));
+    m_newSessionButton->setIcon(SmallIcon("tab-new"));
     m_newSessionButton->adjustSize();
     m_newSessionButton->setAutoRaise(true);
     m_newSessionButton->setPopupMode(QToolButton::InstantPopup);
     m_newSessionButton->setMenu(newDiagram->menu());
 
     m_closeDiagramButton = new QToolButton(m_tabWidget);
-    m_closeDiagramButton->setIconSet( SmallIcon("tab-close"));
+    m_closeDiagramButton->setIcon( SmallIcon("tab-close"));
     m_closeDiagramButton->adjustSize();
 
     connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));
@@ -639,7 +666,8 @@ void UMLApp::initView() {
     restoreState(dockConfig); //reposition all the DockWindows to their saved positions
 }
 
-void UMLApp::openDocumentFile(const KUrl& url) {
+void UMLApp::openDocumentFile(const KUrl& url)
+{
     slotStatusMsg(i18n("Opening file..."));
 
     m_doc->openDocument( url);
@@ -649,16 +677,19 @@ void UMLApp::openDocumentFile(const KUrl& url) {
     enablePrint(true);
 }
 
-UMLDoc *UMLApp::getDocument() const {
+UMLDoc *UMLApp::getDocument() const
+{
     return m_doc;
 }
 
-UMLListView* UMLApp::getListView() {
+UMLListView* UMLApp::getListView()
+{
     return m_listView;
 }
 
 
-void UMLApp::saveOptions() {
+void UMLApp::saveOptions()
+{
     // The Toolbar settings will be handled by the respective classes ( KToolBar )
     KConfigGroup cg( m_config, "toolbar" );
     toolBar("mainToolBar")->saveSettings( cg );
@@ -766,7 +797,8 @@ void UMLApp::saveOptions() {
     UmbrelloSettings::self()->writeConfig();
 }
 
-void UMLApp::readOptions() {
+void UMLApp::readOptions()
+{
     // bar status settings
     toolBar("mainToolBar")->applySettings(m_config->group( "toolbar") );
     // do config for work toolbar
@@ -776,7 +808,8 @@ void UMLApp::readOptions() {
     resize( UmbrelloSettings::geometry());
 }
 
-void UMLApp::saveProperties(KConfigGroup &_config) {
+void UMLApp::saveProperties(KConfigGroup &_config)
+{
     if(m_doc->url().fileName()!=i18n("Untitled") && !m_doc->isModified()) {
         // saving to tempfile not necessary
 
@@ -792,7 +825,8 @@ void UMLApp::saveProperties(KConfigGroup &_config) {
     }
 }
 
-void UMLApp::readProperties(const KConfigGroup& _config) {
+void UMLApp::readProperties(const KConfigGroup& _config)
+{
     QString filename = _config.readPathEntry("filename", QString());
     KUrl url(filename);
     bool modified = _config.readEntry("modified", false);
@@ -824,19 +858,22 @@ void UMLApp::readProperties(const KConfigGroup& _config) {
     }
 }
 
-bool UMLApp::queryClose() {
+bool UMLApp::queryClose()
+{
     QByteArray dockConfig = saveState();
     UmbrelloSettings::setDockConfig( dockConfig );
     return m_doc->saveModified();
 }
 
-bool UMLApp::queryExit() {
+bool UMLApp::queryExit()
+{
     saveOptions();
     m_doc -> closeDocument();
     return true;
 }
 
-void UMLApp::slotFileNew() {
+void UMLApp::slotFileNew()
+{
     slotStatusMsg(i18n("Creating new document..."));
     if(m_doc->saveModified()) {
         setDiagramMenuItemsState(false);
@@ -850,7 +887,8 @@ void UMLApp::slotFileNew() {
     slotStatusMsg(i18n("Ready."));
 }
 
-void UMLApp::slotFileOpen() {
+void UMLApp::slotFileOpen()
+{
     slotStatusMsg(i18n("Opening file..."));
     m_loading = true;
 
@@ -878,7 +916,8 @@ void UMLApp::slotFileOpen() {
     slotStatusMsg(i18n("Ready."));
 }
 
-void UMLApp::slotFileOpenRecent(const KUrl& url) {
+void UMLApp::slotFileOpenRecent(const KUrl& url)
+{
     slotStatusMsg(i18n("Opening file..."));
     m_loading = true;
 
@@ -902,7 +941,8 @@ void UMLApp::slotFileOpenRecent(const KUrl& url) {
     slotStatusMsg(i18n("Ready."));
 }
 
-void UMLApp::slotFileSave() {
+void UMLApp::slotFileSave()
+{
     slotStatusMsg(i18n("Saving file..."));
     if(m_doc->url().fileName() == i18n("Untitled"))
         slotFileSaveAs();
@@ -960,11 +1000,11 @@ bool UMLApp::slotFileSaveAs()
     }
 }
 
-void UMLApp::slotFileClose() {
+void UMLApp::slotFileClose()
+{
     slotStatusMsg(i18n("Closing file..."));
 
     slotFileNew();
-
 }
 
 void UMLApp::slotFilePrint()
@@ -986,7 +1026,8 @@ void UMLApp::slotFilePrint()
     slotStatusMsg(i18n("Ready."));
 }
 
-void UMLApp::slotFileQuit() {
+void UMLApp::slotFileQuit()
+{
     slotStatusMsg(i18n("Exiting..."));
     if(m_doc->saveModified()) {
         QByteArray dockConfig = saveState();
@@ -1015,17 +1056,20 @@ void UMLApp::slotFileExportXhtml()
   connect(m_xhtmlGenerator,SIGNAL(finished(bool)),this,SLOT(slotXhtmlDocGenerationFinished(bool)));
 }
 
-void UMLApp::slotEditUndo() {
+void UMLApp::slotEditUndo()
+{
     undo();
     slotStatusMsg(i18n("Ready."));
 }
 
-void UMLApp::slotEditRedo() {
+void UMLApp::slotEditRedo()
+{
     redo();
     slotStatusMsg(i18n("Ready."));
 }
 
-void UMLApp::slotEditCut() {
+void UMLApp::slotEditCut()
+{
     slotStatusMsg(i18n("Cutting selection..."));
     //FIXME bug 59774 this fromview isn't very reliable.
     //when cutting diagrams it is set to true even though it shouldn't be
@@ -1038,7 +1082,8 @@ void UMLApp::slotEditCut() {
     slotStatusMsg(i18n("Ready."));
 }
 
-void UMLApp::slotEditCopy() {
+void UMLApp::slotEditCopy()
+{
     slotStatusMsg(i18n("Copying selection to clipboard..."));
     bool  fromview = (getCurrentView() && getCurrentView()->getSelectCount());
     editCutCopy( fromview );
@@ -1046,7 +1091,8 @@ void UMLApp::slotEditCopy() {
     m_doc -> setModified( true );
 }
 
-void UMLApp::slotEditPaste() {
+void UMLApp::slotEditPaste()
+{
     slotStatusMsg(i18n("Inserting clipboard contents..."));
     const QMimeData* data = QApplication::clipboard()->mimeData();
     UMLClipboard clipboard;
@@ -1063,87 +1109,106 @@ void UMLApp::slotEditPaste() {
 }
 
 
-void UMLApp::slotStatusMsg(const QString &text) {
+void UMLApp::slotStatusMsg(const QString &text)
+{
     ///////////////////////////////////////////////////////////////////
     // change status message permanently
     statusBar()->changeItem( text, 1 );
 }
 
-void UMLApp::slotClassDiagram() {
+void UMLApp::slotClassDiagram()
+{
     executeCommand(new Uml::cmdCreateClassDiag(m_doc));
 }
 
 
-void UMLApp::slotSequenceDiagram() {
+void UMLApp::slotSequenceDiagram()
+{
     executeCommand(new Uml::cmdCreateSeqDiag(m_doc));
 }
 
-void UMLApp::slotCollaborationDiagram() {
+void UMLApp::slotCollaborationDiagram()
+{
     executeCommand(new Uml::cmdCreateCollaborationDiag(m_doc));
 }
 
-void UMLApp::slotUseCaseDiagram() {
+void UMLApp::slotUseCaseDiagram()
+{
     executeCommand(new Uml::cmdCreateUseCaseDiag(m_doc));
 }
 
-void UMLApp::slotStateDiagram() {
+void UMLApp::slotStateDiagram()
+{
     executeCommand(new Uml::cmdCreateStateDiag(m_doc));
 }
 
-void UMLApp::slotActivityDiagram() {
+void UMLApp::slotActivityDiagram()
+{
     executeCommand(new Uml::cmdCreateActivityDiag(m_doc));
 }
 
-void UMLApp::slotComponentDiagram() {
+void UMLApp::slotComponentDiagram()
+{
     executeCommand(new Uml::cmdCreateComponentDiag(m_doc));
 }
 
-void UMLApp::slotDeploymentDiagram() {
+void UMLApp::slotDeploymentDiagram()
+{
     executeCommand(new Uml::cmdCreateDeployDiag(m_doc));
 }
 
-void UMLApp::slotEntityRelationshipDiagram() {
+void UMLApp::slotEntityRelationshipDiagram()
+{
     executeCommand(new Uml::cmdCreateEntityRelationDiag(m_doc));
 }
 
-
-void UMLApp::slotAlignLeft() {
+void UMLApp::slotAlignLeft()
+{
     getCurrentView()->alignLeft();
 }
 
-void UMLApp::slotAlignRight() {
+void UMLApp::slotAlignRight()
+{
     getCurrentView()->alignLeft();
 }
 
-void UMLApp::slotAlignTop() {
+void UMLApp::slotAlignTop()
+{
     getCurrentView()->alignTop();
 }
 
-void UMLApp::slotAlignBottom() {
+void UMLApp::slotAlignBottom()
+{
     getCurrentView()->alignBottom();
 }
 
-void UMLApp::slotAlignVerticalMiddle() {
+void UMLApp::slotAlignVerticalMiddle()
+{
     getCurrentView()->alignVerticalMiddle();
 }
 
-void UMLApp::slotAlignHorizontalMiddle() {
+void UMLApp::slotAlignHorizontalMiddle()
+{
     getCurrentView()->alignHorizontalMiddle();
 }
 
-void UMLApp::slotAlignVerticalDistribute() {
+void UMLApp::slotAlignVerticalDistribute()
+{
     getCurrentView()->alignVerticalDistribute();
 }
 
-void UMLApp::slotAlignHorizontalDistribute() {
+void UMLApp::slotAlignHorizontalDistribute()
+{
     getCurrentView()->alignHorizontalDistribute();
 }
 
-WorkToolBar* UMLApp::getWorkToolBar() {
+WorkToolBar* UMLApp::getWorkToolBar()
+{
     return toolsbar;
 }
 
-void UMLApp::setModified(bool modified) {
+void UMLApp::setModified(bool modified)
+{
     //fileSave -> setEnabled(modified);
 
     //if anything else needs to be done on a mofication, put it here
@@ -1158,20 +1223,24 @@ void UMLApp::setModified(bool modified) {
     }
 }
 
-void UMLApp::enablePrint(bool enable) {
+void UMLApp::enablePrint(bool enable)
+{
     filePrint->setEnabled(enable);
 }
 
-void UMLApp::enableUndo(bool enable) {
+void UMLApp::enableUndo(bool enable)
+{
     editUndo->setEnabled(enable);
 }
 
-void UMLApp::enableRedo(bool enable) {
+void UMLApp::enableRedo(bool enable)
+{
     editRedo->setEnabled(enable);
 }
 
 /** initialize the QT's global clipboard support for the application */
-void UMLApp::initClip() {
+void UMLApp::initClip()
+{
     QClipboard* clip = QApplication::clipboard();
     connect(clip, SIGNAL(dataChanged()), this, SLOT(slotClipDataChanged()));
 
@@ -1184,12 +1253,14 @@ void UMLApp::initClip() {
     // m_clipTimer->start(1000, false);
     // connect(m_clipTimer, SIGNAL(timeout()), this, SLOT(slotClipDataChanged()));
 
-    m_copyTimer = new QTimer(this, "copytimer");
-    m_copyTimer->start(500, false);
+    m_copyTimer = new QTimer(this);
+    m_copyTimer->setSingleShot(false);
+    m_copyTimer->start(500);
     connect(m_copyTimer, SIGNAL(timeout()), this, SLOT(slotCopyChanged()));
 }
 
-bool UMLApp::canDecode(const QMimeData* mimeData) {
+bool UMLApp::canDecode(const QMimeData* mimeData)
+{
     QStringList supportedFormats = mimeData->formats();
     foreach( QString format, supportedFormats ) {
         const char* f = format.toAscii().constData();
@@ -1202,14 +1273,16 @@ bool UMLApp::canDecode(const QMimeData* mimeData) {
     return false;
 }
 
-void UMLApp::slotClipDataChanged() {
+void UMLApp::slotClipDataChanged()
+{
     const QMimeData * data = QApplication::clipboard()->mimeData();
 
     //Pass the MimeSource to the Doc
     editPaste->setEnabled( data && canDecode(data) );
 }
 
-void UMLApp::slotCopyChanged() {
+void UMLApp::slotCopyChanged()
+{
     if(m_listView->getSelectedCount() || (getCurrentView() && getCurrentView()->getSelectCount())) {
         editCopy->setEnabled(true);
         editCut->setEnabled(true);
@@ -1219,13 +1292,12 @@ void UMLApp::slotCopyChanged() {
     }
 }
 
-void UMLApp::slotPrefs() {
-
+void UMLApp::slotPrefs()
+{
        Settings::OptionState& optionState = Settings::getOptionState();
 
        m_dlg = new SettingsDlg(this, &optionState);
        connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
-
 
        if ( m_dlg->exec() == QDialog::Accepted && m_dlg->getChangesApplied() ) {
            slotApplyPrefs();
@@ -1233,15 +1305,15 @@ void UMLApp::slotPrefs() {
 
        delete m_dlg;
        m_dlg = NULL;
-
 }
 
-void UMLApp::slotApplyPrefs() {
+void UMLApp::slotApplyPrefs()
+{
     if (m_dlg) {
         /* we need this to sync both values */
 
         Settings::OptionState& optionState = Settings::getOptionState();
-        bool currentTabbedBrowsing = (m_layout->findWidget(m_tabWidget) != -1);
+        bool currentTabbedBrowsing = (m_layout->indexOf(m_tabWidget) != -1);
         bool newTabbedBrowsing = optionState.generalState.tabdiagrams;
 
         if (currentTabbedBrowsing != newTabbedBrowsing) {
@@ -1258,13 +1330,13 @@ void UMLApp::slotApplyPrefs() {
                 foreach (UMLView *view ,  views  ) {
                     m_viewStack->removeWidget(view);
                     m_tabWidget->addTab(view, view->getName());
-                    m_tabWidget->setTabIconSet(view, Widget_Utils::iconSet(view->getType()));
+                    m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Widget_Utils::iconSet(view->getType()));
                 }
                 m_layout->addWidget(m_tabWidget);
                 m_tabWidget->show();
             }
             else {
-                currentView=static_cast<UMLView*>(m_tabWidget->currentPage());
+                currentView=static_cast<UMLView*>(m_tabWidget->currentWidget());
                 m_layout->removeWidget (m_tabWidget);
                 m_tabWidget->hide();
 
@@ -1287,23 +1359,28 @@ void UMLApp::slotApplyPrefs() {
     }
 }
 
-bool UMLApp::getUndoEnabled() {
+bool UMLApp::getUndoEnabled()
+{
     return editUndo->isEnabled();
 }
 
-bool UMLApp::getRedoEnabled() {
+bool UMLApp::getRedoEnabled()
+{
     return editRedo->isEnabled();
 }
 
-bool UMLApp::getPasteState() {
+bool UMLApp::getPasteState()
+{
     return editPaste -> isEnabled();
 }
 
-bool UMLApp::getCutCopyState() {
+bool UMLApp::getCutCopyState()
+{
     return editCopy -> isEnabled();
 }
 
-bool UMLApp::editCutCopy( bool bFromView ) {
+bool UMLApp::editCutCopy( bool bFromView )
+{
     UMLClipboard clipboard;
     QMimeData * clipdata = 0;
 
@@ -1316,7 +1393,8 @@ bool UMLApp::editCutCopy( bool bFromView ) {
     return false;
 }
 
-void UMLApp::readOptionState() {
+void UMLApp::readOptionState()
+{
     Settings::OptionState& optionState = Settings::getOptionState();
 
     UmbrelloSettings::self()->readConfig();
@@ -1419,7 +1497,8 @@ void UMLApp::readOptionState() {
 
 
 /** Call the code viewing assistant on a code document */
-void UMLApp::viewCodeDocument(UMLClassifier* classifier) {
+void UMLApp::viewCodeDocument(UMLClassifier* classifier)
+{
     CodeGenerator * currentGen = getGenerator();
     if(currentGen && classifier) {
         if(!dynamic_cast<SimpleCodeGenerator*>(currentGen))
@@ -1446,7 +1525,8 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier) {
 
 }
 
-void UMLApp::refactor(UMLClassifier* classifier) {
+void UMLApp::refactor(UMLClassifier* classifier)
+{
     if (!m_refactoringAssist) {
         m_refactoringAssist = new RefactoringAssistant( m_doc, 0, 0, "refactoring_assistant" );
     }
@@ -1454,19 +1534,23 @@ void UMLApp::refactor(UMLClassifier* classifier) {
     m_refactoringAssist->show();
 }
 
-CodeGenerationPolicy *UMLApp::getCommonPolicy() {
+CodeGenerationPolicy *UMLApp::getCommonPolicy()
+{
     return m_commoncodegenpolicy;
 }
 
-void UMLApp::setPolicyExt(CodeGenPolicyExt *policy) {
+void UMLApp::setPolicyExt(CodeGenPolicyExt *policy)
+{
     m_policyext = policy;
 }
 
-CodeGenPolicyExt *UMLApp::getPolicyExt() {
+CodeGenPolicyExt *UMLApp::getPolicyExt()
+{
     return m_policyext;
 }
 
-CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl) {
+CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl)
+{
     if (pl == Uml::pl_Reserved) {
         if (m_codegen) {
             delete m_codegen;
@@ -1494,111 +1578,137 @@ CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl) {
     return m_codegen;
 }
 
-CodeGenerator* UMLApp::getGenerator() {
+CodeGenerator* UMLApp::getGenerator()
+{
     return m_codegen;
 }
 
-void UMLApp::generateAllCode() {
+void UMLApp::generateAllCode()
+{
     if (m_codegen) {
         m_codegen->writeCodeToFile();
     }
 }
 
-void UMLApp::generationWizard() {
+void UMLApp::generationWizard()
+{
     CodeGenerationWizard wizard(0 /*classList*/);
     wizard.exec();
 }
 
-void UMLApp::set_lang_actionscript() {
+void UMLApp::set_lang_actionscript()
+{
     setActiveLanguage(Uml::pl_ActionScript);
 }
 
-void UMLApp::set_lang_ada() {
+void UMLApp::set_lang_ada()
+{
     setActiveLanguage(Uml::pl_Ada);
 }
 
-void UMLApp::set_lang_cpp() {
+void UMLApp::set_lang_cpp()
+{
     setActiveLanguage(Uml::pl_Cpp);
 }
 
-void UMLApp::set_lang_csharp() {
+void UMLApp::set_lang_csharp()
+{
     setActiveLanguage(Uml::pl_CSharp);
 }
 
-void UMLApp::set_lang_d() {
+void UMLApp::set_lang_d()
+{
     setActiveLanguage(Uml::pl_D);
 }
 
-void UMLApp::set_lang_idl() {
+void UMLApp::set_lang_idl()
+{
     setActiveLanguage(Uml::pl_IDL);
 }
 
-void UMLApp::set_lang_java() {
+void UMLApp::set_lang_java()
+{
     setActiveLanguage(Uml::pl_Java);
 }
 
-void UMLApp::set_lang_javascript() {
+void UMLApp::set_lang_javascript()
+{
     setActiveLanguage(Uml::pl_JavaScript);
 }
 
-void UMLApp::set_lang_mysql() {
+void UMLApp::set_lang_mysql()
+{
     setActiveLanguage(Uml::pl_MySQL);
 }
 
-void UMLApp::set_lang_pascal() {
+void UMLApp::set_lang_pascal()
+{
     setActiveLanguage(Uml::pl_Pascal);
 }
 
-void UMLApp::set_lang_perl() {
+void UMLApp::set_lang_perl()
+{
     setActiveLanguage(Uml::pl_Perl);
 }
 
-void UMLApp::set_lang_php() {
+void UMLApp::set_lang_php()
+{
     setActiveLanguage(Uml::pl_PHP);
 }
 
-void UMLApp::set_lang_php5() {
+void UMLApp::set_lang_php5()
+{
     setActiveLanguage(Uml::pl_PHP5);
 }
 
-void UMLApp::set_lang_postgresql() {
+void UMLApp::set_lang_postgresql()
+{
     setActiveLanguage(Uml::pl_PostgreSQL);
 }
 
-void UMLApp::set_lang_python() {
+void UMLApp::set_lang_python()
+{
     setActiveLanguage(Uml::pl_Python);
 }
 
-void UMLApp::set_lang_ruby() {
+void UMLApp::set_lang_ruby()
+{
     setActiveLanguage(Uml::pl_Ruby);
 }
 
-void UMLApp::set_lang_sql() {
+void UMLApp::set_lang_sql()
+{
     setActiveLanguage(Uml::pl_SQL);
 }
 
-void UMLApp::set_lang_tcl() {
+void UMLApp::set_lang_tcl()
+{
     setActiveLanguage(Uml::pl_Tcl);
 }
 
-void UMLApp::set_lang_xmlschema() {
+void UMLApp::set_lang_xmlschema()
+{
     setActiveLanguage(Uml::pl_XMLSchema);
 }
 
-void UMLApp::set_lang_ocl() {
+void UMLApp::set_lang_ocl()
+{
     setActiveLanguage(Uml::pl_Ocl);
 }
 
-void UMLApp::setActiveLanguage(Uml::Programming_Language pl) {
+void UMLApp::setActiveLanguage(Uml::Programming_Language pl)
+{
     updateLangSelectMenu(pl);
     setGenerator(pl);
 }
 
-Uml::Programming_Language UMLApp::getActiveLanguage() {
+Uml::Programming_Language UMLApp::getActiveLanguage()
+{
     return m_activeLanguage;
 }
 
-bool UMLApp::activeLanguageIsCaseSensitive() {
+bool UMLApp::activeLanguageIsCaseSensitive()
+{
     return (m_activeLanguage != Uml::pl_Pascal &&
             m_activeLanguage != Uml::pl_Ada &&
             m_activeLanguage != Uml::pl_SQL &&
@@ -1606,7 +1716,8 @@ bool UMLApp::activeLanguageIsCaseSensitive() {
             m_activeLanguage != Uml::pl_PostgreSQL);
 }
 
-QString UMLApp::activeLanguageScopeSeparator() {
+QString UMLApp::activeLanguageScopeSeparator()
+{
     Uml::Programming_Language pl = getActiveLanguage();
     if (pl == Uml::pl_Ada ||
         pl == Uml::pl_CSharp ||
@@ -1618,33 +1729,40 @@ QString UMLApp::activeLanguageScopeSeparator() {
     return "::";
 }
 
-void UMLApp::slotCurrentViewClearDiagram() {
+void UMLApp::slotCurrentViewClearDiagram()
+{
     getCurrentView()->clearDiagram();
 }
 
-void UMLApp::slotCurrentViewToggleSnapToGrid() {
+void UMLApp::slotCurrentViewToggleSnapToGrid()
+{
     getCurrentView()->toggleSnapToGrid();
     viewSnapToGrid->setChecked( getCurrentView()->getSnapToGrid() );
 }
 
-void UMLApp::slotCurrentViewToggleShowGrid() {
+void UMLApp::slotCurrentViewToggleShowGrid()
+{
     getCurrentView()->toggleShowGrid();
     viewShowGrid->setChecked( getCurrentView()->getShowSnapGrid() );
 }
 
-void UMLApp::slotCurrentViewExportImage() {
+void UMLApp::slotCurrentViewExportImage()
+{
     getCurrentView()->getImageExporter()->exportView();
 }
 
-void UMLApp::slotAllViewsExportImage() {
+void UMLApp::slotAllViewsExportImage()
+{
     m_imageExporterAll->exportAllViews();
 }
 
-void UMLApp::slotCurrentViewProperties() {
+void UMLApp::slotCurrentViewProperties()
+{
     getCurrentView()->showPropDialog();
 }
 
-void UMLApp::setDiagramMenuItemsState(bool bState) {
+void UMLApp::setDiagramMenuItemsState(bool bState)
+{
     viewClearDiagram->setEnabled( bState );
     viewSnapToGrid->setEnabled( bState );
     viewShowGrid->setEnabled( bState );
@@ -1658,7 +1776,8 @@ void UMLApp::setDiagramMenuItemsState(bool bState) {
     }
 }
 
-void UMLApp::slotUpdateViews() {
+void UMLApp::slotUpdateViews()
+{
     QMenu* menu = findMenu( menuBar(), QString("views") );
     if (!menu) {
         uWarning() << "view menu not found";
@@ -1675,13 +1794,14 @@ void UMLApp::slotUpdateViews() {
 
     UMLViewList views = getDocument()->getViewIterator();
     foreach (UMLView *view , views ) {
-        menu->insertItem( view->getName(), view, SLOT( slotShowView() ) );
+        menu->addAction(view->getName(), view, SLOT(slotShowView()));
         view->fileLoaded();
     }
 }
 
 
-void UMLApp::importFiles(QStringList* fileList) {
+void UMLApp::importFiles(QStringList* fileList)
+{
     if (! fileList->isEmpty()) {
         const QString& firstFile = fileList->first();
         ClassImport *classImporter = ClassImport::createImporterByFileExt(firstFile);
@@ -1696,7 +1816,8 @@ void UMLApp::importFiles(QStringList* fileList) {
     }
 }
 
-void UMLApp::slotImportClasses() {
+void UMLApp::slotImportClasses()
+{
     m_doc->setLoading(true);
     // File selection is separated from invocation of ClassImport::import()
     // because the user might decide to choose a language different from
@@ -1722,7 +1843,8 @@ void UMLApp::slotImportClasses() {
     importFiles(&fileList);
 }
 
-void UMLApp::slotImportProject() {
+void UMLApp::slotImportProject()
+{
     QStringList listFile;
 
     QDialog::DialogCode code = ImportProjectDlg::getFilesToImport(&listFile,m_codegen->getLanguage(), this);
@@ -1731,16 +1853,19 @@ void UMLApp::slotImportProject() {
     }
 }
 
-void UMLApp::slotClassWizard() {
+void UMLApp::slotClassWizard()
+{
     ClassWizard dlg( m_doc );
     dlg.exec();
 }
 
-void UMLApp::slotAddDefaultDatatypes() {
+void UMLApp::slotAddDefaultDatatypes()
+{
     m_doc->addDefaultDatatypes();
 }
 
-void UMLApp::slotCurrentViewChanged() {
+void UMLApp::slotCurrentViewChanged()
+{
     UMLView *view = getCurrentView();
     if (view) {
         connect(view, SIGNAL( sigShowGridToggled(bool) ),
@@ -1749,19 +1874,23 @@ void UMLApp::slotCurrentViewChanged() {
                 this, SLOT( slotSnapToGridToggled(bool) ) );
     }
 }
-void UMLApp::slotSnapToGridToggled(bool gridOn) {
+void UMLApp::slotSnapToGridToggled(bool gridOn)
+{
     viewSnapToGrid->setChecked(gridOn);
 }
 
-void UMLApp::slotShowGridToggled(bool gridOn) {
+void UMLApp::slotShowGridToggled(bool gridOn)
+{
     viewShowGrid->setChecked(gridOn);
 }
 
-void UMLApp::slotSelectAll() {
+void UMLApp::slotSelectAll()
+{
     getCurrentView()->selectAll();
 }
 
-void UMLApp::slotDeleteSelectedWidget() {
+void UMLApp::slotDeleteSelectedWidget()
+{
     if ( getCurrentView() ) {
         getCurrentView()->deleteSelection();
     } else {
@@ -1769,16 +1898,19 @@ void UMLApp::slotDeleteSelectedWidget() {
     }
 }
 
-void UMLApp::slotDeleteDiagram() {
+void UMLApp::slotDeleteDiagram()
+{
     m_doc->removeDiagram( getCurrentView()->getID() );
 }
 
-Uml::Programming_Language UMLApp::getDefaultLanguage() {
+Uml::Programming_Language UMLApp::getDefaultLanguage()
+{
     Settings::OptionState& optionState = Settings::getOptionState();
     return optionState.generalState.defaultLanguage;
 }
 
-void UMLApp::initGenerator() {
+void UMLApp::initGenerator()
+{
     if (m_codegen) {
         delete m_codegen;
         m_codegen = NULL;
@@ -1787,15 +1919,16 @@ void UMLApp::initGenerator() {
     setActiveLanguage(defaultLanguage);
 }
 
-void UMLApp::updateLangSelectMenu(Uml::Programming_Language activeLanguage) {
+void UMLApp::updateLangSelectMenu(Uml::Programming_Language activeLanguage)
+{
     //m_langSelect->clear();
     for (int i = 0; i < Uml::pl_Reserved; i++) {
         m_langAct[i]->setChecked(i == activeLanguage);
     }
 }
 
-
-void UMLApp::keyPressEvent(QKeyEvent *e) {
+void UMLApp::keyPressEvent(QKeyEvent *e)
+{
     switch(e->key()) {
     case Qt::Key_Shift:
         //toolsbar->setOldTool();
@@ -1808,7 +1941,8 @@ void UMLApp::keyPressEvent(QKeyEvent *e) {
 
 }
 
-void UMLApp::customEvent(QCustomEvent* e) {
+void UMLApp::customEvent(QCustomEvent* e)
+{
     if (e->type() == CmdLineExportAllViewsEvent::getType()) {
         CmdLineExportAllViewsEvent* exportAllViewsEvent = static_cast<CmdLineExportAllViewsEvent*>(e);
         exportAllViewsEvent->exportAllViews();
@@ -1816,10 +1950,11 @@ void UMLApp::customEvent(QCustomEvent* e) {
 }
 
 //TODO Move this to UMLWidgetController?
-void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e) {
+void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e)
+{
     // in case we have selected something in the diagram, move it by one pixel
     // to the direction pointed by the cursor key
-    if (m_view == NULL || !m_view->getSelectCount() || e->state() != Qt::AltButton) {
+    if (m_view == NULL || !m_view->getSelectCount() || e->modifiers() != Qt::AltModifier) {
         e->ignore();
         return;
     }
@@ -1852,7 +1987,8 @@ void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e) {
     e->accept();
 }
 
-void UMLApp::keyReleaseEvent(QKeyEvent *e) {
+void UMLApp::keyReleaseEvent(QKeyEvent *e)
+{
     switch(e->key()) {
     case Qt::Key_Backspace:
         if (!m_pDocWindow->isTyping())
@@ -1875,12 +2011,14 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e) {
 
 }
 
-void UMLApp::newDocument() {
+void UMLApp::newDocument() 
+{
     m_doc->newDocument();
     slotUpdateViews();
 }
 
-QWidget* UMLApp::getMainViewWidget() {
+QWidget* UMLApp::getMainViewWidget()
+{
     Settings::OptionState& optionState = Settings::getOptionState();
     if ( optionState.generalState.tabdiagrams )
         return m_tabWidget;
@@ -1888,7 +2026,8 @@ QWidget* UMLApp::getMainViewWidget() {
         return m_viewStack;
 }
 
-void UMLApp::setCurrentView(UMLView* view) {
+void UMLApp::setCurrentView(UMLView* view)
+{
     m_view = view;
     if (view == NULL) {
         uDebug() << "view is NULL";
@@ -1897,13 +2036,12 @@ void UMLApp::setCurrentView(UMLView* view) {
 
     Settings::OptionState optionState = Settings::getOptionState();
     if (optionState.generalState.tabdiagrams) {
-        if ( m_tabWidget->indexOf (view) < 0 ) {
+        if ( m_tabWidget->indexOf(view) < 0 ) {
             m_tabWidget->addTab(view, view->getName());
-            m_tabWidget->setTabIconSet(view, Widget_Utils::iconSet(view->getType()));
+            m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Widget_Utils::iconSet(view->getType()));
         }
 
-        m_tabWidget->showPage(view);
-        m_tabWidget->setCurrentPage(m_tabWidget->currentPageIndex());
+        m_tabWidget->setCurrentIndex(m_tabWidget->indexOf(view));
     }
     else {
         if (m_viewStack->indexOf(view) < 0) m_viewStack->addWidget(view);
@@ -1917,11 +2055,13 @@ void UMLApp::setCurrentView(UMLView* view) {
         m_listView->setCurrentItem(lvitem);
 }
 
-UMLView* UMLApp::getCurrentView() {
+UMLView* UMLApp::getCurrentView()
+{
     return m_view;
 }
 
-QMenu* UMLApp::findMenu(QMenu* /*menu*/, const QString &name) {
+QMenu* UMLApp::findMenu(QMenu* /*menu*/, const QString &name)
+{
     QWidget* widget = factory()->container(name, this);
     if (widget)
         return dynamic_cast<QMenu*>(widget);
@@ -1929,14 +2069,16 @@ QMenu* UMLApp::findMenu(QMenu* /*menu*/, const QString &name) {
     return 0;
 }
 
-void UMLApp::slotTabChanged(QWidget* view) {
+void UMLApp::slotTabChanged(QWidget* view)
+{
     UMLView* umlview = ( UMLView* )view;
     m_doc->changeCurrentView( umlview->getID() );
 }
 
-void UMLApp::slotChangeTabLeft() {
+void UMLApp::slotChangeTabLeft()
+{
     if (m_tabWidget) {
-        m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() - 1 );
+        m_tabWidget->setCurrentIndex( m_tabWidget->currentIndex() - 1 );
         return;
     }
     UMLViewList views = m_doc->getViewIterator();
@@ -1957,9 +2099,10 @@ void UMLApp::slotChangeTabLeft() {
         setCurrentView(views.last());
 }
 
-void UMLApp::slotChangeTabRight() {
+void UMLApp::slotChangeTabRight()
+{
     if (m_tabWidget) {
-        m_tabWidget->setCurrentPage( m_tabWidget->currentPageIndex() + 1 );
+        m_tabWidget->setCurrentIndex( m_tabWidget->currentIndex() + 1 );
         return;
     }
     UMLViewList views = m_doc->getViewIterator();
@@ -1980,16 +2123,18 @@ void UMLApp::slotChangeTabRight() {
         setCurrentView(views.first());
 }
 
-void UMLApp::slotMoveTabLeft() {
+void UMLApp::slotMoveTabLeft()
+{
     //causes problems
     //does strange things when moving right most diagram to the right
     //doesn't save order in file
-    //m_tabWidget->moveTab( m_tabWidget->currentPageIndex(), m_tabWidget->currentPageIndex() - 1 );
+    //m_tabWidget->moveTab( m_tabWidget->currentIndex(), m_tabWidget->currentIndex() - 1 );
 }
 
-void UMLApp::slotMoveTabRight() {
+void UMLApp::slotMoveTabRight()
+{
     //causes problems
-    //m_tabWidget->moveTab( m_tabWidget->currentPageIndex(), m_tabWidget->currentPageIndex() + 1 );
+    //m_tabWidget->moveTab( m_tabWidget->currentIndex(), m_tabWidget->currentIndex() + 1 );
 }
 
 void UMLApp::slotXhtmlDocGenerationFinished(bool status)
@@ -2002,15 +2147,18 @@ void UMLApp::slotXhtmlDocGenerationFinished(bool status)
   m_xhtmlGenerator = 0;
 }
 
-KTabWidget* UMLApp::tabWidget() {
+KTabWidget* UMLApp::tabWidget()
+{
     return m_tabWidget;
 }
 
-QString UMLApp::getStatusBarMsg() {
+QString UMLApp::getStatusBarMsg()
+{
     return statusBar()->itemText(1);
 }
 
-void UMLApp::clearUndoStack() {
+void UMLApp::clearUndoStack()
+{
     m_pUndoStack->clear();
 }
 
@@ -2050,7 +2198,8 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
     UMLApp::app()->enableUndo(true);
 }
 
-void UMLApp::BeginMacro( const QString & text ) {
+void UMLApp::BeginMacro( const QString & text )
+{
     if(m_hasBegunMacro)
         return;
 
@@ -2059,14 +2208,12 @@ void UMLApp::BeginMacro( const QString & text ) {
     m_pUndoStack->beginMacro(text);
 }
 
-void UMLApp::EndMacro() {
+void UMLApp::EndMacro()
+{
     if(m_hasBegunMacro)
         m_pUndoStack->endMacro();
 
     m_hasBegunMacro = false;
 }
-
-//static pointer, holding the unique instance
-UMLApp* UMLApp::s_instance;
 
 #include "uml.moc"

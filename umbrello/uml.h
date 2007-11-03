@@ -14,10 +14,6 @@
 
 #include "umlnamespace.h"
 
-#include <qmap.h>
-#include <q3dict.h>
-#include <q3progressbar.h>
-//Added by qt3to4:
 #include <QKeyEvent>
 #include <QMenu>
 #include <QUndoView>
@@ -62,6 +58,7 @@ class QDockWidget;
 class QVBoxLayout;
 class QMimeData;
 
+
 /**
  * The base class for UML application windows. It sets up the main
  * window and reads the config file as well as providing a menubar, toolbar
@@ -77,7 +74,8 @@ class QMimeData;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLApp : public KXmlGuiWindow {
+class UMLApp : public KXmlGuiWindow
+{
     Q_OBJECT
 public:
     /**
@@ -90,6 +88,9 @@ public:
      */
     ~UMLApp();
 
+    /**
+     * Get the last created instance of this class.
+     */
     static UMLApp* app();
 
     /**
@@ -804,9 +805,16 @@ public slots:
     /**
      * Set the zoom factor of the current diagram.
      *
-     * @param zoom              Zoom factor in percentage.
+     * @param zoom  Zoom factor in percentage.
      */
     void setZoom(int zoom);
+
+    /**
+     * Set the zoom factor of the current diagram.
+     *
+     * @param action  Action which is called.
+     */
+    void slotSetZoom(QAction* action);
 
     /**
      * Connected to by the KPlayerSliderAction zoomAction, a value of between 300
@@ -840,8 +848,8 @@ public slots:
     /**
      * Searches for a menu with the given name
      *
-     * @param menu      The QPopupMenu or QMenuBar to search through.
-     * @param name      The name of the menu to search for (name, not text)
+     * @param menu  The QPopupMenu or QMenuBar to search through.
+     * @param name  The name of the menu to search for (name, not text)
      */
     QMenu* findMenu(QMenu* menu, const QString &name);
 
@@ -884,6 +892,9 @@ public slots:
     void slotXhtmlDocGenerationFinished(bool status);
 
 private:
+    /**
+     * Variable for holding the last created instance of this class.
+     */
     static UMLApp* s_instance;
 
     /**
@@ -892,9 +903,14 @@ private:
     QMenu *m_langSelect;
 
     /**
-    * Popup menu for zoom selection.
-    */
+     * Popup menu for zoom selection.
+     */
     QMenu *m_zoomSelect;
+
+    /**
+     * Helper method to create the zoom actions.
+     */
+    QAction* createZoomAction(int zoom, int currentZoom);
 
     /**
      * Active language.

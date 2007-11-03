@@ -431,10 +431,10 @@ void UMLWidgetController::resize(QMouseEvent *me) {
     int newW = m_oldW + me->x() - m_widget->getX() - m_pressOffsetX;
     int newH = m_oldH + me->y() - m_widget->getY() - m_pressOffsetY;
 
-    if ((me->state() & Qt::ShiftModifier) && (me->state() & Qt::ControlModifier)) {
+    if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
         //Move in Y axis
         newW = m_oldW;
-    } else if ((me->state() & Qt::ShiftModifier) || (me->state() & Qt::ControlModifier)) {
+    } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
         //Move in X axis
         newH = m_oldH;
     }
