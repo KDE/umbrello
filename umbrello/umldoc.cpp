@@ -572,7 +572,6 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
             tmpQString.replace(QRegExp("\\.tar\\.bz2$"), "");
         }
         archive->addLocalFile(tmp_xmi_file.fileName(), tmpQString);
-        archive->close();
 
         if (!archive->close())
         {
