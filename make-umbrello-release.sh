@@ -24,7 +24,6 @@ svnroot=svn://anonsvn.kde.org:/home/kde/branches/KDE/$branchver
 cd /tmp
 svn co -N $svnroot/kdesdk
 cd kdesdk
-svn co $svnroot/kdesdk/scripts
 svn co $svnroot/kdesdk/umbrello $udir
 svn co $svnroot/kde-common/admin $udir/admin
 svn co -N $svnroot/kdesdk/doc $udir/doc
@@ -41,7 +40,7 @@ rm configure.in.in.orig
 perl -p -e 's@umbrello/VERSION@VERSION@g' -i `find umbrello -name Makefile.am`
 cd /tmp
 log=/tmp/kdesdk/svn2dist.log
-kdesdk/scripts/svn2dist kdesdk $udir -n umbrello --admin-dir kdesdk/$udir/admin \
+$origdir/../scripts/svn2dist kdesdk $udir -n umbrello --admin-dir kdesdk/$udir/admin \
          --svn-root svn://anonsvn.kde.org/home/kde/branches/stable --log=$log -o
 mv umbrello/po kdesdk/$udir/
 rm -rf umbrello
