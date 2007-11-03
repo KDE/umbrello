@@ -307,6 +307,8 @@ void UMLWidgetController::constrainMovementForAllWidgets(int &/*diffX*/, int &/*
 }
 
 void UMLWidgetController::doMouseDoubleClick(QMouseEvent *) {
+    if (!m_widget || !m_widget->m_pMenu)
+        return;
     m_widget->slotMenuSelection(ListPopupMenu::mt_Properties);
 }
 

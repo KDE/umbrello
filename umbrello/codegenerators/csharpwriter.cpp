@@ -499,12 +499,14 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
             }
         }
 
-        // return type
-        if (op->getTypeName().isEmpty()) {
-            cs << "void ";
-        }
-        else {
-            cs << makeLocalTypeName(op) << " ";
+        // return type (unless constructor, destructor)
+        if (!op->isLifeOperation()) {
+            if (op->getTypeName().isEmpty()) {
+                cs << "void ";
+            }
+            else {
+                cs << makeLocalTypeName(op) << " ";
+            }
         }
 
         // method name

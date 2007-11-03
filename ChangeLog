@@ -11,6 +11,7 @@ Version 1.5.8
 * Moving component on diagram results in absurd shape of self-association (147810)
 * Crash when changing the attribute name (147919)
 * Reads XMI exported by version 1.5 but crashes when rereading after saving (147988)
+* Patch: Correct C# constructors (no return type) (150988)
 
 Version 1.5.71
 
