@@ -253,6 +253,7 @@ void UMLApp::initActions()
 #define setProgLangAction(pl, name, action) \
         m_langAct[pl] = actionCollection()->addAction(action);          \
         m_langAct[pl]->setText(name);                                   \
+        m_langAct[pl]->setCheckable(true);                              \
         connect(m_langAct[pl], SIGNAL(triggered()), this, "1"action"()")
     setProgLangAction(Uml::pl_ActionScript, "ActionScript", "set_lang_actionscript");
     setProgLangAction(Uml::pl_Ada,          "Ada",          "set_lang_ada");
