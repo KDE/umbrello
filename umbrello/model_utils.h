@@ -236,6 +236,12 @@ QString progLangToString(Uml::Programming_Language pl);
  */
 Uml::Programming_Language stringToProgLang(QString str);
 
+
+/**
+ * Return string corresponding to Uml::Diagram_Type
+ */
+QString diagramTypeToString(Uml::Diagram_Type dt); 
+
 /**
  * Return type of parseOperation()
  */

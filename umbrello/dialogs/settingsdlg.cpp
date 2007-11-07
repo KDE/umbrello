@@ -199,15 +199,12 @@ void SettingsDlg::setupGeneralPage() {
     m_GeneralWidgets.diagramKB->setCompletionMode( KGlobalSettings::CompletionPopup );
     startupLayout -> addWidget( m_GeneralWidgets.diagramKB, 1, 1 );
 
-    QString diagrams [] = { i18n("No Diagram"), i18n("Class Diagram"),
-                            i18n("Use Case Diagram"), i18n("Sequence Diagram"),
-                            i18n("Collaboration Diagram"), i18n("State Diagram"),
-                            i18n("Activity Diagram"), i18n("Component Diagram"),
-                            i18n("Deployment Diagram"), i18n("Entity Relationship Diagram") };
 
-    //start at 1 because we don't allow No Diagram any more
-    for (int i=1; i<10; i++) {
-        insertDiagram( diagrams[i] );
+    // start at 1 because we don't allow No Diagram any more
+    // diagramNo 1 is Uml::dt_Class
+    // digaramNo 9 is Uml::dt_EntityRelationship
+    for (int diagramNo=1; diagramNo < 10; diagramNo++) {
+        insertDiagram( Model_Utils::diagramTypeToString( ( Uml::Diagram_Type )diagramNo ), /*index*/ diagramNo - 1  );
     }
 
     m_GeneralWidgets.diagramKB->setCurrentIndex( (int)m_pOptionState->generalState.diagram-1 );

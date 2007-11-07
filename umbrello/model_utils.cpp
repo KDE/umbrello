@@ -1336,5 +1336,33 @@ QString convertUpdateDeleteActionToString( UMLForeignKeyConstraint::UpdateDelete
     }
 }
 
-}  // namespace Model_Utils
 
+QString diagramTypeToString(Uml::Diagram_Type dt) {
+
+    switch( dt ) {
+
+       case Uml::dt_Class:
+           return i18n( "Class Diagram" );
+       case Uml::dt_UseCase:
+           return i18n( "Use Case Diagram" );
+       case Uml::dt_Sequence:
+           return i18n( "Sequence Diagram" );
+       case Uml::dt_Collaboration:
+           return i18n( "Collaboration Diagram" );
+       case Uml::dt_State:
+           return i18n( "State Diagram" );
+       case Uml::dt_Activity:
+           return i18n( "Activity Diagram" );
+       case Uml::dt_Component:
+           return i18n( "Component Diagram" );
+       case Uml::dt_Deployment:
+           return i18n( "Deployment Diagram" );
+       case Uml::dt_EntityRelationship:
+           return i18n( "Entity Relationship Diagram" );
+       default:
+           return i18n( "No Diagram" );
+    }
+
+}
+
+}  // namespace Model_Utils
