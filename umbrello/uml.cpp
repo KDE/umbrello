@@ -694,8 +694,8 @@ void UMLApp::saveOptions()
     // The Toolbar settings will be handled by the respective classes ( KToolBar )
     KConfigGroup cg( m_config, "toolbar" );
     toolBar("mainToolBar")->saveSettings( cg );
-    cg.changeGroup( "workbar" );
-    toolsbar->saveSettings(cg );
+    KConfigGroup workBarConfig(m_config, "workbar" );
+    toolsbar->saveSettings(workBarConfig );
     fileOpenRecent->saveEntries( m_config->group( "Recent Files") );
 
     UmbrelloSettings::setGeometry( size() );
