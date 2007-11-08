@@ -20,7 +20,6 @@ class UMLEntityConstraint;
 class UMLUniqueConstraint;
 class UMLForeignKeyConstraint;
 class UMLCheckConstraint;
-class UMLEntityConstraintList;
 class UMLEntityAttributeList;
 
 /**

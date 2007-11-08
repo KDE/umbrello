@@ -26,7 +26,6 @@
 #include "umlnamespace.h"
 
 class QWidget;
-class KConfig;
 class CodeGenerationPolicyPage;
 
 /**

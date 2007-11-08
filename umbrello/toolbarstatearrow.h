@@ -17,7 +17,6 @@
 
 #include <QList>
 
-class QMouseEvent;
 class UMLView;
 class Q3CanvasLine;
 

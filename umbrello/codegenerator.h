@@ -36,7 +36,6 @@ class UMLObject;
 
 class ClassifierCodeDocument;
 class CodeBlock;
-class CodeClassField;
 class CodeDocument;
 class CodeViewerDialog;
 

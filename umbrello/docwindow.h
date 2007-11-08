@@ -15,7 +15,6 @@
 #include <qwidget.h>
 
 class AssociationWidget;
-class QGroupBox;
 class KTextEdit;
 class UMLObject;
 class UMLDoc;

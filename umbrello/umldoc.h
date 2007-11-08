@@ -41,7 +41,6 @@
 class QDomNode;
 class QPrinter;
 
-class KMenu;
 
 class IDChangeLog;
 class UMLPackage;

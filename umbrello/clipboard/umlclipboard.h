@@ -22,7 +22,6 @@
 #include "../umlwidgetlist.h"
 
 class IDChangeLog;
-class QMimeSource;
 
 /**
  * This class manages the uml's interaction with the KDE

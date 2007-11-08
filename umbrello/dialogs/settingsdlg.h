@@ -33,7 +33,6 @@
 
 class CodeGenerationOptionsPage;
 class CodeViewerOptionsPage;
-class KConfig;
 
 /**
  * @author Paul Hensgen

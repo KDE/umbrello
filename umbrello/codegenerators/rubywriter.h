@@ -25,7 +25,6 @@
 
 #include <QtCore/QStringList>
 
-class ClassifierInfo;
 
 /**
   * class RubyWriter is a ruby code generator for UMLClassifier objects

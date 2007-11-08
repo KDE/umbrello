@@ -34,8 +34,6 @@
 #include "../umlclassifierlistitemlist.h"
 #include "../umlentityattributelist.h"
 
-class UMLObject;
-class UMLClassifier;
 class UMLDoc;
 class UMLForeignKeyConstraint;
 /**

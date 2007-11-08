@@ -25,9 +25,6 @@
 #include "ui_codeviewerdialogbase.h"
 
 class CodeDocument;
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
 
 
 /** This class is sooo ugly I don't know where to begin. For now, its a prototype
