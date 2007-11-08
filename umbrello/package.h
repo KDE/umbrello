@@ -32,7 +32,8 @@ class UMLAssociation;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLPackage : public UMLCanvasObject {
+class UMLPackage : public UMLCanvasObject
+{
     Q_OBJECT
 public:
     /**
@@ -58,11 +59,6 @@ public:
      * Make a clone of this object.
      */
     virtual UMLObject* clone() const;
-
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
 
     /**
      * Adds an object in this package.

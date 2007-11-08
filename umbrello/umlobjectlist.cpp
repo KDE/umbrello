@@ -5,14 +5,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "umlobjectlist.h"
 #include "umlobject.h"
-#include <kdebug.h>
-#include <klocale.h>
 
 UMLObjectList::UMLObjectList()
 {}
@@ -20,7 +18,8 @@ UMLObjectList::UMLObjectList()
 UMLObjectList::~UMLObjectList()
 {}
 
-void UMLObjectList::copyInto(UMLObjectList *rhs) const {
+void UMLObjectList::copyInto(UMLObjectList *rhs) const
+{
     // Don't copy yourself.
     if (rhs == this) return;
 
@@ -39,7 +38,8 @@ void UMLObjectList::copyInto(UMLObjectList *rhs) const {
 }
 
 
-UMLObjectList* UMLObjectList::clone() const {
+UMLObjectList* UMLObjectList::clone() const
+{
     UMLObjectList *clone = new UMLObjectList();
     copyInto(clone);
     return clone;

@@ -26,22 +26,17 @@
 #include "entity.h"
 #include "object_factory.h"
 #include "model_utils.h"
-#include "umllistview.h"
-#include "umllistviewitem.h"
 
 using namespace Uml;
 
 UMLPackage::UMLPackage(const QString & name, Uml::IDType id)
-        : UMLCanvasObject(name, id) {
-    init();
-}
-
-UMLPackage::~UMLPackage() {
-}
-
-void UMLPackage::init() {
+        : UMLCanvasObject(name, id)
+{
     m_BaseType = ot_Package;
 }
+
+UMLPackage::~UMLPackage()
+{}
 
 void UMLPackage::copyInto(UMLPackage *rhs) const
 {
@@ -58,7 +53,8 @@ UMLObject* UMLPackage::clone() const
     return clone;
 }
 
-void UMLPackage::addAssocToConcepts(UMLAssociation* a) {
+void UMLPackage::addAssocToConcepts(UMLAssociation* a)
+{
     if (! UMLAssociation::assocTypeHasUMLRepresentation(a->getAssocType()) )
         return;
     Uml::IDType AId = a->getObjectId(Uml::A);
@@ -98,7 +94,8 @@ void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
     }
 }
 
-bool UMLPackage::addObject(UMLObject *pObject) {
+bool UMLPackage::addObject(UMLObject *pObject)
+{
     if (pObject == NULL) {
         uError() << "is called with a NULL object" << endl;
         return false;
@@ -146,7 +143,8 @@ bool UMLPackage::addObject(UMLObject *pObject) {
     return true;
 }
 
-void UMLPackage::removeObject(UMLObject *pObject) {
+void UMLPackage::removeObject(UMLObject *pObject)
+{
     if (pObject->getBaseType() == Uml::ot_Association) {
         UMLObject *o = const_cast<UMLObject*>(pObject);
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
@@ -159,7 +157,8 @@ void UMLPackage::removeObject(UMLObject *pObject) {
         m_objects.removeAll(pObject);
 }
 
-void UMLPackage::removeAllObjects() {
+void UMLPackage::removeAllObjects()
+{
     UMLCanvasObject::removeAllChildObjects();
     UMLObject *o = NULL;
 
@@ -174,11 +173,13 @@ void UMLPackage::removeAllObjects() {
     }
 }
 
-UMLObjectList UMLPackage::containedObjects() {
+UMLObjectList UMLPackage::containedObjects()
+{
     return m_objects;
 }
 
-UMLObject * UMLPackage::findObject(const QString &name) {
+UMLObject * UMLPackage::findObject(const QString &name)
+{
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
@@ -192,12 +193,14 @@ UMLObject * UMLPackage::findObject(const QString &name) {
     return NULL;
 }
 
-UMLObject * UMLPackage::findObjectById(Uml::IDType id) {
+UMLObject * UMLPackage::findObjectById(Uml::IDType id)
+{
     return Model_Utils::findObjectInList(id, m_objects);
 }
 
 
-void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested ) {
+void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested )
+{
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
         Object_Type ot = o->getBaseType();
@@ -213,7 +216,8 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested ) {
 
 
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
-                                   bool includeNested /* = true */) {
+                                   bool includeNested /* = true */)
+{
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
         Object_Type ot = o->getBaseType();
@@ -228,7 +232,8 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 }
 
 void UMLPackage::appendClasses(UMLClassifierList& classes,
-                               bool includeNested /* = true */) {
+                               bool includeNested /* = true */)
+{
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
         Object_Type ot = o->getBaseType();
@@ -243,7 +248,8 @@ void UMLPackage::appendClasses(UMLClassifierList& classes,
 }
 
 void UMLPackage::appendEntities( UMLEntityList& entities,
-                                 bool includeNested /* = true */ ) {
+                                 bool includeNested /* = true */ )
+{
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
         Object_Type ot = o->getBaseType();
@@ -258,7 +264,8 @@ void UMLPackage::appendEntities( UMLEntityList& entities,
 }
 
 void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
-        bool includeNested /* = true */) {
+        bool includeNested /* = true */)
+{
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
         Object_Type ot = o->getBaseType();
@@ -273,7 +280,8 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 }
 
 void UMLPackage::appendInterfaces( UMLClassifierList& interfaces,
-                                   bool includeNested /* = true */) {
+                                   bool includeNested /* = true */)
+{
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
         Object_Type ot = o->getBaseType();
@@ -287,7 +295,8 @@ void UMLPackage::appendInterfaces( UMLClassifierList& interfaces,
     }
 }
 
-bool UMLPackage::resolveRef() {
+bool UMLPackage::resolveRef()
+{
     bool overallSuccess = UMLCanvasObject::resolveRef();
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
@@ -301,7 +310,8 @@ bool UMLPackage::resolveRef() {
     return overallSuccess;
 }
 
-void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement packageElement = UMLObject::save("UML:Package", qDoc);
     QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
     UMLObject *obj = NULL;
@@ -320,7 +330,8 @@ void UMLPackage::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     qElement.appendChild(packageElement);
 }
 
-bool UMLPackage::load(QDomElement& element) {
+bool UMLPackage::load(QDomElement& element)
+{
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
         if (node.isComment())
