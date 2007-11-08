@@ -506,7 +506,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
     // first, we have to find out which format to use
     QString strFileName = url.path(KUrl::RemoveTrailingSlash);
     QFileInfo fileInfo(strFileName);
-    QString fileExt = fileInfo.extension();
+    QString fileExt = fileInfo.completeSuffix();
     QString fileFormat = "xmi";
     if (fileExt == "xmi" || fileExt == "bak.xmi")
     {
@@ -1337,15 +1337,15 @@ void UMLDoc::saveToXMI(QIODevice& file) {
     root.appendChild( extensions );
 
     QTextStream stream( &file );
-    stream.setEncoding(QTextStream::UnicodeUTF8);
+    stream.setCodec("UTF-8");
     stream << doc.toString();
 }
 
 short UMLDoc::getEncoding(QIODevice & file)
 {
     QTextStream stream( &file );
-    stream.setEncoding(QTextStream::UnicodeUTF8);
-    QString data = stream.read();
+    stream.setCodec("UTF-8");
+    QString data = stream.readAll();
     QString error;
     int line;
     QDomDocument doc;
@@ -1431,10 +1431,10 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     QTextStream stream( &file );
     if (encode == ENC_UNICODE)
     {
-        stream.setEncoding(QTextStream::UnicodeUTF8);
+        stream.setCodec("UTF-8");
     }
 
-    QString data = stream.read();
+    QString data = stream.readAll();
     qApp->processEvents();  // give UI events a chance
     QString error;
     int line;
@@ -2075,7 +2075,8 @@ void UMLDoc::initSaveTimer() {
     if( optionState.generalState.autosave ) {
         m_pAutoSaveTimer = new QTimer(this, "_AUTOSAVETIMER_" );
         connect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );
-        m_pAutoSaveTimer->start( optionState.generalState.autosavetime * 60000, false );
+        m_pAutoSaveTimer->setSingleShot( false );
+        m_pAutoSaveTimer->start( optionState.generalState.autosavetime * 60000 );
     }
     return;
 }
@@ -2123,7 +2124,7 @@ void UMLDoc::slotAutoSave() {
 void UMLDoc::signalDiagramRenamed(UMLView* pView ) {
     Settings::OptionState optionState = Settings::getOptionState();
     if (optionState.generalState.tabdiagrams)
-        UMLApp::app()->tabWidget()->setTabLabel( pView, pView->getName() );
+        UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(pView), pView->getName() );
     emit sigDiagramRenamed( pView -> getID() );
 }
 

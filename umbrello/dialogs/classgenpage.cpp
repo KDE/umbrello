@@ -110,7 +110,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     m_pStereoTypeCB = new KComboBox(true, this);
     m_pNameLayout -> addWidget(m_pStereoTypeCB, 1, 1);
 
-    m_pStereoTypeCB->setCurrentText( o->getStereotype() );
+    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), o->getStereotype() );
     m_pStereoTypeL->setBuddy(m_pStereoTypeCB);
 
     if (t == Uml::ot_Interface || t == Uml::ot_Datatype || t == Uml::ot_Enum) {

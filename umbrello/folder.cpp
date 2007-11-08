@@ -263,7 +263,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     saveContents(folderDoc, folderRoot);
     folderDoc.appendChild(folderRoot);
     QTextStream stream(&file);
-    stream.setEncoding(QTextStream::UnicodeUTF8);
+    stream.setCodec("UTF-8");
     stream << folderDoc.toString();
     file.close();
 }
@@ -303,7 +303,7 @@ bool UMLFolder::loadFolderFile(const QString& path) {
         return false;
     }
     QTextStream stream(&file);
-    QString data = stream.read();
+    QString data = stream.readAll();
     file.close();
     QDomDocument doc;
     QString error;

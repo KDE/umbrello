@@ -126,8 +126,8 @@ void AdaImport::fillSource(const QString& word) {
 
 QString AdaImport::expand(const QString& name) {
     QRegExp pfxRegExp("^(\\w+)\\.");
-    pfxRegExp.setCaseSensitive(false);
-    int pos = pfxRegExp.search(name);
+    pfxRegExp.setCaseSensitivity(Qt::CaseInsensitive);
+    int pos = pfxRegExp.indexIn(name);
     if (pos == -1)
         return name;
     QString result = name;

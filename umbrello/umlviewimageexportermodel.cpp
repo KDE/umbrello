@@ -288,12 +288,12 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rec
     }
     // read
     QTextStream ts(&epsfile);
-    QString fileContent = ts.read();
+    QString fileContent = ts.readAll();
     epsfile.close();
 
     // read information
     QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)");
-    const int pos = rx.search(fileContent);
+    const int pos = rx.indexIn(fileContent);
     if (pos < 0) {
         uError() << fileName << ": cannot find %%BoundingBox" << endl;
         return false;
