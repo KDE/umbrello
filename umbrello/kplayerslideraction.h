@@ -47,22 +47,22 @@ public:
 
     /** The minimum value.
       */
-    int minValue (void) const;
+    int minimum (void) const;
     /** Sets the minimum value.
       */
-    void setMinValue (int);
+    void setMinimum (int);
     /** The maximum value.
       */
-    int maxValue (void) const;
+    int maximum (void) const;
     /** Sets the maximum value.
       */
-    void setMaxValue (int);
-    /** The line step.
+    void setMaximum (int);
+    /** The single step.
       */
-    int lineStep (void) const;
-    /** Sets the line step.
+    int singleStep (void) const;
+    /** Sets the single step.
       */
-    void setLineStep (int);
+    void setSingleStep (int);
     /** The page step.
       */
     int pageStep (void) const;
@@ -78,7 +78,7 @@ public:
 
     /** Sets up the slider by setting five options in one go.
       */
-    void setup (int minValue, int maxValue, int value, int pageStep, int lineStep = 1);
+    void setup (int minimum, int maximum, int value, int pageStep, int lineStep = 1);
     /** Sets the slider orientation.
       */
     virtual void setOrientation (Qt::Orientation);

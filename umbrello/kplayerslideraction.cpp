@@ -253,7 +253,7 @@ KPlayerSlider::KPlayerSlider (Qt::Orientation orientation, QWidget* parent, cons
         : QSlider (300, 2200, 400, 1000, orientation, parent, name)
 {
     m_changing_orientation = false;
-    setTickmarks (QSlider::TicksBothSides);
+    setTickPosition (QSlider::TicksBothSides);
     connect (this, SIGNAL (valueChanged (int)), this, SLOT (sliderValueChanged (int)));
 }
 
@@ -304,54 +304,54 @@ void KPlayerSlider::setOrientation (Qt::Orientation o)
     if ( o == orientation() )
         return;
     m_changing_orientation = true;
-    int minValue = QSlider::minValue();
-    int maxValue = QSlider::maxValue();
+    int minimum = QSlider::minimum();
+    int maximum = QSlider::maximum();
     int value = QSlider::value();
     QSlider::setOrientation (o);
-    QSlider::setMinValue (- maxValue);
-    QSlider::setMaxValue (- minValue);
+    QSlider::setMinimum (- maximum);
+    QSlider::setMaximum (- minimum);
     QSlider::setValue (- value);
     m_changing_orientation = false;
 }
 
-int KPlayerSlider::minValue (void) const
+int KPlayerSlider::minimum (void) const
 {
     if ( orientation() == Qt::Horizontal )
-        return QSlider::minValue();
-    return - QSlider::maxValue();
+        return QSlider::minimum();
+    return - QSlider::maximum();
 }
 
-void KPlayerSlider::setMinValue (int minValue)
+void KPlayerSlider::setMinimum (int minimum)
 {
     if ( orientation() == Qt::Horizontal )
-        QSlider::setMinValue (minValue);
+        QSlider::setMinimum (minimum);
     else
-        QSlider::setMaxValue (- minValue);
+        QSlider::setMaximum (- minimum);
 }
 
-int KPlayerSlider::maxValue (void) const
+int KPlayerSlider::maximum (void) const
 {
     if ( orientation() == Qt::Horizontal )
-        return QSlider::maxValue();
-    return - QSlider::minValue();
+        return QSlider::maximum();
+    return - QSlider::minimum();
 }
 
-void KPlayerSlider::setMaxValue (int maxValue)
+void KPlayerSlider::setMaximum (int maximum)
 {
     if ( orientation() == Qt::Horizontal )
-        QSlider::setMaxValue (maxValue);
+        QSlider::setMaximum (maximum);
     else
-        QSlider::setMinValue (- maxValue);
+        QSlider::setMinimum (- maximum);
 }
 
-int KPlayerSlider::lineStep (void) const
+int KPlayerSlider::singleStep (void) const
 {
-    return QSlider::lineStep();
+    return QSlider::singleStep();
 }
 
-void KPlayerSlider::setLineStep (int lineStep)
+void KPlayerSlider::setSingleStep (int singleStep)
 {
-    QSlider::setLineStep (lineStep);
+    QSlider::setSingleStep (singleStep);
 }
 
 int KPlayerSlider::pageStep (void) const
@@ -380,11 +380,11 @@ void KPlayerSlider::setValue (int value, int)
         QSlider::setValue (- value);
 }
 
-void KPlayerSlider::setup (int minValue, int maxValue, int value, int pageStep, int lineStep)
+void KPlayerSlider::setup (int minimum, int maximum, int value, int pageStep, int singleStep)
 {
-    setMinValue (minValue);
-    setMaxValue (maxValue);
-    setLineStep (lineStep);
+    setMinimum (minimum);
+    setMaximum (maximum);
+    setSingleStep (singleStep);
     setPageStep (pageStep);
     setValue (value);
 }
