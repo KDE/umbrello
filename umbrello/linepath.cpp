@@ -75,10 +75,6 @@ LinePath::LinePath() {
 
 LinePath::~LinePath()
 {
-    qDeleteAll(m_RectList);
-    qDeleteAll(m_LineList);
-    qDeleteAll(m_HeadList);
-    qDeleteAll(m_ParallelList);
 }
 
 void LinePath::setAssociation(AssociationWidget * association ) {
@@ -842,11 +838,22 @@ uint LinePath::getLineWidth() {
 }
 
 void LinePath::cleanup() {
-    if (m_pAssociation)
-        m_LineList.clear();
-    m_HeadList.clear();
-    m_RectList.clear();
-    m_ParallelList.clear();
+    if (m_pAssociation) {
+         while (!m_LineList.isEmpty())
+            delete m_LineList.takeFirst();
+    }
+
+    //clear ( and delete ) m_HeadList
+    while (!m_HeadList.isEmpty())
+      delete m_HeadList.takeFirst();
+
+    //clear ( and delete ) m_RectList
+    while (!m_RectList.isEmpty())
+      delete m_RectList.takeFirst();
+
+    //clear ( and delete ) m_ParallelList
+    while (!m_ParallelList.isEmpty())
+      delete m_ParallelList.takeFirst();
 
     if( m_pClearPoly )
         delete m_pClearPoly;
