@@ -399,12 +399,7 @@ if (WIN32)
         ${CMAKE_CURRENT_SOURCE_DIR}/hi64-app-umbrello.png 
         ${CMAKE_CURRENT_SOURCE_DIR}/hi128-app-umbrello.png 
     )
-    kde4_add_win32_app_icon(umbrello ${umbrello_icons})
-    if(MINGW)
-        list(APPEND umbrello_SRCS ${CMAKE_CURRENT_BINARY_DIR}/umbrello_res.o)
-    else(MINGW)
-        list(APPEND umbrello_SRCS ${CMAKE_CURRENT_BINARY_DIR}/umbrello.rc)
-    endif(MINGW)
+    kde4_add_win32_app_icon(umbrello umbrello_SRCS ${umbrello_icons})
 
 else (WIN32)
     set (LIBS )
