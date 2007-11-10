@@ -22,9 +22,7 @@
 #include "../dialogs/umlattributedialog.h"
 #include "../object_factory.h"
 
-#include <qpoint.h>
-//Added by qt3to4:
-#include <QDropEvent>
+#include <QtCore/QPoint>
 
 #include <typeinfo>
 #include <kstandarddirs.h>
@@ -93,15 +91,16 @@ void RefactoringAssistant::refactor( UMLClassifier *obj )
 
 UMLObject* RefactoringAssistant::findUMLObject( const Q3ListViewItem *item )
 {
+    if (item == NULL)
+        return NULL;
     Q3ListViewItem *i = const_cast<Q3ListViewItem*>(item);
-    if( m_umlObjectMap.find(i) == m_umlObjectMap.end() )
+    if ( m_umlObjectMap.find(i) == m_umlObjectMap.end() )
     {
         uWarning()<<"RefactoringAssistant::findUMLObject( QListViewItem *item )"
         <<"item with text "<<item->text(0)<<"not found in uml map!"<<endl;
-        return 0L;
+        return NULL;
     }
     return m_umlObjectMap[i];
-
 }
 
 Q3ListViewItem* RefactoringAssistant::findListViewItem( const UMLObject *obj )
@@ -111,7 +110,7 @@ Q3ListViewItem* RefactoringAssistant::findListViewItem( const UMLObject *obj )
         if( (*it).second == obj )
             return (*it).first;
     uWarning() << "object id " << ID2STR(obj->getID()) << "does not have a ListItem" << endl;
-    return 0L;
+    return NULL;
 }
 
 
@@ -275,44 +274,54 @@ void RefactoringAssistant::editProperties( UMLObject *obj )
     delete dia;
 }
 
+QAction* RefactoringAssistant::createAction(const QString text, const char * method)
+{
+    QAction* action = new QAction(this);
+    action->setText(text);
+    connect(action, SIGNAL(triggered()), this, method);
+    return action;
+}
+
 void RefactoringAssistant::showContextMenu(K3ListView* ,Q3ListViewItem *item, const QPoint &p)
 {
+    if (item == NULL)
+        return;
     m_menu->clear();
     UMLObject *obj = findUMLObject( item );
-    if(obj)
+    if (obj)
     {// Menu for UMLObjects
         Uml::Object_Type t = obj->getBaseType();
         if (t == Uml::ot_Class)
         {
-            m_menu->insertItem(i18n("Add Base Class"),this,SLOT(addBaseClassifier()));
-            m_menu->insertItem(i18n("Add Derived Class"),this,SLOT(addDerivedClassifier()));
-            //          m_menu->insertItem(i18n("Add Interface Implementation"),this,SLOT(addInterfaceImplementation()));
-            m_menu->insertItem(i18n("Add Operation"),this,SLOT(createOperation()));
-            m_menu->insertItem(i18n("Add Attribute"),this,SLOT(createAttribute()));
+            m_menu->addAction(createAction(i18n("Add Base Class"), SLOT(addBaseClassifier())));
+            m_menu->addAction(createAction(i18n("Add Derived Class"), SLOT(addDerivedClassifier())));
+            // m_menu->addAction(createAction(i18n("Add Interface Implementation"), SLOT(addInterfaceImplementation())));
+            m_menu->addAction(createAction(i18n("Add Operation"), SLOT(createOperation())));
+            m_menu->addAction(createAction(i18n("Add Attribute"), SLOT(createAttribute())));
         }
         else if (t == Uml::ot_Interface)
         {
-            m_menu->insertItem(i18n("Add Base Interface"),this,SLOT(addSuperClassifier()));
-            m_menu->insertItem(i18n("Add Derived Interface"),this,SLOT(addDerivedClassifier()));
-            m_menu->insertItem(i18n("Add Operation"),this,SLOT(createOperation()));
+            m_menu->addAction(createAction(i18n("Add Base Interface"), SLOT(addSuperClassifier())));
+            m_menu->addAction(createAction(i18n("Add Derived Interface"), SLOT(addDerivedClassifier())));
+            m_menu->addAction(createAction(i18n("Add Operation"), SLOT(createOperation())));
         }
-        //              else
-        //              {
-        //              uDebug()<<"No context menu for objects of type "<<typeid(*obj).name();
-        //              return;
-        //              }
-        m_menu->insertSeparator();
-        m_menu->insertItem(i18n("Properties"),this,SLOT(editProperties()));
+        // else
+        // {
+        //     uDebug()<<"No context menu for objects of type "<<typeid(*obj).name();
+        //     return;
+        // }
+        m_menu->addSeparator();
+        m_menu->addAction(createAction(i18n("Properties"), SLOT(editProperties())));
     }
     else
     {//menu for other ViewItems
-        if( item->text(1) == "operations" )
+        if ( item->text(1) == "operations" )
         {
-            m_menu->insertItem(i18n("Add Operation"),this,SLOT(createOperation()));
+            m_menu->addAction(createAction(i18n("Add Operation"), SLOT(createOperation())));
         }
-        else if( item->text(1) == "attributes" )
+        else if ( item->text(1) == "attributes" )
         {
-            m_menu->insertItem(i18n("Add Attribute"),this,SLOT(createAttribute()));
+            m_menu->addAction(createAction(i18n("Add Attribute"), SLOT(createAttribute())));
         }
         else
         {
@@ -685,11 +694,7 @@ void RefactoringAssistant::loadPixmaps()
     m_pixmaps.Implementation.load( dataDir + "CVimplementation_var.png" );
     m_pixmaps.Generalization.load( dataDir + "generalisation.png" );
     m_pixmaps.Subclass.load( dataDir + "uniassociation.png" );
-
-
 }
-
-
 
 
 #include "refactoringassistant.moc"

@@ -10,16 +10,13 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-
 #ifndef REFACTORING_ASSISTANT
 #define REFACTORING_ASSISTANT
 
-
 #include <k3listview.h>
-#include <qpixmap.h>
-//Added by qt3to4:
-#include <QMenu>
-#include <QDropEvent>
+#include <QtGui/QPixmap>
+#include <QtGui/QMenu>
+#include <QtGui/QDropEvent>
 #include <map>
 
 
@@ -62,10 +59,11 @@ public slots:
     void showContextMenu( K3ListView*, Q3ListViewItem*, const QPoint&);
 
 protected:
+
     struct { QPixmap Public,
         Protected,
         Private,
-             Implementation,
+        Implementation,
         Generalization,
         Subclass;
     } m_pixmaps;
@@ -78,11 +76,15 @@ protected:
     virtual bool acceptDrag(QDropEvent *event) const;
     virtual void movableDropEvent (Q3ListViewItem* parent, Q3ListViewItem* afterme);
     void setVisibilityIcon( Q3ListViewItem *item , const UMLObject *obj );
+    
     UMLClassifier *m_umlObject;
     UMLDoc *m_doc;
     QMenu *m_menu;
     UMLObjectMap m_umlObjectMap;
 
+private:
+
+    QAction* createAction(const QString text, const char * method);
 
 };
 
