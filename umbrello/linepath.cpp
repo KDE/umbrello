@@ -307,8 +307,10 @@ int LinePath::onLinePath( const QPoint &position ) {
 void LinePath::setSelected( bool select ) {
     if(select)
         setupSelected();
-    else if( m_RectList.count() > 0 )
+    else if( m_RectList.count() > 0 ) {
+        qDeleteAll( m_RectList.begin(), m_RectList.end() );
         m_RectList.clear();
+    }
 }
 
 void LinePath::setAssocType( Uml::Association_Type type ) {
@@ -425,6 +427,7 @@ void LinePath::setLineWidth( uint width ) {
 void LinePath::moveSelected( int pointIndex ) {
     int lineCount = m_LineList.count();
     if( !m_bSelected ) {
+        qDeleteAll( m_RectList.begin(), m_RectList.end() );
         m_RectList.clear();
         return;
     }
@@ -450,6 +453,7 @@ void LinePath::moveSelected( int pointIndex ) {
 }
 
 void LinePath::setupSelected() {
+    qDeleteAll( m_RectList.begin(), m_RectList.end() );
     m_RectList.clear();
     Q3CanvasLine * line = 0;
 
@@ -654,6 +658,7 @@ void LinePath::growList(LineList &list, int by) {
 }
 
 void LinePath::createHeadLines() {
+    qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
     m_HeadList.clear();
     Q3Canvas * canvas = getCanvas();
     switch( getAssocType() ) {
@@ -750,6 +755,7 @@ void LinePath::calculateParallelLine() {
 }
 
 void LinePath::setupParallelLine() {
+    qDeleteAll( m_ParallelList.begin(), m_ParallelList.end() );
     m_ParallelList.clear();
     growList(m_ParallelList, 3);
     m_bParallelLineCreated = true;
@@ -789,10 +795,8 @@ LinePath & LinePath::operator=( const LinePath & rhs ) {
     if( this == &rhs )
         return *this;
     //clear out the old canvas objects
-    this -> m_LineList.clear();
-    this -> m_ParallelList.clear();
-    this -> m_RectList.clear();
-    this -> m_HeadList.clear();
+    this->cleanup();
+
     int count = rhs.m_LineList.count();
     //setup start end points
     this -> setStartEndPoints( rhs.getPoint( 0 ), rhs.getPoint( count) );
@@ -839,21 +843,18 @@ uint LinePath::getLineWidth() {
 
 void LinePath::cleanup() {
     if (m_pAssociation) {
-         while (!m_LineList.isEmpty())
-            delete m_LineList.takeFirst();
+        qDeleteAll( m_LineList.begin(), m_LineList.end() );
+        m_LineList.clear();
     }
 
-    //clear ( and delete ) m_HeadList
-    while (!m_HeadList.isEmpty())
-      delete m_HeadList.takeFirst();
+    qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
+    m_HeadList.clear();
 
-    //clear ( and delete ) m_RectList
-    while (!m_RectList.isEmpty())
-      delete m_RectList.takeFirst();
+    qDeleteAll( m_RectList.begin(), m_RectList.end() );
+    m_RectList.clear();
 
-    //clear ( and delete ) m_ParallelList
-    while (!m_ParallelList.isEmpty())
-      delete m_ParallelList.takeFirst();
+    qDeleteAll( m_ParallelList.begin(), m_ParallelList.end() );
+    m_ParallelList.clear();
 
     if( m_pClearPoly )
         delete m_pClearPoly;
