@@ -2252,6 +2252,10 @@ void AssociationWidget::selectAssocClassLine(bool sel /* =true */) {
 }
 
 void AssociationWidget::mousePressEvent(QMouseEvent * me) {
+    // clear other selected stuff on the screen of ShiftKey
+    if( me -> modifiers() != Qt::ShiftModifier )
+        m_pView -> clearSelected();
+
     m_nMovingPoint = -1;
     //make sure we should be here depending on the button
     if(me -> button() != Qt::RightButton && me->button() != Qt::LeftButton)
@@ -2266,8 +2270,6 @@ void AssociationWidget::mousePressEvent(QMouseEvent * me) {
     // See if the user has clicked on a point to start moving the line segment
     // from that point
     checkPoints(mep);
-    if( me -> modifiers() != Qt::ShiftModifier )
-        m_pView -> clearSelected();
     setSelected( !m_bSelected );
 }
 
