@@ -29,6 +29,9 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
   : CodeGenerationPolicyPage(parent, name, policy)
 {
     CodeGenerationPolicy *common = UMLApp::app()->getCommonPolicy();
+
+    QVBoxLayout* vboxLayout = new QVBoxLayout( this );
+
     form = new CPPCodeGenerationForm(this);
     form->m_SelectCommentStyle->setCurrentIndex((int)(common->getCommentStyle()));
     form->setPackageIsANamespace(policy->getPackageIsNamespace());
@@ -48,11 +51,11 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
     form->m_globalStringCheckBox->setChecked(policy->stringIncludeIsGlobal());
     form->m_globalListCheckBox->setChecked(policy->vectorIncludeIsGlobal());
 
+    vboxLayout->addWidget( form );
 }
 
 CPPCodeGenerationPolicyPage::~CPPCodeGenerationPolicyPage()
-{
-}
+{}
 
 void CPPCodeGenerationPolicyPage::apply()
 {

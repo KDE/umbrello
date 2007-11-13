@@ -159,7 +159,6 @@ set(libdialogs_SRCS
 
 kde4_add_ui_files(  libdialogs_SRCS 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationoptionsbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationpolicybase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationwizardbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui 
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui 

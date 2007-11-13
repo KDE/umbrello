@@ -129,19 +129,24 @@ void CodeGenerationOptionsPage::updateCodeGenerationPolicyTab() {
 
     if(m_pCodePolicyPage)
     {
+        tabWidget->removeTab(2);
         m_pCodePolicyPage->disconnect();
+
+        delete m_pCodePolicyPage;
         m_pCodePolicyPage = 0;
     }
 
     Uml::Programming_Language pl = (Uml::Programming_Language) m_SelectLanguageBox->currentIndex();
     CodeGenPolicyExt *policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
 
-    qDeleteAll( languageOptionsFrame->children() );
+    //qDeleteAll( languageOptionsFrame->children() );
 
     if (policyExt)
-        m_pCodePolicyPage = policyExt->createPage(languageOptionsFrame, "codelangpolicypage");
+        m_pCodePolicyPage = policyExt->createPage(0 , "codelangpolicypage");
     else
-        m_pCodePolicyPage = new DefaultCodeGenPolicyPage(languageOptionsFrame, "codelangpolicypage");
+        m_pCodePolicyPage = new DefaultCodeGenPolicyPage(0 , "codelangpolicypage");
+
+    tabWidget->insertTab(2, m_pCodePolicyPage, i18n("Language Options" ) );
 
     connect(this,SIGNAL(applyClicked()),m_pCodePolicyPage,SLOT(apply()));
 

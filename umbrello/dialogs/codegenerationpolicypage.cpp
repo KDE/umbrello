@@ -33,7 +33,6 @@ CodeGenerationPolicyPage::CodeGenerationPolicyPage( QWidget *parent, const char 
         :QWidget( parent )
 {
     setObjectName(name);
-    setupUi(this);
     m_parentPolicy = policy;
 }
 
