@@ -186,11 +186,16 @@ bool AssociationWidget::operator==(const AssociationWidget & Other) {
     if( this == &Other )
         return true;
 
+    // if no model representation exists, then the widgets are not equal
+    if ( getAssociation() == NULL && Other.getAssociation() == NULL )
+        return false;
+
     if( !m_pObject || !Other.m_pObject ) {
         if( !Other.m_pObject && m_pObject )
             return false;
         if( Other.m_pObject && !m_pObject )
             return false;
+
     } else if( m_pObject != Other.m_pObject )
         return false;
 
