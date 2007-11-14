@@ -2594,7 +2594,7 @@ void AssociationWidget::checkPoints(const QPoint &p) {
 }
 
 void AssociationWidget::mouseMoveEvent(QMouseEvent* me) {
-    if( me->button() != Qt::LeftButton) {
+    if( me->buttons() != Qt::LeftButton) {
         return;
     }
 
