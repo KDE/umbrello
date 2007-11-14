@@ -206,14 +206,19 @@ void ClassPropDlg::setupPages(bool assoc)
     }
 }
 
+QFrame* ClassPropDlg::createPage(const QString name, const QString header, const QString icon)
+{
+    QFrame* page = new QFrame();
+    KPageWidgetItem *pageItem = new KPageWidgetItem( page, name );
+    pageItem->setHeader( header );
+    pageItem->setIcon( KIcon( DesktopIcon( icon ) ));
+    addPage( pageItem );
+    return page;
+}
+
 void ClassPropDlg::setupGeneralPage()
 {
-    QFrame *page = new QFrame();
-    KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18n("General") );
-    pageItem->setHeader( i18n("General Settings") );
-    pageItem->setIcon( KIcon( DesktopIcon( "misc") ));
-    addPage( pageItem );
-
+    QFrame* page = createPage( i18n("General"), i18n("General Settings"), "misc" );
     page -> setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
     m_pGenPage = new ClassGenPage(m_pDoc, page, m_pObject);
@@ -222,143 +227,88 @@ void ClassPropDlg::setupGeneralPage()
 
 void ClassPropDlg::setupColorPage()
 {
-    QFrame * newPage = new QFrame();
-    KPageWidgetItem* pageItem = new KPageWidgetItem(newPage, i18n("Color") );
-    pageItem->setHeader( i18n("Widget Colors") );
-    pageItem->setIcon( KIcon(DesktopIcon( "colors") ));
-    addPage( pageItem );
-
-    QHBoxLayout * m_pColorLayout = new QHBoxLayout(newPage);
-    m_pColorPage = new UMLWidgetColorPage(newPage, m_pWidget);
+    QFrame * page = createPage( i18n("Color"), i18n("Widget Colors"), "colors" );
+    QHBoxLayout * m_pColorLayout = new QHBoxLayout(page);
+    m_pColorPage = new UMLWidgetColorPage(page, m_pWidget);
     m_pColorLayout -> addWidget(m_pColorPage);
 }
 
 void ClassPropDlg::setupDisplayPage()
 {
-    QFrame* newPage = new QFrame();
-    KPageWidgetItem* pageItem = new KPageWidgetItem( newPage, i18n("Display") );
-    pageItem->setHeader( i18n("Display Options") );
-    pageItem->setIcon( KIcon(DesktopIcon("document-properties") ));
-    addPage( pageItem );
-
-    QHBoxLayout* m_pOptionsLayout = new QHBoxLayout(newPage);
+    QFrame* page = createPage( i18n("Display"), i18n("Display Options"), "document-properties" );
+    QHBoxLayout* m_pOptionsLayout = new QHBoxLayout(page);
     ClassifierWidget *cw = static_cast<ClassifierWidget*>(m_pWidget);
-    m_pOptionsPage = new ClassOptionsPage( newPage, cw );
+    m_pOptionsPage = new ClassOptionsPage(page, cw);
     m_pOptionsLayout -> addWidget(m_pOptionsPage);
 }
 
 void ClassPropDlg::setupAttributesPage()
 {
-    QFrame* newPage = new QFrame();
-    KPageWidgetItem* pageItem = new KPageWidgetItem( newPage, i18n("Attributes") );
-    pageItem->setHeader( i18n("General Settings") );
-    pageItem->setIcon( KIcon(DesktopIcon("misc") ));
-    addPage( pageItem );
-
-    m_pAttPage = new ClassifierListPage(newPage, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Attribute);
-    QHBoxLayout * attLayout = new QHBoxLayout(newPage);
+    QFrame* page = createPage( i18n("Attributes"), i18n("General Settings"), "misc" );
+    m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Attribute);
+    QHBoxLayout * attLayout = new QHBoxLayout(page);
     attLayout -> addWidget(m_pAttPage);
 }
 
 void ClassPropDlg::setupOperationsPage()
 {
-    QFrame* newPage = new QFrame();
-    KPageWidgetItem* pageItem = new KPageWidgetItem( newPage, i18n("Operations") );
-    pageItem->setHeader( i18n("Operation Settings") );
-    pageItem->setIcon( KIcon(DesktopIcon("misc") ));
-    addPage( pageItem );
-
-    m_pOpsPage = new ClassifierListPage(newPage, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_Operation);
-    QHBoxLayout* pOpsLayout = new QHBoxLayout(newPage);
+    QFrame* page = createPage( i18n("Operations"), i18n("Operation Settings"), "misc" );
+    m_pOpsPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_Operation);
+    QHBoxLayout* pOpsLayout = new QHBoxLayout(page);
     pOpsLayout -> addWidget(m_pOpsPage);
 }
 
 void ClassPropDlg::setupTemplatesPage()
 {
-    QFrame* newPage = new QFrame();
-    KPageWidgetItem* pageItem = new KPageWidgetItem( newPage, i18n("Templates") );
-    pageItem->setHeader( i18n("Templates Settings") );
-    pageItem->setIcon( KIcon(DesktopIcon("misc") ));
-    addPage( pageItem );
-
-    m_pTemplatePage = new ClassifierListPage(newPage, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Template);
-    QHBoxLayout* templatesLayout = new QHBoxLayout(newPage);
+    QFrame* page = createPage( i18n("Templates"), i18n("Templates Settings"), "misc" );
+    m_pTemplatePage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Template);
+    QHBoxLayout* templatesLayout = new QHBoxLayout(page);
     templatesLayout->addWidget(m_pTemplatePage);
 }
 
 void ClassPropDlg::setupEnumLiteralsPage()
 {
-    QFrame* newPage = new QFrame();
-    KPageWidgetItem* pageItem = new KPageWidgetItem( newPage, i18n("Enum Literals") );
-    pageItem->setHeader( i18n("Enum Literals Settings") );
-    pageItem->setIcon( KIcon(DesktopIcon("misc") ));
-    addPage( pageItem );
-
-    m_pEnumLiteralPage = new ClassifierListPage(newPage, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EnumLiteral);
-    QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(newPage);
+    QFrame* page = createPage( i18n("Enum Literals"), i18n("Enum Literals Settings"), "misc" );
+    m_pEnumLiteralPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EnumLiteral);
+    QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(page);
     enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
 }
 
 void ClassPropDlg::setupEntityAttributesPage()
 {
-    QFrame* newPage = new QFrame();
-    KPageWidgetItem* pageItem = new KPageWidgetItem( newPage, i18n("Entity Attributes") );
-    pageItem->setHeader( i18n("Entity Attributes Settings") );
-    pageItem->setIcon( KIcon(DesktopIcon("misc") ));
-    addPage( pageItem );
-
-    m_pEntityAttributePage = new ClassifierListPage(newPage, (UMLEntity*)m_pObject, m_pDoc, Uml::ot_EntityAttribute);
-    QHBoxLayout* entityAttributesLayout = new QHBoxLayout(newPage);
+    QFrame* page = createPage( i18n("Entity Attributes"), i18n("Entity Attributes Settings"), "misc" );
+    m_pEntityAttributePage = new ClassifierListPage(page, (UMLEntity*)m_pObject, m_pDoc, Uml::ot_EntityAttribute);
+    QHBoxLayout* entityAttributesLayout = new QHBoxLayout(page);
     entityAttributesLayout->addWidget(m_pEntityAttributePage);
 }
 
 void ClassPropDlg::setupEntityConstraintsPage()
 {
-    QFrame* newPage = new QFrame();
-    KPageWidgetItem* pageItem = new KPageWidgetItem( newPage, i18n( "Entity Constraints" ) );
-    pageItem->setHeader( i18n( "Entity Constraints Settings" ) );
-    pageItem->setIcon( KIcon( DesktopIcon( "misc" ) ) );
-    addPage( pageItem );
-
-    m_pEntityConstraintPage = new ConstraintListPage( newPage, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EntityConstraint );
-    QHBoxLayout* entityConstraintsLayout = new QHBoxLayout( newPage );
-    entityConstraintsLayout->addWidget( m_pEntityConstraintPage );
+    QFrame* page = createPage( i18n("Entity Constraints"), i18n("Entity Constraints Settings"), "misc" );
+    m_pEntityConstraintPage = new ConstraintListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EntityConstraint );
+    QHBoxLayout* entityConstraintsLayout = new QHBoxLayout(page);
+    entityConstraintsLayout->addWidget(m_pEntityConstraintPage);
 }
 
 void ClassPropDlg::setupContentsPage()
 {
-    QFrame* newPage = new QFrame();
-    KPageWidgetItem* pageItem = new KPageWidgetItem( newPage, i18n("Contents") );
-    pageItem->setHeader( i18n("Contents Settings") );
-    pageItem->setIcon( KIcon(DesktopIcon("misc") ));
-    addPage( pageItem );
-
-    m_pPkgContentsPage = new PkgContentsPage(newPage, (UMLPackage*)m_pObject);
-    QHBoxLayout* contentsLayout = new QHBoxLayout(newPage);
+    QFrame* page = createPage( i18n("Contents"), i18n("Contents Settings"), "misc" );
+    m_pPkgContentsPage = new PkgContentsPage(page, (UMLPackage*)m_pObject);
+    QHBoxLayout* contentsLayout = new QHBoxLayout(page);
     contentsLayout->addWidget(m_pPkgContentsPage);
 }
 
 void ClassPropDlg::setupAssociationsPage()
 {
-    QFrame* newPage = new QFrame();
-    KPageWidgetItem* pageItem = new KPageWidgetItem( newPage, i18n("Associations") );
-    pageItem->setHeader( i18n("Class Associations") );
-    pageItem->setIcon( KIcon(DesktopIcon("misc") ));
-    addPage( pageItem );
-
-    m_pAssocPage = new AssocPage(newPage, UMLApp::app()->getCurrentView(), m_pObject);
-    QHBoxLayout* assocLayout = new QHBoxLayout(newPage);
+    QFrame* page = createPage( i18n("Associations"), i18n("Class Associations"), "misc" );
+    m_pAssocPage = new AssocPage(page, UMLApp::app()->getCurrentView(), m_pObject);
+    QHBoxLayout* assocLayout = new QHBoxLayout(page);
     assocLayout -> addWidget(m_pAssocPage);
 }
 
 void ClassPropDlg::setupInstancePages()
 {
-    QFrame* page = new QFrame();
-    KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18n("General") );
-    pageItem->setHeader( i18n("General Settings") );
-    pageItem->setIcon( KIcon(DesktopIcon("misc") ));
-    addPage( pageItem );
-
+    QFrame* page = createPage( i18n("General"), i18n("General Settings"), "misc" );
     QHBoxLayout* genLayout = new QHBoxLayout(page);
     page->setMinimumSize(310, 330);
     m_pGenPage = new ClassGenPage(m_pDoc, page, m_pWidget);

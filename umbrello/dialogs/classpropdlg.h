@@ -12,7 +12,9 @@
 #ifndef CLASSPROPDLG_H
 #define CLASSPROPDLG_H
 
-//kde class includes
+// qt class includes
+#include <QtGui/QFrame>
+// kde class includes
 #include <kpagedialog.h>
 #include <kfontdialog.h>
 
@@ -184,6 +186,8 @@ private:
 private:
 
     void init();
+    QFrame* createPage(const QString name, const QString header, const QString icon);
+
 };
 
 #endif
