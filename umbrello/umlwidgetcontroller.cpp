@@ -577,7 +577,8 @@ void UMLWidgetController::showPopupMenu(QMouseEvent *me) {
     if (m_widget->m_pMenu) {
         return;
     }
-    m_widget->startPopupMenu(me->globalPos());
+    ListPopupMenu* menu = m_widget->setupPopupMenu();
+    menu->popup( me->globalPos() );
 }
 
 bool UMLWidgetController::wasSizeChanged() {

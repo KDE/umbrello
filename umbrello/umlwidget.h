@@ -466,9 +466,8 @@ public:
     /**
      * Starts the popup menu.
      *
-     * @param At The Point where the diagram is to be coming up.
      */
-    void startPopupMenu( const QPoint &At );
+    virtual ListPopupMenu* setupPopupMenu();
 
     /**
      * Adjusts associations with the given co-ordinates

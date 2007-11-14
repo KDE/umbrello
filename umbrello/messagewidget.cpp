@@ -22,6 +22,8 @@
 #include <kdebug.h>
 #include <kcursor.h>
 #include <kmessagebox.h>
+#include <klocale.h>
+
 //app includes
 #include "messagewidgetcontroller.h"
 #include "floatingtextwidget.h"
@@ -497,16 +499,8 @@ void MessageWidget::slotMenuSelection(QAction* action) {
         // This will clean up this widget and the text widget:
         m_pView -> removeWidget(this);
     } else {
-        if (m_pFText == NULL) {
-            Uml::Text_Role tr = Uml::tr_Seq_Message;
-            if (m_pOw[Uml::A] == m_pOw[Uml::B])
-                tr = Uml::tr_Seq_Message_Self;
-            m_pFText = new FloatingTextWidget( m_pView, tr );
-            m_pFText->setFont(UMLWidget::getFont());
-            setLinkAndTextPos();
-            m_pView->getWidgetList().append(m_pFText);
-        }
-        m_pFText -> slotMenuSelection(action);
+
+        UMLWidget::slotMenuSelection( action );
     }
 }
 
@@ -962,6 +956,17 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
         }
     }
     return true;
+}
+
+ListPopupMenu* MessageWidget::setupPopupMenu() {
+
+    UMLWidget::setupPopupMenu( ); // will setup the menu in m_pMenu
+    ListPopupMenu* floatingtextSubMenu = m_pFText->setupPopupMenu();
+    floatingtextSubMenu->setTitle( i18n( "Operation" ) );
+
+    m_pMenu->addMenu( floatingtextSubMenu );
+
+    return m_pMenu;
 }
 
 #include "messagewidget.moc"

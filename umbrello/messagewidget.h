@@ -387,6 +387,8 @@ public:
         return xclicked;
     }
 
+    ListPopupMenu* setupPopupMenu();
+
 protected:
     /**
      * Shortcut for calling m_pFText->setLink() followed by

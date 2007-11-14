@@ -365,9 +365,9 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
     case Uml::wt_Message:
         insertStdItems(false, type);
-        insert(mt_Change_Font);
-        insert(mt_Operation, SmallIcon( "document-new"), i18n("New Operation..."));
-        insert(mt_Select_Operation, i18n("Select Operation..."));
+        //insert(mt_Change_Font);
+        //insert(mt_Operation, SmallIcon( "document-new"), i18n("New Operation..."));
+        //insert(mt_Select_Operation, i18n("Select Operation..."));
         break;
 
     case Uml::wt_Note:

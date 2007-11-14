@@ -633,7 +633,7 @@ void UMLWidget::showProperties() {
     dlg->close(); //wipe from memory
 }
 
-void UMLWidget::startPopupMenu( const QPoint &At) {
+ListPopupMenu*  UMLWidget::setupPopupMenu( ) {
     slotRemovePopupMenu();
 
     //if in a multi- selection to a specific m_pMenu for that
@@ -661,9 +661,9 @@ void UMLWidget::startPopupMenu( const QPoint &At) {
     if(currentCG && dynamic_cast<SimpleCodeGenerator*>(currentCG))
         m_pMenu->setActionEnabled(ListPopupMenu::mt_ViewCode, false);
 
-    m_pMenu->popup(At);
-
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
+
+    return m_pMenu;
 }
 
 void UMLWidget::slotRemovePopupMenu() {
