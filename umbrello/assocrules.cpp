@@ -133,6 +133,11 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     Widget_Type widgetTypeA = widgetA->getBaseType();
     Widget_Type widgetTypeB = widgetB->getBaseType();
     bool bValid = false;
+
+    if ( widgetA->getUMLObject() == widgetB->getUMLObject() ) {
+        return allowSelf( assocType, widgetTypeA );
+    }
+
     for (int i = 0; i < m_nNumRules; i++) {
         if (assocType == m_AssocRules[i].assoc_type) {
             if( (widgetTypeA == m_AssocRules[i].widgetA_type &&
@@ -151,11 +156,16 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     if (!bValid) {
         return false;
     }
+
     AssociationWidgetList list = widgetB -> getAssocList();
 
     switch( assocType ) {
-    case at_Association:
     case at_Association_Self:
+        if ( widgetA->getUMLObject() == widgetB->getUMLObject() )
+            return true;
+        break;
+
+    case at_Association:
     case at_UniAssociation:
     case at_Dependency:
     case at_Coll_Message:

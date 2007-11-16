@@ -29,6 +29,7 @@
 // local includes
 #include "../association.h"
 #include "../dialog_utils.h"
+#include "../assocrules.h"
 
 AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
         : QWidget(parent)
@@ -87,9 +88,23 @@ void AssocGenPage::constructWidget() {
 
     /* Here is a list of all the supported choices for changing
        association types */
+
     m_AssocTypes.clear();
-    m_AssocTypes <<  Uml::at_Aggregation
-        << Uml::at_Composition << Uml::at_Containment;
+
+    m_AssocTypes<<currentType;
+
+    // dynamically load all allowed associations
+    for ( int i = Uml::at_Generalization; i<= Uml::at_Relationship ;  ++i ) {
+        // we don't need to check for current type
+        if (  ( Uml::Association_Type )i == currentType )
+            continue;
+
+        if ( AssocRules::allowAssociation( ( Uml::Association_Type )i, m_pAssociationWidget->getWidget( Uml::A ),
+                                           m_pAssociationWidget->getWidget( Uml::B ))
+             ) {
+            m_AssocTypes<<( Uml::Association_Type )i;
+        }
+    }
 
     bool found=false;
     m_AssocTypeStrings.clear();
@@ -110,7 +125,7 @@ void AssocGenPage::constructWidget() {
     pTypeL->setBuddy(m_pTypeCB);
     m_pTypeCB->addItems(m_AssocTypeStrings);
     m_pTypeCB->setCompletedItems(m_AssocTypeStrings);
-    m_pTypeCB->setItemText(m_pTypeCB->currentIndex(), currentTypeAsString);
+
     m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
     m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);

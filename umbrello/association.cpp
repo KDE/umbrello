@@ -99,7 +99,8 @@ const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
             i18n("Activity"),                   // at_Activity
             i18n("Exception"),                  // at_Activity
             i18n("Category to Parent"),         // at_Category2Parent
-            i18n("Child to Category")           // at_Child2Category
+            i18n("Child to Category"),          // at_Child2Category
+            i18n("Relationship" )               // at_Relationship
         };
 
 Uml::Association_Type UMLAssociation::getAssocType() const {
@@ -394,10 +395,10 @@ bool UMLAssociation::load( QDomElement & element ) {
                     "state",            // at_State
                     "activity",         // at_Activity
                     "exception",        // at_Exception
-                    "relationship"      // at_Relationship
                     "category2parent"   // at_Category2Parent
                     "child2category"    // at_Child2Category
-            };
+                    "relationship"      // at_Relationship
+        };
 
         unsigned index;
         for (index = 0; index < nAssocTypes; index++)
