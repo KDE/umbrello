@@ -30,7 +30,7 @@
 #include "../umlview.h"
 #include "../umlviewlist.h"
 #include "../umlnamespace.h"
-
+#include "../model_utils.h"
 
 DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(parent), m_pDoc(m_pDoc) {
     int margin = fontMetrics().height();
@@ -88,24 +88,20 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(
 
     m_ViewType = Uml::dt_Class;
     connect(m_pFilterBG, SIGNAL(clicked(int)), this, SLOT(slotClicked(int)));
-    connect(m_pTypeCB, SIGNAL(activated(const QString&)), this, SLOT(slotActivated(const QString&)));
+    connect(m_pTypeCB, SIGNAL(activated(int)), this, SLOT(slotActivated(int)));
 
     QStringList types;
-    types << i18n("Class")
-          << i18n("Use Case")
-          << i18n("Collaboration")
-          << i18n("Sequence")
-          << i18n("State")
-          << i18n("Activity")
-          << i18n("Component")
-          << i18n("Deployment");
+    // diagramNo 1 is Uml::dt_Class
+    // digaramNo 9 is Uml::dt_EntityRelationship
+    for (int diagramNo=1; diagramNo < 10; diagramNo++) {
+        types<< Model_Utils::diagramTypeToString( ( Uml::Diagram_Type )diagramNo ) ;
+    }
+
     m_pTypeCB -> insertItems(0, types);
 }
 
 DiagramPrintPage::~DiagramPrintPage()
 {
-    disconnect(m_pFilterBG, SIGNAL(clicked(int)), this, SLOT(slotClicked(int)));
-    disconnect(m_pTypeCB, SIGNAL(activated(const QString&)), this, SLOT(slotActivated(const QString&)));
 }
 
 int DiagramPrintPage::printUmlCount() {
@@ -204,26 +200,15 @@ void DiagramPrintPage::slotClicked(int id) {
     }
 }
 
-void DiagramPrintPage::slotActivated(const QString & text) {
+void DiagramPrintPage::slotActivated(int index) {
     UMLViewList list = m_pDoc -> getViewIterator();
 
-    if(text == i18n("Class"))
-        m_ViewType = Uml::dt_Class;
-    else if(text == i18n("Sequence"))
-        m_ViewType = Uml::dt_Sequence;
-    else if(text == i18n("Use Case"))
-        m_ViewType = Uml::dt_UseCase;
-    else if(text == i18n("Collaboration"))
-        m_ViewType = Uml::dt_Collaboration;
-    else if(text == i18n("State"))
-        m_ViewType = Uml::dt_State;
-    else if(text == i18n("Activity"))
-        m_ViewType = Uml::dt_Activity;
-    else if(text == i18n("Component"))
-        m_ViewType = Uml::dt_Component;
-    else if(text == i18n("Deployment"))
-        m_ViewType = Uml::dt_Deployment;
+    // combo box entries start from 0 index
+    // valid diagram_type enum values start from 1
+    m_ViewType = ( Uml::Diagram_Type )( index + 1 );
+
     m_pSelectLB -> clear();
+
     m_nIdList.clear();
     foreach ( UMLView * view , list) {
         if(view -> getType() == m_ViewType) {

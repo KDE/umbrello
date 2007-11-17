@@ -47,7 +47,7 @@ public:
     DiagramPrintPage(QWidget * parent, UMLDoc *doc);
 
     /**
-     *  Stnadard deconstructor.
+     *  Standard deconstructor.
      */
     ~DiagramPrintPage();
 
@@ -91,7 +91,7 @@ public slots:
      * Gets called when the user chooses another diagram type. Only diagrams of
      * this type will be shown in the diagram box.
      */
-    void slotActivated(const QString & text);
+    void slotActivated(int index);
 };
 
 #endif
