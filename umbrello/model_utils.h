@@ -348,7 +348,7 @@ QString psText(Parse_Status value);
  * Converts from the UpdateDeleteAction enum to a QString
  * @param uda The UpdateDeleteAction enum literal
  */
-QString convertUpdateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda );
+QString updateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda );
 
 }
 

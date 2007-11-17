@@ -500,8 +500,8 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
        updateAction = fkc->getUpdateAction();
        deleteAction = fkc->getDeleteAction();
 
-       sql<<" ON UPDATE "<<Model_Utils::convertUpdateDeleteActionToString(updateAction);
-       sql<<" ON DELETE "<<Model_Utils::convertUpdateDeleteActionToString(deleteAction);
+       sql<<" ON UPDATE "<<Model_Utils::updateDeleteActionToString(updateAction);
+       sql<<" ON DELETE "<<Model_Utils::updateDeleteActionToString(deleteAction);
 
        sql<<';';
 

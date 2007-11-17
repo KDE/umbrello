@@ -1318,7 +1318,7 @@ Uml::Model_Type convert_OT_MT(Uml::Object_Type ot) {
     return mt;
 }
 
-QString convertUpdateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda ) {
+QString updateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda ) {
 
     switch( uda ) {
      case UMLForeignKeyConstraint::uda_NoAction:
