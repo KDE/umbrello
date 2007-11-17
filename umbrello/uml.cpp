@@ -35,7 +35,11 @@
 #include <kconfig.h>
 #include <kcursor.h>
 #include <kdebug.h>
+#ifdef Q_WS_WIN
+#include <QFileDialog>
+#else
 #include <kfiledialog.h>
+#endif
 #include <kicon.h>
 #include <kiconloader.h>
 #include <klocale.h>
@@ -898,12 +902,22 @@ void UMLApp::slotFileOpen()
         // here saving wasn't successful
 
     } else {
+#ifdef Q_WS_WIN
+        KUrl url=QFileDialog::getOpenFileName(
+            this,
+            i18n("Open File"),
+            "",
+            i18n("All Supported Files (*.xmi *.mdl);;"
+                 "XMI Files (*.xmi);;"
+                 "Rose model files (*.mdl)"));
+#else
         KUrl url=KFileDialog::getOpenUrl(KUrl(),
             i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl)\n"
                  "*.xmi|Uncompressed XMI Files (*.xmi)\n"
                  "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
                  "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
                  "*.mdl|Rose model files"), this, i18n("Open File"));
+#endif
         if(!url.isEmpty()) {
             if(m_doc->openDocument(url))
                 fileOpenRecent->addUrl( url );
@@ -961,8 +975,15 @@ bool UMLApp::slotFileSaveAs()
     KUrl url;
     QString ext;
     while(cont) {
+#ifdef Q_WS_WIN
+        url=QFileDialog::getSaveFileName(
+            this, 
+            i18n("Save As"),
+            "",
+            i18n("XMI File (*.xmi);;All Files (*.*"));
+#else
         url=KFileDialog::getSaveUrl(KUrl(), i18n("*.xmi|XMI File\n*.xmi.tgz|Gzip Compressed XMI File\n*.xmi.tar.bz2|Bzip2 Compressed XMI File\n*|All Files"), this, i18n("Save As"));
-
+#endif
         if(url.isEmpty())
             cont = false;
         else {
@@ -1839,8 +1860,14 @@ void UMLApp::slotImportClasses()
         preselectedExtension = i18n("*.h *.hh *.hpp *.hxx *.H|Header Files (*.h *.hh *.hpp *.hxx *.H)");
     }
     preselectedExtension.append("\n*|" + i18n("All Files"));
+#ifdef Q_WS_WIN
+    QStringList extList = preselectedExtension.split("|");
+    QStringList fileList = QFileDialog::getOpenFileNames(this, i18n("Select Code to Import"), 
+                                "", extList[1] );
+#else
     QStringList fileList = KFileDialog::getOpenFileNames(KUrl(), preselectedExtension,
                            this, i18n("Select Code to Import") );
+#endif
     importFiles(&fileList);
 }
 
