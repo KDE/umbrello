@@ -239,23 +239,22 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     // manage stereotypes
     m_pStereoTypeCB -> setDuplicatesEnabled(false);//only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-    insertStereotype (QString()); // an empty stereotype is the default
+    insertStereotype (QString(), 0); // an empty stereotype is the default
     int defaultStereotype=0;
     bool foundDefaultStereotype = false;
+    // start with 1 as first entry is blank string
+    int counter = 1;
     foreach (UMLStereotype* ust, m_pUmldoc->getStereotypes()) {
         if (!foundDefaultStereotype) {
             if ( m_pObject->getStereotype() == ust->getName()) {
                 foundDefaultStereotype = true;
+                defaultStereotype = counter;
             }
-            defaultStereotype++;
         }
-        insertStereotype (ust->getName());
+        insertStereotype (ust->getName(), counter++);
     }
-    // lookup for a default stereotype, if the operation doesn't have one
-    if (foundDefaultStereotype)
-        m_pStereoTypeCB -> setCurrentIndex(defaultStereotype);
-    else
-        m_pStereoTypeCB -> setCurrentIndex(-1);
+
+    m_pStereoTypeCB -> setCurrentIndex(defaultStereotype);
 
     ///////////
     m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
