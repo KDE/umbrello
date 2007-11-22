@@ -314,32 +314,36 @@ void CPPHeaderCodeDocument::resetTextBlocks()
 // of the document
 bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op )
 {
+    if (op == NULL) {
+        uDebug() << "CodeOperation is null!";
+        return false;;
+    }
     Uml::Visibility scope = op->getParentOperation()->getVisibility();
     if(!op->getParentOperation()->isLifeOperation())
     {
         switch (scope) {
         default:
         case Uml::Visibility::Public:
-            return m_pubOperationsBlock->addTextBlock(op);
+            return (m_pubOperationsBlock == NULL ? false : m_pubOperationsBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Protected:
-            return m_protOperationsBlock->addTextBlock(op);
+            return (m_protOperationsBlock == NULL ? false : m_protOperationsBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Private:
-            return m_privOperationsBlock->addTextBlock(op);
+            return (m_privOperationsBlock == NULL ? false : m_privOperationsBlock->addTextBlock(op));
             break;
         }
     } else {
         switch (scope) {
         default:
         case Uml::Visibility::Public:
-            return m_pubConstructorBlock->addTextBlock(op);
+            return (m_pubConstructorBlock == NULL ? false : m_pubConstructorBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Protected:
-            return m_protConstructorBlock->addTextBlock(op);
+            return (m_protConstructorBlock == NULL ? false : m_protConstructorBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Private:
-            return m_privConstructorBlock->addTextBlock(op);
+            return (m_privConstructorBlock == NULL ? false : m_privConstructorBlock->addTextBlock(op));
             break;
         }
     }
