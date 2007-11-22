@@ -13,10 +13,7 @@
 #define CONSTRAINTLISTPAGE_H
 
 //qt  includes
-#include <qwidget.h>
-#include <q3groupbox.h>
-#include <q3listbox.h>
-#include <q3textedit.h>
+#include <QtGui/QWidget>
 //kde includes
 #include <karrowbutton.h>
 #include <kaction.h>
@@ -33,7 +30,8 @@
  * @author Sharan Rao
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ConstraintListPage : public ClassifierListPage {
+class ConstraintListPage : public ClassifierListPage
+{
     Q_OBJECT
 public:
     /**
@@ -60,7 +58,6 @@ private:
 
     void setupActions();
 
-
 private slots:
 
     void slotNewUniqueConstraint();
@@ -70,11 +67,10 @@ private slots:
 
 protected:
 
-
     /** 
      * Returns the index of the Item in the List Box
      */
-    int relativeIndexOf(Q3ListBoxItem* item);
+    int relativeIndexOf(QListWidgetItem* item);
  
     /**
      * Calculates the new index to be assigned when an object of type ot is to
@@ -95,7 +91,6 @@ protected:
 
     KMenu* buttonMenu;
 
-    
 };
 
 #endif

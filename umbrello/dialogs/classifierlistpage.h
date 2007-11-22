@@ -13,10 +13,12 @@
 #define CLASSIFIERLISTPAGE_H
 
 //qt  includes
-#include <qwidget.h>
-#include <q3groupbox.h>
-#include <q3listbox.h>
-#include <q3textedit.h>
+#include <QtGui/QWidget>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QListWidget>
+#include <QtGui/QTextEdit>
 //kde includes
 #include <karrowbutton.h>
 #include <kdialogbuttonbox.h>
@@ -38,16 +40,17 @@ class UMLDoc;
  * @author Paul Hensgen, Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassifierListPage : public QWidget {
+class ClassifierListPage : public QWidget
+{
     Q_OBJECT
 public:
     /**
      *  Sets up the ClassifierListPage
      *
-     *  @param parent   The parent to the ClassAttPage.
-     *  @param classifier       The Concept to display the properties of.
-     *      @param doc The UMLDoc document
-     *      @param type The type of listItem this handles
+     *  @param parent      The parent to the ClassAttPage.
+     *  @param classifier  The Concept to display the properties of.
+     *  @param doc         The UMLDoc document
+     *  @param type        The type of listItem this handles
      */
     ClassifierListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type);
 
@@ -62,7 +65,6 @@ public:
      */
     void updateObject();
 
-
 private:
 
     /**
@@ -71,9 +73,38 @@ private:
     void setupPage();
 
     /**
-     *  Set the state of the widgets on the page with the given value.
+     * Sets up the list group.
      *
-     *  @param  state   The state to set the widgets as.
+     * @param margin  The margin of the group.
+     */
+    void setupListGroup(int margin);
+
+    /**
+     * Sets up the documentation group.
+     *
+     * @param margin  The margin of the group.
+     */
+    void setupDocumentationGroup(int margin);
+
+    /**
+     * Sets up the move up/down buttons.
+     *
+     * @param parentLayout  The parent layout to which this group belongs.
+     */
+    void setupMoveButtons(QHBoxLayout* parentLayout);
+
+    /**
+     * Sets up the action buttons.
+     *
+     * @param itemType      The item type.
+     * @param parentLayout  The parent layout to which this group belongs.
+     */
+    void setupActionButtons(const QString& itemType, QVBoxLayout* parentLayout);
+
+    /**
+     * Set the state of the widgets on the page with the given value.
+     *
+     * @param  state   The state to set the widgets as.
      */
     void enableWidgets(bool state);
 
@@ -114,15 +145,20 @@ private:
                   bool seekPeerBefore, int &peerIndex);
 
     /**
+     * Hide menu and free all its resources.
+     */
+    void deleteMenu();
+
+    /**
      * Utility for debugging, prints the current item list.
      * Only effective if VERBOSE_DEBUGGING is defined.
      */
     void printItemList(const QString &prologue);
 
-    Q3GroupBox* m_pDocGB;
-    Q3GroupBox* m_pItemListGB;
-    Q3TextEdit* m_pDocTE;
-    Q3ListBox* m_pItemListLB;
+    QGroupBox* m_pDocGB;
+    QGroupBox* m_pItemListGB;
+    QTextEdit* m_pDocTE;
+    QListWidget* m_pItemListLB;
 
     KArrowButton* m_pTopArrowB;
     KArrowButton* m_pUpArrowB;
@@ -135,13 +171,12 @@ private:
 
 protected:
 
-
-    /** Loads the Item nList Box
-     *
+    /**
+     * Loads the Item nList Box
      */
     void reloadItemListBox();
 
-    /** 
+    /**
      * Sets the visibility of the arrow buttons
      * @param hide true hides the arrow buttons
      */
@@ -158,10 +193,10 @@ protected:
     /** 
      * Returns the index of the Item in the List Box. Default Implementation is same as actual Index of Item
      */
-    virtual int relativeIndexOf(Q3ListBoxItem* item) {
-	return m_pItemListLB->index( item);
+    virtual int relativeIndexOf(QListWidgetItem* item) {
+        return m_pItemListLB->row(item);
     }
-    
+
     Uml::Object_Type m_itemType;
     UMLClassifier* m_pClassifier;
     UMLClassifierListItem* m_pLastObjectCreated;
@@ -173,11 +208,12 @@ protected:
     bool m_bSigWaiting;
 
 public slots:
+
     /**
-     * called when list view is clicked on
+     * Called when list view is clicked on
      * calls enableWidgets()
      */
-    void slotClicked(Q3ListBoxItem* item);
+    void slotClicked(QListWidgetItem* item);
 
     /**
     * Called when an item is selected in a right click menu
@@ -186,14 +222,12 @@ public slots:
 
     void slotListItemCreated(UMLObject* object);
     void slotListItemModified();
-    void slotRightButtonClicked(Q3ListBoxItem* item, const QPoint& p);
-    void slotRightButtonPressed(Q3ListBoxItem* item, const QPoint& p);
+    void slotRightButtonPressed(const QPoint& p);
 
     /**
      * shows properties dialog for the attribute clicked on
      */
-    void slotDoubleClick(Q3ListBoxItem* item);
-
+    void slotDoubleClick(QListWidgetItem* item);
 
     /**
      * moves selected attribute to the top of the list

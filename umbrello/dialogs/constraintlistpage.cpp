@@ -36,8 +36,8 @@
 
 
 
-ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type):ClassifierListPage( parent, classifier, doc, type ) {
-
+ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type):ClassifierListPage( parent, classifier, doc, type )
+{
     setupActions();
 
     buttonMenu = new KMenu(this );
@@ -53,12 +53,12 @@ ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifie
 }
 
 
-ConstraintListPage::~ConstraintListPage(){
-
+ConstraintListPage::~ConstraintListPage()
+{
 }
 
-void ConstraintListPage::setupActions(){
-
+void ConstraintListPage::setupActions()
+{
     newUniqueConstraintAction = new KAction( i18n( "Unique Constraint..." ), this );
     connect( newUniqueConstraintAction, SIGNAL( triggered( bool ) ), this , SLOT( slotNewUniqueConstraint() ) );
 
@@ -70,12 +70,11 @@ void ConstraintListPage::setupActions(){
 
     newCheckConstraintAction = new KAction( i18n( "Check Constraint..." ), this );
     connect( newCheckConstraintAction, SIGNAL( triggered( bool ) ), this ,  SLOT( slotNewCheckConstraint() ) );
-
-
 }
 
 
-void ConstraintListPage::slotNewUniqueConstraint(){
+void ConstraintListPage::slotNewUniqueConstraint()
+{
     m_itemType = Uml::ot_UniqueConstraint;
     ClassifierListPage::slotNewListItem();
 
@@ -83,7 +82,8 @@ void ConstraintListPage::slotNewUniqueConstraint(){
     m_itemType = Uml::ot_EntityConstraint;
 }
 
-void ConstraintListPage::slotNewPrimaryKeyConstraint(){
+void ConstraintListPage::slotNewPrimaryKeyConstraint()
+{
     m_itemType = Uml::ot_UniqueConstraint;
     ClassifierListPage::slotNewListItem();
 
@@ -106,7 +106,8 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint(){
     m_itemType = Uml::ot_EntityConstraint;
 }
 
-void ConstraintListPage::slotNewForeignKeyConstraint(){
+void ConstraintListPage::slotNewForeignKeyConstraint()
+{
     m_itemType = Uml::ot_ForeignKeyConstraint;
     ClassifierListPage::slotNewListItem();
 
@@ -114,7 +115,8 @@ void ConstraintListPage::slotNewForeignKeyConstraint(){
     m_itemType = Uml::ot_EntityConstraint;
 }
 
-void ConstraintListPage::slotNewCheckConstraint() {
+void ConstraintListPage::slotNewCheckConstraint()
+{
     m_itemType = Uml::ot_CheckConstraint;
     ClassifierListPage::slotNewListItem();
 
@@ -122,8 +124,8 @@ void ConstraintListPage::slotNewCheckConstraint() {
     m_itemType = Uml::ot_EntityConstraint;
 }
 
-int ConstraintListPage::calculateNewIndex(Uml::Object_Type ot){
-
+int ConstraintListPage::calculateNewIndex(Uml::Object_Type ot)
+{
     // we want to show all Unique Constraints first , followed by ForeignKey Constraints
     UMLClassifierListItemList ucList, fkcList,  ccList;
     ucList =  m_pClassifier->getFilteredList(Uml::ot_UniqueConstraint);
@@ -156,12 +158,13 @@ int ConstraintListPage::calculateNewIndex(Uml::Object_Type ot){
     return index;
 }
 
-int ConstraintListPage::relativeIndexOf(Q3ListBoxItem* item) {
+int ConstraintListPage::relativeIndexOf(QListWidgetItem* item)
+{
     int actualIndex = ClassifierListPage::relativeIndexOf( item );
 
     int ucCount = m_pClassifier->getFilteredList( Uml::ot_UniqueConstraint ).count();
     int fkcCount = m_pClassifier->getFilteredList( Uml::ot_ForeignKeyConstraint ).count();
-    int ccCount = m_pClassifier->getFilteredList( Uml::ot_CheckConstraint ).count();
+    //int ccCount = m_pClassifier->getFilteredList( Uml::ot_CheckConstraint ).count();
 
     //if ( m_itemType == Uml::ot_EntityConstraint )
     //    return actualIndex;
@@ -179,7 +182,8 @@ int ConstraintListPage::relativeIndexOf(Q3ListBoxItem* item) {
     return newIndex;
 }
 
-bool ConstraintListPage::greaterThan(Uml::Object_Type ct1,Uml::Object_Type ct2) {
+bool ConstraintListPage::greaterThan(Uml::Object_Type ct1,Uml::Object_Type ct2)
+{
     // define ordering
     switch( ct1 ) {
        case Uml::ot_EntityConstraint:
