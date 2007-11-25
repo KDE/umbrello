@@ -156,7 +156,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
 
     int suffix;
     OverwriteDialogue overwriteDialogue( filename, outputDir.absolutePath(),
-                                         m_applyToAllRemaining, kapp -> mainWidget() );
+                                         m_applyToAllRemaining, kapp->activeWindow() );
     switch(commonPolicy->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:                //ok to overwrite file
         break;

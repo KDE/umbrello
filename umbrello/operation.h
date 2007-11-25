@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,7 +22,8 @@ class UMLClassifier;
  *
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLOperation : public UMLClassifierListItem {
+class UMLOperation : public UMLClassifierListItem
+{
     Q_OBJECT
 public:
     /**
@@ -51,6 +52,7 @@ public:
      * @param parent    The parent to this operation.
      */
     UMLOperation(UMLClassifier * parent);
+
 public:
 
     /**
@@ -180,14 +182,24 @@ public:
     bool isLifeOperation();
 
     /**
-     * Sets whether this operation is a query (C++ "const".)
+     * Sets whether this operation is a query (C++ "const").
      */
     void setConst(bool b);
 
     /**
-     * Returns whether this operation is a query (C++ "const".)
+     * Returns whether this operation is a query (C++ "const").
      */
     bool getConst() const;
+
+    /**
+     * Sets the source code for this operation.
+     */
+    void setSourceCode(const QString& code);
+
+    /**
+     * Returns the source code for this operation.
+     */
+    QString getSourceCode() const;
 
     /**
      * Saves to the <UML:Operation> XMI element.
@@ -204,6 +216,7 @@ private:
     Uml::IDType m_returnId;   ///< Holds the xmi.id of the <UML:Parameter kind="return">
     UMLAttributeList m_List;   /// Parameter list
     bool m_bConst;   ///< Holds the isQuery attribute of the <UML:Operation>
+    QString m_Code;   ///< Holds the entered source code
 };
 
 #endif

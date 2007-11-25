@@ -46,7 +46,7 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
 void ClassifierListPage::setupPage()
 {
     int margin = fontMetrics().height();
-    //setMinimumSize(310,330);
+    setMinimumSize(310,330);
 
     //main layout contains our two group boxes, the list and the documentation
     QVBoxLayout* mainLayout = new QVBoxLayout( this );
@@ -169,11 +169,21 @@ void ClassifierListPage::setupActionButtons(const QString& itemType, QVBoxLayout
 void ClassifierListPage::setupDocumentationGroup(int margin)
 {
     m_pDocGB = new QGroupBox(i18n("Documentation"), this);
-    QVBoxLayout* docLayout = new QVBoxLayout( m_pDocGB );
-    m_pDocTE = new QTextEdit( m_pDocGB );
+    QVBoxLayout* docLayout = new QVBoxLayout(m_pDocGB);
+    docLayout->setSpacing(10);
     docLayout->setMargin(margin);
-    docLayout->setSpacing ( 10 );
-    docLayout->addWidget( m_pDocTE );
+    if (m_itemType == ot_Operation) {
+        m_pDocTE = new QTextEdit();
+        m_pCodeTE = new QTextEdit();
+        QTabWidget* tabWidget = new QTabWidget();
+        tabWidget->addTab(m_pDocTE, i18n("Comment"));
+        tabWidget->addTab(m_pCodeTE, i18n("Source Code"));
+        docLayout->addWidget(tabWidget);
+    }
+    else {
+        m_pDocTE = new QTextEdit();
+        docLayout->addWidget(m_pDocTE);
+    }
 }
 
 void ClassifierListPage::reloadItemListBox()
@@ -198,9 +208,15 @@ ClassifierListPage::~ClassifierListPage()
 void ClassifierListPage::enableWidgets(bool state)
 {
     m_pDocTE->setEnabled( state );
+    if (m_itemType == ot_Operation) {
+        m_pCodeTE->setEnabled( state );
+    }
     //if disabled clear contents
     if ( !state ) {
         m_pDocTE->setText( "" );
+        if (m_itemType == ot_Operation) {
+            m_pCodeTE->setText( "" );
+        }
         m_pTopArrowB->setEnabled( false );
         m_pUpArrowB->setEnabled( false );
         m_pDownArrowB->setEnabled( false );
@@ -247,6 +263,10 @@ void ClassifierListPage::slotClicked(QListWidgetItem* item)
     //save old highlighted item first
     if (m_pOldListItem) {
         m_pOldListItem->setDoc( m_pDocTE->toPlainText() );
+        if (m_itemType == ot_Operation) {
+            UMLOperation* op = dynamic_cast<UMLOperation*>(m_pOldListItem);
+            op->setSourceCode( m_pCodeTE->toPlainText() );
+        }
     }
 
     // make sure clicked on an item
@@ -278,6 +298,9 @@ void ClassifierListPage::slotClicked(QListWidgetItem* item)
     if (listItem) {
         //now update screen
         m_pDocTE->setText( listItem->getDoc() );
+        if (m_itemType == ot_Operation) {
+            m_pCodeTE->setText( dynamic_cast<UMLOperation*>(listItem)->getSourceCode() );
+        }
         enableWidgets(true);
         m_pOldListItem = listItem;
     }
@@ -412,7 +435,7 @@ void ClassifierListPage::slotPopupMenuSel(QAction* action)
         break;
 
     default:
-        uDebug() << "Menu_Type " << id << " not implemented" << endl;
+        uDebug() << "Menu_Type " << id << " not implemented";
     }
 }
 
@@ -455,7 +478,7 @@ void ClassifierListPage::slotTopClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index << endl;
+    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index;
     addClassifier(currentAtt, 0);
     printItemList("itemList after change: ");
     slotClicked(item);
@@ -487,7 +510,7 @@ void ClassifierListPage::slotUpClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index << endl;
+    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index;
     if (index == -1)
         index = 0;
     addClassifier(currentAtt, index);
@@ -520,7 +543,7 @@ void ClassifierListPage::slotDownClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index << endl;
+    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index;
     if (index != -1)
         index++;   // because we want to go _after_ the following peer item
     addClassifier(currentAtt, index);
@@ -553,7 +576,7 @@ void ClassifierListPage::slotBottomClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index << endl;
+    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index;
     addClassifier(currentAtt, getItemList().count());
     printItemList("itemList after change: ");
     slotClicked(item);
@@ -619,6 +642,9 @@ void ClassifierListPage::saveCurrentItemDocumentation()
     UMLClassifierListItem* selectedItem = getItemList().at( currentItemIndex );
     if (selectedItem) {
         selectedItem->setDoc( m_pDocTE->toPlainText() );
+        if (m_itemType == ot_Operation) {
+            dynamic_cast<UMLOperation*>(selectedItem)->setSourceCode( m_pCodeTE->toPlainText() );
+        }
     }
 }
 
@@ -661,7 +687,7 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
             return false;
         }
     }
-    uError() << "unable to handle listitem type in current state" << endl;
+    uError() << "unable to handle listitem type in current state";
     return false;
 }
 

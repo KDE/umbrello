@@ -37,6 +37,7 @@ UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
     m_Vis = s;
     m_BaseType = Uml::ot_Operation;
     m_bConst = false;
+    m_Code = QString();
 }
 
 UMLOperation::UMLOperation(UMLClassifier * parent)
@@ -44,18 +45,22 @@ UMLOperation::UMLOperation(UMLClassifier * parent)
 {
     m_BaseType = Uml::ot_Operation;
     m_bConst = false;
+    m_Code = QString();
 }
 
-UMLOperation::~UMLOperation() {
+UMLOperation::~UMLOperation()
+{
 }
 
-void UMLOperation::setType(UMLObject *type) {
+void UMLOperation::setType(UMLObject *type)
+{
     UMLClassifierListItem::setType(type);
     if (m_returnId == Uml::id_None)
         m_returnId = UniqueID::gen();
 }
 
-void UMLOperation::moveParmLeft(UMLAttribute * a) {
+void UMLOperation::moveParmLeft(UMLAttribute * a)
+{
     if (a == NULL) {
         uDebug() << "called on NULL attribute" << endl;
         return;
@@ -73,7 +78,8 @@ void UMLOperation::moveParmLeft(UMLAttribute * a) {
     m_List.insert( idx-1, a );
 }
 
-void UMLOperation::moveParmRight(UMLAttribute * a) {
+void UMLOperation::moveParmRight(UMLAttribute * a)
+{
     if (a == NULL) {
         uDebug() << "called on NULL attribute" << endl;
         return;
@@ -92,7 +98,8 @@ void UMLOperation::moveParmRight(UMLAttribute * a) {
     m_List.insert( idx+1, a );
 }
 
-void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true */) {
+void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true */)
+{
     if (a == NULL) {
         uDebug() << "called on NULL attribute" << endl;
         return;
@@ -106,7 +113,8 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
         emit modified();
 }
 
-UMLAttribute* UMLOperation::findParm(const QString &name) {
+UMLAttribute* UMLOperation::findParm(const QString &name)
+{
     UMLAttribute * obj=0;
     foreach (obj , m_List ) {
         if (obj->getName() == name)
@@ -115,7 +123,8 @@ UMLAttribute* UMLOperation::findParm(const QString &name) {
     return 0;
 }
 
-QString UMLOperation::toString(Uml::Signature_Type sig) {
+QString UMLOperation::toString(Uml::Signature_Type sig)
+{
     QString s = "";
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig)
@@ -166,7 +175,8 @@ QString UMLOperation::toString(Uml::Signature_Type sig) {
     return s;
 }
 
-void UMLOperation::addParm(UMLAttribute *parameter, int position) {
+void UMLOperation::addParm(UMLAttribute *parameter, int position)
+{
     if( position >= 0 && position <= (int)m_List.count() )
         m_List.insert(position,parameter);
     else
@@ -175,7 +185,8 @@ void UMLOperation::addParm(UMLAttribute *parameter, int position) {
     connect(parameter,SIGNAL(modified()),this,SIGNAL(modified()));
 }
 
-QString UMLOperation::getUniqueParameterName() {
+QString UMLOperation::getUniqueParameterName()
+{
     QString currentName = i18n("new_parameter");
     QString name = currentName;
     for (int number = 1; findParm(name); number++) {
@@ -184,7 +195,8 @@ QString UMLOperation::getUniqueParameterName() {
     return name;
 }
 
-bool UMLOperation::operator==(const  UMLOperation & rhs ) {
+bool UMLOperation::operator==(const  UMLOperation & rhs )
+{
     if( this == &rhs )
         return true;
 
@@ -219,7 +231,8 @@ UMLObject* UMLOperation::clone() const
     return clone;
 }
 
-bool UMLOperation::resolveRef() {
+bool UMLOperation::resolveRef()
+{
     bool overallSuccess = UMLObject::resolveRef();
     // See remark on iteration style in UMLClassifier::resolveRef()
     foreach (UMLAttribute* pAtt, m_List ) {
@@ -229,7 +242,8 @@ bool UMLOperation::resolveRef() {
     return overallSuccess;
 }
 
-bool UMLOperation::isConstructorOperation() {
+bool UMLOperation::isConstructorOperation()
+{
     // if an operation has the stereotype constructor
     // return true
     QString strConstructor ("constructor");
@@ -244,7 +258,8 @@ bool UMLOperation::isConstructorOperation() {
     return (cName == opName);
 }
 
-bool UMLOperation::isDestructorOperation() {
+bool UMLOperation::isDestructorOperation()
+{
     if (getStereotype() == "destructor")
         return true;
     UMLClassifier * c = static_cast<UMLClassifier*>(this->parent());
@@ -260,24 +275,39 @@ bool UMLOperation::isDestructorOperation() {
     return (cName == opName);
 }
 
-bool UMLOperation::isLifeOperation() {
+bool UMLOperation::isLifeOperation()
+{
     return (isConstructorOperation() || isDestructorOperation());
 }
 
-void UMLOperation::setConst(bool b) {
+void UMLOperation::setConst(bool b)
+{
     m_bConst = b;
 }
 
-bool UMLOperation::getConst() const {
+bool UMLOperation::getConst() const
+{
     return m_bConst;
 }
 
-bool UMLOperation::showPropertiesDialog(QWidget* parent) {
+bool UMLOperation::showPropertiesDialog(QWidget* parent)
+{
     UMLOperationDialog dialog(parent, this);
     return dialog.exec();
 }
 
-void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UMLOperation::setSourceCode(const QString& code)
+{
+    m_Code = code;
+}
+
+QString UMLOperation::getSourceCode() const
+{
+    return m_Code;
+}
+
+void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
     operationElement.setAttribute( "isQuery", m_bConst ? "true" : "false" );
     QDomElement featureElement = qDoc.createElement( "UML:BehavioralFeature.parameter" );
@@ -294,8 +324,8 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     } else {
         uDebug() << "m_SecondaryId is " << m_SecondaryId << endl;
     }
-    //save each attribute here, type different
 
+    //save each attribute here, type different
     foreach( UMLAttribute* pAtt , m_List ) {
         QDomElement attElement = pAtt->UMLObject::save("UML:Parameter", qDoc);
         UMLClassifier *attrType = pAtt->getType();
@@ -315,12 +345,20 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 
         featureElement.appendChild( attElement );
     }
-    if (featureElement.hasChildNodes())
+    if (featureElement.hasChildNodes()) {
         operationElement.appendChild( featureElement );
+    }
+    // save the source code
+    if (! m_Code.isEmpty()) {
+        QDomElement codeElement = qDoc.createElement("UML:SourceCode");
+        codeElement.setAttribute("value", m_Code);
+        operationElement.appendChild( codeElement );
+    }
     qElement.appendChild( operationElement );
 }
 
-bool UMLOperation::load( QDomElement & element ) {
+bool UMLOperation::load( QDomElement & element )
+{
     m_SecondaryId = element.attribute( "type", "" );
     QString isQuery = element.attribute( "isQuery", "" );
     if (!isQuery.isEmpty()) {
@@ -406,6 +444,9 @@ bool UMLOperation::load( QDomElement & element ) {
                     pAtt->setParmKind(Uml::pd_In);
                 m_List.append( pAtt );
             }
+        } else if (Uml::tagEq(tag, "SourceCode")) {
+            m_Code = attElement.attribute("value", "");
+            // uDebug() << "SourceCode found:\n" << m_Code;
         }
         node = node.nextSibling();
         if (node.isComment())

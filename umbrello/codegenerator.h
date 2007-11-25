@@ -70,7 +70,8 @@ class CodeViewerDialog;
  */
 
 
-class CodeGenerator : public QObject {
+class CodeGenerator : public QObject
+{
     Q_OBJECT
 
 public:
@@ -222,7 +223,16 @@ public:
     *
     * @return the formatted documentation text
     */
-    QString formatDoc (const QString & text, const QString & linePrefix = " *", int lineWidth = 80 );
+    static QString formatDoc (const QString & text, const QString & linePrefix = " *", int lineWidth = 80 );
+
+    /**
+     * Format source code for output in source files by
+     * adding the correct indentation to every line of code.
+     *
+     * @param code  the source code block which has to be formatted
+     * @param indentation  the blanks to indent
+     */
+    static QString formatSourceCode(const QString& code, const QString& indentation);
 
     /**
     * Finds all classes in the current document to which objects of class c

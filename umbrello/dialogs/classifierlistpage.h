@@ -158,6 +158,7 @@ private:
     QGroupBox* m_pDocGB;
     QGroupBox* m_pItemListGB;
     QTextEdit* m_pDocTE;
+    QTextEdit* m_pCodeTE;
     QListWidget* m_pItemListLB;
 
     KArrowButton* m_pTopArrowB;

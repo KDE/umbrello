@@ -116,7 +116,8 @@ CSharpWriter::~CSharpWriter()
 {
 }
 
-QStringList CSharpWriter::defaultDatatypes() {
+QStringList CSharpWriter::defaultDatatypes()
+{
     QStringList l;
     l.append("bool");
     l.append("byte");
@@ -139,7 +140,8 @@ QStringList CSharpWriter::defaultDatatypes() {
     return l;
 }
 
-void CSharpWriter::writeClass(UMLClassifier *c) {
+void CSharpWriter::writeClass(UMLClassifier *c)
+{
     if (!c) {
         uDebug()<<"Cannot write class of NULL concept!";
         return;
@@ -163,7 +165,6 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
     //////////////////////////////
     //Start generating the code!!
     /////////////////////////////
-
 
     //try to find a heading file (license, coments, etc)
     QString str;
@@ -312,8 +313,8 @@ void CSharpWriter::writeClass(UMLClassifier *c) {
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs) {
-
+void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
+{
     //Lists to store operations  sorted by scope
     UMLOperationList oppub,opprot,oppriv;
 
@@ -376,7 +377,8 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs) {
 
 }
 
-void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTextStream &cs) {
+void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTextStream &cs)
+{
     // oplist for implemented abstract operations
     UMLOperationList opabstract;
 
@@ -405,8 +407,9 @@ void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTex
         }
     }
 }
-void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAssociationList *realizations, QTextStream &cs) {
 
+void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAssociationList *realizations, QTextStream &cs)
+{
     for (UMLAssociationListIt alit(*realizations); alit.hasNext(); ) {
         UMLAssociation *a = alit.next();
 
@@ -436,8 +439,8 @@ void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAs
 void CSharpWriter::writeOperations(UMLOperationList opList,
                                  QTextStream &cs, bool isInterface /* = false */,
                                  bool isOverride /* = false */,
-                                 bool generateErrorStub /* = false */) {
-
+                                 bool generateErrorStub /* = false */)
+{
     foreach (UMLOperation* op, opList ) {
         UMLAttributeList atl = op->getParmList();
 
@@ -520,9 +523,16 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         //FIXME: how to control generation of error stub?
         if (!isInterface && (!op->getAbstract() || isOverride)) {
             cs << m_endl << m_container_indent << m_indentation << "{" << m_endl;
-            if (generateErrorStub) {
-                cs << m_container_indent << m_indentation << m_indentation;
-                cs << "throw new Exception(\"The method or operation is not implemented.\");" << m_endl;
+            // write source code of operation else throw not implemented exception
+            QString sourceCode = op->getSourceCode();
+            if (sourceCode.isEmpty()) {
+                if (generateErrorStub) {
+                    cs << m_container_indent << m_indentation << m_indentation;
+                    cs << "throw new Exception(\"The method or operation is not implemented.\");" << m_endl;
+                }
+            }
+            else {
+                cs << formatSourceCode(sourceCode, m_container_indent + m_indentation + m_indentation);
             }
             cs << m_container_indent << m_indentation << "}" << m_endl;
         }
@@ -533,10 +543,9 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
     }
 }
 
-void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs) {
-
+void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
+{
     UMLAttributeList  atpub, atprot, atpriv, atdefval;
-
 
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
@@ -582,9 +591,8 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs) {
 
 }
 
-
-void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs) {
-
+void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
+{
     foreach (UMLAttribute* at, atList ) {
 
         bool asProperty = true;
@@ -599,8 +607,8 @@ void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs) {
     return;
 }
 
-void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs) {
-
+void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs)
+{
     foreach (UMLAssociation *a,  associated ) {
         if (c != a->getObject(Uml::A))  // we need to be at the A side
             continue;
@@ -637,8 +645,8 @@ void CSharpWriter::writeAttribute(const QString& doc,
                                   const QString& name,
                                   const QString& initialValue,
                                   bool asProperty,
-                                  QTextStream &cs) {
-
+                                  QTextStream &cs)
+{
     if (forceDoc() || !doc.isEmpty()) {
 
         cs << m_container_indent << m_indentation << "/// <summary>" << m_endl;
@@ -683,7 +691,8 @@ void CSharpWriter::writeAttribute(const QString& doc,
     cs << ";" << m_endl << m_endl;
 }
 
-QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl) {
+QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl)
+{
     UMLPackage *p = cl->getType()->getUMLPackage();
     if (m_seenIncludes.indexOf(p) != -1) {
         return cl->getType()->getName();
@@ -697,12 +706,13 @@ QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl) {
 /**
  * returns "C#"
  */
-Uml::Programming_Language CSharpWriter::getLanguage() {
+Uml::Programming_Language CSharpWriter::getLanguage()
+{
     return Uml::pl_CSharp;
 }
 
-const QStringList CSharpWriter::reservedKeywords() const {
-
+const QStringList CSharpWriter::reservedKeywords() const
+{
     static QStringList keywords;
 
     if (keywords.isEmpty()) {

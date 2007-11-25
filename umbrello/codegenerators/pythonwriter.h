@@ -66,20 +66,20 @@ private:
     void writeAttributes(UMLAttributeList atList, QTextStream &py);
 
     /**
-      * write all operations for a given class
-      *
-      * @param c the concept we are generating code for
-      * @param h output stream for the header file
-      */
+     * write all operations for a given class
+     *
+     * @param c the concept we are generating code for
+     * @param h output stream for the header file
+     */
     void writeOperations(UMLClassifier *c, QTextStream &h);
 
     /**
-      * write a list of class operations
-      *
-      * @param classname the name of the class
-      * @param opList the list of operations
-      * @param h output stream for the header file
-      */
+     * write a list of class operations
+     *
+     * @param classname the name of the class
+     * @param opList the list of operations
+     * @param h output stream for the header file
+     */
     void writeOperations(const QString& classname, UMLOperationList &opList,
                          QTextStream &h, Uml::Visibility access);
 
