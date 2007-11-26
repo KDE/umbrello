@@ -26,7 +26,8 @@ class UMLWidget;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class DocWindow : public QWidget {
+class DocWindow : public QWidget
+{
     Q_OBJECT
 public:
     /**
