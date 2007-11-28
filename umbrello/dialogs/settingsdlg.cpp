@@ -241,7 +241,7 @@ void SettingsDlg::setupClassPage() {
     KVBox * page = new KVBox();
     pageClass = new KPageWidgetItem( page,i18n("Class"));
     pageClass->setHeader( i18n("Class Settings") );
-    pageClass->setIcon( KIcon( DesktopIcon( "edit") ));
+    pageClass->setIcon( KIcon( DesktopIcon( "object-edit") ));
     addPage( pageClass );
 
     m_ClassWidgets.visibilityGB = new Q3GroupBox( i18n("Visibility"), page );
