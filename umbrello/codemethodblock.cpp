@@ -13,78 +13,60 @@
  *      Author : thomas
  *      Date   : Fri Jun 20 2003
  */
+ 
 #include "codemethodblock.h"
+
 #include "codeclassfield.h"
 #include "classifiercodedocument.h"
 #include "codegenerationpolicy.h"
 #include "uml.h"
 
-// Constructors/Destructors
-//
 
 CodeMethodBlock::CodeMethodBlock ( ClassifierCodeDocument * doc, UMLObject * parentObj, const QString & body, const QString & comment)
         : CodeBlockWithComments ((CodeDocument*)doc, body, comment), OwnedCodeBlock (parentObj)
 {
-    initFields();
+    m_startMethod = QString();
+    m_endMethod = QString();
 }
 
-CodeMethodBlock::~CodeMethodBlock ( ) { }
-
-//
-// Methods
-//
-
-
-// Accessor methods
-//
+CodeMethodBlock::~CodeMethodBlock ( )
+{ }
 
 // we can just call the superclass
-CodeDocument * CodeMethodBlock::getParentDocument() {
+CodeDocument * CodeMethodBlock::getParentDocument()
+{
     return TextBlock::getParentDocument();
 }
 
-/**
- * Get the starting text that begins this method before the body is printed.
- */
-QString CodeMethodBlock::getStartMethodText() const {
+QString CodeMethodBlock::getStartMethodText() const
+{
     return m_startMethod;
 }
 
-/**
- * Get the ending text that finishes this method after the body is printed.
- */
-QString CodeMethodBlock::getEndMethodText() const {
+QString CodeMethodBlock::getEndMethodText() const
+{
     return m_endMethod;
 }
 
-/**
- * Set the starting text that begins this method before the body is printed.
- */
-void CodeMethodBlock::setStartMethodText (const QString &value) {
+void CodeMethodBlock::setStartMethodText (const QString &value)
+{
     m_startMethod = value;
 }
 
-/**
- * Set the ending text that finishes this method after the body is printed.
- */
-void CodeMethodBlock::setEndMethodText (const QString &value) {
+void CodeMethodBlock::setEndMethodText (const QString &value)
+{
     m_endMethod = value;
 }
 
-// Other methods
-//
-
-void CodeMethodBlock::release () {
+void CodeMethodBlock::release ()
+{
     // just call super-class versions
     OwnedCodeBlock::release();
     TextBlock::release();
 }
 
-/** set attributes of the node that represents this class
- * in the XMI document.
- */
-void CodeMethodBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem) {
-
+void CodeMethodBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem)
+{
     // set super-class attributes
     CodeBlockWithComments::setAttributesOnNode(doc, elem);
     OwnedCodeBlock::setAttributesOnNode(doc, elem);
@@ -96,14 +78,10 @@ void CodeMethodBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & el
         elem.setAttribute("startMethodText",encodeText(getStartMethodText(),endLine));
         elem.setAttribute("endMethodText",encodeText(getEndMethodText(),endLine));
     }
-
 }
 
-/** set the class attributes of this object from
- * the passed element node.
- */
-void CodeMethodBlock::setAttributesFromNode ( QDomElement & elem) {
-
+void CodeMethodBlock::setAttributesFromNode ( QDomElement & elem)
+{
     // set attributes from the XMI
     CodeBlockWithComments::setAttributesFromNode(elem); // superclass load
     OwnedCodeBlock::setAttributesFromNode(elem); // superclass load
@@ -115,12 +93,10 @@ void CodeMethodBlock::setAttributesFromNode ( QDomElement & elem) {
         setStartMethodText(decodeText(elem.attribute("startMethodText",""),endLine));
         setEndMethodText(decodeText(elem.attribute("endMethodText",""),endLine));
     }
-
 }
 
 void CodeMethodBlock::setAttributesFromObject(TextBlock * obj)
 {
-
     CodeBlockWithComments::setAttributesFromObject(obj);
 
     CodeMethodBlock * mb = dynamic_cast<CodeMethodBlock*>(obj);
@@ -129,14 +105,10 @@ void CodeMethodBlock::setAttributesFromObject(TextBlock * obj)
         setStartMethodText(mb->getStartMethodText());
         setEndMethodText(mb->getEndMethodText());
     }
-
 }
 
-/**
- * @return      QString
- */
-QString CodeMethodBlock::toString ( ) {
-
+QString CodeMethodBlock::toString ( )
+{
     QString string;
 
     if(getWriteOutText()) {
@@ -163,20 +135,11 @@ QString CodeMethodBlock::toString ( ) {
             string.append(endMethod);
 
     }
-
     return string;
-
-}
-
-void CodeMethodBlock::initFields ( ) {
-
-    m_startMethod = QString();
-    m_endMethod = QString();
 }
 
 void CodeMethodBlock::syncToParent ( )
 {
-
     getComment()->setText(getParentObject()->getDoc());
 
     updateMethodDeclaration();

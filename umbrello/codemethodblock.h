@@ -13,12 +13,10 @@
  *      Date   : Fri Jun 20 2003
  */
 
-
-
 #ifndef CODEMETHODBLOCK_H
 #define CODEMETHODBLOCK_H
 
-#include <qstring.h>
+#include <QtCore/QString>
 
 #include "ownedcodeblock.h"
 #include "codeblockwithcomments.h"
@@ -37,10 +35,6 @@ class CodeMethodBlock : public CodeBlockWithComments, public OwnedCodeBlock
     Q_OBJECT
 public:
 
-    // Constructors/Destructors
-    //
-
-
     /**
      * Constructors
      */
@@ -51,9 +45,6 @@ public:
      * Empty Destructor
      */
     virtual ~CodeMethodBlock ( );
-
-    // Public attributes
-    //
 
     /**
      * @return  QString
@@ -70,7 +61,9 @@ public:
      */
     QString getEndMethodText () const;
 
-    // get the parent code document
+    /**
+     * Get the parent code document.
+     */
     CodeDocument * getParentDocument();
 
     /**
@@ -81,7 +74,6 @@ public:
     virtual void updateContent ( ) = 0;
 
 protected:
-
 
     /** causes the text block to release all of its connections
      * and any other text blocks that it 'owns'.
@@ -99,32 +91,34 @@ protected:
      */
     void setEndMethodText (const QString &value);
 
-    /** this is the method called from within syncToparent().
-      * to update the start and end Method text. It is called
-                  * whether or not the method is Auto or User generated.
-      */
+    /**
+     * This is the method called from within syncToparent().
+     * To update the start and end Method text. It is called
+     * whether or not the method is Auto or User generated.
+     */
     virtual void updateMethodDeclaration ( ) = 0;
 
-    /** set attributes of the node that represents this class
+    /**
+     * Set attributes of the node that represents this class
      * in the XMI document.
      */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /** set the class attributes of this object from
+    /**
+     * Set the class attributes of this object from
      * the passed element node.
      */
     virtual void setAttributesFromNode ( QDomElement & element);
 
-    /** set the class attributes from a passed object
-            */
+    /**
+     * Set the class attributes from a passed object
+     */
     virtual void setAttributesFromObject (TextBlock * obj);
 
 private:
 
     QString m_startMethod;
     QString m_endMethod;
-
-    void initFields ( );
 
 public slots:
 

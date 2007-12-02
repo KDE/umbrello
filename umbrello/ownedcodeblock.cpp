@@ -28,11 +28,8 @@
 #include "umlrole.h"
 #include "uml.h"
 #include "codedocument.h"
-#include "codegenerator.h"
+#include "textblock.h"
 
-
-// Constructors/Destructors
-//
 
 OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent )
         : QObject ( parent )
@@ -41,36 +38,28 @@ OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent )
     initFields(parent);
 }
 
-OwnedCodeBlock::~OwnedCodeBlock ( ) {
+OwnedCodeBlock::~OwnedCodeBlock ( )
+{
     /*
         if(m_parentObject)
                 m_parentObject->disconnect(this);
     */
 }
 
-//
-// Methods
-//
-
-void OwnedCodeBlock::release () {
+void OwnedCodeBlock::release ()
+{
     if(m_parentObject)
         m_parentObject->disconnect(this);
     m_parentObject = 0;
 }
 
-/**
- * Get the value of m_parentObject
- * @return the value of m_parentObject
- */
-UMLObject * OwnedCodeBlock::getParentObject () {
+UMLObject * OwnedCodeBlock::getParentObject ()
+{
     return m_parentObject;
 }
 
-// Other methods
-//
-
-void OwnedCodeBlock::setAttributesFromObject (TextBlock * obj) {
-
+void OwnedCodeBlock::setAttributesFromObject (TextBlock * obj)
+{
     OwnedCodeBlock * oc = dynamic_cast<OwnedCodeBlock*>(obj);
     if(oc)
     {
@@ -79,11 +68,8 @@ void OwnedCodeBlock::setAttributesFromObject (TextBlock * obj) {
     }
 }
 
-/** set attributes of the node that represents this class
-  * in the XMI document.
-  */
-void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& elem) {
-
+void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& elem)
+{
     // set local class attributes
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
@@ -103,14 +89,10 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
         elem.setAttribute("parent_id",ID2STR(m_parentObject->getID()));
         //elem.setAttribute("role_id","-1");
     }
-
 }
 
-/** set the class attributes of this object from
- * the passed element node.
- */
-void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
-
+void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
+{
     // set local attributes, parent object first
     QString idStr = elem.attribute("parent_id","-1");
     Uml::IDType id = STR2ID(idStr);
@@ -122,7 +104,6 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
     UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(id);
     if(obj)
     {
-
         // FIX..one day.
         // Ugh. This is UGLY, but we have to do it this way because UMLRoles
         // don't go into the document list of UMLobjects, and have the same
@@ -152,17 +133,14 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem) {
             initFields ( role );
         } else
             initFields ( obj); // just the regular approach
-
     }
     else
         uError() << "ERROR: can't load ownedcodeblock: parentUMLObject w/id:"
         << ID2STR(id) << " not found, corrupt save file?" << endl;
-
 }
 
 void OwnedCodeBlock::initFields(UMLObject * parent )
 {
-
     m_parentObject = parent;
 
     // one reason for being: set up the connection between
@@ -172,9 +150,8 @@ void OwnedCodeBlock::initFields(UMLObject * parent )
     connect(m_parentObject, SIGNAL(modified()), this, SLOT(syncToParent()));
 }
 
-/**
- */
-void OwnedCodeBlock::syncToParent ( ) {
+void OwnedCodeBlock::syncToParent()
+{
     updateContent();
 }
 

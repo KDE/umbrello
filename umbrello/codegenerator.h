@@ -76,9 +76,6 @@ class CodeGenerator : public QObject
 
 public:
 
-    // Constructors/Destructors
-    //
-
     /**
      * Constructors
      */
@@ -144,7 +141,7 @@ public:
     /**
      * Find a code document by the given id string.
      * @return  CodeDocument
-         */
+     */
     CodeDocument * findCodeDocumentByID (const QString &id );
 
     /**
@@ -215,14 +212,15 @@ public:
      */
     static QString cleanName ( const QString &name );
 
-    /** Format documentation for output in source files
-    *
-    * @param text the documentation which has to be formatted
-    * @param linePrefix the prefix which has to be added in the beginnig of each line
-    * @param lineWidth the line width used for word-wrapping the documentation
-    *
-    * @return the formatted documentation text
-    */
+    /**
+     * Format documentation for output in source files
+     *
+     * @param text the documentation which has to be formatted
+     * @param linePrefix the prefix which has to be added in the beginnig of each line
+     * @param lineWidth the line width used for word-wrapping the documentation
+     *
+     * @return the formatted documentation text
+     */
     static QString formatDoc (const QString & text, const QString & linePrefix = " *", int lineWidth = 80 );
 
     /**

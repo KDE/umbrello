@@ -40,14 +40,16 @@ public:
                        const char* name = 0, bool modal = false, Qt::WFlags fl = 0 );
     ~CodeViewerDialog ();
 
-    /** return the code viewer state */
+    /**
+     * Return the code viewer state.
+     */
     Settings::CodeViewerState getState( );
 
     QString parentDocName;
 
     /**
-     *  Adds a code document to the tabbed output
-         */
+     * Adds a code document to the tabbed output.
+     */
     void addCodeDocument( CodeDocument * doc);
 
 protected:
@@ -66,6 +68,10 @@ public slots:
 
 protected slots:
 
+    /*
+     *  Sets the strings of the subwidgets using the current
+     *  language.
+     */
     virtual void languageChange();
 
 };

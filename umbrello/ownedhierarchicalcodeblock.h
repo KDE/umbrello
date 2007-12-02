@@ -32,10 +32,8 @@ class OwnedHierarchicalCodeBlock : public HierarchicalCodeBlock, public OwnedCod
     Q_OBJECT
 public:
 
-    // Constructors/Destructors
-    //
-
-    /** constructor with QString so we can create & populate it in
+    /**
+     * constructor with QString so we can create & populate it in
      * one step.
      */
     OwnedHierarchicalCodeBlock ( UMLObject * parent, CodeDocument * parentDoc, const QString &start="", const QString &end="", const QString &comment="" );
@@ -45,10 +43,9 @@ public:
      */
     virtual ~OwnedHierarchicalCodeBlock ( );
 
-    // Public attributes
-    //
-
-    // Return the parent code document
+    /**
+     * Return the parent code document
+     */
     CodeDocument * getParentDocument();
 
     virtual void updateContent ( ) = 0;
@@ -66,24 +63,28 @@ public:
 
 protected:
 
-    /** causes the text block to release all of its connections
-    * and any other text blocks that it 'owns'.
-    * needed to be called prior to deletion of the textblock.
-    */
+    /**
+     * causes the text block to release all of its connections
+     * and any other text blocks that it 'owns'.
+     * needed to be called prior to deletion of the textblock.
+     */
     virtual void release ();
 
-    /** set attributes of the node that represents this class
-    * in the XMI document.
-    */
+    /**
+     * set attributes of the node that represents this class
+     * in the XMI document.
+     */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /** set the class attributes of this object from
+    /**
+     * set the class attributes of this object from
      * the passed element node.
      */
     virtual void setAttributesFromNode ( QDomElement & element);
 
-    /** set the class attributes from a passed object
-    */
+    /**
+     * set the class attributes from a passed object
+     */
     virtual void setAttributesFromObject (TextBlock * obj);
 
 private:
@@ -91,7 +92,6 @@ private:
 public slots:
 
     void syncToParent ( );
-
 
 };
 

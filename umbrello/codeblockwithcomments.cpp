@@ -22,56 +22,32 @@
 
 // local includes
 #include "codedocument.h"
-#include "hierarchicalcodeblock.h"
 #include "codegenerators/codegenfactory.h"
 
-// Constructors/Destructors
-//
-
-CodeBlockWithComments::CodeBlockWithComments ( HierarchicalCodeBlock * hb, const QString & body, const QString & comment)
-        : CodeBlock (hb, body)
-{
-    initFields(hb->getParentDocument(), comment);
-}
 
 CodeBlockWithComments::CodeBlockWithComments ( CodeDocument * parent , const QString & body, const QString & comment)
         : CodeBlock (parent, body)
 {
-    initFields(parent, comment);
+    CodeComment * codecomment = CodeGenFactory::newCodeComment(parent);
+    codecomment->setText(comment);
+    m_comment = codecomment;
 }
 
-CodeBlockWithComments::~CodeBlockWithComments ( ) { }
+CodeBlockWithComments::~CodeBlockWithComments ( )
+{ }
 
-//
-// Methods
-//
-
-
-// Accessor methods
-//
-
-
-/**
- * Set the comment on this code block.
- */
-void CodeBlockWithComments::setComment ( CodeComment * object ) {
+void CodeBlockWithComments::setComment ( CodeComment * object )
+{
     m_comment = object;
 }
 
-/**
- * Remove a Comment object from m_commentVector List
- */
-CodeComment * CodeBlockWithComments::getComment ( ) {
+CodeComment * CodeBlockWithComments::getComment ( )
+{
     return m_comment;
 }
 
-// Other methods
-//
-
-/**
- * Save the XMI representation of this object
- */
-void CodeBlockWithComments::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+void CodeBlockWithComments::saveToXMI ( QDomDocument & doc, QDomElement & root )
+{
     QDomElement blockElement = doc.createElement( "codeblockwithcomments" );
 
     // set attributes
@@ -82,7 +58,6 @@ void CodeBlockWithComments::saveToXMI ( QDomDocument & doc, QDomElement & root )
 
 void CodeBlockWithComments::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
 {
-
     // set super-class attributes
     CodeBlock::setAttributesOnNode(doc, blockElement);
 
@@ -91,23 +66,17 @@ void CodeBlockWithComments::setAttributesOnNode ( QDomDocument & doc, QDomElemen
     QDomElement commElement = doc.createElement( "header" );
     getComment()->saveToXMI(doc, commElement); // comment
     blockElement.appendChild( commElement);
-
 }
 
 void CodeBlockWithComments::setAttributesFromObject(TextBlock * obj)
 {
-
     CodeBlock::setAttributesFromObject(obj);
 
     CodeBlockWithComments * cb = dynamic_cast<CodeBlockWithComments*>(obj);
     if(cb)
         getComment()->setAttributesFromObject((TextBlock*)cb->getComment());
-
 }
 
-/**
- * load params from the appropriate XMI element node.
- */
 void CodeBlockWithComments::loadFromXMI ( QDomElement & root )
 {
     setAttributesFromNode(root);
@@ -115,7 +84,6 @@ void CodeBlockWithComments::loadFromXMI ( QDomElement & root )
 
 void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
 {
-
     // set attributes from superclass method the XMI
     CodeBlock::setAttributesFromNode(root);
 
@@ -139,14 +107,10 @@ void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
 
     if(!gotComment)
         uWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in block:"<<getTag();
-
 }
 
-/**
- * @return      QString
- */
-QString CodeBlockWithComments::toString ( ) {
-
+QString CodeBlockWithComments::toString ( )
+{
     QString string = QString();
 
     if(getWriteOutText()) {
@@ -160,7 +124,6 @@ QString CodeBlockWithComments::toString ( ) {
         if(!body.isEmpty())
             string.append(body);
     }
-
     return string;
 }
 
@@ -171,11 +134,5 @@ void CodeBlockWithComments::setOverallIndentationLevel ( int level )
     m_comment->setIndentationLevel(level);
 }
 
-void CodeBlockWithComments::initFields(CodeDocument *parent, const QString& comment)
-{
-    CodeComment * codecomment = CodeGenFactory::newCodeComment(parent);
-    codecomment->setText(comment);
-    m_comment = codecomment;
-}
 
 #include "codeblockwithcomments.moc"

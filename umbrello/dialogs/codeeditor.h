@@ -26,6 +26,7 @@
 #include <q3textedit.h>
 #include <q3popupmenu.h>
 #include <QtCore/QList>
+
 #include "../codeviewerstate.h"
 #include "../textblocklist.h"
 
@@ -38,10 +39,36 @@ class CodeClassFieldDeclarationBlock;
 class CodeMethodBlock;
 class CodeBlockWithComments;
 class HierarchicalCodeBlock;
-
-class TextBlockInfo;
 class TextBlock;
-class ParaInfo;
+
+
+class ParaInfo
+{
+public:
+    int start; // this is a relative offset from the beginning of the tblock
+    int size;
+    QColor fgcolor;
+    QColor bgcolor;
+    bool isEditable;
+
+    ParaInfo () { isEditable = false; }
+};
+
+
+class TextBlockInfo
+{
+public:
+    QList<ParaInfo*> m_paraList;
+    UMLObject * m_parent;
+    QString displayName;
+    bool isClickable;
+    bool isCodeAccessorMethod;
+
+    TextBlockInfo () { m_parent = 0; isClickable = false; isCodeAccessorMethod = false; }
+    void setParent(UMLObject *p = 0) { m_parent = p; }
+    UMLObject * getParent() { return m_parent; }
+};
+
 
 class CodeEditor : public Q3TextEdit
 {
@@ -113,7 +140,7 @@ private:
     TextBlock * m_selectedTextBlock;
     TextBlock * m_lastTextBlockToBeEdited;
 
-    QMap<TextBlock*, TextBlockInfo*> *m_tbInfoMap;
+    QMap<TextBlock*, TextBlockInfo*> m_tbInfoMap;
     TextBlockList m_textBlockList;
 
     // main insert routine. Will append if startline is not supplied.
@@ -170,29 +197,5 @@ signals:
 
 };
 
-class ParaInfo {
-public:
-    int start; // this is a relative offset from the beginning of the tblock
-    int size;
-    QColor fgcolor;
-    QColor bgcolor;
-    bool isEditable;
-
-    ParaInfo () { isEditable = false; }
-};
-
-class TextBlockInfo {
-public:
-    QList<ParaInfo*> m_paraList;
-    UMLObject * m_parent;
-    QString displayName;
-    bool isClickable;
-    bool isCodeAccessorMethod;
-
-    TextBlockInfo () { m_parent = 0; isClickable = false; isCodeAccessorMethod = false; }
-    void setParent(UMLObject *p = 0) { m_parent = p; }
-    UMLObject * getParent() { return m_parent; }
-
-};
 
 #endif // CODEEDITOR_H

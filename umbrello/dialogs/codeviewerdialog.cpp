@@ -26,6 +26,7 @@
 #include <klocale.h>
 
 // local includes
+#include "../uml.h"
 #include "../codedocument.h"
 #include "../classifiercodedocument.h"
 #include "codeeditor.h"
@@ -47,9 +48,6 @@ CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc,
     addCodeDocument(doc);
 }
 
-/*
- *  Destroys the object and frees any allocated resources
- */
 CodeViewerDialog::~CodeViewerDialog()
 {
     // no need to delete child widgets, Qt does it all for us
@@ -75,9 +73,6 @@ void CodeViewerDialog::initGUI ( const char * name)
     resize( QSize(width, height).expandedTo(minimumSizeHint()) );
 }
 
-/*
- *  Adds a code document to the tabbed output
- */
 void CodeViewerDialog::addCodeDocument( CodeDocument * doc)
 {
     CodeEditor * page = new CodeEditor ( this, "_codedocumenteditor_", doc );
@@ -111,13 +106,11 @@ bool CodeViewerDialog::close ( bool /*alsoDelete*/ )
     return QDialog::close();
 }
 
-/*
- *  Sets the strings of the subwidgets using the current
- *  language.
- */
 void CodeViewerDialog::languageChange()
 {
-    setWindowTitle( tr2i18n( "Code Viewer" ) );
+    Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
+
+    setWindowTitle( tr2i18n( "Code Viewer - " ) + pl );
 }
 
 #include "codeviewerdialog.moc"

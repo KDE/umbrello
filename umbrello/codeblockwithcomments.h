@@ -13,8 +13,6 @@
  *      Date   : Wed Jun 18 2003
  */
 
-
-
 #ifndef CODEBLOCKWITHCOMMENTS_H
 #define CODEBLOCKWITHCOMMENTS_H
 
@@ -34,29 +32,23 @@ class CodeBlockWithComments : public CodeBlock
     Q_OBJECT
 public:
 
-    // Constructors/Destructors
-    //
-
-
     /**
      * Basic Constructor
      */
-    explicit CodeBlockWithComments ( CodeDocument * doc , const QString & body = "", const QString & comment = "");
-    explicit CodeBlockWithComments ( HierarchicalCodeBlock * hblock, const QString & body = "", const QString & comment = "" );
+    explicit CodeBlockWithComments ( CodeDocument * parent , const QString & body = "", const QString & comment = "");
 
     /**
      * Empty Destructor
      */
     virtual ~CodeBlockWithComments ( );
 
-
     /**
-     * Set the Comment object
+     * Set the Comment object.
      */
     void setComment ( CodeComment * object );
 
     /**
-     * Get the Comment object
+     * Get the Comment object.
      */
     CodeComment * getComment ( );
 
@@ -65,7 +57,8 @@ public:
      */
     virtual QString toString ( );
 
-    /** A utility method that causes the comment and body of the code block
+    /**
+     * A utility method that causes the comment and body of the code block
      * to have the same indentation level.
      */
     void setOverallIndentationLevel ( int level );
@@ -76,31 +69,32 @@ public:
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
     /**
-     * load params from the appropriate XMI element node.
+     * Load params from the appropriate XMI element node.
      */
     virtual void loadFromXMI ( QDomElement & root );
 
-    /** set the class attributes from a passed object
+    /**
+     * Set the class attributes from a passed object.
      */
     virtual void setAttributesFromObject (TextBlock * obj);
 
 protected:
 
-    /** set attributes of the node that represents this class
+    /**
+     * Set attributes of the node that represents this class
      * in the XMI document.
      */
     virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
 
-    /** set the class attributes of this object from
-    * the passed element node.
-    */
+    /**
+     * Set the class attributes of this object from
+     * the passed element node.
+     */
     virtual void setAttributesFromNode ( QDomElement & element);
 
 private:
 
     CodeComment * m_comment;
-
-    void initFields(CodeDocument *parent, const QString& comment);
 
 };
 

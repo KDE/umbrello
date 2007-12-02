@@ -14,7 +14,6 @@
  *      Date   : Wed Jun 18 2003
  */
 
-
 #ifndef HIERARCHICALCODEBLOCK_H
 #define HIERARCHICALCODEBLOCK_H
 
@@ -31,9 +30,6 @@ class HierarchicalCodeBlock : public CodeBlockWithComments, public CodeGenObject
     friend class CodeGenObjectWithTextBlocks;
 public:
 
-    // Constructors/Destructors
-    //
-
     /**
      * Constructor
      */
@@ -43,12 +39,6 @@ public:
      * Empty Destructor
      */
     virtual ~HierarchicalCodeBlock ( );
-
-    // Public attributes
-    //
-
-    // Public attribute accessor methods
-    //
 
     /**
      * Set the value of m_endText
@@ -104,7 +94,9 @@ public:
      */
     virtual QString toString ( );
 
-    // return a unique, and currently unallocated, text block tag for this hblock
+    /**
+     * return a unique, and currently unallocated, text block tag for this hblock
+     */
     QString getUniqueTag();
     QString getUniqueTag( const QString& prefix );
 
@@ -119,27 +111,33 @@ public:
 
 protected:
 
-    /** causes the text block to release all of its connections
-    * and any other text blocks that it 'owns'.
-    * needed to be called prior to deletion of the textblock.
-    */
+    /**
+     * causes the text block to release all of its connections
+     * and any other text blocks that it 'owns'.
+     * needed to be called prior to deletion of the textblock.
+     */
     virtual void release ();
 
-    /** set attributes of the node that represents this class
+    /**
+     * set attributes of the node that represents this class
      * in the XMI document.
      */
     virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & elem );
 
-    /** set the class attributes of this object from
+    /**
+     * set the class attributes of this object from
      * the passed element node.
      */
     virtual void setAttributesFromNode ( QDomElement & element);
 
-    /** set the class attributes from a passed object
+    /**
+     * set the class attributes from a passed object
      */
     virtual void setAttributesFromObject (TextBlock * obj);
 
-    // look for specific text blocks which belong to code classfields
+    /**
+     * look for specific text blocks which belong to code classfields
+     */
     TextBlock * findCodeClassFieldTextBlockByTag ( const QString &tag );
 
 private:

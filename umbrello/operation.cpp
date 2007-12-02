@@ -24,6 +24,9 @@
 #include "umldoc.h"
 #include "uniqueid.h"
 #include "dialogs/umloperationdialog.h"
+#include "codegenerator.h"
+#include "codedocument.h"
+#include "codeblock.h"
 
 UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
                            Uml::IDType id, Uml::Visibility s, UMLObject *rt)
@@ -350,9 +353,18 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     }
     // save the source code
     if (! m_Code.isEmpty()) {
+        /*  //:TODO:
         QDomElement codeElement = qDoc.createElement("UML:SourceCode");
         codeElement.setAttribute("value", m_Code);
         operationElement.appendChild( codeElement );
+        */
+        CodeGenerator* codegen = UMLApp::app()->getGenerator();
+        if (codegen) {
+            CodeDocument* codedoc = new CodeDocument();
+            CodeBlock* block = new CodeBlock(codedoc, m_Code);
+            codedoc->insertTextBlock(block, NULL);
+            codegen->addCodeDocument(codedoc);
+        }
     }
     qElement.appendChild( operationElement );
 }
@@ -444,7 +456,7 @@ bool UMLOperation::load( QDomElement & element )
                     pAtt->setParmKind(Uml::pd_In);
                 m_List.append( pAtt );
             }
-        } else if (Uml::tagEq(tag, "SourceCode")) {
+        } else if (Uml::tagEq(tag, "SourceCode")) {  //:TODO:
             m_Code = attElement.attribute("value", "");
             // uDebug() << "SourceCode found:\n" << m_Code;
         }

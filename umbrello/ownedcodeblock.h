@@ -17,9 +17,10 @@
 #ifndef OWNEDCODEBLOCK_H
 #define OWNEDCODEBLOCK_H
 
-#include <qdom.h>
-#include <qstring.h>
-#include <qobject.h>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
+#include <QtCore/QString>
+#include <QtCore/QObject>
 
 class TextBlock;
 class CodeDocument;
@@ -36,9 +37,6 @@ class OwnedCodeBlock : virtual public QObject
     Q_OBJECT
 public:
 
-    // Constructors/Destructors
-    //
-
     /**
      * Constructor
      */
@@ -50,11 +48,14 @@ public:
     virtual ~OwnedCodeBlock ( );
 
     /**
-     * @return  UMLObject
+     * Get the value of m_parentObject.
+     * @return the value of m_parentObject
      */
     UMLObject * getParentObject ( );
 
-    // get the parent code document of this code block
+    /**
+     * Get the parent code document of this code block.
+     */
     virtual CodeDocument * getParentDocument ( ) = 0;
 
     /**
@@ -64,23 +65,27 @@ public:
 
 protected:
 
-    /** causes the text block to release all of its connections
-      * and any other text blocks that it 'owns'.
-      * needed to be called prior to deletion of the textblock.
-      */
+    /**
+     * Causes the text block to release all of its connections
+     * and any other text blocks that it 'owns'.
+     * Needed to be called prior to deletion of the textblock.
+     */
     virtual void release ();
 
-    /** set attributes of the node that represents this class
+    /**
+     * Set attributes of the node that represents this class
      * in the XMI document.
      */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /** set the class attributes of this object from
+    /**
+     * Set the class attributes of this object from
      * the passed element node.
      */
     virtual void setAttributesFromNode ( QDomElement & element);
 
-    /** set the class attributes from a passed object
+    /**
+     * Set the class attributes from a passed object.
      */
     virtual void setAttributesFromObject (TextBlock * obj);
 
