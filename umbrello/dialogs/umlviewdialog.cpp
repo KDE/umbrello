@@ -83,7 +83,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
     KVBox *page = new KVBox();
     pageGeneralItem = new KPageWidgetItem( page, i18n("General") );
     pageGeneralItem->setHeader( i18n("General Settings") );
-    pageGeneralItem->setIcon(KIcon(DesktopIcon( "misc") ));
+    pageGeneralItem->setIcon(KIcon(DesktopIcon( "preferences-other") ));
     addPage( pageGeneralItem);
 
     m_diagramProperties = new DiagramPropertiesPage(page);
@@ -110,7 +110,7 @@ void UMLViewDialog::setupClassPage() {
     QFrame * newPage = new QFrame();
     pageDisplayItem = new KPageWidgetItem( newPage,i18n("Display") );
     pageDisplayItem->setHeader( i18n("Classes Display Options") );
-    pageDisplayItem->setIcon( KIcon( DesktopIcon( "document-properties") ));
+    pageDisplayItem->setIcon( KIcon( DesktopIcon( "preferences-desktop-theme") ));
     addPage( pageDisplayItem);
 
     QHBoxLayout * pOptionsLayout = new QHBoxLayout( newPage );
@@ -122,7 +122,7 @@ void UMLViewDialog::setupColorPage() {
     QFrame * colorPage = new QFrame();
     pageColorItem = new KPageWidgetItem( colorPage, i18n("Color") );
     pageColorItem->setHeader( i18n("Diagram Colors") );
-    pageColorItem->setIcon(KIcon(  DesktopIcon( "colors")) );
+    pageColorItem->setIcon(KIcon(  DesktopIcon( "preferences-desktop-color")) );
     addPage( pageColorItem);
 
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
@@ -134,7 +134,7 @@ void UMLViewDialog::setupFontPage() {
     KVBox *page = new KVBox();
     pageFontItem = new KPageWidgetItem( page, i18n("Font") );
     pageFontItem->setHeader( i18n("Font Settings") );
-    pageFontItem->setIcon(KIcon(  DesktopIcon( "fonts") ));
+    pageFontItem->setIcon(KIcon(  DesktopIcon( "preferences-desktop-font") ));
     addPage( pageFontItem);
 
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);

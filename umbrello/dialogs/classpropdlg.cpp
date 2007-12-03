@@ -218,7 +218,7 @@ QFrame* ClassPropDlg::createPage(const QString name, const QString header, const
 
 void ClassPropDlg::setupGeneralPage()
 {
-    QFrame* page = createPage( i18n("General"), i18n("General Settings"), "misc" );
+    QFrame* page = createPage( i18n("General"), i18n("General Settings"), "preferences-other" );
     page -> setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
     m_pGenPage = new ClassGenPage(m_pDoc, page, m_pObject);
@@ -227,7 +227,7 @@ void ClassPropDlg::setupGeneralPage()
 
 void ClassPropDlg::setupColorPage()
 {
-    QFrame * page = createPage( i18n("Color"), i18n("Widget Colors"), "colors" );
+    QFrame * page = createPage( i18n("Color"), i18n("Widget Colors"), "preferences-desktop-color" );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(page);
     m_pColorPage = new UMLWidgetColorPage(page, m_pWidget);
     m_pColorLayout -> addWidget(m_pColorPage);
@@ -235,7 +235,7 @@ void ClassPropDlg::setupColorPage()
 
 void ClassPropDlg::setupDisplayPage()
 {
-    QFrame* page = createPage( i18n("Display"), i18n("Display Options"), "document-properties" );
+    QFrame* page = createPage( i18n("Display"), i18n("Display Options"), "preferences-desktop-theme" );
     QHBoxLayout* m_pOptionsLayout = new QHBoxLayout(page);
     ClassifierWidget *cw = static_cast<ClassifierWidget*>(m_pWidget);
     m_pOptionsPage = new ClassOptionsPage(page, cw);
@@ -244,7 +244,7 @@ void ClassPropDlg::setupDisplayPage()
 
 void ClassPropDlg::setupAttributesPage()
 {
-    QFrame* page = createPage( i18n("Attributes"), i18n("General Settings"), "misc" );
+    QFrame* page = createPage( i18n("Attributes"), i18n("General Settings"), "preferences-other" );
     m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Attribute);
     QHBoxLayout * attLayout = new QHBoxLayout(page);
     attLayout -> addWidget(m_pAttPage);
@@ -252,7 +252,7 @@ void ClassPropDlg::setupAttributesPage()
 
 void ClassPropDlg::setupOperationsPage()
 {
-    QFrame* page = createPage( i18n("Operations"), i18n("Operation Settings"), "misc" );
+    QFrame* page = createPage( i18n("Operations"), i18n("Operation Settings"), "preferences-other" );
     m_pOpsPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_Operation);
     QHBoxLayout* pOpsLayout = new QHBoxLayout(page);
     pOpsLayout -> addWidget(m_pOpsPage);
@@ -260,7 +260,7 @@ void ClassPropDlg::setupOperationsPage()
 
 void ClassPropDlg::setupTemplatesPage()
 {
-    QFrame* page = createPage( i18n("Templates"), i18n("Templates Settings"), "misc" );
+    QFrame* page = createPage( i18n("Templates"), i18n("Templates Settings"), "preferences-other" );
     m_pTemplatePage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Template);
     QHBoxLayout* templatesLayout = new QHBoxLayout(page);
     templatesLayout->addWidget(m_pTemplatePage);
@@ -268,7 +268,7 @@ void ClassPropDlg::setupTemplatesPage()
 
 void ClassPropDlg::setupEnumLiteralsPage()
 {
-    QFrame* page = createPage( i18n("Enum Literals"), i18n("Enum Literals Settings"), "misc" );
+    QFrame* page = createPage( i18n("Enum Literals"), i18n("Enum Literals Settings"), "preferences-other" );
     m_pEnumLiteralPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EnumLiteral);
     QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(page);
     enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
@@ -276,7 +276,7 @@ void ClassPropDlg::setupEnumLiteralsPage()
 
 void ClassPropDlg::setupEntityAttributesPage()
 {
-    QFrame* page = createPage( i18n("Entity Attributes"), i18n("Entity Attributes Settings"), "misc" );
+    QFrame* page = createPage( i18n("Entity Attributes"), i18n("Entity Attributes Settings"), "preferences-other" );
     m_pEntityAttributePage = new ClassifierListPage(page, (UMLEntity*)m_pObject, m_pDoc, Uml::ot_EntityAttribute);
     QHBoxLayout* entityAttributesLayout = new QHBoxLayout(page);
     entityAttributesLayout->addWidget(m_pEntityAttributePage);
@@ -284,7 +284,7 @@ void ClassPropDlg::setupEntityAttributesPage()
 
 void ClassPropDlg::setupEntityConstraintsPage()
 {
-    QFrame* page = createPage( i18n("Entity Constraints"), i18n("Entity Constraints Settings"), "misc" );
+    QFrame* page = createPage( i18n("Entity Constraints"), i18n("Entity Constraints Settings"), "preferences-other" );
     m_pEntityConstraintPage = new ConstraintListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EntityConstraint );
     QHBoxLayout* entityConstraintsLayout = new QHBoxLayout(page);
     entityConstraintsLayout->addWidget(m_pEntityConstraintPage);
@@ -292,7 +292,7 @@ void ClassPropDlg::setupEntityConstraintsPage()
 
 void ClassPropDlg::setupContentsPage()
 {
-    QFrame* page = createPage( i18n("Contents"), i18n("Contents Settings"), "misc" );
+    QFrame* page = createPage( i18n("Contents"), i18n("Contents Settings"), "preferences-other" );
     m_pPkgContentsPage = new PkgContentsPage(page, (UMLPackage*)m_pObject);
     QHBoxLayout* contentsLayout = new QHBoxLayout(page);
     contentsLayout->addWidget(m_pPkgContentsPage);
@@ -300,7 +300,7 @@ void ClassPropDlg::setupContentsPage()
 
 void ClassPropDlg::setupAssociationsPage()
 {
-    QFrame* page = createPage( i18n("Associations"), i18n("Class Associations"), "misc" );
+    QFrame* page = createPage( i18n("Associations"), i18n("Class Associations"), "preferences-other" );
     m_pAssocPage = new AssocPage(page, UMLApp::app()->getCurrentView(), m_pObject);
     QHBoxLayout* assocLayout = new QHBoxLayout(page);
     assocLayout -> addWidget(m_pAssocPage);
@@ -308,7 +308,7 @@ void ClassPropDlg::setupAssociationsPage()
 
 void ClassPropDlg::setupInstancePages()
 {
-    QFrame* page = createPage( i18n("General"), i18n("General Settings"), "misc" );
+    QFrame* page = createPage( i18n("General"), i18n("General Settings"), "preferences-other" );
     QHBoxLayout* genLayout = new QHBoxLayout(page);
     page->setMinimumSize(310, 330);
     m_pGenPage = new ClassGenPage(m_pDoc, page, m_pWidget);
@@ -323,7 +323,7 @@ void ClassPropDlg::setupFontPage()
     KVBox* page = new KVBox();
     KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18n("Font") );
     pageItem->setHeader( i18n("Font Settings") );
-    pageItem->setIcon( KIcon(DesktopIcon("fonts") ));
+    pageItem->setIcon( KIcon(DesktopIcon("preferences-desktop-font") ));
     addPage( pageItem );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser -> setFont( m_pWidget -> getFont() );

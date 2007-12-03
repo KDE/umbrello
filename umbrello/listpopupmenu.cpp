@@ -349,8 +349,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             if( pView->getType() == Uml::dt_Sequence ) {
                 addSeparator();
                 Menu_Type tabUp = mt_Up;
-                insert(mt_Up, SmallIcon("arrow-up"), i18n("Move Up"));
-                insert(mt_Down, SmallIcon("arrow-down"), i18n("Move Down"));
+                insert(mt_Up, SmallIcon("go-up"), i18n("Move Up"));
+                insert(mt_Down, SmallIcon("go-down"), i18n("Move Down"));
                 if ( !(static_cast<ObjectWidget*>(object))->canTabUp() ) {
                     setActionEnabled(tabUp, false);
                 }
@@ -376,7 +376,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Cut);
         insert(mt_Copy);
         insert(mt_Paste);
-        insert(mt_Clear, SmallIcon("edit-delete"), i18n("Clear"));
+        insert(mt_Clear, SmallIcon("edit-clear"), i18n("Clear"));
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
@@ -461,7 +461,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Cut);
         insert(mt_Copy);
         insert(mt_Paste);
-        insert(mt_Clear, SmallIcon( "editdelete"), i18n("Clear"));
+        insert(mt_Clear, SmallIcon( "edit-clear"), i18n("Clear"));
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
@@ -480,7 +480,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Cut);
         insert(mt_Copy);
         insert(mt_Paste);
-        insert(mt_Clear, SmallIcon( "editdelete"), i18n("Clear"));
+        insert(mt_Clear, SmallIcon( "edit-clear"), i18n("Clear"));
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
@@ -554,7 +554,7 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(SmallIcon("document-properties"), i18n("Properties"));
         break;
     case mt_Rename:
-        m_actions[m] = addAction(i18n("Rename..."));
+        m_actions[m] = addAction(SmallIcon("edit-rename"), i18n("Rename..."));
         break;
     case mt_Delete:
         m_actions[m] = addAction(SmallIcon("edit-delete"), i18n("Delete"));
@@ -590,16 +590,16 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(i18n("Internalize Folder"));
         break;
     case mt_Import_Classes:
-        m_actions[m] = addAction(BarIcon("file-import"), i18n("Import Classes..."));
+        m_actions[m] = addAction(BarIcon("file-import-class"), i18n("Import Classes..."));
         break;
     case mt_Import_Project:
-        m_actions[m] = addAction(BarIcon("file-import"), i18n("Import Project..."));
+        m_actions[m] = addAction(BarIcon("file-import-project"), i18n("Import Project..."));
         break;
     case mt_Reset_Label_Positions:
         m_actions[m] = addAction(i18n("Reset Label Positions"));
         break;
     case mt_New_Parameter:
-        m_actions[m] = addAction(SmallIcon("fileview-text"), i18n("New Parameter..."));
+        m_actions[m] = addAction(SmallIcon("format-justify-fill"), i18n("New Parameter..."));
         break;
     case mt_New_Operation:
         m_actions[m] = addAction(SmallIcon("CVpublic_meth"),i18n("New Operation..."));
@@ -608,16 +608,16 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(SmallIcon("CVpublic_var"), i18n("New Attribute..."));
         break;
     case mt_New_Template:
-        m_actions[m] = addAction(SmallIcon("fileview-text"), i18n("New Template..."));
+        m_actions[m] = addAction(SmallIcon("format-justify-fill"), i18n("New Template..."));
         break;
     case mt_New_EnumLiteral:
-        m_actions[m] = addAction(SmallIcon("fileview-text"), i18n("New Literal..."));
+        m_actions[m] = addAction(SmallIcon("format-justify-fill"), i18n("New Literal..."));
         break;
     case mt_New_EntityAttribute:
-        m_actions[m] = addAction(SmallIcon("fileview-text"), i18n("New Entity Attribute..."));
+        m_actions[m] = addAction(SmallIcon("format-justify-fill"), i18n("New Entity Attribute..."));
         break;
     case mt_Export_Image:
-        m_actions[m] = addAction(SmallIcon("image"), i18n("Export as Picture..."));
+        m_actions[m] = addAction(SmallIcon("image-x-generic"), i18n("Export as Picture..."));
         break;
     default:
         uWarning() << "called on unimplemented Menu_Type " << m;
@@ -846,7 +846,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
     if (type == Uml::wt_Class)
         insert(mt_Attribute, menu, SmallIcon( "CVpublic_var" ), i18n("Attribute..."));
     insert(mt_Operation, menu, SmallIcon( "CVpublic_meth"), i18n("Operation..."));
-    insert(mt_Template, menu, SmallIcon( "fileview-text" ), i18n( "Template..." ));
+    insert(mt_Template, menu, SmallIcon( "format-justify-fill" ), i18n( "Template..." ));
     addMenu(menu);
 
     makeMultiClassifierPopup(c);
@@ -861,7 +861,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
         insert(mt_ChangeToClass, i18n("Change into Class"));
     } else {
         insert(mt_Refactoring, i18n("Refactor"));
-        insert(mt_ViewCode, SmallIcon("text-plain"), i18n("View Code"));
+        insert(mt_ViewCode, SmallIcon("text-x-generic"), i18n("View Code"));
         UMLClassifier *umlc = c->getClassifier();
         if (umlc->getAbstract() && umlc->attributes() == 0)
             insert(mt_ChangeToInterface, i18n("Change into Interface"));
@@ -872,7 +872,6 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 void ListPopupMenu::insertSubMenuColor(bool fc)
 {
     KMenu* color = new KMenu(i18n("Color"), this);
-    color->setIcon(SmallIcon("paintbrush"));
     insert(mt_Line_Color, color, SmallIcon("color-line"), i18n("Line Color..."));
     insert(mt_Fill_Color, color, SmallIcon("color-fill"), i18n("Fill Color..."));
     insert(mt_Use_Fill_Color, color, i18n("Use Fill Color"), CHECKABLE);
@@ -1052,25 +1051,25 @@ void ListPopupMenu::insertSubMenuNew(Menu_Type type)
         case mt_Class:
             insert(mt_Attribute, menu, SmallIcon( "CVpublic_var"), i18n("Attribute"));
             insert(mt_Operation, menu, SmallIcon( "CVpublic_meth"), i18n("Operation"));
-            insert(mt_Template, menu, SmallIcon("fileview-text"), i18n("Template"));
+            insert(mt_Template, menu, SmallIcon("format-justify-fill"), i18n("Template"));
             break;
         case mt_Interface:
             insert(mt_Operation, menu, SmallIcon("CVpublic_meth"), i18n("Operation"));
-            insert(mt_Template, menu, SmallIcon("fileview-text"), i18n("Template"));
+            insert(mt_Template, menu, SmallIcon("format-justify-fill"), i18n("Template"));
             break;
         case mt_Entity:
-            insert(mt_EntityAttribute, menu, SmallIcon("fileview-text"), i18n("Entity Attribute..."));
+            insert(mt_EntityAttribute, menu, SmallIcon("format-justify-fill"), i18n("Entity Attribute..."));
             insert(mt_PrimaryKeyConstraint, menu, SmallIcon("primarykey_constraint"),i18n("Primary Key Constraint..."));
             insert(mt_UniqueConstraint, menu, SmallIcon("unique_constraint"),i18n("Unique Constraint..."));
             insert(mt_ForeignKeyConstraint, menu, SmallIcon("foreignkey_constraint"),i18n("Foreign Key Constraint..."));
             insert(mt_CheckConstraint, menu, SmallIcon("check_constraint"),i18n("Check Constraint..."));
             break;
         case mt_Enum:
-            insert(mt_EnumLiteral, menu, SmallIcon("fileview-text"), i18n("Enum Literal..."));
+            insert(mt_EnumLiteral, menu, SmallIcon("format-justify-fill"), i18n("Enum Literal..."));
             break;
         case mt_New_Activity:
         case mt_Activity_Selected:
-            insert(mt_New_Activity, menu, SmallIcon("fileview-text"), i18n("Activity..."));
+            insert(mt_New_Activity, menu, SmallIcon("format-justify-fill"), i18n("Activity..."));
             break;
         case mt_Subsystem:
             insert(mt_Subsystem, menu);
@@ -1462,7 +1461,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         break;
 
     case mt_Template_Selected:
-        insert(mt_New_Attribute, SmallIcon("fileview-text"), i18n("New Template..."));
+        insert(mt_New_Attribute, SmallIcon("format-justify-fill"), i18n("New Template..."));
         insert(mt_Delete);
         insert(mt_Properties);
         break;

@@ -237,12 +237,12 @@ void UMLApp::initActions()
     preferences = KStandardAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
 
     importClasses = actionCollection()->addAction("import_class");
-    importClasses->setIcon(KIcon("source-cpp"));
+    importClasses->setIcon(KIcon("document-import-class"));
     importClasses->setText(i18n("&Import Classes..."));
     connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
 
     importProject = actionCollection()->addAction("import_project");
-    importProject->setIcon(KIcon("source-cpp"));
+    importProject->setIcon(KIcon("document-import-project"));
     importProject->setText(i18n("Import &Project..."));
     connect(importProject, SIGNAL( triggered( bool ) ), this, SLOT( slotImportProject() ));
 
@@ -380,12 +380,12 @@ void UMLApp::initActions()
     connect(deleteDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteDiagram() ));
 
     viewExportImage = actionCollection()->addAction( "view_export_image" );
-    viewExportImage->setIcon( KIcon("image") );
+    viewExportImage->setIcon( KIcon("image-x-generic") );
     viewExportImage->setText( i18n("&Export as Picture...") );
     connect(viewExportImage, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewExportImage() ));
 
     viewExportImageAll = actionCollection()->addAction( "view_export_image_all" );
-    viewExportImageAll->setIcon( KIcon("image") );
+    viewExportImageAll->setIcon( KIcon("image-x-generic") );
     viewExportImageAll->setText( i18n("Export &All Diagrams as Pictures...") );
     connect(viewExportImageAll, SIGNAL( triggered( bool ) ), this, SLOT( slotAllViewsExportImage() ));
 
@@ -416,42 +416,42 @@ void UMLApp::initActions()
 
     alignRight = actionCollection()->addAction( "align_right" );
     alignRight->setText(i18n("Align Right" ));
-    alignRight->setIcon(KIcon("align_right" ) );
+    alignRight->setIcon(KIcon("align-horizontal-right" ) );
     connect(alignRight, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignRight() ));
 
     alignLeft = actionCollection()->addAction( "align_left" );
     alignLeft->setText(i18n("Align Left" ));
-    alignLeft->setIcon(KIcon("align_left" ) );
+    alignLeft->setIcon(KIcon("align-horizontal-left" ) );
     connect(alignLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignLeft() ));
 
     alignTop = actionCollection()->addAction( "align_top" );
     alignTop->setText(i18n("Align Top" ));
-    alignTop->setIcon(KIcon("align_top" ) );
+    alignTop->setIcon(KIcon("align-vertical-top" ) );
     connect(alignTop, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignTop() ));
 
     alignBottom = actionCollection()->addAction( "align_bottom" );
     alignBottom->setText(i18n("Align Bottom" ));
-    alignBottom->setIcon(KIcon("align_bottom" ) );
+    alignBottom->setIcon(KIcon("align-vertical-bottom" ) );
     connect(alignBottom, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignBottom() ));
 
     alignVerticalMiddle = actionCollection()->addAction( "align_vertical_middle" );
     alignVerticalMiddle->setText(i18n("Align Vertical Middle" ));
-    alignVerticalMiddle->setIcon(KIcon("align_vert_middle" ) );
+    alignVerticalMiddle->setIcon(KIcon("align-vertical-center" ) );
     connect(alignVerticalMiddle, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignVerticalMiddle() ));
 
     alignHorizontalMiddle = actionCollection()->addAction( "align_horizontal_middle" );
     alignHorizontalMiddle->setText(i18n("Align Horizontal Middle" ));
-    alignHorizontalMiddle->setIcon(KIcon("align_hori_middle" ) );
+    alignHorizontalMiddle->setIcon(KIcon("align-horizontal-center" ) );
     connect(alignHorizontalMiddle, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignHorizontalMiddle() ));
 
     alignVerticalDistribute = actionCollection()->addAction( "align_vertical_distribute" );
     alignVerticalDistribute->setText(i18n("Align Vertical Distribute" ));
-    alignVerticalDistribute->setIcon(KIcon("align_vert_distribute" ) );
+    alignVerticalDistribute->setIcon(KIcon("distribute-vertical" ) );
     connect(alignVerticalDistribute, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignVerticalDistribute() ));
 
     alignHorizontalDistribute = actionCollection()->addAction( "align_horizontal_distribute" );
     alignHorizontalDistribute->setText(i18n("Align Horizontal Distribute" ));
-    alignHorizontalDistribute->setIcon(KIcon("align_hori_distribute" ) );
+    alignHorizontalDistribute->setIcon(KIcon("distribute-horizontal" ) );
     connect(alignHorizontalDistribute, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignHorizontalDistribute() ));
 
 
@@ -656,7 +656,7 @@ void UMLApp::initView()
     // create cmd history view
     m_pQUndoView = new QUndoView(m_cmdHistoryDock);
     m_cmdHistoryDock->setWidget(m_pQUndoView);
-    m_pQUndoView->setCleanIcon(KIcon("filesave"));
+    m_pQUndoView->setCleanIcon(KIcon("document-save"));
     m_pQUndoView->setStack(m_pUndoStack);
 
     // Create the property viewer
