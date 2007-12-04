@@ -1068,7 +1068,7 @@ bool CodeEditor::isParaEditable (int para)
         QList<ParaInfo*> list = info->m_paraList;
         foreach (ParaInfo * item, list)
         {
-            if((item->start+pstart) <= para && (item->start+pstart+item->size) >= para)
+            if (item->start+pstart <= para && item->start+pstart+item->size >= para) {
                 if(item->isEditable && hasEditableRange)
                 {
                     if ( relativeLine >= editStart && relativeLine <= (item->size + editEnd) )
@@ -1077,6 +1077,7 @@ bool CodeEditor::isParaEditable (int para)
                         return false;
                 } else
                     return item->isEditable;
+            }
         }
     }
     return false;

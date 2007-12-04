@@ -381,10 +381,11 @@ void LinePath::setLineColor( const QColor &color ) {
         line -> setPen( QPen( color, linewidth ) );
     }
 
-    if( getAssocType() == Uml::at_Aggregation )
+    if (getAssocType() == Uml::at_Aggregation) {
         if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( Qt::white ) );
         else if( getAssocType() == Uml::at_Composition )
             if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( color ) );
+    }
 
     if( m_pCircle ) {
         linewidth = m_pCircle->pen().width();

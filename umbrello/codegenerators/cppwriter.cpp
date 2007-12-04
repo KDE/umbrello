@@ -1158,11 +1158,12 @@ void CppWriter::printAssociationIncludeDecl (UMLAssociationList list, Uml::IDTyp
 
         // as header doc for this method indicates, we need to be a bit sophisticated on
         // how to declare some associations.
-        if( current )
+        if (current) {
             if( !isFirstClass && !a->getRoleName(Uml::A).isEmpty() && !a->getRoleName(Uml::B).isEmpty())
                 stream << "class " << current->getName() << ";" << m_endl; // special case: use forward declaration
             else
                 stream << "#include \"" << current->getName() << ".h\"" << m_endl; // just the include statement
+        }
     }
 }
 

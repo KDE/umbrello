@@ -253,11 +253,12 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const 
     }
 
     codeComment->setText(text);
-    if(createdCodeComment)
+    if (createdCodeComment) {
         if(!text.isEmpty())
             codeComment->setWriteOutText(true); // set to visible, if we created
         else
             codeComment->setWriteOutText(false); // set to not visible, if we created
+    }
 
     codeComment->setIndentationLevel(indentationLevel);
 
