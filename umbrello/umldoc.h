@@ -193,7 +193,7 @@ public:
       * Returns true if the given name is unique within its scope of given package.
       *
       * @param name          The name to check.
-      * @package     The UMLPackage in which we have to determine the unique-ness
+      * @param package  The UMLPackage in which we have to determine the unique-ness
       * @return      True if name is unique.
       */
     bool isUnique(const QString &name, UMLPackage *package);
