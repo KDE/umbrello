@@ -25,7 +25,7 @@
          <default>image/png</default>
        </entry>
        <entry name="undo" type="Bool">
-         <label>Undo Supoort</label>
+         <label>Undo Support</label>
          <whatisthis>Undo Support is enabled when this is true</whatisthis>
          <default>true</default>
        </entry>
