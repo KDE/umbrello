@@ -368,7 +368,7 @@
          <default>true</default>
        </entry>
        <entry name="vectorClassName" type="String">
-         <label>Vector Clas Name</label>
+         <label>Vector Class Name</label>
          <whatisthis>The name of the vector class</whatisthis>
          <default>vector</default>
        </entry>
