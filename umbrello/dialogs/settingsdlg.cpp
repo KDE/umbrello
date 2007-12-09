@@ -350,7 +350,7 @@ void SettingsDlg::setupFontPage() {
     KVBox * page = new KVBox();
     pageFont = new KPageWidgetItem( page,i18n("Font")  );
     pageFont->setHeader( i18n("Font Settings") );
-    pageFont->setIcon( KIcon( DesktopIcon( "fonts") ) );
+    pageFont->setIcon( KIcon( "preferences-desktop-font" ) );
     addPage( pageFont );
     m_FontWidgets.chooser = new KFontChooser( page,  false, QStringList(), false);
     m_FontWidgets.chooser->setFont( m_pOptionState->uiState.font );
