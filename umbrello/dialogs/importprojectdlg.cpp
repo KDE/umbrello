@@ -17,13 +17,15 @@
 #include <QRegExp>
 #include <kmessagebox.h>
 
+// local includes
+#include "../model_utils.h"
 
-const QString ImportProjectDlg::ADA = "Ada";
-const QString ImportProjectDlg::CPP = "C++";
-const QString ImportProjectDlg::IDL = "Idl";
-const QString ImportProjectDlg::JAVA = "Java";
-const QString ImportProjectDlg::PASCAL = "Pascal";
-const QString ImportProjectDlg::PYTHON = "Python";
+const QString ImportProjectDlg::ADA    = Model_Utils::progLangToString(Uml::pl_Ada);
+const QString ImportProjectDlg::CPP    = Model_Utils::progLangToString(Uml::pl_Cpp);
+const QString ImportProjectDlg::IDL    = Model_Utils::progLangToString(Uml::pl_IDL);
+const QString ImportProjectDlg::JAVA   = Model_Utils::progLangToString(Uml::pl_Java);
+const QString ImportProjectDlg::PASCAL = Model_Utils::progLangToString(Uml::pl_Pascal);
+const QString ImportProjectDlg::PYTHON = Model_Utils::progLangToString(Uml::pl_Python);
 
 
 ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::Programming_Language pl,
