@@ -177,11 +177,7 @@ CodeViewerDialog * CodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDoc
 
 void CodeGenerator::loadFromXMI (QDomElement & qElement )
 {
-    // don't do anything for simple (compatibility) code generators
-    if(dynamic_cast<SimpleCodeGenerator*>(this))
-        return;
-
-    //now look for our particular child element
+    // look for our particular child element
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
     QString langType = Model_Utils::progLangToString( getLanguage() );
@@ -193,12 +189,35 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement )
     // codedocuments
     QDomNode codeDocNode = qElement.firstChild();
     QDomElement codeDocElement = codeDocNode.toElement();
-    while( !codeDocElement.isNull() ) {
-
+    while (!codeDocElement.isNull())
+    {
         QString docTag = codeDocElement.tagName();
-        if( docTag == "codedocument" ||
-                docTag == "classifiercodedocument"
-          ) {
+        if (docTag == "sourcecode")
+        {
+            QString idStr = codeDocElement.attribute("id", "-1");
+            QString value = codeDocElement.attribute("value", "");
+            Uml::IDType id = STR2ID(idStr);
+            UMLObject *obj = m_document->findObjectById(id);
+            if (obj)
+            {
+                Uml::Object_Type t = obj->getBaseType();
+                if (t == Uml::ot_Operation)
+                {
+                    UMLOperation *op = static_cast<UMLOperation*>(obj);
+                    op->setSourceCode(value);
+                }
+                else
+                    uError() << "CodeGenerator::loadFromXMI: sourcecode id "
+                        << idStr << " has unexpected type " << t << endl;
+            }
+            else
+            {
+                uError() << "CodeGenerator::loadFromXMI: unknown sourcecode id "
+                    << idStr << endl;
+            }
+        }
+        else if (docTag == "codedocument" || docTag == "classifiercodedocument")
+        {
             QString id = codeDocElement.attribute( "id", "-1" );
             CodeDocument * codeDoc = findCodeDocumentByID(id);
             if(codeDoc)
@@ -220,12 +239,33 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
     QDomElement docElement = doc.createElement( "codegenerator" );
     docElement.setAttribute("language",langType);
 
-    CodeDocumentList * docList = getCodeDocumentList();
-    CodeDocumentList::iterator it = docList->begin();
-    CodeDocumentList::iterator end = docList->end();
-    for ( ; it != end; ++it )
-        (*it)->saveToXMI(doc, docElement);
-
+    if (dynamic_cast<SimpleCodeGenerator*>(this))
+    {
+        UMLClassifierList concepts = m_document->getClassesAndInterfaces();
+        foreach (UMLClassifier *c, concepts)
+        {
+            UMLOperationList operations = c->getOpList();
+            foreach (UMLOperation *op, operations)
+            {
+                // save the source code
+                QString code = op->getSourceCode();
+                if (code.isEmpty())
+                    continue;
+                QDomElement codeElement = doc.createElement("sourcecode");
+                codeElement.setAttribute("id", ID2STR(op->getID()));
+                codeElement.setAttribute("value", code);
+                docElement.appendChild( codeElement );
+            }
+        }
+    }
+    else
+    {
+        CodeDocumentList * docList = getCodeDocumentList();
+        CodeDocumentList::iterator it = docList->begin();
+        CodeDocumentList::iterator end = docList->end();
+        for ( ; it != end; ++it )
+            (*it)->saveToXMI(doc, docElement);
+    }
     root.appendChild( docElement );
 }
 
@@ -248,7 +288,7 @@ void CodeGenerator::initFromParentDocument()
 {
     // Walk through the document converting classifiers into
     // classifier code documents as needed (e.g only if doesn't exist)
-    UMLClassifierList concepts = UMLApp::app()->getDocument()->getClassesAndInterfaces();
+    UMLClassifierList concepts = m_document->getClassesAndInterfaces();
     foreach (UMLClassifier *c , concepts)
     {
         // Doesn't exist? Then build one.
@@ -679,10 +719,9 @@ void CodeGenerator::initFields()
 
 void CodeGenerator::connect_newcodegen_slots()
 {
-    UMLDoc *doc = UMLApp::app()->getDocument();
-    connect(doc, SIGNAL(sigObjectCreated(UMLObject*)),
+    connect(m_document, SIGNAL(sigObjectCreated(UMLObject*)),
             this, SLOT(checkAddUMLObject(UMLObject*)));
-    connect(doc, SIGNAL(sigObjectRemoved(UMLObject*)),
+    connect(m_document, SIGNAL(sigObjectRemoved(UMLObject*)),
             this, SLOT(checkRemoveUMLObject(UMLObject*)));
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     connect(commonPolicy, SIGNAL(modifiedCodeContent()),
