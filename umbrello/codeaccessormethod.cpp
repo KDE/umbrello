@@ -27,34 +27,27 @@
 #include "umlobject.h"
 #include "umlrole.h"
 
-// Constructors/Destructors
-//
-
 CodeAccessorMethod::CodeAccessorMethod ( CodeClassField * parentCF )
         : CodeMethodBlock ( parentCF->getParentDocument(), parentCF->getParentObject() )
 {
     initFields(parentCF);
 }
 
-CodeAccessorMethod::~CodeAccessorMethod ( ) { }
-
-//
-// Methods
-//
-
-
-// Accessor methods
-//
+CodeAccessorMethod::~CodeAccessorMethod ( )
+{
+}
 
 /**
  * Get the value of m_parentclassfield
  * @return the value of m_parentclassfield
  */
-CodeClassField * CodeAccessorMethod::getParentClassField ( ) {
+CodeClassField * CodeAccessorMethod::getParentClassField ( )
+{
     return m_parentclassfield;
 }
 
-bool CodeAccessorMethod::parentIsAttribute( ) {
+bool CodeAccessorMethod::parentIsAttribute( )
+{
     return getParentClassField()->parentIsAttribute();
 }
 
@@ -63,37 +56,38 @@ bool CodeAccessorMethod::parentIsAttribute( ) {
  * @return the value of the parent of the parent classfield
  */
 /*
-UMLObject * CodeAccessorMethod::getParentObject ( ) {
+UMLObject * CodeAccessorMethod::getParentObject ( )
+{
     return getParentClassField()->getParentObject();
 }
 */
 
 /** return the type of accessor method this is
  */
-CodeAccessorMethod::AccessorType CodeAccessorMethod::getType( ) {
+CodeAccessorMethod::AccessorType CodeAccessorMethod::getType( )
+{
     return m_accessorType;
 }
 
 /** Set the type of accessor method this is
  */
-void CodeAccessorMethod::setType ( CodeAccessorMethod::AccessorType atype) {
+void CodeAccessorMethod::setType ( CodeAccessorMethod::AccessorType atype)
+{
     m_accessorType = atype;
 }
-
-// Other methods
-//
-
 
 // this type of textblock is special
 // we DON'T release it when resetTextBlocks is
 // called because we re-use it over and over
 // until the codeclassfield is released.
-void CodeAccessorMethod::release () {
+void CodeAccessorMethod::release ()
+{
     // do nothing
 }
 
 // ok, a method so the parent can force it to release
-void CodeAccessorMethod::forceRelease () {
+void CodeAccessorMethod::forceRelease ()
+{
     if(m_parentclassfield)
         m_parentclassfield->disconnect(this);
     CodeMethodBlock::release();
@@ -102,14 +96,16 @@ void CodeAccessorMethod::forceRelease () {
 /**
  * load params from the appropriate XMI element node.
  */
-void CodeAccessorMethod::loadFromXMI ( QDomElement & root ) {
+void CodeAccessorMethod::loadFromXMI ( QDomElement & root )
+{
     setAttributesFromNode(root);
 }
 
 /**
  * Save the XMI representation of this object
  */
-void CodeAccessorMethod::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+void CodeAccessorMethod::saveToXMI ( QDomDocument & doc, QDomElement & root )
+{
     QDomElement docElement = doc.createElement( "codeaccessormethod" );
 
     setAttributesOnNode(doc, docElement);
@@ -122,21 +118,19 @@ void CodeAccessorMethod::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
   */
 void CodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem)
 {
-
     // set super-class attributes
     CodeMethodBlock::setAttributesOnNode(doc, elem);
 
     // set local class attributes
     elem.setAttribute("accessType",getType());
     elem.setAttribute("classfield_id",getParentClassField()->getID());
-
 }
 
 /** set the class attributes of this object from
  * the passed element node.
  */
-void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
-
+void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root)
+{
     // set attributes from the XMI
     CodeMethodBlock::setAttributesFromNode(root); // superclass load
 
@@ -163,12 +157,10 @@ void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root) {
     */
     // now load/set other local attributes
     setType((AccessorType) root.attribute("accessType","0").toInt());
-
 }
 
 void CodeAccessorMethod::setAttributesFromObject(TextBlock * obj)
 {
-
     CodeMethodBlock::setAttributesFromObject(obj);
 
     CodeAccessorMethod * mb = dynamic_cast<CodeAccessorMethod*>(obj);
@@ -180,14 +172,13 @@ void CodeAccessorMethod::setAttributesFromObject(TextBlock * obj)
 
         setType(mb->getType());
     }
-
 }
 
-void CodeAccessorMethod::initFields(CodeClassField * parentClassField ) {
-
+void CodeAccessorMethod::initFields(CodeClassField * parentClassField )
+{
     m_parentclassfield = parentClassField;
     m_accessorType = GET;
-    m_canDelete = false; // we cant delete these with the codeeditor, delete the UML operation instead.
+    setCanDelete(false);  // we cant delete these with the codeeditor, delete the UML operation instead.
 
     connect(m_parentclassfield,SIGNAL(modified()),this,SLOT(syncToParent()));
 }

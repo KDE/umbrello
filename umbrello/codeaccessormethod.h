@@ -13,12 +13,10 @@
  *      Date   : Tue Jul 1 2003
  */
 
-
-
 #ifndef CODEACCESSORMETHOD_H
 #define CODEACCESSORMETHOD_H
 
-#include <qstring.h>
+#include <QtCore/QString>
 #include "codemethodblock.h"
 
 class CodeClassField;
@@ -37,10 +35,6 @@ public:
     // "LIST" is to retrive the entire list of items in a  multiple-valued field
     enum AccessorType {GET=0, SET, ADD, REMOVE, LIST};
 
-    // Constructors/Destructors
-    //
-
-
     /**
      * Constructors
      */
@@ -57,16 +51,19 @@ public:
      */
     CodeClassField * getParentClassField ( );
 
-    /** return the type of accessor method this is
-         */
+    /**
+     * Return the type of accessor method this is.
+     */
     AccessorType getType( );
 
-    /** Set the type of accessor method this is
+    /**
+     * Set the type of accessor method this is.
      */
     void setType ( AccessorType type);
 
-    /** Utility method to get the value of the parent object of the parent classifield.
-    */
+    /**
+     * Utility method to get the value of the parent object of the parent classifield.
+     */
     // virtual UMLObject * getParentObject();
 
     bool parentIsAttribute();
@@ -74,16 +71,17 @@ public:
     virtual void updateContent() = 0;
 
     /**
-     * Save the XMI representation of this object
+     * Save the XMI representation of this object.
      */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
     /**
-     * load params from the appropriate XMI element node.
+     * Load params from the appropriate XMI element node.
      */
     virtual void loadFromXMI ( QDomElement & root );
 
-    /** set the class attributes from a passed object
+    /**
+     * Set the class attributes from a passed object.
      */
     virtual void setAttributesFromObject (TextBlock * obj);
 
@@ -91,12 +89,14 @@ protected:
 
     virtual void release ();
 
-    /** set attributes of the node that represents this class
-    * in the XMI document.
-    */
+    /**
+     * Set attributes of the node that represents this class
+     * in the XMI document.
+     */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /** set the class attributes of this object from
+    /**
+     * Set the class attributes of this object from
      * the passed element node.
      */
     virtual void setAttributesFromNode ( QDomElement & element);
