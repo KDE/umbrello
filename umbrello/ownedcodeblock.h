@@ -27,7 +27,6 @@ class CodeDocument;
 class UMLObject;
 
 /**
-  * class OwnedCodeBlock
   * Describes any codeblock which is 'owned' by a UMLobject of some sort and should
   * be in sync with that parent.
   */
@@ -52,11 +51,6 @@ public:
      * @return the value of m_parentObject
      */
     UMLObject * getParentObject ( );
-
-    /**
-     * Get the parent code document of this code block.
-     */
-    virtual CodeDocument * getParentDocument ( ) = 0;
 
     /**
      * This is the method called from within syncToParent
