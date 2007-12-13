@@ -320,7 +320,7 @@ TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag ( const QStr
 
 void HierarchicalCodeBlock::initAttributes()
 {
-    m_canDelete = false;
+    setCanDelete(false);
     m_startText = "";
     m_endText = "";
 }

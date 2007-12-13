@@ -29,8 +29,6 @@
 #include "hierarchicalcodeblock.h"
 #include "uml.h"
 
-// Constructors/Destructors
-//
 
 CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( CodeDocument *parent )
   : m_pCodeDoc(parent)
@@ -38,58 +36,47 @@ CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( CodeDocument *parent 
     initFields();
 }
 
-CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( ) {
+CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( )
+{
     resetTextBlocks();
 }
-
-//
-// Methods
-//
-
-
-// Accessor methods
-//
 
 /**
  * Get the list of TextBlock objects held by m_textblockVector
  * @return QPtrList<TextBlock *> list of TextBlock objects held by
  * m_textblockVector
  */
-TextBlockList * CodeGenObjectWithTextBlocks::getTextBlockList ( ) {
+TextBlockList * CodeGenObjectWithTextBlocks::getTextBlockList ( )
+{
     return &m_textblockVector;
 }
-
-// Other methods
-//
 
 /**
  * Add a TextBlock object to the m_textblockVector List
  */
-bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object ) {
-
+bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object )
+{
     QString tag = add_object->getTag();
 
     // assign a tag if one doesn't already exist
-    if(tag.isEmpty())
+    if (tag.isEmpty())
     {
         tag = getUniqueTag();
         add_object->setTag(tag);
     }
     else
     {
-
         // if it has a tag, check to see that its not in some other parent object
         // IF it is then we will need to remove it FIRST before adding to new parent
         CodeDocument * parentDoc = add_object->getParentDocument();
-        if(parentDoc) {
-
+        if (parentDoc) {
             CodeGenObjectWithTextBlocks * oldParent = parentDoc->findParentObjectForTaggedTextBlock (tag);
-            if(oldParent && oldParent != this)
+            if (oldParent && oldParent != this)
                 oldParent->removeTextBlock(add_object);
         }
     }
 
-    if(m_textBlockTagMap.contains(tag))
+    if (m_textBlockTagMap.contains(tag))
         return false; // return false, we already have some object with this tag in the list
 
     // if we get here, then the object is a "fresh" one, we havent
@@ -103,24 +90,24 @@ bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object ) {
 /**
  * Remove a TextBlock object from m_textblockVector List
  */
-bool CodeGenObjectWithTextBlocks::removeTextBlock ( TextBlock * remove_object ) {
-
+bool CodeGenObjectWithTextBlocks::removeTextBlock ( TextBlock * remove_object )
+{
     // check if we can remove it from our local list
-    if(!m_textblockVector.removeRef(remove_object))
+    if (!m_textblockVector.removeRef(remove_object))
     {
         // may be hiding in child hierarchical codeblock
         TextBlock * tb;
         for(TextBlockListIt it(m_textblockVector); (tb = it.current()) != NULL; ++it)
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
-            if(hb && hb->removeTextBlock(remove_object))
+            if (hb && hb->removeTextBlock(remove_object))
                 return true;
         }
     }
 
     // if we get here.. it was in this object so remove from our map
     QString tag = remove_object->getTag();
-    if(!tag.isEmpty())
+    if (!tag.isEmpty())
         m_textBlockTagMap.remove(tag);
 
     return true;
@@ -139,8 +126,8 @@ TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag( const QString &tag 
 // and down into its Hierarchical codeblocks. This means you should start any
 // search from the parent document of the text block. This method NOT meant for
 // casual usage.
-CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTaggedTextBlock (const QString & tag) {
-
+CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTaggedTextBlock (const QString & tag)
+{
     // what??!? no tag, then CANT be here
     if(tag.isEmpty())
         return (CodeGenObjectWithTextBlocks*) NULL;
@@ -174,8 +161,8 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
  * @param       comment
  * @param       indentLevel
  */
-HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel ) {
-
+HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel )
+{
     // now actually declare the fields
     HierarchicalCodeBlock * codeBlock = dynamic_cast<HierarchicalCodeBlock*>(findTextBlockByTag(tag));
     if (!codeBlock) {
@@ -199,15 +186,14 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( 
     return codeBlock;
 }
 
-
 /**
  * @return      CodeBlockWithComments
  * @param       tag
  * @param       comment
  * @param       indentLevel
  */
-CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel ) {
-
+CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel )
+{
     // now actually declare the fields
     CodeBlockWithComments * codeBlock = dynamic_cast<CodeBlockWithComments*>(findTextBlockByTag(tag));
     if (!codeBlock) {
@@ -224,9 +210,7 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( 
     codeBlock->getComment()->setText(comment);
 
     return codeBlock;
-
 }
-
 
 /**
  * @return      CodeComment
@@ -236,7 +220,6 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( 
  */
 CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const QString &tag, const QString &text, int indentationLevel)
 {
-
     TextBlock * tBlock = findTextBlockByTag(tag);
     CodeComment * codeComment = dynamic_cast<CodeComment*>(tBlock);
     bool createdCodeComment = false;
@@ -265,7 +248,6 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const 
     return codeComment;
 }
 
-
 /**
  * @return      CodeBlockWithComments
  * @param       tag
@@ -276,12 +258,11 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const 
  */
 CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &ctext, int indentLevel, bool forceUserBlockUpdate )
 {
-
     TextBlock * tBlock = findTextBlockByTag(tag);
     CodeBlockWithComments * codeBlock = dynamic_cast<CodeBlockWithComments*>(tBlock);
     bool createdCodeBlock = false;
 
-    if(!codeBlock) {
+    if (!codeBlock) {
         createdCodeBlock = true;
         codeBlock = newCodeBlockWithComments();
         codeBlock->setTag(tag);
@@ -293,21 +274,20 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockW
     }
 
     // ONLY update IF we are forcing the update of user blocks OR its an "AutoGenerated" Block
-    if(forceUserBlockUpdate || codeBlock->getContentType() == CodeBlock::AutoGenerated)
+    if (forceUserBlockUpdate || codeBlock->getContentType() == CodeBlock::AutoGenerated)
     {
-
         codeBlock->setText(text);
         codeBlock->getComment()->setText(ctext);
 
         // if we created this from scratch, make it write out only when the block isnt empty
         if (createdCodeBlock)
         {
-            if(!ctext.isEmpty())
+            if (!ctext.isEmpty())
                 codeBlock->getComment()->setWriteOutText(true);
             else
                 codeBlock->getComment()->setWriteOutText(false);
 
-            if(!text.isEmpty())
+            if (!text.isEmpty())
                 codeBlock->setWriteOutText(true);
             else
                 codeBlock->setWriteOutText(false);
@@ -318,10 +298,10 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockW
     }
 
     return codeBlock;
-
 }
 
-void CodeGenObjectWithTextBlocks::resetTextBlocks() {
+void CodeGenObjectWithTextBlocks::resetTextBlocks()
+{
     /**************  @todo I had to deactivate this code:
     TextBlock *tb;
     for (TextBlockListIt it(m_textblockVector); (tb = it.current()) != NULL; ++it)
@@ -385,8 +365,8 @@ void CodeGenObjectWithTextBlocks::setAttributesFromObject (CodeGenObjectWithText
     }
 }
 
-void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomElement & root) {
-
+void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomElement & root)
+{
     // set a section to hold document content
     QDomElement tblockElement = doc.createElement( "textblocks" );
 
@@ -396,7 +376,6 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomE
         block->saveToXMI(doc, tblockElement);
 
     root.appendChild( tblockElement);
-
 }
 
 /** set the class attributes of this object from
@@ -404,13 +383,10 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomE
  */
 void CodeGenObjectWithTextBlocks::setAttributesFromNode ( QDomElement & root)
 {
-
     // clear existing codeblocks
     resetTextBlocks();
-
     // now load em back in
     loadChildTextBlocksFromNode(root);
-
 }
 
 // load text blocks
@@ -421,7 +397,6 @@ void CodeGenObjectWithTextBlocks::setAttributesFromNode ( QDomElement & root)
 // derived from codeblock/codecomment
 void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & root)
 {
-
     QDomNode tnode = root.firstChild();
     QDomElement telement = tnode.toElement();
     bool loadCheckForChildrenOK = false;
@@ -535,9 +510,8 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
 
 }
 
-void CodeGenObjectWithTextBlocks::initFields ( ) {
-
+void CodeGenObjectWithTextBlocks::initFields ( )
+{
     m_textblockVector.setAutoDelete(false);
-
 }
 

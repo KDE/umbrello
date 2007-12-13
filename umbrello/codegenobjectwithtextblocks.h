@@ -17,7 +17,7 @@
 #ifndef CODEGENOBJECTWITHTEXTBLOCKS_H
 #define CODEGENOBJECTWITHTEXTBLOCKS_H
 
-#include <qmap.h>
+#include <QtCore/QMap>
 #include "codeaccessormethod.h"
 #include "textblocklist.h"
 
@@ -31,16 +31,12 @@ class TextBlock;
 
 
 /**
-  * class CodeGenObjectWithTextBlocks
   * This abstract class is for code generator objects which 'own' text blocks.
   */
 
 class CodeGenObjectWithTextBlocks
 {
 public:
-
-    // Constructors/Destructors
-    //
 
     /**
      * Constructor
@@ -88,9 +84,9 @@ public:
     virtual HierarchicalCodeBlock * getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel );
 
     /**
-            * Will get a codeblockwithcomments from the document with given tag. IF the codeblock
-            * doesn't exist, then it will create it at the end of the document textBlock
-            * list and pass back a reference.
+     * Will get a codeblockwithcomments from the document with given tag. IF the codeblock
+     * doesn't exist, then it will create it at the end of the document textBlock
+     * list and pass back a reference.
      * @return  CodeBlockWithComments
      * @param   tag
      * @param   comment
@@ -98,28 +94,30 @@ public:
      */
     virtual CodeBlockWithComments * getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel );
 
-    /** allows the user to add a code comment to the end of the list
+     /**
+      * Allows the user to add a code comment to the end of the list
+      * of text blocks in this document OR, if a text block already exists
+      * with that tag, it will update it with the passed text as appropriate.
+      * @return codeblock/comment pointer to the object which was created/updated.
+      * @return   CodeComment
+      * @param    tag
+      * @param    text
+      * @param    indentationLevel
+      */
+     CodeComment * addOrUpdateTaggedCodeComment (const QString &tag = "", const QString &text = "", int indentationLevel = 0 );
+
+    /**
+     * Allows the user to either add a code block with comments to the end of the list
      * of text blocks in this document OR, if a text block already exists
      * with that tag, it will update it with the passed text as appropriate.
      * @return codeblock/comment pointer to the object which was created/updated.
-     * @return   CodeComment
+     * @return   CodeBlockWithComments
      * @param    tag
      * @param    text
-     * @param    indentationLevel
+     * @param    comment
+     * @param    indentLevel
+     * @param    forceUserBlockUpdate
      */
-     CodeComment * addOrUpdateTaggedCodeComment (const QString &tag = "", const QString &text = "", int indentationLevel = 0 );
-
-   /** allows the user to either add a code block with comments to the end of the list
-    * of text blocks in this document OR, if a text block already exists
-    * with that tag, it will update it with the passed text as appropriate.
-    * @return codeblock/comment pointer to the object which was created/updated.
-    * @return   CodeBlockWithComments
-    * @param    tag
-    * @param    text
-    * @param    comment
-    * @param    indentLevel
-    * @param    forceUserBlockUpdate
-    */
     CodeBlockWithComments * addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &comment, int indentLevel, bool forceUserBlockUpdate );
 
     /**
@@ -134,13 +132,15 @@ public:
      */
     virtual QString getUniqueTag (const QString& prefix = "" ) = 0;
 
-    /** Virtual methods that return a new code document objects.
+    /**
+     * Virtual methods that return a new code document objects.
      */
     virtual CodeBlock * newCodeBlock() = 0;
     virtual CodeBlockWithComments * newCodeBlockWithComments() = 0;
     virtual HierarchicalCodeBlock * newHierarchicalCodeBlock() = 0;
 
-    /** Find the direct parent for a given textblock. This
+    /**
+     * Find the direct parent for a given textblock. This
      * may be any object which holds text blocks, e.g. a CodeGenObjectWithTextBlocks.
      * @return parent object. Could return null if the textblock is missing from the
      * branch of the document tree being examined.
@@ -149,12 +149,14 @@ public:
 
 protected:
 
-    /** set attributes of the node that represents this class
+    /**
+     * Set attributes of the node that represents this class
      * in the XMI document.
      */
     virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & elem );
 
-    /** set the class attributes of this object from
+    /**
+     * Set the class attributes of this object from
      * the passed element node.
      */
     virtual void setAttributesFromNode ( QDomElement & element);
@@ -162,23 +164,27 @@ protected:
     virtual void setAttributesFromObject (CodeGenObjectWithTextBlocks * obj);
 
     /**
-      * in this vanilla version, we only load comments and codeblocks
-      * as they are the only instanciatable (vanilla) things
-      * this method should be overridden if this class is inherited
-      * by some other class that is concrete and takes children
-      * derived from codeblock/codecomment/hierarchicalcb/ownedhiercodeblock
-      */
+     * In this vanilla version, we only load comments and codeblocks
+     * as they are the only instanciatable (vanilla) things
+     * this method should be overridden if this class is inherited
+     * by some other class that is concrete and takes children
+     * derived from codeblock/codecomment/hierarchicalcb/ownedhiercodeblock
+     */
     virtual void loadChildTextBlocksFromNode ( QDomElement & root);
 
-    // reset/clear the inventory text blocks held by this object
+    /**
+     * Reset/clear the inventory text blocks held by this object.
+     */
     virtual void resetTextBlocks();
+
+    /**
+     * Find specific text block belonging to code classfields.
+     * Block may not presently be alocated t othe textblock list.
+     */
+    virtual TextBlock * findCodeClassFieldTextBlockByTag( const QString &tag) = 0;
 
     QMap<QString, TextBlock *> m_textBlockTagMap;
     TextBlockList m_textblockVector;
-
-    // find specific text block belonging to code classfields.
-    // block may not presently be alocated t othe textblock list.
-    virtual TextBlock * findCodeClassFieldTextBlockByTag( const QString &tag) = 0;
 
 private:
 
