@@ -14,11 +14,11 @@
  *      Date   : Wed Jun 18 2003
  */
 
-
 // own header
 #include "textblock.h"
 
 // qt/kde includes
+#include <QtCore/QTextStream>
 #include <QtCore/QRegExp>
 
 // local includes
@@ -42,11 +42,12 @@ TextBlock::TextBlock ( CodeDocument * parent, const QString & text )
 }
 
 TextBlock::~TextBlock ()
-{ }
-
-void TextBlock::setParentDocument ( CodeDocument * parent )
 {
-    m_parentDocument = parent;
+}
+
+void TextBlock::setCanDelete(bool canDelete)
+{
+    m_canDelete = canDelete;
 }
 
 bool TextBlock::canDelete()
@@ -106,22 +107,22 @@ int TextBlock::getIndentationLevel()
 
 QString TextBlock::getNewLineEndingChars()
 {
-    CodeGenerationPolicy * policy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy* policy = UMLApp::app()->getCommonPolicy();
     return policy->getNewLineEndingChars();
 }
 
 QString TextBlock::getIndentation()
 {
-    CodeGenerationPolicy * policy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy* policy = UMLApp::app()->getCommonPolicy();
     return policy->getIndentation();
 }
 
-QString TextBlock::getIndentationString ( int level )
+QString TextBlock::getIndentationString ( int level ) const
 {
     if (!level)
         level = m_indentationLevel;
     QString indentAmount = getIndentation();
-    QString indentation = "";
+    QString indentation = QString();
     for(int i=0; i<level; i++)
         indentation.append(indentAmount);
     return indentation;
@@ -144,14 +145,14 @@ QString TextBlock::getNewEditorLine ( int amount )
 
 QString TextBlock::unformatText ( const QString & text, const QString & indent )
 {
-    // will remove indenation from this text block.
     QString output = text;
     QString myIndent = indent;
-    if(myIndent.isEmpty())
+    if (myIndent.isEmpty())
         myIndent = getIndentationString();
 
-    if(!output.isEmpty())
-        output.remove(QRegExp('^'+myIndent));
+    if (!output.isEmpty())
+        // remove indenation from this text block.
+        output.remove(QRegExp('^' + myIndent));
 
     return output;
 }
@@ -226,15 +227,12 @@ void TextBlock::setAttributesFromNode(QDomElement & root)
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     setIndentationLevel(root.attribute("indentLevel", "0").toInt());
-    setTag(root.attribute("tag",""));
+    setTag(root.attribute("tag", ""));
     setText(decodeText(root.attribute("text", ""), endLine));
     setWriteOutText(root.attribute("writeOutText", "true") == "true" ? true : false);
     m_canDelete = root.attribute("canDelete", "true") == "true" ? true : false;
 }
 
-// encode text for XML storage
-// we simply convert all types of newLines to the "\n" or &#010;
-// entity.
 QString TextBlock::encodeText(const QString & text, const QString & endLine)
 {
     QString encoded = text;
@@ -242,9 +240,6 @@ QString TextBlock::encodeText(const QString & text, const QString & endLine)
     return encoded;
 }
 
-// encode text for XML storage
-// we simply convert all types of newLines to the "\n" or &#010;
-// entity.
 QString TextBlock::decodeText(const QString & text, const QString & endLine)
 {
     QString decoded = text;
@@ -252,7 +247,7 @@ QString TextBlock::decodeText(const QString & text, const QString & endLine)
     return decoded;
 }
 
-QString TextBlock::toString()
+QString TextBlock::toString() const
 {
     // simple output method
     if (m_writeOutText && !m_text.isEmpty())
@@ -260,8 +255,13 @@ QString TextBlock::toString()
         QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
         return formatMultiLineText(m_text, getIndentationString(), endLine);
     } else
-        return "";
+        return QString();
 }
 
+QTextStream& operator<<(QTextStream& os, const TextBlock& obj)
+{
+    os << "TextBlock: " <<  ", ...";  //:TODO:
+    return os;
+}
 
 #include "textblock.moc"

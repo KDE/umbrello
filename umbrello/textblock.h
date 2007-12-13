@@ -14,17 +14,16 @@
  *      Date   : Wed Jun 18 2003
  */
 
-
 #ifndef TEXTBLOCK_H
 #define TEXTBLOCK_H
 
-#include <qdom.h>
-#include <qobject.h>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
+#include <QtCore/QObject>
 
 class CodeDocument;
 
 /**
-  * class TextBlock
   * The fundemental unit of text within an output file containing code.
   */
 class TextBlock : virtual public QObject
@@ -34,35 +33,33 @@ class TextBlock : virtual public QObject
     Q_OBJECT
 public:
 
-    // Constructors/Destructors
-
     /**
-     * Constructors
+     * Constructor.
      */
     explicit TextBlock ( CodeDocument * parent, const QString & text = "");
 
-    // destructor
-    ~TextBlock ( );
-
-    // Public attribute accessor methods
+    /**
+     * Destructor.
+     */
+    virtual ~TextBlock ( );
 
     /**
      * Set the value of m_text
      * The actual text of this code block.
-     * @param text the new value of m_text
+     * @param text   the new value of m_text
      */
     void setText ( const QString & text );
 
     /**
      * Add text to this object.
-     *
+     * @param text   the text to add
      */
     void appendText ( const QString & text );
 
     /**
      * Get the value of m_text
      * The actual text of this code block.
-     * @return the value of m_text
+     * @return   the value of m_text
      */
     QString getText() const;
 
@@ -70,6 +67,7 @@ public:
      * Get the tag of this text block. This tag
      * may be used to find this text block in the code document
      * to which it belongs.
+     * @return   the tag
      */
     QString getTag() const;
 
@@ -77,6 +75,7 @@ public:
      * Set the tag of this text block. This tag
      * may be used to find this text block in the code document
      * to which it belongs.
+     * @param value   the new value for the tag
      */
     void setTag( const QString & value );
 
@@ -89,7 +88,7 @@ public:
     /**
      * Set the value of m_writeOutText
      * Whether or not to include the text of this TextBlock into a file.
-     * @param write the new value of m_writeOutText
+     * @param write   the new value of m_writeOutText
      */
     void setWriteOutText ( bool write );
 
@@ -104,6 +103,7 @@ public:
      * Set how many times to indent this text block.
      * The amount of each indenatation is determined from the parent
      * codedocument codegeneration policy.
+     * @param level   the new value for the indentation level
      */
     void setIndentationLevel ( int level );
 
@@ -111,26 +111,37 @@ public:
      * Get how many times to indent this text block.
      * The amount of each indenatation is determined from the parent
      * codedocument codegeneration policy.
+     * @return   the indentation level
      */
     int getIndentationLevel();
 
     /**
      * Get the actual amount of indentation for a given level of indentation.
+     * @param level   the level of interest
+     * @return        the indentation string
      */
-    QString getIndentationString ( int level = 0);
+    QString getIndentationString ( int level = 0) const;
 
     /**
      * Get how much a single "level" of indentation will actually indent.
+     * @return   the unit of indentation (for one level)
      */
     static QString getIndentation();
 
     /**
      * Get the new line chars which ends the line.
+     * @return   the ending chars for new line
      */
     static QString getNewLineEndingChars();
 
     /**
      * Format a long text string to be more readable.
+     * @param text...            the original text for formatting
+     * @param linePrefix..      .a line prefix
+     * @param breakStr...        a break string
+     * @param alwaysAddBreak..  .control to add always a break string
+     * @param lastLineHasBreak...control to add a break string to the last line
+     * @return                   the new formatted text
      */
     static QString formatMultiLineText ( const QString & text, const QString & linePrefix,
                                   const QString & breakStr,
@@ -139,24 +150,27 @@ public:
     /**
      * UnFormat a long text string. Typically, this means removing
      * the indentaion (linePrefix) and/or newline chars from each line.
-     * If an indentation isnt specified, then the current indentation is used.
+     * If an indentation is not specified, then the current indentation is used.
+     * @param text..  .the original text for unformatting
+     * @param indent...the indentation
+     * @return         the unformatted text
      */
     virtual QString unformatText ( const QString & text, const QString & indent = "");
 
     /**
      * @return  QString
      */
-    virtual QString toString();
+    virtual QString toString() const;
 
     /**
-     * Encode text for XML storage
-     * we simply convert all types of newLines to the "\n" or &#010;
+     * Encode text for XML storage.
+     * We simply convert all types of newLines to the "\n" or &#010;
      * entity.
      */
     static QString encodeText(const QString & text , const QString & endChars);
 
     /**
-     * Decode text from XML storage
+     * Decode text from XML storage.
      * We simply convert all newLine entity &#010; to chosen line ending.
      */
     static QString decodeText(const QString & text, const QString & endChars);
@@ -206,17 +220,17 @@ public:
 protected:
 
     /**
+     * Set the attribute m_canDelete.
+     * @param canDelete   the new value to set
+     */
+    void setCanDelete(bool canDelete);
+
+    /**
      * Causes the text block to release all of its connections
      * and any other text blocks that it 'owns'.
      * needed to be called prior to deletion of the textblock.
      */
     virtual void release ();
-
-    /**
-     * Set the parent document.
-     * @param parent The new value of m_parentDoc.
-     */
-    void setParentDocument ( CodeDocument * parent );
 
     /**
      * Set attributes of the node that represents this class
@@ -230,13 +244,15 @@ protected:
      */
     virtual void setAttributesFromNode ( QDomElement & element);
 
-    bool m_canDelete;
+    friend QTextStream& operator<<(QTextStream& os, const TextBlock& obj);
 
 private:
 
     // The actual text of this code block.
     QString m_text;
     QString m_tag;
+
+    bool m_canDelete;
 
     // Whether or not to include the text of this TextBlock into a file.
     bool m_writeOutText;
@@ -245,5 +261,7 @@ private:
     CodeDocument * m_parentDocument;
 
 };
+
+QTextStream& operator<<(QTextStream& os, const TextBlock& obj);
 
 #endif // TEXTBLOCK_H
