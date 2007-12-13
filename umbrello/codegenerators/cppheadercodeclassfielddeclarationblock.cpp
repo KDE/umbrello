@@ -18,8 +18,6 @@
 #include "cppcodeclassfield.h"
 #include "cppheadercodedocument.h"
 
-// Constructors/Destructors
-//
 
 CPPHeaderCodeClassFieldDeclarationBlock::CPPHeaderCodeClassFieldDeclarationBlock ( CodeClassField * parent )
         : CodeClassFieldDeclarationBlock ( parent )
@@ -27,17 +25,9 @@ CPPHeaderCodeClassFieldDeclarationBlock::CPPHeaderCodeClassFieldDeclarationBlock
     setOverallIndentationLevel(1);
 }
 
-CPPHeaderCodeClassFieldDeclarationBlock::~CPPHeaderCodeClassFieldDeclarationBlock ( ) { }
+CPPHeaderCodeClassFieldDeclarationBlock::~CPPHeaderCodeClassFieldDeclarationBlock ( )
+{ }
 
-//
-// Methods
-//
-
-// Other methods
-//
-
-/**
- */
 void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
 {
     UMLObject *umlparent = CodeClassFieldDeclarationBlock::getParentObject();
@@ -51,11 +41,10 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
     // Set the comment
     QString notes = umlparent->getDoc();
     getComment()->setText(notes);
-    if(notes.isEmpty())
+    if (notes.isEmpty())
         getComment()->setWriteOutText(false);
     else
         getComment()->setWriteOutText(true);
-
 
     // Set the body
     QString staticValue = umlparent->getStatic() ? "static " : "";
@@ -67,11 +56,8 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
         typeName = hcppcf->getListFieldClassName();
 
     QString body = staticValue + ' ' + typeName + ' ' + fieldName + ';';
-
     setText(body);
-
 }
-
 
 
 #include "cppheadercodeclassfielddeclarationblock.moc"

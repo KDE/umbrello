@@ -13,14 +13,13 @@
  *      Author : thomas
  *      Date   : Wed Jul 16 2003
  */
+ 
 #include "javaclassdeclarationblock.h"
 #include "javacodedocumentation.h"
 #include "../codegenerator.h"
 #include "../codegenerationpolicy.h"
 #include "../uml.h"
 
-// Constructors/Destructors
-//
 
 JavaClassDeclarationBlock::JavaClassDeclarationBlock
  ( JavaClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)
@@ -29,20 +28,16 @@ JavaClassDeclarationBlock::JavaClassDeclarationBlock
     init(parentDoc, comment);
 }
 
-JavaClassDeclarationBlock::~JavaClassDeclarationBlock ( ) { }
-
-//
-// Methods
-//
+JavaClassDeclarationBlock::~JavaClassDeclarationBlock ( )
+{ }
 
 /**
  * Save the XMI representation of this object
  */
-void JavaClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+void JavaClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root )
+{
     QDomElement blockElement = doc.createElement( "javaclassdeclarationblock" );
-
     setAttributesOnNode(doc, blockElement);
-
     root.appendChild( blockElement );
 }
 
@@ -54,18 +49,11 @@ void JavaClassDeclarationBlock::loadFromXMI ( QDomElement & root )
     setAttributesFromNode(root);
 }
 
-// Accessor methods
-//
-
-// Other methods
-//
-
 /**
  * update the start and end text for this ownedhierarchicalcodeblock.
  */
 void JavaClassDeclarationBlock::updateContent ( )
 {
-
     JavaClassifierCodeDocument *parentDoc = dynamic_cast<JavaClassifierCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
@@ -74,17 +62,16 @@ void JavaClassDeclarationBlock::updateContent ( )
     QString JavaClassName = parentDoc->getJavaClassName(c->getName());
 
     // COMMENT
-    if(isInterface)
+    if (isInterface)
         getComment()->setText("Interface "+JavaClassName+endLine+c->getDoc());
     else
         getComment()->setText("Class "+JavaClassName+endLine+c->getDoc());
 
     bool forceDoc = UMLApp::app()->getCommonPolicy()->getCodeVerboseDocumentComments();
-    if(forceDoc || !c->getDoc().isEmpty())
+    if (forceDoc || !c->getDoc().isEmpty())
         getComment()->setWriteOutText(true);
     else
         getComment()->setWriteOutText(false);
-
 
     // Now set START/ENDING Text
     QString startText = "";
@@ -101,7 +88,7 @@ void JavaClassDeclarationBlock::updateContent ( )
     } else
         startText.append("public ");
 
-    if(parentDoc->parentIsInterface())
+    if (parentDoc->parentIsInterface())
         startText.append("interface ");
     else
         startText.append("class ");
@@ -118,7 +105,7 @@ void JavaClassDeclarationBlock::updateContent ( )
 
     // write out inheritance
     int i = 0;
-    if(nrof_superclasses >0)
+    if (nrof_superclasses >0)
         startText.append(" extends ");
     foreach (UMLClassifier* concept, superclasses ) {
         startText.append(parentDoc->cleanName(concept->getName()));
@@ -148,15 +135,12 @@ void JavaClassDeclarationBlock::updateContent ( )
     setStartText(startText+" {");
 
     // setEndText("}"); // not needed
-
 }
 
 void JavaClassDeclarationBlock::init (JavaClassifierCodeDocument *parentDoc, const QString &comment)
 {
-
     setComment(new JavaCodeDocumentation(parentDoc));
     getComment()->setText(comment);
-
     setEndText("}");
 }
 

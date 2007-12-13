@@ -13,17 +13,14 @@
  *      Date   : Wed Jun 18 2003
  */
 
-
-
 #ifndef CODECOMMENT_H
 #define CODECOMMENT_H
 
-#include <qstring.h>
+#include <QtCore/QString>
 
 #include "textblock.h"
 
 /**
-  * class CodeComment
   * Text which will be comments. These should be bracketed by what ever code type
   * comment the language requires.
   */
@@ -33,35 +30,29 @@ class CodeComment : public TextBlock
     Q_OBJECT
 public:
 
-    // Constructors/Destructors
-    //
-
-
     /**
-     * Empty Constructor
+     * Empty Constructor.
      */
     explicit CodeComment ( CodeDocument * doc, const QString & comment = "");
 
     /**
-     * Empty Destructor
+     * Empty Destructor.
      */
     virtual ~CodeComment ( );
 
     /**
-     * Save the XMI representation of this object
+     * Save the XMI representation of this object.
      */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
     /**
-     * load params from the appropriate XMI element node.
+     * Load params from the appropriate XMI element node.
      */
     virtual void loadFromXMI ( QDomElement & root );
 
 protected:
 
 private:
-
-
 
 };
 
