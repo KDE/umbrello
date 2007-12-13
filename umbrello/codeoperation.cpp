@@ -21,16 +21,11 @@
 #include <kdebug.h>
 
 // local includes
-#include "codedocument.h"
-#include "codegenerator.h"
 #include "classifiercodedocument.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
 
-
-// Constructors/Destructors
-//
 
 CodeOperation::CodeOperation ( ClassifierCodeDocument * doc , UMLOperation * parentOp, const QString & body, const QString & comment)
         : CodeMethodBlock ( doc, parentOp, body, comment)
@@ -38,20 +33,16 @@ CodeOperation::CodeOperation ( ClassifierCodeDocument * doc , UMLOperation * par
     init(parentOp);
 }
 
-CodeOperation::~CodeOperation ( ) { }
-
-//
-// Methods
-//
-
-// Accessor methods
-//
+CodeOperation::~CodeOperation ( )
+{
+}
 
 /**
  * Add a Parameter object to the m_parameterVector List
  */
 /*
-void CodeOperation::addParameter ( CodeParameter * add_object ) {
+void CodeOperation::addParameter ( CodeParameter * add_object )
+{
     m_parameterVector.append(add_object);
 }
 */
@@ -60,71 +51,54 @@ void CodeOperation::addParameter ( CodeParameter * add_object ) {
  * Remove a Parameter object from m_parameterVector List
  */
 /*
-void CodeOperation::removeParameter ( CodeParameter * remove_object ) {
+void CodeOperation::removeParameter ( CodeParameter * remove_object )
+{
     m_parameterVector.remove(remove_object);
 }
 */
 
 /**
  * Get the list of Parameter objects held by m_parameterVector
- * @return QPtrList<CodeParameter *> list of Parameter objects held by
+ * @return QList<CodeParameter*> list of Parameter objects held by
  * m_parameterVector
  */
 /*
-QPtrList<CodeParameter> CodeOperation::getParameterList ( ) {
+QList<CodeParameter*> CodeOperation::getParameterList ( )
+{
     return m_parameterVector;
 }
 */
 
-/**
- * Get the parent UMLOperation of this codeoperation.
- */
-UMLOperation * CodeOperation::getParentOperation( ) {
+UMLOperation * CodeOperation::getParentOperation( )
+{
     return dynamic_cast<UMLOperation*>(getParentObject());
 }
 
-// Other methods
-//
-
-/** Save the XMI representation of this object
- */
-void CodeOperation::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+void CodeOperation::saveToXMI ( QDomDocument & doc, QDomElement & root )
+{
     QDomElement blockElement = doc.createElement( "codeoperation" );
-
     // set attributes
     setAttributesOnNode(doc, blockElement);
-
     root.appendChild( blockElement );
 }
 
-/**
- * load params from the appropriate XMI element node.
- */
 void CodeOperation::loadFromXMI ( QDomElement & root )
 {
     setAttributesFromNode(root);
 }
 
-QString CodeOperation::findTag (UMLOperation * op) {
+QString CodeOperation::findTag (UMLOperation * op)
+{
     return QString("operation_" + ID2STR(op->getID()));
 }
 
-/** set attributes of the node that represents this class
- * in the XMI document.
- */
 void CodeOperation::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem)
 {
-
     CodeMethodBlock::setAttributesOnNode(doc,elem); // superclass
-
 }
 
-/** set the class attributes of this object from
- * the passed element node.
- */
 void CodeOperation::setAttributesFromNode ( QDomElement & element)
 {
-
     CodeMethodBlock::setAttributesFromNode(element); // superclass
 
     // now set local attributes
@@ -138,36 +112,32 @@ void CodeOperation::setAttributesFromNode ( QDomElement & element)
     UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(id);
     UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
 
-    if(op)
+    if (op)
         init(op);
     else
-        uError()<<"ERROR: could'nt load code operation because of missing UMLoperation, corrupt savefile?"<<endl;
-
+        uError() << "ERROR: could not load code operation because of missing UMLoperation, corrupt savefile?";
 }
 
 void CodeOperation::setAttributesFromObject(TextBlock * obj)
 {
-
     CodeMethodBlock::setAttributesFromObject(obj);
 
     CodeOperation * op = dynamic_cast<CodeOperation*>(obj);
-    if(op)
+    if (op)
         init((UMLOperation*) op->getParentObject());
-
 }
 
 void CodeOperation::init (UMLOperation * parentOp)
 {
-
-    m_canDelete = false; // we cant delete these with the codeeditor, delete the UML operation instead.
+    setCanDelete(false); // we cant delete these with the codeeditor, delete the UML operation instead.
     setTag(CodeOperation::findTag(parentOp));
 
     // not needed.. done by parent "ownedcodeblock" class
     //  connect(parentOp,SIGNAL(modified()),this,SLOT(syncToParent()));
-
 }
 
-void CodeOperation::updateContent() {
+void CodeOperation::updateContent()
+{
     // Empty. Unlike codeaccessor methods for most (all?) languages
     // we don't auto-generate content for operations
 }

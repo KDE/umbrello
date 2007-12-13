@@ -17,20 +17,19 @@
 #ifndef CODEOPERATION_H
 #define CODEOPERATION_H
 
-#include <qstring.h>
+#include <QtCore/QString>
 
 #include "codemethodblock.h"
 #include "operation.h"
 
-// class CodeParameter;
+/**
+ * 
+ */
 
 class CodeOperation : public CodeMethodBlock
 {
     Q_OBJECT
 public:
-
-    // Constructors/Destructors
-    //
 
     /**
      * Constructors
@@ -49,20 +48,22 @@ public:
     UMLOperation * getParentOperation( );
 
     /**
-     * Save the XMI representation of this object
+     * Save the XMI representation of this object.
      */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
     /**
-     * load params from the appropriate XMI element node.
+     * Load params from the appropriate XMI element node.
      */
     virtual void loadFromXMI ( QDomElement & root );
 
-    /** Find the value of the tag that this operation would have.
+    /**
+     * Find the value of the tag that this operation would have.
      */
     static QString findTag (UMLOperation * op) ;
 
-    /** set the class attributes from a passed object
+    /**
+     * Set the class attributes from a passed object.
      */
     virtual void setAttributesFromObject (TextBlock * obj);
 
@@ -72,14 +73,16 @@ public:
 protected:
 
     // list of parameters used by this code operation.
-    // QPtrList<CodeParameter> m_parameterVector;
+    // QList<CodeParameter*> m_parameterVector;
 
-    /** set attributes of the node that represents this class
+    /**
+     * Set attributes of the node that represents this class
      * in the XMI document.
      */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /** set the class attributes of this object from
+    /**
+     * Set the class attributes of this object from
      * the passed element node.
      */
     virtual void setAttributesFromNode ( QDomElement & element);
