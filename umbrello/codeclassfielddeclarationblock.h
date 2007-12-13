@@ -25,7 +25,6 @@ class CodeClassField;
 #include "ownedcodeblock.h"
 
 /**
-  * class CodeClassFieldDeclarationBlock
   * Used to declare classifier fields (e.g. either class attributes or classifier
   * associations) in the code document for any given code classfield. This is a
   * special CodeBlockWithComments which is "sync'd" to the parent CodeClassField.
@@ -36,9 +35,6 @@ class CodeClassFieldDeclarationBlock : public CodeBlockWithComments, public Owne
     friend class CodeClassField;
     Q_OBJECT
 public:
-
-    // Constructors/Destructors
-    //
 
     /**
      * Constructor
@@ -51,33 +47,33 @@ public:
     virtual ~CodeClassFieldDeclarationBlock ( );
 
     /**
-     * Get the value of m_parentclassfield
+     * Get the value of m_parentclassfield.
      * @return the value of m_parentclassfield
      */
     CodeClassField * getParentClassField ( );
 
-    /** A Utility method to get the parent object of the parentCodeClassfield
+    /**
+     * A utility method to get the parent object of the parentCodeClassfield.
      */
     UMLObject * getParentObject ( );
 
-    // get the parent document
-    CodeDocument * getParentDocument ( );
-
-    /** set the class attributes from a passed object
+    /**
+     * Set the class attributes from a passed object.
      */
     virtual void setAttributesFromObject (TextBlock * obj);
 
-    /** this is called by syncToParent
+    /**
+     * This is called by syncToParent.
      */
     virtual void updateContent() = 0;
 
     /**
-     * Save the XMI representation of this object
+     * Save the XMI representation of this object.
      */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
     /**
-     * load params from the appropriate XMI element node.
+     * Load params from the appropriate XMI element node.
      */
     virtual void loadFromXMI ( QDomElement & root );
 
@@ -85,17 +81,21 @@ protected:
 
     virtual void release ();
 
-    /** set attributes of the node that represents this class
+    /**
+     * Set attributes of the node that represents this class
      * in the XMI document.
      */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /** set the class attributes of this object from
+    /**
+     * Set the class attributes of this object from
      * the passed element node.
      */
     virtual void setAttributesFromNode ( QDomElement & element);
 
-    // so parent can actually release this block
+    /**
+     * So parent can actually release this block.
+     */
     void forceRelease ();
 
 private:
