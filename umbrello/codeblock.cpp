@@ -44,7 +44,6 @@ void CodeBlock::saveToXMI ( QDomDocument & doc, QDomElement & root )
     // set attributes
     setAttributesOnNode(doc, blockElement);
     root.appendChild( blockElement );
-    uDebug() << "******************* " << this;
 }
 
 void CodeBlock::setAttributesOnNode( QDomDocument & doc, QDomElement & blockElement)
@@ -87,10 +86,11 @@ QString CodeBlock::toString(const ContentType& val)
     }
 }
 
-QTextStream& operator<<(QTextStream& os, const CodeBlock& obj)
+QTextStream& operator<<(QTextStream& str, const CodeBlock& obj)
 {
-    os << "CodeBlock: " << CodeBlock::toString(obj.getContentType()) << ", ..." /*<< static_cast<TextBlock>(obj)*/;  //:TODO:
-    return os;
+    str << "CodeBlock: " << CodeBlock::toString(obj.getContentType())
+        << ", ..." << static_cast<TextBlock*>(const_cast<CodeBlock*>(&obj));
+    return str;
 }
 
 
