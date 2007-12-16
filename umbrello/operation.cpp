@@ -28,6 +28,7 @@
 #include "codedocument.h"
 #include "codeblock.h"
 
+
 UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
                            Uml::IDType id, Uml::Visibility s, UMLObject *rt)
         : UMLClassifierListItem(parent, name, id)
@@ -351,6 +352,24 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if (featureElement.hasChildNodes()) {
         operationElement.appendChild( featureElement );
     }
+#ifndef SOURCE_CODE
+    // save the source code entered in the 'classpropdlg' dialog
+    if (! m_Code.isEmpty()) {
+        CodeGenerator* codegen = UMLApp::app()->getGenerator();
+        if (codegen) {
+            CodeDocument* codedoc = new CodeDocument();
+            codedoc->setID(ID2STR(UMLObject::getID()));
+
+            CodeBlock* block = codedoc->newCodeBlock();
+            block->setTag(ID2STR(UMLObject::getID()));
+            block->setContentType(CodeBlock::UserGenerated);
+            block->setText(m_Code);
+            codedoc->addTextBlock(block);
+
+            codegen->addCodeDocument(codedoc);
+        }
+    }
+#endif
     qElement.appendChild( operationElement );
 }
 
@@ -367,7 +386,7 @@ bool UMLOperation::load( QDomElement & element )
     if (node.isComment())
         node = node.nextSibling();
     QDomElement attElement = node.toElement();
-    while( !attElement.isNull() ) {
+    while ( !attElement.isNull() ) {
         QString tag = attElement.tagName();
         if (Uml::tagEq(tag, "BehavioralFeature.parameter")) {
             if (! load(attElement))
@@ -446,6 +465,21 @@ bool UMLOperation::load( QDomElement & element )
         if (node.isComment())
             node = node.nextSibling();
         attElement = node.toElement();
+
+        // loading the source code which was entered in the 'classpropdlg' dialog is not done
+        // with the following code, because there is no CodeDocument.
+        /*
+        CodeGenerator* codegen = UMLApp::app()->getGenerator();
+        if (codegen) {
+            uDebug() << "CodeDocument searching with id=" << ID2STR(UMLObject::getID());
+            CodeDocument* codeDoc = codegen->findCodeDocumentByID(ID2STR(UMLObject::getID()));
+            if (codeDoc) {
+                uDebug() << "CodeDocument found:\n" << codeDoc;
+            }
+        }
+        */
+        // it is done in the code generators by calling CodeGenerator::loadFromXMI(...).
+
     }//end while
     return true;
 }

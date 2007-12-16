@@ -25,8 +25,8 @@
 
 
 /**
-  * class PythonWriter is a python code generator for UMLClassifier objects
-  * Just call writeClass and feed it a UMLClassifier;
+  * Class PythonWriter is a python code generator for UMLClassifier objects
+  * Just call writeClass and feed it a UMLClassifier.
   *
   * NOTE: There is a unit test available for this class.
   *       Please, use and adapt it when necessary.
@@ -40,45 +40,48 @@ public:
     virtual ~PythonWriter();
 
     /**
-      * call this method to generate C++ code for a UMLClassifier
-      * @param c the class you want to generate code for.
-      */
+     * Call this method to generate C++ code for a UMLClassifier.
+     * @param c   the class you want to generate code for
+     */
     virtual void writeClass(UMLClassifier *c);
 
     /**
-     * returns "Python"
+     * Return the programming language identifier.
+     * @return   programming language id
      */
     virtual Uml::Programming_Language getLanguage();
 
     /**
-     * get list of reserved keywords
+     * Get list of reserved keywords.
+     * @return   the list of reserved keywords
      */
     virtual const QStringList reservedKeywords() const;
 
 private:
 
     /**
-     * write all attributes for a given class
+     * Write all attributes for a given class.
      *
-     * @param c   the concept we are generating code for
-     * @param py  output stream for the header file
+     * @param c    the concept we are generating code for
+     * @param py   output stream for the header file
      */
     void writeAttributes(UMLAttributeList atList, QTextStream &py);
 
     /**
-     * write all operations for a given class
+     * Write all operations for a given class.
      *
-     * @param c the concept we are generating code for
-     * @param h output stream for the header file
+     * @param c   the concept we are generating code for
+     * @param h   output stream for the header file
      */
     void writeOperations(UMLClassifier *c, QTextStream &h);
 
     /**
-     * write a list of class operations
+     * Write a list of class operations.
      *
-     * @param classname the name of the class
-     * @param opList the list of operations
-     * @param h output stream for the header file
+     * @param classname   the name of the class
+     * @param opList      the list of operations
+     * @param h           output stream for the header file
+     * @param access      visibility identifier
      */
     void writeOperations(const QString& classname, UMLOperationList &opList,
                          QTextStream &h, Uml::Visibility access);

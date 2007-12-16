@@ -19,9 +19,9 @@
 #ifndef CODEGENERATOR_H
 #define CODEGENERATOR_H
 
-#include <QHash>
-#include <QList>
-#include <QDir>
+#include <QtCore/QHash>
+#include <QtCore/QList>
+#include <QtCore/QDir>
 
 #include "codegenerators/codegenpolicyext.h"
 #include "codegenerationpolicy.h"
@@ -39,14 +39,12 @@ class CodeBlock;
 class CodeDocument;
 class CodeViewerDialog;
 
+#define SOURCE_CODE  // see note below
 
 /**
-  * class CodeGenerator
-  * This class collects together all of the code documents which form this project,
-  * and generates code for them in a given language.
-  */
-
-/**
+ * This class collects together all of the code documents which form this project,
+ * and generates code for them in a given language.
+ *
  * CodeGenerator is the base class for all CodeGenerators. It
  * provides the interface through which all Generators are invoked and
  * the all the basic functionality. The only thing it doesn't do is to
@@ -67,18 +65,29 @@ class CodeViewerDialog;
  *
  * Finally put your generator in a library which can be dlopened
  * together with a factory class (see below) and you are ready to go.
+ *
+ * Note:
+ * Code can be entered into a QTextEdit widget in the ClassPropDlg. This
+ * code is then stored in the respective UMLOperation, written to the
+ * xmi file, and also used when generating the source files.
+ * For writing to and loading from xmi files there are two solutions
+ * implemented:
+ * <li>sourcecode
+ * <li>codedocument
+ * The solution "sourcecode" is now the active one set by #define SOURCE_CODE
+ * (files affected: codegnerator.cpp and operation.cpp).
+ * The code fragments are stored into the xmi file in the section codegeneration
+ * with the tag "sourcecode".
+ * The solution "codedocument" stores the code fragments also into the section
+ * codegeneration but uses the same tags as the CodeDocument, TextBlock, etc.
+ * classes.
  */
-
 
 class CodeGenerator : public QObject
 {
     Q_OBJECT
 
 public:
-
-    /**
-     * Constructors
-     */
 
     /**
      * Build a code generator.
@@ -97,9 +106,6 @@ public:
      * Empty Destructor
      */
     virtual ~CodeGenerator ( );
-
-    // Public attribute accessor methods
-    //
 
     /**
      * Add a CodeDocument object to the m_codedocumentVector List
@@ -215,9 +221,9 @@ public:
     /**
      * Format documentation for output in source files
      *
-     * @param text the documentation which has to be formatted
-     * @param linePrefix the prefix which has to be added in the beginnig of each line
-     * @param lineWidth the line width used for word-wrapping the documentation
+     * @param text         the documentation which has to be formatted
+     * @param linePrefix   the prefix which has to be added in the beginnig of each line
+     * @param lineWidth    the line width used for word-wrapping the documentation
      *
      * @return the formatted documentation text
      */
@@ -227,19 +233,19 @@ public:
      * Format source code for output in source files by
      * adding the correct indentation to every line of code.
      *
-     * @param code  the source code block which has to be formatted
-     * @param indentation  the blanks to indent
+     * @param code          the source code block which has to be formatted
+     * @param indentation   the blanks to indent
      */
     static QString formatSourceCode(const QString& code, const QString& indentation);
 
     /**
-    * Finds all classes in the current document to which objects of class c
-    * are in some way related. Possible relations are Associations (generalization,
-    * composition, etc) as well as parameters to methods and return values
-    * this is useful in deciding which classes/files to import/include in code generation
-    * @param c the class for which relations are to be found
-    * @param cList a reference to the list into which return the result
-    */
+     * Finds all classes in the current document to which objects of class c
+     * are in some way related. Possible relations are Associations (generalization,
+     * composition, etc) as well as parameters to methods and return values
+     * this is useful in deciding which classes/files to import/include in code generation
+     * @param c the class for which relations are to be found
+     * @param cList a reference to the list into which return the result
+     */
     static void findObjectsRelated(UMLClassifier *c, UMLPackageList &cList);
 
     // a series of accessor method constructors that we need to define
@@ -252,8 +258,8 @@ public:
     virtual void loadFromXMI (QDomElement & element );
 
     /**
-         * Create a new Code document belonging to this package.
-     * @return CodeDocument pointer to new code document.
+     * Create a new Code document belonging to this package.
+     * @return CodeDocument   pointer to new code document.
      */
     virtual CodeDocument * newCodeDocument ( );
 
@@ -302,12 +308,21 @@ public:
     virtual void createDefaultStereotypes ();
 
     /**
-    * Initialize this code generator from its parent UMLDoc. When this is called,
-    * it will (re-)generate the list of code documents for this project (generator)
-    * by checking for new objects/attributes which have been added or changed in the
-    * document. One or more CodeDocuments will be created/overwritten/amended as is
-    * appropriate for the given language.
-    */
+     * Initialize this code generator from its parent UMLDoc. When this is called,
+     * it will (re-)generate the list of code documents for this project (generator)
+     * by checking for new objects/attributes which have been added or changed in the
+     * document. One or more CodeDocuments will be created/overwritten/amended as is
+     * appropriate for the given language.
+     * <p>
+     * In this 'generic' version a ClassifierCodeDocument will exist for each and
+     * every classifier that exists in our UMLDoc. IF when this is called, a code document
+     * doesn't exist for the given classifier, then we will created and add a new code
+     * document to our generator.
+     * <p>
+     * IF you want to add non-classifier related code documents at this step,
+     * you will need to overload this method in the appropriate
+     * code generatator (see JavaCodeGenerator for an example of this).
+     */
     virtual void initFromParentDocument( );
 
     /**
@@ -384,6 +399,11 @@ private:
     int lastIDIndex;
 
     void initFields() ;
+
+    /**
+     * Extract and load code for operations from xmi section.
+     */
+    void loadCodeForOperation(const QString& id, QDomElement codeDocElement);
 
 public slots:
 

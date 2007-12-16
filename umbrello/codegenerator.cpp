@@ -24,7 +24,7 @@
 #include <qdatetime.h>
 #include <qregexp.h>
 #include <qdir.h>
-#include <qtextstream.h>
+#include <QtCore/QTextStream>
 
 // kde includes
 #include <kdebug.h>
@@ -51,8 +51,6 @@
 #include "umloperationlist.h"
 #include "model_utils.h"
 
-// Constructors/Destructors
-//
 
 CodeGenerator::CodeGenerator ()
         : QObject (UMLApp::app()->getDocument())
@@ -76,13 +74,6 @@ CodeGenerator::~CodeGenerator ()
     m_codedocumentVector.clear();
 }
 
-//
-// Methods
-//
-
-// Accessor methods
-//
-
 QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
 {
     QString id = codeDoc->getID();
@@ -93,7 +84,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
 
     // approach now differs by whether or not its a classifier code document
     ClassifierCodeDocument * classDoc = dynamic_cast<ClassifierCodeDocument*>(codeDoc);
-    if(classDoc) {
+    if (classDoc) {
         UMLClassifier *c = classDoc->getParentClassifier();
         id = ID2STR(c->getID()); // this is supposed to be unique already..
     } else {
@@ -112,12 +103,11 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
 
 CodeDocument * CodeGenerator::findCodeDocumentByID( const QString &tag )
 {
-    //if we already know to which file this class was written/should be written, just return it.
-    CodeDocument * doc = (CodeDocument*)NULL;
-    if((doc = m_codeDocumentDictionary.value(tag)))
+    CodeDocument* doc = m_codeDocumentDictionary.value(tag);
+    if (doc)
         return doc;
-
-    return doc;
+    else
+        return NULL;
 }
 
 bool CodeGenerator::addCodeDocument ( CodeDocument * doc )
@@ -125,13 +115,13 @@ bool CodeGenerator::addCodeDocument ( CodeDocument * doc )
     QString tag = doc->getID();
 
     // assign a tag if one doesn't already exist
-    if(tag.isEmpty())
+    if (tag.isEmpty())
     {
         tag = getUniqueID(doc);
         doc->setID(tag);
     }
 
-    if(m_codeDocumentDictionary.contains(tag))
+    if (m_codeDocumentDictionary.contains(tag))
         return false; // return false, we already have some object with this tag in the list
     else
         m_codeDocumentDictionary.insert(tag, doc);
@@ -140,13 +130,10 @@ bool CodeGenerator::addCodeDocument ( CodeDocument * doc )
     return true;
 }
 
-/**
- * Remove a CodeDocument object from m_codedocumentVector List
- */
 bool CodeGenerator::removeCodeDocument ( CodeDocument * remove_object )
 {
     QString tag = remove_object->getID();
-    if(!(tag.isEmpty()))
+    if (!(tag.isEmpty()))
         m_codeDocumentDictionary.remove(tag);
     else
         return false;
@@ -155,11 +142,6 @@ bool CodeGenerator::removeCodeDocument ( CodeDocument * remove_object )
     return true;
 }
 
-/**
- * Get the list of CodeDocument objects held by m_codedocumentVector
- * @return QPtrList<CodeDocument *> list of CodeDocument objects held by
- * m_codedocumentVector
- */
 CodeDocumentList * CodeGenerator::getCodeDocumentList ()
 {
     return &m_codedocumentVector;
@@ -171,9 +153,6 @@ CodeViewerDialog * CodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDoc
 {
     return new CodeViewerDialog(parent, doc, state);
 }
-
-// Other methods
-//
 
 void CodeGenerator::loadFromXMI (QDomElement & qElement )
 {
@@ -192,44 +171,71 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement )
     while (!codeDocElement.isNull())
     {
         QString docTag = codeDocElement.tagName();
-        if (docTag == "sourcecode")
+        QString id = codeDocElement.attribute( "id", "-1" );
+        if (docTag == "sourcecode")  // version SOURCE_CODE
         {
-            QString idStr = codeDocElement.attribute("id", "-1");
-            QString value = codeDocElement.attribute("value", "");
-            Uml::IDType id = STR2ID(idStr);
-            UMLObject *obj = m_document->findObjectById(id);
-            if (obj)
-            {
-                Uml::Object_Type t = obj->getBaseType();
-                if (t == Uml::ot_Operation)
-                {
-                    UMLOperation *op = static_cast<UMLOperation*>(obj);
-                    op->setSourceCode(value);
-                }
-                else
-                    uError() << "CodeGenerator::loadFromXMI: sourcecode id "
-                        << idStr << " has unexpected type " << t << endl;
-            }
-            else
-            {
-                uError() << "CodeGenerator::loadFromXMI: unknown sourcecode id "
-                    << idStr << endl;
-            }
+            loadCodeForOperation(id, codeDocElement);
         }
         else if (docTag == "codedocument" || docTag == "classifiercodedocument")
         {
-            QString id = codeDocElement.attribute( "id", "-1" );
             CodeDocument * codeDoc = findCodeDocumentByID(id);
-            if(codeDoc)
+            if (codeDoc) {
                 codeDoc->loadFromXMI(codeDocElement);
-            else {
-                uWarning()<<" loadFromXMI: missing code document w/ id:"<<id<<", plowing ahead with pre-generated one.";
             }
-        } else
-            uWarning()<<" loadFromXMI : got strange codegenerator child node:"<<docTag<<", ignoring.";
-
+            else {  // version not SOURCE_CODE
+                uWarning() << "missing code document for id:" << id;
+                loadCodeForOperation(id, codeDocElement);
+            }
+        } else {
+            uWarning() << "got strange codegenerator child node:" << docTag << ", ignoring.";
+        }
         codeDocNode = codeDocElement.nextSibling();
         codeDocElement = codeDocNode.toElement();
+    }
+}
+
+// probably we have code which was entered in classpropdlg for an operation
+void CodeGenerator::loadCodeForOperation(const QString& idStr, QDomElement codeDocElement)
+{
+    Uml::IDType id = STR2ID(idStr);
+    UMLObject *obj = m_document->findObjectById(id);
+    if (obj)
+    {
+        uDebug() << "found UMLObject for id:" << idStr;
+#ifdef SOURCE_CODE
+        QString value = codeDocElement.attribute("value", "");
+
+        Uml::Object_Type t = obj->getBaseType();
+        if (t == Uml::ot_Operation)
+        {
+            UMLOperation *op = static_cast<UMLOperation*>(obj);
+            op->setSourceCode(value);
+        }
+        else
+            uError() << "sourcecode id " << idStr << " has unexpected type " << t;
+#else
+        UMLOperation* op = static_cast<UMLOperation*>(obj);
+        if (op)
+        {
+            QDomElement codeDocTextBlock = codeDocElement.firstChildElement("textblocks");
+            if (!codeDocTextBlock.isNull())
+            {
+                QDomElement codeDocCodeBlock = codeDocTextBlock.firstChildElement("codeblock");
+                QString blockId = codeDocCodeBlock.attribute( "tag", "" );
+                QString code    = codeDocCodeBlock.attribute( "text", "" );
+                uDebug() << "loading code for UMLOperation tag=" << blockId << " / value=" << code;
+                if (blockId == idStr)
+                {
+                    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+                    op->setSourceCode(TextBlock::decodeText(code, endLine));
+                }
+            }
+        }
+#endif
+    }
+    else
+    {
+        uError() << "unknown sourcecode id " << idStr;
     }
 }
 
@@ -239,6 +245,7 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
     QDomElement docElement = doc.createElement( "codegenerator" );
     docElement.setAttribute("language",langType);
 
+#ifdef SOURCE_CODE
     if (dynamic_cast<SimpleCodeGenerator*>(this))
     {
         UMLClassifierList concepts = m_document->getClassesAndInterfaces();
@@ -259,31 +266,18 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
         }
     }
     else
+#endif
     {
         CodeDocumentList * docList = getCodeDocumentList();
         CodeDocumentList::iterator it = docList->begin();
         CodeDocumentList::iterator end = docList->end();
-        for ( ; it != end; ++it )
+        for ( ; it != end; ++it ) {
             (*it)->saveToXMI(doc, docElement);
+        }
     }
     root.appendChild( docElement );
 }
 
-/**
- * Initialize this code generator from its parent UMLDoc. When this is called, it will
- * (re-)generate the list of code documents for this project (generator) by checking
- * for new objects/attributes which have been added or changed in the documnet. One or more
- * CodeDocuments will be created/overwritten/amended as is appropriate for the given language.
- *
- * In this 'generic' version a ClassifierCodeDocument will exist for each and
- * every classifier that exists in our UMLDoc. IF when this is called, a code document
- * doesn't exist for the given classifier, then we will created and add a new code
- * document to our generator.
- *
- * IF you want to add non-classifier related code documents at this step,
- * you will need to overload this method in the appropriate
- * code generatator (see JavaCodeGenerator for an example of this).
- */
 void CodeGenerator::initFromParentDocument()
 {
     // Walk through the document converting classifiers into
@@ -301,11 +295,6 @@ void CodeGenerator::initFromParentDocument()
     }
 }
 
-/**
- * Force a synchronize of this code generator, and its present contents, to that of the parent UMLDocument.
- * "UserGenerated" code will be preserved, but Autogenerated contents will be updated/replaced
- * or removed as is apppropriate.
- */
 void CodeGenerator::syncCodeToDocument ()
 {
     CodeDocumentList::iterator it = m_codedocumentVector.begin();
@@ -322,7 +311,7 @@ void CodeGenerator::checkAddUMLObject (UMLObject * obj)
         return;
 
     UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
-    if(c) {
+    if (c) {
         CodeDocument * cDoc = newClassifierCodeDocument(c);
         addCodeDocument(cDoc);
     }
@@ -334,25 +323,18 @@ void CodeGenerator::checkRemoveUMLObject (UMLObject * obj)
         return;
 
     UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
-    if(c) {
+    if (c) {
         ClassifierCodeDocument * cDoc = (ClassifierCodeDocument*) findCodeDocumentByClassifier(c);
         if (cDoc)
             removeCodeDocument(cDoc);
     }
 }
 
-/**
- * @return      CodeDocument
- * @param       classifier
- */
 CodeDocument * CodeGenerator::findCodeDocumentByClassifier ( UMLClassifier * classifier )
 {
     return findCodeDocumentByID(ID2STR(classifier->getID()));
 }
 
-/**
- * Write out all code documents to file as appropriate.
- */
 void CodeGenerator::writeCodeToFile ( )
 {
     writeListedCodeDocsToFile(&m_codedocumentVector);
@@ -364,7 +346,7 @@ void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts)
 
     foreach (UMLClassifier *concept, concepts ) {
         CodeDocument * doc = findCodeDocumentByClassifier(concept);
-        if(doc)
+        if (doc)
             docs.append(doc);
     }
 
@@ -384,7 +366,7 @@ void CodeGenerator::writeListedCodeDocsToFile ( CodeDocumentList * docs )
         bool codeGenSuccess = false;
 
         // we only write the document, if so requested
-        if((*it)->getWriteOutCode())
+        if ((*it)->getWriteOutCode())
         {
             QString filename = findFileName(*it);
             // check that we may open that file for writing
@@ -399,35 +381,22 @@ void CodeGenerator::writeListedCodeDocsToFile ( CodeDocumentList * docs )
             }
         }
 
-        if(cdoc)
+        if (cdoc)
             emit codeGenerated(cdoc->getParentClassifier(), codeGenSuccess);
     }
 }
 
-/**
- * Create a new Code document belonging to this package.
- * @return      CodeDocument
- */
 CodeDocument * CodeGenerator::newCodeDocument ()
 {
     CodeDocument * newCodeDoc = new CodeDocument ();
     return newCodeDoc;
 }
 
-/**
- * @return      QString
- * @param       file
- */
 QString CodeGenerator::getHeadingFile( const QString &file )
 {
     return UMLApp::app()->getCommonPolicy()->getHeadingFile(file);
 }
 
-/**
- * @return      QString
- * @param       codeDoc
- * @param       name
- */
 QString CodeGenerator::overwritableName(const QString& name, const QString &extension )
 {
     CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
@@ -497,15 +466,10 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
     return filename;
 }
 
-/**
- * @return      bool
- * @param       file
- * @param       name
- */
 bool CodeGenerator::openFile (QFile & file, const QString &fileName )
 {
     //open files for writing.
-    if(fileName.isEmpty()) {
+    if (fileName.isEmpty()) {
         uWarning() << "cannot find a file name";
         return false;
     } else {
@@ -517,13 +481,8 @@ bool CodeGenerator::openFile (QFile & file, const QString &fileName )
         }
         return true;
     }
-
 }
 
-/**
- * @return      QString
- * @param       name
- */
 QString CodeGenerator::cleanName ( const QString &name )
 {
     QString retval = name;
@@ -533,18 +492,16 @@ QString CodeGenerator::cleanName ( const QString &name )
 
 QString CodeGenerator::findFileName ( CodeDocument * codeDocument )
 {
-    //else, determine the "natural" file name
-    QString name;
-
     // Get the path name
     QString path = codeDocument->getPath();
 
     // if path is given add this as a directory to the file name
+    QString name;
     if (!path.isEmpty()) {
         path.replace(QRegExp("::"), "/"); // Simple hack!
         name = path + '/' + codeDocument->getFileName();
         path = '/' + path;
-    } else {
+    } else {  // determine the "natural" file name
         name = codeDocument->getFileName();
     }
 
@@ -645,7 +602,6 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
             if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp) )
                 cList.append(temp);
         }
-
     }
 
     //attributes
@@ -660,13 +616,6 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
     }
 }
 
-/**
- * Format an output document.
- * @return      QString
- * @param       text
- * @param       lineprefix
- * @param       linewidth
- */
 QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix, int lineWidth)
 {
     const QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
@@ -731,6 +680,7 @@ void CodeGenerator::connect_newcodegen_slots()
 // these are utility methods for accessing the default
 // code gen policy object and should go away when we
 // finally implement the CodeGenDialog class -b.t.
+
 void CodeGenerator::setForceDoc(bool f)
 {
     UMLApp::app()->getCommonPolicy()->setCodeVerboseDocumentComments(f);

@@ -43,7 +43,7 @@ PythonWriter::~PythonWriter()
 
 void PythonWriter::writeClass(UMLClassifier *c)
 {
-    if(!c) {
+    if (!c) {
         uDebug()<<"Cannot write class of NULL concept!";
         return;
     }
@@ -70,7 +70,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
     fileName = fileName.replace(0, 1, first);
 
     QFile fileh;
-    if( !openFile(fileh, fileName) ) {
+    if ( !openFile(fileh, fileName) ) {
         emit codeGenerated(c, false);
         return;
     }
@@ -84,7 +84,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
     QString str;
 
     str = getHeadingFile(".py");
-    if(!str.isEmpty()) {
+    if (!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), fileName);
         str.replace(QRegExp("%filepath%"), fileh.fileName());
         h<<str<<m_endl;
@@ -123,14 +123,14 @@ void PythonWriter::writeClass(UMLClassifier *c)
                 h << "from " << str << " import *" << m_endl;
         }
     }
-    h<<m_endl;
+    h << m_endl;
 
     h << "class " << classname << (superclasses.count() > 0 ? " (" : "(object)");
     i = superclasses.count();
 
     foreach (UMLClassifier *obj , superclasses ) {
 
-        h<<cleanName(obj->getName())<<(i>1?", ":"");
+        h << cleanName(obj->getName()) << (i>1?", ":"");
         i--;
     }
 
@@ -155,13 +155,12 @@ void PythonWriter::writeClass(UMLClassifier *c)
         h << m_indentation << "pass" << m_endl;
 
     //finish files
-    h<<m_endl<<m_endl;
+    h << m_endl << m_endl;
 
     //close files and notfiy we are done
     fileh.close();
     emit codeGenerated(c, true);
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
@@ -220,9 +219,10 @@ void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h)
 
 }
 
-void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationList &opList,
+void PythonWriter::writeOperations(const QString& classname, UMLOperationList &opList,
                                    QTextStream &h, Uml::Visibility access)
 {
+    Q_UNUSED(classname);
     QString sAccess;
 
     switch (access)
@@ -247,7 +247,7 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
         foreach (UMLAttribute* at , atl )
             writeDoc |= !at->getDoc().isEmpty();
 
-        h<< m_indentation << "def "<< sAccess + cleanName(op->getName()) << "(self";
+        h << m_indentation << "def "<< sAccess + cleanName(op->getName()) << "(self";
 
         int j=0;
         foreach (UMLAttribute* at , atl ) {
@@ -258,9 +258,9 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
             j++;
         }
 
-        h<<"):"<<m_endl;
+        h << "):" << m_endl;
 
-        if( writeDoc )  //write method documentation
+        if ( writeDoc )  //write method documentation
         {
             h << m_indentation << m_indentation << "\"\"\"" << m_endl;
             h << formatDoc(op->getDoc(), m_indentation + m_indentation + ' ') << m_endl;
@@ -273,9 +273,9 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
                     h<<" : "<<at->getDoc()<<m_endl;
                 }
             }//end for : write parameter documentation
-            h<<m_indentation<<m_indentation<<"@return " + op->getTypeName()<<" :"<<m_endl;
-            h<<m_indentation<<m_indentation<<"@author"<<m_endl;
-            h<<m_indentation<<m_indentation<<"\"\"\""<<m_endl;
+            h << m_indentation << m_indentation << "@return " + op->getTypeName() << " :" << m_endl;
+            h << m_indentation << m_indentation << "@author" << m_endl;
+            h << m_indentation << m_indentation << "\"\"\"" << m_endl;
         }
         QString sourceCode = op->getSourceCode();
         if (sourceCode.isEmpty()) {
@@ -288,9 +288,6 @@ void PythonWriter::writeOperations(const QString& /*classname*/, UMLOperationLis
     }//end for
 }
 
-/**
- * returns "Python"
- */
 Uml::Programming_Language PythonWriter::getLanguage()
 {
     return Uml::pl_Python;
