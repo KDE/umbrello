@@ -1969,7 +1969,7 @@ void UMLApp::keyPressEvent(QKeyEvent *e)
 
 }
 
-void UMLApp::customEvent(QCustomEvent* e)
+void UMLApp::customEvent(QEvent* e)
 {
     if (e->type() == CmdLineExportAllViewsEvent::getType()) {
         CmdLineExportAllViewsEvent* exportAllViewsEvent = static_cast<CmdLineExportAllViewsEvent*>(e);

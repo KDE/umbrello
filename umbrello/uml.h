@@ -364,7 +364,7 @@ protected:
      * It handles events such as exporting all views from command line (in
      * that case, it executes the exportAllViews method in the event).
      */
-    virtual void customEvent(QCustomEvent* e);
+    virtual void customEvent(QEvent* e);
 
     /**
      * Helper method for handling cursor key release events (refactoring).
