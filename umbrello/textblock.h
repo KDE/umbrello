@@ -83,21 +83,21 @@ public:
      * Get the value of m_parentDoc
      * @return the value of m_parentDoc
      */
-    CodeDocument * getParentDocument();
+    CodeDocument * getParentDocument() const;
 
     /**
      * Set the value of m_writeOutText
      * Whether or not to include the text of this TextBlock into a file.
      * @param write   the new value of m_writeOutText
      */
-    void setWriteOutText ( bool write );
+    void setWriteOutText( bool write );
 
     /**
      * Get the value of m_writeOutText
      * Whether or not to include the text of this TextBlock into a file.
      * @return the value of m_writeOutText
      */
-    bool getWriteOutText();
+    bool getWriteOutText() const;
 
     /**
      * Set how many times to indent this text block.
@@ -105,7 +105,7 @@ public:
      * codedocument codegeneration policy.
      * @param level   the new value for the indentation level
      */
-    void setIndentationLevel ( int level );
+    void setIndentationLevel( int level );
 
     /**
      * Get how many times to indent this text block.
@@ -113,7 +113,7 @@ public:
      * codedocument codegeneration policy.
      * @return   the indentation level
      */
-    int getIndentationLevel();
+    int getIndentationLevel() const;
 
     /**
      * Get the actual amount of indentation for a given level of indentation.
@@ -136,11 +136,11 @@ public:
 
     /**
      * Format a long text string to be more readable.
-     * @param text...            the original text for formatting
-     * @param linePrefix..      .a line prefix
-     * @param breakStr...        a break string
-     * @param alwaysAddBreak..  .control to add always a break string
-     * @param lastLineHasBreak...control to add a break string to the last line
+     * @param text               the original text for formatting
+     * @param linePrefix         a line prefix
+     * @param breakStr           a break string
+     * @param alwaysAddBreak     control to add always a break string
+     * @param lastLineHasBreak   control to add a break string to the last line
      * @return                   the new formatted text
      */
     static QString formatMultiLineText ( const QString & text, const QString & linePrefix,
@@ -151,13 +151,15 @@ public:
      * UnFormat a long text string. Typically, this means removing
      * the indentaion (linePrefix) and/or newline chars from each line.
      * If an indentation is not specified, then the current indentation is used.
-     * @param text..  .the original text for unformatting
-     * @param indent...the indentation
+     * @param text     the original text for unformatting
+     * @param indent   the indentation
      * @return         the unformatted text
      */
     virtual QString unformatText ( const QString & text, const QString & indent = "");
 
     /**
+     * Return the text in the right format. Returned string is empty
+     * if m_writeOutText is false.
      * @return  QString
      */
     virtual QString toString() const;
@@ -166,22 +168,31 @@ public:
      * Encode text for XML storage.
      * We simply convert all types of newLines to the "\n" or &#010;
      * entity.
+     * @param text       the not yet encoded text
+     * @param endChars   the chars at the end of each line
+     * @return           the encoded text
      */
     static QString encodeText(const QString & text , const QString & endChars);
 
     /**
      * Decode text from XML storage.
      * We simply convert all newLine entity &#010; to chosen line ending.
+     * @param text       the not yet decoded text
+     * @param endChars   the chars at the end of each line
+     * @return           the decoded text
      */
     static QString decodeText(const QString & text, const QString & endChars);
 
     /**
      * Save the XMI representation of this object
+     * @param doc    the xmi document
+     * @param root   the starting point to append
      */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
 
     /**
      * Load params from the appropriate XMI element node.
+     * @param root   the starting point in the xmi document to load from
      */
     virtual void loadFromXMI ( QDomElement & root ) = 0;
 
@@ -189,11 +200,13 @@ public:
      * Determine if its OK to delete this textblock from the document.
      * Used by the text editor to know if deletion could cause a crash of
      * the program.
+     * @return   the value of m_canDelete
      */
-    bool canDelete();
+    bool canDelete() const;
 
     /**
-     * Set the class attributes from a passed object
+     * Set the class attributes from a passed object.
+     * @param obj   text block from which the attributes are taken
      */
     virtual void setAttributesFromObject (TextBlock * obj);
 
@@ -201,8 +214,13 @@ public:
      * Used by the CodeEditor. It provides it with an appropriate
      * starting string for a new line of text within the given textblock
      * (for example a string with the proper indentation).
-     * If the indentation amount is '0' the current indentationString will
+     * If the indentation amount is '0' the current indentation string will
      * be used.
+     * <p>
+     * TODO: Can be refactored away and replaced with
+     * <a href="#getIndentationString">getIndentationString</a>.
+     * @param indentAmount   the number of indent steps to use
+     * @return               the new line
      */
     virtual QString getNewEditorLine( int indentAmount = 0 );
 
@@ -213,8 +231,13 @@ public:
      * actually editable). The default case is no lines are editable.
      * The line numbering starts with '0' and a '-1' means no line
      * qualifies.
+     * @return   line number
      */
     virtual int firstEditableLine();
+    
+    /**
+     * @see firstEditableLine
+     */
     virtual int lastEditableLine();
 
 protected:
@@ -235,12 +258,15 @@ protected:
     /**
      * Set attributes of the node that represents this class
      * in the XMI document.
+     * @param doc            the xmi document
+     * @param blockElement   the xmi element holding the attributes
      */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
     /**
      * Set the class attributes of this object from
      * the passed element node.
+     * @param element   the xmi element from which to load
      */
     virtual void setAttributesFromNode ( QDomElement & element);
 

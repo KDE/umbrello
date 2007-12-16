@@ -50,12 +50,12 @@ void TextBlock::setCanDelete(bool canDelete)
     m_canDelete = canDelete;
 }
 
-bool TextBlock::canDelete()
+bool TextBlock::canDelete() const
 {
     return m_canDelete;
 }
 
-CodeDocument * TextBlock::getParentDocument()
+CodeDocument * TextBlock::getParentDocument() const
 {
     return m_parentDocument;
 }
@@ -90,7 +90,7 @@ void TextBlock::setWriteOutText ( bool write )
     m_writeOutText = write;
 }
 
-bool TextBlock::getWriteOutText()
+bool TextBlock::getWriteOutText() const
 {
     return m_writeOutText;
 }
@@ -100,7 +100,7 @@ void TextBlock::setIndentationLevel ( int level )
     m_indentationLevel = level;
 }
 
-int TextBlock::getIndentationLevel()
+int TextBlock::getIndentationLevel() const
 {
     return m_indentationLevel;
 }
@@ -157,7 +157,7 @@ QString TextBlock::unformatText ( const QString & text, const QString & indent )
     return output;
 }
 
-void TextBlock::release ()
+void TextBlock::release()
 {
     this->disconnect();
     //this->deleteLater();
@@ -260,7 +260,12 @@ QString TextBlock::toString() const
 
 QTextStream& operator<<(QTextStream& os, const TextBlock& obj)
 {
-    os << "TextBlock: " <<  ", ...";  //:TODO:
+    os << "TextBlock: tag=" << obj.getTag()
+       << ", writeOutText=" << (obj.getWriteOutText() ? "true" : "false")
+       << ", canDelete=" << (obj.canDelete() ? "true" : "false")
+       << ", indentationLevel=" << obj.getIndentationLevel()
+       << ", parentDocument id=" << (obj.getParentDocument() ? obj.getParentDocument()->getID() : "null")
+       << ", text=" << obj.getText();
     return os;
 }
 
