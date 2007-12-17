@@ -18,9 +18,9 @@ class UMLAssociation;
 class UMLOperation;
 
 /**
- * Pascal class writer
+ * Pascal class writer.
  * @author Oliver Kellogg
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org.
  */
 class PascalWriter : public SimpleCodeGenerator
 {
@@ -38,13 +38,14 @@ public:
     virtual ~PascalWriter ();
 
     /**
-     * call this method to generate Ada code for a UMLClassifier
-     * @param c the class to generate code for
+     * Call this method to generate Pascal code for a UMLClassifier.
+     * @param c   the class to generate code for
      */
     virtual void writeClass (UMLClassifier *c);
 
     /**
-     * returns "Pascal"
+     * Returns "Pascal".
+     * @return   the programming language identifier
      */
     virtual Uml::Programming_Language getLanguage();
 
@@ -52,21 +53,22 @@ public:
 
     /**
      * Check whether the given string is a reserved word for the
-     * language of this code generator
+     * language of this code generator.
      *
-     * @param rPossiblyReservedKeyword  The string to check.
+     * @param rPossiblyReservedKeyword   the string to check
      */
     virtual bool isReservedKeyword(const QString & rPossiblyReservedKeyword);
 
     /**
-     * get list of reserved keywords
+     * Get list of reserved keywords.
+     * @return   the list of reserved keywords
      */
     virtual const QStringList reservedKeywords() const;
 
 private:
 
     /**
-     * write one operation
+     * Write one operation.
      * @param op the class for which we are generating code
      * @param ada the stream associated with the output file
      */

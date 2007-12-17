@@ -26,15 +26,17 @@
 #include <qregexp.h>
 #include <qtextstream.h>
 
-ASWriter::ASWriter() {
+ASWriter::ASWriter()
+{
 }
 
-ASWriter::~ASWriter() {}
-
+ASWriter::~ASWriter()
+{
+}
 
 void ASWriter::writeClass(UMLClassifier *c)
 {
-    if(!c)
+    if (!c)
     {
         uDebug()<<"Cannot write class of NULL concept!";
         return;
@@ -52,7 +54,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     }
 
     QFile fileas;
-    if(!openFile(fileas,fileName))
+    if (!openFile(fileas,fileName))
     {
         emit codeGenerated(c, false);
         return;
@@ -63,17 +65,15 @@ void ASWriter::writeClass(UMLClassifier *c)
     //Start generating the code!!
     /////////////////////////////
 
-
     //try to find a heading file (license, coments, etc)
     QString str;
     str = getHeadingFile(".as");
-    if(!str.isEmpty())
+    if (!str.isEmpty())
     {
         str.replace(QRegExp("%filename%"),fileName+".as");
         str.replace(QRegExp("%filepath%"),fileas.fileName());
         as << str << m_endl;
     }
-
 
     //write includes
     UMLPackageList includes;
@@ -88,7 +88,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     as << m_endl;
 
     //Write class Documentation if there is somthing or if force option
-    if(forceDoc() || !c->getDoc().isEmpty())
+    if (forceDoc() || !c->getDoc().isEmpty())
     {
         as << m_endl << "/**" << m_endl;
         as << "  * class " << classname << m_endl;
@@ -101,7 +101,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     UMLAssociationList compositions = c->getCompositions();
 
     //check if class is abstract and / or has abstract methods
-    if(c->getAbstract() && !hasAbstractOps(c))
+    if (c->getAbstract() && !hasAbstractOps(c))
         as << "/******************************* Abstract Class ****************************" << m_endl << "  "
         << classname << " does not have any pure virtual methods, but its author" << m_endl
         << "  defined it as an abstract class, so you should not use it directly." << m_endl
@@ -152,14 +152,14 @@ void ASWriter::writeClass(UMLClassifier *c)
     }
 
     //associations
-    if (forceSections() || !aggregations.isEmpty ())
+    if (forceSections() || !aggregations.isEmpty())
     {
         as <<  m_endl << m_indentation << "/**Aggregations: */" << m_endl;
         writeAssociation(classname, aggregations , as );
 
     }
 
-    if( forceSections() || !compositions.isEmpty())
+    if (forceSections() || !compositions.isEmpty())
     {
         as <<  m_endl << m_indentation << "/**Compositions: */" << m_endl;
         writeAssociation(classname, compositions , as );
@@ -304,21 +304,26 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
             << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))
             << ((j < i-1)?", ":"");
         }
-        as << ")" << m_endl << "{" << m_endl <<
-        m_indentation << m_endl << "}" << m_endl;
+        as << ")" << m_endl << "{" << m_endl;
+        QString sourceCode = op->getSourceCode();
+        if (sourceCode.isEmpty()) {
+            as << m_indentation << m_endl;
+        }
+        else {
+            as << formatSourceCode(sourceCode, m_indentation);
+        }
+        as << "}" << m_endl;
         as <<  m_endl << m_endl;
     }//end for
 }
 
-/**
- * returns "ActionScript"
- */
-Uml::Programming_Language ASWriter::getLanguage() {
+Uml::Programming_Language ASWriter::getLanguage()
+{
     return Uml::pl_ActionScript;
 }
 
-const QStringList ASWriter::reservedKeywords() const {
-
+const QStringList ASWriter::reservedKeywords() const
+{
     static QStringList keywords;
 
     if ( keywords.isEmpty() ) {

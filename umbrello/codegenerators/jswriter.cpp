@@ -27,15 +27,17 @@
 #include <qregexp.h>
 #include <qtextstream.h>
 
-JSWriter::JSWriter() {
+JSWriter::JSWriter()
+{
 }
 
-JSWriter::~JSWriter() {}
-
+JSWriter::~JSWriter()
+{
+}
 
 void JSWriter::writeClass(UMLClassifier *c)
 {
-    if(!c)
+    if (!c)
     {
         uDebug()<<"Cannot write class of NULL concept!";
         return;
@@ -53,7 +55,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     }
 
     QFile filejs;
-    if(!openFile(filejs, fileName))
+    if (!openFile(filejs, fileName))
     {
         emit codeGenerated(c, false);
         return;
@@ -68,13 +70,12 @@ void JSWriter::writeClass(UMLClassifier *c)
     //try to find a heading file (license, coments, etc)
     QString str;
     str = getHeadingFile(".js");
-    if(!str.isEmpty())
+    if (!str.isEmpty())
     {
         str.replace(QRegExp("%filename%"),fileName);
         str.replace(QRegExp("%filepath%"),filejs.fileName());
         js << str << m_endl;
     }
-
 
     //write includes
     UMLPackageList includes;
@@ -89,7 +90,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     js << m_endl;
 
     //Write class Documentation if there is somthing or if force option
-    if(forceDoc() || !c->getDoc().isEmpty())
+    if (forceDoc() || !c->getDoc().isEmpty())
     {
         js << m_endl << "/**" << m_endl;
         js << "  * class " << classname << m_endl;
@@ -97,9 +98,8 @@ void JSWriter::writeClass(UMLClassifier *c)
         js << "  */" << m_endl << m_endl;
     }
 
-
     //check if class is abstract and / or has abstract methods
-    if(c->getAbstract() && !hasAbstractOps(c))
+    if (c->getAbstract() && !hasAbstractOps(c))
         js << "/******************************* Abstract Class ****************************" << m_endl << "  "
         << classname << " does not have any pure virtual methods, but its author" << m_endl
         << "  defined it as an abstract class, so you should not use it directly." << m_endl
@@ -136,7 +136,7 @@ void JSWriter::writeClass(UMLClassifier *c)
                 << formatDoc(at->getDoc(), m_indentation + " * ")
                 << m_indentation << " */" << m_endl;
             }
-            if(!at->getInitialValue().isEmpty())
+            if (!at->getInitialValue().isEmpty())
             {
                 js << m_indentation << "this.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << m_endl;
             }
@@ -149,14 +149,14 @@ void JSWriter::writeClass(UMLClassifier *c)
 
     //associations
     UMLAssociationList aggregations = c->getAggregations();
-    if (forceSections() || !aggregations.isEmpty ())
+    if (forceSections() || !aggregations.isEmpty())
     {
         js << m_endl << m_indentation << "/**Aggregations: */" << m_endl;
         writeAssociation(classname, aggregations , js );
 
     }
     UMLAssociationList compositions = c->getCompositions();
-    if( forceSections() || !compositions.isEmpty())
+    if (forceSections() || !compositions.isEmpty())
     {
         js << m_endl << m_indentation << "/**Compositions: */" << m_endl;
         writeAssociation(classname, compositions , js );
@@ -226,7 +226,6 @@ void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
 
 void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &js)
 {
-
     foreach (UMLOperation* op ,  *opList )
     {
         UMLAttributeList atl = op->getParmList();
@@ -260,21 +259,26 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
             << ((j < i-1)?", ":"");
             j++;
         }
-        js << ")" << m_endl << "{" << m_endl <<
-        m_indentation << m_endl << "}" << m_endl;
+        js << ")" << m_endl << "{" << m_endl;
+        QString sourceCode = op->getSourceCode();
+        if (sourceCode.isEmpty()) {
+            js << m_indentation << m_endl;
+        }
+        else {
+            js << formatSourceCode(sourceCode, m_indentation);
+        }
+        js << "}" << m_endl;
         js << m_endl << m_endl;
     }//end for
 }
 
-/**
- * returns "JavaScript"
- */
-Uml::Programming_Language JSWriter::getLanguage() {
+Uml::Programming_Language JSWriter::getLanguage()
+{
     return Uml::pl_JavaScript;
 }
 
-const QStringList JSWriter::reservedKeywords() const {
-
+const QStringList JSWriter::reservedKeywords() const
+{
     static QStringList keywords;
 
     if (keywords.isEmpty()) {

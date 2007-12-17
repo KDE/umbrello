@@ -23,10 +23,11 @@
 #include "../umlassociationlist.h"
 
 /**
-  * class JSWriter is a JavaScript code generator for UMLClassifier objects
-  * Just call writeClass and feed it a UMLClassifier;
-  */
-class JSWriter : public SimpleCodeGenerator {
+ * Class JSWriter is a JavaScript code generator for UMLClassifier objects.
+ * Just call writeClass and feed it a UMLClassifier.
+ */
+class JSWriter : public SimpleCodeGenerator
+{
     Q_OBJECT
 public:
 
@@ -34,43 +35,45 @@ public:
     virtual ~JSWriter();
 
     /**
-      * call this method to generate Actionscript code for a UMLClassifier
-      * @param c the class you want to generate code for.
-      */
+     * Call this method to generate Actionscript code for a UMLClassifier.
+     * @param c   the class you want to generate code for
+     */
     virtual void writeClass(UMLClassifier *c);
 
     /**
-     * returns "JavaScript"
+     * Returns "JavaScript".
+     * @return   the programming language identifier
      */
     virtual Uml::Programming_Language getLanguage();
 
     /**
-     * get list of reserved keywords
+     * Get list of reserved keywords.
+     * @return   the list of reserved keywords
      */
     virtual const QStringList reservedKeywords() const;
 
 private:
 
     /**
-     * we do not want to write the comment "Private methods" twice
+     * We do not want to write the comment "Private methods" twice.
      */
     bool bPrivateSectionCommentIsWritten;
 
     /**
-      * write a list of class operations
-      *
-      * @param classname the name of the class
-      * @param opList the list of operations
-      * @param js output stream for the JS file
-      */
+     * Write a list of class operations.
+     *
+     * @param classname   the name of the class
+     * @param opList      the list of operations
+     * @param js          output stream for the JS file
+     */
     void writeOperations(QString classname, UMLOperationList *opList, QTextStream &js);
 
     /**
-     * write a list of associations
+     * Write a list of associations.
      *
-     * @param classname the name of the class
-     * @param assocList the list of associations
-     * @param as output stream for the AS file
+     * @param classname   the name of the class
+     * @param assocList   the list of associations
+     * @param js          output stream for the JS file
      */
     void writeAssociation(QString& classname, UMLAssociationList& assoclist , QTextStream &js);
 };

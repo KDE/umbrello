@@ -39,9 +39,6 @@ PascalWriter::PascalWriter() {
 
 PascalWriter::~PascalWriter() {}
 
-/**
- * returns "Pascal"
- */
 Uml::Programming_Language PascalWriter::getLanguage() {
     return Uml::pl_Pascal;
 }
@@ -358,10 +355,22 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
         pas << ")";
     }
     if (! use_procedure)
-        pas << " : " << rettype;
-    pas << "; virtual; abstract;" << m_endl << m_endl;
-    // TBH, we make the methods abstract here because we don't have the means
-    // for generating meaningful implementations.
+        pas << " : " << rettype << ";";
+
+    QString sourceCode = op->getSourceCode();
+    if (sourceCode.isEmpty()) {
+        pas << " virtual; abstract;" << m_endl << m_endl;
+        // TBH, we make the methods abstract here because we don't have the means
+        // for generating meaningful implementations.
+    }
+    else {
+        pas << m_endl;
+        pas << getIndent() << "begin" << m_endl;
+        m_indentLevel++;
+        pas << formatSourceCode(sourceCode, getIndent());
+        m_indentLevel--;
+        pas << getIndent() << "end;" << m_endl << m_endl;
+    }
 }
 
 QStringList PascalWriter::defaultDatatypes() {
