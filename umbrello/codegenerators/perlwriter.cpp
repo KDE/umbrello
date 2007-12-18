@@ -33,12 +33,14 @@ PerlWriter::PerlWriter()
 {
 }
 
-PerlWriter::~PerlWriter() {}
+PerlWriter::~PerlWriter()
+{
+}
 
 bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
-                                  QString &ThisPkgName){
-
-  if(!c){
+                                  QString &ThisPkgName)
+{
+  if (!c){
     return(false);
   }
 
@@ -60,7 +62,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
       // Only print out the use statement if the other package isn't the
       // same as the one we are working on. (This happens for the
       // "Singleton" design pattern.)
-      if(OtherName != ThisPkgName){
+      if (OtherName != ThisPkgName){
         Ret += "use ";
         Ret += OtherName;
         Ret +=  ';';
@@ -84,9 +86,9 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   return(true);
 }
 
-void PerlWriter::writeClass(UMLClassifier *c) {
-
-  /*  if(!c) {
+void PerlWriter::writeClass(UMLClassifier *c)
+{
+  /*  if (!c) {
       uDebug()<<"Cannot write class of NULL concept!";
       return;
       }
@@ -147,7 +149,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
   QString oldDir = pol->getOutputDirectory().absolutePath();
   pol->setOutputDirectory(curDir);
   QFile fileperl;
-  if(!openFile(fileperl, fileName)) {
+  if (!openFile(fileperl, fileName)) {
     emit codeGenerated(c, false);
     return;
   }
@@ -164,7 +166,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
   bool bUseStmsWritten  = false;
 
   str = getHeadingFile(".pm");   // what this mean?
-  if(!str.isEmpty()) {
+  if (!str.isEmpty()) {
     str.replace(QRegExp("%filename%"),fileName);
     str.replace(QRegExp("%filepath%"),fileperl.fileName());
     str.replace(QRegExp("%year%"),QDate::currentDate().toString("yyyy"));
@@ -183,7 +185,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
       bPackageDeclared = true;
     }
 
-    if(str.indexOf(QRegExp("%USE-STATEMENTS%"))){
+    if (str.indexOf(QRegExp("%USE-STATEMENTS%"))){
       QString UseStms;
       if(GetUseStatements(c,UseStms,ThisPkgName)){
         str.replace(QRegExp("%USE-STATEMENTS%"), UseStms);
@@ -196,7 +198,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
 
   // if the package wasn't declared above during keyword substitution,
   // add it now. (At the end of the file.)
-  if(! bPackageDeclared){
+  if (! bPackageDeclared){
     perl << m_endl << m_endl << "package " <<ThisPkgName << ";" << m_endl
          << m_endl;
     //write includes
@@ -206,9 +208,9 @@ void PerlWriter::writeClass(UMLClassifier *c) {
          << m_endl << m_endl ;
   }
 
-  if(! bUseStmsWritten){
+  if (! bUseStmsWritten){
     QString UseStms;
-    if(GetUseStatements(c,UseStms,ThisPkgName)){
+    if (GetUseStatements(c,UseStms,ThisPkgName)){
       perl<<UseStms<<m_endl;
     }
   }
@@ -220,7 +222,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
   UMLAssociationList compositions = c->getCompositions();
 
     //Write class Documentation
-  if(forceDoc() || !c->getDoc().isEmpty()) {
+  if (forceDoc() || !c->getDoc().isEmpty()) {
     perl << m_endl << "=head1";
     perl << " " << classname.toUpper() << m_endl << m_endl;
     perl << c->getDoc();
@@ -228,7 +230,7 @@ void PerlWriter::writeClass(UMLClassifier *c) {
   }
 
   //check if class is abstract and / or has abstract methods
-  if(c->getAbstract())
+  if (c->getAbstract())
     perl << "=head1 ABSTRACT CLASS" << m_endl << m_endl << "=cut" << m_endl;
 
   //attributes
@@ -249,18 +251,16 @@ void PerlWriter::writeClass(UMLClassifier *c) {
   emit codeGenerated(c, true);
 }
 
-/**
- * returns "Perl"
- */
-Uml::Programming_Language PerlWriter::getLanguage() {
+Uml::Programming_Language PerlWriter::getLanguage()
+{
     return Uml::pl_Perl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
-
+void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
+{
     //Lists to store operations  sorted by scope
     UMLOperationList oppub,opprot,oppriv;
 
@@ -286,20 +286,20 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
     QString classname(cleanName(c->getName()));
 
     //write operations to file
-    if(forceSections() || !oppub.isEmpty()) {
+    if (forceSections() || !oppub.isEmpty()) {
         perl << m_endl << "=head1 PUBLIC METHODS" << m_endl << m_endl ;
         writeOperations(classname,oppub,perl);
         perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
     }
 
-    if(forceSections() || !opprot.isEmpty()) {
+    if (forceSections() || !opprot.isEmpty()) {
         perl << m_endl << "=head1 METHODS FOR SUBCLASSING" << m_endl << m_endl ;
         //perl << "=pod "  << m_endl << m_endl << "=head3 " ;
         writeOperations(classname,opprot,perl);
         perl << m_endl << m_endl << "=cut" << m_endl << m_endl;
     }
 
-    if(forceSections() || !oppriv.isEmpty()) {
+    if (forceSections() || !oppriv.isEmpty()) {
         perl << m_endl << "=head1 PRIVATE METHODS" << m_endl << m_endl ;
         //perl << "=pod "  << m_endl << m_endl << "=head3 " ;
         writeOperations(classname,oppriv,perl);
@@ -316,7 +316,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
         perl << "sub _init {" << m_endl << m_indentation << "my $self = shift;" << m_endl<<m_endl;
 
         foreach (UMLAttribute *at , atl ) {
-            if(!at->getInitialValue().isEmpty())
+            if (!at->getInitialValue().isEmpty())
                 perl << m_indentation << "defined $self->{" << cleanName(at->getName())<<"}"
                 << " or $self->{" << cleanName(at->getName()) << "} = "
                 << at->getInitialValue() << ";" << m_endl;
@@ -328,8 +328,8 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl) {
     perl << m_endl << m_endl;
 }
 
-void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationList &opList, QTextStream &perl) {
-
+void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationList &opList, QTextStream &perl)
+{
     foreach (UMLOperation* op , opList ) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
@@ -337,7 +337,7 @@ void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationLis
         foreach (UMLAttribute* at , atl )
             writeDoc |= !at->getDoc().isEmpty();
 
-        if( writeDoc )  //write method documentation
+        if ( writeDoc )  //write method documentation
         {
             perl << "=pod "  << m_endl << m_endl << "=head3 " ;
             perl << cleanName(op->getName()) << m_endl << m_endl;
@@ -345,7 +345,7 @@ void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationLis
             perl << "   Parameters :" << m_endl ;
           //write parameter documentation
           foreach (UMLAttribute* at , atl ) {
-            if(forceDoc() || !at->getDoc().isEmpty()) {
+            if (forceDoc() || !at->getDoc().isEmpty()) {
               perl << "      "
                    << cleanName(at->getName()) << " : "
                    << at->getTypeName() << " : "
@@ -379,22 +379,27 @@ void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationLis
 
         perl << "    ) = @_;" << m_endl;
 
-        perl << "#UML_MODELER_BEGIN_PERSONAL_CODE_" << cleanName(op->getName());
-        perl << m_endl << "#UML_MODELER_END_PERSONAL_CODE_" << cleanName(op->getName()) << m_endl;
+        perl << "#UML_MODELER_BEGIN_PERSONAL_CODE_" << cleanName(op->getName()) << m_endl;
+        QString sourceCode = op->getSourceCode();
+        if (!sourceCode.isEmpty()) {
+            perl << formatSourceCode(sourceCode, m_indentation);
+        }
+        perl << "#UML_MODELER_END_PERSONAL_CODE_" << cleanName(op->getName()) << m_endl;
         perl << "}" << m_endl;
         perl << m_endl << m_endl;
     }//end for
 }
 
 
-void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl) {
+void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl)
+{
     UMLAttributeList  atpub, atprot, atpriv, atdefval;
 
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
 
     foreach (UMLAttribute* at , atl ) {
-        if(!at->getInitialValue().isEmpty())
+        if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch(at->getVisibility()) {
           case Uml::Visibility::Public:
@@ -411,21 +416,19 @@ void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl) {
         }
     }
 
-
-    if(forceSections() || atpub.count()) {
+    if (forceSections() || atpub.count()) {
         writeAttributes(atpub,perl);
     }
     /* not needed as writeAttributes only writes documentation
-    if(forceSections() || atprot.count()) {
+    if (forceSections() || atprot.count()) {
     writeAttributes(atprot,perl);
     }
 
-    if(forceSections() || atpriv.count()) {
+    if (forceSections() || atpriv.count()) {
     writeAttributes(atpriv,perl);
     }
     */
 }
-
 
 void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
 {
@@ -442,7 +445,8 @@ void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
     return;
 }
 
-QStringList PerlWriter::defaultDatatypes() {
+QStringList PerlWriter::defaultDatatypes()
+{
     QStringList l;
     l.append("$");
     l.append("@");
@@ -450,8 +454,8 @@ QStringList PerlWriter::defaultDatatypes() {
     return l;
 }
 
-const QStringList PerlWriter::reservedKeywords() const {
-
+const QStringList PerlWriter::reservedKeywords() const
+{
     static QStringList keywords;
 
     if (keywords.isEmpty()) {

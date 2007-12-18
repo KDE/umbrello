@@ -25,10 +25,11 @@
 #include "../umloperationlist.h"
 
 /**
-  * class Php5Writer is a PHP code generator for UMLClassifier objects
-  * Just call writeClass and feed it a UMLClassifier;
-  */
-class Php5Writer : public SimpleCodeGenerator {
+ * Class Php5Writer is a PHP code generator for UMLClassifier objects.
+ * Just call writeClass and feed it a UMLClassifier.
+ */
+class Php5Writer : public SimpleCodeGenerator
+{
     Q_OBJECT
 public:
 
@@ -36,58 +37,62 @@ public:
     virtual ~Php5Writer();
 
     /**
-      * call this method to generate Php code for a UMLClassifier
-      * @param c the class you want to generate code for.
-      */
+     * Call this method to generate Php code for a UMLClassifier.
+     * @param c   the class you want to generate code for.
+     */
     virtual void writeClass(UMLClassifier *c);
 
     /**
-     * returns "PHP"
+     * Returns "PHP".
+     * @return   the programming language identifier
      */
     virtual Uml::Programming_Language getLanguage();
 
     /**
-     * get list of reserved keywords
+     * Get list of reserved keywords.
+     * @return   the list of reserved keywords
      */
     virtual const QStringList reservedKeywords() const;
 
 private:
 
     /**
-     * we do not want to write the comment "Private methods" twice
+     * We do not want to write the comment "Private methods" twice.
      */
     bool bPrivateSectionCommentIsWritten;
 
     /**
-      * write all operations for a given class
-      *
-      * @param c the concept we are generating code for
-      * @param php output stream for the PHP file
-      */
+     * Write all operations for a given class.
+     *
+     * @param c     the concept we are generating code for
+     * @param php   output stream for the PHP file
+     */
     void writeOperations(UMLClassifier *c, QTextStream &php);
 
     /**
-      * write a list of class operations
-      *
-      * @param classname the name of the class
-      * @param opList the list of operations
-      * @param php output stream for the PHP file
-      * @param interface indicates if the operation is an interface member
-      */
+     * Write a list of class operations.
+     *
+     * @param classname   the name of the class
+     * @param opList      the list of operations
+     * @param php         output stream for the PHP file
+     * @param interface   indicates if the operation is an interface member
+     */
     void writeOperations(const QString &classname, UMLOperationList &opList,
                          QTextStream &php,
                          bool interface = false, bool generateErrorStub = false);
 
-    /** write all the attributes of a class
-      * @param c the class we are generating code for
-      * @param php output stream for the PHP file
-      */
+    /**
+     * Write all the attributes of a class.
+     * @param c     the class we are generating code for
+     * @param php   output stream for the PHP file
+     */
     void writeAttributes(UMLClassifier *c, QTextStream &php);
 
-    /** write a list of class attributes
-      * @param atList the list of attributes
-      * @param php output stream for the PHP file
-      */
+    /**
+     * Write a list of class attributes.
+     * @param atList   the list of attributes
+     * @param php      output stream for the PHP file
+     */
     void writeAttributes(UMLAttributeList &atList, QTextStream &php);
 };
 

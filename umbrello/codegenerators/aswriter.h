@@ -74,7 +74,7 @@ private:
      *
      * @param classname   the name of the class
      * @param assocList   the list of associations
-     * @param as output   stream for the AS file
+     * @param as          output stream for the AS file
      */
     void writeAssociation(QString& classname, UMLAssociationList& assoclist , QTextStream &as);
 
