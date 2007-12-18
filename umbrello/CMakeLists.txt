@@ -1,6 +1,3 @@
-find_package(LibXml2)
-find_package(LibXslt)
-
 add_subdirectory( pics ) 
 add_subdirectory( headings ) 
 add_subdirectory( cmds )
