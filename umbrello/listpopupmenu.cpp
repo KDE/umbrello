@@ -1623,8 +1623,13 @@ QAction* ListPopupMenu::getAction(Menu_Type idx)
 
 ListPopupMenu::Menu_Type ListPopupMenu::getMenuType(QAction* action)
 {
-    Menu_Type mt = m_actions.key(action);
-    return mt;
+    QList<Menu_Type> keyList = m_actions.keys( action );
+    if ( keyList.empty() || /* all key-value pairs are unique*/ keyList.count() > 1 ) {
+        return mt_Undefined;
+    } else {
+        // we return the first ( only ) value
+        return keyList.first();
+    }
 }
 
 void ListPopupMenu::setActionChecked(Menu_Type idx, bool value)
