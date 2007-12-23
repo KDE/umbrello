@@ -17,9 +17,9 @@
 // own header
 #include "tclwriter.h"
 // qt/kde includes
-#include <qfile.h>
-#include <qtextstream.h>
-#include <qregexp.h>
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+#include <QtCore/QRegExp>
 #include <kdebug.h>
 // app includes
 #include "codegen_utils.h"
@@ -94,22 +94,21 @@ TclWriter::getLanguage()
 void
 TclWriter::writeClass(UMLClassifier * c)
 {
-
     if (!c) {
-        uDebug() << "Cannot write class of NULL concept!\n";
+        uDebug() << "Cannot write class of NULL concept!";
         return;
     }
-    QFile           fileh, filetcl;
+    QFile fileh, filetcl;
 
     // find an appropriate name for our file
     fileName_ = findFileName(c, ".tcl");
     if (fileName_.isEmpty()) {
-        emit            codeGenerated(c, false);
+        emit codeGenerated(c, false);
         return;
     }
 
     if (!openFile(fileh, fileName_)) {
-        emit            codeGenerated(c, false);
+        emit codeGenerated(c, false);
         return;
     }
     // preparations
@@ -128,14 +127,14 @@ TclWriter::writeClass(UMLClassifier * c)
 
     // Determine whether the implementation file is required.
     // (It is not required if the class is an enumeration.)
-    bool            need_impl = true;
+    bool need_impl = true;
     if (!c->isInterface()) {
         if (c->getBaseType() == Uml::ot_Enum)
             need_impl = false;
     }
     if (need_impl) {
         if (!openFile(filetcl, fileName_ + "body")) {
-            emit            codeGenerated(c, false);
+            emit codeGenerated(c, false);
             return;
         }
         // write Source file
@@ -144,21 +143,20 @@ TclWriter::writeClass(UMLClassifier * c)
     }
     // emit done code
     emit codeGenerated(c, true);
-
 }
 
 void
 TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
 {
     // open stream for writing
-    QTextStream     stream(&fileh);
+    QTextStream stream(&fileh);
     mStream = &stream;
 
     // reset the indent level
     m_indentLevel = 0;
 
     // write header blurb
-    QString         str = getHeadingFile(".tcl");
+    QString str = getHeadingFile(".tcl");
     if (!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), fileName_);
         str.replace(QRegExp("%filepath%"), fileh.fileName());
@@ -224,8 +222,8 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     if (template_params.count()) {
         writeCode("#TODO template<");
         foreach (UMLTemplate * t , template_params ) {
-            QString         formalName = t->getName();
-            QString         typeName = t->getTypeName();
+            QString formalName = t->getName();
+            QString typeName = t->getTypeName();
             writeCode(typeName + "# " + formalName);
         }
     }
@@ -233,7 +231,7 @@ TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     writeCode("class " + className_ + " {");
     m_indentLevel++;
     if (c->getSuperClasses().count() > 0) {
-        QString         code = "inherit";
+        QString code = "inherit";
         foreach (UMLClassifier * superClass , c->getSuperClasses()) {
             /*
             if (superClass->getAbstract() || superClass->isInterface())
@@ -318,7 +316,7 @@ void
 TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
 {
     // open stream for writing
-    QTextStream     stream(&filetcl);
+    QTextStream stream(&filetcl);
     mStream = &stream;
 
     // set the starting indentation at zero
@@ -362,7 +360,7 @@ TclWriter::writeCode(const QString &text)
 void
 TclWriter::writeComm(const QString &text)
 {
-    QStringList     lines = text.split(QRegExp("\n"));
+    QStringList lines = text.split(QRegExp("\n"));
     for (int i = 0; i < lines.count(); i++) {
         *mStream << getIndent() << "# " << lines[i] << m_endl;
     }
@@ -371,7 +369,7 @@ TclWriter::writeComm(const QString &text)
 void
 TclWriter::writeDocu(const QString &text)
 {
-    QStringList     lines = text.split(QRegExp("\n"));
+    QStringList lines = text.split(QRegExp("\n"));
     for (int i = 0; i < lines.count(); i++) {
         *mStream << getIndent() << "## " << lines[i] << m_endl;
     }
@@ -413,7 +411,7 @@ TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::IDType myId,
 void
 TclWriter::writeUse(UMLClassifier * c)
 {
-    QString         myNs;
+    QString myNs;
 
     if (!c->getPackage().isEmpty()) {
         myNs = cleanName(c->getPackage());
@@ -439,11 +437,8 @@ TclWriter::writeUse(UMLClassifier * c)
 void
 TclWriter::writeConstructorHeader()
 {
-
-    writeDocu
-    (m_endl + "@func constructor" + m_endl +
-     "@par args contain all configuration parameters" + m_endl);
-
+    writeDocu(m_endl + "@func constructor" + m_endl +
+        "@par args contain all configuration parameters" + m_endl);
     writeCode("constructor {args} {}" + m_endl);
 }
 
@@ -464,9 +459,7 @@ TclWriter::writeConstructorSource(UMLClassifier * c)
 void
 TclWriter::writeDestructorHeader()
 {
-
     writeDocu(m_endl + "@func destructor" + m_endl);
-
     writeCode("destructor {} {}");
 }
 
@@ -516,10 +509,11 @@ TclWriter::writeAttributeDecl(UMLClassifier * c, Uml::Visibility visibility, boo
 void
 TclWriter::writeAssociationDecl(UMLAssociationList associations,
                                 Uml::Visibility permitScope, Uml::IDType id,
-                                const QString &/*type*/)
+                                const QString &type)
 {
+    Q_UNUSED(type);
     if (forceSections() || !associations.isEmpty()) {
-        bool            printRoleA = false, printRoleB = false;
+        bool printRoleA = false, printRoleB = false;
         foreach (UMLAssociation * a , associations ) {
 
             // it may seem counter intuitive, but you want to insert the role of the
@@ -534,7 +528,7 @@ TclWriter::writeAssociationDecl(UMLAssociationList associations,
             // print RoleB decl
             if (printRoleB && a->getVisibility(Uml::B) == permitScope) {
 
-                QString         fieldClassName =
+                QString fieldClassName =
                     cleanName(getUMLObjectName(a->getObject(Uml::B)));
                 writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::B),
                                          a->getMulti(Uml::B), a->getRoleDoc(Uml::B),
@@ -542,7 +536,7 @@ TclWriter::writeAssociationDecl(UMLAssociationList associations,
             }
             // print RoleA decl
             if (printRoleA && a->getVisibility(Uml::A) == permitScope) {
-                QString         fieldClassName =
+                QString fieldClassName =
                     cleanName(getUMLObjectName(a->getObject(Uml::A)));
                 writeAssociationRoleDecl(fieldClassName, a->getRoleName(Uml::A),
                                          a->getMulti(Uml::A), a->getRoleDoc(Uml::A),
@@ -564,12 +558,11 @@ TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QString
     if (roleName.isEmpty())
         return;
 
-
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
-        QString         fieldVarName = roleName.toLower();
+        QString fieldVarName = roleName.toLower();
 
         // record this for later consideration of initialization IF the
         // multi value requires 1 of these objects
@@ -584,7 +577,7 @@ TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QString
                   "> " + fieldVarName + m_endl + doc);
         writeCode(scope + " variable " + fieldVarName + m_endl);
     } else {
-        QString         fieldVarName = roleName.toLower();
+        QString fieldVarName = roleName.toLower();
 
         // record unique occurrences for later when we want to check
         // for initialization of this vector
@@ -611,7 +604,7 @@ TclWriter::writeInitAttributeSource(UMLClassifier* c)
 {
     // only need to do this under certain conditions
     if (c->hasAttributes()) {
-        QString         varName;
+        QString varName;
 
         writeComm(mClassGlobal + "::initAttributes");
         writeCode("body " + mClassGlobal + "::initAttributes {} {");
@@ -637,7 +630,7 @@ TclWriter::writeInitAttributeSource(UMLClassifier* c)
                 it != ObjectFieldVariables.end(); ++it) {
             varName = *it;
             it++;
-            QString         fieldClassName = *it;
+            QString fieldClassName = *it;
             writeCode("set " + varName + " [list]");
         }
         // clean up
@@ -652,9 +645,8 @@ TclWriter::writeInitAttributeSource(UMLClassifier* c)
 void
 TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
 {
-
     UMLOperationList oplist;
-    int             j;
+    int j;
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
@@ -682,11 +674,11 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
         writeComm("Operations");
     }
     foreach ( UMLOperation* op , oplist ) {
-        QString         doc = "";
-        QString         code = "";
-        QString         methodReturnType = fixTypeName(op->getTypeName());
-        QString         name = cleanName(op->getName());
-        QString         scope = permitScope.toString();
+        QString doc = "";
+        QString code = "";
+        QString methodReturnType = fixTypeName(op->getTypeName());
+        QString name = cleanName(op->getName());
+        QString scope = permitScope.toString();
         if (op->getAbstract() || c->isInterface()) {
             //TODO declare abstract method as 'virtual'
             // str += "virtual ";
@@ -729,9 +721,8 @@ TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility permitScope)
 void
 TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
 {
-
     UMLOperationList oplist;
-    int             j;
+    int j;
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
@@ -756,9 +747,9 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
 
     // generate source for each operation given
     foreach ( UMLOperation* op , oplist ) {
-        QString         code = "";
-        QString         methodReturnType = fixTypeName(op->getTypeName());
-        QString         name;
+        QString code = "";
+        QString methodReturnType = fixTypeName(op->getTypeName());
+        QString name;
         // no code needed
         if (op->getAbstract() || c->isInterface()) {
             continue;
@@ -780,6 +771,10 @@ TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitScope)
         }
         writeCode(code += "} {");
         m_indentLevel++;
+        QString sourceCode = op->getSourceCode();
+        if (!sourceCode.isEmpty()) {
+            *mStream << formatSourceCode(sourceCode, getIndent());
+        }
         if (methodReturnType != "void") {
             writeCode("return " + methodReturnType);
         } else {
@@ -811,7 +806,7 @@ TclWriter::writeAssociationSource(UMLAssociationList associations,
         return;
     }
 
-    bool            printRoleA = false, printRoleB = false;
+    bool printRoleA = false, printRoleB = false;
     foreach (UMLAssociation * a , associations ) {
 
         // it may seem counter intuitive, but you want to insert the role of the
@@ -825,14 +820,14 @@ TclWriter::writeAssociationSource(UMLAssociationList associations,
         // print RoleB source
         if (printRoleB && a->getVisibility(Uml::B) == Uml::Visibility::Public) {
 
-            QString         fieldClassName =
+            QString fieldClassName =
                 cleanName(getUMLObjectName(a->getObject(Uml::B)));
             writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::B),
                                        a->getMulti(Uml::B));
         }
         // print RoleA source
         if (printRoleA && a->getVisibility(Uml::A) == Uml::Visibility::Public) {
-            QString         fieldClassName =
+            QString fieldClassName =
                 cleanName(getUMLObjectName(a->getObject(Uml::A)));
             writeAssociationRoleSource(fieldClassName, a->getRoleName(Uml::A),
                                        a->getMulti(Uml::A));
@@ -856,7 +851,7 @@ TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
-        QString         fieldVarName = roleName.toLower();
+        QString fieldVarName = roleName.toLower();
 
         writeCode("configbody " + mClassGlobal + "::" + fieldVarName + " {} {");
         m_indentLevel++;
@@ -869,7 +864,7 @@ TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
         m_indentLevel--;
 
     } else {
-        QString         fieldVarName = roleName.toLower();
+        QString fieldVarName = roleName.toLower();
 
         writeCode("configbody " + mClassGlobal + "::" + fieldVarName + " {} {");
         m_indentLevel++;
@@ -903,16 +898,16 @@ TclWriter::getUMLObjectName(UMLObject * obj)
     return (obj != 0) ? obj->getName() : QString("NULL");
 }
 
-const           QStringList
+const QStringList
 TclWriter::reservedKeywords() const
 {
     static QStringList keywords;
 
-    if              (keywords.isEmpty())
+    if (keywords.isEmpty())
     {
         for (int i = 0; tclwords[i]; i++)
             keywords.append(tclwords[i]);
     }
-    return          keywords;
+    return keywords;
 }
 

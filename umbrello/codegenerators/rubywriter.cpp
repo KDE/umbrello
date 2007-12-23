@@ -21,9 +21,9 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <qfile.h>
-#include <qtextstream.h>
-#include <qregexp.h>
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+#include <QtCore/QRegExp>
 
 #include "../umldoc.h"
 #include "../umlattributelist.h"
@@ -33,13 +33,17 @@
 #include "../operation.h"
 #include "../umlnamespace.h"
 
-RubyWriter::RubyWriter() {
+RubyWriter::RubyWriter()
+{
 }
 
-RubyWriter::~RubyWriter() {}
+RubyWriter::~RubyWriter()
+{
+}
 
-void RubyWriter::writeClass(UMLClassifier *c) {
-    if(!c) {
+void RubyWriter::writeClass(UMLClassifier *c)
+{
+    if (!c) {
         uDebug()<<"Cannot write class of NULL concept!";
         return;
     }
@@ -56,7 +60,7 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     }
 
     QFile fileh;
-    if( !openFile(fileh, fileName_) ) {
+    if ( !openFile(fileh, fileName_) ) {
         emit codeGenerated(c, false);
         return;
     }
@@ -68,18 +72,17 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     //Start generating the code!!
     /////////////////////////////
 
-
     //try to find a heading file (license, coments, etc)
     QString str;
 
     str = getHeadingFile(".rb");
-    if(!str.isEmpty()) {
+    if (!str.isEmpty()) {
         str.replace(QRegExp("%filename%"), fileName_);
         str.replace(QRegExp("%filepath%"), fileh.fileName());
         h<<str<<m_endl;
     }
 
-    if(forceDoc() || !c->getDoc().isEmpty()) {
+    if (forceDoc() || !c->getDoc().isEmpty()) {
         QString docStr = c->getDoc();
         docStr.replace(QRegExp("\\n"), "\n# ");
         docStr.replace("@ref ", "");
@@ -134,11 +137,8 @@ void RubyWriter::writeClass(UMLClassifier *c) {
     emit codeGenerated(c, true);
 }
 
-
-////////////////////////////////////////////////////////////////////////////////////
-//  Helper Methods
-
-QString RubyWriter::cppToRubyType(const QString &typeStr) {
+QString RubyWriter::cppToRubyType(const QString &typeStr)
+{
     QString type = cleanName(typeStr);
     type.replace("const ", "");
     type.replace(QRegExp("[*&\\s]"), "");
@@ -154,7 +154,8 @@ QString RubyWriter::cppToRubyType(const QString &typeStr) {
     return type;
 }
 
-QString RubyWriter::cppToRubyName(const QString &nameStr) {
+QString RubyWriter::cppToRubyName(const QString &nameStr)
+{
     QString name = cleanName(nameStr);
     name.replace(QRegExp("^m_"), "");
     name.replace(QRegExp("^[pbn](?=[A-Z])"), "");
@@ -162,8 +163,8 @@ QString RubyWriter::cppToRubyName(const QString &nameStr) {
     return name;
 }
 
-void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
-
+void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h)
+{
     //Lists to store operations  sorted by scope
     UMLOperationList oppub,opprot,oppriv;
 
@@ -188,18 +189,17 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h) {
     QString classname(cleanName(c->getName()));
 
     //write operations to file
-    if(forceSections() || !oppub.isEmpty()) {
+    if (forceSections() || !oppub.isEmpty()) {
         writeOperations(classname, oppub, Uml::Visibility::Public, h);
     }
 
-    if(forceSections() || !opprot.isEmpty()) {
+    if (forceSections() || !opprot.isEmpty()) {
         writeOperations(classname, opprot, Uml::Visibility::Protected, h);
     }
 
-    if(forceSections() || !oppriv.isEmpty()) {
+    if (forceSections() || !oppriv.isEmpty()) {
         writeOperations(classname, oppriv, Uml::Visibility::Private, h);
     }
-
 }
 
 void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opList,
@@ -333,7 +333,14 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
 
         h <<")" << m_endl;
 
-        h << m_indentation << m_indentation << m_endl;
+        // write body
+        QString sourceCode = op->getSourceCode();
+        if (sourceCode.isEmpty()) {  // empty method body
+            h << m_indentation << m_indentation << m_endl;
+        }
+        else {
+            h << formatSourceCode(sourceCode, m_indentation + m_indentation);
+        }
 
         h << m_indentation << "end" << m_endl << m_endl;
 
@@ -341,8 +348,6 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
 
 }
 
-// this is for writing file attribute methods
-//
 void RubyWriter::writeAttributeMethods(UMLAttributeList attribs,
                                       Uml::Visibility visibility, QTextStream &stream)
 {
@@ -379,15 +384,13 @@ void RubyWriter::writeSingleAttributeAccessorMethods(
     return;
 }
 
-/**
- * returns "Ruby"
- */
-Uml::Programming_Language RubyWriter::getLanguage() {
+Uml::Programming_Language RubyWriter::getLanguage()
+{
     return Uml::pl_Ruby;
 }
 
-const QStringList RubyWriter::reservedKeywords() const {
-
+const QStringList RubyWriter::reservedKeywords() const
+{
     static QStringList keywords;
 
     if (keywords.isEmpty()) {

@@ -27,9 +27,9 @@
 
 
 /**
-  * class RubyWriter is a ruby code generator for UMLClassifier objects
-  * Just call writeClass and feed it a UMLClassifier;
-  */
+ * Class RubyWriter is a ruby code generator for UMLClassifier objects.
+ * Just call writeClass and feed it a UMLClassifier.
+ */
 class RubyWriter : public SimpleCodeGenerator
 {
     Q_OBJECT
@@ -39,68 +39,71 @@ public:
     virtual ~RubyWriter();
 
     /**
-      * call this method to generate C++ code for a UMLClassifier
-      * @param c the class you want to generate code for.
-      */
+     * Call this method to generate C++ code for a UMLClassifier.
+     * @param c   the class you want to generate code for.
+     */
     virtual void writeClass(UMLClassifier *c);
 
     /**
-     * returns "Ruby"
+     * Returns "Ruby".
+     * @return   the programming language identifier
      */
     virtual Uml::Programming_Language getLanguage();
 
     /**
-     * get list of reserved keywords
+     * Get list of reserved keywords.
+     * @return   the list of reserved keywords
      */
     virtual const QStringList reservedKeywords() const;
 
 private:
     /**
      * Convert a C++ type such as 'int' or 'QWidget' to
-     * ruby types Integer and Qt::Widget
-     *
+     * ruby types Integer and Qt::Widget.
      * @param cppType the C++ type to be converted
      */
     QString cppToRubyType(const QString &cppType);
 
     /**
      * Convert C++ names such as 'm_foobar' or pFoobar to
-     * just 'foobar' for ruby
-     *
+     * just 'foobar' for ruby.
      * @param cppName the C++ name to be converted
      */
     QString cppToRubyName(const QString &cppName);
 
     /**
-     * calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
+     * Calls @ref writeSingleAttributeAccessorMethods() on each of the attributes in attribs list.
+     * @param attribs      the attribute
+     * @param visibility   the visibility of the attribute
+     * @param stream       output stream to the generated file
      */
     void writeAttributeMethods(UMLAttributeList attribs,
                                Uml::Visibility visibility, QTextStream &stream);
 
-
     /**
-     * write all method declarations, for attributes and associations
+     * Write all method declarations, for attributes and associations
      * for the given permitted scope.
+     * @param fieldName     the field name
+     * @param description   the description
+     * @param h             output stream to the generated file
      */
     void writeSingleAttributeAccessorMethods(const QString &fieldName,
                                              const QString &description,
                                              QTextStream &h);
 
     /**
-      * write all operations for a given class
-      *
-      * @param c the concept we are generating code for
-      * @param h output stream for the header file
-      */
+     * Write all operations for a given class.
+     * @param c   the concept we are generating code for
+     * @param h   output stream for the header file
+     */
     void writeOperations(UMLClassifier *c, QTextStream &h);
 
     /**
-      * write a list of class operations
-      *
-      * @param classname the name of the class
-      * @param opList the list of operations
-      * @param h output stream for the header file
-      */
+     * Write a list of class operations.
+     * @param classname   the name of the class
+     * @param opList      the list of operations
+     * @param h           output stream for the header file
+     */
     void writeOperations(const QString &classname, UMLOperationList &opList,
                          Uml::Visibility permitScope, QTextStream &h);
 

@@ -19,7 +19,7 @@
 #ifndef TCLWRITER_H
 #define TCLWRITER_H
 
-#include <qstringlist.h>
+#include <QtCore/QStringList>
 #include "simplecodegenerator.h"
 #include "../umloperationlist.h"
 #include "../umlattributelist.h"
@@ -29,38 +29,40 @@ class QFile;
 class QTextStream;
 
 /**
-  * class TclWriter is a code generator for UMLClassifier objects.
-  * Create an instance of this class, and feed it a UMLClassifier when
-  * calling writeClass and it will generate both a header (.h) and
-  * source (.tcl) file for that classifier.
-  */
+ * Class TclWriter is a code generator for UMLClassifier objects.
+ * Create an instance of this class, and feed it a UMLClassifier when
+ * calling writeClass and it will generate both a header (.h) and
+ * source (.tcl) file for that classifier.
+ */
 class TclWriter : public SimpleCodeGenerator
 {
 public:
 
     /**
-     * Constructor, initialises a couple of variables
+     * Constructor, initialises a couple of variables.
      */
     TclWriter();
 
     /**
-     * Destructor, empty
+     * Destructor, empty.
      */
     virtual ~TclWriter();
 
     /**
-     * call this method to generate tcl code for a UMLClassifier
-     * @param c the class to generate code for
+     * Call this method to generate tcl code for a UMLClassifier.
+     * @param c   the class to generate code for
      */
     virtual void writeClass(UMLClassifier * c);
 
     /**
-     * returns "Tcl"
+     * Returns "Tcl".
+     * @return   the programming language identifier
      */
     virtual Uml::Programming_Language getLanguage();
 
     /**
-     * get list of reserved keywords
+     * Get list of reserved keywords.
+     * @return   the list of reserved keywords
      */
     virtual const QStringList reservedKeywords() const;
 
@@ -71,27 +73,27 @@ private:
     QTextStream * mStream;
 
     /**
-     * write the header file for this classifier.
+     * Write the header file for this classifier.
      */
     void writeHeaderFile(UMLClassifier * c, QFile & file);
 
     /**
-     * write the source code body file for this classifier.
+     * Write the source code body file for this classifier.
      */
     void writeSourceFile(UMLClassifier * c, QFile & file);
 
     /**
-     * write the source codei text.
+     * Write the source codei text.
      */
     void writeCode(const QString &text);
 
     /**
-     * write comment text.
+     * Write comment text.
      */
     void writeComm(const QString &text);
 
     /**
-     * write documentation text.
+     * Write documentation text.
      */
     void writeDocu(const QString &text);
 
@@ -106,7 +108,7 @@ private:
     QString mClassGlobal;
 
     /**
-     * writes the Attribute declarations
+     * Writes the Attribute declarations
      * @param visibility the visibility of the attribs to print out
      * @param writeStatic whether to write static or non-static attributes out
      * @param stream text stream
@@ -116,14 +118,14 @@ private:
     void writeAssociationIncl(UMLAssociationList list,
                               Uml::IDType myId, const QString &type);
     /**
-     * Searches a list of associations for appropriate ones to write out as attributes
+     * Searches a list of associations for appropriate ones to write out as attributes.
      */
     void writeAssociationDecl(UMLAssociationList associations,
                               Uml::Visibility permit, Uml::IDType id,
                               const QString &type);
 
     /**
-     * Writes out an association as an attribute using Vector
+     * Writes out an association as an attribute using Vector.
      */
     void writeAssociationRoleDecl(const QString &fieldClassName,
                                   const QString &roleName, const QString &multi,
@@ -154,7 +156,7 @@ private:
 
 
     /**
-     * Returns the name of the given object (if it exists)
+     * Returns the name of the given object (if it exists).
      */
     QString getUMLObjectName(UMLObject * obj);
 
