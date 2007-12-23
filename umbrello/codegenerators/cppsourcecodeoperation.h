@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,11 +14,10 @@
  *      Date   : Mon Sep 1 2003
  */
 
-
 #ifndef CPPSOURCECODEOPERATION_H
 #define CPPSOURCECODEOPERATION_H
 
-#include <qstring.h>
+#include <QtCore/QString>
 #include "../codeoperation.h"
 
 class CPPSourceCodeDocument;
@@ -28,21 +27,28 @@ class CPPSourceCodeOperation : virtual public CodeOperation
     Q_OBJECT
 public:
 
-    // Constructors/Destructors
-    //
-
     /**
-     * Empty Constructor
+     * Constructor.
      */
-    CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UMLOperation * op, const QString & body = "", const QString & comment = "");
+    CPPSourceCodeOperation(CPPSourceCodeDocument * doc, UMLOperation * op, const QString & body = "", const QString & comment = "");
 
     /**
      * Empty Destructor
      */
-    virtual ~CPPSourceCodeOperation ( );
+    virtual ~CPPSourceCodeOperation();
 
+    /**
+     * Update the doc and start text of this method.
+     */
     virtual void updateMethodDeclaration();
-    virtual void updateContent( );
+
+    /**
+     * Just want to know whether or not to print out
+     * the body of the operation.
+     * In C++ if the operations are inline, then we DON'T print out
+     * the body text.
+     */
+    virtual void updateContent();
 
 };
 

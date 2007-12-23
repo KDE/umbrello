@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,10 +22,7 @@
 #include "cppcodedocumentation.h"
 #include "../uml.h"
 
-// Constructors/Destructors
-//
-
-CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
+CPPSourceCodeOperation::CPPSourceCodeOperation(CPPSourceCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment )
         : CodeOperation (doc, parent, body, comment)
 {
     // lets not go with the default comment and instead use
@@ -37,30 +34,23 @@ CPPSourceCodeOperation::CPPSourceCodeOperation ( CPPSourceCodeDocument * doc, UM
     setEndMethodText("}");
 }
 
-CPPSourceCodeOperation::~CPPSourceCodeOperation ( ) { }
+CPPSourceCodeOperation::~CPPSourceCodeOperation()
+{
+}
 
-// Other methods
-//
-
-// we basically just want to know whether or not to print out
-// the body of the operation.
-// In C++ if the operations are inline, then we DON'T print out
-// the body text.
 void CPPSourceCodeOperation::updateContent( )
 {
     CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     bool isInlineMethod = policy->getOperationsAreInline();
 
-    if(!isInlineMethod)
-        setText(""); // change whatever it is to "";
-
+    if (!isInlineMethod) {
+        setText("");  // change whatever it is to ""
+    }
 }
 
-// we basically want to update the doc and start text of this method
 void CPPSourceCodeOperation::updateMethodDeclaration()
 {
-
     CPPSourceCodeDocument * doc = dynamic_cast<CPPSourceCodeDocument*>(getParentDocument());
     CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
@@ -115,7 +105,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 
     // Only write this out if its a child of an interface OR is abstract.
     // and its not inline
-    if(isInterface || o->getAbstract() || isInlineMethod)
+    if (isInterface || o->getAbstract() || isInlineMethod)
     {
         setWriteOutText(false);
     } else {

@@ -17,7 +17,8 @@
 
 namespace Codegen_Utils {
 
-QStringList cppDatatypes() {
+QStringList cppDatatypes()
+{
     QStringList l;
     l.append("int");
     l.append("char");
@@ -33,8 +34,8 @@ QStringList cppDatatypes() {
     return l;
 }
 
-const QStringList reservedCppKeywords() {
-
+const QStringList reservedCppKeywords()
+{
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
@@ -395,7 +396,8 @@ const QStringList reservedCppKeywords() {
     return keywords;
 }
 
-void createCppStereotypes() {
+void createCppStereotypes()
+{
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     umldoc->findOrCreateStereotype("constructor");
     // declares an operation as friend
@@ -404,7 +406,8 @@ void createCppStereotypes() {
     umldoc->findOrCreateStereotype("virtual");
 }
 
-QString capitalizeFirstLetter(const QString &string) {
+QString capitalizeFirstLetter(const QString &string)
+{
     QChar firstChar = string.at(0);
     return firstChar.toUpper() + string.mid(1);
 }

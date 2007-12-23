@@ -17,55 +17,61 @@
 #ifndef CPPSOURCECODEDOCUMENT_H
 #define CPPSOURCECODEDOCUMENT_H
 
-#include <qstring.h>
+#include <QtCore/QString>
 
 #include "../classifiercodedocument.h"
 #include "../hierarchicalcodeblock.h"
 
 /**
-  * class CPPSourceCodeDocument
-  * A CPP UMLClassifier Source Code Document.
-  */
+ * A CPP UMLClassifier Source Code Document.
+ */
 
 class CPPSourceCodeDocument : public ClassifierCodeDocument
 {
     Q_OBJECT
 public:
 
-    // Constructors/Destructors
-    //
-
     /**
      * Constructor
      */
-    CPPSourceCodeDocument (UMLClassifier * classifier);
+    CPPSourceCodeDocument(UMLClassifier * classifier);
 
     /**
      * Empty Destructor
      */
-    virtual ~CPPSourceCodeDocument ( );
+    virtual ~CPPSourceCodeDocument();
 
-    /** add a code operation to this cpp classifier code document.
-     *  @return bool which is true IF the code operation was added successfully
+    /**
+     * Add a code operation to this cpp classifier code document.
+     * In the vannilla version, we just tack all operations on the end
+     * of the document.
+     * @param op   the code operation
+     * @return     bool which is true IF the code operation was added successfully
      */
-    bool addCodeOperation (CodeOperation * op );
+    bool addCodeOperation(CodeOperation * op);
 
+    /**
+     * This method will cause the class to rebuild its text representation.
+     * based on the parent classifier object.
+     * For any situation in which this is called, we are either building the code
+     * document up, or replacing/regenerating the existing auto-generated parts. As
+     * such, we will want to insert everything we reasonably will want
+     * during creation. We can set various parts of the document (esp. the
+     * comments) to appear or not, as needed.
+     */
     void updateContent();
 
 protected:
 
-    // reset/clear our inventory of textblocks in this document
+    /**
+     * Reset/clear our inventory of textblocks in this document.
+     */
     void resetTextBlocks();
-
-    // a little utility method to save us some work
-    QString getCPPClassName (const QString &name);
 
 private:
 
     HierarchicalCodeBlock * m_constructorBlock;
     HierarchicalCodeBlock * m_methodsBlock;
-
-    void init ( );
 
 };
 

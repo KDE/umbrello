@@ -38,33 +38,9 @@
 #include "cppsourcecodeclassfielddeclarationblock.h"
 #include "../uml.h"
 
-// Constructors/Destructors
-//
-
 CPPSourceCodeDocument::CPPSourceCodeDocument ( UMLClassifier * concept )
-        : ClassifierCodeDocument (concept) {
-    init ( );
-}
-
-CPPSourceCodeDocument::~CPPSourceCodeDocument ( ) { }
-
-//
-// Methods
-//
-
-// Accessor methods
-//
-
-// Other methods
-//
-
-QString CPPSourceCodeDocument::getCPPClassName (const QString &name) {
-    return CodeGenerator::cleanName(name);
-}
-
-// Initialize this cpp classifier code document
-void CPPSourceCodeDocument::init ( ) {
-
+        : ClassifierCodeDocument (concept)
+{
     setFileExtension(".cpp");
 
     m_methodsBlock = 0;
@@ -77,12 +53,12 @@ void CPPSourceCodeDocument::init ( ) {
      */
 }
 
-/**
- * @param       op
- */
-// in the vannilla version, we just tack all operations on the end
-// of the document
-bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op ) {
+CPPSourceCodeDocument::~CPPSourceCodeDocument()
+{
+}
+
+bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op )
+{
     bool retval = false;
     if (op->getParentOperation()->isLifeOperation()) {
         if (m_constructorBlock)
@@ -98,29 +74,18 @@ bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op ) {
     return retval;
 }
 
-
 void CPPSourceCodeDocument::resetTextBlocks()
 {
-
     // all special pointers need to be zero'd out.
     m_methodsBlock = 0;
     m_constructorBlock = 0;
 
     // now do the traditional release of child text blocks
     ClassifierCodeDocument::resetTextBlocks();
-
 }
 
-// This method will cause the class to rebuild its text representation.
-// based on the parent classifier object.
-// For any situation in which this is called, we are either building the code
-// document up, or replacing/regenerating the existing auto-generated parts. As
-// such, we will want to insert everything we reasonably will want
-// during creation. We can set various parts of the document (esp. the
-// comments) to appear or not, as needed.
 void CPPSourceCodeDocument::updateContent( )
 {
-
     // Gather info on the various fields and parent objects of this class...
     //UMLClassifier * c = getParentClassifier();
     CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
@@ -145,7 +110,6 @@ void CPPSourceCodeDocument::updateContent( )
     CodeClassFieldList compositionClassFields = getSpecificClassFields ( CodeClassField::Composition );
 
     // START GENERATING CODE/TEXT BLOCKS and COMMENTS FOR THE DOCUMENT
-    //
 
     // INCLUDE CODEBLOCK
     QString includeStatement;
@@ -169,7 +133,6 @@ void CPPSourceCodeDocument::updateContent( )
     m_methodsBlock->addCodeClassFieldMethods(compositionClassFields);
 
     // constructors and other operations are handled by the "addCodeOperation" method above.
-
 }
 
 

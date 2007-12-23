@@ -12,22 +12,22 @@
 #ifndef CODEGEN_UTILS_H
 #define CODEGEN_UTILS_H
 
-#include <qstringlist.h>
+#include <QtCore/QStringList>
 
 namespace Codegen_Utils {
 
 /**
- * Return list of C++ datatypes
+ * Return list of C++ datatypes.
  */
 QStringList cppDatatypes();
 
 /**
- * Get list of C++ reserved keywords
+ * Get list of C++ reserved keywords.
  */
 const QStringList reservedCppKeywords();
 
 /**
- * Add C++ stereotypes
+ * Add C++ stereotypes.
  */
 void createCppStereotypes();
 

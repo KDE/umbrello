@@ -21,9 +21,9 @@
 #include <cstdlib> //to get the user name
 
 // qt includes
-#include <qdatetime.h>
-#include <qregexp.h>
-#include <qdir.h>
+#include <QtCore/QDateTime>
+#include <QtCore/QRegExp>
+#include <QtCore/QDir>
 #include <QtCore/QTextStream>
 
 // kde includes
@@ -631,8 +631,7 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
         int index;
         while ((index = input.lastIndexOf(" ", lineWidth)) >= 0) {
             output += linePrefix + input.left(index) + endLine; // add line
-            input.remove(0, index + 1); //and remove processed string, including
-            // white space
+            input.remove(0, index + 1); // remove processed string, including white space
         }
         if (!input.isEmpty())
             output += linePrefix + input + endLine;
