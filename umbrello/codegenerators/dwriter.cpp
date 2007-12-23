@@ -19,9 +19,9 @@
 // own header
 #include "dwriter.h"
 // qt includes
-#include <qfile.h>
-#include <qtextstream.h>
-#include <qregexp.h>
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+#include <QtCore/QRegExp>
 // kde includes
 #include <kdebug.h>
 // app includes
@@ -34,25 +34,31 @@
 #include "../umltemplatelist.h"
 #include "codegen_utils.h"
 
-DWriter::DWriter() {
+DWriter::DWriter()
+{
     startline = m_endl + m_indentation;
 }
 
-DWriter::~DWriter() {}
+DWriter::~DWriter()
+{
+}
 
-Uml::Programming_Language DWriter::getLanguage() {
+Uml::Programming_Language DWriter::getLanguage()
+{
     return Uml::pl_D;
 }
 
 // FIXME: doesn't work yet
-void DWriter::writeModuleDecl(UMLClassifier *c, QTextStream &d) {
-    if(!c->getPackage().isEmpty())
+void DWriter::writeModuleDecl(UMLClassifier *c, QTextStream &d)
+{
+    if (!c->getPackage().isEmpty())
         d << "module " << c->getPackage() << ";" << m_endl;
 
     writeBlankLine(d);
 }
 
-void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d) {
+void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
+{
     // another preparation, determine what we have
     UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
     UMLAssociationList uniAssociations = c->getUniAssociationToBeImplemented();
@@ -83,7 +89,8 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d) {
     writeBlankLine(d);
 }
 
-void DWriter::writeClass(UMLClassifier *c) {
+void DWriter::writeClass(UMLClassifier *c)
+{
     if (!c) {
         uDebug()<<"Cannot write class of NULL concept!\n";
         return;
@@ -140,7 +147,6 @@ void DWriter::writeClass(UMLClassifier *c) {
     UMLAttributeList  atl;
     UMLAttributeList  atpub, atprot, atpriv, atpkg, atexport;
     UMLAttributeList  final_atpub, final_atprot, final_atpriv, final_atpkg, final_atexport;
-
 
     if (!isInterface) {
         UMLAttributeList atl = c->getAttributeList();
@@ -268,8 +274,8 @@ void DWriter::writeClass(UMLClassifier *c) {
     emit codeGenerated(c, true);
 }
 
-void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d) {
-
+void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
+{
     // class documentation
     if (!c->getDoc().isEmpty()) {
         writeDocumentation("", c->getDoc(), "", "", d);
@@ -360,11 +366,13 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d) {
     }
 }
 
-void DWriter::writeProtectionMod(Uml::Visibility visibility, QTextStream &d) {
+void DWriter::writeProtectionMod(Uml::Visibility visibility, QTextStream &d)
+{
     d << m_indentation << visibility.toString() << ":" << m_endl << m_endl;
 }
 
-void DWriter::writeAttributeDecl(Uml::Visibility visibility, UMLAttributeList &atlist, QTextStream &d) {
+void DWriter::writeAttributeDecl(Uml::Visibility visibility, UMLAttributeList &atlist, QTextStream &d)
+{
     if (atlist.count()==0) return;
 
     writeProtectionMod(visibility, d);
@@ -400,15 +408,16 @@ void DWriter::writeAttributeDecl(Uml::Visibility visibility, UMLAttributeList &a
 }
 
 void DWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &atprot,
-                                     UMLAttributeList &atpriv, QTextStream &d ) {
-
+                                     UMLAttributeList &atpriv, QTextStream &d )
+{
     writeAttributeDecl(Uml::Visibility::Public, atpub, d);
     writeAttributeDecl(Uml::Visibility::Protected, atprot, d);
     writeAttributeDecl(Uml::Visibility::Private, atpriv, d);
     //TODO: export and package
 }
 
-void DWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility visibility, QTextStream &d) {
+void DWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility visibility, QTextStream &d)
+{
     if (atpub.count()==0) return;
 
     writeProtectionMod(visibility, d);
@@ -422,8 +431,9 @@ void DWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility vis
 }
 
 void DWriter::writeComment(const QString &comment, const QString &myIndent,
-                           QTextStream &d, bool dDocStyle) {
-    if(dDocStyle) {
+                           QTextStream &d, bool dDocStyle)
+{
+    if (dDocStyle) {
         d << myIndent << "/**" << m_endl;
     }
 
@@ -448,12 +458,13 @@ void DWriter::writeComment(const QString &comment, const QString &myIndent,
         d << myIndent << (dDocStyle ? " * " : "// ") << tmp << m_endl;
     }
 
-    if(dDocStyle) {
+    if (dDocStyle) {
         d << myIndent << " */" << m_endl;
     }
 }
 
-void DWriter::writeDocumentation(QString header, QString body, QString end, QString indent, QTextStream &d) {
+void DWriter::writeDocumentation(QString header, QString body, QString end, QString indent, QTextStream &d)
+{
     d << indent << "/**" << m_endl;
     if (!header.isEmpty())
         d << formatDoc(header, indent+" * ");
@@ -468,9 +479,9 @@ void DWriter::writeDocumentation(QString header, QString body, QString end, QStr
     d<<indent<< " */" << m_endl;
 }
 
-void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType id, QTextStream &d) {
-
-    if( forceSections() || !associations.isEmpty() )
+void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType id, QTextStream &d)
+{
+    if ( forceSections() || !associations.isEmpty() )
     {
         bool printRoleA = false, printRoleB = false;
         foreach (UMLAssociation *a , associations ) {
@@ -505,7 +516,8 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType
 
 void DWriter::writeAssociationRoleDecl(QString fieldClassName,
         QString roleName, QString multi,
-        QString doc, Uml::Visibility /*visib*/, QTextStream &d) {
+        QString doc, Uml::Visibility /*visib*/, QTextStream &d)
+{
     // ONLY write out IF there is a rolename given
     // otherwise its not meant to be declared in the code
     if (roleName.isEmpty()) return;
@@ -519,7 +531,7 @@ void DWriter::writeAssociationRoleDecl(QString fieldClassName,
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    if(multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
+    if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
         d << m_indentation << fieldClassName << " ";
 
         if (hasAccessors) d << "m_";
@@ -540,14 +552,15 @@ void DWriter::writeAssociationRoleDecl(QString fieldClassName,
     writeBlankLine(d);
 }
 
-void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClassifier *thisClass, QTextStream &d) {
-    if( forceSections() || !associations.isEmpty() ) {
+void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClassifier *thisClass, QTextStream &d)
+{
+    if ( forceSections() || !associations.isEmpty() ) {
         foreach (UMLAssociation *a , associations ) {
             // insert the methods to access the role of the other
             // class in the code of this one
             if (a->getObjectId(Uml::A) == thisClass->getID()) {
                 // only write out IF there is a rolename given
-                if(!a->getRoleName(Uml::B).isEmpty()) {
+                if (!a->getRoleName(Uml::B).isEmpty()) {
                     QString fieldClassName = getUMLObjectName(a->getObject(Uml::B));
                     writeAssociationRoleMethod(fieldClassName,
                                                a->getRoleName(Uml::B),
@@ -559,7 +572,7 @@ void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClass
 
             if (a->getObjectId(Uml::B) == thisClass->getID()) {
                 // only write out IF there is a rolename given
-                if(!a->getRoleName(Uml::A).isEmpty()) {
+                if (!a->getRoleName(Uml::A).isEmpty()) {
                     QString fieldClassName = getUMLObjectName(a->getObject(Uml::A));
                     writeAssociationRoleMethod(fieldClassName, a->getRoleName(Uml::A),
                                                a->getMulti(Uml::A),
@@ -575,8 +588,9 @@ void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClass
 
 void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleName, QString multi,
         QString description, Uml::Visibility visib, Uml::Changeability_Type change,
-        QTextStream &d) {
-    if(multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
+        QTextStream &d)
+{
+    if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
         QString fieldVarName = "m_" + deCapitaliseFirstLetter(roleName);
 
         writeSingleAttributeAccessorMethods(
@@ -592,8 +606,8 @@ void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleNa
 void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
         Uml::Visibility /*visibility*/, Uml::Changeability_Type changeType,
-        QTextStream &d) {
-
+        QTextStream &d)
+{
     fieldClassName = fixTypeName(fieldClassName);
     QString fieldNameUP = unPluralize(fieldName);
     QString fieldNameUC = Codegen_Utils::capitalizeFirstLetter(fieldNameUP);
@@ -668,8 +682,8 @@ void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
     d << startline << "}" << m_endl << m_endl;
 }
 
-void DWriter::writeConstructor(UMLClassifier *c, QTextStream &d) {
-
+void DWriter::writeConstructor(UMLClassifier *c, QTextStream &d)
+{
     if (forceDoc())
     {
         d<<startline;
@@ -682,13 +696,13 @@ void DWriter::writeConstructor(UMLClassifier *c, QTextStream &d) {
     // write the first constructor
     QString className = cleanName(c->getName());
     d << m_indentation << "public this("<<") { }";
-
 }
 
 // IF the type is "string" we need to declare it as
 // the D Object "String" (there is no string primative in D).
 // Same thing again for "bool" to "boolean"
-QString DWriter::fixTypeName(const QString& string) {
+QString DWriter::fixTypeName(const QString& string)
+{
     if (string.isEmpty())
         return "void";
     if (string == "string")
@@ -702,7 +716,8 @@ QString DWriter::fixTypeName(const QString& string) {
     return string;
 }
 
-QStringList DWriter::defaultDatatypes() {
+QStringList DWriter::defaultDatatypes()
+{
     QStringList l;
     l << "void"
     << "bool"
@@ -732,7 +747,8 @@ QStringList DWriter::defaultDatatypes() {
 }
 
 
-bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2) {
+bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2)
+{
     if (op1 == NULL || op2 == NULL)
         return false;
     if (op1 == op2)
@@ -753,7 +769,8 @@ bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2) {
 
 }
 
-bool DWriter::dMethodInList(UMLOperation *umlOp, UMLOperationList &opl) {
+bool DWriter::dMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
+{
     foreach (UMLOperation* op, opl ) {
         if (DWriter::compareDMethod(op, umlOp)) {
             return true;
@@ -762,7 +779,8 @@ bool DWriter::dMethodInList(UMLOperation *umlOp, UMLOperationList &opl) {
     return false;
 }
 
-void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath) {
+void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &yetImplementedOpList ,UMLOperationList &toBeImplementedOpList, bool noClassInPath)
+{
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 
     foreach (UMLClassifier* concept, superClasses ) {
@@ -780,10 +798,10 @@ void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &
             }
         }
     }
-
 }
 
-void DWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opList ) {
+void DWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperationList &opList )
+{
     UMLOperationList yetImplementedOpList;
     UMLOperationList toBeImplementedOpList;
 
@@ -794,7 +812,8 @@ void DWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperat
     }
 }
 
-void DWriter::writeOperations(UMLClassifier *c, QTextStream &d) {
+void DWriter::writeOperations(UMLClassifier *c, QTextStream &d)
+{
     UMLOperationList opl;
     UMLOperationList oppub,opprot,oppriv;
 
@@ -848,27 +867,28 @@ void DWriter::writeOperations(UMLClassifier *c, QTextStream &d) {
 
 }
 
-void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d) {
+void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
+{
     UMLAttributeList atl;
     QString str;
 
     // generate method decl for each operation given
     foreach (UMLOperation* op, oplist ) {
-        QString returnStr = "";
+        QString doc = "";
         // write documentation
 
         QString methodReturnType = fixTypeName(op->getTypeName());
 
         //TODO: return type comment
-        if(methodReturnType != "void") {
-            returnStr += "@return " + methodReturnType + m_endl;
+        if (methodReturnType != "void") {
+            doc += "@return " + methodReturnType + m_endl;
         }
 
         str = ""; // reset for next method
         if (op->getAbstract() && !isInterface) str += "abstract ";
         if (op->getStatic()) str += "static ";
 
-        str += methodReturnType + ' ' +cleanName(op->getName()) + '(';
+        str += methodReturnType + ' ' + cleanName(op->getName()) + '(';
 
         atl = op->getParmList();
         int i = atl.count();
@@ -882,24 +902,34 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d) {
                     (QString(" = ")+at->getInitialValue()) :
                     QString(""))
                    + ((j < i-1)?", ":"");
-            returnStr += "@param " + atName+' '+at->getDoc() + m_endl;
+            doc += "@param " + atName+' '+at->getDoc() + m_endl;
         }
-
+        doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
         str+= ')';
 
         // method only gets a body IF its not abstract
         if (op->getAbstract() || isInterface)
             str += ';'; // terminate now
-        else
-            str += startline + '{' + startline + '}'; // empty method body
+        else {
+            str += startline + '{' + m_endl;
+            QString sourceCode = op->getSourceCode();
+            if (sourceCode.isEmpty()) {
+                // empty method body - TODO: throw exception
+            }
+            else {
+                str += formatSourceCode(sourceCode, m_indentation + m_indentation);
+            }
+            str += m_indentation + '}';
+        }
 
         // write it out
-        writeDocumentation("", op->getDoc(), returnStr, m_indentation, d);
+        writeDocumentation("", op->getDoc(), doc, m_indentation, d);
         d << m_indentation << str << m_endl << m_endl;
     }
 }
 
-QString DWriter::fixInitialStringDeclValue(const QString& val, const QString& type) {
+QString DWriter::fixInitialStringDeclValue(const QString& val, const QString& type)
+{
     QString value = val;
     // check for strings only
     if (!value.isEmpty() && type == "String") {
@@ -912,21 +942,25 @@ QString DWriter::fixInitialStringDeclValue(const QString& val, const QString& ty
 }
 
 // methods like this _shouldn't_ be needed IF we properly did things thruought the code.
-QString DWriter::getUMLObjectName(UMLObject *obj) {
+QString DWriter::getUMLObjectName(UMLObject *obj)
+{
     return(obj!=0)?obj->getName():QString("NULL");
 }
 
-QString DWriter::deCapitaliseFirstLetter(const QString& str) {
+QString DWriter::deCapitaliseFirstLetter(const QString& str)
+{
     QString string = str;
     string.replace( 0, 1, string[0].toLower());
     return string;
 }
 
-QString DWriter::pluralize(const QString& string) {
+QString DWriter::pluralize(const QString& string)
+{
     return string + (string.right(1) == "s" ? "es" : "s");
 }
 
-QString DWriter::unPluralize(const QString& string) {
+QString DWriter::unPluralize(const QString& string)
+{
     // does not handle special cases liek datum -> data, etc.
 
     if (string.count() > 2 && string.right(3) == "ses") {
@@ -940,7 +974,8 @@ QString DWriter::unPluralize(const QString& string) {
     return string;
 }
 
-void DWriter::writeBlankLine(QTextStream &d) {
+void DWriter::writeBlankLine(QTextStream &d)
+{
     d << m_endl;
 }
 
