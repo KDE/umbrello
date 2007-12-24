@@ -352,24 +352,6 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if (featureElement.hasChildNodes()) {
         operationElement.appendChild( featureElement );
     }
-#ifndef SOURCE_CODE
-    // save the source code entered in the 'classpropdlg' dialog
-    if (! m_Code.isEmpty()) {
-        CodeGenerator* codegen = UMLApp::app()->getGenerator();
-        if (codegen) {
-            CodeDocument* codedoc = new CodeDocument();
-            codedoc->setID(ID2STR(UMLObject::getID()));
-
-            CodeBlock* block = codedoc->newCodeBlock();
-            block->setTag(ID2STR(UMLObject::getID()));
-            block->setContentType(CodeBlock::UserGenerated);
-            block->setText(m_Code);
-            codedoc->addTextBlock(block);
-
-            codegen->addCodeDocument(codedoc);
-        }
-    }
-#endif
     qElement.appendChild( operationElement );
 }
 

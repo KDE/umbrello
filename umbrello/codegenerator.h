@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2007                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,7 +14,6 @@
  *      Date   : Thu Jun 19 2003
  *  Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 
 #ifndef CODEGENERATOR_H
 #define CODEGENERATOR_H
@@ -39,7 +38,6 @@ class CodeBlock;
 class CodeDocument;
 class CodeViewerDialog;
 
-#define SOURCE_CODE  // see note below
 
 /**
  * This class collects together all of the code documents which form this project,
@@ -66,21 +64,12 @@ class CodeViewerDialog;
  * Finally put your generator in a library which can be dlopened
  * together with a factory class (see below) and you are ready to go.
  *
- * Note:
+ * Note for "simple" code generators:
  * Code can be entered into a QTextEdit widget in the ClassPropDlg. This
  * code is then stored in the respective UMLOperation, written to the
  * xmi file, and also used when generating the source files.
- * For writing to and loading from xmi files there are two solutions
- * implemented:
- * <li>sourcecode
- * <li>codedocument
- * The solution "sourcecode" is now the active one set by #define SOURCE_CODE
- * (files affected: codegnerator.cpp and operation.cpp).
- * The code fragments are stored into the xmi file in the section codegeneration
+ * The code fragments are stored into the xmi file in the section "codegeneration"
  * with the tag "sourcecode".
- * The solution "codedocument" stores the code fragments also into the section
- * codegeneration but uses the same tags as the CodeDocument, TextBlock, etc.
- * classes.
  */
 
 class CodeGenerator : public QObject
@@ -103,13 +92,13 @@ public:
     CodeGenerator (QDomElement & element );
 
     /**
-     * Empty Destructor
+     * Empty Destructor.
      */
     virtual ~CodeGenerator ( );
 
     /**
-     * Add a CodeDocument object to the m_codedocumentVector List
-     * @return boolean - will return false if it couldnt add a document.
+     * Add a CodeDocument object to the m_codedocumentVector List.
+     * @return boolean - will return false if it couldnt add a document
      */
     bool addCodeDocument ( CodeDocument * add_object );
 
@@ -124,19 +113,22 @@ public:
     //                                bool deleteReplacedDocument=true );
 
     /**
-     * Remove a CodeDocument object from m_codedocumentVector List
-     * @return boolean - will return false if it couldnt remove a document.
+     * Remove a CodeDocument object from m_codedocumentVector List.
+     * @return boolean - will return false if it couldnt remove a document
      */
     bool removeCodeDocument ( CodeDocument * remove_object );
 
     /**
-     * Get the list of CodeDocument objects held by m_codedocumentVector
+     * Get the list of CodeDocument objects held by m_codedocumentVector.
      * @return CodeDocumentList list of CodeDocument objects held by
      * m_codedocumentVector
      */
     CodeDocumentList * getCodeDocumentList ( );
 
-    // get a unique id for this codedocument
+    /**
+     * Get a unique id for this codedocument.
+     * @return   id for the codedocument
+     */
     QString getUniqueID ( CodeDocument * codeDoc );
 
     /**
@@ -155,9 +147,11 @@ public:
      */
     virtual void writeCodeToFile ( );
 
-    // this method is here to provide class wizard the
-    // ability to write out only those classes which
-    // are selected by the user.
+    /**
+     * This method is here to provide class wizard the
+     * ability to write out only those classes which
+     * are selected by the user.
+     */
     virtual void writeCodeToFile(UMLClassifierList &list);
 
     // these are utility methods for accessing the default
@@ -248,8 +242,10 @@ public:
      */
     static void findObjectsRelated(UMLClassifier *c, UMLPackageList &cList);
 
-    // a series of accessor method constructors that we need to define
-    // for any particular language.
+    /**
+     * A series of accessor method constructors that we need to define
+     * for any particular language.
+     */
     virtual CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier ) = 0;
 
     /**
@@ -264,7 +260,7 @@ public:
     virtual CodeDocument * newCodeDocument ( );
 
     /**
-     * Return the unique language enum that identifies this type of code generator
+     * Return the unique language enum that identifies this type of code generator.
      */
     virtual Uml::Programming_Language getLanguage() = 0;
 
@@ -278,19 +274,20 @@ public:
     CodeDocument * findCodeDocumentByClassifier (UMLClassifier * classifier );
 
     /**
-     * Return the default datatypes for your language (bool, int etc)
+     * Return the default datatypes for your language (bool, int etc).
      * Default implementation returns empty list.
      */
     virtual QStringList defaultDatatypes();
 
-    /** Get the editing dialog for this code document
+    /**
+     * Get the editing dialog for this code document.
      */
     virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
             Settings::CodeViewerState state);
 
     /**
      * Check whether the given string is a reserved word for the
-     * language of this code generator
+     * language of this code generator.
      *
      * @param rPossiblyReservedKeyword is the string to check
      *
@@ -298,12 +295,12 @@ public:
     virtual bool isReservedKeyword(const QString & rPossiblyReservedKeyword);
 
     /**
-     * get list of reserved keywords
+     * Get list of reserved keywords.
      */
     virtual const QStringList reservedKeywords() const;
 
     /**
-     * Create the default stereotypes for your language (constructor, int etc)
+     * Create the default stereotypes for your language (constructor, int etc).
      */
     virtual void createDefaultStereotypes ();
 
@@ -328,7 +325,7 @@ public:
     /**
      * Connect additional slots.
      * Only required for Advanced Code Generators.
-     * To be called after constructing the code generator (see CodeGenFactory)
+     * To be called after constructing the code generator (see CodeGenFactory).
      */
     void connect_newcodegen_slots();
 
@@ -357,16 +354,18 @@ protected:
      */
     QString overwritableName (const QString& name, const QString &extension );
 
-    /** Opens a file named "name" for writing in the outputDirectory.
+    /**
+     * Opens a file named "name" for writing in the outputDirectory.
      * If something goes wrong, it informs the user
-     * if this function returns true, you know you can write to the file
+     * if this function returns true, you know you can write to the file.
      * @return      bool
      * @param       file
      * @param       name
      */
     bool openFile (QFile& file, const QString &name);
 
-    /** the actual internal routine which writes code documents
+    /**
+     * The actual internal routine which writes code documents.
      */
     void writeListedCodeDocsToFile(CodeDocumentList * docs);
 
@@ -376,13 +375,13 @@ protected:
     QHash<QString, CodeDocument*> m_codeDocumentDictionary;
 
     /**
-     * used by overwriteDialogue to know if the apply to all
-     * remaining files checkbox should be checked (is by default)
+     * Used by overwriteDialogue to know if the apply to all
+     * remaining files checkbox should be checked (is by default).
      */
     bool m_applyToAllRemaining;
 
     /**
-     * The document object
+     * The document object.
      */
     UMLDoc* m_document;
 

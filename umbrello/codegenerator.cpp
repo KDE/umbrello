@@ -172,7 +172,7 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement )
     {
         QString docTag = codeDocElement.tagName();
         QString id = codeDocElement.attribute( "id", "-1" );
-        if (docTag == "sourcecode")  // version SOURCE_CODE
+        if (docTag == "sourcecode")
         {
             loadCodeForOperation(id, codeDocElement);
         }
@@ -182,9 +182,8 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement )
             if (codeDoc) {
                 codeDoc->loadFromXMI(codeDocElement);
             }
-            else {  // version not SOURCE_CODE
+            else {
                 uWarning() << "missing code document for id:" << id;
-                loadCodeForOperation(id, codeDocElement);
             }
         } else {
             uWarning() << "got strange codegenerator child node:" << docTag << ", ignoring.";
@@ -202,7 +201,6 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, QDomElement codeD
     if (obj)
     {
         uDebug() << "found UMLObject for id:" << idStr;
-#ifdef SOURCE_CODE
         QString value = codeDocElement.attribute("value", "");
 
         Uml::Object_Type t = obj->getBaseType();
@@ -213,25 +211,6 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, QDomElement codeD
         }
         else
             uError() << "sourcecode id " << idStr << " has unexpected type " << t;
-#else
-        UMLOperation* op = static_cast<UMLOperation*>(obj);
-        if (op)
-        {
-            QDomElement codeDocTextBlock = codeDocElement.firstChildElement("textblocks");
-            if (!codeDocTextBlock.isNull())
-            {
-                QDomElement codeDocCodeBlock = codeDocTextBlock.firstChildElement("codeblock");
-                QString blockId = codeDocCodeBlock.attribute( "tag", "" );
-                QString code    = codeDocCodeBlock.attribute( "text", "" );
-                uDebug() << "loading code for UMLOperation tag=" << blockId << " / value=" << code;
-                if (blockId == idStr)
-                {
-                    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
-                    op->setSourceCode(TextBlock::decodeText(code, endLine));
-                }
-            }
-        }
-#endif
     }
     else
     {
@@ -245,7 +224,6 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
     QDomElement docElement = doc.createElement( "codegenerator" );
     docElement.setAttribute("language",langType);
 
-#ifdef SOURCE_CODE
     if (dynamic_cast<SimpleCodeGenerator*>(this))
     {
         UMLClassifierList concepts = m_document->getClassesAndInterfaces();
@@ -266,7 +244,6 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
         }
     }
     else
-#endif
     {
         CodeDocumentList * docList = getCodeDocumentList();
         CodeDocumentList::iterator it = docList->begin();
