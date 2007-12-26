@@ -60,7 +60,7 @@ void SettingsDlg::setupUIPage() {
     KVBox * page = new KVBox();
     pageUserInterface = new KPageWidgetItem( page,i18n("User Interface"));
     pageUserInterface->setHeader( i18n("User Interface Settings") );
-    pageUserInterface->setIcon( KIcon(DesktopIcon( "window_list") ));
+    pageUserInterface->setIcon( KIcon("preferences-desktop-theme") );
     addPage( pageUserInterface );
 
 
@@ -119,7 +119,7 @@ void SettingsDlg::setupGeneralPage() {
     KVBox * page = new KVBox();
     pageGeneral = new KPageWidgetItem( page,i18n("General"));
     pageGeneral->setHeader( i18n("General Settings") );
-    pageGeneral->setIcon( KIcon( DesktopIcon( "misc") ));
+    pageGeneral->setIcon( KIcon("preferences-other") );
     addPage( pageGeneral );
 
     // Set up undo setting
@@ -241,7 +241,7 @@ void SettingsDlg::setupClassPage() {
     KVBox * page = new KVBox();
     pageClass = new KPageWidgetItem( page,i18n("Class"));
     pageClass->setHeader( i18n("Class Settings") );
-    pageClass->setIcon( KIcon( DesktopIcon( "object-edit") ));
+    pageClass->setIcon( KIcon( DesktopIcon( "document-properties") ));
     addPage( pageClass );
 
     m_ClassWidgets.visibilityGB = new Q3GroupBox( i18n("Visibility"), page );
@@ -330,7 +330,7 @@ void SettingsDlg::setupCodeGenPage() {
     KVBox * page = new KVBox();
     pageCodeGen = new KPageWidgetItem( page,i18n("Code Generation") );
     pageCodeGen->setHeader( i18n("Code Generation Settings") );
-    pageCodeGen->setIcon( KIcon( DesktopIcon( "source") ));
+    pageCodeGen->setIcon( KIcon("text-x-generic") );
     addPage( pageCodeGen );
     m_pCodeGenPage = new CodeGenerationOptionsPage(page);
     connect( m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()) );
@@ -341,7 +341,7 @@ void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options) {
     KVBox * page = new KVBox();
     pageCodeViewer = new KPageWidgetItem( page,i18n("Code Viewer")  );
     pageCodeViewer->setHeader( i18n("Code Viewer Settings") );
-    pageCodeViewer->setIcon( KIcon( DesktopIcon( "source") ) );
+    pageCodeViewer->setIcon( KIcon("text-x-generic") );
     addPage( pageCodeViewer );
     m_pCodeViewerPage = new CodeViewerOptionsPage(options, page);
 }
@@ -350,7 +350,7 @@ void SettingsDlg::setupFontPage() {
     KVBox * page = new KVBox();
     pageFont = new KPageWidgetItem( page,i18n("Font")  );
     pageFont->setHeader( i18n("Font Settings") );
-    pageFont->setIcon( KIcon( "preferences-desktop-font" ) );
+    pageFont->setIcon( KIcon("preferences-desktop-font") );
     addPage( pageFont );
     m_FontWidgets.chooser = new KFontChooser( page,  false, QStringList(), false);
     m_FontWidgets.chooser->setFont( m_pOptionState->uiState.font );
