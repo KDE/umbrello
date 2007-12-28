@@ -219,11 +219,13 @@ bool UMLOperation::operator==(const  UMLOperation & rhs )
     return true;
 }
 
-void UMLOperation::copyInto(UMLOperation *rhs) const
+void UMLOperation::copyInto(UMLObject *lhs) const
 {
-    UMLClassifierListItem::copyInto(rhs);
+    UMLOperation *target = static_cast<UMLOperation*>(lhs);
 
-    m_List.copyInto(&(rhs->m_List));
+    UMLClassifierListItem::copyInto(target);
+
+    m_List.copyInto(&(target->m_List));
 }
 
 UMLObject* UMLOperation::clone() const

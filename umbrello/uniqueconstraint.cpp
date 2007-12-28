@@ -46,24 +46,24 @@ bool UMLUniqueConstraint::operator==(const  UMLUniqueConstraint &rhs) {
 
 UMLUniqueConstraint::~UMLUniqueConstraint() { }
 
-void UMLUniqueConstraint::copyInto(UMLUniqueConstraint *rhs) const {
+void UMLUniqueConstraint::copyInto(UMLObject *lhs) const {
+    UMLUniqueConstraint *target = static_cast<UMLUniqueConstraint*>(lhs);
 
     // call the parent first.
-    UMLEntityConstraint::copyInto(rhs);
-
+    UMLEntityConstraint::copyInto(target);
 
     // Copy all datamembers
-    rhs->m_EntityAttributeList.clear();
+    target->m_EntityAttributeList.clear();
     bool valid = true;
     foreach( UMLEntityAttribute* attr, m_EntityAttributeList ) {
        if ( !valid )
            break;
-       valid = rhs->addEntityAttribute( attr );
+       valid = target->addEntityAttribute( attr );
     }
 
     if ( !valid ) {
-        rhs->m_EntityAttributeList.clear();
-        uDebug() <<"Copying Attributes Failed : Rhs List cleared instead";
+        target->m_EntityAttributeList.clear();
+        uDebug() <<"Copying Attributes Failed : Target list cleared instead";
     }
 }
 

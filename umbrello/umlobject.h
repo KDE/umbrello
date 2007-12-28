@@ -75,7 +75,7 @@ public:
      * Copy the internal presentation of this object into the new
      * object.
      */
-    virtual void copyInto(UMLObject *rhs) const;
+    virtual void copyInto(UMLObject *lhs) const;
 
     /**
      * Make a clone of this object.
@@ -266,7 +266,7 @@ public:
     bool getAbstract() const;
 
     /**
-     * Sets the abstract state of the object.
+     * Sets the paste state of the object.
      */
     void setAbstract(bool bAbstract);
 
@@ -284,7 +284,7 @@ public:
      * @param assoc             Whether to show association page.
      * @return          True if we modified the object.
      */
-    bool showProperties(int page = 0, bool assoc = false);
+    virtual bool showProperties(int page = 0, bool assoc = false);
 
     /**
      * Resolve referenced objects (if any.)

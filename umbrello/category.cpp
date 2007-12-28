@@ -22,11 +22,13 @@ void UMLCategory::init() {
     m_CategoryType = ct_Disjoint_Specialisation;
 }
 
-void UMLCategory::copyInto(UMLCategory* rhs) const {
-    // call the parent first
-    UMLCanvasObject::copyInto(rhs);
+void UMLCategory::copyInto(UMLObject *lhs) const {
+    UMLCategory *target = static_cast<UMLCategory*>(lhs);
 
-    rhs->m_CategoryType = m_CategoryType;
+    // call the parent first
+    UMLCanvasObject::copyInto(target);
+
+    target->m_CategoryType = m_CategoryType;
 }
 
 UMLObject* UMLCategory::clone() const {

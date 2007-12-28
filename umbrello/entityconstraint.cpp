@@ -48,10 +48,10 @@ bool UMLEntityConstraint::operator==( const UMLEntityConstraint &rhs) {
 UMLEntityConstraint::~UMLEntityConstraint() {}
 
 
-void UMLEntityConstraint::copyInto(UMLEntityConstraint *rhs) const {
+void UMLEntityConstraint::copyInto(UMLObject *lhs) const {
 
     // call the parent first.
-    UMLClassifierListItem::copyInto(rhs);
+    UMLClassifierListItem::copyInto(lhs);
 
 }
 

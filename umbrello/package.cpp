@@ -38,11 +38,13 @@ UMLPackage::UMLPackage(const QString & name, Uml::IDType id)
 UMLPackage::~UMLPackage()
 {}
 
-void UMLPackage::copyInto(UMLPackage *rhs) const
+void UMLPackage::copyInto(UMLObject *lhs) const
 {
-    UMLCanvasObject::copyInto(rhs);
+    UMLPackage *target = static_cast<UMLPackage*>(lhs);
 
-    m_objects.copyInto(&(rhs->m_objects));
+    UMLCanvasObject::copyInto(target);
+
+    m_objects.copyInto(&(target->m_objects));
 }
 
 UMLObject* UMLPackage::clone() const

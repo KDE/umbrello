@@ -57,7 +57,7 @@ public:
      * Copy the internal presentation of this object into the new
      * object.
      */
-    void copyInto(UMLCategory* rhs) const;
+    void copyInto(UMLObject *lhs) const;
     
     /**
      * Make a clone of this object.

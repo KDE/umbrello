@@ -53,7 +53,7 @@ public:
      * Copy the internal presentation of this object into the new
      * object.
      */
-    virtual void copyInto(UMLPackage *rhs) const;
+    virtual void copyInto(UMLObject *lhs) const;
 
     /**
      * Make a clone of this object.

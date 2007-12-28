@@ -171,9 +171,9 @@ bool UMLObject::operator==(const UMLObject & rhs ) {
     //if( m_Doc != rhs.m_Doc )
     //  return false;
 
-    // The scope should not be part of the equality test.
+    // The visibility should not be part of the equality test.
     // What does it mean if two objects are the same but differ in their
-    // scope? - I'm not aware of any programming language that would
+    // visibility? - I'm not aware of any programming language that would
     // support that.
     //if( m_Vis != rhs.m_Vis )
     //  return false;
@@ -193,25 +193,25 @@ bool UMLObject::operator==(const UMLObject & rhs ) {
     return true;
 }
 
-void UMLObject::copyInto(UMLObject *rhs) const
+void UMLObject::copyInto(UMLObject *lhs) const
 {
     // Data members with copy constructor
-    rhs->m_Doc = m_Doc;
-    rhs->m_pStereotype = m_pStereotype;
-    rhs->m_bAbstract = m_bAbstract;
-    rhs->m_bStatic = m_bStatic;
-    rhs->m_BaseType = m_BaseType;
-    rhs->m_Vis = m_Vis;
-    rhs->m_pUMLPackage = m_pUMLPackage;
+    lhs->m_Doc = m_Doc;
+    lhs->m_pStereotype = m_pStereotype;
+    lhs->m_bAbstract = m_bAbstract;
+    lhs->m_bStatic = m_bStatic;
+    lhs->m_BaseType = m_BaseType;
+    lhs->m_Vis = m_Vis;
+    lhs->m_pUMLPackage = m_pUMLPackage;
 
     // We don't want the same name existing twice.
-    rhs->m_Name = Model_Utils::uniqObjectName(m_BaseType, m_pUMLPackage, m_Name);
+    lhs->m_Name = Model_Utils::uniqObjectName(m_BaseType, m_pUMLPackage, m_Name);
 
     // Create a new ID.
-    rhs->m_nId = UniqueID::gen();
+    lhs->m_nId = UniqueID::gen();
 
     // Hope that the parent from QObject is okay.
-    if (rhs->parent() != parent())
+    if (lhs->parent() != parent())
         uDebug() << "copyInto has a wrong parent";
 }
 

@@ -113,7 +113,7 @@ public:
      * Copy the internal presentation of this object into the new
      * object.
      */
-    virtual void copyInto(UMLClassifierListItem *rhs) const;
+    virtual void copyInto(UMLObject *lhs) const;
 
     /**
      * The abstract method UMLObject::clone() must be implemented

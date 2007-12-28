@@ -58,7 +58,7 @@ public:
      * Copy the internal presentation of this object into the UMLUniqueConstraint
      * object.
      */
-    virtual void copyInto(UMLUniqueConstraint *rhs) const;
+    virtual void copyInto(UMLObject *lhs) const;
 
     /**
      * Make a clone of the UMLUniqueConstraint.

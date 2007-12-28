@@ -57,7 +57,7 @@ public:
      * Copy the internal presentation of this object into the UMLCheckConstraint
      * object.
      */
-    virtual void copyInto(UMLCheckConstraint *rhs) const;
+    virtual void copyInto(UMLObject *lhs) const;
 
     /**
      * Make a clone of the UMLCheckConstraint.

@@ -43,10 +43,10 @@ UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent)
 UMLClassifierListItem::~UMLClassifierListItem() {
 }
 
-void UMLClassifierListItem::copyInto(UMLClassifierListItem *rhs) const
+void UMLClassifierListItem::copyInto(UMLObject *lhs) const
 {
     // Call the parent.
-    UMLObject::copyInto(rhs);
+    UMLObject::copyInto(lhs);
 }
 
 QString UMLClassifierListItem::toString(Uml::Signature_Type /*sig*/) {

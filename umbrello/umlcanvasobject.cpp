@@ -226,14 +226,14 @@ bool UMLCanvasObject::operator==(const UMLCanvasObject& rhs) {
     return true;
 }
 
-void UMLCanvasObject::copyInto(UMLCanvasObject *rhs) const
+void UMLCanvasObject::copyInto(UMLObject *lhs) const
 {
-    UMLObject::copyInto(rhs);
+    UMLObject::copyInto(lhs);
 
     // TODO Associations are not copied at the moment. This because
     // the duplicate function (on umlwidgets) do not copy the associations.
     //
-    //rhs->m_List = m_List;
+    //target->m_List = m_List;
 }
 
 int UMLCanvasObject::associations() {

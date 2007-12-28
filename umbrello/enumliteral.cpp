@@ -37,9 +37,9 @@ bool UMLEnumLiteral::operator==(const UMLEnumLiteral& rhs) {
     return true;
 }
 
-void UMLEnumLiteral::copyInto(UMLEnumLiteral *rhs) const
+void UMLEnumLiteral::copyInto(UMLObject *lhs) const
 {
-    UMLClassifierListItem::copyInto(rhs);
+    UMLClassifierListItem::copyInto(lhs);
 }
 
 UMLObject* UMLEnumLiteral::clone() const

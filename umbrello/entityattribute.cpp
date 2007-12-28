@@ -116,16 +116,18 @@ bool UMLEntityAttribute::operator==(const UMLEntityAttribute &rhs) {
     return true;
 }
 
-void UMLEntityAttribute::copyInto(UMLEntityAttribute *rhs) const
+void UMLEntityAttribute::copyInto(UMLObject *lhs) const
 {
+    UMLEntityAttribute *target = static_cast<UMLEntityAttribute*>(lhs);
+
     // call the parent first.
-    UMLClassifierListItem::copyInto(rhs);
+    UMLClassifierListItem::copyInto(target);
 
     // Copy all datamembers
-    rhs->m_pSecondary = m_pSecondary;
-    rhs->m_SecondaryId = m_SecondaryId;
-    rhs->m_InitialValue = m_InitialValue;
-    rhs->m_ParmKind = m_ParmKind;
+    target->m_pSecondary = m_pSecondary;
+    target->m_SecondaryId = m_SecondaryId;
+    target->m_InitialValue = m_InitialValue;
+    target->m_ParmKind = m_ParmKind;
 }
 
 UMLObject* UMLEntityAttribute::clone() const

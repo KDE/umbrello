@@ -58,7 +58,7 @@ public:
      * Copy the internal presentation of this object into the new
      * object.
      */
-    virtual void copyInto(UMLCanvasObject *rhs) const;
+    virtual void copyInto(UMLObject *lhs) const;
 
     // The abstract method UMLObject::clone() is implemented
     // in the classes inheriting from UMLCanvasObject.

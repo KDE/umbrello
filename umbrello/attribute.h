@@ -64,7 +64,7 @@ public:
      * Copy the internal presentation of this object into the UMLAttribute
      * object.
      */
-    virtual void copyInto(UMLAttribute *rhs) const;
+    virtual void copyInto(UMLObject *lhs) const;
 
     /**
      * Reimplementation of method from UMLObject is required as

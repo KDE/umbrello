@@ -61,16 +61,17 @@ bool UMLForeignKeyConstraint::operator==( const UMLForeignKeyConstraint &rhs) {
 
 UMLForeignKeyConstraint::~UMLForeignKeyConstraint() {}
 
-void UMLForeignKeyConstraint::copyInto(UMLForeignKeyConstraint *rhs) const {
+void UMLForeignKeyConstraint::copyInto(UMLObject *lhs) const {
+    UMLForeignKeyConstraint *target = static_cast<UMLForeignKeyConstraint*>(lhs);
 
     // call the parent first.
-    UMLEntityConstraint::copyInto(rhs);
+    UMLEntityConstraint::copyInto(target);
 
     // Copy all datamembers
-    rhs->m_ReferencedEntity = m_ReferencedEntity;
-    rhs->m_AttributeMap = m_AttributeMap;
-    rhs->m_DeleteAction = m_DeleteAction;
-    rhs->m_UpdateAction = m_UpdateAction;
+    target->m_ReferencedEntity = m_ReferencedEntity;
+    target->m_AttributeMap = m_AttributeMap;
+    target->m_DeleteAction = m_DeleteAction;
+    target->m_UpdateAction = m_UpdateAction;
 }
 
 UMLObject* UMLForeignKeyConstraint::clone() const {

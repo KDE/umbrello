@@ -41,14 +41,14 @@ bool UMLCheckConstraint::operator==(const UMLCheckConstraint &rhs) {
 
 UMLCheckConstraint::~UMLCheckConstraint() { }
 
-void UMLCheckConstraint::copyInto(UMLCheckConstraint *rhs) const {
+void UMLCheckConstraint::copyInto(UMLObject *lhs) const {
+    UMLCheckConstraint *target = static_cast<UMLCheckConstraint*>(lhs);
 
     // call the parent first.
-    UMLEntityConstraint::copyInto(rhs);
+    UMLEntityConstraint::copyInto(target);
 
     // Copy all datamembers
-    rhs->m_CheckCondition = m_CheckCondition;
-
+    target->m_CheckCondition = m_CheckCondition;
 }
 
 UMLObject* UMLCheckConstraint::clone() const {

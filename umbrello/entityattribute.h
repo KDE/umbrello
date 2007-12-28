@@ -62,7 +62,7 @@ public:
      * Copy the internal presentation of this object into the UMLEntityAttribute
      * object.
      */
-    virtual void copyInto(UMLEntityAttribute* rhs) const;
+    virtual void copyInto(UMLObject *lhs) const;
 
     /**
      * Make a clone of the UMLEntityAttribute.

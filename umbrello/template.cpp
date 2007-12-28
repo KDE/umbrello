@@ -61,9 +61,9 @@ bool UMLTemplate::operator==(const UMLTemplate &rhs) {
     return true;
 }
 
-void UMLTemplate::copyInto(UMLTemplate *rhs) const
+void UMLTemplate::copyInto(UMLObject *lhs) const
 {
-    UMLClassifierListItem::copyInto(rhs);
+    UMLClassifierListItem::copyInto(lhs);
 }
 
 UMLObject* UMLTemplate::clone() const

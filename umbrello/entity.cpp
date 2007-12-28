@@ -43,13 +43,15 @@ bool UMLEntity::operator==(const UMLEntity& rhs ) {
     return UMLClassifier::operator==(rhs);
 }
 
-void UMLEntity::copyInto(UMLEntity *rhs) const
+void UMLEntity::copyInto(UMLObject *lhs) const
 {
+    UMLEntity *target = static_cast<UMLEntity*>(lhs);
+
     // call base class copy function
-    UMLClassifier::copyInto(rhs);
+    UMLClassifier::copyInto(target);
 
     // copy local data items
-    rhs->m_PrimaryKey = m_PrimaryKey;
+    target->m_PrimaryKey = m_PrimaryKey;
 }
 
 UMLObject* UMLEntity::clone() const

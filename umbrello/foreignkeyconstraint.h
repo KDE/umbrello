@@ -74,7 +74,7 @@ public:
      * Copy the internal presentation of this object into the UMLForeignKeyConstraint
      * object.
      */
-    virtual void copyInto(UMLForeignKeyConstraint *rhs) const;
+    virtual void copyInto(UMLObject *lhs) const;
 
     /**
      * Make a clone of the UMLForeignKeyConstraint.

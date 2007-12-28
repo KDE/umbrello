@@ -468,12 +468,13 @@ bool UMLClassifier::operator==(const UMLClassifier & rhs ) {
 }
 
 
-void UMLClassifier::copyInto(UMLClassifier *rhs) const
+void UMLClassifier::copyInto(UMLObject *lhs) const
 {
-    UMLCanvasObject::copyInto(rhs);
-    rhs->setBaseType(m_BaseType);
+    UMLClassifier *target = static_cast<UMLClassifier*>(lhs);
+    UMLCanvasObject::copyInto(target);
+    target->setBaseType(m_BaseType);
     // CHECK: association property m_pClassAssoc is not copied
-    m_List.copyInto(&(rhs->m_List));
+    m_List.copyInto(&(target->m_List));
 }
 
 UMLObject* UMLClassifier::clone() const {

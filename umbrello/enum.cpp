@@ -34,9 +34,9 @@ bool UMLEnum::operator==(const UMLEnum & rhs ) {
     return UMLClassifier::operator==(rhs);
 }
 
-void UMLEnum::copyInto(UMLEnum *rhs) const
+void UMLEnum::copyInto(UMLObject *lhs) const
 {
-    UMLClassifier::copyInto(rhs);
+    UMLClassifier::copyInto(lhs);
 }
 
 UMLObject* UMLEnum::clone() const

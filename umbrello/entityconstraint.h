@@ -60,7 +60,7 @@ public:
      * Copy the internal presentation of this object into the UMLEntityConstraint
      * object.
      */
-    virtual void copyInto(UMLEntityConstraint *rhs) const;
+    virtual void copyInto(UMLObject *lhs) const;
 
     /**
      * Make a clone of the UMLEntityConstraint.

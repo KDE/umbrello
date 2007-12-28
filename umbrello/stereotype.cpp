@@ -51,9 +51,9 @@ bool UMLStereotype::operator==( const UMLStereotype &rhs) {
     return true;
 }
 
-void UMLStereotype::copyInto(UMLStereotype *rhs) const
+void UMLStereotype::copyInto(UMLObject *lhs) const
 {
-    UMLObject::copyInto(rhs);
+    UMLObject::copyInto(lhs);
 }
 
 UMLObject* UMLStereotype::clone() const
