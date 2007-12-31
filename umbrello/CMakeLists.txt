@@ -388,14 +388,6 @@ if (WIN32)
     set (libcmds_SRCS)
 
     set (LIBS codeimport dialogs generators docgenerator cmds)
-    set(umbrello_icons
-        ${CMAKE_CURRENT_SOURCE_DIR}/hi16-app-umbrello.png 
-        ${CMAKE_CURRENT_SOURCE_DIR}/hi32-app-umbrello.png 
-        ${CMAKE_CURRENT_SOURCE_DIR}/hi48-app-umbrello.png 
-        ${CMAKE_CURRENT_SOURCE_DIR}/hi64-app-umbrello.png 
-        ${CMAKE_CURRENT_SOURCE_DIR}/hi128-app-umbrello.png 
-    )
-    kde4_add_win32_app_icon(umbrello_SRCS ${umbrello_icons})
 
 else (WIN32)
     set (LIBS )
@@ -416,6 +408,7 @@ set (umbrello_SRCS
 	${libumbrello_SRCS}
 )
 
+kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-umbrello.png")
 kde4_add_executable(umbrello ${umbrello_SRCS})
 target_link_libraries(umbrello  ${LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} )
 install(TARGETS umbrello DESTINATION ${BIN_INSTALL_DIR} )
