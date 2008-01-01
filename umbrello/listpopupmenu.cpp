@@ -264,7 +264,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Copy);
         insert(mt_Paste);
         addSeparator();
-        insert(mt_Change_Font_Selection, SmallIcon("list-add-font"), i18n("Change Font..."));
+        insert(mt_Change_Font_Selection, SmallIcon("preferences-desktop-font"), i18n("Change Font..."));
         insert(mt_Delete_Selection, SmallIcon("edit-delete"), i18n("Delete Selected Items"));
 
         // add this here and not above with the other stuff of the interface
@@ -349,8 +349,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             if( pView->getType() == Uml::dt_Sequence ) {
                 addSeparator();
                 Menu_Type tabUp = mt_Up;
-                insert(mt_Up, SmallIcon("go-up"), i18n("Move Up"));
-                insert(mt_Down, SmallIcon("go-down"), i18n("Move Down"));
+                insert(mt_Up, SmallIcon("arrow-up"), i18n("Move Up"));
+                insert(mt_Down, SmallIcon("arrow-down"), i18n("Move Down"));
                 if ( !(static_cast<ObjectWidget*>(object))->canTabUp() ) {
                     setActionEnabled(tabUp, false);
                 }
@@ -569,7 +569,7 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(SmallIcon("edit-paste"), i18n("Paste"));
         break;
     case mt_Change_Font:
-        m_actions[m] = addAction(SmallIcon("list-add-font"), i18n("Change Font..."));
+        m_actions[m] = addAction(SmallIcon("preferences-desktop-font"), i18n("Change Font..."));
         break;
     case mt_Line_Color:
         m_actions[m] = addAction(SmallIcon("color-line"), i18n("Line Color..."));
@@ -599,7 +599,7 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(i18n("Reset Label Positions"));
         break;
     case mt_New_Parameter:
-        m_actions[m] = addAction(SmallIcon("format-justify-fill"), i18n("New Parameter..."));
+        m_actions[m] = addAction(SmallIcon("text-x-generic"), i18n("New Parameter..."));
         break;
     case mt_New_Operation:
         m_actions[m] = addAction(SmallIcon("CVpublic_meth"),i18n("New Operation..."));
@@ -608,13 +608,13 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(SmallIcon("CVpublic_var"), i18n("New Attribute..."));
         break;
     case mt_New_Template:
-        m_actions[m] = addAction(SmallIcon("format-justify-fill"), i18n("New Template..."));
+        m_actions[m] = addAction(SmallIcon("text-x-generic-template"), i18n("New Template..."));
         break;
     case mt_New_EnumLiteral:
-        m_actions[m] = addAction(SmallIcon("format-justify-fill"), i18n("New Literal..."));
+        m_actions[m] = addAction(SmallIcon("text-x-generic"), i18n("New Literal..."));
         break;
     case mt_New_EntityAttribute:
-        m_actions[m] = addAction(SmallIcon("format-justify-fill"), i18n("New Entity Attribute..."));
+        m_actions[m] = addAction(SmallIcon("text-x-generic"), i18n("New Entity Attribute..."));
         break;
     case mt_Export_Image:
         m_actions[m] = addAction(SmallIcon("image-x-generic"), i18n("Export as Picture..."));
@@ -807,7 +807,7 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
     ClassifierWidget *cls = NULL;
 
     KMenu* show = new KMenu(i18n("Show"), this);
-    show->setIcon(SmallIcon("datashow"));
+    show->setIcon(SmallIcon("document-preview"));
     if (type == Uml::wt_Class) {
         cls = static_cast<ClassifierWidget*>(c);
         insert(mt_Show_Attributes_Selection, show, i18n("Attributes"), CHECKABLE);
@@ -846,7 +846,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
     if (type == Uml::wt_Class)
         insert(mt_Attribute, menu, SmallIcon( "CVpublic_var" ), i18n("Attribute..."));
     insert(mt_Operation, menu, SmallIcon( "CVpublic_meth"), i18n("Operation..."));
-    insert(mt_Template, menu, SmallIcon( "format-justify-fill" ), i18n( "Template..." ));
+    insert(mt_Template, menu, SmallIcon( "text-x-generic-template" ), i18n( "Template..." ));
     addMenu(menu);
 
     makeMultiClassifierPopup(c);
@@ -1055,21 +1055,21 @@ void ListPopupMenu::insertSubMenuNew(Menu_Type type)
             break;
         case mt_Interface:
             insert(mt_Operation, menu, SmallIcon("CVpublic_meth"), i18n("Operation"));
-            insert(mt_Template, menu, SmallIcon("format-justify-fill"), i18n("Template"));
+            insert(mt_Template, menu, SmallIcon("text-x-generic-template"), i18n("Template"));
             break;
         case mt_Entity:
-            insert(mt_EntityAttribute, menu, SmallIcon("format-justify-fill"), i18n("Entity Attribute..."));
+            insert(mt_EntityAttribute, menu, SmallIcon("text-x-generic"), i18n("Entity Attribute..."));
             insert(mt_PrimaryKeyConstraint, menu, SmallIcon("primarykey_constraint"),i18n("Primary Key Constraint..."));
             insert(mt_UniqueConstraint, menu, SmallIcon("unique_constraint"),i18n("Unique Constraint..."));
             insert(mt_ForeignKeyConstraint, menu, SmallIcon("foreignkey_constraint"),i18n("Foreign Key Constraint..."));
             insert(mt_CheckConstraint, menu, SmallIcon("check_constraint"),i18n("Check Constraint..."));
             break;
         case mt_Enum:
-            insert(mt_EnumLiteral, menu, SmallIcon("format-justify-fill"), i18n("Enum Literal..."));
+            insert(mt_EnumLiteral, menu, SmallIcon("text-x-generic"), i18n("Enum Literal..."));
             break;
         case mt_New_Activity:
         case mt_Activity_Selected:
-            insert(mt_New_Activity, menu, SmallIcon("format-justify-fill"), i18n("Activity..."));
+            insert(mt_New_Activity, menu, SmallIcon("text-x-generic"), i18n("Activity..."));
             break;
         case mt_Subsystem:
             insert(mt_Subsystem, menu);
@@ -1461,7 +1461,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         break;
 
     case mt_Template_Selected:
-        insert(mt_New_Attribute, SmallIcon("format-justify-fill"), i18n("New Template..."));
+        insert(mt_New_Attribute, SmallIcon("text-x-generic-template"), i18n("New Template..."));
         insert(mt_Delete);
         insert(mt_Properties);
         break;
