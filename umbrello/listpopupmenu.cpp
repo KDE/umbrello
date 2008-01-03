@@ -572,7 +572,7 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(SmallIcon("preferences-desktop-font"), i18n("Change Font..."));
         break;
     case mt_Line_Color:
-        m_actions[m] = addAction(SmallIcon("color-line"), i18n("Line Color..."));
+        m_actions[m] = addAction(SmallIcon("format-stroke-color"), i18n("Line Color..."));
         break;
     case mt_Expand_All:
         m_actions[m] = addAction(i18n("Expand All"));
@@ -872,8 +872,8 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 void ListPopupMenu::insertSubMenuColor(bool fc)
 {
     KMenu* color = new KMenu(i18n("Color"), this);
-    insert(mt_Line_Color, color, SmallIcon("color-line"), i18n("Line Color..."));
-    insert(mt_Fill_Color, color, SmallIcon("color-fill"), i18n("Fill Color..."));
+    insert(mt_Line_Color, color, SmallIcon("format-stroke-color"), i18n("Line Color..."));
+    insert(mt_Fill_Color, color, SmallIcon("format-fill-color"), i18n("Fill Color..."));
     insert(mt_Use_Fill_Color, color, i18n("Use Fill Color"), CHECKABLE);
     setActionChecked(mt_Use_Fill_Color, fc);
     addMenu(color);
