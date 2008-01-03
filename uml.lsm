@@ -1,6 +1,6 @@
 Begin3
 Title:          Umbrello UML Modeller
-Version:        1.5.6
+Version:        2.0.0
 Entered-date:   
 Description:  A UML diagram Modeller
 Keywords:   uml diagram modeller
@@ -9,6 +9,6 @@ Maintained-by:  Umbrello UML Modeller developers <uml-devel @ lists.sourceforge.
 Primary-site:   http://uml.sf.net
 Home-page:      http://uml.sf.net
 Original-site:  
-Platforms:      KDE 3.2+
+Platforms:      KDE 4.0
 Copying-policy: GPL
 End
