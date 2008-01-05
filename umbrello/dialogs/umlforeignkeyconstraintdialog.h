@@ -71,7 +71,7 @@ private:
      * Setup the General Page
      */
     void setupGeneralPage();
- 
+
     /**
      * Setup Column Page
      */
@@ -87,9 +87,9 @@ private:
     UMLDoc* m_doc;
 
     UMLForeignKeyConstraint* m_pForeignKeyConstraint;
-    
+
     struct GeneralWidgets {
-        
+
         Q3GroupBox* generalGB;
         Q3GroupBox* actionGB;
 
@@ -97,7 +97,7 @@ private:
         QLabel* nameL;
 
         KLineEdit* nameT;
- 
+
         KComboBox* referencedEntityCB;
 
         QLabel* onUpdateL;
@@ -109,7 +109,7 @@ private:
     ; // end general widgets
 
     struct ColumnWidgets {
-       
+
         QTreeWidget* mappingTW;
 
         KComboBox* localColumnCB;
@@ -123,10 +123,10 @@ private:
     ; // end column widgets
 
     // these attributes store the local cache
-    
+
     UMLEntityAttributeList m_pLocalAttributeList;
     UMLEntityAttributeList m_pReferencedAttributeList;
- 
+
     QList< QPair<UMLEntityAttribute*,UMLEntityAttribute*> > m_pAttributeMapList;
 
     /**
@@ -138,7 +138,7 @@ private:
 
     GeneralWidgets m_GeneralWidgets;
     ColumnWidgets m_ColumnWidgets;
-    
+
     KPageWidgetItem *pageGeneral,*pageColumn;
 
 public slots:
@@ -147,7 +147,7 @@ public slots:
      * Enable/Disable the widgets in the Dialog Box
      */
     void slotResetWidgetState();
-     
+
     /**
      * Used when the Apply button is clicked
      */
@@ -167,7 +167,7 @@ public slots:
      * deletes a pair from the list
      */
     void slotDeletePair();
- 
+
 
     void slotReferencedEntityChanged(int index);
 };

@@ -300,7 +300,7 @@ public:
     virtual void setDefaults (CodeGenerationPolicy * defaults, bool emitUpdateSignal = true);
 
     /**
-     * set the defaults from a config file 
+     * set the defaults from a config file
      */
     virtual void setDefaults(bool emitUpdateSignal = true);
 
@@ -356,13 +356,13 @@ protected:
     Uml::Visibility::Value m_attributeAccessorScope;
     Uml::Visibility::Value m_associationFieldScope;
 */
-   
+
     // these 2 private fields 'cache' the string values of other fields we may frequently call for
     QString m_lineEndingChars;
     QString m_indentation;
 
     void calculateIndentation ( );
-  
+
 /*
 protected:
 

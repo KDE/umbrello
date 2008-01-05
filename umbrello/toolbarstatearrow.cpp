@@ -28,7 +28,7 @@ ToolBarStateArrow::ToolBarStateArrow(UMLView *umlView): ToolBarState(umlView)
     init();
 }
 
-ToolBarStateArrow::~ToolBarStateArrow() 
+ToolBarStateArrow::~ToolBarStateArrow()
 {
 }
 
@@ -51,7 +51,7 @@ void ToolBarStateArrow::mousePressWidget()
     getCurrentWidget()->mousePressEvent(m_pMouseEvent);
 }
 
-void ToolBarStateArrow::mousePressEmpty() 
+void ToolBarStateArrow::mousePressEmpty()
 {
     if (m_pMouseEvent->button() != Qt::LeftButton) {
         // Leave widgets selected upon RMB press on empty diagram area.
@@ -76,7 +76,7 @@ void ToolBarStateArrow::mousePressEmpty()
     }
 }
 
-void ToolBarStateArrow::mouseReleaseAssociation() 
+void ToolBarStateArrow::mouseReleaseAssociation()
 {
     getCurrentAssociation()->mouseReleaseEvent(m_pMouseEvent);
 }
@@ -96,7 +96,7 @@ void ToolBarStateArrow::mouseReleaseEmpty()
     }
 }
 
-void ToolBarStateArrow::mouseDoubleClickAssociation() 
+void ToolBarStateArrow::mouseDoubleClickAssociation()
 {
     getCurrentAssociation()->mouseDoubleClickEvent(m_pMouseEvent);
 }
@@ -140,11 +140,11 @@ void ToolBarStateArrow::mouseMoveEmpty()
     }
 }
 
-void ToolBarStateArrow::changeTool() 
+void ToolBarStateArrow::changeTool()
 {
 }
 
-void ToolBarStateArrow::setCurrentWidget(UMLWidget* currentWidget) 
+void ToolBarStateArrow::setCurrentWidget(UMLWidget* currentWidget)
 {
     if (currentWidget != 0 && getCurrentWidget() != 0) {
         return;

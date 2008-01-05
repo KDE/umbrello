@@ -54,7 +54,7 @@ void ClassifierListPage::setupPage()
 
     setupListGroup(margin);
     mainLayout->addWidget(m_pItemListGB);
-    
+
     setupDocumentationGroup(margin);
     mainLayout->addWidget(m_pDocGB);
 
@@ -62,7 +62,7 @@ void ClassifierListPage::setupPage()
 
     enableWidgets(false);//disable widgets until an att is chosen
     m_pOldListItem = 0;
-    
+
     connect(m_pItemListLB, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotClicked(QListWidgetItem*)));
     connect(m_pItemListLB, SIGNAL(itemDoubleClicked( QListWidgetItem*)), this, SLOT(slotDoubleClick(QListWidgetItem*)));
     connect(m_pItemListLB, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(slotRightButtonPressed(const QPoint&)));

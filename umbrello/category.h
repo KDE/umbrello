@@ -28,7 +28,7 @@
 class UMLCategory : public UMLCanvasObject {
     Q_OBJECT
 public:
- 
+
     enum Category_Type {
         ct_Disjoint_Specialisation,
         ct_Overlapping_Specialisation,
@@ -58,7 +58,7 @@ public:
      * object.
      */
     void copyInto(UMLObject *lhs) const;
-    
+
     /**
      * Make a clone of this object.
      */
@@ -77,8 +77,8 @@ public:
     /**
      * Set the category type
      */
-    void setType(Category_Type type);    
- 
+    void setType(Category_Type type);
+
 protected:
     /**
      * Loads the <UML:Category> XMI element (empty.)
@@ -86,7 +86,7 @@ protected:
     bool load( QDomElement & element );
 
 private:
- 
+
     Category_Type m_CategoryType;
 };
 

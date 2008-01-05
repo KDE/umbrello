@@ -191,7 +191,7 @@ protected:
      */
     virtual int calculateNewIndex(Uml::Object_Type ot);
 
-    /** 
+    /**
      * Returns the index of the Item in the List Box. Default Implementation is same as actual Index of Item
      */
     virtual int relativeIndexOf(QListWidgetItem* item) {

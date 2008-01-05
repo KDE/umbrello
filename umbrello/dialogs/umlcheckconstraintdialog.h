@@ -26,7 +26,7 @@ class UMLDoc;
 class UMLCheckConstraint;
 /**
  * A dialog page to display check constraint properties.
- * 
+ *
  * @short A dialog page to display check constraint properties.
  * @author Sharan Rao
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -63,14 +63,14 @@ private:
 
 
     UMLCheckConstraint* m_pCheckConstraint;
-    
+
     /**
       * The UMLDocument where all objects live
       */
     UMLDoc* m_doc;
 
 
-    /** 
+    /**
      * The GUI widgets
      */
     QLabel* m_pNameL;
@@ -78,14 +78,14 @@ private:
 
     QLabel* m_pCheckConditionL;
     KTextEdit* m_pCheckConditionTE;
- 
+
 public slots:
 
     /**
      * Used when the OK button is clicked.  Calls apply()
      */
     void slotOk();
- 
+
 };
 
 #endif

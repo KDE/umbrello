@@ -40,7 +40,7 @@ public:
      * Update/Delete Action: Action to be taken on Update or Delete of a referenced attribute
      * is either, No Action, Restrict, Cascade, Set NULL , Set Default
      */
-    enum UpdateDeleteAction { uda_NoAction = 0 , uda_Restrict , 
+    enum UpdateDeleteAction { uda_NoAction = 0 , uda_Restrict ,
 			      uda_Cascade , uda_SetNull, uda_SetDefault } ;
 
     /**
@@ -97,7 +97,7 @@ public:
     void setReferencedEntity(UMLEntity* ent);
 
     UMLEntity* getReferencedEntity() const {
-        return m_ReferencedEntity;    
+        return m_ReferencedEntity;
     }
 
     /**
@@ -121,7 +121,7 @@ public:
 
     /**
      * Removes an Attribute pair
-     * @param pAttr The Attribute of the Parent Entity in the map. This attribute is the 
+     * @param pAttr The Attribute of the Parent Entity in the map. This attribute is the
                     key of the map
      * @return true of the attribute pair could be removed successfully
      */
@@ -131,7 +131,7 @@ public:
      * Check if a attribute pair already exists
      * @param pAttr The Attribute of the Parent Entity
      * @param rAttr The Attribute of the Referenced Entity
-     * @return true if the attribute pair could be found. 
+     * @return true if the attribute pair could be found.
      */
     bool hasEntityAttributePair(UMLEntityAttribute* pAttr,UMLEntityAttribute* rAttr) const;
 
@@ -139,21 +139,21 @@ public:
      * Retrieve all Pairs of Attributes
      */
     QMap<UMLEntityAttribute*,UMLEntityAttribute*>  getEntityAttributePairs(){
-	return m_AttributeMap;  
+	return m_AttributeMap;
     }
 
     /**
-     * Get the Delete Action 
+     * Get the Delete Action
      */
     UpdateDeleteAction getDeleteAction() const {
-        return m_DeleteAction;      
+        return m_DeleteAction;
     }
 
     /**
-     * Get the Update Action 
+     * Get the Update Action
      */
     UpdateDeleteAction getUpdateAction() const {
-        return m_UpdateAction;       
+        return m_UpdateAction;
     }
 
     /**
@@ -170,7 +170,7 @@ public:
 	m_UpdateAction = uda;
     }
 
-    /** 
+    /**
      * Clears all mappings between local and referenced attributes
      */
     void clearMappings();
@@ -186,7 +186,7 @@ signals:
     void sigReferencedEntityChanged();
 
 private slots:
-    void slotReferencedEntityChanged();   
+    void slotReferencedEntityChanged();
 
 protected:
     /**
@@ -196,7 +196,7 @@ protected:
 
 private:
 
-    /** 
+    /**
      * Used to resolve forward references to UMLEntity
      */
     Uml::IDType m_pReferencedEntityID;
@@ -222,17 +222,17 @@ private:
     /**
      * Stores the Mapping of attributes between parent table and referenced table
      */
-   
+
     QMap<UMLEntityAttribute*, UMLEntityAttribute*> m_AttributeMap;
 
     /**
-     * What to do on Update of referenced attributes 
+     * What to do on Update of referenced attributes
      */
     UpdateDeleteAction m_UpdateAction;
 
-    
+
     /**
-     * What to do on Deletion of referenced attributes 
+     * What to do on Deletion of referenced attributes
      */
     UpdateDeleteAction m_DeleteAction;
 };

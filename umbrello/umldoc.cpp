@@ -620,14 +620,14 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * /* format */) {
                                              );
         } else {
 #ifdef Q_WS_WIN
-            // use Qt way of file copying until broken KIO::file_move() is fixed 
+            // use Qt way of file copying until broken KIO::file_move() is fixed
             QFile::remove(url.toLocalFile());
             if ( !QFile::copy(tmpfile.fileName(),url.toLocalFile()) ) {
                 KMessageBox::error(0, i18n("There was a problem saving file: %1", url.toLocalFile()), i18n("Save Error"));
                 m_doc_url.setFileName(i18n("Untitled"));
                 return false;
             }
-#else 
+#else
             // now remove the original file
             KIO::FileCopyJob* fcj = KIO::file_move( tmpfile.fileName(), d.path(), -1, KIO::Overwrite );
             if ( KIO::NetAccess::synchronousRun( fcj, (QWidget*)UMLApp::app() ) == false ) {

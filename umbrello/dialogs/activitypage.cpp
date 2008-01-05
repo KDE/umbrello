@@ -35,7 +35,7 @@ ActivityPage::~ActivityPage() {}
 
 void ActivityPage::setupPage() {
     int margin = fontMetrics().height();
-    
+
     QVBoxLayout * mainLayout = new QVBoxLayout( this );
     mainLayout -> setSpacing(10);
 
@@ -49,9 +49,9 @@ void ActivityPage::setupPage() {
     //horizontal box contains the list box and the move up/down buttons
     QHBoxLayout* listHBoxLayout = new QHBoxLayout();
     listVBoxLayout->addItem( listHBoxLayout );
-    
+
     m_pActivityLB = new Q3ListBox(m_pActivityGB );
-   
+
     listHBoxLayout -> addWidget(m_pActivityLB);
 
     QVBoxLayout * buttonLayout = new QVBoxLayout();
@@ -73,7 +73,7 @@ void ActivityPage::setupPage() {
     m_pBottomArrowB -> setEnabled( false );
     buttonLayout -> addWidget( m_pBottomArrowB );
 
-   
+
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pActivityGB);
     buttonBox->addButton( i18n("New Activity..."), KDialogButtonBox::ActionRole,
                           this, SLOT(slotNewActivity()) );
@@ -105,7 +105,7 @@ void ActivityPage::setupPage() {
     connect( m_pUpArrowB, SIGNAL( clicked() ), this, SLOT( slotUpClicked() ) );
     connect( m_pDownArrowB, SIGNAL( clicked() ), this, SLOT( slotDownClicked() ) );
     connect( m_pBottomArrowB, SIGNAL( clicked() ), this, SLOT( slotBottomClicked() ) );
-     
+
     connect( m_pActivityLB, SIGNAL( doubleClicked( Q3ListBoxItem* ) ), this, SLOT( slotDoubleClicked( Q3ListBoxItem* ) ) );
 
     enableWidgets(false);
@@ -262,7 +262,7 @@ void ActivityPage::slotBottomClicked() {
     //shouldn't occur, but just in case
     if( count <= 1 || index >= count - 1 )
         return;
-   
+
     //swap the text around in the ListBox
     QString currentString = m_pActivityLB->text( index );
     m_pActivityLB->removeItem( index );
@@ -322,7 +322,7 @@ void ActivityPage::enableWidgets(bool state) {
         m_pTopArrowB->setEnabled(true);
         m_pUpArrowB->setEnabled(true);
         m_pDownArrowB->setEnabled(false);
-        m_pBottomArrowB->setEnabled(false); 
+        m_pBottomArrowB->setEnabled(false);
    } else {
         m_pTopArrowB->setEnabled(true);
         m_pUpArrowB->setEnabled(true);

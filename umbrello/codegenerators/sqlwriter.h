@@ -71,13 +71,13 @@ protected:
      * @param entityAttributeList the attributes to be printed
      */
     virtual void printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList);
-   
+
     /**
      * Prints out unique constraints (including primary key ) as "ALTER TABLE" statements
      * @param sql the stream we should print to
      * @param constrList the unique constraints to be printed
      */
-    virtual void printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList); 
+    virtual void printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList);
 
     /**
      * Prints out foreign key constraints as "ALTER TABLE" statements
@@ -93,7 +93,7 @@ protected:
      * @param constrList The checkConstraints to be printed
      */
     virtual void printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList);
-    
+
     /**
      * Prints out Indexes as "CREATE INDEX " statements
      * @param sql The Stream we should print to

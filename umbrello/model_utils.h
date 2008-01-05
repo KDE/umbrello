@@ -240,7 +240,7 @@ Uml::Programming_Language stringToProgLang(QString str);
 /**
  * Return string corresponding to Uml::Diagram_Type
  */
-QString diagramTypeToString(Uml::Diagram_Type dt); 
+QString diagramTypeToString(Uml::Diagram_Type dt);
 
 /**
  * Return type of parseOperation()
@@ -327,8 +327,8 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
  */
 Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope);
 
-/** 
- * Parses a constraint 
+/**
+ * Parses a constraint
  *
  * @param m             Input text of the constraint
  *

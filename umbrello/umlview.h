@@ -1203,8 +1203,8 @@ private:
                                         UMLAttribute *attr,
                                         UMLWidget *widget);
 
-    void createAutoConstraintAssociation(UMLEntity* refEntity, 
-                                         UMLForeignKeyConstraint* fkConstraint, 
+    void createAutoConstraintAssociation(UMLEntity* refEntity,
+                                         UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
 
     /**

@@ -1061,7 +1061,7 @@ private:
 
     QAction* zoom100Action;
     KPlayerPopupSliderAction* zoomAction;
-     
+
     QAction* alignLeft;
     QAction* alignRight;
     QAction* alignTop;

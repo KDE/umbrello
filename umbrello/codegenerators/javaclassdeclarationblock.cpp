@@ -13,7 +13,7 @@
  *      Author : thomas
  *      Date   : Wed Jul 16 2003
  */
- 
+
 #include "javaclassdeclarationblock.h"
 #include "javacodedocumentation.h"
 #include "../codegenerator.h"

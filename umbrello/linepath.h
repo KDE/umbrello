@@ -214,22 +214,22 @@ protected:
     class SubsetSymbol : public Q3CanvasEllipse {
     public:
         explicit SubsetSymbol(Q3Canvas* canvas);
-    
+
         /**
          * Sets the Inclination of the Subset Symbol w.r.t horizontal x axis
          * @param angle The inclination angle
          */
         void setInclination(int angle) {
-	    inclination = angle;           
+	    inclination = angle;
         }
     protected:
 	/**
          * Reimplementation from base class
          */
         void drawShape(QPainter& p);
-    
+
     private:
-        int inclination;   
+        int inclination;
 
     };
 
@@ -383,7 +383,7 @@ protected:
      * The subset notation required by Child to Category associations.
      */
     SubsetSymbol* m_pSubsetSymbol;
- 
+
     /**
     *   Contains the calculated points for the parallel line
     *   on a collaboration message to use.

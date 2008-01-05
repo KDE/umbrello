@@ -40,7 +40,7 @@ public:
      * Reimplement method from CodeGenerator.
      */
     QStringList defaultDatatypes();
- 
+
     /**
      * Reimplemented method from SQLWriter
      */

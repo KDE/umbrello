@@ -13,7 +13,7 @@
  *      Author : thomas
  *      Date   : Fri Jun 20 2003
  */
- 
+
 #include "codemethodblock.h"
 
 #include "codeclassfield.h"

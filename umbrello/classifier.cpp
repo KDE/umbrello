@@ -1110,7 +1110,7 @@ UMLClassifierList UMLClassifier::getAggregateChildClassifierList()
     return findAssocClassifierObjsInRoles(&aggregations);
 }
 
-UMLClassifierList UMLClassifier::getCompositionChildClassifierList() 
+UMLClassifierList UMLClassifier::getCompositionChildClassifierList()
 {
     UMLAssociationList compositions = getCompositions();
     return findAssocClassifierObjsInRoles(&compositions);

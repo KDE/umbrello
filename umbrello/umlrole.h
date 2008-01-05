@@ -31,7 +31,7 @@ public:
      *
      * @param parent    The parent (association) of this UMLRole.
      * @param parentUMLObject The Parent UML Object of this UMLRole
-     * @param role  The Uml::Role_Type of this UMLRole 
+     * @param role  The Uml::Role_Type of this UMLRole
      */
     UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject, Uml::Role_Type role);
 

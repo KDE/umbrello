@@ -370,7 +370,7 @@ private:
      * Creates a popup menu for a single class or interface widgets.
      */
     void makeClassifierPopup(ClassifierWidget *c);
- 
+
     /**
      * Creates a popup menu for a single category Object
      * @param category The UMLCategory for which the category menu is created
@@ -402,7 +402,7 @@ private:
      * @param type      The Menu_Type for which to set up the menu.
      */
     void setupMenu(Menu_Type type);
-    
+
     /**
      * Checks the action item.
      *
@@ -433,9 +433,9 @@ private:
         pm_NUMBER_OF_PIXMAPS
     };
     QPixmap m_pixmap[pm_NUMBER_OF_PIXMAPS];
- 
+
     /**
-     * The List Popup Menu is triggered by either by right clicking on the 
+     * The List Popup Menu is triggered by either by right clicking on the
      * View, a ListViewItem ( Object ) , or a widget
      */
     union TriggerObject{
@@ -443,7 +443,7 @@ private:
         UMLObject* m_Object;
         UMLWidget* m_Widget;
     };
-    
+
     /**
      * Enum to keep track on TriggerObject Type
      */
@@ -455,10 +455,10 @@ private:
 
     TriggerObject m_TriggerObject;
     TriggerObjectType m_TriggerObjectType;
-    
+
 //    QHash<Menu_Type, KAction *> m_actions;
     QHash<Menu_Type, QAction *> m_actions;
- 
+
 };
 
 #endif

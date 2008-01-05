@@ -29,7 +29,7 @@ CodeBlock::~CodeBlock ( )
 {
 }
 
-void CodeBlock::setContentType ( ContentType new_var ) 
+void CodeBlock::setContentType ( ContentType new_var )
 {
     m_contentType = new_var;
 }

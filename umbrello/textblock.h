@@ -234,7 +234,7 @@ public:
      * @return   line number
      */
     virtual int firstEditableLine();
-    
+
     /**
      * @see firstEditableLine
      */

@@ -31,11 +31,11 @@ class DocbookGeneratorJob : public QThread {
     DocbookGeneratorJob(QObject* parent );
 
   protected:
-      
+
     void run();
 
   signals:
-    void docbookGenerated(const QString& url);     
+    void docbookGenerated(const QString& url);
 
 };
 

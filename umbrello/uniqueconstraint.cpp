@@ -196,7 +196,7 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr) {
     }
 
     if ( owningParent->findChildObjectById( attr->getID() ) == NULL ) {
-        uError() 
+        uError()
         << " parent " << owningParent->getName()
                  << " does not contain attribute " << attr->getName()<<endl;
         return false;
@@ -225,7 +225,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr) {
      * is called. So checking this is not right
      *
      * if ( owningParent->findChildObjectById( attr->getID() ) == NULL ) {
-     *    uError() 
+     *    uError()
      *    << " parent " << owningParent->getName()
      *             << " does not contain attribute " << attr->getName()<<endl;
      *    return false;

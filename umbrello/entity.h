@@ -78,29 +78,29 @@ public:
                                   UMLObject *type = 0);
 
     /**
-     * Creates a Unique Constraint for this Entity. 
+     * Creates a Unique Constraint for this Entity.
      *
      * @param name An optional name
      * @return The UniqueConstraint created
-     */ 
+     */
     UMLUniqueConstraint* createUniqueConstraint(const QString &name = QString());
 
     /**
-     * Creates a Foreign Key  Constraint for this Entity. 
+     * Creates a Foreign Key  Constraint for this Entity.
      *
      * @param name An optional name
      * @return The ForeignKeyConstraint created
-     */ 
+     */
     UMLForeignKeyConstraint* createForeignKeyConstraint(const QString &name = QString());
-    
+
     /**
-     * Creates a Check  Constraint for this Entity. 
+     * Creates a Check  Constraint for this Entity.
      *
      * @param name An optional name
      * @return The CheckConstraint created
-     */ 
+     */
     UMLCheckConstraint* createCheckConstraint(const QString &name = QString());
-    
+
     /**
          * Adds an entityAttribute to the entity.
          *
@@ -188,7 +188,7 @@ public:
 
     /**
      * Adds a Constraint to this UMLEntity
-     * To set a UMLUniqueConstraint as Primary Key use setAsPrimaryKey 
+     * To set a UMLUniqueConstraint as Primary Key use setAsPrimaryKey
      *
      * @param constr The UMLEntityConstraint that is to be added
      * @return true if the constraint could be added successfully
@@ -198,7 +198,7 @@ public:
 
     /**
      * Removes an existing constraint from this UMLEntity
-     * If the Contraint is a Primary Key, this Entity will no longer have a PrimaryKey 
+     * If the Contraint is a Primary Key, this Entity will no longer have a PrimaryKey
      *
      * @param constr The constraint to be removed
      * @return true if the constraint could be removed successfully

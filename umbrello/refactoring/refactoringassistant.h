@@ -76,7 +76,7 @@ protected:
     virtual bool acceptDrag(QDropEvent *event) const;
     virtual void movableDropEvent (Q3ListViewItem* parent, Q3ListViewItem* afterme);
     void setVisibilityIcon( Q3ListViewItem *item , const UMLObject *obj );
-    
+
     UMLClassifier *m_umlObject;
     UMLDoc *m_doc;
     QMenu *m_menu;

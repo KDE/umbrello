@@ -507,7 +507,7 @@ public:
      * @return  List of UML Entities.
      */
     UMLEntityList getEntities(bool includeNested = true);
-    
+
     /**
      * Returns a list of the interfaces in this UMLDoc.
      *

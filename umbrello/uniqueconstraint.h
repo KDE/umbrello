@@ -97,7 +97,7 @@ public:
 
     /**
      * Adds a UMLEntityAttribute to the list.
-     * The UMLEntityAttribute should already exist and should 
+     * The UMLEntityAttribute should already exist and should
      * belong to the parent UMLEntity.
      *
      * @param attr The UMLEntityAttribute to add
@@ -123,7 +123,7 @@ public:
 
     /**
      * Clear the list of attributes contained in this UniqueConstraint
-     */ 
+     */
     void clearAttributeList();
 
 protected:

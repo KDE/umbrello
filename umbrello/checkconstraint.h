@@ -112,7 +112,7 @@ private:
      * Initialises Check Constraint
      */
     void init();
-     
+
     /**
      * The Check Condition
      */

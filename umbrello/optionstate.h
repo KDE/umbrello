@@ -85,7 +85,7 @@ struct CodeGenerationState{
     QDir outputDirectory;
     CodeGenerationPolicy::OverwritePolicy overwritePolicy;
 
-    
+
     struct CPPCodeGenerationState {
         bool autoGenAccessors;
         bool inlineAccessors;
@@ -110,13 +110,13 @@ struct CodeGenerationState{
     struct JavaCodeGenerationState{
         bool autoGenerateAttributeAccessors;
         bool autoGenerateAssocAccessors;
-        bool buildANTDocument;  
+        bool buildANTDocument;
     };
 
     struct RubyCodeGenerationState{
         bool autoGenerateAttributeAccessors;
         bool autoGenerateAssocAccessors;
-    }; 
+    };
 
     CPPCodeGenerationState cppCodeGenerationState;
     DCodeGenerationState dCodeGenerationState;
@@ -131,7 +131,7 @@ struct OptionState {
     ClassState classState;
     CodeViewerState codeViewerState;
     CodeGenerationState codeGenerationState;
-   
+
 };
 
 OptionState& getOptionState();

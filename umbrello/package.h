@@ -119,7 +119,7 @@ public:
      */
     UMLObject * findObjectById(Uml::IDType id);
 
-    
+
     /**
      * Append all packages from this packaed ( and those from nested packeges)
      * to the given UMLPackageList.

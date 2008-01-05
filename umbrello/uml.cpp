@@ -565,7 +565,7 @@ void UMLApp::setupZoomMenu()
     }
 }
 
-void UMLApp::initStatusBar() 
+void UMLApp::initStatusBar()
 {
     statusBar()->insertPermanentItem( i18n( "Ready" ), 1 );
     connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
@@ -977,7 +977,7 @@ bool UMLApp::slotFileSaveAs()
     while(cont) {
 #ifdef Q_WS_WIN
         url=QFileDialog::getSaveFileName(
-            this, 
+            this,
             i18n("Save As"),
             "",
             i18n("XMI File (*.xmi);;All Files (*.*"));
@@ -1862,7 +1862,7 @@ void UMLApp::slotImportClasses()
     preselectedExtension.append("\n*|" + i18n("All Files"));
 #ifdef Q_WS_WIN
     QStringList extList = preselectedExtension.split("|");
-    QStringList fileList = QFileDialog::getOpenFileNames(this, i18n("Select Code to Import"), 
+    QStringList fileList = QFileDialog::getOpenFileNames(this, i18n("Select Code to Import"),
                                 "", extList[1] );
 #else
     QStringList fileList = KFileDialog::getOpenFileNames(KUrl(), preselectedExtension,
@@ -2039,7 +2039,7 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e)
 
 }
 
-void UMLApp::newDocument() 
+void UMLApp::newDocument()
 {
     m_doc->newDocument();
     slotUpdateViews();

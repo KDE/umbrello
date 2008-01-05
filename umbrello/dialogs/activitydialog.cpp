@@ -94,7 +94,7 @@ void ActivityDialog::applyPage( KPageWidgetItem *item ) {
         m_pActivityWidget -> setPreText( m_GenPageWidgets.preLE -> text() );
         m_pActivityWidget -> setPostText( m_GenPageWidgets.postLE -> text() );
 
-        
+
         ActivityWidget::ActivityType newType = ActivityWidget::Normal;
         if ( m_GenPageWidgets.InvokRB->isChecked() )
               newType = ActivityWidget::Invok;
@@ -143,7 +143,7 @@ void ActivityDialog::setupGeneralPage() {
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 2,
                                     m_GenPageWidgets.preL, i18n("Precondition :"),
                                     m_GenPageWidgets.preLE );
-    
+
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 3,
                                     m_GenPageWidgets.postL, i18n("Postcondition :"),
                                     m_GenPageWidgets.postLE );

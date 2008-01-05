@@ -331,7 +331,7 @@ protected:
     void contentsDragEnterEvent(QDragEnterEvent* event);
     void contentsDragMoveEvent(QDragMoveEvent* event);
     void contentsDropEvent(QDropEvent* event);
-   
+
 
     /**
      * This methods looks for a object in a folder an its subfolders recursive.

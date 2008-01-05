@@ -166,7 +166,7 @@ public:
      * Sets the visibility of the given role of the UMLAssociation.
      *
      * @param value  Visibility of role.
-     * @param role   The Uml::Role_Type to which the visibility is being applied 
+     * @param role   The Uml::Role_Type to which the visibility is being applied
      */
     void setVisibility(Uml::Visibility value, Uml::Role_Type role);
 
@@ -198,7 +198,7 @@ public:
      * Sets the documentation on the given role in the association.
      *
      * @param doc      The string with the documentation.
-     * @param role     The Uml::Role_Type to which the documentation is being applied         
+     * @param role     The Uml::Role_Type to which the documentation is being applied
      */
     void setRoleDoc(const QString &doc, Uml::Role_Type role);
 

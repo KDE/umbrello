@@ -28,14 +28,14 @@
 
 //app includes
 #include "../umlclassifierlistitemlist.h"
-#include "../umlentityattributelist.h" 
+#include "../umlentityattributelist.h"
 
 class UMLDoc;
 class UMLUniqueConstraint;
 
 /**
  * A dialog page to display unique constraint properties.
- * 
+ *
  * @short A dialog page to display unique constraint properties.
  * @author Sharan Rao
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -72,7 +72,7 @@ private:
 
 
     UMLUniqueConstraint* m_pUniqueConstraint;
-    
+
     /**
       * The UMLDocument where all objects live
       */
@@ -83,17 +83,17 @@ private:
     QLabel* m_pNameL;
     QLineEdit* m_pNameLE;
     Q3ListBox* m_pAttributeListLB;
-    KComboBox* m_pAttributeCB; 
+    KComboBox* m_pAttributeCB;
     QPushButton* m_pAddPB,*m_pRemovePB;
 
     /* local cache */
     UMLEntityAttributeList m_pEntityAttributeList;
- 
+
     UMLEntityAttributeList m_pConstraintAttributeList;
- 
+
 public slots:
 
-    /** 
+    /**
      * Enable or Disable the widgets
      *
      */
@@ -118,7 +118,7 @@ public slots:
      * deletes an attribute from the list
      */
     void slotDeleteAttribute();
- 
+
 };
 
 #endif

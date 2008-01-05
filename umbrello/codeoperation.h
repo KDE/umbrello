@@ -23,7 +23,7 @@
 #include "operation.h"
 
 /**
- * 
+ *
  */
 
 class CodeOperation : public CodeMethodBlock

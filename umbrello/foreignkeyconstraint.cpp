@@ -149,7 +149,7 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
     }
 
     if ( owningParent->findChildObjectById( pAttr->getID() ) == NULL ) {
-        uError() 
+        uError()
         << " parent " << owningParent->getName()
                  << " does not contain attribute " << pAttr->getName()<<endl;
         return false;
@@ -158,7 +158,7 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
     //check for sanity of rAttr ( referenced entity attribute )
     if ( m_ReferencedEntity != NULL ) {
        if ( m_ReferencedEntity->findChildObjectById( rAttr->getID() ) == NULL ) {
-        uError() 
+        uError()
         << " parent " << m_ReferencedEntity->getName()
                  << " does not contain attribute " << rAttr->getName()<<endl;
         return false;

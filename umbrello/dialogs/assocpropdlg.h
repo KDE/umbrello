@@ -20,7 +20,7 @@
 class AssocRolePage;
 class AssocGenPage;
 class UMLDoc;
-// // // 
+// // //
 /**
  * Based off of AssocPropDlg class
  * @author Brian Thomas <Brian.A.Thomas@gsfc.nasa.gov>

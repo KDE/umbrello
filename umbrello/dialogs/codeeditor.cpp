@@ -58,7 +58,7 @@
 #include "umloperationdialog.h"
 
 
-CodeEditor::CodeEditor ( const QString & text, const QString & context, CodeViewerDialog * parent, 
+CodeEditor::CodeEditor ( const QString & text, const QString & context, CodeViewerDialog * parent,
     const char * name , CodeDocument * doc)
         : Q3TextEdit ( text, context, parent, name)
 {
@@ -796,12 +796,12 @@ void CodeEditor::slotPasteTextBlock ( )
     }
 }
 
-void CodeEditor::slotRedrawText() 
+void CodeEditor::slotRedrawText()
 {
     rebuildView(m_lastPara);
 }
 
-void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc ) 
+void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc )
 {
     // safety to insure that we are up to date
     parentDoc->synchronize();
@@ -848,7 +848,7 @@ void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc )
     loadFromDocument();
 }
 
-void CodeEditor::updateTextBlockFromText (TextBlock * block) 
+void CodeEditor::updateTextBlockFromText (TextBlock * block)
 {
     if (block) {
         CodeMethodBlock * cmb = dynamic_cast<CodeMethodBlock*>(block);
@@ -1051,7 +1051,7 @@ bool CodeEditor::paraIsNotSingleLine (int para)
     return false;
 }
 
-bool CodeEditor::isParaEditable (int para) 
+bool CodeEditor::isParaEditable (int para)
 {
     if (para <0)
         return false;
@@ -1083,7 +1083,7 @@ bool CodeEditor::isParaEditable (int para)
     return false;
 }
 
-void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected) 
+void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected)
 {
     if(tBlock)
     {

@@ -82,7 +82,7 @@ public slots:
     void slotDoubleClicked( Q3ListBoxItem* item );
     void slotRightButtonClicked(Q3ListBoxItem* item, const QPoint& p);
     void slotRightButtonPressed(Q3ListBoxItem* item, const QPoint& p);
-    
+
     void slotTopClicked();
     void slotUpClicked();
     void slotDownClicked();

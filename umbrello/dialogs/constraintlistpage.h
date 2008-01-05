@@ -24,7 +24,7 @@
 
 
 /**
- * A dialog page to display entity constraint properties. 
+ * A dialog page to display entity constraint properties.
  *
  * @short An extension to the classifier list dialog page to display constraint properties.
  * @author Sharan Rao
@@ -40,7 +40,7 @@ public:
      *  @param parent   The parent to the ConstraintListPage.
      *  @param classifier       The Concept to display the properties of.
      *  @param doc The UMLDoc document
-     *  @param type The object type 
+     *  @param type The object type
      */
     ConstraintListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type);
 
@@ -50,7 +50,7 @@ public:
     ~ConstraintListPage();
 
 private:
-    
+
     KAction* newUniqueConstraintAction;
     KAction* newPrimaryKeyConstraintAction;
     KAction* newForeignKeyConstraintAction;
@@ -67,11 +67,11 @@ private slots:
 
 protected:
 
-    /** 
+    /**
      * Returns the index of the Item in the List Box
      */
     int relativeIndexOf(QListWidgetItem* item);
- 
+
     /**
      * Calculates the new index to be assigned when an object of type ot is to
      * be added to the list box. The default Implementation is to add it to the end of the list
