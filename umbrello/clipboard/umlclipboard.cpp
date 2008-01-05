@@ -13,6 +13,7 @@
 #include "umlclipboard.h"
 
 // qt/kde includes
+#include <QtGui/QPixmap>
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
@@ -33,8 +34,6 @@
 #include "../umlwidget.h"
 #include "../uml.h"
 #include "../model_utils.h"
-//Added by qt3to4:
-#include <QPixmap>
 
 UMLClipboard::UMLClipboard() {
     m_type = clip1;
@@ -324,8 +323,9 @@ void UMLClipboard::CleanAssociations(AssociationWidgetList& associations) {
 
     while ( it.hasNext() ) {
         AssociationWidget* assoc = it.next();
-    }
-}
+        Q_UNUSED(assoc);
+}    }
+
 
 /** If clipboard has mime type application/x-uml-clip1,
 Pastes the data from the clipboard into the current Doc */

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -39,12 +39,12 @@ RegionWidget::~RegionWidget() {}
 
 void RegionWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     const int w = width();
     const int h = height();
     QPen pen = p.pen();
     {
-        UMLWidget::setPen(p);
+        setPenFromSettings(p);
         pen.setColor ( Qt::red );
         pen.setStyle ( Qt::DashLine );
         p.setPen( pen );

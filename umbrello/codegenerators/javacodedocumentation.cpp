@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,10 +32,11 @@
 JavaCodeDocumentation::JavaCodeDocumentation ( JavaClassifierCodeDocument * doc, const QString & text )
         : CodeComment(doc, text)
 {
-
 }
 
-JavaCodeDocumentation::~JavaCodeDocumentation ( ) { }
+JavaCodeDocumentation::~JavaCodeDocumentation ( )
+{
+}
 
 //
 // Methods
@@ -51,7 +52,8 @@ JavaCodeDocumentation::~JavaCodeDocumentation ( ) { }
 /**
  * Save the XMI representation of this object
  */
-void JavaCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+void JavaCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root )
+{
     QDomElement blockElement = doc.createElement( "javacodedocumentation" );
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
@@ -61,9 +63,8 @@ void JavaCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root )
 /**
  * @return      QString
  */
-QString JavaCodeDocumentation::toString ( )
+QString JavaCodeDocumentation::toString ( ) const
 {
-
     QString output = "";
 
     // simple output method
@@ -102,14 +103,16 @@ QString JavaCodeDocumentation::getNewEditorLine ( int amount )
         return getIndentationString(amount) + "// ";
 }
 
-int JavaCodeDocumentation::firstEditableLine() {
+int JavaCodeDocumentation::firstEditableLine()
+{
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return 1;
     return 0;
 }
 
-int JavaCodeDocumentation::lastEditableLine() {
+int JavaCodeDocumentation::lastEditableLine()
+{
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
@@ -123,7 +126,6 @@ int JavaCodeDocumentation::lastEditableLine() {
  */
 QString JavaCodeDocumentation::unformatText ( const QString & text , const QString & indent)
 {
-
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
     // remove leading or trailing comment stuff

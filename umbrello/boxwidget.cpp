@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@ BoxWidget::~BoxWidget() {
 }
 
 void BoxWidget::draw(QPainter& p, int offsetX, int offsetY) {
-    UMLWidget::setPen(p);
+    UMLWidget::setPenFromSettings(p);
     p.drawRect( offsetX, offsetY, width(), height() );
 
     if (m_bSelected) {

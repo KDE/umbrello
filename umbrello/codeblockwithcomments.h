@@ -50,12 +50,12 @@ public:
     /**
      * Get the Comment object.
      */
-    CodeComment * getComment ( );
+    CodeComment * getComment ( ) const;
 
     /**
      * @return  QString
      */
-    virtual QString toString ( );
+    virtual QString toString ( ) const;
 
     /**
      * A utility method that causes the comment and body of the code block

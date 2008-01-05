@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,7 +33,8 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLCanvasObject : public UMLObject {
+class UMLCanvasObject : public UMLObject
+{
     Q_OBJECT
 public:
     /**
@@ -52,7 +53,7 @@ public:
     /**
      *  Overloaded '==' operator
      */
-    virtual bool operator==(const UMLCanvasObject& rhs);
+    bool operator==(const UMLCanvasObject& rhs);
 
     /**
      * Copy the internal presentation of this object into the new

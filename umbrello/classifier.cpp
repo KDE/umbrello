@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 // own header
@@ -51,7 +51,8 @@ UMLClassifier::~UMLClassifier()
 {
 }
 
-void UMLClassifier::setBaseType(Uml::Object_Type ot) {
+void UMLClassifier::setBaseType(Uml::Object_Type ot)
+{
     m_BaseType = ot;
     Uml::Icon_Type newIcon;
     switch (ot) {
@@ -80,7 +81,8 @@ void UMLClassifier::setBaseType(Uml::Object_Type ot) {
     listView->changeIconOf(this, newIcon);
 }
 
-bool UMLClassifier::isInterface() const {
+bool UMLClassifier::isInterface() const
+{
     return (m_BaseType == ot_Interface);
 }
 
@@ -608,8 +610,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, 
 bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* Log /* = 0 */,
                                  int position /* = -1 */) {
     if (findChildObject(att->getName()) == NULL) {
-        att->parent()->removeChild( att );
-        this->insertChild( att );
+        att->setParent(this);
         if (position >= 0 && position < (int)m_List.count())
             m_List.insert(position, att);
         else
@@ -721,8 +722,7 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::IDType id) {
 bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/) {
     QString name = newTemplate->getName();
     if (findChildObject(name) == NULL) {
-        newTemplate->parent()->removeChild(newTemplate);
-        this->insertChild(newTemplate);
+        newTemplate->setParent(this);
         m_List.append(newTemplate);
         emit templateAdded(newTemplate);
         UMLObject::emitModified();
@@ -739,8 +739,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* Template, int position)
 {
     QString name = Template->getName();
     if (findChildObject(name) == NULL) {
-        Template->parent()->removeChild(Template);
-        this->insertChild(Template);
+        Template->setParent(this);
         if( position >= 0 && position <= (int)m_List.count() )
             m_List.insert(position,Template);
         else

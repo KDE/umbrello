@@ -13,7 +13,7 @@
 #ifndef DCODEDOCUMENTATION_H
 #define DCODEDOCUMENTATION_H
 
-#include <qstring.h>
+#include <QtCore/QString>
 #include "../codecomment.h"
 
 class CodeDocument;
@@ -38,7 +38,6 @@ public:
      */
     virtual ~DCodeDocumentation ( );
 
-
     /**
      * Save the XMI representation of this object.
      */
@@ -52,11 +51,11 @@ public:
      *
      * @return  QString Documentation block source code.
      */
-    QString toString ( );
+    QString toString ( ) const;
 
     /** UnFormat a long text string. Typically, this means removing
-    *  the indentaion (linePrefix) and/or newline chars from each line.
-    */
+     *  the indentaion (linePrefix) and/or newline chars from each line.
+     */
     virtual QString unformatText ( const QString & text, const QString & indent = "" );
 
     /** a special version here because we want to not only indent

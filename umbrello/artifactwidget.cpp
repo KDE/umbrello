@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -180,11 +180,11 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
 }
 
 void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY) {
-    UMLWidget::setPen(p);
+    UMLWidget::setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColour() );
     } else {
-        p.setBrush( m_pView->viewport()->backgroundColor() );
+        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
     }
 
     UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);

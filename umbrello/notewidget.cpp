@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -66,6 +66,7 @@ void NoteWidget::init() {
 NoteWidget::NoteType NoteWidget::getNoteType() const {
     return m_NoteType;
 }
+
 NoteWidget::NoteType NoteWidget::getNoteType(const QString& noteType) const {
         if (noteType == "Precondition")
         return NoteWidget::PreCondition;
@@ -80,6 +81,7 @@ NoteWidget::NoteType NoteWidget::getNoteType(const QString& noteType) const {
 void NoteWidget::setNoteType( NoteType noteType ) {
     m_NoteType = noteType;
 }
+
 void NoteWidget::setNoteType( const QString& noteType ) {
     setNoteType(getNoteType(noteType));
 }
@@ -178,7 +180,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     poly.setPoint(4, offsetX + w - margin, offsetY);
     poly.setPoint(5, offsetX, offsetY);
 
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {
         QBrush brush( UMLWidget::getFillColour() );
         p.setBrush(brush);

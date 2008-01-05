@@ -30,7 +30,8 @@ void DCodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
     root.appendChild( blockElement );
 }
 
-QString DCodeComment::toString ( ) {
+QString DCodeComment::toString ( ) const
+{
     QString output = "";
 
     // simple output method

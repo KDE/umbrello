@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -49,7 +49,7 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     UMLComponent *umlcomp = static_cast<UMLComponent*>(m_pObject);
     if (umlcomp == NULL)
         return;
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     if ( umlcomp->getExecutable() ) {
         QPen thickerPen = p.pen();
         thickerPen.setWidth(2);
@@ -58,7 +58,7 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColour() );
     } else {
-        p.setBrush( m_pView->viewport()->backgroundColor() );
+        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
     }
 
     const int w = width();

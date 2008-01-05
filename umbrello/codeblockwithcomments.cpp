@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,14 +34,15 @@ CodeBlockWithComments::CodeBlockWithComments ( CodeDocument * parent , const QSt
 }
 
 CodeBlockWithComments::~CodeBlockWithComments ( )
-{ }
+{
+}
 
 void CodeBlockWithComments::setComment ( CodeComment * object )
 {
     m_comment = object;
 }
 
-CodeComment * CodeBlockWithComments::getComment ( )
+CodeComment * CodeBlockWithComments::getComment ( ) const
 {
     return m_comment;
 }
@@ -109,7 +110,7 @@ void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
         uWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in block:"<<getTag();
 }
 
-QString CodeBlockWithComments::toString ( )
+QString CodeBlockWithComments::toString ( ) const
 {
     QString string = QString();
 
@@ -117,9 +118,10 @@ QString CodeBlockWithComments::toString ( )
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
         QString body = formatMultiLineText (getText(), indent, endLine);
-        QString comment = getComment()->toString();
+        CodeComment* codeComment = getComment();
+        QString comment = codeComment->toString();
 
-        if(!comment.isEmpty() && getComment()->getWriteOutText())
+        if(!comment.isEmpty() && codeComment->getWriteOutText())
             string.append(comment);
         if(!body.isEmpty())
             string.append(body);
@@ -131,7 +133,7 @@ QString CodeBlockWithComments::toString ( )
 void CodeBlockWithComments::setOverallIndentationLevel ( int level )
 {
     setIndentationLevel(level);
-    m_comment->setIndentationLevel(level);
+    getComment()->setIndentationLevel(level);
 }
 
 

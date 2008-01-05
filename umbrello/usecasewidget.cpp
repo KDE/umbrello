@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@ UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o) : UMLWidget(view, o)
 UseCaseWidget::~UseCaseWidget() {}
 
 void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
     QFont font = UMLWidget::getFont();
@@ -46,7 +46,7 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawEllipse(offsetX, offsetY, w, h);
     p.setPen(Qt::black);
     p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }

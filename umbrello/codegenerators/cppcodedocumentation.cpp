@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -60,9 +60,8 @@ void CPPCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root ) 
 /**
  * @return      QString
  */
-QString CPPCodeDocumentation::toString ( )
+QString CPPCodeDocumentation::toString ( ) const
 {
-
     QString output = "";
 
     // simple output method

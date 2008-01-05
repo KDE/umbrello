@@ -51,7 +51,7 @@ public:
      *
      * @return  QString Comment block source code.
      */
-    QString toString ( );
+    QString toString ( ) const;
 
     /** 
      * UnFormat a long text string. Typically, this means removing

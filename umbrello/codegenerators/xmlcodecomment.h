@@ -56,7 +56,7 @@ public:
     /**
      * @return  QString
      */
-    QString toString ( );
+    QString toString ( ) const;
 
 
 protected:

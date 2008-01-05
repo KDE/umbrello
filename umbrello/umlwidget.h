@@ -5,19 +5,16 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLWIDGET_H
 #define UMLWIDGET_H
 
+#include <QtCore/QDateTime>
 #include <q3canvas.h>
-#include <qdatetime.h>
-#include <qfont.h>
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QMoveEvent>
+#include <QtGui/QFont>
 
 #include "umlnamespace.h"
 #include "widgetbase.h"
@@ -33,7 +30,7 @@ class ListPopupMenu;
 class IDChangeLog;
 
 class QPainter;
-class QFont;
+class QMoveEvent;
 class QFontMetrics;
 
 /**
@@ -43,7 +40,8 @@ class QFontMetrics;
  * @author  Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLWidget : public WidgetBase, public Q3CanvasRectangle {
+class UMLWidget : public WidgetBase, public Q3CanvasRectangle
+{
     Q_OBJECT
 public:
     friend class UMLWidgetController;
@@ -80,12 +78,12 @@ public:
     /**
      * Assignment operator
      */
-    virtual UMLWidget& operator=(const UMLWidget& other);
+    UMLWidget& operator=(const UMLWidget& other);
 
     /**
      * Overload '==' operator
      */
-    virtual bool operator==(const UMLWidget& other);
+    bool operator==(const UMLWidget& other);
 
     /**
      * Calls the method with the same name in UMLWidgetController.
@@ -126,10 +124,6 @@ public:
      * Overrides the method from WidgetBase.
      */
     void setLineColorcmd(const QColor &colour);
-    /**
-     * get line color attribute.
-     */
-    QColor getLineColor() ;
 
     /**
      * Overrides the method from WidgetBase.
@@ -153,8 +147,8 @@ public:
     /**
      * get fill color attribute.
      */
-	QColor getFillColor();
-	
+    QColor getFillColor();
+
     /**
      * Read property of QColor m_FillColour.
      */
@@ -239,7 +233,7 @@ public:
     /**
      * Set the pen.
      */
-    void setPen(QPainter & p);
+    void setPenFromSettings(QPainter & p);
 
     /**
      * Sets the font the widget is to use.
@@ -344,7 +338,7 @@ public:
      * Move the widget by an X and Y offset relative to
      * the current position.
      */
-    void moveBy(int dx, int dy);
+    void moveByLocal(int dx, int dy);
 
     /**
      * Removes an already created association from the list of
@@ -661,7 +655,8 @@ protected:
 
     bool m_bSelected, m_bStartMove;
 
-    int            m_nPosX, m_origZ;
+    int            m_nPosX;
+    int            m_origZ;
     ListPopupMenu *m_pMenu;
     UMLDoc        *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
     bool           m_bResizable;

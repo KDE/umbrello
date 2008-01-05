@@ -49,7 +49,7 @@ public:
     /**
      * @return  QString
      */
-    virtual QString toString ( );
+    virtual QString toString ( ) const;
 
     /**
      * Get the starting text that begins this method before the body is printed.

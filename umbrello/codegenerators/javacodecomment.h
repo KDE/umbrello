@@ -13,8 +13,6 @@
  *      Date   : Mon Jun 23 2003
  */
 
-
-
 #ifndef JAVACODECOMMENT_H
 #define JAVACODECOMMENT_H
 
@@ -56,7 +54,7 @@ public:
     /**
      * @return  QString
      */
-    QString toString ( );
+    QString toString ( ) const;
 
     /** UnFormat a long text string. Typically, this means removing
       *  the indentaion (linePrefix) and/or newline chars from each line.

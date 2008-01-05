@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -55,7 +55,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
     {
 
     case Normal :
-        UMLWidget::setPen(p);
+        UMLWidget::setPenFromSettings(p);
         if ( UMLWidget::getUseFillColour() ) {
             p.setBrush( UMLWidget::getFillColour() );
         }
@@ -79,7 +79,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     case Final :
 
-        UMLWidget::setPen(p);
+        UMLWidget::setPenFromSettings(p);
         p.setBrush( Qt::white );
         pen.setWidth( 2 );
         pen.setColor ( Qt::red );
@@ -105,7 +105,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         break;
 
     case Branch :
-        UMLWidget::setPen(p);
+        UMLWidget::setPenFromSettings(p);
         p.setBrush( UMLWidget::getFillColour() );
         {
             QPolygon array( 4 );
@@ -119,7 +119,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         break;
 
     case Invok :
-        UMLWidget::setPen(p);
+        UMLWidget::setPenFromSettings(p);
         if ( UMLWidget::getUseFillColour() ) {
             p.setBrush( UMLWidget::getFillColour() );
         }
@@ -144,7 +144,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         break;
 
     case Param :
-        UMLWidget::setPen(p);
+        UMLWidget::setPenFromSettings(p);
         if ( UMLWidget::getUseFillColour() ) {
             p.setBrush( UMLWidget::getFillColour() );
         }

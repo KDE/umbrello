@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -63,7 +63,8 @@ class UMLWidget;
  *
  * @author Umbrello UML Modeller Authors <uml-devel@lists.sourceforge.net>
  */
-class UMLWidgetController {
+class UMLWidgetController
+{
 public:
 
     /**
@@ -178,16 +179,16 @@ public:
 
     virtual void widgetMoved();
 
-int getOldX();
+    int getOldX();
 
-int getOldY();
+    int getOldY();
 
-int getOldH();
+    int getOldH();
 
-int getOldW();
+    int getOldW();
 
-void insertSaveValues(int _oldX, int _oldY, int X, int Y);
-//avant c'estait protected?
+    void insertSaveValues(int _oldX, int _oldY, int X, int Y);
+
     /**
      * Moves the widget to a new position using the difference between the
      * current position and the new position.
@@ -220,9 +221,7 @@ void insertSaveValues(int _oldX, int _oldY, int X, int Y);
      */
     virtual void resizeWidget(int newW, int newH);
 
-
     virtual UMLWidget* getWidget();
-
 
 protected:
 
@@ -239,8 +238,6 @@ protected:
      * @param me The QMouseEvent to get the offset from.
      */
     virtual void saveWidgetValues(QMouseEvent *me);
-
-
 
     /**
      * Checks if the mouse is in resize area (right bottom corner), and sets
@@ -260,10 +257,6 @@ protected:
      * @return The cursor to be shown when resizing the widget.
      */
     virtual QCursor getResizeCursor();
-
-
-
-
 
     /**
      * Modifies the value of the diffX and diffY variables used to move the widgets.

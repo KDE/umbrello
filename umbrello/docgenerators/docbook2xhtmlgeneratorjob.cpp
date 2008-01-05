@@ -76,7 +76,7 @@ void Docbook2XhtmlGeneratorJob::run() {
   xmlSubstituteEntitiesDefault(1);
   xmlLoadExtDtdDefaultValue = 1;
   uDebug() << "Parsing stylesheet " << tmpXsl.fileName();
-  cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.fileName().latin1());
+  cur = xsltParseStylesheetFile((const xmlChar *)tmpXsl.fileName().toLatin1().constData());
   uDebug() << "Parsing file " << m_pDocbookUrl.path();
   doc = xmlParseFile((const char*)(m_pDocbookUrl.path().toUtf8()));
   uDebug() << "Applying stylesheet ";

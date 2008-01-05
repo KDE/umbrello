@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -519,11 +519,11 @@ UMLClassifier *ClassifierWidget::getClassifier() {
 }
 
 void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
     else
-        p.setBrush( m_pView->viewport()->backgroundColor() );
+        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
 
     if (getClassifier()->isInterface() && m_bDrawAsCircle) {
         drawAsCircle(p, offsetX, offsetY);
@@ -552,7 +552,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
     //If there are any templates then draw them
     UMLTemplateList tlist = getClassifier()->getTemplateList();
     if ( tlist.count() > 0 ) {
-        UMLWidget::setPen(p);
+        setPenFromSettings(p);
         QPen pen = p.pen();
         pen.setStyle(Qt::DotLine);
         p.setPen(pen);
@@ -603,7 +603,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawText(textX, m_bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
     if (!showNameOnly) {
         m_bodyOffsetY += fontHeight;
-        UMLWidget::setPen(p);
+        setPenFromSettings(p);
         p.drawLine(offsetX, m_bodyOffsetY, offsetX + w - 1, m_bodyOffsetY);
         p.setPen(QPen(Qt::black));
     }
@@ -624,7 +624,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
             m_bodyOffsetY += fontHeight / 2;  // no atts, so just add a bit of space
         else
             m_bodyOffsetY += fontHeight * numAtts;
-        UMLWidget::setPen(p);
+        setPenFromSettings(p);
         p.drawLine(offsetX, m_bodyOffsetY, offsetX + w - 1, m_bodyOffsetY);
         p.setPen(QPen(Qt::black));
     }

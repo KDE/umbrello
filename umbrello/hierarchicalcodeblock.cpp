@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -37,14 +37,15 @@ HierarchicalCodeBlock::HierarchicalCodeBlock ( CodeDocument * doc , const QStrin
 }
 
 HierarchicalCodeBlock::~HierarchicalCodeBlock ()
-{ }
+{
+}
 
 void HierarchicalCodeBlock::setEndText ( const QString &new_var )
 {
     m_endText = new_var;
 }
 
-QString HierarchicalCodeBlock::getEndText ( )
+QString HierarchicalCodeBlock::getEndText ( ) const
 {
     return m_endText;
 }
@@ -135,7 +136,6 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
         getParentDocument()->addChildTagToMap(new_tag, newBlock);
     }
 
-
     if(after)
         index++;
 
@@ -174,7 +174,7 @@ void HierarchicalCodeBlock::setStartText ( const QString &text )
     m_startText = text;
 }
 
-QString HierarchicalCodeBlock::getStartText ( )
+QString HierarchicalCodeBlock::getStartText ( ) const
 {
     return m_startText;
 }
@@ -260,7 +260,7 @@ void HierarchicalCodeBlock::setAttributesFromObject (TextBlock * obj)
     }
 }
 
-QString HierarchicalCodeBlock::toString()
+QString HierarchicalCodeBlock::toString() const
 {
     QString string = QString();
 
@@ -293,7 +293,7 @@ QString HierarchicalCodeBlock::toString()
     return string;
 }
 
-QString  HierarchicalCodeBlock::childTextBlocksToString()
+QString  HierarchicalCodeBlock::childTextBlocksToString() const
 {
     TextBlockList* list = getTextBlockList();
     QString retString = "";

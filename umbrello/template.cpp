@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -42,7 +42,8 @@ QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/) {
     }
 }
 
-QString UMLTemplate::getTypeName() {
+QString UMLTemplate::getTypeName() const
+{
     if (m_pSecondary == NULL)
         return "class";
     return m_pSecondary->getName();

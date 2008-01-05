@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,9 +31,8 @@ class TextBlock;
 
 
 /**
-  * This abstract class is for code generator objects which 'own' text blocks.
-  */
-
+ * This abstract class is for code generator objects which 'own' text blocks.
+ */
 class CodeGenObjectWithTextBlocks
 {
 public:
@@ -70,7 +69,7 @@ public:
      * Get the list of TextBlock objects held by m_textblockVector
      * @return TextBlockList list of TextBlock objects held by m_textblockVector
      */
-    TextBlockList * getTextBlockList ( );
+    TextBlockList * getTextBlockList ( ) const;
 
     /**
      * Will get a hierarchicalcodeblock from the document with given tag. IF the codeblock
@@ -94,17 +93,17 @@ public:
      */
     virtual CodeBlockWithComments * getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel );
 
-     /**
-      * Allows the user to add a code comment to the end of the list
-      * of text blocks in this document OR, if a text block already exists
-      * with that tag, it will update it with the passed text as appropriate.
-      * @return codeblock/comment pointer to the object which was created/updated.
-      * @return   CodeComment
-      * @param    tag
-      * @param    text
-      * @param    indentationLevel
-      */
-     CodeComment * addOrUpdateTaggedCodeComment (const QString &tag = "", const QString &text = "", int indentationLevel = 0 );
+    /**
+     * Allows the user to add a code comment to the end of the list
+     * of text blocks in this document OR, if a text block already exists
+     * with that tag, it will update it with the passed text as appropriate.
+     * @return codeblock/comment pointer to the object which was created/updated.
+     * @return   CodeComment
+     * @param    tag
+     * @param    text
+     * @param    indentationLevel
+     */
+    CodeComment * addOrUpdateTaggedCodeComment (const QString &tag = "", const QString &text = "", int indentationLevel = 0 );
 
     /**
      * Allows the user to either add a code block with comments to the end of the list
@@ -124,7 +123,7 @@ public:
      * @return  TextBlock
      * @param   tag
      */
-    virtual TextBlock * findTextBlockByTag ( const QString &tag );
+    TextBlock * findTextBlockByTag ( const QString &tag );
 
     /**
      * @return  QString
@@ -187,8 +186,6 @@ protected:
     TextBlockList m_textblockVector;
 
 private:
-
-    void initFields ();
 
     // needed in order to use findTextBlocksByTag
     CodeDocument *m_pCodeDoc;

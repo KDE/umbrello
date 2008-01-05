@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -111,7 +111,7 @@ void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
     if(!m_pOw[Uml::A] || !m_pOw[Uml::B]) {
         return;
     }
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     if (m_sequenceMessageType == Uml::sequence_message_synchronous) {
         drawSynchronous(p, offsetX, offsetY);
     } else if (m_sequenceMessageType == Uml::sequence_message_asynchronous) {
@@ -305,7 +305,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
             w -= 7;
         }
 
-        UMLWidget::setPen(p);
+        setPenFromSettings(p);
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse(x1 + w - h , offsetY - h/2, h, h);
         drawArrow(p,offsetX, offsetY, w - h, Qt::RightArrow);
@@ -314,7 +314,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
             offsetX -= 7;
         }
     } else      {
-        UMLWidget::setPen(p);
+        setPenFromSettings(p);
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse(offsetX, offsetY - h/2, h, h);
         drawArrow(p, offsetX + h, offsetY, w - h, Qt::LeftArrow);
@@ -338,7 +338,7 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
             offsetX += 7;
             w -= 7;
         }
-        UMLWidget::setPen(p);
+        setPenFromSettings(p);
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse(x2, offsetY - h/2, h, h);
         drawArrow(p, x2 - w + h, offsetY, w, Qt::LeftArrow);
@@ -349,7 +349,7 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
         if (messageOverlapsA)  {
             w -= 7;
         }
-        UMLWidget::setPen(p);
+        setPenFromSettings(p);
         p.setBrush( WidgetBase::getLineColor() );
         p.drawEllipse(x2, offsetY - h/2, h, h);
         drawArrow(p, x2, offsetY, w, Qt::RightArrow);

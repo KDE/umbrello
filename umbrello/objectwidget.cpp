@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -73,7 +73,7 @@ void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY) {
     else
         drawObject( p, offsetX, offsetY );
 
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
@@ -226,11 +226,11 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
     font.setUnderline( true );
     p.setFont( font );
 
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColour());
     else
-        p.setBrush(m_pView -> viewport() -> backgroundColor());
+        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
     const int w = width();
     const int h = height();
 
@@ -253,7 +253,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
     const int w = width();

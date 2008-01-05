@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -108,8 +108,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id) {
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/) {
     QString name = (QString)literal->getName();
     if (findChildObject(name) == NULL) {
-        literal->parent()->removeChild(literal);
-        this->insertChild(literal);
+        literal->setParent(this);
         m_List.append(literal);
         UMLObject::emitModified();
         emit enumLiteralAdded(literal);
@@ -125,8 +124,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position) {
     QString name = (QString)literal->getName();
     if (findChildObject(name) == NULL) {
-        literal->parent()->removeChild(literal);
-        this->insertChild(literal);
+        literal->setParent(this);
         if ( position >= 0 && position <= (int)m_List.count() )  {
             m_List.insert(position,literal);
         } else {

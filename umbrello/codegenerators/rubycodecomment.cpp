@@ -67,7 +67,7 @@ QString RubyCodeComment::unformatText(const QString & text, const QString & inde
 /**
  * @return    QString
  */
-QString RubyCodeComment::toString( )
+QString RubyCodeComment::toString( ) const
 {
     QString output = "";
 

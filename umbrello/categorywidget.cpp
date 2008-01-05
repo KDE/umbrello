@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@ CategoryWidget::CategoryWidget(UMLView * view, UMLCategory *o) : UMLWidget(view,
 CategoryWidget::~CategoryWidget() {}
 
 void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    UMLWidget::setPen(p);
+    UMLWidget::setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
     QFont font = UMLWidget::getFont();
@@ -66,7 +66,7 @@ void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY) {
     }
 
     p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, r - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, letterType );
-    UMLWidget::setPen(p);
+    UMLWidget::setPenFromSettings(p);
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }

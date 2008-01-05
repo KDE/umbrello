@@ -30,17 +30,16 @@ DCodeDocumentation::DCodeDocumentation ( CodeDocument * doc, const QString & tex
 DCodeDocumentation::~DCodeDocumentation ( ) { }
 
 
-void DCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+void DCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root )
+{
     QDomElement blockElement = doc.createElement( "dcodedocumentation" );
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
     root.appendChild( blockElement );
 }
 
-
-QString DCodeDocumentation::toString ( )
+QString DCodeDocumentation::toString ( ) const
 {
-
     QString output = "";
 
     // simple output method
@@ -81,14 +80,16 @@ QString DCodeDocumentation::getNewEditorLine ( int amount )
         return getIndentationString(amount) + "// ";
 }
 
-int DCodeDocumentation::firstEditableLine() {
+int DCodeDocumentation::firstEditableLine()
+{
     CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return 1;
     return 0;
 }
 
-int DCodeDocumentation::lastEditableLine() {
+int DCodeDocumentation::lastEditableLine()
+{
     CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
@@ -102,7 +103,6 @@ int DCodeDocumentation::lastEditableLine() {
  */
 QString DCodeDocumentation::unformatText ( const QString & text , const QString & indent)
 {
-
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
     // remove leading or trailing comment stuff

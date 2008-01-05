@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,9 +22,8 @@
 
 
 /**
-  * A "chunk" of code within the code document.
-  */
-
+ * A "chunk" of code within the code document.
+ */
 class CodeBlock : public TextBlock
 {
     Q_OBJECT
@@ -72,7 +71,7 @@ public:
      * @param  val  the enum value of the ContentType
      * @return      the string representation of the enum
      */
-    static QString toString(const ContentType& val);
+    static QString enumToString(const ContentType& val);
 
     /**
      * Save the XMI representation of this object.

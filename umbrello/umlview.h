@@ -63,7 +63,8 @@ class ToolBarStateFactory;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLView : public Q3CanvasView {
+class UMLView : public Q3CanvasView
+{
     Q_OBJECT
 public:
     friend class UMLViewImageExporterModel;
@@ -645,13 +646,13 @@ public:
     void showDocumentation( UMLWidget * widget, bool overwrite );
 
     /**
-    *  Calls the same method in the DocWindow.
-    */
+     *  Calls the same method in the DocWindow.
+     */
     void showDocumentation( AssociationWidget * widget, bool overwrite );
 
     /**
-    *  Calls the same method in the DocWindow.
-    */
+     *  Calls the same method in the DocWindow.
+     */
     void updateDocumentation( bool clear );
 
     /**
@@ -932,7 +933,7 @@ public:
 
     /**
      * Return the UMLDoc pointer
-    */
+     */
     UMLDoc* getUMLDoc() {
         return m_pDoc;
     }
@@ -1059,19 +1060,12 @@ protected:
      */
     void dropEvent(QDropEvent* dropEvent);
 
-
     /**
      * Gets the smallest area to print.
      *
      * @return Returns the smallest area to print.
      */
     QRect getDiagramRect();
-
-
-    /**
-     * Initializes key variables.
-     */
-    void init();
 
     /**
      * Overrides the standard operation.

@@ -50,7 +50,7 @@ public:
      * Get the value of m_endText
      * @return the value of m_endText
      */
-    QString getEndText ( );
+    QString getEndText ( ) const;
 
     /**
      * Add a TextBlock object to the m_textblockVector List
@@ -77,7 +77,7 @@ public:
     /**
      * @return  QString
      */
-    QString getStartText ( );
+    QString getStartText ( ) const;
 
     /**
      * Save the XMI representation of this object
@@ -92,7 +92,7 @@ public:
     /**
      * @return  QString
      */
-    virtual QString toString ( );
+    virtual QString toString ( ) const;
 
     /**
      * return a unique, and currently unallocated, text block tag for this hblock
@@ -145,7 +145,7 @@ private:
     QString m_startText;
     QString m_endText;
 
-    QString childTextBlocksToString();
+    QString childTextBlocksToString() const;
     void initAttributes ( ) ;
 
 };

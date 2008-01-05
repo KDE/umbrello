@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -52,7 +52,7 @@ SignalWidget::SignalWidget(UMLView * view, SignalType signalType, Uml::IDType id
 SignalWidget::~SignalWidget() {}
 
 void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     const int w = width();
     const int h = height();
     QPolygon a;
@@ -80,7 +80,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
             p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
                            w - SIGNAL_MARGIN * 2, fontHeight,
                            Qt::AlignCenter, getName());
-            UMLWidget::setPen(p);
+            setPenFromSettings(p);
         }
         break;
     case Accept :
@@ -105,7 +105,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
             p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
                            w - SIGNAL_MARGIN * 2 + (w/3), fontHeight,
                            Qt::AlignCenter, getName());
-            UMLWidget::setPen(p);
+            setPenFromSettings(p);
         }
         break;
     case Time :
@@ -126,7 +126,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
             font.setBold( false );
             p.setFont( font );
 
-            UMLWidget::setPen(p);
+            setPenFromSettings(p);
         }
         if (m_pName->getX() == 0 && m_pName->getY() == 0) {
             //the floating text has not been linked with the signal

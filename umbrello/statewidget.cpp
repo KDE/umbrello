@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -40,7 +40,7 @@ StateWidget::StateWidget(UMLView * view, StateType stateType, Uml::IDType id)
 StateWidget::~StateWidget() {}
 
 void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
     const int w = width();
     const int h = height();
     switch (m_StateType)
@@ -62,7 +62,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 p.drawText(offsetX + STATE_MARGIN, offsetY + textStartY,
                            w - STATE_MARGIN * 2, fontHeight,
                            Qt::AlignCenter, getName());
-                UMLWidget::setPen(p);
+                setPenFromSettings(p);
             } else {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
                 textStartY = offsetY + STATE_MARGIN;
@@ -74,7 +74,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
                            fontHeight, Qt::AlignCenter, getName());
                 font.setBold( false );
                 p.setFont( font );
-                UMLWidget::setPen(p);
+                setPenFromSettings(p);
                 int linePosY = textStartY + fontHeight;
 
                 QStringList::Iterator end(m_Activities.end());
@@ -84,7 +84,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
                     p.setPen(Qt::black);
                     p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2 - 1,
                                fontHeight, Qt::AlignCenter, *it);
-                    UMLWidget::setPen(p);
+                    setPenFromSettings(p);
                     linePosY += fontHeight;
                 }//end for
             }//end else

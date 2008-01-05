@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -43,9 +43,8 @@ XMLCodeComment::~XMLCodeComment ( ) { }
 /**
  * @return      QString
  */
-QString XMLCodeComment::toString ( )
+QString XMLCodeComment::toString ( ) const
 {
-
     QString output = "";
 
     // simple output method

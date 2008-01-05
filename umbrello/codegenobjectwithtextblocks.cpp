@@ -33,7 +33,7 @@
 CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( CodeDocument *parent )
   : m_pCodeDoc(parent)
 {
-    initFields();
+    m_textblockVector.setAutoDelete(false);
 }
 
 CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( )
@@ -41,19 +41,11 @@ CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( )
     resetTextBlocks();
 }
 
-/**
- * Get the list of TextBlock objects held by m_textblockVector
- * @return QPtrList<TextBlock *> list of TextBlock objects held by
- * m_textblockVector
- */
-TextBlockList * CodeGenObjectWithTextBlocks::getTextBlockList ( )
+TextBlockList * CodeGenObjectWithTextBlocks::getTextBlockList ( ) const
 {
-    return &m_textblockVector;
+    return const_cast<TextBlockList*>(&m_textblockVector);
 }
 
-/**
- * Add a TextBlock object to the m_textblockVector List
- */
 bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object )
 {
     QString tag = add_object->getTag();
@@ -87,9 +79,6 @@ bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object )
     return true;
 }
 
-/**
- * Remove a TextBlock object from m_textblockVector List
- */
 bool CodeGenObjectWithTextBlocks::removeTextBlock ( TextBlock * remove_object )
 {
     // check if we can remove it from our local list
@@ -155,12 +144,6 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
 
 }
 
-/**
- * @return      HierarchicalCodeBlock
- * @param       tag
- * @param       comment
- * @param       indentLevel
- */
 HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel )
 {
     // now actually declare the fields
@@ -186,12 +169,6 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( 
     return codeBlock;
 }
 
-/**
- * @return      CodeBlockWithComments
- * @param       tag
- * @param       comment
- * @param       indentLevel
- */
 CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel )
 {
     // now actually declare the fields
@@ -212,12 +189,6 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( 
     return codeBlock;
 }
 
-/**
- * @return      CodeComment
- * @param       tag
- * @param       text
- * @param       indentationLevel
- */
 CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const QString &tag, const QString &text, int indentationLevel)
 {
     TextBlock * tBlock = findTextBlockByTag(tag);
@@ -248,14 +219,6 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const 
     return codeComment;
 }
 
-/**
- * @return      CodeBlockWithComments
- * @param       tag
- * @param       text
- * @param       comment
- * @param       indentLevel
- * @param       forceUserBlockUpdate
- */
 CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &ctext, int indentLevel, bool forceUserBlockUpdate )
 {
     TextBlock * tBlock = findTextBlockByTag(tag);
@@ -378,9 +341,6 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomE
     root.appendChild( tblockElement);
 }
 
-/** set the class attributes of this object from
- * the passed element node.
- */
 void CodeGenObjectWithTextBlocks::setAttributesFromNode ( QDomElement & root)
 {
     // clear existing codeblocks
@@ -508,10 +468,5 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
         }
     }
 
-}
-
-void CodeGenObjectWithTextBlocks::initFields ( )
-{
-    m_textblockVector.setAutoDelete(false);
 }
 

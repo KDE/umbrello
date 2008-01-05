@@ -260,8 +260,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id) {
 bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* Log /* = 0*/) {
     QString name = (QString)attribute->getName();
     if (findChildObject(name) == NULL) {
-        attribute->parent()->removeChild(attribute);
-        this->insertChild(attribute);
+        attribute->setParent(this);
         m_List.append(attribute);
         emit entityAttributeAdded(attribute);
         UMLObject::emitModified();
@@ -277,8 +276,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* L
 bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) {
     QString name = (QString)attribute->getName();
     if (findChildObject(name) == NULL) {
-        attribute->parent()->removeChild(attribute);
-        this->insertChild(attribute);
+        attribute->setParent(this);
         if ( position >= 0 && position <= (int)m_List.count() )  {
             m_List.insert(position,attribute);
         } else {

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,7 +53,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     int line_width = 45;
     int old_Y;
 
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
 
     if ( m_CombinedFragment == Ref ) {
     if ( UMLWidget::getUseFillColour() ) {

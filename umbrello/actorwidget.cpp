@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,7 +27,7 @@ ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a) {
 ActorWidget::~ActorWidget() {}
 
 void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    UMLWidget::setPen(p);
+    UMLWidget::setPenFromSettings(p);
     if( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
     const int w = width();

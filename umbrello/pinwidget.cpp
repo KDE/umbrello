@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -128,18 +128,18 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
 //     }
 
 
-    UMLWidget::setPen(p);
-        if ( UMLWidget::getUseFillColour() ) {
-            p.setBrush( UMLWidget::getFillColour() );
-        }
-        p.drawRect(x,y,w, h);
-        //make sure it's always above the other
-        setZ(20);
-        UMLWidget::setPen(p);
-        m_pName->setVisible(( m_pName->getText().length() > 0 ));
-        m_pName->updateComponentSize();
-        if(m_bSelected)
-             drawSelected(&p, offsetX, offsetY);
+    setPenFromSettings(p);
+    if ( UMLWidget::getUseFillColour() ) {
+        p.setBrush( UMLWidget::getFillColour() );
+    }
+    p.drawRect(x,y,w, h);
+    //make sure it's always above the other
+    setZ(20);
+    setPenFromSettings(p);
+    m_pName->setVisible(( m_pName->getText().length() > 0 ));
+    m_pName->updateComponentSize();
+    if(m_bSelected)
+         drawSelected(&p, offsetX, offsetY);
 }
 
 QSize PinWidget::calculateSize() {

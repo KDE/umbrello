@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -37,9 +37,9 @@
 
 using namespace Uml;
 
-UMLWidgetController::UMLWidgetController(UMLWidget *widget) {
+UMLWidgetController::UMLWidgetController(UMLWidget *widget)
+{
     m_widget = widget;
-
 
     m_oldX = m_oldY = 0;
     m_pressOffsetX = m_pressOffsetY = 0;
@@ -54,16 +54,16 @@ UMLWidgetController::UMLWidgetController(UMLWidget *widget) {
     m_wasSelected = m_moved = m_resized = 0;
 }
 
-UMLWidgetController::~UMLWidgetController() {
+UMLWidgetController::~UMLWidgetController()
+{
 }
 
-void UMLWidgetController::mousePressEvent(QMouseEvent *me) {
+void UMLWidgetController::mousePressEvent(QMouseEvent *me)
+{
     // If there is a button pressed already ignore other press events
     if (m_leftButtonDown || m_middleButtonDown || m_rightButtonDown) {
         return;
     }
-
-
 
     if (me->button() == Qt::LeftButton) {
         m_leftButtonDown = true;
@@ -122,7 +122,8 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me) {
     }
 }
 
-void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
+void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
+{
     if (!m_leftButtonDown)
         return;
 
@@ -153,9 +154,9 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         diffY = 0;
     }
 
-/* Commands
-    UMLDoc* doc = UMLApp::app()->getDocument();
-    doc->executeCommand(new cmdMoveWidget(this,diffX,diffY));*/
+    /* Commands
+        UMLDoc* doc = UMLApp::app()->getDocument();
+        doc->executeCommand(new cmdMoveWidget(this,diffX,diffY));*/
 
     // moveWidget(diffX,diffY);
 
@@ -170,7 +171,6 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         return;
     }
 
-
     bool update = false;
     if (lastUpdate.elapsed() > 25) {
         update = true;
@@ -179,7 +179,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
         m_widget->adjustUnselectedAssocs(m_widget->getX(), m_widget->getY());
     }
 
-    foreach ( UMLWidget* widget , m_selectedWidgetsList ) {
+    foreach(UMLWidget* widget , m_selectedWidgetsList) {
 
         //UMLDoc* m_doc = UMLApp::app()->getDocument();
         //cmdMoveWidgetBy* cmd = new cmdMoveWidgetBy(widget,diffX,diffY);
@@ -191,7 +191,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
     // Move any selected associations.
 
-    foreach (AssociationWidget* aw, m_widget->m_pView->getSelectedAssocs()) {
+    foreach(AssociationWidget* aw, m_widget->m_pView->getSelectedAssocs()) {
         if (aw->getSelected()) {
             aw->moveEntireAssoc(diffX, diffY);
         }
@@ -201,23 +201,26 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me) {
     updateSelectionBounds(diffX, diffY);
 
 }
+
 void UMLWidgetController::widgetMoved()
-{                    //reverseOldNewValues();
-                    m_moved = false;
+{
+    //reverseOldNewValues();
+    m_moved = false;
 
-                    //Ensure associations are updated (the timer could prevent the
-                    //adjustment in the last move event before the release)
+    //Ensure associations are updated (the timer could prevent the
+    //adjustment in the last move event before the release)
 
-                    foreach ( UMLWidget* widget , m_selectedWidgetsList) {
+    foreach(UMLWidget* widget , m_selectedWidgetsList) {
 
-                        widget->adjustAssocs(widget->getX(), widget->getY());
-                    }
+        widget->adjustAssocs(widget->getX(), widget->getY());
+    }
 
-                    m_widget->m_bStartMove = false;
+    m_widget->m_bStartMove = false;
 }
 
 
-void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
+void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
+{
     if (me->button() != Qt::LeftButton && me->button() != Qt::RightButton) {
         if (m_middleButtonDown) {
             m_middleButtonDown = false;
@@ -236,7 +239,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
             } else {
                 if (m_moved) {
 
-/* Commands */
+                    /* Commands */
                     UMLApp::app()->executeCommand(new cmdMoveWidget(this));
 
                 } else {
@@ -245,7 +248,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
                 }
 
                 if ((m_inMoveArea && wasPositionChanged()) ||
-                            (m_inResizeArea && wasSizeChanged())) {
+                        (m_inResizeArea && wasSizeChanged())) {
                     m_widget->m_pDoc->setModified(true);
                 }
 
@@ -266,8 +269,8 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
         } else if (m_leftButtonDown) {
             //Cancel move/edit
             QMouseEvent move(QMouseEvent::MouseMove,
-                                QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
-                                Qt::LeftButton, Qt::NoButton);
+                             QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
+                             Qt::LeftButton, Qt::NoButton);
             mouseMoveEvent(&move);
             QMouseEvent release(QMouseEvent::MouseButtonRelease,
                                 QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
@@ -286,11 +289,13 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me) {
     }
 }
 
-UMLWidget* UMLWidgetController::getWidget() {
+UMLWidget* UMLWidgetController::getWidget()
+{
     return m_widget;
 }
 
-void UMLWidgetController::mouseDoubleClickEvent(QMouseEvent *me) {
+void UMLWidgetController::mouseDoubleClickEvent(QMouseEvent *me)
+{
     if (me->button() != Qt::LeftButton) {
         return;
     }
@@ -300,12 +305,13 @@ void UMLWidgetController::mouseDoubleClickEvent(QMouseEvent *me) {
     doMouseDoubleClick(me);
 }
 
-bool UMLWidgetController::isInResizeArea(QMouseEvent *me) {
+bool UMLWidgetController::isInResizeArea(QMouseEvent *me)
+{
     const int m = 10;
 
     if (m_widget->m_bResizable &&
-                me->x() >= (m_widget->getX() + m_widget->width() - m) &&
-                me->y() >= (m_widget->getY() + m_widget->height() - m)) {
+            me->x() >= (m_widget->getX() + m_widget->width() - m) &&
+            me->y() >= (m_widget->getY() + m_widget->height() - m)) {
         m_widget->m_pView->setCursor(getResizeCursor());
         return true;
     } else {
@@ -314,30 +320,36 @@ bool UMLWidgetController::isInResizeArea(QMouseEvent *me) {
     }
 }
 
-QCursor UMLWidgetController::getResizeCursor() {
+QCursor UMLWidgetController::getResizeCursor()
+{
     return Qt::SizeFDiagCursor;
 }
 
-void UMLWidgetController::resizeWidget(int newW, int newH) {
+void UMLWidgetController::resizeWidget(int newW, int newH)
+{
     m_widget->setSize(newW, newH);
 }
 
-void UMLWidgetController::moveWidgetBy(int diffX, int diffY) {
+void UMLWidgetController::moveWidgetBy(int diffX, int diffY)
+{
     m_widget->setX(m_widget->getX() + diffX);
     m_widget->setY(m_widget->getY() + diffY);
 }
 
-void UMLWidgetController::constrainMovementForAllWidgets(int &/*diffX*/, int &/*diffY*/) {
+void UMLWidgetController::constrainMovementForAllWidgets(int &/*diffX*/, int &/*diffY*/)
+{
 }
 
-void UMLWidgetController::doMouseDoubleClick(QMouseEvent *) {
+void UMLWidgetController::doMouseDoubleClick(QMouseEvent *)
+{
     if (!m_widget || !m_widget->m_pMenu)
         return;
     QAction* action = m_widget->m_pMenu->getAction(ListPopupMenu::mt_Properties);
     m_widget->slotMenuSelection(action);
 }
 
-void UMLWidgetController::resetSelection() {
+void UMLWidgetController::resetSelection()
+{
     m_widget->m_pView->clearSelected();
     m_widget->m_pView->resetToolbar();
     m_widget->setSelected(false);
@@ -345,7 +357,8 @@ void UMLWidgetController::resetSelection() {
     m_wasSelected = false;
 }
 
-void UMLWidgetController::selectSingle(QMouseEvent *me) {
+void UMLWidgetController::selectSingle(QMouseEvent *me)
+{
     m_widget->m_pView->clearSelected();
 
     //Adds the widget to the selected widgets list, but as it has been cleared
@@ -353,7 +366,8 @@ void UMLWidgetController::selectSingle(QMouseEvent *me) {
     selectMultiple(me);
 }
 
-void UMLWidgetController::selectMultiple(QMouseEvent *me) {
+void UMLWidgetController::selectMultiple(QMouseEvent *me)
+{
     m_widget->m_bSelected = true;
     m_widget->setSelected(m_widget->m_bSelected);
     m_widget->m_pView->setSelected(m_widget, me);
@@ -361,14 +375,16 @@ void UMLWidgetController::selectMultiple(QMouseEvent *me) {
     m_wasSelected = true;
 }
 
-void UMLWidgetController::deselect(QMouseEvent *me) {
+void UMLWidgetController::deselect(QMouseEvent *me)
+{
     m_widget->m_bSelected = false;
     m_widget->setSelected(m_widget->m_bSelected);
     m_widget->m_pView->setSelected(m_widget, me);
     //m_wasSelected is false implicitly, no need to set it again
 }
 
-void UMLWidgetController::saveWidgetValues(QMouseEvent *me) {
+void UMLWidgetController::saveWidgetValues(QMouseEvent *me)
+{
     m_pressOffsetX = me->x() - m_widget->getX();
     m_pressOffsetY = me->y() - m_widget->getY();
 
@@ -379,30 +395,36 @@ void UMLWidgetController::saveWidgetValues(QMouseEvent *me) {
     m_oldH = m_widget->height();
 }
 
-void UMLWidgetController::insertSaveValues(int _oldX, int _oldY, int X, int Y) {
+void UMLWidgetController::insertSaveValues(int _oldX, int _oldY, int X, int Y)
+{
     m_widget->setX(X);
     m_widget->setY(Y);
     m_oldX = _oldX;
     m_oldY = _oldY;
 }
 
-int UMLWidgetController::getOldX() {
+int UMLWidgetController::getOldX()
+{
     return m_oldX;
 }
 
-int UMLWidgetController::getOldY() {
+int UMLWidgetController::getOldY()
+{
     return m_oldY;
 }
 
-int UMLWidgetController::getOldW() {
+int UMLWidgetController::getOldW()
+{
     return m_oldW;
 }
 
-int UMLWidgetController::getOldH() {
+int UMLWidgetController::getOldH()
+{
     return m_oldH;
 }
 
-void UMLWidgetController::setSelectionBounds() {
+void UMLWidgetController::setSelectionBounds()
+{
     if (m_widget->m_pView->getSelectCount() > 0) {
         m_selectedWidgetsList.clear();
         m_widget->m_pView->getSelectedWidgets(m_selectedWidgetsList, false);
@@ -412,7 +434,8 @@ void UMLWidgetController::setSelectionBounds() {
 }
 
 //TODO optimize it
-void UMLWidgetController::updateSelectionBounds(int diffX, int diffY) {
+void UMLWidgetController::updateSelectionBounds(int diffX, int diffY)
+{
     if (diffX != 0) {
         m_minSelectedX = getSmallestX(m_selectedWidgetsList);
         m_maxSelectedX = getBiggestX(m_selectedWidgetsList);
@@ -423,7 +446,8 @@ void UMLWidgetController::updateSelectionBounds(int diffX, int diffY) {
     }
 }
 
-void UMLWidgetController::resize(QMouseEvent *me) {
+void UMLWidgetController::resize(QMouseEvent *me)
+{
     UMLApp::app()->getDocument()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel resize."));
 
     m_resized = true;
@@ -447,17 +471,18 @@ void UMLWidgetController::resize(QMouseEvent *me) {
 }
 
 //TODO refactor with AlignToolbar method.
-int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList) {
+int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList)
+{
     int smallestX = 0;
     int i = 1;
-    foreach ( UMLWidget* widget , widgetList ) {
-        if ( i == 1 ) {
-            if ( widget == NULL )
+    foreach(UMLWidget* widget , widgetList) {
+        if (i == 1) {
+            if (widget == NULL)
                 break;
             smallestX = widget->getX();
         } else {
-           if (smallestX > widget->getX())
-             smallestX = widget->getX();
+            if (smallestX > widget->getX())
+                smallestX = widget->getX();
         }
         i++;
     }
@@ -466,18 +491,18 @@ int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList) {
 }
 
 //TODO refactor with AlignToolbar method.
-int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList) {
-
+int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList)
+{
     int smallestY = 0;
     int i = 1;
-    foreach ( UMLWidget* widget , widgetList ) {
-        if ( i == 1 ) {
-            if ( widget == NULL )
+    foreach(UMLWidget* widget , widgetList) {
+        if (i == 1) {
+            if (widget == NULL)
                 break;
             smallestY = widget->getY();
         } else {
-           if (smallestY > widget->getY())
-              smallestY = widget->getY();
+            if (smallestY > widget->getY())
+                smallestY = widget->getY();
 
         }
         i++;
@@ -487,20 +512,20 @@ int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList) {
 }
 
 //TODO refactor with AlignToolbar method.
-int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList) {
-
+int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList)
+{
     int biggestX = 0;
 
     int i = 1;
-    foreach ( UMLWidget* widget , widgetList ) {
-        if ( i == 1 ) {
-            if ( widget == NULL )
+    foreach(UMLWidget* widget , widgetList) {
+        if (i == 1) {
+            if (widget == NULL)
                 break;
             biggestX = widget->getX();
-            biggestX+= widget->getWidth();
+            biggestX += widget->getWidth();
         } else {
-          if (biggestX < widget->getX() + widget->getWidth())
-            biggestX = widget->getX() + widget->getWidth();
+            if (biggestX < widget->getX() + widget->getWidth())
+                biggestX = widget->getX() + widget->getWidth();
         }
         i++;
     }
@@ -509,19 +534,19 @@ int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList) {
 }
 
 //TODO refactor with AlignToolbar method.
-int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList) {
-
+int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
+{
     int biggestY = 0;
     int i = 1;
-    foreach ( UMLWidget* widget , widgetList ) {
-        if ( i == 1 ) {
-            if ( widget == NULL )
+    foreach(UMLWidget* widget , widgetList) {
+        if (i == 1) {
+            if (widget == NULL)
                 break;
             biggestY = widget->getY();
-            biggestY+= widget->getHeight();
+            biggestY += widget->getHeight();
         } else {
-           if (biggestY < widget->getY() + widget->getHeight())
-             biggestY = widget->getY() + widget->getHeight();
+            if (biggestY < widget->getY() + widget->getHeight())
+                biggestY = widget->getY() + widget->getHeight();
         }
         i++;
     }
@@ -529,7 +554,8 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList) {
     return biggestY;
 }
 
-QPoint UMLWidgetController::getPosition(QMouseEvent* me) {
+QPoint UMLWidgetController::getPosition(QMouseEvent* me)
+{
     /*
     uDebug() << "me->x=" << me->x()
         << " m_widget->getX=" << m_widget->getX() << ", m_oldX=" << m_oldX
@@ -565,26 +591,30 @@ QPoint UMLWidgetController::getPosition(QMouseEvent* me) {
     return QPoint(newX, newY);
 }
 
-QPoint UMLWidgetController::getPositionDifference(QMouseEvent* me) {
+QPoint UMLWidgetController::getPositionDifference(QMouseEvent* me)
+{
     QPoint newPoint = getPosition(me);
     const int diffX = newPoint.x() - m_widget->getX();
     const int diffY = newPoint.y() - m_widget->getY();
     return QPoint(diffX, diffY);
 }
 
-void UMLWidgetController::showPopupMenu(QMouseEvent *me) {
+void UMLWidgetController::showPopupMenu(QMouseEvent *me)
+{
     //TODO why this condition?
     if (m_widget->m_pMenu) {
         return;
     }
     ListPopupMenu* menu = m_widget->setupPopupMenu();
-    menu->popup( me->globalPos() );
+    menu->popup(me->globalPos());
 }
 
-bool UMLWidgetController::wasSizeChanged() {
+bool UMLWidgetController::wasSizeChanged()
+{
     return m_oldW != m_widget->getWidth() || m_oldH != m_widget->getHeight();
 }
 
-bool UMLWidgetController::wasPositionChanged() {
+bool UMLWidgetController::wasPositionChanged()
+{
     return m_oldX != m_widget->getX() || m_oldY != m_widget->getY();
 }

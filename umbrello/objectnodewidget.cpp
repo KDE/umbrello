@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -60,7 +60,7 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     const int fontHeight  = fm.lineSpacing();
     int textStartY = (h / 2) - (fontHeight / 2);
 
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
 
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColour() );
@@ -107,7 +107,7 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
         }
         break;
     }
-    UMLWidget::setPen(p);
+    setPenFromSettings(p);
 
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);

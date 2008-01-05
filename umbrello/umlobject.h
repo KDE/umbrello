@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,8 +13,8 @@
 #define UMLOBJECT_H
 
 //qt includes
-#include <qobject.h>
-#include <qstring.h>
+#include <QtCore/QObject>
+#include <QtCore/QString>
 #include <qdom.h>
 
 #include "umlnamespace.h"
@@ -32,7 +32,8 @@ class UMLObject;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLObject : public QObject {
+class UMLObject : public QObject
+{
     Q_OBJECT
 public:
 
@@ -64,7 +65,7 @@ public:
     /**
      * Overloaded '==' operator
      */
-    virtual bool operator==(const UMLObject & rhs );
+    bool operator==(const UMLObject & rhs );
 
     /**
      * Standard deconstructor.
@@ -403,7 +404,7 @@ protected:
     /**
      * Initializes key variables of the class.
      */
-    virtual void init();
+    void init();
 
     /**
      * Calls UMLDoc::signalUMLObjectCreated() if m_BaseType affords

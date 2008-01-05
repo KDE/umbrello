@@ -64,9 +64,8 @@ QString JavaCodeComment::unformatText ( const QString & text , const QString & i
 /**
  * @return      QString
  */
-QString JavaCodeComment::toString ( )
+QString JavaCodeComment::toString ( ) const
 {
-
     QString output = "";
 
     // simple output method
