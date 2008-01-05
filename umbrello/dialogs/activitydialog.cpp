@@ -59,25 +59,25 @@ void ActivityDialog::slotApply() {
 void ActivityDialog::slotShowActivityParameter()
 {
         m_GenPageWidgets.preL->show();
-	m_GenPageWidgets.preLE->show();
-	m_GenPageWidgets.postL->show();
-	m_GenPageWidgets.postLE->show();
-	if (m_pActivityWidget->getPostText() != NULL)
-	{
-		m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());
-	}
-	if (m_pActivityWidget->getPreText() != NULL)
-	{
-		m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());
-	}
+    m_GenPageWidgets.preLE->show();
+    m_GenPageWidgets.postL->show();
+    m_GenPageWidgets.postLE->show();
+    if (m_pActivityWidget->getPostText() != NULL)
+    {
+        m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());
+    }
+    if (m_pActivityWidget->getPreText() != NULL)
+    {
+        m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());
+    }
 }
 
 void ActivityDialog::slotHideActivityParameter()
 {
-	m_GenPageWidgets.preL->hide();
-	m_GenPageWidgets.preLE->hide();
-	m_GenPageWidgets.postL->hide();
-	m_GenPageWidgets.postLE->hide();
+    m_GenPageWidgets.preL->hide();
+    m_GenPageWidgets.preLE->hide();
+    m_GenPageWidgets.postL->hide();
+    m_GenPageWidgets.postLE->hide();
 }
 void ActivityDialog::setupPages() {
     setupGeneralPage();
@@ -91,10 +91,10 @@ void ActivityDialog::applyPage( KPageWidgetItem *item ) {
     {
         m_pActivityWidget -> setName( m_GenPageWidgets.nameLE -> text() );
         m_pActivityWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
-		m_pActivityWidget -> setPreText( m_GenPageWidgets.preLE -> text() );
-		m_pActivityWidget -> setPostText( m_GenPageWidgets.postLE -> text() );
+        m_pActivityWidget -> setPreText( m_GenPageWidgets.preLE -> text() );
+        m_pActivityWidget -> setPostText( m_GenPageWidgets.postLE -> text() );
 
-		
+        
         ActivityWidget::ActivityType newType = ActivityWidget::Normal;
         if ( m_GenPageWidgets.InvokRB->isChecked() )
               newType = ActivityWidget::Invok;
@@ -140,17 +140,17 @@ void ActivityDialog::setupGeneralPage() {
                                     m_GenPageWidgets.nameL, i18n("Activity name:"),
                                     m_GenPageWidgets.nameLE );
 
-	Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 2,
+    Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 2,
                                     m_GenPageWidgets.preL, i18n("Precondition :"),
                                     m_GenPageWidgets.preLE );
-	
-	Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 3,
+    
+    Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 3,
                                     m_GenPageWidgets.postL, i18n("Postcondition :"),
                                     m_GenPageWidgets.postLE );
     m_GenPageWidgets.preL->hide();
-	m_GenPageWidgets.preLE->hide();
-	m_GenPageWidgets.postL->hide();
-	m_GenPageWidgets.postLE->hide();
+    m_GenPageWidgets.preLE->hide();
+    m_GenPageWidgets.postL->hide();
+    m_GenPageWidgets.postLE->hide();
 
     m_GenPageWidgets.NormalRB = new QRadioButton( i18n("&Normal activity"),(QWidget *)page);
     generalLayout -> addWidget( m_GenPageWidgets.NormalRB );
@@ -161,14 +161,14 @@ void ActivityDialog::setupGeneralPage() {
     m_GenPageWidgets.ParamRB = new QRadioButton( i18n("&Parameter activity node"),(QWidget *)page);
     generalLayout -> addWidget( m_GenPageWidgets.ParamRB );
 
-	if (type == ActivityWidget::Param)
-	{
-		showParameterActivity();
-	}
+    if (type == ActivityWidget::Param)
+    {
+        showParameterActivity();
+    }
 
-	connect(m_GenPageWidgets.ParamRB,SIGNAL(clicked()),this,SLOT(slotShowActivityParameter()));
-	connect(m_GenPageWidgets.NormalRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
-	connect(m_GenPageWidgets.InvokRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
+    connect(m_GenPageWidgets.ParamRB,SIGNAL(clicked()),this,SLOT(slotShowActivityParameter()));
+    connect(m_GenPageWidgets.NormalRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
+    connect(m_GenPageWidgets.InvokRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
 
     ActivityWidget::ActivityType newType = m_pActivityWidget -> getActivityType() ;
 
@@ -206,18 +206,18 @@ void ActivityDialog::setupFontPage() {
 }
 void ActivityDialog::showParameterActivity()
 {
-		m_GenPageWidgets.preL->show();
-		m_GenPageWidgets.preLE->show();
-		m_GenPageWidgets.postL->show();
-		m_GenPageWidgets.postLE->show();
-		if (m_pActivityWidget->getPostText() != NULL)
-		{
-			m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());
-		}
-		if (m_pActivityWidget->getPreText() != NULL)
-		{
-			m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());
-		}
+    m_GenPageWidgets.preL->show();
+    m_GenPageWidgets.preLE->show();
+    m_GenPageWidgets.postL->show();
+    m_GenPageWidgets.postLE->show();
+    if (m_pActivityWidget->getPostText() != NULL)
+    {
+        m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());
+    }
+    if (m_pActivityWidget->getPreText() != NULL)
+    {
+        m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());
+    }
 }
 void ActivityDialog::setupColorPage() {
     QFrame *colorPage = new QFrame();
