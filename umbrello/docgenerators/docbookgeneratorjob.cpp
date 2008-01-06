@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007                                                    *
+ *   copyright (C) 2008                                                    *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,7 +22,7 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
-#include <QTextOStream>
+#include <QtCore/QTextOStream>
 
 #include <ktemporaryfile.h>
 #include <kstandarddirs.h>
@@ -34,62 +34,60 @@
 
 extern int xmlLoadExtDtdDefaultValue;
 
-DocbookGeneratorJob::DocbookGeneratorJob( QObject* parent ):
-     QThread(parent) {
+DocbookGeneratorJob::DocbookGeneratorJob(QObject* parent):
+        QThread(parent)
+{
 }
 
 void DocbookGeneratorJob::run()
 {
+    UMLApp* app = UMLApp::app();
+    UMLDoc* umlDoc = app->getDocument();
 
-  UMLApp* app = UMLApp::app();
-  UMLDoc* umlDoc = app->getDocument();
+    //write the XMI model in an in-memory char* string
+    QString xmi;
+    QTextOStream xmiStream(&xmi);
 
-  //write the XMI model in an in-memory char* string
-  QString xmi;
-  QTextOStream xmiStream(&xmi);
+    KTemporaryFile file; // we need this tmp file if we are writing to a remote file
+    file.setAutoRemove(false);
 
-  KTemporaryFile file; // we need this tmp file if we are writing to a remote file
-  file.setAutoRemove(false);
+    // lets open the file for writing
+    if (!file.open()) {
+        uError() << "There was a problem saving file" << file.fileName();
+        return;
+    }
 
-  // lets open the file for writing
-  if( !file.open() ) {
-    uError()<<"There was a problem saving file"<<file.fileName();
-    return;
-  }
+    umlDoc->saveToXMI(file); // save the xmi stuff to it
 
-  umlDoc->saveToXMI(file); // save the xmi stuff to it
+    xsltStylesheetPtr cur = NULL;
+    xmlDocPtr doc, res;
 
-  xsltStylesheetPtr cur = NULL;
-  xmlDocPtr doc, res;
+    const char *params[16 + 1];
+    int nbparams = 0;
+    params[nbparams] = NULL;
 
-  const char *params[16 + 1];
-  int nbparams = 0;
-  params[nbparams] = NULL;
+    QString xsltFile(KGlobal::dirs()->findResource("appdata", "xmi2docbook.xsl"));
 
-  QString xsltFile(KGlobal::dirs()->findResource("appdata","xmi2docbook.xsl"));
+    xmlSubstituteEntitiesDefault(1);
+    xmlLoadExtDtdDefaultValue = 1;
+    cur = xsltParseStylesheetFile((const xmlChar *)xsltFile.toLatin1().constData());
+    doc = xmlParseFile((const char*)(file.fileName().toUtf8()));
+    res = xsltApplyStylesheet(cur, doc, params);
 
-  xmlSubstituteEntitiesDefault(1);
-  xmlLoadExtDtdDefaultValue = 1;
-  cur = xsltParseStylesheetFile((const xmlChar *)xsltFile.latin1());
-  doc = xmlParseFile((const char*)(file.fileName().toUtf8()));
-  res = xsltApplyStylesheet(cur, doc, params);
+    KTemporaryFile tmpDocBook;
+    tmpDocBook.setAutoRemove(false);
+    tmpDocBook.open();
 
+    umlDoc->writeToStatusBar(i18n("Exporting to DocBook..."));
+    xsltSaveResultToFd(tmpDocBook.handle(), res, cur);
+    xsltFreeStylesheet(cur);
+    xmlFreeDoc(res);
+    xmlFreeDoc(doc);
 
-  KTemporaryFile tmpDocBook;
-  tmpDocBook.setAutoRemove(false);
-  tmpDocBook.open();
+    xsltCleanupGlobals();
+    xmlCleanupParser();
 
-  umlDoc->writeToStatusBar(i18n("Exporting to DocBook..."));
-  xsltSaveResultToFd(tmpDocBook.handle(), res, cur);
-  xsltFreeStylesheet(cur);
-  xmlFreeDoc(res);
-  xmlFreeDoc(doc);
-
-  xsltCleanupGlobals();
-  xmlCleanupParser();
-
-  emit docbookGenerated(tmpDocBook.fileName());
-
+    emit docbookGenerated(tmpDocBook.fileName());
 }
 
 #include "docbookgeneratorjob.moc"

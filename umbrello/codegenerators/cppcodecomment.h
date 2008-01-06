@@ -14,69 +14,54 @@
  */
 
 
-
 #ifndef CPPCODECOMMENT_H
 #define CPPCODECOMMENT_H
 
-#include <qstring.h>
+#include <QtCore/QString>
 #include "../codecomment.h"
 
 /**
-  * class CPPCodeComment
-  * A CPP code comment. There is only a single styles of comments:
-  * these are simply started with double slash sequence and no terminating
-  * characters
-  */
-
+ * A CPP code comment. There is only a single styles of comments:
+ * these are simply started with double slash sequence and no terminating
+ * characters.
+ */
 class CPPCodeComment : virtual public CodeComment
 {
     Q_OBJECT
 public:
 
-    // Constructors/Destructors
-    //
-
-
     /**
-     * Constructors
+     * Constructors.
      */
     explicit CPPCodeComment ( CodeDocument * doc, const QString & text = "");
 
     /**
-     * Empty Destructor
+     * Empty Destructor.
      */
     virtual ~CPPCodeComment ( );
 
-    // Public attributes
-    //
-
-
-    // other
-
     /**
-     * Save the XMI representation of this object
+     * Save the XMI representation of this object.
      */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
     /**
      * @return  QString
      */
-    QString toString ( );
+    QString toString ( ) const;
 
 
-    /** UnFormat a long text string. Typically, this means removing
-    *  the indentaion (linePrefix) and/or newline chars from each line.
-    */
+    /**
+     * UnFormat a long text string. Typically, this means removing
+     * the indentaion (linePrefix) and/or newline chars from each line.
+     */
     virtual QString unformatText ( const QString & text, const QString & indent = "" );
 
-    /** a special version here because we want to not only indent
+    /**
+     * A special version here because we want to not only indent
      * the new line, but to add the "//" sequence as well.
      */
     virtual QString getNewEditorLine ( int amount );
-
-protected:
-
-private:
 
 };
 

@@ -6,7 +6,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -19,50 +19,28 @@
 #include "cppcodecomment.h"
 
 // qt/kde includes
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 
-// Constructors/Destructors
-//
 
 CPPCodeComment::CPPCodeComment ( CodeDocument * doc, const QString & text )
         : CodeComment (doc, text)
 {
-
 }
 
-CPPCodeComment::~CPPCodeComment ( ) { }
+CPPCodeComment::~CPPCodeComment ( )
+{
+}
 
-//
-// Methods
-//
-
-
-// Accessor methods
-//
-
-
-// Public attribute accessor methods
-//
-
-// Other methods
-//
-
-/**
- * Save the XMI representation of this object
- */
-void CPPCodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+void CPPCodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root )
+{
     QDomElement blockElement = doc.createElement( "cppcodecomment" );
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
     // just use parent TextBlock method
     root.appendChild( blockElement );
 }
 
-/**
- * @return      QString
- */
-QString CPPCodeComment::toString ( )
+QString CPPCodeComment::toString ( ) const
 {
-
     QString output = "";
 
     // simple output method
@@ -76,17 +54,14 @@ QString CPPCodeComment::toString ( )
     return output;
 }
 
-QString CPPCodeComment::getNewEditorLine ( int amount ) {
+QString CPPCodeComment::getNewEditorLine ( int amount )
+{
     QString line = getIndentationString(amount) + "// ";
     return line;
 }
 
-/** UnFormat a long text string. Typically, this means removing
- *  the indentaion (linePrefix) and/or newline chars from each line.
- */
 QString CPPCodeComment::unformatText ( const QString & text , const QString & indent)
 {
-
     // remove leading or trailing comment stuff
     QString mytext = TextBlock::unformatText(text, indent);
 

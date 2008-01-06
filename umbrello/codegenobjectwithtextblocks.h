@@ -160,7 +160,7 @@ protected:
      */
     virtual void setAttributesFromNode ( QDomElement & element);
 
-    virtual void setAttributesFromObject (CodeGenObjectWithTextBlocks * obj);
+    /*virtual*/ void setAttributesFromObject (CodeGenObjectWithTextBlocks * obj);
 
     /**
      * In this vanilla version, we only load comments and codeblocks
