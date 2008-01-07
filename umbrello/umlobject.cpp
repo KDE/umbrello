@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,8 +34,9 @@
 using namespace Uml;
 
 UMLObject::UMLObject(UMLObject * parent, const QString &name, Uml::IDType id)
-        : QObject( parent ) {
-    setObjectName( "UMLObject" );
+        : QObject(parent)
+{
+    setObjectName("UMLObject");
     init();
     if (id == Uml::id_None)
         m_nId = UniqueID::gen();
@@ -45,7 +46,8 @@ UMLObject::UMLObject(UMLObject * parent, const QString &name, Uml::IDType id)
 }
 
 UMLObject::UMLObject(const QString &name, Uml::IDType id)
-        :  QObject(UMLApp::app()->getDocument()) {
+        :  QObject(UMLApp::app()->getDocument())
+{
     init();
     if (id == Uml::id_None)
         m_nId = UniqueID::gen();
@@ -55,14 +57,17 @@ UMLObject::UMLObject(const QString &name, Uml::IDType id)
 }
 
 UMLObject::UMLObject(UMLObject * parent)
-        : QObject(parent) {
+        : QObject(parent)
+{
     init();
 }
 
-UMLObject::~UMLObject() {
+UMLObject::~UMLObject()
+{
 }
 
-void UMLObject::init() {
+void UMLObject::init()
+{
     m_BaseType = Uml::ot_UMLObject;
     m_nId = Uml::id_None;
     m_pUMLPackage = NULL;
@@ -77,7 +82,8 @@ void UMLObject::init() {
     m_pSecondary = NULL;
 }
 
-bool UMLObject::showProperties(int page, bool assoc) {
+bool UMLObject::showProperties(int page, bool assoc)
+{
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
     ClassPropDlg* dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this, page, assoc);
@@ -92,39 +98,43 @@ bool UMLObject::showProperties(int page, bool assoc) {
 }
 
 bool UMLObject::acceptAssociationType(Uml::Association_Type)
-{// A UMLObject accepts nothing. This should be reimplemented by the subclasses
+{
+    // A UMLObject accepts nothing. This should be reimplemented by the subclasses
     return false;
 }
 
-void UMLObject::setID(Uml::IDType NewID) {
+void UMLObject::setID(Uml::IDType NewID)
+{
     m_nId = NewID;
     emitModified();
 }
 
-void UMLObject::setName(const QString &strName) {
-    UMLApp::app()->executeCommand(new Uml::cmdRenameUMLObject(this,strName));
+void UMLObject::setName(const QString &strName)
+{
+    UMLApp::app()->executeCommand(new Uml::cmdRenameUMLObject(this, strName));
 }
 
-void UMLObject::setNamecmd(const QString &strName) {
+void UMLObject::setNamecmd(const QString &strName)
+{
     m_Name = strName;
     emitModified();
 }
 
-
-
-QString UMLObject::getName() const {
+QString UMLObject::getName() const
+{
     return m_Name;
 }
 
 QString UMLObject::getFullyQualifiedName(const QString& separator,
-                                         bool includeRoot /* = false */) const {
+        bool includeRoot /* = false */) const
+{
     QString fqn;
     if (m_pUMLPackage) {
         bool skipPackage = false;
         if (!includeRoot) {
             UMLDoc *umldoc = UMLApp::app()->getDocument();
             if (umldoc->rootFolderType(m_pUMLPackage) != Uml::N_MODELTYPES ||
-                m_pUMLPackage == umldoc->getDatatypeFolder())
+                    m_pUMLPackage == umldoc->getDatatypeFolder())
                 skipPackage = true;
         }
         if (!skipPackage) {
@@ -139,8 +149,9 @@ QString UMLObject::getFullyQualifiedName(const QString& separator,
     return fqn;
 }
 
-bool UMLObject::operator==(const UMLObject & rhs ) {
-    if( this == &rhs )
+bool UMLObject::operator==(const UMLObject & rhs)
+{
+    if (this == &rhs)
         return true;
 
     //don't compare IDs, these are program specific and
@@ -149,12 +160,12 @@ bool UMLObject::operator==(const UMLObject & rhs ) {
     //***** Currently some operator== in umbrello compare the IDs
     //***** while others don't.
 
-    if( m_Name != rhs.m_Name )
+    if (m_Name != rhs.m_Name)
         return false;
 
     // Packages create different namespaces, therefore they should be
     // part of the equality test.
-    if( m_pUMLPackage != rhs.m_pUMLPackage )
+    if (m_pUMLPackage != rhs.m_pUMLPackage)
         return false;
 
     // Making the type part of an object's identity has its problems:
@@ -162,7 +173,7 @@ bool UMLObject::operator==(const UMLObject & rhs ) {
     // name but different type.
     // In such cases, the code generator is responsible for generating
     // the appropriate error message.
-    if( m_BaseType != rhs.m_BaseType )
+    if (m_BaseType != rhs.m_BaseType)
         return false;
 
     // The documentation should not be part of the equality test.
@@ -215,26 +226,27 @@ void UMLObject::copyInto(UMLObject *lhs) const
         uDebug() << "copyInto has a wrong parent";
 }
 
-
-bool UMLObject::getAbstract() const{
+bool UMLObject::getAbstract() const
+{
     return m_bAbstract;
 }
 
-void UMLObject::setAbstract(bool bAbstract) {
+void UMLObject::setAbstract(bool bAbstract)
+{
     m_bAbstract = bAbstract;
     emitModified();
 }
 
-void UMLObject::setInPaste(bool bInPaste /* =true */) {
+void UMLObject::setInPaste(bool bInPaste /* =true */)
+{
     m_bInPaste = bInPaste;
 }
 
-/** Returns true if this UMLObject has classifier scope, otherwise false (the default). */
 bool UMLObject::getStatic() const
 {
     return m_bStatic;
 }
-/** Sets the value for m_bStatic. */
+
 void UMLObject::setStatic(bool bStatic)
 {
     m_bStatic = bStatic;
@@ -248,43 +260,50 @@ void UMLObject::emitModified()
         emit modified();
 }
 
-void UMLObject::setDoc(const QString &d) {
+void UMLObject::setDoc(const QString &d)
+{
     m_Doc = d;
     //emit modified();  No, this is done centrally at DocWindow::updateDocumentation()
 }
 
-Uml::Object_Type UMLObject::getBaseType() const {
+Uml::Object_Type UMLObject::getBaseType() const
+{
     return m_BaseType;
 }
 
-void UMLObject::setBaseType(Uml::Object_Type ot) {
+void UMLObject::setBaseType(Uml::Object_Type ot)
+{
     m_BaseType = ot;
 }
 
-Uml::IDType UMLObject::getID() const {
+Uml::IDType UMLObject::getID() const
+{
     return m_nId;
 }
 
-QString UMLObject::getDoc() const {
+QString UMLObject::getDoc() const
+{
     return m_Doc;
 }
 
-Uml::Visibility UMLObject::getVisibility() const {
+Uml::Visibility UMLObject::getVisibility() const
+{
     return m_Vis;
 }
 
-void UMLObject::setVisibility(Uml::Visibility s) {
-    UMLApp::app()->executeCommand(new cmdSetVisibility(this,s));
+void UMLObject::setVisibility(Uml::Visibility s)
+{
+    UMLApp::app()->executeCommand(new cmdSetVisibility(this, s));
 }
 
-void UMLObject::setVisibilitycmd(Uml::Visibility s) {
+void UMLObject::setVisibilitycmd(Uml::Visibility s)
+{
     m_Vis = s;
     emitModified();
 }
 
-
-
-void UMLObject::setUMLStereotype(UMLStereotype *stereo) {
+void UMLObject::setUMLStereotype(UMLStereotype *stereo)
+{
     if (stereo == m_pStereotype)
         return;
     if (stereo) {
@@ -303,9 +322,10 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo) {
     emitModified();
 }
 
-void UMLObject::setStereotype(const QString &_name) {
-     // UMLDoc* m_doc = UMLApp::app()->getDocument();
-      //m_doc->executeCommand(new cmdSetStereotype(this,_name));
+void UMLObject::setStereotype(const QString &_name)
+{
+    // UMLDoc* m_doc = UMLApp::app()->getDocument();
+    //m_doc->executeCommand(new cmdSetStereotype(this,_name));
     if (_name.isEmpty()) {
         setUMLStereotype(NULL);
         return;
@@ -315,11 +335,13 @@ void UMLObject::setStereotype(const QString &_name) {
     setUMLStereotype(s);
 }
 
-void UMLObject::setStereotypecmd(const QString& /*_name*/) {
+void UMLObject::setStereotypecmd(const QString& /*_name*/)
+{
 //TODO: put SetStereotype into QundoStack
 }
 
-void UMLObject::setPackage(const QString &_name) {
+void UMLObject::setPackage(const QString &_name)
+{
     UMLObject *pkgObj = NULL;
     if (!_name.isEmpty()) {
         UMLDoc* umldoc = UMLApp::app()->getDocument();
@@ -331,26 +353,29 @@ void UMLObject::setPackage(const QString &_name) {
             const Uml::Object_Type ot = pkgObj->getBaseType();
             if (ot != Uml::ot_Package && ot != Uml::ot_Folder && ot != Uml::ot_Component) {
                 uError() << m_Name << ": "
-                    << "existing " << _name << " is not a container" << endl;
+                << "existing " << _name << " is not a container" << endl;
                 // This should not happen - if it does, there may be further problems.
                 // A container name should not overlap with another name in the same scope.
                 pkgObj = Import_Utils::createUMLObject(Uml::ot_Package, _name);
             }
         }
     }
-    setUMLPackage( static_cast<UMLPackage *>(pkgObj) );
+    setUMLPackage(static_cast<UMLPackage *>(pkgObj));
 }
 
-void UMLObject::setUMLPackage(UMLPackage* pPkg) {
+void UMLObject::setUMLPackage(UMLPackage* pPkg)
+{
     m_pUMLPackage = pPkg;
     emitModified();
 }
 
-const UMLStereotype * UMLObject::getUMLStereotype() {
+const UMLStereotype * UMLObject::getUMLStereotype()
+{
     return m_pStereotype;
 }
 
-QString UMLObject::getStereotype(bool includeAdornments /* = false */) const {
+QString UMLObject::getStereotype(bool includeAdornments /* = false */) const
+{
     if (m_pStereotype == NULL)
         return "";
     QString name = m_pStereotype->getName();
@@ -359,7 +384,8 @@ QString UMLObject::getStereotype(bool includeAdornments /* = false */) const {
     return name;
 }
 
-QString UMLObject::getPackage(const QString& separator, bool includeRoot) {
+QString UMLObject::getPackage(const QString& separator, bool includeRoot)
+{
     QString tempSeparator = separator;
     if (tempSeparator.isEmpty())
         tempSeparator = UMLApp::app()->activeLanguageScopeSeparator();
@@ -370,7 +396,8 @@ QString UMLObject::getPackage(const QString& separator, bool includeRoot) {
     return scope;
 }
 
-UMLPackageList UMLObject::getPackages(bool includeRoot) const {
+UMLPackageList UMLObject::getPackages(bool includeRoot) const
+{
     UMLPackageList pkgList;
     UMLPackage* pkg = m_pUMLPackage;
     while (pkg != NULL) {
@@ -382,27 +409,33 @@ UMLPackageList UMLObject::getPackages(bool includeRoot) const {
     return pkgList;
 }
 
-UMLPackage* UMLObject::getUMLPackage() {
+UMLPackage* UMLObject::getUMLPackage()
+{
     return m_pUMLPackage;
 }
 
-QString UMLObject::getSecondaryId() const {
+QString UMLObject::getSecondaryId() const
+{
     return m_SecondaryId;
 }
 
-void UMLObject::setSecondaryId(const QString& id) {
+void UMLObject::setSecondaryId(const QString& id)
+{
     m_SecondaryId = id;
 }
 
-QString UMLObject::getSecondaryFallback() const {
+QString UMLObject::getSecondaryFallback() const
+{
     return m_SecondaryFallback;
 }
 
-void UMLObject::setSecondaryFallback(const QString& id) {
+void UMLObject::setSecondaryFallback(const QString& id)
+{
     m_SecondaryFallback = id;
 }
 
-void UMLObject::maybeSignalObjectCreated() {
+void UMLObject::maybeSignalObjectCreated()
+{
     if (!m_bCreationWasSignalled &&
             m_BaseType != Uml::ot_Stereotype &&
             m_BaseType != Uml::ot_Association &&
@@ -413,7 +446,8 @@ void UMLObject::maybeSignalObjectCreated() {
     }
 }
 
-bool UMLObject::resolveRef() {
+bool UMLObject::resolveRef()
+{
     if (m_pSecondary || (m_SecondaryId.isEmpty() && m_SecondaryFallback.isEmpty())) {
         maybeSignalObjectCreated();
         return true;
@@ -449,14 +483,14 @@ bool UMLObject::resolveRef() {
     }
 #ifdef VERBOSE_DEBUGGING
     uDebug() << m_Name << ": could not resolve secondary ID " << m_SecondaryId
-              << ", using secondary fallback " << m_SecondaryFallback
-              << endl;
+    << ", using secondary fallback " << m_SecondaryFallback
+    << endl;
 #endif
     m_SecondaryId = m_SecondaryFallback;
     // Assume we're dealing with the older Umbrello format where
     // the type name was saved in the "type" attribute rather
     // than the xmi.id of the model object of the attribute type.
-    m_pSecondary = pDoc->findUMLObject( m_SecondaryId, Uml::ot_UMLObject, this );
+    m_pSecondary = pDoc->findUMLObject(m_SecondaryId, Uml::ot_UMLObject, this);
     if (m_pSecondary) {
         m_SecondaryId = "";
         maybeSignalObjectCreated();
@@ -472,24 +506,24 @@ bool UMLObject::resolveRef() {
                 maybeSignalObjectCreated();
                 qApp->processEvents();
                 uDebug() << "Import_Utils::createUMLObject() created a new type for "
-                    << m_SecondaryId << endl;
+                << m_SecondaryId << endl;
             } else {
                 uDebug() << "Import_Utils::createUMLObject() returned an existing type for "
-                    << m_SecondaryId << endl;
+                << m_SecondaryId << endl;
             }
             m_SecondaryId = "";
             return true;
         }
         uError() << "Import_Utils::createUMLObject() failed to create a new type for "
-            << m_SecondaryId << endl;
+        << m_SecondaryId << endl;
         return false;
     }
     uDebug() << "Creating new type for " << m_SecondaryId;
     // This is very C++ specific - we rely on  some '*' or
     // '&' to decide it's a ref type. Plus, we don't recognize
     // typedefs of ref types.
-    bool isReferenceType = ( m_SecondaryId.contains('*') ||
-                             m_SecondaryId.contains('&') );
+    bool isReferenceType = (m_SecondaryId.contains('*') ||
+                            m_SecondaryId.contains('&'));
     Uml::Object_Type ot = Uml::ot_Class;
     if (isReferenceType) {
         ot = Uml::ot_Datatype;
@@ -506,25 +540,26 @@ bool UMLObject::resolveRef() {
     return true;
 }
 
-QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
+QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
+{
     /*
       Call as the first action of saveToXMI() in child class:
       This creates the QDomElement with which to work.
     */
     QDomElement qElement = qDoc.createElement(tag);
-    qElement.setAttribute( "isSpecification", "false" );
+    qElement.setAttribute("isSpecification", "false");
     if (m_BaseType != Uml::ot_Association &&
             m_BaseType != Uml::ot_Role &&
             m_BaseType != Uml::ot_Attribute) {
-        qElement.setAttribute( "isLeaf", "false" );
-        qElement.setAttribute( "isRoot", "false" );
+        qElement.setAttribute("isLeaf", "false");
+        qElement.setAttribute("isRoot", "false");
         if (m_bAbstract)
-            qElement.setAttribute( "isAbstract", "true" );
+            qElement.setAttribute("isAbstract", "true");
         else
-            qElement.setAttribute( "isAbstract", "false" );
+            qElement.setAttribute("isAbstract", "false");
     }
-    qElement.setAttribute( "xmi.id", ID2STR(m_nId) );
-    qElement.setAttribute( "name", m_Name );
+    qElement.setAttribute("xmi.id", ID2STR(m_nId));
+    qElement.setAttribute("name", m_Name);
     if (m_BaseType != Uml::ot_Operation &&
             m_BaseType != Uml::ot_Role &&
             m_BaseType != Uml::ot_Attribute) {
@@ -533,33 +568,35 @@ QDomElement UMLObject::save( const QString &tag, QDomDocument & qDoc ) {
             nmSpc = m_pUMLPackage->getID();
         else
             nmSpc = UMLApp::app()->getDocument()->getModelID();
-        qElement.setAttribute( "namespace", ID2STR(nmSpc) );
+        qElement.setAttribute("namespace", ID2STR(nmSpc));
     }
     if (! m_Doc.isEmpty())
-        qElement.setAttribute( "comment", m_Doc );  //CHECK: uml13.dtd compliance
+        qElement.setAttribute("comment", m_Doc);    //CHECK: uml13.dtd compliance
 #ifdef XMI_FLAT_PACKAGES
     if (m_pUMLPackage)             //FIXME: uml13.dtd compliance
-        qElement.setAttribute( "package", m_pUMLPackage->getID() );
+        qElement.setAttribute("package", m_pUMLPackage->getID());
 #endif
     QString visibility = m_Vis.toString(false);
-    qElement.setAttribute( "visibility", visibility);
+    qElement.setAttribute("visibility", visibility);
     if (m_pStereotype != NULL)
-        qElement.setAttribute( "stereotype", ID2STR(m_pStereotype->getID()) );
+        qElement.setAttribute("stereotype", ID2STR(m_pStereotype->getID()));
     if (m_bStatic)
-        qElement.setAttribute( "ownerScope", "classifier" );
+        qElement.setAttribute("ownerScope", "classifier");
     /* else
         qElement.setAttribute( "ownerScope", "instance" );
      *** ownerScope defaults to instance if not set **********/
     return qElement;
 }
 
-bool UMLObject::load( QDomElement& ) {
+bool UMLObject::load(QDomElement&)
+{
     // This body is not usually executed because child classes
     // overwrite the load method.
     return true;
 }
 
-bool UMLObject::loadStereotype(QDomElement & element) {
+bool UMLObject::loadStereotype(QDomElement & element)
+{
     QString tag = element.tagName();
     if (!Uml::tagEq(tag, "stereotype"))
         return false;
@@ -589,7 +626,8 @@ bool UMLObject::loadStereotype(QDomElement & element) {
     return true;
 }
 
-bool UMLObject::loadFromXMI( QDomElement & element) {
+bool UMLObject::loadFromXMI(QDomElement & element)
+{
     UMLDoc* umldoc = UMLApp::app()->getDocument();
     if (umldoc == NULL) {
         uError() << "umldoc is NULL" << endl;
@@ -597,8 +635,8 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
     }
     // Read the name first so that if we encounter a problem, the error
     // message can say the name.
-    m_Name = element.attribute( "name", "" );
-    QString id = element.attribute( "xmi.id", "" );
+    m_Name = element.attribute("name", "");
+    QString id = element.attribute("xmi.id", "");
     if (id.isEmpty() || id == "-1") {
         if (m_BaseType == Uml::ot_Role) {
             // Before version 1.4, Umbrello did not save the xmi.id
@@ -618,19 +656,19 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             UMLObject *o = umldoc->findObjectById(m_nId);
             if (o) {
                 uError() << "loadFromXMI(UMLRole): id " << id
-                    << " is already in use!!! Please fix your XMI file." << endl;
+                << " is already in use!!! Please fix your XMI file." << endl;
             }
         }
     }
 
     if (element.hasAttribute("documentation"))  // for bkwd compat.
-        m_Doc = element.attribute( "documentation", "" );
+        m_Doc = element.attribute("documentation", "");
     else
-        m_Doc = element.attribute( "comment", "" );  //CHECK: need a UML:Comment?
+        m_Doc = element.attribute("comment", "");    //CHECK: need a UML:Comment?
 
     m_Vis = Uml::Visibility::Public;
     if (element.hasAttribute("scope")) {        // for bkwd compat.
-        QString scope = element.attribute( "scope", "" );
+        QString scope = element.attribute("scope", "");
         if (scope == "instance_level")         // nsuml compat.
             m_bStatic = false;
         else if (scope == "classifier_level")  // nsuml compat.
@@ -638,32 +676,32 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         else {
             int nScope = scope.toInt();
             switch (nScope) {
-                case 200:
-                    m_Vis = Uml::Visibility::Public;
-                    break;
-                case 201:
-                    m_Vis = Uml::Visibility::Private;
-                    break;
-                case 202:
-                    m_Vis = Uml::Visibility::Protected;
-                    break;
-                default:
-                    uError() << m_Name << ": illegal scope " << nScope << endl;
+            case 200:
+                m_Vis = Uml::Visibility::Public;
+                break;
+            case 201:
+                m_Vis = Uml::Visibility::Private;
+                break;
+            case 202:
+                m_Vis = Uml::Visibility::Protected;
+                break;
+            default:
+                uError() << m_Name << ": illegal scope " << nScope << endl;
             }
         }
     } else {
-        QString visibility = element.attribute( "visibility", "public" );
+        QString visibility = element.attribute("visibility", "public");
         if (visibility == "private"
                 || visibility == "private_vis")    // for compatibility with other programs
-              m_Vis = Uml::Visibility::Private;
+            m_Vis = Uml::Visibility::Private;
         else if (visibility == "protected"
-                       || visibility == "protected_vis")  // for compatibility with other programs
-          m_Vis = Uml::Visibility::Protected;
+                 || visibility == "protected_vis")  // for compatibility with other programs
+            m_Vis = Uml::Visibility::Protected;
         else if (visibility == "implementation")
-          m_Vis = Uml::Visibility::Implementation;
+            m_Vis = Uml::Visibility::Implementation;
     }
 
-    QString stereo = element.attribute( "stereotype", "" );
+    QString stereo = element.attribute("stereotype", "");
     if (!stereo.isEmpty()) {
         Uml::IDType stereoID = STR2ID(stereo);
         m_pStereotype = umldoc->findStereotypeById(stereoID);
@@ -671,24 +709,24 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
             m_pStereotype->incrRefCount();
         } else {
             uDebug() << m_Name << ": UMLStereotype " << ID2STR(stereoID)
-                << " not found, creating now." << endl;
+            << " not found, creating now." << endl;
             setStereotype(stereo);
         }
     }
 
-    if( element.hasAttribute("abstract") ) {     // for bkwd compat.
-        QString abstract = element.attribute( "abstract", "0" );
+    if (element.hasAttribute("abstract")) {      // for bkwd compat.
+        QString abstract = element.attribute("abstract", "0");
         m_bAbstract = (bool)abstract.toInt();
     } else {
-        QString isAbstract = element.attribute( "isAbstract", "false" );
+        QString isAbstract = element.attribute("isAbstract", "false");
         m_bAbstract = (isAbstract == "true");
     }
 
-    if( element.hasAttribute("static") ) {       // for bkwd compat.
-        QString staticScope = element.attribute( "static", "0" );
+    if (element.hasAttribute("static")) {        // for bkwd compat.
+        QString staticScope = element.attribute("static", "0");
         m_bStatic = (bool)staticScope.toInt();
     } else {
-        QString ownerScope = element.attribute( "ownerScope", "instance" );
+        QString ownerScope = element.attribute("ownerScope", "instance");
         m_bStatic = (ownerScope == "classifier");
     }
 
@@ -699,7 +737,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
         if (node.isComment())
             node = node.nextSibling();
         QDomElement elem = node.toElement();
-        while( !elem.isNull() ) {
+        while (!elem.isNull()) {
             QString tag = elem.tagName();
             if (Uml::tagEq(tag, "name")) {
                 m_Name = elem.attribute("xmi.value", "");
@@ -740,8 +778,8 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
     if (m_BaseType != Uml::ot_Operation && m_BaseType != Uml::ot_Attribute &&
             m_BaseType != Uml::ot_EnumLiteral && m_BaseType != Uml::ot_EntityAttribute &&
             m_BaseType != Uml::ot_Template && m_BaseType != Uml::ot_Stereotype &&
-            m_BaseType != Uml::ot_Role && m_BaseType !=Uml::ot_UniqueConstraint &&
-            m_BaseType != Uml::ot_ForeignKeyConstraint ) {
+            m_BaseType != Uml::ot_Role && m_BaseType != Uml::ot_UniqueConstraint &&
+            m_BaseType != Uml::ot_ForeignKeyConstraint) {
         if (m_bInPaste) {
             m_pUMLPackage = NULL;  // forget any old parent
             UMLListView *listView = UMLApp::app()->getListView();
@@ -752,7 +790,7 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
                         lvt == Uml::lvt_Class ||
                         lvt == Uml::lvt_Interface) {
                     UMLObject *o = parentItem->getUMLObject();
-                    m_pUMLPackage = static_cast<UMLPackage*>( o );
+                    m_pUMLPackage = static_cast<UMLPackage*>(o);
                 }
             }
         }
@@ -766,7 +804,8 @@ bool UMLObject::loadFromXMI( QDomElement & element) {
     return load(element);
 }
 
-QDebug operator<< (QDebug s, const UMLObject& a) {
+QDebug operator<< (QDebug s, const UMLObject& a)
+{
     s << a.getName();
     return s;
 }

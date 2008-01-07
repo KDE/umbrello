@@ -40,25 +40,25 @@ public:
     /**
      * Creates a UMLObject.
      *
-     * @param parent    The parent of the object.
-     * @param name              The name of the object.
-     * @param id                The ID of the object (optional.) If omitted
-     *                  then a new ID will be assigned internally.
+     * @param parent   The parent of the object.
+     * @param name     The name of the object.
+     * @param id       The ID of the object (optional.) If omitted
+     *                 then a new ID will be assigned internally.
      */
     UMLObject(UMLObject * parent, const QString &name, Uml::IDType id = Uml::id_None);
 
     /**
      * Creates a UMLObject.
      *
-     * @param   parent          The parent of the object.
+     * @param   parent   The parent of the object.
      */
     UMLObject(UMLObject * parent);
 
     /**
      * Creates a UMLObject with a given name and unique ID.
      *
-     * @param   name            The name of the object.
-     * @param   id              The unique ID of the object.
+     * @param   name   The name of the object.
+     * @param   id     The unique ID of the object.
      */
     explicit UMLObject(const QString &name = QString() , Uml::IDType id = Uml::id_None);
 
@@ -129,9 +129,9 @@ public:
     /**
      * Sets the visibility of the object.
      *
-     * @param s The visibility of the object.
+     * @param s   The visibility of the object.
      */
-    virtual void setVisibility(Uml::Visibility s);
+    void setVisibility(Uml::Visibility s);
 
     /**
      * Method used by setVisibility: its called by  cmdSetVisibility, Don't use it!
@@ -166,21 +166,21 @@ public:
      * Sets the classes Package.
      * DEPRECATED - use SetUMLPackage instead.
      *
-     * @param _name     The classes Package name.
+     * @param _name   The classes Package name.
      */
     void setPackage(const QString &_name);
 
     /**
      * Sets the UMLPackage in which this class is located.
      *
-     * @param pPkg              Pointer to the class' UMLPackage.
+     * @param pPkg   Pointer to the class' UMLPackage.
      */
     void setUMLPackage(UMLPackage* pPkg);
 
     /**
      * Returns the classes UMLStereotype object.
      *
-     * @return  Returns the classes UMLStereotype object.
+     * @return   Returns the classes UMLStereotype object.
      */
     const UMLStereotype * getUMLStereotype();
 
@@ -246,7 +246,6 @@ public:
      */
     void setNamecmd(const QString &strName) ;
 
-
     /**
      * Returns the fully qualified name, i.e. all package prefixes and then m_Name.
      *
@@ -281,9 +280,9 @@ public:
      * UMLObject.  A dialog box will be displayed from which you
      * can change the object's properties.
      *
-     * @param page              The page to show.
-     * @param assoc             Whether to show association page.
-     * @return          True if we modified the object.
+     * @param page    The page to show.
+     * @param assoc   Whether to show association page.
+     * @return        True if we modified the object.
      */
     virtual bool showProperties(int page = 0, bool assoc = false);
 
@@ -296,7 +295,7 @@ public:
      * reference.
      * The default implementation attempts resolution of the m_SecondaryId.
      *
-     * @return  True for success.
+     * @return   True for success.
      */
     virtual bool resolveRef();
 
@@ -321,8 +320,8 @@ public:
     /**
      * Analyzes the given QDomElement for a reference to a stereotype.
      *
-     * @param element    QDomElement to analyze.
-     * @return        True if a stereotype reference was found, else false.
+     * @param element   QDomElement to analyze.
+     * @return          True if a stereotype reference was found, else false.
      */
     bool loadStereotype(QDomElement & element);
 
@@ -331,7 +330,6 @@ public:
      * otherwise false (the default).
      */
     bool getStatic() const;
-
 
     /**
      * Sets the value for m_bStatic.
