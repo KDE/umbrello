@@ -238,7 +238,7 @@ QString URLUtil::relativePathToFile( const QString & dirUrl, const QString & fil
   {
     i >= dir.count() ? currDir = "" : currDir = dir[i];
     i >= file.count() ? currFile = "" : currFile = file[i];
-    qWarning("i = %d, currDir = %s, currFile = %s", i, currDir.toLatin1(), currFile.toLatin1());
+    qDebug("i = %d, currDir = %s, currFile = %s", i, qPrintable(currDir), qPrintable(currFile));
     if (currDir.isEmpty() && currFile.isEmpty())
       break;
     else if (currDir.isEmpty())
