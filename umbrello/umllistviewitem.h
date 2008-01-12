@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  *                                                                         *
  ***************************************************************************/
@@ -148,9 +148,14 @@ public:
     void setOpen( bool open );
 
     /**
-     * Changes the current text and updates the tooltip.
+     * Changes the current text.
      */
-    void setText( const QString &text );
+    void setText(int column, const QString &text );
+
+    /**
+     * Changes the current text of column 0.
+     */
+    void setText(const QString &text );
 
     /**
      * Returns the current text.
