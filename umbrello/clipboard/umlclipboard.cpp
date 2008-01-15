@@ -613,7 +613,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
             }
         case Uml::ot_EnumLiteral:
            {
-               UMLEnum* enumParent = static_cast<UMLEnum*>( parent );
+               UMLEnum* enumParent = dynamic_cast<UMLEnum*>( parent );
                // if parent is not a UMLEnum, bail out immediately;
                if ( !enumParent ) {
                    result = false;
@@ -637,7 +637,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
            }
         case Uml::ot_EntityAttribute :
             {
-                UMLEntity* entityParent = static_cast<UMLEntity*>( parent );
+                UMLEntity* entityParent = dynamic_cast<UMLEntity*>( parent );
                 // if parent is not a UMLEntity, bail out immediately;
                 if ( !entityParent ) {
                     result = false;
