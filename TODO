@@ -1,3 +1,10 @@
+Immediate TODO:
+
+* Clean up showProperties() / showPropertiesDialog() methods
+  (Normalize signatures, factor into virtual methods)
+
+--
+
 There is always something to do for Umbrello UML Modeller. You can find an
 up-to-date list of remaining bugs in the bug tracker system at:
 
