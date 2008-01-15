@@ -74,8 +74,9 @@ public:
      * @param type  An optional type, used by when creating through UMLListView
      * @return  The UMLEntityAttribute created
      */
-    UMLAttribute* createAttribute(const QString &name = QString(),
-                                  UMLObject *type = 0);
+    virtual UMLAttribute* createAttribute(const QString &name = QString(),
+                                  UMLObject *type = 0, Uml::Visibility vis = Uml::Visibility::Private,
+                                  const QString &init = QString());
 
     /**
      * Creates a Unique Constraint for this Entity.
@@ -226,6 +227,16 @@ public:
      * Same as getFilteredList(Uml::ot_EntityAttribute)
      */
     UMLEntityAttributeList getEntityAttributes() const;
+
+    /**
+     * Create a new ClassifierListObject (entityattribute)
+     * according to the given XMI tag.
+     * Returns NULL if the string given does not contain one of the tags
+     * <UML:EntityAttribute>
+     * Used by the clipboard for paste operation.
+     * Reimplemented from UMLClassifier for UMLEntity
+     */
+    virtual UMLClassifierListItem* makeChildObject(const QString& xmiTag);
 
 private slots:
     void slotEntityAttributeRemoved(UMLClassifierListItem*);

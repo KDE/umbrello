@@ -760,6 +760,17 @@ bool typeIsClassifierList(Uml::ListView_Type type) {
     }
 }
 
+bool typeIsClassifier(Uml::ListView_Type type) {
+    if ( type == Uml::lvt_Class ||
+         type == Uml::lvt_Interface ||
+         type == Uml::lvt_Entity ||
+         type == Uml::lvt_Enum ) {
+        return true;
+    }
+    return false;
+
+}
+
 bool typeIsDiagram(Uml::ListView_Type type) {
     if (type == Uml::lvt_Class_Diagram ||
             type == Uml::lvt_Collaboration_Diagram ||
@@ -1366,3 +1377,4 @@ QString diagramTypeToString(Uml::Diagram_Type dt) {
 }
 
 }  // namespace Model_Utils
+

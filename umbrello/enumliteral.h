@@ -67,7 +67,7 @@ public:
     /**
      * Creates the <UML:EnumLiteral> XMI element.
      */
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     /**
      * Display the properties configuration dialog for the enum literal.

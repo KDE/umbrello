@@ -197,4 +197,13 @@ bool UMLEnum::load(QDomElement& element) {
 }
 
 
+UMLClassifierListItem* UMLEnum::makeChildObject(const QString& xmiTag)
+{
+    UMLClassifierListItem* pObject = NULL;
+    if (Uml::tagEq(xmiTag, "EnumerationLiteral") || Uml::tagEq( xmiTag, "EnumLiteral")) {
+        pObject = new UMLEnumLiteral(this);
+    }
+    return pObject;
+}
+
 #include "enum.moc"

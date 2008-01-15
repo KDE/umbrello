@@ -69,7 +69,9 @@ void UMLEntity::init() {
              this, SLOT( slotEntityAttributeRemoved( UMLClassifierListItem* ) ) );
 }
 
-UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/, UMLObject *type /*=NULL*/) {
+UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/, UMLObject *type /*=NULL*/
+                                         , Uml::Visibility vis /* = Uml::Visibility::Private*/
+                                         , const QString& iv /* = QString()*/) {
     Uml::IDType id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
@@ -77,9 +79,8 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/, UMLObjec
     } else {
         currentName = name;
     }
-    const Settings::OptionState optionState = Settings::getOptionState();
-    Uml::Visibility scope = optionState.classState.defaultAttributeScope;
-    UMLEntityAttribute* newAttribute = new UMLEntityAttribute(this, currentName, id, scope, type);
+
+    UMLEntityAttribute* newAttribute = new UMLEntityAttribute(this, currentName, id, vis, type, iv);
 
     int button = QDialog::Accepted;
     bool goodName = false;
@@ -552,5 +553,13 @@ UMLEntityAttributeList UMLEntity::getEntityAttributes() const{
     return entityAttributeList;
 }
 
+
+UMLClassifierListItem* UMLEntity::makeChildObject(const QString& xmiTag) {
+    UMLClassifierListItem* pObject = NULL;
+    if (Uml::tagEq(xmiTag, "EntityAttribute")) {
+        pObject = new UMLEntityAttribute(this);
+    }
+    return pObject;
+}
 
 #include "entity.moc"

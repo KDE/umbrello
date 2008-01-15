@@ -151,7 +151,7 @@ public:
     /**
      * Creates the <UML:EntityAttribute> XMI element.
      */
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     /**
      * Display the properties configuration dialog for the entityattribute.

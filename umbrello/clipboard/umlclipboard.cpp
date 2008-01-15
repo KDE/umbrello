@@ -24,8 +24,13 @@
 #include "../associationwidget.h"
 #include "../attribute.h"
 #include "../classifier.h"
+#include "../enum.h"
+#include "../entity.h"
 #include "../floatingtextwidget.h"
 #include "../operation.h"
+#include "../template.h"
+#include "../enumliteral.h"
+#include "../entityattribute.h"
 #include "../umldoc.h"
 #include "../umllistview.h"
 #include "../umllistviewitem.h"
@@ -533,11 +538,11 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
     UMLDoc *doc = UMLApp::app()->getDocument();
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem* lvitem = dynamic_cast<UMLListViewItem *>( listView->currentItem() );
-    if (!lvitem ||
-            (lvitem->getType() != Uml::lvt_Class && lvitem->getType() != Uml::lvt_Interface)) {
+    if (!lvitem || !Model_Utils::typeIsClassifier( lvitem->getType() )) {
         return false;
     }
-    UMLClassifier *parent = dynamic_cast<UMLClassifier *>(lvitem->getUMLObject());
+    UMLClassifier *parent = dynamic_cast<UMLClassifier*>( lvitem->getUMLObject() );
+
     if (parent == NULL) {
         uError() << "parent is not a UMLClassifier" << endl;
         return false;
@@ -588,6 +593,68 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
                     result = true;
                 } else {
                     uError() << "" << parent->getName() << "->addOperation(" << op->getName() << ") failed" << endl;
+                }
+                break;
+            }
+        case Uml::ot_Template:
+            {
+                UMLTemplate* tp = static_cast<UMLTemplate*>( obj );
+                UMLTemplate* exist = parent->findTemplate( tp->getName() );
+                if ( exist ) {
+                    QString newName = parent->uniqChildName( Uml::ot_Template, obj->getName() );
+                    tp->setName( newName );
+                }
+                if ( parent->addTemplate( tp, idchanges ) ) {
+                    result = true;
+                } else {
+                    uError()<<""<<parent->getName()<<"->addTemplate("<<tp->getName()<<") failed"<<endl;
+                }
+                break;
+            }
+        case Uml::ot_EnumLiteral:
+           {
+               UMLEnum* enumParent = static_cast<UMLEnum*>( parent );
+               // if parent is not a UMLEnum, bail out immediately;
+               if ( !enumParent ) {
+                   result = false;
+                   uError() << "Parent is not an UMLEnum" << endl;
+                   break;
+               }
+
+               UMLObject* exist = enumParent->findChildObject( obj->getName(), Uml::ot_EnumLiteral );
+               if ( exist ) {
+                   QString newName = enumParent->uniqChildName( Uml::ot_EnumLiteral, obj->getName() );
+                   obj->setName( newName );
+               }
+               UMLEnumLiteral* enl = static_cast<UMLEnumLiteral*>( obj );
+
+               if ( enumParent->addEnumLiteral( enl, idchanges ) ) {
+                   result = true;
+               } else {
+                   uError()<<""<<enumParent->getName()<<"->addEnumLiteral("<<enl->getName()<<") failed"<<endl;
+               }
+               break;
+           }
+        case Uml::ot_EntityAttribute :
+            {
+                UMLEntity* entityParent = static_cast<UMLEntity*>( parent );
+                // if parent is not a UMLEntity, bail out immediately;
+                if ( !entityParent ) {
+                    result = false;
+                    uError()<<"Parent is not an UMLEntity";
+                    break;
+                }
+                UMLObject *exist = entityParent->findChildObject(obj->getName(), Uml::ot_EntityAttribute);
+                if (exist) {
+                    QString newName = entityParent->uniqChildName(Uml::ot_EntityAttribute, obj->getName());
+                    obj->setName(newName);
+                }
+                UMLEntityAttribute *att = static_cast<UMLEntityAttribute*>(obj);
+
+                if ( entityParent->addEntityAttribute(att, idchanges)) {
+                    result = true;
+                } else {
+                    uError() << "" << parent->getName() << "->addEntityAttribute(" << att->getName() << ") failed" << endl;
                 }
                 break;
             }

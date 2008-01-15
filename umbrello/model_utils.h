@@ -141,6 +141,11 @@ bool typeIsDiagram(Uml::ListView_Type type);
 bool typeIsClassifierList(Uml::ListView_Type type);
 
 /**
+ * Return true if the listview type is a classifier ( Class, Entity , Enum )
+ */
+bool typeIsClassifier(Uml::ListView_Type type);
+
+/**
  * Return the Model_Type which corresponds to the given Diagram_Type.
  */
 Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt);

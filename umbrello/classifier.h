@@ -505,7 +505,7 @@ public:
      * <UML:Attribute>, <UML:Operation>, or <UML:TemplateParameter>.
      * Used by the clipboard for paste operation.
      */
-    UMLClassifierListItem* makeChildObject(const QString& xmiTag);
+    virtual UMLClassifierListItem* makeChildObject(const QString& xmiTag);
 
     /**
      * Return the list of unidirectional association that should show up in the code

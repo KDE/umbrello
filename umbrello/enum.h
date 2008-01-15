@@ -123,6 +123,16 @@ public:
      */
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
+    /**
+     * Create a new ClassifierListObject (enumLiteral)
+     * according to the given XMI tag.
+     * Returns NULL if the string given does not contain one of the tags
+     * <UML:EnumLiteral>
+     * Used by the clipboard for paste operation.
+     * Reimplemented from UMLClassifier for UMLEnum
+     */
+    virtual UMLClassifierListItem* makeChildObject(const QString& xmiTag);
+
 signals:
     void enumLiteralAdded(UMLClassifierListItem*);
     void enumLiteralRemoved(UMLClassifierListItem*);
