@@ -611,9 +611,6 @@ void UMLApp::initView()
     m_tabWidget->setCornerWidget( m_closeDiagramButton, Qt::TopRightCorner );
     m_newSessionButton->installEventFilter(this);
 
-    // Prepare Stacked Diagram Representation
-    m_viewStack = new QStackedWidget(this);
-
     m_layout = new QVBoxLayout;
     m_layout->setMargin(0);
     if (Settings::getOptionState().generalState.tabdiagrams) {
