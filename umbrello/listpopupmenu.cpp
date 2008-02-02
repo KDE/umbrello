@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                              *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -630,13 +630,13 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
     Q_ASSERT(menu != NULL);
     switch (m) {
     case mt_Subsystem:
-        m_actions[m] = menu->addAction(m_pixmap[pm_Subsystem], i18n("Subsystem"));
+        m_actions[m] = menu->addAction(SmallIcon("subsystem"), i18n("Subsystem"));
         break;
     case mt_Component:
-        m_actions[m] = menu->addAction(m_pixmap[pm_Component], i18n("Component"));
+        m_actions[m] = menu->addAction(SmallIcon("component"), i18n("Component"));
         break;
     case mt_Artifact:
-        m_actions[m] = menu->addAction(m_pixmap[pm_Artifact], i18n("Artifact"));
+        m_actions[m] = menu->addAction(SmallIcon("artifact"), i18n("Artifact"));
         break;
     case mt_Component_Diagram:
         {
@@ -647,7 +647,7 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
         }
         break;
     case mt_Node:
-        m_actions[m] = menu->addAction(m_pixmap[pm_Node], i18n("Node"));
+        m_actions[m] = menu->addAction(SmallIcon("node"), i18n("Node"));
         break;
     case mt_Deployment_Diagram:
         {
@@ -663,7 +663,7 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
         m_actions[m] = menu->addAction(BarIcon("folder-new"), i18n("Folder"));
         break;
     case mt_Entity:
-        m_actions[m] = menu->addAction(m_pixmap[pm_Entity], i18n("Entity"));
+        m_actions[m] = menu->addAction(SmallIcon("entity"), i18n("Entity"));
         break;
     case mt_EntityRelationship_Diagram:
         {
@@ -673,13 +673,13 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
         }
         break;
     case mt_Category:
-        m_actions[m] = menu->addAction(m_pixmap[pm_Category], i18n("Category"));
+        m_actions[m] = menu->addAction(SmallIcon("category"), i18n("Category"));
         break;
     case mt_Actor:
-        m_actions[m] = menu->addAction(m_pixmap[pm_Actor], i18n("Actor"));
+        m_actions[m] = menu->addAction(SmallIcon("actor"), i18n("Actor"));
         break;
     case mt_UseCase:
-        m_actions[m] = menu->addAction(m_pixmap[pm_Usecase], i18n("Use Case"));
+        m_actions[m] = menu->addAction(SmallIcon("usecase"), i18n("Use Case"));
         break;
     case mt_UseCase_Diagram:
         {
@@ -689,7 +689,7 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
         }
         break;
     case mt_FloatText:
-        m_actions[m] = menu->addAction(m_pixmap[pm_Text], i18n("Text Line..." ));
+        m_actions[m] = menu->addAction(SmallIcon("text"), i18n("Text Line..." ));
         break;
     default:
         uWarning() << "called on unimplemented Menu_Type " << m;
@@ -749,11 +749,11 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
     menu->setIcon(SmallIcon("document-new"));
     if (folderAndDiagrams)
         insert(mt_Logical_Folder, menu, BarIcon("folder-new"), i18n("Folder"));
-    insert(mt_Class, menu, m_pixmap[pm_Class], i18n("Class"));
-    insert(mt_Interface, menu, m_pixmap[pm_Interface], i18n("Interface"));
-    insert(mt_Datatype, menu, m_pixmap[pm_Datatype], i18n("Datatype"));
-    insert(mt_Enum, menu, m_pixmap[pm_Enum], i18n("Enum"));
-    insert(mt_Package, menu, m_pixmap[pm_Package], i18n("Package"));
+    insert(mt_Class, menu, SmallIcon("class"), i18n("Class"));
+    insert(mt_Interface, menu, SmallIcon("interface"), i18n("Interface"));
+    insert(mt_Datatype, menu, SmallIcon("datatype"), i18n("Datatype"));
+    insert(mt_Enum, menu, SmallIcon("enum"), i18n("Enum"));
+    insert(mt_Package, menu, SmallIcon("package"), i18n("Package"));
     if (folderAndDiagrams) {
         menu->addAction(UMLApp::app()->actionCollection()->action("new_class_diagram"));
         menu->addAction(UMLApp::app()->actionCollection()->action("new_sequence_diagram"));
@@ -860,7 +860,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
         setActionChecked(mt_DrawAsCircle, c->getDrawAsCircle());
         insert(mt_ChangeToClass, i18n("Change into Class"));
     } else {
-        insert(mt_Refactoring, i18n("Refactor"));
+        insert(mt_Refactoring, SmallIcon("refactor"), i18n("Refactor"));
         insert(mt_ViewCode, SmallIcon("text-x-generic"), i18n("View Code"));
         UMLClassifier *umlc = c->getClassifier();
         if (umlc->getAbstract() && umlc->attributes() == 0)
@@ -872,8 +872,8 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 void ListPopupMenu::insertSubMenuColor(bool fc)
 {
     KMenu* color = new KMenu(i18n("Color"), this);
-    insert(mt_Line_Color, color, SmallIcon("format-stroke-color"), i18n("Line Color..."));
-    insert(mt_Fill_Color, color, SmallIcon("format-fill-color"), i18n("Fill Color..."));
+    insert(mt_Line_Color, color, SmallIcon("color-line"), i18n("Line Color..."));
+    insert(mt_Fill_Color, color, SmallIcon("color-fill"), i18n("Fill Color..."));
     insert(mt_Use_Fill_Color, color, i18n("Use Fill Color"), CHECKABLE);
     setActionChecked(mt_Use_Fill_Color, fc);
     addMenu(color);
@@ -1006,51 +1006,51 @@ void ListPopupMenu::insertSubMenuNew(Menu_Type type)
             insert(mt_EntityRelationship_Diagram, menu);
             break;
         case mt_On_UseCase_Diagram:
-            insert(mt_Actor, menu, m_pixmap[pm_Actor], i18n( "Actor..." ));
-            insert(mt_UseCase, menu, m_pixmap[pm_Usecase], i18n( "Use Case..."));
+            insert(mt_Actor, menu, SmallIcon("actor"), i18n( "Actor..." ));
+            insert(mt_UseCase, menu, SmallIcon("usecase"), i18n( "Use Case..."));
             insert(mt_FloatText, menu);
             break;
         case mt_On_Class_Diagram:
-            insert(mt_Class, menu, m_pixmap[pm_Class], i18n("Class..."));
-            insert(mt_Interface, menu, m_pixmap[pm_Interface], i18n("Interface..."));
-            insert(mt_Datatype, menu, m_pixmap[pm_Datatype], i18n("Datatype..."));
-            insert(mt_Enum, menu, m_pixmap[pm_Enum], i18n("Enum..."));
-            insert(mt_Package, menu, m_pixmap[pm_Package], i18n("Package..."));
+            insert(mt_Class, menu, SmallIcon("class"), i18n("Class..."));
+            insert(mt_Interface, menu, SmallIcon("interface"), i18n("Interface..."));
+            insert(mt_Datatype, menu, SmallIcon("datatype"), i18n("Datatype..."));
+            insert(mt_Enum, menu, SmallIcon("enum"), i18n("Enum..."));
+            insert(mt_Package, menu, SmallIcon("package"), i18n("Package..."));
             insert(mt_FloatText, menu);
             break;
         case mt_On_State_Diagram:
-            insert(mt_Initial_State, menu, m_pixmap[pm_InitialState], i18n("Initial State"));
-            insert(mt_End_State, menu, m_pixmap[pm_EndState], i18n("End State"));
-            insert(mt_State, menu, m_pixmap[pm_Usecase], i18n("State..."));
+            insert(mt_Initial_State, menu, SmallIcon("initial_state"), i18n("Initial State"));
+            insert(mt_End_State, menu, SmallIcon("end_state"), i18n("End State"));
+            insert(mt_State, menu, SmallIcon("usecase"), i18n("State..."));
             insert(mt_FloatText, menu);
             break;
         case mt_On_Activity_Diagram:
-            insert(mt_Initial_Activity, menu, m_pixmap[pm_InitialState], i18n("Initial Activity"));
-            insert(mt_End_Activity, menu, m_pixmap[pm_EndState], i18n("End Activity"));
-            insert(mt_Activity, menu, m_pixmap[pm_Usecase], i18n("Activity..."));
-            insert(mt_Branch, menu, m_pixmap[pm_Branch], i18n("Branch/Merge"));
+            insert(mt_Initial_Activity, menu, SmallIcon("initial_state"), i18n("Initial Activity"));
+            insert(mt_End_Activity, menu, SmallIcon("end_state"), i18n("End Activity"));
+            insert(mt_Activity, menu, SmallIcon("usecase"), i18n("Activity..."));
+            insert(mt_Branch, menu, SmallIcon("branch"), i18n("Branch/Merge"));
             insert(mt_FloatText, menu);
             break;
         case mt_On_Component_Diagram:
-            insert(mt_Subsystem, menu, m_pixmap[pm_Subsystem], i18n("Subsystem..."));
-            insert(mt_Component, menu, m_pixmap[pm_Component], i18n("Component..."));
-            insert(mt_Artifact, menu, m_pixmap[pm_Artifact], i18n("Artifact..."));
+            insert(mt_Subsystem, menu, SmallIcon("subsystem"), i18n("Subsystem..."));
+            insert(mt_Component, menu, SmallIcon("component"), i18n("Component..."));
+            insert(mt_Artifact, menu, SmallIcon("artifact"), i18n("Artifact..."));
             break;
         case mt_On_Deployment_Diagram:
-            insert(mt_Node, menu, m_pixmap[pm_Node], i18n("Node..."));
+            insert(mt_Node, menu, SmallIcon("node"), i18n("Node..."));
             break;
         case mt_On_EntityRelationship_Diagram:
-            insert(mt_Entity, menu, m_pixmap[pm_Entity], i18n("Entity..."));
-            insert(mt_Category, menu, m_pixmap[pm_Category], i18n("Category..."));
+            insert(mt_Entity, menu, SmallIcon("entity"), i18n("Entity..."));
+            insert(mt_Category, menu, SmallIcon("category"), i18n("Category..."));
             break;
         case mt_On_Sequence_Diagram:
         case mt_On_Collaboration_Diagram:
-            insert(mt_Object, menu, m_pixmap[pm_Object], i18n("Object..."));
+            insert(mt_Object, menu, SmallIcon("object"), i18n("Object..."));
             insert(mt_FloatText, menu);
             break;
         case mt_Class:
-            insert(mt_Attribute, menu, SmallIcon( "CVpublic_var"), i18n("Attribute"));
-            insert(mt_Operation, menu, SmallIcon( "CVpublic_meth"), i18n("Operation"));
+            insert(mt_Attribute, menu, SmallIcon("CVpublic_var"), i18n("Attribute"));
+            insert(mt_Operation, menu, SmallIcon("CVpublic_meth"), i18n("Operation"));
             insert(mt_Template, menu, SmallIcon("format-justify-fill"), i18n("Template"));
             break;
         case mt_Interface:
@@ -1085,27 +1085,6 @@ void ListPopupMenu::insertSubMenuNew(Menu_Type type)
 void ListPopupMenu::setupMenu(Menu_Type type)
 {
     // uDebug() << "ListPopupMenu created for Menu_Type=" << type;
-    KStandardDirs* dirs = KGlobal::dirs();
-    QString dataDir = dirs->findResourceDir("data", "umbrello/pics/object.png");
-    dataDir += "/umbrello/pics/";
-    m_pixmap[pm_Class]       .load(dataDir+"class.png",         "PNG");
-    m_pixmap[pm_Package]     .load(dataDir+"package.png",       "PNG");
-    m_pixmap[pm_Interface]   .load(dataDir+"interface.png",     "PNG");
-    m_pixmap[pm_Datatype]    .load(dataDir+"datatype.png",      "PNG");
-    m_pixmap[pm_Enum]        .load(dataDir+"enum.png",          "PNG");
-    m_pixmap[pm_Actor]       .load(dataDir+"actor.png",         "PNG");
-    m_pixmap[pm_Usecase]     .load(dataDir+"usecase.png",       "PNG");
-    m_pixmap[pm_InitialState].load(dataDir+"initial_state.png", "PNG");
-    m_pixmap[pm_EndState]    .load(dataDir+"end_state.png",     "PNG");
-    m_pixmap[pm_Branch]      .load(dataDir+"branch.png",        "PNG");
-    m_pixmap[pm_Object]      .load(dataDir+"object.png",        "PNG");
-    m_pixmap[pm_Component]   .load(dataDir+"component.png",     "PNG");
-    m_pixmap[pm_Node]        .load(dataDir+"node.png",          "PNG");
-    m_pixmap[pm_Entity]      .load(dataDir+"entity.png",        "PNG");
-    m_pixmap[pm_Category]    .load(dataDir+"category.png",      "PNG");
-    m_pixmap[pm_Artifact]    .load(dataDir+"artifact.png",      "PNG");
-    m_pixmap[pm_Text]        .load(dataDir+"text.png",          "PNG");
-    m_pixmap[pm_Subsystem]   .load(dataDir+"subsystem.png",     "PNG");
 
     switch (type) {
     case mt_Logical_View:

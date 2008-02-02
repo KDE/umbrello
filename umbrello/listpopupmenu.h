@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -130,7 +130,7 @@ public:
         mt_Show_Stereotypes,
         mt_Show_Stereotypes_Selection,    //SHOWSTEREOTYPE, multiple items
         mt_Visibility,					// 90
-        mt_Visibility_Selection,               //SCOPE, multiple items
+        mt_Visibility_Selection,          //SCOPE, multiple items
         mt_DrawAsCircle,
         mt_DrawAsCircle_Selection,        //DRAWASCIRCLE, multiple items
         mt_ChangeToClass,
@@ -163,9 +163,9 @@ public:
         mt_FloatText,
         mt_MultiA,
         mt_MultiB,
-        mt_Name,                          //Association name
-        mt_FullAssociation,                 // Association with role names
-        mt_AttributeAssociation,   // Rendering of an attribute as an association
+        mt_Name,                       // Association name
+        mt_FullAssociation,            // Association with role names
+        mt_AttributeAssociation,       // Rendering of an attribute as an association
         mt_RoleNameA,
         mt_RoleNameB,
         mt_Delete_Selection,
@@ -209,17 +209,17 @@ public:
     /**
      * Constructs the popup menu for a diagram
      *
-     * @param parent    The parent to ListPopupMenu.
-     * @param type      The type of menu to display.
-     * @param view      The UMLView in which this ListPopupMenu is going to be displayed
+     * @param parent   The parent to ListPopupMenu.
+     * @param type     The type of menu to display.
+     * @param view     The UMLView in which this ListPopupMenu is going to be displayed
      */
     explicit ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
 
     /**
      * Constructs the popup menu for a list view item.
      *
-     * @param parent    The parent to ListPopupMenu.
-     * @param type              The type of menu to display.
+     * @param parent   The parent to ListPopupMenu.
+     * @param type     The type of menu to display.
      * @param object   The UMLObject of the ListViewItem
      */
     ListPopupMenu(QWidget* parent, Uml::ListView_Type type, UMLObject* object);
@@ -227,11 +227,11 @@ public:
     /**
      * Constructs the popup menu for a canvas widget.
      *
-     * @param parent    The parent to ListPopupMenu.
-     * @param object    The UMLWidget to represent a menu for.
-     * @param multi             True if multiple items are selected.
-     * @param unique    True if multiple selected items all have
-     *                  the same type (e.g. Class, Interface)
+     * @param parent   The parent to ListPopupMenu.
+     * @param object   The UMLWidget to represent a menu for.
+     * @param multi    True if multiple items are selected.
+     * @param unique   True if multiple selected items all have
+     *                 the same type (e.g. Class, Interface)
      */
     ListPopupMenu(QWidget* parent, UMLWidget* object, bool multi = false, bool unique = false);
 
@@ -259,8 +259,8 @@ public:
     /**
      * Enables the action item.
      *
-     * @param idx       The Menu_Type for which to enable the menu item.
-     * @param value     The value.
+     * @param idx     The Menu_Type for which to enable the menu item.
+     * @param value   The value.
      */
     void setActionEnabled(Menu_Type idx, bool value);
 
@@ -275,63 +275,63 @@ private:
     /**
      * Shortcut for the most frequently used addAction() calls.
      *
-     * @param m The Menu_Type for which to insert a menu item.
+     * @param m   The Menu_Type for which to insert a menu item.
      */
     void insert(Menu_Type m);
 
     /**
      * Shortcut for the frequently used addAction() calls.
      *
-     * @param m The Menu_Type for which to insert a menu item.
-     * @param menu The KMenu for which to insert a menu item.
+     * @param m      The Menu_Type for which to insert a menu item.
+     * @param menu   The KMenu for which to insert a menu item.
      */
     void insert(const Menu_Type m, KMenu* menu);
 
     /**
      * Shortcut for the frequently used addAction() calls.
      *
-     * @param m The Menu_Type for which to insert a menu item.
-     * @param icon The icon for this action.
-     * @param text The text for this action.
+     * @param m      The Menu_Type for which to insert a menu item.
+     * @param icon   The icon for this action.
+     * @param text   The text for this action.
      */
     void insert(const Menu_Type m, const QIcon & icon, const QString & text);
 
     /**
      * Shortcut for the frequently used addAction() calls.
      *
-     * @param m The Menu_Type for which to insert a menu item.
-     * @param text The text for this action.
-     * @param cheable Sets the action to checkable.
+     * @param m           The Menu_Type for which to insert a menu item.
+     * @param text        The text for this action.
+     * @param checkable   Sets the action to checkable.
      */
     void insert(const Menu_Type m, const QString & text, const bool checkable = false);
 
     /**
      * Shortcut for the frequently used addAction() calls.
      *
-     * @param m The Menu_Type for which to insert a menu item.
-     * @param menu The KMenu for which to insert a menu item.
-     * @param icon The icon for this action.
-     * @param text The text for this action.
+     * @param m      The Menu_Type for which to insert a menu item.
+     * @param menu   The KMenu for which to insert a menu item.
+     * @param icon   The icon for this action.
+     * @param text   The text for this action.
      */
     void insert(const Menu_Type m, KMenu* menu, const QIcon & icon, const QString & text);
 
     /**
      * Shortcut for the frequently used addAction() calls.
      *
-     * @param m The Menu_Type for which to insert a menu item.
-     * @param menu The KMenu for which to insert a menu item.
-     * @param text The text for this action.
+     * @param m      The Menu_Type for which to insert a menu item.
+     * @param menu   The KMenu for which to insert a menu item.
+     * @param text   The text for this action.
      */
     void insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable = false);
 
     /**
      * Shortcut for the most frequently used insertStdItem() calls.
      *
-     * @param insertLeadingSeparator  Set this true if the group shall
-     *                            start with a separator.
+     * @param insertLeadingSeparator   Set this true if the group shall
+     *                                 start with a separator.
      * @param type      The Widget_Type for which to insert the menu items.
-     *          If no argument is supplied then a Rename item will be
-     *          included.
+     *                  If no argument is supplied then a Rename item will be
+     *                  included.
      */
     void insertStdItems(bool insertLeadingSeparator = true,
                         Uml::Widget_Type type = Uml::wt_UMLWidget);
@@ -349,8 +349,8 @@ private:
      * Inserts a menu item for an association related text
      * (such as name, role, multiplicity etc.)
      *
-     * @param label             The menu text.
-     * @param mt                The menu type.
+     * @param label   The menu text.
+     * @param mt      The menu type.
      */
     void insertAssocItem(const QString &label, Menu_Type mt);
 
@@ -380,14 +380,14 @@ private:
     /**
      * Shortcut for commonly used sub menu initializations.
      *
-     * @param type      The Menu_Type for which to set up the menu.
+     * @param type   The Menu_Type for which to set up the menu.
      */
     void insertSubMenuNew(Menu_Type type);
 
     /**
      * Shortcut for commonly used sub menu initializations.
      *
-     * @param fc      The "Use Fill Color" is checked.
+     * @param fc   The "Use Fill Color" is checked.
      */
     void insertSubMenuColor(bool fc);
 
@@ -399,47 +399,24 @@ private:
     /**
      * Shortcut for commonly used menu initializations.
      *
-     * @param type      The Menu_Type for which to set up the menu.
+     * @param type   The Menu_Type for which to set up the menu.
      */
     void setupMenu(Menu_Type type);
 
     /**
      * Checks the action item.
      *
-     * @param idx       The Menu_Type for which to check the menu item.
-     * @param value     The value.
+     * @param idx     The Menu_Type for which to check the menu item.
+     * @param value   The value.
      */
     void setActionChecked(Menu_Type idx, bool value);
-
-    enum PixMap_Type {
-        pm_Class,
-        pm_Package,
-        pm_Interface,
-        pm_Datatype,
-        pm_Enum,
-        pm_Actor,
-        pm_Usecase,
-        pm_InitialState,
-        pm_EndState,
-        pm_Branch,
-        pm_Object,
-        pm_Category,
-        pm_Component,
-        pm_Node,
-        pm_Artifact,
-        pm_Text,
-        pm_Entity,
-        pm_Subsystem,
-        pm_NUMBER_OF_PIXMAPS
-    };
-    QPixmap m_pixmap[pm_NUMBER_OF_PIXMAPS];
 
     /**
      * The List Popup Menu is triggered by either by right clicking on the
      * View, a ListViewItem ( Object ) , or a widget
      */
     union TriggerObject{
-	UMLView* m_View;
+        UMLView* m_View;
         UMLObject* m_Object;
         UMLWidget* m_Widget;
     };
@@ -456,8 +433,8 @@ private:
     TriggerObject m_TriggerObject;
     TriggerObjectType m_TriggerObjectType;
 
-//    QHash<Menu_Type, KAction *> m_actions;
-    QHash<Menu_Type, QAction *> m_actions;
+//    QHash<Menu_Type, KAction*> m_actions;
+    QHash<Menu_Type, QAction*> m_actions;
 
 };
 
