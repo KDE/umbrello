@@ -13,7 +13,6 @@
 #include "listpopupmenu.h"
 
 // qt/kde includes
-#include <kstandarddirs.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kdebug.h>

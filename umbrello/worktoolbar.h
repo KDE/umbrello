@@ -5,16 +5,16 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef WORKTOOLBAR_H
 #define WORKTOOLBAR_H
 
-#include <QMap>
-#include <QPixmap>
-#include <qcursor.h>
+#include <QtCore/QMap>
+#include <QtGui/QPixmap>
+#include <QtGui/QCursor>
 #include <ktoolbar.h>
 
 #include "umlnamespace.h"
@@ -39,7 +39,8 @@ class QAction;
  */
 
 
-class WorkToolBar : public KToolBar {
+class WorkToolBar : public KToolBar
+{
     Q_OBJECT
 public:
 
@@ -71,8 +72,7 @@ public:
     /**
      * Enumeration of all available toolbar buttons.
      */
-    enum ToolBar_Buttons
-    {
+    enum ToolBar_Buttons {
         tbb_Undefined = -1,
         tbb_Arrow,
         tbb_Generalization,
@@ -139,12 +139,13 @@ public:
 
 private:
 
-    typedef QMap<Uml::Diagram_Type,ToolBar_Buttons> OldToolMap;
+    typedef QMap<Uml::Diagram_Type, ToolBar_Buttons> OldToolMap;
 
     /**
      * This inner class holds label, symbol, and cursor of a tool button.
      */
-    class ToolButton {
+    class ToolButton
+    {
     public:
         QString Label;
         QPixmap Symbol;
@@ -152,7 +153,7 @@ private:
         const char* Slot;
         ToolButton() : Label(QString("?")), Symbol(QPixmap()), Cursor(QCursor()), Slot("") { }
         ToolButton(const QString& lbl, const QPixmap& smb, const QCursor& cur, const char* slot) :
-        Label(lbl), Symbol(smb), Cursor(cur), Slot(slot) { }
+                Label(lbl), Symbol(smb), Cursor(cur), Slot(slot) { }
     };
 
     typedef QMap<ToolBar_Buttons, ToolButton> ToolButtonMap;
@@ -163,11 +164,6 @@ private:
     Uml::Diagram_Type   m_Type;
     ToolButtonMap       m_ToolButtons;
     ActionsMap          m_actions;
-
-    /**
-     * Loads a pixmap from file
-     */
-    QPixmap load(const QString &fileName);
 
     /**
      * Loads toolbar icon and mouse cursor images from disk
@@ -221,7 +217,7 @@ public slots:
     void slotUniAssociation();
     void slotState_Transition();
     void slotActivity_Transition();
-    void slotAnchor();//keep anchor as last association until code uses better algorithm for testing
+    void slotAnchor(); // keep anchor as last association until code uses better algorithm for testing
     void slotNote();
     void slotBox();
     void slotText();
