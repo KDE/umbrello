@@ -248,7 +248,7 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage() {
     actions<<i18n( "No Action" )<<i18n( "Restrict" )<<i18n( "Cascade" )<<i18n( "Set Null" )
            <<i18n( "Set Default" );
 
-    foreach( QString act, actions ) {
+    foreach( const QString &act, actions ) {
         m_GeneralWidgets.updateActionCB->addItem( act );
         m_GeneralWidgets.deleteActionCB->addItem( act );
     }
