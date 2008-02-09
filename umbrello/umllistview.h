@@ -328,9 +328,9 @@ protected:
 
     bool acceptDrag (QDropEvent* event) const;
     void keyPressEvent(QKeyEvent *);
-    void contentsDragEnterEvent(QDragEnterEvent* event);
-    void contentsDragMoveEvent(QDragMoveEvent* event);
-    void contentsDropEvent(QDropEvent* event);
+    void dragEnterEvent(QDragEnterEvent* event);
+    void dragMoveEvent(QDragMoveEvent* event);
+    void dropEvent(QDropEvent* event);
 
 
     /**

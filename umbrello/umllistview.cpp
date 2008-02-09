@@ -2867,18 +2867,18 @@ bool UMLListView::deleteItem(UMLListViewItem *temp) {
 }
 
 
-void UMLListView::contentsDragEnterEvent(QDragEnterEvent* event) {
+void UMLListView::dragEnterEvent(QDragEnterEvent* event) {
     event->accept();
-    K3ListView::contentsDragEnterEvent(event);
+    K3ListView::dragEnterEvent(event);
 }
 
 
-void UMLListView::contentsDragMoveEvent(QDragMoveEvent* event) {
+void UMLListView::dragMoveEvent(QDragMoveEvent* event) {
     event->accept();
-    K3ListView::contentsDragMoveEvent( event );
+    K3ListView::dragMoveEvent( event );
 }
 
-void UMLListView::contentsDropEvent(QDropEvent* event) {
+void UMLListView::dropEvent(QDropEvent* event) {
     if ( !acceptDrag( event ) )
         event->ignore();
     else {
@@ -2893,7 +2893,7 @@ void UMLListView::contentsDropEvent(QDropEvent* event) {
       slotDropped( event, 0, item );
 
     }
-    K3ListView::contentsDropEvent( event );
+    K3ListView::dropEvent( event );
 }
 
 void UMLListView::setBackgroundColor(const QColor & color)
