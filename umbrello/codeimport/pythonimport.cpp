@@ -113,9 +113,23 @@ void PythonImport::fillSource(const QString& word) {
     }
 }
 
-void PythonImport::skipBody() {
+QString PythonImport::indentation(int level) {
+    QString spaces;
+    for (int i = 0; i < level; i++)
+        spaces += "  ";
+    return spaces;
+}
+
+QString PythonImport::skipBody() {
+    /* During input preprocessing, changes in indentation were replaced by
+       braces, and a semicolon was appended to each line ending.
+       In order to return the body, we try to reconstruct the original Python
+       syntax by reverting those changes.
+     */
+    QString body = ":\n";
     if (m_source[m_srcIndex] != "{")
         skipStmt("{");
+    bool firstTokenAfterNewline = true;
     int braceNesting = 0;
     QString token;
     while (!(token = advance()).isNull()) {
@@ -123,10 +137,26 @@ void PythonImport::skipBody() {
             if (braceNesting <= 0)
                 break;
             braceNesting--;
+            body += "\n";
+            firstTokenAfterNewline = true;
         } else if (token == "{") {
             braceNesting++;
+            body += ":\n";
+            firstTokenAfterNewline = true;
+        } else if (token == ";") {
+            body += "\n";
+            firstTokenAfterNewline = true;
+        } else {
+            if (firstTokenAfterNewline) {
+                body += indentation(braceNesting);
+                firstTokenAfterNewline = false;
+            } else if (body.contains(QRegExp("\\w$")) && token.contains(QRegExp("^\\w"))) {
+                body += ' ';
+            }
+            body += token;
         }
     }
+    return body;
 }
 
 bool PythonImport::parseStmt() {
@@ -174,7 +204,7 @@ bool PythonImport::parseStmt() {
         Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, "string",
                                    false /*isStatic*/, false /*isAbstract*/, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
-        skipBody();
+        op->setSourceCode(skipBody());
         return true;
     }
     if (keyword == "}") {

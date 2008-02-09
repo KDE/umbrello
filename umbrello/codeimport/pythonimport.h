@@ -51,9 +51,15 @@ protected:
     bool preprocess(QString& line);
 
     /**
-     * Skip ahead to outermost closing brace
+     * Return an amount of spaces that corresponds to @param level
      */
-    void skipBody();
+    QString indentation(int level);
+
+    /**
+     * Skip ahead to outermost closing brace.
+     * @return  body contents skipped
+     */
+    QString skipBody();
 
     /**
      * Buffer for number of indentation characters (whitespace,
