@@ -57,6 +57,11 @@ public:
      */
     virtual const QStringList reservedKeywords() const;
 
+    /**
+     * Reimplementation of method from class CodeGenerator
+     */
+    QStringList defaultDatatypes();
+
 private:
 
     /**

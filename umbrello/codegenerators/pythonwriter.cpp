@@ -293,6 +293,21 @@ Uml::Programming_Language PythonWriter::getLanguage()
     return Uml::pl_Python;
 }
 
+QStringList PythonWriter::defaultDatatypes() {
+    QStringList l;
+    l.append("array");
+    l.append("bool");
+    l.append("tuple");
+    l.append("float");
+    l.append("int");
+    l.append("long");
+    l.append("dict");
+    l.append("object");
+    l.append("set");
+    l.append("string");
+    return l;
+}
+
 const QStringList PythonWriter::reservedKeywords() const
 {
     static QStringList keywords;
