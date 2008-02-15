@@ -41,6 +41,10 @@ void NoteWidgetController::mouseReleaseEvent(QMouseEvent *me) {
 void NoteWidgetController::doMouseDoubleClick(QMouseEvent* /*me*/) {
     //TODO Copied from old code. What it does?
     if (m_noteWidget->m_DiagramLink == Uml::id_None) {
+        // setup popup menu if not already created.
+        if ( !m_noteWidget->m_pMenu )
+            m_noteWidget->setupPopupMenu();
+
         QAction* action = m_noteWidget->m_pMenu->getAction(ListPopupMenu::mt_Rename);
         m_noteWidget->slotMenuSelection(action);
     } else {
