@@ -192,7 +192,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const {
     directory.setPath("");
 
     // creates the directory and any needed parent directories
-    QStringList dirs = url.directory().split(QDir::separator());
+    QStringList dirs = url.directory().split(QDir::separator(), QString::SkipEmptyParts );
     for (QStringList::ConstIterator it = dirs.begin() ; it != dirs.end(); ++it ) {
         directory.addPath(*it);
 
