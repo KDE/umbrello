@@ -5,19 +5,21 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2004-2006                                                *
+ *  copyright (C) 2004-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 #ifndef MODEL_UTILS_H
 #define MODEL_UTILS_H
 
-#include <qstring.h>
+#include <QtCore/QString>
 #include <q3valuelist.h>
 
 #include "umlnamespace.h"
 #include "umlobjectlist.h"
 #include "foreignkeyconstraint.h"
+#include "icon_utils.h"
+
 
 /**
  * General purpose model utilities.
@@ -193,10 +195,10 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o);
  * Return the Icon_Type which corresponds to the given listview type.
  *
  * @param lvt  ListView_Type to convert.
- * @return  The Uml::Icon_Type corresponding to the lvt.
+ * @return  The Icon_Utils::Icon_Type corresponding to the lvt.
  *          Returns it_Home in case no mapping to Uml::Icon_Type exists.
  */
-Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt);
+Icon_Utils::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt);
 
 /**
  * Return the Diagram_Type which corresponds to the given listview type.

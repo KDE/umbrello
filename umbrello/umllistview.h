@@ -5,31 +5,23 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLLISTVIEW_H
 #define UMLLISTVIEW_H
 
-#include <qdom.h>
-#include <qpixmap.h>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
+#include <QtGui/QTreeWidget>
+#include <QtGui/QTreeWidgetItem>
 
 #include <k3listview.h>
 
 #include "umlnamespace.h"
 #include "umllistviewitemlist.h"
-
-/**
- * This is one of the main classes used in this program.
- * Information is displayed here in a tree view.  No objects are created
- * here.  A call to @ref UMLDoc make any additions/deletion or updates to
- * objects.  This class will then wait for a signal before updating the tree view.
- *
- * @short  Displays the list view for the program.
- * @author Paul Hensgen    <phensgen@techie.com>
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
- */
+#include "icon_utils.h"
 
 class QEvent;
 class QMouseEvent;
@@ -46,15 +38,26 @@ class UMLObject;
 class UMLClassifierListItem;
 class UMLDragData;
 
-class UMLListView : public K3ListView {
+/**
+ * This is one of the main classes used in this program.
+ * Information is displayed here in a tree view. No objects are created
+ * here. A call to @ref UMLDoc make any additions/deletion or updates to
+ * objects. This class will then wait for a signal before updating the tree view.
+ *
+ * @short  Displays the list view for the program.
+ * @author Paul Hensgen    <phensgen@techie.com>
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
+class UMLListView : public K3ListView
+{
     Q_OBJECT
 public:
 
     /**
      * Constructs the tree view.
      *
-     * @param parent    The parent to this.
-     * @param name              The internal name for this class.
+     * @param parent   The parent to this.
+     * @param name     The internal name for this class.
      */
     UMLListView(QWidget *parent,const char *name);
 
@@ -67,9 +70,9 @@ public:
      * Sets the document his is associated with.  This is important as
      * this is required as to setup the callbacks.
      *
-     * @param d         The document to associate with this class.
+     * @param doc   The document to associate with this class.
      */
-    void setDocument(UMLDoc * d);
+    void setDocument(UMLDoc * doc);
 
     /**
      * Carries out initalisation of attributes in class.
@@ -79,32 +82,32 @@ public:
     /**
      * Set the current view to the given view.
      *
-     * @param v         The current view.
+     * @param view   The current view.
      */
-    void setView(UMLView* v);
+    void setView(UMLView* view);
 
     /**
      * Get selected items.
      *
-     * @param ItemList  List of UMLListViewItems returned.
-     * @return          The number of selected items.
+     * @param ItemList   List of UMLListViewItems returned.
+     * @return           The number of selected items.
      */
     int getSelectedItems(UMLListViewItemList &ItemList);
 
     /**
      * Get selected items, but only root elements selected (without children).
      *
-     * @param ItemList  List of UMLListViewItems returned.
-     * @return          The number of selected items.
+     * @param ItemList   List of UMLListViewItems returned.
+     * @return           The number of selected items.
      */
     int getSelectedItemsRoot(UMLListViewItemList &ItemList);
 
     /**
      * Create a listview item for an existing diagram.
      *
-     * @param v         The existing diagram.
+     * @param view   The existing diagram.
      */
-    UMLListViewItem* createDiagramItem(UMLView *v);
+    UMLListViewItem* createDiagramItem(UMLView *view);
 
     /**
      * CHECK - This is perhaps redundant since the
@@ -161,11 +164,6 @@ public:
     int getSelectedCount();
 
     /**
-     * Returns the correct pixmap for the given type.
-     */
-    QPixmap & getPixmap( Uml::Icon_Type type );
-
-    /**
      * Returns the document pointer.  Called by the UMLListViewItem class.
      */
     UMLDoc * getDocument() {
@@ -182,8 +180,8 @@ public:
     /**
      * Find an UMLObject in the listview.
      *
-     * @param p         Pointer to the object to find in the list view.
-     * @return  Pointer to the UMLObject found or NULL if not found.
+     * @param p   Pointer to the object to find in the list view.
+     * @return    Pointer to the UMLObject found or NULL if not found.
      */
     UMLListViewItem * findUMLObject(const UMLObject *p) const;
 
@@ -197,8 +195,8 @@ public:
     /**
      * Searches through the tree for the item with the given ID.
      *
-     * @param id                The ID to search for.
-     * @return  The item with the given ID or NULL if not found.
+     * @param id   The ID to search for.
+     * @return     The item with the given ID or NULL if not found.
      */
     UMLListViewItem * findItem(Uml::IDType id);
 
@@ -211,7 +209,7 @@ public:
     /**
      * Changes the icon for the given UMLObject to the given icon.
      */
-    void changeIconOf(UMLObject *o, Uml::Icon_Type to);
+    void changeIconOf(UMLObject *o, Icon_Utils::Icon_Type to);
 
     /**
      * Creates a UMLObject out of the given list view item.
@@ -315,8 +313,6 @@ protected:
      */
     bool m_bCreatingChildObject;
 
-    QPixmap m_Pixmaps[Uml::N_ICONTYPES];
-
     bool eventFilter(QObject *o, QEvent *e);
     void contentsMouseReleaseEvent(QMouseEvent * me);
     void contentsMousePressEvent(QMouseEvent *me);
@@ -332,7 +328,6 @@ protected:
     void dragMoveEvent(QDragMoveEvent* event);
     void dropEvent(QDropEvent* event);
 
-
     /**
      * This methods looks for a object in a folder an its subfolders recursive.
      * @param item The folder entry of the list view.
@@ -346,11 +341,6 @@ protected:
      * Return true if the given list view type can be expanded/collapsed.
      */
     static bool isExpandable(Uml::ListView_Type lvt);
-
-    /**
-     *  Loads the pixmaps to use in the list items.
-     */
-    void loadPixmaps();
 
     /**
      * Deletes all child-items of @p parent.
@@ -485,6 +475,7 @@ private:
     void setBackgroundColor(const QColor & color);
 
     QPoint m_dragStartPosition;
+
 };
 
 #endif

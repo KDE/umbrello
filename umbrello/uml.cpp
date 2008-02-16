@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,14 +13,13 @@
 #include "uml.h"
 
 // qt includes
-#include <qclipboard.h>
-#include <qtimer.h>
-#include <qslider.h>
-#include <qregexp.h>
-#include <qtoolbutton.h>
-//Added by qt3to4:
-#include <QKeyEvent>
-#include <QMenuItem>
+#include <QtCore/QTimer>
+#include <QtCore/QRegExp>
+#include <QtGui/QClipboard>
+#include <QtGui/QSlider>
+#include <QtGui/QToolButton>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QMenuItem>
 #include <QtGui/QDockWidget>
 #include <QtGui/QStackedWidget>
 #include <QtGui/QPrinter>
@@ -40,8 +39,6 @@
 #else
 #include <kfiledialog.h>
 #endif
-#include <kicon.h>
-#include <kiconloader.h>
 #include <klocale.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
@@ -64,6 +61,7 @@
 #include "codegenerators/codegenpolicyext.h"
 #include "optionstate.h"
 #include "widget_utils.h"
+#include "icon_utils.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlviewlist.h"
@@ -237,12 +235,12 @@ void UMLApp::initActions()
     preferences = KStandardAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
 
     importClasses = actionCollection()->addAction("import_class");
-    importClasses->setIcon(KIcon("document-import-class"));
+    importClasses->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Class));
     importClasses->setText(i18n("&Import Classes..."));
     connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
 
     importProject = actionCollection()->addAction("import_project");
-    importProject->setIcon(KIcon("document-import-project"));
+    importProject->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Project));
     importProject->setText(i18n("Import &Project..."));
     connect(importProject, SIGNAL( triggered( bool ) ), this, SLOT( slotImportProject() ));
 
@@ -297,72 +295,72 @@ void UMLApp::initActions()
     preferences->setToolTip( i18n( "Set the default program preferences") );
 
     deleteSelectedWidget = actionCollection()->addAction("delete_selected");
-    deleteSelectedWidget->setIcon(KIcon("edit-delete"));
+    deleteSelectedWidget->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Delete));
     deleteSelectedWidget->setText(i18n("Delete &Selected"));
     deleteSelectedWidget->setShortcut(QKeySequence(Qt::Key_Delete));
     connect(deleteSelectedWidget, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteSelectedWidget() ));
 
     // The different views
     newDiagram = actionCollection()->add<KActionMenu>( "new_view" );
-    newDiagram->setIcon( KIcon("document-new") );
+    newDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_New) );
     newDiagram->setText( "new_view" );
 
     classDiagram = actionCollection()->addAction( "new_class_diagram" );
-    classDiagram->setIcon( KIcon("umbrello_diagram_class") );
+    classDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Class) );
     classDiagram->setText( i18n( "&Class Diagram..." ) );
     connect(classDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotClassDiagram() ));
     newDiagram->addAction(classDiagram);
 
     sequenceDiagram= actionCollection()->addAction( "new_sequence_diagram" );
-    sequenceDiagram->setIcon( KIcon("umbrello_diagram_sequence") );
+    sequenceDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Sequence) );
     sequenceDiagram->setText( i18n( "&Sequence Diagram..." ) );
     connect(sequenceDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotSequenceDiagram() ));
     newDiagram->addAction(sequenceDiagram);
 
     collaborationDiagram = actionCollection()->addAction( "new_collaboration_diagram" );
-    collaborationDiagram->setIcon( KIcon("umbrello_diagram_collaboration") );
+    collaborationDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Collaboration) );
     collaborationDiagram->setText( i18n( "C&ollaboration Diagram..." ) );
     connect(collaborationDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCollaborationDiagram() ));
     newDiagram->addAction(collaborationDiagram);
 
     useCaseDiagram= actionCollection()->addAction( "new_use_case_diagram" );
-    useCaseDiagram->setIcon( KIcon("umbrello_diagram_usecase") );
+    useCaseDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Usecase) );
     useCaseDiagram->setText( i18n( "&Use Case Diagram..." ) );
     connect(useCaseDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotUseCaseDiagram() ));
     newDiagram->addAction(useCaseDiagram);
 
     stateDiagram= actionCollection()->addAction( "new_state_diagram" );
-    stateDiagram->setIcon( KIcon("umbrello_diagram_state") );
+    stateDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_State) );
     stateDiagram->setText( i18n( "S&tate Diagram..." ) );
     connect(stateDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotStateDiagram() ));
     newDiagram->addAction(stateDiagram);
 
     activityDiagram= actionCollection()->addAction( "new_activity_diagram" );
-    activityDiagram->setIcon( KIcon("umbrello_diagram_activity") );
+    activityDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Activity) );
     activityDiagram->setText( i18n( "&Activity Diagram..." ) );
     connect(activityDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotActivityDiagram() ));
     newDiagram->addAction(activityDiagram);
 
     componentDiagram = actionCollection()->addAction( "new_component_diagram" );
-    componentDiagram->setIcon( KIcon("umbrello_diagram_component") );
+    componentDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Component) );
     componentDiagram->setText( i18n("Co&mponent Diagram...") );
     connect(componentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotComponentDiagram() ));
     newDiagram->addAction(componentDiagram);
 
     deploymentDiagram = actionCollection()->addAction( "new_deployment_diagram" );
-    deploymentDiagram->setIcon( KIcon("umbrello_diagram_deployment") );
+    deploymentDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Deployment) );
     deploymentDiagram->setText( i18n("&Deployment Diagram...") );
     connect(deploymentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeploymentDiagram() ));
     newDiagram->addAction(deploymentDiagram);
 
     entityRelationshipDiagram = actionCollection()->addAction( "new_entityrelationship_diagram" );
-    entityRelationshipDiagram->setIcon( KIcon("umbrello_diagram_entityrelationship") );
+    entityRelationshipDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_EntityRelationship) );
     entityRelationshipDiagram->setText( i18n("&Entity Relationship Diagram...") );
     connect(entityRelationshipDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotEntityRelationshipDiagram() ));
     newDiagram->addAction(entityRelationshipDiagram);
 
     viewClearDiagram = actionCollection()->addAction( "view_clear_diagram" );
-    viewClearDiagram->setIcon( KIcon("edit-clear") );
+    viewClearDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Clear) );
     viewClearDiagram->setText( i18n("&Clear Diagram") );
     connect(viewClearDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewClearDiagram() ));
 
@@ -375,22 +373,22 @@ void UMLApp::initActions()
     connect(viewShowGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleShowGrid() ));
     viewShowGrid->setCheckedState(KGuiItem(i18n("&Hide Grid")));
     deleteDiagram = actionCollection()->addAction( "view_delete" );
-    deleteDiagram->setIcon( KIcon("edit-delete") );
+    deleteDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Delete) );
     deleteDiagram->setText( i18n("&Delete") );
     connect(deleteDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeleteDiagram() ));
 
     viewExportImage = actionCollection()->addAction( "view_export_image" );
-    viewExportImage->setIcon( KIcon("image-x-generic") );
+    viewExportImage->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture) );
     viewExportImage->setText( i18n("&Export as Picture...") );
     connect(viewExportImage, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewExportImage() ));
 
     viewExportImageAll = actionCollection()->addAction( "view_export_image_all" );
-    viewExportImageAll->setIcon( KIcon("image-x-generic") );
+    viewExportImageAll->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture) );
     viewExportImageAll->setText( i18n("Export &All Diagrams as Pictures...") );
     connect(viewExportImageAll, SIGNAL( triggered( bool ) ), this, SLOT( slotAllViewsExportImage() ));
 
     viewProperties = actionCollection()->addAction( "view_properties" );
-    viewProperties->setIcon( KIcon("document-properties") );
+    viewProperties->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Properties) );
     viewProperties->setText( i18n("&Properties") );
     connect(viewProperties, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewProperties() ));
 
@@ -406,66 +404,65 @@ void UMLApp::initActions()
 
     zoomAction = new KPlayerPopupSliderAction(this, SLOT(slotZoomSliderMoved(int)), this);
     zoomAction->setText(i18n("&Zoom Slider"));
-    zoomAction->setIcon(KIcon("zoom-original"));
+    zoomAction->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Zoom_Slider));
     zoomAction->setShortcuts(KShortcut(Qt::Key_F9));
     actionCollection()->addAction("popup_zoom", zoomAction);
     zoom100Action = actionCollection()->addAction("zoom100");
-    zoom100Action->setIcon(KIcon("zoom-original"));
+    zoom100Action->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Zoom_100));
     zoom100Action->setText(i18n("Z&oom to 100%"));
     connect(zoom100Action, SIGNAL( triggered( bool ) ), this, SLOT( slotZoom100() ));
 
     alignRight = actionCollection()->addAction( "align_right" );
     alignRight->setText(i18n("Align Right" ));
-    alignRight->setIcon(KIcon("align-horizontal-right" ) );
+    alignRight->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Right) );
     connect(alignRight, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignRight() ));
 
     alignLeft = actionCollection()->addAction( "align_left" );
     alignLeft->setText(i18n("Align Left" ));
-    alignLeft->setIcon(KIcon("align-horizontal-left" ) );
+    alignLeft->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Left) );
     connect(alignLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignLeft() ));
 
     alignTop = actionCollection()->addAction( "align_top" );
     alignTop->setText(i18n("Align Top" ));
-    alignTop->setIcon(KIcon("align-vertical-top" ) );
+    alignTop->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Top) );
     connect(alignTop, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignTop() ));
 
     alignBottom = actionCollection()->addAction( "align_bottom" );
     alignBottom->setText(i18n("Align Bottom" ));
-    alignBottom->setIcon(KIcon("align-vertical-bottom" ) );
+    alignBottom->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Bottom) );
     connect(alignBottom, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignBottom() ));
 
     alignVerticalMiddle = actionCollection()->addAction( "align_vertical_middle" );
     alignVerticalMiddle->setText(i18n("Align Vertical Middle" ));
-    alignVerticalMiddle->setIcon(KIcon("align-vertical-center" ) );
+    alignVerticalMiddle->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalMiddle) );
     connect(alignVerticalMiddle, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignVerticalMiddle() ));
 
     alignHorizontalMiddle = actionCollection()->addAction( "align_horizontal_middle" );
     alignHorizontalMiddle->setText(i18n("Align Horizontal Middle" ));
-    alignHorizontalMiddle->setIcon(KIcon("align-horizontal-center" ) );
+    alignHorizontalMiddle->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalMiddle) );
     connect(alignHorizontalMiddle, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignHorizontalMiddle() ));
 
     alignVerticalDistribute = actionCollection()->addAction( "align_vertical_distribute" );
     alignVerticalDistribute->setText(i18n("Align Vertical Distribute" ));
-    alignVerticalDistribute->setIcon(KIcon("distribute-vertical" ) );
+    alignVerticalDistribute->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalDistribute) );
     connect(alignVerticalDistribute, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignVerticalDistribute() ));
 
     alignHorizontalDistribute = actionCollection()->addAction( "align_horizontal_distribute" );
     alignHorizontalDistribute->setText(i18n("Align Horizontal Distribute" ));
-    alignHorizontalDistribute->setIcon(KIcon("distribute-horizontal" ) );
+    alignHorizontalDistribute->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalDistribute) );
     connect(alignHorizontalDistribute, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignHorizontalDistribute() ));
-
 
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
     moveTabLeft = actionCollection()->addAction("move_tab_left");
-    moveTabLeft->setIcon(KIcon(QApplication::layoutDirection() ? "go-next" : "go-previous"));
+    moveTabLeft->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Next : Icon_Utils::it_Go_Previous));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabLeft() ));
 
     moveTabRight = actionCollection()->addAction("move_tab_right");
-    moveTabRight->setIcon(KIcon(QApplication::layoutDirection() ? "go-previous" : "go-next"));
+    moveTabRight->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Previous : Icon_Utils::it_Go_Next));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
                   QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
@@ -488,7 +485,7 @@ void UMLApp::initActions()
     connect(changeTabRight, SIGNAL( triggered( bool ) ), this, SLOT( slotChangeTabRight() ));
 
 
-    initStatusBar(); //call this here because the statusBar is shown/hidden by setupGUI()
+    initStatusBar(); // call this here because the statusBar is shown/hidden by setupGUI()
 
     // use the absolute path to your umbrelloui.rc file for testing purpose in setupGUI();
     setupGUI();
@@ -594,14 +591,14 @@ void UMLApp::initView()
     m_tabWidget->setAutomaticResizeTabs( true );
 
     m_newSessionButton = new QToolButton(m_tabWidget);
-    m_newSessionButton->setIcon(SmallIcon("tab-new"));
+    m_newSessionButton->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Tab_New));
     m_newSessionButton->adjustSize();
     m_newSessionButton->setAutoRaise(true);
     m_newSessionButton->setPopupMode(QToolButton::InstantPopup);
     m_newSessionButton->setMenu(newDiagram->menu());
 
     m_closeDiagramButton = new QToolButton(m_tabWidget);
-    m_closeDiagramButton->setIcon( SmallIcon("tab-close"));
+    m_closeDiagramButton->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Tab_Close));
     m_closeDiagramButton->adjustSize();
 
     connect(m_closeDiagramButton, SIGNAL(clicked()), SLOT(slotDeleteDiagram()));
@@ -653,7 +650,7 @@ void UMLApp::initView()
     // create cmd history view
     m_pQUndoView = new QUndoView(m_cmdHistoryDock);
     m_cmdHistoryDock->setWidget(m_pQUndoView);
-    m_pQUndoView->setCleanIcon(KIcon("document-save"));
+    m_pQUndoView->setCleanIcon(Icon_Utils::SmallIcon(Icon_Utils::it_UndoView));
     m_pQUndoView->setStack(m_pUndoStack);
 
     // Create the property viewer
@@ -1349,7 +1346,7 @@ void UMLApp::slotApplyPrefs()
                 foreach (UMLView *view ,  views  ) {
                     m_viewStack->removeWidget(view);
                     m_tabWidget->addTab(view, view->getName());
-                    m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Widget_Utils::iconSet(view->getType()));
+                    m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Icon_Utils::iconSet(view->getType()));
                 }
                 m_layout->addWidget(m_tabWidget);
                 m_tabWidget->show();
@@ -2063,7 +2060,7 @@ void UMLApp::setCurrentView(UMLView* view)
     if (optionState.generalState.tabdiagrams) {
         if ( m_tabWidget->indexOf(view) < 0 ) {
             m_tabWidget->addTab(view, view->getName());
-            m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Widget_Utils::iconSet(view->getType()));
+            m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Icon_Utils::iconSet(view->getType()));
         }
 
         m_tabWidget->setCurrentIndex(m_tabWidget->indexOf(view));

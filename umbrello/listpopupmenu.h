@@ -17,6 +17,7 @@
 // #include <kaction.h>
 
 #include "umlnamespace.h"
+#include "icon_utils.h"
 
 class UMLView;
 class UMLWidget;

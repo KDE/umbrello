@@ -16,10 +16,10 @@
 #include <cstdlib>
 
 // qt/kde includes
-#include <QTextStream>
+#include <QtCore/QTextStream>
 #include <qfile.h>
 #include <qdrag.h>
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
@@ -39,8 +39,8 @@
 #include "model_utils.h"
 #include "uniqueid.h"
 #include "uml.h"
-
 #include "cmds.h"
+
 
 UMLListView* UMLListViewItem::s_pListView = 0;
 
@@ -53,7 +53,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
     m_pObject = o;
     if (o)
         m_nId = o->getID();
-    setIcon(Uml::it_Home);
+    setIcon(Icon_Utils::it_Home);
     setText(name);
     setRenameEnabled(0, false);
 }
@@ -100,31 +100,31 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     m_nId = id;
     switch (m_Type) {
     case Uml::lvt_Collaboration_Diagram:
-        setIcon(Uml::it_Diagram_Collaboration);
+        setIcon(Icon_Utils::it_Diagram_Collaboration);
         break;
     case Uml::lvt_Class_Diagram:
-        setIcon(Uml::it_Diagram_Class);
+        setIcon(Icon_Utils::it_Diagram_Class);
         break;
     case Uml::lvt_State_Diagram:
-        setIcon(Uml::it_Diagram_State);
+        setIcon(Icon_Utils::it_Diagram_State);
         break;
     case Uml::lvt_Activity_Diagram:
-        setIcon(Uml::it_Diagram_Activity);
+        setIcon(Icon_Utils::it_Diagram_Activity);
         break;
     case Uml::lvt_Sequence_Diagram:
-        setIcon(Uml::it_Diagram_Sequence);
+        setIcon(Icon_Utils::it_Diagram_Sequence);
         break;
     case Uml::lvt_Component_Diagram:
-        setIcon(Uml::it_Diagram_Component);
+        setIcon(Icon_Utils::it_Diagram_Component);
         break;
     case Uml::lvt_Deployment_Diagram:
-        setIcon(Uml::it_Diagram_Deployment);
+        setIcon(Icon_Utils::it_Diagram_Deployment);
         break;
     case Uml::lvt_UseCase_Diagram:
-        setIcon(Uml::it_Diagram_Usecase);
+        setIcon(Icon_Utils::it_Diagram_Usecase);
         break;
     default:
-        setIcon(Uml::it_Diagram);
+        setIcon(Icon_Utils::it_Diagram);
     }
     /*
         Constructor also used by folder so just make sure we don't need to
@@ -219,13 +219,13 @@ void UMLListViewItem::updateObject()
     }
     setText(modelObjText);
 
-    Uml::Icon_Type icon = Uml::it_Home;
+    Icon_Utils::Icon_Type icon = Icon_Utils::it_Home;
     switch (ot) {
     case Uml::ot_Package:
         if (m_pObject->getStereotype() == "subsystem")
-            icon = Uml::it_Subsystem;
+            icon = Icon_Utils::it_Subsystem;
         else
-            icon = Uml::it_Package;
+            icon = Icon_Utils::it_Package;
         break;
         /*
             case Uml::ot_Folder:
@@ -237,25 +237,25 @@ void UMLListViewItem::updateObject()
          */
     case Uml::ot_Operation:
         if (scope == Uml::Visibility::Public)
-            icon = Uml::it_Public_Method;
+            icon = Icon_Utils::it_Public_Method;
         else if (scope == Uml::Visibility::Private)
-            icon = Uml::it_Private_Method;
+            icon = Icon_Utils::it_Private_Method;
         else if (scope == Uml::Visibility::Implementation)
-            icon = Uml::it_Private_Method;
+            icon = Icon_Utils::it_Private_Method;
         else
-            icon = Uml::it_Protected_Method;
+            icon = Icon_Utils::it_Protected_Method;
         break;
 
     case Uml::ot_Attribute:
     case Uml::ot_EntityAttribute:
         if (scope == Uml::Visibility::Public)
-            icon = Uml::it_Public_Attribute;
+            icon = Icon_Utils::it_Public_Attribute;
         else if (scope == Uml::Visibility::Private)
-            icon = Uml::it_Private_Attribute;
+            icon = Icon_Utils::it_Private_Attribute;
         else if (scope == Uml::Visibility::Implementation)
-            icon = Uml::it_Private_Attribute;
+            icon = Icon_Utils::it_Private_Attribute;
         else
-            icon = Uml::it_Protected_Attribute;
+            icon = Icon_Utils::it_Protected_Attribute;
         break;
     case Uml::ot_UniqueConstraint:
         m_Type = Model_Utils::convert_OT_LVT(getUMLObject());
@@ -272,10 +272,10 @@ void UMLListViewItem::updateObject()
 
 void UMLListViewItem::updateFolder()
 {
-    Uml::Icon_Type icon = Model_Utils::convert_LVT_IT(m_Type);
+    Icon_Utils::Icon_Type icon = Model_Utils::convert_LVT_IT(m_Type);
     if (icon) {
         if (Model_Utils::typeIsFolder(m_Type))
-            icon = (Uml::Icon_Type)((int)icon + (int)isOpen());
+            icon = (Icon_Utils::Icon_Type)((int)icon + (int)isOpen());
         setIcon(icon);
     }
 }
@@ -302,9 +302,9 @@ QString UMLListViewItem::getText() const
     return m_Label;
 }
 
-void UMLListViewItem::setIcon(Uml::Icon_Type iconType)
+void UMLListViewItem::setIcon(Icon_Utils::Icon_Type iconType)
 {
-    setPixmap(0, s_pListView->getPixmap(iconType));
+    setPixmap(0, Icon_Utils::SmallIcon(iconType));
 }
 
 void UMLListViewItem::okRename(int col)
@@ -757,4 +757,3 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
     setOpen((bool)open.toInt());
     return true;
 }
-

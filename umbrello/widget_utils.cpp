@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,16 +14,15 @@
 
 // qt/kde includes
 #include <q3canvas.h>
-#include <qbrush.h>
-#include <qpen.h>
-#include <kiconloader.h>
+#include <QtGui/QBrush>
+#include <QtGui/QPen>
 #include <kdebug.h>
-#include <kicon.h>
 // app includes
 #include "uml.h"
 #include "umlview.h"
 #include "umlwidget.h"
 #include "objectwidget.h"
+
 
 namespace Widget_Utils {
 
@@ -51,44 +50,8 @@ UMLWidget* findWidget(Uml::IDType id,
     return NULL;
 }
 
-QIcon iconSet(Uml::Diagram_Type dt) {
-    QIcon diagramIconSet;
-    switch (dt) {
-    case Uml::dt_UseCase:
-        diagramIconSet = KIcon("umbrello_diagram_usecase");
-        break;
-    case Uml::dt_Collaboration:
-        diagramIconSet = KIcon("umbrello_diagram_collaboration");
-        break;
-    case Uml::dt_Class:
-        diagramIconSet = KIcon("umbrello_diagram_class");
-        break;
-    case Uml::dt_Sequence:
-        diagramIconSet = KIcon("umbrello_diagram_sequence");
-        break;
-    case Uml::dt_State:
-        diagramIconSet = KIcon("umbrello_diagram_state");
-        break;
-    case Uml::dt_Activity:
-        diagramIconSet = KIcon("umbrello_diagram_activity");
-        break;
-    case Uml::dt_Component:
-        diagramIconSet = KIcon("umbrello_diagram_component");
-        break;
-    case Uml::dt_Deployment:
-        diagramIconSet = KIcon("umbrello_diagram_deployment");
-        break;
-    case Uml::dt_EntityRelationship:
-        diagramIconSet = KIcon("umbrello_diagram_entityrelationship");
-        break;
-    default:
-        uDebug() << "Widget_Utils::iconSet: unknown diagram type " << dt;
-        diagramIconSet = KIcon("unknown");
-    }
-    return diagramIconSet;
-}
-
-Q3CanvasRectangle *decoratePoint(const QPoint& p) {
+Q3CanvasRectangle *decoratePoint(const QPoint& p)
+{
     const int SIZE = 4;
     UMLView *currentView = UMLApp::app()->getCurrentView();
     Q3CanvasRectangle *rect;

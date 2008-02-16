@@ -36,6 +36,7 @@
 #include "dialogs/umlattributedialog.h"
 #include "dialogs/umltemplatedialog.h"
 #include "optionstate.h"
+#include "icon_utils.h"
 
 using namespace Uml;
 
@@ -54,22 +55,22 @@ UMLClassifier::~UMLClassifier()
 void UMLClassifier::setBaseType(Uml::Object_Type ot)
 {
     m_BaseType = ot;
-    Uml::Icon_Type newIcon;
+    Icon_Utils::Icon_Type newIcon;
     switch (ot) {
         case ot_Interface:
             UMLObject::setStereotype("interface");
             UMLObject::m_bAbstract = true;
-            newIcon = Uml::it_Interface;
+            newIcon = Icon_Utils::it_Interface;
             break;
         case ot_Class:
             UMLObject::setStereotype(QString());
             UMLObject::m_bAbstract = false;
-            newIcon = Uml::it_Class;
+            newIcon = Icon_Utils::it_Class;
             break;
         case ot_Datatype:
             UMLObject::setStereotype("datatype");
             UMLObject::m_bAbstract = false;
-            newIcon = Uml::it_Datatype;
+            newIcon = Icon_Utils::it_Datatype;
             break;
         default:
             uError() << "cannot set to type " << ot << endl;

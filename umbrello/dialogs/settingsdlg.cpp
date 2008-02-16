@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -13,25 +13,26 @@
 #include "settingsdlg.h"
 
 // qt includes
-#include <QLayout>
-#include <QLabel>
-#include <QGridLayout>
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QGridLayout>
 
 // kde includes
 #include <kvbox.h>
-#include <kicon.h>
 #include <kdebug.h>
-#include <kiconloader.h>
 #include <klocale.h>
 #include <kfiledialog.h>
 // app includes
 #include "codegenerationoptionspage.h"
 #include "codevieweroptionspage.h"
 #include "../dialog_utils.h"
-#include  "../model_utils.h"
+#include "../model_utils.h"
+#include "../icon_utils.h"
+
 
 SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
-        : KPageDialog( parent) {
+        : KPageDialog( parent)
+{
     setCaption(i18n("Umbrello Setup") );
     setButtons( Help | Default | Apply | Ok | Cancel );
     setDefaultButton( Ok );
@@ -52,17 +53,18 @@ SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
     connect(this,SIGNAL(defaultClicked()),this,SLOT(slotDefault()));
 }
 
-SettingsDlg::~SettingsDlg() {}
+SettingsDlg::~SettingsDlg()
+{
+}
 
-void SettingsDlg::setupUIPage() {
+void SettingsDlg::setupUIPage()
+{
     //setup UI page
-
     KVBox * page = new KVBox();
     pageUserInterface = new KPageWidgetItem( page,i18n("User Interface"));
     pageUserInterface->setHeader( i18n("User Interface Settings") );
-    pageUserInterface->setIcon( KIcon("preferences-desktop-theme") );
+    pageUserInterface->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_UserInterface) );
     addPage( pageUserInterface );
-
 
     m_UiWidgets.colorGB = new Q3GroupBox( i18n("Color"), page );
     QGridLayout * colorLayout = new QGridLayout( m_UiWidgets.colorGB );
@@ -89,7 +91,6 @@ void SettingsDlg::setupUIPage() {
     m_UiWidgets.fillDefaultB = new QPushButton( i18n("De&fault Color"), m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.fillDefaultB, 1, 2 );
 
-
     m_UiWidgets.lineWidthL = new QLabel( i18n("Line width:"), m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.lineWidthL, 2, 0 );
 
@@ -101,8 +102,6 @@ void SettingsDlg::setupUIPage() {
     m_UiWidgets.lineWidthDefaultB = new QPushButton( i18n("D&efault Width"), m_UiWidgets.colorGB );
     colorLayout -> addWidget( m_UiWidgets.lineWidthDefaultB, 2, 2 );
 
-
-
     m_UiWidgets.useFillColorCB = new QCheckBox( i18n("&Use fill color"), m_UiWidgets.colorGB );
     colorLayout -> setRowStretch( 3, 2 );
     colorLayout -> addWidget( m_UiWidgets.useFillColorCB, 3, 0 );
@@ -113,13 +112,13 @@ void SettingsDlg::setupUIPage() {
     connect( m_UiWidgets.fillDefaultB, SIGNAL(clicked()), this, SLOT(slotFillBClicked()) );
 }
 
-void SettingsDlg::setupGeneralPage() {
+void SettingsDlg::setupGeneralPage()
+{
     //setup General page
-
     KVBox * page = new KVBox();
     pageGeneral = new KPageWidgetItem( page,i18n("General"));
     pageGeneral->setHeader( i18n("General Settings") );
-    pageGeneral->setIcon( KIcon("preferences-other") );
+    pageGeneral->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageGeneral );
 
     // Set up undo setting
@@ -148,8 +147,8 @@ void SettingsDlg::setupGeneralPage() {
     m_GeneralWidgets.footerPrintingCB = new QCheckBox( i18n("Turn on footer and page numbers when printing"), m_GeneralWidgets.miscGB );
     m_GeneralWidgets.footerPrintingCB -> setChecked( m_pOptionState->generalState.footerPrinting );
     miscLayout -> addWidget( m_GeneralWidgets.footerPrintingCB, 2, 0 );
-    //setup autosave settings
 
+    //setup autosave settings
     m_GeneralWidgets.autosaveGB = new Q3GroupBox( i18n("Autosave"), page );
 
     QGridLayout * autosaveLayout = new QGridLayout( m_GeneralWidgets.autosaveGB );
@@ -199,7 +198,6 @@ void SettingsDlg::setupGeneralPage() {
     m_GeneralWidgets.diagramKB->setCompletionMode( KGlobalSettings::CompletionPopup );
     startupLayout -> addWidget( m_GeneralWidgets.diagramKB, 1, 1 );
 
-
     // start at 1 because we don't allow No Diagram any more
     // diagramNo 1 is Uml::dt_Class
     // digaramNo 9 is Uml::dt_EntityRelationship
@@ -228,20 +226,21 @@ void SettingsDlg::setupGeneralPage() {
 }
 
 /**
-* Inserts @p type into the type-combobox as well as its completion object.
-*/
+ * Inserts @p type into the type-combobox as well as its completion object.
+ */
 void SettingsDlg::insertDiagram( const QString& type, int index )
 {
     m_GeneralWidgets.diagramKB->insertItem( index, type );
     m_GeneralWidgets.diagramKB->completionObject()->addItem( type );
 }
 
-void SettingsDlg::setupClassPage() {
+void SettingsDlg::setupClassPage()
+{
     //setup class settings page
     KVBox * page = new KVBox();
     pageClass = new KPageWidgetItem( page,i18n("Class"));
     pageClass->setHeader( i18n("Class Settings") );
-    pageClass->setIcon( KIcon( DesktopIcon( "document-properties") ));
+    pageClass->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Class) );
     addPage( pageClass );
 
     m_ClassWidgets.visibilityGB = new Q3GroupBox( i18n("Visibility"), page );
@@ -269,7 +268,6 @@ void SettingsDlg::setupClassPage() {
     m_ClassWidgets.showAttSigCB = new QCheckBox(i18n("Show attribute signature"), m_ClassWidgets.visibilityGB);
     m_ClassWidgets.showAttSigCB -> setChecked(   m_pOptionState->classState.showAttSig );
     visibilityLayout -> addWidget( m_ClassWidgets.showAttSigCB, 2, 0 );
-
 
     m_ClassWidgets.showPackageCB = new QCheckBox(i18n("Show package"), m_ClassWidgets.visibilityGB);
     m_ClassWidgets.showPackageCB -> setChecked(  m_pOptionState->classState.showPackage );
@@ -306,65 +304,69 @@ void SettingsDlg::setupClassPage() {
     m_ClassWidgets.m_pOperationScopeCB->setCurrentIndex(m_pOptionState->classState.defaultOperationScope);
     m_ClassWidgets.m_pOperationScopeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     scopeLayout -> addWidget( m_ClassWidgets.m_pOperationScopeCB, 1, 1 );
-
 }
+
 /**
-* Inserts @p type into the type-combobox as well as its completion object.
-*/
+ * Inserts @p type into the type-combobox as well as its completion object.
+ */
 void SettingsDlg::insertAttribScope( const QString& type, int index )
 {
     m_ClassWidgets.m_pAttribScopeCB->insertItem( index, type );
     m_ClassWidgets.m_pAttribScopeCB->completionObject()->addItem( type );
 }
+
 /**
-* Inserts @p type into the type-combobox as well as its completion object.
-*/
+ * Inserts @p type into the type-combobox as well as its completion object.
+ */
 void SettingsDlg::insertOperationScope( const QString& type, int index )
 {
     m_ClassWidgets.m_pOperationScopeCB->insertItem( index, type );
     m_ClassWidgets.m_pOperationScopeCB->completionObject()->addItem( type );
 }
 
-void SettingsDlg::setupCodeGenPage() {
+void SettingsDlg::setupCodeGenPage()
+{
     //setup code generation settings page
     KVBox * page = new KVBox();
     pageCodeGen = new KPageWidgetItem( page,i18n("Code Generation") );
     pageCodeGen->setHeader( i18n("Code Generation Settings") );
-    pageCodeGen->setIcon( KIcon("text-x-generic") );
+    pageCodeGen->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeGeneration) );
     addPage( pageCodeGen );
     m_pCodeGenPage = new CodeGenerationOptionsPage(page);
     connect( m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()) );
 }
 
-void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options) {
+void SettingsDlg::setupCodeViewerPage(Settings::CodeViewerState options)
+{
     //setup code generation settings page
     KVBox * page = new KVBox();
     pageCodeViewer = new KPageWidgetItem( page,i18n("Code Viewer")  );
     pageCodeViewer->setHeader( i18n("Code Viewer Settings") );
-    pageCodeViewer->setIcon( KIcon("text-x-generic") );
+    pageCodeViewer->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeViewer) );
     addPage( pageCodeViewer );
     m_pCodeViewerPage = new CodeViewerOptionsPage(options, page);
 }
 
-void SettingsDlg::setupFontPage() {
+void SettingsDlg::setupFontPage()
+{
     KVBox * page = new KVBox();
     pageFont = new KPageWidgetItem( page,i18n("Font")  );
     pageFont->setHeader( i18n("Font Settings") );
-    pageFont->setIcon( KIcon("preferences-desktop-font") );
+    pageFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageFont );
     m_FontWidgets.chooser = new KFontChooser( page,  false, QStringList(), false);
     m_FontWidgets.chooser->setFont( m_pOptionState->uiState.font );
-
 }
 
-void SettingsDlg::slotApply() {
+void SettingsDlg::slotApply()
+{
     applyPage( currentPage() );
     //do no emit signal applyClicked in the slot slotApply -> infinite loop
     //emit applyClicked();
 }
 
-void SettingsDlg::slotOk() {
-
+void SettingsDlg::slotOk()
+{
     applyPage( pageClass);
     applyPage( pageGeneral);
     applyPage( pageUserInterface );
@@ -374,8 +376,8 @@ void SettingsDlg::slotOk() {
     accept();
 }
 
-
-void SettingsDlg::slotDefault() {
+void SettingsDlg::slotDefault()
+{
     /*
        Defaults hard coded.  Make sure that this is alright.
        If defaults are set anywhere else, like in setting up config file, make sure the same.
@@ -418,7 +420,8 @@ void SettingsDlg::slotDefault() {
     }
 }
 
-void SettingsDlg::applyPage( KPageWidgetItem*item ) {
+void SettingsDlg::applyPage( KPageWidgetItem*item )
+{
     m_bChangesApplied = true;
     if ( item == pageGeneral )
     {
@@ -431,10 +434,9 @@ void SettingsDlg::applyPage( KPageWidgetItem*item ) {
         m_pOptionState->generalState.autosavetime = m_GeneralWidgets.timeISB -> value();
         // 2004-05-17 Achim Spangler: retrieve Suffix setting from dialog entry
         m_pOptionState->generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT -> text();
-	m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
+        m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB -> isChecked();
         m_pOptionState->generalState.diagram  = (Uml::Diagram_Type)(m_GeneralWidgets.diagramKB->currentIndex() + 1);
         m_pOptionState->generalState.defaultLanguage = ( Uml::Programming_Language )( m_GeneralWidgets.languageKB->currentIndex()  );
-
     }
     else if ( item == pageFont )
     {
@@ -470,19 +472,23 @@ void SettingsDlg::applyPage( KPageWidgetItem*item ) {
     }
 }
 
-void SettingsDlg::slotLineBClicked() {
+void SettingsDlg::slotLineBClicked()
+{
     m_UiWidgets.lineColorB -> setColor( Qt::red );
 }
 
-void SettingsDlg::slotFillBClicked() {
+void SettingsDlg::slotFillBClicked()
+{
     m_UiWidgets.fillColorB -> setColor( QColor(255, 255, 192) );
 }
 
-void SettingsDlg::slotAutosaveCBClicked() {
+void SettingsDlg::slotAutosaveCBClicked()
+{
     m_GeneralWidgets.timeISB -> setEnabled( m_GeneralWidgets.autosaveCB -> isChecked() );
 }
 
-QString SettingsDlg::getCodeGenerationLanguage() {
+QString SettingsDlg::getCodeGenerationLanguage()
+{
     return m_pCodeGenPage->getCodeGenerationLanguage();
 }
 

@@ -5,15 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef WIDGET_UTILS_H
 #define WIDGET_UTILS_H
 
-#include <qicon.h>
-#include <qpoint.h>
+#include <QtCore/QPoint>
 #include "umlnamespace.h"
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
@@ -41,10 +40,10 @@ UMLWidget* findWidget(Uml::IDType id,
                       const MessageWidgetList* pMessages = NULL);
 
 /**
- * Return the icon corresponding to the given Diagram_Type.
+ * Creates the decoration point.
+ * @param p   the base point
+ * @return    the decoration point
  */
-QIcon iconSet(Uml::Diagram_Type dt);
-
 Q3CanvasRectangle *decoratePoint(const QPoint& p);
 
 }

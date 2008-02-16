@@ -14,9 +14,10 @@
 #define UMLLISTVIEWITEM_H
 
 #include <q3listview.h>
-#include <qmap.h>
+#include <QtCore/QMap>
 #include <qdom.h>
 #include "umlnamespace.h"
+#include "icon_utils.h"
 
 // forward declarations
 class UMLListView;
@@ -33,7 +34,8 @@ class UMLClassifierListItem;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class UMLListViewItem : public Q3ListViewItem {
+class UMLListViewItem : public Q3ListViewItem
+{
 public:
     /**
      * Sets up an instance.
@@ -172,7 +174,7 @@ public:
     /**
      * Set the pixmap corresponding to the given Icon_Type.
      */
-    void setIcon(Uml::Icon_Type iconType);
+    void setIcon(Icon_Utils::Icon_Type iconType);
 
     /**
      * Overrides default method to make public.
@@ -285,6 +287,7 @@ protected:
     UMLObject * m_pObject;
     QString m_Label;
     ChildObjectMap m_comap;
+
 };
 
 #endif

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,24 +13,25 @@
 #include "activitydialog.h"
 
 //qt includes
-#include <QFrame>
-#include <QHBoxLayout>
-#include <QGridLayout>
-#include <QCheckBox>
-#include <QRadioButton>
+#include <QtGui/QFrame>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QCheckBox>
+#include <QtGui/QRadioButton>
 //kde includes
-#include <kicon.h>
 #include <kvbox.h>
-#include <kiconloader.h>
 #include <klocale.h>
 
 //local includes
 #include "../umlview.h"
 #include "../activitywidget.h"
 #include "../dialog_utils.h"
+#include "../icon_utils.h"
+
 
 ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
-        : KPageDialog(pView) {
+        : KPageDialog(pView)
+{
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
     setDefaultButton( Ok );
@@ -45,20 +46,22 @@ ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
-void ActivityDialog::slotOk() {
+void ActivityDialog::slotOk()
+{
     applyPage( pageItemColor );
     applyPage( pageItemFont );
     applyPage( pageItemGeneral );
     accept();
 }
 
-void ActivityDialog::slotApply() {
+void ActivityDialog::slotApply()
+{
     applyPage(currentPage());
 }
 
 void ActivityDialog::slotShowActivityParameter()
 {
-        m_GenPageWidgets.preL->show();
+    m_GenPageWidgets.preL->show();
     m_GenPageWidgets.preLE->show();
     m_GenPageWidgets.postL->show();
     m_GenPageWidgets.postLE->show();
@@ -79,13 +82,15 @@ void ActivityDialog::slotHideActivityParameter()
     m_GenPageWidgets.postL->hide();
     m_GenPageWidgets.postLE->hide();
 }
+
 void ActivityDialog::setupPages() {
     setupGeneralPage();
     setupColorPage();
     setupFontPage();
 }
 
-void ActivityDialog::applyPage( KPageWidgetItem *item ) {
+void ActivityDialog::applyPage( KPageWidgetItem *item )
+{
     m_bChangesMade = true;
     if ( item == pageItemGeneral )
     {
@@ -114,14 +119,15 @@ void ActivityDialog::applyPage( KPageWidgetItem *item ) {
 }
 
 
-void ActivityDialog::setupGeneralPage() {
+void ActivityDialog::setupGeneralPage()
+{
     QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n( "Branch/Merge"), i18n( "Fork/Join" ) };
     ActivityWidget::ActivityType type = m_pActivityWidget -> getActivityType();
 
     KVBox *page = new KVBox();
     pageItemGeneral = new KPageWidgetItem( page, i18n("General") );
     pageItemGeneral->setHeader(i18n("General Properties"));
-    pageItemGeneral->setIcon( KIcon(DesktopIcon( "misc")) );
+    pageItemGeneral->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageItemGeneral );
 
     m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
@@ -195,15 +201,17 @@ void ActivityDialog::setupGeneralPage() {
         m_GenPageWidgets.nameLE -> setText( m_pActivityWidget -> getName() );
 }
 
-void ActivityDialog::setupFontPage() {
+void ActivityDialog::setupFontPage()
+{
     KVBox *page = new KVBox();
     pageItemFont = new KPageWidgetItem( page, i18n("Font") );
     pageItemFont->setHeader( i18n("Font Settings") );
-    pageItemFont->setIcon( KIcon(DesktopIcon( "fonts") ));
+    pageItemFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageItemFont );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser -> setFont( m_pActivityWidget -> getFont() );
 }
+
 void ActivityDialog::showParameterActivity()
 {
     m_GenPageWidgets.preL->show();
@@ -219,11 +227,13 @@ void ActivityDialog::showParameterActivity()
         m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());
     }
 }
-void ActivityDialog::setupColorPage() {
+
+void ActivityDialog::setupColorPage()
+{
     QFrame *colorPage = new QFrame();
     pageItemColor = new KPageWidgetItem( colorPage, i18n("Color") );
     pageItemColor->setHeader( i18n("Widget Colors") );
-    pageItemColor->setIcon( KIcon(DesktopIcon( "colors") ));
+    pageItemColor->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
     addPage( pageItemColor );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pActivityWidget );

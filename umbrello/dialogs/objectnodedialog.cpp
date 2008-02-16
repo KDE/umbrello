@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,26 +13,26 @@
 #include "objectnodedialog.h"
 
 //qt includes
-#include <qlayout.h>
-//Added by qt3to4:
-#include <kicon.h>
-#include <QFrame>
-#include <QHBoxLayout>
-#include <QGridLayout>
-#include <QCheckBox>
-#include <QRadioButton>
-#include <kvbox.h>
+#include <QtGui/QLayout>
+#include <QtGui/QFrame>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QCheckBox>
+#include <QtGui/QRadioButton>
 //kde includes
-#include <kiconloader.h>
+#include <kvbox.h>
 #include <klocale.h>
 
 //local includes
 #include "../umlview.h"
 #include "../dialog_utils.h"
+#include "../icon_utils.h"
 #include "../objectnodewidget.h"
 
+
 ObjectNodeDialog::ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget )
-        : KPageDialog(pView) {
+        : KPageDialog(pView)
+{
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
     setDefaultButton( Ok );
@@ -47,14 +47,16 @@ ObjectNodeDialog::ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget 
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
-void ObjectNodeDialog::slotOk() {
+void ObjectNodeDialog::slotOk()
+{
     applyPage( pageItemColor );
     applyPage( pageItemFont );
     applyPage( pageItemGeneral );
     accept();
 }
 
-void ObjectNodeDialog::slotApply() {
+void ObjectNodeDialog::slotApply()
+{
     applyPage(currentPage());
 }
 
@@ -76,13 +78,16 @@ void ObjectNodeDialog::slotHideState()
     m_GenPageWidgets.stateLE->hide();
 
 }
-void ObjectNodeDialog::setupPages() {
+
+void ObjectNodeDialog::setupPages()
+{
     setupGeneralPage();
     setupColorPage();
     setupFontPage();
 }
 
-void ObjectNodeDialog::applyPage( KPageWidgetItem *item ) {
+void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
+{
     m_bChangesMade = true;
     if ( item == pageItemGeneral )
     {
@@ -112,14 +117,15 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item ) {
 }
 
 
-void ObjectNodeDialog::setupGeneralPage() {
+void ObjectNodeDialog::setupGeneralPage()
+{
     QString types[ ] = { i18n("Central Buffer"), i18n("Data Store"), i18n("ObjectFlow")};
     ObjectNodeWidget::ObjectNodeType type = m_pObjectNodeWidget -> getObjectNodeType();
 
     KVBox *page = new KVBox();
     pageItemGeneral = new KPageWidgetItem( page, i18n("General") );
     pageItemGeneral->setHeader(i18n("General Properties"));
-    pageItemGeneral->setIcon( KIcon(DesktopIcon( "misc")) );
+    pageItemGeneral->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageItemGeneral );
 
     m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
@@ -187,11 +193,12 @@ void ObjectNodeDialog::setupGeneralPage() {
         m_GenPageWidgets.nameLE -> setText( m_pObjectNodeWidget -> getName() );
 }
 
-void ObjectNodeDialog::setupFontPage() {
+void ObjectNodeDialog::setupFontPage()
+{
     KVBox *page = new KVBox();
     pageItemFont = new KPageWidgetItem( page, i18n("Font") );
     pageItemFont->setHeader( i18n("Font Settings") );
-    pageItemFont->setIcon( KIcon(DesktopIcon( "fonts") ));
+    pageItemFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageItemFont );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser -> setFont( m_pObjectNodeWidget -> getFont() );
@@ -207,11 +214,13 @@ void ObjectNodeDialog::showState()
         m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->getState());
     }
 }
-void ObjectNodeDialog::setupColorPage() {
+
+void ObjectNodeDialog::setupColorPage()
+{
     QFrame *colorPage = new QFrame();
     pageItemColor = new KPageWidgetItem( colorPage, i18n("Color") );
     pageItemColor->setHeader( i18n("Widget Colors") );
-    pageItemColor->setIcon( KIcon(DesktopIcon( "colors") ));
+    pageItemColor->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
     addPage( pageItemColor );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pObjectNodeWidget );

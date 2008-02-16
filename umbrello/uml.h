@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -332,27 +332,27 @@ public:
 
     /**
      * Undo last command
-    */
+     */
     void undo();
 
     /**
      * Redo last 'undoed' command
-    */
+     */
     void redo();
 
     /**
      * Execute a command and pushit in the stack.
-    */
+     */
     void executeCommand(QUndoCommand* cmd);
 
     /**
      * Begin a U/R command macro
-    */
+     */
     void BeginMacro( const QString & text );
 
     /**
      * End an U/R command macro
-    */
+     */
     void EndMacro();
 
 protected:

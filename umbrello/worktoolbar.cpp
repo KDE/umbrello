@@ -18,12 +18,12 @@
 #include <QtGui/QToolButton>
 #include <kdebug.h>
 #include <klocale.h>
-#include <kiconloader.h>
 
 // application specific includes
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "icon_utils.h"
 
 
 WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
@@ -263,84 +263,84 @@ void WorkToolBar::loadPixmaps()
     const struct ButtonInfo {
         const ToolBar_Buttons tbb;
         const QString btnName;
-        const QString pngName;
+        const Icon_Utils::Icon_Type icon;
         const char *slotName;
     } buttonInfo[] = {
 
-        { tbb_Object, i18n("Object"), "object", SLOT(slotObject()) },
-        { tbb_Seq_Message_Synchronous, i18n("Synchronous Message"), "message-synchronous", SLOT(slotSeq_Message_Synchronous()) },
-        { tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"), "message-asynchronous", SLOT(slotSeq_Message_Asynchronous()) },
-        { tbb_Seq_Message_Found, i18n("Found Message"), "message-found", SLOT(slotSeq_Message_Found()) },
-        { tbb_Seq_Message_Lost, i18n("Lost Message"), "message-lost", SLOT(slotSeq_Message_Lost()) },
-        { tbb_Seq_Combined_Fragment, i18n("Combined Fragment"), "combined_fragment", SLOT(slotSeq_Combined_Fragment()) },
-        { tbb_Seq_Precondition, i18n("Precondition"), "precondition", SLOT(slotSeq_Precondition()) },
-        { tbb_Association, i18n("Association"), "association", SLOT(slotAssociation()) },
-        { tbb_Containment, i18n("Containment"), "containment", SLOT(slotContainment()) },
-        { tbb_Anchor, i18n("Anchor"), "anchor", SLOT(slotAnchor()) },
-        { tbb_Text, i18n("Label"), "text", SLOT(slotText()) },
-        { tbb_Note, i18n("Note"), "note", SLOT(slotNote()) },
-        { tbb_Box, i18n("Box"), "box", SLOT(slotBox()) },
-        { tbb_Actor, i18n("Actor"), "actor", SLOT(slotActor()) },
-        { tbb_Dependency, i18n("Dependency"), "dependency", SLOT(slotDependency()) },
-        { tbb_Aggregation, i18n("Aggregation"), "aggregation", SLOT(slotAggregation()) },
-        { tbb_Relationship, i18n("Relationship"), "relationship", SLOT(slotRelationship()) },
-        { tbb_UniAssociation, i18n("Directional Association"), "uniassociation", SLOT(slotUniAssociation()) },
-        { tbb_Generalization, i18n("Implements"), "generalisation", SLOT(slotGeneralization()) },
-        { tbb_Composition, i18n("Composition"), "composition", SLOT(slotComposition()) },
-        { tbb_UseCase, i18n("Use Case"), "usecase", SLOT(slotUseCase()) },
-        { tbb_Class, i18n("Class"), "class", SLOT(slotClass()) },
-        { tbb_Initial_State, i18n("Initial State"), "initial_state", SLOT(slotInitial_State()) },
-        { tbb_Region, i18n("Region"), "region", SLOT(slotRegion()) },
-        { tbb_End_State, i18n("End State"), "end_state", SLOT(slotEnd_State()) },
-        { tbb_Branch, i18n("Branch/Merge"), "branch", SLOT(slotBranch()) },
-        { tbb_Send_Signal, i18n("Send signal"), "send_signal", SLOT(slotSend_Signal()) },
-        { tbb_Accept_Signal, i18n("Accept signal"), "accept_signal", SLOT(slotAccept_Signal()) },
-        { tbb_Accept_Time_Event, i18n("Accept time event"), "accept_time_event", SLOT(slotAccept_Time_Event()) },
-        { tbb_Fork, i18n("Fork/Join"), "fork", SLOT(slotFork()) },
-        { tbb_Package, i18n("Package"), "package", SLOT(slotPackage()) },
-        { tbb_Component, i18n("Component"), "component", SLOT(slotComponent()) },
-        { tbb_Node, i18n("Node"), "node", SLOT(slotNode()) },
-        { tbb_Artifact, i18n("Artifact"), "artifact", SLOT(slotArtifact()) },
-        { tbb_Interface, i18n("Interface"), "interface", SLOT(slotInterface()) },
-        { tbb_Datatype, i18n("Datatype"), "datatype", SLOT(slotDatatype()) },
-        { tbb_Enum, i18n("Enum"), "enum", SLOT(slotEnum()) },
-        { tbb_Entity, i18n("Entity"), "entity", SLOT(slotEntity()) },
-        { tbb_DeepHistory, i18n("Deep History"), "deep-history", SLOT(slotDeepHistory()) },          //NotYetImplemented
-        { tbb_ShallowHistory, i18n("Shallow History"), "shallow-history", SLOT(slotShallowHistory()) }, //NotYetImplemented
-        { tbb_Join, i18n("Join"), "join", SLOT(slotJoin()) },    //NotYetImplemented
-        { tbb_StateFork, i18n("Fork"), "state-fork", SLOT(slotStateFork()) },
-        { tbb_Junction, i18n("Junction"), "junction", SLOT(slotJunction()) },    //NotYetImplemented
-        { tbb_Choice, i18n("Choice"), "choice-round", SLOT(slotChoice()) },    //NotYetImplemented
+        { tbb_Object,                   i18n("Object"),                  Icon_Utils::it_Object,                  SLOT(slotObject()) },
+        { tbb_Seq_Message_Synchronous,  i18n("Synchronous Message"),     Icon_Utils::it_Message_Sync,            SLOT(slotSeq_Message_Synchronous()) },
+        { tbb_Seq_Message_Asynchronous, i18n("Asynchronous Message"),    Icon_Utils::it_Message_Async,           SLOT(slotSeq_Message_Asynchronous()) },
+        { tbb_Seq_Message_Found,        i18n("Found Message"),           Icon_Utils::it_Message_Found,           SLOT(slotSeq_Message_Found()) },
+        { tbb_Seq_Message_Lost,         i18n("Lost Message"),            Icon_Utils::it_Message_Lost,            SLOT(slotSeq_Message_Lost()) },
+        { tbb_Seq_Combined_Fragment,    i18n("Combined Fragment"),       Icon_Utils::it_Combined_Fragment,       SLOT(slotSeq_Combined_Fragment()) },
+        { tbb_Seq_Precondition,         i18n("Precondition"),            Icon_Utils::it_Precondition,            SLOT(slotSeq_Precondition()) },
+        { tbb_Association,              i18n("Association"),             Icon_Utils::it_Association,             SLOT(slotAssociation()) },
+        { tbb_Containment,              i18n("Containment"),             Icon_Utils::it_Containment,             SLOT(slotContainment()) },
+        { tbb_Anchor,                   i18n("Anchor"),                  Icon_Utils::it_Anchor,                  SLOT(slotAnchor()) },
+        { tbb_Text,                     i18n("Label"),                   Icon_Utils::it_Text,                    SLOT(slotText()) },
+        { tbb_Note,                     i18n("Note"),                    Icon_Utils::it_Note,                    SLOT(slotNote()) },
+        { tbb_Box,                      i18n("Box"),                     Icon_Utils::it_Box,                     SLOT(slotBox()) },
+        { tbb_Actor,                    i18n("Actor"),                   Icon_Utils::it_Actor,                   SLOT(slotActor()) },
+        { tbb_Dependency,               i18n("Dependency"),              Icon_Utils::it_Dependency,              SLOT(slotDependency()) },
+        { tbb_Aggregation,              i18n("Aggregation"),             Icon_Utils::it_Aggregation,             SLOT(slotAggregation()) },
+        { tbb_Relationship,             i18n("Relationship"),            Icon_Utils::it_Relationship,            SLOT(slotRelationship()) },
+        { tbb_UniAssociation,           i18n("Directional Association"), Icon_Utils::it_Directional_Association, SLOT(slotUniAssociation()) },
+        { tbb_Generalization,           i18n("Implements"),              Icon_Utils::it_Implements,              SLOT(slotGeneralization()) },
+        { tbb_Composition,              i18n("Composition"),             Icon_Utils::it_Composition,             SLOT(slotComposition()) },
+        { tbb_UseCase,                  i18n("Use Case"),                Icon_Utils::it_UseCase,                 SLOT(slotUseCase()) },
+        { tbb_Class,                    i18n("Class"),                   Icon_Utils::it_Class,                   SLOT(slotClass()) },
+        { tbb_Initial_State,            i18n("Initial State"),           Icon_Utils::it_InitialState,            SLOT(slotInitial_State()) },
+        { tbb_Region,                   i18n("Region"),                  Icon_Utils::it_Region,                  SLOT(slotRegion()) },
+        { tbb_End_State,                i18n("End State"),               Icon_Utils::it_EndState,                SLOT(slotEnd_State()) },
+        { tbb_Branch,                   i18n("Branch/Merge"),            Icon_Utils::it_Branch,                  SLOT(slotBranch()) },
+        { tbb_Send_Signal,              i18n("Send signal"),             Icon_Utils::it_Send_Signal,             SLOT(slotSend_Signal()) },
+        { tbb_Accept_Signal,            i18n("Accept signal"),           Icon_Utils::it_Accept_Signal,           SLOT(slotAccept_Signal()) },
+        { tbb_Accept_Time_Event,        i18n("Accept time event"),       Icon_Utils::it_Accept_TimeEvent,        SLOT(slotAccept_Time_Event()) },
+        { tbb_Fork,                     i18n("Fork/Join"),               Icon_Utils::it_Fork_Join,               SLOT(slotFork()) },
+        { tbb_Package,                  i18n("Package"),                 Icon_Utils::it_Package,                 SLOT(slotPackage()) },
+        { tbb_Component,                i18n("Component"),               Icon_Utils::it_Component,               SLOT(slotComponent()) },
+        { tbb_Node,                     i18n("Node"),                    Icon_Utils::it_Node,                    SLOT(slotNode()) },
+        { tbb_Artifact,                 i18n("Artifact"),                Icon_Utils::it_Artifact,                SLOT(slotArtifact()) },
+        { tbb_Interface,                i18n("Interface"),               Icon_Utils::it_Interface,               SLOT(slotInterface()) },
+        { tbb_Datatype,                 i18n("Datatype"),                Icon_Utils::it_Datatype,                SLOT(slotDatatype()) },
+        { tbb_Enum,                     i18n("Enum"),                    Icon_Utils::it_Enum,                    SLOT(slotEnum()) },
+        { tbb_Entity,                   i18n("Entity"),                  Icon_Utils::it_Entity,                  SLOT(slotEntity()) },
+        { tbb_DeepHistory,              i18n("Deep History"),            Icon_Utils::it_History_Deep,            SLOT(slotDeepHistory()) },     //NotYetImplemented
+        { tbb_ShallowHistory,           i18n("Shallow History"),         Icon_Utils::it_History_Shallow,         SLOT(slotShallowHistory()) },  //NotYetImplemented
+        { tbb_Join,                     i18n("Join"),                    Icon_Utils::it_Join,                    SLOT(slotJoin()) },            //NotYetImplemented
+        { tbb_StateFork,                i18n("Fork"),                    Icon_Utils::it_Fork_State,              SLOT(slotStateFork()) },
+        { tbb_Junction,                 i18n("Junction"),                Icon_Utils::it_Junction,                SLOT(slotJunction()) },        //NotYetImplemented
+        { tbb_Choice,                   i18n("Choice"),                  Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
         //:TODO: let the user decide which symbol he wants (setting an option)
-        //    { tbb_Choice, i18n("Choice"), "choice-rhomb", SLOT(slotChoice()) },    //NotYetImplemented
-        { tbb_Andline, i18n("And Line"), "andline", SLOT(slotAndline()) },    //NotYetImplemented
-        { tbb_State_Transition, i18n("State Transition"), "uniassociation", SLOT(slotState_Transition()) },
-        { tbb_Activity_Transition, i18n("Activity Transition"), "uniassociation", SLOT(slotActivity_Transition()) },
-        { tbb_Activity, i18n("Activity"), "usecase", SLOT(slotActivity()) },
-        { tbb_State, i18n("State"), "usecase", SLOT(slotState()) },
-        { tbb_End_Activity, i18n("End Activity"), "end_state", SLOT(slotEnd_Activity()) },
-        { tbb_Final_Activity, i18n("Final Activity"), "final_activity", SLOT(slotFinal_Activity()) },
-        { tbb_Pin, i18n("Pin"), "pin", SLOT(slotPin()) },
-        { tbb_Initial_Activity, i18n("Initial Activity"), "initial_state", SLOT(slotInitial_Activity()) },
-        { tbb_Coll_Message, i18n("Message"), "message-asynchronous", SLOT(slotColl_Message()) },
-        { tbb_Exception, i18n("Exception"), "exception", SLOT(slotException()) },
-        { tbb_Object_Node, i18n("Object Node"), "object_node", SLOT(slotObject_Node()) },
-        { tbb_PrePostCondition, i18n("Pre/Post condition"), "PrePostCondition", SLOT(slotPrePostCondition()) },
-        { tbb_Category, i18n("Category"), "category", SLOT(slotCategory())  },
-        { tbb_Category2Parent, i18n("Category to Parent"), "category2parent", SLOT(slotCategory2Parent()) },
-        { tbb_Child2Category, i18n("Child to Category"), "child2category", SLOT(slotChild2Category()) }
+        //    { tbb_Choice,                   i18n("Choice"),                  Icon_Utils::it_Choice_Rhomb,           SLOT(slotChoice()) },          //NotYetImplemented
+        { tbb_Andline,                  i18n("And Line"),                Icon_Utils::it_And_Line,                SLOT(slotAndline()) },         //NotYetImplemented
+        { tbb_State_Transition,         i18n("State Transition"),        Icon_Utils::it_State_Transition,        SLOT(slotState_Transition()) },
+        { tbb_Activity_Transition,      i18n("Activity Transition"),     Icon_Utils::it_Activity_Transition,     SLOT(slotActivity_Transition()) },
+        { tbb_Activity,                 i18n("Activity"),                Icon_Utils::it_Activity,                SLOT(slotActivity()) },
+        { tbb_State,                    i18n("State"),                   Icon_Utils::it_State,                   SLOT(slotState()) },
+        { tbb_End_Activity,             i18n("End Activity"),            Icon_Utils::it_Activity_End,            SLOT(slotEnd_Activity()) },
+        { tbb_Final_Activity,           i18n("Final Activity"),          Icon_Utils::it_Activity_Final,          SLOT(slotFinal_Activity()) },
+        { tbb_Pin,                      i18n("Pin"),                     Icon_Utils::it_Pin,                     SLOT(slotPin()) },
+        { tbb_Initial_Activity,         i18n("Initial Activity"),        Icon_Utils::it_Activity_Initial,        SLOT(slotInitial_Activity()) },
+        { tbb_Coll_Message,             i18n("Message"),                 Icon_Utils::it_Message,                 SLOT(slotColl_Message()) },
+        { tbb_Exception,                i18n("Exception"),               Icon_Utils::it_Exception,               SLOT(slotException()) },
+        { tbb_Object_Node,              i18n("Object Node"),             Icon_Utils::it_Object_Node,             SLOT(slotObject_Node()) },
+        { tbb_PrePostCondition,         i18n("Pre/Post condition"),      Icon_Utils::it_Condition_PrePost,       SLOT(slotPrePostCondition()) },
+        { tbb_Category,                 i18n("Category"),                Icon_Utils::it_Category,                SLOT(slotCategory())  },
+        { tbb_Category2Parent,          i18n("Category to Parent"),      Icon_Utils::it_Category_Parent,         SLOT(slotCategory2Parent()) },
+        { tbb_Child2Category,           i18n("Child to Category"),       Icon_Utils::it_Category_Child,          SLOT(slotChild2Category()) }
     };
 
     const size_t n_buttonInfos = sizeof(buttonInfo) / sizeof(ButtonInfo);
 
     /*    m_ToolButtons.insert(tbb_Undefined,
                              ToolButton(i18n("UNDEFINED"),
-                                        BarIcon("arrow"),
+                                        Icon_Utils::BarIcon(Icon_Utils::Arrow),
                                         QCursor(),
-                                        SLOT(slotArrow())) );    */
+                                        SLOT(slotArrow())));    */
     m_ToolButtons.insert(tbb_Arrow,
                          ToolButton(i18n("Select"),
-                                    BarIcon("arrow"),
+                                    Icon_Utils::BarIcon(Icon_Utils::it_Arrow),
                                     QCursor(),
                                     SLOT(slotArrow())));
 
@@ -348,8 +348,8 @@ void WorkToolBar::loadPixmaps()
         const ButtonInfo& info = buttonInfo[i];
         m_ToolButtons.insert(info.tbb,
                              ToolButton(info.btnName,
-                                        BarIcon(info.pngName),
-                                        QCursor(UserIcon("cursor-" + info.pngName), 9, 9),
+                                        Icon_Utils::BarIcon(info.icon),
+                                        Icon_Utils::Cursor(info.icon),
                                         info.slotName));
     }
 }

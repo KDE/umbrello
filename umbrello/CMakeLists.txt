@@ -289,6 +289,7 @@ set(libumbrello_SRCS
    foreignkeyconstraint.cpp
    forkjoinwidget.cpp 
    hierarchicalcodeblock.cpp 
+   icon_utils.cpp
    import_rose.cpp 
    kplayerslideraction.cpp
    linepath.cpp 

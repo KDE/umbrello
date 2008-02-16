@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -237,58 +237,6 @@ enum ListView_Type
     lvt_CheckConstraint,
     lvt_Category,
     lvt_Unknown = -1
-};
-
-enum Icon_Type
-{
-    it_Home = 0,
-    it_Folder_Cyan,
-    it_Folder_Cyan_Open,
-    it_Folder_Green,
-    it_Folder_Green_Open,
-    it_Folder_Grey,
-    it_Folder_Grey_Open,
-    it_Folder_Red,
-    it_Folder_Red_Open,
-    it_Folder_Violet,
-    it_Folder_Violet_Open,
-    it_Folder_Orange,
-    it_Folder_Orange_Open,
-    it_Diagram, //change to have different one for each type of diagram
-    it_Class,
-    it_Template,
-    it_Package,
-    it_Subsystem,
-    it_Component,
-    it_Node,
-    it_Artifact,
-    it_Interface,
-    it_Datatype,
-    it_Enum,
-    it_Entity,
-    it_Actor,
-    it_UseCase,
-    it_Category,
-    it_Public_Method,
-    it_Private_Method,
-    it_Protected_Method,
-    it_Public_Attribute,
-    it_Private_Attribute,
-    it_Protected_Attribute,
-    it_Unique_Constraint,
-    it_PrimaryKey_Constraint,
-    it_ForeignKey_Constraint,
-    it_Check_Constraint,
-    it_Diagram_Activity,
-    it_Diagram_Class,
-    it_Diagram_Collaboration,
-    it_Diagram_Component,
-    it_Diagram_Deployment,
-    it_Diagram_EntityRelationship,
-    it_Diagram_Sequence,
-    it_Diagram_State,
-    it_Diagram_Usecase,
-    N_ICONTYPES    // must remain last
 };
 
 enum Changeability_Type

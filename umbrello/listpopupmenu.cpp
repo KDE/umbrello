@@ -13,7 +13,6 @@
 #include "listpopupmenu.h"
 
 // qt/kde includes
-#include <kiconloader.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kactioncollection.h>
@@ -185,6 +184,10 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject
         mt = mt_Datatype;
         break;
 
+    case Uml::lvt_Datatype_Folder:
+        // let it mt_Undefined
+        break;
+
     case Uml::lvt_Attribute:
         mt = mt_Attribute;
         break;
@@ -263,8 +266,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Copy);
         insert(mt_Paste);
         addSeparator();
-        insert(mt_Change_Font_Selection, SmallIcon("preferences-desktop-font"), i18n("Change Font..."));
-        insert(mt_Delete_Selection, SmallIcon("edit-delete"), i18n("Delete Selected Items"));
+        insert(mt_Change_Font_Selection, Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font..."));
+        insert(mt_Delete_Selection, Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete Selected Items"));
 
         // add this here and not above with the other stuff of the interface
         // user might expect it at this position of the context menu
@@ -348,8 +351,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             if( pView->getType() == Uml::dt_Sequence ) {
                 addSeparator();
                 Menu_Type tabUp = mt_Up;
-                insert(mt_Up, SmallIcon("arrow-up"), i18n("Move Up"));
-                insert(mt_Down, SmallIcon("arrow-down"), i18n("Move Down"));
+                insert(mt_Up, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Up), i18n("Move Up"));
+                insert(mt_Down, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Down), i18n("Move Down"));
                 if ( !(static_cast<ObjectWidget*>(object))->canTabUp() ) {
                     setActionEnabled(tabUp, false);
                 }
@@ -365,7 +368,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_Message:
         insertStdItems(false, type);
         //insert(mt_Change_Font);
-        //insert(mt_Operation, SmallIcon( "document-new"), i18n("New Operation..."));
+        //insert(mt_Operation, Icon_Utils::SmallIcon(Icon_Utils::it_Operation_New), i18n("New Operation..."));
         //insert(mt_Select_Operation, i18n("Select Operation..."));
         break;
 
@@ -375,7 +378,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Cut);
         insert(mt_Copy);
         insert(mt_Paste);
-        insert(mt_Clear, SmallIcon("edit-clear"), i18n("Clear"));
+        insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18n("Clear"));
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
@@ -460,7 +463,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Cut);
         insert(mt_Copy);
         insert(mt_Paste);
-        insert(mt_Clear, SmallIcon( "edit-clear"), i18n("Clear"));
+        insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18n("Clear"));
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
@@ -479,7 +482,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Cut);
         insert(mt_Copy);
         insert(mt_Paste);
-        insert(mt_Clear, SmallIcon( "edit-clear"), i18n("Clear"));
+        insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18n("Clear"));
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
@@ -515,7 +518,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         case Uml::tr_Seq_Message_Self:
         case Uml::tr_Seq_Message:
             insert(mt_Change_Font);
-            insert(mt_Operation, SmallIcon( "document-new"), i18n("New Operation..."));
+            insert(mt_Operation, Icon_Utils::SmallIcon(Icon_Utils::it_Operation_New), i18n("New Operation..."));
             insert(mt_Select_Operation, i18n("Select Operation..."));
             break;
 
@@ -550,28 +553,28 @@ void ListPopupMenu::insert(Menu_Type m)
 {
     switch (m) {
     case mt_Properties:
-        m_actions[m] = addAction(SmallIcon("document-properties"), i18n("Properties"));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Properties), i18n("Properties"));
         break;
     case mt_Rename:
-        m_actions[m] = addAction(SmallIcon("edit-rename"), i18n("Rename..."));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Rename), i18n("Rename..."));
         break;
     case mt_Delete:
-        m_actions[m] = addAction(SmallIcon("edit-delete"), i18n("Delete"));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete"));
         break;
     case mt_Cut:
-        m_actions[m] = addAction(SmallIcon("edit-cut"), i18n("Cut"));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Cut), i18n("Cut"));
         break;
     case mt_Copy:
-        m_actions[m] = addAction(SmallIcon("edit-copy"), i18n("Copy"));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Copy), i18n("Copy"));
         break;
     case mt_Paste:
-        m_actions[m] = addAction(SmallIcon("edit-paste"), i18n("Paste"));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Paste), i18n("Paste"));
         break;
     case mt_Change_Font:
-        m_actions[m] = addAction(SmallIcon("preferences-desktop-font"), i18n("Change Font..."));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Change_Font), i18n("Change Font..."));
         break;
     case mt_Line_Color:
-        m_actions[m] = addAction(SmallIcon("format-stroke-color"), i18n("Line Color..."));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
         break;
     case mt_Expand_All:
         m_actions[m] = addAction(i18n("Expand All"));
@@ -589,34 +592,34 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(i18n("Internalize Folder"));
         break;
     case mt_Import_Classes:
-        m_actions[m] = addAction(BarIcon("file-import-class"), i18n("Import Classes..."));
+        m_actions[m] = addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Class), i18n("Import Classes..."));
         break;
     case mt_Import_Project:
-        m_actions[m] = addAction(BarIcon("file-import-project"), i18n("Import Project..."));
+        m_actions[m] = addAction(Icon_Utils::BarIcon(Icon_Utils::it_Import_Project), i18n("Import Project..."));
         break;
     case mt_Reset_Label_Positions:
         m_actions[m] = addAction(i18n("Reset Label Positions"));
         break;
     case mt_New_Parameter:
-        m_actions[m] = addAction(SmallIcon("text-x-generic"), i18n("New Parameter..."));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Parameter_New), i18n("New Parameter..."));
         break;
     case mt_New_Operation:
-        m_actions[m] = addAction(SmallIcon("CVpublic_meth"),i18n("New Operation..."));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Operation_Public_New),i18n("New Operation..."));
         break;
     case mt_New_Attribute:
-        m_actions[m] = addAction(SmallIcon("CVpublic_var"), i18n("New Attribute..."));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Attribute_New), i18n("New Attribute..."));
         break;
     case mt_New_Template:
-        m_actions[m] = addAction(SmallIcon("text-x-generic-template"), i18n("New Template..."));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("New Template..."));
         break;
     case mt_New_EnumLiteral:
-        m_actions[m] = addAction(SmallIcon("text-x-generic"), i18n("New Literal..."));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Literal_New), i18n("New Literal..."));
         break;
     case mt_New_EntityAttribute:
-        m_actions[m] = addAction(SmallIcon("text-x-generic"), i18n("New Entity Attribute..."));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute_New), i18n("New Entity Attribute..."));
         break;
     case mt_Export_Image:
-        m_actions[m] = addAction(SmallIcon("image-x-generic"), i18n("Export as Picture..."));
+        m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture), i18n("Export as Picture..."));
         break;
     default:
         uWarning() << "called on unimplemented Menu_Type " << m;
@@ -629,13 +632,13 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
     Q_ASSERT(menu != NULL);
     switch (m) {
     case mt_Subsystem:
-        m_actions[m] = menu->addAction(SmallIcon("subsystem"), i18n("Subsystem"));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem"));
         break;
     case mt_Component:
-        m_actions[m] = menu->addAction(SmallIcon("component"), i18n("Component"));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component"));
         break;
     case mt_Artifact:
-        m_actions[m] = menu->addAction(SmallIcon("artifact"), i18n("Artifact"));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Artifact), i18n("Artifact"));
         break;
     case mt_Component_Diagram:
         {
@@ -646,7 +649,7 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
         }
         break;
     case mt_Node:
-        m_actions[m] = menu->addAction(SmallIcon("node"), i18n("Node"));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Node), i18n("Node"));
         break;
     case mt_Deployment_Diagram:
         {
@@ -659,10 +662,10 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
     case mt_Component_Folder:
     case mt_UseCase_Folder:
     case mt_EntityRelationship_Folder:
-        m_actions[m] = menu->addAction(BarIcon("folder-new"), i18n("Folder"));
+        m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder"));
         break;
     case mt_Entity:
-        m_actions[m] = menu->addAction(SmallIcon("entity"), i18n("Entity"));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Entity), i18n("Entity"));
         break;
     case mt_EntityRelationship_Diagram:
         {
@@ -672,13 +675,13 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
         }
         break;
     case mt_Category:
-        m_actions[m] = menu->addAction(SmallIcon("category"), i18n("Category"));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Category), i18n("Category"));
         break;
     case mt_Actor:
-        m_actions[m] = menu->addAction(SmallIcon("actor"), i18n("Actor"));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Actor), i18n("Actor"));
         break;
     case mt_UseCase:
-        m_actions[m] = menu->addAction(SmallIcon("usecase"), i18n("Use Case"));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("Use Case"));
         break;
     case mt_UseCase_Diagram:
         {
@@ -688,7 +691,7 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
         }
         break;
     case mt_FloatText:
-        m_actions[m] = menu->addAction(SmallIcon("text"), i18n("Text Line..." ));
+        m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line..." ));
         break;
     default:
         uWarning() << "called on unimplemented Menu_Type " << m;
@@ -745,14 +748,14 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
 void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
 {
     KMenu* menu = new KMenu(i18n("New"), this);
-    menu->setIcon(SmallIcon("document-new"));
+    menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     if (folderAndDiagrams)
-        insert(mt_Logical_Folder, menu, BarIcon("folder-new"), i18n("Folder"));
-    insert(mt_Class, menu, SmallIcon("class"), i18n("Class"));
-    insert(mt_Interface, menu, SmallIcon("interface"), i18n("Interface"));
-    insert(mt_Datatype, menu, SmallIcon("datatype"), i18n("Datatype"));
-    insert(mt_Enum, menu, SmallIcon("enum"), i18n("Enum"));
-    insert(mt_Package, menu, SmallIcon("package"), i18n("Package"));
+        insert(mt_Logical_Folder, menu, Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder"));
+    insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18n("Class"));
+    insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface"));
+    insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype"));
+    insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum"));
+    insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package"));
     if (folderAndDiagrams) {
         menu->addAction(UMLApp::app()->actionCollection()->action("new_class_diagram"));
         menu->addAction(UMLApp::app()->actionCollection()->action("new_sequence_diagram"));
@@ -806,7 +809,7 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
     ClassifierWidget *cls = NULL;
 
     KMenu* show = new KMenu(i18n("Show"), this);
-    show->setIcon(SmallIcon("document-preview"));
+    show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
     if (type == Uml::wt_Class) {
         cls = static_cast<ClassifierWidget*>(c);
         insert(mt_Show_Attributes_Selection, show, i18n("Attributes"), CHECKABLE);
@@ -841,11 +844,11 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 {
     Uml::Widget_Type type = c->getBaseType();
     KMenu* menu = new KMenu(i18n("New"), this);
-    menu->setIcon(SmallIcon("document-new"));
+    menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     if (type == Uml::wt_Class)
-        insert(mt_Attribute, menu, SmallIcon( "CVpublic_var" ), i18n("Attribute..."));
-    insert(mt_Operation, menu, SmallIcon( "CVpublic_meth"), i18n("Operation..."));
-    insert(mt_Template, menu, SmallIcon( "text-x-generic-template" ), i18n( "Template..." ));
+        insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
+    insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation..."));
+    insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n( "Template..." ));
     addMenu(menu);
 
     makeMultiClassifierPopup(c);
@@ -859,8 +862,8 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
         setActionChecked(mt_DrawAsCircle, c->getDrawAsCircle());
         insert(mt_ChangeToClass, i18n("Change into Class"));
     } else {
-        insert(mt_Refactoring, SmallIcon("refactor"), i18n("Refactor"));
-        insert(mt_ViewCode, SmallIcon("text-x-generic"), i18n("View Code"));
+        insert(mt_Refactoring, Icon_Utils::SmallIcon(Icon_Utils::it_Refactor), i18n("Refactor"));
+        insert(mt_ViewCode, Icon_Utils::SmallIcon(Icon_Utils::it_View_Code), i18n("View Code"));
         UMLClassifier *umlc = c->getClassifier();
         if (umlc->getAbstract() && umlc->attributes() == 0)
             insert(mt_ChangeToInterface, i18n("Change into Interface"));
@@ -871,8 +874,8 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 void ListPopupMenu::insertSubMenuColor(bool fc)
 {
     KMenu* color = new KMenu(i18n("Color"), this);
-    insert(mt_Line_Color, color, SmallIcon("color-line"), i18n("Line Color..."));
-    insert(mt_Fill_Color, color, SmallIcon("color-fill"), i18n("Fill Color..."));
+    insert(mt_Line_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
+    insert(mt_Fill_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
     insert(mt_Use_Fill_Color, color, i18n("Use Fill Color"), CHECKABLE);
     setActionChecked(mt_Use_Fill_Color, fc);
     addMenu(color);
@@ -957,7 +960,7 @@ Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt)
 void ListPopupMenu::insertSubMenuNew(Menu_Type type)
 {
     KMenu* menu = new KMenu(i18n("New"), this);
-    menu->setIcon(SmallIcon("document-new"));
+    menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     switch (type) {
         case mt_Deployment_View:
             insert(mt_Deployment_Folder, menu);
@@ -1005,70 +1008,70 @@ void ListPopupMenu::insertSubMenuNew(Menu_Type type)
             insert(mt_EntityRelationship_Diagram, menu);
             break;
         case mt_On_UseCase_Diagram:
-            insert(mt_Actor, menu, SmallIcon("actor"), i18n( "Actor..." ));
-            insert(mt_UseCase, menu, SmallIcon("usecase"), i18n( "Use Case..."));
+            insert(mt_Actor, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Actor), i18n( "Actor..." ));
+            insert(mt_UseCase, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n( "Use Case..."));
             insert(mt_FloatText, menu);
             break;
         case mt_On_Class_Diagram:
-            insert(mt_Class, menu, SmallIcon("class"), i18n("Class..."));
-            insert(mt_Interface, menu, SmallIcon("interface"), i18n("Interface..."));
-            insert(mt_Datatype, menu, SmallIcon("datatype"), i18n("Datatype..."));
-            insert(mt_Enum, menu, SmallIcon("enum"), i18n("Enum..."));
-            insert(mt_Package, menu, SmallIcon("package"), i18n("Package..."));
+            insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18n("Class..."));
+            insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
+            insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
+            insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
+            insert(mt_Package, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Package), i18n("Package..."));
             insert(mt_FloatText, menu);
             break;
         case mt_On_State_Diagram:
-            insert(mt_Initial_State, menu, SmallIcon("initial_state"), i18n("Initial State"));
-            insert(mt_End_State, menu, SmallIcon("end_state"), i18n("End State"));
-            insert(mt_State, menu, SmallIcon("usecase"), i18n("State..."));
+            insert(mt_Initial_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial State"));
+            insert(mt_End_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End State"));
+            insert(mt_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("State..."));
             insert(mt_FloatText, menu);
             break;
         case mt_On_Activity_Diagram:
-            insert(mt_Initial_Activity, menu, SmallIcon("initial_state"), i18n("Initial Activity"));
-            insert(mt_End_Activity, menu, SmallIcon("end_state"), i18n("End Activity"));
-            insert(mt_Activity, menu, SmallIcon("usecase"), i18n("Activity..."));
-            insert(mt_Branch, menu, SmallIcon("branch"), i18n("Branch/Merge"));
+            insert(mt_Initial_Activity, menu, Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial Activity"));
+            insert(mt_End_Activity, menu, Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End Activity"));
+            insert(mt_Activity, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("Activity..."));
+            insert(mt_Branch, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Branch), i18n("Branch/Merge"));
             insert(mt_FloatText, menu);
             break;
         case mt_On_Component_Diagram:
-            insert(mt_Subsystem, menu, SmallIcon("subsystem"), i18n("Subsystem..."));
-            insert(mt_Component, menu, SmallIcon("component"), i18n("Component..."));
-            insert(mt_Artifact, menu, SmallIcon("artifact"), i18n("Artifact..."));
+            insert(mt_Subsystem, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Subsystem), i18n("Subsystem..."));
+            insert(mt_Component, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Component), i18n("Component..."));
+            insert(mt_Artifact, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Artifact), i18n("Artifact..."));
             break;
         case mt_On_Deployment_Diagram:
-            insert(mt_Node, menu, SmallIcon("node"), i18n("Node..."));
+            insert(mt_Node, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Node), i18n("Node..."));
             break;
         case mt_On_EntityRelationship_Diagram:
-            insert(mt_Entity, menu, SmallIcon("entity"), i18n("Entity..."));
-            insert(mt_Category, menu, SmallIcon("category"), i18n("Category..."));
+            insert(mt_Entity, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Entity), i18n("Entity..."));
+            insert(mt_Category, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Category), i18n("Category..."));
             break;
         case mt_On_Sequence_Diagram:
         case mt_On_Collaboration_Diagram:
-            insert(mt_Object, menu, SmallIcon("object"), i18n("Object..."));
+            insert(mt_Object, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Object), i18n("Object..."));
             insert(mt_FloatText, menu);
             break;
         case mt_Class:
-            insert(mt_Attribute, menu, SmallIcon("CVpublic_var"), i18n("Attribute"));
-            insert(mt_Operation, menu, SmallIcon("CVpublic_meth"), i18n("Operation"));
-            insert(mt_Template, menu, SmallIcon("format-justify-fill"), i18n("Template"));
+            insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute"));
+            insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation"));
+            insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_Class), i18n("Template"));
             break;
         case mt_Interface:
-            insert(mt_Operation, menu, SmallIcon("CVpublic_meth"), i18n("Operation"));
-            insert(mt_Template, menu, SmallIcon("text-x-generic-template"), i18n("Template"));
+            insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation"));
+            insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_Interface), i18n("Template"));
             break;
         case mt_Entity:
-            insert(mt_EntityAttribute, menu, SmallIcon("text-x-generic"), i18n("Entity Attribute..."));
-            insert(mt_PrimaryKeyConstraint, menu, SmallIcon("primarykey_constraint"),i18n("Primary Key Constraint..."));
-            insert(mt_UniqueConstraint, menu, SmallIcon("unique_constraint"),i18n("Unique Constraint..."));
-            insert(mt_ForeignKeyConstraint, menu, SmallIcon("foreignkey_constraint"),i18n("Foreign Key Constraint..."));
-            insert(mt_CheckConstraint, menu, SmallIcon("check_constraint"),i18n("Check Constraint..."));
+            insert(mt_EntityAttribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Entity_Attribute), i18n("Entity Attribute..."));
+            insert(mt_PrimaryKeyConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_PrimaryKey),i18n("Primary Key Constraint..."));
+            insert(mt_UniqueConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Unique),i18n("Unique Constraint..."));
+            insert(mt_ForeignKeyConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_ForeignKey),i18n("Foreign Key Constraint..."));
+            insert(mt_CheckConstraint, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Constraint_Check),i18n("Check Constraint..."));
             break;
         case mt_Enum:
-            insert(mt_EnumLiteral, menu, SmallIcon("text-x-generic"), i18n("Enum Literal..."));
+            insert(mt_EnumLiteral, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum_Literal), i18n("Enum Literal..."));
             break;
         case mt_New_Activity:
         case mt_Activity_Selected:
-            insert(mt_New_Activity, menu, SmallIcon("text-x-generic"), i18n("Activity..."));
+            insert(mt_New_Activity, menu, Icon_Utils::SmallIcon(Icon_Utils::it_State_Activity), i18n("Activity..."));
             break;
         case mt_Subsystem:
             insert(mt_Subsystem, menu);
@@ -1439,7 +1442,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         break;
 
     case mt_Template_Selected:
-        insert(mt_New_Attribute, SmallIcon("text-x-generic-template"), i18n("New Template..."));
+        insert(mt_New_Attribute, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("New Template..."));
         insert(mt_Delete);
         insert(mt_Properties);
         break;
@@ -1487,7 +1490,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
         break;
 
     case mt_Anchor:
-        insert(mt_Delete, SmallIcon("edit-delete"), i18n("Delete Anchor"));
+        insert(mt_Delete, Icon_Utils::SmallIcon(Icon_Utils::it_Delete), i18n("Delete Anchor"));
         break;
 
     case mt_RoleNameA:
@@ -1559,14 +1562,14 @@ void ListPopupMenu::setupMenu(Menu_Type type)
 
 void ListPopupMenu::setupDiagramMenu(UMLView* view)
 {
-    insert(mt_Undo, SmallIcon("edit-undo"), i18n("Undo"));
-    insert(mt_Redo, SmallIcon("edit-redo"), i18n("Redo"));
+    insert(mt_Undo, Icon_Utils::SmallIcon(Icon_Utils::it_Undo), i18n("Undo"));
+    insert(mt_Redo, Icon_Utils::SmallIcon(Icon_Utils::it_Redo), i18n("Redo"));
     addSeparator();
     insert(mt_Cut);
     insert(mt_Copy);
     insert(mt_Paste);
     addSeparator();
-    insert(mt_Clear, SmallIcon("edit-clear"), i18n("Clear Diagram"));
+    insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18n("Clear Diagram"));
     insert(mt_Export_Image);
     addSeparator();
     insert(mt_SnapToGrid, i18n("Snap to Grid"), CHECKABLE);

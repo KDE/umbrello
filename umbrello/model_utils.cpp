@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2004-2007                                                *
+ *  copyright (C) 2004-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -13,8 +13,8 @@
 #include "model_utils.h"
 
 // qt/kde includes
-#include <qregexp.h>
-#include <qstringlist.h>
+#include <QtCore/QRegExp>
+#include <QtCore/QStringList>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
@@ -1137,125 +1137,125 @@ Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt) {
     return ot;
 }
 
-Uml::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt) {
-    Uml::Icon_Type icon = Uml::it_Home;
+Icon_Utils::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt) {
+    Icon_Utils::Icon_Type icon = Icon_Utils::it_Home;
     switch (lvt) {
         case Uml::lvt_UseCase_View:
         case Uml::lvt_UseCase_Folder:
-            icon = Uml::it_Folder_Grey;
+            icon = Icon_Utils::it_Folder_Grey;
             break;
         case Uml::lvt_Logical_View:
         case Uml::lvt_Logical_Folder:
-            icon = Uml::it_Folder_Green;
+            icon = Icon_Utils::it_Folder_Green;
             break;
         case Uml::lvt_Datatype_Folder:
-            icon = Uml::it_Folder_Orange;
+            icon = Icon_Utils::it_Folder_Orange;
             break;
         case Uml::lvt_Component_View:
         case Uml::lvt_Component_Folder:
-            icon = Uml::it_Folder_Red;
+            icon = Icon_Utils::it_Folder_Red;
             break;
         case Uml::lvt_Deployment_View:
         case Uml::lvt_Deployment_Folder:
-            icon = Uml::it_Folder_Violet;
+            icon = Icon_Utils::it_Folder_Violet;
             break;
         case Uml::lvt_EntityRelationship_Model:
         case Uml::lvt_EntityRelationship_Folder:
-            icon = Uml::it_Folder_Cyan;
+            icon = Icon_Utils::it_Folder_Cyan;
             break;
 
         case Uml::lvt_Actor:
-            icon = Uml::it_Actor;
+            icon = Icon_Utils::it_Actor;
             break;
         case Uml::lvt_UseCase:
-            icon = Uml::it_UseCase;
+            icon = Icon_Utils::it_UseCase;
             break;
         case Uml::lvt_Class:
-            icon = Uml::it_Class;
+            icon = Icon_Utils::it_Class;
             break;
         case Uml::lvt_Package:
-            icon = Uml::it_Package;
+            icon = Icon_Utils::it_Package;
             break;
         case Uml::lvt_Subsystem:
-            icon = Uml::it_Subsystem;
+            icon = Icon_Utils::it_Subsystem;
             break;
         case Uml::lvt_Component:
-            icon = Uml::it_Component;
+            icon = Icon_Utils::it_Component;
             break;
         case Uml::lvt_Node:
-            icon = Uml::it_Node;
+            icon = Icon_Utils::it_Node;
             break;
         case Uml::lvt_Artifact:
-            icon = Uml::it_Artifact;
+            icon = Icon_Utils::it_Artifact;
             break;
         case Uml::lvt_Interface:
-            icon = Uml::it_Interface;
+            icon = Icon_Utils::it_Interface;
             break;
         case Uml::lvt_Datatype:
-            icon = Uml::it_Datatype;
+            icon = Icon_Utils::it_Datatype;
             break;
         case Uml::lvt_Enum:
-            icon = Uml::it_Enum;
+            icon = Icon_Utils::it_Enum;
             break;
         case Uml::lvt_Entity:
-            icon = Uml::it_Entity;
+            icon = Icon_Utils::it_Entity;
             break;
         case Uml::lvt_Category:
-            icon = Uml::it_Category;
+            icon = Icon_Utils::it_Category;
             break;
         case Uml::lvt_Template:
-            icon = Uml::it_Template;
+            icon = Icon_Utils::it_Template;
             break;
         case Uml::lvt_Attribute:
-            icon = Uml::it_Private_Attribute;
+            icon = Icon_Utils::it_Private_Attribute;
             break;
         case Uml::lvt_EntityAttribute:
-            icon = Uml::it_Private_Attribute;
+            icon = Icon_Utils::it_Private_Attribute;
             break;
         case Uml::lvt_EnumLiteral:
-            icon = Uml::it_Public_Attribute;
+            icon = Icon_Utils::it_Public_Attribute;
             break;
         case Uml::lvt_Operation:
-            icon = Uml::it_Public_Method;
+            icon = Icon_Utils::it_Public_Method;
             break;
         case Uml::lvt_UniqueConstraint:
-            icon = Uml::it_Unique_Constraint;
+            icon = Icon_Utils::it_Unique_Constraint;
             break;
         case Uml::lvt_PrimaryKeyConstraint:
-            icon = Uml::it_PrimaryKey_Constraint;
+            icon = Icon_Utils::it_PrimaryKey_Constraint;
             break;
         case Uml::lvt_ForeignKeyConstraint:
-            icon = Uml::it_ForeignKey_Constraint;
+            icon = Icon_Utils::it_ForeignKey_Constraint;
             break;
         case Uml::lvt_CheckConstraint:
-            icon = Uml::it_Check_Constraint;
+            icon = Icon_Utils::it_Check_Constraint;
             break;
         case Uml::lvt_Class_Diagram:
-            icon = Uml::it_Diagram_Class;
+            icon = Icon_Utils::it_Diagram_Class;
             break;
         case Uml::lvt_UseCase_Diagram:
-            icon = Uml::it_Diagram_Usecase;
+            icon = Icon_Utils::it_Diagram_Usecase;
             break;
         case Uml::lvt_Sequence_Diagram:
-            icon = Uml::it_Diagram_Sequence;
+            icon = Icon_Utils::it_Diagram_Sequence;
             break;
         case Uml::lvt_Collaboration_Diagram:
-            icon = Uml::it_Diagram_Collaboration;
+            icon = Icon_Utils::it_Diagram_Collaboration;
             break;
         case Uml::lvt_State_Diagram:
-            icon = Uml::it_Diagram_State;
+            icon = Icon_Utils::it_Diagram_State;
             break;
         case Uml::lvt_Activity_Diagram:
-            icon = Uml::it_Diagram_Activity;
+            icon = Icon_Utils::it_Diagram_Activity;
             break;
         case Uml::lvt_Component_Diagram:
-            icon = Uml::it_Diagram_Component;
+            icon = Icon_Utils::it_Diagram_Component;
             break;
         case Uml::lvt_Deployment_Diagram:
-            icon = Uml::it_Diagram_Deployment;
+            icon = Icon_Utils::it_Diagram_Deployment;
             break;
         case Uml::lvt_EntityRelationship_Diagram:
-            icon = Uml::it_Diagram_EntityRelationship;
+            icon = Icon_Utils::it_Diagram_EntityRelationship;
             break;
 
         default:
