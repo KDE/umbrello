@@ -241,13 +241,16 @@ void ParmPropDlg::slotOk() {
         }
         UMLClassifierList namesList( m_pUmldoc->getConcepts() );
         UMLClassifier * obj = NULL;
+        bool matchFound = false;
+
         foreach ( obj, namesList) {
             if (obj->getFullyQualifiedName() == typeName) {
                 m_pAtt->setType( obj );
+                matchFound = true;
                 break;
             }
         }
-        if (obj == NULL) {
+        if (!matchFound) {
             // Nothing found: Create a new type on the fly.
             // @todo There should be an extra dialog to decide whether to
             // create a datatype or a class. For now, we create a class.
