@@ -275,7 +275,7 @@ void ClassifierListPage::slotClicked(QListWidgetItem* item)
     // there are no items of course;
     //
     // for more information see Qt doc for void QListBox::clearSelection()
-    UMLClassifierListItem* listItem;
+    UMLClassifierListItem* listItem = NULL;
     if (item == NULL) {
         if (m_pItemListLB->count() == 0) {
             enableWidgets(false);
