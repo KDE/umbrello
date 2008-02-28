@@ -4,8 +4,8 @@
  *  in the Modeller but uses significantly less file space because the     *
  *  source code is not replicated in the XMI file.                         *
  *                                                                         *
- *  copyright       : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov     *
- *  (C) 2004-2007  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>    *
+ *  (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov                       *
+ *  (C) 2004-2008  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>    *
  *                                                                         *
  ***************************************************************************
  *                                                                         *
@@ -1120,7 +1120,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
             str += ';'; // terminate now
         }
         else {
-            str += m_endl + getIndent() + "{" + m_endl;
+            str += m_endl + getIndent() + '{' + m_endl;
             QString sourceCode = op->getSourceCode();
             if (sourceCode.isEmpty()) {
                 // empty method body - TODO: throw exception
@@ -1128,7 +1128,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
             else {
                 str += formatSourceCode(sourceCode, getIndent() + getIndent());
             }
-            str += getIndent() + "}";
+            str += getIndent() + '}';
         }
 
         // write it out

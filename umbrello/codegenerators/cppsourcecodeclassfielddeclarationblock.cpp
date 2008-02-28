@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -57,10 +57,10 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent( )
     QString fieldName = jcf->getFieldName();
     QString initialV = jcf->getInitialValue();
 
-    QString body = staticValue+scopeStr+" "+typeName+" "+fieldName;
+    QString body = staticValue+scopeStr + ' ' + typeName + ' ' + fieldName;
     if (!initialV.isEmpty())
             body.append(" = " + initialV);
-    setText(body+";");
+    setText(body + ';');
 
 }
 

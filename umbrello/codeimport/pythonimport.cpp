@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2007                                                *
+ *  copyright (C) 2006-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -137,14 +137,14 @@ QString PythonImport::skipBody() {
             if (braceNesting <= 0)
                 break;
             braceNesting--;
-            body += "\n";
+            body += '\n';
             firstTokenAfterNewline = true;
         } else if (token == "{") {
             braceNesting++;
             body += ":\n";
             firstTokenAfterNewline = true;
         } else if (token == ";") {
-            body += "\n";
+            body += '\n';
             firstTokenAfterNewline = true;
         } else {
             if (firstTokenAfterNewline) {
