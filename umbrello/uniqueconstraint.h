@@ -35,7 +35,7 @@ public:
      * @param id        The unique id given to this UMLUniqueConstraint.
      */
     UMLUniqueConstraint(UMLObject *parent, const QString& name,
-			Uml::IDType id = Uml::id_None );
+                        Uml::IDType id = Uml::id_None );
 
     /**
      * Sets up a constraint.
@@ -118,7 +118,7 @@ public:
      * Get the Entity Attributes List
      */
     UMLEntityAttributeList getEntityAttributeList() const {
-	return m_EntityAttributeList;
+        return m_EntityAttributeList;
     }
 
     /**

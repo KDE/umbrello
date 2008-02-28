@@ -220,10 +220,10 @@ protected:
          * @param angle The inclination angle
          */
         void setInclination(int angle) {
-	    inclination = angle;
+            inclination = angle;
         }
     protected:
-	/**
+        /**
          * Reimplementation from base class
          */
         void drawShape(QPainter& p);

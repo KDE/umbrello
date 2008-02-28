@@ -105,7 +105,7 @@ void KPlayerPopupSliderAction::slotTriggered()
 
       if(KToolBar* associatedToolBar = dynamic_cast<KToolBar*>(associatedWidget)) {
 
-	associatedToolButton = associatedToolBar->childAt(associatedToolBar->mapFromGlobal(QCursor::pos()));
+        associatedToolButton = associatedToolBar->childAt(associatedToolBar->mapFromGlobal(QCursor::pos()));
         if(associatedToolButton)
           break;             // found the tool button which was clicked
 

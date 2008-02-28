@@ -32,7 +32,7 @@ public:
     enum Category_Type {
         ct_Disjoint_Specialisation,
         ct_Overlapping_Specialisation,
-	ct_Union
+        ct_Union
     };
 
    /**

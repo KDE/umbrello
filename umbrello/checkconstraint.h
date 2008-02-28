@@ -34,7 +34,7 @@ public:
      * @param id        The unique id given to this UMLCheckConstraint.
      */
     UMLCheckConstraint(UMLObject *parent, const QString& name,
-			Uml::IDType id = Uml::id_None );
+                       Uml::IDType id = Uml::id_None );
 
     /**
      * Sets up a constraint.

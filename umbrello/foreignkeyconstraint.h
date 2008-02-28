@@ -41,7 +41,7 @@ public:
      * is either, No Action, Restrict, Cascade, Set NULL , Set Default
      */
     enum UpdateDeleteAction { uda_NoAction = 0 , uda_Restrict ,
-			      uda_Cascade , uda_SetNull, uda_SetDefault } ;
+                              uda_Cascade , uda_SetNull, uda_SetDefault } ;
 
     /**
      * Sets up a constraint.
@@ -51,7 +51,7 @@ public:
      * @param id        The unique id given to this UMLForeignKeyConstraint.
      */
     UMLForeignKeyConstraint(UMLObject *parent, const QString& name,
-			    Uml::IDType id = Uml::id_None );
+                            Uml::IDType id = Uml::id_None );
 
     /**
      * Sets up a constraint.
@@ -138,8 +138,8 @@ public:
     /**
      * Retrieve all Pairs of Attributes
      */
-    QMap<UMLEntityAttribute*,UMLEntityAttribute*>  getEntityAttributePairs(){
-	return m_AttributeMap;
+    QMap<UMLEntityAttribute*,UMLEntityAttribute*> getEntityAttributePairs() {
+         return m_AttributeMap;
     }
 
     /**
@@ -159,15 +159,15 @@ public:
     /**
      * Set the Delete Action to the specified UpdateDeleteAction
      */
-    void setDeleteAction(UpdateDeleteAction uda){
+    void setDeleteAction(UpdateDeleteAction uda) {
         m_DeleteAction = uda;
     }
 
     /**
      * Set the Update Action to the specified UpdateDeleteAction
      */
-    void setUpdateAction(UpdateDeleteAction uda){
-	m_UpdateAction = uda;
+    void setUpdateAction(UpdateDeleteAction uda) {
+        m_UpdateAction = uda;
     }
 
     /**
