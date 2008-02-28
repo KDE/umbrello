@@ -4,8 +4,8 @@
     in the Modeller but uses significantly less file space because the
     source code is not replicated in the XMI file.
                              -------------------
-    copyright            : (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
-      (C) 2004-2007  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+    (C) 2003 Brian Thomas brian.thomas@gsfc.nasa.gov
+    (C) 2004-2008  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
 ***************************************************************************/
 
 /***************************************************************************
@@ -873,7 +873,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
     }
 }
 
-QString JavaWriter::fixInitialStringDeclValue(const QString& val, QString type)
+QString JavaWriter::fixInitialStringDeclValue(const QString& val, const QString& type)
 {
     QString value = val;
     // check for strings only

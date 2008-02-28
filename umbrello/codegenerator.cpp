@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -194,7 +194,7 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement )
 }
 
 // probably we have code which was entered in classpropdlg for an operation
-void CodeGenerator::loadCodeForOperation(const QString& idStr, QDomElement codeDocElement)
+void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement& codeDocElement)
 {
     Uml::IDType id = STR2ID(idStr);
     UMLObject *obj = m_document->findObjectById(id);

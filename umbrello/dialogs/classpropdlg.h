@@ -194,7 +194,7 @@ private:
 
     void init();
 
-    QFrame* createPage(const QString name, const QString header, Icon_Utils::Icon_Type icon);
+    QFrame* createPage(const QString& name, const QString& header, Icon_Utils::Icon_Type icon);
 
 };
 

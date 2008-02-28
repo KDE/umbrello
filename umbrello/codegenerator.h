@@ -402,7 +402,7 @@ private:
     /**
      * Extract and load code for operations from xmi section.
      */
-    void loadCodeForOperation(const QString& id, QDomElement codeDocElement);
+    void loadCodeForOperation(const QString& id, const QDomElement& codeDocElement);
 
 public slots:
 

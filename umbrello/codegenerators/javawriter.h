@@ -4,8 +4,8 @@
     in the Modeller but uses significantly less file space because the
     source code is not replicated in the XMI file.
                              -------------------
-    copyright            : (C) 2003 Brian Thomas
-         (C) 2004  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+    (C) 2003 Brian Thomas
+    (C) 2008  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -210,7 +210,7 @@ private:
     /**
      * Check that initial values of strings have quotes around them.
      */
-    QString fixInitialStringDeclValue(const QString& val, QString type);
+    QString fixInitialStringDeclValue(const QString& val, const QString& type);
 
     /**
      * Write a blank line.
