@@ -32,11 +32,11 @@
  * @see UMLObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class UMLCanvasObject : public UMLObject
 {
     Q_OBJECT
 public:
+
     /**
      * Sets up a UMLCanvasObject.
      *
@@ -75,15 +75,15 @@ public:
     /**
      * Determine if this canvasobject has the given association.
      *
-     * @param assoc             The association to check.
+     * @param assoc   The association to check.
      */
     bool hasAssociation(UMLAssociation* assoc);
 
     /**
      * Remove an association end from the CanvasObject.
      *
-     * @param assoc         The association to remove.
-     *                  @todo change param type to UMLRole
+     * @param assoc   The association to remove.
+     *                @todo change param type to UMLRole
      */
     int removeAssociationEnd(UMLAssociation *assoc);
 
@@ -110,8 +110,8 @@ public:
     /**
      * Return the subset of m_List that matches the given type.
      *
-     * @param assocType The Association_Type to match.
-     * @return  The list of associations that match assocType.
+     * @param assocType   The Association_Type to match.
+     * @return   The list of associations that match assocType.
      */
     UMLAssociationList getSpecificAssocs(Uml::Association_Type assocType);
 
@@ -223,13 +223,6 @@ protected:
      *
      */
     UMLObjectList m_List;
-
-private:
-
-    /**
-     * Initialises key variables of the class.
-     */
-    void init();
 
 signals:
 
