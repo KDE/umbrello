@@ -13,9 +13,10 @@
  *      Date   : Wed Jun 18 2003
  */
 
+#include "codeblock.h"
+
 #include "kdebug.h"
 
-#include "codeblock.h"
 #include "codedocument.h"
 
 
