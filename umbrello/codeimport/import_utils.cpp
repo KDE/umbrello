@@ -5,15 +5,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2007                                               *
+ *   copyright (C) 2005-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "import_utils.h"
 // qt/kde includes
-#include <qmap.h>
-#include <qregexp.h>
+#include <QtCore/QMap>
+#include <QtCore/QRegExp>
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -33,7 +33,6 @@
 #include "../association.h"
 #include "../object_factory.h"
 
-#include <stdlib.h>
 
 namespace Import_Utils {
 
@@ -440,7 +439,7 @@ void createGeneralization(UMLClassifier *child, const QString &parentName) {
 
 QStringList includePathList() {
     QStringList includePathList(incPathList);
-    QString umbrello_incpath = QString(getenv("UMBRELLO_INCPATH"));
+    QString umbrello_incpath = QString(qgetenv("UMBRELLO_INCPATH"));
     if (!umbrello_incpath.isEmpty()) {
         includePathList += umbrello_incpath.split( ':' );
     }

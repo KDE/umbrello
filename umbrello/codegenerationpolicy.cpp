@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,14 +17,11 @@
 // own header
 #include "codegenerationpolicy.h"
 
-//system includes
-#include <cstdlib> //to get the user name
-
 // qt includes
-#include <qstringlist.h>
-#include <qregexp.h>
-#include <qtextstream.h>
-#include <qdatetime.h>
+#include <QtCore/QStringList>
+#include <QtCore/QRegExp>
+#include <QtCore/QTextStream>
+#include <QtCore/QDateTime>
 
 // kde includes
 #include <kconfig.h>
@@ -42,12 +39,9 @@ using namespace std;
 
 #define MAXLINES 256
 
-// Constructors/Destructors
-//
 
 CodeGenerationPolicy::CodeGenerationPolicy(CodeGenerationPolicy * clone)
 {
-
     // first call the function which can give us values from disk, so that we have something to fall back on
     setDefaults(false);
     // then set the values from the object passed.
@@ -59,19 +53,9 @@ CodeGenerationPolicy::CodeGenerationPolicy()
     setDefaults(false);
 }
 
-CodeGenerationPolicy::~CodeGenerationPolicy ( ) { }
-
-//
-// Methods
-//
-
-
-// Accessor methods
-//
-
-
-// Public attribute accessor methods
-//
+CodeGenerationPolicy::~CodeGenerationPolicy()
+{
+}
 
 /**
  * Set the value of m_overwritePolicy
@@ -79,7 +63,8 @@ CodeGenerationPolicy::~CodeGenerationPolicy ( ) { }
  * "yes" and "no".
  * @param new_var the new value of m_overwritePolicy
  */
-void CodeGenerationPolicy::setOverwritePolicy ( OverwritePolicy new_var ) {
+void CodeGenerationPolicy::setOverwritePolicy ( OverwritePolicy new_var )
+{
     Settings::getOptionState().codeGenerationState.overwritePolicy = new_var;
 }
 
@@ -89,7 +74,8 @@ void CodeGenerationPolicy::setOverwritePolicy ( OverwritePolicy new_var ) {
  * "yes" and "no".
  * @return the value of m_overwritePolicy
  */
-CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::getOverwritePolicy ( ) const {
+CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::getOverwritePolicy ( ) const
+{
     return Settings::getOptionState().codeGenerationState.overwritePolicy;
 }
 
@@ -97,7 +83,8 @@ CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::getOverwritePolicy (
  * Set the value of m_commentStyle
  * @param new_var the new value of m_commentStyle
  */
-void CodeGenerationPolicy::setCommentStyle ( CommentStyle new_var ) {
+void CodeGenerationPolicy::setCommentStyle ( CommentStyle new_var )
+{
     Settings::getOptionState().codeGenerationState.commentStyle = new_var;
     emit modifiedCodeContent();
 }
@@ -106,7 +93,8 @@ void CodeGenerationPolicy::setCommentStyle ( CommentStyle new_var ) {
  * Get the value of m_commentStyle
  * @return the value of m_commentStyle
  */
-CodeGenerationPolicy::CommentStyle CodeGenerationPolicy::getCommentStyle ( ) {
+CodeGenerationPolicy::CommentStyle CodeGenerationPolicy::getCommentStyle()
+{
     return Settings::getOptionState().codeGenerationState.commentStyle;
 }
 
@@ -116,7 +104,8 @@ CodeGenerationPolicy::CommentStyle CodeGenerationPolicy::getCommentStyle ( ) {
  * for sections will be written even if the section is empty.
  * @param new_var the new value of m_codeVerboseSectionComments
  */
-void CodeGenerationPolicy::setCodeVerboseSectionComments ( bool new_var ) {
+void CodeGenerationPolicy::setCodeVerboseSectionComments ( bool new_var )
+{
     Settings::getOptionState().codeGenerationState.forceSections = new_var;
     emit modifiedCodeContent();
 }
@@ -127,7 +116,8 @@ void CodeGenerationPolicy::setCodeVerboseSectionComments ( bool new_var ) {
  * for sections will be written even if the section is empty.
  * @return the value of m_codeVerboseSectionComments
  */
-bool CodeGenerationPolicy::getCodeVerboseSectionComments ( ) const {
+bool CodeGenerationPolicy::getCodeVerboseSectionComments ( ) const
+{
     return Settings::getOptionState().codeGenerationState.forceSections;
 }
 
@@ -138,7 +128,8 @@ bool CodeGenerationPolicy::getCodeVerboseSectionComments ( ) const {
  * created at that point in the file.
  * @param new_var the new value of m_codeVerboseDocumentComments
  */
-void CodeGenerationPolicy::setCodeVerboseDocumentComments ( bool new_var ) {
+void CodeGenerationPolicy::setCodeVerboseDocumentComments ( bool new_var )
+{
     Settings::getOptionState().codeGenerationState.forceDoc = new_var;
     emit modifiedCodeContent();
 }
@@ -150,7 +141,8 @@ void CodeGenerationPolicy::setCodeVerboseDocumentComments ( bool new_var ) {
  * created at that point in the file.
  * @return the value of m_codeVerboseDocumentComments
  */
-bool CodeGenerationPolicy::getCodeVerboseDocumentComments ( ) const {
+bool CodeGenerationPolicy::getCodeVerboseDocumentComments ( ) const
+{
     return Settings::getOptionState().codeGenerationState.forceDoc;
 }
 
@@ -159,7 +151,8 @@ bool CodeGenerationPolicy::getCodeVerboseDocumentComments ( ) const {
  * location of the header file template.
  * @param new_var the new value of m_headingFileDir
  */
-void CodeGenerationPolicy::setHeadingFileDir ( const QString & path) {
+void CodeGenerationPolicy::setHeadingFileDir ( const QString & path)
+{
     Settings::getOptionState().codeGenerationState.headingsDirectory.setPath(path);
 }
 
@@ -168,7 +161,8 @@ void CodeGenerationPolicy::setHeadingFileDir ( const QString & path) {
  * location of the header file template.
  * @return the value of m_headingFileDir
  */
-QString CodeGenerationPolicy::getHeadingFileDir ( ) const {
+QString CodeGenerationPolicy::getHeadingFileDir ( ) const
+{
     return Settings::getOptionState().codeGenerationState.headingsDirectory.absolutePath();
 }
 
@@ -176,7 +170,8 @@ QString CodeGenerationPolicy::getHeadingFileDir ( ) const {
  * Set the value of m_includeHeadings
  * @param new_var the new value of m_includeHeadings
  */
-void CodeGenerationPolicy::setIncludeHeadings ( bool new_var ) {
+void CodeGenerationPolicy::setIncludeHeadings ( bool new_var )
+{
     Settings::getOptionState().codeGenerationState.includeHeadings = new_var;
     emit modifiedCodeContent();
 }
@@ -185,7 +180,8 @@ void CodeGenerationPolicy::setIncludeHeadings ( bool new_var ) {
  * Get the value of m_includeHeadings
  * @return the value of m_includeHeadings
  */
-bool CodeGenerationPolicy::getIncludeHeadings ( ) const {
+bool CodeGenerationPolicy::getIncludeHeadings ( ) const
+{
     return Settings::getOptionState().codeGenerationState.includeHeadings;
 }
 
@@ -194,7 +190,8 @@ bool CodeGenerationPolicy::getIncludeHeadings ( ) const {
  * location of where output files will go.
  * @param new_var the new value of m_outputDirectory
  */
-void CodeGenerationPolicy::setOutputDirectory ( QDir new_var ) {
+void CodeGenerationPolicy::setOutputDirectory ( QDir new_var )
+{
     Settings::getOptionState().codeGenerationState.outputDirectory = new_var;
 }
 
@@ -203,7 +200,8 @@ void CodeGenerationPolicy::setOutputDirectory ( QDir new_var ) {
  * location of where output files will go.
  * @return the value of m_outputDirectory
  */
-QDir CodeGenerationPolicy::getOutputDirectory ( ) {
+QDir CodeGenerationPolicy::getOutputDirectory ( )
+{
     return Settings::getOptionState().codeGenerationState.outputDirectory;
 }
 
@@ -212,7 +210,8 @@ QDir CodeGenerationPolicy::getOutputDirectory ( ) {
  * What line ending characters to use.
  * @param new_var the new value of m_lineEndingType
  */
-void CodeGenerationPolicy::setLineEndingType ( NewLineType type) {
+void CodeGenerationPolicy::setLineEndingType ( NewLineType type)
+{
     Settings::getOptionState().codeGenerationState.lineEndingType = type;
     switch (Settings::getOptionState().codeGenerationState.lineEndingType) {
     case MAC:
@@ -234,13 +233,15 @@ void CodeGenerationPolicy::setLineEndingType ( NewLineType type) {
  * What line ending characters to use.
  * @return the value of m_lineEndingType
  */
-CodeGenerationPolicy::NewLineType CodeGenerationPolicy::getLineEndingType ( ) {
+CodeGenerationPolicy::NewLineType CodeGenerationPolicy::getLineEndingType ( )
+{
     return Settings::getOptionState().codeGenerationState.lineEndingType;
 }
 
 /** Utility function to get the actual characters.
  */
-QString CodeGenerationPolicy::getNewLineEndingChars ( ) const {
+QString CodeGenerationPolicy::getNewLineEndingChars ( ) const
+{
     return m_lineEndingChars;
 }
 
@@ -249,17 +250,20 @@ QString CodeGenerationPolicy::getNewLineEndingChars ( ) const {
  * The amount and type of whitespace to indent with.
  * @param new_var the new value of m_indentationType
  */
-void CodeGenerationPolicy::setIndentationType ( IndentationType new_var ) {
+void CodeGenerationPolicy::setIndentationType ( IndentationType new_var )
+{
     Settings::getOptionState().codeGenerationState.indentationType = new_var;
     calculateIndentation();
     emit modifiedCodeContent();
 }
 
-CodeGenerationPolicy::IndentationType CodeGenerationPolicy::getIndentationType ( ) {
+CodeGenerationPolicy::IndentationType CodeGenerationPolicy::getIndentationType ( )
+{
     return Settings::getOptionState().codeGenerationState.indentationType;
 }
 
-void CodeGenerationPolicy::setIndentationAmount ( int amount ) {
+void CodeGenerationPolicy::setIndentationAmount ( int amount )
+{
     if(amount > -1)
     {
         Settings::getOptionState().codeGenerationState.indentationAmount = amount;
@@ -268,7 +272,8 @@ void CodeGenerationPolicy::setIndentationAmount ( int amount ) {
     }
 }
 
-int CodeGenerationPolicy::getIndentationAmount ( ) {
+int CodeGenerationPolicy::getIndentationAmount ( )
+{
     return Settings::getOptionState().codeGenerationState.indentationAmount;
 }
 
@@ -276,11 +281,13 @@ int CodeGenerationPolicy::getIndentationAmount ( ) {
  * Utility method to get the amount (and type of whitespace) to indent with.
  * @return the value of the indentation
  */
-QString CodeGenerationPolicy::getIndentation ( ) const {
+QString CodeGenerationPolicy::getIndentation ( ) const
+{
     return m_indentation;
 }
 
-void CodeGenerationPolicy::calculateIndentation ( ) {
+void CodeGenerationPolicy::calculateIndentation ( )
+{
     QString indent;
     m_indentation = QString();
     switch (Settings::getOptionState().codeGenerationState.indentationType) {
@@ -303,7 +310,8 @@ void CodeGenerationPolicy::calculateIndentation ( ) {
  * Set the value of m_modifyPolicy
  * @param new_var the new value of m_modifyPolicy
  */
-void CodeGenerationPolicy::setModifyPolicy ( ModifyNamePolicy new_var ) {
+void CodeGenerationPolicy::setModifyPolicy ( ModifyNamePolicy new_var )
+{
     Settings::getOptionState().codeGenerationState.modnamePolicy = new_var;
 }
 
@@ -311,7 +319,8 @@ void CodeGenerationPolicy::setModifyPolicy ( ModifyNamePolicy new_var ) {
  * Get the value of m_modifyPolicy
  * @return the value of m_modifyPolicy
  */
-CodeGenerationPolicy::ModifyNamePolicy CodeGenerationPolicy::getModifyPolicy ( ) const {
+CodeGenerationPolicy::ModifyNamePolicy CodeGenerationPolicy::getModifyPolicy ( ) const
+{
     return Settings::getOptionState().codeGenerationState.modnamePolicy;
 }
 
@@ -319,7 +328,8 @@ CodeGenerationPolicy::ModifyNamePolicy CodeGenerationPolicy::getModifyPolicy ( )
  * Set the value of m_autoGenerateConstructors
  * @param new_var the new value
  */
-void CodeGenerationPolicy::setAutoGenerateConstructors( bool var ) {
+void CodeGenerationPolicy::setAutoGenerateConstructors( bool var )
+{
     Settings::getOptionState().codeGenerationState.autoGenEmptyConstructors = var;
     emit modifiedCodeContent();
 }
@@ -328,25 +338,30 @@ void CodeGenerationPolicy::setAutoGenerateConstructors( bool var ) {
  * Get the value of m_autoGenerateConstructors
  * @return the value of m_autoGenerateConstructors
  */
-bool CodeGenerationPolicy::getAutoGenerateConstructors( ){
+bool CodeGenerationPolicy::getAutoGenerateConstructors( )
+{
     return Settings::getOptionState().codeGenerationState.autoGenEmptyConstructors;
 }
 
-void CodeGenerationPolicy::setAttributeAccessorScope(Uml::Visibility::Value var) {
+void CodeGenerationPolicy::setAttributeAccessorScope(Uml::Visibility::Value var)
+{
     Settings::getOptionState().codeGenerationState.defaultAttributeAccessorScope = var;
     emit modifiedCodeContent();
 }
 
-Uml::Visibility::Value CodeGenerationPolicy::getAttributeAccessorScope() {
+Uml::Visibility::Value CodeGenerationPolicy::getAttributeAccessorScope()
+{
     return Settings::getOptionState().codeGenerationState.defaultAttributeAccessorScope;
 }
 
-void CodeGenerationPolicy::setAssociationFieldScope(Uml::Visibility::Value var) {
+void CodeGenerationPolicy::setAssociationFieldScope(Uml::Visibility::Value var)
+{
     Settings::getOptionState().codeGenerationState.defaultAssocFieldScope = var;
     emit modifiedCodeContent();
 }
 
-Uml::Visibility::Value CodeGenerationPolicy::getAssociationFieldScope() {
+Uml::Visibility::Value CodeGenerationPolicy::getAssociationFieldScope()
+{
     return Settings::getOptionState().codeGenerationState.defaultAssocFieldScope;
 }
 
@@ -354,21 +369,19 @@ Uml::Visibility::Value CodeGenerationPolicy::getAssociationFieldScope() {
  * Create a new dialog interface for this object.
  * @return dialog object
  */
-CodeGenerationPolicyPage * CodeGenerationPolicy::createPage ( QWidget *pWidget, const char *name ) {
+CodeGenerationPolicyPage * CodeGenerationPolicy::createPage ( QWidget *pWidget, const char *name )
+{
     return new CodeGenerationPolicyPage ( pWidget, name, 0 );
 }
 
-// Other methods
-//
-
-void CodeGenerationPolicy::emitModifiedCodeContentSig() {
+void CodeGenerationPolicy::emitModifiedCodeContentSig()
+{
     if (!UMLApp::app()->getDocument()->loading())
         emit modifiedCodeContent();
 }
 
 void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emitUpdateSignal)
 {
-
     if(!clone)
         return;
 
@@ -397,7 +410,6 @@ void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emi
 
 void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 {
-
     blockSignals(true); // we need to do this because otherwise most of these
     // settors below will each send the modifiedCodeContent() signal
     // needlessly (we can just make one call at the end).
@@ -437,8 +449,8 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 
 }
 
-void CodeGenerationPolicy::writeConfig () {
-
+void CodeGenerationPolicy::writeConfig ()
+{
     UmbrelloSettings::setDefaultAttributeAccessorScope(getAttributeAccessorScope());
     UmbrelloSettings::setDefaultAssocFieldScope(getAssociationFieldScope());
     UmbrelloSettings::setCommentStyle(getCommentStyle());
@@ -461,11 +473,11 @@ void CodeGenerationPolicy::writeConfig () {
 }
 
 // return the actual text
-QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
-
+QString CodeGenerationPolicy::getHeadingFile(const QString& str)
+{
     if(!getIncludeHeadings() || str.isEmpty())
         return QString();
-    if(str.contains(" ") ||str.contains(";")) {
+    if(str.contains(" ") || str.contains(";")) {
         uWarning() << "File folder must not have spaces or semi colons!";
         return QString();
     }
@@ -478,7 +490,9 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
         if(QFile::exists(headingFiles.absoluteFilePath("heading"+str)))
             filename = headingFiles.absoluteFilePath("heading"+str);
         else {
-            headingFiles.setNameFilter('*' + str);
+            QStringList filters;
+            filters << '*' + str;
+            headingFiles.setNameFilters(filters);
             //if there is more than one match we just take the first one
             QStringList fileList = headingFiles.entryList();
             if ( !fileList.isEmpty() )
@@ -505,7 +519,7 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str) {
         retstr += ts.readLine()+endLine;
 
     //do variable substitution
-    retstr.replace( QRegExp("%author%"),QString(getenv("USER")));  //get the user name from some where else
+    retstr.replace( QRegExp("%author%"),QString(qgetenv("USER")));  //get the user name from some where else
     retstr.replace( QRegExp("%headingpath%"),filename );
     retstr.replace( QRegExp("%time%"), QTime::currentTime().toString());
     retstr.replace( QRegExp("%date%"), QDate::currentDate().toString());
