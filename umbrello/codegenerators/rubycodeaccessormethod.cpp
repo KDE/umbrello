@@ -13,7 +13,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,7 +21,7 @@
 #include "rubycodeaccessormethod.h"
 
 // qt/kde includes
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 #include <kdebug.h>
 
 // local includes
@@ -38,8 +38,6 @@
 #include "rubycodeclassfield.h"
 #include "rubycodedocumentation.h"
 
-// Constructors/Destructors
-//
 
 RubyCodeAccessorMethod::RubyCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type)
         : CodeAccessorMethod ( field )
@@ -51,14 +49,12 @@ RubyCodeAccessorMethod::RubyCodeAccessorMethod ( CodeClassField * field, CodeAcc
     setComment(new RubyCodeDocumentation(rccd));
 }
 
-RubyCodeAccessorMethod::~RubyCodeAccessorMethod ( ) { }
-
-// Other methods
-//
+RubyCodeAccessorMethod::~RubyCodeAccessorMethod()
+{
+}
 
 void RubyCodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
 {
-
     // set super-class attributes
     CodeAccessorMethod::setAttributesOnNode(doc, blockElement);
 
@@ -67,17 +63,14 @@ void RubyCodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomEleme
 
 void RubyCodeAccessorMethod::setAttributesFromNode( QDomElement & root)
 {
-
     // set attributes from superclass method the XMI
     CodeAccessorMethod::setAttributesFromNode(root);
 
     // load local stuff
-
 }
 
-void RubyCodeAccessorMethod::updateContent( )
+void RubyCodeAccessorMethod::updateContent()
 {
-
     CodeClassField * parentField = getParentClassField();
     RubyCodeClassField * rubyfield = dynamic_cast<RubyCodeClassField*>(parentField);
     QString fieldName = rubyfield->getFieldName();
@@ -132,12 +125,10 @@ void RubyCodeAccessorMethod::updateContent( )
     }
 
     setText(text);
-
 }
 
 void RubyCodeAccessorMethod::updateMethodDeclaration()
 {
-
     RubyCodeClassField * rubyfield = dynamic_cast<RubyCodeClassField*>(getParentClassField());
 
     // gather defs
@@ -213,7 +204,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         break;
     default:
         // do nothing..no idea what this is
-        uWarning()<<"Warning: can't generate RubyCodeAccessorMethod for type: "<<getType();
+        uWarning() << "Warning: can not generate RubyCodeAccessorMethod for type: " << getType();
         break;
     }
 

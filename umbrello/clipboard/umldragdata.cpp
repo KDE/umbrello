@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,10 +13,9 @@
 #include "umldragdata.h"
 
 // qt/kde includes
-#include <QPixmap>
-#include <QTextStream>
-#include <QDomDocument>
-#include <QIcon>
+#include <QtCore/QTextStream>
+#include <QtXml/QDomDocument>
+#include <QtGui/QPixmap>
 #include <kdebug.h>
 
 // local includes
@@ -34,39 +33,51 @@
 #include "../object_factory.h"
 #include "../model_utils.h"
 
-UMLDragData::UMLDragData(UMLObjectList& objects, QWidget* /* dragSource = 0 */) {
+UMLDragData::UMLDragData(UMLObjectList& objects, QWidget* dragSource /* = 0 */)
+{
+    Q_UNUSED(dragSource);
     setUMLDataClip1(objects);
 }
 
 UMLDragData::UMLDragData(UMLObjectList& objects, UMLListViewItemList& umlListViewItems, UMLViewList& diagrams,
-                 QWidget* /* dragSource = 0 */) {
+                 QWidget* dragSource /* = 0 */)
+{
+    Q_UNUSED(dragSource);
     setUMLDataClip2(objects, umlListViewItems, diagrams);
 }
 
-UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems, QWidget* /* dragSource = 0 */) {
+UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems, QWidget* dragSource /* = 0 */)
+{
+    Q_UNUSED(dragSource);
     setUMLDataClip3(umlListViewItems);
 }
 
 UMLDragData::UMLDragData(UMLObjectList& objects,
                  UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
-                 QPixmap& pngImage, Uml::Diagram_Type dType, QWidget* /* dragSource = 0 */) {
+                 QPixmap& pngImage, Uml::Diagram_Type dType, QWidget* dragSource /* = 0 */)
+{
+    Q_UNUSED(dragSource);
     setUMLDataClip4(objects, widgets, associationDatas, pngImage, dType);
 }
 
 UMLDragData::UMLDragData(UMLObjectList& objects, int,
-                         QWidget* /* dragSource = 0 */) {
+                         QWidget* dragSource /* = 0 */)
+{
+    Q_UNUSED(dragSource);
     setUMLDataClip5(objects);
 }
 
-UMLDragData::UMLDragData(QWidget* /* dragSource = 0 */) {
+UMLDragData::UMLDragData(QWidget* dragSource /* = 0 */)
+{
+    Q_UNUSED(dragSource);
 }
 
-UMLDragData::~UMLDragData() {
+UMLDragData::~UMLDragData()
+{
 }
 
-
-void UMLDragData::setUMLDataClip1(UMLObjectList& objects) {
-
+void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
+{
     QDomDocument domDoc;
     QDomElement xmiclip = domDoc.createElement("xmiclip");
     domDoc.appendChild(xmiclip);
@@ -87,8 +98,8 @@ void UMLDragData::setUMLDataClip1(UMLObjectList& objects) {
 }
 
 void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
-                              UMLViewList& diagrams) {
-
+                              UMLViewList& diagrams)
+{
     QDomDocument domDoc;
     QDomElement xmiclip = domDoc.createElement("xmiclip");
     domDoc.appendChild(xmiclip);
@@ -119,8 +130,8 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& u
     setData( "application/x-uml-clip2", domDoc.toString().toUtf8() );
 }
 
-void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems) {
-
+void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems) 
+{
     QDomDocument domDoc;
     QDomElement xmiclip = domDoc.createElement("xmiclip");
     domDoc.appendChild(xmiclip);
@@ -136,9 +147,8 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems) {
 }
 
 void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets, AssociationWidgetList& associations,
-                              QPixmap& pngImage, Uml::Diagram_Type dType ) {
-
-
+                              QPixmap& pngImage, Uml::Diagram_Type dType )
+{
     QDomDocument domDoc;
     QDomElement xmiclip = domDoc.createElement("xmiclip");
     xmiclip.setAttribute("diagramtype", dType);
@@ -179,9 +189,8 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets
     setImageData( clipdata );
 }
 
-void UMLDragData::setUMLDataClip5(UMLObjectList& objects) {
-
-
+void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
+{
     QDomDocument domDoc;
     QDomElement xmiclip = domDoc.createElement("xmiclip");
     domDoc.appendChild(xmiclip);
@@ -198,8 +207,8 @@ void UMLDragData::setUMLDataClip5(UMLObjectList& objects) {
     setData( "application/x-uml-clip5", domDoc.toString().toUtf8() );
 }
 
-
-bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects) {
+bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
+{
     UMLDoc* doc = UMLApp::app()->getDocument();
     if ( !mimeData->hasFormat("application/x-uml-clip1") ) {
         return false;
@@ -214,7 +223,7 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        uWarning() << "Can't set content:" << error << " Line:" << line;
+        uWarning() << "Can not set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -248,12 +257,12 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
         pObject = Object_Factory::makeObjectFromXMI(type);
 
         if( !pObject ) {
-            uWarning() << "Given wrong type of umlobject to create: " << type << endl;
+            uWarning() << "Given wrong type of umlobject to create: " << type;
             return false;
         }
         pObject->setInPaste( true );
         if( !pObject->loadFromXMI( element ) ) {
-            uWarning() << "failed to load object of type " << type << " from XMI" << endl;
+            uWarning() << "Failed to load object of type " << type << " from XMI";
             delete pObject;
             return false;
         }
@@ -287,8 +296,8 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
 }
 
 bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
-                          UMLListViewItemList& umlListViewItems, UMLViewList& diagrams) {
-
+                          UMLListViewItemList& umlListViewItems, UMLViewList& diagrams)
+{
     if ( !mimeData->hasFormat("application/x-uml-clip2") ) {
         return false;
     }
@@ -302,7 +311,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        uWarning() << "Can't set content:" << error << " Line:" << line;
+        uWarning() << "Can not set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -334,7 +343,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
                 return false;
             }
             if( !pObject->loadFromXMI(element) ) {
-                uWarning() << "failed to load object from XMI";
+                uWarning() << "Failed to load object from XMI.";
                 return false;
             }
             objects.append(pObject);
@@ -348,7 +357,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
     QDomNode diagramNode = umlviewsNode.firstChild();
     QDomElement diagramElement = diagramNode.toElement();
     if ( diagramElement.isNull() ) {
-        uWarning() << "no diagrams in XMI clip";
+        uWarning() << "No diagrams in XMI clip.";
         return false;
     }
     UMLListView *listView = UMLApp::app()->getListView();
@@ -360,7 +369,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
             return false;
         UMLObject *po = parent->getUMLObject();
         if (po == NULL || po->getBaseType() != Uml::ot_Folder) {
-            uError() << "bad parent for view" << endl;
+            uError() << "Bad parent for view.";
             return false;
         }
         UMLFolder *f = static_cast<UMLFolder*>(po);
@@ -376,7 +385,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
     QDomNode listItems = listItemNode.firstChild();
     QDomElement listItemElement = listItems.toElement();
     if ( listItemElement.isNull() ) {
-        uWarning() << "no listitems in XMI clip";
+        uWarning() << "No listitems in XMI clip.";
         return false;
     }
     UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
@@ -413,7 +422,7 @@ bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        uWarning() << "getClip3Type: Can't set content:" << error << " Line:" << line;
+        uWarning() << "getClip3Type: Can not set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -430,13 +439,13 @@ bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
     QDomNode listItems = listItemNode.firstChild();
     QDomElement listItemElement = listItems.toElement();
     if ( listItemElement.isNull() ) {
-        uWarning() << "getClip3Type: no listitems in XMI clip";
+        uWarning() << "getClip3Type: No listitems in XMI clip.";
         return false;
     }
     while ( !listItemElement.isNull() ) {
         QString typeStr = listItemElement.attribute( "type", "-1" );
         if (typeStr == "-1") {
-            uDebug() << "getClip3Type: bad type";
+            uDebug() << "getClip3Type: bad type.";
             return false;
         }
         QString idStr = listItemElement.attribute( "id", "-1" );
@@ -455,7 +464,8 @@ bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
 }
 
 bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& umlListViewItems,
-                            const UMLListView* parentListView){
+                            const UMLListView* parentListView)
+{
     if ( !mimeData->hasFormat("application/x-uml-clip3") ) {
         return false;
     }
@@ -470,7 +480,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        uWarning() << "Can't set content:" << error << " Line:" << line;
+        uWarning() << "Can not set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -496,7 +506,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
         // UMLListViewItem instance.
         QString type = listItemElement.attribute( "type", "-1" );
         if (type == "-1") {
-            uDebug() << "Pech gehabt";
+            uDebug() << "Type not found.";
             continue;
         }
         Uml::ListView_Type t = (Uml::ListView_Type)(type.toInt());
@@ -514,7 +524,8 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
 
 bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                           UMLWidgetList& widgets,
-                          AssociationWidgetList& associations, Uml::Diagram_Type & dType) {
+                          AssociationWidgetList& associations, Uml::Diagram_Type & dType)
+{
     if ( !mimeData->hasFormat("application/x-uml-clip4") ) {
         return false;
     }
@@ -529,7 +540,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        uWarning() << "Can't set content:" << error << " Line:" << line;
+        uWarning() << "Can not set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -562,7 +573,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         }
 
         if ( !pObject->loadFromXMI( element ) ) {
-            uWarning() << "failed to load object from XMI";
+            uWarning() << "Failed to load object from XMI.";
             return false;
         }
 
@@ -576,7 +587,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     QDomNode widgetNode = widgetsNode.firstChild();
     QDomElement widgetElement = widgetNode.toElement();
     if ( widgetElement.isNull() ) {
-        uWarning() << "no widgets in XMI clip";
+        uWarning() << "No widgets in XMI clip.";
         return false;
     }
 
@@ -611,7 +622,8 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
 }
 
 bool UMLDragData::decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
-                          UMLClassifier* newParent) {
+                          UMLClassifier* newParent)
+{
     if ( !mimeData->hasFormat("application/x-uml-clip5") ) {
         return false;
     }
@@ -625,7 +637,7 @@ bool UMLDragData::decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
     int line;
     QDomDocument domDoc;
     if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
-        uWarning() << "Can't set content:" << error << " Line:" << line;
+        uWarning() << "Can not set content:" << error << " Line:" << line;
         return false;
     }
     QDomNode xmiClipNode = domDoc.firstChild();
@@ -653,7 +665,7 @@ bool UMLDragData::decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
             return false;
         }
         if( !pObject->loadFromXMI( element ) ) {
-            uWarning() << "failed to load object from XMI";
+            uWarning() << "Failed to load object from XMI.";
             return false;
         }
         pObject->resolveRef();
@@ -665,7 +677,8 @@ bool UMLDragData::decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
     return true;
 }
 
-int UMLDragData::getCodingType(const QMimeData* mimeData) {
+int UMLDragData::getCodingType(const QMimeData* mimeData)
+{
     int result = 0;
     if (mimeData->hasFormat("application/x-uml-clip1") ) {
         result = 1;

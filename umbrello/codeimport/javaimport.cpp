@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2007                                                *
+ *  copyright (C) 2006-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -13,10 +13,10 @@
 #include "javaimport.h"
 
 // qt/kde includes
-#include <qfile.h>
-#include <qtextstream.h>
-#include <qstringlist.h>
-#include <qregexp.h>
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+#include <QtCore/QStringList>
+#include <QtCore/QRegExp>
 #include <kdebug.h>
 // app includes
 #include "import_utils.h"
@@ -32,20 +32,24 @@
 QStringList JavaImport::s_filesAlreadyParsed;
 int JavaImport::s_parseDepth = 0;
 
-JavaImport::JavaImport() : NativeImportBase("//") {
+JavaImport::JavaImport() : NativeImportBase("//")
+{
     setMultiLineComment("/*", "*/");
     initVars();
 }
 
-JavaImport::~JavaImport() {
+JavaImport::~JavaImport()
+{
 }
 
-void JavaImport::initVars() {
+void JavaImport::initVars()
+{
     m_isStatic = false;
 }
 
 /// Catenate possible template arguments/array dimensions to the end of the type name.
-QString JavaImport::joinTypename(QString typeName) {
+QString JavaImport::joinTypename(QString typeName)
+{
     if (m_source[m_srcIndex + 1] == "<" ||
         m_source[m_srcIndex + 1] == "[") {
         int start = ++m_srcIndex;
@@ -62,7 +66,8 @@ QString JavaImport::joinTypename(QString typeName) {
     return typeName;
 }
 
-void JavaImport::fillSource(const QString& word) {
+void JavaImport::fillSource(const QString& word)
+{
     QString lexeme;
     const uint len = word.length();
     for (uint i = 0; i < len; i++) {
@@ -81,9 +86,9 @@ void JavaImport::fillSource(const QString& word) {
         m_source.append(lexeme);
 }
 
-
 ///Spawn off an import of the specified file
-void JavaImport::spawnImport( QString file ) {
+void JavaImport::spawnImport( QString file )
+{
     // if the file is being parsed, don't bother
     //
     if (s_filesAlreadyParsed.contains( file ) ) {
@@ -98,9 +103,9 @@ void JavaImport::spawnImport( QString file ) {
     }
 }
 
-
 ///returns the UML Object if found, or null otherwise
-UMLObject* findObject( QString name,   UMLPackage *parentPkg ) {
+UMLObject* findObject( QString name,   UMLPackage *parentPkg )
+{
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLObject * o = umldoc->findUMLObject(name, Uml::ot_UMLObject , parentPkg);
     return o;
@@ -108,7 +113,8 @@ UMLObject* findObject( QString name,   UMLPackage *parentPkg ) {
 
 
 ///Resolve the specified className
-UMLObject* JavaImport::resolveClass (QString className) {
+UMLObject* JavaImport::resolveClass (QString className)
+{
     uDebug() << "importJava trying to resolve " << className;
     // keep track if we are dealing with an array
     //
@@ -195,9 +201,9 @@ UMLObject* JavaImport::resolveClass (QString className) {
     return NULL; // no match
 }
 
-
 /// keep track of the current file being parsed and reset the list of imports
-void JavaImport::parseFile(const QString& filename) {
+void JavaImport::parseFile(const QString& filename)
+{
     m_currentFileName= filename;
     m_imports.clear();
     // default visibility is Impl, unless we are an interface, then it is
@@ -218,10 +224,8 @@ void JavaImport::parseFile(const QString& filename) {
     }
 }
 
-
-
-
-bool JavaImport::parseStmt() {
+bool JavaImport::parseStmt()
+{
     const int srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
     //uDebug() << '"' << keyword << '"';
@@ -236,7 +240,7 @@ bool JavaImport::parseStmt() {
             m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
         }
         if (advance() != ";") {
-            uError() << "importJava: unexpected: " << m_source[m_srcIndex] << endl;
+            uError() << "importJava: unexpected: " << m_source[m_srcIndex];
             skipStmt();
         }
         return true;
@@ -266,14 +270,14 @@ bool JavaImport::parseStmt() {
             // @todo implement all template arg syntax
             uint start = m_srcIndex;
             if (! skipToClosing('<')) {
-                uError() << "importJava(" << name << "): template syntax error" << endl;
+                uError() << "importJava(" << name << "): template syntax error";
                 return false;
             }
             while (1) {
                 const QString arg = m_source[++start];
                 if (! arg.contains( QRegExp("^[A-Za-z_]") )) {
                     uDebug() << "importJava(" << name << "): cannot handle template syntax ("
-                        << arg << ")" << endl;
+                        << arg << ")";
                     break;
                 }
                 /* UMLTemplate *tmpl = */ m_klass->addTemplate(arg);
@@ -281,8 +285,8 @@ bool JavaImport::parseStmt() {
                 if (next == ">")
                     break;
                 if (next != ",") {
-                    uDebug() << "importJava(" << name << "): can't handle template syntax ("
-                        << next << ")" << endl;
+                    uDebug() << "importJava(" << name << "): cannot handle template syntax ("
+                        << next << ")";
                     break;
                 }
             }
@@ -297,7 +301,7 @@ bool JavaImport::parseStmt() {
                 Import_Utils::createGeneralization(m_klass, static_cast<UMLClassifier*>(parent));
             } else {
                 uDebug() << "importJava parentClass " << baseName
-                    << " is not resolveable. Creating placeholder" << endl;
+                    << " is not resolveable. Creating placeholder";
                 Import_Utils::createGeneralization(m_klass, baseName);
             }
             advance();
@@ -312,7 +316,7 @@ bool JavaImport::parseStmt() {
                      Import_Utils::createGeneralization(m_klass, static_cast<UMLClassifier*>(interface));
                 } else {
                     uDebug() << "importJava implementing interface "<< baseName
-                        <<" is not resolvable. Creating placeholder" <<endl;
+                        <<" is not resolvable. Creating placeholder";
                     Import_Utils::createGeneralization(m_klass, baseName);
                 }
                 if (advance() != ",")
@@ -321,7 +325,7 @@ bool JavaImport::parseStmt() {
         }
         if (m_source[m_srcIndex] != "{") {
             uError() << "importJava: ignoring excess chars at " << name
-                << " (" << m_source[m_srcIndex] << ")" << endl;
+                << " (" << m_source[m_srcIndex] << ")";
             skipStmt("{");
         }
         return true;
@@ -413,7 +417,7 @@ bool JavaImport::parseStmt() {
         if (m_scopeIndex)
             m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
         else
-            uError() << "importJava: too many }" << endl;
+            uError() << "importJava: too many }";
         return true;
     }
     // At this point, we expect `keyword' to be a type name
@@ -421,14 +425,14 @@ bool JavaImport::parseStmt() {
     // of an operation.) Up next is the name of the attribute
     // or operation.
     if (! keyword.contains( QRegExp("^\\w") )) {
-        uError() << "importJava: ignoring " << keyword << endl;
+        uError() << "importJava: ignoring " << keyword;
         return false;
     }
     QString typeName = m_source[m_srcIndex];
     typeName = joinTypename(typeName);
     // At this point we need a class.
     if (m_klass == NULL) {
-        uError() << "importJava: no class set for " << typeName << endl;
+        uError() << "importJava: no class set for " << typeName;
         return false;
     }
     QString name = advance();
@@ -442,7 +446,7 @@ bool JavaImport::parseStmt() {
         nextToken = advance();
     }
     if (name.contains( QRegExp("\\W") )) {
-        uError() << "importJava: expecting name in " << name << endl;
+        uError() << "importJava: expecting name in " << name;
         return false;
     }
     if (nextToken == "(") {
@@ -540,7 +544,7 @@ bool JavaImport::parseStmt() {
     // reset visibility to default
     m_currentAccess = m_defaultCurrentAccess;
     if (m_source[m_srcIndex] != ";") {
-        uError() << "importJava: ignoring trailing items at " << name << endl;
+        uError() << "importJava: ignoring trailing items at " << name;
         skipStmt();
     }
     return true;

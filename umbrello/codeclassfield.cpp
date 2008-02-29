@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,7 +17,7 @@
 // own header
 #include "codeclassfield.h"
 // qt/kde includes
-#include <QRegExp>
+#include <QtCore/QRegExp>
 #include <kdebug.h>
 // app includes
 #include "association.h"
@@ -29,29 +29,23 @@
 #include "uml.h"
 #include "codegenerators/codegenfactory.h"
 
-// Constructors/Destructors
-//
 
 CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLRole * role)
         : CodeParameter ( doc , (UMLObject*) role)
 {
-
     setParentUMLObject(role);
     initFields(true);
-
 }
 
 CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLAttribute * attrib)
         : CodeParameter ( doc , (UMLObject*) attrib )
 {
-
     setParentUMLObject(attrib);
     initFields(true);
-
 }
 
-CodeClassField::~CodeClassField ( ) {
-
+CodeClassField::~CodeClassField ( )
+{
     // remove methods from parent document
     Q_FOREACH( CodeAccessorMethod *m, m_methodVector )
     {
@@ -69,15 +63,8 @@ CodeClassField::~CodeClassField ( ) {
 
 }
 
-//
-// Methods
-//
-
-
-// Accessor methods
-//
-
-void CodeClassField::setParentUMLObject (UMLObject * obj) {
+void CodeClassField::setParentUMLObject (UMLObject * obj)
+{
     UMLRole *role = dynamic_cast<UMLRole*>(obj);
     if(role) {
         UMLAssociation * parentAssoc = role->getParentAssociation();
@@ -96,11 +83,8 @@ void CodeClassField::setParentUMLObject (UMLObject * obj) {
     }
 }
 
-// Public attribute accessor methods
-//
-
-QString CodeClassField::getTypeName ( ) {
-
+QString CodeClassField::getTypeName ( )
+{
     if (parentIsAttribute())
     {
         UMLAttribute * at = (UMLAttribute*) getParentObject();
@@ -164,8 +148,8 @@ QString CodeClassField::getUMLObjectName(UMLObject *obj)
 /**
  * Add a Method object to the m_methodVector List
  */
-bool CodeClassField::addMethod ( CodeAccessorMethod * add_object ) {
-
+bool CodeClassField::addMethod ( CodeAccessorMethod * add_object )
+{
     CodeAccessorMethod::AccessorType type = add_object->getType();
 
     if(findMethodByType(type))
@@ -185,7 +169,8 @@ bool CodeClassField::addMethod ( CodeAccessorMethod * add_object ) {
 /**
  * Remove a Method object from m_methodVector List
  */
-bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object ) {
+bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object )
+{
     // m_methodMap->erase(remove_object->getType());
     m_methodVector.removeAll(remove_object);
     getParentDocument()->removeTextBlock(remove_object);
@@ -226,13 +211,11 @@ CodeClassFieldDeclarationBlock * CodeClassField::getDeclarationCodeBlock( )
     return m_declCodeBlock;
 }
 
-// Other methods
-//
-
 /**
  * load params from the appropriate XMI element node.
  */
-void CodeClassField::loadFromXMI ( QDomElement & root ) {
+void CodeClassField::loadFromXMI ( QDomElement & root )
+{
     setAttributesFromNode(root);
 }
 
@@ -241,7 +224,6 @@ void CodeClassField::loadFromXMI ( QDomElement & root ) {
  */
 void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfElem)
 {
-
     // super class
     CodeParameter::setAttributesOnNode(doc,cfElem);
 
@@ -265,8 +247,8 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
 /** set the class attributes of this object from
  * the passed element node.
  */
-void CodeClassField::setAttributesFromNode ( QDomElement & root) {
-
+void CodeClassField::setAttributesFromNode ( QDomElement & root)
+{
     // always disconnect
     getParentObject()->disconnect(this);
 
@@ -297,7 +279,7 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
                 if(method)
                     method->loadFromXMI(element);
                 else
-                    uError()<<"Cant load code accessor method for type:"<<type<<" which doesn't exist in this codeclassfield. Is XMI out-dated or corrupt?"<<endl;
+                    uError()<<"Can not load code accessor method for type:"<<type<<" which does not exist in this codeclassfield. Is XMI out-dated or corrupt?";
 
             } else
                 if( tag == "header" ) {
@@ -314,7 +296,8 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root) {
 /**
  * Save the XMI representation of this object
  */
-void CodeClassField::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+void CodeClassField::saveToXMI ( QDomDocument & doc, QDomElement & root )
+{
     QDomElement docElement = doc.createElement( "codeclassfield" );
 
     setAttributesOnNode(doc, docElement);
@@ -322,7 +305,8 @@ void CodeClassField::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
     root.appendChild( docElement );
 }
 
-int CodeClassField::minimumListOccurances( ) {
+int CodeClassField::minimumListOccurances( )
+{
     if (!parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
@@ -339,7 +323,8 @@ int CodeClassField::minimumListOccurances( ) {
     return 0;
 }
 
-int CodeClassField::maximumListOccurances( ) {
+int CodeClassField::maximumListOccurances( )
+{
     if (!parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
@@ -359,7 +344,8 @@ int CodeClassField::maximumListOccurances( ) {
     return 1;
 }
 
-QString CodeClassField::cleanName ( const QString &name ) {
+QString CodeClassField::cleanName ( const QString &name )
+{
     return getParentDocument()->cleanName(name);
 }
 
@@ -479,7 +465,6 @@ void CodeClassField::initAccessorMethods()
 
 void CodeClassField::updateContent()
 {
-
     // Set properties for writing out the various methods derived from UMLRoles.
     // I suppose this could be supported under individual accessor method synctoparent
     // calls, but its going to happen again and again for many languages. Why not a catch
@@ -590,8 +575,8 @@ bool CodeClassField::fieldIsSingleValue ( )
     return false;
 }
 
-void CodeClassField::initFields(bool inConstructor) {
-
+void CodeClassField::initFields(bool inConstructor)
+{
     m_writeOutMethods = false;
     m_listClassName = QString ();
     m_declCodeBlock = NULL;
@@ -602,13 +587,13 @@ void CodeClassField::initFields(bool inConstructor) {
         finishInitialization();
 }
 
-void CodeClassField::finishInitialization() {
+void CodeClassField::finishInitialization()
+{
     m_declCodeBlock = CodeGenFactory::newDeclarationCodeBlock(getParentDocument(), this);
     initAccessorMethods();
     updateContent();
 
     connect(getParentObject(),SIGNAL(modified()),this,SIGNAL(modified())); // child objects will trigger off this signal
-
 }
 
 #include "codeclassfield.moc"

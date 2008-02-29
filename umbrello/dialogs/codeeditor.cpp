@@ -14,7 +14,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,15 +22,15 @@
 #include "codeeditor.h"
 
 // qt/kde includes
-#include <QMouseEvent>
-#include <QKeyEvent>
-#include <qkeysequence.h>
-#include <QMenu>
-#include <qcolor.h>
-#include <qlabel.h>
-#include <qbrush.h>
-#include <qlayout.h>
-#include <qregexp.h>
+#include <QtGui/QMouseEvent>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QKeySequence>
+#include <QtGui/QMenu>
+#include <QtGui/QColor>
+#include <QtGui/QLabel>
+#include <QtGui/QBrush>
+#include <QtGui/QLayout>
+#include <QtCore/QRegExp>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kaction.h>
@@ -71,10 +71,9 @@ CodeEditor::CodeEditor ( CodeViewerDialog * parent, const char* name, CodeDocume
     init(parent, doc);
 }
 
-/*
- *  Destroys the object and frees any allocated resources
- */
-CodeEditor::~CodeEditor() { }
+CodeEditor::~CodeEditor()
+{
+}
 
 // clear the display of all text
 void CodeEditor::clearText ()
@@ -97,7 +96,6 @@ QLabel * CodeEditor::getComponentLabel()
 {
     return m_parentDlg->componentLabel;
 }
-
 
 // FIX: used only for debugging right now.. eliminate eventually -b.t.
 void CodeEditor::clicked(int para, int pos)
@@ -755,7 +753,7 @@ void CodeEditor::slotCopyTextBlock ( )
         m_textBlockToPaste = CodeGenFactory::newCodeComment(m_parentDoc);
     else
     {
-        uError()<<" ERROR: CodeEditor can't copy selected block:"<<m_selectedTextBlock<<" of unknown type"<<endl;
+        uError() << " ERROR: CodeEditor can not copy selected block:" << m_selectedTextBlock << " of unknown type";
         m_textBlockToPaste = 0;
         return; // error!
     }

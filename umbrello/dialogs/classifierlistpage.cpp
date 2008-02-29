@@ -14,7 +14,7 @@
 #include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
-#include <QApplication>
+#include <QtGui/QApplication>
 
 #include "../classifierlistitem.h"
 #include "../umldoc.h"
@@ -422,7 +422,7 @@ void ClassifierListPage::slotPopupMenuSel(QAction* action)
                 return;
             UMLClassifierListItem* listItem = getItemList().at( currentItemIndex );
             if (!listItem && id != ListPopupMenu::mt_New_Attribute) {
-                uDebug() << "can't find att from selection";
+                uDebug() << "can not find att from selection";
                 return;
             }
             m_bSigWaiting = true;
@@ -591,7 +591,7 @@ void ClassifierListPage::slotDoubleClick( QListWidgetItem* item )
 
     UMLClassifierListItem* listItem  = getItemList().at( m_pItemListLB->row( item ) );
     if ( !listItem ) {
-        uDebug() << "can't find att from selection";
+        uDebug() << "can not find att from selection";
         return;
     }
 

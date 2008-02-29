@@ -142,7 +142,7 @@ bool UMLForeignKeyConstraintDialog::apply()
     UMLEntity* ue = static_cast<UMLEntity*>(uo);
 
     if (ue == NULL) {
-        uDebug() << " Couldn't find UML Entity with name " << entityName;
+        uDebug() << " Could not find UML Entity with name " << entityName;
         return false;
     }
 

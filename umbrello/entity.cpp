@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,15 +31,18 @@
 #include "dialogs/umlforeignkeyconstraintdialog.h"
 #include "dialogs/umlcheckconstraintdialog.h"
 
-UMLEntity::UMLEntity(const QString& name, Uml::IDType id) : UMLClassifier(name, id) {
+UMLEntity::UMLEntity(const QString& name, Uml::IDType id) : UMLClassifier(name, id)
+{
     init();
 }
 
-UMLEntity::~UMLEntity() {
+UMLEntity::~UMLEntity()
+{
     m_List.clear();
 }
 
-bool UMLEntity::operator==(const UMLEntity& rhs ) {
+bool UMLEntity::operator==(const UMLEntity& rhs )
+{
     return UMLClassifier::operator==(rhs);
 }
 
@@ -62,7 +65,8 @@ UMLObject* UMLEntity::clone() const
     return clone;
 }
 
-void UMLEntity::init() {
+void UMLEntity::init()
+{
     m_BaseType = Uml::ot_Entity;
     m_PrimaryKey = NULL;
     connect( this,  SIGNAL( entityAttributeRemoved( UMLClassifierListItem* ) ),
@@ -71,7 +75,8 @@ void UMLEntity::init() {
 
 UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/, UMLObject *type /*=NULL*/
                                          , Uml::Visibility vis /* = Uml::Visibility::Private*/
-                                         , const QString& iv /* = QString()*/) {
+                                         , const QString& iv /* = QString()*/)
+{
     Uml::IDType id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
@@ -113,7 +118,8 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*=null*/, UMLObjec
     return newAttribute;
 }
 
-UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name ){
+UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name )
+{
     Uml::IDType id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
@@ -157,11 +163,10 @@ UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name ){
     umldoc->signalUMLObjectCreated(newUniqueConstraint);
     emitModified();
     return newUniqueConstraint;
-
 }
 
-UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &name ){
-
+UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &name )
+{
     Uml::IDType id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
@@ -201,12 +206,11 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
     umldoc->signalUMLObjectCreated(newForeignKeyConstraint);
     emitModified();
     return newForeignKeyConstraint;
-
 }
 
 
-UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name ) {
-
+UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name )
+{
     Uml::IDType id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
@@ -249,7 +253,8 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name ) {
 }
 
 
-UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id) {
+UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id)
+{
     UMLEntityAttribute* literal = new UMLEntityAttribute(this, name, id);
     m_List.append(literal);
     emit entityAttributeAdded(literal);
@@ -258,7 +263,8 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id) {
     return literal;
 }
 
-bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* Log /* = 0*/) {
+bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* Log /* = 0*/)
+{
     QString name = (QString)attribute->getName();
     if (findChildObject(name) == NULL) {
         attribute->setParent(this);
@@ -274,7 +280,8 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, IDChangeLog* L
     return false;
 }
 
-bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) {
+bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position)
+{
     QString name = (QString)attribute->getName();
     if (findChildObject(name) == NULL) {
         attribute->setParent(this);
@@ -291,9 +298,10 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* attribute, int position) 
     return false;
 }
 
-int UMLEntity::removeEntityAttribute(UMLClassifierListItem* literal) {
+int UMLEntity::removeEntityAttribute(UMLClassifierListItem* literal)
+{
     if (!m_List.removeAll((UMLEntityAttribute*)literal)) {
-        uDebug() << "can't find att given in list";
+        uDebug() << "can not find att given in list";
         return -1;
     }
     emit entityAttributeRemoved(literal);
@@ -305,16 +313,19 @@ int UMLEntity::removeEntityAttribute(UMLClassifierListItem* literal) {
     return m_List.count();
 }
 
-int UMLEntity::entityAttributes() {
+int UMLEntity::entityAttributes()
+{
     UMLClassifierListItemList entityAttributes = getFilteredList(Uml::ot_EntityAttribute);
     return entityAttributes.count();
 }
 
-void UMLEntity::signalEntityAttributeRemoved(UMLClassifierListItem *eattr) {
+void UMLEntity::signalEntityAttributeRemoved(UMLClassifierListItem *eattr)
+{
     emit entityAttributeRemoved(eattr);
 }
 
-bool UMLEntity::resolveRef() {
+bool UMLEntity::resolveRef()
+{
     bool success = UMLClassifier::resolveRef();
     for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
         UMLObject* obj = oit.next();
@@ -336,7 +347,8 @@ bool UMLEntity::resolveRef() {
     return success;
 }
 
-void UMLEntity::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void UMLEntity::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement entityElement = UMLObject::save("UML:Entity", qDoc);
     //save operations
     UMLClassifierListItemList entityAttributes = getFilteredList(Uml::ot_EntityAttribute);
@@ -353,7 +365,8 @@ void UMLEntity::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     qElement.appendChild(entityElement);
 }
 
-bool UMLEntity::load(QDomElement& element) {
+bool UMLEntity::load(QDomElement& element)
+{
     QDomNode node = element.firstChild();
     while( !node.isNull() ) {
         if (node.isComment()) {
@@ -390,7 +403,7 @@ bool UMLEntity::load(QDomElement& element) {
 
             addConstraint( pCheckConstraint );
         } else if (tag == "stereotype") {
-            uDebug() << m_Name << ": losing old-format stereotype." << endl;
+            uDebug() << m_Name << ": losing old-format stereotype.";
         } else {
             uWarning() << "unknown child type in UMLEntity::load";
         }
@@ -400,17 +413,18 @@ bool UMLEntity::load(QDomElement& element) {
 }
 
 
-bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr) {
+bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr)
+{
     if ( uconstr == NULL ) {
         uDebug()<<"NULL value passed. To unset a Primary Key use "
-                <<"unsetPrimaryKey()"<<endl;
+                <<"unsetPrimaryKey()";
         return false;
     }
 
     if ( static_cast<UMLEntity*>( uconstr->parent() ) != this ) {
 
         uDebug()<<"Parent of "<<uconstr->getName()
-                <<" doesn't match with current entity"<<endl;
+                <<" does not match with current entity";
         return false;
     }
 
@@ -433,11 +447,13 @@ bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr) {
     return true;
 }
 
-void UMLEntity::unsetPrimaryKey() {
+void UMLEntity::unsetPrimaryKey()
+{
     m_PrimaryKey = NULL;
 }
 
-bool UMLEntity::hasPrimaryKey() const{
+bool UMLEntity::hasPrimaryKey() const
+{
     if ( m_PrimaryKey == NULL ) {
         return false;
     }
@@ -445,7 +461,8 @@ bool UMLEntity::hasPrimaryKey() const{
     return true;
 }
 
-bool UMLEntity::addConstraint(UMLEntityConstraint* constr) {
+bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
+{
     if ( findChildObjectById( constr->getID() ) != NULL ) {
         uDebug()<<"Constraint with id "<<ID2STR(constr->getID())
                 <<" already exists ";
@@ -461,7 +478,8 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr) {
     return true;
 }
 
-bool UMLEntity::removeConstraint(UMLEntityConstraint* constr) {
+bool UMLEntity::removeConstraint(UMLEntityConstraint* constr)
+{
      if ( findChildObjectById( constr->getID() ) == NULL ) {
         uDebug()<<"Constraint with id "<<ID2STR(constr->getID())
                 <<" does not exist ";
@@ -481,10 +499,8 @@ bool UMLEntity::removeConstraint(UMLEntityConstraint* constr) {
     return true;
 }
 
-
-
-void UMLEntity::slotEntityAttributeRemoved(UMLClassifierListItem* cli){
-
+void UMLEntity::slotEntityAttributeRemoved(UMLClassifierListItem* cli)
+{
     // this function does some cleanjobs related to this entity when the attribute is
     // removed, like, removing the attribute from all constraints
 
@@ -503,8 +519,8 @@ void UMLEntity::slotEntityAttributeRemoved(UMLClassifierListItem* cli){
 
 }
 
-UMLClassifierListItemList UMLEntity::getFilteredList(Uml::Object_Type ot) const{
-
+UMLClassifierListItemList UMLEntity::getFilteredList(Uml::Object_Type ot) const
+{
     if ( ot == Uml::ot_EntityConstraint ) {
         UMLClassifierListItemList ucList,fcList,ccList, rcList;
         ucList = UMLClassifier::getFilteredList( Uml::ot_UniqueConstraint );
@@ -534,7 +550,8 @@ UMLClassifierListItemList UMLEntity::getFilteredList(Uml::Object_Type ot) const{
     }
 }
 
-bool UMLEntity::isPrimaryKey(UMLUniqueConstraint* uConstr) const{
+bool UMLEntity::isPrimaryKey(UMLUniqueConstraint* uConstr) const
+{
     if ( uConstr == m_PrimaryKey ) {
         return true;
     }
@@ -542,7 +559,8 @@ bool UMLEntity::isPrimaryKey(UMLUniqueConstraint* uConstr) const{
     return false;
 }
 
-UMLEntityAttributeList UMLEntity::getEntityAttributes() const{
+UMLEntityAttributeList UMLEntity::getEntityAttributes() const
+{
     UMLEntityAttributeList entityAttributeList;
     for (UMLObjectListIt lit(m_List); lit.hasNext(); ) {
         UMLObject *listItem = lit.next();
@@ -554,7 +572,8 @@ UMLEntityAttributeList UMLEntity::getEntityAttributes() const{
 }
 
 
-UMLClassifierListItem* UMLEntity::makeChildObject(const QString& xmiTag) {
+UMLClassifierListItem* UMLEntity::makeChildObject(const QString& xmiTag)
+{
     UMLClassifierListItem* pObject = NULL;
     if (Uml::tagEq(xmiTag, "EntityAttribute")) {
         pObject = new UMLEntityAttribute(this);

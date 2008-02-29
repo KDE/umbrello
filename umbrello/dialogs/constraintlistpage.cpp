@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2007                                                *
+ *  copyright (C) 2003-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -29,11 +29,9 @@
 #include <klocale.h>
 #include <qlayout.h>
 
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QApplication>
-
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QApplication>
 
 
 ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type):ClassifierListPage( parent, classifier, doc, type )
@@ -91,7 +89,7 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint()
     UMLEntity* ent = static_cast<UMLEntity*>( m_pClassifier );
 
     if ( ent == NULL ) {
-        uError()<<"Couldn't set Primary Key. Entity Value is Null"<<endl;
+        uError() << "Could not set Primary Key. Entity Value is Null";
         return;
     }
 
