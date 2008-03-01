@@ -1586,7 +1586,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             pWidget -> setID(newID);
         UMLObject * pObject = m_pDoc -> findObjectById(newID);
         if (!pObject) {
-            uDebug() << "addWidget: Can't find UMLObject for id "
+            uDebug() << "addWidget: Can not find UMLObject for id "
             << ID2STR(newID) << endl;
             return false;
         }
@@ -2103,14 +2103,14 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
         UMLCanvasObject *other = NULL;
         UMLObject *roleAObj = assoc->getObject(A);
         if (roleAObj == NULL) {
-            uDebug() << "createAutoAssociations: roleA object is NULL at UMLAssoc "
-            << ID2STR(assoc->getID()) << endl;
+            uDebug() << "roleA object is NULL at UMLAssoc "
+            << ID2STR(assoc->getID());
             continue;
         }
         UMLObject *roleBObj = assoc->getObject(B);
         if (roleBObj == NULL) {
-            uDebug() << "createAutoAssociations: roleB object is NULL at UMLAssoc "
-            << ID2STR(assoc->getID()) << endl;
+            uDebug() << "roleB object is NULL at UMLAssoc "
+            << ID2STR(assoc->getID());
             continue;
         }
         if (roleAObj->getID() == myID) {
@@ -2118,9 +2118,9 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
         } else if (roleBObj->getID() == myID) {
             other = static_cast<UMLCanvasObject*>(roleAObj);
         } else {
-            uDebug() << "createAutoAssociations: Can't find own object "
+            uDebug() << "Can not find own object "
             << ID2STR(myID) << " in UMLAssoc "
-            << ID2STR(assoc->getID()) << endl;
+            << ID2STR(assoc->getID());
             continue;
         }
         // Now that we have determined the "other" UMLObject, seek it in
@@ -2156,8 +2156,8 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
         }
         // Check that the assoc is allowed.
         if (!AssocRules::allowAssociation(assocType, widgetA, widgetB, false)) {
-            uDebug() << "createAutoAssociations: not transferring assoc "
-            << "of type " << assocType << endl;
+            uDebug() << "not transferring assoc "
+            << "of type " << assocType;
             continue;
         }
         // Create the AssociationWidget.
@@ -3422,9 +3422,8 @@ bool UMLView::loadAssociationsFromXMI(QDomElement & qElement)
             countr++;
             AssociationWidget *assoc = new AssociationWidget(this);
             if (!assoc->loadFromXMI(assocElement)) {
-                uError() << "couldn't loadFromXMI association widget:"
-                << assoc << ", bad XMI file? Deleting from umlview."
-                << endl;
+                uError() << "could not loadFromXMI association widget:"
+                << assoc << ", bad XMI file? Deleting from umlview.";
                 delete assoc;
                 /* return false;
                    Returning false here is a little harsh when the
@@ -3432,7 +3431,7 @@ bool UMLView::loadAssociationsFromXMI(QDomElement & qElement)
                  */
             } else {
                 if (!addAssociation(assoc, false)) {
-                    uError() << "Couldnt addAssociation(" << assoc << ") to umlview, deleting." << endl;
+                    uError() << "Could not addAssociation(" << assoc << ") to umlview, deleting.";
                     //               assoc->cleanup();
                     delete assoc;
                     //return false; // soften error.. may not be that bad
@@ -3460,8 +3459,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement)
         QDomElement elem = node.toElement();
         QString tag = elem.tagName();
         if (! Uml::tagEq(tag, "Presentation")) {
-            uError() << "ignoring unknown UisDiagramPresentation tag "
-            << tag << endl;
+            uError() << "ignoring unknown UisDiagramPresentation tag " << tag;
             continue;
         }
         QDomNode n = elem.firstChild();
@@ -3487,7 +3485,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement)
                 QDomElement melem = mnode.toElement();
                 idStr = melem.attribute("xmi.idref", "");
             } else {
-                uDebug() << "ignoring tag " << tag << endl;
+                uDebug() << "ignoring tag " << tag;
             }
             n = n.nextSibling();
             e = n.toElement();

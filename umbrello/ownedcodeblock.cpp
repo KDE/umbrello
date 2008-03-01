@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -127,7 +127,7 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
             else // this will cause a crash
                 uError() << "corrupt save file? "
                 << "cant get proper UMLRole for ownedcodeblock uml id:"
-                << ID2STR(id) << " w/role_id:" << role_id << endl;
+                << ID2STR(id) << " w/role_id:" << role_id;
 
             // init using UMLRole obj
             initFields ( role );
@@ -135,8 +135,8 @@ void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
             initFields ( obj); // just the regular approach
     }
     else
-        uError() << "ERROR: can't load ownedcodeblock: parentUMLObject w/id:"
-        << ID2STR(id) << " not found, corrupt save file?" << endl;
+        uError() << "ERROR: can not load ownedcodeblock: parentUMLObject w/id:"
+        << ID2STR(id) << " not found, corrupt save file?";
 }
 
 void OwnedCodeBlock::initFields(UMLObject * parent )

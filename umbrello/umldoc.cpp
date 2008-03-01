@@ -13,17 +13,15 @@
 #include "umldoc.h"
 
 // qt includes
-#include <qpainter.h>
-#include <qtimer.h>
-#include <qdatetime.h>
-#include <qbuffer.h>
-#include <qdir.h>
-#include <qregexp.h>
-#include <qlabel.h>
-//Added by qt3to4:
-#include <QTextStream>
-#include <Q3PtrList>
-#include <QUndoStack>
+#include <QtCore/QTimer>
+#include <QtCore/QDateTime>
+#include <QtCore/QBuffer>
+#include <QtCore/QDir>
+#include <QtCore/QRegExp>
+#include <QtCore/QTextStream>
+#include <QtGui/QPainter>
+#include <QtGui/QLabel>
+#include <QtGui/QUndoStack>
 #include <QtGui/QPrinter>
 
 // kde includes
@@ -1046,7 +1044,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o) {
     bool ok = false;
     UMLClassifier* p = dynamic_cast<UMLClassifier *>(o->parent());
     if(!p) {
-        uDebug() << "Can't create object, no parent found";
+        uDebug() << "Can not create object, no parent found.";
         return;
     }
 
@@ -1350,7 +1348,7 @@ short UMLDoc::getEncoding(QIODevice & file)
     QDomDocument doc;
     if( !doc.setContent( data, false, &error, &line ) )
     {
-        uWarning()<<"Can't set content: "<<error<<" Line: "<<line;
+        uWarning()<<"Can not set content: "<<error<<" Line: "<<line;
         return ENC_UNKNOWN;
     }
 
@@ -1439,7 +1437,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     int line;
     QDomDocument doc;
     if( !doc.setContent( data, false, &error, &line ) ) {
-        uWarning()<<"Can't set content:"<<error<<" Line:"<<line;
+        uWarning()<<"Can not set content:"<<error<<" Line:"<<line;
         return false;
     }
     qApp->processEvents();  // give UI events a chance

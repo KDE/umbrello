@@ -5,14 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "folder.h"
 // qt/kde includes
-#include <qfile.h>
+#include <QtCore/QFile>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -26,31 +26,36 @@
 #include "model_utils.h"
 
 UMLFolder::UMLFolder(const QString & name, Uml::IDType id)
-        : UMLPackage(name, id) {
+        : UMLPackage(name, id)
+{
     init();
 }
 
-UMLFolder::~UMLFolder() {
+UMLFolder::~UMLFolder()
+{
     // TODO : check if safe
     while ( !m_diagrams.isEmpty() ) {
         delete m_diagrams.takeFirst();
     }
 }
 
-void UMLFolder::init() {
+void UMLFolder::init()
+{
     m_BaseType = Uml::ot_Folder;
     // Porting to QList. No autodelete supported. TODO: check if all elements of m_diagrams are properly disposed
     //m_diagrams.setAutoDelete(true);
     UMLObject::setStereotype("folder");
 }
 
-UMLObject* UMLFolder::clone() const {
+UMLObject* UMLFolder::clone() const
+{
     UMLFolder *clone = new UMLFolder();
     UMLObject::copyInto(clone);
     return clone;
 }
 
-void UMLFolder::setLocalName(const QString& localName) {
+void UMLFolder::setLocalName(const QString& localName)
+{
     m_localName = localName;
 }
 
@@ -58,17 +63,20 @@ QString UMLFolder::getLocalName() {
     return m_localName;
 }
 
-void UMLFolder::addView(UMLView *view) {
+void UMLFolder::addView(UMLView *view)
+{
     m_diagrams.append(view);
 }
 
-void UMLFolder::removeView(UMLView *view) {
+void UMLFolder::removeView(UMLView *view)
+{
     // m_diagrams is set to autodelete!
     m_diagrams.removeAll(view);
     delete view;
 }
 
-void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested) {
+void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
+{
     if (includeNested) {
         foreach (UMLObject* o, m_objects ) {
             if (o->getBaseType() == Uml::ot_Folder) {
@@ -81,7 +89,8 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested) {
         viewList.append(v);
 }
 
-void UMLFolder::activateViews() {
+void UMLFolder::activateViews()
+{
     foreach (UMLObject* o, m_objects ) {
         if (o->getBaseType() == Uml::ot_Folder) {
             UMLFolder *f = static_cast<UMLFolder*>(o);
@@ -104,7 +113,8 @@ void UMLFolder::activateViews() {
     }
 }
 
-UMLView *UMLFolder::findView(Uml::IDType id) {
+UMLView *UMLFolder::findView(Uml::IDType id)
+{
     foreach (UMLView* v, m_diagrams ) {
         if (v->getID() == id)
             return v;
@@ -122,8 +132,8 @@ UMLView *UMLFolder::findView(Uml::IDType id) {
     return v;
 }
 
-UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool searchAllScopes) {
-
+UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool searchAllScopes)
+{
     foreach (UMLView* v, m_diagrams ) {
         if (v->getType() == type && v->getName() == name)
             return v;
@@ -143,13 +153,15 @@ UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool s
     return v;
 }
 
-void UMLFolder::setViewOptions(const Settings::OptionState& optionState) {
+void UMLFolder::setViewOptions(const Settings::OptionState& optionState)
+{
     // for each view update settings
     foreach (UMLView* v, m_diagrams )
         v->setOptionState(optionState);
 }
 
-void UMLFolder::removeAllViews() {
+void UMLFolder::removeAllViews()
+{
     foreach (UMLObject* o, m_objects) {
         if (o->getBaseType() != Uml::ot_Folder)
             continue;
@@ -172,15 +184,18 @@ void UMLFolder::removeAllViews() {
     }
 }
 
-void UMLFolder::setFolderFile(const QString& fileName) {
+void UMLFolder::setFolderFile(const QString& fileName)
+{
     m_folderFile = fileName;
 }
 
-QString UMLFolder::getFolderFile() {
+QString UMLFolder::getFolderFile()
+{
     return m_folderFile;
 }
 
-void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement) {
+void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
     UMLObject *obj = NULL;
     // Save contained objects if any.
@@ -208,7 +223,8 @@ void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement) {
     }
 }
 
-void UMLFolder::save(QDomDocument& qDoc, QDomElement& qElement) {
+void UMLFolder::save(QDomDocument& qDoc, QDomElement& qElement)
+{
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     QString elementName("UML:Package");
     const Uml::Model_Type mt = umldoc->rootFolderType(this);
@@ -219,7 +235,8 @@ void UMLFolder::save(QDomDocument& qDoc, QDomElement& qElement) {
     qElement.appendChild(folderElement);
 }
 
-void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     if (m_folderFile.isEmpty()) {
         save(qDoc, qElement);
         return;
@@ -268,7 +285,8 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     file.close();
 }
 
-bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams) {
+bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams)
+{
     const Settings::OptionState optionState = Settings::getOptionState();
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     bool totalSuccess = true;
@@ -292,7 +310,8 @@ bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams) {
     return totalSuccess;
 }
 
-bool UMLFolder::loadFolderFile(const QString& path) {
+bool UMLFolder::loadFolderFile(const QString& path)
+{
     QFile file(path);
     if (!file.exists()) {
         KMessageBox::error(0, i18n("The folderfile %1 does not exist.", path), i18n("Load Error"));
@@ -309,7 +328,7 @@ bool UMLFolder::loadFolderFile(const QString& path) {
     QString error;
     int line;
     if (!doc.setContent( data, false, &error, &line)) {
-        uError() << "Can't set content:" << error << " line:" << line << endl;
+        uError() << "Can not set content:" << error << " line:" << line;
         return false;
     }
     QDomNode rootNode = doc.firstChild();
@@ -317,19 +336,20 @@ bool UMLFolder::loadFolderFile(const QString& path) {
         rootNode = rootNode.nextSibling();
     }
     if (rootNode.isNull()) {
-        uError() << "Root node is Null" << endl;
+        uError() << "Root node is Null";
         return false;
     }
     QDomElement element = rootNode.toElement();
     QString type = element.tagName();
     if (type != "external_file") {
-        uError() << "Root node has unknown type " << type << endl;
+        uError() << "Root node has unknown type " << type;
         return false;
     }
     return load(element);
 }
 
-bool UMLFolder::load(QDomElement& element) {
+bool UMLFolder::load(QDomElement& element)
+{
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     bool totalSuccess = true;
     for (QDomNode node = element.firstChild(); !node.isNull();
@@ -347,7 +367,7 @@ bool UMLFolder::load(QDomElement& element) {
             // Therefore these tags are not further interpreted.
             if (! load(tempElement)) {
                 uDebug() << "An error happened while loading the " << type
-                    << " of the " << m_Name << endl;
+                    << " of the " << m_Name;
                 totalSuccess = false;
             }
             continue;
@@ -367,7 +387,7 @@ bool UMLFolder::load(QDomElement& element) {
                     if (loadFolderFile(path))
                         m_folderFile = fileName;
                 } else {
-                    uDebug() << m_Name << ": ignoring XMI.extension " << xtag << endl;
+                    uDebug() << m_Name << ": ignoring XMI.extension " << xtag;
                     continue;
                 }
             }
@@ -392,14 +412,14 @@ bool UMLFolder::load(QDomElement& element) {
             Uml::IDType id = STR2ID(idStr);
             pObject = umldoc->findObjectById(id);
             if (pObject) {
-                uDebug() << "object " << idStr << "already exists" << endl;
+                uDebug() << "object " << idStr << "already exists";
             }
         }
         if (pObject == NULL) {
             QString stereoID = tempElement.attribute("stereotype", "");
             pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
             if (!pObject) {
-                uWarning() << "Unknown type of umlobject to create: " << type << endl;
+                uWarning() << "Unknown type of umlobject to create: " << type;
                 continue;
             }
         }
