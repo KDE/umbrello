@@ -13,7 +13,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,11 +21,11 @@
 #include "codegenerationwizard.h"
 
 // qt/kde includes
-#include <QPixmap>
-#include <qdir.h>
+#include <QtCore/QDir>
 #include <q3listview.h>
-#include <qfileinfo.h>
-#include <qapplication.h>
+#include <QtCore/QFileInfo>
+#include <QtGui/QApplication>
+#include <QtGui/QPixmap>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -40,9 +40,10 @@
 #include "../umlentitylist.h"
 #include "../entity.h"
 
-CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
-  : Q3Wizard((QWidget*)UMLApp::app()) {
 
+CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
+  : Q3Wizard((QWidget*)UMLApp::app())
+  {
     setupUi(this);
 
     m_doc = UMLApp::app()->getDocument();
@@ -98,10 +99,12 @@ CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
     }
 }
 
-CodeGenerationWizard::~CodeGenerationWizard() {}
+CodeGenerationWizard::~CodeGenerationWizard()
+{
+}
 
-
-void CodeGenerationWizard::selectClass() {
+void CodeGenerationWizard::selectClass()
+{
     moveSelectedItems(m_availableList, m_selectedList);
 
     if (m_selectedList->childCount() > 0) {
@@ -109,7 +112,8 @@ void CodeGenerationWizard::selectClass() {
     }
 }
 
-void CodeGenerationWizard::deselectClass() {
+void CodeGenerationWizard::deselectClass()
+{
     moveSelectedItems(m_selectedList, m_availableList);
 
     if (m_selectedList->childCount() == 0) {
@@ -117,7 +121,8 @@ void CodeGenerationWizard::deselectClass() {
     }
 }
 
-void CodeGenerationWizard::generateCode() {
+void CodeGenerationWizard::generateCode()
+{
     backButton()->setEnabled(false);
 
     CodeGenerator* codeGenerator = m_app->getGenerator();
@@ -140,14 +145,14 @@ void CodeGenerationWizard::generateCode() {
         finishButton()->setText(i18n("Finish"));
         finishButton()->disconnect();
         connect(finishButton(),SIGNAL(clicked()),this,SLOT(accept()));
-
     }
 }
 
-void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated) {
+void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated)
+{
     Q3ListViewItem* item = m_statusList->findItem( concept->getFullyQualifiedName(), 0 );
     if( !item ) {
-        uError()<<"GenerationStatusPage::Error finding class in list view"<<endl;
+        uError()<<"GenerationStatusPage::Error finding class in list view";
     } else if (generated) {
         item->setText( 1, i18n("Code Generated") );
     } else {
@@ -155,14 +160,16 @@ void CodeGenerationWizard::classGenerated(UMLClassifier* concept, bool generated
     }
 }
 
-void CodeGenerationWizard::populateStatusList() {
+void CodeGenerationWizard::populateStatusList()
+{
     m_statusList->clear();
     for(Q3ListViewItem* item = m_selectedList->firstChild(); item; item = item->nextSibling()) {
         new Q3ListViewItem(m_statusList,item->text(0),i18n("Not Yet Generated"));
     }
 }
 
-void CodeGenerationWizard::showPage(QWidget *page) {
+void CodeGenerationWizard::showPage(QWidget *page)
+{
     if (indexOf(page) == 2)
     {
         // first save the settings to the selected generator policy
@@ -218,7 +225,8 @@ void CodeGenerationWizard::showPage(QWidget *page) {
     Q3Wizard::showPage(page);
 }
 
-CodeGenerator* CodeGenerationWizard::generator() {
+CodeGenerator* CodeGenerationWizard::generator()
+{
     // FIX
     /*
         KLibLoader* loader = KLibLoader::self();
@@ -246,7 +254,8 @@ CodeGenerator* CodeGenerationWizard::generator() {
     return (CodeGenerator*) NULL;
 }
 
-void CodeGenerationWizard::moveSelectedItems(Q3ListView* fromList, Q3ListView* toList) {
+void CodeGenerationWizard::moveSelectedItems(Q3ListView* fromList, Q3ListView* toList)
+{
    Q3ListViewItemIterator it(fromList, Q3ListViewItemIterator::Selected);
     while (it.current()) {
         Q3ListViewItem* selectedItem = it.current();

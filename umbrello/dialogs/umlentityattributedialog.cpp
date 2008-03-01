@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2007                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -13,17 +13,16 @@
 #include "umlentityattributedialog.h"
 
 // qt includes
-#include <qlayout.h>
-#include <qcheckbox.h>
+#include <QtGui/QLayout>
+#include <QtGui/QCheckBox>
 #include <q3groupbox.h>
 #include <q3buttongroup.h>
-#include <qradiobutton.h>
-#include <qlabel.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
-#include <QApplication>
+#include <QtGui/QRadioButton>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QApplication>
 // kde includes
 #include <klineedit.h>
 #include <kcombobox.h>
@@ -42,8 +41,10 @@
 #include "../object_factory.h"
 #include "../umlclassifierlist.h"
 
+
 UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntityAttribute * pEntityAttribute )
-        : KDialog( pParent) {
+        : KDialog( pParent)
+{
     setCaption( i18n("Entity Attribute Properties") );
     setButtons( Help | Ok | Cancel );
     setDefaultButton(  Ok );
@@ -55,9 +56,12 @@ UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntity
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
-UMLEntityAttributeDialog::~UMLEntityAttributeDialog() {}
+UMLEntityAttributeDialog::~UMLEntityAttributeDialog()
+{
+}
 
-void UMLEntityAttributeDialog::setupDialog() {
+void UMLEntityAttributeDialog::setupDialog()
+{
     UMLDoc * pDoc = UMLApp::app()->getDocument();
     int margin = fontMetrics().height();
     QFrame *frame = new QFrame( this );
@@ -198,7 +202,8 @@ void UMLEntityAttributeDialog::slotNameChanged( const QString &_text )
     enableButtonOk( !_text.isEmpty() );
 }
 
-bool UMLEntityAttributeDialog::apply() {
+bool UMLEntityAttributeDialog::apply()
+{
     QString name = m_pNameLE->text();
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid entity attribute name."),
@@ -261,28 +266,33 @@ bool UMLEntityAttributeDialog::apply() {
     return true;
 }
 
-void UMLEntityAttributeDialog::slotApply() {
+void UMLEntityAttributeDialog::slotApply()
+{
     apply();
 }
 
-void UMLEntityAttributeDialog::slotOk() {
+void UMLEntityAttributeDialog::slotOk()
+{
     if ( apply() ) {
         accept();
     }
 }
 
-void UMLEntityAttributeDialog::insertType( const QString& type, int index ) {
+void UMLEntityAttributeDialog::insertType( const QString& type, int index )
+{
     m_pTypeCB->insertItem( index, type );
     m_pTypeCB->completionObject()->addItem( type );
 }
 
-void UMLEntityAttributeDialog::insertAttribute( const QString& type, int index ) {
+void UMLEntityAttributeDialog::insertAttribute( const QString& type, int index )
+{
     m_pAttributesCB->insertItem( index, type );
     m_pAttributesCB->completionObject()->addItem( type );
 }
 
 
-void UMLEntityAttributeDialog::slotAutoIncrementStateChanged(bool checked) {
+void UMLEntityAttributeDialog::slotAutoIncrementStateChanged(bool checked)
+{
     if ( checked == true ) {
         m_pNullCB->setChecked( false );
         m_pNullCB->setEnabled( false );

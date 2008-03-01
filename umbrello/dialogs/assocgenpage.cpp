@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2006                                                *
+ *  copyright (C) 2003-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -13,15 +13,14 @@
 #include "assocgenpage.h"
 
 // qt includes
-#include <qlayout.h>
-#include <kcombobox.h>
-//Added by qt3to4:
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
 
 // kde includes
+#include <kcombobox.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
@@ -31,10 +30,10 @@
 #include "../dialog_utils.h"
 #include "../assocrules.h"
 
+
 AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
         : QWidget(parent)
 {
-
     m_pAssociationWidget = assoc;
     m_pWidget = 0;
     m_pTypeCB = 0;
@@ -42,13 +41,14 @@ AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc
     m_pUmldoc = d;
 
     constructWidget();
-
 }
 
-AssocGenPage::~AssocGenPage() {}
+AssocGenPage::~AssocGenPage()
+{
+}
 
-void AssocGenPage::constructWidget() {
-
+void AssocGenPage::constructWidget()
+{
     // general configuration of the GUI
     int margin = fontMetrics().height();
     setMinimumSize(310,330);
@@ -132,12 +132,10 @@ void AssocGenPage::constructWidget() {
     nameLayout->addWidget(m_pTypeCB, 1, 1);
 
     m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
-
 }
 
-
-void AssocGenPage::updateObject() {
-
+void AssocGenPage::updateObject()
+{
     if (m_pAssociationWidget) {
         int comboBoxItem = m_pTypeCB->currentIndex();
         Uml::Association_Type newType = m_AssocTypes[comboBoxItem];
