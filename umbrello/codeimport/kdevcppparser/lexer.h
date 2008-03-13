@@ -23,6 +23,7 @@
 #include "driver.h"
 #include "position.h"
 
+#include <list>
 #include <qstring.h>
 #include <qmap.h>
 #include <q3valuestack.h>
