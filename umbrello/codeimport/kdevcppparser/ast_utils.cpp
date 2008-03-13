@@ -20,29 +20,24 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-AST* findNodeAt( AST* node, int line, int column )
+AST* findNodeAt( AST* node, Position const& position )
 {
     // kDebug(9007) << "findNodeAt(" << node << ")";
 
     if( !node )
 	return 0;
 
-    int startLine, startColumn;
-    int endLine, endColumn;
+  Position startPosition = node->getStartPosition();
+  Position endPosition = node->getEndPosition();
 
-    node->getStartPosition( &startLine, &startColumn );
-    node->getEndPosition( &endLine, &endColumn );
-
-    if( (line > startLine || (line == startLine && column >= startColumn)) &&
-        (line < endLine || (line == endLine && column < endColumn)) ){
-
+  if( (position >= startPosition) && (position < endPosition) ) {
         Q3PtrList<AST> children = node->children();
 	Q3PtrListIterator<AST> it( children );
 	while( it.current() ){
 	    AST* a = it.current();
 	    ++it;
 
-	    AST* r = findNodeAt( a, line, column );
+      AST* r = findNodeAt( a, position );
 	    if( r )
 		return r;
 	}

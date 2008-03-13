@@ -124,8 +124,7 @@ QString nodeTypeToString( int type )
 // ------------------------------------------------------------------------
 AST::AST()
     : m_nodeType( NodeType_Generic ), m_parent( 0 ),
-      m_startLine( 0 ), m_startColumn( 0 ),
-      m_endLine( 0 ), m_endColumn( 0 )
+    m_startPosition(), m_endPosition()
 {
 #ifndef CPPPARSER_NO_CHILDREN
     m_children.setAutoDelete( false );
@@ -140,35 +139,13 @@ AST::~AST()
 #endif
 }
 
-void AST::setStartPosition( int line, int col )
-{
-   m_startLine = line;
-   m_startColumn = col;
-}
+void AST::setStartPosition( Position const& p ) {m_startPosition = p;}
 
-void AST::getStartPosition( int* line, int* col ) const
-{
-    if( line )
-        *line = m_startLine;
+Position const& AST::getStartPosition() const {return m_startPosition;}
 
-    if( col )
-        * col = m_startColumn;
-}
+void AST::setEndPosition( Position const& p ) {m_endPosition = p;}
 
-void AST::setEndPosition( int line, int col )
-{
-   m_endLine = line;
-   m_endColumn = col;
-}
-
-void AST::getEndPosition( int* line, int* col ) const
-{
-    if( line )
-        *line = m_endLine;
-
-    if( col )
-        * col = m_endColumn;
-}
+Position const& AST::getEndPosition() const {return m_endPosition;}
 
 void AST::setParent( AST* parent )
 {

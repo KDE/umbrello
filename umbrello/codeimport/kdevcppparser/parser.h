@@ -21,6 +21,7 @@
 #define PARSER_H
 
 #include "ast.h"
+#include "lexer.h"
 
 #include <qstring.h>
 #include <qstringlist.h>
@@ -35,14 +36,36 @@ struct Error;
 
 class Parser
 {
+  typedef Lexer::TokenIterator TokenIterator;
 public:
     Parser( Driver* driver, Lexer* lexer );
     virtual ~Parser();
 
 private:
+  bool advance( int tk, char const* descr);
+  void advance_nr( int tk, char const* descr);
+  AST::Node ast_from_token( TokenIterator tk) const;
+  bool check( int tk);
     virtual bool reportError( const Error& err );
     /** @todo remove*/ virtual bool reportError( const QString& msg );
     /** @todo remove*/ virtual void syntaxError();
+  template <class _astType>
+  void update_pos( AUTO_PTR<_astType> const& node, TokenIterator start,
+		   TokenIterator end) const {
+    Token const& a = *start;
+    TokenIterator l_tmp = end;
+    if( l_tmp != start)
+      --l_tmp;
+    Token const& b = *l_tmp;
+    node->setStartPosition( a.getStartPosition() );
+    node->setEndPosition( b.getEndPosition() );
+    if( node->nodeType() == NodeType_Generic ) {
+      if (start == l_tmp)
+	node->setSlice( lex->source(), a.position(), a.length());
+      else
+	node->setText( toString( start, end) );
+    }
+  }
 
 public: /*rules*/
 
@@ -201,7 +224,8 @@ public: /*rules*/
     bool skipUntilDeclaration();
     bool skipUntilStatement();
     bool skip( int l, int r );
-    QString toString( int start, int end, const QString& sep=" " ) const;
+  QString toString( TokenIterator start, TokenIterator end,
+		    const QString& sep=" " ) const;
 
 private:
     ParserPrivateData* d;
@@ -210,6 +234,7 @@ private:
     int m_problems;
     int m_maxProblems;
     bool objcp;
+  TokenIterator m_tokenIt;
 
 private:
     Parser( const Parser& source );

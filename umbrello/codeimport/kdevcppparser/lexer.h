@@ -21,6 +21,7 @@
 #define LEXER_H
 
 #include "driver.h"
+#include "position.h"
 
 #include <qstring.h>
 #include <qmap.h>
@@ -29,6 +30,16 @@
 #include <q3ptrvector.h>
 //Added by qt3to4:
 #include <Q3MemArray>
+
+#include <assert.h>
+#include <debug/safe_iterator.h>
+
+enum SkipType {
+  SkipWord,
+  SkipWordAndArguments
+};
+
+struct LexerData;
 
 enum Type {
     Token_eof = 0,
@@ -139,124 +150,67 @@ enum Type {
     Token_xor_eq
 };
 
-enum SkipType {
-    SkipWord,
-    SkipWordAndArguments
-};
-
-struct LexerData;
-
-class Token
-{
+class Token {
 public:
     Token();
-    Token( int type, int position, int length, const QString& text );
-    Token( const Token& source );
+  Token( int type, int position, int length, Position const& start,
+	 Position const& end, const QString& text );
 
-    Token& operator = ( const Token& source );
-    bool operator == ( const Token& token ) const;
-    operator int () const;
+  operator int () const {return m_type;}
 
-    bool isNull() const;
+  bool isNull() const {return m_type == Token_eof || m_length == 0;}
 
-    int type() const;
-    void setType( int type );
+  int type() const {return m_type;}
 
-    void getStartPosition( int* line, int* column ) const;
-    void setStartPosition( int line, int column );
-    void getEndPosition( int* line, int* column ) const;
-    void setEndPosition( int line, int column );
+  Position const& getStartPosition() const {return m_start;}
+  Position const& getEndPosition() const {return m_end;}
+  unsigned int length() const {return m_length;}
+  int position() const {return m_position;}
 
-    unsigned int length() const;
-    void setLength( unsigned int length );
-
-    int position() const;
-    void setPosition( int position );
-
-    QString text() const;
+  QString text() const {return m_text.mid(m_position, m_length);}
 
 private:
     int m_type;
     int m_position;
     int m_length;
-    int m_startLine;
-    int m_startColumn;
-    int m_endLine;
-    int m_endColumn;
+  Position m_start, m_end;
     QString m_text;
-
-    friend class Lexer;
-    friend class Parser;
-}; // class Token
+};
 
 class Lexer
 {
+  typedef std::list<Token> TokenList;
 public:
+  typedef TokenList::const_iterator TokenIterator;
+
     Lexer( Driver* driver );
     ~Lexer();
 
-    bool recordComments() const;
-    void setRecordComments( bool record );
-
-    bool recordWhiteSpaces() const;
-    void setRecordWhiteSpaces( bool record );
-
-    bool reportWarnings() const;
-    void setReportWarnings( bool enable );
-
-    bool reportMessages() const;
-    void setReportMessages( bool enable );
-
-    bool skipWordsEnabled() const;
-    void setSkipWordsEnabled( bool enabled );
-
-    bool preprocessorEnabled() const;
-    void setPreprocessorEnabled( bool enabled );
-
-    void resetSkipWords();
-    void addSkipWord( const QString& word, SkipType skipType=SkipWord, const QString& str = QString() );
-
-    QString source() const;
+  void addSkipWord( const QString& word, SkipType skipType = SkipWord,
+		    const QString& str = QString() );
+  QString source() const {return m_source.get_source();}
     void setSource( const QString& source );
 
-    int index() const;
-    void setIndex( int index );
-
-    void reset();
-
-    const Token& tokenAt( int position ) const;
-    const Token& nextToken();
-    const Token& lookAhead( int n ) const;
-
-    static int toInt( const Token& token );
-
-    int tokenPosition( const Token& token ) const;
-    void getTokenPosition( const Token& token, int* line, int* col );
-
-    int currentLine() const { return m_currentLine; }
-    int currentColumn() const { return m_currentColumn; }
+  void setRecordComments( bool record );
+  Position const& currentPosition() const
+  {return m_source.get_currentPosition();}
+  Token const& lookAhead( TokenIterator p_it, int n ) const {
+    std::advance( p_it, n);
+    assert( p_it != m_tokens.end());
+    return *p_it;
+  }
+  Position const& getTokenPosition( const Token& token) const;
+  TokenIterator tokenBegin() const {return m_tokens.begin();}
 
 private:
-    QChar currentChar() const;
-    QChar peekChar( int n=1 ) const;
-    int currentPosition() const;
-
+  static int toInt( const Token& token );
     void tokenize();
     void nextToken( Token& token, bool stopOnNewline=false );
-    void nextChar();
-    void nextChar( int n );
     void skip( int l, int r );
-    void readIdentifier();
-    void readWhiteSpaces( bool skipNewLine=true );
     void readLineComment();
     void readMultiLineComment();
-    void readCharLiteral();
-    void readStringLiteral();
-    void readNumberLiteral();
-
-    int findOperator3() const;
-    int findOperator2() const;
-    bool eof() const;
+  bool recordComments() const;
+  void reset();
 
     // preprocessor (based on an article of Al Stevens on Dr.Dobb's journal)
     int testIfLevel();
@@ -289,419 +243,25 @@ private:
 private:
     LexerData* d;
     Driver* m_driver;
-    Q3PtrVector< Token > m_tokens;
-    int m_size;
-    int m_index;
-    QString m_source;
-    int m_ptr;
-    int m_endPtr;
-    bool m_recordComments;
-    bool m_recordWhiteSpaces;
-    bool m_startLine;
-    QMap< QString, QPair<SkipType, QString> > m_words;
-
-    int m_currentLine;
-    int m_currentColumn;
-    bool m_skipWordsEnabled;
-
-    // preprocessor
-    Q3MemArray<bool> m_skipping;
-    Q3MemArray<bool> m_trueTest;
-    int m_ifLevel;
-    bool m_preprocessorEnabled;
-    bool m_inPreproc;
-
-    bool m_reportWarnings;
-    bool m_reportMessages;
-
-private:
-    Lexer( const Lexer& source );
-    void operator = ( const Lexer& source );
-};
-
-
-inline Token::Token()
-    : m_type( -1 ),
-      m_position( 0 ),
-      m_length( 0 ),
-      m_text( 0 )
-{
-}
-
-inline Token::Token( int type, int position, int length, const QString& text )
-    : m_type( type ),
-      m_position( position ),
-      m_length( length ),
-      m_text( text )
-{
-}
-
-inline Token::Token( const Token& source )
-    : m_type( source.m_type ),
-      m_position( source.m_position ),
-      m_length( source.m_length ),
-      m_startLine( source.m_startLine ),
-      m_startColumn( source.m_startColumn ),
-      m_endLine( source.m_endLine ),
-      m_endColumn( source.m_endColumn ),
-      m_text( source.m_text )
-{
-}
-
-inline Token& Token::operator = ( const Token& source )
-{
-    m_type = source.m_type;
-    m_position = source.m_position;
-    m_length = source.m_length;
-    m_startLine = source.m_startLine;
-    m_startColumn = source.m_startColumn;
-    m_endLine = source.m_endLine;
-    m_endColumn = source.m_endColumn;
-    m_text = source.m_text;
-    return( *this );
-}
-
-inline Token::operator int () const
-{
-    return m_type;
-}
-
-inline bool Token::operator == ( const Token& token ) const
-{
-    return m_type == token.m_type &&
-       m_position == token.m_position &&
-         m_length == token.m_length &&
-      m_startLine == token.m_startLine &&
-    m_startColumn == token.m_startColumn &&
-        m_endLine == token.m_endLine &&
-      m_endColumn == token.m_endColumn &&
-           m_text == token.m_text;
-}
-
-inline bool Token::isNull() const
-{
-    return m_type == Token_eof || m_length == 0;
-}
-
-inline int Token::type() const
-{
-    return m_type;
-}
-
-inline void Token::setType( int type )
-{
-    m_type = type;
-}
-
-inline int Token::position() const
-{
-    return m_position;
-}
-
-inline QString Token::text() const
-{
-    return m_text.mid(m_position, m_length);
-}
-
-inline void Token::setStartPosition( int line, int column )
-{
-    m_startLine = line;
-    m_startColumn = column;
-}
-
-inline void Token::setEndPosition( int line, int column )
-{
-    m_endLine = line;
-    m_endColumn = column;
-}
-
-inline void Token::getStartPosition( int* line, int* column ) const
-{
-    if( line ) *line = m_startLine;
-    if( column ) *column = m_startColumn;
-}
-
-inline void Token::getEndPosition( int* line, int* column ) const
-{
-    if( line ) *line = m_endLine;
-    if( column ) *column = m_endColumn;
-}
-
-inline void Token::setPosition( int position )
-{
-    m_position = position;
-}
-
-inline unsigned int Token::length() const
-{
-    return m_length;
-}
-
-inline void Token::setLength( unsigned int length )
-{
-    m_length = length;
-}
-
-inline bool Lexer::recordComments() const
-{
-    return m_recordComments;
-}
-
-inline void Lexer::setRecordComments( bool record )
-{
-    m_recordComments = record;
-}
-
-inline bool Lexer::recordWhiteSpaces() const
-{
-    return m_recordWhiteSpaces;
-}
-
-inline void Lexer::setRecordWhiteSpaces( bool record )
-{
-    m_recordWhiteSpaces = record;
-}
-
-inline QString Lexer::source() const
-{
-    return m_source;
-}
-
-inline int Lexer::index() const
-{
-    return m_index;
-}
-
-inline void Lexer::setIndex( int index )
-{
-    m_index = index;
-}
-
-inline const Token& Lexer::nextToken()
-{
-    if( m_index < m_size )
-        return *m_tokens[ m_index++ ];
-
-    return *m_tokens[ m_index ];
-}
-
-inline const Token& Lexer::tokenAt( int n ) const
-{
-    return *m_tokens[ qMin(n, m_size-1) ];
-}
-
-inline const Token& Lexer::lookAhead( int n ) const
-{
-    return *m_tokens[ qMin(m_index + n, m_size-1) ];
-}
-
-inline int Lexer::tokenPosition( const Token& token ) const
-{
-    return token.position();
-}
-
-inline void Lexer::nextChar()
-{
-    if(m_source[m_ptr++] == '\n') {
-        ++m_currentLine;
-        m_currentColumn = 0;
-        m_startLine = true;
-    } else {
-	++m_currentColumn;
+  TokenList m_tokens;
+  class Source {
+  public:
+    Token createToken( int type, int start, int len,
+		       Position const& startPosition,
+		       Position const& endPosition) const;
+    Token createToken( int type, int start,
+		       Position const& startPosition) const {
+      return createToken( type, start, m_ptr - start, startPosition,
+			  m_currentPosition);
     }
-}
-
-inline void Lexer::nextChar( int n )
-{
-    m_currentColumn += n;
-    m_ptr += n;
-}
-
-inline void Lexer::readIdentifier()
-{
-    while( currentChar().isLetterOrNumber() || currentChar() == '_' )
-        nextChar();
-}
-
-inline void Lexer::readWhiteSpaces( bool skipNewLine )
-{
-    while( !currentChar().isNull() ){
-        QChar ch = currentChar();
-
-        if( ch == '\n' && !skipNewLine ){
-            break;
-        } else if( ch.isSpace() ){
-            nextChar();
-        } else if( m_inPreproc && currentChar() == '\\' ){
-            nextChar();
-            readWhiteSpaces( true );
-        } else {
-            break;
-        }
+    QChar currentChar() const {
+      return m_ptr < m_endPtr ? m_source[m_ptr] : QChar::null;
     }
-}
-
-inline void Lexer::readLineComment()
-{
-    while( !currentChar().isNull() && currentChar() != '\n' ){
-	if( m_reportMessages && currentChar() == '@' && m_source.mid(currentPosition()+1, 4).toLower() == "todo" ){
-	    nextChar( 5 );
-	    QString msg;
-	    int line = m_currentLine;
-	    int col = m_currentColumn;
-
-	    while( !currentChar().isNull() ){
-		if( currentChar() == '*' && peekChar() == '/' )
-		    break;
-		else if( currentChar() == '\n' )
-		    break;
-
-		msg += currentChar();
-		nextChar();
-	    }
-	    m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Todo) );
-	} else
-        if( m_reportMessages && m_source.mid(currentPosition(), 5).toLower() == "fixme" ){
-            nextChar( 5 );
-            QString msg;
-            int line = m_currentLine;
-            int col = m_currentColumn;
-
-            while( !currentChar().isNull() ){
-            if( currentChar() == '*' && peekChar() == '/' )
-                break;
-            else if( currentChar() == '\n' )
-                break;
-
-            msg += currentChar();
-            nextChar();
-            }
-            m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Fixme) );
-        } else
-            nextChar();
-    }
-}
-
-inline void Lexer::readMultiLineComment()
-{
-    while( !currentChar().isNull() ){
-        if( currentChar() == '*' && peekChar() == '/' ){
-            nextChar( 2 );
-            return;
-	} else if( m_reportMessages && currentChar() == '@' && m_source.mid(currentPosition()+1, 4).toLower() == "todo" ){
-	    nextChar( 5 );
-	    QString msg;
-	    int line = m_currentLine;
-	    int col = m_currentColumn;
-
-	    while( !currentChar().isNull() ){
-		if( currentChar() == '*' && peekChar() == '/' )
-		    break;
-		else if( currentChar() == '\n' )
-		    break;
-		msg += currentChar();
-		nextChar();
-	    }
-	    m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Todo) );
-	} else
-        if( m_reportMessages && m_source.mid(currentPosition(), 5).toLower() == "fixme" ){
-            nextChar( 5 );
-            QString msg;
-            int line = m_currentLine;
-            int col = m_currentColumn;
-
-            while( !currentChar().isNull() ){
-            if( currentChar() == '*' && peekChar() == '/' )
-                break;
-            else if( currentChar() == '\n' )
-                break;
-
-            msg += currentChar();
-            nextChar();
-            }
-            m_driver->addProblem( m_driver->currentFileName(), Problem(msg, line, col, Problem::Level_Fixme) );
-        } else
-            nextChar();
-    }
-}
-
-inline void Lexer::readCharLiteral()
-{
-    if( currentChar() == '\'' )
-        nextChar(); // skip '
-    else if( currentChar() == 'L' && peekChar() == '\'' )
-	nextChar( 2 ); // slip L'
-    else
-        return;
-
-    while( !currentChar().isNull() ){
-        int len = m_endPtr - currentPosition();
-
-        if( len>=2 && (currentChar() == '\\' && peekChar() == '\'') ){
-            nextChar( 2 );
-        } else if( len>=2 && (currentChar() == '\\' && peekChar() == '\\') ){
-            nextChar( 2 );
-        } else if( currentChar() == '\'' ){
-            nextChar();
-            break;
-        } else {
-	    nextChar();
-	}
-    }
-}
-
-inline void Lexer::readStringLiteral()
-{
-    if( currentChar() != '"' )
-        return;
-
-    nextChar(); // skip "
-
-    while( !currentChar().isNull() ){
-        int len = m_endPtr - m_ptr;
-
-        if( len>=2 && currentChar() == '\\' && peekChar() == '"' ){
-            nextChar( 2 );
-        } else if( len>=2 && currentChar() == '\\' && peekChar() == '\\' ){
-            nextChar( 2 );
-        } else if( currentChar() == '"' ){
-            nextChar();
-            break;
-        } else {
-	    nextChar();
-	}
-    }
-}
-
-inline void Lexer::readNumberLiteral()
-{
-    while( currentChar().isLetterOrNumber() || currentChar() == '.' )
-        nextChar();
-}
-
-inline int Lexer::findOperator3() const
-{
-    int n = int(m_endPtr - m_ptr);
-
-    if( n >= 3){
-	QChar ch = currentChar(), ch1=peekChar(), ch2=peekChar(2);
-
-	if( ch == '<' && ch1 == '<' && ch2 == '=' ) return Token_assign;
-	else if( ch == '>' && ch1 == '>' && ch2 == '=' ) return Token_assign;
-	else if( ch == '-' && ch1 == '>' && ch2 == '*' ) return Token_ptrmem;
-	else if( ch == '.' && ch1 == '.' && ch2 == '.' ) return Token_ellipsis;
-    }
-
-    return -1;
-}
-
-inline int Lexer::findOperator2() const
-{
-    int n = int(m_endPtr - m_ptr);
-
-    if( n>=2 ){
-	QChar ch = currentChar(), ch1=peekChar();
-
+    bool eof() const {return m_ptr >= m_endPtr;}
+    int findOperator2() const {
+      int n = length();
+      if( n>=2 ){
+	QChar ch = currentChar(), ch1 = peekChar();
 	if( ch == ':' && ch1 == ':' ) return Token_scope;
 	else if( ch == '.' && ch1 == '*' ) return Token_ptrmem;
 	else if( ch == '+' && ch1 == '=' ) return Token_assign;
@@ -724,70 +284,249 @@ inline int Lexer::findOperator2() const
 	else if( ch == '-' && ch1 == '-' ) return Token_decr;
 	else if( ch == '-' && ch1 == '>' ) return Token_arrow;
 	else if( ch == '#' && ch1 == '#' ) return Token_concat;
+      }
+      return -1;
     }
+    int findOperator3() const;
+    void insert( QString const& p) {
+      m_source.insert( m_ptr, p);
+      m_endPtr += p.length();
+      assert( m_endPtr == m_source.length());
+    }
+    int length() const {return m_endPtr - m_ptr;}
+    void nextChar() {
+      if(m_source[m_ptr++] == '\n') {
+	++m_currentPosition.m_line;
+	m_currentPosition.m_column = 0;
+	m_startLine = true;
+      } else {
+	++m_currentPosition.m_column;
+      }
+    }
+    void nextChar( int n ) {
+      m_currentPosition.m_column += n;
+      m_ptr += n;
+    }
+    QChar peekChar( int n = 1) const {
+      return m_ptr+n < m_endPtr ? m_source[m_ptr + n] : QChar::null;
+    }
+    void readCharLiteral() {
+      if( currentChar() == '\'' )
+	nextChar(); // skip '
+      else if( currentChar() == 'L' && peekChar() == '\'' )
+	nextChar( 2 ); // slip L'
+      else
+	return;
 
-    return -1;
-}
+      while( !currentChar().isNull() ){
+	int len = length();
 
-inline bool Lexer::skipWordsEnabled() const
+	if( len>=2 && (currentChar() == '\\' && peekChar() == '\'') ){
+	  nextChar( 2 );
+	} else if( len>=2 && (currentChar() == '\\' && peekChar() == '\\') ){
+	  nextChar( 2 );
+	} else if( currentChar() == '\'' ){
+	  nextChar();
+	  break;
+	} else {
+	  nextChar();
+	}
+      }
+    }
+    QString readIdentifier() {
+      int start = m_ptr;
+      while( currentChar().isLetterOrNumber() || currentChar() == '_' )
+	nextChar();
+      return substrFrom( start);
+    }
+    void readNumberLiteral() {
+      while( currentChar().isLetterOrNumber() || currentChar() == '.' )
+	nextChar();
+    }
+    void readStringLiteral() {
+      if( currentChar() != '"' )
+	return;
+      nextChar(); // skip "
+      while( !currentChar().isNull() ){
+	int len = length();
+	if( len>=2 && currentChar() == '\\' && peekChar() == '"' ){
+	  nextChar( 2 );
+	} else if( len>=2 && currentChar() == '\\' && peekChar() == '\\' ){
+	  nextChar( 2 );
+	} else if( currentChar() == '"' ){
+	  nextChar();
+	  break;
+	} else {
+	  nextChar();
+	}
+      }
+    }
+    void readWhiteSpaces( bool skipNewLine, bool p_inPreproc);
+    void reset() {
+      m_source.clear();
+      m_ptr = 0;
+      m_endPtr = 0;
+      m_startLine = false;
+      m_currentPosition.m_line = 0;
+      m_currentPosition.m_column = 0;
+    }
+    void set_source( const QString& source) {
+      m_source = source;
+      m_ptr = 0;
+      m_endPtr = m_source.length();
+    }
+    QString substrFrom( int start) const
+    {return m_source.mid( start, m_ptr - start);}
+    bool toLowerIsEqualTo( char const* p_pattern, int p_offset = 0) const {
+      return (m_source.mid( m_ptr + p_offset, strlen( p_pattern)).toLower()
+	      == p_pattern);
+    }
+    /* getters */
+    Position const& get_currentPosition() const {return m_currentPosition;}
+    int get_ptr() const {return m_ptr;}
+    QString const& get_source() const {return m_source;}
+    bool get_startLine() const {return m_startLine;}
+    /* setters */
+    void set_startLine( bool p) {m_startLine = p;}
+    void set_currentPosition( Position const& p) {m_currentPosition = p;}
+  private:
+    QString m_source;
+    int m_ptr;
+    int m_endPtr;
+    bool m_startLine;
+    Position m_currentPosition;
+  };
+  Source m_source;
+  bool m_recordComments;
+    QMap< QString, QPair<SkipType, QString> > m_words;
+
+    bool m_skipWordsEnabled;
+
+    // preprocessor
+    Q3MemArray<bool> m_skipping;
+    Q3MemArray<bool> m_trueTest;
+    int m_ifLevel;
+    bool m_preprocessorEnabled;
+    bool m_inPreproc;
+
+    bool m_reportMessages;
+
+private:
+    Lexer( const Lexer& source );
+    void operator = ( const Lexer& source );
+};
+
+inline bool Lexer::recordComments() const
 {
-    return m_skipWordsEnabled;
+    return m_recordComments;
 }
 
-inline void Lexer::setSkipWordsEnabled( bool enabled )
+inline void Lexer::setRecordComments( bool record )
 {
-    m_skipWordsEnabled = enabled;
+    m_recordComments = record;
 }
 
-inline bool Lexer::preprocessorEnabled() const
+inline void Lexer::Source::readWhiteSpaces( bool skipNewLine, bool p_inPreproc)
 {
-    return m_preprocessorEnabled;
+  QChar ch;
+  while( !(ch = currentChar()).isNull() ){
+        if( ch == '\n' && !skipNewLine ){
+            break;
+        } else if( ch.isSpace() ){
+            nextChar();
+    } else if( p_inPreproc && currentChar() == '\\' ){
+            nextChar();
+      readWhiteSpaces( true, p_inPreproc);
+        } else {
+            break;
+        }
+    }
 }
 
-inline void Lexer::setPreprocessorEnabled( bool enabled )
+inline void Lexer::readLineComment()
 {
-    m_preprocessorEnabled = enabled;
+  while( !m_source.currentChar().isNull() && m_source.currentChar() != '\n' ){
+    if( m_reportMessages && m_source.currentChar() == '@'
+	&& m_source.toLowerIsEqualTo( "todo", 1)) {
+      m_source.nextChar( 5 );
+	    QString msg;
+      Position l_position = currentPosition();
+
+      while( !m_source.currentChar().isNull() ){
+	if( m_source.currentChar() == '*' && m_source.peekChar() == '/' )
+		    break;
+	else if( m_source.currentChar() == '\n' )
+		    break;
+
+	msg += m_source.currentChar();
+	m_source.nextChar();
+	    }
+      m_driver->addProblem( m_driver->currentFileName(),
+			    Problem(msg, l_position, Problem::Level_Todo) );
+	} else
+      if( m_reportMessages && m_source.toLowerIsEqualTo( "fixme")) {
+	m_source.nextChar( 5 );
+            QString msg;
+	Position l_position = currentPosition();
+
+	while( !m_source.currentChar().isNull() ){
+	  if( m_source.currentChar() == '*' && m_source.peekChar() == '/' )
+                break;
+	  else if( m_source.currentChar() == '\n' )
+                break;
+
+	  msg += m_source.currentChar();
+	  m_source.nextChar();
+            }
+	m_driver->addProblem( m_driver->currentFileName(),
+			      Problem(msg, l_position, Problem::Level_Fixme) );
+        } else
+	m_source.nextChar();
+    }
 }
 
-inline int Lexer::currentPosition() const
+inline void Lexer::readMultiLineComment()
 {
-    return m_ptr;
-}
+  while( !m_source.currentChar().isNull() ){
+    if( m_source.currentChar() == '*' && m_source.peekChar() == '/' ){
+      m_source.nextChar( 2 );
+            return;
+    } else if( m_reportMessages && m_source.currentChar() == '@'
+	       && m_source.toLowerIsEqualTo( "todo", 1)) {
+      m_source.nextChar( 5 );
+	    QString msg;
+      Position l_position = currentPosition();
 
-inline QChar Lexer::currentChar() const
-{
-    return m_ptr < m_endPtr ? m_source[m_ptr] : QChar::null;
-}
+      while( !m_source.currentChar().isNull() ){
+	if( m_source.currentChar() == '*' && m_source.peekChar() == '/' )
+		    break;
+	else if( m_source.currentChar() == '\n' )
+		    break;
+	msg += m_source.currentChar();
+	m_source.nextChar();
+	    }
+      m_driver->addProblem( m_driver->currentFileName(),
+			    Problem(msg, l_position, Problem::Level_Todo) );
+	} else
+      if( m_reportMessages && m_source.toLowerIsEqualTo( "fixme")) {
+	m_source.nextChar( 5 );
+            QString msg;
+	Position l_position = currentPosition();
 
-inline QChar Lexer::peekChar( int n ) const
-{
-    return m_ptr+n < m_endPtr ? m_source[m_ptr + n] : QChar::null;
-}
+	while( !m_source.currentChar().isNull() ){
+	  if( m_source.currentChar() == '*' && m_source.peekChar() == '/' )
+                break;
+	  else if( m_source.currentChar() == '\n' )
+                break;
 
-inline bool Lexer::eof() const
-{
-    return m_ptr >= m_endPtr;
+	  msg += m_source.currentChar();
+	  m_source.nextChar();
+            }
+	m_driver->addProblem( m_driver->currentFileName(),
+			      Problem(msg, l_position, Problem::Level_Fixme) );
+        } else
+	m_source.nextChar();
+    }
 }
-
-inline bool Lexer::reportWarnings() const
-{
-    return m_reportWarnings;
-}
-
-inline void Lexer::setReportWarnings( bool enable )
-{
-    m_reportWarnings = enable;
-}
-
-inline bool Lexer::reportMessages() const
-{
-    return m_reportMessages;
-}
-
-inline void Lexer::setReportMessages( bool enable )
-{
-    m_reportMessages = enable;
-}
-
 
 #endif

@@ -20,6 +20,7 @@
 #ifndef __ast_h
 #define __ast_h
 
+#include "position.h"
 #include <memory>
 #include <qstring.h>
 #include <q3ptrlist.h>
@@ -124,7 +125,7 @@ template <class T> typename T::Node NullNode()
 }
 
 enum NodeType
-{
+  {
     NodeType_Generic = 0,
 
     NodeType_TemplateArgumentList = 1000,
@@ -172,7 +173,7 @@ enum NodeType
     NodeType_Condition,
 
     NodeType_Custom = 2000
-};
+  };
 
 QString nodeTypeToString( int type );
 
@@ -197,16 +198,6 @@ QString nodeTypeToString( int type );
 
 #endif
 
-struct Slice
-{
-    QString source;
-    int position;
-    int length;
-
-    inline Slice()
-        : position(0), length(0) {}
-};
-
 class AST
 {
 public:
@@ -215,7 +206,7 @@ public:
 
     DECLARE_ALLOC( AST )
 
-public:
+    public:
     AST();
     virtual ~AST();
 
@@ -225,11 +216,11 @@ public:
     AST* parent() { return m_parent; }
     void setParent( AST* parent );
 
-    void setStartPosition( int line, int col );
-    void getStartPosition( int* line, int* col ) const;
+  void setStartPosition( Position const& p );
+  Position const& getStartPosition() const;
 
-    void setEndPosition( int line, int col );
-    void getEndPosition( int* line, int* col ) const;
+  void setEndPosition( Position const& p );
+  Position const& getEndPosition() const;
 
 #ifndef CPPPARSER_NO_CHILDREN
     Q3PtrList<AST> children() { return m_children; }
@@ -238,19 +229,17 @@ public:
 #endif
 
     virtual inline QString text() const
-    { return m_slice.source.mid(m_slice.position, m_slice.length); }
+  { return m_slice; }
 
     QString comment() const
     { return m_comment; }
 
-    inline void setSlice( const Slice& slice )
+  inline void setSlice( const QString& slice )
     { m_slice = slice; }
 
     inline void setSlice( const QString &text, int position, int length )
     {
-        m_slice.source = text;
-        m_slice.position = position;
-        m_slice.length = length;
+    m_slice = text.mid( position, length );
     }
 
     inline void setText(const QString &text)
@@ -262,9 +251,8 @@ public:
 private:
     int m_nodeType;
     AST* m_parent;
-    int m_startLine, m_startColumn;
-    int m_endLine, m_endColumn;
-    Slice m_slice;
+  Position m_startPosition, m_endPosition;
+  QString m_slice;
 #ifndef CPPPARSER_NO_CHILDREN
     Q3PtrList<AST> m_children;
 #endif
@@ -283,7 +271,7 @@ public:
 
     DECLARE_ALLOC( GroupAST )
 
-public:
+    public:
     GroupAST();
 
     Q3PtrList<AST> nodeList() { return m_nodeList; }
@@ -308,7 +296,7 @@ public:
 
     DECLARE_ALLOC( TemplateArgumentListAST )
 
-public:
+    public:
     TemplateArgumentListAST();
 
     void addArgument( AST::Node& arg );
@@ -332,7 +320,7 @@ public:
 
     DECLARE_ALLOC( ClassOrNamespaceNameAST )
 
-public:
+    public:
     ClassOrNamespaceNameAST();
 
     AST* name() { return m_name.get(); }
@@ -360,7 +348,7 @@ public:
 
     DECLARE_ALLOC( NameAST )
 
-public:
+    public:
     NameAST();
 
     bool isGlobal() const { return m_global; }
@@ -392,7 +380,7 @@ public:
 
     DECLARE_ALLOC( TypeParameterAST )
 
-public:
+    public:
     TypeParameterAST();
 
     AST* kind() { return m_kind.get(); }
@@ -426,7 +414,7 @@ public:
 
     DECLARE_ALLOC( DeclarationAST )
 
-public:
+    public:
     DeclarationAST();
 
 private:
@@ -442,7 +430,7 @@ public:
 
     DECLARE_ALLOC( AccessDeclarationAST )
 
-public:
+    public:
     AccessDeclarationAST();
 
     Q3PtrList<AST> accessList() { return m_accessList; }
@@ -466,7 +454,7 @@ public:
 
     DECLARE_ALLOC( TypeSpecifierAST )
 
-public:
+    public:
     TypeSpecifierAST();
 
     virtual NameAST* name() { return m_name.get(); }
@@ -498,7 +486,7 @@ public:
 
     DECLARE_ALLOC( BaseSpecifierAST )
 
-public:
+    public:
     BaseSpecifierAST();
 
     AST* isVirtual() { return m_isVirtual.get(); }
@@ -528,7 +516,7 @@ public:
 
     DECLARE_ALLOC( BaseClauseAST )
 
-public:
+    public:
     BaseClauseAST();
 
     void addBaseSpecifier( BaseSpecifierAST::Node& baseSpecifier );
@@ -550,7 +538,7 @@ public:
 
     DECLARE_ALLOC( ClassSpecifierAST )
 
-public:
+    public:
     ClassSpecifierAST();
 
     GroupAST* winDeclSpec() { return m_winDeclSpec.get(); }
@@ -584,7 +572,7 @@ public:
 
     DECLARE_ALLOC( EnumeratorAST )
 
-public:
+    public:
     EnumeratorAST();
 
     AST* id() { return m_id.get(); }
@@ -610,7 +598,7 @@ public:
 
     DECLARE_ALLOC( EnumSpecifierAST )
 
-public:
+    public:
     EnumSpecifierAST();
 
     void addEnumerator( EnumeratorAST::Node& enumerator );
@@ -632,7 +620,7 @@ public:
 
     DECLARE_ALLOC( ElaboratedTypeSpecifierAST )
 
-public:
+    public:
     ElaboratedTypeSpecifierAST();
 
     AST* kind() { return m_kind.get(); }
@@ -657,7 +645,7 @@ public:
 
     DECLARE_ALLOC( LinkageBodyAST )
 
-public:
+    public:
     LinkageBodyAST();
 
     void addDeclaration( DeclarationAST::Node& ast );
@@ -679,7 +667,7 @@ public:
 
     DECLARE_ALLOC( LinkageSpecificationAST )
 
-public:
+    public:
     LinkageSpecificationAST();
 
     AST* externType() { return m_externType.get(); }
@@ -709,7 +697,7 @@ public:
 
     DECLARE_ALLOC( NamespaceAST )
 
-public:
+    public:
     NamespaceAST();
 
     AST* namespaceName() { return m_namespaceName.get(); }
@@ -735,7 +723,7 @@ public:
 
     DECLARE_ALLOC( NamespaceAliasAST )
 
-public:
+    public:
     NamespaceAliasAST();
 
     AST* namespaceName() { return m_namespaceName.get(); }
@@ -761,7 +749,7 @@ public:
 
     DECLARE_ALLOC( UsingAST )
 
-public:
+    public:
     UsingAST();
 
     AST* typeName() { return m_typeName.get(); }
@@ -787,7 +775,7 @@ public:
 
     DECLARE_ALLOC( UsingDirectiveAST )
 
-public:
+    public:
     UsingDirectiveAST();
 
     NameAST* name() { return m_name.get(); }
@@ -809,7 +797,7 @@ public:
 
     DECLARE_ALLOC( DeclaratorAST )
 
-public:
+    public:
     DeclaratorAST();
 
     Q3PtrList<AST> ptrOpList() { return m_ptrOpList; }
@@ -860,7 +848,7 @@ public:
 
     DECLARE_ALLOC( ParameterDeclarationAST )
 
-public:
+    public:
     ParameterDeclarationAST();
 
     TypeSpecifierAST* typeSpec() { return m_typeSpec.get(); }
@@ -892,7 +880,7 @@ public:
 
     DECLARE_ALLOC( ParameterDeclarationListAST )
 
-public:
+    public:
     ParameterDeclarationListAST();
 
     Q3PtrList<ParameterDeclarationAST> parameterList() { return m_parameterList; }
@@ -916,7 +904,7 @@ public:
 
     DECLARE_ALLOC( ParameterDeclarationClauseAST )
 
-public:
+    public:
     ParameterDeclarationClauseAST();
 
     ParameterDeclarationListAST* parameterDeclarationList() { return m_parameterDeclarationList.get(); }
@@ -945,7 +933,7 @@ public:
 
     DECLARE_ALLOC( InitDeclaratorAST )
 
-public:
+    public:
     InitDeclaratorAST();
 
     DeclaratorAST* declarator() { return m_declarator.get(); }
@@ -971,7 +959,7 @@ public:
 
     DECLARE_ALLOC( InitDeclaratorListAST )
 
-public:
+    public:
     InitDeclaratorListAST();
 
     Q3PtrList<InitDeclaratorAST> initDeclaratorList() { return m_initDeclaratorList; }
@@ -993,7 +981,7 @@ public:
 
     DECLARE_ALLOC( TypedefAST )
 
-public:
+    public:
     TypedefAST();
 
     TypeSpecifierAST* typeSpec() { return m_typeSpec.get(); }
@@ -1019,7 +1007,7 @@ public:
 
     DECLARE_ALLOC( TemplateParameterAST )
 
-public:
+    public:
     TemplateParameterAST();
 
     TypeParameterAST* typeParameter() { return m_typeParameter.get(); }
@@ -1045,7 +1033,7 @@ public:
 
     DECLARE_ALLOC( TemplateParameterListAST )
 
-public:
+    public:
     TemplateParameterListAST();
 
     Q3PtrList<TemplateParameterAST> templateParameterList() { return m_templateParameterList; }
@@ -1067,7 +1055,7 @@ public:
 
     DECLARE_ALLOC( TemplateDeclarationAST )
 
-public:
+    public:
     TemplateDeclarationAST();
 
     AST* exported() { return m_exported.get(); }
@@ -1097,7 +1085,7 @@ public:
 
     DECLARE_ALLOC( SimpleDeclarationAST )
 
-public:
+    public:
     SimpleDeclarationAST();
 
     GroupAST* functionSpecifier() { return m_functionSpecifier.get(); }
@@ -1135,7 +1123,7 @@ public:
 
     DECLARE_ALLOC( StatementAST )
 
-public:
+    public:
     StatementAST();
 
 private:
@@ -1151,7 +1139,7 @@ public:
 
     DECLARE_ALLOC( ExpressionStatementAST )
 
-public:
+    public:
     ExpressionStatementAST();
 
     AST* expression() { return m_expression.get(); }
@@ -1173,7 +1161,7 @@ public:
 
     DECLARE_ALLOC( ConditionAST )
 
-public:
+    public:
     ConditionAST();
 
     TypeSpecifierAST* typeSpec() { return m_typeSpec.get(); }
@@ -1203,7 +1191,7 @@ public:
 
     DECLARE_ALLOC( IfStatementAST )
 
-public:
+    public:
     IfStatementAST();
 
     ConditionAST* condition() const { return m_condition.get(); }
@@ -1233,7 +1221,7 @@ public:
 
     DECLARE_ALLOC( WhileStatementAST )
 
-public:
+    public:
     WhileStatementAST();
 
     ConditionAST* condition() const { return m_condition.get(); }
@@ -1259,7 +1247,7 @@ public:
 
     DECLARE_ALLOC( DoStatementAST )
 
-public:
+    public:
     DoStatementAST();
 
     ConditionAST* condition() const { return m_condition.get(); }
@@ -1285,7 +1273,7 @@ public:
 
     DECLARE_ALLOC( ForStatementAST )
 
-public:
+    public:
     ForStatementAST();
 
     StatementAST* initStatement() { return m_initStatement.get(); }
@@ -1319,7 +1307,7 @@ public:
 
     DECLARE_ALLOC( SwitchStatementAST )
 
-public:
+    public:
     SwitchStatementAST();
 
     ConditionAST* condition() const { return m_condition.get(); }
@@ -1345,7 +1333,7 @@ public:
 
     DECLARE_ALLOC( StatementListAST )
 
-public:
+    public:
     StatementListAST();
 
     Q3PtrList<StatementAST> statementList() { return m_statementList; }
@@ -1367,7 +1355,7 @@ public:
 
     DECLARE_ALLOC( DeclarationStatementAST )
 
-public:
+    public:
     DeclarationStatementAST();
 
     DeclarationAST* declaration() { return m_declaration.get(); }
@@ -1389,7 +1377,7 @@ public:
 
     DECLARE_ALLOC( FunctionDefinitionAST )
 
-public:
+    public:
     FunctionDefinitionAST();
 
     GroupAST* functionSpecifier() { return m_functionSpecifier.get(); }
@@ -1432,7 +1420,7 @@ public:
 
     DECLARE_ALLOC( TranslationUnitAST )
 
-public:
+    public:
     TranslationUnitAST();
 
     void addDeclaration( DeclarationAST::Node& ast );
