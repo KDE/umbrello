@@ -33,7 +33,6 @@
 #include <Q3MemArray>
 
 #include <assert.h>
-#include <debug/safe_iterator.h>
 
 enum SkipType {
   SkipWord,
