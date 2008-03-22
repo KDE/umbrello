@@ -309,13 +309,13 @@ QString toString(Icon_Type type)
         case it_Parameter_New:
             return "text-x-generic";
         case it_Color_Line:
-            return "color-line";
+            return "draw-brush";
         case it_Color_Fill:
-            return "color-fill";
+            return "fill-color";
         case it_Import_Class:
-            return "file-import-class";  // "document-import-class"
+            return "document-import";
         case it_Import_Project:
-            return "file-import-project";  // "document-import-project"
+            return "document-import";
         case it_Export_Picture:
             return "image-x-generic";
         case it_Entity_Attribute:
