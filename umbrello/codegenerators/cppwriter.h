@@ -1,14 +1,15 @@
 /***************************************************************************
-                          cppwriter.h  -  description
+                          cppwriter.h
     This is the "old" code generator that does not support code editing
     in the Modeller but uses significantly less file space because the
     source code is not replicated in the XMI file.
-                             -------------------
-    copyright            : (C) 2003 Brian Thomas
-         (C) 2004  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
- ***************************************************************************/
 
-/***************************************************************************
+    Copyright (C) 2003       Brian Thomas
+                             <brian.thomas@gsfc.nasa.gov>
+              (C) 2004-2008  Umbrello UML Modeller Authors
+                             <uml-devel@uml.sf.net>
+
+ ***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
