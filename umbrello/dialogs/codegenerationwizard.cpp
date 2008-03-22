@@ -142,7 +142,7 @@ void CodeGenerationWizard::generateCode()
             cList.append(concept);
         }
         codeGenerator->writeCodeToFile(cList);
-        finishButton()->setText(i18n("Finish"));
+        finishButton()->setText(i18nc("finish code generation", "Finish"));
         finishButton()->disconnect();
         connect(finishButton(),SIGNAL(clicked()),this,SLOT(accept()));
     }

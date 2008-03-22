@@ -13,11 +13,10 @@
 #include "assocrolepage.h"
 
 // qt includes
-#include <qlayout.h>
-//Added by qt3to4:
-#include <QLabel>
-#include <QHBoxLayout>
-#include <QGridLayout>
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
 
 // kde includes
 #include <klocale.h>
@@ -30,7 +29,6 @@
 AssocRolePage::AssocRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
         : QWidget(parent)
 {
-
     m_pAssociationWidget = assoc;
     m_pWidget = 0;
     m_pUmldoc = d;
@@ -41,13 +39,14 @@ AssocRolePage::AssocRolePage (UMLDoc *d, QWidget *parent, AssociationWidget *ass
     m_pMultiBCB = 0;
 
     constructWidget();
-
 }
 
-AssocRolePage::~AssocRolePage() {}
+AssocRolePage::~AssocRolePage()
+{
+}
 
-void AssocRolePage::constructWidget() {
-
+void AssocRolePage::constructWidget()
+{
     // underlying roles and objects
     QString nameA = m_pAssociationWidget->getRoleName(Uml::A);
     QString nameB = m_pAssociationWidget->getRoleName(Uml::B);
@@ -115,21 +114,20 @@ void AssocRolePage::constructWidget() {
     propsALayout->addWidget(pMultiAL, 1, 0 );
     propsALayout->addWidget(m_pMultiACB, 1, 1 );
 
-
     // Visibility A
     QHBoxLayout * scopeALayout = new QHBoxLayout(scopeABG);
     scopeALayout -> setMargin(margin);
 
-    m_PublicARB = new QRadioButton(i18n("Public"), scopeABG);
+    m_PublicARB = new QRadioButton(i18nc("scope for A is public", "Public"), scopeABG);
     scopeALayout -> addWidget(m_PublicARB);
 
-    m_PrivateARB = new QRadioButton(i18n("Private"), scopeABG);
+    m_PrivateARB = new QRadioButton(i18nc("scope for A is private", "Private"), scopeABG);
     scopeALayout -> addWidget(m_PrivateARB);
 
-    m_ProtectedARB = new QRadioButton(i18n("Protected"), scopeABG);
+    m_ProtectedARB = new QRadioButton(i18nc("scope for A is protected", "Protected"), scopeABG);
     scopeALayout -> addWidget(m_ProtectedARB);
 
-    m_ImplementationARB = new QRadioButton(i18n("Implementation"), scopeABG);
+    m_ImplementationARB = new QRadioButton(i18nc("scope for A is implementation", "Implementation"), scopeABG);
     scopeALayout -> addWidget(m_ImplementationARB);
 
     Uml::Visibility scope = m_pAssociationWidget->getVisibility(Uml::A);
@@ -146,13 +144,13 @@ void AssocRolePage::constructWidget() {
     QHBoxLayout * changeALayout = new QHBoxLayout(changeABG);
     changeALayout -> setMargin(margin);
 
-    m_ChangeableARB = new QRadioButton(i18n("Changeable"), changeABG);
+    m_ChangeableARB = new QRadioButton(i18nc("changeability for A is changeable", "Changeable"), changeABG);
     changeALayout -> addWidget(m_ChangeableARB);
 
-    m_FrozenARB = new QRadioButton(i18n("Frozen"), changeABG);
+    m_FrozenARB = new QRadioButton(i18nc("changeability for A is frozen", "Frozen"), changeABG);
     changeALayout -> addWidget(m_FrozenARB);
 
-    m_AddOnlyARB = new QRadioButton(i18n("Add only"), changeABG);
+    m_AddOnlyARB = new QRadioButton(i18nc("changeability for A is add only", "Add only"), changeABG);
     changeALayout -> addWidget(m_AddOnlyARB);
 
     Uml::Changeability_Type changeability = m_pAssociationWidget->getChangeability(Uml::A);
@@ -185,20 +183,19 @@ void AssocRolePage::constructWidget() {
     propsBLayout->addWidget(m_pMultiBCB, 1, 1 );
 
     // Visibility B
-
     QHBoxLayout * scopeBLayout = new QHBoxLayout(scopeBBG);
     scopeBLayout -> setMargin(margin);
 
-    m_PublicBRB = new QRadioButton(i18n("Public"), scopeBBG);
+    m_PublicBRB = new QRadioButton(i18nc("scope for B is public", "Public"), scopeBBG);
     scopeBLayout -> addWidget(m_PublicBRB);
 
-    m_PrivateBRB = new QRadioButton(i18n("Private"), scopeBBG);
+    m_PrivateBRB = new QRadioButton(i18nc("scope for B is private", "Private"), scopeBBG);
     scopeBLayout -> addWidget(m_PrivateBRB);
 
-    m_ProtectedBRB = new QRadioButton(i18n("Protected"), scopeBBG);
+    m_ProtectedBRB = new QRadioButton(i18nc("scope for B is protected", "Protected"), scopeBBG);
     scopeBLayout -> addWidget(m_ProtectedBRB);
 
-    m_ImplementationBRB = new QRadioButton(i18n("Implementation"), scopeBBG);
+    m_ImplementationBRB = new QRadioButton(i18nc("scope for B is implementation", "Implementation"), scopeBBG);
     scopeBLayout -> addWidget(m_ImplementationBRB);
 
     scope = m_pAssociationWidget->getVisibility(Uml::B);
@@ -215,13 +212,13 @@ void AssocRolePage::constructWidget() {
     QHBoxLayout * changeBLayout = new QHBoxLayout(changeBBG);
     changeBLayout -> setMargin(margin);
 
-    m_ChangeableBRB = new QRadioButton(i18n("Changeable"), changeBBG);
+    m_ChangeableBRB = new QRadioButton(i18nc("changeability for B is changeable", "Changeable"), changeBBG);
     changeBLayout -> addWidget(m_ChangeableBRB);
 
-    m_FrozenBRB = new QRadioButton(i18n("Frozen"), changeBBG);
+    m_FrozenBRB = new QRadioButton(i18nc("changeability for B is frozen", "Frozen"), changeBBG);
     changeBLayout -> addWidget(m_FrozenBRB);
 
-    m_AddOnlyBRB = new QRadioButton(i18n("Add only"), changeBBG);
+    m_AddOnlyBRB = new QRadioButton(i18nc("changeability for B is add only", "Add only"), changeBBG);
     changeBLayout -> addWidget(m_AddOnlyBRB);
 
     changeability = m_pAssociationWidget->getChangeability(Uml::B);
@@ -263,11 +260,10 @@ void AssocRolePage::constructWidget() {
     mainLayout -> addWidget( scopeBBG, 1, 1);
     mainLayout -> addWidget(changeBBG, 2, 1);
     mainLayout -> addWidget(   docBGB, 3, 1);
-
 }
 
-void AssocRolePage::updateObject() {
-
+void AssocRolePage::updateObject()
+{
     if(m_pAssociationWidget) {
 
         // set props
@@ -312,7 +308,6 @@ void AssocRolePage::updateObject() {
         m_pAssociationWidget->setRoleDoc(m_pDocB->text(), Uml::B);
 
     } //end if m_pAssociationWidget
-
 }
 
 

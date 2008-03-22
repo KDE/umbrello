@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -42,7 +42,8 @@
 #include "../codeimport/import_utils.h"
 
 UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute )
-        : KDialog( pParent) {
+        : KDialog( pParent)
+{
     setCaption( i18n("Attribute Properties") );
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Ok );
@@ -50,12 +51,14 @@ UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttri
     showButtonSeparator( true );
     m_pAttribute = pAttribute;
     setupDialog();
-
 }
 
-UMLAttributeDialog::~UMLAttributeDialog() {}
+UMLAttributeDialog::~UMLAttributeDialog()
+{
+}
 
-void UMLAttributeDialog::setupDialog() {
+void UMLAttributeDialog::setupDialog()
+{
     UMLDoc * pDoc = UMLApp::app()->getDocument();
     int margin = fontMetrics().height();
 
@@ -76,7 +79,7 @@ void UMLAttributeDialog::setupDialog() {
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
-                                    m_pNameL, i18n("&Name:"),
+                                    m_pNameL, i18nc("attribute name", "&Name:"),
                                     m_pNameLE, m_pAttribute->getName() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
@@ -91,21 +94,19 @@ void UMLAttributeDialog::setupDialog() {
     m_pStaticCB -> setChecked( m_pAttribute -> getStatic() );
     valuesLayout -> addWidget(m_pStaticCB, 4, 0);
 
-
     mainLayout -> addWidget(m_pValuesGB);
-
 
     m_pScopeBG = new Q3ButtonGroup(i18n("Visibility"), frame );
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeBG);
     scopeLayout -> setMargin(margin);
 
-    m_pPublicRB = new QRadioButton(i18n("&Public"), m_pScopeBG);
+    m_pPublicRB = new QRadioButton(i18nc("access control public", "&Public"), m_pScopeBG);
     scopeLayout -> addWidget(m_pPublicRB);
 
-    m_pPrivateRB = new QRadioButton(i18n("P&rivate"), m_pScopeBG);
+    m_pPrivateRB = new QRadioButton(i18nc("access control private", "P&rivate"), m_pScopeBG);
     scopeLayout -> addWidget(m_pPrivateRB);
 
-    m_pProtectedRB = new QRadioButton(i18n("Prot&ected"), m_pScopeBG);
+    m_pProtectedRB = new QRadioButton(i18nc("access control protected", "Prot&ected"), m_pScopeBG);
     scopeLayout -> addWidget(m_pProtectedRB);
 
     m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeBG);
@@ -161,7 +162,8 @@ void UMLAttributeDialog::slotNameChanged( const QString &_text )
     enableButtonOk( !_text.isEmpty() );
 }
 
-bool UMLAttributeDialog::apply() {
+bool UMLAttributeDialog::apply()
+{
     QString name = m_pNameLE->text();
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid attribute name."),
@@ -208,8 +210,8 @@ bool UMLAttributeDialog::apply() {
     if (classifier == NULL) {
         Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
         if (pl == Uml::pl_Cpp || pl == Uml::pl_Java) {
-            // Import_Utils::createUMLObject works better for C++ namespace and java package than Object_Factory::createUMLObject
-
+            // Import_Utils::createUMLObject works better for C++ namespace
+            // and java package than Object_Factory::createUMLObject
             Import_Utils::setRelatedClassifier(pConcept);
             obj = Import_Utils::createUMLObject(Uml::ot_UMLObject, typeName);
             Import_Utils::setRelatedClassifier(NULL);
@@ -227,11 +229,13 @@ bool UMLAttributeDialog::apply() {
     return true;
 }
 
-void UMLAttributeDialog::slotApply() {
+void UMLAttributeDialog::slotApply()
+{
     apply();
 }
 
-void UMLAttributeDialog::slotOk() {
+void UMLAttributeDialog::slotOk()
+{
     if ( apply() ) {
         accept();
     }

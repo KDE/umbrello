@@ -23,6 +23,7 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QGridLayout>
 #include <QtGui/QApplication>
+
 // kde includes
 #include <klineedit.h>
 #include <kcombobox.h>
@@ -81,7 +82,7 @@ void UMLEntityAttributeDialog::setupDialog()
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
-                                    m_pNameL, i18n("&Name:"),
+                                    m_pNameL, i18nc("name of entity attribute", "&Name:"),
                                     m_pNameLE, m_pEntityAttribute->getName() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,

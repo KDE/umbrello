@@ -18,6 +18,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kvbox.h>
+
 // app includes
 #include "classgenpage.h"
 #include "classifierlistpage.h"
@@ -219,7 +220,8 @@ QFrame* ClassPropDlg::createPage(const QString& name, const QString& header, Ico
 
 void ClassPropDlg::setupGeneralPage()
 {
-    QFrame* page = createPage( i18n("General"), i18n("General Settings"), Icon_Utils::it_Properties_General );
+    QFrame* page = createPage( i18nc("general settings page name", "General"), i18n("General Settings"), 
+                               Icon_Utils::it_Properties_General );
     page -> setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
     m_pGenPage = new ClassGenPage(m_pDoc, page, m_pObject);
@@ -228,7 +230,8 @@ void ClassPropDlg::setupGeneralPage()
 
 void ClassPropDlg::setupColorPage()
 {
-    QFrame * page = createPage( i18n("Color"), i18n("Widget Colors"), Icon_Utils::it_Properties_Color );
+    QFrame * page = createPage( i18nc("widget color page name", "Color"), i18n("Widget Colors"),
+                                Icon_Utils::it_Properties_Color );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(page);
     m_pColorPage = new UMLWidgetColorPage(page, m_pWidget);
     m_pColorLayout -> addWidget(m_pColorPage);
@@ -236,7 +239,8 @@ void ClassPropDlg::setupColorPage()
 
 void ClassPropDlg::setupDisplayPage()
 {
-    QFrame* page = createPage( i18n("Display"), i18n("Display Options"), Icon_Utils::it_Properties_Display );
+    QFrame* page = createPage( i18nc("display option page name", "Display"), i18n("Display Options"),
+                               Icon_Utils::it_Properties_Display );
     QHBoxLayout* m_pOptionsLayout = new QHBoxLayout(page);
     ClassifierWidget *cw = static_cast<ClassifierWidget*>(m_pWidget);
     m_pOptionsPage = new ClassOptionsPage(page, cw);
@@ -245,7 +249,8 @@ void ClassPropDlg::setupDisplayPage()
 
 void ClassPropDlg::setupAttributesPage()
 {
-    QFrame* page = createPage( i18n("Attributes"), i18n("General Settings"), Icon_Utils::it_Properties_Attributes );
+    QFrame* page = createPage( i18n("Attributes"), i18n("General Settings"),
+                               Icon_Utils::it_Properties_Attributes );
     m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Attribute);
     QHBoxLayout * attLayout = new QHBoxLayout(page);
     attLayout -> addWidget(m_pAttPage);
@@ -253,7 +258,8 @@ void ClassPropDlg::setupAttributesPage()
 
 void ClassPropDlg::setupOperationsPage()
 {
-    QFrame* page = createPage( i18n("Operations"), i18n("Operation Settings"), Icon_Utils::it_Properties_Operations );
+    QFrame* page = createPage( i18n("Operations"), i18n("Operation Settings"),
+                               Icon_Utils::it_Properties_Operations );
     m_pOpsPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_Operation);
     QHBoxLayout* pOpsLayout = new QHBoxLayout(page);
     pOpsLayout -> addWidget(m_pOpsPage);
@@ -261,7 +267,8 @@ void ClassPropDlg::setupOperationsPage()
 
 void ClassPropDlg::setupTemplatesPage()
 {
-    QFrame* page = createPage( i18n("Templates"), i18n("Templates Settings"), Icon_Utils::it_Properties_Templates );
+    QFrame* page = createPage( i18n("Templates"), i18n("Templates Settings"), 
+                               Icon_Utils::it_Properties_Templates );
     m_pTemplatePage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Template);
     QHBoxLayout* templatesLayout = new QHBoxLayout(page);
     templatesLayout->addWidget(m_pTemplatePage);
@@ -269,7 +276,8 @@ void ClassPropDlg::setupTemplatesPage()
 
 void ClassPropDlg::setupEnumLiteralsPage()
 {
-    QFrame* page = createPage( i18n("Enum Literals"), i18n("Enum Literals Settings"), Icon_Utils::it_Properties_EnumLiterals );
+    QFrame* page = createPage( i18n("Enum Literals"), i18n("Enum Literals Settings"),
+                               Icon_Utils::it_Properties_EnumLiterals );
     m_pEnumLiteralPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EnumLiteral);
     QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(page);
     enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
@@ -277,7 +285,8 @@ void ClassPropDlg::setupEnumLiteralsPage()
 
 void ClassPropDlg::setupEntityAttributesPage()
 {
-    QFrame* page = createPage( i18n("Entity Attributes"), i18n("Entity Attributes Settings"), Icon_Utils::it_Properties_EntityAttributes );
+    QFrame* page = createPage( i18n("Entity Attributes"), i18n("Entity Attributes Settings"),
+                               Icon_Utils::it_Properties_EntityAttributes );
     m_pEntityAttributePage = new ClassifierListPage(page, (UMLEntity*)m_pObject, m_pDoc, Uml::ot_EntityAttribute);
     QHBoxLayout* entityAttributesLayout = new QHBoxLayout(page);
     entityAttributesLayout->addWidget(m_pEntityAttributePage);
@@ -285,7 +294,8 @@ void ClassPropDlg::setupEntityAttributesPage()
 
 void ClassPropDlg::setupEntityConstraintsPage()
 {
-    QFrame* page = createPage( i18n("Entity Constraints"), i18n("Entity Constraints Settings"), Icon_Utils::it_Properties_EntityConstraints );
+    QFrame* page = createPage( i18n("Entity Constraints"), i18n("Entity Constraints Settings"), 
+                               Icon_Utils::it_Properties_EntityConstraints );
     m_pEntityConstraintPage = new ConstraintListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EntityConstraint );
     QHBoxLayout* entityConstraintsLayout = new QHBoxLayout(page);
     entityConstraintsLayout->addWidget(m_pEntityConstraintPage);
@@ -293,7 +303,8 @@ void ClassPropDlg::setupEntityConstraintsPage()
 
 void ClassPropDlg::setupContentsPage()
 {
-    QFrame* page = createPage( i18n("Contents"), i18n("Contents Settings"), Icon_Utils::it_Properties_Contents );
+    QFrame* page = createPage( i18nc("contents settings page name", "Contents"), i18n("Contents Settings"),
+                               Icon_Utils::it_Properties_Contents );
     m_pPkgContentsPage = new PkgContentsPage(page, (UMLPackage*)m_pObject);
     QHBoxLayout* contentsLayout = new QHBoxLayout(page);
     contentsLayout->addWidget(m_pPkgContentsPage);
@@ -301,7 +312,8 @@ void ClassPropDlg::setupContentsPage()
 
 void ClassPropDlg::setupAssociationsPage()
 {
-    QFrame* page = createPage( i18n("Associations"), i18n("Class Associations"), Icon_Utils::it_Properties_Associations );
+    QFrame* page = createPage( i18n("Associations"), i18n("Class Associations"), 
+                               Icon_Utils::it_Properties_Associations );
     m_pAssocPage = new AssocPage(page, UMLApp::app()->getCurrentView(), m_pObject);
     QHBoxLayout* assocLayout = new QHBoxLayout(page);
     assocLayout -> addWidget(m_pAssocPage);
@@ -309,7 +321,8 @@ void ClassPropDlg::setupAssociationsPage()
 
 void ClassPropDlg::setupInstancePages()
 {
-    QFrame* page = createPage( i18n("General"), i18n("General Settings"), Icon_Utils::it_Properties_General );
+    QFrame* page = createPage( i18nc("instance general settings page name", "General"), i18n("General Settings"),
+                               Icon_Utils::it_Properties_General );
     QHBoxLayout* genLayout = new QHBoxLayout(page);
     page->setMinimumSize(310, 330);
     m_pGenPage = new ClassGenPage(m_pDoc, page, m_pWidget);

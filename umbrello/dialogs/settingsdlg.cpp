@@ -22,6 +22,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kfiledialog.h>
+
 // app includes
 #include "codegenerationoptionspage.h"
 #include "codevieweroptionspage.h"
@@ -66,7 +67,7 @@ void SettingsDlg::setupUIPage()
     pageUserInterface->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_UserInterface) );
     addPage( pageUserInterface );
 
-    m_UiWidgets.colorGB = new Q3GroupBox( i18n("Color"), page );
+    m_UiWidgets.colorGB = new Q3GroupBox( i18nc("color group box", "Color"), page );
     QGridLayout * colorLayout = new QGridLayout( m_UiWidgets.colorGB );
     colorLayout -> setSpacing( spacingHint() );
     colorLayout -> setMargin( fontMetrics().height() );
@@ -116,13 +117,13 @@ void SettingsDlg::setupGeneralPage()
 {
     //setup General page
     KVBox * page = new KVBox();
-    pageGeneral = new KPageWidgetItem( page,i18n("General"));
+    pageGeneral = new KPageWidgetItem( page, i18nc("general settings page", "General"));
     pageGeneral->setHeader( i18n("General Settings") );
     pageGeneral->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageGeneral );
 
     // Set up undo setting
-    m_GeneralWidgets.miscGB = new Q3GroupBox( i18n("Miscellaneous"), page );
+    m_GeneralWidgets.miscGB = new Q3GroupBox( i18nc("miscellaneous group box", "Miscellaneous"), page );
 
     QGridLayout * miscLayout = new QGridLayout( m_GeneralWidgets.miscGB );
     miscLayout -> setSpacing( spacingHint() );
@@ -238,7 +239,7 @@ void SettingsDlg::setupClassPage()
 {
     //setup class settings page
     KVBox * page = new KVBox();
-    pageClass = new KPageWidgetItem( page,i18n("Class"));
+    pageClass = new KPageWidgetItem( page,i18nc("class settings page", "Class"));
     pageClass->setHeader( i18n("Class Settings") );
     pageClass->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Class) );
     addPage( pageClass );
