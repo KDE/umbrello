@@ -49,26 +49,20 @@ inline void qthread_yield()
 
 Token::Token()
   : m_type( -1 ),
-    m_position( 0 ),
-    m_length( 0 ),
-    m_text( 0 )
+    m_text()
 {
 }
 
-Token::Token( int type, int position, int length, Position const& start,
-	      Position const& end, const QString& text)
+Token::Token( int type, CharIterator start, CharIterator end)
   : m_type( type ),
-    m_position( position ),
-    m_length( length ),
-    m_start( start),
-    m_end( end),
-    m_text( text )
+    m_start( start.get_position()),
+    m_end( end.get_position()),
+    m_text( &*start, &*end - &*start)
 {}
 
-Token Lexer::Source::createToken( int type, int start, int len,
-				  Position const& startPosition,
-				  Position const& endPosition) const
-{return Token( type, start, len, startPosition, endPosition, get_source());}
+Token Lexer::Source::createToken( int type, CharIterator start,
+				  CharIterator end) const
+{return Token( type, start, end);}
 
 using namespace std;
 
@@ -186,6 +180,8 @@ int Lexer::toInt( const Token& token )
 	    switch( c ) {
 	    case '0':
 		return 0;
+	    case 'r':
+		return '\r';
 	    case 'n':
 		return '\n';
 	    // ### more
@@ -249,37 +245,38 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
     bool ppe = m_preprocessorEnabled;
     m_preprocessorEnabled = false;
     while( !m_source.currentChar().isNull()
-	   && m_source.currentChar() != '\n' ){
-            Token tok;
-            nextToken( tok, true );
-        }
+	   && m_source.currentChar() != '\n'
+	   && m_source.currentChar() != '\r') {
+      Token tok;
+      nextToken( tok, true );
+    }
     m_source.set_startLine( true);
     m_preprocessorEnabled = ppe;
         return;
     } else if( ch == '/' && ch1 == '/' ){
-    int start = m_source.get_ptr();
-	readLineComment();
-	if( recordComments() ){
-      tk = m_source.createToken( Token_comment, start, startPosition);
-	}
+      CharIterator start = m_source.get_ptr();
+      readLineComment();
+      if( recordComments() ){
+	tk = m_source.createToken( Token_comment, start);
+      }
     } else if( ch == '/' && ch1 == '*' ){
-    int start = m_source.get_ptr();
+    CharIterator start = m_source.get_ptr();
     m_source.nextChar( 2 );
 	readMultiLineComment();
 
 	if( recordComments() ){
-      tk = m_source.createToken( Token_comment, start, startPosition);
+	  tk = m_source.createToken( Token_comment, start);
 	}
     } else if( ch == '\'' || (ch == 'L' && ch1 == '\'') ){
-    int start = m_source.get_ptr();
+    CharIterator start = m_source.get_ptr();
     m_source.readCharLiteral();
-    tk = m_source.createToken( Token_char_literal, start, startPosition);
+    tk = m_source.createToken( Token_char_literal, start);
     } else if( ch == '"' ){
-    int start = m_source.get_ptr();
+    CharIterator start = m_source.get_ptr();
     m_source.readStringLiteral();
-    tk = m_source.createToken( Token_string_literal, start, startPosition);
+    tk = m_source.createToken( Token_string_literal, start);
     } else if( ch.isLetter() || ch == '_' ){
-    int start = m_source.get_ptr();
+    CharIterator start = m_source.get_ptr();
     QString ide = m_source.readIdentifier();
 	int k = Lookup::find( &keyword, ide );
 	if( m_preprocessorEnabled && m_driver->hasMacro(ide) &&
@@ -300,7 +297,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
             QString ellipsisArg;
 
 	    if( m.hasArguments() ){
-	int endIde = m_source.get_ptr();
+	      CharIterator endIde = m_source.get_ptr();
 
 	m_source.readWhiteSpaces( true, m_inPreproc);
 	if( m_source.currentChar() == '(' ){
@@ -339,8 +336,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
 		} else {
 	  Position l_newPosition( svPosition);
 	  l_newPosition.column += (endIde - start);
-	  tk = m_source.createToken( Token_identifier, start, endIde - start,
-				     svPosition, l_newPosition );
+	  tk = m_source.createToken( Token_identifier, start, endIde);
 
 	  m_source.set_startLine( false);
 
@@ -408,7 +404,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
 	    //m_driver->addMacro( m );
       m_source.set_currentPosition( argsEndAtPosition);
 	} else if( k != -1 ){
-      tk = m_source.createToken( k, start, startPosition);
+      tk = m_source.createToken( k, start);
 	} else if( m_skipWordsEnabled ){
 	    QMap< QString, QPair<SkipType, QString> >::Iterator pos = m_words.find( ide );
 	    if( pos != m_words.end() ){
@@ -433,32 +429,32 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
 	if( m_source.currentChar() == '(' )
 		    skip( '(', ')' );
 	    } else if( ide.startsWith("K_TYPELIST_") || ide.startsWith("TYPELIST_") ){
-	tk = m_source.createToken( Token_identifier, start, startPosition);
+	tk = m_source.createToken( Token_identifier, start);
 	m_source.readWhiteSpaces( true, m_inPreproc);
 	if( m_source.currentChar() == '(' )
 		    skip( '(', ')' );
 	    } else{
-	tk = m_source.createToken( Token_identifier, start, startPosition);
+	tk = m_source.createToken( Token_identifier, start);
 	    }
 	} else {
-      tk = m_source.createToken( Token_identifier, start, startPosition);
+      tk = m_source.createToken( Token_identifier, start);
 	}
     } else if( ch.isNumber() ){
-    int start = m_source.get_ptr();
+      CharIterator start = m_source.get_ptr();
     m_source.readNumberLiteral();
-    tk = m_source.createToken( Token_number_literal, start, startPosition);
+    tk = m_source.createToken( Token_number_literal, start);
   } else if( -1 != (op = m_source.findOperator3()) ){
-    int l_ptr = m_source.get_ptr();
+      CharIterator l_ptr = m_source.get_ptr();
     m_source.nextChar( 3 );
-    tk = m_source.createToken( op, l_ptr, startPosition);
+    tk = m_source.createToken( op, l_ptr);
   } else if( -1 != (op = m_source.findOperator2()) ){
-    int l_ptr = m_source.get_ptr();
+      CharIterator l_ptr = m_source.get_ptr();
     m_source.nextChar( 2 );
-    tk = m_source.createToken( op, l_ptr, startPosition);
+    tk = m_source.createToken( op, l_ptr);
     } else {
-    int l_ptr = m_source.get_ptr();
+      CharIterator l_ptr = m_source.get_ptr();
     m_source.nextChar();
-    tk = m_source.createToken( ch.unicode(), l_ptr, startPosition);
+    tk = m_source.createToken( ch.unicode(), l_ptr);
     }
 
   m_source.set_startLine( false);
@@ -479,8 +475,7 @@ void Lexer::tokenize()
 	    break;
     }
 
-  Token tk = m_source.createToken( Token_eof, m_source.get_ptr(),
-				   currentPosition());
+  Token tk = m_source.createToken( Token_eof, m_source.get_ptr());
   m_tokens.push_back( tk);
 }
 
@@ -580,9 +575,11 @@ void Lexer::handleDirective( const QString& directive )
     }
 
     // skip line
-  while( !m_source.currentChar().isNull() && m_source.currentChar() != '\n' ){
-        Token tk;
-        nextToken( tk, true );
+    while( !m_source.currentChar().isNull()
+	   && m_source.currentChar() != '\n'
+	   && m_source.currentChar() != '\r') {
+      Token tk;
+      nextToken( tk, true );
     }
 
   m_skipWordsEnabled = skip;
@@ -627,14 +624,14 @@ void Lexer::processDefine( Macro& m )
 
       QString arg;
       if( m_source.currentChar() == '.' && m_source.peekChar() == '.' && m_source.peekChar(2) == '.' ) {
-	int startArg = m_source.get_ptr();
+	CharIterator startArg = m_source.get_ptr();
 	m_source.nextChar( 3 );
 	arg = m_source.substrFrom( startArg);
       } else {
 	arg = m_source.readIdentifier();
       }
 
-	    m.addArgument( Macro::Argument(arg) );
+      m.addArgument( Macro::Argument(arg) );
 
       m_source.readWhiteSpaces( false, m_inPreproc);
       if( m_source.currentChar() != ',' )
@@ -650,7 +647,9 @@ void Lexer::processDefine( Macro& m )
   m_preprocessorEnabled = true;
 
     QString body;
-  while( !m_source.currentChar().isNull() && m_source.currentChar() != '\n' ){
+  while( !m_source.currentChar().isNull()
+	 && m_source.currentChar() != '\n'
+	 && m_source.currentChar() != '\r' ){
 
     if( m_source.currentChar().isSpace() ){
       m_source.readWhiteSpaces( false, m_inPreproc);
@@ -754,21 +753,21 @@ void Lexer::processInclude()
   m_source.readWhiteSpaces( false, m_inPreproc);
   if( !m_source.currentChar().isNull() ){
     QChar ch = m_source.currentChar();
-	if( ch == '"' || ch == '<' ){
+    if( ch == '"' || ch == '<' ){
       m_source.nextChar();
-	    QChar ch2 = ch == QChar('"') ? QChar('"') : QChar('>');
+      QChar ch2 = ch == QChar('"') ? QChar('"') : QChar('>');
 
-      int startWord = m_source.get_ptr();
+      CharIterator startWord = m_source.get_ptr();
       while( !m_source.currentChar().isNull() && m_source.currentChar() != ch2 )
 	m_source.nextChar();
       if( !m_source.currentChar().isNull() ){
 	QString word = m_source.substrFrom( startWord);
-		m_driver->addDependence( m_driver->currentFileName(),
-					 Dependence(word, ch == '"' ? Dep_Local : Dep_Global) );
+	m_driver->addDependence( m_driver->currentFileName(),
+				 Dependence(word, ch == '"' ? Dep_Local : Dep_Global) );
 	m_source.nextChar();
-	    }
-	}
+      }
     }
+  }
 }
 
 void Lexer::processUndef()

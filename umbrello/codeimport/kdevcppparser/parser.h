@@ -61,7 +61,7 @@ private:
     node->setEndPosition( b.getEndPosition() );
     if( node->nodeType() == NodeType_Generic ) {
       if (start == l_tmp)
-	node->setSlice( lex->source(), a.position(), a.length());
+	node->setSlice( a.text());
       else
 	node->setText( toString( start, end) );
     }
