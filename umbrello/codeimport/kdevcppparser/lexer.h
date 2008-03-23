@@ -296,15 +296,15 @@ private:
     int length() const {return m_endPtr - m_ptr;}
     void nextChar() {
       if(m_source[m_ptr++] == '\n') {
-	++m_currentPosition.m_line;
-	m_currentPosition.m_column = 0;
+	++m_currentPosition.line;
+	m_currentPosition.column = 0;
 	m_startLine = true;
       } else {
-	++m_currentPosition.m_column;
+	++m_currentPosition.column;
       }
     }
     void nextChar( int n ) {
-      m_currentPosition.m_column += n;
+      m_currentPosition.column += n;
       m_ptr += n;
     }
     QChar peekChar( int n = 1) const {
@@ -367,8 +367,8 @@ private:
       m_ptr = 0;
       m_endPtr = 0;
       m_startLine = false;
-      m_currentPosition.m_line = 0;
-      m_currentPosition.m_column = 0;
+      m_currentPosition.line = 0;
+      m_currentPosition.column = 0;
     }
     void set_source( const QString& source) {
       m_source = source;

@@ -338,7 +338,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
                     }
 		} else {
 	  Position l_newPosition( svPosition);
-	  l_newPosition.m_column += (endIde - start);
+	  l_newPosition.column += (endIde - start);
 	  tk = m_source.createToken( Token_identifier, start, endIde - start,
 				     svPosition, l_newPosition );
 

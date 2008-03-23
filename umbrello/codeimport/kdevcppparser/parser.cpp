@@ -1915,12 +1915,12 @@ bool Parser::parseAccessSpecifier( AST::Node& node )
 void Parser::advanceAndCheckTrailingComment(QString& comment)
 {
   Token t = *m_tokenIt;
-  int previousTokenEndLine = t.getEndPosition().m_line;
+  int previousTokenEndLine = t.getEndPosition().line;
   ++m_tokenIt;
   if( (*m_tokenIt) != Token_comment )
 	return;
   t = *m_tokenIt;
-  int commentStartLine = t.getStartPosition().m_line;
+  int commentStartLine = t.getStartPosition().line;
     if( commentStartLine != previousTokenEndLine )
 	return;
   comment += (*m_tokenIt).text();

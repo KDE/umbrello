@@ -20,21 +20,17 @@
 #ifndef _Position_H_
 #define _Position_H_
 
-struct Position {
-  Position() : m_line(0), m_column(0) {}
-  Position( int line, int column) : m_line( line), m_column( column) {}
+#include <boost/spirit.hpp>
 
-  bool operator==( Position const& p) const
-  {return ((m_line == p.m_line) && (m_column == p.m_column));}
+typedef boost::spirit::file_position Position;
 
-  bool operator<( Position const& p) const {
-    return ((m_line < p.m_line)
-	    || ((m_line == p.m_line) && (m_column < p.m_column)));
-  }
+inline bool operator<( Position const& p1, Position const& p2) {
+  assert( p1.file == p2.file);
+  return( (p1.line < p2.line)
+	  || ( (p1.line == p2.line) && (p1.column < p2.column)));
+}
 
-  bool operator>=( Position const& p) const {return ! (*this < p);}
-
-  int m_line, m_column;
-};
+inline bool operator>=( Position const& p1, Position const& p2)
+{return !(p1 < p2);}
 
 #endif
