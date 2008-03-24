@@ -22,8 +22,9 @@
 
 #include <limits.h>             // Boost spirit headers aren't self-contained
 #include <boost/spirit.hpp>
+#include <QChar>
 
-typedef boost::spirit::file_position Position;
+typedef boost::spirit::file_position_base<std::basic_string<QChar> > Position;
 
 inline bool operator<( Position const& p1, Position const& p2) {
   assert( p1.file == p2.file);
