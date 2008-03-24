@@ -189,7 +189,7 @@ public:
   void setSource( const QString& source );
 
   void setRecordComments( bool record );
-  Position const& currentPosition() const
+  Position currentPosition() const
   {return m_source.get_currentPosition();}
   Token const& lookAhead( TokenIterator p_it, int n ) const {
     std::advance( p_it, n);
@@ -381,7 +381,7 @@ private:
       return (QString( &*l_it, l_len).toLower() == p_pattern);
     }
     /* getters */
-    Position const& get_currentPosition() const {return m_ptr.get_position();}
+    Position get_currentPosition() const {return m_ptr.get_position();}
     CharIterator get_ptr() const {return m_ptr;}
     QString const& get_source() const {return m_source;}
     bool get_startLine() const {return m_startLine;}
