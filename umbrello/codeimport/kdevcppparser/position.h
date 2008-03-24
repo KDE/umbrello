@@ -20,6 +20,7 @@
 #ifndef _Position_H_
 #define _Position_H_
 
+#include <limits.h>             // Boost spirit headers aren't self-contained
 #include <boost/spirit.hpp>
 
 typedef boost::spirit::file_position Position;
