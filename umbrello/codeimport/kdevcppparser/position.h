@@ -20,11 +20,21 @@
 #ifndef _Position_H_
 #define _Position_H_
 
-#include <limits.h>             // Boost spirit headers aren't self-contained
+#include <boost/version.hpp>
 #include <boost/spirit.hpp>
-#include <QChar>
+
+#if BOOST_VERSION == 103301
+
+typedef boost::spirit::file_position Position;
+
+#elif BOOST_VERSION == 103401
+# include <QChar>
 
 typedef boost::spirit::file_position_base<std::basic_string<QChar> > Position;
+
+#else
+# error Unknown version of boost lib
+#endif
 
 inline bool operator<( Position const& p1, Position const& p2) {
   assert( p1.file == p2.file);
