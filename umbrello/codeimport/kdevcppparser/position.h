@@ -22,15 +22,26 @@
 
 #include <boost/version.hpp>
 #include <boost/spirit.hpp>
+#include <QString>
 
 #if BOOST_VERSION == 103301
 
 typedef boost::spirit::file_position Position;
+typedef std::string PositionFilename;
+
+inline PositionFilename QString2PositionFilename( QString const& p) {
+  return (char const*)p.toAscii();
+}
 
 #elif BOOST_VERSION == 103401
 # include <QChar>
 
 typedef boost::spirit::file_position_base<std::basic_string<QChar> > Position;
+typedef std::basic_string<QChar> PositionFilename;
+
+inline PositionFilename QString2PositionFilename( QString const& p) {
+  return p.data();
+}
 
 #else
 # error Unknown version of boost lib
