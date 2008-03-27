@@ -78,4 +78,8 @@ namespace boost { namespace spirit { namespace ext {
 	( first, hit, hit && (first == last), hit.length());
     }
   };
-}}};
+
+}  // end namespace ext
+}  // end namespace spirit
+}  // end namespace boost
+
