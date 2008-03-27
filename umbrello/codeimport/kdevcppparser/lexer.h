@@ -197,8 +197,8 @@ private:
 class Lexer
 {
   typedef std::list<Token> TokenList;
-  typedef rule<scanner<CharIterator, CharPolicies> > CharRule;
 public:
+  typedef rule<scanner<CharIterator, CharPolicies> > CharRule;
   typedef TokenList::const_iterator TokenIterator;
 
   Lexer( Driver* driver );
@@ -303,17 +303,8 @@ private:
 	m_ptr = l_return.stop;
       return l_return;
     }
-    bool readCharLiteral( Token& p_tk);
-    QString readIdentifier() {
-      CharIterator start = m_ptr;
-      while( currentChar().isLetterOrNumber() || currentChar() == '_' )
-	nextChar();
-      return substrFrom( start);
-    }
     bool readLineComment( bool p_recordComments, Token& p_tk);
     bool readMultiLineComment( bool p_recordComments, Token& p_tk);
-    bool readNumberLiteral( Token& p_tk);
-    bool readStringLiteral( Token& p_tk);
     void readWhiteSpaces( bool skipNewLine, bool p_inPreproc);
     void reset() {
       m_source.clear();
