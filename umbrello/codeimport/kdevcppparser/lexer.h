@@ -23,8 +23,9 @@
 #include <QChar>
 
 namespace boost { namespace spirit { namespace impl {
-  bool isalnum_( QChar const&);
-  bool isdigit_( QChar const&);
+  bool isalnum_( QChar const& c);
+  bool isblank_( QChar const& c);
+  bool isdigit_( QChar const& c);
 }}}
 
 #include "driver.h"
@@ -223,7 +224,7 @@ public:
 private:
   static int toInt( const Token& token );
   void tokenize();
-  void nextToken( Token& token, bool stopOnNewline=false );
+  void nextToken( Token& token);
   void skip( int l, int r );
   bool recordComments() const;
   void reset();
@@ -305,7 +306,6 @@ private:
     }
     bool readLineComment( bool p_recordComments, Token& p_tk);
     bool readMultiLineComment( bool p_recordComments, Token& p_tk);
-    void readWhiteSpaces( bool skipNewLine, bool p_inPreproc);
     void reset() {
       m_source.clear();
       m_ptr = CharIterator();
@@ -359,24 +359,6 @@ inline bool Lexer::recordComments() const
 inline void Lexer::setRecordComments( bool record )
 {
     m_recordComments = record;
-}
-
-inline void Lexer::Source::readWhiteSpaces( bool skipNewLine, bool p_inPreproc)
-{
-  QChar ch;
-  while( !(ch = currentChar()).isNull() ){
-    if( (ch == '\n' || ch == '\r')
-	&& !skipNewLine ){
-            break;
-        } else if( ch.isSpace() ){
-            nextChar();
-    } else if( p_inPreproc && currentChar() == '\\' ){
-            nextChar();
-      readWhiteSpaces( true, p_inPreproc);
-        } else {
-            break;
-        }
-    }
 }
 
 #endif

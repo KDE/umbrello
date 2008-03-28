@@ -33,6 +33,7 @@
 
 namespace boost { namespace spirit { namespace impl {
   bool isalnum_( QChar const& c) {return isalnum_( c.toAscii());}
+  bool isblank_( QChar const& c) {return isblank_( c.toAscii());}
   bool isdigit_( QChar const& c) {return isdigit_( c.toAscii());}
 }}}
 
@@ -74,6 +75,7 @@ Lexer::CharRule gr_numberLiteral = digit_p >> *(alnum_p | '.');
 Lexer::CharRule gr_stringLiteral =
   ch_p('"') >> *((anychar_p - '"' - '\\') | str_p("\\\"") | "\\\\") >> '"';
 Lexer::CharRule gr_identifier = +(alnum_p | '_');
+Lexer::CharRule gr_whiteSpaces = *(blank_p | (ch_p('\\') >> eol_p));
 
 struct constructQString_impl {
   template <typename _Arg1, typename _Arg2>
@@ -280,9 +282,9 @@ Position const& Lexer::getTokenPosition( const Token& token) const
   return token.getStartPosition();
 }
 
-void Lexer::nextToken( Token& tk, bool stopOnNewline )
+void Lexer::nextToken( Token& tk)
 {
-  m_source.readWhiteSpaces( !stopOnNewline, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
 
   Position startPosition( currentPosition());
 
@@ -292,7 +294,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
   } else if( m_source.get_startLine() && ch == '#' ){
 
     m_source.nextChar(); // skip #
-    m_source.readWhiteSpaces( false, m_inPreproc); // skip white spaces
+    m_source.parse( gr_whiteSpaces); // skip white spaces
     m_source.set_startLine( false);
     
     QString directive;
@@ -309,7 +311,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
 	   && m_source.currentChar() != '\n'
 	   && m_source.currentChar() != '\r') {
       Token tok;
-      nextToken( tok, true );
+      nextToken( tok);
     }
     m_source.set_startLine( true);
     m_preprocessorEnabled = ppe;
@@ -350,13 +352,13 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
       if( m.hasArguments() ){
 	CharIterator endIde = m_source.get_ptr();
 
-	m_source.readWhiteSpaces( true, m_inPreproc);
+	m_source.parse( gr_whiteSpaces);
 	if( m_source.currentChar() == '(' ){
 	  m_source.nextChar();
 	  int argIdx = 0;
 	  int argCount = m.argumentList().size();
 	  while( !m_source.currentChar().isNull() && argIdx<argCount ){
-	    m_source.readWhiteSpaces( true, m_inPreproc);
+	    m_source.parse( gr_whiteSpaces);
 
 	    QString argName = m.argumentList()[ argIdx ];
 
@@ -410,16 +412,16 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
 
       while( !m_source.currentChar().isNull() ){
 
-	m_source.readWhiteSpaces( true, m_inPreproc);
+	m_source.parse( gr_whiteSpaces);
 
 	Token tok;
-	nextToken( tok );
+	nextToken( tok);
 
 	bool stringify = !m_inPreproc && tok == '#';
 	bool merge = !m_inPreproc && tok == Token_concat;
 
 	if( stringify || merge )
-	  nextToken( tok );
+	  nextToken( tok);
 
 	if( tok == Token_eof )
 	  break;
@@ -460,7 +462,7 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
       QMap< QString, QPair<SkipType, QString> >::Iterator pos = m_words.find( ide );
       if( pos != m_words.end() ){
 	if( (*pos).first == SkipWordAndArguments ){
-	  m_source.readWhiteSpaces( true, m_inPreproc);
+	  m_source.parse( gr_whiteSpaces);
 	  if( m_source.currentChar() == '(' )
 	    skip( '(', ')' );
 	}
@@ -476,12 +478,12 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
 		ide.startsWith("QM_EXPORT") ||
 		ide.startsWith("QM_TEMPLATE")){
 
-	m_source.readWhiteSpaces( true, m_inPreproc);
+	m_source.parse( gr_whiteSpaces);
 	if( m_source.currentChar() == '(' )
 	  skip( '(', ')' );
       } else if( ide.startsWith("K_TYPELIST_") || ide.startsWith("TYPELIST_") ){
 	tk = m_source.createToken( Token_identifier, start);
-	m_source.readWhiteSpaces( true, m_inPreproc);
+	m_source.parse( gr_whiteSpaces);
 	if( m_source.currentChar() == '(' )
 	  skip( '(', ')' );
       } else{
@@ -500,10 +502,11 @@ void Lexer::nextToken( Token& tk, bool stopOnNewline )
     m_source.nextChar();
     tk = m_source.createToken( ch.unicode(), l_ptr);
   }
-
-  m_source.set_startLine( false);
+  if( m_source.parse( eol_p).hit)
+    m_source.set_startLine( true);
+  else
+    m_source.set_startLine( false);
 }
-
 
 void Lexer::tokenize()
 {
@@ -556,10 +559,10 @@ QString Lexer::readArgument()
 
     QString arg;
 
-  m_source.readWhiteSpaces( true, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   while( !m_source.currentChar().isNull() ){
 
-    m_source.readWhiteSpaces( true, m_inPreproc);
+    m_source.parse( gr_whiteSpaces);
     QChar ch = m_source.currentChar();
 
 	if( ch.isNull() || (!count && (ch == ',' || ch == ')')) )
@@ -628,7 +631,7 @@ void Lexer::handleDirective( const QString& directive )
     } else if( directive == "if" ){
         processIf();
     } else if( directive == "ifdef" ){
-        processIfdef();
+      processIfdef();
     } else if( directive == "ifndef" ){
         processIfndef();
     } else if( directive == "include" ){
@@ -646,7 +649,7 @@ void Lexer::handleDirective( const QString& directive )
 	   && m_source.currentChar() != '\n'
 	   && m_source.currentChar() != '\r') {
       Token tk;
-      nextToken( tk, true );
+      nextToken( tk);
     }
 
   m_skipWordsEnabled = skip;
@@ -664,7 +667,7 @@ int Lexer::testIfLevel()
 
 int Lexer::macroDefined()
 {
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   QString word;
   m_source.parse( gr_identifier[var(word) = constructQString(arg1, arg2)]);
   bool r = m_driver->hasMacro( word );
@@ -675,7 +678,7 @@ int Lexer::macroDefined()
 void Lexer::processDefine( Macro& m )
 {
   m.setFileName( m_driver->currentFileName() );
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
 
   QString macroName;
   m_source.parse( gr_identifier
@@ -687,10 +690,10 @@ void Lexer::processDefine( Macro& m )
     m.setHasArguments( true );
     m_source.nextChar();
 
-    m_source.readWhiteSpaces( false, m_inPreproc);
+    m_source.parse( gr_whiteSpaces);
 
     while( !m_source.currentChar().isNull() && m_source.currentChar() != ')' ){
-      m_source.readWhiteSpaces( false, m_inPreproc);
+      m_source.parse( gr_whiteSpaces);
 
       QString arg;
       m_source.parse( (str_p("...") | gr_identifier)
@@ -698,7 +701,7 @@ void Lexer::processDefine( Macro& m )
 		      );
       m.addArgument( Macro::Argument(arg) );
 
-      m_source.readWhiteSpaces( false, m_inPreproc);
+      m_source.parse( gr_whiteSpaces);
       if( m_source.currentChar() != ',' )
 	break;
 
@@ -717,12 +720,12 @@ void Lexer::processDefine( Macro& m )
 	 && m_source.currentChar() != '\r' ){
 
     if( m_source.currentChar().isSpace() ){
-      m_source.readWhiteSpaces( false, m_inPreproc);
+      m_source.parse( gr_whiteSpaces);
       body += ' ';
     } else {
 
       Token tk;
-      nextToken( tk, true );
+      nextToken( tk);
 
       if( tk.type() != -1 ){
 	QString s = tk.text();
@@ -815,7 +818,7 @@ void Lexer::processInclude()
     if( m_skipping[m_ifLevel] )
 	return;
 
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   if( !m_source.currentChar().isNull() ){
     QChar ch = m_source.currentChar();
     if( ch == '"' || ch == '<' ){
@@ -837,7 +840,7 @@ void Lexer::processInclude()
 
 void Lexer::processUndef()
 {
-  m_source.readWhiteSpaces( true, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   QString word;
   m_source.parse( gr_identifier[var(word) = constructQString(arg1, arg2)]);
   m_driver->removeMacro( word );
@@ -845,7 +848,7 @@ void Lexer::processUndef()
 
 int Lexer::macroPrimary()
 {
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
     int result = 0;
   switch( m_source.currentChar().unicode() ) {
     case '(':
@@ -875,7 +878,7 @@ int Lexer::macroPrimary()
     default:
 	{
 	    Token tk;
-	    nextToken( tk, false );
+	    nextToken( tk);
 	    switch( tk.type() ){
 	    case Token_identifier:
 		if( tk.text() == "defined" ){
@@ -902,7 +905,7 @@ int Lexer::macroMultiplyDivide()
   int result = macroPrimary();
   int iresult, op;
   for (;;)    {
-    m_source.readWhiteSpaces( false, m_inPreproc);
+    m_source.parse( gr_whiteSpaces);
     if( m_source.parse(
 		       ch_p('*')[var(op) = 0]
 		       |
@@ -924,7 +927,7 @@ int Lexer::macroAddSubtract() {
   int result = macroMultiplyDivide();
   int iresult;
   bool ad = false;
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   while( m_source.parse(
 			ch_p('+')[var(ad) = true] | ch_p('-')[var(ad) = false]
 			).hit
@@ -937,7 +940,7 @@ int Lexer::macroAddSubtract() {
 
 int Lexer::macroRelational() {
   int result = macroAddSubtract();
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   bool lt;
   while( m_source.parse(
 			ch_p('<')[var(lt) = true] | ch_p('>')[var(lt) = false]
@@ -958,7 +961,7 @@ int Lexer::macroEquality()
   int result = macroRelational();
   int iresult;
   bool eq = false;
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   while( m_source.parse( (ch_p('=')[var(eq) = true] | '!') >> '=').hit) {
     iresult = macroRelational();
     result = eq ? (result==iresult) : (result!=iresult);
@@ -969,7 +972,7 @@ int Lexer::macroEquality()
 int Lexer::macroBoolAnd()
 {
   int result = macroEquality();
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   while( m_source.parse( ch_p('&') >> eps_p( anychar_p - '&')).hit)
     result &= macroEquality();
   return result;
@@ -977,7 +980,7 @@ int Lexer::macroBoolAnd()
 
 int Lexer::macroBoolXor() {
   int result = macroBoolAnd();
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   while( m_source.parse(ch_p('^')).hit)
     result ^= macroBoolAnd();
   return result;
@@ -986,7 +989,7 @@ int Lexer::macroBoolXor() {
 int Lexer::macroBoolOr()
 {
   int result = macroBoolXor();
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   while( m_source.parse( ch_p('|') >> eps_p( anychar_p - '|')).hit)
     result |= macroBoolXor();
   return result;
@@ -995,7 +998,7 @@ int Lexer::macroBoolOr()
 int Lexer::macroLogicalAnd()
 {
   int result = macroBoolOr();
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   while( m_source.parse( str_p("&&")).hit)
     result = macroBoolOr() && result;
   return result;
@@ -1004,7 +1007,7 @@ int Lexer::macroLogicalAnd()
 int Lexer::macroLogicalOr()
 {
   int result = macroLogicalAnd();
-  m_source.readWhiteSpaces( false, m_inPreproc);
+  m_source.parse( gr_whiteSpaces);
   while( m_source.parse( str_p("||")).hit)
     result = macroLogicalAnd() || result;
   return result;
@@ -1012,8 +1015,8 @@ int Lexer::macroLogicalOr()
 
 int Lexer::macroExpression()
 {
-  m_source.readWhiteSpaces( false, m_inPreproc);
-    return macroLogicalOr();
+  m_source.parse( gr_whiteSpaces);
+  return macroLogicalOr();
 }
 
 // *IMPORTANT*
