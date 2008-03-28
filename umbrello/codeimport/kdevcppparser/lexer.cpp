@@ -813,28 +813,28 @@ void Lexer::processIfndef()
     }
 }
 
-void Lexer::processInclude()
-{
-    if( m_skipping[m_ifLevel] )
-	return;
+void Lexer::processInclude() {
+  if( m_skipping[m_ifLevel] )
+    return;
 
   m_source.parse( gr_whiteSpaces);
-  if( !m_source.currentChar().isNull() ){
-    QChar ch = m_source.currentChar();
-    if( ch == '"' || ch == '<' ){
-      m_source.nextChar();
-      QChar ch2 = ch == QChar('"') ? QChar('"') : QChar('>');
-
-      CharIterator startWord = m_source.get_ptr();
-      while( !m_source.currentChar().isNull() && m_source.currentChar() != ch2 )
-	m_source.nextChar();
-      if( !m_source.currentChar().isNull() ){
-	QString word = m_source.substrFrom( startWord);
-	m_driver->addDependence( m_driver->currentFileName(),
-				 Dependence(word, ch == '"' ? Dep_Local : Dep_Global) );
-	m_source.nextChar();
-      }
-    }
+  QString word;
+  int l_scope = -1;
+#warning This rule should be global
+  if( m_source.parse(
+		     confix_p( ch_p('"')[var(l_scope) = (int)Dep_Local],
+			       (*anychar_p)
+			       [var(word) = constructQString( arg1, arg2)],
+			       '"')
+		     |
+		     confix_p( ch_p('<')[var(l_scope) = (int)Dep_Global],
+			       (*anychar_p)
+			       [var(word) = constructQString( arg1,
+							      arg2)],
+			       '>')
+		     ).hit) {
+    m_driver->addDependence( m_driver->currentFileName(),
+			     Dependence(word, l_scope));
   }
 }
 
