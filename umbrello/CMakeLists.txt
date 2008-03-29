@@ -14,7 +14,19 @@ create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION ${CMAKE_CURRENT_BINARY_DIR}/
 
 add_definitions (-DQT3_SUPPORT_WARNINGS)
 
-include_directories (${LIBXML2_INCLUDE_DIR} ${LIBXSLT_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/)
+#boost is a hard dependency
+find_package(Boost)
+macro_log_feature(Boost_FOUND "boost" "Boost C++ Libraries" "http://www.boost.org" TRUE "1_33_0" "Needed by several critical PIM libraries.")
+
+# Some Boost require exceptions
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
+
+include_directories (
+  ${LIBXML2_INCLUDE_DIR}
+  ${LIBXSLT_INCLUDE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
+  ${Boost_INCLUDE_DIR}
+)
 
 set(libcodegenerator_SRCS
 	codegenerators/codegenfactory.cpp 
@@ -408,9 +420,6 @@ set (umbrello_SRCS
 	${libcmds_SRCS}
 	${libumbrello_SRCS}
 )
-
-# Some Boost require exceptions
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 
 kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-umbrello.png")
 kde4_add_executable(umbrello ${umbrello_SRCS})
