@@ -280,7 +280,7 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
     m_ColumnWidgets.localColumnCB = new KComboBox(page);
     columnsLayout->addWidget(m_ColumnWidgets.localColumnCB, 0, 1);
 
-    m_ColumnWidgets.referencedColumnL = new QLabel(i18n("Referenecd Column"), page);
+    m_ColumnWidgets.referencedColumnL = new QLabel(i18n("Referenced Column"), page);
     columnsLayout->addWidget(m_ColumnWidgets.referencedColumnL, 1, 0);
 
     m_ColumnWidgets.referencedColumnCB = new KComboBox(page);
