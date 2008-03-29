@@ -332,10 +332,8 @@ void Lexer::nextToken( Token& tk)
   QChar ch = m_source.currentChar();
   if( ch.isNull() || ch.isSpace() ){
     /* skip */
-  } else if( m_source.get_startLine() && ch == '#') {
-
-    m_source.nextChar(); // skip #
-    m_source.parse( gr_whiteSpaces); // skip white spaces
+  } else if( m_source.get_startLine()
+	     && m_source.parse( ch_p('#') >> gr_whiteSpaces).hit) {
     m_source.set_startLine( false);
     
     QString directive;
@@ -414,8 +412,7 @@ void Lexer::nextToken( Token& tk)
 	    else
 	      ellipsisArg += arg;
 
-	    if( m_source.currentChar() == ',' ){
-	      m_source.nextChar();
+	    if( m_source.parse( ch_p(',')).hit) {
 	      if( !ellipsis ){
 		++argIdx;
 	      } else {
@@ -425,9 +422,8 @@ void Lexer::nextToken( Token& tk)
 	      break;
 	    }
 	  }
-	  if( m_source.currentChar() == ')' ){
+	  if( m_source.parse(ch_p(')')).hit) {
 	    // valid macro
-	    m_source.nextChar();
 	  }
 	} else {
 	  Position l_newPosition( svPosition);
@@ -705,12 +701,8 @@ void Lexer::processDefine( Macro& m )
   m_driver->removeMacro( macroName );
   m.setName( macroName );
 
-  if( m_source.currentChar() == '(' ){
+  if( m_source.parse( ch_p('(') >> gr_whiteSpaces).hit) {
     m.setHasArguments( true );
-    m_source.nextChar();
-
-    m_source.parse( gr_whiteSpaces);
-
     while( !m_source.currentChar().isNull() && m_source.currentChar() != ')' ){
       m_source.parse( gr_whiteSpaces);
 
@@ -721,14 +713,11 @@ void Lexer::processDefine( Macro& m )
       m.addArgument( Macro::Argument(arg) );
 
       m_source.parse( gr_whiteSpaces);
-      if( m_source.currentChar() != ',' )
+      if( !m_source.parse( ch_p(',')).hit)
 	break;
-
-      m_source.nextChar(); // skip ','
     }
-
-    if( m_source.currentChar() == ')' )
-      m_source.nextChar(); // skip ')'
+    bool l_status = m_source.parse(ch_p(')')).hit;
+    assert( l_status);
   }
 
   m_preprocessorEnabled = true;
@@ -886,55 +875,55 @@ void Lexer::processUndef()
 int Lexer::macroPrimary()
 {
   m_source.parse( gr_whiteSpaces);
-    int result = 0;
+  int result = 0;
   switch( m_source.currentChar().unicode() ) {
-    case '(':
+  case '(':
     m_source.nextChar();
-	result = macroExpression();
+    result = macroExpression();
     if( m_source.currentChar() != ')' ){
-	    /// @todo report error
-	    return 0;
-	}
+      /// @todo report error
+      return 0;
+    }
     m_source.nextChar();
-	return result;
+    return result;
 
-    case '+':
-    case '-':
-    case '!':
-    case '~':
-	{
+  case '+':
+  case '-':
+  case '!':
+  case '~':
+    {
       QChar tk = m_source.currentChar();
       m_source.nextChar();
-	    int result = macroPrimary();
-	    if( tk == '-' ) return -result;
-	    else if( tk == '!' ) return !result;
-	    else if( tk == '~' ) return ~result;
+      int result = macroPrimary();
+      if( tk == '-' ) return -result;
+      else if( tk == '!' ) return !result;
+      else if( tk == '~' ) return ~result;
+    }
+    break;
+
+  default:
+    {
+      Token tk;
+      nextToken( tk);
+      switch( tk.type() ){
+      case Token_identifier:
+	if( tk.text() == "defined" ){
+	  return macroPrimary();
 	}
+	/// @todo implement
+	  return m_driver->hasMacro( tk.text() );
+      case Token_number_literal:
+      case Token_char_literal:
+	return toInt( tk );
+      default:
 	break;
+      } // end switch
 
-    default:
-	{
-	    Token tk;
-	    nextToken( tk);
-	    switch( tk.type() ){
-	    case Token_identifier:
-		if( tk.text() == "defined" ){
-		    return macroPrimary();
-		}
-		/// @todo implement
-		return m_driver->hasMacro( tk.text() );
-	    case Token_number_literal:
-	    case Token_char_literal:
-		return toInt( tk );
-            default:
-		break;
-	    } // end switch
+    } // end default
 
-	} // end default
+  } // end switch
 
-    } // end switch
-
-    return 0;
+  return 0;
 }
 
 int Lexer::macroMultiplyDivide()
