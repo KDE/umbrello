@@ -29,6 +29,7 @@
 #include <q3valuelist.h>
 
 #include <boost/bind.hpp>
+#include <boost/spirit/dynamic/if.hpp>
 #include <boost/spirit/phoenix/functions.hpp>
 
 namespace boost { namespace spirit { namespace impl {
@@ -66,17 +67,16 @@ inline void qthread_yield()
 
 #endif
 
-Lexer::CharRule gr_charLiteral =
-  !ch_p('L') >> ch_p('\'')
-  >> *((anychar_p - '\'' - '\\')
-       | (ch_p('\\') >> (ch_p('\'') | '\\')))
-  >> '\'';
-Lexer::CharRule gr_numberLiteral = digit_p >> *(alnum_p | '.');
-Lexer::CharRule gr_stringLiteral =
-  ch_p('"') >> *((anychar_p - '"' - '\\') | str_p("\\\"") | "\\\\") >> '"';
-Lexer::CharRule gr_identifier = +(alnum_p | '_');
-Lexer::CharRule gr_whiteSpaces = *(blank_p | (ch_p('\\') >> eol_p));
+/** Utility closure that defines a result value.
+    Used to return values from grammars (copied from cpp lexer in spirit
+    repository). */
+template < typename ResultT >
+struct result_closure : closure<result_closure<ResultT>, ResultT> {
+  typedef closure<result_closure<ResultT>, ResultT> base_t;
+  typename base_t::member1 result_;
+};
 
+/** Stuff to construct a QString from iterators */
 struct constructQString_impl {
   template <typename _Arg1, typename _Arg2>
   struct result {
@@ -89,7 +89,73 @@ struct constructQString_impl {
   }
 };
 
-function<constructQString_impl> const constructQString = constructQString_impl();
+const function<constructQString_impl> constructQString =
+  constructQString_impl();
+
+struct identifier :
+  grammar<identifier, result_closure<QString>::context_t>
+{
+  template < typename ScannerT >
+  struct definition {
+    typedef rule<ScannerT> rule_t;
+    rule_t main;
+
+    rule_t const& start() const {return main;}
+
+    definition( identifier const& self) {
+      main = (lexeme_d[
+		       (+(alnum_p | '_'))
+		       [self.result_ = constructQString(arg1, arg2)]
+		       ]);
+    }
+  };
+} identifier_g;
+
+struct operator_ :
+  grammar<operator_, result_closure<Token>::context_t>
+{
+  template < typename ScannerT >
+  struct definition {
+    typedef rule<ScannerT, result_closure<int>::context_t> rule_t;
+    rule_t main;
+
+    rule_t const& start() const {return main;}
+
+    definition( operator_ const& self) {
+      main =
+	(str_p("::")[ main.result_ = Token_scope]
+	 | (str_p("->*") | ".*")[ main.result_ = Token_ptrmem]
+	 | (str_p("<<=") | ">>=" | "+=" | "-=" | "*=" | "/=" | "%=" | "^="
+	    | "&=" | "|=")
+	 [ main.result_ = Token_assign]
+	 | (str_p("<<") | ">>")[ main.result_ = Token_shift]
+	 | (str_p("==") | "!=")[ main.result_ = Token_eq]
+	 | str_p("<=")[ main.result_ = Token_leq]
+	 | str_p(">=")[ main.result_ = Token_geq]
+	 | str_p("&&")[ main.result_ = Token_and]
+	 | str_p("||")[ main.result_ = Token_or]
+	 | str_p("++")[ main.result_ = Token_incr]
+	 | str_p("--")[ main.result_ = Token_decr]
+	 | str_p("->")[ main.result_ = Token_arrow]
+	 | str_p("##")[ main.result_ = Token_concat]
+	 | str_p("...")[ main.result_ = Token_ellipsis]
+	 )
+	[ self.result_ = construct_<Token>( main.result_, arg1, arg2)];
+    }
+  };
+} operator_g;
+
+Lexer::CharRule gr_charLiteral =
+  !ch_p('L') >> ch_p('\'')
+  >> *((anychar_p - '\'' - '\\')
+       | (ch_p('\\') >> (ch_p('\'') | '\\')))
+  >> '\'';
+Lexer::CharRule gr_numberLiteral = digit_p >> *(alnum_p | '.');
+Lexer::CharRule gr_stringLiteral =
+  ch_p('"') >> *((anychar_p - '"' - '\\') | str_p("\\\"") | "\\\\") >> '"';
+Lexer::CharRule gr_whiteSpaces = *(blank_p | (ch_p('\\') >> eol_p));
+Lexer::CharRule gr_lineComment = (str_p("//") >> (*(anychar_p - eol_p)));
+Lexer::CharRule gr_multiLineComment = confix_p( "/*", *anychar_p, "*/");
 
 Token::Token()
   : m_type( -1 ),
@@ -252,31 +318,6 @@ int Lexer::toInt( const Token& token )
     }
 }
 
-bool Lexer::Source::findOperator( Token& p_tk) {
-  int l_tokenType = -1;
-#warning This rule should be global
-  CharRule lr_operator =
-    (str_p("::")[ var( l_tokenType) = Token_scope]
-     | (str_p("->*") | ".*")[ var( l_tokenType) = Token_ptrmem]
-     | (str_p("<<=") | ">>=" | "+=" | "-=" | "*=" | "/=" | "%=" | "^=" | "&="
-	| "|=")[ var( l_tokenType) = Token_assign]
-     | (str_p("<<") | ">>")[ var( l_tokenType) = Token_shift]
-     | (str_p("==") | "!=")[ var( l_tokenType) = Token_eq]
-     | str_p("<=")[ var( l_tokenType) = Token_leq]
-     | str_p(">=")[ var( l_tokenType) = Token_geq]
-     | str_p("&&")[ var( l_tokenType) = Token_and]
-     | str_p("||")[ var( l_tokenType) = Token_or]
-     | str_p("++")[ var( l_tokenType) = Token_incr]
-     | str_p("--")[ var( l_tokenType) = Token_decr]
-     | str_p("->")[ var( l_tokenType) = Token_arrow]
-     | str_p("##")[ var( l_tokenType) = Token_concat]
-     | str_p("...")[ var( l_tokenType) = Token_ellipsis]
-     )
-    [var(p_tk) = construct_<Token>( l_tokenType, arg1, arg2)];
-  parse_info<CharIterator> l_info = parse( lr_operator);
-  return l_info.hit;
-}
-
 Position const& Lexer::getTokenPosition( const Token& token) const
 {
   return token.getStartPosition();
@@ -291,18 +332,17 @@ void Lexer::nextToken( Token& tk)
   QChar ch = m_source.currentChar();
   if( ch.isNull() || ch.isSpace() ){
     /* skip */
-  } else if( m_source.get_startLine() && ch == '#' ){
+  } else if( m_source.get_startLine() && ch == '#') {
 
     m_source.nextChar(); // skip #
     m_source.parse( gr_whiteSpaces); // skip white spaces
     m_source.set_startLine( false);
     
     QString directive;
-    m_source.parse( gr_identifier
-		    [var(directive) = constructQString(arg1, arg2)]); // read the directive
+    m_source.parse( identifier_g[ assign(directive)]); // read the directive
 
     handleDirective( directive );
-  } else if( m_source.get_startLine() && m_skipping[ m_ifLevel ] ){
+  } else if( m_source.get_startLine() && m_skipping[ m_ifLevel ] ) {
     // skip line and continue
     m_source.set_startLine( false);
     bool ppe = m_preprocessorEnabled;
@@ -316,21 +356,25 @@ void Lexer::nextToken( Token& tk)
     m_source.set_startLine( true);
     m_preprocessorEnabled = ppe;
     return;
-  } else if( m_source.readLineComment( m_recordComments, tk)) {
-  } else if( m_source.readMultiLineComment( m_recordComments, tk)) {
-  } else if( m_source.parse(
-			    gr_charLiteral
-			    [var(tk) = construct_<Token>( Token_char_literal,
-							  arg1, arg2)]
-			    ).hit) {
   } else if( m_source.parse
-	     ( gr_stringLiteral
-	       [var(tk) = construct_<Token>( Token_string_literal, arg1, arg2)]
-	       ).hit) {
+	     (
+	      if_p(var( m_recordComments))
+	      [ gr_lineComment | gr_multiLineComment
+		[var( tk) = construct_<Token>(Token_comment, arg1, arg2)]
+		]
+	      .else_p[ gr_lineComment | gr_multiLineComment]
+	      |
+	      gr_charLiteral
+	      [var(tk) = construct_<Token>( Token_char_literal,
+					    arg1, arg2)]
+	      |
+	      gr_stringLiteral
+	      [var(tk) = construct_<Token>( Token_string_literal, arg1, arg2)]
+	      ).hit) {
   } else if( ch.isLetter() || ch == '_' ){
     CharIterator start = m_source.get_ptr();
     QString ide;
-    m_source.parse( gr_identifier[var(ide) = constructQString(arg1, arg2)]);
+    m_source.parse( identifier_g[assign(ide)]);
     int k = Lookup::find( &keyword, ide );
     if( m_preprocessorEnabled && m_driver->hasMacro(ide) &&
 	(k == -1 || !m_driver->macro(ide).body().isEmpty()) ){
@@ -353,8 +397,7 @@ void Lexer::nextToken( Token& tk)
 	CharIterator endIde = m_source.get_ptr();
 
 	m_source.parse( gr_whiteSpaces);
-	if( m_source.currentChar() == '(' ){
-	  m_source.nextChar();
+	if( m_source.parse( ch_p('(')).hit) {
 	  int argIdx = 0;
 	  int argCount = m.argumentList().size();
 	  while( !m_source.currentChar().isNull() && argIdx<argCount ){
@@ -496,7 +539,7 @@ void Lexer::nextToken( Token& tk)
 	     ( gr_numberLiteral
 	       [var(tk) = construct_<Token>( Token_number_literal, arg1, arg2)]
 	       ).hit) {
-  } else if( m_source.findOperator( tk)) {
+  } else if( m_source.parse( operator_g[ assign(tk)]).hit) {
   } else {
     CharIterator l_ptr = m_source.get_ptr();
     m_source.nextChar();
@@ -584,29 +627,6 @@ QString Lexer::readArgument()
     return arg.trimmed();
 }
 
-bool Lexer::Source::readLineComment( bool p_recordComments, Token& p_tk)
-{
-  if( p_recordComments)
-    return parse( (str_p("//")
-		   >> (*(anychar_p - eol_p)))
-		  [var(p_tk) = construct_<Token>(Token_comment, arg1, arg2)]
-		  ).hit;
-  else
-    return parse( (str_p("//") >> (*(anychar_p - eol_p)))
-		  ).hit;
-}
-
-bool Lexer::Source::readMultiLineComment( bool p_recordComments, Token& p_tk)
-{
-#warning This rule should be global
-  if( p_recordComments)
-    return parse( confix_p( "/*", *anychar_p, "*/")
-		  [var( p_tk) = construct_<Token>(Token_comment, arg1, arg2)]
-		  ).hit;
-  else
-    return parse( confix_p( "/*", *anychar_p, "*/")).hit;
-}
-
 void Lexer::handleDirective( const QString& directive )
 {
     m_inPreproc = true;
@@ -669,7 +689,7 @@ int Lexer::macroDefined()
 {
   m_source.parse( gr_whiteSpaces);
   QString word;
-  m_source.parse( gr_identifier[var(word) = constructQString(arg1, arg2)]);
+  m_source.parse( identifier_g[assign(word)]);
   bool r = m_driver->hasMacro( word );
 
   return r;
@@ -681,8 +701,7 @@ void Lexer::processDefine( Macro& m )
   m_source.parse( gr_whiteSpaces);
 
   QString macroName;
-  m_source.parse( gr_identifier
-		  [var(macroName) = constructQString(arg1, arg2)]);
+  m_source.parse( identifier_g[assign(macroName)]);
   m_driver->removeMacro( macroName );
   m.setName( macroName );
 
@@ -696,8 +715,8 @@ void Lexer::processDefine( Macro& m )
       m_source.parse( gr_whiteSpaces);
 
       QString arg;
-      m_source.parse( (str_p("...") | gr_identifier)
-		      [var(arg) = constructQString( arg1, arg2)]
+      m_source.parse( str_p("...")[var(arg) = constructQString( arg1, arg2)]
+		      | identifier_g[assign(arg)]
 		      );
       m.addArgument( Macro::Argument(arg) );
 
@@ -813,36 +832,54 @@ void Lexer::processIfndef()
     }
 }
 
-void Lexer::processInclude() {
-  if( m_skipping[m_ifLevel] )
-    return;
+typedef std::pair<QString, int> Dependency;
 
-  m_source.parse( gr_whiteSpaces);
-  QString word;
-  int l_scope = -1;
-#warning This rule should be global
-  if( m_source.parse(
-		     confix_p( ch_p('"')[var(l_scope) = (int)Dep_Local],
-			       (*anychar_p)
-			       [var(word) = constructQString( arg1, arg2)],
-			       '"')
-		     |
-		     confix_p( ch_p('<')[var(l_scope) = (int)Dep_Global],
-			       (*anychar_p)
-			       [var(word) = constructQString( arg1,
-							      arg2)],
-			       '>')
-		     ).hit) {
-    m_driver->addDependence( m_driver->currentFileName(),
-			     Dependence(word, l_scope));
-  }
+struct DependencyClosure
+  : boost::spirit::closure<DependencyClosure, QString, int>
+{
+  member1 m_word;
+  member2 m_scope;
+};
+
+struct header :
+  grammar<header, result_closure<Dependency>::context_t>
+{
+  template < typename ScannerT >
+  struct definition {
+    typedef rule<ScannerT, DependencyClosure::context_t> rule_t;
+    rule_t main;
+
+    rule_t const& start() const {return main;}
+
+    definition( header const& self) {
+      main =
+	( confix_p( ch_p('"') [main.m_scope = (int)Dep_Local],
+		    (*anychar_p) [main.m_word = constructQString( arg1, arg2)],
+		    '"')
+	  |
+	  confix_p( ch_p('<') [main.m_scope = (int)Dep_Global],
+		    (*anychar_p) [main.m_word = constructQString( arg1, arg2)],
+		    '>')
+	  )
+	[self.result_ = construct_<Dependency>( main.m_word, main.m_scope)]
+	;
+    }
+  };
+} header_g;
+
+void Lexer::processInclude() {
+  if( !m_skipping[m_ifLevel] )
+    m_source.parse( gr_whiteSpaces >>
+		    header_g
+		    [boost::bind( &Lexer::addDependence, this, _1)]
+		    );
 }
 
 void Lexer::processUndef()
 {
   m_source.parse( gr_whiteSpaces);
   QString word;
-  m_source.parse( gr_identifier[var(word) = constructQString(arg1, arg2)]);
+  m_source.parse( identifier_g[assign(word)]);
   m_driver->removeMacro( word );
 }
 

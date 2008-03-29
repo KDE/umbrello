@@ -223,6 +223,12 @@ public:
 
 private:
   static int toInt( const Token& token );
+
+  void addDependence( std::pair<QString, int> const& p_wordAndScope) const {
+    m_driver->addDependence( m_driver->currentFileName(),
+			     Dependence( p_wordAndScope.first,
+					 p_wordAndScope.second));
+  }
   void tokenize();
   void nextToken( Token& token);
   void skip( int l, int r );
@@ -275,7 +281,6 @@ private:
       return m_ptr != m_endPtr ? *m_ptr : QChar::null;
     }
     bool eof() const {return m_ptr >= m_endPtr;}
-    bool findOperator( Token& p_tk);
     void insert( QString const& p) {
       int l_offset = &*m_ptr - m_source.data();
       m_source.insert( l_offset, p);
@@ -293,9 +298,6 @@ private:
 	break;
       }
     }
-    void nextChar( int n ) {
-      std::advance( m_ptr, n);
-    }
     template <typename _RuleT>
     parse_info<CharIterator> parse( _RuleT const& p_rule) {
       parse_info<CharIterator> l_return =
@@ -304,8 +306,6 @@ private:
 	m_ptr = l_return.stop;
       return l_return;
     }
-    bool readLineComment( bool p_recordComments, Token& p_tk);
-    bool readMultiLineComment( bool p_recordComments, Token& p_tk);
     void reset() {
       m_source.clear();
       m_ptr = CharIterator();
