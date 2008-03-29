@@ -33,7 +33,7 @@ inline PositionFilename QString2PositionFilename( QString const& p) {
   return (char const*)p.toAscii();
 }
 
-#elif BOOST_VERSION == 103401
+#elif BOOST_VERSION == 103400 || BOOST_VERSION == 103401
 # include <QChar>
 
 typedef boost::spirit::file_position_base<std::basic_string<QChar> > Position;
