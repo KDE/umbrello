@@ -24,7 +24,7 @@
 #include <boost/spirit.hpp>
 #include <QString>
 
-#if BOOST_VERSION == 103301
+#if BOOST_VERSION < 103400
 
 typedef boost::spirit::file_position Position;
 typedef std::string PositionFilename;
@@ -33,7 +33,7 @@ inline PositionFilename QString2PositionFilename( QString const& p) {
   return (char const*)p.toAscii();
 }
 
-#elif BOOST_VERSION == 103400 || BOOST_VERSION == 103401
+#else
 # include <QChar>
 
 typedef boost::spirit::file_position_base<std::basic_string<QChar> > Position;
@@ -43,8 +43,6 @@ inline PositionFilename QString2PositionFilename( QString const& p) {
   return p.data();
 }
 
-#else
-# error Unknown version of boost lib
 #endif
 
 inline bool operator<( Position const& p1, Position const& p2) {
