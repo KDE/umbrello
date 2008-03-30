@@ -145,12 +145,45 @@ struct operator_ :
   };
 } operator_g;
 
-Lexer::CharRule gr_charLiteral =
-  !ch_p('L') >> ch_p('\'')
-  >> *((anychar_p - '\'' - '\\')
-       | (ch_p('\\') >> (ch_p('\'') | '\\')))
-  >> '\'';
-Lexer::CharRule gr_numberLiteral = digit_p >> *(alnum_p | '.');
+struct charLiteral :
+  grammar<charLiteral, result_closure<Token>::context_t>
+{
+  template < typename ScannerT >
+  struct definition {
+    typedef rule<ScannerT, result_closure<int>::context_t> rule_t;
+    rule_t main;
+
+    rule_t const& start() const {return main;}
+
+    definition( charLiteral const& self) {
+      main =
+	(!ch_p('L') >> ch_p('\'')
+	 >> *((anychar_p - '\'' - '\\')
+	      | (ch_p('\\') >> (ch_p('\'') | '\\')))
+	 >> '\'')
+	[ self.result_ = construct_<Token>( Token_char_literal, arg1, arg2)];
+    }
+  };
+} charLiteral_g;
+
+struct numberLiteral :
+  grammar<numberLiteral, result_closure<Token>::context_t>
+{
+  template < typename ScannerT >
+  struct definition {
+    typedef rule<ScannerT, result_closure<int>::context_t> rule_t;
+    rule_t main;
+
+    rule_t const& start() const {return main;}
+
+    definition( numberLiteral const& self) {
+      main =
+	(digit_p >> *(alnum_p | '.'))
+	[ self.result_ = construct_<Token>( Token_number_literal, arg1, arg2)];
+    }
+  };
+} numberLiteral_g;
+
 Lexer::CharRule gr_stringLiteral =
   ch_p('"') >> *((anychar_p - '"' - '\\') | str_p("\\\"") | "\\\\") >> '"';
 Lexer::CharRule gr_whiteSpaces = *(blank_p | (ch_p('\\') >> eol_p));
@@ -361,10 +394,7 @@ void Lexer::nextToken( Token& tk)
 		[var( tk) = construct_<Token>(Token_comment, arg1, arg2)]
 		]
 	      .else_p[ gr_lineComment | gr_multiLineComment]
-	      |
-	      gr_charLiteral
-	      [var(tk) = construct_<Token>( Token_char_literal,
-					    arg1, arg2)]
+	      | charLiteral_g[assign(tk)]
 	      |
 	      gr_stringLiteral
 	      [var(tk) = construct_<Token>( Token_string_literal, arg1, arg2)]
@@ -531,11 +561,9 @@ void Lexer::nextToken( Token& tk)
     } else {
       tk = m_source.createToken( Token_identifier, start);
     }
-  } else if( m_source.parse
-	     ( gr_numberLiteral
-	       [var(tk) = construct_<Token>( Token_number_literal, arg1, arg2)]
-	       ).hit) {
-  } else if( m_source.parse( operator_g[ assign(tk)]).hit) {
+  } else if( m_source.parse( numberLiteral_g[assign(tk)]
+			     | operator_g[ assign(tk)]
+			     ).hit) {
   } else {
     CharIterator l_ptr = m_source.get_ptr();
     m_source.nextChar();
