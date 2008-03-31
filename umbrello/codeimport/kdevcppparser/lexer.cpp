@@ -29,14 +29,22 @@
 #include <q3valuelist.h>
 
 #include <boost/bind.hpp>
+#include <boost/function.hpp>
 #include <boost/spirit/dynamic/if.hpp>
 #include <boost/spirit/phoenix/functions.hpp>
+
+#include "assignFunctor.hpp"
 
 namespace boost { namespace spirit { namespace impl {
   bool isalnum_( QChar const& c) {return isalnum_( c.toAscii());}
   bool isblank_( QChar const& c) {return isblank_( c.toAscii());}
   bool isdigit_( QChar const& c) {return isdigit_( c.toAscii());}
 }}}
+
+template <class _Tp>
+struct tilde : public std::unary_function<_Tp,_Tp> {
+  _Tp operator()(_Tp& __x) const { return ~__x; }
+};
 
 using namespace boost::spirit;
 using phoenix::arg1;
@@ -178,7 +186,7 @@ struct numberLiteral :
 
     definition( numberLiteral const& self) {
       main =
-	(digit_p >> *(alnum_p | '.'))
+	(+digit_p)
 	[ self.result_ = construct_<Token>( Token_number_literal, arg1, arg2)];
     }
   };
@@ -711,12 +719,9 @@ int Lexer::testIfLevel()
 
 int Lexer::macroDefined()
 {
-  m_source.parse( gr_whiteSpaces);
   QString word;
-  m_source.parse( identifier_g[assign(word)]);
-  bool r = m_driver->hasMacro( word );
-
-  return r;
+  m_source.parse( gr_whiteSpaces >> identifier_g[assign(word)]);
+  return m_driver->hasMacro( word );
 }
 
 void Lexer::processDefine( Macro& m )
@@ -817,13 +822,6 @@ void Lexer::processIf()
     bool inSkip = m_skipping[ m_ifLevel ];
 
     if( testIfLevel() ) {
-#if 0
-	int n;
-	if( (n = testDefined()) != 0 ) {
-	    int isdef = macroDefined();
-	    m_trueTest[ m_ifLevel ] = (n == 1 && isdef) || (n == -1 && !isdef);
-	} else
-#endif
         m_trueTest[ m_ifLevel ] = macroExpression() != 0;
 	m_skipping[ m_ifLevel ] = inSkip ? inSkip : !m_trueTest[ m_ifLevel ];
     }
@@ -904,61 +902,48 @@ int Lexer::macroPrimary()
 {
   m_source.parse( gr_whiteSpaces);
   int result = 0;
-  switch( m_source.currentChar().unicode() ) {
-  case '(':
-    m_source.nextChar();
+  if( m_source.parse( ch_p('(')).hit) {
     result = macroExpression();
-    if( m_source.currentChar() != ')' ){
-      /// @todo report error
-      return 0;
+    bool l_hit = m_source.parse( ch_p(')')).hit;
+    /** \todo hit must be true */
+    if( !l_hit)
+      result = 0;
+  } else {
+#warning use locals
+    boost::function<int (int)> l_op = _Identity<int>();
+    if( m_source.parse( ch_p('+')
+			| ch_p('-')[var(l_op) = std::negate<int>()]
+			| ch_p('!')[var(l_op) = std::logical_not<int>()]
+			| ch_p('~')[var(l_op) = tilde<int>()]
+			).hit) {
+      result = l_op( macroPrimary());
+    } else if( m_source.parse( str_p("defined")).hit) {
+      /** \todo Strange : should result in an identifier (after
+	  preprocessor variable substitution) ! */
+      result = macroPrimary();
+    } else {
+      m_source.parse(
+		     identifier_g[assignFunctorResult<1>
+				  ( result,
+				    boost::bind( &Driver::hasMacro, m_driver,
+						 _1))]
+		     | numberLiteral_g[assignFunctorResult<1>
+				       ( result,
+					 boost::bind( &Lexer::toInt, _1))]
+		     | charLiteral_g[assignFunctorResult<1>
+				     ( result,
+				       boost::bind( &Lexer::toInt, _1))]
+		     );
     }
-    m_source.nextChar();
-    return result;
-
-  case '+':
-  case '-':
-  case '!':
-  case '~':
-    {
-      QChar tk = m_source.currentChar();
-      m_source.nextChar();
-      int result = macroPrimary();
-      if( tk == '-' ) return -result;
-      else if( tk == '!' ) return !result;
-      else if( tk == '~' ) return ~result;
-    }
-    break;
-
-  default:
-    {
-      Token tk;
-      nextToken( tk);
-      switch( tk.type() ){
-      case Token_identifier:
-	if( tk.text() == "defined" ){
-	  return macroPrimary();
-	}
-	/// @todo implement
-	  return m_driver->hasMacro( tk.text() );
-      case Token_number_literal:
-      case Token_char_literal:
-	return toInt( tk );
-      default:
-	break;
-      } // end switch
-
-    } // end default
-
-  } // end switch
-
-  return 0;
+  }
+  return result;
 }
 
 int Lexer::macroMultiplyDivide()
 {
   int result = macroPrimary();
   int iresult, op;
-  for (;;)    {
+  for (;;) {
     m_source.parse( gr_whiteSpaces);
     if( m_source.parse(
 		       ch_p('*')[var(op) = 0]
@@ -967,12 +952,19 @@ int Lexer::macroMultiplyDivide()
 		       [var(op) = 1]
 		       | ch_p('%')[var(op) = 2]
 		       ).hit) {
+      iresult = macroPrimary();
+      switch( op) {
+      case 0:
+	result = (result * iresult);
+	break;
+      case 1:
+	result = (iresult == 0 ? 0 : (result / iresult));
+	break;
+      case 2:
+	result = (iresult == 0) ? 0 : (result % iresult);
+      }
     } else
       break;
-    iresult = macroPrimary();
-    result = op == 0 ? (result * iresult) :
-      op == 1 ? (iresult == 0 ? 0 : (result / iresult)) :
-      (iresult == 0 ? 0 : (result % iresult)) ;
   }
   return result;
 }
@@ -995,17 +987,16 @@ int Lexer::macroAddSubtract() {
 int Lexer::macroRelational() {
   int result = macroAddSubtract();
   m_source.parse( gr_whiteSpaces);
-  bool lt;
+  boost::function<bool (int, int)> l_op;
   while( m_source.parse(
-			ch_p('<')[var(lt) = true] | ch_p('>')[var(lt) = false]
+			str_p("<=")[var(l_op) = less_equal<int>()]
+			| ch_p('<')[var(l_op) = less<int>()]
+			| str_p(">=")[var(l_op) = greater_equal<int>()]
+			| ch_p('>')[var(l_op) = greater<int>()]
 			).hit
 	 ) {
     int iresult = macroAddSubtract();
-    if( m_source.parse( ch_p('=')).hit) {
-      result = lt ? (result <= iresult) : (result >= iresult);
-    } else {
-      result = lt ? (result < iresult) : (result > iresult);
-    }
+    result = l_op( result, iresult);
   }
   return result;
 }
@@ -1013,12 +1004,12 @@ int Lexer::macroRelational() {
 int Lexer::macroEquality()
 {
   int result = macroRelational();
-  int iresult;
-  bool eq = false;
   m_source.parse( gr_whiteSpaces);
-  while( m_source.parse( (ch_p('=')[var(eq) = true] | '!') >> '=').hit) {
-    iresult = macroRelational();
-    result = eq ? (result==iresult) : (result!=iresult);
+  boost::function<bool( int, int)> l_op;
+  while( m_source.parse( str_p("==")[var(l_op) = equal_to<int>()]
+			 | str_p("!=")[var(l_op) = not_equal_to<int>()]
+			 ).hit) {
+    result = l_op( result, macroRelational());
   }
   return result;
 }
