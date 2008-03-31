@@ -14,10 +14,6 @@ create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION ${CMAKE_CURRENT_BINARY_DIR}/
 
 add_definitions (-DQT3_SUPPORT_WARNINGS)
 
-#boost is a hard dependency
-find_package(Boost)
-macro_log_feature(Boost_FOUND "boost" "Boost C++ Libraries" "http://www.boost.org" TRUE "1_33_0" "Needed by several critical PIM libraries.")
-
 # Some Boost require exceptions
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 
