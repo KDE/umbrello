@@ -309,6 +309,7 @@ void UMLListViewItem::setIcon(Icon_Utils::Icon_Type iconType)
 
 void UMLListViewItem::okRename(int col)
 {
+    QString oldText = m_Label; // copy old name
     Q3ListViewItem::okRename(col);
     UMLDoc* doc = s_pListView->getDocument();
     if (m_bCreating) {
@@ -324,7 +325,7 @@ void UMLListViewItem::okRename(int col)
         return;
     }
     QString newText = text(col);
-    if (newText == m_Label) {
+    if (newText == oldText) {
         return;
     }
     if (newText.isEmpty()) {
