@@ -312,13 +312,14 @@ void Lexer::setSource( const QString& source,
 
 void Lexer::reset()
 {
-    m_tokens.clear();
+  m_tokens.clear();
   m_source.reset();
-    m_ifLevel = 0;
-    m_skipping.resize( 200 );
-    m_skipping.fill( 0 );
-    m_trueTest.resize( 200 );
-    m_trueTest.fill( 0 );
+  m_preprocessor.reset();
+}
+
+void Lexer::Preprocessor::reset() {
+  m_skipping.clear();
+  m_trueTest.clear();
 }
 
 // ### should all be done with a "long" type IMO
@@ -381,7 +382,7 @@ void Lexer::nextToken( Token& tk)
     m_source.parse( identifier_g[ assign(directive)]); // read the directive
 
     handleDirective( directive );
-  } else if( m_source.get_startLine() && m_skipping[ m_ifLevel ] ) {
+  } else if( m_source.get_startLine() && m_preprocessor.inSkip()) {
     // skip line and continue
     m_source.set_startLine( false);
     bool ppe = m_preprocessorEnabled;
@@ -661,7 +662,7 @@ QString Lexer::readArgument()
 
 void Lexer::handleDirective( const QString& directive )
 {
-    m_inPreproc = true;
+  m_inPreproc = true;
 
   bool skip = m_skipWordsEnabled;
   bool preproc = m_preprocessorEnabled;
@@ -669,52 +670,46 @@ void Lexer::handleDirective( const QString& directive )
   m_skipWordsEnabled = false;
   m_preprocessorEnabled = false;
 
-    if( directive == "define" ){
-	if( !m_skipping[ m_ifLevel ] ){
-	    Macro m;
-	    processDefine( m );
-	}
-    } else if( directive == "else" ){
-        processElse();
-    } else if( directive == "elif" ){
-        processElif();
-    } else if( directive == "endif" ){
-        processEndif();
-    } else if( directive == "if" ){
-        processIf();
-    } else if( directive == "ifdef" ){
-      processIfdef();
-    } else if( directive == "ifndef" ){
-        processIfndef();
-    } else if( directive == "include" ){
-	if( !m_skipping[ m_ifLevel ] ){
-            processInclude();
-        }
-    } else if( directive == "undef" ){
-	if( !m_skipping[ m_ifLevel ] ){
-            processUndef();
-        }
+  if( directive == "define" ){
+    if( !m_preprocessor.inSkip()) {
+      Macro m;
+      processDefine( m );
     }
+  } else if( directive == "else" ){
+    if( !m_preprocessor.empty())
+      m_preprocessor.processElse();
+  } else if( directive == "elif" ){
+    if( !m_preprocessor.empty())
+      m_preprocessor.processElif( macroExpression());
+  } else if( directive == "endif" ){
+    if( !m_preprocessor.empty())
+      m_preprocessor.decrement();
+  } else if( directive == "if") {
+    m_preprocessor.processIf( macroExpression());
+  } else if( directive == "ifdef") {
+    m_preprocessor.processIf( macroDefined());
+  } else if( directive == "ifndef" ){
+    m_preprocessor.processIf( !macroDefined());
+  } else if( directive == "include" ){
+    if( !m_preprocessor.inSkip())
+      processInclude();
+  } else if( directive == "undef" ){
+    if( !m_preprocessor.inSkip())
+      processUndef();
+  }
 
-    // skip line
-    while( !m_source.currentChar().isNull()
-	   && m_source.currentChar() != '\n'
-	   && m_source.currentChar() != '\r') {
-      Token tk;
-      nextToken( tk);
-    }
+  // skip line
+  while( !m_source.currentChar().isNull()
+	 && m_source.currentChar() != '\n'
+	 && m_source.currentChar() != '\r') {
+    Token tk;
+    nextToken( tk);
+  }
 
   m_skipWordsEnabled = skip;
   m_preprocessorEnabled = preproc;
 
-    m_inPreproc = false;
-}
-
-int Lexer::testIfLevel()
-{
-    int rtn = !m_skipping[ m_ifLevel++ ];
-    m_skipping[ m_ifLevel ] = m_skipping[ m_ifLevel - 1 ];
-    return rtn;
+  m_inPreproc = false;
 }
 
 int Lexer::macroDefined()
@@ -779,74 +774,6 @@ void Lexer::processDefine( Macro& m )
   m_driver->addMacro( m );
 }
 
-void Lexer::processElse()
-{
-    if( m_ifLevel == 0 )
-        /// @todo report error
-	return;
-
-    if( m_ifLevel > 0 && m_skipping[m_ifLevel-1] )
-       m_skipping[ m_ifLevel ] = m_skipping[ m_ifLevel - 1 ];
-    else
-       m_skipping[ m_ifLevel ] = m_trueTest[ m_ifLevel ];
-}
-
-void Lexer::processElif()
-{
-    if( m_ifLevel == 0 )
-	/// @todo report error
-	return;
-
-    if( !m_trueTest[m_ifLevel] ){
-        /// @todo implement the correct semantic for elif!!
-        bool inSkip = m_ifLevel > 0 && m_skipping[ m_ifLevel-1 ];
-        m_trueTest[ m_ifLevel ] = macroExpression() != 0;
-	m_skipping[ m_ifLevel ] = inSkip ? inSkip : !m_trueTest[ m_ifLevel ];
-    }
-    else
-	m_skipping[ m_ifLevel ] = true;
-}
-
-void Lexer::processEndif()
-{
-    if( m_ifLevel == 0 )
-	/// @todo report error
-	return;
-
-    m_skipping[ m_ifLevel ] = 0;
-    m_trueTest[ m_ifLevel-- ] = 0;
-}
-
-void Lexer::processIf()
-{
-    bool inSkip = m_skipping[ m_ifLevel ];
-
-    if( testIfLevel() ) {
-        m_trueTest[ m_ifLevel ] = macroExpression() != 0;
-	m_skipping[ m_ifLevel ] = inSkip ? inSkip : !m_trueTest[ m_ifLevel ];
-    }
-}
-
-void Lexer::processIfdef()
-{
-    bool inSkip = m_skipping[ m_ifLevel ];
-
-    if( testIfLevel() ){
-	m_trueTest[ m_ifLevel ] = macroDefined();
-	m_skipping[ m_ifLevel ] = inSkip ? inSkip : !m_trueTest[ m_ifLevel ];
-    }
-}
-
-void Lexer::processIfndef()
-{
-    bool inSkip = m_skipping[ m_ifLevel ];
-
-    if( testIfLevel() ){
-	m_trueTest[ m_ifLevel ] = !macroDefined();
-	m_skipping[ m_ifLevel ] = inSkip ? inSkip : !m_trueTest[ m_ifLevel ];
-    }
-}
-
 typedef std::pair<QString, int> Dependency;
 
 struct DependencyClosure
@@ -883,7 +810,7 @@ struct header :
 } header_g;
 
 void Lexer::processInclude() {
-  if( !m_skipping[m_ifLevel] )
+  if( !m_preprocessor.inSkip())
     m_source.parse( gr_whiteSpaces >>
 		    header_g
 		    [boost::bind( &Lexer::addDependence, this, _1)]

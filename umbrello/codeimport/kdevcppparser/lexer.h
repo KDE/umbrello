@@ -236,7 +236,6 @@ private:
   void reset();
 
   // preprocessor (based on an article of Al Stevens on Dr.Dobb's journal)
-  int testIfLevel();
   int macroDefined();
   QString readArgument();
 
@@ -254,12 +253,6 @@ private:
 
   void handleDirective( const QString& directive );
   void processDefine( Macro& macro );
-  void processElse();
-  void processElif();
-  void processEndif();
-  void processIf();
-  void processIfdef();
-  void processIfndef();
   void processInclude();
   void processUndef();
 
@@ -340,10 +333,52 @@ private:
 
   bool m_skipWordsEnabled;
 
-  // preprocessor
-  Q3MemArray<bool> m_skipping;
-  Q3MemArray<bool> m_trueTest;
-  int m_ifLevel;
+  /** Manages skipping. */
+  class Preprocessor {
+  public:
+    void decrement() {
+      m_skipping.pop_back();
+      m_trueTest.pop_back();
+    }
+    bool empty() const {return m_skipping.empty();}
+    bool inSkip() const {return (!empty() && m_skipping.back());}
+    void processElse()
+    {m_skipping.back() = previousInSkip() || m_trueTest.back();}
+    void processElif( bool p_test) {
+      if( m_trueTest.back())
+	m_skipping.back() = true;
+      else {
+	/// @todo implement the correct semantic for elif!!
+	m_trueTest.back() = p_test;
+	m_skipping.back() = previousInSkip() || !p_test;
+      }
+    }
+    void processIf( bool p_test) {
+      if( increment()) {
+	m_trueTest.back() = p_test;
+	m_skipping.back() = inSkip() ? true : !m_trueTest.back();
+      }
+    }
+
+    void reset();
+  private:
+    bool increment() {
+      bool l_return = false;
+      if( empty())
+	l_return = true;
+      else
+	l_return = !m_skipping.back();
+      m_skipping.push_back( !l_return);
+      m_trueTest.push_back( false);
+      return l_return;
+    }
+    bool previousInSkip() const
+    {return ((m_skipping.size() > 1) && *(++m_skipping.rbegin()));}
+
+    std::vector<bool> m_skipping;
+    std::vector<bool> m_trueTest;
+  };
+  Preprocessor m_preprocessor;
   bool m_preprocessorEnabled;
   bool m_inPreproc;
 private:
