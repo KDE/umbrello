@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,18 +13,18 @@
 #include "classgenpage.h"
 
 // qt includes
-#include <qlayout.h>
+#include <QtGui/QLayout>
 #include <q3groupbox.h>
-#include <qlabel.h>
-#include <qlineedit.h>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
 #include <q3buttongroup.h>
 #include <q3multilineedit.h>
-#include <qradiobutton.h>
-#include <qcheckbox.h>
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
+#include <QtGui/QRadioButton>
+#include <QtGui/QCheckBox>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
 
 // kde includes
 #include <klocale.h>
@@ -34,23 +34,24 @@
 #include <klineedit.h>
 
 // my class includes
-#include "../umlobject.h"
-#include "../objectwidget.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../artifact.h"
-#include "../component.h"
-#include "../umlview.h"
-#include "../stereotype.h"
-#include "../umlpackagelist.h"
-#include "../umllistviewitem.h"
-#include "../umllistview.h"
-#include "../model_utils.h"
-#include "../package.h"
-#include "../folder.h"
-#include "../codeimport/import_utils.h"
+#include "umlobject.h"
+#include "objectwidget.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "artifact.h"
+#include "component.h"
+#include "umlview.h"
+#include "stereotype.h"
+#include "umlpackagelist.h"
+#include "umllistviewitem.h"
+#include "umllistview.h"
+#include "model_utils.h"
+#include "package.h"
+#include "folder.h"
+#include "codeimport/import_utils.h"
 
-ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(parent) {
+ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(parent)
+{
     m_pWidget = 0;
     m_pObject = 0;
     m_pInstanceWidget = 0;
@@ -152,7 +153,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     }
 
     if (t == Uml::ot_Component) {
-        m_pExecutableCB = new QCheckBox(i18n("&Executable"), this);
+        m_pExecutableCB = new QCheckBox(i18nc("component is executable", "&Executable"), this);
         m_pExecutableCB->setChecked( (static_cast<UMLComponent*>(o))->getExecutable() );
         m_pNameLayout->addWidget( m_pExecutableCB, 3, 0 );
     }
@@ -164,7 +165,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
         drawAsLayout->setMargin(margin);
         m_pDrawAsBG->setExclusive(true);
 
-        m_pDefaultRB = new QRadioButton(i18n("&Default"), m_pDrawAsBG);
+        m_pDefaultRB = new QRadioButton(i18nc("draw as default", "&Default"), m_pDrawAsBG);
         drawAsLayout->addWidget(m_pDefaultRB);
 
         m_pFileRB = new QRadioButton(i18n("&File"), m_pDrawAsBG);
@@ -191,20 +192,19 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
         }
     }
 
-
     //setup scope
     m_pButtonBG = new Q3ButtonGroup(i18n("Visibility"), this);
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pButtonBG);
     scopeLayout -> setMargin(margin);
     m_pButtonBG -> setExclusive(true);
 
-    m_pPublicRB = new QRadioButton(i18n("P&ublic"), m_pButtonBG);
+    m_pPublicRB = new QRadioButton(i18nc("public visibility", "P&ublic"), m_pButtonBG);
     scopeLayout -> addWidget(m_pPublicRB);
 
-    m_pPrivateRB = new QRadioButton(i18n("P&rivate"), m_pButtonBG);
+    m_pPrivateRB = new QRadioButton(i18nc("private visibility", "P&rivate"), m_pButtonBG);
     scopeLayout -> addWidget(m_pPrivateRB);
 
-    m_pProtectedRB = new QRadioButton(i18n("Pro&tected"), m_pButtonBG);
+    m_pProtectedRB = new QRadioButton(i18nc("protected visibility", "Pro&tected"), m_pButtonBG);
     scopeLayout -> addWidget(m_pProtectedRB);
     topLayout -> addWidget(m_pButtonBG);
 
@@ -227,19 +227,19 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     m_pClassNameLE -> setText(o -> getName());
     m_pDoc-> setText(o -> getDoc());
     Uml::Visibility s = o -> getVisibility();
-    if(s == Uml::Visibility::Public)
+    if (s == Uml::Visibility::Public)
         m_pPublicRB->setChecked(true);
-    else if(s == Uml::Visibility::Private)
+    else if (s == Uml::Visibility::Private)
         m_pPrivateRB->setChecked(true);
-    else if(s == Uml::Visibility::Protected)
+    else if (s == Uml::Visibility::Protected)
           m_pProtectedRB->setChecked(true);
     else
         m_pImplementationRB -> setChecked(true);
 
     // manage stereotypes
-    m_pStereoTypeCB -> setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pStereoTypeCB -> setDuplicatesEnabled(false);  // only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-    insertStereotype (QString(), 0); // an empty stereotype is the default
+    insertStereotype (QString(), 0);  // an empty stereotype is the default
     int defaultStereotype=0;
     bool foundDefaultStereotype = false;
     // start with 1 as first entry is blank string
@@ -261,7 +261,8 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     //////////
 }
 
-ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidget(parent) {
+ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidget(parent) 
+{
     m_pObject = 0;
     m_pInstanceWidget = 0;
     m_pWidget = o;
@@ -298,13 +299,13 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     m_pDrawActorCB -> setChecked( o -> getDrawAsActor() );
     m_pNameLayout -> addWidget( m_pDrawActorCB, 2, 0 );
 
-    if(view -> getType() == Uml::dt_Collaboration) {
+    if (view -> getType() == Uml::dt_Collaboration) {
         m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
         m_pMultiCB -> setChecked(o -> getMultipleInstance());
         m_pNameLayout -> addWidget(m_pMultiCB, 2,1);
         if( m_pDrawActorCB -> isChecked() )
             m_pMultiCB -> setEnabled( false );
-    } else//sequence diagram
+    } else  //sequence diagram
     {
         m_pDeconCB = new QCheckBox(i18n("Show destruction"), this);
         m_pDeconCB->setChecked(o->getShowDestruction());
@@ -321,12 +322,13 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
     m_pDoc-> setText(o -> getDoc());
     docLayout -> addWidget(m_pDoc);
-    m_pObject = 0;//needs to be set to zero
-    if( m_pMultiCB )
+    m_pObject = 0;  //needs to be set to zero
+    if (m_pMultiCB)
         connect( m_pDrawActorCB, SIGNAL( toggled( bool ) ), this, SLOT( slotActorToggled( bool ) ) );
 }
 
-ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWidget(parent) {
+ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWidget(parent)
+{
     m_pWidget = 0;
     m_pObject = 0;
     m_pInstanceWidget = widget;
@@ -387,7 +389,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     m_pObject = 0;//needs to be set to zero
 }
 
-ClassGenPage::~ClassGenPage() {}
+ClassGenPage::~ClassGenPage() 
+{
+}
 
 void ClassGenPage::insertStereotype( const QString& type, int index )
 {
@@ -395,13 +399,14 @@ void ClassGenPage::insertStereotype( const QString& type, int index )
     m_pStereoTypeCB->completionObject()->addItem( type );
 }
 
-void ClassGenPage::updateObject() {
-    if(m_pObject) {
+void ClassGenPage::updateObject()
+{
+    if (m_pObject) {
         QString name = m_pClassNameLE -> text();
 
         m_pObject -> setDoc(m_pDoc -> text());
 
-        if(m_pStereoTypeCB)
+        if (m_pStereoTypeCB)
             m_pObject -> setStereotype(m_pStereoTypeCB->currentText());
 
         Uml::Object_Type t = m_pObject->getBaseType();
@@ -424,12 +429,12 @@ void ClassGenPage::updateObject() {
                            newLVParent);
         }
 
-        if( m_pAbstractCB )
+        if ( m_pAbstractCB )
             m_pObject -> setAbstract( m_pAbstractCB -> isChecked() );
 
          //make sure unique name
          UMLObject *o = m_pUmldoc -> findUMLObject(name);
-         if(o && m_pObject != o) {
+         if (o && m_pObject != o) {
              KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
                                 i18n("Name is Not Unique"), false);
              m_pClassNameLE -> setText( m_pObject -> getName() );
@@ -465,18 +470,18 @@ void ClassGenPage::updateObject() {
         }
 
     }//end if m_pObject
-    else if(m_pWidget) {
+    else if (m_pWidget) {
         m_pWidget -> setInstanceName(m_pInstanceLE -> text());
-        if(m_pMultiCB)
+        if (m_pMultiCB)
             m_pWidget -> setMultipleInstance(m_pMultiCB -> isChecked());
         m_pWidget -> setDrawAsActor( m_pDrawActorCB -> isChecked() );
-        if( m_pDeconCB )
+        if (m_pDeconCB)
             m_pWidget -> setShowDestruction( m_pDeconCB -> isChecked() );
         QString name = m_pClassNameLE -> text();
         m_pWidget -> setDoc(m_pDoc -> text());
         UMLObject * o = m_pWidget -> getUMLObject();
         UMLObject * old = m_pUmldoc -> findUMLObject(name);
-        if(old && o != old) {
+        if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
                                i18n("Name is Not Unique"), false);
         } else
@@ -487,7 +492,7 @@ void ClassGenPage::updateObject() {
         m_pInstanceWidget->setDoc(m_pDoc->text());
         UMLObject* o = m_pInstanceWidget->getUMLObject();
         UMLObject* old = m_pUmldoc->findUMLObject(name);
-        if(old && o != old) {
+        if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
                                i18n("Name is Not Unique"), false);
         } else {
@@ -497,11 +502,10 @@ void ClassGenPage::updateObject() {
     }
 }
 
-void ClassGenPage::slotActorToggled( bool state ) {
-    if( m_pMultiCB )
+void ClassGenPage::slotActorToggled( bool state )
+{
+    if (m_pMultiCB)
         m_pMultiCB -> setEnabled( !state );
 }
-
-
 
 #include "classgenpage.moc"

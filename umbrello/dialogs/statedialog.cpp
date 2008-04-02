@@ -19,6 +19,7 @@
 #include <QtGui/QGridLayout>
 #include <q3multilineedit.h>
 #include <q3groupbox.h>
+
 //kde includes
 #include <kvbox.h>
 #include <klineedit.h>
@@ -26,10 +27,10 @@
 #include <kfontdialog.h>
 
 //local includes
-#include "../umlview.h"
-#include "../statewidget.h"
-#include "../dialog_utils.h"
-#include "../icon_utils.h"
+#include "umlview.h"
+#include "statewidget.h"
+#include "dialog_utils.h"
+#include "icon_utils.h"
 
 
 StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
@@ -60,7 +61,8 @@ void StateDialog::slotOk()
     accept();
 }
 
-void StateDialog::slotApply() {
+void StateDialog::slotApply()
+{
     applyPage( currentPage() );
 }
 
@@ -98,11 +100,13 @@ void StateDialog::applyPage( KPageWidgetItem*item )
 
 void StateDialog::setupGeneralPage()
 {
-    QString types[ ] = { i18n("Initial state"), i18n("State"), i18n("End state") };
+    QString types[ ] = { i18nc("initial state in statechart", "Initial state"),
+                         i18nc("state in statechart", "State"),
+                         i18nc("end state in statechart", "End state") };
     StateWidget::StateType type = m_pStateWidget -> getStateType();
 
     KVBox * page = new KVBox();
-    pageGeneral = new KPageWidgetItem( page,i18n("General")  );
+    pageGeneral = new KPageWidgetItem( page, i18nc("general page", "General")  );
     pageGeneral->setHeader( i18n("General Properties") );
     pageGeneral->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageGeneral );
@@ -155,7 +159,7 @@ void StateDialog::setupFontPage()
 void StateDialog::setupColorPage()
 {
     QFrame * colorPage = new QFrame();
-    pageColor = new KPageWidgetItem( colorPage,i18n("Color")  );
+    pageColor = new KPageWidgetItem( colorPage, i18nc("color page", "Color")  );
     pageColor->setHeader( i18n("Widget Color") );
     pageColor->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
     addPage( pageColor );

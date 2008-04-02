@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,18 +13,17 @@
 #include "umloperationdialog.h"
 
 //qt includes
-#include <qlayout.h>
+#include <QtGui/QLayout>
 #include <q3groupbox.h>
 #include <q3listbox.h>
 #include <q3buttongroup.h>
-#include <qpushbutton.h>
-#include <qradiobutton.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
+#include <QtGui/QPushButton>
+#include <QtGui/QRadioButton>
+#include <QtGui/QLabel>
+#include <QtGui/QCheckBox>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
 
 //kde includes
 #include <klineedit.h>
@@ -36,22 +35,23 @@
 #include <karrowbutton.h>
 
 //app includes
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../operation.h"
-#include "../classifier.h"
-#include "../template.h"
-#include "../listpopupmenu.h"
-#include "../umlattributelist.h"
-#include "../classifierlistitem.h"
-#include "../umlclassifierlistitemlist.h"
-#include "../dialog_utils.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "operation.h"
+#include "classifier.h"
+#include "template.h"
+#include "listpopupmenu.h"
+#include "umlattributelist.h"
+#include "classifierlistitem.h"
+#include "umlclassifierlistitemlist.h"
+#include "dialog_utils.h"
 #include "parmpropdlg.h"
-#include "../stereotype.h"
-#include "../uniqueid.h"
+#include "stereotype.h"
+#include "uniqueid.h"
 
 UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation )
-        : KDialog( parent) {
+        : KDialog( parent) 
+{
     setCaption( i18n("Operation Properties") );
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Ok );
@@ -66,9 +66,12 @@ UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperat
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
-UMLOperationDialog::~UMLOperationDialog() {}
+UMLOperationDialog::~UMLOperationDialog()
+{
+}
 
-void UMLOperationDialog::setupDialog() {
+void UMLOperationDialog::setupDialog()
+{
     QFrame *frame = new QFrame( this );
     setMainWidget( frame );
     int margin = fontMetrics().height();
@@ -84,7 +87,7 @@ void UMLOperationDialog::setupDialog() {
     genLayout -> setSpacing(10);
 
     Dialog_Utils::makeLabeledEditField( m_pGenGB, genLayout, 0,
-                                    m_pNameL, i18n("&Name:"),
+                                    m_pNameL, i18nc("operation name", "&Name:"),
                                     m_pNameLE, m_pOperation->getName() );
 
     m_pRtypeL = new QLabel(i18n("&Type:"), m_pGenGB );
@@ -116,13 +119,13 @@ void UMLOperationDialog::setupDialog() {
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeBG);
     scopeLayout -> setMargin(margin);
 
-    m_pPublicRB = new QRadioButton(i18n("P&ublic"), m_pScopeBG);
+    m_pPublicRB = new QRadioButton(i18nc("public visibility", "P&ublic"), m_pScopeBG);
     scopeLayout -> addWidget(m_pPublicRB);
 
-    m_pPrivateRB = new QRadioButton(i18n("P&rivate"), m_pScopeBG);
+    m_pPrivateRB = new QRadioButton(i18nc("private visibility", "P&rivate"), m_pScopeBG);
     scopeLayout -> addWidget(m_pPrivateRB);
 
-    m_pProtectedRB = new QRadioButton(i18n("Prot&ected"), m_pScopeBG);
+    m_pProtectedRB = new QRadioButton(i18nc("protected visibility", "Prot&ected"), m_pScopeBG);
     scopeLayout -> addWidget(m_pProtectedRB);
 
     m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeBG);
@@ -259,14 +262,12 @@ void UMLOperationDialog::setupDialog() {
     connect(m_pParmsLB, SIGNAL(rightButtonClicked(Q3ListBoxItem *, const QPoint &)),
             this, SLOT(slotParmRightButtonClicked(Q3ListBoxItem *, const QPoint &)));
 
-
     connect(m_pParmsLB, SIGNAL(doubleClicked(Q3ListBoxItem *)),
             this, SLOT(slotParmDoubleClick(Q3ListBoxItem *)));
 
     m_pNameLE->setFocus();
     connect( m_pNameLE, SIGNAL( textChanged ( const QString & ) ), SLOT( slotNameChanged( const QString & ) ) );
     slotNameChanged( m_pNameLE->text() );
-
 }
 
 void UMLOperationDialog::slotNameChanged( const QString &_text )
@@ -274,8 +275,8 @@ void UMLOperationDialog::slotNameChanged( const QString &_text )
     enableButtonOk( !_text.isEmpty() );
 }
 
-
-void UMLOperationDialog::slotParmRightButtonPressed(Q3ListBoxItem *item, const QPoint &p) {
+void UMLOperationDialog::slotParmRightButtonPressed(Q3ListBoxItem *item, const QPoint &p)
+{
     ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
     if (item)//pressed on an item
     {
@@ -293,10 +294,10 @@ void UMLOperationDialog::slotParmRightButtonPressed(Q3ListBoxItem *item, const Q
     m_pMenu = new ListPopupMenu(this, type);
     m_pMenu->popup(p);
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotParmPopupMenuSel(QAction*)));
-
 }
 
-void UMLOperationDialog::slotParmRightButtonClicked(Q3ListBoxItem *item, const QPoint &p) {
+void UMLOperationDialog::slotParmRightButtonClicked(Q3ListBoxItem *item, const QPoint &p)
+{
     Q_UNUSED(item)
     Q_UNUSED(p)
 
@@ -308,7 +309,8 @@ void UMLOperationDialog::slotParmRightButtonClicked(Q3ListBoxItem *item, const Q
     }
 }
 
-void UMLOperationDialog::slotParmDoubleClick(Q3ListBoxItem *item) {
+void UMLOperationDialog::slotParmDoubleClick(Q3ListBoxItem *item)
+{
     if (!item)
         return;
     if (m_pMenu) {
@@ -317,7 +319,8 @@ void UMLOperationDialog::slotParmDoubleClick(Q3ListBoxItem *item) {
     }
 }
 
-void UMLOperationDialog::slotParmPopupMenuSel(QAction* action) {
+void UMLOperationDialog::slotParmPopupMenuSel(QAction* action)
+{
     ListPopupMenu::Menu_Type id = m_pMenu->getMenuType(action);
     if( id == ListPopupMenu::mt_Rename || id == ListPopupMenu::mt_Properties ) {
         slotParameterProperties();
@@ -329,7 +332,8 @@ void UMLOperationDialog::slotParmPopupMenuSel(QAction* action) {
     }
 }
 
-void UMLOperationDialog::slotNewParameter() {
+void UMLOperationDialog::slotNewParameter()
+{
     int result = 0;
     UMLAttribute* pAtt = 0;
 
@@ -340,14 +344,14 @@ void UMLOperationDialog::slotNewParameter() {
     result = dlg.exec();
     QString name = dlg.getName();
     pAtt = m_pOperation -> findParm( name );
-    if( result ) {
-        if( name.length() == 0 ) {
+    if ( result ) {
+        if ( name.length() == 0 ) {
             KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
                                i18n("Parameter Name Invalid"), false);
             delete newAttribute;
             return;
         }
-        if( !pAtt ) {
+        if ( !pAtt ) {
             newAttribute->setID( UniqueID::gen() );
             newAttribute->setName( name );
             newAttribute->setTypeName( dlg.getTypeName() );
@@ -367,7 +371,8 @@ void UMLOperationDialog::slotNewParameter() {
     }
 }
 
-void UMLOperationDialog::slotDeleteParameter() {
+void UMLOperationDialog::slotDeleteParameter()
+{
     UMLAttribute* pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
 
     m_pOperation->removeParm( pOldAtt );
@@ -380,12 +385,13 @@ void UMLOperationDialog::slotDeleteParameter() {
     m_pDownButton->setEnabled(false);
 }
 
-void UMLOperationDialog::slotParameterProperties() {
+void UMLOperationDialog::slotParameterProperties()
+{
     int result = 0;
     UMLAttribute* pAtt = 0, * pOldAtt = 0;
     pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
 
-    if( !pOldAtt ) {
+    if ( !pOldAtt ) {
         uDebug() << "THE impossible has occurred for:" << m_pParmsLB->currentText();
         return;
     }//should never occur
@@ -393,8 +399,8 @@ void UMLOperationDialog::slotParameterProperties() {
     result = dlg.exec();
     QString name = dlg.getName();
     pAtt = m_pOperation->findParm( name );
-    if( result ) {
-        if( name.length() == 0 ) {
+    if ( result ) {
+        if ( name.length() == 0 ) {
             KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
                                i18n("Parameter Name Invalid"), false);
             return;
@@ -433,7 +439,7 @@ void UMLOperationDialog::slotParameterProperties() {
 
 void UMLOperationDialog::slotParameterUp()
 {
-    uDebug() ;
+    uDebug();
     UMLAttribute* pOldAtt = m_pOperation->findParm( m_pParmsLB->currentText() );
 
     m_pOperation->moveParmLeft( pOldAtt );
@@ -457,7 +463,8 @@ void UMLOperationDialog::slotParameterDown()
     slotParamsBoxClicked( m_pParmsLB->selectedItem() );
 }
 
-void UMLOperationDialog::slotParamsBoxClicked(Q3ListBoxItem* parameterItem) {
+void UMLOperationDialog::slotParamsBoxClicked(Q3ListBoxItem* parameterItem)
+{
     if (parameterItem) {
         m_pDeleteButton->setEnabled(true);
         m_pPropertiesButton->setEnabled(true);
@@ -527,11 +534,13 @@ bool UMLOperationDialog::apply()
     return true;
 }
 
-void UMLOperationDialog::slotApply() {
+void UMLOperationDialog::slotApply()
+{
     apply();
 }
 
-void UMLOperationDialog::slotOk() {
+void UMLOperationDialog::slotOk() 
+{
     if ( apply() ) {
         accept();
     }

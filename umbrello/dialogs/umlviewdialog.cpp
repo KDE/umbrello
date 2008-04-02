@@ -31,10 +31,10 @@
 #include <kvbox.h>
 
 // local includes
-#include "../umlview.h"
-#include "../umldoc.h"
-#include "../uml.h"
-#include "../icon_utils.h"
+#include "umlview.h"
+#include "umldoc.h"
+#include "uml.h"
+#include "icon_utils.h"
 
 
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView )
@@ -82,7 +82,7 @@ void UMLViewDialog::setupPages()
 void UMLViewDialog::setupDiagramPropertiesPage()
 {
     KVBox *page = new KVBox();
-    pageGeneralItem = new KPageWidgetItem( page, i18n("General") );
+    pageGeneralItem = new KPageWidgetItem( page, i18nc("general settings page", "General") );
     pageGeneralItem->setHeader( i18n("General Settings") );
     pageGeneralItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageGeneralItem);
@@ -105,11 +105,11 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 
 void UMLViewDialog::setupClassPage()
 {
-    if( m_pView -> getType() != Uml::dt_Class ) {
+    if ( m_pView -> getType() != Uml::dt_Class ) {
         return;
     }
     QFrame * newPage = new QFrame();
-    pageDisplayItem = new KPageWidgetItem( newPage,i18n("Display") );
+    pageDisplayItem = new KPageWidgetItem( newPage, i18nc("classes display options page", "Display") );
     pageDisplayItem->setHeader( i18n("Classes Display Options") );
     pageDisplayItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Display) );
     addPage( pageDisplayItem);
@@ -122,7 +122,7 @@ void UMLViewDialog::setupClassPage()
 void UMLViewDialog::setupColorPage()
 {
     QFrame * colorPage = new QFrame();
-    pageColorItem = new KPageWidgetItem( colorPage, i18n("Color") );
+    pageColorItem = new KPageWidgetItem( colorPage, i18nc("diagram colors page", "Color") );
     pageColorItem->setHeader( i18n("Diagram Colors") );
     pageColorItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
     addPage( pageColorItem);
@@ -173,7 +173,7 @@ void UMLViewDialog::applyPage( KPageWidgetItem*item )
     }
     else if ( item == pageDisplayItem )
     {
-        if( m_pView->getType() != Uml::dt_Class ) {
+        if ( m_pView->getType() != Uml::dt_Class ) {
             return;
         }
         m_pOptionsPage->updateUMLWidget();
@@ -193,13 +193,13 @@ void UMLViewDialog::checkName()
     QString name = m_diagramProperties->diagramName-> text();
     UMLDoc * pDoc = UMLApp::app()-> getDocument();
     UMLView * pView = pDoc -> findView( m_pView -> getType(), name );
-    if( name.length() == 0 ) {
+    if ( name.length() == 0 ) {
         KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
                            i18n("Invalid Name"), false);
         m_diagramProperties->diagramName->setText( m_pView->getName() );
         return;
     }
-    if( pView && pView != m_pView ) {
+    if ( pView && pView != m_pView ) {
         KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
                            i18n("Name Not Unique"), false);
         m_diagramProperties->diagramName->setText( m_pView->getName() );

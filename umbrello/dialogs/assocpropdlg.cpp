@@ -28,13 +28,12 @@
 #include "classpropdlg.h"
 #include "classgenpage.h"
 #include "umlwidgetcolorpage.h"
-
-#include "../umlobject.h"
-#include "../umldoc.h"
-#include "../objectwidget.h"
-#include "../uml.h"
-#include "../umlview.h"
-#include "../icon_utils.h"
+#include "umlobject.h"
+#include "umldoc.h"
+#include "objectwidget.h"
+#include "uml.h"
+#include "umlview.h"
+#include "icon_utils.h"
 
 
 AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
@@ -98,7 +97,7 @@ void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
 {
     // general page
     QFrame *page = new QFrame();
-    KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18n("General"));
+    KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18nc("general settings", "General"));
     pageItem->setHeader( i18n("General Settings") );
     pageItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageItem );

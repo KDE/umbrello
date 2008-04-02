@@ -23,10 +23,10 @@
 #include <klocale.h>
 
 //local includes
-#include "../umlview.h"
-#include "../activitywidget.h"
-#include "../dialog_utils.h"
-#include "../icon_utils.h"
+#include "umlview.h"
+#include "activitywidget.h"
+#include "dialog_utils.h"
+#include "icon_utils.h"
 
 
 ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
@@ -125,7 +125,7 @@ void ActivityDialog::setupGeneralPage()
     ActivityWidget::ActivityType type = m_pActivityWidget -> getActivityType();
 
     KVBox *page = new KVBox();
-    pageItemGeneral = new KPageWidgetItem( page, i18n("General") );
+    pageItemGeneral = new KPageWidgetItem( page, i18nc("general properties page", "General") );
     pageItemGeneral->setHeader(i18n("General Properties"));
     pageItemGeneral->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageItemGeneral );
@@ -194,7 +194,7 @@ void ActivityDialog::setupGeneralPage()
     m_GenPageWidgets.docMLE -> setText( m_pActivityWidget -> getDoc() );
     docLayout -> addWidget( m_GenPageWidgets.docMLE );
 
-    if( type != ActivityWidget::Normal && type != ActivityWidget::Invok && type != ActivityWidget::Param) {
+    if ( type != ActivityWidget::Normal && type != ActivityWidget::Invok && type != ActivityWidget::Param) {
         m_GenPageWidgets.nameLE -> setEnabled( false );
         m_GenPageWidgets.nameLE -> setText( "" );
     } else
@@ -231,7 +231,7 @@ void ActivityDialog::showParameterActivity()
 void ActivityDialog::setupColorPage()
 {
     QFrame *colorPage = new QFrame();
-    pageItemColor = new KPageWidgetItem( colorPage, i18n("Color") );
+    pageItemColor = new KPageWidgetItem( colorPage, i18nc("widget color page", "Color") );
     pageItemColor->setHeader( i18n("Widget Colors") );
     pageItemColor->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
     addPage( pageItemColor );

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,11 +13,11 @@
 #include "diagramprintpage.h"
 
 // qt/kde includes
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <qlayout.h>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QLayout>
 #include <q3listbox.h>
-#include <qradiobutton.h>
+#include <QtGui/QRadioButton>
 #include <q3buttongroup.h>
 #include <q3groupbox.h>
 
@@ -64,7 +64,7 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(
     filter -> addWidget(m_pTypeRB);
     m_pFilterBG -> insert(m_pTypeRB, Type);
 
-    m_pSelectGB = new Q3GroupBox(i18n("Selection"), this);
+    m_pSelectGB = new Q3GroupBox(i18nc("diagram selection for printing", "Selection"), this);
     mainLayout -> addWidget(m_pSelectGB);
 
     QVBoxLayout * select = new QVBoxLayout(m_pSelectGB);

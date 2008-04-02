@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,24 +13,24 @@
 #include "parmpropdlg.h"
 
 // qt includes
-#include <QLayout>
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
 
 // kde includes
 #include <klocale.h>
 #include <kdebug.h>
 
 // local includes
-#include "../classifier.h"
-#include "../umltemplatelist.h"
-#include "../template.h"
-#include "../umldoc.h"
-#include "../dialog_utils.h"
-#include "../object_factory.h"
-#include "../stereotype.h"
+#include "classifier.h"
+#include "umltemplatelist.h"
+#include "template.h"
+#include "umldoc.h"
+#include "dialog_utils.h"
+#include "object_factory.h"
+#include "stereotype.h"
 
 #include "parmpropdlg.moc"
 
@@ -76,7 +76,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 1,
-                                    m_pNameL, i18n("&Name:"),
+                                    m_pNameL, i18nc("property name", "&Name:"),
                                     m_pNameLE, name );
 
     Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 2,
@@ -214,7 +214,8 @@ void ParmPropDlg::insertStereotype( const QString& type, int index )
     m_pStereoTypeCB->completionObject()->addItem( type );
 }
 
-Uml::Parameter_Direction ParmPropDlg::getParmKind() {
+Uml::Parameter_Direction ParmPropDlg::getParmKind()
+{
     Uml::Parameter_Direction pk = Uml::pd_In;
     if (m_pOut->isChecked())
         pk = Uml::pd_Out;
@@ -223,7 +224,8 @@ Uml::Parameter_Direction ParmPropDlg::getParmKind() {
     return pk;
 }
 
-void ParmPropDlg::slotOk() {
+void ParmPropDlg::slotOk()
+{
     if (m_pAtt != NULL) {
         m_pAtt->setParmKind( getParmKind() );
         m_pAtt->setStereotype( m_pStereoTypeCB->currentText() );
@@ -264,5 +266,7 @@ void ParmPropDlg::slotOk() {
     accept();
 }
 
-ParmPropDlg::~ParmPropDlg() {}
+ParmPropDlg::~ParmPropDlg()
+{
+}
 

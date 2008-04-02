@@ -13,13 +13,12 @@
 #include "umltemplatedialog.h"
 
 // qt includes
-#include <qlayout.h>
+#include <QtGui/QLayout>
 #include <q3groupbox.h>
-#include <qcombobox.h>
-#include <qlabel.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <QGridLayout>
+#include <QtGui/QComboBox>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QGridLayout>
 
 // kde includes
 #include <klineedit.h>
@@ -29,14 +28,15 @@
 #include <kdebug.h>
 
 // app includes
-#include "../template.h"
-#include "../classifier.h"
-#include "../umldoc.h"
-#include "../uml.h"
-#include "../dialog_utils.h"
+#include "template.h"
+#include "classifier.h"
+#include "umldoc.h"
+#include "uml.h"
+#include "dialog_utils.h"
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
-        : KDialog( pParent) {
+        : KDialog( pParent)
+{
     m_pTemplate = pTemplate;
     setCaption( i18n("Template Properties") );
     setButtons( Help | Ok | Cancel );
@@ -48,9 +48,12 @@ UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
-UMLTemplateDialog::~UMLTemplateDialog() {}
+UMLTemplateDialog::~UMLTemplateDialog()
+{
+}
 
-void UMLTemplateDialog::setupDialog() {
+void UMLTemplateDialog::setupDialog()
+{
     int margin = fontMetrics().height();
 
     QFrame *frame = new QFrame( this );
@@ -70,7 +73,7 @@ void UMLTemplateDialog::setupDialog() {
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
-                                    m_pNameL, i18n("&Name:"),
+                                    m_pNameL, i18nc("template name", "&Name:"),
                                     m_pNameLE, m_pTemplate->getName() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
@@ -120,7 +123,8 @@ void UMLTemplateDialog::insertType( const QString& type, int index )
     m_pTypeCB->completionObject()->addItem( type );
 }
 
-bool UMLTemplateDialog::apply() {
+bool UMLTemplateDialog::apply()
+{
     QString typeName = m_pTypeCB->currentText();
     UMLDoc *pDoc = UMLApp::app()->getDocument();
     UMLClassifierList namesList( pDoc->getConcepts() );
@@ -159,11 +163,13 @@ bool UMLTemplateDialog::apply() {
     return true;
 }
 
-void UMLTemplateDialog::slotApply() {
+void UMLTemplateDialog::slotApply()
+{
     apply();
 }
 
-void UMLTemplateDialog::slotOk() {
+void UMLTemplateDialog::slotOk()
+{
     if ( apply() ) {
         accept();
     }
