@@ -422,12 +422,7 @@ void Lexer::nextToken( Token& tk)
     handleDirective( directive );
   } else if( m_source.get_startLine() && m_preprocessor.inSkip()) {
     // skip line and continue
-    m_source.set_startLine( false);
-    bool ppe = m_preprocessorEnabled;
-    m_preprocessorEnabled = false;
     m_source.parse( gr_skipTillEol);
-    m_source.set_startLine( true);
-    m_preprocessorEnabled = ppe;
     return;
   } else if( m_source.parse
 	     (
@@ -679,7 +674,6 @@ QString Lexer::readArgument()
 
 	Token tk;
 	nextToken( tk );
-
 	if( tk == '(' ){
 	    ++count;
 	} else if( tk == ')' ){
@@ -733,12 +727,7 @@ void Lexer::handleDirective( const QString& directive )
   }
 
   // skip line
-  while( !m_source.currentChar().isNull()
-	 && m_source.currentChar() != '\n'
-	 && m_source.currentChar() != '\r') {
-    Token tk;
-    nextToken( tk);
-  }
+  m_source.parse( gr_skipTillEol);
 
   m_skipWordsEnabled = skip;
   m_preprocessorEnabled = preproc;
