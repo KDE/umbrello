@@ -86,7 +86,7 @@ void Driver::setSourceProvider( SourceProvider* sourceProvider )
 void Driver::reset( )
 {
     m_dependences.clear();
-    m_macros.clear();
+  m_macroManager.reset();
     m_problems.clear();
     m_includePaths.clear();
 
@@ -98,27 +98,19 @@ void Driver::reset( )
     m_parsedUnits.clear();
 }
 
-void Driver::remove( const QString & fileName )
-{
-    m_dependences.remove( fileName );
-    m_problems.remove( fileName );
-    removeAllMacrosInFile( fileName );
-
-    QMap<QString, TranslationUnitAST*>::Iterator it = m_parsedUnits.find( fileName );
-    if( it != m_parsedUnits.end() ){
-	TranslationUnitAST* unit = *it;
-	m_parsedUnits.erase( it );
-	delete( unit );
+void Driver::MacroManager::reset() {
+  m_macros.clear();
     }
-}
 
-void Driver::removeAllMacrosInFile( const QString& fileName )
+void Driver::MacroManager::removeAllMacrosInFile( const QString& fileName )
 {
-    QMap<QString, Macro>::Iterator it = m_macros.begin();
-    while( it != m_macros.end() ){
-        Macro m = *it++;
-        if( m.fileName() == fileName )
-            removeMacro( m.name() );
+  /** \todo use a find */
+  MacroMap::iterator l_it = m_macros.begin();
+  while( l_it != m_macros.end() ){
+    if( l_it->second.fileName() == fileName )
+      m_macros.erase( l_it);
+    else
+      ++l_it;
     }
 }
 
@@ -126,7 +118,6 @@ TranslationUnitAST::Node Driver::takeTranslationUnit( const QString& fileName )
 {
     QMap<QString, TranslationUnitAST*>::Iterator it = m_parsedUnits.find( fileName );
     TranslationUnitAST::Node unit( *it );
-    //m_parsedUnits.remove( it );
     m_parsedUnits[ fileName] = 0;
     return unit;
 }
@@ -167,10 +158,8 @@ void Driver::addDependence( const QString & fileName, const Dependence & dep )
     lexer = l;
 }
 
-void Driver::addMacro( const Macro & macro )
-{
-    m_macros.insert( macro.name(), macro );
-}
+void Driver::MacroManager::addMacro( const Macro & macro )
+{m_macros.insert( MacroMap::value_type( macro.name(), macro));}
 
 void Driver::addProblem( const QString & fileName, const Problem & problem )
 {
@@ -207,10 +196,8 @@ QMap< QString, Dependence > Driver::dependences( const QString & fileName ) cons
     return QMap<QString, Dependence>();
 }
 
-QMap< QString, Macro > Driver::macros() const
-{
-    return m_macros;
-}
+Driver::MacroMap const& Driver::MacroManager::macros() const
+{return m_macros;}
 
 Q3ValueList < Problem > Driver::problems( const QString & fileName ) const
 {
@@ -389,10 +376,8 @@ void Driver::setupParser( Parser * parser )
     Q_UNUSED( parser );
 }
 
-void Driver::removeMacro( const QString& macroName )
-{
-    m_macros.remove( macroName );
-}
+void Driver::MacroManager::removeMacro( const QString& macroName )
+{m_macros.erase( macroName);}
 
 void Driver::addIncludePath( const QString &path )
 {

@@ -236,7 +236,7 @@ private:
   void reset();
 
   // preprocessor (based on an article of Al Stevens on Dr.Dobb's journal)
-  int macroDefined();
+  bool macroDefined();
   QString readArgument();
 
   int macroPrimary();
@@ -252,8 +252,7 @@ private:
   int macroExpression();
 
   void handleDirective( const QString& directive );
-  void processDefine( Macro& macro );
-  void processInclude();
+  void processDefine();
   void processUndef();
 
 private:

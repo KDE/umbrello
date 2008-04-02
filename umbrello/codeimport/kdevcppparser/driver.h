@@ -30,6 +30,9 @@
 //Added by qt3to4:
 #include <Q3ValueList>
 
+#include <list>
+#include <map>
+
 class Lexer;
 class Parser;
 
@@ -91,25 +94,23 @@ class Macro
 {
 public:
     typedef QString Argument;
+  typedef std::list<Argument> ArgumentList;
 
-public:
-    Macro( bool hasArguments = false ): m_hasArguments( hasArguments ) {}
-    Macro( const QString &n, const QString &b ) : m_name( n ), m_body( b ), m_hasArguments( false ) {}
+  Macro() {}
+  Macro( const QString &n, const QString &b ) : m_name( n ), m_body( b ) {}
 
     Macro( const Macro& source )
 	: m_name( source.m_name),
           m_fileName( source.m_fileName ),
 	  m_body( source.m_body ),
-	  m_hasArguments( source.m_hasArguments ),
-	  m_argumentList( source.m_argumentList ) {}
+      m_arguments( source.m_arguments) {}
 
     Macro& operator = ( const Macro& source )
     {
 	m_name = source.m_name;
 	m_body = source.m_body;
         m_fileName = source.m_fileName;
-	m_hasArguments = source.m_hasArguments;
-	m_argumentList = source.m_argumentList;
+    m_arguments = source.m_arguments;
 	return *this;
     }
 
@@ -119,11 +120,10 @@ public:
 	    m_name == source.m_name &&
             m_fileName == source.m_fileName &&
 	    m_body == source.m_body &&
-	    m_hasArguments == source.m_hasArguments &&
-	    m_argumentList == source.m_argumentList;
+      m_arguments == source.m_arguments;
     }
 
-    QString name() const { return m_name; }
+  QString const& name() const {return m_name;}
     void setName( const QString& name ) { m_name = name; }
 
     QString fileName() const { return m_fileName; }
@@ -132,20 +132,17 @@ public:
     QString body() const { return m_body; }
     void setBody( const QString& body ) { m_body = body; }
 
-    bool hasArguments() const { return m_hasArguments; }
-    void setHasArguments( bool hasArguments ) { m_hasArguments = hasArguments; }
-    Q3ValueList<Argument> argumentList() const { return m_argumentList; }
+  bool hasArguments() const { return !m_arguments.empty();}
+  ArgumentList const& arguments() const {return m_arguments;}
 
-    void clearArgumentList() { m_argumentList.clear(); m_hasArguments = false; }
-    void addArgument( const Argument& argument ) { m_argumentList << argument; }
-    void addArgumentList( const Q3ValueList<Argument>& arguments ) { m_argumentList += arguments; }
-
+  void clearArgumentList() {m_arguments.clear();}
+  void push_back( Argument const& argument)
+  {m_arguments.push_back( argument);}
 private:
     QString m_name;
     QString m_fileName;
     QString m_body;
-    bool m_hasArguments;
-    Q3ValueList<Argument> m_argumentList;
+  ArgumentList m_arguments;
 };
 
 class SourceProvider
@@ -164,6 +161,7 @@ private:
 
 class Driver
 {
+  typedef std::map<QString, Macro> MacroMap;
 public:
     Driver();
     virtual ~Driver();
@@ -175,29 +173,23 @@ public:
 
     virtual void parseFile( const QString& fileName, bool onlyPreProcesss=false, bool force=false );
     virtual void fileParsed( const QString& fileName );
-    virtual void remove( const QString& fileName );
-
     virtual void addDependence( const QString& fileName, const Dependence& dep );
-    virtual void addMacro( const Macro& macro );
+  virtual void addMacro( const Macro& macro) {m_macroManager.addMacro( macro);}
     virtual void addProblem( const QString& fileName, const Problem& problem );
-
 
     QString currentFileName() const { return m_currentFileName; }
     TranslationUnitAST::Node takeTranslationUnit( const QString& fileName );
     TranslationUnitAST* translationUnit( const QString& fileName ) const;
     QMap<QString, Dependence> dependences( const QString& fileName ) const;
-    QMap<QString, Macro> macros() const;
+private:
+  MacroMap macros() const {return m_macroManager.macros();}
+public:
     Q3ValueList<Problem> problems( const QString& fileName ) const;
-
-    bool hasMacro( const QString& name ) const { return m_macros.contains( name ); }
-    /* gcc4 says "returning reference to temporary":
-      const Macro& macro( const QString& name ) const { return m_macros[ name ]; }
-     */
-    Macro& macro( const QString& name ) { return m_macros[ name ]; }
-
-    virtual void removeMacro( const QString& macroName );
-    virtual void removeAllMacrosInFile( const QString& fileName );
-
+  bool hasMacro( const QString& name ) const
+  {return m_macroManager.hasMacro( name);}
+  Macro& macro( const QString& name) {return m_macroManager.macro( name);}
+  virtual void removeMacro( const QString& macroName )
+  {m_macroManager.removeMacro( macroName);}
     QStringList includePaths() const { return m_includePaths; }
     virtual void addIncludePath( const QString &path );
 
@@ -218,9 +210,22 @@ private:
     QString findIncludeFile( const Dependence& dep ) const;
 
 private:
+  class MacroManager {
+  public:
+    void addMacro( const Macro& macro);
+    bool hasMacro( const QString& name) const
+    {return (m_macros.find( name) != m_macros.end());}
+    Macro& macro( const QString& name) {return m_macros[ name];}
+    MacroMap const& macros() const;
+    void removeAllMacrosInFile( const QString& fileName);
+    void removeMacro( const QString& macroName);
+    void reset();
+  private:
+    MacroMap m_macros;
+  };
     QString m_currentFileName;
     QMap< QString, QMap<QString, Dependence> > m_dependences;
-    QMap<QString, Macro> m_macros;
+  MacroManager m_macroManager;
     QMap< QString, Q3ValueList<Problem> > m_problems;
     QMap<QString, TranslationUnitAST*> m_parsedUnits;
     QStringList m_includePaths;
