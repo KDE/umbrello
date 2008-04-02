@@ -232,6 +232,9 @@ Lexer::CharRule gr_stringLiteral =
 Lexer::CharRule gr_whiteSpace = blank_p | (ch_p('\\') >> eol_p);
 Lexer::CharRule gr_lineComment = (str_p("//") >> (*(anychar_p - eol_p)));
 Lexer::CharRule gr_multiLineComment = confix_p( "/*", *anychar_p, "*/");
+Lexer::CharRule gr_skipTillEol =
+  *(gr_whiteSpace | gr_lineComment | gr_multiLineComment | charLiteral_g
+    | gr_stringLiteral | (anychar_p - '\\' - eol_p) | (ch_p('\\') >> eol_p));
 
 Token::Token()
   : m_type( -1 ),
@@ -422,12 +425,7 @@ void Lexer::nextToken( Token& tk)
     m_source.set_startLine( false);
     bool ppe = m_preprocessorEnabled;
     m_preprocessorEnabled = false;
-    while( !m_source.currentChar().isNull()
-	   && m_source.currentChar() != '\n'
-	   && m_source.currentChar() != '\r') {
-      Token tok;
-      nextToken( tok);
-    }
+    m_source.parse( gr_skipTillEol);
     m_source.set_startLine( true);
     m_preprocessorEnabled = ppe;
     return;
