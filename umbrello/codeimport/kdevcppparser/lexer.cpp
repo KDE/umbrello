@@ -322,20 +322,20 @@ struct LexerData
 };
 
 Lexer::Lexer( Driver* driver )
-  : d( new LexerData),
+  : m_data( new LexerData),
     m_driver( driver ),
     m_recordComments( false ),
     m_skipWordsEnabled( true ),
     m_preprocessorEnabled( true )
 {
   reset();
-  d->beginScope();
+  m_data->beginScope();
 }
 
 Lexer::~Lexer()
 {
-    d->endScope();
-    delete( d );
+  m_data->endScope();
+  delete m_data;
 }
 
 void Lexer::setSource( const QString& source,
@@ -453,7 +453,7 @@ void Lexer::nextToken( Token& tk)
       bool preproc = m_preprocessorEnabled;
       m_preprocessorEnabled = false;
 
-      d->beginScope();
+      m_data->beginScope();
 
       Position svPosition = currentPosition();
 
@@ -480,7 +480,7 @@ void Lexer::nextToken( Token& tk)
 	    QString arg = readArgument();
 
 	    if( !ellipsis )
-	      d->bind( argName, arg );
+	      m_data->bind( argName, arg );
 	    else
 	      ellipsisArg += arg;
 
@@ -504,7 +504,7 @@ void Lexer::nextToken( Token& tk)
 
 	  m_source.set_startLine( false);
 
-	  d->endScope();        // OPS!!
+	  m_data->endScope();        // OPS!!
 	  m_preprocessorEnabled = preproc;
 	  return;
 	}
@@ -538,7 +538,7 @@ void Lexer::nextToken( Token& tk)
 	  break;
 
 	QString tokText = tok.text();
-	QString str = (tok == Token_identifier && d->hasBind(tokText)) ? d->apply( tokText ) : tokText;
+	QString str = (tok == Token_identifier && m_data->hasBind(tokText)) ? m_data->apply( tokText ) : tokText;
 	if( str == ide ){
 	  //Problem p( i18n("unsafe use of macro '%1'").arg(ide), m_currentLine, m_currentColumn );
 	  //m_driver->addProblem( m_driver->currentFileName(), p );
@@ -551,7 +551,7 @@ void Lexer::nextToken( Token& tk)
 	} else if( merge ){
 	  textToInsert.truncate( textToInsert.length() - 1 );
 	  textToInsert.append( str );
-	} else if( tok == Token_ellipsis && d->hasBind("...") ){
+	} else if( tok == Token_ellipsis && m_data->hasBind("...") ){
 	  textToInsert.append( ellipsisArg );
 	} else {
 	  textToInsert.append( str + QString::fromLatin1(" ") );
@@ -563,7 +563,7 @@ void Lexer::nextToken( Token& tk)
 #endif
       m_source.insert( textToInsert);
 
-      d->endScope();
+      m_data->endScope();
       m_preprocessorEnabled = preproc;
       //m_driver->addMacro( m );
       m_source.set_currentPosition( argsEndAtPosition);

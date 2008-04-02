@@ -258,7 +258,7 @@ private:
 private:
   static SkipRule m_SkipRule;
 
-  LexerData* d;
+  LexerData* m_data;
   Driver* m_driver;
   TokenList m_tokens;
   class Source {
