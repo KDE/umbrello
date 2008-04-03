@@ -37,6 +37,7 @@
 
 namespace boost { namespace spirit { namespace impl {
   bool isalnum_( QChar const& c) {return isalnum_( c.toAscii());}
+  bool isalpha_( QChar const& c) {return isalpha_( c.toAscii());}
   bool isblank_( QChar const& c) {return isblank_( c.toAscii());}
   bool isdigit_( QChar const& c) {return isdigit_( c.toAscii());}
 }}}
@@ -112,7 +113,7 @@ struct identifier :
 
     definition( identifier const& self) {
       main = (lexeme_d[
-		       (+(alnum_p | '_'))
+		       ((alpha_p | '_') >> *(alnum_p | '_'))
 		       [self.result_ = constructQString(arg1, arg2)]
 		       ]);
     }
