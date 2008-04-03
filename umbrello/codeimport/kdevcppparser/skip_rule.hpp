@@ -1,3 +1,6 @@
+#ifndef _skip_rule_H_
+#define _skip_rule_H_
+
 #include <boost/spirit.hpp>
 
 /** This header should (hopefully) be part of a future release of
@@ -83,3 +86,4 @@ namespace boost { namespace spirit { namespace ext {
 }  // end namespace spirit
 }  // end namespace boost
 
+#endif
