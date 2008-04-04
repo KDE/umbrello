@@ -72,7 +72,6 @@ public:
 		    const QString& str = QString())
   {m_preprocessLexer.addSkipWord( word, skipType, str);}
   void setSource( const QString& source, PositionFilename const& p_filename);
-
   void setRecordComments( bool record );
   Position currentPosition() const
   {return m_source.get_currentPosition();}
@@ -136,15 +135,12 @@ private:
 			    source.data() + source.length(),
 			    Position( m_filename));
     }
-    QString substrFrom( CharIterator start) const
-    {return QString( &*start, &*m_ptr - &*start);}
     /* getters */
     Position get_currentPosition() const {return m_ptr.get_position();}
     CharIterator get_ptr() const {return m_ptr;}
     bool get_startLine() const {return m_startLine;}
     /* setters */
     void set_startLine( bool p) {m_startLine = p;}
-    void set_currentPosition( Position const& p) {m_ptr.set_position( p);}
   private:
     PositionFilename m_filename;
     CharIterator m_ptr;
@@ -162,8 +158,8 @@ inline bool Lexer::recordComments() const
   return m_recordComments;
 }
 
-inline void Lexer::setRecordComments( bool record )
-{
+inline void Lexer::setRecordComments( bool record) {
+  m_preprocessLexer.setRecordComments( record);
   m_recordComments = record;
 }
 

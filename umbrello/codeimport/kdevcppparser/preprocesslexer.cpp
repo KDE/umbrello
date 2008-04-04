@@ -343,18 +343,10 @@ int PreprocessLexer::toInt( const Token& token )
     }
 }
 
-Position const& PreprocessLexer::getTokenPosition( const Token& token) const
-{
-  return token.getStartPosition();
-}
-
 void PreprocessLexer::nextToken( Token& tk)
 {
   m_source.parse( (*gr_whiteSpace)
 		  [boost::bind( &PreprocessLexer::output, this, _1, _2)]);
-
-  Position startPosition( currentPosition());
-
   QChar ch = m_source.currentChar();
   if( ch.isNull() || ch.isSpace() ){
     /* skip */
@@ -396,11 +388,7 @@ void PreprocessLexer::nextToken( Token& tk)
 
       m_data->beginScope();
 
-      Position svPosition = currentPosition();
-
-      //	    Macro& m = m_driver->macro( ide );
       Macro m = m_driver->macro( ide );
-      //m_driver->removeMacro( m.name() );
 
       QString ellipsisArg;
 
@@ -439,8 +427,6 @@ void PreprocessLexer::nextToken( Token& tk)
 	    // valid macro
 	  }
 	} else {
-	  Position l_newPosition( svPosition);
-	  l_newPosition.column += (endIde - start);
 	  tk = m_source.createToken( Token_identifier, start, endIde);
 
 	  m_source.set_startLine( false);
@@ -687,7 +673,6 @@ void PreprocessLexer::handleDirective( const QString& directive )
   m_inPreproc = false;
 }
 
-#warning replace by a grammar
 bool PreprocessLexer::macroDefined()
 {
   QString word;
@@ -760,7 +745,6 @@ int PreprocessLexer::macroPrimary()
     if( !l_hit)
       result = 0;
   } else {
-#warning use locals
     boost::function<int (int)> l_op = _Identity<int>();
     if( m_source.parse( ch_p('+')
 			| ch_p('-')[var(l_op) = std::negate<int>()]

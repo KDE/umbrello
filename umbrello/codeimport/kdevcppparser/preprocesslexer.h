@@ -198,10 +198,8 @@ private:
 
 class PreprocessLexer
 {
-  typedef std::list<Token> TokenList;
 public:
   typedef rule<scanner<CharIterator, CharPolicies> > CharRule;
-  typedef TokenList::const_iterator TokenIterator;
 
   PreprocessLexer( Driver* driver );
   ~PreprocessLexer();
@@ -209,13 +207,8 @@ public:
   void addSkipWord( const QString& word, SkipType skipType = SkipWord,
 		    const QString& str = QString() );
   void preprocess();
-  QString source() const {return m_source.get_source();}
   void setSource( const QString& source, PositionFilename const& p_filename);
-
   void setRecordComments( bool record );
-  Position currentPosition() const
-  {return m_source.get_currentPosition();}
-  Position const& getTokenPosition( const Token& token) const;
   QString const& preprocessedString() const {return m_preprocessedString;}
 private:
   static int toInt( const Token& token );
@@ -225,6 +218,8 @@ private:
 			     Dependence( p_wordAndScope.first,
 					 p_wordAndScope.second));
   }
+  Position currentPosition() const
+  {return m_source.get_currentPosition();}
   void nextToken( Token& token);
   void output( CharIterator p_first, CharIterator p_last);
   void skip( int l, int r );
