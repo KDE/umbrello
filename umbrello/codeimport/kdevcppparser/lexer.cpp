@@ -202,32 +202,6 @@ struct DependencyClosure
   member2 m_scope;
 };
 
-struct header :
-  grammar<header, result_closure<Dependency>::context_t>
-{
-  template < typename ScannerT >
-  struct definition {
-    typedef rule<ScannerT, DependencyClosure::context_t> rule_t;
-    rule_t main;
-
-    rule_t const& start() const {return main;}
-
-    definition( header const& self) {
-      main =
-	( confix_p( ch_p('"') [main.m_scope = (int)Dep_Local],
-		    (*anychar_p) [main.m_word = constructQString( arg1, arg2)],
-		    '"')
-	  |
-	  confix_p( ch_p('<') [main.m_scope = (int)Dep_Global],
-		    (*anychar_p) [main.m_word = constructQString( arg1, arg2)],
-		    '>')
-	  )
-	[self.result_ = construct_<Dependency>( main.m_word, main.m_scope)]
-	;
-    }
-  };
-} header_g;
-
 Lexer::CharRule gr_stringLiteral =
   ch_p('"') >> *((anychar_p - '"' - '\\') | str_p("\\\"") | "\\\\") >> '"';
 Lexer::CharRule gr_whiteSpace = blank_p | (ch_p('\\') >> eol_p);
@@ -322,30 +296,21 @@ struct LexerData
 
 };
 
-Lexer::Lexer( Driver* driver )
-  : m_data( new LexerData),
-    m_driver( driver ),
-    m_recordComments( false ),
-    m_skipWordsEnabled( true ),
-    m_preprocessorEnabled( true )
-{
+Lexer::Lexer( Driver* driver)
+  : m_driver( driver),
+    m_recordComments( false),
+    m_preprocessLexer( m_driver) {
   reset();
-  m_data->beginScope();
 }
 
 Lexer::~Lexer()
-{
-  m_data->endScope();
-  delete m_data;
-}
+{}
 
 void Lexer::setSource( const QString& source,
-		       PositionFilename const& p_filename)
-{
+		       PositionFilename const& p_filename) {
   reset();
-  m_source.set_source( source, p_filename);
-  m_inPreproc = false;
-
+  m_preprocessLexer.setSource( source, p_filename);
+  m_source.set_filename( p_filename);
   tokenize();
 }
 
@@ -353,50 +318,6 @@ void Lexer::reset()
 {
   m_tokens.clear();
   m_source.reset();
-  m_preprocessor.reset();
-}
-
-void Lexer::Preprocessor::reset() {
-  m_skipping.clear();
-  m_trueTest.clear();
-}
-
-// ### should all be done with a "long" type IMO
-int Lexer::toInt( const Token& token )
-{
-    QString s = token.text();
-    if( token.type() == Token_number_literal ){
-        // hex literal ?
-	if( s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
-	    return s.mid( 2 ).toInt( 0, 16 );
-        QString n;
-        int i = 0;
-        while( i < int(s.length()) && s[i].isDigit() )
-            n += s[i++];
-        // ### respect more prefixes and suffixes ?
-        return n.toInt();
-    } else if( token.type() == Token_char_literal ){
-	int i = s[0] == 'L' ? 2 : 1; // wide char ?
-	if( s[i] == '\\' ){
-	    // escaped char
-	    int c = s[i+1].unicode();
-	    switch( c ) {
-	    case '0':
-		return 0;
-	    case 'r':
-		return '\r';
-	    case 'n':
-		return '\n';
-	    // ### more
-	    default:
-		return c;
-	    }
-	} else {
-	    return s[i].unicode();
-	}
-    } else {
-	return 0;
-    }
 }
 
 Position const& Lexer::getTokenPosition( const Token& token) const
@@ -421,10 +342,6 @@ void Lexer::nextToken( Token& tk)
     m_source.parse( identifier_g[ assign(directive)]); // read the directive
 
     handleDirective( directive );
-  } else if( m_source.get_startLine() && m_preprocessor.inSkip()) {
-    // skip line and continue
-    m_source.parse( gr_skipTillEol);
-    return;
   } else if( m_source.parse
 	     (
 	      if_p(var( m_recordComments))
@@ -442,160 +359,8 @@ void Lexer::nextToken( Token& tk)
     QString ide;
     m_source.parse( identifier_g[assign(ide)]);
     int k = Lookup::find( &keyword, ide );
-    if( m_preprocessorEnabled && m_driver->hasMacro(ide) &&
-	(k == -1 || !m_driver->macro(ide).body().isEmpty()) ){
-
-
-      bool preproc = m_preprocessorEnabled;
-      m_preprocessorEnabled = false;
-
-      m_data->beginScope();
-
-      Position svPosition = currentPosition();
-
-      //	    Macro& m = m_driver->macro( ide );
-      Macro m = m_driver->macro( ide );
-      //m_driver->removeMacro( m.name() );
-
-      QString ellipsisArg;
-
-      if( m.hasArguments() ){
-	CharIterator endIde = m_source.get_ptr();
-
-	m_source.parse( *gr_whiteSpace);
-	if( m_source.parse( ch_p('(')).hit) {
-	  Macro::ArgumentList::const_iterator l_it = m.arguments().begin();
-	  Macro::ArgumentList::const_iterator l_last = m.arguments().end();
-	  while( !m_source.currentChar().isNull() && l_it != l_last){
-	    m_source.parse( *gr_whiteSpace);
-
-	    QString argName = *l_it;
-
-	    bool ellipsis = (argName == "...");
-
-	    QString arg = readArgument();
-
-	    if( !ellipsis )
-	      m_data->bind( argName, arg );
-	    else
-	      ellipsisArg += arg;
-
-	    if( m_source.parse( ch_p(',')).hit) {
-	      if( !ellipsis ){
-		++l_it;
-	      } else {
-		ellipsisArg += ", ";
-	      }
-	    } else if( m_source.currentChar() == ')' ){
-	      break;
-	    }
-	  }
-	  if( m_source.parse(ch_p(')')).hit) {
-	    // valid macro
-	  }
-	} else {
-	  Position l_newPosition( svPosition);
-	  l_newPosition.column += (endIde - start);
-	  tk = m_source.createToken( Token_identifier, start, endIde);
-
-	  m_source.set_startLine( false);
-
-	  m_data->endScope();        // OPS!!
-	  m_preprocessorEnabled = preproc;
-	  return;
-	}
-      }
-
-      Position argsEndAtPosition = currentPosition();
-
-#if defined( KDEVELOP_BGPARSER )
-      qthread_yield();
-#endif
-      m_source.insert( m.body());
-
-      // tokenize the macro body
-
-      QString textToInsert;
-
-      while( !m_source.currentChar().isNull() ){
-
-	m_source.parse( *gr_whiteSpace);
-
-	Token tok;
-	nextToken( tok);
-
-	bool stringify = !m_inPreproc && tok == '#';
-	bool merge = !m_inPreproc && tok == Token_concat;
-
-	if( stringify || merge )
-	  nextToken( tok);
-
-	if( tok == Token_eof )
-	  break;
-
-	QString tokText = tok.text();
-	QString str = (tok == Token_identifier && m_data->hasBind(tokText)) ? m_data->apply( tokText ) : tokText;
-	if( str == ide ){
-	  //Problem p( i18n("unsafe use of macro '%1'").arg(ide), m_currentLine, m_currentColumn );
-	  //m_driver->addProblem( m_driver->currentFileName(), p );
-	  m_driver->removeMacro( ide );
-	  // str = QString();
-	}
-
-	if( stringify ) {
-	  textToInsert.append( QString::fromLatin1("\"") + str + QString::fromLatin1("\" ") );
-	} else if( merge ){
-	  textToInsert.truncate( textToInsert.length() - 1 );
-	  textToInsert.append( str );
-	} else if( tok == Token_ellipsis && m_data->hasBind("...") ){
-	  textToInsert.append( ellipsisArg );
-	} else {
-	  textToInsert.append( str + QString::fromLatin1(" ") );
-	}
-      }
-
-#if defined( KDEVELOP_BGPARSER )
-      qthread_yield();
-#endif
-      m_source.insert( textToInsert);
-
-      m_data->endScope();
-      m_preprocessorEnabled = preproc;
-      //m_driver->addMacro( m );
-      m_source.set_currentPosition( argsEndAtPosition);
-    } else if( k != -1 ){
+    if( k != -1 ){
       tk = m_source.createToken( k, start);
-    } else if( m_skipWordsEnabled ){
-      QMap< QString, QPair<SkipType, QString> >::Iterator pos = m_words.find( ide );
-      if( pos != m_words.end() ){
-	if( (*pos).first == SkipWordAndArguments ){
-	  m_source.parse( *gr_whiteSpace);
-	  if( m_source.currentChar() == '(' )
-	    skip( '(', ')' );
-	}
-	if( !(*pos).second.isEmpty() ){
-#if defined( KDEVELOP_BGPARSER )
-	  qthread_yield();
-#endif
-	  m_source.insert( QString(" ") + (*pos).second + QString(" "));
-	}
-      } else if( /*qt_rx.exactMatch(ide) ||*/
-		ide.endsWith("EXPORT") ||
-		(ide.startsWith("Q_EXPORT") && ide != "Q_EXPORT_INTERFACE") ||
-		ide.startsWith("QM_EXPORT") ||
-		ide.startsWith("QM_TEMPLATE")){
-
-	m_source.parse( *gr_whiteSpace);
-	if( m_source.currentChar() == '(' )
-	  skip( '(', ')' );
-      } else if( ide.startsWith("K_TYPELIST_") || ide.startsWith("TYPELIST_") ){
-	tk = m_source.createToken( Token_identifier, start);
-	m_source.parse( *gr_whiteSpace);
-	if( m_source.currentChar() == '(' )
-	  skip( '(', ')' );
-      } else{
-	tk = m_source.createToken( Token_identifier, start);
-      }
     } else {
       tk = m_source.createToken( Token_identifier, start);
     }
@@ -615,6 +380,14 @@ void Lexer::nextToken( Token& tk)
 
 void Lexer::tokenize()
 {
+  m_preprocessLexer.preprocess();
+#if 0
+  QByteArray l_tmp = m_preprocessLexer.preprocessedString().toAscii();
+  for (int i = 0; i < l_tmp.size(); ++i)
+    std::cout << l_tmp.at(i);
+  std::cout << std::endl;
+#endif
+  m_source.set_source( m_preprocessLexer.preprocessedString());
   m_source.set_startLine( true);
     for( ;; ) {
 	Token tk;
@@ -631,337 +404,20 @@ void Lexer::tokenize()
   m_tokens.push_back( tk);
 }
 
-void Lexer::addSkipWord( const QString& word, SkipType skipType, const QString& str )
-{
-    m_words[ word ] = qMakePair( skipType, str );
-}
-
-void Lexer::skip( int l, int r )
-{
-  Position svCurrentPosition = currentPosition();
-
-    int count = 0;
-
-  while( !m_source.eof() ){
-	Token tk;
-	nextToken( tk );
-
-	if( (int)tk == l )
-            ++count;
-        else if( (int)tk == r )
-            --count;
-
-        if( count == 0 )
-            break;
-    }
-
-  m_source.set_currentPosition( svCurrentPosition);
-}
-
-QString Lexer::readArgument()
-{
-    int count = 0;
-
-    QString arg;
-
-  m_source.parse( *gr_whiteSpace);
-  while( !m_source.currentChar().isNull() ){
-
-    m_source.parse( *gr_whiteSpace);
-    QChar ch = m_source.currentChar();
-
-	if( ch.isNull() || (!count && (ch == ',' || ch == ')')) )
-	    break;
-
-	Token tk;
-	nextToken( tk );
-	if( tk == '(' ){
-	    ++count;
-	} else if( tk == ')' ){
-	    --count;
-	}
-
-	if( tk != -1 )
-            arg += tk.text() + ' ';
-    }
-
-    return arg.trimmed();
-}
-
 void Lexer::handleDirective( const QString& directive )
 {
-  m_inPreproc = true;
-
-  bool skip = m_skipWordsEnabled;
-  bool preproc = m_preprocessorEnabled;
-
-  m_skipWordsEnabled = false;
-  m_preprocessorEnabled = false;
-
-  if( directive == "define" ){
-    if( !m_preprocessor.inSkip())
-      processDefine();
-  } else if( directive == "else" ){
-    if( !m_preprocessor.empty())
-      m_preprocessor.processElse();
-  } else if( directive == "elif" ){
-    if( !m_preprocessor.empty())
-      m_preprocessor.processElif( macroExpression());
-  } else if( directive == "endif" ){
-    if( !m_preprocessor.empty())
-      m_preprocessor.decrement();
-  } else if( directive == "if") {
-    m_preprocessor.processIf( macroExpression());
-  } else if( directive == "ifdef") {
-    m_preprocessor.processIf( macroDefined());
-  } else if( directive == "ifndef" ){
-    m_preprocessor.processIf( !macroDefined());
-  } else if( directive == "include" ){
-    if( !m_preprocessor.inSkip())
-      m_source.parse( *gr_whiteSpace >>
-		      header_g
-		      [boost::bind( &Lexer::addDependence, this, _1)]
-		      );
-  } else if( directive == "undef" ){
-    if( !m_preprocessor.inSkip())
-      processUndef();
-  }
-
+  assert( directive != "define");
+  assert( directive != "else");
+  assert( directive != "elif");
+  assert( directive != "endif");
+  assert( directive != "if");
+  assert( directive != "ifdef");
+  assert( directive != "ifndef");
+  assert( directive != "include");
+  assert( directive != "undef");
+  assert(0);
   // skip line
   m_source.parse( gr_skipTillEol);
-
-  m_skipWordsEnabled = skip;
-  m_preprocessorEnabled = preproc;
-
-  m_inPreproc = false;
-}
-
-#warning replace by a grammar
-bool Lexer::macroDefined()
-{
-  QString word;
-  m_source.parse( *gr_whiteSpace >> identifier_g[assign(word)]);
-  return m_driver->hasMacro( word );
-}
-
-void Lexer::processDefine()
-{
-  Macro m;
-  m.setFileName( m_driver->currentFileName() );
-  m_source.parse( *gr_whiteSpace
-		  >>
-		  identifier_g[boost::bind( &Macro::setName, (Macro*)&m, _1)]);
-  m_source.parse( ch_p('(') >> *gr_whiteSpace
-		  >>
-		  list_p( *gr_whiteSpace
-			  >>
-			  (str_p("...")[ push_back_a( m, "...")]
-			   | identifier_g[ push_back_a( m)]
-			   )
-			  >> *gr_whiteSpace
-			  ,
-			  ','
-			  )
-		  >> ')'
-		      );
-
-  m_preprocessorEnabled = true;
-
-  QString body;
-  while( !m_source.currentChar().isNull()
-	 && m_source.currentChar() != '\n'
-	 && m_source.currentChar() != '\r' ){
-
-    if( m_source.parse( +gr_whiteSpace).hit) {
-      body += ' ';
-    } else {
-      Token tk;
-      nextToken( tk);
-
-      if( tk.type() != -1 ){
-	QString s = tk.text();
-	body += s;
-      }
-    }
-  }
-
-  m.setBody( body );
-  m_driver->removeMacro( m.name());
-  m_driver->addMacro( m );
-}
-
-void Lexer::processUndef()
-{
-  m_source.parse( *gr_whiteSpace);
-  QString word;
-  m_source.parse( identifier_g[assign(word)]);
-  m_driver->removeMacro( word );
-}
-
-int Lexer::macroPrimary()
-{
-  m_source.parse( *gr_whiteSpace);
-  int result = 0;
-  if( m_source.parse( ch_p('(')).hit) {
-    result = macroExpression();
-    bool l_hit = m_source.parse( ch_p(')')).hit;
-    /** \todo hit must be true */
-    if( !l_hit)
-      result = 0;
-  } else {
-#warning use locals
-    boost::function<int (int)> l_op = _Identity<int>();
-    if( m_source.parse( ch_p('+')
-			| ch_p('-')[var(l_op) = std::negate<int>()]
-			| ch_p('!')[var(l_op) = std::logical_not<int>()]
-			| ch_p('~')[var(l_op) = tilde<int>()]
-			).hit) {
-      result = l_op( macroPrimary());
-    } else if( m_source.parse( str_p("defined")).hit) {
-      /** \todo Strange : should result in an identifier (after
-	  preprocessor variable substitution) ! */
-      result = macroPrimary();
-    } else {
-      m_source.parse(
-		     identifier_g[assignFunctorResult<1>
-				  ( result,
-				    boost::bind( &Driver::hasMacro, m_driver,
-						 _1))]
-		     | numberLiteral_g[assignFunctorResult<1>
-				       ( result,
-					 boost::bind( &Lexer::toInt, _1))]
-		     | charLiteral_g[assignFunctorResult<1>
-				     ( result,
-				       boost::bind( &Lexer::toInt, _1))]
-		     );
-    }
-  }
-  return result;
-}
-
-int Lexer::macroMultiplyDivide()
-{
-  int result = macroPrimary();
-  int iresult, op;
-  for (;;) {
-    m_source.parse( *gr_whiteSpace);
-    if( m_source.parse(
-		       ch_p('*')[var(op) = 0]
-		       |
-		       (ch_p('/') >> eps_p( anychar_p - '*' - '/'))
-		       [var(op) = 1]
-		       | ch_p('%')[var(op) = 2]
-		       ).hit) {
-      iresult = macroPrimary();
-      switch( op) {
-      case 0:
-	result = (result * iresult);
-	break;
-      case 1:
-	result = (iresult == 0 ? 0 : (result / iresult));
-	break;
-      case 2:
-	result = (iresult == 0) ? 0 : (result % iresult);
-      }
-    } else
-      break;
-  }
-  return result;
-}
-
-int Lexer::macroAddSubtract() {
-  int result = macroMultiplyDivide();
-  int iresult;
-  bool ad = false;
-  m_source.parse( *gr_whiteSpace);
-  while( m_source.parse(
-			ch_p('+')[var(ad) = true] | ch_p('-')[var(ad) = false]
-			).hit
-	 ) {
-    iresult = macroMultiplyDivide();
-    result = ad ? (result+iresult) : (result-iresult);
-  }
-  return result;
-}
-
-int Lexer::macroRelational() {
-  int result = macroAddSubtract();
-  m_source.parse( *gr_whiteSpace);
-  boost::function<bool (int, int)> l_op;
-  while( m_source.parse(
-			str_p("<=")[var(l_op) = less_equal<int>()]
-			| ch_p('<')[var(l_op) = less<int>()]
-			| str_p(">=")[var(l_op) = greater_equal<int>()]
-			| ch_p('>')[var(l_op) = greater<int>()]
-			).hit
-	 ) {
-    int iresult = macroAddSubtract();
-    result = l_op( result, iresult);
-  }
-  return result;
-}
-
-int Lexer::macroEquality()
-{
-  int result = macroRelational();
-  m_source.parse( *gr_whiteSpace);
-  boost::function<bool( int, int)> l_op;
-  while( m_source.parse( str_p("==")[var(l_op) = equal_to<int>()]
-			 | str_p("!=")[var(l_op) = not_equal_to<int>()]
-			 ).hit) {
-    result = l_op( result, macroRelational());
-  }
-  return result;
-}
-
-int Lexer::macroBoolAnd()
-{
-  int result = macroEquality();
-  m_source.parse( *gr_whiteSpace);
-  while( m_source.parse( ch_p('&') >> eps_p( anychar_p - '&')).hit)
-    result &= macroEquality();
-  return result;
-}
-
-int Lexer::macroBoolXor() {
-  int result = macroBoolAnd();
-  m_source.parse( *gr_whiteSpace);
-  while( m_source.parse(ch_p('^')).hit)
-    result ^= macroBoolAnd();
-  return result;
-}
-
-int Lexer::macroBoolOr()
-{
-  int result = macroBoolXor();
-  m_source.parse( *gr_whiteSpace);
-  while( m_source.parse( ch_p('|') >> eps_p( anychar_p - '|')).hit)
-    result |= macroBoolXor();
-  return result;
-}
-
-int Lexer::macroLogicalAnd()
-{
-  int result = macroBoolOr();
-  m_source.parse( *gr_whiteSpace);
-  while( m_source.parse( str_p("&&")).hit)
-    result = macroBoolOr() && result;
-  return result;
-}
-
-int Lexer::macroLogicalOr()
-{
-  int result = macroLogicalAnd();
-  m_source.parse( *gr_whiteSpace);
-  while( m_source.parse( str_p("||")).hit)
-    result = macroLogicalAnd() || result;
-  return result;
-}
-
-int Lexer::macroExpression()
-{
-  m_source.parse( *gr_whiteSpace);
-  return macroLogicalOr();
 }
 
 // *IMPORTANT*

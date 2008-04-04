@@ -197,6 +197,7 @@ set(libkdevcppparser_SRCS
 	codeimport/kdevcppparser/lexer.cpp 
 	codeimport/kdevcppparser/lookup.cpp 
 	codeimport/kdevcppparser/parser.cpp 
+	codeimport/kdevcppparser/preprocesslexer.cpp 
 	codeimport/kdevcppparser/tree_parser.cpp 
 	codeimport/kdevcppparser/urlutil.cpp 
 	codeimport/kdevcppparser/ast_utils.cpp 
