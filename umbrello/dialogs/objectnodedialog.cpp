@@ -24,10 +24,10 @@
 #include <klocale.h>
 
 //local includes
-#include "../umlview.h"
-#include "../dialog_utils.h"
-#include "../icon_utils.h"
-#include "../objectnodewidget.h"
+#include "umlview.h"
+#include "dialog_utils.h"
+#include "icon_utils.h"
+#include "objectnodewidget.h"
 
 
 ObjectNodeDialog::ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget )
@@ -69,14 +69,12 @@ void ObjectNodeDialog::slotShowState()
     {
         m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->getState());
     }
-
 }
 
 void ObjectNodeDialog::slotHideState()
 {
     m_GenPageWidgets.stateL->hide();
     m_GenPageWidgets.stateLE->hide();
-
 }
 
 void ObjectNodeDialog::setupPages()
@@ -104,7 +102,6 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
              newType = ObjectNodeWidget::Flow;
 
         m_pObjectNodeWidget->setObjectNodeType (newType);
-
     }
     else if ( item == pageItemFont )
     {
@@ -115,7 +112,6 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
         m_pColorPage -> updateUMLWidget();
     }
 }
-
 
 void ObjectNodeDialog::setupGeneralPage()
 {
@@ -128,7 +124,7 @@ void ObjectNodeDialog::setupGeneralPage()
     pageItemGeneral->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageItemGeneral );
 
-    m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
+    m_GenPageWidgets.generalGB = new Q3GroupBox( i18nc("properties group title", "Properties"), (QWidget *)page );
 
     QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB );
     generalLayout -> setSpacing( spacingHint() );
@@ -145,7 +141,7 @@ void ObjectNodeDialog::setupGeneralPage()
                                     m_GenPageWidgets.nameLE );
 
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 2,
-                                    m_GenPageWidgets.stateL, i18n("State :"),
+                                    m_GenPageWidgets.stateL, i18nc("enter state label", "State :"),
                                     m_GenPageWidgets.stateLE );
     m_GenPageWidgets.stateL->hide();
     m_GenPageWidgets.stateLE->hide();
@@ -186,7 +182,7 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.docMLE -> setText( m_pObjectNodeWidget -> getDoc() );
     docLayout -> addWidget( m_GenPageWidgets.docMLE );
 
-    if( type != ObjectNodeWidget::Buffer && type != ObjectNodeWidget::Data && type != ObjectNodeWidget::Flow) {
+    if (type != ObjectNodeWidget::Buffer && type != ObjectNodeWidget::Data && type != ObjectNodeWidget::Flow) {
         m_GenPageWidgets.nameLE -> setEnabled( false );
         m_GenPageWidgets.nameLE -> setText( "" );
     } else
@@ -218,7 +214,7 @@ void ObjectNodeDialog::showState()
 void ObjectNodeDialog::setupColorPage()
 {
     QFrame *colorPage = new QFrame();
-    pageItemColor = new KPageWidgetItem( colorPage, i18n("Color") );
+    pageItemColor = new KPageWidgetItem( colorPage, i18nc("color page title", "Color") );
     pageItemColor->setHeader( i18n("Widget Colors") );
     pageItemColor->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
     addPage( pageItemColor );

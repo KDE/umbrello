@@ -5,25 +5,27 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "umlwidgetcolorpage.h"
-#include "../optionstate.h"
-#include "../umlview.h"
-#include "../umlwidget.h"
-#include <klocale.h>
-#include <qlayout.h>
-#include <q3groupbox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qcheckbox.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <QGridLayout>
 
+#include <QtGui/QLayout>
+#include <q3groupbox.h>
+#include <QtGui/QLabel>
+#include <QtGui/QPushButton>
+#include <QtGui/QCheckBox>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QGridLayout>
+
+#include <klocale.h>
 #include <kcolorbutton.h>
+
+#include "optionstate.h"
+#include "umlview.h"
+#include "umlwidget.h"
+
 
 UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) : QWidget( pParent )
 {
@@ -53,32 +55,32 @@ void UMLWidgetColorPage::init()
     QVBoxLayout * topLayout = new QVBoxLayout( this );
     topLayout -> setSpacing( 6 );
 
-    m_pColorGB = new Q3GroupBox( i18n( "Color" ), this );
+    m_pColorGB = new Q3GroupBox( i18nc("title of color group", "Color"), this );
     topLayout -> addWidget( m_pColorGB );
     QGridLayout * colorLayout = new QGridLayout( m_pColorGB );
     colorLayout -> setMargin( margin );
 
-    m_pLineColorL = new QLabel( i18n( "&Line:" ), m_pColorGB );
+    m_pLineColorL = new QLabel( i18nc("line color", "&Line:"), m_pColorGB );
     colorLayout -> addWidget( m_pLineColorL, 0, 0 );
 
     m_pLineColorB = new KColorButton( m_pColorGB );
     colorLayout -> addWidget( m_pLineColorB, 0, 1 );
     m_pLineColorL->setBuddy(m_pLineColorB);
 
-    m_pLineDefaultB = new QPushButton( i18n( "&Default" ), m_pColorGB) ;
+    m_pLineDefaultB = new QPushButton( i18nc("default line color button", "&Default"), m_pColorGB) ;
     colorLayout -> addWidget( m_pLineDefaultB, 0, 2 );
 
-    m_pFillColorL = new QLabel( i18n( "&Fill:" ), m_pColorGB );
+    m_pFillColorL = new QLabel( i18n("&Fill:"), m_pColorGB );
     colorLayout -> addWidget( m_pFillColorL, 1, 0 );
 
     m_pFillColorB = new KColorButton( m_pColorGB );
     colorLayout -> addWidget( m_pFillColorB, 1, 1 );
     m_pFillColorL->setBuddy(m_pFillColorB);
 
-    m_pFillDefaultB = new QPushButton( i18n( "D&efault" ), m_pColorGB );
+    m_pFillDefaultB = new QPushButton( i18nc("default fill color button", "D&efault"), m_pColorGB );
     colorLayout -> addWidget( m_pFillDefaultB, 1, 2 );
 
-    m_pUseFillColorCB = new QCheckBox( i18n( "&Use fill" ), m_pColorGB );
+    m_pUseFillColorCB = new QCheckBox( i18n("&Use fill"), m_pColorGB );
     colorLayout -> setRowStretch( 2, 2 );
     colorLayout -> addWidget( m_pUseFillColorCB, 2, 0 );
 
@@ -87,19 +89,24 @@ void UMLWidgetColorPage::init()
     connect( m_pFillDefaultB, SIGNAL( clicked() ), this, SLOT( slotFillButtonClicked() ) );
 }
 
-UMLWidgetColorPage::~UMLWidgetColorPage() {}
+UMLWidgetColorPage::~UMLWidgetColorPage()
+{
+}
 
-void UMLWidgetColorPage::slotLineButtonClicked() {
+void UMLWidgetColorPage::slotLineButtonClicked()
+{
     //  UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget -> parent() );
     m_pLineColorB -> setColor( Settings::getOptionState().uiState.lineColor );
 }
 
-void UMLWidgetColorPage::slotFillButtonClicked() {
+void UMLWidgetColorPage::slotFillButtonClicked()
+{
     //  UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget -> parent() );
     m_pFillColorB -> setColor( Settings::getOptionState().uiState.fillColor );
 }
 
-void UMLWidgetColorPage::updateUMLWidget() {
+void UMLWidgetColorPage::updateUMLWidget()
+{
     if(m_pUMLWidget)
     {
         m_pUMLWidget->setUseFillColour( m_pUseFillColorCB -> isChecked() );

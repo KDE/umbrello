@@ -5,38 +5,37 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2007                                                *
+ *  copyright (C) 2003-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
-#include "umluniqueconstraintdialog.h"
-#include "../attribute.h"
-#include "../classifierlistitem.h"
-#include "../classifier.h"
-#include "../entity.h"
-#include "../entityattribute.h"
-#include "../enumliteral.h"
-#include "../enum.h"
-#include "../object_factory.h"
-#include "../operation.h"
-#include "../template.h"
-#include "../uml.h"
-#include "../uniqueconstraint.h"
-#include "../umldoc.h"
+#include <QtGui/qlayout.h>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
 
 #include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <qlayout.h>
-//Added by qt3to4:
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QApplication>
+
+#include "umluniqueconstraintdialog.h"
+#include "attribute.h"
+#include "classifierlistitem.h"
+#include "classifier.h"
+#include "entity.h"
+#include "entityattribute.h"
+#include "enumliteral.h"
+#include "enum.h"
+#include "object_factory.h"
+#include "operation.h"
+#include "template.h"
+#include "uml.h"
+#include "uniqueconstraint.h"
+#include "umldoc.h"
 
 
-UMLUniqueConstraintDialog::UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint) : KDialog(parent) {
-
+UMLUniqueConstraintDialog::UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint) : KDialog(parent)
+{
     setCaption( i18n("Unique Constraint Properties") );
     setButtons( Help | Ok | Apply | Cancel );
     setDefaultButton( Ok );
@@ -49,14 +48,14 @@ UMLUniqueConstraintDialog::UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueC
     setupDialog();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
-
 }
 
-UMLUniqueConstraintDialog::~UMLUniqueConstraintDialog() {
-
+UMLUniqueConstraintDialog::~UMLUniqueConstraintDialog()
+{
 }
 
-void UMLUniqueConstraintDialog::setupDialog(){
+void UMLUniqueConstraintDialog::setupDialog()
+{
     QFrame *frame = new QFrame( this );
     setMainWidget( frame );
     int margin = fontMetrics().height();
@@ -70,13 +69,12 @@ void UMLUniqueConstraintDialog::setupDialog(){
     QVBoxLayout* mainLayout = new QVBoxLayout( frame );
     mainLayout->setSpacing(10);
 
-
     // layout to hold the name label and line edit
     QHBoxLayout* nameLayout = new QHBoxLayout();
     mainLayout->addItem( nameLayout );
 
     // name label
-    m_pNameL = new QLabel( i18n( "Name" ), this );
+    m_pNameL = new QLabel( i18nc("name label", "Name"), this );
     nameLayout->addWidget( m_pNameL );
     // name lineEdit
     m_pNameLE = new QLineEdit( this );
@@ -149,9 +147,8 @@ void UMLUniqueConstraintDialog::setupDialog(){
     connect( m_pAttributeListLB, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( slotResetWidgetState() ) );
 }
 
-
-void UMLUniqueConstraintDialog::slotAddAttribute(){
-
+void UMLUniqueConstraintDialog::slotAddAttribute()
+{
     int index = m_pAttributeCB->currentIndex();
 
     if ( index == -1 )
@@ -177,9 +174,8 @@ void UMLUniqueConstraintDialog::slotAddAttribute(){
     slotResetWidgetState();
 }
 
-void UMLUniqueConstraintDialog::slotDeleteAttribute(){
-
-
+void UMLUniqueConstraintDialog::slotDeleteAttribute()
+{
     int index = m_pAttributeListLB->currentItem();
 
     if ( index == -1 )
@@ -202,19 +198,20 @@ void UMLUniqueConstraintDialog::slotDeleteAttribute(){
     slotResetWidgetState();
 }
 
-
-void UMLUniqueConstraintDialog::slotApply(){
+void UMLUniqueConstraintDialog::slotApply()
+{
     apply();
 }
 
-void UMLUniqueConstraintDialog::slotOk(){
+void UMLUniqueConstraintDialog::slotOk()
+{
     if ( apply() ) {
         accept();
     }
-
 }
 
-bool UMLUniqueConstraintDialog::apply() {
+bool UMLUniqueConstraintDialog::apply()
+{
     QString name = m_pNameLE -> text();
     if( name.length() == 0 ) {
         KMessageBox::error(this, i18n("You have entered an invalid constraint name."),
@@ -237,10 +234,8 @@ bool UMLUniqueConstraintDialog::apply() {
     return true;
 }
 
-
-
-void UMLUniqueConstraintDialog::slotResetWidgetState() {
-
+void UMLUniqueConstraintDialog::slotResetWidgetState()
+{
     m_pAttributeCB->setEnabled( true );
     m_pAddPB->setEnabled( true );
     m_pRemovePB->setEnabled( true );

@@ -5,14 +5,16 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2006                                                *
+ *  copyright (C) 2003-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 #include "umlcheckconstraintdialog.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../checkconstraint.h"
+
+// qt includes
+#include <QtGui/QLayout>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
 
 // kde includes
 #include <kdebug.h>
@@ -20,16 +22,13 @@
 #include <ktextedit.h>
 #include <klineedit.h>
 
-// qt includes
-#include <qlayout.h>
-
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QApplication>
+#include "uml.h"
+#include "umldoc.h"
+#include "checkconstraint.h"
 
 
-UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckConstraint* pCheckConstraint) : KDialog(parent) {
-
+UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckConstraint* pCheckConstraint) : KDialog(parent)
+{
     setCaption( i18n("Check Constraint Properties") );
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Ok );
@@ -41,14 +40,14 @@ UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckCons
 
     setupDialog();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-
 }
 
-UMLCheckConstraintDialog::~UMLCheckConstraintDialog() {
-
+UMLCheckConstraintDialog::~UMLCheckConstraintDialog()
+{
 }
 
-void UMLCheckConstraintDialog::setupDialog(){
+void UMLCheckConstraintDialog::setupDialog()
+{
     QFrame *frame = new QFrame( this );
     setMainWidget( frame );
 
@@ -61,7 +60,7 @@ void UMLCheckConstraintDialog::setupDialog(){
     mainLayout->addItem( nameLayout );
 
     // name label
-    m_pNameL = new QLabel( i18n( "Name" ), this );
+    m_pNameL = new QLabel( i18nc("name label", "Name"), this );
     nameLayout->addWidget( m_pNameL );
     // name lineEdit
     m_pNameLE = new KLineEdit( this );
@@ -83,17 +82,15 @@ void UMLCheckConstraintDialog::setupDialog(){
     m_pNameLE->setText( m_pCheckConstraint->getName() );
 }
 
-
-
-void UMLCheckConstraintDialog::slotOk(){
+void UMLCheckConstraintDialog::slotOk()
+{
     if ( apply() ) {
         accept();
     }
-
 }
 
-bool UMLCheckConstraintDialog::apply() {
-
+bool UMLCheckConstraintDialog::apply()
+{
     m_pCheckConstraint->setCheckCondition( m_pCheckConditionTE->toPlainText().trimmed() );
 
     // set name
@@ -101,7 +98,6 @@ bool UMLCheckConstraintDialog::apply() {
 
     return true;
 }
-
 
 
 #include "umlcheckconstraintdialog.moc"

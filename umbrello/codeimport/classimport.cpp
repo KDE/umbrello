@@ -5,18 +5,20 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006                                                     *
+ *  copyright (C) 2006-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 // own header
 #include "classimport.h"
+
 // qt/kde includes
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 #include <klocale.h>
+
 // app includes
-#include "../umldoc.h"
-#include "../uml.h"
+#include "umldoc.h"
+#include "uml.h"
 #include "idlimport.h"
 #include "pythonimport.h"
 #include "javaimport.h"
@@ -24,7 +26,8 @@
 #include "pascalimport.h"
 #include "cppimport.h"
 
-void ClassImport::importFiles(const QStringList &fileList) {
+void ClassImport::importFiles(const QStringList &fileList)
+{
     initialize();
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     uint processedFilesCount = 0;
@@ -36,10 +39,11 @@ void ClassImport::importFiles(const QStringList &fileList) {
         parseFile(fileName);
         processedFilesCount++;
     }
-    umldoc->writeToStatusBar(i18n("Ready."));
+    umldoc->writeToStatusBar(i18nc("ready to status bar", "Ready."));
 }
 
-ClassImport *ClassImport::createImporterByFileExt(const QString &filename) {
+ClassImport *ClassImport::createImporterByFileExt(const QString &filename) 
+{
     ClassImport *classImporter;
     if (filename.endsWith(".idl"))
         classImporter = new IDLImport();

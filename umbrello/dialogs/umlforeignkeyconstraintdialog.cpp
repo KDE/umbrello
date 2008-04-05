@@ -176,19 +176,19 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
 {
     //setup General page
     KVBox * page = new KVBox();
-    pageGeneral = new KPageWidgetItem(page, i18n("General"));
+    pageGeneral = new KPageWidgetItem(page, i18nc("general page title", "General"));
     pageGeneral->setHeader(i18n("General Settings"));
     pageGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
     addPage(pageGeneral);
 
-    m_GeneralWidgets.generalGB = new Q3GroupBox(i18n("General"), page);
+    m_GeneralWidgets.generalGB = new Q3GroupBox(i18nc("general group title", "General"), page);
 
     QGridLayout* generalLayout = new QGridLayout(m_GeneralWidgets.generalGB);
     generalLayout -> setSpacing(spacingHint());
     generalLayout -> setMargin(fontMetrics().height());
 
     Dialog_Utils::makeLabeledEditField(m_GeneralWidgets.generalGB, generalLayout, 0,
-                                       m_GeneralWidgets.nameL, i18n("Name"),
+                                       m_GeneralWidgets.nameL, i18nc("label for entering name", "Name"),
                                        m_GeneralWidgets.nameT);
 
     m_GeneralWidgets.referencedEntityL = new QLabel(i18n("Referenced Entity"), page);
@@ -268,7 +268,7 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
     m_ColumnWidgets.mappingTW = new QTreeWidget(page);
 
     QStringList headers;
-    headers << i18n("Local") << i18n("Referenced");
+    headers << i18nc("column header local", "Local") << i18nc("column header referenced", "Referenced");
     m_ColumnWidgets.mappingTW->setHeaderLabels(headers);
 
     QWidget* columns = new QWidget(page);

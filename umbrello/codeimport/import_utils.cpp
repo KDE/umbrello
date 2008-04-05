@@ -11,27 +11,29 @@
 
 // own header
 #include "import_utils.h"
+
 // qt/kde includes
 #include <QtCore/QMap>
 #include <QtCore/QRegExp>
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <klocale.h>
+
 // app includes
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../umllistview.h"
-#include "../umllistviewitem.h"
-#include "../umlobject.h"
-#include "../package.h"
-#include "../folder.h"
-#include "../enum.h"
-#include "../classifier.h"
-#include "../operation.h"
-#include "../attribute.h"
-#include "../template.h"
-#include "../association.h"
-#include "../object_factory.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
+#include "umlobject.h"
+#include "package.h"
+#include "folder.h"
+#include "enum.h"
+#include "classifier.h"
+#include "operation.h"
+#include "attribute.h"
+#include "template.h"
+#include "association.h"
+#include "object_factory.h"
 
 
 namespace Import_Utils {
@@ -185,7 +187,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                             wantNamespace = KMessageBox::questionYesNo(NULL,
                                         i18n("Is the scope %1 a namespace or a class?", scopeName),
                                         i18n("C++ Import Requests Your Help"),
-                                        KGuiItem(i18n("Namespace")), KGuiItem(i18n("Class")));
+                                        KGuiItem(i18nc("namespace scope", "Namespace")), KGuiItem(i18nc("class scope", "Class")));
                         }
                     }
                     Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
@@ -218,8 +220,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 dt->setOriginType(c);
             else
                 uError() << "createUMLObject(" << name << "): "
-                << "origType " << typeName << " is not a UMLClassifier"
-                << endl;
+                << "origType " << typeName << " is not a UMLClassifier";
             if (isRef || isPointer)
                 dt->setIsReference();
             /*
@@ -240,7 +241,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 existingPkg->removeObject(o);
             else
                 uError() << "createUMLObject(" << name << "): "
-                    << "o->getUMLPackage() was NULL" << endl;
+                    << "o->getUMLPackage() was NULL";
             o->setUMLPackage(parentPkg);
             parentPkg->addObject(o);
         }

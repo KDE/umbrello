@@ -39,7 +39,8 @@
 
 namespace Model_Utils {
 
-bool isCloneable(Uml::Widget_Type type) {
+bool isCloneable(Uml::Widget_Type type)
+{
     switch (type) {
     case Uml::wt_Actor:
     case Uml::wt_UseCase:
@@ -57,7 +58,8 @@ bool isCloneable(Uml::Widget_Type type) {
     }
 }
 
-UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList) {
+UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList)
+{
     for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
         if (obj->getID() == id)
@@ -104,7 +106,8 @@ UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList) {
 UMLObject* findUMLObject(const UMLObjectList& inList,
                          const QString& inName,
                          Uml::Object_Type type /* = ot_UMLObject */,
-                         UMLObject *currentObj /* = NULL */) {
+                         UMLObject *currentObj /* = NULL */)
+{
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     QString name = inName;
     QStringList components;
@@ -150,7 +153,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             if (seenPkgs.indexOf(pkg) != -1) {
                 uError() << "findUMLObject(" << name << "): "
                     << "breaking out of cycle involving "
-                    << pkg->getName() << endl;
+                    << pkg->getName();
                 break;
             }
             seenPkgs.append(pkg);
@@ -169,7 +172,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                         uDebug() << "findUMLObject: type mismatch for "
                             << name << " (seeking type: "
                             << type << ", found type: "
-                            << foundType << ")" << endl;
+                            << foundType << ")";
                         // Class, Interface, and Datatype are all Classifiers
                         // and are considered equivalent.
                         // The caller must be prepared to handle possible mismatches.
@@ -191,7 +194,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                     foundType != Uml::ot_Interface &&
                     foundType != Uml::ot_Component) {
                     uDebug() << "findUMLObject: found \"" << name
-                        << "\" is not a package (?)" << endl;
+                        << "\" is not a package (?)";
                     continue;
                 }
                 UMLPackage *pkg = static_cast<UMLPackage*>(obj);
@@ -215,7 +218,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 uDebug() << "findUMLObject: type mismatch for "
                     << name << " (seeking type: "
                     << type << ", found type: "
-                    << foundType << ")" << endl;
+                    << foundType << ")";
                 continue;
             }
             return obj;
@@ -226,7 +229,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             foundType != Uml::ot_Interface &&
             foundType != Uml::ot_Component) {
             uDebug() << "findUMLObject: found \"" << name
-                << "\" is not a package (?)" << endl;
+                << "\" is not a package (?)";
             continue;
         }
         UMLPackage *pkg = static_cast<UMLPackage*>(obj);
@@ -236,7 +239,8 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
     return NULL;
 }
 
-QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString prefix) {
+QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString prefix)
+{
     QString currentName = prefix;
     if (currentName.isEmpty()) {
         if(type == Uml::ot_Class)
@@ -280,7 +284,8 @@ QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString pre
     return name;
 }
 
-bool isCommonXMIAttribute( const QString &tag ) {
+bool isCommonXMIAttribute( const QString &tag )
+{
     bool retval = (Uml::tagEq(tag, "name") ||
                    Uml::tagEq(tag, "visibility") ||
                    Uml::tagEq(tag, "isRoot") ||
@@ -299,7 +304,8 @@ bool isCommonXMIAttribute( const QString &tag ) {
     return retval;
 }
 
-bool isCommonDataType(QString type) {
+bool isCommonDataType(QString type)
+{
     CodeGenerator *gen = UMLApp::app()->getGenerator();
     if (gen == NULL)
         return false;
@@ -317,7 +323,8 @@ bool isCommonDataType(QString type) {
     return false;
 }
 
-bool isClassifierListitem(Uml::Object_Type type) {
+bool isClassifierListitem(Uml::Object_Type type)
+{
     if (type == Uml::ot_Attribute ||
         type == Uml::ot_Operation ||
         type == Uml::ot_Template ||
@@ -332,7 +339,8 @@ bool isClassifierListitem(Uml::Object_Type type) {
     }
 }
 
-Uml::Model_Type guessContainer(UMLObject *o) {
+Uml::Model_Type guessContainer(UMLObject *o)
+{
     Uml::Object_Type ot = o->getBaseType();
     if (ot == Uml::ot_Package && o->getStereotype() == "subsystem")
         return Uml::mt_Component;
@@ -399,7 +407,8 @@ Uml::Model_Type guessContainer(UMLObject *o) {
     return mt;
 }
 
-int stringToDirection(QString input, Uml::Parameter_Direction & result) {
+int stringToDirection(QString input, Uml::Parameter_Direction & result) 
+{
     QRegExp dirx("^(in|out|inout)");
     int pos = dirx.indexIn(input);
     if (pos == -1)
@@ -417,8 +426,8 @@ int stringToDirection(QString input, Uml::Parameter_Direction & result) {
     return dirLen;
 }
 
-Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningScope) {
-
+Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningScope)
+{
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
     t = t.trimmed();
@@ -441,7 +450,8 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
 }
 
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope,
-                            Uml::Visibility *vis /* = 0 */) {
+                            Uml::Visibility *vis /* = 0 */)
+{
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
     a = a.simplified();
@@ -504,7 +514,8 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
     return PS_OK;
 }
 
-Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope) {
+Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope)
+{
     UMLDoc *pDoc = UMLApp::app()->getDocument();
 
     m = m.simplified();
@@ -564,9 +575,9 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     return PS_OK;
 }
 
-
-Parse_Status parseConstraint(QString m, QString& name, UMLEntity* /*owningScope*/) {
-
+Parse_Status parseConstraint(QString m, QString& name, UMLEntity* owningScope)
+{
+    Q_UNUSED(owningScope);
     m = m.simplified();
     if (m.isEmpty())
         return PS_Empty;
@@ -581,16 +592,18 @@ Parse_Status parseConstraint(QString m, QString& name, UMLEntity* /*owningScope*
     return PS_OK;
 }
 
-QString psText(Parse_Status value) {
+QString psText(Parse_Status value)
+{
     const QString text[] = {
-                               i18n("OK"), i18n("Empty"), i18n("Malformed argument"),
+                               i18n("OK"), i18nc("parse status", "Empty"), i18n("Malformed argument"),
                                i18n("Unknown argument type"), i18n("Illegal method name"),
                                i18n("Unknown return type"), i18n("Unspecified error")
                            };
     return text[(unsigned) value];
 }
 
-QString progLangToString(Uml::Programming_Language pl) {
+QString progLangToString(Uml::Programming_Language pl)
+{
     switch (pl) {
         case Uml::pl_ActionScript:
             return "ActionScript";
@@ -636,7 +649,8 @@ QString progLangToString(Uml::Programming_Language pl) {
     return QString();
 }
 
-Uml::Programming_Language stringToProgLang(QString str) {
+Uml::Programming_Language stringToProgLang(QString str)
+{
     if (str == "ActionScript")
         return Uml::pl_ActionScript;
     if (str == "Ada")
@@ -678,7 +692,8 @@ Uml::Programming_Language stringToProgLang(QString str) {
     return Uml::pl_Reserved;
 }
 
-bool typeIsRootView(Uml::ListView_Type type) {
+bool typeIsRootView(Uml::ListView_Type type)
+{
     switch (type) {
         case Uml::lvt_View:
         case Uml::lvt_Logical_View:
@@ -694,7 +709,8 @@ bool typeIsRootView(Uml::ListView_Type type) {
     return false;
 }
 
-bool typeIsCanvasWidget(Uml::ListView_Type type) {
+bool typeIsCanvasWidget(Uml::ListView_Type type)
+{
     switch (type) {
         case Uml::lvt_Actor:
         case Uml::lvt_UseCase:
@@ -722,7 +738,8 @@ bool typeIsCanvasWidget(Uml::ListView_Type type) {
     return false;
 }
 
-bool typeIsFolder(Uml::ListView_Type type) {
+bool typeIsFolder(Uml::ListView_Type type)
+{
     if (typeIsRootView(type) ||
             type == Uml::lvt_Datatype_Folder ||
             type == Uml::lvt_Logical_Folder ||
@@ -736,7 +753,8 @@ bool typeIsFolder(Uml::ListView_Type type) {
     }
 }
 
-bool typeIsContainer(Uml::ListView_Type type) {
+bool typeIsContainer(Uml::ListView_Type type)
+{
     if (typeIsFolder(type))
         return true;
     return (type == Uml::lvt_Package ||
@@ -744,7 +762,8 @@ bool typeIsContainer(Uml::ListView_Type type) {
             type == Uml::lvt_Component);
 }
 
-bool typeIsClassifierList(Uml::ListView_Type type) {
+bool typeIsClassifierList(Uml::ListView_Type type)
+{
     if (type == Uml::lvt_Attribute ||
         type == Uml::lvt_Operation ||
         type == Uml::lvt_Template ||
@@ -760,7 +779,8 @@ bool typeIsClassifierList(Uml::ListView_Type type) {
     }
 }
 
-bool typeIsClassifier(Uml::ListView_Type type) {
+bool typeIsClassifier(Uml::ListView_Type type)
+{
     if ( type == Uml::lvt_Class ||
          type == Uml::lvt_Interface ||
          type == Uml::lvt_Entity ||
@@ -768,10 +788,10 @@ bool typeIsClassifier(Uml::ListView_Type type) {
         return true;
     }
     return false;
-
 }
 
-bool typeIsDiagram(Uml::ListView_Type type) {
+bool typeIsDiagram(Uml::ListView_Type type)
+{
     if (type == Uml::lvt_Class_Diagram ||
             type == Uml::lvt_Collaboration_Diagram ||
             type == Uml::lvt_State_Diagram ||
@@ -787,7 +807,8 @@ bool typeIsDiagram(Uml::ListView_Type type) {
     }
 }
 
-Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt) {
+Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt)
+{
     Uml::Model_Type mt;
     switch (dt) {
         case Uml::dt_UseCase:
@@ -810,14 +831,15 @@ Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt) {
             mt = Uml::mt_EntityRelationship;
             break;
         default:
-            uError() << "Model_Utils::convert_DT_MT: illegal input value " << dt << endl;
+            uError() << "Model_Utils::convert_DT_MT: illegal input value " << dt;
             mt = Uml::N_MODELTYPES;
             break;
     }
     return mt;
 }
 
-Uml::ListView_Type convert_MT_LVT(Uml::Model_Type mt) {
+Uml::ListView_Type convert_MT_LVT(Uml::Model_Type mt)
+{
     Uml::ListView_Type lvt = Uml::lvt_Unknown;
     switch (mt) {
         case Uml::mt_Logical:
@@ -841,7 +863,8 @@ Uml::ListView_Type convert_MT_LVT(Uml::Model_Type mt) {
     return lvt;
 }
 
-Uml::Model_Type convert_LVT_MT(Uml::ListView_Type lvt) {
+Uml::Model_Type convert_LVT_MT(Uml::ListView_Type lvt)
+{
     Uml::Model_Type mt = Uml::N_MODELTYPES;
     switch (lvt) {
         case Uml::lvt_Logical_View:
@@ -865,7 +888,8 @@ Uml::Model_Type convert_LVT_MT(Uml::ListView_Type lvt) {
     return mt;
 }
 
-Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt) {
+Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt)
+{
     Uml::ListView_Type type =  Uml::lvt_Unknown;
     switch(dt) {
     case Uml::dt_UseCase:
@@ -910,7 +934,8 @@ Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt) {
     return type;
 }
 
-Uml::ListView_Type convert_OT_LVT(UMLObject *o) {
+Uml::ListView_Type convert_OT_LVT(UMLObject *o)
+{
     Uml::Object_Type ot = o->getBaseType();
     Uml::ListView_Type type =  Uml::lvt_Unknown;
     switch(ot) {
@@ -960,8 +985,7 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o) {
                 }
             } while ((f = static_cast<UMLFolder*>(f->getUMLPackage())) != NULL);
             uError() << "convert_OT_LVT(" << o->getName()
-                << "): internal error - object is not properly nested in folder"
-                << endl;
+                << "): internal error - object is not properly nested in folder";
         }
         break;
 
@@ -1041,7 +1065,8 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o) {
     return type;
 }
 
-Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt) {
+Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt)
+{
     Uml::Object_Type ot = (Uml::Object_Type)0;
     switch (lvt) {
     case Uml::lvt_UseCase:
@@ -1137,7 +1162,8 @@ Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt) {
     return ot;
 }
 
-Icon_Utils::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt) {
+Icon_Utils::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt)
+{
     Icon_Utils::Icon_Type icon = Icon_Utils::it_Home;
     switch (lvt) {
         case Uml::lvt_UseCase_View:
@@ -1264,7 +1290,8 @@ Icon_Utils::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt) {
     return icon;
 }
 
-Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt) {
+Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt)
+{
     Uml::Diagram_Type dt = Uml::dt_Undefined;
     switch (lvt) {
         case Uml::lvt_Class_Diagram:
@@ -1300,7 +1327,8 @@ Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt) {
     return dt;
 }
 
-Uml::Model_Type convert_OT_MT(Uml::Object_Type ot) {
+Uml::Model_Type convert_OT_MT(Uml::Object_Type ot)
+{
     Uml::Model_Type mt = Uml::N_MODELTYPES;
     switch (ot) {
         case Uml::ot_Actor:
@@ -1329,8 +1357,8 @@ Uml::Model_Type convert_OT_MT(Uml::Object_Type ot) {
     return mt;
 }
 
-QString updateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda ) {
-
+QString updateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda )
+{
     switch( uda ) {
      case UMLForeignKeyConstraint::uda_NoAction:
          return "NO ACTION";
@@ -1347,11 +1375,9 @@ QString updateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction 
     }
 }
 
-
-QString diagramTypeToString(Uml::Diagram_Type dt) {
-
+QString diagramTypeToString(Uml::Diagram_Type dt)
+{
     switch( dt ) {
-
        case Uml::dt_Class:
            return i18n( "Class Diagram" );
        case Uml::dt_UseCase:
@@ -1373,7 +1399,6 @@ QString diagramTypeToString(Uml::Diagram_Type dt) {
        default:
            return i18n( "No Diagram" );
     }
-
 }
 
 }  // namespace Model_Utils
