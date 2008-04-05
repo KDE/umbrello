@@ -288,7 +288,7 @@ void WorkToolBar::loadPixmaps()
         { tbb_Generalization,           i18n("Implements"),              Icon_Utils::it_Implements,              SLOT(slotGeneralization()) },
         { tbb_Composition,              i18n("Composition"),             Icon_Utils::it_Composition,             SLOT(slotComposition()) },
         { tbb_UseCase,                  i18n("Use Case"),                Icon_Utils::it_UseCase,                 SLOT(slotUseCase()) },
-        { tbb_Class,                    i18n("Class"),                   Icon_Utils::it_Class,                   SLOT(slotClass()) },
+        { tbb_Class,                    i18nc("UML class", "Class"),     Icon_Utils::it_Class,                   SLOT(slotClass()) },
         { tbb_Initial_State,            i18n("Initial State"),           Icon_Utils::it_InitialState,            SLOT(slotInitial_State()) },
         { tbb_Region,                   i18n("Region"),                  Icon_Utils::it_Region,                  SLOT(slotRegion()) },
         { tbb_End_State,                i18n("End State"),               Icon_Utils::it_EndState,                SLOT(slotEnd_State()) },
@@ -307,17 +307,17 @@ void WorkToolBar::loadPixmaps()
         { tbb_Entity,                   i18n("Entity"),                  Icon_Utils::it_Entity,                  SLOT(slotEntity()) },
         { tbb_DeepHistory,              i18n("Deep History"),            Icon_Utils::it_History_Deep,            SLOT(slotDeepHistory()) },     //NotYetImplemented
         { tbb_ShallowHistory,           i18n("Shallow History"),         Icon_Utils::it_History_Shallow,         SLOT(slotShallowHistory()) },  //NotYetImplemented
-        { tbb_Join,                     i18n("Join"),                    Icon_Utils::it_Join,                    SLOT(slotJoin()) },            //NotYetImplemented
+        { tbb_Join,                     i18nc("join states", "Join"),    Icon_Utils::it_Join,                    SLOT(slotJoin()) },            //NotYetImplemented
         { tbb_StateFork,                i18n("Fork"),                    Icon_Utils::it_Fork_State,              SLOT(slotStateFork()) },
         { tbb_Junction,                 i18n("Junction"),                Icon_Utils::it_Junction,                SLOT(slotJunction()) },        //NotYetImplemented
-        { tbb_Choice,                   i18n("Choice"),                  Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
+        { tbb_Choice,                   i18nc("state choice", "Choice"), Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
         //:TODO: let the user decide which symbol he wants (setting an option)
         //    { tbb_Choice,                   i18n("Choice"),                  Icon_Utils::it_Choice_Rhomb,           SLOT(slotChoice()) },          //NotYetImplemented
         { tbb_Andline,                  i18n("And Line"),                Icon_Utils::it_And_Line,                SLOT(slotAndline()) },         //NotYetImplemented
         { tbb_State_Transition,         i18n("State Transition"),        Icon_Utils::it_State_Transition,        SLOT(slotState_Transition()) },
         { tbb_Activity_Transition,      i18n("Activity Transition"),     Icon_Utils::it_Activity_Transition,     SLOT(slotActivity_Transition()) },
         { tbb_Activity,                 i18n("Activity"),                Icon_Utils::it_Activity,                SLOT(slotActivity()) },
-        { tbb_State,                    i18n("State"),                   Icon_Utils::it_State,                   SLOT(slotState()) },
+        { tbb_State,                    i18nc("state diagram", "State"), Icon_Utils::it_State,                   SLOT(slotState()) },
         { tbb_End_Activity,             i18n("End Activity"),            Icon_Utils::it_Activity_End,            SLOT(slotEnd_Activity()) },
         { tbb_Final_Activity,           i18n("Final Activity"),          Icon_Utils::it_Activity_Final,          SLOT(slotFinal_Activity()) },
         { tbb_Pin,                      i18n("Pin"),                     Icon_Utils::it_Pin,                     SLOT(slotPin()) },
@@ -339,7 +339,7 @@ void WorkToolBar::loadPixmaps()
                                         QCursor(),
                                         SLOT(slotArrow())));    */
     m_ToolButtons.insert(tbb_Arrow,
-                         ToolButton(i18n("Select"),
+                         ToolButton(i18nc("selection arrow", "Select"),
                                     Icon_Utils::BarIcon(Icon_Utils::it_Arrow),
                                     QCursor(),
                                     SLOT(slotArrow())));

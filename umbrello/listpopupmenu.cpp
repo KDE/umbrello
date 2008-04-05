@@ -378,7 +378,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Cut);
         insert(mt_Copy);
         insert(mt_Paste);
-        insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18n("Clear"));
+        insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18nc("clear note", "Clear"));
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
@@ -463,7 +463,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Cut);
         insert(mt_Copy);
         insert(mt_Paste);
-        insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18n("Clear"));
+        insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18nc("clear precondition", "Clear"));
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
@@ -482,7 +482,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         insert(mt_Cut);
         insert(mt_Copy);
         insert(mt_Paste);
-        insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18n("Clear"));
+        insert(mt_Clear, Icon_Utils::SmallIcon(Icon_Utils::it_Clear), i18nc("clear combined fragment", "Clear"));
         addSeparator();
         insert(mt_Rename, i18n("Change Text..."));
         insert(mt_Delete);
@@ -583,7 +583,7 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(i18n("Collapse All"));
         break;
     case mt_Clone:
-        m_actions[m] = addAction(i18n("Duplicate"));
+        m_actions[m] = addAction(i18nc("duplicate action", "Duplicate"));
         break;
     case mt_Externalize_Folder:
         m_actions[m] = addAction(i18n("Externalize Folder..."));
@@ -747,11 +747,11 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
 
 void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
 {
-    KMenu* menu = new KMenu(i18n("New"), this);
+    KMenu* menu = new KMenu(i18nc("new container menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     if (folderAndDiagrams)
         insert(mt_Logical_Folder, menu, Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder"));
-    insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18n("Class"));
+    insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class"));
     insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface"));
     insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype"));
     insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum"));
@@ -843,7 +843,7 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
 void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 {
     Uml::Widget_Type type = c->getBaseType();
-    KMenu* menu = new KMenu(i18n("New"), this);
+    KMenu* menu = new KMenu(i18nc("new classifier menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     if (type == Uml::wt_Class)
         insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
@@ -873,7 +873,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 
 void ListPopupMenu::insertSubMenuColor(bool fc)
 {
-    KMenu* color = new KMenu(i18n("Color"), this);
+    KMenu* color = new KMenu(i18nc("color menu", "Color"), this);
     insert(mt_Line_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Line), i18n("Line Color..."));
     insert(mt_Fill_Color, color, Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill), i18n("Fill Color..."));
     insert(mt_Use_Fill_Color, color, i18n("Use Fill Color"), CHECKABLE);
@@ -959,7 +959,7 @@ Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt)
 
 void ListPopupMenu::insertSubMenuNew(Menu_Type type)
 {
-    KMenu* menu = new KMenu(i18n("New"), this);
+    KMenu* menu = new KMenu(i18nc("new sub menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     switch (type) {
         case mt_Deployment_View:
@@ -1013,7 +1013,7 @@ void ListPopupMenu::insertSubMenuNew(Menu_Type type)
             insert(mt_FloatText, menu);
             break;
         case mt_On_Class_Diagram:
-            insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18n("Class..."));
+            insert(mt_Class, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Class), i18nc("new class menu item", "Class..."));
             insert(mt_Interface, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Interface), i18n("Interface..."));
             insert(mt_Datatype, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Datatype), i18n("Datatype..."));
             insert(mt_Enum, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Enum), i18n("Enum..."));
@@ -1023,7 +1023,7 @@ void ListPopupMenu::insertSubMenuNew(Menu_Type type)
         case mt_On_State_Diagram:
             insert(mt_Initial_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial State"));
             insert(mt_End_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End State"));
-            insert(mt_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18n("State..."));
+            insert(mt_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18nc("add new state", "State..."));
             insert(mt_FloatText, menu);
             break;
         case mt_On_Activity_Diagram:

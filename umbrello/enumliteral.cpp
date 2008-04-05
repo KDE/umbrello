@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,17 +17,22 @@
 
 UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent,
                                const QString& name, Uml::IDType id)
-        : UMLClassifierListItem(parent, name, id) {
+        : UMLClassifierListItem(parent, name, id)
+{
     m_BaseType = Uml::ot_EnumLiteral;
 }
 
-UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent) : UMLClassifierListItem(parent) {
+UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent) : UMLClassifierListItem(parent)
+{
     m_BaseType = Uml::ot_EnumLiteral;
 }
 
-UMLEnumLiteral::~UMLEnumLiteral() { }
+UMLEnumLiteral::~UMLEnumLiteral()
+{
+}
 
-bool UMLEnumLiteral::operator==(const UMLEnumLiteral& rhs) {
+bool UMLEnumLiteral::operator==(const UMLEnumLiteral& rhs)
+{
     if ( this == &rhs )  {
         return true;
     }
@@ -50,19 +55,21 @@ UMLObject* UMLEnumLiteral::clone() const
     return clone;
 }
 
-
-void UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement attributeElement = UMLObject::save("UML:EnumerationLiteral", qDoc);
     qElement.appendChild( attributeElement );
 }
 
-bool UMLEnumLiteral::load(QDomElement& ) {
+bool UMLEnumLiteral::load(QDomElement& )
+{
     return true;
 }
 
-bool UMLEnumLiteral::showPropertiesDialog(QWidget* parent) {
+bool UMLEnumLiteral::showPropertiesDialog(QWidget* parent)
+{
     bool ok;
-    QString name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), getName(), &ok, parent);
+    QString name = KInputDialog::getText(i18nc("enum name", "Name"), i18n("Enter name:"), getName(), &ok, parent);
     if ( ok && !name.isEmpty() )  {
         setName(name);
         return true;
@@ -70,5 +77,4 @@ bool UMLEnumLiteral::showPropertiesDialog(QWidget* parent) {
         return false;
     }
 }
-
 

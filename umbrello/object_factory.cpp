@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2007                                                *
+ *  copyright (C) 2006-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -13,13 +13,13 @@
 #include "object_factory.h"
 
 // qt/kde includes
-#include <qregexp.h>
-#include <qstringlist.h>
+#include <QtCore/QRegExp>
+#include <QtCore/QStringList>
+#include <QtGui/QApplication>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
-#include <QApplication>
 
 // app includes
 #include "umlobject.h"
@@ -53,22 +53,25 @@ namespace Object_Factory {
 
 Uml::IDType g_predefinedId = Uml::id_None;
 
-void assignUniqueIdOnCreation(bool yesno) {
+void assignUniqueIdOnCreation(bool yesno)
+{
     if (yesno)
         g_predefinedId = Uml::id_None;
     else
         g_predefinedId = Uml::id_Reserved;
 }
 
-bool assignUniqueIdOnCreation() {
+bool assignUniqueIdOnCreation()
+{
     return (g_predefinedId == Uml::id_None);
 }
 
 UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
-                              UMLPackage *parentPkg) {
+                              UMLPackage *parentPkg)
+{
     if (parentPkg == NULL) {
         uError() << "Object_Factory::createNewUMLObject(" << name
-            << "): parentPkg is NULL" << endl;
+            << "): parentPkg is NULL";
         return NULL;
     }
     UMLObject *o = NULL;
@@ -134,7 +137,8 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
 
 UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
                            UMLPackage *parentPkg /* = NULL */,
-                           bool solicitNewName /* = true */) {
+                           bool solicitNewName /* = true */)
+{
     UMLDoc *doc = UMLApp::app()->getDocument();
     if (parentPkg == NULL) {
         if (type == Uml::ot_Datatype) {
@@ -142,7 +146,7 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
         } else {
             Uml::Model_Type mt = Model_Utils::convert_OT_MT(type);
             uDebug() << "Object_Factory::createUMLObject(" << n << "): "
-                << "parentPkg is not set, assuming Model_Type " << mt << endl;
+                << "parentPkg is not set, assuming Model_Type " << mt;
             parentPkg = doc->getRootFolder(mt);
         }
     }
@@ -160,7 +164,7 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
     QString name = Model_Utils::uniqObjectName(type, parentPkg, n);
     bool bValidNameEntered = false;
     do {
-        name = KInputDialog::getText(i18n("Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
+        name = KInputDialog::getText(i18nc("UMLObject name", "Name"), i18n("Enter name:"), name, &ok, (QWidget*)UMLApp::app());
         if (!ok) {
             return 0;
         }
@@ -186,7 +190,8 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
     return o;
 }
 
-UMLAttribute *createAttribute(UMLObject *parent, const QString& name, UMLObject *type) {
+UMLAttribute *createAttribute(UMLObject *parent, const QString& name, UMLObject *type)
+{
     UMLAttribute *attr = new UMLAttribute(parent);
     attr->setName(name);
     attr->setType(type);
@@ -195,12 +200,14 @@ UMLAttribute *createAttribute(UMLObject *parent, const QString& name, UMLObject 
     return attr;
 }
 
-UMLOperation *createOperation(UMLClassifier *parent, const QString& name) {
+UMLOperation *createOperation(UMLClassifier *parent, const QString& name)
+{
     UMLOperation *op = new UMLOperation(parent, name, g_predefinedId);
     return op;
 }
 
-UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type type) {
+UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type type)
+{
     UMLObject* returnObject = NULL;
     switch (type) {
     case Uml::ot_Attribute: {
@@ -263,7 +270,8 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type
 }
 
 UMLObject* makeObjectFromXMI(const QString& xmiTag,
-                             const QString& stereoID /* = QString() */) {
+                             const QString& stereoID /* = QString() */)
+{
     UMLObject* pObject = 0;
     if (Uml::tagEq(xmiTag, "UseCase")) {
         pObject = new UMLUseCase();
@@ -319,7 +327,6 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
     } else if (Uml::tagEq(xmiTag, "Category2Parent")) {
         pObject = new UMLAssociation(Uml::at_Category2Parent);
     }
-
 
     return pObject;
 }

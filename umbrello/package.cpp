@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,7 +36,8 @@ UMLPackage::UMLPackage(const QString & name, Uml::IDType id)
 }
 
 UMLPackage::~UMLPackage()
-{}
+{
+}
 
 void UMLPackage::copyInto(UMLObject *lhs) const
 {
@@ -69,8 +70,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* a)
             continue;
         if (AId == c->getID() || (BId == c->getID())) {
             if (c->hasAssociation(a))
-                uDebug() << c->getName() << " already has association id=" << ID2STR(a->getID())
-                    << endl;
+                uDebug() << c->getName() << " already has association id=" << ID2STR(a->getID());
             else
                c->addAssociationEnd(a);
         }
@@ -99,11 +99,11 @@ void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
 bool UMLPackage::addObject(UMLObject *pObject)
 {
     if (pObject == NULL) {
-        uError() << "is called with a NULL object" << endl;
+        uError() << "is called with a NULL object";
         return false;
     }
     if (m_objects.indexOf(pObject) != -1) {
-        uDebug() << pObject->getName() << " is already there" << endl;
+        uDebug() << pObject->getName() << " is already there";
         return false;
     }
     if (pObject->getBaseType() == Uml::ot_Association) {
@@ -115,7 +115,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
             UMLPackage *pkg = pObject->getUMLPackage();
             if (pkg != this) {
                uError() << "UMLPackage " << m_Name << " addObject: "
-                   << "assoc's UMLPackage is " << pkg->getName() << endl;
+                        << "assoc's UMLPackage is " << pkg->getName();
             }
             addAssocToConcepts(assoc);
         }
@@ -126,7 +126,9 @@ bool UMLPackage::addObject(UMLObject *pObject)
       while ( findObject( name ) != NULL  ) {
          name = Model_Utils::uniqObjectName(pObject->getBaseType(),this);
          bool ok = true;
-         name = KInputDialog::getText(i18n("Name"), i18n("An object with this name already exists in the package %1.<br /> Please enter a new name:", this->getName()), name, &ok, (QWidget*)UMLApp::app());
+         name = KInputDialog::getText(i18nc("object name", "Name"),
+                                      i18n("An object with this name already exists in the package %1.<br /> Please enter a new name:", this->getName()),
+                                      name, &ok, (QWidget*)UMLApp::app());
          if (!ok) {
             name = oldName;
             continue;
@@ -154,7 +156,7 @@ void UMLPackage::removeObject(UMLObject *pObject)
     }
     if (m_objects.indexOf(pObject) == -1)
         uDebug() << m_Name << " removeObject: object with id="
-            << ID2STR(pObject->getID()) << "not found." << endl;
+                 << ID2STR(pObject->getID()) << "not found.";
     else
         m_objects.removeAll(pObject);
 }
@@ -200,7 +202,6 @@ UMLObject * UMLPackage::findObjectById(Uml::IDType id)
     return Model_Utils::findObjectInList(id, m_objects);
 }
 
-
 void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested )
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
@@ -215,7 +216,6 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested )
          }
     }
 }
-
 
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
                                    bool includeNested /* = true */)
@@ -353,7 +353,7 @@ bool UMLPackage::load(QDomElement& element)
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if( !pObject ) {
-            uWarning() << "Unknown type of umlobject to create: " << type << endl;
+            uWarning() << "Unknown type of umlobject to create: " << type;
             continue;
         }
         pObject->setUMLPackage(this);

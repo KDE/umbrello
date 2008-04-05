@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,9 +13,9 @@
 #include "umlviewimageexporterall.h"
 
 // include files for Qt
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qcheckbox.h>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtGui/QCheckBox>
 
 // kde include files
 #include <klocale.h>
@@ -30,15 +30,18 @@
 #include "uml.h"
 #include "umldoc.h"
 
-UMLViewImageExporterAll::UMLViewImageExporterAll() {
+UMLViewImageExporterAll::UMLViewImageExporterAll()
+{
     m_dialog = new ExportAllViewsDialog(0, "exportAllViewsDialog", false, 0, UMLApp::app()->getImageMimeType());
 }
 
-UMLViewImageExporterAll::~UMLViewImageExporterAll() {
+UMLViewImageExporterAll::~UMLViewImageExporterAll()
+{
     delete m_dialog;
 }
 
-void UMLViewImageExporterAll::exportAllViews() {
+void UMLViewImageExporterAll::exportAllViews()
+{
     UMLApp* app = UMLApp::app();
     UMLDoc* umlDoc = app->getDocument();
 
@@ -62,5 +65,6 @@ void UMLViewImageExporterAll::exportAllViews() {
     if (!errors.empty()) {
         KMessageBox::errorList(app, i18n("Some errors happened when exporting the images:"), errors);
     }
-    umlDoc->writeToStatusBar(i18n("Ready."));
+    umlDoc->writeToStatusBar(i18nc("reset status bar", "Ready."));
 }
+

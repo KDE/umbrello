@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,10 +13,10 @@
 #include "floatingtextwidget.h"
 
 // system includes
-#include <qregexp.h>
-#include <qpainter.h>
-#include <qevent.h>
-#include <qvalidator.h>
+#include <QtCore/QRegExp>
+#include <QtGui/QPainter>
+#include <QtCore/QEvent>
+#include <QtGui/QValidator>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
@@ -52,7 +52,8 @@ FloatingTextWidget::FloatingTextWidget(UMLView * view, Uml::Text_Role role,
     }
 }
 
-void FloatingTextWidget::init() {
+void FloatingTextWidget::init()
+{
     // initialize loaded/saved (i.e. persistent) data
     m_PreText = "";
     m_Text = "";
@@ -64,10 +65,12 @@ void FloatingTextWidget::init() {
     UMLWidget::m_bResizable = false;
 }
 
-FloatingTextWidget::~FloatingTextWidget() {
+FloatingTextWidget::~FloatingTextWidget()
+{
 }
 
-void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     int w = width();
     int h = height();
     p.setFont( UMLWidget::getFont() );
@@ -78,16 +81,21 @@ void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY) {
         drawSelected(&p, offsetX, offsetY);
 }
 
-void FloatingTextWidget::resizeEvent(QResizeEvent * /*re*/) {}
+void FloatingTextWidget::resizeEvent(QResizeEvent * re)
+{
+    Q_UNUSED(re);
+}
 
-QSize FloatingTextWidget::calculateSize() {
+QSize FloatingTextWidget::calculateSize()
+{
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     int h = fm.lineSpacing();
     int w = fm.width( getDisplayText() );
     return QSize(w + 8, h + 4);  // give a small margin
 }
 
-void FloatingTextWidget::slotMenuSelection(QAction* action) {
+void FloatingTextWidget::slotMenuSelection(QAction* action)
+{
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Properties:
@@ -101,13 +109,13 @@ void FloatingTextWidget::slotMenuSelection(QAction* action) {
     case ListPopupMenu::mt_Operation:
         {
             if (m_pLink == NULL) {
-                uDebug() << "mt_Operation: " << "m_pLink is NULL" << endl;
+                uDebug() << "mt_Operation: " << "m_pLink is NULL";
                 return;
             }
             UMLClassifier* c = m_pLink->getOperationOwner();
             if (c == NULL) {
                 bool ok = false;
-                QString opText = KInputDialog::getText(i18n("Name"),
+                QString opText = KInputDialog::getText(i18nc("operation name", "Name"),
                                                        i18n("Enter operation name:"),
                                                        getText(), &ok, m_pView);
                 if (ok)
@@ -154,7 +162,8 @@ void FloatingTextWidget::slotMenuSelection(QAction* action) {
     }//end switch
 }
 
-void FloatingTextWidget::handleRename() {
+void FloatingTextWidget::handleRename()
+{
     QRegExpValidator v(QRegExp(".*"), 0);
     QString t;
     if( m_Role == Uml::tr_RoleAName || m_Role == Uml::tr_RoleBName ) {
@@ -184,7 +193,6 @@ void FloatingTextWidget::handleRename() {
 
 void FloatingTextWidget::changeName(const QString& newText)
 {
-
     if (m_pLink && !isTextValid(newText)) {
         AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(m_pLink);
         if (assoc) {
@@ -229,15 +237,15 @@ void FloatingTextWidget::changeName(const QString& newText)
     setVisible( true );
     updateComponentSize();
     update();
-
 }
 
-
-void FloatingTextWidget::setTextcmd(const QString &t) {
-      UMLApp::app()->executeCommand(new Uml::cmdSetTxt(this,t));
+void FloatingTextWidget::setTextcmd(const QString &t)
+{
+    UMLApp::app()->executeCommand(new Uml::cmdSetTxt(this,t));
 }
 
-void FloatingTextWidget::setText(const QString &t) {
+void FloatingTextWidget::setText(const QString &t)
+{
     if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
         QString seqNum, op;
         m_pLink->getSeqNumAndOp(seqNum, op);
@@ -253,7 +261,6 @@ void FloatingTextWidget::setText(const QString &t) {
     update();
 }
 
-
 void FloatingTextWidget::setPreText (const QString &t)
 {
     m_PreText = t;
@@ -261,13 +268,15 @@ void FloatingTextWidget::setPreText (const QString &t)
     update();
 }
 
-void FloatingTextWidget::setPostText(const QString &t) {
+void FloatingTextWidget::setPostText(const QString &t)
+{
     m_PostText = t;
     updateComponentSize();
     update();
 }
 
-void FloatingTextWidget::changeTextDlg() {
+void FloatingTextWidget::changeTextDlg()
+{
     bool ok = false;
     QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), getText(), &ok, m_pView);
 
@@ -281,15 +290,16 @@ void FloatingTextWidget::changeTextDlg() {
         hide();
 }
 
-void FloatingTextWidget::showOpDlg() {
+void FloatingTextWidget::showOpDlg()
+{
     if (m_pLink == NULL) {
-        uError() << "m_pLink is NULL" << endl;
+        uError() << "m_pLink is NULL";
         return;
     }
     QString seqNum, opText;
     UMLClassifier* c = m_pLink->getSeqNumAndOp(seqNum, opText);
     if (c == NULL) {
-        uError() << "m_pLink->getSeqNumAndOp() returns a NULL classifier" << endl;
+        uError() << "m_pLink->getSeqNumAndOp() returns a NULL classifier";
         return;
     }
 
@@ -337,15 +347,18 @@ void FloatingTextWidget::showOpDlg() {
     setMessageText();
 }
 
-QString FloatingTextWidget::getPreText() const {
+QString FloatingTextWidget::getPreText() const
+{
     return m_PreText;
 }
 
-QString FloatingTextWidget::getPostText() const {
+QString FloatingTextWidget::getPostText() const
+{
     return m_PostText;
 }
 
-QString FloatingTextWidget::getText() const {
+QString FloatingTextWidget::getText() const
+{
     //test to make sure not just the ":" between the seq number
     //and the actual message widget
     // hmm. this section looks like it could have been avoided by using pre-, post- text
@@ -366,30 +379,36 @@ QString FloatingTextWidget::getDisplayText() const
     return displayText;
 }
 
-bool FloatingTextWidget::activate( IDChangeLog* ChangeLog /*= 0 */) {
+bool FloatingTextWidget::activate( IDChangeLog* ChangeLog /*= 0 */)
+{
     if (! UMLWidget::activate(ChangeLog))
         return false;
     update();
     return true;
 }
 
-void FloatingTextWidget::setLink(LinkWidget * l) {
+void FloatingTextWidget::setLink(LinkWidget * l)
+{
     m_pLink = l;
 }
 
-LinkWidget * FloatingTextWidget::getLink() {
+LinkWidget * FloatingTextWidget::getLink()
+{
     return m_pLink;
 }
 
-void FloatingTextWidget::setRole(Uml::Text_Role role) {
+void FloatingTextWidget::setRole(Uml::Text_Role role)
+{
     m_Role = role;
 }
 
-Uml::Text_Role FloatingTextWidget::getRole() const {
+Uml::Text_Role FloatingTextWidget::getRole() const
+{
     return m_Role;
 }
 
-bool FloatingTextWidget::isTextValid( const QString &text ) {
+bool FloatingTextWidget::isTextValid( const QString &text )
+{
     int length = text.length();
     if(length < 1)
         return false;
@@ -399,7 +418,8 @@ bool FloatingTextWidget::isTextValid( const QString &text ) {
     return false;
 }
 
-void FloatingTextWidget::showProperties() {
+void FloatingTextWidget::showProperties()
+{
     if (m_Role == Uml::tr_Coll_Message || m_Role == Uml::tr_Coll_Message_Self ||
             m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
         showOpDlg();
@@ -411,7 +431,8 @@ void FloatingTextWidget::showProperties() {
     }
 }
 
-void FloatingTextWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void FloatingTextWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement textElement = qDoc.createElement( "floatingtext" );
     UMLWidget::saveToXMI( qDoc, textElement );
     textElement.setAttribute( "text", m_Text );
@@ -427,7 +448,8 @@ void FloatingTextWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
     qElement.appendChild( textElement );
 }
 
-bool FloatingTextWidget::loadFromXMI( QDomElement & qElement ) {
+bool FloatingTextWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
 
@@ -447,7 +469,8 @@ bool FloatingTextWidget::loadFromXMI( QDomElement & qElement ) {
     return !isDummy;
 }
 
-void FloatingTextWidget::setMessageText() {
+void FloatingTextWidget::setMessageText()
+{
     if (m_pLink)
         m_pLink->setMessageText(this);
     setVisible(getText().length() > 0);

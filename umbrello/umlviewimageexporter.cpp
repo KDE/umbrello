@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,8 +13,8 @@
 #include "umlviewimageexporter.h"
 
 // include files for Qt
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
 
 //kde include files
 #include <klocale.h>
@@ -30,12 +30,14 @@
 #include "umlview.h"
 
 
-UMLViewImageExporter::UMLViewImageExporter(UMLView* view) {
+UMLViewImageExporter::UMLViewImageExporter(UMLView* view)
+{
     m_view = view;
     m_imageMimeType = UMLApp::app()->getImageMimeType();
 }
 
-void UMLViewImageExporter::exportView() {
+void UMLViewImageExporter::exportView()
+{
     if (!prepareExportView()) {
         return;
     }
@@ -49,10 +51,11 @@ void UMLViewImageExporter::exportView() {
     if (!error.isNull()) {
         KMessageBox::error(app, i18n("An error happened when exporting the image:\n") + error);
     }
-    app->getDocument()->writeToStatusBar(i18n("Ready."));
+    app->getDocument()->writeToStatusBar(i18nc("reset status bar", "Ready."));
 }
 
-bool UMLViewImageExporter::prepareExportView() {
+bool UMLViewImageExporter::prepareExportView()
+{
     bool exportPrepared = false;
 
     do {
@@ -76,7 +79,8 @@ bool UMLViewImageExporter::prepareExportView() {
     return true;
 }
 
-bool UMLViewImageExporter::getParametersFromUser() {
+bool UMLViewImageExporter::getParametersFromUser()
+{
     UMLApp *app = UMLApp::app();
 
     // configure & show the file dialog
@@ -105,7 +109,8 @@ bool UMLViewImageExporter::getParametersFromUser() {
     return true;
 }
 
-void UMLViewImageExporter::prepareFileDialog(KFileDialog &fileDialog) {
+void UMLViewImageExporter::prepareFileDialog(KFileDialog &fileDialog)
+{
     // get all supported mime types
     QStringList mimeTypes = UMLViewImageExporterModel::supportedMimeTypes();
 
