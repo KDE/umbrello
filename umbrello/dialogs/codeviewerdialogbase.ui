@@ -1,103 +1,73 @@
 <ui version="4.0" >
  <class>CodeViewerDialogBase</class>
- <widget class="QDialog" name="CodeViewerDialogBase" >
+ <widget class="QWidget" name="CodeViewerDialogBase" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>615</width>
-    <height>689</height>
+    <width>614</width>
+    <height>658</height>
    </rect>
   </property>
-  <property name="font" >
-   <font>
-    <family>Courier</family>
-   </font>
-  </property>
   <property name="windowTitle" >
-   <string>Code Viewer</string>
+   <string>Form</string>
   </property>
-  <property name="sizeGripEnabled" >
-   <bool>true</bool>
-  </property>
-  <layout class="QGridLayout" >
-   <item row="0" column="0" >
-    <layout class="QGridLayout" >
-     <item row="0" column="1" >
-      <widget class="QCheckBox" name="m_showHiddenCodeCB" >
-       <property name="text" >
-        <string>Show hidden blocks</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0" colspan="3" >
-      <widget class="QLabel" name="componentLabel" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text" >
-        <string>&lt;p align="center">component name here&lt;/p></string>
-       </property>
-       <property name="scaledContents" >
-        <bool>true</bool>
-       </property>
-       <property name="wordWrap" >
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2" >
-      <widget class="QPushButton" name="m_exitButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text" >
-        <string>Close</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" >
-      <widget class="QCheckBox" name="m_highlightCheckBox" >
-       <property name="text" >
-        <string>Show block type</string>
-       </property>
-       <property name="checked" >
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="0" >
-    <widget class="QTabWidget" name="m_tabWidget" />
-   </item>
-  </layout>
+  <widget class="QWidget" name="verticalLayout" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>611</width>
+     <height>641</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" >
+    <item>
+     <layout class="QGridLayout" >
+      <item row="0" column="1" >
+       <widget class="QCheckBox" name="m_showHiddenCodeCB" >
+        <property name="text" >
+         <string>Show hidden blocks</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="3" >
+       <widget class="QLabel" name="componentLabel" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text" >
+         <string>&lt;p align="center">component name here&lt;/p></string>
+        </property>
+        <property name="scaledContents" >
+         <bool>true</bool>
+        </property>
+        <property name="wordWrap" >
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QCheckBox" name="m_highlightCheckBox" >
+        <property name="text" >
+         <string>Show block type</string>
+        </property>
+        <property name="checked" >
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="m_tabWidget" />
+    </item>
+   </layout>
+  </widget>
  </widget>
- <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <resources/>
- <connections>
-  <connection>
-   <sender>m_exitButton</sender>
-   <signal>released()</signal>
-   <receiver>CodeViewerDialogBase</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

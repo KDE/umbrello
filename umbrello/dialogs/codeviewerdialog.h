@@ -19,33 +19,31 @@
 #ifndef CODEVIEWERDIALOG_H
 #define CODEVIEWERDIALOG_H
 
-#include <QtCore/QString>
-
-#include "../codeviewerstate.h"
+#include "codeviewerstate.h"
 #include "ui_codeviewerdialogbase.h"
 
 class CodeDocument;
 
 
-/** This class is sooo ugly I don't know where to begin. For now, its a prototype
-  * that works, and thats all we need. In the future, a re-write is mandated to
-  * bring a bit of beauty to this beast. -b.t.
-  */
-class CodeViewerDialog : public QDialog, private Ui::CodeViewerDialogBase
+/**
+ * This class is sooo ugly I don't know where to begin. For now, its a prototype
+ * that works, and thats all we need. In the future, a re-write is mandated to
+ * bring a bit of beauty to this beast. -b.t.
+ */
+class CodeViewerDialog : public KDialog, private Ui::CodeViewerDialogBase
 {
     Q_OBJECT
 public:
 
     CodeViewerDialog ( QWidget* parent, CodeDocument * doc, Settings::CodeViewerState state,
                        const char* name = 0, bool modal = false, Qt::WFlags fl = 0 );
+
     ~CodeViewerDialog ();
 
     /**
      * Return the code viewer state.
      */
     Settings::CodeViewerState getState( );
-
-    QString parentDocName;
 
     /**
      * Adds a code document to the tabbed output.
@@ -54,7 +52,7 @@ public:
 
 protected:
 
-    bool close ( bool alsoDelete );
+    bool close ();
 
 private:
 
@@ -68,7 +66,7 @@ public slots:
 
 protected slots:
 
-    /*
+    /**
      *  Sets the strings of the subwidgets using the current
      *  language.
      */
