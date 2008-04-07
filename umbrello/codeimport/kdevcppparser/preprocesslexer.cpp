@@ -343,6 +343,35 @@ int PreprocessLexer::toInt( const Token& token )
     }
 }
 
+void PreprocessLexer::nextLine() {
+  m_source.parse( (*gr_whiteSpace)
+		  [boost::bind( &PreprocessLexer::output, this, _1, _2)]);
+  QChar ch = m_source.currentChar();
+  if( ch.isNull() || ch.isSpace() ){
+    /* skip */
+  } else if( m_source.parse( ch_p('#') >> *gr_whiteSpace).hit) {
+    QString directive;
+    m_source.parse( identifier_pg[ assign(directive)]); // read the directive
+    handleDirective( directive );
+  } else if( m_preprocessor.inSkip()) {
+    // skip line and continue
+    m_source.parse( gr_skipTillEol);
+    return;
+  } else {
+    while( !m_source.parse( eol_p).hit) {
+      Token tk;
+      nextToken( tk );
+      if( tk.type() != -1 )
+	m_preprocessedString += tk.text();
+      if( m_source.currentChar().isNull() )
+	break;
+    }
+  }
+  if( m_source.parse( eol_p).hit) {
+    m_preprocessedString += '\n';
+  }
+}
+
 void PreprocessLexer::nextToken( Token& tk)
 {
   m_source.parse( (*gr_whiteSpace)
@@ -350,18 +379,6 @@ void PreprocessLexer::nextToken( Token& tk)
   QChar ch = m_source.currentChar();
   if( ch.isNull() || ch.isSpace() ){
     /* skip */
-  } else if( m_source.get_startLine()
-	     && m_source.parse( ch_p('#') >> *gr_whiteSpace).hit) {
-    m_source.set_startLine( false);
-    
-    QString directive;
-    m_source.parse( identifier_pg[ assign(directive)]); // read the directive
-
-    handleDirective( directive );
-  } else if( m_source.get_startLine() && m_preprocessor.inSkip()) {
-    // skip line and continue
-    m_source.parse( gr_skipTillEol);
-    return;
   } else if( m_source.parse
 	     (
 	      if_p(var( m_recordComments))
@@ -429,8 +446,6 @@ void PreprocessLexer::nextToken( Token& tk)
 	} else {
 	  tk = m_source.createToken( Token_identifier, start, endIde);
 
-	  m_source.set_startLine( false);
-
 	  m_data->endScope();        // OPS!!
 	  m_preprocessorEnabled = preproc;
 	  return;
@@ -448,22 +463,18 @@ void PreprocessLexer::nextToken( Token& tk)
 
       QString textToInsert;
 
-      while( !m_source.currentChar().isNull() ){
-
+      while( !m_source.currentChar().isNull()
+	     && m_source.currentChar() != '\n'
+	     && m_source.currentChar() != '\r'){
 	m_source.parse( *gr_whiteSpace);
-
 	Token tok;
 	nextToken( tok);
-
 	bool stringify = !m_inPreproc && tok == '#';
 	bool merge = !m_inPreproc && tok == Token_concat;
-
 	if( stringify || merge )
 	  nextToken( tok);
-
 	if( tok == Token_eof )
 	  break;
-
 	QString tokText = tok.text();
 	QString str = (tok == Token_identifier && m_data->hasBind(tokText)) ? m_data->apply( tokText ) : tokText;
 	if( str == ide ){
@@ -538,11 +549,6 @@ void PreprocessLexer::nextToken( Token& tk)
     m_source.nextChar();
     tk = m_source.createToken( ch.unicode(), l_ptr);
   }
-  if( m_source.parse( eol_p).hit) {
-    m_source.set_startLine( true);
-    m_preprocessedString += '\n';
-  } else
-    m_source.set_startLine( false);
 }
 
 void PreprocessLexer::output( CharIterator p_first, CharIterator p_last) {
@@ -550,16 +556,9 @@ void PreprocessLexer::output( CharIterator p_first, CharIterator p_last) {
     m_preprocessedString += *p_first;
 }
 
-void PreprocessLexer::preprocess()
-{
-  m_source.set_startLine( true);
+void PreprocessLexer::preprocess() {
   for( ;; ) {
-    Token tk;
-    nextToken( tk );
-
-    if( tk.type() != -1 )
-      m_preprocessedString += tk.text();
-
+    nextLine();
     if( m_source.currentChar().isNull() )
       break;
   }
@@ -604,7 +603,7 @@ QString PreprocessLexer::readArgument()
   m_source.parse( *gr_whiteSpace);
   while( !m_source.currentChar().isNull() ){
 
-    m_source.parse( *gr_whiteSpace);
+    m_source.parse( *(gr_whiteSpace | eol_p));
     QChar ch = m_source.currentChar();
 
     if( ch.isNull() || (!count && (ch == ',' || ch == ')')) )

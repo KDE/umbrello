@@ -220,6 +220,7 @@ private:
   }
   Position currentPosition() const
   {return m_source.get_currentPosition();}
+  void nextLine();
   void nextToken( Token& token);
   void output( CharIterator p_first, CharIterator p_last);
   void skip( int l, int r );
@@ -267,12 +268,6 @@ private:
     int length() const {return m_endPtr - m_ptr;}
     void nextChar() {
       QChar l_current = *m_ptr++;
-      switch( l_current.toAscii()) {
-      case '\n':
-      case '\r':
-	m_startLine = true;
-	break;
-      }
     }
     template <typename _RuleT>
     parse_info<CharIterator> parse( _RuleT const& p_rule) {
@@ -285,7 +280,6 @@ private:
     void reset() {
       m_source.clear();
       m_ptr = CharIterator();
-      m_startLine = false;
     }
     void set_source( const QString& source,
 		     PositionFilename const& p_filename) {
@@ -293,7 +287,6 @@ private:
       m_ptr = CharIterator( m_source.data(),
 			    m_source.data() + m_source.length(),
 			    Position( p_filename));
-      m_startLine = true;
     }
     QString substrFrom( CharIterator start) const
     {return QString( &*start, &*m_ptr - &*start);}
@@ -301,15 +294,12 @@ private:
     Position get_currentPosition() const {return m_ptr.get_position();}
     CharIterator get_ptr() const {return m_ptr;}
     QString const& get_source() const {return m_source;}
-    bool get_startLine() const {return m_startLine;}
     /* setters */
-    void set_startLine( bool p) {m_startLine = p;}
     void set_currentPosition( Position const& p) {m_ptr.set_position( p);}
   private:
     QString m_source;
     CharIterator m_ptr;
     const CharIterator m_endPtr;
-    bool m_startLine;
   };
   Source m_source;
   bool m_recordComments;
