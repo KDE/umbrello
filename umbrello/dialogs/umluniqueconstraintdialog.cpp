@@ -8,6 +8,7 @@
  *  copyright (C) 2003-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
+#include "umluniqueconstraintdialog.h"
 
 #include <QtGui/qlayout.h>
 #include <QtGui/QVBoxLayout>
@@ -18,7 +19,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include "umluniqueconstraintdialog.h"
 #include "attribute.h"
 #include "classifierlistitem.h"
 #include "classifier.h"

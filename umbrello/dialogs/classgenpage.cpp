@@ -15,7 +15,6 @@
 // qt includes
 #include <QtGui/QLayout>
 #include <q3groupbox.h>
-#include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
 #include <q3buttongroup.h>
 #include <q3multilineedit.h>
