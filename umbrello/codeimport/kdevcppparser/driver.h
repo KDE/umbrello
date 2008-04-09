@@ -93,44 +93,45 @@ typedef QPair<QString, int> Dependence;
 class Macro
 {
 public:
-    typedef QString Argument;
+  typedef QString Argument;
   typedef std::list<Argument> ArgumentList;
 
   Macro() {}
+  Macro( const QString &n) : m_name( n) {}
   Macro( const QString &n, const QString &b ) : m_name( n ), m_body( b ) {}
 
-    Macro( const Macro& source )
-	: m_name( source.m_name),
-          m_fileName( source.m_fileName ),
-	  m_body( source.m_body ),
+  Macro( const Macro& source )
+    : m_name( source.m_name),
+      m_fileName( source.m_fileName ),
+      m_body( source.m_body ),
       m_arguments( source.m_arguments) {}
 
-    Macro& operator = ( const Macro& source )
-    {
-	m_name = source.m_name;
-	m_body = source.m_body;
-        m_fileName = source.m_fileName;
+  Macro& operator = ( const Macro& source )
+  {
+    m_name = source.m_name;
+    m_body = source.m_body;
+    m_fileName = source.m_fileName;
     m_arguments = source.m_arguments;
-	return *this;
-    }
+    return *this;
+  }
 
-    bool operator == ( const Macro& source ) const
-    {
-	return
-	    m_name == source.m_name &&
-            m_fileName == source.m_fileName &&
-	    m_body == source.m_body &&
+  bool operator == ( const Macro& source ) const
+  {
+    return
+      m_name == source.m_name &&
+      m_fileName == source.m_fileName &&
+      m_body == source.m_body &&
       m_arguments == source.m_arguments;
-    }
+  }
 
   QString const& name() const {return m_name;}
-    void setName( const QString& name ) { m_name = name; }
+  void setName( const QString& name ) { m_name = name; }
 
-    QString fileName() const { return m_fileName; }
-    void setFileName( const QString& fileName ) { m_fileName = fileName; }
+  QString fileName() const { return m_fileName; }
+  void setFileName( const QString& fileName ) { m_fileName = fileName; }
 
-    QString body() const { return m_body; }
-    void setBody( const QString& body ) { m_body = body; }
+  QString body() const { return m_body; }
+  void setBody( const QString& body ) { m_body = body; }
 
   bool hasArguments() const { return !m_arguments.empty();}
   ArgumentList const& arguments() const {return m_arguments;}
@@ -139,9 +140,9 @@ public:
   void push_back( Argument const& argument)
   {m_arguments.push_back( argument);}
 private:
-    QString m_name;
-    QString m_fileName;
-    QString m_body;
+  QString m_name;
+  QString m_fileName;
+  QString m_body;
   ArgumentList m_arguments;
 };
 

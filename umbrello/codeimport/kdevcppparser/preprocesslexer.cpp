@@ -478,10 +478,7 @@ void PreprocessLexer::nextToken( Token& tk)
 	QString tokText = tok.text();
 	QString str = (tok == Token_identifier && m_data->hasBind(tokText)) ? m_data->apply( tokText ) : tokText;
 	if( str == ide ){
-	  //Problem p( i18n("unsafe use of macro '%1'").arg(ide), m_currentLine, m_currentColumn );
-	  //m_driver->addProblem( m_driver->currentFileName(), p );
 	  m_driver->removeMacro( ide );
-	  // str = QString();
 	}
 
 	if( stringify ) {
@@ -679,26 +676,55 @@ bool PreprocessLexer::macroDefined()
   return m_driver->hasMacro( word );
 }
 
+struct push_back_c_impl {
+  template <typename Container, typename Item>
+  struct result {typedef void type;};
+  template <typename Container, typename Item>
+  void operator()(Container& c, Item const& item) const
+  {c.push_back( item);}
+};
+
+function<push_back_c_impl> const push_back_c = push_back_c_impl();
+
+struct macroDefinition :
+  grammar<macroDefinition, result_closure<Macro>::context_t>
+{
+  template < typename ScannerT >
+  struct definition {
+    typedef rule<ScannerT> rule_t;
+    rule_t main;
+    rule_t macroName;
+    rule<ScannerT, result_closure<QString>::context_t> ellipsis, argument;
+
+    rule_t const& start() const {return main;}
+
+    definition( macroDefinition const& self) {
+      main =
+	*gr_whiteSpace
+	>> macroName
+	>> !(ch_p('(') >> *gr_whiteSpace
+	     >> list_p( *gr_whiteSpace
+			>> argument[ push_back_c( self.result_, arg1)]
+			>> *gr_whiteSpace
+			,
+			','
+			)
+	     >> ')');
+      macroName = identifier_pg[ self.result_ = construct_<Macro>( arg1)];
+      argument =
+	ellipsis [assign_a(argument.result_)]
+	| identifier_pg [assign_a(argument.result_)];
+      ellipsis =
+	str_p("...")[ellipsis.result_ = constructQString( arg1, arg2)];
+    }
+  };
+} macroDefinition_pg;
+
 void PreprocessLexer::processDefine()
 {
   Macro m;
   m.setFileName( m_driver->currentFileName() );
-  m_source.parse( *gr_whiteSpace
-		  >>
-		  identifier_pg[boost::bind( &Macro::setName, (Macro*)&m, _1)]);
-  m_source.parse( ch_p('(') >> *gr_whiteSpace
-		  >>
-		  list_p( *gr_whiteSpace
-			  >>
-			  (str_p("...")[ push_back_a( m, "...")]
-			   | identifier_pg[ push_back_a( m)]
-			   )
-			  >> *gr_whiteSpace
-			  ,
-			  ','
-			  )
-		  >> ')'
-		  );
+  m_source.parse( macroDefinition_pg[var(m) = arg1]);
 
   m_preprocessorEnabled = true;
 
