@@ -20,6 +20,7 @@
 #ifndef _Position_H_
 #define _Position_H_
 
+#include <limits.h>
 #include <boost/version.hpp>
 #include <boost/spirit.hpp>
 #include <QString>
