@@ -5,15 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
-#ifndef __CMD_RESIZEWIDGET__
-#define __CMD_RESIZEWIDGET__
+#ifndef CMD_RESIZEWIDGET_H
+#define CMD_RESIZEWIDGET_H
 
-#include <QUndoCommand>
-
+#include <QtGui/QUndoCommand>
 
 #include "umlwidget.h"
 

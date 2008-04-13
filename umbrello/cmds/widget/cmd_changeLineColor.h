@@ -5,15 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
+#ifndef CMD_CHANGELINECOLOR_H
+#define CMD_CHANGELINECOLOR_H
 
-#ifndef CMD_CHANGELINECOLOR_H_
-#define CMD_CHANGELINECOLOR_H_
-
-#include <QUndoCommand>
+#include <QtGui/QUndoCommand>
 
 #include "umlwidget.h"
 
@@ -40,4 +39,4 @@ namespace Uml
                 QColor color;
     };
 }
-#endif /*CMD_CHANGELINECOLOR_H_*/
+#endif /*CMD_CHANGELINECOLOR_H*/

@@ -5,14 +5,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#ifndef __CMD_CREATE_WIDGET__
-#define __CMD_CREATE_WIDGET__
+#ifndef CMD_CREATE_WIDGET_H
+#define CMD_CREATE_WIDGET_H
 
-#include <QUndoCommand>
+#include <QtGui/QUndoCommand>
+
 #include "umlwidget.h"
 #include "umlview.h"
 
