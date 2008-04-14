@@ -5,14 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#ifndef _CODEDOCUMENTLIST_H
-#define _CODEDOCUMENTLIST_H
+#ifndef CODEDOCUMENTLIST_H
+#define CODEDOCUMENTLIST_H
 
-#include <QList>
+#include <QtCore/QList>
 
 // forward declarations
 class CodeDocument;

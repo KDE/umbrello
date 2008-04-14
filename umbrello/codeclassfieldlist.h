@@ -5,14 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#ifndef _CODECLASSFIELDLIST_H
-#define _CODECLASSFIELDLIST_H
+#ifndef CODECLASSFIELDLIST_H
+#define CODECLASSFIELDLIST_H
 
-#include <QList>
+#include <QtCore/QList>
 
 // forward declarations
 class CodeClassField;

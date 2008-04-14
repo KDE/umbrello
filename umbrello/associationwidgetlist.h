@@ -15,10 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _ASSOCIATIONWIDGETLIST_H
-#define _ASSOCIATIONWIDGETLIST_H
+#ifndef ASSOCIATIONWIDGETLIST_H
+#define ASSOCIATIONWIDGETLIST_H
 
-#include <qlist.h>
+#include <QtCore/QList>
 
 // forward declarations
 class AssociationWidget;
