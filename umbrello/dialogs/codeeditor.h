@@ -14,21 +14,24 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2004-2008                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
-#include <kmenu.h>
 #include <QtCore/QString>
+#include <QtCore/QList>
 #include <QtGui/QLabel>
 //#include <QtGui/QTextEdit>
 #include <q3textedit.h>
 #include <q3popupmenu.h>
-#include <QtCore/QList>
 
-#include "../codeviewerstate.h"
-#include "../textblocklist.h"
+#include <kmenu.h>
+
+#include "codeviewerstate.h"
+#include "textblocklist.h"
 
 class UMLObject;
 
@@ -76,7 +79,7 @@ class CodeEditor : public Q3TextEdit
 public:
 
     explicit CodeEditor ( const QString & text, const QString & context = QString(),
-                          CodeViewerDialog * parent = 0, const char * name = 0 , CodeDocument * doc = 0);
+                          CodeViewerDialog * parent = 0, const char * name = 0, CodeDocument * doc = 0);
     explicit CodeEditor ( CodeViewerDialog * parent, const char* name = 0, CodeDocument * doc = 0);
     ~CodeEditor ();
 
@@ -90,10 +93,10 @@ protected:
     // various methods for appending various types of text blocks in the editor.
     void appendText (TextBlock * tblock);
     void appendText (HierarchicalCodeBlock * hblock);
-    void appendText (CodeClassFieldDeclarationBlock * db );
+    void appendText (CodeClassFieldDeclarationBlock * db);
     void appendText (TextBlockList * items);
     void appendText (CodeMethodBlock * mb);
-    void appendText (CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName="");
+    void appendText (CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName = "");
     void appendText (CodeBlockWithComments * cb );
 
     // Rebuild our view of the document. Happens whenever we change
@@ -124,7 +127,7 @@ protected:
 
 private:
 
-    QString parentDocName;
+    QString m_parentDocName;
     CodeDocument * m_parentDoc;
     CodeViewerDialog * m_parentDlg;
 
