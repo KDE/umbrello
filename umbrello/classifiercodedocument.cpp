@@ -254,11 +254,12 @@ QList<CodeOperation*> ClassifierCodeDocument::getCodeOperations ( )
     QList<CodeOperation*> list;
 
     TextBlockList * tlist = getTextBlockList();
-    for (TextBlock *tb = tlist->first(); tb; tb=tlist->next())
+    foreach (TextBlock* tb, *tlist)
     {
         CodeOperation * cop = dynamic_cast<CodeOperation*>(tb);
-        if(cop)
+        if (cop) {
             list.append(cop);
+        }
     }
     return list;
 }
@@ -270,7 +271,7 @@ void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
 {
     UMLOperation *op = dynamic_cast<UMLOperation*>(o);
     if (op == NULL) {
-        uError() << "arg is not a UMLOperation" << endl;
+        uError() << "arg is not a UMLOperation";
     }
     QString tag = CodeOperation::findTag(op);
     CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));

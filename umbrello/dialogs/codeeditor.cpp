@@ -1,12 +1,3 @@
-
-/***************************************************************************
-                          codeviewerdialog.cpp  -  description
-                             -------------------
-    begin                : Fri Aug 1 2003
-    copyright            : (C) 2003 by Brian Thomas
-    email                : brian.thomas@gsfc.nasa.gov
- ***************************************************************************/
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -14,6 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003  Brian Thomas  brian.thomas@gsfc.nasa.gov          *
  *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
@@ -36,20 +28,20 @@
 #include <kaction.h>
 
 // local includes
-#include "../attribute.h"
-#include "../classifier.h"
-#include "../umldoc.h"
-#include "../umlrole.h"
+#include "attribute.h"
+#include "classifier.h"
+#include "umldoc.h"
+#include "umlrole.h"
 
-#include "../codeaccessormethod.h"
-#include "../codeclassfield.h"
-#include "../codeclassfielddeclarationblock.h"
-#include "../codedocument.h"
-#include "../codeoperation.h"
-#include "../codemethodblock.h"
-#include "../classifiercodedocument.h"
-#include "../ownedhierarchicalcodeblock.h"
-#include "../codegenerators/codegenfactory.h"
+#include "codeaccessormethod.h"
+#include "codeclassfield.h"
+#include "codeclassfielddeclarationblock.h"
+#include "codedocument.h"
+#include "codeoperation.h"
+#include "codemethodblock.h"
+#include "classifiercodedocument.h"
+#include "ownedhierarchicalcodeblock.h"
+#include "codegenerators/codegenfactory.h"
 
 #include "codeviewerdialog.h"
 #include "classpropdlg.h"
@@ -58,15 +50,15 @@
 #include "umloperationdialog.h"
 
 
-CodeEditor::CodeEditor ( const QString & text, const QString & context, CodeViewerDialog * parent,
-    const char * name , CodeDocument * doc)
-        : Q3TextEdit ( text, context, parent, name)
+CodeEditor::CodeEditor (const QString & text, const QString & context, CodeViewerDialog * parent,
+    const char * name, CodeDocument * doc)
+        : Q3TextEdit (text, context, parent, name)
 {
     init(parent, doc);
 }
 
-CodeEditor::CodeEditor ( CodeViewerDialog * parent, const char* name, CodeDocument * doc )
-        : Q3TextEdit ( parent, name )
+CodeEditor::CodeEditor (CodeViewerDialog * parent, const char* name, CodeDocument * doc)
+        : Q3TextEdit (parent, name)
 {
     init(parent, doc);
 }
@@ -76,15 +68,23 @@ CodeEditor::~CodeEditor()
 }
 
 // clear the display of all text
-void CodeEditor::clearText ()
+void CodeEditor::clearText()
 {
-    //        setCaption( tr2i18n("") );
+    // setCaption( tr2i18n("") );
     m_selectedTextBlock = 0;
-    m_textBlockList.clear();
-    m_tbInfoMap.clear();
 
     // now call super-class
-    clear();
+//:TODO:    clear();  // crashes the application !?
+    setText(QString());
+
+    // uDebug() << "text block list size=" << m_textBlockList.size();
+    while (!m_textBlockList.isEmpty()) {
+        TextBlock* tb = m_textBlockList.takeFirst();
+        if (tb != NULL) {
+//:TODO:            delete tb;  // crashes the application !?
+        }
+    }
+    m_tbInfoMap.clear();
 }
 
 Settings::CodeViewerState CodeEditor::getState()
@@ -97,22 +97,20 @@ QLabel * CodeEditor::getComponentLabel()
     return m_parentDlg->componentLabel;
 }
 
-// FIX: used only for debugging right now.. eliminate eventually -b.t.
+// FIX: used only for debugging right now. eliminate eventually -b.t.
 void CodeEditor::clicked(int para, int pos)
 {
-    getComponentLabel()->setText("para:"+QString::number(para)+" pos:"+QString::number(pos));
+    getComponentLabel()->setText("para:" + QString::number(para) + " pos:" + QString::number(pos));
 }
 
-
-bool CodeEditor::close ()
+bool CodeEditor::close()
 {
     // capture last code block, if it exists
-    if(m_lastTextBlockToBeEdited)
+    if (m_lastTextBlockToBeEdited)
     {
         updateTextBlockFromText (m_lastTextBlockToBeEdited);
         m_lastTextBlockToBeEdited = 0;
     }
-
     return Q3TextEdit::close();
 }
 
@@ -123,8 +121,13 @@ void CodeEditor::doubleClicked(int para, int pos)
 
     // ugh. more ugliness. We want to be able to call up the
     // correct editing dialog for the given attribute.
-    TextBlock * tBlock = m_textBlockList.at(para);
-    editTextBlock(tBlock, para);
+    if ((para >= 0) && (para < m_textBlockList.size())) {
+        TextBlock * tBlock = m_textBlockList.at(para);
+        editTextBlock(tBlock, para);
+    }
+    else {
+        uWarning() << "paragraph number= " << para << " is out of range!";
+    }
 }
 
 // allow us to edit, as appropriate, the parent UMLObject of the
@@ -134,7 +137,8 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
     if (tBlock)
     {
         TextBlockInfo *info = m_tbInfoMap[tBlock];
-        if (info) {
+        if (info) 
+        {
             UMLObject *obj = info->getParent();
             if (obj)
             {
@@ -142,32 +146,38 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
                 UMLRole * role = NULL;
                 UMLOperation * op = NULL;
 
-                if( (at = dynamic_cast<UMLAttribute*>(obj)) )
+                if ( (at = dynamic_cast<UMLAttribute*>(obj)) )
                 {
                     UMLAttributeDialog dlg( this, at);
-                    if( dlg.exec() ) { rebuildView(para); }
-                }
-                else if( (dynamic_cast<UMLClassifier*>(obj)) )
-                {
-                    if (obj->showProperties())
+                    if ( dlg.exec() ) {
                         rebuildView(para);
+                    }
                 }
-                else if( (role = dynamic_cast<UMLRole*>(obj)))
+                else if ( (dynamic_cast<UMLClassifier*>(obj)) )
+                {
+                    if (obj->showProperties()) {
+                        rebuildView(para);
+                    }
+                }
+                else if ( (role = dynamic_cast<UMLRole*>(obj)))
                 {
                     UMLRoleDialog dlg(this,role);
-                    if( dlg.exec() ) { rebuildView(para); }
+                    if ( dlg.exec() ) {
+                        rebuildView(para);
+                    }
                 }
-                else if( (op = dynamic_cast<UMLOperation*>(obj)) )
+                else if ( (op = dynamic_cast<UMLOperation*>(obj)) )
                     //else if( (cop = dynamic_cast<CodeOperation*>(tBlock)) )
                 {
                     UMLOperationDialog dlg(this,op);
-                    if( dlg.exec() ) { rebuildView(para); }
+                    if ( dlg.exec() ) {
+                        rebuildView(para);
+                    }
                 }
                 else
                 {
                     uError() << "UNKNOWN parent for textBlock";
                 }
-
             }
         }
     }
@@ -176,7 +186,7 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
 // return whether is empty or just whitespace
 bool CodeEditor::stringIsBlank(const QString &str)
 {
-    if(str.isEmpty() || str.trimmed().isEmpty())
+    if (str.isEmpty() || str.trimmed().isEmpty())
         return true;
     return false;
 }
@@ -185,13 +195,13 @@ void CodeEditor::keyPressEvent ( QKeyEvent * e )
 {
     // uDebug() << "KEY PRESS EVENT:[" << e->text().toLatin1() << "] ascii CODE:" << e->key();
 
-    if((e->key() == 8) ) // || (e->key() == 127)) // what about delete?
+    if (e->key() == 8) {  // || (e->key() == 127))  // what about delete?
         m_backspacePressed = true;
-
+    }
     // Q: can the MAC or WIN/DOS sequences occur?
-    if((e->key() == 10) || (e->key() == 13) || (e->text() == "\r\n"))
+    if ((e->key() == 10) || (e->key() == 13) || (e->text() == "\r\n")) {
         m_newLinePressed = true;
-
+    }
     Q3TextEdit::keyPressEvent(e);
 }
 
@@ -207,15 +217,16 @@ void CodeEditor::loadFromDocument ()
     // header for document
     QString header = m_parentDoc->getHeader()->toString();
     QString componentName = QString("header for file ") +caption;
-    if(!stringIsBlank(header))
+    if (!stringIsBlank(header)) {
         insert(header,m_parentDoc->getHeader(),false,getState().fontColor,
                getState().nonEditBlockColor,0,componentName);
+    }
 
     // now all the text blocks in the document
     TextBlockList * items = m_parentDoc->getTextBlockList();
     appendText(items);
 
-    setCursorPosition(0,0);
+//:TODO:    setCursorPosition(0, 0);  // crashes application
 }
 
 void CodeEditor::insert (const QString & text, TextBlock * parent,
@@ -244,15 +255,18 @@ void CodeEditor::insert (const QString & text, TextBlock * parent,
     // now do 'paragraph' background highlighting
     //        int endLine = paragraphs() - 2;
     int endLine = text.indexOf(QRegExp("\n")) + startLine - 1;
-    if (m_isHighlighted)
-        for (int para=startLine; para<=endLine; para++)
+    if (m_isHighlighted) {
+        for (int para = startLine; para <= endLine; ++para) {
             setParagraphBackgroundColor(para,bgcolor);
+        }
+    }
 
     // record paragraph information
     // Did we already start recording info for this parent object?
     TextBlockInfo * tbinfo;
-    if (m_tbInfoMap.contains(parent))
+    if (m_tbInfoMap.contains(parent)) {
         tbinfo = m_tbInfoMap[parent];
+    }
     else {
         tbinfo = new TextBlockInfo();
         tbinfo->displayName = displayName;
@@ -269,12 +283,13 @@ void CodeEditor::insert (const QString & text, TextBlock * parent,
     }
 
     // now mark all lines that we just inserted as belonging to the parent
-    for (int para=startLine; para<=endLine; para++)
-        m_textBlockList.insert(para,parent);
+    for (int para = startLine; para <= endLine; ++para) {
+        m_textBlockList.insert(para, parent);
+    }
 
     // lastly, update the para info
     // start position is relative to the FIRST parent position
-    int start = startLine - m_textBlockList.findRef(parent);
+    int start = startLine - m_textBlockList.indexOf(parent);
     int size = endLine-startLine;
 
     // create the object that records this particular "paragraph"
@@ -298,7 +313,7 @@ void CodeEditor::insert (const QString & text, TextBlock * parent,
         {
             TextBlock * tblock = it.key();
             TextBlockInfo * thisTbInfo = it.value();
-            int firstLoc = m_textBlockList.findRef(tblock);
+            int firstLoc = m_textBlockList.indexOf(tblock);
 
             foreach (ParaInfo * pi, thisTbInfo->m_paraList)
             {
@@ -324,7 +339,8 @@ void CodeEditor::insert (const QString & text, TextBlock * parent,
 
 void CodeEditor::appendText(TextBlockList * items)
 {
-    for (TextBlock *tb = items->first(); tb; tb = items->next())
+    uDebug() << "text block list";
+    foreach (TextBlock* tb, *items)
     {
         // types of things we may cast our text block into
         // This isnt efficient, and is a vote for recording
@@ -336,7 +352,7 @@ void CodeEditor::appendText(TextBlockList * items)
         CodeClassFieldDeclarationBlock * db = 0;
         CodeBlockWithComments * cb = 0;
         // CodeComment * cm = 0;
-        if(hb)
+        if (hb)
             appendText(hb);
         else if ( (mb = dynamic_cast<CodeMethodBlock*>(tb)) )
             appendText(mb);
@@ -357,22 +373,24 @@ void CodeEditor::appendText(TextBlockList * items)
 
 void CodeEditor::appendText (CodeComment * comment, TextBlock * parent, UMLObject * umlObj , const QString & componentName)
 {
-    if(!comment->getWriteOutText() && !m_showHiddenBlocks)
+    uDebug() << "comment";
+    if (!comment->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
     QColor bgcolor = getState().nonEditBlockColor;
-    if(!comment->getWriteOutText() && m_showHiddenBlocks)
+    if (!comment->getWriteOutText() && m_showHiddenBlocks)
         bgcolor = getState().hiddenColor;
 
     QString indent = comment->getIndentationString();
     QString text = comment->toString(); // use comment formatting, NOT formatMultiLineText(comment->toString(), indent, "\n");
-    if(!stringIsBlank(text))
-        insert(text,parent,true,getState().fontColor, bgcolor, umlObj, componentName);
+    if (!stringIsBlank(text))
+        insert(text, parent, true, getState().fontColor, bgcolor, umlObj, componentName);
 }
 
 void CodeEditor::appendText (CodeBlockWithComments * cb )
 {
-    if(!cb->getWriteOutText() && !m_showHiddenBlocks)
+    uDebug() << "code block with comments";
+    if (!cb->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
     QString indent = cb->getIndentationString();
@@ -383,16 +401,17 @@ void CodeEditor::appendText (CodeBlockWithComments * cb )
 
     appendText(cb->getComment(), cb, 0, componentName);
 
-    if(!cb->getWriteOutText() && m_showHiddenBlocks)
+    if (!cb->getWriteOutText() && m_showHiddenBlocks)
         bgcolor = getState().hiddenColor;
 
-    if(!stringIsBlank(body))
-        insert(body,cb,true,getState().fontColor,bgcolor,0);
+    if (!stringIsBlank(body))
+        insert(body, cb, true, getState().fontColor, bgcolor, 0);
 }
 
 void CodeEditor::appendText (CodeClassFieldDeclarationBlock * db )
 {
-    if(!db->getWriteOutText() && !m_showHiddenBlocks)
+    uDebug() << "code class field declaration block";
+    if (!db->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
     QString indent = db->getIndentationString();
@@ -402,32 +421,33 @@ void CodeEditor::appendText (CodeClassFieldDeclarationBlock * db )
 
     QColor bgcolor = getState().editBlockColor;
     QString componentName;
-    if(parentObj)
+    if (parentObj)
     {
-        if(db->getParentClassField()->parentIsAttribute()) {
-            componentName = parentDocName + "::attribute_field(" + parentObj->getName() + ')';
+        if (db->getParentClassField()->parentIsAttribute()) {
+            componentName = m_parentDocName + "::attribute_field(" + parentObj->getName() + ')';
         } else {
             UMLRole * role = dynamic_cast<UMLRole*>(parentObj);
-            componentName = parentDocName + "::association_field(" + role->getName() + ')';
+            componentName = m_parentDocName + "::association_field(" + role->getName() + ')';
         }
         bgcolor = getState().umlObjectColor;
     }
 
     appendText(db->getComment(), db, parentObj,componentName);
 
-    if(!db->getWriteOutText() && m_showHiddenBlocks)
+    if (!db->getWriteOutText() && m_showHiddenBlocks)
         bgcolor = getState().hiddenColor;
 
-    if(!stringIsBlank(body))
-        insert(body,db,false,getState().fontColor,bgcolor,parentObj);
+    if (!stringIsBlank(body))
+        insert(body, db, false, getState().fontColor, bgcolor, parentObj);
 }
 
 void CodeEditor::appendText (CodeMethodBlock * mb)
 {
+    uDebug() << "code  method block";
     // Note: IF CodeAccessors are hidden, we DON'T show
     // it even when requested as the hiddeness of these methods
     // should be controled by the class fields, not the user in the editor.
-    if(!mb->getWriteOutText() && (!m_showHiddenBlocks || dynamic_cast<CodeAccessorMethod*>(mb)))
+    if (!mb->getWriteOutText() && (!m_showHiddenBlocks || dynamic_cast<CodeAccessorMethod*>(mb)))
         return;
 
     QColor bgcolor = getState().umlObjectColor;
@@ -438,10 +458,10 @@ void CodeEditor::appendText (CodeMethodBlock * mb)
     QString body = mb->formatMultiLineText (mb->getText(), bodyIndent, "\n");
     QString endText = mb->formatMultiLineText( mb->getEndMethodText(), indent, "\n");
 
-    if(body.isEmpty())
+    if (body.isEmpty())
         body = " \n";
 
-    if(!mb->getWriteOutText() && m_showHiddenBlocks)
+    if (!mb->getWriteOutText() && m_showHiddenBlocks)
     {
         // it gets the 'hidden' color
         bgcolor = getState().hiddenColor;
@@ -453,60 +473,62 @@ void CodeEditor::appendText (CodeMethodBlock * mb)
     CodeOperation * op = dynamic_cast<CodeOperation*>(mb);
     CodeAccessorMethod * accessor = dynamic_cast<CodeAccessorMethod*>(mb);
     UMLObject * parentObj = 0;
-    if(op)
+    if (op)
     {
         parentObj = op->getParentOperation();
-        if(((UMLOperation*)parentObj)->isConstructorOperation())
-            componentName = parentDocName + "::operation("+ parentObj->getName()+") constructor method";
+        if (((UMLOperation*)parentObj)->isConstructorOperation())
+            componentName = m_parentDocName + "::operation("+ parentObj->getName()+") constructor method";
         else
-            componentName = parentDocName + "::operation("+ parentObj->getName()+") method";
+            componentName = m_parentDocName + "::operation("+ parentObj->getName()+") method";
     }
-    if(accessor)
+    if (accessor)
     {
         parentObj = accessor->getParentObject();
-        if(accessor->getParentClassField()->parentIsAttribute()) {
-            componentName = parentDocName + "::attribute_field(" + parentObj->getName() + ") accessor method";
+        if (accessor->getParentClassField()->parentIsAttribute()) {
+            componentName = m_parentDocName + "::attribute_field(" + parentObj->getName() + ") accessor method";
         } else {
             UMLRole * role = dynamic_cast<UMLRole*>(parentObj);
-            componentName = parentDocName + "::association_field(" + role->getName() + ") accessor method";
+            componentName = m_parentDocName + "::association_field(" + role->getName() + ") accessor method";
         }
     }
 
     //appendText(mb->getComment(), mb, parentObj, componentName);
     appendText(mb->getComment(), mb->getComment(), parentObj, componentName);
 
-    if(!stringIsBlank(startText))
-        insert(startText,mb,false,getState().fontColor,bgcolor,parentObj);
+    if (!stringIsBlank(startText))
+        insert(startText, mb, false, getState().fontColor, bgcolor, parentObj);
     // always insert body for methods..IF we don't, we create a
     // situation where the user cant edit the body (!)
-    insert(body,mb,true,getState().fontColor,bgcolor,parentObj);
-    if(!stringIsBlank(endText))
-        insert(endText,mb,false,getState().fontColor,bgcolor,parentObj);
+    insert(body, mb, true, getState().fontColor, bgcolor, parentObj);
+    if (!stringIsBlank(endText))
+        insert(endText, mb, false, getState().fontColor, bgcolor, parentObj);
 }
 
 void CodeEditor::appendText (TextBlock * tb)
 {
-    if(!tb->getWriteOutText() && !m_showHiddenBlocks)
+    uDebug() << "text block";
+    if (!tb->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
     QColor bgcolor = getState().nonEditBlockColor;
-    if(!tb->getWriteOutText() && m_showHiddenBlocks)
+    if (!tb->getWriteOutText() && m_showHiddenBlocks)
         bgcolor = getState().hiddenColor;
 
     QString str = tb->toString();
-    insert(str,tb,false,getState().fontColor,bgcolor);
+    insert(str, tb, false, getState().fontColor, bgcolor);
 }
 
 void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
 {
-    if(!hblock->getWriteOutText() && !m_showHiddenBlocks)
+    uDebug() << "hierarchical code block";
+    if (!hblock->getWriteOutText() && !m_showHiddenBlocks)
         return;
 
     OwnedHierarchicalCodeBlock * test = dynamic_cast<OwnedHierarchicalCodeBlock *>(hblock);
     UMLObject * parentObj = 0;
     QString componentName;
     QColor paperColor = getState().nonEditBlockColor;
-    if(test)
+    if (test)
     {
         parentObj = test->getParentObject();
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(parentObj);
@@ -516,15 +538,15 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
                 typeStr = "Interface";
             else
                 typeStr = "Class";
-            componentName = parentDocName + "::" + typeStr + '(' + parentObj->getName() + ')';
+            componentName = m_parentDocName + "::" + typeStr + '(' + parentObj->getName() + ')';
         } else {
-            componentName = parentDocName + "::UNKNOWN(" + parentObj->getName() + ')';
+            componentName = m_parentDocName + "::UNKNOWN(" + parentObj->getName() + ')';
         }
 
         paperColor = getState().umlObjectColor;
     }
 
-    if(!hblock->getWriteOutText() && m_showHiddenBlocks)
+    if (!hblock->getWriteOutText() && m_showHiddenBlocks)
         paperColor = getState().hiddenColor;
 
     TextBlockList * items = hblock->getTextBlockList();
@@ -534,11 +556,11 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
 
     appendText(hblock->getComment(), hblock, parentObj, componentName);
 
-    if(!stringIsBlank(startText))
-        insert(startText,hblock,false,getState().fontColor,paperColor, parentObj);
+    if (!stringIsBlank(startText))
+        insert(startText, hblock, false, getState().fontColor, paperColor, parentObj);
     appendText(items);
-    if(!stringIsBlank(endText))
-        insert(endText,hblock,false,getState().fontColor,paperColor);
+    if (!stringIsBlank(endText))
+        insert(endText, hblock, false, getState().fontColor, paperColor);
 }
 
 void CodeEditor::insertParagraph ( const QString & text, int para )
@@ -555,13 +577,13 @@ void CodeEditor::removeParagraph ( int para )
 // Yes, a CRAPPY way of doing this. Im not proud. =b.t.
 bool CodeEditor::textBlockIsClickable(UMLObject * obj)
 {
-    if( dynamic_cast<UMLAttribute*>(obj) )
+    if ( dynamic_cast<UMLAttribute*>(obj) )
         return true;
-    else if( dynamic_cast<UMLClassifier*>(obj) )
+    else if ( dynamic_cast<UMLClassifier*>(obj) )
         return true;
-    else if( dynamic_cast<UMLRole*>(obj) )
+    else if ( dynamic_cast<UMLRole*>(obj) )
         return true;
-    else if( dynamic_cast<UMLOperation*>(obj) )
+    else if ( dynamic_cast<UMLOperation*>(obj) )
         return true;
 
     return false;
@@ -601,12 +623,12 @@ void CodeEditor::slotInsertCodeBlockBeforeSelected()
 
     m_parentDoc->insertTextBlock(newBlock, tb, false);
 
-    int location = m_textBlockList.findRef(m_selectedTextBlock); // find first para of selected block
+    int location = m_textBlockList.indexOf(m_selectedTextBlock); // find first para of selected block
 
     QString body = newBlock->formatMultiLineText (newBlock->getText(), newBlock->getIndentationString(), "\n");
 
-    insert(body,newBlock,true,getState().fontColor,
-           getState().editBlockColor,0,QString("CodeBlock"),location);
+    insert(body, newBlock, true, getState().fontColor,
+           getState().editBlockColor, 0, QString("CodeBlock"), location);
 }
 
 void CodeEditor::slotInsertCodeBlockAfterSelected()
@@ -621,7 +643,7 @@ void CodeEditor::slotInsertCodeBlockAfterSelected()
     // find last para of selected block
     TextBlockInfo *tbinfo = m_tbInfoMap[m_selectedTextBlock];
     ParaInfo * lastpi = tbinfo->m_paraList.last();
-    int location = m_textBlockList.findRef(m_selectedTextBlock) + lastpi->start + lastpi->size + 1;
+    int location = m_textBlockList.indexOf(m_selectedTextBlock) + lastpi->start + lastpi->size + 1;
 
     QString body = newBlock->formatMultiLineText (newBlock->getText(), newBlock->getIndentationString(), "\n");
 
@@ -743,13 +765,13 @@ KMenu * CodeEditor::createPopup()
 void CodeEditor::slotCopyTextBlock ( )
 {
     // make a copy
-    if(dynamic_cast<HierarchicalCodeBlock*>(m_selectedTextBlock))
+    if (dynamic_cast<HierarchicalCodeBlock*>(m_selectedTextBlock))
         m_textBlockToPaste = m_parentDoc->newHierarchicalCodeBlock();
-    else if(dynamic_cast<CodeBlockWithComments*>(m_selectedTextBlock))
+    else if (dynamic_cast<CodeBlockWithComments*>(m_selectedTextBlock))
         m_textBlockToPaste = m_parentDoc->newCodeBlockWithComments();
-    else if(dynamic_cast<CodeBlock*>(m_selectedTextBlock))
+    else if (dynamic_cast<CodeBlock*>(m_selectedTextBlock))
         m_textBlockToPaste = m_parentDoc->newCodeBlock();
-    else if(dynamic_cast<CodeComment*>(m_selectedTextBlock))
+    else if (dynamic_cast<CodeComment*>(m_selectedTextBlock))
         m_textBlockToPaste = CodeGenFactory::newCodeComment(m_parentDoc);
     else
     {
@@ -767,7 +789,7 @@ void CodeEditor::slotCutTextBlock ( )
 
     // This could cause problems, but we are OK as
     // long as we only try to delete 'canDelete' textblocks
-    if(m_selectedTextBlock->canDelete())
+    if (m_selectedTextBlock->canDelete())
     {
         // just in case there are pending edits
         // we don't want to lose them
@@ -786,7 +808,7 @@ void CodeEditor::slotCutTextBlock ( )
 
 void CodeEditor::slotPasteTextBlock ( )
 {
-    if(m_textBlockToPaste)
+    if (m_textBlockToPaste)
     {
         m_parentDoc->insertTextBlock(m_textBlockToPaste, m_selectedTextBlock);
         m_textBlockToPaste = 0;
@@ -803,6 +825,8 @@ void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc )
 {
     // safety to insure that we are up to date
     parentDoc->synchronize();
+
+    setTextFormat(Qt::PlainText);
 
     m_parentDlg = parentDlg;
     m_parentDoc = parentDoc;
@@ -824,10 +848,10 @@ void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc )
 
     // set name of parent doc
     ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(m_parentDoc);
-    if(cdoc)
-        parentDocName = cdoc->getParentClassifier()->getName();
+    if (cdoc)
+        m_parentDocName = cdoc->getParentClassifier()->getName();
     else
-        parentDocName = "";
+        m_parentDocName = "";
 
     // set some viewability parameters
     //int margin = fontMetrics().height();
@@ -854,7 +878,7 @@ void CodeEditor::updateTextBlockFromText (TextBlock * block)
         QString baseIndent = block->getIndentationString(block->getIndentationLevel() + (cmb ? 1 : 0));
 
         TextBlockInfo *info = m_tbInfoMap[block];
-        int pstart = m_textBlockList.findRef(block);
+        int pstart = m_textBlockList.indexOf(block);
         QString content;
 
         // Assemble content from editiable paras
@@ -907,7 +931,7 @@ void CodeEditor::updateTextBlockFromText (TextBlock * block)
 void CodeEditor::cursorPositionChanged(int para, int pos)
 {
     // safety.. this is endemic of a 'bad' pointer event and can crash us otherwise
-    if(pos < 0)
+    if (pos < 0)
         return;
 
     //      bool lastParaIsEditable = isReadOnly() ? false : true;
@@ -915,16 +939,16 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
 
     // IF last para where cursor is coming from was editable
     // we have a variety of things to look out for.
-    if(lastParaIsEditable)
+    if (lastParaIsEditable)
     {
         // If we got here as the result of a newline, then expansion
         // of a para editablity occurs.
-        if((para-1) == m_lastPara && m_newLinePressed )
+        if ((para-1) == m_lastPara && m_newLinePressed )
             expandSelectedParagraph ( m_lastPara );
 
         // conversely, we contract the zone of editablity IF we
         // got to current position as result of backspace
-        if((para+1) == m_lastPara && m_backspacePressed )
+        if ((para+1) == m_lastPara && m_backspacePressed )
             contractSelectedParagraph( para );
 
     }
@@ -932,8 +956,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
     // now check if the current paragraph is really editiable, and if so,
     // so some things
     bool editPara = isParaEditable(para);
-    if(editPara) {
-
+    if (editPara) {
         TextBlock * tBlock = m_textBlockList.at(para);
         CodeMethodBlock * cmb = dynamic_cast<CodeMethodBlock*>(tBlock);
 
@@ -944,18 +967,17 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
         int minPos = baseIndent.length();
 
         // add indent chars to the current line, if missing
-        if(!m_backspacePressed && !currentParaText.contains(QRegExp('^'+baseIndent)))
+        if (!m_backspacePressed && !currentParaText.contains(QRegExp('^'+baseIndent)))
         {
-            insertAt(baseIndent,para,0);
-            setCursorPosition(para,pos+minPos);
+            insertAt(baseIndent, para, 0);
+//:TODO:            setCursorPosition(para, pos+minPos);  // crashes the application !?
             return;
         }
 
-        if(pos<minPos)
+        if (pos < minPos)
         {
-
             bool priorParaIsEditable = isParaEditable(para-1);
-            if(m_backspacePressed && para && priorParaIsEditable)
+            if (m_backspacePressed && para && priorParaIsEditable)
             {
                 int endOfPriorLine = paragraphLength(para-1);
                 // IN this case, we remove old (para) line, and tack its
@@ -966,11 +988,11 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
                 // this next thing happens when we arent deleting last line
                 // of editable text, so we want to append whats left of this line
                 // onto the one we are backspacing into
-                if(paraIsNotSingleLine(para))
+                if (paraIsNotSingleLine(para))
                 {
                     removeParagraph(para);
-                    insertAt(contents,(para-1),endOfPriorLine);
-                    setCursorPosition((para-1),endOfPriorLine);
+                    insertAt(contents,(para-1), endOfPriorLine);
+//:TODO:                    setCursorPosition((para-1), endOfPriorLine);  // crashes the application !?
                 }
 
             } else {
@@ -978,7 +1000,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
                 // are trying to hack away at the last line, which
                 // we cant allow to entirely disappear. Lets preserve
                 // the indentation
-                if(m_backspacePressed && !priorParaIsEditable)
+                if (m_backspacePressed && !priorParaIsEditable)
                 {
                     QString contents = text(para);
                     contents = contents.right(contents.length()-m_lastPos+1);
@@ -988,17 +1010,14 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
 
                     // furthermore, IF its nothing but indentation + whitespace
                     // we switch this back to Auto-Generated.
-                    if(cmb && contents.contains(QRegExp('^'+baseIndent+"\\s$")))
+                    if (cmb && contents.contains(QRegExp('^'+baseIndent+"\\s$")))
                     {
                         cmb->setContentType(CodeBlock::AutoGenerated);
                         cmb->syncToParent();
                     }
-
                 }
-
                 // send them to the first spot in the line which is editable
-                setCursorPosition(para,minPos);
-
+//:TODO:                setCursorPosition(para, minPos);  // crashes the application !?
             }
             return;
         }
@@ -1006,23 +1025,22 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
 
     // look for changes in editability, if they occur, we need to record
     // the edits which have been made
-    if((editPara && !m_lastTextBlockToBeEdited) || (!editPara && m_lastTextBlockToBeEdited)) {
-
+    if ((editPara && !m_lastTextBlockToBeEdited) || (!editPara && m_lastTextBlockToBeEdited))
+    {
         setReadOnly(editPara ? false : true);
 
         // IF this is a different text block, update the body of the method
         // it belongs to
-        if(m_lastTextBlockToBeEdited && (m_lastTextBlockToBeEdited != m_textBlockList.at(para) || !editPara))
+        if (m_lastTextBlockToBeEdited && (m_lastTextBlockToBeEdited != m_textBlockList.at(para) || !editPara))
         {
             updateTextBlockFromText (m_lastTextBlockToBeEdited);
             m_lastTextBlockToBeEdited = 0;
         }
 
-        if(editPara)
+        if (editPara)
             m_lastTextBlockToBeEdited = m_textBlockList.at(para);
         else
             m_lastTextBlockToBeEdited = 0;
-
     }
 
     m_lastPara = para;
@@ -1034,15 +1052,15 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
 bool CodeEditor::paraIsNotSingleLine (int para)
 {
     TextBlock * tBlock = m_textBlockList.at(para);
-    if(tBlock)
+    if (tBlock)
     {
-        int pstart = m_textBlockList.findRef(tBlock);
+        int pstart = m_textBlockList.indexOf(tBlock);
         TextBlockInfo *info = m_tbInfoMap[tBlock];
         QList<ParaInfo*> list = info->m_paraList;
         foreach (ParaInfo * item, list)
         {
-            if((pstart+item->start) <= para && (item->start+pstart+item->size) >= para )
-                if(item->size > 0)
+            if ((pstart+item->start) <= para && (item->start+pstart+item->size) >= para )
+                if (item->size > 0)
                     return true;
         }
     }
@@ -1051,7 +1069,7 @@ bool CodeEditor::paraIsNotSingleLine (int para)
 
 bool CodeEditor::isParaEditable (int para)
 {
-    if (para <0)
+    if (para < 0)
         return false;
 
     TextBlock * tBlock = m_textBlockList.at(para);
@@ -1061,13 +1079,13 @@ bool CodeEditor::isParaEditable (int para)
         int editEnd = tBlock->lastEditableLine();
         bool hasEditableRange = (editStart > 0 || editEnd < 0) ? true : false;
         TextBlockInfo *info = m_tbInfoMap[tBlock];
-        int pstart = m_textBlockList.findRef(tBlock);
+        int pstart = m_textBlockList.indexOf(tBlock);
         int relativeLine = para - pstart;
         QList<ParaInfo*> list = info->m_paraList;
         foreach (ParaInfo * item, list)
         {
             if (item->start+pstart <= para && item->start+pstart+item->size >= para) {
-                if(item->isEditable && hasEditableRange)
+                if (item->isEditable && hasEditableRange)
                 {
                     if ( relativeLine >= editStart && relativeLine <= (item->size + editEnd) )
                         return true;
@@ -1083,20 +1101,20 @@ bool CodeEditor::isParaEditable (int para)
 
 void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected)
 {
-    if(tBlock)
+    if (tBlock)
     {
         TextBlockInfo *info = m_tbInfoMap[tBlock];
         QList<ParaInfo*> list = info->m_paraList;
-        int pstart = m_textBlockList.findRef(tBlock);
+        int pstart = m_textBlockList.indexOf(tBlock);
         foreach (ParaInfo * item, list)
         {
-            for(int p=(item->start+pstart);p<=(item->start+pstart+item->size);p++)
-                if(selected)
-                    if(info->isClickable)
+            for (int p=(item->start+pstart); p<=(item->start+pstart+item->size); ++p)
+                if (selected)
+                    if (info->isClickable)
                         setParagraphBackgroundColor(p,getState().selectedColor);
                     else
                         setParagraphBackgroundColor(p,getState().nonEditBlockColor);
-                else if(m_isHighlighted)
+                else if (m_isHighlighted)
                     setParagraphBackgroundColor(p,item->bgcolor);
                 else
                     setParagraphBackgroundColor(p,getState().paperColor);
@@ -1106,7 +1124,7 @@ void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected)
 
 void CodeEditor::changeShowHidden (int signal)
 {
-    if(signal)
+    if (signal)
         m_showHiddenBlocks = true;
     else
         m_showHiddenBlocks = false;
@@ -1118,10 +1136,10 @@ void CodeEditor::changeShowHidden (int signal)
 void CodeEditor::changeHighlighting(int signal)
 {
     int total_para = paragraphs()-1;
-    if(signal) {
+    if (signal) {
         // we want to highlight
         m_isHighlighted = true;
-        for(int para=0;para<total_para;para++)
+        for (int para = 0; para < total_para; ++para)
         {
             TextBlock * tblock = m_textBlockList.at(para);
             changeTextBlockHighlighting(tblock,false);
@@ -1130,66 +1148,66 @@ void CodeEditor::changeHighlighting(int signal)
     } else {
         // we DON'T want to highlight
         m_isHighlighted = false;
-        for(int para=0;para<total_para;para++)
+        for (int para = 0; para < total_para; ++para)
             setParagraphBackgroundColor(para,getState().paperColor);
     }
 
     // now redo the "selected" para, should it exist
-    if(m_selectedTextBlock)
+    if (m_selectedTextBlock) {
         changeTextBlockHighlighting(m_selectedTextBlock,true);
-
+    }
 }
 
 void CodeEditor::contractSelectedParagraph( int paraToRemove )
 {
-    TextBlock * tBlock = m_textBlockList.at(paraToRemove);
-    if(tBlock)
-    {
-        int pstart = m_textBlockList.findRef(tBlock);
-        TextBlockInfo *info = m_tbInfoMap[tBlock];
-        QList<ParaInfo*> list = info->m_paraList;
-        bool lowerStartPosition = false;
-        foreach (ParaInfo * item, list)
-        {
-            if(lowerStartPosition)
-                item->start -= 1;
-
-            if((pstart+item->start) <= paraToRemove && (item->start+pstart+item->size) >= paraToRemove)
+    if ((paraToRemove >= 0) && (paraToRemove < m_textBlockList.size())) {
+        TextBlock * tBlock = m_textBlockList.at(paraToRemove);
+        if (tBlock) {
+            int pstart = m_textBlockList.indexOf(tBlock);
+            TextBlockInfo *info = m_tbInfoMap[tBlock];
+            QList<ParaInfo*> list = info->m_paraList;
+            bool lowerStartPosition = false;
+            foreach (ParaInfo * item, list)
             {
-                item->size -= 1;
-                // a little cheat.. we don't want to remove last line as we need
-                // to leave a place that can be 'edited' by the tool IF the user
-                // changes their mind about method body content
-                if(item->size < 0)
-                    item->size = 0;
-                lowerStartPosition = true;
+                if (lowerStartPosition) {
+                    item->start -= 1;
+                }
+                if ((pstart+item->start) <= paraToRemove && (item->start+pstart+item->size) >= paraToRemove) {
+                    item->size -= 1;
+                    // a little cheat.. we don't want to remove last line as we need
+                    // to leave a place that can be 'edited' by the tool IF the user
+                    // changes their mind about method body content
+                    if (item->size < 0) {
+                        item->size = 0;
+                    }
+                    lowerStartPosition = true;
+                }
             }
+            m_textBlockList.removeAt(paraToRemove);
         }
-
-        m_textBlockList.remove(paraToRemove);
     }
 }
 
 void CodeEditor::expandSelectedParagraph( int priorPara )
 {
     TextBlock * tBlock = m_textBlockList.at(priorPara);
-    if(tBlock)
+    if (tBlock)
     {
         // add this tBlock in
-        m_textBlockList.insert(priorPara,tBlock);
+        m_textBlockList.insert(priorPara, tBlock);
         TextBlockInfo *info = m_tbInfoMap[tBlock];
         QList<ParaInfo*> list = info->m_paraList;
-        int pstart = m_textBlockList.findRef(tBlock);
+        int pstart = m_textBlockList.indexOf(tBlock);
 
         // now update the paragraph information
         bool upStartPosition = false;
         foreach (ParaInfo * item, list)
         {
             // AFTER we get a match, then following para's need to have start position upped too
-            if(upStartPosition)
+            if (upStartPosition)
                 item->start += 1;
 
-            if((pstart+item->start) <= priorPara && (item->start+pstart+item->size) >= priorPara)
+            if ((pstart+item->start) <= priorPara && (item->start+pstart+item->size) >= priorPara)
             {
                 item->size += 1;
                 cursorPositionChanged(m_lastPara, m_lastPos);
@@ -1222,7 +1240,7 @@ void CodeEditor::contentsMouseMoveEvent ( QMouseEvent * e )
 
         m_selectedTextBlock = tblock;
 
-        if(m_lastTextBlockToBeEdited)
+        if (m_lastTextBlockToBeEdited)
         {
             updateTextBlockFromText (m_lastTextBlockToBeEdited);
             m_lastTextBlockToBeEdited = 0;
@@ -1244,11 +1262,10 @@ void CodeEditor::contentsMouseMoveEvent ( QMouseEvent * e )
 void CodeEditor::rebuildView( int startCursorPos )
 {
     loadFromDocument();
-
     // make a minima attempt to leave the cursor (view of the code) where
     // we started
     int new_nrof_para = paragraphs() -1;
-    setCursorPosition((startCursorPos < new_nrof_para ? startCursorPos : 0), 0);
+//:TODO:    setCursorPosition((startCursorPos < new_nrof_para ? startCursorPos : 0), 0);  // crashes the application
 }
 
 

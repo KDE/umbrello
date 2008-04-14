@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,7 +33,6 @@
 CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( CodeDocument *parent )
   : m_pCodeDoc(parent)
 {
-    m_textblockVector.setAutoDelete(false);
 }
 
 CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( )
@@ -82,32 +81,35 @@ bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object )
 bool CodeGenObjectWithTextBlocks::removeTextBlock ( TextBlock * remove_object )
 {
     // check if we can remove it from our local list
-    if (!m_textblockVector.removeRef(remove_object))
-    {
+    int indx = m_textblockVector.indexOf(remove_object);
+    if (indx > -1) {
+        m_textblockVector.removeAt(indx);
+    }
+    else {
         // may be hiding in child hierarchical codeblock
-        TextBlock * tb;
-        for(TextBlockListIt it(m_textblockVector); (tb = it.current()) != NULL; ++it)
+        foreach (TextBlock* tb, m_textblockVector)
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
             if (hb && hb->removeTextBlock(remove_object))
                 return true;
         }
+        return false;
     }
 
     // if we get here.. it was in this object so remove from our map
     QString tag = remove_object->getTag();
-    if (!tag.isEmpty())
+    if (!tag.isEmpty()) {
         m_textBlockTagMap.remove(tag);
-
+    }
     return true;
 }
 
 TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag( const QString &tag )
 {
     //if we already know to which file this class was written/should be written, just return it.
-    if(m_textBlockTagMap.contains(tag))
+    if (m_textBlockTagMap.contains(tag)) {
         return m_textBlockTagMap[tag];
-
+    }
     return (TextBlock*) NULL;
 }
 
@@ -118,19 +120,19 @@ TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag( const QString &tag 
 CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTaggedTextBlock (const QString & tag)
 {
     // what??!? no tag, then CANT be here
-    if(tag.isEmpty())
+    if (tag.isEmpty())
         return (CodeGenObjectWithTextBlocks*) NULL;
 
-    if(!findTextBlockByTag(tag))
+    if (!findTextBlockByTag(tag))
     {
         // may be hiding in child hierarchical codeblock
-        for(TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
+        foreach (TextBlock* tb, m_textblockVector)
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
-            if(hb) {
+            if (hb) {
                 CodeGenObjectWithTextBlocks* cgowtb = dynamic_cast<CodeGenObjectWithTextBlocks*>(hb);
                 CodeGenObjectWithTextBlocks * obj = cgowtb->findParentObjectForTaggedTextBlock(tag);
-                if(obj)
+                if (obj)
                     return obj;
             }
         }
@@ -141,7 +143,6 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
     // shouldn't happen unless the textblock doesn't exist in this object
     // or its children at all
     return (CodeGenObjectWithTextBlocks*) NULL;
-
 }
 
 HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel )
@@ -320,12 +321,13 @@ void CodeGenObjectWithTextBlocks::resetTextBlocks()
 
 void CodeGenObjectWithTextBlocks::setAttributesFromObject (CodeGenObjectWithTextBlocks * obj)
 {
+/*
     TextBlockList * list = obj->getTextBlockList();
-    for (TextBlock * tb = list->first(); tb; tb=list->next())
-    {
+    foreach (TextBlock* tb, *list) {
         // FIX : we need some functionality like
         // loadChildTextBlocksFromObject(obj) here
     }
+*/
 }
 
 void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomElement & root)
@@ -335,9 +337,9 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomE
 
     // only concrete calls to textblocks are saved
     TextBlockList * tbList = getTextBlockList();
-    for (TextBlock * block = tbList->first(); block; block= tbList->next())
+    foreach (TextBlock* block, *tbList) {
         block->saveToXMI(doc, tblockElement);
-
+    }
     root.appendChild( tblockElement);
 }
 
@@ -382,7 +384,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 CodeComment * block = CodeGenFactory::newCodeComment(m_pCodeDoc);
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    uError() << "unable to add codeComment to :" << this << endl;
+                    uError() << "unable to add codeComment to :" << this;
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -403,7 +405,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 CodeBlock * block = newCodeBlock();
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    uError() << "unable to add codeBlock to :" << this << endl;
+                    uError() << "unable to add codeBlock to :" << this;
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -412,7 +414,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 CodeBlockWithComments * block = newCodeBlockWithComments();
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    uError() << "unable to add codeBlockwithcomments to:" << this << endl;
+                    uError() << "unable to add codeBlockwithcomments to:" << this;
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -424,7 +426,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 HierarchicalCodeBlock * block = new HierarchicalCodeBlock(m_pCodeDoc);
                 block->loadFromXMI(element);
                 if (!addTextBlock(block)) {
-                    uError() << "unable to add hierarchicalcodeBlock to:" << this << endl;
+                    uError() << "unable to add hierarchicalcodeBlock to:" << this;
                     delete block;
                 } else
                     loadCheckForChildrenOK = true;
@@ -440,13 +442,13 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                     if (addTextBlock(block))
                         loadCheckForChildrenOK = true;
                     else {
-                        uError() << "unable to add codeoperation to:" << this << endl;
+                        uError() << "unable to add codeoperation to:" << this;
                         delete block;
                     }
                 } else
-                    uError() << "unable to create codeoperation for obj id:" << id << endl;
+                    uError() << "unable to create codeoperation for obj id:" << id;
             } else
-                uWarning() << "Got strange tag in text block stack:" << name << ", ignorning";
+                uWarning() << "Got strange tag in text block stack: name=" << name << ", ignorning";
 
             node = element.nextSibling();
             element = node.toElement();

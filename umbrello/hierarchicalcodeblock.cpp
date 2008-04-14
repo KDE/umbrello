@@ -102,14 +102,14 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
     if(!getParentDocument()->findTextBlockByTag(tag, true))
         return false;
 
-    int index = m_textblockVector.findRef(existingBlock);
-    if(index < 0)
+    int index = m_textblockVector.indexOf(existingBlock);
+    if (index < 0)
     {
         // may be hiding in child hierarchical codeblock
-        for(TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
+        foreach (TextBlock* tb, m_textblockVector)
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
-            if(hb && hb->insertTextBlock(newBlock, existingBlock, after))
+            if (hb && hb->insertTextBlock(newBlock, existingBlock, after))
                 return true; // found, and inserted, otherwise keep going
         }
         uWarning() << "Warning: couldnt insert text block (tag:" << newBlock->getTag() <<
@@ -123,14 +123,15 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
     QString new_tag = newBlock->getTag();
 
     // assign a tag if one doesn't already exist
-    if(new_tag.isEmpty())
+    if (new_tag.isEmpty())
     {
         new_tag = getUniqueTag();
         newBlock->setTag(new_tag);
     }
 
-    if(m_textBlockTagMap.contains(new_tag))
+    if (m_textBlockTagMap.contains(new_tag)) {
         return false; // return false, we already have some object with this tag in the list
+    }
     else {
         m_textBlockTagMap.insert(new_tag, newBlock);
         getParentDocument()->addChildTagToMap(new_tag, newBlock);
@@ -147,13 +148,16 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
 bool HierarchicalCodeBlock::removeTextBlock ( TextBlock * remove_object )
 {
     // try to remove from the list in this object
-    if(!m_textblockVector.removeRef(remove_object))
-    {
+    int indx = m_textblockVector.indexOf(remove_object);
+    if (indx > -1) {
+        m_textblockVector.removeAt(indx);
+    }
+    else {
         // may be hiding in child hierarchical codeblock
-        for(TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
+        foreach (TextBlock* tb, m_textblockVector)
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
-            if(hb && hb->removeTextBlock(remove_object))
+            if (hb && hb->removeTextBlock(remove_object))
                 return true; // because we got in child hb;
         }
         return false;
@@ -161,8 +165,7 @@ bool HierarchicalCodeBlock::removeTextBlock ( TextBlock * remove_object )
 
     // IF we get here, the text block was in THIS object (and not a child)..
     QString tag = remove_object->getTag();
-    if(!(tag.isEmpty()))
-    {
+    if(!(tag.isEmpty())) {
         m_textBlockTagMap.remove(tag);
         getParentDocument()->removeChildTagFromMap(tag);
     }
@@ -297,7 +300,7 @@ QString  HierarchicalCodeBlock::childTextBlocksToString() const
 {
     TextBlockList* list = getTextBlockList();
     QString retString = "";
-    for(TextBlock *block = list->first() ; block; block=list->next())
+    foreach (TextBlock* block, *list)
     {
         QString blockValue = block->toString();
         if(!blockValue.isEmpty())

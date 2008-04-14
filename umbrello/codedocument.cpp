@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,8 +18,8 @@
 #include "codedocument.h"
 
 // qt/kde includes
-#include <qregexp.h>
-#include <qdatetime.h>
+#include <QtCore/QRegExp>
+#include <QtCore/QDateTime>
 #include <kdebug.h>
 
 // local includes
@@ -28,18 +28,20 @@
 #include "umldoc.h"
 #include "uml.h"
 
-CodeDocument::CodeDocument () : CodeGenObjectWithTextBlocks(this)
+CodeDocument::CodeDocument () : CodeGenObjectWithTextBlocks(this),
+    m_lastTagIndex(0), m_filename(QString()), m_fileExtension(QString()),
+    m_ID(QString()), m_pathName(QString()), m_package(NULL), m_writeOutCode(true)  
 {
-    initDoc();
+    setHeader(new CodeComment(this));
+    //  m_dialog = new CodeDocumentDialog( );
 }
 
 CodeDocument::~CodeDocument ( )
 {
     // delete all the text blocks we have
-    TextBlock *tb;
-    for (TextBlockListIt it(m_textblockVector); (tb = it.current()) != NULL; ++it)
-        delete tb;
-    m_textblockVector.clear();
+    while (!m_textblockVector.isEmpty()) {
+        delete m_textblockVector.takeFirst();
+    }
     delete m_header;
 }
 
@@ -148,18 +150,19 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
     if (!findTextBlockByTag(tag, true))
         return false;
 
-    int index = m_textblockVector.findRef(existingBlock);
+    int index = m_textblockVector.indexOf(existingBlock);
     if (index < 0)
     {
         // may be hiding in child hierarchical codeblock
-        for(TextBlock * tb = m_textblockVector.first(); tb ; tb = m_textblockVector.next())
+        foreach (TextBlock* tb, m_textblockVector)
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
             if (hb && hb->insertTextBlock(newBlock, existingBlock, after))
                 return true; // found, and inserted, otherwise keep going
         }
         // ugh. where is the child block?
-        uWarning()<<" Warning: couldnt insert text block (tag:"<<newBlock->getTag()<<"). Reference text block (tag:"<<existingBlock->getTag()<<") not found.";
+        uWarning() << " Warning: couldnt insert text block (tag:" << newBlock->getTag()
+                   << "). Reference text block (tag:" << existingBlock->getTag() << ") not found.";
         return false;
     }
 
@@ -183,7 +186,7 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
     if (after)
         index++;
 
-    m_textblockVector.insert(index,newBlock);
+    m_textblockVector.insert(index, newBlock);
     return true;
 }
 
@@ -211,13 +214,13 @@ void CodeDocument::updateHeader ()
 
     headingText.replace(QRegExp("%filename%"),getFileName()+getFileExtension());
     headingText.replace(QRegExp("%filepath%"),getPath());
-    headingText.replace( QRegExp("%time%"), QTime::currentTime().toString());
-    headingText.replace( QRegExp("%date%"), QDate::currentDate().toString());
+    headingText.replace(QRegExp("%time%"), QTime::currentTime().toString());
+    headingText.replace(QRegExp("%date%"), QDate::currentDate().toString());
 
     getHeader()->setText(headingText);
 
     // update the write out status of the header
-    if(UMLApp::app()->getCommonPolicy()->getIncludeHeadings())
+    if (UMLApp::app()->getCommonPolicy()->getIncludeHeadings())
         getHeader()->setWriteOutText(true);
     else
         getHeader()->setWriteOutText(false);
@@ -236,7 +239,7 @@ QString CodeDocument::toString ( )
 
     // comments, import, package codeblocks go next
     TextBlockList * items = getTextBlockList();
-    for (TextBlock *c = items->first(); c; c = items->next())
+    foreach (TextBlock* c, *items)
     {
         if (c->getWriteOutText()) {
             QString str = c->toString();
@@ -316,9 +319,9 @@ void CodeDocument::setAttributesFromNode ( QDomElement & root)
     // by looking for our particular child element
     QDomNode node = root.firstChild();
     QDomElement element = node.toElement();
-    while( !element.isNull() ) {
+    while ( !element.isNull() ) {
         QString tag = element.tagName();
-        if( tag == "header" ) {
+        if ( tag == "header" ) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getHeader()->loadFromXMI(celem);
@@ -377,28 +380,14 @@ void CodeDocument::addChildTagToMap ( const QString &tag, TextBlock * tb)
 TextBlock * CodeDocument::findTextBlockByTag( const QString &tag , bool descendIntoChildren)
 {
     //if we already know to which file this class was written/should be written, just return it.
-    if(m_textBlockTagMap.contains(tag))
+    if (m_textBlockTagMap.contains(tag))
         return m_textBlockTagMap[tag];
 
     if (descendIntoChildren)
-        if(m_childTextBlockTagMap.contains(tag))
+        if (m_childTextBlockTagMap.contains(tag))
             return m_childTextBlockTagMap[tag];
 
     return NULL;
-}
-
-void CodeDocument::initDoc ()
-{
-    m_writeOutCode = true;
-    m_package = NULL;
-    m_fileExtension = QString();
-    m_ID = QString(); // leave with NO ID as a default
-
-    setHeader(new CodeComment(this));
-
-    m_lastTagIndex = 0;
-
-    //  m_dialog = new CodeDocumentDialog( );
 }
 
 TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag ( const QString &tag )
