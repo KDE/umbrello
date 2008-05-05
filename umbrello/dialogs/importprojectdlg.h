@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007                                                    *
+ *   copyright (C) 2007-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,8 +15,7 @@
 
 // application specific includes
 #include "ui_importprojectdlgbase.h"
-#include "../umlnamespace.h"
-
+#include "umlnamespace.h"
 
 
 /**
@@ -25,7 +24,8 @@
  * The user chooses the directory with a KUrlRequester widget and chooses the language in a combobox.
  * The slot accept() do the search
  */
-class ImportProjectDlg : public QDialog,private Ui::ImportProjectDlgBase {
+class ImportProjectDlg : public KDialog, private Ui::ImportProjectDlgBase
+{
   Q_OBJECT
 
 public:
@@ -41,7 +41,7 @@ public:
      *              in the application until it's closed.
      * @param fl Window flags.
      *
-     * @see QDialog::QDialog
+     * @see KDialog::KDialog
      */
     ImportProjectDlg(QStringList* list, const  Uml::Programming_Language pl,
                      QWidget* parent = 0, const char* name = 0,bool modal = false, Qt::WindowFlags fl = 0);
@@ -49,20 +49,7 @@ public:
     /**
      * Destructor for ImportProjectDlg.
      */
-    virtual ~ImportProjectDlg() {
-    }
-
-    /**
-     * Static convenience method that creates a ImportProjectDlg and fills the first param
-     * with all the source files in the directory chosen by the user.
-     *
-     * @param list The list of source files.
-     * @param pl the programming language for which we look for source files
-     * @param parent The parent of the dialog.
-     *
-     * @return Which button (OK or Cancel) has been clicked
-     */
-    static QDialog::DialogCode getFilesToImport(QStringList* list, const  Uml::Programming_Language pl, QWidget* parent);
+    virtual ~ImportProjectDlg();
 
 protected slots:
 
