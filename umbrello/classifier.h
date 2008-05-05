@@ -5,12 +5,11 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-
-#ifndef CLASSIFIER__H
-#define CLASSIFIER__H
+#ifndef CLASSIFIER_H
+#define CLASSIFIER_H
 
 #include "package.h"
 #include "umlattributelist.h"
@@ -48,12 +47,11 @@ public:
      */
     enum ClassifierType { ALL = 0, CLASS, INTERFACE, DATATYPE };
 
-
     /**
      * Sets up a Concept.
      *
-     * @param name              The name of the Concept.
-     * @param id                The unique id of the Concept.
+     * @param name   The name of the Concept.
+     * @param id     The unique id of the Concept.
      */
     explicit UMLClassifier(const QString & name = QString(), Uml::IDType id = Uml::id_None);
 
@@ -85,7 +83,7 @@ public:
      * @param type  An optional type, used by when creating through UMLListView
      * @param vis   An optional visibility, used by when creating through UMLListView
      * @param init  An optional initial value, used by when creating through UMLListView
-     * @return  The UMLAttribute created
+     * @return      The UMLAttribute created
      */
     virtual UMLAttribute* createAttribute(const QString &name = QString(),
                                           UMLObject *type = 0,
@@ -97,12 +95,12 @@ public:
      * If an attribute of the given name already exists, then
      * returns the existing attribute instead of creating a new one.
      *
-     * @param name              The name of the attribute.
-     * @param id                The id of the attribute (optional.)
-     *                      If not given, and the attribute name
-     *                      does not already exist, then the method
-     *                      will internally assign a new ID.
-     * @return  Pointer to the UMLAttribute created or found.
+     * @param name   The name of the attribute.
+     * @param id     The id of the attribute (optional.)
+     *               If not given, and the attribute name
+     *               does not already exist, then the method
+     *               will internally assign a new ID.
+     * @return       Pointer to the UMLAttribute created or found.
      */
     UMLAttribute* addAttribute(const QString &name, Uml::IDType id = Uml::id_None);
 
@@ -112,25 +110,25 @@ public:
      * Adds an already created attribute.
      * The attribute object must not belong to any other concept.
      *
-     * @param Att               Pointer to the UMLAttribute.
-     * @param Log               Pointer to the IDChangeLog (optional.)
-     * @param position  Position index for the insertion (optional.)
-     *                  If the position is omitted, or if it is
-     *                  negative or too large, the attribute is added
-     *                  to the end of the list.
-     * @return  True if the attribute was successfully added.
+     * @param att        Pointer to the UMLAttribute.
+     * @param log        Pointer to the IDChangeLog (optional.)
+     * @param position   Position index for the insertion (optional.)
+     *                   If the position is omitted, or if it is
+     *                   negative or too large, the attribute is added
+     *                   to the end of the list.
+     * @return           True if the attribute was successfully added.
      */
-    bool addAttribute(UMLAttribute* Att, IDChangeLog* Log = 0,
+    bool addAttribute(UMLAttribute* att, IDChangeLog* log = 0,
                       int position = -1);
 
     /**
      * Removes an attribute from the class.
      *
-     * @param a         The attribute to remove.
-     * @return  Count of the remaining attributes after removal.
-     *          Returns -1 if the given attribute was not found.
+     * @param att   The attribute to remove.
+     * @return      Count of the remaining attributes after removal.
+     *              Returns -1 if the given attribute was not found.
      */
-    int removeAttribute(UMLAttribute *a);
+    int removeAttribute(UMLAttribute *att);
 
     /**
      * Returns the number of attributes for the class.
@@ -151,16 +149,16 @@ public:
     /**
      * Returns the attributes for the specified scope.
      *
-     * @param scope    The scope of the attribute.
-     * @return  List of true attributes for the class.
+     * @param scope   The scope of the attribute.
+     * @return        List of true attributes for the class.
      */
     UMLAttributeList getAttributeList(Uml::Visibility scope) const;
 
     /**
      * Returns the static attributes for the specified scope.
      *
-     * @param scope    The scope of the attribute.
-     * @return  List of true attributes for the class.
+     * @param scope   The scope of the attribute.
+     * @return        List of true attributes for the class.
      */
     UMLAttributeList getAttributeListStatic(Uml::Visibility scope) const;
 
@@ -174,10 +172,10 @@ public:
      * The operation's signature is checked for validity within the parent
      * classifier.
      *
-     * @param name              The operation name (will be chosen internally if
-     *                  none given.)
-     * @param isExistingOp      Optional pointer to bool. If supplied, the bool is
-     *                  set to true if an existing operation is returned.
+     * @param name           The operation name (will be chosen internally if
+     *                       none given.)
+     * @param isExistingOp   Optional pointer to bool. If supplied, the bool is
+     *                       set to true if an existing operation is returned.
      * @param params    Optional list of parameter names and types.
      *                  If supplied, new operation parameters are
      *                  constructed using this list.
@@ -196,29 +194,29 @@ public:
      * The Classifier first checks and only adds the Operation if the
      * signature does not conflict with exising operations
      *
-     * @param Op                Pointer to the UMLOperation to add.
-     * @param position  Index at which to insert into the list.
-     * @return true if the Operation could be added to the Classifier.
+     * @param op         Pointer to the UMLOperation to add.
+     * @param position   Index at which to insert into the list.
+     * @return           True if the Operation could be added to the Classifier.
      */
-    bool addOperation(UMLOperation* Op, int position = -1);
+    bool addOperation(UMLOperation* op, int position = -1);
 
     /**
      * Appends an operation to the classifier.
      * @see bool addOperation(UMLOperation* Op, int position = -1)
      * This function is mainly intended for the clipboard.
      *
-     * @param Op                Pointer to the UMLOperation to add.
-     * @param Log               Pointer to the IDChangeLog.
-     * @return  True if the operation was added successfully.
+     * @param op    Pointer to the UMLOperation to add.
+     * @param log   Pointer to the IDChangeLog.
+     * @return      True if the operation was added successfully.
      */
-    bool addOperation(UMLOperation* Op, IDChangeLog* Log);
+    bool addOperation(UMLOperation* op, IDChangeLog* log);
 
     /**
      * Checks whether an operation is valid based on its signature -
      * An operation is "valid" if the operation's name and parameter list
      * are unique in the classifier.
      *
-     * @param name              Name of the operation to check.
+     * @param name      Name of the operation to check.
      * @param opParams  The operation's argument list.
      * @param exemptOp  Pointer to the exempt method (optional.)
      * @return  NULL if the signature is valid (ok), else return a pointer
@@ -233,24 +231,24 @@ public:
      * The operation is not deleted so the caller is responsible for what
      * happens to it after this.
      *
-     * @param op        The operation to remove.
-     * @return  Count of the remaining operations after removal, or
-     *          -1 if the given operation was not found.
+     * @param op   The operation to remove.
+     * @return     Count of the remaining operations after removal, or
+     *             -1 if the given operation was not found.
      */
     int removeOperation(UMLOperation *op);
 
     /**
      * counts the number of operations in the Classifier.
      *
-     * @return  The number of operations for the Classifier.
+     * @return   The number of operations for the Classifier.
      */
     int operations() ;
 
     /**
      * Return a list of operations for the Classifier.
-     * @param includeInherited Includes operations from superclasses.
      *
-     * @return  The list of operations for the Classifier.
+     * @param includeInherited   Includes operations from superclasses.
+     * @return   The list of operations for the Classifier.
      */
     UMLOperationList getOpList(bool includeInherited = false);
 
@@ -264,9 +262,9 @@ public:
     /**
      * Adds a template to the class if it is not there yet.
      *
-     * @param name              The name of the template.
-     * @param id                The id of the template.
-     * @return  Pointer to the UMLTemplate object created.
+     * @param name   The name of the template.
+     * @param id     The id of the template.
+     * @return       Pointer to the UMLTemplate object created.
      */
     UMLTemplate* addTemplate(const QString &name, Uml::IDType id = Uml::id_None);
 
@@ -274,8 +272,8 @@ public:
      * Adds an already created template.
      * The template object must not belong to any other concept.
      *
-     * @param newTemplate       Pointer to the UMLTemplate object to add.
-     * @param log               Pointer to the IDChangeLog.
+     * @param newTemplate   Pointer to the UMLTemplate object to add.
+     * @param log           Pointer to the IDChangeLog.
      * @return  True if the template was successfully added.
      */
     bool addTemplate(UMLTemplate* newTemplate, IDChangeLog* log = 0);
@@ -284,19 +282,19 @@ public:
      * Adds an template to the class.
      * The template object must not belong to any other class.
      *
-     * @param Template  Pointer to the UMLTemplate to add.
-     * @param position  The position of the template in the list.
-     *                  A value of -1 will add the template at the end.
+     * @param templt     Pointer to the UMLTemplate to add.
+     * @param position   The position of the template in the list.
+     *                   A value of -1 will add the template at the end.
      * @return  True if the template was successfully added.
      */
     //TODO: if the param IDChangeLog from the method above is not being used,
     // give position a default value of -1 and the method can replace the above one
-    bool addTemplate(UMLTemplate* Template, int position);
+    bool addTemplate(UMLTemplate* templt, int position);
 
     /**
      * Removes a template from the class.
      *
-     * @param umltemplate  The template to remove.
+     * @param umltemplate   The template to remove.
      * @return  Count of the remaining templates after removal.
      *          Returns -1 if the given template was not found.
      */
@@ -327,9 +325,9 @@ public:
      * Take and return a subordinate item from this classifier.
      * Ownership of the item is passed to the caller.
      *
-     * @param item    Subordinate item to take.
-     * @return        Index in m_List of the item taken.
-     *                Return -1 if the item is not found in m_List.
+     * @param item   Subordinate item to take.
+     * @return       Index in m_List of the item taken.
+     *               Return -1 if the item is not found in m_List.
      */
     int takeItem(UMLClassifierListItem* item);
 
@@ -355,8 +353,8 @@ public:
     /**
      * Find a list of operations with the given name.
      *
-     * @param n         The name of the operation to find.
-     * @return  The list of objects found; will be empty if none found.
+     * @param n   The name of the operation to find.
+     * @return    The list of objects found; will be empty if none found.
      */
     UMLOperationList findOperations(const QString &n);
 
@@ -373,8 +371,8 @@ public:
     /**
      * Find an operation of the given name and parameter signature.
      *
-     * @param name              The name of the operation to find.
-     * @param params    The parameter descriptors of the operation to find.
+     * @param name     The name of the operation to find.
+     * @param params   The parameter descriptors of the operation to find.
      *
      * @return  The operation found.  Will return 0 if none found.
      */
@@ -392,8 +390,8 @@ public:
     /**
      * Returns a list of concepts which inherit from this concept.
      *
-     * @param type              The ClassifierType to seek.
-     * @return  List of UMLClassifiers that inherit from us.
+     * @param type   The ClassifierType to seek.
+     * @return       List of UMLClassifiers that inherit from us.
      */
     UMLClassifierList findSubClassConcepts(ClassifierType type = ALL);
 
@@ -513,11 +511,14 @@ public:
     virtual UMLAssociationList  getUniAssociationToBeImplemented();
 
 signals:
-    /** Signals that a new UMLOperation has been added to the classifer.
+
+    /**
+     * Signals that a new UMLOperation has been added to the classifer.
      */
     void operationAdded(UMLClassifierListItem *);
 
-    /** Signals that a UMLOperation has been removed from the classifer.
+    /**
+     * Signals that a UMLOperation has been removed from the classifer.
      */
     void operationRemoved(UMLClassifierListItem *);
 
