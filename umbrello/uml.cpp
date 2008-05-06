@@ -183,7 +183,7 @@ void UMLApp::setProgLangAction(Uml::Programming_Language pl, const QString& name
     m_langAct[pl] = actionCollection()->addAction(action);
     m_langAct[pl]->setText(name);
     m_langAct[pl]->setCheckable(true);
-    const char* method = QString("1" + action + "()").toAscii().constData();
+    const char* method = QString('1' + action + "()").toAscii().constData();
     connect(m_langAct[pl], SIGNAL(triggered()), this, method);
 }
 
@@ -2134,18 +2134,21 @@ void UMLApp::slotChangeTabRight()
     }
 }
 
+/* for debugging only
 static void showTabTexts(KTabWidget* tabWidget)
 {
     QString out = QString("tab texts ");
     for (int i = 0; i < tabWidget->count(); ++i) {
-        out += " <" + tabWidget->tabText(i) + ">";
+        out += " <" + tabWidget->tabText(i) + '>';
     }
     uDebug() << out;
 }
+*/
 
 void UMLApp::slotMoveTabLeft()
 {
     //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //showTabTexts(m_tabWidget);
     int from = m_tabWidget->currentIndex();
     int to   = -1;
     if (from > 0) {
@@ -2160,6 +2163,7 @@ void UMLApp::slotMoveTabLeft()
 void UMLApp::slotMoveTabRight()
 {
     //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //showTabTexts(m_tabWidget);
     int from = m_tabWidget->currentIndex();
     int to   = -1;
     if (from < m_tabWidget->count() - 1) {
