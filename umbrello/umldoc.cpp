@@ -1994,18 +1994,18 @@ void UMLDoc::setModified(bool modified /*=true*/)
     }
 }
 
-bool UMLDoc::assignNewIDs(UMLObject* Obj)
+bool UMLDoc::assignNewIDs(UMLObject* obj)
 {
-    if(!Obj || !m_pChangeLog) {
-        uDebug() << "no Obj || Changelog";
+    if(!obj || !m_pChangeLog) {
+        uDebug() << "no obj || Changelog";
         return false;
     }
-    Uml::IDType result = assignNewID(Obj->getID());
-    Obj->setID(result);
+    Uml::IDType result = assignNewID(obj->getID());
+    obj->setID(result);
 
     //If it is a CONCEPT then change the ids of all its operations and attributes
-    if(Obj->getBaseType() == ot_Class ) {
-        UMLClassifier *c = static_cast<UMLClassifier*>(Obj);
+    if(obj->getBaseType() == ot_Class ) {
+        UMLClassifier *c = static_cast<UMLClassifier*>(obj);
         UMLClassifierListItemList attributes = c->getFilteredList(ot_Attribute);
         foreach (UMLObject* listItem ,  attributes ) {
             result = assignNewID(listItem->getID());
@@ -2019,8 +2019,8 @@ bool UMLDoc::assignNewIDs(UMLObject* Obj)
         }
     }
 
-    if(Obj->getBaseType() == ot_Interface || Obj->getBaseType() == ot_Class ) {
-        UMLOperationList operations(((UMLClassifier*)Obj)->getOpList());
+    if(obj->getBaseType() == ot_Interface || obj->getBaseType() == ot_Class ) {
+        UMLOperationList operations(((UMLClassifier*)obj)->getOpList());
         foreach (UMLObject* listItem , operations) {
             result = assignNewID(listItem->getID());
             listItem->setID(result);
@@ -2035,7 +2035,7 @@ bool UMLDoc::assignNewIDs(UMLObject* Obj)
 UMLFolder *UMLDoc::getRootFolder(Uml::Model_Type mt)
 {
     if (mt < Uml::mt_Logical || mt >= Uml::N_MODELTYPES) {
-        uError() << "illegal input value " << mt << endl;
+        uError() << "illegal input value " << mt;
         return NULL;
     }
     return m_root[mt];
@@ -2078,19 +2078,15 @@ void UMLDoc::endPaste()
 }
 
 /** Assigns a New ID to an Object, and also logs the assignment to its internal ChangeLog */
-Uml::IDType UMLDoc::assignNewID(Uml::IDType OldID)
+Uml::IDType UMLDoc::assignNewID(Uml::IDType oldID)
 {
     Uml::IDType result = UniqueID::gen();
     if (m_pChangeLog) {
-        m_pChangeLog->addIDChange(OldID, result);
+        m_pChangeLog->addIDChange(oldID, result);
     }
     return result;
 }
 
-/** Adds an already created UMLView to the document, it gets assigned a new ID.
-    If its name is already in use then the function appends a number to it to
-    differentiate it from the others; this number is incremental so if
-    number 1 is in use then it tries 2 and then 3 and so on */
 bool UMLDoc::addUMLView(UMLView * pView )
 {
     if(!pView || !m_pChangeLog)

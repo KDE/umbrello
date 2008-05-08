@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007                                                    *
+ *   copyright (C) 2007-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,12 +13,12 @@
 #include "importprojectdlg.h"
 
 // qt/kde includes
-#include <QFileInfo>
-#include <QRegExp>
+#include <QtCore/QFileInfo>
+#include <QtCore/QRegExp>
 #include <kmessagebox.h>
 
 // local includes
-#include "../model_utils.h"
+#include "model_utils.h"
 
 const QString ImportProjectDlg::ADA    = Model_Utils::progLangToString(Uml::pl_Ada);
 const QString ImportProjectDlg::CPP    = Model_Utils::progLangToString(Uml::pl_Cpp);
@@ -30,11 +30,12 @@ const QString ImportProjectDlg::PYTHON = Model_Utils::progLangToString(Uml::pl_P
 
 ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::Programming_Language pl,
                                    QWidget* parent,const char* name,bool modal,Qt::WindowFlags fl)
-  : QDialog(parent,fl), fileList(list) {
-
+  : KDialog(parent, fl), fileList(list)
+{
     setObjectName(name);
     setModal(modal);
-    setupUi(this);
+    setupUi(mainWidget());
+    setInitialSize(QSize(330, 190));
     QStringList languages;
 
     languages += ImportProjectDlg::ADA;
@@ -65,15 +66,12 @@ ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::Programming_La
     m_kURL->setMode(KFile::Directory | KFile::ExistingOnly | KFile::LocalOnly);
 }
 
-QDialog::DialogCode ImportProjectDlg::getFilesToImport(QStringList* list, const  Uml::Programming_Language pl,
-                                     QWidget* parent) {
-
-    ImportProjectDlg dlg(list, pl, parent);
-    QDialog::DialogCode code = (QDialog::DialogCode) dlg.exec();
-    return code;
+ImportProjectDlg::~ImportProjectDlg()
+{
 }
 
-void ImportProjectDlg::getFiles(const QString& path, QStringList& filters) {
+void ImportProjectDlg::getFiles(const QString& path, QStringList& filters)
+{
     QDir searchDir(path);
     if (searchDir.exists()) {
         foreach (QFileInfo file, searchDir.entryList(filters, QDir::Files))
@@ -83,13 +81,15 @@ void ImportProjectDlg::getFiles(const QString& path, QStringList& filters) {
     }
 }
 
-
-/*void ImportProjectDlg::languageChange() {
+/*
+void ImportProjectDlg::languageChange()
+{
     ImportProjectDlgBase::languageChange();
 }
 */
-void ImportProjectDlg::accept() {
 
+void ImportProjectDlg::accept()
+{
     const KUrl url = m_kURL->url();
     if (url.isEmpty()) {
         KMessageBox::sorry(this, i18n("You have to choose a directory."));
@@ -127,7 +127,7 @@ void ImportProjectDlg::accept() {
         KMessageBox::sorry(this, i18n("No source file in this directory."));
         return;
     }
-    QDialog::accept();
+    KDialog::accept();
 }
 
 

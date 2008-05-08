@@ -5,19 +5,19 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-
 
 #ifndef UMLOPERATIONDIALOG_H
 #define UMLOPERATIONDIALOG_H
 
+//qt includes
+#include <Q3ListBoxItem>
+
 //kde includes
 #include <kdialog.h>
-//Added by qt3to4:
-#include <QLabel>
-#include <Q3ListBoxItem>
+
 /**
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -28,64 +28,65 @@ class ListPopupMenu;
 class Q3GroupBox;
 class Q3ListBox;
 class Q3ButtonGroup;
+class QLabel;
 class QRadioButton;
 class QPushButton;
-class QLabel;
 class QCheckBox;
 class KComboBox;
 class KLineEdit;
 class UMLDoc;
 class KArrowButton;
 
-class UMLOperationDialog : public KDialog {
+class UMLOperationDialog : public KDialog
+{
     Q_OBJECT
 
 public:
     /**
-    *   Constructor
-    */
+     * Constructor.
+     */
     UMLOperationDialog( QWidget * parent, UMLOperation * pOperation );
 
     /**
-    *   Deconstructor
-    */
+     * Destructor.
+     */
     ~UMLOperationDialog();
 
 protected:
     /**
-    *   Sets up the dialog
-    */
+     * Sets up the dialog.
+     */
     void setupDialog();
 
     /**
      * Checks if changes are valid and applies them if they are,
-     * else returns false
+     * else returns false.
      */
     bool apply();
 
     /**
-    * Inserts @p type into the type-combobox as well as its completion object.
-    */
+     * Inserts @p type into the type-combobox as well as its completion object.
+     */
     void insertType( const QString& type, int index = -1 );
 
     /**
-    *   The operation to represent.
-    */
+     * The operation to represent.
+     */
     UMLOperation * m_pOperation;
 
     /**
-      * The UMLDocument where all objects live
+     * The UMLDocument where all objects live.
      */
     UMLDoc *m_doc;
 
     /**
-    *   Menu used in paramater list box.
-    */
+     * Menu used in paramater list box.
+     */
     ListPopupMenu * m_pMenu;
 
     /**
-    * Inserts @p stereotype into the stereotype-combobox as well as its completion object.
-    */
+     * Inserts @p stereotype into the stereotype-combobox as well as its completion object.
+     */
     void insertStereotype( const QString& type, int index = -1 );
 
     //GUI widgets
@@ -116,18 +117,18 @@ public slots:
     void slotParameterDown();
 
     /**
-     * enables or disables buttons
+     * Enables or disables buttons.
      */
     void slotParamsBoxClicked(Q3ListBoxItem* parameterItem);
 
     /**
      * I don't think this is used, but if we had an apply button
-     * it would slot into here
+     * it would slot into here.
      */
     void slotApply();
 
     /**
-     * Used when the OK button is clicked.  Calls apply()
+     * Used when the OK button is clicked.  Calls apply().
      */
     void slotOk();
     void slotNameChanged( const QString & );

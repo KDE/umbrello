@@ -14,9 +14,9 @@
 
 #include "umlnamespace.h"
 
-#include <QKeyEvent>
-#include <QMenu>
-#include <QUndoView>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QMenu>
+#include <QtGui/QUndoView>
 
 #include <kxmlguiwindow.h>
 #include <kdeversion.h>
@@ -62,10 +62,14 @@ class QMimeData;
 /**
  * The base class for UML application windows. It sets up the main
  * window and reads the config file as well as providing a menubar, toolbar
- * and statusbar. An instance of UMLView creates your center view, which is connected
- * to the window's Doc object.
+ * and statusbar. A list of UMLView instances creates the center views, which are connected
+ * to the window's Doc object. The handling of views is realized with two different widgets:
+ *   - stack widget
+ *   - tab widget
+ * The current view handling is set as an option. 
  * UMLApp reimplements the methods that KMainWindow provides for main window handling and supports
  * full session management as well as using KActions.
+ * 
  * @see KMainWindow
  * @see KApplication
  * @see KConfig
@@ -206,8 +210,8 @@ public:
      * code generation library is out-of-date will show if you
      * attempt to set the generator to NULL.
      *
-     * @param gen               Pointer to the CodeGenerator to set.
-     * @param giveWarning       True to enable out-of-date warning.
+     * @param gen           Pointer to the CodeGenerator to set.
+     * @param giveWarning   True to enable out-of-date warning.
      */
     void setGenerator(CodeGenerator* gen, bool giveWarning = true);
 
@@ -258,7 +262,7 @@ public:
      * Puts this view to the top of the viewStack, i.e. makes it
      * visible to the user.
      *
-     * @param view              Pointer to the UMLView to push.
+     * @param view   Pointer to the UMLView to push.
      */
     void setCurrentView(UMLView* view);
 
@@ -385,7 +389,8 @@ protected:
     void readOptions();
 
     /**
-     * Initializes the KActions of the application.
+     * Initializes the KActions and the status bar of the application 
+     * and calls setupGUI().
      */
     void initActions();
 
@@ -435,7 +440,7 @@ protected:
      * temporary filename provided by KApplication.
      * @see KMainWindow#saveProperties
      */
-    virtual void saveProperties(KConfigGroup &_cfg);
+    virtual void saveProperties(KConfigGroup & cfg);
 
     /**
      * Reads the session config file and restores the
@@ -444,7 +449,7 @@ protected:
      * saveProperties()
      * @see KMainWindow#readProperties
      */
-    virtual void readProperties(const KConfigGroup &_cfg);
+    virtual void readProperties(const KConfigGroup & cfg);
 
     CodeGenerationPolicy * m_commoncodegenpolicy;
 
@@ -455,7 +460,6 @@ protected:
      * to Cpp
      */
     void updateLangSelectMenu(Uml::Programming_Language activeLanguage);
-
 
 public slots:
 
@@ -550,7 +554,7 @@ public slots:
     /**
      * Changes the statusbar contents for the standard label
      * permanently, used to indicate current actions.
-     * @param text      The text that is displayed in the statusbar
+     * @param text   The text that is displayed in the statusbar
      */
     void slotStatusMsg(const QString &text);
 
@@ -593,6 +597,7 @@ public slots:
      * Create this view.
      */
     void slotDeploymentDiagram();
+
     /**
      * Create this view.
      */
@@ -644,7 +649,7 @@ public slots:
     void slotClipDataChanged();
 
     /**
-     *
+     * Slot for enabling cut and copy to clipboard.
      */
     void slotCopyChanged();
 
@@ -668,30 +673,6 @@ public slots:
      * Generate code for all classes.
      */
     void generateAllCode();
-
-    /**
-     * Slots for connection to the QActions of the m_langSelect menu.
-     */
-    void set_lang_actionscript();
-    void set_lang_ada();
-    void set_lang_cpp();
-    void set_lang_csharp();
-    void set_lang_d();
-    void set_lang_idl();
-    void set_lang_java();
-    void set_lang_javascript();
-    void set_lang_mysql();
-    void set_lang_pascal();
-    void set_lang_perl();
-    void set_lang_php();
-    void set_lang_php5();
-    void set_lang_postgresql();
-    void set_lang_python();
-    void set_lang_ruby();
-    void set_lang_sql();
-    void set_lang_tcl();
-    void set_lang_xmlschema();
-    void set_lang_ocl();
 
     /**
      * Set the language for which code will be generated.
@@ -768,7 +749,7 @@ public slots:
     void slotClassWizard();
 
     /**
-     * Calls the active code generator to add its default datatypes
+     * Calls the active code generator to add its default datatypes.
      */
     void slotAddDefaultDatatypes();
 
@@ -799,8 +780,9 @@ public slots:
 
     /**
      * Deletes the current diagram.
+     * @param tab   Widget's tab to close
      */
-    void slotDeleteDiagram();
+    void slotDeleteDiagram(QWidget* tab = NULL);
 
     /**
      * Set the zoom factor of the current diagram.
@@ -824,7 +806,7 @@ public slots:
     void slotZoomSliderMoved(int value);
 
     /**
-     * Set zoom to 100%
+     * Set zoom to 100%.
      */
     void slotZoom100();
 
@@ -846,42 +828,41 @@ public slots:
     void slotEditRedo();
 
     /**
-     * Searches for a menu with the given name
+     * Searches for a menu with the given name.
      *
-     * @param menu  The QPopupMenu or QMenuBar to search through.
      * @param name  The name of the menu to search for (name, not text)
      */
-    QMenu* findMenu(QMenu* menu, const QString &name);
-
-    /// @todo This is an ugly _HACK_ to allow to compile umbrello.
-    /// All the menu stuff should be ported to KDE4 (using actions)
-    QMenu* findMenu(KMenuBar* menu, const QString &name);
+    QMenu* findMenu(const QString &name);
 
     /**
-     * called when the tab has changed
+     * Called when the tab has changed.
+     * @param tab   The changed tab widget
      */
-    void slotTabChanged(QWidget* view);
+    void slotTabChanged(QWidget* tab);
 
     /**
-     * make the tab on the left of the current one the active one
+     * Make the tab on the left of the current one the active one.
      */
     void slotChangeTabLeft();
 
     /**
-     * make the tab on the right of the current one the active one
+     * Make the tab on the right of the current one the active one.
      */
     void slotChangeTabRight();
 
     /**
-     * Move the current tab left, not implemented
+     * Move the current tab left.
      */
     void slotMoveTabLeft();
 
     /**
-     * Move the current tab right, not implemented
+     * Move the current tab right.
      */
     void slotMoveTabRight();
 
+    /**
+     * Get the configuration data.
+     */
     KConfig* getConfig() { return m_config.data(); }
 
     /**
@@ -890,6 +871,32 @@ public slots:
      * @param status true if successful else false
      */
     void slotXhtmlDocGenerationFinished(bool status);
+
+private slots:
+
+    /**
+     * Slots for connection to the QActions of the m_langSelect menu.
+     */
+    void setLang_actionscript();
+    void setLang_ada();
+    void setLang_cpp();
+    void setLang_csharp();
+    void setLang_d();
+    void setLang_idl();
+    void setLang_java();
+    void setLang_javascript();
+    void setLang_mysql();
+    void setLang_pascal();
+    void setLang_perl();
+    void setLang_php();
+    void setLang_php5();
+    void setLang_postgresql();
+    void setLang_python();
+    void setLang_ruby();
+    void setLang_sql();
+    void setLang_tcl();
+    void setLang_xmlschema();
+    void setLang_ocl();
 
 private:
     /**
@@ -911,6 +918,16 @@ private:
      * Helper method to create the zoom actions.
      */
     QAction* createZoomAction(int zoom, int currentZoom);
+
+    /**
+     * Helper method to reset the status bar message.
+     */
+    void resetStatusMsg();
+
+    /**
+     * Helper method to setup the programming language action.
+     */
+    void setProgLangAction(Uml::Programming_Language pl, const QString& name, const QString& action);
 
     /**
      * Active language.
@@ -1089,7 +1106,6 @@ private:
     QAction* moveTabRight;
     QToolButton* m_newSessionButton;
     KMenu* m_diagramMenu;
-    QToolButton* m_closeDiagramButton;
     KToggleAction* viewToolBar;
     KToggleAction* viewStatusBar;
     WorkToolBar* toolsbar;
