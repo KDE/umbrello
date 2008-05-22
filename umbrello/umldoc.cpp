@@ -70,7 +70,6 @@
 #include "dialogs/classpropdlg.h"
 #include "codegenerators/codegenfactory.h"
 #include "listpopupmenu.h"
-#include "version.h"
 #include "cmds.h"
 #include "diagramprintpage.h"
 

@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
   params[nbparams] = NULL;
 
   KAboutData aboutData( "umbodoc", 0, ki18n("Umbrello UML Modeller autonomous code generator"),
-                        UMBRELLO_VERSION, ki18n(description), KAboutData::License_GPL,
+                        umbrelloVersion(), ki18n(description), KAboutData::License_GPL,
                         ki18n("(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller Authors"), KLocalizedString(),
                         "http://uml.sf.net/");
   aboutData.addAuthor(ki18n("Gael de Chalendar (aka Kleag)"),KLocalizedString(), "kleag@free.fr");

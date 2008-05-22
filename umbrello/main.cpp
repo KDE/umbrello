@@ -68,11 +68,10 @@ void initDocument(KCmdLineArgs *args);
  */
 void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt);
 
-
 int main(int argc, char *argv[])
 {
     KAboutData aboutData( "umbrello", 0, ki18n("Umbrello UML Modeller"),
-                          UMBRELLO_VERSION, ki18n(description), KAboutData::License_GPL,
+                          umbrelloVersion(), ki18n(description), KAboutData::License_GPL,
                           ki18n("(c) 2001 Paul Hensgen, (c) 2002-2006 Umbrello UML Modeller Authors"), KLocalizedString(),
                           "http://uml.sf.net/");
     aboutData.addAuthor(ki18n("Paul Hensgen"),KLocalizedString(), "phensgen@users.sourceforge.net");
