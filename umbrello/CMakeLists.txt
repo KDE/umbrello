@@ -1,16 +1,6 @@
-add_subdirectory( pics ) 
-add_subdirectory( headings ) 
+add_subdirectory( pics )
+add_subdirectory( headings )
 add_subdirectory( cmds )
-
-macro(CREATE_VERSION _in_FILE _out_FILE)
-    FILE(READ ${_in_FILE} _contents)
-    FILE(WRITE ${_out_FILE} "#undef UMBRELLO_VERSION\n")
-    STRING(REGEX REPLACE "\n" "" _contents "${_contents}" )
-    FILE(APPEND ${_out_FILE} "#define UMBRELLO_VERSION \"${_contents}\"\n")
-endmacro(CREATE_VERSION)
-
-#macro_additional_clean_files( ${CMAKE_CURRENT_BINARY_DIR}/version.h )
-create_version(${CMAKE_SOURCE_DIR}/umbrello/VERSION ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
 add_definitions (-DQT3_SUPPORT_WARNINGS)
 
@@ -25,80 +15,80 @@ include_directories (
 )
 
 set(libcodegenerator_SRCS
-	codegenerators/codegenfactory.cpp 
-	codegenerators/codegenpolicyext.cpp 
-	codegenerators/javacodegenerator.cpp 
-	codegenerators/javaantcodedocument.cpp 
+	codegenerators/codegenfactory.cpp
+	codegenerators/codegenpolicyext.cpp
+	codegenerators/javacodegenerator.cpp
+	codegenerators/javaantcodedocument.cpp
 	codegenerators/javacodeclassfield.cpp
-	codegenerators/javaclassifiercodedocument.cpp 
-	codegenerators/javacodecomment.cpp 
+	codegenerators/javaclassifiercodedocument.cpp
+	codegenerators/javacodecomment.cpp
 	codegenerators/javacodedocumentation.cpp
-	codegenerators/javacodeoperation.cpp 
-	codegenerators/javacodeaccessormethod.cpp 
-	codegenerators/javaclassdeclarationblock.cpp 
+	codegenerators/javacodeoperation.cpp
+	codegenerators/javacodeaccessormethod.cpp
+	codegenerators/javaclassdeclarationblock.cpp
 	codegenerators/javacodeclassfielddeclarationblock.cpp
-	codegenerators/javacodegenerationpolicy.cpp 
+	codegenerators/javacodegenerationpolicy.cpp
 	codegenerators/javacodegenerationpolicypage.cpp
-	codegenerators/cppcodegenerator.cpp 
-	codegenerators/cppcodedocumentation.cpp 
+	codegenerators/cppcodegenerator.cpp
+	codegenerators/cppcodedocumentation.cpp
 	codegenerators/cppcodeclassfield.cpp
-	codegenerators/cppcodecomment.cpp 
+	codegenerators/cppcodecomment.cpp
 	codegenerators/cppmakecodedocument.cpp
-	codegenerators/cppsourcecodedocument.cpp 
-	codegenerators/cppsourcecodeoperation.cpp 
+	codegenerators/cppsourcecodedocument.cpp
+	codegenerators/cppsourcecodeoperation.cpp
 	codegenerators/cppsourcecodeaccessormethod.cpp
 	codegenerators/cppsourcecodeclassfielddeclarationblock.cpp
-	codegenerators/cppheadercodedocument.cpp 
+	codegenerators/cppheadercodedocument.cpp
 	codegenerators/cppheaderclassdeclarationblock.cpp
-	codegenerators/cppheadercodeoperation.cpp 
+	codegenerators/cppheadercodeoperation.cpp
 	codegenerators/cppheadercodeaccessormethod.cpp
 	codegenerators/cppheadercodeclassfielddeclarationblock.cpp
-	codegenerators/cppcodegenerationpolicy.cpp 
+	codegenerators/cppcodegenerationpolicy.cpp
 	codegenerators/cppcodegenerationpolicypage.cpp
-	codegenerators/cppcodegenerationform.cpp 
-	codegenerators/dcodegenerator.cpp 
-	codegenerators/dcodedocumentation.cpp 
+	codegenerators/cppcodegenerationform.cpp
+	codegenerators/dcodegenerator.cpp
+	codegenerators/dcodedocumentation.cpp
 	codegenerators/dcodeclassfield.cpp
-	codegenerators/dcodecomment.cpp 
+	codegenerators/dcodecomment.cpp
 	codegenerators/dclassdeclarationblock.cpp
-	codegenerators/dclassifiercodedocument.cpp 
-	codegenerators/dcodeoperation.cpp 
+	codegenerators/dclassifiercodedocument.cpp
+	codegenerators/dcodeoperation.cpp
 	codegenerators/dcodeaccessormethod.cpp
 	codegenerators/dcodeclassfielddeclarationblock.cpp
-	codegenerators/dcodegenerationpolicy.cpp 
+	codegenerators/dcodegenerationpolicy.cpp
 	codegenerators/dcodegenerationpolicypage.cpp
-	codegenerators/rubycodegenerator.cpp 
-	codegenerators/rubycodeclassfield.cpp 
-	codegenerators/rubyclassifiercodedocument.cpp 
-	codegenerators/rubycodecomment.cpp 
-	codegenerators/rubycodedocumentation.cpp 
-	codegenerators/rubycodeoperation.cpp 
+	codegenerators/rubycodegenerator.cpp
+	codegenerators/rubycodeclassfield.cpp
+	codegenerators/rubyclassifiercodedocument.cpp
+	codegenerators/rubycodecomment.cpp
+	codegenerators/rubycodedocumentation.cpp
+	codegenerators/rubycodeoperation.cpp
 	codegenerators/rubycodeaccessormethod.cpp
-	codegenerators/rubyclassdeclarationblock.cpp 
+	codegenerators/rubyclassdeclarationblock.cpp
 	codegenerators/rubycodeclassfielddeclarationblock.cpp
-	codegenerators/rubycodegenerationpolicy.cpp 
+	codegenerators/rubycodegenerationpolicy.cpp
 	codegenerators/rubycodegenerationpolicypage.cpp
-	codegenerators/simplecodegenerator.cpp 
-	codegenerators/adawriter.cpp 
-	codegenerators/aswriter.cpp 
-	codegenerators/cppwriter.cpp 
-	codegenerators/csharpwriter.cpp 
-	codegenerators/dwriter.cpp 
-	codegenerators/javawriter.cpp 
+	codegenerators/simplecodegenerator.cpp
+	codegenerators/adawriter.cpp
+	codegenerators/aswriter.cpp
+	codegenerators/cppwriter.cpp
+	codegenerators/csharpwriter.cpp
+	codegenerators/dwriter.cpp
+	codegenerators/javawriter.cpp
 	codegenerators/jswriter.cpp
-	codegenerators/idlwriter.cpp 
+	codegenerators/idlwriter.cpp
         codegenerators/mysqlwriter.cpp
-	codegenerators/pascalwriter.cpp 
-	codegenerators/perlwriter.cpp 
-	codegenerators/phpwriter.cpp 
-	codegenerators/php5writer.cpp 
+	codegenerators/pascalwriter.cpp
+	codegenerators/perlwriter.cpp
+	codegenerators/phpwriter.cpp
+	codegenerators/php5writer.cpp
         codegenerators/postgresqlwriter.cpp
 	codegenerators/pythonwriter.cpp
-	codegenerators/rubywriter.cpp 
-	codegenerators/sqlwriter.cpp 
-	codegenerators/tclwriter.cpp 
+	codegenerators/rubywriter.cpp
+	codegenerators/sqlwriter.cpp
+	codegenerators/tclwriter.cpp
 	codegenerators/xmlschemawriter.cpp
-	codegenerators/xmlelementcodeblock.cpp 
+	codegenerators/xmlelementcodeblock.cpp
 	codegenerators/xmlcodecomment.cpp
 	codegenerators/codegen_utils.cpp
 )
@@ -112,73 +102,73 @@ kde4_add_ui_files(  libcodegenerator_SRCS
 
 
 set(libdocgenerator_SRCS
-    docgenerators/docbookgenerator.cpp 
+    docgenerators/docbookgenerator.cpp
     docgenerators/docbookgeneratorjob.cpp
-    docgenerators/xhtmlgenerator.cpp    
+    docgenerators/xhtmlgenerator.cpp
     docgenerators/docbook2xhtmlgeneratorjob.cpp
 )
 
 
 set(libdialogs_SRCS
 	dialogs/activitydialog.cpp
-	dialogs/activitypage.cpp 
-	dialogs/assocgenpage.cpp 
-	dialogs/assocpage.cpp 
-	dialogs/assocpropdlg.cpp 
-	dialogs/assocrolepage.cpp 
-	dialogs/classgenpage.cpp 
+	dialogs/activitypage.cpp
+	dialogs/assocgenpage.cpp
+	dialogs/assocpage.cpp
+	dialogs/assocpropdlg.cpp
+	dialogs/assocrolepage.cpp
+	dialogs/classgenpage.cpp
 	dialogs/classifierlistpage.cpp
         dialogs/constraintlistpage.cpp
-	dialogs/classoptionspage.cpp 
+	dialogs/classoptionspage.cpp
 	dialogs/classpropdlg.cpp
-	dialogs/classwizard.cpp 
-	dialogs/codeeditor.cpp 
-	dialogs/codegenerationoptionspage.cpp 
-	dialogs/codegenerationpolicypage.cpp 
-	dialogs/codegenerationwizard.cpp 
-	dialogs/codeviewerdialog.cpp 
-	dialogs/codevieweroptionspage.cpp 
-	dialogs/defaultcodegenpolicypage.cpp 
-	dialogs/diagramprintpage.cpp 
+	dialogs/classwizard.cpp
+	dialogs/codeeditor.cpp
+	dialogs/codegenerationoptionspage.cpp
+	dialogs/codegenerationpolicypage.cpp
+	dialogs/codegenerationwizard.cpp
+	dialogs/codeviewerdialog.cpp
+	dialogs/codevieweroptionspage.cpp
+	dialogs/defaultcodegenpolicypage.cpp
+	dialogs/diagramprintpage.cpp
         dialogs/exportallviewsdialog.cpp
 	dialogs/notedialog.cpp
         dialogs/objectnodedialog.cpp
 	dialogs/importprojectdlg.cpp
-	dialogs/overwritedialogue.cpp 
-	dialogs/pkgcontentspage.cpp 
-	dialogs/parmpropdlg.cpp 
-	dialogs/selectopdlg.cpp 
-	dialogs/settingsdlg.cpp 
-	dialogs/statedialog.cpp 
-	dialogs/umlattributedialog.cpp 
+	dialogs/overwritedialogue.cpp
+	dialogs/pkgcontentspage.cpp
+	dialogs/parmpropdlg.cpp
+	dialogs/selectopdlg.cpp
+	dialogs/settingsdlg.cpp
+	dialogs/statedialog.cpp
+	dialogs/umlattributedialog.cpp
         dialogs/umlcheckconstraintdialog.cpp
 	dialogs/umlentityattributedialog.cpp
-        dialogs/umlforeignkeyconstraintdialog.cpp 
-	dialogs/umloperationdialog.cpp 
-	dialogs/umltemplatedialog.cpp 
-	dialogs/umlroledialog.cpp 
-	dialogs/umlroleproperties.cpp 
+        dialogs/umlforeignkeyconstraintdialog.cpp
+	dialogs/umloperationdialog.cpp
+	dialogs/umltemplatedialog.cpp
+	dialogs/umlroledialog.cpp
+	dialogs/umlroleproperties.cpp
 	dialogs/umluniqueconstraintdialog.cpp
-        dialogs/umlviewdialog.cpp 
+        dialogs/umlviewdialog.cpp
 	dialogs/umlwidgetcolorpage.cpp )
 
-kde4_add_ui_files(  libdialogs_SRCS 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationoptionsbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationwizardbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui 
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/importprojectdlgbase.ui 
+kde4_add_ui_files(  libdialogs_SRCS
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationoptionsbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationwizardbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/importprojectdlgbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/umlrolepropertiesbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui
 )
 
 
-set(librefactoring_SRCS 
+set(librefactoring_SRCS
 		refactoring/refactoringassistant.cpp )
 
 
-set(libcodeimport_SRCS 
+set(libcodeimport_SRCS
 	codeimport/adaimport.cpp
 	codeimport/classimport.cpp
 	codeimport/cppimport.cpp
@@ -190,24 +180,24 @@ set(libcodeimport_SRCS
 	codeimport/pythonimport.cpp
 )
 
-set(libkdevcppparser_SRCS 
-	codeimport/kdevcppparser/ast.cpp 
-	codeimport/kdevcppparser/driver.cpp 
-	codeimport/kdevcppparser/errors.cpp 
-	codeimport/kdevcppparser/lexer.cpp 
-	codeimport/kdevcppparser/lookup.cpp 
-	codeimport/kdevcppparser/parser.cpp 
-	codeimport/kdevcppparser/preprocesslexer.cpp 
-	codeimport/kdevcppparser/tree_parser.cpp 
-	codeimport/kdevcppparser/urlutil.cpp 
-	codeimport/kdevcppparser/ast_utils.cpp 
+set(libkdevcppparser_SRCS
+	codeimport/kdevcppparser/ast.cpp
+	codeimport/kdevcppparser/driver.cpp
+	codeimport/kdevcppparser/errors.cpp
+	codeimport/kdevcppparser/lexer.cpp
+	codeimport/kdevcppparser/lookup.cpp
+	codeimport/kdevcppparser/parser.cpp
+	codeimport/kdevcppparser/preprocesslexer.cpp
+	codeimport/kdevcppparser/tree_parser.cpp
+	codeimport/kdevcppparser/urlutil.cpp
+	codeimport/kdevcppparser/ast_utils.cpp
 	codeimport/kdevcppparser/cpptree2uml.cpp
 )
 
 
-set(libclipboard_SRCS 
-	clipboard/umldragdata.cpp 
-	clipboard/umlclipboard.cpp 
+set(libclipboard_SRCS
+	clipboard/umldragdata.cpp
+	clipboard/umlclipboard.cpp
 	clipboard/idchangelog.cpp
 )
 
@@ -226,9 +216,9 @@ set(libcmds_SRCS
 
 	cmds/generic/cmd_create_umlobject.cpp
 	cmds/generic/cmd_rename_umlobject.cpp
-	
+
 	cmds/widget/cmd_create_widget.cpp
-	
+
 	cmds/cmd_moveWidget.cpp
 	cmds/cmd_resizeWidget.cpp
 	cmds/cmd_set_visibility.cpp
@@ -244,138 +234,138 @@ set(libcmds_SRCS
 )
 ########### next target ###############
 
-set(libumbrello_SRCS 
-   activitywidget.cpp 
-   actor.cpp 
-   actorwidget.cpp 
-   artifact.cpp 
-   artifactwidget.cpp 
-   association.cpp 
-   associationwidget.cpp 
-   assocrules.cpp 
-   attribute.cpp 
-   boxwidget.cpp 
+set(libumbrello_SRCS
+   activitywidget.cpp
+   actor.cpp
+   actorwidget.cpp
+   artifact.cpp
+   artifactwidget.cpp
+   association.cpp
+   associationwidget.cpp
+   assocrules.cpp
+   attribute.cpp
+   boxwidget.cpp
    category.cpp
    categorywidget.cpp
    checkconstraint.cpp
-   classifier.cpp 
-   classifiercodedocument.cpp 
-   classifierlistitem.cpp 
-   classifierwidget.cpp 
+   classifier.cpp
+   classifiercodedocument.cpp
+   classifierlistitem.cpp
+   classifierwidget.cpp
    cmdlineexportallviewsevent.cpp
-   codeaccessormethod.cpp 
-   codeblock.cpp 
-   codeblockwithcomments.cpp 
-   codeclassfield.cpp 
-   codeclassfielddeclarationblock.cpp 
-   codecomment.cpp 
-   codedocument.cpp 
-   codegenerationpolicy.cpp 
-   codegenerator.cpp 
-   codegenobjectwithtextblocks.cpp 
-   codemethodblock.cpp 
-   codeoperation.cpp 
-   codeparameter.cpp 
-   combinedfragmentwidget.cpp 
-   component.cpp 
-   componentwidget.cpp 
-   configurable.cpp 
-   datatypewidget.cpp 
-   dialog_utils.cpp 
-   docwindow.cpp 
-   entity.cpp 
-   entityattribute.cpp 
+   codeaccessormethod.cpp
+   codeblock.cpp
+   codeblockwithcomments.cpp
+   codeclassfield.cpp
+   codeclassfielddeclarationblock.cpp
+   codecomment.cpp
+   codedocument.cpp
+   codegenerationpolicy.cpp
+   codegenerator.cpp
+   codegenobjectwithtextblocks.cpp
+   codemethodblock.cpp
+   codeoperation.cpp
+   codeparameter.cpp
+   combinedfragmentwidget.cpp
+   component.cpp
+   componentwidget.cpp
+   configurable.cpp
+   datatypewidget.cpp
+   dialog_utils.cpp
+   docwindow.cpp
+   entity.cpp
+   entityattribute.cpp
    entityconstraint.cpp
-   entitywidget.cpp 
-   regionwidget.cpp 
-   enum.cpp 
-   enumliteral.cpp 
-   enumwidget.cpp 
+   entitywidget.cpp
+   regionwidget.cpp
+   enum.cpp
+   enumliteral.cpp
+   enumwidget.cpp
    floatingdashlinewidget.cpp
-   floatingtextwidget.cpp 
+   floatingtextwidget.cpp
    floatingtextwidgetcontroller.cpp
    folder.cpp
    foreignkeyconstraint.cpp
-   forkjoinwidget.cpp 
-   hierarchicalcodeblock.cpp 
+   forkjoinwidget.cpp
+   hierarchicalcodeblock.cpp
    icon_utils.cpp
-   import_rose.cpp 
+   import_rose.cpp
    kplayerslideraction.cpp
-   linepath.cpp 
-   linkwidget.cpp 
-   listpopupmenu.cpp 
-   main.cpp 
-   messagewidget.cpp 
+   linepath.cpp
+   linkwidget.cpp
+   listpopupmenu.cpp
+   main.cpp
+   messagewidget.cpp
    messagewidgetcontroller.cpp
-   model_utils.cpp 
-   node.cpp 
-   nodewidget.cpp 
-   notewidget.cpp 
+   model_utils.cpp
+   node.cpp
+   nodewidget.cpp
+   notewidget.cpp
    notewidgetcontroller.cpp
    objectnodewidget.cpp
-   objectwidget.cpp 
+   objectwidget.cpp
    objectwidgetcontroller.cpp
-   object_factory.cpp 
-   operation.cpp 
-   optionstate.cpp 
-   ownedcodeblock.cpp 
-   ownedhierarchicalcodeblock.cpp 
-   package.cpp 
-   packagewidget.cpp 
-   petalnode.cpp 
-   petaltree2uml.cpp 
-   pinwidget.cpp   
-   plugin.cpp 
-   pluginloader.cpp 
+   object_factory.cpp
+   operation.cpp
+   optionstate.cpp
+   ownedcodeblock.cpp
+   ownedhierarchicalcodeblock.cpp
+   package.cpp
+   packagewidget.cpp
+   petalnode.cpp
+   petaltree2uml.cpp
+   pinwidget.cpp
+   plugin.cpp
+   pluginloader.cpp
    preconditionwidget.cpp
-   seqlinewidget.cpp 
-   statewidget.cpp 
-   signalwidget.cpp 
-   stereotype.cpp 
-   template.cpp 
-   textblock.cpp 
-   toolbarstate.cpp 
-   toolbarstatearrow.cpp 
-   toolbarstateassociation.cpp 
-   toolbarstatefactory.cpp 
-   toolbarstatemessages.cpp 
-   toolbarstateonewidget.cpp 
-   toolbarstateother.cpp 
-   toolbarstatepool.cpp 
-   uml.cpp 
-   umlattributelist.cpp 
-   umlentityattributelist.cpp 
+   seqlinewidget.cpp
+   statewidget.cpp
+   signalwidget.cpp
+   stereotype.cpp
+   template.cpp
+   textblock.cpp
+   toolbarstate.cpp
+   toolbarstatearrow.cpp
+   toolbarstateassociation.cpp
+   toolbarstatefactory.cpp
+   toolbarstatemessages.cpp
+   toolbarstateonewidget.cpp
+   toolbarstateother.cpp
+   toolbarstatepool.cpp
+   uml.cpp
+   umlattributelist.cpp
+   umlentityattributelist.cpp
    umlentityconstraintlist.cpp
-   umlcanvasobject.cpp 
-   umlclassifierlistitemlist.cpp 
-   umldoc.cpp 
-   umllistview.cpp 
-   umllistviewitem.cpp 
-   umlnamespace.cpp 
-   umlobject.cpp 
-   umlobjectlist.cpp 
-   umlrole.cpp 
-   umlview.cpp 
-   umlviewcanvas.cpp 
+   umlcanvasobject.cpp
+   umlclassifierlistitemlist.cpp
+   umldoc.cpp
+   umllistview.cpp
+   umllistviewitem.cpp
+   umlnamespace.cpp
+   umlobject.cpp
+   umlobjectlist.cpp
+   umlrole.cpp
+   umlview.cpp
+   umlviewcanvas.cpp
    umlviewimageexporter.cpp
    umlviewimageexporterall.cpp
    umlviewimageexportermodel.cpp
-   umlwidget.cpp 
+   umlwidget.cpp
    umlwidgetcontroller.cpp
    uniqueid.cpp
    uniqueconstraint.cpp
-   usecase.cpp 
-   usecasewidget.cpp 
-   widgetbase.cpp 
+   usecase.cpp
+   usecasewidget.cpp
+   widgetbase.cpp
    widget_factory.cpp
-   widget_utils.cpp 
-   worktoolbar.cpp 
+   widget_utils.cpp
+   worktoolbar.cpp
 )
 
 if (WIN32)
     # workaround for win32 command line to long problem
-    # build intermediate libraries 
-    
+    # build intermediate libraries
+
     kde4_add_library(dialogs  	${libdialogs_SRCS})
     target_link_libraries (dialogs)
     set (libdialogs_SRCS)
@@ -388,7 +378,7 @@ if (WIN32)
     kde4_add_library(generators ${libcodegenerator_SRCS})
     target_link_libraries (generators )
     set (libcodegenerator_SRCS)
-    
+
     kde4_add_library(docgenerator ${libdocgenerator_SRCS})
     target_link_libraries (docgenerator)
     set (libdocgenerator_SRCS)
@@ -406,10 +396,10 @@ endif (WIN32)
 
 set (umbrello_SRCS
 	${umbrello_SRCS}
-	${libdialogs_SRCS} 
-	${librefactoring_SRCS} 
-	${libclassparser_SRCS} 
-	${libclipboard_SRCS} 
+	${libdialogs_SRCS}
+	${librefactoring_SRCS}
+	${libclassparser_SRCS}
+	${libclipboard_SRCS}
 	${libkdevcppparser_SRCS}
 	${libcodeimport_SRCS}
 	${libcodegenerator_SRCS}
