@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007                                                    *
+ *   copyright (C) 2007-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,17 +15,17 @@
 #include "csharpwriter.h"
 
 #include <kdebug.h>
-#include <qregexp.h>
-#include <qtextstream.h>
+#include <QtCore/QRegExp>
+#include <QtCore/QTextStream>
 
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../folder.h"
-#include "../classifier.h"
-#include "../association.h"
-#include "../attribute.h"
-#include "../operation.h"
-#include "../umlnamespace.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "folder.h"
+#include "classifier.h"
+#include "association.h"
+#include "attribute.h"
+#include "operation.h"
+#include "umlnamespace.h"
 
 static const char *reserved_words[] = {
     "abstract",
@@ -463,7 +463,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
                 if (forceDoc() || !at->getDoc().isEmpty()) {
                     cs << m_container_indent << m_indentation << "/// <param name=\"" << cleanName(at->getName()) << "\">";
                     //removing newlines from parameter doc
-                    cs << formatDoc(at->getDoc(), "").replace("\n", " ").remove('\r').replace(QRegExp(" $"), "");
+                    cs << formatDoc(at->getDoc(), "").replace("\n", " ").remove('\r').remove(QRegExp(" $"));
                     cs << "</param>" << m_endl;
                 }
             }

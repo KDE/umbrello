@@ -576,7 +576,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         // we will add this file later to the archive
         KTemporaryFile tmp_xmi_file;
         tmp_xmi_file.setAutoRemove(false);
-        if( !tmp_xmi_file.open() ) {
+        if ( !tmp_xmi_file.open() ) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
             return false;
         }
@@ -584,16 +584,15 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         // now add this file to the archive, but without the extension
         QString tmpQString = url.fileName();
-        if (fileFormat == "tgz")
-        {
-            tmpQString.replace(QRegExp("\\.tgz$"), "");
-        } else {
-            tmpQString.replace(QRegExp("\\.tar\\.bz2$"), "");
+        if (fileFormat == "tgz") {
+            tmpQString.remove(QRegExp("\\.tgz$"));
+        }
+        else {
+            tmpQString.remove(QRegExp("\\.tar\\.bz2$"));
         }
         archive->addLocalFile(tmp_xmi_file.fileName(), tmpQString);
 
-        if (!archive->close())
-        {
+        if (!archive->close()) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
             return false;
         }
@@ -611,8 +610,8 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         tmp_tgz_file.setAutoRemove(true);
         delete archive;
 
-    } else
-    {
+    }
+    else {
         // save as normal uncompressed XMI
 
         KTemporaryFile tmpfile; // we need this tmp file if we are writing to a remote file
@@ -637,7 +636,8 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
             uploaded = KIO::NetAccess::upload( tmpfile.fileName(), m_doc_url
                                                , UMLApp::app()
                                              );
-        } else {
+        }
+        else {
 #ifdef Q_WS_WIN
             // use Qt way of file copying until broken KIO::file_move() is fixed
             QFile::remove(url.toLocalFile());
@@ -657,8 +657,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 #endif
         }
     }
-    if( !uploaded )
-    {
+    if( !uploaded ) {
         KMessageBox::error(0, i18n("There was a problem uploading file: %1", d.path()), i18n("Save Error"));
         m_doc_url.setFileName(i18n("Untitled"));
     }

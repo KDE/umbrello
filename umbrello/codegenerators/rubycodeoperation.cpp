@@ -13,7 +13,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,13 +21,13 @@
 #include "rubycodeoperation.h"
 
 // qt/kde includes
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 
 // local includes
 #include "rubyclassifiercodedocument.h"
 #include "rubycodedocumentation.h"
 #include "rubycodegenerator.h"
-#include "../uml.h"
+#include "uml.h"
 
 // Constructors/Destructors
 //
@@ -43,7 +43,9 @@ RubyCodeOperation::RubyCodeOperation ( RubyClassifierCodeDocument * doc, UMLOper
     setOverallIndentationLevel(1);
 }
 
-RubyCodeOperation::~RubyCodeOperation ( ) { }
+RubyCodeOperation::~RubyCodeOperation()
+{
+}
 
 // Other methods
 //
@@ -51,7 +53,6 @@ RubyCodeOperation::~RubyCodeOperation ( ) { }
 // we basically want to update the doc and start text of this method
 void RubyCodeOperation::updateMethodDeclaration()
 {
-
     CodeDocument * doc = getParentDocument();
     RubyClassifierCodeDocument * rubydoc = dynamic_cast<RubyClassifierCodeDocument*>(doc);
     UMLClassifier *c = rubydoc->getParentClassifier();
@@ -81,7 +82,7 @@ void RubyCodeOperation::updateMethodDeclaration()
         methodName = "initialize";
     }
 
-    methodName.replace(QRegExp("operator\\s*"), "");
+    methodName.remove(QRegExp("operator\\s*"));
     methodName = methodName.mid(0, 1).toLower() + methodName.mid(1);
 
     QString paramStr = QString("");
@@ -165,7 +166,7 @@ void RubyCodeOperation::updateMethodDeclaration()
             }
         }
 
-        comment.replace("@ref ", "");
+        comment.remove("@ref ");
         comment.replace("@param", "*");
         comment.replace("@return", "* _returns_");
 
@@ -210,7 +211,8 @@ void RubyCodeOperation::updateMethodDeclaration()
 
 }
 
-int RubyCodeOperation::lastEditableLine() {
+int RubyCodeOperation::lastEditableLine()
+{
     ClassifierCodeDocument * doc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
     if(doc->parentIsInterface())
         return -1; // very last line is NOT editable as its a one-line declaration w/ no body in

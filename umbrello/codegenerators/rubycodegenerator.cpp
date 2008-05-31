@@ -13,7 +13,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,7 +21,7 @@
 #include "rubycodegenerator.h"
 
 // qt/kde includes
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 #include <kconfig.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -30,7 +30,7 @@
 // local includes
 #include "rubycodecomment.h"
 #include "codeviewerdialog.h"
-#include "../uml.h"
+#include "uml.h"
 
 // Constructors/Destructors
 //
@@ -44,7 +44,9 @@ RubyCodeGenerator::RubyCodeGenerator ()
 {
 }
 
-RubyCodeGenerator::~RubyCodeGenerator ( ) { }
+RubyCodeGenerator::~RubyCodeGenerator ( )
+{
+}
 
 //
 // Methods
@@ -54,7 +56,8 @@ RubyCodeGenerator::~RubyCodeGenerator ( ) { }
 //
 
 // return our language
-Uml::Programming_Language RubyCodeGenerator::getLanguage() {
+Uml::Programming_Language RubyCodeGenerator::getLanguage()
+{
     return Uml::pl_Ruby;
 }
 
@@ -67,7 +70,8 @@ CodeViewerDialog * RubyCodeGenerator::getCodeViewerDialog ( QWidget* parent, Cod
 }
 
 
-RubyCodeGenerationPolicy * RubyCodeGenerator::getRubyPolicy() {
+RubyCodeGenerationPolicy * RubyCodeGenerator::getRubyPolicy()
+{
     return dynamic_cast<RubyCodeGenerationPolicy*>(UMLApp::app()->getPolicyExt());
 }
 
@@ -81,17 +85,19 @@ bool RubyCodeGenerator::getAutoGenerateAssocAccessors ( )
     return getRubyPolicy()->getAutoGenerateAssocAccessors ();
 }
 
-QString RubyCodeGenerator::getListFieldClassName () {
+QString RubyCodeGenerator::getListFieldClassName ()
+{
     return QString("Array");
 }
 
 // Other methods
 //
 
-QString RubyCodeGenerator::cppToRubyType(const QString &typeStr) {
+QString RubyCodeGenerator::cppToRubyType(const QString &typeStr)
+{
     QString type = cleanName(typeStr);
-    type.replace("const ", "");
-    type.replace(QRegExp("[*&\\s]"), "");
+    type.remove("const ");
+    type.remove(QRegExp("[*&\\s]"));
     type.replace(QRegExp("[<>]"), "_");
     type.replace("QStringList", "Array");
     type.replace(QRegExp("^string$"),"String");
@@ -105,10 +111,11 @@ QString RubyCodeGenerator::cppToRubyType(const QString &typeStr) {
     return type;
 }
 
-QString RubyCodeGenerator::cppToRubyName(const QString &nameStr) {
+QString RubyCodeGenerator::cppToRubyName(const QString &nameStr)
+{
     QString name = cleanName(nameStr);
-    name.replace(QRegExp("^m_"), "");
-    name.replace(QRegExp("^[pbn](?=[A-Z])"), "");
+    name.remove(QRegExp("^m_"));
+    name.remove(QRegExp("^[pbn](?=[A-Z])"));
     name = name.mid(0, 1).toLower() + name.mid(1);
     return name;
 }
@@ -132,8 +139,8 @@ void RubyCodeGenerator::initFields() {
 }
  */
 
-const QStringList RubyCodeGenerator::reservedKeywords() const {
-
+const QStringList RubyCodeGenerator::reservedKeywords() const
+{
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
