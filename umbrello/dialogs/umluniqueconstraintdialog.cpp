@@ -10,7 +10,7 @@
  ***************************************************************************/
 #include "umluniqueconstraintdialog.h"
 
-#include <QtGui/qlayout.h>
+#include <QtGui/QLayout>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHBoxLayout>
 
@@ -77,7 +77,7 @@ void UMLUniqueConstraintDialog::setupDialog()
     m_pNameL = new QLabel( i18nc("name label", "Name"), this );
     nameLayout->addWidget( m_pNameL );
     // name lineEdit
-    m_pNameLE = new QLineEdit( this );
+    m_pNameLE = new KLineEdit( this );
     nameLayout->addWidget( m_pNameLE );
 
     // group box to hold the column details
@@ -139,8 +139,9 @@ void UMLUniqueConstraintDialog::setupDialog()
     m_pNameLE->setText( m_pUniqueConstraint->getName() );
 
     // select firstItem
-    if ( m_pAttributeListLB->count()!=0 )
+    if ( m_pAttributeListLB->count()!=0 ) {
         m_pAttributeListLB->setSelected( 0, true );
+    }
 
     slotResetWidgetState();
 
@@ -151,8 +152,9 @@ void UMLUniqueConstraintDialog::slotAddAttribute()
 {
     int index = m_pAttributeCB->currentIndex();
 
-    if ( index == -1 )
+    if ( index == -1 ) {
         return;
+    }
 
     // get reference
     UMLEntityAttribute* entAtt = m_pEntityAttributeList.at(index);
@@ -178,8 +180,9 @@ void UMLUniqueConstraintDialog::slotDeleteAttribute()
 {
     int index = m_pAttributeListLB->currentItem();
 
-    if ( index == -1 )
+    if ( index == -1 ) {
         return;
+    }
 
     // get reference
     UMLEntityAttribute* entAtt = m_pConstraintAttributeList.at(index );
@@ -213,7 +216,7 @@ void UMLUniqueConstraintDialog::slotOk()
 bool UMLUniqueConstraintDialog::apply()
 {
     QString name = m_pNameLE -> text();
-    if( name.length() == 0 ) {
+    if ( name.length() == 0 ) {
         KMessageBox::error(this, i18n("You have entered an invalid constraint name."),
                            i18n("Constraint Name Invalid"), false);
         m_pNameLE -> setText( m_pUniqueConstraint -> getName() );
