@@ -13,14 +13,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "rubyclassdeclarationblock.h"
 #include "rubycodedocumentation.h"
 #include "rubycodegenerator.h"
-#include "../uml.h"
+#include "uml.h"
 
 // Constructors/Destructors
 //
@@ -32,7 +32,9 @@ RubyClassDeclarationBlock::RubyClassDeclarationBlock
     init(parentDoc, comment);
 }
 
-RubyClassDeclarationBlock::~RubyClassDeclarationBlock ( ) { }
+RubyClassDeclarationBlock::~RubyClassDeclarationBlock ( )
+{
+}
 
 //
 // Methods
@@ -41,7 +43,8 @@ RubyClassDeclarationBlock::~RubyClassDeclarationBlock ( ) { }
 /**
  * Save the XMI representation of this object
  */
-void RubyClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root ) {
+void RubyClassDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & root )
+{
     QDomElement blockElement = doc.createElement( "rubyclassdeclarationblock" );
 
     setAttributesOnNode(doc, blockElement);
@@ -68,7 +71,6 @@ void RubyClassDeclarationBlock::loadFromXMI ( QDomElement & root )
  */
 void RubyClassDeclarationBlock::updateContent ( )
 {
-
     RubyClassifierCodeDocument *parentDoc = dynamic_cast<RubyClassifierCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
     CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
@@ -79,7 +81,7 @@ void RubyClassDeclarationBlock::updateContent ( )
 
     // COMMENT
     QString comment = c->getDoc();
-    comment.replace("@ref ", "");
+    comment.remove("@ref ");
     comment.replace("@see", "_See_");
     comment.replace("@short", "_Summary_");
     comment.replace("@author", "_Author_");
@@ -89,11 +91,10 @@ void RubyClassDeclarationBlock::updateContent ( )
     else
         getComment()->setText("Class " + RubyClassName + endLine + comment);
 
-    if(forceDoc || !c->getDoc().isEmpty())
+    if (forceDoc || !c->getDoc().isEmpty())
         getComment()->setWriteOutText(true);
     else
         getComment()->setWriteOutText(false);
-
 
     // Now set START/ENDING Text
     QString startText = "";
@@ -133,7 +134,6 @@ void RubyClassDeclarationBlock::updateContent ( )
 
 void RubyClassDeclarationBlock::init (RubyClassifierCodeDocument *parentDoc, const QString &comment)
 {
-
     setComment(new RubyCodeDocumentation(parentDoc));
     getComment()->setText(comment);
 

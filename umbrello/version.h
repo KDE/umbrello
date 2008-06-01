@@ -9,8 +9,8 @@
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#ifndef __UMBRELLO_VERSION_H
-#define __UMBRELLO_VERSION_H
+#ifndef UMBRELLO_VERSION_H
+#define UMBRELLO_VERSION_H
 
 #include <kdeversion.h>
 

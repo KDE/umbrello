@@ -11,22 +11,24 @@
 
 #include "classifierlistpage.h"
 
+#include <QtGui/QApplication>
+
 #include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
-#include <QtGui/QApplication>
+#include <ktabwidget.h>
 
-#include "../classifierlistitem.h"
-#include "../umldoc.h"
-#include "../classifier.h"
-#include "../enum.h"
-#include "../entity.h"
-#include "../attribute.h"
-#include "../operation.h"
-#include "../template.h"
-#include "../enumliteral.h"
-#include "../entityattribute.h"
-#include "../object_factory.h"
+#include "classifierlistitem.h"
+#include "umldoc.h"
+#include "classifier.h"
+#include "enum.h"
+#include "entity.h"
+#include "attribute.h"
+#include "operation.h"
+#include "template.h"
+#include "enumliteral.h"
+#include "entityattribute.h"
+#include "object_factory.h"
 
 
 using namespace Uml;
@@ -173,15 +175,15 @@ void ClassifierListPage::setupDocumentationGroup(int margin)
     docLayout->setSpacing(10);
     docLayout->setMargin(margin);
     if (m_itemType == ot_Operation) {
-        m_pDocTE = new QTextEdit();
-        m_pCodeTE = new QTextEdit();
-        QTabWidget* tabWidget = new QTabWidget();
+        m_pDocTE = new KTextEdit();
+        m_pCodeTE = new KTextEdit();
+        KTabWidget* tabWidget = new KTabWidget();
         tabWidget->addTab(m_pDocTE, i18n("Comment"));
         tabWidget->addTab(m_pCodeTE, i18n("Source Code"));
         docLayout->addWidget(tabWidget);
     }
     else {
-        m_pDocTE = new QTextEdit();
+        m_pDocTE = new KTextEdit();
         docLayout->addWidget(m_pDocTE);
     }
 }
@@ -232,7 +234,7 @@ void ClassifierListPage::enableWidgets(bool state)
         If at bottom item, only allow up arrow to be enabled.
     */
     int index = m_pItemListLB->currentRow();
-    if( m_pItemListLB->count() == 1 || index == -1 ) {
+    if ( m_pItemListLB->count() == 1 || index == -1 ) {
         m_pTopArrowB->setEnabled( false );
         m_pUpArrowB->setEnabled( false );
         m_pDownArrowB->setEnabled( false );
@@ -586,8 +588,9 @@ void ClassifierListPage::slotBottomClicked()
 
 void ClassifierListPage::slotDoubleClick( QListWidgetItem* item )
 {
-    if ( !item )
+    if ( !item ) {
         return;
+    }
 
     UMLClassifierListItem* listItem  = getItemList().at( m_pItemListLB->row( item ) );
     if ( !listItem ) {
@@ -606,8 +609,9 @@ void ClassifierListPage::slotDelete()
     int currentItemIndex = m_pItemListLB->currentRow();
 
     // index is -1 . Quit
-    if ( currentItemIndex==-1 )
+    if ( currentItemIndex==-1 ) {
         return;
+    }
 
     UMLClassifierListItem* selectedItem = getItemList().at( currentItemIndex );
     //should really wait for signal back
@@ -629,8 +633,9 @@ void ClassifierListPage::slotNewListItem()
     saveCurrentItemDocumentation();
     m_bSigWaiting = true;
     m_pLastObjectCreated = Object_Factory::createChildObject(m_pClassifier, m_itemType);
-    if ( m_pLastObjectCreated == NULL )
+    if ( m_pLastObjectCreated == NULL ) {
         m_bSigWaiting = false;
+    }
 }
 
 void ClassifierListPage::saveCurrentItemDocumentation()
@@ -638,8 +643,9 @@ void ClassifierListPage::saveCurrentItemDocumentation()
     int currentItemIndex = m_pItemListLB->currentRow();
 
     // index is not in range, quit
-    if ( currentItemIndex < 0 || currentItemIndex >= getItemList().count() )
+    if ( currentItemIndex < 0 || currentItemIndex >= getItemList().count() ) {
         return;
+    }
 
     UMLClassifierListItem* selectedItem = getItemList().at( currentItemIndex );
     if (selectedItem) {
@@ -722,9 +728,9 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
     return true;
 }
 
-
-int ClassifierListPage::calculateNewIndex(Uml::Object_Type /* ot */)
+int ClassifierListPage::calculateNewIndex(Uml::Object_Type ot)
 {
+    Q_UNUSED(ot);
     return m_pItemListLB->count();
 }
 

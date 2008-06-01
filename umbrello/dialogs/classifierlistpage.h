@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,14 +18,15 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QGroupBox>
 #include <QtGui/QListWidget>
-#include <QtGui/QTextEdit>
+
 //kde includes
+#include <ktextedit.h>
 #include <karrowbutton.h>
 #include <kdialogbuttonbox.h>
 
 //app includes
-#include "../listpopupmenu.h"
-#include "../umlclassifierlistitemlist.h"
+#include "listpopupmenu.h"
+#include "umlclassifierlistitemlist.h"
 
 class UMLObject;
 class UMLClassifier;
@@ -157,8 +158,8 @@ private:
 
     QGroupBox* m_pDocGB;
     QGroupBox* m_pItemListGB;
-    QTextEdit* m_pDocTE;
-    QTextEdit* m_pCodeTE;
+    KTextEdit* m_pDocTE;
+    KTextEdit* m_pCodeTE;
     QListWidget* m_pItemListLB;
 
     KArrowButton* m_pTopArrowB;

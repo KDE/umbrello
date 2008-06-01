@@ -25,12 +25,12 @@
 #include <kdebug.h>
 
 // local includes
-#include "../attribute.h"
-#include "../codegenerator.h"
-#include "../classifiercodedocument.h"
-#include "../umlobject.h"
-#include "../umlrole.h"
-#include "../uml.h"
+#include "attribute.h"
+#include "codegenerator.h"
+#include "classifiercodedocument.h"
+#include "umlobject.h"
+#include "umlrole.h"
+#include "uml.h"
 #include "codegen_utils.h"
 #include "rubyclassifiercodedocument.h"
 #include "rubycodegenerationpolicy.h"
@@ -143,8 +143,8 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     QString endLine = p->getNewLineEndingChars();
 
     QString description = getParentObject()->getDoc();
-    description.replace(QRegExp("m_[npb](?=[A-Z])"), "");
-    description.replace("m_", "");
+    description.remove(QRegExp("m_[npb](?=[A-Z])"));
+    description.remove("m_");
     description.replace(QRegExp("[\\n\\r]+[\\t ]*"), endLine);
 
     // set scope of this accessor appropriately..if its an attribute,

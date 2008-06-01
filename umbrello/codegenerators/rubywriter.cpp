@@ -4,7 +4,7 @@
     begin                : Sat Dec 21 2002
     copyright            : Vincent Decorges
     email                : vincent.decorges@eivd.ch
-      (C) 2003-2007  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+      (C) 2003-2008  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -25,13 +25,13 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QRegExp>
 
-#include "../umldoc.h"
-#include "../umlattributelist.h"
-#include "../association.h"
-#include "../attribute.h"
-#include "../classifier.h"
-#include "../operation.h"
-#include "../umlnamespace.h"
+#include "umldoc.h"
+#include "umlattributelist.h"
+#include "association.h"
+#include "attribute.h"
+#include "classifier.h"
+#include "operation.h"
+#include "umlnamespace.h"
 
 RubyWriter::RubyWriter()
 {
@@ -85,7 +85,7 @@ void RubyWriter::writeClass(UMLClassifier *c)
     if (forceDoc() || !c->getDoc().isEmpty()) {
         QString docStr = c->getDoc();
         docStr.replace(QRegExp("\\n"), "\n# ");
-        docStr.replace("@ref ", "");
+        docStr.remove("@ref ");
         docStr.replace("@see", "_See_");
         docStr.replace("@short", "_Summary_");
         docStr.replace("@author", "_Author_");
@@ -140,8 +140,8 @@ void RubyWriter::writeClass(UMLClassifier *c)
 QString RubyWriter::cppToRubyType(const QString &typeStr)
 {
     QString type = cleanName(typeStr);
-    type.replace("const ", "");
-    type.replace(QRegExp("[*&\\s]"), "");
+    type.remove("const ");
+    type.remove(QRegExp("[*&\\s]"));
     type.replace(QRegExp("[<>]"), "_");
     type.replace("QStringList", "Array");
     type.replace("QString", "String");
@@ -157,8 +157,8 @@ QString RubyWriter::cppToRubyType(const QString &typeStr)
 QString RubyWriter::cppToRubyName(const QString &nameStr)
 {
     QString name = cleanName(nameStr);
-    name.replace(QRegExp("^m_"), "");
-    name.replace(QRegExp("^[pbn](?=[A-Z])"), "");
+    name.remove(QRegExp("^m_"));
+    name.remove(QRegExp("^[pbn](?=[A-Z])"));
     name = name.mid(0, 1).toLower() + name.mid(1);
     return name;
 }
@@ -241,7 +241,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
             methodName = "initialize";
         }
 
-        methodName.replace("operator ", "");
+        methodName.remove("operator ");
         methodName = methodName.mid(0, 1).toLower() + methodName.mid(1);
 
         UMLAttributeList atl = op->getParmList();
@@ -289,7 +289,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
                 }
             }
 
-            docStr.replace("@ref ", "");
+            docStr.remove("@ref ");
             docStr.replace("@param", "*");
             docStr.replace("@return", "* _returns_");
 
@@ -371,8 +371,8 @@ void RubyWriter::writeSingleAttributeAccessorMethods(
         QTextStream &h)
 {
     QString description = descr;
-    description.replace(QRegExp("m_[npb](?=[A-Z])"), "");
-    description.replace("m_", "");
+    description.remove(QRegExp("m_[npb](?=[A-Z])"));
+    description.remove("m_");
     description.replace("\n", QString("\n") + m_indentation + "# ");
 
     if (!description.isEmpty()) {

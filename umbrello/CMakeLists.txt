@@ -411,7 +411,7 @@ set (umbrello_SRCS
 kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-umbrello.png")
 kde4_add_executable(umbrello ${umbrello_SRCS})
 target_link_libraries(umbrello  ${LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} )
-install(TARGETS umbrello DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 

@@ -5,14 +5,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "petaltree2uml.h"
 // qt/kde includes
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 #include <kdebug.h>
 // app includes
 #include "petalnode.h"
@@ -38,7 +38,8 @@ namespace Import_Rose {
  * Return the given string without surrounding quotation marks.
  * Also remove a possible prefix "Logical View::", it is not modeled in Umbrello.
  */
-QString clean(const QString& s) {
+QString clean(const QString& s)
+{
     if (s.isNull())
         return QString();
     QString str = s;
@@ -50,7 +51,8 @@ QString clean(const QString& s) {
 /**
  * Extract the quid attribute from a petal node and return it as a Uml::IDType.
  */
-Uml::IDType quid(const PetalNode *node) {
+Uml::IDType quid(const PetalNode *node)
+{
     QString quidStr = node->findAttribute("quid").string;
     if (quidStr.isEmpty())
         return Uml::id_None;
@@ -61,7 +63,8 @@ Uml::IDType quid(const PetalNode *node) {
 /**
  * Extract the quidu attribute from a petal node.
  */
-QString quidu(const PetalNode *node) {
+QString quidu(const PetalNode *node)
+{
     QString quiduStr = node->findAttribute("quidu").string;
     if (quiduStr.isEmpty())
         return QString();
@@ -74,7 +77,8 @@ QString quidu(const PetalNode *node) {
  * If the given name consists only of letters, digits, underscores, and
  * scope separators, then return Uml::ot_Class, else return Uml::ot_Datatype.
  */
-Uml::Object_Type typeToCreate(const QString& name) {
+Uml::Object_Type typeToCreate(const QString& name)
+{
     QString n = name;
     n.remove(QRegExp("^.*::"));  // don't consider the scope prefix, it may contain spaces
     Uml::Object_Type t = (n.contains(QRegExp("\\W")) ? Uml::ot_Datatype : Uml::ot_Class);
@@ -87,7 +91,8 @@ Uml::Object_Type typeToCreate(const QString& name) {
  * @param from   Pointer to PetalNode from which to read the "exportControl" attribute
  * @param to     Pointer to UMLObject in which to set the Uml::Visibility
  */
-void transferVisibility(const PetalNode *from, UMLObject *to) {
+void transferVisibility(const PetalNode *from, UMLObject *to)
+{
     QString vis = from->findAttribute("exportControl").string;
     if (!vis.isEmpty()) {
         Uml::Visibility v = Uml::Visibility::fromString(clean(vis.toLower()));
@@ -99,7 +104,8 @@ void transferVisibility(const PetalNode *from, UMLObject *to) {
  * ClassifierListReader factors the common processing for attributes, operations,
  * and operation parameters.
  */
-class ClassifierListReader {
+class ClassifierListReader
+{
 public:
     /// constructor
     ClassifierListReader(const char* attributeTag,
@@ -148,7 +154,8 @@ public:
      *   - invoke insertAtParent() with the new classifier list item as the argument
      * This is the user entry point.
      */
-    void read(const PetalNode *node, const QString& name) {
+    void read(const PetalNode *node, const QString& name)
+    {
         PetalNode *attributes = node->findAttribute(m_attributeTag).node;
         if (attributes == NULL) {
 #ifdef VERBOSE_DEBUGGING
@@ -184,7 +191,8 @@ protected:
     const QString m_attributeTag, m_elementName, m_itemTypeDesignator;
 };
 
-class AttributesReader : public ClassifierListReader {
+class AttributesReader : public ClassifierListReader
+{
 public:
     AttributesReader(UMLClassifier *c)
       : ClassifierListReader("class_attributes", "ClassAttribute", "type") {
@@ -201,7 +209,8 @@ protected:
     UMLClassifier *m_classifier;
 };
 
-class ParametersReader : public ClassifierListReader {
+class ParametersReader : public ClassifierListReader
+{
 public:
     ParametersReader(UMLOperation *op)
       : ClassifierListReader("parameters", "Parameter", "type") {
@@ -218,7 +227,8 @@ protected:
     UMLOperation *m_operation;
 };
 
-class OperationsReader : public ClassifierListReader {
+class OperationsReader : public ClassifierListReader
+{
 public:
     OperationsReader(UMLClassifier *c)
       : ClassifierListReader("operations", "Operation", "result") {
@@ -238,7 +248,8 @@ protected:
     UMLClassifier *m_classifier;
 };
 
-class SuperclassesReader : public ClassifierListReader {
+class SuperclassesReader : public ClassifierListReader
+{
 public:
     SuperclassesReader(UMLClassifier *c)
       : ClassifierListReader("superclasses", "Inheritance_Relationship", "supplier") {
@@ -271,7 +282,8 @@ protected:
     UMLClassifier *m_classifier;
 };
 
-class RealizationsReader : public ClassifierListReader {
+class RealizationsReader : public ClassifierListReader
+{
 public:
     RealizationsReader(UMLClassifier *c)
       : ClassifierListReader("realized_interfaces", "Realize_Relationship", "supplier") {
@@ -313,7 +325,9 @@ protected:
  * @param parentPkg  Pointer to the current parent UMLPackage.
  * @return      True if the node actually contained a controlled unit.
  */
-bool handleControlledUnit(PetalNode *node, const QString& name, Uml::IDType /*id*/, UMLPackage * /*parentPkg*/) {
+bool handleControlledUnit(PetalNode *node, const QString& name, Uml::IDType id, UMLPackage * parentPkg)
+{
+    Q_UNUSED(id); Q_UNUSED(parentPkg);
     if (node->findAttribute("is_unit").string != "TRUE")
         return false;
     //bool is_loaded = (node->findAttribute("is_loaded").string != "FALSE");
@@ -335,7 +349,8 @@ bool handleControlledUnit(PetalNode *node, const QString& name, Uml::IDType /*id
  *           Given a PetalNode for which the mapping to Umbrello is not yet
  *           implemented umbrellify() is a no-op but also returns true.
  */
-bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
+bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
+{
     if (node == NULL) {
         uError() << "umbrellify: node is NULL" << endl;
         return false;
@@ -455,7 +470,8 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL) {
     return true;
 }
 
-Uml::ListView_Type folderType(UMLListViewItem *parent) {
+Uml::ListView_Type folderType(UMLListViewItem *parent)
+{
     Uml::ListView_Type type = Uml::lvt_Unknown;
     switch (parent->getType()) {
         case Uml::lvt_Logical_View:
@@ -488,7 +504,8 @@ Uml::ListView_Type folderType(UMLListViewItem *parent) {
  *           Given a PetalNode for which the mapping to Umbrello is not yet
  *           implemented umbrellify() is a no-op but also returns true.
  */
-bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *parent) {
+bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *parent)
+{
     if (node == NULL) {
         uError() << "umbrellify(" << modelsName << "): node is NULL" << endl;
         return false;
@@ -553,7 +570,8 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
  * Auxiliary function for UseCase/Component/Deployment view import
  */
 bool importView(PetalNode *root, const QString& rootName,
-                const QString& modelsName, UMLListViewItem *lvParent) {
+                const QString& modelsName, UMLListViewItem *lvParent) 
+{
     PetalNode *viewRoot = root->findAttribute(rootName).node;
     if (viewRoot == NULL) {
         uDebug() << "importView: cannot find " << rootName;
@@ -572,7 +590,8 @@ bool importView(PetalNode *root, const QString& rootName,
     return true;
 }
 
-bool petalTree2Uml(PetalNode *root) {
+bool petalTree2Uml(PetalNode *root)
+{
     if (root == NULL) {
         uError() << "petalTree2Uml: root is NULL" << endl;
         return false;
