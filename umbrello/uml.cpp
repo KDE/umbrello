@@ -1128,47 +1128,47 @@ void UMLApp::resetStatusMsg()
 
 void UMLApp::slotClassDiagram()
 {
-    executeCommand(new Uml::cmdCreateClassDiag(m_doc));
+    executeCommand(new Uml::CmdCreateClassDiag(m_doc));
 }
 
 void UMLApp::slotSequenceDiagram()
 {
-    executeCommand(new Uml::cmdCreateSeqDiag(m_doc));
+    executeCommand(new Uml::CmdCreateSeqDiag(m_doc));
 }
 
 void UMLApp::slotCollaborationDiagram()
 {
-    executeCommand(new Uml::cmdCreateCollaborationDiag(m_doc));
+    executeCommand(new Uml::CmdCreateCollaborationDiag(m_doc));
 }
 
 void UMLApp::slotUseCaseDiagram()
 {
-    executeCommand(new Uml::cmdCreateUseCaseDiag(m_doc));
+    executeCommand(new Uml::CmdCreateUseCaseDiag(m_doc));
 }
 
 void UMLApp::slotStateDiagram()
 {
-    executeCommand(new Uml::cmdCreateStateDiag(m_doc));
+    executeCommand(new Uml::CmdCreateStateDiag(m_doc));
 }
 
 void UMLApp::slotActivityDiagram()
 {
-    executeCommand(new Uml::cmdCreateActivityDiag(m_doc));
+    executeCommand(new Uml::CmdCreateActivityDiag(m_doc));
 }
 
 void UMLApp::slotComponentDiagram()
 {
-    executeCommand(new Uml::cmdCreateComponentDiag(m_doc));
+    executeCommand(new Uml::CmdCreateComponentDiag(m_doc));
 }
 
 void UMLApp::slotDeploymentDiagram()
 {
-    executeCommand(new Uml::cmdCreateDeployDiag(m_doc));
+    executeCommand(new Uml::CmdCreateDeployDiag(m_doc));
 }
 
 void UMLApp::slotEntityRelationshipDiagram()
 {
-    executeCommand(new Uml::cmdCreateEntityRelationDiag(m_doc));
+    executeCommand(new Uml::CmdCreateEntityRelationDiag(m_doc));
 }
 
 void UMLApp::slotAlignLeft()

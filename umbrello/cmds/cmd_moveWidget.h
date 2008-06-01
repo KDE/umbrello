@@ -19,11 +19,11 @@
 
 namespace Uml
 {
-    class cmdMoveWidget : public QUndoCommand
+    class CmdMoveWidget : public QUndoCommand
     {
         public:
-            cmdMoveWidget(UMLWidgetController* _UMLwc);
-            ~cmdMoveWidget();
+            CmdMoveWidget(UMLWidgetController* _UMLwc);
+            ~CmdMoveWidget();
 
             void redo();
             void undo();

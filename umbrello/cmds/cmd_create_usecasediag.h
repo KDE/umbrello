@@ -19,11 +19,11 @@
 
 namespace Uml
 {
-    class cmdCreateUseCaseDiag : public QUndoCommand
+    class CmdCreateUseCaseDiag : public QUndoCommand
     {
         public:
-            explicit cmdCreateUseCaseDiag(UMLDoc* doc, const QString& name = "");
-            ~cmdCreateUseCaseDiag();
+            explicit CmdCreateUseCaseDiag(UMLDoc* doc, const QString& name = "");
+            ~CmdCreateUseCaseDiag();
 
             void redo();
             void undo();

@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -18,22 +18,22 @@
 namespace Uml
 {
 
-    cmdCreateDeployDiag::cmdCreateDeployDiag(UMLDoc* doc, const QString& name):m_pUMLDoc(doc),m_pUMLView(NULL),m_Name(name)
+    CmdCreateDeployDiag::CmdCreateDeployDiag(UMLDoc* doc, const QString& name):m_pUMLDoc(doc),m_pUMLView(NULL),m_Name(name)
     {
         setText(i18n("Create deployment diagram"));
     }
 
-    cmdCreateDeployDiag::~cmdCreateDeployDiag()
+    CmdCreateDeployDiag::~CmdCreateDeployDiag()
     {
     }
 
-    void cmdCreateDeployDiag::redo()
+    void CmdCreateDeployDiag::redo()
     {
         UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_Deployment);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_Deployment);
     }
 
-    void cmdCreateDeployDiag::undo()
+    void CmdCreateDeployDiag::undo()
     {
         if(m_pUMLView)
         {

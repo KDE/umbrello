@@ -18,13 +18,13 @@
 
 namespace Uml
 {
-    class cmdSetStereotype : public QUndoCommand
+    class CmdSetStereotype : public QUndoCommand
     {
         public:
             /*Constructor */
-            cmdSetStereotype(UMLObject * _UMLOb, const QString& stereo);
+            CmdSetStereotype(UMLObject * _UMLOb, const QString& stereo);
             /*Destructor */
-            ~cmdSetStereotype();
+            ~CmdSetStereotype();
             /*Redo method */
             void redo();
             /*Undo method */

@@ -19,11 +19,11 @@
 
 namespace Uml
 {
-    class cmdCreateComponentDiag : public QUndoCommand
+    class CmdCreateComponentDiag : public QUndoCommand
     {
         public:
-            explicit cmdCreateComponentDiag(UMLDoc* doc, const QString& name = "");
-            ~cmdCreateComponentDiag();
+            explicit CmdCreateComponentDiag(UMLDoc* doc, const QString& name = "");
+            ~CmdCreateComponentDiag();
 
             void redo();
             void undo();

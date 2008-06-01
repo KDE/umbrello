@@ -22,7 +22,7 @@
 
 namespace Uml
 {
-    class cmdChangeMulti: public QUndoCommand
+    class CmdChangeMulti: public QUndoCommand
     {
         /* Object selected */
         UMLRole *UMLr;
@@ -35,7 +35,7 @@ namespace Uml
 
 
     public:
-        cmdChangeMulti(UMLRole *role,const QString &multi);
+        CmdChangeMulti(UMLRole *role,const QString &multi);
         void redo();
         void undo();
     };

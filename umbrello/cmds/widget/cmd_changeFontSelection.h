@@ -18,10 +18,10 @@
 
 namespace Uml
 {
-    class cmdChangeFontSelection: public QUndoCommand
+    class CmdChangeFontSelection: public QUndoCommand
     {
         public:
-            cmdChangeFontSelection(UMLDoc * doc,UMLView *view,QFont fon);
+            CmdChangeFontSelection(UMLDoc * doc,UMLView *view,QFont fon);
             void undo();
             void redo();
 

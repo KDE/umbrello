@@ -18,13 +18,13 @@
 
 namespace Uml
 {
-    class cmdSetVisibility : public QUndoCommand
+    class CmdSetVisibility : public QUndoCommand
     {
         public:
             /*Constructor */
-            cmdSetVisibility(UMLObject * _UMLObj, Uml::Visibility  _visibility);
+            CmdSetVisibility(UMLObject * _UMLObj, Uml::Visibility  _visibility);
             /*Destructor */
-            ~cmdSetVisibility();
+            ~CmdSetVisibility();
             /*Redo method */
             void redo();
             /*Undo method */

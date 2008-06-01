@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -26,17 +26,16 @@
 #include "messagewidget.h"
 #include "umlrole.h"
 
-
 #include <klocale.h>
 
 namespace Uml
 {
-    cmdChangeMulti::cmdChangeMulti(UMLRole *role, const QString &multi):UMLr(role),newMulti(multi)
+    CmdChangeMulti::CmdChangeMulti(UMLRole *role, const QString &multi):UMLr(role),newMulti(multi)
     {
         setText(i18n("Change Multiplicity"));
         oldMulti=UMLr->getMultiplicity();
     }
-    void cmdChangeMulti::undo()
+    void CmdChangeMulti::undo()
     {
         if (!oldMulti.isEmpty())
         {
@@ -47,12 +46,12 @@ namespace Uml
             UMLr->setMultiplicity("");
         }
     }
-    void cmdChangeMulti::redo()
+    void CmdChangeMulti::redo()
     {
         UMLr->setMultiplicity(newMulti);
     }
 }
 
 /* line to add the commande in the undo/redo list :
-UMLApp::app()->executeCommand(new cmdChangeMulti(UMLRole role, QString newMulti));
+UMLApp::app()->executeCommand(new CmdChangeMulti(UMLRole role, QString newMulti));
 */

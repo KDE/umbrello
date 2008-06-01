@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -29,7 +29,7 @@
 namespace Uml
 {
 
-    cmdMoveWidget::cmdMoveWidget(UMLWidgetController* _UMLwc):QUndoCommand(),UMLwc(_UMLwc),already(false)
+    CmdMoveWidget::CmdMoveWidget(UMLWidgetController* _UMLwc):QUndoCommand(),UMLwc(_UMLwc),already(false)
     {
         UMLWidget * w = _UMLwc->getWidget();
         setText(i18n("Move widget :") + w->getName());
@@ -39,12 +39,12 @@ namespace Uml
         oldY = _UMLwc->getOldY();
     }
 
-    cmdMoveWidget::~cmdMoveWidget()
+    CmdMoveWidget::~CmdMoveWidget()
     {
 
     }
 
-    void cmdMoveWidget::redo()
+    void CmdMoveWidget::redo()
     {
 
         UMLwc->insertSaveValues(oldX,oldY,X,Y);
@@ -58,7 +58,7 @@ namespace Uml
         //widget->getWidgetController()->moveWidgetBy(diffX, diffY);
     }
 
-    void cmdMoveWidget::undo()
+    void CmdMoveWidget::undo()
     {
 
         //UMLWidget * w =
@@ -75,8 +75,8 @@ namespace Uml
         //widget->getWidgetController()->moveWidgetBy(-diffX, -diffY);
     }
 
-    bool cmdMoveWidget::mergeWith(const QUndoCommand* other) {
-        const cmdMoveWidget* otherCmd = static_cast<const cmdMoveWidget*>(other);
+    bool CmdMoveWidget::mergeWith(const QUndoCommand* other) {
+        const CmdMoveWidget* otherCmd = static_cast<const CmdMoveWidget*>(other);
         if (UMLwc != otherCmd->UMLwc)
             return false;
         X = otherCmd->X;

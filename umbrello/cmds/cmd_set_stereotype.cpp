@@ -5,49 +5,47 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 #include "cmd_set_stereotype.h"
 
-#include "uml.h"
-
 // app includes
-#include "../umlwidgetcontroller.h"
-#include "../umlwidget.h"
-#include "../umlwidgetlist.h"
-#include "../umlnamespace.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../umlview.h"
-#include "../umlobject.h"
-#include "../classifierwidget.h"
-#include "../associationwidget.h"
-#include "../messagewidget.h"
+#include "umlwidgetcontroller.h"
+#include "umlwidget.h"
+#include "umlwidgetlist.h"
+#include "umlnamespace.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlview.h"
+#include "umlobject.h"
+#include "classifierwidget.h"
+#include "associationwidget.h"
+#include "messagewidget.h"
 
 #include <klocale.h>
 
 namespace Uml
 {
 
-    cmdSetStereotype::cmdSetStereotype(UMLObject * _UMLObj, const QString& stereo)
+    CmdSetStereotype::CmdSetStereotype(UMLObject * _UMLObj, const QString& stereo)
         : st(stereo), UMLObj(_UMLObj)
     {
         oldst = _UMLObj->getStereotype();
     }
 
-    cmdSetStereotype::~cmdSetStereotype()
+    CmdSetStereotype::~CmdSetStereotype()
     {
 
     }
 
-    void cmdSetStereotype::redo()
+    void CmdSetStereotype::redo()
     {
         UMLObj->setStereotypecmd(st);
     }
 
-    void cmdSetStereotype::undo()
+    void CmdSetStereotype::undo()
     {
         UMLObj->setStereotypecmd(oldst);
     }

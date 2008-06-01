@@ -19,13 +19,13 @@
 
 namespace Uml
 {
-    class cmdSetTxt : public QUndoCommand
+    class CmdSetTxt : public QUndoCommand
     {
         public:
             /*Constructor */
-            cmdSetTxt(FloatingTextWidget* _ftw, const QString& txt);
+            CmdSetTxt(FloatingTextWidget* _ftw, const QString& txt);
             /*Destructor */
-            ~cmdSetTxt();
+            ~CmdSetTxt();
             /*Redo method */
             void redo();
             /*Undo method */

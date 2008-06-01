@@ -5,10 +5,9 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
-
 
 #include "cmd_changeLineColor.h"
 
@@ -25,14 +24,12 @@
 #include "associationwidget.h"
 #include "messagewidget.h"
 
-
-
 #include <klocale.h>
 
 namespace Uml
 {
 
-    /*cmdChangeLineColor::cmdChangeLineColor(UMLView *view, QColor col)
+    /*CmdChangeLineColor::CmdChangeLineColor(UMLView *view, const QColor& col)
     {
         setText(i18n("Change Line Color"));
         UMLWidget * widget = view->getFirstMultiSelectedWidget();
@@ -41,22 +38,22 @@ namespace Uml
         oldColor=widget -> getLineColor() ;
     }*/
 
-cmdChangeLineColor::cmdChangeLineColor(UMLWidget *w, const QColor& col):UMLw(w),color(col)
+CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col):UMLw(w),color(col)
 {
     setText(i18n("Change Line Color") + w->getName());
     oldColor= w -> getLineColor() ;
 
 }
-    cmdChangeLineColor::~cmdChangeLineColor()
+    CmdChangeLineColor::~CmdChangeLineColor()
     {
     }
-    void cmdChangeLineColor::redo()
+    void CmdChangeLineColor::redo()
     {
 
         UMLw -> setLineColorcmd( color );
     }
 
-    void cmdChangeLineColor::undo()
+    void CmdChangeLineColor::undo()
     {
         UMLw -> setLineColorcmd( oldColor );
     }

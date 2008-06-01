@@ -19,12 +19,12 @@
 
 namespace Uml
 {
-    class cmdHandleRename : public QUndoCommand
+    class CmdHandleRename : public QUndoCommand
     {
         //friend class FloatingTextWidget;
         public:
-            cmdHandleRename(FloatingTextWidget* _ftw, QString& txt);
-            ~cmdHandleRename();
+            CmdHandleRename(FloatingTextWidget* _ftw, QString& txt);
+            ~CmdHandleRename();
 
             void redo();
             void undo();

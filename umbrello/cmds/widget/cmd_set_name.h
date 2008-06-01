@@ -18,13 +18,13 @@
 
 namespace Uml
 {
-    class cmdSetName : public QUndoCommand
+    class CmdSetName : public QUndoCommand
     {
         public:
             /*Constructor */
-            cmdSetName(UMLObject * _UMLObj, const QString& _name);
+            CmdSetName(UMLObject * _UMLObj, const QString& _name);
             /*Destructor */
-            ~cmdSetName();
+            ~CmdSetName();
             /*Redo method */
             void redo();
             /*Undo method */

@@ -12,9 +12,8 @@
 // own header file
 #include "umlwidget.h"
 // system includes
-#include <qpainter.h>
-#include <qcolor.h>
-//Added by qt3to4:
+#include <QtGui/QPainter>
+#include <QtGui/QColor>
 #include <QMouseEvent>
 #include <kdebug.h>
 #include <kcolordialog.h>
@@ -362,7 +361,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font_Selection: {
         QFont font = getFont();
         if (KFontDialog::getFont(font, false, m_pView)) {
-            UMLApp::app()->executeCommand(new cmdChangeFontSelection(m_pDoc, m_pView, font));
+            UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_pDoc, m_pView, font));
         }
     }
     break;
@@ -462,7 +461,7 @@ void UMLWidget::setLineColorcmd(const QColor &colour)
 
 void UMLWidget::setLineColor(const QColor &colour)
 {
-    UMLApp::app()->executeCommand(new cmdChangeLineColor(this, colour));
+    UMLApp::app()->executeCommand(new CmdChangeLineColor(this, colour));
 }
 
 void UMLWidget::setLineWidth(uint width)
@@ -473,7 +472,7 @@ void UMLWidget::setLineWidth(uint width)
 
 void UMLWidget::setFillColour(const QColor &colour)
 {
-    UMLApp::app()->executeCommand(new cmdChangeFillColor(this, colour));
+    UMLApp::app()->executeCommand(new CmdChangeFillColor(this, colour));
 }
 
 void UMLWidget::setFillColourcmd(const QColor &colour)

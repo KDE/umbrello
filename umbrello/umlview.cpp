@@ -404,7 +404,7 @@ void UMLView::setupNewWidget(UMLWidget *w)
     m_WidgetList.append(w);
     m_pDoc->setModified();
 
-    UMLApp::app()->executeCommand(new cmdCreateWidget(this, w));
+    UMLApp::app()->executeCommand(new CmdCreateWidget(this, w));
 }
 
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome)
