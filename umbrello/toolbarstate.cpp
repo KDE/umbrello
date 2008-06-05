@@ -262,11 +262,20 @@ void ToolBarState::changeTool() {
 
 void ToolBarState::setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Type &type)
 {
-    if (m_pMouseEvent) delete m_pMouseEvent;
+    delete m_pMouseEvent;
 
     // [PORT] Check if scenePos works like view->inverseWorldMatrix().map()
     // Using copy constructor here.
-    m_pMouseEvent = new QGraphicsSceneMouseEvent(*ome);
+    m_pMouseEvent = new QGraphicsSceneMouseEvent(type);
+    m_pMouseEvent->setPos(ome->pos());
+    m_pMouseEvent->setScenePos(ome->scenePos());
+    m_pMouseEvent->setScreenPos(ome->screenPos());
+    m_pMouseEvent->setLastPos(ome->lastPos());
+    m_pMouseEvent->setLastScenePos(ome->lastScenePos());
+    m_pMouseEvent->setLastScreenPos(ome->lastScreenPos());
+    m_pMouseEvent->setButtons(ome->buttons());
+    m_pMouseEvent->setButton(ome->button());
+    m_pMouseEvent->setModifiers(ome->modifiers());
 }
 
 MessageWidget* ToolBarState::getMessageAt(const QPointF& pos) {
