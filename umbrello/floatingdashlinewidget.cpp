@@ -20,12 +20,13 @@
 #include "umlview.h"
 #include "widget_utils.h"
 #include "listpopupmenu.h"
+#include "umlscene.h"
 
 // qt includes
 #include <qpainter.h>
 
-FloatingDashLineWidget::FloatingDashLineWidget(UMLView * view, Uml::IDType id)
-: UMLWidget(view, id)
+FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::IDType id)
+: UMLWidget(scene, id)
 {
     UMLWidget::setBaseType(Uml::wt_FloatingDashLine);
     m_bResizable = false;
@@ -38,7 +39,7 @@ FloatingDashLineWidget::~FloatingDashLineWidget() {}
 void FloatingDashLineWidget::draw(QPainter & p, int /*offsetX*/, int /*offsetY*/)
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
+    const qreal fontHeight  = fm.lineSpacing();
     p.setPen(Qt::black);
     p.setFont(UMLWidget::getFont());
     p.drawText(getX() + FLOATING_DASH_LINE_TEXT_MARGIN, getY(),
@@ -46,7 +47,7 @@ void FloatingDashLineWidget::draw(QPainter & p, int /*offsetX*/, int /*offsetY*/
                Qt::AlignLeft, '[' + m_Text + ']');
     p.setPen(*(new QPen(UMLWidget::getLineColor(), 0, Qt::DashLine)));
     p.drawLine(getX(), getY(), getX() + getWidth(), getY());
-    if(m_bSelected)
+    if(isSelected())
         drawSelected(&p, getX(), getY());
 }
 
@@ -55,9 +56,9 @@ void FloatingDashLineWidget::setText(const QString& text)
     m_Text = text;
 }
 
-bool FloatingDashLineWidget::onLine(const QPoint &point) {
+bool FloatingDashLineWidget::onLine(const QPointF &point) {
  /*check if the given point is the start or end point of the line */
-    if (( (abs( getY() + getHeight() - point.y() )) <= POINT_DELTA) || (abs( getY() - point.y() ) <= POINT_DELTA)) {
+    if (( (qAbs( getY() + getHeight() - point.y() )) <= POINT_DELTA) || (qAbs( getY() - point.y() ) <= POINT_DELTA)) {
         return true;
     }
     /* check if the given point is the start or end point of the line */
@@ -80,28 +81,28 @@ void FloatingDashLineWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-void FloatingDashLineWidget::setY(int y)
+void FloatingDashLineWidget::setY(qreal y)
 {
     if(y >= m_yMin + FLOATING_DASH_LINE_MARGIN && y <= m_yMax - FLOATING_DASH_LINE_MARGIN)
         UMLWidget::setY(y);
 }
 
-void FloatingDashLineWidget::setYMin(int yMin)
+void FloatingDashLineWidget::setYMin(qreal yMin)
 {
     m_yMin = yMin;
 }
 
-void FloatingDashLineWidget::setYMax(int yMax)
+void FloatingDashLineWidget::setYMax(qreal yMax)
 {
     m_yMax = yMax;
 }
 
-int FloatingDashLineWidget::getYMin()
+qreal FloatingDashLineWidget::getYMin()
 {
     return m_yMin;
 }
 
-int FloatingDashLineWidget::getDiffY()
+qreal FloatingDashLineWidget::getDiffY()
 {
     return (getY() - m_yMin);
 }
@@ -122,9 +123,9 @@ bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement ) {
         return false;
     }
     uDebug() <<"load.......";
-    m_yMax = qElement.attribute( "maxY", "" ).toInt();
-    m_yMin = qElement.attribute( "minY", "" ).toInt();
-    setY(qElement.attribute( "y", "" ).toInt());
+    m_yMax = qElement.attribute( "maxY", "" ).toDouble();
+    m_yMin = qElement.attribute( "minY", "" ).toDouble();
+    setY(qElement.attribute( "y", "" ).toDouble());
     m_Text = qElement.attribute( "text", "" );
     uDebug() <<"m_y......." <<m_y;
     return true;

@@ -29,12 +29,14 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 #include "dialog_utils.h"
+#include "umlscene.h"
 
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QPolygon>
 
-CombinedFragmentWidget::CombinedFragmentWidget(UMLView * view, CombinedFragmentType combinedfragmentType, Uml::IDType id ) : UMLWidget(view, id)
+CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::IDType id ) :
+    UMLWidget(scene, id)
 {
     UMLWidget::setBaseType( Uml::wt_CombinedFragment );
     setCombinedFragmentType( combinedfragmentType );
@@ -48,10 +50,10 @@ CombinedFragmentWidget::~CombinedFragmentWidget() {
 }
 
 void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    int w = width();
-    int h = height();
-    int line_width = 45;
-    int old_Y;
+    qreal w = getWidth();
+    qreal h = getHeight();
+    qreal line_width = 45;
+    qreal old_Y;
 
     setPenFromSettings(p);
 
@@ -61,9 +63,9 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     }
     }
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
+    const qreal fontHeight  = fm.lineSpacing();
     const QString combined_fragment_value =  getName();
-    int textStartY = (h / 2) - (fontHeight / 2);
+    qreal textStartY = (h / 2) - (fontHeight / 2);
     p.drawRect(offsetX, offsetY, w, h );
 
     p.setPen(Qt::black);
@@ -161,26 +163,26 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawLine(offsetX + line_width, offsetY + 20, offsetX + line_width + 10, offsetY + 10);
     p.drawLine(offsetX + line_width + 10, offsetY + 10, offsetX + line_width + 10, offsetY);
 
-    if(m_bSelected)
+    if(isSelected())
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize CombinedFragmentWidget::calculateSize() {
-    int width = 10, height = 10;
+QSizeF CombinedFragmentWidget::calculateSize() {
+    qreal width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
-    const int textWidth = fm.width(getName());
+    const qreal fontHeight  = fm.lineSpacing();
+    const qreal textWidth = fm.width(getName());
     height = fontHeight;
     width = textWidth + 60 > COMBINED_FRAGMENT_WIDTH ? textWidth + 60: COMBINED_FRAGMENT_WIDTH;
     if ( m_CombinedFragment == Loop )
-         width += int((float)textWidth * 0.4f);
+         width += qreal((float)textWidth * 0.4f);
     if ( m_CombinedFragment == Alt )
          height += fontHeight + 40;
     height = height > COMBINED_FRAGMENT_HEIGHT ? height : COMBINED_FRAGMENT_HEIGHT;
     width += COMBINED_FRAGMENT_MARGIN * 2;
     height += COMBINED_FRAGMENT_MARGIN * 2;
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType() const {
@@ -194,7 +196,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     // creates a dash line if the combined fragment type is alternative or parallel
     if(m_CombinedFragment == Alt  && m_dashLines.isEmpty())
     {
-        m_dashLines.push_back(new FloatingDashLineWidget(m_pView));
+        m_dashLines.push_back(new FloatingDashLineWidget(m_pScene));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");
@@ -202,9 +204,9 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
         m_dashLines.back()->setX(getX());
         m_dashLines.back()->setYMin(getY());
         m_dashLines.back()->setYMax(getY() + getHeight());
-        m_dashLines.back()->setY(getY() + height()/2);
+        m_dashLines.back()->setY(getY() + getHeight()/2);
         m_dashLines.back()->setSize(getWidth(), 0);
-        m_pView->setupNewWidget(m_dashLines.back());
+        m_pScene->setupNewWidget(m_dashLines.back());
     }
 }
 
@@ -291,7 +293,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     while ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingdashlinewidget") {
-            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_pView);
+            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_pScene);
             m_dashLines.push_back(fdlwidget);
             if( !fdlwidget->loadFromXMI(element) ) {
               // Most likely cause: The FloatingTextWidget is empty.
@@ -299,7 +301,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
                 return false;
             }
             else {
-                m_pView->setupNewWidget(fdlwidget);
+                m_pScene->setupNewWidget(fdlwidget);
             }
         } else {
             uError() << "unknown tag " << tag << endl;
@@ -320,7 +322,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
     switch (sel) {
           // for alternative or parallel combined fragments
     case ListPopupMenu::mt_AddInteractionOperand:
-        m_dashLines.push_back(new FloatingDashLineWidget(m_pView));
+        m_dashLines.push_back(new FloatingDashLineWidget(m_pScene));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");
@@ -330,7 +332,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
         m_dashLines.back()->setYMax(getY() + getHeight());
         m_dashLines.back()->setY(getY() + getHeight() / 2);
         m_dashLines.back()->setSize(getWidth(), 0);
-        m_pView->setupNewWidget(m_dashLines.back());
+        m_pScene->setupNewWidget(m_dashLines.back());
         break;
 
     case ListPopupMenu::mt_Rename:

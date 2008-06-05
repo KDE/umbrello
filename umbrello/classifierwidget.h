@@ -24,7 +24,8 @@ class AssociationWidget;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassifierWidget : public UMLWidget {
+class ClassifierWidget : public UMLWidget
+{
 public:
 
     /**
@@ -33,7 +34,7 @@ public:
      * @param view      The parent of this ClassifierWidget.
      * @param o The UMLObject to represent.
      */
-    ClassifierWidget(UMLView * view, UMLClassifier * o);
+    ClassifierWidget(UMLScene * scene, UMLClassifier * o);
 
     /**
      * Destructor.
@@ -279,7 +280,7 @@ public:
      * @param x The x-coordinate.
      * @param y The y-coordinate.
      */
-    virtual void adjustAssocs(int x, int y);
+    virtual void adjustAssocs(qreal x, qreal y);
 
     /**
      * Creates the "classwidget" or "interfacewidget" XML element.
@@ -313,24 +314,24 @@ protected:
      *
      * @return  QSize of the templates flap.
      */
-    QSize calculateTemplatesBoxSize();
+    QSizeF calculateTemplatesBoxSize();
 
     /**
      * Overrides method from UMLWidget.
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
     /**
      * Draws the interface as a circle with name underneath.
      * Only applies when m_pObject->getBaseType() is ot_Interface.
      */
-    void drawAsCircle(QPainter& p, int offsetX, int offsetY);
+    void drawAsCircle(QPainter& p, qreal offsetX, qreal offsetY);
 
     /**
      * Calculates the size of the object when drawn as a circle.
      * Only applies when m_pObject->getBaseType() is ot_Interface.
      */
-    QSize calculateAsCircleSize();
+    QSizeF calculateAsCircleSize();
 
     /**
      * Updates m_ShowOpSigs to match m_bShowVisibility.
@@ -355,7 +356,7 @@ protected:
      * @param fontHeight        The font height.
      */
     void drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
-                     int x, int y, int fontHeight);
+                     qreal x, qreal y, qreal fontHeight);
 
     bool m_bShowOperations;            ///< Loaded/saved item.
     bool m_bShowPublicOnly;            ///< Loaded/saved item.
@@ -369,15 +370,15 @@ protected:
     /**
      * Text width margin
      */
-    static const int MARGIN;
+    static const qreal MARGIN;
 
     /**
      * Size of circle when interface is rendered as such
      */
-    static const int CIRCLE_SIZE;
+    static const qreal CIRCLE_SIZE;
 
     /// Auxiliary variable for size calculations and drawing
-    int m_bodyOffsetY;
+    qreal m_bodyOffsetY;
 
     /**
      * The related AssociationWidget in case this classifier

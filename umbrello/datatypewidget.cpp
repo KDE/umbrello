@@ -22,11 +22,12 @@
 #include "classifierlistitem.h"
 #include "umlview.h"
 #include "umldoc.h"
+#include "umlscene.h"
 
 
 #define CIRCLE_SIZE 30
 
-DatatypeWidget::DatatypeWidget(UMLView* view, UMLClassifier *d) : UMLWidget(view, d) {
+DatatypeWidget::DatatypeWidget(UMLScene* scene, UMLClassifier *d) : UMLWidget(scene, d) {
     init();
 }
 
@@ -43,14 +44,15 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
     if (UMLWidget::getUseFillColour())  {
         p.setBrush(UMLWidget::getFillColour());
     } else {
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        // [PORT] Replace with styleOption based code
+        //p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
     }
 
-    int w = width();
-    int h = height();
+    qreal w = getWidth();
+    qreal h = getHeight();
 
     QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    int fontHeight  = fm.lineSpacing();
+    qreal fontHeight  = fm.lineSpacing();
     QString name = getName();
 
     p.drawRect(offsetX, offsetY, w, h);
@@ -68,18 +70,18 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY + fontHeight,
                w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
 
-    if (m_bSelected) {
+    if (isSelected()) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
 
-QSize DatatypeWidget::calculateSize() {
+QSizeF DatatypeWidget::calculateSize() {
     if (!m_pObject)  {
         return UMLWidget::calculateSize();
     }
-    int width, height;
+    qreal width, height;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight = fm.lineSpacing();
+    const qreal fontHeight = fm.lineSpacing();
 
     int lines = 1;//always have one line - for name
     lines++; //for the stereotype
@@ -91,7 +93,7 @@ QSize DatatypeWidget::calculateSize() {
     //set width to name to start with
     //set width to name to start with
     width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getFullyQualifiedName()).width();
-    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
+    qreal w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
 
     width = w > width?w:width;
 

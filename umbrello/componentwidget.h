@@ -36,7 +36,7 @@ public:
      * @param view      The parent of this ComponentWidget.
      * @param c The UMLComponent this will be representing.
      */
-    ComponentWidget(UMLView * view, UMLComponent *c);
+    ComponentWidget(UMLScene * scene, UMLComponent *c);
 
     /**
      * destructor
@@ -57,7 +57,7 @@ protected:
     /**
      * Overrides method from UMLWidget.
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
 private:
     /**

@@ -17,7 +17,7 @@
 #include <q3textedit.h>
 #include <qframe.h>
 //Added by qt3to4:
-#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
 // kde includes
 #include <kdebug.h>
 #include <klocale.h>
@@ -31,15 +31,18 @@
 #include "uml.h"
 #include "listpopupmenu.h"
 #include "dialog_utils.h"
+#include "umlscene.h"
 
 #define NOTEMARGIN 10
 
-NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
-        : UMLWidget(view, id, new NoteWidgetController(this)) {
+NoteWidget::NoteWidget(UMLScene *scene, NoteType noteType , Uml::IDType id)
+        : UMLWidget(scene, id, new NoteWidgetController(this)) {
     init();
     m_NoteType = noteType;
     setSize(100,80);
     setZ( 20 ); //make sure always on top.
+
+    // [PORT] We can easily use QGraphicsTextItem here. :-)
 #ifdef NOTEWIDGET_EMBED_EDITOR
     // NB: This code is currently deactivated because
     // Zoom does not yet work with the embedded text editor.
@@ -52,7 +55,7 @@ NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
     setEditorGeometry();
     setNoteType(noteType);
 
-    connect(m_pView, SIGNAL(contentsMoving(int, int)),
+    connect(m_pScene, SIGNAL(contentsMoving(int, int)),
             this, SLOT(slotViewScrolled(int, int)));
 #endif
 
@@ -99,7 +102,7 @@ void NoteWidget::setDiagramLink(Uml::IDType viewID) {
         uError() << "no view found for viewID " << ID2STR(viewID) << endl;
         return;
     }
-    QString linkText("Diagram: " + view->getName());
+    QString linkText("Diagram: " + view->umlScene()->getName());
 #if defined (NOTEWIDGET_EMBED_EDITOR)
     m_pEditor->setUnderline(true);
     m_pEditor->insert(linkText);
@@ -139,12 +142,12 @@ void NoteWidget::setEditorGeometry(int dx /*=0*/, int dy /*=0*/) {
 #endif
 }
 
-void NoteWidget::setX( int x ) {
+void NoteWidget::setX( qreal x ) {
     UMLWidget::setX(x);
     setEditorGeometry();
 }
 
-void NoteWidget::setY( int y ) {
+void NoteWidget::setY( qreal y ) {
     UMLWidget::setY(y);
     setEditorGeometry();
 }
@@ -166,12 +169,12 @@ void NoteWidget::setDoc(const QString &newText) {
 }
 
 void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    int margin = 10;
-    int w = width()-1;
+    qreal margin = 10;
+    qreal w = getWidth()-1;
 
-    int h= height()-1;
+    qreal h= getHeight()-1;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
+    const qreal fontHeight  = fm.lineSpacing();
     QPolygon poly(6);
     poly.setPoint(0, offsetX, offsetY);
     poly.setPoint(1, offsetX, offsetY + h);
@@ -209,37 +212,37 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
     default :  break;
     }
 
-if(m_bSelected) {
+if(isSelected()) {
         drawSelected(&p, offsetX, offsetY);
     }
 
     drawText(&p, offsetX, offsetY);
 }
 
-QSize NoteWidget::calculateSize() {
-    int width = 50, height = 50;
+QSizeF NoteWidget::calculateSize() {
+    qreal width = 50, height = 50;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    //const int fontHeight  = fm.lineSpacing();
-    const int textWidth = fm.width(m_Text);
+    //const qreal fontHeight  = fm.lineSpacing();
+    const qreal textWidth = fm.width(m_Text);
     if (m_NoteType == PreCondition)
     {
-        const int widthtemp = fm.width("<< precondition >>");
+        const qreal widthtemp = fm.width("<< precondition >>");
                 width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
     else if (m_NoteType == PostCondition)
     {
-        const int widthtemp = fm.width("<< postcondition >>");
+        const qreal widthtemp = fm.width("<< postcondition >>");
                 width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
     else if (m_NoteType == Transformation)
     {
-        const int widthtemp = fm.width("<< transformation >>");
+        const qreal widthtemp = fm.width("<< transformation >>");
                 width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 void NoteWidget::slotMenuSelection(QAction* action) {
@@ -249,15 +252,15 @@ void NoteWidget::slotMenuSelection(QAction* action) {
     switch(sel) {
         ///OBSOLETE - remove ListPopupMenu::mt_Link_Docs
         // case ListPopupMenu::mt_Link_Docs:
-        //      m_pView->updateNoteWidgets();
+        //      m_pScene->updateNoteWidgets();
         //      doc -> setModified(true);
         //      break;
 
     case ListPopupMenu::mt_Rename:
-        m_pView -> updateDocumentation( false );
-        dlg = new NoteDialog( m_pView, this );
+        m_pScene -> updateDocumentation( false );
+        dlg = new NoteDialog( m_pScene->activeView(), this );
         if( dlg -> exec() ) {
-            m_pView -> showDocumentation( this, true );
+            m_pScene -> showDocumentation( this, true );
             doc -> setModified(true);
             update();
         }
@@ -270,7 +273,7 @@ void NoteWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offsetY /*=0*/) {
+void NoteWidget::drawText(QPainter * p /*=NULL*/, qreal offsetX /*=0*/, qreal offsetY /*=0*/) {
 #if defined (NOTEWIDGET_EMBED_EDITOR)
     m_pEditor->setText( getDoc() );
     m_pEditor->setShown(true);
@@ -289,18 +292,18 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     QFont font = UMLWidget::getFont();
     p->setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
+    const qreal fontHeight  = fm.lineSpacing();
     QString text = getDoc();
     if( text.length() == 0 )
         return;
     QString word = "";
     QString fullLine = "";
     QString testCombineLine = "";
-    const int margin = fm.width( "W" );
-    int textY = fontHeight / 2;
-    int textX = margin;
-    const int width = this -> width() - margin * 2;
-    const int height = this -> height() - fontHeight;
+    const qreal margin = fm.width( "W" );
+    qreal textY = fontHeight / 2;
+    qreal textX = margin;
+    const qreal width = this -> getWidth() - margin * 2;
+    const qreal height = this -> getHeight() - fontHeight;
     QChar returnChar('\n');
     QChar c;
 
@@ -321,7 +324,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
         if (c == returnChar || c.isSpace()) {
             // new word delimiter found -> its time to decide on word wrap
             testCombineLine = fullLine + ' ' + word;
-            int textWidth = fm.width( testCombineLine );
+            qreal textWidth = fm.width( testCombineLine );
             if (textX + textWidth > width) {
                 // combination of "fullLine" and "word" doesn't fit into one line ->
                 // print "fullLine" in current line, update write position to next line

@@ -19,6 +19,7 @@
 #include "classifier.h"
 #include "operation.h"
 #include "uml.h"
+#include "umlscene.h"
 
 LinkWidget::LinkWidget() {
 }
@@ -33,14 +34,15 @@ UMLClassifier *LinkWidget::getOperationOwner() {
     return static_cast<UMLClassifier*>(op->parent());
 }
 
-QString LinkWidget::getOperationText(UMLView *view /* = NULL */) {
+// [PORT] May be make the param scene instead of view.
+QString LinkWidget::getOperationText(UMLScene *scene /* = NULL */) {
     UMLOperation *op = getOperation();
     if (op == NULL)
         return getCustomOpText();
-    if (view == NULL)
-        view = UMLApp::app()->getCurrentView();
+    if (scene == NULL)
+        scene = UMLApp::app()->getCurrentView()->umlScene();
     Uml::Signature_Type sigType;
-    if (view && view->getShowOpSig())
+    if (scene && scene->getShowOpSig())
         sigType = Uml::st_SigNoVis;
     else
         sigType = Uml::st_NoSigNoVis;

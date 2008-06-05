@@ -23,9 +23,9 @@
 /**
  * This class is the graphical version of a UML State.
  *
- * A StateWidget is created by a @ref UMLView.  A StateWidget belongs to
- * only one @ref UMLView instance.
- * When the @ref UMLView instance that this class belongs to is destroyed,
+ * A StateWidget is created by a @ref UMLScene.  A StateWidget belongs to
+ * only one @ref UMLScene instance.
+ * When the @ref UMLScene instance that this class belongs to is destroyed,
  * it will be automatically deleted.
  *
  * The StateWidget class inherits from the @ref UMLWidget class which adds
@@ -35,7 +35,8 @@
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class StateWidget : public UMLWidget {
+class StateWidget : public UMLWidget
+{
     Q_OBJECT
 public:
 
@@ -54,7 +55,7 @@ public:
      * @param stateType The type of state.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    explicit StateWidget( UMLView * view, StateType stateType = Normal, Uml::IDType id = Uml::id_None );
+    explicit StateWidget(UMLScene * scene, StateType stateType = Normal, Uml::IDType id = Uml::id_None );
 
     /**
      * destructor
@@ -140,7 +141,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
     /**
      * Type of state.

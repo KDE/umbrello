@@ -66,9 +66,9 @@ protected:
      * Saves the values of the widget needed for move/resize.
      * Calls parent method and then saves the value of m_unconstrainedPositionY
      *
-     * @param me The QMouseEvent to get the offset from.
+     * @param me The QGraphicsSceneMouseEvent to get the offset from.
      */
-    virtual void saveWidgetValues(QMouseEvent *me);
+    virtual void saveWidgetValues(QGraphicsSceneMouseEvent *me);
 
     /**
      * Overridden from UMLWidgetController.
@@ -87,7 +87,7 @@ protected:
      * @param newW The new width for the widget (isn't used).
      * @param newH The new height for the widget.
      */
-    virtual void resizeWidget(int newW, int newH);
+    virtual void resizeWidget(qreal newW, qreal newH);
 
     /**
      * Overridden from UMLWidgetController.
@@ -104,7 +104,7 @@ protected:
      *                          (isn't used).
      * @param diffY The difference between current Y position and new Y position.
      */
-    virtual void moveWidgetBy(int diffX, int diffY);
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
 
     /**
      * Overridden from UMLWidgetController.
@@ -115,16 +115,16 @@ protected:
      * @param diffX The difference between current X position and new X position.
      * @param diffY The difference between current Y position and new Y position.
      */
-    virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
+    virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
     /**
      * Overridden from UMLWidgetController.
      * Executes the action for double click in the widget.
      * Shows the dialog to select the operation of the message.
      *
-     * @param me The QMouseEvent which triggered the double click event.
+     * @param me The QGraphicsSceneMouseEvent which triggered the double click event.
      */
-    virtual void doMouseDoubleClick(QMouseEvent *me);
+    virtual void doMouseDoubleClick(QGraphicsSceneMouseEvent *me);
 
 private:
 
@@ -137,7 +137,7 @@ private:
      * @param diffY The difference between current Y position and new Y position.
      * @return The new Y position, constrained.
      */
-    int constrainPositionY(int diffY);
+    qreal constrainPositionY(qreal diffY);
 
     /**
      * The message widget which uses the controller.
@@ -147,7 +147,7 @@ private:
     /**
      * The vertical position the widget would have if its move wasn't constrained.
      */
-    int m_unconstrainedPositionY;
+    qreal m_unconstrainedPositionY;
 
 };
 

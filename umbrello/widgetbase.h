@@ -19,7 +19,7 @@
 #include "umlnamespace.h"
 
 // forward declarations
-class UMLView;
+class UMLScene;
 class UMLObject;
 
 /**
@@ -35,7 +35,7 @@ public:
      *
      * @param view      The view to be displayed on.
      */
-    WidgetBase(UMLView * view);
+    WidgetBase(UMLScene *scene);
 
     /**
      * Standard deconstructor
@@ -59,11 +59,16 @@ public:
      */
     UMLObject *getUMLObject();
 
+    // [PORT]
+#if 0
     /**
      * Deliver a const pointer to the connected UMLView
      * ( needed esp. by event handling of LinePath )
      */
     const UMLView *getUMLView() const { return m_pView; }
+#endif
+
+    const UMLScene *getUMLScene() const { return m_pScene; }
 
     /**
      * Sets the @ref UMLObject to represent.
@@ -161,14 +166,14 @@ protected:
     /**
      * Initialize members.
      */
-    void init(UMLView *view, Uml::Widget_Type type = Uml::wt_UMLWidget);
+    void init(UMLScene *scene, Uml::Widget_Type type = Uml::wt_UMLWidget);
 
     /**
      * Type of widget.
      */
     Uml::Widget_Type m_Type;
 
-    UMLView   *m_pView;
+    UMLScene   *m_pScene;
     UMLObject *m_pObject;
     QString m_Doc;  ///< Only used if m_pObject is not set.
 

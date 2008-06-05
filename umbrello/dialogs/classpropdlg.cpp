@@ -220,7 +220,7 @@ QFrame* ClassPropDlg::createPage(const QString& name, const QString& header, Ico
 
 void ClassPropDlg::setupGeneralPage()
 {
-    QFrame* page = createPage( i18nc("general settings page name", "General"), i18n("General Settings"), 
+    QFrame* page = createPage( i18nc("general settings page name", "General"), i18n("General Settings"),
                                Icon_Utils::it_Properties_General );
     page -> setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
@@ -267,7 +267,7 @@ void ClassPropDlg::setupOperationsPage()
 
 void ClassPropDlg::setupTemplatesPage()
 {
-    QFrame* page = createPage( i18n("Templates"), i18n("Templates Settings"), 
+    QFrame* page = createPage( i18n("Templates"), i18n("Templates Settings"),
                                Icon_Utils::it_Properties_Templates );
     m_pTemplatePage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Template);
     QHBoxLayout* templatesLayout = new QHBoxLayout(page);
@@ -294,7 +294,7 @@ void ClassPropDlg::setupEntityAttributesPage()
 
 void ClassPropDlg::setupEntityConstraintsPage()
 {
-    QFrame* page = createPage( i18n("Entity Constraints"), i18n("Entity Constraints Settings"), 
+    QFrame* page = createPage( i18n("Entity Constraints"), i18n("Entity Constraints Settings"),
                                Icon_Utils::it_Properties_EntityConstraints );
     m_pEntityConstraintPage = new ConstraintListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EntityConstraint );
     QHBoxLayout* entityConstraintsLayout = new QHBoxLayout(page);
@@ -312,9 +312,9 @@ void ClassPropDlg::setupContentsPage()
 
 void ClassPropDlg::setupAssociationsPage()
 {
-    QFrame* page = createPage( i18n("Associations"), i18n("Class Associations"), 
+    QFrame* page = createPage( i18n("Associations"), i18n("Class Associations"),
                                Icon_Utils::it_Properties_Associations );
-    m_pAssocPage = new AssocPage(page, UMLApp::app()->getCurrentView(), m_pObject);
+    m_pAssocPage = new AssocPage(page, UMLApp::app()->getCurrentView()->umlScene(), m_pObject);
     QHBoxLayout* assocLayout = new QHBoxLayout(page);
     assocLayout -> addWidget(m_pAssocPage);
 }

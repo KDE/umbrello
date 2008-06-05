@@ -26,8 +26,9 @@
 #include "umlwidget.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlview.h"
+#include "umlscene.h"
 #include "dialog_utils.h"
+#include "umlscene.h"
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -35,47 +36,55 @@
 
 using namespace Uml;
 
-ToolBarStateOneWidget::ToolBarStateOneWidget(UMLView *umlView) : ToolBarStatePool(umlView) {
-    m_umlView = umlView;
+ToolBarStateOneWidget::ToolBarStateOneWidget(UMLScene *umlScene) : ToolBarStatePool(umlScene)
+{
+    m_umlScene = umlScene;
     m_firstObject = 0;
 }
 
-ToolBarStateOneWidget::~ToolBarStateOneWidget() {
+ToolBarStateOneWidget::~ToolBarStateOneWidget()
+{
 }
 
-void ToolBarStateOneWidget::init() {
+void ToolBarStateOneWidget::init()
+{
     ToolBarStatePool::init();
 }
 
-void ToolBarStateOneWidget::cleanBeforeChange() {
+void ToolBarStateOneWidget::cleanBeforeChange()
+{
     ToolBarStatePool::cleanBeforeChange();
 }
 
-void ToolBarStateOneWidget::mouseMove(QMouseEvent* ome) {
+void ToolBarStateOneWidget::mouseMove(QGraphicsSceneMouseEvent* ome)
+{
     ToolBarStatePool::mouseMove(ome);
 }
 
-void ToolBarStateOneWidget::slotWidgetRemoved(UMLWidget* widget) {
+void ToolBarStateOneWidget::slotWidgetRemoved(UMLWidget* widget)
+{
     ToolBarState::slotWidgetRemoved(widget);
 }
 
-void ToolBarStateOneWidget::setCurrentElement() {
+void ToolBarStateOneWidget::setCurrentElement()
+{
     m_isObjectWidgetLine = false;
-    ObjectWidget* objectWidgetLine = m_pUMLView->onWidgetLine(m_pMouseEvent->pos());
+    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->scenePos());
     if (objectWidgetLine) {
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
         return;
     }
 
-    UMLWidget *widget = m_pUMLView->getWidgetAt(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;
     }
 }
 
-void ToolBarStateOneWidget::mouseReleaseWidget() {
+void ToolBarStateOneWidget::mouseReleaseWidget()
+{
     Uml::Widget_Type widgetType = getWidgetType();
 
     if (widgetType == Uml::wt_Precondition) {
@@ -110,25 +119,26 @@ void ToolBarStateOneWidget::mouseReleaseWidget() {
 void ToolBarStateOneWidget::mouseReleaseEmpty() {
 }
 
-void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject) {
+void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
+{
     m_firstObject = firstObject;
 
     UMLWidget * umlwidget = NULL;
-    //m_pUMLView->viewport()->setMouseTracking(true);
+    //m_pUMLScene->viewport()->setMouseTracking(true);
     if (getWidgetType() == Uml::wt_Precondition) {
-        umlwidget = new PreconditionWidget(m_pUMLView, static_cast<ObjectWidget*>(m_firstObject));
+        umlwidget = new PreconditionWidget(m_pUMLScene, static_cast<ObjectWidget*>(m_firstObject));
 
         Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
             // Create the widget. Some setup functions can remove the widget.
     }
 
     if (getWidgetType() == Uml::wt_Pin) {
-        umlwidget = new PinWidget(m_pUMLView, m_firstObject);
+        umlwidget = new PinWidget(m_pUMLScene, m_firstObject);
             // Create the widget. Some setup functions can remove the widget.
     }
 
     if (umlwidget != NULL) {
-            m_pUMLView->setupNewWidget(umlwidget);
+            m_pUMLScene->setupNewWidget(umlwidget);
     }
 
 }

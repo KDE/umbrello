@@ -22,6 +22,7 @@
 #include "umlview.h"
 #include "umlwidget.h"
 #include "objectwidget.h"
+#include "umlscene.h"
 
 
 namespace Widget_Utils {
@@ -50,17 +51,15 @@ UMLWidget* findWidget(Uml::IDType id,
     return NULL;
 }
 
-Q3CanvasRectangle *decoratePoint(const QPoint& p)
+QGraphicsRectItem *decoratePoint(const QPointF& p)
 {
     const int SIZE = 4;
     UMLView *currentView = UMLApp::app()->getCurrentView();
-    Q3CanvasRectangle *rect;
-    rect = new Q3CanvasRectangle(p.x() - SIZE / 2,
-                                 p.y() - SIZE / 2,
-                                 SIZE, SIZE, currentView->canvas());
+    QGraphicsRectItem *rect = new QGraphicsRectItem(0, 0, SIZE, SIZE);
+    currentView->umlScene()->addItem(rect);
+    rect->setPos(p.x() - SIZE / 2, p.y() - SIZE / 2);
     rect->setBrush( QBrush(Qt::blue) );
     rect->setPen( QPen(Qt::blue) );
-    rect->setVisible(true);
     return rect;
 }
 

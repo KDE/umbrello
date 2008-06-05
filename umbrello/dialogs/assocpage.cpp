@@ -10,16 +10,19 @@
  ***************************************************************************/
 
 #include "assocpage.h"
-#include <qlayout.h>
-//Added by qt3to4:
+#include "../umlobject.h"
+#include "../umlscene.h"
+#include "../associationwidget.h"
+#include "../listpopupmenu.h"
+
 #include <QHBoxLayout>
 #include <klocale.h>
 #include <kdebug.h>
 #include "assocpropdlg.h"
 
-AssocPage::AssocPage(QWidget *parent, UMLView * v, UMLObject * o) : QWidget(parent) {
+AssocPage::AssocPage(QWidget *parent, UMLScene * s, UMLObject * o) : QWidget(parent) {
     m_pObject = o;
-    m_pView = v;
+    m_pScene = s;
     int margin = fontMetrics().height();
 
     QHBoxLayout * mainLayout = new QHBoxLayout(this);
@@ -77,7 +80,7 @@ void AssocPage::slotDoubleClick(Q3ListBoxItem * i) {
 void AssocPage::fillListBox() {
     m_List.clear();
     m_pAssocLB->clear();
-    m_pView->getWidgetAssocs(m_pObject, m_List);
+    m_pScene->getWidgetAssocs(m_pObject, m_List);
     int i = 0;
     foreach( AssociationWidget* assocwidget, m_List ) {
         if( assocwidget->getAssocType() != Uml::at_Anchor) {
@@ -120,7 +123,7 @@ void AssocPage::slotPopupMenuSel(QAction* action) {
     ListPopupMenu::Menu_Type id = m_pMenu->getMenuType(action);
     switch(id) {
     case ListPopupMenu::mt_Delete:
-        m_pView->removeAssocInViewAndDoc(a);
+        m_pScene->removeAssocInViewAndDoc(a);
         fillListBox();
         break;
 

@@ -28,6 +28,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "umlscene.h"
 
 
 UMLViewImageExporter::UMLViewImageExporter(UMLView* view)
@@ -91,7 +92,7 @@ bool UMLViewImageExporter::getParametersFromUser()
 
     if (fileDialog.selectedUrl().isEmpty())
         return false;
-    m_view->clearSelected();   // Thanks to Peter Soetens for the idea
+    m_view->umlScene()->clearSelected();   // Thanks to Peter Soetens for the idea
 
     // update image url and mime type
     m_imageMimeType = fileDialog.currentMimeFilter();
@@ -125,7 +126,7 @@ void UMLViewImageExporter::prepareFileDialog(KFileDialog &fileDialog)
         directory.setPath(docURL.directory());
 
         fileDialog.setUrl(directory);
-        fileDialog.setSelection(m_view->getName() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+        fileDialog.setSelection(m_view->umlScene()->getName() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
         fileDialog.setUrl(m_imageURL);
         fileDialog.setSelection(m_imageURL.fileName());

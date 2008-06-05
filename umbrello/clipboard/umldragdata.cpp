@@ -32,6 +32,7 @@
 #include "../associationwidget.h"
 #include "../object_factory.h"
 #include "../model_utils.h"
+#include "umlscene.h"
 
 UMLDragData::UMLDragData(UMLObjectList& objects, QWidget* dragSource /* = 0 */)
 {
@@ -117,7 +118,7 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& u
     xmiclip.appendChild(viewsTag);
 
     foreach( UMLView* view, diagrams ) {
-        view->saveToXMI(domDoc, viewsTag);
+        view->umlScene()->saveToXMI(domDoc, viewsTag);
     }
 
     QDomElement itemsTag = domDoc.createElement("umllistviewitems");
@@ -130,7 +131,7 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& u
     setData( "application/x-uml-clip2", domDoc.toString().toUtf8() );
 }
 
-void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems) 
+void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
 {
     QDomDocument domDoc;
     QDomElement xmiclip = domDoc.createElement("xmiclip");
@@ -373,9 +374,12 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
             return false;
         }
         UMLFolder *f = static_cast<UMLFolder*>(po);
+        // [PORT]
+#if 0
         UMLView* view = new UMLView(f);
         view->loadFromXMI(diagramElement);
         diagrams.append(view);
+#endif
         diagramNode = diagramNode.nextSibling();
         diagramElement = diagramNode.toElement();
     }
@@ -592,9 +596,10 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     }
 
     UMLView *view = UMLApp::app()->getCurrentView();
+    UMLScene *scene = view->umlScene();
     while ( !widgetElement.isNull() ) {
 
-        UMLWidget* widget = view->loadWidgetFromXMI(widgetElement);
+        UMLWidget* widget = scene->loadWidgetFromXMI(widgetElement);
         if (widget)
             widgets.append(widget);
 
@@ -607,7 +612,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     QDomNode associationWidgetNode = associationWidgetsNode.firstChild();
     QDomElement associationWidgetElement = associationWidgetNode.toElement();
     while ( !associationWidgetElement.isNull() ) {
-        AssociationWidget* associationWidget = new AssociationWidget(view);
+        AssociationWidget* associationWidget = new AssociationWidget(scene);
         if (associationWidget->loadFromXMI(associationWidgetElement, widgets))
             associations.append(associationWidget);
         else {

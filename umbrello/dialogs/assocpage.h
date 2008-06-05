@@ -13,16 +13,15 @@
 #ifndef ASSOCPAGE_H
 #define ASSOCPAGE_H
 
-#include <qwidget.h>
+#include <QWidget>
 #include <q3groupbox.h>
 #include <q3listbox.h>
 
-#include "../umlobject.h"
-#include "../umlview.h"
 #include "../associationwidgetlist.h"
-#include "../associationwidget.h"
-#include "../listpopupmenu.h"
 
+class UMLObject;
+class UMLScene;
+class ListPopupMenu;
 
 /**
  * Displays a page on the tabbed dialog window of @ref ClassPropDlg.
@@ -42,7 +41,7 @@ public:
      *  @param  v       The view the UMLObject being represented.
      *  @param  o       The UMLObject being represented
      */
-    AssocPage(QWidget *parent, UMLView * v, UMLObject * o);
+    AssocPage(QWidget *parent, UMLScene * scene, UMLObject * o);
 
     /**
      *  Standard deconstructor.
@@ -50,7 +49,7 @@ public:
     ~AssocPage();
 private:
     UMLObject * m_pObject;
-    UMLView * m_pView;
+    UMLScene * m_pScene;
     Q3ListBox * m_pAssocLB;
     Q3GroupBox * m_pAssocGB;
     AssociationWidgetList m_List;

@@ -27,13 +27,14 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 #include "dialogs/activitydialog.h"
+#include "umlscene.h"
 
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QPolygon>
 
-ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::IDType id )
-        : UMLWidget(view, id)
+ActivityWidget::ActivityWidget(UMLScene * scene, ActivityType activityType, Uml::IDType id )
+        : UMLWidget(scene, id)
 {
     UMLWidget::setBaseType( Uml::wt_Activity );
     setActivityType( activityType );
@@ -42,111 +43,112 @@ ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::I
 
 ActivityWidget::~ActivityWidget() {}
 
-void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    int w = width();
-    int h = height();
-
+void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+    qreal w = getWidth();
+    qreal h = getHeight();
+    qreal offsetX = 0, offsetY = 0;
     // Only for the final activity
     float x;
     float y;
-    QPen pen = p.pen();
+    QPen pen = p->pen();
 
     switch ( m_ActivityType )
     {
 
     case Normal :
-        UMLWidget::setPenFromSettings(p);
+        UMLWidget::setPenFromSettings(*p);
         if ( UMLWidget::getUseFillColour() ) {
-            p.setBrush( UMLWidget::getFillColour() );
+            p->setBrush( UMLWidget::getFillColour() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
-            p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p.setPen(Qt::black);
-            p.setFont( UMLWidget::getFont() );
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
+            p->drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
+            p->setPen(Qt::black);
+            p->setFont( UMLWidget::getFont() );
+            p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
         }
         break;
 
     case Initial :
-        p.setPen( QPen(m_LineColour, 1) );
-        p.setBrush( WidgetBase::getLineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
+        p->setPen( QPen(m_LineColour, 1) );
+        p->setBrush( WidgetBase::getLineColor() );
+        p->drawEllipse( offsetX, offsetY, w, h );
         break;
 
     case Final :
 
-        UMLWidget::setPenFromSettings(p);
-        p.setBrush( Qt::white );
+        UMLWidget::setPenFromSettings(*p);
+        p->setBrush( Qt::white );
         pen.setWidth( 2 );
         pen.setColor ( Qt::red );
-        p.setPen( pen );
-        p.drawEllipse( offsetX, offsetY, w, h );
+        p->setPen( pen );
+        p->drawEllipse( offsetX, offsetY, w, h );
         x = offsetX + w/2 ;
         y = offsetY + h/2 ;
         {
             const float w2 = 0.7071 * (float)w / 2.0;
-            p.drawLine((int)(x - w2 + 1), (int)(y - w2 + 1), (int)(x + w2), (int)(y + w2) );
-            p.drawLine((int)(x + w2 - 1), (int)(y - w2 + 1), (int)(x - w2), (int)(y + w2) );
+            p->drawLine((int)(x - w2 + 1), (int)(y - w2 + 1), (int)(x + w2), (int)(y + w2) );
+            p->drawLine((int)(x + w2 - 1), (int)(y - w2 + 1), (int)(x - w2), (int)(y + w2) );
         }
         break;
 
     case End :
-        p.setPen( QPen(m_LineColour, 1) );
-        p.setBrush( WidgetBase::getLineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
-        p.setBrush( Qt::white );
-        p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p.setBrush( WidgetBase::getLineColor() );
-        p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
+        p->setPen( QPen(m_LineColour, 1) );
+        p->setBrush( WidgetBase::getLineColor() );
+        p->drawEllipse( offsetX, offsetY, w, h );
+        p->setBrush( Qt::white );
+        p->drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
+        p->setBrush( WidgetBase::getLineColor() );
+        p->drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
         break;
 
     case Branch :
-        UMLWidget::setPenFromSettings(p);
-        p.setBrush( UMLWidget::getFillColour() );
+        UMLWidget::setPenFromSettings(*p);
+        p->setBrush( UMLWidget::getFillColour() );
         {
             QPolygon array( 4 );
             array[ 0 ] = QPoint( offsetX + w / 2, offsetY );
             array[ 1 ] = QPoint( offsetX + w, offsetY  + h / 2 );
             array[ 2 ] = QPoint( offsetX + w / 2, offsetY + h );
             array[ 3 ] = QPoint( offsetX, offsetY + h / 2 );
-            p.drawPolygon( array );
-            p.drawPolyline( array );
+            p->drawPolygon( array );
+            p->drawPolyline( array );
         }
         break;
 
     case Invok :
-        UMLWidget::setPenFromSettings(p);
+        UMLWidget::setPenFromSettings(*p);
         if ( UMLWidget::getUseFillColour() ) {
-            p.setBrush( UMLWidget::getFillColour() );
+            p->setBrush( UMLWidget::getFillColour() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
-            p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p.setPen(Qt::black);
-            p.setFont( UMLWidget::getFont() );
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
+            p->drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
+            p->setPen(Qt::black);
+            p->setFont( UMLWidget::getFont() );
+            p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
 
         }
         x = offsetX + w - (w/5);
         y = offsetY + h - (h/3);
 
-        p.drawLine((int)x, (int) y, (int)x, (int)( y + 20));
-        p.drawLine((int)(x - 10),(int)(y + 10), (int)(x + 10), (int)(y + 10));
-        p.drawLine((int)(x - 10),(int)(y + 10), (int)(x - 10), (int)(y + 20));
-        p.drawLine((int)(x + 10),(int)(y + 10), (int)(x + 10), (int)(y + 20));
+        p->drawLine(QLineF((qreal)x, (qreal) y, (qreal)x, (qreal)( y + 20)));
+        p->drawLine(QLineF((qreal)(x - 10),(qreal)(y + 10), (qreal)(x + 10), (qreal)(y + 10)));
+        p->drawLine(QLineF((qreal)(x - 10),(qreal)(y + 10), (qreal)(x - 10), (qreal)(y + 20)));
+        p->drawLine(QLineF((qreal)(x + 10),(qreal)(y + 10), (qreal)(x + 10), (qreal)(y + 20)));
         break;
 
     case Param :
-        UMLWidget::setPenFromSettings(p);
+        UMLWidget::setPenFromSettings(*p);
         if ( UMLWidget::getUseFillColour() ) {
-            p.setBrush( UMLWidget::getFillColour() );
+            p->setBrush( UMLWidget::getFillColour() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -154,27 +156,28 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             QString preCond= "<<precondition>> "+getPreText();
             QString postCond= "<<postcondition>> "+getPostText();
             //int textStartY = (h / 2) - (fontHeight / 2);
-            p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p.setPen(Qt::black);
-            p.setFont( UMLWidget::getFont() );
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight + 10,
+            p->drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
+            p->setPen(Qt::black);
+            p->setFont( UMLWidget::getFont() );
+            p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight + 10,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, preCond);
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight * 2 + 10,
+            p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight * 2 + 10,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, postCond);
-            p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + (fontHeight / 2),
+            p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + (fontHeight / 2),
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
         }
 
         break;
 
     }
-    if(m_bSelected)
-        drawSelected(&p, offsetX, offsetY);
+    if(isSelected()) {
+        drawSelected(p, offsetX, offsetY);
+    }
 }
 
-void ActivityWidget::constrain(int& width, int& height) {
+void ActivityWidget::constrain(qreal& width, qreal& height) {
     if (m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param) {
-        QSize minSize = calculateSize();
+        QSizeF minSize = calculateSize();
         if (width < minSize.width())
             width = minSize.width();
         if (height < minSize.height())
@@ -204,13 +207,14 @@ void ActivityWidget::constrain(int& width, int& height) {
     }
 }
 
-QSize ActivityWidget::calculateSize() {
-    int width, height;
+QSizeF ActivityWidget::calculateSize()
+{
+    qreal width, height;
     if ( m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const int fontHeight  = fm.lineSpacing();
+        const qreal fontHeight  = fm.lineSpacing();
 
-        int textWidth = fm.width(getName());
+        qreal textWidth = fm.width(getName());
         height = fontHeight;
         height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
         height += ACTIVITY_MARGIN * 2;
@@ -237,7 +241,7 @@ QSize ActivityWidget::calculateSize() {
     } else {
         width = height = 20;
     }
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 ActivityWidget::ActivityType ActivityWidget::getActivityType() const {
@@ -275,7 +279,7 @@ void ActivityWidget::showProperties() {
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    ActivityDialog dialog(m_pView, this);
+    ActivityDialog dialog(m_pScene->activeView(), this);
     if (dialog.exec() && dialog.getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);

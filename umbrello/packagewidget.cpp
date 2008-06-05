@@ -22,9 +22,10 @@
 #include "umldoc.h"
 #include "umlview.h"
 #include "umlobject.h"
+#include "umlscene.h"
 
 
-PackageWidget::PackageWidget(UMLView * view, UMLPackage *o)
+PackageWidget::PackageWidget(UMLScene * view, UMLPackage *o)
   : UMLWidget(view, o) {
     init();
 }
@@ -34,10 +35,10 @@ void PackageWidget::init() {
     setSize(100, 30);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
     m_pMenu = 0;
-    //set defaults from m_pView
-    if (m_pView) {
+    //set defaults from m_pScene
+    if (m_pScene) {
         //check to see if correct
-        const Settings::OptionState& ops = m_pView->getOptionState();
+        const Settings::OptionState& ops = m_pScene->getOptionState();
         m_bShowStereotype = ops.classState.showStereoType;
     }
     //maybe loading and this may not be set.
@@ -51,24 +52,26 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
-    else
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+    else {
+        // [PORT]
+        // p.setBrush( m_pScene->viewport()->palette().color(QPalette::Background) );
+    }
 
-    int w = width();
-    int h = height();
+    qreal w = getWidth();
+    qreal h = getHeight();
     QFont font = UMLWidget::getFont();
     font.setBold(true);
     //FIXME italic is true when a package is first created until you click elsewhere, not sure why
     font.setItalic(false);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    const int fontHeight  = fm.lineSpacing();
+    const qreal fontHeight  = fm.lineSpacing();
     QString name = getName();
 
     p.drawRect(offsetX, offsetY, 50, fontHeight);
     if (m_pObject->getStereotype() == "subsystem") {
-        const int fHalf = fontHeight / 2;
-        const int symY = offsetY + fHalf;
-        const int symX = offsetX + 38;
+        const qreal fHalf = fontHeight / 2;
+        const qreal symY = offsetY + fHalf;
+        const qreal symX = offsetX + 38;
         p.drawLine(symX, symY, symX, symY + fHalf - 2);          // left leg
         p.drawLine(symX + 8, symY, symX + 8, symY + fHalf - 2);  // right leg
         p.drawLine(symX, symY, symX + 8, symY);                  // waist
@@ -79,7 +82,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.setPen( QPen(Qt::black) );
     p.setFont(font);
 
-    int lines = 1;
+    qreal lines = 1;
     if (m_pObject != NULL) {
         QString stereotype = m_pObject->getStereotype();
         if (!stereotype.isEmpty()) {
@@ -92,24 +95,24 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.drawText(offsetX, offsetY + (fontHeight*lines) + PACKAGE_MARGIN,
                w, fontHeight, Qt::AlignCenter, name );
 
-    if(m_bSelected) {
+    if(isSelected()) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
 
-QSize PackageWidget::calculateSize() {
+QSizeF PackageWidget::calculateSize() {
     if ( !m_pObject ) {
         return UMLWidget::calculateSize();
     }
 
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    const int fontHeight = fm.lineSpacing();
+    const qreal fontHeight = fm.lineSpacing();
 
-    int lines = 1;
+    qreal lines = 1;
 
-    int width = fm.width( m_pObject->getName() );
+    qreal width = fm.width( m_pObject->getName() );
 
-    int tempWidth = 0;
+    qreal tempWidth = 0;
     if (!m_pObject->getStereotype().isEmpty()) {
         tempWidth = fm.width(m_pObject->getStereotype(true));
         lines = 2;
@@ -120,9 +123,9 @@ QSize PackageWidget::calculateSize() {
     if (width < 70)
         width = 70;  // minumin width of 70
 
-    int height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
+    qreal height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {

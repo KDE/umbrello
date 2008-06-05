@@ -18,7 +18,7 @@
 class UMLView;
 class UMLObject;
 class UMLWidget;
-
+class UMLScene;
 /**
  * Widget factory methods.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -28,13 +28,13 @@ namespace Widget_Factory {
     /**
      * Create a UMLWidget in the given view and representing the given document object.
      */
-    UMLWidget *createWidget(UMLView *view, UMLObject *docObj);
+    UMLWidget *createWidget(UMLScene *scene, UMLObject *docObj);
 
     /**
      * Create a UMLWidget according to the given XMI tag.
      */
     UMLWidget* makeWidgetFromXMI(const QString& tag,
-                                 const QString& idStr, UMLView *view);
+                                 const QString& idStr, UMLScene *scene);
 
 }   // end namespace Widget_Factory
 

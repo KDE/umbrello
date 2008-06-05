@@ -40,6 +40,7 @@
 #include "artifact.h"
 #include "component.h"
 #include "umlview.h"
+#include "umlscene.h"
 #include "stereotype.h"
 #include "umlpackagelist.h"
 #include "umllistviewitem.h"
@@ -260,7 +261,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     //////////
 }
 
-ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidget(parent) 
+ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidget(parent)
 {
     m_pObject = 0;
     m_pInstanceWidget = 0;
@@ -298,7 +299,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     m_pDrawActorCB -> setChecked( o -> getDrawAsActor() );
     m_pNameLayout -> addWidget( m_pDrawActorCB, 2, 0 );
 
-    if (view -> getType() == Uml::dt_Collaboration) {
+    if (view->umlScene()->getType() == Uml::dt_Collaboration) {
         m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
         m_pMultiCB -> setChecked(o -> getMultipleInstance());
         m_pNameLayout -> addWidget(m_pMultiCB, 2,1);
@@ -388,7 +389,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     m_pObject = 0;//needs to be set to zero
 }
 
-ClassGenPage::~ClassGenPage() 
+ClassGenPage::~ClassGenPage()
 {
 }
 

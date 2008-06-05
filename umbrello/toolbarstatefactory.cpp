@@ -37,7 +37,7 @@ ToolBarStateFactory::~ToolBarStateFactory()
 }
 
 
-ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &toolbarButton, UMLView *umlView)
+ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &toolbarButton, UMLScene *umlScene)
 {
     int key = getKey(toolbarButton);
 
@@ -47,13 +47,13 @@ ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &
         {
             // When you add a new state, make sure you also increase the
             // NR_OF_TOOLBAR_STATES
-        case 0: m_states[0] = new ToolBarStateOther(umlView); break;
-        case 1: m_states[1] = new ToolBarStateAssociation(umlView); break;
-        case 2: m_states[2] = new ToolBarStateMessages(umlView); break;
+        case 0: m_states[0] = new ToolBarStateOther(umlScene); break;
+        case 1: m_states[1] = new ToolBarStateAssociation(umlScene); break;
+        case 2: m_states[2] = new ToolBarStateMessages(umlScene); break;
 
             // This case has no pool.
-        case 3: m_states[3] = new ToolBarStateArrow(umlView); break;
-        case 4: m_states[4] = new ToolBarStateOneWidget(umlView); break;
+        case 3: m_states[3] = new ToolBarStateArrow(umlScene); break;
+        case 4: m_states[4] = new ToolBarStateOneWidget(umlScene); break;
         }
     }
 

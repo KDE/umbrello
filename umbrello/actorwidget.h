@@ -49,7 +49,7 @@ public:
      * @param view      The parent of this ActorWidget.
      * @param o         The Actor class this ActorWidget will display.
      */
-    ActorWidget(UMLView * view, UMLActor *o);
+    ActorWidget(UMLScene * scene, UMLActor *o);
 
 
     /**
@@ -72,7 +72,7 @@ protected:
     /**
      * Overrides method from UMLWidget.
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 };
 
 #endif

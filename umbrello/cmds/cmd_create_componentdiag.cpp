@@ -12,6 +12,7 @@
 #include "cmd_create_componentdiag.h"
 
 #include "uml.h"
+#include "umlscene.h"
 
 #include <klocale.h>
 
@@ -35,9 +36,9 @@ namespace Uml
 
     void cmdCreateComponentDiag::undo()
     {
-        if(m_pUMLView)
-        {
-            m_pUMLDoc->removeDiagram(m_pUMLView->getID());
+        if(m_pUMLView) {
+            // [PORT]
+            m_pUMLDoc->removeDiagram(m_pUMLView->umlScene()->getID());
         }
     }
 

@@ -39,6 +39,7 @@
 #include "../umlwidget.h"
 #include "../uml.h"
 #include "../model_utils.h"
+#include "umlscene.h"
 
 UMLClipboard::UMLClipboard() {
     m_type = clip1;
@@ -62,17 +63,17 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/) {
 
     if(fromView) {
         m_type = clip4;
-        UMLView *view = UMLApp::app()->getCurrentView();
-        view->checkSelections();
-        if(!view->getSelectedWidgets(m_WidgetList)) {
+        UMLScene *scene = UMLApp::app()->getCurrentView()->umlScene();
+        scene->checkSelections();
+        if(!scene->getSelectedWidgets(m_WidgetList)) {
             return 0;
         }
         //if there is no selected widget then there is no copy action
         if(!m_WidgetList.count()) {
             return 0;
         }
-        m_AssociationList = view->getSelectedAssocs();
-        view->copyAsImage(png);
+        m_AssociationList = scene->getSelectedAssocs();
+        scene->copyAsImage(png);
 
     } else { //if the copy action is being performed from the ListView
         if(!listView->getSelectedItems(selectedItems)) {
@@ -91,8 +92,9 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/) {
             selectedItems.clear();
             //For each selected view select all the Actors, USe Cases and Concepts
             //widgets in the ListView
+            // [PORT]
             foreach (UMLView* view, m_ViewList ) {
-                UMLObjectList objects = view->getUMLObjects();
+                UMLObjectList objects = view->umlScene()->getUMLObjects();
                 foreach (UMLObject* o, objects ) {
                     UMLListViewItem *item = listView->findUMLObject(o);
                     if(item) {
@@ -123,7 +125,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/) {
         if(png) {
             UMLView *view = UMLApp::app()->getCurrentView();
             data = new UMLDragData(m_ObjectList, m_WidgetList,
-                               m_AssociationList, *png, view->getType());
+                                   m_AssociationList, *png, view->umlScene()->getType());
         } else {
             return 0;
         }
@@ -453,7 +455,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data) {
         return false;
     }
 
-    if( diagramType != UMLApp::app()->getCurrentView()->getType() ) {
+    if( diagramType != UMLApp::app()->getCurrentView()->umlScene()->getType() ) {
         if( !checkPasteWidgets(widgets) ) {
             while ( !assocs.isEmpty() ) {
                 delete assocs.takeFirst();
@@ -477,36 +479,38 @@ bool UMLClipboard::pasteClip4(const QMimeData* data) {
 
     //now add any widget we are want to paste
     bool objectAlreadyExists = false;
+    // [PORT]
     UMLView *currentView = UMLApp::app()->getCurrentView();
-    currentView->beginPartialWidgetPaste();
+    // [PORT]
+    currentView->umlScene()->beginPartialWidgetPaste();
 
     foreach ( UMLWidget* widget, widgets ) {
 
         Uml::IDType oldId = widget->getID();
         Uml::IDType newId = idchanges->findNewID(oldId);
-        if (currentView->findWidget(newId)) {
+        if (currentView->umlScene()->findWidget(newId)) {
             uError() << "widget (oldID=" << ID2STR(oldId) << ", newID="
                 << ID2STR(newId) << ") already exists in target view." << endl;
             widgets.removeAll(widget);
             delete widget;
             objectAlreadyExists = true;
-        } else if (! currentView->addWidget(widget, true)) {
-            currentView->endPartialWidgetPaste();
+        } else if (! currentView->umlScene()->addWidget(widget, true)) {
+            currentView->umlScene()->endPartialWidgetPaste();
             return false;
         }
     }
 
     //now paste the associations
     foreach ( AssociationWidget* assoc, assocs ) {
-        if (!currentView->addAssociation(assoc, true)) {
-            currentView->endPartialWidgetPaste();
+        if (!currentView->umlScene()->addAssociation(assoc, true)) {
+            currentView->umlScene()->endPartialWidgetPaste();
             return false;
         }
     }
 
     //Activate all the pasted associations and widgets
-    currentView->activate();
-    currentView->endPartialWidgetPaste();
+    currentView->umlScene()->activate();
+    currentView->umlScene()->endPartialWidgetPaste();
 
     /*
     UMLListView *listView = UMLApp::app()->getListView();

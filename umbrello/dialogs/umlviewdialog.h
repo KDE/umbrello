@@ -25,7 +25,7 @@
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLView;
+class UMLScene;
 
 class QCheckBox;
 class QLabel;
@@ -51,7 +51,7 @@ public:
     /**
     *   Constructor
     */
-    UMLViewDialog( QWidget * pParent, UMLView * pView );
+    UMLViewDialog( QWidget * pParent, UMLScene * pScene );
 
     /**
     *   Deconstructor
@@ -95,9 +95,9 @@ protected:
     void checkName();
 
     /**
-    *   The view to represent.
+    *   The scene to represent.
     */
-    UMLView * m_pView;
+    UMLScene * m_pScene;
 
     Settings::OptionState m_options;
 

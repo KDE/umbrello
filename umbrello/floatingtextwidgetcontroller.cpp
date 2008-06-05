@@ -30,7 +30,7 @@ FloatingTextWidgetController::FloatingTextWidgetController(FloatingTextWidget *f
 FloatingTextWidgetController::~FloatingTextWidgetController() {
 }
 
-void FloatingTextWidgetController::saveWidgetValues(QMouseEvent *me) {
+void FloatingTextWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me) {
     UMLWidgetController::saveWidgetValues(me);
 
     m_unconstrainedPositionX = m_widget->getX();
@@ -39,25 +39,25 @@ void FloatingTextWidgetController::saveWidgetValues(QMouseEvent *me) {
     m_movementDirectionY = 0;
 }
 
-bool FloatingTextWidgetController::isInResizeArea(QMouseEvent* /*me*/) {
+bool FloatingTextWidgetController::isInResizeArea(QGraphicsSceneMouseEvent* /*me*/) {
     return false;
 }
 
-void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY) {
+void FloatingTextWidgetController::moveWidgetBy(qreal diffX, qreal diffY) {
     if (m_floatingTextWidget->m_Role == Uml::tr_Seq_Message_Self)
         return;
 
     if (m_floatingTextWidget->m_Role == Uml::tr_Seq_Message
-                    && ((MessageWidget*)m_floatingTextWidget->m_pLink)->getSelected()) {
+                    && ((MessageWidget*)m_floatingTextWidget->m_pLink)->isSelected()) {
         return;
     }
 
     m_unconstrainedPositionX += diffX;
     m_unconstrainedPositionY += diffY;
-    QPoint constrainedPosition = constrainPosition(diffX, diffY);
+    QPointF constrainedPosition = constrainPosition(diffX, diffY);
 
-    int newX = constrainedPosition.x();
-    int newY = constrainedPosition.y();
+    qreal newX = constrainedPosition.x();
+    qreal newY = constrainedPosition.y();
 
     if (!m_movementDirectionX) {
         if (m_unconstrainedPositionX != constrainedPosition.x()) {
@@ -90,30 +90,30 @@ void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY) {
 
             //TODO This should be moved to somewhere in MessageWidget, refactor with messagewidgetcontroller.cpp:44
             if (messageWidget->getSequenceMessageType() == Uml::sequence_message_creation) {
-                const int objWidgetHalfHeight = messageWidget->getWidget(Uml::B)->getHeight() / 2;
+                const qreal objWidgetHalfHeight = messageWidget->getWidget(Uml::B)->getHeight() / 2;
                 messageWidget->getWidget(Uml::B)->UMLWidget::setY(messageWidget->getY() - objWidgetHalfHeight);
             }
         }
     }
 }
 
-void FloatingTextWidgetController::constrainMovementForAllWidgets(int &diffX, int &diffY) {
-    QPoint constrainedPosition = constrainPosition(diffX, diffY);
+void FloatingTextWidgetController::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY) {
+    QPointF constrainedPosition = constrainPosition(diffX, diffY);
 
     diffX = constrainedPosition.x() - m_floatingTextWidget->getX();
     diffY = constrainedPosition.y() - m_floatingTextWidget->getY();
 }
 
-QPoint FloatingTextWidgetController::constrainPosition(int diffX, int diffY) {
-    int newX = m_floatingTextWidget->getX() + diffX;
-    int newY = m_floatingTextWidget->getY() + diffY;
+QPointF FloatingTextWidgetController::constrainPosition(qreal diffX, qreal diffY) {
+    qreal newX = m_floatingTextWidget->getX() + diffX;
+    qreal newY = m_floatingTextWidget->getY() + diffY;
 
     if (m_floatingTextWidget->m_pLink) {
         m_floatingTextWidget->m_pLink->constrainTextPos(newX, newY,
-                    m_floatingTextWidget->width(), m_floatingTextWidget->height(),
+                    m_floatingTextWidget->getWidth(), m_floatingTextWidget->getHeight(),
                     m_floatingTextWidget->m_Role);
     }
 
-    return QPoint(newX, newY);
+    return QPointF(newX, newY);
 }
 

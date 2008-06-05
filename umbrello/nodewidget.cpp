@@ -21,9 +21,10 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "umlscene.h"
 #include <QPolygon>
 
-NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
+NodeWidget::NodeWidget(UMLScene * view, UMLNode *n )
   : UMLWidget(view, n) {
     UMLWidget::setBaseType(Uml::wt_Node);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
@@ -39,19 +40,20 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColour() );
     } else {
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        // [PORT]
+        // p.setBrush( m_pScene->viewport()->palette().color(QPalette::Background) );
     }
-    const int w = width();
-    const int h = height();
-    const int wDepth = (w/3 > DEPTH ? DEPTH : w/3);
-    const int hDepth = (h/3 > DEPTH ? DEPTH : h/3);
-    const int bodyOffsetY = offsetY + hDepth;
-    const int bodyWidth = w - wDepth;
-    const int bodyHeight = h - hDepth;
+    const qreal w = getWidth();
+    const qreal h = getHeight();
+    const qreal wDepth = (w/3 > DEPTH ? DEPTH : w/3);
+    const qreal hDepth = (h/3 > DEPTH ? DEPTH : h/3);
+    const qreal bodyOffsetY = offsetY + hDepth;
+    const qreal bodyWidth = w - wDepth;
+    const qreal bodyHeight = h - hDepth;
     QFont font = UMLWidget::getFont();
     font.setBold(true);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    const int fontHeight  = fm.lineSpacing();
+    const qreal fontHeight  = fm.lineSpacing();
     QString name = getName();
 
     QPolygon pointArray(5);
@@ -91,28 +93,28 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
                    bodyWidth, fontHeight, Qt::AlignCenter, name);
     }
 
-    if(m_bSelected) {
+    if(isSelected()) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
 
-QSize NodeWidget::calculateSize() {
+QSizeF NodeWidget::calculateSize() {
     if (m_pObject == NULL) {
         uDebug() << "m_pObject is NULL";
         return UMLWidget::calculateSize();
     }
 
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    const int fontHeight  = fm.lineSpacing();
+    const qreal fontHeight  = fm.lineSpacing();
 
     QString name = m_pObject->getName();
     if ( UMLWidget::getIsInstance() ) {
         name = UMLWidget::getInstanceName() + " : " + name;
     }
 
-    int width = fm.width(name);
+    qreal width = fm.width(name);
 
-    int tempWidth = 0;
+    qreal tempWidth = 0;
     if (!m_pObject->getStereotype().isEmpty()) {
         tempWidth = fm.width(m_pObject->getStereotype(true));
     }
@@ -120,9 +122,9 @@ QSize NodeWidget::calculateSize() {
         width = tempWidth;
     width += DEPTH;
 
-    int height = (2*fontHeight) + DEPTH;
+    qreal height = (2*fontHeight) + DEPTH;
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {

@@ -36,7 +36,7 @@ public:
      * @param view              The parent of this PackageWidget.
      * @param o         The UMLObject this will be representing.
      */
-    PackageWidget(UMLView * view, UMLPackage * o);
+    PackageWidget(UMLScene * view, UMLPackage * o);
 
     /**
      * destructor
@@ -57,7 +57,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
 private:
     /**

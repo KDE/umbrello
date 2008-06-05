@@ -14,7 +14,7 @@
 
 #include "toolbarstatepool.h"
 
-class Q3CanvasLine;
+class QGraphicsLineItem;
 
 /**
  * Association tool to create associations between widgets.
@@ -35,16 +35,17 @@ class Q3CanvasLine;
  *
  * @todo refactor with common code in ToolBarStateMessages?
  */
-class ToolBarStateAssociation : public ToolBarStatePool {
+class ToolBarStateAssociation : public ToolBarStatePool
+{
     Q_OBJECT
 public:
 
     /**
      * Creates a new ToolBarStateAssociation.
      *
-     * @param umlView The UMLView to use.
+     * @param umlScene The UMLScene to use.
      */
-    ToolBarStateAssociation(UMLView *umlView);
+    ToolBarStateAssociation(UMLScene *umlScene);
 
     /**
      * Destroys this ToolBarStateAssociation.
@@ -68,12 +69,12 @@ public:
      * It executes the base method and then updates the position of the
      * association line, if any.
      */
-    virtual void mouseMove(QMouseEvent* ome);
+    virtual void mouseMove(QGraphicsSceneMouseEvent* ome);
 
 public slots:
 
     /**
-     * A widget was removed from the UMLView.
+     * A widget was removed from the UMLScene.
      * If the widget removed was the current widget, the current widget is set
      * to 0.
      * Also, if it was the first widget, the association is cleaned.
@@ -121,7 +122,7 @@ private:
      * creates the association.
      * If the association between the two widgets using the current type of
      * association, an error is shown and the association cancelled.
-     * Otherwise, the association is created and added to the view, and the tool
+     * Otherwise, the association is created and added to the scene, and the tool
      * is changed to the default tool.
      *
      * @todo Why change to the default tool? Shouldn't it better to stay on
@@ -161,7 +162,7 @@ private:
      * The association line shown while the first widget is selected and the
      * second one wasn't selected yet.
      */
-    Q3CanvasLine* m_associationLine;
+    QGraphicsLineItem* m_associationLine;
 
 };
 

@@ -28,6 +28,7 @@
 #include "activitywidget.h"
 #include "signalwidget.h"
 #include "forkjoinwidget.h"
+#include "umlscene.h"
 
 
 using namespace Uml;
@@ -56,7 +57,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
     if( !bValid ) {
         // Special case: Subsystem realizes interface in component diagram
         UMLView *view = UMLApp::app()->getCurrentView();
-        if (view && view->getType() == dt_Component && widgetType == wt_Package &&
+        if (view && view->umlScene()->getType() == dt_Component && widgetType == wt_Package &&
             (assocType == at_Generalization || assocType == at_Realization))
             bValid = true;
         else

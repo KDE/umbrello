@@ -19,7 +19,8 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 
-CategoryWidget::CategoryWidget(UMLView * view, UMLCategory *o) : UMLWidget(view, o) {
+CategoryWidget::CategoryWidget(UMLScene * scene, UMLCategory *o) : UMLWidget(scene, o)
+{
     UMLWidget::setBaseType(Uml::wt_Category);
     //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
     //                  Instead, it is done afterwards by UMLWidget::activate()
@@ -37,14 +38,14 @@ void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY) {
     font.setItalic( m_pObject->getAbstract() );
     p.setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
+    const qreal fontHeight  = fm.lineSpacing();
     // the height is our radius
-    const int h = height();
-    const int w = width();
-    const int r = h > w ? h : w;
+    const qreal h = getHeight();
+    const qreal w = getWidth();
+    const qreal r = h > w ? h : w;
 
-    //int middleX = w / 2;
-    const int textStartY = (r / 2) - (fontHeight / 2);
+    //qreal middleX = w / 2;
+    const qreal textStartY = (r / 2) - (fontHeight / 2);
 
     // draw a circle
     p.drawEllipse(offsetX, offsetY, r, r);
@@ -67,17 +68,18 @@ void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, r - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, letterType );
     UMLWidget::setPenFromSettings(p);
-    if(m_bSelected)
+    if(isSelected()) {
         drawSelected(&p, offsetX, offsetY);
+    }
 }
 
-QSize CategoryWidget::calculateSize() {
+QSizeF CategoryWidget::calculateSize() {
     const UMLWidget::FontType ft = ( m_pObject->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
-    const int fontHeight = fm.lineSpacing();
-    int radius = UC_RADIUS + fontHeight + UC_MARGIN;
+    const qreal fontHeight = fm.lineSpacing();
+    qreal radius = UC_RADIUS + fontHeight + UC_MARGIN;
 
-    return QSize(radius, radius);
+    return QSizeF(radius, radius);
 }
 
 void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

@@ -28,22 +28,25 @@
 #include "uniqueid.h"
 #include "listpopupmenu.h"
 #include "floatingtextwidget.h"
+#include "umlscene.h"
 
 //Added by qt3to4:
-#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
 #include <QPolygon>
 
-PinWidget::PinWidget(UMLView * view, UMLWidget* a, Uml::IDType id ): UMLWidget(view, id){
+PinWidget::PinWidget(UMLScene * scene, UMLWidget* a, Uml::IDType id ):
+    UMLWidget(scene, id)
+{
 
     init();
     m_pOw = a;
-    int y = getY();
+    qreal y = getY();
     m_nY = y;
     y = y < getMinY() ? getMinY() : y;
     m_nY = y;
 
-    m_pName = new FloatingTextWidget(view,Uml::tr_Floating,"");
-    view->setupNewWidget(m_pName);
+    m_pName = new FloatingTextWidget(scene,Uml::tr_Floating,"");
+    scene->setupNewWidget(m_pName);
     m_pName->setX(0);
     m_pName->setY(0);
     this->activate();
@@ -62,16 +65,16 @@ void PinWidget::init() {
 }
 
 void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    int w = 10;
-    int h = 10;
-    int width_Activity = m_pOw->getWidth();
-    int height_Activity = m_pOw->getHeight();
-    int y = 0;
-    int x = m_pOw->getX() + (width_Activity/2);
+    qreal w = 10;
+    qreal h = 10;
+    qreal width_Activity = m_pOw->getWidth();
+    qreal height_Activity = m_pOw->getHeight();
+    qreal y = 0;
+    qreal x = m_pOw->getX() + (width_Activity/2);
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
-    int cas = 0;
+    const qreal fontHeight  = fm.lineSpacing();
+    qreal cas = 0;
 
     if ( (offsetY + height_Activity/2) <= m_pOw->getY() + height_Activity){
         y = m_pOw->getY()-5;
@@ -138,13 +141,13 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
     setPenFromSettings(p);
     m_pName->setVisible(( m_pName->getText().length() > 0 ));
     m_pName->updateComponentSize();
-    if(m_bSelected)
+    if(isSelected())
          drawSelected(&p, offsetX, offsetY);
 }
 
-QSize PinWidget::calculateSize() {
+QSizeF PinWidget::calculateSize() {
     setSize(10,10);
-    return QSize(10,10);
+    return QSizeF(10,10);
 }
 
 void PinWidget::setName(const QString &strName) {
@@ -153,18 +156,18 @@ void PinWidget::setName(const QString &strName) {
     m_pName->setText(m_Text);
 }
 
-int PinWidget::getMinY() {
+qreal PinWidget::getMinY() {
     if (!m_pOw) {
         return 0;
     }
-    int heightA = m_pOw->getY() + m_pOw->getHeight();
+    qreal heightA = m_pOw->getY() + m_pOw->getHeight();
     return heightA;
 }
 
-void PinWidget::mouseMoveEvent(QMouseEvent* me) {
+void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me) {
     UMLWidget::mouseMoveEvent(me);
-    int diffX = m_oldX - getX();
-    int diffY = m_oldY - getY();
+    qreal diffX = m_oldX - getX();
+    qreal diffY = m_oldY - getY();
     if (m_pName!=NULL && !( m_pName->getText() ).isEmpty()) {
         m_pName->setX(m_pName->getX() - diffX);
         m_pName->setY(m_pName->getY() - diffY);
@@ -208,7 +211,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
 
     Uml::IDType aId = STR2ID(widgetaid);
 
-    UMLWidget *pWA = m_pView -> findWidget( aId );
+    UMLWidget *pWA = m_pScene -> findWidget( aId );
     if (pWA == NULL) {
         uDebug() << "role A object " << ID2STR(aId) << " not found" << endl;
         return false;
@@ -219,7 +222,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     QString textid = qElement.attribute( "textid", "-1" );
     Uml::IDType textId = STR2ID(textid);
     if (textId != Uml::id_None) {
-        UMLWidget *flotext = m_pView -> findWidget( textId );
+        UMLWidget *flotext = m_pScene -> findWidget( textId );
         if (flotext != NULL) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
@@ -237,7 +240,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( m_pView,Uml::tr_Floating,m_Text, textId );
+            m_pName = new FloatingTextWidget( m_pScene,Uml::tr_Floating,m_Text, textId );
             if( ! m_pName->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;

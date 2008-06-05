@@ -23,7 +23,8 @@ void ToolBarStatePool::setButton(const WorkToolBar::ToolBar_Buttons &button) {
     }
 }
 
-ToolBarStatePool::ToolBarStatePool(UMLView *umlView): ToolBarState(umlView) {
+ToolBarStatePool::ToolBarStatePool(UMLScene *umlScene): ToolBarState(umlScene)
+{
     m_ToolBarButton = WorkToolBar::tbb_Arrow;
 }
 

@@ -34,16 +34,18 @@
 
 // #include "dialogs/signaldialog.h"
 #include "listpopupmenu.h"
+#include "umlscene.h"
 
-SignalWidget::SignalWidget(UMLView * view, SignalType signalType, Uml::IDType id)
-        : UMLWidget(view, id) {
+SignalWidget::SignalWidget(UMLScene * scene, SignalType signalType, Uml::IDType id)
+        : UMLWidget(scene, id)
+{
     UMLWidget::setBaseType(Uml::wt_Signal);
     m_SignalType = signalType;
     updateComponentSize();
     m_pName = NULL;
     if (signalType == SignalWidget::Time) {
-        m_pName = new FloatingTextWidget(view,Uml::tr_Floating,"");
-        view->setupNewWidget(m_pName);
+        m_pName = new FloatingTextWidget(scene, Uml::tr_Floating,"");
+        scene->setupNewWidget(m_pName);
         m_pName->setX(0);
         m_pName->setY(0);
     }
@@ -53,8 +55,8 @@ SignalWidget::~SignalWidget() {}
 
 void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
     setPenFromSettings(p);
-    const int w = width();
-    const int h = height();
+    const qreal w = getWidth();
+    const qreal h = getHeight();
     QPolygon a;
     switch (m_SignalType)
     {
@@ -70,8 +72,8 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
                             offsetX           ,h+offsetY );
             p.drawPolygon( a );
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-            const int fontHeight  = fm.lineSpacing();
-            int textStartY = (h / 2) - (fontHeight / 2);
+            const qreal fontHeight  = fm.lineSpacing();
+            qreal textStartY = (h / 2) - (fontHeight / 2);
 
             p.setPen(Qt::black);
             QFont font = UMLWidget::getFont();
@@ -95,8 +97,8 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
             p.drawPolygon( a );
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-            const int fontHeight  = fm.lineSpacing();
-            int textStartY = (h / 2) - (fontHeight / 2);
+            const qreal fontHeight  = fm.lineSpacing();
+            qreal textStartY = (h / 2) - (fontHeight / 2);
 
             p.setPen(Qt::black);
             QFont font = UMLWidget::getFont();
@@ -119,8 +121,8 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
             p.drawPolygon( a );
             //const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-            //const int fontHeight  = fm.lineSpacing();
-            //int textStartY = (h / 2) - (fontHeight / 2);
+            //const qreal fontHeight  = fm.lineSpacing();
+            //qreal textStartY = (h / 2) - (fontHeight / 2);
             p.setPen(Qt::black);
             QFont font = UMLWidget::getFont();
             font.setBold( false );
@@ -141,29 +143,29 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
         uWarning() << "Unknown signal type:" << m_SignalType;
         break;
     }
-    if(m_bSelected)
+    if(isSelected())
         drawSelected(&p, offsetX, offsetY);
 }
 
 
-void SignalWidget::setX(int newX) {
+void SignalWidget::setX(qreal newX) {
     m_oldX = getX();
     UMLWidget::setX(newX);
 }
 
-void SignalWidget::setY(int newY) {
+void SignalWidget::setY(qreal newY) {
     m_oldY = getY();
     UMLWidget::setY(newY);
 }
 
-QSize SignalWidget::calculateSize() {
-        int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
+QSizeF SignalWidget::calculateSize() {
+        qreal width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
         const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-        const int fontHeight  = fm.lineSpacing();
-        int textWidth = fm.width(getName());
+        const qreal fontHeight  = fm.lineSpacing();
+        qreal textWidth = fm.width(getName());
 
         if (m_SignalType == Accept)
-             textWidth = int((float)textWidth * 1.3f);
+             textWidth = qreal((float)textWidth * 1.3f);
         height  = fontHeight;
         if (m_SignalType != Time)
         {
@@ -173,7 +175,7 @@ QSize SignalWidget::calculateSize() {
         width  += SIGNAL_MARGIN * 2;
         height += SIGNAL_MARGIN * 2;
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 void SignalWidget::setName(const QString &strName) {
@@ -216,10 +218,10 @@ void SignalWidget::slotMenuSelection(QAction* action) {
 
 void SignalWidget::showProperties() {}
 
-void SignalWidget::mouseMoveEvent(QMouseEvent* me) {
+void SignalWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me) {
     UMLWidget::mouseMoveEvent(me);
-    int diffX = m_oldX - getX();
-    int diffY = m_oldY - getY();
+    qreal diffX = m_oldX - getX();
+    qreal diffY = m_oldY - getY();
     if (m_pName!=NULL) {
         m_pName->setX(m_pName->getX() - diffX);
         m_pName->setY(m_pName->getY() - diffY);
@@ -252,7 +254,7 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
     if (getSignalType() == Time) {
 
         if (textId != Uml::id_None) {
-            UMLWidget *flotext = m_pView -> findWidget( textId );
+            UMLWidget *flotext = m_pScene -> findWidget( textId );
             if (flotext != NULL) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
@@ -270,7 +272,7 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( m_pView,Uml::tr_Floating,m_Text, textId );
+            m_pName = new FloatingTextWidget( m_pScene,Uml::tr_Floating,m_Text, textId );
             if( ! m_pName->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;

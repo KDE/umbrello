@@ -27,7 +27,8 @@ class UMLView;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class EntityWidget : public UMLWidget {
+class EntityWidget : public UMLWidget
+{
 public:
 
     /**
@@ -36,7 +37,7 @@ public:
      * @param view              The parent of this EntityWidget.
      * @param o         The UMLObject this will be representing.
      */
-    EntityWidget(UMLView* view, UMLObject* o);
+    EntityWidget(UMLScene* scene, UMLObject* o);
 
     /**
      * Standard deconstructor.
@@ -67,7 +68,7 @@ protected:
     /**
      * Overrides method from UMLWidget.
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
 public slots:
     /**

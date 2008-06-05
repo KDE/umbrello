@@ -14,7 +14,7 @@
 
 #include "umlwidget.h"
 
-class UMLView;
+class UMLScene;
 
 #define ENUM_MARGIN 5
 
@@ -36,7 +36,7 @@ public:
      * @param view              The parent of this EnumWidget.
      * @param o         The UMLObject this will be representing.
      */
-    EnumWidget(UMLView* view, UMLObject* o);
+    EnumWidget(UMLScene* view, UMLObject* o);
 
     /**
      * Standard deconstructor.
@@ -86,7 +86,7 @@ protected:
     /**
      * Overrides method from UMLWidget.
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
     bool m_bShowPackage;
 

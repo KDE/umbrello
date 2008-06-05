@@ -39,7 +39,7 @@ public:
     // Destructor
     virtual ~ToolBarStateFactory();
 
-    ToolBarState* getState(const WorkToolBar::ToolBar_Buttons &toolbarButton, UMLView* umlView);
+    ToolBarState* getState(const WorkToolBar::ToolBar_Buttons &toolbarButton, UMLScene* umlScene);
 
 protected:
     int getKey(const WorkToolBar::ToolBar_Buttons &toolbarButton) const;

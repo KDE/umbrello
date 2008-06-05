@@ -31,6 +31,7 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
+//[PORT] This whole class needs a relook regd scene/view.
 class UMLFolder : public UMLPackage {
     Q_OBJECT
 public:

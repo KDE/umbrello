@@ -12,6 +12,7 @@
 #include "cmd_create_collaborationdiag.h"
 
 #include "uml.h"
+#include "umlscene.h"
 
 #include <klocale.h>
 
@@ -37,7 +38,8 @@ namespace Uml
     {
         if(m_pUMLView)
         {
-            m_pUMLDoc->removeDiagram(m_pUMLView->getID());
+            // [PORT]
+            m_pUMLDoc->removeDiagram(m_pUMLView->umlScene()->getID());
         }
     }
 

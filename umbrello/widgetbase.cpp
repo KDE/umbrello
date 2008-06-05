@@ -13,25 +13,26 @@
 
 #include <kdebug.h>
 #include "umlview.h"
+#include "umlscene.h"
 #include "umlobject.h"
 #include "optionstate.h"
 
-WidgetBase::WidgetBase(UMLView *view) : QObject(view) {
-    init(view);
+WidgetBase::WidgetBase(UMLScene *scene) : QObject(scene) {
+    init(scene);
 }
 
-void WidgetBase::init(UMLView *view, Uml::Widget_Type type /* = Uml::wt_UMLWidget */) {
-    m_pView = view;
+void WidgetBase::init(UMLScene *scene, Uml::Widget_Type type /* = Uml::wt_UMLWidget */) {
+    m_pScene = scene;
     m_Type = type;
     m_pObject = NULL;
-    if (m_pView) {
+    if (m_pScene) {
         m_bUsesDiagramLineColour = true;
         m_bUsesDiagramLineWidth  = true;
-        const Settings::OptionState& optionState = m_pView->getOptionState();
+        const Settings::OptionState& optionState = m_pScene->getOptionState();
         m_LineColour = optionState.uiState.lineColor;
         m_LineWidth  = optionState.uiState.lineWidth;
     } else {
-        uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_pView is NULL" << endl;
+        uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_pScene is NULL" << endl;
         m_bUsesDiagramLineColour = false;
         m_bUsesDiagramLineWidth  = false;
         m_LineColour = QColor("black");
@@ -118,15 +119,15 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement ) {
     if (lineColor != "none") {
         setLineColor( QColor(lineColor) );
         m_bUsesDiagramLineColour = false;
-    } else if (m_Type != Uml::wt_Box && m_pView != NULL) {
-        setLineColor( m_pView->getLineColor() );
+    } else if (m_Type != Uml::wt_Box && m_pScene != NULL) {
+        setLineColor( m_pScene->getLineColor() );
         m_bUsesDiagramLineColour = true;
     }
     if (lineWidth != "none") {
         setLineWidth( lineWidth.toInt() );
         m_bUsesDiagramLineWidth = false;
-    } else if ( m_pView ) {
-        setLineWidth( m_pView->getLineWidth() );
+    } else if ( m_pScene ) {
+        setLineWidth( m_pScene->getLineWidth() );
         m_bUsesDiagramLineWidth = true;
     }
     return true;

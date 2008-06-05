@@ -43,11 +43,11 @@ QCursor ObjectWidgetController::getResizeCursor() {
     return Qt::SizeHorCursor;
 }
 
-void ObjectWidgetController::resizeWidget(int newW, int /*newH*/) {
+void ObjectWidgetController::resizeWidget(qreal newW, qreal /*newH*/) {
     m_widget->setSize(newW, m_widget->getHeight());
 }
 
-void ObjectWidgetController::mousePressEvent(QMouseEvent *me) {
+void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me) {
     UMLWidgetController::mousePressEvent(me);
      isOnDestructionBox = false;
     SeqLineWidget * pLine = dynamic_cast<ObjectWidget*>(m_widget)->getSeqLine();
@@ -60,7 +60,7 @@ void ObjectWidgetController::mousePressEvent(QMouseEvent *me) {
 
 }
 
-void ObjectWidgetController::mouseMoveEvent(QMouseEvent* me) {
+void ObjectWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me) {
     if (!m_leftButtonDown)
         return;
 
@@ -69,7 +69,8 @@ void ObjectWidgetController::mouseMoveEvent(QMouseEvent* me) {
         return;
     }
 
-    int diffY = me->y() - m_oldY;
+    // [PORT]
+    qreal diffY = me->scenePos().y() - m_oldY;
 
     if (isOnDestructionBox) {
         moveDestructionBy (diffY);
@@ -80,18 +81,18 @@ void ObjectWidgetController::mouseMoveEvent(QMouseEvent* me) {
 
 }
 
-void ObjectWidgetController::moveWidgetBy(int diffX, int /*diffY*/) {
+void ObjectWidgetController::moveWidgetBy(qreal diffX, qreal /*diffY*/) {
     m_widget->setX(m_widget->getX() + diffX);
 }
 
-void ObjectWidgetController::moveDestructionBy(int diffY) {
+void ObjectWidgetController::moveDestructionBy(qreal diffY) {
     // endLine = length of the life line + diffY - 10 to center on the destruction box
-    int endLine = dynamic_cast<ObjectWidget *>(m_widget)->getEndLineY() + diffY - 10;
+    qreal endLine = dynamic_cast<ObjectWidget *>(m_widget)->getEndLineY() + diffY - 10;
     SeqLineWidget * pLine = dynamic_cast<ObjectWidget *>(m_widget)->getSeqLine();
     pLine->setEndOfLine(endLine);
     m_oldY = endLine;
 }
 
-void ObjectWidgetController::constrainMovementForAllWidgets(int& /*diffX*/, int& diffY) {
+void ObjectWidgetController::constrainMovementForAllWidgets(qreal& /*diffX*/, qreal& diffY) {
     diffY = 0;
 }

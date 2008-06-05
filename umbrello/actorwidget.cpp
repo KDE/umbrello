@@ -20,7 +20,8 @@
 #include "umlview.h"
 
 
-ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a) {
+ActorWidget::ActorWidget(UMLScene * scene, UMLActor *a) : UMLWidget(scene, a)
+{
     UMLWidget::setBaseType( Uml::wt_Actor );
 }
 
@@ -30,18 +31,18 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
     UMLWidget::setPenFromSettings(p);
     if( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
-    const int w = width();
-    const int h = height();
+    const qreal w = getWidth();
+    const qreal h = getHeight();
     p.setFont( UMLWidget::getFont() );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int textWidth = fm.width(getName());
-    const int fontHeight = fm.lineSpacing();
-    const int a_height = h - fontHeight - A_MARGIN;
-    const int h2 = a_height / 2;
-    const int w2 = w - A_MARGIN * 2;
-    const int a_width = (h2 > w2 || w > textWidth + A_MARGIN * 2 ?  w2 : h2);
-    const int middleX = w / 2;
-    const int thirdY = a_height / 3;
+    const qreal textWidth = fm.width(getName());
+    const qreal fontHeight = fm.lineSpacing();
+    const qreal a_height = h - fontHeight - A_MARGIN;
+    const qreal h2 = a_height / 2;
+    const qreal w2 = w - A_MARGIN * 2;
+    const qreal a_width = (h2 > w2 || w > textWidth + A_MARGIN * 2 ?  w2 : h2);
+    const qreal middleX = w / 2;
+    const qreal thirdY = a_height / 3;
 
     //draw actor
     p.drawEllipse(offsetX + middleX - a_width / 2, offsetY, a_width, thirdY); //head
@@ -57,18 +58,19 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.setPen(QPen(Qt::black));
     p.drawText(offsetX + A_MARGIN, offsetY + h - fontHeight,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
-    if(m_bSelected)
+    if(isSelected()) {
         drawSelected(&p, offsetX, offsetY);
+    }
 }
 
-QSize ActorWidget::calculateSize() {
+QSizeF ActorWidget::calculateSize() {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     const int textWidth = fm.width(getName());
-    int width = textWidth > A_WIDTH ? textWidth : A_WIDTH;
-    int height = A_HEIGHT + fontHeight + A_MARGIN;
+    qreal width = textWidth > A_WIDTH ? textWidth : A_WIDTH;
+    qreal height = A_HEIGHT + fontHeight + A_MARGIN;
     width += A_MARGIN * 2;
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

@@ -29,15 +29,16 @@
 #include "objectwidget.h"
 #include "classifier.h"
 #include "uniqueid.h"
+#include "umlscene.h"
 
 //Added by qt3to4:
 //Added by qt3to4:
-#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
 #include <QPolygon>
 #include <QMoveEvent>
 #include <QResizeEvent>
 
-PreconditionWidget::PreconditionWidget(UMLView * view, ObjectWidget* a, Uml::IDType id )
+PreconditionWidget::PreconditionWidget(UMLScene * view, ObjectWidget* a, Uml::IDType id )
         : UMLWidget(view, id)
 {
     init();
@@ -67,8 +68,8 @@ void PreconditionWidget::init() {
 }
 
 void PreconditionWidget::draw(QPainter & p, int /*offsetX*/, int offsetY) {
-    int w = width();
-    int h = height();
+    int w = getWidth();
+    int h = getHeight();
 
     int x = m_pOw->getX() + m_pOw->getWidth() / 2;
     x -= w/2;
@@ -99,12 +100,12 @@ void PreconditionWidget::draw(QPainter & p, int /*offsetX*/, int offsetY) {
         p.drawText(x + PRECONDITION_MARGIN, y + textStartY,
                        w - PRECONDITION_MARGIN * 2, fontHeight, Qt::AlignCenter, precondition_value);
     }
-    if(m_bSelected)
+    if(isSelected())
         drawSelected(&p, x, y);
 }
 
 
-QSize PreconditionWidget::calculateSize() {
+QSizeF PreconditionWidget::calculateSize() {
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -115,7 +116,7 @@ QSize PreconditionWidget::calculateSize() {
     width += PRECONDITION_MARGIN * 2;
     height += PRECONDITION_MARGIN * 2;
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 
 }
 
@@ -148,7 +149,7 @@ void PreconditionWidget::calculateWidget() {
 }
 
 bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/) {
-    m_pView->resetPastePoint();
+    m_pScene->resetPastePoint();
     UMLWidget::activate(Log);
     if (m_pOw == NULL) {
         uDebug() << "cannot make precondition";
@@ -170,9 +171,9 @@ void PreconditionWidget::calculateDimensions() {
 
     x1 += w1;
 
-    QSize q = calculateSize();
-    w = q.width() > width() ? q.width() : width();
-    h = q.height() > height() ? q.height() : height();
+    QSizeF q = calculateSize();
+    w = q.width() > getWidth() ? q.width() : getWidth();
+    h = q.height() > getHeight() ? q.height() : getHeight();
 
     x = x1 - w/2;
 
@@ -195,7 +196,7 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id) {
         m_nY = getMaxY();
 
     calculateDimensions();
-    if (m_pView->getSelectCount(true) > 1)
+    if (m_pScene->getSelectCount(true) > 1)
         return;
 
 }
@@ -218,7 +219,7 @@ int PreconditionWidget::getMaxY() {
 
     int heightA = (int)m_pOw->getEndLineY();
     int height = heightA;
-    return (height - this->height());
+    return (height - this->getHeight());
 }
 
 
@@ -240,7 +241,7 @@ bool PreconditionWidget::loadFromXMI( QDomElement & qElement ) {
 
     Uml::IDType aId = STR2ID(widgetaid);
 
-    UMLWidget *pWA = m_pView -> findWidget( aId );
+    UMLWidget *pWA = m_pScene -> findWidget( aId );
     if (pWA == NULL) {
         uDebug() << "role A object " << ID2STR(aId) << " not found" << endl;
         return false;

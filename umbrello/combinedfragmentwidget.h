@@ -33,7 +33,8 @@
  * @author Hassan KOUCH <hkouch@hotmail.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class CombinedFragmentWidget : public UMLWidget {
+class CombinedFragmentWidget : public UMLWidget
+{
     Q_OBJECT
 
 public:
@@ -57,7 +58,7 @@ public:
      * @param combinedfragmentType      The type of combined fragment.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    explicit CombinedFragmentWidget( UMLView * view, CombinedFragmentType combinedfragmentType = Ref, Uml::IDType id = Uml::id_None );
+    explicit CombinedFragmentWidget( UMLScene * scene, CombinedFragmentType combinedfragmentType = Ref, Uml::IDType id = Uml::id_None );
 
 
     /**
@@ -108,7 +109,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
     /**
      * Type of CombinedFragment.

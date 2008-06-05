@@ -36,12 +36,13 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 #include "dialogs/objectnodedialog.h"
+#include "umlscene.h"
 
 //Added by qt3to4:
-#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
 #include <QPolygon>
 
-ObjectNodeWidget::ObjectNodeWidget(UMLView * view, ObjectNodeType objectNodeType, Uml::IDType id )
+ObjectNodeWidget::ObjectNodeWidget(UMLScene * view, ObjectNodeType objectNodeType, Uml::IDType id )
         : UMLWidget(view, id)
 {
     UMLWidget::setBaseType( Uml::wt_ObjectNode );
@@ -53,8 +54,8 @@ ObjectNodeWidget::ObjectNodeWidget(UMLView * view, ObjectNodeType objectNodeType
 ObjectNodeWidget::~ObjectNodeWidget() {}
 
 void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    int w = width();
-    int h = height();
+    int w = getWidth();
+    int h = getHeight();
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -109,18 +110,18 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     }
     setPenFromSettings(p);
 
-    if(m_bSelected)
+    if(isSelected())
         drawSelected(&p, offsetX, offsetY);
 
 }
 
-QSize ObjectNodeWidget::calculateSize() {
-    int widthtmp = 10, height = 10,width=10;
+QSizeF ObjectNodeWidget::calculateSize() {
+    qreal widthtmp = 10, height = 10,width=10;
     if ( m_ObjectNodeType == Buffer ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width("<< centrelBuffer >>");
-        const int namewidth = fm.width(getName());
+        const qreal fontHeight  = fm.lineSpacing();
+        const qreal textWidth = fm.width("<< centrelBuffer >>");
+        const qreal namewidth = fm.width(getName());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
         width = namewidth > widthtmp ? namewidth : widthtmp;
@@ -129,9 +130,9 @@ QSize ObjectNodeWidget::calculateSize() {
         height += OBJECTNODE_MARGIN * 2 + 5;
     } else if ( m_ObjectNodeType == Data ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width("<< datastore >>");
-        const int namewidth = fm.width(getName());
+        const qreal fontHeight  = fm.lineSpacing();
+        const qreal textWidth = fm.width("<< datastore >>");
+        const qreal namewidth = fm.width(getName());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
         width = namewidth > widthtmp ? namewidth : widthtmp;
@@ -140,9 +141,9 @@ QSize ObjectNodeWidget::calculateSize() {
         height += OBJECTNODE_MARGIN * 2 + 5;
     } else if ( m_ObjectNodeType == Flow ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width('[' + getState() + ']');
-        const int namewidth = fm.width(getName());
+        const qreal fontHeight  = fm.lineSpacing();
+        const qreal textWidth = fm.width('[' + getState() + ']');
+        const qreal namewidth = fm.width(getName());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
         width = namewidth > widthtmp ? namewidth : widthtmp;
@@ -151,7 +152,7 @@ QSize ObjectNodeWidget::calculateSize() {
         height += OBJECTNODE_MARGIN * 4;
     }
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType() const {
@@ -213,7 +214,7 @@ void ObjectNodeWidget::showProperties() {
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    ObjectNodeDialog dialog(m_pView, this);
+    ObjectNodeDialog dialog(m_pScene->activeView(), this);
     if (dialog.exec() && dialog.getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);

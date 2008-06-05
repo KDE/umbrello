@@ -15,7 +15,8 @@
 #include "umlwidget.h"
 #include "linkwidget.h"
 
-class UMLView;
+class UMLScene;
+class QResizeEvent;
 
 class FloatingTextWidgetController;
 
@@ -46,8 +47,8 @@ public:
       => if x or y is outside of interval, the position is reset
         ( e.g. by AssociationWidget::resetTextPositions() )
      */
-    static const int restrictPositionMin = 0;
-    static const int restrictPositionMax = 3000;
+    static const qreal restrictPositionMin = 0;
+    static const qreal restrictPositionMax = 3000;
 
 
     /**
@@ -58,7 +59,7 @@ public:
      * @param text The main text to display.
      * @param id The ID to assign (-1 will prompt a new ID.)
      */
-    explicit FloatingTextWidget(UMLView * view, Uml::Text_Role role = Uml::tr_Floating,
+    explicit FloatingTextWidget(UMLScene * scene, Uml::Text_Role role = Uml::tr_Floating,
                        const QString& text = "", Uml::IDType id = Uml::id_None);
 
     /**
@@ -272,7 +273,7 @@ protected:
     /**
      * Overrides method from UMLWidget.
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
 private:
     /**

@@ -20,7 +20,7 @@
 #include "linepath.h"
 //Added by qt3to4:
 #include <QPixmap>
-#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
 #include <QMoveEvent>
 
 class ListPopupMenu;
@@ -69,9 +69,9 @@ public:
     /**
      * Constructor.
      *
-     * @param view              The parent view of this widget.
+     * @param scene              The scene to which this association belongs.
      */
-    AssociationWidget(UMLView *view);
+    AssociationWidget(UMLScene *scene);
 
     /**
      * Constructor.
@@ -82,7 +82,7 @@ public:
      * @param WidgetB   Pointer to the role B widget for the association.
      * @param umlobject Pointer to the underlying UMLObject (if applicable.)
      */
-    AssociationWidget(UMLView *view, UMLWidget* WidgetA,
+    AssociationWidget(UMLScene *scene, UMLWidget* WidgetA,
                       Uml::Association_Type Type, UMLWidget* WidgetB,
                       UMLObject *umlobject = NULL);
 
@@ -317,7 +317,7 @@ public:
      * @param x         New X coordinate of the widget.
      * @param y         New Y coordinate of the widget.
      */
-    void widgetMoved(UMLWidget* widget, int x, int y);
+    void widgetMoved(UMLWidget* widget, qreal x, qreal y);
 
 
     /**
@@ -356,27 +356,27 @@ public:
     /**
      * Adds a break point (if left mouse button).
      */
-    void mouseDoubleClickEvent(QMouseEvent * me);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent * me);
 
     /**
      * Sets the association to be selected.
      */
-    void mousePressEvent(QMouseEvent * me);
+    void mousePressEvent(QGraphicsSceneMouseEvent * me);
 
     /**
      * Displays the right mouse buttom menu if right button is pressed.
      */
-    void mouseReleaseEvent(QMouseEvent * me);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent * me);
 
     /**
      * Moves the break point being dragged.
      */
-    void mouseMoveEvent(QMouseEvent * me);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent * me);
 
     /**
      * Returns true if the given point is on the Association.
      */
-    bool onAssociation(const QPoint & point);
+    bool onAssociation(const QPointF & point);
 
     /**
      * Returns true if the given point is on the connecting line to
@@ -384,7 +384,7 @@ public:
      * class attached, or if the given point is not on the connecting
      * line.
      */
-    bool onAssocClassLine(const QPoint & point);
+    bool onAssocClassLine(const QPointF & point);
 
     /**
      * Creates the association class connecting line.
@@ -410,17 +410,17 @@ public:
     /**
      * Moves all the mid points (all expcept start /end ) by the given amount.
      */
-    void moveMidPointsBy( int x, int y );
+    void moveMidPointsBy( qreal x, qreal y );
 
     /**
      * Moves the entire association by the given offset.
      */
-    void moveEntireAssoc( int x, int y );
+    void moveEntireAssoc( qreal x, qreal y );
 
     /**
      * Returns the bounding rectangle of all segments of the association.
      */
-    QRect getAssocLineRectangle();
+    QRectF getAssocLineRectangle();
 
     /**
      * Return the first font found being used by any child widget. (They
@@ -539,7 +539,7 @@ public:
      * @param textHeight  Height of the text.
      * @param tr          Uml::Text_Role of the text.
      */
-    void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+    void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
                           Uml::Text_Role tr);
 
     /**
@@ -687,7 +687,7 @@ private:
      *          8 = On diagonal 1 between Region4 and 1
      *          9 = On diagonal 1 and On diagonal 2 (the center)
      */
-    static Region findPointRegion(const QRect& Rect, int PosX, int PosY);
+    static Region findPointRegion(const QRectF& Rect, qreal PosX, qreal PosY);
 
     /**
      * Given a rectangle and a point, findInterceptOnEdge computes the
@@ -700,9 +700,9 @@ private:
      * constant.)
      * @todo This is buggy. Try replacing by findIntercept()
      */
-    static int findInterceptOnEdge(const QRect &rect, Region region, const QPoint &point);
+    static qreal findInterceptOnEdge(const QRectF &rect, Region region, const QPointF &point);
 
-    static QPoint findIntercept(const QRect &rect, const QPoint &point);
+    static QPointF findIntercept(const QRectF &rect, const QPointF &point);
 
     /**
      * Overrides moveEvent.
@@ -715,23 +715,26 @@ private:
      */
     Uml::Text_Role CalculateNameType(Uml::Text_Role defaultRoleType);
 
+    // [PORT] This isn't used, remove this.
+#if 0
     /**
      * Returns true if point (PosX, PosY) is close enough to any of the
      * association's segments.
      */
-    bool isPointInsideBoundaries(int PosX, int PosY, QPoint & SPoint,
+    bool isPointInsideBoundaries(qreal PosX, qreal PosY, QPointF & SPoint,
                                  uint & StartSegmentIndex, uint & EndSegmentIndex);
+#endif
 
     /**
      * Returns a point with interchanged X and Y coordinates.
      */
-    static QPoint swapXY(const QPoint &p);
+    static QPointF swapXY(const QPointF &p);
 
     /**
      * Returns the total length of the association's LinePath:
      * result = segment_1_length + segment_2_length + ... + segment_n_length
      */
-    float totalLength();
+    qreal totalLength();
 
     /**
      * Calculates which point of segment P1P2 has a distance equal to
@@ -740,7 +743,7 @@ private:
      * to Distance and if PX is not a point of the segment P1P2 then the
      * function returns (-1,-1).
      */
-    static QPoint calculatePointAtDistance(const QPoint &P1, const QPoint &P2, float Distance);
+    static QPointF calculatePointAtDistance(const QPointF &P1, const QPointF &P2, qreal Distance);
 
     /**
      * Calculates which point of a perpendicular line to segment P1P2 that
@@ -748,7 +751,7 @@ private:
      * Let's say such point is PX, the distance from P2 to PX must be equal
      * to Distance.
      */
-    static QPoint calculatePointAtDistanceOnPerpendicular(const QPoint &P1, const QPoint &P2, float Distance);
+    static QPointF calculatePointAtDistanceOnPerpendicular(const QPointF &P1, const QPointF &P2, qreal Distance);
 
     /**
      * Calculates the intersection between line P1P2 and a perpendicular
@@ -757,19 +760,19 @@ private:
      * P3. If this value is negative an error ocurred.
      * This method is not currently used.
      */
-    static float perpendicularProjection(const QPoint& P1, const QPoint& P2, const QPoint& P3, QPoint& ResultingPoint);
+    static qreal perpendicularProjection(const QPointF& P1, const QPointF& P2, const QPointF& P3, QPointF& ResultingPoint);
 
     /**
      * Return the mid point between p0 and p1
      */
-    static QPoint midPoint(const QPoint& p0, const QPoint& p1);
+    static QPointF midPoint(const QPointF& p0, const QPointF& p1);
 
     /**
      * Calculates the position of the text widget depending on the role
      * that widget is playing.
      * Returns the point at which to put the widget.
      */
-    QPoint calculateTextPosition(Uml::Text_Role role);
+    QPointF calculateTextPosition(Uml::Text_Role role);
 
     /**
      * Puts the text widget with the given role at the given position.
@@ -783,7 +786,7 @@ private:
      * Moves the text widget with the given role by the difference between
      * the two points.
      */
-    void setTextPositionRelatively(Uml::Text_Role role, const QPoint &oldPosition);
+    void setTextPositionRelatively(Uml::Text_Role role, const QPointF &oldPosition);
 
     /**
      * Returns the Region the widget to line intersection is for the given
@@ -838,7 +841,7 @@ private:
         /**
          * This role's old top left corner before moving.
          */
-        QPoint m_OldCorner;
+        QPointF m_OldCorner;
 
         /**
          * The region of this role's widget.
@@ -903,12 +906,12 @@ private:
     /**
      * Initialize attributes of this class at construction time.
      */
-    void init (UMLView *view);
+    void init (UMLScene *scene);
 
     /**
      * Auxiliary method for calculateEndingPoints().
      */
-    void doUpdates(int otherX, int otherY, Uml::Role_Type role);
+    void doUpdates(qreal otherX, qreal otherY, Uml::Role_Type role);
 
     /**
      * For internal purposes only.
@@ -922,7 +925,7 @@ private:
      * This is only valid if no other point id being moved and only
      * while the left mouse button is down.
      */
-    void checkPoints(const QPoint &p);
+    void checkPoints(const QPointF &p);
 
     /**
      * Returns true if the line path starts at the given widget.
@@ -955,51 +958,51 @@ private:
      * This segment is:
      * m_LinePath[m_unNameLineSegment] -- m_LinePath[m_unNameLineSegment+1]
      */
-    uint                m_unNameLineSegment;
+    uint m_unNameLineSegment;
     UMLDoc * m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
-    ListPopupMenu       *m_pMenu;
-    bool                m_bSelected;
-    int                 m_nMovingPoint;
+    ListPopupMenu *m_pMenu;
+    bool m_bSelected;
+    int m_nMovingPoint;
 
     /**
      * Position of Name floatingtext saved by saveIdealTextPositions()
      */
-    QPoint m_oldNamePoint;
+    QPointF m_oldNamePoint;
     /**
      * Position of role A multiplicity floatingtext saved by
      * saveIdealTextPositions()
      */
-    QPoint m_oldMultiAPoint;
+    QPointF m_oldMultiAPoint;
     /**
      * Position of role B multiplicity floatingtext saved by
      * saveIdealTextPositions()
      */
-    QPoint m_oldMultiBPoint;
+    QPointF m_oldMultiBPoint;
     /**
      * Position of role A changeability floatingtext saved by
      * saveIdealTextPositions()
      */
-    QPoint m_oldChangeAPoint;
+    QPointF m_oldChangeAPoint;
     /**
      * Position of role B changeability floatingtext saved by
      * saveIdealTextPositions()
      */
-    QPoint m_oldChangeBPoint;
+    QPointF m_oldChangeBPoint;
     /**
      * Position of role A name floatingtext saved by
      * saveIdealTextPositions()
      */
-    QPoint m_oldRoleAPoint;
+    QPointF m_oldRoleAPoint;
     /**
      * Position of role B name floatingtext saved by
      * saveIdealTextPositions()
      */
-    QPoint m_oldRoleBPoint;
+    QPointF m_oldRoleBPoint;
 
-    int         m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
-    Q3CanvasLine *m_pAssocClassLine;  ///< used for connecting assoc. class
+    int m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
+    QGraphicsLineItem *m_pAssocClassLine;  ///< used for connecting assoc. class
     /// selection adornment for the endpoints of the assoc. class connecting line
-    Q3CanvasRectangle *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
+    QGraphicsRectItem *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
 
     ClassifierWidget *m_pAssocClassWidget;  ///< used if we have an assoc. class
 

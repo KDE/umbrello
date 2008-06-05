@@ -21,8 +21,8 @@
 
 /**
  * This class is the graphical version of a UML Object Node.  A ObjectNodeWidget is created
- * by a @ref UMLView.  An ObjectNodeWidget belongs to only one @ref UMLView instance.
- * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
+ * by a @ref UMLScene.  An ObjectNodeWidget belongs to only one @ref UMLScene instance.
+ * When the @ref UMLScene instance that this class belongs to, it will be automatically deleted.
  *
  * The ObjectNodeWidget class inherits from the @ref UMLWidget class which adds most of the functionality
  * to this class.
@@ -50,7 +50,7 @@ public:
      * @param objectNodeType      The type of object node
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    explicit ObjectNodeWidget( UMLView * view, ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );
+    explicit ObjectNodeWidget( UMLScene * view, ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );
 
 
     /**
@@ -117,7 +117,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
     /**
      * Type of object node.

@@ -34,6 +34,7 @@
 #include "associationwidget.h"
 #include "messagewidget.h"
 #include "cmds.h"
+#include "umlscene.h"
 
 using namespace Uml;
 
@@ -58,7 +59,7 @@ UMLWidgetController::~UMLWidgetController()
 {
 }
 
-void UMLWidgetController::mousePressEvent(QMouseEvent *me)
+void UMLWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
 {
     // If there is a button pressed already ignore other press events
     if (m_leftButtonDown || m_middleButtonDown || m_rightButtonDown) {
@@ -88,7 +89,7 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me)
             m_inMoveArea = true;
         }
 
-        if (!m_widget->m_bSelected) {
+        if (!m_widget->isSelected()) {
             selectMultiple(me);
         } else if (!m_rightButtonDown) {
             m_wasSelected = false;
@@ -98,9 +99,9 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me)
 
     m_shiftPressed = false;
 
-    int count = m_widget->m_pView->getSelectCount(true);
+    int count = m_widget->m_pScene->getSelectCount(true);
     if (me->button() == Qt::LeftButton) {
-        if (m_widget->m_bSelected && count > 1) {
+        if (m_widget->isSelected() && count > 1) {
             //Single selection is made in release event if the widget wasn't moved
             m_inMoveArea = true;
             lastUpdate.start();
@@ -115,14 +116,14 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me)
     }
 
     //If widget wasn't selected, or it was selected but with other widgets also selected
-    if (!m_widget->m_bSelected || count > 1) {
+    if (!m_widget->isSelected() || count > 1) {
         selectSingle(me);
     } else if (!m_rightButtonDown) {
         m_wasSelected = false;
     }
 }
 
-void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
+void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
     if (!m_leftButtonDown)
         return;
@@ -142,9 +143,9 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
         setSelectionBounds();
     }
 
-    QPoint position = getPosition(me);
-    int diffX = position.x() - m_widget->getX();
-    int diffY = position.y() - m_widget->getY();
+    QPointF position = getPosition(me);
+    qreal diffX = position.x() - m_widget->getX();
+    qreal diffY = position.y() - m_widget->getY();
 
     if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
         //Move in Y axis
@@ -191,13 +192,13 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
 
     // Move any selected associations.
 
-    foreach(AssociationWidget* aw, m_widget->m_pView->getSelectedAssocs()) {
+    foreach(AssociationWidget* aw, m_widget->m_pScene->getSelectedAssocs()) {
         if (aw->getSelected()) {
             aw->moveEntireAssoc(diffX, diffY);
         }
     }
 
-    m_widget->m_pView->resizeCanvasToItems();
+    m_widget->m_pScene->resizeCanvasToItems();
     updateSelectionBounds(diffX, diffY);
 
 }
@@ -219,7 +220,7 @@ void UMLWidgetController::widgetMoved()
 }
 
 
-void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
+void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 {
     if (me->button() != Qt::LeftButton && me->button() != Qt::RightButton) {
         if (m_middleButtonDown) {
@@ -231,7 +232,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
             m_leftButtonDown = false;
 
             if (!m_moved && !m_resized) {
-                if (!m_shiftPressed && (m_widget->m_pView->getSelectCount(true) > 1)) {
+                if (!m_shiftPressed && (m_widget->m_pScene->getSelectCount(true) > 1)) {
                     selectSingle(me);
                 } else if (!m_wasSelected) {
                     deselect(me);
@@ -257,7 +258,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
 
             if (m_inResizeArea) {
                 m_inResizeArea = false;
-                m_widget->m_pView->setCursor(Qt::ArrowCursor);
+                m_widget->setCursor(Qt::ArrowCursor);
             } else {
                 m_inMoveArea = false;
             }
@@ -268,19 +269,22 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
             showPopupMenu(me);
         } else if (m_leftButtonDown) {
             //Cancel move/edit
-            QMouseEvent move(QMouseEvent::MouseMove,
-                             QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
+            // [PORT] The below code needs a proper port.
+#if 0
+            QGraphicsSceneMouseEvent move(QGraphicsSceneMouseEvent::MouseMove,
+                             QPointF(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
                              Qt::LeftButton, Qt::NoButton);
             mouseMoveEvent(&move);
-            QMouseEvent release(QMouseEvent::MouseButtonRelease,
-                                QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
+            QGraphicsSceneMouseEvent release(QGraphicsSceneMouseEvent::MouseButtonRelease,
+                                QPointF(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
                                 Qt::LeftButton, Qt::NoButton);
             mouseReleaseEvent(&release);
+#endif
         }
     }
 
     //TODO Copied from old code. Does it really work as intended?
-    UMLWidget *bkgnd = m_widget->m_pView->getWidgetAt(me->pos());
+    UMLWidget *bkgnd = m_widget->m_pScene->getWidgetAt(me->pos());
     if (bkgnd) {
         //uDebug() << "setting Z to " << bkgnd->getZ() + 1 << endl;
         m_widget->setZ(bkgnd->getZ() + 1);
@@ -294,7 +298,7 @@ UMLWidget* UMLWidgetController::getWidget()
     return m_widget;
 }
 
-void UMLWidgetController::mouseDoubleClickEvent(QMouseEvent *me)
+void UMLWidgetController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me)
 {
     if (me->button() != Qt::LeftButton) {
         return;
@@ -305,17 +309,19 @@ void UMLWidgetController::mouseDoubleClickEvent(QMouseEvent *me)
     doMouseDoubleClick(me);
 }
 
-bool UMLWidgetController::isInResizeArea(QMouseEvent *me)
+bool UMLWidgetController::isInResizeArea(QGraphicsSceneMouseEvent *me)
 {
-    const int m = 10;
+    const qreal m = 10;
 
+    //note The following directly represents the local position for the widget
+    qreal x = me->pos().x(), y = me->pos().y();
     if (m_widget->m_bResizable &&
-            me->x() >= (m_widget->getX() + m_widget->width() - m) &&
-            me->y() >= (m_widget->getY() + m_widget->height() - m)) {
-        m_widget->m_pView->setCursor(getResizeCursor());
+            x >= (m_widget->getWidth() - m) &&
+            y >= (m_widget->getHeight() - m)) {
+        m_widget->setCursor(getResizeCursor());
         return true;
     } else {
-        m_widget->m_pView->setCursor(Qt::ArrowCursor);
+        m_widget->setCursor(Qt::ArrowCursor);
         return false;
     }
 }
@@ -325,22 +331,22 @@ QCursor UMLWidgetController::getResizeCursor()
     return Qt::SizeFDiagCursor;
 }
 
-void UMLWidgetController::resizeWidget(int newW, int newH)
+void UMLWidgetController::resizeWidget(qreal newW, qreal newH)
 {
     m_widget->setSize(newW, newH);
 }
 
-void UMLWidgetController::moveWidgetBy(int diffX, int diffY)
+void UMLWidgetController::moveWidgetBy(qreal diffX, qreal diffY)
 {
     m_widget->setX(m_widget->getX() + diffX);
     m_widget->setY(m_widget->getY() + diffY);
 }
 
-void UMLWidgetController::constrainMovementForAllWidgets(int &/*diffX*/, int &/*diffY*/)
+void UMLWidgetController::constrainMovementForAllWidgets(qreal &/*diffX*/, qreal &/*diffY*/)
 {
 }
 
-void UMLWidgetController::doMouseDoubleClick(QMouseEvent *)
+void UMLWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent *)
 {
     if (!m_widget || !m_widget->m_pMenu)
         return;
@@ -350,52 +356,55 @@ void UMLWidgetController::doMouseDoubleClick(QMouseEvent *)
 
 void UMLWidgetController::resetSelection()
 {
-    m_widget->m_pView->clearSelected();
-    m_widget->m_pView->resetToolbar();
-    m_widget->setSelected(false);
-
+    m_widget->m_pScene->clearSelected();
+    m_widget->m_pScene->resetToolbar();
+    // The widget is already cleared from selection.
     m_wasSelected = false;
 }
 
-void UMLWidgetController::selectSingle(QMouseEvent *me)
+void UMLWidgetController::selectSingle(QGraphicsSceneMouseEvent *me)
 {
-    m_widget->m_pView->clearSelected();
+    m_widget->m_pScene->clearSelected();
 
     //Adds the widget to the selected widgets list, but as it has been cleared
     //only the current widget is selected
     selectMultiple(me);
 }
 
-void UMLWidgetController::selectMultiple(QMouseEvent *me)
+void UMLWidgetController::selectMultiple(QGraphicsSceneMouseEvent *me)
 {
-    m_widget->m_bSelected = true;
-    m_widget->setSelected(m_widget->m_bSelected);
-    m_widget->m_pView->setSelected(m_widget, me);
-
+    m_widget->m_pScene->setSelected(m_widget, me);
+    //scene->setSelected also sets the widgets local status to selected.
     m_wasSelected = true;
 }
 
-void UMLWidgetController::deselect(QMouseEvent *me)
+void UMLWidgetController::deselect(QGraphicsSceneMouseEvent *me)
 {
+    // [PORT] Strange, only flag is unselected while it is still in
+    // selected list. It is hard to reflect this behavior in
+    // QGraphicsScene. Investigate this issue properly.
+    m_widget->setSelected(false);
+#if 0
     m_widget->m_bSelected = false;
-    m_widget->setSelected(m_widget->m_bSelected);
-    m_widget->m_pView->setSelected(m_widget, me);
+    m_widget->setSelected(m_widget->isSelected());
+    m_widget->m_pScene->setSelected(m_widget, me);
     //m_wasSelected is false implicitly, no need to set it again
+#endif
 }
 
-void UMLWidgetController::saveWidgetValues(QMouseEvent *me)
+void UMLWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me)
 {
-    m_pressOffsetX = me->x() - m_widget->getX();
-    m_pressOffsetY = me->y() - m_widget->getY();
+    m_pressOffsetX = me->scenePos().x() - m_widget->getX();
+    m_pressOffsetY = me->scenePos().y() - m_widget->getY();
 
     m_prevX = m_oldX = m_widget->getX();
     m_prevY = m_oldY = m_widget->getY();
 
-    m_oldW = m_widget->width();
-    m_oldH = m_widget->height();
+    m_oldW = m_widget->getWidth();
+    m_oldH = m_widget->getHeight();
 }
 
-void UMLWidgetController::insertSaveValues(int _oldX, int _oldY, int X, int Y)
+void UMLWidgetController::insertSaveValues(qreal _oldX, qreal _oldY, qreal X, qreal Y)
 {
     m_widget->setX(X);
     m_widget->setY(Y);
@@ -403,38 +412,38 @@ void UMLWidgetController::insertSaveValues(int _oldX, int _oldY, int X, int Y)
     m_oldY = _oldY;
 }
 
-int UMLWidgetController::getOldX()
+qreal UMLWidgetController::getOldX()
 {
     return m_oldX;
 }
 
-int UMLWidgetController::getOldY()
+qreal UMLWidgetController::getOldY()
 {
     return m_oldY;
 }
 
-int UMLWidgetController::getOldW()
+qreal UMLWidgetController::getOldW()
 {
     return m_oldW;
 }
 
-int UMLWidgetController::getOldH()
+qreal UMLWidgetController::getOldH()
 {
     return m_oldH;
 }
 
 void UMLWidgetController::setSelectionBounds()
 {
-    if (m_widget->m_pView->getSelectCount() > 0) {
+    if (m_widget->m_pScene->getSelectCount() > 0) {
         m_selectedWidgetsList.clear();
-        m_widget->m_pView->getSelectedWidgets(m_selectedWidgetsList, false);
+        m_widget->m_pScene->getSelectedWidgets(m_selectedWidgetsList, false);
 
         updateSelectionBounds(1, 1);
     }
 }
 
 //TODO optimize it
-void UMLWidgetController::updateSelectionBounds(int diffX, int diffY)
+void UMLWidgetController::updateSelectionBounds(qreal diffX, qreal diffY)
 {
     if (diffX != 0) {
         m_minSelectedX = getSmallestX(m_selectedWidgetsList);
@@ -446,14 +455,14 @@ void UMLWidgetController::updateSelectionBounds(int diffX, int diffY)
     }
 }
 
-void UMLWidgetController::resize(QMouseEvent *me)
+void UMLWidgetController::resize(QGraphicsSceneMouseEvent *me)
 {
     UMLApp::app()->getDocument()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel resize."));
 
     m_resized = true;
 
-    int newW = m_oldW + me->x() - m_widget->getX() - m_pressOffsetX;
-    int newH = m_oldH + me->y() - m_widget->getY() - m_pressOffsetY;
+    qreal newW = m_oldW + me->scenePos().x() - m_widget->getX() - m_pressOffsetX;
+    qreal newH = m_oldH + me->scenePos().y() - m_widget->getY() - m_pressOffsetY;
 
     if ((me->modifiers() & Qt::ShiftModifier) && (me->modifiers() & Qt::ControlModifier)) {
         //Move in Y axis
@@ -467,13 +476,13 @@ void UMLWidgetController::resize(QMouseEvent *me)
     resizeWidget(newW, newH);
     m_widget->adjustAssocs(m_widget->getX(), m_widget->getY());
 
-    m_widget->m_pView->resizeCanvasToItems();
+    m_widget->m_pScene->resizeCanvasToItems();
 }
 
 //TODO refactor with AlignToolbar method.
-int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList)
+qreal UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList)
 {
-    int smallestX = 0;
+    qreal smallestX = 0;
     int i = 1;
     foreach(UMLWidget* widget , widgetList) {
         if (i == 1) {
@@ -491,9 +500,9 @@ int UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList)
 }
 
 //TODO refactor with AlignToolbar method.
-int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList)
+qreal UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList)
 {
-    int smallestY = 0;
+    qreal smallestY = 0;
     int i = 1;
     foreach(UMLWidget* widget , widgetList) {
         if (i == 1) {
@@ -512,9 +521,9 @@ int UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList)
 }
 
 //TODO refactor with AlignToolbar method.
-int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList)
+qreal UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList)
 {
-    int biggestX = 0;
+    qreal biggestX = 0;
 
     int i = 1;
     foreach(UMLWidget* widget , widgetList) {
@@ -534,9 +543,9 @@ int UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList)
 }
 
 //TODO refactor with AlignToolbar method.
-int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
+qreal UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
 {
-    int biggestY = 0;
+    qreal biggestY = 0;
     int i = 1;
     foreach(UMLWidget* widget , widgetList) {
         if (i == 1) {
@@ -554,7 +563,7 @@ int UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
     return biggestY;
 }
 
-QPoint UMLWidgetController::getPosition(QMouseEvent* me)
+QPointF UMLWidgetController::getPosition(QGraphicsSceneMouseEvent* me)
 {
     /*
     uDebug() << "me->x=" << me->x()
@@ -564,10 +573,15 @@ QPoint UMLWidgetController::getPosition(QMouseEvent* me)
         << " m_widget->getY=" << m_widget->getY() << ", m_oldY=" << m_oldY
         << ", m_pressOffsetY=" << m_pressOffsetY << endl;
      */
-    int newX = me->x() + m_widget->getX() - m_prevX - m_pressOffsetX;
-    int newY = me->y() + m_widget->getY() - m_prevY - m_pressOffsetY;
-    int maxX = m_widget->m_pView->canvas()->width();
-    int maxY = m_widget->m_pView->canvas()->height();
+
+    // [PORT] Verify this x and y values.
+    qreal x = me->scenePos().x(), y = me->scenePos().y();
+
+    qreal newX = x + m_widget->getX() - m_prevX - m_pressOffsetX;
+    qreal newY = y + m_widget->getY() - m_prevY - m_pressOffsetY;
+
+    qreal maxX = m_widget->m_pScene->width();
+    qreal maxY = m_widget->m_pScene->height();
 
     m_prevX = newX;
     m_prevY = newY;
@@ -588,25 +602,25 @@ QPoint UMLWidgetController::getPosition(QMouseEvent* me)
         //uDebug() << "got into cond.4";
         newY = maxY - (m_maxSelectedY - m_widget->getY());
     }
-    return QPoint(newX, newY);
+    return QPointF(newX, newY);
 }
 
-QPoint UMLWidgetController::getPositionDifference(QMouseEvent* me)
+QPointF UMLWidgetController::getPositionDifference(QGraphicsSceneMouseEvent* me)
 {
-    QPoint newPoint = getPosition(me);
-    const int diffX = newPoint.x() - m_widget->getX();
-    const int diffY = newPoint.y() - m_widget->getY();
-    return QPoint(diffX, diffY);
+    QPointF newPoint = getPosition(me);
+    const qreal diffX = newPoint.x() - m_widget->getX();
+    const qreal diffY = newPoint.y() - m_widget->getY();
+    return QPointF(diffX, diffY);
 }
 
-void UMLWidgetController::showPopupMenu(QMouseEvent *me)
+void UMLWidgetController::showPopupMenu(QGraphicsSceneMouseEvent *me)
 {
     //TODO why this condition?
     if (m_widget->m_pMenu) {
         return;
     }
     ListPopupMenu* menu = m_widget->setupPopupMenu();
-    menu->popup(me->globalPos());
+    menu->popup(me->screenPos());
 }
 
 bool UMLWidgetController::wasSizeChanged()

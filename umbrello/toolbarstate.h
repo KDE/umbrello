@@ -16,12 +16,12 @@
 #include <qobject.h>
 
 class QEvent;
-class QMouseEvent;
+class QGraphicsSceneMouseEvent;
 
 class AssociationWidget;
 class MessageWidget;
 class FloatingDashLineWidget;
-class UMLView;
+class UMLScene;
 class UMLWidget;
 
 
@@ -103,7 +103,7 @@ public:
      * @param ome The received event.
      * @see setCurrentElement()
      */
-    virtual void mousePress(QMouseEvent *ome);
+    virtual void mousePress(QGraphicsSceneMouseEvent *ome);
 
     /**
      * Handler for mouse release events.
@@ -114,7 +114,7 @@ public:
      *
      * @param ome The received event.
      */
-    virtual void mouseRelease(QMouseEvent* ome);
+    virtual void mouseRelease(QGraphicsSceneMouseEvent* ome);
 
     /**
      * Handler for mouse double click events.
@@ -124,14 +124,14 @@ public:
      *
      * @param ome The received event.
      */
-    virtual void mouseDoubleClick(QMouseEvent* ome);
+    virtual void mouseDoubleClick(QGraphicsSceneMouseEvent* ome);
 
     /**
      * Handler for mouse double click events.
      * Events are delivered to the specific methods, depending on where the cursor
      * was pressed. It uses the current widget or association set in press event,
      * if any.
-     * Then, the view is scrolled if needed (if the cursor is moved in any of the
+     * Then, the scene is scrolled if needed (if the cursor is moved in any of the
      * 30 pixels width area from left, top, right or bottom sides, and there is
      * more diagram currently not being shown in that direction).
      * This method is only called when mouse tracking is enabled and the mouse
@@ -139,12 +139,12 @@ public:
      *
      * @param ome The received event.
      */
-    virtual void mouseMove(QMouseEvent* ome);
+    virtual void mouseMove(QGraphicsSceneMouseEvent* ome);
 
 public slots:
 
     /**
-     * An association was removed from the UMLView.
+     * An association was removed from the UMLScene.
      * If the association removed was the current association, the current
      * association is set to 0.
      * It can be extended in subclasses if needed.
@@ -152,7 +152,7 @@ public slots:
     virtual void slotAssociationRemoved(AssociationWidget* association);
 
     /**
-     * A widget was removed from the UMLView.
+     * A widget was removed from the UMLScene.
      * If the widget removed was the current widget, the current widget is set
      * to 0.
      * It can be extended in subclasses if needed.
@@ -163,13 +163,13 @@ protected:
 
     /**
      * Creates a new ToolBarState.
-     * UMLView is set as parent of this QObject, and name is left empty.
+     * UMLScene is set as parent of this QObject, and name is left empty.
      * Protected to avoid classes other than derived to create objects of this
      * class.
      *
-     * @param umlView The UMLView to use.
+     * @param umlScene The UMLScene to use.
      */
-    ToolBarState(UMLView *umlView);
+    ToolBarState(UMLScene *umlScene);
 
     /**
      * Sets the current association or widget.
@@ -308,13 +308,13 @@ protected:
 
     /**
      * Sets m_pMouseEvent as the equivalent of the received event after transforming it
-     * using the inverse world matrix in the UMLView.
+     * using the inverse world matrix in the UMLScene.
      * This method is called at the beginning of the main event handler methods.
      *
      * @param ome The mouse event to transform.
      * @param type The type of the event.
      */
-    void setMouseEvent(QMouseEvent* ome, const QEvent::Type &type);
+    void setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Type &type);
 
     /**
      * Returns the AssociationWidget at the specified position, or null if there is none.
@@ -324,7 +324,7 @@ protected:
      * @return The AssociationWidget at the specified position, or null if there is none.
      * @todo Better handling for associations at the same point
      */
-    AssociationWidget* getAssociationAt(const QPoint& pos);
+    AssociationWidget* getAssociationAt(const QPointF& pos);
 
     /**
      * Returns the MessageWidget at the specified position, or null if there is none.
@@ -335,7 +335,7 @@ protected:
      * @return The MessageWidget at the specified position, or null if there is none.
      * @todo Better handling for messages at the same point
      */
-    MessageWidget* getMessageAt(const QPoint& pos);
+    MessageWidget* getMessageAt(const QPointF& pos);
 
     /**
      * Returns the FloatingDashLineWidget at the specified position, or null if there is none.
@@ -344,20 +344,20 @@ protected:
      * @param pos The position to get the floatingLine.
      * @return The MessageWidget at the specified position, or null if there is none.
      */
-    FloatingDashLineWidget* getFloatingLineAt(const QPoint& pos);
+    FloatingDashLineWidget* getFloatingLineAt(const QPointF& pos);
 
 
     /**
-     * The UMLView.
+     * The UMLScene.
      */
-    UMLView* m_pUMLView;
+    UMLScene* m_pUMLScene;
 
     /**
      * The mouse event currently in use.
      * This event is the equivalent of the received event after transforming it
-     * using the inverse world matrix in the UMLView.
+     * using the inverse world matrix in the UMLScene.
      */
-    QMouseEvent* m_pMouseEvent;
+    QGraphicsSceneMouseEvent* m_pMouseEvent;
 
 private:
 

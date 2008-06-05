@@ -19,10 +19,11 @@
 #include <kdebug.h>
 #include "component.h"
 #include "umlview.h"
+#include "umlscene.h"
 
 
-ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c)
-  : UMLWidget(view, c) {
+ComponentWidget::ComponentWidget(UMLScene * scene, UMLComponent *c)
+  : UMLWidget(scene, c) {
     init();
 }
 
@@ -30,10 +31,10 @@ void ComponentWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Component);
     setSize(100, 30);
     m_pMenu = 0;
-    //set defaults from m_pView
-    if (m_pView) {
+    //set defaults from m_pScene
+    if (m_pScene) {
         //check to see if correct
-        const Settings::OptionState& ops = m_pView->getOptionState();
+        const Settings::OptionState& ops = m_pScene->getOptionState();
         m_bShowStereotype = ops.classState.showStereoType;
     }
     //maybe loading and this may not be set.
@@ -58,15 +59,16 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColour() );
     } else {
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+        // [PORT] Replace with styleoption based code.
+        //p.setBrush( m_pScene->viewport()->palette().color(QPalette::Background) );
     }
 
-    const int w = width();
-    const int h = height();
+    const qreal w = getWidth();
+    const qreal h = getHeight();
     QFont font = UMLWidget::getFont();
     font.setBold(true);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    const int fontHeight = fm.lineSpacing();
+    const qreal fontHeight = fm.lineSpacing();
     QString name = getName();
     const QString stereotype = m_pObject->getStereotype();
 
@@ -100,26 +102,27 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
                    w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, name );
     }
 
-    if(m_bSelected) {
+    if(isSelected()) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
 
-QSize ComponentWidget::calculateSize() {
+QSizeF ComponentWidget::calculateSize()
+{
     if ( !m_pObject) {
-        return QSize(70, 70);
+        return QSizeF(70, 70);
     }
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    const int fontHeight = fm.lineSpacing();
+    const qreal fontHeight = fm.lineSpacing();
 
     QString name = m_pObject->getName();
     if ( UMLWidget::getIsInstance() ) {
         name = UMLWidget::getInstanceName() + " : " + name;
     }
 
-    int width = fm.width(name);
+    qreal width = fm.width(name);
 
-    int stereoWidth = 0;
+    qreal stereoWidth = 0;
     if (!m_pObject->getStereotype().isEmpty()) {
         stereoWidth = fm.width(m_pObject->getStereotype(true));
     }
@@ -128,12 +131,13 @@ QSize ComponentWidget::calculateSize() {
     width += COMPONENT_MARGIN * 6;
     width = 70>width ? 70 : width; //minumin width of 70
 
-    int height = (2*fontHeight) + (COMPONENT_MARGIN * 3);
+    qreal height = (2*fontHeight) + (COMPONENT_MARGIN * 3);
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
-void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement conceptElement = qDoc.createElement("componentwidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);

@@ -33,8 +33,8 @@ namespace Uml
     {
         setText(i18n("Resizing Widget."));
         UMLWidget * w = _UMLwc->getWidget();
-        W = w->width();
-        H = w->height();
+        W = w->getWidth();
+        H = w->getHeight();
         oldH = _UMLwc->getOldH();
         oldW = _UMLwc->getOldW();
     }

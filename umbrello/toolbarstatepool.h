@@ -57,7 +57,7 @@ protected:
      *
      * @param umlView The UMLView to use.
      */
-    ToolBarStatePool(UMLView *umlView);
+    ToolBarStatePool(UMLScene *umlScene);
 
 private:
 

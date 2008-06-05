@@ -34,7 +34,7 @@ public:
      * @param view              The parent of this NodeWidget.
      * @param n         The UMLNode this will be representing.
      */
-    NodeWidget(UMLView * view, UMLNode *n );
+    NodeWidget(UMLScene * view, UMLNode *n );
 
     /**
      * destructor
@@ -56,9 +56,9 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
-    static const int DEPTH = 30;  ///< pixels on Z axis
+    static const qreal DEPTH = 30;  ///< pixels on Z axis
 };
 
 #endif

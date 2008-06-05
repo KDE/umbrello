@@ -17,8 +17,8 @@
 
 #include <QList>
 
-class UMLView;
-class Q3CanvasLine;
+class UMLScene;
+class QGraphicsLineItem;
 
 /**
  * Arrow tool for select, move and resize widgets and associations.
@@ -29,16 +29,17 @@ class Q3CanvasLine;
  *
  * This is the default tool.
  */
-class ToolBarStateArrow : public ToolBarState {
+class ToolBarStateArrow : public ToolBarState
+{
     Q_OBJECT
 public:
 
     /**
      * Creates a new ToolBarStateArrow.
      *
-     * @param umlView The UMLView to use.
+     * @param umlScene The UMLScene to use.
      */
-    ToolBarStateArrow(UMLView *umlView);
+    ToolBarStateArrow(UMLScene *umlScene);
 
     /**
      * Destroys this ToolBarStateArrow.
@@ -144,12 +145,12 @@ protected:
     /**
      * The selection rectangle that contains the four lines of its borders.
      */
-    QList<Q3CanvasLine *> m_selectionRect;
+    QList<QGraphicsLineItem *> m_selectionRect;
 
     /**
      * The start position of the selection rectangle.
      */
-    QPoint m_startPosition;
+    QPointF m_startPosition;
 
 };
 

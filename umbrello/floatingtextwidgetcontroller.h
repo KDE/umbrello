@@ -58,9 +58,9 @@ protected:
      * Calls parent method and then saves the value of m_unconstrainedPositionX/Y
      * and m_movementDirectionX/Y.
      *
-     * @param me The QMouseEvent to get the offset from.
+     * @param me The QGraphicsSceneMouseEvent to get the offset from.
      */
-    virtual void saveWidgetValues(QMouseEvent *me);
+    virtual void saveWidgetValues(QGraphicsSceneMouseEvent *me);
 
     /**
      * Overridden from UMLWidgetController.
@@ -70,7 +70,7 @@ protected:
      * @param me The QMouseEVent to check.
      * @return true if the mouse is in resize area, false otherwise.
      */
-    virtual bool isInResizeArea(QMouseEvent *me);
+    virtual bool isInResizeArea(QGraphicsSceneMouseEvent *me);
 
     /**
      * Overridden from UMLWidgetController.
@@ -91,7 +91,7 @@ protected:
      * @param diffX The difference between current X position and new X position.
      * @param diffY The difference between current Y position and new Y position.
      */
-    virtual void moveWidgetBy(int diffX, int diffY);
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
 
     /**
      * Overridden from UMLWidgetController.
@@ -103,7 +103,7 @@ protected:
      * @param diffX The difference between current X position and new X position.
      * @param diffY The difference between current Y position and new Y position.
      */
-    virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
+    virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
 private:
 
@@ -117,9 +117,9 @@ private:
      *
      * @param diffX The difference between current X position and new X position.
      * @param diffY The difference between current Y position and new Y position.
-     * @return A QPoint with the constrained new position.
+     * @return A QPointF with the constrained new position.
      */
-    QPoint constrainPosition(int diffX, int diffY);
+    QPointF constrainPosition(qreal diffX, qreal diffY);
 
     /**
      * The floating text widget which uses the controller.
@@ -129,18 +129,18 @@ private:
     /**
      * The horizontal position the widget would have if its move wasn't constrained.
      */
-    int m_unconstrainedPositionX;
+    qreal m_unconstrainedPositionX;
 
     /**
      * The vertical position the widget would have if its move wasn't constrained.
      */
-    int m_unconstrainedPositionY;
+    qreal m_unconstrainedPositionY;
 
     /**
      * The X direction the widget was moved when the constrain was applied.
      * -1 means left, 1 means right.
      */
-    int m_movementDirectionX;
+    qreal m_movementDirectionX;
 
     /**
      * The Y direction the widget was moved when the constrain was applied.

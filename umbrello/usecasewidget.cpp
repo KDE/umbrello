@@ -19,7 +19,7 @@
 #include "umlview.h"
 
 
-UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o) : UMLWidget(view, o) {
+UseCaseWidget::UseCaseWidget(UMLScene * view, UMLUseCase *o) : UMLWidget(view, o) {
     UMLWidget::setBaseType(Uml::wt_UseCase);
     //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
     //                  Instead, it is done afterwards by UMLWidget::activate()
@@ -38,8 +38,8 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    const int w = width();
-    const int h = height();
+    const int w = getWidth();
+    const int h = getHeight();
     //int middleX = w / 2;
     const int textStartY = (h / 2) - (fontHeight / 2);
 
@@ -47,11 +47,11 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
     p.setPen(Qt::black);
     p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
     setPenFromSettings(p);
-    if(m_bSelected)
+    if(isSelected())
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize UseCaseWidget::calculateSize() {
+QSizeF UseCaseWidget::calculateSize() {
     const UMLWidget::FontType ft = ( m_pObject->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
     const int fontHeight = fm.lineSpacing();
@@ -61,7 +61,7 @@ QSize UseCaseWidget::calculateSize() {
 
     width += UC_MARGIN * 2;
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {

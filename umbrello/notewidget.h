@@ -53,7 +53,7 @@ public:
      * @param id                The unique id of the widget.
      *                  The default (-1) will prompt a new ID.
      */
-    explicit NoteWidget(UMLView * view, NoteWidget::NoteType noteType = Normal, Uml::IDType id = Uml::id_None );
+    explicit NoteWidget(UMLScene * scene, NoteWidget::NoteType noteType = Normal, Uml::IDType id = Uml::id_None );
 
     /**
      * destructor
@@ -75,7 +75,7 @@ public:
     /**
      * Overrides method from UMLWidget.
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
     /**
      * Returns the text in the box.
@@ -95,14 +95,14 @@ public:
      * Set the ID of the diagram hyperlinked to this note.
      * To switch off the hyperlink, set this to Uml::id_None.
      *
-     * @param viewID    ID of an UMLView.
+     * @param viewID    ID of an UMLScene.
      */
     void setDiagramLink(Uml::IDType viewID);
 
     /**
      * Return the ID of the diagram hyperlinked to this note.
      *
-     * @return  ID of an UMLView, or Uml::id_None if no
+     * @return  ID of an UMLScene, or Uml::id_None if no
      *          hyperlink is set.
      */
     Uml::IDType getDiagramLink() const;
@@ -120,12 +120,12 @@ public:
     /**
      * Override method from UMLWidget.
      */
-    void setX(int x);
+    void setX(qreal x);
 
     /**
      * Override method from UMLWidget.
      */
-    void setY(int y);
+    void setY(qreal y);
 
     /**
     * Display a dialogBox to allow the user to choose the note's type
@@ -163,7 +163,7 @@ protected:
     /**
      * Draws the text.  Auxiliary to draw().
      */
-    void drawText(QPainter * p = NULL, int offsetX = 0, int offsetY = 0);
+    void drawText(QPainter * p = NULL, qreal offsetX = 0, qreal offsetY = 0);
 private:
     /**
      * Initializes key variables for the class.

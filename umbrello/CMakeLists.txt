@@ -346,7 +346,8 @@ set(libumbrello_SRCS
    umlobjectlist.cpp
    umlrole.cpp
    umlview.cpp
-   umlviewcanvas.cpp
+   umlscene.cpp
+#   umlviewcanvas.cpp
    umlviewimageexporter.cpp
    umlviewimageexporterall.cpp
    umlviewimageexportermodel.cpp

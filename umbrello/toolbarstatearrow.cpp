@@ -20,10 +20,11 @@
 #include "uml.h"
 #include "umlview.h"
 #include "umlwidget.h"
+#include "umlscene.h"
 
 #include <kdebug.h>
 
-ToolBarStateArrow::ToolBarStateArrow(UMLView *umlView): ToolBarState(umlView)
+ToolBarStateArrow::ToolBarStateArrow(UMLScene *umlScene): ToolBarState(umlScene)
 {
     init();
 }
@@ -64,13 +65,16 @@ void ToolBarStateArrow::mousePressEmpty()
     if (m_selectionRect.count() == 0) {
         m_startPosition = m_pMouseEvent->pos();
 
+        qreal x = m_pMouseEvent->scenePos().x(), y = m_pMouseEvent->scenePos().y();
+
         for (int i = 0; i < 4; i++) {
-            Q3CanvasLine* line = new Q3CanvasLine(m_pUMLView->canvas());
-            line->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(),
-                            m_pMouseEvent->x(), m_pMouseEvent->y());
+            QGraphicsLineItem* line = new QGraphicsLineItem();
+            m_pUMLScene->addItem(line);
+
+            line->setLine(x, y, x, y);
             line->setPen(QPen(QColor("grey"), 0, Qt::DotLine));
             line->setVisible(true);
-            line->setZ(100);
+            line->setZValue(100);
             m_selectionRect.append(line);
         }
     }
@@ -81,7 +85,8 @@ void ToolBarStateArrow::mouseReleaseAssociation()
     getCurrentAssociation()->mouseReleaseEvent(m_pMouseEvent);
 }
 
-void ToolBarStateArrow::mouseReleaseWidget() {
+void ToolBarStateArrow::mouseReleaseWidget()
+{
     getCurrentWidget()->mouseReleaseEvent(m_pMouseEvent);
 }
 
@@ -92,7 +97,7 @@ void ToolBarStateArrow::mouseReleaseEmpty()
             delete m_selectionRect.takeFirst();
         m_selectionRect.clear();
     } else if (m_pMouseEvent->button() == Qt::RightButton) {
-        m_pUMLView->setMenu();
+        m_pUMLScene->setMenu();
     }
 }
 
@@ -118,25 +123,27 @@ void ToolBarStateArrow::mouseMoveWidget()
 
 void ToolBarStateArrow::mouseMoveEmpty()
 {
+    qreal x = m_pMouseEvent->scenePos().x(), y = m_pMouseEvent->scenePos().y();
     if (m_selectionRect.count() == 4) {
-        Q3CanvasLine* line = m_selectionRect.at(0);
-        line->setPoints(m_startPosition.x(), m_startPosition.y(),
-                        m_pMouseEvent->x(), m_startPosition.y());
+
+        QGraphicsLineItem* line = m_selectionRect.at(0);
+        line->setLine(m_startPosition.x(), m_startPosition.y(),
+                      x, m_startPosition.y());
 
         line = m_selectionRect.at(1);
-        line->setPoints(m_pMouseEvent->x(), m_startPosition.y(),
-                        m_pMouseEvent->x(), m_pMouseEvent->y());
+        line->setLine(x, m_startPosition.y(),
+                      x, y);
 
         line = m_selectionRect.at(2);
-        line->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(),
-                        m_startPosition.x(), m_pMouseEvent->y());
+        line->setLine(x, y,
+                      m_startPosition.x(), y);
 
         line = m_selectionRect.at(3);
-        line->setPoints(m_startPosition.x(), m_pMouseEvent->y(),
-                        m_startPosition.x(), m_startPosition.y());
+        line->setLine(m_startPosition.x(), y,
+                      m_startPosition.x(), m_startPosition.y());
 
-        m_pUMLView->selectWidgets(m_startPosition.x(), m_startPosition.y(),
-                                  m_pMouseEvent->x(), m_pMouseEvent->y());
+        m_pUMLScene->selectWidgets(m_startPosition.x(), m_startPosition.y(),
+                                   x, y);
     }
 }
 

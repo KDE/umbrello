@@ -32,7 +32,8 @@ class SeqLineWidget;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ObjectWidget : public UMLWidget {
+class ObjectWidget : public UMLWidget
+{
     Q_OBJECT
 public:
     /**
@@ -42,7 +43,7 @@ public:
      * @param o         The object it will be representing.
      * @param lid               The local id for the object.
      */
-    ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid = Uml::id_None );
+    ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid = Uml::id_None );
 
     /**
      * destructor
@@ -55,7 +56,7 @@ public:
      *
      * @param x The x-coordinate to be set.
      */
-    virtual void setX( int x );
+    virtual void setX( qreal x );
 
     /**
      * Sets the y-coordinate.
@@ -63,7 +64,7 @@ public:
      *
      * @param y The y-coordinate to be set.
      */
-    virtual void setY( int y );
+    virtual void setY( qreal y );
 
     /**
      * Returns the local ID for this object.  This ID is used so that
@@ -270,7 +271,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
     /**
      * Draw the object as an actor.

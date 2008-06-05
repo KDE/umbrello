@@ -28,8 +28,9 @@
 #include "umlview.h"
 #include "dialogs/statedialog.h"
 #include "listpopupmenu.h"
+#include "umlscene.h"
 
-StateWidget::StateWidget(UMLView * view, StateType stateType, Uml::IDType id)
+StateWidget::StateWidget(UMLScene * view, StateType stateType, Uml::IDType id)
         : UMLWidget(view, id) {
     UMLWidget::setBaseType(Uml::wt_State);
     m_StateType = stateType;
@@ -41,8 +42,8 @@ StateWidget::~StateWidget() {}
 
 void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
     setPenFromSettings(p);
-    const int w = width();
-    const int h = height();
+    const int w = getWidth();
+    const int h = getHeight();
     switch (m_StateType)
     {
     case Normal :
@@ -106,11 +107,11 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
         uWarning() << "Unknown state type:" << m_StateType;
         break;
     }
-    if(m_bSelected)
+    if(isSelected())
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize StateWidget::calculateSize() {
+QSizeF StateWidget::calculateSize() {
     int width = 10, height = 10;
     if ( m_StateType == Normal ) {
         const QFontMetrics &fm = getFontMetrics(FT_BOLD);
@@ -134,7 +135,7 @@ QSize StateWidget::calculateSize() {
         height += STATE_MARGIN * 2;
     }
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 void StateWidget::setName(const QString &strName) {
@@ -216,7 +217,7 @@ void StateWidget::showProperties() {
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    StateDialog dialog(m_pView, this);
+    StateDialog dialog(m_pScene->activeView(), this);
     if (dialog.exec() && dialog.getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);

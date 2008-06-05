@@ -22,10 +22,10 @@ class UMLUseCase;
 
 /**
  * This class is the graphical version of a UMLUseCase.  A UseCaseWidget is created
- * by a @ref UMLView.  An UseCaseWidget belongs to only one @ref UMLView instance.
- * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
+ * by a @ref UMLScene.  An UseCaseWidget belongs to only one @ref UMLScene instance.
+ * When the @ref UMLScene instance that this class belongs to, it will be automatically deleted.
  *
- * If the @ref UseCase class that this UseCaseWidget is displaying is deleted, the @ref UMLView will
+ * If the @ref UseCase class that this UseCaseWidget is displaying is deleted, the @ref UMLScene will
  * make sure that this instance is also deleted.
  *
  * The UseCaseWidget class inherits from the @ref UMLWidget class which adds most of the functionality
@@ -44,7 +44,7 @@ public:
      *  @param  view            The parent of the widget.
      *  @param  o               The UMLObject to represent.
      */
-    UseCaseWidget(UMLView * view, UMLUseCase *o);
+    UseCaseWidget(UMLScene * view, UMLUseCase *o);
 
 
     /**
@@ -68,7 +68,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 };
 
 #endif

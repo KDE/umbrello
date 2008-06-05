@@ -18,7 +18,7 @@
 #include "messagewidgetlist.h"
 
 // forward declarations
-class Q3CanvasRectangle;
+class QGraphicsRectItem;
 
 /**
  * General purpose widget utilities.
@@ -44,7 +44,7 @@ UMLWidget* findWidget(Uml::IDType id,
  * @param p   the base point
  * @return    the decoration point
  */
-Q3CanvasRectangle *decoratePoint(const QPoint& p);
+QGraphicsRectItem *decoratePoint(const QPointF& p);
 
 }
 

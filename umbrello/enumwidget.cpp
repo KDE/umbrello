@@ -27,19 +27,20 @@
 #include "uml.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
+#include "umlscene.h"
 
 
-EnumWidget::EnumWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o) {
+EnumWidget::EnumWidget(UMLScene* view, UMLObject* o) : UMLWidget(view, o) {
     init();
 }
 
 void EnumWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Enum);
     setSize(100, 30);
-    //set defaults from m_pView
-    if (m_pView) {
+    //set defaults from m_pScene
+    if (m_pScene) {
         //check to see if correct
-        const Settings::OptionState& ops = m_pView->getOptionState();
+        const Settings::OptionState& ops = m_pScene->getOptionState();
         m_bShowPackage = ops.classState.showPackage;
     } else {
         // For completeness only. Not supposed to happen.
@@ -55,14 +56,16 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     setPenFromSettings(p);
     if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColour());
-    else
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+    else {
+        // [PORT]
+        //p.setBrush( m_pScene->viewport()->palette().color(QPalette::Background) );
+    }
 
-    const int w = width();
-    const int h = height();
+    const qreal w = getWidth();
+    const qreal h = getHeight();
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
+    const qreal fontHeight  = fm.lineSpacing();
     QString name;
     if ( m_bShowPackage ) {
         name = m_pObject->getFullyQualifiedName();
@@ -88,7 +91,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     font.setItalic(false);
     p.setFont(font);
 
-    int y = fontHeight * 2;
+    qreal y = fontHeight * 2;
 
     setPenFromSettings(p);
 
@@ -106,29 +109,29 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
         y+=fontHeight;
     }
 
-    if (m_bSelected) {
+    if (isSelected()) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
 
-QSize EnumWidget::calculateSize() {
+QSizeF EnumWidget::calculateSize() {
     if (!m_pObject) {
         return UMLWidget::calculateSize();
     }
 
-    int width, height;
+    qreal width, height;
     QFont font = UMLWidget::getFont();
     font.setItalic(false);
     font.setUnderline(false);
     font.setBold(false);
     const QFontMetrics fm(font);
 
-    const int fontHeight = fm.lineSpacing();
+    const qreal fontHeight = fm.lineSpacing();
 
-    int lines = 1;//always have one line - for name
+    qreal lines = 1;//always have one line - for name
     lines++; //for the stereotype
 
-    const int numberOfEnumLiterals = ((UMLEnum*)m_pObject)->enumLiterals();
+    const qreal numberOfEnumLiterals = ((UMLEnum*)m_pObject)->enumLiterals();
 
     height = width = 0;
     //set the height of the enum
@@ -147,7 +150,7 @@ QSize EnumWidget::calculateSize() {
     } else {
         width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(getName()).width();
     }
-    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
+    qreal w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
 
 
     width = w > width?w:width;
@@ -156,14 +159,14 @@ QSize EnumWidget::calculateSize() {
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
     UMLClassifierListItem* listItem = 0;
     foreach (listItem , list ) {
-        int w = fm.width( listItem->getName() );
+        qreal w = fm.width( listItem->getName() );
         width = w > width?w:width;
     }
 
     //allow for width margin
     width += ENUM_MARGIN * 2;
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 void EnumWidget::slotMenuSelection(QAction* action) {

@@ -34,7 +34,8 @@ class UMLCategory;
  * @author Sharan Rao
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class CategoryWidget : public UMLWidget {
+class CategoryWidget : public UMLWidget
+{
 public:
 
     /**
@@ -43,7 +44,7 @@ public:
      *  @param  view            The parent of the widget.
      *  @param  o               The UMLObject to represent.
      */
-    CategoryWidget(UMLView * view, UMLCategory *o);
+    CategoryWidget(UMLScene * scene, UMLCategory *o);
 
 
     /**
@@ -67,7 +68,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
 public slots:
     /**

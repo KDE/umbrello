@@ -15,9 +15,10 @@
 #include <qevent.h>
 #include <kdebug.h>
 
-BoxWidget::BoxWidget(UMLView * view, Uml::IDType id)
-        : UMLWidget(view, id) {
-    setSize(100,80);
+BoxWidget::BoxWidget(UMLScene * scene, Uml::IDType id)
+        : UMLWidget(scene, id)
+{
+    setSize(100, 80);
     UMLWidget::setBaseType( Uml::wt_Box );
     WidgetBase::m_bUsesDiagramLineColour = false;  // boxes be black
     WidgetBase::m_LineColour = QColor("black");
@@ -29,9 +30,9 @@ BoxWidget::~BoxWidget() {
 
 void BoxWidget::draw(QPainter& p, int offsetX, int offsetY) {
     UMLWidget::setPenFromSettings(p);
-    p.drawRect( offsetX, offsetY, width(), height() );
+    p.drawRect( offsetX, offsetY, getWidth(), getHeight() );
 
-    if (m_bSelected) {
+    if (isSelected()) {
         drawSelected(&p, offsetX, offsetY);
     }
 }

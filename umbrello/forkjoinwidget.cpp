@@ -19,13 +19,16 @@
 //app includes
 #include "umlview.h"
 #include "listpopupmenu.h"
+#include "umlscene.h"
 
-ForkJoinWidget::ForkJoinWidget(UMLView * view, bool drawVertical, Uml::IDType id)
-  : BoxWidget(view, id), m_drawVertical(drawVertical) {
+ForkJoinWidget::ForkJoinWidget(UMLScene * scene, bool drawVertical, Uml::IDType id)
+  : BoxWidget(scene, id), m_drawVertical(drawVertical)
+{
     init();
 }
 
-void ForkJoinWidget::init() {
+void ForkJoinWidget::init()
+{
     WidgetBase::setBaseType( Uml::wt_ForkJoin );
     UMLWidget::updateComponentSize();
 }
@@ -33,26 +36,27 @@ void ForkJoinWidget::init() {
 ForkJoinWidget::~ForkJoinWidget() {
 }
 
-QSize ForkJoinWidget::calculateSize() {
+QSizeF ForkJoinWidget::calculateSize()
+{
     if (m_drawVertical) {
-        return QSize(4, 40);
+        return QSizeF(4, 40);
     } else {
-        return QSize(40, 4);
+        return QSizeF(40, 4);
     }
 }
 
 void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY) {
-    p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::black ));
+    p.fillRect( offsetX, offsetY, getWidth(), getHeight(), QBrush( Qt::black ));
 
-    if (m_bSelected) {
+    if (isSelected()) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
 
-void ForkJoinWidget::drawSelected(QPainter *, int /*offsetX*/, int /*offsetY*/) {
+void ForkJoinWidget::drawSelected(QPainter *, qreal /*offsetX*/, qreal /*offsetY*/) {
 }
 
-void ForkJoinWidget::constrain(int& width, int& height) {
+void ForkJoinWidget::constrain(qreal& width, qreal& height) {
     if (m_drawVertical) {
         if (width < 4)
             width = 4;

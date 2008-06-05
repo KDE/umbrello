@@ -29,7 +29,8 @@ class UMLView;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class BoxWidget : public UMLWidget {
+class BoxWidget : public UMLWidget
+{
 public:
 
     /**
@@ -38,7 +39,7 @@ public:
      * @param view              The parent to this widget.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    explicit BoxWidget(UMLView * view, Uml::IDType id = Uml::id_None);
+    explicit BoxWidget(UMLScene * scene, Uml::IDType id = Uml::id_None);
 
     /**
      * destructor

@@ -47,7 +47,7 @@ public:
      * @param a                 The widget to which this pin is attached.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-     PinWidget( UMLView * view, UMLWidget* a, Uml::IDType id = Uml::id_None );
+     PinWidget( UMLScene * view, UMLWidget* a, Uml::IDType id = Uml::id_None );
 
     /**
      *  destructor
@@ -75,14 +75,14 @@ public:
      * a sequence diagrams.  Takes into account the widget positions
      * it is related to.
      */
-    int getMinY();
+    qreal getMinY();
 
     /**
      * Returns the maximum height this widget should be set at on
      * a sequence diagrams.  Takes into account the widget positions
      * it is related to.
      */
-    int getMaxY();
+    qreal getMaxY();
 
     /**
      * Saves the widget to the "pinwidget" XMI element.
@@ -97,13 +97,13 @@ public:
     /**
      * Overrides mouseMoveEvent.
      */
-    void mouseMoveEvent(QMouseEvent *me);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
 
 protected:
     /**
      * Overrides method from UMLWidget
      */
-     QSize calculateSize();
+     QSizeF calculateSize();
 
 public slots:
 
@@ -125,10 +125,10 @@ private:
     /**
      * Save the value of the widget to know how to move the floatingtext
      */
-    int m_oldX;
-    int m_oldY;
+    qreal m_oldX;
+    qreal m_oldY;
 
-    int m_nY;
+    qreal m_nY;
 };
 
 #endif

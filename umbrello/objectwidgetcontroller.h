@@ -64,17 +64,17 @@ protected:
      * @param newW The new width for the widget.
      * @param newH The new height for the widget (isn't used).
      */
-    virtual void resizeWidget(int newW, int newH);
+    virtual void resizeWidget(qreal newW, qreal newH);
 
      /**
      * Overrides the standard operation.
      */
-    virtual void mousePressEvent(QMouseEvent *me);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
 
      /**
      * Overrides the standard operation.
      */
-    virtual void mouseMoveEvent(QMouseEvent* me);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* me);
 
     /**
      * Overridden from UMLWidgetController.
@@ -86,7 +86,7 @@ protected:
      * @param diffY The difference between current Y position and new Y position
      *                          (isn't used).
      */
-    virtual void moveWidgetBy(int diffX, int diffY);
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
 
     /**
      * Moves the destruction Box to a new position using the difference between the
@@ -95,7 +95,7 @@ protected:
      *
      * @param diffY The difference between current Y position and new Y position
      */
-    void moveDestructionBy (int diffY);
+    void moveDestructionBy (qreal diffY);
 
     /**
      * Overridden from UMLWidgetController.
@@ -105,7 +105,7 @@ protected:
      * @param diffX The difference between current X position and new X position.
      * @param diffY The difference between current Y position and new Y position.
      */
-    virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
+    virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
     /**
      * passed to true when a click occurred on the destruction box

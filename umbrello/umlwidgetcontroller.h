@@ -19,8 +19,8 @@
 #include "umlwidgetlist.h"
 
 class QCursor;
-class QMouseEvent;
-class QPoint;
+class QGraphicsSceneMouseEvent;
+class QPointF;
 
 class UMLWidget;
 
@@ -63,6 +63,7 @@ class UMLWidget;
  *
  * @author Umbrello UML Modeller Authors <uml-devel@lists.sourceforge.net>
  */
+// [PORT] This whole class needs a proper port.
 class UMLWidgetController
 {
 public:
@@ -104,9 +105,9 @@ public:
      * it's marked to be deselected when releasing the button (provided it wasn't
      * moved or resized).
      *
-     * @param me The QMouseEvent event.
+     * @param me The QGraphicsSceneMouseEvent event.
      */
-    virtual void mousePressEvent(QMouseEvent *me);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
 
     /**
      * Handles a mouse move event.
@@ -137,9 +138,9 @@ public:
      * not updated always to be easy on the CPU). Finally, the canvas is resized,
      * and selection bounds updated.
      *
-     * @param me The QMouseEvent event.
+     * @param me The QGraphicsSceneMouseEvent event.
      */
-    virtual void mouseMoveEvent(QMouseEvent* me);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* me);
 
     /**
      * Handles a mouse release event.
@@ -162,9 +163,9 @@ public:
      * event at the same position than the cursor was when pressed. Another left
      * button release is also sent.
      *
-     * @param me The QMouseEvent event.
+     * @param me The QGraphicsSceneMouseEvent event.
      */
-    virtual void mouseReleaseEvent(QMouseEvent * me);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * me);
 
     /**
      * Handles a mouse double click event.
@@ -173,21 +174,21 @@ public:
      * doMouseDoubleClick.
      * @see doMouseDoubleClick
      *
-     * @param me The QMouseEvent event.
+     * @param me The QGraphicsSceneMouseEvent event.
      */
-    virtual void mouseDoubleClickEvent(QMouseEvent *me);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me);
 
     virtual void widgetMoved();
 
-    int getOldX();
+    qreal getOldX();
 
-    int getOldY();
+    qreal getOldY();
 
-    int getOldH();
+    qreal getOldH();
 
-    int getOldW();
+    qreal getOldW();
 
-    void insertSaveValues(int _oldX, int _oldY, int X, int Y);
+    void insertSaveValues(qreal _oldX, qreal _oldY, qreal X, qreal Y);
 
     /**
      * Moves the widget to a new position using the difference between the
@@ -206,7 +207,7 @@ public:
      * @param diffX The difference between current X position and new X position.
      * @param diffY The difference between current Y position and new Y position.
      */
-    virtual void moveWidgetBy(int diffX, int diffY);
+    virtual void moveWidgetBy(qreal diffX, qreal diffY);
 
     /**
      * Resizes the widget.
@@ -219,7 +220,7 @@ public:
      * @param newW The new width for the widget.
      * @param newH The new height for the widget.
      */
-    virtual void resizeWidget(int newW, int newH);
+    virtual void resizeWidget(qreal newW, qreal newH);
 
     virtual UMLWidget* getWidget();
 
@@ -235,9 +236,9 @@ protected:
      * resize begins. However, parent method (that is, this method) must be
      * called in the overridden method.
      *
-     * @param me The QMouseEvent to get the offset from.
+     * @param me The QGraphicsSceneMouseEvent to get the offset from.
      */
-    virtual void saveWidgetValues(QMouseEvent *me);
+    virtual void saveWidgetValues(QGraphicsSceneMouseEvent *me);
 
     /**
      * Checks if the mouse is in resize area (right bottom corner), and sets
@@ -247,7 +248,7 @@ protected:
      * @param me The QMouseEVent to check.
      * @return true if the mouse is in resize area, false otherwise.
      */
-    virtual bool isInResizeArea(QMouseEvent *me);
+    virtual bool isInResizeArea(QGraphicsSceneMouseEvent *me);
 
     /**
      * Returns the cursor to be shown when resizing the widget.
@@ -275,7 +276,7 @@ protected:
      * @param diffX The difference between current X position and new X position.
      * @param diffY The difference between current Y position and new Y position.
      */
-    virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
+    virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
     /**
      * Executes the action for double click in the widget.
@@ -288,9 +289,9 @@ protected:
      * don't have an UMLObject representation) there's no need to override
      * the method, it simply does nothing.
      *
-     * @param me The QMouseEvent which triggered the double click event.
+     * @param me The QGraphicsSceneMouseEvent which triggered the double click event.
      */
-    virtual void doMouseDoubleClick(QMouseEvent *me);
+    virtual void doMouseDoubleClick(QGraphicsSceneMouseEvent *me);
 
     /**
      * Clears the selection, resets the toolbar and deselects the widget.
@@ -300,23 +301,23 @@ protected:
     /**
      * Selects the widget and clears the other selected widgets, if any.
      *
-     * @param me The QMouseEvent which made the selection.
+     * @param me The QGraphicsSceneMouseEvent which made the selection.
      */
-    void selectSingle(QMouseEvent *me);
+    void selectSingle(QGraphicsSceneMouseEvent *me);
 
     /**
      * Selects the widget and adds it to the list of selected widgets.
      *
-     * @param me The QMouseEvent which made the selection.
+     * @param me The QGraphicsSceneMouseEvent which made the selection.
      */
-    void selectMultiple(QMouseEvent *me);
+    void selectMultiple(QGraphicsSceneMouseEvent *me);
 
     /**
      * Deselects the widget and removes it from the list of selected widgets.
      *
-     * @param me The QMouseEvent which made the selection.
+     * @param me The QGraphicsSceneMouseEvent which made the selection.
      */
-    void deselect(QMouseEvent *me);
+    void deselect(QGraphicsSceneMouseEvent *me);
 
     /**
      * Fills m_selectedWidgetsList and sets the selection bounds ((m_min/m_max)X/Y attributes).
@@ -331,7 +332,7 @@ protected:
      * @param diffX The difference between current X position and new X position.
      * @param diffY The difference between current Y position and new Y position.
      */
-    void updateSelectionBounds(int diffX, int diffY);
+    void updateSelectionBounds(qreal diffX, qreal diffY);
 
     /**
      * Resizes the widget and adjusts the associations.
@@ -339,9 +340,9 @@ protected:
      * in resize area when pressed.
      * Resizing can be constrained to an specific axis using control and shift buttons.
      *
-     * @param me The QMouseEvent to get the values from.
+     * @param me The QGraphicsSceneMouseEvent to get the values from.
      */
-    void resize(QMouseEvent *me);
+    void resize(QGraphicsSceneMouseEvent *me);
 
     /**
      * Returns the smallest X position of all the widgets in the list.
@@ -349,7 +350,7 @@ protected:
      * @param widgetList A list with UMLWidgets.
      * @return The smallest X position.
      */
-    int getSmallestX(const UMLWidgetList &widgetList);
+    qreal getSmallestX(const UMLWidgetList &widgetList);
 
     /**
      * Returns the smallest Y position of all the widgets in the list.
@@ -357,7 +358,7 @@ protected:
      * @param widgetList A list with UMLWidgets.
      * @return The smallest Y position.
      */
-    int getSmallestY(const UMLWidgetList &widgetList);
+    qreal getSmallestY(const UMLWidgetList &widgetList);
 
     /**
      * Returns the biggest X position of all the widgets in the list.
@@ -365,7 +366,7 @@ protected:
      * @param widgetList A list with UMLWidgets.
      * @return The biggest X position.
      */
-    int getBiggestX(const UMLWidgetList &widgetList);
+    qreal getBiggestX(const UMLWidgetList &widgetList);
 
     /**
      * Returns the biggest Y position of all the widgets in the list.
@@ -373,7 +374,7 @@ protected:
      * @param widgetList A list with UMLWidgets.
      * @return The biggest Y position.
      */
-    int getBiggestY(const UMLWidgetList &widgetList);
+    qreal getBiggestY(const UMLWidgetList &widgetList);
 
     /**
      * Returns the adjusted position for the given mouse event.
@@ -381,26 +382,26 @@ protected:
      * m_widget->get{X,Y}(), the previous position m_old{X,Y}, and the
      * mouse press offset m_pressOffset{X,Y}.
      *
-     * @param me The QMouseEvent for which to get the adjusted position.
-     * @return A QPoint with the adjusted position.
+     * @param me The QGraphicsSceneMouseEvent for which to get the adjusted position.
+     * @return A QPointF with the adjusted position.
      */
-    QPoint getPosition(QMouseEvent *me);
+    QPointF getPosition(QGraphicsSceneMouseEvent *me);
 
     /**
-     * Returns a QPoint with the new X and Y position difference of the mouse event
+     * Returns a QPointF with the new X and Y position difference of the mouse event
      * respect to the position of the widget.
      *
-     * @param me The QMouseEvent to get the position to compare.
-     * @return A QPoint with the position difference.
+     * @param me The QGraphicsSceneMouseEvent to get the position to compare.
+     * @return A QPointF with the position difference.
      */
-    QPoint getPositionDifference(QMouseEvent *me);
+    QPointF getPositionDifference(QGraphicsSceneMouseEvent *me);
 
     /**
      * Shows the widget popup menu where the mouse event points to.
      *
-     * @param me The QMouseEvent which triggered the showing.
+     * @param me The QGraphicsSceneMouseEvent which triggered the showing.
      */
-    void showPopupMenu(QMouseEvent *me);
+    void showPopupMenu(QGraphicsSceneMouseEvent *me);
 
     /**
      * Checks if the size of the widget changed respect to the size that
@@ -446,28 +447,28 @@ protected:
      * The X/Y offset from the position of the cursor when it was pressed to the
      * upper left corner of the widget.
      */
-    int m_pressOffsetX, m_pressOffsetY;
+    qreal m_pressOffsetX, m_pressOffsetY;
 
     /**
      * The X/Y position the widget had when the movement started.
      */
-    int m_oldX, m_oldY;
+    qreal m_oldX, m_oldY;
 
     /**
      * The previous recorded X/Y position of the widget during its movement
      * This keeps changing as the widget is dragged along its path
      */
-    int m_prevX, m_prevY;
+    qreal m_prevX, m_prevY;
 
     /**
      * The width/height the widget had when the resize started.
      */
-    int m_oldW, m_oldH;
+    qreal m_oldW, m_oldH;
 
     /**
      * The minimum/maximum X/Y position of all the selected widgets.
      */
-    int m_minSelectedX, m_minSelectedY, m_maxSelectedX, m_maxSelectedY;
+    qreal m_minSelectedX, m_minSelectedY, m_maxSelectedX, m_maxSelectedY;
 
     /**
      * If shift or control button were pressed in mouse press event.

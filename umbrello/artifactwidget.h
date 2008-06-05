@@ -38,7 +38,7 @@ public:
      * @param view              The parent of this ArtifactWidget.
      * @param a         The Artifact this widget will be representing.
      */
-    ArtifactWidget(UMLView *view, UMLArtifact *a);
+    ArtifactWidget(UMLScene *scene, UMLArtifact *a);
 
     /**
      * destructor
@@ -60,7 +60,7 @@ protected:
     /**
      * Overrides method from UMLWidget.
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
 private:
     /**
@@ -71,12 +71,12 @@ private:
     /**
      * calculates the size when drawing as an icon (it's the same size for all icons)
      */
-    QSize calculateIconSize();
+    QSizeF calculateIconSize();
 
     /**
      * calculates the size for drawing as a box
      */
-    QSize calculateNormalSize();
+    QSizeF calculateNormalSize();
 
     /**
      * draw as a file icon

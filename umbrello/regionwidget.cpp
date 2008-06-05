@@ -29,7 +29,7 @@
 #include "umlview.h"
 #include "floatingtextwidget.h"
 
-RegionWidget::RegionWidget(UMLView * view, Uml::IDType id)
+RegionWidget::RegionWidget(UMLScene * view, Uml::IDType id)
         : UMLWidget(view, id) {
      UMLWidget::setBaseType( Uml::wt_Region );
     updateComponentSize();
@@ -40,8 +40,8 @@ RegionWidget::~RegionWidget() {}
 void RegionWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
-    const int w = width();
-    const int h = height();
+    const int w = getWidth();
+    const int h = getHeight();
     QPen pen = p.pen();
     {
         setPenFromSettings(p);
@@ -51,11 +51,11 @@ void RegionWidget::draw(QPainter & p, int offsetX, int offsetY)
         p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
 
     }
-    if(m_bSelected)
+    if(isSelected())
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize RegionWidget::calculateSize() {
+QSizeF RegionWidget::calculateSize() {
 
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -68,7 +68,7 @@ QSize RegionWidget::calculateSize() {
     width  += REGION_MARGIN * 2;
     height += REGION_MARGIN * 2;
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 void RegionWidget::setName(const QString &strName) {

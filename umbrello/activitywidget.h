@@ -55,7 +55,7 @@ public:
      * @param activityType      The type of activity.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    explicit ActivityWidget( UMLView * view, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
+    explicit ActivityWidget( UMLScene * scene, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
 
 
     /**
@@ -66,12 +66,12 @@ public:
     /**
      * Overrides the standard paint event.
      */
-    void draw(QPainter & p, int offsetX, int offsetY);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *);
 
     /**
      * Overrides Method from UMLWidget.
      */
-    void constrain(int& width, int& height);
+    void constrain(qreal& width, qreal& height);
 
     /**
      * Returns the type of activity.
@@ -135,7 +135,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
     /**
      * Type of activity.

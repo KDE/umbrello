@@ -13,7 +13,7 @@
 #define UMLWIDGET_H
 
 #include <QtCore/QDateTime>
-#include <q3canvas.h>
+#include <QGraphicsItem>
 #include <QtGui/QFont>
 
 #include "umlnamespace.h"
@@ -24,7 +24,7 @@
 class UMLWidgetController;
 
 class UMLObject;
-class UMLView;
+class UMLScene;
 class UMLDoc;
 class ListPopupMenu;
 class IDChangeLog;
@@ -32,6 +32,7 @@ class IDChangeLog;
 class QPainter;
 class QMoveEvent;
 class QFontMetrics;
+class QAction;
 
 /**
  * This is the base class for nearly all graphical widgets.
@@ -40,7 +41,7 @@ class QFontMetrics;
  * @author  Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLWidget : public WidgetBase, public Q3CanvasRectangle
+class UMLWidget : public WidgetBase, public QGraphicsItem
 {
     Q_OBJECT
 public:
@@ -49,21 +50,21 @@ public:
     /**
      * Creates a UMLWidget object.
      *
-     * @param view The view to be displayed on.
+     * @param scene The scene to be displayed on.
      * @param o The UMLObject to represent.
      * @param widgetController The UMLWidgetController of this UMLWidget
      */
-    UMLWidget( UMLView * view, UMLObject * o, UMLWidgetController *widgetController = 0 );
+    UMLWidget(UMLScene * scene, UMLObject * o, UMLWidgetController *widgetController = 0);
 
     /**
      * Creates a UMLWidget object.
      *
-     * @param view The view to be displayed on.
+     * @param scene The scene to be displayed on.
      * @param id The id of the widget.
      *  The default value (id_None) will prompt generation of a new ID.
      * @param widgetController The UMLWidgetController of this UMLWidget
      */
-    explicit UMLWidget( UMLView * view, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0 );
+    explicit UMLWidget(UMLScene * scene, Uml::IDType id = Uml::id_None, UMLWidgetController *widgetController = 0);
 
     /**
      * Standard deconstructor
@@ -89,17 +90,17 @@ public:
      * Calls the method with the same name in UMLWidgetController.
      * @see UMLWidgetController#mouseReleaseEvent
      *
-     * @param me The QMouseEvent event.
+     * @param me The QGraphicsSceneMouseEvent event.
      */
-    virtual void mouseReleaseEvent(QMouseEvent * me);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * me);
 
     /**
      * Calls the method with the same name in UMLWidgetController.
      * @see UMLWidgetController#mouseDoubleClickEvent
      *
-     * @param me The QMouseEvent event.
+     * @param me The QGraphicsSceneMouseEvent event.
      */
-    virtual void mouseDoubleClickEvent(QMouseEvent *me);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me);
 
     /**
      * Set the status of using fill color.
@@ -160,9 +161,9 @@ public:
      * Calls the method with the same name in UMLWidgetController.
      * @see UMLWidgetController#mouseMoveEvent
      *
-     * @param me The QMouseEvent event.
+     * @param me The QGraphicsSceneMouseEvent event.
      */
-    virtual void mouseMoveEvent(QMouseEvent* me);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* me);
 
     /**
      * Returns whether this is a line of text.
@@ -174,32 +175,29 @@ public:
         return false;
     }
 
+// [PORT]
+#if 0
     /**
      * Sets the state of whether the widget is selected.
      *
      * @param _select The state of whether the widget is selected.
      */
-    virtual void setSelected(bool _select);
+    void setSelected(bool _select);
+#endif
 
-    /**
-     * Returns the state of whether the widget is selected.
-     *
-     * @return Returns the state of whether the widget is selected.
-     */
-    bool getSelected() const {
-        return m_bSelected;
-    }
-
+    // [PORT]
+#if 0
     void setSelectedFlag(bool _select) {
         m_bSelected = _select;
     }
+#endif
 
     /**
-     * Sets the view the widget is on.
+     * Sets the scene the widget is on.
      *
-     * @param v The view the widget is on.
+     * @param sv The scene the widget is on.
      */
-    void setView(UMLView * v);
+    void setScene(UMLScene * s);
 
     /**
      * Activate the object after serializing it from a QDataStream
@@ -213,22 +211,12 @@ public:
      * Returns 0 if the given point is not in the boundaries of the widget,
      * else returns a number which is proportional to the size of the widget.
      *
-     * @param p Point to be checked.
+     * @param p Point to be checked in scene coordinates.
      *
      * @return 0 if the given point is not in the boundaries of the widget;
      *         (width()+height())/2 if the point is within the boundaries.
      */
-    virtual int onWidget(const QPoint & p);
-
-    /**
-     * Draws the UMLWidget on the given paint device
-     *
-     * @param p The painter for the drawing device
-     * @param offsetX x position to start the drawing.
-     * @param offsetY y position to start the drawing.
-     *
-     */
-    virtual void draw(QPainter & p, int offsetX, int offsetY) = 0;
+    virtual qreal onWidget(const QPointF & p);
 
     /**
      * Set the pen.
@@ -240,12 +228,14 @@ public:
      *
      * @param font Font to be set.
      */
-    virtual void setFont( QFont font );
+    virtual void setFont(QFont font);
 
     /**
      *  Returns the font the widget is to use.
      */
-    virtual QFont getFont() const;
+    virtual QFont getFont() const {
+        return m_Font;
+    }
 
     /**
      * Returns whether we triggered the update of position movement.
@@ -264,7 +254,7 @@ public:
      *
      * @param x The x-coordinate to be set.
      */
-    virtual void setX( int x );
+    virtual void setX(qreal x);
 
     /**
      * Sets the y-coordinate.
@@ -273,56 +263,61 @@ public:
      *
      * @param y The y-coordinate to be set.
      */
-    virtual void setY( int y );
+    virtual void setY(qreal y);
 
     /**
      * Sets the z-coordinate.
      *
      * @param z The z-coordinate to be set.
      */
-    virtual void setZ( int z );
+    virtual void setZ(qreal z);
 
     /**
      * Gets the x-coordinate.
      */
-    int getX() const {
-        return (int)Q3CanvasItem::x();
+    qreal getX() const {
+        return x();
     }
 
     /**
      * Gets the y-coordinate.
      */
-    int getY() const {
-        return (int)Q3CanvasItem::y();
+    qreal getY() const {
+        return y();
     }
 
     /**
      * Gets the z-coordinate.
      */
-    int getZ() const {
-        return (int)Q3CanvasItem::z();
+    qreal getZ() const {
+        return zValue();
     }
 
     /**
      * Returns the height of widget.
      */
-    int getHeight() const {
-        return Q3CanvasRectangle::height();
+    qreal getHeight() const {
+        return m_boundingRect.height();
     }
 
     /**
      * Returns the width of the widget.
      */
-    int getWidth() const {
-        return Q3CanvasRectangle::width();
+    qreal getWidth() const {
+        return m_boundingRect.width();
     }
+
+    QRectF boundingRect() const {
+        return m_boundingRect;
+    }
+
 
     /**
      * Sets the size.
-     * If m_pView->getSnapComponentSizeToGrid() is true, then
+     * If m_pScene->getSnapComponentSizeToGrid() is true, then
      * set the next larger size that snaps to the grid.
      */
-    void setSize(int width,int height);
+    void setSize(qreal width, qreal height);
 
     /**
      * Set m_bIgnoreSnapToGrid.
@@ -332,13 +327,19 @@ public:
     /**
      * Return the value of m_bIgnoreSnapToGrid.
      */
-    bool getIgnoreSnapToGrid() const;
+    bool getIgnoreSnapToGrid() const {
+        return m_bIgnoreSnapToGrid;
+    }
 
     /**
-     * Move the widget by an X and Y offset relative to
-     * the current position.
+     * Move the widget by an X and Y offset relative to the current
+     * position and also adjusts the the associations related to this
+     * widget.
      */
-    void moveByLocal(int dx, int dy);
+    // [PORT]
+    // TODO: Use QGraphicsItem::ItemPositionHasChange instead
+    //to inform connected associations about the position change.
+    void moveByLocal(qreal dx, qreal dy);
 
     /**
      * Removes an already created association from the list of
@@ -378,6 +379,8 @@ public:
      */
     void setUsesDiagramFillColour(bool usesDiagramFillColour) {
         m_bUsesDiagramFillColour = usesDiagramFillColour;
+        // [PORT]
+        update();
     }
 
     /**
@@ -385,6 +388,8 @@ public:
      */
     void setUsesDiagramUseFillColour(bool usesDiagramUseFillColour) {
         m_bUsesDiagramUseFillColour = usesDiagramUseFillColour;
+        // [PORT]
+        update();
     }
 
     /**
@@ -469,7 +474,7 @@ public:
      * @param x The x-coordinate.
      * @param y The y-coordinate.
      */
-    virtual void adjustAssocs(int x, int y);
+    virtual void adjustAssocs(qreal x, qreal y);
 
     /**
      * Adjusts all unselected associations with the given co-ordinates
@@ -477,7 +482,7 @@ public:
      * @param x The x-coordinate.
      * @param y The y-coordinate.
      */
-    void adjustUnselectedAssocs(int x, int y);
+    void adjustUnselectedAssocs(qreal x, qreal y);
 
     /**
      * Set the m_bActivated flag of a widget but does not perform the Activate method
@@ -515,9 +520,9 @@ public:
      * Calls the method with the same name in UMLWidgetController.
      * @see UMLWidgetController#mousePressEvent
      *
-     * @param me The QMouseEvent event.
+     * @param me The QGraphicsSceneMouseEvent event.
      */
-    virtual void mousePressEvent(QMouseEvent *me);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
 
     /**
      * Overrides the standard operation.
@@ -526,14 +531,17 @@ public:
      */
     virtual void moveEvent(QMoveEvent *me);
 
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
-    virtual bool loadFromXMI( QDomElement & qElement );
+    virtual bool loadFromXMI(QDomElement & qElement);
 
     /**
      * Returns the UMLWdigetController for this widget.
      */
     UMLWidgetController* getWidgetController();
+
+    // [PORT] Make this pure vitual once all other widgets are ported.
+    void paint(QPainter *, const QStyleOptionGraphicsItem*, QWidget *) {};
 
 protected:
     /**
@@ -545,7 +553,7 @@ protected:
      * @param width  input value, may be modified by the constraint
      * @param height input value, may be modified by the constraint
      */
-    virtual void constrain(int& width, int& height);
+    virtual void constrain(qreal& width, qreal& height);
 
     /**
      * Draws that the widget is selected.
@@ -554,22 +562,17 @@ protected:
      * @param offsetX The x-coordinate for drawing.
      * @param offsetY The y-coordinate for drawing.
      */
-    virtual void drawSelected(QPainter * p, int offsetX, int offsetY);
-
-    /**
-     * Overrides default method.
-     *
-     * @param p Device on which the shape has to be drawn.
-     */
-    virtual void drawShape(QPainter &p );
+    virtual void drawSelected(QPainter * p, qreal offsetx = 0, qreal offsety = 0);
 
     /**
      * Compute the minimum possible width and height.
      * The default implementation returns width=20, height=20.
      *
-     * @return QSize(mininum_width, minimum_height)
+     * @return QSizeF(mininum_width, minimum_height)
+     * @todo Probably rename this as minimumSize() or sizeHint() or somthing which
+     * gives more clue about this method.
      */
-    virtual QSize calculateSize();
+    virtual QSizeF calculateSize();
 
     typedef enum {
         FT_NORMAL = 0,
@@ -651,15 +654,21 @@ protected:
      */
     bool m_bShowStereotype;
 
+    /**
+     * The bounding rectangle of this widget.
+     */
+    QRectF m_boundingRect;
+
     ///////////////// End of Data Loaded/Saved //////////////////////////
 
-    bool m_bSelected, m_bStartMove;
+    bool m_bStartMove;
 
-    int            m_nPosX;
-    int            m_origZ;
+    // [PORT] Check whether to do int - qreal conversion.
+    int m_nPosX;
+    qreal m_origZ;
     ListPopupMenu *m_pMenu;
-    UMLDoc        *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
-    bool           m_bResizable;
+    UMLDoc *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
+    bool m_bResizable;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
 
     /**
@@ -679,10 +688,12 @@ protected:
      */
     UMLWidgetController *m_widgetController;
 
+    static const qreal minimumWidgetSize;
+
 public slots:
 
     /**
-     * This slot is entered when an event has occurred on the views display,
+     * This slot is entered when an event has occurred on the scenes display,
      * most likely a mouse event.  Before it sends out that mouse event all
      * children should make sure that they don't have a menu active or there
      * could be more than one popup menu displayed.
@@ -712,25 +723,25 @@ public slots:
     /**
      * Captures a color change signal.
      *
-     * @param viewID The id of the object behind the widget.
+     * @param sceneID The id of the object behind the widget.
      */
-    virtual void slotColorChanged(Uml::IDType viewID);
+    virtual void slotColorChanged(Uml::IDType sceneID);
 
     /**
      * Captures a linewidth change signal.
      *
-     * @param viewID The id of the object behind the widget.
+     * @param sceneID The id of the object behind the widget.
      */
-    virtual void slotLineWidthChanged(Uml::IDType viewID);
+    virtual void slotLineWidthChanged(Uml::IDType sceneID);
 
     /**
-     *   Captures a sigClearAllSelected signal sent by @ref UMLView
+     *   Captures a sigClearAllSelected signal sent by @ref UMLScene
      */
     void slotClearAllSelected();
 
     /**
      * Tells the widget to snap to grid.
-     * Will use the grid settings of the @ref UMLView it belongs to.
+     * Will use the grid settings of the @ref UMLScene it belongs to.
      */
     void slotSnapToGrid();
 

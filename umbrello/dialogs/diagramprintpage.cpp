@@ -31,6 +31,7 @@
 #include "../umlviewlist.h"
 #include "../umlnamespace.h"
 #include "../model_utils.h"
+#include "umlscene.h"
 
 DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(parent), m_pDoc(m_pDoc) {
     int margin = fontMetrics().height();
@@ -79,10 +80,10 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(
     select -> addWidget(m_pSelectLB);
     m_pSelectLB -> setEnabled(false);
     m_pSelectLB -> setSelectionMode(Q3ListBox::Multi);
-    m_pSelectLB -> insertItem(UMLApp::app()->getCurrentView()->getName());
+    m_pSelectLB -> insertItem(UMLApp::app()->getCurrentView()->umlScene()->getName());
     m_pSelectLB -> setSelected(0, true);
     m_nIdList.clear();
-    m_nIdList.append(UMLApp::app()->getCurrentView()->getID());
+    m_nIdList.append(UMLApp::app()->getCurrentView()->umlScene()->getID());
 
 
 
@@ -124,7 +125,7 @@ QString DiagramPrintPage::printUmlDiagram(int sel){
         if(m_pSelectLB -> isSelected(i)) {
             if(count==sel) {
                 UMLView *view = (UMLView *)m_pDoc -> findView(m_nIdList[i]);
-                QString sID = QString("%1").arg(ID2STR(view -> getID()));
+                QString sID = QString("%1").arg(ID2STR(view->umlScene()->getID()));
                 return sID;
             }
             count++;
@@ -153,14 +154,15 @@ void DiagramPrintPage::slotClicked(int id) {
     // clear list with diagrams to print
     m_nIdList.clear();
 
+    UMLScene *currentScene = UMLApp::app()->getCurrentView()->umlScene();
     switch(id) {
     case Current:
         m_pTypeCB -> setEnabled(false);
         m_pSelectLB -> setEnabled(false);
         m_pSelectLB -> clear();
-        m_pSelectLB -> insertItem(UMLApp::app()->getCurrentView()->getName());
+        m_pSelectLB -> insertItem(currentScene->getName());
         m_pSelectLB -> setSelected(0, true);
-        m_nIdList.append(UMLApp::app()->getCurrentView()->getID());
+        m_nIdList.append(currentScene->getID());
         break;
 
     case All:
@@ -169,8 +171,8 @@ void DiagramPrintPage::slotClicked(int id) {
         m_pSelectLB -> setEnabled(false);
         m_pSelectLB -> clear();
         foreach ( UMLView * view , list ) {
-            m_pSelectLB -> insertItem(view -> getName());
-            m_nIdList.append(view -> getID());
+            m_pSelectLB -> insertItem(view->umlScene()->getName());
+            m_nIdList.append(view->umlScene()->getID());
         }
         m_pSelectLB -> selectAll(true);
         break;
@@ -180,8 +182,8 @@ void DiagramPrintPage::slotClicked(int id) {
         m_pSelectLB -> setEnabled(true);
         m_pSelectLB -> clear();
         foreach ( UMLView * view , list) {
-            m_pSelectLB -> insertItem(view -> getName());
-            m_nIdList.append(view -> getID());
+            m_pSelectLB -> insertItem(view->umlScene()->getName());
+            m_nIdList.append(view->umlScene()->getID());
         }
         break;
 
@@ -190,9 +192,9 @@ void DiagramPrintPage::slotClicked(int id) {
         m_pSelectLB -> setEnabled(true);
         m_pSelectLB -> clear();
         foreach ( UMLView * view , list) {
-            if(view -> getType() == m_ViewType) {
-                m_pSelectLB -> insertItem(view -> getName());
-                m_nIdList.append(view -> getID());
+            if(view->umlScene()->getType() == m_ViewType) {
+                m_pSelectLB -> insertItem(view->umlScene()->getName());
+                m_nIdList.append(view->umlScene()->getID());
             }
         }
         m_pSelectLB -> selectAll(true);
@@ -211,9 +213,9 @@ void DiagramPrintPage::slotActivated(int index) {
 
     m_nIdList.clear();
     foreach ( UMLView * view , list) {
-        if(view -> getType() == m_ViewType) {
-            m_pSelectLB -> insertItem(view -> getName());
-            m_nIdList.append(view -> getID());
+        if(view->umlScene()->getType() == m_ViewType) {
+            m_pSelectLB -> insertItem(view->umlScene()->getName());
+            m_nIdList.append(view->umlScene()->getID());
         }
     }
     m_pSelectLB -> selectAll(true);

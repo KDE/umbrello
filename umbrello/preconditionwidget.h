@@ -23,8 +23,8 @@ class ObjectWidget;
 
 /**
  * This class is the graphical version of a UML Precondition.  A PreconditionWidget is created
- * by a @ref UMLView.  An PreconditionWidget belongs to only one @ref UMLView instance.
- * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
+ * by a @ref UMLScene.  An PreconditionWidget belongs to only one @ref UMLScene instance.
+ * When the @ref UMLScene instance that this class belongs to, it will be automatically deleted.
  *
  * The PreconditionWidget class inherits from the @ref UMLWidget class which adds most of the functionality
  * to this class.
@@ -45,7 +45,7 @@ public:
      * @param a                 The role A widget for this precondition.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    PreconditionWidget( UMLView * view, ObjectWidget* a, Uml::IDType id = Uml::id_None );
+    PreconditionWidget( UMLScene * view, ObjectWidget* a, Uml::IDType id = Uml::id_None );
 
 
     /**
@@ -110,7 +110,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
 
 public slots:

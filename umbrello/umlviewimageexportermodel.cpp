@@ -38,6 +38,7 @@
 #include "umlview.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
+#include "umlscene.h"
 
 static QStringList supportedImageTypesList;
 static QStringList supportedMimeTypesList;
@@ -115,7 +116,8 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
 
         QString returnString = exportView(view, imageType, url);
         if (!returnString.isNull()) {
-            errors.append(view->getName() + ": " + returnString);
+            // [PORT]
+            errors.append(view->umlScene()->getName() + ": " + returnString);
         }
     }
 
@@ -141,7 +143,8 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
     }
 
     // check that the diagram isn't empty
-    QRect rect = view->getDiagramRect();
+    // [PORT]
+    QRectF rect = view->umlScene()->getDiagramRect();
     if (rect.isEmpty()) {
         return i18n("Can not save an empty diagram");
     }
@@ -162,7 +165,8 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
 }
 
 QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders /* = false */) const {
-    QString name = view->getName() + '.' + imageType.toLower();
+    // [PORT]
+    QString name = view->umlScene()->getName() + '.' + imageType.toLower();
 
     if (!useFolders) {
         return name;
@@ -170,7 +174,7 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QStri
 
     qApp->processEvents();
     UMLListView *listView = UMLApp::app()->getListView();
-    UMLListViewItem* listViewItem = listView->findItem(view->getID());
+    UMLListViewItem* listViewItem = listView->findItem(view->umlScene()->getID());
     // skip the name of the first item because it's the View
     listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
 
@@ -209,7 +213,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const {
 
 bool UMLViewImageExporterModel::exportViewTo(UMLView* view, const QString &imageType, const QString &fileName) const {
     // remove 'blue squares' from exported picture.
-    view->clearSelected();
+    view->umlScene()->clearSelected();
 
     QString imageMimeType = UMLViewImageExporterModel::imageTypeToMimeType(imageType);
     if (imageMimeType == "image/x-eps") {
@@ -256,11 +260,11 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
     // make sure the widget sizes will be according to the
     // actually used printer font, important for getDiagramRect()
     // and the actual painting
-    view->forceUpdateWidgetFontMetrics(painter);
+    view->umlScene()->forceUpdateWidgetFontMetrics(painter);
 
-    QRect rect = view->getDiagramRect();
+    QRectF rect = view->umlScene()->getDiagramRect();
     painter->translate(-rect.x(),-rect.y());
-    view->getDiagram(rect,*painter);
+    view->umlScene()->getDiagram(rect,*painter);
 
     int resolution = printer->resolution();
 
@@ -271,10 +275,10 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
         // modify bounding box from screen to eps resolution.
         rect.setWidth( int(ceil(rect.width() * 72.0/resolution)) );
         rect.setHeight( int(ceil(rect.height() * 72.0/resolution)) );
-        exportSuccessful = fixEPS(fileName,rect);
+        exportSuccessful = fixEPS(fileName,rect.toRect());
     }
     // next painting will most probably be to a different device (i.e. the screen)
-    view->forceUpdateWidgetFontMetrics(0);
+    view->umlScene()->forceUpdateWidgetFontMetrics(0);
 
     return exportSuccessful;
 }
@@ -336,11 +340,11 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fi
     // make sure the widget sizes will be according to the
     // actually used printer font, important for getDiagramRect()
     // and the actual painting
-    view->forceUpdateWidgetFontMetrics(painter);
+    view->umlScene()->forceUpdateWidgetFontMetrics(painter);
 
-    QRect rect = view->getDiagramRect();
+    QRectF rect = view->umlScene()->getDiagramRect();
     painter->translate(-rect.x(),-rect.y());
-    view->getDiagram(rect,*painter);
+    view->umlScene()->getDiagram(rect,*painter);
     painter->end();
     exportSuccessful = diagram->save(fileName);
 
@@ -348,7 +352,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fi
     delete painter;
     delete diagram;
     // next painting will most probably be to a different device (i.e. the screen)
-    view->forceUpdateWidgetFontMetrics(0);
+    view->umlScene()->forceUpdateWidgetFontMetrics(0);
 
     uDebug() << "saving to file " << fileName << " successful=" << exportSuccessful << endl;
     return exportSuccessful;
@@ -356,9 +360,9 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fi
 
 bool UMLViewImageExporterModel::exportViewToPixmap(UMLView* view, const QString &imageType, const QString &fileName) const {
     bool exportSuccessful;
-    QRect rect = view->getDiagramRect();
+    QRectF rect = view->umlScene()->getDiagramRect();
     QPixmap diagram(rect.width(), rect.height());
-    view->getDiagram(rect, diagram);
+    view->umlScene()->getDiagram(rect, diagram);
     exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
 
     uDebug() << "saving to file " << fileName << " , imageType=" << imageType << " successful=" << exportSuccessful << endl;

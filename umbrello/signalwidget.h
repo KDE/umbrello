@@ -22,7 +22,8 @@
 #define SIGNAL_WIDTH 45
 #define SIGNAL_HEIGHT 15
 
-class SignalWidget : public UMLWidget {
+class SignalWidget : public UMLWidget
+{
     Q_OBJECT
 public:
 
@@ -41,7 +42,7 @@ public:
      * @param signalType        The type of Signal.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    explicit SignalWidget( UMLView * view, SignalType signalType = Send, Uml::IDType id = Uml::id_None );
+    explicit SignalWidget( UMLScene * scene, SignalType signalType = Send, Uml::IDType id = Uml::id_None );
 
     /**
      * destructor
@@ -56,11 +57,11 @@ public:
      /**
      * Overrides the UMLWidget method.
      */
-    void setX(int newX);
+    void setX(qreal newX);
      /**
      * Overrides the UMLWidget method.
      */
-    void setY(int newY);
+    void setY(qreal newY);
 
     /**
      * Sets the name of the signal.
@@ -94,7 +95,7 @@ public:
     /**
      * Overrides mouseMoveEvent.
      */
-    void mouseMoveEvent(QMouseEvent *me);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
 
     /**
      * Creates the "signalwidget" XMI element.
@@ -110,7 +111,7 @@ protected:
     /**
      * Overrides method from UMLWidget
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
     /**
      * Type of signal.
@@ -120,12 +121,12 @@ protected:
     /**
      * Save the value of the widget to know how to move the floatingtext
      */
-    int m_oldX;
-    int m_oldY;
+    qreal m_oldX;
+    qreal m_oldY;
 
     // Only for the time event
     /**
-     * This is a pointer to the Floating Text widget which displays the
+     * This is a poqrealer to the Floating Text widget which displays the
      * name of the signal widget.
      */
     FloatingTextWidget* m_pName;

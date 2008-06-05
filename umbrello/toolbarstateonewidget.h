@@ -27,7 +27,8 @@ class UMLWidget;
  * it
  */
 
-class ToolBarStateOneWidget : public ToolBarStatePool {
+class ToolBarStateOneWidget : public ToolBarStatePool
+{
     Q_OBJECT
 public:
 
@@ -36,7 +37,7 @@ public:
      *
      * @param umlView The UMLView to use.
      */
-    ToolBarStateOneWidget(UMLView *umlView);
+    ToolBarStateOneWidget(UMLScene *umlScene);
 
     /**
      * Destroys this ToolBarStateOneWidget.
@@ -59,7 +60,7 @@ public:
      * It executes the base method and then updates the position of the
      * message line, if any.
      */
-    virtual void mouseMove(QMouseEvent* ome);
+    virtual void mouseMove(QGraphicsSceneMouseEvent* ome);
 
 public slots:
 
@@ -127,7 +128,7 @@ protected:
      */
     UMLWidget* m_firstObject;
 
-    UMLView * m_umlView;
+    UMLScene * m_umlScene;
     /**
      * If there is a current widget, it is true if the press event happened on
      * the line of an object, or false if it happened on a normal UMLWidget.

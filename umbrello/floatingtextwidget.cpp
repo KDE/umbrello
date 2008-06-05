@@ -36,11 +36,12 @@
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
 #include "cmds.h"
+#include "umlscene.h"
 
 
-FloatingTextWidget::FloatingTextWidget(UMLView * view, Uml::Text_Role role,
+FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::Text_Role role,
                                        const QString& text, Uml::IDType id)
-  : UMLWidget(view, id, new FloatingTextWidgetController(this))
+  : UMLWidget(scene, id, new FloatingTextWidgetController(this))
 {
     init();
     m_Text = text;
@@ -71,13 +72,13 @@ FloatingTextWidget::~FloatingTextWidget()
 
 void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
-    int w = width();
-    int h = height();
+    qreal w = getWidth();
+    qreal h = getHeight();
     p.setFont( UMLWidget::getFont() );
     QColor textColor(50, 50, 50);
     p.setPen(textColor);
     p.drawText( offsetX , offsetY,w,h, Qt::AlignCenter, getDisplayText() );
-    if(m_bSelected)
+    if(isSelected())
         drawSelected(&p, offsetX, offsetY);
 }
 
@@ -86,12 +87,12 @@ void FloatingTextWidget::resizeEvent(QResizeEvent * re)
     Q_UNUSED(re);
 }
 
-QSize FloatingTextWidget::calculateSize()
+QSizeF FloatingTextWidget::calculateSize()
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    int h = fm.lineSpacing();
-    int w = fm.width( getDisplayText() );
-    return QSize(w + 8, h + 4);  // give a small margin
+    qreal h = fm.lineSpacing();
+    qreal w = fm.width( getDisplayText() );
+    return QSizeF(w + 8, h + 4);  // give a small margin
 }
 
 void FloatingTextWidget::slotMenuSelection(QAction* action)
@@ -103,7 +104,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Delete:
-        m_pView -> removeWidget(this);
+        m_pScene -> removeWidget(this);
         break;
 
     case ListPopupMenu::mt_Operation:
@@ -117,7 +118,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
                 bool ok = false;
                 QString opText = KInputDialog::getText(i18nc("operation name", "Name"),
                                                        i18n("Enter operation name:"),
-                                                       getText(), &ok, m_pView);
+                                                       getText(), &ok, m_pScene->activeView());
                 if (ok)
                     m_pLink->setCustomOpText(opText);
                 return;
@@ -141,7 +142,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font:
         {
             QFont font = getFont();
-            if( KFontDialog::getFont( font, false, m_pView ) ) {
+            if( KFontDialog::getFont( font, false, m_pScene->activeView() ) ) {
                 if( m_Role == Uml::tr_Floating || m_Role == Uml::tr_Seq_Message ) {
                     setFont( font );
                 } else if (m_pLink) {
@@ -184,7 +185,7 @@ void FloatingTextWidget::handleRename()
     }
     bool ok = false;
     QString newText = KInputDialog::getText(i18n("Rename"), t, getText(), &ok,
-                                            m_pView, &v);
+                                            m_pScene->activeView(), &v);
     if (!ok || newText == getText())
         return;
 
@@ -223,7 +224,7 @@ void FloatingTextWidget::changeName(const QString& newText)
             MessageWidget *msg = dynamic_cast<MessageWidget*>(m_pLink);
             if (msg) {
                 msg->setName(QString());
-                m_pView->removeWidget(this);
+                m_pScene->removeWidget(this);
             }
         }
         return;
@@ -250,7 +251,7 @@ void FloatingTextWidget::setText(const QString &t)
         QString seqNum, op;
         m_pLink->getSeqNumAndOp(seqNum, op);
         if (seqNum.length() > 0 || op.length() > 0) {
-            if (! m_pView->getShowOpSig())
+            if (! m_pScene->getShowOpSig())
                 op.replace( QRegExp("\\(.*\\)"), "()" );
             m_Text = seqNum.append(": ").append( op );
         } else
@@ -278,7 +279,7 @@ void FloatingTextWidget::setPostText(const QString &t)
 void FloatingTextWidget::changeTextDlg()
 {
     bool ok = false;
-    QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), getText(), &ok, m_pView);
+    QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), getText(), &ok, m_pScene->activeView());
 
     if(ok && newText != getText() && isTextValid(newText)) {
         setText( newText );
@@ -303,7 +304,7 @@ void FloatingTextWidget::showOpDlg()
         return;
     }
 
-    SelectOpDlg selectDlg(m_pView, c);
+    SelectOpDlg selectDlg(m_pScene->activeView(), c);
     selectDlg.setSeqNumber( seqNum );
     if (m_pLink->getOperation() == NULL) {
         selectDlg.setCustomOp( opText );

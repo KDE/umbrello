@@ -13,7 +13,7 @@
 #include "messagewidget.h"
 
 //qt includes
-#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
 #include <QPolygon>
 #include <QMoveEvent>
 #include <QResizeEvent>
@@ -30,16 +30,16 @@
 #include "objectwidget.h"
 #include "classifier.h"
 #include "operation.h"
-#include "umlview.h"
+#include "umlscene.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "uniqueid.h"
 #include "listpopupmenu.h"
 
-MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
-                             int y, Uml::Sequence_Message_Type sequenceMessageType,
+MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
+                             qreal y, Uml::Sequence_Message_Type sequenceMessageType,
                              Uml::IDType id /* = Uml::id_None */)
-        : UMLWidget(view, id, new MessageWidgetController(this)) {
+        : UMLWidget(scene, id, new MessageWidgetController(this)) {
     init();
     m_pOw[Uml::A] = a;
     m_pOw[Uml::B] = b;
@@ -58,13 +58,13 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
     this->activate();
 }
 
-MessageWidget::MessageWidget(UMLView * view, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)
-        : UMLWidget(view, id, new MessageWidgetController(this)) {
+MessageWidget::MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)
+        : UMLWidget(scene, id, new MessageWidgetController(this)) {
     init();
     m_sequenceMessageType = seqMsgType;
 }
 
-MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id /*= Uml::id_None*/) : UMLWidget(view, id, new MessageWidgetController(this)) {
+MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, qreal xclick, qreal yclick, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id /*= Uml::id_None*/) : UMLWidget(scene, id, new MessageWidgetController(this)) {
     init();
     m_pOw[Uml::A] = a;
     m_pOw[Uml::B] = a;
@@ -127,8 +127,8 @@ void MessageWidget::draw(QPainter& p, int offsetX, int offsetY) {
     }
 }
 
-void MessageWidget::drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction) {
-    int arrowheadExtentX = 4;
+void MessageWidget::drawSolidArrowhead(QPainter& p, qreal x, qreal y, Qt::ArrowType direction) {
+    qreal arrowheadExtentX = 4;
     if (direction == Qt::RightArrow) {
         arrowheadExtentX = -arrowheadExtentX;
     }
@@ -138,10 +138,10 @@ void MessageWidget::drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType 
     p.drawPolygon(points);
 }
 
-void MessageWidget::drawArrow(QPainter& p, int x, int y, int w,
+void MessageWidget::drawArrow(QPainter& p, qreal x, qreal y, qreal w,
                               Qt::ArrowType direction, bool useDottedLine /* = false */) {
-    int arrowheadStartX = x;
-    int arrowheadExtentX = 4;
+    qreal arrowheadStartX = x;
+    qreal arrowheadExtentX = 4;
     if (direction == Qt::RightArrow) {
         arrowheadStartX += w;
         arrowheadExtentX = -arrowheadExtentX;
@@ -159,11 +159,11 @@ void MessageWidget::drawArrow(QPainter& p, int x, int y, int w,
     p.drawLine(x, y, x + w, y);
 }
 
-void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
-    int w = getWidth() - 1;
-    int h = getHeight();
+void MessageWidget::drawSynchronous(QPainter& p, qreal offsetX, qreal offsetY) {
+    qreal x1 = m_pOw[Uml::A]->getX();
+    qreal x2 = m_pOw[Uml::B]->getX();
+    qreal w = getWidth() - 1;
+    qreal h = getHeight();
 
     bool messageOverlaps = m_pOw[Uml::A] -> messageOverlap( getY(), this );
 
@@ -173,7 +173,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
         offsetX += 17;
         w -= 17;
         offsetY += 3;
-        const int lowerLineY = offsetY + h - 6;
+        const qreal lowerLineY = offsetY + h - 6;
         // draw upper line segment (leaving the life line)
         p.drawLine(offsetX, offsetY, offsetX + w, offsetY);
         // draw line segment parallel to (and at the right of) the life line
@@ -188,7 +188,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
             w -= 8;
         }
         QPen pen = p.pen();
-        int startX = offsetX + w - 16;
+        qreal startX = offsetX + w - 16;
         p.fillRect(startX, offsetY, 17, h,  QBrush(Qt::white));         //box
         p.drawRect(startX, offsetY, 17, h);                             //box
         p.drawLine(offsetX, offsetY + 4, startX, offsetY + 4);          //arrow line
@@ -209,16 +209,16 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY) {
         drawArrow(p, offsetX + 18, offsetY + h - 3, w - 18, Qt::RightArrow, true); // return arrow
     }
 
-    if(m_bSelected) {
+    if(isSelected()) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
 
-void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
-    int w = getWidth() - 1;
-    int h = getHeight() - 1;
+void MessageWidget::drawAsynchronous(QPainter& p, qreal offsetX, qreal offsetY) {
+    qreal x1 = m_pOw[Uml::A]->getX();
+    qreal x2 = m_pOw[Uml::B]->getX();
+    qreal w = getWidth() - 1;
+    qreal h = getHeight() - 1;
     bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
     //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
 
@@ -227,7 +227,7 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
             offsetX += 7;
             w -= 7;
         }
-        const int lowerLineY = offsetY + h - 3;
+        const qreal lowerLineY = offsetY + h - 3;
         // draw upper line segment (leaving the life line)
         p.drawLine(offsetX, offsetY, offsetX + w, offsetY);
         // draw line segment parallel to (and at the right of) the life line
@@ -253,19 +253,19 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY) {
         drawArrow(p, offsetX, offsetY + 4, w, Qt::LeftArrow);
     }
 
-    if (m_bSelected)
+    if (isSelected())
         drawSelected(&p, offsetX, offsetY);
 }
 
-void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
-    int w = getWidth() - 1;
-    //int h = getHeight() - 1;
+void MessageWidget::drawCreation(QPainter& p, qreal offsetX, qreal offsetY) {
+    qreal x1 = m_pOw[Uml::A]->getX();
+    qreal x2 = m_pOw[Uml::B]->getX();
+    qreal w = getWidth() - 1;
+    //qreal h = getHeight() - 1;
     bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
     //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
 
-    const int lineY = offsetY + 4;
+    const qreal lineY = offsetY + 4;
     if (x1 < x2) {
         if (messageOverlapsA)  {
             offsetX += 7;
@@ -282,20 +282,20 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY) {
         drawArrow(p, offsetX, lineY, w, Qt::LeftArrow);
     }
 
-    if (m_bSelected)
+    if (isSelected())
         drawSelected(&p, offsetX, offsetY);
 }
 
 
-void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = xclicked;
-    int w1 = m_pOw[Uml::A]->getWidth() / 2;
+void MessageWidget::drawLost(QPainter& p, qreal offsetX, qreal offsetY){
+    qreal x1 = m_pOw[Uml::A]->getX();
+    qreal x2 = xclicked;
+    qreal w1 = m_pOw[Uml::A]->getWidth() / 2;
     x1 += w1;
 
-    int w = getWidth() ;
+    qreal w = getWidth() ;
 
-    int h = 10;
+    qreal h = 10;
     bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
     //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
 
@@ -320,16 +320,16 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
         drawArrow(p, offsetX + h, offsetY, w - h, Qt::LeftArrow);
     }
 
-    if (m_bSelected)
+    if (isSelected())
         drawSelected(&p, offsetX, offsetY);
 }
 
-void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = xclicked;
-    int w = getWidth() ;
+void MessageWidget::drawFound(QPainter& p, qreal offsetX, qreal offsetY){
+    qreal x1 = m_pOw[Uml::A]->getX();
+    qreal x2 = xclicked;
+    qreal w = getWidth() ;
 
-    int h = 10;
+    qreal h = 10;
     bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
     //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
 
@@ -355,12 +355,12 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
         drawArrow(p, x2, offsetY, w, Qt::RightArrow);
     }
 
-    if (m_bSelected)
+    if (isSelected())
             drawSelected(&p, offsetX, offsetY);
 
 }
 
-int MessageWidget::onWidget(const QPoint & p) {
+qreal MessageWidget::onWidget(const QPointF & p) {
     if (m_sequenceMessageType != Uml::sequence_message_synchronous) {
         return UMLWidget::onWidget(p);
     }
@@ -368,10 +368,10 @@ int MessageWidget::onWidget(const QPoint & p) {
     // Consists of top arrow (call) and bottom arrow (return.)
     if (p.x() < getX() || p.x() > getX() + getWidth())
         return 0;
-    const int tolerance = 5;  // pixels
-    const int pY = p.y();
-    const int topArrowY = getY() + 3;
-    const int bottomArrowY = getY() + getHeight() - 3;
+    const qreal tolerance = 5;  // pixels
+    const qreal pY = p.y();
+    const qreal topArrowY = getY() + 3;
+    const qreal bottomArrowY = getY() + getHeight() - 3;
     if (pY < topArrowY - tolerance || pY > bottomArrowY + tolerance)
         return 0;
     if (getHeight() <= 2 * tolerance)
@@ -390,15 +390,15 @@ void MessageWidget::setTextPosition() {
         return;
     }
     m_pFText->updateComponentSize();
-    int ftX = constrainX(m_pFText->getX(), m_pFText->getWidth(), m_pFText->getRole());
-    int ftY = getY() - m_pFText->getHeight();
+    qreal ftX = constrainX(m_pFText->getX(), m_pFText->getWidth(), m_pFText->getRole());
+    qreal ftY = getY() - m_pFText->getHeight();
     m_pFText->setX( ftX );
     m_pFText->setY( ftY );
 }
 
-int MessageWidget::constrainX(int textX, int textWidth, Uml::Text_Role tr) {
-    int result = textX;
-    const int minTextX = getX() + 5;
+qreal MessageWidget::constrainX(qreal textX, qreal textWidth, Uml::Text_Role tr) {
+    qreal result = textX;
+    const qreal minTextX = getX() + 5;
     if (textX < minTextX || tr == Uml::tr_Seq_Message_Self) {
         result = minTextX;
     } else {
@@ -407,8 +407,8 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::Text_Role tr) {
             objectAtRight = m_pOw[Uml::B];
         else
             objectAtRight = m_pOw[Uml::A];
-        const int objRight_seqLineX = objectAtRight->getX() + objectAtRight->getWidth() / 2;
-        const int maxTextX = objRight_seqLineX - textWidth - 5;
+        const qreal objRight_seqLineX = objectAtRight->getX() + objectAtRight->getWidth() / 2;
+        const qreal maxTextX = objRight_seqLineX - textWidth - 5;
         if (maxTextX <= minTextX)
             result = minTextX;
         else if (textX > maxTextX)
@@ -417,12 +417,12 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::Text_Role tr) {
     return result;
 }
 
-void MessageWidget::constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+void MessageWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
                                      Uml::Text_Role tr) {
     textX = constrainX(textX, textWidth, tr);
     // Constrain Y.
-    const int minTextY = getMinY();
-    const int maxTextY = getMaxY() - textHeight - 5;
+    const qreal minTextY = getMinY();
+    const qreal maxTextY = getMaxY() - textHeight - 5;
     if (textY < minTextY)
         textY = minTextY;
     else if (textY > maxTextY)
@@ -443,7 +443,7 @@ void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
         return;
     }
     //TODO why this condition?
-/*    if (m_pView->getSelectCount() > 2) {
+/*    if (m_pScene->getSelectCount() > 2) {
         return;
     }*/
 
@@ -481,7 +481,7 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id) {
     calculateWidget();
     if( !m_pFText )
         return;
-    if (m_pView->getSelectCount(true) > 1)
+    if (m_pScene->getSelectCount(true) > 1)
         return;
     setTextPosition();
 }
@@ -497,7 +497,7 @@ void MessageWidget::slotMenuSelection(QAction* action) {
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     if(sel == ListPopupMenu::mt_Delete) {
         // This will clean up this widget and the text widget:
-        m_pView -> removeWidget(this);
+        m_pScene -> removeWidget(this);
     } else {
 
         UMLWidget::slotMenuSelection( action );
@@ -505,10 +505,10 @@ void MessageWidget::slotMenuSelection(QAction* action) {
 }
 
 bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
-    m_pView->resetPastePoint();
+    m_pScene->resetPastePoint();
     // UMLWidget::activate(Log);   CHECK: I don't think we need this ?
     if (m_pOw[Uml::A] == NULL) {
-        UMLWidget *pWA = m_pView->findWidget(m_widgetAId);
+        UMLWidget *pWA = m_pScene->findWidget(m_widgetAId);
         if (pWA == NULL) {
             uDebug() << "role A object " << ID2STR(m_widgetAId) << " not found" << endl;
             return false;
@@ -521,7 +521,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
         }
     }
     if (m_pOw[Uml::B] == NULL) {
-        UMLWidget *pWB = m_pView->findWidget(m_widgetBId);
+        UMLWidget *pWB = m_pScene->findWidget(m_widgetBId);
         if (pWB == NULL) {
             uDebug() << "role B object " << ID2STR(m_widgetBId) << " not found" << endl;
             return false;
@@ -551,7 +551,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
         Uml::Text_Role tr = Uml::tr_Seq_Message;
         if (m_pOw[Uml::A] == m_pOw[Uml::B])
             tr = Uml::tr_Seq_Message_Self;
-        m_pFText = new FloatingTextWidget( m_pView, tr, "" );
+        m_pFText = new FloatingTextWidget( m_pScene, tr, "" );
         m_pFText->setFont(UMLWidget::getFont());
     }
     if (op)
@@ -578,7 +578,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
 void MessageWidget::setMessageText(FloatingTextWidget *ft) {
     if (ft == NULL)
         return;
-    QString displayText = m_SequenceNumber + ": " + getOperationText(m_pView);
+    QString displayText = m_SequenceNumber + ": " + getOperationText(m_pScene);
     ft->setText(displayText);
     setTextPosition();
 }
@@ -667,17 +667,17 @@ void MessageWidget::calculateDimensions() {
 }
 
 void MessageWidget::calculateDimensionsSynchronous() {
-    int x = 0;
+    qreal x = 0;
 
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
-    int w1 = m_pOw[Uml::A]->getWidth() / 2;
-    int w2 = m_pOw[Uml::B]->getWidth() / 2;
+    qreal x1 = m_pOw[Uml::A]->getX();
+    qreal x2 = m_pOw[Uml::B]->getX();
+    qreal w1 = m_pOw[Uml::A]->getWidth() / 2;
+    qreal w2 = m_pOw[Uml::B]->getWidth() / 2;
     x1 += w1;
     x2 += w2;
 
-    int widgetWidth = 0;
-    int widgetHeight = 0;
+    qreal widgetWidth = 0;
+    qreal widgetHeight = 0;
     if( m_pOw[Uml::A] == m_pOw[Uml::B] ) {
         widgetWidth = 50;
         x = x1 - 2;
@@ -689,10 +689,10 @@ void MessageWidget::calculateDimensionsSynchronous() {
         widgetWidth = x1 - x2 + 8;
     }
 
-    if ( height() < 20 ) {
+    if ( getHeight() < 20 ) {
         widgetHeight = 20;
     } else {
-        widgetHeight = height();
+        widgetHeight = getHeight();
     }
 
     m_nPosX = x;
@@ -700,24 +700,24 @@ void MessageWidget::calculateDimensionsSynchronous() {
 }
 
 void MessageWidget::calculateDimensionsAsynchronous() {
-    int x = 0;
+    qreal x = 0;
 
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
-    int w1 = m_pOw[Uml::A]->getWidth() / 2;
-    int w2 = m_pOw[Uml::B]->getWidth() / 2;
+    qreal x1 = m_pOw[Uml::A]->getX();
+    qreal x2 = m_pOw[Uml::B]->getX();
+    qreal w1 = m_pOw[Uml::A]->getWidth() / 2;
+    qreal w2 = m_pOw[Uml::B]->getWidth() / 2;
     x1 += w1;
     x2 += w2;
 
-    int widgetWidth = 0;
-    int widgetHeight = 8;
+    qreal widgetWidth = 0;
+    qreal widgetHeight = 8;
     if( m_pOw[Uml::A] == m_pOw[Uml::B] ) {
         widgetWidth = 50;
         x = x1;
-        if( height() < 20 ) {
+        if( getHeight() < 20 ) {
             widgetHeight = 20;
         } else {
-            widgetHeight = height();
+            widgetHeight = getHeight();
         }
     } else if( x1 < x2 ) {
         x = x1;
@@ -733,18 +733,18 @@ void MessageWidget::calculateDimensionsAsynchronous() {
 }
 
 void MessageWidget::calculateDimensionsCreation() {
-    int x = 0;
+    qreal x = 0;
 
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = m_pOw[Uml::B]->getX();
-    int w1 = m_pOw[Uml::A]->getWidth() / 2;
-    int w2 = m_pOw[Uml::B]->getWidth();
+    qreal x1 = m_pOw[Uml::A]->getX();
+    qreal x2 = m_pOw[Uml::B]->getX();
+    qreal w1 = m_pOw[Uml::A]->getWidth() / 2;
+    qreal w2 = m_pOw[Uml::B]->getWidth();
     x1 += w1;
     if (x1 > x2)
         x2 += w2;
 
-    int widgetWidth = 0;
-    int widgetHeight = 8;
+    qreal widgetWidth = 0;
+    qreal widgetHeight = 8;
     if ( x1 < x2 ) {
         x = x1;
         widgetWidth = x2 - x1;
@@ -760,16 +760,16 @@ void MessageWidget::calculateDimensionsCreation() {
 }
 
 void MessageWidget::calculateDimensionsLost() {
-    int x = 0;
+    qreal x = 0;
 
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = xclicked;
-    int w1 = m_pOw[Uml::A]->getWidth() / 2;
+    qreal x1 = m_pOw[Uml::A]->getX();
+    qreal x2 = xclicked;
+    qreal w1 = m_pOw[Uml::A]->getWidth() / 2;
 
     x1 += w1;
 
-    int widgetWidth = 0;
-    int widgetHeight = 10;
+    qreal widgetWidth = 0;
+    qreal widgetHeight = 10;
     if( x1 < x2 ) {
         x = x1;
         widgetWidth = x2 - x1 + widgetHeight;
@@ -783,16 +783,16 @@ void MessageWidget::calculateDimensionsLost() {
 }
 
 void MessageWidget::calculateDimensionsFound() {
-    int x = 0;
+    qreal x = 0;
 
-    int x1 = m_pOw[Uml::A]->getX();
-    int x2 = xclicked;
-    int w1 = m_pOw[Uml::A]->getWidth() / 2;
+    qreal x1 = m_pOw[Uml::A]->getX();
+    qreal x2 = xclicked;
+    qreal w1 = m_pOw[Uml::A]->getWidth() / 2;
     x1 += w1;
 
 
-    int widgetWidth = 0;
-    int widgetHeight = 10;
+    qreal widgetWidth = 0;
+    qreal widgetHeight = 10;
     if( x1 < x2 ) {
         x = x1;
         widgetWidth = x2 - x1 + widgetHeight;
@@ -818,7 +818,7 @@ void MessageWidget::cleanup() {
 
     UMLWidget::cleanup();
     if (m_pFText) {
-        m_pView->removeWidget(m_pFText);
+        m_pScene->removeWidget(m_pFText);
         m_pFText = NULL;
     }
 }
@@ -827,42 +827,42 @@ void MessageWidget::setSelected(bool _select) {
     UMLWidget::setSelected( _select );
     if( !m_pFText || m_pFText->getDisplayText().isEmpty())
         return;
-    if( m_bSelected && m_pFText -> getSelected() )
+    if( isSelected() && m_pFText -> isSelected() )
         return;
-    if( !m_bSelected && !m_pFText -> getSelected() )
+    if( !isSelected() && !m_pFText -> isSelected() )
         return;
 
-    m_pView -> setSelected( m_pFText, 0 );
-    m_pFText -> setSelected( m_bSelected );
+    m_pScene -> setSelected( m_pFText, 0 );
+    m_pFText -> setSelected( isSelected() );
 }
 
-int MessageWidget::getMinY() {
+qreal MessageWidget::getMinY() {
     if (!m_pOw[Uml::A] || !m_pOw[Uml::B]) {
         return 0;
     }
     if (m_sequenceMessageType == Uml::sequence_message_creation) {
         return m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight();
     }
-    int heightA = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight();
-    int heightB = m_pOw[Uml::B]->getY() + m_pOw[Uml::B]->getHeight();
-    int height = heightA;
+    qreal heightA = m_pOw[Uml::A]->getY() + m_pOw[Uml::A]->getHeight();
+    qreal heightB = m_pOw[Uml::B]->getY() + m_pOw[Uml::B]->getHeight();
+    qreal height = heightA;
     if( heightA < heightB ) {
         height = heightB;
     }
     return height;
 }
 
-int MessageWidget::getMaxY() {
+qreal MessageWidget::getMaxY() {
     if( !m_pOw[Uml::A] || !m_pOw[Uml::B] ) {
         return 0;
     }
-    int heightA = (int)((ObjectWidget*)m_pOw[Uml::A])->getEndLineY();
-    int heightB = (int)((ObjectWidget*)m_pOw[Uml::B])->getEndLineY();
-    int height = heightA;
+    qreal heightA = (qreal)((ObjectWidget*)m_pOw[Uml::A])->getEndLineY();
+    qreal heightB = (qreal)((ObjectWidget*)m_pOw[Uml::B])->getEndLineY();
+    qreal height = heightA;
     if( heightA > heightB ) {
         height = heightB;
     }
-    return (height - this->height());
+    return (height - this->getHeight());
 }
 
 void MessageWidget::setWidget(ObjectWidget * ow, Uml::Role_Type role) {
@@ -874,16 +874,16 @@ ObjectWidget* MessageWidget::getWidget(Uml::Role_Type role) {
     return m_pOw[role];
 }
 
-void MessageWidget::setxclicked (int xclick){
+void MessageWidget::setxclicked (qreal xclick){
     xclicked = xclick;
 }
 
 
-void MessageWidget::setyclicked (int yclick){
+void MessageWidget::setyclicked (qreal yclick){
     yclicked = yclick;
 }
 
-// void  MessageWidget::setSize(int width,int height);
+// void  MessageWidget::setSize(qreal width,qreal height);
 // {
 //
 //     UMLWidget::setSize(width,height);
@@ -927,8 +927,8 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     QString sequenceMessageType = qElement.attribute( "sequencemessagetype", "1001" );
     m_sequenceMessageType = (Uml::Sequence_Message_Type)sequenceMessageType.toInt();
     if (m_sequenceMessageType == Uml::sequence_message_lost || m_sequenceMessageType == Uml::sequence_message_found) {
-        xclicked = qElement.attribute( "xclicked", "-1" ).toInt();
-        yclicked = qElement.attribute( "yclicked", "-1" ).toInt();
+        xclicked = qElement.attribute( "xclicked", "-1" ).toDouble();
+        yclicked = qElement.attribute( "yclicked", "-1" ).toDouble();
     }
 
     m_widgetAId = STR2ID(widgetaid);
@@ -945,7 +945,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pFText = new FloatingTextWidget( m_pView, tr, getOperationText(m_pView), m_textId );
+            m_pFText = new FloatingTextWidget( m_pScene, tr, getOperationText(m_pScene), m_textId );
             if( ! m_pFText->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;

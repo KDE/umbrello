@@ -39,6 +39,7 @@
 #include "forkjoinwidget.h"
 #include "objectwidget.h"
 #include "category.h"
+#include "umlscene.h"
 
 const bool CHECKABLE = true;
 
@@ -348,7 +349,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
             UMLView * pView = static_cast<UMLView *>(parent);
             //Used for sequence diagram and collaboration diagram widgets
             insertSubMenuColor( object->getUseFillColour() );
-            if( pView->getType() == Uml::dt_Sequence ) {
+            // [PORT]
+            if( pView->umlScene()->getType() == Uml::dt_Sequence ) {
                 addSeparator();
                 Menu_Type tabUp = mt_Up;
                 insert(mt_Up, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Up), i18n("Move Up"));
@@ -1573,9 +1575,9 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view)
     insert(mt_Export_Image);
     addSeparator();
     insert(mt_SnapToGrid, i18n("Snap to Grid"), CHECKABLE);
-    setActionChecked(mt_SnapToGrid, view->getSnapToGrid() );
+    setActionChecked(mt_SnapToGrid, view->umlScene()->getSnapToGrid() );
     insert(mt_ShowSnapGrid, i18n("Show Grid"), CHECKABLE);
-    setActionChecked(mt_ShowSnapGrid, view->getShowSnapGrid() );
+    setActionChecked(mt_ShowSnapGrid, view->umlScene()->getShowSnapGrid() );
     insert(mt_Properties);
 }
 

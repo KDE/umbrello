@@ -27,7 +27,8 @@ class UMLClassifier;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class DatatypeWidget : public UMLWidget {
+class DatatypeWidget : public UMLWidget
+{
 public:
 
     /**
@@ -36,7 +37,7 @@ public:
      * @param view              The parent of this DatatypeWidget.
      * @param d         The UMLClassifier this will be representing.
      */
-    DatatypeWidget(UMLView* view, UMLClassifier *d);
+    DatatypeWidget(UMLScene* scene, UMLClassifier *d);
 
     /**
      * Standard deconstructor.
@@ -62,7 +63,7 @@ protected:
     /**
      * Overrides method from UMLWidget.
      */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
 private:
     /**
@@ -74,8 +75,6 @@ private:
      * The right mouse button menu.
      */
     ListPopupMenu* m_pMenu;
-
-public slots:
 };
 
 #endif

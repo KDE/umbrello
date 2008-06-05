@@ -12,7 +12,7 @@
 #ifndef LINKWIDGET_H
 #define LINKWIDGET_H
 
-#include <qfont.h>
+#include <QFont>
 
 #include "umlnamespace.h"
 
@@ -20,7 +20,7 @@
 class UMLClassifier;
 class UMLOperation;
 class FloatingTextWidget;
-class UMLView;
+class UMLScene;
 
 /**
  * This is an interface realized by AssociationWidget and MessageWidget.
@@ -75,7 +75,7 @@ public:
     /**
      * Uses getOperation() if set, else calls getCustomOpText().
      */
-    QString getOperationText(UMLView *view = NULL);
+    QString getOperationText(UMLScene *scene = NULL);
 
     /**
      * Motivated by FloatingTextWidget::slotMenuSelection(mt_Reset_Label_Positions)
@@ -113,8 +113,8 @@ public:
      * Abstract operation implemented by inheriting classes.
      * Motivated by FloatingTextWidget::mouseMoveEvent()
      */
-    virtual void constrainTextPos(int &textX, int &textY,
-                                  int textWidth, int textHeight,
+    virtual void constrainTextPos(qreal &textX, qreal &textY,
+                                  qreal textWidth, qreal textHeight,
                                   Uml::Text_Role tr) = 0;
 
     /**

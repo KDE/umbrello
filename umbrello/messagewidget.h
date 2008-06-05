@@ -15,7 +15,7 @@
 #include "umlwidget.h"
 #include "linkwidget.h"
 //Added by qt3to4:
-#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
 #include <QMoveEvent>
 #include <QResizeEvent>
 
@@ -58,8 +58,8 @@ public:
      * @param id        A unique id used for deleting this object cleanly.
      *              The default (-1) will prompt generation of a new ID.
      */
-    MessageWidget(UMLView * view, ObjectWidget* a, ObjectWidget* b,
-                  int y, Uml::Sequence_Message_Type sequenceMessageType,
+    MessageWidget(UMLScene * umlscene, ObjectWidget* a, ObjectWidget* b,
+                  qreal y, Uml::Sequence_Message_Type sequenceMessageType,
                   Uml::IDType id = Uml::id_None);
 
      /**
@@ -69,7 +69,7 @@ public:
      * @param sequenceMessageType The Uml::Sequence_Message_Type of this message widget
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    MessageWidget(UMLView * view, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
+    MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id = Uml::id_None);
 
     /**
      * Constructs a Lost or Found MessageWidget.
@@ -81,7 +81,7 @@ public:
      * @param sequenceMessageType Whether lost or found
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-    MessageWidget(UMLView * view, ObjectWidget* a, int xclick, int yclick, Uml::Sequence_Message_Type sequenceMessageType,
+    MessageWidget(UMLScene * scene, ObjectWidget* a, qreal xclick, qreal yclick, Uml::Sequence_Message_Type sequenceMessageType,
                   Uml::IDType id = Uml::id_None);
 
 
@@ -110,6 +110,13 @@ public:
      */
     Uml::Sequence_Message_Type getSequenceMessageType() const {
         return m_sequenceMessageType;
+    }
+
+    /**
+     * To prevent hiding of this method from the base.
+     */
+    bool contains(const QPointF& p) const {
+        return UMLWidget::contains(p);
     }
 
     /**
@@ -279,30 +286,30 @@ public:
      * timeline box and the returning arrow with a dashed line and
      * stick arrowhead.
      */
-    void drawSynchronous(QPainter& p, int offsetX, int offsetY);
+    void drawSynchronous(QPainter& p, qreal offsetX, qreal offsetY);
 
     /**
      * Draws a solid arrow line and a stick arrow head.
      */
-    void drawAsynchronous(QPainter& p, int offsetX, int offsetY);
+    void drawAsynchronous(QPainter& p, qreal offsetX, qreal offsetY);
 
     /**
      * Draws a solid arrow line and a stick arrow head to the
      * edge of the target object widget instead of to the
      * sequence line.
      */
-    void drawCreation(QPainter& p, int offsetX, int offsetY);
+    void drawCreation(QPainter& p, qreal offsetX, qreal offsetY);
 
      /**
      * Draws a solid arrow line and a stick arrow head
      * and a circle
      */
-    void drawLost(QPainter& p, int offsetX, int offsetY);
+    void drawLost(QPainter& p, qreal offsetX, qreal offsetY);
 
      /**
      * Draws a circle and a solid arrow line and a stick arrow head
      */
-    void drawFound(QPainter& p, int offsetX, int offsetY);
+    void drawFound(QPainter& p, qreal offsetX, qreal offsetY);
 
     /**
      * Sets the text position relative to the sequence message.
@@ -319,7 +326,7 @@ public:
      * @param textHeight        Height of the text.
      * @param tr                Uml::Text_Role of the text.
      */
-    void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
+    void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
                           Uml::Text_Role tr);
 
     /**
@@ -339,14 +346,14 @@ public:
      * a sequence diagrams.  Takes into account the widget positions
      * it is related to.
      */
-    int getMinY();
+    qreal getMinY();
 
     /**
      * Returns the maximum height this widget should be set at on
      * a sequence diagrams.  Takes into account the widget positions
      * it is related to.
      */
-    int getMaxY();
+    qreal getMaxY();
 
     /**
      * Overrides operation from UMLWidget.
@@ -358,7 +365,7 @@ public:
      *         between call line and return line does not count, i.e. if
      *         the point is located in that space the function returns 0.
      */
-    int onWidget(const QPoint & p);
+    qreal onWidget(const QPointF & p);
 
     /**
      * Saves to the "messagewidget" XMI element.
@@ -373,17 +380,17 @@ public:
     /**
     * Set the xclicked
     */
-    void setxclicked (int xclick);
+    void setxclicked (qreal xclick);
 
     /**
     * Set the xclicked
     */
-    void setyclicked (int yclick);
+    void setyclicked (qreal yclick);
 
     /**
     * Return the xclicked
     */
-    int getxclicked() const {
+    qreal getxclicked() const {
         return xclicked;
     }
 
@@ -400,7 +407,7 @@ protected:
      * Returns the textX arg with constraints applied.
      * Auxiliary to setTextPosition() and constrainTextPos().
      */
-    int constrainX(int textX, int textWidth, Uml::Text_Role tr);
+    qreal constrainX(qreal textX, qreal textWidth, Uml::Text_Role tr);
 
     /**
      * Draw an arrow pointing in the given direction.
@@ -408,14 +415,14 @@ protected:
      * like so:  --->
      * The direction can be either Qt::LeftArrow or Qt::RightArrow.
      */
-    static void drawArrow( QPainter& p, int x, int y, int w,
+    static void drawArrow( QPainter& p, qreal x, qreal y, qreal w,
                            Qt::ArrowType direction, bool useDottedLine = false );
 
     /**
      * Draw a solid (triangular) arrowhead pointing in the given direction.
      * The direction can be either Qt::LeftArrow or Qt::RightArrow.
      */
-    static void drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction);
+    static void drawSolidArrowhead(QPainter& p, qreal x, qreal y, Qt::ArrowType direction);
 
     /**
      * Update the UMLWidget::m_bResizable flag according to the
@@ -425,10 +432,10 @@ protected:
 
      /**
      * Sets the size.
-     * If m_pView->getSnapComponentSizeToGrid() is true, then
+     * If m_pScene->getSnapComponentSizeToGrid() is true, then
      * set the next larger size that snaps to the grid.
      */
-//     void setSize(int width,int height);
+//     void setSize(qreal width,qreal height);
 
     // Data loaded/saved
     QString m_SequenceNumber;
@@ -444,10 +451,10 @@ private:
 
     ObjectWidget * m_pOw[2];
     FloatingTextWidget * m_pFText;
-    int m_nY;
+    qreal m_nY;
 
-    int xclicked;
-    int yclicked;
+    qreal xclicked;
+    qreal yclicked;
 
     /**
      * The following variables are used by loadFromXMI() as an intermediate

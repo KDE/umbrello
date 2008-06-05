@@ -15,9 +15,8 @@
 #include "toolbarstatepool.h"
 //Added by qt3to4:
 #include <QMouseEvent>
-#include <qpoint.h>
 
-class Q3CanvasLine;
+class QGraphicsLineItem;
 class ObjectWidget;
 
 /**
@@ -58,7 +57,7 @@ public:
      *
      * @param umlView The UMLView to use.
      */
-    ToolBarStateMessages(UMLView *umlView);
+    ToolBarStateMessages(UMLScene *umlScene);
 
     /**
      * Destroys this ToolBarStateMessages.
@@ -81,7 +80,7 @@ public:
      * It executes the base method and then updates the position of the
      * message line, if any.
      */
-    virtual void mouseMove(QMouseEvent* ome);
+    virtual void mouseMove(QGraphicsSceneMouseEvent* ome);
 
 public slots:
 
@@ -178,7 +177,7 @@ protected:
      * The message line shown while the first widget is selected and the
      * second one wasn't selected yet.
      */
-    Q3CanvasLine* m_messageLine;
+    QGraphicsLineItem* m_messageLine;
 
     /**
      * If there is a current widget, it is true if the press event happened on
@@ -190,8 +189,8 @@ private:
     /**
     * x and y clicked for lost and found messages
     */
-    int xclick;
-    int yclick;
+    qreal xclick;
+    qreal yclick;
 
 };
 

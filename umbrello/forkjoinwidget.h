@@ -35,7 +35,7 @@ public:
      * @param drawVertical  Whether to draw the plate horizontally or vertically.
      * @param id            The ID to assign (-1 will prompt a new ID.)
      */
-    explicit ForkJoinWidget(UMLView * view, bool drawVertical = false, Uml::IDType id = Uml::id_None);
+    explicit ForkJoinWidget(UMLScene * scene, bool drawVertical = false, Uml::IDType id = Uml::id_None);
 
     /**
      * destructor
@@ -79,17 +79,17 @@ protected:
      * Although the ForkJoinWidget supports resizing, we suppress the
      * resize corner because it is too large for this very slim widget.
      */
-    void drawSelected(QPainter * p, int offsetX, int offsetY);
+    void drawSelected(QPainter * p, qreal offsetX, qreal offsetY);
 
     /**
     * Overrides the function from UMLWidget.
     */
-    QSize calculateSize();
+    QSizeF calculateSize();
 
     /**
      * Reimplement method from UMLWidget.
      */
-    void constrain(int& width, int& height);
+    void constrain(qreal& width, qreal& height);
 
 private:
     /**

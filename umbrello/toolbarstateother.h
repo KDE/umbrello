@@ -31,7 +31,7 @@ public:
      *
      * @param umlView The UMLView to use.
      */
-    ToolBarStateOther(UMLView *umlView);
+    ToolBarStateOther(UMLScene *umlScene);
 
     /**
      * Destroys this ToolBarStateOther.

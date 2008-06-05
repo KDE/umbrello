@@ -12,9 +12,10 @@
 #ifndef SEQLINEWIDGET_H
 #define SEQLINEWIDGET_H
 
-#include <q3canvas.h>
+#include <QGraphicsScene>
+#include <QGraphicsLineItem>
 
-class UMLView;
+class UMLScene;
 class ObjectWidget;
 
 /**
@@ -22,12 +23,13 @@ class ObjectWidget;
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class SeqLineWidget : public Q3CanvasLine {
+class SeqLineWidget : public QGraphicsLineItem
+{
 public:
     /**
      * Constructor.
      */
-    SeqLineWidget( UMLView * pView, ObjectWidget * pObject );
+    SeqLineWidget( UMLScene * scene, ObjectWidget * pObject );
 
     /**
      * Destructor.
@@ -41,7 +43,7 @@ public:
      * @param p The point to investigate.
      * @return  Non-zero if point is on this sequence line.
      */
-    int onWidget(const QPoint & p);
+    qreal onWidget(const QPointF & p);
 
     /**
      * Return whether on the destruction box.
@@ -49,7 +51,7 @@ public:
      * @param p The point to investigate.
      * @return  Non-zero if point is on the destruction box of this sequence line.
      */
-    int onDestructionBox ( const QPoint & p );
+    qreal onDestructionBox ( const QPointF & p );
 
 
     /**
@@ -68,14 +70,14 @@ public:
      * @param startX    X coordinate of the start point.
      * @param startY    Y coordinate of the start point.
      */
-    void setStartPoint( int startX, int startY );
+    void setStartPoint( qreal startX, qreal startY );
 
     /**
      * Gets the length of the line.
      *
      * @return  Length of the line.
      */
-    int getLineLength() {
+    qreal getLineLength() {
         return m_nLengthY;
     }
 
@@ -93,7 +95,7 @@ public:
      *
      * @param yPosition The y coordinate for the bottom of the line.
      */
-    void setEndOfLine(int yPosition);
+    void setEndOfLine(qreal yPosition);
 
 protected:
     /**
@@ -114,31 +116,31 @@ protected:
     /**
      * View displayed on.
      */
-    UMLView * m_pView;
+    UMLScene * m_pScene;
 
     /// The destruction box.
     struct DestructionBox {
-        Q3CanvasLine * line1;
-        Q3CanvasLine * line2;
-        void setLine1Points(QRect rect) {
-            line1->setPoints( rect.x(), rect.y(),
-                              rect.x() + rect.width(), rect.y() + rect.height() );
+        QGraphicsLineItem * line1;
+        QGraphicsLineItem * line2;
+        void setLine1Points(QRectF rect) {
+            line1->setLine( rect.x(), rect.y(),
+                            rect.x() + rect.width(), rect.y() + rect.height() );
         }
-        void setLine2Points(QRect rect) {
-            line2->setPoints( rect.x(), rect.y() + rect.height(),
-                              rect.x() + rect.width(), rect.y() );
+        void setLine2Points(QRectF rect) {
+            line2->setLine( rect.x(), rect.y() + rect.height(),
+                            rect.x() + rect.width(), rect.y() );
         }
     } m_DestructionBox;
 
     /**
      * The length of the line.
      */
-    int m_nLengthY;
+    qreal m_nLengthY;
 
     /**
      * Margin used for mouse clicks.
      */
-    static int const m_nMouseDownEpsilonX;
+    static qreal const m_nMouseDownEpsilonX;
 };
 
 #endif

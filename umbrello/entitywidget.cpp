@@ -31,7 +31,7 @@
 #include "object_factory.h"
 
 
-EntityWidget::EntityWidget(UMLView* view, UMLObject* o): UMLWidget(view, o) {
+EntityWidget::EntityWidget(UMLScene* scene, UMLObject* o): UMLWidget(scene, o) {
     init();
 }
 
@@ -40,7 +40,7 @@ void EntityWidget::init() {
     setSize(100, 30);
 
     //set defaults from m_pView
-    if (m_pView) {
+    if (m_pScene) {
         //check to see if correct
         //const Settings::OptionState& ops = m_pView->getOptionState();
     }
@@ -54,14 +54,16 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
     setPenFromSettings(p);
     if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColour());
-    else
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+    else {
+        // [PORT] StyleOption
+        // p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
+    }
 
-    const int w = width();
-    const int h = height();
+    const qreal w = getWidth();
+    const qreal h = getHeight();
 
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    int fontHeight  = fm.lineSpacing();
+    qreal fontHeight  = fm.lineSpacing();
     const QString name = this->getName();
 
     p.drawRect(offsetX, offsetY, w, h);
@@ -70,7 +72,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
     QFont font = UMLWidget::getFont();
     font.setBold(true);
     p.setFont(font);
-    int y = 0;
+    qreal y = 0;
     if ( !m_pObject->getStereotype().isEmpty() ) {
         p.drawText(offsetX + ENTITY_MARGIN, offsetY,
                    w - ENTITY_MARGIN * 2,fontHeight,
@@ -119,24 +121,24 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
         y+=fontHeight;
     }
 
-    if (m_bSelected) {
+    if (isSelected()) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
 
-QSize EntityWidget::calculateSize() {
+QSizeF EntityWidget::calculateSize() {
     if (!m_pObject) {
         return UMLWidget::calculateSize();
     }
 
-    int width, height;
+    qreal width, height;
     QFont font = UMLWidget::getFont();
     font.setItalic(false);
     font.setUnderline(false);
     font.setBold(false);
     const QFontMetrics fm(font);
 
-    const int fontHeight = fm.lineSpacing();
+    const qreal fontHeight = fm.lineSpacing();
 
     int lines = 1;//always have one line - for name
     if ( !m_pObject->getStereotype().isEmpty() ) {
@@ -161,7 +163,7 @@ QSize EntityWidget::calculateSize() {
     // investigate UMLWidget::getFontMetrics()
     width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(' ' + getName() + ' ').width();
 
-    const int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
+    const qreal w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
 
     width = w > width?w:width;
 
@@ -169,14 +171,14 @@ QSize EntityWidget::calculateSize() {
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
     UMLClassifierListItem* listItem = 0;
     foreach (listItem , list ) {
-        int w = fm.width( listItem->getName() );
+        qreal w = fm.width( listItem->getName() );
         width = w > width?w:width;
     }
 
     //allow for width margin
     width += ENTITY_MARGIN * 2;
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 void EntityWidget::slotMenuSelection(QAction* action) {

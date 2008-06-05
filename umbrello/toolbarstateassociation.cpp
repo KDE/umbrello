@@ -26,44 +26,52 @@
 #include "model_utils.h"
 #include "uml.h"
 #include "umlobject.h"
-#include "umlview.h"
+#include "umlscene.h"
 #include "umllistview.h"
 #include "umldoc.h"
 #include "umlwidget.h"
 
 using namespace Uml;
 
-ToolBarStateAssociation::ToolBarStateAssociation(UMLView *umlView) : ToolBarStatePool(umlView) {
+ToolBarStateAssociation::ToolBarStateAssociation(UMLScene *umlScene) :
+    ToolBarStatePool(umlScene)
+{
     m_firstWidget = 0;
     m_associationLine = 0;
 }
 
-ToolBarStateAssociation::~ToolBarStateAssociation() {
+ToolBarStateAssociation::~ToolBarStateAssociation()
+{
     delete m_associationLine;
 }
 
-void ToolBarStateAssociation::init() {
+void ToolBarStateAssociation::init()
+{
     ToolBarStatePool::init();
 
     cleanAssociation();
 }
 
-void ToolBarStateAssociation::cleanBeforeChange() {
+void ToolBarStateAssociation::cleanBeforeChange()
+{
     ToolBarStatePool::cleanBeforeChange();
 
     cleanAssociation();
 }
 
-void ToolBarStateAssociation::mouseMove(QMouseEvent* ome) {
+void ToolBarStateAssociation::mouseMove(QGraphicsSceneMouseEvent* ome)
+{
     ToolBarStatePool::mouseMove(ome);
 
     if (m_associationLine) {
-        QPoint sp = m_associationLine->startPoint();
-        m_associationLine->setPoints(sp.x(), sp.y(), m_pMouseEvent->x(), m_pMouseEvent->y());
+        QPointF sp = m_associationLine->line().p1();
+        qreal x = m_pMouseEvent->scenePos().x(), y = m_pMouseEvent->scenePos().y();
+        m_associationLine->setLine(sp.x(), sp.y(), x, y);
     }
 }
 
-void ToolBarStateAssociation::slotWidgetRemoved(UMLWidget* widget) {
+void ToolBarStateAssociation::slotWidgetRemoved(UMLWidget* widget)
+{
     ToolBarState::slotWidgetRemoved(widget);
 
     if (widget == m_firstWidget) {
@@ -71,7 +79,8 @@ void ToolBarStateAssociation::slotWidgetRemoved(UMLWidget* widget) {
     }
 }
 
-void ToolBarStateAssociation::mouseReleaseAssociation() {
+void ToolBarStateAssociation::mouseReleaseAssociation()
+{
     if (m_pMouseEvent->button() != Qt::LeftButton ||
             !m_firstWidget || m_firstWidget->getBaseType() != Uml::wt_Class) {
         cleanAssociation();
@@ -79,8 +88,8 @@ void ToolBarStateAssociation::mouseReleaseAssociation() {
     }
 
     getCurrentAssociation()->createAssocClassLine(
-            static_cast<ClassifierWidget*>(m_firstWidget),
-            getCurrentAssociation()->getLinePath()->onLinePath(m_pMouseEvent->pos()));
+        static_cast<ClassifierWidget*>(m_firstWidget),
+        getCurrentAssociation()->getLinePath()->onLinePath(m_pMouseEvent->scenePos()));
     m_firstWidget->addAssoc( getCurrentAssociation() );
     cleanAssociation();
 }
@@ -121,24 +130,27 @@ void ToolBarStateAssociation::setFirstWidget() {
         return;
     }
     //set up position
-    QPoint pos;
+    QPointF pos;
     pos.setX(widget->getX() + (widget->getWidth() / 2));
     pos.setY(widget->getY() + (widget->getHeight() / 2));
     //TODO why is this needed?
-    m_pUMLView->setPos(pos);
+    m_pUMLScene->setPos(pos);
 
     m_firstWidget = widget;
 
-    m_associationLine = new Q3CanvasLine(m_pUMLView->canvas());
-    m_associationLine->setPoints(pos.x(), pos.y(), pos.x(), pos.y());
-    m_associationLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
+    m_associationLine = new QGraphicsLineItem();
+    m_pUMLScene->addItem(m_associationLine);
+    m_associationLine->setLine(pos.x(), pos.y(), pos.x(), pos.y());
+    m_associationLine->setPen(QPen(m_pUMLScene->getLineColor(), m_pUMLScene->getLineWidth(), Qt::DashLine));
 
     m_associationLine->setVisible(true);
 
-    m_pUMLView->viewport()->setMouseTracking(true);
+    // [PORT]
+    // m_pUMLScene->viewport()->setMouseTracking(true);
 }
 
-void ToolBarStateAssociation::setSecondWidget() {
+void ToolBarStateAssociation::setSecondWidget()
+{
     Association_Type type = getAssociationType();
     UMLWidget* widgetA = m_firstWidget;
     UMLWidget* widgetB = getCurrentWidget();
@@ -156,7 +168,7 @@ void ToolBarStateAssociation::setSecondWidget() {
         valid = AssocRules::allowAssociation(type, widgetA, widgetB);
     }
     if (valid) {
-        AssociationWidget *temp = new AssociationWidget(m_pUMLView, widgetA, type, widgetB);
+        AssociationWidget *temp = new AssociationWidget(m_pUMLScene, widgetA, type, widgetB);
         addAssociationInViewAndDoc(temp);
         if (type == at_Containment) {
             UMLListView *lv = UMLApp::app()->getListView();
@@ -179,7 +191,8 @@ void ToolBarStateAssociation::setSecondWidget() {
     cleanAssociation();
 }
 
-Association_Type ToolBarStateAssociation::getAssociationType() {
+Association_Type ToolBarStateAssociation::getAssociationType()
+{
     Association_Type at;
 
     switch(getButton()) {
@@ -209,16 +222,17 @@ Association_Type ToolBarStateAssociation::getAssociationType() {
     return at;
 }
 
-void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a) {
+void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a)
+{
     // append in view
-    if (m_pUMLView->addAssociation(a, false)) {
+    if (m_pUMLScene->addAssociation(a, false)) {
         // if view went ok, then append in document
         UMLAssociation *umla = a->getAssociation();
         if (umla == NULL) {
             // association without model representation in UMLDoc
             return;
         }
-        Uml::Model_Type m = Model_Utils::convert_DT_MT(m_pUMLView->getType());
+        Uml::Model_Type m = Model_Utils::convert_DT_MT(m_pUMLScene->getType());
         UMLDoc *umldoc = UMLApp::app()->getDocument();
         umla->setUMLPackage(umldoc->getRootFolder(m));
         UMLApp::app()->getDocument()->addAssociation(umla);

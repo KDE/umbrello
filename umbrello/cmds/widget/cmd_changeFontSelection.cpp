@@ -18,38 +18,41 @@
 #include "umlnamespace.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlview.h"
 #include "umlobject.h"
 #include "classifierwidget.h"
 #include "associationwidget.h"
 #include "messagewidget.h"
+#include "umlscene.h"
 
 
 
 #include <klocale.h>
 namespace Uml
 {
-    cmdChangeFontSelection::cmdChangeFontSelection(UMLDoc * doc,UMLView *view,QFont fon)
+    cmdChangeFontSelection::cmdChangeFontSelection(UMLDoc * doc,UMLScene *scene,QFont fon)
     {
 
-        UMLWidget * widget = view->getFirstMultiSelectedWidget();
+        // [PORT]
+        UMLWidget * widget = scene->getFirstMultiSelectedWidget();
         setText(i18n("Change Font")+ " : " + widget->getName());/*+ widget->getName()*/
         pDoc=doc;
-        pView=view;
+        pScene=scene;
         newFont = fon;
         oldFont = widget -> getFont() ;
     }
 
     void cmdChangeFontSelection::undo()
     {
-        pView -> selectionSetFont( oldFont );
-        pDoc -> setModified(true);
+        // [PORT]
+        pScene->selectionSetFont( oldFont );
+        pDoc->setModified(true);
     }
 
     void cmdChangeFontSelection::redo()
     {
-        pView -> selectionSetFont( newFont );
-        pDoc -> setModified(true);
+        // [PORT]
+        pScene->selectionSetFont( newFont );
+        pDoc->setModified(true);
     }
 
 }

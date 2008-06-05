@@ -30,6 +30,7 @@
 #include "listpopupmenu.h"
 #include "docwindow.h"
 #include "dialogs/classpropdlg.h"
+#include "umlscene.h"
 
 /**
  * The number of pixels margin between the lowest message
@@ -37,8 +38,8 @@
  */
 static const int sequenceLineMargin = 20;
 
-ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
-        : UMLWidget(view, o) {
+ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
+        : UMLWidget(scene, o) {
     init();
     if( lid != Uml::id_None )
         m_nLocalID = lid;
@@ -54,8 +55,8 @@ void ObjectWidget::init() {
     m_bMultipleInstance = false;
     m_bDrawAsActor = false;
     m_bShowDestruction = false;
-    if( m_pView != NULL && m_pView -> getType() == Uml::dt_Sequence ) {
-        m_pLine = new SeqLineWidget( m_pView, this );
+    if( m_pScene != NULL && m_pScene -> getType() == Uml::dt_Sequence ) {
+        m_pLine = new SeqLineWidget( m_pScene, this );
 
         //Sets specific widget controller for sequence diagrams
         delete m_widgetController;
@@ -74,7 +75,7 @@ void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY) {
         drawObject( p, offsetX, offsetY );
 
     setPenFromSettings(p);
-    if(m_bSelected)
+    if(isSelected())
         drawSelected(&p, offsetX, offsetY);
 }
 
@@ -90,7 +91,7 @@ void ObjectWidget::slotMenuSelection(QAction* action) {
                     i18n("Enter object name:"),
                     m_InstanceName,
                     &ok,
-                    m_pView,
+                    m_pScene->activeView(),
                     validator);
             if (ok) {
                 m_InstanceName = name;
@@ -123,7 +124,7 @@ void ObjectWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-QSize ObjectWidget::calculateSize() {
+QSizeF ObjectWidget::calculateSize() {
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
     const int fontHeight  = fm.lineSpacing();
@@ -143,7 +144,7 @@ QSize ObjectWidget::calculateSize() {
         }
     }//end else drawasactor
 
-    return QSize(width, height);
+    return QSizeF(width, height);
 }
 
 void ObjectWidget::setDrawAsActor( bool drawAsActor ) {
@@ -153,7 +154,7 @@ void ObjectWidget::setDrawAsActor( bool drawAsActor ) {
 
 void ObjectWidget::setMultipleInstance(bool multiple) {
     //make sure only calling this in relation to an object on a collab. diagram
-    if(m_pView -> getType() != Uml::dt_Collaboration)
+    if(m_pScene -> getType() != Uml::dt_Collaboration)
         return;
     m_bMultipleInstance = multiple;
     updateComponentSize();
@@ -169,12 +170,12 @@ bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
     return true;
 }
 
-void ObjectWidget::setX( int x ) {
+void ObjectWidget::setX(qreal x) {
     UMLWidget::setX(x);
     moveEvent(0);
 }
 
-void ObjectWidget::setY( int y ) {
+void ObjectWidget::setY(qreal y) {
     UMLWidget::setY(y);
     moveEvent(0);
 }
@@ -183,17 +184,17 @@ void ObjectWidget::moveEvent(QMoveEvent *m) {
     Q_UNUSED(m)
     emit sigWidgetMoved( m_nLocalID );
     if (m_pLine) {
-        const int x = getX();    // for debugging: gdb has a problem evaluating getX() etc
-        const int w = width();
-        const int y = getY();
-        const int h = height();
+        const qreal x = getX();    // for debugging: gdb has a problem evaluating getX() etc
+        const qreal w = getWidth();
+        const qreal y = getY();
+        const qreal h = getHeight();
         m_pLine->setStartPoint(x + w / 2, y + h);
     }
 }
 
 void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
-    UMLWidget::setFillColour( m_pView->getFillColor() );
-    UMLWidget::setLineColor( m_pView->getLineColor() );
+    UMLWidget::setFillColour( m_pScene->getFillColor() );
+    UMLWidget::setLineColor( m_pScene->getLineColor() );
 
     if( m_pLine)
         m_pLine -> setPen( QPen( UMLWidget::getLineColor(), UMLWidget::getLineWidth(), Qt::DashLine ) );
@@ -229,10 +230,12 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
     setPenFromSettings(p);
     if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColour());
-    else
-        p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
-    const int w = width();
-    const int h = height();
+    else {
+        // [PORT]
+        // p.setBrush( m_pScene->viewport()->palette().color(QPalette::Background) );
+    }
+    const int w = getWidth();
+    const int h = getHeight();
 
     const QString t = m_InstanceName + " : " + m_pObject -> getName();
     int multiInstOfst = 0;
@@ -256,7 +259,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
-    const int w = width();
+    const int w = getWidth();
     const int textStartY = A_HEIGHT + A_MARGIN;
     const int fontHeight  = fm.lineSpacing();
 
@@ -280,7 +283,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
 }
 
 void ObjectWidget::tabUp() {
-    int newY = getY() - height();
+    int newY = getY() - getHeight();
     if (newY < topMargin())
         newY = topMargin();
     setY( newY );
@@ -289,14 +292,14 @@ void ObjectWidget::tabUp() {
 }
 
 void ObjectWidget::tabDown() {
-    int newY = getY() + height();
+    int newY = getY() + getHeight();
     setY( newY );
     moveEvent( 0 );
     adjustAssocs( getX(), newY);
 }
 
 int ObjectWidget::topMargin() {
-    return 80 - height();
+    return 80 - getHeight();
 }
 
 bool ObjectWidget::canTabUp() {

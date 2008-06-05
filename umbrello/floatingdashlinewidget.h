@@ -31,7 +31,8 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class FloatingDashLineWidget : public UMLWidget {
+class FloatingDashLineWidget : public UMLWidget
+{
     Q_OBJECT
 public:
     /**
@@ -39,7 +40,7 @@ public:
      * @param view              The parent of the widget
      * @param id                The ID to assign (-1 will prompt a new ID)
      */
-    explicit FloatingDashLineWidget(UMLView * view, Uml::IDType id = Uml::id_None);
+    explicit FloatingDashLineWidget(UMLScene * scene, Uml::IDType id = Uml::id_None);
 
     /**
      * destructor
@@ -55,7 +56,7 @@ public:
      /**
      * Returns true if the given point is near the floatingdashline
      */
-     bool onLine(const QPoint & point);
+     bool onLine(const QPointF & point);
 
     /**
      * Sets m_text
@@ -65,27 +66,27 @@ public:
     /**
      * Overrides the setY method
      */
-    void setY(int y);
+    void setY(qreal y);
 
     /**
      * Sets m_yMin
      */
-    void setYMin(int yMin);
+    void setYMin(qreal yMin);
 
     /**
      * Sets m_yMax
      */
-    void setYMax(int yMax);
+    void setYMax(qreal yMax);
 
     /**
      * Returns m_yMin
      */
-    int getYMin();
+    qreal getYMin();
 
     /**
      * Returns the difference between the y-coordinate of the dash line and m_yMin
      */
-    int getDiffY();
+    qreal getDiffY();
 
      /**
      * Creates the "floatingdashline" XMI element.
@@ -107,19 +108,19 @@ private:
      * Value added to the y-coordinate of the combined fragment
      * to obtain the y-coordinate of the dash line
      */
-    int m_y;
+    qreal m_y;
 
     /**
      * Minimum value of the Y-coordinate of the dash line
      * (= y-coordinate of the combined fragment)
      */
-    int m_yMin;
+    qreal m_yMin;
 
     /**
      * Maximum value of the Y-coordinate of the dash line
      * (= y-coordinate of the combined fragment + height of the combined fragment)
      */
-    int m_yMax;
+    qreal m_yMax;
 };
 
 #endif
