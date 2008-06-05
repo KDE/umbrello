@@ -268,7 +268,7 @@ public:
      * Overrides standard method.
      * Auxiliary to reimplementations in the derived classes.
      */
-    void draw(QPainter & p, int offsetX, int offsetY);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *);
 
     /**
      * Extends base method to adjust also the association of a class

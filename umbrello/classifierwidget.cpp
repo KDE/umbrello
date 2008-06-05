@@ -522,17 +522,19 @@ UMLClassifier *ClassifierWidget::getClassifier() {
     return static_cast<UMLClassifier*>(m_pObject);
 }
 
-void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
-    setPenFromSettings(p);
+void ClassifierWidget::paint(QPainter *p, const QStyleOptionGraphicsItem* o, QWidget *)
+{
+    setPenFromSettings(*p);
     if ( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColour() );
+        p->setBrush( UMLWidget::getFillColour() );
     else {
         // [PORT] Derive this from style option
-        // p.setBrush( m_pScene->viewport()->palette().color(QPalette::Background) );
+        // p->setBrush( m_pScene->viewport()->palette().color(QPalette::Background) );
     }
+    qreal offsetX = 0, offsetY = 0;
 
     if (getClassifier()->isInterface() && m_bDrawAsCircle) {
-        drawAsCircle(p, offsetX, offsetY);
+        drawAsCircle(*p, offsetX, offsetY);
         return;
     }
 
@@ -547,7 +549,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
     qreal h = getHeight();
     if (templatesBoxSize.height() > 0)
         h -= templatesBoxSize.height() - MARGIN;
-    p.drawRect(offsetX, m_bodyOffsetY, w, h);
+    p->drawRect(offsetX, m_bodyOffsetY, w, h);
 
     QFont font = UMLWidget::getFont();
     font.setUnderline(false);
@@ -558,20 +560,20 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
     //If there are any templates then draw them
     UMLTemplateList tlist = getClassifier()->getTemplateList();
     if ( tlist.count() > 0 ) {
-        setPenFromSettings(p);
-        QPen pen = p.pen();
+        setPenFromSettings(*p);
+        QPen pen = p->pen();
         pen.setStyle(Qt::DotLine);
-        p.setPen(pen);
-        p.drawRect( offsetX + getWidth() - templatesBoxSize.width(), offsetY,
+        p->setPen(pen);
+        p->drawRect( offsetX + getWidth() - templatesBoxSize.width(), offsetY,
                     templatesBoxSize.width(), templatesBoxSize.height() );
-        p.setPen( QPen(Qt::black) );
+        p->setPen( QPen(Qt::black) );
         font.setBold(false);
-        p.setFont(font);
+        p->setFont(font);
         const qreal x = offsetX + getWidth() - templatesBoxSize.width() + MARGIN;
         qreal y = offsetY + MARGIN;
         foreach ( UMLTemplate *t , tlist ) {
             QString text = t->toString();
-            p.drawText(x, y, fm.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
+            p->drawText(x, y, fm.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
             y += fontHeight;
         }
     }
@@ -579,7 +581,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
     const qreal textX = offsetX + MARGIN;
     const qreal textWidth = w - MARGIN * 2;
 
-    p.setPen(QPen(Qt::black));
+    p->setPen(QPen(Qt::black));
 
     // draw stereotype
     font.setBold(true);
@@ -591,9 +593,9 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
     if (showNameOnly) {
         nameHeight = h;
     } else if (showStereotype) {
-        p.setFont(font);
+        p->setFont(font);
         stereo = m_pObject->getStereotype(true);
-        p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, stereo);
+        p->drawText(textX, m_bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, stereo);
         m_bodyOffsetY += fontHeight;
     }
 
@@ -605,22 +607,22 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
         name = this->getName();
     }
     font.setItalic( m_pObject->getAbstract() );
-    p.setFont(font);
-    p.drawText(textX, m_bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
+    p->setFont(font);
+    p->drawText(textX, m_bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
     if (!showNameOnly) {
         m_bodyOffsetY += fontHeight;
-        setPenFromSettings(p);
-        p.drawLine(offsetX, m_bodyOffsetY, offsetX + w - 1, m_bodyOffsetY);
-        p.setPen(QPen(Qt::black));
+        setPenFromSettings(*p);
+        p->drawLine(offsetX, m_bodyOffsetY, offsetX + w - 1, m_bodyOffsetY);
+        p->setPen(QPen(Qt::black));
     }
     font.setBold(false);
     font.setItalic(false);
-    p.setFont(font);
+    p->setFont(font);
 
     // draw attributes
     const qreal numAtts = displayedAttributes();
     if (m_bShowAttributes) {
-        drawMembers(p, Uml::ot_Attribute, m_ShowAttSigs, textX,
+        drawMembers(*p, Uml::ot_Attribute, m_ShowAttSigs, textX,
                     m_bodyOffsetY, fontHeight);
     }
 
@@ -630,19 +632,19 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
             m_bodyOffsetY += fontHeight / 2;  // no atts, so just add a bit of space
         else
             m_bodyOffsetY += fontHeight * numAtts;
-        setPenFromSettings(p);
-        p.drawLine(offsetX, m_bodyOffsetY, offsetX + w - 1, m_bodyOffsetY);
-        p.setPen(QPen(Qt::black));
+        setPenFromSettings(*p);
+        p->drawLine(offsetX, m_bodyOffsetY, offsetX + w - 1, m_bodyOffsetY);
+        p->setPen(QPen(Qt::black));
     }
 
     // draw operations
     if (m_bShowOperations) {
-        drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, textX,
+        drawMembers(*p, Uml::ot_Operation, m_ShowOpSigs, textX,
                     m_bodyOffsetY, fontHeight);
     }
 
     if (UMLWidget::isSelected())
-        UMLWidget::drawSelected(&p, offsetX, offsetY);
+        UMLWidget::drawSelected(p, offsetX, offsetY);
 }
 
 void ClassifierWidget::drawAsCircle(QPainter& p, qreal offsetX, qreal offsetY) {
