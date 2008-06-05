@@ -13,15 +13,38 @@
 
 namespace Settings{
 
-OptionState pd_optionState;
+    struct OptionStateHoster
+    {
+        static OptionState *pd_optionState;
 
-OptionState& getOptionState() {
-    return pd_optionState;
-}
+        OptionState& getOptionState() {
+            if(!pd_optionState) {
+                pd_optionState = new OptionState;
+            }
+            return *pd_optionState;
+        }
 
-void setOptionState(const OptionState& optstate) {
-    pd_optionState = optstate;
-}
+        void setOptionState(const OptionState& optstate) {
+            if(!pd_optionState) {
+                pd_optionState = new OptionState;
+            }
+            *pd_optionState = optstate;
+        }
+    };
+
+    OptionStateHoster hoster;
+
+    Settings::OptionState* Settings::OptionStateHoster::pd_optionState = NULL;
+
+    OptionState& getOptionState()
+    {
+        return hoster.getOptionState();
+    }
+
+    void setOptionState(const OptionState& optstate)
+    {
+        hoster.setOptionState(optstate);
+    }
 
 }  // namespace Settings
 
