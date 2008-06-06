@@ -20,7 +20,7 @@ namespace Settings{
      * which occurs due to creation of QFont objects before
      * QApplication object is created.
     */
-    K_GLOBAL_STATIC(OptionState, opState);
+    K_GLOBAL_STATIC(OptionState, opState)
 
     OptionState& getOptionState()
     {
