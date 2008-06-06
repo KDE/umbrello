@@ -5,23 +5,31 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2008                                                    *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "optionstate.h"
+#include <kglobal.h>
 
 namespace Settings{
 
-OptionState pd_optionState;
+    /*
+     * Impt: This ensures creation of OptionState object after
+     * QApplication there by avoiding nasty font rendering issues
+     * which occurs due to creation of QFont objects before
+     * QApplication object is created.
+    */
+    K_GLOBAL_STATIC(OptionState, opState);
 
-OptionState& getOptionState() {
-    return pd_optionState;
-}
+    OptionState& getOptionState()
+    {
+        return *opState;
+    }
 
-void setOptionState(const OptionState& optstate) {
-    pd_optionState = optstate;
-}
+    void setOptionState(const OptionState& optstate)
+    {
+        *opState = optstate;
+    }
 
 }  // namespace Settings
-
