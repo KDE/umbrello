@@ -10,40 +10,26 @@
  ***************************************************************************/
 
 #include "optionstate.h"
+#include <kglobal.h>
 
 namespace Settings{
 
-    struct OptionStateHoster
-    {
-        static OptionState *pd_optionState;
-
-        OptionState& getOptionState() {
-            if(!pd_optionState) {
-                pd_optionState = new OptionState;
-            }
-            return *pd_optionState;
-        }
-
-        void setOptionState(const OptionState& optstate) {
-            if(!pd_optionState) {
-                pd_optionState = new OptionState;
-            }
-            *pd_optionState = optstate;
-        }
-    };
-
-    OptionStateHoster hoster;
-
-    Settings::OptionState* Settings::OptionStateHoster::pd_optionState = NULL;
+    /*
+     * Impt: This ensures creation of OptionState object after
+     * QApplication there by avoiding nasty font rendering issues
+     * which occurs due to creation of QFont objects before
+     * QApplication object is created.
+    */
+    K_GLOBAL_STATIC(OptionState, opState);
 
     OptionState& getOptionState()
     {
-        return hoster.getOptionState();
+        return *opState;
     }
 
     void setOptionState(const OptionState& optstate)
     {
-        hoster.setOptionState(optstate);
+        *opState = optstate;
     }
 
 }  // namespace Settings
