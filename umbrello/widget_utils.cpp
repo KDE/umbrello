@@ -25,43 +25,57 @@
 #include "umlscene.h"
 
 
-namespace Widget_Utils {
-
-UMLWidget* findWidget(Uml::IDType id,
-                      const UMLWidgetList& widgets,
-                      const MessageWidgetList* pMessages /* = NULL */)
+namespace Widget_Utils
 {
-    UMLWidgetListIt it( widgets );
-    foreach ( UMLWidget* obj , widgets ) {
-        if (obj->getBaseType() == Uml::wt_Object) {
-            if (static_cast<ObjectWidget *>(obj)->getLocalID() == id)
+
+    UMLWidget* findWidget(Uml::IDType id,
+                          const UMLWidgetList& widgets,
+                          const MessageWidgetList* pMessages /* = NULL */)
+    {
+        UMLWidgetListIt it( widgets );
+        foreach ( UMLWidget* obj , widgets ) {
+            if (obj->getBaseType() == Uml::wt_Object) {
+                if (static_cast<ObjectWidget *>(obj)->getLocalID() == id)
+                    return obj;
+            } else if (obj->getID() == id) {
                 return obj;
-        } else if (obj->getID() == id) {
-            return obj;
+            }
         }
-    }
 
-    if (pMessages == NULL)
+        if (pMessages == NULL)
+            return NULL;
+
+        foreach ( UMLWidget* obj , *pMessages ) {
+            if( obj -> getID() == id )
+                return obj;
+        }
         return NULL;
-
-    foreach ( UMLWidget* obj , *pMessages ) {
-        if( obj -> getID() == id )
-            return obj;
     }
-    return NULL;
-}
 
-QGraphicsRectItem *decoratePoint(const QPointF& p)
-{
-    const int SIZE = 4;
-    UMLView *currentView = UMLApp::app()->getCurrentView();
-    QGraphicsRectItem *rect = new QGraphicsRectItem(0, 0, SIZE, SIZE);
-    currentView->umlScene()->addItem(rect);
-    rect->setPos(p.x() - SIZE / 2, p.y() - SIZE / 2);
-    rect->setBrush( QBrush(Qt::blue) );
-    rect->setPen( QPen(Qt::blue) );
-    return rect;
-}
+    QGraphicsRectItem *decoratePoint(const QPointF& p)
+    {
+        const int SIZE = 4;
+        UMLView *currentView = UMLApp::app()->getCurrentView();
+        QGraphicsRectItem *rect = new QGraphicsRectItem(0, 0, SIZE, SIZE);
+        currentView->umlScene()->addItem(rect);
+        rect->setPos(p.x() - SIZE / 2, p.y() - SIZE / 2);
+        rect->setBrush( QBrush(Qt::blue) );
+        rect->setPen( QPen(Qt::blue) );
+        return rect;
+    }
+
+    void loadPainterInfoFromXMI(const QDomElement &qElement, QPen &pen,
+                                QBrush &brush, QFont &font)
+    {
+        //TODO: Implement this
+    }
+
+    void savePainterInfoToXMI(QDomDocument &qDoc, QDomElement &qElement,
+                              const QPen &pen, const QBrush &brush,
+                              const QFont &font)
+    {
+        //TODO: Implement this
+    }
 
 
 }  // namespace Widget_Utils

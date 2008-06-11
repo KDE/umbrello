@@ -331,4 +331,8 @@ bool tagEq (const QString& tag, const QString& pattern);
 
 }  // end namespace Uml
 
+#define DISABLE_COPY(Class) \
+     Class(const Class &); \
+     Class &operator=(const Class &);
+
 #endif
