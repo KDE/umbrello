@@ -47,7 +47,7 @@ public:
     /**
      * Overrides standard method.
      */
-    void draw(QPainter& p, int offsetX, int offsetY);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     /**
      * Saves to the "datatypewidget" XMI element.

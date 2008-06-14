@@ -68,7 +68,11 @@ void ObjectWidget::init() {
 
 ObjectWidget::~ObjectWidget() {}
 
-void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY) {
+void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     if ( m_bDrawAsActor )
         drawActor( p, offsetX, offsetY );
     else

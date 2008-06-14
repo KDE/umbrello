@@ -23,6 +23,7 @@
 
 #include "umlobject.h"
 #include "umlscene.h"
+#include "uml.h"
 #include "widget_utils.h"
 
 /**
@@ -43,9 +44,9 @@ struct WidgetInterfaceData
     QString name;
 };
 
-NewUMLWidget::NewUMLWidget(UMLObject *object, QGraphicsItem *parent) :
+NewUMLWidget::NewUMLWidget(UMLObject *object) :
     QObject(),
-    QGraphicsItem(parent),
+    QGraphicsItem(0),
 
     m_umlObject(object),
     m_widgetInterfaceData(0)
@@ -53,6 +54,7 @@ NewUMLWidget::NewUMLWidget(UMLObject *object, QGraphicsItem *parent) :
     if(!object) {
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
+    setFlags(ItemIsSelectable | ItemIsMovable);
 }
 
 NewUMLWidget::~NewUMLWidget()
@@ -113,6 +115,11 @@ UMLScene* NewUMLWidget::umlScene() const
     return qobject_cast<UMLScene*>(this->scene());
 }
 
+UMLDoc* NewUMLWidget::umlDoc() const
+{
+    return UMLApp::app()->getDocument();
+}
+
 QString NewUMLWidget::documentation() const
 {
     if(m_umlObject) {
@@ -134,7 +141,7 @@ void NewUMLWidget::setDocumentation(const QString& doc)
 QString NewUMLWidget::name() const
 {
     if(m_umlObject) {
-        return m_umlObject->getDoc();
+        return m_umlObject->getName();
     }
     return m_widgetInterfaceData->name;
 }
@@ -147,6 +154,7 @@ void NewUMLWidget::setName(const QString& name)
     else {
         m_widgetInterfaceData->name = name;
     }
+    updateGeometry();
 }
 
 void NewUMLWidget::setPen(const QPen& pen)
@@ -167,19 +175,22 @@ void NewUMLWidget::setFont(const QFont& font)
     updateGeometry();
 }
 
+void NewUMLWidget::showPropertiesDialog()
+{
+}
+
+void NewUMLWidget::setupContextMenuActions(ListPopupMenu &menu)
+{
+	Q_UNUSED(menu);
+}
+
 bool NewUMLWidget::loadFromXMI(QDomElement &qElement)
 {
     //TODO: Add support for older versions.
     Widget_Utils::loadPainterInfoFromXMI(qElement, m_pen, m_brush, m_font);
 
-    qElement.setAttribute("xmi.id", ID2STR(id()));
-    qElement.setAttribute("x", pos().x());
-    qElement.setAttribute("y", pos().y());
 
     QString id = qElement.attribute("xmi.id", "-1");
-    QString x = qElement.attribute("x", "0");
-    QString y = qElement.attribute("y", "0");
-
     // Assert for the correctness of id loaded and the created object.
     if(m_umlObject) {
         if(id != ID2STR(this->id())) {
@@ -191,14 +202,43 @@ bool NewUMLWidget::loadFromXMI(QDomElement &qElement)
         setId(STR2ID(id));
     }
 
-    setPos(x.toDouble(), y.toDouble());
+    qreal x = qElement.attribute("x", "0").toDouble();
+    qreal y = qElement.attribute("y", "0").toDouble();
+    setPos(x, y);
+
     return true;
 }
 
 void NewUMLWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     Widget_Utils::savePainterInfoToXMI(qDoc, qElement, m_pen, m_brush, m_font);
+
+    qElement.setAttribute("xmi.id", ID2STR(id()));
+    qElement.setAttribute("x", pos().x());
+    qElement.setAttribute("y", pos().y());
 }
+
+bool NewUMLWidget::widgetHasUMLObject(Uml::Widget_Type type)
+{
+	switch(type)
+	{
+	case Uml::wt_Actor:
+	case Uml::wt_UseCase:
+	case Uml::wt_Class:
+	case Uml::wt_Interface:
+	case Uml::wt_Enum:
+	case Uml::wt_Datatype:
+	case Uml::wt_Package:
+	case Uml::wt_Component:
+	case Uml::wt_Node:
+	case Uml::wt_Artifact:
+	case Uml::wt_Object:
+		return true;
+	default:
+		return false;
+	}
+}
+
 
 void NewUMLWidget::slotUMLObjectDataChanged()
 {

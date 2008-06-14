@@ -46,7 +46,11 @@ void ComponentWidget::init() {
 
 ComponentWidget::~ComponentWidget() {}
 
-void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     UMLComponent *umlcomp = static_cast<UMLComponent*>(m_pObject);
     if (umlcomp == NULL)
         return;

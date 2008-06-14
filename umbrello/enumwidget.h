@@ -70,7 +70,7 @@ public:
     /**
      * Draws the enum as a rectangle with a box underneith with a list of literals
      */
-    void draw(QPainter& p, int offsetX, int offsetY);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     /**
      * Saves to the "enumwidget" XMI element.

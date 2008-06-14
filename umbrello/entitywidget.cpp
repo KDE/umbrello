@@ -50,7 +50,11 @@ void EntityWidget::init() {
 
 EntityWidget::~EntityWidget() {}
 
-void EntityWidget::draw(QPainter& p, int offsetX, int offsetY) {
+void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     setPenFromSettings(p);
     if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColour());

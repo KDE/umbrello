@@ -53,7 +53,11 @@ SignalWidget::SignalWidget(UMLScene * scene, SignalType signalType, Uml::IDType 
 
 SignalWidget::~SignalWidget() {}
 
-void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     setPenFromSettings(p);
     const qreal w = getWidth();
     const qreal h = getHeight();

@@ -27,7 +27,11 @@ UseCaseWidget::UseCaseWidget(UMLScene * view, UMLUseCase *o) : UMLWidget(view, o
 
 UseCaseWidget::~UseCaseWidget() {}
 
-void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );

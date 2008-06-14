@@ -70,8 +70,6 @@ UMLWidget::UMLWidget(UMLScene * scene, UMLObject * o,
         connect(m_pObject, SIGNAL(modified()), this, SLOT(updateWidget()));
         m_nId = m_pObject->getID();
     }
-
-
 }
 
 UMLWidget::UMLWidget(UMLScene * scene, Uml::IDType id /* = Uml::id_None */, UMLWidgetController *widgetController /* = 0*/)
@@ -196,12 +194,14 @@ bool UMLWidget::operator==(const UMLWidget& other)
 
 void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 {
-    m_widgetController->mouseMoveEvent(me);
+    QGraphicsItem::mouseMoveEvent(me);
+    // m_widgetController->mouseMoveEvent(me);
 }
 
 void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *me)
 {
-    m_widgetController->mousePressEvent(me);
+    QGraphicsItem::mousePressEvent(me);
+    // m_widgetController->mousePressEvent(me);
 }
 
 void UMLWidget::updateWidget()
@@ -243,7 +243,8 @@ void UMLWidget::constrain(qreal& width, qreal& height)
 
 void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 {
-    m_widgetController->mouseReleaseEvent(me);
+    QGraphicsItem::mouseReleaseEvent(me);
+    //m_widgetController->mouseReleaseEvent(me);
 }
 
 void UMLWidget::init()
@@ -289,6 +290,7 @@ void UMLWidget::init()
     m_pObject = NULL;
     m_origZ = 2.;
     setZ(m_origZ);  // default for most widgets
+    setFlags(ItemIsMovable | ItemIsSelectable);
 }
 
 void UMLWidget::slotMenuSelection(QAction* action)

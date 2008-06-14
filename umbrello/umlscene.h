@@ -893,6 +893,8 @@ class UMLScene : public QGraphicsScene
         return m_pDoc;
     }
 
+    void callBaseMouseMethod(QGraphicsSceneMouseEvent *event);
+
 protected:
 
     void drawBackground(QPainter *p, const QRectF& rect);

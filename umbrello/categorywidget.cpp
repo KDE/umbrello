@@ -28,7 +28,11 @@ CategoryWidget::CategoryWidget(UMLScene * scene, UMLCategory *o) : UMLWidget(sce
 
 CategoryWidget::~CategoryWidget() {}
 
-void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     UMLWidget::setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );

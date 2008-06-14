@@ -50,7 +50,7 @@ public:
     /**
      * Overrides the standard paint event.
      */
-    void draw(QPainter & p, int offsetX, int offsetY);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     void slotMenuSelection(QAction* action);
      /**

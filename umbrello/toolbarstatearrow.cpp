@@ -42,6 +42,27 @@ void ToolBarStateArrow::init()
     m_selectionRect.clear();
 }
 
+void ToolBarStateArrow::mousePress(QGraphicsSceneMouseEvent *ome)
+{
+	m_pUMLScene->callBaseMouseMethod(ome);
+}
+
+void ToolBarStateArrow::mouseMove(QGraphicsSceneMouseEvent *ome)
+{
+	m_pUMLScene->callBaseMouseMethod(ome);
+}
+
+void ToolBarStateArrow::mouseRelease(QGraphicsSceneMouseEvent *ome)
+{
+	m_pUMLScene->callBaseMouseMethod(ome);
+}
+
+void ToolBarStateArrow::mouseDoubleClick(QGraphicsSceneMouseEvent *ome)
+{
+	m_pUMLScene->callBaseMouseMethod(ome);
+}
+
+
 void ToolBarStateArrow::mousePressAssociation()
 {
     getCurrentAssociation()->mousePressEvent(m_pMouseEvent);

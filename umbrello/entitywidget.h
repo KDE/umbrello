@@ -52,7 +52,7 @@ public:
     /**
      * Draws the entity as a rectangle with a box underneith with a list of literals
      */
-    void draw(QPainter& p, int offsetX, int offsetY);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     /**
      * Saves to the "entitywidget" XMI element.

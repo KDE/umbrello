@@ -87,6 +87,8 @@
 #include "entity.h"
 #include "foreignkeyconstraint.h"
 
+#include "enum.h"
+#include "newenumwidget.h"
 
 // static members
 const qreal UMLScene::defaultCanvasSize = 1300;
@@ -139,6 +141,31 @@ UMLScene::UMLScene(UMLFolder *parentFolder) :
     m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
     m_pDoc = UMLApp::app()->getDocument();
     m_pFolder = parentFolder;
+
+    /*
+     * Test code below.
+     */
+    UMLEnum *en = new UMLEnum("Qt::SizeHint");
+    en->createEnumLiteral("MinimumSize");
+    en->createEnumLiteral("MaximumSize");
+    en->createEnumLiteral("PreferredSize");
+    en->createEnumLiteral("MaximumSize");
+    NewEnumWidget *wid = new NewEnumWidget(en);
+
+
+    wid->setPen(QPen(Qt::darkGray));
+    wid->init();
+    addItem(wid);
+    wid->setPos(40, 40);
+    QLinearGradient ling(QPointF(0, 0), QPointF(0, 1));
+    ling.setCoordinateMode(QGradient::ObjectBoundingMode);
+    QColor col2(Qt::darkCyan);
+    QColor col1(Qt::white);
+
+    ling.setColorAt(0, col1);
+    ling.setColorAt(1, col2);
+
+    wid->setBrush(QBrush(ling));
 }
 
 UMLScene::~UMLScene()
@@ -2762,6 +2789,19 @@ bool UMLScene::checkUniqueSelection()
     } // for (through all selected items)
 
     return true; // selected items are unique
+}
+
+void UMLScene::callBaseMouseMethod(QGraphicsSceneMouseEvent *event)
+{
+    switch(event->type())
+    {
+    case QEvent::GraphicsSceneMousePress: QGraphicsScene::mousePressEvent(event); break;
+    case QEvent::GraphicsSceneMouseMove: QGraphicsScene::mouseMoveEvent(event); break;
+    case QEvent::GraphicsSceneMouseRelease: QGraphicsScene::mouseReleaseEvent(event); break;
+    case QEvent::GraphicsSceneMouseDoubleClick: QGraphicsScene::mouseDoubleClickEvent(event); break;
+
+    default: ;
+    }
 }
 
 void UMLScene::drawBackground(QPainter *p, const QRectF &rect)

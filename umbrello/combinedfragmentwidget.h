@@ -69,7 +69,7 @@ public:
     /**
      * Overrides the standard paint event.
      */
-    void draw(QPainter & p, int offsetX, int offsetY);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     /**
      * Returns the type of combined fragment.

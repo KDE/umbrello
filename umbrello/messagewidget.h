@@ -279,7 +279,7 @@ public:
     /**
      * Calls drawSynchronous() or drawAsynchronous()
      */
-    void draw(QPainter& p, int offsetX, int offsetY);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     /**
      * Draws the calling arrow with filled in arrowhead, the

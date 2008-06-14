@@ -70,8 +70,11 @@ FloatingTextWidget::~FloatingTextWidget()
 {
 }
 
-void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY)
+void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     qreal w = getWidth();
     qreal h = getHeight();
     p.setFont( UMLWidget::getFont() );

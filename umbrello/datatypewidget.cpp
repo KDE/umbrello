@@ -39,7 +39,11 @@ void DatatypeWidget::init() {
     m_pMenu = 0;
 }
 
-void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
+void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     setPenFromSettings(p);
     if (UMLWidget::getUseFillColour())  {
         p.setBrush(UMLWidget::getFillColour());

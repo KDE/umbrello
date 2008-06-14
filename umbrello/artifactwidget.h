@@ -48,7 +48,7 @@ public:
     /**
      * Overrides standard method
      */
-    void draw(QPainter& p, int offsetX, int offsetY);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     /**
      * Saves the widget to the "artifactwidget" XMI element.

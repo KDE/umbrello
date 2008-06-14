@@ -64,7 +64,11 @@ void PinWidget::init() {
     setVisible(true);
 }
 
-void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     qreal w = 10;
     qreal h = 10;
     qreal width_Activity = m_pOw->getWidth();

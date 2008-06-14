@@ -40,7 +40,11 @@ StateWidget::StateWidget(UMLScene * view, StateType stateType, Uml::IDType id)
 
 StateWidget::~StateWidget() {}
 
-void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     setPenFromSettings(p);
     const int w = getWidth();
     const int h = getHeight();

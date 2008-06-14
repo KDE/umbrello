@@ -28,7 +28,11 @@ BoxWidget::BoxWidget(UMLScene * scene, Uml::IDType id)
 BoxWidget::~BoxWidget() {
 }
 
-void BoxWidget::draw(QPainter& p, int offsetX, int offsetY) {
+void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     UMLWidget::setPenFromSettings(p);
     p.drawRect( offsetX, offsetY, getWidth(), getHeight() );
 

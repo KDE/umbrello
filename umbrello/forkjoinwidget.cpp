@@ -45,7 +45,11 @@ QSizeF ForkJoinWidget::calculateSize()
     }
 }
 
-void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY) {
+void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     p.fillRect( offsetX, offsetY, getWidth(), getHeight(), QBrush( Qt::black ));
 
     if (isSelected()) {

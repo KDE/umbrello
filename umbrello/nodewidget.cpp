@@ -35,7 +35,11 @@ NodeWidget::NodeWidget(UMLScene * view, UMLNode *n )
 
 NodeWidget::~NodeWidget() {}
 
-void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColour() );

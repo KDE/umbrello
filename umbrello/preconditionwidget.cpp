@@ -67,7 +67,11 @@ void PreconditionWidget::init() {
     setVisible(true);
 }
 
-void PreconditionWidget::draw(QPainter & p, int /*offsetX*/, int offsetY) {
+void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     int w = getWidth();
     int h = getHeight();
 

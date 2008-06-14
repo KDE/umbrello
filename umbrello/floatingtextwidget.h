@@ -217,7 +217,7 @@ public:
     /**
      * Overrides default method
      */
-    void draw(QPainter & p, int offsetX, int offsetY);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     /**
      * Handle the ListPopupMenu::mt_Rename case of the slotMenuSelection.

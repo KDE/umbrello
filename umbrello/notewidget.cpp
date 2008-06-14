@@ -168,7 +168,11 @@ void NoteWidget::setDoc(const QString &newText) {
 #endif
 }
 
-void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     qreal margin = 10;
     qreal w = getWidth()-1;
 

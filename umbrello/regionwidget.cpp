@@ -37,8 +37,11 @@ RegionWidget::RegionWidget(UMLScene * view, Uml::IDType id)
 
 RegionWidget::~RegionWidget() {}
 
-void RegionWidget::draw(QPainter & p, int offsetX, int offsetY)
+void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     setPenFromSettings(p);
     const int w = getWidth();
     const int h = getHeight();

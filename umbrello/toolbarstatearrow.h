@@ -51,6 +51,13 @@ public:
      */
     virtual void init();
 
+    /* The following 4 methods are only temporary hack
+     */
+    void mousePress(QGraphicsSceneMouseEvent *ome);
+    void mouseMove(QGraphicsSceneMouseEvent *ome);
+    void mouseRelease(QGraphicsSceneMouseEvent *ome);
+    void mouseDoubleClick(QGraphicsSceneMouseEvent *ome);
+
 protected:
 
     /**

@@ -180,7 +180,11 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
     }
 }
 
-void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY) {
+void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+	QPainter &p = *painter;
+	qreal offsetX = 0, offsetY = 0;
+
     UMLWidget::setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColour() );

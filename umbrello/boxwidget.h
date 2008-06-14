@@ -49,7 +49,7 @@ public:
     /**
      * Draws a rectangle.
      */
-    void draw(QPainter & p, int offsetX, int offsetY);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     /**
      * Saves the widget to the "boxwidget" XMI element.

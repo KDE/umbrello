@@ -17,8 +17,8 @@
  * Boston, MA 02110-1301, USA.                                             *
  ***************************************************************************/
 
-#ifndef __NEWUMLWIDGET_H
-#define __NEWUMLWIDGET_H
+#ifndef NEWUMLWIDGET_H
+#define NEWUMLWIDGET_H
 
 #include <QtCore/QObject>
 #include <QtGui/QGraphicsItem>
@@ -31,7 +31,9 @@
 
 class UMLObject;
 class UMLScene;
+class UMLDoc;
 class WidgetInterfaceData;
+class ListPopupMenu;
 
 /**
  * @short The base class for UML widgets that appear on UML diagrams.
@@ -52,12 +54,10 @@ public:
      *               widget. Pass null if this widget does not have
      *               UMLObject representation.
      *
-     * @param parent The parent of the widget.
-     *
      * @note The widget's visual properties are best to be set by the
      *       Widget_Factory::createWidget method.
      */
-    explicit NewUMLWidget(UMLObject *object, QGraphicsItem *parent = 0);
+    explicit NewUMLWidget(UMLObject *object);
     /**
      * Destructor
      */
@@ -109,6 +109,12 @@ public:
      *       UMLScene::addItem(widget)
      */
     UMLScene* umlScene() const;
+
+    /**
+     * This is shortcut method for UMLApp::app()->getDocument()
+     * @return Pointer to the UMLDoc object.
+     */
+    UMLDoc* umlDoc() const;
 
     /**
      * If this widget represents a UMLObject, the documentation string
@@ -188,7 +194,6 @@ public:
      */
     void setFont(const QFont& font);
 
-
     /**
      * @return The bounding rectangle for this widget.
      * @see setBoundingRectAndShape
@@ -204,6 +209,23 @@ public:
     QPainterPath shape() const {
         return m_shape;
     }
+
+    /**
+     * A virtual method for the widget to display a property dialog box.
+     * Subclasses should reimplment this appropriately.
+     */
+	virtual void showPropertiesDialog();
+
+	/**
+	 * A virtual method to setup a context menu actions. Subclasses can call
+	 * this method and add other actions as desired.
+	 *
+	 * @param menu The ListPopupMenu into which the menu actions
+	 *             should be added.
+	 *
+	 * @note The menu is not a pointer to avoid destruction problems.
+	 */
+	virtual void setupContextMenuActions(ListPopupMenu &menu);
 
     /**
      * A virtual method to load the properties of this widget from a
@@ -232,6 +254,11 @@ public:
      * @oaram qElement A QDomElement representing xml element data.
      */
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
+
+    /**
+     * Returns whether the widget type has an associated UMLObject
+     */
+    static bool widgetHasUMLObject(Uml::Widget_Type type);
 
 protected Q_SLOTS:
     /**
@@ -281,25 +308,38 @@ protected:
     void setBoundingRectAndShape(const QRectF &rect,
                                  const QPainterPath& path = QPainterPath());
 
+    /**
+     * Helper method to set only the shape.
+     * Call setBoundingRectAndShape(boundingRect() , path);
+     *
+     * @see setBoundingRectAndShape
+     */
+    void setShape(const QPainterPath& path) {
+        setBoundingRectAndShape(boundingRect(), path);
+    }
 
-    UMLObject *m_umlObject;
+
+    QRectF m_boundingRect;
+    QPainterPath m_shape;
 
     Uml::Widget_Type m_baseType;
+
+private:
+    UMLObject *m_umlObject;
+
+
 
     QPen m_pen;
     QBrush m_brush;
     QFont m_font;
 
-    QRectF m_boundingRect;
-    QPainterPath m_shape;
 
     WidgetInterfaceData *m_widgetInterfaceData;
 
-private:
     /*
      * Disable the copy constructor and assignment operator.
      */
     DISABLE_COPY(NewUMLWidget)
 };
 
-#endif //__NEWUMLWIDGET_H
+#endif //NEWUMLWIDGET_H
