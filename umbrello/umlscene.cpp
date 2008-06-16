@@ -153,19 +153,20 @@ UMLScene::UMLScene(UMLFolder *parentFolder) :
     NewEnumWidget *wid = new NewEnumWidget(en);
 
 
-    wid->setPen(QPen(Qt::darkGray));
+    wid->setPen(QPen(Qt::yellow));
     wid->init();
     addItem(wid);
     wid->setPos(40, 40);
     QLinearGradient ling(QPointF(0, 0), QPointF(0, 1));
     ling.setCoordinateMode(QGradient::ObjectBoundingMode);
-    QColor col2(Qt::darkCyan);
-    QColor col1(Qt::white);
+    QColor col2(Qt::black);
+    QColor col1(Qt::lightGray);
 
     ling.setColorAt(0, col1);
     ling.setColorAt(1, col2);
 
     wid->setBrush(QBrush(ling));
+    wid->setSize(220, 120);
 }
 
 UMLScene::~UMLScene()

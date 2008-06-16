@@ -19,15 +19,19 @@
 
 #include "newumlrectwidget.h"
 #include "listpopupmenu.h"
+#include "widget_utils.h"
+#include "umlscene.h"
 
 #include <QtGui/QDialog>
+#include <QtGui/QGraphicsSceneHoverEvent>
+
 #include <kdebug.h>
 
 NewUMLRectWidget::NewUMLRectWidget (UMLObject *object) :
     NewUMLWidget(object),
     m_size(20, 20),
     m_resizable(true),
-    m_isResizing(false)
+    m_resizeHandle(Uml::rh_None)
 {
 }
 
@@ -37,27 +41,24 @@ NewUMLRectWidget::~NewUMLRectWidget()
 
 void NewUMLRectWidget::setSize(const QSizeF &size, const QPainterPath &newShape)
 {
-    QSizeF minSize = sizeHint(Qt::MinimumSize);
-    QSizeF maxSize = sizeHint(Qt::MaximumSize);
+    m_size = size;
+    adjustSizeForConstraints(m_size);
 
-    m_size = minSize.expandedTo(size);
-    m_size = m_size.boundedTo(maxSize);
-
-    QRectF boundRect(QPointF(0, 0), m_size);
+    QRectF boundRect = rect ();
     /*
      * There is no need to adjust half the pen width if the widget is
      * resizable since the small resize hint rectangles themselves
      * ensure the geometry of widget adjusts even for half pen width.
      */
     if(isResizable()) {
-
+        Widget_Utils::adjustRectForResizeHandles (boundRect);
     }
     else {
         // Adjust bounding rect with half the pen width.
-        qreal hpw = 0.5 * pen().width();
-        boundRect.adjust(-hpw, -hpw, hpw, hpw);
+        qreal hpw = 0.5 * pen().width ();
+        boundRect.adjust (-hpw, -hpw, hpw, hpw);
     }
-    setBoundingRectAndShape(boundRect, newShape);
+    setBoundingRectAndShape (boundRect, newShape);
 }
 
 void NewUMLRectWidget::setInstanceName(const QString &name)
@@ -149,31 +150,189 @@ void NewUMLRectWidget::setResizable(bool resizable)
 
 void NewUMLRectWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    NewUMLWidget::mousePressEvent(event);
-    if(!isResizable()) {
+    if(m_resizeHandle != Uml::rh_None) {
         return;
+    }
+    NewUMLWidget::mousePressEvent(event);
+    event->accept();
+    // Don't handle resizing if the widget is non-resizable or there
+    // are more selected widgets.
+    if(!isResizable() || scene()->selectedItems().size() > 1) {
+        return;
+    }
+
+    if(event->button() == Qt::LeftButton) {
+        m_resizeHandle = Widget_Utils::resizeHandleForPoint(event->pos(), rect());
+        if(m_resizeHandle != Uml::rh_None) {
+            m_oldGeometry = rect(); // save the current geometry
+        }
     }
 }
 
-void NewUMLRectWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void NewUMLRectWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
-    if(!isResizable() || !m_isResizing) {
-        NewUMLWidget::mouseMoveEvent(event);
+    // Use the default widget move behavior if the widget is not being
+    // resized.
+    if(m_resizeHandle == Uml::rh_None) {
+        NewUMLWidget::mouseMoveEvent(e);
         return;
     }
+
+    e->accept();
+
+    const QPointF sp = e->scenePos();
+    const QSizeF minSize = sizeHint(Qt::MinimumSize);
+    const QSizeF maxSize = sizeHint(Qt::MaximumSize);
+    qreal w, h, minw, maxw, minh, maxh;
+    minw = minSize.width();
+    maxw = maxSize.width();
+    minh = minSize.height();
+    maxh = maxSize.height();
+
+    QRectF newRect(scenePos(), size());
+
+    switch(m_resizeHandle)
+    {
+    case Uml::rh_TopLeft:
+        h = newRect.bottom() - sp.y();
+        if (h >= minh && h <= maxh) {
+            newRect.setTop(sp.y());
+        }
+
+        w = newRect.right() - sp.x();
+        if (w >= minw && w <= maxw) {
+            newRect.setLeft(sp.x());
+        }
+        break;
+
+    case Uml::rh_Top:
+        h = newRect.bottom() - sp.y();
+
+        if (h >= minh && h <= maxh) {
+            newRect.setTop(sp.y());
+        }
+        break;
+
+    case Uml::rh_TopRight:
+        h = newRect.bottom() - sp.y();
+        if (h >= minh && h <= maxh) {
+            newRect.setTop(sp.y());
+        }
+
+        w = sp.x() - newRect.left();
+        if (w >= minh && w <= maxw) {
+            newRect.setRight(sp.x());
+        }
+        break;
+
+    case Uml::rh_Right:
+        w = sp.x() - newRect.left();
+        if (w >= minh && w <= maxw) {
+            newRect.setRight(sp.x());
+        }
+        break;
+
+    case Uml::rh_BottomRight:
+        h = sp.y() - newRect.top();
+        if (h >= minh && h <= maxh) {
+            newRect.setBottom(sp.y());
+        }
+
+        w = sp.x() - newRect.left();
+        if (w >= minh && w <= maxw) {
+            newRect.setRight(sp.x());
+        }
+        break;
+
+    case Uml::rh_Bottom:
+        h = sp.y() - newRect.top();
+        if (h >= minh && h <= maxh) {
+            newRect.setBottom(sp.y());
+        }
+        break;
+
+    case Uml::rh_BottomLeft:
+        h = sp.y() - newRect.top();
+        if (h >= minh && h <= maxh) {
+            newRect.setBottom(sp.y());
+        }
+
+        w = newRect.right() - sp.x();
+        if(w >= minw && w <= maxw) {
+            newRect.setLeft(sp.x());
+        }
+        break;
+
+    case Uml::rh_Left:
+        w = newRect.right() - sp.x();
+        if(w >= minw && w <= maxw) {
+            newRect.setLeft(sp.x());
+        }
+        break;
+
+    default:
+        ; // NOP to prevent compiler warning
+    }
+
+    setPos(newRect.topLeft());
+    setSize(newRect.size());
 }
 
 void NewUMLRectWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    if(!isResizable() || !m_isResizing) {
+    if(!isResizable() || m_resizeHandle == Uml::rh_None) {
         NewUMLWidget::mouseReleaseEvent(event);
     }
-    m_isResizing = false;
+    event->accept();
+    m_resizeHandle = Uml::rh_None;
 }
 
 void NewUMLRectWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
+    Q_UNUSED(event);
+}
 
+void NewUMLRectWidget::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    Q_UNUSED(event);
+}
+
+void NewUMLRectWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+{
+    Uml::ResizeHandle handle = Widget_Utils::resizeHandleForPoint(event->pos(), rect());
+    QCursor cursor = Widget_Utils::cursorForResizeHandle(handle);
+    setCursor(cursor);
+}
+
+void NewUMLRectWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    Q_UNUSED(event);
+}
+
+QVariant NewUMLRectWidget::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+    if(change == QGraphicsItem::ItemSelectedHasChanged) {
+        bool selection = value.toBool();
+        bool enableHover = selection && isResizable();
+        // If multiple items are selected, resizing is not done.
+        if(scene()) {
+            enableHover = enableHover && (scene()->selectedItems().size() == 1);
+        }
+        setAcceptHoverEvents(enableHover);
+        if(!enableHover) {
+            setCursor(QCursor(Qt::ArrowCursor));
+        }
+    }
+    return NewUMLWidget::itemChange(change, value);
+}
+
+void NewUMLRectWidget::adjustSizeForConstraints(QSizeF &sz)
+{
+    const QSizeF minSize = sizeHint(Qt::MinimumSize);
+    const QSizeF maxSize = sizeHint(Qt::MaximumSize);
+
+    sz = minSize.expandedTo(sz);
+    sz = maxSize.boundedTo(sz);
 }
 
 #include "newumlrectwidget.moc"

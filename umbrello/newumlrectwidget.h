@@ -98,6 +98,16 @@ public:
 	void setSize(const QSizeF &size, const QPainterPath& newShape = QPainterPath());
 
     /**
+     * Shortcut for QRectF(QPointF(0, 0), size())
+     *
+     * @note rect() is not same as boundingRect(). The latter also
+     *       includes extra portions to cover resize handles.
+     */
+    QRectF rect() const {
+        return QRectF(QPointF(0, 0), size());
+    }
+
+    /**
      * This is an overloaded function for convenience.
      * Shortcut for setSize(QSizeF(w, h), newShape)
      *
@@ -198,8 +208,27 @@ protected:
      */
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
+    /**
+     * Reimplemented to provide resizing ability.
+     */
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    /**
+     * Reimplemented to provide resizing ability.
+     */
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    /**
+     * Reimplemented to provide resizing ability.
+     */
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+
+    /**
+     * Reimplemented to catch selection change notification and enable/disable hover
+     * events based on whether this widget is selected or not.
+     */
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
+    void adjustSizeForConstraints(QSizeF &sz);
 
     QSizeF m_size;
     QString m_instanceName;
@@ -208,7 +237,8 @@ private:
     AssociationWidgetList m_associationWidgetList;
 
     // Internal variable to keep track of resizing state.
-    bool m_isResizing;
+    Uml::ResizeHandle m_resizeHandle;
+    QRectF m_oldGeometry;
 };
 
 #endif //NEWUMLRECTWIDGET_H

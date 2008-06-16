@@ -14,6 +14,7 @@
 
 // qt/kde includes
 #include <QtGui/QPainter>
+#include <QtGui/QStyleOptionGraphicsItem>
 #include <kdebug.h>
 
 // app includes
@@ -22,6 +23,7 @@
 #include "classifier.h"
 #include "umlclassifierlistitemlist.h"
 #include "classifierlistitem.h"
+#include "widget_utils.h"
 
 NewEnumWidget::NewEnumWidget(UMLObject* o) : NewUMLRectWidget(o)
 {
@@ -49,46 +51,65 @@ void NewEnumWidget::paint(QPainter *painter,
                           const QStyleOptionGraphicsItem *option,
                           QWidget *widget)
 {
+    UMLClassifier *classifier = 0;
+    UMLClassifierListItemList list;
+
+    if(umlObject()) {
+        classifier = static_cast<UMLClassifier*>(umlObject());
+        list = classifier->getFilteredList(Uml::ot_EnumLiteral);
+    }
+
     QFont fnt = NewUMLRectWidget::font();
-    const QSizeF sz = size();
+    // Get font metrics for max font type
+    fnt.setBold(true);
+    fnt.setItalic(true);
     QFontMetricsF fm(fnt);
-    const qreal fontHeight  = fm.lineSpacing();
+    fnt.setItalic(false); // Reset italic.
+
+    qreal fontHeight  = fm.lineSpacing();
+    const QSizeF sz = size();
+    const QSizeF minSz = sizeHint(Qt::MinimumSize);
+
+    if(sz.height() > minSz.height()) {
+        fontHeight += (sz.height() - minSz.height()) / qreal(list.size() + 2);
+    }
+
+    QRectF fontRect(ENUM_MARGIN, 0, sz.width() - ENUM_MARGIN * 2, fontHeight);
+
 
     painter->setPen(pen());
     painter->setBrush(brush());
-    painter->drawRect(QRectF(QPointF(0, 0), sz));
+    // First draw the outer rectangle with the pen and brush of this widget.
+    painter->drawRect(rect());
+    // Now set the brush to Qt::NoBrush
+    painter->setBrush(QBrush(Qt::NoBrush));
+    painter->drawLine(QLineF(0, fontHeight * 2, sz.width() - 1, fontHeight * 2));
 
-    QRectF rect(ENUM_MARGIN, 0, sz.width() - ENUM_MARGIN * 2, fontHeight);
-
-
-    fnt.setBold(true);
     painter->setFont(fnt);
-    painter->setPen(QPen(Qt::black));
-    painter->drawText(rect, Qt::AlignCenter, umlObject()->getStereotype(true));
+    QString text = umlObject() ? umlObject()->getStereotype(true) : "<< >>";
 
-    fnt.setItalic(umlObject()->getAbstract());
+    painter->drawText(fontRect, Qt::AlignCenter, text);
+
+    bool italicNeeded = umlObject() ? umlObject()->getAbstract() : false;
+    fnt.setItalic(italicNeeded);
     painter->setFont(fnt);
-    rect.moveTop(rect.top() + fontHeight);
-    painter->drawText(rect, Qt::AlignCenter, name());
+    fontRect.moveTop(fontRect.top() + fontHeight);
+
+    painter->drawText(fontRect, Qt::AlignCenter, name());
 
     qreal y = fontHeight * 2;
     fnt.setBold(false);
     fnt.setItalic(false);
     painter->setFont(fnt);
-    painter->setPen(pen());
-    painter->setBrush(brush());
-    painter->drawLine(QLineF(0, y, sz.width() - 1, y));
 
-    fm = QFontMetricsF(fnt);
-    UMLClassifier *classifier = static_cast<UMLClassifier*>(umlObject());
-    UMLClassifierListItem* enumLiteral = 0;
-    UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
-
-    painter->setPen(Qt::black);
-    foreach (enumLiteral , list ) {
-        rect.moveTop(y);
-        painter->drawText(rect, Qt::AlignVCenter | Qt::AlignHCenter, enumLiteral->getName());
+    foreach (UMLClassifierListItem* enumLiteral , list ) {
+        fontRect.moveTop(y);
+        painter->drawText(fontRect, Qt::AlignCenter, enumLiteral->getName());
         y += fontHeight;
+    }
+
+    if(option->state & QStyle::State_Selected) {
+        Widget_Utils::drawResizeHandles(painter, rect());
     }
 }
 
