@@ -87,8 +87,8 @@
 #include "entity.h"
 #include "foreignkeyconstraint.h"
 
-#include "enum.h"
-#include "newenumwidget.h"
+#define TEST 1
+#include "test.h"
 
 // static members
 const qreal UMLScene::defaultCanvasSize = 1300;
@@ -142,31 +142,13 @@ UMLScene::UMLScene(UMLFolder *parentFolder) :
     m_pDoc = UMLApp::app()->getDocument();
     m_pFolder = parentFolder;
 
+#ifdef TEST
     /*
      * Test code below.
      */
-    UMLEnum *en = new UMLEnum("Qt::SizeHint");
-    en->createEnumLiteral("MinimumSize");
-    en->createEnumLiteral("MaximumSize");
-    en->createEnumLiteral("PreferredSize");
-    en->createEnumLiteral("MaximumSize");
-    NewEnumWidget *wid = new NewEnumWidget(en);
-
-
-    wid->setPen(QPen(Qt::yellow));
-    wid->init();
-    addItem(wid);
-    wid->setPos(40, 40);
-    QLinearGradient ling(QPointF(0, 0), QPointF(0, 1));
-    ling.setCoordinateMode(QGradient::ObjectBoundingMode);
-    QColor col2(Qt::black);
-    QColor col1(Qt::lightGray);
-
-    ling.setColorAt(0, col1);
-    ling.setColorAt(1, col2);
-
-    wid->setBrush(QBrush(ling));
-    wid->setSize(220, 120);
+    Test *test = Test::self();
+    test->testScene(this);
+#endif
 }
 
 UMLScene::~UMLScene()

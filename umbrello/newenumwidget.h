@@ -51,6 +51,27 @@ public:
     QSizeF sizeHint(Qt::SizeHint which);
 
     /**
+     * @return True if package is shown , false otherwise.
+     */
+    bool showPackage() const {
+        return m_showPackage;
+    }
+
+    /**
+     * Set whether to show package or not.
+     *
+     * @param b True to show package, false not to show.
+     */
+    void setShowPackage(bool b);
+
+    /**
+     * Toggles the status of package show.
+     */
+    void toggleShowPackage() {
+        setShowPackage(!m_showPackage);
+    }
+
+    /**
      * Reimplemented to draw as needed.
      * Draws the enum as a rectangle with a box underneith with a list of literals
      */
@@ -74,6 +95,8 @@ protected:
 
 private:
     QSizeF m_minimumSize;
+    bool m_showPackage;
+
     void calculateMinimumSize();
 };
 

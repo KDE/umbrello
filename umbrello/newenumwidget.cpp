@@ -24,14 +24,22 @@
 #include "umlclassifierlistitemlist.h"
 #include "classifierlistitem.h"
 #include "widget_utils.h"
+#include "optionstate.h"
+#include "umlscene.h"
 
-NewEnumWidget::NewEnumWidget(UMLObject* o) : NewUMLRectWidget(o)
+NewEnumWidget::NewEnumWidget(UMLObject* o) :
+    NewUMLRectWidget(o),
+    m_showPackage(false)
 {
     m_baseType = Uml::wt_Enum;
 }
 
 void NewEnumWidget::init()
 {
+    if(umlScene()) {
+        const Settings::OptionState& ops = umlScene()->getOptionState();
+        m_showPackage = ops.classState.showPackage;
+    }
     updateGeometry();
 }
 
@@ -43,8 +51,14 @@ QSizeF NewEnumWidget::sizeHint(Qt::SizeHint which)
         return m_minimumSize;
 
     default:
-        return QSizeF(1000, 1000);
+        return NewUMLRectWidget::sizeHint(which);
     }
+}
+
+void NewEnumWidget::setShowPackage(bool b)
+{
+    m_showPackage = b;
+    updateGeometry();
 }
 
 void NewEnumWidget::paint(QPainter *painter,
@@ -77,15 +91,17 @@ void NewEnumWidget::paint(QPainter *painter,
     QRectF fontRect(ENUM_MARGIN, 0, sz.width() - ENUM_MARGIN * 2, fontHeight);
 
 
-    painter->setPen(pen());
+    painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());
     // First draw the outer rectangle with the pen and brush of this widget.
     painter->drawRect(rect());
-    // Now set the brush to Qt::NoBrush
-    painter->setBrush(QBrush(Qt::NoBrush));
     painter->drawLine(QLineF(0, fontHeight * 2, sz.width() - 1, fontHeight * 2));
 
+    // Set the font pen and empty brush to draw the font.
+    painter->setPen(fontColor());
+    painter->setBrush(QBrush(Qt::NoBrush));
     painter->setFont(fnt);
+
     QString text = umlObject() ? umlObject()->getStereotype(true) : "<< >>";
 
     painter->drawText(fontRect, Qt::AlignCenter, text);
@@ -95,28 +111,40 @@ void NewEnumWidget::paint(QPainter *painter,
     painter->setFont(fnt);
     fontRect.moveTop(fontRect.top() + fontHeight);
 
-    painter->drawText(fontRect, Qt::AlignCenter, name());
+    QString nameText = name();
+    if(m_showPackage && umlObject()) {
+        nameText = umlObject()->getFullyQualifiedName();
+    }
+    painter->drawText(fontRect, Qt::AlignCenter, nameText);
 
     qreal y = fontHeight * 2;
     fnt.setBold(false);
     fnt.setItalic(false);
     painter->setFont(fnt);
 
-    foreach (UMLClassifierListItem* enumLiteral , list ) {
+    foreach(UMLClassifierListItem* enumLiteral , list ) {
         fontRect.moveTop(y);
-        painter->drawText(fontRect, Qt::AlignCenter, enumLiteral->getName());
+        painter->drawText(fontRect, Qt::AlignVCenter, enumLiteral->getName());
         y += fontHeight;
     }
 
     if(option->state & QStyle::State_Selected) {
         Widget_Utils::drawResizeHandles(painter, rect());
+
     }
+
+    painter->setPen(Qt::red);
+    painter->setBrush(Qt::NoBrush);
+    painter->drawRect(boundingRect());
 }
 
-bool NewEnumWidget::loadFromXMI( QDomElement & qElement ) {
-    if ( !NewUMLRectWidget::loadFromXMI(qElement) ) {
+bool NewEnumWidget::loadFromXMI( QDomElement & qElement )
+{
+    if( !NewUMLRectWidget::loadFromXMI(qElement) ) {
         return false;
     }
+    bool show = bool(qElement.attribute("showpackage", "0").toInt());
+    setShowPackage(show);
     return true;
 }
 
@@ -124,6 +152,7 @@ void NewEnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {
     QDomElement conceptElement = qDoc.createElement("enumwidget");
     NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
 
+    conceptElement.setAttribute("showpackage", m_showPackage);
     qElement.appendChild(conceptElement);
 }
 
@@ -135,7 +164,7 @@ void NewEnumWidget::updateGeometry()
 
 void NewEnumWidget::calculateMinimumSize()
 {
-    if (!umlObject()) {
+    if(!umlObject()) {
         m_minimumSize.setWidth(100);
         m_minimumSize.setHeight(100);
         return;
@@ -153,12 +182,12 @@ void NewEnumWidget::calculateMinimumSize()
     int lines = 1;//always have one line - for name
     lines++; //for the stereotype
 
-    const qreal numberOfEnumLiterals = static_cast<UMLEnum*>(umlObject())->enumLiterals();
+    const int numberOfEnumLiterals = static_cast<UMLEnum*>(umlObject())->enumLiterals();
     lines += numberOfEnumLiterals;
 
     height = width = 0;
     //set the height of the enum
-    if (numberOfEnumLiterals == 0) {
+    if(numberOfEnumLiterals == 0) {
         height += 0.5 * fontHeight; //no enum literals, so just add a bit of space
     }
 
@@ -166,23 +195,27 @@ void NewEnumWidget::calculateMinimumSize()
 
     font.setBold(true);
     font.setItalic(true);
-    width = QFontMetricsF(font).boundingRect(name()).width();
-    font.setItalic(false);
-    qreal w = QFontMetricsF(font).boundingRect(umlObject()->getStereotype(true)).width();
-
-
-    width = qMax(w, width);
-
-    UMLClassifier *classifier = static_cast<UMLClassifier*>(umlObject());
-    UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
-    UMLClassifierListItem* listItem = 0;
-
-    foreach (listItem , list ) {
-        qreal w = fm.width (listItem->getName());
-        if(w > width)
-            width = w;
+    QString nameText = name();
+    if(m_showPackage && umlObject()) {
+        nameText = umlObject()->getFullyQualifiedName();
     }
+    width = QFontMetricsF(font).boundingRect(nameText).width();
+    font.setItalic(false);
 
+    if(umlObject()) {
+        qreal w = QFontMetricsF(font).boundingRect(umlObject()->getStereotype(true)).width();
+        width = qMax(w, width);
+
+        UMLClassifier *classifier = static_cast<UMLClassifier*>(umlObject());
+        UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
+        UMLClassifierListItem* listItem = 0;
+
+        foreach(listItem , list ) {
+            qreal w = fm.width(listItem->getName());
+            if(w > width)
+                width = w;
+        }
+    }
     //allow for width margin
     width += ENUM_MARGIN * 2;
 

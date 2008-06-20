@@ -45,6 +45,7 @@ class ListPopupMenu;
 class NewUMLWidget : public QObject, public QGraphicsItem
 {
     Q_OBJECT
+
 public:
     /**
      * Constructs a NewUMLWidget object with the associated UMLObject
@@ -149,20 +150,44 @@ public:
     void setName(const QString& doc);
 
     /**
-     * @return The QPen object used to draw this widget.
+     * @return The color used to draw lines of the widget.
      */
-    QPen pen() const {
-        return m_pen;
+    QColor lineColor() const {
+        return m_lineColor;
     }
     /**
-     * Sets the QPen object of this widget to \a pen which is used to
-     * draw this widget.
+     * Set the linecolor to \a color and updates the widget.
      *
-     * This method implicitly calls updateGeometry() virtual method to
-     * let the subclasses calculate its new bound rect based on the
-     * new pen.
+     * @param color The color to be set
      */
-    void setPen(const QPen& pen);
+    void setLineColor(const QColor& color);
+
+    /**
+     * @return The width of the line, drawn in the widget.
+     */
+    uint lineWidth() const {
+        return m_lineWidth;
+    }
+    /**
+     * Sets the line width of widget lines to \a lw and calls
+     * updateGeometry() method to let object calculate new bound rect
+     * based on the new line width.
+     *
+     * @param lw  The width of line to be set.
+     */
+    void setLineWidth(uint lw);
+
+    /**
+     * @return Font color used to draw font.
+     */
+    QColor fontColor() const {
+        return m_fontColor;
+    }
+    /**
+     * Sets the color of the font to \a color.
+     * If \a color is invalid, line color is used for font color.
+     */
+    void setFontColor(const QColor& color);
 
     /**
      * @return The QBrush object used to fill this widget.
@@ -271,6 +296,12 @@ protected Q_SLOTS:
      */
     virtual void slotUMLObjectDataChanged();
 
+private Q_SLOTS:
+    /**
+     * This slot is used to intialize the widget, also allowing
+     * virtual methods to be called.
+     */
+    void slotInit();
 
 protected:
     /**
@@ -283,40 +314,61 @@ protected:
     virtual void updateGeometry();
 
     /**
-     * This method sets the bounding rectangle and shape of this
-     * widget to \a rect and \a path. These two objects are stored
-     * locally in this widget for performance reasons. Also the
-     * prepareGeometryChange() method is implicitly called to update
-     * QGraphicsScene indexes.
+     * This virtual method is called when the underlying uml object of
+     * this widget changes. Disconnections to signals wrt to old
+     * object, connections to new signals of new object are to be made
+     * and any other book keeping work can also be done.
+     *
+     * @param obj The old UMLObject. The new one is accessible through
+     *            umlObject()
+     *
+     * @note obj can be null!
+     *
+     * @note The reimplemented method should call this base method to
+     *       connect/disconnect signals done at UMLObject level.
+     */
+    virtual void umlObjectChanged(UMLObject *old);
+
+    /**
+     * This method sets the bounding rectangle of this widget to \a
+     * rect. The bounding rect being set is cached locally for
+     * performance reasons.
+     *
+     * Also the prepareGeometryChange() method is implicitly called to
+     * update QGraphicsScene indexes.
      *
      * @param rect The bounding rectangle for this widget.
-     *
-     * @param path If not specified or set to empty path will add the
-     *             boundingRect to the path and set that as the shape
-     *             of this widget.
      *
      * @note The bounding rect being set should also be compensated
      *       with half pen width if the widget is painting an
      *       outline/stroke.
      *
-     * @note Also note that, subclasses reimplementing "boundingRect()
-     *       const" virtual method will not be affected by this method
-     *       unless the subclassed widget explicitly uses it.
+     * @note Also note that, subclasses reimplementing @ref
+     *       boundingRect() virtual method will not be affected by
+     *       this method unless the subclassed widget explicitly uses
+     *       it.
      *
      * @see Widget_Utils::adjustedBoundingRect
      */
-    void setBoundingRectAndShape(const QRectF &rect,
-                                 const QPainterPath& path = QPainterPath());
+    void setBoundingRect(const QRectF &rect);
 
     /**
-     * Helper method to set only the shape.
-     * Call setBoundingRectAndShape(boundingRect() , path);
+     * This method sets the shape of the widget to \a path. The shape
+     * of the widget is cached for performance reasons.
      *
-     * @see setBoundingRectAndShape
+     * @param path The shape of this widget. If empty, boundingRect
+     *             will be used as widget shape.
+     *
+     * @see NewUMLWidget::setBoundingRect
+     *
+     * @todo Check the accuracy of this method for non rectangular
+     *       widgets as this doesn't call prepareGeometryChange.
+     *
+     * @note Also note that, subclasses reimplementing @ref shape()
+     *       virtual method will not be affected by this method unless
+     *       the subclassed widget explicitly uses it.
      */
-    void setShape(const QPainterPath& path) {
-        setBoundingRectAndShape(boundingRect(), path);
-    }
+    void setShape(const QPainterPath& path);
 
 
     QRectF m_boundingRect;
@@ -327,12 +379,17 @@ protected:
 private:
     UMLObject *m_umlObject;
 
+    // Properties that will be saved.
 
+    QColor m_lineColor;
+    uint m_lineWidth;
 
-    QPen m_pen;
+    QColor m_fontColor;
+
     QBrush m_brush;
     QFont m_font;
 
+    // End of properties that will be saved.
 
     WidgetInterfaceData *m_widgetInterfaceData;
 

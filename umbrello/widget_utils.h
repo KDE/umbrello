@@ -55,43 +55,91 @@ namespace Widget_Utils
     QGraphicsRectItem *decoratePoint(const QPointF& p);
 
     /**
-     * Extracts the QPen properties into pen, QBrush properties into
-     * brush and QFont properties into font from the XMI xml element
-     * qElement.
+     * Converts a point to a comma separated string i.e "x,y"
+     */
+    QString pointToString(const QPointF& point);
+
+    /**
+     * Converts a comma separated string to point.
+     */
+    QPointF stringToPoint(const QString& str);
+
+    /**
+     * Loads pixmap from xmi.
+     *
+     * @param qElement The dom element from which pixmap should be
+     *                 loaded.
+     *
+     * @param pixmap The pixmap into which the image should be loaded.
+     *
+     * @return True or false based on success or failure of this method.
+     */
+    bool loadPixmapFromXMI(const QDomElement &qElement, QPixmap &pixmap);
+
+    /**
+     * Saves pixmap informatin into dom element \a qElement.
+     *
+     * @param qDoc The dom document object.
+     *
+     * @param qElement The dom element into which the pixmap should be
+     *                 saved.
+     *
+     * @param pixmap The pixmap to be saved.
+     */
+    void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap);
+
+    /**
+     * Loads gradient from xmi. The gradient pointer should be null
+     * and the new gradient object will be created inside this method.
+     * The gradient should later be deleted externally.
+     *
+     * @param qElement The dom element from which gradient should be
+     *                 loaded.
+     *
+     * @param gradient The pointer to gradient into which the gradient
+     *                 should be loaded. (Allocated inside this
+     *                 method)
+     *
+     * @return True or false based on success or failure of this method.
+     */
+    bool loadGradientFromXMI(const QDomElement &qElement, QGradient *&gradient);
+
+    /**
+     * Saves gradient informatin into dom element \a qElement.
+     *
+     * @param qDoc The dom document object.
+     *
+     * @param qElement The dom element into which the gradient should be
+     *                 saved.
+     *
+     * @param gradient The gradient to be saved.
+     */
+    void saveGradientToXMI(QDomDocument &qDoc, QDomElement &qElement, const QGradient *gradient);
+
+    /**
+     * Extracts the QBrush properties into brush from the XMI xml
+     * element qElement.
      *
      * @param qElement The dom element from which the xmi info should
      *                 be extracted.
      *
-     * @param pen The QPen object into which pen details should be
-     *            read into.
-     *
      * @param brush The QBrush object into which brush details should
      *              be read into.
-     *
-     * @param font The QFont object into which font details should be
-     *             read into.
-     * @todo Implement
      */
-    void loadPainterInfoFromXMI(const QDomElement &qElement, QPen &pen,
-                                QBrush &brush, QFont &font);
+    bool loadBrushFromXMI(const QDomElement &qElement, QBrush &brush);
 
     /**
-     * Saves the pen, brush and font info as xmi into the dom element
-     * \a qElement.
+     * Saves the brush info as xmi into the dom element \a qElement.
      *
      * @param qDoc The QDomDocument object pointing to the xmi document.
      *
      * @param qElement The element into which the pen, brush and font
      *                 info should be saved.
      *
-     * @param pen The QPen whose details should be saved.
      * @param brush The QBrush whose details should be saved.
-     * @param font The QFont whose details should be saved.
-     * @todo Implement
      */
-    void savePainterInfoToXMI(QDomDocument &qDoc, QDomElement &qElement,
-                              const QPen &pen, const QBrush &brush,
-                              const QFont &font);
+    void saveBrushToXMI(QDomDocument &qDoc, QDomElement &qElement,
+                        const QBrush& brush);
 
     /**
      * Utility function to draw the eight resize handles surrounding the

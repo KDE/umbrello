@@ -124,6 +124,14 @@ class UMLScene : public QGraphicsScene
     QColor getFillColor() const;
 
     /**
+     * Returns the default brush for diagram widgets.
+     */
+    QBrush brush() const {
+        // TODO: Remove getFillColor()
+        return getFillColor();
+    }
+
+    /**
      * Set the background color.
      *
      * @param color  The color to use.

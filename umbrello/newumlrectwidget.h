@@ -37,8 +37,12 @@ class AssociationWidget;
  */
 class NewUMLRectWidget : public NewUMLWidget
 {
-	Q_OBJECT;
+	Q_OBJECT
 public:
+    static const QSizeF DefaultMinimumSize;
+    static const QSizeF DefaultMaximumSize;
+    static const QSizeF DefaultPreferredSize;
+
     /**
      * Construct a NewUMLRectWidget associtated with object.
      *
@@ -50,10 +54,10 @@ public:
     ~NewUMLRectWidget();
 
     /**
-     * This pure virtual method should be implemented by the
-     * subclasses to provide Maximum and Minimum size information for
-     * this widget. This information is used in setSize and also by
-     * the UMLScene.
+     * This virtual method should be implemented by the subclasses to
+     * provide Maximum and Minimum size information for this
+     * widget. This information is used in setSize and also by the
+     * UMLScene.
      *
      * @param which The Qt::SizeHint enum value indicates what
      *              information is being queried. For now only
@@ -68,7 +72,7 @@ public:
      * @note Non const to allow subclasses to update their cached
      *       sizehint variable if desired.
      */
-	virtual QSizeF sizeHint(Qt::SizeHint which) = 0;
+	virtual QSizeF sizeHint(Qt::SizeHint which);
 
     /**
      * @return The current size of the widget.
@@ -77,25 +81,26 @@ public:
 		return m_size;
 	}
     /**
-     * Sets the size of the widget to \a size and its corresponding
-     * shape to \a newShape. It also does cosmetic adjustments to the
-     * actual boundingRect though.
+     * Sets the size of the widget to \a size.
+     *
+     * It also does cosmetic adjustments(enlarges) to the actual
+     * boundingRect to include resize handles.
+     *
+     * Also notifies self with @ref sizeChanged() virtual method,
+     * which can be used to update the shape corresponding to the new
+     * size of the widget.
      *
      * @param size The new size to be set which should effectively
      *             satisfy the sizeHint constraints.
-     *
-     * @param newShape The new shape corresponding to new size. Pass
-     *                 an empty shape (which is also default arg) if
-     *                 the shape is rectangular.
-     *
-     * @note The actual geometry (aka boundingRect()) of the widget
-     *       can be slightly bigger than QRectF(0, 0, size,
-     *       size). This is to fit the small resize hint rectangles
-     *       shown when the widget is selected.  Also half the pen
-     *       width should be compensated for boundingRect for the
-     *       widgets painting the stroke.
      */
-	void setSize(const QSizeF &size, const QPainterPath& newShape = QPainterPath());
+	void setSize(const QSizeF &size);
+
+    /**
+     * Shortcut for setSize(w, h)
+     */
+    void setSize(qreal width, qreal height) {
+        setSize(QSizeF(width, height));
+    }
 
     /**
      * Shortcut for QRectF(QPointF(0, 0), size())
@@ -105,22 +110,6 @@ public:
      */
     QRectF rect() const {
         return QRectF(QPointF(0, 0), size());
-    }
-
-    /**
-     * This is an overloaded function for convenience.
-     * Shortcut for setSize(QSizeF(w, h), newShape)
-     *
-     * @param w  Width to be set.
-     *
-     * @param h  Height to be set.
-     *
-     * @param newShape The new shape corresponding to new size. Pass
-     *                 an empty shape (which is also default arg) if
-     *                 the shape is rectangular.
-     */
-    void setSize(qreal w, qreal h, const QPainterPath& newShape = QPainterPath()) {
-        setSize(QSizeF(w, h), newShape);
     }
 
     /**
@@ -183,6 +172,21 @@ public:
 
 protected:
     /**
+     * This is called on change of size of widget caused due to @ref
+     * NewUMLRectWidget::setSize method.
+     * This can be used to update the shape of the widget.
+     *
+     * The default implementation sets QRectF(0, 0, newSize.width(),
+     * newSize.height()) as the shape of this widget.
+     *
+     * @param oldSize The old size of the widget which can be used for
+     *                computation.
+     *
+     * The new size is available through NewUMLRectWidget::size()
+     */
+    virtual void sizeChanged(const QSizeF& oldSize);
+
+    /**
      * Reimplemented to ensure widget current size fits the sizeHint
      * constraints.
      */
@@ -229,6 +233,7 @@ protected:
 
 private:
     void adjustSizeForConstraints(QSizeF &sz);
+    void handleCursorChange(QGraphicsSceneHoverEvent *event);
 
     QSizeF m_size;
     QString m_instanceName;

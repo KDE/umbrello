@@ -326,6 +326,7 @@ set(libumbrello_SRCS
    signalwidget.cpp
    stereotype.cpp
    template.cpp
+   test.cpp
    textblock.cpp
    toolbarstate.cpp
    toolbarstatearrow.cpp
@@ -350,7 +351,6 @@ set(libumbrello_SRCS
    umlrole.cpp
    umlview.cpp
    umlscene.cpp
-#   umlviewcanvas.cpp
    umlviewimageexporter.cpp
    umlviewimageexporterall.cpp
    umlviewimageexportermodel.cpp

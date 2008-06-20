@@ -19,12 +19,13 @@
 
 #include "newumlwidget.h"
 
-#include <kdebug.h>
-
 #include "umlobject.h"
 #include "umlscene.h"
 #include "uml.h"
 #include "widget_utils.h"
+
+#include <QtCore/QTimer>
+#include <kdebug.h>
 
 /**
  * @short A class to encapsulate some properties to be stored as a
@@ -49,12 +50,18 @@ NewUMLWidget::NewUMLWidget(UMLObject *object) :
     QGraphicsItem(0),
 
     m_umlObject(object),
+    m_lineWidth(0),
     m_widgetInterfaceData(0)
 {
     if(!object) {
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
+    else {
+        connect(m_umlObject, SIGNAL(modified()), this, SLOT(slotUMLObjectDataChanged()));
+    }
     setFlags(ItemIsSelectable | ItemIsMovable);
+    // Call init this way so that virtual methods may be called.
+    QTimer::singleShot(0, this, SLOT(slotInit()));
 }
 
 NewUMLWidget::~NewUMLWidget()
@@ -69,11 +76,13 @@ UMLObject* NewUMLWidget::umlObject() const
 
 void NewUMLWidget::setUmlObject(UMLObject *obj)
 {
+    UMLObject *old = m_umlObject;
     m_umlObject = obj;
     // If obj is not null, then we will be using objects properties.
     if(obj) {
         delete m_widgetInterfaceData;
     }
+    umlObjectChanged(old);
 }
 
 Uml::IDType NewUMLWidget::id() const
@@ -88,7 +97,7 @@ void NewUMLWidget::setId(Uml::IDType id)
 {
     if(m_umlObject) {
 
-        if (m_umlObject->getID() != Uml::id_None) {
+        if(m_umlObject->getID() != Uml::id_None) {
             uWarning() << "changing old UMLObject " << ID2STR(m_umlObject->getID())
                        << " to " << ID2STR(id) << endl;
         }
@@ -157,10 +166,28 @@ void NewUMLWidget::setName(const QString& name)
     updateGeometry();
 }
 
-void NewUMLWidget::setPen(const QPen& pen)
+void NewUMLWidget::setLineColor(const QColor& color)
 {
-    m_pen = pen;
+    m_lineColor = color;
+    if(!m_lineColor.isValid()) {
+        uDebug() << "Invalid color";
+        m_lineColor = Qt::black;
+    }
+    update();
+}
+
+void NewUMLWidget::setLineWidth(uint lw)
+{
+    m_lineWidth = lw;
     updateGeometry();
+}
+
+void NewUMLWidget::setFontColor(const QColor& color)
+{
+    m_fontColor = color;
+    if(!m_fontColor.isValid()) {
+        m_fontColor = m_lineColor;
+    }
 }
 
 void NewUMLWidget::setBrush(const QBrush& brush)
@@ -186,9 +213,80 @@ void NewUMLWidget::setupContextMenuActions(ListPopupMenu &menu)
 
 bool NewUMLWidget::loadFromXMI(QDomElement &qElement)
 {
-    //TODO: Add support for older versions.
-    Widget_Utils::loadPainterInfoFromXMI(qElement, m_pen, m_brush, m_font);
+    // NOTE:
+    // The "none" is used by kde3 version of umbrello. The current
+    // technique to determine whether a property is being used from
+    // the diagram or not is just to compare the same, rather than
+    // having flags for them.
+    //
+    // This way, there is no burden to update the flags and the code
+    // is more robust.
+    const QLatin1String none("none");
 
+    // Load the line color first
+
+    // Workaround for old "linecolour" usage.
+    QString lineColor = qElement.attribute("linecolour");
+    lineColor = qElement.attribute("linecolor", lineColor);
+    if(!lineColor.isEmpty() && lineColor != none) {
+        setLineColor(QColor(lineColor));
+    }
+    else if(umlScene()) {
+        setLineColor(umlScene()->getLineColor());
+    }
+
+    // Load the line width.
+    QString lineWidth = qElement.attribute("linewidth");
+    if(!lineWidth.isEmpty() && lineWidth != none) {
+        setLineWidth(lineWidth.toInt());
+    }
+    else if(umlScene()) {
+        setLineWidth(umlScene()->getLineWidth());
+    }
+
+    // Load the font color, if invalid line color is automatically used.
+    QString fontColor = qElement.attribute("fontcolor");
+    setFontColor(QColor(fontColor));
+
+    // Load the brush.
+    QBrush newBrush;
+    bool brushSet = Widget_Utils::loadBrushFromXMI(qElement, newBrush);
+
+    // If this fails, we try to load fillColor attribute which is used in kde3 version of umbrello.
+    if(!brushSet) {
+        // Workaround for old "fillcolour" usage.
+        QString fillColor = qElement.attribute("fillcolour");
+        fillColor = qElement.attribute("fillcolor");
+
+        if(!fillColor.isEmpty() && fillColor != none) {
+            setBrush(QColor(fillColor));
+            brushSet = true;
+        }
+    }
+    else {
+        setBrush(newBrush);
+    }
+    // Set the diagram's brush if it is not yet set.
+    if(!brushSet && umlScene()) {
+        setBrush(umlScene()->brush());
+    }
+
+    // Load the font.
+    QString font = qElement.attribute(QLatin1String("font"));
+    bool fontSet = false;
+    if(!font.isEmpty()) {
+        fontSet = m_font.fromString(font);
+        if(fontSet) {
+            setFont(m_font);
+        }
+        else {
+            uWarning() << "Loading font attribute -> " << font << " failed";
+        }
+    }
+    // Set diagram's default font if font is not yet set.
+    if(!fontSet && umlScene()) {
+        setFont(umlScene()->font());
+    }
 
     QString id = qElement.attribute("xmi.id", "-1");
     // Assert for the correctness of id loaded and the created object.
@@ -211,7 +309,12 @@ bool NewUMLWidget::loadFromXMI(QDomElement &qElement)
 
 void NewUMLWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
-    Widget_Utils::savePainterInfoToXMI(qDoc, qElement, m_pen, m_brush, m_font);
+    qElement.setAttribute("linecolor", m_lineColor.name());
+    qElement.setAttribute("linewidth", m_lineWidth);
+    qElement.setAttribute("fontcolor", m_fontColor.name());
+    qElement.setAttribute("font", m_font.toString());
+
+    Widget_Utils::saveBrushToXMI(qDoc, qElement, m_brush);
 
     qElement.setAttribute("xmi.id", ID2STR(id()));
     qElement.setAttribute("x", pos().x());
@@ -239,10 +342,15 @@ bool NewUMLWidget::widgetHasUMLObject(Uml::Widget_Type type)
 	}
 }
 
-
 void NewUMLWidget::slotUMLObjectDataChanged()
 {
+    updateGeometry();
+}
 
+void NewUMLWidget::slotInit()
+{
+    UMLObject *old = 0;
+    umlObjectChanged(old);
 }
 
 void NewUMLWidget::updateGeometry()
@@ -250,13 +358,27 @@ void NewUMLWidget::updateGeometry()
     update();
 }
 
-void NewUMLWidget::setBoundingRectAndShape(const QRectF &rect, const QPainterPath& path)
+void NewUMLWidget::umlObjectChanged(UMLObject *oldObj)
+{
+    if(oldObj) {
+        oldObj->disconnect(this);
+    }
+    if(umlObject()) {
+        connect(umlObject(), SIGNAL(modified()), this, SLOT(slotUMLObjectDataChanged()));
+    }
+}
+
+void NewUMLWidget::setBoundingRect(const QRectF &rect)
 {
     prepareGeometryChange();
     m_boundingRect = rect;
+}
+
+void NewUMLWidget::setShape(const QPainterPath& path)
+{
     m_shape = path;
     if(m_shape.isEmpty()) {
-        m_shape.addRect(rect);
+        m_shape.addRect(boundingRect());
     }
 }
 
