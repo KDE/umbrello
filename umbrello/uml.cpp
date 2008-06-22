@@ -1271,7 +1271,8 @@ bool UMLApp::canDecode(const QMimeData* mimeData)
 {
     QStringList supportedFormats = mimeData->formats();
     foreach( const QString &format, supportedFormats ) {
-        const char* f = format.toAscii().constData();
+        QByteArray fba = format.toAscii();
+        const char* f = fba.constData();
         if ( !qstrnicmp(f,"application/x-uml-clip", 22) ) {
             //FIXME need to test for clip1, clip2, clip3, clip4 or clip5
             //(the only valid clip types)
