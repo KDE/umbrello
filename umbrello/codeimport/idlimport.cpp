@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2007                                                *
+ *  copyright (C) 2005-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -15,8 +15,8 @@
 #include <stdio.h>
 // qt/kde includes
 // #include <qprocess.h>  //should use this instead of popen()
-#include <qstringlist.h>
-#include <qregexp.h>
+#include <QtCore/QStringList>
+#include <QtCore/QRegExp>
 #include <kdebug.h>
 // app includes
 #include "import_utils.h"
@@ -29,16 +29,19 @@
 #include "../operation.h"
 #include "../attribute.h"
 
-IDLImport::IDLImport() : NativeImportBase("//") {
+IDLImport::IDLImport() : NativeImportBase("//")
+{
     m_isOneway = m_isReadonly = m_isAttribute = false;
     setMultiLineComment("/*", "*/");
 }
 
-IDLImport::~IDLImport() {
+IDLImport::~IDLImport()
+{
 }
 
 /// Check for split type names (e.g. unsigned long long)
-QString IDLImport::joinTypename() {
+QString IDLImport::joinTypename()
+{
     QString typeName = m_source[m_srcIndex];
     if (m_source[m_srcIndex] == "unsigned")
         typeName += ' ' + advance();
@@ -48,14 +51,16 @@ QString IDLImport::joinTypename() {
     return typeName;
 }
 
-bool IDLImport::preprocess(QString& line) {
+bool IDLImport::preprocess(QString& line)
+{
     // Ignore C preprocessor generated lines.
     if (line.startsWith('#'))
         return true;  // done
     return NativeImportBase::preprocess(line);
 }
 
-void IDLImport::fillSource(const QString& word) {
+void IDLImport::fillSource(const QString& word)
+{
     QString lexeme;
     const uint len = word.length();
     for (uint i = 0; i < len; i++) {
@@ -83,7 +88,8 @@ void IDLImport::fillSource(const QString& word) {
         m_source.append(lexeme);
 }
 
-void IDLImport::parseFile(const QString& filename) {
+void IDLImport::parseFile(const QString& filename)
+{
     if (filename.contains('/')) {
         QString path = filename;
         path.remove( QRegExp("/[^/]+$") );
@@ -103,7 +109,7 @@ void IDLImport::parseFile(const QString& filename) {
     uDebug() << "importIDL: " << command;
     FILE *fp = popen(qPrintable(command), "r");
     if (fp == NULL) {
-        uError() << "cannot popen(" << command << ")" << endl;
+        uError() << "cannot popen(" << command << ")";
         return;
     }
     // Scan the input file into the QStringList m_source.
@@ -134,7 +140,8 @@ void IDLImport::parseFile(const QString& filename) {
     pclose(fp);
 }
 
-bool IDLImport::parseStmt() {
+bool IDLImport::parseStmt()
+{
     const QString& keyword = m_source[m_srcIndex];
     const int srcLength = m_source.count();
     if (keyword == "module") {
@@ -144,7 +151,7 @@ bool IDLImport::parseStmt() {
         m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
         m_scope[m_scopeIndex]->setStereotype("CORBAModule");
         if (advance() != "{") {
-            uError() << "importIDL: unexpected: " << m_source[m_srcIndex] << endl;
+            uError() << "importIDL: unexpected: " << m_source[m_srcIndex];
             skipStmt("{");
         }
         return true;
@@ -170,7 +177,7 @@ bool IDLImport::parseStmt() {
         }
         if (m_source[m_srcIndex] != "{") {
             uError() << "importIDL: ignoring excess chars at "
-            << name << endl;
+            << name;
             skipStmt("{");
         }
         return true;
@@ -185,7 +192,7 @@ bool IDLImport::parseStmt() {
         else
             m_klass->setStereotype("CORBAException");
         if (advance() != "{") {
-            uError() << "importIDL: expecting '{' at " << name << endl;
+            uError() << "importIDL: expecting '{' at " << name;
             skipStmt("{");
         }
         return true;
@@ -251,7 +258,7 @@ bool IDLImport::parseStmt() {
         }
         if (m_source[m_srcIndex] != "{") {
             uError() << "importIDL: ignoring excess chars at "
-            << name << endl;
+            << name;
             skipStmt("{");
         }
         return true;
@@ -279,7 +286,7 @@ bool IDLImport::parseStmt() {
         if (m_scopeIndex)
             m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
         else
-            uError() << "importIDL: too many }" << endl;
+            uError() << "importIDL: too many }";
         m_srcIndex++;  // skip ';'
         return true;
     }
@@ -290,18 +297,18 @@ bool IDLImport::parseStmt() {
     // of an operation.) Up next is the name of the attribute
     // or operation.
     if (! keyword.contains( QRegExp("^\\w") )) {
-        uError() << "importIDL: ignoring " << keyword << endl;
+        uError() << "importIDL: ignoring " << keyword;
         return false;
     }
     QString typeName = joinTypename();
     QString name = advance();
     if (name.contains( QRegExp("\\W") )) {
-        uError() << "importIDL: expecting name in " << name << endl;
+        uError() << "importIDL: expecting name in " << name;
         return false;
     }
     // At this point we most definitely need a class.
     if (m_klass == NULL) {
-        uError() << "importIDL: no class set for " << name << endl;
+        uError() << "importIDL: no class set for " << name;
         return false;
     }
     QString nextToken = advance();
@@ -319,7 +326,7 @@ bool IDLImport::parseStmt() {
                 att->setParmKind(dir);
             else
                 uError() << "importIDL: expecting parameter direction at "
-                << direction << endl;
+                << direction;
             if (advance() != ",")
                 break;
             m_srcIndex++;

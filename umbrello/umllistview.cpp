@@ -13,10 +13,10 @@
 #include "umllistview.h"
 
 // qt/kde includes
-#include <qregexp.h>
-#include <qpoint.h>
-#include <qrect.h>
-#include <qevent.h>
+#include <QRegExp>
+#include <QPoint>
+#include <QRect>
+#include <QEvent>
 #include <q3header.h>
 #include <QFocusEvent>
 #include <QKeyEvent>
@@ -409,7 +409,7 @@ void UMLListView::popupMenuSel(QAction* action)
         UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
         UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->getUMLObject());
         if (modelFolder == NULL) {
-            uError() << "modelFolder is NULL" << endl;
+            uError() << "modelFolder is NULL";
             return;
         }
         // configure & show the file dialog
@@ -435,7 +435,7 @@ void UMLListView::popupMenuSel(QAction* action)
             // cannot add new i18n strings.
             uError() << "Folder " << path
             << " must be relative to the main model directory, "
-            << rootDir << endl;
+            << rootDir;
             return;
         }
         QFile file(path);
@@ -468,7 +468,7 @@ void UMLListView::popupMenuSel(QAction* action)
         UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
         UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->getUMLObject());
         if (modelFolder == NULL) {
-            uError() << "modelFolder is NULL" << endl;
+            uError() << "modelFolder is NULL";
             return;
         }
         modelFolder->setFolderFile(QString());
@@ -605,12 +605,12 @@ void UMLListView::popupMenuSel(QAction* action)
     default: {
         Uml::Diagram_Type dt = ListPopupMenu::convert_MT_DT(menuType);
         if (dt == Uml::dt_Undefined) {
-            uWarning() << "unknown type" << menuType << endl;
+            uWarning() << "unknown type" << menuType;
         } else {
             UMLFolder *f = dynamic_cast<UMLFolder*>(object);
             if (f == NULL)
                 uError() << "menuType=" << menuType
-                << ": current item's UMLObject is not a UMLFolder" << endl;
+                << ": current item's UMLObject is not a UMLFolder";
             else
                 m_doc->createDiagram(f, dt);
         }
@@ -691,7 +691,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
         if (pkg) {
             UMLListViewItem* pkgItem = findUMLObject(pkg);
             if (pkgItem == NULL)
-                uError() << "could not find parent package " << pkg->getName() << endl;
+                uError() << "could not find parent package " << pkg->getName();
             else
                 parentItem = pkgItem;
         } else if ((lvt == Uml::lvt_UseCase_Folder &&
@@ -741,7 +741,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     if (newItem) {
         uDebug() << newItem->getType();
         uDebug() << object->getName() << ", id= " << ID2STR(object->getID())
-        << ": item already exists." << endl;
+        << ": item already exists.";
         Icon_Utils::Icon_Type icon = Model_Utils::convert_LVT_IT(newItem->getType());
         newItem->setIcon(icon);
         return;
@@ -876,7 +876,7 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* 
     UMLListViewItem *parentItem = findUMLObject(parent);
     if (parentItem == NULL) {
         uDebug() << child->getName() << ": parent " << parent->getName()
-        << " does not yet exist, creating it now." << endl;
+        << " does not yet exist, creating it now.";
         const Uml::ListView_Type lvt = Model_Utils::convert_OT_LVT(parent);
         parentItem = new UMLListViewItem(m_lv[Uml::mt_Logical], parent->getName(), lvt, parent);
     } else {
@@ -901,7 +901,7 @@ void UMLListView::childObjectRemoved(UMLClassifierListItem* obj)
     UMLClassifier *parent = const_cast<UMLClassifier*>(dynamic_cast<const UMLClassifier*>(sender()));
     UMLListViewItem *parentItem = findUMLObject(parent);
     if (parentItem == NULL) {
-        uError() << obj->getName() << ": cannot find parent UMLListViewItem" << endl;
+        uError() << obj->getName() << ": cannot find parent UMLListViewItem";
         return;
     }
     parentItem->deleteChildItem(obj);
@@ -912,7 +912,7 @@ void UMLListView::slotDiagramRenamed(Uml::IDType id)
     UMLListViewItem* temp;
     UMLView* v = m_doc->findView(id);
     if ((temp = findView(v)) == NULL) {
-        uError() << "UMLDoc::findView(" << ID2STR(id) << ") returns NULL" << endl;
+        uError() << "UMLDoc::findView(" << ID2STR(id) << ") returns NULL";
         return;
     }
     temp->setText(v->getName());
@@ -1200,14 +1200,14 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
 
     UMLListViewItem* item = (UMLListViewItem*)itemAt(mousePoint);
     if (!item) {
-        uDebug() << "itemAt(mousePoint) returns NULL" << endl;
+        uDebug() << "itemAt(mousePoint) returns NULL";
         return false;
     }
     ((Q3ListView*)this)->setCurrentItem((Q3ListViewItem*)item);
 
     UMLDragData::LvTypeAndID_List list;
     if (! UMLDragData::getClip3TypeAndID(event->mimeData(), list)) {
-        uDebug() << "UMLDragData::getClip3TypeAndID returns false" << endl;
+        uDebug() << "UMLDragData::getClip3TypeAndID returns false";
         return false;
     }
 
@@ -1332,7 +1332,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
         }
     }
 
-    //uDebug() << "dstType = " << dstType << ", accept=" << accept << endl;
+    //uDebug() << "dstType = " << dstType << ", accept=" << accept;
     return accept;
 }
 
@@ -1340,7 +1340,7 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
 {
     UMLCanvasObject *o = static_cast<UMLCanvasObject*>(item->getUMLObject());
     if (o == NULL) {
-        uDebug() << item->getText() << ": item's UMLObject is NULL" << endl;
+        uDebug() << item->getText() << ": item's UMLObject is NULL";
     } else if (Model_Utils::typeIsContainer(parent->getType())) {
         /**** TBC: Do this here?
                    If yes then remove that logic at the callers
@@ -1353,7 +1353,7 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
         o->setUMLPackage(pkg);
         pkg->addObject(o);
     } else {
-        uError() << item->getText() << ": parent type is " << parent->getType() << endl;
+        uError() << item->getText() << ": parent type is " << parent->getType();
     }
     UMLView *currentView = UMLApp::app()->getCurrentView();
     if (currentView)
@@ -1375,13 +1375,13 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
     if (srcObj) {
         newParentObj = newParent->getUMLObject();
         if (srcObj == newParentObj) {
-            uError() << srcObj->getName() << ": Cannot move onto self" << endl;
+            uError() << srcObj->getName() << ": Cannot move onto self";
             return NULL;
         }
         UMLPackage *srcPkg = srcObj->getUMLPackage();
         if (srcPkg) {
             if (srcPkg == newParentObj) {
-                uError() << srcObj->getName() << ": Object is already in target package" << endl;
+                uError() << srcObj->getName() << ": Object is already in target package";
                 return NULL;
             }
             srcPkg->removeObject(srcObj);
@@ -1509,7 +1509,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             if (o == NULL) {
                 uDebug() << "moveObject: newItem's UMLObject is NULL";
             } else if (newParentObj == NULL) {
-                uError() << o->getName() << ": newParentObj is NULL" << endl;
+                uError() << o->getName() << ": newParentObj is NULL";
             } else {
                 UMLPackage *pkg = static_cast<UMLPackage*>(newParentObj);
                 o->setUMLPackage(pkg);
@@ -1544,10 +1544,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 // QObject does not permit changing the parent().
                 if (att == NULL) {
                     uError() << "moveObject internal error: srcObj "
-                    << srcObj->getName() << " is not a UMLAttribute" << endl;
+                    << srcObj->getName() << " is not a UMLAttribute";
                 } else if (oldParentClassifier->takeItem(att) == -1) {
                     uError() << "moveObject: oldParentClassifier->takeItem(att "
-                    << att->getName() << ") returns NULL" << endl;
+                    << att->getName() << ") returns NULL";
                 } else {
                     const QString& nm = att->getName();
                     UMLAttribute *newAtt = newParentClassifier->createAttribute(nm,
@@ -1600,8 +1600,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                     UMLApp::app()->getDocWindow()->showDocumentation(newOp, true);
                     delete op;
                 } else {
-                    uError() << "moveObject: oldParentClassifier->takeItem(op) returns NULL"
-                    << endl;
+                    uError() << "moveObject: oldParentClassifier->takeItem(op) returns NULL";
                 }
             }
             m_bCreatingChildObject = false;
@@ -1681,10 +1680,9 @@ UMLListViewItem* UMLListView::createDiagramItem(UMLView *view)
     if (f) {
         parent = findUMLObject(f);
         if (parent == NULL)
-            uError() << view->getName() << ": findUMLObject(" << f->getName() << ") returns NULL"
-            << endl;
+            uError() << view->getName() << ": findUMLObject(" << f->getName() << ") returns NULL";
     } else {
-        uDebug() << view->getName() << ": no parent folder set, using predefined folder" << endl;
+        uDebug() << view->getName() << ": no parent folder set, using predefined folder";
     }
     if (parent == NULL) {
         parent = determineParentItem(lvt);
@@ -1925,13 +1923,13 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type typ
     } else {
         Uml::Object_Type ot = Model_Utils::convert_LVT_OT(type);
         if (ot == Uml::ot_UMLObject) {
-            uDebug() << "no UMLObject for listview type " << type << endl;
+            uDebug() << "no UMLObject for listview type " << type;
             return;
         }
         UMLPackage *parentPkg =
             dynamic_cast<UMLPackage*>(parentItem->getUMLObject());
         if (parentPkg == NULL) {
-            uError() << "type " << type << ": parentPkg is NULL" << endl;
+            uError() << "type " << type << ": parentPkg is NULL";
             return;
         }
         if (Model_Utils::typeIsClassifierList(type)) {
@@ -2011,7 +2009,7 @@ bool UMLListView::itemRenamed(Q3ListViewItem * item , int /*col*/)
     case Uml::lvt_Category: {
         Uml::Object_Type ot = Model_Utils::convert_LVT_OT(type);
         if (! ot) {
-            uError() << "internal error" << endl;
+            uError() << "internal error";
             return false;
         }
         UMLObject *o = createUMLObject(renamedItem, ot);
@@ -2160,7 +2158,7 @@ UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, Uml::Object_Type
     UMLListViewItem * parentItem = static_cast<UMLListViewItem *>(item->parent());
     const Uml::ListView_Type lvt = parentItem->getType();
     if (! Model_Utils::typeIsContainer(lvt)) {
-        uError() << object->getName() << ": parentItem (" << lvt << " is not a container" << endl;
+        uError() << object->getName() << ": parentItem (" << lvt << " is not a container";
         delete object;
         return NULL;
     }
@@ -2179,7 +2177,7 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, Uml::Object_Type 
     QString text = item->text(0);
     UMLObject* parent = static_cast<UMLListViewItem *>(item->parent())->getUMLObject();
     if (!parent) {
-        uError() << "parent UMLObject is NULL" << endl;
+        uError() << "parent UMLObject is NULL";
         m_bCreatingChildObject = false;
         return false;
     }
@@ -2283,7 +2281,7 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, Uml::Object_Type 
 
         text = uec->toString(Uml::st_SigNoVis);
     } else  {
-        uError() << "called for type " << type << " (ignored)" << endl;
+        uError() << "called for type " << type << " (ignored)";
         m_bCreatingChildObject = false;
         return false;
     }
@@ -2316,7 +2314,7 @@ UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::Diagram_Type ty
     UMLListViewItem *parentItem = static_cast<UMLListViewItem*>(item->parent());
     UMLFolder *parentFolder = dynamic_cast<UMLFolder*>(parentItem->getUMLObject());
     if (parentFolder == NULL) {
-        uError() << name << ": parent UMLObject is not a UMLFolder" << endl;
+        uError() << name << ": parent UMLObject is not a UMLFolder";
         delete item;
         return NULL;
     }
@@ -2407,7 +2405,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
         UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->getUMLObject());
         if (pkg == NULL) {
             uError() << "internal error - "
-            << "parent listviewitem is package but has no UMLObject" << endl;
+            << "parent listviewitem is package but has no UMLObject";
             return true;
         }
         return (pkg->findObject(name) == NULL);
@@ -2512,7 +2510,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 Uml::IDType newID = idchanges->findNewID(nID);
                 if (newID != Uml::id_None) {
                     uDebug() << " using id " << ID2STR(newID)
-                    << " instead of " << ID2STR(nID) << endl;
+                    << " instead of " << ID2STR(nID);
                     nID = newID;
                 }
             }
@@ -2527,8 +2525,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 UMLObject *umlParent = parent->getUMLObject();
                 UMLPackage *parentPkg = dynamic_cast<UMLPackage*>(umlParent);
                 if (parentPkg == NULL) {
-                    uError() << "umlParent(" << umlParent << ") is not a UMLPackage"
-                    << endl;
+                    uError() << "umlParent(" << umlParent << ") is not a UMLPackage";
                     domElement = node.toElement();
                     continue;
                 }
@@ -2549,7 +2546,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             // Pull a new ID now.
             nID = UniqueID::get();
         } else {
-            uError() << "item of type " << type << " has no ID, skipping." << endl;
+            uError() << "item of type " << type << " has no ID, skipping.";
             domElement = node.toElement();
             continue;
         }
@@ -2576,7 +2573,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             item = findItem(nID);
             if (item == NULL) {
                 uError() << "INTERNAL ERROR: "
-                << "findItem(id " << ID2STR(nID) << ") returns NULL" << endl;
+                << "findItem(id " << ID2STR(nID) << ") returns NULL";
                 /*
                 if (pObject && pObject->getUMLPackage() &&
                         parent->getType() != Uml::lvt_Package) {
@@ -2587,7 +2584,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                     UMLListViewItem *pkgItem = findUMLObject(umlpkg);
                     if (pkgItem == NULL) {
                         uDebug() << "synthesizing ListViewItem for package "
-                            << ID2STR(umlpkg->getID()) << endl;
+                            << ID2STR(umlpkg->getID());
                         pkgItem = new UMLListViewItem(parent, umlpkg->getName(),
                                                       Uml::lvt_Package, umlpkg);
                         pkgItem->setOpen(true);
@@ -2612,7 +2609,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 UMLListViewItem *itmParent = dynamic_cast<UMLListViewItem*>(item->parent());
                 uDebug() << item->getText() << " parent "
                 << parent->getText() << " (" << parent << ") != "
-                << itmParent->getText() << " (" << itmParent << ")" << endl;
+                << itmParent->getText() << " (" << itmParent << ")";
                 if (item == m_datatypeFolder && itmParent == m_lv[Uml::mt_Logical]) {
                     uDebug() << "Reparenting the Datatypes folder is prohibited";
                 } else {
@@ -2621,7 +2618,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                     if (item) {
                         uDebug() << "Attempted reparenting of " << item->getText()
                         << "(current parent: " << (itmParent ? itmParent->getText() : "NULL")
-                        << ", new parent: " << parent->getText() << ")" << endl;
+                        << ", new parent: " << parent->getText() << ")";
                     }
                 }
             }
@@ -2638,7 +2635,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             item = findItem(nID);
             if (item == NULL) {
                 uDebug() << "item " << ID2STR(nID) << " (of type "
-                << lvType << ") does not yet exist..." << endl;
+                << lvType << ") does not yet exist...";
                 UMLObject* umlObject = parent->getUMLObject();
                 if (!umlObject) {
                     uDebug() << "And also the parent->getUMLObject() does not exist";
@@ -2656,7 +2653,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                             item = new UMLListViewItem(parent, label, lvType, umlObject);
                         } else {
                             uDebug() << "lvtype " << lvType << " child object "
-                            << ID2STR(nID) << " not found" << endl;
+                            << ID2STR(nID) << " not found";
                         }
                     } else {
                         uDebug() << "cast to classifier object failed";
@@ -2687,7 +2684,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 item = new UMLListViewItem(parent, label, lvType, nID);
             } else {
                 uError() << "INTERNAL ERROR: unexpected listview type "
-                << lvType << " (ID " << ID2STR(nID) << ")" << endl;
+                << lvType << " (ID " << ID2STR(nID) << ")";
             }
             break;
         }//end switch
@@ -2699,7 +2696,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             }
         } else {
             uWarning() << "unused list view item " << ID2STR(nID)
-            << " of lvtype " << lvType << endl;
+            << " of lvtype " << lvType;
         }
         domElement = node.toElement();
     }//end while
@@ -2830,7 +2827,7 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
             delete temp;
         }
     } else {
-        uWarning() << "mt_Delete called with unknown type" << endl;
+        uWarning() << "mt_Delete called with unknown type";
     }
     return true;
 }
@@ -2859,7 +2856,7 @@ void UMLListView::dropEvent(QDropEvent* event)
 
         UMLListViewItem* item = (UMLListViewItem*)itemAt(mousePoint);
         if (!item) {
-            uDebug() << "itemAt(mousePoint) returns NULL" << endl;
+            uDebug() << "itemAt(mousePoint) returns NULL";
             event->ignore();
             return;
         }

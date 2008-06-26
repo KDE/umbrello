@@ -303,18 +303,18 @@ bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog) {
         UMLListViewItem *shouldNotExist = listView->findItem(newID);
         if (shouldNotExist) {
             uError() << "new list view item " << ID2STR(newID)
-                << " already exists (internal error)" << endl;
+                << " already exists (internal error)";
             childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
             continue;
         }
         UMLObject *newObj = doc->findObjectById(newID);
         if (newObj) {
             uDebug() << "adjusting lvitem(" << ID2STR(oldID)
-                << ") to new UMLObject(" << ID2STR(newID) << ")" << endl;
+                << ") to new UMLObject(" << ID2STR(newID) << ")";
             childItem->setUMLObject(newObj);
             childItem->setText(newObj->getName());
         } else {
-            uDebug() << "no UMLObject found for lvitem " << ID2STR(newID) << endl;
+            uDebug() << "no UMLObject found for lvitem " << ID2STR(newID);
         }
         childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
     }
@@ -486,7 +486,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data) {
         Uml::IDType newId = idchanges->findNewID(oldId);
         if (currentView->findWidget(newId)) {
             uError() << "widget (oldID=" << ID2STR(oldId) << ", newID="
-                << ID2STR(newId) << ") already exists in target view." << endl;
+                << ID2STR(newId) << ") already exists in target view.";
             widgets.removeAll(widget);
             delete widget;
             objectAlreadyExists = true;
@@ -544,7 +544,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
     UMLClassifier *parent = dynamic_cast<UMLClassifier*>( lvitem->getUMLObject() );
 
     if (parent == NULL) {
-        uError() << "parent is not a UMLClassifier" << endl;
+        uError() << "parent is not a UMLClassifier";
         return false;
     }
 
@@ -577,7 +577,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
                 if (parent->addAttribute(att, idchanges)) {
                     result = true;
                 } else {
-                    uError() << "" << parent->getName() << "->addAttribute(" << att->getName() << ") failed" << endl;
+                    uError() << "" << parent->getName() << "->addAttribute(" << att->getName() << ") failed";
                 }
                 break;
             }
@@ -592,7 +592,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
                 if (parent->addOperation(op, idchanges)) {
                     result = true;
                 } else {
-                    uError() << "" << parent->getName() << "->addOperation(" << op->getName() << ") failed" << endl;
+                    uError() << "" << parent->getName() << "->addOperation(" << op->getName() << ") failed";
                 }
                 break;
             }
@@ -607,7 +607,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
                 if ( parent->addTemplate( tp, idchanges ) ) {
                     result = true;
                 } else {
-                    uError()<<""<<parent->getName()<<"->addTemplate("<<tp->getName()<<") failed"<<endl;
+                    uError()<<""<<parent->getName()<<"->addTemplate("<<tp->getName()<<") failed";
                 }
                 break;
             }
@@ -617,7 +617,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
                // if parent is not a UMLEnum, bail out immediately;
                if ( !enumParent ) {
                    result = false;
-                   uError() << "Parent is not an UMLEnum" << endl;
+                   uError() << "Parent is not an UMLEnum";
                    break;
                }
 
@@ -631,7 +631,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
                if ( enumParent->addEnumLiteral( enl, idchanges ) ) {
                    result = true;
                } else {
-                   uError()<<""<<enumParent->getName()<<"->addEnumLiteral("<<enl->getName()<<") failed"<<endl;
+                   uError()<<""<<enumParent->getName()<<"->addEnumLiteral("<<enl->getName()<<") failed";
                }
                break;
            }
@@ -654,7 +654,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
                 if ( entityParent->addEntityAttribute(att, idchanges)) {
                     result = true;
                 } else {
-                    uError() << "" << parent->getName() << "->addEntityAttribute(" << att->getName() << ") failed" << endl;
+                    uError() << "" << parent->getName() << "->addEntityAttribute(" << att->getName() << ") failed";
                 }
                 break;
             }

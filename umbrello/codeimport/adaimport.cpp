@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2007                                               *
+ *   copyright (C) 2005-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 // qt/kde includes
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 #include <kdebug.h>
 // app includes
 #include "import_utils.h"
@@ -28,14 +28,17 @@
 #include "../attribute.h"
 #include "../association.h"
 
-AdaImport::AdaImport() : NativeImportBase("--") {
+AdaImport::AdaImport() : NativeImportBase("--")
+{
    initVars();
 }
 
-AdaImport::~AdaImport() {
+AdaImport::~AdaImport()
+{
 }
 
-void AdaImport::initVars() {
+void AdaImport::initVars()
+{
     m_inGenericFormalPart = false;
     m_classesDefinedInThisScope.clear();
     m_renaming.clear();
@@ -43,7 +46,8 @@ void AdaImport::initVars() {
 
 /// Split the line so that a string is returned as a single element of the list,
 /// when not in a string then split at white space.
-QStringList AdaImport::split(const QString& lin) {
+QStringList AdaImport::split(const QString& lin)
+{
     QStringList list;
     QString listElement;
     bool inString = false;
@@ -100,7 +104,8 @@ QStringList AdaImport::split(const QString& lin) {
     return list;
 }
 
-void AdaImport::fillSource(const QString& word) {
+void AdaImport::fillSource(const QString& word)
+{
     QString lexeme;
     const uint len = word.length();
     for (uint i = 0; i < len; i++) {
@@ -124,7 +129,8 @@ void AdaImport::fillSource(const QString& word) {
         m_source.append(lexeme);
 }
 
-QString AdaImport::expand(const QString& name) {
+QString AdaImport::expand(const QString& name)
+{
     QRegExp pfxRegExp("^(\\w+)\\.");
     pfxRegExp.setCaseSensitivity(Qt::CaseInsensitive);
     int pos = pfxRegExp.indexIn(name);
@@ -139,7 +145,8 @@ QString AdaImport::expand(const QString& name) {
     return result;
 }
 
-void AdaImport::parseStems(const QStringList& stems) {
+void AdaImport::parseStems(const QStringList& stems)
+{
     if (stems.isEmpty())
         return;
     QString base = stems.first();
@@ -165,7 +172,8 @@ void AdaImport::parseStems(const QStringList& stems) {
     }
 }
 
-bool AdaImport::parseStmt() {
+bool AdaImport::parseStmt()
+{
     const int srcLength = m_source.count();
     QString keyword = m_source[m_srcIndex];
     UMLDoc *umldoc = UMLApp::app()->getDocument();
@@ -225,7 +233,7 @@ bool AdaImport::parseStmt() {
         } else if (m_source[m_srcIndex] == "renames") {
             m_renaming[name] = advance();
         } else {
-            uError() << "unexpected: " << m_source[m_srcIndex] << endl;
+            uError() << "unexpected: " << m_source[m_srcIndex];
             skipStmt("is");
         }
         if (m_inGenericFormalPart) {
@@ -260,7 +268,7 @@ bool AdaImport::parseStmt() {
         QString name = advance();
         QString next = advance();
         if (next == "(") {
-            uDebug() << name << ": discriminant handling is not yet implemented" << endl;
+            uDebug() << name << ": discriminant handling is not yet implemented";
             // @todo Find out how to map discriminated record to UML.
             //       For now, we just create a pro forma empty record.
             Import_Utils::createUMLObject(Uml::ot_Class, name, m_scope[m_scopeIndex],
@@ -278,7 +286,7 @@ bool AdaImport::parseStmt() {
             return true;
         }
         if (next != "is") {
-            uError() << "expecting \"is\"" << endl;
+            uError() << "expecting \"is\"";
             return false;
         }
         next = advance();
@@ -394,7 +402,7 @@ bool AdaImport::parseStmt() {
         if (m_klass) {
             if (advance() != "record") {
                 uError() << "end: expecting \"record\" at "
-                          << m_source[m_srcIndex] << endl;
+                          << m_source[m_srcIndex];
             }
             m_klass = NULL;
         } else if (m_scopeIndex) {
@@ -402,12 +410,12 @@ bool AdaImport::parseStmt() {
                 QString scopeName = m_scope[m_scopeIndex]->getFullyQualifiedName();
                 if (scopeName.toLower() != m_source[m_srcIndex].toLower())
                     uError() << "end: expecting " << scopeName << ", found "
-                              << m_source[m_srcIndex] << endl;
+                              << m_source[m_srcIndex];
             }
             m_scopeIndex--;
             m_currentAccess = Uml::Visibility::Public;   // @todo make a stack for this
         } else {
-            uError() << "importAda: too many \"end\"" << endl;
+            uError() << "importAda: too many \"end\"";
         }
         skipStmt();
         return true;
@@ -437,13 +445,13 @@ bool AdaImport::parseStmt() {
             uint parNameCount = 0;
             do {
                 if (parNameCount >= MAX_PARNAMES) {
-                    uError() << "MAX_PARNAMES is exceeded at " << name << endl;
+                    uError() << "MAX_PARNAMES is exceeded at " << name;
                     break;
                 }
                 parName[parNameCount++] = advance();
             } while (advance() == ",");
             if (m_source[m_srcIndex] != ":") {
-                uError() << "importAda: expecting ':'" << endl;
+                uError() << "importAda: expecting ':'";
                 skipStmt();
                 break;
             }
@@ -502,7 +510,7 @@ bool AdaImport::parseStmt() {
             if (advance() != "return") {
                 if (klass)
                     uError() << "importAda: expecting \"return\" at function "
-                        << name << endl;
+                        << name;
                 return false;
             }
             returnType = expand(advance());
@@ -547,7 +555,7 @@ bool AdaImport::parseStmt() {
                 skipStmt("end");
         } else {
             uError() << "importAda: expecting \"use\" at rep spec of "
-                      << typeName << endl;
+                      << typeName;
         }
         skipStmt();
         return true;
@@ -560,7 +568,7 @@ bool AdaImport::parseStmt() {
     const QString& name = keyword;
     if (advance() != ":") {
         uError() << "adaImport: expecting \":\" at " << name << " "
-                  << m_source[m_srcIndex] << endl;
+                  << m_source[m_srcIndex];
         skipStmt();
         return true;
     }
