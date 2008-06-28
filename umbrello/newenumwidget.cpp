@@ -127,15 +127,6 @@ void NewEnumWidget::paint(QPainter *painter,
         painter->drawText(fontRect, Qt::AlignVCenter, enumLiteral->getName());
         y += fontHeight;
     }
-
-    if(option->state & QStyle::State_Selected) {
-        Widget_Utils::drawResizeHandles(painter, rect());
-
-    }
-
-    painter->setPen(Qt::red);
-    painter->setBrush(Qt::NoBrush);
-    painter->drawRect(boundingRect());
 }
 
 bool NewEnumWidget::loadFromXMI( QDomElement & qElement )

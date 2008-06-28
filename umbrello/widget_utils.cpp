@@ -83,7 +83,7 @@ namespace Widget_Utils
 
     bool loadPixmapFromXMI(const QDomElement &qElement, QPixmap &pixmap)
     {
-
+        return true;
     }
 
     void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap)
@@ -255,120 +255,4 @@ namespace Widget_Utils
         //TODO: Check if transform of this brush needs to be saved.
         qElement.appendChild(brushElement);
     }
-
-    /**
-     * Helper method.
-     * @internal
-     * @return The resize handle rectangle for given \a rect.
-     */
-    QRectF rectForResizeHandle(const Uml::ResizeHandle handle, const QRectF& rect)
-    {
-        const qreal d = RESIZE_HANDLE_SIZE;
-        const qreal hd = 0.5 * (d - 1);
-        QRectF handleRect(0, 0, d-1, d-1);
-        QPointF delta(d-1, d-1);
-
-        qreal x, y;
-
-
-        switch(handle)
-        {
-        case Uml::rh_TopLeft:
-            x = rect.left() - hd;
-            y = rect.top() - hd;
-            break;
-
-        case Uml::rh_Top:
-            x = rect.center().x();
-            y = rect.top() - hd;
-            break;
-
-        case Uml::rh_TopRight:
-            x = rect.right() + hd;
-            y = rect.top() - hd;
-            break;
-
-        case Uml::rh_Right:
-            x = rect.right() + hd;
-            y = rect.center().y();
-            break;
-
-        case Uml::rh_BottomRight:
-            x = rect.right() + hd;
-            y = rect.bottom() + hd;
-            break;
-
-        case Uml::rh_Bottom:
-            x = rect.center().x();
-            y = rect.bottom() + hd;
-            break;
-
-        case Uml::rh_BottomLeft:
-            x = rect.left() - hd;
-            y = rect.bottom() + hd;
-            break;
-
-        case Uml::rh_Left:
-            x = rect.left() - hd;
-            y = rect.center().y();
-
-        default:
-            ; // NOP to avoid compiler warning
-
-        }
-        handleRect.moveCenter(QPointF(x, y));
-        return handleRect;
-    }
-
-    void drawResizeHandles(QPainter *painter, const QRectF &rect)
-    {
-        // painter->save();
-        for(unsigned i = Uml::rh_TopLeft; i <= unsigned(Uml::rh_Left); ++i) {
-            QRectF handleRect = rectForResizeHandle((Uml::ResizeHandle)i, rect);
-            painter->fillRect(handleRect, Qt::blue);
-        }
-    }
-
-    Uml::ResizeHandle resizeHandleForPoint(const QPointF &point, const QRectF& rect)
-    {
-        for(unsigned i = Uml::rh_TopLeft; i <= unsigned(Uml::rh_Left); ++i) {
-            QRectF handleRect = rectForResizeHandle((Uml::ResizeHandle)i, rect);
-            if(handleRect.contains(point)) {
-                return Uml::ResizeHandle(i);
-            }
-        }
-        return Uml::rh_None;
-    }
-
-    QCursor cursorForResizeHandle(const Uml::ResizeHandle handle)
-    {
-        switch (handle)
-        {
-        case Uml::rh_TopLeft:
-        case Uml::rh_BottomRight:
-            return QCursor(Qt::SizeFDiagCursor);
-
-        case Uml::rh_Top:
-        case Uml::rh_Bottom:
-            return QCursor(Qt::SizeVerCursor);
-
-        case Uml::rh_TopRight:
-        case Uml::rh_BottomLeft:
-            return QCursor(Qt::SizeBDiagCursor);
-
-        case Uml::rh_Right:
-        case Uml::rh_Left:
-            return QCursor(Qt::SizeHorCursor);
-
-        default:
-            return QCursor(Qt::ArrowCursor);
-        }
-    }
-
-    void adjustRectForResizeHandles(QRectF &rect)
-    {
-        const qreal d = RESIZE_HANDLE_SIZE;
-        rect.adjust(-d, -d, d, d);
-    }
-
 }  // namespace Widget_Utils

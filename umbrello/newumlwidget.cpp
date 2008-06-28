@@ -56,9 +56,6 @@ NewUMLWidget::NewUMLWidget(UMLObject *object) :
     if(!object) {
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
-    else {
-        connect(m_umlObject, SIGNAL(modified()), this, SLOT(slotUMLObjectDataChanged()));
-    }
     setFlags(ItemIsSelectable | ItemIsMovable);
     // Call init this way so that virtual methods may be called.
     QTimer::singleShot(0, this, SLOT(slotInit()));
@@ -76,13 +73,22 @@ UMLObject* NewUMLWidget::umlObject() const
 
 void NewUMLWidget::setUmlObject(UMLObject *obj)
 {
-    UMLObject *old = m_umlObject;
+    UMLObject *oldObj = m_umlObject;
     m_umlObject = obj;
-    // If obj is not null, then we will be using objects properties.
-    if(obj) {
-        delete m_widgetInterfaceData;
+
+    if(oldObj) {
+        oldObj->disconnect(this);
     }
-    umlObjectChanged(old);
+
+    if(m_umlObject) {
+        delete m_widgetInterfaceData;
+        connect(umlObject(), SIGNAL(modified()), this, SLOT(slotUMLObjectDataChanged()));
+    }
+    else if(!m_widgetInterfaceData) {
+        m_widgetInterfaceData = new WidgetInterfaceData;
+    }
+
+    umlObjectChanged(oldObj);
 }
 
 Uml::IDType NewUMLWidget::id() const
@@ -112,11 +118,6 @@ void NewUMLWidget::setId(Uml::IDType id)
 Uml::Widget_Type NewUMLWidget::baseType() const
 {
     return m_baseType;
-}
-
-void NewUMLWidget::setBaseType(Uml::Widget_Type  type)
-{
-    m_baseType = type;
 }
 
 UMLScene* NewUMLWidget::umlScene() const
@@ -349,8 +350,8 @@ void NewUMLWidget::slotUMLObjectDataChanged()
 
 void NewUMLWidget::slotInit()
 {
-    UMLObject *old = 0;
-    umlObjectChanged(old);
+    setUmlObject(m_umlObject);
+    updateGeometry();
 }
 
 void NewUMLWidget::updateGeometry()
@@ -360,12 +361,7 @@ void NewUMLWidget::updateGeometry()
 
 void NewUMLWidget::umlObjectChanged(UMLObject *oldObj)
 {
-    if(oldObj) {
-        oldObj->disconnect(this);
-    }
-    if(umlObject()) {
-        connect(umlObject(), SIGNAL(modified()), this, SLOT(slotUMLObjectDataChanged()));
-    }
+    Q_UNUSED(oldObj);
 }
 
 void NewUMLWidget::setBoundingRect(const QRectF &rect)

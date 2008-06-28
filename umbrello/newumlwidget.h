@@ -95,12 +95,6 @@ public:
      * @return The base type rtti info for this widget.
      */
     Uml::Widget_Type baseType() const;
-    /**
-     * Sets the base type for this widget.
-     *
-     * @todo Remove this method as it seems to violate encapsulation.
-     */
-    void setBaseType(Uml::Widget_Type type);
 
     /**
      * @return The UMLScene for this widget is returned, or 0 if the

@@ -307,23 +307,6 @@ namespace Uml
     };
 
 /**
- * An enum to incdicate the resize handle area.
- * @note The ordering is important as it is used in for loop for convienience.
- */
-    enum ResizeHandle {
-        rh_None,
-
-        rh_TopLeft,
-        rh_Top,
-        rh_TopRight,
-        rh_Right,
-        rh_BottomRight,
-        rh_Bottom,
-        rh_BottomLeft,
-        rh_Left,
-    };
-
-/**
  * The data type used for unique IDs.
  */
     typedef std::string IDType;

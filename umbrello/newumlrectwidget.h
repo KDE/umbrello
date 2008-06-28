@@ -24,6 +24,7 @@
 #include "associationwidgetlist.h"
 
 class AssociationWidget;
+class WidgetHandle;
 
 /**
  * @short The base class for rectangular base UML widgets.
@@ -184,7 +185,7 @@ protected:
      *
      * The new size is available through NewUMLRectWidget::size()
      */
-    virtual void sizeChanged(const QSizeF& oldSize);
+    virtual void sizeHasChanged(const QSizeF& oldSize);
 
     /**
      * Reimplemented to ensure widget current size fits the sizeHint
@@ -213,37 +214,20 @@ protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
     /**
-     * Reimplemented to provide resizing ability.
-     */
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-    /**
-     * Reimplemented to provide resizing ability.
-     */
-    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
-    /**
-     * Reimplemented to provide resizing ability.
-     */
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-
-    /**
      * Reimplemented to catch selection change notification and enable/disable hover
      * events based on whether this widget is selected or not.
      */
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
-    void adjustSizeForConstraints(QSizeF &sz);
-    void handleCursorChange(QGraphicsSceneHoverEvent *event);
-
     QSizeF m_size;
     QString m_instanceName;
 
     bool m_resizable;
     AssociationWidgetList m_associationWidgetList;
 
-    // Internal variable to keep track of resizing state.
-    Uml::ResizeHandle m_resizeHandle;
     QRectF m_oldGeometry;
+    WidgetHandle *m_widgetHandle;
 };
 
 #endif //NEWUMLRECTWIDGET_H

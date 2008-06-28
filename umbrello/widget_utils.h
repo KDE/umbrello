@@ -22,8 +22,6 @@
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
 
-#define RESIZE_HANDLE_SIZE 6
-
 // forward declarations
 class QGraphicsRectItem;
 
@@ -141,54 +139,6 @@ namespace Widget_Utils
     void saveBrushToXMI(QDomDocument &qDoc, QDomElement &qElement,
                         const QBrush& brush);
 
-    /**
-     * Utility function to draw the eight resize handles surrounding the
-     * rectangle \a rect.
-     *
-     * @param painter The QPainter initialized with device on which
-     *                the resize handles should be painted.
-     *
-     * @param rect The rectangle surrounding which the resize handles
-     *             should be drawn.
-     *
-     * @note The painter state is saved and restored.
-     */
-    void drawResizeHandles(QPainter *painter, const QRectF &rect);
-
-    /**
-     * Utility function which returns the appropriate resize handle
-     * based on the whether \a point exists inside the resize handle
-     * corresponding to \a rect.
-     *
-     * @return One of size resize handles if found or Uml::rh_None if
-     *         not found.
-     *
-     * @param point The point to be tested for closure.
-     *
-     * @param rect The rectangle with respect to which \a point should
-     *             be tested.
-     */
-    Uml::ResizeHandle resizeHandleForPoint(const QPointF &point, const QRectF& rect);
-
-    /**
-     * Utility method to return the appropriate mouse cursor based on
-     * \a handle.
-     *
-     * @param handle The ResizeHandle for which the mouse cursor is required.
-     *
-     * @return The appropriate QCursor if handle != Uml::rh_None, else
-     *         returns QCursor::ArrowCursor.
-     */
-    QCursor cursorForResizeHandle(const Uml::ResizeHandle handle);
-
-    /**
-     * This utility method adjust the \a rect to hold the resize
-     * handles.
-     *
-     * @param rect The reference to a valid rect, which will be
-     *             enlarged to hold the resize handles.
-     */
-    void adjustRectForResizeHandles(QRectF &rect);
 }
 
 #endif

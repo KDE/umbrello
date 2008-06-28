@@ -326,6 +326,7 @@ set(libumbrello_SRCS
    signalwidget.cpp
    stereotype.cpp
    template.cpp
+   textitem.cpp
    test.cpp
    textblock.cpp
    toolbarstate.cpp
@@ -360,6 +361,7 @@ set(libumbrello_SRCS
    uniqueconstraint.cpp
    usecase.cpp
    usecasewidget.cpp
+   widgethandle.cpp
    widgetbase.cpp
    widget_factory.cpp
    widget_utils.cpp
