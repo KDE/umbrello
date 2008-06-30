@@ -59,7 +59,7 @@ public:
      * @return  Returns the documentation.
      */
     QString getDoc() {
-        return m_pDoc -> text();
+        return m_pDoc->text();
     }
 
     /**
@@ -68,7 +68,7 @@ public:
      * @return  Return the name of the parameter.
      */
     QString getName() {
-        return m_pNameLE -> text();
+        return m_pNameLE->text();
     }
 
     /**
@@ -77,7 +77,7 @@ public:
      * @return  Return the initial value of the parameter.
      */
     QString getInitialValue() {
-        return m_pInitialLE -> text();
+        return m_pInitialLE->text();
     }
 
     /**
@@ -86,7 +86,7 @@ public:
      * @return Return the type name of the parameter.
      */
     QString getTypeName() {
-        return m_pTypeCB -> currentText();
+        return m_pTypeCB->currentText();
     }
 
     /**

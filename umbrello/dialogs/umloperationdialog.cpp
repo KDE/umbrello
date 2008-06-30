@@ -79,59 +79,59 @@ void UMLOperationDialog::setupDialog()
 
     m_pGenGB = new Q3GroupBox(i18n("General Properties"), frame );
     QGridLayout * genLayout = new QGridLayout(m_pGenGB);
-    genLayout -> setColumnStretch(1, 1);
-    genLayout -> setColumnStretch(3, 1);
-    genLayout -> addItem(new QSpacerItem(200, 0), 0, 1);
-    genLayout -> addItem(new QSpacerItem(200, 0), 0, 3);
-    genLayout -> setMargin(margin);
-    genLayout -> setSpacing(10);
+    genLayout->setColumnStretch(1, 1);
+    genLayout->setColumnStretch(3, 1);
+    genLayout->addItem(new QSpacerItem(200, 0), 0, 1);
+    genLayout->addItem(new QSpacerItem(200, 0), 0, 3);
+    genLayout->setMargin(margin);
+    genLayout->setSpacing(10);
 
     Dialog_Utils::makeLabeledEditField( m_pGenGB, genLayout, 0,
                                     m_pNameL, i18nc("operation name", "&Name:"),
                                     m_pNameLE, m_pOperation->getName() );
 
     m_pRtypeL = new QLabel(i18n("&Type:"), m_pGenGB );
-    genLayout -> addWidget(m_pRtypeL, 0, 2);
+    genLayout->addWidget(m_pRtypeL, 0, 2);
 
     m_pRtypeCB = new KComboBox(true, m_pGenGB );
-    genLayout -> addWidget(m_pRtypeCB, 0, 3);
+    genLayout->addWidget(m_pRtypeCB, 0, 3);
     m_pRtypeL->setBuddy(m_pRtypeCB);
 
     m_pStereoTypeL = new QLabel( i18n("Stereotype name:"), m_pGenGB );
-    genLayout -> addWidget(m_pStereoTypeL, 1, 0);
+    genLayout->addWidget(m_pStereoTypeL, 1, 0);
     m_pStereoTypeCB = new KComboBox(true, m_pGenGB );
-    genLayout -> addWidget(m_pStereoTypeCB, 1, 1);
+    genLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
     m_pAbstractCB = new QCheckBox( i18n("&Abstract operation"), m_pGenGB );
-    m_pAbstractCB -> setChecked( m_pOperation->getAbstract() );
-    genLayout -> addWidget( m_pAbstractCB, 2, 0 );
+    m_pAbstractCB->setChecked( m_pOperation->getAbstract() );
+    genLayout->addWidget( m_pAbstractCB, 2, 0 );
     m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pGenGB );
-    m_pStaticCB -> setChecked( m_pOperation->getStatic() );
-    genLayout -> addWidget( m_pStaticCB, 2, 1 );
+    m_pStaticCB->setChecked( m_pOperation->getStatic() );
+    genLayout->addWidget( m_pStaticCB, 2, 1 );
     m_pQueryCB = new QCheckBox( i18n("&Query (\"const\")"), m_pGenGB );
-    m_pQueryCB -> setChecked( m_pOperation->getConst() );
-    genLayout -> addWidget( m_pQueryCB, 2, 2 );
+    m_pQueryCB->setChecked( m_pOperation->getConst() );
+    genLayout->addWidget( m_pQueryCB, 2, 2 );
 
-    topLayout -> addWidget( m_pGenGB );
+    topLayout->addWidget( m_pGenGB );
 
     m_pScopeBG = new Q3ButtonGroup(i18n("Visibility"), frame );
 
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeBG);
-    scopeLayout -> setMargin(margin);
+    scopeLayout->setMargin(margin);
 
     m_pPublicRB = new QRadioButton(i18nc("public visibility", "P&ublic"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pPublicRB);
+    scopeLayout->addWidget(m_pPublicRB);
 
     m_pPrivateRB = new QRadioButton(i18nc("private visibility", "P&rivate"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pPrivateRB);
+    scopeLayout->addWidget(m_pPrivateRB);
 
     m_pProtectedRB = new QRadioButton(i18nc("protected visibility", "Prot&ected"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pProtectedRB);
+    scopeLayout->addWidget(m_pProtectedRB);
 
     m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pImplementationRB);
+    scopeLayout->addWidget(m_pImplementationRB);
 
-    topLayout -> addWidget(m_pScopeBG);
+    topLayout->addWidget(m_pScopeBG);
 
     m_pParmsGB = new Q3GroupBox(i18n("Parameters"), frame );
     QVBoxLayout* parmsLayout = new QVBoxLayout(m_pParmsGB);
@@ -162,7 +162,7 @@ void UMLOperationDialog::setupDialog()
                           this, SLOT(slotParameterProperties()) );
     parmsLayout->addWidget(buttonBox);
 
-    topLayout -> addWidget(m_pParmsGB);
+    topLayout->addWidget(m_pParmsGB);
 
     m_pDeleteButton->setEnabled(false);
     m_pPropertiesButton->setEnabled(false);
@@ -218,18 +218,18 @@ void UMLOperationDialog::setupDialog()
     }
 
     //set scope
-    Uml::Visibility scope = m_pOperation -> getVisibility();
+    Uml::Visibility scope = m_pOperation->getVisibility();
     if( scope == Uml::Visibility::Public )
-      m_pPublicRB -> setChecked( true );
+      m_pPublicRB->setChecked( true );
     else if( scope == Uml::Visibility::Private )
-      m_pPrivateRB -> setChecked( true );
+      m_pPrivateRB->setChecked( true );
     else if( scope == Uml::Visibility::Protected )
-      m_pProtectedRB -> setChecked( true );
+      m_pProtectedRB->setChecked( true );
     else if( scope == Uml::Visibility::Implementation )
-      m_pImplementationRB -> setChecked( true );
+      m_pImplementationRB->setChecked( true );
 
     // manage stereotypes
-    m_pStereoTypeCB -> setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pStereoTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     insertStereotype (QString()); // an empty stereotype is the default
     int defaultStereotype=0;
@@ -286,7 +286,7 @@ void UMLOperationDialog::slotParmRightButtonPressed(Q3ListBoxItem *item, const Q
         type = ListPopupMenu::mt_New_Parameter;
     }
     if (m_pMenu) {
-        m_pMenu -> hide();
+        m_pMenu->hide();
         disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotParmPopupMenuSel(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
@@ -302,7 +302,7 @@ void UMLOperationDialog::slotParmRightButtonClicked(Q3ListBoxItem *item, const Q
     Q_UNUSED(p)
 
     if (m_pMenu) {
-        m_pMenu -> hide();
+        m_pMenu->hide();
         disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotParmPopupMenuSel(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
@@ -343,7 +343,7 @@ void UMLOperationDialog::slotNewParameter()
     ParmPropDlg dlg(this, m_doc, newAttribute);
     result = dlg.exec();
     QString name = dlg.getName();
-    pAtt = m_pOperation -> findParm( name );
+    pAtt = m_pOperation->findParm( name );
     if ( result ) {
         if ( name.length() == 0 ) {
             KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
@@ -359,8 +359,8 @@ void UMLOperationDialog::slotNewParameter()
             newAttribute->setDoc( dlg.getDoc() );
             newAttribute->setParmKind( dlg.getParmKind() );
             m_pOperation->addParm( newAttribute );
-            m_pParmsLB -> insertItem( name );
-            m_doc -> setModified( true );
+            m_pParmsLB->insertItem( name );
+            m_doc->setModified( true );
         } else {
             KMessageBox::sorry(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
                                i18n("Parameter Name Not Unique"), false);
@@ -426,7 +426,7 @@ void UMLOperationDialog::slotParameterProperties()
                     pOldAtt->setTypeName( typeName );  // Bad.
                 }
             }
-            m_pParmsLB->changeItem( dlg.getName(), m_pParmsLB -> currentItem() );
+            m_pParmsLB->changeItem( dlg.getName(), m_pParmsLB->currentItem() );
             pOldAtt->setDoc( dlg.getDoc() );
             pOldAtt->setInitialValue( dlg.getInitialValue() );
             m_doc->setModified( true );
@@ -480,11 +480,11 @@ void UMLOperationDialog::slotParamsBoxClicked(Q3ListBoxItem* parameterItem)
 
 bool UMLOperationDialog::apply()
 {
-    QString name = m_pNameLE -> text();
+    QString name = m_pNameLE->text();
     if( name.length() == 0 ) {
         KMessageBox::error(this, i18n("You have entered an invalid operation name."),
                            i18n("Operation Name Invalid"), false);
-        m_pNameLE -> setText( m_pOperation -> getName() );
+        m_pNameLE->setText( m_pOperation->getName() );
         return false;
     }
 
@@ -498,16 +498,16 @@ bool UMLOperationDialog::apply()
         KMessageBox::error(this, msg, i18n("Operation Name Invalid"), false);
         return false;
     }
-    m_pOperation -> setName( name );
+    m_pOperation->setName( name );
 
-    if( m_pPublicRB -> isChecked() )
-      m_pOperation -> setVisibility( Uml::Visibility::Public );
-    else if( m_pPrivateRB -> isChecked() )
-      m_pOperation -> setVisibility( Uml::Visibility::Private );
-    else if (m_pProtectedRB -> isChecked() )
-      m_pOperation -> setVisibility( Uml::Visibility::Protected );
-    else if (m_pImplementationRB -> isChecked() )
-      m_pOperation -> setVisibility( Uml::Visibility::Implementation );
+    if( m_pPublicRB->isChecked() )
+      m_pOperation->setVisibility( Uml::Visibility::Public );
+    else if( m_pPrivateRB->isChecked() )
+      m_pOperation->setVisibility( Uml::Visibility::Private );
+    else if (m_pProtectedRB->isChecked() )
+      m_pOperation->setVisibility( Uml::Visibility::Protected );
+    else if (m_pImplementationRB->isChecked() )
+      m_pOperation->setVisibility( Uml::Visibility::Implementation );
 
     QString typeName = m_pRtypeCB->currentText();
     UMLTemplate *tmplParam = classifier->findTemplate(typeName);
@@ -519,7 +519,7 @@ bool UMLOperationDialog::apply()
     m_pOperation->setStereotype( m_pStereoTypeCB->currentText() );
 
     bool isAbstract = m_pAbstractCB->isChecked();
-    m_pOperation -> setAbstract( isAbstract );
+    m_pOperation->setAbstract( isAbstract );
     if (isAbstract) {
         /* If any operation is abstract then the owning class needs
            to be made abstract.

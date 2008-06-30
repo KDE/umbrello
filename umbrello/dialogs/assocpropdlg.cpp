@@ -49,7 +49,7 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
     init();
     m_pAssoc = assocWidget;
 
-    m_pDoc = ((UMLApp *)parent) -> getDocument(); // needed?
+    m_pDoc = ((UMLApp *)parent)->getDocument(); // needed?
 
     setupPages(assocWidget);
 #ifdef __GNUC__
@@ -102,9 +102,9 @@ void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
     pageItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageItem );
     QHBoxLayout *genLayout = new QHBoxLayout(page);
-    page -> setMinimumSize(310, 330);
+    page->setMinimumSize(310, 330);
     m_pGenPage = new AssocGenPage (m_pDoc, page, assocWidget);
-    genLayout -> addWidget(m_pGenPage);
+    genLayout->addWidget(m_pGenPage);
 
     // role page
     QFrame *newPage = new QFrame();
@@ -113,9 +113,9 @@ void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
     pageItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Roles) );
     addPage( pageItem );
     QHBoxLayout * roleLayout = new QHBoxLayout(newPage);
-    // newPage -> setMinimumSize(310, 330);
+    // newPage->setMinimumSize(310, 330);
     m_pRolePage = new AssocRolePage(m_pDoc, newPage, assocWidget);
-    roleLayout -> addWidget(m_pRolePage);
+    roleLayout->addWidget(m_pRolePage);
 
     setupFontPage();
 }

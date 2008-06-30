@@ -28,17 +28,17 @@ PkgContentsPage::PkgContentsPage(QWidget *parent, UMLPackage *pkg)
     int margin = fontMetrics().height();
 
     QHBoxLayout * mainLayout = new QHBoxLayout(this);
-    mainLayout -> setSpacing(10);
+    mainLayout->setSpacing(10);
 
     m_pContentGB = new Q3GroupBox(i18n("Contained Items"), this);
-    mainLayout -> addWidget(m_pContentGB);
+    mainLayout->addWidget(m_pContentGB);
 
     QHBoxLayout * layout = new QHBoxLayout(m_pContentGB);
-    layout -> setSpacing(10);
-    layout -> setMargin(margin);
+    layout->setSpacing(10);
+    layout->setMargin(margin);
 
     m_pContentLB = new Q3ListBox(m_pContentGB);
-    layout -> addWidget(m_pContentLB);
+    layout->addWidget(m_pContentLB);
     setMinimumSize(310, 330);
     fillListBox();
     m_pMenu = 0;
@@ -67,7 +67,7 @@ PkgContentsPage::~PkgContentsPage() {
 void PkgContentsPage::slotDoubleClick(Q3ListBoxItem * i) {
     if (!i)
         return;
-    int item = m_pContentLB -> currentItem();
+    int item = m_pContentLB->currentItem();
     if ( item == -1 )
         return;
     UMLObjectList contents = m_pPackage->containedObjects();
@@ -93,7 +93,7 @@ void PkgContentsPage::slotRightButtonClicked(Q3ListBoxItem *item, const QPoint &
     Q_UNUSED(p)
 
     if(m_pMenu) {
-        m_pMenu -> hide();
+        m_pMenu->hide();
         disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
@@ -104,7 +104,7 @@ void PkgContentsPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint 
     if(!item)
         return;
     if(m_pMenu) {
-        m_pMenu -> hide();
+        m_pMenu->hide();
         disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;

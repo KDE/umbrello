@@ -58,34 +58,34 @@ void ClassOptionsPage::setupPage() {
     Uml::Signature_Type sigtype;
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
-    topLayout -> setSpacing(6);
+    topLayout->setSpacing(6);
     m_pVisibilityGB = new Q3GroupBox(i18n("Show"), this);
-    topLayout -> addWidget(m_pVisibilityGB);
+    topLayout->addWidget(m_pVisibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_pVisibilityGB);
-    visibilityLayout -> setSpacing(10);
-    visibilityLayout -> setMargin(margin);
-    visibilityLayout -> setRowStretch(3, 1);
+    visibilityLayout->setSpacing(10);
+    visibilityLayout->setMargin(margin);
+    visibilityLayout->setRowStretch(3, 1);
 
     m_pShowOpsCB = new QCheckBox(i18n("Operatio&ns"), m_pVisibilityGB);
-    m_pShowOpsCB -> setChecked(m_pWidget -> getShowOps());
-    visibilityLayout -> addWidget(m_pShowOpsCB, 0, 0);
+    m_pShowOpsCB->setChecked(m_pWidget->getShowOps());
+    visibilityLayout->addWidget(m_pShowOpsCB, 0, 0);
 
     m_pShowVisibilityCB = new QCheckBox(i18n("&Visibility"), m_pVisibilityGB);
-    m_pShowVisibilityCB -> setChecked(m_pWidget -> getShowVisibility());
-    visibilityLayout -> addWidget(m_pShowVisibilityCB, 0, 1);
+    m_pShowVisibilityCB->setChecked(m_pWidget->getShowVisibility());
+    visibilityLayout->addWidget(m_pShowVisibilityCB, 0, 1);
 
-    sigtype = m_pWidget -> getShowOpSigs();
+    sigtype = m_pWidget->getShowOpSigs();
     if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoVis)
         sig = false;
     else
         sig = true;
     m_pShowOpSigCB = new QCheckBox(i18n("O&peration signature"), m_pVisibilityGB);
-    m_pShowOpSigCB -> setChecked(sig);
-    visibilityLayout -> addWidget(m_pShowOpSigCB, 1, 0);
+    m_pShowOpSigCB->setChecked(sig);
+    visibilityLayout->addWidget(m_pShowOpSigCB, 1, 0);
 
     m_pShowPackageCB = new QCheckBox(i18n("Pac&kage"), m_pVisibilityGB);
-    m_pShowPackageCB -> setChecked(m_pWidget -> getShowPackage());
-    visibilityLayout -> addWidget(m_pShowPackageCB, 1, 1);
+    m_pShowPackageCB->setChecked(m_pWidget->getShowPackage());
+    visibilityLayout->addWidget(m_pShowPackageCB, 1, 1);
 
     Uml::Widget_Type type = m_pWidget->getBaseType();
 
@@ -119,45 +119,45 @@ void ClassOptionsPage::setupClassPageOption() {
     int margin = fontMetrics().height();
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
-    topLayout -> setSpacing(6);
+    topLayout->setSpacing(6);
     m_pVisibilityGB = new Q3GroupBox(i18n("Show"), this);
-    topLayout -> addWidget(m_pVisibilityGB);
+    topLayout->addWidget(m_pVisibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_pVisibilityGB);
-    visibilityLayout -> setSpacing(10);
-    visibilityLayout -> setMargin(margin);
+    visibilityLayout->setSpacing(10);
+    visibilityLayout->setMargin(margin);
 
     m_pShowOpsCB = new QCheckBox(i18n("Operatio&ns"), m_pVisibilityGB);
-    m_pShowOpsCB -> setChecked( m_options->classState.showOps );
-    visibilityLayout -> addWidget(m_pShowOpsCB, 0, 0);
+    m_pShowOpsCB->setChecked( m_options->classState.showOps );
+    visibilityLayout->addWidget(m_pShowOpsCB, 0, 0);
 
     m_pShowOpSigCB = new QCheckBox(i18n("O&peration signature"), m_pVisibilityGB);
-    m_pShowOpSigCB -> setChecked(m_options->classState.showOpSig);
-    visibilityLayout -> addWidget(m_pShowOpSigCB, 1, 0);
-    visibilityLayout -> setRowStretch(3, 1);
+    m_pShowOpSigCB->setChecked(m_options->classState.showOpSig);
+    visibilityLayout->addWidget(m_pShowOpSigCB, 1, 0);
+    visibilityLayout->setRowStretch(3, 1);
 
     m_pShowAttsCB = new QCheckBox(i18n("Att&ributes"), m_pVisibilityGB);
-    m_pShowAttsCB -> setChecked(m_options->classState.showAtts );
-    visibilityLayout -> addWidget(m_pShowAttsCB, 2, 0);
+    m_pShowAttsCB->setChecked(m_options->classState.showAtts );
+    visibilityLayout->addWidget(m_pShowAttsCB, 2, 0);
 
     m_pShowAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_pVisibilityGB);
-    m_pShowAttSigCB -> setChecked(m_options->classState.showAttSig);
-    visibilityLayout -> addWidget(m_pShowAttSigCB, 3, 0);
+    m_pShowAttSigCB->setChecked(m_options->classState.showAttSig);
+    visibilityLayout->addWidget(m_pShowAttSigCB, 3, 0);
 
     m_pShowVisibilityCB = new QCheckBox(i18n("&Visibility"), m_pVisibilityGB);
-    m_pShowVisibilityCB -> setChecked(m_options->classState.showVisibility);
-    visibilityLayout -> addWidget(m_pShowVisibilityCB, 0, 1);
+    m_pShowVisibilityCB->setChecked(m_options->classState.showVisibility);
+    visibilityLayout->addWidget(m_pShowVisibilityCB, 0, 1);
 
     m_pShowPackageCB = new QCheckBox(i18n("Pac&kage"), m_pVisibilityGB);
-    m_pShowPackageCB -> setChecked(m_options->classState.showPackage);
-    visibilityLayout -> addWidget(m_pShowPackageCB, 1, 1);
+    m_pShowPackageCB->setChecked(m_options->classState.showPackage);
+    visibilityLayout->addWidget(m_pShowPackageCB, 1, 1);
 
     m_pShowStereotypeCB = new QCheckBox(i18n("Stereot&ype"), m_pVisibilityGB);
-    m_pShowStereotypeCB -> setChecked(m_options->classState.showStereoType);
-    visibilityLayout -> addWidget(m_pShowStereotypeCB, 2, 1);
+    m_pShowStereotypeCB->setChecked(m_options->classState.showStereoType);
+    visibilityLayout->addWidget(m_pShowStereotypeCB, 2, 1);
 
     m_pShowAttribAssocsCB = new QCheckBox(i18n("&Attribute associations"), m_pVisibilityGB);
-    m_pShowAttribAssocsCB -> setChecked(m_options->classState.showAttribAssocs);
-    visibilityLayout -> addWidget(m_pShowAttribAssocsCB, 3, 1);
+    m_pShowAttribAssocsCB->setChecked(m_options->classState.showAttribAssocs);
+    visibilityLayout->addWidget(m_pShowAttribAssocsCB, 3, 1);
 
 }
 

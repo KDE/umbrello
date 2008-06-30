@@ -71,14 +71,14 @@ void UMLEntityAttributeDialog::setupDialog()
 
     m_pValuesGB = new Q3GroupBox(i18n("General Properties"), frame );
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout -> setMargin(margin);
-    valuesLayout -> setSpacing(10);
+    valuesLayout->setMargin(margin);
+    valuesLayout->setSpacing(10);
 
     m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
-    valuesLayout -> addWidget(m_pTypeL, 0, 0);
+    valuesLayout->addWidget(m_pTypeL, 0, 0);
 
     m_pTypeCB = new KComboBox(true, m_pValuesGB);
-    valuesLayout -> addWidget(m_pTypeCB, 0, 1);
+    valuesLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
@@ -122,7 +122,7 @@ void UMLEntityAttributeDialog::setupDialog()
     insertAttribute("unsigned");
     insertAttribute("unsigned zerofill");
 
-    mainLayout -> addWidget(m_pValuesGB);
+    mainLayout->addWidget(m_pValuesGB);
 
     m_pScopeBG = new Q3ButtonGroup(i18n("Indexing"), frame );
     QHBoxLayout* scopeLayout = new QHBoxLayout(m_pScopeBG);
@@ -149,7 +149,7 @@ void UMLEntityAttributeDialog::setupDialog()
     if ( scope == Uml::Primary )
         m_pPublicRB->setChecked( true );
     else if( scope == Uml::Unique )
-        m_pProtectedRB -> setChecked( true );
+        m_pProtectedRB->setChecked( true );
     else */
 
     if( scope == Uml::Index )
@@ -231,12 +231,12 @@ bool UMLEntityAttributeDialog::apply()
     /*
     if ( m_pPublicRB->isChecked() ) {
         m_pEntityAttribute->setIndexType(Uml::Primary);
-    } else if ( m_pProtectedRB -> isChecked() ) {
+    } else if ( m_pProtectedRB->isChecked() ) {
         m_pEntityAttribute->setIndexType(Uml::Unique);
     } else
     */
 
-    if ( m_pPrivateRB -> isChecked() ) {
+    if ( m_pPrivateRB->isChecked() ) {
         m_pEntityAttribute->setIndexType(Uml::Index);
     } else {
         m_pEntityAttribute->setIndexType(Uml::None);

@@ -685,7 +685,7 @@ void RefactoringAssistant::movableDropEvent (Q3ListViewItem* parentItem, Q3ListV
 void RefactoringAssistant::loadPixmaps()
 {
     KStandardDirs *dirs = KGlobal::dirs();
-    QString dataDir = dirs -> findResourceDir( "data", "umbrello/pics/object.png" );
+    QString dataDir = dirs->findResourceDir( "data", "umbrello/pics/object.png" );
     dataDir += "/umbrello/pics/";
 
     m_pixmaps.Public.load( dataDir + "CVpublic_var.png" );

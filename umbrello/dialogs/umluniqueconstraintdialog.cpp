@@ -215,11 +215,11 @@ void UMLUniqueConstraintDialog::slotOk()
 
 bool UMLUniqueConstraintDialog::apply()
 {
-    QString name = m_pNameLE -> text();
+    QString name = m_pNameLE->text();
     if ( name.length() == 0 ) {
         KMessageBox::error(this, i18n("You have entered an invalid constraint name."),
                            i18n("Constraint Name Invalid"), false);
-        m_pNameLE -> setText( m_pUniqueConstraint -> getName() );
+        m_pNameLE->setText( m_pUniqueConstraint->getName() );
         return false;
     }
 

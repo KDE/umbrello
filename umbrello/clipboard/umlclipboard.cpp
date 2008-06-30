@@ -350,7 +350,7 @@ bool UMLClipboard::pasteClip1(const QMimeData* data) {
     UMLListViewItem* itemdata = 0;
     UMLListViewItemListIt it(itemdatalist);
     while ( (itemdata=it.current()) != 0 ) {
-        if(itemdata -> childCount()) {
+        if(itemdata->childCount()) {
                 if(!pasteChildren(itemdata, idchanges)) {
                         return false;
                 }
@@ -399,7 +399,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data) {
         if(!item) {
             return false;
         }
-        if(itemdata -> childCount()) {
+        if(itemdata->childCount()) {
             if(!pasteChildren(item, idchanges)) {
                 return false;
             }
@@ -428,7 +428,7 @@ bool UMLClipboard::pasteClip3(const QMimeData* data) {
 
     foreach ( UMLListViewItem* itemdata, itemdatalist ) {
         UMLListViewItem* item = listView->createItem(*itemdata, *idchanges);
-        if(itemdata -> childCount()) {
+        if(itemdata->childCount()) {
             if(!pasteChildren(item, idchanges)) {
                 return false;
             }
@@ -522,7 +522,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data) {
         if(!item) {
             return false;
         }
-        if(itemdata -> childCount()) {
+        if(itemdata->childCount()) {
             if(!pasteChildren(item, idchanges)) {
                 return false;
             }
@@ -672,8 +672,8 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
 }
 
 bool UMLClipboard::insertItemChildren( UMLListViewItem * item ) {
-    if( item -> childCount() ) {
-        UMLListViewItem * child =dynamic_cast<UMLListViewItem *>( item -> firstChild() );
+    if( item->childCount() ) {
+        UMLListViewItem * child =dynamic_cast<UMLListViewItem *>( item->firstChild() );
         while( child ) {
             m_ItemList.append( child );
             insertItemChildren( child );
@@ -687,7 +687,7 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
     bool retval = true;
 
     foreach ( UMLWidget* p, widgetList ) {
-        switch( p -> getBaseType() ) {
+        switch( p->getBaseType() ) {
         case Uml::wt_Note:
             break;
 

@@ -274,7 +274,7 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
     UMLAttributeList atl;
 
     foreach (UMLOperation* op , *opList ) {
-        atl = op -> getParmList();
+        atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
         foreach (UMLAttribute* at,  atl  ) {

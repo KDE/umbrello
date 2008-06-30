@@ -27,13 +27,13 @@ class UMLClassifier;
  * The default call sequence is as follows (RealizedLanguageImport
  * is used as a placeholder name for the concrete language importer.)
  *   NativeImportBase                      RealizedLanguageImport
- * --> importFiles()
+ * -->importFiles()
  *       parseFile()
- *         -----------------------------------> initVars()
+ *         ----------------------------------->initVars()
  *         scan()
  *           preprocess() (may be reimplemented)
- *           ---------------------------------> fillSource()
- *         -----------------------------------> parseStmt()
+ *           --------------------------------->fillSource()
+ *         ----------------------------------->parseStmt()
  * This sequence may be changed by overriding default implementations
  * of virtual methods in NativeImportBase.
  *

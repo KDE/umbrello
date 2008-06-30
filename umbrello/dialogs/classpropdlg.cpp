@@ -84,7 +84,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget *w)
     init();
     m_pWidget = w;
     m_Type = pt_Widget;
-    m_pObject = w -> getUMLObject();
+    m_pObject = w->getUMLObject();
 
     if (w->getBaseType() == Uml::wt_Class
             || w->getBaseType() == Uml::wt_Interface
@@ -222,10 +222,10 @@ void ClassPropDlg::setupGeneralPage()
 {
     QFrame* page = createPage( i18nc("general settings page name", "General"), i18n("General Settings"),
                                Icon_Utils::it_Properties_General );
-    page -> setMinimumSize(310, 330);
+    page->setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
     m_pGenPage = new ClassGenPage(m_pDoc, page, m_pObject);
-    topLayout -> addWidget(m_pGenPage);
+    topLayout->addWidget(m_pGenPage);
 }
 
 void ClassPropDlg::setupColorPage()
@@ -234,7 +234,7 @@ void ClassPropDlg::setupColorPage()
                                 Icon_Utils::it_Properties_Color );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(page);
     m_pColorPage = new UMLWidgetColorPage(page, m_pWidget);
-    m_pColorLayout -> addWidget(m_pColorPage);
+    m_pColorLayout->addWidget(m_pColorPage);
 }
 
 void ClassPropDlg::setupDisplayPage()
@@ -244,7 +244,7 @@ void ClassPropDlg::setupDisplayPage()
     QHBoxLayout* m_pOptionsLayout = new QHBoxLayout(page);
     ClassifierWidget *cw = static_cast<ClassifierWidget*>(m_pWidget);
     m_pOptionsPage = new ClassOptionsPage(page, cw);
-    m_pOptionsLayout -> addWidget(m_pOptionsPage);
+    m_pOptionsLayout->addWidget(m_pOptionsPage);
 }
 
 void ClassPropDlg::setupAttributesPage()
@@ -253,7 +253,7 @@ void ClassPropDlg::setupAttributesPage()
                                Icon_Utils::it_Properties_Attributes );
     m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Attribute);
     QHBoxLayout * attLayout = new QHBoxLayout(page);
-    attLayout -> addWidget(m_pAttPage);
+    attLayout->addWidget(m_pAttPage);
 }
 
 void ClassPropDlg::setupOperationsPage()
@@ -262,7 +262,7 @@ void ClassPropDlg::setupOperationsPage()
                                Icon_Utils::it_Properties_Operations );
     m_pOpsPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_Operation);
     QHBoxLayout* pOpsLayout = new QHBoxLayout(page);
-    pOpsLayout -> addWidget(m_pOpsPage);
+    pOpsLayout->addWidget(m_pOpsPage);
 }
 
 void ClassPropDlg::setupTemplatesPage()
@@ -316,7 +316,7 @@ void ClassPropDlg::setupAssociationsPage()
                                Icon_Utils::it_Properties_Associations );
     m_pAssocPage = new AssocPage(page, UMLApp::app()->getCurrentView()->umlScene(), m_pObject);
     QHBoxLayout* assocLayout = new QHBoxLayout(page);
-    assocLayout -> addWidget(m_pAssocPage);
+    assocLayout->addWidget(m_pAssocPage);
 }
 
 void ClassPropDlg::setupInstancePages()
@@ -341,7 +341,7 @@ void ClassPropDlg::setupFontPage()
     pageItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageItem );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-    m_pChooser -> setFont( m_pWidget -> getFont() );
+    m_pChooser->setFont( m_pWidget->getFont() );
 }
 
 

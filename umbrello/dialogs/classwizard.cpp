@@ -26,7 +26,7 @@
 #include "../umlclassifierlistitemlist.h"
 #include "../classifierlistitem.h"
 
-ClassWizard::ClassWizard( UMLDoc * pDoc ) : K3Wizard( (QWidget*)pDoc -> parent(), "_CLASSWIZARD_", true) {
+ClassWizard::ClassWizard( UMLDoc * pDoc ) : K3Wizard( (QWidget*)pDoc->parent(), "_CLASSWIZARD_", true) {
     m_pDoc = pDoc;
     //create a unique class to start with
     UMLObject * pTemp = 0;
@@ -36,8 +36,8 @@ ClassWizard::ClassWizard( UMLDoc * pDoc ) : K3Wizard( (QWidget*)pDoc -> parent()
     int i = 0;
     m_pClass = new UMLClassifier( newName );
     do {
-        m_pClass -> setName( newName );
-        pTemp = m_pDoc -> findUMLObject( newName );
+        m_pClass->setName( newName );
+        pTemp = m_pDoc->findUMLObject( newName );
         num.setNum( ++i);
         newName = name;
         newName.append("_").append( num );
@@ -66,15 +66,15 @@ void ClassWizard::setupPages() {
 void ClassWizard::showPage( QWidget * pWidget ) {
     Q3Wizard::showPage( pWidget );
     if( pWidget == m_pOpPage )
-        finishButton() -> setEnabled( true );
+        finishButton()->setEnabled( true );
 }
 
 void ClassWizard::next() {
     QWidget * pWidget = currentPage();
     if( pWidget == m_pGenPage ) {
-        m_pGenPage -> updateObject();
+        m_pGenPage->updateObject();
     } else if( pWidget == m_pAttPage ) {
-        m_pAttPage -> updateObject();
+        m_pAttPage->updateObject();
     }
     Q3Wizard::next();
 }
@@ -82,15 +82,15 @@ void ClassWizard::next() {
 void ClassWizard::back() {
     QWidget * pWidget = currentPage();
     if( pWidget == m_pAttPage ) {
-        m_pAttPage -> updateObject();
+        m_pAttPage->updateObject();
     } else if( pWidget == m_pOpPage ) {
-        m_pOpPage -> updateObject();
+        m_pOpPage->updateObject();
     }
     Q3Wizard::back();
 }
 
 void ClassWizard::accept() {
-    m_pDoc -> addUMLObject( m_pClass );
+    m_pDoc->addUMLObject( m_pClass );
     m_pDoc->signalUMLObjectCreated(m_pClass);
 
     // call updateObject of General Page again so as to bind to package

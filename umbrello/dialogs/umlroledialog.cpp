@@ -44,7 +44,7 @@ void UMLRoleDialog::setupDialog() {
 
     resize( QSize(425, 620).expandedTo(minimumSizeHint()) );
 
-    //  topLayout -> addWidget( m_pParmsGB);
+    //  topLayout->addWidget( m_pParmsGB);
 
 }
 

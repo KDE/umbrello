@@ -68,14 +68,14 @@ void UMLAttributeDialog::setupDialog()
 
     m_pValuesGB = new Q3GroupBox(i18n("General Properties"), frame );
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout -> setMargin(margin);
-    valuesLayout -> setSpacing(10);
+    valuesLayout->setMargin(margin);
+    valuesLayout->setSpacing(10);
 
     m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
-    valuesLayout -> addWidget(m_pTypeL, 0, 0);
+    valuesLayout->addWidget(m_pTypeL, 0, 0);
 
     m_pTypeCB = new KComboBox(true, m_pValuesGB);
-    valuesLayout -> addWidget(m_pTypeCB, 0, 1);
+    valuesLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
@@ -91,37 +91,37 @@ void UMLAttributeDialog::setupDialog()
                                     m_pStereoTypeLE, m_pAttribute->getStereotype() );
 
     m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
-    m_pStaticCB -> setChecked( m_pAttribute -> getStatic() );
-    valuesLayout -> addWidget(m_pStaticCB, 4, 0);
+    m_pStaticCB->setChecked( m_pAttribute->getStatic() );
+    valuesLayout->addWidget(m_pStaticCB, 4, 0);
 
-    mainLayout -> addWidget(m_pValuesGB);
+    mainLayout->addWidget(m_pValuesGB);
 
     m_pScopeBG = new Q3ButtonGroup(i18n("Visibility"), frame );
     QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeBG);
-    scopeLayout -> setMargin(margin);
+    scopeLayout->setMargin(margin);
 
     m_pPublicRB = new QRadioButton(i18nc("access control public", "&Public"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pPublicRB);
+    scopeLayout->addWidget(m_pPublicRB);
 
     m_pPrivateRB = new QRadioButton(i18nc("access control private", "P&rivate"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pPrivateRB);
+    scopeLayout->addWidget(m_pPrivateRB);
 
     m_pProtectedRB = new QRadioButton(i18nc("access control protected", "Prot&ected"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pProtectedRB);
+    scopeLayout->addWidget(m_pProtectedRB);
 
     m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pImplementationRB);
+    scopeLayout->addWidget(m_pImplementationRB);
 
-    mainLayout -> addWidget(m_pScopeBG);
-    Uml::Visibility scope = m_pAttribute -> getVisibility();
+    mainLayout->addWidget(m_pScopeBG);
+    Uml::Visibility scope = m_pAttribute->getVisibility();
     if( scope == Uml::Visibility::Public )
-        m_pPublicRB -> setChecked( true );
+        m_pPublicRB->setChecked( true );
     else if( scope == Uml::Visibility::Private )
-          m_pPrivateRB -> setChecked( true );
+          m_pPrivateRB->setChecked( true );
     else if( scope == Uml::Visibility::Protected )
-          m_pProtectedRB -> setChecked( true );
+          m_pProtectedRB->setChecked( true );
     else if( scope == Uml::Visibility::Implementation )
-          m_pImplementationRB -> setChecked( true );
+          m_pImplementationRB->setChecked( true );
 
     m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
     m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );

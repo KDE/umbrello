@@ -961,7 +961,7 @@ QString DWriter::pluralize(const QString& string)
 
 QString DWriter::unPluralize(const QString& string)
 {
-    // does not handle special cases liek datum -> data, etc.
+    // does not handle special cases liek datum->data, etc.
 
     if (string.count() > 2 && string.right(3) == "ses") {
         return string.left(string.count() - 2);

@@ -47,10 +47,10 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     m_pAtt = a;
     QString type, text, name, initialValue;
     if(a) {
-        type = a -> getTypeName();
-        name = a -> getName();
-        initialValue = a -> getInitialValue();
-        text = a -> getDoc();
+        type = a->getTypeName();
+        name = a->getName();
+        initialValue = a->getInitialValue();
+        text = a->getDoc();
     }
     int margin = fontMetrics().height();
     setMinimumSize(300, 400);
@@ -58,21 +58,21 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     QFrame *frame = new QFrame( this );
     setMainWidget( frame );
     QVBoxLayout * topLayout = new QVBoxLayout(frame);
-    topLayout -> setSpacing(10);
-    topLayout -> setMargin(margin);
+    topLayout->setSpacing(10);
+    topLayout->setMargin(margin);
 
     m_pParmGB = new Q3GroupBox(i18n("Properties"), frame);
-    topLayout -> addWidget(m_pParmGB);
+    topLayout->addWidget(m_pParmGB);
 
     QGridLayout * propLayout = new QGridLayout(m_pParmGB);
-    propLayout -> setSpacing(10);
-    propLayout -> setMargin(margin);
+    propLayout->setSpacing(10);
+    propLayout->setMargin(margin);
 
     m_pTypeL = new QLabel(i18n("&Type:"), m_pParmGB);
-    propLayout -> addWidget(m_pTypeL, 0, 0);
+    propLayout->addWidget(m_pTypeL, 0, 0);
 
     m_pTypeCB = new KComboBox(m_pParmGB);
-    propLayout -> addWidget(m_pTypeCB, 0, 1);
+    propLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pParmGB, propLayout, 1,
@@ -84,9 +84,9 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
                                     m_pInitialLE, initialValue );
 
     m_pStereoTypeL = new QLabel( i18n("Stereotype name:"), m_pParmGB );
-    propLayout -> addWidget(m_pStereoTypeL, 3, 0);
+    propLayout->addWidget(m_pStereoTypeL, 3, 0);
     m_pStereoTypeCB = new KComboBox(true, m_pParmGB );
-    propLayout -> addWidget(m_pStereoTypeCB, 3, 1);
+    propLayout->addWidget(m_pStereoTypeCB, 3, 1);
 
     m_pKind =  new Q3ButtonGroup(i18n("Passing Direction"), frame);
     m_pKind->setExclusive(true);
@@ -104,19 +104,19 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     m_pOut =  new QRadioButton( "out", m_pKind );
     kindLayout->addWidget( m_pOut );
 
-    topLayout -> addWidget(m_pKind);
+    topLayout->addWidget(m_pKind);
 
     m_pDocGB = new Q3GroupBox(i18n("Documentation"), frame);
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
-    docLayout -> setMargin(margin);
+    docLayout->setMargin(margin);
 
     m_pDoc = new Q3MultiLineEdit(m_pDocGB);
     ///////////
     m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
     //////////
-    m_pDoc -> setText(text);
-    docLayout -> addWidget(m_pDoc);
-    topLayout -> addWidget(m_pDocGB);
+    m_pDoc->setText(text);
+    docLayout->addWidget(m_pDoc);
+    topLayout->addWidget(m_pDocGB);
 
     // Check the proper Kind radiobutton.
     if (a) {

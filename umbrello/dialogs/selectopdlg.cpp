@@ -44,43 +44,43 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
     QVBoxLayout * topLayout = new QVBoxLayout(frame);
 
     m_pOpGB = new Q3GroupBox(i18n("Select Operation"), frame);
-    topLayout -> addWidget(m_pOpGB);
+    topLayout->addWidget(m_pOpGB);
 
     QGridLayout * mainLayout = new QGridLayout(m_pOpGB);
-    mainLayout -> setSpacing(spacingHint());
-    mainLayout -> setMargin(fontMetrics().height());
+    mainLayout->setSpacing(spacingHint());
+    mainLayout->setMargin(fontMetrics().height());
 
     Dialog_Utils::makeLabeledEditField( m_pOpGB, mainLayout, 0,
                                     m_pSeqL, i18n("Sequence number:"),
                                     m_pSeqLE );
 
     m_pOpRB = new QRadioButton(i18n("Class operation:"), m_pOpGB);
-    mainLayout -> addWidget(m_pOpRB, 1, 0);
+    mainLayout->addWidget(m_pOpRB, 1, 0);
 
     m_pOpCB = new KComboBox(m_pOpGB);
     m_pOpCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     m_pOpCB->setDuplicatesEnabled(false);//only allow one of each type in box
-    mainLayout -> addWidget(m_pOpCB, 1, 1);
+    mainLayout->addWidget(m_pOpCB, 1, 1);
 
     m_pCustomRB = new QRadioButton(i18n("Custom operation:"), m_pOpGB);
-    mainLayout -> addWidget(m_pCustomRB, 2, 0);
+    mainLayout->addWidget(m_pCustomRB, 2, 0);
 
     m_pOpLE = new KLineEdit(m_pOpGB);
-    mainLayout -> addWidget(m_pOpLE, 2, 1);
+    mainLayout->addWidget(m_pOpLE, 2, 1);
 
     m_pOpBG = new Q3ButtonGroup(0);
-    m_pOpBG -> insert(m_pOpRB, OP);
-    m_pOpBG -> insert(m_pCustomRB, CUSTOM);
-    m_pOpBG -> setExclusive(true);
-    m_pOpBG -> setButton(OP);
+    m_pOpBG->insert(m_pOpRB, OP);
+    m_pOpBG->insert(m_pCustomRB, CUSTOM);
+    m_pOpBG->setExclusive(true);
+    m_pOpBG->setButton(OP);
 
-    UMLOperationList list = c -> getOpList(true);
+    UMLOperationList list = c->getOpList(true);
     foreach (UMLOperation* obj, list ) {
         insertOperation( obj->toString(Uml::st_SigNoVis) );
     }
     //disableResize();
     connect(m_pOpBG, SIGNAL(clicked(int)), this, SLOT(slotSelected(int)));
-    m_nOpCount = c -> operations();
+    m_nOpCount = c->operations();
     slotSelected(OP);
 }
 
@@ -96,10 +96,10 @@ void SelectOpDlg::insertOperation( const QString& type, int index )
 }
 
 QString SelectOpDlg::getOpText() {
-    if(m_pOpRB -> isChecked())
-        return m_pOpCB -> currentText();
+    if(m_pOpRB->isChecked())
+        return m_pOpCB->currentText();
     else
-        return m_pOpLE -> text();
+        return m_pOpLE->text();
 }
 
 bool SelectOpDlg::isClassOp() const {
@@ -108,21 +108,21 @@ bool SelectOpDlg::isClassOp() const {
 
 void SelectOpDlg::slotSelected(int id) {
     if(id == OP) {
-        m_pOpLE -> setEnabled(false);
+        m_pOpLE->setEnabled(false);
         if(m_nOpCount > 0)
-            m_pOpCB -> setEnabled(true);
+            m_pOpCB->setEnabled(true);
     } else {
-        m_pOpLE -> setEnabled(true);
-        m_pOpCB -> setEnabled(false);
+        m_pOpLE->setEnabled(true);
+        m_pOpCB->setEnabled(false);
     }
     m_id = id;
 }
 
 void SelectOpDlg::setCustomOp(const QString &op) {
-    m_pOpLE -> setText(op);
+    m_pOpLE->setText(op);
     if(op.length() > 0) {
         slotSelected(CUSTOM);
-        m_pCustomRB -> setChecked(true);
+        m_pCustomRB->setChecked(true);
     }
 }
 
@@ -131,7 +131,7 @@ bool SelectOpDlg::setClassOp(const QString &op) {
     {
         if ( m_pOpCB->itemText(i) == op ) {
             m_pOpCB->setCurrentIndex(i);
-            m_pCustomRB -> setChecked(false);
+            m_pCustomRB->setChecked(false);
             slotSelected(OP);
             return true;
         }

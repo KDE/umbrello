@@ -38,34 +38,34 @@ void UMLRoleProperties::constructWidget() {
     //
 
     // Rolename
-    m_pRoleLE -> setText(m_pRole->getName());
+    m_pRoleLE->setText(m_pRole->getName());
 
     // Multiplicity
-    m_pMultiLE -> setText(m_pRole->getMultiplicity());
+    m_pMultiLE->setText(m_pRole->getMultiplicity());
 
     // Visibility
     Uml::Visibility scope = m_pRole->getVisibility();
     if( scope == Uml::Visibility::Public )
-        m_pPublicRB -> setChecked( true );
+        m_pPublicRB->setChecked( true );
     else if( scope == Uml::Visibility::Private )
-        m_pPrivateRB -> setChecked( true );
+        m_pPrivateRB->setChecked( true );
     else if( scope == Uml::Visibility::Protected )
-        m_pProtectedRB -> setChecked( true );
+        m_pProtectedRB->setChecked( true );
     else if( scope == Uml::Visibility::Implementation )
-        m_pImplementationRB -> setChecked( true );
+        m_pImplementationRB->setChecked( true );
 
     // Changeability
     Uml::Changeability_Type changeability = m_pRole->getChangeability();
     if( changeability == Uml::chg_Changeable )
-        m_pChangeableRB -> setChecked( true );
+        m_pChangeableRB->setChecked( true );
     else if( changeability == Uml::chg_Frozen )
-        m_pFrozenRB -> setChecked( true );
+        m_pFrozenRB->setChecked( true );
     else
-        m_pAddOnlyRB -> setChecked( true );
+        m_pAddOnlyRB->setChecked( true );
 
     // Documentation
     //
-    m_pDocTE-> setText(m_pRole-> getDoc());
+    m_pDocTE->setText(m_pRole->getDoc());
     //m_pDocTE->setWordWrap(QMultiLineEdit::WidgetWidth);
 }
 

@@ -26,17 +26,17 @@ AssocPage::AssocPage(QWidget *parent, UMLScene * s, UMLObject * o) : QWidget(par
     int margin = fontMetrics().height();
 
     QHBoxLayout * mainLayout = new QHBoxLayout(this);
-    mainLayout -> setSpacing(10);
+    mainLayout->setSpacing(10);
 
     m_pAssocGB = new Q3GroupBox(i18n("Associations"), this);
-    mainLayout -> addWidget(m_pAssocGB);
+    mainLayout->addWidget(m_pAssocGB);
 
     QHBoxLayout * layout = new QHBoxLayout(m_pAssocGB);
-    layout -> setSpacing(10);
-    layout -> setMargin(margin);
+    layout->setSpacing(10);
+    layout->setMargin(margin);
 
     m_pAssocLB = new Q3ListBox(m_pAssocGB);
-    layout -> addWidget(m_pAssocLB);
+    layout->addWidget(m_pAssocLB);
     setMinimumSize(310, 330);
     fillListBox();
     m_pMenu = 0;
@@ -67,7 +67,7 @@ void AssocPage::slotDoubleClick(Q3ListBoxItem * i) {
     if(!i)
         return;
 
-    int item = m_pAssocLB -> currentItem();
+    int item = m_pAssocLB->currentItem();
 
     if ( item ==-1 )
         return;
@@ -84,7 +84,7 @@ void AssocPage::fillListBox() {
     int i = 0;
     foreach( AssociationWidget* assocwidget, m_List ) {
         if( assocwidget->getAssocType() != Uml::at_Anchor) {
-            m_pAssocLB -> insertItem(assocwidget->toString(), i++);
+            m_pAssocLB->insertItem(assocwidget->toString(), i++);
         }
     }
 }
@@ -94,7 +94,7 @@ void AssocPage::slotRightButtonClicked(Q3ListBoxItem *item, const QPoint &p) {
     Q_UNUSED(p)
 
     if(m_pMenu) {
-        m_pMenu -> hide();
+        m_pMenu->hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
         delete m_pMenu;
         m_pMenu = 0;
@@ -105,7 +105,7 @@ void AssocPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p) {
     if(!item)
         return;
     if(m_pMenu) {
-        m_pMenu -> hide();
+        m_pMenu->hide();
         disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotPopupMenuSel(int)));
         delete m_pMenu;
         m_pMenu = 0;
@@ -128,7 +128,7 @@ void AssocPage::slotPopupMenuSel(QAction* action) {
         break;
 
     case ListPopupMenu::mt_Properties:
-        slotDoubleClick(m_pAssocLB -> item(m_pAssocLB -> currentItem()));
+        slotDoubleClick(m_pAssocLB->item(m_pAssocLB->currentItem()));
         break;
 
     default:

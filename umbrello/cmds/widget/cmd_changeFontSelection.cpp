@@ -38,7 +38,7 @@ namespace Uml
         pDoc=doc;
         pScene=scene;
         newFont = fon;
-        oldFont = widget -> getFont() ;
+        oldFont = widget->getFont() ;
     }
 
     void cmdChangeFontSelection::undo()

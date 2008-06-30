@@ -53,19 +53,19 @@ void AssocGenPage::constructWidget()
     int margin = fontMetrics().height();
     setMinimumSize(310,330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
-    topLayout -> setSpacing(6);
+    topLayout->setSpacing(6);
 
     // group boxes for name, documentation properties
     Q3GroupBox *nameGB = new Q3GroupBox(this);
     Q3GroupBox *docGB = new Q3GroupBox(this);
-    nameGB -> setTitle(i18n("Properties"));
-    docGB -> setTitle(i18n("Documentation"));
-    topLayout -> addWidget(nameGB);
-    topLayout -> addWidget(docGB);
+    nameGB->setTitle(i18n("Properties"));
+    docGB->setTitle(i18n("Documentation"));
+    topLayout->addWidget(nameGB);
+    topLayout->addWidget(docGB);
 
     QGridLayout * nameLayout = new QGridLayout(nameGB);
-    nameLayout -> setSpacing(6);
-    nameLayout -> setMargin(margin);
+    nameLayout->setSpacing(6);
+    nameLayout->setMargin(margin);
 
     //Association name
     QLabel *pAssocNameL = NULL;
@@ -76,11 +76,11 @@ void AssocGenPage::constructWidget()
 
     // document
     QHBoxLayout * docLayout = new QHBoxLayout(docGB);
-    docLayout -> setMargin(margin);
+    docLayout->setMargin(margin);
 
     m_pDoc = new Q3MultiLineEdit(docGB);
-    docLayout -> addWidget(m_pDoc);
-    m_pDoc-> setText(m_pAssociationWidget-> getDoc());
+    docLayout->addWidget(m_pDoc);
+    m_pDoc->setText(m_pAssociationWidget->getDoc());
     Uml::Association_Type currentType =  m_pAssociationWidget->getAssocType();
     QString currentTypeAsString = UMLAssociation::typeAsString(currentType);
     QLabel *pTypeL = new QLabel(i18n("Type:"), nameGB);

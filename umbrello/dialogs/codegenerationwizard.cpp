@@ -48,12 +48,12 @@ CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
 
     m_doc = UMLApp::app()->getDocument();
     m_app = UMLApp::app();
-    m_availableList -> setAllColumnsShowFocus(true);
-    m_availableList -> setResizeMode(Q3ListView::AllColumns);
-    m_selectedList  -> setAllColumnsShowFocus(true);
-    m_selectedList  -> setResizeMode(Q3ListView::AllColumns);
-    m_statusList    -> setAllColumnsShowFocus(true);
-    m_statusList    -> setResizeMode(Q3ListView::AllColumns);
+    m_availableList->setAllColumnsShowFocus(true);
+    m_availableList->setResizeMode(Q3ListView::AllColumns);
+    m_selectedList->setAllColumnsShowFocus(true);
+    m_selectedList->setResizeMode(Q3ListView::AllColumns);
+    m_statusList->setAllColumnsShowFocus(true);
+    m_statusList->setResizeMode(Q3ListView::AllColumns);
 
     m_CodeGenerationOptionsPage = new CodeGenerationOptionsPage(this);
     connect( m_CodeGenerationOptionsPage, SIGNAL(languageChanged()), this, SLOT(changeLanguage()) );
@@ -137,7 +137,7 @@ void CodeGenerationWizard::generateCode()
         UMLClassifierList cList;
 
         for(Q3ListViewItem *item = m_statusList->firstChild(); item;
-                item = item-> nextSibling()) {
+                item = item->nextSibling()) {
             UMLClassifier *concept =  m_doc->findUMLClassifier(item->text(0));
             cList.append(concept);
         }

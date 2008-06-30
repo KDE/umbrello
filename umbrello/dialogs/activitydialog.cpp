@@ -94,10 +94,10 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     m_bChangesMade = true;
     if ( item == pageItemGeneral )
     {
-        m_pActivityWidget -> setName( m_GenPageWidgets.nameLE -> text() );
-        m_pActivityWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
-        m_pActivityWidget -> setPreText( m_GenPageWidgets.preLE -> text() );
-        m_pActivityWidget -> setPostText( m_GenPageWidgets.postLE -> text() );
+        m_pActivityWidget->setName( m_GenPageWidgets.nameLE->text() );
+        m_pActivityWidget->setDoc( m_GenPageWidgets.docMLE->text() );
+        m_pActivityWidget->setPreText( m_GenPageWidgets.preLE->text() );
+        m_pActivityWidget->setPostText( m_GenPageWidgets.postLE->text() );
 
 
         ActivityWidget::ActivityType newType = ActivityWidget::Normal;
@@ -110,11 +110,11 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     }
     else if ( item == pageItemFont )
     {
-        m_pActivityWidget -> setFont( m_pChooser -> font() );
+        m_pActivityWidget->setFont( m_pChooser->font() );
     }
     else if ( item == pageItemColor )
     {
-        m_pColorPage -> updateUMLWidget();
+        m_pColorPage->updateUMLWidget();
     }
 }
 
@@ -122,7 +122,7 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
 void ActivityDialog::setupGeneralPage()
 {
     QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n( "Branch/Merge"), i18n( "Fork/Join" ) };
-    ActivityWidget::ActivityType type = m_pActivityWidget -> getActivityType();
+    ActivityWidget::ActivityType type = m_pActivityWidget->getActivityType();
 
     KVBox *page = new KVBox();
     pageItemGeneral = new KPageWidgetItem( page, i18nc("general properties page", "General") );
@@ -133,14 +133,14 @@ void ActivityDialog::setupGeneralPage()
     m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
 
     QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB );
-    generalLayout -> setSpacing( spacingHint() );
-    generalLayout -> setMargin(  fontMetrics().height()  );
+    generalLayout->setSpacing( spacingHint() );
+    generalLayout->setMargin(  fontMetrics().height()  );
 
     QString actType ( types[ (int)type ] );
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
                                     m_GenPageWidgets.typeL, i18n("Activity type:"),
                                     m_GenPageWidgets.typeLE, actType );
-    m_GenPageWidgets.typeLE -> setEnabled( false );
+    m_GenPageWidgets.typeLE->setEnabled( false );
 
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
                                     m_GenPageWidgets.nameL, i18n("Activity name:"),
@@ -159,13 +159,13 @@ void ActivityDialog::setupGeneralPage()
     m_GenPageWidgets.postLE->hide();
 
     m_GenPageWidgets.NormalRB = new QRadioButton( i18n("&Normal activity"),(QWidget *)page);
-    generalLayout -> addWidget( m_GenPageWidgets.NormalRB );
+    generalLayout->addWidget( m_GenPageWidgets.NormalRB );
 
     m_GenPageWidgets.InvokRB = new QRadioButton( i18n("&Invoke action "),(QWidget *)page);
-    generalLayout -> addWidget( m_GenPageWidgets.InvokRB );
+    generalLayout->addWidget( m_GenPageWidgets.InvokRB );
 
     m_GenPageWidgets.ParamRB = new QRadioButton( i18n("&Parameter activity node"),(QWidget *)page);
-    generalLayout -> addWidget( m_GenPageWidgets.ParamRB );
+    generalLayout->addWidget( m_GenPageWidgets.ParamRB );
 
     if (type == ActivityWidget::Param)
     {
@@ -176,7 +176,7 @@ void ActivityDialog::setupGeneralPage()
     connect(m_GenPageWidgets.NormalRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
     connect(m_GenPageWidgets.InvokRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
 
-    ActivityWidget::ActivityType newType = m_pActivityWidget -> getActivityType() ;
+    ActivityWidget::ActivityType newType = m_pActivityWidget->getActivityType() ;
 
     m_GenPageWidgets.NormalRB->setChecked(newType == ActivityWidget::Normal);
 
@@ -187,18 +187,18 @@ void ActivityDialog::setupGeneralPage()
     m_GenPageWidgets.docGB = new Q3GroupBox( i18n( "Documentation"), (QWidget *)page );
 
     QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
-    docLayout -> setSpacing( spacingHint() );
-    docLayout -> setMargin(  fontMetrics().height()  );
+    docLayout->setSpacing( spacingHint() );
+    docLayout->setMargin(  fontMetrics().height()  );
 
     m_GenPageWidgets.docMLE = new Q3MultiLineEdit( m_GenPageWidgets.docGB );
-    m_GenPageWidgets.docMLE -> setText( m_pActivityWidget -> getDoc() );
-    docLayout -> addWidget( m_GenPageWidgets.docMLE );
+    m_GenPageWidgets.docMLE->setText( m_pActivityWidget->getDoc() );
+    docLayout->addWidget( m_GenPageWidgets.docMLE );
 
     if ( type != ActivityWidget::Normal && type != ActivityWidget::Invok && type != ActivityWidget::Param) {
-        m_GenPageWidgets.nameLE -> setEnabled( false );
-        m_GenPageWidgets.nameLE -> setText( "" );
+        m_GenPageWidgets.nameLE->setEnabled( false );
+        m_GenPageWidgets.nameLE->setText( "" );
     } else
-        m_GenPageWidgets.nameLE -> setText( m_pActivityWidget -> getName() );
+        m_GenPageWidgets.nameLE->setText( m_pActivityWidget->getName() );
 }
 
 void ActivityDialog::setupFontPage()
@@ -209,7 +209,7 @@ void ActivityDialog::setupFontPage()
     pageItemFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageItemFont );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-    m_pChooser -> setFont( m_pActivityWidget -> getFont() );
+    m_pChooser->setFont( m_pActivityWidget->getFont() );
 }
 
 void ActivityDialog::showParameterActivity()
@@ -237,7 +237,7 @@ void ActivityDialog::setupColorPage()
     addPage( pageItemColor );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pActivityWidget );
-    m_pColorLayout -> addWidget(m_pColorPage);
+    m_pColorLayout->addWidget(m_pColorPage);
 }
 
 #include "activitydialog.moc"

@@ -39,18 +39,18 @@ NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
     setMainWidget( frame );
     m_pDocGB = new Q3GroupBox(i18n("Documentation"), frame);
     QVBoxLayout * mainLayout = new QVBoxLayout(frame);
-    mainLayout -> addWidget(m_pDocGB);
-    mainLayout -> setSpacing(10);
-    mainLayout -> setMargin(margin);
+    mainLayout->addWidget(m_pDocGB);
+    mainLayout->setSpacing(10);
+    mainLayout->setMargin(margin);
 
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
-    docLayout -> setSpacing(10);
-    docLayout -> setMargin(margin);
+    docLayout->setSpacing(10);
+    docLayout->setMargin(margin);
 
     m_pDocTE = new Q3TextEdit( m_pDocGB );
-    m_pDocTE -> setFocus();
-    docLayout -> addWidget( m_pDocTE );
-    m_pDocTE -> setText( pNote -> getDoc() );
+    m_pDocTE->setFocus();
+    docLayout->addWidget( m_pDocTE );
+    m_pDocTE->setText( pNote->getDoc() );
     setMinimumSize(330, 160);
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 }
@@ -58,7 +58,7 @@ NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
 NoteDialog::~NoteDialog() {}
 
 void NoteDialog::slotOk() {
-    m_pNoteWidget -> setDoc( m_pDocTE -> text() );
+    m_pNoteWidget->setDoc( m_pDocTE->text() );
     accept();
 }
 

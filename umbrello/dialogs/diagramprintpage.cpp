@@ -37,51 +37,51 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(
     int margin = fontMetrics().height();
     setWindowTitle(i18n("&Diagrams"));
     QHBoxLayout * mainLayout = new QHBoxLayout(this);
-    mainLayout -> setSpacing(10);
-    mainLayout -> setMargin(margin);
+    mainLayout->setSpacing(10);
+    mainLayout->setMargin(margin);
 
     m_pFilterBG = new Q3ButtonGroup(i18n("Filter"), this);
-    mainLayout -> addWidget(m_pFilterBG);
-    m_pFilterBG -> setExclusive(true);
+    mainLayout->addWidget(m_pFilterBG);
+    m_pFilterBG->setExclusive(true);
 
     QVBoxLayout * filter = new QVBoxLayout(m_pFilterBG);
-    filter -> setSpacing(10);
-    filter-> setMargin(margin);
+    filter->setSpacing(10);
+    filter->setMargin(margin);
 
     m_pCurrentRB = new QRadioButton(i18n("&Current diagram"), m_pFilterBG);
-    filter -> addWidget(m_pCurrentRB);
-    m_pCurrentRB -> setChecked(true);
-    m_pFilterBG -> insert(m_pCurrentRB, Current);
+    filter->addWidget(m_pCurrentRB);
+    m_pCurrentRB->setChecked(true);
+    m_pFilterBG->insert(m_pCurrentRB, Current);
 
     m_pAllRB = new QRadioButton(i18n("&All diagrams"), m_pFilterBG);
-    filter -> addWidget(m_pAllRB);
-    m_pFilterBG -> insert(m_pAllRB, All);
+    filter->addWidget(m_pAllRB);
+    m_pFilterBG->insert(m_pAllRB, All);
 
     m_pSelectRB = new QRadioButton(i18n("&Select diagrams"), m_pFilterBG);
-    filter -> addWidget(m_pSelectRB);
-    m_pFilterBG -> insert(m_pSelectRB, Select);
+    filter->addWidget(m_pSelectRB);
+    m_pFilterBG->insert(m_pSelectRB, Select);
 
     m_pTypeRB = new QRadioButton(i18n("&Type of diagram"), m_pFilterBG);
-    filter -> addWidget(m_pTypeRB);
-    m_pFilterBG -> insert(m_pTypeRB, Type);
+    filter->addWidget(m_pTypeRB);
+    m_pFilterBG->insert(m_pTypeRB, Type);
 
     m_pSelectGB = new Q3GroupBox(i18nc("diagram selection for printing", "Selection"), this);
-    mainLayout -> addWidget(m_pSelectGB);
+    mainLayout->addWidget(m_pSelectGB);
 
     QVBoxLayout * select = new QVBoxLayout(m_pSelectGB);
-    select -> setSpacing(10);
-    select-> setMargin(margin);
+    select->setSpacing(10);
+    select->setMargin(margin);
 
     m_pTypeCB = new KComboBox(m_pSelectGB);
-    select -> addWidget(m_pTypeCB);
-    m_pTypeCB -> setEnabled(false);
+    select->addWidget(m_pTypeCB);
+    m_pTypeCB->setEnabled(false);
 
     m_pSelectLB = new Q3ListBox(m_pSelectGB);
-    select -> addWidget(m_pSelectLB);
-    m_pSelectLB -> setEnabled(false);
-    m_pSelectLB -> setSelectionMode(Q3ListBox::Multi);
-    m_pSelectLB -> insertItem(UMLApp::app()->getCurrentView()->umlScene()->getName());
-    m_pSelectLB -> setSelected(0, true);
+    select->addWidget(m_pSelectLB);
+    m_pSelectLB->setEnabled(false);
+    m_pSelectLB->setSelectionMode(Q3ListBox::Multi);
+    m_pSelectLB->insertItem(UMLApp::app()->getCurrentView()->umlScene()->getName());
+    m_pSelectLB->setSelected(0, true);
     m_nIdList.clear();
     m_nIdList.append(UMLApp::app()->getCurrentView()->umlScene()->getID());
 
@@ -98,7 +98,7 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(
         types<< Model_Utils::diagramTypeToString( ( Uml::Diagram_Type )diagramNo ) ;
     }
 
-    m_pTypeCB -> insertItems(0, types);
+    m_pTypeCB->insertItems(0, types);
 }
 
 DiagramPrintPage::~DiagramPrintPage()
@@ -106,11 +106,11 @@ DiagramPrintPage::~DiagramPrintPage()
 }
 
 int DiagramPrintPage::printUmlCount() {
-    int listCount = m_pSelectLB -> count();
+    int listCount = m_pSelectLB->count();
     int count = 0;
 
     for(int     i=0;i<listCount;i++) {
-        if(m_pSelectLB -> isSelected(i)) {
+        if(m_pSelectLB->isSelected(i)) {
             count++;
         }
     }
@@ -118,13 +118,13 @@ int DiagramPrintPage::printUmlCount() {
 }
 
 QString DiagramPrintPage::printUmlDiagram(int sel){
-    int listCount = m_pSelectLB -> count();
+    int listCount = m_pSelectLB->count();
     int count = 0;
 
     for(int i = 0; i < listCount; i++) {
-        if(m_pSelectLB -> isSelected(i)) {
+        if(m_pSelectLB->isSelected(i)) {
             if(count==sel) {
-                UMLView *view = (UMLView *)m_pDoc -> findView(m_nIdList[i]);
+                UMLView *view = (UMLView *)m_pDoc->findView(m_nIdList[i]);
                 QString sID = QString("%1").arg(ID2STR(view->umlScene()->getID()));
                 return sID;
             }
@@ -135,10 +135,10 @@ QString DiagramPrintPage::printUmlDiagram(int sel){
 }
 
 bool DiagramPrintPage::isValid( QString& msg ) {
-    int listCount = m_pSelectLB -> count();
+    int listCount = m_pSelectLB->count();
     bool sel = false;
     for(int i =0;i<listCount;i++) {
-        if(m_pSelectLB -> isSelected(i)) {
+        if(m_pSelectLB->isSelected(i)) {
             sel = true;
             i = listCount;
         }
@@ -148,7 +148,7 @@ bool DiagramPrintPage::isValid( QString& msg ) {
 }
 
 void DiagramPrintPage::slotClicked(int id) {
-    UMLViewList list = m_pDoc -> getViewIterator();
+    UMLViewList list = m_pDoc->getViewIterator();
     QString type;
 
     // clear list with diagrams to print
@@ -157,68 +157,68 @@ void DiagramPrintPage::slotClicked(int id) {
     UMLScene *currentScene = UMLApp::app()->getCurrentView()->umlScene();
     switch(id) {
     case Current:
-        m_pTypeCB -> setEnabled(false);
-        m_pSelectLB -> setEnabled(false);
-        m_pSelectLB -> clear();
-        m_pSelectLB -> insertItem(currentScene->getName());
-        m_pSelectLB -> setSelected(0, true);
+        m_pTypeCB->setEnabled(false);
+        m_pSelectLB->setEnabled(false);
+        m_pSelectLB->clear();
+        m_pSelectLB->insertItem(currentScene->getName());
+        m_pSelectLB->setSelected(0, true);
         m_nIdList.append(currentScene->getID());
         break;
 
     case All:
 
-        m_pTypeCB -> setEnabled(false);
-        m_pSelectLB -> setEnabled(false);
-        m_pSelectLB -> clear();
+        m_pTypeCB->setEnabled(false);
+        m_pSelectLB->setEnabled(false);
+        m_pSelectLB->clear();
         foreach ( UMLView * view , list ) {
-            m_pSelectLB -> insertItem(view->umlScene()->getName());
+            m_pSelectLB->insertItem(view->umlScene()->getName());
             m_nIdList.append(view->umlScene()->getID());
         }
-        m_pSelectLB -> selectAll(true);
+        m_pSelectLB->selectAll(true);
         break;
 
     case Select:
-        m_pTypeCB -> setEnabled(false);
-        m_pSelectLB -> setEnabled(true);
-        m_pSelectLB -> clear();
+        m_pTypeCB->setEnabled(false);
+        m_pSelectLB->setEnabled(true);
+        m_pSelectLB->clear();
         foreach ( UMLView * view , list) {
-            m_pSelectLB -> insertItem(view->umlScene()->getName());
+            m_pSelectLB->insertItem(view->umlScene()->getName());
             m_nIdList.append(view->umlScene()->getID());
         }
         break;
 
     case Type:
-        m_pTypeCB -> setEnabled(true);
-        m_pSelectLB -> setEnabled(true);
-        m_pSelectLB -> clear();
+        m_pTypeCB->setEnabled(true);
+        m_pSelectLB->setEnabled(true);
+        m_pSelectLB->clear();
         foreach ( UMLView * view , list) {
             if(view->umlScene()->getType() == m_ViewType) {
-                m_pSelectLB -> insertItem(view->umlScene()->getName());
+                m_pSelectLB->insertItem(view->umlScene()->getName());
                 m_nIdList.append(view->umlScene()->getID());
             }
         }
-        m_pSelectLB -> selectAll(true);
+        m_pSelectLB->selectAll(true);
         break;
     }
 }
 
 void DiagramPrintPage::slotActivated(int index) {
-    UMLViewList list = m_pDoc -> getViewIterator();
+    UMLViewList list = m_pDoc->getViewIterator();
 
     // combo box entries start from 0 index
     // valid diagram_type enum values start from 1
     m_ViewType = ( Uml::Diagram_Type )( index + 1 );
 
-    m_pSelectLB -> clear();
+    m_pSelectLB->clear();
 
     m_nIdList.clear();
     foreach ( UMLView * view , list) {
         if(view->umlScene()->getType() == m_ViewType) {
-            m_pSelectLB -> insertItem(view->umlScene()->getName());
+            m_pSelectLB->insertItem(view->umlScene()->getName());
             m_nIdList.append(view->umlScene()->getID());
         }
     }
-    m_pSelectLB -> selectAll(true);
+    m_pSelectLB->selectAll(true);
 }
 
 #include "diagramprintpage.moc"

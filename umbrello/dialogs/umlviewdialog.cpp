@@ -48,7 +48,7 @@ UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLScene * pScene )
     setFaceType( KPageDialog::List );
     showButtonSeparator( true );
     m_pScene = pScene;
-    m_options = m_pScene -> getOptionState();
+    m_options = m_pScene->getOptionState();
     setupPages();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
@@ -95,19 +95,19 @@ void UMLViewDialog::setupDiagramPropertiesPage()
     // m_diagramProperties->zoom->setValue(m_pScene->activeView()->currentZoom());
     m_diagramProperties->showOpSigs->setChecked( m_pScene->getShowOpSig() );
 
-    m_diagramProperties->showGrid->setChecked(m_pScene -> getShowSnapGrid());
-    m_diagramProperties->snapToGrid->setChecked(m_pScene-> getSnapToGrid());
-    m_diagramProperties->snapComponentSizeToGrid->setChecked(m_pScene-> getSnapComponentSizeToGrid());
+    m_diagramProperties->showGrid->setChecked(m_pScene->getShowSnapGrid());
+    m_diagramProperties->snapToGrid->setChecked(m_pScene->getSnapToGrid());
+    m_diagramProperties->snapComponentSizeToGrid->setChecked(m_pScene->getSnapComponentSizeToGrid());
 
-    m_diagramProperties->gridSpaceX->setValue( m_pScene -> getSnapX());
-    m_diagramProperties->gridSpaceY->setValue( m_pScene -> getSnapY());
-    m_diagramProperties->lineWidth->setValue( m_pScene -> getLineWidth());
-    m_diagramProperties->documentation->setText(m_pScene -> getDoc());
+    m_diagramProperties->gridSpaceX->setValue( m_pScene->getSnapX());
+    m_diagramProperties->gridSpaceY->setValue( m_pScene->getSnapY());
+    m_diagramProperties->lineWidth->setValue( m_pScene->getLineWidth());
+    m_diagramProperties->documentation->setText(m_pScene->getDoc());
 }
 
 void UMLViewDialog::setupClassPage()
 {
-    if ( m_pScene -> getType() != Uml::dt_Class ) {
+    if ( m_pScene->getType() != Uml::dt_Class ) {
         return;
     }
     QFrame * newPage = new QFrame();
@@ -118,7 +118,7 @@ void UMLViewDialog::setupClassPage()
 
     QHBoxLayout * pOptionsLayout = new QHBoxLayout( newPage );
     m_pOptionsPage = new ClassOptionsPage( newPage, &m_options );
-    pOptionsLayout -> addWidget( m_pOptionsPage );
+    pOptionsLayout->addWidget( m_pOptionsPage );
 }
 
 void UMLViewDialog::setupColorPage()
@@ -131,7 +131,7 @@ void UMLViewDialog::setupColorPage()
 
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, &m_options );
-    m_pColorLayout -> addWidget(m_pColorPage);
+    m_pColorLayout->addWidget(m_pColorPage);
 }
 
 void UMLViewDialog::setupFontPage()
@@ -143,7 +143,7 @@ void UMLViewDialog::setupFontPage()
     addPage( pageFontItem);
 
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-    m_pChooser -> setFont( m_pScene -> getOptionState().uiState.font );
+    m_pChooser->setFont( m_pScene->getOptionState().uiState.font );
 }
 
 void UMLViewDialog::applyPage( KPageWidgetItem*item )
@@ -193,7 +193,7 @@ void UMLViewDialog::applyPage( KPageWidgetItem*item )
 
 void UMLViewDialog::checkName()
 {
-    QString name = m_diagramProperties->diagramName-> text();
+    QString name = m_diagramProperties->diagramName->text();
     UMLDoc * pDoc = UMLApp::app()->getDocument();
     UMLScene * pScene = pDoc->findView(m_pScene->getType(), name)->umlScene();
     if ( name.length() == 0 ) {

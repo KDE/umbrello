@@ -89,9 +89,9 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
     m_bChangesMade = true;
     if ( item == pageItemGeneral )
     {
-        m_pObjectNodeWidget -> setName( m_GenPageWidgets.nameLE -> text() );
-        m_pObjectNodeWidget -> setDoc( m_GenPageWidgets.docMLE -> text() );
-        m_pObjectNodeWidget -> setState( m_GenPageWidgets.stateLE -> text() );
+        m_pObjectNodeWidget->setName( m_GenPageWidgets.nameLE->text() );
+        m_pObjectNodeWidget->setDoc( m_GenPageWidgets.docMLE->text() );
+        m_pObjectNodeWidget->setState( m_GenPageWidgets.stateLE->text() );
 
         ObjectNodeWidget::ObjectNodeType newType = ObjectNodeWidget::Normal;
         if ( m_GenPageWidgets.BufferRB->isChecked() )
@@ -105,18 +105,18 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
     }
     else if ( item == pageItemFont )
     {
-        m_pObjectNodeWidget -> setFont( m_pChooser -> font() );
+        m_pObjectNodeWidget->setFont( m_pChooser->font() );
     }
     else if ( item == pageItemColor )
     {
-        m_pColorPage -> updateUMLWidget();
+        m_pColorPage->updateUMLWidget();
     }
 }
 
 void ObjectNodeDialog::setupGeneralPage()
 {
     QString types[ ] = { i18n("Central Buffer"), i18n("Data Store"), i18n("ObjectFlow")};
-    ObjectNodeWidget::ObjectNodeType type = m_pObjectNodeWidget -> getObjectNodeType();
+    ObjectNodeWidget::ObjectNodeType type = m_pObjectNodeWidget->getObjectNodeType();
 
     KVBox *page = new KVBox();
     pageItemGeneral = new KPageWidgetItem( page, i18n("General") );
@@ -127,14 +127,14 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.generalGB = new Q3GroupBox( i18nc("properties group title", "Properties"), (QWidget *)page );
 
     QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB );
-    generalLayout -> setSpacing( spacingHint() );
-    generalLayout -> setMargin(  fontMetrics().height()  );
+    generalLayout->setSpacing( spacingHint() );
+    generalLayout->setMargin(  fontMetrics().height()  );
 
     QString objType ( types[ (int)type ] );
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
                                     m_GenPageWidgets.typeL, i18n("Object Node type:"),
                                     m_GenPageWidgets.typeLE, objType );
-    m_GenPageWidgets.typeLE -> setEnabled( false );
+    m_GenPageWidgets.typeLE->setEnabled( false );
 
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 1,
                                     m_GenPageWidgets.nameL, i18n("Object Node name:"),
@@ -147,13 +147,13 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.stateLE->hide();
 
     m_GenPageWidgets.BufferRB = new QRadioButton( i18n("&Central Buffer"),(QWidget *)page);
-    generalLayout -> addWidget( m_GenPageWidgets.BufferRB );
+    generalLayout->addWidget( m_GenPageWidgets.BufferRB );
 
     m_GenPageWidgets.DataRB = new QRadioButton( i18n("&Data Store "),(QWidget *)page);
-    generalLayout -> addWidget( m_GenPageWidgets.DataRB );
+    generalLayout->addWidget( m_GenPageWidgets.DataRB );
 
     m_GenPageWidgets.FlowRB = new QRadioButton( i18n("&Object Flow"),(QWidget *)page);
-    generalLayout -> addWidget( m_GenPageWidgets.FlowRB );
+    generalLayout->addWidget( m_GenPageWidgets.FlowRB );
 
     if (type == ObjectNodeWidget::Flow)
     {
@@ -164,7 +164,7 @@ void ObjectNodeDialog::setupGeneralPage()
     connect(m_GenPageWidgets.DataRB,SIGNAL(clicked()),this,SLOT(slotHideState()));
     connect(m_GenPageWidgets.FlowRB,SIGNAL(clicked()),this,SLOT(slotShowState()));
 
-    ObjectNodeWidget::ObjectNodeType newType = m_pObjectNodeWidget -> getObjectNodeType() ;
+    ObjectNodeWidget::ObjectNodeType newType = m_pObjectNodeWidget->getObjectNodeType() ;
 
     m_GenPageWidgets.BufferRB->setChecked(newType == ObjectNodeWidget::Buffer);
 
@@ -175,18 +175,18 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.docGB = new Q3GroupBox( i18n( "Documentation"), (QWidget *)page );
 
     QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
-    docLayout -> setSpacing( spacingHint() );
-    docLayout -> setMargin(  fontMetrics().height()  );
+    docLayout->setSpacing( spacingHint() );
+    docLayout->setMargin(  fontMetrics().height()  );
 
     m_GenPageWidgets.docMLE = new Q3MultiLineEdit( m_GenPageWidgets.docGB );
-    m_GenPageWidgets.docMLE -> setText( m_pObjectNodeWidget -> getDoc() );
-    docLayout -> addWidget( m_GenPageWidgets.docMLE );
+    m_GenPageWidgets.docMLE->setText( m_pObjectNodeWidget->getDoc() );
+    docLayout->addWidget( m_GenPageWidgets.docMLE );
 
     if (type != ObjectNodeWidget::Buffer && type != ObjectNodeWidget::Data && type != ObjectNodeWidget::Flow) {
-        m_GenPageWidgets.nameLE -> setEnabled( false );
-        m_GenPageWidgets.nameLE -> setText( "" );
+        m_GenPageWidgets.nameLE->setEnabled( false );
+        m_GenPageWidgets.nameLE->setText( "" );
     } else
-        m_GenPageWidgets.nameLE -> setText( m_pObjectNodeWidget -> getName() );
+        m_GenPageWidgets.nameLE->setText( m_pObjectNodeWidget->getName() );
 }
 
 void ObjectNodeDialog::setupFontPage()
@@ -197,7 +197,7 @@ void ObjectNodeDialog::setupFontPage()
     pageItemFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageItemFont );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-    m_pChooser -> setFont( m_pObjectNodeWidget -> getFont() );
+    m_pChooser->setFont( m_pObjectNodeWidget->getFont() );
 }
 
 void ObjectNodeDialog::showState()
@@ -220,7 +220,7 @@ void ObjectNodeDialog::setupColorPage()
     addPage( pageItemColor );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, m_pObjectNodeWidget );
-    m_pColorLayout -> addWidget(m_pColorPage);
+    m_pColorLayout->addWidget(m_pColorPage);
 }
 
 #include "objectnodedialog.moc"
