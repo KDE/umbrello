@@ -61,7 +61,7 @@ void ToolBarStateOneWidget::mouseMove(QGraphicsSceneMouseEvent* ome)
     ToolBarStatePool::mouseMove(ome);
 }
 
-void ToolBarStateOneWidget::slotWidgetRemoved(UMLWidget* widget)
+void ToolBarStateOneWidget::slotWidgetRemoved(NewUMLRectWidget* widget)
 {
     ToolBarState::slotWidgetRemoved(widget);
 }
@@ -76,7 +76,7 @@ void ToolBarStateOneWidget::setCurrentElement()
         return;
     }
 
-    UMLWidget *widget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
+    NewUMLRectWidget *widget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;
@@ -119,11 +119,11 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
 void ToolBarStateOneWidget::mouseReleaseEmpty() {
 }
 
-void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
+void ToolBarStateOneWidget::setWidget(NewUMLRectWidget* firstObject)
 {
     m_firstObject = firstObject;
 
-    UMLWidget * umlwidget = NULL;
+    NewUMLRectWidget * umlwidget = NULL;
     //m_pUMLScene->viewport()->setMouseTracking(true);
     if (getWidgetType() == Uml::wt_Precondition) {
         umlwidget = new PreconditionWidget(m_pUMLScene, static_cast<ObjectWidget*>(m_firstObject));

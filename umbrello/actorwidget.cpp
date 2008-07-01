@@ -20,9 +20,9 @@
 #include "umlview.h"
 
 
-ActorWidget::ActorWidget(UMLScene * scene, UMLActor *a) : UMLWidget(scene, a)
+ActorWidget::ActorWidget(UMLScene * scene, UMLActor *a) : NewUMLRectWidget(scene, a)
 {
-    UMLWidget::setBaseType( Uml::wt_Actor );
+    NewUMLRectWidget::setBaseType( Uml::wt_Actor );
 }
 
 ActorWidget::~ActorWidget() {}
@@ -32,12 +32,12 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QW
 	QPainter &p = *painter;
 	qreal offsetX = 0, offsetY = 0;
 
-    UMLWidget::setPenFromSettings(p);
-    if( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColour() );
+    NewUMLRectWidget::setPenFromSettings(p);
+    if( NewUMLRectWidget::getUseFillColour() )
+        p.setBrush( NewUMLRectWidget::getFillColour() );
     const qreal w = getWidth();
     const qreal h = getHeight();
-    p.setFont( UMLWidget::getFont() );
+    p.setFont( NewUMLRectWidget::getFont() );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const qreal textWidth = fm.width(getName());
     const qreal fontHeight = fm.lineSpacing();
@@ -79,7 +79,7 @@ QSizeF ActorWidget::calculateSize() {
 
 void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement actorElement = qDoc.createElement( "actorwidget" );
-    UMLWidget::saveToXMI( qDoc, actorElement );
+    NewUMLRectWidget::saveToXMI( qDoc, actorElement );
     qElement.appendChild( actorElement );
 }
 

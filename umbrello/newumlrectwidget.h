@@ -25,7 +25,7 @@
 
 class AssociationWidget;
 class WidgetHandle;
-
+class UMLWidgetController;
 /**
  * @short The base class for rectangular base UML widgets.
  *
@@ -51,6 +51,9 @@ public:
      * @see NewUMLWidget::NewUMLWidget()
      */
 	explicit NewUMLRectWidget(UMLObject *object);
+    // DEPRECATED
+    NewUMLRectWidget(UMLScene *scene, const Uml::IDType & _id = Uml::id_None);
+    NewUMLRectWidget(UMLScene *scene, UMLObject *obj);
 
     ~NewUMLRectWidget();
 
@@ -102,6 +105,11 @@ public:
     void setSize(qreal width, qreal height) {
         setSize(QSizeF(width, height));
     }
+    // DEPRECATED
+    qreal getWidth() const { return size().width(); }
+    void setWidth(qreal w) { setSize(w, getHeight()); }
+    qreal getHeight() const { return size().height(); }
+    void setHeight(qreal h) { setSize(getWidth(), h); }
 
     /**
      * Shortcut for QRectF(QPointF(0, 0), size())
@@ -119,15 +127,25 @@ public:
 	QString instanceName() const {
 		return m_instanceName;
 	}
+    // DEPRECATED
+    QString getInstanceName() const { return instanceName(); }
     /**
      * Set the instance name for this widget. Calls updateGeometry
      * implicitly.
      */
 	void setInstanceName(const QString &name);
 
-	virtual bool isInstance() const {
+    virtual bool isInstance() const {
 		return false;
 	}
+    // DEPRECATED
+    bool getIsInstance() const { return isInstance(); }
+
+    bool showStereotype() const { return m_showStereotype; }
+    // DEPRECATED
+    bool getShowStereotype() const { return showStereotype(); }
+
+    void setShowStereotype(bool b);
 
     /**
      * @return A list of AssociationWidget connected with this widet.
@@ -135,6 +153,8 @@ public:
 	AssociationWidgetList associationWidgetList() const {
 		return m_associationWidgetList;
 	}
+    // DEPRECATED
+    AssociationWidgetList getAssocList() const { return associationWidgetList(); }
 
     /**
      * @return Return whether this widget is resizable or not.
@@ -151,12 +171,16 @@ public:
      * @param assoc An association widget connected to this widget.
      */
 	void addAssociationWidget(AssociationWidget *assoc);
+    //DEPRECATED
+    void addAssoc(AssociationWidget *assoc) { addAssociationWidget(assoc); }
     /**
      * Removes a association widget from the internal list that involves this widget.
      *
      * @param assoc The association widget that should be removed.
      */
 	void removeAssociationWidget(AssociationWidget *assoc);
+    // DEPRECATED
+    void removeAssoc(AssociationWidget *assoc) { removeAssociationWidget(assoc); }
 
 	void showPropertiesDialog();
     void setupContextMenuActions(ListPopupMenu &menu);
@@ -170,6 +194,20 @@ public:
 
     bool loadFromXMI(QDomElement &qElement);
     void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
+
+
+    ///////////////        DEPRECATED STUFF ///////////////////////
+    void adjustAssocs(qreal, qreal) {}
+    QSizeF calculateSize() { return sizeHint(Qt::MinimumSize); }
+    bool getStartMove() const { return false; }
+    bool getIgnoreSnapToGrid() const { return false; }
+    void setIgnoreSnapToGrid(bool) {}
+    bool getIgnoreSnapComponentSizeToGrid() const { return false; }
+    void setIgnoreSnapComponentSizeToGrid(bool) {}
+    bool m_bStartMove;
+    void adjustUnselectedAssocs(qreal, qreal) {}
+    UMLWidgetController* getWidgetController() const { return 0; }
+    ListPopupMenu* setupPopupMenu();
 
 protected:
     /**
@@ -222,12 +260,15 @@ protected:
 private:
     QSizeF m_size;
     QString m_instanceName;
+    bool m_showStereotype;
 
     bool m_resizable;
     AssociationWidgetList m_associationWidgetList;
 
     QRectF m_oldGeometry;
     WidgetHandle *m_widgetHandle;
+
+    DISABLE_COPY(NewUMLRectWidget)
 };
 
 #endif //NEWUMLRECTWIDGET_H

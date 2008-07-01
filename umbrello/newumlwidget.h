@@ -25,6 +25,8 @@
 #include <QtGui/QPen>
 #include <QtGui/QBrush>
 #include <QtGui/QFont>
+#include <QtGui/QPainter>
+#include <QtGui/QAction>
 #include <QtXml/QDomDocument>
 
 #include "umlnamespace.h"
@@ -34,6 +36,7 @@ class UMLScene;
 class UMLDoc;
 class WidgetInterfaceData;
 class ListPopupMenu;
+class IDChangeLog;
 
 /**
  * @short The base class for UML widgets that appear on UML diagrams.
@@ -59,6 +62,10 @@ public:
      *       Widget_Factory::createWidget method.
      */
     explicit NewUMLWidget(UMLObject *object);
+    // DEPRECATED
+    NewUMLWidget(UMLScene *scene, const Uml::IDType &id = Uml::id_None);
+    // DEPRECATED
+    NewUMLWidget(UMLScene *scene, UMLObject *object);
     /**
      * Destructor
      */
@@ -69,6 +76,8 @@ public:
      * this widget has no UMLObject representation.
      */
     UMLObject* umlObject() const;
+    // DESTRUCTOR
+    UMLObject* getUMLObject() const { return umlObject(); }
     /**
      * Set the UMLObject for this widget to represent.
      *
@@ -76,7 +85,7 @@ public:
      * specific users as making this method public violates
      * encapsulation.
      */
-    void setUmlObject(UMLObject *obj);
+    void setUMLObject(UMLObject *obj);
 
     /**
      * If this widget represents a UMLObject, the id of that object is
@@ -85,17 +94,43 @@ public:
      * @return The identifier of this widget.
      */
     Uml::IDType id() const;
+    // DEPRECATED
+    Uml::IDType getID() const { return id(); }
+    // DEPRECATED
+    qreal getX() const { return pos().x(); }
+    void setX(qreal x) { setPos(x, y()); }
+    qreal getY() const { return pos().y(); }
+    void setY(qreal y) { setPos(x(), y); }
+
     /**
      * If this widget represents a UMLObject, the id of that object is
      * set to \a id. Else the id is stored in this widget.
      */
     void setId(Uml::IDType id);
+    // DEPRECATED
+    void setID(Uml::IDType id) { setId(id); }
 
     /**
      * @return The base type rtti info for this widget.
      */
     Uml::Widget_Type baseType() const;
+    // DEPRECATED
+    Uml::Widget_Type getBaseType() const { return baseType(); }
+    // DEPRECATED
+    void setBaseType(Uml::Widget_Type type) { m_baseType = type; }
+    // DEPRECATED
 
+    void setPenFromSettings(QPainter &p) { p.setPen(QPen(m_lineColor, m_lineWidth)); }
+    // DEPRECATED
+    void updateComponentSize() {
+        if(firstTime) {
+            firstTime = false;
+            return;
+        }
+        else {
+            updateGeometry();
+        }
+    }
     /**
      * @return The UMLScene for this widget is returned, or 0 if the
      * widget is not stored in a scene.
@@ -120,12 +155,16 @@ public:
      *         which is usually set by the user.
      */
     QString documentation() const;
+    // DEPRECATED
+    QString getDoc() const { return documentation(); }
     /**
      * If this widget represents a UMLObject, the documentation string
      * of that object is set to \a doc. Else the documentation string
      * stored in the widget is set to \a doc.
      */
     void setDocumentation(const QString& doc);
+    // DEPRECATED
+    void setDoc(const QString &doc) { setDocumentation(doc); }
 
     /**
      * If this widget represents a UMLObject, the name string stored
@@ -136,6 +175,9 @@ public:
      *         which is usually set by the user.
      */
     QString name() const;
+    // DEPRECATED
+    QString getName() const { return name(); }
+
     /**
      * If this widget represents a UMLObject, the name string of that
      * object is set to \a name. Else the name string stored in the
@@ -149,19 +191,25 @@ public:
     QColor lineColor() const {
         return m_lineColor;
     }
+    // DEPRECATED
+    QColor getLineColor() const { return lineColor(); }
+
     /**
      * Set the linecolor to \a color and updates the widget.
      *
      * @param color The color to be set
      */
     void setLineColor(const QColor& color);
-
+    // DEPRECATED
+    void setLineColorcmd(const QColor& col) { setLineColor(col); }
     /**
      * @return The width of the line, drawn in the widget.
      */
     uint lineWidth() const {
         return m_lineWidth;
     }
+    // DEPRECATED
+    uint getLineWidth() const { return lineWidth(); }
     /**
      * Sets the line width of widget lines to \a lw and calls
      * updateGeometry() method to let object calculate new bound rect
@@ -189,6 +237,11 @@ public:
     QBrush brush() const {
         return m_brush;
     }
+    // DEPRECATED
+    QColor getFillColour() const { return brush().color(); }
+    // DEPRECATED
+    QColor getFillColor() const { return getFillColour(); }
+
     /**
      * Sets the QBrush object of this widget to \a brush which is used
      * to fill this widget.
@@ -196,6 +249,15 @@ public:
      * This method implicitly calls update on this widget.
      */
     void setBrush(const QBrush& brush);
+    // DEPRECATED
+    void setFillColour(const QColor& col) { setBrush(QBrush(col)); }
+    // DEPRECATED
+    void setFillColourcmd(const QColor& col) { setFillColour(col); }
+
+    // DEPRECATED
+    bool getUseFillColour() const { return false; }
+    // DEPRECATED
+    void setUseFillColour(bool) {}
 
     /**
      * @return The font used for displaying any text inside this
@@ -204,6 +266,8 @@ public:
     QFont font() const {
         return m_font;
     }
+    // DEPRECATED
+    QFont getFont() const { return font(); }
     /**
      * Set the font used to display text inside this widget.
      *
@@ -279,6 +343,58 @@ public:
      */
     static bool widgetHasUMLObject(Uml::Widget_Type type);
 
+
+    // DEPRECATED SECTION ///////////////////////////////
+    typedef enum {
+        FT_NORMAL = 0,
+        FT_BOLD  = 1,
+        FT_ITALIC = 2,
+        FT_UNDERLINE = 3,
+        FT_BOLD_ITALIC = 4,
+        FT_BOLD_UNDERLINE = 5,
+        FT_ITALIC_UNDERLINE = 6,
+        FT_BOLD_ITALIC_UNDERLINE = 7,
+        FT_INVALID = 8
+    } FontType;
+
+    QFontMetrics  *m_pFontMetrics[FT_INVALID];
+    /** Template Method, override this to set the default
+     *  font metric.
+     */
+    virtual void setDefaultFontMetrics(NewUMLWidget::FontType fontType);
+    virtual void setDefaultFontMetrics(NewUMLWidget::FontType fontType, QPainter &painter);
+
+    /** Returns the font metric used by this object for Text which uses bold/italic fonts*/
+    QFontMetrics &getFontMetrics(NewUMLWidget::FontType fontType);
+    /** set the font metric to use */
+    void setFontMetrics(NewUMLWidget::FontType fontType, QFontMetrics fm);
+    void setupFontType(QFont &font, NewUMLWidget::FontType fontType);
+    void forceUpdateFontMetrics(QPainter *);
+    void drawSelected(QPainter *, qreal, qreal) {}
+    QString m_Text;
+    ListPopupMenu *m_pMenu;
+    virtual ListPopupMenu* setupPopupMenu();
+    qreal m_origZ;
+    void setZ(qreal z) { setZValue(z); }
+    qreal getZ() const { return zValue(); }
+    void setActivated() {}
+    bool activate(IDChangeLog*) { return true;}
+    void cleanup() {}
+    UMLScene* getUMLScene() const { return umlScene(); }
+    qreal onWidget(const QPointF& pos) const {
+        if(this->contains(mapFromScene(pos))) {
+            QSizeF s = boundingRect().size();
+            return .5 * (s.width() + s.height());
+        }
+        return 0;
+    }
+    void constrain(qreal, qreal) {}
+    // DEPRECATED
+    void slotMenuSelection(QAction *) {}
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+
 protected Q_SLOTS:
     /**
      * This slot is connected to UMLObject::modified() signal to sync
@@ -289,6 +405,7 @@ protected Q_SLOTS:
      * own updations.
      */
     virtual void slotUMLObjectDataChanged();
+
 
 private Q_SLOTS:
     /**
@@ -386,6 +503,9 @@ private:
     // End of properties that will be saved.
 
     WidgetInterfaceData *m_widgetInterfaceData;
+
+    // DEPRECATED : used to ensure updateComponentSize() doesn't crash
+    bool firstTime;
 
     /*
      * Disable the copy constructor and assignment operator.

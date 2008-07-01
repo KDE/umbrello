@@ -24,14 +24,14 @@
  * by a @ref UMLView.  An ActivityWidget belongs to only one @ref UMLView instance.
  * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
  *
- * The ActivityWidget class inherits from the @ref UMLWidget class which adds most of the functionality
+ * The ActivityWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
  * to this class.
  *
  * @short  A graphical version of a UML Activity.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ActivityWidget : public UMLWidget {
+class ActivityWidget : public NewUMLRectWidget {
     Q_OBJECT
 
     QString preText;
@@ -69,7 +69,7 @@ public:
     void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *);
 
     /**
-     * Overrides Method from UMLWidget.
+     * Overrides Method from NewUMLRectWidget.
      */
     void constrain(qreal& width, qreal& height);
 
@@ -133,7 +133,7 @@ public:
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 

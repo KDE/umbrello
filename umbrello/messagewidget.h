@@ -14,6 +14,7 @@
 
 #include "umlwidget.h"
 #include "linkwidget.h"
+#include "clipboard/idchangelog.h"
 //Added by qt3to4:
 #include <QGraphicsSceneMouseEvent>
 #include <QMoveEvent>
@@ -37,12 +38,12 @@ class MessageWidgetController;
  *
  * @short Displays a message.
  * @author Paul Hensgen
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * @see ObjectWidget
  * @see FloatingTextWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class MessageWidget : public UMLWidget, public LinkWidget {
+class MessageWidget : public NewUMLRectWidget, public LinkWidget {
     Q_OBJECT
 public:
     friend class MessageWidgetController;
@@ -116,7 +117,7 @@ public:
      * To prevent hiding of this method from the base.
      */
     bool contains(const QPointF& p) const {
-        return UMLWidget::contains(p);
+        return NewUMLRectWidget::contains(p);
     }
 
     /**
@@ -356,7 +357,7 @@ public:
     qreal getMaxY();
 
     /**
-     * Overrides operation from UMLWidget.
+     * Overrides operation from NewUMLRectWidget.
      *
      * @param p Point to be checked.
      *
@@ -425,14 +426,14 @@ protected:
     static void drawSolidArrowhead(QPainter& p, qreal x, qreal y, Qt::ArrowType direction);
 
     /**
-     * Update the UMLWidget::m_bResizable flag according to the
+     * Update the NewUMLRectWidget::m_bResizable flag according to the
      * charactersitics of this message.
      */
     void updateResizability();
 
      /**
      * Sets the size.
-     * If m_pScene->getSnapComponentSizeToGrid() is true, then
+     * If umlScene()->getSnapComponentSizeToGrid() is true, then
      * set the next larger size that snaps to the grid.
      */
 //     void setSize(qreal width,qreal height);
@@ -455,6 +456,7 @@ private:
 
     qreal xclicked;
     qreal yclicked;
+    int m_nPosX;
 
     /**
      * The following variables are used by loadFromXMI() as an intermediate

@@ -14,6 +14,7 @@
 
 #include "umlwidget.h"
 #include "linkwidget.h"
+#include "clipboard/idchangelog.h"
 
 class UMLScene;
 class QResizeEvent;
@@ -32,11 +33,11 @@ class FloatingTextWidgetController;
  *
  * @short Displays a line of text or an operation.
  * @author Paul Hensgen <phensgen@techie.com>
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class FloatingTextWidget : public UMLWidget {
+class FloatingTextWidget : public NewUMLRectWidget {
     Q_OBJECT
 public:
     friend class FloatingTextWidgetController;
@@ -271,7 +272,7 @@ public slots:
 
 protected:
     /**
-     * Overrides method from UMLWidget.
+     * Overrides method from NewUMLRectWidget.
      */
     QSizeF calculateSize();
 

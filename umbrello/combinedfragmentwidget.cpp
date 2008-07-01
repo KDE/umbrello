@@ -36,9 +36,9 @@
 #include <QPolygon>
 
 CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::IDType id ) :
-    UMLWidget(scene, id)
+    NewUMLRectWidget(scene, id)
 {
-    UMLWidget::setBaseType( Uml::wt_CombinedFragment );
+    NewUMLRectWidget::setBaseType( Uml::wt_CombinedFragment );
     setCombinedFragmentType( combinedfragmentType );
     updateComponentSize();
 }
@@ -62,8 +62,8 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
     setPenFromSettings(p);
 
     if ( m_CombinedFragment == Ref ) {
-    if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+    if ( NewUMLRectWidget::getUseFillColour() ) {
+        p.setBrush( NewUMLRectWidget::getFillColour() );
     }
     }
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -73,7 +73,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
     p.drawRect(offsetX, offsetY, w, h );
 
     p.setPen(Qt::black);
-    p.setFont( UMLWidget::getFont() );
+    p.setFont( NewUMLRectWidget::getFont() );
         QString temp = "loop";
 
     switch ( m_CombinedFragment )
@@ -199,11 +199,11 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombined
 void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType ) {
 
     m_CombinedFragment = combinedfragmentType;
-    UMLWidget::m_bResizable =  true ; //(m_CombinedFragment == Normal);
+    setResizable(true); //(m_CombinedFragment == Normal);
     // creates a dash line if the combined fragment type is alternative or parallel
     if(m_CombinedFragment == Alt  && m_dashLines.isEmpty())
     {
-        m_dashLines.push_back(new FloatingDashLineWidget(m_pScene));
+        m_dashLines.push_back(new FloatingDashLineWidget(umlScene()));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");
@@ -213,7 +213,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
         m_dashLines.back()->setYMax(getY() + getHeight());
         m_dashLines.back()->setY(getY() + getHeight()/2);
         m_dashLines.back()->setSize(getWidth(), 0);
-        m_pScene->setupNewWidget(m_dashLines.back());
+        umlScene()->setupNewWidget(m_dashLines.back());
     }
 }
 
@@ -246,7 +246,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( const QString& combinedfra
     setCombinedFragmentType(getCombinedFragmentType(combinedfragmentType) );
 }
 
-void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
+void CombinedFragmentWidget::askNameForWidgetType(NewUMLRectWidget* &targetWidget, const QString& dialogTitle,
     const QString& dialogPrompt, const QString& /*defaultName*/) {
 
     bool pressedOK = false;
@@ -272,9 +272,9 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
 
 void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
-    UMLWidget::saveToXMI( qDoc, combinedFragmentElement );
+    NewUMLRectWidget::saveToXMI( qDoc, combinedFragmentElement );
     combinedFragmentElement.setAttribute( "combinedFragmentname", m_Text );
-    combinedFragmentElement.setAttribute( "documentation", m_Doc );
+    combinedFragmentElement.setAttribute( "documentation", documentation() );
     combinedFragmentElement.setAttribute( "CombinedFragmenttype", m_CombinedFragment );
 
     // save the corresponding floating dash lines
@@ -286,10 +286,10 @@ void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
 }
 
 bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "combinedFragmentname", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
+    setDocumentation(qElement.attribute( "documentation", "" ));
     QString type = qElement.attribute( "CombinedFragmenttype", "");
     Uml::IDType dashlineId;
     QList<FloatingDashLineWidget*> listline;
@@ -300,7 +300,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     while ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingdashlinewidget") {
-            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_pScene);
+            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(umlScene());
             m_dashLines.push_back(fdlwidget);
             if( !fdlwidget->loadFromXMI(element) ) {
               // Most likely cause: The FloatingTextWidget is empty.
@@ -308,7 +308,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
                 return false;
             }
             else {
-                m_pScene->setupNewWidget(fdlwidget);
+                umlScene()->setupNewWidget(fdlwidget);
             }
         } else {
             uError() << "unknown tag " << tag << endl;
@@ -329,7 +329,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
     switch (sel) {
           // for alternative or parallel combined fragments
     case ListPopupMenu::mt_AddInteractionOperand:
-        m_dashLines.push_back(new FloatingDashLineWidget(m_pScene));
+        m_dashLines.push_back(new FloatingDashLineWidget(umlScene()));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");
@@ -339,7 +339,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
         m_dashLines.back()->setYMax(getY() + getHeight());
         m_dashLines.back()->setY(getY() + getHeight() / 2);
         m_dashLines.back()->setSize(getWidth(), 0);
-        m_pScene->setupNewWidget(m_dashLines.back());
+        umlScene()->setupNewWidget(m_dashLines.back());
         break;
 
     case ListPopupMenu::mt_Rename:
@@ -357,7 +357,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 

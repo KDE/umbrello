@@ -22,7 +22,7 @@
 #define SIGNAL_WIDTH 45
 #define SIGNAL_HEIGHT 15
 
-class SignalWidget : public UMLWidget
+class SignalWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 public:
@@ -55,11 +55,11 @@ public:
     void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
      /**
-     * Overrides the UMLWidget method.
+     * Overrides the NewUMLRectWidget method.
      */
     void setX(qreal newX);
      /**
-     * Overrides the UMLWidget method.
+     * Overrides the NewUMLRectWidget method.
      */
     void setY(qreal newY);
 
@@ -109,7 +109,7 @@ public:
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 

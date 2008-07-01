@@ -19,10 +19,10 @@
 #include "umlview.h"
 
 
-UseCaseWidget::UseCaseWidget(UMLScene * view, UMLUseCase *o) : UMLWidget(view, o) {
-    UMLWidget::setBaseType(Uml::wt_UseCase);
+UseCaseWidget::UseCaseWidget(UMLScene * view, UMLUseCase *o) : NewUMLRectWidget(view, o) {
+    NewUMLRectWidget::setBaseType(Uml::wt_UseCase);
     //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
-    //                  Instead, it is done afterwards by UMLWidget::activate()
+    //                  Instead, it is done afterwards by NewUMLRectWidget::activate()
 }
 
 UseCaseWidget::~UseCaseWidget() {}
@@ -33,12 +33,12 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, 
 	qreal offsetX = 0, offsetY = 0;
 
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColour() );
-    QFont font = UMLWidget::getFont();
+    if ( NewUMLRectWidget::getUseFillColour() )
+        p.setBrush( NewUMLRectWidget::getFillColour() );
+    QFont font = NewUMLRectWidget::getFont();
     font.setUnderline(false);
     font.setBold(false);
-    font.setItalic( m_pObject->getAbstract() );
+    font.setItalic( umlObject()->getAbstract() );
     p.setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -56,8 +56,8 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, 
 }
 
 QSizeF UseCaseWidget::calculateSize() {
-    const UMLWidget::FontType ft = ( m_pObject->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
-    const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
+    const NewUMLRectWidget::FontType ft = ( umlObject()->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
+    const QFontMetrics &fm = NewUMLRectWidget::getFontMetrics(ft);
     const int fontHeight = fm.lineSpacing();
     const int textWidth = fm.width(getName());
     int width = textWidth > UC_WIDTH?textWidth:UC_WIDTH;
@@ -70,7 +70,7 @@ QSizeF UseCaseWidget::calculateSize() {
 
 void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement usecaseElement = qDoc.createElement( "usecasewidget" );
-    UMLWidget::saveToXMI( qDoc, usecaseElement );
+    NewUMLRectWidget::saveToXMI( qDoc, usecaseElement );
     qElement.appendChild( usecaseElement );
 }
 

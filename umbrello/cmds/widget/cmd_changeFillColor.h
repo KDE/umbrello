@@ -25,7 +25,7 @@ namespace Uml
     {
 
 
-        UMLWidget *UMLw;
+        NewUMLRectWidget *UMLw;
 
         /* ancienne couleur */
         QColor oldColor;
@@ -34,7 +34,7 @@ namespace Uml
         QColor color;
 
         public:
-            cmdChangeFillColor(UMLWidget *w, const QColor& col);
+            cmdChangeFillColor(NewUMLRectWidget *w, const QColor& col);
             ~cmdChangeFillColor();
             void redo();
             void undo();

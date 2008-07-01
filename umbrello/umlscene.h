@@ -350,7 +350,7 @@ class UMLScene : public QGraphicsScene
      *
      * @return Returns the widget found, returns 0 if no widget found.
      */
-    UMLWidget* findWidget(Uml::IDType id);
+    NewUMLRectWidget* findWidget(Uml::IDType id);
 
     /**
      * Finds an association widget with the given ID.
@@ -365,13 +365,13 @@ class UMLScene : public QGraphicsScene
      * Finds an association widget with the given type and widgets.
      *
      * @param at  The Association_Type of the widget to find.
-     * @param pWidgetA Pointer to the UMLWidget of role A.
-     * @param pWidgetB Pointer to the UMLWidget of role B.
+     * @param pWidgetA Pointer to the NewUMLRectWidget of role A.
+     * @param pWidgetB Pointer to the NewUMLRectWidget of role B.
      *
      * @return Returns the widget found, returns 0 if no widget found.
      */
     AssociationWidget* findAssocWidget(Uml::Association_Type at,
-                                       UMLWidget *pWidgetA, UMLWidget *pWidgetB);
+                                       NewUMLRectWidget *pWidgetA, NewUMLRectWidget *pWidgetB);
 
     /**
      * Finds an association widget with the given widgets and the given role B name.
@@ -379,21 +379,21 @@ class UMLScene : public QGraphicsScene
      *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
      * This is used for seeking an attribute association.
      *
-     * @param pWidgetA  Pointer to the UMLWidget of role A.
-     * @param pWidgetB  Pointer to the UMLWidget of role B.
+     * @param pWidgetA  Pointer to the NewUMLRectWidget of role A.
+     * @param pWidgetB  Pointer to the NewUMLRectWidget of role B.
      * @param roleNameB Name at the B side of the association (the attribute name)
      *
      * @return Returns the widget found, returns 0 if no widget found.
      */
-    AssociationWidget* findAssocWidget(UMLWidget *pWidgetA,
-                                       UMLWidget *pWidgetB, const QString& roleNameB);
+    AssociationWidget* findAssocWidget(NewUMLRectWidget *pWidgetA,
+                                       NewUMLRectWidget *pWidgetB, const QString& roleNameB);
 
     /**
      * Remove a widget from view.
      *
      * @param o  The widget to remove.
      */
-    void removeWidget(UMLWidget *o);
+    void removeWidget(NewUMLRectWidget *o);
 
     /**
      * Sets a widget to a selected state and adds it to a list of selected widgets.
@@ -401,7 +401,7 @@ class UMLScene : public QGraphicsScene
      * @param w The widget to set to selected.
      * @param me The mouse event containing the information about the selection.
      */
-    void setSelected(UMLWidget *w, QGraphicsSceneMouseEvent *me);
+    void setSelected(NewUMLRectWidget *w, QGraphicsSceneMouseEvent *me);
 
     /**
      * Returns a list of selected widgets.
@@ -598,7 +598,7 @@ class UMLScene : public QGraphicsScene
      *
      * @param pWidget  Pointer to the widget to remove.
      */
-    void removeAssociations(UMLWidget* pWidget);
+    void removeAssociations(NewUMLRectWidget* pWidget);
 
     /**
      * Sets each association as selected if the widgets it associates are selected
@@ -628,7 +628,7 @@ class UMLScene : public QGraphicsScene
     /**
      *  Calls the same method in the DocWindow.
      */
-    void showDocumentation(UMLWidget * widget, bool overwrite);
+    void showDocumentation(NewUMLRectWidget * widget, bool overwrite);
 
     /**
      *  Calls the same method in the DocWindow.
@@ -681,7 +681,7 @@ class UMLScene : public QGraphicsScene
      * Adds a widget to the view from the given data.
      * Use this method when pasting.
      */
-    bool addWidget(UMLWidget * pWidget , bool isPasteOperation = false);
+    bool addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation = false);
 
     /**
      * Returns the offset point at which to place the paste from clipboard.
@@ -705,11 +705,11 @@ class UMLScene : public QGraphicsScene
     }
 
     /**
-     * Creates automatically any Associations that the given @ref UMLWidget
-     * may have on any diagram.  This method is used when you just add the UMLWidget
+     * Creates automatically any Associations that the given @ref NewUMLRectWidget
+     * may have on any diagram.  This method is used when you just add the NewUMLRectWidget
      * to a diagram.
      */
-    void createAutoAssociations(UMLWidget * widget);
+    void createAutoAssociations(NewUMLRectWidget * widget);
 
     /**
      * If the m_Type of the given widget is Uml::wt_Class then
@@ -717,9 +717,9 @@ class UMLScene : public QGraphicsScene
      * association to each attribute type widget that is present
      * on the current diagram.
      */
-    void createAutoAttributeAssociations(UMLWidget *widget);
+    void createAutoAttributeAssociations(NewUMLRectWidget *widget);
 
-    void createAutoConstraintAssociations(UMLWidget* widget);
+    void createAutoConstraintAssociations(NewUMLRectWidget* widget);
 
 
     /**
@@ -818,7 +818,7 @@ class UMLScene : public QGraphicsScene
     /**
      * Loads a "widget" element from XMI, used by loadFromXMI() and the clipboard.
      */
-    UMLWidget* loadWidgetFromXMI(QDomElement& widgetElement);
+    NewUMLRectWidget* loadWidgetFromXMI(QDomElement& widgetElement);
 
     /**
      * Add an object to the application, and update the view.
@@ -851,7 +851,7 @@ class UMLScene : public QGraphicsScene
     /**
      * Return pointer to the first selected widget (for multi-selection)
      */
-    UMLWidget* getFirstMultiSelectedWidget() const;
+    NewUMLRectWidget* getFirstMultiSelectedWidget() const;
 
     /**
      * Tests the given point against all widgets and returns the
@@ -860,13 +860,13 @@ class UMLScene : public QGraphicsScene
      * Returns NULL if the point is not inside any widget.
      * Does not use or modify the m_pOnWidget member.
      */
-    UMLWidget *getWidgetAt(const QPointF& p);
+    NewUMLRectWidget *getWidgetAt(const QPointF& p);
 
     /**
      * Initialize and announce a newly created widget.
      * Auxiliary to contentsMouseReleaseEvent().
      */
-    void setupNewWidget(UMLWidget *w);
+    void setupNewWidget(NewUMLRectWidget *w);
 
     /**
      * Return whether we are currently creating an object.
@@ -1045,11 +1045,11 @@ protected:
     void selectWidgetsOfAssoc (AssociationWidget * a);
 
     /**
-     * Calls setSelected on the given UMLWidget and enters
+     * Calls setSelected on the given NewUMLRectWidget and enters
      * it into the m_SelectedList while making sure it is
      * there only once.
      */
-    void makeSelected (UMLWidget * uw);
+    void makeSelected (NewUMLRectWidget * uw);
 
     /**
      * Updates the size of all components in this view.
@@ -1142,16 +1142,16 @@ private:
     UMLViewImageExporter* m_pImageExporter;
 
     /**
-     * Create an association with the attribute attr associated with the UMLWidget
+     * Create an association with the attribute attr associated with the NewUMLRectWidget
      * widget if the UMLClassifier type is present on the current diagram.
      */
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
-                                        UMLWidget *widget);
+                                        NewUMLRectWidget *widget);
 
     void createAutoConstraintAssociation(UMLEntity* refEntity,
                                          UMLForeignKeyConstraint* fkConstraint,
-                                         UMLWidget* widget);
+                                         NewUMLRectWidget* widget);
 
     /**
      * Returns true if the first widget's X is smaller than second's.
@@ -1160,7 +1160,7 @@ private:
      * @param widget1 The widget to compare.
      * @param widget2 The widget to compare with.
      */
-    static bool hasWidgetSmallerX(const UMLWidget* widget1, const UMLWidget* widget2);
+    static bool hasWidgetSmallerX(const NewUMLRectWidget* widget1, const NewUMLRectWidget* widget2);
 
     /**
      * Returns true if the first widget's Y is smaller than second's.
@@ -1169,7 +1169,7 @@ private:
      * @param widget1 The widget to compare.
      * @param widget2 The widget to compare with.
      */
-    static bool hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widget2);
+    static bool hasWidgetSmallerY(const NewUMLRectWidget* widget1, const NewUMLRectWidget* widget2);
 
     /**
      * Looks for the smallest x-value of the given UMLWidgets.
@@ -1217,7 +1217,7 @@ private:
      * Sorts the given UMLWidgetList based on the Compare function.
      * The list is cleared and all the widgets are added again in order.
      *
-     * The comp function gets two const UMLWidget* params and returns
+     * The comp function gets two const NewUMLRectWidget* params and returns
      * a boolean telling if the first widget was smaller than the second,
      * whatever the "smaller" concept is depending on the sorting to do.
      *
@@ -1329,7 +1329,7 @@ signals:
     /**
      * Emitted when a widget is removed.
      */
-    void sigWidgetRemoved(UMLWidget*);
+    void sigWidgetRemoved(NewUMLRectWidget*);
 };
 
 #endif // UMLSCENE_H

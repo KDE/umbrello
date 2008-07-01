@@ -31,7 +31,7 @@ namespace Uml
 
     cmdMoveWidget::cmdMoveWidget(UMLWidgetController* _UMLwc):QUndoCommand(),UMLwc(_UMLwc),already(false)
     {
-        UMLWidget * w = _UMLwc->getWidget();
+        NewUMLRectWidget * w = _UMLwc->getWidget();
         setText(i18n("Move widget :") + w->getName());
         X = w->getX();
         Y = w->getY();
@@ -50,7 +50,7 @@ namespace Uml
         UMLwc->insertSaveValues(oldX,oldY,X,Y);
           UMLwc->widgetMoved();
 
-        //UMLWidget * w =
+        //NewUMLRectWidget * w =
         //UMLwc->reverseOldNewValues();
         //UMLwc->widgetMoved();
         //UMLwc->moveWidget(diffX,diffY);
@@ -61,7 +61,7 @@ namespace Uml
     void cmdMoveWidget::undo()
     {
 
-        //UMLWidget * w =
+        //NewUMLRectWidget * w =
         UMLwc->insertSaveValues(X,Y,oldX,oldY);
         UMLwc->widgetMoved();
             //w->setX(oldX);

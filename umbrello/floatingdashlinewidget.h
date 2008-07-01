@@ -24,14 +24,14 @@
  * This class is used to draw dash lines for UML combined fragments. A FloatingDashLineWidget
  * belongs to one @ref CombinedFragmentWidget instance.
  *
- * The FloatingDashLineWidget class inherits from the @ref UMLWidget class.
+ * The FloatingDashLineWidget class inherits from the @ref NewUMLRectWidget class.
  *
  * @short  A dash line for UML combined fragments.
  * @author Thomas GALLINARI <tg8187@yahoo.fr>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class FloatingDashLineWidget : public UMLWidget
+class FloatingDashLineWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 public:

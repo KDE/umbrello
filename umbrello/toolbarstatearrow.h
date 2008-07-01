@@ -142,7 +142,7 @@ protected:
      * right button to cancel the movement and the little widget getting the
      * event, thus not canceling the movement in the big widget.
      */
-    virtual void setCurrentWidget(UMLWidget* currentWidget);
+    virtual void setCurrentWidget(NewUMLRectWidget* currentWidget);
 
     /**
      * Overridden from base class to do nothing, as arrow is the default tool.

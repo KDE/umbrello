@@ -19,9 +19,10 @@
 
 #include "newumlwidget.h"
 
+#include "uml.h"
 #include "umlobject.h"
 #include "umlscene.h"
-#include "uml.h"
+#include "uniqueid.h"
 #include "widget_utils.h"
 
 #include <QtCore/QTimer>
@@ -51,11 +52,61 @@ NewUMLWidget::NewUMLWidget(UMLObject *object) :
 
     m_umlObject(object),
     m_lineWidth(0),
-    m_widgetInterfaceData(0)
+    m_widgetInterfaceData(0),
+    firstTime(true)
 {
+    for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
+        m_pFontMetrics[i] = new QFontMetrics(font());
+    }
+
+    m_pMenu = 0;
     if(!object) {
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
+    setFlags(ItemIsSelectable | ItemIsMovable);
+    // Call init this way so that virtual methods may be called.
+    QTimer::singleShot(0, this, SLOT(slotInit()));
+}
+
+NewUMLWidget::NewUMLWidget(UMLScene *scene, UMLObject *object) :
+    QObject(),
+    QGraphicsItem(0),
+
+    m_umlObject(object),
+    m_lineWidth(0),
+    m_widgetInterfaceData(0),
+    firstTime(true)
+{
+    for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
+        m_pFontMetrics[i] = new QFontMetrics(font());
+    }
+    m_pMenu = 0;
+    if(!object) {
+        m_widgetInterfaceData = new WidgetInterfaceData;
+    }
+    setFlags(ItemIsSelectable | ItemIsMovable);
+    // Call init this way so that virtual methods may be called.
+    QTimer::singleShot(0, this, SLOT(slotInit()));
+    scene->addItem(this);
+}
+
+NewUMLWidget::NewUMLWidget(UMLScene *scene, const Uml::IDType &_id) :
+    m_umlObject(0),
+    m_lineWidth(0),
+    firstTime(true)
+{
+    for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
+        m_pFontMetrics[i] = new QFontMetrics(font());
+    }
+    m_pMenu = 0;
+    m_widgetInterfaceData = new WidgetInterfaceData;
+    if(_id == Uml::id_None) {
+        m_widgetInterfaceData->id = UniqueID::gen();
+    }
+    else {
+        m_widgetInterfaceData->id = _id;
+    }
+    scene->addItem(this);
     setFlags(ItemIsSelectable | ItemIsMovable);
     // Call init this way so that virtual methods may be called.
     QTimer::singleShot(0, this, SLOT(slotInit()));
@@ -71,7 +122,7 @@ UMLObject* NewUMLWidget::umlObject() const
     return m_umlObject;
 }
 
-void NewUMLWidget::setUmlObject(UMLObject *obj)
+void NewUMLWidget::setUMLObject(UMLObject *obj)
 {
     UMLObject *oldObj = m_umlObject;
     m_umlObject = obj;
@@ -293,7 +344,7 @@ bool NewUMLWidget::loadFromXMI(QDomElement &qElement)
     // Assert for the correctness of id loaded and the created object.
     if(m_umlObject) {
         if(id != ID2STR(this->id())) {
-            uWarning() << "ID mismatch between UMLWidget and its UMLObject"
+            uWarning() << "ID mismatch between NewUMLRectWidget and its UMLObject"
                        << "So the id read will be ignored.";
         }
     }
@@ -350,7 +401,7 @@ void NewUMLWidget::slotUMLObjectDataChanged()
 
 void NewUMLWidget::slotInit()
 {
-    setUmlObject(m_umlObject);
+    setUMLObject(m_umlObject);
     updateGeometry();
 }
 
@@ -376,6 +427,106 @@ void NewUMLWidget::setShape(const QPainterPath& path)
     if(m_shape.isEmpty()) {
         m_shape.addRect(boundingRect());
     }
+}
+
+
+
+///////////////////////////////SOME DEPRECATED STUFF///////////////
+void NewUMLWidget::setDefaultFontMetrics(NewUMLWidget::FontType fontType)
+{
+    setupFontType(m_font, fontType);
+    setFontMetrics(fontType, QFontMetrics(m_font));
+}
+
+void NewUMLWidget::setupFontType(QFont &font, NewUMLWidget::FontType fontType)
+{
+    switch (fontType) {
+    case FT_NORMAL:
+        font.setBold(false);
+        font.setItalic(false);
+        font.setUnderline(false);
+        break;
+    case FT_BOLD:
+        font.setBold(true);
+        font.setItalic(false);
+        font.setUnderline(false);
+        break;
+    case FT_ITALIC:
+        font.setBold(false);
+        font.setItalic(true);
+        font.setUnderline(false);
+        break;
+    case FT_UNDERLINE:
+        font.setBold(false);
+        font.setItalic(false);
+        font.setUnderline(true);
+        break;
+    case FT_BOLD_ITALIC:
+        font.setBold(true);
+        font.setItalic(true);
+        font.setUnderline(false);
+        break;
+    case FT_BOLD_UNDERLINE:
+        font.setBold(true);
+        font.setItalic(false);
+        font.setUnderline(true);
+        break;
+    case FT_ITALIC_UNDERLINE:
+        font.setBold(false);
+        font.setItalic(true);
+        font.setUnderline(true);
+        break;
+    case FT_BOLD_ITALIC_UNDERLINE:
+        font.setBold(true);
+        font.setItalic(true);
+        font.setUnderline(true);
+        break;
+    default: return;
+    }
+}
+
+void NewUMLWidget::setDefaultFontMetrics(NewUMLWidget::FontType fontType, QPainter &painter)
+{
+    setupFontType(m_font, fontType);
+    painter.setFont(m_font);
+    setFontMetrics(fontType, painter.fontMetrics());
+}
+
+//FIXME this is probably the source of problems with widgets not being wide enough
+QFontMetrics &NewUMLWidget::getFontMetrics(NewUMLWidget::FontType fontType)
+{
+    if (m_pFontMetrics[fontType] == 0) {
+        setDefaultFontMetrics(fontType);
+    }
+    return *m_pFontMetrics[fontType];
+}
+
+void NewUMLWidget::setFontMetrics(NewUMLWidget::FontType fontType, QFontMetrics fm)
+{
+    delete m_pFontMetrics[fontType];
+    m_pFontMetrics[fontType] = new QFontMetrics(fm);
+}
+
+void NewUMLWidget::forceUpdateFontMetrics(QPainter *painter)
+{
+    if (painter == 0) {
+        for (int i = 0; i < (int)NewUMLWidget::FT_INVALID; ++i) {
+            if (m_pFontMetrics[(NewUMLWidget::FontType)i] != 0)
+                setDefaultFontMetrics((NewUMLWidget::FontType)i);
+        }
+    } else {
+        for (int i2 = 0; i2 < (int)NewUMLWidget::FT_INVALID; ++i2) {
+            if (m_pFontMetrics[(NewUMLWidget::FontType)i2] != 0)
+                setDefaultFontMetrics((NewUMLWidget::FontType)i2, *painter);
+        }
+    }
+    // calculate the size, based on the new font metric
+    updateComponentSize();
+}
+
+ListPopupMenu* NewUMLWidget::setupPopupMenu()
+{
+    return 0;
 }
 
 #include "newumlwidget.moc"

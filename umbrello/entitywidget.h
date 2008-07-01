@@ -20,14 +20,14 @@ class UMLView;
 
 /**
  * Defines a graphical version of the entity.  Most of the functionality
- * will come from the @ref UMLWidget class from which class inherits from.
+ * will come from the @ref NewUMLRectWidget class from which class inherits from.
  *
  * @short A graphical version of an entity.
  * @author Jonathan Riddell
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class EntityWidget : public UMLWidget
+class EntityWidget : public NewUMLRectWidget
 {
 public:
 
@@ -66,7 +66,7 @@ public:
 
 protected:
     /**
-     * Overrides method from UMLWidget.
+     * Overrides method from NewUMLRectWidget.
      */
     QSizeF calculateSize();
 

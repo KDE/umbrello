@@ -26,14 +26,14 @@ class ObjectWidget;
  * by a @ref UMLScene.  An PreconditionWidget belongs to only one @ref UMLScene instance.
  * When the @ref UMLScene instance that this class belongs to, it will be automatically deleted.
  *
- * The PreconditionWidget class inherits from the @ref UMLWidget class which adds most of the functionality
+ * The PreconditionWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
  * to this class.
  *
  * @short  A graphical version of a UML Precondition (new in UML 2.0).
  * @author Florence Mattler <florence.mattler@libertysurf.fr>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PreconditionWidget : public UMLWidget {
+class PreconditionWidget : public NewUMLRectWidget {
     Q_OBJECT
 
 public:
@@ -108,7 +108,7 @@ public:
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 

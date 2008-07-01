@@ -65,12 +65,12 @@ void ToolBarStateArrow::mouseDoubleClick(QGraphicsSceneMouseEvent *ome)
 
 void ToolBarStateArrow::mousePressAssociation()
 {
-    getCurrentAssociation()->mousePressEvent(m_pMouseEvent);
+    // [PORT] getCurrentAssociation()->mousePressEvent(m_pMouseEvent);
 }
 
 void ToolBarStateArrow::mousePressWidget()
 {
-    getCurrentWidget()->mousePressEvent(m_pMouseEvent);
+    // [PORT] getCurrentWidget()->mousePressEvent(m_pMouseEvent);
 }
 
 void ToolBarStateArrow::mousePressEmpty()
@@ -103,12 +103,12 @@ void ToolBarStateArrow::mousePressEmpty()
 
 void ToolBarStateArrow::mouseReleaseAssociation()
 {
-    getCurrentAssociation()->mouseReleaseEvent(m_pMouseEvent);
+    // [PORT] getCurrentAssociation()->mouseReleaseEvent(m_pMouseEvent);
 }
 
 void ToolBarStateArrow::mouseReleaseWidget()
 {
-    getCurrentWidget()->mouseReleaseEvent(m_pMouseEvent);
+    // [PORT] getCurrentWidget()->mouseReleaseEvent(m_pMouseEvent);
 }
 
 void ToolBarStateArrow::mouseReleaseEmpty()
@@ -124,22 +124,22 @@ void ToolBarStateArrow::mouseReleaseEmpty()
 
 void ToolBarStateArrow::mouseDoubleClickAssociation()
 {
-    getCurrentAssociation()->mouseDoubleClickEvent(m_pMouseEvent);
+    // [PORT] getCurrentAssociation()->mouseDoubleClickEvent(m_pMouseEvent);
 }
 
 void ToolBarStateArrow::mouseDoubleClickWidget()
 {
-    getCurrentWidget()->mouseDoubleClickEvent(m_pMouseEvent);
+    // [PORT] getCurrentWidget()->mouseDoubleClickEvent(m_pMouseEvent);
 }
 
 void ToolBarStateArrow::mouseMoveAssociation()
 {
-    getCurrentAssociation()->mouseMoveEvent(m_pMouseEvent);
+    // [PORT] getCurrentAssociation()->mouseMoveEvent(m_pMouseEvent);
 }
 
 void ToolBarStateArrow::mouseMoveWidget()
 {
-    getCurrentWidget()->mouseMoveEvent(m_pMouseEvent);
+    // [PORT] getCurrentWidget()->mouseMoveEvent(m_pMouseEvent);
 }
 
 void ToolBarStateArrow::mouseMoveEmpty()
@@ -172,7 +172,7 @@ void ToolBarStateArrow::changeTool()
 {
 }
 
-void ToolBarStateArrow::setCurrentWidget(UMLWidget* currentWidget)
+void ToolBarStateArrow::setCurrentWidget(NewUMLRectWidget* currentWidget)
 {
     if (currentWidget != 0 && getCurrentWidget() != 0) {
         return;

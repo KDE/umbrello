@@ -90,7 +90,7 @@ public slots:
      * to 0.
      * Also, if it was the first object, the message is cleaned.
      */
-    virtual void slotWidgetRemoved(UMLWidget* widget);
+    virtual void slotWidgetRemoved(NewUMLRectWidget* widget);
 
 protected:
 
@@ -181,7 +181,7 @@ protected:
 
     /**
      * If there is a current widget, it is true if the press event happened on
-     * the line of an object, or false if it happened on a normal UMLWidget.
+     * the line of an object, or false if it happened on a normal NewUMLRectWidget.
      */
     bool m_isObjectWidgetLine;
 

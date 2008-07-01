@@ -37,9 +37,9 @@
 #include "umlscene.h"
 
 SignalWidget::SignalWidget(UMLScene * scene, SignalType signalType, Uml::IDType id)
-        : UMLWidget(scene, id)
+        : NewUMLRectWidget(scene, id)
 {
-    UMLWidget::setBaseType(Uml::wt_Signal);
+    NewUMLRectWidget::setBaseType(Uml::wt_Signal);
     m_SignalType = signalType;
     updateComponentSize();
     m_pName = NULL;
@@ -65,8 +65,8 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
     switch (m_SignalType)
     {
     case Send :
-        if(UMLWidget::getUseFillColour())
-            p.setBrush(UMLWidget::getFillColour());
+        if(NewUMLRectWidget::getUseFillColour())
+            p.setBrush(NewUMLRectWidget::getFillColour());
         {
 
             a.setPoints( 5, offsetX           ,offsetY,
@@ -80,7 +80,7 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
             qreal textStartY = (h / 2) - (fontHeight / 2);
 
             p.setPen(Qt::black);
-            QFont font = UMLWidget::getFont();
+            QFont font = NewUMLRectWidget::getFont();
             font.setBold( false );
             p.setFont( font );
             p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
@@ -90,8 +90,8 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
         }
         break;
     case Accept :
-        if(UMLWidget::getUseFillColour())
-            p.setBrush(UMLWidget::getFillColour());
+        if(NewUMLRectWidget::getUseFillColour())
+            p.setBrush(NewUMLRectWidget::getFillColour());
         {
             a.setPoints( 5, offsetX ,      offsetY,
                             offsetX + w/3, (h/2)+offsetY,
@@ -105,7 +105,7 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
             qreal textStartY = (h / 2) - (fontHeight / 2);
 
             p.setPen(Qt::black);
-            QFont font = UMLWidget::getFont();
+            QFont font = NewUMLRectWidget::getFont();
             font.setBold( false );
             p.setFont( font );
             p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
@@ -115,8 +115,8 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
         }
         break;
     case Time :
-        if(UMLWidget::getUseFillColour())
-            p.setBrush(UMLWidget::getFillColour());
+        if(NewUMLRectWidget::getUseFillColour())
+            p.setBrush(NewUMLRectWidget::getFillColour());
         {
             a.setPoints( 4, offsetX ,    offsetY,
                             offsetX + w, offsetY+h,
@@ -128,7 +128,7 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
             //const qreal fontHeight  = fm.lineSpacing();
             //qreal textStartY = (h / 2) - (fontHeight / 2);
             p.setPen(Qt::black);
-            QFont font = UMLWidget::getFont();
+            QFont font = NewUMLRectWidget::getFont();
             font.setBold( false );
             p.setFont( font );
 
@@ -154,12 +154,12 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
 
 void SignalWidget::setX(qreal newX) {
     m_oldX = getX();
-    UMLWidget::setX(newX);
+    NewUMLRectWidget::setX(newX);
 }
 
 void SignalWidget::setY(qreal newY) {
     m_oldY = getY();
-    UMLWidget::setY(newY);
+    NewUMLRectWidget::setY(newY);
 }
 
 QSizeF SignalWidget::calculateSize() {
@@ -215,7 +215,7 @@ void SignalWidget::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 
@@ -223,7 +223,7 @@ void SignalWidget::slotMenuSelection(QAction* action) {
 void SignalWidget::showProperties() {}
 
 void SignalWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me) {
-    UMLWidget::mouseMoveEvent(me);
+    NewUMLRectWidget::mouseMoveEvent(me);
     qreal diffX = m_oldX - getX();
     qreal diffY = m_oldY - getY();
     if (m_pName!=NULL) {
@@ -234,9 +234,9 @@ void SignalWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me) {
 
 void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement signalElement = qDoc.createElement( "signalwidget" );
-    UMLWidget::saveToXMI( qDoc, signalElement );
+    NewUMLRectWidget::saveToXMI( qDoc, signalElement );
     signalElement.setAttribute( "signalname", m_Text );
-    signalElement.setAttribute( "documentation", m_Doc );
+    signalElement.setAttribute( "documentation", documentation() );
     signalElement.setAttribute( "signaltype", m_SignalType );
     if (m_pName && !m_pName->getText().isEmpty()) {
         signalElement.setAttribute( "textid", ID2STR(m_pName->getID()) );
@@ -246,10 +246,10 @@ void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "signalname", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
+    setDocumentation(qElement.attribute( "documentation", "" ));
     QString type = qElement.attribute( "signaltype", "" );
     QString textid = qElement.attribute( "textid", "-1" );
     Uml::IDType textId = STR2ID(textid);
@@ -258,7 +258,7 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
     if (getSignalType() == Time) {
 
         if (textId != Uml::id_None) {
-            UMLWidget *flotext = m_pScene->findWidget( textId );
+            NewUMLRectWidget *flotext = umlScene()->findWidget( textId );
             if (flotext != NULL) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
@@ -276,7 +276,7 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( m_pScene,Uml::tr_Floating,m_Text, textId );
+            m_pName = new FloatingTextWidget( umlScene(),Uml::tr_Floating,m_Text, textId );
             if( ! m_pName->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;

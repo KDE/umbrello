@@ -28,12 +28,13 @@
 // class members
 qreal const SeqLineWidget::m_nMouseDownEpsilonX = 20;
 
-SeqLineWidget::SeqLineWidget( UMLScene * pScene, ObjectWidget * pObject ) : QGraphicsLineItem()
+SeqLineWidget::SeqLineWidget( UMLScene * pScene, ObjectWidget * pObject ) :
+    QGraphicsLineItem()
 {
-    m_pScene = pScene;
-    m_pScene->addItem(this);
-    m_pObject = pObject;
-    setPen( QPen( m_pObject->getLineColor(), 0, Qt::DashLine ) );
+    m_pUMLScene = pScene;
+    m_pUMLScene->addItem(this);
+    m_pUMLObject = pObject;
+    setPen( QPen( m_pUMLObject->getLineColor(), 0, Qt::DashLine ) );
     setZValue( 0 );
     setVisible( true );
     m_DestructionBox.line1 = 0;
@@ -60,11 +61,11 @@ qreal SeqLineWidget::onWidget( const QPointF & p )
 
 qreal SeqLineWidget::onDestructionBox ( const QPointF & p ) {
     qreal nOnDestructionBox = 0;
-    qreal x = m_pObject->getX() + m_pObject->getWidth() / 2;
-    qreal y = m_pObject->getY() + m_pObject->getHeight() + m_nLengthY;
+    qreal x = m_pUMLObject->getX() + m_pUMLObject->getWidth() / 2;
+    qreal y = m_pUMLObject->getY() + m_pUMLObject->getHeight() + m_nLengthY;
 
     //see if on destruction box
-    if( !m_pObject->getShowDestruction() ) {
+    if( !m_pUMLObject->getShowDestruction() ) {
         return 0;
     }
     if( x - 10 < p.x() && x + 10 > p.x()
@@ -100,27 +101,27 @@ void SeqLineWidget::cleanupDestructionBox()
 void SeqLineWidget::setupDestructionBox()
 {
     cleanupDestructionBox();
-    if( !m_pObject->getShowDestruction() ) {
+    if( !m_pUMLObject->getShowDestruction() ) {
         return;
     }
     QRectF rect;
-    rect.setX( m_pObject->getX() + m_pObject->getWidth() / 2 - 10 );
-    rect.setY( m_pObject->getY() + m_pObject->getHeight() + m_nLengthY );
+    rect.setX( m_pUMLObject->getX() + m_pUMLObject->getWidth() / 2 - 10 );
+    rect.setY( m_pUMLObject->getY() + m_pUMLObject->getHeight() + m_nLengthY );
     rect.setWidth( 14 );
     rect.setHeight( 14 );
 
     m_DestructionBox.line1 = new QGraphicsLineItem();
-    m_pScene->addItem(m_DestructionBox.line1);
+    m_pUMLScene->addItem(m_DestructionBox.line1);
     m_DestructionBox.setLine1Points(rect);
     m_DestructionBox.line1->setVisible( true );
-    m_DestructionBox.line1->setPen( QPen(m_pObject->getLineColor(), 2) );
+    m_DestructionBox.line1->setPen( QPen(m_pUMLObject->getLineColor(), 2) );
     m_DestructionBox.line1->setZValue( 3 );
 
     m_DestructionBox.line2 = new QGraphicsLineItem();
-    m_pScene->addItem(m_DestructionBox.line2);
+    m_pUMLScene->addItem(m_DestructionBox.line2);
     m_DestructionBox.setLine2Points(rect);
     m_DestructionBox.line2->setVisible( true );
-    m_DestructionBox.line2->setPen( QPen(m_pObject->getLineColor(), 2) );
+    m_DestructionBox.line2->setPen( QPen(m_pUMLObject->getLineColor(), 2) );
     m_DestructionBox.line2->setZValue( 3 );
 }
 
@@ -130,8 +131,8 @@ void SeqLineWidget::moveDestructionBox()
         return;
     }
     QRectF rect;
-    rect.setX( m_pObject->getX() + m_pObject->getWidth() / 2 - 7 );
-    rect.setY( m_pObject->getY() + m_pObject->getHeight() + m_nLengthY - 7 );
+    rect.setX( m_pUMLObject->getX() + m_pUMLObject->getWidth() / 2 - 7 );
+    rect.setY( m_pUMLObject->getY() + m_pUMLObject->getHeight() + m_nLengthY - 7 );
     rect.setWidth( 14 );
     rect.setHeight( 14 );
     m_DestructionBox.setLine1Points(rect);
@@ -141,14 +142,14 @@ void SeqLineWidget::moveDestructionBox()
 void SeqLineWidget::setEndOfLine(qreal yPosition) {
     QPointF sp = QGraphicsLineItem::line().p1();
     qreal newY = yPosition;
-    m_nLengthY = yPosition - m_pObject->getY() - m_pObject->getHeight();
+    m_nLengthY = yPosition - m_pUMLObject->getY() - m_pUMLObject->getHeight();
     // normally the managing Objectwidget is responsible for the call of this function
     // but to be sure - make a double check _against current position_
     if ( m_nLengthY < 0 ) {
         m_nLengthY = 0;
-        newY = m_pObject->getY() + m_pObject->getHeight();
+        newY = m_pUMLObject->getY() + m_pUMLObject->getHeight();
     }
     setLine( sp.x(), sp.y(), sp.x(), newY );
     moveDestructionBox();
-    m_pScene->resizeCanvasToItems();
+    m_pUMLScene->resizeCanvasToItems();
 }

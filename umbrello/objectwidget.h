@@ -29,10 +29,10 @@ class SeqLineWidget;
  *
  * @short Displays an instance of a Concept.
  * @author Paul Hensgen <phensgen@techie.com>
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ObjectWidget : public UMLWidget
+class ObjectWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 public:
@@ -52,7 +52,7 @@ public:
 
     /**
      * Sets the x-coordinate.
-     * Reimplements the method from UMLWidget.
+     * Reimplements the method from NewUMLRectWidget.
      *
      * @param x The x-coordinate to be set.
      */
@@ -60,7 +60,7 @@ public:
 
     /**
      * Sets the y-coordinate.
-     * Reimplements the method from UMLWidget.
+     * Reimplements the method from NewUMLRectWidget.
      *
      * @param y The y-coordinate to be set.
      */
@@ -269,7 +269,7 @@ protected:
     SeqLineWidget * m_pLine;
 
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 

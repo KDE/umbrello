@@ -22,7 +22,7 @@ class UMLView;
 /**
  * @short Displays a fork/join plate in a state diagram.
  * @author Oliver Kellogg  <okellogg@users.sourceforge.net>
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ForkJoinWidget : public BoxWidget {
@@ -52,7 +52,7 @@ public:
     bool getDrawVertical() const;
 
     /**
-     * Overrides the function from UMLWidget.
+     * Overrides the function from NewUMLRectWidget.
      *
      * @param action  The action to be executed.
      */
@@ -75,19 +75,19 @@ public:
 
 protected:
     /**
-     * Reimplement method from UMLWidget to suppress the resize corner.
+     * Reimplement method from NewUMLRectWidget to suppress the resize corner.
      * Although the ForkJoinWidget supports resizing, we suppress the
      * resize corner because it is too large for this very slim widget.
      */
     void drawSelected(QPainter * p, qreal offsetX, qreal offsetY);
 
     /**
-    * Overrides the function from UMLWidget.
+    * Overrides the function from NewUMLRectWidget.
     */
     QSizeF calculateSize();
 
     /**
-     * Reimplement method from UMLWidget.
+     * Reimplement method from NewUMLRectWidget.
      */
     void constrain(qreal& width, qreal& height);
 

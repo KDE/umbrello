@@ -28,14 +28,14 @@
  * by a @ref UMLView.  An pinWidget belongs to only one @ref UMLView instance.
  * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
  *
- * The pinWidget class inherits from the @ref UMLWidget class which adds most of the functionality
+ * The pinWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
  * to this class.
  *
  * @short  A graphical version of a UML pin.
  * @author Hassan KOUCH <hkouch@hotmail.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PinWidget : public UMLWidget {
+class PinWidget : public NewUMLRectWidget {
     Q_OBJECT
 
 public:
@@ -47,7 +47,7 @@ public:
      * @param a                 The widget to which this pin is attached.
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
-     PinWidget( UMLScene * view, UMLWidget* a, Uml::IDType id = Uml::id_None );
+     PinWidget( UMLScene * view, NewUMLRectWidget* a, Uml::IDType id = Uml::id_None );
 
     /**
      *  destructor
@@ -101,7 +101,7 @@ public:
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
      QSizeF calculateSize();
 
@@ -114,7 +114,7 @@ public slots:
 
 
 private:
-    UMLWidget * m_pOw;
+    NewUMLRectWidget * m_pOw;
 
     /**
      * This is a pointer to the Floating Text widget which displays the

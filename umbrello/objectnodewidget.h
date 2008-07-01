@@ -24,14 +24,14 @@
  * by a @ref UMLScene.  An ObjectNodeWidget belongs to only one @ref UMLScene instance.
  * When the @ref UMLScene instance that this class belongs to, it will be automatically deleted.
  *
- * The ObjectNodeWidget class inherits from the @ref UMLWidget class which adds most of the functionality
+ * The ObjectNodeWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
  * to this class.
  *
  * @short  A graphical version of a UML Activity.
  * @author Florence Mattler <florence.mattler@libertysurf.fr>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ObjectNodeWidget : public UMLWidget {
+class ObjectNodeWidget : public NewUMLRectWidget {
     Q_OBJECT
 
 public:
@@ -105,7 +105,7 @@ public:
     /**
      * Open a dialog box to select the objectNode type (Data, Buffer or Flow)
      */
-    void askForObjectNodeType(UMLWidget* &targetWidget);
+    void askForObjectNodeType(NewUMLRectWidget* &targetWidget);
 
     /**
      * Open a dialog box to input the state of the widget
@@ -115,7 +115,7 @@ public:
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 

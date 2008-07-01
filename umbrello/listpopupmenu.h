@@ -20,7 +20,7 @@
 #include "icon_utils.h"
 
 class UMLView;
-class UMLWidget;
+class NewUMLRectWidget;
 class ClassifierWidget;
 class UMLCategory;
 class UMLObject;
@@ -229,12 +229,12 @@ public:
      * Constructs the popup menu for a canvas widget.
      *
      * @param parent   The parent to ListPopupMenu.
-     * @param object   The UMLWidget to represent a menu for.
+     * @param object   The NewUMLRectWidget to represent a menu for.
      * @param multi    True if multiple items are selected.
      * @param unique   True if multiple selected items all have
      *                 the same type (e.g. Class, Interface)
      */
-    ListPopupMenu(QWidget* parent, UMLWidget* object, bool multi = false, bool unique = false);
+    ListPopupMenu(QWidget* parent, NewUMLRectWidget* object, bool multi = false, bool unique = false);
 
     /**
      * Standard deconstructor.
@@ -335,7 +335,7 @@ private:
      *                  included.
      */
     void insertStdItems(bool insertLeadingSeparator = true,
-                        Uml::Widget_Type type = Uml::wt_UMLWidget);
+                        Uml::Widget_Type type = Uml::wt_NewUMLRectWidget);
 
     /**
      * Shortcut for inserting standard model items (Class, Interface,
@@ -419,7 +419,7 @@ private:
     union TriggerObject{
         UMLView* m_View;
         UMLObject* m_Object;
-        UMLWidget* m_Widget;
+        NewUMLRectWidget* m_Widget;
     };
 
     /**

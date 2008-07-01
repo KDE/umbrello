@@ -16,7 +16,7 @@
 namespace std
     { class type_info; }
 
-class UMLWidget;
+class NewUMLRectWidget;
 
 /**
  * Used to determine rules for associations.
@@ -40,7 +40,7 @@ public:
      * Returns whether an association is going to be allowed for the given
      * values. This method is used to test if you can start an association.
      */
-    static bool allowAssociation( Uml::Association_Type assocType, UMLWidget * widget );
+    static bool allowAssociation( Uml::Association_Type assocType, NewUMLRectWidget * widget );
 
     static bool allowAssociation( Uml::Association_Type assocType, const std::type_info & );
 
@@ -49,7 +49,7 @@ public:
      * This method is used to finish an association.
      */
     static bool allowAssociation( Uml::Association_Type assocType,
-                                  UMLWidget * widgetA, UMLWidget * widgetB,
+                                  NewUMLRectWidget * widgetA, NewUMLRectWidget * widgetB,
                                   bool extendedCheck = true );
 
     /**
@@ -73,7 +73,7 @@ public:
      * a Generalisation.
      * as defined in m_AssocRules.
      */
-    static Uml::Association_Type isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
+    static Uml::Association_Type isGeneralisationOrRealisation(NewUMLRectWidget* widgetA, NewUMLRectWidget* widgetB);
 
 private:
 

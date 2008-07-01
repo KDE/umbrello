@@ -35,13 +35,13 @@ namespace Uml
     /*cmdChangeLineColor::cmdChangeLineColor(UMLView *view, QColor col)
     {
         setText(i18n("Change Line Color"));
-        UMLWidget * widget = view->getFirstMultiSelectedWidget();
+        NewUMLRectWidget * widget = view->getFirstMultiSelectedWidget();
         pView=view;
         color = col;
         oldColor=widget->getLineColor() ;
     }*/
 
-cmdChangeLineColor::cmdChangeLineColor(UMLWidget *w, const QColor& col):UMLw(w),color(col)
+cmdChangeLineColor::cmdChangeLineColor(NewUMLRectWidget *w, const QColor& col):UMLw(w),color(col)
 {
     setText(i18n("Change Line Color") + w->getName());
     oldColor= w->getLineColor() ;

@@ -159,13 +159,13 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite )
     m_pDocTE->setText(m_pUMLView->umlScene()->getDoc());
 }
 
-void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite )
+void DocWindow::showDocumentation( NewUMLRectWidget * widget, bool overwrite )
 {
     if( widget == m_pUMLWidget && !overwrite )
         return;
     if( widget != m_pUMLWidget )
         updateDocumentation( true );
-    m_Showing = st_UMLWidget;
+    m_Showing = st_NewUMLRectWidget;
     if( !widget ) {
         m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLWidget = 0;
@@ -220,7 +220,7 @@ void DocWindow::slotAssociationRemoved(AssociationWidget* association)
     }
 }
 
-void DocWindow::slotWidgetRemoved(UMLWidget* widget)
+void DocWindow::slotWidgetRemoved(NewUMLRectWidget* widget)
 {
     if (widget == m_pUMLWidget || widget->getUMLObject() == m_pUMLObject) {
         updateDocumentation(true);

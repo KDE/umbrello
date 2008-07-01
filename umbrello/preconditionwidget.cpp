@@ -39,7 +39,7 @@
 #include <QResizeEvent>
 
 PreconditionWidget::PreconditionWidget(UMLScene * view, ObjectWidget* a, Uml::IDType id )
-        : UMLWidget(view, id)
+        : NewUMLRectWidget(view, id)
 {
     init();
     m_pOw = a;
@@ -58,10 +58,10 @@ PreconditionWidget::PreconditionWidget(UMLScene * view, ObjectWidget* a, Uml::ID
 PreconditionWidget::~PreconditionWidget() {}
 
 void PreconditionWidget::init() {
-    UMLWidget::setBaseType(Uml::wt_Precondition);
-    m_bIgnoreSnapToGrid = true;
-    m_bIgnoreSnapComponentSizeToGrid = true;
-    m_bResizable =  true ;
+    NewUMLRectWidget::setBaseType(Uml::wt_Precondition);
+    setIgnoreSnapToGrid(true);
+    setIgnoreSnapComponentSizeToGrid(true);
+    setResizable( true) ;
     m_pOw = NULL;
     m_nY = 0;
     setVisible(true);
@@ -89,8 +89,8 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     }
     setY(y);
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+    if ( NewUMLRectWidget::getUseFillColour() ) {
+        p.setBrush( NewUMLRectWidget::getFillColour() );
     }
     {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -100,7 +100,7 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
         int textStartY = (h / 2) - (fontHeight / 2);
         p.drawRoundRect(x, y, w, h, (h * 60) / w, 60);
         p.setPen(Qt::black);
-        p.setFont( UMLWidget::getFont() );
+        p.setFont( NewUMLRectWidget::getFont() );
         p.drawText(x + PRECONDITION_MARGIN, y + textStartY,
                        w - PRECONDITION_MARGIN * 2, fontHeight, Qt::AlignCenter, precondition_value);
     }
@@ -139,7 +139,7 @@ void PreconditionWidget::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 
@@ -148,13 +148,13 @@ void PreconditionWidget::calculateWidget() {
 
     setVisible(true);
 
-    setX(m_nPosX);
+    setX(x());// [PORT] m_nPosX);
     setY(m_nY);
 }
 
 bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/) {
-    m_pScene->resetPastePoint();
-    UMLWidget::activate(Log);
+    umlScene()->resetPastePoint();
+    NewUMLRectWidget::activate(Log);
     if (m_pOw == NULL) {
         uDebug() << "cannot make precondition";
         return false;
@@ -181,7 +181,7 @@ void PreconditionWidget::calculateDimensions() {
 
     x = x1 - w/2;
 
-    m_nPosX = x;
+    setX(x); // [PORT] m_nPosX = x;
 
     setSize(w,h);
 
@@ -200,7 +200,7 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id) {
         m_nY = getMaxY();
 
     calculateDimensions();
-    if (m_pScene->getSelectCount(true) > 1)
+    if (umlScene()->getSelectCount(true) > 1)
         return;
 
 }
@@ -229,23 +229,23 @@ int PreconditionWidget::getMaxY() {
 
 void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
-    UMLWidget::saveToXMI( qDoc, preconditionElement );
+    NewUMLRectWidget::saveToXMI( qDoc, preconditionElement );
     preconditionElement.setAttribute( "widgetaid", ID2STR(m_pOw->getLocalID()) );
     preconditionElement.setAttribute( "preconditionname", m_Text );
-    preconditionElement.setAttribute( "documentation", m_Doc );
+    preconditionElement.setAttribute( "documentation", documentation() );
     qElement.appendChild( preconditionElement );
 }
 
 bool PreconditionWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
     m_Text = qElement.attribute( "preconditionname", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
+    setDocumentation(qElement.attribute( "documentation", "" ));
 
     Uml::IDType aId = STR2ID(widgetaid);
 
-    UMLWidget *pWA = m_pScene->findWidget( aId );
+    NewUMLRectWidget *pWA = umlScene()->findWidget( aId );
     if (pWA == NULL) {
         uDebug() << "role A object " << ID2STR(aId) << " not found" << endl;
         return false;

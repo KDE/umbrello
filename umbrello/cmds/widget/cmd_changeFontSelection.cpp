@@ -33,7 +33,7 @@ namespace Uml
     {
 
         // [PORT]
-        UMLWidget * widget = scene->getFirstMultiSelectedWidget();
+        NewUMLRectWidget * widget = scene->getFirstMultiSelectedWidget();
         setText(i18n("Change Font")+ " : " + widget->getName());/*+ widget->getName()*/
         pDoc=doc;
         pScene=scene;

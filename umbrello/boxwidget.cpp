@@ -16,12 +16,12 @@
 #include <kdebug.h>
 
 BoxWidget::BoxWidget(UMLScene * scene, Uml::IDType id)
-        : UMLWidget(scene, id)
+        : NewUMLRectWidget(scene, id)
 {
     setSize(100, 80);
-    UMLWidget::setBaseType( Uml::wt_Box );
-    WidgetBase::m_bUsesDiagramLineColour = false;  // boxes be black
-    WidgetBase::m_LineColour = QColor("black");
+    NewUMLRectWidget::setBaseType( Uml::wt_Box );
+    //NewUMLWidget::m_bUsesDiagramLineColour = false;  // boxes be black
+    setLineColor(Qt::black);
     setZ(m_origZ = 0);
 }
 
@@ -33,7 +33,7 @@ void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWid
 	QPainter &p = *painter;
 	qreal offsetX = 0, offsetY = 0;
 
-    UMLWidget::setPenFromSettings(p);
+    NewUMLRectWidget::setPenFromSettings(p);
     p.drawRect( offsetX, offsetY, getWidth(), getHeight() );
 
     if (isSelected()) {
@@ -43,7 +43,7 @@ void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWid
 
 void BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement boxElement = qDoc.createElement("boxwidget");
-    UMLWidget::saveToXMI(qDoc, boxElement);
+    NewUMLRectWidget::saveToXMI(qDoc, boxElement);
     qElement.appendChild(boxElement);
 }
 

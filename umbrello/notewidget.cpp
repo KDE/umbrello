@@ -36,7 +36,8 @@
 #define NOTEMARGIN 10
 
 NoteWidget::NoteWidget(UMLScene *scene, NoteType noteType , Uml::IDType id)
-        : UMLWidget(scene, id, new NoteWidgetController(this)) {
+    : NewUMLRectWidget(scene, id) //, new NoteWidgetController(this))
+{
     init();
     m_NoteType = noteType;
     setSize(100,80);
@@ -55,14 +56,14 @@ NoteWidget::NoteWidget(UMLScene *scene, NoteType noteType , Uml::IDType id)
     setEditorGeometry();
     setNoteType(noteType);
 
-    connect(m_pScene, SIGNAL(contentsMoving(int, int)),
+    connect(umlScene(), SIGNAL(contentsMoving(int, int)),
             this, SLOT(slotViewScrolled(int, int)));
 #endif
 
 }
 
 void NoteWidget::init() {
-    UMLWidget::setBaseType(Uml::wt_Note);
+    NewUMLRectWidget::setBaseType(Uml::wt_Note);
     m_DiagramLink = Uml::id_None;
 }
 
@@ -123,7 +124,7 @@ void NoteWidget::slotViewScrolled(int x, int y) {
 }
 
 void NoteWidget::setFont(QFont font) {
-    UMLWidget::setFont(font);
+    NewUMLRectWidget::setFont(font);
 #ifdef NOTEWIDGET_EMBED_EDITOR
     m_pEditor->setFont(font);
 #endif
@@ -131,10 +132,10 @@ void NoteWidget::setFont(QFont font) {
 
 void NoteWidget::setEditorGeometry(int dx /*=0*/, int dy /*=0*/) {
 #if defined (NOTEWIDGET_EMBED_EDITOR)
-    const QRect editorGeometry( UMLWidget::getX() - dx + 6,
-                                UMLWidget::getY() - dy + 10,
-                                UMLWidget::getWidth() - 16,
-                                UMLWidget::getHeight() - 16);
+    const QRect editorGeometry( NewUMLRectWidget::getX() - dx + 6,
+                                NewUMLRectWidget::getY() - dy + 10,
+                                NewUMLRectWidget::getWidth() - 16,
+                                NewUMLRectWidget::getHeight() - 16);
     m_pEditor->setGeometry( editorGeometry );
     drawText();
 #else
@@ -143,12 +144,12 @@ void NoteWidget::setEditorGeometry(int dx /*=0*/, int dy /*=0*/) {
 }
 
 void NoteWidget::setX( qreal x ) {
-    UMLWidget::setX(x);
+    NewUMLRectWidget::setX(x);
     setEditorGeometry();
 }
 
 void NoteWidget::setY( qreal y ) {
-    UMLWidget::setY(y);
+    NewUMLRectWidget::setY(y);
     setEditorGeometry();
 }
 
@@ -188,8 +189,8 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWi
     poly.setPoint(5, offsetX, offsetY);
 
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() ) {
-        QBrush brush( UMLWidget::getFillColour() );
+    if ( NewUMLRectWidget::getUseFillColour() ) {
+        QBrush brush( NewUMLRectWidget::getFillColour() );
         p.setBrush(brush);
         p.drawPolygon(poly);
 #if defined (NOTEWIDGET_EMBED_EDITOR)
@@ -256,15 +257,15 @@ void NoteWidget::slotMenuSelection(QAction* action) {
     switch(sel) {
         ///OBSOLETE - remove ListPopupMenu::mt_Link_Docs
         // case ListPopupMenu::mt_Link_Docs:
-        //      m_pScene->updateNoteWidgets();
+        //      umlScene()->updateNoteWidgets();
         //      doc->setModified(true);
         //      break;
 
     case ListPopupMenu::mt_Rename:
-        m_pScene->updateDocumentation( false );
-        dlg = new NoteDialog( m_pScene->activeView(), this );
+        umlScene()->updateDocumentation( false );
+        dlg = new NoteDialog( umlScene()->activeView(), this );
         if( dlg->exec() ) {
-            m_pScene->showDocumentation( this, true );
+            umlScene()->showDocumentation( this, true );
             doc->setModified(true);
             update();
         }
@@ -272,7 +273,7 @@ void NoteWidget::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
         break;
     }
 }
@@ -293,7 +294,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, qreal offsetX /*=0*/, qreal of
     start new line on \n character
     */
     p->setPen( Qt::black );
-    QFont font = UMLWidget::getFont();
+    QFont font = NewUMLRectWidget::getFont();
     p->setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const qreal fontHeight  = fm.lineSpacing();
@@ -378,7 +379,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, qreal offsetX /*=0*/, qreal of
 #endif
 }
 
-void NoteWidget::askForNoteType(UMLWidget* &targetWidget) {
+void NoteWidget::askForNoteType(NewUMLRectWidget* &targetWidget) {
 
     bool pressedOK = false;
     const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
@@ -395,7 +396,7 @@ void NoteWidget::askForNoteType(UMLWidget* &targetWidget) {
 
 void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement noteElement = qDoc.createElement( "notewidget" );
-    UMLWidget::saveToXMI( qDoc, noteElement );
+    NewUMLRectWidget::saveToXMI( qDoc, noteElement );
     noteElement.setAttribute( "text", getDoc() );
     if (m_DiagramLink != Uml::id_None)
         noteElement.setAttribute( "diagramlink", ID2STR(m_DiagramLink) );
@@ -404,7 +405,7 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     setZ( 20 ); //make sure always on top.
     setDoc( qElement.attribute("text", "") );

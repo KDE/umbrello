@@ -14,7 +14,7 @@
 
 #include <QtGui/QUndoCommand>
 
-#include "umlwidget.h"
+#include "umlwidgetcontroller.h"
 #include "cmd_id.h"
 
 namespace Uml

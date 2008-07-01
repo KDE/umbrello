@@ -30,8 +30,8 @@
 #include "floatingtextwidget.h"
 
 RegionWidget::RegionWidget(UMLScene * view, Uml::IDType id)
-        : UMLWidget(view, id) {
-     UMLWidget::setBaseType( Uml::wt_Region );
+        : NewUMLRectWidget(view, id) {
+     NewUMLRectWidget::setBaseType( Uml::wt_Region );
     updateComponentSize();
 }
 
@@ -87,18 +87,18 @@ QString RegionWidget::getName() const {
 
 void RegionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement regionElement = qDoc.createElement( "regionwidget" );
-    UMLWidget::saveToXMI( qDoc, regionElement );
+    NewUMLRectWidget::saveToXMI( qDoc, regionElement );
     regionElement.setAttribute( "regionname", m_Text );
-    regionElement.setAttribute( "documentation", m_Doc );
+    regionElement.setAttribute( "documentation", documentation() );
 
     qElement.appendChild( regionElement );
 }
 
 bool RegionWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "regionname", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
+    setDocumentation(qElement.attribute( "documentation", "" ));
     return true;
 }
 

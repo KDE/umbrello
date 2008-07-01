@@ -26,23 +26,23 @@
 
 
 PackageWidget::PackageWidget(UMLScene * view, UMLPackage *o)
-  : UMLWidget(view, o) {
+  : NewUMLRectWidget(view, o) {
     init();
 }
 
 void PackageWidget::init() {
-    UMLWidget::setBaseType(Uml::wt_Package);
+    NewUMLRectWidget::setBaseType(Uml::wt_Package);
     setSize(100, 30);
-    setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
+    setZ(m_origZ = 1);  // above box but below NewUMLRectWidget because may embed widgets
     m_pMenu = 0;
-    //set defaults from m_pScene
-    if (m_pScene) {
+    //set defaults from umlScene()
+    if (umlScene()) {
         //check to see if correct
-        const Settings::OptionState& ops = m_pScene->getOptionState();
-        m_bShowStereotype = ops.classState.showStereoType;
+        const Settings::OptionState& ops = umlScene()->getOptionState();
+        setShowStereotype(ops.classState.showStereoType);
     }
     //maybe loading and this may not be set.
-    if (m_pObject && !UMLApp::app()->getDocument()->loading())
+    if (umlObject() && !UMLApp::app()->getDocument()->loading())
         updateComponentSize();
 }
 
@@ -54,16 +54,16 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, 
 	qreal offsetX = 0, offsetY = 0;
 
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColour() );
+    if ( NewUMLRectWidget::getUseFillColour() )
+        p.setBrush( NewUMLRectWidget::getFillColour() );
     else {
         // [PORT]
-        // p.setBrush( m_pScene->viewport()->palette().color(QPalette::Background) );
+        // p.setBrush( umlScene()->viewport()->palette().color(QPalette::Background) );
     }
 
     qreal w = getWidth();
     qreal h = getHeight();
-    QFont font = UMLWidget::getFont();
+    QFont font = NewUMLRectWidget::getFont();
     font.setBold(true);
     //FIXME italic is true when a package is first created until you click elsewhere, not sure why
     font.setItalic(false);
@@ -72,7 +72,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, 
     QString name = getName();
 
     p.drawRect(offsetX, offsetY, 50, fontHeight);
-    if (m_pObject->getStereotype() == "subsystem") {
+    if (umlObject()->getStereotype() == "subsystem") {
         const qreal fHalf = fontHeight / 2;
         const qreal symY = offsetY + fHalf;
         const qreal symX = offsetX + 38;
@@ -87,11 +87,11 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, 
     p.setFont(font);
 
     qreal lines = 1;
-    if (m_pObject != NULL) {
-        QString stereotype = m_pObject->getStereotype();
+    if (umlObject() != NULL) {
+        QString stereotype = umlObject()->getStereotype();
         if (!stereotype.isEmpty()) {
             p.drawText(offsetX, offsetY + fontHeight + PACKAGE_MARGIN,
-                       w, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
+                       w, fontHeight, Qt::AlignCenter, umlObject()->getStereotype(true));
             lines = 2;
         }
     }
@@ -105,8 +105,8 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, 
 }
 
 QSizeF PackageWidget::calculateSize() {
-    if ( !m_pObject ) {
-        return UMLWidget::calculateSize();
+    if ( !umlObject() ) {
+        return NewUMLRectWidget::calculateSize();
     }
 
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
@@ -114,11 +114,11 @@ QSizeF PackageWidget::calculateSize() {
 
     qreal lines = 1;
 
-    qreal width = fm.width( m_pObject->getName() );
+    qreal width = fm.width( umlObject()->getName() );
 
     qreal tempWidth = 0;
-    if (!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width(m_pObject->getStereotype(true));
+    if (!umlObject()->getStereotype().isEmpty()) {
+        tempWidth = fm.width(umlObject()->getStereotype(true));
         lines = 2;
     }
     if (tempWidth > width)
@@ -134,7 +134,7 @@ QSizeF PackageWidget::calculateSize() {
 
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement conceptElement = qDoc.createElement("packagewidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

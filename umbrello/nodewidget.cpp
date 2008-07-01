@@ -25,9 +25,9 @@
 #include <QPolygon>
 
 NodeWidget::NodeWidget(UMLScene * view, UMLNode *n )
-  : UMLWidget(view, n) {
-    UMLWidget::setBaseType(Uml::wt_Node);
-    setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
+  : NewUMLRectWidget(view, n) {
+    NewUMLRectWidget::setBaseType(Uml::wt_Node);
+    setZ(m_origZ = 1);  // above box but below NewUMLRectWidget because may embed widgets
     setSize(100, 30);
     if (n && !UMLApp::app()->getDocument()->loading())
         updateComponentSize();
@@ -41,11 +41,11 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWi
 	qreal offsetX = 0, offsetY = 0;
 
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+    if ( NewUMLRectWidget::getUseFillColour() ) {
+        p.setBrush( NewUMLRectWidget::getFillColour() );
     } else {
         // [PORT]
-        // p.setBrush( m_pScene->viewport()->palette().color(QPalette::Background) );
+        // p.setBrush( umlScene()->viewport()->palette().color(QPalette::Background) );
     }
     const qreal w = getWidth();
     const qreal h = getHeight();
@@ -54,7 +54,7 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWi
     const qreal bodyOffsetY = offsetY + hDepth;
     const qreal bodyWidth = w - wDepth;
     const qreal bodyHeight = h - hDepth;
-    QFont font = UMLWidget::getFont();
+    QFont font = NewUMLRectWidget::getFont();
     font.setBold(true);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const qreal fontHeight  = fm.lineSpacing();
@@ -74,19 +74,19 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWi
     p.setFont(font);
 
     int lines = 1;
-    if (m_pObject) {
-        QString stereotype = m_pObject->getStereotype();
+    if (umlObject()) {
+        QString stereotype = umlObject()->getStereotype();
         if (!stereotype.isEmpty()) {
             p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - fontHeight,
-                       bodyWidth, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
+                       bodyWidth, fontHeight, Qt::AlignCenter, umlObject()->getStereotype(true));
             lines = 2;
         }
     }
 
-    if ( UMLWidget::getIsInstance() ) {
+    if ( NewUMLRectWidget::getIsInstance() ) {
         font.setUnderline(true);
         p.setFont(font);
-        name = UMLWidget::getInstanceName() + " : " + name;
+        name = NewUMLRectWidget::getInstanceName() + " : " + name;
     }
 
     if (lines == 1) {
@@ -103,24 +103,24 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWi
 }
 
 QSizeF NodeWidget::calculateSize() {
-    if (m_pObject == NULL) {
-        uDebug() << "m_pObject is NULL";
-        return UMLWidget::calculateSize();
+    if (umlObject() == NULL) {
+        uDebug() << "umlObject() is NULL";
+        return NewUMLRectWidget::calculateSize();
     }
 
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const qreal fontHeight  = fm.lineSpacing();
 
-    QString name = m_pObject->getName();
-    if ( UMLWidget::getIsInstance() ) {
-        name = UMLWidget::getInstanceName() + " : " + name;
+    QString name = umlObject()->getName();
+    if ( NewUMLRectWidget::getIsInstance() ) {
+        name = NewUMLRectWidget::getInstanceName() + " : " + name;
     }
 
     qreal width = fm.width(name);
 
     qreal tempWidth = 0;
-    if (!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width(m_pObject->getStereotype(true));
+    if (!umlObject()->getStereotype().isEmpty()) {
+        tempWidth = fm.width(umlObject()->getStereotype(true));
     }
     if (tempWidth > width)
         width = tempWidth;
@@ -133,7 +133,7 @@ QSizeF NodeWidget::calculateSize() {
 
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement conceptElement = qDoc.createElement("nodewidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

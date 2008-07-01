@@ -29,8 +29,8 @@ ForkJoinWidget::ForkJoinWidget(UMLScene * scene, bool drawVertical, Uml::IDType 
 
 void ForkJoinWidget::init()
 {
-    WidgetBase::setBaseType( Uml::wt_ForkJoin );
-    UMLWidget::updateComponentSize();
+    NewUMLWidget::setBaseType( Uml::wt_ForkJoin );
+    NewUMLRectWidget::updateComponentSize();
 }
 
 ForkJoinWidget::~ForkJoinWidget() {
@@ -96,7 +96,7 @@ void ForkJoinWidget::slotMenuSelection(QAction* action) {
 void ForkJoinWidget::setDrawVertical(bool to) {
     m_drawVertical = to;
     updateComponentSize();
-    UMLWidget::adjustAssocs( getX(), getY() );
+    NewUMLRectWidget::adjustAssocs( getX(), getY() );
 }
 
 bool ForkJoinWidget::getDrawVertical() const {
@@ -105,13 +105,13 @@ bool ForkJoinWidget::getDrawVertical() const {
 
 void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement fjElement = qDoc.createElement("forkjoin");
-    UMLWidget::saveToXMI(qDoc, fjElement);
+    NewUMLRectWidget::saveToXMI(qDoc, fjElement);
     fjElement.setAttribute("drawvertical", m_drawVertical);
     qElement.appendChild(fjElement);
 }
 
 bool ForkJoinWidget::loadFromXMI(QDomElement& qElement) {
-    if ( !UMLWidget::loadFromXMI(qElement) ) {
+    if ( !NewUMLRectWidget::loadFromXMI(qElement) ) {
         return false;
     }
     QString drawVertical = qElement.attribute("drawvertical", "0");

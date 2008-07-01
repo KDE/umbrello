@@ -53,7 +53,7 @@ class UMLOperation;
  * @short This class represents an association inside a diagram.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssociationWidget : public WidgetBase, public LinkWidget {
+class AssociationWidget : public NewUMLWidget, public LinkWidget {
     Q_OBJECT
 public:
     /**
@@ -82,8 +82,8 @@ public:
      * @param WidgetB   Pointer to the role B widget for the association.
      * @param umlobject Pointer to the underlying UMLObject (if applicable.)
      */
-    AssociationWidget(UMLScene *scene, UMLWidget* WidgetA,
-                      Uml::Association_Type Type, UMLWidget* WidgetB,
+    AssociationWidget(UMLScene *scene, NewUMLRectWidget* WidgetA,
+                      Uml::Association_Type Type, NewUMLRectWidget* WidgetB,
                       UMLObject *umlobject = NULL);
 
     /**
@@ -116,10 +116,10 @@ public:
     /**
      * Set the widget of the given role.
      *
-     * @param widget    Pointer to the UMLWidget.
+     * @param widget    Pointer to the NewUMLRectWidget.
      * @param role      Role for which to set the widget.
      */
-    void setWidget(UMLWidget* widget, Uml::Role_Type role);
+    void setWidget(NewUMLRectWidget* widget, Uml::Role_Type role);
 
     /**
      * Return the multiplicity FloatingTextWidget widget of the given role.
@@ -215,9 +215,9 @@ public:
     /**
      * Gets the given role widget.
      *
-     * @return  Pointer to the role's UMLWidget.
+     * @return  Pointer to the role's NewUMLRectWidget.
      */
-    UMLWidget* getWidget(Uml::Role_Type role) const;
+    NewUMLRectWidget* getWidget(Uml::Role_Type role) const;
 
     /**
      * Sets the associated widgets.
@@ -226,7 +226,7 @@ public:
      * @param assocType The Association_Type for this association.
      * @param widgetB   Pointer the role B widget for the association.
      */
-    bool setWidgets( UMLWidget* widgetA, Uml::Association_Type assocType, UMLWidget* widgetB);
+    bool setWidgets( NewUMLRectWidget* widgetA, Uml::Association_Type assocType, NewUMLRectWidget* widgetB);
 
     /**
      * Returns true if this association associates widgetA to widgetB,
@@ -236,7 +236,7 @@ public:
      * @param widgetB   Pointer the role B widget to check.
      * @return  True if widgetA and widgetB are associated.
      */
-    bool checkAssoc(UMLWidget * widgetA, UMLWidget *widgetB);
+    bool checkAssoc(NewUMLRectWidget * widgetA, NewUMLRectWidget *widgetB);
 
     /**
      * Returns true if the Widget is either at the starting or ending side
@@ -244,7 +244,7 @@ public:
      *
      * @return  True if widget plays role A or B in this assoc.
      */
-    bool contains(UMLWidget* widget);
+    bool contains(NewUMLRectWidget* widget);
 
     /**
      * Returns true if this AssociationWidget represents a collaboration message.
@@ -317,7 +317,7 @@ public:
      * @param x         New X coordinate of the widget.
      * @param y         New Y coordinate of the widget.
      */
-    void widgetMoved(UMLWidget* widget, qreal x, qreal y);
+    void widgetMoved(NewUMLRectWidget* widget, qreal x, qreal y);
 
 
     /**
@@ -429,12 +429,12 @@ public:
     QFont getFont () const;
 
     /**
-     * Overrides the method from WidgetBase.
+     * Overrides the method from NewUMLWidget.
      */
     void setLineColor(const QColor &colour);
 
     /**
-     * Overrides the method from WidgetBase.
+     * Overrides the method from NewUMLWidget.
      */
     void setLineWidth(uint width);
 
@@ -595,7 +595,7 @@ public:
     /**
      * Calculates and sets the first and last point in the association's
      * LinePath.
-     * Each point is a middle point of its respective UMLWidget's bounding
+     * Each point is a middle point of its respective NewUMLRectWidget's bounding
      * rectangle.
      * This method picks which sides to use for the association.
      */
@@ -613,11 +613,13 @@ public:
     void computeAssocClassLine();
 
     /**
-     * Overriding the method from WidgetBase because we need to do
+     * Overriding the method from NewUMLWidget because we need to do
      * something extra in case this AssociationWidget represents
      * an attribute of a classifier.
      */
     void setUMLObject(UMLObject *obj);
+
+    void paint(QPainter *, const QStyleOptionGraphicsItem*, QWidget*) {}
 
     /**
      * Saves this widget to the "assocwidget" XMI element.
@@ -833,10 +835,10 @@ private:
         FloatingTextWidget* m_pRole;
 
         /**
-         * This member holds a pointer to the UMLWidget at this role's side
+         * This member holds a pointer to the NewUMLRectWidget at this role's side
          * of the association.
          */
-        UMLWidget* m_pWidget;
+        NewUMLRectWidget* m_pWidget;
 
         /**
          * This role's old top left corner before moving.
@@ -858,7 +860,7 @@ private:
          */
         int m_nTotalCount;
 
-        // The following items are only used if m_pObject is not set.
+        // The following items are only used if umlObject() is not set.
         Uml::Visibility m_Visibility;
         Uml::Changeability_Type m_Changeability;
         QString m_RoleDoc;
@@ -930,7 +932,7 @@ private:
     /**
      * Returns true if the line path starts at the given widget.
      */
-    bool linePathStartsAt(const UMLWidget* widget);
+    bool linePathStartsAt(const NewUMLRectWidget* widget);
 
     /**
      * Auxiliary method for updateAssociations():
@@ -1011,7 +1013,7 @@ private:
      */
     LinePath m_LinePath;
 
-    // The following items are only used if m_pObject is not set.
+    // The following items are only used if umlObject() is not set.
     Uml::Association_Type m_AssocType;
 
 public slots:

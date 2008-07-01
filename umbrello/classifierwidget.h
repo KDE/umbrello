@@ -21,10 +21,10 @@ class AssociationWidget;
 /**
  * @short Common implementation for class widget and interface widget
  * @author Oliver Kellogg
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassifierWidget : public UMLWidget
+class ClassifierWidget : public NewUMLRectWidget
 {
 public:
 
@@ -156,7 +156,7 @@ public:
 
     /**
      * Returns whether to show attributes.
-     * Only applies when m_pObject->getBaseType() is ot_Class.
+     * Only applies when umlObject()->getBaseType() is ot_Class.
      *
      * @return  True if attributes are shown.
      */
@@ -166,13 +166,13 @@ public:
 
     /**
      * Toggles whether to show attributes.
-     * Only applies when m_pObject->getBaseType() is ot_Class.
+     * Only applies when umlObject()->getBaseType() is ot_Class.
      */
     void toggleShowAtts();
 
     /**
      * Returns whether to show attribute signatures.
-     * Only applies when m_pObject->getBaseType() is ot_Class.
+     * Only applies when umlObject()->getBaseType() is ot_Class.
      *
      * @return  Status of how attribute signatures are shown.
      */
@@ -182,13 +182,13 @@ public:
 
     /**
      * Toggles whether to show attribute signatures.
-     * Only applies when m_pObject->getBaseType() is ot_Class.
+     * Only applies when umlObject()->getBaseType() is ot_Class.
      */
     void toggleShowAttSigs();
 
     /**
      * Sets whether to show attributes.
-     * Only applies when m_pObject->getBaseType() is ot_Class.
+     * Only applies when umlObject()->getBaseType() is ot_Class.
      *
      * @param _show             True if attributes shall be shown.
      */
@@ -196,7 +196,7 @@ public:
 
     /**
      * Sets whether to show attribute signature
-     * Only applies when m_pObject->getBaseType() is ot_Class.
+     * Only applies when umlObject()->getBaseType() is ot_Class.
      *
      * @param _show             True if attribute signatures shall be shown.
      */
@@ -204,7 +204,7 @@ public:
 
     /**
      * Sets the type of signature to display for an attribute.
-     * Only applies when m_pObject->getBaseType() is ot_Class.
+     * Only applies when umlObject()->getBaseType() is ot_Class.
      *
      * @param sig       Type of signature to display for an attribute.
      */
@@ -212,7 +212,7 @@ public:
 
     /**
      * Returns whether to draw as circle.
-     * Only applies when m_pObject->getBaseType() is ot_Interface.
+     * Only applies when umlObject()->getBaseType() is ot_Interface.
      *
      * @return  True if widget is drawn as circle.
      */
@@ -220,13 +220,13 @@ public:
 
     /**
      * Toggles whether to draw as circle.
-     * Only applies when m_pObject->getBaseType() is ot_Interface.
+     * Only applies when umlObject()->getBaseType() is ot_Interface.
      */
     void toggleDrawAsCircle();
 
     /**
      * Sets whether to draw as circle.
-     * Only applies when m_pObject->getBaseType() is ot_Interface.
+     * Only applies when umlObject()->getBaseType() is ot_Interface.
      *
      * @param drawAsCircle      True if widget shall be drawn as circle.
      */
@@ -317,19 +317,19 @@ protected:
     QSizeF calculateTemplatesBoxSize();
 
     /**
-     * Overrides method from UMLWidget.
+     * Overrides method from NewUMLRectWidget.
      */
     QSizeF calculateSize();
 
     /**
      * Draws the interface as a circle with name underneath.
-     * Only applies when m_pObject->getBaseType() is ot_Interface.
+     * Only applies when umlObject()->getBaseType() is ot_Interface.
      */
     void drawAsCircle(QPainter& p, qreal offsetX, qreal offsetY);
 
     /**
      * Calculates the size of the object when drawn as a circle.
-     * Only applies when m_pObject->getBaseType() is ot_Interface.
+     * Only applies when umlObject()->getBaseType() is ot_Interface.
      */
     QSizeF calculateAsCircleSize();
 

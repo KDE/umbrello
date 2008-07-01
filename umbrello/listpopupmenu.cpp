@@ -241,7 +241,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject
 }
 
 //ListPopupMenu for a canvas widget
-ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
+ListPopupMenu::ListPopupMenu(QWidget * parent, NewUMLRectWidget * object,
                              bool multi, bool unique)
         : KMenu(parent)
 {
@@ -732,7 +732,7 @@ void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QString & text,
 }
 
 void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
-                                   Uml::Widget_Type type /* = wt_UMLWidget */)
+                                   Uml::Widget_Type type /* = wt_NewUMLRectWidget */)
 {
     if (insertLeadingSeparator)
         addSeparator();
@@ -740,7 +740,7 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
     insert(mt_Copy);
     insert(mt_Paste);
     addSeparator();
-    if (type == Uml::wt_UMLWidget)
+    if (type == Uml::wt_NewUMLRectWidget)
         insert(mt_Rename);
     else if (Model_Utils::isCloneable(type))
         insert(mt_Clone);

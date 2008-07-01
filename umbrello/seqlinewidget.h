@@ -87,7 +87,7 @@ public:
      * @return  Pointer to the associated ObjectWidget.
      */
     ObjectWidget * getObjectWidget() {
-        return m_pObject;
+        return m_pUMLObject;
     }
 
     /**
@@ -111,12 +111,12 @@ protected:
     /**
      * ObjectWidget associated with this sequence line.
      */
-    ObjectWidget * m_pObject;
+    ObjectWidget * m_pUMLObject;
 
     /**
      * View displayed on.
      */
-    UMLScene * m_pScene;
+    UMLScene * m_pUMLScene;
 
     /// The destruction box.
     struct DestructionBox {

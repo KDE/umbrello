@@ -27,7 +27,7 @@
 #include "umlwidget.h"
 
 
-UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) : QWidget( pParent )
+UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, NewUMLRectWidget *pWidget ) : QWidget( pParent )
 {
     m_pUMLWidget = pWidget;
     m_options = 0;

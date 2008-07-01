@@ -70,7 +70,7 @@ void ToolBarStateAssociation::mouseMove(QGraphicsSceneMouseEvent* ome)
     }
 }
 
-void ToolBarStateAssociation::slotWidgetRemoved(UMLWidget* widget)
+void ToolBarStateAssociation::slotWidgetRemoved(NewUMLRectWidget* widget)
 {
     ToolBarState::slotWidgetRemoved(widget);
 
@@ -120,7 +120,7 @@ void ToolBarStateAssociation::mouseReleaseEmpty() {
 }
 
 void ToolBarStateAssociation::setFirstWidget() {
-    UMLWidget* widget = getCurrentWidget();
+    NewUMLRectWidget* widget = getCurrentWidget();
     Association_Type type = getAssociationType();
 
     if (!AssocRules::allowAssociation(type, widget)) {
@@ -152,8 +152,8 @@ void ToolBarStateAssociation::setFirstWidget() {
 void ToolBarStateAssociation::setSecondWidget()
 {
     Association_Type type = getAssociationType();
-    UMLWidget* widgetA = m_firstWidget;
-    UMLWidget* widgetB = getCurrentWidget();
+    NewUMLRectWidget* widgetA = m_firstWidget;
+    NewUMLRectWidget* widgetB = getCurrentWidget();
     Widget_Type at = widgetA->getBaseType();
     bool valid = true;
     if (type == at_Generalization) {

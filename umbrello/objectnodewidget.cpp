@@ -43,9 +43,9 @@
 #include <QPolygon>
 
 ObjectNodeWidget::ObjectNodeWidget(UMLScene * view, ObjectNodeType objectNodeType, Uml::IDType id )
-        : UMLWidget(view, id)
+        : NewUMLRectWidget(view, id)
 {
-    UMLWidget::setBaseType( Uml::wt_ObjectNode );
+    NewUMLRectWidget::setBaseType( Uml::wt_ObjectNode );
     setObjectNodeType( objectNodeType );
     setState("");
     updateComponentSize();
@@ -67,12 +67,12 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     setPenFromSettings(p);
 
-    if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+    if ( NewUMLRectWidget::getUseFillColour() ) {
+        p.setBrush( NewUMLRectWidget::getFillColour() );
     }
 
     p.drawRect(offsetX, offsetY, w, h);
-    p.setFont( UMLWidget::getFont() );
+    p.setFont( NewUMLRectWidget::getFont() );
 
 
     switch ( m_ObjectNodeType )
@@ -106,7 +106,7 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
             p.drawLine(offsetX + 10 , offsetY + h/2, (offsetX + w)-10, offsetY + h/2  );
             p.setPen(Qt::black);
-            p.setFont( UMLWidget::getFont() );
+            p.setFont( NewUMLRectWidget::getFont() );
             p.drawText(offsetX + OBJECTNODE_MARGIN, offsetY + textStartY/2 - OBJECTNODE_MARGIN , w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
             p.drawText(offsetX + OBJECTNODE_MARGIN, offsetY + textStartY/2 + textStartY + OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
         }
@@ -177,7 +177,7 @@ ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType(const QStri
 
 void ObjectNodeWidget::setObjectNodeType( ObjectNodeType objectNodeType ) {
     m_ObjectNodeType = objectNodeType;
-    UMLWidget::m_bResizable = true;
+    setResizable(true);
 }
 
 void ObjectNodeWidget::setObjectNodeType( const QString& objectNodeType ) {
@@ -210,7 +210,7 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 
@@ -218,7 +218,7 @@ void ObjectNodeWidget::showProperties() {
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    ObjectNodeDialog dialog(m_pScene->activeView(), this);
+    ObjectNodeDialog dialog(umlScene()->activeView(), this);
     if (dialog.exec() && dialog.getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
@@ -230,26 +230,26 @@ void ObjectNodeWidget::showProperties() {
 
 void ObjectNodeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement objectNodeElement = qDoc.createElement( "objectnodewidget" );
-    UMLWidget::saveToXMI( qDoc, objectNodeElement );
+    NewUMLRectWidget::saveToXMI( qDoc, objectNodeElement );
     objectNodeElement.setAttribute( "objectnodename", m_Text );
-    objectNodeElement.setAttribute( "documentation", m_Doc );
+    objectNodeElement.setAttribute( "documentation", documentation());
     objectNodeElement.setAttribute( "objectnodetype", m_ObjectNodeType );
     objectNodeElement.setAttribute( "objectnodestate", m_State );
     qElement.appendChild( objectNodeElement );
 }
 
 bool ObjectNodeWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "objectnodename", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
+    setDocumentation(qElement.attribute( "documentation", "" ));
     QString type = qElement.attribute( "objectnodetype", "1" );
     m_State = qElement.attribute("objectnodestate","");
     setObjectNodeType( (ObjectNodeType)type.toInt() );
     return true;
 }
 
-void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget){
+void ObjectNodeWidget::askForObjectNodeType(NewUMLRectWidget* &targetWidget){
     bool pressedOK = false;
     int current = 0;
     const QStringList list = QStringList() << "Central buffer" << "Data store" <<"Object Flow";

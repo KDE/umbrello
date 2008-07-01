@@ -22,10 +22,10 @@ class UMLNode;
  *
  * @short A graphical version of a Node.
  * @author Jonathan Riddell
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class NodeWidget : public UMLWidget {
+class NodeWidget : public NewUMLRectWidget {
 public:
 
     /**
@@ -48,13 +48,13 @@ public:
 
     /**
      * Saves to the "nodewidget" XMI element.
-     * Note: For loading we use the method inherited from UMLWidget.
+     * Note: For loading we use the method inherited from NewUMLRectWidget.
      */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 

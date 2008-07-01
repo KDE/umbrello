@@ -34,9 +34,9 @@
 #include <QPolygon>
 
 ActivityWidget::ActivityWidget(UMLScene * scene, ActivityType activityType, Uml::IDType id )
-        : UMLWidget(scene, id)
+        : NewUMLRectWidget(scene, id)
 {
-    UMLWidget::setBaseType( Uml::wt_Activity );
+    NewUMLRectWidget::setBaseType( Uml::wt_Activity );
     setActivityType( activityType );
     updateComponentSize();
 }
@@ -57,9 +57,9 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidg
     {
 
     case Normal :
-        UMLWidget::setPenFromSettings(*p);
-        if ( UMLWidget::getUseFillColour() ) {
-            p->setBrush( UMLWidget::getFillColour() );
+        NewUMLRectWidget::setPenFromSettings(*p);
+        if ( NewUMLRectWidget::getUseFillColour() ) {
+            p->setBrush( NewUMLRectWidget::getFillColour() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -67,21 +67,21 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidg
             int textStartY = (h / 2) - (fontHeight / 2);
             p->drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p->setPen(Qt::black);
-            p->setFont( UMLWidget::getFont() );
+            p->setFont( NewUMLRectWidget::getFont() );
             p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
         }
         break;
 
     case Initial :
-        p->setPen( QPen(m_LineColour, 1) );
-        p->setBrush( WidgetBase::getLineColor() );
+        p->setPen( QPen(lineColor(), 1) );
+        p->setBrush( NewUMLWidget::getLineColor() );
         p->drawEllipse( offsetX, offsetY, w, h );
         break;
 
     case Final :
 
-        UMLWidget::setPenFromSettings(*p);
+        NewUMLRectWidget::setPenFromSettings(*p);
         p->setBrush( Qt::white );
         pen.setWidth( 2 );
         pen.setColor ( Qt::red );
@@ -97,18 +97,18 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidg
         break;
 
     case End :
-        p->setPen( QPen(m_LineColour, 1) );
-        p->setBrush( WidgetBase::getLineColor() );
+        p->setPen( QPen(lineColor(), 1) );
+        p->setBrush( NewUMLWidget::getLineColor() );
         p->drawEllipse( offsetX, offsetY, w, h );
         p->setBrush( Qt::white );
         p->drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p->setBrush( WidgetBase::getLineColor() );
+        p->setBrush( NewUMLWidget::getLineColor() );
         p->drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
         break;
 
     case Branch :
-        UMLWidget::setPenFromSettings(*p);
-        p->setBrush( UMLWidget::getFillColour() );
+        NewUMLRectWidget::setPenFromSettings(*p);
+        p->setBrush( NewUMLRectWidget::getFillColour() );
         {
             QPolygon array( 4 );
             array[ 0 ] = QPoint( offsetX + w / 2, offsetY );
@@ -121,9 +121,9 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidg
         break;
 
     case Invok :
-        UMLWidget::setPenFromSettings(*p);
-        if ( UMLWidget::getUseFillColour() ) {
-            p->setBrush( UMLWidget::getFillColour() );
+        NewUMLRectWidget::setPenFromSettings(*p);
+        if ( NewUMLRectWidget::getUseFillColour() ) {
+            p->setBrush( NewUMLRectWidget::getFillColour() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -131,7 +131,7 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidg
             int textStartY = (h / 2) - (fontHeight / 2);
             p->drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p->setPen(Qt::black);
-            p->setFont( UMLWidget::getFont() );
+            p->setFont( NewUMLRectWidget::getFont() );
             p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
 
@@ -146,9 +146,9 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidg
         break;
 
     case Param :
-        UMLWidget::setPenFromSettings(*p);
-        if ( UMLWidget::getUseFillColour() ) {
-            p->setBrush( UMLWidget::getFillColour() );
+        NewUMLRectWidget::setPenFromSettings(*p);
+        if ( NewUMLRectWidget::getUseFillColour() ) {
+            p->setBrush( NewUMLRectWidget::getFillColour() );
         }
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -158,7 +158,7 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidg
             //int textStartY = (h / 2) - (fontHeight / 2);
             p->drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p->setPen(Qt::black);
-            p->setFont( UMLWidget::getFont() );
+            p->setFont( NewUMLRectWidget::getFont() );
             p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight + 10,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, preCond);
             p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight * 2 + 10,
@@ -251,7 +251,7 @@ ActivityWidget::ActivityType ActivityWidget::getActivityType() const {
 void ActivityWidget::setActivityType( ActivityType activityType ) {
     m_ActivityType = activityType;
     updateComponentSize();
-    UMLWidget::m_bResizable = true;
+    setResizable(true);
 }
 
 void ActivityWidget::slotMenuSelection(QAction* action) {
@@ -271,7 +271,7 @@ void ActivityWidget::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 
@@ -279,7 +279,7 @@ void ActivityWidget::showProperties() {
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    ActivityDialog dialog(m_pScene->activeView(), this);
+    ActivityDialog dialog(umlScene()->activeView(), this);
     if (dialog.exec() && dialog.getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
@@ -315,9 +315,9 @@ bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
 
 void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement activityElement = qDoc.createElement( "activitywidget" );
-    UMLWidget::saveToXMI( qDoc, activityElement );
+    NewUMLRectWidget::saveToXMI( qDoc, activityElement );
     activityElement.setAttribute( "activityname", m_Text );
-    activityElement.setAttribute( "documentation", m_Doc );
+    activityElement.setAttribute( "documentation", documentation() );
     activityElement.setAttribute( "precondition", preText );
     activityElement.setAttribute( "postcondition", postText );
     activityElement.setAttribute( "activitytype", m_ActivityType );
@@ -325,10 +325,10 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "activityname", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
+    setDocumentation(qElement.attribute( "documentation", "" ));
     preText = qElement.attribute( "precondition", "" );
     postText = qElement.attribute( "postcondition", "" );
 

@@ -26,10 +26,10 @@
 #include <qpainter.h>
 
 FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::IDType id)
-: UMLWidget(scene, id)
+: NewUMLRectWidget(scene, id)
 {
-    UMLWidget::setBaseType(Uml::wt_FloatingDashLine);
-    m_bResizable = false;
+    NewUMLRectWidget::setBaseType(Uml::wt_FloatingDashLine);
+    setResizable(false);
     m_Text = "";
     updateComponentSize();
 }
@@ -42,11 +42,11 @@ void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphics
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const qreal fontHeight  = fm.lineSpacing();
     p.setPen(Qt::black);
-    p.setFont(UMLWidget::getFont());
+    p.setFont(NewUMLRectWidget::getFont());
     p.drawText(getX() + FLOATING_DASH_LINE_TEXT_MARGIN, getY(),
                getWidth() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight,
                Qt::AlignLeft, '[' + m_Text + ']');
-    p.setPen(*(new QPen(UMLWidget::getLineColor(), 0, Qt::DashLine)));
+    p.setPen(*(new QPen(NewUMLRectWidget::getLineColor(), 0, Qt::DashLine)));
     p.drawLine(getX(), getY(), getX() + getWidth(), getY());
     if(isSelected())
         drawSelected(&p, getX(), getY());
@@ -78,14 +78,14 @@ void FloatingDashLineWidget::slotMenuSelection(QAction* action) {
             m_Text = name;
         break;
     default:
-        UMLWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 
 void FloatingDashLineWidget::setY(qreal y)
 {
     if(y >= m_yMin + FLOATING_DASH_LINE_MARGIN && y <= m_yMax - FLOATING_DASH_LINE_MARGIN)
-        UMLWidget::setY(y);
+        NewUMLRectWidget::setY(y);
 }
 
 void FloatingDashLineWidget::setYMin(qreal yMin)
@@ -110,7 +110,7 @@ qreal FloatingDashLineWidget::getDiffY()
 
 void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement textElement = qDoc.createElement( "floatingdashlinewidget" );
-    UMLWidget::saveToXMI( qDoc, textElement );
+    NewUMLRectWidget::saveToXMI( qDoc, textElement );
     textElement.setAttribute( "text", m_Text );
     textElement.setAttribute( "y", getY() );
     textElement.setAttribute( "minY", m_yMin );
@@ -120,7 +120,7 @@ void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
 }
 
 bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) ) {
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) ) {
         return false;
     }
     uDebug() <<"load.......";

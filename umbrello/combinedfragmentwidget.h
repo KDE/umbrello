@@ -26,14 +26,14 @@
  * by a @ref UMLView.  An combinedfragmentWidget belongs to only one @ref UMLView instance.
  * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
  *
- * The combinedfragmentWidget class inherits from the @ref UMLWidget class which adds most of the functionality
+ * The combinedfragmentWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
  * to this class.
  *
  * @short  A graphical version of a UML combined fragment.
  * @author Hassan KOUCH <hkouch@hotmail.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class CombinedFragmentWidget : public UMLWidget
+class CombinedFragmentWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 
@@ -83,7 +83,7 @@ public:
     void setCombinedFragmentType( CombinedFragmentType combinedfragmentType );
     void setCombinedFragmentType( const QString& combinedfragmentType );
 
-    void askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
+    void askNameForWidgetType(NewUMLRectWidget* &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);
 
     /**
@@ -98,7 +98,7 @@ public:
 
 public slots:
     /**
-     * Overrides the function from UMLWidget.
+     * Overrides the function from NewUMLRectWidget.
      *
      * @param action  The command to be executed.
      */
@@ -107,7 +107,7 @@ public slots:
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 

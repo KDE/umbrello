@@ -19,7 +19,7 @@ class KTextEdit;
 class UMLObject;
 class UMLDoc;
 class UMLView;
-class UMLWidget;
+class NewUMLRectWidget;
 
 /**
  * @author Paul Hensgen
@@ -66,7 +66,7 @@ public:
      * displays documentation for an object instance (StateWidget/
      * ObjectWidget).
      */
-    void showDocumentation( UMLWidget * widget, bool overwrite = false );
+    void showDocumentation( NewUMLRectWidget * widget, bool overwrite = false );
 
     /**
      * This method is the same as the one for UMLObjects except it
@@ -114,7 +114,7 @@ public slots:
      * If the association removed was the association which documentation is
      * being shown, m_pUMLWidget is set to 0.
      */
-    void slotWidgetRemoved(UMLWidget* widget);
+    void slotWidgetRemoved(NewUMLRectWidget* widget);
 
 private:
     /**
@@ -125,7 +125,7 @@ private:
         st_Project,
         st_UMLView,
         st_UMLObject,
-        st_UMLWidget,
+        st_NewUMLRectWidget,
         st_Association
     };
 
@@ -145,9 +145,9 @@ private:
     UMLDoc * m_pUMLDoc;
 
     /**
-     * A pointer to the UMLWidget we are going to show documentation.
+     * A pointer to the NewUMLRectWidget we are going to show documentation.
      */
-    UMLWidget * m_pUMLWidget;
+    NewUMLRectWidget * m_pUMLWidget;
 
     /**
      * A pointer to the association we are going to show documentation.

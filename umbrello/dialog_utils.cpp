@@ -42,7 +42,7 @@ KLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, 
 }
 
 
-void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
+void askNameForWidget(NewUMLRectWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName) {
 
     bool pressedOK = false;

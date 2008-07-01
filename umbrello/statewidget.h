@@ -28,14 +28,14 @@
  * When the @ref UMLScene instance that this class belongs to is destroyed,
  * it will be automatically deleted.
  *
- * The StateWidget class inherits from the @ref UMLWidget class which adds
+ * The StateWidget class inherits from the @ref NewUMLRectWidget class which adds
  * most of the functionality to this class.
  *
  * @short  A graphical version of a UML State.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class StateWidget : public UMLWidget
+class StateWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 public:
@@ -139,7 +139,7 @@ public:
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 

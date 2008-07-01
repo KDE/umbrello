@@ -39,7 +39,7 @@
 MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
                              qreal y, Uml::Sequence_Message_Type sequenceMessageType,
                              Uml::IDType id /* = Uml::id_None */)
-        : UMLWidget(scene, id, new MessageWidgetController(this)) {
+    : NewUMLRectWidget(scene, id) {//, new MessageWidgetController(this)) {
     init();
     m_pOw[Uml::A] = a;
     m_pOw[Uml::B] = b;
@@ -59,12 +59,17 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, ObjectWidget* b,
 }
 
 MessageWidget::MessageWidget(UMLScene * scene, Uml::Sequence_Message_Type seqMsgType, Uml::IDType id)
-        : UMLWidget(scene, id, new MessageWidgetController(this)) {
+    : NewUMLRectWidget(scene, id)//, new MessageWidgetController(this))
+{
     init();
     m_sequenceMessageType = seqMsgType;
 }
 
-MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, qreal xclick, qreal yclick, Uml::Sequence_Message_Type sequenceMessageType, Uml::IDType id /*= Uml::id_None*/) : UMLWidget(scene, id, new MessageWidgetController(this)) {
+MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, qreal xclick, qreal yclick,
+                             Uml::Sequence_Message_Type sequenceMessageType,
+                             Uml::IDType id /*= Uml::id_None*/)
+    : NewUMLRectWidget(scene, id)//, new MessageWidgetController(this))
+{
     init();
     m_pOw[Uml::A] = a;
     m_pOw[Uml::B] = a;
@@ -87,9 +92,9 @@ MessageWidget::MessageWidget(UMLScene * scene, ObjectWidget* a, qreal xclick, qr
 }
 
 void MessageWidget::init() {
-    UMLWidget::setBaseType(Uml::wt_Message);
-    m_bIgnoreSnapToGrid = true;
-    m_bIgnoreSnapComponentSizeToGrid = true;
+    NewUMLRectWidget::setBaseType(Uml::wt_Message);
+    setIgnoreSnapToGrid(true);
+    setIgnoreSnapComponentSizeToGrid(true);
     m_pOw[Uml::A] = m_pOw[Uml::B] = NULL;
     m_pFText = NULL;
     m_nY = 0;
@@ -102,9 +107,9 @@ MessageWidget::~MessageWidget() {
 void MessageWidget::updateResizability() {
     if (m_sequenceMessageType == Uml::sequence_message_synchronous ||
         m_pOw[Uml::A] == m_pOw[Uml::B])
-        UMLWidget::m_bResizable = true;
+        setResizable(true);
     else
-        UMLWidget::m_bResizable = false;
+        setResizable(false);
 }
 
 void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
@@ -310,7 +315,7 @@ void MessageWidget::drawLost(QPainter& p, qreal offsetX, qreal offsetY){
         }
 
         setPenFromSettings(p);
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( NewUMLWidget::getLineColor() );
         p.drawEllipse(x1 + w - h , offsetY - h/2, h, h);
         drawArrow(p,offsetX, offsetY, w - h, Qt::RightArrow);
 
@@ -319,7 +324,7 @@ void MessageWidget::drawLost(QPainter& p, qreal offsetX, qreal offsetY){
         }
     } else      {
         setPenFromSettings(p);
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( NewUMLWidget::getLineColor() );
         p.drawEllipse(offsetX, offsetY - h/2, h, h);
         drawArrow(p, offsetX + h, offsetY, w - h, Qt::LeftArrow);
     }
@@ -343,7 +348,7 @@ void MessageWidget::drawFound(QPainter& p, qreal offsetX, qreal offsetY){
             w -= 7;
         }
         setPenFromSettings(p);
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( NewUMLWidget::getLineColor() );
         p.drawEllipse(x2, offsetY - h/2, h, h);
         drawArrow(p, x2 - w + h, offsetY, w, Qt::LeftArrow);
         if (messageOverlapsA)  {
@@ -354,7 +359,7 @@ void MessageWidget::drawFound(QPainter& p, qreal offsetX, qreal offsetY){
             w -= 7;
         }
         setPenFromSettings(p);
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( NewUMLWidget::getLineColor() );
         p.drawEllipse(x2, offsetY - h/2, h, h);
         drawArrow(p, x2, offsetY, w, Qt::RightArrow);
     }
@@ -366,7 +371,7 @@ void MessageWidget::drawFound(QPainter& p, qreal offsetX, qreal offsetY){
 
 qreal MessageWidget::onWidget(const QPointF & p) {
     if (m_sequenceMessageType != Uml::sequence_message_synchronous) {
-        return UMLWidget::onWidget(p);
+        return NewUMLRectWidget::onWidget(p);
     }
     // Synchronous message:
     // Consists of top arrow (call) and bottom arrow (return.)
@@ -447,7 +452,7 @@ void MessageWidget::moveEvent(QMoveEvent* /*m*/) {
         return;
     }
     //TODO why this condition?
-/*    if (m_pScene->getSelectCount() > 2) {
+/*    if (umlScene()->getSelectCount() > 2) {
         return;
     }*/
 
@@ -485,7 +490,7 @@ void MessageWidget::slotWidgetMoved(Uml::IDType id) {
     calculateWidget();
     if( !m_pFText )
         return;
-    if (m_pScene->getSelectCount(true) > 1)
+    if (umlScene()->getSelectCount(true) > 1)
         return;
     setTextPosition();
 }
@@ -501,18 +506,18 @@ void MessageWidget::slotMenuSelection(QAction* action) {
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     if(sel == ListPopupMenu::mt_Delete) {
         // This will clean up this widget and the text widget:
-        m_pScene->removeWidget(this);
+        umlScene()->removeWidget(this);
     } else {
 
-        UMLWidget::slotMenuSelection( action );
+        NewUMLRectWidget::slotMenuSelection( action );
     }
 }
 
 bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
-    m_pScene->resetPastePoint();
-    // UMLWidget::activate(Log);   CHECK: I don't think we need this ?
+    umlScene()->resetPastePoint();
+    // NewUMLRectWidget::activate(Log);   CHECK: I don't think we need this ?
     if (m_pOw[Uml::A] == NULL) {
-        UMLWidget *pWA = m_pScene->findWidget(m_widgetAId);
+        NewUMLRectWidget *pWA = umlScene()->findWidget(m_widgetAId);
         if (pWA == NULL) {
             uDebug() << "role A object " << ID2STR(m_widgetAId) << " not found" << endl;
             return false;
@@ -525,7 +530,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
         }
     }
     if (m_pOw[Uml::B] == NULL) {
-        UMLWidget *pWB = m_pScene->findWidget(m_widgetBId);
+        NewUMLRectWidget *pWB = umlScene()->findWidget(m_widgetBId);
         if (pWB == NULL) {
             uDebug() << "role B object " << ID2STR(m_widgetBId) << " not found" << endl;
             return false;
@@ -555,8 +560,8 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
         Uml::Text_Role tr = Uml::tr_Seq_Message;
         if (m_pOw[Uml::A] == m_pOw[Uml::B])
             tr = Uml::tr_Seq_Message_Self;
-        m_pFText = new FloatingTextWidget( m_pScene, tr, "" );
-        m_pFText->setFont(UMLWidget::getFont());
+        m_pFText = new FloatingTextWidget( umlScene(), tr, "" );
+        m_pFText->setFont(NewUMLRectWidget::getFont());
     }
     if (op)
         setOperation(op);  // This requires a valid m_pFText.
@@ -582,7 +587,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
 void MessageWidget::setMessageText(FloatingTextWidget *ft) {
     if (ft == NULL)
         return;
-    QString displayText = m_SequenceNumber + ": " + getOperationText(m_pScene);
+    QString displayText = m_SequenceNumber + ": " + getOperationText(umlScene());
     ft->setText(displayText);
     setTextPosition();
 }
@@ -606,7 +611,7 @@ QString MessageWidget::getSequenceNumber() const {
 }
 
 void MessageWidget::lwSetFont (QFont font) {
-    UMLWidget::setFont( font );
+    NewUMLRectWidget::setFont( font );
 }
 
 UMLClassifier *MessageWidget::getOperationOwner() {
@@ -618,15 +623,15 @@ UMLClassifier *MessageWidget::getOperationOwner() {
 }
 
 UMLOperation *MessageWidget::getOperation() {
-    return static_cast<UMLOperation*>(m_pObject);
+    return static_cast<UMLOperation*>(umlObject());
 }
 
 void MessageWidget::setOperation(UMLOperation *op) {
-    if (m_pObject && m_pFText)
-        disconnect(m_pObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
-    m_pObject = op;
-    if (m_pObject && m_pFText)
-        connect(m_pObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
+    if (umlObject() && m_pFText)
+        disconnect(umlObject(), SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
+    setUMLObject(op);
+    if (umlObject() && m_pFText)
+        connect(umlObject(), SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
 }
 
 QString MessageWidget::getCustomOpText() {
@@ -820,15 +825,15 @@ void MessageWidget::cleanup() {
         m_pOw[Uml::B]->messageRemoved(this);
     }
 
-    UMLWidget::cleanup();
+    NewUMLRectWidget::cleanup();
     if (m_pFText) {
-        m_pScene->removeWidget(m_pFText);
+        umlScene()->removeWidget(m_pFText);
         m_pFText = NULL;
     }
 }
 
 void MessageWidget::setSelected(bool _select) {
-    UMLWidget::setSelected( _select );
+    NewUMLRectWidget::setSelected( _select );
     if( !m_pFText || m_pFText->getDisplayText().isEmpty())
         return;
     if( isSelected() && m_pFText->isSelected() )
@@ -836,7 +841,7 @@ void MessageWidget::setSelected(bool _select) {
     if( !isSelected() && !m_pFText->isSelected() )
         return;
 
-    m_pScene->setSelected( m_pFText, 0 );
+    umlScene()->setSelected( m_pFText, 0 );
     m_pFText->setSelected( isSelected() );
 }
 
@@ -890,12 +895,12 @@ void MessageWidget::setyclicked (qreal yclick){
 // void  MessageWidget::setSize(qreal width,qreal height);
 // {
 //
-//     UMLWidget::setSize(width,height);
+//     NewUMLRectWidget::setSize(width,height);
 // }
 
 void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement messageElement = qDoc.createElement( "messagewidget" );
-    UMLWidget::saveToXMI( qDoc, messageElement );
+    NewUMLRectWidget::saveToXMI( qDoc, messageElement );
     messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->getLocalID()) );
     messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::B]->getLocalID()) );
     UMLOperation *pOperation = getOperation();
@@ -920,7 +925,7 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool MessageWidget::loadFromXMI(QDomElement& qElement) {
-    if ( !UMLWidget::loadFromXMI(qElement) ) {
+    if ( !NewUMLRectWidget::loadFromXMI(qElement) ) {
         return false;
     }
     QString textid = qElement.attribute( "textid", "-1" );
@@ -949,7 +954,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pFText = new FloatingTextWidget( m_pScene, tr, getOperationText(m_pScene), m_textId );
+            m_pFText = new FloatingTextWidget( umlScene(), tr, getOperationText(umlScene()), m_textId );
             if( ! m_pFText->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;
@@ -964,7 +969,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
 
 ListPopupMenu* MessageWidget::setupPopupMenu() {
 
-    UMLWidget::setupPopupMenu( ); // will setup the menu in m_pMenu
+    NewUMLRectWidget::setupPopupMenu( ); // will setup the menu in m_pMenu
     ListPopupMenu* floatingtextSubMenu = m_pFText->setupPopupMenu();
     floatingtextSubMenu->setTitle( i18n( "Operation" ) );
 

@@ -38,7 +38,7 @@
 
 using namespace Uml;
 
-UMLWidgetController::UMLWidgetController(UMLWidget *widget)
+UMLWidgetController::UMLWidgetController(NewUMLRectWidget *widget)
 {
     m_widget = widget;
 
@@ -99,7 +99,7 @@ void UMLWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
 
     m_shiftPressed = false;
 
-    int count = m_widget->m_pScene->getSelectCount(true);
+    int count = m_widget->umlScene()->getSelectCount(true);
     if (me->button() == Qt::LeftButton) {
         if (m_widget->isSelected() && count > 1) {
             //Single selection is made in release event if the widget wasn't moved
@@ -180,7 +180,7 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         m_widget->adjustUnselectedAssocs(m_widget->getX(), m_widget->getY());
     }
 
-    foreach(UMLWidget* widget , m_selectedWidgetsList) {
+    foreach(NewUMLRectWidget* widget , m_selectedWidgetsList) {
 
         //UMLDoc* m_doc = UMLApp::app()->getDocument();
         //cmdMoveWidgetBy* cmd = new cmdMoveWidgetBy(widget,diffX,diffY);
@@ -192,13 +192,13 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     // Move any selected associations.
 
-    foreach(AssociationWidget* aw, m_widget->m_pScene->getSelectedAssocs()) {
+    foreach(AssociationWidget* aw, m_widget->umlScene()->getSelectedAssocs()) {
         if (aw->getSelected()) {
             aw->moveEntireAssoc(diffX, diffY);
         }
     }
 
-    m_widget->m_pScene->resizeCanvasToItems();
+    m_widget->umlScene()->resizeCanvasToItems();
     updateSelectionBounds(diffX, diffY);
 
 }
@@ -211,7 +211,7 @@ void UMLWidgetController::widgetMoved()
     //Ensure associations are updated (the timer could prevent the
     //adjustment in the last move event before the release)
 
-    foreach(UMLWidget* widget , m_selectedWidgetsList) {
+    foreach(NewUMLRectWidget* widget , m_selectedWidgetsList) {
 
         widget->adjustAssocs(widget->getX(), widget->getY());
     }
@@ -232,7 +232,7 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
             m_leftButtonDown = false;
 
             if (!m_moved && !m_resized) {
-                if (!m_shiftPressed && (m_widget->m_pScene->getSelectCount(true) > 1)) {
+                if (!m_shiftPressed && (m_widget->umlScene()->getSelectCount(true) > 1)) {
                     selectSingle(me);
                 } else if (!m_wasSelected) {
                     deselect(me);
@@ -250,7 +250,7 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 
                 if ((m_inMoveArea && wasPositionChanged()) ||
                         (m_inResizeArea && wasSizeChanged())) {
-                    m_widget->m_pDoc->setModified(true);
+                    m_widget->umlDoc()->setModified(true);
                 }
 
                 UMLApp::app()->getDocument()->writeToStatusBar(m_oldStatusBarMsg);
@@ -284,7 +284,7 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
     }
 
     //TODO Copied from old code. Does it really work as intended?
-    UMLWidget *bkgnd = m_widget->m_pScene->getWidgetAt(me->pos());
+    NewUMLRectWidget *bkgnd = m_widget->umlScene()->getWidgetAt(me->pos());
     if (bkgnd) {
         //uDebug() << "setting Z to " << bkgnd->getZ() + 1 << endl;
         m_widget->setZ(bkgnd->getZ() + 1);
@@ -293,7 +293,7 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
     }
 }
 
-UMLWidget* UMLWidgetController::getWidget()
+NewUMLRectWidget* UMLWidgetController::getWidget()
 {
     return m_widget;
 }
@@ -315,7 +315,7 @@ bool UMLWidgetController::isInResizeArea(QGraphicsSceneMouseEvent *me)
 
     //note The following directly represents the local position for the widget
     qreal x = me->pos().x(), y = me->pos().y();
-    if (m_widget->m_bResizable &&
+    if (m_widget->isResizable() &&
             x >= (m_widget->getWidth() - m) &&
             y >= (m_widget->getHeight() - m)) {
         m_widget->setCursor(getResizeCursor());
@@ -356,15 +356,15 @@ void UMLWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent *)
 
 void UMLWidgetController::resetSelection()
 {
-    m_widget->m_pScene->clearSelected();
-    m_widget->m_pScene->resetToolbar();
+    m_widget->umlScene()->clearSelected();
+    m_widget->umlScene()->resetToolbar();
     // The widget is already cleared from selection.
     m_wasSelected = false;
 }
 
 void UMLWidgetController::selectSingle(QGraphicsSceneMouseEvent *me)
 {
-    m_widget->m_pScene->clearSelected();
+    m_widget->umlScene()->clearSelected();
 
     //Adds the widget to the selected widgets list, but as it has been cleared
     //only the current widget is selected
@@ -373,7 +373,7 @@ void UMLWidgetController::selectSingle(QGraphicsSceneMouseEvent *me)
 
 void UMLWidgetController::selectMultiple(QGraphicsSceneMouseEvent *me)
 {
-    m_widget->m_pScene->setSelected(m_widget, me);
+    m_widget->umlScene()->setSelected(m_widget, me);
     //scene->setSelected also sets the widgets local status to selected.
     m_wasSelected = true;
 }
@@ -387,7 +387,7 @@ void UMLWidgetController::deselect(QGraphicsSceneMouseEvent *me)
 #if 0
     m_widget->m_bSelected = false;
     m_widget->setSelected(m_widget->isSelected());
-    m_widget->m_pScene->setSelected(m_widget, me);
+    m_widget->umlScene()->setSelected(m_widget, me);
     //m_wasSelected is false implicitly, no need to set it again
 #endif
 }
@@ -434,9 +434,9 @@ qreal UMLWidgetController::getOldH()
 
 void UMLWidgetController::setSelectionBounds()
 {
-    if (m_widget->m_pScene->getSelectCount() > 0) {
+    if (m_widget->umlScene()->getSelectCount() > 0) {
         m_selectedWidgetsList.clear();
-        m_widget->m_pScene->getSelectedWidgets(m_selectedWidgetsList, false);
+        m_widget->umlScene()->getSelectedWidgets(m_selectedWidgetsList, false);
 
         updateSelectionBounds(1, 1);
     }
@@ -476,7 +476,7 @@ void UMLWidgetController::resize(QGraphicsSceneMouseEvent *me)
     resizeWidget(newW, newH);
     m_widget->adjustAssocs(m_widget->getX(), m_widget->getY());
 
-    m_widget->m_pScene->resizeCanvasToItems();
+    m_widget->umlScene()->resizeCanvasToItems();
 }
 
 //TODO refactor with AlignToolbar method.
@@ -484,7 +484,7 @@ qreal UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList)
 {
     qreal smallestX = 0;
     int i = 1;
-    foreach(UMLWidget* widget , widgetList) {
+    foreach(NewUMLRectWidget* widget , widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;
@@ -504,7 +504,7 @@ qreal UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList)
 {
     qreal smallestY = 0;
     int i = 1;
-    foreach(UMLWidget* widget , widgetList) {
+    foreach(NewUMLRectWidget* widget , widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;
@@ -526,7 +526,7 @@ qreal UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList)
     qreal biggestX = 0;
 
     int i = 1;
-    foreach(UMLWidget* widget , widgetList) {
+    foreach(NewUMLRectWidget* widget , widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;
@@ -547,7 +547,7 @@ qreal UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
 {
     qreal biggestY = 0;
     int i = 1;
-    foreach(UMLWidget* widget , widgetList) {
+    foreach(NewUMLRectWidget* widget , widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;
@@ -580,8 +580,8 @@ QPointF UMLWidgetController::getPosition(QGraphicsSceneMouseEvent* me)
     qreal newX = x + m_widget->getX() - m_prevX - m_pressOffsetX;
     qreal newY = y + m_widget->getY() - m_prevY - m_pressOffsetY;
 
-    qreal maxX = m_widget->m_pScene->width();
-    qreal maxY = m_widget->m_pScene->height();
+    qreal maxX = m_widget->umlScene()->width();
+    qreal maxY = m_widget->umlScene()->height();
 
     m_prevX = newX;
     m_prevY = newY;

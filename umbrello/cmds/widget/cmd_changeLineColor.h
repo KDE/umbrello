@@ -22,14 +22,14 @@ namespace Uml
     {
     public:
         //cmdChangeLineColor(UMLView *view, QColor col);
-        cmdChangeLineColor(UMLWidget *w, const QColor& col);
+        cmdChangeLineColor(NewUMLRectWidget *w, const QColor& col);
         ~cmdChangeLineColor();
         void redo();
         void undo();
 
             private:
 
-                UMLWidget *UMLw;
+                NewUMLRectWidget *UMLw;
                 //MLView *pView;
 
                 /* ancienne couleur */

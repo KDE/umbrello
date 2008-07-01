@@ -41,7 +41,7 @@ namespace Widget_Utils
      * @param pMessages     Optional pointer to a MessageWidgetList to
      *                      search in.
      */
-    UMLWidget* findWidget(Uml::IDType id,
+    NewUMLRectWidget* findWidget(Uml::IDType id,
                           const UMLWidgetList& widgets,
                           const MessageWidgetList* pMessages = NULL);
 

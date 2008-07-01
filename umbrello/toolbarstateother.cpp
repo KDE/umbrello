@@ -93,7 +93,7 @@ Uml::Object_Type ToolBarStateOther::getObjectType()
 // TODO: The name is a bit confusing.
 bool ToolBarStateOther::newWidget()
 {
-    UMLWidget* umlWidget = NULL;
+    NewUMLRectWidget* umlWidget = NULL;
 
     switch (getButton()) {
         case WorkToolBar::tbb_Note:

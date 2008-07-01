@@ -21,7 +21,7 @@
 #define REGION_WIDTH 90
 #define REGION_HEIGHT 45
 
-class RegionWidget: public UMLWidget {
+class RegionWidget: public NewUMLRectWidget {
     Q_OBJECT
 public:
 
@@ -66,7 +66,7 @@ public:
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 

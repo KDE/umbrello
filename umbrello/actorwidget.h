@@ -30,17 +30,17 @@ class UMLActor;
  * If the UMLActor class that this ActorWidget is displaying is deleted, the
  * @ref UMLView will make sure that this instance is also deleted.
  *
- * The ActorWidget class inherits from the @ref UMLWidget class which adds most
+ * The ActorWidget class inherits from the @ref NewUMLRectWidget class which adds most
  * of the functionality to this class.
  *
  * @short A graphical version of a UML Actor.
  * @author Paul Hensgen <phensgen@techie.com>
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * @see UMLView
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class ActorWidget : public UMLWidget {
+class ActorWidget : public NewUMLRectWidget {
 public:
 
     /**
@@ -70,7 +70,7 @@ public:
 
 protected:
     /**
-     * Overrides method from UMLWidget.
+     * Overrides method from NewUMLRectWidget.
      */
     QSizeF calculateSize();
 };

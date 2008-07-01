@@ -355,14 +355,14 @@ set(libumbrello_SRCS
    umlviewimageexporter.cpp
    umlviewimageexporterall.cpp
    umlviewimageexportermodel.cpp
-   umlwidget.cpp
+   #umlwidget.cpp
    umlwidgetcontroller.cpp
    uniqueid.cpp
    uniqueconstraint.cpp
    usecase.cpp
    usecasewidget.cpp
    widgethandle.cpp
-   widgetbase.cpp
+#   widgetbase.cpp
    widget_factory.cpp
    widget_utils.cpp
    worktoolbar.cpp

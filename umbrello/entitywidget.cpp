@@ -31,16 +31,16 @@
 #include "object_factory.h"
 
 
-EntityWidget::EntityWidget(UMLScene* scene, UMLObject* o): UMLWidget(scene, o) {
+EntityWidget::EntityWidget(UMLScene* scene, UMLObject* o): NewUMLRectWidget(scene, o) {
     init();
 }
 
 void EntityWidget::init() {
-    UMLWidget::setBaseType(Uml::wt_Entity);
+    NewUMLRectWidget::setBaseType(Uml::wt_Entity);
     setSize(100, 30);
 
     //set defaults from m_pView
-    if (m_pScene) {
+    if (umlScene()) {
         //check to see if correct
         //const Settings::OptionState& ops = m_pView->getOptionState();
     }
@@ -56,8 +56,8 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
 	qreal offsetX = 0, offsetY = 0;
 
     setPenFromSettings(p);
-    if(UMLWidget::getUseFillColour())
-        p.setBrush(UMLWidget::getFillColour());
+    if(NewUMLRectWidget::getUseFillColour())
+        p.setBrush(NewUMLRectWidget::getFillColour());
     else {
         // [PORT] StyleOption
         // p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
@@ -73,15 +73,15 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
     p.drawRect(offsetX, offsetY, w, h);
     p.setPen(QPen(Qt::black));
 
-    QFont font = UMLWidget::getFont();
+    QFont font = NewUMLRectWidget::getFont();
     font.setBold(true);
     p.setFont(font);
     qreal y = 0;
-    if ( !m_pObject->getStereotype().isEmpty() ) {
+    if ( !umlObject()->getStereotype().isEmpty() ) {
         p.drawText(offsetX + ENTITY_MARGIN, offsetY,
                    w - ENTITY_MARGIN * 2,fontHeight,
-                   Qt::AlignCenter, m_pObject->getStereotype(true));
-        font.setItalic( m_pObject->getAbstract() );
+                   Qt::AlignCenter, umlObject()->getStereotype(true));
+        font.setItalic( umlObject()->getAbstract() );
         p.setFont(font);
         p.drawText(offsetX + ENTITY_MARGIN, offsetY + fontHeight,
                    w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
@@ -90,7 +90,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
         p.setFont(font);
         y = fontHeight * 2;
     } else {
-        font.setItalic( m_pObject->getAbstract() );
+        font.setItalic( umlObject()->getAbstract() );
         p.setFont(font);
         p.drawText(offsetX + ENTITY_MARGIN, offsetY,
                    w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
@@ -106,7 +106,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
     p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
 
     QFontMetrics fontMetrics(font);
-    UMLClassifier *classifier = (UMLClassifier*)m_pObject;
+    UMLClassifier *classifier = (UMLClassifier*)umlObject();
     UMLClassifierListItem* entityattribute = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
     foreach (entityattribute , list ) {
@@ -131,12 +131,12 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
 }
 
 QSizeF EntityWidget::calculateSize() {
-    if (!m_pObject) {
-        return UMLWidget::calculateSize();
+    if (!umlObject()) {
+        return NewUMLRectWidget::calculateSize();
     }
 
     qreal width, height;
-    QFont font = UMLWidget::getFont();
+    QFont font = NewUMLRectWidget::getFont();
     font.setItalic(false);
     font.setUnderline(false);
     font.setBold(false);
@@ -145,11 +145,11 @@ QSizeF EntityWidget::calculateSize() {
     const qreal fontHeight = fm.lineSpacing();
 
     int lines = 1;//always have one line - for name
-    if ( !m_pObject->getStereotype().isEmpty() ) {
+    if ( !umlObject()->getStereotype().isEmpty() ) {
         lines++;
     }
 
-    const int numberOfEntityAttributes = ((UMLEntity*)m_pObject)->entityAttributes();
+    const int numberOfEntityAttributes = ((UMLEntity*)umlObject())->entityAttributes();
 
     height = width = 0;
     //set the height of the entity
@@ -164,14 +164,14 @@ QSizeF EntityWidget::calculateSize() {
     //now set the width of the concept
     //set width to name to start with
     // FIXME spaces to get round beastie with font width,
-    // investigate UMLWidget::getFontMetrics()
+    // investigate NewUMLRectWidget::getFontMetrics()
     width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(' ' + getName() + ' ').width();
 
-    const qreal w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
+    const qreal w = getFontMetrics(FT_BOLD).boundingRect(umlObject()->getStereotype(true)).width();
 
     width = w > width?w:width;
 
-    UMLClassifier* classifier = (UMLClassifier*)m_pObject;
+    UMLClassifier* classifier = (UMLClassifier*)umlObject();
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
     UMLClassifierListItem* listItem = 0;
     foreach (listItem , list ) {
@@ -189,7 +189,7 @@ void EntityWidget::slotMenuSelection(QAction* action) {
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_EntityAttribute:
-        if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
+        if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),
                                               Uml::ot_EntityAttribute) )  {
             UMLApp::app()->getDocument()->setModified();
         }
@@ -197,19 +197,19 @@ void EntityWidget::slotMenuSelection(QAction* action) {
 
     case ListPopupMenu::mt_PrimaryKeyConstraint:
     case ListPopupMenu::mt_UniqueConstraint:
-        if ( UMLObject* obj = Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
+        if ( UMLObject* obj = Object_Factory::createChildObject(static_cast<UMLEntity*>(umlObject()),
                                                Uml::ot_UniqueConstraint) ) {
             UMLApp::app()->getDocument()->setModified();
 
             if ( sel == ListPopupMenu::mt_PrimaryKeyConstraint ) {
                 UMLUniqueConstraint* uc = static_cast<UMLUniqueConstraint*>(obj);
-                static_cast<UMLEntity*>(m_pObject)->setAsPrimaryKey(uc);
+                static_cast<UMLEntity*>(umlObject())->setAsPrimaryKey(uc);
             }
         }
         break;
 
     case ListPopupMenu::mt_ForeignKeyConstraint:
-         if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
+         if (Object_Factory::createChildObject(static_cast<UMLEntity*>(umlObject()),
                                                Uml::ot_ForeignKeyConstraint) ) {
              UMLApp::app()->getDocument()->setModified();
 
@@ -217,7 +217,7 @@ void EntityWidget::slotMenuSelection(QAction* action) {
         break;
 
     case ListPopupMenu::mt_CheckConstraint:
-         if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
+         if (Object_Factory::createChildObject(static_cast<UMLEntity*>(umlObject()),
                                                Uml::ot_CheckConstraint) ) {
              UMLApp::app()->getDocument()->setModified();
 
@@ -225,19 +225,19 @@ void EntityWidget::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 
 }
 
 void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {
     QDomElement conceptElement = qDoc.createElement("entitywidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
 bool EntityWidget::loadFromXMI( QDomElement & qElement ) {
-    if ( !UMLWidget::loadFromXMI(qElement) ) {
+    if ( !NewUMLRectWidget::loadFromXMI(qElement) ) {
         return false;
     }
     return true;

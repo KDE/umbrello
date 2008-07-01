@@ -23,22 +23,22 @@
 
 
 ComponentWidget::ComponentWidget(UMLScene * scene, UMLComponent *c)
-  : UMLWidget(scene, c) {
+  : NewUMLRectWidget(scene, c) {
     init();
 }
 
 void ComponentWidget::init() {
-    UMLWidget::setBaseType(Uml::wt_Component);
+    NewUMLRectWidget::setBaseType(Uml::wt_Component);
     setSize(100, 30);
     m_pMenu = 0;
-    //set defaults from m_pScene
-    if (m_pScene) {
+    //set defaults from umlScene()
+    if (umlScene()) {
         //check to see if correct
-        const Settings::OptionState& ops = m_pScene->getOptionState();
-        m_bShowStereotype = ops.classState.showStereoType;
+        const Settings::OptionState& ops = umlScene()->getOptionState();
+        setShowStereotype(ops.classState.showStereoType);
     }
     //maybe loading and this may not be set.
-    if (m_pObject) {
+    if (umlObject()) {
         updateComponentSize();
         update();
     }
@@ -51,7 +51,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 	QPainter &p = *painter;
 	qreal offsetX = 0, offsetY = 0;
 
-    UMLComponent *umlcomp = static_cast<UMLComponent*>(m_pObject);
+    UMLComponent *umlcomp = static_cast<UMLComponent*>(umlObject());
     if (umlcomp == NULL)
         return;
     setPenFromSettings(p);
@@ -60,21 +60,21 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         thickerPen.setWidth(2);
         p.setPen(thickerPen);
     }
-    if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+    if ( NewUMLRectWidget::getUseFillColour() ) {
+        p.setBrush( NewUMLRectWidget::getFillColour() );
     } else {
         // [PORT] Replace with styleoption based code.
-        //p.setBrush( m_pScene->viewport()->palette().color(QPalette::Background) );
+        //p.setBrush( umlScene()->viewport()->palette().color(QPalette::Background) );
     }
 
     const qreal w = getWidth();
     const qreal h = getHeight();
-    QFont font = UMLWidget::getFont();
+    QFont font = NewUMLRectWidget::getFont();
     font.setBold(true);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const qreal fontHeight = fm.lineSpacing();
     QString name = getName();
-    const QString stereotype = m_pObject->getStereotype();
+    const QString stereotype = umlObject()->getStereotype();
 
     p.drawRect(offsetX + 2*COMPONENT_MARGIN, offsetY, w - 2*COMPONENT_MARGIN, h);
     p.drawRect(offsetX, offsetY + h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
@@ -88,14 +88,14 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     if (!stereotype.isEmpty()) {
         p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - fontHeight,
                    w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter,
-                   m_pObject->getStereotype(true));
+                   umlObject()->getStereotype(true));
         lines = 2;
     }
 
-    if ( UMLWidget::getIsInstance() ) {
+    if ( NewUMLRectWidget::getIsInstance() ) {
         font.setUnderline(true);
         p.setFont(font);
-        name = UMLWidget::getInstanceName() + " : " + name;
+        name = NewUMLRectWidget::getInstanceName() + " : " + name;
     }
 
     if (lines == 1) {
@@ -113,22 +113,22 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
 QSizeF ComponentWidget::calculateSize()
 {
-    if ( !m_pObject) {
+    if ( !umlObject()) {
         return QSizeF(70, 70);
     }
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const qreal fontHeight = fm.lineSpacing();
 
-    QString name = m_pObject->getName();
-    if ( UMLWidget::getIsInstance() ) {
-        name = UMLWidget::getInstanceName() + " : " + name;
+    QString name = umlObject()->getName();
+    if ( NewUMLRectWidget::getIsInstance() ) {
+        name = NewUMLRectWidget::getInstanceName() + " : " + name;
     }
 
     qreal width = fm.width(name);
 
     qreal stereoWidth = 0;
-    if (!m_pObject->getStereotype().isEmpty()) {
-        stereoWidth = fm.width(m_pObject->getStereotype(true));
+    if (!umlObject()->getStereotype().isEmpty()) {
+        stereoWidth = fm.width(umlObject()->getStereotype(true));
     }
     if (stereoWidth > width)
         width = stereoWidth;
@@ -143,7 +143,7 @@ QSizeF ComponentWidget::calculateSize()
 void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement("componentwidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

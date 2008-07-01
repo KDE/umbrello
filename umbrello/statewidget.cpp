@@ -31,8 +31,8 @@
 #include "umlscene.h"
 
 StateWidget::StateWidget(UMLScene * view, StateType stateType, Uml::IDType id)
-        : UMLWidget(view, id) {
-    UMLWidget::setBaseType(Uml::wt_State);
+        : NewUMLRectWidget(view, id) {
+    NewUMLRectWidget::setBaseType(Uml::wt_State);
     m_StateType = stateType;
     m_Text = "State";
     updateComponentSize();
@@ -51,8 +51,8 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QW
     switch (m_StateType)
     {
     case Normal :
-        if(UMLWidget::getUseFillColour())
-            p.setBrush(UMLWidget::getFillColour());
+        if(NewUMLRectWidget::getUseFillColour())
+            p.setBrush(NewUMLRectWidget::getFillColour());
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
@@ -61,7 +61,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QW
             if( count == 0 ) {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
                 p.setPen(Qt::black);
-                QFont font = UMLWidget::getFont();
+                QFont font = NewUMLRectWidget::getFont();
                 font.setBold( false );
                 p.setFont( font );
                 p.drawText(offsetX + STATE_MARGIN, offsetY + textStartY,
@@ -72,7 +72,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QW
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
                 textStartY = offsetY + STATE_MARGIN;
                 p.setPen(Qt::black);
-                QFont font = UMLWidget::getFont();
+                QFont font = NewUMLRectWidget::getFont();
                 font.setBold( true );
                 p.setFont( font );
                 p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2,
@@ -96,15 +96,15 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QW
         }
         break;
     case Initial :
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( NewUMLWidget::getLineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         break;
     case End :
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( NewUMLWidget::getLineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         p.setBrush( Qt::white );
         p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( NewUMLWidget::getLineColor() );
         p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
         break;
     default:
@@ -183,7 +183,7 @@ void StateWidget::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 
@@ -221,7 +221,7 @@ void StateWidget::showProperties() {
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    StateDialog dialog(m_pScene->activeView(), this);
+    StateDialog dialog(umlScene()->activeView(), this);
     if (dialog.exec() && dialog.getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
@@ -250,9 +250,9 @@ bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultTyp
 
 void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement stateElement = qDoc.createElement( "statewidget" );
-    UMLWidget::saveToXMI( qDoc, stateElement );
+    NewUMLRectWidget::saveToXMI( qDoc, stateElement );
     stateElement.setAttribute( "statename", m_Text );
-    stateElement.setAttribute( "documentation", m_Doc );
+    stateElement.setAttribute( "documentation", documentation() );
     stateElement.setAttribute( "statetype", m_StateType );
     //save states activities
     QDomElement activitiesElement = qDoc.createElement( "Activities" );
@@ -268,10 +268,10 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool StateWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "statename", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
+    setDocumentation(qElement.attribute( "documentation", "" ));
     QString type = qElement.attribute( "statetype", "1" );
     m_StateType = (StateType)type.toInt();
     //load states activities

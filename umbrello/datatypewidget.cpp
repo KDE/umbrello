@@ -27,14 +27,14 @@
 
 #define CIRCLE_SIZE 30
 
-DatatypeWidget::DatatypeWidget(UMLScene* scene, UMLClassifier *d) : UMLWidget(scene, d) {
+DatatypeWidget::DatatypeWidget(UMLScene* scene, UMLClassifier *d) : NewUMLRectWidget(scene, d) {
     init();
 }
 
 DatatypeWidget::~DatatypeWidget() {}
 
 void DatatypeWidget::init() {
-    UMLWidget::setBaseType(Uml::wt_Datatype);
+    NewUMLRectWidget::setBaseType(Uml::wt_Datatype);
     setSize(100, 30);
     m_pMenu = 0;
 }
@@ -45,8 +45,8 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
 	qreal offsetX = 0, offsetY = 0;
 
     setPenFromSettings(p);
-    if (UMLWidget::getUseFillColour())  {
-        p.setBrush(UMLWidget::getFillColour());
+    if (NewUMLRectWidget::getUseFillColour())  {
+        p.setBrush(NewUMLRectWidget::getFillColour());
     } else {
         // [PORT] Replace with styleOption based code
         //p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
@@ -62,14 +62,14 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
     p.drawRect(offsetX, offsetY, w, h);
     p.setPen(QPen(Qt::black));
 
-    QFont font = UMLWidget::getFont();
+    QFont font = NewUMLRectWidget::getFont();
     font.setBold(true);
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY,
                w - DATATYPE_MARGIN* 2,fontHeight,
-               Qt::AlignCenter, m_pObject->getStereotype(true));
+               Qt::AlignCenter, umlObject()->getStereotype(true));
 
-    font.setItalic( m_pObject->getAbstract() );
+    font.setItalic( umlObject()->getAbstract() );
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY + fontHeight,
                w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
@@ -80,8 +80,8 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
 }
 
 QSizeF DatatypeWidget::calculateSize() {
-    if (!m_pObject)  {
-        return UMLWidget::calculateSize();
+    if (!umlObject())  {
+        return NewUMLRectWidget::calculateSize();
     }
     qreal width, height;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -96,8 +96,8 @@ QSizeF DatatypeWidget::calculateSize() {
     //now set the width of the concept
     //set width to name to start with
     //set width to name to start with
-    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getFullyQualifiedName()).width();
-    qreal w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
+    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(umlObject()->getFullyQualifiedName()).width();
+    qreal w = getFontMetrics(FT_BOLD).boundingRect(umlObject()->getStereotype(true)).width();
 
     width = w > width?w:width;
 
@@ -109,11 +109,11 @@ QSizeF DatatypeWidget::calculateSize() {
 
 void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement conceptElement = qDoc.createElement("datatypewidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
 bool DatatypeWidget::loadFromXMI( QDomElement & qElement ) {
-    return UMLWidget::loadFromXMI(qElement);
+    return NewUMLRectWidget::loadFromXMI(qElement);
 }
 

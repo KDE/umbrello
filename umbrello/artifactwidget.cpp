@@ -22,7 +22,7 @@
 #include "umlview.h"
 
 
-ArtifactWidget::ArtifactWidget(UMLScene *scene, UMLArtifact *a) : UMLWidget(scene, a) {
+ArtifactWidget::ArtifactWidget(UMLScene *scene, UMLArtifact *a) : NewUMLRectWidget(scene, a) {
     init();
     setSize(100, 30);
     updateComponentSize();
@@ -30,7 +30,7 @@ ArtifactWidget::ArtifactWidget(UMLScene *scene, UMLArtifact *a) : UMLWidget(scen
 
 
 void ArtifactWidget::init() {
-    UMLWidget::setBaseType( Uml::wt_Artifact );
+    NewUMLRectWidget::setBaseType( Uml::wt_Artifact );
     m_pMenu = 0;
 }
 
@@ -40,12 +40,12 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
 {
     qreal w = getWidth();
     qreal h = getHeight();
-    QFont font = UMLWidget::getFont();
+    QFont font = NewUMLRectWidget::getFont();
     font.setBold(true);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const qreal fontHeight  = fm.lineSpacing();
     QString name = getName();
-    QString stereotype = m_pObject->getStereotype();
+    QString stereotype = umlObject()->getStereotype();
 
     p.drawRect(offsetX, offsetY, w, h);
 
@@ -54,7 +54,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
 
     if (!stereotype.isEmpty()) {
         p.drawText(offsetX + ARTIFACT_MARGIN, offsetY + (h/2) - fontHeight,
-                   w, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
+                   w, fontHeight, Qt::AlignCenter, umlObject()->getStereotype(true));
     }
 
     int lines;
@@ -80,7 +80,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
 void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
     const qreal w = getWidth();
     const qreal h = getHeight();
-    QFont font = UMLWidget::getFont();
+    QFont font = NewUMLRectWidget::getFont();
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     const QString name = getName();
@@ -114,7 +114,7 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
     //FIXME this should have gears on it
     const qreal w = getWidth();
     const qreal h = getHeight();
-    const QFont font = UMLWidget::getFont();
+    const QFont font = NewUMLRectWidget::getFont();
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     const QString name = getName();
@@ -147,7 +147,7 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
 void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
     const qreal w = getWidth();
     const qreal h = getHeight();
-    const QFont font = UMLWidget::getFont();
+    const QFont font = NewUMLRectWidget::getFont();
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const qreal fontHeight  = fm.lineSpacing();
     const QString name = getName();
@@ -185,15 +185,15 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
 	QPainter &p = *painter;
 	qreal offsetX = 0, offsetY = 0;
 
-    UMLWidget::setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+    NewUMLRectWidget::setPenFromSettings(p);
+    if ( NewUMLRectWidget::getUseFillColour() ) {
+        p.setBrush( NewUMLRectWidget::getFillColour() );
     } else {
         // [PORT] Use styleoption here.
         //p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
     }
 
-    UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);
+    UMLArtifact *umlart = static_cast<UMLArtifact*>(umlObject());
     UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
     switch (drawType) {
     case UMLArtifact::defaultDraw:
@@ -219,7 +219,7 @@ QSizeF ArtifactWidget::calculateIconSize()
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    int width = fm.width( m_pObject->getName() );
+    int width = fm.width( umlObject()->getName() );
 
     width = width<50 ? 50 : width;
 
@@ -233,11 +233,11 @@ QSizeF ArtifactWidget::calculateNormalSize()
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    int width = fm.width( m_pObject->getName() );
+    int width = fm.width( umlObject()->getName() );
 
     int tempWidth = 0;
-    if(!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width( m_pObject->getStereotype(true) );
+    if(!umlObject()->getStereotype().isEmpty()) {
+        tempWidth = fm.width( umlObject()->getStereotype(true) );
     }
     width = tempWidth>width ? tempWidth : width;
     width += ARTIFACT_MARGIN * 2;
@@ -249,10 +249,10 @@ QSizeF ArtifactWidget::calculateNormalSize()
 
 QSizeF ArtifactWidget::calculateSize()
 {
-    if ( !m_pObject) {
-        return UMLWidget::calculateSize();
+    if ( !umlObject()) {
+        return NewUMLRectWidget::calculateSize();
     }
-    UMLArtifact *umlart = static_cast<UMLArtifact*>(m_pObject);
+    UMLArtifact *umlart = static_cast<UMLArtifact*>(umlObject());
     if (umlart->getDrawAsType() == UMLArtifact::defaultDraw) {
         return calculateNormalSize();
     } else {
@@ -262,7 +262,7 @@ QSizeF ArtifactWidget::calculateSize()
 
 void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement conceptElement = qDoc.createElement("artifactwidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
+    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 

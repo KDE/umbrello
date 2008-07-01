@@ -26,10 +26,10 @@ class UMLView;
  *
  * @short Displays a box.
  * @author Jonathan Riddell
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class BoxWidget : public UMLWidget
+class BoxWidget : public NewUMLRectWidget
 {
 public:
 

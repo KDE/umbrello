@@ -39,28 +39,28 @@
 static const int sequenceLineMargin = 20;
 
 ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
-        : UMLWidget(scene, o) {
+        : NewUMLRectWidget(scene, o) {
     init();
     if( lid != Uml::id_None )
         m_nLocalID = lid;
     //updateComponentSize();
     //                  Doing this during loadFromXMI() gives futile updates.
-    //                  Instead, it is done afterwards by UMLWidget::activate()
+    //                  Instead, it is done afterwards by NewUMLRectWidget::activate()
 }
 
 void ObjectWidget::init() {
-    UMLWidget::setBaseType(Uml::wt_Object);
+    NewUMLRectWidget::setBaseType(Uml::wt_Object);
     m_nLocalID = Uml::id_None;
     m_InstanceName = "";
     m_bMultipleInstance = false;
     m_bDrawAsActor = false;
     m_bShowDestruction = false;
-    if( m_pScene != NULL && m_pScene->getType() == Uml::dt_Sequence ) {
-        m_pLine = new SeqLineWidget( m_pScene, this );
+    if( umlScene() != NULL && umlScene()->getType() == Uml::dt_Sequence ) {
+        m_pLine = new SeqLineWidget( umlScene(), this );
 
         //Sets specific widget controller for sequence diagrams
-        delete m_widgetController;
-        m_widgetController = new ObjectWidgetController(this);
+        // delete m_widgetController;
+        // m_widgetController = 0;// [PORT] new ObjectWidgetController(this);
     } else {
         m_pLine = NULL;
     }
@@ -95,7 +95,7 @@ void ObjectWidget::slotMenuSelection(QAction* action) {
                     i18n("Enter object name:"),
                     m_InstanceName,
                     &ok,
-                    m_pScene->activeView(),
+                    umlScene()->activeView(),
                     validator);
             if (ok) {
                 m_InstanceName = name;
@@ -123,7 +123,7 @@ void ObjectWidget::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
         break;
     }
 }
@@ -132,7 +132,7 @@ QSizeF ObjectWidget::calculateSize() {
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
     const int fontHeight  = fm.lineSpacing();
-    const QString t = m_InstanceName + " : " + m_pObject->getName();
+    const QString t = m_InstanceName + " : " + umlObject()->getName();
     const int textWidth = fm.width(t);
     if ( m_bDrawAsActor ) {
         width = textWidth > A_WIDTH?textWidth:A_WIDTH;
@@ -158,7 +158,7 @@ void ObjectWidget::setDrawAsActor( bool drawAsActor ) {
 
 void ObjectWidget::setMultipleInstance(bool multiple) {
     //make sure only calling this in relation to an object on a collab. diagram
-    if(m_pScene->getType() != Uml::dt_Collaboration)
+    if(umlScene()->getType() != Uml::dt_Collaboration)
         return;
     m_bMultipleInstance = multiple;
     updateComponentSize();
@@ -166,7 +166,7 @@ void ObjectWidget::setMultipleInstance(bool multiple) {
 }
 
 bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
-    if (! UMLWidget::activate(ChangeLog))
+    if (! NewUMLRectWidget::activate(ChangeLog))
         return false;
     if (m_bShowDestruction && m_pLine)
         m_pLine->setupDestructionBox();
@@ -175,18 +175,18 @@ bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
 }
 
 void ObjectWidget::setX(qreal x) {
-    UMLWidget::setX(x);
+    NewUMLRectWidget::setX(x);
     moveEvent(0);
 }
 
 void ObjectWidget::setY(qreal y) {
-    UMLWidget::setY(y);
+    NewUMLRectWidget::setY(y);
     moveEvent(0);
 }
 
 void ObjectWidget::moveEvent(QMoveEvent *m) {
-    Q_UNUSED(m)
-    emit sigWidgetMoved( m_nLocalID );
+    Q_UNUSED(m);
+    // [PORT] emit sigWidgetMoved( m_nLocalID );
     if (m_pLine) {
         const qreal x = getX();    // for debugging: gdb has a problem evaluating getX() etc
         const qreal w = getWidth();
@@ -197,16 +197,16 @@ void ObjectWidget::moveEvent(QMoveEvent *m) {
 }
 
 void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
-    UMLWidget::setFillColour( m_pScene->getFillColor() );
-    UMLWidget::setLineColor( m_pScene->getLineColor() );
+    NewUMLRectWidget::setFillColour( umlScene()->getFillColor() );
+    NewUMLRectWidget::setLineColor( umlScene()->getLineColor() );
 
     if( m_pLine)
-        m_pLine->setPen( QPen( UMLWidget::getLineColor(), UMLWidget::getLineWidth(), Qt::DashLine ) );
+        m_pLine->setPen( QPen( NewUMLRectWidget::getLineColor(), NewUMLRectWidget::getLineWidth(), Qt::DashLine ) );
 }
 
 void ObjectWidget::cleanup() {
 
-    UMLWidget::cleanup();
+    NewUMLRectWidget::cleanup();
     if( m_pLine ) {
         m_pLine->cleanup();
         delete m_pLine;
@@ -227,21 +227,21 @@ void ObjectWidget::showProperties() {
 void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
 
     QFont oldFont = p.font();
-    QFont font = UMLWidget::getFont();
+    QFont font = NewUMLRectWidget::getFont();
     font.setUnderline( true );
     p.setFont( font );
 
     setPenFromSettings(p);
-    if(UMLWidget::getUseFillColour())
-        p.setBrush(UMLWidget::getFillColour());
+    if(NewUMLRectWidget::getUseFillColour())
+        p.setBrush(NewUMLRectWidget::getFillColour());
     else {
         // [PORT]
-        // p.setBrush( m_pScene->viewport()->palette().color(QPalette::Background) );
+        // p.setBrush( umlScene()->viewport()->palette().color(QPalette::Background) );
     }
     const int w = getWidth();
     const int h = getHeight();
 
-    const QString t = m_InstanceName + " : " + m_pObject->getName();
+    const QString t = m_InstanceName + " : " + umlObject()->getName();
     int multiInstOfst = 0;
     if ( m_bMultipleInstance ) {
         p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
@@ -261,8 +261,8 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColour() );
+    if ( NewUMLRectWidget::getUseFillColour() )
+        p.setBrush( NewUMLRectWidget::getFillColour() );
     const int w = getWidth();
     const int textStartY = A_HEIGHT + A_MARGIN;
     const int fontHeight  = fm.lineSpacing();
@@ -281,7 +281,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
                middleX + A_WIDTH / 2, offsetY + thirdH + thirdH / 2);//arms
     //draw text
     p.setPen(QPen(Qt::black));
-    QString t = m_InstanceName + " : " + m_pObject->getName();
+    QString t = m_InstanceName + " : " + umlObject()->getName();
     p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
 }
@@ -376,7 +376,7 @@ SeqLineWidget *ObjectWidget::getSeqLine() {
 
 void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement objectElement = qDoc.createElement( "objectwidget" );
-    UMLWidget::saveToXMI( qDoc, objectElement );
+    NewUMLRectWidget::saveToXMI( qDoc, objectElement );
     objectElement.setAttribute( "instancename", m_InstanceName );
     objectElement.setAttribute( "drawasactor", m_bDrawAsActor );
     objectElement.setAttribute( "multipleinstance", m_bMultipleInstance );
@@ -386,7 +386,7 @@ void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 bool ObjectWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     m_InstanceName = qElement.attribute( "instancename", "" );
     QString draw = qElement.attribute( "drawasactor", "0" );

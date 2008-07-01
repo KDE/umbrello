@@ -29,10 +29,10 @@ class Q3TextEdit;
  *
  * @short Displays a note box.
  * @author Paul Hensgen <phensgen@techie.com>
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class NoteWidget : public UMLWidget {
+class NoteWidget : public NewUMLRectWidget {
     Q_OBJECT
 public:
     friend class NoteWidgetController;
@@ -73,7 +73,7 @@ public:
     void setNoteType( const QString& noteType );
 
     /**
-     * Overrides method from UMLWidget.
+     * Overrides method from NewUMLRectWidget.
      */
     QSizeF calculateSize();
 
@@ -113,24 +113,24 @@ public:
     void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     /**
-     * Override method from UMLWidget.
+     * Override method from NewUMLRectWidget.
      */
     void setFont(QFont font);
 
     /**
-     * Override method from UMLWidget.
+     * Override method from NewUMLRectWidget.
      */
     void setX(qreal x);
 
     /**
-     * Override method from UMLWidget.
+     * Override method from NewUMLRectWidget.
      */
     void setY(qreal y);
 
     /**
     * Display a dialogBox to allow the user to choose the note's type
     */
-    void askForNoteType(UMLWidget* &targetWidget);
+    void askForNoteType(NewUMLRectWidget* &targetWidget);
 
     /**
      * Saves to the "notewidget" XMI element.

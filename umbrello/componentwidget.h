@@ -24,10 +24,10 @@ class UMLComponent;
  *
  * @short A graphical version of a Component.
  * @author Jonathan Riddell
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ComponentWidget : public UMLWidget {
+class ComponentWidget : public NewUMLRectWidget {
 public:
 
     /**
@@ -55,7 +55,7 @@ public:
 
 protected:
     /**
-     * Overrides method from UMLWidget.
+     * Overrides method from NewUMLRectWidget.
      */
     QSizeF calculateSize();
 

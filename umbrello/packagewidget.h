@@ -24,10 +24,10 @@ class UMLPackage;
  *
  * @short A graphical version of a Package.
  * @author Jonathan Riddell
- * @see UMLWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PackageWidget : public UMLWidget {
+class PackageWidget : public NewUMLRectWidget {
 public:
 
     /**
@@ -55,7 +55,7 @@ public:
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 

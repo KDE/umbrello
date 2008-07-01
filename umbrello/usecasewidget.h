@@ -28,14 +28,14 @@ class UMLUseCase;
  * If the @ref UseCase class that this UseCaseWidget is displaying is deleted, the @ref UMLScene will
  * make sure that this instance is also deleted.
  *
- * The UseCaseWidget class inherits from the @ref UMLWidget class which adds most of the functionality
+ * The UseCaseWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
  * to this class.
  *
  * @short  A graphical version of a UMLUseCase.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UseCaseWidget : public UMLWidget {
+class UseCaseWidget : public NewUMLRectWidget {
 public:
 
     /**
@@ -62,11 +62,11 @@ public:
     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    // For loading we can use the loadFromXMI() inherited from UMLWidget.
+    // For loading we can use the loadFromXMI() inherited from NewUMLRectWidget.
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 };

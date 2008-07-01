@@ -484,7 +484,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data) {
     // [PORT]
     currentView->umlScene()->beginPartialWidgetPaste();
 
-    foreach ( UMLWidget* widget, widgets ) {
+    foreach ( NewUMLRectWidget* widget, widgets ) {
 
         Uml::IDType oldId = widget->getID();
         Uml::IDType newId = idchanges->findNewID(oldId);
@@ -686,7 +686,7 @@ bool UMLClipboard::insertItemChildren( UMLListViewItem * item ) {
 bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
     bool retval = true;
 
-    foreach ( UMLWidget* p, widgetList ) {
+    foreach ( NewUMLRectWidget* p, widgetList ) {
         switch( p->getBaseType() ) {
         case Uml::wt_Note:
             break;

@@ -43,7 +43,7 @@ bool allowAssociation( Association_Type/* assocType*/, const std::type_info/* &t
 
 }
 
-bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * widget ) {
+bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWidget * widget ) {
     Widget_Type widgetType = widget->getBaseType();
     bool bValid = false;
     for (int i = 0; i < m_nNumRules; i++) {
@@ -129,7 +129,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
 // when we know what we are going to connect both ends of the association to, we can
 // use this method.
 bool AssocRules::allowAssociation( Uml::Association_Type assocType,
-                                   UMLWidget * widgetA, UMLWidget * widgetB,
+                                   NewUMLRectWidget * widgetA, NewUMLRectWidget * widgetB,
                                    bool extendedCheck ) {
     Widget_Type widgetTypeA = widgetA->getBaseType();
     Widget_Type widgetTypeB = widgetB->getBaseType();
@@ -309,7 +309,7 @@ bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type wi
     return false;
 }
 
-Uml::Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB) {
+Uml::Association_Type AssocRules::isGeneralisationOrRealisation(NewUMLRectWidget* widgetA, NewUMLRectWidget* widgetB) {
     Widget_Type widgetTypeA = widgetA->getBaseType();
     Widget_Type widgetTypeB = widgetB->getBaseType();
     for (int i = 0; i < m_nNumRules; i++) {

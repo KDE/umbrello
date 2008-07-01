@@ -17,7 +17,7 @@
 // forward declarations
 class UMLView;
 class UMLObject;
-class UMLWidget;
+class NewUMLRectWidget;
 class UMLScene;
 /**
  * Widget factory methods.
@@ -26,14 +26,14 @@ class UMLScene;
 namespace Widget_Factory {
 
     /**
-     * Create a UMLWidget in the given view and representing the given document object.
+     * Create a NewUMLRectWidget in the given view and representing the given document object.
      */
-    UMLWidget *createWidget(UMLScene *scene, UMLObject *docObj);
+    NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *docObj);
 
     /**
-     * Create a UMLWidget according to the given XMI tag.
+     * Create a NewUMLRectWidget according to the given XMI tag.
      */
-    UMLWidget* makeWidgetFromXMI(const QString& tag,
+    NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
                                  const QString& idStr, UMLScene *scene);
 
 }   // end namespace Widget_Factory

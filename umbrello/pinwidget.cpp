@@ -34,8 +34,8 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPolygon>
 
-PinWidget::PinWidget(UMLScene * scene, UMLWidget* a, Uml::IDType id ):
-    UMLWidget(scene, id)
+PinWidget::PinWidget(UMLScene * scene, NewUMLRectWidget* a, Uml::IDType id ):
+    NewUMLRectWidget(scene, id)
 {
 
     init();
@@ -49,16 +49,16 @@ PinWidget::PinWidget(UMLScene * scene, UMLWidget* a, Uml::IDType id ):
     scene->setupNewWidget(m_pName);
     m_pName->setX(0);
     m_pName->setY(0);
-    this->activate();
+    this->activate(0);
 }
 
 PinWidget::~PinWidget() {}
 
 void PinWidget::init() {
-    UMLWidget::setBaseType(Uml::wt_Pin);
-    m_bIgnoreSnapToGrid = true;
-    m_bIgnoreSnapComponentSizeToGrid = true;
-    m_bResizable =  false ;
+    NewUMLRectWidget::setBaseType(Uml::wt_Pin);
+    setIgnoreSnapToGrid(true);
+    setIgnoreSnapComponentSizeToGrid(true);
+    setResizable(false);
     m_pOw = NULL;
     m_nY = 0;
     setVisible(true);
@@ -136,8 +136,8 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWid
 
 
     setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+    if ( NewUMLRectWidget::getUseFillColour() ) {
+        p.setBrush( NewUMLRectWidget::getFillColour() );
     }
     p.drawRect(x,y,w, h);
     //make sure it's always above the other
@@ -169,7 +169,7 @@ qreal PinWidget::getMinY() {
 }
 
 void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me) {
-    UMLWidget::mouseMoveEvent(me);
+    NewUMLRectWidget::mouseMoveEvent(me);
     qreal diffX = m_oldX - getX();
     qreal diffY = m_oldY - getY();
     if (m_pName!=NULL && !( m_pName->getText() ).isEmpty()) {
@@ -191,7 +191,7 @@ void PinWidget::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        UMLWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 
@@ -199,7 +199,7 @@ void PinWidget::slotMenuSelection(QAction* action) {
 void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
     PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->getID()) );
-    UMLWidget::saveToXMI( qDoc, PinElement );
+    NewUMLRectWidget::saveToXMI( qDoc, PinElement );
     if (m_pName && !m_pName->getText().isEmpty()) {
         PinElement.setAttribute( "textid", ID2STR(m_pName->getID()) );
         m_pName->saveToXMI( qDoc, PinElement );
@@ -209,13 +209,13 @@ void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 
 
 bool PinWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 
     Uml::IDType aId = STR2ID(widgetaid);
 
-    UMLWidget *pWA = m_pScene->findWidget( aId );
+    NewUMLRectWidget *pWA = umlScene()->findWidget( aId );
     if (pWA == NULL) {
         uDebug() << "role A object " << ID2STR(aId) << " not found" << endl;
         return false;
@@ -226,7 +226,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     QString textid = qElement.attribute( "textid", "-1" );
     Uml::IDType textId = STR2ID(textid);
     if (textId != Uml::id_None) {
-        UMLWidget *flotext = m_pScene->findWidget( textId );
+        NewUMLRectWidget *flotext = umlScene()->findWidget( textId );
         if (flotext != NULL) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
@@ -244,7 +244,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( m_pScene,Uml::tr_Floating,m_Text, textId );
+            m_pName = new FloatingTextWidget( umlScene(),Uml::tr_Floating,m_Text, textId );
             if( ! m_pName->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;

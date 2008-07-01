@@ -21,7 +21,7 @@
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLWidget;
+class NewUMLRectWidget;
 class KColorButton;
 class QLabel;
 class QPushButton;
@@ -33,9 +33,9 @@ class UMLWidgetColorPage : public QWidget {
 public:
 
     /**
-    *   Constructor - Observe a UMLWidget
+    *   Constructor - Observe a NewUMLRectWidget
     */
-    UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget );
+    UMLWidgetColorPage( QWidget * pParent, NewUMLRectWidget * pWidget );
 
     /**
     *   Constructor - Observe an OptionState structure
@@ -48,7 +48,7 @@ public:
     virtual ~UMLWidgetColorPage();
 
     /**
-    *   Updates the @ref UMLWidget with the dialog properties.
+    *   Updates the @ref NewUMLRectWidget with the dialog properties.
     */
     void updateUMLWidget();
 
@@ -69,7 +69,7 @@ protected:
     /**
     *   The widget to set the color for.
     */
-    UMLWidget * m_pUMLWidget;
+    NewUMLRectWidget * m_pUMLWidget;
 
     Settings::OptionState *m_options;
 

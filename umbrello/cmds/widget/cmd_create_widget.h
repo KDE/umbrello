@@ -22,7 +22,7 @@ namespace Uml
     class cmdCreateWidget : public QUndoCommand
     {
         public:
-            cmdCreateWidget(UMLView* view, UMLWidget* w);
+            cmdCreateWidget(UMLView* view, NewUMLRectWidget* w);
             ~cmdCreateWidget();
 
             void redo();
@@ -30,7 +30,7 @@ namespace Uml
 
         private:
             UMLView*    m_view;
-            UMLWidget*  m_widget;
+            NewUMLRectWidget*  m_widget;
     };
 }
 

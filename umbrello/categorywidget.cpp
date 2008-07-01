@@ -19,11 +19,11 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 
-CategoryWidget::CategoryWidget(UMLScene * scene, UMLCategory *o) : UMLWidget(scene, o)
+CategoryWidget::CategoryWidget(UMLScene * scene, UMLCategory *o) : NewUMLRectWidget(scene, o)
 {
-    UMLWidget::setBaseType(Uml::wt_Category);
+    NewUMLRectWidget::setBaseType(Uml::wt_Category);
     //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
-    //                  Instead, it is done afterwards by UMLWidget::activate()
+    //                  Instead, it is done afterwards by NewUMLRectWidget::activate()
 }
 
 CategoryWidget::~CategoryWidget() {}
@@ -33,13 +33,13 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
 	QPainter &p = *painter;
 	qreal offsetX = 0, offsetY = 0;
 
-    UMLWidget::setPenFromSettings(p);
-    if ( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColour() );
-    QFont font = UMLWidget::getFont();
+    NewUMLRectWidget::setPenFromSettings(p);
+    if ( NewUMLRectWidget::getUseFillColour() )
+        p.setBrush( NewUMLRectWidget::getFillColour() );
+    QFont font = NewUMLRectWidget::getFont();
     font.setUnderline(false);
     font.setBold(false);
-    font.setItalic( m_pObject->getAbstract() );
+    font.setItalic( umlObject()->getAbstract() );
     p.setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const qreal fontHeight  = fm.lineSpacing();
@@ -56,7 +56,7 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
     p.setPen(Qt::black);
 
     QString letterType('D');
-    switch( static_cast<UMLCategory*>( m_pObject )->getType() ) {
+    switch( static_cast<UMLCategory*>( umlObject() )->getType() ) {
        case UMLCategory::ct_Disjoint_Specialisation:
            letterType = 'D';
            break;
@@ -71,15 +71,15 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
     }
 
     p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, r - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, letterType );
-    UMLWidget::setPenFromSettings(p);
+    NewUMLRectWidget::setPenFromSettings(p);
     if(isSelected()) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
 
 QSizeF CategoryWidget::calculateSize() {
-    const UMLWidget::FontType ft = ( m_pObject->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
-    const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
+    const NewUMLRectWidget::FontType ft = ( umlObject()->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
+    const QFontMetrics &fm = NewUMLRectWidget::getFontMetrics(ft);
     const qreal fontHeight = fm.lineSpacing();
     qreal radius = UC_RADIUS + fontHeight + UC_MARGIN;
 
@@ -88,12 +88,12 @@ QSizeF CategoryWidget::calculateSize() {
 
 void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement categoryElement = qDoc.createElement( "categorywidget" );
-    UMLWidget::saveToXMI( qDoc, categoryElement );
+    NewUMLRectWidget::saveToXMI( qDoc, categoryElement );
     qElement.appendChild( categoryElement );
 }
 
 void CategoryWidget::slotMenuSelection(QAction* action){
-    UMLCategory* catObj = static_cast<UMLCategory*>(m_pObject);
+    UMLCategory* catObj = static_cast<UMLCategory*>(umlObject());
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
       case ListPopupMenu::mt_DisjointSpecialisation:
@@ -109,7 +109,7 @@ void CategoryWidget::slotMenuSelection(QAction* action){
           break;
 
       default:
-          UMLWidget::slotMenuSelection(action);
+          NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 

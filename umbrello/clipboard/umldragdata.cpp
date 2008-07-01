@@ -164,7 +164,7 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets
     QDomElement widgetsTag = domDoc.createElement("widgets");
     xmiclip.appendChild(widgetsTag);
 
-    foreach ( UMLWidget* widget, widgets ) {
+    foreach ( NewUMLRectWidget* widget, widgets ) {
         widget->saveToXMI(domDoc, widgetsTag);
     }
 
@@ -599,7 +599,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     UMLScene *scene = view->umlScene();
     while ( !widgetElement.isNull() ) {
 
-        UMLWidget* widget = scene->loadWidgetFromXMI(widgetElement);
+        NewUMLRectWidget* widget = scene->loadWidgetFromXMI(widgetElement);
         if (widget)
             widgets.append(widget);
 

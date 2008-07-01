@@ -27,14 +27,14 @@ class UMLCategory;
  * If the Category class that this CategoryWidget is displaying is deleted, the @ref UMLView will
  * make sure that this instance is also deleted.
  *
- * The CategoryWidget class inherits from the @ref UMLWidget class which adds most of the functionality
+ * The CategoryWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
  * to this class.
  *
  * @short  A graphical version of a UMLCategory.
  * @author Sharan Rao
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class CategoryWidget : public UMLWidget
+class CategoryWidget : public NewUMLRectWidget
 {
 public:
 
@@ -62,11 +62,11 @@ public:
     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    // For loading we can use the loadFromXMI() inherited from UMLWidget.
+    // For loading we can use the loadFromXMI() inherited from NewUMLRectWidget.
 
 protected:
     /**
-     * Overrides method from UMLWidget
+     * Overrides method from NewUMLRectWidget
      */
     QSizeF calculateSize();
 

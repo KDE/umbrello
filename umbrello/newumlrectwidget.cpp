@@ -40,6 +40,22 @@ NewUMLRectWidget::NewUMLRectWidget(UMLObject *object) :
 {
 }
 
+NewUMLRectWidget::NewUMLRectWidget(UMLScene *scene, UMLObject *object) :
+    NewUMLWidget(scene, object),
+    m_size(20, 20),
+    m_resizable(true),
+    m_widgetHandle(0)
+{
+}
+
+NewUMLRectWidget::NewUMLRectWidget(UMLScene *scene, const Uml::IDType & id) :
+    NewUMLWidget(scene, id),
+    m_size(20, 20),
+    m_resizable(true),
+    m_widgetHandle(0)
+{
+}
+
 NewUMLRectWidget::~NewUMLRectWidget()
 {
 }
@@ -84,6 +100,12 @@ void NewUMLRectWidget::setSize(const QSizeF &size)
 void NewUMLRectWidget::setInstanceName(const QString &name)
 {
     m_instanceName = name;
+    updateGeometry();
+}
+
+void NewUMLRectWidget::setShowStereotype(bool b)
+{
+    m_showStereotype = b;
     updateGeometry();
 }
 
@@ -211,6 +233,13 @@ QVariant NewUMLRectWidget::itemChange(GraphicsItemChange change, const QVariant 
         }
     }
     return NewUMLWidget::itemChange(change, value);
+}
+
+ListPopupMenu* NewUMLRectWidget::setupPopupMenu()
+{
+    delete m_pMenu;
+    m_pMenu = new ListPopupMenu(0, this, false, false);
+    return m_pMenu;
 }
 
 #include "newumlrectwidget.moc"
