@@ -81,7 +81,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
         p.drawText(offsetX + ENTITY_MARGIN, offsetY,
                    w - ENTITY_MARGIN * 2,fontHeight,
                    Qt::AlignCenter, m_pObject->getStereotype(true));
-        font.setItalic( m_pObject -> getAbstract() );
+        font.setItalic( m_pObject->getAbstract() );
         p.setFont(font);
         p.drawText(offsetX + ENTITY_MARGIN, offsetY + fontHeight,
                    w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
@@ -90,7 +90,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
         p.setFont(font);
         y = fontHeight * 2;
     } else {
-        font.setItalic( m_pObject -> getAbstract() );
+        font.setItalic( m_pObject->getAbstract() );
         p.setFont(font);
         p.drawText(offsetX + ENTITY_MARGIN, offsetY,
                    w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);

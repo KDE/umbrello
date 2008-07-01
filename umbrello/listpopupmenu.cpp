@@ -421,15 +421,15 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_Activity:
         {
             ActivityWidget* pActivity = static_cast<ActivityWidget *>(object);
-            if( pActivity -> getActivityType() == ActivityWidget::Normal
-              || pActivity -> getActivityType() == ActivityWidget::Invok
-              || pActivity -> getActivityType() == ActivityWidget::Param) {
+            if( pActivity->getActivityType() == ActivityWidget::Normal
+              || pActivity->getActivityType() == ActivityWidget::Invok
+              || pActivity->getActivityType() == ActivityWidget::Param) {
                 insertSubMenuColor( object->getUseFillColour() );
             }
             insertStdItems(false, type);
-            if( pActivity -> getActivityType() == ActivityWidget::Normal
-              || pActivity -> getActivityType() == ActivityWidget::Invok
-              || pActivity -> getActivityType() == ActivityWidget::Param) {
+            if( pActivity->getActivityType() == ActivityWidget::Normal
+              || pActivity->getActivityType() == ActivityWidget::Invok
+              || pActivity->getActivityType() == ActivityWidget::Param) {
                 insert(mt_Rename, i18n("Change Activity Name..."));
                 insert(mt_Change_Font);
                 insert(mt_Properties);
@@ -440,15 +440,15 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_ObjectNode:
         {
             ObjectNodeWidget* objWidget = static_cast<ObjectNodeWidget *>(object);
-            if (objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
-              || objWidget -> getObjectNodeType() == ObjectNodeWidget::Data
-              || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow) {
+            if (objWidget->getObjectNodeType() == ObjectNodeWidget::Buffer
+              || objWidget->getObjectNodeType() == ObjectNodeWidget::Data
+              || objWidget->getObjectNodeType() == ObjectNodeWidget::Flow) {
                 insertSubMenuColor( object->getUseFillColour() );
             }
             insertStdItems(false, type);
-            if (objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
-                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Data
-                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow) {
+            if (objWidget->getObjectNodeType() == ObjectNodeWidget::Buffer
+                || objWidget->getObjectNodeType() == ObjectNodeWidget::Data
+                || objWidget->getObjectNodeType() == ObjectNodeWidget::Flow) {
                 insert(mt_Rename, i18n("Change Object Node Name..."));
                 insert(mt_Change_Font);
                 insert(mt_Properties);
@@ -537,7 +537,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
     }//end switch
 
-    bool bCutState = UMLApp::app() -> getCutCopyState();
+    bool bCutState = UMLApp::app()->getCutCopyState();
     setActionEnabled( mt_Cut, bCutState );
     setActionEnabled( mt_Copy, bCutState );
     setActionEnabled( mt_Paste, false );

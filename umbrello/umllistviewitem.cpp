@@ -366,7 +366,7 @@ void UMLListViewItem::okRename(int col)
             return;
         }
         UMLOperation *op = static_cast<UMLOperation*>(m_pObject);
-        UMLClassifier *parent = static_cast<UMLClassifier *>(op -> parent());
+        UMLClassifier *parent = static_cast<UMLClassifier *>(op->parent());
         Model_Utils::OpDescriptor od;
         Model_Utils::Parse_Status st = Model_Utils::parseOperation(newText, od, parent);
         if (st == Model_Utils::PS_OK) {
@@ -509,13 +509,13 @@ void UMLListViewItem::okRename(int col)
     case Uml::lvt_Activity_Diagram:
     case Uml::lvt_Component_Diagram:
     case Uml::lvt_Deployment_Diagram: {
-        UMLView *view = doc -> findView(getID());
+        UMLView *view = doc->findView(getID());
         if (view == NULL) {
             cancelRenameWithMsg();
             return;
         }
-        UMLView *anotherView = doc -> findView(view->umlScene()->getType(), newText);
-        if (anotherView && anotherView -> umlScene()->getID() == getID())
+        UMLView *anotherView = doc->findView(view->umlScene()->getType(), newText);
+        if (anotherView && anotherView->umlScene()->getID() == getID())
             anotherView = 0;
         if (anotherView) {
             cancelRenameWithMsg();

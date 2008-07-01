@@ -257,15 +257,15 @@ void NoteWidget::slotMenuSelection(QAction* action) {
         ///OBSOLETE - remove ListPopupMenu::mt_Link_Docs
         // case ListPopupMenu::mt_Link_Docs:
         //      m_pScene->updateNoteWidgets();
-        //      doc -> setModified(true);
+        //      doc->setModified(true);
         //      break;
 
     case ListPopupMenu::mt_Rename:
-        m_pScene -> updateDocumentation( false );
+        m_pScene->updateDocumentation( false );
         dlg = new NoteDialog( m_pScene->activeView(), this );
-        if( dlg -> exec() ) {
-            m_pScene -> showDocumentation( this, true );
-            doc -> setModified(true);
+        if( dlg->exec() ) {
+            m_pScene->showDocumentation( this, true );
+            doc->setModified(true);
             update();
         }
         delete dlg;
@@ -306,8 +306,8 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, qreal offsetX /*=0*/, qreal of
     const qreal margin = fm.width( "W" );
     qreal textY = fontHeight / 2;
     qreal textX = margin;
-    const qreal width = this -> getWidth() - margin * 2;
-    const qreal height = this -> getHeight() - fontHeight;
+    const qreal width = this->getWidth() - margin * 2;
+    const qreal height = this->getHeight() - fontHeight;
     QChar returnChar('\n');
     QChar c;
 
@@ -321,16 +321,16 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, qreal offsetX /*=0*/, qreal of
         if (i < text.length()) {
             c = text[i];
         } else {
-            // all chars of text have been handled already ->
+            // all chars of text have been handled already->
             // perform this last run to spool current content of "word"
             c = returnChar;
         }
         if (c == returnChar || c.isSpace()) {
-            // new word delimiter found -> its time to decide on word wrap
+            // new word delimiter found->its time to decide on word wrap
             testCombineLine = fullLine + ' ' + word;
             qreal textWidth = fm.width( testCombineLine );
             if (textX + textWidth > width) {
-                // combination of "fullLine" and "word" doesn't fit into one line ->
+                // combination of "fullLine" and "word" doesn't fit into one line->
                 // print "fullLine" in current line, update write position to next line
                 // and decide then on following actions
                 p->drawText(offsetX + textX, offsetY + textY,
@@ -342,7 +342,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, qreal offsetX /*=0*/, qreal of
                 textY += fontHeight;
                 if (textY > height)
                     return;
-                // in case of c==newline ->
+                // in case of c==newline->
                 // print "word" and set write position one additional line lower
                 if (c == returnChar) {
                     // print "word" - which is now "fullLine" and set to next line
@@ -370,7 +370,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, qreal offsetX /*=0*/, qreal of
                 word = "";
             }
         } else {
-            // no word delimiter found --> add current char to "word"
+            // no word delimiter found -->add current char to "word"
             if (c != '\0')
                 word += c;
         }

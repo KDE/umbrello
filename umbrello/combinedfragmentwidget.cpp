@@ -279,7 +279,7 @@ void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
 
     // save the corresponding floating dash lines
     for (QList<FloatingDashLineWidget*>::iterator it = m_dashLines.begin() ; it != m_dashLines.end() ; ++it) {
-        (*it)-> saveToXMI( qDoc, combinedFragmentElement );
+        (*it)->saveToXMI( qDoc, combinedFragmentElement );
     }
 
     qElement.appendChild( combinedFragmentElement );

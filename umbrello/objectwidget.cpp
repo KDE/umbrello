@@ -55,7 +55,7 @@ void ObjectWidget::init() {
     m_bMultipleInstance = false;
     m_bDrawAsActor = false;
     m_bShowDestruction = false;
-    if( m_pScene != NULL && m_pScene -> getType() == Uml::dt_Sequence ) {
+    if( m_pScene != NULL && m_pScene->getType() == Uml::dt_Sequence ) {
         m_pLine = new SeqLineWidget( m_pScene, this );
 
         //Sets specific widget controller for sequence diagrams
@@ -158,7 +158,7 @@ void ObjectWidget::setDrawAsActor( bool drawAsActor ) {
 
 void ObjectWidget::setMultipleInstance(bool multiple) {
     //make sure only calling this in relation to an object on a collab. diagram
-    if(m_pScene -> getType() != Uml::dt_Collaboration)
+    if(m_pScene->getType() != Uml::dt_Collaboration)
         return;
     m_bMultipleInstance = multiple;
     updateComponentSize();
@@ -201,14 +201,14 @@ void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
     UMLWidget::setLineColor( m_pScene->getLineColor() );
 
     if( m_pLine)
-        m_pLine -> setPen( QPen( UMLWidget::getLineColor(), UMLWidget::getLineWidth(), Qt::DashLine ) );
+        m_pLine->setPen( QPen( UMLWidget::getLineColor(), UMLWidget::getLineWidth(), Qt::DashLine ) );
 }
 
 void ObjectWidget::cleanup() {
 
     UMLWidget::cleanup();
     if( m_pLine ) {
-        m_pLine -> cleanup();
+        m_pLine->cleanup();
         delete m_pLine;
     }
 }
@@ -241,7 +241,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
     const int w = getWidth();
     const int h = getHeight();
 
-    const QString t = m_InstanceName + " : " + m_pObject -> getName();
+    const QString t = m_InstanceName + " : " + m_pObject->getName();
     int multiInstOfst = 0;
     if ( m_bMultipleInstance ) {
         p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
@@ -281,7 +281,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
                middleX + A_WIDTH / 2, offsetY + thirdH + thirdH / 2);//arms
     //draw text
     p.setPen(QPen(Qt::black));
-    QString t = m_InstanceName + " : " + m_pObject -> getName();
+    QString t = m_InstanceName + " : " + m_pObject->getName();
     p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
 }
@@ -314,7 +314,7 @@ bool ObjectWidget::canTabUp() {
 void ObjectWidget::setShowDestruction( bool bShow ) {
     m_bShowDestruction = bShow;
     if( m_pLine )
-        m_pLine -> setupDestructionBox();
+        m_pLine->setupDestructionBox();
 }
 
 void ObjectWidget::setEndLine(int yPosition) {
@@ -322,9 +322,9 @@ void ObjectWidget::setEndLine(int yPosition) {
 }
 
 int ObjectWidget::getEndLineY() {
-    int y = this -> getY() + getHeight();
+    int y = this->getY() + getHeight();
     if( m_pLine)
-        y += m_pLine -> getLineLength();
+        y += m_pLine->getLineLength();
     if ( m_bShowDestruction )
         y += 10;
     return y;

@@ -169,7 +169,7 @@ void MessageWidget::drawSynchronous(QPainter& p, qreal offsetX, qreal offsetY) {
     qreal w = getWidth() - 1;
     qreal h = getHeight();
 
-    bool messageOverlaps = m_pOw[Uml::A] -> messageOverlap( getY(), this );
+    bool messageOverlaps = m_pOw[Uml::A]->messageOverlap( getY(), this );
 
     if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
         p.fillRect( offsetX, offsetY, 17, h,  QBrush(Qt::white) );              //box
@@ -223,8 +223,8 @@ void MessageWidget::drawAsynchronous(QPainter& p, qreal offsetX, qreal offsetY) 
     qreal x2 = m_pOw[Uml::B]->getX();
     qreal w = getWidth() - 1;
     qreal h = getHeight() - 1;
-    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
+    bool messageOverlapsA = m_pOw[Uml::A]->messageOverlap( getY(), this );
+    //bool messageOverlapsB = m_pOw[Uml::B]->messageOverlap( getY(), this );
 
     if(m_pOw[Uml::A] == m_pOw[Uml::B]) {
         if (messageOverlapsA)  {
@@ -266,8 +266,8 @@ void MessageWidget::drawCreation(QPainter& p, qreal offsetX, qreal offsetY) {
     qreal x2 = m_pOw[Uml::B]->getX();
     qreal w = getWidth() - 1;
     //qreal h = getHeight() - 1;
-    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
+    bool messageOverlapsA = m_pOw[Uml::A]->messageOverlap( getY(), this );
+    //bool messageOverlapsB = m_pOw[Uml::B]->messageOverlap( getY(), this );
 
     const qreal lineY = offsetY + 4;
     if (x1 < x2) {
@@ -300,8 +300,8 @@ void MessageWidget::drawLost(QPainter& p, qreal offsetX, qreal offsetY){
     qreal w = getWidth() ;
 
     qreal h = 10;
-    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
+    bool messageOverlapsA = m_pOw[Uml::A]->messageOverlap( getY(), this );
+    //bool messageOverlapsB = m_pOw[Uml::B]->messageOverlap( getY(), this );
 
     if(x1 < x2) {
         if (messageOverlapsA)  {
@@ -334,8 +334,8 @@ void MessageWidget::drawFound(QPainter& p, qreal offsetX, qreal offsetY){
     qreal w = getWidth() ;
 
     qreal h = 10;
-    bool messageOverlapsA = m_pOw[Uml::A] -> messageOverlap( getY(), this );
-    //bool messageOverlapsB = m_pOw[Uml::B] -> messageOverlap( getY(), this );
+    bool messageOverlapsA = m_pOw[Uml::A]->messageOverlap( getY(), this );
+    //bool messageOverlapsB = m_pOw[Uml::B]->messageOverlap( getY(), this );
 
     if(x1 < x2) {
         if (messageOverlapsA)  {
@@ -501,7 +501,7 @@ void MessageWidget::slotMenuSelection(QAction* action) {
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     if(sel == ListPopupMenu::mt_Delete) {
         // This will clean up this widget and the text widget:
-        m_pScene -> removeWidget(this);
+        m_pScene->removeWidget(this);
     } else {
 
         UMLWidget::slotMenuSelection( action );
@@ -561,7 +561,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
     if (op)
         setOperation(op);  // This requires a valid m_pFText.
     setLinkAndTextPos();
-    m_pFText -> setText("");
+    m_pFText->setText("");
     m_pFText->setActivated();
     QString messageText = m_pFText->getText();
     m_pFText->setVisible( messageText.length() > 1 );
@@ -571,8 +571,8 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
 
     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::A], SLOT(slotMessageMoved()) );
     connect(this, SIGNAL(sigMessageMoved()), m_pOw[Uml::B], SLOT(slotMessageMoved()) );
-    m_pOw[Uml::A] -> messageAdded(this);
-    m_pOw[Uml::B] -> messageAdded(this);
+    m_pOw[Uml::A]->messageAdded(this);
+    m_pOw[Uml::B]->messageAdded(this);
     calculateDimensions();
 
     emit sigMessageMoved();
@@ -831,13 +831,13 @@ void MessageWidget::setSelected(bool _select) {
     UMLWidget::setSelected( _select );
     if( !m_pFText || m_pFText->getDisplayText().isEmpty())
         return;
-    if( isSelected() && m_pFText -> isSelected() )
+    if( isSelected() && m_pFText->isSelected() )
         return;
-    if( !isSelected() && !m_pFText -> isSelected() )
+    if( !isSelected() && !m_pFText->isSelected() )
         return;
 
-    m_pScene -> setSelected( m_pFText, 0 );
-    m_pFText -> setSelected( isSelected() );
+    m_pScene->setSelected( m_pFText, 0 );
+    m_pFText->setSelected( isSelected() );
 }
 
 qreal MessageWidget::getMinY() {
@@ -913,7 +913,7 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     // save the corresponding message text
     if (m_pFText && !m_pFText->getText().isEmpty()) {
         messageElement.setAttribute( "textid", ID2STR(m_pFText->getID()) );
-        m_pFText -> saveToXMI( qDoc, messageElement );
+        m_pFText->saveToXMI( qDoc, messageElement );
     }
 
     qElement.appendChild( messageElement );

@@ -281,7 +281,7 @@ bool NewUMLWidget::loadFromXMI(QDomElement &qElement)
             setFont(m_font);
         }
         else {
-            uWarning() << "Loading font attribute -> " << font << " failed";
+            uWarning() << "Loading font attribute->" << font << " failed";
         }
     }
     // Set diagram's default font if font is not yet set.

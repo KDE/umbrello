@@ -656,7 +656,7 @@ void ClassifierWidget::drawAsCircle(QPainter& p, qreal offsetX, qreal offsetY) {
     if ( m_bShowPackage ) {
         name = m_pObject->getFullyQualifiedName();
     } else {
-        name = this -> getName();
+        name = this->getName();
     }
 
     p.drawEllipse(offsetX + w/2 - CIRCLE_SIZE/2, offsetY, CIRCLE_SIZE, CIRCLE_SIZE);

@@ -123,7 +123,7 @@ UMLOperation * UMLClassifier::checkOperationSignature(
                 break;
             i++;
         }
-        if ( i == pCount ) { // all parameters matched -> the signature is not unique
+        if ( i == pCount ) { // all parameters matched->the signature is not unique
             return test;
         }
     }
@@ -257,7 +257,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, IDChangeLog* log)
         return true;
     }
     else if (log) {
-        log->removeChangeByNewID( op -> getID() );
+        log->removeChangeByNewID( op->getID() );
     }
     return false;
 }
@@ -1071,13 +1071,13 @@ void UMLClassifier::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     QDomElement featureElement = qDoc.createElement( "UML:Classifier.feature" );
     UMLClassifierListItemList attList = getFilteredList(Uml::ot_Attribute);
     foreach (UMLClassifierListItem *pAtt , attList ) {
-        pAtt -> saveToXMI( qDoc, featureElement );
+        pAtt->saveToXMI( qDoc, featureElement );
     }
 
     // save operations
     UMLOperationList opList = getOpList();
     foreach (UMLOperation *pOp , opList ) {
-        pOp -> saveToXMI( qDoc, featureElement );
+        pOp->saveToXMI( qDoc, featureElement );
     }
     if (featureElement.hasChildNodes()) {
         classifierElement.appendChild( featureElement );

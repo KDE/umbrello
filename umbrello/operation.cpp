@@ -338,9 +338,9 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         if (attrType) {
             attElement.setAttribute( "type", ID2STR(attrType->getID()) );
         } else {
-            attElement.setAttribute( "type", pAtt -> getTypeName() );
+            attElement.setAttribute( "type", pAtt->getTypeName() );
         }
-        attElement.setAttribute( "value", pAtt -> getInitialValue() );
+        attElement.setAttribute( "value", pAtt->getInitialValue() );
 
         Uml::Parameter_Direction kind = pAtt->getParmKind();
         if (kind == Uml::pd_Out)

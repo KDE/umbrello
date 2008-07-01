@@ -240,7 +240,7 @@ void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     signalElement.setAttribute( "signaltype", m_SignalType );
     if (m_pName && !m_pName->getText().isEmpty()) {
         signalElement.setAttribute( "textid", ID2STR(m_pName->getID()) );
-        m_pName -> saveToXMI( qDoc, signalElement );
+        m_pName->saveToXMI( qDoc, signalElement );
     }
     qElement.appendChild( signalElement );
 }
@@ -258,7 +258,7 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
     if (getSignalType() == Time) {
 
         if (textId != Uml::id_None) {
-            UMLWidget *flotext = m_pScene -> findWidget( textId );
+            UMLWidget *flotext = m_pScene->findWidget( textId );
             if (flotext != NULL) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
@@ -266,7 +266,7 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
                 return true;
             }
         } else {
-            // no textid stored -> get unique new one
+            // no textid stored->get unique new one
             textId = UniqueID::gen();
         }
     }

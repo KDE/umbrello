@@ -240,7 +240,7 @@ void WorkToolBar::slotResetToolBar()
 
     UMLView* view = UMLApp::app()->getCurrentView();
     if (view != NULL) {
-        view -> setCursor(curs);
+        view->setCursor(curs);
     }
 }
 
@@ -248,14 +248,14 @@ void WorkToolBar::setOldTool()
 {
     QToolButton *b = (QToolButton*) widgetForAction(m_actions[m_map[m_Type]]);
     if (b)
-        b -> animateClick();
+        b->animateClick();
 }
 
 void WorkToolBar::setDefaultTool()
 {
     QToolButton *b = (QToolButton*) widgetForAction(m_actions[tbb_Arrow]);
     if (b)
-        b -> animateClick();
+        b->animateClick();
 }
 
 void WorkToolBar::loadPixmaps()

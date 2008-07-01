@@ -32,7 +32,7 @@
 
 void KPlayerPopupFrame::keyPressEvent (QKeyEvent* ev)
 {
-    switch ( ev -> key() )
+    switch ( ev->key() )
     {
     case Qt::Key_Alt:
     case Qt::Key_Tab:
@@ -51,7 +51,7 @@ void KPlayerPopupFrame::keyPressEvent (QKeyEvent* ev)
 void KPlayerPopupFrame::mousePressEvent (QMouseEvent* ev)
 {
   QFrame::mousePressEvent (ev);
-//if ( ! rect().contains (ev -> pos()) )
+//if ( ! rect().contains (ev->pos()) )
 //  m_outside_mouse_press = true;
 }
 
@@ -61,7 +61,7 @@ void KPlayerPopupFrame::mouseReleaseEvent (QMouseEvent* ev)
   if ( m_outside_mouse_press )
   {
     m_outside_mouse_press = false;
-    if ( ! rect().contains (ev -> pos()) )
+    if ( ! rect().contains (ev->pos()) )
       close();
   }
 }*/
@@ -71,12 +71,12 @@ KPlayerPopupSliderAction::KPlayerPopupSliderAction (const QObject* receiver, con
         : KAction (parent)
 {
     m_frame = new KPlayerPopupFrame;
-    m_frame -> setFrameStyle (QFrame::Raised);
-    m_frame -> setLineWidth (2);
+    m_frame->setFrameStyle (QFrame::Raised);
+    m_frame->setLineWidth (2);
     m_slider = new KPlayerSlider (Qt::Vertical, m_frame);
-    m_frame -> resize (36, m_slider -> sizeHint().height() + 4);
-    m_slider -> setGeometry (m_frame -> contentsRect());
-    //CHANGED  uDebug() << "Popup slider size " << m_slider -> width() << "x" << m_slider -> height() << "\n";
+    m_frame->resize (36, m_slider->sizeHint().height() + 4);
+    m_slider->setGeometry (m_frame->contentsRect());
+    //CHANGED  uDebug() << "Popup slider size " << m_slider->width() << "x" << m_slider->height() << "\n";
     connect (this, SIGNAL(triggered()), this , SLOT(slotTriggered()));
     connect (m_slider, SIGNAL (changed (int)), receiver, slot);
 }
@@ -118,11 +118,11 @@ void KPlayerPopupSliderAction::slotTriggered()
 
    } else {
 
-     point = QCursor::pos() - QPoint (m_frame -> width() / 2, m_frame -> height() / 2);
-     if ( point.x() + m_frame -> width() > QApplication::desktop() -> width() )
-       point.setX (QApplication::desktop() -> width() - m_frame -> width());
-     if ( point.y() + m_frame -> height() > QApplication::desktop() -> height() )
-       point.setY (QApplication::desktop() -> height() - m_frame -> height());
+     point = QCursor::pos() - QPoint (m_frame->width() / 2, m_frame->height() / 2);
+     if ( point.x() + m_frame->width() > QApplication::desktop()->width() )
+       point.setX (QApplication::desktop()->width() - m_frame->width());
+     if ( point.y() + m_frame->height() > QApplication::desktop()->height() )
+       point.setY (QApplication::desktop()->height() - m_frame->height());
      if ( point.x() < 0 )
        point.setX (0);
      if ( point.y() < 0 )
@@ -131,14 +131,14 @@ void KPlayerPopupSliderAction::slotTriggered()
 
 
     //CHANGED  uDebug() << "Point: " << point.x() << "x" << point.y() << "\n";
-    m_frame -> move (point);
-    /*if ( kapp && kapp -> activeWindow() )
+    m_frame->move (point);
+    /*if ( kapp && kapp->activeWindow() )
       {
         QMouseEvent me (QEvent::MouseButtonRelease, QPoint(0,0), QPoint(0,0), QMouseEvent::LeftButton, QMouseEvent::NoButton);
-        QApplication::sendEvent (kapp -> activeWindow(), &me);
+        QApplication::sendEvent (kapp->activeWindow(), &me);
       }*/
-    m_frame -> show();
-    m_slider -> setFocus();
+    m_frame->show();
+    m_slider->setFocus();
 }
 
 /*KPlayerSliderAction::KPlayerSliderAction (const QString& text, const KShortcut& cut,
@@ -161,32 +161,32 @@ int KPlayerSliderAction::plug (QWidget* widget, int index)
     //Q_ASSERT (slider());
     //if ( ! slider() || ! widget || isPlugged() )
     //  return -1;
-    //Q_ASSERT (widget -> inherits ("KToolBar"));
-    //if ( ! widget -> inherits ("KToolBar") )
+    //Q_ASSERT (widget->inherits ("KToolBar"));
+    //if ( ! widget->inherits ("KToolBar") )
     //  return -1;
-    //if ( kapp && ! kapp -> authorizeKAction (name()) )
+    //if ( kapp && ! kapp->authorizeKAction (name()) )
     //  return -1;
     int result = K3WidgetAction::plug (widget, index);
     if ( result < 0 )
         return result;
     KToolBar* toolbar = (KToolBar*) widget;
     //int id = getToolButtonID();
-    //uDebug() << "Orientation: " << toolbar -> orientation() << "\n";
-    //m_slider -> reparent (toolbar, QPoint());
-    //toolbar -> insertWidget (id, 0, m_slider, index);
-    //toolbar -> setItemAutoSized (id, true);
+    //uDebug() << "Orientation: " << toolbar->orientation() << "\n";
+    //m_slider->reparent (toolbar, QPoint());
+    //toolbar->insertWidget (id, 0, m_slider, index);
+    //toolbar->setItemAutoSized (id, true);
     //QWhatsThis::remove (m_slider);
     //if ( ! whatsThis().isEmpty() )
     //  QWhatsThis::add (m_slider, whatsThis());
     //if ( ! text().isEmpty() )
     //  QToolTip::add (m_slider, text());
     //addContainer (toolbar, id);
-    //setupToolbar (toolbar -> orientation(), toolbar);
-    orientationChanged (toolbar -> orientation());
+    //setupToolbar (toolbar->orientation(), toolbar);
+    orientationChanged (toolbar->orientation());
     connect (toolbar, SIGNAL (orientationChanged (Orientation)), this, SLOT (orientationChanged (Orientation)));
     //connect (toolbar, SIGNAL (destroyed()), this, SLOT (toolbarDestroyed()));
     //if ( parentCollection() )
-    //  parentCollection() -> connectHighlight (toolbar, this);
+    //  parentCollection()->connectHighlight (toolbar, this);
     //return containerCount() - 1;
     return result;
 }
@@ -195,18 +195,18 @@ void KPlayerSliderAction::unplug (QWidget* widget)
 {
     //Q_ASSERT (m_slider);
     //Q_ASSERT (isPlugged());
-    //Q_ASSERT (widget -> inherits ("KToolBar"));
+    //Q_ASSERT (widget->inherits ("KToolBar"));
     K3WidgetAction::unplug (widget);
-    if ( ! slider() || ! isPlugged() || widget != slider() -> parent() )
+    if ( ! slider() || ! isPlugged() || widget != slider()->parent() )
         return;
     //KToolBar* toolbar = (KToolBar*) widget;
     disconnect (widget, SIGNAL (orientationChanged (Orientation)), this, SLOT (orientationChanged (Orientation)));
     //disconnect (toolbar, SIGNAL (destroyed()), this, SLOT (toolbarDestroyed()));
-    //m_slider -> reparent (0, QPoint());
+    //m_slider->reparent (0, QPoint());
 //    int index = findContainer (toolbar);
 //      if ( index == -1 )
 //        return;
-//      bar -> removeItem (menuId (index));
+//      bar->removeItem (menuId (index));
 //      removeContainer (index);
 }
 */
@@ -214,38 +214,38 @@ void KPlayerSliderAction::unplug (QWidget* widget)
 {
     if ( orientation == Qt::Horizontal )
     {
-//      toolbar -> setMinimumWidth (300);
-//      toolbar -> setMinimumHeight (0);
-      toolbar -> setFixedExtentWidth (300);
-      toolbar -> setFixedExtentHeight (-1);
-//      toolbar -> setHorizontallyStretchable (true);
-//      toolbar -> setVerticallyStretchable (false);
+//      toolbar->setMinimumWidth (300);
+//      toolbar->setMinimumHeight (0);
+      toolbar->setFixedExtentWidth (300);
+      toolbar->setFixedExtentHeight (-1);
+//      toolbar->setHorizontallyStretchable (true);
+//      toolbar->setVerticallyStretchable (false);
     }
     else
     {
-//      toolbar -> setMinimumWidth (0);
-//      toolbar -> setMinimumHeight (300);
-      toolbar -> setFixedExtentWidth (-1);
-      toolbar -> setFixedExtentHeight (300);
-//      toolbar -> setHorizontallyStretchable (false);
-//      toolbar -> setVerticallyStretchable (true);
+//      toolbar->setMinimumWidth (0);
+//      toolbar->setMinimumHeight (300);
+      toolbar->setFixedExtentWidth (-1);
+      toolbar->setFixedExtentHeight (300);
+//      toolbar->setHorizontallyStretchable (false);
+//      toolbar->setVerticallyStretchable (true);
     }
 }*/
 
 // void KPlayerSliderAction::orientationChanged (Qt::Orientation orientation)
 // {
-//     //if ( sender() && sender() -> inherits ("KToolBar") )
+//     //if ( sender() && sender()->inherits ("KToolBar") )
 //     //  setupToolbar (orientation, (KToolBar*) sender());
 //     //Q_ASSERT (m_slider);
 //     //Q_ASSERT (isPlugged());
 //     if ( slider() )
-//         slider() -> setOrientation (orientation);
+//         slider()->setOrientation (orientation);
 // }
 
 /*void KPlayerSliderAction::toolbarDestroyed (void)
 {
   if ( m_slider )
-    m_slider -> reparent (0, QPoint());
+    m_slider->reparent (0, QPoint());
 }*/
 
 KPlayerSlider::KPlayerSlider (Qt::Orientation orientation, QWidget* parent, const char* name)
@@ -265,7 +265,7 @@ KPlayerSlider::~KPlayerSlider()
 QSize KPlayerSlider::sizeHint() const
 {
     QSize hint = QSlider::sizeHint();
-    //CHANGED int length = kPlayerSettings() -> preferredSliderLength();
+    //CHANGED int length = kPlayerSettings()->preferredSliderLength();
     int length = 200;
     if ( orientation() == Qt::Horizontal )
     {
@@ -284,7 +284,7 @@ QSize KPlayerSlider::minimumSizeHint() const
 {
     //uDebug() << "KPlayerSlider minimum size hint\n";
     QSize hint = QSlider::minimumSizeHint();
-    //CHANGED  int length = kPlayerSettings() -> minimumSliderLength();
+    //CHANGED  int length = kPlayerSettings()->minimumSliderLength();
     int length = 200;
     if ( orientation() == Qt::Horizontal )
     {

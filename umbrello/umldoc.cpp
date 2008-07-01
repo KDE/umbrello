@@ -155,8 +155,8 @@ void UMLDoc::addView(UMLView *view)
 
     pApp->setCurrentView(view);
     if ( !m_bLoading ) {
-        view -> show();
-        emit sigDiagramChanged(view ->umlScene()->getType());
+        view->show();
+        emit sigDiagramChanged(view->umlScene()->getType());
     }
 
     pApp->setDiagramMenuItemsState(true);
@@ -619,7 +619,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         tmpfile.setAutoRemove(false);
 
         // save in _any_ case to a temp file
-        // -> if something goes wrong during saveToXmi, the
+        //->if something goes wrong during saveToXmi, the
         //     original content is preserved
         //     ( e.g. if umbrello dies in the middle of the document model parsing
         //      for saveToXMI due to some problems )
@@ -1012,7 +1012,7 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool a
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
         } else if(!findView(type, name)) {
             UMLView* temp = new UMLView(folder);
-            temp -> umlScene()->setOptionState( Settings::getOptionState() );
+            temp->umlScene()->setOptionState( Settings::getOptionState() );
             temp->umlScene()->setName( name );
             temp->umlScene()->setType( type );
             temp->umlScene()->setID( UniqueID::gen() );
@@ -1094,7 +1094,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         else {
             if (p->findChildObject(name) == NULL
-                    || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp -> mainWidget() ,
+                    || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp->mainWidget() ,
                             i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
                             i18n( "Name Not Unique"),KGuiItem(i18n("Use Name")),KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes) ) {
                 UMLApp::app()->executeCommand(new cmdRenameUMLObject(o,name));
@@ -1739,7 +1739,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         pObject->setUMLPackage(pkg);
 
-        bool status = pObject -> loadFromXMI( tempElement );
+        bool status = pObject->loadFromXMI( tempElement );
         if ( !status ) {
             delete pObject;
             return false;
@@ -1789,7 +1789,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
 
         m_nViewID = STR2ID(viewID);
         UniqueID::set(STR2ID(uniqueid));
-        UMLApp::app()->getDocWindow() -> newDocumentation();
+        UMLApp::app()->getDocWindow()->newDocumentation();
 
     } else if (tag == "diagrams" || tag == "UISModelElement") {
         // For backward compatibility only:
@@ -1812,7 +1812,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
         //FIXME: Need to resolveTypes() before loading listview,
         //       else listview items are duplicated.
         resolveTypes();
-        if( !UMLApp::app()->getListView() -> loadFromXMI( element ) ) {
+        if( !UMLApp::app()->getListView()->loadFromXMI( element ) ) {
             uWarning() << "failed load on listview";
         }
 
@@ -1855,7 +1855,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
             // reading the corresponding diagram:
             // + allow using per-diagram color and line-width settings
             // + avoid crashes due to uninitialized values for lineWidth
-            pView -> umlScene()->setOptionState( state );
+            pView->umlScene()->setOptionState( state );
             bool success = false;
             if (tag == "UISDiagram") {
                 success = pView->umlScene()->loadUISDiagram(element);
@@ -1871,7 +1871,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
             // @todo pass in the parent folder - it might be a user defined one.
             Uml::Model_Type mt = Model_Utils::convert_DT_MT(pView->umlScene()->getType());
             pView->umlScene()->setFolder(m_root[mt]);
-            pView -> hide();
+            pView->hide();
             addView( pView );
             emit sigSetStatusbarProgress( ++count );
             qApp->processEvents();  // give UI events a chance
@@ -1963,17 +1963,17 @@ UMLAssociationList UMLDoc::getAssociations()
 void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
 {
     UMLView * printView = 0;
-    int count = selectPage -> printUmlCount();
+    int count = selectPage->printUmlCount();
     QPainter painter(pPrinter);
     for(int i = 0;i < count;i++) {
         if(i>0)
-            pPrinter -> newPage();
-        QString sID = selectPage -> printUmlDiagram(i);
+            pPrinter->newPage();
+        QString sID = selectPage->printUmlDiagram(i);
         Uml::IDType id = STR2ID(sID);
         printView = findView(id);
 
         if(printView)
-            printView ->umlScene()->print(pPrinter, painter);
+            printView->umlScene()->print(pPrinter, painter);
         printView = 0;
     }
     painter.end();
@@ -2133,7 +2133,7 @@ void UMLDoc::settingsChanged(Settings::OptionState optionState)
 void UMLDoc::initSaveTimer()
 {
     if( m_pAutoSaveTimer ) {
-        m_pAutoSaveTimer -> stop();
+        m_pAutoSaveTimer->stop();
         disconnect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );
         delete m_pAutoSaveTimer;
         m_pAutoSaveTimer = 0;
@@ -2175,7 +2175,7 @@ void UMLDoc::slotAutoSave()
         saveDocument( tempUrl );
         // 2004-05-17 Achim Spangler
         // re-activate m_modified if autosave is writing to other file
-        // than the main project file -> autosave-suffix != ".xmi"
+        // than the main project file->autosave-suffix != ".xmi"
         if ( ".xmi" != optionState.generalState.autosavesuffix ) {
             m_modified = true;
             UMLApp::app()->setModified( m_modified );
@@ -2194,7 +2194,7 @@ void UMLDoc::signalDiagramRenamed(UMLView* pView )
     Settings::OptionState optionState = Settings::getOptionState();
     if (optionState.generalState.tabdiagrams)
         UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(pView), pView->umlScene()->getName() );
-    emit sigDiagramRenamed( pView -> umlScene()->getID() );
+    emit sigDiagramRenamed( pView->umlScene()->getID() );
 }
 
 void UMLDoc::addDefaultDatatypes()

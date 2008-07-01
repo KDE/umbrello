@@ -202,7 +202,7 @@ void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     UMLWidget::saveToXMI( qDoc, PinElement );
     if (m_pName && !m_pName->getText().isEmpty()) {
         PinElement.setAttribute( "textid", ID2STR(m_pName->getID()) );
-        m_pName -> saveToXMI( qDoc, PinElement );
+        m_pName->saveToXMI( qDoc, PinElement );
     }
     qElement.appendChild( PinElement );
 }
@@ -215,7 +215,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
 
     Uml::IDType aId = STR2ID(widgetaid);
 
-    UMLWidget *pWA = m_pScene -> findWidget( aId );
+    UMLWidget *pWA = m_pScene->findWidget( aId );
     if (pWA == NULL) {
         uDebug() << "role A object " << ID2STR(aId) << " not found" << endl;
         return false;
@@ -226,7 +226,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     QString textid = qElement.attribute( "textid", "-1" );
     Uml::IDType textId = STR2ID(textid);
     if (textId != Uml::id_None) {
-        UMLWidget *flotext = m_pScene -> findWidget( textId );
+        UMLWidget *flotext = m_pScene->findWidget( textId );
         if (flotext != NULL) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
@@ -234,7 +234,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
             //return true;
         }
     } else {
-        // no textid stored -> get unique new one
+        // no textid stored->get unique new one
         textId = UniqueID::gen();
     }
 

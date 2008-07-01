@@ -172,7 +172,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me)
     UMLView *currentView = UMLApp::app()->getCurrentView();
     if (currentView)
         currentView->umlScene()->clearSelected();
-    if (me -> modifiers() != Qt::ShiftModifier)
+    if (me->modifiers() != Qt::ShiftModifier)
         clearSelection();
 
     // Get the UMLListViewItem at the point where the mouse pointer was pressed
@@ -273,8 +273,8 @@ void UMLListView::popupMenuSel(QAction* action)
         uDebug() << "popupMenuSel invoked without currently selectedItem";
         return;
     }
-    UMLObject * object = temp -> getUMLObject();
-    Uml::ListView_Type lvt = temp -> getType();
+    UMLObject * object = temp->getUMLObject();
+    Uml::ListView_Type lvt = temp->getType();
     Uml::Object_Type umlType = Uml::ot_UMLObject;
     ListPopupMenu::Menu_Type menuType = m_pMenu->getMenuType(action);
     QString name;
@@ -493,7 +493,7 @@ void UMLListView::popupMenuSel(QAction* action)
     }
 
     case ListPopupMenu::mt_Rename:
-        temp-> startRename(0);
+        temp->startRename(0);
         break;
 
     case ListPopupMenu::mt_Delete:
@@ -564,7 +564,7 @@ void UMLListView::popupMenuSel(QAction* action)
         } else {
             uWarning() << "calling properties on unknown type";
         }
-        temp -> cancelRename(0);
+        temp->cancelRename(0);
         break;
 
     case ListPopupMenu::mt_Logical_Folder:
@@ -590,17 +590,17 @@ void UMLListView::popupMenuSel(QAction* action)
     case ListPopupMenu::mt_Cut:
         m_bStartedCut = true;
         m_bStartedCopy = false;
-        UMLApp::app() -> slotEditCut();
+        UMLApp::app()->slotEditCut();
         break;
 
     case ListPopupMenu::mt_Copy:
         m_bStartedCut = false;
         m_bStartedCopy = true;
-        UMLApp::app() -> slotEditCopy();
+        UMLApp::app()->slotEditCopy();
         break;
 
     case ListPopupMenu::mt_Paste:
-        UMLApp::app() -> slotEditPaste();
+        UMLApp::app()->slotEditPaste();
         break;
 
     default: {
@@ -651,14 +651,14 @@ void UMLListView::slotDiagramCreated(Uml::IDType id)
 {
     if (m_doc->loading())
         return;
-    UMLView *v = m_doc -> findView(id);
+    UMLView *v = m_doc->findView(id);
     if (!v)
         return;
     const Uml::Diagram_Type dt = v->umlScene()->getType();
     UMLListViewItem * temp = 0, *p = findFolderForDiagram(dt);
     temp = new UMLListViewItem(p, v->umlScene()->getName(), Model_Utils::convert_DT_LVT(dt), id);
     setSelected(temp, true);
-    UMLApp::app() -> getDocWindow() -> showDocumentation(v , false);
+    UMLApp::app()->getDocWindow()->showDocumentation(v , false);
 }
 
 UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
@@ -1142,31 +1142,31 @@ void UMLListView::setView(UMLView * view)
 void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me)
 {
     UMLListViewItem * item = static_cast<UMLListViewItem *>(currentItem());
-    if (!item || me -> button() != Qt::LeftButton)
+    if (!item || me->button() != Qt::LeftButton)
         return;
     //see if on view
-    Uml::ListView_Type lvType = item -> getType();
+    Uml::ListView_Type lvType = item->getType();
     if (Model_Utils::typeIsDiagram(lvType)) {
-        UMLView * pView = m_doc -> findView(item -> getID());
+        UMLView * pView = m_doc->findView(item->getID());
         if (!pView)
             return;
-        UMLApp::app() -> getDocWindow() -> updateDocumentation(false);
-        pView -> umlScene()->showPropDialog();
-        UMLApp::app() -> getDocWindow() -> showDocumentation(pView, true);
-        item -> cancelRename(0);
+        UMLApp::app()->getDocWindow()->updateDocumentation(false);
+        pView->umlScene()->showPropDialog();
+        UMLApp::app()->getDocWindow()->showDocumentation(pView, true);
+        item->cancelRename(0);
         return;
     }
     //else see if an object
-    UMLObject * object = item -> getUMLObject();
+    UMLObject * object = item->getUMLObject();
     //continue only if we are on a UMLObject
     if (!object)
         return;
 
 
-    Uml::Object_Type type = object -> getBaseType();
+    Uml::Object_Type type = object->getBaseType();
     int page = ClassPropDlg::page_gen;
     if (Model_Utils::isClassifierListitem(type))
-        object = (UMLObject *)object -> parent();
+        object = (UMLObject *)object->parent();
     //set what page to show
     switch (type) {
 
@@ -1191,7 +1191,7 @@ void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me)
 
     if (object)
         object->showProperties(page);
-    item -> cancelRename(0);  //double click can cause it to go into rename mode.
+    item->cancelRename(0);  //double click can cause it to go into rename mode.
 }
 
 
@@ -1960,9 +1960,9 @@ bool UMLListView::itemRenamed(Q3ListViewItem * item , int /*col*/)
     }
     m_bIgnoreCancelRename = true;
     UMLListViewItem * renamedItem = static_cast< UMLListViewItem *>(item) ;
-    Uml::ListView_Type type = renamedItem -> getType();
-    QString newText = renamedItem -> text(0);
-    renamedItem -> setCreating(false);
+    Uml::ListView_Type type = renamedItem->getType();
+    QString newText = renamedItem->text(0);
+    renamedItem->setCreating(false);
 
     // If the type is empty then delete it.
     if (newText.isEmpty() || newText.contains(QRegExp("^\\s+$"))) {
@@ -2092,7 +2092,7 @@ bool UMLListView::itemRenamed(Q3ListViewItem * item , int /*col*/)
 
 UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, Uml::Object_Type type)
 {
-    QString name = item -> text(0);
+    QString name = item->text(0);
     UMLObject * object = NULL;
     switch (type) {
     case Uml::ot_UseCase:
@@ -2169,8 +2169,8 @@ UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, Uml::Object_Type
     object->setUMLPackage(pkg);
     pkg->addObject(object);
     connectNewObjectsSlots(object);
-    item -> setUMLObject(object);
-    item -> setText(name);
+    item->setUMLObject(object);
+    item->setText(name);
     return object;
 }
 
@@ -2308,8 +2308,8 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, Uml::Object_Type 
 
 UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::Diagram_Type type)
 {
-    QString name = item -> text(0);
-    UMLView * view = m_doc -> findView(type, name);
+    QString name = item->text(0);
+    UMLView * view = m_doc->findView(type, name);
     if (view) {
         delete item;
         return view;
@@ -2325,12 +2325,12 @@ UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::Diagram_Type ty
     view->umlScene()->setName(name);
     view->umlScene()->setType(type);
     view->umlScene()->setID(UniqueID::gen());
-    m_doc -> addView(view);
-    view -> umlScene()->setOptionState(Settings::getOptionState());
-    item -> setID(view -> umlScene()->getID());
-    item -> setText(name);
+    m_doc->addView(view);
+    view->umlScene()->setOptionState(Settings::getOptionState());
+    item->setID(view->umlScene()->getID());
+    item->setText(name);
     view->umlScene()->activate();
-    m_doc -> changeCurrentView(view -> umlScene()->getID());
+    m_doc->changeCurrentView(view->umlScene()->getID());
 
     return view;
 }
@@ -2342,31 +2342,31 @@ QString UMLListView::getUniqueDiagramName(Uml::Diagram_Type type)
 
 bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
 {
-    UMLListViewItem * parentItem = static_cast<UMLListViewItem *>(item -> parent());
-    Uml::ListView_Type type = item -> getType();
+    UMLListViewItem * parentItem = static_cast<UMLListViewItem *>(item->parent());
+    Uml::ListView_Type type = item->getType();
     switch (type) {
     case Uml::lvt_Class_Diagram:
-        return !m_doc -> findView(Uml::dt_Class, name);
+        return !m_doc->findView(Uml::dt_Class, name);
         break;
 
     case Uml::lvt_Sequence_Diagram:
-        return !m_doc -> findView(Uml::dt_Sequence, name);
+        return !m_doc->findView(Uml::dt_Sequence, name);
         break;
 
     case Uml::lvt_UseCase_Diagram:
-        return !m_doc -> findView(Uml::dt_UseCase, name);
+        return !m_doc->findView(Uml::dt_UseCase, name);
         break;
 
     case Uml::lvt_Collaboration_Diagram:
-        return !m_doc -> findView(Uml::dt_Collaboration, name);
+        return !m_doc->findView(Uml::dt_Collaboration, name);
         break;
 
     case Uml::lvt_State_Diagram:
-        return !m_doc -> findView(Uml::dt_State, name);
+        return !m_doc->findView(Uml::dt_State, name);
         break;
 
     case Uml::lvt_Activity_Diagram:
-        return !m_doc -> findView(Uml::dt_Activity, name);
+        return !m_doc->findView(Uml::dt_Activity, name);
         break;
 
     case Uml::lvt_Component_Diagram:

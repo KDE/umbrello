@@ -203,8 +203,8 @@ private:
 
     /**
      * Used to resolve forward references to UMLEntityAttributes
-     * Key -> The local attribute
-     * Value -> Id of the attribute it is mapping to
+     * Key->The local attribute
+     * Value->Id of the attribute it is mapping to
      */
     QMap<UMLEntityAttribute*, Uml::IDType> m_pEntityAttributeIDMap;
 

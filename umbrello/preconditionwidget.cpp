@@ -245,7 +245,7 @@ bool PreconditionWidget::loadFromXMI( QDomElement & qElement ) {
 
     Uml::IDType aId = STR2ID(widgetaid);
 
-    UMLWidget *pWA = m_pScene -> findWidget( aId );
+    UMLWidget *pWA = m_pScene->findWidget( aId );
     if (pWA == NULL) {
         uDebug() << "role A object " << ID2STR(aId) << " not found" << endl;
         return false;

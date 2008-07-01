@@ -121,7 +121,7 @@ bool getShowGUI(KCmdLineArgs *args)
 
 void initDocument(KCmdLineArgs *args)
 {
-    if ( args -> count() ) {
+    if ( args->count() ) {
         UMLApp::app()->openDocumentFile( args->url( 0 ) );
     } else {
         bool last = UmbrelloSettings::loadlast();

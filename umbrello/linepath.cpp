@@ -96,7 +96,7 @@ void LinePath::setAssociation(AssociationWidget * association )
     createSubsetSymbol();
     if( getAssocType() == Uml::at_Coll_Message )
         setupParallelLine();
-    UMLScene *scene =  const_cast<UMLScene *>(m_pAssociation -> getUMLScene());
+    UMLScene *scene =  const_cast<UMLScene *>(m_pAssociation->getUMLScene());
     connect( scene, SIGNAL( sigColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
     connect( scene, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
 }

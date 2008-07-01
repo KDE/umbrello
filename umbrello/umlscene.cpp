@@ -213,7 +213,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     bottom += 2;
 
     if (pPrinter->orientation() == QPrinter::Landscape) {
-        // we are printing in LANDSCAPE --> swap marginX and marginY
+        // we are printing in LANDSCAPE -->swap marginX and marginY
         uint right_old = right;
         // the DiagramRight side is printed at PrintersTop
         right = top;
@@ -336,7 +336,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     pPainter.setWindow(rect.x(), rect.y(), windowWidth, windowHeight);
 
     // set viewport - the physical mapping
-    // --> Qt's QPainter will map all drawed elements from diagram area (window)
+    // -->Qt's QPainter will map all drawed elements from diagram area (window)
     //     to printer area (viewport)
     pPainter.setViewport(left, top, width, height);
 
@@ -1037,7 +1037,7 @@ void UMLScene::deleteSelection()
     // Delete any selected associations.
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget-> getSelected())
+        if (assocwidget->getSelected())
             removeAssoc(assocwidget);
         // MARK
     }
@@ -1439,8 +1439,8 @@ bool UMLScene::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         ObjectWidget *objWidgetB = pMessage->getWidget(B);
         Uml::IDType waID = objWidgetA->getLocalID();
         Uml::IDType wbID = objWidgetB->getLocalID();
-        Uml::IDType newWAID = m_pIDChangesLog ->findNewID(waID);
-        Uml::IDType newWBID = m_pIDChangesLog ->findNewID(wbID);
+        Uml::IDType newWAID = m_pIDChangesLog->findNewID(waID);
+        Uml::IDType newWBID = m_pIDChangesLog->findNewID(wbID);
         if (newWAID == Uml::id_None || newWBID == Uml::id_None) {
             uDebug() << "Error with ids : " << ID2STR(newWAID)
                      << " " << ID2STR(newWBID) << endl;
@@ -1776,7 +1776,7 @@ void UMLScene::removeAllWidgets()
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
         if (!(temp->getBaseType() == wt_Text &&
-              ((FloatingTextWidget *)temp)-> getRole() != tr_Floating)) {
+              ((FloatingTextWidget *)temp)->getRole() != tr_Floating)) {
             removeWidget(temp);
         }
     }

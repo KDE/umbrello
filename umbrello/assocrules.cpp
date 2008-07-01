@@ -44,7 +44,7 @@ bool allowAssociation( Association_Type/* assocType*/, const std::type_info/* &t
 }
 
 bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * widget ) {
-    Widget_Type widgetType = widget -> getBaseType();
+    Widget_Type widgetType = widget->getBaseType();
     bool bValid = false;
     for (int i = 0; i < m_nNumRules; i++) {
         if (assocType == m_AssocRules[i].assoc_type) {
@@ -63,7 +63,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
         else
             return false;
     }
-    AssociationWidgetList list = widget -> getAssocList();
+    AssociationWidgetList list = widget->getAssocList();
 
     switch( assocType ) {
     case at_Association:
@@ -84,7 +84,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
 
     case at_Realization:  // one connected to widget only (a or b)
         foreach ( AssociationWidget* assoc, list ) {
-            if( assoc -> getAssocType() == at_Realization )
+            if( assoc->getAssocType() == at_Realization )
                 return false;
         }
         return true;
@@ -158,7 +158,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
         return false;
     }
 
-    AssociationWidgetList list = widgetB -> getAssocList();
+    AssociationWidgetList list = widgetB->getAssocList();
 
     switch( assocType ) {
     case at_Association_Self:
@@ -179,7 +179,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     case at_Containment:   // can't have mutual containment
     case at_Generalization://can have many sub/super types but can't sup/sub each
         foreach ( AssociationWidget * assoc, list ) {
-            if( ( widgetA == assoc -> getWidget(A) || widgetA == assoc -> getWidget(B) )
+            if( ( widgetA == assoc->getWidget(A) || widgetA == assoc->getWidget(B) )
                     && assoc->getAssocType() == assocType )
                 return false;
         }

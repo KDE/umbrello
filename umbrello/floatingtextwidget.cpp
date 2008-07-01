@@ -107,7 +107,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Delete:
-        m_pScene -> removeWidget(this);
+        m_pScene->removeWidget(this);
         break;
 
     case ListPopupMenu::mt_Operation:

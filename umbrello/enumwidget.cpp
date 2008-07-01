@@ -74,7 +74,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWi
     if ( m_bShowPackage ) {
         name = m_pObject->getFullyQualifiedName();
     } else {
-        name = this -> getName();
+        name = this->getName();
     }
 
     p.drawRect(offsetX, offsetY, w, h);
@@ -87,7 +87,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWi
                w - ENUM_MARGIN * 2,fontHeight,
                Qt::AlignCenter, m_pObject->getStereotype(true));
 
-    font.setItalic( m_pObject -> getAbstract() );
+    font.setItalic( m_pObject->getAbstract() );
     p.setFont(font);
     p.drawText(offsetX + ENUM_MARGIN, offsetY + fontHeight,
                w - ENUM_MARGIN * 2, fontHeight, Qt::AlignCenter, name);

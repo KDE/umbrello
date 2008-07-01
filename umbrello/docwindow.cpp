@@ -32,10 +32,10 @@ DocWindow::DocWindow( UMLDoc * doc, QWidget *parent ) : QWidget( parent )
     //setup visual display
     QVBoxLayout * docLayout = new QVBoxLayout( this );
     m_pDocTE = new KTextEdit( this );
-    m_pDocTE -> setText( "" );
-    docLayout -> addWidget( m_pDocTE);
+    m_pDocTE->setText( "" );
+    docLayout->addWidget( m_pDocTE);
     docLayout->setMargin(0);
-    //m_pDocTE -> setWordWrapMode(QTextEdit::WidgetWidth);
+    //m_pDocTE->setWordWrapMode(QTextEdit::WidgetWidth);
 
     //setup the documentation variables
     //show projects documentation to start
@@ -64,7 +64,7 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
         return;
     }
     m_pUMLObject = object;
-    m_pDocTE -> setText( m_pUMLObject -> getDoc() );
+    m_pDocTE->setText( m_pUMLObject->getDoc() );
 }
 
 void DocWindow::updateDocumentation( bool clear, bool startup )
@@ -79,7 +79,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         {
             mark_modified = true;
         }
-        m_pUMLObject -> setDoc( m_pDocTE->toPlainText() );
+        m_pUMLObject->setDoc( m_pDocTE->toPlainText() );
 
     } else if( m_pUMLView ) {
         // the file is marked modified, if the documentation differs
@@ -112,7 +112,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
             mark_modified = true;
         }
 
-        m_pAssocWidget -> setDoc( m_pDocTE->toPlainText() );
+        m_pAssocWidget->setDoc( m_pDocTE->toPlainText() );
     } else {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
@@ -172,7 +172,7 @@ void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite )
         return;
     }
     m_pUMLWidget = widget;
-    m_pDocTE -> setText( m_pUMLWidget -> getDoc() );
+    m_pDocTE->setText( m_pUMLWidget->getDoc() );
 }
 
 void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite )
@@ -188,7 +188,7 @@ void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite )
         return;
     }
     m_pAssocWidget = widget;
-    m_pDocTE -> setText( m_pAssocWidget -> getDoc() );
+    m_pDocTE->setText( m_pAssocWidget->getDoc() );
 }
 
 void DocWindow::newDocumentation( )

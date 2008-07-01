@@ -275,7 +275,7 @@ void UMLApp::initActions()
     fileSave->setToolTip(i18n("Saves the document"));
     fileSaveAs->setToolTip(i18n("Saves the document as..."));
     fileClose->setToolTip(i18n("Closes the document"));
-    filePrint ->setToolTip(i18n("Prints out the document"));
+    filePrint->setToolTip(i18n("Prints out the document"));
     fileQuit->setToolTip(i18n("Quits the application"));
     fileExportDocbook->setToolTip(i18n("Exports the model to the docbook format"));
     fileExportXhtml->setToolTip(i18n("Exports the model to the XHTML format"));
@@ -704,7 +704,7 @@ void UMLApp::saveOptions()
         UmbrelloSettings::setLastFile(  "" );
     }
     else {
-        UmbrelloSettings::setLastFile(  m_doc -> url().prettyUrl() );
+        UmbrelloSettings::setLastFile(  m_doc->url().prettyUrl() );
     }
 
     UmbrelloSettings::setImageMimeType(  getImageMimeType() );
@@ -856,7 +856,7 @@ bool UMLApp::queryClose()
 bool UMLApp::queryExit()
 {
     saveOptions();
-    m_doc -> closeDocument();
+    m_doc->closeDocument();
     return true;
 }
 
@@ -947,7 +947,7 @@ void UMLApp::slotFileSave()
         slotFileSaveAs();
     }
     else {
-        m_doc->saveDocument(m_doc -> url());
+        m_doc->saveDocument(m_doc->url());
     }
     m_pUndoStack->setClean();
     resetStatusMsg();
@@ -1227,7 +1227,7 @@ WorkToolBar* UMLApp::getWorkToolBar()
 
 void UMLApp::setModified(bool modified)
 {
-    //fileSave -> setEnabled(modified);
+    //fileSave->setEnabled(modified);
 
     //if anything else needs to be done on a mofication, put it here
 

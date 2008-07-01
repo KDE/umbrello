@@ -46,7 +46,7 @@ namespace Widget_Utils
             return NULL;
 
         foreach ( UMLWidget* obj , *pMessages ) {
-            if( obj -> getID() == id )
+            if( obj->getID() == id )
                 return obj;
         }
         return NULL;

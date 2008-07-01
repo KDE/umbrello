@@ -302,13 +302,13 @@ void UMLWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch (sel) {
     case ListPopupMenu::mt_Rename:
-        m_pDoc -> renameUMLObject(m_pObject);
+        m_pDoc->renameUMLObject(m_pObject);
         // adjustAssocs( getX(), getY() );//adjust assoc lines
         break;
 
     case ListPopupMenu::mt_Delete:
         //remove self from diagram
-        m_pScene -> removeWidget(this);
+        m_pScene->removeWidget(this);
         break;
 
         //UMLWidgetController::doMouseDoubleClick relies on this implementation
@@ -317,7 +317,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
                 wt == wt_Package || wt == wt_Interface || wt == wt_Datatype ||
                 wt == wt_Component || wt == wt_Artifact ||
                 wt == wt_Node || wt == wt_Enum || wt == wt_Entity ||
-                (wt == wt_Class && m_pScene -> getType() == dt_Class)) {
+                (wt == wt_Class && m_pScene->getType() == dt_Class)) {
             UMLApp::app()->BeginMacro("Change Properties");
             showProperties();
             UMLApp::app()->EndMacro();
@@ -337,8 +337,8 @@ void UMLWidget::slotMenuSelection(QAction* action)
             newColour = widget->getLineColor();
         }
         if (KColorDialog::getColor(newColour)) {
-            m_pScene -> selectionSetLineColor(newColour);
-            m_pDoc -> setModified(true);
+            m_pScene->selectionSetLineColor(newColour);
+            m_pDoc->setModified(true);
 
         }
         break;
@@ -349,8 +349,8 @@ void UMLWidget::slotMenuSelection(QAction* action)
             newColour = widget->getFillColour();
         }
         if (KColorDialog::getColor(newColour)) {
-            m_pScene -> selectionSetFillColor(newColour);
-            m_pDoc -> setModified(true);
+            m_pScene->selectionSetFillColor(newColour);
+            m_pDoc->setModified(true);
         }
         break;
 
@@ -381,7 +381,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     }
 
     case ListPopupMenu::mt_Delete_Selection:
-        m_pScene -> deleteSelection();
+        m_pScene->deleteSelection();
         break;
 
     case ListPopupMenu::mt_Change_Font:
@@ -394,16 +394,16 @@ void UMLWidget::slotMenuSelection(QAction* action)
     break;
 
     case ListPopupMenu::mt_Cut:
-        m_pScene -> setStartedCut();
-        UMLApp::app() -> slotEditCut();
+        m_pScene->setStartedCut();
+        UMLApp::app()->slotEditCut();
         break;
 
     case ListPopupMenu::mt_Copy:
-        UMLApp::app() -> slotEditCopy();
+        UMLApp::app()->slotEditCopy();
         break;
 
     case ListPopupMenu::mt_Paste:
-        UMLApp::app() -> slotEditPaste();
+        UMLApp::app()->slotEditPaste();
         break;
 
     case ListPopupMenu::mt_Refactoring:
@@ -520,9 +520,9 @@ void UMLWidget::drawSelected(QPainter * p, qreal offsetX, qreal offsetY)
     qreal h = getHeight();
     qreal s = 4;
     QBrush brush(Qt::blue);
-    p -> fillRect(QRectF(offsetX, offsetY, s,  s), brush);
-    p -> fillRect(QRectF(offsetX, offsetY + h - s, s, s), brush);
-    p -> fillRect(QRectF(offsetX + w - s, offsetY, s, s), brush);
+    p->fillRect(QRectF(offsetX, offsetY, s,  s), brush);
+    p->fillRect(QRectF(offsetX, offsetY + h - s, s, s), brush);
+    p->fillRect(QRectF(offsetX + w - s, offsetY, s, s), brush);
 
     // Draw the resize anchor in the lower right corner.
     if (m_bResizable) {
@@ -553,12 +553,12 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     updateComponentSize();
     if (m_pScene->getPaste()) {
         FloatingTextWidget * ft = 0;
-        QPointF point = m_pScene -> getPastePoint();
+        QPointF point = m_pScene->getPastePoint();
         qreal x = point.x() + getX();
         qreal y = point.y() + getY();
         x = x < 0 ? 0 : x;
         y = y < 0 ? 0 : y;
-        if (m_pScene -> getType() == dt_Sequence) {
+        if (m_pScene->getType() == dt_Sequence) {
             switch (getBaseType()) {
             case wt_Object:
             case wt_Precondition :
@@ -596,8 +596,8 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
         setX(getX());
         setY(getY());
     }
-    if (m_pScene -> getPaste())
-        m_pScene -> createAutoAssociations(this);
+    if (m_pScene->getPaste())
+        m_pScene->createAutoAssociations(this);
     updateComponentSize();
     return true;
 }
@@ -634,12 +634,12 @@ void UMLWidget::adjustAssocs(qreal x, qreal y)
     // the original positions, which are stored in XMI
     // should be reproduced exactly
     // ( don't try to reposition assocs as long
-    //   as file is only partly loaded -> reposition
+    //   as file is only partly loaded->reposition
     //   could be misguided )
     /// @todo avoid trigger of this event during load
     if (m_pDoc->loading()) {
         // don't recalculate the assocs during load of XMI
-        // -> return immediately without action
+        //->return immediately without action
         return;
     }
     AssociationWidgetListIt assoc_it(m_Assocs);
@@ -702,7 +702,7 @@ ListPopupMenu*  UMLWidget::setupPopupMenu()
     // if multiple items are selected, we have to check if they all have the same
     // base type
     if (multi == true)
-        unique = m_pScene -> checkUniqueSelection();
+        unique = m_pScene->checkUniqueSelection();
 
     // create the right click context menu
     m_pMenu = new ListPopupMenu(m_pScene->activeView(), this, multi, unique);
@@ -756,7 +756,7 @@ void UMLWidget::setSelected(bool _select)
 {
     const Uml::Widget_Type wt = m_Type;
     if (_select) {
-        if (m_pScene -> getSelectCount() == 0) {
+        if (m_pScene->getSelectCount() == 0) {
             if (widgetHasUMLObject(wt)) {
                 m_pScene->showDocumentation(m_pObject, false);
             } else {
@@ -771,7 +771,7 @@ void UMLWidget::setSelected(bool _select)
             setZ(m_origZ);
         } */
         if (m_bSelected)
-            m_pScene -> updateDocumentation(true);
+            m_pScene->updateDocumentation(true);
     }
     m_bSelected = _select;
 
@@ -896,7 +896,7 @@ void UMLWidget::setSize(qreal width, qreal height)
 {
     // snap to the next larger size that is a multiple of the grid
     if (!m_bIgnoreSnapComponentSizeToGrid
-        && m_pScene -> getSnapComponentSizeToGrid()) {
+        && m_pScene->getSnapComponentSizeToGrid()) {
         // integer divisions
         qreal numX = width / m_pScene->getSnapX();
         qreal numY = height / m_pScene->getSnapY();
