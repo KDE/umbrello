@@ -102,6 +102,7 @@ void TextItem::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *w)
 
         p->drawRect(rect);
     }
+
     QGraphicsTextItem::paint(p, o, w);
 }
 

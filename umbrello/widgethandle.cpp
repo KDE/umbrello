@@ -218,14 +218,14 @@ void WidgetHandle::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         }
 
         w = sp.x() - newRect.left();
-        if(w >= minh && w <= maxw) {
+        if(w >= minw && w <= maxw) {
             newRect.setRight(sp.x());
         }
         break;
 
     case rh_Right:
         w = sp.x() - newRect.left();
-        if(w >= minh && w <= maxw) {
+        if(w >= minw && w <= maxw) {
             newRect.setRight(sp.x());
         }
         break;
@@ -237,7 +237,7 @@ void WidgetHandle::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         }
 
         w = sp.x() - newRect.left();
-        if(w >= minh && w <= maxw) {
+        if(w >= minw && w <= maxw) {
             newRect.setRight(sp.x());
         }
         break;

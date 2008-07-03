@@ -24,6 +24,7 @@
 #include "newumlrectwidget.h"
 
 #define ENUM_MARGIN 5
+class TextItem;
 
 /**
  * @short A uml widget to visualize enum.
@@ -41,6 +42,8 @@ public:
      * @param o The NewUMLObject this will be representing.
      */
     explicit NewEnumWidget(UMLObject* o);
+
+    ~NewEnumWidget();
 
     /**
      * Do some initialization which cannot be done inside constructor
@@ -93,11 +96,17 @@ protected:
      */
     void updateGeometry();
 
+    void sizeHasChanged(const QSizeF& oldSize);
+
 private:
+    void cleanup();
+
     QSizeF m_minimumSize;
     bool m_showPackage;
 
-    void calculateMinimumSize();
+    TextItem *m_stereoTypeItem;
+    TextItem *m_nameItem;
+    QList<TextItem*> m_enumLiteralItems;
 };
 
 #endif // NEWENUMWIDGET_H

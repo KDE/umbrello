@@ -28,23 +28,29 @@
 #include <QtCore/QMetaObject>
 #include <QtCore/QMetaProperty>
 #include <QtCore/QTimerEvent>
+#include <QtCore/QTime>
+
 #include <kdebug.h>
 
 Test* Test::m_self = 0;
 
 struct TestPrivate
 {
-    TestPrivate() : scene(0), enumWidget(0)
-    {}
+    TestPrivate() : scene(0), enumWidget(0), enumObject(0), count(0)
+    {
+    }
 
     UMLScene *scene;
     QString xml;
     NewEnumWidget *enumWidget;
+    UMLEnum *enumObject;
+    int count;
 };
 
 Test::Test() :
     d(new TestPrivate)
 {
+    qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 }
 
 Test* Test::self()
@@ -73,6 +79,7 @@ void Test::testScene(UMLScene *scene)
     uDebug() << "entered test";
 
     UMLEnum *en = new UMLEnum("Qt::SizeHint");
+    d->enumObject = en;
     en->createEnumLiteral("MinimumSize");
     en->createEnumLiteral("MaximumSize");
     en->createEnumLiteral("PreferredSize");
@@ -84,15 +91,8 @@ void Test::testScene(UMLScene *scene)
     wid->init();
     scene->addItem(wid);
     wid->setPos(40, 40);
-    QLinearGradient ling(QPointF(0, 0), QPointF(0, 1));
-    ling.setCoordinateMode(QGradient::ObjectBoundingMode);
 
-    QColor col1(Qt::darkGray);
-    QColor col2(Qt::lightGray);
-    ling.setColorAt(0, col1);
-    ling.setColorAt(1, col2);
-
-    wid->setBrush(QBrush(ling));
+    wid->setBrush(randomGradientBrush());
     wid->setSize(220, 120);
 
     QDomDocument doc("TEST");
@@ -104,7 +104,7 @@ void Test::testScene(UMLScene *scene)
 
     d->xml = doc.toString();
     d->enumWidget = wid;
-    wid->setBrush(Qt::darkYellow);
+    wid->setBrush(randomGradientBrush());
     uDebug() << "-------------------";
     uDebug() << d->xml;
     uDebug() << "-------------------";
@@ -115,15 +115,62 @@ void Test::testScene(UMLScene *scene)
     startTimer(3 * 1000);
 }
 
+QBrush Test::randomGradientBrush()
+{
+    QLinearGradient *gradient = new QLinearGradient();
+    gradient->setCoordinateMode(QGradient::ObjectBoundingMode);
+
+    int h, s, v;
+    h = qrand() % 360;
+    s = qrand() % 255;
+    v = qrand() % 255;
+
+    QColor colorBottom = QColor::fromHsv(h, s, v);
+
+    colorBottom.toHsv().getHsv(&h, &s, &v);
+    int diff = 50;
+    if(v + diff <= 255) {
+        v += diff;
+    }
+    else {
+        v -= diff;
+    }
+
+    diff = 75;
+    if(s + diff <= 255) {
+        s += diff;
+    }
+    else {
+        s -= diff;
+    }
+    QColor colorTop = QColor::fromHsv(h, s, v);
+    gradient->setColorAt(0, colorTop);
+    gradient->setColorAt(1, colorBottom);
+
+    gradient->setStart(0, 0);
+    gradient->setFinalStop(0, 1);
+
+    QBrush retval(*gradient);
+    delete gradient;
+    return retval;
+}
 
 void Test::timerEvent(QTimerEvent *event)
 {
-    QDomDocument doc("TEST");
-    doc.setContent(d->xml);
+    if(d->count == 0) {
+        QDomDocument doc("TEST");
+        doc.setContent(d->xml);
 
-    QDomElement ele = doc.documentElement().firstChild().toElement();
-    d->enumWidget->loadFromXMI(ele);
-    killTimer(event->timerId());
+        QDomElement ele = doc.documentElement().firstChild().toElement();
+        d->enumWidget->loadFromXMI(ele);
+    }
+    else if(d->count < 8) {
+        d->enumObject->createEnumLiteral("MaximumSize" + QString::number(qrand() % 100));
+    }
+    else {
+        killTimer(event->timerId());
+    }
+    ++d->count;
 }
 
 #include "test.moc"

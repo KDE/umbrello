@@ -25,6 +25,8 @@
 // THIS IS USED TO ONLY TEST FEATURES OF THE PORT
 class UMLScene;
 class TestPrivate;
+class QBrush;
+
 class Test : public QObject
 {
     Q_OBJECT;
@@ -34,6 +36,8 @@ public:
 
     static Test* self();
     static Test *m_self;
+
+    QBrush randomGradientBrush();
 
 protected:
     void timerEvent(QTimerEvent *event);
