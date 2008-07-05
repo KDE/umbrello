@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>572</width>
-    <height>545</height>
+    <width>415</width>
+    <height>437</height>
    </rect>
   </property>
   <widget class="QWidget" name="layout6" >
@@ -14,8 +14,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>400</width>
-     <height>520</height>
+     <width>387</width>
+     <height>414</height>
     </rect>
    </property>
    <layout class="QGridLayout" >
@@ -36,56 +36,50 @@
       <property name="title" >
        <string>Role Properties</string>
       </property>
-      <widget class="QWidget" name="layout5" >
-       <property name="geometry" >
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>360</width>
-         <height>70</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" >
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
-         <number>0</number>
-        </property>
-        <item row="0" column="0" >
-         <widget class="QLabel" name="roleNameLabel" >
-          <property name="text" >
-           <string>Rolename:</string>
-          </property>
-          <property name="wordWrap" >
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" >
-         <widget class="QLineEdit" name="m_pMultiLE" />
-        </item>
-        <item row="0" column="1" >
-         <widget class="QLineEdit" name="m_pRoleLE" />
-        </item>
-        <item row="1" column="0" >
-         <widget class="QLabel" name="textLabel2" >
-          <property name="text" >
-           <string>Multiplicity:</string>
-          </property>
-          <property name="wordWrap" >
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
+      <layout class="QVBoxLayout" >
+       <item>
+        <layout class="QGridLayout" >
+         <property name="leftMargin" >
+          <number>0</number>
+         </property>
+         <property name="topMargin" >
+          <number>0</number>
+         </property>
+         <property name="rightMargin" >
+          <number>0</number>
+         </property>
+         <property name="bottomMargin" >
+          <number>0</number>
+         </property>
+         <item row="0" column="0" >
+          <widget class="QLabel" name="roleNameLabel" >
+           <property name="text" >
+            <string>Rolename:</string>
+           </property>
+           <property name="wordWrap" >
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" >
+          <widget class="QLineEdit" name="m_pMultiLE" />
+         </item>
+         <item row="0" column="1" >
+          <widget class="QLineEdit" name="m_pRoleLE" />
+         </item>
+         <item row="1" column="0" >
+          <widget class="QLabel" name="textLabel2" >
+           <property name="text" >
+            <string>Multiplicity:</string>
+           </property>
+           <property name="wordWrap" >
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
     </item>
     <item row="3" column="0" >

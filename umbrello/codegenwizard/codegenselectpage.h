@@ -4,39 +4,41 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002                                                    *
- *   Luis De la Parra <luis@delaparra.org>                                 *
  *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-#ifndef CODEVIEWEROPTIONSPAGE_H
-#define CODEVIEWEROPTIONSPAGE_H
+#ifndef CODEGENSELECTPAGE_H
+#define CODEGENSELECTPAGE_H
 
-#include <QtGui/QWidget>
-#include "ui_codevieweroptionsbase.h"
-#include "codeviewerstate.h"
+// qt includes
+#include <QtGui/QWizardPage>
+
+// app includes
+#include "ui_codegenselectpage.h"
+#include "umlclassifierlist.h"
 
 /**
+ * @author Luis De la Parra
  * @author Brian Thomas
+ * @author Andi Fischer
  */
 
-class CodeViewerOptionsPage : public QWidget, private Ui::CodeViewerOptionsBase
+class CodeGenSelectPage : public QWizardPage, private Ui::CodeGenSelectPage
 {
     Q_OBJECT
 public:
-    CodeViewerOptionsPage (Settings::CodeViewerState options, QWidget *parent, const char *name = 0);
-    ~CodeViewerOptionsPage();
-
-    Settings::CodeViewerState getOptions();
-    void apply();
+    CodeGenSelectPage(QWidget * parent = 0);
+    ~CodeGenSelectPage();
+    void setClassifierList(UMLClassifierList *classList);
+    bool isComplete() const;
+    QListWidget* getSelectionListWidget();
 
 private:
-    Settings::CodeViewerState m_options;
+    static void moveSelectedItems(QListWidget* fromList, QListWidget* toList);
 
 protected slots:
-
-signals:
-    void applyClicked();
+    void selectClass();
+    void deselectClass();
 
 };
 

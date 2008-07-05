@@ -11,6 +11,7 @@ include_directories (
   ${LIBXML2_INCLUDE_DIR}
   ${LIBXSLT_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
+  ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/
   ${Boost_INCLUDE_DIR}
 )
 
@@ -77,12 +78,12 @@ set(libcodegenerator_SRCS
 	codegenerators/javawriter.cpp
 	codegenerators/jswriter.cpp
 	codegenerators/idlwriter.cpp
-        codegenerators/mysqlwriter.cpp
+    codegenerators/mysqlwriter.cpp
 	codegenerators/pascalwriter.cpp
 	codegenerators/perlwriter.cpp
 	codegenerators/phpwriter.cpp
 	codegenerators/php5writer.cpp
-        codegenerators/postgresqlwriter.cpp
+    codegenerators/postgresqlwriter.cpp
 	codegenerators/pythonwriter.cpp
 	codegenerators/rubywriter.cpp
 	codegenerators/sqlwriter.cpp
@@ -118,21 +119,19 @@ set(libdialogs_SRCS
 	dialogs/assocrolepage.cpp
 	dialogs/classgenpage.cpp
 	dialogs/classifierlistpage.cpp
-        dialogs/constraintlistpage.cpp
+    dialogs/constraintlistpage.cpp
 	dialogs/classoptionspage.cpp
 	dialogs/classpropdlg.cpp
 	dialogs/classwizard.cpp
 	dialogs/codeeditor.cpp
-	dialogs/codegenerationoptionspage.cpp
 	dialogs/codegenerationpolicypage.cpp
-	dialogs/codegenerationwizard.cpp
 	dialogs/codeviewerdialog.cpp
 	dialogs/codevieweroptionspage.cpp
 	dialogs/defaultcodegenpolicypage.cpp
 	dialogs/diagramprintpage.cpp
-        dialogs/exportallviewsdialog.cpp
+    dialogs/exportallviewsdialog.cpp
 	dialogs/notedialog.cpp
-        dialogs/objectnodedialog.cpp
+    dialogs/objectnodedialog.cpp
 	dialogs/importprojectdlg.cpp
 	dialogs/overwritedialogue.cpp
 	dialogs/pkgcontentspage.cpp
@@ -141,20 +140,19 @@ set(libdialogs_SRCS
 	dialogs/settingsdlg.cpp
 	dialogs/statedialog.cpp
 	dialogs/umlattributedialog.cpp
-        dialogs/umlcheckconstraintdialog.cpp
+    dialogs/umlcheckconstraintdialog.cpp
 	dialogs/umlentityattributedialog.cpp
-        dialogs/umlforeignkeyconstraintdialog.cpp
+    dialogs/umlforeignkeyconstraintdialog.cpp
 	dialogs/umloperationdialog.cpp
 	dialogs/umltemplatedialog.cpp
 	dialogs/umlroledialog.cpp
 	dialogs/umlroleproperties.cpp
 	dialogs/umluniqueconstraintdialog.cpp
-        dialogs/umlviewdialog.cpp
-	dialogs/umlwidgetcolorpage.cpp )
+    dialogs/umlviewdialog.cpp
+	dialogs/umlwidgetcolorpage.cpp
+)
 
 kde4_add_ui_files(  libdialogs_SRCS
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationoptionsbase.ui
-	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codegenerationwizardbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codevieweroptionsbase.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/dialogs/exportallviewsdialogbase.ui
@@ -165,7 +163,22 @@ kde4_add_ui_files(  libdialogs_SRCS
 
 
 set(librefactoring_SRCS
-		refactoring/refactoringassistant.cpp )
+		refactoring/refactoringassistant.cpp
+)
+
+
+set(libcodegenwizard_SRCS
+		codegenwizard/codegenselectpage.cpp
+		codegenwizard/codegenoptionspage.cpp
+		codegenwizard/codegenstatuspage.cpp
+		codegenwizard/codegenerationwizard.cpp
+)
+
+kde4_add_ui_files(  libcodegenwizard_SRCS
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenselectpage.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenoptionspage.ui
+	${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenstatuspage.ui
+)
 
 
 set(libcodeimport_SRCS
@@ -230,8 +243,8 @@ set(libcmds_SRCS
 	cmds/widget/cmd_changeLineColor.cpp
 	cmds/widget/cmd_changeFillColor.cpp
 	cmds/widget/cmd_changeMulti.cpp
-
 )
+
 ########### next target ###############
 
 set(libumbrello_SRCS
@@ -398,6 +411,7 @@ set (umbrello_SRCS
 	${umbrello_SRCS}
 	${libdialogs_SRCS}
 	${librefactoring_SRCS}
+	${libcodegenwizard_SRCS}
 	${libclassparser_SRCS}
 	${libclipboard_SRCS}
 	${libkdevcppparser_SRCS}
