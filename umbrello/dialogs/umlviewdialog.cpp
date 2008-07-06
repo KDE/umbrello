@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,22 +11,15 @@
 // own header
 #include "umlviewdialog.h"
 
-// qt/kde includes
+// qt includes
 #include <QtGui/QFrame>
 #include <QtGui/QHBoxLayout>
-#include <q3vbox.h>
-#include <QtGui/QLayout>
-#include <QtGui/QCheckBox>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <q3groupbox.h>
-#include <q3textedit.h>
-#include <QtGui/QSpinBox>
+
+// kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kfontdialog.h>
 #include <kdebug.h>
-#include <knuminput.h>
 #include <kvbox.h>
 
 // local includes
@@ -59,10 +51,10 @@ UMLViewDialog::~UMLViewDialog()
 
 void UMLViewDialog::slotOk()
 {
-    applyPage( pageGeneralItem );
-    applyPage( pageDisplayItem );
-    applyPage( pageFontItem );
-    applyPage( pageColorItem );
+    applyPage( m_pageGeneralItem );
+    applyPage( m_pageDisplayItem );
+    applyPage( m_pageFontItem );
+    applyPage( m_pageColorItem );
     accept();
 }
 
@@ -82,25 +74,25 @@ void UMLViewDialog::setupPages()
 void UMLViewDialog::setupDiagramPropertiesPage()
 {
     KVBox *page = new KVBox();
-    pageGeneralItem = new KPageWidgetItem( page, i18nc("general settings page", "General") );
-    pageGeneralItem->setHeader( i18n("General Settings") );
-    pageGeneralItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
-    addPage( pageGeneralItem);
+    m_pageGeneralItem = new KPageWidgetItem( page, i18nc("general settings page", "General") );
+    m_pageGeneralItem->setHeader( i18n("General Settings") );
+    m_pageGeneralItem->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
+    addPage(m_pageGeneralItem);
 
     m_diagramProperties = new DiagramPropertiesPage(page);
 
-    m_diagramProperties->diagramName->setText( m_pView->getName() );
-    m_diagramProperties->zoom->setValue(m_pView->currentZoom());
-    m_diagramProperties->showOpSigs->setChecked( m_pView->getShowOpSig() );
+    m_diagramProperties->ui_diagramName->setText( m_pView->getName() );
+    m_diagramProperties->ui_zoom->setValue(m_pView->currentZoom());
+    m_diagramProperties->ui_showOpSigs->setChecked( m_pView->getShowOpSig() );
 
-    m_diagramProperties->showGrid->setChecked(m_pView -> getShowSnapGrid());
-    m_diagramProperties->snapToGrid->setChecked(m_pView-> getSnapToGrid());
-    m_diagramProperties->snapComponentSizeToGrid->setChecked(m_pView-> getSnapComponentSizeToGrid());
+    m_diagramProperties->ui_checkBoxShowGrid->setChecked(m_pView->getShowSnapGrid());
+    m_diagramProperties->ui_snapToGrid->setChecked(m_pView-> getSnapToGrid());
+    m_diagramProperties->ui_snapComponentSizeToGrid->setChecked(m_pView->getSnapComponentSizeToGrid());
 
-    m_diagramProperties->gridSpaceX->setValue( m_pView -> getSnapX());
-    m_diagramProperties->gridSpaceY->setValue( m_pView -> getSnapY());
-    m_diagramProperties->lineWidth->setValue( m_pView -> getLineWidth());
-    m_diagramProperties->documentation->setText(m_pView -> getDoc());
+    m_diagramProperties->ui_gridSpaceX->setValue( m_pView->getSnapX());
+    m_diagramProperties->ui_gridSpaceY->setValue( m_pView->getSnapY());
+    m_diagramProperties->ui_lineWidth->setValue( m_pView->getLineWidth());
+    m_diagramProperties->ui_documentation->setText(m_pView->getDoc());
 }
 
 void UMLViewDialog::setupClassPage()
@@ -109,10 +101,10 @@ void UMLViewDialog::setupClassPage()
         return;
     }
     QFrame * newPage = new QFrame();
-    pageDisplayItem = new KPageWidgetItem( newPage, i18nc("classes display options page", "Display") );
-    pageDisplayItem->setHeader( i18n("Classes Display Options") );
-    pageDisplayItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Display) );
-    addPage( pageDisplayItem);
+    m_pageDisplayItem = new KPageWidgetItem( newPage, i18nc("classes display options page", "Display") );
+    m_pageDisplayItem->setHeader( i18n("Classes Display Options") );
+    m_pageDisplayItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Display) );
+    addPage(m_pageDisplayItem);
 
     QHBoxLayout * pOptionsLayout = new QHBoxLayout( newPage );
     m_pOptionsPage = new ClassOptionsPage( newPage, &m_options );
@@ -122,10 +114,10 @@ void UMLViewDialog::setupClassPage()
 void UMLViewDialog::setupColorPage()
 {
     QFrame * colorPage = new QFrame();
-    pageColorItem = new KPageWidgetItem( colorPage, i18nc("diagram colors page", "Color") );
-    pageColorItem->setHeader( i18n("Diagram Colors") );
-    pageColorItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
-    addPage( pageColorItem);
+    m_pageColorItem = new KPageWidgetItem( colorPage, i18nc("diagram colors page", "Color") );
+    m_pageColorItem->setHeader( i18n("Diagram Colors") );
+    m_pageColorItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Color) );
+    addPage(m_pageColorItem);
 
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(colorPage);
     m_pColorPage = new UMLWidgetColorPage( colorPage, &m_options );
@@ -135,43 +127,43 @@ void UMLViewDialog::setupColorPage()
 void UMLViewDialog::setupFontPage()
 {
     KVBox *page = new KVBox();
-    pageFontItem = new KPageWidgetItem( page, i18n("Font") );
-    pageFontItem->setHeader( i18n("Font Settings") );
-    pageFontItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
-    addPage( pageFontItem);
+    m_pageFontItem = new KPageWidgetItem( page, i18n("Font") );
+    m_pageFontItem->setHeader( i18n("Font Settings") );
+    m_pageFontItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
+    addPage(m_pageFontItem);
 
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-    m_pChooser -> setFont( m_pView -> getOptionState().uiState.font );
+    m_pChooser->setFont( m_pView->getOptionState().uiState.font );
 }
 
 void UMLViewDialog::applyPage( KPageWidgetItem*item )
 {
-    if ( item==pageGeneralItem )
+    if ( item == m_pageGeneralItem )
     {
         checkName();
-        m_pView->setZoom( m_diagramProperties->zoom->value() );
-        m_pView->setDoc( m_diagramProperties->documentation->text() );
-        m_pView->setSnapX( m_diagramProperties->gridSpaceX->value() );
-        m_pView->setSnapY( m_diagramProperties->gridSpaceY->value() );
-        m_pView->setLineWidth( m_diagramProperties->lineWidth->value() );
-        m_pView->setSnapToGrid( m_diagramProperties->snapToGrid->isChecked() );
-        m_pView->setSnapComponentSizeToGrid( m_diagramProperties->snapComponentSizeToGrid->isChecked() );
-        m_pView->setShowSnapGrid( m_diagramProperties->showGrid->isChecked() );
-        m_pView->setShowOpSig( m_diagramProperties->showOpSigs->isChecked() );
+        m_pView->setZoom( m_diagramProperties->ui_zoom->value() );
+        m_pView->setDoc( m_diagramProperties->ui_documentation->text() );
+        m_pView->setSnapX( m_diagramProperties->ui_gridSpaceX->value() );
+        m_pView->setSnapY( m_diagramProperties->ui_gridSpaceY->value() );
+        m_pView->setLineWidth( m_diagramProperties->ui_lineWidth->value() );
+        m_pView->setSnapToGrid( m_diagramProperties->ui_snapToGrid->isChecked() );
+        m_pView->setSnapComponentSizeToGrid( m_diagramProperties->ui_snapComponentSizeToGrid->isChecked() );
+        m_pView->setShowSnapGrid( m_diagramProperties->ui_checkBoxShowGrid->isChecked() );
+        m_pView->setShowOpSig( m_diagramProperties->ui_showOpSigs->isChecked() );
     }
-    else if ( item == pageColorItem )
+    else if ( item == m_pageColorItem )
     {
         m_pColorPage->updateUMLWidget();
         m_pView->setUseFillColor( m_options.uiState.useFillColor );
         m_pView->setLineColor( m_options.uiState.lineColor );
         m_pView->setFillColor( m_options.uiState.fillColor );
     }
-    else if ( item == pageFontItem )
+    else if ( item == m_pageFontItem )
     {
-        uDebug() << "setting font " << m_pChooser->font().toString() << endl;
+        uDebug() << "setting font " << m_pChooser->font().toString();
         m_pView->setFont( m_pChooser->font(), true );
     }
-    else if ( item == pageDisplayItem )
+    else if ( item == m_pageDisplayItem )
     {
         if ( m_pView->getType() != Uml::dt_Class ) {
             return;
@@ -190,19 +182,19 @@ void UMLViewDialog::applyPage( KPageWidgetItem*item )
 
 void UMLViewDialog::checkName()
 {
-    QString name = m_diagramProperties->diagramName-> text();
+    QString name = m_diagramProperties->ui_diagramName-> text();
     UMLDoc * pDoc = UMLApp::app()-> getDocument();
     UMLView * pView = pDoc -> findView( m_pView -> getType(), name );
     if ( name.length() == 0 ) {
         KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
                            i18n("Invalid Name"), false);
-        m_diagramProperties->diagramName->setText( m_pView->getName() );
+        m_diagramProperties->ui_diagramName->setText( m_pView->getName() );
         return;
     }
     if ( pView && pView != m_pView ) {
         KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
                            i18n("Name Not Unique"), false);
-        m_diagramProperties->diagramName->setText( m_pView->getName() );
+        m_diagramProperties->ui_diagramName->setText( m_pView->getName() );
         return;
     }
     m_pView->setName( name );
