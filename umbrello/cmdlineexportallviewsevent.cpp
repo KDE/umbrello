@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +12,7 @@
 #include "cmdlineexportallviewsevent.h"
 
 // qt includes
-#include <qstringlist.h>
+#include <QtCore/QStringList>
 
 // kde includes
 #include <kapplication.h>
@@ -24,21 +23,24 @@
 #include "umlviewimageexportermodel.h"
 
 
-int CmdLineExportAllViewsEvent::getType() {
+int CmdLineExportAllViewsEvent::getType()
+{
     return QEvent::User + 1;
 }
 
 CmdLineExportAllViewsEvent::CmdLineExportAllViewsEvent(const QString &imageType, const KUrl &directory, const bool useFolders)
-  : QCustomEvent(CmdLineExportAllViewsEvent::getType()) {
+  : QCustomEvent(CmdLineExportAllViewsEvent::getType())
+{
     m_imageType = imageType;
     m_directory = directory;
     m_useFolders = useFolders;
 }
 
-void CmdLineExportAllViewsEvent::exportAllViews() {
+void CmdLineExportAllViewsEvent::exportAllViews()
+{
     QStringList errors = UMLViewImageExporterModel().exportAllViews(m_imageType, m_directory, m_useFolders);
     if (!errors.isEmpty()) {
-        uError() << "Errors while exporting:" << endl;
+        uError() << "Errors while exporting:";
         for (QStringList::Iterator it = errors.begin(); it != errors.end(); ++it) {
             uError() << *it << endl;
         }
