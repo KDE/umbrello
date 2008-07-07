@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003  Brian Thomas  brian.thomas@gsfc.nasa.gov          *
+ *   copyright (C) 2003  Brian Thomas  <brian.thomas@gsfc.nasa.gov>        *
  *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
@@ -13,7 +12,7 @@
 // own header
 #include "codeeditor.h"
 
-// qt/kde includes
+// qt includes
 #include <QtGui/QMouseEvent>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QKeySequence>
@@ -23,6 +22,8 @@
 #include <QtGui/QBrush>
 #include <QtGui/QLayout>
 #include <QtCore/QRegExp>
+
+// kde includes
 #include <kdebug.h>
 #include <klocale.h>
 #include <kaction.h>
@@ -94,7 +95,7 @@ Settings::CodeViewerState CodeEditor::getState()
 
 QLabel * CodeEditor::getComponentLabel()
 {
-    return m_parentDlg->componentLabel;
+    return m_parentDlg->ui_componentLabel;
 }
 
 // FIX: used only for debugging right now. eliminate eventually -b.t.
