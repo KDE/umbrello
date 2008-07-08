@@ -1,37 +1,34 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
-
-
 #ifndef SETTINGSDLG_H
 #define SETTINGSDLG_H
-//qt includes
-#include <q3groupbox.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qradiobutton.h>
-#include <q3buttongroup.h>
-#include <q3dict.h>
-//kde includes
+
+// qt includes
+#include <QtGui/QGroupBox>
+#include <QtGui/QCheckBox>
+#include <QtGui/QPushButton>
+#include <QtGui/QLabel>
+#include <QtGui/QRadioButton>
+
+// kde includes
 #include <kcombobox.h>
 #include <kfontdialog.h>
 #include <kpagedialog.h>
 #include <kcolorbutton.h>
 #include <knuminput.h>
 #include <klineedit.h>
-//app includes
 
-#include "../optionstate.h"
+// app includes
+#include "optionstate.h"
 
-class CodeGenerationOptionsPage;
+class CodeGenOptionsPage;
 class CodeViewerOptionsPage;
 
 /**
@@ -40,8 +37,8 @@ class CodeViewerOptionsPage;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class SettingsDlg : public KPageDialog {
-
+class SettingsDlg : public KPageDialog
+{
     Q_OBJECT
 
 public:
@@ -56,23 +53,14 @@ public:
     QString getCodeGenerationLanguage();
 
 protected:
-    /**
-    * Inserts @p type into the type-combobox as well as its completion object.
-    */
     void insertDiagram( const QString& type, int index = -1 );
-    /**
-    * Inserts @p type into the type-combobox as well as its completion object.
-    */
     void insertAttribScope( const QString& type, int index = -1 );
-    /**
-    * Inserts @p type into the type-combobox as well as its completion object.
-    */
     void insertOperationScope( const QString& type, int index = -1 );
 
 private:
     //private structs
     struct UIWidgets {
-        Q3GroupBox * colorGB;
+        QGroupBox * colorGB;
 
         QLabel * lineColorL;
         QLabel * fillColorL;
@@ -91,9 +79,9 @@ private:
     ;//end struct UIWidgets
 
     struct GeneralWidgets {
-        Q3GroupBox * miscGB;
-        Q3GroupBox * autosaveGB;
-        Q3GroupBox * startupGB;
+        QGroupBox * miscGB;
+        QGroupBox * autosaveGB;
+        QGroupBox * startupGB;
 
         KIntSpinBox * timeISB;
         KComboBox * diagramKB;
@@ -107,21 +95,21 @@ private:
         QCheckBox * autosaveCB;
         QCheckBox * loadlastCB;
 
-        // 2004-05-17 Achim Spangler: Allow definition of Suffix for autosave
+        // Allow definition of Suffix for autosave
         // ( Default: ".xmi" )
         KLineEdit * autosaveSuffixT;
         QLabel    * autosaveSuffixL;
         // End AutoSave Suffix
 
         QLabel * startL;
-        QLabel *  autosaveL;
+        QLabel * autosaveL;
         QLabel * defaultLanguageL;
     }
     ;//end struct GeneralWidgets
 
     struct ClassWidgets {
-        Q3GroupBox * visibilityGB;
-        Q3GroupBox * scopeGB;
+        QGroupBox * visibilityGB;
+        QGroupBox * scopeGB;
 
         QCheckBox * showVisibilityCB;
         QCheckBox * showAttsCB;
@@ -135,8 +123,8 @@ private:
         QLabel * attributeLabel;
         QLabel * operationLabel;
 
-        KComboBox* m_pAttribScopeCB;
-        KComboBox* m_pOperationScopeCB;
+        KComboBox * m_pAttribScopeCB;
+        KComboBox * m_pOperationScopeCB;
 
     }
     ;//end struct ClassWidgets
@@ -160,11 +148,12 @@ private:
     UIWidgets m_UiWidgets;
     ClassWidgets m_ClassWidgets;
     Settings::OptionState *m_pOptionState;
-    CodeGenerationOptionsPage * m_pCodeGenPage;
+    CodeGenOptionsPage * m_pCodeGenPage;
     CodeViewerOptionsPage * m_pCodeViewerPage;
 
     bool m_bChangesApplied;
-    KPageWidgetItem*pageCodeViewer,*pageFont,*pageCodeGen,*pageUserInterface,* pageGeneral,*pageClass;
+    KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeGen, *pageUserInterface, *pageGeneral, *pageClass;
+
 private slots:
     void slotApply();
     void slotOk();

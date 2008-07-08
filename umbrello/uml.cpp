@@ -78,10 +78,11 @@
 #include "model_utils.h"
 // dialogs
 #include "classwizard.h"
-#include "codegenerationwizard.h"
+#include "codegenwizard/codegenerationwizard.h"
 #include "codeviewerdialog.h"
 #include "diagramprintpage.h"
 #include "importprojectdlg.h"
+#include "settingsdlg.h"
 #include "codeimport/classimport.h"
 #include "refactoring/refactoringassistant.h"
 // clipboard

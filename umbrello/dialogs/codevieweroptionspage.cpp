@@ -1,19 +1,12 @@
 /***************************************************************************
-                          codegenerationoptionspage.cpp  -  description
-                             -------------------
-    begin                : Thu Jul 25 2002
-    copyright            : (C) 2002 by Luis De la Parra
-    email                : luis@delaparra.org
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2002                                                    *
+ *   Luis De la Parra <luis@delaparra.org>                                 *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,18 +20,10 @@
 
 
 CodeViewerOptionsPage::CodeViewerOptionsPage( Settings::CodeViewerState options, QWidget *parent, const char *name )
-        :QWidget(parent)
+        :QWidget(parent), m_options(options)
 {
     setObjectName(name);
     setupUi(this);
-    init (options);
-}
-
-CodeViewerOptionsPage::~CodeViewerOptionsPage() { }
-
-void CodeViewerOptionsPage::init( Settings::CodeViewerState options )
-{
-    m_options = options;
 
     // set widget stuff
     /*
@@ -52,7 +37,12 @@ void CodeViewerOptionsPage::init( Settings::CodeViewerState options )
      */
 }
 
-void CodeViewerOptionsPage::apply() {
+CodeViewerOptionsPage::~CodeViewerOptionsPage()
+{
+}
+
+void CodeViewerOptionsPage::apply()
+{
     /*
         m_options.umlObjectColor = umlObjectColorButton->color();
         m_options.editBlockColor = editBlockColorButton->color();
@@ -65,7 +55,8 @@ void CodeViewerOptionsPage::apply() {
     emit applyClicked();
 }
 
-Settings::CodeViewerState CodeViewerOptionsPage::getOptions() {
+Settings::CodeViewerState CodeViewerOptionsPage::getOptions()
+{
     return m_options;
 }
 

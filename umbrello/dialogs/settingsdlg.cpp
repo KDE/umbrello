@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -24,11 +23,11 @@
 #include <kfiledialog.h>
 
 // app includes
-#include "codegenerationoptionspage.h"
+#include "codegenoptionspage.h"
 #include "codevieweroptionspage.h"
-#include "../dialog_utils.h"
-#include "../model_utils.h"
-#include "../icon_utils.h"
+#include "dialog_utils.h"
+#include "model_utils.h"
+#include "icon_utils.h"
 
 
 SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
@@ -67,7 +66,7 @@ void SettingsDlg::setupUIPage()
     pageUserInterface->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_UserInterface) );
     addPage( pageUserInterface );
 
-    m_UiWidgets.colorGB = new Q3GroupBox( i18nc("color group box", "Color"), page );
+    m_UiWidgets.colorGB = new QGroupBox( i18nc("color group box", "Color"), page );
     QGridLayout * colorLayout = new QGridLayout( m_UiWidgets.colorGB );
     colorLayout->setSpacing( spacingHint() );
     colorLayout->setMargin( fontMetrics().height() );
@@ -123,7 +122,7 @@ void SettingsDlg::setupGeneralPage()
     addPage( pageGeneral );
 
     // Set up undo setting
-    m_GeneralWidgets.miscGB = new Q3GroupBox( i18nc("miscellaneous group box", "Miscellaneous"), page );
+    m_GeneralWidgets.miscGB = new QGroupBox( i18nc("miscellaneous group box", "Miscellaneous"), page );
 
     QGridLayout * miscLayout = new QGridLayout( m_GeneralWidgets.miscGB );
     miscLayout->setSpacing( spacingHint() );
@@ -131,7 +130,6 @@ void SettingsDlg::setupGeneralPage()
 
     m_GeneralWidgets.undoCB = new QCheckBox( i18n("Enable undo"), m_GeneralWidgets.miscGB );
     m_GeneralWidgets.undoCB->setChecked( m_pOptionState->generalState.undo );
-    miscLayout->addWidget( m_GeneralWidgets.undoCB, 0, 0 );
 
     m_GeneralWidgets.tabdiagramsCB = new QCheckBox( i18n("Use tabbed diagrams"), m_GeneralWidgets.miscGB );
     m_GeneralWidgets.tabdiagramsCB->setChecked( m_pOptionState->generalState.tabdiagrams );
@@ -150,7 +148,7 @@ void SettingsDlg::setupGeneralPage()
     miscLayout->addWidget( m_GeneralWidgets.footerPrintingCB, 2, 0 );
 
     //setup autosave settings
-    m_GeneralWidgets.autosaveGB = new Q3GroupBox( i18n("Autosave"), page );
+    m_GeneralWidgets.autosaveGB = new QGroupBox( i18n("Autosave"), page );
 
     QGridLayout * autosaveLayout = new QGridLayout( m_GeneralWidgets.autosaveGB );
     autosaveLayout->setSpacing( spacingHint() );
@@ -167,8 +165,7 @@ void SettingsDlg::setupGeneralPage()
     m_GeneralWidgets.timeISB->setEnabled( m_pOptionState->generalState.autosave );
     autosaveLayout->addWidget( m_GeneralWidgets.timeISB, 1, 1 );
 
-    // 2004-05-17 Achim Spangler: Allow definition of Suffix for autosave
-    // ( default: ".xmi" )
+    // Allow definition of Suffix for autosave ( default: ".xmi" )
     Dialog_Utils::makeLabeledEditField( m_GeneralWidgets.autosaveGB, autosaveLayout, 2,
                                     m_GeneralWidgets.autosaveSuffixL, i18n("Set autosave suffix:"),
                                     m_GeneralWidgets.autosaveSuffixT, m_pOptionState->generalState.autosavesuffix );
@@ -182,7 +179,7 @@ void SettingsDlg::setupGeneralPage()
     m_GeneralWidgets.autosaveSuffixT->setToolTip( autoSaveSuffixToolTip );
 
     //setup startup settings
-    m_GeneralWidgets.startupGB = new Q3GroupBox( i18n("Startup"), page );
+    m_GeneralWidgets.startupGB = new QGroupBox( i18n("Startup"), page );
 
     QGridLayout * startupLayout = new QGridLayout( m_GeneralWidgets.startupGB );
     startupLayout->setSpacing( spacingHint() );
@@ -223,7 +220,6 @@ void SettingsDlg::setupGeneralPage()
         indexCounter++;
     }
     m_GeneralWidgets.languageKB->setCurrentIndex(m_pOptionState->generalState.defaultLanguage);
-
 }
 
 /**
@@ -244,7 +240,7 @@ void SettingsDlg::setupClassPage()
     pageClass->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Class) );
     addPage( pageClass );
 
-    m_ClassWidgets.visibilityGB = new Q3GroupBox( i18n("Visibility"), page );
+    m_ClassWidgets.visibilityGB = new QGroupBox( i18n("Visibility"), page );
 
     QGridLayout * visibilityLayout = new QGridLayout( m_ClassWidgets.visibilityGB );
     visibilityLayout->setSpacing( spacingHint() );
@@ -279,7 +275,7 @@ void SettingsDlg::setupClassPage()
     visibilityLayout->addWidget( m_ClassWidgets.showOpSigCB, 3, 0 );
     visibilityLayout->setRowStretch( 3, 1 );
 
-    m_ClassWidgets.scopeGB = new Q3GroupBox( i18n("Starting Scope"), page );
+    m_ClassWidgets.scopeGB = new QGroupBox( i18n("Starting Scope"), page );
     QGridLayout * scopeLayout = new QGridLayout( m_ClassWidgets.scopeGB );
     scopeLayout->setSpacing( spacingHint() );
     scopeLayout->setMargin(  fontMetrics().height()  );
@@ -333,7 +329,7 @@ void SettingsDlg::setupCodeGenPage()
     pageCodeGen->setHeader( i18n("Code Generation Settings") );
     pageCodeGen->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_CodeGeneration) );
     addPage( pageCodeGen );
-    m_pCodeGenPage = new CodeGenerationOptionsPage(page);
+    m_pCodeGenPage = new CodeGenOptionsPage(page);
     connect( m_pCodeGenPage, SIGNAL(languageChanged()), this, SLOT(slotApply()) );
 }
 
@@ -379,10 +375,8 @@ void SettingsDlg::slotOk()
 
 void SettingsDlg::slotDefault()
 {
-    /*
-       Defaults hard coded.  Make sure that this is alright.
-       If defaults are set anywhere else, like in setting up config file, make sure the same.
-    */
+    // Defaults hard coded.  Make sure that this is alright.
+    // If defaults are set anywhere else, like in setting up config file, make sure the same.
     KPageWidgetItem *current = currentPage();
     if ( current ==  pageGeneral )
     {
@@ -433,7 +427,7 @@ void SettingsDlg::applyPage( KPageWidgetItem*item )
         m_pOptionState->generalState.footerPrinting = m_GeneralWidgets.footerPrintingCB->isChecked();
         m_pOptionState->generalState.autosave = m_GeneralWidgets.autosaveCB->isChecked();
         m_pOptionState->generalState.autosavetime = m_GeneralWidgets.timeISB->value();
-        // 2004-05-17 Achim Spangler: retrieve Suffix setting from dialog entry
+        // retrieve Suffix setting from dialog entry
         m_pOptionState->generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT->text();
         m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB->isChecked();
         m_pOptionState->generalState.diagram  = (Uml::Diagram_Type)(m_GeneralWidgets.diagramKB->currentIndex() + 1);
@@ -490,7 +484,7 @@ void SettingsDlg::slotAutosaveCBClicked()
 
 QString SettingsDlg::getCodeGenerationLanguage()
 {
-    return m_pCodeGenPage->getCodeGenerationLanguage();
+    return m_pCodeGenPage->getLanguage();
 }
 
 #include "settingsdlg.moc"
