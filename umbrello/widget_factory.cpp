@@ -101,7 +101,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
         newWidget = new ArtifactWidget(scene, static_cast<UMLArtifact*>(o));
         break;
     case Uml::ot_Datatype:
-        newWidget = new DatatypeWidget(scene, static_cast<UMLClassifier*>(o));
+        newWidget = new DatatypeWidget(static_cast<UMLClassifier*>(o));
         break;
     case Uml::ot_Enum:
         newWidget = new EnumWidget(scene, static_cast<UMLEnum*>(o));
@@ -151,6 +151,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
     if (newWidget) {
         newWidget->setX( pos.x() );
         newWidget->setY( y );
+        scene->addItem(newWidget);
     }
 
     return newWidget;
@@ -254,7 +255,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new ClassifierWidget(scene, static_cast<UMLClassifier*>(o));
         } else if (tag == "datatypewidget") {
             if (validateObjType(Uml::ot_Datatype, o, id))
-                widget = new DatatypeWidget(scene, static_cast<UMLClassifier*>(o));
+                widget = new DatatypeWidget(static_cast<UMLClassifier*>(o));
         } else if (tag == "enumwidget") {
             if (validateObjType(Uml::ot_Enum, o, id))
                 widget = new EnumWidget(scene, static_cast<UMLEnum*>(o));
@@ -270,8 +271,11 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
             uWarning() << "Trying to create an unknown widget:" << tag;
         }
     }
-    return widget;
 
+    if(widget) {
+        scene->addItem(widget);
+    }
+    return widget;
 }
 
 }   // end namespace Widget_Factory

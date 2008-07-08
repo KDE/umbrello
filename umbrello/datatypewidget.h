@@ -20,11 +20,14 @@ class TextItemGroup;
 #define DATATYPE_MARGIN 5
 
 /**
- * Defines a graphical version of the datatype.  Most of the functionality
- * will come from the @ref NewUMLRectWidget class from which class inherits from.
+ * Defines a graphical version of the datatype.  Most of the
+ * functionality will come from the @ref NewUMLRectWidget class from
+ * which class inherits from.
  *
  * @short A graphical version of an datatype.
  * @author Jonathan Riddell
+ * @author Gopala Krishna (port using TextItems)
+ *
  * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -38,7 +41,7 @@ public:
      * @param view The parent of this DatatypeWidget.
      * @param d    The UMLClassifier this will be representing.
      */
-    DatatypeWidget(UMLScene* scene, UMLClassifier *d);
+    DatatypeWidget(UMLClassifier *d);
     virtual ~DatatypeWidget();
 
     bool loadFromXMI(QDomElement& qElement);

@@ -20,8 +20,8 @@
 // qt/kde includes
 #include <QtGui/QPainter>
 
-DatatypeWidget::DatatypeWidget(UMLScene* scene, UMLClassifier *d) :
-    NewUMLRectWidget(scene, d),
+DatatypeWidget::DatatypeWidget(UMLClassifier *d) :
+    NewUMLRectWidget(d),
     m_minimumSize(100, 30)
 {
     m_textItemGroup = new TextItemGroup(this);
