@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 // qt/kde includes
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 #include <kdebug.h>
 // app includes
 #include "import_utils.h"
@@ -26,22 +26,26 @@
 #include "../operation.h"
 #include "../attribute.h"
 
-PascalImport::PascalImport() : NativeImportBase("//") {
+PascalImport::PascalImport() : NativeImportBase("//")
+{
     setMultiLineComment("(*", "*)");
     setMultiLineAltComment("{", "}");
     initVars();
 }
 
-PascalImport::~PascalImport() {
+PascalImport::~PascalImport()
+{
 }
 
-void PascalImport::initVars() {
+void PascalImport::initVars()
+{
     m_inInterface = false;
     m_section = sect_NONE;
     NativeImportBase::m_currentAccess = Uml::Visibility::Public;
 }
 
-void PascalImport::fillSource(const QString& word) {
+void PascalImport::fillSource(const QString& word)
+{
     QString lexeme;
     const uint len = word.length();
     for (uint i = 0; i < len; i++) {
@@ -65,7 +69,8 @@ void PascalImport::fillSource(const QString& word) {
         m_source.append(lexeme);
 }
 
-void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
+void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract)
+{
     const int srcLength = m_source.count();
     while (m_srcIndex < srcLength - 1) {
         QString lookAhead = m_source[m_srcIndex + 1].toLower();
@@ -85,7 +90,8 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract) {
     }
 }
 
-bool PascalImport::parseStmt() {
+bool PascalImport::parseStmt()
+{
     const int srcLength = m_source.count();
     QString keyword = m_source[m_srcIndex].toLower();
     //uDebug() << '"' << keyword << '"';
@@ -193,7 +199,7 @@ bool PascalImport::parseStmt() {
             m_scopeIndex--;
             m_currentAccess = Uml::Visibility::Public;
         } else {
-            uError() << "importPascal: too many \"end\"" << endl;
+            uError() << "importPascal: too many \"end\"";
         }
         skipStmt();
         return true;
@@ -230,13 +236,13 @@ bool PascalImport::parseStmt() {
                 uint parNameCount = 0;
                 do {
                     if (parNameCount >= MAX_PARNAMES) {
-                        uError() << "MAX_PARNAMES is exceeded at " << name << endl;
+                        uError() << "MAX_PARNAMES is exceeded at " << name;
                         break;
                     }
                     parName[parNameCount++] = advance();
                 } while (advance() == ",");
                 if (m_source[m_srcIndex] != ":") {
-                    uError() << "importPascal: expecting ':' at " << m_source[m_srcIndex] << endl;
+                    uError() << "importPascal: expecting ':' at " << m_source[m_srcIndex];
                     skipStmt();
                     break;
                 }
@@ -245,7 +251,7 @@ bool PascalImport::parseStmt() {
                     nextToken = advance().toLower();
                     if (nextToken != "of") {
                         uError() << "importPascal(" << name << "): expecting 'array OF' at "
-                                  << nextToken << endl;
+                                  << nextToken;
                         skipStmt();
                         return false;
                     }
@@ -263,7 +269,7 @@ bool PascalImport::parseStmt() {
         if (keyword == "function") {
             if (advance() != ":") {
                 uError() << "importPascal: expecting \":\" at function "
-                        << name << endl;
+                        << name;
                 return false;
             }
             returnType = advance();
@@ -286,7 +292,7 @@ bool PascalImport::parseStmt() {
         const QString& name = m_source[m_srcIndex];
         QString nextToken = advance();
         if (nextToken != "=") {
-            uDebug() << name << ": expecting '=' at " << nextToken << endl;
+            uDebug() << name << ": expecting '=' at " << nextToken;
             return false;
         }
         keyword = advance().toLower();
@@ -337,7 +343,7 @@ bool PascalImport::parseStmt() {
                 } while (advance() == ",");
                 if (m_source[m_srcIndex] != ")") {
                     uError() << "PascalImport: expecting \")\" at "
-                        << m_source[m_srcIndex] << endl;
+                        << m_source[m_srcIndex];
                     return false;
                 }
                 lookAhead = m_source[m_srcIndex + 1];
@@ -387,7 +393,7 @@ bool PascalImport::parseStmt() {
     }
     if (advance() != ":") {
         uError() << "PascalImport: expecting \":\" at " << name << " "
-                  << m_source[m_srcIndex] << endl;
+                  << m_source[m_srcIndex];
         skipStmt();
         return true;
     }
