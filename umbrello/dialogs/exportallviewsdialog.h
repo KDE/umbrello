@@ -1,14 +1,12 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-
 #ifndef EXPORTALLVIEWSDIALOG_H
 #define EXPORTALLVIEWSDIALOG_H
 
@@ -26,7 +24,8 @@ class KFileFilterCombo;
  * The KFileFilterCombo is declared here instead of in the .ui file because QT
  * Designer and uic don't recognize it.
  */
-class ExportAllViewsDialog : public QDialog,private Ui::ExportAllViewsDialogBase {
+class ExportAllViewsDialog : public QDialog, private Ui::ExportAllViewsDialogBase
+{
   Q_OBJECT
 
 public:

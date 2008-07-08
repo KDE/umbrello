@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,16 +11,16 @@
 // own header
 #include "exportallviewsdialog.h"
 
-// include files for Qt
-#include <QLayout>
-#include <QLabel>
+// qt include files
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
 
 // kde include files
 #include <kfilefiltercombo.h>
 #include <klocale.h>
 
 // application specific includes
-#include "../umlviewimageexportermodel.h"
+#include "umlviewimageexportermodel.h"
 
 ExportAllViewsDialog::ExportAllViewsDialog(
         QWidget* parent /* = 0 */,
@@ -29,8 +28,8 @@ ExportAllViewsDialog::ExportAllViewsDialog(
         bool modal /* = false */,
         Qt::WindowFlags fl /* = 0*/,
         const QString& defaultMimeType /*= "image/png"*/)
-  : QDialog(parent,fl) {
-
+  : QDialog(parent,fl)
+{
     setObjectName(name);
     setModal(modal);
     setupUi(this);
@@ -46,19 +45,22 @@ ExportAllViewsDialog::ExportAllViewsDialog(
 
     m_imageType->setMimeFilter(UMLViewImageExporterModel::supportedMimeTypes(), defaultMimeType);
 
-/// GC: @todo verify if it should be ported to KDE4 or just removed
-//     imageTypeLayout->addWidget(m_imageType);
+    // Cannot give an object name to the layout when using QtDesigner,
+    // therefore go and use an editor and add it by hand.
+    ui_imageTypeLayout->addWidget(m_imageType);
 
-    imageTypeLabel->setBuddy(m_imageType);
+    ui_imageTypeLabel->setBuddy(m_imageType);
 
     // reload the strings so the m_imageType tooltip is added
     languageChange();
 }
 
-void ExportAllViewsDialog::languageChange() {
+void ExportAllViewsDialog::languageChange()
+{
     //ExportAllViewsDialogBase::languageChange();
     m_imageType->setToolTip(i18n("The format that the images will be exported to"));
 }
+
 
 #include "exportallviewsdialog.moc"
 
