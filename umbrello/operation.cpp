@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +12,7 @@
 #include "operation.h"
 
 // qt/kde includes
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -66,10 +65,10 @@ void UMLOperation::setType(UMLObject *type)
 void UMLOperation::moveParmLeft(UMLAttribute * a)
 {
     if (a == NULL) {
-        uDebug() << "called on NULL attribute" << endl;
+        uDebug() << "called on NULL attribute";
         return;
     }
-    uDebug() << "called for " << a->getName() << endl;
+    uDebug() << "called for " << a->getName();
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
     if ( (idx=m_List.indexOf( a )) == -1 ) {
@@ -85,10 +84,10 @@ void UMLOperation::moveParmLeft(UMLAttribute * a)
 void UMLOperation::moveParmRight(UMLAttribute * a)
 {
     if (a == NULL) {
-        uDebug() << "called on NULL attribute" << endl;
+        uDebug() << "called on NULL attribute";
         return;
     }
-    uDebug() << "called for " << a->getName() << endl;
+    uDebug() << "called for " << a->getName();
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
     if ( (idx=m_List.indexOf( a )) == -1 ) {
@@ -105,10 +104,10 @@ void UMLOperation::moveParmRight(UMLAttribute * a)
 void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true */)
 {
     if (a == NULL) {
-        uDebug() << "called on NULL attribute" << endl;
+        uDebug() << "called on NULL attribute";
         return;
     }
-    uDebug() << "called for " << a->getName() << endl;
+    uDebug() << "called for " << a->getName();
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     if(!m_List.removeAll(a))
         uDebug() << "Error removing parm " << a->getName();
@@ -320,7 +319,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement("UML:Parameter");
         if (m_returnId == Uml::id_None) {
-            uDebug() << m_Name << ": m_returnId is not set, setting it now." << endl;
+            uDebug() << m_Name << ": m_returnId is not set, setting it now.";
             m_returnId = UniqueID::gen();
         }
         retElement.setAttribute( "xmi.id", ID2STR(m_returnId) );
@@ -328,7 +327,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         retElement.setAttribute( "kind", "return" );
         featureElement.appendChild( retElement );
     } else {
-        uDebug() << "m_SecondaryId is " << m_SecondaryId << endl;
+        uDebug() << "m_SecondaryId is " << m_SecondaryId;
     }
 
     //save each attribute here, type different
@@ -425,7 +424,7 @@ bool UMLOperation::load( QDomElement & element )
                         break;
                     }
                     if (m_SecondaryId.isEmpty()) {
-                        uError() << m_Name << ": cannot find return type." << endl;
+                        uError() << m_Name << ": cannot find return type.";
                     }
                 }
                 // Use deferred xmi.id resolution.

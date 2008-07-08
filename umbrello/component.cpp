@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,25 +20,30 @@
 #include "clipboard/idchangelog.h"
 
 UMLComponent::UMLComponent(const QString & name, Uml::IDType id)
-        : UMLPackage(name, id) {
+        : UMLPackage(name, id)
+{
     init();
 }
 
-UMLComponent::~UMLComponent() {
+UMLComponent::~UMLComponent()
+{
 }
 
-void UMLComponent::init() {
+void UMLComponent::init()
+{
     m_BaseType = Uml::ot_Component;
     m_executable = false;
 }
 
-UMLObject* UMLComponent::clone() const {
+UMLObject* UMLComponent::clone() const
+{
     UMLComponent *clone = new UMLComponent();
     UMLObject::copyInto(clone);
     return clone;
 }
 
-void UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement componentElement = UMLObject::save("UML:Component", qDoc);
     componentElement.setAttribute("executable", m_executable);
     // Save contained components if any.
@@ -54,7 +58,8 @@ void UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     qElement.appendChild(componentElement);
 }
 
-bool UMLComponent::load(QDomElement& element) {
+bool UMLComponent::load(QDomElement& element)
+{
     QString executable = element.attribute("executable", "0");
     m_executable = (bool)executable.toInt();
     for (QDomNode node = element.firstChild(); !node.isNull();
@@ -76,7 +81,7 @@ bool UMLComponent::load(QDomElement& element) {
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if( !pObject ) {
-            uWarning() << "Unknown type of umlobject to create: " << type << endl;
+            uWarning() << "Unknown type of umlobject to create: " << type;
             continue;
         }
         pObject->setUMLPackage(this);
@@ -89,11 +94,13 @@ bool UMLComponent::load(QDomElement& element) {
     return true;
 }
 
-void UMLComponent::setExecutable(bool executable) {
+void UMLComponent::setExecutable(bool executable)
+{
     m_executable = executable;
 }
 
-bool UMLComponent::getExecutable() {
+bool UMLComponent::getExecutable()
+{
     return m_executable;
 }
 

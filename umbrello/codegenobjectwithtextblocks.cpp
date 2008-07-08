@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -397,7 +396,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
                 TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                 if (!tb || !addTextBlock(tb)) {
                     uError() << "unable to add code accessor/decl method block (tag:"
-                        << acctag << ") to:" << this << endl;
+                        << acctag << ") to:" << this;
                     // DON'T delete
                 } else
                     loadCheckForChildrenOK = true;

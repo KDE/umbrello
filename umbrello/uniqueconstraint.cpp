@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,16 +24,19 @@
 
 UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent,
                           const QString& name, Uml::IDType id)
-    : UMLEntityConstraint(parent, name, id) {
+    : UMLEntityConstraint(parent, name, id)
+{
     init();
 }
 
 UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent)
-    : UMLEntityConstraint( parent ) {
+    : UMLEntityConstraint( parent )
+{
     init();
 }
 
-bool UMLUniqueConstraint::operator==(const  UMLUniqueConstraint &rhs) {
+bool UMLUniqueConstraint::operator==(const  UMLUniqueConstraint &rhs)
+{
     if( this == &rhs )
         return true;
 
@@ -44,9 +46,12 @@ bool UMLUniqueConstraint::operator==(const  UMLUniqueConstraint &rhs) {
     return true;
 }
 
-UMLUniqueConstraint::~UMLUniqueConstraint() { }
+UMLUniqueConstraint::~UMLUniqueConstraint()
+{
+}
 
-void UMLUniqueConstraint::copyInto(UMLObject *lhs) const {
+void UMLUniqueConstraint::copyInto(UMLObject *lhs) const
+{
     UMLUniqueConstraint *target = static_cast<UMLUniqueConstraint*>(lhs);
 
     // call the parent first.
@@ -67,14 +72,16 @@ void UMLUniqueConstraint::copyInto(UMLObject *lhs) const {
     }
 }
 
-UMLObject* UMLUniqueConstraint::clone() const {
+UMLObject* UMLUniqueConstraint::clone() const
+{
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
     UMLUniqueConstraint *clone = new UMLUniqueConstraint( static_cast<UMLObject*>(parent()) );
     copyInto(clone);
     return clone;
 }
 
-QString UMLUniqueConstraint::toString(Uml::Signature_Type sig ) {
+QString UMLUniqueConstraint::toString(Uml::Signature_Type sig )
+{
      QString s;
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
@@ -100,13 +107,15 @@ QString UMLUniqueConstraint::toString(Uml::Signature_Type sig ) {
     return s;
 }
 
-QString UMLUniqueConstraint::getFullyQualifiedName(const QString& /*separator*/,
-                                                   bool /*includeRoot*/ ) const {
-
+QString UMLUniqueConstraint::getFullyQualifiedName(const QString& separator,
+                                                   bool includeRoot) const
+{
+    Q_UNUSED(separator); Q_UNUSED(includeRoot);
     return this->getName();
 }
 
-void UMLUniqueConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UMLUniqueConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement uniqueConstraintElement = UMLObject::save("UML:UniqueConstraint", qDoc);
 
     UMLEntity* parentEnt = static_cast<UMLEntity*>( parent() );
@@ -123,12 +132,14 @@ void UMLUniqueConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement
     qElement.appendChild( uniqueConstraintElement );
 }
 
-bool UMLUniqueConstraint::showPropertiesDialog(QWidget* parent) {
+bool UMLUniqueConstraint::showPropertiesDialog(QWidget* parent)
+{
     UMLUniqueConstraintDialog dialog(parent, this);
     return dialog.exec();
 }
 
-bool UMLUniqueConstraint::load( QDomElement & element ) {
+bool UMLUniqueConstraint::load( QDomElement & element )
+{
 
     int isPrimary = element.attribute( "isPrimary", "0" ).toInt();
     UMLEntity* parentEnt = static_cast<UMLEntity*>(parent());
@@ -167,8 +178,8 @@ bool UMLUniqueConstraint::load( QDomElement & element ) {
 }
 
 
-bool UMLUniqueConstraint::hasEntityAttribute(UMLEntityAttribute* attr) {
-
+bool UMLUniqueConstraint::hasEntityAttribute(UMLEntityAttribute* attr)
+{
     if ( m_EntityAttributeList.indexOf( attr ) == -1 ) {
         //not present
         return false;
@@ -176,11 +187,10 @@ bool UMLUniqueConstraint::hasEntityAttribute(UMLEntityAttribute* attr) {
 
     // else present
     return true;
-
 }
 
-bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr) {
-
+bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
+{
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if ( hasEntityAttribute( attr ) ) {
@@ -190,15 +200,15 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr) {
     }
     if (owningParent == NULL) {
         uError() << m_Name
-        << "): parent " << owningParent->getName()
-        << " is not a UMLEntity" << endl;
+            << "): parent " << owningParent->getName()
+            << " is not a UMLEntity";
         return false;
     }
 
     if ( owningParent->findChildObjectById( attr->getID() ) == NULL ) {
         uError()
-        << " parent " << owningParent->getName()
-                 << " does not contain attribute " << attr->getName()<<endl;
+            << " parent " << owningParent->getName()
+            << " does not contain attribute " << attr->getName();
         return false;
     }
 
@@ -206,17 +216,16 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr) {
     m_EntityAttributeList.append( attr );
 
     return true;
-
 }
 
-bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr) {
-
+bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
+{
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if (owningParent == NULL) {
         uError() << m_Name
-        << "): parent " << owningParent->getName()
-        << " is not a UMLEntity" << endl;
+            << "): parent " << owningParent->getName()
+            << " is not a UMLEntity";
         return false;
     }
 
@@ -226,8 +235,8 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr) {
      *
      * if ( owningParent->findChildObjectById( attr->getID() ) == NULL ) {
      *    uError()
-     *    << " parent " << owningParent->getName()
-     *             << " does not contain attribute " << attr->getName()<<endl;
+     *        << " parent " << owningParent->getName()
+     *        << " does not contain attribute " << attr->getName();
      *    return false;
      * }
      */
@@ -238,18 +247,15 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr) {
     }
 
     return false;
-
 }
 
-void UMLUniqueConstraint::init(){
-
+void UMLUniqueConstraint::init()
+{
     m_BaseType = Uml::ot_UniqueConstraint;
-
 }
 
-void UMLUniqueConstraint::clearAttributeList(){
+void UMLUniqueConstraint::clearAttributeList()
+{
     m_EntityAttributeList.clear();
 }
-
-
 

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,7 +13,7 @@
 
 // qt/kde includes
 #include <kdebug.h>
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 
 // local includes
 #include "association.h"
@@ -29,9 +28,12 @@ UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type 
     init(parent, parentObj, role);
 }
 
-UMLRole::~UMLRole() { }
+UMLRole::~UMLRole()
+{
+}
 
-bool UMLRole::operator==(const UMLRole &rhs) {
+bool UMLRole::operator==(const UMLRole &rhs)
+{
     if (this == &rhs) {
         return true;
     }
@@ -42,23 +44,28 @@ bool UMLRole::operator==(const UMLRole &rhs) {
            );
 }
 
-UMLAssociation * UMLRole::getParentAssociation () {
+UMLAssociation * UMLRole::getParentAssociation ()
+{
     return m_pAssoc;
 }
 
-UMLObject* UMLRole::getObject() {
+UMLObject* UMLRole::getObject()
+{
     return m_pSecondary;
 }
 
-Uml::Changeability_Type UMLRole::getChangeability() const {
+Uml::Changeability_Type UMLRole::getChangeability() const
+{
     return m_Changeability;
 }
 
-QString UMLRole::getMultiplicity() const {
+QString UMLRole::getMultiplicity() const
+{
     return m_Multi;
 }
 
-void UMLRole::setObject (UMLObject *obj) {
+void UMLRole::setObject (UMLObject *obj)
+{
     // because we will get the id of this role from the parent
     // object, we CANT allow UMLRoles to take other UMLRoles as
     // parent objects. In fact, there is probably good reason
@@ -66,7 +73,7 @@ void UMLRole::setObject (UMLObject *obj) {
     // for the time being. -b.t.
     if (obj && dynamic_cast<UMLRole*>(obj)) {
         uError() << "UMLRole(" << ID2STR(m_nId) << ") cannot setObject() to another UMLRole("
-            << ID2STR(obj->getID()) << ")" << endl;
+            << ID2STR(obj->getID()) << ")";
         return;
     }
 
@@ -74,21 +81,25 @@ void UMLRole::setObject (UMLObject *obj) {
     UMLObject::emitModified();
 }
 
-void UMLRole::setChangeability (Uml::Changeability_Type value) {
+void UMLRole::setChangeability (Uml::Changeability_Type value)
+{
     m_Changeability = value;
     UMLObject::emitModified();
 }
 
-void UMLRole::setMultiplicity ( const QString &multi ) {
+void UMLRole::setMultiplicity ( const QString &multi )
+{
     m_Multi = multi;
     UMLObject::emitModified();
 }
 
-Uml::Role_Type UMLRole::getRole() {
+Uml::Role_Type UMLRole::getRole()
+{
     return m_role;
 }
 
-void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type r) {
+void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type r)
+{
     m_BaseType = Uml::ot_Role;
     m_role = r;
     m_pAssoc = parent;
@@ -101,12 +112,13 @@ void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Typ
     connect(this,SIGNAL(modified()),parent,SIGNAL(modified()));
 }
 
-void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement roleElement = UMLObject::save("UML:AssociationEnd", qDoc);
     if (m_pSecondary)
         roleElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
     else
-        uError() << "id " << ID2STR(m_nId) << ": m_pSecondary is NULL" << endl;
+        uError() << "id " << ID2STR(m_nId) << ": m_pSecondary is NULL";
     if (!m_Multi.isEmpty())
         roleElement.setAttribute("multiplicity", m_Multi);
     if (m_role == Uml::A) {  // role aggregation based on parent type
@@ -155,13 +167,14 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.appendChild( roleElement );
 }
 
-bool UMLRole::load( QDomElement & element ) {
+bool UMLRole::load( QDomElement & element )
+{
     UMLDoc * doc = UMLApp::app()->getDocument();
     QString type = element.attribute("type", "");
     if (!type.isEmpty()) {
         if (!m_SecondaryId.isEmpty())
             uWarning() << "overwriting old m_SecondaryId \"" << m_SecondaryId
-                << " with new value \"" << type << "\"" << endl;
+                << " with new value \"" << type << "\"";
         m_SecondaryId = type;
     }
     // Inspect child nodes - for multiplicity (and type if not set above.)
@@ -251,7 +264,7 @@ bool UMLRole::load( QDomElement & element ) {
     if (!m_Multi.isEmpty())
         uDebug() << m_Name << ": m_Multi is " << m_Multi;
     if (m_SecondaryId.isEmpty()) {
-        uError() << m_Name << ": type not given or illegal" << endl;
+        uError() << m_Name << ": type not given or illegal";
         return false;
     }
     UMLObject * obj;

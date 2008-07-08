@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,11 +12,11 @@
 #include "import_rose.h"
 
 // qt includes
-#include <qstring.h>
-#include <qtextstream.h>
-#include <qstringlist.h>
-#include <qregexp.h>
-#include <qmessagebox.h>
+#include <QtCore/QString>
+#include <QtCore/QTextStream>
+#include <QtCore/QStringList>
+#include <QtCore/QRegExp>
+#include <QtGui/QMessageBox>
 #include <klocale.h>
 #include <kdebug.h>
 // app includes
@@ -38,20 +37,25 @@ uint nClosures; // Multiple closing parentheses may appear on a single
 
 uint linum;  // line number
 QString g_methodName;
-void methodName(const QString& m) {
+
+void methodName(const QString& m)
+{
     g_methodName = m;
 }
+
 /**
  * Auxiliary function for diagnostics: Return current location.
  */
-QString loc() {
+QString loc()
+{
     return "Import_Rose::" + g_methodName + " line " + QString::number(linum) + ": ";
 }
 
 /**
  * Split a line into lexemes.
  */
-QStringList scan(const QString& lin) {
+QStringList scan(const QString& lin)
+{
     QStringList result;
     QString line = lin.trimmed();
     if (line.isEmpty())
@@ -89,7 +93,8 @@ QStringList scan(const QString& lin) {
 /**
  * Emulate perl shift().
  */
-QString shift(QStringList& l) {
+QString shift(QStringList& l)
+{
     QString first = l.first();
     l.pop_front();
     return first;
@@ -98,7 +103,8 @@ QString shift(QStringList& l) {
 /**
  * Check for closing of one or more scopes.
  */
-bool checkClosing(QStringList& tokens) {
+bool checkClosing(QStringList& tokens)
+{
     if (tokens.count() == 0)
         return false;
     if (tokens.last() == ")") {
@@ -120,7 +126,8 @@ bool checkClosing(QStringList& tokens) {
  * @return  True if the given text is a natural or negative number
  *          or a quoted string.
  */
-bool isImmediateValue(QString s) {
+bool isImmediateValue(QString s)
+{
     return s.contains(QRegExp("^[\\d\\-\"]"));
 }
 
@@ -136,7 +143,8 @@ bool isImmediateValue(QString s) {
  * or
  *   "\"SomeText\" 888"
  */
-QString extractImmediateValues(QStringList& l) {
+QString extractImmediateValues(QStringList& l)
+{
     if (l.count() == 0)
         return QString();
     if (l.first() == "(")
@@ -161,7 +169,8 @@ QString extractImmediateValues(QStringList& l) {
     return result;
 }
 
-QString collectVerbatimText(QTextStream& stream) {
+QString collectVerbatimText(QTextStream& stream)
+{
     QString result;
     QString line;
     methodName("collectVerbatimText");
@@ -171,21 +180,21 @@ QString collectVerbatimText(QTextStream& stream) {
         if (line.isEmpty() || line.startsWith(')'))
             break;
         if (line[0] != '|') {
-            uError() << loc() << "expecting '|' at start of verbatim text" << endl;
+            uError() << loc() << "expecting '|' at start of verbatim text";
             return QString();
         } else {
             result += line.mid(1) + '\n';
         }
     }
     if (line.isNull()) {
-        uError() << loc() << "premature EOF" << endl;
+        uError() << loc() << "premature EOF";
         return QString();
     }
     if (! line.isEmpty()) {
         for (int i = 0; i < line.length(); i++) {
             const QChar& clParenth = line[i];
             if (clParenth != ')') {
-                uError() << loc() << "expected ')', found: " << clParenth << endl;
+                uError() << loc() << "expected ')', found: " << clParenth;
                 return QString();
             }
             nClosures++;
@@ -214,7 +223,8 @@ QString collectVerbatimText(QTextStream& stream) {
  * In this case the two lines are extracted without the leading '|'.
  * The line ending '\n' of each line is preserved.
  */
-QString extractValue(QStringList& l, QTextStream& stream) {
+QString extractValue(QStringList& l, QTextStream& stream)
+{
     methodName("extractValue");
     if (l.count() == 0)
         return QString();
@@ -232,7 +242,7 @@ QString extractValue(QStringList& l, QTextStream& stream) {
     } else {
         result = shift(l);
         if (l.first() != ")") {
-            uError() << loc() << "expecting closing parenthesis" << endl;
+            uError() << loc() << "expecting closing parenthesis";
             return result;
         }
         l.pop_front();
@@ -251,10 +261,11 @@ QString extractValue(QStringList& l, QTextStream& stream) {
  * @param stream     The QTextStream from which to read following lines.
  * @return           Pointer to the created PetalNode or NULL on error.
  */
-PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
+PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
+{
     methodName("readAttributes");
     if (initialArgs.count() == 0) {
-        uError() << loc() << "initialArgs is empty" << endl;
+        uError() << loc() << "initialArgs is empty";
         return NULL;
     }
     PetalNode::NodeType nt;
@@ -264,7 +275,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
     else if (type == "list")
         nt = PetalNode::nt_list;
     else {
-        uError() << loc() << "unknown node type " << type << endl;
+        uError() << loc() << "unknown node type " << type;
         return NULL;
     }
     PetalNode *node = new PetalNode(nt);
@@ -283,7 +294,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
         QString stringOrNodeOpener = shift(tokens);
         QString name;
         if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp("^[A-Za-z]"))) {
-            uError() << loc() << "unexpected line " << line << endl;
+            uError() << loc() << "unexpected line " << line;
             return NULL;
         }
         PetalNode::StringOrNode value;
@@ -311,7 +322,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
             attrs.append(attr);
             if (tokens.count() && tokens.first() != ")") {
                 uDebug() << loc()
-                    << "NYI - immediate list entry with more than one item" << endl;
+                    << "NYI - immediate list entry with more than one item";
             }
             if (checkClosing(tokens))
                 break;
@@ -352,7 +363,8 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream) {
     return node;
 }
 
-bool loadFromMDL(QIODevice& file) {
+bool loadFromMDL(QIODevice& file) 
+{
     QTextStream stream(&file);
     stream.setCodec("ISO 8859-1");
     QString line;

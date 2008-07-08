@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -48,7 +47,8 @@ ClassifierCodeDocument::~ClassifierCodeDocument ( )
     m_classfieldVector.clear();
 }
 
-/** get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
+/**
+ * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
 CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType)
 {
@@ -63,7 +63,8 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
     return list;
 }
 
-/** get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
+/**
+ * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
 CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic)
 {
@@ -79,7 +80,8 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
     return list;
 }
 
-/** get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
+/**
+ * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
 CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Visibility::Value visibility)
 {
@@ -95,7 +97,8 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
     return list;
 }
 
-/** get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
+/**
+ * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
 CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Visibility visibility)
 {
@@ -304,11 +307,11 @@ void ClassifierCodeDocument::removeOperation (UMLClassifierListItem * op )
         if(removeTextBlock(tb)) // wont add if already present
             delete tb; // delete unused operations
         else
-            uError()<<"Cant remove CodeOperation from ClassCodeDocument!"<<endl;
+            uError() << "Cant remove CodeOperation from ClassCodeDocument!";
 
     }
     else
-        uError()<<"Cant Find codeOperation for deleted operation!"<<endl;
+        uError() << "Cant Find codeOperation for deleted operation!";
 }
 
 // Other methods
@@ -481,7 +484,7 @@ void ClassifierCodeDocument::syncToParent( )
 }
 
 /**
- * add codeclassfields to this classifiercodedocument. IF a codeclassfield
+ * Add codeclassfields to this classifiercodedocument. If a codeclassfield
  * already exists, it is not added.
  */
 void ClassifierCodeDocument::initCodeClassFields ( )
@@ -557,7 +560,8 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
 
 }
 
-/** set the class attributes of this object from
+/**
+ * Set the class attributes of this object from
  * the passed element node.
  */
 void ClassifierCodeDocument::setAttributesFromNode ( QDomElement & elem )
@@ -611,8 +615,7 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
     // shouldn't happen..
     uError() << "Failed to find codeclassfield for parent uml id:"
     << ID2STR(id) << " (role id:" << role_id
-    << ") Do you have a corrupt classifier code document?"
-    << endl;
+    << ") Do you have a corrupt classifier code document?";
 
     return (CodeClassField*) NULL; // not found
 }
@@ -649,7 +652,7 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem)
 }
 
 /**
- * Save the XMI representation of this object
+ * Save the XMI representation of this object.
  */
 void ClassifierCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root )
 {
@@ -672,7 +675,7 @@ void ClassifierCodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root 
 }
 
 /**
- * load params from the appropriate XMI element node.
+ * Load params from the appropriate XMI element node.
  */
 void ClassifierCodeDocument::loadFromXMI ( QDomElement & root )
 {
@@ -683,7 +686,8 @@ void ClassifierCodeDocument::loadFromXMI ( QDomElement & root )
     // synchronize();
 }
 
-/** set attributes of the node that represents this class
+/**
+ * Set attributes of the node that represents this class
  * in the XMI document.
  */
 void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)

@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -44,7 +43,8 @@
 static QStringList supportedImageTypesList;
 static QStringList supportedMimeTypesList;
 
-QStringList UMLViewImageExporterModel::supportedImageTypes() {
+QStringList UMLViewImageExporterModel::supportedImageTypes()
+{
     if (!supportedImageTypesList.size()) {
         // specific supported formats
         supportedImageTypesList << "eps";
@@ -62,7 +62,8 @@ QStringList UMLViewImageExporterModel::supportedImageTypes() {
     return supportedImageTypesList;
 }
 
-QStringList UMLViewImageExporterModel::supportedMimeTypes() {
+QStringList UMLViewImageExporterModel::supportedMimeTypes()
+{
     if (!supportedMimeTypesList.size()) {
         QStringList imageTypes = UMLViewImageExporterModel::supportedImageTypes();
         for(QStringList::Iterator it = imageTypes.begin(); it != imageTypes.end(); ++it ) {
@@ -75,7 +76,8 @@ QStringList UMLViewImageExporterModel::supportedMimeTypes() {
     return supportedMimeTypesList;
 }
 
-QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType) {
+QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType)
+{
     const QString imgType = imageType.toLower();
     if (QString("bmp") == imgType) return "image/bmp";
     if (QString("jpeg") == imgType) return "image/jpeg";
@@ -90,7 +92,8 @@ QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType)
     return QString();
 }
 
-QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType) {
+QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType)
+{
     if (QString("image/bmp") == mimeType) return "bmp";
     if (QString("image/jpeg") == mimeType) return "jpeg";
     if (QString("image/x-portable-bitmap") == mimeType) return "pbm";
@@ -104,7 +107,8 @@ QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType) 
     return QString();
 }
 
-QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const {
+QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const
+{
     UMLApp *app = UMLApp::app();
 
     // contains all the error messages returned by exportView calls
@@ -125,7 +129,8 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
     return errors;
 }
 
-QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imageType, const KUrl &url) const {
+QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imageType, const KUrl &url) const
+{
     // create the needed directories
     if (!prepareDirectory(url)) {
         return i18n("Can not create directory: %1", url.directory());
@@ -165,7 +170,8 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
     return QString();
 }
 
-QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders /* = false */) const {
+QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders /* = false */) const
+{
     // [PORT]
     QString name = view->umlScene()->getName() + '.' + imageType.toLower();
 
@@ -191,7 +197,8 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QStri
     return name;
 }
 
-bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const {
+bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
+{
     // the KUrl is copied to get protocol, user and so on and then the path is cleaned
     KUrl directory = url;
     directory.setPath("");
@@ -212,7 +219,8 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const {
     return true;
 }
 
-bool UMLViewImageExporterModel::exportViewTo(UMLView* view, const QString &imageType, const QString &fileName) const {
+bool UMLViewImageExporterModel::exportViewTo(UMLView* view, const QString &imageType, const QString &fileName) const
+{
     // remove 'blue squares' from exported picture.
     view->umlScene()->clearSelected();
 
@@ -234,7 +242,8 @@ bool UMLViewImageExporterModel::exportViewTo(UMLView* view, const QString &image
     return true;
 }
 
-bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fileName, bool isEPS) const {
+bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fileName, bool isEPS) const
+{
     bool exportSuccessful = true;
 
     // print the image to a normal postscript file,
@@ -284,7 +293,8 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
     return exportSuccessful;
 }
 
-bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rect) const {
+bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rect) const
+{
     // now open the file and make a correct eps out of it
     QFile epsfile(fileName);
     if (! epsfile.open(QIODevice::ReadOnly)) {
@@ -299,13 +309,13 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rec
     QRegExp rx("%%BoundingBox:\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)\\s*(-?[\\d\\.:]+)");
     const int pos = rx.indexIn(fileContent);
     if (pos < 0) {
-        uError() << fileName << ": cannot find %%BoundingBox" << endl;
+        uError() << fileName << ": cannot find %%BoundingBox";
         return false;
     }
 
     // write new content to file
     if (! epsfile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        uError() << fileName << ": cannot open file for writing" << endl;
+        uError() << fileName << ": cannot open file for writing";
         return false;
     }
 
@@ -353,17 +363,18 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fi
     // next painting will most probably be to a different device (i.e. the screen)
     view->umlScene()->forceUpdateWidgetFontMetrics(0);
 
-    uDebug() << "saving to file " << fileName << " successful=" << exportSuccessful << endl;
+    uDebug() << "saving to file " << fileName << " successful=" << exportSuccessful;
     return exportSuccessful;
 }
 
-bool UMLViewImageExporterModel::exportViewToPixmap(UMLView* view, const QString &imageType, const QString &fileName) const {
+bool UMLViewImageExporterModel::exportViewToPixmap(UMLView* view, const QString &imageType, const QString &fileName) const
+{
     bool exportSuccessful;
     QRectF rect = view->umlScene()->getDiagramRect();
     QPixmap diagram(rect.width(), rect.height());
     view->umlScene()->getDiagram(rect, diagram);
     exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
 
-    uDebug() << "saving to file " << fileName << " , imageType=" << imageType << " successful=" << exportSuccessful << endl;
+    uDebug() << "saving to file " << fileName << " , imageType=" << imageType << " successful=" << exportSuccessful;
     return exportSuccessful;
 }

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,7 +25,8 @@ UMLAttribute::UMLAttribute( UMLObject *parent,
                             const QString& name, Uml::IDType id,
                             Uml::Visibility s,
                             UMLObject *type, const QString& iv )
-        : UMLClassifierListItem(parent, name, id) {
+        : UMLClassifierListItem(parent, name, id)
+{
     m_InitialValue = iv;
     m_BaseType = Uml::ot_Attribute;
     m_Vis = s;
@@ -39,46 +39,56 @@ UMLAttribute::UMLAttribute( UMLObject *parent,
     m_pSecondary = type;
 }
 
-UMLAttribute::UMLAttribute(UMLObject *parent) : UMLClassifierListItem(parent) {
+UMLAttribute::UMLAttribute(UMLObject *parent) : UMLClassifierListItem(parent)
+{
     m_BaseType = Uml::ot_Attribute;
     m_Vis = Uml::Visibility::Private;
     m_ParmKind = Uml::pd_In;
 }
 
-UMLAttribute::~UMLAttribute() { }
+UMLAttribute::~UMLAttribute()
+{
+}
 
-void UMLAttribute::setName(const QString &name) {
+void UMLAttribute::setName(const QString &name)
+{
     m_Name = name;
     emit attributeChanged();
     UMLObject::emitModified();
 }
 
-void UMLAttribute::setVisibility(Uml::Visibility s) {
+void UMLAttribute::setVisibility(Uml::Visibility s)
+{
     m_Vis = s;
     emit attributeChanged();
     UMLObject::emitModified();
 }
 
-QString UMLAttribute::getInitialValue() {
+QString UMLAttribute::getInitialValue() 
+{
     return m_InitialValue;
 }
 
-void UMLAttribute::setInitialValue(const QString &iv) {
+void UMLAttribute::setInitialValue(const QString &iv) 
+{
     if(m_InitialValue != iv) {
         m_InitialValue = iv;
         UMLObject::emitModified();
     }
 }
 
-void UMLAttribute::setParmKind (Uml::Parameter_Direction pk) {
+void UMLAttribute::setParmKind (Uml::Parameter_Direction pk)
+{
     m_ParmKind = pk;
 }
 
-Uml::Parameter_Direction UMLAttribute::getParmKind () const {
+Uml::Parameter_Direction UMLAttribute::getParmKind () const
+{
     return m_ParmKind;
 }
 
-QString UMLAttribute::toString(Uml::Signature_Type sig) {
+QString UMLAttribute::toString(Uml::Signature_Type sig)
+{
     QString s;
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
@@ -96,7 +106,7 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
         UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
         if (ownParent == NULL) {
             uError() << "parent " << owningObject->getName()
-                << " is not a UMLClassifier" << endl;
+                << " is not a UMLClassifier";
             return QString();
         }
         QString typeName;
@@ -125,7 +135,8 @@ QString UMLAttribute::toString(Uml::Signature_Type sig) {
 }
 
 QString UMLAttribute::getFullyQualifiedName( const QString& separator,
-                                            bool includeRoot /* = false */) const {
+                                            bool includeRoot /* = false */) const
+{
     UMLOperation *op = NULL;
     UMLObject *owningObject = static_cast<UMLObject*>(parent());
     if (owningObject->getBaseType() == Uml::ot_Operation) {
@@ -135,7 +146,7 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
     UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
     if (ownParent == NULL) {
         uError() << m_Name << ": parent " << owningObject->getName()
-            << " is not a UMLClassifier" << endl;
+            << " is not a UMLClassifier";
         return QString();
     }
     QString tempSeparator = separator;
@@ -148,7 +159,8 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
     return fqn;
 }
 
-bool UMLAttribute::operator==(const UMLAttribute &rhs) {
+bool UMLAttribute::operator==(const UMLAttribute &rhs)
+{
     if( this == &rhs )
         return true;
 
@@ -185,12 +197,12 @@ UMLObject* UMLAttribute::clone() const
     return clone;
 }
 
-
-void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement attributeElement = UMLObject::save("UML:Attribute", qDoc);
     if (m_pSecondary == NULL) {
         uDebug() << m_Name << ": m_pSecondary is NULL, m_SecondaryId is '"
-            << m_SecondaryId << "'" << endl;
+            << m_SecondaryId << "'";
     } else {
         attributeElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
     }
@@ -199,7 +211,8 @@ void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.appendChild( attributeElement );
 }
 
-bool UMLAttribute::load( QDomElement & element ) {
+bool UMLAttribute::load( QDomElement & element )
+{
     m_SecondaryId = element.attribute( "type", "" );
     // We use the m_SecondaryId as a temporary store for the xmi.id
     // of the attribute type model object.
@@ -234,7 +247,7 @@ bool UMLAttribute::load( QDomElement & element ) {
             break;
         }
         if (m_SecondaryId.isEmpty()) {
-            uDebug() << m_Name << ": " << "cannot find type." << endl;
+            uDebug() << m_Name << ": " << "cannot find type.";
         }
     }
     m_InitialValue = element.attribute( "initialValue", "" );
@@ -245,13 +258,14 @@ bool UMLAttribute::load( QDomElement & element ) {
     return true;
 }
 
-bool UMLAttribute::showPropertiesDialog(QWidget* parent) {
+bool UMLAttribute::showPropertiesDialog(QWidget* parent)
+{
     UMLAttributeDialog dialog(parent, this);
     return dialog.exec();
 }
 
-
-void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifierList &templateParamList) {
+void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifierList &templateParamList)
+{
     if (templateParam.isEmpty())
         return;
     QString type = templateParam.simplified();
@@ -299,8 +313,8 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
     }
 }
 
-
-UMLClassifierList UMLAttribute::getTemplateParams() {
+UMLClassifierList UMLAttribute::getTemplateParams()
+{
     UMLClassifierList templateParamList;
     QString type = getType()->getName();
     QString templateParam;
