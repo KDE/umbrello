@@ -5,19 +5,19 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef DIALOG_UTILS_H
 #define DIALOG_UTILS_H
 
-#include <qstring.h>
-//Added by qt3to4:
-#include <QLabel>
-#include <QGridLayout>
+#include <QtCore/QString>
+#include <QtGui/QLabel>
+#include <QtGui/QGridLayout>
 
 class Q3GroupBox;
+class QGroupBox;
 class QGridLayout;
 class QLabel;
 class NewUMLRectWidget;
@@ -43,7 +43,12 @@ namespace Dialog_Utils {
  * @param editFieldText         Initialization text in the editField (optional.)
  * @return a pointer to the KLineEdit so you can setFocus() if necessary
  */
-KLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,
+KLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,  /* deprecated */
+                                QLabel * &label, const QString& labelText,
+                                KLineEdit * &editField,
+                                const QString& editFieldText = QString());
+
+KLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
                                 QLabel * &label, const QString& labelText,
                                 KLineEdit * &editField,
                                 const QString& editFieldText = QString());
