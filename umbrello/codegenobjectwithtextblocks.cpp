@@ -321,6 +321,7 @@ void CodeGenObjectWithTextBlocks::resetTextBlocks()
 
 void CodeGenObjectWithTextBlocks::setAttributesFromObject (CodeGenObjectWithTextBlocks * obj)
 {
+    Q_UNUSED(obj);
 /*
     TextBlockList * list = obj->getTextBlockList();
     foreach (TextBlock* tb, *list) {

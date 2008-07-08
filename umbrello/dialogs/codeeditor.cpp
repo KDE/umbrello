@@ -1261,11 +1261,12 @@ void CodeEditor::contentsMouseMoveEvent ( QMouseEvent * e )
 // after the dialog disappears
 void CodeEditor::rebuildView( int startCursorPos )
 {
+    Q_UNUSED(startCursorPos);  //:TODO:
     loadFromDocument();
     // make a minima attempt to leave the cursor (view of the code) where
     // we started
-    int new_nrof_para = paragraphs() -1;
-//:TODO:    setCursorPosition((startCursorPos < new_nrof_para ? startCursorPos : 0), 0);  // crashes the application
+//:TODO:    int new_nrof_para = paragraphs() -1;
+//:TODO:    setCursorPosition((startCursorPos < new_nrof_para ? startCursorPos : 0), 0);  //:TODO: crashes the application
 }
 
 
