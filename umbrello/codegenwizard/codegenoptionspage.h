@@ -9,8 +9,8 @@
  *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-#ifndef CODEGENERATIONOPTIONSPAGE_H
-#define CODEGENERATIONOPTIONSPAGE_H
+#ifndef CODEGENOPTIONSPAGE_H
+#define CODEGENOPTIONSPAGE_H
 
 // qt includes
 #include <QtGui/QWizardPage>
