@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -8,13 +7,12 @@
  *   copyright (C) 2003-2006                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-
 #ifndef UMLROLEPROPERTIES_H
 #define UMLROLEPROPERTIES_H
 
-//my class includes
 #include "ui_umlrolepropertiesbase.h"
-#include "../umlrole.h"
+#include "umlrole.h"
+
 
 class UMLRolePropertiesBase : public QWidget, public Ui::UMLRolePropertiesBase
 {
@@ -31,7 +29,8 @@ public:
  *
  * @author Brian Thomas <brian.thomas@gsfc.nasa.gov>
  */
-class UMLRoleProperties : public UMLRolePropertiesBase {
+class UMLRoleProperties : public UMLRolePropertiesBase
+{
     Q_OBJECT
 public:
 
