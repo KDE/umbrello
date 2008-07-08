@@ -25,6 +25,7 @@
 #include <QtGui/QPrinter>
 #include <QtCore/QDir>
 #include <QtCore/QRegExp>
+#include <QtSvg/QSvgGenerator>
 
 // kde include files
 #include <kdebug.h>
@@ -327,30 +328,28 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rec
     return true;
 }
 
-bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fileName) const {
+bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fileName) const
+{
     bool exportSuccessful;
+    QRectF rect = view->umlScene()->getDiagramRect();
 
-    QPicture* diagram = new QPicture();
-
-    // do not call printer.setup(); because we want no user
-    // interaction here
-    QPainter* painter = new QPainter();
-    painter->begin( diagram );
+    QSvgGenerator generator;
+    generator.setFileName(fileName);
+    generator.setSize(rect.toRect().size());
+    QPainter painter(&generator);
 
     // make sure the widget sizes will be according to the
     // actually used printer font, important for getDiagramRect()
     // and the actual painting
-    view->umlScene()->forceUpdateWidgetFontMetrics(painter);
+    view->umlScene()->forceUpdateWidgetFontMetrics(&painter);
 
-    QRectF rect = view->umlScene()->getDiagramRect();
-    painter->translate(-rect.x(),-rect.y());
-    view->umlScene()->getDiagram(rect,*painter);
-    painter->end();
-    exportSuccessful = diagram->save(fileName);
+    painter.translate(-rect.x(),-rect.y());
+    view->umlScene()->getDiagram(rect, painter);
+    painter.end();
 
-    // delete painter and printer before we try to open and fix the file
-    delete painter;
-    delete diagram;
+    //FIXME: Determine the status of svg generation.
+    exportSuccessful = true;
+
     // next painting will most probably be to a different device (i.e. the screen)
     view->umlScene()->forceUpdateWidgetFontMetrics(0);
 
