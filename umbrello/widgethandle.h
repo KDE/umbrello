@@ -52,6 +52,10 @@ public:
         return m_shape;
     }
 
+    void updateHandlePosition() {
+        calcResizeHandles();
+    }
+
     void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
 
 protected:

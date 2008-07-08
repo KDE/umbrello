@@ -353,7 +353,7 @@ void WidgetHandle::calcResizeHandles()
 
     QRectF handleRect(0, 0, size, size);
 
-    prepareGeometryChange();
+
 
     QRectF rect = mapFromItem(this, m_widget->rect()).boundingRect();
 
@@ -387,10 +387,12 @@ void WidgetHandle::calcResizeHandles()
         m_shape.addRect (m_resizeHandles[i]);
     }
 
+    prepareGeometryChange();
     // Slight adjustment to allow better painting control.
     const qreal adj = .5;
     // Use the painter path to get the bounding rect.
     m_boundingRect = m_shape.boundingRect().adjusted(-adj, -adj, adj, adj);
+    update();
 }
 
 /**

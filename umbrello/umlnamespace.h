@@ -14,7 +14,7 @@
 
 #include <string>
 #include <QtCore/QString>
-
+#include <kdebug.h>
 
 /**
  *@author Paul Hensgen

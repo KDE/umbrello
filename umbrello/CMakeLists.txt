@@ -327,6 +327,7 @@ set(libumbrello_SRCS
    stereotype.cpp
    template.cpp
    textitem.cpp
+   textitemgroup.cpp
    test.cpp
    textblock.cpp
    toolbarstate.cpp

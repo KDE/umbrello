@@ -18,15 +18,16 @@
 #include <kdebug.h>
 
 // app includes
+#include "classifier.h"
+#include "classifierlistitem.h"
 #include "enum.h"
 #include "enumliteral.h"
-#include "classifier.h"
-#include "umlclassifierlistitemlist.h"
-#include "classifierlistitem.h"
-#include "widget_utils.h"
 #include "optionstate.h"
-#include "umlscene.h"
+#include "textitemgroup.h"
 #include "textitem.h"
+#include "umlclassifierlistitemlist.h"
+#include "umlscene.h"
+#include "widget_utils.h"
 
 QBrush randHoverBrush()
 {
@@ -49,16 +50,16 @@ QBrush randHoverBrush()
 
 NewEnumWidget::NewEnumWidget(UMLObject* o) :
     NewUMLRectWidget(o),
-    m_showPackage(false),
-    m_stereoTypeItem(0),
-    m_nameItem(0)
+    m_showPackage(false)
 {
+    m_textItemGroup = new TextItemGroup(this);
     m_baseType = Uml::wt_Enum;
+    init();
 }
 
 NewEnumWidget::~NewEnumWidget()
 {
-    cleanup();
+    delete m_textItemGroup;
 }
 
 void NewEnumWidget::init()
@@ -67,6 +68,7 @@ void NewEnumWidget::init()
         const Settings::OptionState& ops = umlScene()->getOptionState();
         m_showPackage = ops.classState.showPackage;
     }
+
     updateGeometry();
 }
 
@@ -92,24 +94,16 @@ void NewEnumWidget::paint(QPainter *painter,
                           const QStyleOptionGraphicsItem *option,
                           QWidget *widget)
 {
-    const QSizeF sz = size();
-    const QSizeF minSz = sizeHint(Qt::MinimumSize);
-
-    // if(sz.height() > minSz.height()) {
-    //     fontHeight += (sz.height() - minSz.height()) / qreal(list.size() + 2);
-    // }
-
     painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());
+
     // First draw the outer rectangle with the pen and brush of this widget.
     painter->drawRect(rect());
 
-    if(m_nameItem) {
-        QPointF botLeft = m_nameItem->boundingRect().bottomLeft();
-        botLeft = m_nameItem->mapToParent(botLeft);
-        qreal y = botLeft.y();
-        painter->drawLine(QLineF(0, y, sz.width() - 1, y));
-    }
+    const TextItem *item = m_textItemGroup->textItemAt(NameItemIndex);
+    const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
+    const qreal y = bottomLeft.y();
+    painter->drawLine(QLineF(0, y, size().width() - 1, y));
 }
 
 bool NewEnumWidget::loadFromXMI( QDomElement & qElement )
@@ -132,151 +126,72 @@ void NewEnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {
 
 void NewEnumWidget::updateGeometry()
 {
-    cleanup();
     if(umlObject()) {
-        qreal maxWidth = 0;
         UMLClassifier *classifier = static_cast<UMLClassifier*>(umlObject());
+        UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
+        int totalTextItems = list.size() + 2; // +2 because stereo text + name text.
+        bool shouldAlign = false;
 
         QBrush hoverBrush = randHoverBrush();
-        // Setup the steretype item first.
 
-        m_stereoTypeItem = new TextItem(umlObject()->getStereotype(true));
-        m_stereoTypeItem->setToolTip(m_stereoTypeItem->toPlainText());
-        m_stereoTypeItem->setDefaultTextColor(fontColor());
-        m_stereoTypeItem->setFont(font());
-        m_stereoTypeItem->setBold(true);
-        m_stereoTypeItem->setAcceptHoverEvents(true);
-        m_stereoTypeItem->setHoverBrush(hoverBrush);
-        m_stereoTypeItem->setAlignment(Qt::AlignCenter);
-        m_stereoTypeItem->adjustSize();
+        m_textItemGroup->unparent();
 
-        maxWidth = qMax(maxWidth, m_stereoTypeItem->boundingRect().width());
+        TextItem dummy("");
+        dummy.setDefaultTextColor(fontColor());
+        dummy.setFont(font());
+        dummy.setAcceptHoverEvents(true);
+        dummy.setHoverBrush(hoverBrush);
+        dummy.setAlignment(Qt::AlignCenter);
+        dummy.setBackgroundBrush(Qt::NoBrush);
 
-        // Now setup the name item.
-
-        QString nameText = name();
-        if(m_showPackage) {
-            nameText = umlObject()->getFullyQualifiedName();
-        }
-        m_nameItem = new TextItem(nameText);
-        m_nameItem->setToolTip(m_nameItem->toPlainText());
-        m_nameItem->setDefaultTextColor(fontColor());
-        m_nameItem->setFont(font());
-        m_nameItem->setBold(true);
-        m_nameItem->setItalic(classifier->getAbstract());
-        m_nameItem->setAcceptHoverEvents(true);
-        m_nameItem->setHoverBrush(hoverBrush);
-        m_nameItem->setAlignment(Qt::AlignCenter);
-        m_nameItem->adjustSize();
-
-        maxWidth = qMax(maxWidth, m_nameItem->boundingRect().width());
-
-        // Now setup all the literals
-
-        foreach(UMLClassifierListItem* enumLiteral ,
-                classifier->getFilteredList(Uml::ot_EnumLiteral)) {
-            TextItem *literal = new TextItem(enumLiteral->getName());
-            literal->setToolTip(literal->toPlainText());
-            literal->setDefaultTextColor(fontColor());
-            literal->setFont(font());
-            literal->setAcceptHoverEvents(true);
-            literal->setHoverBrush(hoverBrush);
-            literal->setAlignment(Qt::AlignCenter);
-            literal->adjustSize();
-
-            m_enumLiteralItems.append(literal);
-            maxWidth = qMax(maxWidth, literal->boundingRect().width());
-        }
-
-        // Now align all these text items.
-        maxWidth = qMin(maxWidth, QFontMetricsF(font()).width('w') * 20);
-        maxWidth += ENUM_MARGIN * 2;
-        qreal y = 0;
-        QRectF newBound;
-
-        m_stereoTypeItem->setTextWidth(maxWidth);
-        m_stereoTypeItem->setParentItem(this);
-        m_stereoTypeItem->setPos(0, y);
-        y += m_stereoTypeItem->boundingRect().height();
-        newBound |= m_stereoTypeItem->sceneBoundingRect();
-
-        m_nameItem->setTextWidth(maxWidth);
-        if(umlScene()) {
-            umlScene()->addItem(m_nameItem);
-        }
-        m_nameItem->setParentItem(this);
-        m_nameItem->setPos(0, y);
-        y += m_nameItem->boundingRect().height();
-        newBound |= m_nameItem->sceneBoundingRect();
-
-        foreach(TextItem *literal, m_enumLiteralItems) {
-            literal->setTextWidth(maxWidth);
-            if(umlScene()) {
-                umlScene()->addItem(literal);
+        if(m_textItemGroup->size() != totalTextItems) {
+            while(m_textItemGroup->size() < totalTextItems) {
+                m_textItemGroup->appendTextItem(new TextItem(""));
             }
-            literal->setParentItem(this);
-            literal->setPos(0, y);
-            y += literal->boundingRect().height();
-            newBound |= literal->sceneBoundingRect();
+
+            while(m_textItemGroup->size() > totalTextItems) {
+                int lastIndex = m_textItemGroup->textItems().size() - 1;
+                m_textItemGroup->deleteTextItemAt(lastIndex);
+            }
+            shouldAlign = true;
         }
 
-        m_minimumSize = newBound.size();
+        TextItem *stereo = m_textItemGroup->textItemAt(StereoTypeItemIndex);
+        stereo->setText(classifier->getStereotype(true));
+        dummy.copyAttributesTo(stereo);
+        stereo->setBold(true);
+        stereo->setToolTip(stereo->text());
+
+        TextItem *nameItem = m_textItemGroup->textItemAt(NameItemIndex);
+        nameItem->setText(m_showPackage ?
+                          classifier->getFullyQualifiedName() :
+                          name());
+        dummy.copyAttributesTo(nameItem);
+        nameItem->setBold(true);
+        nameItem->setItalic(classifier->getAbstract());
+        nameItem->setToolTip(nameItem->text());
+
+        int index = NameItemIndex + 1;
+        foreach(UMLClassifierListItem* enumLiteral, list) {
+            TextItem *literal = m_textItemGroup->textItemAt(index);
+            literal->setText(enumLiteral->getName());
+            dummy.copyAttributesTo(literal);
+            literal->setToolTip(literal->text());
+            ++index;
+        }
+
+        m_minimumSize = m_textItemGroup->calculateMinimumSize();
+        m_minimumSize.rwidth() += ENUM_MARGIN * 2;
+
+        m_textItemGroup->reparent();
     }
     NewUMLRectWidget::updateGeometry();
 }
 
 void NewEnumWidget::sizeHasChanged(const QSizeF& sz)
 {
-    const QSizeF minSz = sizeHint(Qt::MinimumSize);
+    m_textItemGroup->alignVertically(size().width() - 2*ENUM_MARGIN, size().height());
+    m_textItemGroup->setPos(QPointF(ENUM_MARGIN, 0));
 
-    int visibleItems = 0;
-
-    if(m_stereoTypeItem) {
-        m_stereoTypeItem->setTextWidth(sz.width());
-        ++visibleItems;
-    }
-
-    if(m_nameItem) {
-        m_nameItem->setTextWidth(sz.width());
-        ++visibleItems;
-    }
-
-    foreach(TextItem *literal, m_enumLiteralItems) {
-        literal->setTextWidth(sz.width());
-        ++visibleItems;
-    }
-
-    qreal spacing = 0;
-    if(sz.height() - minSz.height() > 0 && visibleItems != 0) {
-        spacing = (sz.height() - minSz.height()) / qreal(visibleItems);
-    }
-
-    if(spacing > 0) {
-        qreal y = 0;
-        if(m_stereoTypeItem) {
-            m_stereoTypeItem->setPos(0, y);
-            y += m_stereoTypeItem->boundingRect().height() + spacing;
-        }
-
-        if(m_nameItem) {
-            m_nameItem->setPos(0, y);
-            y += m_nameItem->boundingRect().height() + spacing;
-        }
-
-        foreach(TextItem *literal, m_enumLiteralItems) {
-            literal->setPos(0, y);
-            y += literal->boundingRect().height() + spacing;
-        }
-    }
     NewUMLRectWidget::sizeHasChanged(sz);
-}
-
-void NewEnumWidget::cleanup()
-{
-    delete m_stereoTypeItem;
-    delete m_nameItem;
-    qDeleteAll(m_enumLiteralItems);
-
-    m_stereoTypeItem = m_nameItem = 0;
-    m_enumLiteralItems.clear();
 }

@@ -24,7 +24,7 @@
 #include "newumlrectwidget.h"
 
 #define ENUM_MARGIN 5
-class TextItem;
+class TextItemGroup;
 
 /**
  * @short A uml widget to visualize enum.
@@ -99,14 +99,15 @@ protected:
     void sizeHasChanged(const QSizeF& oldSize);
 
 private:
-    void cleanup();
+    enum {
+        StereoTypeItemIndex = 0,
+        NameItemIndex = 1
+    };
 
     QSizeF m_minimumSize;
     bool m_showPackage;
 
-    TextItem *m_stereoTypeItem;
-    TextItem *m_nameItem;
-    QList<TextItem*> m_enumLiteralItems;
+    TextItemGroup *m_textItemGroup;
 };
 
 #endif // NEWENUMWIDGET_H

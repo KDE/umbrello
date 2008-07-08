@@ -17,73 +17,66 @@
  * Boston, MA 02110-1301, USA.                                             *
  ***************************************************************************/
 
-#ifndef TEXTITEM_H
-#define TEXTITEM_H
+#ifndef TEXTITEMGROUP_H
+#define TEXTITEMGROUP_H
 
-#include <QtGui/QGraphicsTextItem>
-#include <QtGui/QBrush>
-#include <QtGui/QFont>
+#include <QtCore/QList>
+#include <QtCore/QPointF>
 
+class QGraphicsItem;
+class TextItem;
+class QSizeF;
 
-class TextItem : public QGraphicsTextItem
+class TextItemGroup
 {
-    Q_OBJECT
 public:
+    static const qreal NoLineBreak;
+    TextItemGroup( QGraphicsItem *parent = 0 );
+    ~TextItemGroup();
 
-    TextItem(const QString& text, QGraphicsItem *parent = 0);
-    ~TextItem();
-
-
-    Qt::Alignment alignment() const;
-    void setAlignment(Qt::Alignment align);
-
-
-    bool bold() const {
-        return font().bold();
+    QGraphicsItem* parentItem() const {
+        return m_parentItem;
     }
-    void setBold(bool b);
+    void setParentItem(QGraphicsItem *item);
 
-    bool italic() const {
-        return font().italic();
-    }
-    void setItalic(bool i);
+    void appendTextItem(TextItem *item);
 
-    qreal width() const {
-        return boundingRect().width();
-    }
-    qreal height() const {
-        return boundingRect().height();
+    void deleteTextItem(TextItem *item);
+    void deleteTextItemAt(int index);
+
+    bool isIndexValid(int index) const;
+
+    int indexOf(TextItem* item) const;
+    TextItem* textItemAt(int index) const;
+
+    const QList<TextItem*> &textItems() const;
+    int size() const {
+        return m_textItems.size();
     }
 
-    QString text() const;
-    void setText(const QString& text);
+    QSizeF calculateMinimumSize();
 
-    void setFont(QFont font);
-
-
-    QBrush hoverBrush() const {
-        return m_hoverBrush;
+    qreal lineBreakWidth() const {
+        return m_lineBreakageWidth;
     }
-    void setHoverBrush(const QBrush& brush);
+    void setLineBreakWidth(qreal w);
 
+    void alignVertically(qreal currentWidth, qreal currentHeight);
 
-    QBrush backgroundBrush() const {
-        return m_backgroundBrush;
+    QPointF pos() const {
+        return m_pos;
     }
-    void setBackgroundBrush(const QBrush& brush);
+    void setPos(const QPointF& pos);
 
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *w);
-
-    void copyAttributesTo(TextItem *other) const;
-
-protected:
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void unparent();
+    void reparent();
 
 private:
-    QBrush m_hoverBrush;
-    QBrush m_backgroundBrush;
-
+    QGraphicsItem *m_parentItem;
+    QList<TextItem*> m_textItems;
+    QPointF m_pos;
+    qreal m_lineBreakageWidth;
 };
 
-#endif //TEXTITEM_H
+
+#endif //TEXTITEMGROUP_H
