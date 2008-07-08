@@ -22,7 +22,7 @@
         </widget>
        </item>
        <item row="1" column="0" colspan="3" >
-        <widget class="QLabel" name="componentLabel" >
+        <widget class="QLabel" name="ui_componentLabel" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
            <horstretch>0</horstretch>
@@ -53,12 +53,20 @@
       </layout>
      </item>
      <item>
-      <widget class="QTabWidget" name="m_tabWidget" />
+      <widget class="KTabWidget" name="m_tabWidget" />
      </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>ktabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
