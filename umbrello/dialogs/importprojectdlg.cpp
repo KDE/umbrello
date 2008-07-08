@@ -74,9 +74,9 @@ void ImportProjectDlg::getFiles(const QString& path, QStringList& filters)
 {
     QDir searchDir(path);
     if (searchDir.exists()) {
-        foreach (QFileInfo file, searchDir.entryList(filters, QDir::Files))
+        foreach (const QFileInfo &file, searchDir.entryList(filters, QDir::Files))
             fileList->append(searchDir.absoluteFilePath(file.fileName()));
-        foreach (QFileInfo subDir, searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks))
+        foreach (const QFileInfo &subDir, searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks))
             getFiles(searchDir.absoluteFilePath(subDir.fileName()), filters);
     }
 }
