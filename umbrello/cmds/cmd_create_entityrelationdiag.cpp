@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -19,22 +19,22 @@
 namespace Uml
 {
 
-    cmdCreateEntityRelationDiag::cmdCreateEntityRelationDiag(UMLDoc* doc, const QString& name):m_pUMLDoc(doc),m_pUMLView(NULL),m_Name(name)
+    CmdCreateEntityRelationDiag::CmdCreateEntityRelationDiag(UMLDoc* doc, const QString& name):m_pUMLDoc(doc),m_pUMLView(NULL),m_Name(name)
     {
         setText(i18n("Create entity relationship diagram"));
     }
 
-    cmdCreateEntityRelationDiag::~cmdCreateEntityRelationDiag()
+    CmdCreateEntityRelationDiag::~CmdCreateEntityRelationDiag()
     {
     }
 
-    void cmdCreateEntityRelationDiag::redo()
+    void CmdCreateEntityRelationDiag::redo()
     {
         UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_EntityRelationship);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_EntityRelationship);
     }
 
-    void cmdCreateEntityRelationDiag::undo()
+    void CmdCreateEntityRelationDiag::undo()
     {
         if(m_pUMLView)
         {

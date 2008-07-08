@@ -111,7 +111,7 @@ void UMLObject::setID(Uml::IDType NewID)
 
 void UMLObject::setName(const QString &strName)
 {
-    UMLApp::app()->executeCommand(new Uml::cmdRenameUMLObject(this, strName));
+    UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(this, strName));
 }
 
 void UMLObject::setNamecmd(const QString &strName)
@@ -293,7 +293,7 @@ Uml::Visibility UMLObject::getVisibility() const
 
 void UMLObject::setVisibility(Uml::Visibility s)
 {
-    UMLApp::app()->executeCommand(new cmdSetVisibility(this, s));
+    UMLApp::app()->executeCommand(new CmdSetVisibility(this, s));
 }
 
 void UMLObject::setVisibilitycmd(Uml::Visibility s)

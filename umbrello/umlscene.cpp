@@ -376,7 +376,7 @@ void UMLScene::setupNewWidget(NewUMLRectWidget *w)
     m_pDoc->setModified();
 
     // [PORT]
-    // UMLApp::app()->executeCommand(new cmdCreateWidget(this, w));
+    // UMLApp::app()->executeCommand(new CmdCreateWidget(this, w));
 }
 
 void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)

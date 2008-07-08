@@ -18,11 +18,11 @@
 
 namespace Uml
 {
-    class cmdCreateUMLObject : public QUndoCommand
+    class CmdCreateUMLObject : public QUndoCommand
     {
         public:
-            cmdCreateUMLObject(UMLObject* o);
-            ~cmdCreateUMLObject();
+            CmdCreateUMLObject(UMLObject* o);
+            ~CmdCreateUMLObject();
 
             void redo();
             void undo();

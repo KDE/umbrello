@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -19,22 +19,22 @@
 namespace Uml
 {
 
-    cmdCreateUseCaseDiag::cmdCreateUseCaseDiag(UMLDoc* doc, const QString& name):m_pUMLDoc(doc),m_pUMLView(NULL),m_Name(name)
+    CmdCreateUseCaseDiag::CmdCreateUseCaseDiag(UMLDoc* doc, const QString& name):m_pUMLDoc(doc),m_pUMLView(NULL),m_Name(name)
     {
         setText(i18n("Create use case diagram"));
     }
 
-    cmdCreateUseCaseDiag::~cmdCreateUseCaseDiag()
+    CmdCreateUseCaseDiag::~CmdCreateUseCaseDiag()
     {
     }
 
-    void cmdCreateUseCaseDiag::redo()
+    void CmdCreateUseCaseDiag::redo()
     {
         UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_UseCase);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_UseCase);
     }
 
-    void cmdCreateUseCaseDiag::undo()
+    void CmdCreateUseCaseDiag::undo()
     {
         if(m_pUMLView)
         {

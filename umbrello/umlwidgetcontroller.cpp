@@ -13,8 +13,8 @@
 #include "umlwidgetcontroller.h"
 
 // qt includes
-#include <qevent.h>
-#include <qpoint.h>
+#include <QtCore/QEvent>
+#include <QtCore/QPoint>
 
 // kde includes
 #include <kcursor.h>
@@ -157,7 +157,7 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     /* Commands
         UMLDoc* doc = UMLApp::app()->getDocument();
-        doc->executeCommand(new cmdMoveWidget(this,diffX,diffY));*/
+        doc->executeCommand(new CmdMoveWidget(this,diffX,diffY));*/
 
     // moveWidget(diffX,diffY);
 
@@ -183,9 +183,9 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     foreach(NewUMLRectWidget* widget , m_selectedWidgetsList) {
 
         //UMLDoc* m_doc = UMLApp::app()->getDocument();
-        //cmdMoveWidgetBy* cmd = new cmdMoveWidgetBy(widget,diffX,diffY);
+        //CmdMoveWidgetBy* cmd = new CmdMoveWidgetBy(widget,diffX,diffY);
         //m_doc->executeCommand(cmd);
-        //m_doc->executeCommand(new cmdMoveWidgetBy(widget,diffX,diffY));
+        //m_doc->executeCommand(new CmdMoveWidgetBy(widget,diffX,diffY));
         widget->getWidgetController()->moveWidgetBy(diffX, diffY);
     }
     // uDebug();
@@ -241,10 +241,10 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
                 if (m_moved) {
 
                     /* Commands */
-                    UMLApp::app()->executeCommand(new cmdMoveWidget(this));
+                    UMLApp::app()->executeCommand(new CmdMoveWidget(this));
 
                 } else {
-                    UMLApp::app()->executeCommand(new cmdResizeWidget(this));
+                    UMLApp::app()->executeCommand(new CmdResizeWidget(this));
                     m_resized = false;
                 }
 

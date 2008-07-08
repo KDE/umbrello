@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,7 +14,7 @@
 // qt/kde includes
 #include <kdebug.h>
 #include <klocale.h>
-#include <qregexp.h>
+#include <QtCore/QRegExp>
 // app includes
 #include "classifier.h"
 #include "folder.h"
@@ -558,7 +558,7 @@ void UMLAssociation::setChangeability(Uml::Changeability_Type value, Uml::Role_T
 }
 
 void UMLAssociation::setMulti(const QString &value, Uml::Role_Type role) {
-    UMLApp::app()->executeCommand(new cmdChangeMulti(m_pRole[role], value));
+    UMLApp::app()->executeCommand(new CmdChangeMulti(m_pRole[role], value));
     //m_pRole[role]->setMultiplicity(value);
 }
 

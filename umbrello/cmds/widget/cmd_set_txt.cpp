@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -30,26 +30,26 @@
 namespace Uml
 {
 
-    cmdSetTxt::cmdSetTxt(FloatingTextWidget* _ftw, const QString& txt):ftw(_ftw),newstring(txt)
+    CmdSetTxt::CmdSetTxt(FloatingTextWidget* _ftw, const QString& txt):ftw(_ftw),newstring(txt)
     {
 
         oldstring = _ftw->getText();
 kDebug() << "la valeur de l'oldstring est: "<< oldstring << ", la valeur de la newstring est: "<< newstring;
     }
 
-    cmdSetTxt::~cmdSetTxt()
+    CmdSetTxt::~CmdSetTxt()
     {
 
     }
 
-    void cmdSetTxt::redo()
+    void CmdSetTxt::redo()
     {
 
         ftw->setTextcmd(newstring);
 kDebug() << "string apres redo " << ftw->getText()<< ", la valeur de l'oldstring est: "<< oldstring << ", la valeur de la newstring est: "<< newstring;
     }
 
-    void cmdSetTxt::undo()
+    void CmdSetTxt::undo()
     {
         ftw->setName("balbalbalbalbla");
         ftw->setTextcmd(oldstring);

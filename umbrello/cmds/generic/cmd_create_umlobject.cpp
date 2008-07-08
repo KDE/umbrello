@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,17 +20,17 @@
 namespace Uml
 {
 
-    cmdCreateUMLObject::cmdCreateUMLObject(UMLObject* o):m_obj(o)
+    CmdCreateUMLObject::CmdCreateUMLObject(UMLObject* o):m_obj(o)
     {
         setText(i18n("Create uml object :") + o->getFullyQualifiedName());
     }
 
-    cmdCreateUMLObject::~cmdCreateUMLObject()
+    CmdCreateUMLObject::~CmdCreateUMLObject()
     {
     }
 
     // Create the UMLObject
-    void cmdCreateUMLObject::redo()
+    void CmdCreateUMLObject::redo()
     {
         UMLDoc *doc = UMLApp::app()->getDocument();
 
@@ -49,7 +49,7 @@ namespace Uml
     }
 
     // Suppress the UMLObject
-    void cmdCreateUMLObject::undo()
+    void CmdCreateUMLObject::undo()
     {
         UMLDoc *doc = UMLApp::app()->getDocument();
         doc->removeUMLObject(m_obj);

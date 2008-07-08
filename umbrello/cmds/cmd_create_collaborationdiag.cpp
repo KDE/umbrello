@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -19,22 +19,22 @@
 namespace Uml
 {
 
-    cmdCreateCollaborationDiag::cmdCreateCollaborationDiag(UMLDoc* doc, const QString& name):m_pUMLDoc(doc),m_pUMLView(NULL),m_Name(name)
+    CmdCreateCollaborationDiag::CmdCreateCollaborationDiag(UMLDoc* doc, const QString& name):m_pUMLDoc(doc),m_pUMLView(NULL),m_Name(name)
     {
         setText(i18n("Create collaboration diagram"));
     }
 
-    cmdCreateCollaborationDiag::~cmdCreateCollaborationDiag()
+    CmdCreateCollaborationDiag::~CmdCreateCollaborationDiag()
     {
     }
 
-    void cmdCreateCollaborationDiag::redo()
+    void CmdCreateCollaborationDiag::redo()
     {
         UMLFolder* temp = m_pUMLDoc->getRootFolder(Uml::mt_Logical);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_Collaboration);
     }
 
-    void cmdCreateCollaborationDiag::undo()
+    void CmdCreateCollaborationDiag::undo()
     {
         if(m_pUMLView)
         {

@@ -19,11 +19,11 @@
 
 namespace Uml
 {
-    class cmdCreateCollaborationDiag : public QUndoCommand
+    class CmdCreateCollaborationDiag : public QUndoCommand
     {
         public:
-            explicit cmdCreateCollaborationDiag(UMLDoc* doc, const QString& name = "");
-            ~cmdCreateCollaborationDiag();
+            explicit CmdCreateCollaborationDiag(UMLDoc* doc, const QString& name = "");
+            ~CmdCreateCollaborationDiag();
 
             void redo();
             void undo();

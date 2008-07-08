@@ -19,11 +19,11 @@
 
 namespace Uml
 {
-    class cmdCreateEntityRelationDiag : public QUndoCommand
+    class CmdCreateEntityRelationDiag : public QUndoCommand
     {
         public:
-            explicit cmdCreateEntityRelationDiag(UMLDoc* doc, const QString& name = "");
-            ~cmdCreateEntityRelationDiag();
+            explicit CmdCreateEntityRelationDiag(UMLDoc* doc, const QString& name = "");
+            ~CmdCreateEntityRelationDiag();
 
             void redo();
             void undo();

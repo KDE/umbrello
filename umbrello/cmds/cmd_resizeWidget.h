@@ -18,13 +18,13 @@
 
 namespace Uml
 {
-    class cmdResizeWidget : public QUndoCommand
+    class CmdResizeWidget : public QUndoCommand
     {
         public:
             /*Constructor */
-            cmdResizeWidget(UMLWidgetController* _UMLwc);
+            CmdResizeWidget(UMLWidgetController* _UMLwc);
             /*Destructor */
-            ~cmdResizeWidget();
+            ~CmdResizeWidget();
             /*Redo method */
             void redo();
             /*Undo method */

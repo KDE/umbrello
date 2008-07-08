@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2006                                                *
+ *  copyright (C) 2002-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -31,23 +31,23 @@
 namespace Uml
 {
 
-    cmdHandleRename::cmdHandleRename(FloatingTextWidget* _ftw, QString& txt):ftw(_ftw),newstring(txt)
+    CmdHandleRename::CmdHandleRename(FloatingTextWidget* _ftw, QString& txt):ftw(_ftw),newstring(txt)
     {
         setText(i18n("Change text"));
         oldstring = _ftw->getText();
     }
 
-    cmdHandleRename::~cmdHandleRename()
+    CmdHandleRename::~CmdHandleRename()
     {
 
     }
 
-    void cmdHandleRename::redo()
+    void CmdHandleRename::redo()
     {
         ftw->changeName(newstring);
     }
 
-    void cmdHandleRename::undo()
+    void CmdHandleRename::undo()
     {
         ftw->changeName(oldstring);
     }

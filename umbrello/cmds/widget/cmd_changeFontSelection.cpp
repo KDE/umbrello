@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007                                                    *
+ *   copyright (C) 2007-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -24,12 +24,11 @@
 #include "messagewidget.h"
 #include "umlscene.h"
 
-
-
 #include <klocale.h>
+
 namespace Uml
 {
-    cmdChangeFontSelection::cmdChangeFontSelection(UMLDoc * doc,UMLScene *scene,QFont fon)
+    CmdChangeFontSelection::CmdChangeFontSelection(UMLDoc * doc,UMLScene *scene,QFont fon)
     {
 
         // [PORT]
@@ -41,14 +40,14 @@ namespace Uml
         oldFont = widget->getFont() ;
     }
 
-    void cmdChangeFontSelection::undo()
+    void CmdChangeFontSelection::undo()
     {
         // [PORT]
         pScene->selectionSetFont( oldFont );
         pDoc->setModified(true);
     }
 
-    void cmdChangeFontSelection::redo()
+    void CmdChangeFontSelection::redo()
     {
         // [PORT]
         pScene->selectionSetFont( newFont );

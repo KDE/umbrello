@@ -1066,7 +1066,7 @@ void UMLDoc::renameUMLObject(UMLObject *o)
         if(name.length() == 0)
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         else if (isUnique(name)) {
-            UMLApp::app()->executeCommand(new cmdRenameUMLObject(o,name));
+            UMLApp::app()->executeCommand(new CmdRenameUMLObject(o,name));
             setModified(true);
             break;
         } else {
@@ -1097,7 +1097,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
                     || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp->mainWidget() ,
                             i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
                             i18n( "Name Not Unique"),KGuiItem(i18n("Use Name")),KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes) ) {
-                UMLApp::app()->executeCommand(new cmdRenameUMLObject(o,name));
+                UMLApp::app()->executeCommand(new CmdRenameUMLObject(o,name));
                 setModified(true);
                 break;
             } else {

@@ -18,12 +18,12 @@
 
 namespace Uml
 {
-    class cmdChangeLineColor : public QUndoCommand
+    class CmdChangeLineColor : public QUndoCommand
     {
     public:
-        //cmdChangeLineColor(UMLView *view, QColor col);
-        cmdChangeLineColor(NewUMLRectWidget *w, const QColor& col);
-        ~cmdChangeLineColor();
+        //CmdChangeLineColor(UMLView *view, const QColor& col);
+        CmdChangeLineColor(NewUMLRectWidget *w, const QColor& col);
+        ~CmdChangeLineColor();
         void redo();
         void undo();
 
