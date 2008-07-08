@@ -43,7 +43,7 @@ QString clean(const QString& s)
     if (s.isNull())
         return QString();
     QString str = s;
-    str.remove("\"");
+    str.remove('\"');
     str.remove(QRegExp("^Logical View::"));
     return str;
 }
@@ -56,7 +56,7 @@ Uml::IDType quid(const PetalNode *node)
     QString quidStr = node->findAttribute("quid").string;
     if (quidStr.isEmpty())
         return Uml::id_None;
-    quidStr.remove("\"");
+    quidStr.remove('\"');
     return STR2ID(quidStr);
 }
 
@@ -68,7 +68,7 @@ QString quidu(const PetalNode *node)
     QString quiduStr = node->findAttribute("quidu").string;
     if (quiduStr.isEmpty())
         return QString();
-    quiduStr.remove("\"");
+    quiduStr.remove('\"');
     return quiduStr;
 }
 
