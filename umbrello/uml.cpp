@@ -885,7 +885,7 @@ void UMLApp::slotFileOpen()
     }
     else {
 #ifdef Q_WS_WIN
-        KUrl url=QFileDialog::getOpenFileName(
+        KUrl url=QFileDialog::getOpenFileName(    //krazy:exclude=qclasses
             this,
             i18n("Open File"),
             "",
@@ -961,7 +961,7 @@ bool UMLApp::slotFileSaveAs()
     QString ext;
     while (cont) {
 #ifdef Q_WS_WIN
-        url=QFileDialog::getSaveFileName(
+        url=QFileDialog::getSaveFileName(    //krazy:exclude=qclasses
             this,
             i18n("Save As"),
             "",
@@ -1851,7 +1851,7 @@ void UMLApp::slotImportClasses()
     preselectedExtension.append("\n*|" + i18n("All Files"));
 #ifdef Q_WS_WIN
     QStringList extList = preselectedExtension.split("|");
-    QStringList fileList = QFileDialog::getOpenFileNames(this, i18n("Select Code to Import"),
+    QStringList fileList = QFileDialog::getOpenFileNames(this, i18n("Select Code to Import"),    //krazy:exclude=qclasses
                                 "", extList[1] );
 #else
     QStringList fileList = KFileDialog::getOpenFileNames(KUrl(), preselectedExtension,
