@@ -12,108 +12,101 @@
 // own header
 #include "datatypewidget.h"
 
-// qt/kde includes
-#include <qpainter.h>
-#include <kdebug.h>
-
 // app includes
 #include "classifier.h"
-#include "operation.h"
-#include "classifierlistitem.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "umlscene.h"
+#include "textitem.h"
+#include "textitemgroup.h"
 
+// qt/kde includes
+#include <QtGui/QPainter>
 
-#define CIRCLE_SIZE 30
-
-DatatypeWidget::DatatypeWidget(UMLScene* scene, UMLClassifier *d) : NewUMLRectWidget(scene, d) {
-    init();
-}
-
-DatatypeWidget::~DatatypeWidget() {}
-
-void DatatypeWidget::init() {
-    NewUMLRectWidget::setBaseType(Uml::wt_Datatype);
-    setSize(100, 30);
-    m_pMenu = 0;
-}
-
-void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+DatatypeWidget::DatatypeWidget(UMLScene* scene, UMLClassifier *d) :
+    NewUMLRectWidget(scene, d),
+    m_minimumSize(100, 30)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
-
-    setPenFromSettings(p);
-    if (NewUMLRectWidget::getUseFillColour())  {
-        p.setBrush(NewUMLRectWidget::getFillColour());
-    } else {
-        // [PORT] Replace with styleOption based code
-        //p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
-    }
-
-    qreal w = getWidth();
-    qreal h = getHeight();
-
-    QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    qreal fontHeight  = fm.lineSpacing();
-    QString name = getName();
-
-    p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(QPen(Qt::black));
-
-    QFont font = NewUMLRectWidget::getFont();
-    font.setBold(true);
-    p.setFont(font);
-    p.drawText(offsetX + DATATYPE_MARGIN, offsetY,
-               w - DATATYPE_MARGIN* 2,fontHeight,
-               Qt::AlignCenter, umlObject()->getStereotype(true));
-
-    font.setItalic( umlObject()->getAbstract() );
-    p.setFont(font);
-    p.drawText(offsetX + DATATYPE_MARGIN, offsetY + fontHeight,
-               w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
-
-    if (isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+    m_textItemGroup = new TextItemGroup(this);
+    m_baseType = Uml::wt_Datatype;
 }
 
-QSizeF DatatypeWidget::calculateSize() {
-    if (!umlObject())  {
-        return NewUMLRectWidget::calculateSize();
-    }
-    qreal width, height;
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const qreal fontHeight = fm.lineSpacing();
-
-    int lines = 1;//always have one line - for name
-    lines++; //for the stereotype
-
-    height = width = 0;
-    height += lines * fontHeight;
-
-    //now set the width of the concept
-    //set width to name to start with
-    //set width to name to start with
-    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(umlObject()->getFullyQualifiedName()).width();
-    qreal w = getFontMetrics(FT_BOLD).boundingRect(umlObject()->getStereotype(true)).width();
-
-    width = w > width?w:width;
-
-    //allow for width margin
-    width += DATATYPE_MARGIN * 2;
-
-    return QSize(width, height);
+DatatypeWidget::~DatatypeWidget()
+{
 }
 
-void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+bool DatatypeWidget::loadFromXMI(QDomElement &qElement)
+{
+    return NewUMLRectWidget::loadFromXMI(qElement);
+}
+
+void DatatypeWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
+{
     QDomElement conceptElement = qDoc.createElement("datatypewidget");
     NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
-bool DatatypeWidget::loadFromXMI( QDomElement & qElement ) {
-    return NewUMLRectWidget::loadFromXMI(qElement);
+QSizeF DatatypeWidget::sizeHint(Qt::SizeHint which)
+{
+    if(which == Qt::MinimumSize) {
+        return m_minimumSize;
+    }
+
+    return NewUMLRectWidget::sizeHint(which);
 }
 
+void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+{
+    painter->setBrush(brush());
+    painter->setPen(QPen(lineColor(), lineWidth()));
+
+    painter->drawRect(rect());
+}
+
+void DatatypeWidget::updateGeometry()
+{
+    if(umlObject()) {
+        int totalItemCount = 2; // SteroType and name
+
+        // Create a dummy item, to store the properties so that it can
+        // easily be used to copy the properties to other text items.
+        TextItem dummy("");
+        dummy.setDefaultTextColor(fontColor());
+        dummy.setFont(font());
+        dummy.setAcceptHoverEvents(true);
+        // dummy.setHoverBrush(hoverBrush);
+        dummy.setAlignment(Qt::AlignCenter);
+        dummy.setBackgroundBrush(Qt::NoBrush);
+
+        if(m_textItemGroup->size() != totalItemCount) {
+            while(m_textItemGroup->size() < totalItemCount) {
+                m_textItemGroup->appendTextItem(new TextItem(""));
+            }
+        }
+
+        TextItem *stereo = m_textItemGroup->textItemAt(DatatypeWidget::StereoTypeItemIndex);
+        stereo->setText(umlObject()->getStereotype(true));
+        dummy.copyAttributesTo(stereo); // apply the attributes
+        stereo->setBold(true);
+
+        TextItem *nameItem = m_textItemGroup->textItemAt(DatatypeWidget::NameItemIndex);
+        nameItem->setText(name());
+        dummy.copyAttributesTo(nameItem); // apply the attributes
+        nameItem->setItalic(umlObject()->getAbstract());
+
+        m_minimumSize = m_textItemGroup->calculateMinimumSize();
+        m_minimumSize.rwidth() += DATATYPE_MARGIN * 2;
+    }
+
+    NewUMLRectWidget::updateGeometry();
+}
+
+void DatatypeWidget::sizeHasChanged(const QSizeF& oldSize)
+{
+    QPointF offset(DATATYPE_MARGIN, 0);
+    QSizeF groupSize = size();
+    groupSize.rwidth() -= 2 * DATATYPE_MARGIN;
+
+    m_textItemGroup->alignVertically(groupSize);
+    m_textItemGroup->setPos(offset);
+
+    NewUMLRectWidget::sizeHasChanged(oldSize);
+}

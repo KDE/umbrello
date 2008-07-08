@@ -12,9 +12,10 @@
 #ifndef DATATYPEWIDGET_H
 #define DATATYPEWIDGET_H
 
-#include "umlwidget.h"
+#include "newumlrectwidget.h"
 
 class UMLClassifier;
+class TextItemGroup;
 
 #define DATATYPE_MARGIN 5
 
@@ -34,47 +35,31 @@ public:
     /**
      * Constructs an DatatypeWidget.
      *
-     * @param view              The parent of this DatatypeWidget.
-     * @param d         The UMLClassifier this will be representing.
+     * @param view The parent of this DatatypeWidget.
+     * @param d    The UMLClassifier this will be representing.
      */
     DatatypeWidget(UMLScene* scene, UMLClassifier *d);
-
-    /**
-     * Standard deconstructor.
-     */
     virtual ~DatatypeWidget();
 
-    /**
-     * Overrides standard method.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-     * Saves to the "datatypewidget" XMI element.
-     */
+    bool loadFromXMI(QDomElement& qElement);
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    /**
-     * Loads from a "datatypewidget" XMI element.
-     */
-    bool loadFromXMI(QDomElement& qElement);
+    QSizeF sizeHint(Qt::SizeHint which);
+
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget.
-     */
-    QSizeF calculateSize();
+    void updateGeometry();
+    void sizeHasChanged(const QSizeF& oldSize);
 
 private:
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
+    enum {
+        StereoTypeItemIndex = 0,
+        NameItemIndex = 1
+    };
 
-    /**
-     * The right mouse button menu.
-     */
-    ListPopupMenu* m_pMenu;
+    QSizeF m_minimumSize;
+    TextItemGroup *m_textItemGroup;
 };
 
 #endif

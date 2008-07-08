@@ -22,6 +22,7 @@
 
 #include <QtCore/QList>
 #include <QtCore/QPointF>
+#include <QtCore/QSizeF>
 
 class QGraphicsItem;
 class TextItem;
@@ -62,6 +63,9 @@ public:
     void setLineBreakWidth(qreal w);
 
     void alignVertically(qreal currentWidth, qreal currentHeight);
+    void alignVertically(const QSizeF& size) {
+        alignVertically(size.width(), size.height());
+    }
 
     QPointF pos() const {
         return m_pos;

@@ -188,10 +188,10 @@ void NewEnumWidget::updateGeometry()
     NewUMLRectWidget::updateGeometry();
 }
 
-void NewEnumWidget::sizeHasChanged(const QSizeF& sz)
+void NewEnumWidget::sizeHasChanged(const QSizeF& oldSize)
 {
     m_textItemGroup->alignVertically(size().width() - 2*ENUM_MARGIN, size().height());
     m_textItemGroup->setPos(QPointF(ENUM_MARGIN, 0));
 
-    NewUMLRectWidget::sizeHasChanged(sz);
+    NewUMLRectWidget::sizeHasChanged(oldSize);
 }
