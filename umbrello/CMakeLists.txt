@@ -179,12 +179,9 @@ kde4_add_ui_files(  libcodegenwizard_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenoptionspage.ui
 	${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenstatuspage.ui
 )
-
-
 set(libcodeimport_SRCS
 	codeimport/adaimport.cpp
 	codeimport/classimport.cpp
-	codeimport/cppimport.cpp
 	codeimport/idlimport.cpp
 	codeimport/import_utils.cpp
 	codeimport/javaimport.cpp
@@ -193,20 +190,38 @@ set(libcodeimport_SRCS
 	codeimport/pythonimport.cpp
 )
 
-set(libkdevcppparser_SRCS
-	codeimport/kdevcppparser/ast.cpp
-	codeimport/kdevcppparser/driver.cpp
-	codeimport/kdevcppparser/errors.cpp
-	codeimport/kdevcppparser/lexer.cpp
-	codeimport/kdevcppparser/lookup.cpp
-	codeimport/kdevcppparser/parser.cpp
-	codeimport/kdevcppparser/preprocesslexer.cpp
-	codeimport/kdevcppparser/tree_parser.cpp
-	codeimport/kdevcppparser/urlutil.cpp
-	codeimport/kdevcppparser/ast_utils.cpp
-	codeimport/kdevcppparser/cpptree2uml.cpp
-)
-
+if (WIN32)
+    # Both MSVC and SunPRO CC have a problem with position.h; we try to put a
+    # QChar into a spirit iterator, which, after a bunch of futzing, ends up in
+    # the STL string_ref templates, which use
+    #
+    #     union {
+    #        size_type _C_size;    // Number of actual data values stored
+    #        _CharT    _C_dummy;   // force the alignment of the first char
+    #     } _C_size;               // named to work around an HP aCC 3.30 bug
+    #
+    # and you can't have a class which requires an initializer in a union.
+    #
+    add_definitions(-DDISABLE_CPP_IMPORT)
+    set(libkdevcppparser_SRCS)
+else (WIN32)
+    list(APPEND libcodeimport_SRCS
+        codeimport/cppimport.cpp
+    )
+    set(libkdevcppparser_SRCS
+    	codeimport/kdevcppparser/ast.cpp
+    	codeimport/kdevcppparser/driver.cpp
+    	codeimport/kdevcppparser/errors.cpp
+    	codeimport/kdevcppparser/lexer.cpp
+    	codeimport/kdevcppparser/lookup.cpp
+    	codeimport/kdevcppparser/parser.cpp
+    	codeimport/kdevcppparser/preprocesslexer.cpp
+    	codeimport/kdevcppparser/tree_parser.cpp
+    	codeimport/kdevcppparser/urlutil.cpp
+    	codeimport/kdevcppparser/ast_utils.cpp
+    	codeimport/kdevcppparser/cpptree2uml.cpp
+    )
+endif(WIN32)
 
 set(libclipboard_SRCS
 	clipboard/umldragdata.cpp
