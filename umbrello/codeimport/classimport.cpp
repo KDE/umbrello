@@ -24,7 +24,9 @@
 #include "javaimport.h"
 #include "adaimport.h"
 #include "pascalimport.h"
+#ifndef DISABLE_CPP_IMPORT
 #include "cppimport.h"
+#endif
 
 void ClassImport::importFiles(const QStringList &fileList)
 {
@@ -55,8 +57,13 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &filename)
         classImporter = new AdaImport();
     else if (filename.endsWith(".pas"))
         classImporter = new PascalImport();
+#ifndef DISABLE_CPP_IMPORT
     else
         classImporter = new CppImport();  // the default.
+#else
+    else 
+        classImporter = 0;
+#endif        
     return classImporter;
 }
 
