@@ -20,7 +20,7 @@
 #include "icon_utils.h"
 
 class UMLView;
-class NewUMLRectWidget;
+class NewUMLWidget;
 class ClassifierWidget;
 class UMLCategory;
 class UMLObject;
@@ -234,7 +234,7 @@ public:
      * @param unique   True if multiple selected items all have
      *                 the same type (e.g. Class, Interface)
      */
-    ListPopupMenu(QWidget* parent, NewUMLRectWidget* object, bool multi = false, bool unique = false);
+    ListPopupMenu(QWidget* parent, NewUMLWidget* object, bool multi = false, bool unique = false);
 
     /**
      * Standard deconstructor.
@@ -419,7 +419,7 @@ private:
     union TriggerObject{
         UMLView* m_View;
         UMLObject* m_Object;
-        NewUMLRectWidget* m_Widget;
+        NewUMLWidget* m_Widget;
     };
 
     /**

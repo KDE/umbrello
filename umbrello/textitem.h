@@ -24,6 +24,7 @@
 #include <QtGui/QBrush>
 #include <QtGui/QFont>
 
+class QGraphicsSceneContextMenuEvent;
 
 class TextItem : public QGraphicsTextItem
 {
@@ -79,6 +80,7 @@ public:
 protected:
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 private:
     QBrush m_hoverBrush;

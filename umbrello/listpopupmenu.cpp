@@ -241,7 +241,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject
 }
 
 //ListPopupMenu for a canvas widget
-ListPopupMenu::ListPopupMenu(QWidget * parent, NewUMLRectWidget * object,
+ListPopupMenu::ListPopupMenu(QWidget * parent, NewUMLWidget * object,
                              bool multi, bool unique)
         : KMenu(parent)
 {

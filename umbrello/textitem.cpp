@@ -19,10 +19,13 @@
 
 #include "textitem.h"
 
-#include <QtGui/QTextOption>
-#include <QtGui/QTextDocument>
+#include "umlnamespace.h"
+
+#include <QtGui/QGraphicsSceneContextMenuEvent>
 #include <QtGui/QPainter>
 #include <QtGui/QStyleOptionGraphicsItem>
+#include <QtGui/QTextDocument>
+#include <QtGui/QTextOption>
 
 // Inline and other documentation BEGIN
 
@@ -247,6 +250,11 @@ void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent *)
 void TextItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 {
     update();
+}
+
+void TextItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    event->ignore();
 }
 
 #include "textitem.moc"

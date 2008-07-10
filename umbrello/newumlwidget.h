@@ -117,6 +117,8 @@ private Q_SLOTS:
     void slotInit();
 
 protected:
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
     virtual void updateGeometry();
 
     virtual void umlObjectChanged(UMLObject *old);

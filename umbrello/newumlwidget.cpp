@@ -19,6 +19,7 @@
 
 #include "newumlwidget.h"
 
+#include "listpopupmenu.h"
 #include "uml.h"
 #include "umlobject.h"
 #include "umlscene.h"
@@ -26,7 +27,7 @@
 #include "widget_utils.h"
 
 #include <QtCore/QTimer>
-#include <kdebug.h>
+#include <QtGui/QGraphicsSceneContextMenuEvent>
 
 // Documentation for some inline and other entities.
 
@@ -572,6 +573,16 @@ void NewUMLWidget::slotInit()
 {
     setUMLObject(m_umlObject);
     updateGeometry();
+}
+
+/**
+ * Reimplemented to show appropriate context menu.
+ */
+void NewUMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    ListPopupMenu menu(0, this, false, false);
+    menu.exec(event->screenPos());
+    event->accept();
 }
 
 /**
