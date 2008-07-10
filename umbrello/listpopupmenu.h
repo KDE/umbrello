@@ -34,7 +34,9 @@ class UMLObject;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class ListPopupMenu : public KMenu {
+class ListPopupMenu : public KMenu
+{
+    Q_OBJECT
 public:
 
     /// This type hosts all possible menu types.

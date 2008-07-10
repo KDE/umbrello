@@ -147,8 +147,7 @@ QSizeF NewUMLRectWidget::sizeHint(Qt::SizeHint which)
  */
 void NewUMLRectWidget::setSize(const QSizeF &size)
 {
-    QSizeF oldSize = m_size;
-
+    const QSizeF oldSize = m_size;
     const QSizeF minSize = sizeHint(Qt::MinimumSize);
     const QSizeF maxSize = sizeHint(Qt::MaximumSize);
 
@@ -157,7 +156,7 @@ void NewUMLRectWidget::setSize(const QSizeF &size)
 
     QRectF boundRect = rect();
     // Adjust bounding rect with half the pen width(lineWidth).
-    qreal hpw = 0.5 * lineWidth();
+    const qreal hpw = 0.5 * lineWidth();
     boundRect.adjust(-hpw, -hpw, hpw, hpw);
 
     setBoundingRect(boundRect);

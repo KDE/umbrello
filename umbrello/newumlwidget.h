@@ -110,6 +110,9 @@ public:
 
     static bool widgetHasUMLObject(Uml::Widget_Type type);
 
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction *trigger);
+
 protected Q_SLOTS:
     virtual void slotUMLObjectDataChanged();
 
@@ -246,8 +249,6 @@ public:
         return 0;
     }
     void constrain(qreal, qreal) {}
-    void slotMenuSelection(QAction *) {}
-
     ////////////////////////////////////////////////////////////////////////////////
 
 };

@@ -20,11 +20,16 @@
 #include "newumlwidget.h"
 
 #include "listpopupmenu.h"
+#include "newumlrectwidget.h"
 #include "uml.h"
+#include "umldoc.h"
 #include "umlobject.h"
 #include "umlscene.h"
 #include "uniqueid.h"
 #include "widget_utils.h"
+
+#include <kfontdialog.h>
+#include <kcolordialog.h>
 
 #include <QtCore/QTimer>
 #include <QtGui/QGraphicsSceneContextMenuEvent>
@@ -553,6 +558,161 @@ bool NewUMLWidget::widgetHasUMLObject(Uml::Widget_Type type)
 }
 
 /**
+ * This is usually called synchronously after menu.exec() and \a
+ * trigger's parent is always the ListPopupMenu which can be used to
+ * get the type of action of \a trigger.
+ *
+ * @note Subclasses can reimplement to handle specific actions and
+ *       leave the rest to NewUMLWidget::slotMenuSelection.
+ */
+void NewUMLWidget::slotMenuSelection(QAction *trigger)
+{
+    if(!trigger) {
+        return;
+    }
+    QColor newColour;
+    NewUMLWidget* widget = 0; // use for select the first object properties (fill, line color)
+
+    const Uml::Widget_Type wt = m_baseType; // short hand name
+
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu *>(trigger->parent());
+    uDebug() << (void*)menu;
+    Q_ASSERT(menu);
+
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(trigger);
+    switch (sel) {
+    case ListPopupMenu::mt_Rename:
+        umlDoc()->renameUMLObject(umlObject());
+        break;
+
+    case ListPopupMenu::mt_Delete:
+        // umlScene()->removeWidget(this);
+        break;
+
+    //     //UMLWidgetController::doMouseDoubleClick relies on this implementation
+    case ListPopupMenu::mt_Properties:
+        if (wt == Uml::wt_Actor || wt == Uml::wt_UseCase ||
+            wt == Uml::wt_Package || wt == Uml::wt_Interface || wt == Uml::wt_Datatype ||
+            wt == Uml::wt_Component || wt == Uml::wt_Artifact ||
+            wt == Uml::wt_Node || wt == Uml::wt_Enum || wt == Uml::wt_Entity ||
+            (wt == Uml::wt_Class && umlScene()->getType() == Uml::dt_Class)) {
+
+            showPropertiesDialog();
+
+        } else if (wt == Uml::wt_Object) {
+            m_umlObject->showProperties();
+        } else {
+            uWarning() << "making properties dialog for unknown widget type";
+        }
+        break;
+
+    case ListPopupMenu::mt_Line_Color:
+        widget = umlScene()->getFirstMultiSelectedWidget();
+        if (widget) {
+            newColour = widget->lineColor();
+        }
+        if (KColorDialog::getColor(newColour)) {
+            umlScene()->selectionSetLineColor(newColour);
+            umlDoc()->setModified(true);
+        }
+        break;
+
+    case ListPopupMenu::mt_Fill_Color:
+        widget = umlScene()->getFirstMultiSelectedWidget();
+        if (widget) {
+            newColour = widget->getFillColor();
+        }
+        if (KColorDialog::getColor(newColour)) {
+            umlScene()->selectionSetFillColor(newColour);
+            umlDoc()->setModified(true);
+        }
+        break;
+
+    case ListPopupMenu::mt_Use_Fill_Color:
+        // m_bUseFillColour = !m_bUseFillColour;
+        // m_bUsesDiagramUseFillColour = false;
+        // m_pView->selectionUseFillColor(m_bUseFillColour);
+        break;
+
+    case ListPopupMenu::mt_Show_Attributes_Selection:
+    case ListPopupMenu::mt_Show_Operations_Selection:
+    case ListPopupMenu::mt_Visibility_Selection:
+    case ListPopupMenu::mt_DrawAsCircle_Selection:
+    case ListPopupMenu::mt_Show_Operation_Signature_Selection:
+    case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
+    case ListPopupMenu::mt_Show_Packages_Selection:
+    case ListPopupMenu::mt_Show_Stereotypes_Selection:
+    case ListPopupMenu::mt_Show_Public_Only_Selection:
+        umlScene()->selectionToggleShow(sel);
+        umlDoc()->setModified(true);
+        break;
+
+    case ListPopupMenu::mt_ViewCode: {
+        // UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_umlObject);
+        // if (c) {
+        //     UMLApp::app()->viewCodeDocument(c);
+        // }
+        break;
+    }
+
+    case ListPopupMenu::mt_Delete_Selection:
+        umlScene()->deleteSelection();
+        break;
+
+    case ListPopupMenu::mt_Change_Font:
+    case ListPopupMenu::mt_Change_Font_Selection: {
+        QFont newFont = font();
+        if (KFontDialog::getFont(newFont, false, 0) == KFontDialog::Accepted) {
+            setFont(newFont);
+            //UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_pDoc, m_pView, font));
+        }
+    }
+        break;
+
+    // case ListPopupMenu::mt_Cut:
+    //     m_pView -> setStartedCut();
+    //     UMLApp::app() -> slotEditCut();
+    //     break;
+
+    // case ListPopupMenu::mt_Copy:
+    //     UMLApp::app() -> slotEditCopy();
+    //     break;
+
+    // case ListPopupMenu::mt_Paste:
+    //     UMLApp::app() -> slotEditPaste();
+    //     break;
+
+    // case ListPopupMenu::mt_Refactoring:
+    //     //check if we are operating on a classifier, or some other kind of UMLObject
+    //     if (dynamic_cast<UMLClassifier*>(m_pObject)) {
+    //         UMLApp::app()->refactor(static_cast<UMLClassifier*>(m_pObject));
+    //     }
+    //     break;
+
+    // case ListPopupMenu::mt_Clone:
+    //     // In principle we clone all the uml objects.
+    // {
+    //     UMLObject *pClone = m_pObject->clone();
+    //     m_pView->addObject(pClone);
+    // }
+    // break;
+
+    // case ListPopupMenu::mt_Rename_MultiA:
+    // case ListPopupMenu::mt_Rename_MultiB:
+    // case ListPopupMenu::mt_Rename_Name:
+    // case ListPopupMenu::mt_Rename_RoleAName:
+    // case ListPopupMenu::mt_Rename_RoleBName: {
+    //     FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(this);
+    //     ft->handleRename();
+    //     break;
+    // }
+
+    default:
+        uDebug() << "Menu_Type " << sel << " not implemented" << endl;
+    }
+}
+
+/**
  * This slot is connected to UMLObject::modified() signal to sync the
  * required changes as well as to update visual aspects corresponding
  * to the change.
@@ -581,7 +741,12 @@ void NewUMLWidget::slotInit()
 void NewUMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     ListPopupMenu menu(0, this, false, false);
-    menu.exec(event->screenPos());
+    uDebug() << (void*)(&menu);
+    QAction *triggered = menu.exec(event->screenPos());
+    if(triggered) {
+        triggered->setParent(&menu);
+        slotMenuSelection(triggered);
+    }
     event->accept();
 }
 

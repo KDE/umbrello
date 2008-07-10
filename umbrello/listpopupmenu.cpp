@@ -1636,3 +1636,5 @@ void ListPopupMenu::setActionEnabled(Menu_Type idx, bool value)
         uWarning() << "called on unknown Menu_Type " << idx;
 #endif
 }
+
+#include "listpopupmenu.moc"
