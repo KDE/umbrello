@@ -18,123 +18,132 @@
 
 // app includes
 #include "package.h"
+#include "textitem.h"
+#include "textitemgroup.h"
 #include "uml.h"
-#include "umldoc.h"
-#include "umlview.h"
-#include "umlobject.h"
-#include "umlscene.h"
 
+// Inline and class documentation
 
-PackageWidget::PackageWidget(UMLScene * view, UMLPackage *o)
-  : NewUMLRectWidget(view, o) {
-    init();
-}
+/**
+ * Defines a graphical version of the Package.  Most of the
+ * functionality will come from the @ref UMLPackage class.
+ *
+ * @short A graphical version of a Package.
+ * @author Jonathan Riddell
+ * @author Gopala Krishna (ported to use TextItem)
+ *
+ * @see NewUMLRectWidget
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
 
-void PackageWidget::init() {
-    NewUMLRectWidget::setBaseType(Uml::wt_Package);
-    setSize(100, 30);
-    setZ(m_origZ = 1);  // above box but below NewUMLRectWidget because may embed widgets
-    m_pMenu = 0;
-    //set defaults from umlScene()
-    if (umlScene()) {
-        //check to see if correct
-        const Settings::OptionState& ops = umlScene()->getOptionState();
-        setShowStereotype(ops.classState.showStereoType);
-    }
-    //maybe loading and this may not be set.
-    if (umlObject() && !UMLApp::app()->getDocument()->loading())
-        updateComponentSize();
-}
+// End Inline and class documentation
 
-PackageWidget::~PackageWidget() {}
+const qreal PackageWidget::Margin = 5.;
 
-void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+PackageWidget::PackageWidget(UMLPackage *o) :
+    NewUMLRectWidget(o),
+    m_minimumSize(100, 30)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
-
-    setPenFromSettings(p);
-    if ( NewUMLRectWidget::getUseFillColour() )
-        p.setBrush( NewUMLRectWidget::getFillColour() );
-    else {
-        // [PORT]
-        // p.setBrush( umlScene()->viewport()->palette().color(QPalette::Background) );
-    }
-
-    qreal w = getWidth();
-    qreal h = getHeight();
-    QFont font = NewUMLRectWidget::getFont();
-    font.setBold(true);
-    //FIXME italic is true when a package is first created until you click elsewhere, not sure why
-    font.setItalic(false);
-    const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    const qreal fontHeight  = fm.lineSpacing();
-    QString name = getName();
-
-    p.drawRect(offsetX, offsetY, 50, fontHeight);
-    if (umlObject()->getStereotype() == "subsystem") {
-        const qreal fHalf = fontHeight / 2;
-        const qreal symY = offsetY + fHalf;
-        const qreal symX = offsetX + 38;
-        p.drawLine(symX, symY, symX, symY + fHalf - 2);          // left leg
-        p.drawLine(symX + 8, symY, symX + 8, symY + fHalf - 2);  // right leg
-        p.drawLine(symX, symY, symX + 8, symY);                  // waist
-        p.drawLine(symX + 4, symY, symX + 4, symY - fHalf + 2);  // head
-    }
-    p.drawRect(offsetX, offsetY + fontHeight - 1, w, h - fontHeight);
-
-    p.setPen( QPen(Qt::black) );
-    p.setFont(font);
-
-    qreal lines = 1;
-    if (umlObject() != NULL) {
-        QString stereotype = umlObject()->getStereotype();
-        if (!stereotype.isEmpty()) {
-            p.drawText(offsetX, offsetY + fontHeight + PACKAGE_MARGIN,
-                       w, fontHeight, Qt::AlignCenter, umlObject()->getStereotype(true));
-            lines = 2;
-        }
-    }
-
-    p.drawText(offsetX, offsetY + (fontHeight*lines) + PACKAGE_MARGIN,
-               w, fontHeight, Qt::AlignCenter, name );
-
-    if(isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+    m_baseType = Uml::wt_Package;
+    m_textItemGroup = new TextItemGroup(this);
 }
 
-QSizeF PackageWidget::calculateSize() {
-    if ( !umlObject() ) {
-        return NewUMLRectWidget::calculateSize();
-    }
-
-    const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    const qreal fontHeight = fm.lineSpacing();
-
-    qreal lines = 1;
-
-    qreal width = fm.width( umlObject()->getName() );
-
-    qreal tempWidth = 0;
-    if (!umlObject()->getStereotype().isEmpty()) {
-        tempWidth = fm.width(umlObject()->getStereotype(true));
-        lines = 2;
-    }
-    if (tempWidth > width)
-        width = tempWidth;
-    width += PACKAGE_MARGIN * 2;
-    if (width < 70)
-        width = 70;  // minumin width of 70
-
-    qreal height = (lines*fontHeight) + fontHeight + (PACKAGE_MARGIN * 2);
-
-    return QSizeF(width, height);
+PackageWidget::~PackageWidget()
+{
 }
 
-void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement conceptElement = qDoc.createElement("packagewidget");
     NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
+
+QSizeF PackageWidget::sizeHint(Qt::SizeHint which)
+{
+    if(which == Qt::MinimumSize) {
+        return m_minimumSize;
+    }
+
+    return NewUMLRectWidget::sizeHint(which);
+}
+
+void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+    painter->setBrush(brush());
+    painter->setPen(QPen(lineColor(), lineWidth()));
+
+    painter->drawRect(m_topRect);
+    painter->drawRect(m_packageTextRect);
+    if (umlObject()->getStereotype() == "subsystem") {
+        const qreal fHalf = m_topRect.height() / 2;
+        const qreal symY = fHalf;
+        const qreal symX = 38;
+        painter->drawLine(symX, symY, symX, symY + fHalf - 2);          // left leg
+        painter->drawLine(symX + 8, symY, symX + 8, symY + fHalf - 2);  // right leg
+        painter->drawLine(symX, symY, symX + 8, symY);                  // waist
+        painter->drawLine(symX + 4, symY, symX + 4, symY - fHalf + 2);  // head
+    }
+}
+
+void PackageWidget::updateGeometry()
+{
+    if(umlObject()) {
+        int totalItemCount = 2; // Stereotype and name
+
+        TextItem dummy("");
+        dummy.setDefaultTextColor(fontColor());
+        dummy.setFont(font());
+        dummy.setAcceptHoverEvents(true);
+        // dummy.setHoverBrush(hoverBrush);
+        dummy.setAlignment(Qt::AlignCenter);
+        dummy.setBackgroundBrush(Qt::NoBrush);
+
+        if(m_textItemGroup->size() != totalItemCount) {
+            while(m_textItemGroup->size() < totalItemCount) {
+                m_textItemGroup->appendTextItem(new TextItem(""));
+            }
+            while(m_textItemGroup->size() > totalItemCount) {
+                m_textItemGroup->deleteTextItemAt(0);
+            }
+        }
+
+        TextItem *stereo = m_textItemGroup->textItemAt(PackageWidget::StereoTypeItemIndex);
+        stereo->setText(umlObject()->getStereotype(true));
+        dummy.copyAttributesTo(stereo); // apply the attributes
+        stereo->setBold(true);
+        stereo->setVisible(umlObject()->getStereotype().isEmpty() == false);
+
+        TextItem *nameItem = m_textItemGroup->textItemAt(PackageWidget::NameItemIndex);
+        nameItem->setText(name());
+        dummy.copyAttributesTo(nameItem); // apply the attributes
+
+        m_minimumSize = m_textItemGroup->calculateMinimumSize();
+        m_minimumSize.rwidth() += PackageWidget::Margin * 2;
+        if(m_minimumSize.width() < 70) {
+            m_minimumSize.rwidth() = 70;
+        }
+
+        m_minimumSize.rheight() += stereo->height();
+
+        m_topRect.setRect(0, 0, 50, stereo->height());
+        m_packageTextRect.setTopLeft(QPointF(0, m_topRect.bottom()));
+    }
+    NewUMLRectWidget::updateGeometry();
+}
+
+void PackageWidget::sizeHasChanged(const QSizeF& oldSize)
+{
+    m_packageTextRect.setBottomRight(rect().bottomRight());
+    QPointF offset(PackageWidget::Margin, m_packageTextRect.top());
+    uDebug() << offset;
+    QSizeF groupSize = m_packageTextRect.size();
+    groupSize.rwidth() -= 2 * PackageWidget::Margin;
+
+    m_textItemGroup->alignVertically(groupSize);
+    m_textItemGroup->setPos(offset);
+
+    NewUMLRectWidget::sizeHasChanged(oldSize);
+}
+
 

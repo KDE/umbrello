@@ -12,63 +12,39 @@
 #ifndef PACKAGEWIDGET_H
 #define PACKAGEWIDGET_H
 
-#include "umlwidget.h"
+#include "newumlrectwidget.h"
 
 class UMLPackage;
+class TextItemGroup;
 
-#define PACKAGE_MARGIN 5
-
-/**
- * Defines a graphical version of the Package.  Most of the functionality
- * will come from the @ref UMLPackage class.
- *
- * @short A graphical version of a Package.
- * @author Jonathan Riddell
- * @see NewUMLRectWidget
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
- */
-class PackageWidget : public NewUMLRectWidget {
+class PackageWidget : public NewUMLRectWidget
+{
 public:
-
-    /**
-     * Constructs a PackageWidget.
-     *
-     * @param view              The parent of this PackageWidget.
-     * @param o         The UMLObject this will be representing.
-     */
-    PackageWidget(UMLScene * view, UMLPackage * o);
-
-    /**
-     * destructor
-     */
+    PackageWidget(UMLPackage * o);
     virtual ~PackageWidget();
 
-    /**
-     * Overrides standard method.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-     * Saves to the "packagewidget" XMI element.
-     */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
+    QSizeF sizeHint(Qt::SizeHint which);
+
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
+
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget
-     */
-    QSizeF calculateSize();
+    void updateGeometry();
+    void sizeHasChanged(const QSizeF& oldSize);
 
 private:
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
+    enum {
+        StereoTypeItemIndex = 0,
+        NameItemIndex = 1
+    };
 
-    /**
-     * The right mouse button menu.
-     */
-    ListPopupMenu* m_pMenu;
+    static const qreal Margin;
+
+    QRectF m_topRect;
+    QRectF m_packageTextRect;
+    QSizeF m_minimumSize;
+    TextItemGroup *m_textItemGroup;
 };
 
 #endif

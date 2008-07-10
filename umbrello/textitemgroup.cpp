@@ -158,7 +158,7 @@ void TextItemGroup::alignVertically(qreal currentWidth, qreal currentHeight)
 
     qreal spacing = (currentHeight - minimumSize.height()) / visibleItems.count();
     qreal x = m_pos.x();
-    qreal y = 0;
+    qreal y = m_pos.y();
 
     foreach(TextItem *item, visibleItems) {
         item->setTextWidth(currentWidth);

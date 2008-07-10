@@ -17,8 +17,29 @@
 #include "textitem.h"
 #include "textitemgroup.h"
 
-// qt/kde includes
+// qt includes
 #include <QtGui/QPainter>
+
+// Inline and class documentation
+
+/**
+ * @class DatatypeWidget
+ *
+ * Defines a graphical version of the datatype.  Most of the
+ * functionality will come from the @ref NewUMLRectWidget class from
+ * which class inherits from.
+ *
+ * @short A graphical version of an datatype.
+ * @author Jonathan Riddell
+ * @author Gopala Krishna (port using TextItems)
+ *
+ * @see NewUMLRectWidget
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
+
+// End inline and class documentation
+
+const qreal DatatypeWidget::Margin = 5.;
 
 DatatypeWidget::DatatypeWidget(UMLClassifier *d) :
     NewUMLRectWidget(d),
@@ -53,7 +74,7 @@ QSizeF DatatypeWidget::sizeHint(Qt::SizeHint which)
     return NewUMLRectWidget::sizeHint(which);
 }
 
-void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setBrush(brush());
     painter->setPen(QPen(lineColor(), lineWidth()));
@@ -80,6 +101,9 @@ void DatatypeWidget::updateGeometry()
             while(m_textItemGroup->size() < totalItemCount) {
                 m_textItemGroup->appendTextItem(new TextItem(""));
             }
+            while(m_textItemGroup->size() > totalItemCount) {
+                m_textItemGroup->deleteTextItemAt(0);
+            }
         }
 
         TextItem *stereo = m_textItemGroup->textItemAt(DatatypeWidget::StereoTypeItemIndex);
@@ -93,7 +117,7 @@ void DatatypeWidget::updateGeometry()
         nameItem->setItalic(umlObject()->getAbstract());
 
         m_minimumSize = m_textItemGroup->calculateMinimumSize();
-        m_minimumSize.rwidth() += DATATYPE_MARGIN * 2;
+        m_minimumSize.rwidth() += DatatypeWidget::Margin * 2;
     }
 
     NewUMLRectWidget::updateGeometry();
@@ -101,9 +125,9 @@ void DatatypeWidget::updateGeometry()
 
 void DatatypeWidget::sizeHasChanged(const QSizeF& oldSize)
 {
-    QPointF offset(DATATYPE_MARGIN, 0);
+    QPointF offset(DatatypeWidget::Margin, 0);
     QSizeF groupSize = size();
-    groupSize.rwidth() -= 2 * DATATYPE_MARGIN;
+    groupSize.rwidth() -= 2 * DatatypeWidget::Margin;
 
     m_textItemGroup->alignVertically(groupSize);
     m_textItemGroup->setPos(offset);
