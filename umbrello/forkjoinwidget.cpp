@@ -22,7 +22,7 @@
 #include "umlscene.h"
 
 ForkJoinWidget::ForkJoinWidget(UMLScene * scene, bool drawVertical, Uml::IDType id)
-  : BoxWidget(scene, id), m_drawVertical(drawVertical)
+    : BoxWidget(id), m_drawVertical(drawVertical)
 {
     init();
 }

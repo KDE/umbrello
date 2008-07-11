@@ -151,6 +151,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
     if (newWidget) {
         newWidget->setX( pos.x() );
         newWidget->setY( y );
+        uDebug() << "Added item";
         scene->addItem(newWidget);
     }
 
@@ -192,7 +193,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "notewidget" || tag == "UML:NoteWidget") {
         widget = new NoteWidget(scene, NoteWidget::Normal, Uml::id_Reserved);
     } else if (tag == "boxwidget") {
-        widget = new BoxWidget(scene, Uml::id_Reserved);
+        widget = new BoxWidget(Uml::id_Reserved);
     } else if (tag == "floatingtext" || tag == "UML:FloatingTextWidget") {
         widget = new FloatingTextWidget(scene, Uml::tr_Floating, "", Uml::id_Reserved);
     } else if (tag == "activitywidget" || tag == "UML:ActivityWidget") {
@@ -273,6 +274,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
     }
 
     if(widget) {
+        uDebug() << "Added";
         scene->addItem(widget);
     }
     return widget;

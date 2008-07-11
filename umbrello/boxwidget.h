@@ -11,51 +11,26 @@
 
 #ifndef BOXWIDGET_H
 #define BOXWIDGET_H
-//qt includes
-#include <qpainter.h>
+
 //app includes
-#include "umlwidget.h"
+#include "newumlrectwidget.h"
 
-// fwd decl.
-class UMLView;
+//qt includes
+#include <QtGui/QPainter>
 
-/**
- * Displays a rectangular box.
- * These widgets are diagram specific.  They will still need a unique id
- * from the @ref UMLDoc class for deletion and other purposes.
- *
- * @short Displays a box.
- * @author Jonathan Riddell
- * @see NewUMLRectWidget
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
- */
 class BoxWidget : public NewUMLRectWidget
 {
 public:
 
-    /**
-     * Constructs a BoxWidget.
-     *
-     * @param view              The parent to this widget.
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
-    explicit BoxWidget(UMLScene * scene, Uml::IDType id = Uml::id_None);
-
-    /**
-     * destructor
-     */
+    explicit BoxWidget(Uml::IDType id = Uml::id_None);
     virtual ~BoxWidget();
 
-    /**
-     * Draws a rectangle.
-     */
     void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /**
-     * Saves the widget to the "boxwidget" XMI element.
-     * Note: For loading from XMI, the inherited parent method is used.
-     */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+
+private:
+    QSizeF m_minimumSize;
 };
 
 #endif

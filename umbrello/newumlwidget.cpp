@@ -854,7 +854,9 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, UMLObject *object) :
     setFlags(ItemIsSelectable | ItemIsMovable);
     // Call init this way so that virtual methods may be called.
     QTimer::singleShot(0, this, SLOT(slotInit()));
-    scene->addItem(this);
+    if(scene) {
+        scene->addItem(this);
+    }
 }
 
 NewUMLWidget::NewUMLWidget(UMLScene *scene, const Uml::IDType &_id) :
@@ -873,7 +875,9 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, const Uml::IDType &_id) :
     else {
         m_widgetInterfaceData->id = _id;
     }
-    scene->addItem(this);
+    if(scene) {
+        scene->addItem(this);
+    }
     setFlags(ItemIsSelectable | ItemIsMovable);
     // Call init this way so that virtual methods may be called.
     QTimer::singleShot(0, this, SLOT(slotInit()));

@@ -11,39 +11,58 @@
 
 // own header
 #include "boxwidget.h"
-// qt/kde includes
-#include <qevent.h>
-#include <kdebug.h>
 
-BoxWidget::BoxWidget(UMLScene * scene, Uml::IDType id)
-        : NewUMLRectWidget(scene, id)
+/**
+ * @class BoxWidget
+ *
+ * Displays a rectangular box.  These widgets are diagram specific.
+ * They will still need a unique id from the @ref UMLDoc class for
+ * deletion and other purposes.
+ *
+ * @short Displays a box.
+ * @author Jonathan Riddell
+ * @see NewUMLRectWidget
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
+
+
+/**
+ * Constructs a BoxWidget.
+ * @param id The ID to assign (-1 will prompt a new ID.)
+ */
+BoxWidget::BoxWidget(Uml::IDType id)
+    : NewUMLRectWidget(0, id),
+      m_minimumSize(100, 80)
 {
-    setSize(100, 80);
-    NewUMLRectWidget::setBaseType( Uml::wt_Box );
-    //NewUMLWidget::m_bUsesDiagramLineColour = false;  // boxes be black
+    m_baseType = Uml::wt_Box;
     setLineColor(Qt::black);
-    setZ(m_origZ = 0);
 }
 
-BoxWidget::~BoxWidget() {
+/**
+ * destructor
+ */
+BoxWidget::~BoxWidget()
+{
 }
 
+/**
+ * Draws a rectangle.
+ */
 void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
+    painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setBrush(Qt::NoBrush);
 
-    NewUMLRectWidget::setPenFromSettings(p);
-    p.drawRect( offsetX, offsetY, getWidth(), getHeight() );
-
-    if (isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+    painter->drawRect(rect());
 }
 
-void BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+/**
+ * Saves the widget to the "boxwidget" XMI element.
+ * @note For loading from XMI, the inherited parent method is used.
+ */
+void BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement boxElement = qDoc.createElement("boxwidget");
     NewUMLRectWidget::saveToXMI(qDoc, boxElement);
     qElement.appendChild(boxElement);
 }
-

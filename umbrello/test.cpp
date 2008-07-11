@@ -19,16 +19,17 @@
 
 #include "test.h"
 
+#include "boxwidget.h"
+#include "enum.h"
+#include "newenumwidget.h"
+#include "textitem.h"
 #include "umlscene.h"
 #include "umlview.h"
-#include "newenumwidget.h"
-#include "enum.h"
-#include "textitem.h"
 
 #include <QtCore/QMetaObject>
 #include <QtCore/QMetaProperty>
-#include <QtCore/QTimerEvent>
 #include <QtCore/QTime>
+#include <QtCore/QTimerEvent>
 
 #include <kdebug.h>
 
@@ -64,6 +65,9 @@ Test* Test::self()
 void Test::testScene(UMLScene *scene)
 {
     d->scene = scene;
+
+    BoxWidget *w = new BoxWidget("131313");
+    scene->addItem(w);
 
     TextItem *item = new TextItem("Notice loading of gradient brush from xmi in 3 secs");
 

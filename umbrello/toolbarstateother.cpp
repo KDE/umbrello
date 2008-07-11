@@ -101,7 +101,7 @@ bool ToolBarStateOther::newWidget()
             break;
 
         case WorkToolBar::tbb_Box:
-            umlWidget = new BoxWidget(m_pUMLScene);
+            umlWidget = new BoxWidget();
             break;
 
         case WorkToolBar::tbb_Text:
