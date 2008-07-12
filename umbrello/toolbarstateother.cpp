@@ -97,7 +97,7 @@ bool ToolBarStateOther::newWidget()
 
     switch (getButton()) {
         case WorkToolBar::tbb_Note:
-            umlWidget = new NoteWidget(m_pUMLScene, NoteWidget::Normal);
+            umlWidget = new NoteWidget(NoteWidget::Normal);
             break;
 
         case WorkToolBar::tbb_Box:
@@ -171,7 +171,7 @@ bool ToolBarStateOther::newWidget()
             break;
 
         case WorkToolBar::tbb_PrePostCondition:
-            umlWidget = new NoteWidget(m_pUMLScene, NoteWidget::Normal);
+            umlWidget = new NoteWidget(NoteWidget::Normal);
             break;
 
         default:
@@ -182,6 +182,9 @@ bool ToolBarStateOther::newWidget()
     if (umlWidget == NULL) {
         return false;
     }
+
+    // add the widget.
+    m_pUMLScene->addItem(umlWidget);
 
     // Special treatment for some buttons
     if (getButton() == WorkToolBar::tbb_Activity) {

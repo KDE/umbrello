@@ -191,7 +191,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
     if (tag == "statewidget" || tag == "UML:StateWidget") {
         widget = new StateWidget(scene, StateWidget::Normal, Uml::id_Reserved);
     } else if (tag == "notewidget" || tag == "UML:NoteWidget") {
-        widget = new NoteWidget(scene, NoteWidget::Normal, Uml::id_Reserved);
+        widget = new NoteWidget(NoteWidget::Normal, Uml::id_Reserved);
     } else if (tag == "boxwidget") {
         widget = new BoxWidget(Uml::id_Reserved);
     } else if (tag == "floatingtext" || tag == "UML:FloatingTextWidget") {

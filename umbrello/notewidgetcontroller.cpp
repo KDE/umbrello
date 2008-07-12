@@ -26,7 +26,7 @@ NoteWidgetController::~NoteWidgetController() {
 
 void NoteWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent *me) {
     UMLWidgetController::mouseMoveEvent(me);
-    m_noteWidget->setEditorGeometry();
+    //m_noteWidget->setEditorGeometry();
 }
 
 void NoteWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me) {
@@ -34,12 +34,14 @@ void NoteWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me) {
     //TODO why is it needed? drawText is already called in draw,
     //and draw is (well, I think that is) called when the canvas rectangle is resized
     if (m_resized) {
-        m_noteWidget->drawText();
+        //m_noteWidget->drawText();
     }
 }
 
 void NoteWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent* /*me*/) {
     //TODO Copied from old code. What it does?
+    // [PORT]
+#if 0
     if (m_noteWidget->m_DiagramLink == Uml::id_None) {
         // setup popup menu if not already created.
         if ( !m_noteWidget->m_pMenu )
@@ -51,4 +53,5 @@ void NoteWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent* /*me*/) 
         UMLDoc *umldoc = UMLApp::app()->getDocument();
         umldoc->changeCurrentView(m_noteWidget->m_DiagramLink);
     }
+#endif
 }

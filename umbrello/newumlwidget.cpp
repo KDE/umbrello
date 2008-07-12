@@ -278,6 +278,11 @@ void NewUMLWidget::setDocumentation(const QString& doc)
     }
     else {
         m_widgetInterfaceData->documentation = doc;
+
+        // HACK: Note stores its text in documentation string.
+        if(m_baseType == Uml::wt_Note) {
+            updateGeometry();
+        }
     }
 }
 

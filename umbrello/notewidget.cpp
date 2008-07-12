@@ -11,249 +11,262 @@
 
 // own header
 #include "notewidget.h"
-//qt includes
-#include <q3pointarray.h>
-#include <qpainter.h>
-#include <q3textedit.h>
-#include <qframe.h>
-//Added by qt3to4:
-#include <QGraphicsSceneMouseEvent>
-// kde includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kcolordialog.h>
-#include <kinputdialog.h>
+
 // app includes
-#include "notewidgetcontroller.h"
-#include "dialogs/notedialog.h"
-#include "umldoc.h"
-#include "umlview.h"
-#include "uml.h"
-#include "listpopupmenu.h"
 #include "dialog_utils.h"
+#include "dialogs/notedialog.h"
+#include "listpopupmenu.h"
+#include "textitem.h"
+#include "textitemgroup.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "umlscene.h"
+#include "umlview.h"
 
-#define NOTEMARGIN 10
+// qt includes
+#include <QtCore/QSizeF>
+#include <QtGui/QPainter>
+#include <QtGui/QPolygonF>
 
-NoteWidget::NoteWidget(UMLScene *scene, NoteType noteType , Uml::IDType id)
-    : NewUMLRectWidget(scene, id) //, new NoteWidgetController(this))
+// kde includes
+#include <kinputdialog.h>
+#include <klocale.h>
+
+const qreal NoteWidget::Margin = 10;
+
+/**
+ * Constructs a NoteWidget.
+ *
+ * @param noteType The NoteWidget::NoteType of this NoteWidget
+ * @param id The unique id of the widget.
+ *           The default (-1) will prompt a new ID.
+ */
+NoteWidget::NoteWidget(NoteType noteType , Uml::IDType id)
+    : NewUMLRectWidget(0, id),
+      m_minimumSize(100, 80),
+      m_diagramLink(Uml::id_None),
+      m_noteType(noteType)
 {
-    init();
-    m_NoteType = noteType;
-    setSize(100,80);
-    setZ( 20 ); //make sure always on top.
-
-    // [PORT] We can easily use QGraphicsTextItem here. :-)
-#ifdef NOTEWIDGET_EMBED_EDITOR
-    // NB: This code is currently deactivated because
-    // Zoom does not yet work with the embedded text editor.
-    m_pEditor = new Q3TextEdit(view);
-    m_pEditor->setFrameStyle(QFrame::NoFrame | QFrame::Plain);
-    m_pEditor->setHScrollBarMode(Q3ScrollView::AlwaysOff);
-    m_pEditor->setVScrollBarMode(Q3ScrollView::AlwaysOff);
-    m_pEditor->setTextFormat(Qt::RichText);
-    m_pEditor->setShown(true);
-    setEditorGeometry();
-    setNoteType(noteType);
-
-    connect(umlScene(), SIGNAL(contentsMoving(int, int)),
-            this, SLOT(slotViewScrolled(int, int)));
-#endif
-
+    m_baseType = Uml::wt_Note;
+    m_textItemGroup = new TextItemGroup(this);
+    setZValue(20); //make sure always on top.
 }
 
-void NoteWidget::init() {
-    NewUMLRectWidget::setBaseType(Uml::wt_Note);
-    m_DiagramLink = Uml::id_None;
+/// destructor
+NoteWidget::~NoteWidget()
+{
 }
 
-NoteWidget::NoteType NoteWidget::getNoteType() const {
-    return m_NoteType;
-}
-
-NoteWidget::NoteType NoteWidget::getNoteType(const QString& noteType) const {
-        if (noteType == "Precondition")
+/// Converts a string to NoteWidget::NoteType
+NoteWidget::NoteType NoteWidget::stringToNoteType(const QString& noteType)
+{
+    if (noteType == "Precondition")
         return NoteWidget::PreCondition;
     else if (noteType == "Postcondition")
         return NoteWidget::PostCondition;
     else if (noteType == "Transformation")
         return NoteWidget::Transformation;
-        else
-                return NoteWidget::Normal;
+    else
+        return NoteWidget::Normal;
 }
 
-void NoteWidget::setNoteType( NoteType noteType ) {
-    m_NoteType = noteType;
+/**
+ * Sets the @ref NoteWidget::NoteType for this widget.
+ */
+void NoteWidget::setNoteType(NoteType noteType)
+{
+    m_noteType = noteType;
 }
 
-void NoteWidget::setNoteType( const QString& noteType ) {
-    setNoteType(getNoteType(noteType));
+/**
+ * Sets the note type by converting the string parameter \a noteType
+ * to NoteWidget::NoteType.
+ * Provided for convenience.
+ */
+void NoteWidget::setNoteType( const QString& noteType )
+{
+    NoteType type = NoteWidget::stringToNoteType(noteType);
+    setNoteType(type);
 }
 
-NoteWidget::~NoteWidget() {
-#ifdef NOTEWIDGET_EMBED_EDITOR
-    delete m_pEditor;
-#endif
-}
-
-void NoteWidget::setDiagramLink(Uml::IDType viewID) {
+/**
+ * Set the ID of the diagram hyperlinked to this note.
+ * To switch off the hyperlink, set this to Uml::id_None.
+ *
+ * @param sceneID ID of an UMLScene.
+ */
+void NoteWidget::setDiagramLink(Uml::IDType sceneID)
+{
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    UMLView *view = umldoc->findView(viewID);
-    if (view == NULL) {
-        uError() << "no view found for viewID " << ID2STR(viewID) << endl;
+    UMLView *view = umldoc->findView(sceneID);
+    if (view == 0) {
+        uError() << "no view found for viewID " << ID2STR(sceneID);
         return;
     }
+
     QString linkText("Diagram: " + view->umlScene()->getName());
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-    m_pEditor->setUnderline(true);
-    m_pEditor->insert(linkText);
-    m_pEditor->setUnderline(false);
-#else
-    setDoc(linkText);
-    update();
-#endif
-    m_DiagramLink = viewID;
+// #if defined (NOTEWIDGET_EMBED_EDITOR)
+//     m_pEditor->setUnderline(true);
+//     m_pEditor->insert(linkText);
+//     m_pEditor->setUnderline(false);
+// #else
+//     setDoc(linkText);
+//     update();
+// #endif
+    m_diagramLink = sceneID;
 }
 
-Uml::IDType NoteWidget::getDiagramLink() const {
-    return m_DiagramLink;
-}
-
-void NoteWidget::slotViewScrolled(int x, int y) {
-    setEditorGeometry(x, y);
-}
-
-void NoteWidget::setFont(QFont font) {
-    NewUMLRectWidget::setFont(font);
-#ifdef NOTEWIDGET_EMBED_EDITOR
-    m_pEditor->setFont(font);
-#endif
-}
-
-void NoteWidget::setEditorGeometry(int dx /*=0*/, int dy /*=0*/) {
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-    const QRect editorGeometry( NewUMLRectWidget::getX() - dx + 6,
-                                NewUMLRectWidget::getY() - dy + 10,
-                                NewUMLRectWidget::getWidth() - 16,
-                                NewUMLRectWidget::getHeight() - 16);
-    m_pEditor->setGeometry( editorGeometry );
-    drawText();
-#else
-    dx=0; dy=0;   // avoid "unused arg" warnings
-#endif
-}
-
-void NoteWidget::setX( qreal x ) {
-    NewUMLRectWidget::setX(x);
-    setEditorGeometry();
-}
-
-void NoteWidget::setY( qreal y ) {
-    NewUMLRectWidget::setY(y);
-    setEditorGeometry();
-}
-
-QString NoteWidget::getDoc() const {
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-    return m_pEditor->text();
-#else
-    return m_Text;
-#endif
-}
-
-void NoteWidget::setDoc(const QString &newText) {
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-    m_pEditor->setText(newText);
-#else
-    m_Text = newText;
-#endif
+QSizeF NoteWidget::sizeHint(Qt::SizeHint which)
+{
+    if(which == Qt::MinimumSize) {
+        return m_minimumSize;
+    }
+    return NewUMLRectWidget::sizeHint(which);
 }
 
 void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
+    const QSizeF sz = size();
+    qreal w = sz.width() - 1;
+    qreal h = sz.height() - 1;
 
-    qreal margin = 10;
-    qreal w = getWidth()-1;
+    painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setBrush(brush());
 
-    qreal h= getHeight()-1;
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const qreal fontHeight  = fm.lineSpacing();
-    QPolygon poly(6);
-    poly.setPoint(0, offsetX, offsetY);
-    poly.setPoint(1, offsetX, offsetY + h);
-    poly.setPoint(2, offsetX + w, offsetY + h);
-    poly.setPoint(3, offsetX + w, offsetY + margin);
-    poly.setPoint(4, offsetX + w - margin, offsetY);
-    poly.setPoint(5, offsetX, offsetY);
+    QPolygonF poly(5);
+    poly[0] = QPointF(0, 0);
+    poly[1] = QPointF(0, h);
+    poly[2] = QPointF(w, h);
+    poly[3] = QPointF(w, NoteWidget::Margin);
+    poly[4] = QPointF(w - NoteWidget::Margin, 0);
+    painter->drawPolygon(poly);
 
-    setPenFromSettings(p);
-    if ( NewUMLRectWidget::getUseFillColour() ) {
-        QBrush brush( NewUMLRectWidget::getFillColour() );
-        p.setBrush(brush);
-        p.drawPolygon(poly);
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-        m_pEditor->setPaper(brush);
-#endif
-    } else
-        p.drawPolyline(poly);
-    p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
-    p.drawLine(offsetX + w - margin, offsetY + margin, offsetX + w, offsetY + margin);
-    p.setPen(Qt::black);
-    switch(m_NoteType) {
-    case NoteWidget::PreCondition :
-        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< precondition >>");
-        break;
+    painter->drawLine(w - NoteWidget::Margin, 0, w - NoteWidget::Margin, NoteWidget::Margin);
+    painter->drawLine(w - NoteWidget::Margin, NoteWidget::Margin, w, NoteWidget::Margin);
 
-    case NoteWidget::PostCondition :
-        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
-        break;
-
-    case NoteWidget::Transformation :
-        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< transformation >>");
-        break;
-        case NoteWidget::Normal :
-    default :  break;
-    }
-
-if(isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
-
-    drawText(&p, offsetX, offsetY);
+    // The rest of text drawing is taken care by TextItemGroup and TextItem
 }
 
-QSizeF NoteWidget::calculateSize() {
-    qreal width = 50, height = 50;
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    //const qreal fontHeight  = fm.lineSpacing();
-    const qreal textWidth = fm.width(m_Text);
-    if (m_NoteType == PreCondition)
-    {
-        const qreal widthtemp = fm.width("<< precondition >>");
-                width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 10;
+void NoteWidget::askForNoteType(NewUMLRectWidget* &targetWidget)
+{
+    static const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
+
+    bool pressedOK = false;
+    QString type = KInputDialog::getItem(i18n("Note Type"), i18n("Select the Note Type"), list,
+                                         0, false, &pressedOK, UMLApp::app());
+
+    if (pressedOK) {
+        dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);
+    } else {
+        delete targetWidget;
+        targetWidget = 0;
     }
-    else if (m_NoteType == PostCondition)
-    {
-        const qreal widthtemp = fm.width("<< postcondition >>");
-                width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 10;
+}
+
+void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement noteElement = qDoc.createElement( "notewidget" );
+    NewUMLRectWidget::saveToXMI( qDoc, noteElement );
+    noteElement.setAttribute("text", documentation());
+    if (m_diagramLink != Uml::id_None) {
+        noteElement.setAttribute( "diagramlink", ID2STR(m_diagramLink) );
     }
-    else if (m_NoteType == Transformation)
-    {
-        const qreal widthtemp = fm.width("<< transformation >>");
-                width = textWidth > widthtemp ? textWidth : widthtemp;
-        width += 10;
+    noteElement.setAttribute( "noteType", m_noteType);
+    qElement.appendChild(noteElement);
+}
+
+bool NoteWidget::loadFromXMI( QDomElement & qElement )
+{
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+        return false;
+    setDocumentation(qElement.attribute("text", ""));
+    QString diagramlink = qElement.attribute("diagramlink", "");
+    if (!diagramlink.isEmpty()) {
+        m_diagramLink = STR2ID(diagramlink);
     }
-    return QSizeF(width, height);
+    QString type = qElement.attribute("noteType", "");
+    setNoteType( (NoteType)type.toInt() );
+    return true;
+}
+
+void NoteWidget::updateGeometry()
+{
+    m_textItemGroup->ensureTextItemNumbers(TextItemCount);
+
+    TextItem dummy("");
+    dummy.setDefaultTextColor(fontColor());
+    dummy.setFont(font());
+    // dummy.setAcceptHoverEvents(true);
+    // dummy.setHoverBrush(hoverBrush);
+    dummy.setAlignment(Qt::AlignCenter);
+    dummy.setBackgroundBrush(Qt::NoBrush);
+
+    TextItem *diagramLinkItem = m_textItemGroup->textItemAt(DiagramLinkItemIndex);
+    diagramLinkItem->hide();
+    //FIXME: Fixe diagram link drawing
+
+    TextItem *noteTypeItem = m_textItemGroup->textItemAt(NoteTypeItemIndex);
+    dummy.copyAttributesTo(noteTypeItem);
+    if(m_noteType == NoteWidget::PreCondition) {
+        noteTypeItem->setText(i18n("<< precondition >>"));
+        noteTypeItem->show();
+    }
+    else if(m_noteType == NoteWidget::PostCondition) {
+        noteTypeItem->setText(i18n("<< postcondition >>"));
+        noteTypeItem->show();
+    }
+    else if(m_noteType == NoteWidget::Transformation) {
+        noteTypeItem->setText(i18n("<< transformation >>"));
+        noteTypeItem->show();
+    }
+    else { // = NoteWidget::Normal
+        noteTypeItem->hide();
+    }
+
+
+
+    TextItem *noteTextItem = m_textItemGroup->textItemAt(NoteTextItemIndex);
+    dummy.copyAttributesTo(noteTextItem);
+
+    noteTextItem->hide();
+
+    // Get width without note, so that we can display notes broken into multiple lines.
+    int widthWithoutNote = int(m_textItemGroup->calculateMinimumSize().width());
+
+    // Set the string now, since it also prevents update. Hitting two birds in a stone.
+    noteTextItem->setText(documentation());
+    noteTextItem->show();
+
+    m_textItemGroup->setLineBreakWidth(widthWithoutNote == 0 ? TextItemGroup::NoLineBreak : widthWithoutNote);
+    m_minimumSize = m_textItemGroup->calculateMinimumSize();
+
+    // Make sure the minimum size is atleast 100,80
+    m_minimumSize = m_minimumSize.expandedTo(QSizeF(100, 80));
+
+    NewUMLRectWidget::updateGeometry();
+}
+
+/// Align the text items on size change.
+void NoteWidget::sizeHasChanged(const QSizeF& oldSize)
+{
+    QSizeF groupSize = size();
+    groupSize.rwidth() -= NoteWidget::Margin * 2;
+    groupSize.rwidth() -= NoteWidget::Margin * 2;
+    m_textItemGroup->alignVertically(groupSize);
+
+    QPointF offset(NoteWidget::Margin, NoteWidget::Margin);
+    m_textItemGroup->setPos(offset);
+
+    NewUMLRectWidget::sizeHasChanged(oldSize);
 }
 
 void NoteWidget::slotMenuSelection(QAction* action) {
     NoteDialog * dlg = 0;
     UMLDoc *doc = UMLApp::app()->getDocument();
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+
+    // Get the menu which is always action's parent.
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
     switch(sel) {
         ///OBSOLETE - remove ListPopupMenu::mt_Link_Docs
         // case ListPopupMenu::mt_Link_Docs:
@@ -278,145 +291,4 @@ void NoteWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-void NoteWidget::drawText(QPainter * p /*=NULL*/, qreal offsetX /*=0*/, qreal offsetY /*=0*/) {
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-    m_pEditor->setText( getDoc() );
-    m_pEditor->setShown(true);
-    m_pEditor->repaint();
-#else
-    if (p == NULL)
-        return;
-    /*
-    Implement word wrap for text as follows:
-    wrap at width on whole words.
-    if word is wider than width then clip word
-    if reach height exit and don't print anymore
-    start new line on \n character
-    */
-    p->setPen( Qt::black );
-    QFont font = NewUMLRectWidget::getFont();
-    p->setFont( font );
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const qreal fontHeight  = fm.lineSpacing();
-    QString text = getDoc();
-    if( text.length() == 0 )
-        return;
-    QString word = "";
-    QString fullLine = "";
-    QString testCombineLine = "";
-    const qreal margin = fm.width( "W" );
-    qreal textY = fontHeight / 2;
-    qreal textX = margin;
-    const qreal width = this->getWidth() - margin * 2;
-    const qreal height = this->getHeight() - fontHeight;
-    QChar returnChar('\n');
-    QChar c;
-
-
- //   QString text = getDoc();
-    //QString text = l_Type + "\n" + m_Text;
-    if( text.length() == 0 )
-        return;
-
-    for (int i = 0; i <= text.length(); i++) {
-        if (i < text.length()) {
-            c = text[i];
-        } else {
-            // all chars of text have been handled already->
-            // perform this last run to spool current content of "word"
-            c = returnChar;
-        }
-        if (c == returnChar || c.isSpace()) {
-            // new word delimiter found->its time to decide on word wrap
-            testCombineLine = fullLine + ' ' + word;
-            qreal textWidth = fm.width( testCombineLine );
-            if (textX + textWidth > width) {
-                // combination of "fullLine" and "word" doesn't fit into one line->
-                // print "fullLine" in current line, update write position to next line
-                // and decide then on following actions
-                p->drawText(offsetX + textX, offsetY + textY,
-                            textWidth, fontHeight, Qt::AlignLeft, fullLine );
-                fullLine = word;
-                word = "";
-                // update write position
-                textX = margin;
-                textY += fontHeight;
-                if (textY > height)
-                    return;
-                // in case of c==newline->
-                // print "word" and set write position one additional line lower
-                if (c == returnChar) {
-                    // print "word" - which is now "fullLine" and set to next line
-                    p->drawText(offsetX + textX, offsetY + textY,
-                                textWidth, fontHeight, Qt::AlignLeft, fullLine);
-                    fullLine = "";
-                    textX = margin;
-                    textY += fontHeight;
-                    if( textY > height ) return;
-                }
-            }
-            else if ( c == returnChar ) {
-                // newline found and combination of "fullLine" and "word" fits
-                // in one line
-                p->drawText(offsetX + textX, offsetY + textY,
-                            textWidth, fontHeight, Qt::AlignLeft, testCombineLine);
-                fullLine = word = "";
-                textX = margin;
-                textY += fontHeight;
-                if (textY > height)
-                    return;
-            } else {
-                // word delimiter found, and combination of "fullLine", space and "word" fits into one line
-                fullLine = testCombineLine;
-                word = "";
-            }
-        } else {
-            // no word delimiter found -->add current char to "word"
-            if (c != '\0')
-                word += c;
-        }
-    }//end for
-#endif
-}
-
-void NoteWidget::askForNoteType(NewUMLRectWidget* &targetWidget) {
-
-    bool pressedOK = false;
-    const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
-    QString type = KInputDialog::getItem (i18n("Note Type"), i18n("Select the Note Type"), list, 0, false, &pressedOK, UMLApp::app());
-
-    if (pressedOK) {
-        dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);
-    } else {
-        targetWidget->cleanup();
-        delete targetWidget;
-        targetWidget = NULL;
-    }
-}
-
-void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-    QDomElement noteElement = qDoc.createElement( "notewidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, noteElement );
-    noteElement.setAttribute( "text", getDoc() );
-    if (m_DiagramLink != Uml::id_None)
-        noteElement.setAttribute( "diagramlink", ID2STR(m_DiagramLink) );
-    noteElement.setAttribute( "noteType", m_NoteType);
-    qElement.appendChild( noteElement );
-}
-
-bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
-        return false;
-    setZ( 20 ); //make sure always on top.
-    setDoc( qElement.attribute("text", "") );
-    QString diagramlink = qElement.attribute("diagramlink", "");
-    if (!diagramlink.isEmpty())
-        m_DiagramLink = STR2ID(diagramlink);
-    QString type = qElement.attribute("noteType", "");
-    setNoteType( (NoteType)type.toInt() );
-    return true;
-}
-
-
 #include "notewidget.moc"
-

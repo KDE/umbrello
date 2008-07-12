@@ -324,7 +324,7 @@ void ActivityWidget::sizeHasChanged(const QSizeF &oldSize)
 
 
     QPointF offset(ACTIVITY_MARGIN, ACTIVITY_MARGIN);
-    m_textItemGroup->setPos(QPointF(5,5));
+    m_textItemGroup->setPos(offset);
     NewUMLRectWidget::sizeHasChanged(oldSize);
 }
 
