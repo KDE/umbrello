@@ -214,6 +214,7 @@ void ActivityWidget::updateGeometry()
         break;
 
     case Param:
+    {
         TextItem *preconditionItem = m_textItemGroup->textItemAt(PrecondtionItemIndex);
         dummy.copyAttributesTo(preconditionItem);
         preconditionItem->setText(preconditionText().prepend("<<precondition>> "));
@@ -234,7 +235,7 @@ void ActivityWidget::updateGeometry()
         m_minimumSize.rheight() += ACTIVITY_MARGIN * 2;
         break;
     }
-
+    }
     NewUMLRectWidget::updateGeometry();
 }
 
