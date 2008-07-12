@@ -101,7 +101,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWi
     case at_Exception:
         {
             ActivityWidget *pActivity = dynamic_cast<ActivityWidget*>(widget);
-            return (pActivity == NULL || pActivity->getActivityType() != ActivityWidget::End);
+            return (pActivity == NULL || pActivity->activityType() != ActivityWidget::End);
         }
         break;
 
@@ -232,16 +232,16 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
                 isObjectNode = true;
 
             // no transitions to initial activity allowed
-            if (actB && actB->getActivityType() == ActivityWidget::Initial) {
+            if (actB && actB->activityType() == ActivityWidget::Initial) {
                 return false;
             }
             // actType -1 here means "not applicable".
             int actTypeA = -1;
             if (actA)
-                actTypeA = actA->getActivityType();
+                actTypeA = actA->activityType();
             int actTypeB = -1;
             if (actB)
-                actTypeB = actB->getActivityType();
+                actTypeB = actB->activityType();
             // only from a signalwidget a objectnode widget, a normal activity, branch or fork activity, to the end
             if ((actTypeB == ActivityWidget::End || actTypeB == ActivityWidget::Final) &&
                 actTypeA != ActivityWidget::Normal &&

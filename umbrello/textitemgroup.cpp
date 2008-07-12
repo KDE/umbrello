@@ -121,8 +121,6 @@ QSizeF TextItemGroup::calculateMinimumSize()
             calcItem->setTextWidth(-1);
         }
 
-        calcItem->adjustSize();
-
         width = qMax(calcItem->width(), width);
         height += calcItem->height();
     }
@@ -193,5 +191,16 @@ void TextItemGroup::reparent()
 {
     foreach(TextItem *item, m_textItems) {
         item->setParentItem(m_parentItem);
+    }
+}
+
+void TextItemGroup::ensureTextItemNumbers(int newSize)
+{
+    while(size() < newSize) {
+        appendTextItem(new TextItem(""));
+    }
+
+    while(size() >  newSize) {
+        deleteTextItemAt(0);
     }
 }

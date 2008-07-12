@@ -731,6 +731,7 @@ void NewUMLWidget::slotUMLObjectDataChanged()
  */
 void NewUMLWidget::slotInit()
 {
+    uDebug() << "Called";
     setUMLObject(m_umlObject);
     updateGeometry();
 }

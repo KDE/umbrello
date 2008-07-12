@@ -28,246 +28,248 @@
 #include "listpopupmenu.h"
 #include "dialogs/activitydialog.h"
 #include "umlscene.h"
+#include "textitemgroup.h"
+#include "textitem.h"
 
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QPolygon>
 
+/**
+ * @class ActivityWidget
+ *
+ * This class is the graphical version of a UML Activity.  A ActivityWidget is created
+ * by a @ref UMLView.  An ActivityWidget belongs to only one @ref UMLView instance.
+ * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
+ *
+ * The ActivityWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
+ * to this class.
+ *
+ * @short  A graphical version of a UML Activity.
+ * @author Paul Hensgen <phensgen@techie.com>
+ * @author Gopala Krishna (port using TextItems)
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
+
+/**
+ * Creates a Activity widget.
+ *
+ * @param view              The parent of the widget.
+ * @param activityType      The type of activity.
+ * @param id                The ID to assign (-1 will prompt a new ID.)
+ */
 ActivityWidget::ActivityWidget(UMLScene * scene, ActivityType activityType, Uml::IDType id )
-        : NewUMLRectWidget(scene, id)
+    : NewUMLRectWidget(scene, id),
+      m_activityType(activityType)
 {
-    NewUMLRectWidget::setBaseType( Uml::wt_Activity );
-    setActivityType( activityType );
-    updateComponentSize();
+    m_baseType = Uml::wt_Activity;
+    m_textItemGroup = new TextItemGroup(this);
 }
 
-ActivityWidget::~ActivityWidget() {}
+/**
+ *  destructor
+ */
+ActivityWidget::~ActivityWidget()
+{
+}
+
+void ActivityWidget::setActivityType( ActivityType activityType )
+{
+    m_activityType = activityType;
+    updateGeometry();
+}
+
+void ActivityWidget::setPreconditionText(const QString& aPreText)
+{
+    m_preconditionText = aPreText;
+    updateGeometry();
+}
+
+void ActivityWidget::setPostconditionText(const QString& aPostText)
+{
+    m_postconditionText = aPostText;
+    updateGeometry();
+}
 
 void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-    qreal w = getWidth();
-    qreal h = getHeight();
-    qreal offsetX = 0, offsetY = 0;
-    // Only for the final activity
-    float x;
-    float y;
-    QPen pen = p->pen();
+    QRectF r = rect();
+    const QSizeF sz = size();
+    qreal w = sz.width();
+    qreal h = sz.height();
 
-    switch ( m_ActivityType )
-    {
-
-    case Normal :
-        NewUMLRectWidget::setPenFromSettings(*p);
-        if ( NewUMLRectWidget::getUseFillColour() ) {
-            p->setBrush( NewUMLRectWidget::getFillColour() );
-        }
-        {
-            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-            const int fontHeight  = fm.lineSpacing();
-            int textStartY = (h / 2) - (fontHeight / 2);
-            p->drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p->setPen(Qt::black);
-            p->setFont( NewUMLRectWidget::getFont() );
-            p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
-                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
-        }
+    switch(m_activityType) {
+    case Normal:
+        p->setPen(QPen(lineColor(), lineWidth()));
+        p->setBrush(brush());
+        p->drawRoundRect(r, (r.height() * 60) / r.width(), 60);
         break;
 
-    case Initial :
-        p->setPen( QPen(lineColor(), 1) );
-        p->setBrush( NewUMLWidget::getLineColor() );
-        p->drawEllipse( offsetX, offsetY, w, h );
+    case Initial:
+        p->setPen(QPen(lineColor(), lineWidth()));
+        p->setBrush(QBrush(lineColor()));
+        p->drawEllipse(r);
         break;
 
-    case Final :
+    case Final:
+        p->setPen(QPen(Qt::red, 2));
+        p->setBrush(Qt::white);
+        p->drawEllipse(rect());
 
-        NewUMLRectWidget::setPenFromSettings(*p);
-        p->setBrush( Qt::white );
-        pen.setWidth( 2 );
-        pen.setColor ( Qt::red );
-        p->setPen( pen );
-        p->drawEllipse( offsetX, offsetY, w, h );
-        x = offsetX + w/2 ;
-        y = offsetY + h/2 ;
         {
-            const float w2 = 0.7071 * (float)w / 2.0;
-            p->drawLine((int)(x - w2 + 1), (int)(y - w2 + 1), (int)(x + w2), (int)(y + w2) );
-            p->drawLine((int)(x + w2 - 1), (int)(y - w2 + 1), (int)(x - w2), (int)(y + w2) );
+            qreal x = w / 2;
+            qreal y = h / 2;
+            qreal w2  = .7071 * w / 2.0;
+            p->drawLine((x - w2 + 1), (y - w2 + 1), (x + w2), (y + w2));
+            p->drawLine((x + w2 - 1), (y - w2 + 1), (x - w2), (y + w2));
         }
         break;
 
     case End :
         p->setPen( QPen(lineColor(), 1) );
-        p->setBrush( NewUMLWidget::getLineColor() );
-        p->drawEllipse( offsetX, offsetY, w, h );
-        p->setBrush( Qt::white );
-        p->drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p->setBrush( NewUMLWidget::getLineColor() );
-        p->drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
+        p->setBrush(QBrush(lineColor()));
+        p->drawEllipse(rect());
+        p->setBrush(Qt::white);
+        p->drawEllipse(1, 1, w - 2, h - 2);
+        p->setBrush(lineColor());
+        p->drawEllipse(3, 3, w - 6, h - 6);
         break;
 
     case Branch :
-        NewUMLRectWidget::setPenFromSettings(*p);
-        p->setBrush( NewUMLRectWidget::getFillColour() );
+        p->setPen(QPen(lineColor(), lineWidth()));
+        p->setBrush(brush());
         {
             QPolygon array( 4 );
-            array[ 0 ] = QPoint( offsetX + w / 2, offsetY );
-            array[ 1 ] = QPoint( offsetX + w, offsetY  + h / 2 );
-            array[ 2 ] = QPoint( offsetX + w / 2, offsetY + h );
-            array[ 3 ] = QPoint( offsetX, offsetY + h / 2 );
+            array[ 0 ] = QPoint(w / 2, 0);
+            array[ 1 ] = QPoint(w, h / 2);
+            array[ 2 ] = QPoint(w / 2, h);
+            array[ 3 ] = QPoint(0, h / 2);
             p->drawPolygon( array );
             p->drawPolyline( array );
         }
         break;
 
     case Invok :
-        NewUMLRectWidget::setPenFromSettings(*p);
-        if ( NewUMLRectWidget::getUseFillColour() ) {
-            p->setBrush( NewUMLRectWidget::getFillColour() );
-        }
+        p->setPen(QPen(lineColor(), lineWidth()));
+        p->drawRoundRect(r, (h * 60) / w, 60);
         {
-            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-            const int fontHeight  = fm.lineSpacing();
-            int textStartY = (h / 2) - (fontHeight / 2);
-            p->drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p->setPen(Qt::black);
-            p->setFont( NewUMLRectWidget::getFont() );
-            p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
-                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
+            qreal x = w - (w/5);
+            qreal y = h - (h/3);
 
+            p->drawLine(QLineF(x,  y, x, y + 20));
+            p->drawLine(QLineF(x - 10, y + 10, x + 10, y + 10));
+            p->drawLine(QLineF(x - 10, y + 10, x - 10, y + 20));
+            p->drawLine(QLineF(x + 10, y + 10, x + 10, y + 20));
         }
-        x = offsetX + w - (w/5);
-        y = offsetY + h - (h/3);
-
-        p->drawLine(QLineF((qreal)x, (qreal) y, (qreal)x, (qreal)( y + 20)));
-        p->drawLine(QLineF((qreal)(x - 10),(qreal)(y + 10), (qreal)(x + 10), (qreal)(y + 10)));
-        p->drawLine(QLineF((qreal)(x - 10),(qreal)(y + 10), (qreal)(x - 10), (qreal)(y + 20)));
-        p->drawLine(QLineF((qreal)(x + 10),(qreal)(y + 10), (qreal)(x + 10), (qreal)(y + 20)));
         break;
 
     case Param :
-        NewUMLRectWidget::setPenFromSettings(*p);
-        if ( NewUMLRectWidget::getUseFillColour() ) {
-            p->setBrush( NewUMLRectWidget::getFillColour() );
-        }
-        {
-            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-            const int fontHeight  = fm.lineSpacing();
-            QString preCond= "<<precondition>> "+getPreText();
-            QString postCond= "<<postcondition>> "+getPostText();
-            //int textStartY = (h / 2) - (fontHeight / 2);
-            p->drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
-            p->setPen(Qt::black);
-            p->setFont( NewUMLRectWidget::getFont() );
-            p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight + 10,
-                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, preCond);
-            p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight * 2 + 10,
-                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, postCond);
-            p->drawText(offsetX + ACTIVITY_MARGIN, offsetY + (fontHeight / 2),
-                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
-        }
-
+        p->setPen(QPen(lineColor(), lineWidth()));
+        p->drawRoundRect(rect(), (h * 60) / w, 60);
         break;
 
     }
-    if(isSelected()) {
-        drawSelected(p, offsetX, offsetY);
-    }
 }
 
-void ActivityWidget::constrain(qreal& width, qreal& height) {
-    if (m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param) {
-        QSizeF minSize = calculateSize();
-        if (width < minSize.width())
-            width = minSize.width();
-        if (height < minSize.height())
-            height = minSize.height();
-        return;
-    }
-    if (width > height)
-        width = height;
-    else if (height > width)
-        height = width;
-    if (m_ActivityType == Branch) {
-        if (width < 20) {
-            width = 20;
-            height = 20;
-        } else if (width > 50) {
-            width = 50;
-            height = 50;
-        }
-    } else {
-        if (width < 15) {
-            width = 15;
-            height = 15;
-        } else if (width > 30) {
-            width = 30;
-            height = 30;
-        }
-    }
-}
-
-QSizeF ActivityWidget::calculateSize()
+QSizeF ActivityWidget::sizeHint(Qt::SizeHint which)
 {
-    qreal width, height;
-    if ( m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param ) {
-        const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const qreal fontHeight  = fm.lineSpacing();
-
-        qreal textWidth = fm.width(getName());
-        height = fontHeight;
-        height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
-        height += ACTIVITY_MARGIN * 2;
-
-        textWidth = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
-
-        if (m_ActivityType == Invok) {
-             height += 40;
-        } else if (m_ActivityType == Param) {
-            QString maxSize;
-
-            maxSize = getName().length() > getPostText().length() ? getName() : getPostText();
-            maxSize = maxSize.length() > getPreText().length() ? maxSize : getPreText();
-
-            textWidth = fm.width(maxSize);
-            textWidth = textWidth + 50;
-            height += 100;
-        }
-
-        width = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
-
-        width += ACTIVITY_MARGIN * 4;
-
-    } else {
-        width = height = 20;
+    if(which == Qt::MinimumSize) {
+        return m_minimumSize;
     }
-    return QSizeF(width, height);
+    return NewUMLRectWidget::sizeHint(which);
 }
 
-ActivityWidget::ActivityType ActivityWidget::getActivityType() const {
-    return m_ActivityType;
+void ActivityWidget::updateGeometry()
+{
+    int maxItemCount = 3; // In case of Param which has 3 texts to be drawn.
+
+    TextItem dummy("");
+    dummy.setDefaultTextColor(fontColor());
+    dummy.setFont(font());
+    dummy.setAlignment(Qt::AlignCenter);
+    dummy.setBackgroundBrush(Qt::NoBrush);
+
+    m_textItemGroup->ensureTextItemNumbers(maxItemCount);
+
+    switch(m_activityType) {
+    case Normal:
+    case Invok:
+    {
+        // Hide unsused items
+        m_textItemGroup->textItemAt(PrecondtionItemIndex)->hide();
+        m_textItemGroup->textItemAt(PostconditionItemIndex)->hide();
+
+        m_textItemGroup->textItemAt(NameItemIndex)->show();
+
+        TextItem *nameItem = m_textItemGroup->textItemAt(NameItemIndex);
+        nameItem->setText(name());
+        dummy.copyAttributesTo(nameItem);
+
+        m_minimumSize = m_textItemGroup->calculateMinimumSize();
+        m_minimumSize.rheight() += 2 * ACTIVITY_MARGIN;
+        m_minimumSize.rwidth() += 2 * ACTIVITY_MARGIN;
+
+        if(m_activityType == Invok) {
+            m_minimumSize.rheight() += 40;
+        }
+    }
+    break;
+
+    case Initial:
+    case Final:
+    case End:
+    case Branch:
+        m_textItemGroup->textItemAt(PrecondtionItemIndex)->hide();
+        m_textItemGroup->textItemAt(PostconditionItemIndex)->hide();
+        m_textItemGroup->textItemAt(NameItemIndex)->hide();
+
+        m_minimumSize = QSizeF(20, 20);
+        break;
+
+    case Param:
+        TextItem *preconditionItem = m_textItemGroup->textItemAt(PrecondtionItemIndex);
+        dummy.copyAttributesTo(preconditionItem);
+        preconditionItem->setText(preconditionText().prepend("<<precondition>> "));
+        preconditionItem->show();
+
+        TextItem *postconditionItem = m_textItemGroup->textItemAt(PostconditionItemIndex);
+        dummy.copyAttributesTo(postconditionItem);
+        postconditionItem->setText(postconditionText().prepend("<<postcondition>> "));
+        postconditionItem->show();
+
+        TextItem *nameItem = m_textItemGroup->textItemAt(NameItemIndex);
+        dummy.copyAttributesTo(nameItem);
+        nameItem->setText(name());
+        nameItem->show();
+
+        m_minimumSize = m_textItemGroup->calculateMinimumSize();
+        m_minimumSize.rwidth() += ACTIVITY_MARGIN * 2;
+        m_minimumSize.rheight() += ACTIVITY_MARGIN * 2;
+        break;
+    }
+
+    NewUMLRectWidget::updateGeometry();
 }
 
-void ActivityWidget::setActivityType( ActivityType activityType ) {
-    m_ActivityType = activityType;
-    updateComponentSize();
-    setResizable(true);
-}
-
-void ActivityWidget::slotMenuSelection(QAction* action) {
+void ActivityWidget::slotMenuSelection(QAction* action)
+{
     bool ok = false;
-    QString name = m_Text;
+    QString n = name();
 
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    // menu is passed in as parent .
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Text, &ok );
-        if( ok && name.length() > 0 )
-            m_Text = name;
+        n = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), n, &ok );
+        if( ok && !n.isEmpty()) {
+            setName(n);
+        }
         break;
 
     case ListPopupMenu::mt_Properties:
-        showProperties();
+        showPropertiesDialog();
         break;
 
     default:
@@ -275,7 +277,8 @@ void ActivityWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-void ActivityWidget::showProperties() {
+void ActivityWidget::showPropertiesDialog()
+{
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
@@ -286,51 +289,25 @@ void ActivityWidget::showProperties() {
     }
 }
 
-bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
-                                ActivityType& resultType)
+void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
-    bool status = true;
-    switch (tbb) {
-    case WorkToolBar::tbb_Initial_Activity:
-        resultType = Initial;
-        break;
-    case WorkToolBar::tbb_Activity:
-        resultType = Normal;
-        break;
-    case WorkToolBar::tbb_End_Activity:
-        resultType = End;
-        break;
-    case WorkToolBar::tbb_Final_Activity:
-        resultType = Final;
-        break;
-    case WorkToolBar::tbb_Branch:
-        resultType = Branch;
-        break;
-    default:
-        status = false;
-        break;
-    }
-    return status;
-}
-
-void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement activityElement = qDoc.createElement( "activitywidget" );
     NewUMLRectWidget::saveToXMI( qDoc, activityElement );
-    activityElement.setAttribute( "activityname", m_Text );
+    activityElement.setAttribute( "activityname", name() );
     activityElement.setAttribute( "documentation", documentation() );
-    activityElement.setAttribute( "precondition", preText );
-    activityElement.setAttribute( "postcondition", postText );
-    activityElement.setAttribute( "activitytype", m_ActivityType );
+    activityElement.setAttribute( "precondition", preconditionText() );
+    activityElement.setAttribute( "postcondition", postconditionText() );
+    activityElement.setAttribute( "activitytype", m_activityType );
     qElement.appendChild( activityElement );
 }
 
 bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
     if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
-    m_Text = qElement.attribute( "activityname", "" );
+    setName(qElement.attribute( "activityname", "" ));
     setDocumentation(qElement.attribute( "documentation", "" ));
-    preText = qElement.attribute( "precondition", "" );
-    postText = qElement.attribute( "postcondition", "" );
+    setPreconditionText(qElement.attribute( "precondition", "" ));
+    setPostconditionText(qElement.attribute( "postcondition", "" ));
 
     QString type = qElement.attribute( "activitytype", "1" );
     setActivityType( (ActivityType)type.toInt() );
@@ -338,28 +315,17 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
-void ActivityWidget::setPreText(const QString& aPreText)
+void ActivityWidget::sizeHasChanged(const QSizeF &oldSize)
 {
-    preText=aPreText;
-    updateComponentSize();
-    adjustAssocs( getX(), getY() );
+    QSizeF groupSize = size();
+    groupSize.rwidth() -= ACTIVITY_MARGIN;
+    groupSize.rheight() -= ACTIVITY_MARGIN;
+    m_textItemGroup->alignVertically(groupSize);
+
+
+    QPointF offset(ACTIVITY_MARGIN, ACTIVITY_MARGIN);
+    m_textItemGroup->setPos(QPointF(5,5));
+    NewUMLRectWidget::sizeHasChanged(oldSize);
 }
 
-QString ActivityWidget::getPreText()
-{
-    return preText;
-}
-
-void ActivityWidget::setPostText(const QString& aPostText)
-{
-    postText=aPostText;
-    updateComponentSize();
-    adjustAssocs( getX(), getY() );
-}
-
-QString ActivityWidget::getPostText()
-{
-    return postText;
-}
 #include "activitywidget.moc"
-

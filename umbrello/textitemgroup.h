@@ -75,6 +75,8 @@ public:
     void unparent();
     void reparent();
 
+    void ensureTextItemNumbers(int count);
+
 private:
     QGraphicsItem *m_parentItem;
     QList<TextItem*> m_textItems;

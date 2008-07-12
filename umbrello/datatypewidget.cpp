@@ -92,19 +92,12 @@ void DatatypeWidget::updateGeometry()
         TextItem dummy("");
         dummy.setDefaultTextColor(fontColor());
         dummy.setFont(font());
-        dummy.setAcceptHoverEvents(true);
+        // dummy.setAcceptHoverEvents(true);
         // dummy.setHoverBrush(hoverBrush);
         dummy.setAlignment(Qt::AlignCenter);
         dummy.setBackgroundBrush(Qt::NoBrush);
 
-        if(m_textItemGroup->size() != totalItemCount) {
-            while(m_textItemGroup->size() < totalItemCount) {
-                m_textItemGroup->appendTextItem(new TextItem(""));
-            }
-            while(m_textItemGroup->size() > totalItemCount) {
-                m_textItemGroup->deleteTextItemAt(0);
-            }
-        }
+        m_textItemGroup->ensureTextItemNumbers(totalItemCount);
 
         TextItem *stereo = m_textItemGroup->textItemAt(DatatypeWidget::StereoTypeItemIndex);
         stereo->setText(umlObject()->getStereotype(true));
