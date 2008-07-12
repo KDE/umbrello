@@ -48,8 +48,8 @@ public:
       => if x or y is outside of interval, the position is reset
         ( e.g. by AssociationWidget::resetTextPositions() )
      */
-    static const qreal restrictPositionMin = 0;
-    static const qreal restrictPositionMax = 3000;
+    static const qreal restrictPositionMin;
+    static const qreal restrictPositionMax;
 
 
     /**
