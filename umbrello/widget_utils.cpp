@@ -12,25 +12,26 @@
 // own header
 #include "widget_utils.h"
 
-// qt/kde includes
-#include <q3canvas.h>
-#include <QtGui/QBrush>
-#include <QtGui/QPen>
-#include <kdebug.h>
 // app includes
+#include "objectwidget.h"
 #include "uml.h"
+#include "umlscene.h"
 #include "umlview.h"
 #include "umlwidget.h"
-#include "objectwidget.h"
-#include "umlscene.h"
 
+// qt/kde includes
+#include <QtGui/QBrush>
+#include <QtGui/QPen>
+
+// c++ include
+#include <cmath>
 
 namespace Widget_Utils
 {
 
     NewUMLRectWidget* findWidget(Uml::IDType id,
-                          const UMLWidgetList& widgets,
-                          const MessageWidgetList* pMessages /* = NULL */)
+                                 const UMLWidgetList& widgets,
+                                 const MessageWidgetList* pMessages /* = NULL */)
     {
         UMLWidgetListIt it( widgets );
         foreach ( NewUMLRectWidget* obj , widgets ) {
@@ -62,6 +63,38 @@ namespace Widget_Utils
         rect->setBrush( QBrush(Qt::blue) );
         rect->setPen( QPen(Qt::blue) );
         return rect;
+    }
+
+    void drawCrossInEllipse(QPainter *p, const QRectF& r)
+    {
+        QRectF ellipse = r;
+        ellipse.moveCenter(QPointF(0, 0));
+        qreal a = ellipse.width() * 0.5;
+        qreal b = ellipse.height() * .5;
+        qreal xc = ellipse.center().x();
+        qreal yc = ellipse.center().y();
+
+        // The first point's x value is chose to be center.x() + 70% of x radius.
+        qreal x1 = ellipse.center().x() + .7 * .5 * ellipse.width();
+        // Calculate y1 correspoding to x1 using formula.
+        qreal y1_sqr = b*b*(1 - (x1 * x1) / (a*a));
+        qreal y1 = std::sqrt(y1_sqr);
+
+        // Mirror x1, y1 along both the axes to get 4 points for the cross.
+        QPointF p1(xc + x1, yc + y1);
+        QPointF p2(xc - x1, yc + y1);
+        QPointF p3(xc + x1, yc - y1);
+        QPointF p4(xc - x1, yc - y1);
+
+        // Translate as we calculate for ellipse with (0, 0) as center.
+        p->translate(r.center().x(), r.center().y());
+
+        // Draw the cross now
+        p->drawLine(QLineF(p1, p4));
+        p->drawLine(QLineF(p2, p3));
+
+        // Restore the translate on painter.
+        p->translate(-r.center().x(), -r.center().y());
     }
 
     QString pointToString(const QPointF& point)

@@ -30,6 +30,7 @@
 #include "umlscene.h"
 #include "textitemgroup.h"
 #include "textitem.h"
+#include "widget_utils.h"
 
 //Added by qt3to4:
 #include <QMouseEvent>
@@ -98,56 +99,42 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidg
     qreal w = sz.width();
     qreal h = sz.height();
 
+    p->setPen(QPen(lineColor(), lineWidth()));
+    p->setBrush(brush());
+
     switch(m_activityType) {
     case Normal:
-        p->setPen(QPen(lineColor(), lineWidth()));
-        p->setBrush(brush());
-        p->drawRoundRect(r, (r.height() * 60) / r.width(), 60);
+        p->drawRoundRect(r, (h * 60) / w, 60);
         break;
 
     case Initial:
-        p->setPen(QPen(lineColor(), lineWidth()));
-        p->setBrush(QBrush(lineColor()));
         p->drawEllipse(r);
         break;
 
     case Final:
-        p->setPen(QPen(Qt::red, 2));
-        p->setBrush(Qt::white);
-        p->drawEllipse(rect());
-
-        {
-            qreal x = w / 2;
-            qreal y = h / 2;
-            qreal w2  = .7071 * w / 2.0;
-            p->drawLine((x - w2 + 1), (y - w2 + 1), (x + w2), (y + w2));
-            p->drawLine((x + w2 - 1), (y - w2 + 1), (x - w2), (y + w2));
-        }
+        p->setBrush(Qt::NoBrush);
+        p->drawEllipse(r);
+        Widget_Utils::drawCrossInEllipse(p, r);
         break;
 
     case End :
-        p->setPen( QPen(lineColor(), 1) );
-        p->setBrush(QBrush(lineColor()));
-        p->drawEllipse(rect());
-        p->setBrush(Qt::white);
-        p->drawEllipse(1, 1, w - 2, h - 2);
+        p->setBrush(Qt::NoBrush);
+        p->drawEllipse(r.adjusted(+1, +1, -1, -1));
+
         p->setBrush(lineColor());
-        p->drawEllipse(3, 3, w - 6, h - 6);
+        p->drawEllipse(r.adjusted(+3, +3, -3, -3));
         break;
 
     case Branch :
-        p->setPen(QPen(lineColor(), lineWidth()));
-        p->setBrush(brush());
-        {
-            QPolygon array( 4 );
-            array[ 0 ] = QPoint(w / 2, 0);
-            array[ 1 ] = QPoint(w, h / 2);
-            array[ 2 ] = QPoint(w / 2, h);
-            array[ 3 ] = QPoint(0, h / 2);
-            p->drawPolygon( array );
-            p->drawPolyline( array );
-        }
-        break;
+    {
+        QPolygon array( 4 );
+        array[0] = QPoint(w / 2, 0);
+        array[1] = QPoint(w, h / 2);
+        array[2] = QPoint(w / 2, h);
+        array[3] = QPoint(0, h / 2);
+        p->drawPolygon(array);
+    }
+    break;
 
     case Invok :
         p->setPen(QPen(lineColor(), lineWidth()));

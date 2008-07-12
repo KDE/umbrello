@@ -53,6 +53,13 @@ namespace Widget_Utils
     QGraphicsRectItem *decoratePoint(const QPointF& p);
 
     /**
+     * Calculates and draws a cross inside an ellipse
+     * @param p Pointer to a QPainter object.
+     * @param ellipse The rectangle describing the ellipse.
+     */
+    void drawCrossInEllipse(QPainter *p, const QRectF& ellipse);
+
+    /**
      * Converts a point to a comma separated string i.e "x,y"
      */
     QString pointToString(const QPointF& point);
