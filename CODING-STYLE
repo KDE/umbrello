@@ -43,8 +43,8 @@ Formatting:
   7.) Usage of whitespaces between an opening and closing parenthesis
       (e.g. if- and for-statments, function calls) is up to the developer.
           Example:
-	      if (i < 5)                    <->  if ( i < 5 )
-	      calculateSalary(age, years);  <->  calculateSalary( age, years ); 
+          if (i < 5)                    <->  if ( i < 5 )
+          calculateSalary(age, years);  <->  calculateSalary( age, years ); 
   8.) For pointers or references, use
       either a single space after '*' or '&', but not before (C++ style),
           Example:
@@ -151,24 +151,24 @@ Includes:
  32.) Do not add a path to the include statement.
           Example:
               #include "../uml.h"  // wrong
-	      #include "uml.h"     // correct
+              #include "uml.h"     // correct
           Rationale:
               Paths are set in the make files. Rearranging or moving files
               should not be followed by source code editing.
  33.) Header includes should be listed in the following order and grouped:
         - own header
-	- Umbrello includes
-	- KDE includes
-	- Qt includes
+        - Umbrello includes
+        - KDE includes
+        - Qt includes
  34.) The headers inside each group should be sorted.
           Rationale:
-	      For ease of locating them.
+              For ease of locating them.
           Tip: 
               Kate/KDevelop users can sort the headers automatically.
-	      Select the lines you want to sort, then
-	      Tools -> Filter Selection Through Command -> "sort".
+              Select the lines you want to sort, then
+              Tools -> Filter Selection Through Command -> "sort".
               In vim the same can be achieved by marking the block, and then
-	      doing ":sort". 
+              doing ":sort". 
               In emacs, you can mark the block and then do "M-x sort-lines".	
  35.) Includes in a header file should be kept to the absolute minimum, as
       to keep compile times low. This can be achieved by using forward
@@ -181,12 +181,12 @@ Include guards:
  36.) Include macro characters are all in uppercase letters.
           Example:
               #ifndef MyFileName_h    // wrong
-	      #ifndef MY_FILE_NAME_H  // correct
+              #ifndef MY_FILE_NAME_H  // correct
  37.) Do not use leading or trailing underscores on the include guard macro
       as they are reserved for compiler/libc use (checked by Krazy [6]?).
           Example:
               #ifndef _MY_FILE_NAME_H_  // wrong
-	      #ifndef MY_FILE_NAME_H    // correct
+              #ifndef MY_FILE_NAME_H    // correct
 
 
 Doxygen comments:
