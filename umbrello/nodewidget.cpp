@@ -24,6 +24,8 @@
 #include "umlscene.h"
 #include <QPolygon>
 
+const qreal NodeWidget::DEPTH = 30;  ///< pixels on Z axis
+
 NodeWidget::NodeWidget(UMLScene * view, UMLNode *n )
   : NewUMLRectWidget(view, n) {
     NewUMLRectWidget::setBaseType(Uml::wt_Node);

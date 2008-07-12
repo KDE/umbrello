@@ -58,7 +58,7 @@ protected:
      */
     QSizeF calculateSize();
 
-    static const qreal DEPTH = 30;  ///< pixels on Z axis
+    static const qreal DEPTH;  ///< pixels on Z axis
 };
 
 #endif
