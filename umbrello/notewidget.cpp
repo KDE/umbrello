@@ -223,8 +223,6 @@ void NoteWidget::updateGeometry()
         noteTypeItem->hide();
     }
 
-
-
     TextItem *noteTextItem = m_textItemGroup->textItemAt(NoteTextItemIndex);
     dummy.copyAttributesTo(noteTextItem);
 
@@ -240,8 +238,11 @@ void NoteWidget::updateGeometry()
     m_textItemGroup->setLineBreakWidth(widthWithoutNote == 0 ? TextItemGroup::NoLineBreak : widthWithoutNote);
     m_minimumSize = m_textItemGroup->calculateMinimumSize();
 
-    // Make sure the minimum size is atleast 100,80
-    m_minimumSize = m_minimumSize.expandedTo(QSizeF(100, 80));
+    m_minimumSize.rwidth() += 2 * NoteWidget::Margin;
+    m_minimumSize.rheight() += 2 * NoteWidget::Margin;
+
+    // Make sure the minimum size is atleast 100,30
+    m_minimumSize = m_minimumSize.expandedTo(QSizeF(100, 30));
 
     NewUMLRectWidget::updateGeometry();
 }
@@ -251,7 +252,7 @@ void NoteWidget::sizeHasChanged(const QSizeF& oldSize)
 {
     QSizeF groupSize = size();
     groupSize.rwidth() -= NoteWidget::Margin * 2;
-    groupSize.rwidth() -= NoteWidget::Margin * 2;
+    groupSize.rheight() -= NoteWidget::Margin * 2;
     m_textItemGroup->alignVertically(groupSize);
 
     QPointF offset(NoteWidget::Margin, NoteWidget::Margin);
