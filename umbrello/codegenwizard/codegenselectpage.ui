@@ -20,17 +20,6 @@
   </property>
   <layout class="QVBoxLayout" >
    <item>
-    <widget class="QLabel" name="ui_labelTitle" >
-     <property name="text" >
-      <string>Place all the classes you want to generate code
-for in the right hand side list</string>
-     </property>
-     <property name="wordWrap" >
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" >
      <item>
       <layout class="QVBoxLayout" >

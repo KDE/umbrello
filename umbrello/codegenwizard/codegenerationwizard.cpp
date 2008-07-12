@@ -27,6 +27,7 @@
 #include "codegenstatuspage.h"
 #include "classifier.h"
 #include "uml.h"
+#include "icon_utils.h"
 
 
 const QSize CodeGenerationWizard::c_pageSize = QSize(520, 530);
@@ -39,9 +40,10 @@ const QSize CodeGenerationWizard::c_pageSize = QSize(520, 530);
 CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
   : QWizard((QWidget*)UMLApp::app())
   {
-    setWizardStyle(QWizard::ModernStyle);  //:TODO: does not work for MAC
+    setWizardStyle(QWizard::ModernStyle);
+    setPixmap(QWizard::LogoPixmap, Icon_Utils::UserIcon(Icon_Utils::it_Code_Gen_Wizard));
     setWindowTitle(i18n("Code Generation Wizard"));
-    setPixmap(QWizard::LogoPixmap, QPixmap("../hi48-app-umbrello.png"));  //:TODO: does not work ?
+    setOption(QWizard::NoBackButtonOnStartPage, true);
 
     setPage(SelectionPage, createSelectionPage(classList));
     setPage(OptionsPage, createOptionsPage());
@@ -64,7 +66,6 @@ QWizardPage* CodeGenerationWizard::createSelectionPage(UMLClassifierList *classL
 {
     m_CodeGenSelectPage = new CodeGenSelectPage(this);
     m_CodeGenSelectPage->setClassifierList(classList);
-    m_CodeGenSelectPage->setTitle(i18n("Select Classes"));
     m_CodeGenSelectPage->setFixedSize(c_pageSize);
     return m_CodeGenSelectPage;
 }
@@ -77,7 +78,6 @@ QWizardPage* CodeGenerationWizard::createSelectionPage(UMLClassifierList *classL
 QWizardPage* CodeGenerationWizard::createOptionsPage()
 {
     m_CodeGenOptionsPage = new CodeGenOptionsPage(this);
-    m_CodeGenOptionsPage->setTitle(i18n("Code Generation Options"));
     m_CodeGenOptionsPage->setFixedSize(c_pageSize);
     return m_CodeGenOptionsPage;
 }
@@ -90,7 +90,6 @@ QWizardPage* CodeGenerationWizard::createOptionsPage()
 QWizardPage* CodeGenerationWizard::createStatusPage()
 {
     m_CodeGenStatusPage = new CodeGenStatusPage(this);
-    m_CodeGenStatusPage->setTitle(i18n("Status of Code Generation Progress"));
     m_CodeGenStatusPage->setFixedSize(c_pageSize);
     return m_CodeGenStatusPage;
 }

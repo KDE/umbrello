@@ -41,6 +41,9 @@
 CodeGenStatusPage::CodeGenStatusPage(QWidget *parent)
     : QWizardPage(parent), m_generationDone(false)
 {
+    setTitle(i18n("Status of Code Generation Progress"));
+    setSubTitle(i18n("Press the button Generate to start the code generation.\nCheck the success state for every class."));
+
     setupUi(this);
 
     ui_tableWidgetStatus->setColumnCount(3);
