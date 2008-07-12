@@ -38,8 +38,8 @@
 #include "cmds.h"
 #include "umlscene.h"
 
-qreal FloatingTextWidget::restrictPositionMin = 0;
-qreal FloatingTextWidget::restrictPositionMax = 3000;
+const qreal FloatingTextWidget::restrictPositionMin = 0;
+const qreal FloatingTextWidget::restrictPositionMax = 3000;
 
 
 FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::Text_Role role,
