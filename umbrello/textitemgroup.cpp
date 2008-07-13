@@ -109,8 +109,8 @@ QSizeF TextItemGroup::calculateMinimumSize()
             continue;
         }
 
-        calcItem->setText(item->text());
         item->copyAttributesTo(calcItem);
+        calcItem->setText(item->text());
 
         if(m_lineBreakageWidth != NoLineBreak) {
             if(calcItem->width() > m_lineBreakageWidth) {
@@ -124,7 +124,6 @@ QSizeF TextItemGroup::calculateMinimumSize()
         width = qMax(calcItem->width(), width);
         height += calcItem->height();
     }
-
 
     delete calcItem;
 

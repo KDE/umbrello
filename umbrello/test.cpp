@@ -21,7 +21,6 @@
 
 #include "boxwidget.h"
 #include "enum.h"
-#include "newenumwidget.h"
 #include "textitem.h"
 #include "umlscene.h"
 #include "umlview.h"

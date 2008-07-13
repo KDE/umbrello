@@ -1,105 +1,85 @@
 /***************************************************************************
+ * Copyright (C) 2008 by Gopala Krishna A <krishna.ggk@gmail.com>          *
  *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ * This is free software; you can redistribute it and/or modify            *
+ * it under the terms of the GNU General Public License as published by    *
+ * the Free Software Foundation; either version 2, or (at your option)     *
+ * any later version.                                                      *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
- *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
+ * This software is distributed in the hope that it will be useful,        *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ * GNU General Public License for more details.                            *
+ *                                                                         *
+ * You should have received a copy of the GNU General Public License       *
+ * along with this package; see the file COPYING.  If not, write to        *
+ * the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,   *
+ * Boston, MA 02110-1301, USA.                                             *
  ***************************************************************************/
 
 #ifndef ENUMWIDGET_H
 #define ENUMWIDGET_H
 
-#include "umlwidget.h"
 
-class UMLScene;
+#include "newumlrectwidget.h"
 
-#define ENUM_MARGIN 5
+class TextItemGroup;
 
 /**
- * Defines a graphical version of the enum.  Most of the functionality
- * will come from the @ref NewUMLRectWidget class from which class inherits from.
- *
- * @short A graphical version of an enum.
- * @author Jonathan Riddell
+ * @short A uml widget to visualize enum.
+ * @author Gopala Krishna A
  * @see NewUMLRectWidget
+ *
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class EnumWidget : public NewUMLRectWidget {
+class EnumWidget : public NewUMLRectWidget
+{
+    Q_OBJECT
 public:
-
     /**
-     * Constructs an EnumWidget.
-     *
-     * @param view              The parent of this EnumWidget.
-     * @param o         The UMLObject this will be representing.
+     * Constructs an instance of EnumWidget.
+     * @param o The NewUMLObject this will be representing.
      */
-    EnumWidget(UMLScene* view, UMLObject* o);
-
-    /**
-     * Standard deconstructor.
-     */
+    explicit EnumWidget(UMLObject* o);
     ~EnumWidget();
 
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
+    QSizeF sizeHint(Qt::SizeHint which);
 
-    /**
-     * Returns the status of whether to show Package.
-     *
-     * @return  True if package is shown.
-     */
-    bool getShowPackage() const;
+    ///  @return True if package is shown , false otherwise.
+    bool showPackage() const {
+        return m_showPackage;
+    }
+    void setShowPackage(bool b);
+    /// Toggles the status of package show.
+    void toggleShowPackage() {
+        setShowPackage(!m_showPackage);
+    }
 
-    /**
-     * Toggles the status of whether to show package.
-     */
-    void toggleShowPackage();
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *widget);
 
-    /**
-     * Set the status of whether to show Package.
-     *
-     * @param _status             True if package shall be shown.
-     */
-    void setShowPackage(bool _status);
-
-    /**
-     * Draws the enum as a rectangle with a box underneith with a list of literals
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-     * Saves to the "enumwidget" XMI element.
-     */
+    bool loadFromXMI(QDomElement& qElement);
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    /**
-     * Loads from an "enumwidget" XMI element.
-     */
-    bool loadFromXMI(QDomElement& qElement);
+public slots:
+    void slotMenuSelection(QAction *action);
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget.
-     */
-    QSizeF calculateSize();
-
-    bool m_bShowPackage;
+    void updateGeometry();
+    void sizeHasChanged(const QSizeF& oldSize);
 
 private:
+    enum {
+        StereoTypeItemIndex = 0,
+        NameItemIndex = 1,
+        EnumLiteralStartIndex = 2
+    };
 
-public slots:
-    /**
-     * Will be called when a menu selection has been made from the
-     * popup menu.
-     *
-     * @param action       The action that has been selected.
-     */
-    void slotMenuSelection(QAction* action);
+    static const qreal Margin;
+
+    QSizeF m_minimumSize;
+    bool m_showPackage;
+
+    TextItemGroup *m_textItemGroup;
 };
 
-#endif
+#endif // ENUMWIDGET_H

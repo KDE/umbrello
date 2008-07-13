@@ -12,217 +12,196 @@
 // own header
 #include "enumwidget.h"
 
-// qt/kde includes
-#include <qpainter.h>
-#include <kdebug.h>
-
 // app includes
+#include "classifier.h"
+#include "classifierlistitem.h"
 #include "enum.h"
 #include "enumliteral.h"
-#include "classifier.h"
-#include "umlclassifierlistitemlist.h"
-#include "classifierlistitem.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
+#include "optionstate.h"
+#include "textitem.h"
+#include "textitemgroup.h"
+#include "uml.h"
+#include "umlclassifierlistitemlist.h"
+#include "umldoc.h"
 #include "umlscene.h"
+#include "widget_utils.h"
 
+// qt/kde includes
+#include <QtGui/QPainter>
+#include <QtGui/QStyleOptionGraphicsItem>
 
-EnumWidget::EnumWidget(UMLScene* view, UMLObject* o) : NewUMLRectWidget(view, o) {
-    init();
-}
+const qreal EnumWidget::Margin = 5;
 
-void EnumWidget::init() {
-    NewUMLRectWidget::setBaseType(Uml::wt_Enum);
-    setSize(100, 30);
-    //set defaults from umlScene()
-    if (umlScene()) {
-        //check to see if correct
-        const Settings::OptionState& ops = umlScene()->getOptionState();
-        m_bShowPackage = ops.classState.showPackage;
-    } else {
-        // For completeness only. Not supposed to happen.
-        m_bShowPackage = false;
-    }
-    if (! UMLApp::app()->getDocument()->loading())
-        updateComponentSize();
-}
-
-EnumWidget::~EnumWidget() {}
-
-void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+EnumWidget::EnumWidget(UMLObject* o) :
+    NewUMLRectWidget(o),
+    m_showPackage(false)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
-
-    setPenFromSettings(p);
-    if(NewUMLRectWidget::getUseFillColour())
-        p.setBrush(NewUMLRectWidget::getFillColour());
-    else {
-        // [PORT]
-        //p.setBrush( umlScene()->viewport()->palette().color(QPalette::Background) );
-    }
-
-    const qreal w = getWidth();
-    const qreal h = getHeight();
-
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const qreal fontHeight  = fm.lineSpacing();
-    QString name;
-    if ( m_bShowPackage ) {
-        name = umlObject()->getFullyQualifiedName();
-    } else {
-        name = this->getName();
-    }
-
-    p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(QPen(Qt::black));
-
-    QFont font = NewUMLRectWidget::getFont();
-    font.setBold(true);
-    p.setFont(font);
-    p.drawText(offsetX + ENUM_MARGIN, offsetY,
-               w - ENUM_MARGIN * 2,fontHeight,
-               Qt::AlignCenter, umlObject()->getStereotype(true));
-
-    font.setItalic( umlObject()->getAbstract() );
-    p.setFont(font);
-    p.drawText(offsetX + ENUM_MARGIN, offsetY + fontHeight,
-               w - ENUM_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
-    font.setBold(false);
-    font.setItalic(false);
-    p.setFont(font);
-
-    qreal y = fontHeight * 2;
-
-    setPenFromSettings(p);
-
-    p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
-
-    QFontMetrics fontMetrics(font);
-    UMLClassifier *classifier = (UMLClassifier*)umlObject();
-    UMLClassifierListItem* enumLiteral = 0;
-    UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
-    foreach (enumLiteral , list ) {
-        QString text = enumLiteral->getName();
-        p.setPen( QPen(Qt::black) );
-        p.drawText(offsetX + ENUM_MARGIN, offsetY + y,
-                   fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
-        y+=fontHeight;
-    }
-
-    if (isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+    m_textItemGroup = new TextItemGroup(this);
+    m_baseType = Uml::wt_Enum;
+    // init();
 }
 
-QSizeF EnumWidget::calculateSize() {
-    if (!umlObject()) {
-        return NewUMLRectWidget::calculateSize();
-    }
-
-    qreal width, height;
-    QFont font = NewUMLRectWidget::getFont();
-    font.setItalic(false);
-    font.setUnderline(false);
-    font.setBold(false);
-    const QFontMetrics fm(font);
-
-    const qreal fontHeight = fm.lineSpacing();
-
-    qreal lines = 1;//always have one line - for name
-    lines++; //for the stereotype
-
-    const qreal numberOfEnumLiterals = ((UMLEnum*)umlObject())->enumLiterals();
-
-    height = width = 0;
-    //set the height of the enum
-
-    lines += numberOfEnumLiterals;
-    if (numberOfEnumLiterals == 0) {
-        height += fontHeight / 2; //no enum literals, so just add a bit of space
-    }
-
-    height += lines * fontHeight;
-
-    //now set the width of the concept
-    //set width to name to start with
-    if (m_bShowPackage)  {
-        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(umlObject()->getFullyQualifiedName()).width();
-    } else {
-        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(getName()).width();
-    }
-    qreal w = getFontMetrics(FT_BOLD).boundingRect(umlObject()->getStereotype(true)).width();
-
-
-    width = w > width?w:width;
-
-    UMLClassifier *classifier = (UMLClassifier*)umlObject();
-    UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
-    UMLClassifierListItem* listItem = 0;
-    foreach (listItem , list ) {
-        qreal w = fm.width( listItem->getName() );
-        width = w > width?w:width;
-    }
-
-    //allow for width margin
-    width += ENUM_MARGIN * 2;
-
-    return QSizeF(width, height);
+EnumWidget::~EnumWidget()
+{
+    delete m_textItemGroup;
 }
 
-void EnumWidget::slotMenuSelection(QAction* action) {
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+// void EnumWidget::init()
+// {
+//     if(umlScene()) {
+//         const Settings::OptionState& ops = umlScene()->getOptionState();
+//         m_showPackage = ops.classState.showPackage;
+//     }
+
+//     updateGeometry();
+// }
+
+QSizeF EnumWidget::sizeHint(Qt::SizeHint which)
+{
+    if(which == Qt::MinimumSize) {
+        return m_minimumSize;
+    }
+    return NewUMLRectWidget::sizeHint(which);
+}
+
+/**
+ * Set whether to show package or not.
+ *
+ * @param b True to show package, false to hide.
+ */
+void EnumWidget::setShowPackage(bool b)
+{
+    m_showPackage = b;
+    updateGeometry();
+}
+
+void EnumWidget::paint(QPainter *painter,
+                          const QStyleOptionGraphicsItem *option,
+                          QWidget *widget)
+{
+    painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setBrush(brush());
+
+    // First draw the outer rectangle with the pen and brush of this widget.
+    painter->drawRect(rect());
+
+    // Now get the position to draw the line.
+    const TextItem *item = m_textItemGroup->textItemAt(NameItemIndex);
+    const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
+    const qreal y = bottomLeft.y();
+    painter->drawLine(QLineF(0, y, size().width() - 1, y));
+}
+
+/// Loads from an "enumwidget" XMI element.
+bool EnumWidget::loadFromXMI( QDomElement & qElement )
+{
+    if( !NewUMLRectWidget::loadFromXMI(qElement) ) {
+        return false;
+    }
+    bool show = bool(qElement.attribute("showpackage", "0").toInt());
+    setShowPackage(show);
+    return true;
+}
+
+/// Saves to the "enumwidget" XMI element.
+void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
+{
+    QDomElement conceptElement = qDoc.createElement("enumwidget");
+    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
+
+    conceptElement.setAttribute("showpackage", m_showPackage);
+    qElement.appendChild(conceptElement);
+}
+
+void EnumWidget::slotMenuSelection(QAction *action)
+{
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    if (!menu) {
+        uError() << "ListPopupMenu's pointer should be the parent of the action parameter of this slot";
+        return;
+    }
+
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+
     if (sel == ListPopupMenu::mt_EnumLiteral) {
-        if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),
+        if (!umlObject()) {
+            uWarning() << "There is no UMLObject for this widget to create the literal!";
+        }
+        else if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),
                                               Uml::ot_EnumLiteral) )  {
-            /* I don't know why it works without these calls:
-            updateComponentSize();
-            update();
-             */
             UMLApp::app()->getDocument()->setModified();
         }
         return;
     }
+
     NewUMLRectWidget::slotMenuSelection(action);
 }
 
-void EnumWidget::setShowPackage(bool _status) {
-    m_bShowPackage = _status;
-    updateComponentSize();
-    update();
-}
+/**
+ * Overidden to update the literals, enum name and stereotype text
+ * display on modifying the same.
+ */
+void EnumWidget::updateGeometry()
+{
+    if(umlObject()) {
+        UMLClassifier *classifier = static_cast<UMLClassifier*>(umlObject());
+        UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
+        int totalTextItems = list.size() + 2; // +2 because stereo text + name text.
 
-bool EnumWidget::getShowPackage() const {
-    return m_bShowPackage;
-}
+        // Create a dummy item with the common properties set on
+        // it. We can then use TextItem::copyAttributesTo method to
+        // copy these common attributes, just to avoid some code
+        // duplication.
+        TextItem dummy("");
+        dummy.setDefaultTextColor(fontColor());
+        dummy.setFont(font());
+        dummy.setAlignment(Qt::AlignCenter);
+        dummy.setBackgroundBrush(Qt::NoBrush);
 
-void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {
-    QDomElement conceptElement = qDoc.createElement("enumwidget");
-    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
+        // Ensure there are appropriate number of textitems.
+        m_textItemGroup->ensureTextItemCount(totalTextItems);
 
-    conceptElement.setAttribute("showpackage", m_bShowPackage);
-    qElement.appendChild(conceptElement);
-}
+        TextItem *stereo = m_textItemGroup->textItemAt(EnumWidget::StereoTypeItemIndex);
+        stereo->setText(classifier->getStereotype(true));
+        dummy.copyAttributesTo(stereo);
+        stereo->setBold(true);
 
-bool EnumWidget::loadFromXMI( QDomElement & qElement ) {
-    if ( !NewUMLRectWidget::loadFromXMI(qElement) ) {
-        return false;
+        TextItem *nameItem = m_textItemGroup->textItemAt(EnumWidget::NameItemIndex);
+        nameItem->setText(m_showPackage ?
+                          classifier->getFullyQualifiedName() :
+                          name());
+        dummy.copyAttributesTo(nameItem);
+        nameItem->setBold(true);
+        nameItem->setItalic(classifier->getAbstract());
+
+        int index = EnumWidget::EnumLiteralStartIndex;
+        foreach(UMLClassifierListItem* enumLiteral, list) {
+            TextItem *literal = m_textItemGroup->textItemAt(index);
+            literal->setText(enumLiteral->getName());
+            dummy.copyAttributesTo(literal);
+            ++index;
+        }
+
+        m_minimumSize = m_textItemGroup->calculateMinimumSize();
+
+        // FIXME: Don't know why Margin * 2 for width doesn't fit the items.
+        m_minimumSize += QSizeF(EnumWidget::Margin * 3, EnumWidget::Margin * 2);
     }
-    QString showpackage = qElement.attribute("showpackage", "0");
-
-    m_bShowPackage = (bool)showpackage.toInt();
-
-    return true;
+    NewUMLRectWidget::updateGeometry();
 }
 
-void EnumWidget::toggleShowPackage() {
-    m_bShowPackage = !m_bShowPackage;
-    updateComponentSize();
-    update();
+void EnumWidget::sizeHasChanged(const QSizeF& oldSize)
+{
+    QSizeF groupSize = size();
+    groupSize -= QSizeF(EnumWidget::Margin * 2, EnumWidget::Margin * 2);
+    QPointF offset(EnumWidget::Margin, EnumWidget::Margin);
 
-    return;
+    m_textItemGroup->alignVertically(groupSize);
+    m_textItemGroup->setPos(offset);
+
+    NewUMLRectWidget::sizeHasChanged(oldSize);
 }
 
+#include "enumwidget.moc"

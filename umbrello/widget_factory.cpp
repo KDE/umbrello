@@ -104,7 +104,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
         newWidget = new DatatypeWidget(static_cast<UMLClassifier*>(o));
         break;
     case Uml::ot_Enum:
-        newWidget = new EnumWidget(scene, static_cast<UMLEnum*>(o));
+        newWidget = new EnumWidget(static_cast<UMLEnum*>(o));
         break;
     case Uml::ot_Entity:
         newWidget = new EntityWidget(scene, static_cast<UMLEntity*>(o));
@@ -259,7 +259,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new DatatypeWidget(static_cast<UMLClassifier*>(o));
         } else if (tag == "enumwidget") {
             if (validateObjType(Uml::ot_Enum, o, id))
-                widget = new EnumWidget(scene, static_cast<UMLEnum*>(o));
+                widget = new EnumWidget(static_cast<UMLEnum*>(o));
         } else if (tag == "entitywidget") {
             if (validateObjType(Uml::ot_Entity, o, id))
                 widget = new EntityWidget(scene, static_cast<UMLEntity*>(o));
