@@ -50,6 +50,7 @@ PackageWidget::PackageWidget(UMLPackage *o) :
 
 PackageWidget::~PackageWidget()
 {
+    delete m_textItemGroup;
 }
 
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)

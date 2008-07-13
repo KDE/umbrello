@@ -72,6 +72,7 @@ ActivityWidget::ActivityWidget(UMLScene * scene, ActivityType activityType, Uml:
  */
 ActivityWidget::~ActivityWidget()
 {
+    delete m_textItemGroup;
 }
 
 void ActivityWidget::setActivityType( ActivityType activityType )

@@ -55,6 +55,7 @@ NoteWidget::NoteWidget(NoteType noteType , Uml::IDType id)
 /// destructor
 NoteWidget::~NoteWidget()
 {
+    delete m_textItemGroup;
 }
 
 /// Converts a string to NoteWidget::NoteType

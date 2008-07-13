@@ -39,6 +39,7 @@ UseCaseWidget::UseCaseWidget(UMLUseCase *o) : NewUMLRectWidget(o)
  */
 UseCaseWidget::~UseCaseWidget()
 {
+    delete m_textItemGroup;
 }
 
 void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)

@@ -51,6 +51,7 @@ DatatypeWidget::DatatypeWidget(UMLClassifier *d) :
 
 DatatypeWidget::~DatatypeWidget()
 {
+    delete m_textItemGroup;
 }
 
 bool DatatypeWidget::loadFromXMI(QDomElement &qElement)
