@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,14 +15,18 @@
 
 // own header
 #include "cppcodegenerationpolicypage.h"
-// qt/kde includes
+
+// app includes
+#include "uml.h"
+
+// kde includes
 #include <kdebug.h>
 #include <klocale.h>
 #include <qlabel.h>
 #include <kcombobox.h>
-#include <qcheckbox.h>
-// app includes
-#include "../uml.h"
+
+// qt includes
+#include <QtGui/QCheckBox>
 
 CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const char *name, CPPCodeGenerationPolicy * policy )
   : CodeGenerationPolicyPage(parent, name, policy)
@@ -33,7 +36,7 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
     QVBoxLayout* vboxLayout = new QVBoxLayout( this );
 
     form = new CPPCodeGenerationForm(this);
-    form->m_SelectCommentStyle->setCurrentIndex((int)(common->getCommentStyle()));
+    form->ui_selectCommentStyle->setCurrentIndex((int)(common->getCommentStyle()));
     form->setPackageIsANamespace(policy->getPackageIsNamespace());
     form->setVirtualDestructors(policy->getDestructorsAreVirtual());
     form->setGenerateAccessorMethods(policy->getAutoGenerateAccessors());
@@ -42,20 +45,21 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
     form->setAccessorsAreInline(policy->getAccessorsAreInline());
     form->setAccessorsArePublic(policy->getAccessorsArePublic());
 
-    form->m_stringClassHCombo->setCurrentItem(policy->getStringClassName(),true);
-    form->m_listClassHCombo->setCurrentItem(policy->getVectorClassName(),true);
+    form->ui_stringClassHCombo->setCurrentItem(policy->getStringClassName(),true);
+    form->ui_listClassHCombo->setCurrentItem(policy->getVectorClassName(),true);
 
-    form->m_stringIncludeFileHistoryCombo->setCurrentItem(policy->getStringClassNameInclude(),true);
-    form->m_listIncludeFileHistoryCombo->setCurrentItem(policy->getVectorClassNameInclude(),true);
+    form->ui_stringIncludeFileHistoryCombo->setCurrentItem(policy->getStringClassNameInclude(),true);
+    form->ui_listIncludeFileHistoryCombo->setCurrentItem(policy->getVectorClassNameInclude(),true);
 
-    form->m_globalStringCheckBox->setChecked(policy->stringIncludeIsGlobal());
-    form->m_globalListCheckBox->setChecked(policy->vectorIncludeIsGlobal());
+    form->ui_globalStringCheckBox->setChecked(policy->stringIncludeIsGlobal());
+    form->ui_globalListCheckBox->setChecked(policy->vectorIncludeIsGlobal());
 
     vboxLayout->addWidget( form );
 }
 
 CPPCodeGenerationPolicyPage::~CPPCodeGenerationPolicyPage()
-{}
+{
+}
 
 void CPPCodeGenerationPolicyPage::apply()
 {
@@ -68,10 +72,10 @@ void CPPCodeGenerationPolicyPage::apply()
     // documents
     parent->blockSignals(true);
 
-    common->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->m_SelectCommentStyle->currentIndex());
+    common->setCommentStyle((CodeGenerationPolicy::CommentStyle ) form->ui_selectCommentStyle->currentIndex());
     common->setAutoGenerateConstructors(form->getGenerateEmptyConstructors());
     parent->setAutoGenerateAccessors(form->getGenerateAccessorMethods());
-    uDebug()<<form->getGenerateAccessorMethods();
+    uDebug() << form->getGenerateAccessorMethods();
 
     parent->setDestructorsAreVirtual(form->getVirtualDestructors());
     parent->setPackageIsNamespace(form->getPackageIsANamespace());
@@ -79,19 +83,18 @@ void CPPCodeGenerationPolicyPage::apply()
     parent->setOperationsAreInline(form->getOperationsAreInline());
     parent->setAccessorsArePublic(form->getAccessorsArePublic());
 
-    parent->setStringClassName(form->m_stringClassHCombo->currentText());
-    parent->setStringClassNameInclude(form->m_stringIncludeFileHistoryCombo->currentText());
-    parent->setStringIncludeIsGlobal(form->m_globalStringCheckBox->isChecked());
+    parent->setStringClassName(form->ui_stringClassHCombo->currentText());
+    parent->setStringClassNameInclude(form->ui_stringIncludeFileHistoryCombo->currentText());
+    parent->setStringIncludeIsGlobal(form->ui_globalStringCheckBox->isChecked());
 
-    parent->setVectorClassName(form->m_listClassHCombo->currentText());
-    parent->setVectorClassNameInclude(form->m_listIncludeFileHistoryCombo->currentText());
-    parent->setVectorIncludeIsGlobal(form->m_globalListCheckBox->isChecked());
+    parent->setVectorClassName(form->ui_listClassHCombo->currentText());
+    parent->setVectorClassNameInclude(form->ui_listIncludeFileHistoryCombo->currentText());
+    parent->setVectorIncludeIsGlobal(form->ui_globalListCheckBox->isChecked());
 
     parent->blockSignals(false);
 
     // now send out modified code content signal
     common->emitModifiedCodeContentSig();
-
 }
 
 
