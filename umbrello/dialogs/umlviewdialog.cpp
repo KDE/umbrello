@@ -136,13 +136,13 @@ void UMLViewDialog::setupFontPage()
     m_pChooser->setFont( m_pView->getOptionState().uiState.font );
 }
 
-void UMLViewDialog::applyPage( KPageWidgetItem*item )
+void UMLViewDialog::applyPage( KPageWidgetItem *item )
 {
     if ( item == m_pageGeneralItem )
     {
         checkName();
         m_pView->setZoom( m_diagramProperties->ui_zoom->value() );
-        m_pView->setDoc( m_diagramProperties->ui_documentation->text() );
+        m_pView->setDoc( m_diagramProperties->ui_documentation->toPlainText() );
         m_pView->setSnapX( m_diagramProperties->ui_gridSpaceX->value() );
         m_pView->setSnapY( m_diagramProperties->ui_gridSpaceY->value() );
         m_pView->setLineWidth( m_diagramProperties->ui_lineWidth->value() );
