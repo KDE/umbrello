@@ -1032,6 +1032,7 @@ void UMLApp::slotFilePrint()
     if (printDialog->exec()) {
         m_doc->print(&printer, selectPage);
     }
+    delete printDialog;
     resetStatusMsg();
 }
 
