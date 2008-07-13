@@ -35,17 +35,30 @@
 
 Test* Test::m_self = 0;
 
+QBrush randHoverBrush()
+{
+    QLinearGradient grad(QPointF(0,0), QPointF(0, 1));
+    int r, g, b, a;
+    r = qrand() % 255;
+    g = qrand() % 255;
+    b = qrand() % 255;
+    a = 10 + qrand() % 245; // set minimum to atleast 10
+    grad.setColorAt(0, QColor(r, g, b, a));
+
+    r = qrand() % 255;
+    g = qrand() % 255;
+    b = qrand() % 255;
+    a = 10 + qrand() % 245; // set minimum to atleast 10
+    grad.setColorAt(1, QColor(r, g, b, a));
+
+    return QBrush(grad);
+}
+
 struct TestPrivate
 {
-    TestPrivate() : scene(0), enumWidget(0), enumObject(0), count(0)
+    TestPrivate()
     {
     }
-
-    UMLScene *scene;
-    QString xml;
-    NewEnumWidget *enumWidget;
-    UMLEnum *enumObject;
-    int count;
 };
 
 Test::Test() :
@@ -64,59 +77,6 @@ Test* Test::self()
 
 void Test::testScene(UMLScene *scene)
 {
-    d->scene = scene;
-
-    BoxWidget *w = new BoxWidget("131313");
-    scene->addItem(w);
-
-    TextItem *item = new TextItem("Notice loading of gradient brush from xmi in 3 secs");
-
-    item->setFlag(QGraphicsItem::ItemIsMovable, true);
-    item->setAcceptHoverEvents(true);
-    item->setHoverBrush(Qt::cyan);
-    item->setBackgroundBrush(Qt::darkCyan);
-    item->setDefaultTextColor(Qt::darkBlue);
-    item->setTextWidth(100);
-
-    scene->addItem(item);
-
-    uDebug() << "entered test";
-
-    UMLEnum *en = new UMLEnum("Qt::SizeHint");
-    d->enumObject = en;
-    en->createEnumLiteral("MinimumSize");
-    en->createEnumLiteral("MaximumSize");
-    en->createEnumLiteral("PreferredSize");
-    en->createEnumLiteral("MaximumSize");
-    NewEnumWidget *wid = new NewEnumWidget(en);
-
-    wid->setFontColor(Qt::darkBlue);
-    wid->setLineColor(Qt::darkGreen);
-    wid->init();
-    scene->addItem(wid);
-    wid->setPos(40, 40);
-
-    wid->setBrush(randomGradientBrush());
-    wid->setSize(220, 120);
-
-    QDomDocument doc("TEST");
-    //doc
-    QDomElement ele = doc.createElement("TopLevel");
-    doc.appendChild(ele);
-
-    wid->saveToXMI(doc, ele);
-
-    d->xml = doc.toString();
-    d->enumWidget = wid;
-    wid->setBrush(randomGradientBrush());
-    uDebug() << "-------------------";
-    uDebug() << d->xml;
-    uDebug() << "-------------------";
-    wid->setShowPackage(true);
-    en->createEnumLiteral("MaximumSizeHintTester");
-    uDebug() << "leaving test";
-
-    startTimer(3 * 1000);
 }
 
 QBrush Test::randomGradientBrush()
@@ -161,20 +121,7 @@ QBrush Test::randomGradientBrush()
 
 void Test::timerEvent(QTimerEvent *event)
 {
-    if(d->count == 0) {
-        QDomDocument doc("TEST");
-        doc.setContent(d->xml);
-
-        QDomElement ele = doc.documentElement().firstChild().toElement();
-        d->enumWidget->loadFromXMI(ele);
-    }
-    else if(d->count < 8) {
-        d->enumObject->createEnumLiteral("MaximumSize" + QString::number(qrand() % 100));
-    }
-    else {
-        killTimer(event->timerId());
-    }
-    ++d->count;
+    return QObject::timerEvent(event);
 }
 
 #include "test.moc"

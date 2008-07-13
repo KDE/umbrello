@@ -23,7 +23,6 @@
 
 #include "newumlrectwidget.h"
 
-#define ENUM_MARGIN 5
 class TextItemGroup;
 
 /**
@@ -35,74 +34,47 @@ class TextItemGroup;
  */
 class NewEnumWidget : public NewUMLRectWidget
 {
+    Q_OBJECT
 public:
-
     /**
      * Constructs an instance of NewEnumWidget.
      * @param o The NewUMLObject this will be representing.
      */
     explicit NewEnumWidget(UMLObject* o);
-
     ~NewEnumWidget();
-
-    /**
-     * Do some initialization which cannot be done inside constructor
-     * as it involves calling virtual methods.
-     */
-    void init();
 
     QSizeF sizeHint(Qt::SizeHint which);
 
-    /**
-     * @return True if package is shown , false otherwise.
-     */
+    ///  @return True if package is shown , false otherwise.
     bool showPackage() const {
         return m_showPackage;
     }
-
-    /**
-     * Set whether to show package or not.
-     *
-     * @param b True to show package, false not to show.
-     */
     void setShowPackage(bool b);
-
-    /**
-     * Toggles the status of package show.
-     */
+    /// Toggles the status of package show.
     void toggleShowPackage() {
         setShowPackage(!m_showPackage);
     }
 
-    /**
-     * Reimplemented to draw as needed.
-     * Draws the enum as a rectangle with a box underneith with a list of literals
-     */
     void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *widget);
 
-    /**
-     * Loads from an "enumwidget" XMI element.
-     */
     bool loadFromXMI(QDomElement& qElement);
-
-    /**
-     * Saves to the "enumwidget" XMI element.
-     */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-protected:
-    /**
-     * Overrides method from NewUMLRectWidget.
-     */
-    void updateGeometry();
+public slots:
+    void slotMenuSelection(QAction *action);
 
+protected:
+    void updateGeometry();
     void sizeHasChanged(const QSizeF& oldSize);
 
 private:
     enum {
         StereoTypeItemIndex = 0,
-        NameItemIndex = 1
+        NameItemIndex = 1,
+        EnumLiteralStartIndex
     };
+
+    static const qreal Margin;
 
     QSizeF m_minimumSize;
     bool m_showPackage;
