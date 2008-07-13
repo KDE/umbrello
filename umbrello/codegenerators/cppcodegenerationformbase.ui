@@ -35,7 +35,7 @@
       </widget>
      </item>
      <item row="2" column="0" >
-      <widget class="QTabWidget" name="tabWidget" >
+      <widget class="QTabWidget" name="ui_tabWidget" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
          <horstretch>0</horstretch>
@@ -43,15 +43,15 @@
         </sizepolicy>
        </property>
        <property name="currentIndex" >
-        <number>0</number>
+        <number>1</number>
        </property>
-       <widget class="QWidget" name="tabGeneral" >
+       <widget class="QWidget" name="ui_tabGeneral" >
         <property name="geometry" >
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>439</width>
-          <height>235</height>
+          <width>441</width>
+          <height>230</height>
          </rect>
         </property>
         <attribute name="title" >
@@ -59,17 +59,17 @@
         </attribute>
         <layout class="QVBoxLayout" >
          <item>
-          <widget class="QListWidget" name="generalOptionsListWidget" />
+          <widget class="QListWidget" name="ui_generalOptionsListWidget" />
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tabMethodBodyGeneration" >
+       <widget class="QWidget" name="ui_tabMethodBodyGeneration" >
         <property name="geometry" >
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>439</width>
-          <height>235</height>
+          <width>441</width>
+          <height>230</height>
          </rect>
         </property>
         <attribute name="title" >
@@ -95,20 +95,20 @@
          <item row="1" column="0" >
           <layout class="QGridLayout" >
            <item row="1" column="1" colspan="2" >
-            <widget class="KHistoryComboBox" native="1" name="m_listClassHCombo" >
+            <widget class="KHistoryComboBox" name="ui_listClassHCombo" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="editable" stdset="0" >
+             <property name="editable" >
               <bool>false</bool>
              </property>
-             <property name="duplicatesEnabled" stdset="0" >
+             <property name="duplicatesEnabled" >
               <bool>false</bool>
              </property>
-             <property name="historyItems" stdset="0" >
+             <property name="historyItems" >
               <stringlist>
                <string>QPtrList</string>
                <string>vector</string>
@@ -165,6 +165,256 @@
              <property name="currentItem" stdset="0" >
               <number>0</number>
              </property>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QPtrList</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
             </widget>
            </item>
            <item row="0" column="0" colspan="2" >
@@ -178,7 +428,7 @@
             </widget>
            </item>
            <item row="2" column="4" colspan="2" >
-            <widget class="QPushButton" name="m_browseStringButton" >
+            <widget class="QPushButton" name="ui_browseStringButton" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
                <horstretch>0</horstretch>
@@ -197,7 +447,7 @@
             </widget>
            </item>
            <item row="2" column="7" >
-            <widget class="QCheckBox" name="m_globalStringCheckBox" >
+            <widget class="QCheckBox" name="ui_globalStringCheckBox" >
              <property name="text" >
               <string/>
              </property>
@@ -207,20 +457,20 @@
             </widget>
            </item>
            <item row="2" column="1" colspan="2" >
-            <widget class="KHistoryComboBox" native="1" name="m_stringClassHCombo" >
+            <widget class="KHistoryComboBox" name="ui_stringClassHCombo" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="editable" stdset="0" >
+             <property name="editable" >
               <bool>false</bool>
              </property>
-             <property name="duplicatesEnabled" stdset="0" >
+             <property name="duplicatesEnabled" >
               <bool>false</bool>
              </property>
-             <property name="historyItems" stdset="0" >
+             <property name="historyItems" >
               <stringlist>
                <string>QString</string>
                <string>string</string>
@@ -277,6 +527,256 @@
              <property name="currentItem" stdset="0" >
               <number>0</number>
              </property>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>QString</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
             </widget>
            </item>
            <item row="2" column="6" >
@@ -344,14 +844,14 @@
             </widget>
            </item>
            <item row="1" column="3" >
-            <widget class="KHistoryComboBox" native="1" name="m_listIncludeFileHistoryCombo" >
+            <widget class="KHistoryComboBox" name="ui_listIncludeFileHistoryCombo" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="historyItems" stdset="0" >
+             <property name="historyItems" >
               <stringlist>
                <string>qptrlist.h</string>
                <string>vector</string>
@@ -408,6 +908,256 @@
              <property name="currentItem" stdset="0" >
               <number>0</number>
              </property>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qptrlist.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>vector</string>
+              </property>
+             </item>
             </widget>
            </item>
            <item row="0" column="5" colspan="3" >
@@ -421,14 +1171,14 @@
             </widget>
            </item>
            <item row="2" column="3" >
-            <widget class="KHistoryComboBox" native="1" name="m_stringIncludeFileHistoryCombo" >
+            <widget class="KHistoryComboBox" name="ui_stringIncludeFileHistoryCombo" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="historyItems" stdset="0" >
+             <property name="historyItems" >
               <stringlist>
                <string>qstring.h</string>
                <string>string</string>
@@ -485,10 +1235,260 @@
              <property name="currentItem" stdset="0" >
               <number>0</number>
              </property>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>qstring.h</string>
+              </property>
+             </item>
+             <item>
+              <property name="text" >
+               <string>string</string>
+              </property>
+             </item>
             </widget>
            </item>
            <item row="1" column="7" >
-            <widget class="QCheckBox" name="m_globalListCheckBox" >
+            <widget class="QCheckBox" name="ui_globalListCheckBox" >
              <property name="text" >
               <string/>
              </property>
@@ -508,7 +1508,7 @@
             </widget>
            </item>
            <item row="1" column="4" colspan="2" >
-            <widget class="QPushButton" name="m_browseListButton" >
+            <widget class="QPushButton" name="ui_browseListButton" >
              <property name="sizePolicy" >
               <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
                <horstretch>0</horstretch>
@@ -581,7 +1581,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="m_SelectCommentStyle" >
+         <widget class="KComboBox" name="ui_selectCommentStyle" >
           <item>
            <property name="text" >
             <string>Slash-Slash (//)</string>
@@ -605,8 +1605,13 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
    <class>KHistoryComboBox</class>
-   <extends>QWidget</extends>
+   <extends>KComboBox</extends>
    <header>khistorycombobox.h</header>
   </customwidget>
  </customwidgets>
@@ -616,7 +1621,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>m_browseListButton</sender>
+   <sender>ui_browseListButton</sender>
    <signal>clicked()</signal>
    <receiver>CPPCodeGenerationFormBase</receiver>
    <slot>browseClicked()</slot>
@@ -632,7 +1637,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>m_browseStringButton</sender>
+   <sender>ui_browseStringButton</sender>
    <signal>clicked()</signal>
    <receiver>CPPCodeGenerationFormBase</receiver>
    <slot>browseClicked()</slot>

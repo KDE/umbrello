@@ -36,35 +36,35 @@ CPPCodeGenerationForm::CPPCodeGenerationForm( QWidget *parent, const char *name 
     setupUi(this);
 
     Qt::ItemFlags flags = Qt::ItemIsUserCheckable | Qt::ItemIsEnabled;
-    pOptionPackageIsANamespace =
-        new QListWidgetItem(tr2i18n("Package is a namespace"), generalOptionsListWidget);
-    pOptionPackageIsANamespace->setFlags(flags);
+    m_optionPackageIsANamespace =
+        new QListWidgetItem(tr2i18n("Package is a namespace"), ui_generalOptionsListWidget);
+    m_optionPackageIsANamespace->setFlags(flags);
 
-    pOptionVirtualDestructors =
-        new QListWidgetItem(tr2i18n("Virtual destructors"), generalOptionsListWidget);
-    pOptionVirtualDestructors->setFlags(flags);
+    m_optionVirtualDestructors =
+        new QListWidgetItem(tr2i18n("Virtual destructors"), ui_generalOptionsListWidget);
+    m_optionVirtualDestructors->setFlags(flags);
 
-    pOptionGenerateEmptyConstructors =
-        new QListWidgetItem(tr2i18n("Generate empty constructors"), generalOptionsListWidget);
-    pOptionGenerateEmptyConstructors->setFlags(flags);
+    m_optionGenerateEmptyConstructors =
+        new QListWidgetItem(tr2i18n("Generate empty constructors"), ui_generalOptionsListWidget);
+    m_optionGenerateEmptyConstructors->setFlags(flags);
 
-    pOptionGenerateAccessorMethods =
-        new QListWidgetItem(tr2i18n("Generate accessor methods"), generalOptionsListWidget);
-    pOptionGenerateAccessorMethods->setFlags(flags);
+    m_optionGenerateAccessorMethods =
+        new QListWidgetItem(tr2i18n("Generate accessor methods"), ui_generalOptionsListWidget);
+    m_optionGenerateAccessorMethods->setFlags(flags);
 
-    pOptionOperationsAreInline =
-        new QListWidgetItem(tr2i18n("Operations are inline"), generalOptionsListWidget);
-    pOptionOperationsAreInline->setFlags(flags);
+    m_optionOperationsAreInline =
+        new QListWidgetItem(tr2i18n("Operations are inline"), ui_generalOptionsListWidget);
+    m_optionOperationsAreInline->setFlags(flags);
 
-    pOptionAccessorsAreInline =
-        new QListWidgetItem(tr2i18n("Accessors are inline"), generalOptionsListWidget);
-    pOptionAccessorsAreInline->setFlags(flags);
+    m_optionAccessorsAreInline =
+        new QListWidgetItem(tr2i18n("Accessors are inline"), ui_generalOptionsListWidget);
+    m_optionAccessorsAreInline->setFlags(flags);
 
-    pOptionAccessorsArePublic =
-        new QListWidgetItem(tr2i18n("Accessors are public"), generalOptionsListWidget);
-    pOptionAccessorsArePublic->setFlags(flags);
+    m_optionAccessorsArePublic =
+        new QListWidgetItem(tr2i18n("Accessors are public"), ui_generalOptionsListWidget);
+    m_optionAccessorsArePublic->setFlags(flags);
 
-    connect(generalOptionsListWidget,
+    connect(ui_generalOptionsListWidget,
             SIGNAL(itemClicked(QListWidgetItem *)), this,
             SLOT(generalOptionsListWidgetClicked(QListWidgetItem *)));
 }
@@ -90,11 +90,11 @@ void CPPCodeGenerationForm::browseClicked()
 
     if (button == "m_browseStringButton") {
         // search for match in history list, if absent, then add it
-        m_stringIncludeFileHistoryCombo->setCurrentItem(file, true);
+        ui_stringIncludeFileHistoryCombo->setCurrentItem(file, true);
     }
     else if (button == "m_browseListButton") {
         // search for match in history list, if absent, then add it
-        m_listIncludeFileHistoryCombo->setCurrentItem(file, true);
+        ui_listIncludeFileHistoryCombo->setCurrentItem(file, true);
     }
 }
 
@@ -105,59 +105,59 @@ void CPPCodeGenerationForm::browseClicked()
 void CPPCodeGenerationForm::generalOptionsListWidgetClicked(QListWidgetItem *pSender)
 {
     // operations are inline and accessors are operations :)
-    if (pOptionOperationsAreInline->checkState() == Qt::Checked &&
-        pOptionGenerateAccessorMethods->checkState() == Qt::Checked) {
-        pOptionAccessorsAreInline->setCheckState(Qt::Checked);
+    if (m_optionOperationsAreInline->checkState() == Qt::Checked &&
+        m_optionGenerateAccessorMethods->checkState() == Qt::Checked) {
+        m_optionAccessorsAreInline->setCheckState(Qt::Checked);
     }
 
-    if (pSender == pOptionPackageIsANamespace) {
+    if (pSender == m_optionPackageIsANamespace) {
 #if 0
         KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
-                           "sender=pOptionPackageIsANamespace");
+                           "sender=m_optionPackageIsANamespace");
 #endif
         return;
     }
-    if (pSender == pOptionVirtualDestructors) {
+    if (pSender == m_optionVirtualDestructors) {
 #if 0
         KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
-                           "sender=pOptionVirtualDestructors");
+                           "sender=m_optionVirtualDestructors");
 #endif
         return;
     }
-    if (pSender == pOptionGenerateEmptyConstructors) {
+    if (pSender == m_optionGenerateEmptyConstructors) {
 #if 0
         KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
-                           "sender=pOptionVirtualDestructors");
+                           "sender=m_optionVirtualDestructors");
 #endif
         return;
     }
-    if (pSender == pOptionGenerateAccessorMethods) {
+    if (pSender == m_optionGenerateAccessorMethods) {
         bool dontGenerateAccessorMethods =
-            (pOptionGenerateAccessorMethods->checkState() == Qt::Unchecked);
-        pOptionAccessorsAreInline->setHidden(dontGenerateAccessorMethods);
-        pOptionAccessorsArePublic->setHidden(dontGenerateAccessorMethods);
+            (m_optionGenerateAccessorMethods->checkState() == Qt::Unchecked);
+        m_optionAccessorsAreInline->setHidden(dontGenerateAccessorMethods);
+        m_optionAccessorsArePublic->setHidden(dontGenerateAccessorMethods);
         // reset the value if needed
         if (dontGenerateAccessorMethods) {
-            pOptionAccessorsAreInline->setCheckState(Qt::Unchecked);
-            pOptionAccessorsArePublic->setCheckState(Qt::Unchecked);
+            m_optionAccessorsAreInline->setCheckState(Qt::Unchecked);
+            m_optionAccessorsArePublic->setCheckState(Qt::Unchecked);
         }
 #if 0
         KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
-                           "sender=pOptionGenerateAccessorMethods");
+                           "sender=m_optionGenerateAccessorMethods");
 #endif
         return;
     }
-    if (pSender == pOptionOperationsAreInline) {
+    if (pSender == m_optionOperationsAreInline) {
 #if 0
         KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
-                           "sender=pOptionOperationsAreInline");
+                           "sender=m_optionOperationsAreInline");
 #endif
         return;
     }
-    if (pSender == pOptionAccessorsAreInline) {
+    if (pSender == m_optionAccessorsAreInline) {
 #if 0
         KMessageBox::error(0, "CPPCodeGenerationForm::generalOptionsListViewClicked(): "
-                           "sender=pOptionAccessorsAreInline");
+                           "sender=m_optionAccessorsAreInline");
 #endif
         return;
     }
@@ -175,7 +175,7 @@ void CPPCodeGenerationForm::generalOptionsListWidgetClicked(QListWidgetItem *pSe
  */
 void CPPCodeGenerationForm::setPackageIsANamespace(bool bFlag)
 {
-    pOptionPackageIsANamespace->setCheckState(toCheckState(bFlag));
+    m_optionPackageIsANamespace->setCheckState(toCheckState(bFlag));
 }
 
 /**
@@ -184,7 +184,7 @@ void CPPCodeGenerationForm::setPackageIsANamespace(bool bFlag)
  */
 void CPPCodeGenerationForm::setVirtualDestructors(bool bFlag)
 {
-    pOptionVirtualDestructors->setCheckState(toCheckState(bFlag));
+    m_optionVirtualDestructors->setCheckState(toCheckState(bFlag));
 }
 
 /**
@@ -193,7 +193,7 @@ void CPPCodeGenerationForm::setVirtualDestructors(bool bFlag)
  */
 void CPPCodeGenerationForm::setGenerateEmptyConstructors(bool bFlag)
 {
-    pOptionGenerateEmptyConstructors->setCheckState(toCheckState(bFlag));
+    m_optionGenerateEmptyConstructors->setCheckState(toCheckState(bFlag));
 }
 
 /**
@@ -202,14 +202,14 @@ void CPPCodeGenerationForm::setGenerateEmptyConstructors(bool bFlag)
  */
 void CPPCodeGenerationForm::setGenerateAccessorMethods(bool bFlag)
 {
-    pOptionGenerateAccessorMethods->setCheckState(toCheckState(bFlag));
+    m_optionGenerateAccessorMethods->setCheckState(toCheckState(bFlag));
     // initial settings
-    pOptionAccessorsAreInline->setHidden(pOptionGenerateAccessorMethods->checkState() == Qt::Unchecked);
-    pOptionAccessorsArePublic->setHidden(pOptionGenerateAccessorMethods->checkState() == Qt::Unchecked);
+    m_optionAccessorsAreInline->setHidden(m_optionGenerateAccessorMethods->checkState() == Qt::Unchecked);
+    m_optionAccessorsArePublic->setHidden(m_optionGenerateAccessorMethods->checkState() == Qt::Unchecked);
     // reset the value if needed
-    if (pOptionGenerateAccessorMethods->checkState() == Qt::Unchecked) {
-        pOptionAccessorsAreInline->setCheckState(Qt::Unchecked);
-        pOptionAccessorsArePublic->setCheckState(Qt::Unchecked);
+    if (m_optionGenerateAccessorMethods->checkState() == Qt::Unchecked) {
+        m_optionAccessorsAreInline->setCheckState(Qt::Unchecked);
+        m_optionAccessorsArePublic->setCheckState(Qt::Unchecked);
     }
 }
 
@@ -219,7 +219,7 @@ void CPPCodeGenerationForm::setGenerateAccessorMethods(bool bFlag)
  */
 void CPPCodeGenerationForm::setOperationsAreInline(bool bFlag)
 {
-    pOptionOperationsAreInline->setCheckState(toCheckState(bFlag));
+    m_optionOperationsAreInline->setCheckState(toCheckState(bFlag));
 }
 
 /**
@@ -228,7 +228,7 @@ void CPPCodeGenerationForm::setOperationsAreInline(bool bFlag)
  */
 void CPPCodeGenerationForm::setAccessorsAreInline(bool bFlag)
 {
-    pOptionAccessorsAreInline->setCheckState(toCheckState(bFlag));
+    m_optionAccessorsAreInline->setCheckState(toCheckState(bFlag));
 }
 
 /**
@@ -237,7 +237,7 @@ void CPPCodeGenerationForm::setAccessorsAreInline(bool bFlag)
  */
 void CPPCodeGenerationForm::setAccessorsArePublic(bool bFlag)
 {
-    pOptionAccessorsArePublic->setCheckState(toCheckState(bFlag));
+    m_optionAccessorsArePublic->setCheckState(toCheckState(bFlag));
 }
 
 /**
@@ -246,7 +246,7 @@ void CPPCodeGenerationForm::setAccessorsArePublic(bool bFlag)
  */
 bool CPPCodeGenerationForm::getPackageIsANamespace()
 {
-    return pOptionPackageIsANamespace->checkState() == Qt::Checked;
+    return m_optionPackageIsANamespace->checkState() == Qt::Checked;
 }
 
 /**
@@ -255,7 +255,7 @@ bool CPPCodeGenerationForm::getPackageIsANamespace()
  */
 bool CPPCodeGenerationForm::getVirtualDestructors()
 {
-    return pOptionVirtualDestructors->checkState() == Qt::Checked;
+    return m_optionVirtualDestructors->checkState() == Qt::Checked;
 }
 
 /**
@@ -264,7 +264,7 @@ bool CPPCodeGenerationForm::getVirtualDestructors()
  */
 bool CPPCodeGenerationForm::getGenerateEmptyConstructors()
 {
-    return pOptionGenerateEmptyConstructors->checkState() == Qt::Checked;
+    return m_optionGenerateEmptyConstructors->checkState() == Qt::Checked;
 }
 
 /**
@@ -273,7 +273,7 @@ bool CPPCodeGenerationForm::getGenerateEmptyConstructors()
  */
 bool CPPCodeGenerationForm::getGenerateAccessorMethods()
 {
-    return pOptionGenerateAccessorMethods->checkState() == Qt::Checked;
+    return m_optionGenerateAccessorMethods->checkState() == Qt::Checked;
 }
 
 /**
@@ -282,7 +282,7 @@ bool CPPCodeGenerationForm::getGenerateAccessorMethods()
  */
 bool CPPCodeGenerationForm::getOperationsAreInline()
 {
-    return pOptionOperationsAreInline->checkState() == Qt::Checked;
+    return m_optionOperationsAreInline->checkState() == Qt::Checked;
 }
 
 /**
@@ -291,7 +291,7 @@ bool CPPCodeGenerationForm::getOperationsAreInline()
  */
 bool CPPCodeGenerationForm::getAccessorsAreInline()
 {
-    return pOptionAccessorsAreInline->checkState() == Qt::Checked;
+    return m_optionAccessorsAreInline->checkState() == Qt::Checked;
 }
 
 /**
@@ -300,7 +300,7 @@ bool CPPCodeGenerationForm::getAccessorsAreInline()
  */
 bool CPPCodeGenerationForm::getAccessorsArePublic()
 {
-    return pOptionAccessorsArePublic->checkState() == Qt::Checked;
+    return m_optionAccessorsArePublic->checkState() == Qt::Checked;
 }
 
 /**

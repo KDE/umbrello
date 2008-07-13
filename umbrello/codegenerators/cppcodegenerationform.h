@@ -57,13 +57,13 @@ private:
     friend class CPPCodeGenerationPolicyPage;
 
     // check boxes for the available options
-    QListWidgetItem *pOptionPackageIsANamespace;
-    QListWidgetItem *pOptionVirtualDestructors;
-    QListWidgetItem *pOptionGenerateEmptyConstructors;
-    QListWidgetItem *pOptionGenerateAccessorMethods;
-    QListWidgetItem *pOptionOperationsAreInline;
-    QListWidgetItem *pOptionAccessorsAreInline;
-    QListWidgetItem *pOptionAccessorsArePublic;
+    QListWidgetItem *m_optionPackageIsANamespace;
+    QListWidgetItem *m_optionVirtualDestructors;
+    QListWidgetItem *m_optionGenerateEmptyConstructors;
+    QListWidgetItem *m_optionGenerateAccessorMethods;
+    QListWidgetItem *m_optionOperationsAreInline;
+    QListWidgetItem *m_optionAccessorsAreInline;
+    QListWidgetItem *m_optionAccessorsArePublic;
 
     static Qt::CheckState toCheckState(bool value);
 
