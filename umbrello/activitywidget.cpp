@@ -176,7 +176,7 @@ void ActivityWidget::updateGeometry()
     dummy.setAlignment(Qt::AlignCenter);
     dummy.setBackgroundBrush(Qt::NoBrush);
 
-    m_textItemGroup->ensureTextItemNumbers(maxItemCount);
+    m_textItemGroup->ensureTextItemCount(maxItemCount);
 
     switch(m_activityType) {
     case Normal:

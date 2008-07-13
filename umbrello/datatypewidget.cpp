@@ -97,7 +97,7 @@ void DatatypeWidget::updateGeometry()
         dummy.setAlignment(Qt::AlignCenter);
         dummy.setBackgroundBrush(Qt::NoBrush);
 
-        m_textItemGroup->ensureTextItemNumbers(totalItemCount);
+        m_textItemGroup->ensureTextItemCount(totalItemCount);
 
         TextItem *stereo = m_textItemGroup->textItemAt(DatatypeWidget::StereoTypeItemIndex);
         stereo->setText(umlObject()->getStereotype(true));

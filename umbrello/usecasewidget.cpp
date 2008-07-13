@@ -11,66 +11,93 @@
 
 // own header file
 #include "usecasewidget.h"
-// system includes
-#include <qpainter.h>
-#include <kdebug.h>
-// local includes
-#include "usecase.h"
+
+// app includes
+#include "textitemgroup.h"
+#include "textitem.h"
 #include "umlview.h"
+#include "usecase.h"
 
+// qt includes
+#include <QtGui/QPainter>
 
-UseCaseWidget::UseCaseWidget(UMLScene * view, UMLUseCase *o) : NewUMLRectWidget(view, o) {
-    NewUMLRectWidget::setBaseType(Uml::wt_UseCase);
-    //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
-    //                  Instead, it is done afterwards by NewUMLRectWidget::activate()
+const qreal UseCaseWidget::Margin = 5;
+
+/**
+ *  Creates a UseCase widget.
+ *
+ *  @param  o The UMLObject to represent.
+ */
+UseCaseWidget::UseCaseWidget(UMLUseCase *o) : NewUMLRectWidget(o)
+{
+    m_baseType = Uml::wt_UseCase;
+    m_textItemGroup = new TextItemGroup(this);
 }
 
-UseCaseWidget::~UseCaseWidget() {}
+/**
+ *  destructor
+ */
+UseCaseWidget::~UseCaseWidget()
+{
+}
 
 void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
+    painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setBrush(brush());
 
-    setPenFromSettings(p);
-    if ( NewUMLRectWidget::getUseFillColour() )
-        p.setBrush( NewUMLRectWidget::getFillColour() );
-    QFont font = NewUMLRectWidget::getFont();
-    font.setUnderline(false);
-    font.setBold(false);
-    font.setItalic( umlObject()->getAbstract() );
-    p.setFont( font );
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
-    const int w = getWidth();
-    const int h = getHeight();
-    //int middleX = w / 2;
-    const int textStartY = (h / 2) - (fontHeight / 2);
-
-    p.drawEllipse(offsetX, offsetY, w, h);
-    p.setPen(Qt::black);
-    p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
-    setPenFromSettings(p);
-    if(isSelected())
-        drawSelected(&p, offsetX, offsetY);
+    painter->drawEllipse(rect());
+    // The text part is drawn by the TextItemGroup and TextItem within it.
 }
 
-QSizeF UseCaseWidget::calculateSize() {
-    const NewUMLRectWidget::FontType ft = ( umlObject()->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
-    const QFontMetrics &fm = NewUMLRectWidget::getFontMetrics(ft);
-    const int fontHeight = fm.lineSpacing();
-    const int textWidth = fm.width(getName());
-    int width = textWidth > UC_WIDTH?textWidth:UC_WIDTH;
-    int height = UC_HEIGHT + fontHeight + UC_MARGIN;
-
-    width += UC_MARGIN * 2;
-
-    return QSizeF(width, height);
-}
-
+/**
+ *   Saves this UseCase to file.
+ */
 void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement usecaseElement = qDoc.createElement( "usecasewidget" );
     NewUMLRectWidget::saveToXMI( qDoc, usecaseElement );
     qElement.appendChild( usecaseElement );
 }
 
+QSizeF UseCaseWidget::sizeHint(Qt::SizeHint which)
+{
+    if(which == Qt::MinimumSize) {
+        return m_minimumSize;
+    }
+    return NewUMLRectWidget::sizeHint(which);
+}
+
+void UseCaseWidget::updateGeometry()
+{
+    if(umlObject()) {
+        m_textItemGroup->ensureTextItemCount(UseCaseWidget::TextItemCount);
+
+        TextItem *nameItem = m_textItemGroup->textItemAt(UseCaseWidget::NameItemIndex);
+        // Hide and then change visuals to compress many updates to one.
+        nameItem->hide();
+        // Apply the properties
+        nameItem->setDefaultTextColor(fontColor());
+        nameItem->setFont(font());
+        nameItem->setAlignment(Qt::AlignCenter);
+        nameItem->setBackgroundBrush(Qt::NoBrush);
+        nameItem->setText(name());
+        nameItem->setItalic(umlObject()->getAbstract());
+        // Now show the item back
+        nameItem->show();
+
+        m_minimumSize = m_textItemGroup->calculateMinimumSize();
+        m_minimumSize += QSizeF(UseCaseWidget::Margin * 2, UseCaseWidget::Margin * 2);
+    }
+    NewUMLRectWidget::updateGeometry();
+}
+
+void UseCaseWidget::sizeHasChanged(const QSizeF& oldSize)
+{
+    const QSizeF groupSize = size() - QSizeF(UseCaseWidget::Margin * 2, UseCaseWidget::Margin * 2);
+    const QPointF offset(UseCaseWidget::Margin, UseCaseWidget::Margin);
+
+    m_textItemGroup->alignVertically(groupSize);
+    m_textItemGroup->setPos(offset);
+
+    NewUMLRectWidget::sizeHasChanged(oldSize);
+}

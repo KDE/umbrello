@@ -194,7 +194,7 @@ void TextItemGroup::reparent()
     }
 }
 
-void TextItemGroup::ensureTextItemNumbers(int newSize)
+void TextItemGroup::ensureTextItemCount(int newSize)
 {
     while(size() < newSize) {
         appendTextItem(new TextItem(""));

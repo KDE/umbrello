@@ -191,7 +191,7 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement )
 
 void NoteWidget::updateGeometry()
 {
-    m_textItemGroup->ensureTextItemNumbers(TextItemCount);
+    m_textItemGroup->ensureTextItemCount(TextItemCount);
 
     TextItem dummy("");
     dummy.setDefaultTextColor(fontColor());

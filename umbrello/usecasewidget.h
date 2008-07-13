@@ -11,14 +11,11 @@
 
 #ifndef USECASEWIDGET_H
 #define USECASEWIDGET_H
+
 #include "umlwidget.h"
 
-#define UC_MARGIN 5
-#define UC_WIDTH 60
-#define UC_HEIGHT 30
-
-
 class UMLUseCase;
+class TextItemGroup;
 
 /**
  * This class is the graphical version of a UMLUseCase.  A UseCaseWidget is created
@@ -33,42 +30,37 @@ class UMLUseCase;
  *
  * @short  A graphical version of a UMLUseCase.
  * @author Paul Hensgen <phensgen@techie.com>
+ * @author Gopala Krishna (port using TextItem)
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UseCaseWidget : public NewUMLRectWidget {
+class UseCaseWidget : public NewUMLRectWidget
+{
 public:
 
-    /**
-     *  Creates a UseCase widget.
-     *
-     *  @param  view            The parent of the widget.
-     *  @param  o               The UMLObject to represent.
-     */
-    UseCaseWidget(UMLScene * view, UMLUseCase *o);
-
-
-    /**
-     *  destructor
-     */
+    UseCaseWidget(UMLUseCase *o);
     virtual ~UseCaseWidget();
 
-    /**
-    *   Overrides the standard paint event.
-    */
     void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /**
-    *   Saves this UseCase to file.
-    */
+    // For loading we can use the loadFromXMI() inherited from
+    // NewUMLRectWidget.
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    // For loading we can use the loadFromXMI() inherited from NewUMLRectWidget.
+    QSizeF sizeHint(Qt::SizeHint which);
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget
-     */
-    QSizeF calculateSize();
+    void updateGeometry();
+    void sizeHasChanged(const QSizeF& oldSize);
+
+private:
+    enum {
+        NameItemIndex,
+        TextItemCount
+    };
+    static const qreal Margin;
+
+    TextItemGroup *m_textItemGroup;
+    QSizeF m_minimumSize;
 };
 
 #endif

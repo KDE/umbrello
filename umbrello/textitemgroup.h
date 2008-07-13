@@ -75,7 +75,7 @@ public:
     void unparent();
     void reparent();
 
-    void ensureTextItemNumbers(int count);
+    void ensureTextItemCount(int count);
 
 private:
     QGraphicsItem *m_parentItem;

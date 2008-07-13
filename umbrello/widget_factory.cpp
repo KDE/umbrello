@@ -82,7 +82,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
             newWidget = new ActorWidget(scene, static_cast<UMLActor*>(o));
         break;
     case Uml::ot_UseCase:
-        newWidget = new UseCaseWidget(scene, static_cast<UMLUseCase*>(o));
+        newWidget = new UseCaseWidget(static_cast<UMLUseCase*>(o));
         break;
     case Uml::ot_Package:
         newWidget = new PackageWidget(static_cast<UMLPackage*>(o));
@@ -235,7 +235,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new ActorWidget(scene, static_cast<UMLActor*>(o));
         } else if (tag == "usecasewidget" || tag ==  "UML:UseCaseWidget") {
             if (validateObjType(Uml::ot_UseCase, o, id))
-                widget = new UseCaseWidget(scene, static_cast<UMLUseCase*>(o));
+                widget = new UseCaseWidget(static_cast<UMLUseCase*>(o));
         } else if (tag == "classwidget" || tag == "UML:ClassWidget") {
             if (validateObjType(Uml::ot_Class, o, id))
                 widget = new ClassifierWidget(scene, static_cast<UMLClassifier*>(o));
