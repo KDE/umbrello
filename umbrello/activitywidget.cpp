@@ -137,7 +137,6 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidg
     break;
 
     case Invok :
-        p->setPen(QPen(lineColor(), lineWidth()));
         p->drawRoundRect(r, (h * 60) / w, 60);
         {
             qreal x = w - (w/5);
