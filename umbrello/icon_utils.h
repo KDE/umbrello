@@ -20,10 +20,10 @@
 #ifndef ICON_UTILS_H
 #define ICON_UTILS_H
 
-#include <QtGui/QPixmap>
-#include <QtGui/QCursor>
-#include <kicon.h>
 #include "umlnamespace.h"
+#include <kicon.h>
+#include <QtGui/QCursor>
+#include <QtGui/QPixmap>
 
 /**
  * This class is a gateway to KIconLoaderfor for handling all the
@@ -209,6 +209,7 @@ namespace Icon_Utils {
         it_Align_HorizontalMiddle,
         it_Align_VerticalDistribute,
         it_Align_HorizontalDistribute,
+        it_Code_Gen_Wizard,
         N_ICONTYPES    // must remain last
     };
 

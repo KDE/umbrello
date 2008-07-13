@@ -39,6 +39,9 @@
 CodeGenOptionsPage::CodeGenOptionsPage(QWidget *parent)
     : QWizardPage(parent)
 {
+    setTitle(i18n("Code Generation Options"));
+    setSubTitle(i18n("Adjust code generation options."));
+
     setupUi(this);
 
     m_pCodePolicyPage = 0;

@@ -432,6 +432,8 @@ QString toString(Icon_Type type)
             return "distribute-vertical";
         case it_Align_HorizontalDistribute:
             return "distribute-horizontal";
+        case it_Code_Gen_Wizard:
+            return "hi64-app-umbrello.png";
         default:
             return QString();
     }

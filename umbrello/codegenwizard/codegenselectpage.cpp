@@ -33,6 +33,9 @@
 CodeGenSelectPage::CodeGenSelectPage(QWidget *parent)
     : QWizardPage(parent)
 {
+    setTitle(i18n("Select Classes"));
+    setSubTitle(i18n("Place all the classes you want to generate code\nfor in the right hand side list."));
+
     setupUi(this);
 
     connect(ui_addButton, SIGNAL(clicked()), this, SLOT(selectClass()));

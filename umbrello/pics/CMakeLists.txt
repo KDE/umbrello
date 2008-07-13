@@ -48,6 +48,7 @@ cursor-umbr-message-found.png  umbr-message-lost.png  cursor-umbr-message-lost.p
 end_of_life.png  cursor-end_of_life.png  exception.png 
 cursor-exception.png cursor-object_node.png
 cursor-PrePostCondition.png PrePostCondition.png
+hi64-app-umbrello.png
 DESTINATION ${DATA_INSTALL_DIR}/umbrello/pics )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )
