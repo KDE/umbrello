@@ -1,33 +1,36 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2008                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2005-2008                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "idlimport.h"
 
-#include <stdio.h>
-// qt/kde includes
-// #include <qprocess.h>  //should use this instead of popen()
+// app includes
+#include "attribute.h"
+#include "classifier.h"
+#include "enum.h"
+#include "import_utils.h"
+#include "operation.h"
+#include "package.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlpackagelist.h"
+
+// kde includes
+#include <kdebug.h>
+
+// qt includes
+// #include <QtCore/QProcess>  //should use this instead of popen()
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
-#include <kdebug.h>
-// app includes
-#include "import_utils.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../umlpackagelist.h"
-#include "../package.h"
-#include "../classifier.h"
-#include "../enum.h"
-#include "../operation.h"
-#include "../attribute.h"
+
+#include <stdio.h>
 
 IDLImport::IDLImport() : NativeImportBase("//")
 {
@@ -79,7 +82,7 @@ void IDLImport::fillSource(const QString& word)
         } else {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
-                lexeme = QString();
+                lexeme.clear();
             }
             m_source.append(QString(c));
         }
@@ -135,7 +138,7 @@ void IDLImport::parseFile(const QString& filename)
         if (! parseStmt())
             skipStmt();
         m_currentAccess = Uml::Visibility::Public;
-        m_comment = QString();
+        m_comment.clear();
     }
     pclose(fp);
 }
@@ -164,7 +167,7 @@ bool IDLImport::parseStmt()
         m_klass->setStereotype("CORBAInterface");
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
-        m_comment = QString();
+        m_comment.clear();
         if (advance() == ";")   // forward declaration
             return true;
         if (m_source[m_srcIndex] == ":") {
@@ -176,8 +179,7 @@ bool IDLImport::parseStmt()
             }
         }
         if (m_source[m_srcIndex] != "{") {
-            uError() << "importIDL: ignoring excess chars at "
-            << name;
+            uError() << "importIDL: ignoring excess chars at " << name;
             skipStmt("{");
         }
         return true;
