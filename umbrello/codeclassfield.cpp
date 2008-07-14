@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -16,19 +15,22 @@
 
 // own header
 #include "codeclassfield.h"
-// qt/kde includes
-#include <QtCore/QRegExp>
-#include <kdebug.h>
+
 // app includes
 #include "association.h"
 #include "classifiercodedocument.h"
 #include "codegenerator.h"
+#include "codegenerators/codegenfactory.h"
 #include "attribute.h"
 #include "umlobject.h"
 #include "umlrole.h"
 #include "uml.h"
-#include "codegenerators/codegenfactory.h"
 
+// kde includes
+#include <kdebug.h>
+
+// qt includes
+#include <QtCore/QRegExp>
 
 CodeClassField::CodeClassField ( ClassifierCodeDocument * doc , UMLRole * role)
         : CodeParameter ( doc , (UMLObject*) role)
@@ -112,7 +114,7 @@ QString CodeClassField::getListObjectType()
 }
 
 /**
- * Get the value of m_isAbstract
+ * Get the value of m_isAbstract.
  * @return the value of m_isAbstract
  */
 bool CodeClassField::parentIsAttribute ( ) const
@@ -130,7 +132,7 @@ CodeClassField::ClassFieldType CodeClassField::getClassFieldType() const
 }
 
 /**
- * Get the value of m_dialog
+ * Get the value of m_dialog.
  * @return the value of m_dialog
  */
 /*
@@ -146,7 +148,7 @@ QString CodeClassField::getUMLObjectName(UMLObject *obj)
 }
 
 /**
- * Add a Method object to the m_methodVector List
+ * Add a Method object to the m_methodVector List.
  */
 bool CodeClassField::addMethod ( CodeAccessorMethod * add_object )
 {
@@ -167,7 +169,7 @@ bool CodeClassField::addMethod ( CodeAccessorMethod * add_object )
 }
 
 /**
- * Remove a Method object from m_methodVector List
+ * Remove a Method object from m_methodVector List.
  */
 bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object )
 {
@@ -178,7 +180,7 @@ bool CodeClassField::removeMethod ( CodeAccessorMethod * remove_object )
 }
 
 /**
- * Get the list of Method objects held by m_methodVector
+ * Get the list of Method objects held by m_methodVector.
  * @return QPtrList<CodeMethodBlock *> list of Method objects held by
  * m_methodVector
  */
@@ -187,7 +189,8 @@ CodeAccessorMethodList CodeClassField::getMethodList() const
     return m_methodVector;
 }
 
-/** determine if we will *allow* methods to be viewable.
+/**
+ * Determine if we will *allow* methods to be viewable.
  * this flag is often used to toggle autogeneration of accessor
  * methods in the code class field.
  */
@@ -203,7 +206,7 @@ void CodeClassField::setWriteOutMethods ( bool val )
 }
 
 /**
- * return the declaration statement for this class field object.
+ * Return the declaration statement for this class field object.
  * will be empty until this (abstract) class is inherited in elsewhere.
  */
 CodeClassFieldDeclarationBlock * CodeClassField::getDeclarationCodeBlock( )
@@ -212,14 +215,15 @@ CodeClassFieldDeclarationBlock * CodeClassField::getDeclarationCodeBlock( )
 }
 
 /**
- * load params from the appropriate XMI element node.
+ * Load params from the appropriate XMI element node.
  */
 void CodeClassField::loadFromXMI ( QDomElement & root )
 {
     setAttributesFromNode(root);
 }
 
-/** set attributes of the node that represents this class
+/**
+ * Set attributes of the node that represents this class
  * in the XMI document.
  */
 void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfElem)
@@ -244,7 +248,8 @@ void CodeClassField::setAttributesOnNode ( QDomDocument & doc, QDomElement & cfE
 
 }
 
-/** set the class attributes of this object from
+/**
+ * Set the class attributes of this object from
  * the passed element node.
  */
 void CodeClassField::setAttributesFromNode ( QDomElement & root)
@@ -294,7 +299,7 @@ void CodeClassField::setAttributesFromNode ( QDomElement & root)
 }
 
 /**
- * Save the XMI representation of this object
+ * Save the XMI representation of this object.
  */
 void CodeClassField::saveToXMI ( QDomDocument & doc, QDomElement & root )
 {
@@ -405,7 +410,6 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
 
 void CodeClassField::initAccessorMethods()
 {
-
     // everything gets potential get/set method
     //if(!m_methodMap->contains(CodeAccessorMethod::GET))
     if(!findMethodByType(CodeAccessorMethod::GET))
@@ -459,8 +463,6 @@ void CodeClassField::initAccessorMethods()
         }
 
     }
-
-
 }
 
 void CodeClassField::updateContent()
@@ -578,7 +580,7 @@ bool CodeClassField::fieldIsSingleValue ( )
 void CodeClassField::initFields(bool inConstructor)
 {
     m_writeOutMethods = false;
-    m_listClassName = QString ();
+    m_listClassName.clear();
     m_declCodeBlock = NULL;
 
     // m_methodMap = new QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod *>;
