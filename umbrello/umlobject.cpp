@@ -73,10 +73,10 @@ void UMLObject::init()
     m_BaseType = Uml::ot_UMLObject;
     m_nId = Uml::id_None;
     m_pUMLPackage = 0;
-    m_Name = QString();
+    m_Name.clear();
     m_Vis = Uml::Visibility::Public;
     m_pStereotype = 0;
-    m_Doc = QString();
+    m_Doc.clear();
     m_bAbstract = false;
     m_bStatic = false;
     m_bInPaste = false;

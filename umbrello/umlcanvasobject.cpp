@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,10 +11,6 @@
 // own header
 #include "umlcanvasobject.h"
 
-// qt/kde includes
-#include <kdebug.h>
-#include <klocale.h>
-
 // local includes
 #include "uml.h"
 #include "umldoc.h"
@@ -26,6 +21,10 @@
 #include "template.h"
 #include "stereotype.h"
 #include "clipboard/idchangelog.h"
+
+// kde includes
+#include <kdebug.h>
+#include <klocale.h>
 
 UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
         : UMLObject(name, id)
@@ -141,7 +140,7 @@ void UMLCanvasObject::removeAllChildObjects()
 QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
                                         const QString &prefix /* = QString() */ )
 {
-    QString currentName = QString();
+    QString currentName;
     currentName = prefix;
     if (currentName.isEmpty()) {
         switch (type) {

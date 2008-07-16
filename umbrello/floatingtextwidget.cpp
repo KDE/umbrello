@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -55,9 +54,9 @@ FloatingTextWidget::FloatingTextWidget(UMLView * view, Uml::Text_Role role,
 void FloatingTextWidget::init()
 {
     // initialize loaded/saved (i.e. persistent) data
-    m_PreText = "";
-    m_Text = "";
-    m_PostText = "";
+    m_PreText.clear();
+    m_Text.clear();
+    m_PostText.clear();
     m_Role = Uml::tr_Floating;
     m_Type = Uml::wt_Text;
     // initialize non-saved (i.e. volatile) data
@@ -336,7 +335,7 @@ void FloatingTextWidget::showOpDlg()
             if (od.m_pReturnType)
                 op->setType(od.m_pReturnType);
             m_pLink->setOperation(op);
-            opText = QString();
+            opText.clear();
         } else {
             m_pLink->setOperation(NULL);
         }

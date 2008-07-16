@@ -11,6 +11,11 @@
 // own header
 #include "import_rose.h"
 
+// app includes
+#include "petalnode.h"
+#include "petaltree2uml.h"
+#include "umlnamespace.h"  // only for uDebug()/uError()
+
 // qt includes
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
@@ -19,10 +24,6 @@
 #include <QtGui/QMessageBox>
 #include <klocale.h>
 #include <kdebug.h>
-// app includes
-#include "petalnode.h"
-#include "petaltree2uml.h"
-#include "umlnamespace.h"  // only for uDebug()/uError()
 
 namespace Import_Rose {
 
@@ -69,7 +70,7 @@ QStringList scan(const QString& lin)
             lexeme += c;
             if (inString) {
                 result.append(lexeme);
-                lexeme = QString();
+                lexeme.clear();
             }
             inString = !inString;
         } else if (inString ||
@@ -78,7 +79,7 @@ QStringList scan(const QString& lin)
         } else {
             if (!lexeme.isEmpty()) {
                 result.append(lexeme);
-                lexeme = QString();
+                lexeme.clear();
             }
             if (! c.isSpace()) {
                 result.append(QString(c));
