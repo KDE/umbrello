@@ -184,8 +184,6 @@ void UMLApp::setProgLangAction(Uml::Programming_Language pl, const QString& name
     m_langAct[pl] = actionCollection()->addAction(action);
     m_langAct[pl]->setText(name);
     m_langAct[pl]->setCheckable(true);
-    const char* method = QString('1' + action + "()").toAscii().constData();
-    connect(m_langAct[pl], SIGNAL(triggered()), this, method);
 }
 
 void UMLApp::initActions()
@@ -268,6 +266,27 @@ void UMLApp::initActions()
     setProgLangAction(Uml::pl_Tcl,          "Tcl",             "setLang_tcl");
     setProgLangAction(Uml::pl_XMLSchema,    "XMLSchema",       "setLang_xmlschema");
     setProgLangAction(Uml::pl_Ocl,          "Ocl",             "setLang_ocl");
+
+    connect(m_langAct[Uml::pl_ActionScript], SIGNAL(triggered()), this, SLOT(setLang_actionscript()));
+    connect(m_langAct[Uml::pl_Ada],          SIGNAL(triggered()), this, SLOT(setLang_ada()));
+    connect(m_langAct[Uml::pl_Cpp],          SIGNAL(triggered()), this, SLOT(setLang_cpp()));
+    connect(m_langAct[Uml::pl_CSharp],       SIGNAL(triggered()), this, SLOT(setLang_csharp()));
+    connect(m_langAct[Uml::pl_D],            SIGNAL(triggered()), this, SLOT(setLang_d()));
+    connect(m_langAct[Uml::pl_IDL],          SIGNAL(triggered()), this, SLOT(setLang_idl()));
+    connect(m_langAct[Uml::pl_Java],         SIGNAL(triggered()), this, SLOT(setLang_java()));
+    connect(m_langAct[Uml::pl_JavaScript],   SIGNAL(triggered()), this, SLOT(setLang_javascript()));
+    connect(m_langAct[Uml::pl_MySQL],        SIGNAL(triggered()), this, SLOT(setLang_mysql()));
+    connect(m_langAct[Uml::pl_Pascal],       SIGNAL(triggered()), this, SLOT(setLang_pascal()));
+    connect(m_langAct[Uml::pl_Perl],         SIGNAL(triggered()), this, SLOT(setLang_perl()));
+    connect(m_langAct[Uml::pl_PHP],          SIGNAL(triggered()), this, SLOT(setLang_php()));
+    connect(m_langAct[Uml::pl_PHP5],         SIGNAL(triggered()), this, SLOT(setLang_php5()));
+    connect(m_langAct[Uml::pl_PostgreSQL],   SIGNAL(triggered()), this, SLOT(setLang_postgresql()));
+    connect(m_langAct[Uml::pl_Python],       SIGNAL(triggered()), this, SLOT(setLang_python()));
+    connect(m_langAct[Uml::pl_Ruby],         SIGNAL(triggered()), this, SLOT(setLang_ruby()));
+    connect(m_langAct[Uml::pl_SQL],          SIGNAL(triggered()), this, SLOT(setLang_sql()));
+    connect(m_langAct[Uml::pl_Tcl],          SIGNAL(triggered()), this, SLOT(setLang_tcl()));
+    connect(m_langAct[Uml::pl_XMLSchema],    SIGNAL(triggered()), this, SLOT(setLang_xmlschema()));
+    connect(m_langAct[Uml::pl_Ocl],          SIGNAL(triggered()), this, SLOT(setLang_ocl()));
 
     fileNew->setToolTip(i18n("Creates a new document"));
     fileOpen->setToolTip(i18n("Opens an existing document"));
