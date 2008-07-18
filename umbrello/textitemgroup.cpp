@@ -137,6 +137,10 @@ void TextItemGroup::setLineBreakWidth(qreal width)
 
 void TextItemGroup::alignVertically(qreal currentWidth, qreal currentHeight)
 {
+	// Update current size
+	m_currentSize.setWidth(currentWidth);
+	m_currentSize.setHeight(currentHeight);
+
     QSizeF minimumSize = calculateMinimumSize();
     if(currentWidth < minimumSize.width() || currentHeight < minimumSize.height()) {
         uDebug() << "Size of group less then minimum size\n"

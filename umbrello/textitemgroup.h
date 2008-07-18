@@ -72,6 +72,10 @@ public:
     }
     void setPos(const QPointF& pos);
 
+	QSizeF currentSize() const {
+		return m_currentSize;
+	}
+
     void unparent();
     void reparent();
 
@@ -81,6 +85,7 @@ private:
     QGraphicsItem *m_parentItem;
     QList<TextItem*> m_textItems;
     QPointF m_pos;
+	QSizeF m_currentSize;
     qreal m_lineBreakageWidth;
 };
 
