@@ -12,67 +12,49 @@
 #ifndef ACTORWIDGET_H
 #define ACTORWIDGET_H
 
-#include "umlwidget.h"
-
-#define A_WIDTH 20
-#define A_HEIGHT 40
-#define A_MARGIN 5
+#include "newumlrectwidget.h"
 
 class UMLActor;
+class TextItemGroup;
 
 /**
- * This class is the graphical version of a UML Actor.
- * An ActorWidget is created by a @ref UMLView.  An ActorWidget belongs to only
- * one @ref UMLView instance.
- * When the @ref UMLView instance that this class belongs to is destroyed, the
- * ActorWidget will be automatically deleted.
+ * This class is the graphical version of a UML Actor and can be
+ * placed in UseCase diagram.
  *
- * If the UMLActor class that this ActorWidget is displaying is deleted, the
- * @ref UMLView will make sure that this instance is also deleted.
- *
- * The ActorWidget class inherits from the @ref NewUMLRectWidget class which adds most
- * of the functionality to this class.
+ * The ActorWidget class inherits from the @ref NewUMLRectWidget class
+ * which adds most of the functionality to this class.
  *
  * @short A graphical version of a UML Actor.
  * @author Paul Hensgen <phensgen@techie.com>
+ * @author Gopala Krishna (ported using QPainterPath and TextItems)
  * @see NewUMLRectWidget
- * @see UMLView
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
-class ActorWidget : public NewUMLRectWidget {
+class ActorWidget : public NewUMLRectWidget
+{
 public:
 
-    /**
-     * Constructs an ActorWidget.
-     *
-     * @param view      The parent of this ActorWidget.
-     * @param o         The Actor class this ActorWidget will display.
-     */
-    ActorWidget(UMLScene * scene, UMLActor *o);
+    ActorWidget(UMLActor *o);
+	virtual ~ActorWidget();
 
+	virtual QSizeF sizeHint(Qt::SizeHint which);
 
-    /**
-     * destructor
-     */
-    virtual ~ActorWidget();
+	virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /**
-     * Overrides the standard paint event.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-     * Saves the widget to the "actorwidget" XMI element.
-     * Note: For loading from XMI, the inherited parent method is used.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	//Note: For loading from XMI, the inherited parent method is used.
+	virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget.
-     */
-    QSizeF calculateSize();
+    virtual void updateGeometry();
+	virtual void sizeHasChanged(const QSizeF& oldSize);
+
+private:
+	static const QSizeF MinimumActorSize;
+	static const qreal Margin;
+
+	QPainterPath m_actorPath;
+	QSizeF m_minimumSize;
+	TextItemGroup *m_textItemGroup;
 };
 
 #endif

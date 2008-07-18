@@ -79,7 +79,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
             y = ow->topMargin();
             newWidget = ow;
         } else
-            newWidget = new ActorWidget(scene, static_cast<UMLActor*>(o));
+            newWidget = new ActorWidget(static_cast<UMLActor*>(o));
         break;
     case Uml::ot_UseCase:
         newWidget = new UseCaseWidget(static_cast<UMLUseCase*>(o));
@@ -232,7 +232,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
 
         if (tag == "actorwidget" || tag == "UML:ActorWidget") {
             if (validateObjType(Uml::ot_Actor, o, id))
-                widget = new ActorWidget(scene, static_cast<UMLActor*>(o));
+				widget = new ActorWidget(static_cast<UMLActor*>(o));
         } else if (tag == "usecasewidget" || tag ==  "UML:UseCaseWidget") {
             if (validateObjType(Uml::ot_UseCase, o, id))
                 widget = new UseCaseWidget(static_cast<UMLUseCase*>(o));
