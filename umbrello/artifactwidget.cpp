@@ -169,7 +169,7 @@ void ArtifactWidget::drawAsFile(QPainter *painter)
 {
 	QRectF iconRect = rect();
 	iconRect.setHeight(iconRect.height() - m_cachedTextHeight);
-	QSizeF topRightTriSize(10, 10);
+	QSizeF topRightTriSize(.2 * iconRect.width(), .2 * iconRect.width());
 
 	Widget_Utils::drawTriangledRect(painter, iconRect, topRightTriSize);
 }
@@ -183,7 +183,7 @@ void ArtifactWidget::drawAsLibrary(QPainter *painter)
 {
 	QRectF iconRect = rect();
 	iconRect.setHeight(iconRect.height() - m_cachedTextHeight);
-	QSizeF topRightTriSize(10, 10);
+	QSizeF topRightTriSize(.2 * iconRect.width(), .2 * iconRect.width());
 
 	Widget_Utils::drawTriangledRect(painter, iconRect, topRightTriSize);
 	//FIXME this should have gears on it
@@ -217,7 +217,7 @@ void ArtifactWidget::drawAsTable(QPainter *painter)
 	painter->drawLines(hLines);
 
 	// Draw thick lines.
-	painter->setPen(QPen(lineColor(), lineWidth() + 1));
+	painter->setPen(QPen(lineColor(), lineWidth() + 2));
 	painter->drawLine(vLines[1]);
 	painter->drawLine(hLines[1]);
 }
