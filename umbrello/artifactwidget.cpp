@@ -12,257 +12,218 @@
 // own header
 #include "artifactwidget.h"
 
-// qt/kde includes
-#include <qpainter.h>
-#include <q3pointarray.h>
-#include <kdebug.h>
-
 // app includes
 #include "artifact.h"
-#include "umlview.h"
+#include "textitem.h"
+#include "textitemgroup.h"
+#include "widget_utils.h"
 
+// qt includes
+#include <QtGui/QPainter>
 
-ArtifactWidget::ArtifactWidget(UMLScene *scene, UMLArtifact *a) : NewUMLRectWidget(scene, a) {
-    init();
-    setSize(100, 30);
-    updateComponentSize();
-}
+const qreal ArtifactWidget::Margin = 0;
+const QSizeF ArtifactWidget::MinimumIconSize(50, 50);
 
-
-void ArtifactWidget::init() {
-    NewUMLRectWidget::setBaseType( Uml::wt_Artifact );
-    m_pMenu = 0;
-}
-
-ArtifactWidget::~ArtifactWidget() {}
-
-void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
+/**
+ * Constructs a ArtifactWidget.
+ *
+ * @param a The Artifact this widget will be representing.
+ */
+ArtifactWidget::ArtifactWidget(UMLArtifact *a) : NewUMLRectWidget(a)
 {
-    qreal w = getWidth();
-    qreal h = getHeight();
-    QFont font = NewUMLRectWidget::getFont();
-    font.setBold(true);
-    const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    const qreal fontHeight  = fm.lineSpacing();
-    QString name = getName();
-    QString stereotype = umlObject()->getStereotype();
-
-    p.drawRect(offsetX, offsetY, w, h);
-
-    p.setPen( QPen(Qt::black) );
-    p.setFont(font);
-
-    if (!stereotype.isEmpty()) {
-        p.drawText(offsetX + ARTIFACT_MARGIN, offsetY + (h/2) - fontHeight,
-                   w, fontHeight, Qt::AlignCenter, umlObject()->getStereotype(true));
-    }
-
-    int lines;
-    if (!stereotype.isEmpty()) {
-        lines = 2;
-    } else {
-        lines = 1;
-    }
-
-    if (lines == 1) {
-        p.drawText(offsetX, offsetY + (h/2) - (fontHeight/2),
-                   w, fontHeight, Qt::AlignCenter, name);
-    } else {
-        p.drawText(offsetX, offsetY + (h/2),
-                   w, fontHeight, Qt::AlignCenter, name);
-    }
-
-    if(isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+	m_baseType = Uml::wt_Artifact;
+	m_textItemGroup = new TextItemGroup(this);
+	m_cachedTextHeight = 0; // Initialize on first call of sizeHasChanged.
 }
 
-void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY) {
-    const qreal w = getWidth();
-    const qreal h = getHeight();
-    QFont font = NewUMLRectWidget::getFont();
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
-    const QString name = getName();
-
-    qreal startX = offsetX + (w/2) - 25;
-    qreal iconHeight = h - fontHeight;
-    QPolygon pointArray(5);
-    pointArray.setPoint(0, startX, offsetY);
-    pointArray.setPoint(1, startX + 40, offsetY);
-    pointArray.setPoint(2, startX + 50, offsetY + 10);
-    pointArray.setPoint(3, startX + 50, offsetY + iconHeight);
-    pointArray.setPoint(4, startX, offsetY + iconHeight);
-    p.drawPolygon(pointArray);
-
-    p.drawLine(startX + 40, offsetY, startX + 40, offsetY + 10);
-    p.drawLine(startX + 40, offsetY + 10, startX + 50, offsetY + 10);
-    p.drawLine(startX + 40, offsetY, startX + 50, offsetY + 10);
-
-    p.setPen( QPen(Qt::black) );
-    p.setFont(font);
-
-    p.drawText(offsetX, offsetY + h - fontHeight,
-               w, fontHeight, Qt::AlignCenter, name);
-
-    if(isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+/// Destructor
+ArtifactWidget::~ArtifactWidget()
+{
+	delete m_textItemGroup;
 }
 
-void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY) {
-    //FIXME this should have gears on it
-    const qreal w = getWidth();
-    const qreal h = getHeight();
-    const QFont font = NewUMLRectWidget::getFont();
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
-    const QString name = getName();
-
-    const qreal startX = offsetX + (w/2) - 25;
-    const qreal iconHeight = h - fontHeight;
-    QPolygon pointArray(5);
-    pointArray.setPoint(0, startX, offsetY);
-    pointArray.setPoint(1, startX + 40, offsetY);
-    pointArray.setPoint(2, startX + 50, offsetY + 10);
-    pointArray.setPoint(3, startX + 50, offsetY + iconHeight);
-    pointArray.setPoint(4, startX, offsetY + iconHeight);
-    p.drawPolygon(pointArray);
-
-    p.drawLine(startX + 40, offsetY, startX + 40, offsetY + 10);
-    p.drawLine(startX + 40, offsetY + 10, startX + 50, offsetY + 10);
-    p.drawLine(startX + 40, offsetY, startX + 50, offsetY + 10);
-
-    p.setPen( QPen(Qt::black) );
-    p.setFont(font);
-
-    p.drawText(offsetX, offsetY + h - fontHeight,
-               w, fontHeight, Qt::AlignCenter, name);
-
-    if(isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+/// Reimplemented from NewUMLRectWidget::sizeHint suiting this widget.
+QSizeF ArtifactWidget::sizeHint(Qt::SizeHint which)
+{
+	if(which == Qt::MinimumSize) {
+		return m_minimumSize;
+	}
+	return NewUMLRectWidget::sizeHint(which);
 }
 
-void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY) {
-    const qreal w = getWidth();
-    const qreal h = getHeight();
-    const QFont font = NewUMLRectWidget::getFont();
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const qreal fontHeight  = fm.lineSpacing();
-    const QString name = getName();
-
-    const qreal startX = offsetX + (w/2) - 25;
-    const qreal iconHeight = h - fontHeight;
-
-    p.drawRect(startX, offsetY, 50, h - fontHeight + 1);
-    p.drawLine(startX + 20, offsetY, startX + 20, offsetY + iconHeight);
-    p.drawLine(startX + 30, offsetY, startX + 30, offsetY + iconHeight);
-    p.drawLine(startX + 40, offsetY, startX + 40, offsetY + iconHeight);
-    p.drawLine(startX, offsetY + (iconHeight/2), startX + 49, offsetY + (iconHeight/2));
-    p.drawLine(startX, offsetY + (iconHeight/2) + (iconHeight/4),
-               startX + 49, offsetY + (iconHeight/2) + (iconHeight/4));
-
-    QPen thickerPen = p.pen();
-    thickerPen.setWidth(2);
-    p.setPen(thickerPen);
-    p.drawLine(startX + 10, offsetY, startX + 10, offsetY + iconHeight);
-    p.drawLine(startX, offsetY + (iconHeight/4), startX + 50, offsetY + (iconHeight/4));
-
-    p.setPen( QPen(Qt::black) );
-    p.setFont(font);
-
-    p.drawText(offsetX, offsetY + h - fontHeight,
-               w, fontHeight, Qt::AlignCenter, name);
-
-    if(isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
-}
-
+/**
+ * Reimplemented to paint the articraft widget. Some part of specific
+ * drawing is delegeted to private method like drawAsFile..
+ */
 void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
+	painter->setPen(QPen(lineColor(), lineWidth()));
+	painter->setBrush(brush());
 
-    NewUMLRectWidget::setPenFromSettings(p);
-    if ( NewUMLRectWidget::getUseFillColour() ) {
-        p.setBrush( NewUMLRectWidget::getFillColour() );
-    } else {
-        // [PORT] Use styleoption here.
-        //p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
-    }
+	if(umlObject()) {
+		UMLArtifact *umlart = static_cast<UMLArtifact*>(umlObject());
+		UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
+		switch (drawType) {
+		case UMLArtifact::defaultDraw:
+			drawAsNormal(painter);
+			break;
 
-    UMLArtifact *umlart = static_cast<UMLArtifact*>(umlObject());
-    UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
-    switch (drawType) {
-    case UMLArtifact::defaultDraw:
-        return drawAsNormal(p, offsetX, offsetY);
-        break;
-    case UMLArtifact::file:
-        return drawAsFile(p, offsetX, offsetY);
-        break;
-    case UMLArtifact::library:
-        return drawAsLibrary(p, offsetX, offsetY);
-        break;
-    case UMLArtifact::table:
-        return drawAsTable(p, offsetX, offsetY);
-        break;
-    default:
-        uWarning() << "Artifact drawn as unknown type";
-        break;
-    }
+		case UMLArtifact::file:
+			drawAsFile(painter);
+			break;
+
+		case UMLArtifact::library:
+			drawAsLibrary(painter);
+			break;
+
+		case UMLArtifact::table:
+			drawAsTable(painter);
+			break;
+
+		default:
+			uWarning() << "Artifact drawn as unknown type";
+			break;
+		}
+	}
+	else {
+		uWarning() << "Cannot draw as there is no UMLArtifact for this widget";
+	}
 }
 
-QSizeF ArtifactWidget::calculateIconSize()
+/**
+ * Reimplemented from NewUMLWidget::saveToXMI to save the widget to
+ * the "artifactwidget" XMI element.
+ */
+void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
-    const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    const int fontHeight  = fm.lineSpacing();
-
-    int width = fm.width( umlObject()->getName() );
-
-    width = width<50 ? 50 : width;
-
-    int height = 50 + fontHeight;
-
-    return QSizeF(width, height);
-}
-
-QSizeF ArtifactWidget::calculateNormalSize()
-{
-    const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    const int fontHeight  = fm.lineSpacing();
-
-    int width = fm.width( umlObject()->getName() );
-
-    int tempWidth = 0;
-    if(!umlObject()->getStereotype().isEmpty()) {
-        tempWidth = fm.width( umlObject()->getStereotype(true) );
-    }
-    width = tempWidth>width ? tempWidth : width;
-    width += ARTIFACT_MARGIN * 2;
-
-    int height = (2*fontHeight) + (ARTIFACT_MARGIN * 2);
-
-    return QSizeF(width, height);
-}
-
-QSizeF ArtifactWidget::calculateSize()
-{
-    if ( !umlObject()) {
-        return NewUMLRectWidget::calculateSize();
-    }
-    UMLArtifact *umlart = static_cast<UMLArtifact*>(umlObject());
-    if (umlart->getDrawAsType() == UMLArtifact::defaultDraw) {
-        return calculateNormalSize();
-    } else {
-        return calculateIconSize();
-    }
-}
-
-void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement conceptElement = qDoc.createElement("artifactwidget");
     NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
+void ArtifactWidget::updateGeometry()
+{
+	if(umlObject()) {
+		UMLArtifact *articraft = static_cast<UMLArtifact*>(umlObject());
+		m_textItemGroup->ensureTextItemCount(ArtifactWidget::TextItemCount);
+
+		// Create a dummy item, to store the properties so that it can
+        // easily be used to copy the properties to other text items.
+        TextItem dummy("");
+        dummy.setDefaultTextColor(fontColor());
+        dummy.setFont(font());
+        dummy.setAlignment(Qt::AlignCenter);
+        dummy.setBackgroundBrush(Qt::NoBrush);
+
+		TextItem *stereoItem = m_textItemGroup->textItemAt(ArtifactWidget::StereotypeItemIndex);
+		stereoItem->setText(articraft->getStereotype(true));
+		dummy.copyAttributesTo(stereoItem);
+		bool hideStereo = articraft->getStereotype(false).isEmpty();
+		stereoItem->setVisible(!hideStereo);
+
+		TextItem *nameItem = m_textItemGroup->textItemAt(ArtifactWidget::NameItemIndex);
+		nameItem->setText(name());
+		dummy.copyAttributesTo(nameItem);
+
+		m_minimumSize = m_textItemGroup->calculateMinimumSize() +
+			QSizeF(2 * ArtifactWidget::Margin, 2 * ArtifactWidget::Margin);
+		if(articraft->getDrawAsType() != UMLArtifact::defaultDraw) {
+			m_minimumSize.rheight() += ArtifactWidget::MinimumIconSize.height();
+			m_minimumSize.rwidth() = qMax(m_minimumSize.width(),
+										  ArtifactWidget::MinimumIconSize.width());
+		}
+	}
+	NewUMLRectWidget::updateGeometry();
+}
+
+void ArtifactWidget::sizeHasChanged(const QSizeF& oldSize)
+{
+	if (!umlObject()) {
+		uWarning() << "No UMLArtifact for this widget.";
+		NewUMLRectWidget::sizeHasChanged(oldSize);
+		return;
+	}
+
+	const QRectF geometry = rect();
+	UMLArtifact *articraft = static_cast<UMLArtifact*>(umlObject());
+	QPointF offset(ArtifactWidget::Margin, ArtifactWidget::Margin);
+	QSizeF groupSize(geometry.size());
+	if (articraft->getDrawAsType() != UMLArtifact::defaultDraw) {
+		qreal groupHeight = m_textItemGroup->calculateMinimumSize().height();
+		groupSize.setHeight(groupHeight);
+		offset.setY(geometry.height() - ArtifactWidget::Margin - groupHeight);
+	}
+
+	m_textItemGroup->setPos(offset);
+	m_textItemGroup->alignVertically(groupSize);
+	m_cachedTextHeight = groupSize.height(); // cache it to speed up.
+
+	NewUMLRectWidget::sizeHasChanged(oldSize);
+}
+
+/**
+ * draw as a file icon
+ * @see Widget_Utils::drawTriangledRect
+ */
+void ArtifactWidget::drawAsFile(QPainter *painter)
+{
+	QRectF iconRect = rect();
+	iconRect.setHeight(iconRect.height() - m_cachedTextHeight);
+	QSizeF topRightTriSize(10, 10);
+
+	Widget_Utils::drawTriangledRect(painter, iconRect, topRightTriSize);
+}
+
+/**
+ * draw as a library file icon
+ * @see Widget_Utils::drawTriangledRect
+ * @todo Drawing should have gears on it.
+ */
+void ArtifactWidget::drawAsLibrary(QPainter *painter)
+{
+	QRectF iconRect = rect();
+	iconRect.setHeight(iconRect.height() - m_cachedTextHeight);
+	QSizeF topRightTriSize(10, 10);
+
+	Widget_Utils::drawTriangledRect(painter, iconRect, topRightTriSize);
+	//FIXME this should have gears on it
+}
+
+/// draw as a database table icon
+void ArtifactWidget::drawAsTable(QPainter *painter)
+{
+	QRectF iconRect = rect();
+	iconRect.setHeight(iconRect.height() - m_cachedTextHeight);
+
+	painter->fillRect(iconRect, painter->brush());
+
+	QVector<QLineF> vLines(6);
+	qreal hSpacing = iconRect.width() / 5.0;
+	qreal x = iconRect.left();
+	for(int i = 0; i < vLines.size(); ++i) {
+		vLines[i].setLine(x, iconRect.top(), x, iconRect.bottom());
+		x += hSpacing;
+	}
+
+	QVector<QLineF> hLines(5);
+	qreal vSpacing = iconRect.height() / 4.0;
+	qreal y = iconRect.top();
+	for(int i = 0; i < hLines.size(); ++i) {
+		hLines[i].setLine(iconRect.left(), y, iconRect.right(), y);
+		y += vSpacing;
+	}
+
+	painter->drawLines(vLines);
+	painter->drawLines(hLines);
+
+	// Draw thick lines.
+	painter->setPen(QPen(lineColor(), lineWidth() + 1));
+	painter->drawLine(vLines[1]);
+	painter->drawLine(hLines[1]);
+}
+
+/// draw as a box
+void ArtifactWidget::drawAsNormal(QPainter *painter)
+{
+	painter->drawRect(rect());
+}

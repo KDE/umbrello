@@ -12,55 +12,37 @@
 #ifndef ARTIFACTWIDGET_H
 #define ARTIFACTWIDGET_H
 
+#include "newumlrectwidget.h"
 
-#include "umlwidget.h"
-
-class UMLView;
 class UMLArtifact;
-
-#define ARTIFACT_MARGIN 5
+class TextItemGroup;
 
 /**
- * Defines a graphical version of the Artifact.
- * Most of the functionality will come from the @ref UMLArtifact class.
+ * Defines a graphical version of the @ref UMLArtifact.
+ * Most of the functionality will come from the @ref NewUMLRectWidget class.
  *
  * @short A graphical version of a Artifact.
  * @author Jonathan Riddell
+ * @author Gopala Krishna (port using TextItems)
  * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ArtifactWidget : public NewUMLRectWidget {
+class ArtifactWidget : public NewUMLRectWidget
+{
 public:
+	ArtifactWidget(UMLArtifact *a);
+	virtual ~ArtifactWidget();
 
-    /**
-     * Constructs a ArtifactWidget.
-     *
-     * @param view              The parent of this ArtifactWidget.
-     * @param a         The Artifact this widget will be representing.
-     */
-    ArtifactWidget(UMLScene *scene, UMLArtifact *a);
+	virtual QSizeF sizeHint(Qt::SizeHint which);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /**
-     * destructor
-     */
-    virtual ~ArtifactWidget();
-
-    /**
-     * Overrides standard method
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-     * Saves the widget to the "artifactwidget" XMI element.
-     * Note: For loading from XMI, the inherited parent method is used.
-     */
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	// Note: For loading from XMI, the inherited parent method is
+	// used.
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget.
-     */
-    QSizeF calculateSize();
+	virtual void updateGeometry();
+	virtual void sizeHasChanged(const QSizeF& oldSize);
 
 private:
     /**
@@ -78,30 +60,24 @@ private:
      */
     QSizeF calculateNormalSize();
 
-    /**
-     * draw as a file icon
-     */
-    void drawAsFile(QPainter& p, int offsetX, int offsetY);
+    void drawAsFile(QPainter *painter);
+	void drawAsLibrary(QPainter *painter);
+	void drawAsTable(QPainter *painter);
+	void drawAsNormal(QPainter *painter);
 
-    /**
-     * draw as a library file icon
-     */
-    void drawAsLibrary(QPainter& p, int offsetX, int offsetY);
+	static const qreal Margin;
+	static const QSizeF MinimumIconSize;
 
-    /**
-     * draw as a database table icon
-     */
-    void drawAsTable(QPainter& p, int offsetX, int offsetY);
+	QSizeF m_minimumSize;
 
-    /**
-     * draw as a box
-     */
-    void drawAsNormal(QPainter& p, int offsetX, int offsetY);
+	TextItemGroup *m_textItemGroup;
+	enum {
+		StereotypeItemIndex = 0,
+		NameItemIndex = 1,
+		TextItemCount = 2
+	};
 
-    /**
-     * The right mouse button menu
-     */
-    ListPopupMenu* m_pMenu;
+	qreal m_cachedTextHeight; //< Cache textheight to speedup.
 };
 
 #endif
