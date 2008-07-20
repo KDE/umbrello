@@ -11,49 +11,67 @@
 
 // own header file
 #include "categorywidget.h"
-// system includes
-#include <qpainter.h>
-#include <kdebug.h>
+
 // local includes
 #include "category.h"
-#include "umlview.h"
 #include "listpopupmenu.h"
 
-CategoryWidget::CategoryWidget(UMLScene * scene, UMLCategory *o) : NewUMLRectWidget(scene, o)
+// qt includes
+#include <QtGui/QPainter>
+
+const qreal CategoryWidget::Margin = 5.;
+
+/**
+ *  Creates a Category widget.
+ *
+ *  @param  o The UMLCategory to represent.
+ */
+CategoryWidget::CategoryWidget(UMLCategory *o) : NewUMLRectWidget(o)
 {
-    NewUMLRectWidget::setBaseType(Uml::wt_Category);
-    //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
-    //                  Instead, it is done afterwards by NewUMLRectWidget::activate()
+	m_baseType = Uml::wt_Category;
 }
 
-CategoryWidget::~CategoryWidget() {}
+/// Destructor
+CategoryWidget::~CategoryWidget()
+{
+}
 
+/// Reimplemented from NewUMLRectWidget::sizeHint
+QSizeF CategoryWidget::sizeHint(Qt::SizeHint which)
+{
+	if(which == Qt::MinimumSize) {
+		return m_minimumSize;
+	}
+	return NewUMLRectWidget::sizeHint(which);
+}
+
+/// Reimplemented from NewUMLRectWidget::paint to draw this widget.
 void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
+	if(!umlObject()) {
+		uWarning() << "No UMLCategory object for this widget to paint";
+		return;
+	}
 
-    NewUMLRectWidget::setPenFromSettings(p);
-    if ( NewUMLRectWidget::getUseFillColour() )
-        p.setBrush( NewUMLRectWidget::getFillColour() );
-    QFont font = NewUMLRectWidget::getFont();
-    font.setUnderline(false);
-    font.setBold(false);
-    font.setItalic( umlObject()->getAbstract() );
-    p.setFont( font );
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const qreal fontHeight  = fm.lineSpacing();
-    // the height is our radius
-    const qreal h = getHeight();
-    const qreal w = getWidth();
-    const qreal r = h > w ? h : w;
+	QFont fnt = font();
+	fnt.setItalic( umlObject()->getAbstract() );
 
-    //qreal middleX = w / 2;
-    const qreal textStartY = (r / 2) - (fontHeight / 2);
+	painter->setPen(QPen(lineColor(), lineWidth()));
+	painter->setBrush(brush());
+	painter->setFont(fnt);
+
+	const QSizeF sz = size();
+	const qreal radius = qMin(sz.width(), sz.height());
 
     // draw a circle
-    p.drawEllipse(offsetX, offsetY, r, r);
-    p.setPen(Qt::black);
+	QRectF circle(0, 0, radius, radius);
+	// adjust circle to be at center (0 + width / 2, 0 + height / 2)
+	circle.moveCenter(QPointF(sz.width(), sz.height()) * .5);
+
+    painter->drawEllipse(circle);
+
+	// Now draw the letter inside circle.
+	painter->setPen(fontColor());
 
     QString letterType('D');
     switch( static_cast<UMLCategory*>( umlObject() )->getType() ) {
@@ -70,31 +88,49 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
            break;
     }
 
-    p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, r - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, letterType );
-    NewUMLRectWidget::setPenFromSettings(p);
-    if(isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+    painter->drawText(circle, Qt::AlignCenter, letterType );
 }
 
-QSizeF CategoryWidget::calculateSize() {
-    const NewUMLRectWidget::FontType ft = ( umlObject()->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
-    const QFontMetrics &fm = NewUMLRectWidget::getFontMetrics(ft);
-    const qreal fontHeight = fm.lineSpacing();
-    qreal radius = UC_RADIUS + fontHeight + UC_MARGIN;
-
-    return QSizeF(radius, radius);
-}
-
-void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+/// Reimplemented from NewUMLRectWidget::saveToXMI to save CategoyWidget
+void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement categoryElement = qDoc.createElement( "categorywidget" );
     NewUMLRectWidget::saveToXMI( qDoc, categoryElement );
     qElement.appendChild( categoryElement );
 }
 
-void CategoryWidget::slotMenuSelection(QAction* action){
+void CategoryWidget::updateGeometry()
+{
+	QFontMetrics fm(font());
+	qreal minRadius = fm.lineSpacing() + CategoryWidget::Margin;
+	m_minimumSize = QSizeF(minRadius, minRadius);
+
+	NewUMLRectWidget::updateGeometry();
+}
+
+void CategoryWidget::sizeHasChanged(const QSizeF& oldSize)
+{
+	NewUMLRectWidget::sizeHasChanged(oldSize);
+}
+
+/**
+ * Will be called when a menu selection has been made from the
+ * popup menu.
+ *
+ * @param action    The action that has been selected.
+ */
+void CategoryWidget::slotMenuSelection(QAction* action)
+{
     UMLCategory* catObj = static_cast<UMLCategory*>(umlObject());
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+	if(!catObj) {
+		uWarning() << "No UMLCategory for this widget.";
+		return;
+	}
+
+	// menu is passed in as parent .
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+
     switch(sel) {
       case ListPopupMenu::mt_DisjointSpecialisation:
           catObj->setType(UMLCategory::ct_Disjoint_Specialisation);
@@ -113,3 +149,4 @@ void CategoryWidget::slotMenuSelection(QAction* action){
     }
 }
 
+#include "categorywidget.moc"

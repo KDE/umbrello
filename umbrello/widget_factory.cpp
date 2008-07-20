@@ -142,7 +142,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
         }
         break;
     case Uml::ot_Category:
-        newWidget = new CategoryWidget(scene, static_cast<UMLCategory*>(o));
+        newWidget = new CategoryWidget(static_cast<UMLCategory*>(o));
         break;
     default:
         uWarning() << "trying to create an invalid widget";
@@ -265,7 +265,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new EntityWidget(scene, static_cast<UMLEntity*>(o));
         } else if (tag == "categorywidget") {
             if (validateObjType(Uml::ot_Category, o, id))
-                widget = new CategoryWidget(scene, static_cast<UMLCategory*>(o));
+                widget = new CategoryWidget(static_cast<UMLCategory*>(o));
         } else if (tag == "objectwidget" || tag == "UML:ObjectWidget") {
             widget = new ObjectWidget(scene, o );
         } else {

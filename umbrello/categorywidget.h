@@ -11,74 +11,44 @@
 
 #ifndef CATEGORYWIDGET_H
 #define CATEGORYWIDGET_H
-#include "umlwidget.h"
 
-#define UC_MARGIN 5
-#define UC_RADIUS 30
-
+#include "newumlrectwidget.h"
 
 class UMLCategory;
 
 /**
- * This class is the graphical version of a UMLCategory.  A CategoryWidget is created
- * by a @ref UMLView.  An CategoryWidget belongs to only one @ref UMLView instance.
- * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
- *
- * If the Category class that this CategoryWidget is displaying is deleted, the @ref UMLView will
- * make sure that this instance is also deleted.
- *
- * The CategoryWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
- * to this class.
+ * This class is the graphical version of a UMLCategory.  The
+ * CategoryWidget class inherits from the @ref NewUMLRectWidget class
+ * which adds most of the functionality to this class.
  *
  * @short  A graphical version of a UMLCategory.
  * @author Sharan Rao
+ * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class CategoryWidget : public NewUMLRectWidget
 {
+	Q_OBJECT
 public:
+	CategoryWidget(UMLCategory *o);
+	virtual ~CategoryWidget();
 
-    /**
-     *  Creates a Category widget.
-     *
-     *  @param  view            The parent of the widget.
-     *  @param  o               The UMLObject to represent.
-     */
-    CategoryWidget(UMLScene * scene, UMLCategory *o);
+	virtual QSizeF sizeHint(Qt::SizeHint which);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-
-    /**
-     *  destructor
-     */
-    virtual ~CategoryWidget();
-
-    /**
-    *   Overrides the standard paint event.
-    */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-    *   Saves this Category to file.
-    */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    // For loading we can use the loadFromXMI() inherited from NewUMLRectWidget.
+	// For loading , NewUMLRectWidget::loadFromXMI() is used.
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget
-     */
-    QSizeF calculateSize();
+    virtual void updateGeometry();
+	virtual void sizeHasChanged(const QSizeF& oldSize);
 
-public slots:
-    /**
-     * Will be called when a menu selection has been made from the
-     * popup menu.
-     *
-     * @param action    The action that has been selected.
-     */
+public Q_SLOTS:
     void slotMenuSelection(QAction* action);
 
+private:
+	static const qreal Margin;
+	QSizeF m_minimumSize;
 };
 
 #endif
