@@ -59,6 +59,17 @@ namespace Widget_Utils
      */
     void drawCrossInEllipse(QPainter *p, const QRectF& ellipse);
 
+	/**
+	 * Draws a polygon which is almost rectanguar except for the top
+	 * right corner. A triangle is drawn in top right corner of the
+	 * rectangle.
+	 *
+	 * @param painter The painter with which this shape is to be drawn.
+	 * @param rect    The rectangle dimensions.
+	 * @param triSize The size of the triange in the top-right corner.
+	 */
+	void drawTriangledRect(QPainter *painter, const QRectF& rect, const QSizeF& triSize);
+
     /**
      * Converts a point to a comma separated string i.e "x,y"
      */

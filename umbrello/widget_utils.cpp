@@ -22,6 +22,7 @@
 // qt/kde includes
 #include <QtGui/QBrush>
 #include <QtGui/QPen>
+#include <QtGui/QPolygonF>
 
 // c++ include
 #include <cmath>
@@ -96,6 +97,25 @@ namespace Widget_Utils
         // Restore the translate on painter.
         p->translate(-r.center().x(), -r.center().y());
     }
+
+	void drawTriangledRect(QPainter *painter,
+										 const QRectF& rect, const QSizeF& triSize)
+	{
+		// Draw outer boundary defined by polygon "poly".
+		QPolygonF poly(5);
+		poly[0] = rect.topLeft();
+		poly[1] = rect.topRight() - QPointF(triSize.width(), 0);
+		poly[2] = rect.topRight() + QPointF(0, triSize.height());
+		poly[3] = rect.bottomRight();
+		poly[4] = rect.bottomLeft();
+		painter->drawPolygon(poly);
+
+		// Now draw the triangle base and height edges.
+		QLineF heightEdge(poly[1], poly[1] + QPointF(0, triSize.height()));
+		painter->drawLine(heightEdge);
+		QLineF baseEdge(heightEdge.p2(), poly[2]);
+		painter->drawLine(baseEdge);
+	}
 
     QString pointToString(const QPointF& point)
     {
