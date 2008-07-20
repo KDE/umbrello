@@ -117,19 +117,12 @@ void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
 
 void EnumWidget::slotMenuSelection(QAction *action)
 {
+	// The menu is passed in as parameter of action
     ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
-    if (!menu) {
-        uError() << "ListPopupMenu's pointer should be the parent of the action parameter of this slot";
-        return;
-    }
-
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
 
     if (sel == ListPopupMenu::mt_EnumLiteral) {
-        if (!umlObject()) {
-            uWarning() << "There is no UMLObject for this widget to create the literal!";
-        }
-        else if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),
+		if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),
                                               Uml::ot_EnumLiteral) )  {
             UMLApp::app()->getDocument()->setModified();
         }
