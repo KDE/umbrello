@@ -34,10 +34,8 @@ public:
     TextItem(const QString& text, QGraphicsItem *parent = 0);
     ~TextItem();
 
-
     Qt::Alignment alignment() const;
     void setAlignment(Qt::Alignment align);
-
 
     bool bold() const {
         return font().bold();
@@ -48,6 +46,11 @@ public:
         return font().italic();
     }
     void setItalic(bool i);
+
+	bool underline() const {
+		return font().underline();
+	}
+	void setUnderline(bool u);
 
     qreal width() const {
         return boundingRect().width();

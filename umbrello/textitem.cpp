@@ -172,6 +172,15 @@ void TextItem::setItalic(bool b)
     }
 }
 
+void TextItem::setUnderline(bool u)
+{
+	QFont f = font();
+	if(u != f.underline()) {
+		f.setUnderline(u);
+		QGraphicsTextItem::setFont(f);
+	}
+}
+
 /**
  * Reimplemented to retain the italic/bold status on font change.
  *
