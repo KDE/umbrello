@@ -12,182 +12,170 @@
 // own header
 #include "entitywidget.h"
 
-// qt/kde includes
-#include <qpainter.h>
-#include <kdebug.h>
-
 // app includes
+#include "classifier.h"
+#include "classifierlistitem.h"
 #include "entity.h"
 #include "entityattribute.h"
-#include "uniqueconstraint.h"
 #include "foreignkeyconstraint.h"
-#include "classifier.h"
-#include "umlclassifierlistitemlist.h"
-#include "classifierlistitem.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
+#include "textitem.h"
+#include "textitemgroup.h"
+#include "uml.h"
+#include "umlclassifierlistitemlist.h"
+#include "umldoc.h"
+#include "uniqueconstraint.h"
 
+// qt includes
+#include <QtGui/QPainter>
 
-EntityWidget::EntityWidget(UMLScene* scene, UMLObject* o): NewUMLRectWidget(scene, o) {
-    init();
+const qreal EntityWidget::Margin = 5.0;
+
+/**
+ * Constructs an EntityWidget.
+ *
+ * @param o The UMLObject this will be representing.
+ */
+EntityWidget::EntityWidget(UMLObject* o) :
+	NewUMLRectWidget(o)
+{
+    m_baseType = Uml::wt_Entity;
+	m_textItemGroup = new TextItemGroup(this);
 }
 
-void EntityWidget::init() {
-    NewUMLRectWidget::setBaseType(Uml::wt_Entity);
-    setSize(100, 30);
-
-    //set defaults from m_pView
-    if (umlScene()) {
-        //check to see if correct
-        //const Settings::OptionState& ops = m_pView->getOptionState();
-    }
-    if (! UMLApp::app()->getDocument()->loading())
-        updateComponentSize();
+/// Destructor
+EntityWidget::~EntityWidget()
+{
+	delete m_textItemGroup;
 }
 
-EntityWidget::~EntityWidget() {}
+/// Reimplemented from NewUMLRectWidget::sizeHint
+QSizeF EntityWidget::sizeHint(Qt::SizeHint which)
+{
+	if(which == Qt::MinimumSize) {
+		return m_minimumSize;
+	}
+	return NewUMLRectWidget::sizeHint(which);
+}
 
+/**
+ * Reimplemented from NewUMLRectWidget::paint
+ *
+ * Draws the entity as a rectangle with a box underneith with a list
+ * of literals
+ */
 void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
+	painter->setPen(QPen(lineColor(), lineWidth()));
+	painter->setBrush(brush());
 
-    setPenFromSettings(p);
-    if(NewUMLRectWidget::getUseFillColour())
-        p.setBrush(NewUMLRectWidget::getFillColour());
-    else {
-        // [PORT] StyleOption
-        // p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
-    }
+	painter->drawRect(rect());
 
-    const qreal w = getWidth();
-    const qreal h = getHeight();
+	// Now get the position to draw the line.
+    const TextItem *item = m_textItemGroup->textItemAt(NameItemIndex);
+    const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
+    const qreal y = bottomLeft.y();
+    painter->drawLine(QLineF(0, y, size().width() - 1, y));
+}
 
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    qreal fontHeight  = fm.lineSpacing();
-    const QString name = this->getName();
+/**
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save this widget
+ * info to the "entitywidget" XMI element.
+ */
+void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
+{
+    QDomElement conceptElement = qDoc.createElement("entitywidget");
+    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
+    qElement.appendChild(conceptElement);
+}
 
-    p.drawRect(offsetX, offsetY, w, h);
-    p.setPen(QPen(Qt::black));
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to apply the
+ * properties and calculate minimum size for this widget.
+ */
+void EntityWidget::updateGeometry()
+{
+	if(umlObject()) {
+		UMLClassifier *classifier = static_cast<UMLClassifier*>(umlObject());
+        UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
+        int totalTextItems = list.size() + 2; // +2 because stereo text + name text.
 
-    QFont font = NewUMLRectWidget::getFont();
-    font.setBold(true);
-    p.setFont(font);
-    qreal y = 0;
-    if ( !umlObject()->getStereotype().isEmpty() ) {
-        p.drawText(offsetX + ENTITY_MARGIN, offsetY,
-                   w - ENTITY_MARGIN * 2,fontHeight,
-                   Qt::AlignCenter, umlObject()->getStereotype(true));
-        font.setItalic( umlObject()->getAbstract() );
-        p.setFont(font);
-        p.drawText(offsetX + ENTITY_MARGIN, offsetY + fontHeight,
-                   w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
-        font.setBold(false);
-        font.setItalic(false);
-        p.setFont(font);
-        y = fontHeight * 2;
-    } else {
-        font.setItalic( umlObject()->getAbstract() );
-        p.setFont(font);
-        p.drawText(offsetX + ENTITY_MARGIN, offsetY,
-                   w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
-        font.setBold(false);
-        font.setItalic(false);
-        p.setFont(font);
+		// Ensure there are appropriate number of textitems.
+        m_textItemGroup->ensureTextItemCount(totalTextItems);
 
-        y = fontHeight;
-    }
+        // Create a dummy item with the common properties set on
+        // it. We can then use TextItem::copyAttributesTo method to
+        // copy these common attributes, just to avoid some code
+        // duplication.
+        TextItem dummy("");
+        dummy.setDefaultTextColor(fontColor());
+        dummy.setFont(font());
+        dummy.setAlignment(Qt::AlignCenter);
+        dummy.setBackgroundBrush(Qt::NoBrush);
 
-    setPenFromSettings(p);
+		TextItem *stereo = m_textItemGroup->textItemAt(EntityWidget::StereotypeItemIndex);
+        stereo->setText(classifier->getStereotype(true));
+        dummy.copyAttributesTo(stereo);
+        stereo->setBold(true);
+		bool hideStereo = classifier->getStereotype(false).isEmpty();
+		stereo->setVisible(!hideStereo);
 
-    p.drawLine(offsetX, offsetY + y, offsetX + w - 1, offsetY + y);
+        TextItem *nameItem = m_textItemGroup->textItemAt(EntityWidget::NameItemIndex);
+        nameItem->setText(name());
+        dummy.copyAttributesTo(nameItem);
+        nameItem->setBold(true);
+        nameItem->setItalic(classifier->getAbstract());
 
-    QFontMetrics fontMetrics(font);
-    UMLClassifier *classifier = (UMLClassifier*)umlObject();
-    UMLClassifierListItem* entityattribute = 0;
-    UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
-    foreach (entityattribute , list ) {
-        QString text = entityattribute->getName();
-        p.setPen( QPen(Qt::black) );
-        UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>( entityattribute );
-        if( casted && casted->getIndexType() == Uml::Primary )
-        {
-            font.setUnderline( true );
-            p.setFont( font );
-            font.setUnderline( false );
+        int index = EntityWidget::EntityItemStartIndex;
+        foreach(UMLClassifierListItem* entityItem, list) {
+            TextItem *literal = m_textItemGroup->textItemAt(index);
+            literal->setText(entityItem->getName());
+            dummy.copyAttributesTo(literal);
+			UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>(entityItem);
+			if( casted && casted->getIndexType() == Uml::Primary ) {
+				literal->setUnderline(true);
+			}
+            ++index;
         }
-        p.drawText(offsetX + ENTITY_MARGIN, offsetY + y,
-                   fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
-        p.setFont( font );
-        y+=fontHeight;
-    }
 
-    if (isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
+        m_minimumSize = m_textItemGroup->calculateMinimumSize();
+
+		// FIXME: The width doesn't function as expected if it is Margin * 2
+        m_minimumSize += QSizeF(EntityWidget::Margin * 3, EntityWidget::Margin * 2);
     }
+    NewUMLRectWidget::updateGeometry();
 }
 
-QSizeF EntityWidget::calculateSize() {
-    if (!umlObject()) {
-        return NewUMLRectWidget::calculateSize();
-    }
+/**
+ * Reimplemented from NewUMLRectWidget::sizeHasChanged to align and
+ * position the text items.
+ */
+void EntityWidget::sizeHasChanged(const QSizeF& oldSize)
+{
+	QSizeF groupSize = size();
+    groupSize -= QSizeF(EntityWidget::Margin * 2, EntityWidget::Margin * 2);
+    QPointF offset(EntityWidget::Margin, EntityWidget::Margin);
 
-    qreal width, height;
-    QFont font = NewUMLRectWidget::getFont();
-    font.setItalic(false);
-    font.setUnderline(false);
-    font.setBold(false);
-    const QFontMetrics fm(font);
+    m_textItemGroup->alignVertically(groupSize);
+    m_textItemGroup->setPos(offset);
 
-    const qreal fontHeight = fm.lineSpacing();
-
-    int lines = 1;//always have one line - for name
-    if ( !umlObject()->getStereotype().isEmpty() ) {
-        lines++;
-    }
-
-    const int numberOfEntityAttributes = ((UMLEntity*)umlObject())->entityAttributes();
-
-    height = width = 0;
-    //set the height of the entity
-
-    lines += numberOfEntityAttributes;
-    if (numberOfEntityAttributes == 0) {
-        height += fontHeight / 2; //no entity literals, so just add a bit of space
-    }
-
-    height += lines * fontHeight;
-
-    //now set the width of the concept
-    //set width to name to start with
-    // FIXME spaces to get round beastie with font width,
-    // investigate NewUMLRectWidget::getFontMetrics()
-    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(' ' + getName() + ' ').width();
-
-    const qreal w = getFontMetrics(FT_BOLD).boundingRect(umlObject()->getStereotype(true)).width();
-
-    width = w > width?w:width;
-
-    UMLClassifier* classifier = (UMLClassifier*)umlObject();
-    UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
-    UMLClassifierListItem* listItem = 0;
-    foreach (listItem , list ) {
-        qreal w = fm.width( listItem->getName() );
-        width = w > width?w:width;
-    }
-
-    //allow for width margin
-    width += ENTITY_MARGIN * 2;
-
-    return QSizeF(width, height);
+    NewUMLRectWidget::sizeHasChanged(oldSize);
 }
 
-void EntityWidget::slotMenuSelection(QAction* action) {
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
-    switch(sel) {
+/**
+ * Will be called when a menu selection has been made from the popup
+ * menu.
+ *
+ * @param action       The action that has been selected.
+ */
+void EntityWidget::slotMenuSelection(QAction* action)
+{
+	// The menu is passed in as parent of the action.
+	ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+	ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+
+	switch(sel) {
     case ListPopupMenu::mt_EntityAttribute:
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),
                                               Uml::ot_EntityAttribute) )  {
@@ -230,16 +218,4 @@ void EntityWidget::slotMenuSelection(QAction* action) {
 
 }
 
-void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {
-    QDomElement conceptElement = qDoc.createElement("entitywidget");
-    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
-}
-
-bool EntityWidget::loadFromXMI( QDomElement & qElement ) {
-    if ( !NewUMLRectWidget::loadFromXMI(qElement) ) {
-        return false;
-    }
-    return true;
-}
-
+#include "entitywidget.moc"

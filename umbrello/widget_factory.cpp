@@ -107,7 +107,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
         newWidget = new EnumWidget(static_cast<UMLEnum*>(o));
         break;
     case Uml::ot_Entity:
-        newWidget = new EntityWidget(scene, static_cast<UMLEntity*>(o));
+        newWidget = new EntityWidget(static_cast<UMLEntity*>(o));
         break;
     case Uml::ot_Interface:
         if (diagramType == Uml::dt_Sequence || diagramType == Uml::dt_Collaboration) {
@@ -262,7 +262,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new EnumWidget(static_cast<UMLEnum*>(o));
         } else if (tag == "entitywidget") {
             if (validateObjType(Uml::ot_Entity, o, id))
-                widget = new EntityWidget(scene, static_cast<UMLEntity*>(o));
+                widget = new EntityWidget(static_cast<UMLEntity*>(o));
         } else if (tag == "categorywidget") {
             if (validateObjType(Uml::ot_Category, o, id))
                 widget = new CategoryWidget(static_cast<UMLCategory*>(o));

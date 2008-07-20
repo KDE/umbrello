@@ -12,11 +12,10 @@
 #ifndef ENTITYWIDGET_H
 #define ENTITYWIDGET_H
 
-#include "umlwidget.h"
+#include "newumlrectwidget.h"
 
-class UMLView;
-
-#define ENTITY_MARGIN 5
+// Forward declarations
+class TextItemGroup;
 
 /**
  * Defines a graphical version of the entity.  Most of the functionality
@@ -24,60 +23,41 @@ class UMLView;
  *
  * @short A graphical version of an entity.
  * @author Jonathan Riddell
+ * @author Gopala Krishna (port using TextItems)
  * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class EntityWidget : public NewUMLRectWidget
 {
+	Q_OBJECT
 public:
+	EntityWidget(UMLObject* o);
+	~EntityWidget();
 
-    /**
-     * Constructs an EntityWidget.
-     *
-     * @param view              The parent of this EntityWidget.
-     * @param o         The UMLObject this will be representing.
-     */
-    EntityWidget(UMLScene* scene, UMLObject* o);
+	QSizeF sizeHint(Qt::SizeHint which);
+	void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /**
-     * Standard deconstructor.
-     */
-    ~EntityWidget();
-
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
-
-    /**
-     * Draws the entity as a rectangle with a box underneith with a list of literals
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-     * Saves to the "entitywidget" XMI element.
-     */
+    // NewUMLRectWidget::loadFromXMI is used to load this widget.
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    /**
-     * Loads from an "entitywidget" XMI element.
-     */
-    bool loadFromXMI(QDomElement& qElement);
-
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget.
-     */
-    QSizeF calculateSize();
+	void updateGeometry();
+	void sizeHasChanged(const QSizeF& oldSize);
 
-public slots:
-    /**
-     * Will be called when a menu selection has been made from the
-     * popup menu.
-     *
-     * @param action       The action that has been selected.
-     */
+public Q_SLOTS:
     void slotMenuSelection(QAction* action);
+
+private:
+	static const qreal Margin;
+	// Indices for text items in m_textItemGroup
+	enum {
+		StereotypeItemIndex,
+		NameItemIndex,
+		EntityItemStartIndex
+	};
+
+	QSizeF m_minimumSize;
+	TextItemGroup *m_textItemGroup;
 };
 
 #endif
