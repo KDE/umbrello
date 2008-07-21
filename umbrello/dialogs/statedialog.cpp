@@ -69,7 +69,7 @@ void StateDialog::slotApply()
 void StateDialog::setupPages()
 {
     setupGeneralPage();
-    if( m_pStateWidget->getStateType() == StateWidget::Normal )
+    if( m_pStateWidget->stateType() == StateWidget::Normal )
         setupActivityPage();
     setupColorPage();
     setupFontPage();
@@ -103,7 +103,7 @@ void StateDialog::setupGeneralPage()
     QString types[ ] = { i18nc("initial state in statechart", "Initial state"),
                          i18nc("state in statechart", "State"),
                          i18nc("end state in statechart", "End state") };
-    StateWidget::StateType type = m_pStateWidget->getStateType();
+    StateWidget::StateType type = m_pStateWidget->stateType();
 
     KVBox * page = new KVBox();
     pageGeneral = new KPageWidgetItem( page, i18nc("general page", "General")  );

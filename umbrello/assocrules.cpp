@@ -93,7 +93,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWi
     case at_State:
         {
             StateWidget *pState = dynamic_cast<StateWidget*>(widget);
-            return (pState == NULL || pState->getStateType() != StateWidget::End);
+            return (pState == NULL || pState->stateType() != StateWidget::End);
         }
         break;
 
@@ -206,10 +206,10 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
             StateWidget *stateA = dynamic_cast<StateWidget*>(widgetA);
             StateWidget *stateB = dynamic_cast<StateWidget*>(widgetB);
             if (stateA && stateB) {
-                if (stateB->getStateType() == StateWidget::Initial)
+                if (stateB->stateType() == StateWidget::Initial)
                     return false;
-                if (stateB->getStateType() == StateWidget::End &&
-                    stateA->getStateType() != StateWidget::Normal)
+                if (stateB->stateType() == StateWidget::End &&
+                    stateA->stateType() != StateWidget::Normal)
                     return false;
             }
         }

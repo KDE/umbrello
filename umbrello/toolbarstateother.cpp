@@ -135,15 +135,15 @@ bool ToolBarStateOther::newWidget()
             break;
 
         case WorkToolBar::tbb_Initial_State:
-            umlWidget = new StateWidget(m_pUMLScene, StateWidget::Initial);
+            umlWidget = new StateWidget(StateWidget::Initial);
             break;
 
         case WorkToolBar::tbb_State:
-            umlWidget = new StateWidget(m_pUMLScene, StateWidget::Normal);
+            umlWidget = new StateWidget(StateWidget::Normal);
             break;
 
         case WorkToolBar::tbb_End_State:
-            umlWidget = new StateWidget(m_pUMLScene, StateWidget::End);
+            umlWidget = new StateWidget(StateWidget::End);
             break;
 
         case WorkToolBar::tbb_Send_Signal:

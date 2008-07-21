@@ -189,7 +189,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
         //FIXME while boxes and texts are just diagram objects, activities and
         // states should be UMLObjects
     if (tag == "statewidget" || tag == "UML:StateWidget") {
-        widget = new StateWidget(scene, StateWidget::Normal, Uml::id_Reserved);
+        widget = new StateWidget(StateWidget::Normal, Uml::id_Reserved);
     } else if (tag == "notewidget" || tag == "UML:NoteWidget") {
         widget = new NoteWidget(NoteWidget::Normal, Uml::id_Reserved);
     } else if (tag == "boxwidget") {

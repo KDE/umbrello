@@ -11,35 +11,26 @@
 
 #ifndef STATEWIDGET_H
 #define STATEWIDGET_H
-#include <qpainter.h>
-#include <qstringlist.h>
-#include "umlwidget.h"
-#include "worktoolbar.h"
 
-#define STATE_MARGIN 5
-#define STATE_WIDTH 30
-#define STATE_HEIGHT 10
+#include "newumlrectwidget.h"
+
+class TextItemGroup;
 
 /**
  * This class is the graphical version of a UML State.
  *
- * A StateWidget is created by a @ref UMLScene.  A StateWidget belongs to
- * only one @ref UMLScene instance.
- * When the @ref UMLScene instance that this class belongs to is destroyed,
- * it will be automatically deleted.
- *
- * The StateWidget class inherits from the @ref NewUMLRectWidget class which adds
- * most of the functionality to this class.
+ * The StateWidget class inherits from the @ref NewUMLRectWidget class
+ * which adds most of the functionality to this class.
  *
  * @short  A graphical version of a UML State.
  * @author Paul Hensgen <phensgen@techie.com>
+ * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class StateWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 public:
-
     /// Enumeration that codes the different types of state.
     enum StateType
     {
@@ -48,117 +39,58 @@ public:
         End
     };
 
-    /**
-     * Creates a State widget.
-     *
-     * @param view              The parent of the widget.
-     * @param stateType The type of state.
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
-    explicit StateWidget(UMLScene * scene, StateType stateType = Normal, Uml::IDType id = Uml::id_None );
-
-    /**
-     * destructor
-     */
+    explicit StateWidget(StateType stateType = Normal, Uml::IDType id = Uml::id_None );
     virtual ~StateWidget();
 
-    /**
-     * Overrides the standard paint event.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
+	virtual QSizeF sizeHint(Qt::SizeHint which);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /**
-     * Sets the name of the State.
-     */
-    virtual void setName(const QString &strName);
+	/// @return Type of state.
+    StateType stateType() const {
+		return m_stateType;
+	}
+	void setStateType( StateType stateType );
 
-    /**
-     * Returns the name of the State.
-     */
-    virtual QString getName() const;
-
-    /**
-     * Returns the type of state.
-     */
-    StateType getStateType() const;
-
-    /**
-     * Sets the type of state.
-     */
-    void setStateType( StateType stateType );
-
-    /**
-     * Adds the given activity to the state.
-     */
     bool addActivity( const QString &activity );
+	bool removeActivity( const QString &activity );
+	bool renameActivity( const QString &activity, const QString &newName );
 
-    /**
-     * Removes the given activity from the state.
-     */
-    bool removeActivity( const QString &activity );
+	QStringList activities() const;
+	void setActivities( QStringList & list );
 
-    /**
-     * Renames the given activity.
-     */
-    bool renameActivity( const QString &activity, const QString &newName );
+	virtual void showPropertiesDialog();
 
-    /**
-     * Sets the states activities to the ones given.
-     */
-    void setActivities( QStringList & list );
-
-    /**
-     * Returns the list of activities.
-     */
-    QStringList & getActivityList();
-
-    /**
-     * Show a properties dialog for a StateWidget.
-     */
-    void showProperties();
-
-    /**
-     * Returns true if the given toolbar button represents a State.
-     *
-     * @param tbb               Input value of type WorkToolBar::ToolBar_Buttons.
-     * @param resultType        Output value, the StateType that corresponds to tbb.
-     *                  Only set if the method returns true.
-     */
-    static bool isState( WorkToolBar::ToolBar_Buttons tbb,
-                         StateType& resultType );
-
-    /**
-     * Creates the "statewidget" XMI element.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    /**
-     * Loads a "statewidget" XMI element.
-     */
-    bool loadFromXMI( QDomElement & qElement );
+	virtual bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget
-     */
-    QSizeF calculateSize();
+	virtual void updateGeometry();
+	virtual void sizeHasChanged(const QSizeF& oldSize);
 
-    /**
-     * Type of state.
-     */
-    StateType m_StateType;
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
-    /**
-     * List of activities for the state.
-     */
-    QStringList m_Activities;
+private:
+	static const qreal Margin;
+	static const QSizeF MinimumEllipseSize;
 
-public slots:
+	/// Type of state
+	StateType m_stateType;
 
-    /**
-     * Captures any popup menu signals for menus it created.
-     */
-    void slotMenuSelection(QAction* action);
+	/// Store the minimum size
+	QSizeF m_minimumSize;
+
+	/**
+	 * List of activities for the state stored as TextItems in
+	 * TextItemGroup.
+	 */
+    TextItemGroup *m_textItemGroup;
+
+	/// Indicies of text items in m_textItemGroup
+	enum {
+		NameItemIndex = 0,
+		ActivityStartIndex = 1
+	};
 };
 
 #endif

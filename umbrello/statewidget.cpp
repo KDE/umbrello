@@ -12,212 +12,200 @@
 // own header
 #include "statewidget.h"
 
-// qt includes
-#include <qevent.h>
+// app includes
+#include "dialogs/statedialog.h"
+#include "docwindow.h"
+#include "listpopupmenu.h"
+#include "textitem.h"
+#include "textitemgroup.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlscene.h"
+#include "umlview.h"
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 
-// app includes
-#include "uml.h"
-#include "umldoc.h"
-#include "docwindow.h"
-#include "umlwidget.h"
-#include "umlview.h"
-#include "dialogs/statedialog.h"
-#include "listpopupmenu.h"
-#include "umlscene.h"
+const qreal StateWidget::Margin = 5;
+const QSizeF StateWidget::MinimumEllipseSize(30, 10);
 
-StateWidget::StateWidget(UMLScene * view, StateType stateType, Uml::IDType id)
-        : NewUMLRectWidget(view, id) {
-    NewUMLRectWidget::setBaseType(Uml::wt_State);
-    m_StateType = stateType;
-    m_Text = "State";
-    updateComponentSize();
+/**
+ * Creates a State widget.
+ *
+ * @param stateType The type of state.
+ * @param id The ID to assign (-1 will prompt a new ID.)
+ */
+StateWidget::StateWidget(StateType stateType, Uml::IDType id)
+	: NewUMLRectWidget(0, id)
+{
+	m_baseType = Uml::wt_State;
+    m_stateType = stateType;
+	m_textItemGroup = new TextItemGroup(this);
 }
 
-StateWidget::~StateWidget() {}
+/// Destructor
+StateWidget::~StateWidget()
+{
+	delete m_textItemGroup;
+}
 
+/// Reimplemented from NewUMLRectWidget::sizeHint
+QSizeF StateWidget::sizeHint(Qt::SizeHint which)
+{
+	if(which == Qt::MinimumSize) {
+		return m_minimumSize;
+	}
+	return NewUMLRectWidget::sizeHint(which);
+}
+
+/// Reimplemented from NewUMLRectWidget::paint to paint state widget.
 void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
+	painter->setPen(QPen(lineColor(), lineWidth()));
+	painter->setBrush(brush());
+	const QSizeF sz = size();
+	const int textItemCount = m_textItemGroup->size();
 
-    setPenFromSettings(p);
-    const int w = getWidth();
-    const int h = getHeight();
-    switch (m_StateType)
-    {
-    case Normal :
-        if(NewUMLRectWidget::getUseFillColour())
-            p.setBrush(NewUMLRectWidget::getFillColour());
-        {
-            const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-            const int fontHeight  = fm.lineSpacing();
-            int textStartY = (h / 2) - (fontHeight / 2);
-            const int count = m_Activities.count();
-            if( count == 0 ) {
-                p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
-                p.setPen(Qt::black);
-                QFont font = NewUMLRectWidget::getFont();
-                font.setBold( false );
-                p.setFont( font );
-                p.drawText(offsetX + STATE_MARGIN, offsetY + textStartY,
-                           w - STATE_MARGIN * 2, fontHeight,
-                           Qt::AlignCenter, getName());
-                setPenFromSettings(p);
-            } else {
-                p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
-                textStartY = offsetY + STATE_MARGIN;
-                p.setPen(Qt::black);
-                QFont font = NewUMLRectWidget::getFont();
-                font.setBold( true );
-                p.setFont( font );
-                p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2,
-                           fontHeight, Qt::AlignCenter, getName());
-                font.setBold( false );
-                p.setFont( font );
-                setPenFromSettings(p);
-                int linePosY = textStartY + fontHeight;
+	if(m_stateType == StateWidget::Normal) {
+		painter->drawRoundRect(rect(), sz.height() * 40 / sz.width(),
+							   sz.width() * 40 / sz.height());
+		// Draw line after each line of text except for the last one
+		// as it is unnecessary to draw line on round rect.
+		for(int i = 0; i < textItemCount - 1; ++i) {
+			const TextItem *item = m_textItemGroup->textItemAt(i);
+			const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
+			const qreal y = bottomLeft.y();
+			painter->drawLine(QLineF(1, y, size().width() - 1, y));
+		}
+	}
+	else if(m_stateType == StateWidget::Initial) {
+		painter->drawEllipse(rect());
+	}
+	else if(m_stateType == StateWidget::End) {
+		// Draw inner ellipse with brush set.
+		QRectF inner(rect());
+		qreal adj = lineWidth() + 3;
+		inner.adjust(+adj, +adj, -adj, -adj);
+		painter->drawEllipse(inner);
 
-                QStringList::Iterator end(m_Activities.end());
-                for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
-                    textStartY += fontHeight;
-                    p.drawLine( offsetX, linePosY, offsetX + w - 1, linePosY );
-                    p.setPen(Qt::black);
-                    p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2 - 1,
-                               fontHeight, Qt::AlignCenter, *it);
-                    setPenFromSettings(p);
-                    linePosY += fontHeight;
-                }//end for
-            }//end else
-        }
-        break;
-    case Initial :
-        p.setBrush( NewUMLWidget::getLineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
-        break;
-    case End :
-        p.setBrush( NewUMLWidget::getLineColor() );
-        p.drawEllipse( offsetX, offsetY, w, h );
-        p.setBrush( Qt::white );
-        p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p.setBrush( NewUMLWidget::getLineColor() );
-        p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
-        break;
-    default:
-        uWarning() << "Unknown state type:" << m_StateType;
-        break;
-    }
-    if(isSelected())
-        drawSelected(&p, offsetX, offsetY);
+		// Now draw outer ellipse with no brush
+		painter->setBrush(Qt::NoBrush);
+		painter->drawEllipse(rect());
+	}
+	else {
+		uWarning() << "Unknown state type:" << m_stateType;
+	}
 }
 
-QSizeF StateWidget::calculateSize() {
-    int width = 10, height = 10;
-    if ( m_StateType == Normal ) {
-        const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-        const int fontHeight  = fm.lineSpacing();
-        int textWidth = fm.width(getName());
-        const int count = m_Activities.count();
-        height = fontHeight;
-        if( count > 0 ) {
-            height = fontHeight * ( count + 1);
-
-            QStringList::Iterator end(m_Activities.end());
-            for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
-                int w = fm.width( *it );
-                if( w > textWidth )
-                    textWidth = w;
-            }//end for
-        }//end if
-        width = textWidth > STATE_WIDTH?textWidth:STATE_WIDTH;
-        height = height > STATE_HEIGHT?height:STATE_HEIGHT;
-        width += STATE_MARGIN * 2;
-        height += STATE_MARGIN * 2;
-    }
-
-    return QSizeF(width, height);
+/// Sets the StateType of this widget to \a stateType
+void StateWidget::setStateType(StateType stateType)
+{
+    m_stateType = stateType;
+	updateGeometry();
 }
 
-void StateWidget::setName(const QString &strName) {
-    m_Text = strName;
-    updateComponentSize();
-    adjustAssocs( getX(), getY() );
-}
-
-QString StateWidget::getName() const {
-    return m_Text;
-}
-
-StateWidget::StateType StateWidget::getStateType() const {
-    return m_StateType;
-}
-
-void StateWidget::setStateType( StateType stateType ) {
-    m_StateType = stateType;
-}
-
-void StateWidget::slotMenuSelection(QAction* action) {
-    bool ok = false;
-    QString name = getName();
-
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
-    switch( sel ) {
-    case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), getName(), &ok );
-        if( ok && name.length() > 0 )
-            setName( name );
-        break;
-
-    case ListPopupMenu::mt_Properties:
-        showProperties();
-        break;
-
-    case ListPopupMenu::mt_New_Activity:
-        name = KInputDialog::getText( i18n("Enter Activity"), i18n("Enter the name of the new activity:"), i18n("new activity"), &ok );
-        if( ok && name.length() > 0 )
-            addActivity( name );
-        break;
-
-    default:
-        NewUMLRectWidget::slotMenuSelection(action);
-    }
-}
-
-bool StateWidget::addActivity( const QString &activity ) {
-    m_Activities.append( activity );
-    updateComponentSize();
+/**
+ * Adds an activity to this widget.
+ * @return true on success
+ */
+bool StateWidget::addActivity( const QString &activity )
+{
+	m_textItemGroup->appendTextItem(new TextItem(activity));
+	updateGeometry(); // This will take care applying attributes
+					  // (fontColor..)
     return true;
 }
 
-bool StateWidget::removeActivity( const QString &activity ) {
-    if( m_Activities.removeAll( activity ) == 0 )
-        return false;
-    updateComponentSize();
-    return true;
+/**
+ * Removes an \a activity from this widget if it exists
+ * @return true on success
+ */
+bool StateWidget::removeActivity( const QString &activity )
+{
+	int removedCount = 0;
+	// Keep removing until all entries are removed
+	while(1) {
+		int sz = m_textItemGroup->size();
+		int i = StateWidget::ActivityStartIndex;
+		for(; i < sz; ++i) {
+			if(m_textItemGroup->textItemAt(i)->text() == activity) {
+				m_textItemGroup->deleteTextItemAt(i);
+				++removedCount;
+				break;
+			}
+		}
+		if(i == sz) {
+			break;
+		}
+	}
+
+	if(removedCount) {
+		updateGeometry();
+		return true;
+	}
+
+	return false;
 }
 
-void StateWidget::setActivities( QStringList & list ) {
-    m_Activities = list;
-    updateComponentSize();
+/**
+ * Renames an \a activity to \a newName.
+ * @return true on success.
+ */
+bool StateWidget::renameActivity( const QString &activity, const QString &newName )
+{
+	bool renamed = false;
+	int sz = m_textItemGroup->size();
+	for(int i = StateWidget::ActivityStartIndex; i < sz; ++i) {
+		TextItem *item = m_textItemGroup->textItemAt(i);
+		if(item->text() == activity) {
+			item->setText(newName);
+			renamed = true;
+			break;
+		}
+	}
+
+	if(renamed) {
+		updateGeometry();
+		return true;
+	}
+	return false;
 }
 
-QStringList & StateWidget::getActivityList() {
-    return m_Activities;
+/**
+ * @return The activity texts as a QStringList.
+ */
+QStringList StateWidget::activities() const
+{
+	QStringList retVal;
+	int sz = m_textItemGroup->size();
+	for(int i = StateWidget::ActivityStartIndex; i < sz; ++i) {
+		retVal << m_textItemGroup->textItemAt(i)->text();
+	}
+    return retVal;
 }
 
-bool StateWidget::renameActivity( const QString &activity, const QString &newName ) {
-    int index = - 1;
-    if( ( index = m_Activities.indexOf( activity ) ) == -1 )
-        return false;
-    m_Activities[ index ] = newName;
-    return true;
+/**
+ * Sets the activities from \a list.
+ */
+void StateWidget::setActivities( QStringList & list )
+{
+	const int reqdSize = list.size() + 1; // + 1 for name item
+	m_textItemGroup->ensureTextItemCount(reqdSize);
+
+	for(int i = StateWidget::ActivityStartIndex; i < reqdSize; ++i) {
+		m_textItemGroup->textItemAt(i)->setText(list[i-StateWidget::ActivityStartIndex]);
+	}
+
+	updateGeometry();
 }
 
-void StateWidget::showProperties() {
+/**
+ * Reimplemented from NewUMLWidget::showPropertiesDialog to show
+ * appropriate dialog for this widget.
+ */
+void StateWidget::showPropertiesDialog()
+{
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
@@ -228,52 +216,21 @@ void StateWidget::showProperties() {
     }
 }
 
-bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultType)
+/**
+ * Reimplemented from NewUMLWidget::loadFromXMI to load StateWidget
+ * from XMI element.
+ */
+bool StateWidget::loadFromXMI( QDomElement & qElement )
 {
-    bool status = true;
-    switch (tbb) {
-    case WorkToolBar::tbb_Initial_State:
-        resultType = Initial;
-        break;
-    case WorkToolBar::tbb_State:
-        resultType = Normal;
-        break;
-    case WorkToolBar::tbb_End_State:
-        resultType = End;
-        break;
-    default:
-        status = false;
-        break;
-    }
-    return status;
-}
-
-void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-    QDomElement stateElement = qDoc.createElement( "statewidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, stateElement );
-    stateElement.setAttribute( "statename", m_Text );
-    stateElement.setAttribute( "documentation", documentation() );
-    stateElement.setAttribute( "statetype", m_StateType );
-    //save states activities
-    QDomElement activitiesElement = qDoc.createElement( "Activities" );
-
-    QStringList::Iterator end(m_Activities.end());
-    for( QStringList::Iterator it(m_Activities.begin()); it != end; ++it ) {
-        QDomElement tempElement = qDoc.createElement( "Activity" );
-        tempElement.setAttribute( "name", *it );
-        activitiesElement.appendChild( tempElement );
-    }//end for
-    stateElement.appendChild( activitiesElement );
-    qElement.appendChild( stateElement );
-}
-
-bool StateWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) ) {
         return false;
-    m_Text = qElement.attribute( "statename", "" );
+	}
+
+    setName(qElement.attribute( "statename", "" ));
     setDocumentation(qElement.attribute( "documentation", "" ));
     QString type = qElement.attribute( "statetype", "1" );
-    m_StateType = (StateType)type.toInt();
+    setStateType(static_cast<StateType>(type.toInt()));
+
     //load states activities
     QDomNode node = qElement.firstChild();
     QDomElement tempElement = node.toElement();
@@ -283,8 +240,9 @@ bool StateWidget::loadFromXMI( QDomElement & qElement ) {
         while( !activityElement.isNull() ) {
             if( activityElement.tagName() == "Activity" ) {
                 QString name = activityElement.attribute( "name", "" );
-                if( !name.isEmpty() )
-                    m_Activities.append( name );
+                if( !name.isEmpty() ) {
+                    addActivity(name);
+				}
             }//end if
             node = node.nextSibling();
             activityElement = node.toElement();
@@ -293,6 +251,120 @@ bool StateWidget::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
+/**
+ * Reimplemented from NewUMLWidget::saveToXMI to save StateWidget info
+ * into XMI.
+ */
+void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement stateElement = qDoc.createElement( "statewidget" );
+    NewUMLRectWidget::saveToXMI( qDoc, stateElement );
+
+    stateElement.setAttribute( "statename", name());
+    stateElement.setAttribute( "documentation", documentation() );
+    stateElement.setAttribute( "statetype", m_stateType );
+    //save states activities
+    QDomElement activitiesElement = qDoc.createElement( "Activities" );
+
+    for(int i = StateWidget::ActivityStartIndex; i < m_textItemGroup->size(); ++i) {
+		QDomElement tempElement = qDoc.createElement( "Activity" );
+        tempElement.setAttribute( "name", m_textItemGroup->textItemAt(i)->text());
+        activitiesElement.appendChild( tempElement );
+    }//end for
+    stateElement.appendChild( activitiesElement );
+    qElement.appendChild( stateElement );
+}
+
+void StateWidget::updateGeometry()
+{
+	if(m_stateType != StateWidget::Normal) {
+		for(int i = 0; i < m_textItemGroup->size(); ++i) {
+			m_textItemGroup->textItemAt(i)->hide();
+		}
+		m_minimumSize = StateWidget::MinimumEllipseSize;
+	}
+	else {
+		// Create a dummy item, to store the properties so that it can
+        // easily be used to copy the properties to other text items.
+        TextItem dummy("");
+        dummy.setDefaultTextColor(fontColor());
+        dummy.setFont(font());
+        dummy.setAlignment(Qt::AlignCenter);
+        dummy.setBackgroundBrush(Qt::NoBrush);
+
+		int sz = m_textItemGroup->size();
+		// Ensure atleast there is one item, that is - Name Item.
+		if(sz == 0) {
+			m_textItemGroup->appendTextItem(new TextItem(name()));
+			sz = 1;
+		}
+		for(int i = 0; i < sz; ++i) {
+			TextItem *item = m_textItemGroup->textItemAt(i);
+			dummy.copyAttributesTo(item);
+			item->show();
+		}
+		m_textItemGroup->textItemAt(StateWidget::NameItemIndex)->setText(name());
+		m_textItemGroup->textItemAt(StateWidget::NameItemIndex)->setBold(sz > 1);
+
+		m_minimumSize = m_textItemGroup->calculateMinimumSize();
+		m_minimumSize += QSizeF(2 * StateWidget::Margin, 2 * StateWidget::Margin);
+	}
+	NewUMLRectWidget::updateGeometry();
+}
+
+void StateWidget::sizeHasChanged(const QSizeF& oldSize)
+{
+	if(m_stateType == StateWidget::Normal) {
+		QPointF offset(StateWidget::Margin, StateWidget::Margin);
+		QSizeF groupSize = size();
+		groupSize -= QSizeF(2 * StateWidget::Margin, 2 * StateWidget::Margin);
+
+		m_textItemGroup->alignVertically(groupSize);
+		m_textItemGroup->setPos(offset);
+	}
+	NewUMLRectWidget::sizeHasChanged(oldSize);
+}
+
+/**
+ * Reimplemented from NewUMLWidget::slotMenuSelection to react to
+ * special menu actions.
+ */
+void StateWidget::slotMenuSelection(QAction* action)
+{
+    bool ok = false;
+    QString text = name();
+
+	// The menu is passed in as parent of the action.
+	ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+
+    switch( sel ) {
+    case ListPopupMenu::mt_Rename:
+        text = KInputDialog::getText( i18n("Enter State Name"),
+									  i18n("Enter the name of the new state:"),
+									  name(), &ok );
+        if( ok && !text.isEmpty()) {
+            setName( text );
+		}
+        break;
+
+	case ListPopupMenu::mt_New_Activity:
+        text = KInputDialog::getText( i18n("Enter Activity"),
+									  i18n("Enter the name of the new activity:"),
+									  i18n("new activity"), &ok );
+        if( ok && !text.isEmpty()) {
+            addActivity( text );
+		}
+        break;
+
+	case ListPopupMenu::mt_Properties:
+		showPropertiesDialog();
+		break;
+
+    default:
+        NewUMLRectWidget::slotMenuSelection(action);
+    }
+}
+
 
 #include "statewidget.moc"
-

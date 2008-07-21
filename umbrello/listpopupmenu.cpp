@@ -395,12 +395,12 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, NewUMLWidget * object,
     case Uml::wt_State:
         {
             StateWidget* pState = static_cast< StateWidget *>( object );
-            if (pState->getStateType() == StateWidget::Normal) {
+            if (pState->stateType() == StateWidget::Normal) {
                 insertSubMenuNew(mt_New_Activity);
             }
             insertSubMenuColor( object->getUseFillColour() );
             insertStdItems(false, type);
-            if (pState->getStateType() == StateWidget::Normal) {
+            if (pState->stateType() == StateWidget::Normal) {
                 insert(mt_Rename, i18n("Change State Name..."));
                 insert(mt_Change_Font);
                 insert(mt_Properties);
