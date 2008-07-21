@@ -62,7 +62,6 @@
 #include "kplayerslideraction.h"
 #include "docwindow.h"
 #include "optionstate.h"
-#include "configurable.h"
 #include "cmdlineexportallviewsevent.h"
 #include "cmds.h"
 #include "umbrellosettings.h"

@@ -297,7 +297,6 @@ set(libumbrello_SRCS
    combinedfragmentwidget.cpp
    component.cpp
    componentwidget.cpp
-   configurable.cpp
    datatypewidget.cpp
    dialog_utils.cpp
    docwindow.cpp
@@ -343,8 +342,6 @@ set(libumbrello_SRCS
    petalnode.cpp
    petaltree2uml.cpp
    pinwidget.cpp
-   plugin.cpp
-   pluginloader.cpp
    preconditionwidget.cpp
    seqlinewidget.cpp
    statewidget.cpp
