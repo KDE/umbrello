@@ -92,7 +92,7 @@ QString formatComment(const QString &comment)
     if (comment.isEmpty())
         return comment;
 
-    QStringList lines = comment.split("\n");
+    QStringList lines = comment.split('\n');
     QString& first = lines.first();
     QRegExp wordex("\\w");
     if (first.startsWith("/*")) {
@@ -167,7 +167,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             if (typeName.contains("::")) {
                 components = typeName.split("::");
             } else if (typeName.contains(".")) {
-                components = typeName.split(".");
+                components = typeName.split('.');
             }
             if (components.count() > 1) {
                 typeName = components.back();

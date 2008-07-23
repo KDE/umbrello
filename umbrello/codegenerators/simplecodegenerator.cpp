@@ -115,7 +115,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
         // does our complete output directory exist yet? if not, try to create it
         if (!pathDir.exists())
         {
-            QStringList dirs = pathDir.absolutePath().split("/");
+            QStringList dirs = pathDir.absolutePath().split('/');
             QString currentDir = "";
 
             QStringList::iterator end(dirs.end());

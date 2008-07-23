@@ -581,7 +581,7 @@ void CppWriter::writeComment(const QString &comment, const QString &myIndent, QT
     // need to resolve for using with MAC/WinDoze eventually I assume
     if (comment.contains(QRegExp("\n"))) {
 
-        QStringList lines = comment.split( "\n" );
+        QStringList lines = comment.split( '\n' );
         for (int i= 0; i < lines.count(); i++)
         {
             cpp << myIndent << "// " << lines[i] << m_endl;
@@ -1200,7 +1200,7 @@ void CppWriter::printTextAsSeparateLinesWithIndent (const QString &text, const Q
     if(text.isEmpty())
         return;
 
-    QStringList lines = text.split( "\n" );
+    QStringList lines = text.split( '\n' );
     for (int i= 0; i < lines.count(); i++)
         stream << indent << lines[i] << m_endl;
 }

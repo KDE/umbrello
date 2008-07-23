@@ -527,7 +527,7 @@ void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLsche
     XMLschema<<indent<<"<!-- ";
     if (comment.contains(QRegExp("\n"))) {
         XMLschema<<m_endl;
-        QStringList lines = comment.split( "\n" );
+        QStringList lines = comment.split( '\n' );
         for (int i= 0; i < lines.count(); i++)
             XMLschema<<indent<<"     "<<lines[i]<<m_endl;
 

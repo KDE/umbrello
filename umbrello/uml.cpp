@@ -1852,7 +1852,7 @@ void UMLApp::slotImportClasses()
     }
     preselectedExtension.append("\n*|" + i18n("All Files"));
 #ifdef Q_WS_WIN
-    QStringList extList = preselectedExtension.split("|");
+    QStringList extList = preselectedExtension.split('|');
     QStringList fileList = QFileDialog::getOpenFileNames(this, i18n("Select Code to Import"),    //krazy:exclude=qclasses
                                 "", extList[1] );
 #else
