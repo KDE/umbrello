@@ -30,8 +30,6 @@
 // qt includes
 #include <QtGui/QPainter>
 
-const qreal EntityWidget::Margin = 5.0;
-
 /**
  * Constructs an EntityWidget.
  *
@@ -41,22 +39,12 @@ EntityWidget::EntityWidget(UMLObject* o) :
 	NewUMLRectWidget(o)
 {
     m_baseType = Uml::wt_Entity;
-	m_textItemGroup = new TextItemGroup(this);
+	createTextItemGroup();
 }
 
 /// Destructor
 EntityWidget::~EntityWidget()
 {
-	delete m_textItemGroup;
-}
-
-/// Reimplemented from NewUMLRectWidget::sizeHint
-QSizeF EntityWidget::sizeHint(Qt::SizeHint which)
-{
-	if(which == Qt::MinimumSize) {
-		return m_minimumSize;
-	}
-	return NewUMLRectWidget::sizeHint(which);
 }
 
 /**
@@ -71,12 +59,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, Q
 	painter->setBrush(brush());
 
 	painter->drawRect(rect());
-
-	// Now get the position to draw the line.
-    const TextItem *item = m_textItemGroup->textItemAt(NameItemIndex);
-    const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
-    const qreal y = bottomLeft.y();
-    painter->drawLine(QLineF(0, y, size().width() - 1, y));
+	painter->drawLine(m_nameLine);
 }
 
 /**
@@ -96,71 +79,75 @@ void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
  */
 void EntityWidget::updateGeometry()
 {
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	setMinimumSize(grp->minimumSize());
+	NewUMLRectWidget::updateGeometry();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to set
+ * text properties.
+ */
+void EntityWidget::updateTextItemGroups()
+{
 	if(umlObject()) {
 		UMLClassifier *classifier = static_cast<UMLClassifier*>(umlObject());
         UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
         int totalTextItems = list.size() + 2; // +2 because stereo text + name text.
 
-		// Ensure there are appropriate number of textitems.
-        m_textItemGroup->ensureTextItemCount(totalTextItems);
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		grp->setTextItemCount(totalTextItems);
 
-        // Create a dummy item with the common properties set on
-        // it. We can then use TextItem::copyAttributesTo method to
-        // copy these common attributes, just to avoid some code
-        // duplication.
-        TextItem dummy("");
-        dummy.setDefaultTextColor(fontColor());
-        dummy.setFont(font());
-        dummy.setAlignment(Qt::AlignCenter);
-        dummy.setBackgroundBrush(Qt::NoBrush);
-
-		TextItem *stereo = m_textItemGroup->textItemAt(EntityWidget::StereotypeItemIndex);
+		TextItem *stereo = grp->textItemAt(EntityWidget::StereotypeItemIndex);
         stereo->setText(classifier->getStereotype(true));
-        dummy.copyAttributesTo(stereo);
         stereo->setBold(true);
 		bool hideStereo = classifier->getStereotype(false).isEmpty();
 		stereo->setVisible(!hideStereo);
 
-        TextItem *nameItem = m_textItemGroup->textItemAt(EntityWidget::NameItemIndex);
+        TextItem *nameItem = grp->textItemAt(EntityWidget::NameItemIndex);
         nameItem->setText(name());
-        dummy.copyAttributesTo(nameItem);
         nameItem->setBold(true);
         nameItem->setItalic(classifier->getAbstract());
 
         int index = EntityWidget::EntityItemStartIndex;
         foreach(UMLClassifierListItem* entityItem, list) {
-            TextItem *literal = m_textItemGroup->textItemAt(index);
+            TextItem *literal = grp->textItemAt(index);
             literal->setText(entityItem->getName());
-            dummy.copyAttributesTo(literal);
 			UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>(entityItem);
 			if( casted && casted->getIndexType() == Uml::Primary ) {
 				literal->setUnderline(true);
 			}
             ++index;
         }
-
-        m_minimumSize = m_textItemGroup->calculateMinimumSize();
-
-		// FIXME: The width doesn't function as expected if it is Margin * 2
-        m_minimumSize += QSizeF(EntityWidget::Margin * 3, EntityWidget::Margin * 2);
     }
-    NewUMLRectWidget::updateGeometry();
+    NewUMLRectWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::sizeHasChanged to align and
- * position the text items.
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * SizeHasChanged to align and position the text items.
  */
-void EntityWidget::sizeHasChanged(const QSizeF& oldSize)
+QVariant EntityWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-	QSizeF groupSize = size();
-    groupSize -= QSizeF(EntityWidget::Margin * 2, EntityWidget::Margin * 2);
-    QPointF offset(EntityWidget::Margin, EntityWidget::Margin);
+	if(change == SizeHasChanged) {
+		QRectF groupGeometry = rect();
+		const qreal m = margin();
+		groupGeometry.adjust(+m, +m, -m, -m);
 
-    m_textItemGroup->alignVertically(groupSize);
-    m_textItemGroup->setPos(offset);
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		grp->setGroupGeometry(groupGeometry);
 
-    NewUMLRectWidget::sizeHasChanged(oldSize);
+		// Check as textItems are uninitialized in during very first updates.
+		if(grp->textItemCount() > NameItemIndex) {
+			// Now get the position to draw the line.
+			const TextItem *item = grp->textItemAt(NameItemIndex);
+			const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
+			const qreal y = bottomLeft.y();
+			m_nameLine.setLine(0, y, size().width() - 1, y);
+		}
+	}
+
+    return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 /**

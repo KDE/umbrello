@@ -15,35 +15,46 @@
 #include "newumlrectwidget.h"
 
 class UMLClassifier;
-class TextItemGroup;
 
+/**
+ * @class DatatypeWidget
+ *
+ * Defines a graphical version of the datatype.  Most of the
+ * functionality will come from the @ref NewUMLRectWidget class from
+ * which class inherits from.
+ *
+ * @short A graphical version of an datatype.
+ * @author Jonathan Riddell
+ * @author Gopala Krishna
+ *
+ * @see NewUMLRectWidget
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
 class DatatypeWidget : public NewUMLRectWidget
 {
 public:
     DatatypeWidget(UMLClassifier *d);
     virtual ~DatatypeWidget();
 
-    bool loadFromXMI(QDomElement& qElement);
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	// Uses NewUMLRectWidget::loadFromXMI to load data from XMI
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    QSizeF sizeHint(Qt::SizeHint which);
-
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
 
 protected:
-    void updateGeometry();
-    void sizeHasChanged(const QSizeF& oldSize);
+    virtual void updateGeometry();
+	virtual void updateTextItemGroups();
+	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& old);
 
 private:
+	enum {
+		GroupIndex = 0
+	};
     enum {
         StereoTypeItemIndex = 0,
-        NameItemIndex = 1
+        NameItemIndex,
+		TextItemCount
     };
-
-    static const qreal Margin;
-
-    QSizeF m_minimumSize;
-    TextItemGroup *m_textItemGroup;
 };
 
 #endif

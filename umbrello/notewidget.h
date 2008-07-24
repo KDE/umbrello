@@ -15,9 +15,6 @@
 //app includes
 #include "newumlrectwidget.h"
 
-// Forward declarations
-class TextItemGroup;
-
 /**
  * Displays a note box to allow multiple lines of text to be
  * displayed.  These widgets are diagram specific.  They will still
@@ -26,7 +23,7 @@ class TextItemGroup;
  *
  * @short Displays a note box.
  * @author Paul Hensgen <phensgen@techie.com>
- * @author Gopala Krishna (port to TextItem)
+ * @author Gopala Krishna
  * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -34,7 +31,6 @@ class NoteWidget : public NewUMLRectWidget
 {
 Q_OBJECT
 public:
-
     /// This enum type is used to specifity the type of note.
     enum NoteType
     {
@@ -66,48 +62,31 @@ public:
     }
     void setDiagramLink(Uml::IDType sceneID);
 
-    QSizeF sizeHint(Qt::SizeHint which);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /**
-     * Override default method.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-     * Display a dialogBox to allow the user to choose the note's type
-     */
     void askForNoteType(NewUMLRectWidget* &targetWidget);
 
-    /**
-     * Saves to the "notewidget" XMI element.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+	virtual bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * Loads a "notewidget" XMI element.
-     */
-    bool loadFromXMI( QDomElement & qElement );
-
-public slots:
+public Q_SLOTS:
     void slotMenuSelection(QAction* action);
 
 protected:
-    void updateGeometry();
-    void sizeHasChanged(const QSizeF& oldSize);
+    virtual void updateGeometry();
+    virtual void updateTextItemGroups();
+	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
+	enum {
+		GroupIndex
+	};
     enum {
         DiagramLinkItemIndex,
         NoteTypeItemIndex,
         NoteTextItemIndex,
         TextItemCount
     };
-
-    /// The margin for the note widget diagram.
-    static const qreal Margin;
-
-    /// Cache minimum size
-    QSizeF m_minimumSize;
 
     // Data loaded/saved
 
@@ -116,9 +95,6 @@ private:
 
     /// The type of note. @see NoteWidget::NoteType
     NoteType m_noteType;
-
-    /// The TextItemGroup to keep display note items and headings.
-    TextItemGroup *m_textItemGroup;
 };
 
 #endif

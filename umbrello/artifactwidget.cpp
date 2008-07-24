@@ -21,7 +21,6 @@
 // qt includes
 #include <QtGui/QPainter>
 
-const qreal ArtifactWidget::Margin = 0;
 const QSizeF ArtifactWidget::MinimumIconSize(50, 50);
 
 /**
@@ -32,23 +31,14 @@ const QSizeF ArtifactWidget::MinimumIconSize(50, 50);
 ArtifactWidget::ArtifactWidget(UMLArtifact *a) : NewUMLRectWidget(a)
 {
 	m_baseType = Uml::wt_Artifact;
-	m_textItemGroup = new TextItemGroup(this);
 	m_cachedTextHeight = 0; // Initialize on first call of sizeHasChanged.
+
+	createTextItemGroup();
 }
 
 /// Destructor
 ArtifactWidget::~ArtifactWidget()
 {
-	delete m_textItemGroup;
-}
-
-/// Reimplemented from NewUMLRectWidget::sizeHint suiting this widget.
-QSizeF ArtifactWidget::sizeHint(Qt::SizeHint which)
-{
-	if(which == Qt::MinimumSize) {
-		return m_minimumSize;
-	}
-	return NewUMLRectWidget::sizeHint(which);
 }
 
 /**
@@ -63,6 +53,7 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
 	if(umlObject()) {
 		UMLArtifact *umlart = static_cast<UMLArtifact*>(umlObject());
 		UMLArtifact::Draw_Type drawType = umlart->getDrawAsType();
+
 		switch (drawType) {
 		case UMLArtifact::defaultDraw:
 			drawAsNormal(painter);
@@ -101,64 +92,73 @@ void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     qElement.appendChild(conceptElement);
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * minimum size appropriately.
+ */
 void ArtifactWidget::updateGeometry()
 {
 	if(umlObject()) {
-		UMLArtifact *articraft = static_cast<UMLArtifact*>(umlObject());
-		m_textItemGroup->ensureTextItemCount(ArtifactWidget::TextItemCount);
+		UMLArtifact *artifact = static_cast<UMLArtifact*>(umlObject());
+		QSizeF minSize = textItemGroupAt(ArtifactWidget::GroupIndex)->minimumSize();
 
-		// Create a dummy item, to store the properties so that it can
-        // easily be used to copy the properties to other text items.
-        TextItem dummy("");
-        dummy.setDefaultTextColor(fontColor());
-        dummy.setFont(font());
-        dummy.setAlignment(Qt::AlignCenter);
-        dummy.setBackgroundBrush(Qt::NoBrush);
-
-		TextItem *stereoItem = m_textItemGroup->textItemAt(ArtifactWidget::StereotypeItemIndex);
-		stereoItem->setText(articraft->getStereotype(true));
-		dummy.copyAttributesTo(stereoItem);
-		bool hideStereo = articraft->getStereotype(false).isEmpty();
-		stereoItem->setVisible(!hideStereo);
-
-		TextItem *nameItem = m_textItemGroup->textItemAt(ArtifactWidget::NameItemIndex);
-		nameItem->setText(name());
-		dummy.copyAttributesTo(nameItem);
-
-		m_minimumSize = m_textItemGroup->calculateMinimumSize() +
-			QSizeF(2 * ArtifactWidget::Margin, 2 * ArtifactWidget::Margin);
-		if(articraft->getDrawAsType() != UMLArtifact::defaultDraw) {
-			m_minimumSize.rheight() += ArtifactWidget::MinimumIconSize.height();
-			m_minimumSize.rwidth() = qMax(m_minimumSize.width(),
-										  ArtifactWidget::MinimumIconSize.width());
+		if(artifact->getDrawAsType() != UMLArtifact::defaultDraw) {
+			minSize.rheight() += ArtifactWidget::MinimumIconSize.height();
+			if(minSize.width() < ArtifactWidget::MinimumIconSize.width()) {
+				minSize.setWidth(ArtifactWidget::MinimumIconSize.width());
+			}
 		}
+
+		setMinimumSize(minSize);
 	}
 	NewUMLRectWidget::updateGeometry();
 }
 
-void ArtifactWidget::sizeHasChanged(const QSizeF& oldSize)
+QVariant ArtifactWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
 	if (!umlObject()) {
 		uWarning() << "No UMLArtifact for this widget.";
-		NewUMLRectWidget::sizeHasChanged(oldSize);
-		return;
+		return NewUMLRectWidget::attributeChange(change, oldValue);
 	}
 
-	const QRectF geometry = rect();
-	UMLArtifact *articraft = static_cast<UMLArtifact*>(umlObject());
-	QPointF offset(ArtifactWidget::Margin, ArtifactWidget::Margin);
-	QSizeF groupSize(geometry.size());
-	if (articraft->getDrawAsType() != UMLArtifact::defaultDraw) {
-		qreal groupHeight = m_textItemGroup->calculateMinimumSize().height();
-		groupSize.setHeight(groupHeight);
-		offset.setY(geometry.height() - ArtifactWidget::Margin - groupHeight);
+	if(change == SizeHasChanged) {
+		UMLArtifact *artifact = static_cast<UMLArtifact*>(umlObject());
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		const qreal m = margin();
+		const qreal groupHeight = grp->minimumSize().height();
+
+		QRectF groupGeometry = rect();
+		groupGeometry.adjust(+m, +m, -m, -m);
+
+		if (artifact->getDrawAsType() != UMLArtifact::defaultDraw) {
+			groupGeometry.setTopLeft(QPointF(m, rect().bottom() - groupHeight - m));
+			groupGeometry.setSize(QSizeF(rect().width() - 2 * m, groupHeight));
+		}
+
+		grp->setGroupGeometry(groupGeometry);
+		m_cachedTextHeight = groupHeight + 2 * m;
 	}
 
-	m_textItemGroup->setPos(offset);
-	m_textItemGroup->alignVertically(groupSize);
-	m_cachedTextHeight = groupSize.height(); // cache it to speed up.
+	return NewUMLRectWidget::attributeChange(change, oldValue);
+}
 
-	NewUMLRectWidget::sizeHasChanged(oldSize);
+void ArtifactWidget::updateTextItemGroups()
+{
+	if(umlObject()) {
+		UMLArtifact *artifact = static_cast<UMLArtifact*>(umlObject());
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		grp->setTextItemCount(ArtifactWidget::TextItemCount);
+
+		TextItem *stereoItem = grp->textItemAt(ArtifactWidget::StereotypeItemIndex);
+		stereoItem->setText(artifact->getStereotype(true));
+		bool hideStereo = artifact->getStereotype(false).isEmpty()
+			|| artifact->getDrawAsType() != UMLArtifact::defaultDraw ;
+		stereoItem->setVisible(!hideStereo);
+
+		TextItem *nameItem = grp->textItemAt(ArtifactWidget::NameItemIndex);
+		nameItem->setText(name());
+	}
+	NewUMLRectWidget::updateTextItemGroups();
 }
 
 /**
@@ -169,7 +169,8 @@ void ArtifactWidget::drawAsFile(QPainter *painter)
 {
 	QRectF iconRect = rect();
 	iconRect.setHeight(iconRect.height() - m_cachedTextHeight);
-	QSizeF topRightTriSize(.2 * iconRect.width(), .2 * iconRect.width());
+	qreal factor = .2 * qMin(iconRect.width(), iconRect.height());
+	QSizeF topRightTriSize(factor, factor);
 
 	Widget_Utils::drawTriangledRect(painter, iconRect, topRightTriSize);
 }
@@ -183,7 +184,8 @@ void ArtifactWidget::drawAsLibrary(QPainter *painter)
 {
 	QRectF iconRect = rect();
 	iconRect.setHeight(iconRect.height() - m_cachedTextHeight);
-	QSizeF topRightTriSize(.2 * iconRect.width(), .2 * iconRect.width());
+	qreal factor = .2 * qMin(iconRect.width(), iconRect.height());
+	QSizeF topRightTriSize(factor, factor);
 
 	Widget_Utils::drawTriangledRect(painter, iconRect, topRightTriSize);
 	//FIXME this should have gears on it
@@ -227,3 +229,4 @@ void ArtifactWidget::drawAsNormal(QPainter *painter)
 {
 	painter->drawRect(rect());
 }
+

@@ -12,85 +12,81 @@
 // own header
 #include "activitywidget.h"
 
-// qt includes
-#include <qpainter.h>
+// app includes
+#include "dialogs/activitydialog.h"
+#include "docwindow.h"
+#include "listpopupmenu.h"
+#include "textitem.h"
+#include "textitemgroup.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlscene.h"
+#include "umlview.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 
-// app includes
-#include "uml.h"
-#include "umldoc.h"
-#include "docwindow.h"
-#include "umlview.h"
-#include "listpopupmenu.h"
-#include "dialogs/activitydialog.h"
-#include "umlscene.h"
-#include "textitemgroup.h"
-#include "textitem.h"
-#include "widget_utils.h"
+// qt includes
+#include <QtGui/QPainter>
+#include <QtGui/QPolygonF>
 
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPolygon>
-
-/**
- * @class ActivityWidget
- *
- * This class is the graphical version of a UML Activity.  A ActivityWidget is created
- * by a @ref UMLView.  An ActivityWidget belongs to only one @ref UMLView instance.
- * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
- *
- * The ActivityWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
- * to this class.
- *
- * @short  A graphical version of a UML Activity.
- * @author Paul Hensgen <phensgen@techie.com>
- * @author Gopala Krishna (port using TextItems)
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
- */
 
 /**
  * Creates a Activity widget.
  *
- * @param view              The parent of the widget.
  * @param activityType      The type of activity.
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
-ActivityWidget::ActivityWidget(UMLScene * scene, ActivityType activityType, Uml::IDType id )
-    : NewUMLRectWidget(scene, id),
+ActivityWidget::ActivityWidget(ActivityType activityType, Uml::IDType id)
+    : NewUMLRectWidget(0, id),
       m_activityType(activityType)
 {
     m_baseType = Uml::wt_Activity;
-    m_textItemGroup = new TextItemGroup(this);
+	createTextItemGroup();
 }
 
-/**
- *  destructor
- */
+/// Destructor
 ActivityWidget::~ActivityWidget()
 {
-    delete m_textItemGroup;
 }
 
+/// Sets the type of activity
 void ActivityWidget::setActivityType( ActivityType activityType )
 {
     m_activityType = activityType;
-    updateGeometry();
+    updateTextItemGroups();
 }
 
+/// Sets the precondition text for this widget
 void ActivityWidget::setPreconditionText(const QString& aPreText)
 {
     m_preconditionText = aPreText;
-    updateGeometry();
+    updateTextItemGroups();
 }
 
+/// Sets the post condition text for this widget.
 void ActivityWidget::setPostconditionText(const QString& aPostText)
 {
     m_postconditionText = aPostText;
-    updateGeometry();
+    updateTextItemGroups();
+}
+
+/**
+ * Reimplemented fron NewUMLRectWidget::showPropertiesDialog to show a
+ * properties dialog for an ActivityWidget.
+ */
+void ActivityWidget::showPropertiesDialog()
+{
+    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    docwindow->updateDocumentation(false);
+
+    ActivityDialog dialog(umlScene()->activeView(), this);
+    if (dialog.exec() && dialog.getChangesMade()) {
+        docwindow->showDocumentation(this, true);
+        UMLApp::app()->getDocument()->setModified(true);
+    }
 }
 
 void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *)
@@ -119,20 +115,24 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidg
         break;
 
     case End :
+	{
         p->setBrush(Qt::NoBrush);
-        p->drawEllipse(r.adjusted(+1, +1, -1, -1));
+		qreal adj = lineWidth() + 1;
+        p->drawEllipse(r.adjusted(+adj, +adj, -adj, -adj));
 
         p->setBrush(lineColor());
-        p->drawEllipse(r.adjusted(+3, +3, -3, -3));
+		adj = lineWidth() + 3;
+        p->drawEllipse(r.adjusted(+adj, +adj, -adj, -adj));
         break;
+	}
 
     case Branch :
     {
-        QPolygon array( 4 );
-        array[0] = QPoint(w / 2, 0);
-        array[1] = QPoint(w, h / 2);
-        array[2] = QPoint(w / 2, h);
-        array[3] = QPoint(0, h / 2);
+        QPolygonF array(4);
+        array[0] = QPointF(w / 2, 0);
+        array[1] = QPointF(w, h / 2);
+        array[2] = QPointF(w / 2, h);
+        array[3] = QPointF(0, h / 2);
         p->drawPolygon(array);
     }
     break;
@@ -151,92 +151,113 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidg
         break;
 
     case Param :
-        p->setPen(QPen(lineColor(), lineWidth()));
-        p->drawRoundRect(rect(), (h * 60) / w, 60);
+        p->drawRoundRect(r, (h * 60) / w, 60);
         break;
-
     }
 }
 
-QSizeF ActivityWidget::sizeHint(Qt::SizeHint which)
+/// Loads the widget from the "activitywidget" XMI element.
+bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+        return false;
+    setName(qElement.attribute( "activityname", "" ));
+    setDocumentation(qElement.attribute( "documentation", "" ));
+    setPreconditionText(qElement.attribute( "precondition", "" ));
+    setPostconditionText(qElement.attribute( "postcondition", "" ));
+
+    QString type = qElement.attribute( "activitytype", "1" );
+    setActivityType( (ActivityType)type.toInt() );
+
+    return true;
+}
+
+/// Saves the widget to the "activitywidget" XMI element.
+void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
-    if(which == Qt::MinimumSize) {
-        return m_minimumSize;
-    }
-    return NewUMLRectWidget::sizeHint(which);
+    QDomElement activityElement = qDoc.createElement( "activitywidget" );
+    NewUMLRectWidget::saveToXMI( qDoc, activityElement );
+    activityElement.setAttribute( "activityname", name() );
+    activityElement.setAttribute( "documentation", documentation() );
+    activityElement.setAttribute( "precondition", preconditionText() );
+    activityElement.setAttribute( "postcondition", postconditionText() );
+    activityElement.setAttribute( "activitytype", m_activityType );
+    qElement.appendChild( activityElement );
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * minimum size for activity widget.
+ */
 void ActivityWidget::updateGeometry()
 {
-    int maxItemCount = 3; // In case of Param which has 3 texts to be drawn.
+	TextItemGroup *grp = textItemGroupAt(ActivityWidget::TextGroupIndex);
+	QSizeF minSize = grp->minimumSize();
 
-    TextItem dummy("");
-    dummy.setDefaultTextColor(fontColor());
-    dummy.setFont(font());
-    dummy.setAlignment(Qt::AlignCenter);
-    dummy.setBackgroundBrush(Qt::NoBrush);
+	switch(m_activityType) {
+	case Invok:
+		minSize.rheight() += 40; // FIXME: Magic number
+		break;
 
-    m_textItemGroup->ensureTextItemCount(maxItemCount);
-
-    switch(m_activityType) {
-    case Normal:
-    case Invok:
-    {
-        // Hide unsused items
-        m_textItemGroup->textItemAt(PrecondtionItemIndex)->hide();
-        m_textItemGroup->textItemAt(PostconditionItemIndex)->hide();
-
-        m_textItemGroup->textItemAt(NameItemIndex)->show();
-
-        TextItem *nameItem = m_textItemGroup->textItemAt(NameItemIndex);
-        nameItem->setText(name());
-        dummy.copyAttributesTo(nameItem);
-
-        m_minimumSize = m_textItemGroup->calculateMinimumSize();
-        m_minimumSize.rheight() += 2 * ACTIVITY_MARGIN;
-        m_minimumSize.rwidth() += 2 * ACTIVITY_MARGIN;
-
-        if(m_activityType == Invok) {
-            m_minimumSize.rheight() += 40;
-        }
-    }
-    break;
-
-    case Initial:
+	case Initial:
     case Final:
     case End:
     case Branch:
-        m_textItemGroup->textItemAt(PrecondtionItemIndex)->hide();
-        m_textItemGroup->textItemAt(PostconditionItemIndex)->hide();
-        m_textItemGroup->textItemAt(NameItemIndex)->hide();
-
-        m_minimumSize = QSizeF(20, 20);
+        minSize = QSizeF(20, 20);
         break;
 
     case Param:
-    {
-        TextItem *preconditionItem = m_textItemGroup->textItemAt(PrecondtionItemIndex);
-        dummy.copyAttributesTo(preconditionItem);
-        preconditionItem->setText(preconditionText().prepend("<<precondition>> "));
+	case Normal:
+		break; // Nothing to add.
+    }
+
+	setMinimumSize(minSize);
+
+	NewUMLRectWidget::updateGeometry();
+}
+
+QVariant ActivityWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+	if(change == SizeHasChanged) {
+		TextItemGroup *grp = textItemGroupAt(ActivityWidget::TextGroupIndex);
+		qreal m = margin();
+		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+	}
+
+	return NewUMLRectWidget::attributeChange(change, oldValue);
+}
+
+void ActivityWidget::updateTextItemGroups()
+{
+	TextItemGroup *grp = textItemGroupAt(ActivityWidget::TextGroupIndex);
+	grp->setTextItemCount(ActivityWidget::TextItemCount);
+
+	TextItem *nameItem = grp->textItemAt(NameItemIndex);
+	nameItem->setText(name());
+	nameItem->show();
+
+	if(m_activityType == Normal || m_activityType == Invok) {
+		grp->textItemAt(PrecondtionItemIndex)->hide();
+        grp->textItemAt(PostconditionItemIndex)->hide();
+		nameItem->show();
+	}
+	else if(m_activityType == Param) {
+		TextItem *preconditionItem = grp->textItemAt(PrecondtionItemIndex);
+		preconditionItem->setText(preconditionText().prepend("<<precondition>> "));
         preconditionItem->show();
 
-        TextItem *postconditionItem = m_textItemGroup->textItemAt(PostconditionItemIndex);
-        dummy.copyAttributesTo(postconditionItem);
+        TextItem *postconditionItem = grp->textItemAt(PostconditionItemIndex);
         postconditionItem->setText(postconditionText().prepend("<<postcondition>> "));
         postconditionItem->show();
 
-        TextItem *nameItem = m_textItemGroup->textItemAt(NameItemIndex);
-        dummy.copyAttributesTo(nameItem);
-        nameItem->setText(name());
-        nameItem->show();
+		nameItem->show();
+	}
+	else {
+		grp->textItemAt(PrecondtionItemIndex)->hide();
+        grp->textItemAt(PostconditionItemIndex)->hide();
+		nameItem->hide();
+	}
 
-        m_minimumSize = m_textItemGroup->calculateMinimumSize();
-        m_minimumSize.rwidth() += ACTIVITY_MARGIN * 2;
-        m_minimumSize.rheight() += ACTIVITY_MARGIN * 2;
-        break;
-    }
-    }
-    NewUMLRectWidget::updateGeometry();
+	NewUMLRectWidget::updateTextItemGroups();
 }
 
 void ActivityWidget::slotMenuSelection(QAction* action)
@@ -263,57 +284,6 @@ void ActivityWidget::slotMenuSelection(QAction* action)
     default:
         NewUMLRectWidget::slotMenuSelection(action);
     }
-}
-
-void ActivityWidget::showPropertiesDialog()
-{
-    DocWindow *docwindow = UMLApp::app()->getDocWindow();
-    docwindow->updateDocumentation(false);
-
-    ActivityDialog dialog(umlScene()->activeView(), this);
-    if (dialog.exec() && dialog.getChangesMade()) {
-        docwindow->showDocumentation(this, true);
-        UMLApp::app()->getDocument()->setModified(true);
-    }
-}
-
-void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    QDomElement activityElement = qDoc.createElement( "activitywidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, activityElement );
-    activityElement.setAttribute( "activityname", name() );
-    activityElement.setAttribute( "documentation", documentation() );
-    activityElement.setAttribute( "precondition", preconditionText() );
-    activityElement.setAttribute( "postcondition", postconditionText() );
-    activityElement.setAttribute( "activitytype", m_activityType );
-    qElement.appendChild( activityElement );
-}
-
-bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
-        return false;
-    setName(qElement.attribute( "activityname", "" ));
-    setDocumentation(qElement.attribute( "documentation", "" ));
-    setPreconditionText(qElement.attribute( "precondition", "" ));
-    setPostconditionText(qElement.attribute( "postcondition", "" ));
-
-    QString type = qElement.attribute( "activitytype", "1" );
-    setActivityType( (ActivityType)type.toInt() );
-
-    return true;
-}
-
-void ActivityWidget::sizeHasChanged(const QSizeF &oldSize)
-{
-    QSizeF groupSize = size();
-    groupSize.rwidth() -= ACTIVITY_MARGIN;
-    groupSize.rheight() -= ACTIVITY_MARGIN;
-    m_textItemGroup->alignVertically(groupSize);
-
-
-    QPointF offset(ACTIVITY_MARGIN, ACTIVITY_MARGIN);
-    m_textItemGroup->setPos(offset);
-    NewUMLRectWidget::sizeHasChanged(oldSize);
 }
 
 #include "activitywidget.moc"

@@ -23,8 +23,6 @@
 
 #include "newumlrectwidget.h"
 
-class TextItemGroup;
-
 /**
  * @short A uml widget to visualize enum.
  * @author Gopala Krishna A
@@ -36,16 +34,10 @@ class EnumWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 public:
-    /**
-     * Constructs an instance of EnumWidget.
-     * @param o The NewUMLObject this will be representing.
-     */
-    explicit EnumWidget(UMLObject* o);
-    ~EnumWidget();
+	explicit EnumWidget(UMLObject* o);
+    virtual ~EnumWidget();
 
-    QSizeF sizeHint(Qt::SizeHint which);
-
-    ///  @return True if package is shown , false otherwise.
+	///  @return True if package is shown , false otherwise.
     bool showPackage() const {
         return m_showPackage;
     }
@@ -55,31 +47,31 @@ public:
         setShowPackage(!m_showPackage);
     }
 
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *widget);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *widget);
 
-    bool loadFromXMI(QDomElement& qElement);
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI(QDomElement& qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-public slots:
-    void slotMenuSelection(QAction *action);
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction *action);
 
 protected:
-    void updateGeometry();
-    void sizeHasChanged(const QSizeF& oldSize);
+    virtual void updateGeometry();
+	virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldVal);
 
 private:
+	enum {
+		GroupIndex = 0
+	};
     enum {
         StereoTypeItemIndex = 0,
-        NameItemIndex = 1,
-        EnumLiteralStartIndex = 2
+        NameItemIndex,
+        EnumLiteralStartIndex
     };
 
-    static const qreal Margin;
-
-    QSizeF m_minimumSize;
     bool m_showPackage;
-
-    TextItemGroup *m_textItemGroup;
+	QLineF m_nameLine;
 };
 
 #endif // ENUMWIDGET_H

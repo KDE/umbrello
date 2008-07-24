@@ -19,8 +19,6 @@
 // qt includes
 #include <QtGui/QPainter>
 
-const qreal CategoryWidget::Margin = 5.;
-
 /**
  *  Creates a Category widget.
  *
@@ -34,15 +32,6 @@ CategoryWidget::CategoryWidget(UMLCategory *o) : NewUMLRectWidget(o)
 /// Destructor
 CategoryWidget::~CategoryWidget()
 {
-}
-
-/// Reimplemented from NewUMLRectWidget::sizeHint
-QSizeF CategoryWidget::sizeHint(Qt::SizeHint which)
-{
-	if(which == Qt::MinimumSize) {
-		return m_minimumSize;
-	}
-	return NewUMLRectWidget::sizeHint(which);
 }
 
 /// Reimplemented from NewUMLRectWidget::paint to draw this widget.
@@ -102,15 +91,10 @@ void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 void CategoryWidget::updateGeometry()
 {
 	QFontMetrics fm(font());
-	qreal minRadius = fm.lineSpacing() + CategoryWidget::Margin;
-	m_minimumSize = QSizeF(minRadius, minRadius);
+	qreal minRadius = fm.lineSpacing();
+	setMinimumSize(QSizeF(minRadius, minRadius));
 
 	NewUMLRectWidget::updateGeometry();
-}
-
-void CategoryWidget::sizeHasChanged(const QSizeF& oldSize)
-{
-	NewUMLRectWidget::sizeHasChanged(oldSize);
 }
 
 /**

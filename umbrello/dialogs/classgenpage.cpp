@@ -467,6 +467,7 @@ void ClassGenPage::updateObject()
                 drawAsType = UMLArtifact::defaultDraw;
             }
             (static_cast<UMLArtifact*>(m_pObject))->setDrawAsType(drawAsType);
+			m_pObject->emitModified();
         }
 
     }//end if m_pObject

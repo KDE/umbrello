@@ -20,45 +20,23 @@
 // qt includes
 #include <QtGui/QPainter>
 
-// Inline and class documentation
-
-/**
- * @class DatatypeWidget
- *
- * Defines a graphical version of the datatype.  Most of the
- * functionality will come from the @ref NewUMLRectWidget class from
- * which class inherits from.
- *
- * @short A graphical version of an datatype.
- * @author Jonathan Riddell
- * @author Gopala Krishna (port using TextItems)
- *
- * @see NewUMLRectWidget
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
- */
-
-// End inline and class documentation
-
-const qreal DatatypeWidget::Margin = 5.;
-
+/// Constructs a dataTypeWidget representing UMLClassifier \a d
 DatatypeWidget::DatatypeWidget(UMLClassifier *d) :
-    NewUMLRectWidget(d),
-    m_minimumSize(100, 30)
+    NewUMLRectWidget(d)
 {
-    m_textItemGroup = new TextItemGroup(this);
     m_baseType = Uml::wt_Datatype;
+	createTextItemGroup();
 }
 
+/// Destructor
 DatatypeWidget::~DatatypeWidget()
 {
-    delete m_textItemGroup;
 }
 
-bool DatatypeWidget::loadFromXMI(QDomElement &qElement)
-{
-    return NewUMLRectWidget::loadFromXMI(qElement);
-}
-
+/**
+ * Reimplemented from NewUMLWidget::saveToXMI to save DataTypeWidget
+ * data into XMI element.
+ */
 void DatatypeWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement conceptElement = qDoc.createElement("datatypewidget");
@@ -66,15 +44,9 @@ void DatatypeWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     qElement.appendChild(conceptElement);
 }
 
-QSizeF DatatypeWidget::sizeHint(Qt::SizeHint which)
-{
-    if(which == Qt::MinimumSize) {
-        return m_minimumSize;
-    }
-
-    return NewUMLRectWidget::sizeHint(which);
-}
-
+/**
+ * Reimplemented from NewUMLRectWidget::paint. Draws a rectangle.
+ */
 void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setBrush(brush());
@@ -83,48 +55,51 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, 
     painter->drawRect(rect());
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * and set the minimum size for this widget.
+ */
 void DatatypeWidget::updateGeometry()
 {
-    if(umlObject()) {
-        int totalItemCount = 2; // SteroType and name
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	QSizeF minSize = grp->minimumSize();
+	setMinimumSize(minSize);
 
-        // Create a dummy item, to store the properties so that it can
-        // easily be used to copy the properties to other text items.
-        TextItem dummy("");
-        dummy.setDefaultTextColor(fontColor());
-        dummy.setFont(font());
-        // dummy.setAcceptHoverEvents(true);
-        // dummy.setHoverBrush(hoverBrush);
-        dummy.setAlignment(Qt::AlignCenter);
-        dummy.setBackgroundBrush(Qt::NoBrush);
-
-        m_textItemGroup->ensureTextItemCount(totalItemCount);
-
-        TextItem *stereo = m_textItemGroup->textItemAt(DatatypeWidget::StereoTypeItemIndex);
-        stereo->setText(umlObject()->getStereotype(true));
-        dummy.copyAttributesTo(stereo); // apply the attributes
-        stereo->setBold(true);
-
-        TextItem *nameItem = m_textItemGroup->textItemAt(DatatypeWidget::NameItemIndex);
-        nameItem->setText(name());
-        dummy.copyAttributesTo(nameItem); // apply the attributes
-        nameItem->setItalic(umlObject()->getAbstract());
-
-        m_minimumSize = m_textItemGroup->calculateMinimumSize();
-        m_minimumSize.rwidth() += DatatypeWidget::Margin * 2;
-    }
-
-    NewUMLRectWidget::updateGeometry();
+	NewUMLRectWidget::updateGeometry();
 }
 
-void DatatypeWidget::sizeHasChanged(const QSizeF& oldSize)
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * the text of TextItemGroups.
+ */
+void DatatypeWidget::updateTextItemGroups()
 {
-    QPointF offset(DatatypeWidget::Margin, 0);
-    QSizeF groupSize = size();
-    groupSize.rwidth() -= 2 * DatatypeWidget::Margin;
+	if(umlObject()) {
+		TextItemGroup *grp = textItemGroupAt(DatatypeWidget::GroupIndex);
+		grp->setTextItemCount(DatatypeWidget::TextItemCount);
 
-    m_textItemGroup->alignVertically(groupSize);
-    m_textItemGroup->setPos(offset);
+        TextItem *stereo = grp->textItemAt(DatatypeWidget::StereoTypeItemIndex);
+        stereo->setText(umlObject()->getStereotype(true));
+        stereo->setBold(true);
 
-    NewUMLRectWidget::sizeHasChanged(oldSize);
+        TextItem *nameItem = grp->textItemAt(DatatypeWidget::NameItemIndex);
+        nameItem->setText(name());
+        nameItem->setItalic(umlObject()->getAbstract());
+    }
+
+    NewUMLRectWidget::updateTextItemGroups();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * change of size to align TextItemGroup
+ */
+QVariant DatatypeWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+    if(change == SizeHasChanged) {
+		TextItemGroup *grp = textItemGroupAt(DatatypeWidget::GroupIndex);
+		const qreal m = margin();
+		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+	}
+    return NewUMLRectWidget::attributeChange(change, oldValue);
 }

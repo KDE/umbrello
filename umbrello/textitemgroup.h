@@ -22,17 +22,21 @@
 
 #include <QtCore/QList>
 #include <QtCore/QPointF>
+#include <QtCore/QRectF>
 #include <QtCore/QSizeF>
+#include <QtGui/QBrush>
+#include <QtGui/QColor>
+#include <QtGui/QFont>
 
 class QGraphicsItem;
 class TextItem;
-class QSizeF;
 
 class TextItemGroup
 {
 public:
     static const qreal NoLineBreak;
-    TextItemGroup( QGraphicsItem *parent = 0 );
+
+	TextItemGroup(QGraphicsItem *parent = 0);
     ~TextItemGroup();
 
     QGraphicsItem* parentItem() const {
@@ -40,53 +44,72 @@ public:
     }
     void setParentItem(QGraphicsItem *item);
 
-    void appendTextItem(TextItem *item);
+	int indexOf(TextItem* item) const {
+		return m_textItems.indexOf(item);
+	}
+    TextItem* textItemAt(int index);
 
+	int textItemCount() const {
+        return m_textItems.size();
+    }
+	void setTextItemCount(int count);
+
+	const QList<TextItem*> &textItems() const {
+		return m_textItems;
+	}
+
+	void appendTextItem(TextItem *item);
     void deleteTextItem(TextItem *item);
     void deleteTextItemAt(int index);
 
-    bool isIndexValid(int index) const;
-
-    int indexOf(TextItem* item) const;
-    TextItem* textItemAt(int index) const;
-
-    const QList<TextItem*> &textItems() const;
-    int size() const {
-        return m_textItems.size();
-    }
-
-    QSizeF calculateMinimumSize();
-
-    qreal lineBreakWidth() const {
+	qreal lineBreakWidth() const {
         return m_lineBreakageWidth;
     }
     void setLineBreakWidth(qreal w);
 
-    void alignVertically(qreal currentWidth, qreal currentHeight);
-    void alignVertically(const QSizeF& size) {
-        alignVertically(size.width(), size.height());
-    }
+	QSizeF minimumSize() const;
 
-    QPointF pos() const {
-        return m_pos;
-    }
-    void setPos(const QPointF& pos);
-
-	QSizeF currentSize() const {
-		return m_currentSize;
+	QRectF groupGeometry() const {
+		return m_groupGeometry;
 	}
+    void setGroupGeometry(const QRectF& rect);
 
-    void unparent();
-    void reparent();
+	Qt::Alignment alignment() const {
+		return m_alignment;
+	}
+	void setAlignment(Qt::Alignment align);
 
-    void ensureTextItemCount(int count);
+	QColor fontColor() const {
+		return m_fontColor;
+	}
+	void setFontColor(const QColor& color);
+
+	QBrush hoverBrush() const {
+		return m_hoverBrush;
+	}
+	void setHoverBrush(const QBrush& brush);
+
+	QBrush backgroundBrush() const {
+		return m_backgroundBrush;
+	}
+	void setBackgroundBrush(const QBrush& brush);
+
+	QFont font() const {
+		return m_font;
+	}
+	void setFont(const QFont& font);
 
 private:
     QGraphicsItem *m_parentItem;
     QList<TextItem*> m_textItems;
-    QPointF m_pos;
-	QSizeF m_currentSize;
+	QRectF m_groupGeometry;
     qreal m_lineBreakageWidth;
+
+	Qt::Alignment m_alignment;
+	QColor m_fontColor;
+	QBrush m_hoverBrush;
+	QBrush m_backgroundBrush;
+	QFont m_font;
 };
 
 

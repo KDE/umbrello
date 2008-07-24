@@ -26,19 +26,41 @@
 class AssociationWidget;
 class WidgetHandle;
 class UMLWidgetController;
+class TextItemGroup;
 
+/**
+ * @short The base class for rectangular base UML widgets.
+ *
+ * This class extends the functionality provided by NewUMLWidget with
+ * facilities to resize the widget, provide flexible constraints
+ * management.
+ *
+ * Also this class handles connected association widgets whenever
+ * required.
+ */
 class NewUMLRectWidget : public NewUMLWidget
 {
 	Q_OBJECT
 public:
     static const QSizeF DefaultMinimumSize;
     static const QSizeF DefaultMaximumSize;
-    static const QSizeF DefaultPreferredSize;
 
 	explicit NewUMLRectWidget(UMLObject *object);
     ~NewUMLRectWidget();
 
-    virtual QSizeF sizeHint(Qt::SizeHint which);
+	/// @return The minimum size for this widget.
+	QSizeF minimumSize() const {
+		return m_minimumSize;
+	}
+	void setMinimumSize(const QSizeF& newSize);
+
+	/// @return The maximum size for this widget.
+	QSizeF maximumSize() const {
+		return m_maximumSize;
+	}
+	void setMaximumSize(const QSizeF& newSize);
+
+	/// @return The current size of this widget.
     QSizeF size() const {
 		return m_size;
 	}
@@ -46,24 +68,48 @@ public:
     void setSize(qreal width, qreal height) {
         setSize(QSizeF(width, height));
     }
+
+	/// @return Whether widget is resizable or not.
     bool isResizable() const {
         return m_resizable;
     }
+	/**
+	 * Shorthand for QRectF(QPointF(0, 0), size()); The rect() area is
+	 * where all the widget painting should go.
+	 *
+	 * @note boundingRect() is always larger than or equal to rect().
+	 */
     QRectF rect() const {
         return QRectF(QPointF(0, 0), size());
     }
 
+	/**
+	 * @return The margin from the rect() left for good visual appeal.
+	 */
+	qreal margin() const {
+		return m_margin;
+	}
+	void setMargin(qreal margin);
+
+	/// @return The instance name for this widget.
     QString instanceName() const {
 		return m_instanceName;
 	}
     void setInstanceName(const QString &name);
+
+	/// @return Whether this is an instance or not.
     virtual bool isInstance() const {
 		return false;
 	}
 
-    bool showStereotype() const { return m_showStereotype; }
+	/// @return Whether to show stereotype or not.
+    bool showStereotype() const {
+		return m_showStereotype;
+	}
     void setShowStereotype(bool b);
 
+	/// @return A list representing AssociationWidget connected to
+	///         this widget.
     AssociationWidgetList associationWidgetList() const {
 		return m_associationWidgetList;
 	}
@@ -71,35 +117,62 @@ public:
     void removeAssociationWidget(AssociationWidget *assoc);
     void adjustConnectedAssociations();
 
-    void showPropertiesDialog();
-    void setupContextMenuActions(ListPopupMenu &menu);
+    virtual void showPropertiesDialog();
+    virtual void setupContextMenuActions(ListPopupMenu &menu);
 
-    bool loadFromXMI(QDomElement &qElement);
-    void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
+    virtual bool loadFromXMI(QDomElement &qElement);
+    virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
 protected:
-    virtual void sizeHasChanged(const QSizeF& oldSize);
-    void updateGeometry();
-    void setResizable(bool resizable);
+	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual void updateGeometry();
+    virtual void setResizable(bool resizable);
 
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+
+	TextItemGroup* createTextItemGroup();
+	int indexOfTextItemGroup(TextItemGroup *group) const;
+	TextItemGroup* textItemGroupAt(int index) const;
+	virtual void updateTextItemGroups();
+
+	/**
+	 * List of TextItemGroup , which manages various texts for this
+	 * widget.
+	 */
+	QList<TextItemGroup*> m_textItemGroups;
+
+protected Q_SLOTS:
+    virtual void slotUMLObjectDataChanged();
 
 private:
+	/// Current size of the widget.
     QSizeF m_size;
-    QString m_instanceName;
-    bool m_showStereotype;
 
-    bool m_resizable;
+	QSizeF m_minimumSize;
+	QSizeF m_maximumSize;
+
+	/// Margin for this widget.
+	qreal m_margin;
+
+	QString m_instanceName;
+	bool m_showStereotype;
+
+	/// Whether resizable or not.
+	bool m_resizable;
     AssociationWidgetList m_associationWidgetList;
 
-    QRectF m_oldGeometry;
-    WidgetHandle *m_widgetHandle;
+	/// Widget handle for this widget (for resizing)
+	WidgetHandle *m_widgetHandle;
 
+	QRectF m_geometryBeforeResize;
+
+	// Dispable copy constructor and operator=
     DISABLE_COPY(NewUMLRectWidget);
 
 public:
@@ -117,7 +190,7 @@ public:
     bool getShowStereotype() const { return showStereotype(); }
 
     void adjustAssocs(qreal, qreal) {}
-    QSizeF calculateSize() { return sizeHint(Qt::MinimumSize); }
+    QSizeF calculateSize() { return minimumSize(); }
     bool getStartMove() const { return false; }
     bool getIgnoreSnapToGrid() const { return false; }
     void setIgnoreSnapToGrid(bool) {}

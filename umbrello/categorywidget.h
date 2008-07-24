@@ -33,7 +33,6 @@ public:
 	CategoryWidget(UMLCategory *o);
 	virtual ~CategoryWidget();
 
-	virtual QSizeF sizeHint(Qt::SizeHint which);
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
 	// For loading , NewUMLRectWidget::loadFromXMI() is used.
@@ -41,14 +40,9 @@ public:
 
 protected:
     virtual void updateGeometry();
-	virtual void sizeHasChanged(const QSizeF& oldSize);
 
 public Q_SLOTS:
     void slotMenuSelection(QAction* action);
-
-private:
-	static const qreal Margin;
-	QSizeF m_minimumSize;
 };
 
 #endif

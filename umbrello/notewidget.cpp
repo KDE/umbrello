@@ -22,6 +22,7 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "widget_utils.h"
 
 // qt includes
 #include <QtCore/QSizeF>
@@ -32,8 +33,6 @@
 #include <kinputdialog.h>
 #include <klocale.h>
 
-const qreal NoteWidget::Margin = 10;
-
 /**
  * Constructs a NoteWidget.
  *
@@ -43,19 +42,17 @@ const qreal NoteWidget::Margin = 10;
  */
 NoteWidget::NoteWidget(NoteType noteType , Uml::IDType id)
     : NewUMLRectWidget(0, id),
-      m_minimumSize(100, 80),
       m_diagramLink(Uml::id_None),
       m_noteType(noteType)
 {
     m_baseType = Uml::wt_Note;
-    m_textItemGroup = new TextItemGroup(this);
+	createTextItemGroup();
     setZValue(20); //make sure always on top.
 }
 
 /// destructor
 NoteWidget::~NoteWidget()
 {
-    delete m_textItemGroup;
 }
 
 /// Converts a string to NoteWidget::NoteType
@@ -71,12 +68,11 @@ NoteWidget::NoteType NoteWidget::stringToNoteType(const QString& noteType)
         return NoteWidget::Normal;
 }
 
-/**
- * Sets the @ref NoteWidget::NoteType for this widget.
- */
+/// Sets the @ref NoteWidget::NoteType for this widget.
 void NoteWidget::setNoteType(NoteType noteType)
 {
     m_noteType = noteType;
+	updateTextItemGroups();
 }
 
 /**
@@ -95,6 +91,7 @@ void NoteWidget::setNoteType( const QString& noteType )
  * To switch off the hyperlink, set this to Uml::id_None.
  *
  * @param sceneID ID of an UMLScene.
+ * @todo Fix the display of diagram link.
  */
 void NoteWidget::setDiagramLink(Uml::IDType sceneID)
 {
@@ -117,40 +114,23 @@ void NoteWidget::setDiagramLink(Uml::IDType sceneID)
     m_diagramLink = sceneID;
 }
 
-QSizeF NoteWidget::sizeHint(Qt::SizeHint which)
-{
-    if(which == Qt::MinimumSize) {
-        return m_minimumSize;
-    }
-    return NewUMLRectWidget::sizeHint(which);
-}
-
 void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
     const QSizeF sz = size();
-    qreal w = sz.width() - 1;
-    qreal h = sz.height() - 1;
 
-    painter->setPen(QPen(lineColor(), lineWidth()));
+	painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());
 
-    QPolygonF poly(5);
-    poly[0] = QPointF(0, 0);
-    poly[1] = QPointF(0, h);
-    poly[2] = QPointF(w, h);
-    poly[3] = QPointF(w, NoteWidget::Margin);
-    poly[4] = QPointF(w - NoteWidget::Margin, 0);
-    painter->drawPolygon(poly);
-
-    painter->drawLine(w - NoteWidget::Margin, 0, w - NoteWidget::Margin, NoteWidget::Margin);
-    painter->drawLine(w - NoteWidget::Margin, NoteWidget::Margin, w, NoteWidget::Margin);
-
-    // The rest of text drawing is taken care by TextItemGroup and TextItem
+	QSizeF triSize(10, 10);
+	Widget_Utils::drawTriangledRect(painter, rect(), triSize);
 }
 
+/// Display a dialogBox to allow the user to choose the note's type
 void NoteWidget::askForNoteType(NewUMLRectWidget* &targetWidget)
 {
-    static const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
+    static const QStringList list = QStringList() << i18n("Precondition")
+												  << i18n("Postcondition")
+												  << i18n("Transformation");
 
     bool pressedOK = false;
     QString type = KInputDialog::getItem(i18n("Note Type"), i18n("Select the Note Type"), list,
@@ -164,6 +144,10 @@ void NoteWidget::askForNoteType(NewUMLRectWidget* &targetWidget)
     }
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save note widget
+ * into XMI.
+ */
 void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement noteElement = qDoc.createElement( "notewidget" );
@@ -176,6 +160,10 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     qElement.appendChild(noteElement);
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load note
+ * widget info from XMI.
+ */
 bool NoteWidget::loadFromXMI( QDomElement & qElement )
 {
     if( !NewUMLRectWidget::loadFromXMI( qElement ) )
@@ -190,24 +178,47 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement )
     return true;
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * minimum size for this widget.
+ */
 void NoteWidget::updateGeometry()
 {
-    m_textItemGroup->ensureTextItemCount(TextItemCount);
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	qreal widthWithoutNote = 0;
 
-    TextItem dummy("");
-    dummy.setDefaultTextColor(fontColor());
-    dummy.setFont(font());
-    // dummy.setAcceptHoverEvents(true);
-    // dummy.setHoverBrush(hoverBrush);
-    dummy.setAlignment(Qt::AlignCenter);
-    dummy.setBackgroundBrush(Qt::NoBrush);
+	// Ignore if TextItems haven't been properly constructed
+	// still. (happens during creation of object)
+	if(grp->textItemCount() > NoteTextItemIndex) {
+		TextItem *noteTextItem = grp->textItemAt(NoteTextItemIndex);
+		noteTextItem->hide();
+		widthWithoutNote = grp->minimumSize().width();
+		noteTextItem->show();
+	}
 
-    TextItem *diagramLinkItem = m_textItemGroup->textItemAt(DiagramLinkItemIndex);
+	const qreal atleast6Chars = QFontMetricsF(grp->font()).width("w") * 6;
+	if(widthWithoutNote > atleast6Chars) {
+		grp->setLineBreakWidth(widthWithoutNote);
+	}
+
+	setMinimumSize(grp->minimumSize());
+	NewUMLRectWidget::updateGeometry();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * texts and their properties.
+ */
+void NoteWidget::updateTextItemGroups()
+{
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	grp->setTextItemCount(TextItemCount);
+
+	TextItem *diagramLinkItem = grp->textItemAt(DiagramLinkItemIndex);
     diagramLinkItem->hide();
-    //FIXME: Fixe diagram link drawing
+	//FIXME: Fixe diagram link drawing
 
-    TextItem *noteTypeItem = m_textItemGroup->textItemAt(NoteTypeItemIndex);
-    dummy.copyAttributesTo(noteTypeItem);
+    TextItem *noteTypeItem = grp->textItemAt(NoteTypeItemIndex);
     if(m_noteType == NoteWidget::PreCondition) {
         noteTypeItem->setText(i18n("<< precondition >>"));
         noteTypeItem->show();
@@ -224,44 +235,35 @@ void NoteWidget::updateGeometry()
         noteTypeItem->hide();
     }
 
-    TextItem *noteTextItem = m_textItemGroup->textItemAt(NoteTextItemIndex);
-    dummy.copyAttributesTo(noteTextItem);
-
-    noteTextItem->hide();
-
-    // Get width without note, so that we can display notes broken into multiple lines.
-    int widthWithoutNote = int(m_textItemGroup->calculateMinimumSize().width());
-
-    // Set the string now, since it also prevents update. Hitting two birds in a stone.
+    TextItem *noteTextItem = grp->textItemAt(NoteTextItemIndex);
     noteTextItem->setText(documentation());
-    noteTextItem->show();
 
-    m_textItemGroup->setLineBreakWidth(widthWithoutNote == 0 ? TextItemGroup::NoLineBreak : widthWithoutNote);
-    m_minimumSize = m_textItemGroup->calculateMinimumSize();
-
-    m_minimumSize.rwidth() += 2 * NoteWidget::Margin;
-    m_minimumSize.rheight() += 2 * NoteWidget::Margin;
-
-    // Make sure the minimum size is atleast 100,30
-    m_minimumSize = m_minimumSize.expandedTo(QSizeF(100, 30));
-
-    NewUMLRectWidget::updateGeometry();
+    NewUMLRectWidget::updateTextItemGroups();
 }
 
-/// Align the text items on size change.
-void NoteWidget::sizeHasChanged(const QSizeF& oldSize)
+/**
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * SizeHasChanged in which we set the positions of texts and to handle
+ * DocumentationHasChanged to update the geometry.
+ */
+QVariant NoteWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-    QSizeF groupSize = size();
-    groupSize.rwidth() -= NoteWidget::Margin * 2;
-    groupSize.rheight() -= NoteWidget::Margin * 2;
-    m_textItemGroup->alignVertically(groupSize);
-
-    QPointF offset(NoteWidget::Margin, NoteWidget::Margin);
-    m_textItemGroup->setPos(offset);
-
-    NewUMLRectWidget::sizeHasChanged(oldSize);
+    if(change == SizeHasChanged) {
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		const qreal m = margin();
+		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+	}
+	else if(change == DocumentationHasChanged) {
+		updateTextItemGroups();
+		return QVariant(); // no need for base method.
+	}
+	return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * some menu actions.
+ */
 void NoteWidget::slotMenuSelection(QAction* action) {
     NoteDialog * dlg = 0;
     UMLDoc *doc = UMLApp::app()->getDocument();

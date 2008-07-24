@@ -32,38 +32,21 @@
 #include <QtGui/QPainter>
 #include <QtGui/QStyleOptionGraphicsItem>
 
-const qreal EnumWidget::Margin = 5;
-
+/**
+ * Constructs an instance of EnumWidget.
+ * @param o The NewUMLObject this will be representing.
+ */
 EnumWidget::EnumWidget(UMLObject* o) :
     NewUMLRectWidget(o),
     m_showPackage(false)
 {
-    m_textItemGroup = new TextItemGroup(this);
     m_baseType = Uml::wt_Enum;
-    // init();
+	createTextItemGroup();
 }
 
+/// Destructor
 EnumWidget::~EnumWidget()
 {
-    delete m_textItemGroup;
-}
-
-// void EnumWidget::init()
-// {
-//     if(umlScene()) {
-//         const Settings::OptionState& ops = umlScene()->getOptionState();
-//         m_showPackage = ops.classState.showPackage;
-//     }
-
-//     updateGeometry();
-// }
-
-QSizeF EnumWidget::sizeHint(Qt::SizeHint which)
-{
-    if(which == Qt::MinimumSize) {
-        return m_minimumSize;
-    }
-    return NewUMLRectWidget::sizeHint(which);
 }
 
 /**
@@ -74,9 +57,12 @@ QSizeF EnumWidget::sizeHint(Qt::SizeHint which)
 void EnumWidget::setShowPackage(bool b)
 {
     m_showPackage = b;
-    updateGeometry();
+    updateTextItemGroups();
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::paint to draw enum widget.
+ */
 void EnumWidget::paint(QPainter *painter,
                           const QStyleOptionGraphicsItem *option,
                           QWidget *widget)
@@ -86,12 +72,7 @@ void EnumWidget::paint(QPainter *painter,
 
     // First draw the outer rectangle with the pen and brush of this widget.
     painter->drawRect(rect());
-
-    // Now get the position to draw the line.
-    const TextItem *item = m_textItemGroup->textItemAt(NameItemIndex);
-    const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
-    const qreal y = bottomLeft.y();
-    painter->drawLine(QLineF(0, y, size().width() - 1, y));
+	painter->drawLine(m_nameLine);
 }
 
 /// Loads from an "enumwidget" XMI element.
@@ -133,68 +114,76 @@ void EnumWidget::slotMenuSelection(QAction *action)
 }
 
 /**
- * Overidden to update the literals, enum name and stereotype text
- * display on modifying the same.
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * minimum size.
  */
 void EnumWidget::updateGeometry()
+{
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	setMinimumSize(grp->minimumSize());
+	NewUMLRectWidget::updateGeometry();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * the texts and its properties.
+ */
+void EnumWidget::updateTextItemGroups()
 {
     if(umlObject()) {
         UMLClassifier *classifier = static_cast<UMLClassifier*>(umlObject());
         UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
         int totalTextItems = list.size() + 2; // +2 because stereo text + name text.
 
-        // Create a dummy item with the common properties set on
-        // it. We can then use TextItem::copyAttributesTo method to
-        // copy these common attributes, just to avoid some code
-        // duplication.
-        TextItem dummy("");
-        dummy.setDefaultTextColor(fontColor());
-        dummy.setFont(font());
-        dummy.setAlignment(Qt::AlignCenter);
-        dummy.setBackgroundBrush(Qt::NoBrush);
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		grp->setTextItemCount(totalTextItems);
 
-        // Ensure there are appropriate number of textitems.
-        m_textItemGroup->ensureTextItemCount(totalTextItems);
-
-        TextItem *stereo = m_textItemGroup->textItemAt(EnumWidget::StereoTypeItemIndex);
+        TextItem *stereo = grp->textItemAt(EnumWidget::StereoTypeItemIndex);
         stereo->setText(classifier->getStereotype(true));
-        dummy.copyAttributesTo(stereo);
         stereo->setBold(true);
 
-        TextItem *nameItem = m_textItemGroup->textItemAt(EnumWidget::NameItemIndex);
+        TextItem *nameItem = grp->textItemAt(EnumWidget::NameItemIndex);
         nameItem->setText(m_showPackage ?
                           classifier->getFullyQualifiedName() :
                           name());
-        dummy.copyAttributesTo(nameItem);
         nameItem->setBold(true);
         nameItem->setItalic(classifier->getAbstract());
 
         int index = EnumWidget::EnumLiteralStartIndex;
         foreach(UMLClassifierListItem* enumLiteral, list) {
-            TextItem *literal = m_textItemGroup->textItemAt(index);
+            TextItem *literal = grp->textItemAt(index);
             literal->setText(enumLiteral->getName());
-            dummy.copyAttributesTo(literal);
             ++index;
         }
-
-        m_minimumSize = m_textItemGroup->calculateMinimumSize();
-
-        // FIXME: Don't know why Margin * 2 for width doesn't fit the items.
-        m_minimumSize += QSizeF(EnumWidget::Margin * 3, EnumWidget::Margin * 2);
     }
-    NewUMLRectWidget::updateGeometry();
+    NewUMLRectWidget::updateTextItemGroups();
 }
 
-void EnumWidget::sizeHasChanged(const QSizeF& oldSize)
+/**
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * SizeHasChanged to adjust position of texts.
+ */
+QVariant EnumWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-    QSizeF groupSize = size();
-    groupSize -= QSizeF(EnumWidget::Margin * 2, EnumWidget::Margin * 2);
-    QPointF offset(EnumWidget::Margin, EnumWidget::Margin);
+	if(change == SizeHasChanged) {
+		QRectF groupGeometry(rect());
+		const qreal m = margin();
+		groupGeometry.adjust(+m, +m, -m, -m);
 
-    m_textItemGroup->alignVertically(groupSize);
-    m_textItemGroup->setPos(offset);
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		grp->setGroupGeometry(groupGeometry);
 
-    NewUMLRectWidget::sizeHasChanged(oldSize);
+		// Check as textItems are uninitialized in during very first updates.
+		if(grp->textItemCount() > NameItemIndex) {
+			// Now get the position to draw the line.
+			const TextItem *item = grp->textItemAt(NameItemIndex);
+			const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
+			const qreal y = bottomLeft.y();
+			m_nameLine.setLine(0, y, size().width() - 1, y);
+		}
+	}
+
+	return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 #include "enumwidget.moc"

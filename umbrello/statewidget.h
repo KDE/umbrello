@@ -14,8 +14,6 @@
 
 #include "newumlrectwidget.h"
 
-class TextItemGroup;
-
 /**
  * This class is the graphical version of a UML State.
  *
@@ -42,7 +40,6 @@ public:
     explicit StateWidget(StateType stateType = Normal, Uml::IDType id = Uml::id_None );
     virtual ~StateWidget();
 
-	virtual QSizeF sizeHint(Qt::SizeHint which);
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
 	/// @return Type of state.
@@ -65,32 +62,28 @@ public:
 
 protected:
 	virtual void updateGeometry();
-	virtual void sizeHasChanged(const QSizeF& oldSize);
+	virtual void updateTextItemGroups();
+	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 private:
-	static const qreal Margin;
 	static const QSizeF MinimumEllipseSize;
 
 	/// Type of state
 	StateType m_stateType;
 
-	/// Store the minimum size
-	QSizeF m_minimumSize;
-
-	/**
-	 * List of activities for the state stored as TextItems in
-	 * TextItemGroup.
-	 */
-    TextItemGroup *m_textItemGroup;
-
+	enum {
+		GroupIndex
+	};
 	/// Indicies of text items in m_textItemGroup
 	enum {
 		NameItemIndex = 0,
 		ActivityStartIndex = 1
 	};
+
+	QVector<QLineF> m_separatorLines;
 };
 
 #endif

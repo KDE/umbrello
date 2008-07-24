@@ -110,23 +110,23 @@ bool ToolBarStateOther::newWidget()
 
         // Activity buttons
         case WorkToolBar::tbb_Initial_Activity:
-            umlWidget = new ActivityWidget(m_pUMLScene, ActivityWidget::Initial);
+            umlWidget = new ActivityWidget(ActivityWidget::Initial);
             break;
 
         case WorkToolBar::tbb_Activity:
-            umlWidget = new ActivityWidget(m_pUMLScene, ActivityWidget::Normal);
+            umlWidget = new ActivityWidget(ActivityWidget::Normal);
             break;
 
         case WorkToolBar::tbb_End_Activity:
-            umlWidget = new ActivityWidget(m_pUMLScene, ActivityWidget::End);
+            umlWidget = new ActivityWidget(ActivityWidget::End);
             break;
 
         case WorkToolBar::tbb_Final_Activity:
-            umlWidget = new ActivityWidget(m_pUMLScene, ActivityWidget::Final);
+            umlWidget = new ActivityWidget(ActivityWidget::Final);
             break;
 
         case WorkToolBar::tbb_Branch:
-            umlWidget = new ActivityWidget(m_pUMLScene, ActivityWidget::Branch);
+            umlWidget = new ActivityWidget(ActivityWidget::Branch);
             break;
 
         case WorkToolBar::tbb_Fork:

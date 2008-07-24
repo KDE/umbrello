@@ -15,36 +15,46 @@
 #include "newumlrectwidget.h"
 
 class UMLPackage;
-class TextItemGroup;
 
+/**
+ * Defines a graphical version of the Package.  Most of the
+ * functionality will come from the @ref UMLPackage class.
+ *
+ * @short A graphical version of a Package.
+ * @author Jonathan Riddell
+ * @author Gopala Krishna
+ *
+ * @see NewUMLRectWidget
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
 class PackageWidget : public NewUMLRectWidget
 {
 public:
     PackageWidget(UMLPackage * o);
     virtual ~PackageWidget();
 
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	// Uses NewUMLRectWidget::loadFromXMI to load from XMI
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    QSizeF sizeHint(Qt::SizeHint which);
-
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
+	void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
 
 protected:
     void updateGeometry();
-    void sizeHasChanged(const QSizeF& oldSize);
+	void updateTextItemGroups();
+	QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
+	enum {
+		GroupIndex
+	};
     enum {
         StereoTypeItemIndex = 0,
-        NameItemIndex = 1
+        NameItemIndex,
+		TextItemCount
     };
 
-    static const qreal Margin;
-
-    QRectF m_topRect;
+	QRectF m_topRect;
     QRectF m_packageTextRect;
-    QSizeF m_minimumSize;
-    TextItemGroup *m_textItemGroup;
 };
 
 #endif

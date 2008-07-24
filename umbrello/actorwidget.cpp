@@ -20,8 +20,7 @@
 // qt includes
 #include <QtGui/QPainter>
 
-const QSizeF ActorWidget::MinimumActorSize = QSizeF(20, 40);
-const qreal ActorWidget::Margin = 5;
+const QSizeF ActorWidget::MinimumSize = QSizeF(20, 40);
 
 /**
  * Constructs an ActorWidget.
@@ -31,22 +30,12 @@ const qreal ActorWidget::Margin = 5;
 ActorWidget::ActorWidget(UMLActor *a) : NewUMLRectWidget(a)
 {
 	m_baseType = Uml::wt_Actor;
-	m_textItemGroup = new TextItemGroup(this);
+	createTextItemGroup();
 }
 
 /// Destructor
 ActorWidget::~ActorWidget()
 {
-	delete m_textItemGroup;
-}
-
-/// Reimplemented to return size hint corresponding to ActorWidget.
-QSizeF ActorWidget::sizeHint(Qt::SizeHint which)
-{
-    if(which == Qt::MinimumSize) {
-		return m_minimumSize;
-	}
-	return NewUMLRectWidget::sizeHint(which);
 }
 
 /**
@@ -74,84 +63,87 @@ void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 void ActorWidget::updateGeometry()
 {
-	if(umlObject()) {
-		const int totalItemCount = 1; // Only name text
-		const int nameItemIndex = 0;
-		m_textItemGroup->ensureTextItemCount(totalItemCount);
+	const int groupIndex = 0; // Only one group
 
-		TextItem *nameItem = m_textItemGroup->textItemAt(nameItemIndex);
-		nameItem->setDefaultTextColor(fontColor());
-		nameItem->setFont(font());
-		nameItem->setAlignment(Qt::AlignCenter);
-		nameItem->setBackgroundBrush(Qt::NoBrush);
-		nameItem->setText(name());
-
-		// Calculate minimum size.
-		m_minimumSize = m_textItemGroup->calculateMinimumSize();
-		m_minimumSize.rheight() += ActorWidget::MinimumActorSize.height();
-		m_minimumSize.rheight() += 2 * ActorWidget::Margin;
-
-		m_minimumSize.rwidth() = qMax(m_minimumSize.width(),
-									  ActorWidget::MinimumActorSize.width());
-		m_minimumSize.rwidth() += 2 * ActorWidget::Margin;
+	QSizeF minSize = textItemGroupAt(groupIndex)->minimumSize();
+	if(minSize.width() < ActorWidget::MinimumSize.width()) {
+		minSize.setWidth(ActorWidget::MinimumSize.width());
 	}
+	minSize.rheight() += ActorWidget::MinimumSize.height();
+	setMinimumSize(minSize);
+
 	NewUMLRectWidget::updateGeometry();
 }
 
 /**
- * Reimplemented to calculated new shape based on current size and
- * also align the actor text.
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * SizeHasChanged change.
  */
-void ActorWidget::sizeHasChanged(const QSizeF& oldSize)
+QVariant ActorWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldVal)
 {
-	const QSizeF sz = size();
+	if(change == SizeHasChanged) {
+		// Calculate new path and position the text.
+		const QSizeF sz = size();
+		const qreal m = margin();
 
-	// First adjust the position of text and align it.
-	const int NameIndex = 0;
-	qreal fontHeight = m_textItemGroup->textItemAt(NameIndex)->height();
-	QPointF offset(ActorWidget::Margin,
-				   sz.height() - fontHeight - ActorWidget::Margin);
-	m_textItemGroup->setPos(offset);
-	QSizeF groupCurSize = QSizeF(sz.width() - 2 * ActorWidget::Margin,
-								 fontHeight);
-	m_textItemGroup->alignVertically(groupCurSize);
+		const int groupIndex = 0; // Only one group
+		TextItemGroup *grp = textItemGroupAt(groupIndex);
 
-	// Calculate actor path again.
-	m_actorPath = QPainterPath();
-	qreal actorHeight = sz.height() - fontHeight -
-		2 * ActorWidget::Margin;
-	qreal actorWidth = sz.width() - 2 * ActorWidget::Margin;
+		// First adjust the position of text and align it.
+		qreal fontHeight = grp->minimumSize().height();
 
-	// Make sure width of actor isn't too much, it looks ugly otherwise.
-	if(actorWidth > .5 * actorHeight) {
-		actorWidth = .5 * actorHeight;
+		QRectF r(m, rect().bottom() - fontHeight - m,
+				 sz.width() - 2 * m, fontHeight);
+		grp->setGroupGeometry(r);
+
+		// Now calculate actorPath
+		m_actorPath = QPainterPath();
+		qreal actorHeight = r.top() - m;
+		qreal actorWidth = r.width();
+
+		// Make sure width of actor isn't too much, it looks ugly otherwise.
+		if(actorWidth > .5 * actorHeight) {
+			actorWidth = .5 * actorHeight;
+		}
+		//TODO: Probably use above similar approach to limit height.
+
+		QRectF headEllipse;
+		headEllipse.setTopLeft(QPointF(.5 * (sz.width() - actorWidth), m));
+		headEllipse.setSize(QSizeF(actorWidth, actorHeight / 3));
+		m_actorPath.addEllipse(headEllipse);
+
+		QLineF bodyLine(.5 * sz.width(), headEllipse.bottom(),
+						.5 * sz.width(), (2. / 3.) * actorHeight);
+		m_actorPath.moveTo(bodyLine.p1());
+		m_actorPath.lineTo(bodyLine.p2());
+
+		QLineF leftLeg(.5 * sz.width(), bodyLine.p2().y(),
+				   headEllipse.left(), actorHeight);
+		m_actorPath.moveTo(leftLeg.p1());
+		m_actorPath.lineTo(leftLeg.p2());
+
+		QLineF rightLeg(.5 * sz.width(), bodyLine.p2().y(),
+						headEllipse.right(), actorHeight);
+		m_actorPath.moveTo(rightLeg.p1());
+		m_actorPath.lineTo(rightLeg.p2());
+
+		QLineF arms(headEllipse.left(), .5 * actorHeight,
+					headEllipse.right(), .5 * actorHeight);
+		m_actorPath.moveTo(arms.p1());
+		m_actorPath.lineTo(arms.p2());
 	}
 
-	//TODO: Probably use above similar approach to limit height.
-	QRectF headEllipse;
-	headEllipse.setTopLeft(QPointF(.5 * (sz.width() - actorWidth), ActorWidget::Margin));
-	headEllipse.setSize(QSizeF(actorWidth, actorHeight / 3));
-	m_actorPath.addEllipse(headEllipse);
+	return NewUMLRectWidget::attributeChange(change, oldVal);
+}
 
-	QLineF bodyLine(.5 * sz.width(), headEllipse.bottom(),
-						.5 * sz.width(), (2. / 3.) * actorHeight);
-	m_actorPath.moveTo(bodyLine.p1());
-	m_actorPath.lineTo(bodyLine.p2());
-
-	QLineF leftLeg(.5 * sz.width(), bodyLine.p2().y(),
-				   headEllipse.left(), actorHeight);
-	m_actorPath.moveTo(leftLeg.p1());
-	m_actorPath.lineTo(leftLeg.p2());
-
-	QLineF rightLeg(.5 * sz.width(), bodyLine.p2().y(),
-				   headEllipse.right(), actorHeight);
-	m_actorPath.moveTo(rightLeg.p1());
-	m_actorPath.lineTo(rightLeg.p2());
-
-	QLineF arms(headEllipse.left(), .5 * actorHeight,
-				headEllipse.right(), .5 * actorHeight);
-	m_actorPath.moveTo(arms.p1());
-	m_actorPath.lineTo(arms.p2());
-
-	NewUMLRectWidget::sizeHasChanged(oldSize);
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update text content.
+ */
+void ActorWidget::updateTextItemGroups()
+{
+	const int groupIndex = 0; // Only one group
+	TextItemGroup *grp = textItemGroupAt(groupIndex);
+	grp->setTextItemCount(1);
+	const int nameIndex = 0;
+	grp->textItemAt(nameIndex)->setText(name());
 }

@@ -27,7 +27,11 @@ const qreal TextItemGroup::NoLineBreak = -1;
 
 TextItemGroup::TextItemGroup(QGraphicsItem *parent) :
     m_parentItem(parent),
-    m_lineBreakageWidth(TextItemGroup::NoLineBreak)
+    m_lineBreakageWidth(TextItemGroup::NoLineBreak),
+	m_alignment(Qt::AlignCenter),
+	m_fontColor(Qt::black),
+	m_hoverBrush(Qt::NoBrush),
+	m_backgroundBrush(Qt::NoBrush)
 {
 }
 
@@ -45,6 +49,27 @@ void TextItemGroup::setParentItem(QGraphicsItem *item)
     }
 }
 
+TextItem* TextItemGroup::textItemAt(int index)
+{
+	if(index < 0 || index >= m_textItems.size()) {
+		uError() << "TextItemGroup::textItemAt: Invalid index %d" << index;
+		return 0;
+	}
+
+	return m_textItems[index];
+}
+
+void TextItemGroup::setTextItemCount(int count)
+{
+    while(textItemCount() < count) {
+        appendTextItem(new TextItem(""));
+    }
+
+    while(textItemCount() >  count) {
+        deleteTextItemAt(0);
+    }
+}
+
 void TextItemGroup::appendTextItem(TextItem *textItem)
 {
     if(m_textItems.contains(textItem)) {
@@ -53,7 +78,13 @@ void TextItemGroup::appendTextItem(TextItem *textItem)
         return;
     }
 
-    textItem->setParentItem(m_parentItem);
+	textItem->setAlignment(m_alignment);
+	textItem->setDefaultTextColor(m_fontColor);
+	textItem->setHoverBrush(m_hoverBrush);
+	textItem->setBackgroundBrush(m_backgroundBrush);
+	textItem->setFont(m_font);
+
+	textItem->setParentItem(m_parentItem);
     m_textItems.append(textItem);
 }
 
@@ -64,40 +95,17 @@ void TextItemGroup::deleteTextItem(TextItem *textItem)
 
 void TextItemGroup::deleteTextItemAt(int index)
 {
-    if(!isIndexValid(index)) {
-        uDebug() << "Invalid index " << index;
-        return;
-    }
-
     delete m_textItems.takeAt(index);
 }
 
-bool TextItemGroup::isIndexValid(int index) const
+void TextItemGroup::setLineBreakWidth(qreal width)
 {
-    return index >= 0 && index < m_textItems.size();
+    m_lineBreakageWidth = width;
 }
 
-int TextItemGroup::indexOf(TextItem *item) const
+QSizeF TextItemGroup::minimumSize() const
 {
-    return m_textItems.indexOf(item);
-}
-
-TextItem* TextItemGroup::textItemAt(int index) const
-{
-    if(!isIndexValid(index)) {
-        uDebug() << "Wrong index : " << index;
-        return 0;
-    }
-    return m_textItems[index];
-}
-
-const QList<TextItem*>& TextItemGroup::textItems() const
-{
-    return m_textItems;
-}
-
-QSizeF TextItemGroup::calculateMinimumSize()
-{
+	uDebug() << "Textitems size = " << m_textItems.size();
     qreal width = 0;
     qreal height = 0;
 
@@ -130,22 +138,15 @@ QSizeF TextItemGroup::calculateMinimumSize()
     return QSizeF(width, height);
 }
 
-void TextItemGroup::setLineBreakWidth(qreal width)
+void TextItemGroup::setGroupGeometry(const QRectF& rect)
 {
-    m_lineBreakageWidth = width;
-}
+	uDebug() << "called";
+	QSizeF minSize = minimumSize();
 
-void TextItemGroup::alignVertically(qreal currentWidth, qreal currentHeight)
-{
-	// Update current size
-	m_currentSize.setWidth(currentWidth);
-	m_currentSize.setHeight(currentHeight);
-
-    QSizeF minimumSize = calculateMinimumSize();
-    if(currentWidth < minimumSize.width() || currentHeight < minimumSize.height()) {
+	if(rect.width() < minSize.width() || rect.height() < minSize.height()) {
         uDebug() << "Size of group less then minimum size\n"
-                 << "Min size" << minimumSize << endl
-                 << "Cur size" << QSizeF(currentWidth, currentWidth);
+                 << "Min size" << minSize << endl
+                 << "Cur size" << rect.size();
 
         return;
     }
@@ -157,53 +158,60 @@ void TextItemGroup::alignVertically(qreal currentWidth, qreal currentHeight)
         }
     }
 
-    qreal spacing = (currentHeight - minimumSize.height()) / visibleItems.count();
-    qreal x = m_pos.x();
-    qreal y = m_pos.y();
+    qreal spacing = (rect.height() - minSize.height()) / visibleItems.count();
+    qreal x = rect.left();
+    qreal y = rect.top();
 
     foreach(TextItem *item, visibleItems) {
-        item->setTextWidth(currentWidth);
+        item->setTextWidth(rect.width());
         item->setPos(x, y);
         y += item->height() + spacing;
     }
+
+	m_groupGeometry = rect;
 }
 
-void TextItemGroup::setPos(const QPointF& pos)
+void TextItemGroup::setAlignment(Qt::Alignment align)
 {
-    qreal dx = pos.x() - m_pos.x();
-    qreal dy = pos.y() - m_pos.y();
-
-    foreach(TextItem *item, m_textItems) {
-        item->moveBy(dx, dy);
-    }
-
-    m_pos = pos;
+    m_alignment = align;
+	foreach(TextItem *item, m_textItems) {
+		item->setAlignment(align);
+	}
 }
 
-void TextItemGroup::unparent()
+void TextItemGroup::setFontColor(const QColor& color)
 {
-    foreach(TextItem *item, m_textItems) {
-        item->setParentItem(0);
-        if(item->scene()) {
-            item->scene()->removeItem(item);
-        }
-    }
+    m_fontColor = color;
+	foreach(TextItem *item, m_textItems) {
+		item->setDefaultTextColor(color);
+	}
 }
 
-void TextItemGroup::reparent()
+void TextItemGroup::setHoverBrush(const QBrush& brush)
 {
-    foreach(TextItem *item, m_textItems) {
-        item->setParentItem(m_parentItem);
-    }
+    m_hoverBrush = brush;
+	foreach(TextItem *item, m_textItems) {
+		item->setHoverBrush(brush);
+	}
 }
 
-void TextItemGroup::ensureTextItemCount(int newSize)
+void TextItemGroup::setBackgroundBrush(const QBrush& brush)
 {
-    while(size() < newSize) {
-        appendTextItem(new TextItem(""));
-    }
+    m_backgroundBrush = brush;
+	foreach(TextItem *item, m_textItems) {
+		item->setBackgroundBrush(brush);
+	}
+}
 
-    while(size() >  newSize) {
-        deleteTextItemAt(0);
-    }
+void TextItemGroup::setFont(const QFont& font)
+{
+    m_font = font;
+	foreach(TextItem *item, m_textItems) {
+		QFont newFont = m_font;
+		newFont.setBold(item->bold());
+		newFont.setItalic(item->italic());
+		newFont.setUnderline(item->underline());
+
+		item->setFont(newFont);
+	}
 }

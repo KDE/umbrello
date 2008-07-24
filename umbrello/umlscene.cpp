@@ -2573,20 +2573,20 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Initial_Activity: {
-        ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Initial);
+        ActivityWidget* activity = new ActivityWidget(ActivityWidget::Initial);
         setupNewWidget(activity);
     }
         break;
 
 
     case ListPopupMenu::mt_End_Activity: {
-        ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::End);
+        ActivityWidget* activity = new ActivityWidget(ActivityWidget::End);
         setupNewWidget(activity);
     }
         break;
 
     case ListPopupMenu::mt_Branch: {
-        ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Branch);
+        ActivityWidget* activity = new ActivityWidget(ActivityWidget::Branch);
         setupNewWidget(activity);
     }
         break;
@@ -2597,7 +2597,7 @@ void UMLScene::slotMenuSelection(QAction* action)
                                              i18n("Enter the name of the new activity:"),
                                              i18n("new activity"), &ok, UMLApp::app());
         if (ok) {
-            ActivityWidget* activity = new ActivityWidget(this, ActivityWidget::Normal);
+            ActivityWidget* activity = new ActivityWidget(ActivityWidget::Normal);
             activity->setName(name);
             setupNewWidget(activity);
         }

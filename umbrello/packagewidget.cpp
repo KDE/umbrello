@@ -22,37 +22,25 @@
 #include "textitemgroup.h"
 #include "uml.h"
 
-// Inline and class documentation
-
 /**
- * Defines a graphical version of the Package.  Most of the
- * functionality will come from the @ref UMLPackage class.
- *
- * @short A graphical version of a Package.
- * @author Jonathan Riddell
- * @author Gopala Krishna (ported to use TextItem)
- *
- * @see NewUMLRectWidget
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ * Constructs a PackageWidget for a given UMLPackage object.
  */
-
-// End Inline and class documentation
-
-const qreal PackageWidget::Margin = 5.;
-
 PackageWidget::PackageWidget(UMLPackage *o) :
-    NewUMLRectWidget(o),
-    m_minimumSize(100, 30)
+    NewUMLRectWidget(o)
 {
     m_baseType = Uml::wt_Package;
-    m_textItemGroup = new TextItemGroup(this);
+	createTextItemGroup();
 }
 
+/// Destructor
 PackageWidget::~PackageWidget()
 {
-    delete m_textItemGroup;
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save
+ * PackageWidget info into XMI.
+ */
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement("packagewidget");
@@ -60,15 +48,9 @@ void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     qElement.appendChild(conceptElement);
 }
 
-QSizeF PackageWidget::sizeHint(Qt::SizeHint which)
-{
-    if(which == Qt::MinimumSize) {
-        return m_minimumSize;
-    }
-
-    return NewUMLRectWidget::sizeHint(which);
-}
-
+/**
+ * Reimplemented from NewUMLRectWidget::paint to draw PackageWidget.
+ */
 void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setBrush(brush());
@@ -87,64 +69,68 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
     }
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * minimum size.
+ */
 void PackageWidget::updateGeometry()
 {
-    if(umlObject()) {
-        int totalItemCount = 2; // Stereotype and name
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
 
-        TextItem dummy("");
-        dummy.setDefaultTextColor(fontColor());
-        dummy.setFont(font());
-        dummy.setAcceptHoverEvents(true);
-        // dummy.setHoverBrush(hoverBrush);
-        dummy.setAlignment(Qt::AlignCenter);
-        dummy.setBackgroundBrush(Qt::NoBrush);
+	QSizeF minSize = grp->minimumSize();
+	if(minSize.width() < 70) {
+		minSize.setWidth(70);
+	}
+	minSize.rheight() += QFontMetricsF(grp->font()).lineSpacing()
+		+ 3 * margin(); // HACK
 
-        if(m_textItemGroup->size() != totalItemCount) {
-            while(m_textItemGroup->size() < totalItemCount) {
-                m_textItemGroup->appendTextItem(new TextItem(""));
-            }
-            while(m_textItemGroup->size() > totalItemCount) {
-                m_textItemGroup->deleteTextItemAt(0);
-            }
-        }
+	setMinimumSize(minSize);
 
-        TextItem *stereo = m_textItemGroup->textItemAt(PackageWidget::StereoTypeItemIndex);
+	NewUMLRectWidget::updateGeometry();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * texts and their properties.
+ */
+void PackageWidget::updateTextItemGroups()
+{
+	if(umlObject()) {
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		grp->setTextItemCount(TextItemCount);
+
+        TextItem *stereo = grp->textItemAt(PackageWidget::StereoTypeItemIndex);
         stereo->setText(umlObject()->getStereotype(true));
-        dummy.copyAttributesTo(stereo); // apply the attributes
         stereo->setBold(true);
         stereo->setVisible(umlObject()->getStereotype().isEmpty() == false);
 
-        TextItem *nameItem = m_textItemGroup->textItemAt(PackageWidget::NameItemIndex);
+        TextItem *nameItem = grp->textItemAt(PackageWidget::NameItemIndex);
         nameItem->setText(name());
-        dummy.copyAttributesTo(nameItem); // apply the attributes
-
-        m_minimumSize = m_textItemGroup->calculateMinimumSize();
-        m_minimumSize.rwidth() += PackageWidget::Margin * 2;
-        if(m_minimumSize.width() < 70) {
-            m_minimumSize.rwidth() = 70;
-        }
-
-        m_minimumSize.rheight() += stereo->height();
-
-        m_topRect.setRect(0, 0, 50, stereo->height());
-        m_packageTextRect.setTopLeft(QPointF(0, m_topRect.bottom()));
     }
     NewUMLRectWidget::updateGeometry();
 }
 
-void PackageWidget::sizeHasChanged(const QSizeF& oldSize)
+/**
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * SizeHasChanged in which the text position is updated.
+ */
+QVariant PackageWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-    m_packageTextRect.setBottomRight(rect().bottomRight());
-    QPointF offset(PackageWidget::Margin, m_packageTextRect.top());
-    uDebug() << offset;
-    QSizeF groupSize = m_packageTextRect.size();
-    groupSize.rwidth() -= 2 * PackageWidget::Margin;
+	if(change == SizeHasChanged) {
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
 
-    m_textItemGroup->alignVertically(groupSize);
-    m_textItemGroup->setPos(offset);
+		m_topRect.setRect(0, 0, 50, QFontMetricsF(grp->font()).lineSpacing());
 
-    NewUMLRectWidget::sizeHasChanged(oldSize);
+		m_packageTextRect.setTopLeft(QPointF(0, m_topRect.bottom()));
+		m_packageTextRect.setBottomRight(rect().bottomRight());
+
+		QRectF groupGeometry(margin(),
+							 m_packageTextRect.top(),
+							 m_packageTextRect.width() - 2 * margin(),
+							 m_packageTextRect.height());
+
+		grp->setGroupGeometry(groupGeometry);
+	}
+
+    return NewUMLRectWidget::attributeChange(change, oldValue);
 }
-
-

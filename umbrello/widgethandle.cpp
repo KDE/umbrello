@@ -177,8 +177,8 @@ void WidgetHandle::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     }
 
     const QPointF sp = event->scenePos();
-    const QSizeF minSize = m_widget->sizeHint(Qt::MinimumSize);
-    const QSizeF maxSize = m_widget->sizeHint(Qt::MaximumSize);
+    const QSizeF minSize = m_widget->minimumSize();
+    const QSizeF maxSize = m_widget->maximumSize();
 
     qreal w, h, minw, maxw, minh, maxh;
     minw = minSize.width();

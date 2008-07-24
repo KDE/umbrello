@@ -2140,7 +2140,8 @@ void UMLDoc::initSaveTimer()
     }
     Settings::OptionState optionState = Settings::getOptionState();
     if( optionState.generalState.autosave ) {
-        m_pAutoSaveTimer = new QTimer(this, "_AUTOSAVETIMER_" );
+        m_pAutoSaveTimer = new QTimer(this);
+		m_pAutoSaveTimer->setObjectName( "_AUTOSAVETIMER_" );
         connect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );
         m_pAutoSaveTimer->setSingleShot( false );
         m_pAutoSaveTimer->start( optionState.generalState.autosavetime * 60000 );

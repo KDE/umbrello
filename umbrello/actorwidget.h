@@ -15,7 +15,6 @@
 #include "newumlrectwidget.h"
 
 class UMLActor;
-class TextItemGroup;
 
 /**
  * This class is the graphical version of a UML Actor and can be
@@ -26,7 +25,7 @@ class TextItemGroup;
  *
  * @short A graphical version of a UML Actor.
  * @author Paul Hensgen <phensgen@techie.com>
- * @author Gopala Krishna (ported using QPainterPath and TextItems)
+ * @author Gopala Krishna
  * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -37,8 +36,6 @@ public:
     ActorWidget(UMLActor *o);
 	virtual ~ActorWidget();
 
-	virtual QSizeF sizeHint(Qt::SizeHint which);
-
 	virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
 	//Note: For loading from XMI, the inherited parent method is used.
@@ -46,15 +43,13 @@ public:
 
 protected:
     virtual void updateGeometry();
-	virtual void sizeHasChanged(const QSizeF& oldSize);
+	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+	virtual void updateTextItemGroups();
 
 private:
-	static const QSizeF MinimumActorSize;
-	static const qreal Margin;
-
+	static const QSizeF MinimumSize;
+	/// A path representing the actor drawing.
 	QPainterPath m_actorPath;
-	QSizeF m_minimumSize;
-	TextItemGroup *m_textItemGroup;
 };
 
 #endif

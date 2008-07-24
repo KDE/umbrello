@@ -12,47 +12,29 @@
 // own header
 #include "boxwidget.h"
 
-/**
- * @class BoxWidget
- *
- * Displays a rectangular box.  These widgets are diagram specific.
- * They will still need a unique id from the @ref UMLDoc class for
- * deletion and other purposes.
- *
- * @short Displays a box.
- * @author Jonathan Riddell
- * @see NewUMLRectWidget
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
- */
-
+#include <QtGui/QPainter>
 
 /**
  * Constructs a BoxWidget.
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 BoxWidget::BoxWidget(Uml::IDType id)
-    : NewUMLRectWidget(0, id),
-      m_minimumSize(100, 80)
+    : NewUMLRectWidget(0, id)
 {
-    m_baseType = Uml::wt_Box;
-    setLineColor(Qt::black);
+	m_baseType = Uml::wt_Box;
+	setMinimumSize(QSizeF(20, 20));
 }
 
-/**
- * destructor
- */
+/// destructor
 BoxWidget::~BoxWidget()
 {
 }
 
-/**
- * Draws a rectangle.
- */
+/// Draws a rectangle.
 void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
     painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(Qt::NoBrush);
-
     painter->drawRect(rect());
 }
 

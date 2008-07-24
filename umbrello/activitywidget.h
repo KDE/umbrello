@@ -12,15 +12,23 @@
 #ifndef ACTIVITYWIDGET_H
 #define ACTIVITYWIDGET_H
 
-#include "umlwidget.h"
-#include "worktoolbar.h"
+#include "newumlrectwidget.h"
 
-#define ACTIVITY_MARGIN 5
-#define ACTIVITY_WIDTH 30
-#define ACTIVITY_HEIGHT 10
-
-class TextItemGroup;
-
+/**
+ * @class ActivityWidget
+ *
+ * This class is the graphical version of a UML Activity.  A ActivityWidget is created
+ * by a @ref UMLView.  An ActivityWidget belongs to only one @ref UMLView instance.
+ * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
+ *
+ * The ActivityWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
+ * to this class.
+ *
+ * @short  A graphical version of a UML Activity.
+ * @author Paul Hensgen <phensgen@techie.com>
+ * @author Gopala Krishna
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
 class ActivityWidget : public NewUMLRectWidget
 {
 Q_OBJECT
@@ -37,64 +45,37 @@ public:
         Param
     };
 
-
-    explicit ActivityWidget( UMLScene * scene, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
+    explicit ActivityWidget(ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
     virtual ~ActivityWidget();
 
+	/// @return Type of activity.
     ActivityType activityType() const {
         return m_activityType;
     }
-    /**
-     * Sets the type of activity.
-     */
     void setActivityType( ActivityType activityType );
 
-    /**
-     * This method get the name of the preText attribute
-     */
+     /// This method get the name of the preText attribute
     QString preconditionText() const {
         return m_preconditionText;
     }
-    /**
-     * This method set the name of the preText attribute
-     */
     void setPreconditionText(const QString&);
 
-    /**
-     * This method get the name of the postText attribute
-     */
+	/// This method get the name of the postText attribute
     QString postconditionText() const {
         return m_postconditionText;
     }
-    /**
-     * This method set the name of the postText attribute
-     */
     void setPostconditionText(const QString&);
 
-    QSizeF sizeHint(Qt::SizeHint which);
+    virtual void showPropertiesDialog();
+	void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *);
 
-    /**
-     * Show a properties dialog for an ActivityWidget.
-     */
-    void showPropertiesDialog();
-
-    /**
-     * Loads the widget from the "activitywidget" XMI element.
-     */
-    bool loadFromXMI( QDomElement & qElement );
-    /**
-     * Saves the widget to the "activitywidget" XMI element.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *);
+    virtual bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget
-     */
-    void updateGeometry();
-    void sizeHasChanged(const QSizeF& oldSize);
+    virtual void updateGeometry();
+    QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+	void updateTextItemGroups();
 
     /**
      * Type of activity.
@@ -108,24 +89,26 @@ protected:
      */
     bool m_NormalActivityType;
 
-public slots:
+public Q_SLOTS:
 
     /**
      * Captures any popup menu signals for menus it created.
      */
-    void slotMenuSelection(QAction* action);
+    virtual void slotMenuSelection(QAction* action);
 
 private:
+	enum {
+		TextGroupIndex = 0
+	};
     enum {
         NameItemIndex = 0,
-        PrecondtionItemIndex = 1,
-        PostconditionItemIndex = 2,
+        PrecondtionItemIndex,
+        PostconditionItemIndex,
+		TextItemCount
     };
 
     QString m_preconditionText;
     QString m_postconditionText;
-    QSizeF m_minimumSize;
-    TextItemGroup *m_textItemGroup;
 };
 
 #endif

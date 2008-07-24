@@ -15,22 +15,27 @@
 //app includes
 #include "newumlrectwidget.h"
 
-//qt includes
-#include <QtGui/QPainter>
-
+/**
+ * @class BoxWidget
+ *
+ * Displays a rectangular box.  These widgets are diagram specific.
+ * They will still need a unique id from the @ref UMLDoc class for
+ * deletion and other purposes.
+ *
+ * @short Displays a box.
+ * @author Jonathan Riddell
+ * @author Gopala Krishna
+ * @see NewUMLRectWidget
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
 class BoxWidget : public NewUMLRectWidget
 {
 public:
-
     explicit BoxWidget(Uml::IDType id = Uml::id_None);
     virtual ~BoxWidget();
 
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-private:
-    QSizeF m_minimumSize;
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 };
 
 #endif

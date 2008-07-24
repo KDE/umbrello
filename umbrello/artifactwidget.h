@@ -15,7 +15,6 @@
 #include "newumlrectwidget.h"
 
 class UMLArtifact;
-class TextItemGroup;
 
 /**
  * Defines a graphical version of the @ref UMLArtifact.
@@ -33,48 +32,32 @@ public:
 	ArtifactWidget(UMLArtifact *a);
 	virtual ~ArtifactWidget();
 
-	virtual QSizeF sizeHint(Qt::SizeHint which);
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
 	// Note: For loading from XMI, the inherited parent method is
-	// used.
+	//       used.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
 	virtual void updateGeometry();
-	virtual void sizeHasChanged(const QSizeF& oldSize);
+	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+	virtual void updateTextItemGroups();
 
 private:
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
-
-    /**
-     * calculates the size when drawing as an icon (it's the same size for all icons)
-     */
-    QSizeF calculateIconSize();
-
-    /**
-     * calculates the size for drawing as a box
-     */
-    QSizeF calculateNormalSize();
-
     void drawAsFile(QPainter *painter);
 	void drawAsLibrary(QPainter *painter);
 	void drawAsTable(QPainter *painter);
 	void drawAsNormal(QPainter *painter);
 
-	static const qreal Margin;
 	static const QSizeF MinimumIconSize;
 
-	QSizeF m_minimumSize;
-
-	TextItemGroup *m_textItemGroup;
+	enum {
+		GroupIndex = 0
+	};
 	enum {
 		StereotypeItemIndex = 0,
-		NameItemIndex = 1,
-		TextItemCount = 2
+		NameItemIndex,
+		TextItemCount
 	};
 
 	qreal m_cachedTextHeight; //< Cache textheight to speedup.

@@ -14,16 +14,13 @@
 
 #include "newumlrectwidget.h"
 
-// Forward declarations
-class TextItemGroup;
-
 /**
  * Defines a graphical version of the entity.  Most of the functionality
  * will come from the @ref NewUMLRectWidget class from which class inherits from.
  *
  * @short A graphical version of an entity.
  * @author Jonathan Riddell
- * @author Gopala Krishna (port using TextItems)
+ * @author Gopala Krishna
  * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
@@ -31,33 +28,35 @@ class EntityWidget : public NewUMLRectWidget
 {
 	Q_OBJECT
 public:
-	EntityWidget(UMLObject* o);
-	~EntityWidget();
+	explicit EntityWidget(UMLObject* o);
+	virtual ~EntityWidget();
 
-	QSizeF sizeHint(Qt::SizeHint which);
-	void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
+	virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     // NewUMLRectWidget::loadFromXMI is used to load this widget.
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-	void updateGeometry();
-	void sizeHasChanged(const QSizeF& oldSize);
+	virtual void updateGeometry();
+	virtual void updateTextItemGroups();
+	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 public Q_SLOTS:
-    void slotMenuSelection(QAction* action);
+    virtual void slotMenuSelection(QAction* action);
 
 private:
-	static const qreal Margin;
-	// Indices for text items in m_textItemGroup
+
+	// Hardcoded indices for text items
+	enum {
+		GroupIndex
+	};
 	enum {
 		StereotypeItemIndex,
 		NameItemIndex,
 		EntityItemStartIndex
 	};
 
-	QSizeF m_minimumSize;
-	TextItemGroup *m_textItemGroup;
+	QLineF m_nameLine;
 };
 
 #endif

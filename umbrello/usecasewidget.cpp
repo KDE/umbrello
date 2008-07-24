@@ -21,8 +21,6 @@
 // qt includes
 #include <QtGui/QPainter>
 
-const qreal UseCaseWidget::Margin = 5;
-
 /**
  *  Creates a UseCase widget.
  *
@@ -31,7 +29,7 @@ const qreal UseCaseWidget::Margin = 5;
 UseCaseWidget::UseCaseWidget(UMLUseCase *o) : NewUMLRectWidget(o)
 {
     m_baseType = Uml::wt_UseCase;
-    m_textItemGroup = new TextItemGroup(this);
+    createTextItemGroup();
 }
 
 /**
@@ -39,7 +37,6 @@ UseCaseWidget::UseCaseWidget(UMLUseCase *o) : NewUMLRectWidget(o)
  */
 UseCaseWidget::~UseCaseWidget()
 {
-    delete m_textItemGroup;
 }
 
 void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
@@ -48,57 +45,44 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, 
     painter->setBrush(brush());
 
     painter->drawEllipse(rect());
-    // The text part is drawn by the TextItemGroup and TextItem within it.
 }
 
 /**
  *   Saves this UseCase to file.
  */
-void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement usecaseElement = qDoc.createElement( "usecasewidget" );
     NewUMLRectWidget::saveToXMI( qDoc, usecaseElement );
     qElement.appendChild( usecaseElement );
 }
 
-QSizeF UseCaseWidget::sizeHint(Qt::SizeHint which)
-{
-    if(which == Qt::MinimumSize) {
-        return m_minimumSize;
-    }
-    return NewUMLRectWidget::sizeHint(which);
-}
-
 void UseCaseWidget::updateGeometry()
 {
-    if(umlObject()) {
-        m_textItemGroup->ensureTextItemCount(UseCaseWidget::TextItemCount);
-
-        TextItem *nameItem = m_textItemGroup->textItemAt(UseCaseWidget::NameItemIndex);
-        // Hide and then change visuals to compress many updates to one.
-        nameItem->hide();
-        // Apply the properties
-        nameItem->setDefaultTextColor(fontColor());
-        nameItem->setFont(font());
-        nameItem->setAlignment(Qt::AlignCenter);
-        nameItem->setBackgroundBrush(Qt::NoBrush);
-        nameItem->setText(name());
-        nameItem->setItalic(umlObject()->getAbstract());
-        // Now show the item back
-        nameItem->show();
-
-        m_minimumSize = m_textItemGroup->calculateMinimumSize();
-        m_minimumSize += QSizeF(UseCaseWidget::Margin * 2, UseCaseWidget::Margin * 2);
-    }
-    NewUMLRectWidget::updateGeometry();
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	setMinimumSize(grp->minimumSize());
+	NewUMLRectWidget::updateGeometry();
 }
 
-void UseCaseWidget::sizeHasChanged(const QSizeF& oldSize)
+void UseCaseWidget::updateTextItemGroups()
 {
-    const QSizeF groupSize = size() - QSizeF(UseCaseWidget::Margin * 2, UseCaseWidget::Margin * 2);
-    const QPointF offset(UseCaseWidget::Margin, UseCaseWidget::Margin);
+    if(umlObject()) {
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		grp->setTextItemCount(UseCaseWidget::TextItemCount);
 
-    m_textItemGroup->alignVertically(groupSize);
-    m_textItemGroup->setPos(offset);
+        TextItem *nameItem = grp->textItemAt(UseCaseWidget::NameItemIndex);
+        nameItem->setText(name());
+        nameItem->setItalic(umlObject()->getAbstract());
+    }
+    NewUMLRectWidget::updateTextItemGroups();
+}
 
-    NewUMLRectWidget::sizeHasChanged(oldSize);
+QVariant UseCaseWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+	if(change == SizeHasChanged) {
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		const qreal m = margin();
+		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+	}
+	return NewUMLRectWidget::attributeChange(change, oldValue);
 }

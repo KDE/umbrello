@@ -27,7 +27,6 @@
 #include <klocale.h>
 #include <kinputdialog.h>
 
-const qreal StateWidget::Margin = 5;
 const QSizeF StateWidget::MinimumEllipseSize(30, 10);
 
 /**
@@ -41,22 +40,12 @@ StateWidget::StateWidget(StateType stateType, Uml::IDType id)
 {
 	m_baseType = Uml::wt_State;
     m_stateType = stateType;
-	m_textItemGroup = new TextItemGroup(this);
+	createTextItemGroup();
 }
 
 /// Destructor
 StateWidget::~StateWidget()
 {
-	delete m_textItemGroup;
-}
-
-/// Reimplemented from NewUMLRectWidget::sizeHint
-QSizeF StateWidget::sizeHint(Qt::SizeHint which)
-{
-	if(which == Qt::MinimumSize) {
-		return m_minimumSize;
-	}
-	return NewUMLRectWidget::sizeHint(which);
 }
 
 /// Reimplemented from NewUMLRectWidget::paint to paint state widget.
@@ -65,19 +54,11 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QW
 	painter->setPen(QPen(lineColor(), lineWidth()));
 	painter->setBrush(brush());
 	const QSizeF sz = size();
-	const int textItemCount = m_textItemGroup->size();
 
 	if(m_stateType == StateWidget::Normal) {
 		painter->drawRoundRect(rect(), sz.height() * 40 / sz.width(),
 							   sz.width() * 40 / sz.height());
-		// Draw line after each line of text except for the last one
-		// as it is unnecessary to draw line on round rect.
-		for(int i = 0; i < textItemCount - 1; ++i) {
-			const TextItem *item = m_textItemGroup->textItemAt(i);
-			const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
-			const qreal y = bottomLeft.y();
-			painter->drawLine(QLineF(1, y, size().width() - 1, y));
-		}
+		painter->drawLines(m_separatorLines);
 	}
 	else if(m_stateType == StateWidget::Initial) {
 		painter->drawEllipse(rect());
@@ -102,7 +83,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QW
 void StateWidget::setStateType(StateType stateType)
 {
     m_stateType = stateType;
-	updateGeometry();
+	updateTextItemGroups();
 }
 
 /**
@@ -111,9 +92,9 @@ void StateWidget::setStateType(StateType stateType)
  */
 bool StateWidget::addActivity( const QString &activity )
 {
-	m_textItemGroup->appendTextItem(new TextItem(activity));
-	updateGeometry(); // This will take care applying attributes
-					  // (fontColor..)
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	grp->appendTextItem(new TextItem(activity));
+	updateTextItemGroups();
     return true;
 }
 
@@ -124,13 +105,14 @@ bool StateWidget::addActivity( const QString &activity )
 bool StateWidget::removeActivity( const QString &activity )
 {
 	int removedCount = 0;
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
 	// Keep removing until all entries are removed
 	while(1) {
-		int sz = m_textItemGroup->size();
+		int sz = grp->textItemCount();
 		int i = StateWidget::ActivityStartIndex;
 		for(; i < sz; ++i) {
-			if(m_textItemGroup->textItemAt(i)->text() == activity) {
-				m_textItemGroup->deleteTextItemAt(i);
+			if(grp->textItemAt(i)->text() == activity) {
+				grp->deleteTextItemAt(i);
 				++removedCount;
 				break;
 			}
@@ -141,7 +123,7 @@ bool StateWidget::removeActivity( const QString &activity )
 	}
 
 	if(removedCount) {
-		updateGeometry();
+		updateTextItemGroups();
 		return true;
 	}
 
@@ -155,9 +137,10 @@ bool StateWidget::removeActivity( const QString &activity )
 bool StateWidget::renameActivity( const QString &activity, const QString &newName )
 {
 	bool renamed = false;
-	int sz = m_textItemGroup->size();
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	int sz = grp->textItemCount();
 	for(int i = StateWidget::ActivityStartIndex; i < sz; ++i) {
-		TextItem *item = m_textItemGroup->textItemAt(i);
+		TextItem *item = grp->textItemAt(i);
 		if(item->text() == activity) {
 			item->setText(newName);
 			renamed = true;
@@ -166,7 +149,7 @@ bool StateWidget::renameActivity( const QString &activity, const QString &newNam
 	}
 
 	if(renamed) {
-		updateGeometry();
+		updateTextItemGroups();
 		return true;
 	}
 	return false;
@@ -178,9 +161,10 @@ bool StateWidget::renameActivity( const QString &activity, const QString &newNam
 QStringList StateWidget::activities() const
 {
 	QStringList retVal;
-	int sz = m_textItemGroup->size();
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	int sz = grp->textItemCount();
 	for(int i = StateWidget::ActivityStartIndex; i < sz; ++i) {
-		retVal << m_textItemGroup->textItemAt(i)->text();
+		retVal << grp->textItemAt(i)->text();
 	}
     return retVal;
 }
@@ -191,10 +175,11 @@ QStringList StateWidget::activities() const
 void StateWidget::setActivities( QStringList & list )
 {
 	const int reqdSize = list.size() + 1; // + 1 for name item
-	m_textItemGroup->ensureTextItemCount(reqdSize);
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	grp->setTextItemCount(reqdSize);
 
 	for(int i = StateWidget::ActivityStartIndex; i < reqdSize; ++i) {
-		m_textItemGroup->textItemAt(i)->setText(list[i-StateWidget::ActivityStartIndex]);
+		grp->textItemAt(i)->setText(list[i-StateWidget::ActivityStartIndex]);
 	}
 
 	updateGeometry();
@@ -266,9 +251,10 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     //save states activities
     QDomElement activitiesElement = qDoc.createElement( "Activities" );
 
-    for(int i = StateWidget::ActivityStartIndex; i < m_textItemGroup->size(); ++i) {
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	for(int i = StateWidget::ActivityStartIndex; i < grp->textItemCount(); ++i) {
 		QDomElement tempElement = qDoc.createElement( "Activity" );
-        tempElement.setAttribute( "name", m_textItemGroup->textItemAt(i)->text());
+        tempElement.setAttribute( "name", grp->textItemAt(i)->text());
         activitiesElement.appendChild( tempElement );
     }//end for
     stateElement.appendChild( activitiesElement );
@@ -278,51 +264,61 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 void StateWidget::updateGeometry()
 {
 	if(m_stateType != StateWidget::Normal) {
-		for(int i = 0; i < m_textItemGroup->size(); ++i) {
-			m_textItemGroup->textItemAt(i)->hide();
-		}
-		m_minimumSize = StateWidget::MinimumEllipseSize;
+		setMinimumSize(StateWidget::MinimumEllipseSize);
 	}
 	else {
-		// Create a dummy item, to store the properties so that it can
-        // easily be used to copy the properties to other text items.
-        TextItem dummy("");
-        dummy.setDefaultTextColor(fontColor());
-        dummy.setFont(font());
-        dummy.setAlignment(Qt::AlignCenter);
-        dummy.setBackgroundBrush(Qt::NoBrush);
-
-		int sz = m_textItemGroup->size();
-		// Ensure atleast there is one item, that is - Name Item.
-		if(sz == 0) {
-			m_textItemGroup->appendTextItem(new TextItem(name()));
-			sz = 1;
-		}
-		for(int i = 0; i < sz; ++i) {
-			TextItem *item = m_textItemGroup->textItemAt(i);
-			dummy.copyAttributesTo(item);
-			item->show();
-		}
-		m_textItemGroup->textItemAt(StateWidget::NameItemIndex)->setText(name());
-		m_textItemGroup->textItemAt(StateWidget::NameItemIndex)->setBold(sz > 1);
-
-		m_minimumSize = m_textItemGroup->calculateMinimumSize();
-		m_minimumSize += QSizeF(2 * StateWidget::Margin, 2 * StateWidget::Margin);
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		setMinimumSize(grp->minimumSize());
 	}
+
 	NewUMLRectWidget::updateGeometry();
 }
 
-void StateWidget::sizeHasChanged(const QSizeF& oldSize)
+void StateWidget::updateTextItemGroups()
 {
-	if(m_stateType == StateWidget::Normal) {
-		QPointF offset(StateWidget::Margin, StateWidget::Margin);
-		QSizeF groupSize = size();
-		groupSize -= QSizeF(2 * StateWidget::Margin, 2 * StateWidget::Margin);
-
-		m_textItemGroup->alignVertically(groupSize);
-		m_textItemGroup->setPos(offset);
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	if(m_stateType != StateWidget::Normal) {
+		for(int i = 0; i < grp->textItemCount(); ++i) {
+			grp->textItemAt(i)->hide();
+		}
 	}
-	NewUMLRectWidget::sizeHasChanged(oldSize);
+	else {
+		int sz = grp->textItemCount();
+		// Ensure atleast there is one item, that is - Name Item.
+		if(sz == 0) {
+			grp->appendTextItem(new TextItem(name()));
+			sz = 1;
+		}
+		for(int i = 0; i < sz; ++i) {
+			TextItem *item = grp->textItemAt(i);
+			item->show();
+		}
+		grp->textItemAt(StateWidget::NameItemIndex)->setText(name());
+		grp->textItemAt(StateWidget::NameItemIndex)->setBold(sz > 1);
+	}
+
+	NewUMLRectWidget::updateTextItemGroups();
+}
+
+QVariant StateWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+	if(change == SizeHasChanged && m_stateType == StateWidget::Normal) {
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		const qreal m = margin();
+		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+
+		// line after each "line of text" except for the last one
+		// as it is unnecessary to draw line on round rect.
+		int cnt = grp->textItemCount();
+		m_separatorLines.resize(cnt - 1);
+		for(int i = 0; i < cnt - 1; ++i) {
+			const TextItem *item = grp->textItemAt(i);
+			const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
+			const qreal y = bottomLeft.y();
+			m_separatorLines[i].setLine(1, y, size().width() - 1, y);
+		}
+	}
+	return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 /**

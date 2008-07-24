@@ -34,79 +34,6 @@
 #include <QtCore/QTimer>
 #include <QtGui/QGraphicsSceneContextMenuEvent>
 
-// Documentation for some inline and other entities.
-
-/**
- * @class NewUMLWidget
- *
- * @short The base class for UML widgets that appear on UML diagrams.
- *
- * This class provides the common interface required for all the UML
- * widgets including rectangular and non rectangular widgets.
- * Rectangular widgets should use NewUmlRectWidget as its base.
- */
-
-/**
- * @fn NewUMLWidget::umlObject
- *
- * @return The UMLObject represented by this widget or null if this
- *         widget has no UMLObject representation.
- */
-
-/**
- * @fn NewUMLWidget::baseType
- *
- * @return The base type rtti info for this widget.
- */
-
-/**
- * @fn NewUMLWidget::lineColor
- *
- * @return The color used to draw lines of the widget.
- */
-
-/**
- * @fn NewUMLWidget::lineWidth
- *
- * @return The width of the line, drawn in the widget.
- */
-
-/**
- * @fn NewUMLWidget::fontColor
- *
- * @return Font color used to draw font.
- */
-
-/**
- * @fn NewUMLWidget::brush
- *
- * @return The QBrush object used to fill this widget.
- */
-
-/**
- * @fn NewUMLWidget::font
- *
- * @return The font used for displaying any text inside this
- * widget.
- */
-
-/**
- * @fn NewUMLWidget:: boundingRect
- *
- * @return The bounding rectangle for this widget.
- * @see setBoundingRectAndShape
- */
-
-/**
-  *@fn NewUMLWidget::shape
-  *
-  * @return The shape of this widget.
-  * @see setBoundingRectAndShape
-  */
-
-// Inline and other entity documentation ends.
-
-
 /**
  * @short A class to encapsulate some properties to be stored as a
  * part of Lazy initialization.
@@ -147,6 +74,8 @@ NewUMLWidget::NewUMLWidget(UMLObject *object) :
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
     setFlags(ItemIsSelectable | ItemIsMovable);
+	hide(); // Show up in slotInit
+
     // Call init this way so that virtual methods may be called.
     QTimer::singleShot(0, this, SLOT(slotInit()));
 
@@ -192,6 +121,7 @@ void NewUMLWidget::setUMLObject(UMLObject *obj)
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
 
+	//slotUMLObjectDataChanged();
     umlObjectChanged(oldObj);
 }
 
@@ -212,9 +142,14 @@ Uml::IDType NewUMLWidget::id() const
 /**
  * If this widget represents a UMLObject, the id of that object is set
  * to \a id. Else the id is stored in this widget.
+ *
+ * This method issues a @ref IDHasChanged notification after setting
+ * the id.
+ * @see NewUMLWidget::attributeChange
  */
-void NewUMLWidget::setId(Uml::IDType id)
+void NewUMLWidget::setID(Uml::IDType id)
 {
+	const Uml::IDType oldId = this->id();
     if(m_umlObject) {
 
         if(m_umlObject->getID() != Uml::id_None) {
@@ -227,6 +162,8 @@ void NewUMLWidget::setId(Uml::IDType id)
     else {
         m_widgetInterfaceData->id = id;
     }
+
+	attributeChange(IDHasChanged, ID2STR(id));
 }
 
 /**
@@ -270,20 +207,23 @@ QString NewUMLWidget::documentation() const
  * If this widget represents a UMLObject, the documentation string
  * of that object is set to \a doc. Else the documentation string
  * stored in the widget is set to \a doc.
+ *
+ * This method issues a @ref DocumentationHasChanged notification
+ * after setting the new documentation.
+ * @see NewUMLWidget::attributeChange
  */
 void NewUMLWidget::setDocumentation(const QString& doc)
 {
-    if(m_umlObject) {
+	const QString oldDoc = documentation();
+
+	if(m_umlObject) {
         m_umlObject->setDoc(doc);
     }
     else {
         m_widgetInterfaceData->documentation = doc;
-
-        // HACK: Note stores its text in documentation string.
-        if(m_baseType == Uml::wt_Note) {
-            updateGeometry();
-        }
     }
+
+	attributeChange(DocumentationHasChanged, oldDoc);
 }
 
 /**
@@ -306,31 +246,42 @@ QString NewUMLWidget::name() const
  * If this widget represents a UMLObject, the name string of that
  * object is set to \a name. Else the name string stored in the
  * widget is set to \a name.
+ *
+ * This method issues a @ref NameHasChanged notification after setting
+ * the new name.
+ * @see NewUMLWidget::attributeChange
  */
 void NewUMLWidget::setName(const QString& name)
 {
+	const QString oldName = this->name();
     if(m_umlObject) {
         m_umlObject->setName(name);
     }
     else {
         m_widgetInterfaceData->name = name;
     }
-    updateGeometry();
+
+	attributeChange(NameHasChanged, oldName);
 }
 
 /**
  * Set the linecolor to \a color and updates the widget.
- *
  * @param color The color to be set
+ *
+ * This method issues a @ref LineColorHasChanged notification after
+ * setting the new line color.
+ * @see NewUMLWidget::attributeChange
  */
 void NewUMLWidget::setLineColor(const QColor& color)
 {
+	const QColor oldColor = lineColor();
     m_lineColor = color;
     if(!m_lineColor.isValid()) {
         uDebug() << "Invalid color";
         m_lineColor = Qt::black;
     }
-    update();
+
+	attributeChange(LineColorHasChanged, oldColor);
 }
 
 /**
@@ -339,47 +290,67 @@ void NewUMLWidget::setLineColor(const QColor& color)
  * based on the new line width.
  *
  * @param lw  The width of line to be set.
+ *
+ * This method issues @ref LineWidthHasChanged notification after
+ * setting new line width.
+ * @see NewUMLWidget::attributeChange
  */
 void NewUMLWidget::setLineWidth(uint lw)
 {
+	const qreal oldWidth = lineWidth();
     m_lineWidth = lw;
-    updateGeometry();
+
+	attributeChange(LineWidthHasChanged, oldWidth);
 }
 
 /**
  * Sets the color of the font to \a color.
  * If \a color is invalid, line color is used for font color.
+ *
+ * This method issues @ref FontColorHasChanged notification after
+ * setting the new font color.
+ * @see NewUMLWidget::attributeChange
  */
 void NewUMLWidget::setFontColor(const QColor& color)
 {
+	const QColor oldColor = fontColor();
     m_fontColor = color;
     if(!m_fontColor.isValid()) {
         m_fontColor = m_lineColor;
     }
+
+	attributeChange(FontColorHasChanged, oldColor);
 }
 
 /**
  * Sets the QBrush object of this widget to \a brush which is used to
  * fill this widget.
  *
- * This method implicitly calls update on this widget.
+ * This method issues @ref BrushHasChanged notification after setting
+ * the new brush.
+ * @see NewUMLWidget::attributeChange
  */
 void NewUMLWidget::setBrush(const QBrush& brush)
 {
-    m_brush = brush;
-    update();
+	const QBrush oldBrush = this->brush();
+	m_brush = brush;
+
+	attributeChange(BrushHasChanged, oldBrush);
 }
 
 /**
  * Set the font used to display text inside this widget.
  *
- * This method implicitly updateGeometry() virtual method to let the
- * subclasses calculate its new bound rect based on the new font.
+ * This method issues @ref FontHasChanged notification after setting
+ * the new font.
+ * @see NewUMLWidget::attributeChange
  */
 void NewUMLWidget::setFont(const QFont& font)
 {
+	const QFont oldFont = this->font();
     m_font = font;
-    updateGeometry();
+
+	attributeChange(FontHasChanged, oldFont);
 }
 
 /**
@@ -503,7 +474,7 @@ bool NewUMLWidget::loadFromXMI(QDomElement &qElement)
         }
     }
     else {
-        setId(STR2ID(id));
+        setID(STR2ID(id));
     }
 
     qreal x = qElement.attribute("x", "0").toDouble();
@@ -736,9 +707,17 @@ void NewUMLWidget::slotUMLObjectDataChanged()
  */
 void NewUMLWidget::slotInit()
 {
-    uDebug() << "Called";
     setUMLObject(m_umlObject);
-    updateGeometry();
+	// Ensure the texts of subclasses are properly initialized.
+	slotUMLObjectDataChanged();
+	// TODO: Move these to an explicit intializer method
+	QVariant v;
+	attributeChange(LineColorHasChanged, v);
+	attributeChange(LineWidthHasChanged, v);
+	attributeChange(FontHasChanged, v);
+	attributeChange(FontColorHasChanged, v);
+	attributeChange(BrushHasChanged, v);
+	show(); // Now show the item
 }
 
 /**
@@ -754,6 +733,39 @@ void NewUMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         slotMenuSelection(triggered);
     }
     event->accept();
+}
+
+/**
+ * This virtual method is provided to notify self and subclasses about
+ * change in some attribute.
+ * This is modelled on similar lines to that of QGraphicsItem::itemChange.
+ *
+ * @param change The attribute which changed.
+ * @param oldValue The oldValue if needed can be used in subclasses.
+ *
+ * @return Currently only QVariant() (provided now for futuristic approach)
+ */
+QVariant NewUMLWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+	Q_UNUSED(oldValue);
+
+	switch(change) {
+	case FontHasChanged:
+	case NameHasChanged:
+	case LineWidthHasChanged:
+		updateGeometry();
+		break;
+
+	case LineColorHasChanged:
+	case FontColorHasChanged:
+	case BrushHasChanged:
+		update();
+		break;
+
+	default:
+		break;
+	}
+	return QVariant();
 }
 
 /**
@@ -858,6 +870,7 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, UMLObject *object) :
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
     setFlags(ItemIsSelectable | ItemIsMovable);
+	hide();
     // Call init this way so that virtual methods may be called.
     QTimer::singleShot(0, this, SLOT(slotInit()));
     if(scene) {
@@ -884,6 +897,7 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, const Uml::IDType &_id) :
     if(scene) {
         scene->addItem(this);
     }
+	hide();
     setFlags(ItemIsSelectable | ItemIsMovable);
     // Call init this way so that virtual methods may be called.
     QTimer::singleShot(0, this, SLOT(slotInit()));
@@ -984,6 +998,22 @@ void NewUMLWidget::forceUpdateFontMetrics(QPainter *painter)
 ListPopupMenu* NewUMLWidget::setupPopupMenu()
 {
     return 0;
+}
+
+void NewUMLWidget::updateComponentSize()
+{
+	if(firstTime) {
+		firstTime = false;
+	}
+	else {
+		NewUMLRectWidget *rect = dynamic_cast<NewUMLRectWidget*>(this);
+		if(rect) {
+			slotUMLObjectDataChanged();
+		}
+		else {
+			updateGeometry();
+		}
+	}
 }
 
 #include "newumlwidget.moc"
