@@ -12,158 +12,56 @@
 // own header
 #include "objectnodewidget.h"
 
-// qt includes
-#include <qpainter.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <QVBoxLayout>
-#include <QGridLayout>
-//#include <pen.h>
+// app includes
+#include "dialog_utils.h"
+#include "dialogs/objectnodedialog.h"
+#include "docwindow.h"
+#include "listpopupmenu.h"
+#include "textitem.h"
+#include "textitemgroup.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlscene.h"
+#include "umlview.h"
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
-#include <kdialog.h>
-#include <kcombobox.h>
-#include <cmath>
 
-// app includes
-#include "dialog_utils.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "docwindow.h"
-#include "umlview.h"
-#include "listpopupmenu.h"
-#include "dialogs/objectnodedialog.h"
-#include "umlscene.h"
+// qt includes
+#include <QtGui/QPainter>
 
-//Added by qt3to4:
-#include <QGraphicsSceneMouseEvent>
-#include <QPolygon>
+const QSizeF ObjectNodeWidget::MinimumSize(30, 10);
 
-ObjectNodeWidget::ObjectNodeWidget(UMLScene * view, ObjectNodeType objectNodeType, Uml::IDType id )
-        : NewUMLRectWidget(view, id)
+/**
+ * Creates a Object Node widget.
+ *
+ * @param objectNodeType      The type of object node
+ * @param id                The ID to assign (-1 will prompt a new ID.)
+ */
+ObjectNodeWidget::ObjectNodeWidget(ObjectNodeType objectNodeType, Uml::IDType id )
+	: NewUMLRectWidget(0, id)
 {
-    NewUMLRectWidget::setBaseType( Uml::wt_ObjectNode );
-    setObjectNodeType( objectNodeType );
-    setState("");
-    updateComponentSize();
+    m_baseType = Uml::wt_ObjectNode;
+    m_objectNodeType = objectNodeType;
+	createTextItemGroup();
 }
 
-ObjectNodeWidget::~ObjectNodeWidget() {}
+ObjectNodeWidget::~ObjectNodeWidget()
+{
+}
 
 void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
-
-    int w = getWidth();
-    int h = getHeight();
-
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
-    int textStartY = (h / 2) - (fontHeight / 2);
-
-    setPenFromSettings(p);
-
-    if ( NewUMLRectWidget::getUseFillColour() ) {
-        p.setBrush( NewUMLRectWidget::getFillColour() );
-    }
-
-    p.drawRect(offsetX, offsetY, w, h);
-    p.setFont( NewUMLRectWidget::getFont() );
-
-
-    switch ( m_ObjectNodeType )
-    {
-    case Normal : break;
-    case Buffer :
-        {
-            p.setPen(Qt::black);
-            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, "<< centralBuffer >>");
-            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
-        }
-        break;
-    case Data :
-        {
-            p.setPen(Qt::black);
-            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, "<< datastore >>");
-            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
-        }
-        break;
-    case Flow :
-        {
-            QString objectflow_value;
-            if(getState() == "-" || getState() == NULL)
-            {
-                objectflow_value = " ";
-            }
-            else
-            {
-                objectflow_value = '[' + getState() + ']';
-            }
-
-            p.drawLine(offsetX + 10 , offsetY + h/2, (offsetX + w)-10, offsetY + h/2  );
-            p.setPen(Qt::black);
-            p.setFont( NewUMLRectWidget::getFont() );
-            p.drawText(offsetX + OBJECTNODE_MARGIN, offsetY + textStartY/2 - OBJECTNODE_MARGIN , w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
-            p.drawText(offsetX + OBJECTNODE_MARGIN, offsetY + textStartY/2 + textStartY + OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
-        }
-        break;
-    }
-    setPenFromSettings(p);
-
-    if(isSelected())
-        drawSelected(&p, offsetX, offsetY);
-
+	painter->setPen(QPen(lineColor(), lineWidth()));
+	painter->setBrush(brush());
+	painter->drawRect(rect());
+	painter->drawLine(m_objectFlowLine);
 }
 
-QSizeF ObjectNodeWidget::calculateSize() {
-    qreal widthtmp = 10, height = 10,width=10;
-    if ( m_ObjectNodeType == Buffer ) {
-        const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const qreal fontHeight  = fm.lineSpacing();
-        const qreal textWidth = fm.width("<< centrelBuffer >>");
-        const qreal namewidth = fm.width(getName());
-        height = fontHeight * 2;
-        widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
-        width = namewidth > widthtmp ? namewidth : widthtmp;
-        height = height > OBJECTNODE_HEIGHT ? height : OBJECTNODE_HEIGHT;
-        width += OBJECTNODE_MARGIN * 2;
-        height += OBJECTNODE_MARGIN * 2 + 5;
-    } else if ( m_ObjectNodeType == Data ) {
-        const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const qreal fontHeight  = fm.lineSpacing();
-        const qreal textWidth = fm.width("<< datastore >>");
-        const qreal namewidth = fm.width(getName());
-        height = fontHeight * 2;
-        widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
-        width = namewidth > widthtmp ? namewidth : widthtmp;
-        height = height > OBJECTNODE_HEIGHT ? height : OBJECTNODE_HEIGHT;
-        width += OBJECTNODE_MARGIN * 2;
-        height += OBJECTNODE_MARGIN * 2 + 5;
-    } else if ( m_ObjectNodeType == Flow ) {
-        const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-        const qreal fontHeight  = fm.lineSpacing();
-        const qreal textWidth = fm.width('[' + getState() + ']');
-        const qreal namewidth = fm.width(getName());
-        height = fontHeight * 2;
-        widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
-        width = namewidth > widthtmp ? namewidth : widthtmp;
-        height = height > OBJECTNODE_HEIGHT ? height : OBJECTNODE_HEIGHT;
-        width += OBJECTNODE_MARGIN * 2;
-        height += OBJECTNODE_MARGIN * 4;
-    }
-
-    return QSizeF(width, height);
-}
-
-ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType() const {
-    return m_ObjectNodeType;
-}
-
-ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType(const QString& objectNodeType) const {
+/// Helper to convert a string to ObjectNodeType
+ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::stringToObjectNodeType(const QString& objectNodeType)
+{
     if (objectNodeType == "Central buffer")
        return ObjectNodeWidget::Buffer;
     if (objectNodeType == "Data store")
@@ -175,46 +73,26 @@ ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType(const QStri
     return ObjectNodeWidget::Flow;
 }
 
-void ObjectNodeWidget::setObjectNodeType( ObjectNodeType objectNodeType ) {
-    m_ObjectNodeType = objectNodeType;
-    setResizable(true);
+/// Sets the object node type and updates texts.
+void ObjectNodeWidget::setObjectNodeType( ObjectNodeType objectNodeType )
+{
+    m_objectNodeType = objectNodeType;
+	updateTextItemGroups();
 }
 
-void ObjectNodeWidget::setObjectNodeType( const QString& objectNodeType ) {
-   setObjectNodeType(getObjectNodeType(objectNodeType) );
+/// Sets the state of an object node when it's an objectflow.
+void ObjectNodeWidget::setState(const QString& state)
+{
+    m_state = state;
+    updateTextItemGroups();
 }
 
-void ObjectNodeWidget::setState(const QString& state){
-    m_State = state;
-    updateComponentSize();
-}
-
-QString ObjectNodeWidget::getState() {
-    return m_State;
-}
-
-void ObjectNodeWidget::slotMenuSelection(QAction* action) {
-    bool ok = false;
-    QString name = m_Text;
-
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
-    switch( sel ) {
-    case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter Object Node Name"), i18n("Enter the name of the object node :"), m_Text, &ok );
-        if( ok && name.length() > 0 )
-            m_Text = name;
-        break;
-
-    case ListPopupMenu::mt_Properties:
-        showProperties();
-        break;
-
-    default:
-        NewUMLRectWidget::slotMenuSelection(action);
-    }
-}
-
-void ObjectNodeWidget::showProperties() {
+/**
+ * Reimplemented from NewUMLRectWidget::showPropertiesDialog to show
+ * appropriate dialog for objectnode widget.
+ */
+void ObjectNodeWidget::showPropertiesDialog()
+{
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
@@ -223,71 +101,217 @@ void ObjectNodeWidget::showProperties() {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
     }
-
 }
 
-
-
-void ObjectNodeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-    QDomElement objectNodeElement = qDoc.createElement( "objectnodewidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, objectNodeElement );
-    objectNodeElement.setAttribute( "objectnodename", m_Text );
-    objectNodeElement.setAttribute( "documentation", documentation());
-    objectNodeElement.setAttribute( "objectnodetype", m_ObjectNodeType );
-    objectNodeElement.setAttribute( "objectnodestate", m_State );
-    qElement.appendChild( objectNodeElement );
-}
-
-bool ObjectNodeWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
-        return false;
-    m_Text = qElement.attribute( "objectnodename", "" );
-    setDocumentation(qElement.attribute( "documentation", "" ));
-    QString type = qElement.attribute( "objectnodetype", "1" );
-    m_State = qElement.attribute("objectnodestate","");
-    setObjectNodeType( (ObjectNodeType)type.toInt() );
-    return true;
-}
-
-void ObjectNodeWidget::askForObjectNodeType(NewUMLRectWidget* &targetWidget){
-    bool pressedOK = false;
-    int current = 0;
-    const QStringList list = QStringList() << "Central buffer" << "Data store" <<"Object Flow";
-
-    QString type = KInputDialog::getItem ( i18n("Select Object node type"),  i18n("Select the object node type"),list,current, false, &pressedOK, UMLApp::app());
-
-    if (pressedOK) {
-       // QString type = result.join("");
-        dynamic_cast<ObjectNodeWidget*>(targetWidget)->setObjectNodeType(type);
-        if (type == "Data store")
-            Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the data store node"), i18n("Enter the name of the data store node"), i18n("data store name"));
-        if (type == "Central buffer")
-            Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the buffer node"), i18n("Enter the name of the buffer"), i18n("centralBuffer"));
-        if (type == "Object Flow") {
-            Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the object flow"), i18n("Enter the name of the object flow"), i18n("object flow"));
-            askStateForWidget();
-        }
-    } else {
-        targetWidget->cleanup();
-        delete targetWidget;
-        targetWidget = NULL;
-    }
-}
-
-void ObjectNodeWidget::askStateForWidget(){
+/**
+ * Open a dialog box to input the state of the widget This box is
+ * shown only if m_objectNodeType = Flow
+ */
+void ObjectNodeWidget::askStateForWidget()
+{
     bool pressedOK = false;
     QString state = KInputDialog::getText(i18n("Enter Object Flow State"),i18n("Enter State (keep '-' if there's no state for the object) "),i18n("-"), &pressedOK, UMLApp::app());
 
     if (pressedOK) {
         setState(state);
-    } else {
-        cleanup();
     }
 }
 
-void ObjectNodeWidget::slotOk() {
-     //   KDialog::accept();
+/**
+ * Open a dialog box to select the objectNode type (Data, Buffer or
+ * Flow)
+ */
+void ObjectNodeWidget::askForObjectNodeType(NewUMLRectWidget* &targetWidget)
+{
+    bool pressedOK = false;
+    int current = 0;
+    const QStringList list = QStringList() << "Central buffer" << "Data store" <<"Object Flow";
+
+    QString typeString = KInputDialog::getItem ( i18n("Select Object node type"),
+												 i18n("Select the object node type"),
+												 list,current, false, &pressedOK,
+												 UMLApp::app());
+	ObjectNodeType type = ObjectNodeWidget::stringToObjectNodeType(typeString);
+
+    if (pressedOK) {
+       // QString type = result.join("");
+        dynamic_cast<ObjectNodeWidget*>(targetWidget)->setObjectNodeType(type);
+        if (typeString == "Data store") {
+            Dialog_Utils::askNameForWidget(targetWidget,
+										   i18n("Enter the name of the data store node"),
+										   i18n("Enter the name of the data store node"),
+										   i18n("data store name"));
+		}
+		else if (typeString == "Central buffer") {
+            Dialog_Utils::askNameForWidget(targetWidget,
+										   i18n("Enter the name of the buffer node"),
+										   i18n("Enter the name of the buffer"),
+										   i18n("centralBuffer"));
+		}
+        if (typeString == "Object Flow") {
+			Dialog_Utils::askNameForWidget(targetWidget,
+										   i18n("Enter the name of the object flow"),
+										   i18n("Enter the name of the object flow"),
+										   i18n("object flow"));
+
+            askStateForWidget();
+        }
+    }
+	else {
+        delete targetWidget;
+        targetWidget = 0;
+    }
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load
+ * ObjectNodeWidget from XMI.
+ */
+bool ObjectNodeWidget::loadFromXMI( QDomElement & qElement )
+{
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+        return false;
+    setName(qElement.attribute( "objectnodename", "" ));
+    setDocumentation(qElement.attribute( "documentation", "" ));
+    m_state = qElement.attribute("objectnodestate","");
+
+	QString type = qElement.attribute( "objectnodetype", "1" );
+    setObjectNodeType( (ObjectNodeType)type.toInt() );
+
+	return true;
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save
+ * ObjectNodeType info to XMI.
+ */
+void ObjectNodeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement objectNodeElement = qDoc.createElement( "objectnodewidget" );
+    NewUMLRectWidget::saveToXMI( qDoc, objectNodeElement );
+    objectNodeElement.setAttribute( "objectnodename", name() );
+    objectNodeElement.setAttribute( "documentation", documentation());
+    objectNodeElement.setAttribute( "objectnodetype", m_objectNodeType );
+    objectNodeElement.setAttribute( "objectnodestate", m_state );
+    qElement.appendChild( objectNodeElement );
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * particular menu actions.
+ */
+void ObjectNodeWidget::slotMenuSelection(QAction* action)
+{
+    bool ok = false;
+    QString text = name();
+
+	// Menu is passed in as action of parent.
+	ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+
+    switch( sel ) {
+    case ListPopupMenu::mt_Rename:
+        text = KInputDialog::getText( i18n("Enter Object Node Name"),
+									  i18n("Enter the name of the object node :"),
+									  name(), &ok );
+        if( ok && !text.isEmpty()) {
+            setName(text);
+		}
+        break;
+
+    case ListPopupMenu::mt_Properties:
+        showPropertiesDialog();
+        break;
+
+    default:
+        NewUMLRectWidget::slotMenuSelection(action);
+    }
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to
+ * calculate minimumSize for this widget.
+ */
+void ObjectNodeWidget::updateGeometry()
+{
+	QSizeF minSize = textItemGroupAt(GroupIndex)->minimumSize();
+	minSize = minSize.expandedTo(ObjectNodeWidget::MinimumSize);
+	setMinimumSize(minSize);
+
+	NewUMLRectWidget::updateGeometry();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * texts of this widget based on current state.
+ */
+void ObjectNodeWidget::updateTextItemGroups()
+{
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	grp->setTextItemCount(2);
+
+	QString first;
+	QString second = name();
+
+	bool visible = true;
+
+	if(m_objectNodeType == ObjectNodeWidget::Buffer) {
+		first = QLatin1String("<< centralBuffer >>");
+	}
+	else if(m_objectNodeType == ObjectNodeWidget::Data) {
+		first = QLatin1String("<< datastore >>");
+	}
+	else if(m_objectNodeType == ObjectNodeWidget::Flow) {
+		first = name();
+		QString s = state();
+		if(s.isEmpty() || s == "-") {
+			second = " ";
+		}
+		else {
+			second = s.prepend('[').append(']');
+		}
+	}
+	else if(m_objectNodeType == ObjectNodeWidget::Normal) {
+		visible = false;
+	}
+
+	grp->textItemAt(0)->setText(first);
+	grp->textItemAt(0)->setVisible(visible);
+
+	grp->textItemAt(1)->setText(second);
+	grp->textItemAt(1)->setVisible(visible);
+
+	NewUMLRectWidget::updateTextItemGroups();
+}
+
+/**
+ * Reimplemented form NewUMLRectWidget::attributeChange to handle @ref
+ * SizeHasChanged notification by placing text at right place and also
+ * calculating the line (in case of Flow).
+ */
+QVariant ObjectNodeWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+	if(change == SizeHasChanged) {
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		const qreal m = margin();
+		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+
+		// Calculate only if text items are properly intialized (which
+		// is not case during creation)
+		if (grp->textItemCount() > 0) {
+			if (m_objectNodeType == ObjectNodeWidget::Flow) {
+				const TextItem *item = grp->textItemAt(0);
+				const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
+				const qreal y = bottomLeft.y();
+				m_objectFlowLine.setLine(0, y, size().width() - 1, y);
+			}
+			else {
+				m_objectFlowLine = QLineF();
+			}
+		}
+
+	}
+	return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 #include "objectnodewidget.moc"
-

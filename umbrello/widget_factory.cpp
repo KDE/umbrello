@@ -210,7 +210,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "floatingdashlinewidget") {
         widget = new FloatingDashLineWidget(scene, Uml::id_Reserved);
     } else if (tag == "objectnodewidget") {
-        widget = new ObjectNodeWidget(scene, ObjectNodeWidget::Normal, Uml::id_Reserved);
+        widget = new ObjectNodeWidget(ObjectNodeWidget::Normal, Uml::id_Reserved);
     } else if (tag == "regionwidget") {
         widget = new RegionWidget(Uml::id_Reserved);
     } else if (tag == "pinwidget") {

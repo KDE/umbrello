@@ -12,26 +12,19 @@
 #ifndef OBJECTNODEWIDGET_H
 #define OBJECTNODEWIDGET_H
 
-#include "umlwidget.h"
-#include "worktoolbar.h"
-
-#define OBJECTNODE_MARGIN 5
-#define OBJECTNODE_WIDTH 30
-#define OBJECTNODE_HEIGHT 10
+#include "newumlrectwidget.h"
 
 /**
- * This class is the graphical version of a UML Object Node.  A ObjectNodeWidget is created
- * by a @ref UMLScene.  An ObjectNodeWidget belongs to only one @ref UMLScene instance.
- * When the @ref UMLScene instance that this class belongs to, it will be automatically deleted.
- *
- * The ObjectNodeWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
- * to this class.
+ * This class is the graphical version of a UML Object Node which is
+ * used in Activity diagrams
  *
  * @short  A graphical version of a UML Activity.
  * @author Florence Mattler <florence.mattler@libertysurf.fr>
+ * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ObjectNodeWidget : public NewUMLRectWidget {
+class ObjectNodeWidget : public NewUMLRectWidget
+{
     Q_OBJECT
 
 public:
@@ -43,102 +36,50 @@ public:
         Flow
     };
 
-    /**
-     * Creates a Object Node widget.
-     *
-     * @param view              The parent of the widget.
-     * @param objectNodeType      The type of object node
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
-    explicit ObjectNodeWidget( UMLScene * view, ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );
+	explicit ObjectNodeWidget( ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );
+	virtual ~ObjectNodeWidget();
 
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /**
-     *  destructor
-     */
-    virtual ~ObjectNodeWidget();
+	/// Returns the type of object node.
+    ObjectNodeType objectNodeType() const {
+		return m_objectNodeType;
+	}
+    static ObjectNodeType stringToObjectNodeType(const QString& objectNodeType);
 
-    /**
-     * Overrides the standard paint event.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-     * Returns the type of object node.
-     */
-    ObjectNodeType getObjectNodeType() const;
-    ObjectNodeType getObjectNodeType(const QString& objectNodeType) const;
-
-    /**
-     * Sets the type of object node.
-     */
     void setObjectNodeType( ObjectNodeType objectNodeType );
-    void setObjectNodeType( const QString& objectNodeType ) ;
 
-     /**
-     * Sets the state of an object node when it's an objectflow.
-     */
+	/// @return the state of object node. (when objectFlow)
+    QString state() const {
+		return m_state;
+	}
     void setState(const QString& state);
 
-    /**
-     * Returns the state of object node.
-     */
-    QString getState();
+    virtual void showPropertiesDialog();
 
-    /**
-     * Show a properties dialog for an ObjectNodeWidget.
-     *
-     */
-    virtual void showProperties();
+	void askStateForWidget();
+	void askForObjectNodeType(NewUMLRectWidget* &targetWidget);
 
+	virtual bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * Saves the widget to the "objectnodewidget" XMI element.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    /**
-     * Loads the widget from the "objectnodewidget" XMI element.
-     */
-    bool loadFromXMI( QDomElement & qElement );
-
-    /**
-     * Open a dialog box to select the objectNode type (Data, Buffer or Flow)
-     */
-    void askForObjectNodeType(NewUMLRectWidget* &targetWidget);
-
-    /**
-     * Open a dialog box to input the state of the widget
-     * This box is shown only if m_ObjectNodeType = Flow
-     */
-    void askStateForWidget();
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget
-     */
-    QSizeF calculateSize();
+    virtual void updateGeometry();
+	virtual void updateTextItemGroups();
+	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-    /**
-     * Type of object node.
-     */
-    ObjectNodeType m_ObjectNodeType;
+private:
+	enum {
+		GroupIndex = 0
+	};
+	static const QSizeF MinimumSize;
 
-    /**
-    * State of the object node when it's an objectFlow
-    */
-    QString m_State;
-
-
-
-public slots:
-
-    /**
-     * Captures any popup menu signals for menus it created.
-     */
-    void slotMenuSelection(QAction* action);
-
-    void slotOk();
+    ObjectNodeType m_objectNodeType;
+    QString m_state;
+	QLineF m_objectFlowLine;
 };
 
 #endif

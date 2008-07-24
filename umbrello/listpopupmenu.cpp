@@ -440,15 +440,15 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, NewUMLWidget * object,
     case Uml::wt_ObjectNode:
         {
             ObjectNodeWidget* objWidget = static_cast<ObjectNodeWidget *>(object);
-            if (objWidget->getObjectNodeType() == ObjectNodeWidget::Buffer
-              || objWidget->getObjectNodeType() == ObjectNodeWidget::Data
-              || objWidget->getObjectNodeType() == ObjectNodeWidget::Flow) {
+            if (objWidget->objectNodeType() == ObjectNodeWidget::Buffer
+              || objWidget->objectNodeType() == ObjectNodeWidget::Data
+              || objWidget->objectNodeType() == ObjectNodeWidget::Flow) {
                 insertSubMenuColor( object->getUseFillColour() );
             }
             insertStdItems(false, type);
-            if (objWidget->getObjectNodeType() == ObjectNodeWidget::Buffer
-                || objWidget->getObjectNodeType() == ObjectNodeWidget::Data
-                || objWidget->getObjectNodeType() == ObjectNodeWidget::Flow) {
+            if (objWidget->objectNodeType() == ObjectNodeWidget::Buffer
+                || objWidget->objectNodeType() == ObjectNodeWidget::Data
+                || objWidget->objectNodeType() == ObjectNodeWidget::Flow) {
                 insert(mt_Rename, i18n("Change Object Node Name..."));
                 insert(mt_Change_Font);
                 insert(mt_Properties);
