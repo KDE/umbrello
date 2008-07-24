@@ -43,7 +43,7 @@ NewUMLRectWidget::NewUMLRectWidget(UMLObject *object) :
     m_size(20, 20),
 	m_minimumSize(NewUMLRectWidget::DefaultMinimumSize),
 	m_maximumSize(NewUMLRectWidget::DefaultMaximumSize),
-	m_margin(5),
+	m_margin(5.0), // Default margin size
     m_resizable(true),
     m_widgetHandle(0)
 {
