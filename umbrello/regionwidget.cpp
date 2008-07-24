@@ -12,96 +12,56 @@
 // own header
 #include "regionwidget.h"
 
-// qt includes
-#include <qevent.h>
-#include <QPolygon>
+/// Minimum size of region widget.
+const QSizeF RegionWidget::MinimumSize(90, 45);
 
-// kde includes
-#include <klocale.h>
-#include <kdebug.h>
-#include <kinputdialog.h>
-
-// app includes
-#include "uml.h"
-#include "umldoc.h"
-#include "docwindow.h"
-#include "umlwidget.h"
-#include "umlview.h"
-#include "floatingtextwidget.h"
-
-RegionWidget::RegionWidget(UMLScene * view, Uml::IDType id)
-        : NewUMLRectWidget(view, id) {
-     NewUMLRectWidget::setBaseType( Uml::wt_Region );
-    updateComponentSize();
+/**
+ * Creates a Region widget.
+ *
+ * @param id The ID to assign (-1 will prompt a new ID.)
+ */
+RegionWidget::RegionWidget(Uml::IDType id)
+	: NewUMLRectWidget(0, id)
+{
+	m_baseType = Uml::wt_Region;
+	setMinimumSize(RegionWidget::MinimumSize);
 }
 
-RegionWidget::~RegionWidget() {}
+/// Destructor
+RegionWidget::~RegionWidget()
+{
+}
 
+/// Draws a rounded rect with dash line property.
 void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
+	QPen pen(lineColor(), lineWidth());
+	pen.setStyle(Qt::DashLine);
 
-    setPenFromSettings(p);
-    const int w = getWidth();
-    const int h = getHeight();
-    QPen pen = p.pen();
-    {
-        setPenFromSettings(p);
-        pen.setColor ( Qt::red );
-        pen.setStyle ( Qt::DashLine );
-        p.setPen( pen );
-        p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
+	painter->setPen(pen);
+	painter->setBrush(Qt::NoBrush);
 
-    }
-    if(isSelected())
-        drawSelected(&p, offsetX, offsetY);
+	const QRectF r = rect();
+	painter->drawRoundRect(r, (r.height() * 60) / r.width(), 60);
 }
 
-QSizeF RegionWidget::calculateSize() {
-
-    int width = 10, height = 10;
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int fontHeight  = fm.lineSpacing();
-    int textWidth = fm.width(getName());
-
-    height  = fontHeight;
-    width   = textWidth > REGION_WIDTH?textWidth:REGION_WIDTH;
-    height  = height > REGION_HEIGHT ? height : REGION_HEIGHT;
-    width  += REGION_MARGIN * 2;
-    height += REGION_MARGIN * 2;
-
-    return QSizeF(width, height);
-}
-
-void RegionWidget::setName(const QString &strName) {
-    m_Text = strName;
-    updateComponentSize();
-    adjustAssocs( getX(), getY() );
-}
-
-QString RegionWidget::getName() const {
-    return m_Text;
-}
-
-
-void RegionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-    QDomElement regionElement = qDoc.createElement( "regionwidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, regionElement );
-    regionElement.setAttribute( "regionname", m_Text );
-    regionElement.setAttribute( "documentation", documentation() );
-
-    qElement.appendChild( regionElement );
-}
-
-bool RegionWidget::loadFromXMI( QDomElement & qElement ) {
+/// Loads region widget from XMI element
+bool RegionWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
-    m_Text = qElement.attribute( "regionname", "" );
+    setName(qElement.attribute( "regionname", "" ));
     setDocumentation(qElement.attribute( "documentation", "" ));
     return true;
 }
 
+/// Saves region widget to XMI element.
+void RegionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement regionElement = qDoc.createElement( "regionwidget" );
+    NewUMLRectWidget::saveToXMI( qDoc, regionElement );
+    regionElement.setAttribute( "regionname", name() );
+    regionElement.setAttribute( "documentation", documentation() );
 
-#include "regionwidget.moc"
-
+    qElement.appendChild( regionElement );
+}

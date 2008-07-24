@@ -11,65 +11,24 @@
 
 #ifndef REGIONWIDGET_H
 #define REGIONWIDGET_H
-#include <qpainter.h>
-#include <qstringlist.h>
-#include "umlwidget.h"
-#include "worktoolbar.h"
-#include "floatingtextwidget.h"
 
-#define REGION_MARGIN 5
-#define REGION_WIDTH 90
-#define REGION_HEIGHT 45
+#include "newumlrectwidget.h"
 
-class RegionWidget: public NewUMLRectWidget {
-    Q_OBJECT
+/**
+ * Represents a rectangular region on Activity diagram.
+ */
+class RegionWidget: public NewUMLRectWidget
+{
 public:
-
-    /**
-     * Creates a Region widget.
-     *
-     * @param view              The parent of the widget.
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
-    explicit RegionWidget( UMLScene * view, Uml::IDType id = Uml::id_None );
-
-    /**
-     * destructor
-     */
+	explicit RegionWidget(Uml::IDType id = Uml::id_None );
     virtual ~RegionWidget();
 
-    /**
-     * Overrides the standard paint event.
-     */
     void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /**
-     * Sets the name of the REGION.
-     */
-    virtual void setName(const QString &strName);
-
-    /**
-     * Returns the name of the Region.
-     */
-    virtual QString getName() const;
-
-
-    /**
-     * Creates the "REGIONwidget" XMI element.
-     */
+    bool loadFromXMI( QDomElement & qElement );
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * Loads a "REGIONwidget" XMI element.
-     */
-    bool loadFromXMI( QDomElement & qElement );
-
-protected:
-    /**
-     * Overrides method from NewUMLRectWidget
-     */
-    QSizeF calculateSize();
-
+private:
+	static const QSizeF MinimumSize;
 };
-
 #endif
