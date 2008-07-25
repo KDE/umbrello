@@ -12,11 +12,9 @@
 #ifndef COMPONENTWIDGET_H
 #define COMPONENTWIDGET_H
 
-#include "umlwidget.h"
+#include "newumlrectwidget.h"
 
 class UMLComponent;
-
-#define COMPONENT_MARGIN 10
 
 /**
  * Defines a graphical version of the Component.  Most of the functionality
@@ -24,51 +22,39 @@ class UMLComponent;
  *
  * @short A graphical version of a Component.
  * @author Jonathan Riddell
+ * @author Gopala Krishna
  * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ComponentWidget : public NewUMLRectWidget {
+class ComponentWidget : public NewUMLRectWidget
+{
 public:
+	ComponentWidget(UMLComponent *c);
+	virtual ~ComponentWidget();
 
-    /**
-     * Constructs a ComponentWidget.
-     *
-     * @param view      The parent of this ComponentWidget.
-     * @param c The UMLComponent this will be representing.
-     */
-    ComponentWidget(UMLScene * scene, UMLComponent *c);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /**
-     * destructor
-     */
-    virtual ~ComponentWidget();
-
-    /**
-     * Overrides standard method
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-     * Saves to the "componentwidget" XMI element.
-     */
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	// Uses NewUMLRectWidget::loadFromXMI to load info.
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget.
-     */
-    QSizeF calculateSize();
+	virtual void updateGeometry();
+	virtual void updateTextItemGroups();
+	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
+	// Hard coded indices used for TextItemGroup and TextItems.
+	enum {
+		GroupIndex
+	};
+	enum {
+		StereoItemIndex,
+		NameItemIndex,
+		TextItemCount
+	};
 
-    /**
-     * The right mouse button menu
-     */
-    ListPopupMenu* m_pMenu;
+	/// The rectangles to be drawn (calculated in attributeChange)
+	QRectF m_rects[3];
 };
 
 #endif

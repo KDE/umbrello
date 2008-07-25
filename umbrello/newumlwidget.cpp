@@ -726,7 +726,6 @@ void NewUMLWidget::slotInit()
 void NewUMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     ListPopupMenu menu(0, this, false, false);
-    uDebug() << (void*)(&menu);
     QAction *triggered = menu.exec(event->screenPos());
     if(triggered) {
         triggered->setParent(&menu);

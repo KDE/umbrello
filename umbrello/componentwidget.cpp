@@ -12,132 +12,48 @@
 // own header
 #include "componentwidget.h"
 
-// qt/kde includes
-#include <qpainter.h>
-
 // app includes
-#include <kdebug.h>
 #include "component.h"
-#include "umlview.h"
-#include "umlscene.h"
+#include "textitem.h"
+#include "textitemgroup.h"
 
+// qt/kde includes
+#include <QtGui/QPainter>
 
-ComponentWidget::ComponentWidget(UMLScene * scene, UMLComponent *c)
-  : NewUMLRectWidget(scene, c) {
-    init();
-}
-
-void ComponentWidget::init() {
-    NewUMLRectWidget::setBaseType(Uml::wt_Component);
-    setSize(100, 30);
-    m_pMenu = 0;
-    //set defaults from umlScene()
-    if (umlScene()) {
-        //check to see if correct
-        const Settings::OptionState& ops = umlScene()->getOptionState();
-        setShowStereotype(ops.classState.showStereoType);
-    }
-    //maybe loading and this may not be set.
-    if (umlObject()) {
-        updateComponentSize();
-        update();
-    }
-}
-
-ComponentWidget::~ComponentWidget() {}
-
-void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+/**
+ * Constructs a ComponentWidget.
+ *
+ * @param c The UMLComponent this will be representing.
+ */
+ComponentWidget::ComponentWidget(UMLComponent *c)
+	: NewUMLRectWidget(0, c)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
-
-    UMLComponent *umlcomp = static_cast<UMLComponent*>(umlObject());
-    if (umlcomp == NULL)
-        return;
-    setPenFromSettings(p);
-    if ( umlcomp->getExecutable() ) {
-        QPen thickerPen = p.pen();
-        thickerPen.setWidth(2);
-        p.setPen(thickerPen);
-    }
-    if ( NewUMLRectWidget::getUseFillColour() ) {
-        p.setBrush( NewUMLRectWidget::getFillColour() );
-    } else {
-        // [PORT] Replace with styleoption based code.
-        //p.setBrush( umlScene()->viewport()->palette().color(QPalette::Background) );
-    }
-
-    const qreal w = getWidth();
-    const qreal h = getHeight();
-    QFont font = NewUMLRectWidget::getFont();
-    font.setBold(true);
-    const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    const qreal fontHeight = fm.lineSpacing();
-    QString name = getName();
-    const QString stereotype = umlObject()->getStereotype();
-
-    p.drawRect(offsetX + 2*COMPONENT_MARGIN, offsetY, w - 2*COMPONENT_MARGIN, h);
-    p.drawRect(offsetX, offsetY + h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
-    p.drawRect(offsetX, offsetY + h/2 + fontHeight/2, COMPONENT_MARGIN*4, fontHeight);
-
-    p.setPen( QPen(Qt::black) );
-    p.setFont(font);
-
-    int lines = 1;
-
-    if (!stereotype.isEmpty()) {
-        p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - fontHeight,
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter,
-                   umlObject()->getStereotype(true));
-        lines = 2;
-    }
-
-    if ( NewUMLRectWidget::getIsInstance() ) {
-        font.setUnderline(true);
-        p.setFont(font);
-        name = NewUMLRectWidget::getInstanceName() + " : " + name;
-    }
-
-    if (lines == 1) {
-        p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - (fontHeight/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, name );
-    } else {
-        p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, name );
-    }
-
-    if(isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+	m_baseType = Uml::wt_Component;
+    setMargin(10); // override default of 5 for other widgets.
+	createTextItemGroup();
 }
 
-QSizeF ComponentWidget::calculateSize()
+/// Destructor
+ComponentWidget::~ComponentWidget()
 {
-    if ( !umlObject()) {
-        return QSizeF(70, 70);
-    }
-    const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    const qreal fontHeight = fm.lineSpacing();
+}
 
-    QString name = umlObject()->getName();
-    if ( NewUMLRectWidget::getIsInstance() ) {
-        name = NewUMLRectWidget::getInstanceName() + " : " + name;
-    }
+/**
+ * Reimplemented from NewUMLRectWidget::paint to paint component
+ * widget.
+ */
+void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+	UMLComponent *umlcomp = static_cast<UMLComponent*>(umlObject());
 
-    qreal width = fm.width(name);
+	QPen pen(lineColor(), lineWidth());
+	if (umlcomp && umlcomp->getExecutable()) {
+		pen.setWidth(lineWidth() + 2);
+	}
+	painter->setPen(pen);
+	painter->setBrush(brush());
 
-    qreal stereoWidth = 0;
-    if (!umlObject()->getStereotype().isEmpty()) {
-        stereoWidth = fm.width(umlObject()->getStereotype(true));
-    }
-    if (stereoWidth > width)
-        width = stereoWidth;
-    width += COMPONENT_MARGIN * 6;
-    width = 70>width ? 70 : width; //minumin width of 70
-
-    qreal height = (2*fontHeight) + (COMPONENT_MARGIN * 3);
-
-    return QSizeF(width, height);
+	painter->drawRects(m_rects, 3);
 }
 
 void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
@@ -147,3 +63,71 @@ void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     qElement.appendChild(conceptElement);
 }
 
+void ComponentWidget::updateGeometry()
+{
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	QSizeF minSize = grp->minimumSize();
+
+	minSize.rwidth() += 4 * margin();
+	if(minSize.width() < 70) {
+		// atleast minwidth = 70
+		minSize.setWidth(70);
+	}
+
+	qreal minHeight = 3 * QFontMetricsF(grp->font()).lineSpacing();
+	if(minSize.height() < minHeight) {
+		minSize.setHeight(minHeight);
+	}
+
+	// Note: Adds 2 * margin() to both width and height!
+	setMinimumSize(minSize);
+
+	NewUMLRectWidget::updateGeometry();
+}
+
+void ComponentWidget::updateTextItemGroups()
+{
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	grp->setTextItemCount(TextItemCount);
+
+	if(umlObject()) {
+		TextItem *stereo = grp->textItemAt(StereoItemIndex);
+		stereo->setText(umlObject()->getStereotype(true));
+		stereo->setBold(true);
+		stereo->setVisible(umlObject()->getStereotype(false).isEmpty() == false);
+
+		TextItem *nameItem = grp->textItemAt(NameItemIndex);
+		nameItem->setBold(true);
+		QString nameText = name();
+		bool underline = false;
+		if(this->isInstance()) {
+			nameText.prepend(':');
+			nameText.prepend(instanceName());
+			underline = true;
+		}
+		nameItem->setText(nameText);
+		nameItem->setUnderline(underline);
+	}
+
+	NewUMLRectWidget::updateTextItemGroups();
+}
+
+QVariant ComponentWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+	if (change == SizeHasChanged) {
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		const qreal m = margin();
+		const qreal fontHeight = QFontMetricsF(grp->font()).lineSpacing();
+		qreal w = size().width();
+		qreal h = size().height();
+
+		m_rects[0] = QRectF(2 * m, 0, w - 2 * m, h);
+		m_rects[1] = QRectF(0, h/2 - fontHeight/2 - fontHeight, m * 4, fontHeight);
+		m_rects[2] = QRectF(0, h/2 + fontHeight/2, m * 4, fontHeight);
+
+		QRectF grpRect(m*4, m, w - 4 * m, h - 2 * m);
+		grp->setGroupGeometry(grpRect);
+    }
+
+	return NewUMLRectWidget::attributeChange(change, oldValue);
+}

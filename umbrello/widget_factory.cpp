@@ -88,10 +88,9 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
         newWidget = new PackageWidget(static_cast<UMLPackage*>(o));
         break;
     case Uml::ot_Component:
-        newWidget = new ComponentWidget(scene, static_cast<UMLComponent*>(o));
+        newWidget = new ComponentWidget(static_cast<UMLComponent*>(o));
         if (diagramType == Uml::dt_Deployment) {
-            // [PORT]
-            //newWidget->setIsInstance(true);
+            newWidget->setIsInstance(true);
         }
         break;
     case Uml::ot_Node:
@@ -243,7 +242,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new PackageWidget(static_cast<UMLPackage*>(o));
         } else if (tag == "componentwidget") {
             if (validateObjType(Uml::ot_Component, o, id))
-                widget = new ComponentWidget(scene, static_cast<UMLComponent*>(o));
+                widget = new ComponentWidget(static_cast<UMLComponent*>(o));
         } else if (tag == "nodewidget") {
             if (validateObjType(Uml::ot_Node, o, id))
                 widget = new NodeWidget(scene, static_cast<UMLNode*>(o));
