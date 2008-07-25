@@ -12,53 +12,49 @@
 #ifndef NODEWIDGET_H
 #define NODEWIDGET_H
 
-#include "umlwidget.h"
+#include "newumlrectwidget.h"
 
 class UMLNode;
 
 /**
- * Defines a graphical version of the Node.  Most of the functionality
- * will come from the @ref UMLNode class.
+ * Defines a graphical version of the Node used in Deployment diagram.
+ * Most of the functionality will come from the @ref UMLNode class.
  *
  * @short A graphical version of a Node.
  * @author Jonathan Riddell
+ * @author Gopala Krishna
  * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class NodeWidget : public NewUMLRectWidget {
+class NodeWidget : public NewUMLRectWidget
+{
 public:
-
-    /**
-     * Constructs a NodeWidget.
-     *
-     * @param view              The parent of this NodeWidget.
-     * @param n         The UMLNode this will be representing.
-     */
-    NodeWidget(UMLScene * view, UMLNode *n );
-
-    /**
-     * destructor
-     */
+	NodeWidget(UMLNode *n );
     virtual ~NodeWidget();
 
-    /**
-     * Overrides standard method.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *w);
 
-    /**
-     * Saves to the "nodewidget" XMI element.
-     * Note: For loading we use the method inherited from NewUMLRectWidget.
-     */
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+	// Uses NewUMLRectWidget::loadFromXMI to load info.
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget
-     */
-    QSizeF calculateSize();
+	virtual void updateGeometry();
+	virtual void updateTextItemGroups();
+	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-    static const qreal DEPTH;  ///< pixels on Z axis
+private:
+	static const qreal DEPTH;  ///< pixels on Z axis
+	enum {
+		GroupIndex
+	};
+	enum {
+		StereoItemIndex,
+		NameItemIndex,
+		TextItemCount
+	};
+
+	/// Path representing the drawing of node widget.
+	QPainterPath m_nodeWidgetPath;
 };
 
 #endif

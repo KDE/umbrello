@@ -12,130 +12,149 @@
 // own header
 #include "nodewidget.h"
 
-// qt/kde includes
-#include <qpainter.h>
-#include <kdebug.h>
-
 // app includes
 #include "node.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlview.h"
-#include "umlscene.h"
-#include <QPolygon>
+#include "textitem.h"
+#include "textitemgroup.h"
+
+// qt/kde includes
+#include <QtGui/QPolygonF>
 
 const qreal NodeWidget::DEPTH = 30;  ///< pixels on Z axis
 
-NodeWidget::NodeWidget(UMLScene * view, UMLNode *n )
-  : NewUMLRectWidget(view, n) {
-    NewUMLRectWidget::setBaseType(Uml::wt_Node);
-    setZ(m_origZ = 1);  // above box but below NewUMLRectWidget because may embed widgets
-    setSize(100, 30);
-    if (n && !UMLApp::app()->getDocument()->loading())
-        updateComponentSize();
+/**
+ * Constructs a NodeWidget.
+ *
+ * @param n The UMLNode this will be representing.
+ */
+NodeWidget::NodeWidget(UMLNode *n )
+	: NewUMLRectWidget(n)
+{
+    m_baseType = Uml::wt_Node;
+	createTextItemGroup();
+	// above box but below NewUMLRectWidget because may embed widgets
+    setZValue(1);
 }
 
-NodeWidget::~NodeWidget() {}
+/// Destructor
+NodeWidget::~NodeWidget()
+{
+}
 
+/**
+ * Reimplemented from NewUMLRectWidget::paint to draw node widget
+ * drawing stored in the painter path.
+ */
 void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
-
-    setPenFromSettings(p);
-    if ( NewUMLRectWidget::getUseFillColour() ) {
-        p.setBrush( NewUMLRectWidget::getFillColour() );
-    } else {
-        // [PORT]
-        // p.setBrush( umlScene()->viewport()->palette().color(QPalette::Background) );
-    }
-    const qreal w = getWidth();
-    const qreal h = getHeight();
-    const qreal wDepth = (w/3 > DEPTH ? DEPTH : w/3);
-    const qreal hDepth = (h/3 > DEPTH ? DEPTH : h/3);
-    const qreal bodyOffsetY = offsetY + hDepth;
-    const qreal bodyWidth = w - wDepth;
-    const qreal bodyHeight = h - hDepth;
-    QFont font = NewUMLRectWidget::getFont();
-    font.setBold(true);
-    const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-    const qreal fontHeight  = fm.lineSpacing();
-    QString name = getName();
-
-    QPolygon pointArray(5);
-    pointArray.setPoint(0, offsetX, bodyOffsetY);
-    pointArray.setPoint(1, offsetX + wDepth, offsetY);
-    pointArray.setPoint(2, offsetX + w - 1, offsetY);
-    pointArray.setPoint(3, offsetX + w - 1, offsetY + bodyHeight );
-    pointArray.setPoint(4, offsetX + bodyWidth, offsetY + h - 1);
-    p.drawPolygon(pointArray);
-    p.drawRect(offsetX, bodyOffsetY, bodyWidth, bodyHeight);
-    p.drawLine(offsetX + w - 1, offsetY, offsetX + bodyWidth - 2, bodyOffsetY + 1);
-
-    p.setPen( QPen(Qt::black) );
-    p.setFont(font);
-
-    int lines = 1;
-    if (umlObject()) {
-        QString stereotype = umlObject()->getStereotype();
-        if (!stereotype.isEmpty()) {
-            p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - fontHeight,
-                       bodyWidth, fontHeight, Qt::AlignCenter, umlObject()->getStereotype(true));
-            lines = 2;
-        }
-    }
-
-    if ( NewUMLRectWidget::getIsInstance() ) {
-        font.setUnderline(true);
-        p.setFont(font);
-        name = NewUMLRectWidget::getInstanceName() + " : " + name;
-    }
-
-    if (lines == 1) {
-        p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - (fontHeight/2),
-                   bodyWidth, fontHeight, Qt::AlignCenter, name);
-    } else {
-        p.drawText(offsetX, bodyOffsetY + (bodyHeight/2),
-                   bodyWidth, fontHeight, Qt::AlignCenter, name);
-    }
-
-    if(isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+	painter->setPen(QPen(lineColor(), lineWidth()));
+	painter->setBrush(brush());
+	painter->drawPath(m_nodeWidgetPath);
 }
 
-QSizeF NodeWidget::calculateSize() {
-    if (umlObject() == NULL) {
-        uDebug() << "umlObject() is NULL";
-        return NewUMLRectWidget::calculateSize();
-    }
-
-    const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
-    const qreal fontHeight  = fm.lineSpacing();
-
-    QString name = umlObject()->getName();
-    if ( NewUMLRectWidget::getIsInstance() ) {
-        name = NewUMLRectWidget::getInstanceName() + " : " + name;
-    }
-
-    qreal width = fm.width(name);
-
-    qreal tempWidth = 0;
-    if (!umlObject()->getStereotype().isEmpty()) {
-        tempWidth = fm.width(umlObject()->getStereotype(true));
-    }
-    if (tempWidth > width)
-        width = tempWidth;
-    width += DEPTH;
-
-    qreal height = (2*fontHeight) + DEPTH;
-
-    return QSizeF(width, height);
-}
-
-void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+/**
+ * Reimplemented form NewUMLRectWidget::saveToXMI to save this widget
+ * info into 'nodewidget' xmi element.
+ */
+void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement conceptElement = qDoc.createElement("nodewidget");
     NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * minimum size for this widget.
+ */
+void NodeWidget::updateGeometry()
+{
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	QSizeF minSize = grp->minimumSize();
+
+	const qreal m = 2 * margin(); // This will be added by setMinimumSize call
+	minSize += QSizeF(m, m) + QSizeF(NodeWidget::DEPTH, NodeWidget::DEPTH);
+
+	setMinimumSize(minSize);
+
+	NewUMLRectWidget::updateGeometry();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups() to
+ * calculate the texts and also show/hide the texts based on current
+ * state.
+ */
+void NodeWidget::updateTextItemGroups()
+{
+	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+	grp->setTextItemCount(NodeWidget::TextItemCount);
+
+	if(umlObject()) {
+		UMLNode *node = static_cast<UMLNode*>(umlObject());
+
+		TextItem *stereo = grp->textItemAt(NodeWidget::StereoItemIndex);
+		stereo->setText(node->getStereotype(true));
+		stereo->setBold(true);
+		stereo->setVisible(!node->getStereotype(false).isEmpty());
+
+		TextItem *nameItem = grp->textItemAt(NodeWidget::NameItemIndex);
+		QString nameText = name();
+		bool underline = false;
+		if(isInstance()) {
+			nameText.prepend(':');
+			nameText.prepend(instanceName());
+			underline = true;
+		}
+		nameItem->setBold(true);
+		nameItem->setUnderline(underline);
+		nameItem->setText(nameText);
+	}
+
+	NewUMLRectWidget::updateTextItemGroups();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle @ref
+ * SizeHasChanged to position the texts as well as build the painter
+ * path corresponding to current size.
+ */
+QVariant NodeWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+	if(change == SizeHasChanged) {
+		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+		m_nodeWidgetPath = QPainterPath(); // reset path
+
+		const qreal m = margin();
+		const qreal w = size().width();
+		const qreal h = size().height();
+		const qreal wDepth = qMin(w/3, NodeWidget::DEPTH);
+		const qreal hDepth = qMin(h/3, NodeWidget::DEPTH);
+		const qreal bodyOffsetY = hDepth;
+		const qreal bodyWidth = w - wDepth;
+		const qreal bodyHeight = h - hDepth;
+
+		QPolygonF poly;
+		poly << QPointF(0, bodyOffsetY)
+			 << QPointF(wDepth, 0)
+			 << QPointF(w - 1, 0)
+			 << QPointF(w - 1, bodyHeight)
+			 << QPointF(bodyWidth, h - 1)
+			 << QPointF(bodyWidth, bodyOffsetY)
+			 << QPointF(0, bodyOffsetY);
+		m_nodeWidgetPath.addPolygon(poly);
+
+		QRectF bodyRect(0, bodyOffsetY, bodyWidth, bodyHeight);
+		m_nodeWidgetPath.addRect(bodyRect);
+
+		QLineF line(w - 1, 0, bodyWidth - 2, bodyOffsetY + 1);
+		m_nodeWidgetPath.moveTo(line.p1());
+		m_nodeWidgetPath.lineTo(line.p2());
+
+		bodyRect.adjust(+m, +m, -m, -m);
+		grp->setGroupGeometry(bodyRect);
+	}
+
+	return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 

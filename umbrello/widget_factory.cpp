@@ -94,7 +94,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
         }
         break;
     case Uml::ot_Node:
-        newWidget = new NodeWidget(scene, static_cast<UMLNode*>(o));
+        newWidget = new NodeWidget(static_cast<UMLNode*>(o));
         break;
     case Uml::ot_Artifact:
         newWidget = new ArtifactWidget(static_cast<UMLArtifact*>(o));
@@ -245,7 +245,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new ComponentWidget(static_cast<UMLComponent*>(o));
         } else if (tag == "nodewidget") {
             if (validateObjType(Uml::ot_Node, o, id))
-                widget = new NodeWidget(scene, static_cast<UMLNode*>(o));
+                widget = new NodeWidget(static_cast<UMLNode*>(o));
         } else if (tag == "artifactwidget") {
             if (validateObjType(Uml::ot_Artifact, o, id))
                 widget = new ArtifactWidget(static_cast<UMLArtifact*>(o));
