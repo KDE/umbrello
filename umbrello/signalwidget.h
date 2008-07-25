@@ -5,28 +5,23 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
 ***************************************************************************/
 
 #ifndef SIGNALWIDGET_H
 #define SIGNALWIDGET_H
-#include <qpainter.h>
-#include <qstringlist.h>
-#include "umlwidget.h"
-#include "worktoolbar.h"
-#include "floatingtextwidget.h"
-#include "linkwidget.h"
 
-#define SIGNAL_MARGIN 5
-#define SIGNAL_WIDTH 45
-#define SIGNAL_HEIGHT 15
+#include "newumlrectwidget.h"
 
+/**
+ * Represents a Send signal, Accept signal or Time event on an
+ * Activity diagram.
+ */
 class SignalWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 public:
-
     /// Enumeration that codes the different types of signal.
     enum SignalType
     {
@@ -35,102 +30,38 @@ public:
         Time
     };
 
-    /**
-     * Creates a Signal widget.
-     *
-     * @param view              The parent of the widget.
-     * @param signalType        The type of Signal.
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
-    explicit SignalWidget( UMLScene * scene, SignalType signalType = Send, Uml::IDType id = Uml::id_None );
-
-    /**
-     * destructor
-     */
+    explicit SignalWidget( SignalType signalType = Send, Uml::IDType id = Uml::id_None );
     virtual ~SignalWidget();
 
-    /**
-     * Overrides the standard paint event.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-     /**
-     * Overrides the NewUMLRectWidget method.
-     */
-    void setX(qreal newX);
-     /**
-     * Overrides the NewUMLRectWidget method.
-     */
-    void setY(qreal newY);
-
-    /**
-     * Sets the name of the signal.
-     */
-    virtual void setName(const QString &strName);
-
-    /**
-     * Returns the name of the Signal.
-     */
-    virtual QString getName() const;
-
-    /**
-     * Returns the type of Signal.
-     */
-    SignalType getSignalType() const;
-
-    /**
-     * Sets the type of Signal.
-     */
+	/// @return The type of Signal.
+    SignalType signalType() const {
+		return m_signalType;
+	}
     void setSignalType( SignalType signalType );
 
-    void slotMenuSelection(QAction* action);
+    virtual void  showPropertiesDialog();
 
-    /**
-     * Show a properties dialog for a SignalWidget.
-     *
-     */
-    virtual void  showProperties();
+    virtual bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-
-    /**
-     * Overrides mouseMoveEvent.
-     */
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
-
-    /**
-     * Creates the "signalwidget" XMI element.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    /**
-     * Loads a "signalwidget" XMI element.
-     */
-    bool loadFromXMI( QDomElement & qElement );
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget
-     */
-    QSizeF calculateSize();
+	virtual void updateGeometry();
+	virtual void updateTextItemGroups();
+	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-    /**
-     * Type of signal.
-     */
-    SignalType m_SignalType;
+private:
+	enum {
+		GroupIndex
+	};
+	static const QSizeF MinimumSize;
 
-    /**
-     * Save the value of the widget to know how to move the floatingtext
-     */
-    qreal m_oldX;
-    qreal m_oldY;
-
-    // Only for the time event
-    /**
-     * This is a poqrealer to the Floating Text widget which displays the
-     * name of the signal widget.
-     */
-    FloatingTextWidget* m_pName;
-
+    SignalType m_signalType; ///< Type of signal
+	QPainterPath m_signalPath; ///< Path representing current drawing.
 };
 
 #endif

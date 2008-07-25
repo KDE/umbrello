@@ -206,7 +206,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "combinedFragmentwidget") {
         widget = new CombinedFragmentWidget(scene, CombinedFragmentWidget::Ref, Uml::id_Reserved);
     } else if (tag == "signalwidget") {
-        widget = new SignalWidget(scene, SignalWidget::Send,  Uml::id_Reserved);
+        widget = new SignalWidget(SignalWidget::Send,  Uml::id_Reserved);
     } else if (tag == "floatingdashlinewidget") {
         widget = new FloatingDashLineWidget(scene, Uml::id_Reserved);
     } else if (tag == "objectnodewidget") {

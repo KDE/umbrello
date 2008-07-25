@@ -147,15 +147,15 @@ bool ToolBarStateOther::newWidget()
             break;
 
         case WorkToolBar::tbb_Send_Signal:
-            umlWidget = new SignalWidget(m_pUMLScene, SignalWidget::Send);
+            umlWidget = new SignalWidget(SignalWidget::Send);
             break;
 
         case WorkToolBar::tbb_Accept_Signal:
-            umlWidget = new SignalWidget(m_pUMLScene, SignalWidget::Accept);
+            umlWidget = new SignalWidget(SignalWidget::Accept);
             break;
 
         case WorkToolBar::tbb_Accept_Time_Event:
-            umlWidget = new SignalWidget(m_pUMLScene, SignalWidget::Time);
+            umlWidget = new SignalWidget(SignalWidget::Time);
             break;
 
         case WorkToolBar::tbb_Region:
