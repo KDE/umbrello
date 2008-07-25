@@ -98,9 +98,10 @@ public:
     void setInstanceName(const QString &name);
 
 	/// @return Whether this is an instance or not.
-    virtual bool isInstance() const {
-		return false;
+	bool isInstance() const {
+		return m_isInstance;
 	}
+	void setIsInstance(bool b);
 
 	/// @return Whether to show stereotype or not.
     bool showStereotype() const {
@@ -161,6 +162,7 @@ private:
 	qreal m_margin;
 
 	QString m_instanceName;
+	bool m_isInstance;
 	bool m_showStereotype;
 
 	/// Whether resizable or not.

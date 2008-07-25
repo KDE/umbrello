@@ -44,6 +44,7 @@ NewUMLRectWidget::NewUMLRectWidget(UMLObject *object) :
 	m_minimumSize(NewUMLRectWidget::DefaultMinimumSize),
 	m_maximumSize(NewUMLRectWidget::DefaultMaximumSize),
 	m_margin(5.0), // Default margin size
+	m_isInstance(false),
     m_resizable(true),
     m_widgetHandle(0)
 {
@@ -135,6 +136,13 @@ void NewUMLRectWidget::setInstanceName(const QString &name)
     m_instanceName = name;
 	// No need for attributeChange notification mechanism as of now.
     updateTextItemGroups();
+}
+
+/// Sets whether this object is instance or not.
+void NewUMLRectWidget::setIsInstance(bool b)
+{
+	m_isInstance = b;
+	updateTextItemGroups();
 }
 
 void NewUMLRectWidget::setShowStereotype(bool b)
@@ -391,6 +399,7 @@ NewUMLRectWidget::NewUMLRectWidget(UMLScene *scene, UMLObject *object) :
 	m_minimumSize(NewUMLRectWidget::DefaultMinimumSize),
 	m_maximumSize(NewUMLRectWidget::DefaultMaximumSize),
 	m_margin(5),
+	m_isInstance(false),
 	m_resizable(true),
     m_widgetHandle(0)
 {
@@ -402,6 +411,7 @@ NewUMLRectWidget::NewUMLRectWidget(UMLScene *scene, const Uml::IDType & id) :
 	m_minimumSize(NewUMLRectWidget::DefaultMinimumSize),
 	m_maximumSize(NewUMLRectWidget::DefaultMaximumSize),
 	m_margin(5),
+	m_isInstance(false),
 	m_resizable(true),
     m_widgetHandle(0)
 {
