@@ -131,7 +131,7 @@ bool ToolBarStateOther::newWidget()
 
         case WorkToolBar::tbb_Fork:
         case WorkToolBar::tbb_StateFork:
-            umlWidget = new ForkJoinWidget(m_pUMLScene);
+            umlWidget = new ForkJoinWidget();
             break;
 
         case WorkToolBar::tbb_Initial_State:

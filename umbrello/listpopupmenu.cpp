@@ -411,10 +411,14 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, NewUMLWidget * object,
     case Uml::wt_ForkJoin:
         {
             ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(object);
-            if (pForkJoin->getDrawVertical())
+            if (pForkJoin->orientation() == Qt::Vertical) {
                 insert(mt_Flip, i18n("Flip Horizontal"));
-            else
+			}
+            else {
                 insert(mt_Flip, i18n("Flip Vertical"));
+			}
+			m_actions[mt_Fill_Color] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill),
+												 i18n("Fill Color..."));
         }
         break;
 

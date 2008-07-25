@@ -11,93 +11,52 @@
 
 #ifndef FORKJOINWIDGET_H
 #define FORKJOINWIDGET_H
-//qt includes
-#include <QtGui/QPainter>
+
 //app includes
 #include "boxwidget.h"
 
-// fwd decl.
-class UMLView;
-
 /**
  * @short Displays a fork/join plate in a state diagram.
+ *
  * @author Oliver Kellogg  <okellogg@users.sourceforge.net>
+ * @author Gopala Krishna
+ *
  * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ForkJoinWidget : public BoxWidget {
+class ForkJoinWidget : public BoxWidget
+{
+	Q_OBJECT
 public:
-
     /**
      * Constructs a ForkJoinWidget.
      *
-     * @param view          The parent to this widget.
      * @param drawVertical  Whether to draw the plate horizontally or vertically.
      * @param id            The ID to assign (-1 will prompt a new ID.)
      */
-    explicit ForkJoinWidget(UMLScene * scene, bool drawVertical = false, Uml::IDType id = Uml::id_None);
+    explicit ForkJoinWidget(Qt::Orientation o = Qt::Horizontal, Uml::IDType id = Uml::id_None);
+	virtual ~ForkJoinWidget();
 
-    /**
-     * destructor
-     */
-    virtual ~ForkJoinWidget();
+	/// @return Whether to draw plate vertically or not.
+	Qt::Orientation orientation() const {
+		return m_orientation;
+	}
+    void setOrientation(Qt::Orientation o);
 
-    /**
-     * Set whether to draw the plate vertically.
-     */
-    void setDrawVertical(bool to);
-    /**
-     * Get whether to draw the plate vertically.
-     */
-    bool getDrawVertical() const;
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    /**
-     * Overrides the function from NewUMLRectWidget.
-     *
-     * @param action  The action to be executed.
-     */
-    void slotMenuSelection(QAction* action);
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    /**
-     * Draws a slim solid black rectangle.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-     * Saves the widget to the "forkjoinwidget" XMI element.
-     */
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
-
-    /**
-     * Loads the widget from the "forkjoinwidget" XMI element.
-     */
-    bool loadFromXMI(QDomElement & qElement);
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
 protected:
-    /**
-     * Reimplement method from NewUMLRectWidget to suppress the resize corner.
-     * Although the ForkJoinWidget supports resizing, we suppress the
-     * resize corner because it is too large for this very slim widget.
-     */
-    void drawSelected(QPainter * p, qreal offsetX, qreal offsetY);
-
-    /**
-    * Overrides the function from NewUMLRectWidget.
-    */
-    QSizeF calculateSize();
-
-    /**
-     * Reimplement method from NewUMLRectWidget.
-     */
-    void constrain(qreal& width, qreal& height);
+	virtual void updateGeometry();
 
 private:
-    /**
-     * Initializes key variables for the class.
-     */
-    void init();
-
-    bool m_drawVertical;   ///< whether to draw the plate horizontally or vertically
+	/// whether to draw the plate horizontally or vertically
+    Qt::Orientation m_orientation;
 };
 
 #endif

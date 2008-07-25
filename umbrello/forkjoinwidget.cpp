@@ -11,111 +11,107 @@
 
 // own header
 #include "forkjoinwidget.h"
-//qt includes
-#include <qdom.h>
-//kde includes
-#include <kcursor.h>
-#include <kdebug.h>
+
 //app includes
-#include "umlview.h"
 #include "listpopupmenu.h"
-#include "umlscene.h"
 
-ForkJoinWidget::ForkJoinWidget(UMLScene * scene, bool drawVertical, Uml::IDType id)
-    : BoxWidget(id), m_drawVertical(drawVertical)
+
+/**
+ * Constructs a ForkJoinWidget.
+ * @param o The orientation of ForkJoinWidget.
+ * @param id ID of the widget. (-1 for new id)
+ */
+ForkJoinWidget::ForkJoinWidget(Qt::Orientation o, Uml::IDType id)
+    : BoxWidget(id),
+	  m_orientation(o)
 {
-    init();
+	m_baseType = Uml::wt_ForkJoin;
+	setMargin(0);
+	setBrush(QBrush(Qt::black));
 }
 
-void ForkJoinWidget::init()
+/// Destructor
+ForkJoinWidget::~ForkJoinWidget()
 {
-    NewUMLWidget::setBaseType( Uml::wt_ForkJoin );
-    NewUMLRectWidget::updateComponentSize();
 }
 
-ForkJoinWidget::~ForkJoinWidget() {
-}
-
-QSizeF ForkJoinWidget::calculateSize()
+/// Sets the orientation of this widget to \a o
+void ForkJoinWidget::setOrientation(Qt::Orientation o)
 {
-    if (m_drawVertical) {
-        return QSizeF(4, 40);
-    } else {
-        return QSizeF(40, 4);
-    }
+	m_orientation = o;
+	updateGeometry();
 }
 
-void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+/**
+ * Reimplemented from NewUMLRectWidget::paint to draw the plate of
+ * fork join.
+ */
+void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
-
-    p.fillRect( offsetX, offsetY, getWidth(), getHeight(), QBrush( Qt::black ));
-
-    if (isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
+    painter->fillRect(rect(), brush());
 }
 
-void ForkJoinWidget::drawSelected(QPainter *, qreal /*offsetX*/, qreal /*offsetY*/) {
-}
-
-void ForkJoinWidget::constrain(qreal& width, qreal& height) {
-    if (m_drawVertical) {
-        if (width < 4)
-            width = 4;
-        else if (width > 10)
-            width = 10;
-        if (height < 40)
-            height = 40;
-        else if (height > 100)
-            height = 100;
-    } else {
-        if (height < 4)
-            height = 4;
-        else if (height > 10)
-            height = 10;
-        if (width < 40)
-            width = 40;
-        else if (width > 100)
-            width = 100;
-    }
-}
-
-void ForkJoinWidget::slotMenuSelection(QAction* action) {
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
-    switch (sel) {
-    case ListPopupMenu::mt_Flip:
-        setDrawVertical(!m_drawVertical);
-        break;
-    default:
-        break;
-    }
-}
-
-void ForkJoinWidget::setDrawVertical(bool to) {
-    m_drawVertical = to;
-    updateComponentSize();
-    NewUMLRectWidget::adjustAssocs( getX(), getY() );
-}
-
-bool ForkJoinWidget::getDrawVertical() const {
-    return m_drawVertical;
-}
-
-void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
-    QDomElement fjElement = qDoc.createElement("forkjoin");
-    NewUMLRectWidget::saveToXMI(qDoc, fjElement);
-    fjElement.setAttribute("drawvertical", m_drawVertical);
-    qElement.appendChild(fjElement);
-}
-
-bool ForkJoinWidget::loadFromXMI(QDomElement& qElement) {
+/**
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load widget
+ * info from XMI element - 'forkjoin'.
+ */
+bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
+{
     if ( !NewUMLRectWidget::loadFromXMI(qElement) ) {
         return false;
     }
-    QString drawVertical = qElement.attribute("drawvertical", "0");
-    setDrawVertical( (bool)drawVertical.toInt() );
+    QString orientation = qElement.attribute("orientation",
+											 QString::number(Qt::Horizontal));
+    setOrientation( (Qt::Orientation)orientation.toInt() );
     return true;
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save widget info
+ * into XMI element - 'forkjoin'.
+ */
+void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
+    QDomElement fjElement = qDoc.createElement("forkjoin");
+    NewUMLRectWidget::saveToXMI(qDoc, fjElement);
+    fjElement.setAttribute("orientation", m_orientation);
+    qElement.appendChild(fjElement);
+}
+
+/**
+ * Reimplemented form NewUMLRectWidget::slotMenuSelection to handle
+ * Flip action.
+ */
+void ForkJoinWidget::slotMenuSelection(QAction* action)
+{
+	// Menu is passed as parent of action
+	ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+	if (menu->getMenuType(action) == ListPopupMenu::mt_Flip) {
+        setOrientation(m_orientation == Qt::Horizontal ?
+					   Qt::Vertical : Qt::Horizontal);
+	}
+	else {
+		BoxWidget::slotMenuSelection(action);
+	}
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to update the
+ * minimum and maximum size of the widget based on current
+ * orientation.
+ */
+void ForkJoinWidget::updateGeometry()
+{
+	if(m_orientation == Qt::Horizontal) {
+		setMinimumSize(QSizeF(40, 4));
+		setMaximumSize(QSizeF(100, 10));
+	}
+	else {
+		setMinimumSize(QSizeF(4, 40));
+		setMaximumSize(QSizeF(10, 100));
+	}
+
+	BoxWidget::updateGeometry();
+}
+
+#include "forkjoinwidget.moc"
