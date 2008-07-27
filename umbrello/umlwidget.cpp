@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -28,8 +27,6 @@
 #include "umldoc.h"
 #include "umlview.h"
 #include "umlclassifierlistitemlist.h"
-#include "codegenerator.h"
-#include "codegenerators/simplecodegenerator.h"
 #include "listpopupmenu.h"
 #include "associationwidget.h"
 #include "dialogs/settingsdlg.h"
@@ -38,7 +35,6 @@
 #include "docwindow.h"
 #include "dialogs/classpropdlg.h"
 #include "clipboard/idchangelog.h"
-
 #include "cmds.h"
 
 using namespace Uml;
@@ -680,8 +676,7 @@ ListPopupMenu*  UMLWidget::setupPopupMenu()
     m_pMenu = new ListPopupMenu(m_pView, this, multi, unique);
 
     // disable the "view code" menu for simple code generators
-    CodeGenerator * currentCG = UMLApp::app()->getGenerator();
-    if (currentCG && dynamic_cast<SimpleCodeGenerator*>(currentCG))
+    if (UMLApp::app()->isSimpleCodeGeneratorActive())
         m_pMenu->setActionEnabled(ListPopupMenu::mt_ViewCode, false);
 
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));

@@ -14,15 +14,15 @@
 
 #include "umlnamespace.h"
 
-#include <QtGui/QKeyEvent>
-#include <QtGui/QMenu>
-#include <QtGui/QUndoView>
-
 #include <kxmlguiwindow.h>
 #include <kdeversion.h>
 #include <kurl.h>
 #include <ksharedconfig.h>
 #include <kundostack.h>
+
+#include <QtGui/QKeyEvent>
+#include <QtGui/QMenu>
+#include <QtGui/QUndoView>
 
 // forward declaration of the UML classes
 class AlignToolBar;
@@ -203,6 +203,13 @@ public:
      * @return  Pointer to the CodeGenerator.
      */
     CodeGenerator* getGenerator();
+
+    /**
+     * Determines if SimpleCodeGenerator is active.
+     *
+     * @return  true if SimpleCodeGenerator is active.
+     */
+    bool isSimpleCodeGeneratorActive();
 
     /**
      * Set the current generator for this app.

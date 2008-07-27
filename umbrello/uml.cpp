@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -11,46 +10,6 @@
 
 // own header
 #include "uml.h"
-
-// qt includes
-#include <QtCore/QTimer>
-#include <QtCore/QRegExp>
-#include <QtGui/QClipboard>
-#include <QtGui/QSlider>
-#include <QtGui/QToolButton>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QMenuItem>
-#include <QtGui/QDockWidget>
-#include <QtGui/QStackedWidget>
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
-
-// kde includes
-#include <kaction.h>
-#include <kactioncollection.h>
-#include <kstandardaction.h>
-#include <ktoggleaction.h>
-#include <krecentfilesaction.h>
-#include <kconfig.h>
-#include <kcursor.h>
-#include <kdebug.h>
-#ifdef Q_WS_WIN
-#include <QtGui/QFileDialog>
-#else
-#include <kfiledialog.h>
-#endif
-#include <klocale.h>
-#include <kmenubar.h>
-#include <kmessagebox.h>
-#include <kstandarddirs.h>
-#include <kstatusbar.h>
-#include <ktip.h>
-#include <ktabwidget.h>
-#include <kactionmenu.h>
-#include <kmenu.h>
-#include <kxmlguifactory.h>
-#include <kapplication.h>
-#include <kdeprintdialog.h>
 
 // app includes
 #include "umldoc.h"
@@ -91,6 +50,45 @@
 #include "docgenerators/docbookgenerator.h"
 #include "docgenerators/xhtmlgenerator.h"
 
+// kde includes
+#include <kaction.h>
+#include <kactioncollection.h>
+#include <kstandardaction.h>
+#include <ktoggleaction.h>
+#include <krecentfilesaction.h>
+#include <kconfig.h>
+#include <kcursor.h>
+#include <kdebug.h>
+#ifdef Q_WS_WIN
+#include <QtGui/QFileDialog>
+#else
+#include <kfiledialog.h>
+#endif
+#include <klocale.h>
+#include <kmenubar.h>
+#include <kmessagebox.h>
+#include <kstandarddirs.h>
+#include <kstatusbar.h>
+#include <ktip.h>
+#include <ktabwidget.h>
+#include <kactionmenu.h>
+#include <kmenu.h>
+#include <kxmlguifactory.h>
+#include <kapplication.h>
+#include <kdeprintdialog.h>
+
+// qt includes
+#include <QtCore/QTimer>
+#include <QtCore/QRegExp>
+#include <QtGui/QClipboard>
+#include <QtGui/QSlider>
+#include <QtGui/QToolButton>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QMenuItem>
+#include <QtGui/QDockWidget>
+#include <QtGui/QStackedWidget>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
 
 // Static pointer, holding the last created instance.
 UMLApp* UMLApp::s_instance;
@@ -779,7 +777,7 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setAutoGenerateAttributeAccessorsJava(optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors);
     UmbrelloSettings::setAutoGenerateAssocAccessorsJava(optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors);
 
-//     CodeGenerator *codegen = UMLApp::app()->getGenerator();
+//     CodeGenerator *codegen = getGenerator();
 //     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
 //     if (javacodegen)
 //         UmbrelloSettings::setBuildANTDocumentJava( javacodegen->getCreateANTBuildFile());
@@ -1596,6 +1594,16 @@ CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl)
 CodeGenerator* UMLApp::getGenerator()
 {
     return m_codegen;
+}
+
+bool UMLApp::isSimpleCodeGeneratorActive()
+{
+    if (m_codegen && dynamic_cast<SimpleCodeGenerator*>(m_codegen)) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 void UMLApp::generateAllCode()
