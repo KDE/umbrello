@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -11,14 +10,6 @@
 
 #ifndef UMLDOC_H
 #define UMLDOC_H
-
-// system includes
-#include <typeinfo>
-
-// qt includes
-
-// kde includes
-#include <kurl.h>
 
 // app includes
 #include "listpopupmenu.h"
@@ -32,15 +23,22 @@
 #include "umlstereotypelist.h"
 #include "umlpackagelist.h"
 
+// kde includes
+#include <kurl.h>
+
+// qt includes
+
+// system includes
+#include <typeinfo>
+
 #define ENC_UNKNOWN 0
 #define ENC_UNICODE 1
 #define ENC_OLD_ENC 2
 
-
 // forward declarations
 class QDomNode;
+class QDomElement;
 class QPrinter;
-
 
 class IDChangeLog;
 class UMLPackage;

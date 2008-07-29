@@ -1,34 +1,26 @@
 /***************************************************************************
-    begin             : Mon Jun 17 2002
-    copyright         : (C) 2002 Luis De la Parra Blum <luis@delaparra.org>
-                                        and Brian Thomas
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2002       Luis De la Parra Blum <luis@delaparra.org>   *
+                              Brian Thomas <thomas@mail630.gsfc.nasa.gov>  *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "codegenfactory.h"
 
-// qt/kde includes
-#include <kdebug.h>
-
 // app includes
-#include "../codegenerator.h"
-#include "../umldoc.h"
-#include "../uml.h"
-#include "../optionstate.h"
-#include "../operation.h"
-#include "../attribute.h"
-#include "../umlrole.h"
+#include "codegenerator.h"
+#include "umldoc.h"
+#include "uml.h"
+#include "optionstate.h"
+#include "operation.h"
+#include "attribute.h"
+#include "umlrole.h"
 
 #include "adawriter.h"
 #include "cppwriter.h"
@@ -97,9 +89,14 @@
 #include "javacodegenerationpolicy.h"
 #include "rubycodegenerationpolicy.h"
 
-namespace CodeGenFactory {
+// kde includes
+#include <kdebug.h>
 
-CodeGenerator* createObject(Uml::Programming_Language pl)  {
+namespace CodeGenFactory
+{
+
+CodeGenerator* createObject(Uml::Programming_Language pl)
+{
     CodeGenerator* obj = 0;
     Settings::OptionState optionState = Settings::getOptionState();
     switch (pl) {
@@ -167,8 +164,9 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             if (optionState.generalState.newcodegen) {
                 obj = new RubyCodeGenerator();
                 obj->connect_newcodegen_slots();
-             } else
+            } else {
                 obj = new RubyWriter();
+            }
             break;
         case Uml::pl_SQL:
             obj = new SQLWriter();
@@ -180,22 +178,23 @@ CodeGenerator* createObject(Uml::Programming_Language pl)  {
             obj = new XMLSchemaWriter();
             break;
         default:
-            uWarning() << "cannot create object of type " << pl
-                        << ". Type unknown" << endl;
+            uWarning() << "cannot create object of type " << pl << ". Type unknown";
             break;
     }
 
     UMLApp::app()->setPolicyExt(CodeGenFactory::newCodeGenPolicyExt(pl));
-    if (obj)
+    if (obj) {
         obj->initFromParentDocument();
+    }
     return obj;
 }
 
 CodeDocument * newClassifierCodeDocument (UMLClassifier * c)
 {
     Settings::OptionState optionState = Settings::getOptionState();
-    if (!optionState.generalState.newcodegen)
+    if (!optionState.generalState.newcodegen) {
         return NULL;
+    }
     ClassifierCodeDocument *retval = NULL;
     switch (UMLApp::app()->getActiveLanguage()) {
         case Uml::pl_Cpp:
@@ -218,7 +217,8 @@ CodeDocument * newClassifierCodeDocument (UMLClassifier * c)
     return retval;
 }
 
-CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op) {
+CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op)
+{
     CodeOperation *retval = NULL;
     switch (UMLApp::app()->getActiveLanguage()) {
         case Uml::pl_Cpp:
@@ -260,8 +260,8 @@ CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op) 
     return retval;
 }
 
-
-CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at) {
+CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at)
+{
     CodeClassField *retval = NULL;
     switch (UMLApp::app()->getActiveLanguage()) {
         case Uml::pl_Cpp:
@@ -283,7 +283,8 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at
     return retval;
 }
 
-CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLRole *role) {
+CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLRole *role)
+{
     CodeClassField *retval = NULL;
     switch (UMLApp::app()->getActiveLanguage()) {
         case Uml::pl_Cpp:
@@ -307,7 +308,8 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLRole *role) {
 
 CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
                                            CodeClassField *cf,
-                                           CodeAccessorMethod::AccessorType type) {
+                                           CodeAccessorMethod::AccessorType type)
+{
     CodeAccessorMethod *retval = NULL;
     switch (UMLApp::app()->getActiveLanguage()) {
         case Uml::pl_Cpp:
@@ -355,7 +357,8 @@ CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
 }
 
 CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (ClassifierCodeDocument *cd,
-                                                          CodeClassField * cf) {
+                                                          CodeClassField * cf)
+{
     CodeClassFieldDeclarationBlock *retval = NULL;
     switch (UMLApp::app()->getActiveLanguage()) {
         case Uml::pl_Cpp:
@@ -392,39 +395,46 @@ CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (ClassifierCodeDocument
     return retval;
 }
 
-CodeComment * newCodeComment (CodeDocument *cd) {
+CodeComment * newCodeComment (CodeDocument *cd)
+{
     switch (UMLApp::app()->getActiveLanguage()) {
         case Uml::pl_Cpp:
             if (dynamic_cast<CPPHeaderCodeDocument*>(cd) ||
-                dynamic_cast<CPPSourceCodeDocument*>(cd))
+                dynamic_cast<CPPSourceCodeDocument*>(cd)) {
                 return new CPPCodeDocumentation(cd);
+            }
             break;
         case Uml::pl_D:
-            if (dynamic_cast<DClassifierCodeDocument*>(cd))
+            if (dynamic_cast<DClassifierCodeDocument*>(cd)) {
                 return new DCodeComment(cd);
+            }
             break;
         case Uml::pl_Java:
-            if (dynamic_cast<JavaClassifierCodeDocument*>(cd))
+            if (dynamic_cast<JavaClassifierCodeDocument*>(cd)) {
                 return new JavaCodeComment(cd);
+            }
             break;
         case Uml::pl_Ruby:
-            if (dynamic_cast<RubyClassifierCodeDocument*>(cd))
+            if (dynamic_cast<RubyClassifierCodeDocument*>(cd)) {
                 return new RubyCodeComment(cd);
+            }
             break;
         default:
             break;
     }
-    if (dynamic_cast<JavaANTCodeDocument*>(cd))
+    if (dynamic_cast<JavaANTCodeDocument*>(cd)) {
         return new XMLCodeComment(cd);
+    }
     return new CodeComment(cd);
 }
 
-CodeGenPolicyExt* newCodeGenPolicyExt(Uml::Programming_Language pl) {
-
+CodeGenPolicyExt* newCodeGenPolicyExt(Uml::Programming_Language pl)
+{
     Settings::OptionState optionState = Settings::getOptionState();
 
-    if ( pl == Uml::pl_Cpp )
+    if ( pl == Uml::pl_Cpp ) {
         return new CPPCodeGenerationPolicy();
+    }
 
     if ( optionState.generalState.newcodegen ) {
        switch( pl ) {
@@ -443,9 +453,7 @@ CodeGenPolicyExt* newCodeGenPolicyExt(Uml::Programming_Language pl) {
     }
 
     return NULL;
-
 }
-
 
 }  // end namespace CodeGenFactory
 

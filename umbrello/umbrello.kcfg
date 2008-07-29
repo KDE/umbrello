@@ -6,7 +6,7 @@
   <include>kglobalsettings.h</include>
   <include>umlnamespace.h</include> 
   <include>codegenerationpolicy.h</include>
-  <include>codegenerators/cppcodegenerationpolicy.h</include>
+  <include>codegenerators/cpp/cppcodegenerationpolicy.h</include>
   <kcfgfile name="umbrellorc"/>
     <group name="General Options">
        <entry name="Geometry" type="Size">

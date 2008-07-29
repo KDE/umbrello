@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -11,33 +10,6 @@
 
 // own header
 #include "umldoc.h"
-
-// qt includes
-#include <QtCore/QTimer>
-#include <QtCore/QDateTime>
-#include <QtCore/QBuffer>
-#include <QtCore/QDir>
-#include <QtCore/QRegExp>
-#include <QtCore/QTextStream>
-#include <QtGui/QPainter>
-#include <QtGui/QLabel>
-#include <QtGui/QUndoStack>
-#include <QtGui/QPrinter>
-
-// kde includes
-#include <kdeversion.h>
-#include <kdebug.h>
-#include <kio/job.h>
-#include <kio/netaccess.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kmimetype.h>
-#include <ktar.h>
-#include <ktempdir.h>
-#include <ktemporaryfile.h>
-#include <kinputdialog.h>
-#include <ktabwidget.h>
-#include <kapplication.h>
 
 // app includes
 #include "uniqueid.h"
@@ -72,6 +44,35 @@
 #include "listpopupmenu.h"
 #include "cmds.h"
 #include "diagramprintpage.h"
+
+// kde includes
+#include <kdeversion.h>
+#include <kdebug.h>
+#include <kio/job.h>
+#include <kio/netaccess.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kmimetype.h>
+#include <ktar.h>
+#include <ktempdir.h>
+#include <ktemporaryfile.h>
+#include <kinputdialog.h>
+#include <ktabwidget.h>
+#include <kapplication.h>
+
+// qt includes
+#include <QtCore/QTimer>
+#include <QtCore/QDateTime>
+#include <QtCore/QBuffer>
+#include <QtCore/QDir>
+#include <QtCore/QRegExp>
+#include <QtCore/QTextStream>
+#include <QtGui/QPainter>
+#include <QtGui/QLabel>
+#include <QtGui/QUndoStack>
+#include <QtGui/QPrinter>
+#include <QtXml/QDomElement>
+#include <QtXml/QDomDocument>
 
 // Update this version when changing the XMI file format
 #define XMI_FILE_VERSION "1.5.8"
