@@ -463,7 +463,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
                 if (forceDoc() || !at->getDoc().isEmpty()) {
                     cs << m_container_indent << m_indentation << "/// <param name=\"" << cleanName(at->getName()) << "\">";
                     //removing newlines from parameter doc
-                    cs << formatDoc(at->getDoc(), "").replace("\n", " ").remove('\r').remove(QRegExp(" $"));
+                    cs << formatDoc(at->getDoc(), "").replace('\n', ' ').remove('\r').remove(QRegExp(" $"));
                     cs << "</param>" << m_endl;
                 }
             }

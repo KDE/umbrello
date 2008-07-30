@@ -267,7 +267,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
                 pos = re_params.indexIn(docStr, pos);
             }
 
-            docStr.replace("\n", QString("\n") + m_indentation + "# ");
+            docStr.replace('\n', QString("\n") + m_indentation + "# ");
 
             // Write parameter documentation
             foreach ( at , atl ) {
@@ -367,7 +367,7 @@ void RubyWriter::writeSingleAttributeAccessorMethods(
     QString description = descr;
     description.remove(QRegExp("m_[npb](?=[A-Z])"));
     description.remove("m_");
-    description.replace("\n", QString("\n") + m_indentation + "# ");
+    description.replace('\n', QString("\n") + m_indentation + "# ");
 
     if (!description.isEmpty()) {
         h << m_indentation << "# " << description << m_endl;
