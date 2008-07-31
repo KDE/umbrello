@@ -89,7 +89,7 @@ void ActivityWidget::showPropertiesDialog()
     }
 }
 
-void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *)
+void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidget *)
 {
     QRectF r = rect();
     const QSizeF sz = size();

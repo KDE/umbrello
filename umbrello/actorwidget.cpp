@@ -41,7 +41,7 @@ ActorWidget::~ActorWidget()
 /**
  * Overrides the standard paint event.
  */
-void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	painter->setPen(QPen(lineColor(), lineWidth()));
 	painter->setBrush(brush());

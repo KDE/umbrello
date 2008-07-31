@@ -39,7 +39,7 @@ UseCaseWidget::~UseCaseWidget()
 {
 }
 
-void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());

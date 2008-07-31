@@ -45,7 +45,7 @@ ArtifactWidget::~ArtifactWidget()
  * Reimplemented to paint the articraft widget. Some part of specific
  * drawing is delegeted to private method like drawAsFile..
  */
-void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	painter->setPen(QPen(lineColor(), lineWidth()));
 	painter->setBrush(brush());
