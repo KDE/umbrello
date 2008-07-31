@@ -58,7 +58,8 @@ public:
 		return m_textItems;
 	}
 
-	void appendTextItem(TextItem *item);
+    void appendTextItem(TextItem *item);
+    void insertTextItemAt(int i, TextItem *item);
     void deleteTextItem(TextItem *item);
     void deleteTextItemAt(int index);
 

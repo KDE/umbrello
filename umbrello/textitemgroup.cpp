@@ -88,6 +88,24 @@ void TextItemGroup::appendTextItem(TextItem *textItem)
     m_textItems.append(textItem);
 }
 
+void TextItemGroup::insertTextItemAt(int i, TextItem *textItem)
+{
+    if(m_textItems.contains(textItem)) {
+        uDebug() << "TextItem(" << (void*)textItem << ") "
+                 << textItem->text() << " is already in the group";
+        return;
+    }
+
+	textItem->setAlignment(m_alignment);
+	textItem->setDefaultTextColor(m_fontColor);
+	textItem->setHoverBrush(m_hoverBrush);
+	textItem->setBackgroundBrush(m_backgroundBrush);
+	textItem->setFont(m_font);
+
+	textItem->setParentItem(m_parentItem);
+    m_textItems.insert(i, textItem);
+}
+
 void TextItemGroup::deleteTextItem(TextItem *textItem)
 {
     deleteTextItemAt(indexOf(textItem));
