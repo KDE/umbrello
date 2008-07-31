@@ -117,9 +117,9 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
             newWidget = ow;
         } else {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
-            ClassifierWidget* interfaceWidget = new ClassifierWidget(scene, c);
+            ClassifierWidget* interfaceWidget = new ClassifierWidget(c);
             if (diagramType == Uml::dt_Component || diagramType == Uml::dt_Deployment) {
-                interfaceWidget->setDrawAsCircle(true);
+                interfaceWidget->setVisualProperty(ClassifierWidget::DrawAsCircle, true);
             }
             newWidget = interfaceWidget;
         }
@@ -128,9 +128,9 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
         //see if we really want an object widget or class widget
         if (diagramType == Uml::dt_Class || diagramType == Uml::dt_Component) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
-            ClassifierWidget *cw = new ClassifierWidget(scene, c);
+            ClassifierWidget *cw = new ClassifierWidget(c);
             if (diagramType == Uml::dt_Component)
-                cw->setDrawAsCircle(true);
+                cw->setVisualProperty(ClassifierWidget::DrawAsCircle, true);
             newWidget = cw;
         } else {
             ObjectWidget *ow = new ObjectWidget(scene, o, scene->getLocalID() );
@@ -236,7 +236,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new UseCaseWidget(static_cast<UMLUseCase*>(o));
         } else if (tag == "classwidget" || tag == "UML:ClassWidget") {
             if (validateObjType(Uml::ot_Class, o, id))
-                widget = new ClassifierWidget(scene, static_cast<UMLClassifier*>(o));
+                widget = new ClassifierWidget(static_cast<UMLClassifier*>(o));
         } else if (tag == "packagewidget") {
             if (validateObjType(Uml::ot_Package, o, id))
                 widget = new PackageWidget(static_cast<UMLPackage*>(o));
@@ -251,7 +251,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
                 widget = new ArtifactWidget(static_cast<UMLArtifact*>(o));
         } else if (tag == "interfacewidget") {
             if (validateObjType(Uml::ot_Interface, o, id))
-                widget = new ClassifierWidget(scene, static_cast<UMLClassifier*>(o));
+                widget = new ClassifierWidget(static_cast<UMLClassifier*>(o));
         } else if (tag == "datatypewidget") {
             if (validateObjType(Uml::ot_Datatype, o, id))
                 widget = new DatatypeWidget(static_cast<UMLClassifier*>(o));

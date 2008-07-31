@@ -73,7 +73,7 @@ FloatingTextWidget::~FloatingTextWidget()
 {
 }
 
-void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	QPainter &p = *painter;
 	qreal offsetX = 0, offsetY = 0;

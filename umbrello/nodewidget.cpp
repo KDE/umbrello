@@ -45,7 +45,7 @@ NodeWidget::~NodeWidget()
  * Reimplemented from NewUMLRectWidget::paint to draw node widget
  * drawing stored in the painter path.
  */
-void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	painter->setPen(QPen(lineColor(), lineWidth()));
 	painter->setBrush(brush());

@@ -49,7 +49,7 @@ StateWidget::~StateWidget()
 }
 
 /// Reimplemented from NewUMLRectWidget::paint to paint state widget.
-void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	painter->setPen(QPen(lineColor(), lineWidth()));
 	painter->setBrush(brush());

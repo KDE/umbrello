@@ -105,7 +105,6 @@ void TextItemGroup::setLineBreakWidth(qreal width)
 
 QSizeF TextItemGroup::minimumSize() const
 {
-	uDebug() << "Textitems size = " << m_textItems.size();
     qreal width = 0;
     qreal height = 0;
 
@@ -140,7 +139,6 @@ QSizeF TextItemGroup::minimumSize() const
 
 void TextItemGroup::setGroupGeometry(const QRectF& rect)
 {
-	uDebug() << "called";
 	QSizeF minSize = minimumSize();
 
 	if(rect.width() < minSize.width() || rect.height() < minSize.height()) {

@@ -63,9 +63,7 @@ void EnumWidget::setShowPackage(bool b)
 /**
  * Reimplemented from NewUMLRectWidget::paint to draw enum widget.
  */
-void EnumWidget::paint(QPainter *painter,
-                          const QStyleOptionGraphicsItem *option,
-                          QWidget *widget)
+void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());

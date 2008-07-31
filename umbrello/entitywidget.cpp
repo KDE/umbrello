@@ -53,7 +53,7 @@ EntityWidget::~EntityWidget()
  * Draws the entity as a rectangle with a box underneith with a list
  * of literals
  */
-void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	painter->setPen(QPen(lineColor(), lineWidth()));
 	painter->setBrush(brush());

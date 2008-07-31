@@ -76,6 +76,7 @@ Test* Test::self()
 
 void Test::testScene(UMLScene *scene)
 {
+    Q_UNUSED(scene);
 }
 
 QBrush Test::randomGradientBrush()

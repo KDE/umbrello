@@ -2246,7 +2246,7 @@ void AssociationWidget::removeAssocClassLine()
         m_pAssocClassLine = NULL;
     }
     if (m_pAssocClassWidget) {
-        m_pAssocClassWidget->setClassAssocWidget(NULL);
+        m_pAssocClassWidget->setClassAssociationWidget(NULL);
         m_pAssocClassWidget = NULL;
     }
 }
@@ -2274,7 +2274,7 @@ void AssociationWidget::createAssocClassLine(ClassifierWidget* classifier,
     }
 
     m_pAssocClassWidget = classifier;
-    m_pAssocClassWidget->setClassAssocWidget(this);
+    m_pAssocClassWidget->setClassAssociationWidget(this);
 
     createAssocClassLine();
 }
@@ -3706,7 +3706,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
         NewUMLRectWidget *w = Widget_Utils::findWidget(acid, widgets);
         if (w) {
             m_pAssocClassWidget = static_cast<ClassifierWidget*>(w);
-            m_pAssocClassWidget->setClassAssocWidget(this);
+            m_pAssocClassWidget->setClassAssociationWidget(this);
             // Preparation of the assoc class line is done in activate()
             QString aclsegindex = qElement.attribute("aclsegindex", "0");
             m_nLinePathSegmentIndex = aclsegindex.toInt();

@@ -33,7 +33,7 @@ RegionWidget::~RegionWidget()
 }
 
 /// Draws a rounded rect with dash line property.
-void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	QPen pen(lineColor(), lineWidth());
 	pen.setStyle(Qt::DashLine);

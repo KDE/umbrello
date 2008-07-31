@@ -114,7 +114,7 @@ void NoteWidget::setDiagramLink(Uml::IDType sceneID)
     m_diagramLink = sceneID;
 }
 
-void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     const QSizeF sz = size();
 

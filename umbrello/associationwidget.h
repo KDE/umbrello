@@ -246,6 +246,10 @@ public:
      */
     bool contains(NewUMLRectWidget* widget);
 
+    bool contains(const QPointF& point) const {
+        return NewUMLWidget::contains(point);
+    }
+
     /**
      * Returns true if this AssociationWidget represents a collaboration message.
      */

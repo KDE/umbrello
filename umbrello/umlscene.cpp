@@ -985,39 +985,39 @@ void UMLScene::selectionToggleShow(int sel)
             // for both
         case ListPopupMenu::mt_Show_Attributes_Selection:
             if (type == wt_Class)
-                cw->toggleShowAtts();
+                cw->toggleVisualProperty(ClassifierWidget::ShowAttributes);
             break;
         case ListPopupMenu::mt_Show_Operations_Selection:
             if (cw)
-                cw->toggleShowOps();
+                cw->toggleVisualProperty(ClassifierWidget::ShowOperations);
             break;
         case ListPopupMenu::mt_Visibility_Selection:
             if (cw)
-                cw->toggleShowVisibility();
+                cw->toggleVisualProperty(ClassifierWidget::ShowVisibility);
             break;
         case ListPopupMenu::mt_DrawAsCircle_Selection:
             if (type == wt_Interface)
-                cw->toggleDrawAsCircle();
+                cw->toggleVisualProperty(ClassifierWidget::DrawAsCircle);
             break;
         case ListPopupMenu::mt_Show_Operation_Signature_Selection:
             if (cw)
-                cw->toggleShowOpSigs();
+                cw->toggleVisualProperty(ClassifierWidget::ShowOperationSignature);
             break;
         case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
             if (type == wt_Class)
-                cw->toggleShowAttSigs();
+                cw->toggleVisualProperty(ClassifierWidget::ShowAttributeSignature);
             break;
         case ListPopupMenu::mt_Show_Packages_Selection:
             if (cw)
-                cw->toggleShowPackage();
+                cw->toggleVisualProperty(ClassifierWidget::ShowPackage);
             break;
         case ListPopupMenu::mt_Show_Stereotypes_Selection:
             if (type == wt_Class)
-                cw->toggleShowStereotype();
+                cw->toggleVisualProperty(ClassifierWidget::ShowStereotype);
             break;
         case ListPopupMenu::mt_Show_Public_Only_Selection:
             if (cw)
-                cw->toggleShowPublicOnly();
+                cw->toggleVisualProperty(ClassifierWidget::ShowPublicOnly);
             break;
         default:
             break;
@@ -3291,7 +3291,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
             NewUMLRectWidget *widget = NULL;
             switch (ot) {
             case Uml::ot_Class:
-                widget = new ClassifierWidget(this, static_cast<UMLClassifier*>(o));
+                widget = new ClassifierWidget(static_cast<UMLClassifier*>(o));
                 break;
             case Uml::ot_Association: {
                 UMLAssociation *umla = static_cast<UMLAssociation*>(o);
@@ -3333,6 +3333,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 widget->setX(x);
                 widget->setY(y);
                 widget->setSize(w, h);
+                addItem(widget);
                 m_WidgetList.append(widget);
             }
         }

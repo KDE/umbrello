@@ -1083,6 +1083,9 @@ LinePath::SubsetSymbol::SubsetSymbol(QGraphicsScene *scene)
 {
     setStartAngle(90 * 16);
     setSpanAngle(180 * 16);
+    if (scene) {
+        scene->addItem(this);
+    }
 }
 
 #include "linepath.moc"

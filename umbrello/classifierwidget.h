@@ -5,387 +5,144 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef CLASSIFIERWIDGET_H
 #define CLASSIFIERWIDGET_H
 
-#include "umlwidget.h"
+#include "newumlrectwidget.h"
 
-class QPainter;
 class UMLClassifier;
 class AssociationWidget;
 
 /**
  * @short Common implementation for class widget and interface widget
+ *
  * @author Oliver Kellogg
+ * @author Gopala Krishna
+ *
  * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ClassifierWidget : public NewUMLRectWidget
 {
+    Q_OBJECT;
 public:
-
     /**
-     * Constructs a ClassifierWidget.
-     *
-     * @param view      The parent of this ClassifierWidget.
-     * @param o The UMLObject to represent.
+     * This enumeration lists the visual properties that can be easily
+     * set, reset and toggled and all these operate on an integer
+     * which stores all the flag status.
      */
-    ClassifierWidget(UMLScene * scene, UMLClassifier * o);
+    enum VisualProperty {
+        ShowStereotype = 0x1,
+        ShowOperations = 0x2,
+        ShowPublicOnly = 0x4,
+        ShowVisibility = 0x8,
+        ShowPackage = 0x10,
+        ShowAttributes = 0x20,
+        DrawAsCircle = 0x40,
 
-    /**
-     * Destructor.
-     */
+        // These two are effective only in setters.
+        ShowOperationSignature = 0x60,
+        ShowAttributeSignature = 0x80
+    };
+
+    Q_DECLARE_FLAGS(VisualProperties, VisualProperty);
+
+    ClassifierWidget(UMLClassifier * o);
     virtual ~ClassifierWidget();
 
-    /**
-     * Toggles the status of whether to show StereoType.
-     */
-    void toggleShowStereotype();
+    UMLClassifier *classifier() const;
 
     /**
-     * Return the status of showing operations.
-     *
-     * @return  Return the status of showing operations.
+     * @return An OR combination of all VisualProperty values
+     *         indicating current visual property status.
      */
-    bool getShowOps() const;
-
-    /**
-     *  Set the status of whether to show Operations
-     *
-     * @param _show             True if operations shall be shown.
-     */
-    void setShowOps(bool _show);
-
-    /**
-     * Toggles the status of showing operations.
-     */
-    void toggleShowOps();
-
-    /**
-     * Return true if public operations/attributes are shown only.
-     */
-    bool getShowPublicOnly() const;
-
-    /**
-     * Set whether to show public operations/attributes only.
-     */
-    void setShowPublicOnly(bool _status);
-
-    /**
-     * Toggle whether to show public operations/attributes only.
-     */
-    void toggleShowPublicOnly();
-
-    /**
-     * Returns the status of whether to show visibility.
-     *
-     * @return  True if visibility is shown.
-     */
-    bool getShowVisibility() const;
-
-    /**
-     * Set the status of whether to show visibility
-     *
-     * @param _visibility    True if visibility shall be shown.
-     */
-    void setShowVisibility(bool _visibility);
-
-    /**
-     * Toggles the status of whether to show visibility
-     */
-    void toggleShowVisibility();
-
-    /**
-     * Return the status of showing operation signatures.
-     *
-     * @return  Status of showing operation signatures.
-     */
-    Uml::Signature_Type getShowOpSigs() const;
-
-    /**
-     * Set the status of whether to show Operation signature
-     *
-     * @param _show             True if operation signatures shall be shown.
-     */
-    void setShowOpSigs(bool _show);
-
-    /**
-     * Toggles the status of showing operation signatures.
-     */
-    void toggleShowOpSigs();
-
-    /**
-     * Returns the status of whether to show Package.
-     *
-     * @return  True if package is shown.
-     */
-    bool getShowPackage() const;
-
-    /**
-     * Set the status of whether to show Package.
-     *
-     * @param _status             True if package shall be shown.
-     */
-    void setShowPackage(bool _status);
-
-    /**
-     * Toggles the status of whether to show package.
-     */
-    void toggleShowPackage();
-
-    /**
-     * Set the type of signature to display for an Operation
-     *
-     * @param sig       Type of signature to display for an operation.
-     */
-    void setOpSignature(Uml::Signature_Type sig);
-
-    /**
-     * Return the number of displayed attributes.
-     */
-    int displayedAttributes();
-
-    /**
-     * Return the number of displayed operations.
-     */
-    int displayedOperations();
-
-    /**
-     * Returns whether to show attributes.
-     * Only applies when umlObject()->getBaseType() is ot_Class.
-     *
-     * @return  True if attributes are shown.
-     */
-    bool getShowAtts() const {
-        return m_bShowAttributes;
+    VisualProperties visualProperties() const {
+        return m_visualProperties;
     }
+    void setVisualProperties(VisualProperties properties);
 
-    /**
-     * Toggles whether to show attributes.
-     * Only applies when umlObject()->getBaseType() is ot_Class.
-     */
-    void toggleShowAtts();
+    bool visualProperty(VisualProperty property) const;
+    void setVisualProperty(VisualProperty property, bool enable = true);
+    void toggleVisualProperty(VisualProperty property);
 
-    /**
-     * Returns whether to show attribute signatures.
-     * Only applies when umlObject()->getBaseType() is ot_Class.
-     *
-     * @return  Status of how attribute signatures are shown.
-     */
-    Uml::Signature_Type getShowAttSigs() {
-        return m_ShowAttSigs;
+    bool shouldDrawAsCircle() const;
+
+    /// @return The Uml::Signature_Type value for the attributes.
+    Uml::Signature_Type attributeSignatureType() const {
+        return m_attributeSignatureType;
     }
+    void setAttributeSignature(Uml::Signature_Type sig);
 
-    /**
-     * Toggles whether to show attribute signatures.
-     * Only applies when umlObject()->getBaseType() is ot_Class.
-     */
-    void toggleShowAttSigs();
+    /// @return The Uml::Signature_Type value for the operations.
+    Uml::Signature_Type operationSignatureType() const {
+        return m_operationSignatureType;
+    }
+    void setOperationSignature(Uml::Signature_Type sig);
 
-    /**
-     * Sets whether to show attributes.
-     * Only applies when umlObject()->getBaseType() is ot_Class.
-     *
-     * @param _show             True if attributes shall be shown.
-     */
-    void setShowAtts(bool _show);
-
-    /**
-     * Sets whether to show attribute signature
-     * Only applies when umlObject()->getBaseType() is ot_Class.
-     *
-     * @param _show             True if attribute signatures shall be shown.
-     */
-    void setShowAttSigs(bool _show);
-
-    /**
-     * Sets the type of signature to display for an attribute.
-     * Only applies when umlObject()->getBaseType() is ot_Class.
-     *
-     * @param sig       Type of signature to display for an attribute.
-     */
-    void setAttSignature(Uml::Signature_Type sig);
-
-    /**
-     * Returns whether to draw as circle.
-     * Only applies when umlObject()->getBaseType() is ot_Interface.
-     *
-     * @return  True if widget is drawn as circle.
-     */
-    bool getDrawAsCircle() const;
-
-    /**
-     * Toggles whether to draw as circle.
-     * Only applies when umlObject()->getBaseType() is ot_Interface.
-     */
-    void toggleDrawAsCircle();
-
-    /**
-     * Sets whether to draw as circle.
-     * Only applies when umlObject()->getBaseType() is ot_Interface.
-     *
-     * @param drawAsCircle      True if widget shall be drawn as circle.
-     */
-    void setDrawAsCircle(bool drawAsCircle);
-
-    /**
-     * Changes this classifier from an interface to a class.
-     * Attributes and stereotype visibility is got from the view OptionState.
-     * This widget is also updated.
-     */
     void changeToClass();
-
-    /**
-     * Changes this classifier from a class to an interface.
-     * Attributes are hidden and stereotype is shown.
-     * This widget is also updated.
-     */
     void changeToInterface();
 
     /**
-     * Set the AssociationWidget when this ClassWidget acts as
-     * an association class.
+     * @return The AssociationWidget when this classifier acts as an
+     *         association class (else return NULL.)
      */
-    void setClassAssocWidget(AssociationWidget *assocwidget);
+    AssociationWidget *classAssociationWidget() const {
+        return m_classAssociationWidget;
+    }
+    void setClassAssociationWidget(AssociationWidget *assocwidget);
+    virtual void adjustAssociations();
 
-    /**
-     * Return the AssociationWidget when this classifier acts as
-     * an association class (else return NULL.)
-     */
-    AssociationWidget *getClassAssocWidget();
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
-    /**
-     * Return the UMLClassifier which this ClassifierWidget
-     * represents.
-     */
-    UMLClassifier *getClassifier();
-
-    /**
-     * Overrides standard method.
-     * Auxiliary to reimplementations in the derived classes.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *);
-
-    /**
-     * Extends base method to adjust also the association of a class
-     * association.
-     * Executes the base method and then, if file isn't loading and the
-     * classifier acts as a class association, the association position is
-     * updated.
-     *
-     * @param x The x-coordinate.
-     * @param y The y-coordinate.
-     */
-    virtual void adjustAssocs(qreal x, qreal y);
-
-    /**
-     * Creates the "classwidget" or "interfacewidget" XML element.
-     */
-    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
-
-    /**
-     * Loads the "classwidget" or "interfacewidget" XML element.
-     */
-    bool loadFromXMI(QDomElement & qElement);
-
-public slots:
-    /**
-     * Will be called when a menu selection has been made from the
-     * popup menu.
-     *
-     * @param action       The action that has been selected.
-     */
-    void slotMenuSelection(QAction* action);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *);
 
 protected:
+    virtual void updateGeometry();
+    virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
-    /**
-     * Calculcates the size of the templates box in the top left
-     * if it exists, returns QSize(0,0) if it doesn't.
-     *
-     * @return  QSize of the templates flap.
-     */
-    QSizeF calculateTemplatesBoxSize();
+private:
+    void updateSignatureTypes();
+    void calculateTemplateDrawing();
+    void calculateClassifierDrawing();
 
-    /**
-     * Overrides method from NewUMLRectWidget.
-     */
-    QSizeF calculateSize();
-
-    /**
-     * Draws the interface as a circle with name underneath.
-     * Only applies when umlObject()->getBaseType() is ot_Interface.
-     */
-    void drawAsCircle(QPainter& p, qreal offsetX, qreal offsetY);
-
-    /**
-     * Calculates the size of the object when drawn as a circle.
-     * Only applies when umlObject()->getBaseType() is ot_Interface.
-     */
-    QSizeF calculateAsCircleSize();
-
-    /**
-     * Updates m_ShowOpSigs to match m_bShowVisibility.
-     */
-    void updateSigs();
-
-    /**
-     * Return the number of displayed members of the given Object_Type.
-     * Takes into consideration m_bShowPublicOnly but not other settings,
-     */
-    int displayedMembers(Uml::Object_Type ot);
-
-    /**
-     * Auxiliary method for draw() of child classes:
-     * Draw the attributes or operations.
-     *
-     * @param p         QPainter to paint to.
-     * @param ot                Object type to draw, either ot_Attribute or ot_Operation.
-     * @param sigType   Governs details of the member display.
-     * @param x         X coordinate at which to draw the texts.
-     * @param y         Y coordinate at which text drawing commences.
-     * @param fontHeight        The font height.
-     */
-    void drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
-                     qreal x, qreal y, qreal fontHeight);
-
-    bool m_bShowOperations;            ///< Loaded/saved item.
-    bool m_bShowPublicOnly;            ///< Loaded/saved item.
-    bool m_bShowAccess;                ///< Loaded/saved item.
-    bool m_bShowPackage;               ///< Loaded/saved item.
-    bool m_bShowAttributes;            ///< Loaded/saved item.
-    bool m_bDrawAsCircle;              ///< Loaded/saved item.
-    Uml::Signature_Type m_ShowAttSigs; ///< Loaded/saved item.
-    Uml::Signature_Type m_ShowOpSigs;  ///< Loaded/saved item.
-
-    /**
-     * Text width margin
-     */
-    static const qreal MARGIN;
+    VisualProperties m_visualProperties;
+    Uml::Signature_Type m_attributeSignatureType; ///< Loaded/saved item.
+    Uml::Signature_Type m_operationSignatureType;  ///< Loaded/saved item.
 
     /**
      * Size of circle when interface is rendered as such
      */
-    static const qreal CIRCLE_SIZE;
-
-    /// Auxiliary variable for size calculations and drawing
-    qreal m_bodyOffsetY;
+    static const qreal CircleMinimumRadius;
 
     /**
-     * The related AssociationWidget in case this classifier
-     * acts as an association class
+     * The related AssociationWidget in case this classifier acts as
+     * an association class
      */
-    AssociationWidget *m_pAssocWidget;
+    AssociationWidget *m_classAssociationWidget;
 
+    enum {
+        ClassifierGroupIndex=0,
+        TemplateGroupIndex
+    };
+    enum {
+        StereotypeItemIndex=0,
+        NameItemIndex
+    };
+
+    QRectF m_classifierRect;
+    QRectF m_templateRect;
+    QVector<QLineF> m_classifierLines;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(ClassifierWidget::VisualProperties)
 
 #endif

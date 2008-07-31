@@ -36,7 +36,7 @@ FloatingDashLineWidget::FloatingDashLineWidget(UMLScene * scene, Uml::IDType id)
 
 FloatingDashLineWidget::~FloatingDashLineWidget() {}
 
-void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     QPainter &p = *painter;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

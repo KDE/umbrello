@@ -11,448 +11,722 @@
 
 // own header
 #include "classifierwidget.h"
+
 // qt/kde includes
-#include <qpainter.h>
-#include <kdebug.h>
+
 // app includes
-#include "classifier.h"
-#include "operation.h"
-#include "template.h"
 #include "associationwidget.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
+#include "classifier.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
+#include "operation.h"
+#include "template.h"
+#include "textitem.h"
+#include "textitemgroup.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "umlscene.h"
+#include "umlview.h"
 
-ClassifierWidget::ClassifierWidget(UMLScene * scene, UMLClassifier *c)
-  : NewUMLRectWidget(scene, c) {
-    init();
-    if (c != NULL && c->isInterface()) {
-        NewUMLWidget::setBaseType(Uml::wt_Interface);
+const qreal ClassifierWidget::CircleMinimumRadius = 30;
+
+/**
+ * Constructs a ClassifierWidget.
+ *
+ * @param c The UMLObject to represent.
+ */
+ClassifierWidget::ClassifierWidget(UMLClassifier *c)
+    : NewUMLRectWidget(c)
+{
+    createTextItemGroup(); // For classifier text items
+    createTextItemGroup(); // For template text items'
+
+    m_baseType = Uml::wt_Class;
+    // Set the following properties by default. The remaining
+    // properties are not set.
+    m_visualProperties = ShowOperations | ShowVisibility | ShowAttributes;
+
+    m_attributeSignatureType = Uml::st_ShowSig;
+    m_operationSignatureType = Uml::st_ShowSig;
+
+    // Intially this is null
+    m_classAssociationWidget = 0;
+
+    // Check if this widget is representing an interface and set
+    // properties corresponding to that if it is.
+    if (c && c->isInterface()) {
+        m_baseType = Uml::wt_Interface;
+        m_visualProperties = ShowOperations | ShowVisibility | ShowStereotype;
         setShowStereotype(true);
-        m_bShowAttributes = false;
-        updateSigs();
     }
 }
 
-ClassifierWidget::~ClassifierWidget() {
-    if (m_pAssocWidget)
-        m_pAssocWidget->removeAssocClassLine();
-}
-
-const qreal ClassifierWidget::MARGIN = 5;
-const qreal ClassifierWidget::CIRCLE_SIZE = 30;
-
-void ClassifierWidget::init()
+/**
+ * Destructor
+ * @todo Reimplement this properly after implementing the Associationwidget
+ */
+ClassifierWidget::~ClassifierWidget()
 {
-    NewUMLWidget::setBaseType(Uml::wt_Class);
-
-    const Settings::OptionState& ops = umlScene()->getOptionState();
-    m_bShowAccess = ops.classState.showVisibility;
-    m_bShowOperations = ops.classState.showOps;
-    m_bShowPublicOnly = false;
-    m_bShowPackage = ops.classState.showPackage;
-    m_ShowAttSigs = Uml::st_ShowSig;
-    /* setShowOpSigs( ops.classState.showOpSig );
-      Cannot do that because we get "pure virtual method called". Open code:
-     */
-    if( !ops.classState.showOpSig ) {
-        if (m_bShowAccess)
-            m_ShowOpSigs = Uml::st_NoSig;
-        else
-            m_ShowOpSigs = Uml::st_NoSigNoVis;
-
-    } else if (m_bShowAccess)
-        m_ShowOpSigs = Uml::st_ShowSig;
-    else
-        m_ShowOpSigs = Uml::st_SigNoVis;
-
-    m_bShowAttributes = ops.classState.showAtts;
-    setShowStereotype(ops.classState.showStereoType);
-    m_bDrawAsCircle = false;
-    m_pAssocWidget = NULL;
-    setShowAttSigs( ops.classState.showAttSig );
+    if (m_classAssociationWidget) {
+        m_classAssociationWidget->removeAssocClassLine();
+    }
 }
 
-void ClassifierWidget::updateSigs() {
-    //turn on scope
-    if (m_bShowAccess) {
-        if (m_ShowOpSigs == Uml::st_NoSigNoVis) {
-            m_ShowOpSigs = Uml::st_NoSig;
-        } else if (m_ShowOpSigs == Uml::st_SigNoVis) {
-            m_ShowOpSigs = Uml::st_ShowSig;
-        }
-    } else { //turn off scope
-        if (m_ShowOpSigs == Uml::st_ShowSig) {
-            m_ShowOpSigs = Uml::st_SigNoVis;
-        } else if (m_ShowOpSigs == Uml::st_NoSig) {
-            m_ShowOpSigs = Uml::st_NoSigNoVis;
-        }
-    }
-    if (m_bShowAccess) {
-        if (m_ShowAttSigs == Uml::st_NoSigNoVis)
-            m_ShowAttSigs = Uml::st_NoSig;
-        else if (m_ShowAttSigs == Uml::st_SigNoVis)
-            m_ShowAttSigs = Uml::st_ShowSig;
-    } else {
-        if (m_ShowAttSigs == Uml::st_ShowSig)
-            m_ShowAttSigs = Uml::st_SigNoVis;
-        else if(m_ShowAttSigs == Uml::st_NoSig)
-            m_ShowAttSigs = Uml::st_NoSigNoVis;
-    }
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::toggleShowStereotype()
+/// @return the UMLClassifier which this ClassifierWidget represents.
+UMLClassifier *ClassifierWidget::classifier() const
 {
-    setShowStereotype(!showStereotype());
-    updateSigs();
-    updateComponentSize();
-    update();
+    return static_cast<UMLClassifier*>(umlObject());
 }
 
-bool ClassifierWidget::getShowOps() const {
-    return m_bShowOperations;
-}
-
-void ClassifierWidget::setShowOps(bool _show) {
-    m_bShowOperations = _show;
-    updateSigs();
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::toggleShowOps() {
-    m_bShowOperations = !m_bShowOperations;
-    updateSigs();
-    updateComponentSize();
-    update();
-}
-
-bool ClassifierWidget::getShowPublicOnly() const {
-    return m_bShowPublicOnly;
-}
-
-void ClassifierWidget::setShowPublicOnly(bool _status) {
-    m_bShowPublicOnly = _status;
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::toggleShowPublicOnly() {
-    m_bShowPublicOnly = !m_bShowPublicOnly;
-    updateComponentSize();
-    update();
-}
-
-bool ClassifierWidget::getShowVisibility() const {
-    return m_bShowAccess;
-}
-
-void ClassifierWidget::setShowVisibility(bool _visibility) {
-    m_bShowAccess = _visibility;
-    updateSigs();
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::toggleShowVisibility() {
-    m_bShowAccess = !m_bShowAccess;
-    updateSigs();
-    updateComponentSize();
-    update();
-}
-
-Uml::Signature_Type ClassifierWidget::getShowOpSigs() const {
-    return m_ShowOpSigs;
-}
-
-void ClassifierWidget::setShowOpSigs(bool _status) {
-    if( !_status ) {
-        if (m_bShowAccess)
-            m_ShowOpSigs = Uml::st_NoSig;
-        else
-            m_ShowOpSigs = Uml::st_NoSigNoVis;
-    } else if (m_bShowAccess)
-        m_ShowOpSigs = Uml::st_ShowSig;
-    else
-        m_ShowOpSigs = Uml::st_SigNoVis;
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::toggleShowOpSigs() {
-    if (m_ShowOpSigs == Uml::st_ShowSig || m_ShowOpSigs == Uml::st_SigNoVis) {
-        if (m_bShowAccess) {
-            m_ShowOpSigs = Uml::st_NoSig;
-        } else {
-            m_ShowOpSigs = Uml::st_NoSigNoVis;
-        }
-    } else if (m_bShowAccess) {
-        m_ShowOpSigs = Uml::st_ShowSig;
-    } else {
-        m_ShowOpSigs = Uml::st_SigNoVis;
-    }
-    updateComponentSize();
-    update();
-}
-
-bool ClassifierWidget::getShowPackage() const {
-    return m_bShowPackage;
-}
-
-void ClassifierWidget::setShowPackage(bool _status) {
-    m_bShowPackage = _status;
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::toggleShowPackage() {
-    m_bShowPackage = !m_bShowPackage;
-    updateSigs();
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::setOpSignature(Uml::Signature_Type sig) {
-    m_ShowOpSigs = sig;
-    updateSigs();
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::setShowAtts(bool _show) {
-    m_bShowAttributes = _show;
-    updateSigs();
-
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::setAttSignature(Uml::Signature_Type sig) {
-    m_ShowAttSigs = sig;
-    updateSigs();
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::setShowAttSigs(bool _status) {
-    if( !_status ) {
-        if (m_bShowAccess)
-            m_ShowAttSigs = Uml::st_NoSig;
-        else
-            m_ShowAttSigs = Uml::st_NoSigNoVis;
-    }
-    else if (m_bShowAccess)
-        m_ShowAttSigs = Uml::st_ShowSig;
-    else
-        m_ShowAttSigs = Uml::st_SigNoVis;
-    if (UMLApp::app()->getDocument()->loading())
+/**
+ * Set an OR combination of properties stored in \a properties on this
+ * widget.
+ */
+void ClassifierWidget::setVisualProperties(VisualProperties properties)
+{
+    // Don't do anything if the argument is equal to current status.
+    if (quint32(m_visualProperties) == quint32(properties)) {
         return;
-    updateComponentSize();
-    update();
+    }
+
+    m_visualProperties = properties;
+    updateSignatureTypes();
 }
 
-void ClassifierWidget::toggleShowAtts()
+/**
+ * @return The status of the property passed in.
+ *
+ * @note Use @ref attributeSignatureType() and @ref
+ *       operationSignatureType() to get signature status.  This
+ *       method only indicates whether signature is visible or not.
+ */
+bool ClassifierWidget::visualProperty(VisualProperty property) const
 {
-    m_bShowAttributes = !m_bShowAttributes;
-    updateSigs();
-    updateComponentSize();
-    update();
+    if (property == ShowAttributeSignature) {
+        return (m_attributeSignatureType == Uml::st_ShowSig
+                || m_attributeSignatureType == Uml::st_SigNoVis);
+    }
+
+    else if(property == ShowOperationSignature) {
+        return (m_operationSignatureType == Uml::st_ShowSig
+                || m_operationSignatureType == Uml::st_SigNoVis);
+    }
+
+    return m_visualProperties.testFlag(property);
 }
 
-void ClassifierWidget::toggleShowAttSigs()
+/**
+ * A convenient method to set and reset individual VisualProperty
+ *
+ * @param property The property to be set/reset.
+ * @param enable   True/false to set/reset. (default = true)
+ *
+ * @note This method handles ShowAttributeSignature and
+ *       ShowOperationSignature specially.
+ */
+void ClassifierWidget::setVisualProperty(VisualProperty property, bool enable)
 {
-    if (m_ShowAttSigs == Uml::st_ShowSig ||
-            m_ShowAttSigs == Uml::st_SigNoVis) {
-        if (m_bShowAccess) {
-            m_ShowAttSigs = Uml::st_NoSig;
-        } else {
-            m_ShowAttSigs = Uml::st_NoSigNoVis;
+    // Handle ShowAttributeSignature and ShowOperationSignature
+    // specially.
+
+    if (property == ShowAttributeSignature) {
+        if (!enable) {
+            m_attributeSignatureType = visualProperty(ShowVisibility) ?
+                Uml::st_NoSig : Uml::st_NoSigNoVis;
         }
-    } else if (m_bShowAccess) {
-        m_ShowAttSigs = Uml::st_ShowSig;
-    } else {
-        m_ShowAttSigs = Uml::st_SigNoVis;
-    }
-    updateComponentSize();
-    update();
-}
-
-int ClassifierWidget::displayedMembers(Uml::Object_Type ot) {
-    int count = 0;
-    UMLClassifierListItemList list = getClassifier()->getFilteredList(ot);
-    foreach (UMLClassifierListItem *m , list ) {
-      if (!(m_bShowPublicOnly && m->getVisibility() != Uml::Visibility::Public))
-            count++;
-    }
-    return count;
-}
-
-int ClassifierWidget::displayedOperations() {
-    if (!m_bShowOperations)
-        return 0;
-    return displayedMembers(Uml::ot_Operation);
-}
-
-QSizeF ClassifierWidget::calculateSize()
-{
-    if (!umlObject()) {
-        return NewUMLRectWidget::calculateSize();
-    }
-    if (getClassifier()->isInterface() && m_bDrawAsCircle) {
-        return calculateAsCircleSize();
+        else {
+            m_attributeSignatureType = visualProperty(ShowVisibility) ?
+                Uml::st_ShowSig : Uml::st_SigNoVis;
+        }
+        updateTextItemGroups();
     }
 
-    const QFontMetrics &fm = getFontMetrics(NewUMLRectWidget::FT_NORMAL);
-    const qreal fontHeight = fm.lineSpacing();
-    // width is the width of the longest 'word'
-    qreal width = 0, height = 0;
-
-    // consider stereotype
-    if (showStereotype() && !umlObject()->getStereotype().isEmpty()) {
-        height += fontHeight;
-        // ... width
-        const QFontMetrics &bfm = NewUMLRectWidget::getFontMetrics(NewUMLRectWidget::FT_BOLD);
-        const qreal stereoWidth = bfm.size(0,umlObject()->getStereotype(true)).width();
-        if (stereoWidth > width)
-            width = stereoWidth;
+    else if (property == ShowOperationSignature) {
+        if (!enable) {
+            m_operationSignatureType = visualProperty(ShowVisibility) ?
+                Uml::st_NoSig : Uml::st_NoSigNoVis;
+        }
+        else {
+            m_operationSignatureType = visualProperty(ShowVisibility) ?
+                Uml::st_ShowSig : Uml::st_SigNoVis;
+        }
+        updateTextItemGroups();
     }
 
-    // consider name
-    height += fontHeight;
-    // ... width
-    QString displayedName;
-    if (m_bShowPackage)
-        displayedName = umlObject()->getFullyQualifiedName();
-    else
-        displayedName = umlObject()->getName();
-    const NewUMLRectWidget::FontType nft = (umlObject()->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
-    //const qreal nameWidth = getFontMetrics(nft).boundingRect(displayName).width();
-    const qreal nameWidth = NewUMLRectWidget::getFontMetrics(nft).size(0,displayedName).width();
-    if (nameWidth > width)
-        width = nameWidth;
+    else if (property == ShowStereotype) {
+        // Now just update flag and use base method for actual work.
+        if (enable) {
+            m_visualProperties |= property;
+        }
+        else {
+            enable &= ~property;
+        }
+        setShowStereotype(enable);
+    }
 
-    // consider attributes
-    const int numAtts = displayedAttributes();
-    if (numAtts == 0) {
-        height += fontHeight / 2;  // no atts, so just add a bit of space
-    } else {
-        height += fontHeight * numAtts;
-        // calculate width of the attributes
-        UMLClassifierListItemList list = getClassifier()->getFilteredList(Uml::ot_Attribute);
-        foreach (UMLClassifierListItem *a , list ) {
-            if (m_bShowPublicOnly && a->getVisibility() != Uml::Visibility::Public)
-                continue;
-            const qreal attWidth = fm.size(0,a->toString(m_ShowAttSigs)).width();
-            if (attWidth > width)
-                width = attWidth;
+    // Some other flag.
+    else {
+        // Don't do anything if the flag status is same.
+        if (visualProperty(property) == enable) {
+            return;
+        }
+
+        // Call setVisualProperties appropriately based on enbable.
+        if (enable) {
+            setVisualProperties(visualProperties() | property);
+        }
+        else {
+            setVisualProperties(visualProperties() & ~property);
         }
     }
-
-    // consider operations
-    const int numOps = displayedOperations();
-    if (numOps == 0) {
-        height += fontHeight / 2.;  // no ops, so just add a bit of space
-    } else {
-        height += numOps * fontHeight;
-        // ... width
-        UMLOperationList list(getClassifier()->getOpList());
-        foreach (UMLOperation* op ,  list) {
-            if (m_bShowPublicOnly && op->getVisibility() != Uml::Visibility::Public)
-                continue;
-            const QString displayedOp = op->toString(m_ShowOpSigs);
-            NewUMLRectWidget::FontType oft;
-            oft = (op->getAbstract() ? NewUMLRectWidget::FT_ITALIC : NewUMLRectWidget::FT_NORMAL);
-            const qreal w = NewUMLRectWidget::getFontMetrics(oft).size(0,displayedOp).width();
-            if (w > width)
-                width = w;
-        }
-    }
-
-    // consider template box _as last_ !
-    QSizeF templatesBoxSize = calculateTemplatesBoxSize();
-    if (templatesBoxSize.width() != 0) {
-        // add width to largest 'word'
-        width += templatesBoxSize.width() / 2;
-    }
-    if (templatesBoxSize.height() != 0) {
-        height += templatesBoxSize.height() - MARGIN;
-    }
-
-
-    // allow for height margin
-    if (!m_bShowOperations && !m_bShowAttributes && !showStereotype()) {
-        height += MARGIN * 2;
-    }
-
-    // allow for width margin
-    width += MARGIN * 2;
-
-    return QSizeF(width, height);
 }
 
-void ClassifierWidget::slotMenuSelection(QAction* action) {
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+/**
+ * A convenient method to toggle individual VisualProperty of this
+ * widget.
+ *
+ * @param property The property to be toggled.
+ *
+ * @note This method handles ShowAttributeSignature and
+ *       ShowOperationSignature specially.
+ */
+void ClassifierWidget::toggleVisualProperty(VisualProperty property)
+{
+    bool oppositeStatus;
+    if (property == ShowOperationSignature) {
+        oppositeStatus = !(m_operationSignatureType == Uml::st_ShowSig
+                           || m_operationSignatureType == Uml::st_SigNoVis);
+    }
+    else if (property == ShowAttributeSignature) {
+        oppositeStatus = !(m_attributeSignatureType == Uml::st_ShowSig
+                           || m_attributeSignatureType == Uml::st_SigNoVis);
+    }
+    else {
+        oppositeStatus = !visualProperty(property);
+    }
+
+    uDebug() << "VisualProperty:" << property << "to opposite status " << oppositeStatus;
+    setVisualProperty(property, oppositeStatus);
+}
+
+/**
+ * @retval true  If this widget represents interface and DrawAsCircle
+ *               property is set.
+ */
+bool ClassifierWidget::shouldDrawAsCircle() const
+{
+    return baseType() == Uml::wt_Interface && visualProperty(DrawAsCircle) == true;
+}
+
+/**
+ * Set's the attribute signature type to \a sigType.
+ */
+void ClassifierWidget::setAttributeSignature(Uml::Signature_Type sigType)
+{
+    m_attributeSignatureType = sigType;
+    updateSignatureTypes();
+}
+
+/**
+ * Set's the operation signature type to \a sigType.
+ */
+void ClassifierWidget::setOperationSignature(Uml::Signature_Type sigType)
+{
+    m_operationSignatureType = sigType;
+    updateSignatureTypes();
+}
+
+/**
+ * Changes this classifier from an interface to a class.  Attributes
+ * and stereotype visibility is got from the view OptionState.  This
+ * widget is also updated.
+ */
+void ClassifierWidget::changeToClass()
+{
+    m_baseType = Uml::wt_Class;
+    classifier()->setBaseType(Uml::ot_Class);
+
+    bool showAtts = true;
+    bool showStereotype = false;
+
+    if (umlScene()) {
+        const Settings::OptionState& ops = umlScene()->getOptionState();
+        showAtts = ops.classState.showAtts;
+        showStereotype = ops.classState.showStereoType;
+    }
+
+    setVisualProperty(ShowAttributes, showAtts);
+    setVisualProperty(ShowStereotype, showStereotype);
+
+    updateTextItemGroups();
+}
+
+/**
+ * Changes this classifier from a class to an interface.  Attributes
+ * are hidden and stereotype is shown.  This widget is also updated.
+ */
+void ClassifierWidget::changeToInterface()
+{
+    m_baseType = Uml::wt_Interface;
+    classifier()->setBaseType(Uml::ot_Interface);
+
+    setVisualProperty(ShowAttributes, false);
+    setVisualProperty(ShowStereotype, true);
+
+    updateTextItemGroups();
+}
+
+/**
+ * Set the AssociationWidget when this ClassWidget acts as an
+ * association class.
+ */
+void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
+{
+    m_classAssociationWidget = assocwidget;
+    UMLAssociation *umlassoc = 0;
+    if (assocwidget) {
+        umlassoc = assocwidget->getAssociation();
+    }
+    classifier()->setClassAssoc(umlassoc);
+}
+
+/**
+ * Extends base method to adjust also the association of a class
+ * association.  Executes the base method and then, if file isn't
+ * loading and the classifier acts as a class association, the
+ * association position is updated.
+ *
+ * @param x The x-coordinate.
+ * @param y The y-coordinate.
+ *
+ * @todo Implement this properly after implementing AssociationWidget.
+ */
+void ClassifierWidget::adjustAssociations()
+{
+    NewUMLRectWidget::adjustAssociations();
+
+    if (umlDoc()->loading() || m_classAssociationWidget == 0) {
+        return;
+    }
+
+    m_classAssociationWidget->computeAssocClassLine();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load the
+ * classifier widget from XMI.
+ */
+bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
+{
+    if (!NewUMLRectWidget::loadFromXMI(qElement))
+        return false;
+
+    // Determine str
+    QString defaultSigType = QString::number(Uml::st_NoSig);
+
+    QString showatts = qElement.attribute( "showattributes", "0" );
+    QString showops = qElement.attribute( "showoperations", "1" );
+    QString showpubliconly = qElement.attribute( "showpubliconly", "0" );
+    QString showattsigs = qElement.attribute( "showattsigs", defaultSigType );
+    QString showopsigs = qElement.attribute( "showopsigs", defaultSigType );
+    QString showpackage = qElement.attribute( "showpackage", "0" );
+    QString showscope = qElement.attribute( "showscope", "0" );
+    QString drawascircle = qElement.attribute("drawascircle", "0");
+
+    // Save scene and remove this item to prevent too many updates.
+    UMLScene *saved = umlScene();
+    if (saved) {
+        saved->removeItem(this);
+    }
+
+    setVisualProperty(ShowAttributes, (bool)showatts.toInt());
+    setVisualProperty(ShowOperations, (bool)showops.toInt());
+    setVisualProperty(ShowPublicOnly, (bool)showpubliconly.toInt());
+    setVisualProperty(ShowPackage, (bool)showpackage.toInt());
+    setVisualProperty(ShowVisibility, (bool)showscope.toInt());
+    setVisualProperty(DrawAsCircle, (bool)drawascircle.toInt());
+
+    setAttributeSignature((Uml::Signature_Type)showattsigs.toInt());
+    setOperationSignature((Uml::Signature_Type)showopsigs.toInt());
+
+    // Now place this item back in the scene it belonged to.
+    if (saved) {
+        saved->addItem(this);
+    }
+    return true;
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save
+ * classifierwidget data either to 'interfacewidget' or 'classwidget'
+ * XMI element.
+ */
+void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
+{
+    QDomElement conceptElement;
+    UMLClassifier *umlc = classifier();
+
+    QString tagName = umlc->isInterface() ?
+        "interfacewidget" : " classwidget";
+    conceptElement = qDoc.createElement(tagName);
+    NewUMLRectWidget::saveToXMI( qDoc, conceptElement );
+
+    conceptElement.setAttribute("showoperations", visualProperty(ShowOperations));
+    conceptElement.setAttribute("showpubliconly", visualProperty(ShowPublicOnly));
+    conceptElement.setAttribute("showopsigs", m_operationSignatureType);
+    conceptElement.setAttribute("showpackage", visualProperty(ShowPackage));
+    conceptElement.setAttribute("showscope", visualProperty(ShowVisibility));
+
+    if (! umlc->isInterface()) {
+        conceptElement.setAttribute("showattributes", visualProperty(ShowAttributes));
+        conceptElement.setAttribute("showattsigs", m_attributeSignatureType);
+    }
+
+    if (umlc->isInterface() || umlc->getAbstract()) {
+        conceptElement.setAttribute("drawascircle", visualProperty(DrawAsCircle));
+    }
+    qElement.appendChild(conceptElement);
+}
+
+/**
+ * Reimplemented form NewUMLRectWidget::paint to draw
+ * ClassifierWidget.
+ */
+void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget *)
+{
+    QPen pen(lineColor(), lineWidth());
+    painter->setPen(pen);
+    painter->setBrush(brush());
+
+    if (shouldDrawAsCircle()) {
+        // m_classifierRect represents rectangle within which the
+        // circle should be drawn. We have to calculate sane dimension
+        // and position of this circle.
+        qreal radius = qMin(m_classifierRect.width(), m_classifierRect.height());
+        QRectF circle(0, 0, radius, radius);
+        circle.moveCenter(m_classifierRect.center());
+
+        painter->drawEllipse(circle);
+    }
+    else {
+        // The elements not to be drawn will have null dimension and
+        // hence it effectively is not drawn. (automatic ;) )
+        painter->drawRect(m_classifierRect);
+        painter->drawLines(m_classifierLines);
+
+        pen.setStyle(Qt::DotLine);
+        painter->setPen(pen);
+        painter->drawRect(m_templateRect);
+    }
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * minimum size for this widget based on the current state of this
+ * widget.
+ */
+void ClassifierWidget::updateGeometry()
+{
+    // Min size including classifier and template box.
+    QSizeF totalMinSize;
+
+    // Min size only for classifier items.
+    QSizeF classifierMinSize = textItemGroupAt(ClassifierGroupIndex)->minimumSize();
+
+    if (shouldDrawAsCircle()) {
+        totalMinSize.setWidth(qMax(classifierMinSize.width(), ClassifierWidget::CircleMinimumRadius));
+        totalMinSize.setHeight(classifierMinSize.height() + 2 * ClassifierWidget::CircleMinimumRadius);
+        setMinimumSize(totalMinSize);
+        return;
+    }
+
+    // Draw the bounding rectangle
+    QSizeF templateBoxSize = textItemGroupAt(TemplateGroupIndex)->minimumSize();
+
+    // If we don't have template params, templatesBoxSize is empty.
+    if (templateBoxSize.isEmpty()) {
+        totalMinSize = classifierMinSize;
+        setMinimumSize(totalMinSize);
+    }
+    else {
+        // Add margin to both classifier and template box sizes.
+        QSizeF marginSize(2 * margin(), 2 * margin());
+        classifierMinSize += marginSize;
+        templateBoxSize += marginSize;
+
+        totalMinSize.setHeight(classifierMinSize.height() + templateBoxSize.height() - margin());
+        totalMinSize.setWidth(classifierMinSize.width() + .5 * templateBoxSize.width());
+
+        // Dont add margin as we have already added manually
+        setMinimumSize(totalMinSize, NewUMLRectWidget::DontAddMargin);
+    }
+
+    NewUMLRectWidget::updateGeometry();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle @ref
+ * SizeHasChanged notification and pre-calculate the TextItem position
+ * and the drawing elements like rectangle, lines ...
+ */
+QVariant ClassifierWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+    if (change == SizeHasChanged) {
+        calculateTemplateDrawing();
+        calculateClassifierDrawing();
+    }
+    return NewUMLRectWidget::attributeChange(change, oldValue);
+}
+
+/**
+ * Calculates the template box dimensions and the position of text
+ * items inside it based on the current size.
+ */
+void ClassifierWidget::calculateTemplateDrawing()
+{
+    const qreal w = size().width();
+    const qreal m = margin();
+
+    TextItemGroup *templateGroup = textItemGroupAt(TemplateGroupIndex);
+    QSizeF templateGroupSize = templateGroup->minimumSize();
+
+    // No template box if no templates or drawing as circle.
+    if (templateGroupSize.isEmpty() || shouldDrawAsCircle()) {
+        m_templateRect = QRectF();
+    }
+    else {
+        m_templateRect.setTop(0);
+        m_templateRect.setLeft(w - templateGroupSize.width() - 2 * m);
+        m_templateRect.setSize(templateGroupSize + QSizeF(2 * m, 2 * m)); // add margin
+
+        templateGroup->setGroupGeometry(m_templateRect.adjusted(+m, +m, -m, -m));
+    }
+}
+
+/**
+ * Calculates the classifier box dimensions and the position of text
+ * items inside it based on the current size.
+ *
+ * @note Assumes calculateTemplateDrawing is called before calling
+ *       this method.
+ */
+void ClassifierWidget::calculateClassifierDrawing()
+{
+    const qreal w = size().width();
+    const qreal h = size().height();
+    const qreal m = margin();
+
+    TextItemGroup *classifierGroup = textItemGroupAt(ClassifierGroupIndex);
+
+    if (shouldDrawAsCircle()) {
+        // Allocates circle space algined at top and "minimum space"
+        // for the text which is aligned bottom.
+        qreal fontHeight = classifierGroup->minimumSize().height();
+        m_classifierRect = rect();
+        m_classifierRect.setBottom(m_classifierRect.bottom() - fontHeight - 2 * m);
+
+        QRectF groupRect(m, m_classifierRect.bottom() + m, w - 2 * m, fontHeight);
+        classifierGroup->setGroupGeometry(groupRect);
+    }
+    else {
+        // Utilize entire space if template box is empty.
+        if (m_templateRect.isEmpty()) {
+            m_classifierRect = rect();
+        }
+        else {
+            m_classifierRect.setTop(m_templateRect.bottom() - m);
+            m_classifierRect.setLeft(0);
+            m_classifierRect.setBottomRight(QPointF(w, h));
+        }
+
+        classifierGroup->setGroupGeometry(m_classifierRect.adjusted(+m, +m, -m, -m));
+    }
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to
+ * calculate the Text strings , their properties and also hide/show
+ * them based on the current state.
+ */
+void ClassifierWidget::updateTextItemGroups()
+{
+    TextItemGroup *classifierGroup = textItemGroupAt(ClassifierGroupIndex);
+    TextItemGroup *templateGroup = textItemGroupAt(TemplateGroupIndex);
+    UMLClassifier *umlC = classifier();
+    UMLClassifierListItemList attribList = umlC->getFilteredList(Uml::ot_Attribute);
+    UMLClassifierListItemList opList = umlC->getFilteredList(Uml::ot_Operation);
+
+    // Set up template group and template text items.
+    UMLTemplateList tlist = umlC->getTemplateList();
+    templateGroup->setTextItemCount(tlist.size());
+    bool templateHide = shouldDrawAsCircle(); // Hide if draw as circle.
+    for(int i = 0; i < tlist.size(); ++i) {
+        UMLTemplate *t = tlist[i];
+        templateGroup->textItemAt(i)->setText(t->toString());
+        templateGroup->textItemAt(i)->setVisible(!templateHide);
+    }
+
+    // +2 because we have NameItem and StereotypeItem
+    const int cnt = attribList.count() + opList.count() + 2;
+    classifierGroup->setTextItemCount(cnt);
+
+    // Setup Stereo text item.
+    TextItem *stereoItem = classifierGroup->textItemAt(StereotypeItemIndex);
+    stereoItem->setBold(true);
+    stereoItem->setText(umlC->getStereotype(true));
+
+    bool v = !shouldDrawAsCircle()
+        && visualProperty(ShowStereotype)
+        && !(umlC->getStereotype(false).isEmpty());
+    stereoItem->setVisible(v);
+
+    // name item is always visible.
+    TextItem *nameItem = classifierGroup->textItemAt(NameItemIndex);
+    nameItem->setBold(true);
+    nameItem->setItalic(umlC->getAbstract());
+    nameItem->setUnderline(shouldDrawAsCircle());
+    QString nameText = name();
+    if (visualProperty(ShowPackage) == true) {
+        nameText = umlC->getFullyQualifiedName();
+    }
+    nameItem->setText(nameText);
+
+    // Now setup attribute texts.
+    int attribStartIndex = NameItemIndex + 1;
+    for (int i=0; i < attribList.size(); ++i) {
+        UMLClassifierListItem *obj = attribList[i];
+
+        TextItem *item = classifierGroup->textItemAt(attribStartIndex + i);
+        item->setItalic(obj->getAbstract());
+        item->setUnderline(obj->getStatic());
+        item->setText(obj->toString(m_attributeSignatureType));
+
+        bool v = !shouldDrawAsCircle()
+            && ( !visualProperty(ShowPublicOnly)
+                 || obj->getVisibility() == Uml::Visibility::Public)
+            && visualProperty(ShowAttributes) == true;
+
+        item->setVisible(v);
+    }
+
+    int opStartIndex = attribStartIndex + attribList.size();
+    for (int i=0; i < opList.size(); ++i) {
+        UMLClassifierListItem *obj = opList[i];
+
+        TextItem *item = classifierGroup->textItemAt(opStartIndex + i);
+        item->setItalic(obj->getAbstract());
+        item->setUnderline(obj->getStatic());
+        item->setText(obj->toString(m_operationSignatureType));
+
+        bool v = !shouldDrawAsCircle()
+            && ( !visualProperty(ShowPublicOnly)
+                 || obj->getVisibility() == Uml::Visibility::Public)
+            && visualProperty(ShowOperations);
+
+        item->setVisible(v);
+    }
+
+    NewUMLRectWidget::updateTextItemGroups();
+}
+
+/**
+ * Determines the appropriate signature types for both operations and
+ * attributes based on their current state and also based on access.
+ */
+void ClassifierWidget::updateSignatureTypes()
+{
+    //turn on scope
+    if (visualProperty(ShowVisibility)) {
+        // Take care of operation first
+        if (m_operationSignatureType == Uml::st_NoSigNoVis) {
+            m_operationSignatureType = Uml::st_NoSig;
+        } else if (m_operationSignatureType == Uml::st_SigNoVis) {
+            m_operationSignatureType = Uml::st_ShowSig;
+        }
+        // Now take care of attributes
+        if (m_attributeSignatureType == Uml::st_NoSigNoVis)
+            m_attributeSignatureType = Uml::st_NoSig;
+        else if (m_attributeSignatureType == Uml::st_SigNoVis)
+            m_attributeSignatureType = Uml::st_ShowSig;
+
+    }
+    //turn off scope
+    else {
+        // Take care of operations first
+        if (m_operationSignatureType == Uml::st_ShowSig) {
+            m_operationSignatureType = Uml::st_SigNoVis;
+        } else if (m_operationSignatureType == Uml::st_NoSig) {
+            m_operationSignatureType = Uml::st_NoSigNoVis;
+        }
+        // Now take care of attributes.
+        if (m_attributeSignatureType == Uml::st_ShowSig)
+            m_attributeSignatureType = Uml::st_SigNoVis;
+        else if(m_attributeSignatureType == Uml::st_NoSig)
+            m_attributeSignatureType = Uml::st_NoSigNoVis;
+    }
+
+    updateTextItemGroups();
+}
+
+void ClassifierWidget::slotMenuSelection(QAction* action)
+{
+    // The menu is passed in as parent of action.
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
     switch (sel) {
     case ListPopupMenu::mt_Attribute:
     case ListPopupMenu::mt_Operation:
     case ListPopupMenu::mt_Template:
-        {
-            Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(sel);
-            if (Object_Factory::createChildObject(getClassifier(), ot)) {
-                updateComponentSize();
-                update();
-                UMLApp::app()->getDocument()->setModified();
-            }
-            break;
+    {
+        Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(sel);
+        if (Object_Factory::createChildObject(classifier(), ot)) {
+            UMLApp::app()->getDocument()->setModified();
         }
+        break;
+    }
     case ListPopupMenu::mt_Show_Operations:
     case ListPopupMenu::mt_Show_Operations_Selection:
-        toggleShowOps();
+        toggleVisualProperty(ShowOperations);
         break;
 
     case ListPopupMenu::mt_Show_Attributes:
     case ListPopupMenu::mt_Show_Attributes_Selection:
-        toggleShowAtts();
+        toggleVisualProperty(ShowAttributes);
         break;
 
     case ListPopupMenu::mt_Show_Public_Only:
     case ListPopupMenu::mt_Show_Public_Only_Selection:
-        toggleShowPublicOnly();
+        toggleVisualProperty(ShowPublicOnly);
         break;
 
     case ListPopupMenu::mt_Show_Operation_Signature:
     case ListPopupMenu::mt_Show_Operation_Signature_Selection:
-        toggleShowOpSigs();
+        toggleVisualProperty(ShowOperationSignature);
         break;
 
     case ListPopupMenu::mt_Show_Attribute_Signature:
     case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
-        toggleShowAttSigs();
+        toggleVisualProperty(ShowAttributeSignature);
         break;
 
     case ListPopupMenu::mt_Visibility:
     case ListPopupMenu::mt_Visibility_Selection:
-        toggleShowVisibility();
+        toggleVisualProperty(ShowVisibility);
         break;
 
     case ListPopupMenu::mt_Show_Packages:
     case ListPopupMenu::mt_Show_Packages_Selection:
-        toggleShowPackage();
+        toggleVisualProperty(ShowPackage);
         break;
 
     case ListPopupMenu::mt_Show_Stereotypes:
     case ListPopupMenu::mt_Show_Stereotypes_Selection:
-        toggleShowStereotype();
+        toggleVisualProperty(ShowStereotype);
         break;
 
     case ListPopupMenu::mt_DrawAsCircle:
     case ListPopupMenu::mt_DrawAsCircle_Selection:
-        toggleDrawAsCircle();
+        toggleVisualProperty(DrawAsCircle);
         break;
 
     case ListPopupMenu::mt_ChangeToClass:
@@ -470,343 +744,3 @@ void ClassifierWidget::slotMenuSelection(QAction* action) {
         break;
     }
 }
-
-QSizeF ClassifierWidget::calculateTemplatesBoxSize()
-{
-    UMLTemplateList list = getClassifier()->getTemplateList();
-    int count = list.count();
-    if (count == 0) {
-        return QSizeF(0, 0);
-    }
-
-    qreal width, height;
-    height = width = 0;
-
-    QFont font = NewUMLRectWidget::getFont();
-    font.setItalic(false);
-    font.setUnderline(false);
-    font.setBold(false);
-    const QFontMetrics fm(font);
-
-    height = count * fm.lineSpacing() + (MARGIN*2);
-
-    foreach (UMLTemplate *t , list ) {
-        qreal textWidth = fm.size(0, t->toString() ).width();
-        if (textWidth > width)
-            width = textWidth;
-    }
-
-    width += (MARGIN*2);
-    return QSizeF(width, height);
-}
-
-int ClassifierWidget::displayedAttributes() {
-    if (!m_bShowAttributes)
-        return 0;
-    return displayedMembers(Uml::ot_Attribute);
-}
-
-void ClassifierWidget::setClassAssocWidget(AssociationWidget *assocwidget) {
-    m_pAssocWidget = assocwidget;
-    UMLAssociation *umlassoc = NULL;
-    if (assocwidget)
-        umlassoc = assocwidget->getAssociation();
-    getClassifier()->setClassAssoc(umlassoc);
-}
-
-AssociationWidget *ClassifierWidget::getClassAssocWidget() {
-    return m_pAssocWidget;
-}
-
-UMLClassifier *ClassifierWidget::getClassifier() {
-    return static_cast<UMLClassifier*>(umlObject());
-}
-
-void ClassifierWidget::paint(QPainter *p, const QStyleOptionGraphicsItem* o, QWidget *)
-{
-    setPenFromSettings(*p);
-    if ( NewUMLRectWidget::getUseFillColour() )
-        p->setBrush( NewUMLRectWidget::getFillColour() );
-    else {
-        // [PORT] Derive this from style option
-        // p->setBrush( umlScene()->viewport()->palette().color(QPalette::Background) );
-    }
-    qreal offsetX = 0, offsetY = 0;
-
-    if (getClassifier()->isInterface() && m_bDrawAsCircle) {
-        drawAsCircle(*p, offsetX, offsetY);
-        return;
-    }
-
-    // Draw the bounding rectangle
-    QSizeF templatesBoxSize = calculateTemplatesBoxSize();
-    m_bodyOffsetY = offsetY;
-    if (templatesBoxSize.height() > 0)
-        m_bodyOffsetY += templatesBoxSize.height() - MARGIN;
-    qreal w = getWidth();
-    if (templatesBoxSize.width() > 0)
-        w -= templatesBoxSize.width() / 2;
-    qreal h = getHeight();
-    if (templatesBoxSize.height() > 0)
-        h -= templatesBoxSize.height() - MARGIN;
-    p->drawRect(offsetX, m_bodyOffsetY, w, h);
-
-    QFont font = NewUMLRectWidget::getFont();
-    font.setUnderline(false);
-    font.setItalic(false);
-    const QFontMetrics fm = NewUMLRectWidget::getFontMetrics(NewUMLRectWidget::FT_NORMAL);
-    const qreal fontHeight = fm.lineSpacing();
-
-    //If there are any templates then draw them
-    UMLTemplateList tlist = getClassifier()->getTemplateList();
-    if ( tlist.count() > 0 ) {
-        setPenFromSettings(*p);
-        QPen pen = p->pen();
-        pen.setStyle(Qt::DotLine);
-        p->setPen(pen);
-        p->drawRect( offsetX + getWidth() - templatesBoxSize.width(), offsetY,
-                    templatesBoxSize.width(), templatesBoxSize.height() );
-        p->setPen( QPen(Qt::black) );
-        font.setBold(false);
-        p->setFont(font);
-        const qreal x = offsetX + getWidth() - templatesBoxSize.width() + MARGIN;
-        qreal y = offsetY + MARGIN;
-        foreach ( UMLTemplate *t , tlist ) {
-            QString text = t->toString();
-            p->drawText(x, y, fm.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
-            y += fontHeight;
-        }
-    }
-
-    const qreal textX = offsetX + MARGIN;
-    const qreal textWidth = w - MARGIN * 2;
-
-    p->setPen(QPen(Qt::black));
-
-    // draw stereotype
-    font.setBold(true);
-    QString stereo = umlObject()->getStereotype();
-    /* if no stereotype is given we don't want to show the empty << >> */
-    const bool showStereotype = (this->showStereotype() && !stereo.isEmpty());
-    const bool showNameOnly = (!m_bShowOperations && !m_bShowAttributes && !showStereotype);
-    qreal nameHeight = fontHeight;
-    if (showNameOnly) {
-        nameHeight = h;
-    } else if (showStereotype) {
-        p->setFont(font);
-        stereo = umlObject()->getStereotype(true);
-        p->drawText(textX, m_bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, stereo);
-        m_bodyOffsetY += fontHeight;
-    }
-
-    // draw name
-    QString name;
-    if (m_bShowPackage) {
-        name = umlObject()->getFullyQualifiedName();
-    } else {
-        name = this->getName();
-    }
-    font.setItalic( umlObject()->getAbstract() );
-    p->setFont(font);
-    p->drawText(textX, m_bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
-    if (!showNameOnly) {
-        m_bodyOffsetY += fontHeight;
-        setPenFromSettings(*p);
-        p->drawLine(offsetX, m_bodyOffsetY, offsetX + w - 1, m_bodyOffsetY);
-        p->setPen(QPen(Qt::black));
-    }
-    font.setBold(false);
-    font.setItalic(false);
-    p->setFont(font);
-
-    // draw attributes
-    const qreal numAtts = displayedAttributes();
-    if (m_bShowAttributes) {
-        drawMembers(*p, Uml::ot_Attribute, m_ShowAttSigs, textX,
-                    m_bodyOffsetY, fontHeight);
-    }
-
-    // draw dividing line between attributes and operations
-    if (!showNameOnly) {
-        if (numAtts == 0)
-            m_bodyOffsetY += fontHeight / 2;  // no atts, so just add a bit of space
-        else
-            m_bodyOffsetY += fontHeight * numAtts;
-        setPenFromSettings(*p);
-        p->drawLine(offsetX, m_bodyOffsetY, offsetX + w - 1, m_bodyOffsetY);
-        p->setPen(QPen(Qt::black));
-    }
-
-    // draw operations
-    if (m_bShowOperations) {
-        drawMembers(*p, Uml::ot_Operation, m_ShowOpSigs, textX,
-                    m_bodyOffsetY, fontHeight);
-    }
-
-    if (NewUMLRectWidget::isSelected())
-        NewUMLRectWidget::drawSelected(p, offsetX, offsetY);
-}
-
-void ClassifierWidget::drawAsCircle(QPainter& p, qreal offsetX, qreal offsetY) {
-    qreal w = getWidth();
-
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const qreal fontHeight  = fm.lineSpacing();
-    QString name;
-    if ( m_bShowPackage ) {
-        name = umlObject()->getFullyQualifiedName();
-    } else {
-        name = this->getName();
-    }
-
-    p.drawEllipse(offsetX + w/2 - CIRCLE_SIZE/2, offsetY, CIRCLE_SIZE, CIRCLE_SIZE);
-    p.setPen( QPen(Qt::black) );
-
-    QFont font = NewUMLRectWidget::getFont();
-    p.setFont(font);
-    p.drawText(offsetX, offsetY + CIRCLE_SIZE, w, fontHeight, Qt::AlignCenter, name);
-
-    if (isSelected()) {
-        drawSelected(&p, offsetX, offsetY);
-    }
-}
-
-QSizeF ClassifierWidget::calculateAsCircleSize()
-{
-    const QFontMetrics &fm = NewUMLRectWidget::getFontMetrics(NewUMLRectWidget::FT_ITALIC_UNDERLINE);
-    const qreal fontHeight = fm.lineSpacing();
-
-    qreal height = CIRCLE_SIZE + fontHeight;
-
-    qreal width = CIRCLE_SIZE;
-    QString displayedName;
-    if (m_bShowPackage) {
-        displayedName = umlObject()->getFullyQualifiedName();
-    } else {
-        displayedName = umlObject()->getName();
-    }
-    const qreal nameWidth = fm.size(0,displayedName).width();
-    if (nameWidth > width)
-        width = nameWidth;
-    width += MARGIN * 2;
-
-    return QSizeF(width, height);
-}
-
-void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
-                                   qreal x, qreal y, qreal fontHeight) {
-    QFont f = NewUMLRectWidget::getFont();
-    f.setBold(false);
-    UMLClassifierListItemList list = getClassifier()->getFilteredList(ot);
-    foreach (UMLClassifierListItem *obj , list ) {
-          if (m_bShowPublicOnly && obj->getVisibility() != Uml::Visibility::Public)
-            continue;
-        QString text = obj->toString(sigType);
-        f.setItalic( obj->getAbstract() );
-        f.setUnderline( obj->getStatic() );
-        p.setFont( f );
-        QFontMetrics fontMetrics(f);
-        p.drawText(x, y, fontMetrics.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
-        f.setItalic(false);
-        f.setUnderline(false);
-        p.setFont(f);
-        y += fontHeight;
-    }
-}
-
-void ClassifierWidget::setDrawAsCircle(bool drawAsCircle) {
-    m_bDrawAsCircle = drawAsCircle;
-    updateComponentSize();
-    update();
-}
-
-bool ClassifierWidget::getDrawAsCircle() const {
-    return m_bDrawAsCircle;
-}
-
-void ClassifierWidget::toggleDrawAsCircle() {
-    m_bDrawAsCircle = !m_bDrawAsCircle;
-    updateSigs();
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::changeToClass() {
-    NewUMLWidget::setBaseType(Uml::wt_Class);
-    getClassifier()->setBaseType(Uml::ot_Class);
-
-    const Settings::OptionState& ops = umlScene()->getOptionState();
-    m_bShowAttributes = ops.classState.showAtts;
-    setShowStereotype(ops.classState.showStereoType);
-
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::changeToInterface() {
-    NewUMLWidget::setBaseType(Uml::wt_Interface);
-    getClassifier()->setBaseType(Uml::ot_Interface);
-
-    m_bShowAttributes = false;
-    setShowStereotype(true);
-
-    updateComponentSize();
-    update();
-}
-
-void ClassifierWidget::adjustAssocs(qreal x, qreal y) {
-    NewUMLRectWidget::adjustAssocs(x, y);
-
-    if (umlDoc()->loading() || m_pAssocWidget == 0) {
-        return;
-    }
-
-    m_pAssocWidget->computeAssocClassLine();
-}
-
-void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
-    QDomElement conceptElement;
-    UMLClassifier *umlc = getClassifier();
-    if (umlc->isInterface())
-        conceptElement = qDoc.createElement("interfacewidget");
-    else
-        conceptElement = qDoc.createElement("classwidget");
-    NewUMLRectWidget::saveToXMI( qDoc, conceptElement );
-    conceptElement.setAttribute( "showoperations", m_bShowOperations );
-    conceptElement.setAttribute( "showpubliconly", m_bShowPublicOnly );
-    conceptElement.setAttribute( "showopsigs", m_ShowOpSigs );
-    conceptElement.setAttribute( "showpackage", m_bShowPackage );
-    conceptElement.setAttribute( "showscope", m_bShowAccess );
-    if (! umlc->isInterface()) {
-        conceptElement.setAttribute("showattributes", m_bShowAttributes);
-        conceptElement.setAttribute("showattsigs", m_ShowAttSigs);
-    }
-    if (umlc->isInterface() || umlc->getAbstract())
-        conceptElement.setAttribute("drawascircle", m_bDrawAsCircle);
-    qElement.appendChild( conceptElement );
-}
-
-bool ClassifierWidget::loadFromXMI(QDomElement & qElement) {
-    if (!NewUMLRectWidget::loadFromXMI(qElement))
-        return false;
-    QString showatts = qElement.attribute( "showattributes", "0" );
-    QString showops = qElement.attribute( "showoperations", "1" );
-    QString showpubliconly = qElement.attribute( "showpubliconly", "0" );
-    QString showattsigs = qElement.attribute( "showattsigs", "600" );
-    QString showopsigs = qElement.attribute( "showopsigs", "600" );
-    QString showpackage = qElement.attribute( "showpackage", "0" );
-    QString showscope = qElement.attribute( "showscope", "0" );
-    QString drawascircle = qElement.attribute("drawascircle", "0");
-
-    m_bShowAttributes = (bool)showatts.toInt();
-    m_bShowOperations = (bool)showops.toInt();
-    m_bShowPublicOnly = (bool)showpubliconly.toInt();
-    m_ShowAttSigs = (Uml::Signature_Type)showattsigs.toInt();
-    m_ShowOpSigs = (Uml::Signature_Type)showopsigs.toInt();
-    m_bShowPackage = (bool)showpackage.toInt();
-    m_bShowAccess = (bool)showscope.toInt();
-    m_bDrawAsCircle = (bool)drawascircle.toInt();
-
-    return true;
-}
-
