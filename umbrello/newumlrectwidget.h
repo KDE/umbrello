@@ -42,6 +42,14 @@ class NewUMLRectWidget : public NewUMLWidget
 {
 	Q_OBJECT
 public:
+    /**
+     * This enum presents options for @ref setMinimumSize and @ref
+     * setMaximumSize methods.
+     */
+    enum SizeHintOption {
+        DontAddMargin,
+        AddMargin ///< adds 2 * margin() to width and height
+    };
     static const QSizeF DefaultMinimumSize;
     static const QSizeF DefaultMaximumSize;
 
@@ -52,13 +60,13 @@ public:
 	QSizeF minimumSize() const {
 		return m_minimumSize;
 	}
-	void setMinimumSize(const QSizeF& newSize);
+	void setMinimumSize(const QSizeF& newSize, SizeHintOption option = AddMargin);
 
 	/// @return The maximum size for this widget.
 	QSizeF maximumSize() const {
 		return m_maximumSize;
 	}
-	void setMaximumSize(const QSizeF& newSize);
+	void setMaximumSize(const QSizeF& newSize, SizeHintOption option = AddMargin);
 
 	/// @return The current size of this widget.
     QSizeF size() const {
@@ -116,7 +124,7 @@ public:
 	}
     void addAssociationWidget(AssociationWidget *assoc);
     void removeAssociationWidget(AssociationWidget *assoc);
-    void adjustConnectedAssociations();
+    virtual void adjustAssociations();
 
     virtual void showPropertiesDialog();
     virtual void setupContextMenuActions(ListPopupMenu &menu);

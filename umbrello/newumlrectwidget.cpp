@@ -41,10 +41,10 @@ const QSizeF NewUMLRectWidget::DefaultMaximumSize(1000, 1000);
 NewUMLRectWidget::NewUMLRectWidget(UMLObject *object) :
     NewUMLWidget(object),
     m_size(20, 20),
-	m_minimumSize(NewUMLRectWidget::DefaultMinimumSize),
-	m_maximumSize(NewUMLRectWidget::DefaultMaximumSize),
-	m_margin(5.0), // Default margin size
-	m_isInstance(false),
+    m_minimumSize(NewUMLRectWidget::DefaultMinimumSize),
+    m_maximumSize(NewUMLRectWidget::DefaultMaximumSize),
+    m_margin(5.0), // Default margin size
+    m_isInstance(false),
     m_resizable(true),
     m_widgetHandle(0)
 {
@@ -53,39 +53,55 @@ NewUMLRectWidget::NewUMLRectWidget(UMLObject *object) :
 /// Destructor
 NewUMLRectWidget::~NewUMLRectWidget()
 {
-	qDeleteAll(m_textItemGroups);
+    qDeleteAll(m_textItemGroups);
 }
 
 /**
- * Sets \a "newSize + QSizeF(@ref margin() * 2, @ref margin() * 2)" as
- * the minimum size.
+ * This method is used to set the minimum size variable for this
+ * widget.
+ *
+ * @param newSize The size being set as minimum.
+ *
+ * @param option Adds (2 * margin()) to the size if
+ *               "option = AddMargin". Otherwise adds nothing.
+ *               Default value = AddMargin.
  *
  * This method only sets the variable m_minimumSize and doesn't update
  * the geometry. The geometry should be explicitly updated using
  * NewUMLWidget::updateGeometry()
  */
-void NewUMLRectWidget::setMinimumSize(const QSizeF& newSize)
+void NewUMLRectWidget::setMinimumSize(const QSizeF& newSize, SizeHintOption option)
 {
-	qreal m = 2 * margin();
-	m_minimumSize = newSize;
-	m_minimumSize.rwidth() += m;
-	m_minimumSize.rheight() += m;
+    m_minimumSize = newSize;
+    if (option == AddMargin) {
+        qreal m = 2 * margin();
+        m_minimumSize.rwidth() += m;
+        m_minimumSize.rheight() += m;
+    }
 }
 
 /**
- * Sets \a "newSize + QSizeF(@ref margin() * 2, @ref margin() * 2)" as
- * the maximum size.
+ * This method is used to set the maximum size variable for this
+ * widget.
+ *
+ * @param newSize The size being set as maximum.
+ *
+ * @param option Adds (2 * margin()) to the size if
+ *               "option = AddMargin". Otherwise adds nothing.
+ *               Default value = AddMargin.
  *
  * This method only sets the variable m_maximumSize and doesn't update
  * the geometry. The geometry should be explicitly updated using
  * NewUMLWidget::updateGeometry()
  */
-void NewUMLRectWidget::setMaximumSize(const QSizeF& newSize)
+void NewUMLRectWidget::setMaximumSize(const QSizeF& newSize, SizeHintOption option)
 {
-	qreal m = 2 * margin();
-	m_maximumSize = newSize;
-	m_maximumSize.rwidth() += m;
-	m_maximumSize.rheight() += m;
+    m_maximumSize = newSize;
+    if (option == AddMargin) {
+        qreal m = 2 * margin();
+        m_maximumSize.rwidth() += m;
+        m_maximumSize.rheight() += m;
+    }
 }
 
 /**
@@ -101,8 +117,8 @@ void NewUMLRectWidget::setSize(const QSizeF &size)
 {
     const QSizeF oldSize = m_size;
 
-	// Satisfy (minimumSize < size < maximumSize) requirement.
-	m_size = minimumSize().expandedTo(size);
+    // Satisfy (minimumSize < size < maximumSize) requirement.
+    m_size = minimumSize().expandedTo(size);
     m_size = maximumSize().boundedTo(m_size);
 
     QRectF boundRect = rect();
@@ -110,7 +126,7 @@ void NewUMLRectWidget::setSize(const QSizeF &size)
     const qreal hpw = 0.5 * lineWidth();
     boundRect.adjust(-hpw, -hpw, hpw, hpw);
 
-	// Now set the bounding rect, (slightly larger or equal to rect())
+    // Now set the bounding rect, (slightly larger or equal to rect())
     setBoundingRect(boundRect);
 
     // Notify self and subclasses about change of size.
@@ -124,7 +140,7 @@ void NewUMLRectWidget::setSize(const QSizeF &size)
  */
 void NewUMLRectWidget::setMargin(qreal margin)
 {
-	m_margin = margin;
+    m_margin = margin;
 }
 
 /**
@@ -134,21 +150,21 @@ void NewUMLRectWidget::setMargin(qreal margin)
 void NewUMLRectWidget::setInstanceName(const QString &name)
 {
     m_instanceName = name;
-	// No need for attributeChange notification mechanism as of now.
+    // No need for attributeChange notification mechanism as of now.
     updateTextItemGroups();
 }
 
 /// Sets whether this object is instance or not.
 void NewUMLRectWidget::setIsInstance(bool b)
 {
-	m_isInstance = b;
-	updateTextItemGroups();
+    m_isInstance = b;
+    updateTextItemGroups();
 }
 
 void NewUMLRectWidget::setShowStereotype(bool b)
 {
     m_showStereotype = b;
-	// No need for attributeChange notification mechanism as of now.
+    // No need for attributeChange notification mechanism as of now.
     updateTextItemGroups();
 }
 
@@ -191,8 +207,10 @@ void NewUMLRectWidget::setupContextMenuActions(ListPopupMenu &menu)
  * Adjusts the position and lines of connected association
  * widgets. This method is used usually after this widget moves
  * requiring assocition widgets to be updated.
+ *
+ * Subclasses can reimplement to fine tune this behvaior.
  */
-void NewUMLRectWidget::adjustConnectedAssociations()
+void NewUMLRectWidget::adjustAssociations()
 {
     //TODO: Implement this once AssociationWidget's are implemented.
 }
@@ -239,37 +257,37 @@ void NewUMLRectWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
  */
 QVariant NewUMLRectWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-	if(change == SizeHasChanged) {
-		// We should update the shape of this widget.
-		QPainterPath newShape;
-		newShape.addRect(rect());
-		setShape(newShape);
+    if(change == SizeHasChanged) {
+        // We should update the shape of this widget.
+        QPainterPath newShape;
+        newShape.addRect(rect());
+        setShape(newShape);
 
-		// Also update widget Handles position.
-		if(m_widgetHandle) {
-			m_widgetHandle->updateHandlePosition();
-		}
-		return QVariant();
-	}
-	else if(change == FontHasChanged) {
-		foreach(TextItemGroup *group, m_textItemGroups) {
-			group->setFont(font());
-		}
-	}
-	else if(change == FontColorHasChanged) {
-		foreach(TextItemGroup *group, m_textItemGroups) {
-			group->setFontColor(fontColor());
-		}
-	}
-	else if(change == NameHasChanged) {
-		updateTextItemGroups();
-		// No need for base method here as updateTextItemGroups
-		// updates the geometry too.
-		return QVariant();
-	}
+        // Also update widget Handles position.
+        if(m_widgetHandle) {
+            m_widgetHandle->updateHandlePosition();
+        }
+        return QVariant();
+    }
+    else if(change == FontHasChanged) {
+        foreach(TextItemGroup *group, m_textItemGroups) {
+            group->setFont(font());
+        }
+    }
+    else if(change == FontColorHasChanged) {
+        foreach(TextItemGroup *group, m_textItemGroups) {
+            group->setFontColor(fontColor());
+        }
+    }
+    else if(change == NameHasChanged) {
+        updateTextItemGroups();
+        // No need for base method here as updateTextItemGroups
+        // updates the geometry too.
+        return QVariant();
+    }
 
-	// Pass on remaining handling responsibility to base method.
-	return NewUMLWidget::attributeChange(change, oldValue);
+    // Pass on remaining handling responsibility to base method.
+    return NewUMLWidget::attributeChange(change, oldValue);
 }
 
 /**
@@ -292,10 +310,10 @@ void NewUMLRectWidget::updateGeometry()
 void NewUMLRectWidget::setResizable(bool resizable)
 {
     m_resizable = resizable;
-	if(!m_resizable) {
-		delete m_widgetHandle;
-		m_widgetHandle = 0;
-	}
+    if(!m_resizable) {
+        delete m_widgetHandle;
+        m_widgetHandle = 0;
+    }
 }
 
 void NewUMLRectWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -347,9 +365,9 @@ QVariant NewUMLRectWidget::itemChange(GraphicsItemChange change, const QVariant 
  */
 TextItemGroup* NewUMLRectWidget::createTextItemGroup()
 {
-	TextItemGroup *newGrp = new TextItemGroup(this);
+    TextItemGroup *newGrp = new TextItemGroup(this);
     m_textItemGroups.append(newGrp);
-	return newGrp;
+    return newGrp;
 }
 
 /**
@@ -357,7 +375,7 @@ TextItemGroup* NewUMLRectWidget::createTextItemGroup()
  */
 int NewUMLRectWidget::indexOfTextItemGroup(TextItemGroup *group) const
 {
-	return m_textItemGroups.indexOf(group);
+    return m_textItemGroups.indexOf(group);
 }
 
 /**
@@ -366,10 +384,10 @@ int NewUMLRectWidget::indexOfTextItemGroup(TextItemGroup *group) const
  */
 TextItemGroup* NewUMLRectWidget::textItemGroupAt(int index) const
 {
-	if(index < 0 || index >= m_textItemGroups.size()) {
-		qFatal("NewUMLRectWidget::textItemGroupAt: Invalid index %d", index);
-	}
-	return m_textItemGroups[index];
+    if(index < 0 || index >= m_textItemGroups.size()) {
+        qFatal("NewUMLRectWidget::textItemGroupAt: Invalid index %d", index);
+    }
+    return m_textItemGroups[index];
 }
 
 /**
@@ -379,8 +397,8 @@ TextItemGroup* NewUMLRectWidget::textItemGroupAt(int index) const
  */
 void NewUMLRectWidget::updateTextItemGroups()
 {
-	// Update the geometry as we don't know about texts.
-	updateGeometry();
+    // Update the geometry as we don't know about texts.
+    updateGeometry();
 }
 
 /**
@@ -396,11 +414,11 @@ void NewUMLRectWidget::slotUMLObjectDataChanged()
 NewUMLRectWidget::NewUMLRectWidget(UMLScene *scene, UMLObject *object) :
     NewUMLWidget(scene, object),
     m_size(20, 20),
-	m_minimumSize(NewUMLRectWidget::DefaultMinimumSize),
-	m_maximumSize(NewUMLRectWidget::DefaultMaximumSize),
-	m_margin(5),
-	m_isInstance(false),
-	m_resizable(true),
+    m_minimumSize(NewUMLRectWidget::DefaultMinimumSize),
+    m_maximumSize(NewUMLRectWidget::DefaultMaximumSize),
+    m_margin(5),
+    m_isInstance(false),
+    m_resizable(true),
     m_widgetHandle(0)
 {
 }
@@ -408,11 +426,11 @@ NewUMLRectWidget::NewUMLRectWidget(UMLScene *scene, UMLObject *object) :
 NewUMLRectWidget::NewUMLRectWidget(UMLScene *scene, const Uml::IDType & id) :
     NewUMLWidget(scene, id),
     m_size(20, 20),
-	m_minimumSize(NewUMLRectWidget::DefaultMinimumSize),
-	m_maximumSize(NewUMLRectWidget::DefaultMaximumSize),
-	m_margin(5),
-	m_isInstance(false),
-	m_resizable(true),
+    m_minimumSize(NewUMLRectWidget::DefaultMinimumSize),
+    m_maximumSize(NewUMLRectWidget::DefaultMaximumSize),
+    m_margin(5),
+    m_isInstance(false),
+    m_resizable(true),
     m_widgetHandle(0)
 {
 }
