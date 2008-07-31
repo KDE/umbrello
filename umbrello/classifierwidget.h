@@ -14,8 +14,9 @@
 
 #include "newumlrectwidget.h"
 
-class UMLClassifier;
 class AssociationWidget;
+class TextItem;
+class UMLClassifier;
 
 /**
  * @short Common implementation for class widget and interface widget
@@ -140,7 +141,16 @@ private:
 
     QRectF m_classifierRect;
     QRectF m_templateRect;
-    QVector<QLineF> m_classifierLines;
+    QLineF m_classifierLines[2];
+
+    void invalidateDummies();
+
+    int m_lineItem1Index;
+    int m_lineItem2Index;
+    TextItem *m_dummyAttributeItem;
+    TextItem *m_dummyOperationItem;
+
+    static const int InvalidIndex;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(ClassifierWidget::VisualProperties)
