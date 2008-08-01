@@ -15,8 +15,10 @@
 //app includes
 #include "objectwidget.h"
 
+/// The width and height of the destruction box.
 const qreal SeqLineWidget::DestructionBoxSize = 14;
 
+/// @internal Utility method to add line to path if line is non null.
 static void addLineToPath(const QLineF& line, QPainterPath &path)
 {
     if (!line.isNull()) {
@@ -25,8 +27,13 @@ static void addLineToPath(const QLineF& line, QPainterPath &path)
     }
 }
 
+/**
+ * Constructs a Sequential line widget.
+ *
+ * @param pObject The ObjectWidget to which this widget belongs to.
+ */
 SeqLineWidget::SeqLineWidget( ObjectWidget * pObject ) :
-    QGraphicsItem(pObject),
+    QGraphicsItem(pObject), // also make object widget as parent
     m_objectWidget(pObject),
     m_length(250),
     m_lineColor(pObject->lineColor()),
@@ -39,18 +46,24 @@ SeqLineWidget::~SeqLineWidget()
 {
 }
 
+/// Sets the color of lines drawn.
 void SeqLineWidget::setLineColor(const QColor& col)
 {
     m_lineColor = col;
     update();
 }
 
-void SeqLineWidget::setLineWidth(qreal w)
+/// Sets the width of the lines drawn.
+void SeqLineWidget::setLineWidth(int w)
 {
     m_lineWidth = w;
     updateGeometry();
 }
 
+/**
+ * Creates/destroyes the lines corresponding to destruction box based
+ * on whether it should be shown or not.
+ */
 void SeqLineWidget::updateDestructionBoxVisibility()
 {
     m_destructionBoxLines[0] = m_destructionBoxLines[1] = QLineF();
@@ -67,6 +80,7 @@ void SeqLineWidget::updateDestructionBoxVisibility()
     updateGeometry();
 }
 
+/// @retval true If \a localPos is inside destruction box.
 bool SeqLineWidget::onDestructionBox(const QPointF& localPos)
 {
     QRectF rect(0, 0,
@@ -76,6 +90,7 @@ bool SeqLineWidget::onDestructionBox(const QPointF& localPos)
     return m_objectWidget->getShowDestruction() && rect.contains(localPos);
 }
 
+/// Sets the length of the sequential line of this widget to \a len.
 void SeqLineWidget::setLength(qreal len)
 {
     m_length = len;
@@ -86,11 +101,14 @@ void SeqLineWidget::setLength(qreal len)
     updateDestructionBoxVisibility();
 }
 
+/**
+ * Reimplemented from QGraphicsItem::paint to draw the sequential line
+ * and also the destruction box if it is shown.
+ */
 void SeqLineWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
     QPen pen(m_lineColor, m_lineWidth, Qt::DashLine);
     painter->setPen(pen);
-
     painter->drawLine(m_sequentialLine);
 
     if (!m_destructionBoxLines[0].isNull() && !m_destructionBoxLines[1].isNull()) {
@@ -102,6 +120,11 @@ void SeqLineWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QW
     }
 }
 
+/**
+ * Calculates the new shape and new bounding rect for this widget
+ * based on current values of m_sequentialLine and
+ * m_destructionBoxLines.
+ */
 void SeqLineWidget::updateGeometry()
 {
     QPainterPath linePath;

@@ -33,43 +33,48 @@ public:
     SeqLineWidget( ObjectWidget * pObject );
     virtual ~SeqLineWidget();
 
+    /// @return The color of the lines drawn
     QColor lineColor() const {
         return m_lineColor;
     }
     void setLineColor(const QColor & col);
 
-    qreal lineWidth() const {
+    /// @return Width of the line drawn
+    int lineWidth() const {
         return m_lineWidth;
     }
-    void setLineWidth(qreal w);
+    void setLineWidth(int w);
 
     void updateDestructionBoxVisibility();
     bool onDestructionBox(const QPointF& localPos);
 
+    /// @return Length of the sequential line.
     qreal length() const {
         return m_length;
     }
     void setLength(qreal length);
 
-    /**
-     * Sets the y position of the bottom of the vertical line.
-     *
-     * @param yPosition The y coordinate for the bottom of the line.
-     */
+    /// Sets 'y' coordinate of end of line.
     void setEndOfLine(qreal yPosition) {
-        setLength(yPosition - pos().y());
+        setLength(yPosition);
     }
 
-    /**
-     * @return  Pointer to the associated ObjectWidget.
-     */
+    /// @return  Pointer to the associated ObjectWidget.
     ObjectWidget * objectWidget() const{
         return m_objectWidget;
     }
 
+    /**
+     * Reimplemented form QGraphicsItem::boundingRect to return the
+     * bounds of this widget stored in m_boundingRect.
+     */
     virtual QRectF boundingRect() const {
         return m_boundingRect;
     }
+    /**
+     * Reimplemented form QGraphicsItem::shape to return the shape of
+     * this widget stored in m_shape.
+     */
     virtual QPainterPath shape() const {
         return m_shape;
     }
