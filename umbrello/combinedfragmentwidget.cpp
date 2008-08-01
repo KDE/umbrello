@@ -135,7 +135,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
 
                 for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                     (*it)->setX(getX());
-                    old_Y = (*it)->getYMin();
+                    old_Y = (*it)->yMin();
                     (*it)->setYMin(getY());
                     (*it)->setYMax(getY() + getHeight());
                     (*it)->setY(getY() + (*it)->getY() - old_Y);
@@ -153,7 +153,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                     //m_dashLines.first()->paint(p,getX(),getY());
                     for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                         (*it)->setX(getX());
-                        old_Y = (*it)->getYMin();
+                        old_Y = (*it)->yMin();
                         (*it)->setYMin(getY());
                         (*it)->setYMax(getY() + getHeight());
                         (*it)->setY(getY() + (*it)->getY() - old_Y);
@@ -203,7 +203,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     // creates a dash line if the combined fragment type is alternative or parallel
     if(m_CombinedFragment == Alt  && m_dashLines.isEmpty())
     {
-        m_dashLines.push_back(new FloatingDashLineWidget(umlScene()));
+        m_dashLines.push_back(new FloatingDashLineWidget(this));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");
@@ -300,7 +300,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     while ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingdashlinewidget") {
-            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(umlScene());
+            FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(this);
             m_dashLines.push_back(fdlwidget);
             if( !fdlwidget->loadFromXMI(element) ) {
               // Most likely cause: The FloatingTextWidget is empty.
@@ -329,7 +329,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
     switch (sel) {
           // for alternative or parallel combined fragments
     case ListPopupMenu::mt_AddInteractionOperand:
-        m_dashLines.push_back(new FloatingDashLineWidget(umlScene()));
+        m_dashLines.push_back(new FloatingDashLineWidget(this));
         if(m_CombinedFragment == Alt)
         {
             m_dashLines.back()->setText("else");

@@ -12,114 +12,70 @@
 #ifndef FLOATINGDASHLINEWIDGET_H
 #define FLOATINGDASHLINEWIDGET_H
 
-#include "umlwidget.h"
-#define FLOATING_DASH_LINE_MARGIN 25
-#define FLOATING_DASH_LINE_TEXT_MARGIN 5
-
-/* how many pixels a user could click around a point */
-#define POINT_DELTA 5
-
+#include "newumlrectwidget.h"
 
 /**
- * This class is used to draw dash lines for UML combined fragments. A FloatingDashLineWidget
- * belongs to one @ref CombinedFragmentWidget instance.
- *
- * The FloatingDashLineWidget class inherits from the @ref NewUMLRectWidget class.
+ * This class is used to draw dash lines for UML combined fragments. A
+ * FloatingDashLineWidget belongs to one @ref CombinedFragmentWidget
+ * instance.
  *
  * @short  A dash line for UML combined fragments.
  * @author Thomas GALLINARI <tg8187@yahoo.fr>
+ * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class FloatingDashLineWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 public:
-    /**
-     * Creates a floating dash line.
-     * @param view              The parent of the widget
-     * @param id                The ID to assign (-1 will prompt a new ID)
-     */
-    explicit FloatingDashLineWidget(UMLScene * scene, Uml::IDType id = Uml::id_None);
+    explicit FloatingDashLineWidget(QGraphicsItem *parent = 0, Uml::IDType id = Uml::id_None);
+    virtual ~FloatingDashLineWidget();
+
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
+
+    /// Auxillary method for setName
+    void setText(const QString& text) {
+        setName(text);
+    }
 
     /**
-     * destructor
+     * @return Minimum y value upto which the line can be positioned
+     *         (wrt parent)
      */
-    ~FloatingDashLineWidget();
+    qreal yMin() const {
+        return m_yMin;
+    }
+    void setYMin(qreal y);
 
     /**
-     * Overrides the standard paint event.
+     * @return Maximum y value upto which the line can be positioned
+     *         (wrt parent)
      */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
+    qreal yMax() const {
+        return m_yMax;
+    }
+    void setYMax(qreal y);
 
-    void slotMenuSelection(QAction* action);
-     /**
-     * Returns true if the given point is near the floatingdashline
-     */
-     bool onLine(const QPointF & point);
+    virtual bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * Sets m_text
-     */
-    void setText(const QString& text);
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
-    /**
-     * Overrides the setY method
-     */
-    void setY(qreal y);
-
-    /**
-     * Sets m_yMin
-     */
-    void setYMin(qreal yMin);
-
-    /**
-     * Sets m_yMax
-     */
-    void setYMax(qreal yMax);
-
-    /**
-     * Returns m_yMin
-     */
-    qreal getYMin();
-
-    /**
-     * Returns the difference between the y-coordinate of the dash line and m_yMin
-     */
-    qreal getDiffY();
-
-     /**
-     * Creates the "floatingdashline" XMI element.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    /**
-     * Loads the "floatingdashline" XMI element.
-     */
-    bool loadFromXMI( QDomElement & qElement );
+protected:
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
+    virtual void updateGeometry();
+    virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
-    /**
-     * Text associated to the dash line
-     */
-    QString m_text;
+    static const qreal Margin;
 
-    /**
-     * Value added to the y-coordinate of the combined fragment
-     * to obtain the y-coordinate of the dash line
-     */
-    qreal m_y;
+    void ensureConstraintRequirement();
 
-    /**
-     * Minimum value of the Y-coordinate of the dash line
-     * (= y-coordinate of the combined fragment)
-     */
+    /// @ref yMin
     qreal m_yMin;
-
-    /**
-     * Maximum value of the Y-coordinate of the dash line
-     * (= y-coordinate of the combined fragment + height of the combined fragment)
-     */
+    /// @ref yMax
     qreal m_yMax;
 };
 

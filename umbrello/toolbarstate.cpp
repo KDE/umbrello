@@ -304,7 +304,7 @@ FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPointF& pos) {
 
     foreach ( NewUMLRectWidget* widget, m_pUMLScene->getWidgetList() ) {
         if (widget->getBaseType() == Uml::wt_FloatingDashLine){
-            if (dynamic_cast<FloatingDashLineWidget*>(widget)->onLine(pos)) {
+            if (dynamic_cast<FloatingDashLineWidget*>(widget)->contains(pos)) {
                 floatingline = dynamic_cast<FloatingDashLineWidget*>(widget);
             }
         }

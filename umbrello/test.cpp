@@ -21,6 +21,7 @@
 
 #include "boxwidget.h"
 #include "enum.h"
+#include "floatingdashlinewidget.h"
 #include "textitem.h"
 #include "umlscene.h"
 #include "umlview.h"
@@ -76,7 +77,11 @@ Test* Test::self()
 
 void Test::testScene(UMLScene *scene)
 {
-    Q_UNUSED(scene);
+    FloatingDashLineWidget *wid = new FloatingDashLineWidget();
+    wid->setText("Hello");
+    wid->setSize(300, 10);
+
+    scene->addItem(wid);
 }
 
 QBrush Test::randomGradientBrush()
