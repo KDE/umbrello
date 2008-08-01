@@ -903,6 +903,10 @@ class UMLScene : public QGraphicsScene
 
     void callBaseMouseMethod(QGraphicsSceneMouseEvent *event);
 
+    bool isMouseMovingItems() const {
+        return m_isMouseMovingItems;
+    }
+
 protected:
 
     void drawBackground(QPainter *p, const QRectF& rect);
@@ -1037,6 +1041,9 @@ protected:
      * Calls the same method in the current tool bar state.
      */
     void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
+
+    bool m_isMouseMovingItems;
+    bool isArrowMode();
 
 
     /**

@@ -110,6 +110,8 @@ UMLScene::UMLScene(UMLFolder *parentFolder) :
     m_nSnapY = 10;
     m_nCollaborationId = 0;
 
+    m_isMouseMovingItems = false;
+
     // Initialize other data
     //m_AssociationList.setAutoDelete(true);
     //m_WidgetList.setAutoDelete(true);
@@ -385,6 +387,7 @@ void UMLScene::setupNewWidget(NewUMLRectWidget *w)
 void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseRelease(ome);
+    m_isMouseMovingItems = false;
 }
 
 void UMLScene::slotToolBarChanged(int c)
@@ -1117,6 +1120,10 @@ bool UMLScene::isSavedInSeparateFile()
 
 void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* ome)
 {
+    if (isArrowMode() && ome->buttons().testFlag(Qt::LeftButton)) {
+        m_isMouseMovingItems = true;
+    }
+
     m_pToolBarState->mousePress(ome);
 
     //TODO should be managed by widgets when are selected. Right now also has some
@@ -1129,6 +1136,12 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* ome)
         // UMLApp::app()->getDocWindow()->showDocumentation(this, true);
     }
     m_bChildDisplayedDoc = false;
+}
+
+bool UMLScene::isArrowMode()
+{
+    return m_pToolBarState ==
+        m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
 }
 
 void UMLScene::makeSelected(NewUMLRectWidget * uw)
