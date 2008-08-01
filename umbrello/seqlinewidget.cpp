@@ -58,7 +58,7 @@ void SeqLineWidget::updateDestructionBoxVisibility()
     if( m_objectWidget->getShowDestruction() ) {
         QRectF rect(0, 0,
                     SeqLineWidget::DestructionBoxSize, SeqLineWidget::DestructionBoxSize);
-        rect.moveCenter(QPointF(pos().x(), pos().y() + m_length));
+        rect.moveCenter(QPointF(0, m_length));
 
         m_destructionBoxLines[0].setPoints(rect.topLeft(), rect.bottomRight());
         m_destructionBoxLines[1].setPoints(rect.bottomLeft(), rect.topRight());
@@ -71,7 +71,7 @@ bool SeqLineWidget::onDestructionBox(const QPointF& localPos)
 {
     QRectF rect(0, 0,
                 SeqLineWidget::DestructionBoxSize, SeqLineWidget::DestructionBoxSize);
-    rect.moveCenter(QPointF(pos().x(), pos().y() + m_length));
+    rect.moveCenter(QPointF(0, m_length));
 
     return m_objectWidget->getShowDestruction() && rect.contains(localPos);
 }
@@ -80,8 +80,8 @@ void SeqLineWidget::setLength(qreal len)
 {
     m_length = len;
     const QPointF p = pos();
-    m_sequentialLine.setP1(p);
-    m_sequentialLine.setP2(QPointF(p.x(), p.y() + m_length));
+    m_sequentialLine.setP1(QPointF(0, 0));
+    m_sequentialLine.setP2(QPointF(0, m_length));
 
     updateDestructionBoxVisibility();
 }
@@ -116,4 +116,3 @@ void SeqLineWidget::updateGeometry()
     prepareGeometryChange();
     m_boundingRect = m_shape.boundingRect();
 }
-
