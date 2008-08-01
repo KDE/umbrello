@@ -641,7 +641,7 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
                      << " (id=" << ID2STR(ow->getLocalID()) << ") is NULL" << endl;
             continue;
         }
-        if (pLine->onWidget(point))
+        if (pLine->contains(pLine->mapFromScene(point)))
             return ow;
     }
     return 0;

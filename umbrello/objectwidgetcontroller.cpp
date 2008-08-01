@@ -52,7 +52,7 @@ void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me) {
      isOnDestructionBox = false;
     SeqLineWidget * pLine = dynamic_cast<ObjectWidget*>(m_widget)->getSeqLine();
 
-    if (pLine->onDestructionBox(me->pos())) {
+    if (pLine->onDestructionBox(pLine->mapFromScene(me->scenePos()))) {
         isOnDestructionBox = true;
         m_oldX = dynamic_cast<ObjectWidget*>(m_widget)->getX() + dynamic_cast<ObjectWidget*>(m_widget)->getWidth() / 2;
         m_oldY = dynamic_cast<ObjectWidget*>(m_widget)->getEndLineY() - 10;

@@ -12,144 +12,108 @@
 // own header
 #include "seqlinewidget.h"
 
-//kde includes
-#include <kcursor.h>
-#include <kdebug.h>
-
-//qt includes
-#include <QPainter>
-#include <QGraphicsLineItem>
 //app includes
-#include "umlview.h"
 #include "objectwidget.h"
-#include "messagewidget.h"
-#include "umlscene.h"
 
-// class members
-qreal const SeqLineWidget::m_nMouseDownEpsilonX = 20;
+const qreal SeqLineWidget::DestructionBoxSize = 14;
 
-SeqLineWidget::SeqLineWidget( UMLScene * pScene, ObjectWidget * pObject ) :
-    QGraphicsLineItem()
+static void addLineToPath(const QLineF& line, QPainterPath &path)
 {
-    m_pUMLScene = pScene;
-    m_pUMLScene->addItem(this);
-    m_pUMLObject = pObject;
-    setPen( QPen( m_pUMLObject->getLineColor(), 0, Qt::DashLine ) );
-    setZValue( 0 );
-    setVisible( true );
-    m_DestructionBox.line1 = 0;
-    m_nLengthY = 250;
-    setupDestructionBox();
+    if (!line.isNull()) {
+        path.moveTo(line.p1());
+        path.lineTo(line.p2());
+    }
 }
 
-SeqLineWidget::~SeqLineWidget() {}
-
-qreal SeqLineWidget::onWidget( const QPointF & p )
+SeqLineWidget::SeqLineWidget( ObjectWidget * pObject ) :
+    QGraphicsItem(pObject),
+    m_objectWidget(pObject),
+    m_length(250),
+    m_lineColor(pObject->lineColor()),
+    m_lineWidth(pObject->lineWidth())
 {
-    qreal nOnWidget = 0;
-    QPointF sp = QGraphicsLineItem::line().p1();
-    QPointF ep = QGraphicsLineItem::line().p2();
-    //see if on widget ( for message creation )
-    if( sp.x() - m_nMouseDownEpsilonX < p.x()
-            && ep.x() + m_nMouseDownEpsilonX > p.x()
-            && sp.y() < p.y() && ep.y() + 3 > p.y() )
-    {
-        nOnWidget = 1;
-    }
-    return nOnWidget;
+    updateDestructionBoxVisibility();
 }
 
-qreal SeqLineWidget::onDestructionBox ( const QPointF & p ) {
-    qreal nOnDestructionBox = 0;
-    qreal x = m_pUMLObject->getX() + m_pUMLObject->getWidth() / 2;
-    qreal y = m_pUMLObject->getY() + m_pUMLObject->getHeight() + m_nLengthY;
-
-    //see if on destruction box
-    if( !m_pUMLObject->getShowDestruction() ) {
-        return 0;
-    }
-    if( x - 10 < p.x() && x + 10 > p.x()
-            && y - 10 < p.y() && y + 10 > p.y() )
-    {
-        nOnDestructionBox = 1;
-    }
-    return nOnDestructionBox;
-}
-
-
-void SeqLineWidget::cleanup() {
-    cleanupDestructionBox();
-}
-
-void SeqLineWidget::setStartPoint( qreal startX, qreal startY ) {
-    qreal endX = startX;
-    qreal endY = startY + m_nLengthY;
-    QGraphicsLineItem::setLine( startX, startY, endX, endY );
-    moveDestructionBox();
-}
-
-void SeqLineWidget::cleanupDestructionBox()
+SeqLineWidget::~SeqLineWidget()
 {
-    if ( m_DestructionBox.line1 ) {
-        delete m_DestructionBox.line1;
-        m_DestructionBox.line1 = 0;
-        delete m_DestructionBox.line2;
-        m_DestructionBox.line2 = 0;
-    }
 }
 
-void SeqLineWidget::setupDestructionBox()
+void SeqLineWidget::setLineColor(const QColor& col)
 {
-    cleanupDestructionBox();
-    if( !m_pUMLObject->getShowDestruction() ) {
-        return;
-    }
-    QRectF rect;
-    rect.setX( m_pUMLObject->getX() + m_pUMLObject->getWidth() / 2 - 10 );
-    rect.setY( m_pUMLObject->getY() + m_pUMLObject->getHeight() + m_nLengthY );
-    rect.setWidth( 14 );
-    rect.setHeight( 14 );
-
-    m_DestructionBox.line1 = new QGraphicsLineItem();
-    m_pUMLScene->addItem(m_DestructionBox.line1);
-    m_DestructionBox.setLine1Points(rect);
-    m_DestructionBox.line1->setVisible( true );
-    m_DestructionBox.line1->setPen( QPen(m_pUMLObject->getLineColor(), 2) );
-    m_DestructionBox.line1->setZValue( 3 );
-
-    m_DestructionBox.line2 = new QGraphicsLineItem();
-    m_pUMLScene->addItem(m_DestructionBox.line2);
-    m_DestructionBox.setLine2Points(rect);
-    m_DestructionBox.line2->setVisible( true );
-    m_DestructionBox.line2->setPen( QPen(m_pUMLObject->getLineColor(), 2) );
-    m_DestructionBox.line2->setZValue( 3 );
+    m_lineColor = col;
+    update();
 }
 
-void SeqLineWidget::moveDestructionBox()
+void SeqLineWidget::setLineWidth(qreal w)
 {
-    if( !m_DestructionBox.line1 ) {
-        return;
-    }
-    QRectF rect;
-    rect.setX( m_pUMLObject->getX() + m_pUMLObject->getWidth() / 2 - 7 );
-    rect.setY( m_pUMLObject->getY() + m_pUMLObject->getHeight() + m_nLengthY - 7 );
-    rect.setWidth( 14 );
-    rect.setHeight( 14 );
-    m_DestructionBox.setLine1Points(rect);
-    m_DestructionBox.setLine2Points(rect);
+    m_lineWidth = w;
+    updateGeometry();
 }
 
-void SeqLineWidget::setEndOfLine(qreal yPosition) {
-    QPointF sp = QGraphicsLineItem::line().p1();
-    qreal newY = yPosition;
-    m_nLengthY = yPosition - m_pUMLObject->getY() - m_pUMLObject->getHeight();
-    // normally the managing Objectwidget is responsible for the call of this function
-    // but to be sure - make a double check _against current position_
-    if ( m_nLengthY < 0 ) {
-        m_nLengthY = 0;
-        newY = m_pUMLObject->getY() + m_pUMLObject->getHeight();
+void SeqLineWidget::updateDestructionBoxVisibility()
+{
+    m_destructionBoxLines[0] = m_destructionBoxLines[1] = QLineF();
+
+    if( m_objectWidget->getShowDestruction() ) {
+        QRectF rect(0, 0,
+                    SeqLineWidget::DestructionBoxSize, SeqLineWidget::DestructionBoxSize);
+        rect.moveCenter(QPointF(pos().x(), pos().y() + m_length));
+
+        m_destructionBoxLines[0].setPoints(rect.topLeft(), rect.bottomRight());
+        m_destructionBoxLines[1].setPoints(rect.bottomLeft(), rect.topRight());
     }
-    setLine( sp.x(), sp.y(), sp.x(), newY );
-    moveDestructionBox();
-    m_pUMLScene->resizeCanvasToItems();
+
+    updateGeometry();
 }
+
+bool SeqLineWidget::onDestructionBox(const QPointF& localPos)
+{
+    QRectF rect(0, 0,
+                SeqLineWidget::DestructionBoxSize, SeqLineWidget::DestructionBoxSize);
+    rect.moveCenter(QPointF(pos().x(), pos().y() + m_length));
+
+    return m_objectWidget->getShowDestruction() && rect.contains(localPos);
+}
+
+void SeqLineWidget::setLength(qreal len)
+{
+    m_length = len;
+    const QPointF p = pos();
+    m_sequentialLine.setP1(p);
+    m_sequentialLine.setP2(QPointF(p.x(), p.y() + m_length));
+
+    updateDestructionBoxVisibility();
+}
+
+void SeqLineWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*)
+{
+    QPen pen(m_lineColor, m_lineWidth, Qt::DashLine);
+    painter->setPen(pen);
+
+    painter->drawLine(m_sequentialLine);
+
+    if (!m_destructionBoxLines[0].isNull() && !m_destructionBoxLines[1].isNull()) {
+        pen.setStyle(Qt::SolidLine);
+        pen.setWidth(m_lineWidth + 2);
+        painter->setPen(pen);
+
+        painter->drawLines(m_destructionBoxLines, 2);
+    }
+}
+
+void SeqLineWidget::updateGeometry()
+{
+    QPainterPath linePath;
+    addLineToPath(m_sequentialLine, linePath);
+    addLineToPath(m_destructionBoxLines[0], linePath);
+    addLineToPath(m_destructionBoxLines[1], linePath);
+
+    QPainterPathStroker stroker;
+    stroker.setWidth(m_lineWidth + 5);
+    m_shape = stroker.createStroke(linePath);
+
+    prepareGeometryChange();
+    m_boundingRect = m_shape.boundingRect();
+}
+

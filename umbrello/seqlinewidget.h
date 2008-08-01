@@ -12,135 +12,86 @@
 #ifndef SEQLINEWIDGET_H
 #define SEQLINEWIDGET_H
 
-#include <QGraphicsScene>
-#include <QGraphicsLineItem>
+#include <QtGui/QGraphicsItem>
 
-class UMLScene;
 class ObjectWidget;
 
 /**
  * @short Widget class for graphical representation of sequence lines
+ *
  * @author Paul Hensgen
+ * @author Gopala Krishna
+ *
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ *
+ * @todo Should rename to SeqLineItem to differentiate between actual
+ *       uml widgets and other items.
  */
-class SeqLineWidget : public QGraphicsLineItem
+class SeqLineWidget : public QGraphicsItem
 {
 public:
-    /**
-     * Constructor.
-     */
-    SeqLineWidget( UMLScene * scene, ObjectWidget * pObject );
+    SeqLineWidget( ObjectWidget * pObject );
+    virtual ~SeqLineWidget();
 
-    /**
-     * Destructor.
-     */
-    ~SeqLineWidget();
-
-    /**
-     * Return whether on seq. line.
-     * Takes into account destruction box if shown.
-     *
-     * @param p The point to investigate.
-     * @return  Non-zero if point is on this sequence line.
-     */
-    qreal onWidget(const QPointF & p);
-
-    /**
-     * Return whether on the destruction box.
-     *
-     * @param p The point to investigate.
-     * @return  Non-zero if point is on the destruction box of this sequence line.
-     */
-    qreal onDestructionBox ( const QPointF & p );
-
-
-    /**
-     * Clean up anything before deletion.
-     */
-    void cleanup();
-
-    /**
-     * Set up destruction box.
-     */
-    void setupDestructionBox();
-
-    /**
-     * Set the start point of the line.
-     *
-     * @param startX    X coordinate of the start point.
-     * @param startY    Y coordinate of the start point.
-     */
-    void setStartPoint( qreal startX, qreal startY );
-
-    /**
-     * Gets the length of the line.
-     *
-     * @return  Length of the line.
-     */
-    qreal getLineLength() {
-        return m_nLengthY;
+    QColor lineColor() const {
+        return m_lineColor;
     }
+    void setLineColor(const QColor & col);
 
-    /**
-     * Returns the @ref ObjectWidget associated with this sequence line.
-     *
-     * @return  Pointer to the associated ObjectWidget.
-     */
-    ObjectWidget * getObjectWidget() {
-        return m_pUMLObject;
+    qreal lineWidth() const {
+        return m_lineWidth;
     }
+    void setLineWidth(qreal w);
+
+    void updateDestructionBoxVisibility();
+    bool onDestructionBox(const QPointF& localPos);
+
+    qreal length() const {
+        return m_length;
+    }
+    void setLength(qreal length);
 
     /**
      * Sets the y position of the bottom of the vertical line.
      *
      * @param yPosition The y coordinate for the bottom of the line.
      */
-    void setEndOfLine(qreal yPosition);
-
-protected:
-    /**
-     * Clean up destruction box.
-     */
-    void cleanupDestructionBox();
+    void setEndOfLine(qreal yPosition) {
+        setLength(yPosition - pos().y());
+    }
 
     /**
-     * Move destruction box.
+     * @return  Pointer to the associated ObjectWidget.
      */
-    void moveDestructionBox();
+    ObjectWidget * objectWidget() const{
+        return m_objectWidget;
+    }
 
-    /**
-     * ObjectWidget associated with this sequence line.
-     */
-    ObjectWidget * m_pUMLObject;
+    virtual QRectF boundingRect() const {
+        return m_boundingRect;
+    }
+    virtual QPainterPath shape() const {
+        return m_shape;
+    }
 
-    /**
-     * View displayed on.
-     */
-    UMLScene * m_pUMLScene;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*);
 
-    /// The destruction box.
-    struct DestructionBox {
-        QGraphicsLineItem * line1;
-        QGraphicsLineItem * line2;
-        void setLine1Points(QRectF rect) {
-            line1->setLine( rect.x(), rect.y(),
-                            rect.x() + rect.width(), rect.y() + rect.height() );
-        }
-        void setLine2Points(QRectF rect) {
-            line2->setLine( rect.x(), rect.y() + rect.height(),
-                            rect.x() + rect.width(), rect.y() );
-        }
-    } m_DestructionBox;
+private:
+    static const qreal DestructionBoxSize;
 
-    /**
-     * The length of the line.
-     */
-    qreal m_nLengthY;
+    void updateGeometry();
 
-    /**
-     * Margin used for mouse clicks.
-     */
-    static qreal const m_nMouseDownEpsilonX;
+    ObjectWidget * m_objectWidget;
+    qreal m_length;
+
+    QColor m_lineColor;
+    int m_lineWidth;
+
+    QLineF m_sequentialLine;
+    QLineF m_destructionBoxLines[2];
+
+    QRectF m_boundingRect;
+    QPainterPath m_shape;
 };
 
 #endif

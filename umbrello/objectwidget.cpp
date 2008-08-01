@@ -43,6 +43,7 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
     init();
     if( lid != Uml::id_None )
         m_nLocalID = lid;
+    setShowDestruction(true);
     //updateComponentSize();
     //                  Doing this during loadFromXMI() gives futile updates.
     //                  Instead, it is done afterwards by NewUMLRectWidget::activate()
@@ -56,7 +57,7 @@ void ObjectWidget::init() {
     m_bDrawAsActor = false;
     m_bShowDestruction = false;
     if( umlScene() != NULL && umlScene()->getType() == Uml::dt_Sequence ) {
-        m_pLine = new SeqLineWidget( umlScene(), this );
+        m_pLine = new SeqLineWidget( this );
 
         //Sets specific widget controller for sequence diagrams
         // delete m_widgetController;
@@ -169,7 +170,7 @@ bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
     if (! NewUMLRectWidget::activate(ChangeLog))
         return false;
     if (m_bShowDestruction && m_pLine)
-        m_pLine->setupDestructionBox();
+        m_pLine->updateDestructionBoxVisibility();
     moveEvent(0);
     return true;
 }
@@ -192,7 +193,7 @@ void ObjectWidget::moveEvent(QMoveEvent *m) {
         const qreal w = getWidth();
         const qreal y = getY();
         const qreal h = getHeight();
-        m_pLine->setStartPoint(x + w / 2, y + h);
+        m_pLine->setPos(x + w / 2, y + h);
     }
 }
 
@@ -200,17 +201,17 @@ void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
     NewUMLRectWidget::setFillColour( umlScene()->getFillColor() );
     NewUMLRectWidget::setLineColor( umlScene()->getLineColor() );
 
-    if( m_pLine)
-        m_pLine->setPen( QPen( NewUMLRectWidget::getLineColor(), NewUMLRectWidget::getLineWidth(), Qt::DashLine ) );
+    if( m_pLine) {
+        m_pLine->setLineColor(lineColor());
+        m_pLine->setLineWidth(lineWidth());
+    }
 }
 
 void ObjectWidget::cleanup() {
 
     NewUMLRectWidget::cleanup();
-    if( m_pLine ) {
-        m_pLine->cleanup();
-        delete m_pLine;
-    }
+    delete m_pLine;
+    m_pLine = 0;
 }
 
 void ObjectWidget::showProperties() {
@@ -314,7 +315,7 @@ bool ObjectWidget::canTabUp() {
 void ObjectWidget::setShowDestruction( bool bShow ) {
     m_bShowDestruction = bShow;
     if( m_pLine )
-        m_pLine->setupDestructionBox();
+        m_pLine->updateDestructionBoxVisibility();
 }
 
 void ObjectWidget::setEndLine(int yPosition) {
@@ -324,7 +325,7 @@ void ObjectWidget::setEndLine(int yPosition) {
 int ObjectWidget::getEndLineY() {
     int y = this->getY() + getHeight();
     if( m_pLine)
-        y += m_pLine->getLineLength();
+        y += m_pLine->length();
     if ( m_bShowDestruction )
         y += 10;
     return y;
