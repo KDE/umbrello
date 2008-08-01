@@ -66,6 +66,7 @@ struct WidgetInterfaceData
  */
 NewUMLWidget::NewUMLWidget(UMLObject *object) :
     m_umlObject(object),
+    m_lineColor(Qt::red),
     m_lineWidth(0),
     m_widgetInterfaceData(0),
     firstTime(true)
@@ -552,8 +553,6 @@ void NewUMLWidget::slotMenuSelection(QAction *trigger)
     const Uml::Widget_Type wt = m_baseType; // short hand name
 
     ListPopupMenu *menu = qobject_cast<ListPopupMenu *>(trigger->parent());
-    uDebug() << (void*)menu;
-    Q_ASSERT(menu);
 
     ListPopupMenu::Menu_Type sel = menu->getMenuType(trigger);
     switch (sel) {
@@ -857,6 +856,7 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, UMLObject *object) :
     QGraphicsItem(0),
 
     m_umlObject(object),
+    m_lineColor(Qt::red),
     m_lineWidth(0),
     m_widgetInterfaceData(0),
     firstTime(true)
@@ -879,6 +879,7 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, UMLObject *object) :
 
 NewUMLWidget::NewUMLWidget(UMLScene *scene, const Uml::IDType &_id) :
     m_umlObject(0),
+    m_lineColor(Qt::red),
     m_lineWidth(0),
     firstTime(true)
 {
