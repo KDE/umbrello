@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,23 +12,21 @@
 #define UMLATTRIBUTEDIALOG_H
 
 #include <kdialog.h>
-//Added by qt3to4:
-#include <QLabel>
+
+class QCheckBox;
+class QGroupBox;
+class QRadioButton;
+class QLabel;
+class UMLAttribute;
+class KComboBox;
+class KLineEdit;
 
 /**
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
-class Q3ButtonGroup;
-class QCheckBox;
-class Q3GroupBox;
-class QRadioButton;
-class UMLAttribute;
-class KComboBox;
-class KLineEdit;
-
-class UMLAttributeDialog : public KDialog {
+class UMLAttributeDialog : public KDialog
+{
     Q_OBJECT
 public:
     UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute );
@@ -37,8 +34,8 @@ public:
 
 protected:
     /**
-    *   Sets up the dialog
-    */
+     *   Sets up the dialog
+     */
     void setupDialog();
 
     /**
@@ -48,18 +45,21 @@ protected:
     bool apply();
 
     /**
-    * Inserts @p type into the type-combobox as well as its completion object.
-    */
-    void insertType( const QString& type, int index = -1 );
+     * Inserts @p type into the type-combobox as well as its completion object.
+     * The combobox is cleared and all types together with the optional new one
+     * sorted and then added again.
+     * @param type   a new type to add
+     */
+    void insertTypesSorted( const QString& type = "" );
 
     /**
-    *   The Attribute to represent
-    */
+     *   The Attribute to represent
+     */
     UMLAttribute * m_pAttribute;
 
     //GUI Widgets
-    Q3GroupBox * m_pAttsGB, * m_pValuesGB;
-    Q3ButtonGroup * m_pScopeBG;
+    QGroupBox * m_pValuesGB;
+    QGroupBox * m_pScopeGB;
     QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB, * m_pImplementationRB;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
     KComboBox * m_pTypeCB;

@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,16 +11,15 @@
 // own header
 #include "umlattributedialog.h"
 
-// qt includes
-#include <q3groupbox.h>
-#include <q3buttongroup.h>
-#include <QLayout>
-#include <QCheckBox>
-#include <QRadioButton>
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
+// app includes
+#include "attribute.h"
+#include "classifier.h"
+#include "template.h"
+#include "umldoc.h"
+#include "uml.h"
+#include "dialog_utils.h"
+#include "object_factory.h"
+#include "import_utils.h"
 
 // kde includes
 #include <klineedit.h>
@@ -31,15 +29,15 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 
-// app includes
-#include "../attribute.h"
-#include "../classifier.h"
-#include "../template.h"
-#include "../umldoc.h"
-#include "../uml.h"
-#include "../dialog_utils.h"
-#include "../object_factory.h"
-#include "../codeimport/import_utils.h"
+// qt includes
+#include <QtGui/QGroupBox>
+#include <QtGui/QLayout>
+#include <QtGui/QCheckBox>
+#include <QtGui/QRadioButton>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
 
 UMLAttributeDialog::UMLAttributeDialog( QWidget * pParent, UMLAttribute * pAttribute )
         : KDialog( pParent)
@@ -59,23 +57,22 @@ UMLAttributeDialog::~UMLAttributeDialog()
 
 void UMLAttributeDialog::setupDialog()
 {
-    UMLDoc * pDoc = UMLApp::app()->getDocument();
     int margin = fontMetrics().height();
 
     QFrame * frame = new QFrame( this );
     setMainWidget( frame );
     QVBoxLayout * mainLayout = new QVBoxLayout( frame );
 
-    m_pValuesGB = new Q3GroupBox(i18n("General Properties"), frame );
+    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame );
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout -> setMargin(margin);
-    valuesLayout -> setSpacing(10);
+    valuesLayout->setMargin(margin);
+    valuesLayout->setSpacing(10);
 
     m_pTypeL = new QLabel(i18n("&Type:"), m_pValuesGB);
-    valuesLayout -> addWidget(m_pTypeL, 0, 0);
+    valuesLayout->addWidget(m_pTypeL, 0, 0);
 
     m_pTypeCB = new KComboBox(true, m_pValuesGB);
-    valuesLayout -> addWidget(m_pTypeCB, 0, 1);
+    valuesLayout->addWidget(m_pTypeCB, 0, 1);
     m_pTypeL->setBuddy(m_pTypeCB);
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
@@ -91,64 +88,51 @@ void UMLAttributeDialog::setupDialog()
                                     m_pStereoTypeLE, m_pAttribute->getStereotype() );
 
     m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
-    m_pStaticCB -> setChecked( m_pAttribute -> getStatic() );
-    valuesLayout -> addWidget(m_pStaticCB, 4, 0);
+    m_pStaticCB->setChecked( m_pAttribute->getStatic() );
+    valuesLayout->addWidget(m_pStaticCB, 4, 0);
 
-    mainLayout -> addWidget(m_pValuesGB);
+    mainLayout->addWidget(m_pValuesGB);
 
-    m_pScopeBG = new Q3ButtonGroup(i18n("Visibility"), frame );
-    QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeBG);
-    scopeLayout -> setMargin(margin);
+    m_pScopeGB = new QGroupBox(i18n("Visibility"), frame );
+    QHBoxLayout * scopeLayout = new QHBoxLayout(m_pScopeGB);
+    scopeLayout->setMargin(margin);
 
-    m_pPublicRB = new QRadioButton(i18nc("access control public", "&Public"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pPublicRB);
+    m_pPublicRB = new QRadioButton(i18nc("access control public", "&Public"), m_pScopeGB);
+    scopeLayout->addWidget(m_pPublicRB);
 
-    m_pPrivateRB = new QRadioButton(i18nc("access control private", "P&rivate"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pPrivateRB);
+    m_pPrivateRB = new QRadioButton(i18nc("access control private", "P&rivate"), m_pScopeGB);
+    scopeLayout->addWidget(m_pPrivateRB);
 
-    m_pProtectedRB = new QRadioButton(i18nc("access control protected", "Prot&ected"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pProtectedRB);
+    m_pProtectedRB = new QRadioButton(i18nc("access control protected", "Prot&ected"), m_pScopeGB);
+    scopeLayout->addWidget(m_pProtectedRB);
 
-    m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeBG);
-    scopeLayout -> addWidget(m_pImplementationRB);
+    m_pImplementationRB = new QRadioButton(i18n("I&mplementation"), m_pScopeGB);
+    scopeLayout->addWidget(m_pImplementationRB);
 
-    mainLayout -> addWidget(m_pScopeBG);
-    Uml::Visibility scope = m_pAttribute -> getVisibility();
-    if( scope == Uml::Visibility::Public )
-        m_pPublicRB -> setChecked( true );
-    else if( scope == Uml::Visibility::Private )
-          m_pPrivateRB -> setChecked( true );
-    else if( scope == Uml::Visibility::Protected )
-          m_pProtectedRB -> setChecked( true );
-    else if( scope == Uml::Visibility::Implementation )
-          m_pImplementationRB -> setChecked( true );
+    mainLayout->addWidget(m_pScopeGB);
 
-    m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
+    switch (m_pAttribute->getVisibility()) {
+    case Uml::Visibility::Public:
+        m_pPublicRB->setChecked( true );
+        break;
+    case Uml::Visibility::Private:
+        m_pPrivateRB->setChecked( true );
+        break;
+    case Uml::Visibility::Protected:
+        m_pProtectedRB->setChecked( true );
+        break;
+    case Uml::Visibility::Implementation:
+        m_pImplementationRB->setChecked( true );
+        break;
+    default:
+        break;
+    }
+
+    m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
     m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
 
     //now add the Concepts
-    UMLClassifierList namesList( pDoc->getConcepts() );
-    foreach (UMLClassifier* obj, namesList ) {
-         insertType( obj->getFullyQualifiedName() );
-    }
-
-    //work out which one to select
-    int typeBoxCount = 0;
-    bool foundType = false;
-    while (typeBoxCount < m_pTypeCB->count() && foundType == false) {
-        QString typeBoxString = m_pTypeCB->itemText(typeBoxCount);
-        if ( typeBoxString == m_pAttribute->getTypeName() ) {
-            foundType = true;
-            m_pTypeCB->setCurrentIndex(typeBoxCount);
-        } else {
-            typeBoxCount++;
-        }
-    }
-
-    if (!foundType) {
-        insertType( m_pAttribute->getTypeName(), 0 );
-        m_pTypeCB->setCurrentIndex(0);
-    }
+    insertTypesSorted(m_pAttribute->getTypeName());
 
     m_pNameLE->setFocus();
     connect( m_pNameLE, SIGNAL( textChanged ( const QString & ) ), SLOT( slotNameChanged( const QString & ) ) );
@@ -225,7 +209,7 @@ bool UMLAttributeDialog::apply()
             return false;
         classifier = static_cast<UMLClassifier*>(obj);
     }
-    m_pAttribute->setType( classifier );
+    m_pAttribute->setType(classifier);
     return true;
 }
 
@@ -241,11 +225,27 @@ void UMLAttributeDialog::slotOk()
     }
 }
 
-void UMLAttributeDialog::insertType( const QString& type, int index )
+void UMLAttributeDialog::insertTypesSorted( const QString& type )
 {
-    m_pTypeCB->insertItem( index, type );
-    m_pTypeCB->completionObject()->addItem( type );
-}
+    UMLDoc * uDoc = UMLApp::app()->getDocument();
+    UMLClassifierList namesList( uDoc->getConcepts() );
+    QStringList types;
+    foreach (UMLClassifier* obj, namesList) {
+         types << obj->getFullyQualifiedName();
+    }
+    if ( !types.contains(type) ) {
+        types << type;
+    }
+    types.sort();
 
+    m_pTypeCB->clear();
+    m_pTypeCB->insertItems(-1, types);
+
+    int currentIndex = m_pTypeCB->findText(type);
+    if (currentIndex > -1) {
+        m_pTypeCB->setCurrentIndex(currentIndex);
+    }
+    m_pTypeCB->completionObject()->addItem(type);
+}
 
 #include "umlattributedialog.moc"
