@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,22 +11,16 @@
 #ifndef UMLOPERATIONDIALOG_H
 #define UMLOPERATIONDIALOG_H
 
-//qt includes
-#include <Q3ListBoxItem>
-
 //kde includes
 #include <kdialog.h>
 
-/**
- * @author Paul Hensgen
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
- */
+//qt includes
+#include <QListWidgetItem>
 
 class UMLOperation;
 class ListPopupMenu;
-class Q3GroupBox;
-class Q3ListBox;
-class Q3ButtonGroup;
+class QGroupBox;
+class QListWidget;
 class QLabel;
 class QRadioButton;
 class QPushButton;
@@ -37,6 +30,10 @@ class KLineEdit;
 class UMLDoc;
 class KArrowButton;
 
+/**
+ * @author Paul Hensgen
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
 class UMLOperationDialog : public KDialog
 {
     Q_OBJECT
@@ -65,34 +62,40 @@ protected:
     bool apply();
 
     /**
-     * Inserts @p type into the type-combobox as well as its completion object.
+     * Inserts @p type into the type-combobox.
+     * The combobox is cleared and all types together with the optional new one
+     * sorted and then added again.
+     * @param type   a new type to add and selected
      */
-    void insertType( const QString& type, int index = -1 );
+    void insertTypesSorted( const QString& type = "" );
 
     /**
      * The operation to represent.
      */
-    UMLOperation * m_pOperation;
+    UMLOperation * m_operation;
 
     /**
      * The UMLDocument where all objects live.
      */
-    UMLDoc *m_doc;
+    UMLDoc * m_doc;
 
     /**
      * Menu used in paramater list box.
      */
-    ListPopupMenu * m_pMenu;
+    ListPopupMenu * m_menu;
 
     /**
      * Inserts @p stereotype into the stereotype-combobox as well as its completion object.
+     * The combobox is cleared and all types together with the optional new one
+     * sorted and then added again.
+     * @param type   a new type to add and selected
      */
-    void insertStereotype( const QString& type, int index = -1 );
+    void insertStereotypesSorted( const QString& type );
 
     //GUI widgets
-    Q3GroupBox  * m_pParmsGB, * m_pGenGB;
-    Q3ListBox * m_pParmsLB;
-    Q3ButtonGroup * m_pScopeBG;
+    QGroupBox  * m_pParmsGB, * m_pGenGB;
+    QListWidget * m_pParmsLW;
+    QGroupBox * m_pScopeGB;
     QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB, * m_pImplementationRB;
     QLabel * m_pRtypeL, * m_pNameL, * m_pStereoTypeL;
     KComboBox * m_pRtypeCB, * m_pStereoTypeCB;
@@ -106,9 +109,8 @@ protected:
     KArrowButton* m_pDownButton;
 
 public slots:
-    void slotParmRightButtonPressed(Q3ListBoxItem *item, const QPoint &p);
-    void slotParmRightButtonClicked(Q3ListBoxItem *item, const QPoint &p);
-    void slotParmDoubleClick(Q3ListBoxItem *item);
+    void slotParmRightButtonPressed(const QPoint &p);
+    void slotParmDoubleClick(QListWidgetItem *item);
     void slotParmPopupMenuSel(QAction* action);
     void slotNewParameter();
     void slotDeleteParameter();
@@ -119,7 +121,7 @@ public slots:
     /**
      * Enables or disables buttons.
      */
-    void slotParamsBoxClicked(Q3ListBoxItem* parameterItem);
+    void slotParamsBoxClicked(QListWidgetItem* parameterItem);
 
     /**
      * I don't think this is used, but if we had an apply button
