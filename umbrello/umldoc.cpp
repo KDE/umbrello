@@ -570,6 +570,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         if (archive->open(QIODevice::WriteOnly) == false)
         {
             KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
+            delete archive;
             return false;
         }
 
@@ -579,6 +580,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         tmp_xmi_file.setAutoRemove(false);
         if ( !tmp_xmi_file.open() ) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
+            delete archive;
             return false;
         }
         saveToXMI(tmp_xmi_file); // save XMI to this file...
@@ -595,6 +597,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         if (!archive->close()) {
             KMessageBox::error(0, i18n("There was a problem saving file: %1", d.path()), i18n("Save Error"));
+            delete archive;
             return false;
         }
         // now the xmi file was added to the archive, so we can delete it
