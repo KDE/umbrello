@@ -45,7 +45,9 @@ PinWidget::PinWidget(UMLScene * scene, NewUMLRectWidget* a, Uml::IDType id ):
     y = y < getMinY() ? getMinY() : y;
     m_nY = y;
 
-    m_pName = new FloatingTextWidget(scene,Uml::tr_Floating,"");
+    m_pName = new FloatingTextWidget(Uml::tr_Floating);
+    scene->addWidget(m_pName);
+
     scene->setupNewWidget(m_pName);
     m_pName->setX(0);
     m_pName->setY(0);
@@ -143,7 +145,7 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
     //make sure it's always above the other
     setZ(20);
     setPenFromSettings(p);
-    m_pName->setVisible(( m_pName->getText().length() > 0 ));
+    m_pName->setVisible(( m_pName->text().length() > 0 ));
     m_pName->updateComponentSize();
     if(isSelected())
          drawSelected(&p, offsetX, offsetY);
@@ -172,7 +174,7 @@ void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me) {
     NewUMLRectWidget::mouseMoveEvent(me);
     qreal diffX = m_oldX - getX();
     qreal diffY = m_oldY - getY();
-    if (m_pName!=NULL && !( m_pName->getText() ).isEmpty()) {
+    if (m_pName!=NULL && !( m_pName->text() ).isEmpty()) {
         m_pName->setX(m_pName->getX() - diffX);
         m_pName->setY(m_pName->getY() - diffY);
     }
@@ -200,7 +202,7 @@ void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
     PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->getID()) );
     NewUMLRectWidget::saveToXMI( qDoc, PinElement );
-    if (m_pName && !m_pName->getText().isEmpty()) {
+    if (m_pName && !m_pName->text().isEmpty()) {
         PinElement.setAttribute( "textid", ID2STR(m_pName->getID()) );
         m_pName->saveToXMI( qDoc, PinElement );
     }
@@ -244,7 +246,11 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( umlScene(),Uml::tr_Floating,m_Text, textId );
+            m_pName = new FloatingTextWidget( Uml::tr_Floating, textId );
+            m_pName->setText(m_Text);
+            if (umlScene()) {
+                umlScene()->addItem(m_pName);
+            }
             if( ! m_pName->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;

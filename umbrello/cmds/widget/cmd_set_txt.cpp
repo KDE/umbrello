@@ -33,7 +33,7 @@ namespace Uml
     CmdSetTxt::CmdSetTxt(FloatingTextWidget* _ftw, const QString& txt):ftw(_ftw),newstring(txt)
     {
 
-        oldstring = _ftw->getText();
+        oldstring = _ftw->text();
 kDebug() << "la valeur de l'oldstring est: "<< oldstring << ", la valeur de la newstring est: "<< newstring;
     }
 
@@ -45,15 +45,15 @@ kDebug() << "la valeur de l'oldstring est: "<< oldstring << ", la valeur de la n
     void CmdSetTxt::redo()
     {
 
-        ftw->setTextcmd(newstring);
-kDebug() << "string apres redo " << ftw->getText()<< ", la valeur de l'oldstring est: "<< oldstring << ", la valeur de la newstring est: "<< newstring;
+        ftw->setText(newstring);
+kDebug() << "string apres redo " << ftw->text()<< ", la valeur de l'oldstring est: "<< oldstring << ", la valeur de la newstring est: "<< newstring;
     }
 
     void CmdSetTxt::undo()
     {
         ftw->setName("balbalbalbalbla");
-        ftw->setTextcmd(oldstring);
-kDebug() << "string apres undo: " << ftw->getText()<< "la valeur de l'oldstring est: "<< oldstring << "la valeur de la newstring est: "<< newstring;
+        ftw->setText(oldstring);
+kDebug() << "string apres undo: " << ftw->text()<< "la valeur de l'oldstring est: "<< oldstring << "la valeur de la newstring est: "<< newstring;
     }
 
 }

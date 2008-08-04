@@ -105,7 +105,7 @@ bool ToolBarStateOther::newWidget()
             break;
 
         case WorkToolBar::tbb_Text:
-            umlWidget = new FloatingTextWidget(m_pUMLScene, tr_Floating, "");
+            umlWidget = new FloatingTextWidget(tr_Floating);
             break;
 
         // Activity buttons
@@ -211,7 +211,7 @@ bool ToolBarStateOther::newWidget()
     } else if (getButton() == WorkToolBar::tbb_Text) {
         // It is pretty invisible otherwise.
         FloatingTextWidget* ft = (FloatingTextWidget*) umlWidget;
-        ft->changeTextDlg();
+        ft->showChangeTextDialog();
     } else if (getButton() == WorkToolBar::tbb_Object_Node) {
          dynamic_cast<ObjectNodeWidget*>(umlWidget)->askForObjectNodeType(umlWidget);
     } else if (getButton() == WorkToolBar::tbb_PrePostCondition) {

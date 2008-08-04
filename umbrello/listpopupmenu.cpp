@@ -496,7 +496,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, NewUMLWidget * object,
         break;
 
     case Uml::wt_Text:
-        switch( (static_cast<FloatingTextWidget*>(object))->getRole() ) {
+        switch( (static_cast<FloatingTextWidget*>(object))->textRole() ) {
         case Uml::tr_MultiB:
             insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
             break;

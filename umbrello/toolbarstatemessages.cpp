@@ -139,7 +139,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         FloatingTextWidget *ft = message->getFloatingTextWidget();
         //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
         //Shouldn't it cancel also the whole creation?
-        ft->showOpDlg();
+        ft->showOperationDialog();
         message->setTextPosition();
         m_pUMLScene->getWidgetList().append(ft);
 
@@ -181,7 +181,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         FloatingTextWidget *ft = message->getFloatingTextWidget();
         //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
         //Shouldn't it cancel also the whole creation?
-        ft->showOpDlg();
+        ft->showOperationDialog();
         message->setTextPosition();
         m_pUMLScene->getWidgetList().append(ft);
 
@@ -230,7 +230,7 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
     FloatingTextWidget *ft = message->getFloatingTextWidget();
     //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
     //Shouldn't it cancel also the whole creation?
-    ft->showOpDlg();
+    ft->showOperationDialog();
     message->setTextPosition();
     m_pUMLScene->getWidgetList().append(ft);
 

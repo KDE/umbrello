@@ -112,7 +112,7 @@ void MessageWidget::updateResizability() {
         setResizable(false);
 }
 
-void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
+void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	QPainter &p = *painter;
 	qreal offsetX = 0, offsetY = 0;
@@ -395,11 +395,11 @@ void MessageWidget::setTextPosition() {
         uDebug() << "m_pFText is NULL" << endl;
         return;
     }
-    if (m_pFText->getDisplayText().isEmpty()) {
+    if (m_pFText->displayText().isEmpty()) {
         return;
     }
     m_pFText->updateComponentSize();
-    qreal ftX = constrainX(m_pFText->getX(), m_pFText->getWidth(), m_pFText->getRole());
+    qreal ftX = constrainX(m_pFText->getX(), m_pFText->getWidth(), m_pFText->textRole());
     qreal ftY = getY() - m_pFText->getHeight();
     m_pFText->setX( ftX );
     m_pFText->setY( ftY );
@@ -560,15 +560,15 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
         Uml::Text_Role tr = Uml::tr_Seq_Message;
         if (m_pOw[Uml::A] == m_pOw[Uml::B])
             tr = Uml::tr_Seq_Message_Self;
-        m_pFText = new FloatingTextWidget( umlScene(), tr, "" );
-        m_pFText->setFont(NewUMLRectWidget::getFont());
+        m_pFText = new FloatingTextWidget( tr );
+        m_pFText->setFont(font());
     }
     if (op)
         setOperation(op);  // This requires a valid m_pFText.
     setLinkAndTextPos();
     m_pFText->setText("");
     m_pFText->setActivated();
-    QString messageText = m_pFText->getText();
+    QString messageText = m_pFText->text();
     m_pFText->setVisible( messageText.length() > 1 );
 
     connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
@@ -834,7 +834,7 @@ void MessageWidget::cleanup() {
 
 void MessageWidget::setSelected(bool _select) {
     NewUMLRectWidget::setSelected( _select );
-    if( !m_pFText || m_pFText->getDisplayText().isEmpty())
+    if( !m_pFText || m_pFText->displayText().isEmpty())
         return;
     if( isSelected() && m_pFText->isSelected() )
         return;
@@ -916,7 +916,7 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     }
 
     // save the corresponding message text
-    if (m_pFText && !m_pFText->getText().isEmpty()) {
+    if (m_pFText && !m_pFText->text().isEmpty()) {
         messageElement.setAttribute( "textid", ID2STR(m_pFText->getID()) );
         m_pFText->saveToXMI( qDoc, messageElement );
     }
@@ -954,7 +954,8 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pFText = new FloatingTextWidget( umlScene(), tr, getOperationText(umlScene()), m_textId );
+            m_pFText = new FloatingTextWidget( tr, m_textId );
+            m_pFText->setText(getOperationText(umlScene()));
             if( ! m_pFText->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;

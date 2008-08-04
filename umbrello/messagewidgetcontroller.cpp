@@ -102,7 +102,7 @@ qreal MessageWidgetController::constrainPositionY(qreal diffY) {
     qreal newY = m_widget->getY() + diffY;
 
     qreal minY = m_messageWidget->getMinY();
-    if (m_messageWidget->m_pFText && !m_messageWidget->m_pFText->getDisplayText().isEmpty()) {
+    if (m_messageWidget->m_pFText && !m_messageWidget->m_pFText->displayText().isEmpty()) {
         minY += m_messageWidget->m_pFText->getHeight();
     }
 

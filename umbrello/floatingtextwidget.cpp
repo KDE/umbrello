@@ -12,198 +12,315 @@
 // own header
 #include "floatingtextwidget.h"
 
-// system includes
-#include <QtCore/QRegExp>
-#include <QtGui/QPainter>
-#include <QtCore/QEvent>
-#include <QtGui/QValidator>
-#include <klocale.h>
-#include <kdebug.h>
-#include <kinputdialog.h>
-
 // local includes
-#include "floatingtextwidgetcontroller.h"
 #include "association.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
 #include "classifier.h"
-#include "listpopupmenu.h"
-#include "operation.h"
-#include "model_utils.h"
-#include "object_factory.h"
-#include "messagewidget.h"
+#include "cmds.h"
 #include "dialogs/assocpropdlg.h"
 #include "dialogs/selectopdlg.h"
-#include "cmds.h"
+#include "listpopupmenu.h"
+#include "messagewidget.h"
+#include "model_utils.h"
+#include "object_factory.h"
+#include "operation.h"
+#include "textitem.h"
+#include "textitemgroup.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "umlscene.h"
+#include "umlview.h"
+
+// kde includes
+#include <kinputdialog.h>
+#include <klocale.h>
+
+// qt includes
+#include <QtCore/QRegExp>
+#include <QtGui/QValidator>
+
 
 const qreal FloatingTextWidget::restrictPositionMin = 0;
 const qreal FloatingTextWidget::restrictPositionMax = 3000;
 
-
-FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::Text_Role role,
-                                       const QString& text, Uml::IDType id)
-    : NewUMLRectWidget(scene, id)//, new FloatingTextWidgetController(this))
+/**
+ * Constructs a FloatingTextWidget instance.
+ *
+ * @param role The role this FloatingTextWidget will take up.
+ * @param text The main text to display.
+ * @param id The ID to assign (-1 will prompt a new ID.)
+ */
+FloatingTextWidget::FloatingTextWidget(Uml::Text_Role role,
+                                       Uml::IDType id)
+    : NewUMLRectWidget(0, id)
 {
-    init();
-    m_Text = text;
-    m_Role = role;
-    if ( ! UMLApp::app()->getDocument()->loading() ) {
-        updateComponentSize();
-        setZ( 10 );//make sure always on top.
-        update();
-    }
-}
-
-void FloatingTextWidget::init()
-{
-    // initialize loaded/saved (i.e. persistent) data
-    m_PreText = "";
-    m_Text = "";
-    m_PostText = "";
-    m_Role = Uml::tr_Floating;
     m_baseType = Uml::wt_Text;
-    // initialize non-saved (i.e. volatile) data
-    m_pLink = NULL;
+    m_linkWidget = 0;
     setResizable(false);
+    m_textRole = role;
+
+    createTextItemGroup(); // Create a group to store text.
+
+    setZValue(10); //make sure always on top.
 }
 
 FloatingTextWidget::~FloatingTextWidget()
 {
 }
 
-void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+/// @return Main body text to display
+QString FloatingTextWidget::text() const
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
+    // test to make sure not just the ":" between the seq number and
+    // the actual message widget
 
-    qreal w = getWidth();
-    qreal h = getHeight();
-    p.setFont( NewUMLRectWidget::getFont() );
-    QColor textColor(50, 50, 50);
-    p.setPen(textColor);
-    p.drawText( offsetX , offsetY,w,h, Qt::AlignCenter, getDisplayText() );
-    if(isSelected())
-        drawSelected(&p, offsetX, offsetY);
+    // hmm. this section looks like it could have been avoided by
+    // using pre-, post- text instead of storing in the main body of
+    // the text -b.t.
+    QString n = name();
+    if(m_textRole == Uml::tr_Seq_Message || m_textRole == Uml::tr_Seq_Message_Self ||
+            m_textRole == Uml::tr_Coll_Message || m_textRole == Uml::tr_Coll_Message_Self) {
+        if( n.length() <= 1 || n == ": " )
+            return QString();
+    }
+    return n;
 }
 
-void FloatingTextWidget::resizeEvent(QResizeEvent * re)
+/**
+ * Set the main body of text to display.
+ *
+ * @param t The text to display.
+ */
+void FloatingTextWidget::setText(const QString &t)
 {
-    Q_UNUSED(re);
-}
-
-QSizeF FloatingTextWidget::calculateSize()
-{
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    qreal h = fm.lineSpacing();
-    qreal w = fm.width( getDisplayText() );
-    return QSizeF(w + 8, h + 4);  // give a small margin
-}
-
-void FloatingTextWidget::slotMenuSelection(QAction* action)
-{
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
-    switch(sel) {
-    case ListPopupMenu::mt_Properties:
-        showProperties();
-        break;
-
-    case ListPopupMenu::mt_Delete:
-        umlScene()->removeWidget(this);
-        break;
-
-    case ListPopupMenu::mt_Operation:
-        {
-            if (m_pLink == NULL) {
-                uDebug() << "mt_Operation: " << "m_pLink is NULL";
-                return;
+    QString text;
+    if (m_textRole == Uml::tr_Seq_Message || m_textRole == Uml::tr_Seq_Message_Self) {
+        QString seqNum, op;
+        m_linkWidget->getSeqNumAndOp(seqNum, op);
+        if (!seqNum.isEmpty() || !op.isEmpty()) {
+            if (umlScene() && ! umlScene()->getShowOpSig()) {
+                op.replace( QRegExp("\\(.*\\)"), "()" );
             }
-            UMLClassifier* c = m_pLink->getOperationOwner();
-            if (c == NULL) {
-                bool ok = false;
-                QString opText = KInputDialog::getText(i18nc("operation name", "Name"),
-                                                       i18n("Enter operation name:"),
-                                                       getText(), &ok, umlScene()->activeView());
-                if (ok)
-                    m_pLink->setCustomOpText(opText);
-                return;
-            }
-            UMLClassifierListItem* umlObj = Object_Factory::createChildObject(c, Uml::ot_Operation);
-            if (umlObj) {
-                UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
-                m_pLink->setOperation(newOperation);
-            }
+            text = seqNum.append(": ").append( op );
         }
-        break;
+        else {
+            text = t;
+        }
+    }
+    else {
+        text = t;
+    }
 
-    case ListPopupMenu::mt_Select_Operation:
-        showOpDlg();
-        break;
+    // The text is stored in the "name" string provided by the base.
+    setName(text);
+}
 
-    case ListPopupMenu::mt_Rename:
-        handleRename();
-        break;
+/**
+ * Set some text to be prepended to the main body of text.
+ * @param t The text to prepend to main body which is displayed.
+ */
+void FloatingTextWidget::setPreText(const QString &t)
+{
+    m_preText = t;
+    updateTextItemGroups();
+}
 
-    case ListPopupMenu::mt_Change_Font:
-        {
-            QFont font = getFont();
-            if( KFontDialog::getFont( font, false, umlScene()->activeView() ) ) {
-                if( m_Role == Uml::tr_Floating || m_Role == Uml::tr_Seq_Message ) {
-                    setFont( font );
-                } else if (m_pLink) {
-                    m_pLink->lwSetFont(font);
+/**
+ * Set some text to be appended to the main body of text.
+ * @param t The text to apppended to main body which is displayed.
+ */
+void FloatingTextWidget::setPostText(const QString &t)
+{
+    m_postText = t;
+    updateTextItemGroups();
+}
+
+/**
+ * Use to get the total text (prepended + main body + appended)
+ * currently displayed by the widget.
+ */
+QString FloatingTextWidget::displayText() const
+{
+    QString displayText = name();
+    displayText.prepend(m_preText);
+    displayText.append(m_postText);
+    return displayText;
+}
+
+/**
+ * Shows a dialogbox to change text of this widget and also ensures
+ * validity of the set text.
+ */
+void FloatingTextWidget::showChangeTextDialog()
+{
+    bool ok = false;
+    QWidget *parent = umlScene() ? umlScene()->activeView() : 0;
+    QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), text(), &ok, parent);
+
+    if(ok && newText != text() && isTextValid(newText)) {
+        setText( newText );
+        setVisible( !text().isEmpty() );
+    }
+}
+
+/**
+ * Shows a dialogbox for the user to choose an operation, creates a
+ * new operation if the user enters a new one and updates linkWidget
+ * status.
+ */
+void FloatingTextWidget::showOperationDialog()
+{
+    if (!m_linkWidget) {
+        uError() << "m_linkWidget is NULL";
+        return;
+    }
+    QString seqNum, opText;
+    UMLClassifier* c = m_linkWidget->getSeqNumAndOp(seqNum, opText);
+    if (!c) {
+        uError() << "m_linkWidget->getSeqNumAndOp() returns a NULL classifier";
+        return;
+    }
+
+    SelectOpDlg selectDlg(umlScene()->activeView(), c);
+    selectDlg.setSeqNumber( seqNum );
+    if (m_linkWidget->getOperation() == 0) {
+        selectDlg.setCustomOp( opText );
+    } else {
+        selectDlg.setClassOp( opText );
+    }
+    int result = selectDlg.exec();
+    if (!result) {
+        return;
+    }
+
+    seqNum = selectDlg.getSeqNumber();
+    opText = selectDlg.getOpText();
+    if (selectDlg.isClassOp()) {
+        Model_Utils::OpDescriptor od;
+        Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
+        if (st == Model_Utils::PS_OK) {
+            UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
+            selfAndAncestors.prepend(c);
+            UMLOperation *op = 0;
+            foreach (UMLClassifier *cl , selfAndAncestors) {
+                op = cl->findOperation(od.m_name, od.m_args);
+                if (op) {
+                    break;
                 }
             }
+            if (!op) {
+                // The op does not yet exist. Create a new one.
+                UMLObject *o = c->createOperation(od.m_name, 0, &od.m_args);
+                op = static_cast<UMLOperation*>(o);
+            }
+            if (od.m_pReturnType) {
+                op->setType(od.m_pReturnType);
+            }
+
+            m_linkWidget->setOperation(op);
+            opText = QString();
+        } else {
+            m_linkWidget->setOperation(0);
         }
-        break;
-
-    case ListPopupMenu::mt_Reset_Label_Positions:
-        if (m_pLink)
-            m_pLink->resetTextPositions();
-        break;
-
-    default:
-        NewUMLRectWidget::slotMenuSelection(action);
-        break;
-    }//end switch
+    } else {
+        m_linkWidget->setOperation(0);
+    }
+    m_linkWidget->setSeqNumAndOp(seqNum, opText);
+    setMessageText();
 }
 
+/**
+ * Show the properties for a FloatingTextWidget.
+ *
+ * Depending on the role of the floating text wiget, the options
+ * dialog for the floating text widget, the rename dialog for floating
+ * text or the options dialog for the link widget are shown.
+ */
+void FloatingTextWidget::showPropertiesDialog()
+{
+    if (m_textRole == Uml::tr_Coll_Message || m_textRole == Uml::tr_Coll_Message_Self ||
+            m_textRole == Uml::tr_Seq_Message || m_textRole == Uml::tr_Seq_Message_Self) {
+        showOperationDialog();
+    } else if (m_textRole == Uml::tr_Floating) {
+        // double clicking on a text line opens the dialog to change the text
+        handleRename();
+    } else if (m_linkWidget) {
+        m_linkWidget->showDialog();
+    }
+}
+
+/**
+ * Sets the link widget linked to this FloatingTextWidget to \a link
+ * and also sets the link as its parent.
+ *
+ * @param link The LinkWidget to be linked (0 for removing link)
+ *
+ * @note If link is not null, then this floatingwidget is
+ *       automatically parented to the corresponding linkwidget item
+ *       and hence is made linkWidget's scene's member.
+ */
+void FloatingTextWidget::setLink(LinkWidget *link)
+{
+    m_linkWidget = link;
+    QGraphicsItem *parent = 0;
+
+    AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(link);
+    MessageWidget *msg = dynamic_cast<MessageWidget*>(link);
+
+    if (assoc) {
+        parent = static_cast<QGraphicsItem*>(assoc);
+    }
+    else if (msg) {
+        parent = static_cast<QGraphicsItem*>(msg);
+    }
+
+    setParentItem(parent);
+    updateTextItemGroups();
+}
+
+/// Sets the role of this FloatingTextWidget to \a role.
+void FloatingTextWidget::setTextRole(Uml::Text_Role role)
+{
+    m_textRole = role;
+    updateTextItemGroups();
+}
+
+/// Handles renaming based on the text role of this widget.
 void FloatingTextWidget::handleRename()
 {
     QRegExpValidator v(QRegExp(".*"), 0);
     QString t;
-    if( m_Role == Uml::tr_RoleAName || m_Role == Uml::tr_RoleBName ) {
+    if( m_textRole == Uml::tr_RoleAName || m_textRole == Uml::tr_RoleBName ) {
         t = i18n("Enter role name:");
-    } else if (m_Role == Uml::tr_MultiA || m_Role == Uml::tr_MultiB) {
+    } else if (m_textRole == Uml::tr_MultiA || m_textRole == Uml::tr_MultiB) {
         t = i18n("Enter multiplicity:");
         /*
         // NO! shouldn't be allowed
-        } else if( m_Role == Uml::tr_ChangeA || m_Role == Uml::tr_ChangeB ) {
+        } else if( m_textRole == Uml::tr_ChangeA || m_textRole == Uml::tr_ChangeB ) {
         t = i18n("Enter changeability");
         */
-    } else if (m_Role == Uml::tr_Name) {
+    } else if (m_textRole == Uml::tr_Name) {
         t = i18n("Enter association name:");
-    } else if (m_Role == Uml::tr_Floating) {
+    } else if (m_textRole == Uml::tr_Floating) {
         t = i18n("Enter new text:");
     } else {
         t = i18n("ERROR");
     }
     bool ok = false;
-    QString newText = KInputDialog::getText(i18n("Rename"), t, getText(), &ok,
+    QString newText = KInputDialog::getText(i18n("Rename"), t, text(), &ok,
                                             umlScene()->activeView(), &v);
-    if (!ok || newText == getText())
+    if (!ok || newText == text())
         return;
 
-    UMLApp::app()->executeCommand(new Uml::CmdHandleRename(this,newText));
+    UMLApp::app()->executeCommand(new Uml::CmdHandleRename(this, newText));
 }
 
+/// Changes the text of linked widget.
 void FloatingTextWidget::changeName(const QString& newText)
 {
-    if (m_pLink && !isTextValid(newText)) {
-        AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(m_pLink);
+    if (m_linkWidget && !isTextValid(newText)) {
+        AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(m_linkWidget);
         if (assoc) {
-            switch (m_Role) {
+            switch (m_textRole) {
               case Uml::tr_MultiA:
                 assoc->setMulti(QString(), Uml::A);
                 break;
@@ -226,194 +343,35 @@ void FloatingTextWidget::changeName(const QString& newText)
                 assoc->setName(QString());
                 break;
             }
-        } else {
-            MessageWidget *msg = dynamic_cast<MessageWidget*>(m_pLink);
+        }
+        else {
+            MessageWidget *msg = dynamic_cast<MessageWidget*>(m_linkWidget);
             if (msg) {
-                msg->setName(QString());
                 umlScene()->removeWidget(this);
             }
         }
         return;
     }
-    if (m_pLink && m_Role != Uml::tr_Seq_Message && m_Role != Uml::tr_Seq_Message_Self) {
-        m_pLink->setText(this, newText);
-    } else {
+
+    if (m_linkWidget && m_textRole != Uml::tr_Seq_Message && m_textRole != Uml::tr_Seq_Message_Self) {
+        m_linkWidget->setText(this, newText);
+    }
+    else {
         setText( newText );
         UMLApp::app()->getDocument()->setModified(true);
     }
+
     setVisible( true );
-    updateComponentSize();
-    update();
+    updateTextItemGroups();
 }
 
-void FloatingTextWidget::setTextcmd(const QString &t)
-{
-    UMLApp::app()->executeCommand(new Uml::CmdSetTxt(this,t));
-}
-
-void FloatingTextWidget::setText(const QString &t)
-{
-    if (m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
-        QString seqNum, op;
-        m_pLink->getSeqNumAndOp(seqNum, op);
-        if (seqNum.length() > 0 || op.length() > 0) {
-            if (! umlScene()->getShowOpSig())
-                op.replace( QRegExp("\\(.*\\)"), "()" );
-            m_Text = seqNum.append(": ").append( op );
-        } else
-            m_Text = t;
-    } else
-        m_Text = t;
-    updateComponentSize();
-    update();
-}
-
-void FloatingTextWidget::setPreText (const QString &t)
-{
-    m_PreText = t;
-    updateComponentSize();
-    update();
-}
-
-void FloatingTextWidget::setPostText(const QString &t)
-{
-    m_PostText = t;
-    updateComponentSize();
-    update();
-}
-
-void FloatingTextWidget::changeTextDlg()
-{
-    bool ok = false;
-    QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), getText(), &ok, umlScene()->activeView());
-
-    if(ok && newText != getText() && isTextValid(newText)) {
-        setText( newText );
-        setVisible( ( getText().length() > 0 ) );
-        updateComponentSize();
-        update();
-    }
-    if(!isTextValid(newText))
-        hide();
-}
-
-void FloatingTextWidget::showOpDlg()
-{
-    if (m_pLink == NULL) {
-        uError() << "m_pLink is NULL";
-        return;
-    }
-    QString seqNum, opText;
-    UMLClassifier* c = m_pLink->getSeqNumAndOp(seqNum, opText);
-    if (c == NULL) {
-        uError() << "m_pLink->getSeqNumAndOp() returns a NULL classifier";
-        return;
-    }
-
-    SelectOpDlg selectDlg(umlScene()->activeView(), c);
-    selectDlg.setSeqNumber( seqNum );
-    if (m_pLink->getOperation() == NULL) {
-        selectDlg.setCustomOp( opText );
-    } else {
-        selectDlg.setClassOp( opText );
-    }
-    int result = selectDlg.exec();
-    if(!result) {
-        return;
-    }
-    seqNum = selectDlg.getSeqNumber();
-    opText = selectDlg.getOpText();
-    if (selectDlg.isClassOp()) {
-        Model_Utils::OpDescriptor od;
-        Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
-        if (st == Model_Utils::PS_OK) {
-            UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
-            selfAndAncestors.prepend(c);
-            UMLOperation *op = NULL;
-            foreach (UMLClassifier *cl , selfAndAncestors) {
-                op = cl->findOperation(od.m_name, od.m_args);
-                if (op != NULL)
-                    break;
-            }
-            if (op == NULL) {
-                // The op does not yet exist. Create a new one.
-                UMLObject *o = c->createOperation(od.m_name, NULL, &od.m_args);
-                op = static_cast<UMLOperation*>(o);
-            }
-            if (od.m_pReturnType)
-                op->setType(od.m_pReturnType);
-            m_pLink->setOperation(op);
-            opText = QString();
-        } else {
-            m_pLink->setOperation(NULL);
-        }
-    } else {
-        m_pLink->setOperation(NULL);
-    }
-    m_pLink->setSeqNumAndOp(seqNum, opText);
-    setMessageText();
-}
-
-QString FloatingTextWidget::getPreText() const
-{
-    return m_PreText;
-}
-
-QString FloatingTextWidget::getPostText() const
-{
-    return m_PostText;
-}
-
-QString FloatingTextWidget::getText() const
-{
-    //test to make sure not just the ":" between the seq number
-    //and the actual message widget
-    // hmm. this section looks like it could have been avoided by using pre-, post- text
-    // instead of storing in the main body of the text -b.t.
-    if(m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self ||
-            m_Role == Uml::tr_Coll_Message || m_Role == Uml::tr_Coll_Message_Self) {
-        if( m_Text.length() <= 1 || m_Text == ": " )
-            return QString();
-    }
-    return m_Text;
-}
-
-QString FloatingTextWidget::getDisplayText() const
-{
-    QString displayText = m_Text;
-    displayText.prepend(m_PreText);
-    displayText.append(m_PostText);
-    return displayText;
-}
-
-bool FloatingTextWidget::activate( IDChangeLog* ChangeLog /*= 0 */)
-{
-    if (! NewUMLRectWidget::activate(ChangeLog))
-        return false;
-    update();
-    return true;
-}
-
-void FloatingTextWidget::setLink(LinkWidget * l)
-{
-    m_pLink = l;
-}
-
-LinkWidget * FloatingTextWidget::getLink()
-{
-    return m_pLink;
-}
-
-void FloatingTextWidget::setRole(Uml::Text_Role role)
-{
-    m_Role = role;
-}
-
-Uml::Text_Role FloatingTextWidget::getRole() const
-{
-    return m_Role;
-}
-
+/**
+ * For a text to be valid it must be non-empty, i.e. have a length
+ * larger that zero, and have at least one non whitespace character.
+ *
+ * @param text The string to analyze.
+ * @return True if the given text is valid.
+ */
 bool FloatingTextWidget::isTextValid( const QString &text )
 {
     int length = text.length();
@@ -425,36 +383,22 @@ bool FloatingTextWidget::isTextValid( const QString &text )
     return false;
 }
 
-void FloatingTextWidget::showProperties()
+/**
+ * Reimplemented from NewUMLRectWidget::paint . This method only draws
+ * selection rect as the text drawing is handled by TextItemGroup.
+ */
+void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-    if (m_Role == Uml::tr_Coll_Message || m_Role == Uml::tr_Coll_Message_Self ||
-            m_Role == Uml::tr_Seq_Message || m_Role == Uml::tr_Seq_Message_Self) {
-        showOpDlg();
-    } else if (m_Role == Uml::tr_Floating) {
-        // double clicking on a text line opens the dialog to change the text
-        handleRename();
-    } else if (m_pLink) {
-        m_pLink->showDialog();
+    if (o->state & QStyle::State_Selected) {
+        painter->setPen(QPen(Qt::black, 1, Qt::DashLine));
+        painter->drawRect(rect());
     }
 }
 
-void FloatingTextWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    QDomElement textElement = qDoc.createElement( "floatingtext" );
-    NewUMLRectWidget::saveToXMI( qDoc, textElement );
-    textElement.setAttribute( "text", m_Text );
-    textElement.setAttribute( "pretext", m_PreText );
-    textElement.setAttribute( "posttext", m_PostText );
-
-    /* No need to save these - the messagewidget already did it.
-    m_Operation  = qElement.attribute( "operation", "" );
-    m_SeqNum = qElement.attribute( "seqnum", "" );
-     */
-
-    textElement.setAttribute( "role", m_Role );
-    qElement.appendChild( textElement );
-}
-
+/**
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load
+ * FloatingTextWidget from XMI element.
+ */
 bool FloatingTextWidget::loadFromXMI( QDomElement & qElement )
 {
     if( !NewUMLRectWidget::loadFromXMI( qElement ) )
@@ -462,28 +406,151 @@ bool FloatingTextWidget::loadFromXMI( QDomElement & qElement )
 
     QString role = qElement.attribute( "role", "" );
     if( !role.isEmpty() )
-        m_Role = (Uml::Text_Role)role.toInt();
+        m_textRole = (Uml::Text_Role)role.toInt();
 
-    m_PreText = qElement.attribute( "pretext", "" );
-    m_PostText = qElement.attribute( "posttext", "" );
-    m_Text = qElement.attribute( "text", "" );
+    m_preText = qElement.attribute( "pretext", "" );
+    m_postText = qElement.attribute( "posttext", "" );
+    setText(qElement.attribute( "text", "" ));
+
     // If all texts are empty then this is a useless widget.
     // In that case we return false.
     // CAVEAT: The caller should not interpret the false return value
     //  as an indication of failure since previous umbrello versions
     //  saved lots of these empty FloatingTexts.
-    bool isDummy = (m_Text.isEmpty() && m_PreText.isEmpty() && m_PostText.isEmpty());
+    bool isDummy = (m_Text.isEmpty() && m_preText.isEmpty() && m_postText.isEmpty());
     return !isDummy;
 }
 
-void FloatingTextWidget::setMessageText()
+/**
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save the widget
+ * data into XMI 'floatingtext' element.
+ */
+void FloatingTextWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
-    if (m_pLink)
-        m_pLink->setMessageText(this);
-    setVisible(getText().length() > 0);
-    updateComponentSize();
+    QDomElement textElement = qDoc.createElement( "floatingtext" );
+    NewUMLRectWidget::saveToXMI( qDoc, textElement );
+    textElement.setAttribute( "text", text() );
+    textElement.setAttribute( "pretext", m_preText );
+    textElement.setAttribute( "posttext", m_postText );
+
+    textElement.setAttribute( "role", m_textRole );
+    qElement.appendChild( textElement );
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * minimum size and maximum size.
+ */
+void FloatingTextWidget::updateGeometry()
+{
+    TextItemGroup *grp = textItemGroupAt(0);
+    QSizeF minSize = grp->minimumSize();
+    setMinimumSize(minSize);
+    setMaximumSize(minSize);
+
+    NewUMLRectWidget::updateGeometry();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to set
+ * the text for the TextItem.
+ */
+void FloatingTextWidget::updateTextItemGroups()
+{
+    TextItemGroup *grp = textItemGroupAt(0);
+    grp->setTextItemCount(1); // only one item to display name
+
+    TextItem *item = grp->textItemAt(0);
+    item->setText(text());
+
+    NewUMLRectWidget::updateTextItemGroups();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * some specific actions.
+ */
+void FloatingTextWidget::slotMenuSelection(QAction* action)
+{
+    // The ListPopupMenu is passed in as action's parent.
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+
+    switch(sel) {
+    case ListPopupMenu::mt_Properties:
+        showPropertiesDialog();
+        break;
+
+    case ListPopupMenu::mt_Delete:
+        umlScene()->removeWidget(this);
+        break;
+
+    case ListPopupMenu::mt_Operation:
+        {
+            if (m_linkWidget == 0) {
+                uDebug() << "mt_Operation: " << "m_linkWidget is NULL";
+                return;
+            }
+            UMLClassifier* c = m_linkWidget->getOperationOwner();
+            if (c == 0) {
+                bool ok = false;
+                QString opText = KInputDialog::getText(i18nc("operation name", "Name"),
+                                                       i18n("Enter operation name:"),
+                                                       text(), &ok, umlScene()->activeView());
+                if (ok)
+                    m_linkWidget->setCustomOpText(opText);
+                return;
+            }
+            UMLClassifierListItem* umlObj = Object_Factory::createChildObject(c, Uml::ot_Operation);
+            if (umlObj) {
+                UMLOperation* newOperation = static_cast<UMLOperation*>( umlObj );
+                m_linkWidget->setOperation(newOperation);
+            }
+        }
+        break;
+
+    case ListPopupMenu::mt_Select_Operation:
+        showOperationDialog();
+        break;
+
+    case ListPopupMenu::mt_Rename:
+        handleRename();
+        break;
+
+    case ListPopupMenu::mt_Change_Font:
+        {
+            QFont fnt = font();
+            if( KFontDialog::getFont( fnt, false, umlScene()->activeView() ) ) {
+                if( m_textRole == Uml::tr_Floating || m_textRole == Uml::tr_Seq_Message ) {
+                    setFont( fnt );
+                } else if (m_linkWidget) {
+                    m_linkWidget->lwSetFont(fnt);
+                }
+            }
+        }
+        break;
+
+    case ListPopupMenu::mt_Reset_Label_Positions:
+        if (m_linkWidget)
+            m_linkWidget->resetTextPositions();
+        break;
+
+    default:
+        NewUMLRectWidget::slotMenuSelection(action);
+        break;
+    }//end switch
+}
+
+/**
+ * Sets the text for this label if it is acting as a sequence diagram
+ * message or a collaboration diagram message.
+ */
+void FloatingTextWidget::setMessageText()
+{
+    if (m_linkWidget) {
+        m_linkWidget->setMessageText(this);
+    }
+    setVisible(!text().isEmpty());
+}
 
 #include "floatingtextwidget.moc"
-

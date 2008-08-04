@@ -1037,7 +1037,7 @@ void UMLScene::deleteSelection()
 
     foreach(NewUMLRectWidget* temp ,  selectedWidgets()) {
         if (temp->getBaseType() == wt_Text &&
-            ((FloatingTextWidget *)temp)->getRole() != tr_Floating) {
+            ((FloatingTextWidget *)temp)->textRole() != tr_Floating) {
             temp->hide();
 
         } else {
@@ -1309,7 +1309,7 @@ int UMLScene::getSelectCount(bool filterText) const
     foreach(temp, selectedWidgets()) {
         if (temp->getBaseType() == wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
-            if (ft->getRole() == tr_Floating)
+            if (ft->textRole() == tr_Floating)
                 counter++;
         } else {
             counter++;
@@ -1324,7 +1324,7 @@ bool UMLScene::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*=
     foreach(NewUMLRectWidget* temp, selectedWidgets()) {
         if (filterText && temp->getBaseType() == wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
-            if (ft->getRole() == tr_Floating)
+            if (ft->textRole() == tr_Floating)
                 WidgetList.append(temp);
         } else {
             WidgetList.append(temp);
@@ -1377,7 +1377,7 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
         if (name.isEmpty()) {
             FloatingTextWidget *ft = dynamic_cast<FloatingTextWidget*>(pWidget);
             if (ft)
-                name = ft->getDisplayText();
+                name = ft->displayText();
         }
         uDebug() << name << " type=" << pWidget->getBaseType() << "): position ("
                  << wX << "," << wY << ") is out of range" << endl;
@@ -1799,7 +1799,7 @@ void UMLScene::removeAllWidgets()
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
         if (!(temp->getBaseType() == wt_Text &&
-              ((FloatingTextWidget *)temp)->getRole() != tr_Floating)) {
+              ((FloatingTextWidget *)temp)->textRole() != tr_Floating)) {
             removeWidget(temp);
         }
     }
@@ -2460,10 +2460,11 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_FloatText: {
-        FloatingTextWidget* ft = new FloatingTextWidget(this);
-        ft->changeTextDlg();
+        FloatingTextWidget* ft = new FloatingTextWidget();
+        addItem(ft);
+        ft->showChangeTextDialog();
         //if no text entered delete
-        if (!FloatingTextWidget::isTextValid(ft->getText())) {
+        if (!FloatingTextWidget::isTextValid(ft->text())) {
             delete ft;
         } else {
             ft->setID(UniqueID::gen());
@@ -2970,7 +2971,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         // to associations as they are recorded later in the "associations"
         // section when each owning association is dumped. -b.t.
         if ((widget->getBaseType() != wt_Text && widget->getBaseType() != wt_FloatingDashLine) ||
-            static_cast<FloatingTextWidget*>(widget)->getLink() == NULL)
+            static_cast<FloatingTextWidget*>(widget)->link() == NULL)
             widget->saveToXMI(qDoc, widgetElement);
     }
     viewElement.appendChild(widgetElement);

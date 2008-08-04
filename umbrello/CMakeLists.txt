@@ -311,7 +311,7 @@ set(libumbrello_SRCS
    enumwidget.cpp
    floatingdashlinewidget.cpp
    floatingtextwidget.cpp
-   floatingtextwidgetcontroller.cpp
+#   floatingtextwidgetcontroller.cpp
    folder.cpp
    foreignkeyconstraint.cpp
    forkjoinwidget.cpp
