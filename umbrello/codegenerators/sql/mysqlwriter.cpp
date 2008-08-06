@@ -74,7 +74,6 @@ QStringList MySQLWriter::defaultDatatypes()
     return l;
 }
 
-
 void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
     // we need to create an index on the referenced attributes before we can create a foreign key constraint in MySQL
@@ -95,21 +94,20 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
 
         // create an index on them
         SQLWriter::printIndex( sql, fkc->getReferencedEntity(), refAttList );
-
     }
 
     SQLWriter::printForeignKeyConstraints( sql, constrList );
 }
 
-void MySQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList)
+void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttributeList entAttList)
 {
     // rules
     // only one attribute can have an auto increment in a table in MySQL
     // and that attribute should have an index on it :/
 
     // get the first attribute of list with auto increment
-    UMLEntityAttribute* ea,  *autoIncrementEntAtt = NULL;
-    foreach( ea, entAttList ) {
+    UMLEntityAttribute* autoIncrementEntAtt = NULL;
+    foreach(UMLEntityAttribute* ea, entAttList) {
        if ( ea->getAutoIncrement() ) {
            autoIncrementEntAtt = ea;
            break;
@@ -132,7 +130,7 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList e
        <<" "<<cleanName( autoIncrementEntAtt->getName() )
        <<" "<<cleanName( autoIncrementEntAtt->getTypeName() )
        <<" "<<cleanName( autoIncrementEntAtt->getAttributes() )
-       <<" "<<" NOT NULL AUTO_INCREMENT ; ";
+       <<" "<<" NOT NULL AUTO_INCREMENT ;";
 
     sql<<m_endl;
 
