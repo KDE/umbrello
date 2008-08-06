@@ -20,6 +20,8 @@ class UMLScene;
 
 
 /**
+ * @short Displays a line of text or an operation.
+ *
  * This is a multipurpose class.  In its simplest form it will display a
  * line of text.
  * It can also be setup to be the text for an operation with regard to the
@@ -29,8 +31,9 @@ class UMLScene;
  * The differences between all these different uses will be the popup menu
  * that is associated with it.
  *
- * @short Displays a line of text or an operation.
+ *
  * @author Paul Hensgen <phensgen@techie.com>
+ * @author Gopala Krishna
  * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  *

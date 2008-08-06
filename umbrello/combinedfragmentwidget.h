@@ -17,20 +17,14 @@
 #include "worktoolbar.h"
 #include "floatingdashlinewidget.h"
 
-#define COMBINED_FRAGMENT_MARGIN 5
-#define COMBINED_FRAGMENT_WIDTH 100
-#define COMBINED_FRAGMENT_HEIGHT 50
-
 /**
- * This class is the graphical version of a UML combined fragment.  A combinedfragmentWidget is created
- * by a @ref UMLView.  An combinedfragmentWidget belongs to only one @ref UMLView instance.
- * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
- *
- * The combinedfragmentWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
- * to this class.
- *
  * @short  A graphical version of a UML combined fragment.
+ *
+ * This widget is used in Sequence Diagrams.
+ *
  * @author Hassan KOUCH <hkouch@hotmail.com>
+ * @author Gopala Krishna
+ *
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class CombinedFragmentWidget : public NewUMLRectWidget
@@ -51,76 +45,51 @@ public:
         Par
     };
 
-    /**
-     * Creates a Combined Fragment widget.
-     *
-     * @param view              The parent of the widget.
-     * @param combinedfragmentType      The type of combined fragment.
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
-    explicit CombinedFragmentWidget( UMLScene * scene, CombinedFragmentType combinedfragmentType = Ref, Uml::IDType id = Uml::id_None );
-
-
-    /**
-     *  destructor
-     */
+    explicit CombinedFragmentWidget( CombinedFragmentType combinedfragmentType = Ref, Uml::IDType id = Uml::id_None );
     virtual ~CombinedFragmentWidget();
 
-    /**
-     * Overrides the standard paint event.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidget *);
 
-    /**
-     * Returns the type of combined fragment.
-     */
-    CombinedFragmentType getCombinedFragmentType() const;
-    CombinedFragmentType getCombinedFragmentType(const QString& combinedfragmentType) const;
+    /// @return The type of combined fragment.
+    CombinedFragmentType combinedFragmentType() const {
+        return m_combinedFragmentType;
+    }
+    void setCombinedFragmentType(CombinedFragmentType type);
 
-    /**
-     * Sets the type of combined fragment.
-     */
-    void setCombinedFragmentType( CombinedFragmentType combinedfragmentType );
-    void setCombinedFragmentType( const QString& combinedfragmentType );
+    static CombinedFragmentType stringToCombinedFragementType(const QString& string);
 
     void askNameForWidgetType(NewUMLRectWidget* &targetWidget, const QString& dialogTitle,
-                      const QString& dialogPrompt, const QString& defaultName);
+                              const QString& dialogPrompt, const QString& defaultName);
 
-    /**
-     * Saves the widget to the "combinedFragmentwidget" XMI element.
-     */
+    bool loadFromXMI( QDomElement & qElement );
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * Loads the widget from the "CombinedFragmentwidget" XMI element.
-     */
-    bool loadFromXMI( QDomElement & qElement );
-
-public slots:
-    /**
-     * Overrides the function from NewUMLRectWidget.
-     *
-     * @param action  The command to be executed.
-     */
+public Q_SLOTS:
     void slotMenuSelection(QAction* action);
 
-
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget
-     */
-    QSizeF calculateSize();
-
-    /**
-     * Type of CombinedFragment.
-     */
-    CombinedFragmentType m_CombinedFragment;
+    void updateGeometry();
+    void updateTextItemGroups();
+    QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
-    /**
-     * Dash lines of an alternative or parallel combined fragment
-     */
+    void setupFloatingWidget(FloatingDashLineWidget *widget);
+    void updateFloatingWidgetsPosition();
+
+    CombinedFragmentType m_combinedFragmentType;
+    /// Dash lines of an alternative or parallel combined fragment
     QList<FloatingDashLineWidget*> m_dashLines ;
+
+    QLineF m_fragmentBox[3];
+    enum {
+        TypeBoxIndex,
+        ReferenceDiagramNameBoxIndex
+    };
+
+    enum {
+        TypeItemIndex,
+        FirstAlternativeItemIndex
+    };
 };
 
 #endif

@@ -478,8 +478,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, NewUMLWidget * object,
 
     case Uml::wt_CombinedFragment:
         // for alternative and parallel combined fragments
-        if ((static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Alt ||
-            (static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Par) {
+        if ((static_cast<CombinedFragmentWidget*>(object))->combinedFragmentType() == CombinedFragmentWidget::Alt ||
+            (static_cast<CombinedFragmentWidget*>(object))->combinedFragmentType() == CombinedFragmentWidget::Par) {
             insert(mt_AddInteractionOperand, i18n("Add Interaction Operand"));
             addSeparator();
         }

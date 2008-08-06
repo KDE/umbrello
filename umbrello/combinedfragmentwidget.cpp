@@ -12,287 +12,187 @@
 // own header
 #include "combinedfragmentwidget.h"
 
-// qt includes
-#include <qpainter.h>
-#include <qstring.h>
-#include <qevent.h>
-
-// kde includes
-#include <klocale.h>
-#include <kdebug.h>
-#include <kinputdialog.h>
-
 // app includes
+#include "dialog_utils.h"
+#include "docwindow.h"
+#include "listpopupmenu.h"
+#include "textitem.h"
+#include "textitemgroup.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "docwindow.h"
-#include "umlview.h"
-#include "listpopupmenu.h"
-#include "dialog_utils.h"
 #include "umlscene.h"
+#include "umlview.h"
 
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPolygon>
+// kde includes
+#include <kinputdialog.h>
+#include <klocale.h>
 
-CombinedFragmentWidget::CombinedFragmentWidget(UMLScene * scene, CombinedFragmentType combinedfragmentType, Uml::IDType id ) :
-    NewUMLRectWidget(scene, id)
+// qt includes
+#include <QtGui/QPolygonF>
+
+/**
+ * Creates a Combined Fragment widget.
+ *
+ * @param combinedfragmentType      The type of combined fragment.
+ * @param id                The ID to assign (-1 will prompt a new ID.)
+ */
+CombinedFragmentWidget::CombinedFragmentWidget(CombinedFragmentType combinedfragmentType, Uml::IDType id ) :
+    NewUMLRectWidget(0, id)
 {
-    NewUMLRectWidget::setBaseType( Uml::wt_CombinedFragment );
-    setCombinedFragmentType( combinedfragmentType );
-    updateComponentSize();
+    m_baseType = Uml::wt_CombinedFragment;
+    m_combinedFragmentType = combinedfragmentType;
+
+    // The first group is for fragment "type" text.
+    createTextItemGroup();
+
+    // The second one is only for "Ref" type to show ReferenceDiagramName.
+    createTextItemGroup();
 }
 
-CombinedFragmentWidget::~CombinedFragmentWidget() {
-    for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
-        delete(*it);
-    }
+/// Destructor
+CombinedFragmentWidget::~CombinedFragmentWidget()
+{
+    // Dashlines are deleted by ~QGraphicsItem() as they are children
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::paint to draw
+ * Combinedfragmentwidget. The text drawing is taken care by the
+ * underlying textitems.
+ */
 void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
+    painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setBrush((m_combinedFragmentType == Ref) ? brush() : QBrush(Qt::NoBrush));
 
-    qreal w = getWidth();
-    qreal h = getHeight();
-    qreal line_width = 45;
-    qreal old_Y;
+    painter->drawRect(rect());
 
-    setPenFromSettings(p);
-
-    if ( m_CombinedFragment == Ref ) {
-    if ( NewUMLRectWidget::getUseFillColour() ) {
-        p.setBrush( NewUMLRectWidget::getFillColour() );
-    }
-    }
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const qreal fontHeight  = fm.lineSpacing();
-    const QString combined_fragment_value =  getName();
-    qreal textStartY = (h / 2) - (fontHeight / 2);
-    p.drawRect(offsetX, offsetY, w, h );
-
-    p.setPen(Qt::black);
-    p.setFont( NewUMLRectWidget::getFont() );
-        QString temp = "loop";
-
-    switch ( m_CombinedFragment )
-    {
-        case Ref :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + textStartY, w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
-
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY , w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "ref");
-        break;
-
-        case Opt :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "opt");
-        break;
-
-        case Break :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "break");
-        break;
-
-        case Loop :
-                if (combined_fragment_value != "-")
-                {
-                     temp += " [" + combined_fragment_value + ']';
-                     line_width += (combined_fragment_value.size() + 2) * 8;
-                }
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
-
-        break;
-
-        case Neg :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "neg");
-        break;
-
-        case Crit :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "critical");
-        break;
-
-        case Ass :
-        p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "assert");
-        break;
-
-        case Alt :
-                if (combined_fragment_value != "-")
-                {
-                     temp = '[' + combined_fragment_value + ']';
-            p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY + 20,w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, temp);
-                    if (m_dashLines.size() == 1 && m_dashLines.first()->getY() < offsetY + 20 + fontHeight )
-                        m_dashLines.first()->setY(offsetY + h/2);
-                }
-                p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
-                // dash lines
-                // BROKE This i guess.
-                // m_dashLines.first()->paint(p,getX(),getY());
-
-                for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
-                    (*it)->setX(getX());
-                    old_Y = (*it)->yMin();
-                    (*it)->setYMin(getY());
-                    (*it)->setYMax(getY() + getHeight());
-                    (*it)->setY(getY() + (*it)->getY() - old_Y);
-                    (*it)->setSize(w, 0);
-                }
-
-        break;
-
-        case Par :
-                p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
-            w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
-                // dash lines
-                if (m_dashLines.size() != 0) {
-                    // BROKE
-                    //m_dashLines.first()->paint(p,getX(),getY());
-                    for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
-                        (*it)->setX(getX());
-                        old_Y = (*it)->yMin();
-                        (*it)->setYMin(getY());
-                        (*it)->setYMax(getY() + getHeight());
-                        (*it)->setY(getY() + (*it)->getY() - old_Y);
-                        (*it)->setSize(w, 0);
-                    }
-                }
-        break;
-
-    default : break;
-    }
-
-    p.setPen(Qt::red);
-    p.drawLine(offsetX,      offsetY + 20, offsetX + line_width, offsetY + 20);
-    p.drawLine(offsetX + line_width, offsetY + 20, offsetX + line_width + 10, offsetY + 10);
-    p.drawLine(offsetX + line_width + 10, offsetY + 10, offsetX + line_width + 10, offsetY);
-
-    if(isSelected())
-        drawSelected(&p, offsetX, offsetY);
+    painter->drawLines(m_fragmentBox, 3);
 }
 
-QSizeF CombinedFragmentWidget::calculateSize() {
-    qreal width = 10, height = 10;
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const qreal fontHeight  = fm.lineSpacing();
-    const qreal textWidth = fm.width(getName());
-    height = fontHeight;
-    width = textWidth + 60 > COMBINED_FRAGMENT_WIDTH ? textWidth + 60: COMBINED_FRAGMENT_WIDTH;
-    if ( m_CombinedFragment == Loop )
-         width += qreal((float)textWidth * 0.4f);
-    if ( m_CombinedFragment == Alt )
-         height += fontHeight + 40;
-    height = height > COMBINED_FRAGMENT_HEIGHT ? height : COMBINED_FRAGMENT_HEIGHT;
-    width += COMBINED_FRAGMENT_MARGIN * 2;
-    height += COMBINED_FRAGMENT_MARGIN * 2;
+/**
+ * Sets the combined fragment type of this widget to \a
+ * combinedFragmentType and then updates the dash lines based on the
+ * new type.
+ */
+void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType )
+{
+    m_combinedFragmentType = combinedfragmentType;
 
-    return QSizeF(width, height);
-}
-
-CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType() const {
-    return m_CombinedFragment;
-}
-
-void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType ) {
-
-    m_CombinedFragment = combinedfragmentType;
-    setResizable(true); //(m_CombinedFragment == Normal);
     // creates a dash line if the combined fragment type is alternative or parallel
-    if(m_CombinedFragment == Alt  && m_dashLines.isEmpty())
+    if ((m_combinedFragmentType == Alt  || m_combinedFragmentType == Par)
+        && m_dashLines.isEmpty())
     {
-        m_dashLines.push_back(new FloatingDashLineWidget(this));
-        if(m_CombinedFragment == Alt)
-        {
-            m_dashLines.back()->setText("else");
+        FloatingDashLineWidget *flt = new FloatingDashLineWidget(this);
+        m_dashLines << flt;
+
+        if(m_combinedFragmentType == Alt) {
+            flt->setText("else");
         }
-        m_dashLines.back()->setX(getX());
-        m_dashLines.back()->setYMin(getY());
-        m_dashLines.back()->setYMax(getY() + getHeight());
-        m_dashLines.back()->setY(getY() + getHeight()/2);
-        m_dashLines.back()->setSize(getWidth(), 0);
-        umlScene()->setupNewWidget(m_dashLines.back());
+
+        setupFloatingWidget(flt);
     }
+    else {
+        // Other widgets do not have dash lines.
+        qDeleteAll(m_dashLines);
+        m_dashLines.clear();
+    }
+
+    updateTextItemGroups();
+    updateFloatingWidgetsPosition();
 }
 
-CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType(const QString& type) const {
-    if(type == "Reference")
-        return (CombinedFragmentWidget::Ref);
-    if(type == "Option")
-        return (CombinedFragmentWidget::Opt);
-    if(type == "Break")
-        return (CombinedFragmentWidget::Break);
-    if(type == "Loop")
-        return (CombinedFragmentWidget::Loop);
-    if(type == "Negative")
-        return (CombinedFragmentWidget::Neg);
-    if(type == "Critical")
-        return (CombinedFragmentWidget::Crit);
-    if(type == "Assertion")
-        return (CombinedFragmentWidget::Ass);
-    if(type == "Alternative")
-        return (CombinedFragmentWidget::Alt);
-    if(type == "Parallel")
-        return (CombinedFragmentWidget::Par);
+/**
+ * Utility method to convert a string to CombinedFragmentType.
+ */
+CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::stringToCombinedFragementType(const QString& string)
+{
+    if (string == "Reference")
+        return Ref;
+    else if (string == "Option")
+        return Opt;
+    else if (string == "Break")
+        return Break;
+    else if (string == "Loop")
+        return Loop;
+    else if (string == "Negative")
+        return Neg;
+    else if (string == "Critical")
+        return Crit;
+    else if (string == "Assertion")
+        return Ass;
+    else if (string == "Alternative")
+        return Alt;
+    else if (string == "Parallel")
+        return Par;
+
     // Shouldn't happen
     Q_ASSERT(0);
-    return (CombinedFragmentWidget::Ref);
+    return Ref;
 }
 
-void CombinedFragmentWidget::setCombinedFragmentType( const QString& combinedfragmentType ) {
-
-    setCombinedFragmentType(getCombinedFragmentType(combinedfragmentType) );
-}
-
-void CombinedFragmentWidget::askNameForWidgetType(NewUMLRectWidget* &targetWidget, const QString& dialogTitle,
-    const QString& dialogPrompt, const QString& /*defaultName*/) {
+/**
+ * Pops up a dialog box and asks for the name.
+ */
+void CombinedFragmentWidget::askNameForWidgetType(NewUMLRectWidget* &targetWidget,
+                                                  const QString& dialogTitle,
+                                                  const QString& dialogPrompt,
+                                                  const QString& /*defaultName*/)
+{
 
     bool pressedOK = false;
-    const QStringList list = QStringList() << "Reference" << "Option" << "Break" << "Loop" << "Negative" << "Critical" << "Assertion" << "Alternative" << "Parallel" ;
-    const QStringList select = QStringList() << "Reference" << "Option" << "Break" << "Loop" << "Negative" << "Critical" << "Assertion" << "Alternative" << "Parallel" ;
+    const QStringList list = QStringList() << "Reference" << "Option"
+                                           << "Break" << "Loop"
+                                           << "Negative" << "Critical"
+                                           << "Assertion" << "Alternative"
+                                           << "Parallel" ;
+
+    const QStringList select = list;
+
     QStringList result = KInputDialog::getItemList (dialogTitle, dialogPrompt, list, select, false, &pressedOK, UMLApp::app());
 
     if (pressedOK) {
-        QString type = result.join("");
+        CombinedFragmentType type = CombinedFragmentWidget::stringToCombinedFragementType(result.join(""));
         dynamic_cast<CombinedFragmentWidget*>(targetWidget)->setCombinedFragmentType(type);
-        if (type == "Reference")
-            Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the diagram referenced"), i18n("Enter the name of the diagram referenced"), i18n("Diagram name"));
-        if (type == "Loop")
-            Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop"), i18n("-"));
-        if (type == "Alternative")
-            Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the first alternative name"), i18n("Enter the first alternative name"), i18n("-"));
+        if (type == Ref) {
+            Dialog_Utils::askNameForWidget(targetWidget,
+                                           i18n("Enter the name of the diagram referenced"),
+                                           i18n("Enter the name of the diagram referenced"),
+                                           i18n("Diagram name"));
+        }
+        else if (type == Loop) {
+            Dialog_Utils::askNameForWidget(targetWidget,
+                                           i18n("Enter the guard of the loop"),
+                                           i18n("Enter the guard of the loop"),
+                                           i18n("-"));
+        }
+        else if (type == Alt) {
+            Dialog_Utils::askNameForWidget(targetWidget,
+                                           i18n("Enter the first alternative name"),
+                                           i18n("Enter the first alternative name"),
+                                           i18n("-"));
+        }
     } else {
-        targetWidget->cleanup();
         delete targetWidget;
-        targetWidget = NULL;
+        targetWidget = 0;
     }
 }
 
-void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-    QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, combinedFragmentElement );
-    combinedFragmentElement.setAttribute( "combinedFragmentname", m_Text );
-    combinedFragmentElement.setAttribute( "documentation", documentation() );
-    combinedFragmentElement.setAttribute( "CombinedFragmenttype", m_CombinedFragment );
-
-    // save the corresponding floating dash lines
-    for (QList<FloatingDashLineWidget*>::iterator it = m_dashLines.begin() ; it != m_dashLines.end() ; ++it) {
-        (*it)->saveToXMI( qDoc, combinedFragmentElement );
-    }
-
-    qElement.appendChild( combinedFragmentElement );
-}
-
-bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
+/**
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load
+ * CombinedFragmentWidget data from XMI.
+ *
+ * This method also loads the child FloatingDashLineWidgets.
+ */
+bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
-    m_Text = qElement.attribute( "combinedFragmentname", "" );
+    setName(qElement.attribute( "combinedFragmentname", "" ));
     setDocumentation(qElement.attribute( "documentation", "" ));
+
     QString type = qElement.attribute( "CombinedFragmenttype", "");
     Uml::IDType dashlineId;
-    QList<FloatingDashLineWidget*> listline;
 
     //now load child elements
     QDomNode node = qElement.firstChild();
@@ -301,14 +201,14 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
         QString tag = element.tagName();
         if (tag == "floatingdashlinewidget") {
             FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(this);
-            m_dashLines.push_back(fdlwidget);
             if( !fdlwidget->loadFromXMI(element) ) {
               // Most likely cause: The FloatingTextWidget is empty.
-                delete m_dashLines.back();
+                delete fdlwidget;
                 return false;
             }
             else {
-                umlScene()->setupNewWidget(fdlwidget);
+                m_dashLines.append(fdlwidget);
+                setupFloatingWidget(fdlwidget);
             }
         } else {
             uError() << "unknown tag " << tag << endl;
@@ -322,44 +222,296 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
-void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
+/**
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save widget data
+ * into 'combinedfragmentwidget' XMI element.
+ */
+void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
+    NewUMLRectWidget::saveToXMI( qDoc, combinedFragmentElement );
+
+    combinedFragmentElement.setAttribute( "combinedFragmentname", name() );
+    combinedFragmentElement.setAttribute( "documentation", documentation() );
+    combinedFragmentElement.setAttribute( "CombinedFragmenttype", combinedFragmentType() );
+
+    // save the corresponding floating dash lines
+    foreach (FloatingDashLineWidget *flWid, m_dashLines) {
+        flWid->saveToXMI( qDoc, combinedFragmentElement );
+    }
+
+    qElement.appendChild( combinedFragmentElement );
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * some specific actions.
+ */
+void CombinedFragmentWidget::slotMenuSelection(QAction* action)
+{
     bool ok = false;
-    QString name = m_Text;
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
-    switch (sel) {
-          // for alternative or parallel combined fragments
-    case ListPopupMenu::mt_AddInteractionOperand:
-        m_dashLines.push_back(new FloatingDashLineWidget(this));
-        if(m_CombinedFragment == Alt)
-        {
-            m_dashLines.back()->setText("else");
-        }
-        m_dashLines.back()->setX(getX());
-        m_dashLines.back()->setYMin(getY());
-        m_dashLines.back()->setYMax(getY() + getHeight());
-        m_dashLines.back()->setY(getY() + getHeight() / 2);
-        m_dashLines.back()->setSize(getWidth(), 0);
-        umlScene()->setupNewWidget(m_dashLines.back());
-        break;
+    QString text = name();
 
-    case ListPopupMenu::mt_Rename:
-        if (m_CombinedFragment == Alt) {
-            name = KInputDialog::getText( i18n("Enter first alternative"), i18n("Enter first alternative :"), m_Text, &ok );
-        }
-        else if (m_CombinedFragment == Ref) {
-        name = KInputDialog::getText( i18n("Enter referenced diagram name"), i18n("Enter referenced diagram name :"), m_Text, &ok );
-        }
-        else if (m_CombinedFragment == Loop) {
-        name = KInputDialog::getText( i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop:"), m_Text, &ok );
-        }
-        if( ok && name.length() > 0 )
-            m_Text = name;
-        break;
+    // The menu is passed in as action's parent
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
 
-    default:
+    if(sel == ListPopupMenu::mt_AddInteractionOperand) {
+        FloatingDashLineWidget *flwd = new FloatingDashLineWidget(this);
+        m_dashLines.append(flwd);
+
+        if(combinedFragmentType() == Alt) {
+            flwd->setText("else");
+        }
+
+        setupFloatingWidget(flwd);
+        updateGeometry();
+        updateFloatingWidgetsPosition();
+    }
+    else if (sel == ListPopupMenu::mt_Rename) {
+        if (combinedFragmentType() == Alt) {
+            text = KInputDialog::getText( i18n("Enter first alternative"),
+                                          i18n("Enter first alternative :"),
+                                          text, &ok );
+        }
+        else if (combinedFragmentType() == Ref) {
+        text = KInputDialog::getText( i18n("Enter referenced diagram name"),
+                                      i18n("Enter referenced diagram name :"),
+                                      text, &ok );
+        }
+        else if (combinedFragmentType() == Loop) {
+        text = KInputDialog::getText( i18n("Enter the guard of the loop"),
+                                      i18n("Enter the guard of the loop:"),
+                                      text, &ok );
+        }
+
+        if( ok && !text.isEmpty() ) {
+            setName(text);
+        }
+    }
+    else {
         NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 
-#include "combinedfragmentwidget.moc"
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * the minimum size for this widget.
+ */
+void CombinedFragmentWidget::updateGeometry()
+{
+    TextItemGroup *grp = textItemGroupAt(TypeBoxIndex);
+    QSizeF minSize = grp->minimumSize();
 
+    // Now ensure that there is enough space for
+    // FloatingDashLineWidget in between
+    QSizeF floatingMinSize(100, 50);
+    foreach(FloatingDashLineWidget *fldw, m_dashLines) {
+        floatingMinSize = floatingMinSize.expandedTo(fldw->minimumSize());
+    }
+    minSize.rwidth() = qMax(floatingMinSize.width(), minSize.width());
+    minSize.rheight() += floatingMinSize.height();;
+
+    if (combinedFragmentType() == Ref) {
+        QSizeF refSize = textItemGroupAt(ReferenceDiagramNameBoxIndex)->minimumSize();
+
+        minSize.rwidth() = qMax(minSize.width(), refSize.width());
+        minSize.rheight() += refSize.height();
+    }
+
+    setMinimumSize(minSize);
+
+    NewUMLRectWidget::updateGeometry();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * the TextItem's values and TextItems visibility.
+ */
+void CombinedFragmentWidget::updateTextItemGroups()
+{
+    TextItemGroup *grp = textItemGroupAt(TypeBoxIndex);
+    TextItemGroup *nameGroup = textItemGroupAt(ReferenceDiagramNameBoxIndex);
+
+    grp->setTextItemCount(FirstAlternativeItemIndex + 1);
+    nameGroup->setTextItemCount(1);
+
+    QString combinedFragmentValue = name();
+    QString temp;
+
+    TextItem *typeItem = grp->textItemAt(TypeItemIndex);
+    TextItem *firstAltItem = grp->textItemAt(FirstAlternativeItemIndex);
+
+    TextItem *refItem = nameGroup->textItemAt(0);
+
+    firstAltItem->hide();
+    refItem->hide();
+
+    switch(combinedFragmentType()) {
+    case Ref:
+        typeItem->setText("ref");
+        refItem->setText(combinedFragmentValue);
+        refItem->show();
+        break;
+
+    case Opt:
+        typeItem->setText("opt");
+        break;
+
+    case Break:
+        typeItem->setText("break");
+        break;
+
+    case Loop:
+        if (combinedFragmentValue != "-") {
+            temp = combinedFragmentValue;
+            temp.prepend(" [");
+            temp.append(']');
+        }
+        temp.prepend("loop");
+        typeItem->setText(temp);
+        break;
+
+    case Neg :
+        typeItem->setText("neg");
+        break;
+
+    case Crit :
+        typeItem->setText("critical");
+        break;
+
+    case Ass :
+        typeItem->setText("assert");
+        break;
+
+    case Alt :
+        typeItem->setText("alt");
+
+        if (combinedFragmentValue != "-") {
+            temp = combinedFragmentValue;
+            temp.prepend('[');
+            temp.append(']');
+
+            firstAltItem->setText(temp);
+            firstAltItem->show();
+        }
+        break;
+
+    case Par :
+        typeItem->setText("parallel");
+        break;
+    }
+
+    NewUMLRectWidget::updateTextItemGroups();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ *
+ * - SizeHasChanged -> To set text position and update floating
+ *                     widget's position and limits.
+ *
+ * - FontHasChanged -> Sets the CombinedFragmentWidget's changed font
+ *                     to all the FloatingDashLineWidgets.
+ *
+ * - FontColorHasChanged -> Sets the CombinedFragmentWidget's changed
+ *                          fontcolor to all the
+ *                          FloatingDashLineWidgets.
+ *
+ * - LineColorHasChanged -> Sets the CombinedFragmentWidget's changed
+ *                          line color to all the
+ *                          FloatingDashLineWidgets.
+ *
+ * - LineWidthHasChanged -> Sets the CombinedFragmentWidget's changed
+ *                          line width to all the
+ *                          FloatingDashLineWidgets.
+ */
+QVariant CombinedFragmentWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+    if (change == SizeHasChanged) {
+        TextItemGroup *typeGroup  = textItemGroupAt(TypeBoxIndex);
+        const qreal m = margin();
+        const QSizeF typeGroupMinSize = typeGroup->minimumSize();
+        typeGroup->setGroupGeometry(QRectF(QPointF(m, 0), typeGroupMinSize));
+
+        // Calculate lines only if the group has text items in it.
+        if (typeGroup->textItemCount() > 0) {
+            TextItem *typeItem = typeGroup->textItemAt(TypeItemIndex);
+            // Calculate the bottom right of text item in parent
+            // widget's coordinates i.e Parent = CombinedFragmentWidget
+            QPointF bottomRight = typeItem->mapToParent(typeItem->boundingRect().bottomRight());
+
+            m_fragmentBox[0].setLine(0, bottomRight.y(), .6 * bottomRight.x(), bottomRight.y());
+            m_fragmentBox[2].setLine(bottomRight.x(), 0, bottomRight.x(), .6 * bottomRight.y());
+            m_fragmentBox[1].setPoints(m_fragmentBox[0].p2(), m_fragmentBox[2].p2());
+        }
+
+        if (combinedFragmentType() == Ref) {
+            TextItemGroup *refDiagNameGroup = textItemGroupAt(ReferenceDiagramNameBoxIndex);
+            QRectF r = rect().adjusted(+m, +m, -m, -m);
+            r.setTop(r.top() + typeGroupMinSize.height());
+            refDiagNameGroup->setGroupGeometry(r);
+        }
+
+        updateFloatingWidgetsPosition();
+    }
+    else if (change == FontHasChanged) {
+        foreach (FloatingDashLineWidget *fldw, m_dashLines) {
+            fldw->setFont(font());
+        }
+        updateFloatingWidgetsPosition();
+    }
+    else if (change == FontColorHasChanged) {
+        foreach (FloatingDashLineWidget *fldw, m_dashLines) {
+            fldw->setFontColor(fontColor());
+        }
+    }
+    else if (change == LineColorHasChanged) {
+        foreach(FloatingDashLineWidget *fldw, m_dashLines) {
+            fldw->setLineColor(lineColor());
+        }
+    }
+    else if (change == LineWidthHasChanged) {
+        foreach(FloatingDashLineWidget *fldw, m_dashLines) {
+            fldw->setLineWidth(lineWidth());
+        }
+        updateFloatingWidgetsPosition();
+    }
+
+    return NewUMLRectWidget::attributeChange(change, oldValue);
+}
+
+/**
+ * Helper method which applies this CombinedFragmentWidget's
+ * properties to the FloatingDashLineWidget.
+ *
+ * This method is used mostly during creation of
+ * FloatingDashLineWidget.
+ */
+void CombinedFragmentWidget::setupFloatingWidget(FloatingDashLineWidget *flt)
+{
+    flt->setLineColor(lineColor());
+    flt->setLineWidth(lineWidth());
+    flt->setFontColor(fontColor());
+    flt->setFont(font());
+}
+
+/**
+ * Helper method which updates the FloatingDashLineWidget's dimensions
+ * and constraint values.
+ */
+void CombinedFragmentWidget::updateFloatingWidgetsPosition()
+{
+    QSizeF sz = size();
+    TextItemGroup *grp = textItemGroupAt(TypeBoxIndex);
+    qreal originY = grp->minimumSize().height();
+
+    foreach(FloatingDashLineWidget *fldw, m_dashLines) {
+        fldw->setX(0);
+        fldw->setSize(sz.width(), 0);
+        fldw->setYMin(originY);
+        fldw->setYMax(sz.height() - fldw->minimumSize().height());
+    }
+}
+
+#include "combinedfragmentwidget.moc"

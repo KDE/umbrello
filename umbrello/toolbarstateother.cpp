@@ -163,7 +163,7 @@ bool ToolBarStateOther::newWidget()
             break;
 
         case WorkToolBar::tbb_Seq_Combined_Fragment:
-            umlWidget = new CombinedFragmentWidget(m_pUMLScene);
+            umlWidget = new CombinedFragmentWidget();
             break;
 
         case WorkToolBar::tbb_Object_Node:
