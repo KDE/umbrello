@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -11,36 +10,39 @@
 
 #include "umlforeignkeyconstraintdialog.h"
 
-#include <QtGui/QLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QApplication>
+#include "attribute.h"
+#include "classifier.h"
+#include "classifierlistitem.h"
+#include "dialog_utils.h"
+#include "entityattribute.h"
+#include "enumliteral.h"
+#include "enum.h"
+#include "entity.h"
+#include "foreignkeyconstraint.h"
+#include "object_factory.h"
+#include "operation.h"
+#include "template.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlentitylist.h"
+#include "uniqueconstraint.h"
+#include "icon_utils.h"
+
 #include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
 #include <kvbox.h>
 #include <kmessagebox.h>
 
-#include "../attribute.h"
-#include "../classifier.h"
-#include "../classifierlistitem.h"
-#include "../dialog_utils.h"
-#include "../entityattribute.h"
-#include "../enumliteral.h"
-#include "../enum.h"
-#include "../entity.h"
-#include "../foreignkeyconstraint.h"
-#include "../object_factory.h"
-#include "../operation.h"
-#include "../template.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../umlentitylist.h"
-#include "../uniqueconstraint.h"
-#include "../icon_utils.h"
+#include <QtGui/QLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QApplication>
+#include <QtGui/QTreeWidget>
 
-
-UMLForeignKeyConstraintDialog::UMLForeignKeyConstraintDialog(QWidget* parent, UMLForeignKeyConstraint* pForeignKeyConstraint) : KPageDialog(parent)
+UMLForeignKeyConstraintDialog::UMLForeignKeyConstraintDialog(QWidget* parent, UMLForeignKeyConstraint* pForeignKeyConstraint)
+    : KPageDialog(parent)
 {
     setCaption(i18n("Foreign Key Setup"));
     setButtons(Help | Ok | Apply | Cancel);
@@ -69,8 +71,9 @@ void UMLForeignKeyConstraintDialog::slotAddPair()
     int indexL = m_ColumnWidgets.localColumnCB->currentIndex();
     int indexR = m_ColumnWidgets.referencedColumnCB->currentIndex();
 
-    if (indexL == -1 || indexR == -1)
+    if (indexL == -1 || indexR == -1) {
         return;
+    }
 
     // local entity attribute
     UMLEntityAttribute* localColumn = m_pLocalAttributeList.at(indexL);
@@ -105,14 +108,14 @@ void UMLForeignKeyConstraintDialog::slotDeletePair()
     // get the index of the selected pair in the view
     QTreeWidgetItem* twi = m_ColumnWidgets.mappingTW->currentItem();
     int indexP = m_ColumnWidgets.mappingTW->indexOfTopLevelItem(twi);
-
-    if (indexP == -1)
+    if (indexP == -1) {
         return;
+    }
+
     //find pair in local cache
     QPair<UMLEntityAttribute*, UMLEntityAttribute*> pair = m_pAttributeMapList.at(indexP);
 
     // remove them from the view and the list
-
     m_ColumnWidgets.mappingTW->takeTopLevelItem(indexP);
     m_pAttributeMapList.removeAt(indexP);
 
@@ -125,9 +128,10 @@ void UMLForeignKeyConstraintDialog::slotDeletePair()
     m_ColumnWidgets.localColumnCB->addItem((pair.first)->toString(Uml::st_SigNoVis));
     m_ColumnWidgets.referencedColumnCB->addItem((pair.second)->toString(Uml::st_SigNoVis));
 
-    foreach(pair, m_pAttributeMapList) {
-        uDebug() << (pair.first)->getName() << " " << (pair.first)->getBaseType() << " "
-        << (pair.second)->getName() << " " << (pair.second)->getBaseType() << endl;
+    QPair<UMLEntityAttribute*, UMLEntityAttribute*> p;
+    foreach(p, m_pAttributeMapList) {
+        uDebug() << (p.first)->getName() << " " << (p.first)->getBaseType() << " "
+                 << (p.second)->getName() << " " << (p.second)->getBaseType();
     }
 
     slotResetWidgetState();
@@ -151,7 +155,7 @@ bool UMLForeignKeyConstraintDialog::apply()
     // set all the update and delete actions
     UMLForeignKeyConstraint::UpdateDeleteAction updateAction, deleteAction;
     updateAction = (UMLForeignKeyConstraint::UpdateDeleteAction) m_GeneralWidgets.updateActionCB->currentIndex();
-    deleteAction = (UMLForeignKeyConstraint::UpdateDeleteAction)  m_GeneralWidgets.deleteActionCB->currentIndex();
+    deleteAction = (UMLForeignKeyConstraint::UpdateDeleteAction) m_GeneralWidgets.deleteActionCB->currentIndex();
     m_pForeignKeyConstraint->setUpdateAction(updateAction);
     m_pForeignKeyConstraint->setDeleteAction(deleteAction);
 
@@ -181,7 +185,7 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     pageGeneral->setIcon(Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General));
     addPage(pageGeneral);
 
-    m_GeneralWidgets.generalGB = new Q3GroupBox(i18nc("general group title", "General"), page);
+    m_GeneralWidgets.generalGB = new QGroupBox(i18nc("general group title", "General"), page);
 
     QGridLayout* generalLayout = new QGridLayout(m_GeneralWidgets.generalGB);
     generalLayout -> setSpacing(spacingHint());
@@ -198,11 +202,11 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
 
     generalLayout->addWidget(m_GeneralWidgets.referencedEntityCB, 1, 1);
 
-    m_GeneralWidgets.actionGB = new Q3GroupBox(i18n("Actions"), page);
+    m_GeneralWidgets.actionGB = new QGroupBox(i18n("Actions"), page);
 
     QGridLayout* actionLayout = new QGridLayout(m_GeneralWidgets.actionGB);
-    generalLayout -> setSpacing(spacingHint());
-    generalLayout -> setMargin(fontMetrics().height());
+    generalLayout->setSpacing(spacingHint());
+    generalLayout->setMargin(fontMetrics().height());
 
     m_GeneralWidgets.onUpdateL = new QLabel(i18n("On Update"), page);
     actionLayout->addWidget(m_GeneralWidgets.onUpdateL, 0, 0);
@@ -243,12 +247,10 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     // do not change order. It is according to enum specification in foreignkeyconstraint.h
     QStringList actions;
     actions << i18n("No Action") << i18n("Restrict") << i18n("Cascade") << i18n("Set Null")
-    << i18n("Set Default");
+            << i18n("Set Default");
 
-    foreach(const QString &act, actions) {
-        m_GeneralWidgets.updateActionCB->addItem(act);
-        m_GeneralWidgets.deleteActionCB->addItem(act);
-    }
+    m_GeneralWidgets.updateActionCB->addItems(actions);
+    m_GeneralWidgets.deleteActionCB->addItems(actions);
 
     m_GeneralWidgets.updateActionCB->setCurrentIndex(m_pForeignKeyConstraint->getUpdateAction());
     m_GeneralWidgets.deleteActionCB->setCurrentIndex(m_pForeignKeyConstraint->getDeleteAction());
@@ -330,7 +332,6 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
         mapping->setText(1, referencedColumn->toString(Uml::st_SigNoVis));
 
         m_ColumnWidgets.mappingTW->insertTopLevelItem(0, mapping);
-
     }
 
     slotResetWidgetState();
@@ -352,8 +353,9 @@ void UMLForeignKeyConstraintDialog::slotOk()
 
 void UMLForeignKeyConstraintDialog::slotReferencedEntityChanged(int index)
 {
-    if (index == m_pReferencedEntityIndex)
+    if (index == m_pReferencedEntityIndex) {
         return;
+    }
 
     if (!m_pAttributeMapList.empty()) {
         int result = KMessageBox::questionYesNo(this, i18n("You are attempting to change the Referenced Entity of this ForeignKey Constraint. Any unapplied changes to the mappings between local and referenced entities will be lost. Are you sure you want to continue ?"));
@@ -363,7 +365,6 @@ void UMLForeignKeyConstraintDialog::slotReferencedEntityChanged(int index)
             m_GeneralWidgets.referencedEntityCB->setCurrentIndex(m_pReferencedEntityIndex);
             return;
         }
-
     }
 
     // set the referenced entity index to current index
@@ -377,6 +378,7 @@ void UMLForeignKeyConstraintDialog::refillReferencedAttributeCB()
 {
     m_pReferencedAttributeList.clear();
     m_ColumnWidgets.referencedColumnCB->clear();
+
     // fill the combo boxes
 
     UMLObject* uo = m_doc->findUMLObject(m_GeneralWidgets.referencedEntityCB->currentText(),
@@ -407,7 +409,6 @@ void UMLForeignKeyConstraintDialog::refillLocalAttributeCB()
             m_ColumnWidgets.localColumnCB->addItem(att->toString(Uml::st_SigNoVis));
         }
     }
-
 }
 
 void UMLForeignKeyConstraintDialog::slotResetWidgetState()

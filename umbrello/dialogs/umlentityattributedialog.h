@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,23 +12,21 @@
 #define UMLENTITYATTRIBUTEDIALOG_H
 
 #include <kdialog.h>
-//Added by qt3to4:
-#include <QLabel>
 
-/**
- * @author Jonathan Riddell
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
- */
-
-class Q3ButtonGroup;
 class QCheckBox;
-class Q3GroupBox;
+class QGroupBox;
+class QLabel;
 class QRadioButton;
 class UMLEntityAttribute;
 class KComboBox;
 class KLineEdit;
 
-class UMLEntityAttributeDialog : public KDialog {
+/**
+ * @author Jonathan Riddell
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
+class UMLEntityAttributeDialog : public KDialog
+{
     Q_OBJECT
 public:
     UMLEntityAttributeDialog( QWidget* pParent, UMLEntityAttribute* pEntityAttribute );
@@ -37,8 +34,8 @@ public:
 
 protected:
     /**
-    *   Sets up the dialog
-    */
+     *   Sets up the dialog.
+     */
     void setupDialog();
 
     /**
@@ -48,22 +45,23 @@ protected:
     bool apply();
 
     /**
-    * Inserts @p type into the type-combobox as well as its completion object.
-    */
-    void insertType( const QString& type, int index = -1 );
+     * Inserts @p type into the type-combobox as well as its completion object.
+     */
+    void insertTypesSorted(const QString& type = "");
+
     /**
-    * Inserts @p type into the type-combobox as well as its completion object.
-    */
+     * Inserts @p type into the type-combobox as well as its completion object.
+     */
     void insertAttribute( const QString& type, int index = -1 );
 
     /**
-    *   The EntityAttribute to represent
-    */
+     * The EntityAttribute to represent.
+     */
     UMLEntityAttribute * m_pEntityAttribute;
 
     //GUI Widgets
-    Q3GroupBox * m_pAttsGB, * m_pValuesGB;
-    Q3ButtonGroup * m_pScopeBG;
+    QGroupBox * m_pAttsGB, * m_pValuesGB;
+    QGroupBox * m_pScopeGB;
     QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB, * m_pNoneRB;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL, * m_pValuesL, * m_pAttributesL ;
     KComboBox * m_pTypeCB;
@@ -75,17 +73,18 @@ protected:
 public slots:
 
     /**
-     * is activated when the auto increment state is changed
+     * Is activated when the auto increment state is changed.
      */
     void slotAutoIncrementStateChanged(bool checked);
+
     /**
      * I don't think this is used, but if we had an apply button
-     * it would slot into here
+     * it would slot into here.
      */
     void slotApply();
 
     /**
-     * Used when the OK button is clicked.  Calls apply()
+     * Used when the OK button is clicked.  Calls apply().
      */
     void slotOk();
     void slotNameChanged( const QString & );
