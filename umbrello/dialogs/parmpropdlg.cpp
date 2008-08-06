@@ -109,7 +109,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
     docLayout->setMargin(margin);
 
-    m_pDoc = new QTextEdit(m_pDocGB);
+    m_pDoc = new KTextEdit(m_pDocGB);
     m_pDoc->setWordWrapMode(QTextOption::WordWrap);
     m_pDoc->setText(text);
     docLayout->addWidget(m_pDoc);

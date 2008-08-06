@@ -16,8 +16,7 @@
 #include <kdialog.h>
 #include <klineedit.h>
 #include <kcombobox.h>
-
-#include <QtGui/QTextEdit>
+#include <ktextedit.h>
 
 class UMLDoc;
 class QComboBox;
@@ -116,7 +115,7 @@ private:
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
     KComboBox * m_pTypeCB, * m_pStereoTypeCB;
     KLineEdit * m_pNameLE, * m_pInitialLE;
-    QTextEdit * m_pDoc;
+    KTextEdit * m_pDoc;
     UMLDoc * m_pUmldoc;
     UMLAttribute * m_pAtt;
 };
