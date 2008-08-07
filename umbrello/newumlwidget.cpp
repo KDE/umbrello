@@ -34,6 +34,30 @@
 #include <QtCore/QTimer>
 #include <QtGui/QGraphicsSceneContextMenuEvent>
 
+////////////////////////////////////////////////
+static void setupAwesomeBrush(QBrush &brush)
+{
+    QLinearGradient grad;
+    grad.setCoordinateMode(QGradient::ObjectBoundingMode);
+    grad.setColorAt(0, Qt::white);
+    grad.setColorAt(1, QColor("#ffda0c"));
+
+    grad.setStart(0, 0);
+    grad.setFinalStop(0, 1);
+
+    brush = QBrush(grad);
+}
+
+static QBrush awesomeBrush()
+{
+    static QBrush brush;
+    if (!brush.gradient()) {
+        setupAwesomeBrush(brush);
+    }
+    return brush;
+}
+////////////////////////////////////////////////
+
 /**
  * @short A class to encapsulate some properties to be stored as a
  * part of Lazy initialization.
@@ -68,6 +92,7 @@ NewUMLWidget::NewUMLWidget(UMLObject *object) :
     m_umlObject(object),
     m_lineColor(Qt::red),
     m_lineWidth(0),
+    m_brush(awesomeBrush()),
     m_widgetInterfaceData(0),
     firstTime(true)
 {
@@ -858,6 +883,7 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, UMLObject *object) :
     m_umlObject(object),
     m_lineColor(Qt::red),
     m_lineWidth(0),
+    m_brush(awesomeBrush()),
     m_widgetInterfaceData(0),
     firstTime(true)
 {
@@ -881,6 +907,7 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, const Uml::IDType &_id) :
     m_umlObject(0),
     m_lineColor(Qt::red),
     m_lineWidth(0),
+    m_brush(awesomeBrush()),
     firstTime(true)
 {
     for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
