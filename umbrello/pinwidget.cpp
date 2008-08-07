@@ -12,249 +12,129 @@
 // own header
 #include "pinwidget.h"
 
+// app includes
+#include "floatingtextwidget.h"
+#include "listpopupmenu.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlscene.h"
+#include "umlview.h"
+#include "uniqueid.h"
+
 // qt includes
-#include <qpainter.h>
+#include <QtCore/QTimer>
+#include <QtGui/QGraphicsSceneMouseEvent>
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 
-// app includes
-#include "uml.h"
-#include "umldoc.h"
-#include "docwindow.h"
-#include "umlview.h"
-#include "uniqueid.h"
-#include "listpopupmenu.h"
-#include "floatingtextwidget.h"
-#include "umlscene.h"
+const qreal PinWidget::Size = 10;
 
-//Added by qt3to4:
-#include <QGraphicsSceneMouseEvent>
-#include <QPolygon>
-
-PinWidget::PinWidget(UMLScene * scene, NewUMLRectWidget* a, Uml::IDType id ):
-    NewUMLRectWidget(scene, id)
+/**
+ * Creates a Pin widget.
+ *
+ * @param  owner  The widget to which this pin is attached.
+ * @param     id  The ID to assign (-1 will prompt a new ID.)
+ */
+PinWidget::PinWidget(NewUMLRectWidget* owner, Uml::IDType id ):
+    NewUMLRectWidget(0, id)
 {
+    m_baseType = Uml::wt_Pin;
 
-    init();
-    m_pOw = a;
-    qreal y = getY();
-    m_nY = y;
-    y = y < getMinY() ? getMinY() : y;
-    m_nY = y;
-
-    m_pName = new FloatingTextWidget(Uml::tr_Floating);
-    scene->addWidget(m_pName);
-
-    scene->setupNewWidget(m_pName);
-    m_pName->setX(0);
-    m_pName->setY(0);
-    this->activate(0);
-}
-
-PinWidget::~PinWidget() {}
-
-void PinWidget::init() {
-    NewUMLRectWidget::setBaseType(Uml::wt_Pin);
     setIgnoreSnapToGrid(true);
     setIgnoreSnapComponentSizeToGrid(true);
     setResizable(false);
-    m_pOw = NULL;
-    m_nY = 0;
-    setVisible(true);
+
+    // Intialize the members now
+    m_ownerWidget = owner;
+    // Create floating text widget on demand.
+    m_nameFloatingTextWiget = 0;
+
+    // No need for margin
+    setMargin(0);
+
+    // Make the owner the parent of this widget.
+    setParentItem(owner);
+
+    // Ensure the pin widget is above the owner
+    qreal z = owner ? owner->zValue() + 5 : 20;
+    setZValue(z);
+
+    // HACK: @see setInitialPosition
+    QTimer::singleShot(2, this, SLOT(setInitialPosition()));
 }
 
+/// Destructor
+PinWidget::~PinWidget()
+{
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::paint to draw the pin widget
+ * box.
+ */
 void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
+    painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setBrush(brush());
 
-    qreal w = 10;
-    qreal h = 10;
-    qreal width_Activity = m_pOw->getWidth();
-    qreal height_Activity = m_pOw->getHeight();
-    qreal y = 0;
-    qreal x = m_pOw->getX() + (width_Activity/2);
-
-    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const qreal fontHeight  = fm.lineSpacing();
-    qreal cas = 0;
-
-    if ( (offsetY + height_Activity/2) <= m_pOw->getY() + height_Activity){
-        y = m_pOw->getY()-5;
-        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
-            //the floating text has not been linked with the signal
-            m_pName->setX(x + 5 - m_Text.length()/2);
-            m_pName->setY(y -fontHeight);
-            cas = 1;
-        }
-
-
-    } else if((offsetY + height_Activity/2) > m_pOw->getY() + height_Activity){
-       y = (m_pOw->getY() + height_Activity)-5;
-        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
-            //the floating text has not been linked with the signal
-            m_pName->setX(x + 5 - m_Text.length()/2);
-            m_pName->setY(y + fontHeight);
-            cas = 2;
-        }
-    }
-
-    if (offsetX + width_Activity/4 <= m_pOw->getX() + width_Activity/2
-         && (offsetY > m_pOw->getY() +5 && offsetY < m_pOw->getY() + height_Activity - 5) ){
-        x = m_pOw->getX() -5;
-        y = m_pOw->getY() + (height_Activity/2) -5;
-        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
-            m_pName->setX(x - m_Text.length());
-            m_pName->setY(y - fontHeight);
-            cas = 3;
-        }
-    } else if (offsetX + width_Activity/4 > m_pOw->getX() + width_Activity/2
-         && (offsetY > m_pOw->getY() +5 && offsetY < m_pOw->getY() + height_Activity - 5) ){
-        x = m_pOw->getX() + width_Activity -5;
-        y = m_pOw->getY() + (height_Activity/2) -5;
-        if (m_pName->getX() == 0 && m_pName->getY() == 0) {
-            //the floating text has not been linked with the signal
-            m_pName->setX(x + 10);
-            m_pName->setY(y - fontHeight);
-            cas = 4;
-        }
-    }
-
-    m_oldX = getX();
-    setX(x);
-    m_oldY = getY();
-    setY(y);
-
-//test if y isn't above the object
-//     if ( y <= m_pOw[Uml::A]->getY() + height_Activity-5 && x == m_pOw[Uml::A]->getX() + (width_Activity/2) ) {
-//         y = m_pOw[Uml::A]->getY() + height_Activity + 15;
-//     }
-//     if (y + h >= m_pOw[Uml::A]->getEndLineY()) {
-//         y = m_pOw[Uml::A]->getEndLineY() - h;
-//     }
-
-
-    setPenFromSettings(p);
-    if ( NewUMLRectWidget::getUseFillColour() ) {
-        p.setBrush( NewUMLRectWidget::getFillColour() );
-    }
-    p.drawRect(x,y,w, h);
-    //make sure it's always above the other
-    setZ(20);
-    setPenFromSettings(p);
-    m_pName->setVisible(( m_pName->text().length() > 0 ));
-    m_pName->updateComponentSize();
-    if(isSelected())
-         drawSelected(&p, offsetX, offsetY);
+    painter->drawRect(rect());
 }
 
-QSizeF PinWidget::calculateSize() {
-    setSize(10,10);
-    return QSizeF(10,10);
-}
-
-void PinWidget::setName(const QString &strName) {
-    m_Text = strName;
-    updateComponentSize();
-    m_pName->setText(m_Text);
-}
-
-qreal PinWidget::getMinY() {
-    if (!m_pOw) {
-        return 0;
-    }
-    qreal heightA = m_pOw->getY() + m_pOw->getHeight();
-    return heightA;
-}
-
-void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me) {
-    NewUMLRectWidget::mouseMoveEvent(me);
-    qreal diffX = m_oldX - getX();
-    qreal diffY = m_oldY - getY();
-    if (m_pName!=NULL && !( m_pName->text() ).isEmpty()) {
-        m_pName->setX(m_pName->getX() - diffX);
-        m_pName->setY(m_pName->getY() - diffY);
-    }
-}
-
-void PinWidget::slotMenuSelection(QAction* action) {
-    bool ok = false;
-    QString name = m_Text;
-
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
-    switch( sel ) {
-    case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter Pin Name"), i18n("Enter the pin name :"), m_Text, &ok );
-        if( ok )
-            setName(name);
-        break;
-
-    default:
-        NewUMLRectWidget::slotMenuSelection(action);
-    }
-}
-
-
-void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-    QDomElement PinElement = qDoc.createElement( "pinwidget" );
-    PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->getID()) );
-    NewUMLRectWidget::saveToXMI( qDoc, PinElement );
-    if (m_pName && !m_pName->text().isEmpty()) {
-        PinElement.setAttribute( "textid", ID2STR(m_pName->getID()) );
-        m_pName->saveToXMI( qDoc, PinElement );
-    }
-    qElement.appendChild( PinElement );
-}
-
-
-bool PinWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+/**
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load PinWidget
+ * from XMI element.
+ */
+bool PinWidget::loadFromXMI( QDomElement & qElement )
+{
+    if (!NewUMLRectWidget::loadFromXMI(qElement)) {
         return false;
+    }
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 
     Uml::IDType aId = STR2ID(widgetaid);
 
     NewUMLRectWidget *pWA = umlScene()->findWidget( aId );
-    if (pWA == NULL) {
-        uDebug() << "role A object " << ID2STR(aId) << " not found" << endl;
+    if (pWA == 0) {
+        uDebug() << "role A object " << ID2STR(aId) << " not found";
         return false;
     }
 
-    m_pOw = pWA;
+    m_ownerWidget = pWA;
+    setParentItem(m_ownerWidget);
 
     QString textid = qElement.attribute( "textid", "-1" );
     Uml::IDType textId = STR2ID(textid);
     if (textId != Uml::id_None) {
         NewUMLRectWidget *flotext = umlScene()->findWidget( textId );
-        if (flotext != NULL) {
+        if (flotext != 0) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
-            m_pName = static_cast<FloatingTextWidget*>(flotext);
-            //return true;
+            m_nameFloatingTextWiget = static_cast<FloatingTextWidget*>(flotext);
+            return true;
         }
-    } else {
+    }
+    else {
         // no textid stored->get unique new one
         textId = UniqueID::gen();
     }
 
-      //now load child elements
+    //now load child elements
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( Uml::tr_Floating, textId );
-            m_pName->setText(m_Text);
-            if (umlScene()) {
-                umlScene()->addItem(m_pName);
-            }
-            if( ! m_pName->loadFromXMI(element) ) {
+            m_nameFloatingTextWiget = new FloatingTextWidget( Uml::tr_Floating, textId );
+            m_nameFloatingTextWiget->setText(m_Text);
+            // Set it as parent so that it moves with moving of PinWidget.
+            m_nameFloatingTextWiget->setParentItem(this);
+
+            if( ! m_nameFloatingTextWiget->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
-                delete m_pName;
-                m_pName = NULL;
+                delete m_nameFloatingTextWiget;
+                m_nameFloatingTextWiget = 0;
             }
         } else {
             uError() << "unknown tag " << tag << endl;
@@ -264,6 +144,142 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save PinWidget
+ * data into 'pinwidget' XMI element.
+ */
+void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement PinElement = qDoc.createElement( "pinwidget" );
+    PinElement.setAttribute( "widgetaid", ID2STR(m_ownerWidget->id()));
+    NewUMLRectWidget::saveToXMI( qDoc, PinElement );
+    if (m_nameFloatingTextWiget && !m_nameFloatingTextWiget->text().isEmpty()) {
+        PinElement.setAttribute( "textid", ID2STR(m_nameFloatingTextWiget->id()) );
+        m_nameFloatingTextWiget->saveToXMI( qDoc, PinElement );
+    }
+    qElement.appendChild( PinElement );
+}
+
+/**
+ * This method updates the position of this widget with repect to the
+ * reference point \a reference.
+ */
+void PinWidget::updatePosition(const QPointF& reference)
+{
+    if (!m_ownerWidget) {
+        uError() << "Owner is null!";
+        return;
+    }
+
+    QList<QPointF> points;
+    QRectF r = m_ownerWidget->rect();
+    const QPointF c = r.center();
+
+    points << QPointF(r.left(), c.y()) << QPointF(c.x(), r.top())
+           << QPointF(r.right(), c.y()) << QPointF(c.x(), r.bottom());
+
+    // Iterate and find the nearest edge to where this widget should lie.
+    int minIndex = -1;
+    qreal distance = 99999;// Start with some maximum
+    for(int i = 0; i < points.size(); ++i) {
+        const QPointF &p = points.at(i);
+        qreal pointDistance = QLineF(p, reference).length();
+        if (pointDistance < distance) {
+            distance = pointDistance;
+            minIndex = i;
+        }
+    }
+
+    const qreal w = size().width();
+    const qreal h = size().height();
+    setPos(points[minIndex] - QPointF(.5 * w, .5 * h));
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to set minimum
+ * and maximum size for this widget.
+ */
+void PinWidget::updateGeometry()
+{
+    const QSizeF sz(PinWidget::Size, PinWidget::Size);
+    setMinimumSize(sz);
+    setMaximumSize(sz);
+
+    NewUMLRectWidget::updateGeometry();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle @ref
+ * NameHasChanged to create/delete and update FloatingTextWidget's
+ * text.
+ */
+QVariant PinWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+    if (change == NameHasChanged) {
+        if (name().isEmpty()) {
+            delete m_nameFloatingTextWiget;
+            m_nameFloatingTextWiget = 0;
+        }
+        else {
+            if (!m_nameFloatingTextWiget) {
+                m_nameFloatingTextWiget = new FloatingTextWidget(Uml::tr_Floating);
+                m_nameFloatingTextWiget->setParentItem(this);
+            }
+            m_nameFloatingTextWiget->setText(name());
+        }
+    }
+
+    return NewUMLRectWidget::attributeChange(change, oldValue);
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::mouseMoveEvent to move this
+ * widget only along the edge of the ActivityWidget to which this
+ * widget is pinned to.
+ */
+void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (m_ownerWidget) {
+        QPointF eventPos = m_ownerWidget->mapFromScene(event->scenePos());
+        updatePosition(eventPos);
+    }
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * rename action to set the text of this widget.
+ */
+void PinWidget::slotMenuSelection(QAction* action)
+{
+    bool ok = false;
+    QString text;
+
+    // Menu is passed in as action's parent.
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+
+    switch( sel ) {
+    case ListPopupMenu::mt_Rename:
+        text = KInputDialog::getText( i18n("Enter Pin Name"), i18n("Enter the pin name :"), name(), &ok );
+        if(ok) {
+            setName(text);
+        }
+        break;
+
+    default:
+        NewUMLRectWidget::slotMenuSelection(action);
+    }
+}
+
+/**
+ * Hack! This is the only way i could get the pin widget attached to
+ * ActivityWidget on creation
+ */
+void PinWidget::setInitialPosition()
+{
+    if (m_ownerWidget) {
+        updatePosition(pos());
+    }
+}
 
 #include "pinwidget.moc"
-

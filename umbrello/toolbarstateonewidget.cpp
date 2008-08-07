@@ -133,12 +133,13 @@ void ToolBarStateOneWidget::setWidget(NewUMLRectWidget* firstObject)
     }
 
     if (getWidgetType() == Uml::wt_Pin) {
-        umlwidget = new PinWidget(m_pUMLScene, m_firstObject);
+        umlwidget = new PinWidget(m_firstObject);
             // Create the widget. Some setup functions can remove the widget.
     }
 
     if (umlwidget != NULL) {
-            m_pUMLScene->setupNewWidget(umlwidget);
+        m_pUMLScene->setupNewWidget(umlwidget);
+
     }
 
 }

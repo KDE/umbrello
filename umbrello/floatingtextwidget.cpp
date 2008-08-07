@@ -57,9 +57,9 @@ FloatingTextWidget::FloatingTextWidget(Uml::Text_Role role,
     m_linkWidget = 0;
     setResizable(false);
     m_textRole = role;
-
+    // no margin
+    setMargin(0);
     createTextItemGroup(); // Create a group to store text.
-
     setZValue(10); //make sure always on top.
 }
 
@@ -384,15 +384,13 @@ bool FloatingTextWidget::isTextValid( const QString &text )
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::paint . This method only draws
- * selection rect as the text drawing is handled by TextItemGroup.
+ * Reimplemented from NewUMLRectWidget::paint . This method does
+ * nothing as the text drawing is handled by TextItemGroup.
  */
 void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-    if (o->state & QStyle::State_Selected) {
-        painter->setPen(QPen(Qt::black, 1, Qt::DashLine));
-        painter->drawRect(rect());
-    }
+    Q_UNUSED(painter);
+    Q_UNUSED(o);
 }
 
 /**
@@ -462,8 +460,31 @@ void FloatingTextWidget::updateTextItemGroups()
 
     TextItem *item = grp->textItemAt(0);
     item->setText(text());
+    item->show();
 
     NewUMLRectWidget::updateTextItemGroups();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::attributeChange to react to
+ * notification NameHasChanged and SizeHasChanged.
+ */
+QVariant FloatingTextWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+    if (change == NameHasChanged) {
+        TextItemGroup *grp = textItemGroupAt(0);
+        grp->setTextItemCount(1); // only one item to display name
+
+        TextItem *item = grp->textItemAt(0);
+        item->setText(name());
+        grp->setGroupGeometry(QRectF(QPointF(0, 0), grp->minimumSize()));
+    }
+    else if (change == SizeHasChanged) {
+        TextItemGroup *grp = textItemGroupAt(0);
+        grp->setGroupGeometry(QRectF(QPointF(0, 0), grp->minimumSize()));
+    }
+
+    return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 /**

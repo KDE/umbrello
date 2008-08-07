@@ -213,7 +213,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "regionwidget") {
         widget = new RegionWidget(Uml::id_Reserved);
     } else if (tag == "pinwidget") {
-        widget = new PinWidget(scene, NULL, Uml::id_Reserved);
+        widget = new PinWidget(NULL, Uml::id_Reserved);
     }
     else
     {

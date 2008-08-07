@@ -98,6 +98,7 @@ public:
 protected:
     virtual void updateGeometry();
     virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

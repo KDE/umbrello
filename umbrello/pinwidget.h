@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,118 +17,54 @@
 #include "activitywidget.h"
 #include "floatingtextwidget.h"
 
-#define PIN_MARGIN 5
-#define PIN_WIDTH 1
-#define PIN_HEIGHT 1
-
-//class ActivityWidget;
 
 /**
- * This class is the graphical version of a UML Pin.  A pinWidget is created
- * by a @ref UMLView.  An pinWidget belongs to only one @ref UMLView instance.
- * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
+ * This class is the graphical version of a UML Pin which is used in
+ * Activity diagrams.
  *
- * The pinWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
- * to this class.
- *
- * @short  A graphical version of a UML pin.
  * @author Hassan KOUCH <hkouch@hotmail.com>
+ * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PinWidget : public NewUMLRectWidget {
-    Q_OBJECT
-
+class PinWidget : public NewUMLRectWidget
+{
+Q_OBJECT
 public:
-
-    /**
-     * Creates a Pin widget.
-     *
-     * @param view              The parent of the widget.
-     * @param a                 The widget to which this pin is attached.
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
-     PinWidget( UMLScene * view, NewUMLRectWidget* a, Uml::IDType id = Uml::id_None );
-
-    /**
-     *  destructor
-     */
+    PinWidget( NewUMLRectWidget* a, Uml::IDType id = Uml::id_None );
     virtual ~PinWidget();
 
-    /**
-     * Initializes key variables of the class.
-     */
-    void init();
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *w);
 
-    /**
-     * Overrides the standard paint event.
-     */
-    void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
+    virtual bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-
-    /**
-     * Sets the name of the pin.
-     */
-    virtual void setName(const QString &strName);
-
-    /**
-     * Returns the minimum height this widget should be set at on
-     * a sequence diagrams.  Takes into account the widget positions
-     * it is related to.
-     */
-    qreal getMinY();
-
-    /**
-     * Returns the maximum height this widget should be set at on
-     * a sequence diagrams.  Takes into account the widget positions
-     * it is related to.
-     */
-    qreal getMaxY();
-
-    /**
-     * Saves the widget to the "pinwidget" XMI element.
-     */
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    /**
-     * Loads the widget from the "pinwidget" XMI element.
-     */
-     bool loadFromXMI( QDomElement & qElement );
-
-    /**
-     * Overrides mouseMoveEvent.
-     */
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *me);
+    void updatePosition(const QPointF& reference);
 
 protected:
-    /**
-     * Overrides method from NewUMLRectWidget
-     */
-     QSizeF calculateSize();
+    virtual void updateGeometry();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-public slots:
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
-    /**
-     * Captures any popup menu signals for menus it created.
-     */
-    void slotMenuSelection(QAction* action);
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
+private Q_SLOTS:
+    void setInitialPosition();
 
 private:
-    NewUMLRectWidget * m_pOw;
+    /// This is the fixed size for this widget.
+    static const qreal Size;
 
     /**
-     * This is a pointer to the Floating Text widget which displays the
-     * name of the signal widget.
+     * The owner to which this pin is attached.
+     *
+     * @todo why not ActivityWidget directly ?
      */
-    FloatingTextWidget * m_pName;
+    NewUMLRectWidget * m_ownerWidget;
 
-    /**
-     * Save the value of the widget to know how to move the floatingtext
-     */
-    qreal m_oldX;
-    qreal m_oldY;
-
-    qreal m_nY;
+    /// This is used to display text for the Pin
+    FloatingTextWidget * m_nameFloatingTextWiget;
 };
 
 #endif

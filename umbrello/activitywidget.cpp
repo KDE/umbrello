@@ -16,6 +16,7 @@
 #include "dialogs/activitydialog.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
+#include "pinwidget.h"
 #include "textitem.h"
 #include "textitemgroup.h"
 #include "uml.h"
@@ -221,6 +222,13 @@ QVariant ActivityWidget::attributeChange(WidgetAttributeChange change, const QVa
 		TextItemGroup *grp = textItemGroupAt(ActivityWidget::TextGroupIndex);
 		qreal m = margin();
 		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+
+        foreach(QGraphicsItem *child, childItems()) {
+            PinWidget *pin = dynamic_cast<PinWidget*>(child);
+            if (pin) {
+                pin->updatePosition(pin->pos());
+            }
+        }
 	}
 
 	return NewUMLRectWidget::attributeChange(change, oldValue);
