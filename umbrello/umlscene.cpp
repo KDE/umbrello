@@ -1793,8 +1793,13 @@ void UMLScene::removeAllAssociations()
 
 void UMLScene::removeAllWidgets()
 {
-    // Remove widgets.
+    // Do this because ~QGraphicsItem deletes its children causing
+    // crash here due to double deletion!
+    foreach(NewUMLRectWidget *temp, m_WidgetList) {
+        temp->setParentItem(0);
+    }
 
+    // Remove widgets.
     foreach(NewUMLRectWidget* temp , m_WidgetList) {
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
