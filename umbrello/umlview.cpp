@@ -21,6 +21,7 @@ UMLView::UMLView(UMLFolder *f) : QGraphicsView(UMLApp::app()->getMainViewWidget(
 {
     m_nZoom = 100;
     setAcceptDrops(true);
+    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     // [PORT] For now the following is used. Shd check for creation of
     // new scene later.
     setScene(new UMLScene(f));
