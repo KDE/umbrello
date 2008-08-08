@@ -17,6 +17,7 @@
 // app includes
 #include "associationwidget.h"
 #include "classifier.h"
+#include "expanderbox.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
 #include "operation.h"
@@ -41,6 +42,12 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
 {
     createTextItemGroup(); // For classifier text items
     createTextItemGroup(); // For template text items'
+
+    m_attributeExpanderBox = new ExpanderBox(false, this);
+    connect(m_attributeExpanderBox, SIGNAL(expansionToggled(bool)), this, SLOT(slotShowAttributes(bool)));
+
+    m_operationExpanderBox = new ExpanderBox(false, this);
+    connect(m_operationExpanderBox, SIGNAL(expansionToggled(bool)), this, SLOT(slotShowOperations(bool)));
 
     // Null initially
     m_dummyAttributeItem = m_dummyOperationItem = 0;
@@ -547,15 +554,20 @@ void ClassifierWidget::calculateClassifierDrawing()
 
         classifierGroup->setGroupGeometry(m_classifierRect.adjusted(+m, +m, -m, -m));
         const int cnt = classifierGroup->textItemCount();
+        qreal expanderDistance = 4;
         if (cnt > m_lineItem1Index) {
             TextItem *item = classifierGroup->textItemAt(m_lineItem1Index);
             qreal y = item->mapToParent(item->boundingRect().bottomLeft()).y();
             m_classifierLines[0].setLine(m_classifierRect.left(), y, m_classifierRect.right(), y);
+            qreal expanderX = rect().left() - m_attributeExpanderBox->rect().width() - expanderDistance;
+            m_attributeExpanderBox->setPos(expanderX, y);
         }
         if (cnt > m_lineItem1Index) {
             TextItem *item = classifierGroup->textItemAt(m_lineItem2Index);
             qreal y = item->mapToParent(item->boundingRect().bottomLeft()).y();
             m_classifierLines[1].setLine(m_classifierRect.left(), y, m_classifierRect.right(), y);
+            qreal expanderX = rect().left() - m_operationExpanderBox->rect().width() - expanderDistance;
+            m_operationExpanderBox->setPos(expanderX, y);
         }
     }
     classifierGroup->setHoverBrush(QBrush(Qt::blue, Qt::Dense6Pattern));
@@ -637,6 +649,10 @@ void ClassifierWidget::updateTextItemGroups()
 
         item->setVisible(v);
     }
+    // Update expander box to reflect current state and also visibility
+    m_attributeExpanderBox->setExpanded(visualProperty(ShowAttributes));
+    m_attributeExpanderBox->setVisible(!visualProperty(DrawAsCircle) && !umlC->isInterface());
+
     const QString dummyText;
     // Setup line and dummies.
     if (!showNameOnly) {
@@ -668,6 +684,8 @@ void ClassifierWidget::updateTextItemGroups()
 
         item->setVisible(v);
     }
+    m_operationExpanderBox->setExpanded(visualProperty(ShowOperations));
+    m_operationExpanderBox->setVisible(!visualProperty(DrawAsCircle));
 
     if (!showNameOnly && opList.isEmpty()) {
         m_dummyOperationItem = new TextItem(dummyText);
@@ -791,6 +809,18 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
         NewUMLRectWidget::slotMenuSelection(action);
         break;
     }
+}
+
+/// Slot to show/hide attributes based on \a state.
+void ClassifierWidget::slotShowAttributes(bool state)
+{
+    setVisualProperty(ShowAttributes, state);
+}
+
+/// Slot to show/hide operations based on \a state.
+void ClassifierWidget::slotShowOperations(bool state)
+{
+    setVisualProperty(ShowOperations, state);
 }
 
 /**

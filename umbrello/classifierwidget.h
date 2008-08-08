@@ -15,6 +15,7 @@
 #include "newumlrectwidget.h"
 
 class AssociationWidget;
+class ExpanderBox;
 class TextItem;
 class UMLClassifier;
 
@@ -110,6 +111,10 @@ protected:
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
+private Q_SLOTS:
+    void slotShowAttributes(bool state);
+    void slotShowOperations(bool state);
+
 private:
     void updateSignatureTypes();
     void calculateTemplateDrawing();
@@ -151,6 +156,9 @@ private:
     TextItem *m_dummyOperationItem;
 
     static const int InvalidIndex;
+
+    ExpanderBox *m_attributeExpanderBox;
+    ExpanderBox *m_operationExpanderBox;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(ClassifierWidget::VisualProperties)
