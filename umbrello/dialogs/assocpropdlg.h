@@ -19,7 +19,6 @@
 
 class AssocRolePage;
 class AssocGenPage;
-class UMLDoc;
 
 /**
  * Based off of AssocPropDlg class
