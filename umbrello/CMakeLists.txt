@@ -335,7 +335,6 @@ set(libumbrello_SRCS
    notewidgetcontroller.cpp
    objectnodewidget.cpp
    objectwidget.cpp
-   objectwidgetcontroller.cpp
    object_factory.cpp
    operation.cpp
    optionstate.cpp

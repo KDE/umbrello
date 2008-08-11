@@ -475,8 +475,8 @@ void MessageWidget::calculateWidget() {
 }
 
 void MessageWidget::slotWidgetMoved(Uml::IDType id) {
-    const Uml::IDType idA = m_pOw[Uml::A]->getLocalID();
-    const Uml::IDType idB = m_pOw[Uml::B]->getLocalID();
+    const Uml::IDType idA = m_pOw[Uml::A]->localID();
+    const Uml::IDType idB = m_pOw[Uml::B]->localID();
     if (idA != id && idB != id) {
         uDebug() << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA)
             << ", idB=" << ID2STR(idB) << endl;
@@ -865,8 +865,8 @@ qreal MessageWidget::getMaxY() {
     if( !m_pOw[Uml::A] || !m_pOw[Uml::B] ) {
         return 0;
     }
-    qreal heightA = (qreal)((ObjectWidget*)m_pOw[Uml::A])->getEndLineY();
-    qreal heightB = (qreal)((ObjectWidget*)m_pOw[Uml::B])->getEndLineY();
+    qreal heightA = (qreal)((ObjectWidget*)m_pOw[Uml::A])->lineEndY();
+    qreal heightB = (qreal)((ObjectWidget*)m_pOw[Uml::B])->lineEndY();
     qreal height = heightA;
     if( heightA > heightB ) {
         height = heightB;
@@ -901,8 +901,8 @@ void MessageWidget::setyclicked (qreal yclick){
 void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement messageElement = qDoc.createElement( "messagewidget" );
     NewUMLRectWidget::saveToXMI( qDoc, messageElement );
-    messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->getLocalID()) );
-    messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::B]->getLocalID()) );
+    messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->localID()) );
+    messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::B]->localID()) );
     UMLOperation *pOperation = getOperation();
     if (pOperation)
         messageElement.setAttribute( "operation", ID2STR(pOperation->getID()) );

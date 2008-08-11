@@ -12,107 +12,317 @@
 // own header file
 #include "objectwidget.h"
 
-// system includes
-#include <qpainter.h>
-#include <qvalidator.h>
-#include <qevent.h>
+// local includes
+#include "dialogs/classpropdlg.h"
+#include "docwindow.h"
+#include "listpopupmenu.h"
+#include "seqlinewidget.h"
+#include "textitem.h"
+#include "textitemgroup.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlobject.h"
+#include "umlscene.h"
+#include "umlview.h"
+
+// kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 
-// local includes
-#include "objectwidgetcontroller.h"
-#include "seqlinewidget.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
-#include "umlobject.h"
-#include "listpopupmenu.h"
-#include "docwindow.h"
-#include "dialogs/classpropdlg.h"
-#include "umlscene.h"
+// qt includes
+#include <QtGui/QValidator>
+
+/// Size used for drawing Actor
+const QSizeF ObjectWidget::ActorSize = QSizeF(20, 40);
 
 /**
- * The number of pixels margin between the lowest message
- * and the bottom of the vertical line
+ * The number of pixels margin between the lowest message and the
+ * bottom of the vertical line
  */
-static const int sequenceLineMargin = 20;
+const qreal ObjectWidget::SequenceLineMargin = 20;
 
-ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o, Uml::IDType lid)
-        : NewUMLRectWidget(scene, o) {
-    init();
-    if( lid != Uml::id_None )
-        m_nLocalID = lid;
-    setShowDestruction(true);
-    //updateComponentSize();
-    //                  Doing this during loadFromXMI() gives futile updates.
-    //                  Instead, it is done afterwards by NewUMLRectWidget::activate()
+/**
+ * Creates an ObjectWidget.
+ *
+ * @param object    The object it will be representing.
+ * @param lid       The local id for the object.
+ */
+ObjectWidget::ObjectWidget(UMLObject *object, const Uml::IDType& lid)
+        : NewUMLRectWidget(0, object)
+{
+    m_baseType = Uml::wt_Object;
+    m_localID = lid;
+    m_multipleInstance = false;
+    m_drawAsActor = false;
+    m_showDestruction = false;
+
+    // Currently sequential line is null and is setup in SceneChange
+    // notification so that the sequential line is present only in
+    // sequential diagram
+    m_sequentialLine = 0;
+
+    // Create a group to manage the text to be displayed.
+    createTextItemGroup();
 }
 
-void ObjectWidget::init() {
-    NewUMLRectWidget::setBaseType(Uml::wt_Object);
-    m_nLocalID = Uml::id_None;
-    m_InstanceName = "";
-    m_bMultipleInstance = false;
-    m_bDrawAsActor = false;
-    m_bShowDestruction = false;
-    if( umlScene() != NULL && umlScene()->getType() == Uml::dt_Sequence ) {
-        m_pLine = new SeqLineWidget( this );
+/// Destructor
+ObjectWidget::~ObjectWidget()
+{
+}
 
-        //Sets specific widget controller for sequence diagrams
-        // delete m_widgetController;
-        // m_widgetController = 0;// [PORT] new ObjectWidgetController(this);
-    } else {
-        m_pLine = NULL;
+/**
+ * Sets the local ID for this widget. See @ref ObjectWidget::localID
+ * for more information about this id.
+ */
+void ObjectWidget::setLocalID(const Uml::IDType& id)
+{
+    m_localID = id;
+}
+
+/**
+ * Sets whether this ObjectWidget represents multiple instance.
+ */
+void ObjectWidget::setMultipleInstance(bool multiple)
+{
+    // make sure only calling this in relation to an object on a collab. diagram
+    if(umlScene() && umlScene()->getType() != Uml::dt_Collaboration) {
+        return;
+    }
+    m_multipleInstance = multiple;
+    updateTextItemGroups();
+}
+
+/**
+ * Sets whether the object should be drawn as an actor or just a
+ * rectangle.
+ */
+void ObjectWidget::setDrawAsActor( bool drawAsActor )
+{
+    m_drawAsActor = drawAsActor;
+    updateGeometry();
+}
+
+/**
+ * Sets the destruction visibility on the end of sequential line.
+ */
+void ObjectWidget::setShowDestruction( bool bShow )
+{
+    m_showDestruction = bShow;
+    if( m_sequentialLine ) {
+        m_sequentialLine->updateDestructionBoxVisibility();
     }
 }
 
-ObjectWidget::~ObjectWidget() {}
-
-void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+/**
+ * @return Y coordinate of the space between the diagram top and
+ *         the upper edge of the ObjectWidget.
+ */
+qreal ObjectWidget::topMargin() const
 {
-	QPainter &p = *painter;
-	qreal offsetX = 0, offsetY = 0;
-
-    if ( m_bDrawAsActor )
-        drawActor( p, offsetX, offsetY );
-    else
-        drawObject( p, offsetX, offsetY );
-
-    setPenFromSettings(p);
-    if(isSelected())
-        drawSelected(&p, offsetX, offsetY);
+    return 80 - size().height();
 }
 
-void ObjectWidget::slotMenuSelection(QAction* action) {
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+/// @retval True if widget can be moved upwards vertically.
+bool ObjectWidget::canTabUp() const
+{
+    qreal y = pos().y();
+    return (y > topMargin());
+}
+
+/// @return Y coordinate of the endpoint of the sequence line.
+qreal ObjectWidget::lineEndY() const
+{
+    if (m_sequentialLine) {
+        QPointF lineBottom = m_sequentialLine->boundingRect().bottomLeft();
+        lineBottom = m_sequentialLine->mapToParent(lineBottom);
+        return lineBottom.y();
+    }
+
+    uError() << "Line is null";
+    return boundingRect().bottom();
+}
+
+/**
+ * Sets the y position of the bottom of the vertical line.
+ *
+ * @param yPosition The y coordinate for the bottom of the line.
+ */
+void ObjectWidget::setLineEndY(qreal yPosition)
+{
+    if (m_sequentialLine) {
+        m_sequentialLine->setEndOfLine(yPosition);
+    }
+}
+
+/**
+ * Adds \a message linked to this widget to the MessageList of this
+ * ObjectWidget.
+ */
+void ObjectWidget::messageAdded(MessageWidget* message)
+{
+    if ( m_messages.count(message) ) {
+        uError() << message->name() << ": duplicate entry !";
+    }
+    else {
+        m_messages.append(message);
+    }
+}
+
+/**
+ * Removes \a message linked to this widget from the MessageList of
+ * this ObjectWidget.
+ */
+void ObjectWidget::messageRemoved(MessageWidget* message)
+{
+    if ( m_messages.removeAll(message) == false ) {
+        uError() << message->name() << ": missing entry !";
+    }
+}
+
+/**
+ * @return Whether a message is overlapping with another message.
+ *
+ * Used by MessageWidget::draw() methods.
+ *
+ * @param y              The top of your message.
+ * @param messageWidget  A pointer to your message so it doesn't
+ *                       check against itself.
+ */
+bool ObjectWidget::messageOverlap(qreal y, MessageWidget* messageWidget) const
+{
+    foreach ( MessageWidget* message , m_messages ) {
+        if (message == messageWidget) {
+            continue;
+        }
+        const int msgY = message->y();
+        const int msgHeight = msgY + message->size().height();
+        if (y >= msgY && y <= msgHeight) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Adjusts the end of sequential line to nice position to accomodate
+ * the MessageWidgets nicely.
+ */
+void ObjectWidget::adjustSequentialLineEnd()
+{
+    qreal lowestMessage = 0;
+    foreach ( MessageWidget* message, m_messages ) {
+        qreal messageHeight = message->y() + message->size().height();
+        if (lowestMessage < messageHeight) {
+            lowestMessage = messageHeight;
+        }
+    }
+    m_sequentialLine->setEndOfLine(lowestMessage + ObjectWidget::SequenceLineMargin);
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load
+ * ObjectWidget from XMI.
+ *
+ * @note Instance name is loaded from NewUMLRectWidget::loadFromXMI
+ */
+bool ObjectWidget::loadFromXMI( QDomElement & qElement )
+{
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+        return false;
+
+    QString draw = qElement.attribute( "drawasactor", "0" );
+    QString multi = qElement.attribute( "multipleinstance", "0" );
+    QString localid = qElement.attribute( "localid", "0" );
+    QString decon = qElement.attribute( "decon", "0" );
+
+    setDrawAsActor((bool)draw.toInt());
+    setMultipleInstance((bool)draw.toInt());
+    setLocalID(STR2ID(localid));
+    setShowDestruction((bool)decon.toInt());
+
+    return true;
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save ObjectWidget
+ * data into 'objectwidget' XMI element.
+ *
+ * @note Instance name is saved by NewUMLRectWidget::saveToXMI
+ */
+void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement objectElement = qDoc.createElement( "objectwidget" );
+    NewUMLRectWidget::saveToXMI( qDoc, objectElement );
+
+    objectElement.setAttribute( "drawasactor", m_drawAsActor );
+    objectElement.setAttribute( "multipleinstance", m_multipleInstance );
+    objectElement.setAttribute( "localid", ID2STR(m_localID) );
+    objectElement.setAttribute( "decon", m_showDestruction );
+    qElement.appendChild( objectElement );
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::paint to draw the object
+ * widget.
+ *
+ * An actor is drawn if m_drawAsActor is true. Otherwise a rectangle
+ * is drawn. This information is already predetermined and stored in
+ * m_objectWidgetPath.
+ */
+void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+	painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setBrush(brush());
+
+    painter->drawPath(m_objectWidgetPath);
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::showPropertiesDialog to
+ * display the dialog box to change properties of this ObjectWidget.
+ */
+void ObjectWidget::showPropertiesDialog()
+{
+    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    docwindow->updateDocumentation(false);
+
+    ClassPropDlg dlg((QWidget*)UMLApp::app(), this);
+    if (dlg.exec()) {
+        docwindow->showDocumentation(this, true);
+        UMLApp::app()->getDocument()->setModified(true);
+    }
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * some ObjectWidget specific actions.
+ */
+void ObjectWidget::slotMenuSelection(QAction* action)
+{
+    // The ListPopupMenu is passed in as action's parent
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+
     switch(sel) {
     case ListPopupMenu::mt_Rename_Object:
         {
             bool ok;
-            QRegExpValidator* validator = new QRegExpValidator(QRegExp(".*"), 0);
-            QString name = KInputDialog::getText
-                   (i18n("Rename Object"),
-                    i18n("Enter object name:"),
-                    m_InstanceName,
-                    &ok,
-                    umlScene()->activeView(),
-                    validator);
+            QRegExpValidator validator(QRegExp(".*"), 0);
+            QString name = KInputDialog::getText(i18n("Rename Object"),
+                                                 i18n("Enter object name:"),
+                                                 instanceName(),
+                                                 &ok,
+                                                 umlScene()->activeView(),
+                                                 &validator);
             if (ok) {
-                m_InstanceName = name;
-                updateComponentSize();
-                moveEvent( 0 );
-                update();
+                setInstanceName(name);
                 UMLApp::app()->getDocument()->setModified(true);
             }
-            delete validator;
             break;
         }
+
     case ListPopupMenu::mt_Properties:
-        showProperties();
-        updateComponentSize();
-        moveEvent( 0 );
-        update();
+        showPropertiesDialog();
         break;
 
     case ListPopupMenu::mt_Up:
@@ -129,278 +339,177 @@ void ObjectWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-QSizeF ObjectWidget::calculateSize() {
-    int width, height;
-    const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
-    const int fontHeight  = fm.lineSpacing();
-    const QString t = m_InstanceName + " : " + umlObject()->getName();
-    const int textWidth = fm.width(t);
-    if ( m_bDrawAsActor ) {
-        width = textWidth > A_WIDTH?textWidth:A_WIDTH;
-        height = A_HEIGHT + fontHeight + A_MARGIN;
-        width += A_MARGIN * 2;
-    } else {
-        width = textWidth > O_WIDTH?textWidth:O_WIDTH;
-        height = fontHeight + O_MARGIN * 2;
-        width += O_MARGIN * 2;
-        if (m_bMultipleInstance) {
-            width += 10;
-            height += 10;
-        }
-    }//end else drawasactor
-
-    return QSizeF(width, height);
-}
-
-void ObjectWidget::setDrawAsActor( bool drawAsActor ) {
-    m_bDrawAsActor = drawAsActor;
-    updateComponentSize();
-}
-
-void ObjectWidget::setMultipleInstance(bool multiple) {
-    //make sure only calling this in relation to an object on a collab. diagram
-    if(umlScene()->getType() != Uml::dt_Collaboration)
-        return;
-    m_bMultipleInstance = multiple;
-    updateComponentSize();
-    update();
-}
-
-bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
-    if (! NewUMLRectWidget::activate(ChangeLog))
-        return false;
-    if (m_bShowDestruction && m_pLine)
-        m_pLine->updateDestructionBoxVisibility();
-    moveEvent(0);
-    return true;
-}
-
-void ObjectWidget::setX(qreal x) {
-    NewUMLRectWidget::setX(x);
-    moveEvent(0);
-}
-
-void ObjectWidget::setY(qreal y) {
-    NewUMLRectWidget::setY(y);
-    moveEvent(0);
-}
-
-void ObjectWidget::moveEvent(QMoveEvent *m) {
-    Q_UNUSED(m);
-    // [PORT] emit sigWidgetMoved( m_nLocalID );
-    if (m_pLine) {
-        const qreal x = getX();    // for debugging: gdb has a problem evaluating getX() etc
-        const qreal w = getWidth();
-        const qreal y = getY();
-        const qreal h = getHeight();
-        m_pLine->setPos(x + w / 2, y + h);
-    }
-}
-
-void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
-    NewUMLRectWidget::setFillColour( umlScene()->getFillColor() );
-    NewUMLRectWidget::setLineColor( umlScene()->getLineColor() );
-
-    if( m_pLine) {
-        m_pLine->setLineColor(lineColor());
-        m_pLine->setLineWidth(lineWidth());
-    }
-}
-
-void ObjectWidget::cleanup() {
-
-    NewUMLRectWidget::cleanup();
-    delete m_pLine;
-    m_pLine = 0;
-}
-
-void ObjectWidget::showProperties() {
-    DocWindow *docwindow = UMLApp::app()->getDocWindow();
-    docwindow->updateDocumentation(false);
-    ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
-    if (dlg->exec()) {
-        docwindow->showDocumentation(this, true);
-        UMLApp::app()->getDocument()->setModified(true);
-    }
-    dlg->close();
-}
-
-void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
-
-    QFont oldFont = p.font();
-    QFont font = NewUMLRectWidget::getFont();
-    font.setUnderline( true );
-    p.setFont( font );
-
-    setPenFromSettings(p);
-    if(NewUMLRectWidget::getUseFillColour())
-        p.setBrush(NewUMLRectWidget::getFillColour());
-    else {
-        // [PORT]
-        // p.setBrush( umlScene()->viewport()->palette().color(QPalette::Background) );
-    }
-    const int w = getWidth();
-    const int h = getHeight();
-
-    const QString t = m_InstanceName + " : " + umlObject()->getName();
-    int multiInstOfst = 0;
-    if ( m_bMultipleInstance ) {
-        p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
-        p.drawRect(offsetX + 5, offsetY + 5, w - 10, h - 10);
-        multiInstOfst = 10;
-    }
-    p.drawRect(offsetX, offsetY, w - multiInstOfst, h - multiInstOfst);
-    p.setPen(QPen(Qt::black));
-    p.drawText(offsetX + O_MARGIN, offsetY + O_MARGIN,
-               w - O_MARGIN * 2 - multiInstOfst, h - O_MARGIN * 2 - multiInstOfst,
-               Qt::AlignCenter, t);
-
-    p.setFont( oldFont );
-}
-
-void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
-    const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
-
-    setPenFromSettings(p);
-    if ( NewUMLRectWidget::getUseFillColour() )
-        p.setBrush( NewUMLRectWidget::getFillColour() );
-    const int w = getWidth();
-    const int textStartY = A_HEIGHT + A_MARGIN;
-    const int fontHeight  = fm.lineSpacing();
-
-    const int middleX = offsetX + w / 2;
-    const int thirdH = A_HEIGHT / 3;
-
-    //draw actor
-    p.drawEllipse(middleX - A_WIDTH / 2, offsetY,  A_WIDTH, thirdH);//head
-    p.drawLine(middleX, offsetY + thirdH, middleX, offsetY + thirdH * 2);//body
-    p.drawLine(middleX, offsetY + 2 * thirdH,
-               middleX - A_WIDTH / 2, offsetY + A_HEIGHT);//left leg
-    p.drawLine(middleX, offsetY +  2 * thirdH,
-               middleX + A_WIDTH / 2, offsetY + A_HEIGHT);//right leg
-    p.drawLine(middleX - A_WIDTH / 2, offsetY + thirdH + thirdH / 2,
-               middleX + A_WIDTH / 2, offsetY + thirdH + thirdH / 2);//arms
-    //draw text
-    p.setPen(QPen(Qt::black));
-    QString t = m_InstanceName + " : " + umlObject()->getName();
-    p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
-               w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
-}
-
-void ObjectWidget::tabUp() {
-    int newY = getY() - getHeight();
-    if (newY < topMargin())
-        newY = topMargin();
-    setY( newY );
-    moveEvent( 0 );
-    adjustAssocs( getX(), newY);
-}
-
-void ObjectWidget::tabDown() {
-    int newY = getY() + getHeight();
-    setY( newY );
-    moveEvent( 0 );
-    adjustAssocs( getX(), newY);
-}
-
-int ObjectWidget::topMargin() {
-    return 80 - getHeight();
-}
-
-bool ObjectWidget::canTabUp() {
-    int y = getY();
-    return (y > topMargin());
-}
-
-void ObjectWidget::setShowDestruction( bool bShow ) {
-    m_bShowDestruction = bShow;
-    if( m_pLine )
-        m_pLine->updateDestructionBoxVisibility();
-}
-
-void ObjectWidget::setEndLine(int yPosition) {
-    m_pLine->setEndOfLine(yPosition);
-}
-
-int ObjectWidget::getEndLineY() {
-    int y = this->getY() + getHeight();
-    if( m_pLine)
-        y += m_pLine->length();
-    if ( m_bShowDestruction )
-        y += 10;
-    return y;
-}
-
-void ObjectWidget::messageAdded(MessageWidget* message) {
-    if ( messageWidgetList.count(message) ) {
-        uError() << message->getName() << ": duplicate entry !" << endl;
-        return ;
-    }
-    messageWidgetList.append(message);
-}
-
-void ObjectWidget::messageRemoved(MessageWidget* message) {
-    if ( messageWidgetList.removeAll(message) == false ) {
-        uError() << message->getName() << ": missing entry !"
-                  << endl;
-        return ;
-    }
-}
-
-void ObjectWidget::slotMessageMoved() {
-
-    int lowestMessage = 0;
-    foreach ( MessageWidget* message, messageWidgetList ) {
-        int messageHeight = message->getY() + message->getHeight();
-        if (lowestMessage < messageHeight) {
-            lowestMessage = messageHeight;
+/**
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * the minimum size for this widget based on whether the Object is
+ * drawn as an actor or just a rectangle.
+ *
+ * Also sets maximum size with height restricted to minimum height, so
+ * that the widget can only be widened.
+ *
+ * @todo Implement Multiple instance drawing.
+ */
+void ObjectWidget::updateGeometry()
+{
+    TextItemGroup *grp = textItemGroupAt(0);
+    QSizeF minSize = grp->minimumSize();
+    if (m_drawAsActor) {
+        minSize.rheight() += ObjectWidget::ActorSize.height();
+        if (minSize.width() < ObjectWidget::ActorSize.width()) {
+            minSize.setWidth(ObjectWidget::ActorSize.width());
         }
     }
-    m_pLine->setEndOfLine(lowestMessage + sequenceLineMargin);
+    setMinimumSize(minSize);
+    setMaximumSize(QSizeF(NewUMLRectWidget::DefaultMaximumSize.width(),
+                          minSize.height()));
+
+    NewUMLRectWidget::updateGeometry();
 }
 
-bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
+/**
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * the text content of this widget's text display.
+ */
+void ObjectWidget::updateTextItemGroups()
+{
+    TextItemGroup *grp = textItemGroupAt(0);
+    grp->setTextItemCount(1);
 
-    foreach ( MessageWidget* message , messageWidgetList ) {
-        const int msgY = message->getY();
-        const int msgHeight = msgY + message->getHeight();
-        if (y >= msgY && y <= msgHeight && message != messageWidget) {
-            return true;
+    TextItem *nameItem = grp->textItemAt(0);
+    QString objectText = instanceName() + QLatin1String(" : ") + name();
+    nameItem->setText(objectText);
+
+    NewUMLRectWidget::updateTextItemGroups();
+}
+
+/**
+ * Reimplemented from NewUMLRectWidget::attributeChange
+ *
+ * To handle SizeHasChanged notification
+ * - To align the text.
+ * - To update the position of sequential line.
+ * - To calculate the actor path if DrawAsActor is true.
+ *
+ * To handle LineHasChanged and LineColorHasChanged to set the same
+ * settings to sequential line.
+ *
+ * @todo Implement Multiple instance drawing.
+ */
+QVariant ObjectWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+{
+    if (change == SizeHasChanged) {
+        UMLScene *uScene = umlScene();
+        const QSizeF curSize = size();
+        const qreal m = margin();
+        const QRectF r = rect();
+
+        TextItemGroup *grp = textItemGroupAt(0);
+        const QSizeF grpSize = grp->minimumSize();
+
+        // Create/delete Sequential line based on the type of diagram.
+        if (uScene) {
+            if (uScene->getType() == Uml::dt_Sequence) {
+                if (!m_sequentialLine) {
+                    m_sequentialLine = new SeqLineWidget(this);
+                    m_sequentialLine->setLength(255);
+                }
+            }
+            else {
+                delete m_sequentialLine;
+                m_sequentialLine = 0;
+            }
+        }
+
+        // Firstly align the sequential line.
+        if (m_sequentialLine) {
+            m_sequentialLine->setPos(r.center().x(), r.bottom());
+        }
+
+        // Now update text position and also the path.
+
+        // Reset the path
+        m_objectWidgetPath = QPainterPath();
+
+        if (m_drawAsActor) {
+            QRectF grpRect(+m, curSize.height() - grpSize.height() - 2 * m,
+                           curSize.width() - 2  * m, grpSize.height());
+            grp->setGroupGeometry(grpRect);
+
+            // NOTE: Copy-pasted from ActorWidget::attributeChange!!
+
+            // Now calculate actorPath
+            qreal actorHeight = r.top() - m;
+            qreal actorWidth = r.width();
+
+            // Make sure width of actor isn't too much, it looks ugly otherwise.
+            if(actorWidth > .5 * actorHeight) {
+                actorWidth = .5 * actorHeight;
+            }
+            //TODO: Probably use above similar approach to limit height.
+
+            QRectF headEllipse;
+            headEllipse.setTopLeft(QPointF(.5 * (curSize.width() - actorWidth), m));
+            headEllipse.setSize(QSizeF(actorWidth, actorHeight / 3));
+            m_objectWidgetPath.addEllipse(headEllipse);
+
+            QLineF bodyLine(.5 * curSize.width(), headEllipse.bottom(),
+                            .5 * curSize.width(), (2. / 3.) * actorHeight);
+            m_objectWidgetPath.moveTo(bodyLine.p1());
+            m_objectWidgetPath.lineTo(bodyLine.p2());
+
+            QLineF leftLeg(.5 * curSize.width(), bodyLine.p2().y(),
+                           headEllipse.left(), actorHeight);
+            m_objectWidgetPath.moveTo(leftLeg.p1());
+            m_objectWidgetPath.lineTo(leftLeg.p2());
+
+            QLineF rightLeg(.5 * curSize.width(), bodyLine.p2().y(),
+                            headEllipse.right(), actorHeight);
+            m_objectWidgetPath.moveTo(rightLeg.p1());
+            m_objectWidgetPath.lineTo(rightLeg.p2());
+
+            QLineF arms(headEllipse.left(), .5 * actorHeight,
+                        headEllipse.right(), .5 * actorHeight);
+            m_objectWidgetPath.moveTo(arms.p1());
+            m_objectWidgetPath.lineTo(arms.p2());
+        }
+        else {
+            // Utilize entire space for text
+            grp->setGroupGeometry(r.adjusted(+m, +m, -m, -m));
+            m_objectWidgetPath.addRect(r);
+        }
+    } // End if(change == SizeHasChanged)
+
+    if (m_sequentialLine) {
+        if (change == LineColorHasChanged) {
+            m_sequentialLine->setLineColor(lineColor());
+        }
+        else if (change == LineWidthHasChanged) {
+            m_sequentialLine->setLineWidth(lineWidth());
         }
     }
-    return false;
+
+    return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
-SeqLineWidget *ObjectWidget::getSeqLine() {
-    return m_pLine;
+/**
+ * Shifts the object a little higher, provided it is still in diagram
+ * limits.
+ */
+void ObjectWidget::tabUp()
+{
+    if (canTabUp()) {
+        moveBy(0, -size().height());
+        adjustSequentialLineEnd();
+    }
 }
 
-void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
-    QDomElement objectElement = qDoc.createElement( "objectwidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, objectElement );
-    objectElement.setAttribute( "instancename", m_InstanceName );
-    objectElement.setAttribute( "drawasactor", m_bDrawAsActor );
-    objectElement.setAttribute( "multipleinstance", m_bMultipleInstance );
-    objectElement.setAttribute( "localid", ID2STR(m_nLocalID) );
-    objectElement.setAttribute( "decon", m_bShowDestruction );
-    qElement.appendChild( objectElement );
-}
-
-bool ObjectWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
-        return false;
-    m_InstanceName = qElement.attribute( "instancename", "" );
-    QString draw = qElement.attribute( "drawasactor", "0" );
-    QString multi = qElement.attribute( "multipleinstance", "0" );
-    QString localid = qElement.attribute( "localid", "0" );
-    QString decon = qElement.attribute( "decon", "0" );
-
-    m_bDrawAsActor = (bool)draw.toInt();
-    m_bMultipleInstance = (bool)multi.toInt();
-    m_nLocalID = STR2ID(localid);
-    m_bShowDestruction = (bool)decon.toInt();
-    return true;
-
+/**
+ * Shifts this object a little lower.
+ */
+void ObjectWidget::tabDown()
+{
+    moveBy(0, size().height());
+    adjustSequentialLineEnd();
 }
 
 #include "objectwidget.moc"

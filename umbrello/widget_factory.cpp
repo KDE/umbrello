@@ -74,7 +74,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
     switch (type) {
     case Uml::ot_Actor:
         if (diagramType == Uml::dt_Sequence) {
-            ObjectWidget *ow = new ObjectWidget(scene, o, scene->getLocalID());
+            ObjectWidget *ow = new ObjectWidget(o, scene->getLocalID());
             ow->setDrawAsActor(true);
             y = ow->topMargin();
             newWidget = ow;
@@ -110,7 +110,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
         break;
     case Uml::ot_Interface:
         if (diagramType == Uml::dt_Sequence || diagramType == Uml::dt_Collaboration) {
-            ObjectWidget *ow = new ObjectWidget(scene, o, scene->getLocalID() );
+            ObjectWidget *ow = new ObjectWidget( o, scene->getLocalID() );
             if (diagramType == Uml::dt_Sequence) {
                 y = ow->topMargin();
             }
@@ -133,7 +133,7 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
                 cw->setVisualProperty(ClassifierWidget::DrawAsCircle, true);
             newWidget = cw;
         } else {
-            ObjectWidget *ow = new ObjectWidget(scene, o, scene->getLocalID() );
+            ObjectWidget *ow = new ObjectWidget(o, scene->getLocalID() );
             if (diagramType == Uml::dt_Sequence) {
                 y = ow->topMargin();
             }
@@ -265,7 +265,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
             if (validateObjType(Uml::ot_Category, o, id))
                 widget = new CategoryWidget(static_cast<UMLCategory*>(o));
         } else if (tag == "objectwidget" || tag == "UML:ObjectWidget") {
-            widget = new ObjectWidget(scene, o );
+            widget = new ObjectWidget( o );
         } else {
             uWarning() << "Trying to create an unknown widget:" << tag;
         }

@@ -84,8 +84,8 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     if (y <= m_pOw->getY() + m_pOw->getHeight() ) {
         y = m_pOw->getY() + m_pOw->getHeight() + 15;
     }
-    if (y + h >= m_pOw->getEndLineY()) {
-        y = m_pOw->getEndLineY() - h;
+    if (y + h >= m_pOw->lineEndY()) {
+        y = m_pOw->lineEndY() - h;
     }
     setY(y);
     setPenFromSettings(p);
@@ -188,7 +188,7 @@ void PreconditionWidget::calculateDimensions() {
 }
 
 void PreconditionWidget::slotWidgetMoved(Uml::IDType id) {
-    const Uml::IDType idA = m_pOw->getLocalID();
+    const Uml::IDType idA = m_pOw->localID();
     if (idA != id ) {
         uDebug() << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA) << endl;
         return;
@@ -221,7 +221,7 @@ int PreconditionWidget::getMaxY() {
         return 0;
     }
 
-    int heightA = (int)m_pOw->getEndLineY();
+    int heightA = (int)m_pOw->lineEndY();
     int height = heightA;
     return (height - this->getHeight());
 }
@@ -230,7 +230,7 @@ int PreconditionWidget::getMaxY() {
 void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
     NewUMLRectWidget::saveToXMI( qDoc, preconditionElement );
-    preconditionElement.setAttribute( "widgetaid", ID2STR(m_pOw->getLocalID()) );
+    preconditionElement.setAttribute( "widgetaid", ID2STR(m_pOw->localID()) );
     preconditionElement.setAttribute( "preconditionname", m_Text );
     preconditionElement.setAttribute( "documentation", documentation() );
     qElement.appendChild( preconditionElement );

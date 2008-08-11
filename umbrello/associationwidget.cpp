@@ -220,7 +220,7 @@ bool AssociationWidget::operator==(const AssociationWidget & Other)
             Other.getWidget(A)->getBaseType() == Uml::wt_Object) {
         ObjectWidget *ownA = static_cast<ObjectWidget*>(getWidget(A));
         ObjectWidget *otherA = static_cast<ObjectWidget*>(Other.getWidget(A));
-        if (ownA->getLocalID() != otherA->getLocalID())
+        if (ownA->localID() != otherA->localID())
             return false;
     }
 
@@ -228,7 +228,7 @@ bool AssociationWidget::operator==(const AssociationWidget & Other)
             Other.getWidget(B)->getBaseType() == Uml::wt_Object) {
         ObjectWidget *ownB = static_cast<ObjectWidget*>(getWidget(B));
         ObjectWidget *otherB = static_cast<ObjectWidget*>(Other.getWidget(B));
-        if (ownB->getLocalID() != otherB->getLocalID())
+        if (ownB->localID() != otherB->localID())
             return false;
     }
 
@@ -927,7 +927,7 @@ Uml::IDType AssociationWidget::getWidgetID(Uml::Role_Type role) const
         return Uml::id_None;
     }
     if (m_role[role].m_pWidget->getBaseType() == Uml::wt_Object)
-        return static_cast<ObjectWidget*>(m_role[role].m_pWidget)->getLocalID();
+        return static_cast<ObjectWidget*>(m_role[role].m_pWidget)->localID();
     Uml::IDType id = m_role[role].m_pWidget->getID();
     return id;
 }

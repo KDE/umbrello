@@ -296,19 +296,19 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     UMLView *view = UMLApp::app()->getCurrentView();
 
     m_pDrawActorCB = new QCheckBox( i18n( "Draw as actor" ) , this );
-    m_pDrawActorCB->setChecked( o->getDrawAsActor() );
+    m_pDrawActorCB->setChecked( o->drawAsActor() );
     m_pNameLayout->addWidget( m_pDrawActorCB, 2, 0 );
 
     if (view->umlScene()->getType() == Uml::dt_Collaboration) {
         m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
-        m_pMultiCB->setChecked(o->getMultipleInstance());
+        m_pMultiCB->setChecked(o->multipleInstance());
         m_pNameLayout->addWidget(m_pMultiCB, 2,1);
         if( m_pDrawActorCB->isChecked() )
             m_pMultiCB->setEnabled( false );
     } else  //sequence diagram
     {
         m_pDeconCB = new QCheckBox(i18n("Show destruction"), this);
-        m_pDeconCB->setChecked(o->getShowDestruction());
+        m_pDeconCB->setChecked(o->showDestruction());
         m_pNameLayout->addWidget(m_pDeconCB, 2,1);
     }
     //setup documentation

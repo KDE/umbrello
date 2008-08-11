@@ -428,8 +428,6 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         // Set proper position on the sequence line widget which is
         // attached to the object widget.
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(newWidget);
-        if (ow)
-            ow->moveEvent(NULL);
     }
     m_bCreateObject = false;
     m_WidgetList.append(newWidget);
@@ -635,10 +633,10 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
         if (ow == NULL)
             continue;
-        SeqLineWidget *pLine = ow->getSeqLine();
+        SeqLineWidget *pLine = ow->sequentialLine();
         if (pLine == NULL) {
             uError() << "SeqLineWidget of " << ow->getName()
-                     << " (id=" << ID2STR(ow->getLocalID()) << ") is NULL" << endl;
+                     << " (id=" << ID2STR(ow->localID()) << ") is NULL" << endl;
             continue;
         }
         if (pLine->contains(pLine->mapFromScene(point)))
@@ -654,10 +652,10 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
         if (ow == NULL)
             continue;
-        SeqLineWidget *pLine = ow->getSeqLine();
+        SeqLineWidget *pLine = ow->sequentialLine();
         if (pLine == NULL) {
             uError() << "SeqLineWidget of " << ow->getName()
-                     << " (id=" << ID2STR(ow->getLocalID()) << ") is NULL" << endl;
+                     << " (id=" << ID2STR(ow->localID()) << ") is NULL" << endl;
             continue;
         }
         if (pLine->onDestructionBox(point))
@@ -728,7 +726,7 @@ NewUMLRectWidget * UMLScene::findWidget(Uml::IDType id)
     foreach(NewUMLRectWidget* obj, m_WidgetList) {
         // object widgets are special..the widget id is held by 'localId' attribute (crappy!)
         if (obj->getBaseType() == wt_Object) {
-            if (static_cast<ObjectWidget *>(obj)->getLocalID() == id)
+            if (static_cast<ObjectWidget *>(obj)->localID() == id)
                 return obj;
         } else if (obj->getID() == id) {
             return obj;
@@ -1460,8 +1458,8 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
         }
         ObjectWidget *objWidgetA = pMessage->getWidget(A);
         ObjectWidget *objWidgetB = pMessage->getWidget(B);
-        Uml::IDType waID = objWidgetA->getLocalID();
-        Uml::IDType wbID = objWidgetB->getLocalID();
+        Uml::IDType waID = objWidgetA->localID();
+        Uml::IDType wbID = objWidgetB->localID();
         Uml::IDType newWAID = m_pIDChangesLog->findNewID(waID);
         Uml::IDType newWBID = m_pIDChangesLog->findNewID(wbID);
         if (newWAID == Uml::id_None || newWBID == Uml::id_None) {
@@ -1493,7 +1491,7 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
             return false;
         }
         Uml::IDType nNewLocalID = getLocalID();
-        Uml::IDType nOldLocalID = pObjectWidget->getLocalID();
+        Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
         UMLObject *pObject = m_pDoc->findObjectById(pWidget->getID());
@@ -1518,7 +1516,7 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
         }
         pObjectWidget->setID(newID);
         Uml::IDType nNewLocalID = getLocalID();
-        Uml::IDType nOldLocalID = pObjectWidget->getLocalID();
+        Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
         UMLObject *pObject = m_pDoc->findObjectById(newID);
@@ -1545,7 +1543,7 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
         }
         pObjectWidget->setID(newID);
         Uml::IDType nNewLocalID = getLocalID();
-        Uml::IDType nOldLocalID = pObjectWidget->getLocalID();
+        Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
         UMLObject *pObject = m_pDoc->findObjectById(newID);

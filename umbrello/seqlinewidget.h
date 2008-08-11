@@ -53,11 +53,7 @@ public:
         return m_length;
     }
     void setLength(qreal length);
-
-    /// Sets 'y' coordinate of end of line.
-    void setEndOfLine(qreal yPosition) {
-        setLength(yPosition);
-    }
+    void setEndOfLine(qreal yPosition);
 
     /// @return  Pointer to the associated ObjectWidget.
     ObjectWidget * objectWidget() const{

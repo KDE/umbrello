@@ -68,7 +68,7 @@ void SeqLineWidget::updateDestructionBoxVisibility()
 {
     m_destructionBoxLines[0] = m_destructionBoxLines[1] = QLineF();
 
-    if( m_objectWidget->getShowDestruction() ) {
+    if( m_objectWidget->showDestruction() ) {
         QRectF rect(0, 0,
                     SeqLineWidget::DestructionBoxSize, SeqLineWidget::DestructionBoxSize);
         rect.moveCenter(QPointF(0, m_length));
@@ -87,7 +87,7 @@ bool SeqLineWidget::onDestructionBox(const QPointF& localPos)
                 SeqLineWidget::DestructionBoxSize, SeqLineWidget::DestructionBoxSize);
     rect.moveCenter(QPointF(0, m_length));
 
-    return m_objectWidget->getShowDestruction() && rect.contains(localPos);
+    return m_objectWidget->showDestruction() && rect.contains(localPos);
 }
 
 /// Sets the length of the sequential line of this widget to \a len.
@@ -99,6 +99,18 @@ void SeqLineWidget::setLength(qreal len)
     m_sequentialLine.setP2(QPointF(0, m_length));
 
     updateDestructionBoxVisibility();
+}
+
+/**
+ * Sets 'y' coordinate  of end of line.
+ *
+ * @param yPos This represents 'y' in scene coords which will become
+ *             end of line.
+ */
+void SeqLineWidget::setEndOfLine(qreal yPos)
+{
+    qreal len = yPos - scenePos().y();
+    setLength(len);
 }
 
 /**
