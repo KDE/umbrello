@@ -209,14 +209,16 @@ bool ObjectWidget::messageOverlap(qreal y, MessageWidget* messageWidget) const
  */
 void ObjectWidget::adjustSequentialLineEnd()
 {
-    qreal lowestMessage = 0;
-    foreach ( MessageWidget* message, m_messages ) {
-        qreal messageHeight = message->y() + message->size().height();
-        if (lowestMessage < messageHeight) {
-            lowestMessage = messageHeight;
+    if (!m_messages.isEmpty()) {
+        qreal lowestMessage = 0;
+        foreach ( MessageWidget* message, m_messages ) {
+            qreal messageHeight = message->y() + message->size().height();
+            if (lowestMessage < messageHeight) {
+                lowestMessage = messageHeight;
+            }
         }
+        m_sequentialLine->setEndOfLine(lowestMessage + ObjectWidget::SequenceLineMargin);
     }
-    m_sequentialLine->setEndOfLine(lowestMessage + ObjectWidget::SequenceLineMargin);
 }
 
 /**
@@ -353,11 +355,13 @@ void ObjectWidget::updateGeometry()
 {
     TextItemGroup *grp = textItemGroupAt(0);
     QSizeF minSize = grp->minimumSize();
+    setMargin(5);
     if (m_drawAsActor) {
         minSize.rheight() += ObjectWidget::ActorSize.height();
         if (minSize.width() < ObjectWidget::ActorSize.width()) {
             minSize.setWidth(ObjectWidget::ActorSize.width());
         }
+        setMargin(0);
     }
     setMinimumSize(minSize);
     setMaximumSize(QSizeF(NewUMLRectWidget::DefaultMaximumSize.width(),
@@ -438,14 +442,8 @@ QVariant ObjectWidget::attributeChange(WidgetAttributeChange change, const QVari
             // NOTE: Copy-pasted from ActorWidget::attributeChange!!
 
             // Now calculate actorPath
-            qreal actorHeight = r.top() - m;
-            qreal actorWidth = r.width();
-
-            // Make sure width of actor isn't too much, it looks ugly otherwise.
-            if(actorWidth > .5 * actorHeight) {
-                actorWidth = .5 * actorHeight;
-            }
-            //TODO: Probably use above similar approach to limit height.
+            qreal actorHeight = ActorSize.height();
+            qreal actorWidth = ActorSize.width();
 
             QRectF headEllipse;
             headEllipse.setTopLeft(QPointF(.5 * (curSize.width() - actorWidth), m));
