@@ -1,28 +1,27 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
-
 
 #ifndef ASSOCPAGE_H
 #define ASSOCPAGE_H
 
-#include <qwidget.h>
-#include <q3groupbox.h>
-#include <q3listbox.h>
+#include <QtGui/QWidget>
+#include <QtGui/QListWidgetItem>
 
-#include "../umlobject.h"
-#include "../umlview.h"
-#include "../associationwidgetlist.h"
-#include "../associationwidget.h"
-#include "../listpopupmenu.h"
+#include "umlobject.h"
+#include "umlview.h"
+#include "associationwidgetlist.h"
+#include "associationwidget.h"
+#include "listpopupmenu.h"
 
+class QGroupBox;
+class QListWidget;
 
 /**
  * Displays a page on the tabbed dialog window of @ref ClassPropDlg.
@@ -32,7 +31,8 @@
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssocPage : public QWidget {
+class AssocPage : public QWidget
+{
     Q_OBJECT
 public:
     /**
@@ -48,11 +48,12 @@ public:
      *  Standard deconstructor.
      */
     ~AssocPage();
+
 private:
     UMLObject * m_pObject;
     UMLView * m_pView;
-    Q3ListBox * m_pAssocLB;
-    Q3GroupBox * m_pAssocGB;
+    QListWidget * m_pAssocLW;
+    QGroupBox * m_pAssocGB;
     AssociationWidgetList m_List;
     ListPopupMenu * m_pMenu;
 
@@ -60,10 +61,10 @@ private:
      *  Fills the list box with the objects associations.
      */
     void fillListBox();
+
 public slots:
-    void slotDoubleClick(Q3ListBoxItem * i);
-    void slotRightButtonClicked(Q3ListBoxItem * /* item*/, const QPoint & /* p*/);
-    void slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p);
+    void slotDoubleClick(QListWidgetItem * item);
+    void slotRightButtonPressed(const QPoint & p);
     void slotPopupMenuSel(QAction* action);
 };
 

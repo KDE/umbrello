@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,12 +11,10 @@
 // own header
 #include "assocgenpage.h"
 
-// qt includes
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
+// local includes
+#include "association.h"
+#include "dialog_utils.h"
+#include "assocrules.h"
 
 // kde includes
 #include <kcombobox.h>
@@ -25,11 +22,13 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 
-// local includes
-#include "../association.h"
-#include "../dialog_utils.h"
-#include "../assocrules.h"
-
+// qt includes
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QGroupBox>
 
 AssocGenPage::AssocGenPage (UMLDoc *d, QWidget *parent, AssociationWidget *assoc)
         : QWidget(parent)
@@ -53,19 +52,19 @@ void AssocGenPage::constructWidget()
     int margin = fontMetrics().height();
     setMinimumSize(310,330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
-    topLayout -> setSpacing(6);
+    topLayout->setSpacing(6);
 
     // group boxes for name, documentation properties
-    Q3GroupBox *nameGB = new Q3GroupBox(this);
-    Q3GroupBox *docGB = new Q3GroupBox(this);
-    nameGB -> setTitle(i18n("Properties"));
-    docGB -> setTitle(i18n("Documentation"));
-    topLayout -> addWidget(nameGB);
-    topLayout -> addWidget(docGB);
+    QGroupBox *nameGB = new QGroupBox(this);
+    QGroupBox *docGB = new QGroupBox(this);
+    nameGB->setTitle(i18n("Properties"));
+    docGB->setTitle(i18n("Documentation"));
+    topLayout->addWidget(nameGB);
+    topLayout->addWidget(docGB);
 
     QGridLayout * nameLayout = new QGridLayout(nameGB);
-    nameLayout -> setSpacing(6);
-    nameLayout -> setMargin(margin);
+    nameLayout->setSpacing(6);
+    nameLayout->setMargin(margin);
 
     //Association name
     QLabel *pAssocNameL = NULL;
@@ -76,10 +75,10 @@ void AssocGenPage::constructWidget()
 
     // document
     QHBoxLayout * docLayout = new QHBoxLayout(docGB);
-    docLayout -> setMargin(margin);
+    docLayout->setMargin(margin);
 
-    m_pDoc = new Q3MultiLineEdit(docGB);
-    docLayout -> addWidget(m_pDoc);
+    m_pDoc = new KTextEdit(docGB);
+    docLayout->addWidget(m_pDoc);
     m_pDoc-> setText(m_pAssociationWidget-> getDoc());
     Uml::Association_Type currentType =  m_pAssociationWidget->getAssocType();
     QString currentTypeAsString = UMLAssociation::typeAsString(currentType);
@@ -91,7 +90,7 @@ void AssocGenPage::constructWidget()
 
     m_AssocTypes.clear();
 
-    m_AssocTypes<<currentType;
+    m_AssocTypes << currentType;
 
     // dynamically load all allowed associations
     for ( int i = Uml::at_Generalization; i<= Uml::at_Relationship ;  ++i ) {
@@ -102,7 +101,7 @@ void AssocGenPage::constructWidget()
         if ( AssocRules::allowAssociation( ( Uml::Association_Type )i, m_pAssociationWidget->getWidget( Uml::A ),
                                            m_pAssociationWidget->getWidget( Uml::B ))
              ) {
-            m_AssocTypes<<( Uml::Association_Type )i;
+            m_AssocTypes << (Uml::Association_Type)i;
         }
     }
 
@@ -126,12 +125,10 @@ void AssocGenPage::constructWidget()
     m_pTypeCB->addItems(m_AssocTypeStrings);
     m_pTypeCB->setCompletedItems(m_AssocTypeStrings);
 
-    m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
     m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
+    m_pDoc->setWordWrapMode(QTextOption::WordWrap);
     nameLayout->addWidget(m_pTypeCB, 1, 1);
-
-    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
 }
 
 void AssocGenPage::updateObject()
@@ -141,10 +138,8 @@ void AssocGenPage::updateObject()
         Uml::Association_Type newType = m_AssocTypes[comboBoxItem];
         m_pAssociationWidget->setAssocType(newType);
         m_pAssociationWidget->setName(m_pAssocNameLE->text());
-        m_pAssociationWidget->setDoc(m_pDoc->text());
-
-    } //end if m_pAssociationWidget
+        m_pAssociationWidget->setDoc(m_pDoc->toPlainText());
+    }
 }
-
 
 #include "assocgenpage.moc"
