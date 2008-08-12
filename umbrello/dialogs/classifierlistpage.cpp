@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -10,13 +9,6 @@
  ***************************************************************************/
 
 #include "classifierlistpage.h"
-
-#include <QtGui/QApplication>
-
-#include <kdebug.h>
-#include <kdialogbuttonbox.h>
-#include <klocale.h>
-#include <ktabwidget.h>
 
 #include "classifierlistitem.h"
 #include "umldoc.h"
@@ -30,6 +22,12 @@
 #include "entityattribute.h"
 #include "object_factory.h"
 
+#include <kdebug.h>
+#include <kdialogbuttonbox.h>
+#include <klocale.h>
+#include <ktabwidget.h>
+
+#include <QtGui/QApplication>
 
 using namespace Uml;
 
@@ -342,14 +340,13 @@ void ClassifierListPage::slotListItemModified()
      if (!m_bSigWaiting) {
          return;
     }
-    //is this safe???
-    UMLClassifierListItem* object = const_cast<UMLClassifierListItem*>(dynamic_cast<const UMLClassifierListItem*>(sender()));
-    if (object == NULL)
-        return;
-    QListWidgetItem* item = m_pItemListLB->currentItem();
-    item->setText(object->toString(Uml::st_SigNoVis));
-    m_pItemListLB->setCurrentItem(item);
-    m_bSigWaiting = false;
+    UMLClassifierListItem* object = dynamic_cast<UMLClassifierListItem*>(sender());
+    if (object) {
+        QListWidgetItem* item = m_pItemListLB->currentItem();
+        item->setText(object->toString(Uml::st_SigNoVis));
+        m_pItemListLB->setCurrentItem(item);
+        m_bSigWaiting = false;
+    }
 }
 
 void ClassifierListPage::deleteMenu()

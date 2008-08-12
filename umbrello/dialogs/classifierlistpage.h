@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,21 +11,21 @@
 #ifndef CLASSIFIERLISTPAGE_H
 #define CLASSIFIERLISTPAGE_H
 
-//qt  includes
-#include <QtGui/QWidget>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QListWidget>
+//app includes
+#include "listpopupmenu.h"
+#include "umlclassifierlistitemlist.h"
 
 //kde includes
 #include <ktextedit.h>
 #include <karrowbutton.h>
 #include <kdialogbuttonbox.h>
 
-//app includes
-#include "listpopupmenu.h"
-#include "umlclassifierlistitemlist.h"
+//qt  includes
+#include <QtGui/QWidget>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QListWidget>
 
 class UMLObject;
 class UMLClassifier;
@@ -46,8 +45,7 @@ class ClassifierListPage : public QWidget
     Q_OBJECT
 public:
     /**
-     *  Sets up the ClassifierListPage
-     *
+     *  Sets up the ClassifierListPage.
      *  @param parent      The parent to the ClassAttPage.
      *  @param classifier  The Concept to display the properties of.
      *  @param doc         The UMLDoc document
@@ -69,34 +67,30 @@ public:
 private:
 
     /**
-     * Sets up the page
+     * Sets up the page.
      */
     void setupPage();
 
     /**
      * Sets up the list group.
-     *
      * @param margin  The margin of the group.
      */
     void setupListGroup(int margin);
 
     /**
      * Sets up the documentation group.
-     *
      * @param margin  The margin of the group.
      */
     void setupDocumentationGroup(int margin);
 
     /**
      * Sets up the move up/down buttons.
-     *
      * @param parentLayout  The parent layout to which this group belongs.
      */
     void setupMoveButtons(QHBoxLayout* parentLayout);
 
     /**
      * Sets up the action buttons.
-     *
      * @param itemType      The item type.
      * @param parentLayout  The parent layout to which this group belongs.
      */
@@ -104,27 +98,25 @@ private:
 
     /**
      * Set the state of the widgets on the page with the given value.
-     *
      * @param  state   The state to set the widgets as.
      */
     void enableWidgets(bool state);
 
     /**
-     * Saves the documentation for the currently selected item
+     * Saves the documentation for the currently selected item.
      */
     void saveCurrentItemDocumentation();
 
     /**
-     * Get classifier list items
+     * Get classifier list items.
      */
     UMLClassifierListItemList getItemList();
 
     /**
-     * Attempts to add classifier to the appropriate list
-     *
-     * @param classifier        Pointer to the classifier to add.
-     * @param position  Index at which to insert into the list.
-     * @return true if the classifier could be added
+     * Attempts to add classifier to the appropriate list.
+     * @param classifier   Pointer to the classifier to add.
+     * @param position     Index at which to insert into the list.
+     * @return             true if the classifier could be added
      *
      */
     bool addClassifier(UMLClassifierListItem* classifier, int position = -1);
@@ -140,7 +132,7 @@ private:
      *                        UMLClassifierListItem of the same type as
      *                        listItem, is found.  If no such item exists
      *                        then return -1.
-     * @return   True for success.
+     * @return                True for success.
      */
     bool takeItem(UMLClassifierListItem* listitem,
                   bool seekPeerBefore, int &peerIndex);
@@ -174,26 +166,26 @@ private:
 protected:
 
     /**
-     * Loads the Item nList Box
+     * Loads the Item List Box.
      */
     void reloadItemListBox();
 
     /**
-     * Sets the visibility of the arrow buttons
+     * Sets the visibility of the arrow buttons.
      * @param hide true hides the arrow buttons
      */
     void hideArrowButtons(bool hide);
 
     /**
      * Calculates the new index to be assigned when an object of type ot is to
-     * be added to the list box. The default Implementation is to add it to the end of the list
+     * be added to the list box. The default Implementation is to add it to the end of the list.
      * @param ot The Object Type to be added
      * @return The index
      */
     virtual int calculateNewIndex(Uml::Object_Type ot);
 
     /**
-     * Returns the index of the Item in the List Box. Default Implementation is same as actual Index of Item
+     * Returns the index of the Item in the List Box. Default Implementation is same as actual Index of Item.
      */
     virtual int relativeIndexOf(QListWidgetItem* item) {
         return m_pItemListLB->row(item);
@@ -213,13 +205,13 @@ public slots:
 
     /**
      * Called when list view is clicked on
-     * calls enableWidgets()
+     * calls enableWidgets().
      */
     void slotClicked(QListWidgetItem* item);
 
     /**
-    * Called when an item is selected in a right click menu
-    */
+     * Called when an item is selected in a right click menu.
+     */
     void slotPopupMenuSel(QAction* action);
 
     void slotListItemCreated(UMLObject* object);
@@ -227,42 +219,42 @@ public slots:
     void slotRightButtonPressed(const QPoint& p);
 
     /**
-     * shows properties dialog for the attribute clicked on
+     * Shows properties dialog for the attribute clicked on.
      */
     void slotDoubleClick(QListWidgetItem* item);
 
     /**
-     * moves selected attribute to the top of the list
+     * Moves selected attribute to the top of the list.
      */
     void slotTopClicked();
 
     /**
-     * moves selected attribute up in list
+     * Moves selected attribute up in list.
      */
     void slotUpClicked();
 
     /**
-     * moved selected attribute down in list
+     * Moved selected attribute down in list.
      */
     void slotDownClicked();
 
     /**
-     * moved selected attribute to the bottom of the list
+     * Moved selected attribute to the bottom of the list.
      */
     void slotBottomClicked();
 
     /**
-     * shows dialog for new attribute
+     * Shows dialog for new attribute.
      */
     void slotNewListItem();
 
     /**
-     * removes currently seleted attribute
+     * Removes currently seleted attribute.
      */
     void slotDelete();
 
     /**
-     * shows properties dialog for currently selected attribute
+     * Shows properties dialog for currently selected attribute.
      */
     void slotProperties();
 };
