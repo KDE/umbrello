@@ -100,6 +100,7 @@ protected:
     virtual void updateGeometry();
     virtual void updateTextItemGroups();
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
 private:
     void tabUp();

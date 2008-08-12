@@ -490,6 +490,25 @@ QVariant ObjectWidget::attributeChange(WidgetAttributeChange change, const QVari
 }
 
 /**
+ * Reimplemented from QGraphicsItem::itemChange to handle @ref
+ * ItemPositionChange to allow only horizontal movement of Object
+ * widget.
+ */
+QVariant ObjectWidget::itemChange(GraphicsItemChange change, const QVariant& value)
+{
+    UMLScene *uScene = umlScene();
+
+    if (change == ItemPositionChange) {
+        if (uScene && uScene->getType() == Uml::dt_Sequence && uScene->isMouseMovingItems()) {
+            QPointF newPoint = value.toPointF();
+            newPoint.setY(y()); // set old y, so no vertical movement
+            return newPoint;
+        }
+    }
+    return NewUMLRectWidget::itemChange(change, value);
+}
+
+/**
  * Shifts the object a little higher, provided it is still in diagram
  * limits.
  */
