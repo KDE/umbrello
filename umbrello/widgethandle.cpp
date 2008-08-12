@@ -272,6 +272,9 @@ void WidgetHandle::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         ; // NOP to prevent compiler warning
     }
 
+    if (m_widget->parentItem()) {
+        newRect.moveTopLeft(m_widget->parentItem()->mapFromScene(newRect.topLeft()));
+    }
     // Apply the geometry change now to the associated widget.
     m_widget->setPos(newRect.topLeft());
     m_widget->setSize(newRect.size());
