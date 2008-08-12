@@ -126,7 +126,8 @@ void ToolBarStateOneWidget::setWidget(NewUMLRectWidget* firstObject)
     NewUMLRectWidget * umlwidget = NULL;
     //m_pUMLScene->viewport()->setMouseTracking(true);
     if (getWidgetType() == Uml::wt_Precondition) {
-        umlwidget = new PreconditionWidget(m_pUMLScene, static_cast<ObjectWidget*>(m_firstObject));
+        umlwidget = new PreconditionWidget(static_cast<ObjectWidget*>(m_firstObject));
+        Q_ASSERT (umlwidget->umlScene() == m_pUMLScene);
 
         Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
             // Create the widget. Some setup functions can remove the widget.

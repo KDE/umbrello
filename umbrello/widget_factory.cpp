@@ -201,7 +201,7 @@ NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "forkjoin") {
         widget = new ForkJoinWidget(Qt::Horizontal, Uml::id_Reserved);
     } else if (tag == "preconditionwidget") {
-        widget = new PreconditionWidget(scene, NULL, Uml::id_Reserved);
+        widget = new PreconditionWidget(NULL, Uml::id_Reserved);
     } else if (tag == "combinedFragmentwidget") {
         widget = new CombinedFragmentWidget(CombinedFragmentWidget::Ref, Uml::id_Reserved);
     } else if (tag == "signalwidget") {
