@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,26 +11,24 @@
 #ifndef UMLUNIQUECONSTRAINTDIALOG_H
 #define UMLUNIQUECONSTRAINTDIALOG_H
 
-//qt  includes
-#include <QtGui/QWidget>
-#include <QtGui/QLabel>
-#include <q3groupbox.h>
-#include <q3listbox.h>
-#include <q3textedit.h>
-#include <QtGui/QPushButton>
-
-//kde includes
-#include <karrowbutton.h>
-#include <kcombobox.h>
-#include <kdialog.h>
-#include <klineedit.h>
-
 //app includes
 #include "umlclassifierlistitemlist.h"
 #include "umlentityattributelist.h"
 
+//kde includes
+#include <kdialog.h>
+
+//qt  includes
+#include <QtGui/QWidget>
+
 class UMLDoc;
 class UMLUniqueConstraint;
+class KComboBox;
+class KLineEdit;
+class QGroupBox;
+class QLabel;
+class QListWidget;
+class QPushButton;
 
 /**
  * A dialog page to display unique constraint properties.
@@ -45,45 +42,43 @@ class UMLUniqueConstraintDialog : public KDialog
     Q_OBJECT
 public:
     /**
-     *  Sets up the UMLUniqueConstraintDialog
-     *
+     *  Sets up the UMLUniqueConstraintDialog.
      *  @param parent   The parent to the UMLUniqueConstraintDialog.
      *  @param pUniqueConstraint The Unique Constraint to show the properties of.
      */
     UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint);
 
     /**
-     *  Standard destructor
+     *  Standard destructor.
      */
     ~UMLUniqueConstraintDialog();
-
 
 protected:
 
     /**
-    *   Sets up the dialog
-    */
+     * Sets up the dialog.
+     */
     void setupDialog();
 
     /**
-     * Apply Changes
+     * Apply changes.
      */
     bool apply();
-private:
 
+private:
 
     UMLUniqueConstraint* m_pUniqueConstraint;
 
     /**
-      * The UMLDocument where all objects live
-      */
+     * The UMLDocument where all objects live.
+     */
     UMLDoc* m_doc;
 
     /* GUI Widgets */
     QGroupBox* m_pAttributeListGB;
     QLabel* m_pNameL;
     KLineEdit* m_pNameLE;
-    Q3ListBox* m_pAttributeListLB;
+    QListWidget* m_pAttributeListLW;
     KComboBox* m_pAttributeCB;
     QPushButton* m_pAddPB,*m_pRemovePB;
 
@@ -95,28 +90,27 @@ private:
 public slots:
 
     /**
-     * Enable or Disable the widgets
-     *
+     * Enable or Disable the widgets.
      */
     void slotResetWidgetState();
 
     /**
-     * Used when the Apply Button is clicked
+     * Used when the Apply Button is clicked.
      */
     void slotApply();
 
     /**
-     * Used when the OK button is clicked.  Calls apply()
+     * Used when the OK button is clicked.  Calls apply().
      */
     void slotOk();
 
     /**
-     * adds attribute to the list
+     * Adds attribute to the list.
      */
     void slotAddAttribute();
 
     /**
-     * deletes an attribute from the list
+     * Deletes an attribute from the list.
      */
     void slotDeleteAttribute();
 

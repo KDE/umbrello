@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -9,15 +8,6 @@
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 #include "umluniqueconstraintdialog.h"
-
-#include <QtGui/QLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-
-#include <kdebug.h>
-#include <kdialogbuttonbox.h>
-#include <klocale.h>
-#include <kmessagebox.h>
 
 #include "attribute.h"
 #include "classifierlistitem.h"
@@ -33,6 +23,19 @@
 #include "uniqueconstraint.h"
 #include "umldoc.h"
 
+#include <kcombobox.h>
+#include <kdebug.h>
+#include <kdialogbuttonbox.h>
+#include <klineedit.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+
+#include <QtGui/QGroupBox>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QListWidget>
+#include <QtGui/QPushButton>
 
 UMLUniqueConstraintDialog::UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint) : KDialog(parent)
 {
@@ -82,15 +85,15 @@ void UMLUniqueConstraintDialog::setupDialog()
 
     // group box to hold the column details
     // top group box, contains a vertical layout with list box above and buttons below
-    m_pAttributeListGB = new Q3GroupBox(i18n( "Attribute Details" ), frame );
+    m_pAttributeListGB = new QGroupBox(i18n( "Attribute Details" ), frame );
     mainLayout->addWidget( m_pAttributeListGB );
 
     QVBoxLayout* listVBoxLayout = new QVBoxLayout( m_pAttributeListGB );
     listVBoxLayout->setMargin(margin);
     listVBoxLayout->setSpacing ( 10 );
 
-    m_pAttributeListLB = new Q3ListBox(m_pAttributeListGB);
-    listVBoxLayout->addWidget( m_pAttributeListLB );
+    m_pAttributeListLW = new QListWidget(m_pAttributeListGB);
+    listVBoxLayout->addWidget( m_pAttributeListLW );
 
     // Horizontal Layout to hold  attributes CB, the add, and remove buttons
     QHBoxLayout* comboButtonHBoxLayout = new QHBoxLayout();
@@ -128,7 +131,7 @@ void UMLUniqueConstraintDialog::setupDialog()
         // add to local cache
         m_pConstraintAttributeList.append( att );
         // add to list box
-        m_pAttributeListLB->insertItem( att->toString( Uml::st_SigNoVis ) );
+        m_pAttributeListLW->addItem( att->toString( Uml::st_SigNoVis ) );
 
         int index = m_pEntityAttributeList.indexOf( att );
         m_pEntityAttributeList.removeAt( index );
@@ -139,13 +142,13 @@ void UMLUniqueConstraintDialog::setupDialog()
     m_pNameLE->setText( m_pUniqueConstraint->getName() );
 
     // select firstItem
-    if ( m_pAttributeListLB->count()!=0 ) {
-        m_pAttributeListLB->setSelected( 0, true );
+    if ( m_pAttributeListLW->count() != 0 ) {
+        m_pAttributeListLW->setCurrentRow( 0 );
     }
 
     slotResetWidgetState();
 
-    connect( m_pAttributeListLB, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( slotResetWidgetState() ) );
+    connect( m_pAttributeListLW, SIGNAL( itemClicked( QListWidgetItem* ) ), this, SLOT( slotResetWidgetState() ) );
 }
 
 void UMLUniqueConstraintDialog::slotAddAttribute()
@@ -170,15 +173,15 @@ void UMLUniqueConstraintDialog::slotAddAttribute()
     m_pConstraintAttributeList.append( entAtt );
 
     // add to list box
-    int count = m_pAttributeListLB->count();
-    m_pAttributeListLB->insertItem( entAtt->toString( Uml::st_SigNoVis ), count );
+    int count = m_pAttributeListLW->count();
+    m_pAttributeListLW->insertItem( count, entAtt->toString( Uml::st_SigNoVis ) );
 
     slotResetWidgetState();
 }
 
 void UMLUniqueConstraintDialog::slotDeleteAttribute()
 {
-    int index = m_pAttributeListLB->currentItem();
+    int index = m_pAttributeListLW->currentRow();
 
     if ( index == -1 ) {
         return;
@@ -190,7 +193,7 @@ void UMLUniqueConstraintDialog::slotDeleteAttribute()
     //remove from constraint
     m_pConstraintAttributeList.removeAt( index );
     // remove from list box
-    m_pAttributeListLB->removeItem( index );
+    m_pAttributeListLW->takeItem( index );
 
     // add to list
     m_pEntityAttributeList.append( entAtt );
@@ -244,7 +247,7 @@ void UMLUniqueConstraintDialog::slotResetWidgetState()
     m_pRemovePB->setEnabled( true );
 
     // get index of selected Attribute in List Box
-    int index = m_pAttributeListLB->currentItem();
+    int index = m_pAttributeListLW->currentRow();
     // if index is not invalid ( -1 ), then activate the Remove Button
     if ( index == -1 ) {
         m_pRemovePB->setEnabled( false );
