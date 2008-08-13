@@ -64,7 +64,7 @@ void UMLAttribute::setVisibility(Uml::Visibility s)
     UMLObject::emitModified();
 }
 
-QString UMLAttribute::getInitialValue() 
+QString UMLAttribute::getInitialValue() const
 {
     return m_InitialValue;
 }

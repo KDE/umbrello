@@ -15,7 +15,7 @@
 #include <kdialog.h>
 
 //qt includes
-#include <QListWidgetItem>
+#include <QtGui/QListWidgetItem>
 
 class UMLOperation;
 class ListPopupMenu;

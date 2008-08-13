@@ -604,9 +604,10 @@ void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleNa
 
 void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility /*visibility*/, Uml::Changeability_Type changeType,
+        Uml::Visibility visibility, Uml::Changeability_Type changeType,
         QTextStream &d)
 {
+    Q_UNUSED(visibility);
     fieldClassName = fixTypeName(fieldClassName);
     QString fieldNameUP = unPluralize(fieldName);
     QString fieldNameUC = Codegen_Utils::capitalizeFirstLetter(fieldNameUP);
