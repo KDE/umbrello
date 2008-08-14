@@ -97,7 +97,7 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     if ( item == pageItemGeneral )
     {
         m_pActivityWidget->setName( m_GenPageWidgets.nameLE->text() );
-        m_pActivityWidget->setDoc( m_GenPageWidgets.docTE->text() );
+        m_pActivityWidget->setDoc( m_GenPageWidgets.docTE->toPlainText() );
         m_pActivityWidget->setPreText( m_GenPageWidgets.preLE->text() );
         m_pActivityWidget->setPostText( m_GenPageWidgets.postLE->text() );
 
