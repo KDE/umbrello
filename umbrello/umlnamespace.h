@@ -134,7 +134,8 @@ enum Diagram_Type
     dt_Activity,
     dt_Component,
     dt_Deployment,
-    dt_EntityRelationship
+    dt_EntityRelationship,
+    N_DIAGRAMTYPES   // must remain last 
 };
 
 enum Association_Type
