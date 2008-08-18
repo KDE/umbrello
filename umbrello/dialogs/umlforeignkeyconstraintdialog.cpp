@@ -34,7 +34,9 @@
 #include <kvbox.h>
 #include <kmessagebox.h>
 
+#include <QtGui/QLabel>
 #include <QtGui/QLayout>
+#include <QtGui/QGridLayout>
 #include <QtGui/QGroupBox>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHBoxLayout>

@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,12 +11,9 @@
 // own header
 #include "dialog_utils.h"
 
-// qt includes
-#include <q3groupbox.h>
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QGridLayout>
+// app includes
+#include "uml.h"
+#include "umlwidget.h"
 
 // kde includes
 #include <kinputdialog.h>
@@ -25,33 +21,23 @@
 #include <klocale.h>
 #include <klineedit.h>
 
-// app includes
-#include "uml.h"
-#include "umlwidget.h"
+// qt includes
+#include <QtGui/QGridLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
 
 namespace Dialog_Utils {
 
-/* deprecated */
-KLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,QLabel * &label, const QString& labelText, KLineEdit * &editField, const QString& editFieldText /* = QString() */)
-{
-    label = new QLabel(labelText, containingBox);
-    layout->addWidget(label, row, 0);
-    editField = new KLineEdit(editFieldText, containingBox);
-    layout->addWidget(editField, row, 1 );
-    label->setBuddy(editField);
-    return editField;
-}
-
 KLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,QLabel * &label, const QString& labelText, KLineEdit * &editField, const QString& editFieldText /* = QString() */)
 {
-    label = new QLabel(labelText, containingBox);
+    Q_UNUSED(containingBox);
+    label = new QLabel(labelText);
     layout->addWidget(label, row, 0);
-    editField = new KLineEdit(editFieldText, containingBox);
+    editField = new KLineEdit(editFieldText);
     layout->addWidget(editField, row, 1 );
     label->setBuddy(editField);
     return editField;
 }
-
 
 void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName)
