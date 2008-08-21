@@ -26,6 +26,7 @@
 class UMLScene;
 class TestPrivate;
 class QBrush;
+class NewUMLWidget;
 
 class Test : public QObject
 {
@@ -37,12 +38,15 @@ public:
     static Test* self();
     static Test *m_self;
 
+    void updateWidgetGeometry(NewUMLWidget *);
+
     QBrush randomGradientBrush();
 
 protected:
     void timerEvent(QTimerEvent *event);
 
 private:
+    QList<NewUMLWidget*> widgetsForUpdation;
     TestPrivate *d;
 };
 

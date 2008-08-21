@@ -143,14 +143,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder) :
     m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
     m_pDoc = UMLApp::app()->getDocument();
     m_pFolder = parentFolder;
-
-#ifdef TEST
-    /*
-     * Test code below.
-     */
-    Test *test = Test::self();
-    test->testScene(this);
-#endif
 }
 
 UMLScene::~UMLScene()
@@ -688,7 +680,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
 
     MessageWidgetListIt it(m_MessageList);
     foreach(MessageWidget *obj , m_MessageList) {
-        if (! obj->contains(w))
+        if (! obj->hasObjectWidget(w))
             continue;
         //make sure message doesn't have any associations
         removeAssociations(obj);
@@ -1456,8 +1448,8 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
             uDebug() << "pMessage is NULL";
             return false;
         }
-        ObjectWidget *objWidgetA = pMessage->getWidget(A);
-        ObjectWidget *objWidgetB = pMessage->getWidget(B);
+        ObjectWidget *objWidgetA = pMessage->objectWidget(A);
+        ObjectWidget *objWidgetB = pMessage->objectWidget(B);
         Uml::IDType waID = objWidgetA->localID();
         Uml::IDType wbID = objWidgetB->localID();
         Uml::IDType newWAID = m_pIDChangesLog->findNewID(waID);
@@ -1471,7 +1463,7 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
         // are pristine in the sense that we may freely change their local IDs.
         objWidgetA->setLocalID(newWAID);
         objWidgetB->setLocalID(newWBID);
-        FloatingTextWidget *ft = pMessage->getFloatingTextWidget();
+        FloatingTextWidget *ft = pMessage->floatingTextWidget();
         if (ft == NULL)
             uDebug() << "FloatingTextWidget of Message is NULL";
         else if (ft->getID() == Uml::id_None)
@@ -2754,8 +2746,8 @@ void UMLScene::checkSelections()
     foreach(NewUMLRectWidget *pTemp , selectedWidgets()) {
         if (pTemp->getBaseType() == wt_Message && pTemp->isSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
-            pWA = pMessage->getWidget(A);
-            pWB = pMessage->getWidget(B);
+            pWA = pMessage->objectWidget(A);
+            pWB = pMessage->objectWidget(B);
             if (!pWA->isSelected()) {
                 // [PORT] Was setSelectedFlag before
                 pWA->setSelected(true);
@@ -3199,17 +3191,18 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
         QString tag = messageElement.tagName();
         if (tag == "messagewidget" ||
             tag == "UML:MessageWidget") {   // for bkwd compatibility
-            message = new MessageWidget(this, sequence_message_asynchronous,
+            message = new MessageWidget(sequence_message_asynchronous,
                                         Uml::id_Reserved);
+            addWidget(message);
             if (!message->loadFromXMI(messageElement)) {
                 delete message;
                 return false;
             }
             m_MessageList.append(message);
-            FloatingTextWidget *ft = message->getFloatingTextWidget();
+            FloatingTextWidget *ft = message->floatingTextWidget();
             if (ft)
                 m_WidgetList.append(ft);
-            else if (message->getSequenceMessageType() != sequence_message_creation)
+            else if (message->sequenceMessageType() != sequence_message_creation)
                 uDebug() << "ft is NULL for message " << ID2STR(message->getID()) << endl;
         }
         node = messageElement.nextSibling();
@@ -3679,6 +3672,17 @@ void UMLScene::sortWidgetList(UMLWidgetList &widgetList, Compare comp)
     for (QVector<NewUMLRectWidget*>::iterator it = widgetVector.begin(); it != widgetVector.end(); ++it) {
         widgetList.append(*it);
     }
+}
+
+void UMLScene::test()
+{
+#ifdef TEST
+    /*
+     * Test code below.
+     */
+    Test *test = Test::self();
+    test->testScene(this);
+#endif
 }
 
 #include "umlscene.moc"

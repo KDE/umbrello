@@ -325,7 +325,7 @@ set(libumbrello_SRCS
    listpopupmenu.cpp
    main.cpp
    messagewidget.cpp
-   messagewidgetcontroller.cpp
+#   messagewidgetcontroller.cpp
    model_utils.cpp
    newumlwidget.cpp
    newumlrectwidget.cpp

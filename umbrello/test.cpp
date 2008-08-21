@@ -20,8 +20,11 @@
 #include "test.h"
 
 #include "boxwidget.h"
+#include "classifier.h"
 #include "enum.h"
 #include "floatingdashlinewidget.h"
+#include "messagewidget.h"
+#include "objectwidget.h"
 #include "textitem.h"
 #include "umlscene.h"
 #include "umlview.h"
@@ -30,6 +33,7 @@
 #include <QtCore/QMetaProperty>
 #include <QtCore/QTime>
 #include <QtCore/QTimerEvent>
+#include <QtGui/QApplication>
 
 #include <kdebug.h>
 
@@ -65,6 +69,7 @@ Test::Test() :
     d(new TestPrivate)
 {
     qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
+    startTimer(100);
 }
 
 Test* Test::self()
@@ -77,11 +82,32 @@ Test* Test::self()
 
 void Test::testScene(UMLScene *scene)
 {
-    FloatingDashLineWidget *wid = new FloatingDashLineWidget();
-    wid->setText("Hello");
-    wid->setSize(300, 10);
+    if (scene->getType() != Uml::dt_Sequence)
+        return;
 
+    UMLClassifier *obj = new UMLClassifier("hello");
+    ObjectWidget *wid = new ObjectWidget(obj);
     scene->addItem(wid);
+    wid->setPos(100, 100);
+    updateWidgetGeometry(wid);
+
+    UMLClassifier *obj1 = new UMLClassifier("world");
+    ObjectWidget *wid1 = new ObjectWidget(obj1);
+    scene->addItem(wid1);
+    wid1->setPos(200, 100);
+    updateWidgetGeometry(wid1);
+
+    MessageWidget *msg = new MessageWidget(wid, wid1, Uml::sequence_message_asynchronous);
+    scene->addItem(msg);
+    msg->setObjectWidget(wid, Uml::A);
+
+    wid->adjustSequentialLineEnd();
+    wid->adjustSequentialLineEnd();
+}
+
+void Test::updateWidgetGeometry(NewUMLWidget *wid)
+{
+    widgetsForUpdation.append(wid);
 }
 
 QBrush Test::randomGradientBrush()
@@ -126,6 +152,10 @@ QBrush Test::randomGradientBrush()
 
 void Test::timerEvent(QTimerEvent *event)
 {
+    if (!widgetsForUpdation.isEmpty()) {
+        NewUMLWidget *wid = widgetsForUpdation.takeFirst();
+        wid->setFont(qApp->font());
+    }
     return QObject::timerEvent(event);
 }
 

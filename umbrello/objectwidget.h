@@ -74,7 +74,10 @@ public:
     bool canTabUp() const;
 
     qreal lineEndY() const;
+    qreal lineEndYInParentCoords() const;
     void setLineEndY(qreal yPosition);
+
+    qreal sequentialLineX() const;
 
     void messageAdded(MessageWidget* message);
     void messageRemoved(MessageWidget* message);

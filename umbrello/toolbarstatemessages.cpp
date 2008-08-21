@@ -129,14 +129,14 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         xclick = m_pMouseEvent->scenePos().x();
         yclick = m_pMouseEvent->scenePos().y();
 
-        MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject, xclick, yclick, msgType);
-
+        MessageWidget* message = new MessageWidget(m_firstObject, QPointF(xclick, yclick), msgType);
+        m_pUMLScene->addWidget(message);
         cleanMessage();
         m_pUMLScene->getMessageList().append(message);
         xclick = 0;
         yclick = 0;
 
-        FloatingTextWidget *ft = message->getFloatingTextWidget();
+        FloatingTextWidget *ft = message->floatingTextWidget();
         //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
         //Shouldn't it cancel also the whole creation?
         ft->showOperationDialog();
@@ -171,14 +171,15 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
     Uml::Sequence_Message_Type msgType = getMessageType();
 
     if (msgType ==  Uml::sequence_message_found && xclick!=0 && yclick!=0) {
-        MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,xclick, yclick, msgType);
+        MessageWidget* message = new MessageWidget(m_firstObject, QPointF(xclick, yclick), msgType);
+        m_pUMLScene->addWidget(message);
         cleanMessage();
         m_pUMLScene->getMessageList().append(message);
 
         xclick = 0;
         yclick = 0;
 
-        FloatingTextWidget *ft = message->getFloatingTextWidget();
+        FloatingTextWidget *ft = message->floatingTextWidget();
         //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
         //Shouldn't it cancel also the whole creation?
         ft->showOperationDialog();
@@ -220,14 +221,16 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
         y = m_messageLine->line().p1().y();
     }
 
-    MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,
-                                               secondObject, y, msgType);
+    MessageWidget* message = new MessageWidget(m_firstObject,
+                                               secondObject, msgType);
+    m_pUMLScene->addWidget(message);
+    message->setY(y);
 
     cleanMessage();
 
     m_pUMLScene->getMessageList().append(message);
 
-    FloatingTextWidget *ft = message->getFloatingTextWidget();
+    FloatingTextWidget *ft = message->floatingTextWidget();
     //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
     //Shouldn't it cancel also the whole creation?
     ft->showOperationDialog();

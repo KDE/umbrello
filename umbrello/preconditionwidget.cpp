@@ -78,7 +78,7 @@ qreal PreconditionWidget::maxY() const
         return 1000;
     }
 
-    return m_objectWidget->lineEndY() - margin();
+    return m_objectWidget->lineEndYInParentCoords() - margin();
 }
 
 /**

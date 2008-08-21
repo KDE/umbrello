@@ -116,6 +116,7 @@ class UMLScene : public QGraphicsScene
      */
     void setType(Uml::Diagram_Type type) {
         m_Type = type;
+        test();
     }
 
     /**
@@ -1317,6 +1318,8 @@ public slots:
      * Horizontal Distribute Alignment
      */
     void alignHorizontalDistribute();
+
+    void test();
 
 signals:
     void sigResetToolBar();

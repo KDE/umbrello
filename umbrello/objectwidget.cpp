@@ -129,8 +129,25 @@ bool ObjectWidget::canTabUp() const
     return (y > topMargin());
 }
 
-/// @return Y coordinate of the endpoint of the sequence line.
+/**
+ * @return Y coordinate of the endpoint of the sequence line (scene
+ *         coords)
+ */
 qreal ObjectWidget::lineEndY() const
+{
+    if (m_sequentialLine) {
+        return m_sequentialLine->sceneBoundingRect().bottom();
+    }
+
+    uError() << "Line is null";
+    return boundingRect().bottom();
+}
+
+/**
+ * @return Y coordinate of the endpoint of the sequence line in parent
+ *           that is this ObjectWidget coordinates.
+ */
+qreal ObjectWidget::lineEndYInParentCoords() const
 {
     if (m_sequentialLine) {
         QPointF lineBottom = m_sequentialLine->boundingRect().bottomLeft();
@@ -142,6 +159,7 @@ qreal ObjectWidget::lineEndY() const
     return boundingRect().bottom();
 }
 
+
 /**
  * Sets the y position of the bottom of the vertical line.
  *
@@ -152,6 +170,16 @@ void ObjectWidget::setLineEndY(qreal yPosition)
     if (m_sequentialLine) {
         m_sequentialLine->setEndOfLine(yPosition);
     }
+}
+
+/// @return The 'X' coordinate corresponding to sequential line.
+qreal ObjectWidget::sequentialLineX() const
+{
+    if (m_sequentialLine) {
+        return m_sequentialLine->scenePos().x();
+    }
+
+    return x() + .5 * width();
 }
 
 /**
@@ -503,6 +531,11 @@ QVariant ObjectWidget::itemChange(GraphicsItemChange change, const QVariant& val
             QPointF newPoint = value.toPointF();
             newPoint.setY(y()); // set old y, so no vertical movement
             return newPoint;
+        }
+    }
+    else if (change == ItemPositionHasChanged) {
+        foreach(MessageWidget *msg, m_messages) {
+            msg->handleObjectMove(this);
         }
     }
     return NewUMLRectWidget::itemChange(change, value);

@@ -77,6 +77,23 @@ public:
         setSize(QSizeF(width, height));
     }
 
+    /// @return Height of widget.
+    qreal height() const {
+        return m_size.height();
+    }
+    /// Shortcut for setSize(width(), ht)
+    void setHeight(qreal ht) {
+        setSize(m_size.width(), ht);
+    }
+    /// @return Width of widget.
+    qreal width() const {
+        return m_size.width();
+    }
+    /// Shortcut for setSize(wt, height())
+    void setWidth(qreal wt) {
+        setSize(wt, m_size.height());
+    }
+
 	/// @return Whether widget is resizable or not.
     bool isResizable() const {
         return m_resizable;
@@ -191,9 +208,7 @@ public:
     NewUMLRectWidget(UMLScene *scene, UMLObject *obj);
 
     qreal getWidth() const { return size().width(); }
-    void setWidth(qreal w) { setSize(w, getHeight()); }
     qreal getHeight() const { return size().height(); }
-    void setHeight(qreal h) { setSize(getWidth(), h); }
 
     QString getInstanceName() const { return instanceName(); }
     bool getIsInstance() const { return isInstance(); }
