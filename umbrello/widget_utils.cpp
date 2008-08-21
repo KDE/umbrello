@@ -99,7 +99,7 @@ namespace Widget_Utils
     }
 
 	void drawTriangledRect(QPainter *painter,
-										 const QRectF& rect, const QSizeF& triSize)
+                           const QRectF& rect, const QSizeF& triSize)
 	{
 		// Draw outer boundary defined by polygon "poly".
 		QPolygonF poly(5);
@@ -116,6 +116,30 @@ namespace Widget_Utils
 		QLineF baseEdge(heightEdge.p2(), poly[2]);
 		painter->drawLine(baseEdge);
 	}
+
+    void drawArrowHead(QPainter *painter, const QPointF &arrowPos,
+                       const QSizeF& arrowSize, Qt::ArrowType arrowType,
+                       bool  solid)
+    {
+        QPolygonF poly;
+        if (arrowType == Qt::LeftArrow) {
+            poly << QPointF(arrowPos.x() + arrowSize.width(), arrowPos.y() - .5 * arrowSize.height())
+                 << arrowPos
+                 << QPointF(arrowPos.x() + arrowSize.width(), arrowPos.y() + .5 * arrowSize.height());
+        }
+        else if (arrowType == Qt::RightArrow) {
+            poly << QPointF(arrowPos.x() - arrowSize.width(), arrowPos.y() - .5 * arrowSize.height())
+                 << arrowPos
+                 << QPointF(arrowPos.x() - arrowSize.width(), arrowPos.y() + .5 * arrowSize.height());
+        }
+
+        if (solid) {
+            painter->drawPolygon(poly);
+        }
+        else {
+            painter->drawPolyline(poly);
+        }
+    }
 
     QString pointToString(const QPointF& point)
     {

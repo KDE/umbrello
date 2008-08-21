@@ -71,6 +71,19 @@ namespace Widget_Utils
 	void drawTriangledRect(QPainter *painter, const QRectF& rect, const QSizeF& triSize);
 
     /**
+     * Draws an arrow head with the given painter, with the arrow
+     * sharp point at \a headPos.
+     *
+     * @param painter    The painter with which this arrow should be drawn.
+     * @param headPos    The position where the head of the arrow should lie.
+     * @param arrowSize  This indicates the size of the arrow head.
+     * @param arrowType  This indicates direction of arrow as in LeftArrow, RightArrow..
+     * @param solid      If true, a solid head is drawn. Otherwise 2 lines are drawn.
+     */
+    void drawArrowHead(QPainter *painter, const QPointF& arrowPos,
+                       const QSizeF& arrowSize, Qt::ArrowType arrowType,
+                       bool solid = false);
+    /**
      * Converts a point to a comma separated string i.e "x,y"
      */
     QString pointToString(const QPointF& point);
