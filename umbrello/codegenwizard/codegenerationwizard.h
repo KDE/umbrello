@@ -46,9 +46,9 @@ private:
     QWizardPage* createOptionsPage();
     QWizardPage* createStatusPage();
 
-    CodeGenSelectPage  *m_CodeGenSelectPage;
-    CodeGenOptionsPage *m_CodeGenOptionsPage;
-    CodeGenStatusPage  *m_CodeGenStatusPage;
+    CodeGenSelectPage  *m_SelectionPage;
+    CodeGenOptionsPage *m_OptionsPage;
+    CodeGenStatusPage  *m_StatusPage;
 
     static const QSize c_pageSize;
 };

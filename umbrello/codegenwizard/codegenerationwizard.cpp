@@ -26,9 +26,8 @@
 #include "codegenoptionspage.h"
 #include "codegenstatuspage.h"
 #include "classifier.h"
-#include "uml.h"
 #include "icon_utils.h"
-
+#include "uml.h"
 
 const QSize CodeGenerationWizard::c_pageSize = QSize(520, 530);
 
@@ -64,10 +63,10 @@ CodeGenerationWizard::~CodeGenerationWizard()
  */
 QWizardPage* CodeGenerationWizard::createSelectionPage(UMLClassifierList *classList)
 {
-    m_CodeGenSelectPage = new CodeGenSelectPage(this);
-    m_CodeGenSelectPage->setClassifierList(classList);
-    m_CodeGenSelectPage->setFixedSize(c_pageSize);
-    return m_CodeGenSelectPage;
+    m_SelectionPage = new CodeGenSelectPage(this);
+    m_SelectionPage->setClassifierList(classList);
+    m_SelectionPage->setFixedSize(c_pageSize);
+    return m_SelectionPage;
 }
 
 /**
@@ -77,9 +76,9 @@ QWizardPage* CodeGenerationWizard::createSelectionPage(UMLClassifierList *classL
  */
 QWizardPage* CodeGenerationWizard::createOptionsPage()
 {
-    m_CodeGenOptionsPage = new CodeGenOptionsPage(this);
-    m_CodeGenOptionsPage->setFixedSize(c_pageSize);
-    return m_CodeGenOptionsPage;
+    m_OptionsPage = new CodeGenOptionsPage(this);
+    m_OptionsPage->setFixedSize(c_pageSize);
+    return m_OptionsPage;
 }
 
 /**
@@ -89,9 +88,9 @@ QWizardPage* CodeGenerationWizard::createOptionsPage()
  */
 QWizardPage* CodeGenerationWizard::createStatusPage()
 {
-    m_CodeGenStatusPage = new CodeGenStatusPage(this);
-    m_CodeGenStatusPage->setFixedSize(c_pageSize);
-    return m_CodeGenStatusPage;
+    m_StatusPage = new CodeGenStatusPage(this);
+    m_StatusPage->setFixedSize(c_pageSize);
+    return m_StatusPage;
 }
 
 /**
@@ -102,5 +101,5 @@ QWizardPage* CodeGenerationWizard::createStatusPage()
  */
 QListWidget* CodeGenerationWizard::getSelectionListWidget()
 {
-    return m_CodeGenSelectPage->getSelectionListWidget();
+    return m_SelectionPage->getSelectionListWidget();
 }
