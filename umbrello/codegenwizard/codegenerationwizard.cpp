@@ -38,7 +38,7 @@ const QSize CodeGenerationWizard::c_pageSize = QSize(520, 530);
  */
 CodeGenerationWizard::CodeGenerationWizard(UMLClassifierList *classList)
   : QWizard((QWidget*)UMLApp::app())
-  {
+{
     setWizardStyle(QWizard::ModernStyle);
     setPixmap(QWizard::LogoPixmap, Icon_Utils::UserIcon(Icon_Utils::it_Code_Gen_Wizard));
     setWindowTitle(i18n("Code Generation Wizard"));
