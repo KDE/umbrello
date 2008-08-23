@@ -1,33 +1,44 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "classwizard.h"
 
-// system includes
+// local includes
+#include "attribute.h"
+#include "classifier.h"
+#include "classifierlistitem.h"
+#include "classifierlistpage.h"
+#include "classgenpage.h"
+#include "operation.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlclassifierlistitemlist.h"
+
+// kde includes
 #include <khelpmenu.h>
 #include <klocale.h>
 
-// local includes
-#include "classifierlistpage.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../classifier.h"
-#include "../attribute.h"
-#include "../operation.h"
-#include "../umlclassifierlistitemlist.h"
-#include "../classifierlistitem.h"
+// qt includes
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QWizardPage>
 
-ClassWizard::ClassWizard( UMLDoc * pDoc ) : K3Wizard( (QWidget*)pDoc -> parent(), "_CLASSWIZARD_", true) {
-    m_pDoc = pDoc;
+/**
+ * Constructor. Sets up the wizard and loads the wizard pages.
+ * Each wizard page has its own class.
+ * @param doc   the UML document
+ */
+ClassWizard::ClassWizard(UMLDoc* doc)
+    : QWizard( (QWidget*)doc->parent())
+{
+    m_pDoc = doc;
     //create a unique class to start with
     UMLObject * pTemp = 0;
     QString name = i18n("new_class");
@@ -36,77 +47,132 @@ ClassWizard::ClassWizard( UMLDoc * pDoc ) : K3Wizard( (QWidget*)pDoc -> parent()
     int i = 0;
     m_pClass = new UMLClassifier( newName );
     do {
-        m_pClass -> setName( newName );
-        pTemp = m_pDoc -> findUMLObject( newName );
+        m_pClass->setName( newName );
+        pTemp = m_pDoc->findUMLObject( newName );
         num.setNum( ++i);
         newName = name;
         newName.append("_").append( num );
     } while( pTemp );
-    //setup pages
-    setupPages();
+
+    setWizardStyle(QWizard::ModernStyle);
+    setPixmap(QWizard::LogoPixmap, Icon_Utils::UserIcon(Icon_Utils::it_Code_Gen_Wizard));
+    setWindowTitle(i18n("Class Wizard"));
+    setOption(QWizard::NoBackButtonOnStartPage, true);
+    setOption(QWizard::HaveHelpButton, true);
+    connect(this, SIGNAL(helpRequested()), this, SLOT(showHelp()));
+
+    addPage(createGeneralPage());
+    addPage(createAttributesPage());
+    addPage(createOperationsPage());
 }
 
-ClassWizard::~ClassWizard() {}
+/**
+ * Destructor.
+ */
+ClassWizard::~ClassWizard()
+{
+}
 
-void ClassWizard::setupPages() {
-    //Setup General Page
-    m_pGenPage = new ClassGenPage( m_pDoc, this, m_pClass );
-    addPage( m_pGenPage, i18n("New Class") );
-    setHelpEnabled(m_pGenPage, false);
+/**
+ * Create page 1 of wizard - the general class info.
+ */
+QWizardPage* ClassWizard::createGeneralPage()
+{
+    m_GeneralPage = new QWizardPage;
+    m_GeneralPage->setTitle(i18n("New Class"));
+    m_GeneralPage->setSubTitle(i18n("Add general info about the new class."));
 
-    //Setup Attribute Page
+    m_pGenPage = new ClassGenPage(m_pDoc, this, m_pClass);
+
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->addWidget(m_pGenPage);
+    m_GeneralPage->setLayout(layout);
+
+    return m_GeneralPage;
+}
+
+/**
+ * Create page 2 of wizard - the class attributes editor.
+ */
+QWizardPage* ClassWizard::createAttributesPage()
+{
+    m_AttributesPage = new QWizardPage;
+    m_AttributesPage->setTitle(i18n("Class Attributes"));
+    m_AttributesPage->setSubTitle(i18n("Add attributes to the new class."));
+
     m_pAttPage = new ClassifierListPage(this, m_pClass, m_pDoc, Uml::ot_Attribute);
-    addPage( m_pAttPage, i18n("Class Attributes") );
 
-    //Setup Operation Page
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->addWidget(m_pAttPage);
+    m_AttributesPage->setLayout(layout);
+
+    return m_AttributesPage;
+}
+
+/**
+ * Create page 3 of wizard - the class operations editor.
+ */
+QWizardPage* ClassWizard::createOperationsPage()
+{
+    m_OperationsPage = new QWizardPage;
+    m_OperationsPage->setTitle(i18n("Class Operations"));
+    m_OperationsPage->setSubTitle(i18n("Add operations to the new class."));
+
     m_pOpPage = new ClassifierListPage(this, m_pClass, m_pDoc, Uml::ot_Operation);
-    addPage( m_pOpPage, i18n("Class Operations") );
+
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->addWidget(m_pOpPage);
+    m_OperationsPage->setLayout(layout);
+
+    return m_OperationsPage;
 }
 
-void ClassWizard::showPage( QWidget * pWidget ) {
-    Q3Wizard::showPage( pWidget );
-    if( pWidget == m_pOpPage )
-        finishButton() -> setEnabled( true );
-}
-
-void ClassWizard::next() {
-    QWidget * pWidget = currentPage();
-    if( pWidget == m_pGenPage ) {
-        m_pGenPage -> updateObject();
-    } else if( pWidget == m_pAttPage ) {
-        m_pAttPage -> updateObject();
+void ClassWizard::next()
+{
+    QWizardPage* page = currentPage();
+    if (page == m_GeneralPage) {
+        m_pGenPage->updateObject();
+    } else if (page == m_AttributesPage) {
+        m_pAttPage->updateObject();
     }
-    Q3Wizard::next();
+    QWizard::next();
 }
 
-void ClassWizard::back() {
-    QWidget * pWidget = currentPage();
-    if( pWidget == m_pAttPage ) {
-        m_pAttPage -> updateObject();
-    } else if( pWidget == m_pOpPage ) {
-        m_pOpPage -> updateObject();
+void ClassWizard::back()
+{
+    QWizardPage* page = currentPage();
+    if (page == m_AttributesPage) {
+        m_pAttPage->updateObject();
+    } else if (page == m_OperationsPage) {
+        m_pOpPage->updateObject();
     }
-    Q3Wizard::back();
+    QWizard::back();
 }
 
-void ClassWizard::accept() {
-    m_pDoc -> addUMLObject( m_pClass );
+void ClassWizard::accept()
+{
+    m_pDoc->addUMLObject(m_pClass);
     m_pDoc->signalUMLObjectCreated(m_pClass);
 
     // call updateObject of General Page again so as to bind to package
     // now that the classifier object is in the document.
     m_pGenPage->updateObject();
 
-    Q3Wizard::accept();
+    QWizard::accept();
 }
 
-void ClassWizard::reject() {
+void ClassWizard::reject()
+{
     m_pDoc->removeUMLObject(m_pClass);
     delete m_pClass;
-    Q3Wizard::reject();
+    QWizard::reject();
 }
 
-void ClassWizard::help() {
+/**
+ * Opens Umbrello handbook. Is called when help button is pressed.
+ */
+void ClassWizard::showHelp()
+{
     KHelpMenu helpMenu(this);
     helpMenu.appHelpActivated();
 }
