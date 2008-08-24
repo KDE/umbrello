@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,24 +22,25 @@
 class UMLRole;
 class UMLRoleProperties;
 
-class UMLRoleDialog : public KDialog {
+class UMLRoleDialog : public KDialog
+{
     Q_OBJECT
 public:
     /**
-    *   Constructor
-    */
+     *   Constructor
+     */
     UMLRoleDialog( QWidget * parent, UMLRole * pRole );
 
     /**
-    *   Deconstructor
-    */
+     *   Deconstructor
+     */
     ~UMLRoleDialog();
 
 protected:
 
     /**
-    *   Sets up the dialog
-    */
+     *   Sets up the dialog
+     */
     void setupDialog();
 
     /**
@@ -50,8 +50,8 @@ protected:
     bool apply();
 
     /**
-    * The role to represent.
-    */
+     * The role to represent.
+     */
     UMLRole * m_pRole;
 
 private:

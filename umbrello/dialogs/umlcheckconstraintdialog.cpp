@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,9 +11,9 @@
 #include "umlcheckconstraintdialog.h"
 
 // qt includes
-#include <QtGui/QLayout>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHBoxLayout>
+#include <QtGui/QLabel>
 
 // kde includes
 #include <kdebug.h>
@@ -25,7 +24,6 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "checkconstraint.h"
-
 
 UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckConstraint* pCheckConstraint) : KDialog(parent)
 {
@@ -98,7 +96,6 @@ bool UMLCheckConstraintDialog::apply()
 
     return true;
 }
-
 
 #include "umlcheckconstraintdialog.moc"
 

@@ -1,22 +1,22 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef CLASSWIZARD_H
 #define CLASSWIZARD_H
-//kde includes
-#include <k3wizard.h>
-//app includes
-#include "classgenpage.h"
 
+// qt includes
+#include <QtGui/QWizard>
+
+class QWizardPage;
 class ClassifierListPage;
+class ClassGenPage;
 class UMLClassifier;
 class UMLDoc;
 
@@ -24,80 +24,36 @@ class UMLDoc;
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassWizard : public K3Wizard {
+class ClassWizard : public QWizard
+{
+    Q_OBJECT
 public:
-    /**
-     *  Consrtuctor
-     */
-    ClassWizard( UMLDoc * pDoc );
-
-    /**
-     *  Deconstructor
-     */
+    ClassWizard(UMLDoc* doc);
     ~ClassWizard();
 
-protected:
+private:
+    UMLDoc             * m_pDoc;      //< Document currently opened.
+    UMLClassifier      * m_pClass;    //< Class to create.
 
-    /**
-     *  Overrides the default method.
-     */
-    void showPage( QWidget * pWidget );
+    ClassGenPage       * m_pGenPage;  //< General class info.
+    ClassifierListPage * m_pAttPage;  //< Class attributes.
+    ClassifierListPage * m_pOpPage;   //< Class operations.
 
-    /**
-     *  Overrides the default method.
-     */
+    QWizardPage        * m_GeneralPage;
+    QWizardPage        * m_AttributesPage;
+    QWizardPage        * m_OperationsPage;
+
+    QWizardPage* createGeneralPage();
+    QWizardPage* createAttributesPage();
+    QWizardPage* createOperationsPage();
+
     void next();
-
-    /**
-     *  Overrides the default method.
-     */
     void back();
-
-    /**
-     *  Overrides the default method.
-     */
     void accept();
-
-    /**
-    *   Overrides the default method.
-    */
     void reject();
 
-    /**
-    *   Setup the wizard pages.
-    */
-    void setupPages();
-
-    /**
-    *   Page 1 - General class info
-    */
-    ClassGenPage * m_pGenPage;
-
-    /**
-    *   Page 2 - Class Attributes
-    */
-    ClassifierListPage* m_pAttPage;
-
-    /**
-    *   Page 3 - Class Operations
-    */
-    ClassifierListPage* m_pOpPage;
-
-    /**
-    *   Document currently opened
-    */
-    UMLDoc * m_pDoc;
-
-    /**
-    *   Class to create
-    */
-    UMLClassifier * m_pClass;
-
 protected slots:
-    /**
-     * Opens Umbrello handbook
-     */
-    void help();
+    void showHelp();
 
 };
 

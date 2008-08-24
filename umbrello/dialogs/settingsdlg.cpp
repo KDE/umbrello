@@ -130,6 +130,7 @@ void SettingsDlg::setupGeneralPage()
 
     m_GeneralWidgets.undoCB = new QCheckBox( i18n("Enable undo"), m_GeneralWidgets.miscGB );
     m_GeneralWidgets.undoCB->setChecked( m_pOptionState->generalState.undo );
+    miscLayout->addWidget( m_GeneralWidgets.undoCB, 0, 0 );
 
     m_GeneralWidgets.tabdiagramsCB = new QCheckBox( i18n("Use tabbed diagrams"), m_GeneralWidgets.miscGB );
     m_GeneralWidgets.tabdiagramsCB->setChecked( m_pOptionState->generalState.tabdiagrams );

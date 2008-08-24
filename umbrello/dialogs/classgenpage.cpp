@@ -38,7 +38,6 @@
 #include <ktextedit.h>
 
 // qt includes
-//#include <QtGui/QLayout>
 #include <QtGui/QGroupBox>
 #include <QtGui/QRadioButton>
 #include <QtGui/QCheckBox>
@@ -224,7 +223,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     m_pObject = o;
     // setup fields
     m_pClassNameLE->setText(o->getName());
-    m_pDoc-> setText(o->getDoc());
+    m_pDoc->setText(o->getDoc());
     Uml::Visibility s = o->getVisibility();
     if (s == Uml::Visibility::Public)
         m_pPublicRB->setChecked(true);
