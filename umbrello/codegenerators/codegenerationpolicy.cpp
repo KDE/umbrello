@@ -298,8 +298,14 @@ void CodeGenerationPolicy::calculateIndentation ( )
         break;
     }
 
-    for (int i = 0; i < Settings::getOptionState().codeGenerationState.indentationAmount; i++)
-        m_indentation += indent;
+    if (Settings::getOptionState().codeGenerationState.indentationAmount > 999) {  //:TODO: fix this - no initialization
+         uDebug() << "too big indentation amount = " << Settings::getOptionState().codeGenerationState.indentationAmount;
+    }
+    else {
+        for (int i = 0; i < Settings::getOptionState().codeGenerationState.indentationAmount; ++i) {
+            m_indentation += indent;
+        }
+    }
 }
 
 /**

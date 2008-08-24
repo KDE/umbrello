@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef UMLROLEPROPERTIES_H
@@ -13,7 +13,6 @@
 #include "ui_umlrolepropertiesbase.h"
 #include "umlrole.h"
 
-
 class UMLRolePropertiesBase : public QWidget, public Ui::UMLRolePropertiesBase
 {
 public:
@@ -21,7 +20,6 @@ public:
     setupUi( this );
   }
 };
-
 
 /**
  * Displays properties of a UMLRole in a widget which may be used as

@@ -1098,7 +1098,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         else {
             if (p->findChildObject(name) == NULL
-                    || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo( kapp->mainWidget() ,
+                    || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo(0,
                             i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
                             i18n( "Name Not Unique"),KGuiItem(i18n("Use Name")),KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes) ) {
                 UMLApp::app()->executeCommand(new CmdRenameUMLObject(o,name));
@@ -2145,7 +2145,6 @@ void UMLDoc::initSaveTimer()
     Settings::OptionState optionState = Settings::getOptionState();
     if( optionState.generalState.autosave ) {
         m_pAutoSaveTimer = new QTimer(this);
-		m_pAutoSaveTimer->setObjectName( "_AUTOSAVETIMER_" );
         connect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );
         m_pAutoSaveTimer->setSingleShot( false );
         m_pAutoSaveTimer->start( optionState.generalState.autosavetime * 60000 );

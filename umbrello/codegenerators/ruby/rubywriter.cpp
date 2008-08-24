@@ -197,11 +197,11 @@ void RubyWriter::writeOperations(UMLClassifier *c,QTextStream &h)
     }
 }
 
-void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opList,
+void RubyWriter::writeOperations(const QString &classname, const UMLOperationList &opList,
                                  Uml::Visibility permitScope, QTextStream &h)
 {
-    UMLOperation *op;
-    UMLAttribute *at;
+//    UMLOperation *op;
+//    UMLAttribute *at;
 
     switch (permitScope) {
     case Uml::Visibility::Public:
@@ -217,7 +217,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
         break;
     }
 
-    foreach (op ,  opList ) {
+    foreach (const UMLOperation* op, opList) {
         QString methodName = cleanName(op->getName());
         QStringList commentedParams;
 
@@ -245,7 +245,7 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
         // Always write out the docs for ruby as the type of the
         // arguments and return value of the methods is useful
         writeDoc = true;
-//        for (at = atl.first(); at; at = atl.next())
+//        for (UMLAttribute& at = atl.first(); at; at = atl.next())
 //            writeDoc |= !at->getDoc().isEmpty();
 
         if (writeDoc) {
@@ -271,15 +271,15 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
             docStr.replace('\n', QString("\n") + m_indentation + "# ");
 
             // Write parameter documentation
-            foreach ( at , atl ) {
+            foreach (const UMLAttribute& at , atl) {
                 // Only write an individual @param entry if one hasn't been found already
                 // in the main doc comment
-                if (commentedParams.contains(cppToRubyName(at->getName())) == 0) {
-                    docStr += (m_endl + m_indentation + "# @param _" + cppToRubyName(at->getName()) + '_');
-                    if (at->getDoc().isEmpty()) {
-                        docStr += (' ' + cppToRubyType(at->getTypeName()));
+                if (commentedParams.contains(cppToRubyName(at.getName())) == 0) {
+                    docStr += (m_endl + m_indentation + "# @param _" + cppToRubyName(at.getName()) + '_');
+                    if (at.getDoc().isEmpty()) {
+                        docStr += (' ' + cppToRubyType(at.getTypeName()));
                     } else {
-                        docStr += (' ' + at->getDoc().replace(QRegExp("[\\n\\r]+[\\t ]*"), m_endl + "   "));
+                        docStr += (' ' + at.getDoc().replace(QRegExp("[\\n\\r]+[\\t ]*"), m_endl + "   "));
                     }
                 }
             }
@@ -313,15 +313,15 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
         h<< m_indentation << "def " + methodName << "(";
 
         int j=0;
-        foreach (at , atl ) {
-            QString nameStr = cppToRubyName(at->getName());
+        foreach (const UMLAttribute& at , atl) {
+            QString nameStr = cppToRubyName(at.getName());
             if (j > 0) {
                 h << ", " << nameStr;
             } else {
                 h << nameStr;
             }
-            h << (!(at->getInitialValue().isEmpty()) ?
-                (QString(" = ") + cppToRubyType(at->getInitialValue())) :
+            h << (!(at.getInitialValue().isEmpty()) ?
+                (QString(" = ") + cppToRubyType(at.getInitialValue())) :
                 QString(""));
             j++;
         }
@@ -340,7 +340,6 @@ void RubyWriter::writeOperations(const QString &classname, UMLOperationList &opL
         h << m_indentation << "end" << m_endl << m_endl;
 
     }//end for
-
 }
 
 void RubyWriter::writeAttributeMethods(UMLAttributeList attribs,

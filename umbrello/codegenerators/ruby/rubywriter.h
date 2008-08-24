@@ -98,7 +98,7 @@ private:
      * @param opList      the list of operations
      * @param h           output stream for the header file
      */
-    void writeOperations(const QString &classname, UMLOperationList &opList,
+    void writeOperations(const QString &classname, const UMLOperationList &opList,
                          Uml::Visibility permitScope, QTextStream &h);
 
 };

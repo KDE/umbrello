@@ -11,16 +11,10 @@
 // own header
 #include "umlroleproperties.h"
 
-// qt includes
-//#include <QtGui/QRadioButton>
-//#include <q3textedit.h>
-//#include <qlineedit.h>
-
 // kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
-
 
 UMLRoleProperties::UMLRoleProperties ( QWidget *parent, UMLRole *role)
         : UMLRolePropertiesBase (parent)
@@ -42,26 +36,37 @@ void UMLRoleProperties::constructWidget()
     // Multiplicity
     ui_pMultiLE->setText(m_pRole->getMultiplicity());
     // Visibility
-    Uml::Visibility scope = m_pRole->getVisibility();
-    if ( scope == Uml::Visibility::Public )
-        ui_pPublicRB -> setChecked( true );
-    else if ( scope == Uml::Visibility::Private )
-        ui_pPrivateRB -> setChecked( true );
-    else if ( scope == Uml::Visibility::Protected )
-        ui_pProtectedRB -> setChecked( true );
-    else if ( scope == Uml::Visibility::Implementation )
-        ui_pImplementationRB -> setChecked( true );
+    switch (m_pRole->getVisibility()) {
+    case Uml::Visibility::Public:
+        ui_pPublicRB->setChecked( true );
+        break;
+    case Uml::Visibility::Private:
+        ui_pPrivateRB->setChecked( true );
+        break;
+    case Uml::Visibility::Protected:
+        ui_pProtectedRB->setChecked( true );
+        break;
+    case Uml::Visibility::Implementation:
+        ui_pImplementationRB->setChecked( true );
+        break;
+    default:
+        break;
+    }
     // Changeability
-    Uml::Changeability_Type changeability = m_pRole->getChangeability();
-    if ( changeability == Uml::chg_Changeable )
-        ui_pChangeableRB -> setChecked( true );
-    else if ( changeability == Uml::chg_Frozen )
-        ui_pFrozenRB -> setChecked( true );
-    else
-        ui_pAddOnlyRB -> setChecked( true );
+    switch (m_pRole->getChangeability()) {
+    case Uml::chg_Changeable:
+        ui_pChangeableRB->setChecked( true );
+        break;
+    case Uml::chg_Frozen:
+        ui_pFrozenRB->setChecked( true );
+        break;
+    default:
+        ui_pAddOnlyRB->setChecked( true );
+        break;
+    }
 
     // Documentation
-    ui_pDocTE-> setText(m_pRole-> getDoc());
+    ui_pDocTE->setText(m_pRole-> getDoc());
     //ui_pDocTE->setWordWrap(QMultiLineEdit::WidgetWidth);
 }
 
@@ -104,6 +109,5 @@ void UMLRoleProperties::updateObject()
 
     } //end if m_pRole
 }
-
 
 #include "umlroleproperties.moc"

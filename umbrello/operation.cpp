@@ -56,7 +56,7 @@ UMLOperation::~UMLOperation()
 {
 }
 
-void UMLOperation::setType(UMLObject *type)
+void UMLOperation::setType(UMLObject* type)
 {
     UMLClassifierListItem::setType(type);
     if (m_returnId == Uml::id_None)
