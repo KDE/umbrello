@@ -297,7 +297,6 @@ set(libumbrello_SRCS
    combinedfragmentwidget.cpp
    component.cpp
    componentwidget.cpp
-   configurable.cpp
    datatypewidget.cpp
    dialog_utils.cpp
    docwindow.cpp
@@ -345,8 +344,6 @@ set(libumbrello_SRCS
    petalnode.cpp
    petaltree2uml.cpp
    pinwidget.cpp
-   plugin.cpp
-   pluginloader.cpp
    preconditionwidget.cpp
    seqlinewidget.cpp
    statewidget.cpp
@@ -396,37 +393,7 @@ set(libumbrello_SRCS
    worktoolbar.cpp
 )
 
-if (WIN32)
-    # workaround for win32 command line to long problem
-    # build intermediate libraries
-
-    kde4_add_library(dialogs  	${libdialogs_SRCS})
-    target_link_libraries (dialogs)
-    set (libdialogs_SRCS)
-
-    kde4_add_library(codeimport ${libcodeimport_SRCS})
-    target_link_libraries (codeimport)
-    set (libcodeimport_SRCS)
-
-    kde4_add_kcfg_files(libcodegenerator_SRCS umbrellosettings.kcfgc)
-    kde4_add_library(generators ${libcodegenerator_SRCS})
-    target_link_libraries (generators )
-    set (libcodegenerator_SRCS)
-
-    kde4_add_library(docgenerator ${libdocgenerator_SRCS})
-    target_link_libraries (docgenerator)
-    set (libdocgenerator_SRCS)
-
-    kde4_add_library(cmds ${libcmds_SRCS})
-    target_link_libraries (cmds)
-    set (libcmds_SRCS)
-
-    set (LIBS codeimport dialogs generators docgenerator cmds)
-
-else (WIN32)
-    set (LIBS )
-    kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
-endif (WIN32)
+kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 
 set (umbrello_SRCS
 	${umbrello_SRCS}
@@ -445,7 +412,7 @@ set (umbrello_SRCS
 
 kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-umbrello.png")
 kde4_add_executable(umbrello ${umbrello_SRCS})
-target_link_libraries(umbrello  ${LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} )
+target_link_libraries(umbrello  ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} )
 install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############

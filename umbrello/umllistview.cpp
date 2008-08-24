@@ -149,7 +149,7 @@ UMLListView::~UMLListView()
 
 bool UMLListView::eventFilter(QObject *o, QEvent *e)
 {
-    if (e->type() != QEvent::MouseButtonPress || !o->isA("QHeader"))
+    if (e->type() != QEvent::MouseButtonPress || qstrcmp("QHeader", metaObject()->className()) != 0)
         return Q3ListView::eventFilter(o, e);
     QMouseEvent *me = static_cast<QMouseEvent*>(e);
     if (me->button() == Qt::RightButton) {
