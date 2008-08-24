@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -122,7 +121,7 @@ QString TextBlock::getIndentationString ( int level ) const
     if (!level)
         level = m_indentationLevel;
     QString indentAmount = getIndentation();
-    QString indentation = QString();
+    QString indentation;
     for(int i=0; i<level; i++)
         indentation.append(indentAmount);
     return indentation;
@@ -166,7 +165,7 @@ void TextBlock::release()
 QString TextBlock::formatMultiLineText ( const QString & work, const QString & linePrefix,
         const QString & breakStr, bool addBreak, bool lastLineHasBreak )
 {
-    QString output = QString();
+    QString output;
     QString text = work;
     QString endLine = getNewLineEndingChars();
     int matches = text.indexOf(QRegExp(breakStr));

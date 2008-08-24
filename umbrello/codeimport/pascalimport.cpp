@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,19 +11,23 @@
 // own header
 #include "pascalimport.h"
 
-#include <stdio.h>
-// qt/kde includes
-#include <QtCore/QRegExp>
-#include <kdebug.h>
 // app includes
+#include "attribute.h"
+#include "classifier.h"
+#include "enum.h"
 #include "import_utils.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../package.h"
-#include "../classifier.h"
-#include "../enum.h"
-#include "../operation.h"
-#include "../attribute.h"
+#include "operation.h"
+#include "package.h"
+#include "uml.h"
+#include "umldoc.h"
+
+// kde includes
+#include <kdebug.h>
+
+// qt includes
+#include <QtCore/QRegExp>
+
+#include <stdio.h>
 
 PascalImport::PascalImport() : NativeImportBase("//")
 {
@@ -55,7 +58,7 @@ void PascalImport::fillSource(const QString& word)
         } else {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
-                lexeme = QString();
+                lexeme.clear();
             }
             if (c == ':' && word[i + 1] == '=') {
                 m_source.append(":=");
@@ -330,7 +333,7 @@ bool PascalImport::parseStmt()
             UMLObject *ns = Import_Utils::createUMLObject(t, name,
                                                           m_scope[m_scopeIndex], m_comment);
             UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
-            m_comment = QString();
+            m_comment.clear();
             QString lookAhead = m_source[m_srcIndex + 1];
             if (lookAhead == "(") {
                 advance();
@@ -338,7 +341,7 @@ bool PascalImport::parseStmt()
                     QString base = advance();
                     UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class, base, NULL);
                     UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
-                    m_comment = QString();
+                    m_comment.clear();
                     Import_Utils::createGeneralization(klass, parent);
                 } while (advance() == ",");
                 if (m_source[m_srcIndex] != ")") {

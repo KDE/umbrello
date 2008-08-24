@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -35,6 +34,7 @@
 #include "dialogs/codegenerationpolicypage.h"
 
 #include "umbrellosettings.h"
+
 using namespace std;
 
 #define MAXLINES 256
@@ -238,7 +238,8 @@ CodeGenerationPolicy::NewLineType CodeGenerationPolicy::getLineEndingType ( )
     return Settings::getOptionState().codeGenerationState.lineEndingType;
 }
 
-/** Utility function to get the actual characters.
+/**
+ * Utility function to get the actual characters.
  */
 QString CodeGenerationPolicy::getNewLineEndingChars ( ) const
 {
@@ -264,7 +265,7 @@ CodeGenerationPolicy::IndentationType CodeGenerationPolicy::getIndentationType (
 
 void CodeGenerationPolicy::setIndentationAmount ( int amount )
 {
-    if(amount > -1)
+    if (amount > -1)
     {
         Settings::getOptionState().codeGenerationState.indentationAmount = amount;
         calculateIndentation();
@@ -289,7 +290,7 @@ QString CodeGenerationPolicy::getIndentation ( ) const
 void CodeGenerationPolicy::calculateIndentation ( )
 {
     QString indent;
-    m_indentation = QString();
+    m_indentation.clear();
     switch (Settings::getOptionState().codeGenerationState.indentationType) {
     case NONE:
         break;
@@ -302,7 +303,7 @@ void CodeGenerationPolicy::calculateIndentation ( )
         break;
     }
 
-    for (int i=0; i < Settings::getOptionState().codeGenerationState.indentationAmount; i++)
+    for (int i = 0; i < Settings::getOptionState().codeGenerationState.indentationAmount; i++)
         m_indentation += indent;
 }
 
@@ -382,7 +383,7 @@ void CodeGenerationPolicy::emitModifiedCodeContentSig()
 
 void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emitUpdateSignal)
 {
-    if(!clone)
+    if (!clone)
         return;
 
     blockSignals(true); // we need to do this because otherwise most of these
@@ -403,9 +404,8 @@ void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emi
     calculateIndentation();
     blockSignals(false); // "as you were citizen"
 
-    if(emitUpdateSignal)
+    if (emitUpdateSignal)
         emit modifiedCodeContent();
-
 }
 
 void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
@@ -427,12 +427,12 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     calculateIndentation();
 
     QString path = UmbrelloSettings::outputDirectory();
-    if(path.isEmpty())
+    if (path.isEmpty())
         path = QDir::homePath() + "/uml-generated-code/";
     setOutputDirectory ( QDir (path) );
 
     path = UmbrelloSettings::headingsDirectory();
-    if(path.isEmpty()) {
+    if (path.isEmpty()) {
         KStandardDirs stddirs;
         path =  stddirs.findDirs("data","umbrello/headings").first();
     }
@@ -444,9 +444,8 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 
     blockSignals(false); // "as you were citizen"
 
-    if(emitUpdateSignal)
+    if (emitUpdateSignal)
         emit modifiedCodeContent();
-
 }
 
 void CodeGenerationPolicy::writeConfig ()
@@ -475,9 +474,9 @@ void CodeGenerationPolicy::writeConfig ()
 // return the actual text
 QString CodeGenerationPolicy::getHeadingFile(const QString& str)
 {
-    if(!getIncludeHeadings() || str.isEmpty())
+    if (!getIncludeHeadings() || str.isEmpty())
         return QString();
-    if(str.contains(" ") || str.contains(";")) {
+    if (str.contains(" ") || str.contains(";")) {
         uWarning() << "File folder must not have spaces or semi colons!";
         return QString();
     }
@@ -486,8 +485,8 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
     // get any file with the same extension
     QString filename;
     QDir headingFiles = Settings::getOptionState().codeGenerationState.headingsDirectory;
-    if(str.startsWith('.')) {
-        if(QFile::exists(headingFiles.absoluteFilePath("heading"+str)))
+    if (str.startsWith('.')) {
+        if (QFile::exists(headingFiles.absoluteFilePath("heading"+str)))
             filename = headingFiles.absoluteFilePath("heading"+str);
         else {
             QStringList filters;
@@ -503,17 +502,17 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
         filename = headingFiles.absoluteFilePath(str);
     }
 
-    if(filename.isEmpty())
+    if (filename.isEmpty())
         return QString();
     QFile f(filename);
-    if(!f.open(QIODevice::ReadOnly)) {
-        //                uWarning() << "Error opening heading file: " << f.name();
-        //                uWarning() << "Headings directory was " << headingFiles.absolutePath();
+    if (!f.open(QIODevice::ReadOnly)) {
+        // uWarning() << "Error opening heading file: " << f.name();
+        // uWarning() << "Headings directory was " << headingFiles.absolutePath();
         return QString();
     }
 
     QTextStream ts(&f);
-    QString retstr = QString();
+    QString retstr;
     QString endLine = getNewLineEndingChars();
     for(int l = 0; l < MAXLINES && !ts.atEnd(); l++)
         retstr += ts.readLine()+endLine;

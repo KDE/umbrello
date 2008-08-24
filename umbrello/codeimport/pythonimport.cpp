@@ -1,47 +1,53 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2008                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2006-2008                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "pythonimport.h"
 
-// qt/kde includes
+// app includes
+#include "attribute.h"
+#include "classifier.h"
+#include "enum.h"
+#include "import_utils.h"
+#include "operation.h"
+#include "package.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlpackagelist.h"
+
+// kde includes
+#include <kdebug.h>
+
+// qt includes
 #include <qstringlist.h>
 #include <qregexp.h>
-#include <kdebug.h>
-// app includes
-#include "import_utils.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../umlpackagelist.h"
-#include "../package.h"
-#include "../classifier.h"
-#include "../enum.h"
-#include "../operation.h"
-#include "../attribute.h"
 
-PythonImport::PythonImport() : NativeImportBase("#") {
+PythonImport::PythonImport() : NativeImportBase("#") 
+{
     setMultiLineComment("\"\"\"", "\"\"\"");
     initVars();
 }
 
-PythonImport::~PythonImport() {
+PythonImport::~PythonImport() 
+{
 }
 
-void PythonImport::initVars() {
+void PythonImport::initVars()
+{
     m_srcIndentIndex = 0;
     m_srcIndent[m_srcIndentIndex] = 0;
     m_braceWasOpened = false;
 }
 
-bool PythonImport::preprocess(QString& line) {
+bool PythonImport::preprocess(QString& line)
+{
     if (NativeImportBase::preprocess(line))
         return true;
     // Handle single line comment
@@ -63,7 +69,7 @@ bool PythonImport::preprocess(QString& line) {
     int leadingWhite = line.left(pos).count( QRegExp("\\s") );
     if (leadingWhite > m_srcIndent[m_srcIndentIndex]) {
         if (m_srcIndex == 0) {
-            uError() << "internal error 1" << endl;
+            uError() << "internal error 1";
             return true;
         }
         if (m_braceWasOpened) {
@@ -90,7 +96,8 @@ bool PythonImport::preprocess(QString& line) {
     return false;  // The input was not completely consumed by preprocessing.
 }
 
-void PythonImport::fillSource(const QString& word) {
+void PythonImport::fillSource(const QString& word) 
+{
     QString lexeme;
     const uint len = word.length();
     for (uint i = 0; i < len; i++) {
@@ -101,7 +108,7 @@ void PythonImport::fillSource(const QString& word) {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
                 m_srcIndex++;
-                lexeme = QString();
+                lexeme.clear();
             }
             m_source.append(QString(c));
             m_srcIndex++;
@@ -113,14 +120,16 @@ void PythonImport::fillSource(const QString& word) {
     }
 }
 
-QString PythonImport::indentation(int level) {
+QString PythonImport::indentation(int level)
+{
     QString spaces;
     for (int i = 0; i < level; i++)
         spaces += "  ";
     return spaces;
 }
 
-QString PythonImport::skipBody() {
+QString PythonImport::skipBody()
+{
     /* During input preprocessing, changes in indentation were replaced by
        braces, and a semicolon was appended to each line ending.
        In order to return the body, we try to reconstruct the original Python
@@ -159,7 +168,8 @@ QString PythonImport::skipBody() {
     return body;
 }
 
-bool PythonImport::parseStmt() {
+bool PythonImport::parseStmt()
+{
     const int srcLength = m_source.count();
     const QString& keyword = m_source[m_srcIndex];
     if (keyword == "class") {
@@ -167,7 +177,7 @@ bool PythonImport::parseStmt() {
         UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                         name, m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
-        m_comment = QString();
+        m_comment.clear();
         if (advance() == "(") {
             while (m_srcIndex < srcLength - 1 && advance() != ")") {
                 const QString& baseName = m_source[m_srcIndex];
@@ -191,7 +201,7 @@ bool PythonImport::parseStmt() {
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         if (advance() != "(") {
-            uError() << "importPython def " << name << ": expecting \"(\"" << endl;
+            uError() << "importPython def " << name << ": expecting \"(\"";
             skipBody();
             return true;
         }
@@ -211,7 +221,7 @@ bool PythonImport::parseStmt() {
         if (m_scopeIndex)
             m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
         else
-            uError() << "importPython: too many }" << endl;
+            uError() << "importPython: too many }";
         return true;
     }
     return false;  // @todo parsing of attributes

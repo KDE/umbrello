@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -30,9 +29,7 @@
 #include "uml.h"
 #include "codegenerators/codegenfactory.h"
 
-// Constructors/Destructors
-//
-
+// Constructor
 CodeParameter::CodeParameter ( ClassifierCodeDocument * parentDoc, UMLObject * parentObject )
         : QObject ( parentObject)
 {
@@ -40,21 +37,17 @@ CodeParameter::CodeParameter ( ClassifierCodeDocument * parentDoc, UMLObject * p
     initFields( parentDoc, parentObject );
 }
 
-CodeParameter::~CodeParameter ( ) { }
-
-//
-// Methods
-//
-
-
-// Accessor methods
-//
+// Destructor
+CodeParameter::~CodeParameter ( )
+{
+}
 
 /**
  * Utility method to get the value of parent object abstract value
  * @return the value of parent object abstrtact
  */
-bool CodeParameter::getAbstract ( ) {
+bool CodeParameter::getAbstract ( )
+{
     return m_parentObject->getAbstract();
 }
 
@@ -63,7 +56,8 @@ bool CodeParameter::getAbstract ( ) {
  * Whether or not this is static.
  * @return the value of static
  */
-bool CodeParameter::getStatic ( ) {
+bool CodeParameter::getStatic ( )
+{
     return m_parentObject->getStatic();
 }
 
@@ -72,7 +66,8 @@ bool CodeParameter::getStatic ( ) {
  * The name of this code parameter.
  * @return the value
  */
-QString CodeParameter::getName ( ) const {
+QString CodeParameter::getName ( ) const
+{
     return m_parentObject->getName();
 }
 
@@ -82,7 +77,8 @@ QString CodeParameter::getName ( ) const {
  * an object)
  * @return the value of type
  */
-QString CodeParameter::getTypeName ( ) {
+QString CodeParameter::getTypeName ( )
+{
     UMLAttribute * at = (UMLAttribute*) m_parentObject;
     return at->getTypeName();
 }
@@ -92,16 +88,18 @@ QString CodeParameter::getTypeName ( ) {
  * The visibility of this code parameter.
  * @return the value of parent object scope
  */
-Uml::Visibility CodeParameter::getVisibility ( ) const {
+Uml::Visibility CodeParameter::getVisibility ( ) const
+{
     return m_parentObject->getVisibility();
 }
 
 /**
- * Set the value of m_initialValue
- * The initial value of this code parameter
+ * Set the value of m_initialValue.
+ * The initial value of this code parameter.
  * @param new_var the new value of m_initialValue
  */
-void CodeParameter::setInitialValue ( const QString &new_var ) {
+void CodeParameter::setInitialValue ( const QString &new_var )
+{
     m_initialValue = new_var;
 }
 
@@ -110,39 +108,45 @@ void CodeParameter::setInitialValue ( const QString &new_var ) {
  * The initial value of this code parameter
  * @return the value of m_initialValue
  */
-QString CodeParameter::getInitialValue ( ) {
+QString CodeParameter::getInitialValue ( )
+{
     return m_initialValue;
 }
 
 /**
  * Set a Comment object.
  */
-void CodeParameter::setComment ( CodeComment * object ) {
+void CodeParameter::setComment ( CodeComment * object )
+{
     m_comment = object;
 }
 
 /**
  * Get the Comment on this object.
  */
-CodeComment * CodeParameter::getComment ( ) {
+CodeComment * CodeParameter::getComment ( )
+{
     return m_comment;
 }
 
 
-ClassifierCodeDocument * CodeParameter::getParentDocument ( ) {
+ClassifierCodeDocument * CodeParameter::getParentDocument ( )
+{
     return m_parentDocument;
 }
 
 /**
- * Get the ParentObject object
+ * Get the ParentObject object.
  */
-UMLObject * CodeParameter::getParentObject ( ) {
+UMLObject * CodeParameter::getParentObject ( )
+{
     return m_parentObject;
 }
 
 // need to get the ID of the parent object
 // this is kind of broken for UMLRoles.
-QString CodeParameter::getID () {
+QString CodeParameter::getID ()
+{
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
     if(role)
     {
@@ -155,13 +159,8 @@ QString CodeParameter::getID () {
 
 }
 
-// Other methods
-//
-
 void CodeParameter::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
 {
-
-
     // set local attributes
     blockElement.setAttribute("parent_id",getID());
 
@@ -180,14 +179,14 @@ void CodeParameter::setAttributesOnNode ( QDomDocument & doc, QDomElement & bloc
     QDomElement commElement = doc.createElement( "header" );
     getComment()->saveToXMI(doc, commElement); // comment
     blockElement.appendChild( commElement);
-
 }
 
-/** set the class attributes of this object from
+/**
+ * Set the class attributes of this object from
  * the passed element node.
  */
-void CodeParameter::setAttributesFromNode ( QDomElement & root) {
-
+void CodeParameter::setAttributesFromNode ( QDomElement & root)
+{
     // set local attributes, parent object first
     QString idStr = root.attribute("parent_id","-1");
     Uml::IDType id = STR2ID(idStr);
@@ -199,7 +198,6 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
     UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(id);
     if(obj)
     {
-
         // FIX..one day.
         // Ugh. This is UGLY, but we have to do it this way because UMLRoles
         // don't go into the document list of UMLobjects, and have the same
@@ -222,7 +220,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
             else
                 uError() << "corrupt save file? "
                 << "cant get proper UMLRole for codeparameter uml id:"
-                << ID2STR(id) << " w/role_id:" << role_id << endl;
+                << ID2STR(id) << " w/role_id:" << role_id;
 
             // init using UMLRole obj
             initFields ( m_parentDocument, role);
@@ -232,7 +230,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 
     } else
         uError() << "Cant load CodeParam: parentUMLObject w/id:"
-        << ID2STR(id) << " not found, corrupt save file?" << endl;
+        << ID2STR(id) << " not found, corrupt save file?";
 
     // other attribs now
     setInitialValue(root.attribute("initialValue",""));
@@ -257,27 +255,25 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root) {
 
     if(!gotComment)
         uWarning()<<" loadFromXMI : Warning: unable to initialize CodeComment in codeparam:"<<this;
-
-
 }
 
 /**
- * create the string representation of this code parameter.
+ * Create the string representation of this code parameter.
  * @return      QString
  */
-void CodeParameter::syncToParent( ) {
-
+void CodeParameter::syncToParent( )
+{
     getComment()->setText(getParentObject()->getDoc());
 
     updateContent();
 }
 
-void CodeParameter::initFields ( ClassifierCodeDocument * doc, UMLObject * obj) {
-
+void CodeParameter::initFields ( ClassifierCodeDocument * doc, UMLObject * obj) 
+{
     m_parentObject = obj;
 
     m_parentDocument = doc;
-    m_initialValue = QString();
+    m_initialValue.clear();
 
     m_comment = CodeGenFactory::newCodeComment(m_parentDocument);
     m_comment->setText(getParentObject()->getDoc());

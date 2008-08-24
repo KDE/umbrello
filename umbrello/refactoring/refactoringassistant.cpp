@@ -252,7 +252,7 @@ void RefactoringAssistant::editProperties( UMLObject *obj )
     Uml::Object_Type t = obj->getBaseType();
     if (t == Uml::ot_Class || t == Uml::ot_Interface)
     {
-        dia = new ClassPropDlg(this,obj,0,true);
+        dia = new ClassPropDlg(this,obj,true);
     }
     else if (t == Uml::ot_Operation)
     {

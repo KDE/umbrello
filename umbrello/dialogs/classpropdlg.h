@@ -47,12 +47,11 @@ public:
     /**
      *  Sets up a ClassPropDlg.
      *
-     *  @param  parent  The parent of the ClassPropDlg
-     *  @param  c       The UMLObject to display properties of.
-     *  @param  pageNum The page to show first.
-     *  @param assoc    Determines whether to display associations
+     *  @param parent    The parent of the ClassPropDlg
+     *  @param c         The UMLObject to display properties of.
+     *  @param assoc     Determines whether to display associations
      */
-    ClassPropDlg(QWidget *parent, UMLObject *c, int pageNum = 0, bool assoc = false);
+    ClassPropDlg(QWidget *parent, UMLObject *c, bool assoc = false);
 
     /**
      *  Sets up a ClassPropDlg.

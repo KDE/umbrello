@@ -1,31 +1,32 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "classifierlistitem.h"
 
+// local includes
+#include "classifier.h"
+#include "model_utils.h"
+#include "object_factory.h"
+#include "uml.h"
+#include "umldoc.h"
+
 // qt/kde includes
 #include <kdebug.h>
 #include <klocale.h>
 
-// local includes
-#include "classifier.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "model_utils.h"
-#include "object_factory.h"
 
 UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent,
                                              const QString& name, Uml::IDType id)
-        : UMLObject(parent, name, id) {
+        : UMLObject(parent, name, id)
+{
     UMLObject *parentObj = const_cast<UMLObject*>(parent);
     UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
     if (pc)
@@ -33,14 +34,16 @@ UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent,
 }
 
 UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent)
-        : UMLObject(parent) {
+        : UMLObject(parent)
+{
     UMLObject *parentObj = const_cast<UMLObject*>(parent);
     UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
     if (pc)
         UMLObject::setUMLPackage(pc);
 }
 
-UMLClassifierListItem::~UMLClassifierListItem() {
+UMLClassifierListItem::~UMLClassifierListItem()
+{
 }
 
 void UMLClassifierListItem::copyInto(UMLObject *lhs) const
@@ -49,15 +52,19 @@ void UMLClassifierListItem::copyInto(UMLObject *lhs) const
     UMLObject::copyInto(lhs);
 }
 
-QString UMLClassifierListItem::toString(Uml::Signature_Type /*sig*/) {
+QString UMLClassifierListItem::toString(Uml::Signature_Type sig)
+{
+    Q_UNUSED(sig);
     return getName();
 }
 
-UMLClassifier * UMLClassifierListItem::getType() const{
+UMLClassifier * UMLClassifierListItem::getType() const
+{
     return static_cast<UMLClassifier*>(m_pSecondary);
 }
 
-QString UMLClassifierListItem::getTypeName() const{
+QString UMLClassifierListItem::getTypeName() const
+{
     if (m_pSecondary == NULL)
         return m_SecondaryId;
     const UMLPackage *typePkg = m_pSecondary->getUMLPackage();
@@ -66,17 +73,19 @@ QString UMLClassifierListItem::getTypeName() const{
     return m_pSecondary->getName();
 }
 
-void UMLClassifierListItem::setType(UMLObject *type) {
+void UMLClassifierListItem::setType(UMLObject *type)
+{
     if (m_pSecondary != type) {
         m_pSecondary = type;
         UMLObject::emitModified();
     }
 }
 
-void UMLClassifierListItem::setTypeName(const QString &type) {
+void UMLClassifierListItem::setTypeName(const QString &type)
+{
     if (type.isEmpty() || type == "void") {
         m_pSecondary = NULL;
-        m_SecondaryId = QString();
+        m_SecondaryId.clear();
         return;
     }
     UMLDoc *pDoc = UMLApp::app()->getDocument();
@@ -85,7 +94,7 @@ void UMLClassifierListItem::setTypeName(const QString &type) {
         // Make data type for easily identified cases
         if (Model_Utils::isCommonDataType(type) || type.contains('*')) {
             m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Datatype, type);
-            uDebug() << "created datatype for " << type << endl;
+            uDebug() << "created datatype for " << type;
         } else {
             m_SecondaryId = type;
         }

@@ -1,142 +1,145 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "pkgcontentspage.h"
 
-#include <QLayout>
-#include <QHBoxLayout>
+#include "classpropdlg.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlobjectlist.h"
 
 #include <klocale.h>
 #include <kdebug.h>
-#include "../umlobjectlist.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "classpropdlg.h"
 
+#include <QtGui/QLayout>
+#include <QtGui/QHBoxLayout>
+
+
+/**
+ * Constructs an instance of PkgContentsPage.
+ * @param parent    The parent of the page.
+ * @param pkg       The UMLPackage being represented.
+ */
 PkgContentsPage::PkgContentsPage(QWidget *parent, UMLPackage *pkg)
         : QWidget(parent)
 {
-    m_pPackage = pkg;
+    m_package = pkg;
     int margin = fontMetrics().height();
 
     QHBoxLayout * mainLayout = new QHBoxLayout(this);
     mainLayout->setSpacing(10);
 
-    m_pContentGB = new Q3GroupBox(i18n("Contained Items"), this);
-    mainLayout->addWidget(m_pContentGB);
+    m_contentGB = new QGroupBox(i18n("Contained Items"), this);
+    mainLayout->addWidget(m_contentGB);
 
-    QHBoxLayout * layout = new QHBoxLayout(m_pContentGB);
+    QHBoxLayout * layout = new QHBoxLayout(m_contentGB);
     layout->setSpacing(10);
     layout->setMargin(margin);
 
-    m_pContentLB = new Q3ListBox(m_pContentGB);
-    layout->addWidget(m_pContentLB);
+    m_contentLW = new QListWidget(m_contentGB);
+    m_contentLW->setContextMenuPolicy(Qt::CustomContextMenu);
+    layout->addWidget(m_contentLW);
     setMinimumSize(310, 330);
     fillListBox();
-    m_pMenu = 0;
+    m_menu = 0;
 
-    connect(m_pContentLB, SIGNAL(doubleClicked(Q3ListBoxItem *)),
-            this, SLOT(slotDoubleClick(Q3ListBoxItem *)));
-
-    connect(m_pContentLB, SIGNAL(rightButtonPressed(Q3ListBoxItem *, const QPoint &)),
-            this, SLOT(slotRightButtonPressed(Q3ListBoxItem *, const QPoint &)));
-
-    connect(m_pContentLB, SIGNAL(rightButtonClicked(Q3ListBoxItem *, const QPoint &)),
-            this, SLOT(slotRightButtonClicked(Q3ListBoxItem *, const QPoint &)));
+    connect(m_contentLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+            this, SLOT(slotDoubleClick(QListWidgetItem*)));
+    connect(m_contentLW, SIGNAL(customContextMenuRequested(const QPoint&)),
+            this, SLOT(slotShowContextMenu(const QPoint&)));
 }
 
-PkgContentsPage::~PkgContentsPage() {
-    disconnect(m_pContentLB, SIGNAL(doubleClicked(Q3ListBoxItem *)),
-               this, SLOT(slotDoubleClick(Q3ListBoxItem *)));
-
-    disconnect(m_pContentLB, SIGNAL(rightButtonPressed(Q3ListBoxItem *, const QPoint &)),
-               this, SLOT(slotRightButtonPressed(Q3ListBoxItem *, const QPoint &)));
-
-    disconnect(m_pContentLB, SIGNAL(rightButtonClicked(Q3ListBoxItem *, const QPoint &)),
-               this, SLOT(slotRightButtonClicked(Q3ListBoxItem *, const QPoint &)));
+/**
+ * Standard destructor.
+ */
+PkgContentsPage::~PkgContentsPage()
+{
+    disconnect(m_contentLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+               this, SLOT(slotDoubleClick(QListWidgetItem*)));
+    disconnect(m_contentLW, SIGNAL(customContextMenuRequested(const QPoint&)),
+               this, SLOT(slotShowContextMenu(const QPoint&)));
 }
 
-void PkgContentsPage::slotDoubleClick(Q3ListBoxItem * i) {
-    if (!i)
+void PkgContentsPage::slotDoubleClick(QListWidgetItem *item)
+{
+    if (!item) {
         return;
-    int item = m_pContentLB->currentItem();
-    if ( item == -1 )
+    }
+    int index = m_contentLW->currentRow();
+    if ( index == -1 ) {
         return;
-    UMLObjectList contents = m_pPackage->containedObjects();
-    UMLObject *o = contents.at(item);
-    ClassPropDlg dlg(this, o, item, true);
+    }
+    UMLObjectList contents = m_package->containedObjects();
+    UMLObject *o = contents.at(index);
+    ClassPropDlg dlg(this, o, true);
     dlg.exec();
 }
 
-void PkgContentsPage::fillListBox() {
-    m_pContentLB->clear();
-    UMLObjectList contents = m_pPackage->containedObjects();
+/**
+ * Fills the list box with the package's contents.
+ */
+void PkgContentsPage::fillListBox()
+{
+    m_contentLW->clear();
+    UMLObjectList contents = m_package->containedObjects();
     UMLObjectListIt objList_it(contents);
     UMLObject* umlo = NULL;
-    int i = 0;
     while (objList_it.hasNext()) {
         umlo = objList_it.next();
-        m_pContentLB->insertItem(umlo->getName(), i++);
+        m_contentLW->addItem(umlo->getName());
     }
 }
 
-void PkgContentsPage::slotRightButtonClicked(Q3ListBoxItem *item, const QPoint &p) {
-    Q_UNUSED(item)
-    Q_UNUSED(p)
-
-    if(m_pMenu) {
-        m_pMenu->hide();
-        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
-        delete m_pMenu;
-        m_pMenu = 0;
+/**
+ * Slot for the context menu by right clicking in the list widget.
+ * @param p   point of the right click inside the list widget
+ */
+void PkgContentsPage::slotShowContextMenu(const QPoint &p)
+{
+    QListWidgetItem *item = m_contentLW->itemAt(p);
+    if (item) {
+        if (m_menu) {
+            m_menu->hide();
+            disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
+            delete m_menu;
+            m_menu = 0;
+        }
+        m_menu = new ListPopupMenu(this, ListPopupMenu::mt_Association_Selected);
+        connect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
+        m_menu->exec(mapToGlobal(p) + QPoint(0, 20));
     }
 }
 
-void PkgContentsPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p) {
-    if(!item)
-        return;
-    if(m_pMenu) {
-        m_pMenu->hide();
-        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
-        delete m_pMenu;
-        m_pMenu = 0;
-    }
-    m_pMenu = new ListPopupMenu(this, ListPopupMenu::mt_Association_Selected);
-    m_pMenu->popup(p);
-    connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
-}
-
-void PkgContentsPage::slotPopupMenuSel(QAction* action) {
-    ListPopupMenu::Menu_Type id = m_pMenu->getMenuType(action);
+void PkgContentsPage::slotPopupMenuSel(QAction* action)
+{
+    ListPopupMenu::Menu_Type id = m_menu->getMenuType(action);
     switch(id) {
     case ListPopupMenu::mt_Delete:
         {
-            UMLObjectList contents = m_pPackage->containedObjects();
-            if ( m_pContentLB->currentItem() == -1 )
+            UMLObjectList contents = m_package->containedObjects();
+            if ( m_contentLW->currentRow() == -1 )
                 break;
-            UMLObject *o = contents.at( m_pContentLB->currentItem() );
+            UMLObject *o = contents.at( m_contentLW->currentRow() );
             UMLApp::app()->getDocument()->removeUMLObject(o);
             fillListBox();
         }
         break;
 
     case ListPopupMenu::mt_Properties:
-        slotDoubleClick(m_pContentLB->item(m_pContentLB->currentItem()));
+        slotDoubleClick(m_contentLW->item(m_contentLW->currentRow()));
         break;
 
     default:
-        uDebug() << "Menu_Type " << id << " not implemented" << endl;
+        uDebug() << "Menu_Type " << id << " not implemented";
     }
 }
-
 
 
 #include "pkgcontentspage.moc"

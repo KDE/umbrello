@@ -1,33 +1,35 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2008                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2006-2008                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "javaimport.h"
 
-// qt/kde includes
+// app includes
+#include "attribute.h"
+#include "classifier.h"
+#include "enum.h"
+#include "import_utils.h"
+#include "operation.h"
+#include "package.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlpackagelist.h"
+
+// kde includes
+#include <kdebug.h>
+
+// qt includes
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
-#include <kdebug.h>
-// app includes
-#include "import_utils.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../umlpackagelist.h"
-#include "../package.h"
-#include "../classifier.h"
-#include "../enum.h"
-#include "../operation.h"
-#include "../attribute.h"
 
 QStringList JavaImport::s_filesAlreadyParsed;
 int JavaImport::s_parseDepth = 0;
@@ -77,7 +79,7 @@ void JavaImport::fillSource(const QString& word)
         } else {
             if (!lexeme.isEmpty()) {
                 m_source.append(lexeme);
-                lexeme = QString();
+                lexeme.clear();
             }
             m_source.append(QString(c));
         }
@@ -441,7 +443,7 @@ bool JavaImport::parseStmt()
         // Constructor.
         nextToken = name;
         name = typeName;
-        typeName = QString();
+        typeName.clear();
     } else {
         nextToken = advance();
     }

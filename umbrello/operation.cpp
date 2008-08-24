@@ -11,11 +11,6 @@
 // own header
 #include "operation.h"
 
-// qt/kde includes
-#include <QtCore/QRegExp>
-#include <kdebug.h>
-#include <klocale.h>
-
 // app includes
 #include "attribute.h"
 #include "classifier.h"
@@ -27,6 +22,12 @@
 #include "codedocument.h"
 #include "codeblock.h"
 
+// kde includes
+#include <kdebug.h>
+#include <klocale.h>
+
+// qt includes
+#include <QtCore/QRegExp>
 
 UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
                            Uml::IDType id, Uml::Visibility s, UMLObject *rt)
@@ -40,7 +41,7 @@ UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
     m_Vis = s;
     m_BaseType = Uml::ot_Operation;
     m_bConst = false;
-    m_Code = QString();
+    m_Code.clear();
 }
 
 UMLOperation::UMLOperation(UMLClassifier * parent)
@@ -48,7 +49,7 @@ UMLOperation::UMLOperation(UMLClassifier * parent)
 {
     m_BaseType = Uml::ot_Operation;
     m_bConst = false;
-    m_Code = QString();
+    m_Code.clear();
 }
 
 UMLOperation::~UMLOperation()
@@ -128,9 +129,9 @@ UMLAttribute* UMLOperation::findParm(const QString &name)
 
 QString UMLOperation::toString(Uml::Signature_Type sig)
 {
-    QString s = "";
+    QString s;
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig)
+    if (sig == Uml::st_ShowSig || sig == Uml::st_NoSig)
           s = m_Vis.toString(true) + ' ';
 
     s += getName();
@@ -200,19 +201,19 @@ QString UMLOperation::getUniqueParameterName()
 
 bool UMLOperation::operator==(const  UMLOperation & rhs )
 {
-    if( this == &rhs )
+    if ( this == &rhs )
         return true;
 
-    if( !UMLObject::operator==( rhs ) )
+    if ( !UMLObject::operator==( rhs ) )
         return false;
 
-    if( getTypeName() != rhs.getTypeName() )
+    if ( getTypeName() != rhs.getTypeName() )
         return false;
 
-    if( m_List.count() != rhs.m_List.count() )
+    if ( m_List.count() != rhs.m_List.count() )
         return false;
 
-    if(!(m_List == rhs.m_List))
+    if (!(m_List == rhs.m_List))
         return false;
 
     return true;

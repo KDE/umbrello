@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,45 +11,42 @@
 // own header
 #include "classpropdlg.h"
 
-// qt/kde includes
-#include <QtGui/QFrame>
-#include <QtGui/QHBoxLayout>
+// app includes
+#include "assocpage.h"
+#include "classgenpage.h"
+#include "classifierlistpage.h"
+#include "classifierwidget.h"
+#include "classoptionspage.h"
+#include "componentwidget.h"
+#include "constraintlistpage.h"
+#include "entity.h"
+#include "objectwidget.h"
+#include "pkgcontentspage.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlobject.h"
+#include "umlview.h"
+#include "umlwidgetcolorpage.h"
+
+// kde includes
 #include <klocale.h>
 #include <kdebug.h>
 #include <kvbox.h>
 
-// app includes
-#include "classgenpage.h"
-#include "classifierlistpage.h"
-#include "constraintlistpage.h"
-#include "pkgcontentspage.h"
-#include "assocpage.h"
-#include "classoptionspage.h"
-#include "umlwidgetcolorpage.h"
-#include "../umlobject.h"
-#include "../umldoc.h"
-#include "../classifierwidget.h"
-#include "../objectwidget.h"
-#include "../componentwidget.h"
-#include "../uml.h"
-#include "../umlview.h"
-#include "../entity.h"
+// qt includes
+#include <QtGui/QFrame>
+#include <QtGui/QHBoxLayout>
 
-ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, int pageNum, bool assoc)
+
+ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, bool assoc)
         : KPageDialog(parent)
 {
-    Q_UNUSED(pageNum);
     init();
     m_pWidget = 0;
     m_Type = pt_Object;
     m_pObject = c;
 
     setupPages(assoc);
-
-#ifdef __GNUC__
-#warning "kde4: reimplement showPage"
-#endif
-    //showPage(pageNum);
 
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
@@ -69,10 +65,6 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
     setupColorPage();
     setupFontPage();
 
-#ifdef __GNUC__
-#warning "kde4: reimplement showPage"
-#endif
-    //showPage(0);
     setMinimumSize(340,420);
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));

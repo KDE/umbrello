@@ -1,39 +1,43 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "idlwriter.h"
 
+#include "umldoc.h"
+#include "classifier.h"
+#include "enum.h"
+#include "classifierlistitem.h"
+#include "umlclassifierlistitemlist.h"
+#include "package.h"
+#include "association.h"
+#include "attribute.h"
+#include "operation.h"
+#include "umlnamespace.h"
+
 #include <kdebug.h>
 #include <kmessagebox.h>
-#include <qfile.h>
-#include <qregexp.h>
-#include <qtextstream.h>
 
-#include "../umldoc.h"
-#include "../classifier.h"
-#include "../enum.h"
-#include "../classifierlistitem.h"
-#include "../umlclassifierlistitemlist.h"
-#include "../package.h"
-#include "../association.h"
-#include "../attribute.h"
-#include "../operation.h"
-#include "../umlnamespace.h"
+#include <QtCore/QFile>
+#include <QtCore/QRegExp>
+#include <QtCore/QTextStream>
 
-IDLWriter::IDLWriter() : SimpleCodeGenerator(false) {
+IDLWriter::IDLWriter() : SimpleCodeGenerator(false)
+{
 }
 
-IDLWriter::~IDLWriter() {}
+IDLWriter::~IDLWriter()
+{
+}
 
-bool IDLWriter::isOOClass(UMLClassifier *c) {
+bool IDLWriter::isOOClass(UMLClassifier *c)
+{
     QString stype = c->getStereotype();
     if (stype == "CORBAConstant" || stype == "CORBAEnum" ||
             stype == "CORBAStruct" || stype == "CORBAUnion" ||
@@ -46,7 +50,8 @@ bool IDLWriter::isOOClass(UMLClassifier *c) {
     return true;
 }
 
-bool IDLWriter::assocTypeIsMappableToAttribute(Uml::Association_Type at) {
+bool IDLWriter::assocTypeIsMappableToAttribute(Uml::Association_Type at)
+{
     return (at == Uml::at_Aggregation || at == Uml::at_Association ||
             at == Uml::at_Composition || at == Uml::at_UniAssociation);
 }
@@ -54,7 +59,8 @@ bool IDLWriter::assocTypeIsMappableToAttribute(Uml::Association_Type at) {
 /**
  * returns "IDL"
  */
-Uml::Programming_Language IDLWriter::getLanguage() {
+Uml::Programming_Language IDLWriter::getLanguage()
+{
     return Uml::pl_IDL;
 }
 
@@ -72,7 +78,7 @@ void IDLWriter::computeAssocTypeAndRole
             // at the "wrong" side.
             // Returning roleName = QString() tells caller to
             // skip this association at this side.
-            roleName = QString();
+            roleName.clear();
             return;
         }
         IAmRoleA = false;
@@ -100,7 +106,8 @@ void IDLWriter::computeAssocTypeAndRole
     }
 }
 
-void IDLWriter::writeClass(UMLClassifier *c) {
+void IDLWriter::writeClass(UMLClassifier *c) 
+{
     if (!c) {
         uDebug() << "Cannot write class of NULL concept!";
         return;
@@ -190,13 +197,13 @@ void IDLWriter::writeClass(UMLClassifier *c) {
         QString stype = c->getStereotype();
         if (stype == "CORBAConstant") {
             uError() << "The stereotype " << stype << " cannot be applied to "
-            << c->getName() << ", but only to attributes." << endl;
+            << c->getName() << ", but only to attributes.";
             return;
         }
         if (!isClass) {
             uError() << "The stereotype " << stype
             << " cannot be applied to " << c->getName()
-            << ", but only to classes." << endl;
+            << ", but only to classes.";
             return;
         }
         if (stype == "CORBAEnum") {
@@ -385,7 +392,8 @@ void IDLWriter::writeClass(UMLClassifier *c) {
 }
 
 
-void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comment) {
+void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comment)
+{
     UMLAttributeList atl = op->getParmList();
     QString rettype = op->getTypeName();
 
@@ -419,7 +427,8 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
     idl << ");" << m_endl << m_endl;
 }
 
-QStringList IDLWriter::defaultDatatypes() {
+QStringList IDLWriter::defaultDatatypes()
+{
     QStringList l;
     l.append("boolean");
     l.append("char");
@@ -435,8 +444,8 @@ QStringList IDLWriter::defaultDatatypes() {
     return l;
 }
 
-const QStringList IDLWriter::reservedKeywords() const {
-
+const QStringList IDLWriter::reservedKeywords() const 
+{
     static QStringList keywords;
 
     if (keywords.isEmpty()) {

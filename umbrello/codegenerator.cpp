@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -16,22 +15,6 @@
 
 // own header
 #include "codegenerator.h"
-
-// system includes
-#include <cstdlib> //to get the user name
-
-// qt includes
-#include <QtCore/QDateTime>
-#include <QtCore/QRegExp>
-#include <QtCore/QDir>
-#include <QtCore/QTextStream>
-
-// kde includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kdialog.h>
-#include <kapplication.h>
 
 // app includes
 #include "dialogs/overwritedialogue.h"
@@ -51,6 +34,21 @@
 #include "umloperationlist.h"
 #include "model_utils.h"
 
+// kde includes
+#include <kdebug.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kdialog.h>
+#include <kapplication.h>
+
+// qt includes
+#include <QtCore/QDateTime>
+#include <QtCore/QRegExp>
+#include <QtCore/QDir>
+#include <QtCore/QTextStream>
+
+// system includes
+#include <cstdlib>  // to get the user name
 
 CodeGenerator::CodeGenerator ()
         : QObject (UMLApp::app()->getDocument())
@@ -596,7 +594,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
 QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix, int lineWidth)
 {
     const QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
-    QString output = QString();
+    QString output;
     QStringList lines = text.split(endLine);
     for (QStringList::ConstIterator lit = lines.begin(); lit != lines.end(); ++lit) {
         QString input = *lit;
@@ -619,7 +617,7 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
 QString CodeGenerator::formatSourceCode(const QString& code, const QString& indentation)
 {
     const QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
-    QString output = QString();
+    QString output;
     if (! code.isEmpty()) {
         QStringList lines = code.split(endLine);
         for (int i = 0; i < lines.size(); ++i) {

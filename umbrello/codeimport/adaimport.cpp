@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,21 +11,25 @@
 // own header
 #include "adaimport.h"
 
-#include <stdio.h>
-// qt/kde includes
-#include <QtCore/QRegExp>
-#include <kdebug.h>
 // app includes
+#include "association.h"
+#include "attribute.h"
+#include "classifier.h"
+#include "enum.h"
+#include "folder.h"
 #include "import_utils.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../package.h"
-#include "../folder.h"
-#include "../classifier.h"
-#include "../enum.h"
-#include "../operation.h"
-#include "../attribute.h"
-#include "../association.h"
+#include "operation.h"
+#include "package.h"
+#include "uml.h"
+#include "umldoc.h"
+
+// kde includes
+#include <kdebug.h>
+
+// qt includes
+#include <QtCore/QRegExp>
+
+#include <stdio.h>
 
 AdaImport::AdaImport() : NativeImportBase("--")
 {
@@ -64,7 +67,7 @@ QStringList AdaImport::split(const QString& lin)
                     continue;
                 }
                 list.append(listElement);
-                listElement = QString();
+                listElement.clear();
                 inString = false;
             }
         } else if (c == '"') {
@@ -297,7 +300,7 @@ bool AdaImport::parseStmt()
             UMLEnum *enumType = static_cast<UMLEnum*>(ns);
             while ((next = advance()) != ")") {
                 Import_Utils::addEnumLiteral(enumType, next, m_comment);
-                m_comment = QString();
+                m_comment.clear();
                 if (advance() != ",")
                     break;
             }
