@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -13,16 +12,12 @@
 #define DIALOG_UTILS_H
 
 #include <QtCore/QString>
-#include <QtGui/QLabel>
-#include <QtGui/QGridLayout>
 
-class Q3GroupBox;
 class QGroupBox;
 class QGridLayout;
 class QLabel;
 class NewUMLRectWidget;
 class KLineEdit;
-
 
 /**
  * Dialog utilities.
@@ -34,7 +29,7 @@ namespace Dialog_Utils {
 /**
  * Create a labeled text lineedit widget.
  *
- * @param containingBox         The containing QGroupBox.
+ * @param containingBox         The containing QGroupBox (unused).
  * @param layout                The QGridLayout to use.
  * @param row                   The row number within the QGridLayout.
  * @param label                 The QLabel object allocated (return value)
@@ -43,11 +38,6 @@ namespace Dialog_Utils {
  * @param editFieldText         Initialization text in the editField (optional.)
  * @return a pointer to the KLineEdit so you can setFocus() if necessary
  */
-KLineEdit* makeLabeledEditField(Q3GroupBox *containingBox, QGridLayout *layout, int row,  /* deprecated */
-                                QLabel * &label, const QString& labelText,
-                                KLineEdit * &editField,
-                                const QString& editFieldText = QString());
-
 KLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, int row,
                                 QLabel * &label, const QString& labelText,
                                 KLineEdit * &editField,

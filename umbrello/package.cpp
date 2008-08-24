@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,12 +11,6 @@
 // own header file
 #include "package.h"
 
-// system includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kinputdialog.h>
-#include <kmessagebox.h>
-
 // local includes
 #include "uml.h"
 #include "umldoc.h"
@@ -26,6 +19,12 @@
 #include "entity.h"
 #include "object_factory.h"
 #include "model_utils.h"
+
+// kde includes
+#include <kdebug.h>
+#include <klocale.h>
+#include <kinputdialog.h>
+#include <kmessagebox.h>
 
 using namespace Uml;
 
@@ -127,7 +126,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
          name = Model_Utils::uniqObjectName(pObject->getBaseType(),this);
          bool ok = true;
          name = KInputDialog::getText(i18nc("object name", "Name"),
-                                      i18n("An object with this name already exists in the package %1.<br /> Please enter a new name:", this->getName()),
+                                      i18n("An object with the name %1\nalready exists in the package %2.\nPlease enter a new name:", name, this->getName()),
                                       name, &ok, (QWidget*)UMLApp::app());
          if (!ok) {
             name = oldName;

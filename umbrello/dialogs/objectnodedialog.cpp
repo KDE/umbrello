@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,23 +11,27 @@
 // own header
 #include "objectnodedialog.h"
 
-//qt includes
-#include <QtGui/QLayout>
-#include <QtGui/QFrame>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QCheckBox>
-#include <QtGui/QRadioButton>
-//kde includes
-#include <kvbox.h>
-#include <klocale.h>
-
-//local includes
+// local includes
 #include "umlview.h"
 #include "dialog_utils.h"
 #include "icon_utils.h"
 #include "objectnodewidget.h"
 
+// kde includes
+#include <kdebug.h>
+#include <klineedit.h>
+#include <klocale.h>
+#include <ktextedit.h>
+#include <kvbox.h>
+
+// qt includes
+#include <QtGui/QFrame>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QCheckBox>
+#include <QtGui/QLabel>
+#include <QtGui/QRadioButton>
 
 ObjectNodeDialog::ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget )
         : KPageDialog(pView)
@@ -89,15 +92,15 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
     if ( item == pageItemGeneral )
     {
         m_pObjectNodeWidget->setName( m_GenPageWidgets.nameLE->text() );
-        m_pObjectNodeWidget->setDoc( m_GenPageWidgets.docMLE->text() );
+        m_pObjectNodeWidget->setDoc( m_GenPageWidgets.docMLE->toPlainText() );
         m_pObjectNodeWidget->setState( m_GenPageWidgets.stateLE->text() );
 
         ObjectNodeWidget::ObjectNodeType newType = ObjectNodeWidget::Normal;
-        if ( m_GenPageWidgets.BufferRB->isChecked() )
+        if ( m_GenPageWidgets.bufferRB->isChecked() )
             newType = ObjectNodeWidget::Buffer;
-        else if ( m_GenPageWidgets.DataRB->isChecked() )
+        else if ( m_GenPageWidgets.dataRB->isChecked() )
             newType = ObjectNodeWidget::Data;
-        else if (m_GenPageWidgets.FlowRB->isChecked() )
+        else if (m_GenPageWidgets.flowRB->isChecked() )
              newType = ObjectNodeWidget::Flow;
 
         m_pObjectNodeWidget->setObjectNodeType (newType);
@@ -114,7 +117,8 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
 
 void ObjectNodeDialog::setupGeneralPage()
 {
-    QString types[ ] = { i18n("Central Buffer"), i18n("Data Store"), i18n("ObjectFlow")};
+    QStringList types;
+    types << i18n("Central Buffer") << i18n("Data Store") << i18n("ObjectFlow");
     ObjectNodeWidget::ObjectNodeType type = m_pObjectNodeWidget->objectNodeType();
 
     KVBox *page = new KVBox();
@@ -123,13 +127,19 @@ void ObjectNodeDialog::setupGeneralPage()
     pageItemGeneral->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageItemGeneral );
 
-    m_GenPageWidgets.generalGB = new Q3GroupBox( i18nc("properties group title", "Properties"), (QWidget *)page );
+    m_GenPageWidgets.generalGB = new QGroupBox( i18nc("properties group title", "Properties"), (QWidget *)page );
 
     QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB );
     generalLayout->setSpacing( spacingHint() );
     generalLayout->setMargin(  fontMetrics().height()  );
 
-    QString objType ( types[ (int)type ] );
+    QString objType;
+    if (type < types.count()) {
+        objType = types.at((int)type);
+    }
+    else {
+        uWarning() << "type of ObjectNodeWidget is out of range! Value = " << type;
+    }
     Dialog_Utils::makeLabeledEditField( m_GenPageWidgets.generalGB, generalLayout, 0,
                                     m_GenPageWidgets.typeL, i18n("Object Node type:"),
                                     m_GenPageWidgets.typeLE, objType );
@@ -145,39 +155,37 @@ void ObjectNodeDialog::setupGeneralPage()
     m_GenPageWidgets.stateL->hide();
     m_GenPageWidgets.stateLE->hide();
 
-    m_GenPageWidgets.BufferRB = new QRadioButton( i18n("&Central Buffer"),(QWidget *)page);
-    generalLayout->addWidget( m_GenPageWidgets.BufferRB );
+    m_GenPageWidgets.bufferRB = new QRadioButton( i18n("&Central Buffer"),(QWidget *)page);
+    generalLayout->addWidget( m_GenPageWidgets.bufferRB );
 
-    m_GenPageWidgets.DataRB = new QRadioButton( i18n("&Data Store "),(QWidget *)page);
-    generalLayout->addWidget( m_GenPageWidgets.DataRB );
+    m_GenPageWidgets.dataRB = new QRadioButton( i18n("&Data Store "),(QWidget *)page);
+    generalLayout->addWidget( m_GenPageWidgets.dataRB );
 
-    m_GenPageWidgets.FlowRB = new QRadioButton( i18n("&Object Flow"),(QWidget *)page);
-    generalLayout->addWidget( m_GenPageWidgets.FlowRB );
+    m_GenPageWidgets.flowRB = new QRadioButton( i18n("&Object Flow"),(QWidget *)page);
+    generalLayout->addWidget( m_GenPageWidgets.flowRB );
 
     if (type == ObjectNodeWidget::Flow)
     {
         showState();
     }
 
-    connect(m_GenPageWidgets.BufferRB,SIGNAL(clicked()),this,SLOT(slotHideState()));
-    connect(m_GenPageWidgets.DataRB,SIGNAL(clicked()),this,SLOT(slotHideState()));
-    connect(m_GenPageWidgets.FlowRB,SIGNAL(clicked()),this,SLOT(slotShowState()));
+    connect(m_GenPageWidgets.bufferRB,SIGNAL(clicked()),this,SLOT(slotHideState()));
+    connect(m_GenPageWidgets.dataRB,SIGNAL(clicked()),this,SLOT(slotHideState()));
+    connect(m_GenPageWidgets.flowRB,SIGNAL(clicked()),this,SLOT(slotShowState()));
 
     ObjectNodeWidget::ObjectNodeType newType = m_pObjectNodeWidget->objectNodeType() ;
 
-    m_GenPageWidgets.BufferRB->setChecked(newType == ObjectNodeWidget::Buffer);
+    m_GenPageWidgets.bufferRB->setChecked(newType == ObjectNodeWidget::Buffer);
+    m_GenPageWidgets.dataRB->setChecked (newType == ObjectNodeWidget::Data);
+    m_GenPageWidgets.flowRB->setChecked (newType == ObjectNodeWidget::Flow);
 
-    m_GenPageWidgets.DataRB->setChecked (newType == ObjectNodeWidget::Data);
-
-    m_GenPageWidgets.FlowRB->setChecked (newType == ObjectNodeWidget::Flow);
-
-    m_GenPageWidgets.docGB = new Q3GroupBox( i18n( "Documentation"), (QWidget *)page );
+    m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
 
     QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
     docLayout->setSpacing( spacingHint() );
     docLayout->setMargin(  fontMetrics().height()  );
 
-    m_GenPageWidgets.docMLE = new Q3MultiLineEdit( m_GenPageWidgets.docGB );
+    m_GenPageWidgets.docMLE = new KTextEdit( m_GenPageWidgets.docGB );
     m_GenPageWidgets.docMLE->setText( m_pObjectNodeWidget->getDoc() );
     docLayout->addWidget( m_GenPageWidgets.docMLE );
 

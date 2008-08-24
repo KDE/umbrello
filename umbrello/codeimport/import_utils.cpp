@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -11,13 +10,6 @@
 
 // own header
 #include "import_utils.h"
-
-// qt/kde includes
-#include <QtCore/QMap>
-#include <QtCore/QRegExp>
-#include <kmessagebox.h>
-#include <kdebug.h>
-#include <klocale.h>
 
 // app includes
 #include "uml.h"
@@ -35,6 +27,14 @@
 #include "association.h"
 #include "object_factory.h"
 
+// kde includes
+#include <kmessagebox.h>
+#include <kdebug.h>
+#include <klocale.h>
+
+// qt includes
+#include <QtCore/QMap>
+#include <QtCore/QRegExp>
 
 namespace Import_Utils {
 
@@ -476,4 +476,3 @@ bool isDatatype(const QString& name, UMLPackage *parentPkg)
 }
 
 }  // end namespace Import_Utils
-
