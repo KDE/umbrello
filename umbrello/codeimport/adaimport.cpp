@@ -187,7 +187,7 @@ bool AdaImport::parseStmt()
             return false;
         }
         while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ";") {
-            QStringList components = m_source[m_srcIndex].toLower().split(".");
+            QStringList components = m_source[m_srcIndex].toLower().split('.');
             const QString& prefix = components.first();
             if (prefix == "system" || prefix == "ada" || prefix == "gnat" ||
                 prefix == "interfaces" || prefix == "text_io" ||
@@ -209,7 +209,7 @@ bool AdaImport::parseStmt()
     }
     if (keyword == "package") {
         const QString& name = advance();
-        QStringList parentPkgs = name.toLower().split(".");
+        QStringList parentPkgs = name.toLower().split('.');
         parentPkgs.pop_back();  // exclude the current package
         parseStems(parentPkgs);
         UMLObject *ns = NULL;

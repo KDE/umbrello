@@ -12,8 +12,6 @@
 #ifndef UMLSCENE_H
 #define UMLSCENE_H
 
-#include <QGraphicsScene>
-
 //local includes
 #include "umlnamespace.h"
 #include "optionstate.h"
@@ -22,6 +20,10 @@
 #include "associationwidgetlist.h"
 #include "messagewidgetlist.h"
 #include "worktoolbar.h"
+
+// Qt includes
+#include <QtGui/QGraphicsScene>
+#include <QtXml/QDomDocument>
 
 // forward declarations
 class ClassOptionsPage;

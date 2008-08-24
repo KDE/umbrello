@@ -3274,7 +3274,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 QDomNode gnode = e.firstChild();
                 QDomElement gelem = gnode.toElement();
                 QString csv = gelem.text();
-                QStringList dim = csv.split(",");
+                QStringList dim = csv.split(',');
                 x = dim[0].toInt();
                 y = dim[1].toInt();
                 w = dim[2].toInt();
