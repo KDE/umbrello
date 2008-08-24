@@ -1,31 +1,33 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "classoptionspage.h"
 
-// qt/kde includes
-#include <qlayout.h>
-#include <QVBoxLayout>
-#include <QGridLayout>
+// local includes
+#include "umlview.h"
+#include "classifierwidget.h"
+
+// kde includes
 #include <klocale.h>
 #include <kdebug.h>
 
-// local includes
-#include "../umlview.h"
-#include "../classifierwidget.h"
-
+// qt includes
+#include <QtGui/QCheckBox>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QGroupBox>
 
 ClassOptionsPage::ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget)
-        : QWidget( pParent ) {
+        : QWidget( pParent )
+{
     init();
     //Uml::Widget_Type type = pWidget->getBaseType();
     m_pWidget = pWidget;
@@ -39,7 +41,8 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, Settings::OptionState *opti
     setupClassPageOption();
 }
 
-void ClassOptionsPage::init() {
+void ClassOptionsPage::init()
+{
     m_options = NULL;
     m_pWidget = NULL;
     m_pShowStereotypeCB = NULL;
@@ -49,17 +52,21 @@ void ClassOptionsPage::init() {
     m_pDrawAsCircleCB = NULL;
 }
 
-ClassOptionsPage::~ClassOptionsPage() {}
+ClassOptionsPage::~ClassOptionsPage()
+{
+}
 
-void ClassOptionsPage::setupPage() {
+void ClassOptionsPage::setupPage()
+{
     int margin = fontMetrics().height();
 
     bool sig = false;
     Uml::Signature_Type sigtype;
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
+
     topLayout->setSpacing(6);
-    m_pVisibilityGB = new Q3GroupBox(i18n("Show"), this);
+    m_pVisibilityGB = new QGroupBox(i18n("Show"), this);
     topLayout->addWidget(m_pVisibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_pVisibilityGB);
     visibilityLayout->setSpacing(10);
@@ -100,7 +107,7 @@ void ClassOptionsPage::setupPage() {
 
         m_pShowAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_pVisibilityGB);
         sigtype = m_pWidget->attributeSignatureType();
-        if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoVis)
+        if (sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoVis)
             sig = false;
         else
             sig = true;
@@ -114,13 +121,14 @@ void ClassOptionsPage::setupPage() {
     }
 }
 
-void ClassOptionsPage::setupClassPageOption() {
-
+void ClassOptionsPage::setupClassPageOption()
+{
     int margin = fontMetrics().height();
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
+
     topLayout->setSpacing(6);
-    m_pVisibilityGB = new Q3GroupBox(i18n("Show"), this);
+    m_pVisibilityGB = new QGroupBox(i18n("Show"), this);
     topLayout->addWidget(m_pVisibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_pVisibilityGB);
     visibilityLayout->setSpacing(10);
@@ -158,10 +166,10 @@ void ClassOptionsPage::setupClassPageOption() {
     m_pShowAttribAssocsCB = new QCheckBox(i18n("&Attribute associations"), m_pVisibilityGB);
     m_pShowAttribAssocsCB->setChecked(m_options->classState.showAttribAssocs);
     visibilityLayout->addWidget(m_pShowAttribAssocsCB, 3, 1);
-
 }
 
-void ClassOptionsPage::updateUMLWidget() {
+void ClassOptionsPage::updateUMLWidget()
+{
     if (m_pWidget) {
         updateWidget();
     } else if (m_options) {
@@ -169,7 +177,8 @@ void ClassOptionsPage::updateUMLWidget() {
     }
 }
 
-void ClassOptionsPage::updateWidget() {
+void ClassOptionsPage::updateWidget()
+{
     m_pWidget->setVisualProperty( ClassifierWidget::ShowPackage, m_pShowPackageCB->isChecked() );
     m_pWidget->setVisualProperty( ClassifierWidget::ShowVisibility, m_pShowVisibilityCB->isChecked() );
     m_pWidget->setVisualProperty( ClassifierWidget::ShowOperations, m_pShowOpsCB->isChecked() );
@@ -185,7 +194,8 @@ void ClassOptionsPage::updateWidget() {
     }
 }
 
-void ClassOptionsPage::updateOptionState() {
+void ClassOptionsPage::updateOptionState()
+{
     m_options->classState.showVisibility = m_pShowVisibilityCB->isChecked();
     if (m_pShowAttsCB)
         m_options->classState.showAtts = m_pShowAttsCB->isChecked();
@@ -199,6 +209,3 @@ void ClassOptionsPage::updateOptionState() {
         m_options->classState.showAttSig = m_pShowAttSigCB->isChecked();
     m_options->classState.showOpSig = m_pShowOpSigCB->isChecked();
 }
-
-
-//#include "classoptionspage.moc"

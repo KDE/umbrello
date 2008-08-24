@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,13 +12,13 @@
 #ifndef CLASSOPTIONSPAGE_H
 #define CLASSOPTIONSPAGE_H
 
-#include <qwidget.h>
-#include <q3groupbox.h>
-#include <qcheckbox.h>
+#include "optionstate.h"
 
-#include "../optionstate.h"
+#include <QtGui/QWidget>
 
 class ClassifierWidget;
+class QCheckBox;
+class QGroupBox;
 
 /**
  * A dialog page to display options for a @ref NewUMLRectWidget and its
@@ -31,7 +30,8 @@ class ClassifierWidget;
  * @see ClassPropDlg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassOptionsPage : public QWidget {
+class ClassOptionsPage : public QWidget
+{
 public:
     /**
      * Constructor - observe and modify a Widget
@@ -88,7 +88,7 @@ protected:
     void updateOptionState();
 
     //GUI widgets
-    Q3GroupBox * m_pVisibilityGB;
+    QGroupBox * m_pVisibilityGB;
     QCheckBox * m_pShowVisibilityCB, * m_pShowAttSigCB;
     QCheckBox * m_pShowOpSigCB, * m_pShowAttsCB, * m_pShowOpsCB;
     QCheckBox * m_pShowStereotypeCB, * m_pShowPackageCB;
@@ -99,9 +99,11 @@ protected:
      * The classifier widget to represent in the dialog page.
      */
     ClassifierWidget* m_pWidget;
+
     /**
      * The OptionState structure to represent in the dialog page.
      */
     Settings::OptionState *m_options;
+
 };
 #endif

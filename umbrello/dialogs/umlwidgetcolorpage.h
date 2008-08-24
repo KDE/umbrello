@@ -1,21 +1,19 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLWIDGETCOLORPAGE_H
 #define UMLWIDGETCOLORPAGE_H
 
-#include <qwidget.h>
-//Added by qt3to4:
-#include <QLabel>
-#include "../optionstate.h"
+#include "optionstate.h"
+
+#include <QtGui/QWidget>
 
 /**
  * @author Paul Hensgen
@@ -26,9 +24,10 @@ class KColorButton;
 class QLabel;
 class QPushButton;
 class QCheckBox;
-class Q3GroupBox;
+class QGroupBox;
 
-class UMLWidgetColorPage : public QWidget {
+class UMLWidgetColorPage : public QWidget
+{
     Q_OBJECT
 public:
 
@@ -38,13 +37,13 @@ public:
     UMLWidgetColorPage( QWidget * pParent, NewUMLRectWidget * pWidget );
 
     /**
-    *   Constructor - Observe an OptionState structure
-    */
+     *   Constructor - Observe an OptionState structure
+     */
     UMLWidgetColorPage( QWidget * pParent, Settings::OptionState *options );
 
     /**
-    *   destructor
-    */
+     *   destructor
+     */
     virtual ~UMLWidgetColorPage();
 
     /**
@@ -54,31 +53,32 @@ public:
 
 public slots:
     /**
-    *   Sets the default line color when default line button
-    *   clicked.
-    */
+     *   Sets the default line color when default line button
+     *   clicked.
+     */
     void slotLineButtonClicked();
 
     /**
-    *   Sets the default fill color when default fill button
-    *   clicked.
-    */
+     *   Sets the default fill color when default fill button
+     *   clicked.
+     */
     void slotFillButtonClicked();
 
 protected:
     /**
-    *   The widget to set the color for.
-    */
+     *   The widget to set the color for.
+     */
     NewUMLRectWidget * m_pUMLWidget;
 
     Settings::OptionState *m_options;
 
     //GUI widgets
-    Q3GroupBox * m_pColorGB;
+    QGroupBox * m_pColorGB;
     QLabel * m_pLineColorL, * m_pFillColorL;
     QCheckBox * m_pUseFillColorCB;
     QPushButton * m_pLineDefaultB, * m_pFillDefaultB;
     KColorButton * m_pLineColorB, * m_pFillColorB;
+
 private:
     void init();
 

@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -11,21 +10,20 @@
 
 #include "umlwidgetcolorpage.h"
 
+#include "optionstate.h"
+#include "umlview.h"
+#include "umlwidget.h"
+
+#include <klocale.h>
+#include <kcolorbutton.h>
+
 #include <QtGui/QLayout>
-#include <q3groupbox.h>
+#include <QtGui/QGroupBox>
 #include <QtGui/QLabel>
 #include <QtGui/QPushButton>
 #include <QtGui/QCheckBox>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QGridLayout>
-
-#include <klocale.h>
-#include <kcolorbutton.h>
-
-#include "optionstate.h"
-#include "umlview.h"
-#include "umlwidget.h"
-
 
 UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, NewUMLRectWidget *pWidget ) : QWidget( pParent )
 {
@@ -55,7 +53,7 @@ void UMLWidgetColorPage::init()
     QVBoxLayout * topLayout = new QVBoxLayout( this );
     topLayout->setSpacing( 6 );
 
-    m_pColorGB = new Q3GroupBox( i18nc("title of color group", "Color"), this );
+    m_pColorGB = new QGroupBox( i18nc("title of color group", "Color"), this );
     topLayout->addWidget( m_pColorGB );
     QGridLayout * colorLayout = new QGridLayout( m_pColorGB );
     colorLayout->setMargin( margin );
