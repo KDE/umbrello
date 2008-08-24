@@ -379,7 +379,7 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     UMLClassifier *umlc = classifier();
 
     QString tagName = umlc->isInterface() ?
-        "interfacewidget" : " classwidget";
+        "interfacewidget" : "classwidget";
     conceptElement = qDoc.createElement(tagName);
     NewUMLRectWidget::saveToXMI( qDoc, conceptElement );
 
