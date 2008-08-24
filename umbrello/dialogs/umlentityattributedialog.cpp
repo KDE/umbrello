@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,17 +11,15 @@
 // own header
 #include "umlentityattributedialog.h"
 
-// qt includes
-#include <QtGui/QLayout>
-#include <QtGui/QCheckBox>
-#include <q3groupbox.h>
-#include <q3buttongroup.h>
-#include <QtGui/QRadioButton>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QApplication>
+// app includes
+#include "entityattribute.h"
+#include "classifier.h"
+#include "umldoc.h"
+#include "uml.h"
+#include "codegenerator.h"
+#include "dialog_utils.h"
+#include "object_factory.h"
+#include "umlclassifierlist.h"
 
 // kde includes
 #include <klineedit.h>
@@ -32,16 +29,16 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 
-// app includes
-#include "../entityattribute.h"
-#include "../classifier.h"
-#include "../umldoc.h"
-#include "../uml.h"
-#include "../codegenerator.h"
-#include "../dialog_utils.h"
-#include "../object_factory.h"
-#include "../umlclassifierlist.h"
-
+// qt includes
+#include <QtGui/QLayout>
+#include <QtGui/QCheckBox>
+#include <QtGui/QGroupBox>
+#include <QtGui/QRadioButton>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QApplication>
 
 UMLEntityAttributeDialog::UMLEntityAttributeDialog( QWidget * pParent, UMLEntityAttribute * pEntityAttribute )
         : KDialog( pParent)
@@ -63,13 +60,12 @@ UMLEntityAttributeDialog::~UMLEntityAttributeDialog()
 
 void UMLEntityAttributeDialog::setupDialog()
 {
-    UMLDoc * pDoc = UMLApp::app()->getDocument();
     int margin = fontMetrics().height();
     QFrame *frame = new QFrame( this );
     setMainWidget( frame );
     QVBoxLayout * mainLayout = new QVBoxLayout( frame );
 
-    m_pValuesGB = new Q3GroupBox(i18n("General Properties"), frame );
+    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame );
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
@@ -117,32 +113,31 @@ void UMLEntityAttributeDialog::setupDialog()
     m_pTypeL->setBuddy(m_pAttributesCB);
 
     insertAttribute( m_pEntityAttribute->getAttributes() );
-    insertAttribute("");
-    insertAttribute("binary");
-    insertAttribute("unsigned");
-    insertAttribute("unsigned zerofill");
+    insertAttribute("binary", m_pAttributesCB->count());
+    insertAttribute("unsigned", m_pAttributesCB->count());
+    insertAttribute("unsigned zerofill", m_pAttributesCB->count());
 
     mainLayout->addWidget(m_pValuesGB);
 
-    m_pScopeBG = new Q3ButtonGroup(i18n("Indexing"), frame );
-    QHBoxLayout* scopeLayout = new QHBoxLayout(m_pScopeBG);
+    m_pScopeGB = new QGroupBox(i18n("Indexing"), frame );
+    QHBoxLayout* scopeLayout = new QHBoxLayout(m_pScopeGB);
     scopeLayout->setMargin(margin);
 
-    m_pNoneRB = new QRadioButton(i18n("&Not Indexed"), m_pScopeBG);
+    m_pNoneRB = new QRadioButton(i18n("&Not Indexed"), m_pScopeGB);
     scopeLayout->addWidget(m_pNoneRB);
 
     /*
-    m_pPublicRB = new QRadioButton(i18n("&Primary"), m_pScopeBG);
+    m_pPublicRB = new QRadioButton(i18n("&Primary"), m_pScopeGB);
     scopeLayout->addWidget(m_pPublicRB);
 
-    m_pProtectedRB = new QRadioButton(i18n("&Unique"), m_pScopeBG);
+    m_pProtectedRB = new QRadioButton(i18n("&Unique"), m_pScopeGB);
     scopeLayout->addWidget(m_pProtectedRB);
     */
 
-    m_pPrivateRB = new QRadioButton(i18n("&Indexed"), m_pScopeBG);
+    m_pPrivateRB = new QRadioButton(i18n("&Indexed"), m_pScopeGB);
     scopeLayout->addWidget(m_pPrivateRB);
 
-    mainLayout->addWidget(m_pScopeBG);
+    mainLayout->addWidget(m_pScopeGB);
     Uml::DBIndex_Type scope = m_pEntityAttribute->getIndexType();
 
     /*
@@ -152,45 +147,15 @@ void UMLEntityAttributeDialog::setupDialog()
         m_pProtectedRB->setChecked( true );
     else */
 
-    if( scope == Uml::Index )
+    if ( scope == Uml::Index )
         m_pPrivateRB->setChecked( true );
     else {
         m_pNoneRB->setChecked(true);
     }
 
-    m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
     m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-
-    // Add the data types.
-    UMLClassifierList dataTypes = pDoc->getDatatypes();
-    if (dataTypes.count() == 0) {
-        // Switch to SQL as the active language if no datatypes are set.
-        UMLApp::app()->setActiveLanguage(Uml::pl_SQL);
-        pDoc->addDefaultDatatypes();
-        qApp->processEvents();
-        dataTypes = pDoc->getDatatypes();
-    }
-    foreach (UMLClassifier* dat, dataTypes ) {
-        insertType(dat->getName());
-    }
-
-    //work out which one to select
-    int typeBoxCount = 0;
-    bool foundType = false;
-    while (typeBoxCount < m_pTypeCB->count() && foundType == false) {
-        QString typeBoxString = m_pTypeCB->itemText(typeBoxCount);
-        if ( typeBoxString == m_pEntityAttribute->getTypeName() ) {
-            foundType = true;
-            m_pTypeCB->setCurrentIndex(typeBoxCount);
-        } else {
-            typeBoxCount++;
-        }
-    }
-
-    if (!foundType) {
-        insertType( m_pEntityAttribute->getTypeName(), 0 );
-        m_pTypeCB->setCurrentIndex(0);
-    }
+    insertTypesSorted(m_pEntityAttribute->getTypeName());
 
     m_pNameLE->setFocus();
     connect( m_pNameLE, SIGNAL( textChanged ( const QString & ) ), SLOT( slotNameChanged( const QString & ) ) );
@@ -263,7 +228,7 @@ bool UMLEntityAttributeDialog::apply()
             return false;
         classifier = static_cast<UMLClassifier*>(obj);
     }
-    m_pEntityAttribute->setType( classifier );
+    m_pEntityAttribute->setType(classifier);
     return true;
 }
 
@@ -279,9 +244,36 @@ void UMLEntityAttributeDialog::slotOk()
     }
 }
 
-void UMLEntityAttributeDialog::insertType( const QString& type, int index )
+void UMLEntityAttributeDialog::insertTypesSorted(const QString& type)
 {
-    m_pTypeCB->insertItem( index, type );
+    QStringList types;
+    // add the data types
+    UMLDoc * pDoc = UMLApp::app()->getDocument();
+    UMLClassifierList dataTypes = pDoc->getDatatypes();
+    if (dataTypes.count() == 0) {
+        // Switch to SQL as the active language if no datatypes are set.
+        UMLApp::app()->setActiveLanguage(Uml::pl_SQL);
+        pDoc->addDefaultDatatypes();
+        qApp->processEvents();
+        dataTypes = pDoc->getDatatypes();
+    }
+    foreach (UMLClassifier* dat, dataTypes ) {
+        types << dat->getName();
+    }
+    // add the given parameter
+    if ( !types.contains(type) ) {
+        types << type;
+    }
+    types.sort();
+
+    m_pTypeCB->clear();
+    m_pTypeCB->insertItems(-1, types);
+
+    // select the given parameter
+    int currentIndex = m_pTypeCB->findText(type);
+    if (currentIndex > -1) {
+        m_pTypeCB->setCurrentIndex(currentIndex);
+    }
     m_pTypeCB->completionObject()->addItem( type );
 }
 
@@ -290,7 +282,6 @@ void UMLEntityAttributeDialog::insertAttribute( const QString& type, int index )
     m_pAttributesCB->insertItem( index, type );
     m_pAttributesCB->completionObject()->addItem( type );
 }
-
 
 void UMLEntityAttributeDialog::slotAutoIncrementStateChanged(bool checked)
 {
@@ -302,6 +293,5 @@ void UMLEntityAttributeDialog::slotAutoIncrementStateChanged(bool checked)
     }
 
 }
-
 
 #include "umlentityattributedialog.moc"

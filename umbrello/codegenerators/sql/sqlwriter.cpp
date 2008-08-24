@@ -90,7 +90,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
     // write all entity attributes
     UMLEntityAttributeList entAttList = m_pEntity->getEntityAttributes();
 
-    sql << "CREATE TABLE "<< entityname << " ( " << m_endl;
+    sql << "CREATE TABLE "<< entityname << " (";
 
     printEntityAttributes(sql, entAttList);
 
@@ -346,10 +346,10 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
 
     foreach ( UMLEntityAttribute* at, entityAttributeList ) {
        // print , after attribute
-         if (first == false) {
-             sql <<",";
-         } else {
+         if (first) {
              first = false;
+         } else {
+             sql <<",";
          }
 
         // print documentation/comment of last attribute at end of line
@@ -370,8 +370,9 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
         bool ok;
         uint length = lengthStr.toUInt(&ok);
 
-        if ( ok )
+        if ( ok ) {
             sql<<'('<<length<<')';
+        }
 
         // write the attributes ( unsigned, zerofill etc)
         QString attributes = at->getAttributes().trimmed();
@@ -388,14 +389,6 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
 
         // now get documentation/comment of current attribute
         attrDoc = at->getDoc();
-
-
-        // print documentation/comment at end of line
-        if (attrDoc.isEmpty() == false) {
-          sql << " -- " << attrDoc << m_endl;
-        } else {
-          sql << m_endl;
-        }
     }
 
     return;
@@ -404,10 +397,9 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
 void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
    foreach( UMLClassifierListItem* cli, constrList ) {
-
        sql<<m_endl;
-       UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(cli);
 
+       UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(cli);
        UMLEntityAttributeList attList = uuc->getEntityAttributeList();
 
        // print documentation

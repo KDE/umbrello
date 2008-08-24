@@ -1,24 +1,22 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "umltemplatedialog.h"
 
-// qt includes
-#include <QtGui/QLayout>
-#include <q3groupbox.h>
-#include <QtGui/QComboBox>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QGridLayout>
+// app includes
+#include "template.h"
+#include "classifier.h"
+#include "umldoc.h"
+#include "uml.h"
+#include "dialog_utils.h"
 
 // kde includes
 #include <klineedit.h>
@@ -27,12 +25,13 @@
 #include <kmessagebox.h>
 #include <kdebug.h>
 
-// app includes
-#include "template.h"
-#include "classifier.h"
-#include "umldoc.h"
-#include "uml.h"
-#include "dialog_utils.h"
+// qt includes
+#include <QtGui/QLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QComboBox>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QGridLayout>
 
 UMLTemplateDialog::UMLTemplateDialog(QWidget* pParent, UMLTemplate* pTemplate)
         : KDialog( pParent)
@@ -60,7 +59,7 @@ void UMLTemplateDialog::setupDialog()
     setMainWidget( frame );
     QVBoxLayout* mainLayout = new QVBoxLayout( frame );
 
-    m_pValuesGB = new Q3GroupBox(i18n("General Properties"), frame );
+    m_pValuesGB = new QGroupBox(i18n("General Properties"), frame );
     QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB);
     valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
@@ -82,45 +81,40 @@ void UMLTemplateDialog::setupDialog()
 
     mainLayout->addWidget(m_pValuesGB);
 
-    // "class" is the nominal type of template parameter
-    insertType( "class" );
-    // Add the active data types to combo box
-    UMLDoc *pDoc = UMLApp::app()->getDocument();
-    UMLClassifierList namesList( pDoc->getConcepts() );
-    foreach (UMLClassifier* obj, namesList ) {
-        insertType( obj->getName() );
-    }
-
     m_pTypeCB->setEditable(true);
-    m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
+    m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
     m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-//    m_pTypeCB->setAutoCompletion(true);
-
-    //work out which one to select
-    int typeBoxCount = 0;
-    bool foundType = false;
-    while (typeBoxCount < m_pTypeCB->count() && foundType == false) {
-        QString typeBoxString = m_pTypeCB->itemText(typeBoxCount);
-        if ( typeBoxString == m_pTemplate->getTypeName() ) {
-            foundType = true;
-            m_pTypeCB->setCurrentIndex(typeBoxCount);
-        } else {
-            typeBoxCount++;
-        }
-    }
-
-    if (!foundType) {
-        insertType( m_pTemplate->getTypeName(), 0 );
-        m_pTypeCB->setCurrentIndex(0);
-    }
+//    m_pTypeCB->setCompleter(...);
+    insertTypesSorted(m_pTemplate->getTypeName());
 
     m_pNameLE->setFocus();
 }
 
-void UMLTemplateDialog::insertType( const QString& type, int index )
+void UMLTemplateDialog::insertTypesSorted(const QString& type)
 {
-    m_pTypeCB->insertItem( index, type );
-    m_pTypeCB->completionObject()->addItem( type );
+    QStringList types;
+    // "class" is the nominal type of template parameter
+    types << "class";
+    // add the active data types to combo box
+    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLClassifierList namesList( pDoc->getConcepts() );
+    foreach (UMLClassifier* obj, namesList) {
+        types << obj->getName();
+    }
+    // add the given parameter
+    if ( !types.contains(type) ) {
+        types << type;
+    }
+    types.sort();
+
+    m_pTypeCB->clear();
+    m_pTypeCB->insertItems(-1, types);
+
+    // select the given parameter
+    int currentIndex = m_pTypeCB->findText(type);
+    if (currentIndex > -1) {
+        m_pTypeCB->setCurrentIndex(currentIndex);
+    }
 }
 
 bool UMLTemplateDialog::apply()
@@ -128,13 +122,12 @@ bool UMLTemplateDialog::apply()
     QString typeName = m_pTypeCB->currentText();
     UMLDoc *pDoc = UMLApp::app()->getDocument();
     UMLClassifierList namesList( pDoc->getConcepts() );
-    UMLClassifier* obj = 0;
-    foreach ( obj, namesList ) {
+    foreach (UMLClassifier* obj, namesList) {
         if (typeName == obj->getName()) {
-            m_pTemplate->setType( obj );
+            m_pTemplate->setType(obj);
         }
     }
-    if (obj == NULL) { // not found.
+    if (namesList.isEmpty()) { // not found.
         // FIXME: This implementation is not good yet.
         m_pTemplate->setTypeName( typeName );
     }

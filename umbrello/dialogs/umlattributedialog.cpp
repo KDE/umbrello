@@ -19,7 +19,7 @@
 #include "uml.h"
 #include "dialog_utils.h"
 #include "object_factory.h"
-#include "codeimport/import_utils.h"
+#include "import_utils.h"
 
 // kde includes
 #include <klineedit.h>

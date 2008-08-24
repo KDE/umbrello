@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,12 +12,11 @@
 #define UMLTEMPLATEDIALOG_H
 
 #include <kdialog.h>
-//Added by qt3to4:
-#include <QLabel>
 
 class KComboBox;
-class Q3GroupBox;
 class KLineEdit;
+class QGroupBox;
+class QLabel;
 class UMLTemplate;
 
 /**
@@ -27,8 +25,8 @@ class UMLTemplate;
  * @author Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
-class UMLTemplateDialog : public KDialog {
+class UMLTemplateDialog : public KDialog
+{
     Q_OBJECT
 public:
     UMLTemplateDialog(QWidget* pParent, UMLTemplate* pAttribute);
@@ -36,8 +34,8 @@ public:
 
 protected:
     /**
-    *   Sets up the dialog
-    */
+     *   Sets up the dialog
+     */
     void setupDialog();
 
     /**
@@ -47,15 +45,14 @@ protected:
     bool apply();
 
     /**
-    *   The Attribute to represent
-    */
+     *   The Attribute to represent
+     */
     UMLTemplate* m_pTemplate;
 
-    //GUI Widgets
-    Q3GroupBox* m_pTemplateGB;
-    Q3GroupBox* m_pValuesGB;
+    // GUI Widgets
+    QGroupBox *m_pValuesGB;
     QLabel *m_pTypeL, *m_pNameL, *m_pStereoTypeL;
-    KComboBox* m_pTypeCB;
+    KComboBox *m_pTypeCB;
     KLineEdit *m_pNameLE, *m_pStereoTypeLE;
 
 public slots:
@@ -69,11 +66,15 @@ public slots:
      * Used when the OK button is clicked.  Calls apply()
      */
     void slotOk();
+
 protected:
     /**
-    * Inserts @p type into the type-combobox as well as its completion object.
-    */
-    void insertType( const QString& type, int index = -1 );
+     * Inserts @p type into the type-combobox.
+     * The combobox is cleared and all types together with the optional new one
+     * sorted and then added again.
+     * @param type   a new type to add and selected
+     */
+    void insertTypesSorted(const QString& type = "");
 
 };
 

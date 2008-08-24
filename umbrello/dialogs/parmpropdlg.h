@@ -1,32 +1,28 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef PARMPROPDLG_H
 #define PARMPROPDLG_H
 
-#include <q3groupbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qradiobutton.h>
-#include <q3buttongroup.h>
-#include <q3multilineedit.h>
-#include <qcombobox.h>
+#include "attribute.h"
 
 #include <kdialog.h>
-#include <kcombobox.h>
 #include <klineedit.h>
-
-#include "../attribute.h"
+#include <kcombobox.h>
+#include <ktextedit.h>
 
 class UMLDoc;
+class QComboBox;
+class QGroupBox;
+class QLabel;
+class QRadioButton;
 
 /**
  * Displays a dialog box that displays properties of a paramater.
@@ -37,16 +33,16 @@ class UMLDoc;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ParmPropDlg : public KDialog {
+class ParmPropDlg : public KDialog
+{
     Q_OBJECT
 public:
     /**
      * Constructs a ParmPropDlg.
-     *
-     * @param parent    The parent of the dialog.
-     * @param a The parameter to represent.
+     * @param parent   the parent of the dialog
+     * @param attr     the parameter to represent
      */
-    ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a);
+    ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr);
 
     /**
      * Standard deconstructor.
@@ -55,16 +51,14 @@ public:
 
     /**
      * Returns the documentation.
-     *
      * @return  Returns the documentation.
      */
     QString getDoc() {
-        return m_pDoc->text();
+        return m_pDoc->toPlainText();
     }
 
     /**
      * Return the name of the parameter.
-     *
      * @return  Return the name of the parameter.
      */
     QString getName() {
@@ -73,7 +67,6 @@ public:
 
     /**
      * Return the initial value of the parameter.
-     *
      * @return  Return the initial value of the parameter.
      */
     QString getInitialValue() {
@@ -82,7 +75,6 @@ public:
 
     /**
      * Return the type name of the parameter.
-     *
      * @return Return the type name of the parameter.
      */
     QString getTypeName() {
@@ -91,7 +83,6 @@ public:
 
     /**
      * Return the kind of the parameter (in, out, or inout).
-     *
      * @return  The Uml::Parameter_Direction corresponding to
      *          the selected "Kind" radiobutton.
      */
@@ -102,24 +93,29 @@ public slots:
 
 protected:
     /**
-    * Inserts @p type into the type-combobox as well as its completion object.
-    */
-    void insertType( const QString& type, int index = -1 );
+     * Inserts @p type into the type-combobox as well as its completion object.
+     * The combobox is cleared and all types together with the optional new one
+     * sorted and then added again.
+     * @param type   a new type to add and selected
+     */
+    void insertTypesSorted(const QString& type = "");
 
     /**
      * Inserts @p type into the stereotype-combobox as well as its completion object.
+     * The combobox is cleared and all types together with the optional new one
+     * sorted and then added again.
+     * @param type   a new type to add and selected
      */
-    void insertStereotype( const QString& type, int index = -1 );
-
+    void insertStereotypesSorted(const QString& type = "");
 
 private:
-    Q3GroupBox * m_pParmGB, * m_pDocGB;
-    Q3ButtonGroup *m_pKind;
+    QGroupBox * m_pParmGB, * m_pDocGB;
+    QGroupBox *m_pKind;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
     QLabel * m_pTypeL, * m_pNameL, * m_pInitialL, * m_pStereoTypeL;
     KComboBox * m_pTypeCB, * m_pStereoTypeCB;
     KLineEdit * m_pNameLE, * m_pInitialLE;
-    Q3MultiLineEdit * m_pDoc;
+    KTextEdit * m_pDoc;
     UMLDoc * m_pUmldoc;
     UMLAttribute * m_pAtt;
 };

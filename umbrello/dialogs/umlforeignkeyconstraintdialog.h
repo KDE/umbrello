@@ -1,27 +1,19 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLFOREIGNKEYCONSTRAINTDIALOG_H
 #define UMLFOREIGNKEYCONSTRAINTDIALOG_H
 
-//qt  includes
-#include <qwidget.h>
-#include <qlabel.h>
-#include <qgroupbox.h>
-#include <q3groupbox.h>
-#include <q3listbox.h>
-#include <q3textedit.h>
-#include <qtreewidget.h>
-#include <qmap.h>
-#include <qlist.h>
+//app includes
+#include "umlclassifierlistitemlist.h"
+#include "umlentityattributelist.h"
 
 //kde includes
 #include <klineedit.h>
@@ -30,12 +22,16 @@
 #include <kdialog.h>
 #include <kpagedialog.h>
 
-//app includes
-#include "../umlclassifierlistitemlist.h"
-#include "../umlentityattributelist.h"
+//qt  includes
+#include <QtCore/QList>
 
 class UMLDoc;
 class UMLForeignKeyConstraint;
+class QGroupBox;
+class QLabel;
+class QPushButton;
+class QTreeWidget;
+
 /**
  * A dialog page to display foreignkey constraint properties.
  *
@@ -43,7 +39,8 @@ class UMLForeignKeyConstraint;
  * @author Sharan Rao
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLForeignKeyConstraintDialog : public KPageDialog {
+class UMLForeignKeyConstraintDialog : public KPageDialog
+{
     Q_OBJECT
 public:
     /**
@@ -63,17 +60,17 @@ private:
 
     /**
      * Checks if changes are valid and applies them if they are,
-     * else returns false
+     * else returns false.
      */
     bool apply();
 
     /**
-     * Setup the General Page
+     * Setup the General Page.
      */
     void setupGeneralPage();
 
     /**
-     * Setup Column Page
+     * Setup Column Page.
      */
     void setupColumnPage();
 
@@ -82,16 +79,16 @@ private:
     void refillLocalAttributeCB();
 
     /**
-      * The UMLDocument where all objects live
-      */
+     * The UMLDocument where all objects live.
+     */
     UMLDoc* m_doc;
 
     UMLForeignKeyConstraint* m_pForeignKeyConstraint;
 
     struct GeneralWidgets {
 
-        Q3GroupBox* generalGB;
-        Q3GroupBox* actionGB;
+        QGroupBox* generalGB;
+        QGroupBox* actionGB;
 
         QLabel* referencedEntityL;
         QLabel* nameL;
@@ -104,9 +101,7 @@ private:
         QLabel* onDeleteL;
         KComboBox* updateActionCB;
         KComboBox* deleteActionCB;
-
-    }
-    ; // end general widgets
+    }; // end general widgets
 
     struct ColumnWidgets {
 
@@ -119,8 +114,7 @@ private:
         QLabel* referencedColumnL;
 
         QPushButton* addPB,*removePB;
-    }
-    ; // end column widgets
+    }; // end column widgets
 
     // these attributes store the local cache
 
@@ -130,8 +124,8 @@ private:
     QList< QPair<UMLEntityAttribute*,UMLEntityAttribute*> > m_pAttributeMapList;
 
     /**
-     * Temporary Storage for entity index in referencedColumnCB
-     * Used for reverting back a change in referenced entities
+     * Temporary Storage for entity index in referencedColumnCB.
+     * Used for reverting back a change in referenced entities.
      */
     int m_pReferencedEntityIndex;
     // end of local cache
@@ -144,30 +138,29 @@ private:
 public slots:
 
     /**
-     * Enable/Disable the widgets in the Dialog Box
+     * Enable/Disable the widgets in the Dialog Box.
      */
     void slotResetWidgetState();
 
     /**
-     * Used when the Apply button is clicked
+     * Used when the Apply button is clicked.
      */
     void slotApply();
 
     /**
-     * Used when the OK button is clicked.  Calls apply()
+     * Used when the OK button is clicked.  Calls apply().
      */
     void slotOk();
 
     /**
-     * adds pair to the list
+     * Adds pair to the list.
      */
     void slotAddPair();
 
     /**
-     * deletes a pair from the list
+     * Deletes a pair from the list.
      */
     void slotDeletePair();
-
 
     void slotReferencedEntityChanged(int index);
 };

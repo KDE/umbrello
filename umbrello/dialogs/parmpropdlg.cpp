@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,17 +11,6 @@
 // own header
 #include "parmpropdlg.h"
 
-// qt includes
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-
-// kde includes
-#include <klocale.h>
-#include <kdebug.h>
-
 // local includes
 #include "classifier.h"
 #include "umltemplatelist.h"
@@ -32,9 +20,21 @@
 #include "object_factory.h"
 #include "stereotype.h"
 
-#include "parmpropdlg.moc"
+// kde includes
+#include <klocale.h>
+#include <kdebug.h>
 
-ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
+// qt includes
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QComboBox>
+#include <QtGui/QRadioButton>
+
+ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
         : KDialog(parent)
 {
     setCaption( i18n("Parameter Properties") );
@@ -44,13 +44,13 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     showButtonSeparator( true );
 
     m_pUmldoc = doc;
-    m_pAtt = a;
+    m_pAtt = attr;
     QString type, text, name, initialValue;
-    if(a) {
-        type = a->getTypeName();
-        name = a->getName();
-        initialValue = a->getInitialValue();
-        text = a->getDoc();
+    if (attr) {
+        type = attr->getTypeName();
+        name = attr->getName();
+        initialValue = attr->getInitialValue();
+        text = attr->getDoc();
     }
     int margin = fontMetrics().height();
     setMinimumSize(300, 400);
@@ -61,7 +61,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     topLayout->setSpacing(10);
     topLayout->setMargin(margin);
 
-    m_pParmGB = new Q3GroupBox(i18n("Properties"), frame);
+    m_pParmGB = new QGroupBox(i18n("Properties"), frame);
     topLayout->addWidget(m_pParmGB);
 
     QGridLayout * propLayout = new QGridLayout(m_pParmGB);
@@ -88,8 +88,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     m_pStereoTypeCB = new KComboBox(true, m_pParmGB );
     propLayout->addWidget(m_pStereoTypeCB, 3, 1);
 
-    m_pKind =  new Q3ButtonGroup(i18n("Passing Direction"), frame);
-    m_pKind->setExclusive(true);
+    m_pKind =  new QGroupBox(i18n("Passing Direction"), frame);
     m_pKind->setToolTip( i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
 
     QHBoxLayout * kindLayout = new QHBoxLayout( m_pKind );
@@ -106,21 +105,19 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
 
     topLayout->addWidget(m_pKind);
 
-    m_pDocGB = new Q3GroupBox(i18n("Documentation"), frame);
+    m_pDocGB = new QGroupBox(i18n("Documentation"), frame);
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
     docLayout->setMargin(margin);
 
-    m_pDoc = new Q3MultiLineEdit(m_pDocGB);
-    ///////////
-    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
-    //////////
+    m_pDoc = new KTextEdit(m_pDocGB);
+    m_pDoc->setWordWrapMode(QTextOption::WordWrap);
     m_pDoc->setText(text);
     docLayout->addWidget(m_pDoc);
     topLayout->addWidget(m_pDocGB);
 
     // Check the proper Kind radiobutton.
-    if (a) {
-        Uml::Parameter_Direction kind = a->getParmKind();
+    if (attr) {
+        Uml::Parameter_Direction kind = attr->getParmKind();
         if (kind == Uml::pd_Out)
             m_pOut->setChecked(true);
         else if (kind == Uml::pd_InOut)
@@ -130,66 +127,17 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     } else
         m_pIn->setChecked(true);
 
-    m_pTypeCB->setDuplicatesEnabled(false);//only allow one of each type in box
+    // manage types
+    m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
     m_pTypeCB->setEditable(true);
     m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-//    m_pTypeCB->setAutoCompletion(false);
-
-    //add template parameters
-    UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
-    if (pConcept == NULL) {
-        uError() << "ParmPropDlg: grandparent of " << m_pAtt->getName()
-        << " is not a UMLClassifier" << endl;
-    } else {
-        UMLTemplateList tmplParams( pConcept->getTemplateList() );
-        foreach( UMLTemplate* t, tmplParams ) {
-            insertType( t->getName() );
-        }
-    }
-    //now add the Concepts
-    UMLClassifierList namesList( m_pUmldoc->getConcepts() );
-    foreach(UMLClassifier* obj, namesList ) {
-       insertType( obj->getFullyQualifiedName() );
-    }
-
-    //work out which one to select
-    int typeBoxCount = 0;
-    bool foundType = false;
-    while (typeBoxCount < m_pTypeCB->count() && foundType == false) {
-        QString typeBoxString = m_pTypeCB->itemText(typeBoxCount);
-        if ( typeBoxString == type ) { //getTypeName()
-            foundType = true;
-            m_pTypeCB->setCurrentIndex(typeBoxCount);
-        } else {
-            typeBoxCount++;
-        }
-    }
-
-    if (!foundType) {
-        insertType( type, 0 );
-        m_pTypeCB->setCurrentIndex(0);
-    }
+//    m_pTypeCB->setCompleter(...);
+    insertTypesSorted(attr->getTypeName());
 
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false); //only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-    insertStereotype (QString("")); // an empty stereotype is the default
-    int defaultStereotype=0;
-    bool foundDefaultStereotype = false;
-    foreach (UMLStereotype* currentSt, m_pUmldoc->getStereotypes() ) {
-        if (!foundDefaultStereotype) {
-            if ( m_pAtt->getStereotype() == currentSt->getName()) {
-                foundDefaultStereotype = true;
-            }
-            defaultStereotype++;
-        }
-        insertStereotype (currentSt->getName());
-    }
-    // lookup for a default stereotype, if the operation doesn't have one
-    if (foundDefaultStereotype)
-        m_pStereoTypeCB->setCurrentIndex(defaultStereotype);
-    else
-        m_pStereoTypeCB->setCurrentIndex(-1);
+    insertStereotypesSorted(m_pAtt->getStereotype());
 
     // set tab order
     setTabOrder(m_pKind, m_pTypeCB);
@@ -202,16 +150,66 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * a)
     m_pNameLE->setFocus();
 }
 
-void ParmPropDlg::insertType( const QString& type, int index )
+ParmPropDlg::~ParmPropDlg()
 {
-    m_pTypeCB->insertItem( index, type );
-    m_pTypeCB->completionObject()->addItem( type );
 }
 
-void ParmPropDlg::insertStereotype( const QString& type, int index )
+void ParmPropDlg::insertTypesSorted(const QString& type)
 {
-    m_pStereoTypeCB->insertItem( index, type );
-    m_pStereoTypeCB->completionObject()->addItem( type );
+    QStringList types;
+    // add template parameters
+    UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
+    if (pConcept == NULL) {
+        uError() << "ParmPropDlg: grandparent of " << m_pAtt->getName()
+                 << " is not a UMLClassifier";
+    } else {
+        UMLTemplateList tmplParams( pConcept->getTemplateList() );
+        foreach( UMLTemplate* t, tmplParams ) {
+            types << t->getName();
+        }
+    }
+    // now add the Concepts
+    UMLClassifierList namesList( m_pUmldoc->getConcepts() );
+    foreach(UMLClassifier* obj, namesList ) {
+        types << obj->getFullyQualifiedName();
+    }
+    // add the given parameter
+    if ( !types.contains(type) ) {
+        types << type;
+    }
+    types.sort();
+
+    m_pTypeCB->clear();
+    m_pTypeCB->insertItems(-1, types);
+
+    // select the given parameter
+    int currentIndex = m_pTypeCB->findText(type);
+    if (currentIndex > -1) {
+        m_pTypeCB->setCurrentIndex(currentIndex);
+    }
+}
+
+void ParmPropDlg::insertStereotypesSorted(const QString& type)
+{
+    QStringList types;
+    types << ""; // an empty stereotype is the default
+    foreach (UMLStereotype* currentSt, m_pUmldoc->getStereotypes() ) {
+        types << currentSt->getName();
+    }
+    // add the given parameter
+    if ( !types.contains(type) ) {
+        types << type;
+    }
+    types.sort();
+
+    m_pStereoTypeCB->clear();
+    m_pStereoTypeCB->insertItems(-1, types);
+
+    // select the given parameter
+    int currentIndex = m_pStereoTypeCB->findText(type);
+    if (currentIndex > -1) {
+        m_pStereoTypeCB->setCurrentIndex(currentIndex);
+    }
 }
 
 Uml::Parameter_Direction ParmPropDlg::getParmKind()
@@ -232,7 +230,7 @@ void ParmPropDlg::slotOk()
         QString typeName = m_pTypeCB->currentText();
         UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
         if (pConcept == NULL) {
-            uError() << "grandparent of " << m_pAtt->getName() << " is not a UMLClassifier" << endl;
+            uError() << "grandparent of " << m_pAtt->getName() << " is not a UMLClassifier";
         } else {
             UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
             if (tmplParam) {
@@ -242,12 +240,11 @@ void ParmPropDlg::slotOk()
             }
         }
         UMLClassifierList namesList( m_pUmldoc->getConcepts() );
-        UMLClassifier * obj = NULL;
         bool matchFound = false;
 
-        foreach ( obj, namesList) {
+        foreach (UMLClassifier* obj, namesList) {
             if (obj->getFullyQualifiedName() == typeName) {
-                m_pAtt->setType( obj );
+                m_pAtt->setType(obj);
                 matchFound = true;
                 break;
             }
@@ -257,16 +254,13 @@ void ParmPropDlg::slotOk()
             // @todo There should be an extra dialog to decide whether to
             // create a datatype or a class. For now, we create a class.
             uDebug() << "" << typeName << " not found."
-                << " Creating a new class for the type." << endl;
-            UMLObject *o = Object_Factory::createUMLObject(Uml::ot_Class, typeName);
-            m_pAtt->setType(o);
+                << " Creating a new class for the type.";
+            UMLObject *newObj = Object_Factory::createUMLObject(Uml::ot_Class, typeName);
+            m_pAtt->setType(newObj);
         }
 
     }
     accept();
 }
 
-ParmPropDlg::~ParmPropDlg()
-{
-}
-
+#include "parmpropdlg.moc"
