@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,27 +11,7 @@
 // my own header
 #include "classgenpage.h"
 
-// qt includes
-#include <QtGui/QLayout>
-#include <q3groupbox.h>
-#include <QtGui/QLineEdit>
-#include <q3buttongroup.h>
-#include <q3multilineedit.h>
-#include <QtGui/QRadioButton>
-#include <QtGui/QCheckBox>
-#include <QtGui/QLabel>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-
-// kde includes
-#include <klocale.h>
-#include <kdebug.h>
-#include <kmessagebox.h>
-#include <kcombobox.h>
-#include <klineedit.h>
-
-// my class includes
+// app includes
 #include "umlobject.h"
 #include "objectwidget.h"
 #include "uml.h"
@@ -48,7 +27,25 @@
 #include "model_utils.h"
 #include "package.h"
 #include "folder.h"
-#include "codeimport/import_utils.h"
+#include "import_utils.h"
+
+// kde includes
+#include <klocale.h>
+#include <kdebug.h>
+#include <kmessagebox.h>
+#include <kcombobox.h>
+#include <klineedit.h>
+#include <ktextedit.h>
+
+// qt includes
+//#include <QtGui/QLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QRadioButton>
+#include <QtGui/QCheckBox>
+#include <QtGui/QLabel>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(parent)
 {
@@ -88,9 +85,10 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(6);
 
-    //setup name
-    QGridLayout * m_pNameLayout = new QGridLayout(topLayout, 4, 2);
+    // setup name
+    QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
+    topLayout->addLayout(m_pNameLayout, 4);
     m_pNameL = new QLabel(this);
     m_pNameL->setText(name);
     m_pNameLayout->addWidget(m_pNameL, 0, 0);
@@ -127,9 +125,12 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
         m_pNameLayout->addWidget(m_pPackageCB, 2, 1);
 
         UMLPackageList packageList = m_pUmldoc->getPackages();
+        QStringList packages;
         foreach( UMLPackage* package, packageList ) {
-            m_pPackageCB->addItem(package->getName());
+            packages << package->getName();
         }
+        packages.sort();
+        m_pPackageCB->insertItems(-1, packages);
         UMLPackage* parentPackage = o->getUMLPackage();
 
         // if parent package == NULL
@@ -159,25 +160,24 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     }
 
     if (t == Uml::ot_Artifact) {
-        //setup artifact draw as
-        m_pDrawAsBG = new Q3ButtonGroup(i18n("Draw As"), this);
-        QHBoxLayout* drawAsLayout = new QHBoxLayout(m_pDrawAsBG);
+        // setup artifact draw as
+        m_pDrawAsGB = new QGroupBox(i18n("Draw As"), this);
+        QHBoxLayout* drawAsLayout = new QHBoxLayout(m_pDrawAsGB);
         drawAsLayout->setMargin(margin);
-        m_pDrawAsBG->setExclusive(true);
 
-        m_pDefaultRB = new QRadioButton(i18nc("draw as default", "&Default"), m_pDrawAsBG);
+        m_pDefaultRB = new QRadioButton(i18nc("draw as default", "&Default"), m_pDrawAsGB);
         drawAsLayout->addWidget(m_pDefaultRB);
 
-        m_pFileRB = new QRadioButton(i18n("&File"), m_pDrawAsBG);
+        m_pFileRB = new QRadioButton(i18n("&File"), m_pDrawAsGB);
         drawAsLayout->addWidget(m_pFileRB);
 
-        m_pLibraryRB = new QRadioButton(i18n("&Library"), m_pDrawAsBG);
+        m_pLibraryRB = new QRadioButton(i18n("&Library"), m_pDrawAsGB);
         drawAsLayout->addWidget(m_pLibraryRB);
 
-        m_pTableRB = new QRadioButton(i18n("&Table"), m_pDrawAsBG);
+        m_pTableRB = new QRadioButton(i18n("&Table"), m_pDrawAsGB);
         drawAsLayout->addWidget(m_pTableRB);
 
-        topLayout->addWidget(m_pDrawAsBG);
+        topLayout->addWidget(m_pDrawAsGB);
 
         UMLArtifact::Draw_Type drawAs = (static_cast<UMLArtifact*>(o))->getDrawAsType();
 
@@ -192,40 +192,39 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
         }
     }
 
-    //setup scope
-    m_pButtonBG = new Q3ButtonGroup(i18n("Visibility"), this);
-    QHBoxLayout * scopeLayout = new QHBoxLayout(m_pButtonBG);
+    // setup scope
+    m_pButtonGB = new QGroupBox(i18n("Visibility"), this);
+    QHBoxLayout * scopeLayout = new QHBoxLayout(m_pButtonGB);
     scopeLayout->setMargin(margin);
-    m_pButtonBG->setExclusive(true);
 
-    m_pPublicRB = new QRadioButton(i18nc("public visibility", "P&ublic"), m_pButtonBG);
+    m_pPublicRB = new QRadioButton(i18nc("public visibility", "P&ublic"), m_pButtonGB);
     scopeLayout->addWidget(m_pPublicRB);
 
-    m_pPrivateRB = new QRadioButton(i18nc("private visibility", "P&rivate"), m_pButtonBG);
+    m_pPrivateRB = new QRadioButton(i18nc("private visibility", "P&rivate"), m_pButtonGB);
     scopeLayout->addWidget(m_pPrivateRB);
 
-    m_pProtectedRB = new QRadioButton(i18nc("protected visibility", "Pro&tected"), m_pButtonBG);
+    m_pProtectedRB = new QRadioButton(i18nc("protected visibility", "Pro&tected"), m_pButtonGB);
     scopeLayout->addWidget(m_pProtectedRB);
-    topLayout->addWidget(m_pButtonBG);
+    topLayout->addWidget(m_pButtonGB);
 
-    m_pImplementationRB = new QRadioButton(i18n("Imple&mentation"), m_pButtonBG);
+    m_pImplementationRB = new QRadioButton(i18n("Imple&mentation"), m_pButtonGB);
     scopeLayout->addWidget(m_pImplementationRB);
-    topLayout->addWidget(m_pButtonBG);
+    topLayout->addWidget(m_pButtonGB);
 
-    //setup documentation
-    m_pDocGB = new Q3GroupBox(this);
+    // setup documentation
+    m_pDocGB = new QGroupBox(this);
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
     docLayout->setMargin(margin);
     m_pDocGB->setTitle(i18n("Documentation"));
 
-    m_pDoc = new Q3MultiLineEdit(m_pDocGB);
+    m_pDoc = new KTextEdit(m_pDocGB);
     docLayout->addWidget(m_pDoc);
     topLayout->addWidget(m_pDocGB);
 
     m_pObject = o;
-    //setup fields
+    // setup fields
     m_pClassNameLE->setText(o->getName());
-    m_pDoc->setText(o->getDoc());
+    m_pDoc-> setText(o->getDoc());
     Uml::Visibility s = o->getVisibility();
     if (s == Uml::Visibility::Public)
         m_pPublicRB->setChecked(true);
@@ -239,26 +238,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false);  // only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-    insertStereotype (QString(), 0);  // an empty stereotype is the default
-    int defaultStereotype=0;
-    bool foundDefaultStereotype = false;
-    // start with 1 as first entry is blank string
-    int counter = 1;
-    foreach (UMLStereotype* ust, m_pUmldoc->getStereotypes()) {
-        if (!foundDefaultStereotype) {
-            if ( m_pObject->getStereotype() == ust->getName()) {
-                foundDefaultStereotype = true;
-                defaultStereotype = counter;
-            }
-        }
-        insertStereotype (ust->getName(), counter++);
-    }
+    insertStereotypesSorted(m_pObject->getStereotype());
 
-    m_pStereoTypeCB->setCurrentIndex(defaultStereotype);
-
-    ///////////
-    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
-    //////////
+    m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
 }
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidget(parent)
@@ -275,9 +257,10 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     QGridLayout * topLayout = new QGridLayout(this);
     topLayout->setSpacing(6);
 
-    //setup name
-    QGridLayout * m_pNameLayout = new QGridLayout(topLayout, 3, 2);
+    // setup name
+    QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
+    topLayout->addLayout(m_pNameLayout, 3, 2);
     m_pNameL = new QLabel(this);
     m_pNameL->setText(i18n("Class name:"));
     m_pNameLayout->addWidget(m_pNameL, 0, 0);
@@ -303,28 +286,30 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
         m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
         m_pMultiCB->setChecked(o->multipleInstance());
         m_pNameLayout->addWidget(m_pMultiCB, 2,1);
-        if( m_pDrawActorCB->isChecked() )
+        if ( m_pDrawActorCB->isChecked() )
             m_pMultiCB->setEnabled( false );
-    } else  //sequence diagram
+    }
+    else  // sequence diagram
     {
         m_pDeconCB = new QCheckBox(i18n("Show destruction"), this);
         m_pDeconCB->setChecked(o->showDestruction());
         m_pNameLayout->addWidget(m_pDeconCB, 2,1);
     }
-    //setup documentation
-    m_pDocGB = new Q3GroupBox(this);
+    // setup documentation
+    m_pDocGB = new QGroupBox(this);
     topLayout->addWidget(m_pDocGB, 1, 0);
     QHBoxLayout * docLayout = new QHBoxLayout(m_pDocGB);
     docLayout->setMargin(margin);
     m_pDocGB->setTitle(i18n("Documentation"));
 
-    m_pDoc = new Q3MultiLineEdit(m_pDocGB);
-    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
+    m_pDoc = new KTextEdit(m_pDocGB);
+    m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
     m_pDoc->setText(o->getDoc());
     docLayout->addWidget(m_pDoc);
-    m_pObject = 0;  //needs to be set to zero
-    if (m_pMultiCB)
+    m_pObject = 0;  // needs to be set to zero
+    if (m_pMultiCB) {
         connect( m_pDrawActorCB, SIGNAL( toggled( bool ) ), this, SLOT( slotActorToggled( bool ) ) );
+    }
 }
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, NewUMLRectWidget* widget) : QWidget(parent)
@@ -342,8 +327,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, NewUMLRectWidget* widget)
     topLayout->setSpacing(6);
 
     //setup name
-    QGridLayout* m_pNameLayout = new QGridLayout(topLayout, 3, 2);
+    QGridLayout* m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
+    topLayout->addLayout(m_pNameLayout, 3, 2);
     m_pNameL = new QLabel(this);
     if (widget->getBaseType() == Uml::wt_Component) {
         m_pNameL->setText(i18n("Component name:"));
@@ -376,26 +362,44 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, NewUMLRectWidget* widget)
     m_pNameLayout->addWidget(m_pInstanceLE, 2, 1);
 
     //setup documentation
-    m_pDocGB = new Q3GroupBox(this);
+    m_pDocGB = new QGroupBox(this);
     topLayout->addWidget(m_pDocGB, 1, 0);
     QHBoxLayout* docLayout = new QHBoxLayout(m_pDocGB);
     docLayout->setMargin(margin);
     m_pDocGB->setTitle(i18n("Documentation"));
 
-    m_pDoc = new Q3MultiLineEdit(m_pDocGB);
-    m_pDoc->setWordWrap(Q3MultiLineEdit::WidgetWidth);
+    m_pDoc = new KTextEdit(m_pDocGB);
+    m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
     m_pDoc->setText(widget->getDoc());
     docLayout->addWidget(m_pDoc);
-    m_pObject = 0;//needs to be set to zero
+    m_pObject = 0; // needs to be set to zero
 }
 
 ClassGenPage::~ClassGenPage()
 {
 }
 
-void ClassGenPage::insertStereotype( const QString& type, int index )
+void ClassGenPage::insertStereotypesSorted(const QString& type)
 {
-    m_pStereoTypeCB->insertItem( index, type );
+    QStringList types;
+    types << "";  // an empty stereotype is the default
+    foreach (UMLStereotype* ust, m_pUmldoc->getStereotypes()) {
+        types << ust->getName();
+    }
+    // add the given parameter
+    if ( !types.contains(type) ) {
+        types << type;
+    }
+    types.sort();
+
+    m_pStereoTypeCB->clear();
+    m_pStereoTypeCB->insertItems(-1, types);
+
+    // select the given parameter
+    int currentIndex = m_pStereoTypeCB->findText(type);
+    if (currentIndex > -1) {
+        m_pStereoTypeCB->setCurrentIndex(currentIndex);
+    }
     m_pStereoTypeCB->completionObject()->addItem( type );
 }
 
@@ -404,51 +408,55 @@ void ClassGenPage::updateObject()
     if (m_pObject) {
         QString name = m_pClassNameLE->text();
 
-        m_pObject->setDoc(m_pDoc->text());
+        m_pObject->setDoc(m_pDoc->toPlainText());
 
-        if (m_pStereoTypeCB)
+        if (m_pStereoTypeCB) {
             m_pObject->setStereotype(m_pStereoTypeCB->currentText());
+        }
 
         Uml::Object_Type t = m_pObject->getBaseType();
         if (t == Uml::ot_Class || t == Uml::ot_Interface) {
-          QString packageName = m_pPackageCB->currentText().trimmed();
-          UMLObject* newPackage = NULL;
+            QString packageName = m_pPackageCB->currentText().trimmed();
+            UMLObject* newPackage = NULL;
 
-          if ( !packageName.isEmpty()) {
-            if ( ( newPackage = m_pUmldoc->findUMLObject(packageName, Uml::ot_Package) ) == NULL )
-                newPackage = Import_Utils::createUMLObject(Uml::ot_Package, packageName);
-          } else {
-             newPackage = m_pUmldoc->getRootFolder( Uml::mt_Logical );
-          }
+            if ( !packageName.isEmpty()) {
+                if ( ( newPackage = m_pUmldoc->findUMLObject(packageName, Uml::ot_Package) ) == NULL ) {
+                    newPackage = Import_Utils::createUMLObject(Uml::ot_Package, packageName);
+                }
+            } else {
+                newPackage = m_pUmldoc->getRootFolder( Uml::mt_Logical );
+            }
 
-          // adjust list view items
-          UMLListView *lv = UMLApp::app()->getListView();
-          UMLListViewItem *newLVParent = lv->findUMLObject(newPackage);
-          lv->moveObject(m_pObject->getID(),
-                         Model_Utils::convert_OT_LVT(m_pObject),
+            // adjust list view items
+            UMLListView *lv = UMLApp::app()->getListView();
+            UMLListViewItem *newLVParent = lv->findUMLObject(newPackage);
+            lv->moveObject(m_pObject->getID(),
+                           Model_Utils::convert_OT_LVT(m_pObject),
                            newLVParent);
         }
 
-        if ( m_pAbstractCB )
+        if ( m_pAbstractCB ) {
             m_pObject->setAbstract( m_pAbstractCB->isChecked() );
+        }
 
-         //make sure unique name
-         UMLObject *o = m_pUmldoc->findUMLObject(name);
-         if (o && m_pObject != o) {
+        //make sure unique name
+        UMLObject *o = m_pUmldoc->findUMLObject(name);
+        if (o && m_pObject != o) {
              KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
                                 i18n("Name is Not Unique"), false);
              m_pClassNameLE->setText( m_pObject->getName() );
-         } else
+        } else {
              m_pObject->setName(name);
+        }
         Uml::Visibility s;
-        if(m_pPublicRB->isChecked())
-          s = Uml::Visibility::Public;
-        else if(m_pPrivateRB->isChecked())
-          s = Uml::Visibility::Private;
-        else if(m_pProtectedRB->isChecked())
-          s = Uml::Visibility::Protected;
+        if (m_pPublicRB->isChecked())
+            s = Uml::Visibility::Public;
+        else if (m_pPrivateRB->isChecked())
+            s = Uml::Visibility::Private;
+        else if (m_pProtectedRB->isChecked())
+            s = Uml::Visibility::Protected;
         else
-          s = Uml::Visibility::Implementation;
+            s = Uml::Visibility::Implementation;
         m_pObject->setVisibility(s);
 
         if (m_pObject->getBaseType() == Uml::ot_Component) {
@@ -470,27 +478,30 @@ void ClassGenPage::updateObject()
 			m_pObject->emitModified();
         }
 
-    }//end if m_pObject
+    } // end if m_pObject
     else if (m_pWidget) {
         m_pWidget->setInstanceName(m_pInstanceLE->text());
-        if (m_pMultiCB)
+        if (m_pMultiCB) {
             m_pWidget->setMultipleInstance(m_pMultiCB->isChecked());
+        }
         m_pWidget->setDrawAsActor( m_pDrawActorCB->isChecked() );
-        if (m_pDeconCB)
+        if (m_pDeconCB) {
             m_pWidget->setShowDestruction( m_pDeconCB->isChecked() );
+        }
         QString name = m_pClassNameLE->text();
-        m_pWidget->setDoc(m_pDoc->text());
+        m_pWidget->setDoc(m_pDoc->toPlainText());
         UMLObject * o = m_pWidget->getUMLObject();
         UMLObject * old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
                                i18n("Name is Not Unique"), false);
-        } else
+        } else {
             o->setName(name);
+        }
     } else if (m_pInstanceWidget) {
         m_pInstanceWidget->setInstanceName(m_pInstanceLE->text());
         QString name = m_pClassNameLE->text();
-        m_pInstanceWidget->setDoc(m_pDoc->text());
+        m_pInstanceWidget->setDoc(m_pDoc->toPlainText());
         UMLObject* o = m_pInstanceWidget->getUMLObject();
         UMLObject* old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
@@ -505,8 +516,9 @@ void ClassGenPage::updateObject()
 
 void ClassGenPage::slotActorToggled( bool state )
 {
-    if (m_pMultiCB)
+    if (m_pMultiCB) {
         m_pMultiCB->setEnabled( !state );
+    }
 }
 
 #include "classgenpage.moc"

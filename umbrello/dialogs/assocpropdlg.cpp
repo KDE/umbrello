@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -11,16 +10,6 @@
 
 // own header
 #include "assocpropdlg.h"
-
-// qt/kde includes
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QFrame>
-#include <QtGui/QHBoxLayout>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kdebug.h>
-#include <kvbox.h>
 
 // local includes
 #include "assocgenpage.h"
@@ -35,6 +24,17 @@
 #include "umlview.h"
 #include "icon_utils.h"
 
+// kde includes
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kdebug.h>
+#include <kvbox.h>
+
+// qt includes
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QFrame>
+#include <QtGui/QHBoxLayout>
 
 AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, int pageNum)
         : KPageDialog(parent)
@@ -46,29 +46,19 @@ AssocPropDlg::AssocPropDlg (QWidget *parent, AssociationWidget * assocWidget, in
     setModal( true );
     setFaceType( KPageDialog::List );
     showButtonSeparator( true );
-    init();
+
+    m_pGenPage = 0;
+    m_pRolePage = 0;
     m_pAssoc = assocWidget;
 
-    m_pDoc = ((UMLApp *)parent)->getDocument(); // needed?
-
     setupPages(assocWidget);
-#ifdef __GNUC__
-#warning "kde4: port it"
-#endif
-    //showPage(pageNum);
+
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 AssocPropDlg::~AssocPropDlg()
 {
-}
-
-void AssocPropDlg::init ( )
-{
-    m_pAssoc = 0;
-    m_pGenPage = 0;
-    m_pRolePage = 0;
 }
 
 void AssocPropDlg::slotOk()
@@ -95,6 +85,8 @@ void AssocPropDlg::slotApply()
 // void AssocPropDlg::setupPages (UMLObject * c)
 void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
 {
+    UMLDoc* umlDoc = UMLApp::app()->getDocument();
+
     // general page
     QFrame *page = new QFrame();
     KPageWidgetItem *pageItem = new KPageWidgetItem( page, i18nc("general settings", "General"));
@@ -103,7 +95,7 @@ void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
     addPage( pageItem );
     QHBoxLayout *genLayout = new QHBoxLayout(page);
     page->setMinimumSize(310, 330);
-    m_pGenPage = new AssocGenPage (m_pDoc, page, assocWidget);
+    m_pGenPage = new AssocGenPage (umlDoc, page, assocWidget);
     genLayout->addWidget(m_pGenPage);
 
     // role page
@@ -114,7 +106,7 @@ void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
     addPage( pageItem );
     QHBoxLayout * roleLayout = new QHBoxLayout(newPage);
     // newPage->setMinimumSize(310, 330);
-    m_pRolePage = new AssocRolePage(m_pDoc, newPage, assocWidget);
+    m_pRolePage = new AssocRolePage(umlDoc, newPage, assocWidget);
     roleLayout->addWidget(m_pRolePage);
 
     setupFontPage();
@@ -122,8 +114,9 @@ void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
 
 void AssocPropDlg::setupFontPage()
 {
-    if( !m_pAssoc)
+    if ( !m_pAssoc) {
         return;
+    }
 
     KVBox *page = new KVBox();
     KPageWidgetItem* pageItem = new KPageWidgetItem( page, i18n("Font"));

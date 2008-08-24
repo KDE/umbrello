@@ -1,58 +1,64 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "activitypage.h"
-#include "../statewidget.h"
-#include "../listpopupmenu.h"
-#include "../uml.h"
+
+#include "statewidget.h"
+#include "listpopupmenu.h"
+#include "uml.h"
 
 #include <kinputdialog.h>
 #include <klocale.h>
 #include <kdialogbuttonbox.h>
 #include <kdebug.h>
 
-#include <QLayout>
-#include <QStringList>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
+#include <QtCore/QStringList>
+#include <QtGui/QLayout>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QGroupBox>
 
-ActivityPage::ActivityPage( QWidget * pParent, StateWidget * pWidget ) : QWidget( pParent ) {
+ActivityPage::ActivityPage( QWidget * pParent, StateWidget * pWidget ) : QWidget( pParent )
+{
     m_pStateWidget = pWidget;
     m_pMenu = 0;
     setupPage();
 }
 
-ActivityPage::~ActivityPage() {}
+ActivityPage::~ActivityPage()
+{
+}
 
-void ActivityPage::setupPage() {
+void ActivityPage::setupPage()
+{
     int margin = fontMetrics().height();
 
     QVBoxLayout * mainLayout = new QVBoxLayout( this );
     mainLayout->setSpacing(10);
 
-    m_pActivityGB = new Q3GroupBox(i18n("Activities"), this );
+    m_pActivityGB = new QGroupBox(i18n("Activities"), this );
 
     // vertical box layout for the activity lists, arrow buttons and the button box
     QVBoxLayout* listVBoxLayout = new QVBoxLayout( m_pActivityGB );
     listVBoxLayout->setMargin(margin);
-    listVBoxLayout->setSpacing ( 10 );
+    listVBoxLayout->setSpacing(10);
 
     //horizontal box contains the list box and the move up/down buttons
     QHBoxLayout* listHBoxLayout = new QHBoxLayout();
+    listHBoxLayout->setSpacing(10);
     listVBoxLayout->addItem( listHBoxLayout );
 
-    m_pActivityLB = new Q3ListBox(m_pActivityGB );
-
-    listHBoxLayout->addWidget(m_pActivityLB);
+    m_pActivityLW = new QListWidget(m_pActivityGB );
+    m_pActivityLW->setContextMenuPolicy(Qt::CustomContextMenu);
+    listHBoxLayout->addWidget(m_pActivityLW);
 
     QVBoxLayout * buttonLayout = new QVBoxLayout();
     listHBoxLayout->addItem( buttonLayout );
@@ -73,7 +79,6 @@ void ActivityPage::setupPage() {
     m_pBottomArrowB->setEnabled( false );
     buttonLayout->addWidget( m_pBottomArrowB );
 
-
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pActivityGB);
     buttonBox->addButton( i18n("New Activity..."), KDialogButtonBox::ActionRole,
                           this, SLOT(slotNewActivity()) );
@@ -90,37 +95,36 @@ void ActivityPage::setupPage() {
     QStringList::Iterator end(list.end());
 
     for( QStringList::Iterator it(list.begin()); it != end; ++it ) {
-        m_pActivityLB->insertItem( *it );
+        m_pActivityLW->addItem( *it );
     }
 
     //now setup the signals
-    connect(m_pActivityLB, SIGNAL(clicked(Q3ListBoxItem *)), this, SLOT(slotClicked(Q3ListBoxItem *)));
-    connect(m_pActivityLB, SIGNAL(rightButtonPressed(Q3ListBoxItem *, const QPoint &)),
-            this, SLOT(slotRightButtonPressed(Q3ListBoxItem *, const QPoint &)));
+    connect(m_pActivityLW, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(slotClicked(QListWidgetItem *)));
+    connect(m_pActivityLW, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(slotRightButtonPressed(const QPoint &)));
 
-    connect(m_pActivityLB, SIGNAL(rightButtonClicked(Q3ListBoxItem *, const QPoint &)),
-            this, SLOT(slotRightButtonClicked(Q3ListBoxItem *, const QPoint &)));
+    connect(m_pTopArrowB, SIGNAL( clicked() ), this, SLOT( slotTopClicked() ) );
+    connect(m_pUpArrowB, SIGNAL( clicked() ), this, SLOT( slotUpClicked() ) );
+    connect(m_pDownArrowB, SIGNAL( clicked() ), this, SLOT( slotDownClicked() ) );
+    connect(m_pBottomArrowB, SIGNAL( clicked() ), this, SLOT( slotBottomClicked() ) );
 
-    connect( m_pTopArrowB, SIGNAL( clicked() ), this, SLOT( slotTopClicked() ) );
-    connect( m_pUpArrowB, SIGNAL( clicked() ), this, SLOT( slotUpClicked() ) );
-    connect( m_pDownArrowB, SIGNAL( clicked() ), this, SLOT( slotDownClicked() ) );
-    connect( m_pBottomArrowB, SIGNAL( clicked() ), this, SLOT( slotBottomClicked() ) );
-
-    connect( m_pActivityLB, SIGNAL( doubleClicked( Q3ListBoxItem* ) ), this, SLOT( slotDoubleClicked( Q3ListBoxItem* ) ) );
+    connect(m_pActivityLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotDoubleClicked(QListWidgetItem*)));
 
     enableWidgets(false);
 }
 
-void ActivityPage::updateActivities() {
+void ActivityPage::updateActivities()
+{
     QStringList list;
-    int count = m_pActivityLB->count();
+    int count = m_pActivityLW->count();
     for( int i = 0; i < count; i++ ) {
-        list.append( m_pActivityLB->text( i ) );
+        list.append( m_pActivityLW->item(i)->text() );
     }
     m_pStateWidget->setActivities( list );
 }
 
-void ActivityPage::slotMenuSelection(QAction* action) {
+void ActivityPage::slotMenuSelection(QAction* action)
+{
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_New_Activity:
@@ -136,163 +140,154 @@ void ActivityPage::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        uDebug() << "Menu_Type " << sel << " not implemented" << endl;
+        uDebug() << "Menu_Type " << sel << " not implemented";
     }
 }
 
-void ActivityPage::slotNewActivity() {
+void ActivityPage::slotNewActivity()
+{
     bool ok = false;
-    QString name = m_pActivityLB->currentText();
-    name = KInputDialog::getText( i18n("New Activity"), i18n("Enter the name of the new activity:"),
-                                  i18n("new activity"), &ok, UMLApp::app() );
-    if( ok && name.length() > 0 ) {
-        m_pActivityLB->insertItem( name );
-        m_pStateWidget->addActivity( name );
+    QString name = KInputDialog::getText( i18n("New Activity"),
+        i18n("Enter the name of the new activity:"), i18n("new activity"), &ok, UMLApp::app() );
+    if ( ok && name.length() > 0 ) {
+        m_pActivityLW->addItem(name);
+        m_pActivityLW->setCurrentRow(m_pActivityLW->count() - 1);
+        m_pStateWidget->addActivity(name);
+        slotClicked(m_pActivityLW->item(m_pActivityLW->count() - 1));
     }
 }
 
-void ActivityPage::slotDelete() {
-    QString name = m_pActivityLB->currentText();
+void ActivityPage::slotDelete()
+{
+    QString name = m_pActivityLW->currentItem()->text();
     m_pStateWidget->removeActivity(name);
-    m_pActivityLB->removeItem( m_pActivityLB->currentItem() );
+    m_pActivityLW->takeItem( m_pActivityLW->currentRow() );
     slotClicked(0);
 }
 
-void ActivityPage::slotRename() {
+void ActivityPage::slotRename()
+{
     bool ok = false;
-    QString name = m_pActivityLB->currentText();
+    QString name = m_pActivityLW->currentItem()->text();
     QString oldName = name;
     name = KInputDialog::getText( i18n("Rename Activity"), i18n("Enter the new name of the activity:"), name, &ok, UMLApp::app() );
-    if( ok && name.length() > 0 ) {
-        m_pActivityLB->changeItem( name, m_pActivityLB->currentItem());
+    if ( ok && name.length() > 0 ) {
+        QListWidgetItem* item = m_pActivityLW->currentItem();
+        item->setText(name);
         m_pStateWidget->renameActivity( oldName, name );
+        slotClicked(item);
     }
 }
 
-void ActivityPage::slotRightButtonClicked(Q3ListBoxItem * /*item*/, const QPoint &/* p*/) {
-    if(m_pMenu) {
-        m_pMenu->hide();
-        disconnect(m_pMenu, SIGNAL(activated(int)), this, SLOT(slotMenuSelection(int)));
-        delete m_pMenu;
-        m_pMenu = 0;
-    }
-}
-
-void ActivityPage::slotRightButtonPressed(Q3ListBoxItem * item, const QPoint & p)
+void ActivityPage::slotRightButtonPressed(const QPoint & p)
 {
     ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
-    if( item ) { //pressed on an item
+    QListWidgetItem* item = m_pActivityLW->itemAt(p);
+    if ( item ) { //pressed on an item
         type = ListPopupMenu::mt_Activity_Selected;
     } else { //pressed into fresh air
         type = ListPopupMenu::mt_New_Activity;
     }
 
-    if(m_pMenu) {
+    if (m_pMenu) {
         m_pMenu->hide();
         disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
     }
     m_pMenu = new ListPopupMenu(this, type);
-    m_pMenu->popup(p);
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
+    m_pMenu->exec(m_pActivityLW->mapToGlobal(p));
 }
 
-
-void ActivityPage::slotTopClicked() {
-    int count = m_pActivityLB->count();
-    int index = m_pActivityLB->currentItem();
+void ActivityPage::slotTopClicked()
+{
+    int count = m_pActivityLW->count();
+    int index = m_pActivityLW->currentRow();
     //shouldn't occur, but just in case
-    if( count <= 1 || index <= 0 )
+    if ( count <= 1 || index <= 0 )
         return;
 
     //swap the text around in the ListBox
-    QString currentString = m_pActivityLB->text( index );
-    m_pActivityLB->removeItem( index );
-    m_pActivityLB->insertItem( currentString, 0 );
+    QListWidgetItem* item = m_pActivityLW->takeItem(index);
+    m_pActivityLW->insertItem(0, item);
     //set the moved item selected
-    Q3ListBoxItem* item = m_pActivityLB->item( 0 );
-    m_pActivityLB->setSelected( item, true );
+    m_pActivityLW->setCurrentRow(0);
 
-    slotClicked(item);
+    slotClicked(m_pActivityLW->currentItem());
 }
 
-void ActivityPage::slotUpClicked() {
-    int count = m_pActivityLB->count();
-    int index = m_pActivityLB->currentItem();
+void ActivityPage::slotUpClicked()
+{
+    int count = m_pActivityLW->count();
+    int index = m_pActivityLW->currentRow();
     //shouldn't occur, but just in case
-    if( count <= 1 || index <= 0 ) {
+    if ( count <= 1 || index <= 0 ) {
         return;
     }
 
-    //swap the text around ( meaning attributes )
-    QString aboveString = m_pActivityLB->text( index - 1 );
-    QString currentString = m_pActivityLB->text( index );
-    m_pActivityLB->changeItem( currentString, index -1 );
-    m_pActivityLB->changeItem( aboveString, index );
+    QListWidgetItem* item = m_pActivityLW->takeItem(index);
+    m_pActivityLW->insertItem(index - 1, item);
     //set the moved atttribute selected
-    Q3ListBoxItem * item = m_pActivityLB->item( index - 1 );
-    m_pActivityLB->setSelected( item, true );
-    slotClicked(item);
+    m_pActivityLW->setCurrentRow(index - 1);
+
+    slotClicked(m_pActivityLW->currentItem());
 }
 
-void ActivityPage::slotDownClicked() {
-    int count = m_pActivityLB->count();
-    int index = m_pActivityLB->currentItem();
+void ActivityPage::slotDownClicked()
+{
+    int count = m_pActivityLW->count();
+    int index = m_pActivityLW->currentRow();
     //shouldn't occur, but just in case
-    if( count <= 1 || index >= count - 1 ) {
+    if ( count <= 1 || index >= count - 1 ) {
         return;
     }
 
-    //swap the text around ( meaning attributes )
-    QString belowString = m_pActivityLB->text( index + 1 );
-    QString currentString = m_pActivityLB->text( index );
-    m_pActivityLB->changeItem( currentString, index + 1 );
-    m_pActivityLB->changeItem( belowString, index );
+    QListWidgetItem* item = m_pActivityLW->takeItem(index);
+    m_pActivityLW->insertItem(index + 1, item);
     //set the moved atttribute selected
-    Q3ListBoxItem * item = m_pActivityLB->item( index + 1 );
-    m_pActivityLB->setSelected( item, true );
-    slotClicked(item);
+    m_pActivityLW->setCurrentRow(index + 1);
+
+    slotClicked(m_pActivityLW->currentItem());
 }
 
-
-void ActivityPage::slotBottomClicked() {
-    int count = m_pActivityLB->count();
-    int index = m_pActivityLB->currentItem();
+void ActivityPage::slotBottomClicked()
+{
+    int count = m_pActivityLW->count();
+    int index = m_pActivityLW->currentRow();
     //shouldn't occur, but just in case
-    if( count <= 1 || index >= count - 1 )
+    if ( count <= 1 || index >= count - 1 )
         return;
 
-    //swap the text around in the ListBox
-    QString currentString = m_pActivityLB->text( index );
-    m_pActivityLB->removeItem( index );
-    m_pActivityLB->insertItem( currentString, m_pActivityLB->count() );
+    QListWidgetItem* item = m_pActivityLW->takeItem(index);
+    m_pActivityLW->insertItem(m_pActivityLW->count(), item );
     //set the moved item selected
-    Q3ListBoxItem* item = m_pActivityLB->item( m_pActivityLB->count() - 1 );
-    m_pActivityLB->setSelected( item, true );
+    m_pActivityLW->setCurrentRow(m_pActivityLW->count() - 1);
 
-   slotClicked( item );
+   slotClicked(m_pActivityLW->currentItem());
 }
 
-
-void ActivityPage::slotClicked(Q3ListBoxItem *item) {
+void ActivityPage::slotClicked(QListWidgetItem *item)
+{
     //make sure clicked on an item
-    if(!item) {
+    if (!item) {
         enableWidgets(false);
-        m_pActivityLB->clearSelection();
+        m_pActivityLW->clearSelection();
     } else {
         enableWidgets(true);
     }
 }
 
-void ActivityPage::slotDoubleClicked(Q3ListBoxItem* item) {
+void ActivityPage::slotDoubleClicked(QListWidgetItem* item)
+{
     if (item) {
         slotRename();
     }
 }
 
-void ActivityPage::enableWidgets(bool state) {
-    if( !state ) {
+void ActivityPage::enableWidgets(bool state)
+{
+    if ( !state ) {
         m_pTopArrowB->setEnabled( false );
         m_pUpArrowB->setEnabled( false );
         m_pDownArrowB->setEnabled( false );
@@ -307,18 +302,18 @@ void ActivityPage::enableWidgets(bool state) {
         If at top item,only allow down arrow to be enabled.
         If at bottom item. only allow up arrow to be enabled.
     */
-    int index = m_pActivityLB->currentItem();
-    if( m_pActivityLB->count() == 1 || index == -1 ) {
+    int index = m_pActivityLW->currentRow();
+    if ( m_pActivityLW->count() == 1 || index == -1 ) {
         m_pTopArrowB->setEnabled(false);
         m_pUpArrowB->setEnabled(false);
         m_pDownArrowB->setEnabled(false);
         m_pBottomArrowB->setEnabled( false );
-    } else if( index == 0 ) {
+    } else if ( index == 0 ) {
         m_pTopArrowB->setEnabled( false );
         m_pUpArrowB->setEnabled(false);
         m_pDownArrowB->setEnabled(true);
         m_pBottomArrowB->setEnabled(true);
-    } else if( index == (int)m_pActivityLB->count() - 1 ) {
+    } else if( index == (int)m_pActivityLW->count() - 1 ) {
         m_pTopArrowB->setEnabled(true);
         m_pUpArrowB->setEnabled(true);
         m_pDownArrowB->setEnabled(false);
@@ -332,6 +327,5 @@ void ActivityPage::enableWidgets(bool state) {
     m_pDeleteActivityButton->setEnabled(true);
     m_pRenameButton->setEnabled(true);
 }
-
 
 #include "activitypage.moc"

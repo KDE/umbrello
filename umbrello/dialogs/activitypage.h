@@ -1,32 +1,34 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ACTIVITYPAGE_H
 #define ACTIVITYPAGE_H
-//qt includes
-#include <qwidget.h>
-#include <q3groupbox.h>
-#include <q3listbox.h>
+
 //kde includes
 #include <karrowbutton.h>
-//app includes
+
+//qt includes
+#include <QtGui/QWidget>
+#include <QtGui/QListWidgetItem>
 
 class StateWidget;
 class ListPopupMenu;
+class QGroupBox;
+class QListWidget;
 
 /**
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ActivityPage : public QWidget {
+class ActivityPage : public QWidget
+{
     Q_OBJECT
 public:
     /**
@@ -35,18 +37,18 @@ public:
     ActivityPage( QWidget * pParent, StateWidget * pWidget );
 
     /**
-    *   Deconstructor
-    */
+     *   Deconstructor
+     */
     ~ActivityPage();
 
     /**
-    *   Sets up the page.
-    */
+     *   Sets up the page.
+     */
     void setupPage();
 
     /**
-    *   Sets the activities of the widget.
-    */
+     *   Sets the activities of the widget.
+     */
     void updateActivities();
 
 protected:
@@ -66,9 +68,12 @@ protected:
      *  Popup menu used.
      */
     ListPopupMenu * m_pMenu;
-    //GUI widgets
-    Q3ListBox * m_pActivityLB;
-    Q3GroupBox * m_pActivityGB;
+
+    /**
+     * GUI widgets
+     */
+    QListWidget * m_pActivityLW;
+    QGroupBox * m_pActivityGB;
     KArrowButton * m_pUpArrowB, * m_pDownArrowB, * m_pTopArrowB, *m_pBottomArrowB;
     QPushButton* m_pDeleteActivityButton;
     QPushButton* m_pRenameButton;
@@ -78,10 +83,9 @@ public slots:
      *  Popup menu item selected
      */
     void slotMenuSelection(QAction* action);
-    void slotClicked( Q3ListBoxItem* item );
-    void slotDoubleClicked( Q3ListBoxItem* item );
-    void slotRightButtonClicked(Q3ListBoxItem* item, const QPoint& p);
-    void slotRightButtonPressed(Q3ListBoxItem* item, const QPoint& p);
+    void slotClicked( QListWidgetItem* item );
+    void slotDoubleClicked( QListWidgetItem* item );
+    void slotRightButtonPressed(const QPoint& p);
 
     void slotTopClicked();
     void slotUpClicked();

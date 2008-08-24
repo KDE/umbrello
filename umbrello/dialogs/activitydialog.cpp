@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,22 +11,24 @@
 // own header
 #include "activitydialog.h"
 
-//qt includes
-#include <QtGui/QFrame>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QCheckBox>
-#include <QtGui/QRadioButton>
-//kde includes
-#include <kvbox.h>
-#include <klocale.h>
-
 //local includes
 #include "umlview.h"
 #include "activitywidget.h"
 #include "dialog_utils.h"
 #include "icon_utils.h"
 
+//kde includes
+#include <kvbox.h>
+#include <klocale.h>
+
+//qt includes
+#include <QtGui/QFrame>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtGui/QCheckBox>
+#include <QtGui/QGroupBox>
+#include <QtGui/QLabel>
+#include <QtGui/QRadioButton>
 
 ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
         : KPageDialog(pView)
@@ -81,7 +82,8 @@ void ActivityDialog::slotHideActivityParameter()
     m_GenPageWidgets.postLE->hide();
 }
 
-void ActivityDialog::setupPages() {
+void ActivityDialog::setupPages()
+{
     setupGeneralPage();
     setupColorPage();
     setupFontPage();
@@ -93,10 +95,9 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     if ( item == pageItemGeneral )
     {
         m_pActivityWidget->setName( m_GenPageWidgets.nameLE->text() );
-        m_pActivityWidget->setDoc( m_GenPageWidgets.docMLE->text() );
+        m_pActivityWidget->setDoc( m_GenPageWidgets.docTE->text() );
         m_pActivityWidget->setPreconditionText( m_GenPageWidgets.preLE->text() );
         m_pActivityWidget->setPostconditionText( m_GenPageWidgets.postLE->text() );
-
 
         ActivityWidget::ActivityType newType = ActivityWidget::Normal;
         if ( m_GenPageWidgets.InvokRB->isChecked() )
@@ -116,7 +117,6 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     }
 }
 
-
 void ActivityDialog::setupGeneralPage()
 {
     QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n( "Branch/Merge"), i18n( "Fork/Join" ) };
@@ -128,7 +128,7 @@ void ActivityDialog::setupGeneralPage()
     pageItemGeneral->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_General) );
     addPage( pageItemGeneral );
 
-    m_GenPageWidgets.generalGB = new Q3GroupBox( i18n( "Properties"), (QWidget *)page );
+    m_GenPageWidgets.generalGB = new QGroupBox( i18n( "Properties"), (QWidget *)page );
 
     QGridLayout * generalLayout = new QGridLayout( m_GenPageWidgets.generalGB );
     generalLayout->setSpacing( spacingHint() );
@@ -182,15 +182,15 @@ void ActivityDialog::setupGeneralPage()
 
     m_GenPageWidgets.ParamRB->setChecked (newType == ActivityWidget::Param);
 
-    m_GenPageWidgets.docGB = new Q3GroupBox( i18n( "Documentation"), (QWidget *)page );
+    m_GenPageWidgets.docGB = new QGroupBox( i18n( "Documentation"), (QWidget *)page );
 
     QHBoxLayout * docLayout = new QHBoxLayout( m_GenPageWidgets.docGB );
     docLayout->setSpacing( spacingHint() );
     docLayout->setMargin(  fontMetrics().height()  );
 
-    m_GenPageWidgets.docMLE = new Q3MultiLineEdit( m_GenPageWidgets.docGB );
-    m_GenPageWidgets.docMLE->setText( m_pActivityWidget->getDoc() );
-    docLayout->addWidget( m_GenPageWidgets.docMLE );
+    m_GenPageWidgets.docTE = new KTextEdit( m_GenPageWidgets.docGB );
+    m_GenPageWidgets.docTE->setText( m_pActivityWidget->getDoc() );
+    docLayout->addWidget( m_GenPageWidgets.docTE );
 
     if ( type != ActivityWidget::Normal && type != ActivityWidget::Invok && type != ActivityWidget::Param) {
         m_GenPageWidgets.nameLE->setEnabled( false );
