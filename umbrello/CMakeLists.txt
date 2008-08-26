@@ -394,7 +394,7 @@ if (WIN32)
     # workaround for win32 command line to long problem
     # build intermediate libraries
 
-    kde4_add_library(dialogs  	${libdialogs_SRCS})
+    kde4_add_library(dialogs ${libcodegenwizard_SRCS} ${libdialogs_SRCS} )
     target_link_libraries (dialogs)
     set (libdialogs_SRCS)
 
@@ -426,7 +426,7 @@ set (umbrello_SRCS
 	${umbrello_SRCS}
 	${libdialogs_SRCS}
 	${librefactoring_SRCS}
-	${libcodegenwizard_SRCS}
+#	${libcodegenwizard_SRCS}
 	${libclassparser_SRCS}
 	${libclipboard_SRCS}
 	${libkdevcppparser_SRCS}
