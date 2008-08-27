@@ -903,7 +903,6 @@ private slots:
     void setLang_sql();
     void setLang_tcl();
     void setLang_xmlschema();
-    void setLang_ocl();
 
 private:
     /**
