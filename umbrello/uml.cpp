@@ -262,7 +262,6 @@ void UMLApp::initActions()
     setProgLangAction(Uml::pl_SQL,          "SQL",             "setLang_sql");
     setProgLangAction(Uml::pl_Tcl,          "Tcl",             "setLang_tcl");
     setProgLangAction(Uml::pl_XMLSchema,    "XMLSchema",       "setLang_xmlschema");
-    setProgLangAction(Uml::pl_Ocl,          "Ocl",             "setLang_ocl");
 
     connect(m_langAct[Uml::pl_ActionScript], SIGNAL(triggered()), this, SLOT(setLang_actionscript()));
     connect(m_langAct[Uml::pl_Ada],          SIGNAL(triggered()), this, SLOT(setLang_ada()));
@@ -283,7 +282,6 @@ void UMLApp::initActions()
     connect(m_langAct[Uml::pl_SQL],          SIGNAL(triggered()), this, SLOT(setLang_sql()));
     connect(m_langAct[Uml::pl_Tcl],          SIGNAL(triggered()), this, SLOT(setLang_tcl()));
     connect(m_langAct[Uml::pl_XMLSchema],    SIGNAL(triggered()), this, SLOT(setLang_xmlschema()));
-    connect(m_langAct[Uml::pl_Ocl],          SIGNAL(triggered()), this, SLOT(setLang_ocl()));
 
     fileNew->setToolTip(i18n("Creates a new document"));
     fileOpen->setToolTip(i18n("Opens an existing document"));
@@ -1712,11 +1710,6 @@ void UMLApp::setLang_tcl()
 void UMLApp::setLang_xmlschema()
 {
     setActiveLanguage(Uml::pl_XMLSchema);
-}
-
-void UMLApp::setLang_ocl()
-{
-    setActiveLanguage(Uml::pl_Ocl);
 }
 
 void UMLApp::setActiveLanguage(Uml::Programming_Language pl)

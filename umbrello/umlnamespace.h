@@ -302,7 +302,6 @@ enum Programming_Language {
     pl_SQL,
     pl_Tcl,
     pl_XMLSchema,
-    pl_Ocl,
     pl_Reserved
 };
 

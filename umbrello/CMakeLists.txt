@@ -28,7 +28,6 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/ruby/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/sql/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/tcl/
-  ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/use/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/xml/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/
   ${Boost_INCLUDE_DIR}
