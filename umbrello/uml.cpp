@@ -1914,9 +1914,9 @@ void UMLApp::slotCurrentViewChanged()
 {
     UMLView *view = getCurrentView();
     if (view) {
-        connect(view, SIGNAL( sigShowGridToggled(bool) ),
+        connect(view->umlScene(), SIGNAL( sigShowGridToggled(bool) ),
                 this, SLOT( slotShowGridToggled(bool) ) );
-        connect(view, SIGNAL( sigSnapToGridToggled(bool) ),
+        connect(view->umlScene(), SIGNAL( sigSnapToGridToggled(bool) ),
                 this, SLOT( slotSnapToGridToggled(bool) ) );
     }
 }

@@ -152,7 +152,7 @@ void UMLDoc::addView(UMLView *view)
 
     UMLApp * pApp = UMLApp::app();
     if ( pApp->getListView() )
-        connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view, SLOT(slotObjectRemoved(UMLObject *)));
+        connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view->umlScene(), SLOT(slotObjectRemoved(UMLObject *)));
 
     pApp->setCurrentView(view);
     if ( !m_bLoading ) {
