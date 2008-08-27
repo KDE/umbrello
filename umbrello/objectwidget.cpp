@@ -438,25 +438,13 @@ QVariant ObjectWidget::attributeChange(WidgetAttributeChange change, const QVari
         TextItemGroup *grp = textItemGroupAt(0);
         const QSizeF grpSize = grp->minimumSize();
 
-        // Create/delete Sequential line based on the type of diagram.
-        if (uScene) {
-            if (uScene->getType() == Uml::dt_Sequence) {
-                if (!m_sequentialLine) {
-                    m_sequentialLine = new SeqLineWidget(this);
-                    m_sequentialLine->setLength(255);
-                }
-            }
-            else {
-                delete m_sequentialLine;
-                m_sequentialLine = 0;
-            }
-        }
-
         // Firstly align the sequential line.
         if (m_sequentialLine) {
             m_sequentialLine->setPos(r.center().x(), r.bottom());
         }
-
+        foreach(MessageWidget *msg, m_messages) {
+            msg->handleObjectMove(this);
+        }
         // Now update text position and also the path.
 
         // Reset the path
@@ -537,6 +525,24 @@ QVariant ObjectWidget::itemChange(GraphicsItemChange change, const QVariant& val
         foreach(MessageWidget *msg, m_messages) {
             msg->handleObjectMove(this);
         }
+    }
+    else if (change == ItemSceneHasChanged) {
+        // Create/delete Sequential line based on the type of diagram.
+        if (uScene) {
+            if (uScene->getType() == Uml::dt_Sequence) {
+                if (!m_sequentialLine) {
+                    m_sequentialLine = new SeqLineWidget(this);
+                    m_sequentialLine->setLength(255);
+                }
+                const QRectF r = rect();
+                m_sequentialLine->setPos(r.center().x(), r.bottom());
+            }
+            else {
+                delete m_sequentialLine;
+                m_sequentialLine = 0;
+            }
+        }
+
     }
     return NewUMLRectWidget::itemChange(change, value);
 }
