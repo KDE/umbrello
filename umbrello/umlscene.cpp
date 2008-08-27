@@ -621,18 +621,15 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
 
 ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
 {
-    foreach(NewUMLRectWidget* obj, m_WidgetList) {
-        ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
-        if (ow == NULL)
-            continue;
-        SeqLineWidget *pLine = ow->sequentialLine();
-        if (pLine == NULL) {
-            uError() << "SeqLineWidget of " << ow->getName()
-                     << " (id=" << ID2STR(ow->localID()) << ") is NULL" << endl;
+    QList<QGraphicsItem*> itemsAtPoint = items(point);
+    qDebug() << Q_FUNC_INFO << itemsAtPoint;
+    foreach(QGraphicsItem *item, itemsAtPoint) {
+        SeqLineWidget *pLine = dynamic_cast<SeqLineWidget*>(item);
+        if (!pLine) {
             continue;
         }
-        if (pLine->contains(pLine->mapFromScene(point)))
-            return ow;
+
+        return pLine->objectWidget();
     }
     return 0;
 }
@@ -1339,6 +1336,10 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
     if (!pWidget) {
         return false;
     }
+    if (pWidget->scene() != this) {
+        addItem(pWidget);
+    }
+
     Widget_Type type = pWidget->getBaseType();
     if (isPasteOperation) {
         if (type == Uml::wt_Message)
@@ -1357,6 +1358,9 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
     if (isPasteOperation && (!log || !m_pIDChangesLog)) {
         uError() << " Cant addWidget to view in paste op because a log is not open" << endl;
         return false;
+    }
+    if (!m_pIDChangesLog) {
+        m_pIDChangesLog = new IDChangeLog();
     }
     qreal wX = pWidget->getX();
     qreal wY = pWidget->getY();
