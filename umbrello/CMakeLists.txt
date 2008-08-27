@@ -419,6 +419,7 @@ if (WIN32)
 
 else (WIN32)
     set (LIBS )
+    set (umbrello_SRCS ${libcodegenwizard_SRCS})
     kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 endif (WIN32)
 
@@ -426,7 +427,6 @@ set (umbrello_SRCS
 	${umbrello_SRCS}
 	${libdialogs_SRCS}
 	${librefactoring_SRCS}
-#	${libcodegenwizard_SRCS}
 	${libclassparser_SRCS}
 	${libclipboard_SRCS}
 	${libkdevcppparser_SRCS}
