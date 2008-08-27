@@ -90,7 +90,7 @@ void ToolBarStateAssociation::mouseReleaseAssociation()
     getCurrentAssociation()->createAssocClassLine(
         static_cast<ClassifierWidget*>(m_firstWidget),
         getCurrentAssociation()->getLinePath()->onLinePath(m_pMouseEvent->scenePos()));
-    m_firstWidget->addAssoc( getCurrentAssociation() );
+    m_firstWidget->addAssociationWidget( getCurrentAssociation() );
     cleanAssociation();
 }
 
@@ -131,8 +131,8 @@ void ToolBarStateAssociation::setFirstWidget() {
     }
     //set up position
     QPointF pos;
-    pos.setX(widget->getX() + (widget->getWidth() / 2));
-    pos.setY(widget->getY() + (widget->getHeight() / 2));
+    pos.setX(widget->x() + (widget->width() / 2));
+    pos.setY(widget->y() + (widget->height() / 2));
     //TODO why is this needed?
     m_pUMLScene->setPos(pos);
 

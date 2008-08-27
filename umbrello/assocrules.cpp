@@ -63,7 +63,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWi
         else
             return false;
     }
-    AssociationWidgetList list = widget->getAssocList();
+    AssociationWidgetList list = widget->associationWidgetList();
 
     switch( assocType ) {
     case at_Association:
@@ -158,7 +158,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
         return false;
     }
 
-    AssociationWidgetList list = widgetB->getAssocList();
+    AssociationWidgetList list = widgetB->associationWidgetList();
 
     switch( assocType ) {
     case at_Association_Self:
@@ -251,7 +251,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
             }
             // only Forks and Branches can have more than one "outgoing" transition
             if (actA != NULL && actTypeA != ActivityWidget::Branch) {
-                AssociationWidgetList list = widgetA->getAssocList();
+                AssociationWidgetList list = widgetA->associationWidgetList();
                 foreach (AssociationWidget* assoc , list ) {
                     if (assoc->getWidget(A) == widgetA) {
                         return false;

@@ -207,15 +207,6 @@ public:
     NewUMLRectWidget(UMLScene *scene, const Uml::IDType & _id = Uml::id_None);
     NewUMLRectWidget(UMLScene *scene, UMLObject *obj);
 
-    qreal getWidth() const { return size().width(); }
-    qreal getHeight() const { return size().height(); }
-
-    QString getInstanceName() const { return instanceName(); }
-    bool getIsInstance() const { return isInstance(); }
-    bool getShowStereotype() const { return showStereotype(); }
-
-    void adjustAssocs(qreal, qreal) {}
-    QSizeF calculateSize() { return minimumSize(); }
     bool getStartMove() const { return false; }
     bool getIgnoreSnapToGrid() const { return false; }
     void setIgnoreSnapToGrid(bool) {}
@@ -223,12 +214,7 @@ public:
     void setIgnoreSnapComponentSizeToGrid(bool) {}
     bool m_bStartMove;
     void adjustUnselectedAssocs(qreal, qreal) {}
-    UMLWidgetController* getWidgetController() const { return 0; }
     ListPopupMenu* setupPopupMenu();
-
-    AssociationWidgetList getAssocList() const { return associationWidgetList(); }
-    void addAssoc(AssociationWidget *assoc) { addAssociationWidget(assoc); }
-    void removeAssoc(AssociationWidget *assoc) { removeAssociationWidget(assoc); }
 };
 
 #endif //NEWUMLRECTWIDGET_H

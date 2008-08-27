@@ -273,7 +273,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     m_pNameLayout->addWidget(m_pInstanceL, 1, 0);
 
     m_pInstanceLE = new KLineEdit(this);
-    m_pInstanceLE->setText(o->getInstanceName());
+    m_pInstanceLE->setText(o->instanceName());
     m_pNameLayout->addWidget(m_pInstanceLE, 1, 1);
     UMLView *view = UMLApp::app()->getCurrentView();
 
@@ -357,7 +357,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, NewUMLRectWidget* widget)
     m_pNameLayout->addWidget(m_pInstanceL, 2, 0);
 
     m_pInstanceLE = new KLineEdit(this);
-    m_pInstanceLE->setText(widget->getInstanceName());
+    m_pInstanceLE->setText(widget->instanceName());
     m_pNameLayout->addWidget(m_pInstanceLE, 2, 1);
 
     //setup documentation

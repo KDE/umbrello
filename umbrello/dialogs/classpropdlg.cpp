@@ -83,7 +83,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, NewUMLRectWidget *w)
             || w->getBaseType() == Uml::wt_Package) {
         setupPages(true);
     } else if (w->getBaseType() == Uml::wt_Component) {
-        if ( w->getIsInstance() ) {
+        if ( w->isInstance() ) {
             setupInstancePages();
         } else {
             setupPages();

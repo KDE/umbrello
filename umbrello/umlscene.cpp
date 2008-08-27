@@ -1339,7 +1339,6 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
     if (pWidget->scene() != this) {
         addItem(pWidget);
     }
-
     Widget_Type type = pWidget->getBaseType();
     if (isPasteOperation) {
         if (type == Uml::wt_Message)
@@ -1362,8 +1361,8 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
     if (!m_pIDChangesLog) {
         m_pIDChangesLog = new IDChangeLog();
     }
-    qreal wX = pWidget->getX();
-    qreal wY = pWidget->getY();
+    qreal wX = pWidget->x();
+    qreal wY = pWidget->y();
     bool xIsOutOfRange = (wX <= 0. || wX >= FloatingTextWidget::restrictPositionMax);
     bool yIsOutOfRange = (wY <= 0. || wY >= FloatingTextWidget::restrictPositionMax);
     if (xIsOutOfRange || yIsOutOfRange) {
@@ -2274,10 +2273,10 @@ void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, qreal& px,
     if (ft == NULL || !ft->isVisible())
         return;
 
-    qreal x = ft->getX();
-    qreal y = ft->getY();
-    qreal x1 = x + ft->getWidth() - 1;
-    qreal y1 = y + ft->getHeight() - 1;
+    qreal x = ft->x();
+    qreal y = ft->y();
+    qreal x1 = x + ft->width() - 1;
+    qreal y1 = y + ft->height() - 1;
 
     if (px == -1 || x < px)
         px = x;
@@ -2306,10 +2305,10 @@ void UMLScene::copyAsImage(QPixmap*& pix)
 
     //first get the smallest rect holding the widgets
     foreach(NewUMLRectWidget* temp , selectedWidgets()) {
-        qreal x = temp->getX();
-        qreal y = temp->getY();
-        qreal x1 = x + temp->getWidth() - 1;
-        qreal y1 = y + temp->getHeight() - 1;
+        qreal x = temp->x();
+        qreal y = temp->y();
+        qreal x1 = x + temp->width() - 1;
+        qreal y1 = y + temp->height() - 1;
         if (px == -1 || x < px) {
             px = x;
         }
@@ -3403,7 +3402,7 @@ void UMLScene::alignLeft()
 
     foreach(NewUMLRectWidget *widget , widgetList) {
         widget->setX(smallestX);
-        widget->adjustAssocs(widget->getX(), widget->getY());
+        widget->adjustAssociations();
     }
 }
 
@@ -3416,8 +3415,8 @@ void UMLScene::alignRight()
     qreal biggestX = getBiggestX(widgetList);
 
     foreach(NewUMLRectWidget *widget , widgetList) {
-        widget->setX(biggestX - widget->getWidth());
-        widget->adjustAssocs(widget->getX(), widget->getY());
+        widget->setX(biggestX - widget->width());
+        widget->adjustAssociations();
     }
 }
 
@@ -3432,7 +3431,7 @@ void UMLScene::alignTop()
 
     foreach(NewUMLRectWidget *widget , widgetList) {
         widget->setY(smallestY);
-        widget->adjustAssocs(widget->getX(), widget->getY());
+        widget->adjustAssociations();
     }
 }
 
@@ -3445,8 +3444,8 @@ void UMLScene::alignBottom()
     qreal biggestY = getBiggestY(widgetList);
 
     foreach(NewUMLRectWidget *widget , widgetList) {
-        widget->setY(biggestY - widget->getHeight());
-        widget->adjustAssocs(widget->getX(), widget->getY());
+        widget->setY(biggestY - widget->height());
+        widget->adjustAssociations();
     }
 }
 
@@ -3462,8 +3461,8 @@ void UMLScene::alignVerticalMiddle()
     qreal middle = int((biggestX - smallestX) / 2) + smallestX;
 
     foreach(NewUMLRectWidget *widget , widgetList) {
-        widget->setX(middle - int(widget->getWidth() / 2));
-        widget->adjustAssocs(widget->getX(), widget->getY());
+        widget->setX(middle - int(widget->width() / 2));
+        widget->adjustAssociations();
     }
 }
 
@@ -3479,8 +3478,8 @@ void UMLScene::alignHorizontalMiddle()
     qreal middle = int((biggestY - smallestY) / 2) + smallestY;
 
     foreach(NewUMLRectWidget *widget , widgetList) {
-        widget->setY(middle - int(widget->getHeight() / 2));
-        widget->adjustAssocs(widget->getX(), widget->getY());
+        widget->setY(middle - int(widget->height() / 2));
+        widget->adjustAssociations();
     }
 }
 
@@ -3504,8 +3503,8 @@ void UMLScene::alignVerticalDistribute()
         if (i == 1) {
             widgetPrev = widget;
         } else {
-            widget->setY(widgetPrev->getY() + widgetPrev->getHeight() + distance);
-            widget->adjustAssocs(widget->getX(), widget->getY());
+            widget->setY(widgetPrev->y() + widgetPrev->height() + distance);
+            widget->adjustAssociations();
             widgetPrev = widget;
         }
         i++;
@@ -3532,8 +3531,8 @@ void UMLScene::alignHorizontalDistribute()
         if (i == 1) {
             widgetPrev = widget;
         } else {
-            widget->setX(widgetPrev->getX() + widgetPrev->getWidth() + distance);
-            widget->adjustAssocs(widget->getX(), widget->getY());
+            widget->setX(widgetPrev->x() + widgetPrev->width() + distance);
+            widget->adjustAssociations();
             widgetPrev = widget;
         }
         i++;
@@ -3543,12 +3542,12 @@ void UMLScene::alignHorizontalDistribute()
 
 bool UMLScene::hasWidgetSmallerX(const NewUMLRectWidget* widget1, const NewUMLRectWidget* widget2)
 {
-    return widget1->getX() < widget2->getX();
+    return widget1->x() < widget2->x();
 }
 
 bool UMLScene::hasWidgetSmallerY(const NewUMLRectWidget* widget1, const NewUMLRectWidget* widget2)
 {
-    return widget1->getY() < widget2->getY();
+    return widget1->y() < widget2->y();
 }
 
 qreal UMLScene::getSmallestX(const UMLWidgetList &widgetList)
@@ -3560,10 +3559,10 @@ qreal UMLScene::getSmallestX(const UMLWidgetList &widgetList)
     int i = 1;
     foreach(NewUMLRectWidget *widget ,  widgetList) {
         if (i == 1) {
-            smallestX = widget->getX();
+            smallestX = widget->x();
         } else {
-            if (smallestX > widget->getX())
-                smallestX = widget->getX();
+            if (smallestX > widget->x())
+                smallestX = widget->x();
         }
         i++;
     }
@@ -3582,10 +3581,10 @@ qreal UMLScene::getSmallestY(const UMLWidgetList &widgetList)
     int i = 1;
     foreach(NewUMLRectWidget *widget ,  widgetList) {
         if (i == 1) {
-            smallestY = widget->getY();
+            smallestY = widget->y();
         } else {
-            if (smallestY > widget->getY())
-                smallestY = widget->getY();
+            if (smallestY > widget->y())
+                smallestY = widget->y();
         }
         i++;
     }
@@ -3603,11 +3602,11 @@ qreal UMLScene::getBiggestX(const UMLWidgetList &widgetList)
     int i = 1;
     foreach(NewUMLRectWidget *widget , widgetList) {
         if (i == 1) {
-            biggestX = widget->getX();
-            biggestX += widget->getWidth();
+            biggestX = widget->x();
+            biggestX += widget->width();
         } else {
-            if (biggestX < widget->getX() + widget->getWidth())
-                biggestX = widget->getX() + widget->getWidth();
+            if (biggestX < widget->x() + widget->width())
+                biggestX = widget->x() + widget->width();
         }
         i++;
     }
@@ -3626,11 +3625,11 @@ qreal UMLScene::getBiggestY(const UMLWidgetList &widgetList)
     int i = 1;
     foreach(NewUMLRectWidget *widget , widgetList) {
         if (i == 1) {
-            biggestY = widget->getY();
-            biggestY += widget->getHeight();
+            biggestY = widget->y();
+            biggestY += widget->height();
         } else {
-            if (biggestY < widget->getY() + widget->getHeight())
-                biggestY = widget->getY() + widget->getHeight();
+            if (biggestY < widget->y() + widget->height())
+                biggestY = widget->y() + widget->height();
         }
         i++;
     }
@@ -3644,7 +3643,7 @@ qreal UMLScene::getHeightsSum(const UMLWidgetList &widgetList)
 
 
     foreach(NewUMLRectWidget *widget , widgetList) {
-        heightsSum += widget->getHeight();
+        heightsSum += widget->height();
     }
 
     return heightsSum;
@@ -3655,7 +3654,7 @@ qreal UMLScene::getWidthsSum(const UMLWidgetList &widgetList)
     qreal widthsSum = 0;
 
     foreach(NewUMLRectWidget *widget , widgetList) {
-        widthsSum += widget->getWidth();
+        widthsSum += widget->width();
     }
 
     return widthsSum;

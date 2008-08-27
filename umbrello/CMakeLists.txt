@@ -282,8 +282,8 @@ set(libcmds_SRCS
 
     cmds/widget/cmd_create_widget.cpp
 
-    cmds/cmd_moveWidget.cpp
-    cmds/cmd_resizeWidget.cpp
+#    cmds/cmd_moveWidget.cpp
+#    cmds/cmd_resizeWidget.cpp
     cmds/cmd_set_visibility.cpp
     cmds/cmd_set_stereotype.cpp
     cmds/widget/cmd_set_name.cpp
@@ -351,7 +351,6 @@ set(libumbrello_SRCS
     node.cpp
     nodewidget.cpp
     notewidget.cpp
-    notewidgetcontroller.cpp
     objectnodewidget.cpp
     objectwidget.cpp
     object_factory.cpp
@@ -397,7 +396,6 @@ set(libumbrello_SRCS
     umlviewimageexporter.cpp
     umlviewimageexporterall.cpp
     umlviewimageexportermodel.cpp
-    umlwidgetcontroller.cpp
     uniqueid.cpp
     uniqueconstraint.cpp
     usecase.cpp

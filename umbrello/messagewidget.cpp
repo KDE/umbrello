@@ -605,8 +605,8 @@ void MessageWidget::setTextPosition()
         return;
     }
     m_floatingTextWidget->updateComponentSize();
-    qreal ftX = constrainedX(m_floatingTextWidget->getX(), m_floatingTextWidget->getWidth(), m_floatingTextWidget->textRole());
-    qreal ftY = getY() - m_floatingTextWidget->getHeight();
+    qreal ftX = constrainedX(m_floatingTextWidget->x(), m_floatingTextWidget->width(), m_floatingTextWidget->textRole());
+    qreal ftY = y() - m_floatingTextWidget->height();
     m_floatingTextWidget->setX( ftX );
     m_floatingTextWidget->setY( ftY );
 }
@@ -631,16 +631,16 @@ void MessageWidget::setLinkAndTextPos()
 qreal MessageWidget::constrainedX(qreal textX, qreal textWidth, Uml::Text_Role tr) const
 {
     qreal result = textX;
-    const qreal minTextX = getX() + 5;
+    const qreal minTextX = x() + 5;
     if (textX < minTextX || tr == Uml::tr_Seq_Message_Self) {
         result = minTextX;
     } else {
         ObjectWidget *objectAtRight = NULL;
-        if (m_objectWidgets[Uml::B]->getX() > m_objectWidgets[Uml::A]->getX())
+        if (m_objectWidgets[Uml::B]->x() > m_objectWidgets[Uml::A]->x())
             objectAtRight = m_objectWidgets[Uml::B];
         else
             objectAtRight = m_objectWidgets[Uml::A];
-        const qreal objRight_seqLineX = objectAtRight->getX() + objectAtRight->getWidth() / 2;
+        const qreal objRight_seqLineX = objectAtRight->x() + objectAtRight->width() / 2;
         const qreal maxTextX = objRight_seqLineX - textWidth - 5;
         if (maxTextX <= minTextX)
             result = minTextX;
@@ -817,12 +817,12 @@ void MessageWidget::drawLost(QPainter *painter)
 
 void MessageWidget::drawCreation(QPainter *painter)
 {
-    // qreal x1 = m_objectWidgets[Uml::A]->getX();
-    // qreal x2 = m_objectWidgets[Uml::B]->getX();
-    // qreal w = getWidth() - 1;
-    // //qreal h = getHeight() - 1;
-    // bool messageOverlapsA = m_objectWidgets[Uml::A]->messageOverlap( getY(), this );
-    // //bool messageOverlapsB = m_objectWidgets[Uml::B]->messageOverlap( getY(), this );
+    // qreal x1 = m_objectWidgets[Uml::A]->x();
+    // qreal x2 = m_objectWidgets[Uml::B]->x();
+    // qreal w = width() - 1;
+    // //qreal h = height() - 1;
+    // bool messageOverlapsA = m_objectWidgets[Uml::A]->messageOverlap( y(), this );
+    // //bool messageOverlapsB = m_objectWidgets[Uml::B]->messageOverlap( y(), this );
 
     // const qreal lineY = offsetY + 4;
     // if (x1 < x2) {
