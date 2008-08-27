@@ -184,6 +184,10 @@ void TextItem::setUnderline(bool u)
 /**
  * Reimplemented to retain the italic/bold status on font change.
  *
+ * It is important to note that, this method retains the old bold,
+ * italic and underline property of the font and hence all these
+ * properties should be set explicitly.
+ *
  * @note This overrides (hides) the base's non virtual method.
  */
 void TextItem::setFont(QFont f)
@@ -192,6 +196,7 @@ void TextItem::setFont(QFont f)
 
     f.setBold(old.bold());
     f.setItalic(old.italic());
+    f.setUnderline(old.underline());
 
     QGraphicsTextItem::setFont(f);
 }
@@ -241,6 +246,10 @@ void TextItem::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *w)
     QGraphicsTextItem::paint(p, o, w);
 }
 
+/**
+ * This is a utility method to copy all the attributes of this
+ * TextItem to \a other TextItem.
+ */
 void TextItem::copyAttributesTo(TextItem *other) const
 {
     other->setDefaultTextColor(defaultTextColor());
@@ -248,6 +257,9 @@ void TextItem::copyAttributesTo(TextItem *other) const
     other->setAcceptHoverEvents(acceptHoverEvents());
     other->setAlignment(alignment());
     other->setFont(font());
+    other->setBold(bold());
+    other->setItalic(italic());
+    other->setUnderline(underline());
     other->setBackgroundBrush(backgroundBrush());
 }
 
