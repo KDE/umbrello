@@ -27,21 +27,21 @@
 // code generation
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"
-#include "codegenerators/codegenfactory.h"
-#include "codegenerators/codegenpolicyext.h"
-#include "codegenerators/simplecodegenerator.h"
+#include "codegenfactory.h"
+#include "codegenpolicyext.h"
+#include "simplecodegenerator.h"
 // utils
 #include "widget_utils.h"
 #include "icon_utils.h"
 #include "model_utils.h"
 // dialogs
 #include "classwizard.h"
-#include "codegenwizard/codegenerationwizard.h"
+#include "codegenerationwizard.h"
 #include "codeviewerdialog.h"
 #include "diagramprintpage.h"
 #include "importprojectdlg.h"
 #include "settingsdlg.h"
-#include "codeimport/classimport.h"
+#include "classimport.h"
 #include "refactoring/refactoringassistant.h"
 // clipboard
 #include "clipboard/umlclipboard.h"
@@ -76,6 +76,7 @@
 #include <kxmlguifactory.h>
 #include <kapplication.h>
 #include <kdeprintdialog.h>
+#include <kundostack.h>
 
 // qt includes
 #include <QtCore/QTimer>
@@ -84,11 +85,13 @@
 #include <QtGui/QSlider>
 #include <QtGui/QToolButton>
 #include <QtGui/QKeyEvent>
+#include <QtGui/QMenu>
 #include <QtGui/QMenuItem>
 #include <QtGui/QDockWidget>
 #include <QtGui/QStackedWidget>
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
+#include <QtGui/QUndoView>
 
 // Static pointer, holding the last created instance.
 UMLApp* UMLApp::s_instance;
@@ -189,14 +192,14 @@ void UMLApp::setProgLangAction(Uml::Programming_Language pl, const QString& name
 
 void UMLApp::initActions()
 {
-    fileNew = KStandardAction::openNew(this, SLOT(slotFileNew()), actionCollection());
-    fileOpen = KStandardAction::open(this, SLOT(slotFileOpen()), actionCollection());
+    QAction* fileNew = KStandardAction::openNew(this, SLOT(slotFileNew()), actionCollection());
+    QAction* fileOpen = KStandardAction::open(this, SLOT(slotFileOpen()), actionCollection());
     fileOpenRecent = KStandardAction::openRecent(this, SLOT(slotFileOpenRecent(const KUrl&)), actionCollection());
-    fileSave = KStandardAction::save(this, SLOT(slotFileSave()), actionCollection());
-    fileSaveAs = KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
-    fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
+    QAction* fileSave = KStandardAction::save(this, SLOT(slotFileSave()), actionCollection());
+    QAction* fileSaveAs = KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
+    QAction* fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
     filePrint = KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
-    fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
+    QAction* fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
 
     editUndo = m_pUndoStack->createUndoAction(actionCollection());
     editRedo = m_pUndoStack->createRedoAction(actionCollection());
@@ -209,41 +212,41 @@ void UMLApp::initActions()
     editPaste = KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
     createStandardStatusBarAction();
     setStandardToolBarMenuEnabled(true);
-    selectAll = KStandardAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
+    QAction* selectAll = KStandardAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
-    fileExportDocbook = actionCollection()->addAction("file_export_docbook");
+    QAction* fileExportDocbook = actionCollection()->addAction("file_export_docbook");
     fileExportDocbook->setText(i18n("&Export model to DocBook"));
     connect(fileExportDocbook, SIGNAL( triggered( bool ) ), this, SLOT( slotFileExportDocbook() ));
 
-    fileExportXhtml = actionCollection()->addAction("file_export_xhtml");
+    QAction* fileExportXhtml = actionCollection()->addAction("file_export_xhtml");
     fileExportXhtml->setText(i18n("&Export model to XHTML"));
     connect(fileExportXhtml, SIGNAL( triggered( bool ) ), this, SLOT( slotFileExportXhtml() ));
 
-    classWizard = actionCollection()->addAction("class_wizard");
+    QAction* classWizard = actionCollection()->addAction("class_wizard");
     classWizard->setText(i18n("&New Class Wizard..."));
     connect(classWizard, SIGNAL( triggered( bool ) ), this, SLOT( slotClassWizard() ));
 
-    QAction* anAction = actionCollection()->addAction("create_default_datatypes");
-    anAction->setText(i18n("&Add Default Datatypes for Active Language"));
-    connect(anAction, SIGNAL( triggered( bool ) ), this, SLOT( slotAddDefaultDatatypes() ));
+    QAction* addDefDatatypes = actionCollection()->addAction("create_default_datatypes");
+    addDefDatatypes->setText(i18n("&Add Default Datatypes for Active Language"));
+    connect(addDefDatatypes, SIGNAL( triggered( bool ) ), this, SLOT( slotAddDefaultDatatypes() ));
 
-    preferences = KStandardAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
+    QAction* preferences = KStandardAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
 
-    importClasses = actionCollection()->addAction("import_class");
+    QAction* importClasses = actionCollection()->addAction("import_class");
     importClasses->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Class));
     importClasses->setText(i18n("&Import Classes..."));
     connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
 
-    importProject = actionCollection()->addAction("import_project");
+    QAction* importProject = actionCollection()->addAction("import_project");
     importProject->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Project));
     importProject->setText(i18n("Import &Project..."));
     connect(importProject, SIGNAL( triggered( bool ) ), this, SLOT( slotImportProject() ));
 
-    genWizard = actionCollection()->addAction("generation_wizard");
+    QAction* genWizard = actionCollection()->addAction("generation_wizard");
     genWizard->setText(i18n("&Code Generation Wizard..."));
     connect(genWizard, SIGNAL( triggered( bool ) ), this, SLOT( generationWizard() ));
 
-    genAll = actionCollection()->addAction("generate_all");
+    QAction* genAll = actionCollection()->addAction("generate_all");
     genAll->setText(i18n("&Generate All Code"));
     connect(genAll, SIGNAL( triggered( bool ) ), this, SLOT( generateAllCode() ));
 
@@ -313,55 +316,55 @@ void UMLApp::initActions()
     newDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_New) );
     newDiagram->setText( "new_view" );
 
-    classDiagram = actionCollection()->addAction( "new_class_diagram" );
+    QAction* classDiagram = actionCollection()->addAction( "new_class_diagram" );
     classDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Class) );
     classDiagram->setText( i18n( "&Class Diagram..." ) );
     connect(classDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotClassDiagram() ));
     newDiagram->addAction(classDiagram);
 
-    sequenceDiagram= actionCollection()->addAction( "new_sequence_diagram" );
+    QAction* sequenceDiagram= actionCollection()->addAction( "new_sequence_diagram" );
     sequenceDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Sequence) );
     sequenceDiagram->setText( i18n( "&Sequence Diagram..." ) );
     connect(sequenceDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotSequenceDiagram() ));
     newDiagram->addAction(sequenceDiagram);
 
-    collaborationDiagram = actionCollection()->addAction( "new_collaboration_diagram" );
+    QAction* collaborationDiagram = actionCollection()->addAction( "new_collaboration_diagram" );
     collaborationDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Collaboration) );
     collaborationDiagram->setText( i18n( "C&ollaboration Diagram..." ) );
     connect(collaborationDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotCollaborationDiagram() ));
     newDiagram->addAction(collaborationDiagram);
 
-    useCaseDiagram= actionCollection()->addAction( "new_use_case_diagram" );
+    QAction* useCaseDiagram = actionCollection()->addAction( "new_use_case_diagram" );
     useCaseDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Usecase) );
     useCaseDiagram->setText( i18n( "&Use Case Diagram..." ) );
     connect(useCaseDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotUseCaseDiagram() ));
     newDiagram->addAction(useCaseDiagram);
 
-    stateDiagram= actionCollection()->addAction( "new_state_diagram" );
+    QAction* stateDiagram = actionCollection()->addAction( "new_state_diagram" );
     stateDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_State) );
     stateDiagram->setText( i18n( "S&tate Diagram..." ) );
     connect(stateDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotStateDiagram() ));
     newDiagram->addAction(stateDiagram);
 
-    activityDiagram= actionCollection()->addAction( "new_activity_diagram" );
+    QAction* activityDiagram = actionCollection()->addAction( "new_activity_diagram" );
     activityDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Activity) );
     activityDiagram->setText( i18n( "&Activity Diagram..." ) );
     connect(activityDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotActivityDiagram() ));
     newDiagram->addAction(activityDiagram);
 
-    componentDiagram = actionCollection()->addAction( "new_component_diagram" );
+    QAction* componentDiagram = actionCollection()->addAction( "new_component_diagram" );
     componentDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Component) );
     componentDiagram->setText( i18n("Co&mponent Diagram...") );
     connect(componentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotComponentDiagram() ));
     newDiagram->addAction(componentDiagram);
 
-    deploymentDiagram = actionCollection()->addAction( "new_deployment_diagram" );
+    QAction* deploymentDiagram = actionCollection()->addAction( "new_deployment_diagram" );
     deploymentDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_Deployment) );
     deploymentDiagram->setText( i18n("&Deployment Diagram...") );
     connect(deploymentDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotDeploymentDiagram() ));
     newDiagram->addAction(deploymentDiagram);
 
-    entityRelationshipDiagram = actionCollection()->addAction( "new_entityrelationship_diagram" );
+    QAction* entityRelationshipDiagram = actionCollection()->addAction( "new_entityrelationship_diagram" );
     entityRelationshipDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Diagram_EntityRelationship) );
     entityRelationshipDiagram->setText( i18n("&Entity Relationship Diagram...") );
     connect(entityRelationshipDiagram, SIGNAL( triggered( bool ) ), this, SLOT( slotEntityRelationshipDiagram() ));
@@ -380,6 +383,7 @@ void UMLApp::initActions()
     viewShowGrid->setText(i18n("S&how Grid"));
     connect(viewShowGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleShowGrid() ));
     viewShowGrid->setCheckedState(KGuiItem(i18n("&Hide Grid")));
+
     deleteDiagram = actionCollection()->addAction( "view_delete" );
     deleteDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Delete) );
     deleteDiagram->setText( i18n("&Delete") );
@@ -390,7 +394,7 @@ void UMLApp::initActions()
     viewExportImage->setText( i18n("&Export as Picture...") );
     connect(viewExportImage, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewExportImage() ));
 
-    viewExportImageAll = actionCollection()->addAction( "view_export_image_all" );
+    QAction* viewExportImageAll = actionCollection()->addAction( "view_export_image_all" );
     viewExportImageAll->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture) );
     viewExportImageAll->setText( i18n("Export &All Diagrams as Pictures...") );
     connect(viewExportImageAll, SIGNAL( triggered( bool ) ), this, SLOT( slotAllViewsExportImage() ));
@@ -420,56 +424,56 @@ void UMLApp::initActions()
     zoom100Action->setText(i18n("Z&oom to 100%"));
     connect(zoom100Action, SIGNAL( triggered( bool ) ), this, SLOT( slotZoom100() ));
 
-    alignRight = actionCollection()->addAction( "align_right" );
+    QAction* alignRight = actionCollection()->addAction( "align_right" );
     alignRight->setText(i18n("Align Right" ));
     alignRight->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Right) );
     connect(alignRight, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignRight() ));
 
-    alignLeft = actionCollection()->addAction( "align_left" );
+    QAction* alignLeft = actionCollection()->addAction( "align_left" );
     alignLeft->setText(i18n("Align Left" ));
     alignLeft->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Left) );
     connect(alignLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignLeft() ));
 
-    alignTop = actionCollection()->addAction( "align_top" );
+    QAction* alignTop = actionCollection()->addAction( "align_top" );
     alignTop->setText(i18n("Align Top" ));
     alignTop->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Top) );
     connect(alignTop, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignTop() ));
 
-    alignBottom = actionCollection()->addAction( "align_bottom" );
+    QAction* alignBottom = actionCollection()->addAction( "align_bottom" );
     alignBottom->setText(i18n("Align Bottom" ));
     alignBottom->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_Bottom) );
     connect(alignBottom, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignBottom() ));
 
-    alignVerticalMiddle = actionCollection()->addAction( "align_vertical_middle" );
+    QAction* alignVerticalMiddle = actionCollection()->addAction( "align_vertical_middle" );
     alignVerticalMiddle->setText(i18n("Align Vertical Middle" ));
     alignVerticalMiddle->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalMiddle) );
     connect(alignVerticalMiddle, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignVerticalMiddle() ));
 
-    alignHorizontalMiddle = actionCollection()->addAction( "align_horizontal_middle" );
+    QAction* alignHorizontalMiddle = actionCollection()->addAction( "align_horizontal_middle" );
     alignHorizontalMiddle->setText(i18n("Align Horizontal Middle" ));
     alignHorizontalMiddle->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalMiddle) );
     connect(alignHorizontalMiddle, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignHorizontalMiddle() ));
 
-    alignVerticalDistribute = actionCollection()->addAction( "align_vertical_distribute" );
+    QAction* alignVerticalDistribute = actionCollection()->addAction( "align_vertical_distribute" );
     alignVerticalDistribute->setText(i18n("Align Vertical Distribute" ));
     alignVerticalDistribute->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_VerticalDistribute) );
     connect(alignVerticalDistribute, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignVerticalDistribute() ));
 
-    alignHorizontalDistribute = actionCollection()->addAction( "align_horizontal_distribute" );
+    QAction* alignHorizontalDistribute = actionCollection()->addAction( "align_horizontal_distribute" );
     alignHorizontalDistribute->setText(i18n("Align Horizontal Distribute" ));
     alignHorizontalDistribute->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Align_HorizontalDistribute) );
     connect(alignHorizontalDistribute, SIGNAL( triggered( bool ) ), this, SLOT( slotAlignHorizontalDistribute() ));
 
     QString moveTabLeftString = i18n("&Move Tab Left");
     QString moveTabRightString = i18n("&Move Tab Right");
-    moveTabLeft = actionCollection()->addAction("move_tab_left");
+    QAction* moveTabLeft = actionCollection()->addAction("move_tab_left");
     moveTabLeft->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Next : Icon_Utils::it_Go_Previous));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
     connect(moveTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotMoveTabLeft() ));
 
-    moveTabRight = actionCollection()->addAction("move_tab_right");
+    QAction* moveTabRight = actionCollection()->addAction("move_tab_right");
     moveTabRight->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Previous : Icon_Utils::it_Go_Next));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
@@ -478,13 +482,13 @@ void UMLApp::initActions()
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
     QString selectTabRightString = i18n("Select Diagram on Right");
-    changeTabLeft = actionCollection()->addAction("previous_tab");
+    QAction* changeTabLeft = actionCollection()->addAction("previous_tab");
     changeTabLeft->setText(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString);
     changeTabLeft->setShortcut(QApplication::layoutDirection() ?
                    QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
     connect(changeTabLeft, SIGNAL( triggered( bool ) ), this, SLOT( slotChangeTabLeft() ));
 
-    changeTabRight = actionCollection()->addAction("next_tab");
+    QAction* changeTabRight = actionCollection()->addAction("next_tab");
     changeTabRight->setText(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString);
     changeTabRight->setShortcut(QApplication::layoutDirection() ?
                     QKeySequence(Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::SHIFT+Qt::Key_Right));
@@ -1837,7 +1841,7 @@ void UMLApp::slotImportClasses()
     if (pl == Uml::pl_IDL) {
         preselectedExtension = i18n("*.idl|IDL Files (*.idl)");
     } else if (pl == Uml::pl_Python) {
-        preselectedExtension = i18n("*.py|Python Files (*.py)");
+        preselectedExtension = i18n("*.py|Python Files (*.py *.pyw)");
     } else if (pl == Uml::pl_Java) {
         preselectedExtension = i18n("*.java|Java Files (*.java)");
     } else if (pl == Uml::pl_Pascal) {
