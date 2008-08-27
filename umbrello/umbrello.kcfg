@@ -14,11 +14,6 @@
          <whatisthis>Geometry</whatisthis>
          <default></default>
        </entry>
-       <entry name="DockConfig" type="String">
-         <label>DockConfig</label>
-         <whatisthis>The Configuration of the Dock Widgets</whatisthis>
-         <default></default>
-       </entry>
        <entry name="imageMimeType" type="String">
          <label>Image Mime Type</label>
          <whatisthis>The Mime Type of the Images</whatisthis>
