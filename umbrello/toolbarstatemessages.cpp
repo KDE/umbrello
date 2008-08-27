@@ -77,13 +77,14 @@ void ToolBarStateMessages::setCurrentElement()
 {
     m_isObjectWidgetLine = false;
 
-    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->pos());
+    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->scenePos());
     if (objectWidgetLine) {
+        qDebug() << Q_FUNC_INFO << "Object detected";
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
         return;
     }
-
+    qDebug() << Q_FUNC_INFO << "Object NOT detected";
     //commit 515177 fixed a setting creation messages only working properly at 100% zoom
     //However, the applied patch doesn't seem to be necessary no more, so it was removed
     //The widgets weren't got from UMLView, but from a method in this class similarto the
@@ -213,7 +214,7 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
         yclick = 0;
         return;
     }
-     //TODO shouldn't start position in the first widget be used also for normal messages
+    //TODO shouldn't start position in the first widget be used also for normal messages
     //and not only for creation?
     qreal y = m_pMouseEvent->scenePos().y();
     if (messageType == CreationMessage) {
@@ -231,12 +232,14 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
     m_pUMLScene->getMessageList().append(message);
 
     FloatingTextWidget *ft = message->floatingTextWidget();
-    //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
-    //Shouldn't it cancel also the whole creation?
-    ft->showOperationDialog();
-    message->setTextPosition();
-    m_pUMLScene->getWidgetList().append(ft);
+    if (ft) {
 
+        //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
+        //Shouldn't it cancel also the whole creation?
+        ft->showOperationDialog();
+        message->setTextPosition();
+        m_pUMLScene->getWidgetList().append(ft);
+    }
     UMLApp::app()->getDocument()->setModified();
 }
 
