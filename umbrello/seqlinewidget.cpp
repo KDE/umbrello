@@ -145,7 +145,7 @@ void SeqLineWidget::updateGeometry()
     addLineToPath(m_destructionBoxLines[1], linePath);
 
     QPainterPathStroker stroker;
-    stroker.setWidth(m_lineWidth + 5);
+    stroker.setWidth(m_lineWidth + 10);
     m_shape = stroker.createStroke(linePath);
 
     prepareGeometryChange();
