@@ -313,7 +313,6 @@ void MessageWidget::setFloatingTextWidget(FloatingTextWidget * f)
  */
 void MessageWidget::handleObjectMove(ObjectWidget *wid)
 {
-    uDebug() << "Called";
     if (!hasObjectWidget(wid)) {
         uError() << "ObjectWidget " << (void*)wid
                  << "doesn't belong to this MessageWidget";
@@ -574,21 +573,23 @@ QVariant MessageWidget::attributeChange(WidgetAttributeChange change, const QVar
 
 QVariant MessageWidget::itemChange(GraphicsItemChange change, const QVariant& value)
 {
-    if (change == ItemPositionChange && umlScene()->isMouseMovingItems()) {
-        QPointF newPoint = value.toPointF();
-        if (umlScene()->mouseGrabberItem() == this) {
-            newPoint.rx() = x(); // No horizontal movement
+    if (umlScene()) {
+        if (change == ItemPositionChange && umlScene()->isMouseMovingItems()) {
+            QPointF newPoint = value.toPointF();
+            if (umlScene()->mouseGrabberItem() == this) {
+                newPoint.rx() = x(); // No horizontal movement
+            }
+            newPoint.ry() = qMax(newPoint.y(), minY());
+            return newPoint;
         }
-        newPoint.ry() = qMax(newPoint.y(), minY());
-        return newPoint;
-    }
-    else if (change == ItemPositionHasChanged) {
-        if (m_objectWidgets[Uml::A]) {
-            m_objectWidgets[Uml::A]->adjustSequentialLineEnd();
-        }
+        else if (change == ItemPositionHasChanged) {
+            if (m_objectWidgets[Uml::A]) {
+                m_objectWidgets[Uml::A]->adjustSequentialLineEnd();
+            }
 
-        if (m_objectWidgets[Uml::B]) {
-            m_objectWidgets[Uml::B]->adjustSequentialLineEnd();
+            if (m_objectWidgets[Uml::B]) {
+                m_objectWidgets[Uml::B]->adjustSequentialLineEnd();
+            }
         }
     }
     return NewUMLRectWidget::itemChange(change, value);
@@ -716,7 +717,7 @@ void MessageWidget::drawSynchronous(QPainter *painter)
         QLineF returnLine(syncBox.right(), returnLineY, sz.width(), returnLineY);
         // Draw arrowhead first only to use the current pen style for the head.
         Widget_Utils::drawArrowHead(painter, returnLine.p2(), ArrowSize,
-                                    Qt::LeftArrow, nonSolid);
+                                    Qt::RightArrow, nonSolid);
         // Now set a dashed pen style for the return line drawing.
         QPen pen(painter->pen());
         pen.setStyle(Qt::DashLine);
@@ -860,14 +861,19 @@ void MessageWidget::slotMenuSelection(QAction* action)
 
 void MessageWidget::slotDelayedInit()
 {
-    if (m_objectWidgets[Uml::A]) {
-        m_objectWidgets[Uml::A]->messageAdded(this);
-        m_objectWidgets[Uml::A]->adjustSequentialLineEnd();
+    ObjectWidget *objA = m_objectWidgets[Uml::A];
+    ObjectWidget *objB = m_objectWidgets[Uml::B];
+
+    if (objA) {
+        objA->messageAdded(this);
+        handleObjectMove(objA);
+        objA->adjustSequentialLineEnd();
     }
 
-    if (m_objectWidgets[Uml::B]) {
-        m_objectWidgets[Uml::B]->messageAdded(this);
-        m_objectWidgets[Uml::B]->adjustSequentialLineEnd();
+    if (objB && objB != objA) {
+        objB->messageAdded(this);
+        handleObjectMove(objB);
+        objB->adjustSequentialLineEnd();
     }
 }
 
