@@ -17,7 +17,7 @@
 #include <kdebug.h>
 
 /**
- *@author Paul Hensgen
+ * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 namespace Uml
@@ -266,23 +266,23 @@ namespace Uml
         Unique
     };
 
-/**
- * Constants used for indexing the roles of associations.
- */
+    /**
+     * Constants used for indexing the roles of associations.
+     */
     enum Role_Type { A, B };
 
-/**
- * Direction of operation parameters:
- *   in = operation uses the parameter as an input value
- *   out = operation fills the parameter as a return value
- *   inout = operation both reads and writes the parameter
- * The numeric values of this enum are not currently saved to file.
- */
+    /**
+     * Direction of operation parameters:
+     *   in = operation uses the parameter as an input value
+     *   out = operation fills the parameter as a return value
+     *   inout = operation both reads and writes the parameter
+     * The numeric values of this enum are not currently saved to file.
+     */
     enum Parameter_Direction { pd_In, pd_InOut, pd_Out };
 
-/**
- * Supported programming languages
- */
+    /**
+     * Supported programming languages
+     */
     enum Programming_Language {
         pl_ActionScript,
         pl_Ada,
@@ -303,20 +303,26 @@ namespace Uml
         pl_SQL,
         pl_Tcl,
         pl_XMLSchema,
-        pl_Ocl,
         pl_Reserved
     };
 
-/**
- * The data type used for unique IDs.
- */
+    /**
+     * The data type used for unique IDs.
+     */
     typedef std::string IDType;
 
-/**
- * Reserved value for uninitialized/illegal ID.
- */
+    /**
+     * Reserved value for uninitialized/illegal ID.
+     */
     const IDType id_None = "-1";
     const IDType id_Reserved = "0";
+
+    /**
+     * Function for comparing tags in XMI files.
+     */
+    bool tagEq (const QString& tag, const QString& pattern);
+
+}  // end namespace Uml
 
 # define STR2ID(id)  qPrintable(id)
 # define ID2STR(id)  QString(id.c_str())
@@ -326,15 +332,8 @@ namespace Uml
 #define uError()   kError(8060)
 #define uWarning() kWarning(8060)
 
-/**
- * Function for comparing tags in XMI files.
- */
-    bool tagEq (const QString& tag, const QString& pattern);
-
-}  // end namespace Uml
-
-#define DISABLE_COPY(Class) \
-     Class(const Class &); \
-     Class &operator=(const Class &);
+#define DISABLE_COPY(Class)                     \
+    Class(const Class &);                       \
+    Class &operator=(const Class &);
 
 #endif
