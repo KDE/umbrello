@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -15,14 +14,8 @@
 #include "umlnamespace.h"
 
 #include <kxmlguiwindow.h>
-#include <kdeversion.h>
 #include <kurl.h>
 #include <ksharedconfig.h>
-#include <kundostack.h>
-
-#include <QtGui/QKeyEvent>
-#include <QtGui/QMenu>
-#include <QtGui/QUndoView>
 
 // forward declaration of the UML classes
 class AlignToolBar;
@@ -49,6 +42,7 @@ class KToggleAction;
 class KTabWidget;
 class KMenu;
 class KMenuBar;
+class KUndoStack;
 
 // Qt forward declarations
 class QStackedWidget;
@@ -56,8 +50,11 @@ class QToolButton;
 class QCustomEvent;
 class QDockWidget;
 class QVBoxLayout;
+class QKeyEvent;
+class QMenu;
 class QMimeData;
-
+class QUndoCommand;
+class QUndoView;
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -977,13 +974,13 @@ private:
     void initSavedCodeGenerators();
 
     /**
-    * import the source files that are in fileList
-    */
+     * import the source files that are in fileList
+     */
     void importFiles(QStringList* fileList);
 
      /**
-     * The configuration object of the application.
-     */
+      * The configuration object of the application.
+      */
     KSharedConfigPtr m_config;
 
     /**
@@ -1028,7 +1025,7 @@ private:
 
     /**
      * Contains the property browser widget
-    */
+     */
     QDockWidget* m_propertyDock;
 
     /**
@@ -1038,78 +1035,36 @@ private:
 
     /**
      * Undo / Redo Viewer
-    */
+     */
     QUndoView* m_pQUndoView;
 
     /** Refactoring assistant. */
     RefactoringAssistant* m_refactoringAssist;
 
-    //KAction pointers to enable/disable actions
-    QAction* fileNew;
-    QAction* fileOpen;
+    // KAction pointers to enable/disable actions
     KRecentFilesAction* fileOpenRecent;
-    QAction* fileSave;
-    QAction* fileSaveAs;
-    QAction* fileClose;
     QAction* filePrint;
-    QAction* fileQuit;
-    QAction* fileExportDocbook;
-    QAction* fileExportXhtml;
-
     QAction* editCut;
     QAction* editCopy;
     QAction* editPaste;
     QAction* editUndo;
     QAction* editRedo;
-    QAction* selectAll;
-    QAction* preferences;
 
     KActionMenu* newDiagram;
-    QAction* classDiagram;
-    QAction* sequenceDiagram;
-    QAction* collaborationDiagram;
-    QAction* useCaseDiagram;
-    QAction* stateDiagram;
-    QAction* activityDiagram;
-    QAction* componentDiagram;
-    QAction* deploymentDiagram;
-    QAction* entityRelationshipDiagram;
     QAction* viewClearDiagram;
 
     KToggleAction* viewSnapToGrid;
     KToggleAction* viewShowGrid;
     QAction* viewExportImage;
-    QAction* viewExportImageAll;
     QAction* viewProperties;
 
     QAction* zoom100Action;
     KPlayerPopupSliderAction* zoomAction;
 
-    QAction* alignLeft;
-    QAction* alignRight;
-    QAction* alignTop;
-    QAction* alignBottom;
-    QAction* alignVerticalMiddle;
-    QAction* alignHorizontalMiddle;
-    QAction* alignVerticalDistribute;
-    QAction* alignHorizontalDistribute;
-
-    QAction* genAll;
-    QAction* genWizard;
-    QAction* importClasses;
-    QAction* importProject;
-    QAction* classWizard;
     QAction* m_langAct[Uml::pl_Reserved];
     QAction* deleteSelectedWidget;
     QAction* deleteDiagram;
-#ifdef HAVE_DOT
-    QAction* autolayout;
-#endif
 
-    QAction* changeTabLeft;
-    QAction* changeTabRight;
-    QAction* moveTabLeft;
-    QAction* moveTabRight;
     QToolButton* m_newSessionButton;
     KMenu* m_diagramMenu;
     KToggleAction* viewToolBar;
@@ -1167,12 +1122,12 @@ private:
     /**
      * UndoStack
      * used to store actions, to provide Undo/Redo feature.
-    */
+     */
     KUndoStack* m_pUndoStack;
 
     /**
      * Macro creation flag
-    */
+     */
     bool m_hasBegunMacro;
 
 signals:
