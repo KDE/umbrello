@@ -132,7 +132,9 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     // call this here because the statusBar is shown/hidden by setupGUI()
     initStatusBar();
     // use the absolute path to your umbrelloui.rc file for testing purpose in setupGUI();
-    setupGUI();
+    StandardWindowOptions opt = Default;
+    opt &= ~Save;
+    setupGUI( opt );
     initView();
     initClip();
     readOptions();
@@ -161,6 +163,8 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     m_refactoringAssist   = NULL;
     m_commoncodegenpolicy = new CodeGenerationPolicy();
     m_imageExporterAll    = new UMLViewImageExporterAll();
+
+    setAutoSaveSettings();
 }
 
 UMLApp::~UMLApp()
@@ -661,10 +665,6 @@ void UMLApp::initView()
 
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
     //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);
-
-    QByteArray dockConfig;
-    dockConfig += UmbrelloSettings::dockConfig().toAscii();
-    restoreState(dockConfig); //reposition all the DockWindows to their saved positions
 }
 
 void UMLApp::openDocumentFile(const KUrl& url)
@@ -863,8 +863,6 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
 
 bool UMLApp::queryClose()
 {
-    QByteArray dockConfig = saveState();
-    UmbrelloSettings::setDockConfig( dockConfig );
     return m_doc->saveModified();
 }
 
@@ -1055,8 +1053,6 @@ void UMLApp::slotFileQuit()
 {
     slotStatusMsg(i18n("Exiting..."));
     if (m_doc->saveModified()) {
-        QByteArray dockConfig = saveState();
-        UmbrelloSettings::setDockConfig( dockConfig );
         saveOptions();
         qApp->quit();
     }
