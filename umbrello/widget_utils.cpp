@@ -19,7 +19,9 @@
 #include "umlwidget.h"
 
 // qt/kde includes
+#include <QtCore/QBuffer>
 #include <QtGui/QBrush>
+#include <QtGui/QImageReader>
 #include <QtGui/QPen>
 #include <QtGui/QPolygonF>
 
@@ -28,7 +30,6 @@
 
 namespace Widget_Utils
 {
-
     NewUMLRectWidget* findWidget(Uml::IDType id,
                                  const UMLWidgetList& widgets,
                                  const MessageWidgetList* pMessages /* = NULL */)
@@ -157,20 +158,46 @@ namespace Widget_Utils
         return retVal;
     }
 
-    bool loadPixmapFromXMI(const QDomElement &qElement, QPixmap &pixmap)
+    bool loadPixmapFromXMI(const QDomElement &pixEle, QPixmap &pixmap)
     {
-        Q_UNUSED(qElement); Q_UNUSED(pixmap);
+        if (pixEle.isNull()) {
+            return false;
+        }
+        QDomElement xpmElement = pixEle.firstChildElement("xpm");
+
+        QByteArray xpmData = xpmElement.text().toLatin1();
+        QBuffer buffer(&xpmData);
+        buffer.open(QIODevice::ReadOnly);
+
+        QImageReader reader(&buffer, "xpm");
+        QImage image;
+        if (!reader.read(&image)) {
+            return false;
+        }
+
+        pixmap = QPixmap::fromImage(image);
         return true;
     }
 
     void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap)
     {
-        Q_UNUSED(qDoc); Q_UNUSED(qElement); Q_UNUSED(pixmap);
+        QDomElement pixmapElement = qDoc.createElement("pixmap");
+
+        QDomElement xpmElement = qDoc.createElement("xpm");
+        pixmapElement.appendChild(xpmElement);
+
+        QBuffer buffer;
+        buffer.open(QIODevice::WriteOnly);
+        pixmap.save(&buffer, "xpm");
+        buffer.close();
+
+        xpmElement.appendChild(qDoc.createTextNode(QString(buffer.data())));
+
+        qElement.appendChild(pixmapElement);
     }
 
-    bool loadGradientFromXMI(const QDomElement &qElement, QGradient *&gradient)
+    bool loadGradientFromXMI(const QDomElement &gradientElement, QGradient *&gradient)
     {
-        QDomElement gradientElement = qElement.firstChildElement("gradient");
         if(gradientElement.isNull()) {
             return false;
         }
@@ -272,17 +299,17 @@ namespace Widget_Utils
 
     bool loadBrushFromXMI(const QDomElement &qElement, QBrush &brush)
     {
-        QDomElement brushElement = qElement.firstChildElement(QLatin1String("brush"));
-        if(brushElement.isNull()) {
+        if(qElement.isNull()) {
             return false;
         }
 
-        quint8 style = brushElement.attribute("style").toShort();
-        QColor color = brushElement.attribute("color");
+        quint8 style = qElement.attribute("style").toShort();
+        QColor color = qElement.attribute("color");
 
         if(style == Qt::TexturePattern) {
             QPixmap pixmap;
-            if(!loadPixmapFromXMI(brushElement, pixmap)) {
+            QDomElement pixElement = qElement.firstChildElement("pixmap");
+            if(!loadPixmapFromXMI(pixElement, pixmap)) {
                 return false;
             }
             brush = QBrush(color, pixmap);
@@ -292,8 +319,9 @@ namespace Widget_Utils
                 || style == Qt::RadialGradientPattern
                 || style == Qt::ConicalGradientPattern) {
             QGradient *gradient = 0;
+            QDomElement gradElement = qElement.firstChildElement("gradient");
 
-            if(!loadGradientFromXMI(brushElement, gradient) || !gradient) {
+            if(!loadGradientFromXMI(gradElement, gradient) || !gradient) {
                 delete gradient;
                 return false;
             }

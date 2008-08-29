@@ -28,12 +28,15 @@
 #include "textitem.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "widget_utils.h"
 
+#include <QtCore/QBuffer>
 #include <QtCore/QMetaObject>
 #include <QtCore/QMetaProperty>
 #include <QtCore/QTime>
 #include <QtCore/QTimerEvent>
 #include <QtGui/QApplication>
+#include <QtGui/QLabel>
 
 #include <kdebug.h>
 
