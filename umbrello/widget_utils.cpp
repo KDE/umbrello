@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -98,24 +97,24 @@ namespace Widget_Utils
         p->translate(-r.center().x(), -r.center().y());
     }
 
-	void drawTriangledRect(QPainter *painter,
+    void drawTriangledRect(QPainter *painter,
                            const QRectF& rect, const QSizeF& triSize)
-	{
-		// Draw outer boundary defined by polygon "poly".
-		QPolygonF poly(5);
-		poly[0] = rect.topLeft();
-		poly[1] = rect.topRight() - QPointF(triSize.width(), 0);
-		poly[2] = rect.topRight() + QPointF(0, triSize.height());
-		poly[3] = rect.bottomRight();
-		poly[4] = rect.bottomLeft();
-		painter->drawPolygon(poly);
+    {
+        // Draw outer boundary defined by polygon "poly".
+        QPolygonF poly(5);
+        poly[0] = rect.topLeft();
+        poly[1] = rect.topRight() - QPointF(triSize.width(), 0);
+        poly[2] = rect.topRight() + QPointF(0, triSize.height());
+        poly[3] = rect.bottomRight();
+        poly[4] = rect.bottomLeft();
+        painter->drawPolygon(poly);
 
-		// Now draw the triangle base and height edges.
-		QLineF heightEdge(poly[1], poly[1] + QPointF(0, triSize.height()));
-		painter->drawLine(heightEdge);
-		QLineF baseEdge(heightEdge.p2(), poly[2]);
-		painter->drawLine(baseEdge);
-	}
+        // Now draw the triangle base and height edges.
+        QLineF heightEdge(poly[1], poly[1] + QPointF(0, triSize.height()));
+        painter->drawLine(heightEdge);
+        QLineF baseEdge(heightEdge.p2(), poly[2]);
+        painter->drawLine(baseEdge);
+    }
 
     void drawArrowHead(QPainter *painter, const QPointF &arrowPos,
                        const QSizeF& arrowSize, Qt::ArrowType arrowType,
@@ -160,12 +159,13 @@ namespace Widget_Utils
 
     bool loadPixmapFromXMI(const QDomElement &qElement, QPixmap &pixmap)
     {
+        Q_UNUSED(qElement); Q_UNUSED(pixmap);
         return true;
     }
 
     void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap)
     {
-
+        Q_UNUSED(qDoc); Q_UNUSED(qElement); Q_UNUSED(pixmap);
     }
 
     bool loadGradientFromXMI(const QDomElement &qElement, QGradient *&gradient)
@@ -180,7 +180,6 @@ namespace Widget_Utils
         QGradientStops stops;
         QGradient::CoordinateMode cmode = QGradient::LogicalMode;
         QGradient::Spread spread = QGradient::PadSpread;
-
 
         type_as_int = gradientElement.attribute("type").toInt();
         type = QGradient::Type(type_as_int);
@@ -332,4 +331,5 @@ namespace Widget_Utils
         //TODO: Check if transform of this brush needs to be saved.
         qElement.appendChild(brushElement);
     }
+
 }  // namespace Widget_Utils

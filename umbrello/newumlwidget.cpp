@@ -100,7 +100,7 @@ NewUMLWidget::NewUMLWidget(UMLObject *object) :
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
     setFlags(ItemIsSelectable | ItemIsMovable);
-	hide(); // Show up in slotInit
+    hide(); // Show up in slotInit
 
     // Call init this way so that virtual methods may be called.
     QTimer::singleShot(0, this, SLOT(slotInit()));
@@ -147,7 +147,7 @@ void NewUMLWidget::setUMLObject(UMLObject *obj)
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
 
-	//slotUMLObjectDataChanged();
+    //slotUMLObjectDataChanged();
     umlObjectChanged(oldObj);
 }
 
@@ -175,12 +175,12 @@ Uml::IDType NewUMLWidget::id() const
  */
 void NewUMLWidget::setID(Uml::IDType id)
 {
-	const Uml::IDType oldId = this->id();
+    const Uml::IDType oldId = this->id();
     if(m_umlObject) {
 
         if(m_umlObject->getID() != Uml::id_None) {
             uWarning() << "changing old UMLObject " << ID2STR(m_umlObject->getID())
-                       << " to " << ID2STR(id) << endl;
+                       << " to " << ID2STR(id);
         }
 
         m_umlObject->setID(id);
@@ -189,7 +189,7 @@ void NewUMLWidget::setID(Uml::IDType id)
         m_widgetInterfaceData->id = id;
     }
 
-	attributeChange(IDHasChanged, ID2STR(id));
+    attributeChange(IDHasChanged, ID2STR(id));
 }
 
 /**
@@ -240,16 +240,16 @@ QString NewUMLWidget::documentation() const
  */
 void NewUMLWidget::setDocumentation(const QString& doc)
 {
-	const QString oldDoc = documentation();
+    const QString oldDoc = documentation();
 
-	if(m_umlObject) {
+    if(m_umlObject) {
         m_umlObject->setDoc(doc);
     }
     else {
         m_widgetInterfaceData->documentation = doc;
     }
 
-	attributeChange(DocumentationHasChanged, oldDoc);
+    attributeChange(DocumentationHasChanged, oldDoc);
 }
 
 /**
@@ -279,7 +279,7 @@ QString NewUMLWidget::name() const
  */
 void NewUMLWidget::setName(const QString& name)
 {
-	const QString oldName = this->name();
+    const QString oldName = this->name();
     if(m_umlObject) {
         m_umlObject->setName(name);
     }
@@ -287,7 +287,7 @@ void NewUMLWidget::setName(const QString& name)
         m_widgetInterfaceData->name = name;
     }
 
-	attributeChange(NameHasChanged, oldName);
+    attributeChange(NameHasChanged, oldName);
 }
 
 /**
@@ -300,14 +300,14 @@ void NewUMLWidget::setName(const QString& name)
  */
 void NewUMLWidget::setLineColor(const QColor& color)
 {
-	const QColor oldColor = lineColor();
+    const QColor oldColor = lineColor();
     m_lineColor = color;
     if(!m_lineColor.isValid()) {
         uDebug() << "Invalid color";
         m_lineColor = Qt::black;
     }
 
-	attributeChange(LineColorHasChanged, oldColor);
+    attributeChange(LineColorHasChanged, oldColor);
 }
 
 /**
@@ -323,10 +323,10 @@ void NewUMLWidget::setLineColor(const QColor& color)
  */
 void NewUMLWidget::setLineWidth(uint lw)
 {
-	const qreal oldWidth = lineWidth();
+    const qreal oldWidth = lineWidth();
     m_lineWidth = lw;
 
-	attributeChange(LineWidthHasChanged, oldWidth);
+    attributeChange(LineWidthHasChanged, oldWidth);
 }
 
 /**
@@ -339,13 +339,13 @@ void NewUMLWidget::setLineWidth(uint lw)
  */
 void NewUMLWidget::setFontColor(const QColor& color)
 {
-	const QColor oldColor = fontColor();
+    const QColor oldColor = fontColor();
     m_fontColor = color;
     if(!m_fontColor.isValid()) {
         m_fontColor = m_lineColor;
     }
 
-	attributeChange(FontColorHasChanged, oldColor);
+    attributeChange(FontColorHasChanged, oldColor);
 }
 
 /**
@@ -358,10 +358,10 @@ void NewUMLWidget::setFontColor(const QColor& color)
  */
 void NewUMLWidget::setBrush(const QBrush& brush)
 {
-	const QBrush oldBrush = this->brush();
-	m_brush = brush;
+    const QBrush oldBrush = this->brush();
+    m_brush = brush;
 
-	attributeChange(BrushHasChanged, oldBrush);
+    attributeChange(BrushHasChanged, oldBrush);
 }
 
 /**
@@ -373,10 +373,10 @@ void NewUMLWidget::setBrush(const QBrush& brush)
  */
 void NewUMLWidget::setFont(const QFont& font)
 {
-	const QFont oldFont = this->font();
+    const QFont oldFont = this->font();
     m_font = font;
 
-	attributeChange(FontHasChanged, oldFont);
+    attributeChange(FontHasChanged, oldFont);
 }
 
 /**
@@ -398,7 +398,7 @@ void NewUMLWidget::showPropertiesDialog()
  */
 void NewUMLWidget::setupContextMenuActions(ListPopupMenu &menu)
 {
-	Q_UNUSED(menu);
+    Q_UNUSED(menu);
 }
 
 /**
@@ -540,23 +540,23 @@ void NewUMLWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
  */
 bool NewUMLWidget::widgetHasUMLObject(Uml::Widget_Type type)
 {
-	switch(type)
-	{
-	case Uml::wt_Actor:
-	case Uml::wt_UseCase:
-	case Uml::wt_Class:
-	case Uml::wt_Interface:
-	case Uml::wt_Enum:
-	case Uml::wt_Datatype:
-	case Uml::wt_Package:
-	case Uml::wt_Component:
-	case Uml::wt_Node:
-	case Uml::wt_Artifact:
-	case Uml::wt_Object:
-		return true;
-	default:
-		return false;
-	}
+    switch(type)
+    {
+    case Uml::wt_Actor:
+    case Uml::wt_UseCase:
+    case Uml::wt_Class:
+    case Uml::wt_Interface:
+    case Uml::wt_Enum:
+    case Uml::wt_Datatype:
+    case Uml::wt_Package:
+    case Uml::wt_Component:
+    case Uml::wt_Node:
+    case Uml::wt_Artifact:
+    case Uml::wt_Object:
+        return true;
+    default:
+        return false;
+    }
 }
 
 /**
@@ -708,7 +708,7 @@ void NewUMLWidget::slotMenuSelection(QAction *trigger)
     // }
 
     default:
-        uDebug() << "Menu_Type " << sel << " not implemented" << endl;
+        uDebug() << "Menu_Type " << sel << " not implemented";
     }
 }
 
@@ -732,16 +732,16 @@ void NewUMLWidget::slotUMLObjectDataChanged()
 void NewUMLWidget::slotInit()
 {
     setUMLObject(m_umlObject);
-	// Ensure the texts of subclasses are properly initialized.
-	slotUMLObjectDataChanged();
-	// TODO: Move these to an explicit intializer method
-	QVariant v;
-	attributeChange(LineColorHasChanged, v);
-	attributeChange(LineWidthHasChanged, v);
-	attributeChange(FontHasChanged, v);
-	attributeChange(FontColorHasChanged, v);
-	attributeChange(BrushHasChanged, v);
-	show(); // Now show the item
+    // Ensure the texts of subclasses are properly initialized.
+    slotUMLObjectDataChanged();
+    // TODO: Move these to an explicit intializer method
+    QVariant v;
+    attributeChange(LineColorHasChanged, v);
+    attributeChange(LineWidthHasChanged, v);
+    attributeChange(FontHasChanged, v);
+    attributeChange(FontColorHasChanged, v);
+    attributeChange(BrushHasChanged, v);
+    show(); // Now show the item
 }
 
 /**
@@ -770,25 +770,25 @@ void NewUMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
  */
 QVariant NewUMLWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-	Q_UNUSED(oldValue);
+    Q_UNUSED(oldValue);
 
-	switch(change) {
-	case FontHasChanged:
-	case NameHasChanged:
-	case LineWidthHasChanged:
-		updateGeometry();
-		break;
+    switch(change) {
+    case FontHasChanged:
+    case NameHasChanged:
+    case LineWidthHasChanged:
+        updateGeometry();
+        break;
 
-	case LineColorHasChanged:
-	case FontColorHasChanged:
-	case BrushHasChanged:
-		update();
-		break;
+    case LineColorHasChanged:
+    case FontColorHasChanged:
+    case BrushHasChanged:
+        update();
+        break;
 
-	default:
-		break;
-	}
-	return QVariant();
+    default:
+        break;
+    }
+    return QVariant();
 }
 
 /**
@@ -895,7 +895,7 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, UMLObject *object) :
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
     setFlags(ItemIsSelectable | ItemIsMovable);
-	hide();
+    hide();
     // Call init this way so that virtual methods may be called.
     QTimer::singleShot(0, this, SLOT(slotInit()));
     if(scene) {
@@ -924,7 +924,7 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, const Uml::IDType &_id) :
     if(scene) {
         scene->addItem(this);
     }
-	hide();
+    hide();
     setFlags(ItemIsSelectable | ItemIsMovable);
     // Call init this way so that virtual methods may be called.
     QTimer::singleShot(0, this, SLOT(slotInit()));
@@ -1029,18 +1029,18 @@ ListPopupMenu* NewUMLWidget::setupPopupMenu()
 
 void NewUMLWidget::updateComponentSize()
 {
-	if(firstTime) {
-		firstTime = false;
-	}
-	else {
-		NewUMLRectWidget *rect = dynamic_cast<NewUMLRectWidget*>(this);
-		if(rect) {
-			slotUMLObjectDataChanged();
-		}
-		else {
-			updateGeometry();
-		}
-	}
+    if(firstTime) {
+        firstTime = false;
+    }
+    else {
+        NewUMLRectWidget *rect = dynamic_cast<NewUMLRectWidget*>(this);
+        if(rect) {
+            slotUMLObjectDataChanged();
+        }
+        else {
+            updateGeometry();
+        }
+    }
 }
 
 #include "newumlwidget.moc"
