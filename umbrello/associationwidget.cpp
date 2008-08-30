@@ -3248,27 +3248,26 @@ void AssociationWidget::moveEntireAssoc( qreal x, qreal y )
 QRectF AssociationWidget::getAssocLineRectangle()
 {
     QRectF rectangle;
-    QPointF p;
-    uint pen_width;
 
     /* we also want the end points connected to the other widget */
     int pos = m_LinePath.count();
 
+    /* the lines have the width of the pen */
+    uint pen_width = m_LinePath.getPen().width();
+
+    if (pen_width == 0)
+        pen_width = 1; // width must be at least 1
+
     /* go through all points on the linepath */
-    for( int i=0 ; i < (int) pos; i++ )
+    for (int i = 0; i < pos; i++)
     {
-        p = m_LinePath.getPoint( i );
+        QPointF p = m_LinePath.getPoint(i);
 
         /* the first point is our starting point */
         if (i == 0) {
             rectangle.setRect(p.x(), p.y(), 0, 0);
             continue;
         }
-
-        /* the lines have the width of the pen */
-        pen_width = m_LinePath.getPen().width();
-        if (pen_width == 0)
-            pen_width = 1; // width must be at least 1
 
         if (p.x() < rectangle.x())
             rectangle.setX(p.x());
