@@ -415,8 +415,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*,
         // circle should be drawn. We have to calculate sane dimension
         // and position of this circle.
         qreal radius = qMin(m_classifierRect.width(), m_classifierRect.height());
-        QRectF circle(0, 0, radius, radius);
-        circle.moveCenter(m_classifierRect.center());
+        QRectF circle(.5 * (width() - radius), 0, radius, radius);
 
         painter->drawEllipse(circle);
     }
@@ -455,17 +454,13 @@ void ClassifierWidget::updateGeometry()
     // Draw the bounding rectangle
     QSizeF templateBoxSize = textItemGroupAt(TemplateGroupIndex)->minimumSize();
 
-    // If we don't have template params, templatesBoxSize is empty.
-    if (templateBoxSize.isEmpty()) {
+    // If we don't have template params use entire size for params and operations.
+    if (textItemGroupAt(TemplateGroupIndex)->textItemCount() == 0) {
         totalMinSize = classifierMinSize;
         setMinimumSize(totalMinSize);
     }
     else {
-        // Add margin to both classifier and template box sizes.
-        QSizeF marginSize(2 * margin(), 2 * margin());
-        classifierMinSize += marginSize;
-        templateBoxSize += marginSize;
-
+        // minus margin() below because to overlap a bit.
         totalMinSize.setHeight(classifierMinSize.height() + templateBoxSize.height() - margin());
         totalMinSize.setWidth(classifierMinSize.width() + .5 * templateBoxSize.width());
 
@@ -497,21 +492,20 @@ QVariant ClassifierWidget::attributeChange(WidgetAttributeChange change, const Q
 void ClassifierWidget::calculateTemplateDrawing()
 {
     const qreal w = size().width();
-    const qreal m = margin();
 
     TextItemGroup *templateGroup = textItemGroupAt(TemplateGroupIndex);
     QSizeF templateGroupSize = templateGroup->minimumSize();
 
     // No template box if no templates or drawing as circle.
-    if (templateGroupSize.isEmpty() || shouldDrawAsCircle()) {
+    if (templateGroup->textItemCount() == 0 || shouldDrawAsCircle()) {
         m_templateRect = QRectF();
     }
     else {
         m_templateRect.setTop(0);
-        m_templateRect.setLeft(w - templateGroupSize.width() - 2 * m);
-        m_templateRect.setSize(templateGroupSize + QSizeF(2 * m, 2 * m)); // add margin
+        m_templateRect.setLeft(w - templateGroupSize.width());
+        m_templateRect.setSize(templateGroupSize);
 
-        templateGroup->setGroupGeometry(m_templateRect.adjusted(+m, +m, -m, -m));
+        templateGroup->setGroupGeometry(m_templateRect);
     }
 }
 
@@ -526,7 +520,6 @@ void ClassifierWidget::calculateClassifierDrawing()
 {
     const qreal w = size().width();
     const qreal h = size().height();
-    const qreal m = margin();
 
     TextItemGroup *classifierGroup = textItemGroupAt(ClassifierGroupIndex);
 
@@ -535,24 +528,24 @@ void ClassifierWidget::calculateClassifierDrawing()
         // for the text which is aligned bottom.
         qreal fontHeight = classifierGroup->minimumSize().height();
         m_classifierRect = rect();
-        m_classifierRect.setBottom(m_classifierRect.bottom() - fontHeight - 2 * m);
+        m_classifierRect.setBottom(m_classifierRect.bottom() - fontHeight);
 
-        QRectF groupRect(m, m_classifierRect.bottom() + m, w - 2 * m, fontHeight);
+        QRectF groupRect(0, m_classifierRect.bottom(), w, fontHeight);
         classifierGroup->setGroupGeometry(groupRect);
         m_classifierLines[0] = m_classifierLines[1] = QLineF();
     }
     else {
         // Utilize entire space if template box is empty.
-        if (m_templateRect.isEmpty()) {
+        if (textItemGroupAt(TemplateGroupIndex)->textItemCount() == 0) {
             m_classifierRect = rect();
         }
         else {
-            m_classifierRect.setTop(m_templateRect.bottom() - m);
+            m_classifierRect.setTop(m_templateRect.bottom() - margin());
             m_classifierRect.setLeft(0);
             m_classifierRect.setBottomRight(QPointF(m_templateRect.center().x(), h));
         }
 
-        classifierGroup->setGroupGeometry(m_classifierRect.adjusted(+m, +m, -m, -m));
+        classifierGroup->setGroupGeometry(m_classifierRect);
         const int cnt = classifierGroup->textItemCount();
         qreal expanderDistance = 4;
         if (cnt > m_lineItem1Index) {
@@ -570,7 +563,6 @@ void ClassifierWidget::calculateClassifierDrawing()
             m_operationExpanderBox->setPos(expanderX, y);
         }
     }
-    classifierGroup->setHoverBrush(QBrush(Qt::blue, Qt::Dense6Pattern));
 }
 
 /**
