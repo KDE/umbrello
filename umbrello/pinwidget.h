@@ -38,6 +38,10 @@ public:
     virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
+    /**
+     * This method updates the position of this widget with repect to the
+     * reference point \a reference.
+     */
     void updatePosition(const QPointF& reference);
 
 protected:
@@ -50,6 +54,11 @@ public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 private Q_SLOTS:
+
+    /**
+     * Hack! This is the only way i could get the pin widget attached to
+     * ActivityWidget on creation
+     */
     void setInitialPosition();
 
 private:

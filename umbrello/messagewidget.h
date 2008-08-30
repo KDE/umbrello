@@ -119,22 +119,58 @@ public:
     ObjectWidget* objectWidget(Uml::Role_Type role) const {
         return m_objectWidgets[role];
     }
+
+    /**
+     * Sets the related widget on the given side.
+     *
+     * @param ow        The ObjectWidget we are related to.
+     * @param role      The Uml::Role_Type to be set for the ObjectWidget
+     */
     void setObjectWidget(ObjectWidget * ow, Uml::Role_Type role) ;
 
     /// @return  The floating text widget we are related to.
     FloatingTextWidget * floatingTextWidget() const{
         return m_floatingTextWidget;
     }
+
+    /**
+     * Sets the text widget it is related to.
+     *
+     * @param f The text widget we are related to.
+     */
     void setFloatingTextWidget(FloatingTextWidget *f);
 
+    /**
+     * This method is called when an ObjectWidget associated with this
+     * widget moves.
+     *
+     * It sets the appropriate position and size for this MessageWidget
+     * based on the position of the ObjectWidgets.
+     */
     void handleObjectMove(ObjectWidget *wid);
 
     void setTextPosition();
+
+    /**
+     * Shortcut for calling m_floatingTextWidget->setLink() followed by
+     * this->setTextPosition().
+     */
     void setLinkAndTextPos();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
+    /**
+     * Returns the minimum height this widget should be set at on a
+     * sequence diagrams.  Takes into account the widget positions it is
+     * related to.
+     */
     qreal minY() const;
+
+    /**
+     * Returns the maximum height this widget should be set at on a
+     * sequence diagrams.  Takes into account the widget positions it is
+     * related to.
+     */
     qreal maxY() const;
 
     virtual void setupContextMenuActions(ListPopupMenu &menu);
@@ -154,6 +190,10 @@ private:
     static const qreal ArrowHeight;
     static const qreal SelfLoopBoxWidth;
 
+    /**
+     * Returns the textX arg with constraints applied.  Auxiliary to
+     * setTextPosition() and constrainTextPos().
+     */
     qreal constrainedX(qreal textX, qreal textWidth, Uml::Text_Role tr) const;
 
     void updateResizability();

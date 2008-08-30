@@ -242,7 +242,15 @@ public slots:
     void addAssociationClassField (UMLAssociation * assoc, bool syncToParentIfAdded = true);
     void removeAttributeClassField(UMLClassifierListItem *at);
     void removeAssociationClassField(UMLAssociation *assoc);
+
+    /**
+     * @param  o The Operation to add
+     */
     void addOperation (UMLClassifierListItem * obj);
+
+    /**
+     * @param       op
+     */
     void removeOperation (UMLClassifierListItem * obj);
     void syncToParent( );
 

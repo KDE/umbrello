@@ -50,7 +50,19 @@ public:
     NoteType noteType() const {
         return m_noteType;
     }
+
+    /**
+     * Sets the note type by converting the string parameter \a noteType
+     * to NoteWidget::NoteType.
+     * Provided for convenience.
+     */
     void setNoteType( NoteType noteType );
+
+    /**
+     * Sets the note type by converting the string parameter \a noteType
+     * to NoteWidget::NoteType.
+     * Provided for convenience.
+     */
     void setNoteType( const QString& noteType );
 
     /**
@@ -60,6 +72,14 @@ public:
     Uml::IDType diagramLink() const {
         return m_diagramLink;
     }
+
+    /**
+     * Set the ID of the diagram hyperlinked to this note.
+     * To switch off the hyperlink, set this to Uml::id_None.
+     *
+     * @param sceneID ID of an UMLScene.
+     * @todo Fix the display of diagram link.
+     */
     void setDiagramLink(Uml::IDType sceneID);
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
@@ -70,6 +90,11 @@ public:
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 public Q_SLOTS:
+
+    /**
+     * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+     * some menu actions.
+     */
     void slotMenuSelection(QAction* action);
 
 protected:

@@ -36,11 +36,29 @@ public:
 	// Uses NewUMLRectWidget::loadFromXMI to load from XMI
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
+    /**
+     * Reimplemented from NewUMLRectWidget::paint to draw PackageWidget.
+     */
 	void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
 
 protected:
+
+    /**
+     * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+     * minimum size.
+     */
     void updateGeometry();
+
+    /**
+     * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+     * texts and their properties.
+     */
 	void updateTextItemGroups();
+
+    /**
+     * Reimplemented from NewUMLRectWidget::attributeChange to handle
+     * SizeHasChanged in which the text position is updated.
+     */
 	QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:

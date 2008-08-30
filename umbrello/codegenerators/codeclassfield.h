@@ -96,6 +96,11 @@ public:
     ClassFieldType getClassFieldType() const;
 
     // quick utility call to figure out if parent is an attribute or not
+
+    /**
+     * Get the value of m_isAbstract.
+     * @return the value of m_isAbstract
+     */
     bool parentIsAttribute ( ) const;
 
     // get the type of object that will be added/removed from lists

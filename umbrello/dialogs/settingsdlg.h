@@ -53,8 +53,20 @@ public:
     QString getCodeGenerationLanguage();
 
 protected:
+
+    /**
+     * Inserts @p type into the type-combobox as well as its completion object.
+     */
     void insertDiagram( const QString& type, int index = -1 );
+
+    /**
+     * Inserts @p type into the type-combobox as well as its completion object.
+     */
     void insertAttribScope( const QString& type, int index = -1 );
+
+    /**
+     * Inserts @p type into the type-combobox as well as its completion object.
+     */
     void insertOperationScope( const QString& type, int index = -1 );
 
 private:

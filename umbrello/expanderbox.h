@@ -50,12 +50,21 @@ public:
     QPen pen() const {
         return m_pen;
     }
+
+    /**
+     * Set's the pen used to draw box and updates the boundingRect as it
+     * depends on pen width.
+     */
     void setPen(const QPen& pen);
 
     /// @return The brush used to fill the box.
     QBrush brush() const {
         return m_brush;
     }
+
+    /**
+     * Sets the brush used to fill the box and updates this box.
+     */
     void setBrush(const QBrush& brush);
 
     /// @return The geometry of the box (constant size)

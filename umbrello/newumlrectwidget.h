@@ -60,19 +60,69 @@ public:
 	QSizeF minimumSize() const {
 		return m_minimumSize;
 	}
+
+    /**
+     * This method is used to set the minimum size variable for this
+     * widget.
+     *
+     * @param newSize The size being set as minimum.
+     *
+     * @param option Adds (2 * margin()) to the size if
+     *               "option = AddMargin". Otherwise adds nothing.
+     *               Default value = AddMargin.
+     *
+     * This method only sets the variable m_minimumSize and doesn't update
+     * the geometry. The geometry should be explicitly updated using
+     * NewUMLWidget::updateGeometry()
+     */
 	void setMinimumSize(const QSizeF& newSize, SizeHintOption option = AddMargin);
 
 	/// @return The maximum size for this widget.
 	QSizeF maximumSize() const {
 		return m_maximumSize;
 	}
+
+    /**
+     * This method is used to set the maximum size variable for this
+     * widget.
+     *
+     * @param newSize The size being set as maximum.
+     *
+     * @param option Adds (2 * margin()) to the size if
+     *               "option = AddMargin". Otherwise adds nothing.
+     *               Default value = AddMargin.
+     *
+     * This method only sets the variable m_maximumSize and doesn't update
+     * the geometry. The geometry should be explicitly updated using
+     * NewUMLWidget::updateGeometry()
+     */
 	void setMaximumSize(const QSizeF& newSize, SizeHintOption option = AddMargin);
 
 	/// @return The current size of this widget.
     QSizeF size() const {
 		return m_size;
 	}
+
+    /**
+     * Sets the size of the widget to \a size.
+     *
+     * Also notifies self and subclasses with @ref SizeHasChanged
+     * notification after setting the new size.
+     * @see NewUMLRectWidget::attributeChange
+     *
+     * @param size The new size (minimumSize < size < maximumSize)
+     */
     void setSize(const QSizeF &size);
+
+    /**
+     * Sets the size of the widget to \a size.
+     *
+     * Also notifies self and subclasses with @ref SizeHasChanged
+     * notification after setting the new size.
+     * @see NewUMLRectWidget::attributeChange
+     *
+     * @param size The new size (minimumSize < size < maximumSize)
+     */
     void setSize(qreal width, qreal height) {
         setSize(QSizeF(width, height));
     }
@@ -114,12 +164,23 @@ public:
 	qreal margin() const {
 		return m_margin;
 	}
+
+    /**
+     * Sets the margin of this widget to \a margin. This method only
+     * updates the variable. To see the effective margin, updateGeometry()
+     * should be called.
+     */
 	void setMargin(qreal margin);
 
 	/// @return The instance name for this widget.
     QString instanceName() const {
 		return m_instanceName;
 	}
+
+    /**
+     * Set the instance name for this widget. Calls updateGeometry
+     * implicitly.
+     */
     void setInstanceName(const QString &name);
 
 	/// @return Whether this is an instance or not.
@@ -139,7 +200,20 @@ public:
     AssociationWidgetList associationWidgetList() const {
 		return m_associationWidgetList;
 	}
+
+    /**
+     * Adds a association widget to the internal list that involves this
+     * widget.
+     *
+     * @param assoc An association widget connected to this widget.
+     */
     void addAssociationWidget(AssociationWidget *assoc);
+
+    /**
+     * Removes a association widget from the internal list that involves this widget.
+     *
+     * @param assoc The association widget that should be removed.
+     */
     void removeAssociationWidget(AssociationWidget *assoc);
     virtual void adjustAssociations();
 
@@ -162,8 +236,21 @@ protected:
 
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
+    /**
+     * Creates a new TextItemGroup, appends it to internal list -
+     * m_textItemGroups and returns a pointer to the same.
+     */
 	TextItemGroup* createTextItemGroup();
+
+    /**
+     * @return Index of the group in the internal list - m_textItemGroups
+     */
 	int indexOfTextItemGroup(TextItemGroup *group) const;
+
+    /**
+     * @return TextItemGroup present at index in internal list -
+     *         m_textItemGroups
+     */
 	TextItemGroup* textItemGroupAt(int index) const;
 	virtual void updateTextItemGroups();
 

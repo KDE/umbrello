@@ -45,6 +45,10 @@ public:
     }
     void setLineWidth(int w);
 
+    /**
+     * Creates/destroyes the lines corresponding to destruction box based
+     * on whether it should be shown or not.
+     */
     void updateDestructionBoxVisibility();
     bool onDestructionBox(const QPointF& localPos);
 
@@ -53,6 +57,13 @@ public:
         return m_length;
     }
     void setLength(qreal length);
+
+    /**
+     * Sets 'y' coordinate  of end of line.
+     *
+     * @param yPos This represents 'y' in scene coords which will become
+     *             end of line.
+     */
     void setEndOfLine(qreal yPosition);
 
     /// @return  Pointer to the associated ObjectWidget.
@@ -80,6 +91,11 @@ public:
 private:
     static const qreal DestructionBoxSize;
 
+    /**
+     * Calculates the new shape and new bounding rect for this widget
+     * based on current values of m_sequentialLine and
+     * m_destructionBoxLines.
+     */
     void updateGeometry();
 
     ObjectWidget * m_objectWidget;

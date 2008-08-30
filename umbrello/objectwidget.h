@@ -50,44 +50,104 @@ public:
     Uml::IDType localID() const {
         return m_localID;
     }
+
+    /**
+     * Sets the local ID for this widget. See @ref ObjectWidget::localID
+     * for more information about this id.
+     */
     void setLocalID(const Uml::IDType& id);
 
     /// @retval True if this represents multiple instances of an object.
     bool multipleInstance() const {
         return m_multipleInstance;
     }
+
+    /**
+     * Sets whether this ObjectWidget represents multiple instance.
+     */
     void setMultipleInstance(bool multiple);
 
     /// @retval True if widget is drawn as an actor.
     bool drawAsActor() const {
         return m_drawAsActor;
     }
+
+    /**
+     * Sets whether the object should be drawn as an actor or just a
+     * rectangle.
+     */
     void setDrawAsActor( bool drawAsActor );
 
     /// @retval True if destruction on sequence line is shown.
     bool showDestruction() const {
         return m_showDestruction;
     }
+
+    /**
+     * Sets the destruction visibility on the end of sequential line.
+     */
     void setShowDestruction( bool bShow );
 
+    /**
+     * @return Y coordinate of the space between the diagram top and
+     *         the upper edge of the ObjectWidget.
+     */
     qreal topMargin() const;
     bool canTabUp() const;
 
+    /**
+     * @return Y coordinate of the endpoint of the sequence line (scene
+     *         coords)
+     */
     qreal lineEndY() const;
+
+    /**
+     * @return Y coordinate of the endpoint of the sequence line in parent
+     *           that is this ObjectWidget coordinates.
+     */
     qreal lineEndYInParentCoords() const;
+
+    /**
+     * Sets the y position of the bottom of the vertical line.
+     *
+     * @param yPosition The y coordinate for the bottom of the line.
+     */
     void setLineEndY(qreal yPosition);
 
     qreal sequentialLineX() const;
 
+    /**
+     * Adds \a message linked to this widget to the MessageList of this
+     * ObjectWidget.
+     */
     void messageAdded(MessageWidget* message);
+
+    /**
+     * Removes \a message linked to this widget from the MessageList of
+     * this ObjectWidget.
+     */
     void messageRemoved(MessageWidget* message);
 
+    /**
+     * @return Whether a message is overlapping with another message.
+     *
+     * Used by MessageWidget::draw() methods.
+     *
+     * @param y              The top of your message.
+     * @param messageWidget  A pointer to your message so it doesn't
+     *                       check against itself.
+     */
     bool messageOverlap(qreal y, MessageWidget* messageWidget) const;
 
     /// @return The SeqLineWidget of this ObjectWidget
     SeqLineWidget *sequentialLine() const {
         return m_sequentialLine;
     }
+
+    /**
+     * Adjusts the end of sequential line to nice position to accomodate
+     * the MessageWidgets nicely.
+     */
     void adjustSequentialLineEnd();
 
     virtual bool loadFromXMI( QDomElement & qElement );
@@ -106,7 +166,16 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
 private:
+
+    /**
+     * Shifts the object a little higher, provided it is still in diagram
+     * limits.
+     */
     void tabUp();
+
+    /**
+     * Shifts this object a little lower.
+     */
     void tabDown();
 
     static const QSizeF ActorSize;

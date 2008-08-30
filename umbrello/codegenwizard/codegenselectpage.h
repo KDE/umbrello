@@ -29,15 +29,41 @@ class CodeGenSelectPage : public QWizardPage, private Ui::CodeGenSelectPage
 public:
     CodeGenSelectPage(QWidget * parent = 0);
     ~CodeGenSelectPage();
+
+    /**
+     * Loads the available classes for selection / deselection
+     * into the list widget.
+     * @param classList   the available classes for generation
+     */
     void setClassifierList(UMLClassifierList *classList);
+
+    /**
+     * Reimplemented QWizardPage method the enable / disable the next button.
+     * @return   complete state 
+     */
     bool isComplete() const;
+
+    /**
+     * Returns the list widget, which holds the classes for generation.
+     * @return   the list widget of the selected classes
+     */
     QListWidget* getSelectionListWidget();
 
 private:
     static void moveSelectedItems(QListWidget* fromList, QListWidget* toList);
 
 protected slots:
+
+    /**
+     * Adds the classes selected in the available classes list to the
+     * list of classes used to generate the code.
+     */
     void selectClass();
+
+    /**
+     * Removes the classes selected in the selected classes list from the
+     * list of classes used to generate the code.
+     */
     void deselectClass();
 
 };

@@ -41,6 +41,12 @@ public:
     bool showPackage() const {
         return m_showPackage;
     }
+
+    /**
+     * Set whether to show package or not.
+     *
+     * @param b True to show package, false to hide.
+     */
     void setShowPackage(bool b);
     /// Toggles the status of package show.
     void toggleShowPackage() {

@@ -137,6 +137,10 @@ private:
 
 public slots:
 
+    /**
+     * Create the string representation of this code parameter.
+     * @return      QString
+     */
     void syncToParent ();
 
 };

@@ -42,6 +42,13 @@ protected:
     virtual void updateGeometry();
 
 public Q_SLOTS:
+
+    /**
+     * Will be called when a menu selection has been made from the
+     * popup menu.
+     *
+     * @param action    The action that has been selected.
+     */
     void slotMenuSelection(QAction* action);
 };
 

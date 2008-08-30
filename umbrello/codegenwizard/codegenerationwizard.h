@@ -39,11 +39,35 @@ public:
     CodeGenerationWizard(UMLClassifierList *classList);
     ~CodeGenerationWizard();
 
+    /**
+     * Returns the list widget, which holds the classes for generation.
+     * With this function the list of classes to generate can be transferred
+     * from the select page to the status page.
+     * @return   the list widget
+     */
     QListWidget* getSelectionListWidget();
 
 private:
+
+    /**
+     * Creates the class selection page.
+     * @param classList   the list of classes, which have to be generated
+     * @return            the wizard page
+     */
     QWizardPage* createSelectionPage(UMLClassifierList *classList);
+
+    /**
+     * Creates the code generation options page, which allows to tune 
+     * the code generation by setting some parameters.
+     * @return   the wizard page
+     */
     QWizardPage* createOptionsPage();
+
+    /**
+     * Creates the code generation status page, which shows the progress
+     * of the generation.
+     * @return   the wizard page
+     */
     QWizardPage* createStatusPage();
 
     CodeGenSelectPage  *m_SelectionPage;

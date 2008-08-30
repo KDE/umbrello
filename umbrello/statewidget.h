@@ -48,11 +48,32 @@ public:
 	}
 	void setStateType( StateType stateType );
 
+    /**
+     * Adds an activity to this widget.
+     * @return true on success
+     */
     bool addActivity( const QString &activity );
+
+    /**
+     * Removes an \a activity from this widget if it exists
+     * @return true on success
+     */
 	bool removeActivity( const QString &activity );
+
+    /**
+     * Renames an \a activity to \a newName.
+     * @return true on success.
+     */
 	bool renameActivity( const QString &activity, const QString &newName );
 
+    /**
+     * @return The activity texts as a QStringList.
+     */
 	QStringList activities() const;
+
+    /**
+     * Sets the activities from \a list.
+     */
 	void setActivities( QStringList & list );
 
 	virtual void showPropertiesDialog();

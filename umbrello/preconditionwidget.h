@@ -35,7 +35,22 @@ public:
     PreconditionWidget( ObjectWidget* a, Uml::IDType id = Uml::id_None );
     virtual ~PreconditionWidget();
 
+    /**
+     * @return The 'y' position in terms of the parent item coordinates
+     *         i.e - the ObjectWidget, that can at minimum be set to this
+     *         widget.
+     *
+     * Uses ObjectWidget to calculate this minimum.
+     */
     qreal minY() const;
+
+    /**
+     * @return The 'y' position in terms of the parent item coordinates
+     *         i.e - the ObjectWidget, that can at maximum be set to this
+     *         widget.
+     *
+     * Uses ObjectWidget to calculate this maximum.
+     */
     qreal maxY() const;
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *w);

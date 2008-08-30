@@ -34,17 +34,40 @@ public:
     TextItem(const QString& text, QGraphicsItem *parent = 0);
     ~TextItem();
 
+    /**
+     * @return The alignment for the item's text.
+     * @see setAlignment
+     */
     Qt::Alignment alignment() const;
+
+    /**
+     * Set the alignment for the item's text.
+     *
+     * @param align An OR combination specifying the alignment.
+     *
+     * @note The text width of this item should be set by setTextWidth for
+     *       center alignment.
+     */
     void setAlignment(Qt::Alignment align);
 
     bool bold() const {
         return font().bold();
     }
+
+    /**
+     * Sets the font weight to \a b
+     *
+     * @param b True to enable bold, false otherwise.
+     */
     void setBold(bool b);
 
     bool italic() const {
         return font().italic();
     }
+
+    /**
+     * Sets the italic property of font to \a b.
+     */
     void setItalic(bool i);
 
 	bool underline() const {
@@ -62,22 +85,49 @@ public:
     QString text() const;
     void setText(const QString& text);
 
+    /**
+     * Reimplemented to retain the italic/bold status on font change.
+     *
+     * It is important to note that, this method retains the old bold,
+     * italic and underline property of the font and hence all these
+     * properties should be set explicitly.
+     *
+     * @note This overrides (hides) the base's non virtual method.
+     */
     void setFont(QFont font);
 
 
     QBrush hoverBrush() const {
         return m_hoverBrush;
     }
+
+    /**
+     * Sets the brush to paint background of text on mouse hover.  Default
+     * brush = Qt::NoBrush
+     *
+     * @note The hover events should be enabled for this to work.
+          * @see QGraphicsTextItem::setAcceptHoverEvent(bool)
+     */
     void setHoverBrush(const QBrush& brush);
 
 
     QBrush backgroundBrush() const {
         return m_backgroundBrush;
     }
+
+    /**
+     * Sets the background brush to \a brush which is used to paint as
+     * background of text.
+     * Default brush = Qt::NoBrush
+     */
     void setBackgroundBrush(const QBrush& brush);
 
     void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *w);
 
+    /**
+     * This is a utility method to copy all the attributes of this
+     * TextItem to \a other TextItem.
+     */
     void copyAttributesTo(TextItem *other) const;
 
 protected:

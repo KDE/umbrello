@@ -54,26 +54,96 @@ public:
     CombinedFragmentType combinedFragmentType() const {
         return m_combinedFragmentType;
     }
+
+    /**
+     * Sets the combined fragment type of this widget to \a
+     * combinedFragmentType and then updates the dash lines based on the
+     * new type.
+     */
     void setCombinedFragmentType(CombinedFragmentType type);
 
     static CombinedFragmentType stringToCombinedFragementType(const QString& string);
 
+    /**
+     * Pops up a dialog box and asks for the name.
+     */
     void askNameForWidgetType(NewUMLRectWidget* &targetWidget, const QString& dialogTitle,
                               const QString& dialogPrompt, const QString& defaultName);
 
+    /**
+     * Reimplemented from NewUMLRectWidget::loadFromXMI to load
+     * CombinedFragmentWidget data from XMI.
+     *
+     * This method also loads the child FloatingDashLineWidgets.
+     */
     bool loadFromXMI( QDomElement & qElement );
+
+    /**
+     * Reimplemented from NewUMLRectWidget::saveToXMI to save widget data
+     * into 'combinedfragmentwidget' XMI element.
+     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 public Q_SLOTS:
+
+    /**
+     * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+     * some specific actions.
+     */
     void slotMenuSelection(QAction* action);
 
 protected:
+
+    /**
+     * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+     * the minimum size for this widget.
+     */
     void updateGeometry();
+
+    /**
+     * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+     * the TextItem's values and TextItems visibility.
+     */
     void updateTextItemGroups();
+
+    /**
+     * Reimplemented from NewUMLRectWidget::attributeChange to handle
+     *
+     * - SizeHasChanged -> To set text position and update floating
+     *                     widget's position and limits.
+     *
+     * - FontHasChanged -> Sets the CombinedFragmentWidget's changed font
+     *                     to all the FloatingDashLineWidgets.
+     *
+     * - FontColorHasChanged -> Sets the CombinedFragmentWidget's changed
+     *                          fontcolor to all the
+     *                          FloatingDashLineWidgets.
+     *
+     * - LineColorHasChanged -> Sets the CombinedFragmentWidget's changed
+     *                          line color to all the
+     *                          FloatingDashLineWidgets.
+     *
+     * - LineWidthHasChanged -> Sets the CombinedFragmentWidget's changed
+     *                          line width to all the
+     *                          FloatingDashLineWidgets.
+     */
     QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
+
+    /**
+     * Helper method which applies this CombinedFragmentWidget's
+     * properties to the FloatingDashLineWidget.
+     *
+     * This method is used mostly during creation of
+     * FloatingDashLineWidget.
+     */
     void setupFloatingWidget(FloatingDashLineWidget *widget);
+
+    /**
+     * Helper method which updates the FloatingDashLineWidget's dimensions
+     * and constraint values.
+     */
     void updateFloatingWidgetsPosition();
 
     CombinedFragmentType m_combinedFragmentType;
