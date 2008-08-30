@@ -220,8 +220,7 @@ QVariant ActivityWidget::attributeChange(WidgetAttributeChange change, const QVa
 {
 	if(change == SizeHasChanged) {
 		TextItemGroup *grp = textItemGroupAt(ActivityWidget::TextGroupIndex);
-		qreal m = margin();
-		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+		grp->setGroupGeometry(rect());
 
         foreach(QGraphicsItem *child, childItems()) {
             PinWidget *pin = dynamic_cast<PinWidget*>(child);
