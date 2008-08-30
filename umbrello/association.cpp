@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -50,24 +49,24 @@ UMLAssociation::UMLAssociation( Uml::Association_Type type /* = Uml::at_Unknown 
 }
 
 // destructor
-UMLAssociation::~UMLAssociation( ) {
+UMLAssociation::~UMLAssociation( )
+{
     if (m_pRole[A] == NULL) {
-        uError() << "UMLAssociation destructor: m_pRole[A] is NULL already"
-        << endl;
+        uError() << "UMLAssociation destructor: m_pRole[A] is NULL already";
     } else {
         delete m_pRole[A];
         m_pRole[A] = NULL;
     }
     if (m_pRole[B] == NULL) {
-        uError() << "UMLAssociation destructor: m_pRole[B] is NULL already"
-        << endl;
+        uError() << "UMLAssociation destructor: m_pRole[B] is NULL already";
     } else {
         delete m_pRole[B];
         m_pRole[B] = NULL;
     }
 }
 
-bool UMLAssociation::operator==(const UMLAssociation &rhs) {
+bool UMLAssociation::operator==(const UMLAssociation &rhs)
+{
     if (this == &rhs) {
         return true;
     }
@@ -103,7 +102,8 @@ const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
             i18n("Relationship" )               // at_Relationship
         };
 
-Uml::Association_Type UMLAssociation::getAssocType() const {
+Uml::Association_Type UMLAssociation::getAssocType() const
+{
     return m_AssocType;
 }
 
@@ -148,7 +148,8 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
             atype == Uml::at_Child2Category);
 }
 
-bool UMLAssociation::resolveRef() {
+bool UMLAssociation::resolveRef()
+{
     bool successA = getUMLRole(A)->resolveRef();
     bool successB = getUMLRole(B)->resolveRef();
     if (successA && successB) {
@@ -165,7 +166,8 @@ bool UMLAssociation::resolveRef() {
     return false;
 }
 
-void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     if (m_AssocType == Uml::at_Generalization) {
         QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
         assocElement.setAttribute( "discriminator", "" );
@@ -211,7 +213,8 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.appendChild( associationElement );
 }
 
-bool UMLAssociation::load( QDomElement & element ) {
+bool UMLAssociation::load( QDomElement & element )
+{
     if (getID() == Uml::id_None)
         return false; // old style XMI file. No real info in this association.
 
@@ -244,7 +247,7 @@ bool UMLAssociation::load( QDomElement & element ) {
                     Uml::Model_Type mt = Model_Utils::convert_OT_MT(obj[r]->getBaseType());
                     m_pUMLPackage = doc->getRootFolder(mt);
                     uDebug() << "assoctype " << m_AssocType
-                        << ": setting model type " << mt << endl;
+                        << ": setting model type " << mt;
                 }
             }
         }
@@ -273,7 +276,7 @@ bool UMLAssociation::load( QDomElement & element ) {
                 if (idStr.isEmpty()) {
                     uError() << "type " << m_AssocType
                         << ", id " << ID2STR(getID()) << ": "
-                        << "xmi id not given for " << tag << endl;
+                        << "xmi id not given for " << tag;
                     continue;
                 }
                 // Since we know for sure that we're dealing with a non
@@ -307,7 +310,7 @@ bool UMLAssociation::load( QDomElement & element ) {
         if (!tagEq(tag, "Association.connection") &&
                 !tagEq(tag, "Namespace.ownedElement") &&
                 !tagEq(tag, "Namespace.contents")) {
-            uWarning() << "unknown child node " << tag << endl;
+            uWarning() << "unknown child node " << tag;
             continue;
         }
         // Load role A.
@@ -322,7 +325,7 @@ bool UMLAssociation::load( QDomElement & element ) {
         tag = tempElement.tagName();
         if (!tagEq(tag, "AssociationEndRole") &&
                 !tagEq(tag, "AssociationEnd")) {
-            uWarning() << "unknown child (A) tag " << tag << endl;
+            uWarning() << "unknown child (A) tag " << tag;
             return false;
         }
         if (! getUMLRole(A)->loadFromXMI(tempElement))
@@ -339,7 +342,7 @@ bool UMLAssociation::load( QDomElement & element ) {
         tag = tempElement.tagName();
         if (!tagEq(tag, "AssociationEndRole") &&
                 !tagEq(tag, "AssociationEnd")) {
-            uWarning() << "unknown child (B) tag " << tag << endl;
+            uWarning() << "unknown child (B) tag " << tag;
             return false;
         }
         if (! getUMLRole(B)->loadFromXMI(tempElement))
@@ -409,8 +412,7 @@ bool UMLAssociation::load( QDomElement & element ) {
     } else {
         int assocTypeNum = assocTypeStr.toInt();
         if (assocTypeNum < (int)atypeFirst || assocTypeNum > (int)atypeLast) {
-            uWarning() << "bad assoctype of UML:Association "
-            << ID2STR(getID()) << endl;
+            uWarning() << "bad assoctype of UML:Association " << ID2STR(getID());
             return false;
         }
         assocType = (Uml::Association_Type)assocTypeNum;
@@ -472,22 +474,24 @@ bool UMLAssociation::load( QDomElement & element ) {
     return true;
 }
 
-UMLObject* UMLAssociation::getObject(Uml::Role_Type role) {
+UMLObject* UMLAssociation::getObject(Uml::Role_Type role)
+{
     if (m_pRole[role] == NULL)
         return NULL;
     return m_pRole[role]->getObject();
 }
 
-Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) {
+Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role)
+{
     UMLRole *roleObj = m_pRole[role];
     UMLObject *o = roleObj->getObject();
     if (o == NULL) {
         QString auxID = roleObj->getSecondaryId();
         if (auxID.isEmpty()) {
-            uError() << "role " << role << ": getObject returns NULL" << endl;
+            uError() << "role " << role << ": getObject returns NULL";
             return Uml::id_None;
         } else {
-            uDebug() << "role " << role << ": using secondary ID " << auxID << endl;
+            uDebug() << "role " << role << ": using secondary ID " << auxID;
             return STR2ID(auxID);
         }
     }
@@ -500,41 +504,50 @@ Uml::IDType UMLAssociation::getRoleId(Role_Type role) const {
 }
  */
 
-Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) const {
+Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) const
+{
     return m_pRole[role]->getChangeability();
 }
 
-Uml::Visibility UMLAssociation::getVisibility(Uml::Role_Type role) const {
+Uml::Visibility UMLAssociation::getVisibility(Uml::Role_Type role) const
+{
     return m_pRole[role]->getVisibility();
 }
 
-QString UMLAssociation::getMulti(Uml::Role_Type role) const {
+QString UMLAssociation::getMulti(Uml::Role_Type role) const
+{
     return m_pRole[role]->getMultiplicity();
 }
 
-QString UMLAssociation::getRoleName(Uml::Role_Type role) const {
+QString UMLAssociation::getRoleName(Uml::Role_Type role) const
+{
     return m_pRole[role]->getName();
 }
 
-QString UMLAssociation::getRoleDoc(Uml::Role_Type role) const {
+QString UMLAssociation::getRoleDoc(Uml::Role_Type role) const
+{
     return m_pRole[role]->getDoc();
 }
 
-UMLRole * UMLAssociation::getUMLRole(Uml::Role_Type role) {
+UMLRole * UMLAssociation::getUMLRole(Uml::Role_Type role)
+{
     return m_pRole[role];
 }
 
-void UMLAssociation::setOldLoadMode(bool value /* = true */) {
+void UMLAssociation::setOldLoadMode(bool value /* = true */)
+{
     m_bOldLoadMode = value;
 }
 
-bool UMLAssociation::getOldLoadMode() const {
+bool UMLAssociation::getOldLoadMode() const
+{
     return m_bOldLoadMode;
 }
 
-void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
+void UMLAssociation::setAssocType(Uml::Association_Type assocType)
+{
     m_AssocType = assocType;
-    if(m_AssocType == at_UniAssociation)
+    if (m_AssocType == at_UniAssociation)
     {
         // In this case we need to auto-set the multiplicity/rolenames
         // of the roles
@@ -545,32 +558,39 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType) {
     UMLObject::emitModified();
 }
 
-void UMLAssociation::setObject(UMLObject *obj, Uml::Role_Type role) {
+void UMLAssociation::setObject(UMLObject *obj, Uml::Role_Type role)
+{
     m_pRole[role]->setObject(obj);
 }
 
-void UMLAssociation::setVisibility(Uml::Visibility value, Uml::Role_Type role) {
+void UMLAssociation::setVisibility(Uml::Visibility value, Uml::Role_Type role)
+{
     m_pRole[role]->setVisibility(value);
 }
 
-void UMLAssociation::setChangeability(Uml::Changeability_Type value, Uml::Role_Type role) {
+void UMLAssociation::setChangeability(Uml::Changeability_Type value, Uml::Role_Type role)
+{
     m_pRole[role]->setChangeability(value);
 }
 
-void UMLAssociation::setMulti(const QString &value, Uml::Role_Type role) {
+void UMLAssociation::setMulti(const QString &value, Uml::Role_Type role)
+{
     UMLApp::app()->executeCommand(new CmdChangeMulti(m_pRole[role], value));
     //m_pRole[role]->setMultiplicity(value);
 }
 
-void UMLAssociation::setRoleName(const QString &value, Uml::Role_Type role) {
+void UMLAssociation::setRoleName(const QString &value, Uml::Role_Type role)
+{
     m_pRole[role]->setName(value);
 }
 
-void UMLAssociation::setRoleDoc(const QString &doc, Uml::Role_Type role) {
+void UMLAssociation::setRoleDoc(const QString &doc, Uml::Role_Type role)
+{
     m_pRole[role]->setDoc(doc);
 }
 
-QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type) {
+QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type)
+{
     switch (type) {
     case Uml::chg_Frozen:
         return "frozen";
@@ -585,17 +605,18 @@ QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type) {
     }
 }
 
-void UMLAssociation::init(Uml::Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj) {
+void UMLAssociation::init(Uml::Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj)
+{
     m_AssocType = type;
     m_BaseType = ot_Association;
     m_Name = "";
     m_bOldLoadMode = false;
     nrof_parent_widgets = -1;
-    if (!UMLApp::app()->getDocument()->loading())
+    if (!UMLApp::app()->getDocument()->loading()) {
         m_pUMLPackage = UMLApp::app()->getDocument()->currentRoot();
+    }
     m_pRole[Uml::A] = new UMLRole (this, roleAObj, Uml::A);
     m_pRole[Uml::B] = new UMLRole (this, roleBObj, Uml::B);
 }
-
 
 #include "association.moc"
