@@ -94,6 +94,7 @@ NewUMLWidget::NewUMLWidget(UMLObject *object) :
     m_lineWidth(0),
     m_brush(awesomeBrush()),
     m_widgetInterfaceData(0),
+    m_isSceneSetBefore(false),
     firstTime(true)
 {
     if(!object) {
@@ -102,8 +103,6 @@ NewUMLWidget::NewUMLWidget(UMLObject *object) :
     setFlags(ItemIsSelectable | ItemIsMovable);
     hide(); // Show up in slotInit
 
-    // Call init this way so that virtual methods may be called.
-    QTimer::singleShot(0, this, SLOT(slotInit()));
 
     // DEPRECATED INITIALIZATION
     {
@@ -140,6 +139,7 @@ void NewUMLWidget::setUMLObject(UMLObject *obj)
 
     if(m_umlObject) {
         delete m_widgetInterfaceData;
+        m_widgetInterfaceData = 0;
         connect(umlObject(), SIGNAL(modified()), this,
                 SLOT(slotUMLObjectDataChanged()));
     }
@@ -303,7 +303,7 @@ void NewUMLWidget::setLineColor(const QColor& color)
     const QColor oldColor = lineColor();
     m_lineColor = color;
     if(!m_lineColor.isValid()) {
-        uDebug() << "Invalid color";
+        uWarning() << "Invalid color";
         m_lineColor = Qt::black;
     }
 
@@ -741,7 +741,12 @@ void NewUMLWidget::slotInit()
     attributeChange(FontHasChanged, v);
     attributeChange(FontColorHasChanged, v);
     attributeChange(BrushHasChanged, v);
+    // TODO: or rather we can assign the umlScene's default properties
+    // for this widget as umlScene would have been created by now (see
+    // NewUMLWidget::itemChange where ItemSceneHasChanged is handled.)
+
     show(); // Now show the item
+    updateGeometry(); // Now just update the geometry for the first ever time after it is shown.
 }
 
 /**
@@ -750,12 +755,25 @@ void NewUMLWidget::slotInit()
 void NewUMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     ListPopupMenu menu(0, this, false, false);
+    setupContextMenuActions(menu);
+
+    event->accept();
+
     QAction *triggered = menu.exec(event->screenPos());
     if(triggered) {
+        ListPopupMenu *parent = qobject_cast<ListPopupMenu*>(triggered->parent());
+        if (parent) {
+            NewUMLWidget *actionMenuOwner = parent->ownerWidget();
+            if (actionMenuOwner) {
+                actionMenuOwner->slotMenuSelection(triggered);
+                return;
+            }
+        }
+
+        // If owner fetching fails, then we force *menu* to be parent of triggered action.
         triggered->setParent(&menu);
-        slotMenuSelection(triggered);
+        this->slotMenuSelection(triggered);
     }
-    event->accept();
 }
 
 /**
@@ -789,6 +807,23 @@ QVariant NewUMLWidget::attributeChange(WidgetAttributeChange change, const QVari
         break;
     }
     return QVariant();
+}
+
+/**
+ * Do some initialization on first scene change.
+ */
+QVariant NewUMLWidget::itemChange(GraphicsItemChange change, const QVariant& value)
+{
+    if (change == ItemSceneHasChanged) {
+        UMLScene *uScene = umlScene();
+        if (uScene && !m_isSceneSetBefore) {
+            m_isSceneSetBefore = true;
+            // Use timer to disambiguate situation where virtual
+            // functions might not call be called appropriately.
+            QTimer::singleShot(10, this, SLOT(slotInit()));
+        }
+    }
+    return QGraphicsItem::itemChange(change, value);
 }
 
 /**
@@ -885,6 +920,7 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, UMLObject *object) :
     m_lineWidth(0),
     m_brush(awesomeBrush()),
     m_widgetInterfaceData(0),
+    m_isSceneSetBefore(false),
     firstTime(true)
 {
     for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
@@ -896,8 +932,6 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, UMLObject *object) :
     }
     setFlags(ItemIsSelectable | ItemIsMovable);
     hide();
-    // Call init this way so that virtual methods may be called.
-    QTimer::singleShot(0, this, SLOT(slotInit()));
     if(scene) {
         scene->addItem(this);
     }
@@ -908,6 +942,7 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, const Uml::IDType &_id) :
     m_lineColor(Qt::red),
     m_lineWidth(0),
     m_brush(awesomeBrush()),
+    m_isSceneSetBefore(false),
     firstTime(true)
 {
     for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
@@ -926,8 +961,6 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, const Uml::IDType &_id) :
     }
     hide();
     setFlags(ItemIsSelectable | ItemIsMovable);
-    // Call init this way so that virtual methods may be called.
-    QTimer::singleShot(0, this, SLOT(slotInit()));
 }
 
 void NewUMLWidget::setDefaultFontMetrics(NewUMLWidget::FontType fontType)

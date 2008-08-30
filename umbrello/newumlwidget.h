@@ -171,6 +171,7 @@ protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
     virtual void updateGeometry();
 
@@ -201,6 +202,12 @@ private:
     // End of properties that will be saved.
 
     WidgetInterfaceData *m_widgetInterfaceData;
+
+    /**
+     * This is used to ensure that there is only one initialization when a
+     * new UMLScene is set for this widget for the first time.
+     */
+    bool m_isSceneSetBefore;
     /*
      * Disable the copy constructor and assignment operator.
      */
