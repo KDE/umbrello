@@ -28,6 +28,7 @@ const qreal TextItemGroup::NoLineBreak = -1;
 TextItemGroup::TextItemGroup(QGraphicsItem *parent) :
     m_parentItem(parent),
     m_lineBreakageWidth(TextItemGroup::NoLineBreak),
+    m_margin(0),
 	m_alignment(Qt::AlignCenter),
 	m_fontColor(Qt::black),
 	m_hoverBrush(Qt::NoBrush),
@@ -150,6 +151,9 @@ QSizeF TextItemGroup::minimumSize() const
         height += calcItem->height();
     }
 
+    width += 2 * m_margin;
+    height += 2 * m_margin;
+
     delete calcItem;
 
     return QSizeF(width, height);
@@ -175,8 +179,8 @@ void TextItemGroup::setGroupGeometry(const QRectF& rect)
     }
 
     qreal spacing = (rect.height() - minSize.height()) / (visibleItems.count() + 1);
-    qreal x = rect.left();
-    qreal y = rect.top() + spacing;
+    qreal x = rect.left() + m_margin;
+    qreal y = (rect.top() + m_margin) + spacing;
 
     foreach(TextItem *item, visibleItems) {
         item->setTextWidth(rect.width());

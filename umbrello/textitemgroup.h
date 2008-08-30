@@ -68,6 +68,13 @@ public:
     }
     void setLineBreakWidth(qreal w);
 
+    qreal margin() const {
+        return m_margin;
+    }
+    void setMargin(qreal m) {
+        m_margin = m;
+    }
+
 	QSizeF minimumSize() const;
 
 	QRectF groupGeometry() const {
@@ -105,6 +112,7 @@ private:
     QList<TextItem*> m_textItems;
 	QRectF m_groupGeometry;
     qreal m_lineBreakageWidth;
+    qreal m_margin;
 
 	Qt::Alignment m_alignment;
 	QColor m_fontColor;
