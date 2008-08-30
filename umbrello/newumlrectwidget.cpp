@@ -19,9 +19,13 @@
 
 #include "newumlrectwidget.h"
 
+#include "dialogs/classpropdlg.h"
+#include "docwindow.h"
 #include "listpopupmenu.h"
 #include "textitem.h"
 #include "textitemgroup.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "umlscene.h"
 #include "widget_utils.h"
 #include "widgethandle.h"
@@ -193,9 +197,17 @@ void NewUMLRectWidget::removeAssociationWidget(AssociationWidget *assoc)
 
 void NewUMLRectWidget::showPropertiesDialog()
 {
-    QDialog stubDialog;
-    stubDialog.setWindowTitle("Stub.. To be worked out still.");
-    stubDialog.exec();
+    // will already be selected so make sure docWindow updates the doc
+    // back it the widget
+    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    docwindow->updateDocumentation(false);
+    ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
+
+    if (dlg->exec()) {
+        docwindow->showDocumentation(getUMLObject() , true);
+        umlDoc()->setModified(true);
+    }
+    dlg->close(); //wipe from memory
 }
 
 void NewUMLRectWidget::setupContextMenuActions(ListPopupMenu &menu)
