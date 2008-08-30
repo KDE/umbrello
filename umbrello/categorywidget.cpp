@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -26,7 +25,7 @@
  */
 CategoryWidget::CategoryWidget(UMLCategory *o) : NewUMLRectWidget(o)
 {
-	m_baseType = Uml::wt_Category;
+    m_baseType = Uml::wt_Category;
 }
 
 /// Destructor
@@ -37,30 +36,31 @@ CategoryWidget::~CategoryWidget()
 /// Reimplemented from NewUMLRectWidget::paint to draw this widget.
 void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
-	if(!umlObject()) {
-		uWarning() << "No UMLCategory object for this widget to paint";
-		return;
-	}
+    Q_UNUSED(o);
+    if(!umlObject()) {
+        uWarning() << "No UMLCategory object for this widget to paint";
+        return;
+    }
 
-	QFont fnt = font();
-	fnt.setItalic( umlObject()->getAbstract() );
+    QFont fnt = font();
+    fnt.setItalic( umlObject()->getAbstract() );
 
-	painter->setPen(QPen(lineColor(), lineWidth()));
-	painter->setBrush(brush());
-	painter->setFont(fnt);
+    painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setBrush(brush());
+    painter->setFont(fnt);
 
-	const QSizeF sz = size();
-	const qreal radius = qMin(sz.width(), sz.height());
+    const QSizeF sz = size();
+    const qreal radius = qMin(sz.width(), sz.height());
 
     // draw a circle
-	QRectF circle(0, 0, radius, radius);
-	// adjust circle to be at center (0 + width / 2, 0 + height / 2)
-	circle.moveCenter(QPointF(sz.width(), sz.height()) * .5);
+    QRectF circle(0, 0, radius, radius);
+    // adjust circle to be at center (0 + width / 2, 0 + height / 2)
+    circle.moveCenter(QPointF(sz.width(), sz.height()) * .5);
 
     painter->drawEllipse(circle);
 
-	// Now draw the letter inside circle.
-	painter->setPen(fontColor());
+    // Now draw the letter inside circle.
+    painter->setPen(fontColor());
 
     QString letterType('D');
     switch( static_cast<UMLCategory*>( umlObject() )->getType() ) {
@@ -90,11 +90,11 @@ void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 
 void CategoryWidget::updateGeometry()
 {
-	QFontMetrics fm(font());
-	qreal minRadius = fm.lineSpacing();
-	setMinimumSize(QSizeF(minRadius, minRadius));
+    QFontMetrics fm(font());
+    qreal minRadius = fm.lineSpacing();
+    setMinimumSize(QSizeF(minRadius, minRadius));
 
-	NewUMLRectWidget::updateGeometry();
+    NewUMLRectWidget::updateGeometry();
 }
 
 /**
@@ -106,12 +106,12 @@ void CategoryWidget::updateGeometry()
 void CategoryWidget::slotMenuSelection(QAction* action)
 {
     UMLCategory* catObj = static_cast<UMLCategory*>(umlObject());
-	if(!catObj) {
-		uWarning() << "No UMLCategory for this widget.";
-		return;
-	}
+    if(!catObj) {
+        uWarning() << "No UMLCategory for this widget.";
+        return;
+    }
 
-	// menu is passed in as parent .
+    // menu is passed in as parent .
     ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
 

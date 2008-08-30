@@ -3346,6 +3346,8 @@ void AssociationWidget::slotAttributeChanged()
 
 void AssociationWidget::init (UMLScene *scene)
 {
+    Q_UNUSED(scene);
+
     // DEPRECATED
     //NewUMLWidget::init(scene, wt_Association);
 

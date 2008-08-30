@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -21,8 +20,8 @@
 BoxWidget::BoxWidget(Uml::IDType id)
     : NewUMLRectWidget(0, id)
 {
-	m_baseType = Uml::wt_Box;
-	setMinimumSize(QSizeF(20, 20));
+    m_baseType = Uml::wt_Box;
+    setMinimumSize(QSizeF(20, 20));
 }
 
 /// destructor
@@ -33,6 +32,7 @@ BoxWidget::~BoxWidget()
 /// Draws a rectangle.
 void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
+    Q_UNUSED(o);
     painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(Qt::NoBrush);
     painter->drawRect(rect());
