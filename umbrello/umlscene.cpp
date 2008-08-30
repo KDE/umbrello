@@ -416,11 +416,6 @@ void UMLScene::slotObjectCreated(UMLObject* o)
 
     newWidget->updateComponentSize();
 
-    if (m_Type == Uml::dt_Sequence) {
-        // Set proper position on the sequence line widget which is
-        // attached to the object widget.
-        ObjectWidget *ow = dynamic_cast<ObjectWidget*>(newWidget);
-    }
     m_bCreateObject = false;
     m_WidgetList.append(newWidget);
 
