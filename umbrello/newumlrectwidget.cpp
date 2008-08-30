@@ -212,7 +212,6 @@ void NewUMLRectWidget::showPropertiesDialog()
 
 void NewUMLRectWidget::setupContextMenuActions(ListPopupMenu &menu)
 {
-    menu.addAction("Stub!!");
 }
 
 /**
