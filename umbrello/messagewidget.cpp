@@ -103,9 +103,16 @@ void MessageWidget::init()
     setIgnoreSnapToGrid(true);
     setIgnoreSnapComponentSizeToGrid(true);
     m_objectWidgets[Uml::A] = m_objectWidgets[Uml::B] = 0;
-    m_floatingTextWidget = 0;
-    QTimer::singleShot(10, this, SLOT(slotDelayedInit()));
-    uDebug() << "Created";
+
+    Uml::Text_Role tr = Uml::tr_Seq_Message;
+    m_floatingTextWidget = new FloatingTextWidget( tr );
+    m_floatingTextWidget->setFont(font());
+    m_floatingTextWidget->setLink(this);
+    m_floatingTextWidget->hide(); // Hide initially until a text is set
+
+    m_isMsgSceneSetBefore = false;
+    // Some delayed initialization is done when a new UMLScene is set
+    // on this widget for the first time. (see slotDelayedInit)
 }
 
 /// Destructor. Inform Object widgets about destruction.
@@ -163,6 +170,7 @@ void MessageWidget::setOperation(UMLOperation *op)
     setUMLObject(op);
     if (umlObject() && m_floatingTextWidget)
         connect(umlObject(), SIGNAL(modified()), m_floatingTextWidget, SLOT(setMessageText()));
+    m_floatingTextWidget->setMessageText();
 }
 
 /**
@@ -192,10 +200,11 @@ void MessageWidget::setCustomOpText(const QString &opText)
  */
 void MessageWidget::setMessageText(FloatingTextWidget *ft)
 {
-    if (ft == NULL)
+    if (!ft)
         return;
     QString displayText = m_sequenceNumber + ": " + LinkWidget::getOperationText(umlScene());
     ft->setText(displayText);
+    show();
     setTextPosition();
 }
 
@@ -437,6 +446,21 @@ qreal MessageWidget::maxY() const
     return qMin(heightA, heightB);
 }
 
+/**
+ * Reimplemented from NewUMLRectWidget::setupContextMenuActions to add
+ * a submenu to change the text of the FloatingTextWidget of this
+ * message widget.
+ */
+void MessageWidget::setupContextMenuActions(ListPopupMenu &menu)
+{
+    //TODO: Investigate the constructor parameters.
+    ListPopupMenu* floatingtextSubMenu = new ListPopupMenu(&menu, m_floatingTextWidget, 0, 0);
+    floatingtextSubMenu->setTitle( i18n( "Operation" ) );
+
+    menu.addMenu( floatingtextSubMenu );
+    // The floatingtextSubMenu is destroyed automatically when menu is destroyed.
+}
+
 bool MessageWidget::loadFromXMI(QDomElement& qElement)
 {
     if ( !NewUMLRectWidget::loadFromXMI(qElement) ) {
@@ -589,6 +613,20 @@ QVariant MessageWidget::itemChange(GraphicsItemChange change, const QVariant& va
 
             if (m_objectWidgets[Uml::B]) {
                 m_objectWidgets[Uml::B]->adjustSequentialLineEnd();
+            }
+        }
+        else if (change == ItemSceneHasChanged) {
+            if (!m_isMsgSceneSetBefore) {
+                m_isMsgSceneSetBefore = true;
+                // Use timer to disambiguate situation where virtual
+                // functions might not call be called
+                // appropriately.
+
+                // Also, set the timeout to higher value than the one
+                // used in NewUMLWidget::itemChange so that the base's
+                // delayed initialization is done before.
+
+                QTimer::singleShot(100, this, SLOT(slotDelayedInit()));
             }
         }
     }
@@ -861,105 +899,46 @@ void MessageWidget::slotMenuSelection(QAction* action)
 
 void MessageWidget::slotDelayedInit()
 {
-    ObjectWidget *objA = m_objectWidgets[Uml::A];
-    ObjectWidget *objB = m_objectWidgets[Uml::B];
+    // Get reference to pointers.
+    ObjectWidget *&objA = m_objectWidgets[Uml::A];
+    ObjectWidget *&objB = m_objectWidgets[Uml::B];
 
-    if (objA) {
-        objA->messageAdded(this);
-        handleObjectMove(objA);
-        objA->adjustSequentialLineEnd();
+    updateResizability();
+
+    if (!objA || !objB) {
+        return;
     }
 
-    if (objB && objB != objA) {
+    UMLClassifier *c = dynamic_cast<UMLClassifier*>(objB->umlObject());
+    UMLOperation *op = 0;
+    if (c && !m_customOperation.isEmpty()) {
+        Uml::IDType opId = STR2ID(m_customOperation);
+        op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
+        if (op) {
+            // If the UMLOperation is set, m_customOperation isn't used anyway.
+            // Just setting it empty for the sake of sanity.
+            m_customOperation.clear();
+        }
+    }
+
+    if (op) {
+        setOperation(op);  // This requires a valid m_floatingTextWidget.
+    }
+
+    if (objA == objB) {
+        m_floatingTextWidget->setTextRole(Uml::tr_Seq_Message_Self);
+    }
+    setLinkAndTextPos();
+
+    objA->messageAdded(this);
+    handleObjectMove(objA);
+    objA->adjustSequentialLineEnd();
+
+    if (objB != objA) {
         objB->messageAdded(this);
         handleObjectMove(objB);
         objB->adjustSequentialLineEnd();
     }
 }
-
-// bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
-//     umlScene()->resetPastePoint();
-//     // NewUMLRectWidget::activate(Log);   CHECK: I don't think we need this ?
-//     if (m_objectWidgets[Uml::A] == NULL) {
-//         NewUMLRectWidget *pWA = umlScene()->findWidget(m_widgetAId);
-//         if (pWA == NULL) {
-//             uDebug() << "role A object " << ID2STR(m_widgetAId) << " not found" << endl;
-//             return false;
-//         }
-//         m_objectWidgets[Uml::A] = dynamic_cast<ObjectWidget*>(pWA);
-//         if (m_objectWidgets[Uml::A] == NULL) {
-//             uDebug() << "role A widget " << ID2STR(m_widgetAId)
-//                 << " is not an ObjectWidget" << endl;
-//             return false;
-//         }
-//     }
-//     if (m_objectWidgets[Uml::B] == NULL) {
-//         NewUMLRectWidget *pWB = umlScene()->findWidget(m_widgetBId);
-//         if (pWB == NULL) {
-//             uDebug() << "role B object " << ID2STR(m_widgetBId) << " not found" << endl;
-//             return false;
-//         }
-//         m_objectWidgets[Uml::B] = dynamic_cast<ObjectWidget*>(pWB);
-//         if (m_objectWidgets[Uml::B] == NULL) {
-//             uDebug() << "role B widget " << ID2STR(m_widgetBId)
-//                 << " is not an ObjectWidget" << endl;
-//             return false;
-//         }
-//     }
-//     updateResizability();
-
-//     UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_objectWidgets[Uml::B]->getUMLObject());
-//     UMLOperation *op = NULL;
-//     if (c && !m_customOperation.isEmpty()) {
-//         Uml::IDType opId = STR2ID(m_customOperation);
-//         op = dynamic_cast<UMLOperation*>( c->findChildObjectById(opId, true) );
-//         if (op) {
-//             // If the UMLOperation is set, m_customOperation isn't used anyway.
-//             // Just setting it empty for the sake of sanity.
-//             m_customOperation.clear();
-//         }
-//     }
-
-//     if( !m_floatingTextWidget ) {
-//         Uml::Text_Role tr = Uml::tr_Seq_Message;
-//         if (m_objectWidgets[Uml::A] == m_objectWidgets[Uml::B])
-//             tr = Uml::tr_Seq_Message_Self;
-//         m_floatingTextWidget = new FloatingTextWidget( tr );
-//         m_floatingTextWidget->setFont(font());
-//     }
-//     if (op)
-//         setOperation(op);  // This requires a valid m_floatingTextWidget.
-//     setLinkAndTextPos();
-//     m_floatingTextWidget->setText("");
-//     m_floatingTextWidget->setActivated();
-//     QString messageText = m_floatingTextWidget->text();
-//     m_floatingTextWidget->setVisible( messageText.length() > 1 );
-
-//     connect(m_objectWidgets[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
-//     connect(m_objectWidgets[Uml::B], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
-
-//     connect(this, SIGNAL(sigMessageMoved()), m_objectWidgets[Uml::A], SLOT(slotMessageMoved()) );
-//     connect(this, SIGNAL(sigMessageMoved()), m_objectWidgets[Uml::B], SLOT(slotMessageMoved()) );
-//     m_objectWidgets[Uml::A]->messageAdded(this);
-//     m_objectWidgets[Uml::B]->messageAdded(this);
-//     calculateDimensions();
-
-//     emit sigMessageMoved();
-//     return true;
-// }
-
-
-// ListPopupMenu* MessageWidget::setupPopupMenu() {
-
-//     NewUMLRectWidget::setupPopupMenu( ); // will setup the menu in m_pMenu
-//     ListPopupMenu* floatingtextSubMenu = m_floatingTextWidget->setupPopupMenu();
-//     floatingtextSubMenu->setTitle( i18n( "Operation" ) );
-
-//     m_pMenu->addMenu( floatingtextSubMenu );
-
-//     return m_pMenu;
-// }
-
-
 
 #include "messagewidget.moc"
