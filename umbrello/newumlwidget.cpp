@@ -19,6 +19,8 @@
 
 #include "newumlwidget.h"
 
+#include "classifier.h"
+#include "floatingtextwidget.h"
 #include "listpopupmenu.h"
 #include "newumlrectwidget.h"
 #include "uml.h"
@@ -648,10 +650,10 @@ void NewUMLWidget::slotMenuSelection(QAction *trigger)
         break;
 
     case ListPopupMenu::mt_ViewCode: {
-        // UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_umlObject);
-        // if (c) {
-        //     UMLApp::app()->viewCodeDocument(c);
-        // }
+        UMLClassifier *c = dynamic_cast<UMLClassifier*>(umlObject());
+        if (c) {
+            UMLApp::app()->viewCodeDocument(c);
+        }
         break;
     }
 
@@ -682,12 +684,12 @@ void NewUMLWidget::slotMenuSelection(QAction *trigger)
     //     UMLApp::app() -> slotEditPaste();
     //     break;
 
-    // case ListPopupMenu::mt_Refactoring:
-    //     //check if we are operating on a classifier, or some other kind of UMLObject
-    //     if (dynamic_cast<UMLClassifier*>(m_pObject)) {
-    //         UMLApp::app()->refactor(static_cast<UMLClassifier*>(m_pObject));
-    //     }
-    //     break;
+    case ListPopupMenu::mt_Refactoring:
+        //check if we are operating on a classifier, or some other kind of UMLObject
+        if (dynamic_cast<UMLClassifier*>(umlObject())) {
+            UMLApp::app()->refactor(static_cast<UMLClassifier*>(umlObject()));
+        }
+        break;
 
     // case ListPopupMenu::mt_Clone:
     //     // In principle we clone all the uml objects.
@@ -697,15 +699,15 @@ void NewUMLWidget::slotMenuSelection(QAction *trigger)
     // }
     // break;
 
-    // case ListPopupMenu::mt_Rename_MultiA:
-    // case ListPopupMenu::mt_Rename_MultiB:
-    // case ListPopupMenu::mt_Rename_Name:
-    // case ListPopupMenu::mt_Rename_RoleAName:
-    // case ListPopupMenu::mt_Rename_RoleBName: {
-    //     FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(this);
-    //     ft->handleRename();
-    //     break;
-    // }
+    case ListPopupMenu::mt_Rename_MultiA:
+    case ListPopupMenu::mt_Rename_MultiB:
+    case ListPopupMenu::mt_Rename_Name:
+    case ListPopupMenu::mt_Rename_RoleAName:
+    case ListPopupMenu::mt_Rename_RoleBName: {
+        FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(this);
+        ft->handleRename();
+        break;
+    }
 
     default:
         uDebug() << "Menu_Type " << sel << " not implemented";
