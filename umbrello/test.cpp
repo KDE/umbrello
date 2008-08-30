@@ -90,22 +90,17 @@ void Test::testScene(UMLScene *scene)
 
     UMLClassifier *obj = new UMLClassifier("hello");
     ObjectWidget *wid = new ObjectWidget(obj);
-    scene->addItem(wid);
     wid->setPos(100, 100);
-    updateWidgetGeometry(wid);
 
     UMLClassifier *obj1 = new UMLClassifier("world");
     ObjectWidget *wid1 = new ObjectWidget(obj1);
-    scene->addItem(wid1);
     wid1->setPos(200, 100);
-    updateWidgetGeometry(wid1);
 
     MessageWidget *msg = new MessageWidget(wid, wid1, Uml::sequence_message_asynchronous);
-    scene->addItem(msg);
-    msg->setObjectWidget(wid, Uml::A);
 
-    wid->adjustSequentialLineEnd();
-    wid->adjustSequentialLineEnd();
+    scene->addItem(wid);
+    scene->addItem(wid1);
+    scene->addItem(msg);
 }
 
 void Test::updateWidgetGeometry(NewUMLWidget *wid)
