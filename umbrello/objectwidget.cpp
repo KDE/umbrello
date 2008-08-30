@@ -430,7 +430,6 @@ void ObjectWidget::updateTextItemGroups()
 QVariant ObjectWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
     if (change == SizeHasChanged) {
-        UMLScene *uScene = umlScene();
         const QSizeF curSize = size();
         const qreal m = margin();
         const QRectF r = rect();
