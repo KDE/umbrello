@@ -377,6 +377,7 @@ QVariant NewUMLRectWidget::itemChange(GraphicsItemChange change, const QVariant 
 TextItemGroup* NewUMLRectWidget::createTextItemGroup()
 {
     TextItemGroup *newGrp = new TextItemGroup(this);
+    newGrp->setMargin(margin());
     m_textItemGroups.append(newGrp);
     return newGrp;
 }
