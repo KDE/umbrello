@@ -1618,6 +1618,20 @@ ListPopupMenu::Menu_Type ListPopupMenu::getMenuType(QAction* action)
     }
 }
 
+/**
+ * Utility method to fetch owner of the menu.
+ *
+ * @return The owned NewUMLWidget if this menu is owned by a
+ *         widget. Otherwise returns 0.
+ */
+NewUMLWidget* ListPopupMenu::ownerWidget() const
+{
+    if (m_TriggerObjectType == tot_Widget) {
+        return m_TriggerObject.m_Widget;
+    }
+    return 0;
+}
+
 void ListPopupMenu::setActionChecked(Menu_Type idx, bool value)
 {
     QAction* action = getAction(idx);

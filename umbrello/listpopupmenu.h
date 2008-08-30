@@ -273,6 +273,8 @@ public:
 //    Menu_Type getMenuType(KAction* action);
     Menu_Type getMenuType(QAction* action);
 
+    NewUMLWidget *ownerWidget() const;
+
 private:
 
     /**
