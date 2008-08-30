@@ -124,19 +124,16 @@ QVariant ArtifactWidget::attributeChange(WidgetAttributeChange change, const QVa
 	if(change == SizeHasChanged) {
 		UMLArtifact *artifact = static_cast<UMLArtifact*>(umlObject());
 		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		const qreal m = margin();
 		const qreal groupHeight = grp->minimumSize().height();
 
 		QRectF groupGeometry = rect();
-		groupGeometry.adjust(+m, +m, -m, -m);
 
 		if (artifact->getDrawAsType() != UMLArtifact::defaultDraw) {
-			groupGeometry.setTopLeft(QPointF(m, rect().bottom() - groupHeight - m));
-			groupGeometry.setSize(QSizeF(rect().width() - 2 * m, groupHeight));
+			groupGeometry.setTop(groupGeometry.bottom() - groupHeight);
 		}
 
 		grp->setGroupGeometry(groupGeometry);
-		m_cachedTextHeight = groupHeight + 2 * m;
+		m_cachedTextHeight = groupHeight;
 	}
 
 	return NewUMLRectWidget::attributeChange(change, oldValue);
