@@ -84,7 +84,6 @@ QVariant ActorWidget::attributeChange(WidgetAttributeChange change, const QVaria
 	if(change == SizeHasChanged) {
 		// Calculate new path and position the text.
 		const QSizeF sz = size();
-		const qreal m = margin();
 
 		const int groupIndex = 0; // Only one group
 		TextItemGroup *grp = textItemGroupAt(groupIndex);
@@ -92,13 +91,13 @@ QVariant ActorWidget::attributeChange(WidgetAttributeChange change, const QVaria
 		// First adjust the position of text and align it.
 		qreal fontHeight = grp->minimumSize().height();
 
-		QRectF r(m, rect().bottom() - fontHeight - m,
-				 sz.width() - 2 * m, fontHeight);
+		QRectF r(0, rect().bottom() - fontHeight,
+				 sz.width(), fontHeight);
 		grp->setGroupGeometry(r);
 
 		// Now calculate actorPath
 		m_actorPath = QPainterPath();
-		qreal actorHeight = r.top() - m;
+		qreal actorHeight = r.top();
 		qreal actorWidth = r.width();
 
 		// Make sure width of actor isn't too much, it looks ugly otherwise.
@@ -108,7 +107,7 @@ QVariant ActorWidget::attributeChange(WidgetAttributeChange change, const QVaria
 		//TODO: Probably use above similar approach to limit height.
 
 		QRectF headEllipse;
-		headEllipse.setTopLeft(QPointF(.5 * (sz.width() - actorWidth), m));
+		headEllipse.setTopLeft(QPointF(.5 * (sz.width() - actorWidth), 0));
 		headEllipse.setSize(QSizeF(actorWidth, actorHeight / 3));
 		m_actorPath.addEllipse(headEllipse);
 
