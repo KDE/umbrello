@@ -92,28 +92,9 @@ public:
         return m_sequenceMessageType;
     }
 
-    /**
-     * Check to see if the given ObjectWidget is involved in the
-     * message.
-     *
-     * @param   w    The ObjectWidget to check for.
-     * @retval  true If the ObjectWidget is contained.
-     */
-    bool hasObjectWidget(ObjectWidget * w) const {
-        return m_objectWidgets[Uml::A] == w || m_objectWidgets[Uml::B] == w;
-    }
+    bool hasObjectWidget(ObjectWidget * w) const;
 
-    /**
-     * This medthod determines whether the message is for "Self" for
-     * an ObjectWidget.
-     *
-     * @retval True If both ObjectWidgets for this widget exists and
-     *              are same.
-     */
-    bool isSelf() const {
-        return (m_objectWidgets[Uml::A] && m_objectWidgets[Uml::B] &&
-                m_objectWidgets[Uml::A] == m_objectWidgets[Uml::B]);
-    }
+    bool isSelf() const;
 
     /// @return  The ObjectWidget we are related to for given \a role.
     ObjectWidget* objectWidget(Uml::Role_Type role) const {

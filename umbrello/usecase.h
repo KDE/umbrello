@@ -22,15 +22,9 @@
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class UMLUseCase : public UMLCanvasObject {
 public:
-    /**
-     *  Creates a UseCase object
-     *
-     *  @param name             The name of the object.
-     *  @param  id                              The id of the object.
-     */
+
     explicit UMLUseCase(const QString & name = QString(), Uml::IDType id = Uml::id_None);
 
     /**
@@ -38,25 +32,14 @@ public:
      */
     ~UMLUseCase();
 
-    /**
-     *  Initializes key variables of the class.
-     */
     virtual void init();
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Creates the <UML:UseCase> element.
-     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-    /**
-     * Loads the <UML:UseCase> element (empty.)
-     */
+
     bool load( QDomElement & element );
 };
 

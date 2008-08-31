@@ -37,6 +37,20 @@ UMLViewImageExporter::UMLViewImageExporter(UMLView* view)
     m_imageMimeType = UMLApp::app()->getImageMimeType();
 }
 
+/**
+ * Shows a save dialog to the user to get the needed parameters and then exports
+ * the view.
+ * If the selected file already exists, an overwrite confirmation
+ * dialog is shown. If the user doesn't want to overwrite the file,
+ * the save dialog is shown again.
+ * The dialog remembers values between calls (in the same application instance,
+ * although it's not persistent between Umbrello executions).
+ *
+ * The status bar shows an information message until the export finishes.
+ *
+ * If something went wrong while exporting, an error dialog is shown to the
+ * user with the error message explaining the problem that happened.
+ */
 void UMLViewImageExporter::exportView()
 {
     if (!prepareExportView()) {
@@ -55,6 +69,16 @@ void UMLViewImageExporter::exportView()
     app->getDocument()->writeToStatusBar(i18nc("reset status bar", "Ready."));
 }
 
+/**
+ * Shows a save file dialog to the user to get the parameters used
+ * to export the view.
+ * If the selected file already exists, an overwrite confirmation
+ * dialog is shown. If the user doesn't want to overwrite the file,
+ * the save dialog is shown again.
+ *
+ * @return True if the user wants to save the image,
+ *         false if the operation is cancelled.
+ */
 bool UMLViewImageExporter::prepareExportView()
 {
     bool exportPrepared = false;
@@ -80,6 +104,13 @@ bool UMLViewImageExporter::prepareExportView()
     return true;
 }
 
+/**
+ * Shows a save file dialog to the user to get the parameters used
+ * to export the view and updates the attributes with the parameters got.
+ *
+ * @return True if the user wants to save the image,
+ *         false if the operation is cancelled.
+ */
 bool UMLViewImageExporter::getParametersFromUser()
 {
     UMLApp *app = UMLApp::app();
@@ -110,6 +141,12 @@ bool UMLViewImageExporter::getParametersFromUser()
     return true;
 }
 
+/**
+ * Prepares the save file dialog.
+ * Sets the mime type filter, sensible default values...
+ *
+ * @param fileDialog The dialog to prepare.
+ */
 void UMLViewImageExporter::prepareFileDialog(KFileDialog &fileDialog)
 {
     // get all supported mime types

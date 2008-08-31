@@ -77,6 +77,10 @@ UMLDragData::~UMLDragData()
 {
 }
 
+/**
+ * For use when the user selects only UMLObjects from the
+ * ListView but no diagrams to be copied
+ */
 void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
 {
     QDomDocument domDoc;
@@ -98,6 +102,10 @@ void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
     setData( "application/x-uml-clip1", domDoc.toString().toUtf8() );
 }
 
+/**
+ * For use when the user selects UML Object and Diagrams
+ * from the ListView to be copied
+ */
 void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& umlListViewItems,
                               UMLViewList& diagrams)
 {
@@ -131,6 +139,10 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLListViewItemList& u
     setData( "application/x-uml-clip2", domDoc.toString().toUtf8() );
 }
 
+/**
+ * For use when the user selects only empty folders from the ListView
+ * to be copied.
+ */
 void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
 {
     QDomDocument domDoc;
@@ -147,6 +159,12 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
     setData( "application/x-uml-clip3", domDoc.toString().toUtf8() );
 }
 
+/**
+ * For use when the user selects UML Objects from a
+ * Diagram. The Selected widegets and the relationships
+ * between only selected widgets will be copied and also
+ * its respective ListView Items
+ */
 void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets, AssociationWidgetList& associations,
                               QPixmap& pngImage, Uml::Diagram_Type dType )
 {
@@ -190,6 +208,10 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets
     setImageData( clipdata );
 }
 
+/**
+ * For use when the user selects only Attirbutes and/or
+ * Operation from the ListView
+ */
 void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
 {
     QDomDocument domDoc;
@@ -208,6 +230,12 @@ void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
     setData( "application/x-uml-clip5", domDoc.toString().toUtf8() );
 }
 
+/**
+ * For use when the user selects only UML Objects
+ * from the ListView but no diagrams to be
+ * copied, decodes Mime type =
+ * "application/x-uml-clip1
+ */
 bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
 {
     UMLDoc* doc = UMLApp::app()->getDocument();
@@ -296,6 +324,11 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
     return true;
 }
 
+/**
+ * For use when the user selects UML Object and Diagrams
+ * from the ListView to be copied, decodes Mime type =
+ * "application/x-uml-clip2
+ */
 bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
                           UMLListViewItemList& umlListViewItems, UMLViewList& diagrams)
 {
@@ -409,6 +442,13 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
     return true;
 }
 
+/**
+ * Return just the LvTypeAndID of a Clip3.
+ *
+ * @param mimeData        The encoded source.
+ * @param typeAndIdList     The LvTypeAndID_List decoded from the source.
+ * @return  True if decoding was successful.
+ */
 bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
                                 LvTypeAndID_List& typeAndIdList)
 {
@@ -467,6 +507,11 @@ bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
     return true;
 }
 
+/**
+ * For use when the user selects UMLObjects from
+ * the ListView to be copied, decodes Mime * type =
+ * "application/x-uml-clip3
+ */
 bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& umlListViewItems,
                             const UMLListView* parentListView)
 {
@@ -526,6 +571,13 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
     return true;
 }
 
+/**
+ * For use when the user selects UML Objects from a
+ * Diagram. The Selected widegets and the relationships
+ * between only * selected widgets will be copied and
+ * also its respective ListView Items, * decodes Mime
+ * type = "application/x-uml-clip4
+ */
 bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                           UMLWidgetList& widgets,
                           AssociationWidgetList& associations, Uml::Diagram_Type & dType)
@@ -626,6 +678,11 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     return true;
 }
 
+/**
+ * For use when the user selects only Attributes and/or
+ * Operations from the ListView * copied, decodes Mime
+ * type = "application/x-uml-clip5
+ */
 bool UMLDragData::decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
                           UMLClassifier* newParent)
 {
@@ -682,6 +739,9 @@ bool UMLDragData::decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
     return true;
 }
 
+/**
+ * Converts application/x-uml-clip[1-5] clip type to an integer
+ */
 int UMLDragData::getCodingType(const QMimeData* mimeData)
 {
     int result = 0;

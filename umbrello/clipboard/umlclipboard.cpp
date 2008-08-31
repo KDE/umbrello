@@ -140,6 +140,12 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/) {
     return (QMimeData*)data;
 }
 
+/**
+ * Inserts the clipboard's contents.
+ *
+ * @param Data              Pointer to the MIME format clipboard data.
+ * @return  True for successful operation.
+ */
 bool UMLClipboard::paste(const QMimeData* data) {
     UMLDoc *doc = UMLApp::app()->getDocument();
     bool result = false;
@@ -167,6 +173,10 @@ bool UMLClipboard::paste(const QMimeData* data) {
     return result;
 }
 
+/**
+ * Fills the member lists with all the objects and other
+ * stuff to be copied to the clipboard.
+ */
 bool UMLClipboard::fillSelectionLists(UMLListViewItemList& SelectedItems) {
     Uml::ListView_Type type;
     switch(m_type) {
@@ -219,6 +229,11 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& SelectedItems) {
     return true;
 }
 
+/**
+ * Checks the whole list to determine the copy action
+ * type to be * performed, sets the type in the m_type
+ * member variable.
+ */
 void UMLClipboard::setCopyType(UMLListViewItemList& SelectedItems) {
     bool withDiagrams = false; //If the selection includes diagrams
     bool withObjects = false; //If the selection includes objects
@@ -238,6 +253,10 @@ void UMLClipboard::setCopyType(UMLListViewItemList& SelectedItems) {
     }
 }
 
+/**
+ * Searches the child items of a UMLListViewItem to
+ * establish which Copy type is to be perfomed.
+ */
 void UMLClipboard::checkItemForCopyType(UMLListViewItem* Item, bool & WithDiagrams, bool &WithObjects,
                                         bool &OnlyAttsOps) {
     if(!Item) {
@@ -291,6 +310,9 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * Item, UMLListViewItemLis
     return true;
 }
 
+/**
+ * Pastes the children of a UMLListViewItem (The Parent)
+ */
 bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog) {
     if (!parent) {
         uWarning() << "Paste Children Error, parent missing";
@@ -671,6 +693,12 @@ bool UMLClipboard::pasteClip5(const QMimeData* data) {
     return result;
 }
 
+/**
+ * Inserts the data of the children of the given item
+ * into the item data list.  Used for clip type 4.  Used
+ * to make * sure classes have all the attributes and
+ * operations saved.
+ */
 bool UMLClipboard::insertItemChildren( UMLListViewItem * item ) {
     if( item->childCount() ) {
         UMLListViewItem * child =dynamic_cast<UMLListViewItem *>( item->firstChild() );
@@ -683,6 +711,15 @@ bool UMLClipboard::insertItemChildren( UMLListViewItem * item ) {
     return true;
 }
 
+/**
+ * When pasting widgets see if they can be pasted on
+ * different diagram types.  Will return true if all the
+ * widgets to be pasted can be.  At the moment this only
+ * includes NoteWidgets and lines of text.
+ *
+ * @param widgetList        List of widgets to examine.
+ * @return  True if all widgets can be put on different diagrams.
+ */
 bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
     bool retval = true;
 
@@ -712,6 +749,10 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
     return retval;
 }
 
+/**
+ * Gives a `sorry' message box if you're pasting an item which
+ * already exists and can't be duplicated.
+ */
 void UMLClipboard::pasteItemAlreadyExists() {
     UMLView *currentView = UMLApp::app()->getCurrentView();
     KMessageBox::sorry( currentView,

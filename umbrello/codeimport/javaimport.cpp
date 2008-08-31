@@ -44,12 +44,19 @@ JavaImport::~JavaImport()
 {
 }
 
+/**
+ * Reimplement operation from NativeImportBase.
+ */
 void JavaImport::initVars()
 {
     m_isStatic = false;
 }
 
 /// Catenate possible template arguments/array dimensions to the end of the type name.
+
+/**
+ * figure out if the type is really an array or template of the given typeName
+ */
 QString JavaImport::joinTypename(QString typeName)
 {
     if (m_source[m_srcIndex + 1] == "<" ||
@@ -68,6 +75,9 @@ QString JavaImport::joinTypename(QString typeName)
     return typeName;
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ */
 void JavaImport::fillSource(const QString& word)
 {
     QString lexeme;
@@ -89,6 +99,10 @@ void JavaImport::fillSource(const QString& word)
 }
 
 ///Spawn off an import of the specified file
+
+/**
+ * spawn off an import of the specified file
+ */
 void JavaImport::spawnImport( QString file )
 {
     // if the file is being parsed, don't bother
@@ -115,6 +129,10 @@ UMLObject* findObject( QString name,   UMLPackage *parentPkg )
 
 
 ///Resolve the specified className
+
+/**
+ * Try to resolve the specified class the current class depends on
+ */
 UMLObject* JavaImport::resolveClass (QString className)
 {
     uDebug() << "importJava trying to resolve " << className;
@@ -204,6 +222,10 @@ UMLObject* JavaImport::resolveClass (QString className)
 }
 
 /// keep track of the current file being parsed and reset the list of imports
+
+/**
+ * Keep track of the filename currently being parsed
+ */
 void JavaImport::parseFile(const QString& filename)
 {
     m_currentFileName= filename;
@@ -226,6 +248,9 @@ void JavaImport::parseFile(const QString& filename)
     }
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ */
 bool JavaImport::parseStmt()
 {
     const int srcLength = m_source.count();

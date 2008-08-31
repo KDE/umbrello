@@ -23,9 +23,9 @@
  * @see UMLObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class UMLEnumLiteral : public UMLClassifierListItem {
 public:
+
     /**
      * Sets up an enum literal.
      *
@@ -48,15 +48,8 @@ public:
      */
     bool operator==(const UMLEnumLiteral &rhs);
 
-    /**
-     * Copy the internal presentation of this object into the new
-     * object.
-     */
     virtual void copyInto(UMLObject *lhs) const;
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLObject* clone() const;
 
     /**
@@ -64,20 +57,12 @@ public:
      */
     virtual ~UMLEnumLiteral();
 
-    /**
-     * Creates the <UML:EnumLiteral> XMI element.
-     */
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    /**
-     * Display the properties configuration dialog for the enum literal.
-     */
     bool showPropertiesDialog(QWidget* parent);
 
 protected:
-    /**
-     * Loads the <UML:EnumLiteral> XMI element (empty.)
-     */
+
     bool load(QDomElement& element);
 
 };

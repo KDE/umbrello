@@ -33,25 +33,13 @@ public:
     ~UMLEntityAttributeDialog();
 
 protected:
-    /**
-     *   Sets up the dialog.
-     */
+
     void setupDialog();
 
-    /**
-     * Checks if changes are valid and applies them if they are,
-     * else returns false
-     */
     bool apply();
 
-    /**
-     * Inserts @p type into the type-combobox as well as its completion object.
-     */
     void insertTypesSorted(const QString& type = "");
 
-    /**
-     * Inserts @p type into the type-combobox as well as its completion object.
-     */
     void insertAttribute( const QString& type, int index = -1 );
 
     /**
@@ -72,20 +60,10 @@ protected:
 
 public slots:
 
-    /**
-     * Is activated when the auto increment state is changed.
-     */
     void slotAutoIncrementStateChanged(bool checked);
 
-    /**
-     * I don't think this is used, but if we had an apply button
-     * it would slot into here.
-     */
     void slotApply();
 
-    /**
-     * Used when the OK button is clicked.  Calls apply().
-     */
     void slotOk();
     void slotNameChanged( const QString & );
 };

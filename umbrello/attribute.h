@@ -28,6 +28,7 @@ class UMLAttribute : public UMLClassifierListItem
 {
     Q_OBJECT
 public:
+
     /**
      * Sets up an attribute.
      *
@@ -60,96 +61,45 @@ public:
      */
     virtual ~UMLAttribute();
 
-    /**
-     * Copy the internal presentation of this object into the UMLAttribute
-     * object.
-     */
     virtual void copyInto(UMLObject *lhs) const;
 
-    /**
-     * Reimplementation of method from UMLObject is required as
-     * an extra signal, attributeChanged(), is emitted.
-     */
     void setName(const QString &name);
 
-    /**
-     * Reimplementation of method from UMLObject is required as
-     * an extra signal, attributeChanged(), is emitted.
-     */
     void setVisibility(Uml::Visibility s);
 
-    /**
-     * Make a clone of the UMLAttribute.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Returns The initial value of the UMLAttribute.
-     *
-     * @return  The initial value of the Atrtibute.
-     */
     QString getInitialValue() const;
 
-    /**
-     * Sets the initial value of the UMLAttribute.
-     *
-     * @param iv                The initial value of the UMLAttribute.
-     */
     void setInitialValue( const QString &iv );
 
-    /**
-     * Returns a string representation of the UMLAttribute.
-     *
-     * @param sig               If true will show the attribute type and
-     *                  initial value.
-     * @return  Returns a string representation of the UMLAttribute.
-     */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
-    /**
-     * Reimplement method from UMLObject.
-     */
     QString getFullyQualifiedName( const QString& separator = QString(),
                                   bool includeRoot = false) const;
 
-    /**
-     * Creates the <UML:Attribute> XMI element.
-     */
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * Display the properties configuration dialog for the attribute.
-     */
     virtual bool showPropertiesDialog(QWidget* parent);
 
     void setParmKind (Uml::Parameter_Direction pk);
     Uml::Parameter_Direction getParmKind () const;
 
-    /**
-     * Returns all the template params (if any) that are in the type of this attribute
-     */
     virtual UMLClassifierList getTemplateParams();
 
 signals:
-    /**
-     * Required for informing AssociationWidgets representing this attribute
-     * that the attribute name or visibility has changed.
-     */
+
     void attributeChanged();
 
 protected:
-    /**
-     * Loads the <UML:Attribute> XMI element.
-     */
+
     bool load( QDomElement & element );
 
     QString m_InitialValue; ///< text for the attribute's initial value.
     Uml::Parameter_Direction m_ParmKind;
 
 private:
-    /**
-    * Puts in the param templateParamList all the template params that are in templateParam
-    */
+
     void setTemplateParams(const QString& templateParam, UMLClassifierList &templateParamList);
 
 };

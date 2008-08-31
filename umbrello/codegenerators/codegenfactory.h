@@ -36,91 +36,26 @@ class UMLRole;
  */
 namespace CodeGenFactory {
 
-    /**
-     * Create a code generator specific to the given language.
-     */
     CodeGenerator* createObject(Uml::Programming_Language pl);
 
 
-    /**
-     * Create a CodeOperation belonging to the given ClassifierCodeDocument.
-     * Only applies to the advanced generators.
-     *
-     * @param cd    the parent ClassifierCodeDocument.
-     * @param op    the related UMLOperation
-     * @return  CodeOperation which is specific to the current language
-     */
     CodeOperation *newCodeOperation(ClassifierCodeDocument *cd, UMLOperation * op);
 
-    /**
-     * Create an attribute CodeClassField belonging to the given
-     * ClassifierCodeDocument.
-     * Only applies to the advanced generators.
-     *
-     * @param cd         the parent ClassifierCodeDocument
-     * @param at         attribute which is parent of this class field
-     * @return  CodeClassField which is specific to the current language
-     */
     CodeClassField * newCodeClassField (ClassifierCodeDocument *cd, UMLAttribute * at);
 
-    /**
-     * Create an association role CodeClassField belonging to the given
-     * ClassifierCodeDocument.
-     * Only applies to the advanced generators.
-     *
-     * @param cd         the parent ClassifierCodeDocument
-     * @param role       association role which is parent of this class field
-     * @return  CodeClassField which is specific to the current language
-     */
     CodeClassField * newCodeClassField(ClassifierCodeDocument *cd, UMLRole *role);
 
-    /**
-     * Create a CodeAccessorMethod object belonging to the given ClassifierCodeDocument.
-     * Only applies to the advanced generators.
-     *
-     * @param cd         the parent ClassifierCodeDocument
-     * @param cf         CodeClassField which is parent of this object
-     * @param type       CodeAccessorMethod::AccessorType to create
-     *
-     * @return  CodeAccessorMethod which is specific to the current language
-     */
     CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *cd,
                                                CodeClassField *cf,
                                                CodeAccessorMethod::AccessorType type);
 
-    /**
-     * Create a CodeClassFieldDeclarationBlock object belonging to the given
-     * ClassifierCodeDocument.
-     * Only applies to the advanced generators.
-     *
-     * @param cd         the parent ClassifierCodeDocument
-     * @param cf         CodeClassField which is parent of this object
-     *
-     * @return  CodeClassFieldDeclarationBlock which is specific to the current language
-     */
     CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (ClassifierCodeDocument *cd,
                                                               CodeClassField * cf);
 
-    /**
-     * Create a new CodeComment object belonging to the given CodeDocument.
-     * Only applies to the advanced generators.
-     *
-     * @param cd         the parent CodeDocument
-     * @return      CodeBlockWithComments
-     */
     CodeComment * newCodeComment (CodeDocument *cd);
 
-    /**
-     * Currently unused (for possible future use)
-     */
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 
-    /**
-     * Returns the CodeGenPolicyExt for the given Uml::Programming_Language
-     *
-     * @param pl The Uml::Programming_Language for which we have to create the CodeGenPolicyExt
-     * @return A Language Specific CodeGenPolicyExt if the Language supports it else NULL
-     */
     CodeGenPolicyExt* newCodeGenPolicyExt(Uml::Programming_Language pl);
 }
 

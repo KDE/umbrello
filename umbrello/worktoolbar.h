@@ -37,8 +37,6 @@ class QAction;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
-
 class WorkToolBar : public KToolBar
 {
     Q_OBJECT
@@ -56,17 +54,8 @@ public:
      */
     ~WorkToolBar();
 
-    /**
-     * Sets the current tool to the previously used Tool. This is just
-     * as if the user had pressed the button for the other tool.
-     */
     void setOldTool();
 
-    /**
-     * Sets the current tool to the default tool. (select tool)
-     * Calling this function is as if the user had pressed the "arrow"
-     * button on the toolbar.
-     */
     void setDefaultTool();
 
     /**
@@ -165,26 +154,12 @@ private:
     ToolButtonMap       m_ToolButtons;
     ActionsMap          m_actions;
 
-    /**
-     * Loads toolbar icon and mouse cursor images from disk
-     */
     void loadPixmaps();
 
-    /**
-     * Returns the current cursor depending on m_CurrentButtonID
-     */
     QCursor currentCursor();
 
-    /**
-     * Inserts the button corresponding to the tbb value given
-     * and activates the toggle.
-     */
     QAction* insertHotBtn(ToolBar_Buttons tbb);
 
-    /**
-     * Inserts most associations, just reduces some string
-     * duplication (nice to translators)
-     */
     void insertBasicAssociations();
 
 signals:
@@ -194,11 +169,6 @@ public slots:
     void buttonChanged(int b);
     void slotResetToolBar();
 
-    /**
-      * These slots are triggered by the buttons. They call buttonChanged with
-      * the button id
-      *@{
-      */
     void slotArrow();
     void slotGeneralization();
     void slotAggregation();

@@ -43,6 +43,7 @@ class UMLClassifier;
  */
 class NativeImportBase : public ClassImport {
 public:
+
     /**
      * Constructor
      * @param singleLineCommentIntro  "//" for IDL and Java, "--" for Ada
@@ -51,70 +52,20 @@ public:
     virtual ~NativeImportBase();
 
 protected:
-    /**
-     * Implement abstract operation from ClassImport.
-     */
+
     void initialize();
 
-    /**
-     * Set the delimiter strings for a multi line comment.
-     *
-     * @param intro  In languages with a C style multiline comment
-     *               this is slash-star.
-     * @param end    In languages with a C style multiline comment
-     *               this is star-slash.
-     */
     void setMultiLineComment(const QString &intro, const QString &end);
-    /**
-     * Set the delimiter strings for an alternative form of
-     * multi line comment. See setMultiLineComment().
-     */
     void setMultiLineAltComment(const QString &intro, const QString &end);
 
-    /**
-     * Import a single file.
-     * The default implementation should be feasible for languages that
-     * don't depend on an external preprocessor.
-     *
-     * @param filename  The file to import.
-     */
     virtual void parseFile(const QString& filename);
 
-    /**
-     * Initialize auxiliary variables.
-     * This is called by the default implementation of parseFile()
-     * after scanning (before parsing the QStringList m_source.)
-     * The default implementation is empty.
-     */
     virtual void initVars();
 
-    /**
-     * Scan a single line.
-     * parseFile() calls this for each line read from the input file.
-     * This in turn calls other methods such as preprocess() and fillSource().
-     *
-     * @param line  The line to scan.
-     */
     void scan(QString line);
 
-    /**
-     * Preprocess a line.
-     * May modify the given line to remove items consumed by the
-     * preprocessing such as comments or preprocessor directives.
-     * The default implementation handles multi-line comments.
-     *
-     * @param line  The line to preprocess.
-     * @return      True if the line was completely consumed,
-     *              false if there are still items left in the line
-     *              for further analysis.
-     */
     virtual bool preprocess(QString& line);
 
-    /**
-     * Split the line so that a string is returned as a single element of the list.
-     * When not in a string then split at white space.
-     * The default implementation is suitable for C style strings and char constants.
-     */
     virtual QStringList split(const QString& line);
 
     /**
@@ -134,27 +85,10 @@ protected:
      */
     virtual bool parseStmt() = 0;
 
-    /**
-     * Advance m_srcIndex until m_source[m_srcIndex] contains the lexeme
-     * given by `until'.
-     */
     void skipStmt(QString until = ";");
 
-    /**
-     * Advance m_srcIndex to the index of the corresponding closing character
-     * of the given opening.  Nested opening/closing pairs are respected.
-     * Valid openers are:    '{'  '['  '('  '<'
-     *
-     * @return  True for success, false for misuse (invalid opener) or
-     *          if no matching closing character is found in m_source.
-     */
     bool skipToClosing(QChar opener);
 
-    /**
-     * Advance m_srcIndex until m_source[m_srcIndex] contains a non-comment.
-     * Comments encountered during advancement are accumulated in `m_comment'.
-     * If m_srcIndex hits the end of m_source then QString() is returned.
-     */
     QString advance();
 
     /**
@@ -215,6 +149,7 @@ protected:
      */
     QString m_multiLineCommentIntro;
     QString m_multiLineCommentEnd;
+
     /**
      * Some languages support an alternative set of multi line
      * comment delimiters.

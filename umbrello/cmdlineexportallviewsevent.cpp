@@ -23,6 +23,9 @@
 #include "umlviewimageexportermodel.h"
 
 
+/**
+ * Returns the type of the event.
+ */
 int CmdLineExportAllViewsEvent::getType()
 {
     return QEvent::User + 1;
@@ -36,6 +39,11 @@ CmdLineExportAllViewsEvent::CmdLineExportAllViewsEvent(const QString &imageType,
     m_useFolders = useFolders;
 }
 
+/**
+ * Exports all the views using UMLViewImageExporterModel, prints the errors
+ * occurred in the error output and sends a close event to the application to finish it.
+ * To export the views, it uses the attributes set when the event was created.
+ */
 void CmdLineExportAllViewsEvent::exportAllViews()
 {
     QStringList errors = UMLViewImageExporterModel().exportAllViews(m_imageType, m_directory, m_useFolders);

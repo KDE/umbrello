@@ -41,33 +41,12 @@ public:
      */
     virtual ~NoteWidgetController();
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Handles a mouse move event.
-     * Executes base code and then sets the geometry of the editor.
-     *
-     * @param me The QGraphicsSceneMouseEvent event.
-     */
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* me);
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Handles a mouse release event.
-     * Executes base code and then draws the text in the note.
-     *
-     * @param me The QGraphicsSceneMouseEvent event.
-     */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * me);
 
 protected:
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Executes the action for double click in the widget.
-     * Shows the dialog to change the text of the note.
-     *
-     * @param me The QGraphicsSceneMouseEvent which triggered the double click event.
-     */
     virtual void doMouseDoubleClick(QGraphicsSceneMouseEvent *me);
 
 private:

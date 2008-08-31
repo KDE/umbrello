@@ -30,6 +30,16 @@
 
 namespace Widget_Utils
 {
+
+    /**
+     * Find the widget identified by the given ID in the given widget
+     * or message list.
+     *
+     * @param id            The unique ID to find.
+     * @param widgets       The UMLWidgetList to search in.
+     * @param pMessages     Optional pointer to a MessageWidgetList to
+     *                      search in.
+     */
     NewUMLRectWidget* findWidget(Uml::IDType id,
                                  const UMLWidgetList& widgets,
                                  const MessageWidgetList* pMessages /* = NULL */)
@@ -54,6 +64,11 @@ namespace Widget_Utils
         return NULL;
     }
 
+    /**
+     * Creates the decoration point.
+     * @param p   the base point
+     * @return    the decoration point
+     */
     QGraphicsRectItem *decoratePoint(const QPointF& p)
     {
         const int SIZE = 4;
@@ -66,6 +81,11 @@ namespace Widget_Utils
         return rect;
     }
 
+    /**
+     * Calculates and draws a cross inside an ellipse
+     * @param p Pointer to a QPainter object.
+     * @param ellipse The rectangle describing the ellipse.
+     */
     void drawCrossInEllipse(QPainter *p, const QRectF& r)
     {
         QRectF ellipse = r;
@@ -98,6 +118,15 @@ namespace Widget_Utils
         p->translate(-r.center().x(), -r.center().y());
     }
 
+    /**
+     * Draws a polygon which is almost rectanguar except for the top
+     * right corner. A triangle is drawn in top right corner of the
+     * rectangle.
+     *
+     * @param painter The painter with which this shape is to be drawn.
+     * @param rect    The rectangle dimensions.
+     * @param triSize The size of the triange in the top-right corner.
+     */
     void drawTriangledRect(QPainter *painter,
                            const QRectF& rect, const QSizeF& triSize)
     {
@@ -117,6 +146,16 @@ namespace Widget_Utils
         painter->drawLine(baseEdge);
     }
 
+    /**
+     * Draws an arrow head with the given painter, with the arrow
+     * sharp point at \a headPos.
+     *
+     * @param painter    The painter with which this arrow should be drawn.
+     * @param headPos    The position where the head of the arrow should lie.
+     * @param arrowSize  This indicates the size of the arrow head.
+     * @param arrowType  This indicates direction of arrow as in LeftArrow, RightArrow..
+     * @param solid      If true, a solid head is drawn. Otherwise 2 lines are drawn.
+     */
     void drawArrowHead(QPainter *painter, const QPointF &arrowPos,
                        const QSizeF& arrowSize, Qt::ArrowType arrowType,
                        bool  solid)
@@ -141,11 +180,17 @@ namespace Widget_Utils
         }
     }
 
+    /**
+     * Converts a point to a comma separated string i.e "x,y"
+     */
     QString pointToString(const QPointF& point)
     {
         return QString("%1,%2").arg(point.x()).arg(point.y());
     }
 
+    /**
+     * Converts a comma separated string to point.
+     */
     QPointF stringToPoint(const QString& str)
     {
         QPointF retVal;
@@ -158,6 +203,16 @@ namespace Widget_Utils
         return retVal;
     }
 
+    /**
+     * Loads pixmap from xmi.
+     *
+     * @param qElement The dom element from which pixmap should be
+     *                 loaded.
+     *
+     * @param pixmap The pixmap into which the image should be loaded.
+     *
+     * @return True or false based on success or failure of this method.
+     */
     bool loadPixmapFromXMI(const QDomElement &pixEle, QPixmap &pixmap)
     {
         if (pixEle.isNull()) {
@@ -179,6 +234,16 @@ namespace Widget_Utils
         return true;
     }
 
+    /**
+     * Saves pixmap informatin into dom element \a qElement.
+     *
+     * @param qDoc The dom document object.
+     *
+     * @param qElement The dom element into which the pixmap should be
+     *                 saved.
+     *
+     * @param pixmap The pixmap to be saved.
+     */
     void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap)
     {
         QDomElement pixmapElement = qDoc.createElement("pixmap");
@@ -196,6 +261,20 @@ namespace Widget_Utils
         qElement.appendChild(pixmapElement);
     }
 
+    /**
+     * Loads gradient from xmi. The gradient pointer should be null
+     * and the new gradient object will be created inside this method.
+     * The gradient should later be deleted externally.
+     *
+     * @param qElement The dom element from which gradient should be
+     *                 loaded.
+     *
+     * @param gradient The pointer to gradient into which the gradient
+     *                 should be loaded. (Allocated inside this
+     *                 method)
+     *
+     * @return True or false based on success or failure of this method.
+     */
     bool loadGradientFromXMI(const QDomElement &gradientElement, QGradient *&gradient)
     {
         if(gradientElement.isNull()) {
@@ -257,6 +336,16 @@ namespace Widget_Utils
         return false;
     }
 
+    /**
+     * Saves gradient information into dom element \a qElement.
+     *
+     * @param qDoc The dom document object.
+     *
+     * @param qElement The dom element into which the gradient should be
+     *                 saved.
+     *
+     * @param gradient The gradient to be saved.
+     */
     void saveGradientToXMI(QDomDocument &qDoc, QDomElement &qElement, const QGradient *gradient)
     {
         QDomElement gradientElement = qDoc.createElement("gradient");
@@ -297,6 +386,16 @@ namespace Widget_Utils
         qElement.appendChild(gradientElement);
     }
 
+    /**
+     * Extracts the QBrush properties into brush from the XMI xml
+     * element qElement.
+     *
+     * @param qElement The dom element from which the xmi info should
+     *                 be extracted.
+     *
+     * @param brush The QBrush object into which brush details should
+     *              be read into.
+     */
     bool loadBrushFromXMI(const QDomElement &qElement, QBrush &brush)
     {
         if(qElement.isNull()) {
@@ -339,6 +438,16 @@ namespace Widget_Utils
         return true;
     }
 
+    /**
+     * Saves the brush info as xmi into the dom element \a qElement.
+     *
+     * @param qDoc The QDomDocument object pointing to the xmi document.
+     *
+     * @param qElement The element into which the pen, brush and font
+     *                 info should be saved.
+     *
+     * @param brush The QBrush whose details should be saved.
+     */
     void saveBrushToXMI(QDomDocument &qDoc, QDomElement &qElement,
                         const QBrush& brush)
     {

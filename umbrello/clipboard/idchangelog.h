@@ -21,7 +21,6 @@
  * @author Gustavo Madrigal
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 #include <qstring.h>
 #include <q3valuevector.h>
 
@@ -29,6 +28,7 @@
 
 class IDChangeLog {
 public:
+
     /**
      * Constructor.
      */
@@ -54,9 +54,6 @@ public:
      */
     bool operator==(const IDChangeLog& Other);
 
-    /**
-     * Adds a new ID Change to the log.
-     */
     void addIDChange(Uml::IDType OldID, Uml::IDType NewID);
 
     /**
@@ -65,20 +62,10 @@ public:
      */
     IDChangeLog& operator+=(const IDChangeLog& Other);
 
-    /**
-     * Returns the new assigned ID of the object that had OldID as its
-     * previous id.
-     */
     Uml::IDType findNewID(Uml::IDType OldID);
 
-    /**
-     * Returns the old ID of an UMLobject given its new one.
-     */
     Uml::IDType findOldID(Uml::IDType NewID);
 
-    /**
-     * Removes a change giving an New ID.
-     */
     void removeChangeByNewID( Uml::IDType OldID);
 
     enum SpecialIDs
@@ -87,6 +74,7 @@ public:
     };
 
 private:
+
     /**
      * Each change is a Point (x=newID, y=oldID)
      */
@@ -117,9 +105,6 @@ class PointArray : Q3ValueVector<Point> {
     };
     PointArray m_LogArray;
 
-    /**
-     * Finds a specific change in the log.
-     */
     bool findIDChange(Uml::IDType OldID, Uml::IDType NewID, uint& pos);
 };
 

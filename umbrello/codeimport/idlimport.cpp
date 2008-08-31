@@ -54,14 +54,24 @@ QString IDLImport::joinTypename()
     return typeName;
 }
 
+/**
+ * Override operation from NativeImportBase.
+ */
 bool IDLImport::preprocess(QString& line)
 {
     // Ignore C preprocessor generated lines.
     if (line.startsWith('#'))
         return true;  // done
+
+/**
+ * Override operation from NativeImportBase.
+ */
     return NativeImportBase::preprocess(line);
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ */
 void IDLImport::fillSource(const QString& word)
 {
     QString lexeme;
@@ -91,6 +101,10 @@ void IDLImport::fillSource(const QString& word)
         m_source.append(lexeme);
 }
 
+/**
+ * Reimplement operation from NativeImportBase.
+ * Need to do this because we use the external C preprocessor.
+ */
 void IDLImport::parseFile(const QString& filename)
 {
     if (filename.contains('/')) {
@@ -143,6 +157,9 @@ void IDLImport::parseFile(const QString& filename)
     pclose(fp);
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ */
 bool IDLImport::parseStmt()
 {
     const QString& keyword = m_source[m_srcIndex];

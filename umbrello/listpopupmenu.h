@@ -33,7 +33,6 @@ class UMLObject;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class ListPopupMenu : public KMenu
 {
     Q_OBJECT
@@ -209,13 +208,6 @@ public:
         mt_Undefined  =  - 1
     };
 
-    /**
-     * Constructs the popup menu for a diagram
-     *
-     * @param parent   The parent to ListPopupMenu.
-     * @param type     The type of menu to display.
-     * @param view     The UMLView in which this ListPopupMenu is going to be displayed
-     */
     explicit ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
 
     /**
@@ -243,14 +235,8 @@ public:
      */
     ~ListPopupMenu();
 
-    /**
-     * Utility: Convert a Menu_Type value to an Object_Type value.
-     */
     static Uml::Object_Type convert_MT_OT(Menu_Type mt);
 
-    /**
-     * Utility: Convert a Menu_Type value to a Diagram_Type value.
-     */
     static Uml::Diagram_Type convert_MT_DT(Menu_Type mt);
 
     /**
@@ -259,12 +245,6 @@ public:
 //    KAction* getAction(Menu_Type idx);
     QAction* getAction(Menu_Type idx);
 
-    /**
-     * Enables the action item.
-     *
-     * @param idx     The Menu_Type for which to enable the menu item.
-     * @param value   The value.
-     */
     void setActionEnabled(Menu_Type idx, bool value);
 
     /**
@@ -277,143 +257,41 @@ public:
 
 private:
 
-    /**
-     * Shortcut for the most frequently used addAction() calls.
-     *
-     * @param m   The Menu_Type for which to insert a menu item.
-     */
     void insert(Menu_Type m);
 
-    /**
-     * Shortcut for the frequently used addAction() calls.
-     *
-     * @param m      The Menu_Type for which to insert a menu item.
-     * @param menu   The KMenu for which to insert a menu item.
-     */
     void insert(const Menu_Type m, KMenu* menu);
 
-    /**
-     * Shortcut for the frequently used addAction() calls.
-     *
-     * @param m      The Menu_Type for which to insert a menu item.
-     * @param icon   The icon for this action.
-     * @param text   The text for this action.
-     */
     void insert(const Menu_Type m, const QIcon & icon, const QString & text);
 
-    /**
-     * Shortcut for the frequently used addAction() calls.
-     *
-     * @param m           The Menu_Type for which to insert a menu item.
-     * @param text        The text for this action.
-     * @param checkable   Sets the action to checkable.
-     */
     void insert(const Menu_Type m, const QString & text, const bool checkable = false);
 
-    /**
-     * Shortcut for the frequently used addAction() calls.
-     *
-     * @param m      The Menu_Type for which to insert a menu item.
-     * @param menu   The KMenu for which to insert a menu item.
-     * @param icon   The icon for this action.
-     * @param text   The text for this action.
-     */
     void insert(const Menu_Type m, KMenu* menu, const QIcon & icon, const QString & text);
 
-    /**
-     * Shortcut for the frequently used addAction() calls.
-     *
-     * @param m      The Menu_Type for which to insert a menu item.
-     * @param menu   The KMenu for which to insert a menu item.
-     * @param text   The text for this action.
-     */
     void insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable = false);
 
-    /**
-     * Shortcut for the most frequently used insertStdItem() calls.
-     *
-     * @param insertLeadingSeparator   Set this true if the group shall
-     *                                 start with a separator.
-     * @param type      The Widget_Type for which to insert the menu items.
-     *                  If no argument is supplied then a Rename item will be
-     *                  included.
-     */
     void insertStdItems(bool insertLeadingSeparator = true,
                         Uml::Widget_Type type = Uml::wt_NewUMLRectWidget);
 
-    /**
-     * Shortcut for inserting standard model items (Class, Interface,
-     * Datatype, Enum, Package) as well as diagram choices.
-     *
-     * @param folderAndDiagrams Set this true if folders and diagram
-     *                          types shall be included as choices.
-     */
     void insertContainerItems(bool folderAndDiagrams);
 
-    /**
-     * Inserts a menu item for an association related text
-     * (such as name, role, multiplicity etc.)
-     *
-     * @param label   The menu text.
-     * @param mt      The menu type.
-     */
     void insertAssocItem(const QString &label, Menu_Type mt);
 
-    /**
-     * Inserts a menu item for externalization/de-externalization
-     * of a folder.
-     */
     void insertSubmodelAction();
 
-    /**
-     * Creates a popup menu for a multiple selection of class and
-     * interface widgets.
-     */
     void makeMultiClassifierPopup(ClassifierWidget *c);
 
-    /**
-     * Creates a popup menu for a single class or interface widgets.
-     */
     void makeClassifierPopup(ClassifierWidget *c);
 
-    /**
-     * Creates a popup menu for a single category Object
-     * @param category The UMLCategory for which the category menu is created
-     */
     KMenu* makeCategoryTypeMenu(UMLCategory* category);
 
-    /**
-     * Shortcut for commonly used sub menu initializations.
-     *
-     * @param type   The Menu_Type for which to set up the menu.
-     */
     void insertSubMenuNew(Menu_Type type);
 
-    /**
-     * Shortcut for commonly used sub menu initializations.
-     *
-     * @param fc   The "Use Fill Color" is checked.
-     */
     void insertSubMenuColor(bool fc);
 
-    /**
-     *
-     */
     void setupDiagramMenu(UMLView* view);
 
-    /**
-     * Shortcut for commonly used menu initializations.
-     *
-     * @param type   The Menu_Type for which to set up the menu.
-     */
     void setupMenu(Menu_Type type);
 
-    /**
-     * Checks the action item.
-     *
-     * @param idx     The Menu_Type for which to check the menu item.
-     * @param value   The value.
-     */
     void setActionChecked(Menu_Type idx, bool value);
 
     /**

@@ -42,6 +42,14 @@ QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/) {
     }
 }
 
+/**
+ * Overrides method from UMLClassifierListItem.
+ * Returns the type name of the UMLTemplate.
+ * If the template parameter is a class, there is no separate
+ * type object. In this case, getTypeName() returns "class".
+ *
+ * @return  The type name of the UMLClassifierListItem.
+ */
 QString UMLTemplate::getTypeName() const
 {
     if (m_pSecondary == NULL)
@@ -62,11 +70,18 @@ bool UMLTemplate::operator==(const UMLTemplate &rhs) {
     return true;
 }
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLTemplate::copyInto(UMLObject *lhs) const
 {
     UMLClassifierListItem::copyInto(lhs);
 }
 
+/**
+ * Make a clone of this object.
+ */
 UMLObject* UMLTemplate::clone() const
 {
     UMLTemplate *clone = new UMLTemplate( (UMLTemplate*) parent());
@@ -76,6 +91,9 @@ UMLObject* UMLTemplate::clone() const
 }
 
 
+/**
+ * Writes the <UML:TemplateParameter> XMI element.
+ */
 void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     //FIXME: uml13.dtd compliance
     QDomElement attributeElement = UMLObject::save("UML:TemplateParameter", qDoc);
@@ -84,11 +102,19 @@ void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     qElement.appendChild(attributeElement);
 }
 
+/**
+ * Loads the <UML:TemplateParameter> XMI element.
+ */
 bool UMLTemplate::load(QDomElement& element) {
     m_SecondaryId = element.attribute("type", "");
     return true;
 }
 
+/**
+ * Display the properties configuration dialog for the template.
+ *
+ * @return  Success status.
+ */
 bool UMLTemplate::showPropertiesDialog(QWidget* parent) {
     UMLTemplateDialog dialog(parent, this);
     return dialog.exec();

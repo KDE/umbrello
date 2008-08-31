@@ -26,36 +26,72 @@
 
 namespace Icon_Utils {
 
+/**
+ * Returns the pixmap for the given type as small icon.
+ * @param type   the identification of the icon
+ * @return       the wanted pixmap
+ */
 QPixmap SmallIcon(Icon_Type type)
 {
     return SmallIcon(toString(type));
 }
 
+/**
+ * Returns the pixmap for the given type as bar icon.
+ * @param type   the identification of the icon
+ * @return       the wanted pixmap
+ */
 QPixmap BarIcon(Icon_Type type)
 {
     return BarIcon(toString(type));
 }
 
+/**
+ * Returns the pixmap for the given type as main bar icon.
+ * @param type   the identification of the icon
+ * @return       the wanted pixmap
+ */
 QPixmap MainBarIcon(Icon_Type type)
 {
     return MainBarIcon(toString(type));
 }
 
+/**
+ * Returns the pixmap for the given type as user icon.
+ * @param type   the identification of the icon
+ * @return       the wanted pixmap
+ */
 QPixmap UserIcon(Icon_Type type)
 {
     return UserIcon(toString(type));
 }
 
+/**
+ * Returns the pixmap for the given type as desktop icon.
+ * @param type   the identification of the icon
+ * @return       the wanted icon
+ */
 KIcon DesktopIcon(Icon_Type type)
 {
     return KIcon(DesktopIcon(toString(type)));
 }
 
+/**
+ * Returns the pixmap for the given type as user icon.
+ * This is used in worktoolbar to create cursors.
+ * @param type   the identification of the icon
+ * @return       the wanted cursor
+ */
 QCursor Cursor(Icon_Type type)
 {
     return QCursor(UserIcon("cursor-" + toString(type)), 9, 9);
 }
 
+/**
+ * Return the icon corresponding to the given Diagram_Type.
+ * @param dt   the diagram type
+ * @return     the wanted icon
+ */
 KIcon iconSet(Uml::Diagram_Type dt)
 {
     switch (dt) {
@@ -83,6 +119,11 @@ KIcon iconSet(Uml::Diagram_Type dt)
     }
 }
 
+/**
+ * Conversion from icon type to its string name.
+ * @param type   the identification of the icon
+ * @return       the string representation of the type
+ */
 QString toString(Icon_Type type)
 {
     switch (type) {

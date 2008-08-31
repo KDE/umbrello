@@ -16,9 +16,6 @@
 
 namespace UniqueID {
 
-    /**
-     * MAIN FUNCTION: Return a new unique ID.
-     */
     Uml::IDType gen();
 
 
@@ -27,21 +24,10 @@ namespace UniqueID {
     // NB Try to avoid these functions if possible because their
     // implementation and/or programming interface may change.
 
-    /**
-     * Reinitialize the unique ID counter.
-     * Should not normally be required because the ID counter is
-     * initialized by default anyway.
-     */
     void init();
 
-    /**
-     * Return the last generated unique ID without generating a new one.
-     */
     Uml::IDType get();
 
-    /**
-     * Explicitly set a new ID value.
-     */
     void set(Uml::IDType id);
 
 }  // end namespace UniqueID

@@ -122,6 +122,12 @@ void ConstraintListPage::slotNewCheckConstraint()
     m_itemType = Uml::ot_EntityConstraint;
 }
 
+/**
+ * Calculates the new index to be assigned when an object of type ot is to
+ * be added to the list box. The default Implementation is to add it to the end of the list
+ * @param ot The Object Type to be added
+ * @return The index
+ */
 int ConstraintListPage::calculateNewIndex(Uml::Object_Type ot)
 {
     // we want to show all Unique Constraints first , followed by ForeignKey Constraints
@@ -156,6 +162,9 @@ int ConstraintListPage::calculateNewIndex(Uml::Object_Type ot)
     return index;
 }
 
+/**
+ * Returns the index of the Item in the List Box
+ */
 int ConstraintListPage::relativeIndexOf(QListWidgetItem* item)
 {
     int actualIndex = ClassifierListPage::relativeIndexOf( item );
@@ -180,6 +189,13 @@ int ConstraintListPage::relativeIndexOf(QListWidgetItem* item)
     return newIndex;
 }
 
+/**
+ * Will return true if ot1 has a higher (top)  place in the list than ot2
+ *
+ * @param ct1 Contraint Type 1
+ * @param ct2 Constraint Type 2
+ * @return true if ct1 is to be shown above ct2 else false
+ */
 bool ConstraintListPage::greaterThan(Uml::Object_Type ct1,Uml::Object_Type ct2)
 {
     // define ordering

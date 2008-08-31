@@ -51,6 +51,11 @@ DocWindow::DocWindow( UMLDoc * doc, QWidget *parent ) : QWidget( parent )
 DocWindow::~DocWindow()
 {}
 
+/**
+ * This method is the same as the one for UMLObjects except it
+ * displays documentation for an association instance
+ * (AssociationWidget).
+ */
 void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
 {
     if( object == m_pUMLObject && !overwrite )
@@ -67,6 +72,18 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
     m_pDocTE->setText( m_pUMLObject->getDoc() );
 }
 
+/**
+ * Call when you wish move changes in the doc window back into the
+ * members documentation.
+ *
+ * If clear is true the doc window will display the documentation
+ * for the current project instead of the widget documentation.
+ *
+ * This is usually called before displaying a properties dialog.
+ *
+ * @param clear     If true, show the documentation of current project
+ * @param startup   If true, no setModified(true) calls will be done and nothing is pushed to the undo stack
+ */
 void DocWindow::updateDocumentation( bool clear, bool startup )
 {
     bool mark_modified = false;
@@ -142,6 +159,11 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
     return;
 }
 
+/**
+ * This method is the same as the one for UMLObjects except it
+ * displays documentation for an association instance
+ * (AssociationWidget).
+ */
 void DocWindow::showDocumentation( UMLView * view, bool overwrite )
 {
     if( view == m_pUMLView && !overwrite )
@@ -159,6 +181,11 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite )
     m_pDocTE->setText(m_pUMLView->umlScene()->getDoc());
 }
 
+/**
+ * This method is the same as the one for UMLObjects except it
+ * displays documentation for an association instance
+ * (AssociationWidget).
+ */
 void DocWindow::showDocumentation( NewUMLRectWidget * widget, bool overwrite )
 {
     if( widget == m_pUMLWidget && !overwrite )
@@ -175,6 +202,11 @@ void DocWindow::showDocumentation( NewUMLRectWidget * widget, bool overwrite )
     m_pDocTE->setText( m_pUMLWidget->getDoc() );
 }
 
+/**
+ * This method is the same as the one for UMLObjects except it
+ * displays documentation for an association instance
+ * (AssociationWidget).
+ */
 void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite )
 {
     if( widget == m_pAssocWidget && !overwrite )
@@ -191,6 +223,9 @@ void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite )
     m_pDocTE->setText( m_pAssocWidget->getDoc() );
 }
 
+/**
+ *  Re-initializes the class for a new document.
+ */
 void DocWindow::newDocumentation( )
 {
     m_pUMLView = 0;
@@ -201,6 +236,9 @@ void DocWindow::newDocumentation( )
     m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
 }
 
+/**
+ * Checks if the user is typing in the documentation edit window
+ */
 bool DocWindow::isTyping()
 {
     if (m_pDocTE->hasFocus())
@@ -209,6 +247,11 @@ bool DocWindow::isTyping()
         return false;
 }
 
+/**
+ * An association was removed from the UMLView.
+ * If the association removed was the association which documentation is
+ * being shown, m_pAssocWidget is set to 0.
+ */
 void DocWindow::slotAssociationRemoved(AssociationWidget* association)
 {
     if (association == m_pAssocWidget || association->getUMLObject() == m_pUMLObject) {
@@ -220,6 +263,11 @@ void DocWindow::slotAssociationRemoved(AssociationWidget* association)
     }
 }
 
+/**
+ * A widget was removed from the UMLView.
+ * If the association removed was the association which documentation is
+ * being shown, m_pUMLWidget is set to 0.
+ */
 void DocWindow::slotWidgetRemoved(NewUMLRectWidget* widget)
 {
     if (widget == m_pUMLWidget || widget->getUMLObject() == m_pUMLObject) {

@@ -22,6 +22,18 @@
 // application specific includes
 #include "umlviewimageexportermodel.h"
 
+/**
+ * Constructor for UMLViewImageExporterModel.
+ *
+ * @param parent The parent of the dialog.
+ * @param name The internal name.
+ * @param modal If modal is true the dialog will block input to other the windows
+ *              in the application until it's closed.
+ * @param fl Window flags.
+ * @param defaultMimeType The default mime type that appears in the mime types list.
+ *
+ * @see QDialog::QDialog
+ */
 ExportAllViewsDialog::ExportAllViewsDialog(
         QWidget* parent /* = 0 */,
         const char* name /* = 0 */,
@@ -55,6 +67,10 @@ ExportAllViewsDialog::ExportAllViewsDialog(
     languageChange();
 }
 
+/**
+ *  Sets the strings of the subwidgets using the current
+ *  language.
+ */
 void ExportAllViewsDialog::languageChange()
 {
     //ExportAllViewsDialogBase::languageChange();

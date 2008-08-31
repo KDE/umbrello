@@ -32,18 +32,30 @@ OwnedHierarchicalCodeBlock::~OwnedHierarchicalCodeBlock ( )
 {
 }
 
+/**
+ * causes the text block to release all of its connections
+ * and any other text blocks that it 'owns'.
+ * needed to be called prior to deletion of the textblock.
+ */
 void OwnedHierarchicalCodeBlock::release ()
 {
     OwnedCodeBlock::release();
     HierarchicalCodeBlock::release();
 }
 
+/**
+ * set the class attributes from a passed object
+ */
 void OwnedHierarchicalCodeBlock::setAttributesFromObject (TextBlock * obj)
 {
     HierarchicalCodeBlock::setAttributesFromObject(obj);
     OwnedCodeBlock::setAttributesFromObject(obj);
 }
 
+/**
+ * set attributes of the node that represents this class
+ * in the XMI document.
+ */
 void OwnedHierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & elem )
 {
     // set super-class attributes
@@ -66,6 +78,10 @@ void OwnedHierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomEl
     */
 }
 
+/**
+ * set the class attributes of this object from
+ * the passed element node.
+ */
 void OwnedHierarchicalCodeBlock::setAttributesFromNode ( QDomElement & root)
 {
     // set attributes from the XMI
@@ -73,8 +89,15 @@ void OwnedHierarchicalCodeBlock::setAttributesFromNode ( QDomElement & root)
     OwnedCodeBlock::setAttributesFromNode(root); // superclass load
 }
 
+/**
+ * Return the parent code document
+ */
 CodeDocument * OwnedHierarchicalCodeBlock::getParentDocument()
 {
+
+/**
+ * Return the parent code document
+ */
     return TextBlock::getParentDocument();
 }
 

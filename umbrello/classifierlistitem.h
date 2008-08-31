@@ -27,10 +27,10 @@ class UMLClassifier;
  * @author Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class UMLClassifierListItem : public UMLObject {
     Q_OBJECT
 public:
+
     /**
      * Constructor.  Empty.
      *
@@ -64,41 +64,14 @@ public:
      */
     virtual ~UMLClassifierListItem();
 
-    /**
-     * Returns the type of the UMLClassifierListItem.
-     *
-     * @return  The type of the UMLClassifierListItem.
-     */
     UMLClassifier * getType() const;
 
-    /**
-     * Returns the type name of the UMLClassifierListItem.
-     *
-     * @return  The type name of the UMLClassifierListItem.
-     */
     virtual QString getTypeName() const;
 
-    /**
-     * Sets the type name of the UMLClassifierListItem.
-     * DEPRECATED - use setType() instead.
-     *
-     * @param type      The type name of the UMLClassifierListItem.
-     */
     void setTypeName( const QString &type );
 
-    /**
-     * Sets the type of the UMLAttribute.
-     *
-     * @param type      Pointer to the UMLObject of the type.
-     */
     virtual void setType(UMLObject *type);
 
-    /**
-     * Returns a string representation of the list item.
-     *
-     * @param sig               What type of operation string to show.
-     * @return  The string representation of the operation.
-     */
     virtual QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
     /**
@@ -109,10 +82,6 @@ public:
      */
     virtual bool showPropertiesDialog(QWidget* parent) = 0;
 
-    /**
-     * Copy the internal presentation of this object into the new
-     * object.
-     */
     virtual void copyInto(UMLObject *lhs) const;
 
     /**

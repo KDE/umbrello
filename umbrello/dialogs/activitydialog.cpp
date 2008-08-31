@@ -47,6 +47,9 @@ ActivityDialog::ActivityDialog( UMLView * pView, ActivityWidget * pWidget )
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
+/**
+ *   Entered when OK button pressed.
+ */
 void ActivityDialog::slotOk()
 {
     applyPage( pageItemColor );
@@ -55,6 +58,9 @@ void ActivityDialog::slotOk()
     accept();
 }
 
+/**
+ *   Entered when Apply button pressed.
+ */
 void ActivityDialog::slotApply()
 {
     applyPage(currentPage());
@@ -82,6 +88,9 @@ void ActivityDialog::slotHideActivityParameter()
     m_GenPageWidgets.postLE->hide();
 }
 
+/**
+ *   Sets up the pages of the dialog.
+ */
 void ActivityDialog::setupPages()
 {
     setupGeneralPage();
@@ -89,6 +98,9 @@ void ActivityDialog::setupPages()
     setupFontPage();
 }
 
+/**
+ *     Applies changes to the given page.
+ */
 void ActivityDialog::applyPage( KPageWidgetItem *item )
 {
     m_bChangesMade = true;
@@ -117,6 +129,9 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     }
 }
 
+/**
+ *   Sets up the general page of the dialog.
+ */
 void ActivityDialog::setupGeneralPage()
 {
     QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n( "Branch/Merge"), i18n( "Fork/Join" ) };
@@ -199,6 +214,9 @@ void ActivityDialog::setupGeneralPage()
         m_GenPageWidgets.nameLE->setText( m_pActivityWidget->getName() );
 }
 
+/**
+ *   Sets up the font selection page.
+ */
 void ActivityDialog::setupFontPage()
 {
     KVBox *page = new KVBox();
@@ -210,6 +228,9 @@ void ActivityDialog::setupFontPage()
     m_pChooser->setFont( m_pActivityWidget->getFont() );
 }
 
+/**
+ *   Show the Activity Parameter entry text.
+ */
 void ActivityDialog::showParameterActivity()
 {
     m_GenPageWidgets.preL->show();
@@ -224,6 +245,9 @@ void ActivityDialog::showParameterActivity()
     }
 }
 
+/**
+ *   Sets up the color page.
+ */
 void ActivityDialog::setupColorPage()
 {
     QFrame *colorPage = new QFrame();

@@ -31,6 +31,7 @@ class OverwriteDialogue: public KDialog {
     Q_OBJECT
 
 public:
+
     /**
      * constructor sets up the dialog, adding checkbox and label
      */
@@ -42,27 +43,15 @@ public:
      */
     ~OverwriteDialogue();
 
-    /**
-     * @return the value of the Apply To All Remaining Files checkbox
-     */
     bool applyToAllRemaining();
 
 protected slots:
-    /**
-     * Overrides standard operation to call QDialog::done(Yes).
-     *  This is a kludge, see note in class description.
-     */
+
     virtual void slotOk();
 
-    /**
-    * Overrides standard operation to call QDialog::done(No).
-    */
     virtual void slotApply();
 
 
-    /**
-    * Overrides standard operation to call QDialog::done(Cancel).
-    */
     virtual void slotCancel();
 
 private:

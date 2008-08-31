@@ -140,6 +140,9 @@ UMLListViewItem::~UMLListViewItem()
 {
 }
 
+/**
+ * Initializes key variables of the class.
+ */
 void UMLListViewItem::init(UMLListView * parent)
 {
     m_Type = Uml::lvt_Unknown;
@@ -153,16 +156,27 @@ void UMLListViewItem::init(UMLListView * parent)
     }
 }
 
+/**
+ * Returns the type this instance represents.
+ *
+ * @return  The type this instance represents.
+ */
 Uml::ListView_Type UMLListViewItem::getType() const
 {
     return m_Type;
 }
 
+/**
+ * Adds the child listview item representing the given UMLClassifierListItem.
+ */
 void UMLListViewItem::addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem)
 {
     m_comap[child] = childItem;
 }
 
+/**
+ * Deletes the child listview item representing the given UMLClassifierListItem.
+ */
 void UMLListViewItem::deleteChildItem(UMLClassifierListItem *child)
 {
     UMLListViewItem *childItem = findChildObject(child);
@@ -174,6 +188,11 @@ void UMLListViewItem::deleteChildItem(UMLClassifierListItem *child)
     delete childItem;
 }
 
+/**
+ * Returns the id this class represents.
+ *
+ * @return  The id this class represents.
+ */
 Uml::IDType UMLListViewItem::getID() const
 {
     if (m_pObject)
@@ -181,6 +200,13 @@ Uml::IDType UMLListViewItem::getID() const
     return m_nId;
 }
 
+/**
+ * Sets the id this class represents.
+ * This only sets the ID locally, not at the UMLObject that is perhaps
+ * associated to this UMLListViewItem.
+ *
+ * @return  The id this class represents.
+ */
 void UMLListViewItem::setID(Uml::IDType id)
 {
     if (m_pObject) {
@@ -192,6 +218,10 @@ void UMLListViewItem::setID(Uml::IDType id)
     m_nId = id;
 }
 
+/**
+ * Returns true if the UMLListViewItem of the given ID is a parent of
+ * this UMLListViewItem.
+ */
 bool UMLListViewItem::isOwnParent(Uml::IDType listViewItemID)
 {
     Q3ListViewItem *lvi = (Q3ListViewItem*)s_pListView->findItem(listViewItemID);
@@ -206,6 +236,9 @@ bool UMLListViewItem::isOwnParent(Uml::IDType listViewItemID)
     return false;
 }
 
+/**
+ * Updates the representation of the object.
+ */
 void UMLListViewItem::updateObject()
 {
     if (m_pObject == NULL)
@@ -271,6 +304,9 @@ void UMLListViewItem::updateObject()
         setIcon(icon);
 }
 
+/**
+ * Updates the icon on a folder.
+ */
 void UMLListViewItem::updateFolder()
 {
     Icon_Utils::Icon_Type icon = Model_Utils::convert_LVT_IT(m_Type);
@@ -281,33 +317,53 @@ void UMLListViewItem::updateFolder()
     }
 }
 
+/**
+ * Overrides default method.
+ * Will call default method but also makes sure correct icon is shown.
+ */
 void UMLListViewItem::setOpen(bool open)
 {
     Q3ListViewItem::setOpen(open);
     updateFolder();
 }
 
+/**
+ * Changes the current text of column 0.
+ */
 void UMLListViewItem::setText(const QString &newText)
 {
     setText(0, newText);
 }
 
+/**
+ * Changes the current text of column 0.
+ */
 void UMLListViewItem::setText(int column, const QString &newText)
 {
     m_Label = newText;
     Q3ListViewItem::setText(column, newText);
 }
 
+/**
+ * Returns the current text.
+ */
 QString UMLListViewItem::getText() const
 {
     return m_Label;
 }
 
+/**
+ * Set the pixmap corresponding to the given Icon_Type.
+ */
 void UMLListViewItem::setIcon(Icon_Utils::Icon_Type iconType)
 {
     setPixmap(0, Icon_Utils::SmallIcon(iconType));
 }
 
+/**
+ * This function is called if the user presses Enter during in-place renaming
+ * of the item in column col, reimplemented from QlistViewItem
+ */
 void UMLListViewItem::okRename(int col)
 {
     QString oldText = m_Label; // copy old name
@@ -536,6 +592,9 @@ void UMLListViewItem::okRename(int col)
     doc->setModified(true);
 }
 
+/**
+ * Auxiliary method for okRename().
+ */
 void UMLListViewItem::cancelRenameWithMsg()
 {
     KMessageBox::error(0,
@@ -544,6 +603,9 @@ void UMLListViewItem::cancelRenameWithMsg()
     Q3ListViewItem::setText(0, m_Label);
 }
 
+/**
+ * Overrides default method to make public.
+ */
 void UMLListViewItem::cancelRename(int col)
 {
     Q3ListViewItem::cancelRename(col);
@@ -554,6 +616,10 @@ void UMLListViewItem::cancelRename(int col)
 
 // Sort the listview items by type and position within the corresponding list
 // of UMLObjects. If the item does not have an UMLObject then place it last.
+
+/**
+ * Overrides the default sorting to sort by item type.
+ */
 int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) const
 {
     UMLListViewItem *ulvi = static_cast<UMLListViewItem*>(other);
@@ -641,6 +707,11 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
     return (myIndex < otherIndex ? -1 : myIndex > otherIndex ? 1 : 0);
 }
 
+/**
+ * Create a deep copy of this UMLListViewItem, but using the
+ * given parent instead of the parent of this UMLListViewItem.
+ * Return the new UMLListViewItem created.
+ */
 UMLListViewItem* UMLListViewItem::deepCopy(UMLListViewItem *newParent)
 {
     QString nm = getText();
@@ -659,6 +730,11 @@ UMLListViewItem* UMLListViewItem::deepCopy(UMLListViewItem *newParent)
     return newItem;
 }
 
+/**
+ * Find the UMLListViewItem that is related to the given UMLObject
+ * in the tree rooted at the current UMLListViewItem.
+ * Return a pointer to the item or NULL if not found.
+ */
 UMLListViewItem* UMLListViewItem::findUMLObject(const UMLObject *o)
 {
     if (m_pObject == o)
@@ -673,6 +749,12 @@ UMLListViewItem* UMLListViewItem::findUMLObject(const UMLObject *o)
     return NULL;
 }
 
+/**
+ * Find the UMLListViewItem that represents the given UMLClassifierListItem
+ * in the children of the current UMLListViewItem.  (Only makes sense if
+ * the current UMLListViewItem represents a UMLClassifier.)
+ * Return a pointer to the item or NULL if not found.
+ */
 UMLListViewItem* UMLListViewItem::findChildObject(UMLClassifierListItem *cli)
 {
     ChildObjectMap::iterator it = m_comap.find(cli);
@@ -682,6 +764,14 @@ UMLListViewItem* UMLListViewItem::findChildObject(UMLClassifierListItem *cli)
     return NULL;
 }
 
+/**
+ * Find the UMLListViewItem of the given ID in the tree rooted at
+ * the current UMLListViewItem.
+ * Return a pointer to the item or NULL if not found.
+ *
+ * @param id                The ID to search for.
+ * @return  The item with the given ID or NULL if not found.
+ */
 UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
 {
     if (getID() == id)
@@ -696,6 +786,9 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
     return NULL;
 }
 
+/**
+ * saves the listview item to a "listitem" tag
+ */
 void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement itemElement = qDoc.createElement("listitem");
@@ -735,6 +828,9 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     qElement.appendChild(itemElement);
 }
 
+/**
+ * Loads a "listitem" tag, this is only used by the clipboard currently
+ */
 bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
 {
     QString id = qElement.attribute("id", "-1");

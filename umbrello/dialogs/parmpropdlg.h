@@ -37,6 +37,7 @@ class ParmPropDlg : public KDialog
 {
     Q_OBJECT
 public:
+
     /**
      * Constructs a ParmPropDlg.
      * @param parent   the parent of the dialog
@@ -49,63 +50,31 @@ public:
      */
     ~ParmPropDlg();
 
-    /**
-     * Returns the documentation.
-     * @return  Returns the documentation.
-     */
     QString getDoc() {
         return m_pDoc->toPlainText();
     }
 
-    /**
-     * Return the name of the parameter.
-     * @return  Return the name of the parameter.
-     */
     QString getName() {
         return m_pNameLE->text();
     }
 
-    /**
-     * Return the initial value of the parameter.
-     * @return  Return the initial value of the parameter.
-     */
     QString getInitialValue() {
         return m_pInitialLE->text();
     }
 
-    /**
-     * Return the type name of the parameter.
-     * @return Return the type name of the parameter.
-     */
     QString getTypeName() {
         return m_pTypeCB->currentText();
     }
 
-    /**
-     * Return the kind of the parameter (in, out, or inout).
-     * @return  The Uml::Parameter_Direction corresponding to
-     *          the selected "Kind" radiobutton.
-     */
     Uml::Parameter_Direction getParmKind();
 
 public slots:
     void slotOk();
 
 protected:
-    /**
-     * Inserts @p type into the type-combobox as well as its completion object.
-     * The combobox is cleared and all types together with the optional new one
-     * sorted and then added again.
-     * @param type   a new type to add and selected
-     */
+
     void insertTypesSorted(const QString& type = "");
 
-    /**
-     * Inserts @p type into the stereotype-combobox as well as its completion object.
-     * The combobox is cleared and all types together with the optional new one
-     * sorted and then added again.
-     * @param type   a new type to add and selected
-     */
     void insertStereotypesSorted(const QString& type = "");
 
 private:

@@ -13,6 +13,12 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+/**
+ * Sets up a Node.
+ *
+ * @param name              The name of the Concept.
+ * @param id                The unique id of the Concept.
+ */
 UMLNode::UMLNode(const QString & name, Uml::IDType id)
         : UMLCanvasObject(name, id) {
     init();
@@ -21,21 +27,33 @@ UMLNode::UMLNode(const QString & name, Uml::IDType id)
 UMLNode::~UMLNode() {
 }
 
+/**
+ * Initializes key variables of the class.
+ */
 void UMLNode::init() {
     m_BaseType = Uml::ot_Node;
 }
 
+/**
+ * Make a clone of this object.
+ */
 UMLObject* UMLNode::clone() const {
     UMLNode *clone = new UMLNode();
     UMLObject::copyInto(clone);
     return clone;
 }
 
+/**
+ * Creates the <UML:Node> XMI element.
+ */
 void UMLNode::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement nodeElement = UMLObject::save("UML:Node", qDoc);
     qElement.appendChild(nodeElement);
 }
 
+/**
+ * Loads the <UML:Node> XMI element (empty.)
+ */
 bool UMLNode::load(QDomElement& ) {
     return true;
 }

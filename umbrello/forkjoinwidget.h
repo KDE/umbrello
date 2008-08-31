@@ -28,12 +28,7 @@ class ForkJoinWidget : public BoxWidget
 {
 	Q_OBJECT
 public:
-    /**
-     * Constructs a ForkJoinWidget.
-     *
-     * @param drawVertical  Whether to draw the plate horizontally or vertically.
-     * @param id            The ID to assign (-1 will prompt a new ID.)
-     */
+
     explicit ForkJoinWidget(Qt::Orientation o = Qt::Horizontal, Uml::IDType id = Uml::id_None);
 	virtual ~ForkJoinWidget();
 

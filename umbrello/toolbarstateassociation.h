@@ -53,104 +53,34 @@ public:
      */
     virtual ~ToolBarStateAssociation();
 
-    /**
-     * Goes back to the initial state.
-     */
     virtual void init();
 
-    /**
-     * Called when the current tool is changed to use another tool.
-     * Executes base method and cleans the association.
-     */
     virtual void cleanBeforeChange();
 
-    /**
-     * Called when a mouse event happened.
-     * It executes the base method and then updates the position of the
-     * association line, if any.
-     */
     virtual void mouseMove(QGraphicsSceneMouseEvent* ome);
 
 public slots:
 
-    /**
-     * A widget was removed from the UMLScene.
-     * If the widget removed was the current widget, the current widget is set
-     * to 0.
-     * Also, if it was the first widget, the association is cleaned.
-     */
     virtual void slotWidgetRemoved(NewUMLRectWidget* widget);
 
 protected:
 
-    /**
-     * Called when the release event happened on an association.
-     * If the button pressed isn't left button, the association being created is
-     * cleaned. If it is left button, and the first widget is set and is a
-     * classifier widget, it creates an association class. Otherwise, the
-     * association being created is cleaned.
-     */
     virtual void mouseReleaseAssociation();
 
-    /**
-     * Called when the release event happened on a widget.
-     * If the button pressed isn't left button, the association is cleaned. If
-     * it is left button, sets the first widget or the second, depending on
-     * whether the first widget is already set or not.
-     */
     virtual void mouseReleaseWidget();
 
-    /**
-     * Called when the release event happened on an empty space.
-     * Cleans the association.
-     */
     virtual void mouseReleaseEmpty();
 
 private:
 
-    /**
-     * Sets the first widget in the association using the current widget.
-     * If the widget can't be associated using the current type of association,
-     * an error is shown and the widget isn't set.
-     * Otherwise, the temporal visual association is created and the mouse
-     * tracking is enabled, so move events will be delivered.
-     */
     void setFirstWidget();
 
-    /**
-     * Sets the second widget in the association using the current widget and
-     * creates the association.
-     * If the association between the two widgets using the current type of
-     * association, an error is shown and the association cancelled.
-     * Otherwise, the association is created and added to the scene, and the tool
-     * is changed to the default tool.
-     *
-     * @todo Why change to the default tool? Shouldn't it better to stay on
-     *       association and let the user change with a right click? The tool to
-     *       create widgets doesn't change to default after creating a widget
-     */
     void setSecondWidget();
 
-    /**
-     * Returns the association type of this tool.
-     *
-     * @return The association type of this tool.
-     */
     Uml::Association_Type getAssociationType();
 
-    /**
-     * Adds an AssociationWidget to the association list and creates the
-     * corresponding UMLAssociation in the current UMLDoc.
-     * If the association can't be added, is deleted.
-     *
-     * @param association The AssociationWidget to add.
-     */
     void addAssociationInViewAndDoc(AssociationWidget* association);
 
-    /**
-     * Cleans the first widget and the temporal association line, if any.
-     * Both are set to null, and the association line is also deleted.
-     */
     void cleanAssociation();
 
     /**

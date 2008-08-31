@@ -26,6 +26,7 @@ class NewUMLRectWidget;
  */
 class AssocRules {
 public:
+
     /**
      * Constructor.
      */
@@ -36,43 +37,20 @@ public:
      */
     ~AssocRules();
 
-    /**
-     * Returns whether an association is going to be allowed for the given
-     * values. This method is used to test if you can start an association.
-     */
     static bool allowAssociation( Uml::Association_Type assocType, NewUMLRectWidget * widget );
 
     static bool allowAssociation( Uml::Association_Type assocType, const std::type_info & );
 
-    /**
-     * Returns whether an association is valid with the given variables.
-     * This method is used to finish an association.
-     */
     static bool allowAssociation( Uml::Association_Type assocType,
                                   NewUMLRectWidget * widgetA, NewUMLRectWidget * widgetB,
                                   bool extendedCheck = true );
 
-    /**
-     * Returns whether to allow a role text for the given association type.
-     */
     static bool allowRole( Uml::Association_Type assocType );
 
-    /**
-     * Returns whether to allow a multiplicity text for the given
-     * association and widget type.
-     */
     static bool allowMultiplicity( Uml::Association_Type assocType, Uml::Widget_Type widgetType );
 
-    /**
-     * Returns whether to allow an association to self for given variables.
-     */
     static bool allowSelf( Uml::Association_Type assocType, Uml::Widget_Type widgetType );
 
-    /**
-     * Returns whether an implements association should be a Realisation or
-     * a Generalisation.
-     * as defined in m_AssocRules.
-     */
     static Uml::Association_Type isGeneralisationOrRealisation(NewUMLRectWidget* widgetA, NewUMLRectWidget* widgetB);
 
 private:

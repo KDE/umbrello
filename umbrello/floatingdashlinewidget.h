@@ -38,19 +38,11 @@ public:
         setName(text);
     }
 
-    /**
-     * @return Minimum y value upto which the line can be positioned
-     *         (wrt parent)
-     */
     qreal yMin() const {
         return m_yMin;
     }
     void setYMin(qreal y);
 
-    /**
-     * @return Maximum y value upto which the line can be positioned
-     *         (wrt parent)
-     */
     qreal yMax() const {
         return m_yMax;
     }

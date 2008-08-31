@@ -46,26 +46,51 @@ ToolBarStateOneWidget::~ToolBarStateOneWidget()
 {
 }
 
+/**
+ * Goes back to the initial state.
+ */
 void ToolBarStateOneWidget::init()
 {
     ToolBarStatePool::init();
 }
 
+/**
+ * Called when the current tool is changed to use another tool.
+ * Executes base method and cleans the message.
+ */
 void ToolBarStateOneWidget::cleanBeforeChange()
 {
     ToolBarStatePool::cleanBeforeChange();
 }
 
+/**
+ * Called when a mouse event happened.
+ * It executes the base method and then updates the position of the
+ * message line, if any.
+ */
 void ToolBarStateOneWidget::mouseMove(QGraphicsSceneMouseEvent* ome)
 {
     ToolBarStatePool::mouseMove(ome);
 }
 
+/**
+ * A widget was removed from the UMLView.
+ * If the widget removed was the current widget, the current widget is set
+ * to 0.
+ * Also, if it was the first object, the message is cleaned.
+ */
 void ToolBarStateOneWidget::slotWidgetRemoved(NewUMLRectWidget* widget)
 {
     ToolBarState::slotWidgetRemoved(widget);
 }
 
+/**
+ * Selects only widgets, but no associations.
+ * Overrides base class method.
+ * If the press event happened on the line of an object, the object is set
+ * as current widget. If the press event happened on a widget, the widget is
+ * set as current widget.
+ */
 void ToolBarStateOneWidget::setCurrentElement()
 {
     m_isObjectWidgetLine = false;
@@ -83,6 +108,17 @@ void ToolBarStateOneWidget::setCurrentElement()
     }
 }
 
+/**
+ * Called when the release event happened on a widget.
+ * If the button pressed isn't left button or the widget isn't an object
+ * widget, the message is cleaned.
+ * If the release event didn't happen on the line of an object and the first
+ * object wasn't selected, nothing is done. If the first object was already
+ * selected, a creation message is made.
+ * If the event happened on the line of an object, the first object or the
+ * second are set, depending on whether the first object was already set or
+ * not.
+ */
 void ToolBarStateOneWidget::mouseReleaseWidget()
 {
     Uml::Widget_Type widgetType = getWidgetType();
@@ -116,9 +152,21 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
 
 }
 
+/**
+ * Called when the release event happened on an empty space.
+ * Cleans the message.
+ * Empty spaces are not only actual empty spaces, but also associations.
+ */
 void ToolBarStateOneWidget::mouseReleaseEmpty() {
 }
 
+/**
+ * Sets the first object of the message using the specified object.
+ * The temporal visual message is created and mouse tracking enabled, so
+ * mouse events will be delivered.
+ *
+ * @param firstObject The first object of the message.
+ */
 void ToolBarStateOneWidget::setWidget(NewUMLRectWidget* firstObject)
 {
     m_firstObject = firstObject;
@@ -146,6 +194,11 @@ void ToolBarStateOneWidget::setWidget(NewUMLRectWidget* firstObject)
 }
 
 
+/**
+ * Returns the widget type of this tool.
+ *
+ * @return The widget type of this tool.
+ */
 Uml::Widget_Type ToolBarStateOneWidget::getWidgetType() {
     if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
         return Uml::wt_Precondition;

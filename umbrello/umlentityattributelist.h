@@ -31,15 +31,9 @@ public:
     UMLEntityAttributeList(const UMLEntityAttributeList&);
 
     virtual ~UMLEntityAttributeList();
-    /**
-     * Copy the internal presentation of this object into the new
-     * object.
-     */
+
     virtual void copyInto (UMLEntityAttributeList* rhs) const;
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLEntityAttributeList* clone() const;
 };
 

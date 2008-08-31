@@ -102,11 +102,19 @@ const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
             i18n("Relationship" )               // at_Relationship
         };
 
+/**
+ * Returns the Association_Type of the UMLAssociation.
+ *
+ * @return  The Association_Type of the UMLAssociation.
+ */
 Uml::Association_Type UMLAssociation::getAssocType() const
 {
     return m_AssocType;
 }
 
+/**
+ * Returns a String representation of this UMLAssociation.
+ */
 QString UMLAssociation::toString ( ) const
 {
     QString string;
@@ -126,6 +134,12 @@ QString UMLAssociation::toString ( ) const
     return string;
 }
 
+/**
+ * Converts a Uml::Association_Type to its string representation.
+ *
+ * @param atype             The Association_Type enum value to convert.
+ * @return  The string representation of the Association_Type.
+ */
 QString UMLAssociation::typeAsString (Uml::Association_Type atype)
 {
     if (atype < atypeFirst || atype > atypeLast)
@@ -133,6 +147,10 @@ QString UMLAssociation::typeAsString (Uml::Association_Type atype)
     return assocTypeStr[(unsigned)atype - (unsigned)atypeFirst];
 }
 
+/**
+ * Returns true if the given Association_Type has a representation as a
+ * UMLAssociation.
+ */
 bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
 {
     return (atype == Uml::at_Generalization ||
@@ -148,6 +166,14 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
             atype == Uml::at_Child2Category);
 }
 
+/**
+ * Resolve types. Required when dealing with foreign XMI files.
+ * Needs to be called after all UML objects are loaded from file.
+ * Overrides the method from UMLObject.
+ * Calls resolveRef() for each role.
+ *
+ * @return  True for success.
+ */
 bool UMLAssociation::resolveRef()
 {
     bool successA = getUMLRole(A)->resolveRef();
@@ -166,6 +192,10 @@ bool UMLAssociation::resolveRef()
     return false;
 }
 
+/**
+ * Creates the <UML:Generalization> or <UML:Association> XMI element
+ * including its role objects.
+ */
 void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     if (m_AssocType == Uml::at_Generalization) {
@@ -213,6 +243,10 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     qElement.appendChild( associationElement );
 }
 
+/**
+ * Creates the <UML:Generalization> or <UML:Association> XMI element
+ * including its role objects.
+ */
 bool UMLAssociation::load( QDomElement & element )
 {
     if (getID() == Uml::id_None)
@@ -474,6 +508,11 @@ bool UMLAssociation::load( QDomElement & element )
     return true;
 }
 
+/**
+ * Returns the UMLObject assigned to the given role.
+ *
+ * @return  Pointer to the UMLObject in the given role.
+ */
 UMLObject* UMLAssociation::getObject(Uml::Role_Type role)
 {
     if (m_pRole[role] == NULL)
@@ -481,6 +520,12 @@ UMLObject* UMLAssociation::getObject(Uml::Role_Type role)
     return m_pRole[role]->getObject();
 }
 
+/**
+ * Returns the ID of the UMLObject assigned to the given role.
+ * Shorthand for getObject(role)->getID().
+ *
+ * @return  ID of the UMLObject in the given role.
+ */
 Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role)
 {
     UMLRole *roleObj = m_pRole[role];
@@ -504,31 +549,61 @@ Uml::IDType UMLAssociation::getRoleId(Role_Type role) const {
 }
  */
 
+/**
+ * Returns the Changeablity of the given role.
+ *
+ * @return  Changeability_Type of the given role.
+ */
 Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) const
 {
     return m_pRole[role]->getChangeability();
 }
 
+/**
+ * Returns the Visibility of the given role.
+ *
+ * @return  Visibility of the given role.
+ */
 Uml::Visibility UMLAssociation::getVisibility(Uml::Role_Type role) const
 {
     return m_pRole[role]->getVisibility();
 }
 
+/**
+ * Returns the multiplicity assigned to the given role.
+ *
+ * @return  The multiplicity assigned to the given role.
+ */
 QString UMLAssociation::getMulti(Uml::Role_Type role) const
 {
     return m_pRole[role]->getMultiplicity();
 }
 
+/**
+ * Returns the name assigned to the role A.
+ *
+ * @return  The name assigned to the given role.
+ */
 QString UMLAssociation::getRoleName(Uml::Role_Type role) const
 {
     return m_pRole[role]->getName();
 }
 
+/**
+ * Returns the documentation assigned to the given role.
+ *
+ * @return  Documentation text of given role.
+ */
 QString UMLAssociation::getRoleDoc(Uml::Role_Type role) const
 {
     return m_pRole[role]->getDoc();
 }
 
+/**
+ * Get the underlying UMLRole object for the given role.
+ *
+ * @return  Pointer to the UMLRole object for the given role.
+ */
 UMLRole * UMLAssociation::getUMLRole(Uml::Role_Type role)
 {
     return m_pRole[role];
@@ -539,11 +614,19 @@ void UMLAssociation::setOldLoadMode(bool value /* = true */)
     m_bOldLoadMode = value;
 }
 
+/**
+ * Return the backward compatibility flag for loading files.
+ */
 bool UMLAssociation::getOldLoadMode() const
 {
     return m_bOldLoadMode;
 }
 
+/**
+ * Sets the assocType of the UMLAssociation.
+ *
+ * @param assocType The Association_Type of the UMLAssociation.
+ */
 void UMLAssociation::setAssocType(Uml::Association_Type assocType)
 {
     m_AssocType = assocType;
@@ -558,37 +641,78 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType)
     UMLObject::emitModified();
 }
 
+/**
+ * Sets the UMLObject playing the given role in the association.
+ *
+ * @param obj  Pointer to the UMLObject of the given role.
+ * @param role The Uml::Role_Type played by the association
+ */
 void UMLAssociation::setObject(UMLObject *obj, Uml::Role_Type role)
 {
     m_pRole[role]->setObject(obj);
 }
 
+/**
+ * Sets the visibility of the given role of the UMLAssociation.
+ *
+ * @param value  Visibility of role.
+ * @param role   The Uml::Role_Type to which the visibility is being applied
+ */
 void UMLAssociation::setVisibility(Uml::Visibility value, Uml::Role_Type role)
 {
     m_pRole[role]->setVisibility(value);
 }
 
+/**
+ * Sets the changeability of the given role of the UMLAssociation.
+ *
+ * @param value     Changeability_Type of the given role.
+ * @param role      The Uml::Role_Type to which the changeability is being set
+ */
 void UMLAssociation::setChangeability(Uml::Changeability_Type value, Uml::Role_Type role)
 {
     m_pRole[role]->setChangeability(value);
 }
 
+/**
+ * Sets the multiplicity of the given role of the UMLAssociation.
+ *
+ * @param multi    The multiplicity of the given role.
+ * @param role     The Uml::Role_Type to which the multiplicity is being applied
+ */
 void UMLAssociation::setMulti(const QString &value, Uml::Role_Type role)
 {
     UMLApp::app()->executeCommand(new CmdChangeMulti(m_pRole[role], value));
     //m_pRole[role]->setMultiplicity(value);
 }
 
+/**
+ * Sets the name of the given role of the UMLAssociation.
+ *
+ * @param roleName  The name to set for the given role.
+ * @param role      The Uml::Role_Type for which to set the name.
+ */
 void UMLAssociation::setRoleName(const QString &value, Uml::Role_Type role)
 {
     m_pRole[role]->setName(value);
 }
 
+/**
+ * Sets the documentation on the given role in the association.
+ *
+ * @param doc      The string with the documentation.
+ * @param role     The Uml::Role_Type to which the documentation is being applied
+ */
 void UMLAssociation::setRoleDoc(const QString &doc, Uml::Role_Type role)
 {
     m_pRole[role]->setDoc(doc);
 }
 
+/**
+ * Convert Changeability_Type value into QString representation.
+ *
+ * @param type              The Changeability_Type enum value to convert.
+ */
 QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type)
 {
     switch (type) {
@@ -605,6 +729,13 @@ QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type)
     }
 }
 
+/**
+ * Common initializations at construction time.
+ *
+ * @param type              The Association_Type to represent.
+ * @param roleAObj  Pointer to the role A UMLObject.
+ * @param roleBObj  Pointer to the role B UMLObject.
+ */
 void UMLAssociation::init(Uml::Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj)
 {
     m_AssocType = type;

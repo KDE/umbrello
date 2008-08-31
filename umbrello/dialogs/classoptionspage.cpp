@@ -41,6 +41,9 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, Settings::OptionState *opti
     setupClassPageOption();
 }
 
+/**
+ * Initialize optional items
+ */
 void ClassOptionsPage::init()
 {
     m_options = NULL;
@@ -56,6 +59,9 @@ ClassOptionsPage::~ClassOptionsPage()
 {
 }
 
+/**
+ * Creates the page with the correct options for the class/interface
+ */
 void ClassOptionsPage::setupPage()
 {
     int margin = fontMetrics().height();
@@ -121,6 +127,9 @@ void ClassOptionsPage::setupPage()
     }
 }
 
+/**
+ * Creates the page based on the OptionState
+ */
 void ClassOptionsPage::setupClassPageOption()
 {
     int margin = fontMetrics().height();
@@ -168,6 +177,9 @@ void ClassOptionsPage::setupClassPageOption()
     visibilityLayout->addWidget(m_pShowAttribAssocsCB, 3, 1);
 }
 
+/**
+ * Updates the widget with the dialog page properties.
+ */
 void ClassOptionsPage::updateUMLWidget()
 {
     if (m_pWidget) {
@@ -177,6 +189,9 @@ void ClassOptionsPage::updateUMLWidget()
     }
 }
 
+/**
+ * Sets the ClassifierWidget's properties to those selected in this dialog page.
+ */
 void ClassOptionsPage::updateWidget()
 {
     m_pWidget->setVisualProperty( ClassifierWidget::ShowPackage, m_pShowPackageCB->isChecked() );
@@ -194,6 +209,9 @@ void ClassOptionsPage::updateWidget()
     }
 }
 
+/**
+ * Sets the OptionState to the values selected in this dialog page.
+ */
 void ClassOptionsPage::updateOptionState()
 {
     m_options->classState.showVisibility = m_pShowVisibilityCB->isChecked();

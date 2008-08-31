@@ -167,21 +167,33 @@ UMLScene::~UMLScene()
 
 }
 
+/**
+ * Return the name of the diagram.
+ */
 QString UMLScene::getName() const
 {
     return m_Name;
 }
 
+/**
+ * Set the name of the diagram.
+ */
 void UMLScene::setName(const QString &name)
 {
     m_Name = name;
 }
 
+/**
+ * Used for creating unique name of collaboration messages.
+ */
 int UMLScene::generateCollaborationId()
 {
     return ++m_nCollaborationId;
 }
 
+/**
+ * contains the implementation for printing functionality
+ */
 void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
 {
     int height, width;
@@ -353,6 +365,10 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     forceUpdateWidgetFontMetrics(0);
 }
 
+/**
+ * Initialize and announce a newly created widget.
+ * Auxiliary to contentsMouseReleaseEvent().
+ */
 void UMLScene::setupNewWidget(NewUMLRectWidget *w)
 {
 	if(w->scene() != this) {
@@ -376,12 +392,20 @@ void UMLScene::setupNewWidget(NewUMLRectWidget *w)
     // UMLApp::app()->executeCommand(new CmdCreateWidget(this, w));
 }
 
+/**
+ * Overrides the standard operation.
+ * Calls the same method in the current tool bar state.
+ */
 void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseRelease(ome);
     m_isMouseMovingItems = false;
 }
 
+/**
+ * Changes the current tool to the selected tool.
+ * The current tool is cleaned and the selected tool initialized.
+ */
 void UMLScene::slotToolBarChanged(int c)
 {
     m_pToolBarState->cleanBeforeChange();
@@ -464,6 +488,9 @@ void UMLScene::slotObjectRemoved(UMLObject * o)
     }
 }
 
+/**
+ * Override standard method.
+ */
 void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
@@ -564,12 +591,18 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
     }
 }
 
+/**
+ * Override standard method.
+ */
 void UMLScene::dragMoveEvent(QGraphicsSceneDragDropEvent* e)
 {
     e->accept();
 }
 
 
+/**
+ * Override standard method.
+ */
 void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
@@ -614,6 +647,13 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
     m_pDoc->setModified(true);
 }
 
+/**
+ * Determine whether on a sequence diagram we have clicked on a line
+ * of an Object.
+ *
+ * @return The widget thats line was clicked on.
+ *  Returns 0 if no line was clicked on.
+ */
 ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
 {
     QList<QGraphicsItem*> itemsAtPoint = items(point);
@@ -629,6 +669,13 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
     return 0;
 }
 
+/**
+ * Determine whether on a sequence diagram we have clicked on
+ * the destruction box of an Object.
+ *
+ * @return The widget thats destruction box was clicked on.
+ *  Returns 0 if no destruction box was clicked on.
+ */
 ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
 {
 
@@ -648,6 +695,13 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
     return 0;
 }
 
+/**
+ * Tests the given point against all widgets and returns the
+ * widget for which the point is within its bounding rectangle.
+ * In case of multiple matches, returns the smallest widget.
+ * Returns NULL if the point is not inside any widget.
+ * Does not use or modify the m_pOnWidget member.
+ */
 NewUMLRectWidget *UMLScene::getWidgetAt(const QPointF& p)
 {
     int relativeSize = 10000;  // start with an arbitrary large number
@@ -665,6 +719,10 @@ NewUMLRectWidget *UMLScene::getWidgetAt(const QPointF& p)
     return retObj;
 }
 
+/**
+ * Sees if a message is relevant to the given widget.  If it does delete it.
+ * @param w The widget to check messages against.
+ */
 void UMLScene::checkMessages(ObjectWidget * w)
 {
     if (getType() != dt_Sequence)
@@ -683,6 +741,13 @@ void UMLScene::checkMessages(ObjectWidget * w)
     }
 }
 
+/**
+ * Returns whether a widget is already on the diagram.
+ *
+ * @param id The id of the widget to check for.
+ *
+ * @return Returns true if the widget is already on the diagram, false if not.
+ */
 bool UMLScene::widgetOnDiagram(Uml::IDType id)
 {
 
@@ -699,12 +764,24 @@ bool UMLScene::widgetOnDiagram(Uml::IDType id)
     return false;
 }
 
+/**
+ * Overrides the standard operation.
+ * Calls the same method in the current tool bar state.
+ */
 void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseMove(ome);
 }
 
 // search both our NewUMLRectWidget AND MessageWidget lists
+
+/**
+ * Finds a widget with the given ID.
+ *
+ * @param id The ID of the widget to find.
+ *
+ * @return Returns the widget found, returns 0 if no widget found.
+ */
 NewUMLRectWidget * UMLScene::findWidget(Uml::IDType id)
 {
     foreach(NewUMLRectWidget* obj, m_WidgetList) {
@@ -727,6 +804,18 @@ NewUMLRectWidget * UMLScene::findWidget(Uml::IDType id)
 
 
 
+/**
+ * Finds an association widget with the given widgets and the given role B name.
+ * Considers the following association types:
+ *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
+ * This is used for seeking an attribute association.
+ *
+ * @param pWidgetA  Pointer to the NewUMLRectWidget of role A.
+ * @param pWidgetB  Pointer to the NewUMLRectWidget of role B.
+ * @param roleNameB Name at the B side of the association (the attribute name)
+ *
+ * @return Returns the widget found, returns 0 if no widget found.
+ */
 AssociationWidget * UMLScene::findAssocWidget(Uml::IDType id)
 {
     foreach(AssociationWidget* obj , m_AssociationList) {
@@ -738,6 +827,18 @@ AssociationWidget * UMLScene::findAssocWidget(Uml::IDType id)
     return 0;
 }
 
+/**
+ * Finds an association widget with the given widgets and the given role B name.
+ * Considers the following association types:
+ *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
+ * This is used for seeking an attribute association.
+ *
+ * @param pWidgetA  Pointer to the NewUMLRectWidget of role A.
+ * @param pWidgetB  Pointer to the NewUMLRectWidget of role B.
+ * @param roleNameB Name at the B side of the association (the attribute name)
+ *
+ * @return Returns the widget found, returns 0 if no widget found.
+ */
 AssociationWidget * UMLScene::findAssocWidget(NewUMLRectWidget *pWidgetA,
                                               NewUMLRectWidget *pWidgetB, const QString& roleNameB)
 {
@@ -758,6 +859,18 @@ AssociationWidget * UMLScene::findAssocWidget(NewUMLRectWidget *pWidgetA,
 }
 
 
+/**
+ * Finds an association widget with the given widgets and the given role B name.
+ * Considers the following association types:
+ *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
+ * This is used for seeking an attribute association.
+ *
+ * @param pWidgetA  Pointer to the NewUMLRectWidget of role A.
+ * @param pWidgetB  Pointer to the NewUMLRectWidget of role B.
+ * @param roleNameB Name at the B side of the association (the attribute name)
+ *
+ * @return Returns the widget found, returns 0 if no widget found.
+ */
 AssociationWidget * UMLScene::findAssocWidget(Uml::Association_Type at,
                                               NewUMLRectWidget *pWidgetA, NewUMLRectWidget *pWidgetB)
 {
@@ -773,6 +886,11 @@ AssociationWidget * UMLScene::findAssocWidget(Uml::Association_Type at,
     return 0;
 }
 
+/**
+ * Remove a widget from view.
+ *
+ * @param o  The widget to remove.
+ */
 void UMLScene::removeWidget(NewUMLRectWidget * o)
 {
     if (!o)
@@ -798,59 +916,104 @@ void UMLScene::removeWidget(NewUMLRectWidget * o)
     m_pDoc->setModified(true);
 }
 
+/**
+ * Returns whether to use the fill/background color
+ */
 bool UMLScene::getUseFillColor() const
 {
     return m_Options.uiState.useFillColor;
 }
 
+/**
+ * Sets whether to use the fill/background color
+ */
 void UMLScene::setUseFillColor(bool ufc)
 {
     m_Options.uiState.useFillColor = ufc;
 }
 
+/**
+ * Returns the fill color to use.
+ */
 QColor UMLScene::getFillColor() const
 {
     return m_Options.uiState.fillColor;
 }
 
+/**
+ * Set the background color.
+ *
+ * @param color  The color to use.
+ */
 void UMLScene::setFillColor(const QColor &color)
 {
     m_Options.uiState.fillColor = color;
     emit sigColorChanged(getID());
 }
 
+/**
+ * Returns the line color to use.
+ */
 QColor UMLScene::getLineColor() const
 {
     return m_Options.uiState.lineColor;
 }
 
+/**
+ * Sets the line color.
+ *
+ * @param color  The color to use.
+ */
 void UMLScene::setLineColor(const QColor &color)
 {
     m_Options.uiState.lineColor = color;
     emit sigColorChanged(getID());
 }
 
+/**
+ * Returns the line width to use.
+ */
 uint UMLScene::getLineWidth() const
 {
     return m_Options.uiState.lineWidth;
 }
 
+/**
+ * Sets the line width.
+ *
+ * @param width  The width to use.
+ */
 void UMLScene::setLineWidth(uint width)
 {
     m_Options.uiState.lineWidth = width;
     emit sigLineWidthChanged(getID());
 }
 
+/**
+ * Override standard method.
+ * Calls the same method in the current tool bar state.
+ */
 void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseDoubleClick(ome);
 }
 
+/**
+ * Gets the smallest area to print.
+ *
+ * @return Returns the smallest area to print.
+ */
 QRectF UMLScene::getDiagramRect()
 {
     return itemsBoundingRect();
 }
 
+/**
+ * Sets a widget to a selected state and adds it to a list of selected widgets.
+ *
+ * @param w The widget to set to selected.
+ * @param me The mouse event containing the information about the selection.
+ */
 void UMLScene::setSelected(NewUMLRectWidget * w, QGraphicsSceneMouseEvent * me)
 {
     Q_UNUSED(me);
@@ -869,6 +1032,13 @@ void UMLScene::setSelected(NewUMLRectWidget * w, QGraphicsSceneMouseEvent * me)
     UMLApp::app()->slotCopyChanged();
 }
 
+/**
+ * Returns a list of selected widgets.
+ *
+ * This method walks over all the selected items, tries to cast them to
+ * widget and on success adds it to widget only list.
+ * Finally it returns this list.
+ */
 UMLWidgetList UMLScene::selectedWidgets() const
 {
     UMLWidgetList list;
@@ -881,6 +1051,9 @@ UMLWidgetList UMLScene::selectedWidgets() const
     return list;
 }
 
+/**
+ * Return pointer to the first selected widget (for multi-selection)
+ */
 NewUMLRectWidget* UMLScene::getFirstMultiSelectedWidget() const
 {
     UMLWidgetList list = selectedWidgets();
@@ -890,12 +1063,22 @@ NewUMLRectWidget* UMLScene::getFirstMultiSelectedWidget() const
     return list.first();
 }
 
+/**
+ *  Clear the selected widgets list.
+ */
 void UMLScene::clearSelected()
 {
     clearSelection();
 }
 
 //TODO Only used in UMLApp::handleCursorKeyReleaseEvent
+
+/**
+ * Move all the selected widgets by a relative X and Y offset.
+ *
+ * @param dX The distance to move horizontally.
+ * @param dY The distance to move vertically.
+ */
 void UMLScene::moveSelectedBy(qreal dX, qreal dY)
 {
     // uDebug() << "********** selectedWidgets() count=" << selectedWidgets().count();
@@ -904,6 +1087,11 @@ void UMLScene::moveSelectedBy(qreal dX, qreal dY)
     }
 }
 
+/**
+ * Set the useFillColor variable to all selected widgets
+ *
+ * @param useFC The state to set the widget to.
+ */
 void UMLScene::selectionUseFillColor(bool useFC)
 {
     foreach(NewUMLRectWidget* temp, selectedWidgets()) {
@@ -911,6 +1099,9 @@ void UMLScene::selectionUseFillColor(bool useFC)
     }
 }
 
+/**
+ * Set the font for all the currently selected items.
+ */
 void UMLScene::selectionSetFont(const QFont &font)
 {
     foreach(NewUMLRectWidget* temp, selectedWidgets()) {
@@ -918,6 +1109,9 @@ void UMLScene::selectionSetFont(const QFont &font)
     }
 }
 
+/**
+ * Set the line color for all the currently selected items.
+ */
 void UMLScene::selectionSetLineColor(const QColor &color)
 {
     UMLApp::app()->BeginMacro("Change Line Color");
@@ -933,6 +1127,9 @@ void UMLScene::selectionSetLineColor(const QColor &color)
     UMLApp::app()->EndMacro();
 }
 
+/**
+ * Set the line width for all the currently selected items.
+ */
 void UMLScene::selectionSetLineWidth(uint width)
 {
     foreach(NewUMLRectWidget* temp , selectedWidgets()) {
@@ -946,6 +1143,9 @@ void UMLScene::selectionSetLineWidth(uint width)
     }
 }
 
+/**
+ * Set the fill color for all the currently selected items.
+ */
 void UMLScene::selectionSetFillColor(const QColor &color)
 {
     UMLApp::app()->BeginMacro("Change Fill Color");
@@ -957,6 +1157,9 @@ void UMLScene::selectionSetFillColor(const QColor &color)
     UMLApp::app()->EndMacro();
 }
 
+/**
+ * Toggles the show setting sel of all selected items.
+ */
 void UMLScene::selectionToggleShow(int sel)
 {
     // loop through all selected items
@@ -1010,6 +1213,9 @@ void UMLScene::selectionToggleShow(int sel)
     }
 }
 
+/**
+ * Delete the selected widgets list and the widgets in it.
+ */
 void UMLScene::deleteSelection()
 {
     /*
@@ -1052,6 +1258,9 @@ void UMLScene::deleteSelection()
 
 }
 
+/**
+ * Selects all widgets
+ */
 void UMLScene::selectAll()
 {
     clearSelection();
@@ -1060,12 +1269,21 @@ void UMLScene::selectAll()
     setSelectionArea(path);
 }
 
+/**
+ * Return a unique ID for the diagram.  Used by the @ref ObjectWidget class.
+ *
+ * @return Return a unique ID for the diagram.
+ */
 Uml::IDType UMLScene::getLocalID()
 {
     m_nLocalID = UniqueID::gen();
     return m_nLocalID;
 }
 
+/**
+ * Returns true if this diagram resides in an externalized folder.
+ * CHECK: It is probably cleaner to move this to the UMLListViewItem.
+ */
 bool UMLScene::isSavedInSeparateFile()
 {
     if (getOptionState().generalState.tabdiagrams) {
@@ -1100,6 +1318,10 @@ bool UMLScene::isSavedInSeparateFile()
     return !folderFile.isEmpty();
 }
 
+/**
+ * Override standard method.
+ * Calls the same method in the current tool bar state.
+ */
 void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* ome)
 {
     if (isArrowMode() && ome->buttons().testFlag(Qt::LeftButton)) {
@@ -1126,6 +1348,11 @@ bool UMLScene::isArrowMode()
         m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
 }
 
+/**
+ * Calls setSelected on the given NewUMLRectWidget and enters
+ * it into the m_SelectedList while making sure it is
+ * there only once.
+ */
 void UMLScene::makeSelected(NewUMLRectWidget * uw)
 {
     if (uw) {
@@ -1133,6 +1360,9 @@ void UMLScene::makeSelected(NewUMLRectWidget * uw)
     }
 }
 
+/**
+ * Selects all the widgets of the given association widget.
+ */
 void UMLScene::selectWidgetsOfAssoc(AssociationWidget * a)
 {
     if (!a)
@@ -1150,6 +1380,9 @@ void UMLScene::selectWidgetsOfAssoc(AssociationWidget * a)
     makeSelected(a->getChangeWidget(B));
 }
 
+/**
+ * Selects all the widgets within an internally kept rectangle.
+ */
 void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
 {
     clearSelected();
@@ -1159,6 +1392,9 @@ void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
     setSelectionArea(path);
 }
 
+/**
+ * Paint diagram to the paint device
+ */
 void  UMLScene::getDiagram(const QRectF &rect, QPixmap & diagram)
 {
     QPixmap pixmap(rect.x() + rect.width(), rect.y() + rect.height());
@@ -1168,6 +1404,9 @@ void  UMLScene::getDiagram(const QRectF &rect, QPixmap & diagram)
     output.drawPixmap(QPoint(0, 0), pixmap, rect);
 }
 
+/**
+ * Paint diagram to the paint device
+ */
 void  UMLScene::getDiagram(const QRectF &area, QPainter & painter)
 {
     //TODO unselecting and selecting later doesn't work now as the selection is
@@ -1204,16 +1443,27 @@ void  UMLScene::getDiagram(const QRectF &area, QPainter & painter)
     }
 }
 
+/**
+ * Returns the imageExporter used to export the view.
+ *
+ * @return The imageExporter used to export the view.
+ */
 UMLViewImageExporter* UMLScene::getImageExporter()
 {
     return m_pImageExporter;
 }
 
+/**
+ * makes this view the active view by asking the document to show us
+ */
 void UMLScene::slotActivate()
 {
     m_pDoc->changeCurrentView(getID());
 }
 
+/**
+ * Returns a List of all the UMLObjects(Use Cases, Concepts and Actors) in the View
+ */
 UMLObjectList UMLScene::getUMLObjects()
 {
     UMLObjectList list;
@@ -1238,6 +1488,9 @@ UMLObjectList UMLScene::getUMLObjects()
     return list;
 }
 
+/**
+ * Activate all the objects and associations after a load from the clipboard
+ */
 void UMLScene::activate()
 {
     //Activate Regular widgets then activate  messages
@@ -1282,6 +1535,14 @@ void UMLScene::activate()
     }
 }
 
+/**
+ * Return the amount of widgets selected.
+ *
+ * @param filterText  When true, do NOT count floating text widgets that
+ *                    belong to other widgets (i.e. only count tr_Floating.)
+ *                    Default: Count all widgets.
+ * @return  Number of widgets selected.
+ */
 int UMLScene::getSelectCount(bool filterText) const
 {
     if (!filterText)
@@ -1315,6 +1576,9 @@ bool UMLScene::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*=
     return true;
 }
 
+/**
+ * Returns a list with all the selected associations from the diagram
+ */
 AssociationWidgetList UMLScene::getSelectedAssocs()
 {
     AssociationWidgetList assocWidgetList;
@@ -1326,6 +1590,10 @@ AssociationWidgetList UMLScene::getSelectedAssocs()
     return assocWidgetList;
 }
 
+/**
+ * Adds a widget to the view from the given data.
+ * Use this method when pasting.
+ */
 bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
 {
     if (!pWidget) {
@@ -1556,6 +1824,11 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
 }
 
 // Add the association, and its child widgets to this view
+
+/**
+ * Adds an association to the view from the given data.
+ * Use this method when pasting.
+ */
 bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
 {
 
@@ -1649,6 +1922,9 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
     return true;
 }
 
+/**
+ * Activate the view after a load a new file
+ */
 void UMLScene::activateAfterLoad(bool bUseLog)
 {
     if (m_bActivated)
@@ -1684,6 +1960,12 @@ void UMLScene::endPartialWidgetPaste()
     m_bPaste = false;
 }
 
+/**
+ * Removes a AssociationWidget from a diagram
+ * Physically deletes the AssociationWidget passed in.
+ *
+ * @param pAssoc  Pointer to the AssociationWidget.
+ */
 void UMLScene::removeAssoc(AssociationWidget* pAssoc)
 {
     if (!pAssoc)
@@ -1697,6 +1979,10 @@ void UMLScene::removeAssoc(AssociationWidget* pAssoc)
     m_pDoc->setModified();
 }
 
+/**
+ * Removes an AssociationWidget from the association list
+ * and removes the corresponding UMLAssociation from the current UMLDoc.
+ */
 void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
 {
     // For umbrello 1.2, UMLAssociations can only be removed in two ways:
@@ -1737,6 +2023,9 @@ void UMLScene::removeAssociations(NewUMLRectWidget* Widget)
     }
 }
 
+/**
+ * Sets each association as selected if the widgets it associates are selected
+ */
 void UMLScene::selectAssociations(bool bSelect)
 {
 
@@ -1751,6 +2040,9 @@ void UMLScene::selectAssociations(bool bSelect)
     }//end foreach
 }
 
+/**
+ * Fills Associations with all the associations that includes a widget related to object
+ */
 void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associations)
 {
     if (! Obj)
@@ -1764,6 +2056,9 @@ void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associati
 
 }
 
+/**
+ * Removes All the associations of the diagram
+ */
 void UMLScene::removeAllAssociations()
 {
     //Remove All association widgets
@@ -1779,6 +2074,9 @@ void UMLScene::removeAllAssociations()
 }
 
 
+/**
+ * Removes All the widgets of the diagram
+ */
 void UMLScene::removeAllWidgets()
 {
     // Do this because ~QGraphicsItem deletes its children causing
@@ -1802,29 +2100,49 @@ void UMLScene::removeAllWidgets()
     m_AssociationList.clear();
 }
 
+/**
+ *  Calls the same method in the DocWindow.
+ */
 void UMLScene::showDocumentation(UMLObject * object, bool overwrite)
 {
     UMLApp::app()->getDocWindow()->showDocumentation(object, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
+/**
+ *  Calls the same method in the DocWindow.
+ */
 void UMLScene::showDocumentation(NewUMLRectWidget * widget, bool overwrite)
 {
     UMLApp::app()->getDocWindow()->showDocumentation(widget, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
+/**
+ *  Calls the same method in the DocWindow.
+ */
 void UMLScene::showDocumentation(AssociationWidget * widget, bool overwrite)
 {
     UMLApp::app()->getDocWindow()->showDocumentation(widget, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
+/**
+ *  Calls the same method in the DocWindow.
+ */
 void UMLScene::updateDocumentation(bool clear)
 {
     UMLApp::app()->getDocWindow()->updateDocumentation(clear);
 }
 
+/**
+ * Refreshes containment association, i.e. removes possible old
+ * containment and adds new containment association if applicable.
+ *
+ * @param self  Pointer to the contained object for which
+ *   the association to the containing object is
+ *   recomputed.
+ */
 void UMLScene::updateContainment(UMLCanvasObject *self)
 {
     if (self == NULL)
@@ -1873,6 +2191,11 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
     m_AssociationList.append(a);
 }
 
+/**
+ * Creates automatically any Associations that the given @ref NewUMLRectWidget
+ * may have on any diagram.  This method is used when you just add the NewUMLRectWidget
+ * to a diagram.
+ */
 void UMLScene::createAutoAssociations(NewUMLRectWidget * widget)
 {
     if (widget == NULL ||
@@ -2051,6 +2374,12 @@ void UMLScene::createAutoAssociations(NewUMLRectWidget * widget)
         delete a;
 }
 
+/**
+ * If the m_Type of the given widget is Uml::wt_Class then
+ * iterate through the class' attributes and create an
+ * association to each attribute type widget that is present
+ * on the current diagram.
+ */
 void UMLScene::createAutoAttributeAssociations(NewUMLRectWidget *widget)
 {
     if (widget == NULL || m_Type != Uml::dt_Class || !m_Options.classState.showAttribAssocs)
@@ -2115,6 +2444,10 @@ void UMLScene::createAutoAttributeAssociations(NewUMLRectWidget *widget)
     }
 }
 
+/**
+ * Create an association with the attribute attr associated with the NewUMLRectWidget
+ * widget if the UMLClassifier type is present on the current diagram.
+ */
 void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *attr,
                                               NewUMLRectWidget *widget /*, UMLClassifier * klass*/)
 {
@@ -2263,6 +2596,24 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
 
 }
 
+/**
+ * Find the maximum bounding rectangle of FloatingTextWidget widgets.
+ * Auxiliary to copyAsImage().
+ *
+ * @param ft Poqrealer to the FloatingTextWidget widget to consider.
+ * @param px  X coordinate of lower left corner. This value will be
+ *            updated if the X coordinate of the lower left corner
+ *            of ft is smaller than the px value passed in.
+ * @param py  Y coordinate of lower left corner. This value will be
+ *            updated if the Y coordinate of the lower left corner
+ *            of ft is smaller than the py value passed in.
+ * @param qx  X coordinate of upper right corner. This value will be
+ *            updated if the X coordinate of the upper right corner
+ *            of ft is larger than the qx value passed in.
+ * @param qy  Y coordinate of upper right corner. This value will be
+ *            updated if the Y coordinate of the upper right corner
+ *            of ft is larger than the qy value passed in.
+ */
 void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, qreal& px, qreal& py, qreal& qx, qreal& qy)
 {
     if (ft == NULL || !ft->isVisible())
@@ -2283,6 +2634,9 @@ void UMLScene::findMaxBoundingRectangle(const FloatingTextWidget* ft, qreal& px,
         qy = y1;
 }
 
+/**
+ * Returns the PNG picture of the paste operation.
+ */
 void UMLScene::copyAsImage(QPixmap*& pix)
 {
     //get the smallest rect holding the diagram
@@ -2355,6 +2709,12 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     m_bDrawSelectedOnly = false;
 }
 
+/**
+ * Returns the active view(the view with focus) associated with this scene.
+ * \note This currently simply returns the first view in the views() list as
+ * multiple views are yet to be implemented.
+ * \todo Implement this appropriately later.
+ */
 UMLView* UMLScene::activeView() const
 {
     UMLView *view = 0;
@@ -2364,6 +2724,10 @@ UMLView* UMLScene::activeView() const
     return view;
 }
 
+/**
+ * Sets the popup menu to use when clicking on a diagram background
+ * (rather than a widget or listView).
+ */
 void UMLScene::setMenu()
 {
     slotRemovePopupMenu();
@@ -2421,12 +2785,22 @@ void UMLScene::setMenu()
     }
 }
 
+/**
+ * This slot is entered when an event has occurred on the views display,
+ * most likely a mouse event.  Before it sends out that mouse event everyone
+ * that displays a menu on the views surface (widgets and this) thould remove any
+ * menu.  This stops more then one menu bieing displayed.
+ */
 void UMLScene::slotRemovePopupMenu()
 {
     delete m_pMenu;
     m_pMenu = 0;
 }
 
+/**
+ * When a menu selection has been made on the menu
+ * that this view created, this method gets called.
+ */
 void UMLScene::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::Menu_Type sel = ListPopupMenu::mt_Undefined;
@@ -2649,6 +3023,13 @@ void UMLScene::slotMenuSelection(QAction* action)
     }
 }
 
+/**
+ * Connects to the signal that @ref UMLApp emits when a cut operation
+ * is successful.
+ * If the view or a child started the operation the flag m_bStartedCut will
+ * be set and we can carry out any operation that is needed, like deleting the selected
+ * widgets for the cut operation.
+ */
 void UMLScene::slotCutSuccessful()
 {
     if (m_bStartedCut) {
@@ -2657,21 +3038,36 @@ void UMLScene::slotCutSuccessful()
     }
 }
 
+/**
+ * Called by menu when to show the instance of the view.
+ */
 void UMLScene::slotShowView()
 {
     m_pDoc->changeCurrentView(getID());
 }
 
+/**
+ * Returns the offset point at which to place the paste from clipboard.
+ * Just add the amount to your co-ords.
+ * Only call this straight after the event, the value won't stay valid.
+ * Should only be called by Assoc widgets at the moment. no one else needs it.
+ */
 QPointF UMLScene::getPastePoint()
 {
     return m_PastePoint - m_Pos;
 }
 
+/**
+ * Reset the paste point.
+ */
 void UMLScene::resetPastePoint()
 {
     m_PastePoint = m_Pos;
 }
 
+/**
+ * Returns the input coordinate with possible grid-snap applied.
+ */
 qreal UMLScene::snappedX(qreal _x)
 {
     int x = (int)_x;
@@ -2685,6 +3081,9 @@ qreal UMLScene::snappedX(qreal _x)
     return x;
 }
 
+/**
+ * Returns the input coordinate with possible grid-snap applied.
+ */
 qreal UMLScene::snappedY(qreal _y)
 {
     int y = (int)_y;
@@ -2698,6 +3097,9 @@ qreal UMLScene::snappedY(qreal _y)
     return y;
 }
 
+/**
+ * Shows the properties dialog for the view.
+ */
 bool UMLScene::showPropDialog()
 {
     // Be explict to avoid confusion
@@ -2710,6 +3112,9 @@ bool UMLScene::showPropDialog()
 }
 
 
+/**
+ * Returns the font to use
+ */
 QFont UMLScene::getFont() const
 {
     return m_Options.uiState.font;
@@ -2725,6 +3130,9 @@ void UMLScene::setFont(QFont font, bool changeAllWidgets /* = false */)
     }
 }
 
+/**
+ * Sets some options for all the @ref ClassifierWidget on the view.
+ */
 void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
 {
     foreach(NewUMLRectWidget* pWidget , m_WidgetList) {
@@ -2737,6 +3145,11 @@ void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
 }
 
 
+/**
+ * Call before copying/cutting selected widgets.  This will make sure
+ * any associations/message selected will make sure both the widgets
+ * widgets they are connected to are selected.
+ */
 void UMLScene::checkSelections()
 {
     NewUMLRectWidget * pWA = 0, * pWB = 0;
@@ -2774,6 +3187,12 @@ void UMLScene::checkSelections()
     }//end foreach
 }
 
+/**
+ * This function checks if the currently selected items have all the same
+ * type (class, interface, ...). If true, the selection is unique and true
+ * will be returned.
+ * If there are no items selected, the function will return always true.
+ */
 bool UMLScene::checkUniqueSelection()
 {
     // if there are no selected items, we return true
@@ -2823,6 +3242,11 @@ void UMLScene::drawBackground(QPainter *p, const QRectF &rect)
         for( int y = 0; y < numY; y++ )
             p->drawPoint( x * gridX, y * gridY );
 }
+
+/**
+ * Asks for confirmation and clears everything on the diagram.
+ * Called from menus.
+ */
 void UMLScene::clearDiagram()
 {
     if (KMessageBox::Continue == KMessageBox::warningContinueCancel(activeView(),
@@ -2834,27 +3258,45 @@ void UMLScene::clearDiagram()
     }
 }
 
+/**
+ * Changes snap to grid boolean.
+ * Called from menus.
+ */
 void UMLScene::toggleSnapToGrid()
 {
     setSnapToGrid(!getSnapToGrid());
 }
 
+/**
+ * Changes snap to grid for component size boolean.
+ * Called from menus.
+ */
 void UMLScene::toggleSnapComponentSizeToGrid()
 {
     setSnapComponentSizeToGrid(!getSnapComponentSizeToGrid());
 }
 
+/**
+ *  Changes show grid boolean.
+ * Called from menus.
+ */
 void UMLScene::toggleShowGrid()
 {
     setShowSnapGrid(!getShowSnapGrid());
 }
 
+/**
+ *  Sets whether to snap to grid.
+ */
 void UMLScene::setSnapToGrid(bool bSnap)
 {
     m_bUseSnapToGrid = bSnap;
     emit sigSnapToGridToggled(getSnapToGrid());
 }
 
+/**
+ * Sets whether to snap to grid for component size.
+ */
 void UMLScene::setSnapComponentSizeToGrid(bool bSnap)
 {
     m_bUseSnapComponentSizeToGrid = bSnap;
@@ -2862,11 +3304,17 @@ void UMLScene::setSnapComponentSizeToGrid(bool bSnap)
     emit sigSnapComponentSizeToGridToggled(getSnapComponentSizeToGrid());
 }
 
+/**
+ *  Returns whether to show snap grid or not.
+ */
 bool UMLScene::getShowSnapGrid() const
 {
     return m_bShowSnapGrid;
 }
 
+/**
+ * Sets whether to show snap grid.
+ */
 void UMLScene::setShowSnapGrid(bool bShow)
 {
     m_bShowSnapGrid = bShow;
@@ -2874,21 +3322,34 @@ void UMLScene::setShowSnapGrid(bool bShow)
     emit sigShowGridToggled(getShowSnapGrid());
 }
 
+/**
+ * Returns whether to show operation signatures.
+ */
 bool UMLScene::getShowOpSig() const
 {
     return m_Options.classState.showOpSig;
 }
 
+/**
+ * Sets whether to show operation signatures.
+ */
 void UMLScene::setShowOpSig(bool bShowOpSig)
 {
     m_Options.classState.showOpSig = bShowOpSig;
 }
 
+/**
+ * Changes the zoom to the currently set level (now loaded from file)
+ * Called from UMLApp::slotUpdateViews()
+ */
 void UMLScene::fileLoaded()
 {
     resizeCanvasToItems();
 }
 
+/**
+ * Sets the size of the canvas to just fit on all the items
+ */
 void UMLScene::resizeCanvasToItems()
 {
     QRectF rect = itemsBoundingRect();
@@ -2897,6 +3358,9 @@ void UMLScene::resizeCanvasToItems()
     setSceneRect(rect);
 }
 
+/**
+ * Updates the size of all components in this view.
+ */
 void UMLScene::updateComponentSizes()
 {
     // update sizes of all components
@@ -2922,6 +3386,9 @@ void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
     }
 }
 
+/**
+ * Creates the "diagram" tag and fills it with the contents of the diagram.
+ */
 void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement viewElement = qDoc.createElement("diagram");
@@ -2998,6 +3465,9 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     qElement.appendChild(viewElement);
 }
 
+/**
+ * Loads the "diagram" tag.
+ */
 bool UMLScene::loadFromXMI(QDomElement & qElement)
 {
     QString id = qElement.attribute("xmi.id", "-1");
@@ -3158,6 +3628,9 @@ bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
     return true;
 }
 
+/**
+ * Loads a "widget" element from XMI, used by loadFromXMI() and the clipboard.
+ */
 NewUMLRectWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
 {
 
@@ -3243,6 +3716,9 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
     return true;
 }
 
+/**
+ * Add an object to the application, and update the view.
+ */
 void UMLScene::addObject(UMLObject *object)
 {
     m_bCreateObject = true;
@@ -3349,6 +3825,9 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
     return true;
 }
 
+/**
+ * Loads the "UISDiagram" tag of Unisys.IntegratePlus.2 generated files.
+ */
 bool UMLScene::loadUISDiagram(QDomElement & qElement)
 {
     QString idStr = qElement.attribute("xmi.id", "");
@@ -3386,6 +3865,9 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
 }
 
 
+/**
+ * Left Alignment
+ */
 void UMLScene::alignLeft()
 {
     UMLWidgetList widgetList;
@@ -3401,6 +3883,9 @@ void UMLScene::alignLeft()
     }
 }
 
+/**
+ * Right Alignment
+ */
 void UMLScene::alignRight()
 {
     UMLWidgetList widgetList;
@@ -3415,6 +3900,9 @@ void UMLScene::alignRight()
     }
 }
 
+/**
+ * Top Alignment
+ */
 void UMLScene::alignTop()
 {
     UMLWidgetList widgetList;
@@ -3430,6 +3918,9 @@ void UMLScene::alignTop()
     }
 }
 
+/**
+ * Bottom Alignment
+ */
 void UMLScene::alignBottom()
 {
     UMLWidgetList widgetList;
@@ -3444,6 +3935,9 @@ void UMLScene::alignBottom()
     }
 }
 
+/**
+ * Vertical Middle Alignment
+ */
 void UMLScene::alignVerticalMiddle()
 {
     UMLWidgetList widgetList;
@@ -3461,6 +3955,9 @@ void UMLScene::alignVerticalMiddle()
     }
 }
 
+/**
+ * Horizontal Middle Alignment
+ */
 void UMLScene::alignHorizontalMiddle()
 {
     UMLWidgetList widgetList;
@@ -3478,6 +3975,9 @@ void UMLScene::alignHorizontalMiddle()
     }
 }
 
+/**
+ * Vertical Distribute Alignment
+ */
 void UMLScene::alignVerticalDistribute()
 {
     UMLWidgetList widgetList;
@@ -3506,6 +4006,9 @@ void UMLScene::alignVerticalDistribute()
     }
 }
 
+/**
+ * Horizontal Distribute Alignment
+ */
 void UMLScene::alignHorizontalDistribute()
 {
     UMLWidgetList widgetList;
@@ -3535,16 +4038,35 @@ void UMLScene::alignHorizontalDistribute()
 
 }
 
+/**
+ * Returns true if the first widget's X is smaller than second's.
+ * Used for sorting the UMLWidgetList.
+ *
+ * @param widget1 The widget to compare.
+ * @param widget2 The widget to compare with.
+ */
 bool UMLScene::hasWidgetSmallerX(const NewUMLRectWidget* widget1, const NewUMLRectWidget* widget2)
 {
     return widget1->x() < widget2->x();
 }
 
+/**
+ * Returns true if the first widget's Y is smaller than second's.
+ * Used for sorting the UMLWidgetList.
+ *
+ * @param widget1 The widget to compare.
+ * @param widget2 The widget to compare with.
+ */
 bool UMLScene::hasWidgetSmallerY(const NewUMLRectWidget* widget1, const NewUMLRectWidget* widget2)
 {
     return widget1->y() < widget2->y();
 }
 
+/**
+ * Looks for the smallest x-value of the given UMLWidgets.
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 qreal UMLScene::getSmallestX(const UMLWidgetList &widgetList)
 {
     UMLWidgetListIt it(widgetList);
@@ -3565,6 +4087,11 @@ qreal UMLScene::getSmallestX(const UMLWidgetList &widgetList)
     return smallestX;
 }
 
+/**
+ * Looks for the smallest y-value of the given UMLWidgets.
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 qreal UMLScene::getSmallestY(const UMLWidgetList &widgetList)
 {
 
@@ -3587,6 +4114,11 @@ qreal UMLScene::getSmallestY(const UMLWidgetList &widgetList)
     return smallestY;
 }
 
+/**
+ * Looks for the biggest x-value of the given UMLWidgets.
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 qreal UMLScene::getBiggestX(const UMLWidgetList &widgetList)
 {
     if (widgetList.isEmpty())
@@ -3609,6 +4141,11 @@ qreal UMLScene::getBiggestX(const UMLWidgetList &widgetList)
     return biggestX;
 }
 
+/**
+ * Looks for the biggest y-value of the given UMLWidgets.
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 qreal UMLScene::getBiggestY(const UMLWidgetList &widgetList)
 {
 
@@ -3632,6 +4169,11 @@ qreal UMLScene::getBiggestY(const UMLWidgetList &widgetList)
     return biggestY;
 }
 
+/**
+ * Returns the sum of the heights of the given UMLWidgets
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 qreal UMLScene::getHeightsSum(const UMLWidgetList &widgetList)
 {
     qreal heightsSum = 0;
@@ -3644,6 +4186,11 @@ qreal UMLScene::getHeightsSum(const UMLWidgetList &widgetList)
     return heightsSum;
 }
 
+/**
+ * Returns the sum of the widths of the given UMLWidgets.
+ *
+ * @param widgetList A list with UMLWidgets.
+ */
 qreal UMLScene::getWidthsSum(const UMLWidgetList &widgetList)
 {
     qreal widthsSum = 0;

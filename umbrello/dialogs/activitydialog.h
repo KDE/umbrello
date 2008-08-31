@@ -38,28 +38,20 @@ class ActivityDialog : public KPageDialog
     Q_OBJECT
 
 public:
+
     /**
      *   Constructor
      */
     ActivityDialog( UMLView * pView, ActivityWidget * pWidget );
 
-    /**
-     *   Returns whether changes were made.
-     */
     bool getChangesMade() {
         return m_bChangesMade;
     }
 
 protected slots:
 
-    /**
-     *   Entered when OK button pressed.
-     */
     void slotOk();
 
-    /**
-     *   Entered when Apply button pressed.
-     */
     void slotApply();
 
     void slotShowActivityParameter();
@@ -67,34 +59,16 @@ protected slots:
 
 protected:
 
-    /**
-     *   Sets up the pages of the dialog.
-     */
     void setupPages();
 
-    /**
-     *   Sets up the general page of the dialog.
-     */
     void setupGeneralPage();
 
-    /**
-     *   Sets up the color page.
-     */
     void setupColorPage();
 
-    /**
-     *   Sets up the font selection page.
-     */
     void setupFontPage();
 
-    /**
-     *   Show the Activity Parameter entry text.
-     */
     void showParameterActivity();
 
-    /**
-     *     Applys changes to the given page.
-     */
     void applyPage( KPageWidgetItem * );
 
     /**

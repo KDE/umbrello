@@ -24,11 +24,25 @@ NoteWidgetController::NoteWidgetController(NoteWidget *noteWidget):
 NoteWidgetController::~NoteWidgetController() {
 }
 
+/**
+ * Overridden from UMLWidgetController.
+ * Handles a mouse move event.
+ * Executes base code and then sets the geometry of the editor.
+ *
+ * @param me The QGraphicsSceneMouseEvent event.
+ */
 void NoteWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent *me) {
     UMLWidgetController::mouseMoveEvent(me);
     //m_noteWidget->setEditorGeometry();
 }
 
+/**
+ * Overridden from UMLWidgetController.
+ * Handles a mouse release event.
+ * Executes base code and then draws the text in the note.
+ *
+ * @param me The QGraphicsSceneMouseEvent event.
+ */
 void NoteWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me) {
     UMLWidgetController::mouseReleaseEvent(me);
     //TODO why is it needed? drawText is already called in draw,

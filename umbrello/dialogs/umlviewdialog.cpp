@@ -64,6 +64,9 @@ void UMLViewDialog::slotApply()
     applyPage( currentPage() );
 }
 
+/**
+ * Sets up the dialog pages.
+ */
 void UMLViewDialog::setupPages()
 {
     setupDiagramPropertiesPage();
@@ -72,6 +75,9 @@ void UMLViewDialog::setupPages()
     setupClassPage();
 }
 
+/**
+ * Sets up the general Diagram Properties Page
+ */
 void UMLViewDialog::setupDiagramPropertiesPage()
 {
     KVBox *page = new KVBox();
@@ -96,6 +102,9 @@ void UMLViewDialog::setupDiagramPropertiesPage()
     m_diagramProperties->ui_documentation->setText(m_pScene->getDoc());
 }
 
+/**
+ * Sets up the Class page
+ */
 void UMLViewDialog::setupClassPage()
 {
     if ( m_pScene->getType() != Uml::dt_Class ) {
@@ -112,6 +121,9 @@ void UMLViewDialog::setupClassPage()
     pOptionsLayout->addWidget( m_pOptionsPage );
 }
 
+/**
+ * Sets up the color page.
+ */
 void UMLViewDialog::setupColorPage()
 {
     QFrame * colorPage = new QFrame();
@@ -125,6 +137,9 @@ void UMLViewDialog::setupColorPage()
     m_pColorLayout->addWidget(m_pColorPage);
 }
 
+/**
+ *   Sets up font page.
+ */
 void UMLViewDialog::setupFontPage()
 {
     KVBox *page = new KVBox();
@@ -137,6 +152,9 @@ void UMLViewDialog::setupFontPage()
     m_pChooser->setFont( m_pScene->getOptionState().uiState.font );
 }
 
+/**
+ * Applies the properties of the given page.
+ */
 void UMLViewDialog::applyPage( KPageWidgetItem *item )
 {
     if ( item == m_pageGeneralItem )
@@ -182,6 +200,9 @@ void UMLViewDialog::applyPage( KPageWidgetItem *item )
     }
 }
 
+/**
+ * Checks whether the name is unique and sets it if it is.
+ */
 void UMLViewDialog::checkName()
 {
     QString name = m_diagramProperties->ui_diagramName-> text();

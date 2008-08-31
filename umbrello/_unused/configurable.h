@@ -32,7 +32,6 @@ class KConfig;
  * features such as configurability and plugin management. Also provided
  * within this API are the core interfaces for GUI management.
  */
-
 namespace Umbrello
 {
 // forward declarations
@@ -65,6 +64,7 @@ class Plugin;
 class Configurable
 {
 public:
+
     /** Construct a configurable object. */
     Configurable();
 
@@ -84,27 +84,9 @@ public:
     virtual bool configure() = 0;
 
 protected:
-    /**
-     * This is a convenience method for derived classes. Configuration actions
-     * that are intended to load plugins can use this method to parse the string
-     * and actually load the plugins. The string is a set of space separated names.
-     * Each name corresponds the the share object implementing the plugin.
-     *
-     * @param config    The object used for configuration.
-     * @param key   The group in the config objec.
-     * @param key   The key in the group that contains libraries to load.
-     *
-     * @return True on success, false on failure.
-     */
+
     bool loadPlugins(KConfig *config, const QString &group, const QString &key);
 
-    /**
-     * This is a convenience method for derived classes. When a functional object
-     * (i.e., application, tool or plugin) is shutdown, it can use this method
-     * to automatically unload all dependant plugins.
-     *
-     * @return True on success false on failure.
-     */
     bool unloadPlugins();
 
 private:

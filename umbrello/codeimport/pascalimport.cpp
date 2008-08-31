@@ -40,6 +40,9 @@ PascalImport::~PascalImport()
 {
 }
 
+/**
+ * Reimplement operation from NativeImportBase.
+ */
 void PascalImport::initVars()
 {
     m_inInterface = false;
@@ -47,6 +50,9 @@ void PascalImport::initVars()
     NativeImportBase::m_currentAccess = Uml::Visibility::Public;
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ */
 void PascalImport::fillSource(const QString& word)
 {
     QString lexeme;
@@ -72,6 +78,13 @@ void PascalImport::fillSource(const QString& word)
         m_source.append(lexeme);
 }
 
+/**
+ * Check for, and skip over, all modifiers following a method.
+ * Set the output arguments on encountering abstract and/or virtual.
+ *
+ * @param isVirtual   return value, set to true when "virtual" seen
+ * @param isAbstract  return value, set to true when "abstract" seen
+ */
 void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract)
 {
     const int srcLength = m_source.count();
@@ -93,6 +106,9 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract)
     }
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ */
 bool PascalImport::parseStmt()
 {
     const int srcLength = m_source.count();

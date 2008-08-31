@@ -19,6 +19,7 @@ class QCloseEvent;
 class QShowEvent;
 class UMLScene;
 class UMLFolder;
+
 /**
  * UMLView instances represent diagrams.
  * The UMLApp instance manages a QWidgetStack of UMLView instances.
@@ -44,31 +45,16 @@ public:
      */
     virtual ~UMLView();
 
-    /**
-     * Returns the zoom of the diagram.
-     */
     int getZoom() const {
         return m_nZoom;
     }
 
-    /**
-     * Sets the zoom of the diagram.
-     */
     void setZoom(int zoom);
 
-    /**
-     * return the current zoom factor
-     */
     int currentZoom();
 
-    /**
-     * Overrides the standard operation.
-     */
     void hideEvent(QHideEvent *he);
 
-    /**
-     * Overrides the standard operation.
-     */
     void showEvent(QShowEvent *se);
 
     UMLScene* umlScene() const;
@@ -80,9 +66,6 @@ protected:
      */
     int m_nZoom;
 
-    /**
-     * Override standard method.
-     */
     void closeEvent ( QCloseEvent * e );
 
 public slots:
@@ -90,10 +73,6 @@ public slots:
     void zoomIn();
     void zoomOut();
 
-    /**
-     * Overrides standard method from QWidget to resize canvas when
-     * it's shown.
-     */
     void show();
 };
 

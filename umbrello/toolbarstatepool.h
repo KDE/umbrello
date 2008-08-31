@@ -30,20 +30,8 @@ public:
      */
     virtual ~ToolBarStatePool();
 
-    /**
-     * Sets the current button and inits the tool.
-     * If the current button is the same to the button to set, the tool isn't
-     * initialized.
-     *
-     * @param button The button to set.
-     */
     void setButton(const WorkToolBar::ToolBar_Buttons &button);
 
-    /**
-     * Returns the current button.
-     *
-     * @return The current button.
-     */
     WorkToolBar::ToolBar_Buttons getButton() const {
         return m_ToolBarButton;
     }

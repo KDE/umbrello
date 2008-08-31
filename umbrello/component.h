@@ -25,17 +25,11 @@
  * @see UMLCanvasObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class UMLComponent : public UMLPackage
 {
     Q_OBJECT
 public:
-    /**
-     * Sets up a Component.
-     *
-     * @param name              The name of the Concept.
-     * @param id                The unique id of the Concept.
-     */
+
     explicit UMLComponent(const QString & name = QString(), Uml::IDType id = Uml::id_None);
 
     /**
@@ -43,40 +37,22 @@ public:
      */
     virtual ~UMLComponent();
 
-    /**
-     * Initializes key variables of the class.
-     */
     virtual void init();
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Creates the UML:Component element including its operations,
-     * attributes and templates
-     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * sets m_executable
-     */
     void setExecutable(bool executable);
 
-    /**
-     * returns the value of m_executable
-     */
     bool getExecutable();
 
 protected:
-    /**
-     * Loads the UML:Component element including its operations,
-     * attributes and templates
-     */
+
     bool load( QDomElement & element );
 
 private:
+
     /**
      * holds whether this is an executable component or not
      */

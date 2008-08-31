@@ -24,10 +24,10 @@
  * @see UMLObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class UMLTemplate : public UMLClassifierListItem
 {
 public:
+
     /**
      * Sets up a template.
      *
@@ -51,15 +51,8 @@ public:
      */
     bool operator==(const UMLTemplate &rhs);
 
-    /**
-     * Copy the internal presentation of this object into the new
-     * object.
-     */
     virtual void copyInto(UMLObject *lhs) const;
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLObject* clone() const;
 
     /**
@@ -67,40 +60,16 @@ public:
      */
     virtual ~UMLTemplate();
 
-    /**
-     * Returns a string representation of the UMLTemplate.
-     *
-     * @param sig               Currently unused.
-     * @return  Returns a string representation of the UMLTemplate.
-     */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
-    /**
-     * Overrides method from UMLClassifierListItem.
-     * Returns the type name of the UMLTemplate.
-     * If the template parameter is a class, there is no separate
-     * type object. In this case, getTypeName() returns "class".
-     *
-     * @return  The type name of the UMLClassifierListItem.
-     */
     virtual QString getTypeName() const;
 
-    /**
-     * Display the properties configuration dialog for the template.
-     *
-     * @return  Success status.
-     */
     bool showPropertiesDialog(QWidget* parent);
 
-    /**
-     * Writes the <UML:TemplateParameter> XMI element.
-     */
     void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 protected:
-    /**
-     * Loads the <UML:TemplateParameter> XMI element.
-     */
+
     bool load(QDomElement & element);
 
 };

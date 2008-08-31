@@ -15,24 +15,12 @@
 
 namespace Codegen_Utils {
 
-/**
- * Return list of C++ datatypes.
- */
 QStringList cppDatatypes();
 
-/**
- * Get list of C++ reserved keywords.
- */
 const QStringList reservedCppKeywords();
 
-/**
- * Add C++ stereotypes.
- */
 void createCppStereotypes();
 
-/**
- * Return the input string with the first letter capitalized.
- */
 QString capitalizeFirstLetter(const QString &string);
 
 }

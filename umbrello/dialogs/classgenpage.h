@@ -70,10 +70,6 @@ public:
      */
     ~ClassGenPage();
 
-    /**
-     * Will move information from the dialog into the object.
-     * Call when the ok or apply button is pressed.
-     */
     void updateObject();
 
 private:
@@ -96,11 +92,7 @@ private:
     void insertStereotypesSorted(const QString& type);
 
 public slots:
-    /**
-     * When the draw as actor check box is toggled, the draw
-     * as multi instance need to be enabled/disabled. They
-     * both can't be available at the same time.
-     */
+
     void slotActorToggled( bool state );
 };
 

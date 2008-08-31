@@ -53,10 +53,6 @@ public:
      */
     ~AssocGenPage();
 
-    /**
-     *  Will move information from the dialog into the object.
-     *  Call when the ok or apply button is pressed.
-     */
     void updateObject();
 
 private:

@@ -28,6 +28,11 @@
 #include "cppimport.h"
 #endif
 
+/**
+ * Import files.
+ *
+ * @param files  List of files to import.
+ */
 void ClassImport::importFiles(const QStringList &fileList)
 {
     initialize();
@@ -44,6 +49,9 @@ void ClassImport::importFiles(const QStringList &fileList)
     umldoc->writeToStatusBar(i18nc("ready to status bar", "Ready."));
 }
 
+/**
+ * Factory method.
+ */
 ClassImport *ClassImport::createImporterByFileExt(const QString &filename) 
 {
     ClassImport *classImporter;

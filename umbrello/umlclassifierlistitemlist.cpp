@@ -24,6 +24,10 @@ UMLClassifierListItemList::UMLClassifierListItemList(const UMLClassifierListItem
 UMLClassifierListItemList::~UMLClassifierListItemList()
 { }
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLClassifierListItemList::copyInto(UMLClassifierListItemList *rhs) const {
     // Prevent copying to yourself. (Can cause serious injuries)
     if (rhs == this) return;
@@ -42,6 +46,9 @@ void UMLClassifierListItemList::copyInto(UMLClassifierListItemList *rhs) const {
 }
 
 
+/**
+ * Make a clone of this object.
+ */
 UMLClassifierListItemList* UMLClassifierListItemList::clone() const {
     UMLClassifierListItemList *clone = new UMLClassifierListItemList();
     copyInto(clone);

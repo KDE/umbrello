@@ -42,16 +42,8 @@ public:
      */
     virtual ~CodeGenObjectWithTextBlocks ( );
 
-    /**
-     * Add a TextBlock object to the m_textblockVector List
-     * @return boolean value where false means not added because an TextBlock
-     *                 object with that tag already exists in this document.
-     */
     virtual bool addTextBlock ( TextBlock * add_object );
 
-    /**
-     * Remove a TextBlock object from m_textblockVector List
-     */
     virtual bool removeTextBlock ( TextBlock * remove_object );
 
     /**
@@ -60,64 +52,18 @@ public:
      */
     virtual bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after) = 0;
 
-    /**
-     * Get the list of TextBlock objects held by m_textblockVector
-     * @return TextBlockList list of TextBlock objects held by m_textblockVector
-     */
     TextBlockList * getTextBlockList ( ) const;
 
-    /**
-     * Will get a hierarchicalcodeblock from the document with given tag. IF the codeblock
-     * doesn't exist, then it will create it at the end of the document textBlock
-     * list and pass back a reference.
-     * @return  HierarchicalCodeBlock
-     * @param   tag
-     * @param   comment
-     * @param   indentLevel
-     */
     virtual HierarchicalCodeBlock * getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel );
 
-    /**
-     * Will get a codeblockwithcomments from the document with given tag. IF the codeblock
-     * doesn't exist, then it will create it at the end of the document textBlock
-     * list and pass back a reference.
-     * @return  CodeBlockWithComments
-     * @param   tag
-     * @param   comment
-     * @param   indentLevel
-     */
     virtual CodeBlockWithComments * getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel );
 
-    /**
-     * Allows the user to add a code comment to the end of the list
-     * of text blocks in this document OR, if a text block already exists
-     * with that tag, it will update it with the passed text as appropriate.
-     * @return codeblock/comment pointer to the object which was created/updated.
-     * @return   CodeComment
-     * @param    tag
-     * @param    text
-     * @param    indentationLevel
-     */
     CodeComment * addOrUpdateTaggedCodeComment (const QString &tag = "", const QString &text = "", int indentationLevel = 0 );
 
-    /**
-     * Allows the user to either add a code block with comments to the end of the list
-     * of text blocks in this document OR, if a text block already exists
-     * with that tag, it will update it with the passed text as appropriate.
-     * @return codeblock/comment pointer to the object which was created/updated.
-     * @return   CodeBlockWithComments
-     * @param    tag
-     * @param    text
-     * @param    comment
-     * @param    indentLevel
-     * @param    forceUserBlockUpdate
-     */
-    CodeBlockWithComments * addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &comment, int indentLevel, bool forceUserBlockUpdate );
+    CodeBlockWithComments * addOrUpdateTaggedCodeBlockWithComments
+                             (const QString &tag, const QString &text, const QString &comment,
+                              int indentLevel, bool forceUserBlockUpdate );
 
-    /**
-     * @return  TextBlock
-     * @param   tag
-     */
     TextBlock * findTextBlockByTag ( const QString &tag );
 
     /**
@@ -133,42 +79,18 @@ public:
     virtual CodeBlockWithComments * newCodeBlockWithComments() = 0;
     virtual HierarchicalCodeBlock * newHierarchicalCodeBlock() = 0;
 
-    /**
-     * Find the direct parent for a given textblock. This
-     * may be any object which holds text blocks, e.g. a CodeGenObjectWithTextBlocks.
-     * @return parent object. Could return null if the textblock is missing from the
-     * branch of the document tree being examined.
-     */
     CodeGenObjectWithTextBlocks * findParentObjectForTaggedTextBlock (const QString & tag);
 
 protected:
 
-    /**
-     * Set attributes of the node that represents this class
-     * in the XMI document.
-     */
     virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & elem );
 
-    /**
-     * Set the class attributes of this object from
-     * the passed element node.
-     */
     virtual void setAttributesFromNode ( QDomElement & element);
 
     /*virtual*/ void setAttributesFromObject (CodeGenObjectWithTextBlocks * obj);
 
-    /**
-     * In this vanilla version, we only load comments and codeblocks
-     * as they are the only instanciatable (vanilla) things
-     * this method should be overridden if this class is inherited
-     * by some other class that is concrete and takes children
-     * derived from codeblock/codecomment/hierarchicalcb/ownedhiercodeblock
-     */
     virtual void loadChildTextBlocksFromNode ( QDomElement & root);
 
-    /**
-     * Reset/clear the inventory text blocks held by this object.
-     */
     virtual void resetTextBlocks();
 
     /**

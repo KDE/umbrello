@@ -31,6 +31,7 @@ class ActivityPage : public QWidget
 {
     Q_OBJECT
 public:
+
     /**
      *  Constructor
      */
@@ -41,22 +42,12 @@ public:
      */
     ~ActivityPage();
 
-    /**
-     *   Sets up the page.
-     */
     void setupPage();
 
-    /**
-     *   Sets the activities of the widget.
-     */
     void updateActivities();
 
 protected:
-    /**
-     *  Set the state of the widgets on the page with the given value.
-     *
-     *  @param state The state to set the widgets as.
-     */
+
     void enableWidgets(bool state);
 
     /**
@@ -79,9 +70,7 @@ protected:
     QPushButton* m_pRenameButton;
 
 public slots:
-    /**
-     *  Popup menu item selected
-     */
+
     void slotMenuSelection(QAction* action);
     void slotClicked( QListWidgetItem* item );
     void slotDoubleClicked( QListWidgetItem* item );

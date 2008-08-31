@@ -44,6 +44,10 @@ UMLCheckConstraint::~UMLCheckConstraint()
 {
 }
 
+/**
+ * Copy the internal presentation of this object into the UMLCheckConstraint
+ * object.
+ */
 void UMLCheckConstraint::copyInto(UMLObject *lhs) const
 {
     UMLCheckConstraint *target = static_cast<UMLCheckConstraint*>(lhs);
@@ -55,6 +59,9 @@ void UMLCheckConstraint::copyInto(UMLObject *lhs) const
     target->m_CheckCondition = m_CheckCondition;
 }
 
+/**
+ * Make a clone of the UMLCheckConstraint.
+ */
 UMLObject* UMLCheckConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
@@ -63,6 +70,13 @@ UMLObject* UMLCheckConstraint::clone() const
     return clone;
 }
 
+/**
+ * Returns a string representation of the UMLCheckConstraint.
+ *
+ * @param sig               If true will show the attribute type and
+ *                  initial value.
+ * @return  Returns a string representation of the UMLAttribute.
+ */
 QString UMLCheckConstraint::toString(Uml::Signature_Type sig )
 {
     QString s;
@@ -81,6 +95,9 @@ QString UMLCheckConstraint::getFullyQualifiedName(const QString& separator,
     return this->getName();
 }
 
+/**
+ * Creates the <UML:UniqueConstraint> XMI element.
+ */
 void UMLCheckConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement checkConstraintElement = UMLObject::save("UML:CheckConstraint", qDoc);
@@ -91,12 +108,18 @@ void UMLCheckConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
     qElement.appendChild( checkConstraintElement );
 }
 
+/**
+ * Display the properties configuration dialog for the attribute.
+ */
 bool UMLCheckConstraint::showPropertiesDialog(QWidget* parent)
 {
     UMLCheckConstraintDialog dialog(parent, this);
     return dialog.exec();
 }
 
+/**
+ * Loads the <UML:CheckConstraint> XMI element.
+ */
 bool UMLCheckConstraint::load( QDomElement & element )
 {
     QDomNode node = element.firstChild();
@@ -111,6 +134,9 @@ bool UMLCheckConstraint::load( QDomElement & element )
 }
 
 
+/**
+ * Initialises Check Constraint
+ */
 void UMLCheckConstraint::init() 
 {
     m_BaseType = Uml::ot_CheckConstraint;

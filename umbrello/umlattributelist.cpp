@@ -24,6 +24,10 @@ UMLAttributeList::UMLAttributeList(const UMLAttributeList& other)
 UMLAttributeList::~UMLAttributeList()
 { }
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLAttributeList::copyInto(UMLAttributeList *rhs) const {
     // Don't copy yourself.
     if (rhs == this) return;
@@ -43,6 +47,9 @@ void UMLAttributeList::copyInto(UMLAttributeList *rhs) const {
 }
 
 
+/**
+ * Make a clone of this object.
+ */
 UMLAttributeList* UMLAttributeList::clone() const {
     UMLAttributeList *clone = new UMLAttributeList();
     copyInto(clone);

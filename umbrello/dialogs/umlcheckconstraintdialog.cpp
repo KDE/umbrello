@@ -44,6 +44,9 @@ UMLCheckConstraintDialog::~UMLCheckConstraintDialog()
 {
 }
 
+/**
+ *   Sets up the dialog
+ */
 void UMLCheckConstraintDialog::setupDialog()
 {
     QFrame *frame = new QFrame( this );
@@ -80,6 +83,9 @@ void UMLCheckConstraintDialog::setupDialog()
     m_pNameLE->setText( m_pCheckConstraint->getName() );
 }
 
+/**
+ * Used when the OK button is clicked. Calls apply()
+ */
 void UMLCheckConstraintDialog::slotOk()
 {
     if ( apply() ) {
@@ -87,6 +93,9 @@ void UMLCheckConstraintDialog::slotOk()
     }
 }
 
+/**
+ * Apply Changes
+ */
 bool UMLCheckConstraintDialog::apply()
 {
     m_pCheckConstraint->setCheckCondition( m_pCheckConditionTE->toPlainText().trimmed() );

@@ -46,23 +46,43 @@ UMLClassifierListItem::~UMLClassifierListItem()
 {
 }
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLClassifierListItem::copyInto(UMLObject *lhs) const
 {
     // Call the parent.
     UMLObject::copyInto(lhs);
 }
 
+/**
+ * Returns a string representation of the list item.
+ *
+ * @param sig               What type of operation string to show.
+ * @return  The string representation of the operation.
+ */
 QString UMLClassifierListItem::toString(Uml::Signature_Type sig)
 {
     Q_UNUSED(sig);
     return getName();
 }
 
+/**
+ * Returns the type of the UMLClassifierListItem.
+ *
+ * @return  The type of the UMLClassifierListItem.
+ */
 UMLClassifier * UMLClassifierListItem::getType() const
 {
     return static_cast<UMLClassifier*>(m_pSecondary);
 }
 
+/**
+ * Returns the type name of the UMLClassifierListItem.
+ *
+ * @return  The type name of the UMLClassifierListItem.
+ */
 QString UMLClassifierListItem::getTypeName() const
 {
     if (m_pSecondary == NULL)
@@ -73,6 +93,11 @@ QString UMLClassifierListItem::getTypeName() const
     return m_pSecondary->getName();
 }
 
+/**
+ * Sets the type of the UMLAttribute.
+ *
+ * @param type      Pointer to the UMLObject of the type.
+ */
 void UMLClassifierListItem::setType(UMLObject *type)
 {
     if (m_pSecondary != type) {
@@ -81,6 +106,12 @@ void UMLClassifierListItem::setType(UMLObject *type)
     }
 }
 
+/**
+ * Sets the type name of the UMLClassifierListItem.
+ * DEPRECATED - use setType() instead.
+ *
+ * @param type      The type name of the UMLClassifierListItem.
+ */
 void UMLClassifierListItem::setTypeName(const QString &type)
 {
     if (type.isEmpty() || type == "void") {

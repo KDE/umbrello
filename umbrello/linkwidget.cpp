@@ -27,6 +27,9 @@ LinkWidget::LinkWidget() {
 LinkWidget::~LinkWidget() {
 }
 
+/**
+ * Motivated by FloatingTextWidget::slotMenuSelection(mt_Operation)
+ */
 UMLClassifier *LinkWidget::getOperationOwner() {
     UMLOperation *op = getOperation();
     if (op == NULL)
@@ -50,13 +53,25 @@ QString LinkWidget::getOperationText(UMLScene *scene /* = NULL */) {
     return opText;
 }
 
+/**
+ * Motivated by FloatingTextWidget::slotMenuSelection(mt_Reset_Label_Positions)
+ * Only applies to AssociationWidget.
+ */
 void LinkWidget::resetTextPositions() {
 }
 
+/**
+ * Motivated by FloatingTextWidget::mouseDoubleClickEvent()
+ * Only applies to AssociationWidget.
+ */
 bool LinkWidget::showDialog() {
     return true;
 }
 
+/**
+ * Motivated by FloatingTextWidget::setLink().
+ * Only applies to AssociationWidget.
+ */
 void LinkWidget::calculateNameTextSegment() {
 }
 

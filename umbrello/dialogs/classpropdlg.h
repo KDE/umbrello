@@ -80,86 +80,38 @@ public:
 
 protected slots:
 
-    /**
-     * Calls slotApply() and accepts (closes) the dialog.
-     */
     void slotOk();
 
-    /**
-     * Applys the settings in the dialog to the widget and object.
-     */
     void slotApply();
 
 protected:
 
-    /**
-     * Sets up the general, attribute, operations, template and association pages as appropriate.
-     */
     void setupPages(bool assoc = false);
 
-    /**
-     * Sets up the page "General" for the component.
-     */
     void setupGeneralPage();
 
-    /**
-     * Sets up the page "Color" for the component.
-     */
     void setupColorPage();
 
-    /**
-     * Sets up the page "Display" for the component.
-     */
     void setupDisplayPage();
 
-    /**
-     * Sets up the page "Attributes" for the component.
-     */
     void setupAttributesPage();
 
-    /**
-     * Sets up the page "Operations" for the component.
-     */
     void setupOperationsPage();
 
-    /**
-     * Sets up the page "Templates" for the component.
-     */
     void setupTemplatesPage();
 
-    /**
-     * Sets up the page "Enum Literals" for the component.
-     */
     void setupEnumLiteralsPage();
 
-    /**
-     * Sets up the page "Entity Attributes" for the component.
-     */
     void setupEntityAttributesPage();
 
-    /**
-     * Sets up the page "Entity Constraints" for the component.
-     */
     void setupEntityConstraintsPage();
 
-    /**
-     * Sets up the page "Contents" for the component.
-     */
     void setupContentsPage();
 
-    /**
-     * Sets up the page "Associations" for the component.
-     */
     void setupAssociationsPage();
 
-    /**
-     * Sets up the general page for the component.
-     */
     void setupInstancePages();
 
-    /**
-     * Sets up the font page.
-     */
     void setupFontPage();
 
 private:

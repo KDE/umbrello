@@ -68,6 +68,9 @@ UMLOperationDialog::~UMLOperationDialog()
 {
 }
 
+/**
+ * Sets up the dialog.
+ */
 void UMLOperationDialog::setupDialog()
 {
     QFrame *frame = new QFrame( this );
@@ -416,6 +419,9 @@ void UMLOperationDialog::slotParameterDown()
     }
 }
 
+/**
+ * Enables or disables buttons.
+ */
 void UMLOperationDialog::slotParamsBoxClicked(QListWidgetItem* parameterItem)
 {
     if (parameterItem) {
@@ -434,6 +440,10 @@ void UMLOperationDialog::slotParamsBoxClicked(QListWidgetItem* parameterItem)
     }
 }
 
+/**
+ * Checks if changes are valid and applies them if they are,
+ * else returns false.
+ */
 bool UMLOperationDialog::apply()
 {
     QString name = m_pNameLE->text();
@@ -490,11 +500,18 @@ bool UMLOperationDialog::apply()
     return true;
 }
 
+/**
+ * I don't think this is used, but if we had an apply button
+ * it would slot into here.
+ */
 void UMLOperationDialog::slotApply()
 {
     apply();
 }
 
+/**
+ * Used when the OK button is clicked.  Calls apply().
+ */
 void UMLOperationDialog::slotOk()
 {
     if ( apply() ) {
@@ -502,6 +519,12 @@ void UMLOperationDialog::slotOk()
     }
 }
 
+/**
+ * Inserts @p type into the type-combobox.
+ * The combobox is cleared and all types together with the optional new one
+ * sorted and then added again.
+ * @param type   a new type to add and selected
+ */
 void UMLOperationDialog::insertTypesSorted( const QString& type )
 {
     QStringList types;
@@ -540,6 +563,12 @@ void UMLOperationDialog::insertTypesSorted( const QString& type )
     }
 }
 
+/**
+ * Inserts @p stereotype into the stereotype-combobox as well as its completion object.
+ * The combobox is cleared and all types together with the optional new one
+ * sorted and then added again.
+ * @param type   a new type to add and selected
+ */
 void UMLOperationDialog::insertStereotypesSorted( const QString& type )
 {
     QStringList types;

@@ -23,6 +23,9 @@ CodeComment::~CodeComment ( )
 {
 }
 
+/**
+ * Save the XMI representation of this object.
+ */
 void CodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root )
 {
     QDomElement blockElement = doc.createElement( "codecomment" );
@@ -31,6 +34,9 @@ void CodeComment::saveToXMI ( QDomDocument & doc, QDomElement & root )
     root.appendChild( blockElement );
 }
 
+/**
+ * Load params from the appropriate XMI element node.
+ */
 void CodeComment::loadFromXMI ( QDomElement & root )
 {
     setAttributesFromNode(root);

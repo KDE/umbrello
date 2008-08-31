@@ -39,6 +39,7 @@
  */
 class PetalNode {
 public:
+
     /**
      * Use `string' if it is not empty.
      * Use `node' if it is not NULL.
@@ -70,11 +71,7 @@ public:
     void setInitialArgs(const QStringList& args);
     void setAttributes(NameValueList vl);
     // utilities
-    /**
-     * Find an attribute by name.
-     * @return  The value of the attribute. StringOrNode::isEmpty() returns true
-     *          if the name could not be found.
-     */
+
     StringOrNode findAttribute(const QString& name) const;
 private:
     NodeType m_type;

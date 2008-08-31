@@ -265,15 +265,11 @@ public:
     } FontType;
 
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
-    /** Template Method, override this to set the default
-     *  font metric.
-     */
+
     virtual void setDefaultFontMetrics(NewUMLWidget::FontType fontType);
     virtual void setDefaultFontMetrics(NewUMLWidget::FontType fontType, QPainter &painter);
 
-    /** Returns the font metric used by this object for Text which uses bold/italic fonts*/
     QFontMetrics &getFontMetrics(NewUMLWidget::FontType fontType);
-    /** set the font metric to use */
     void setFontMetrics(NewUMLWidget::FontType fontType, QFontMetrics fm);
     void setupFontType(QFont &font, NewUMLWidget::FontType fontType);
     void forceUpdateFontMetrics(QPainter *);

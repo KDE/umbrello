@@ -32,18 +32,6 @@ public:
      */
     virtual ~UMLViewImageExporterAll();
 
-    /**
-     * Shows a dialog to the user to get the needed parameters and then exports
-     * the views.
-     * The dialog remembers values between calls (in the same application instance,
-     * although it's not persistent between Umbrello executions).
-     *
-     * Once the export begins, it can't be stopped until it ends itself. The status
-     * bar shows an information message until the export finishes.
-     *
-     * If something went wrong while exporting, an error dialog is shown to the
-     * user with the error messages explaining the problems occurred.
-     */
     void exportAllViews();
 
 private:

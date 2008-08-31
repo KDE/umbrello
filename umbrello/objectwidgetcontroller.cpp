@@ -39,6 +39,13 @@ ObjectWidgetController::ObjectWidgetController(ObjectWidget* objectWidget):
 ObjectWidgetController::~ObjectWidgetController() {
 }
 
+/**
+ * Overridden from UMLWidgetController.
+ * Returns the cursor to be shown when resizing the widget.
+ * The cursor shown is KCursor::sizeHorCursor().
+ *
+ * @return The cursor to be shown when resizing the widget.
+ */
 QCursor ObjectWidgetController::getResizeCursor() {
     return Qt::SizeHorCursor;
 }
@@ -47,6 +54,9 @@ void ObjectWidgetController::resizeWidget(qreal newW, qreal /*newH*/) {
     m_widget->setSize(newW, m_widget->getHeight());
 }
 
+/**
+ * Overrides the standard operation.
+ */
 void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me) {
     UMLWidgetController::mousePressEvent(me);
      isOnDestructionBox = false;
@@ -60,6 +70,9 @@ void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me) {
 
 }
 
+/**
+ * Overrides the standard operation.
+ */
 void ObjectWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me) {
     if (!m_leftButtonDown)
         return;
@@ -85,6 +98,13 @@ void ObjectWidgetController::moveWidgetBy(qreal diffX, qreal /*diffY*/) {
     m_widget->setX(m_widget->getX() + diffX);
 }
 
+/**
+ * Moves the destruction Box to a new position using the difference between the
+ * current position and the new position.
+ * The destruction box is only moved along Y axis.
+ *
+ * @param diffY The difference between current Y position and new Y position
+ */
 void ObjectWidgetController::moveDestructionBy(qreal diffY) {
     // endLine = length of the life line + diffY - 10 to center on the destruction box
     qreal endLine = dynamic_cast<ObjectWidget *>(m_widget)->getEndLineY() + diffY - 10;

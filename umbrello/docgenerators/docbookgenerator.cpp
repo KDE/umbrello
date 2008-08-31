@@ -45,6 +45,15 @@ DocbookGenerator::DocbookGenerator()
 DocbookGenerator::~DocbookGenerator() {}
 
 
+/**
+ * Exports the current model to docbook in a directory named as the model
+ * with the .xmi suffix removed. The docbook file will have the same name
+ * with the .docbook suffix. Figures will be named as the corresponding
+ * diagrams in the GUI
+ * @todo change file naming to avoid paths with spaces or non-ASCII chars
+ * @todo better handling of error conditions
+ * @return true if saving is successful and false otherwise.
+ */
 bool DocbookGenerator::generateDocbookForProject()
 {
   KUrl url = umlDoc->url();
@@ -56,6 +65,13 @@ bool DocbookGenerator::generateDocbookForProject()
   return true;
 }
 
+/**
+ * Exports the current model to docbook in the given directory
+ * @param destDir the directory where the docbook file and the figures will
+ * be written
+ * @todo better handling of error conditions
+ * @return true if saving is successful and false otherwise.
+ */
 void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
 {
     m_destDir = destDir;

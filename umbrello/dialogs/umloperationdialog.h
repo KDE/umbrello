@@ -39,6 +39,7 @@ class UMLOperationDialog : public KDialog
     Q_OBJECT
 
 public:
+
     /**
      * Constructor.
      */
@@ -50,23 +51,11 @@ public:
     ~UMLOperationDialog();
 
 protected:
-    /**
-     * Sets up the dialog.
-     */
+
     void setupDialog();
 
-    /**
-     * Checks if changes are valid and applies them if they are,
-     * else returns false.
-     */
     bool apply();
 
-    /**
-     * Inserts @p type into the type-combobox.
-     * The combobox is cleared and all types together with the optional new one
-     * sorted and then added again.
-     * @param type   a new type to add and selected
-     */
     void insertTypesSorted( const QString& type = "" );
 
     /**
@@ -84,12 +73,6 @@ protected:
      */
     ListPopupMenu * m_menu;
 
-    /**
-     * Inserts @p stereotype into the stereotype-combobox as well as its completion object.
-     * The combobox is cleared and all types together with the optional new one
-     * sorted and then added again.
-     * @param type   a new type to add and selected
-     */
     void insertStereotypesSorted( const QString& type );
 
     //GUI widgets
@@ -118,20 +101,10 @@ public slots:
     void slotParameterUp();
     void slotParameterDown();
 
-    /**
-     * Enables or disables buttons.
-     */
     void slotParamsBoxClicked(QListWidgetItem* parameterItem);
 
-    /**
-     * I don't think this is used, but if we had an apply button
-     * it would slot into here.
-     */
     void slotApply();
 
-    /**
-     * Used when the OK button is clicked.  Calls apply().
-     */
     void slotOk();
     void slotNameChanged( const QString & );
 

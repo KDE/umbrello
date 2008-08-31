@@ -25,28 +25,13 @@ public:
     virtual ~PascalImport();
 
 protected:
-    /**
-     * Reimplement operation from NativeImportBase.
-     */
+
     void initVars();
 
-    /**
-     * Implement abstract operation from NativeImportBase.
-     */
     bool parseStmt();
 
-    /**
-     * Implement abstract operation from NativeImportBase.
-     */
     void fillSource(const QString& word);
 
-    /**
-     * Check for, and skip over, all modifiers following a method.
-     * Set the output arguments on encountering abstract and/or virtual.
-     *
-     * @param isVirtual   return value, set to true when "virtual" seen
-     * @param isAbstract  return value, set to true when "abstract" seen
-     */
     void checkModifiers(bool& isVirtual, bool& isAbstract);
 
     /**
@@ -56,6 +41,7 @@ protected:
 
     enum Section_Type { sect_NONE, sect_LABEL, sect_CONST, sect_RESOURCESTRING,
                         sect_TYPE, sect_VAR, sect_THREADVAR };
+
     /**
      * Auxiliary variable, contains the current section
      */

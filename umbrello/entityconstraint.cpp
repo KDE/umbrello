@@ -48,6 +48,10 @@ bool UMLEntityConstraint::operator==( const UMLEntityConstraint &rhs) {
 UMLEntityConstraint::~UMLEntityConstraint() {}
 
 
+/**
+ * Copy the internal presentation of this object into the UMLEntityConstraint
+ * object.
+ */
 void UMLEntityConstraint::copyInto(UMLObject *lhs) const {
 
     // call the parent first.

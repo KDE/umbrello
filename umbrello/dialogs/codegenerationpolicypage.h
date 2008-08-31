@@ -27,7 +27,6 @@ class CodeGenPolicyExt;
 /**
  * @author Brian Thomas
  */
-
 class CodeGenerationPolicyPage : public QWidget  {
     Q_OBJECT
 public:

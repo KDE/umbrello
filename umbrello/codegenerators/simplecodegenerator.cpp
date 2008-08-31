@@ -53,6 +53,9 @@ SimpleCodeGenerator::~SimpleCodeGenerator ( )
 {
 }
 
+/**
+ * Returns the current indent string based on m_indentLevel and m_indentation.
+ */
 QString SimpleCodeGenerator::getIndent ()
 {
     QString myIndent;

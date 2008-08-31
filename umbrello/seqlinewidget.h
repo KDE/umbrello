@@ -60,17 +60,10 @@ public:
         return m_objectWidget;
     }
 
-    /**
-     * Reimplemented form QGraphicsItem::boundingRect to return the
-     * bounds of this widget stored in m_boundingRect.
-     */
     virtual QRectF boundingRect() const {
         return m_boundingRect;
     }
-    /**
-     * Reimplemented form QGraphicsItem::shape to return the shape of
-     * this widget stored in m_shape.
-     */
+
     virtual QPainterPath shape() const {
         return m_shape;
     }

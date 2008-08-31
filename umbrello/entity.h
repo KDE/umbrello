@@ -37,12 +37,6 @@ class UMLEntity : public UMLClassifier {
 public:
 
 
-    /**
-     * Sets up an entity.
-     *
-     * @param name              The name of the Entity.
-     * @param id                The unique id of the Entity.
-     */
     explicit UMLEntity(const QString& name = QString(), Uml::IDType id = Uml::id_None);
 
     /**
@@ -55,71 +49,22 @@ public:
      */
     bool operator==(const UMLEntity& rhs);
 
-    /**
-     * Copy the internal presentation of this object into the new
-     * object.
-     */
     virtual void copyInto(UMLObject *lhs) const;
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Creates an entity attribute for the parent concept.
-     * Reimplementation of method from UMLClassifier.
-     *
-     * @param name  An optional name, used by when creating through UMLListView
-     * @param type  An optional type, used by when creating through UMLListView
-     * @return  The UMLEntityAttribute created
-     */
     virtual UMLAttribute* createAttribute(const QString &name = QString(),
                                   UMLObject *type = 0, Uml::Visibility vis = Uml::Visibility::Private,
                                   const QString &init = QString());
 
-    /**
-     * Creates a Unique Constraint for this Entity.
-     *
-     * @param name An optional name
-     * @return The UniqueConstraint created
-     */
     UMLUniqueConstraint* createUniqueConstraint(const QString &name = QString());
 
-    /**
-     * Creates a Foreign Key  Constraint for this Entity.
-     *
-     * @param name An optional name
-     * @return The ForeignKeyConstraint created
-     */
     UMLForeignKeyConstraint* createForeignKeyConstraint(const QString &name = QString());
 
-    /**
-     * Creates a Check  Constraint for this Entity.
-     *
-     * @param name An optional name
-     * @return The CheckConstraint created
-     */
     UMLCheckConstraint* createCheckConstraint(const QString &name = QString());
 
-    /**
-         * Adds an entityAttribute to the entity.
-         *
-         * @param name          The name of the entityAttribute.
-    * @param id         The id of the entityAttribute (optional.)
-    *                   If omitted a new ID is assigned internally.
-    * @return   Pointer to the UMLEntityAttribute created.
-    */
     UMLObject* addEntityAttribute(const QString &name, Uml::IDType id = Uml::id_None);
 
-    /**
-     * Adds an already created entityAttribute.
-     * The entityAttribute object must not belong to any other concept.
-         *
-         * @param att           Pointer to the UMLEntityAttribute.
-     * @param Log               Pointer to the IDChangeLog.
-     * @return  True if the entityAttribute was successfully added.
-     */
     bool addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* Log = 0);
 
     /**
@@ -134,108 +79,34 @@ public:
     //TODO:  give default value -1 to position (append) - now it conflicts with the method above..
     bool addEntityAttribute(UMLEntityAttribute* att, int position );
 
-    /**
-     * Removes an entityAttribute from the class.
-     *
-     * @param a         The entityAttribute to remove.
-     * @return  Count of the remaining entityAttributes after removal.
-     *          Returns -1 if the given entityAttribute was not found.
-     */
     int removeEntityAttribute(UMLClassifierListItem* a);
 
-    /**
-     * Emit the entityAttributeRemoved signal.
-     */
     void signalEntityAttributeRemoved(UMLClassifierListItem *eattr);
 
-    /**
-     * Returns the number of entityAttributes for the class.
-     *
-     * @return  The number of entityAttributes for the class.
-     */
     int entityAttributes() ;
 
-    /**
-     * Sets the UniqueConstraint passed as the Primary Key of this Entity
-     * If the UniqueConstraint exists, then it is made a primary key
-     * Else the UniqueConstraint is added and set as PrimaryKey
-     *
-     * @param uconstr The Unique Constraint that is  to be set as Primary Key
-     * @return true if Primary key could be set successfully
-     */
     bool setAsPrimaryKey(UMLUniqueConstraint* uconstr);
 
 
-    /**
-     * Unset a Primary Key Constraint if it exists, else does nothing
-     * This function will make the primary key into just another UniqueConstraint
-     * if it exists
-     */
     void unsetPrimaryKey();
 
-    /**
-     * Checks if This UMLEntity has a primary key set
-     *
-     * @return true if a Primary Key Exists for this UMLEntity
-     */
     bool hasPrimaryKey() const;
 
-    /**
-     * Checks if a given Unique Constraint is primary key of this entity
-     * @param uConstr A Unique Constraint
-     * @return bool true if passed paramater is a primary key of this entity
-     */
     bool isPrimaryKey(UMLUniqueConstraint* uConstr) const;
 
-    /**
-     * Adds a Constraint to this UMLEntity
-     * To set a UMLUniqueConstraint as Primary Key use setAsPrimaryKey
-     *
-     * @param constr The UMLEntityConstraint that is to be added
-     * @return true if the constraint could be added successfully
-     */
     bool addConstraint(UMLEntityConstraint* constr);
 
 
-    /**
-     * Removes an existing constraint from this UMLEntity
-     * If the Contraint is a Primary Key, this Entity will no longer have a PrimaryKey
-     *
-     * @param constr The constraint to be removed
-     * @return true if the constraint could be removed successfully
-     */
     bool removeConstraint(UMLEntityConstraint* constr);
 
-    /**
-     * Resolve the types referenced by our UMLEntityAttributes.
-     * Reimplements the method from UMLClassifier.
-     */
     virtual bool resolveRef();
 
-    /**
-     * Creates the <UML:Entity> element including its entityliterals.
-     */
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    /**
-     * Reimplementation of getFilteredList to support ot=Uml::ot_EntityConstraint
-     */
     UMLClassifierListItemList getFilteredList(Uml::Object_Type ot) const;
 
-    /**
-     * Returns the Entity Attributes
-     * Same as getFilteredList(Uml::ot_EntityAttribute)
-     */
     UMLEntityAttributeList getEntityAttributes() const;
 
-    /**
-     * Create a new ClassifierListObject (entityattribute)
-     * according to the given XMI tag.
-     * Returns NULL if the string given does not contain one of the tags
-     * <UML:EntityAttribute>
-     * Used by the clipboard for paste operation.
-     * Reimplemented from UMLClassifier for UMLEntity
-     */
     virtual UMLClassifierListItem* makeChildObject(const QString& xmiTag);
 
 private slots:
@@ -248,15 +119,11 @@ signals:
     void entityConstraintRemoved(UMLClassifierListItem*);
 
 protected:
-    /**
-     * Loads the <UML:Entity> element including its entityAttributes.
-     */
+
     bool load(QDomElement& element);
 
 private:
-    /**
-     * Initializes key variables of the class.
-     */
+
     void init();
 
     /*

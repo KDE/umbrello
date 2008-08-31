@@ -26,6 +26,7 @@
 class UMLEntityAttribute : public UMLAttribute {
     Q_OBJECT
 public:
+
     /**
      * Sets up an entityattribute.
      *
@@ -58,116 +59,40 @@ public:
      */
     virtual ~UMLEntityAttribute();
 
-    /**
-     * Copy the internal presentation of this object into the UMLEntityAttribute
-     * object.
-     */
     virtual void copyInto(UMLObject *lhs) const;
 
-    /**
-     * Make a clone of the UMLEntityAttribute.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Returns the value of the UMLEntityAttribute's attributes property.
-     *
-     * @return  The value of the UMLEntityAttribute's attributes property.
-     */
     QString getAttributes() const;
 
-    /**
-     * Sets the UMLEntityAttribute's attributes property.
-     *
-     * @param attributes  The new value for the attributes property.
-     */
     void setAttributes(const QString& attributes);
 
-    /**
-     * Returns the UMLEntityAttribute's index type property.
-     *
-     * @return  The value of the UMLEntityAttribute's index type property.
-     */
     Uml::DBIndex_Type getIndexType() const;
 
-    /**
-     * Sets the initial value of the UMLEntityAttribute's index type property.
-     *
-     * @param indexType  The initial value of the UMLEntityAttribute's index type property.
-     */
     void setIndexType(const Uml::DBIndex_Type indexType);
 
-    /**
-     * Returns the UMLEntityAttribute's length/values property.
-     *
-     * @return  The new value of the length/values property.
-     */
     QString getValues() const;
 
-    /**
-     * Sets the UMLEntityAttribute's length/values property.
-     *
-     * @param values    The new value of the length/values property.
-     */
     void setValues(const QString& values);
 
-    /**
-     * Returns the UMLEntityAttribute's auto_increment boolean
-     *
-     * @return  The UMLEntityAttribute's auto_increment boolean
-     */
     bool getAutoIncrement() const;
 
-    /**
-     * Sets the UMLEntityAttribute's auto_increment boolean
-     *
-     * @param autoIncrement  The UMLEntityAttribute's auto_increment boolean
-     */
     void setAutoIncrement(const bool autoIncrement);
 
-    /**
-     * Returns the UMLEntityAttribute's allow null value.
-     *
-     * @return  The UMLEntityAttribute's allow null value.
-     */
     bool getNull() const;
 
-    /**
-     * Sets the initial value of the UMLEntityAttribute's allow null value.
-     *
-     * @param null        The initial value of the UMLEntityAttribute's allow null value.
-     */
     void setNull(const bool null);
 
-    /**
-     * Returns a string representation of the UMLEntityAttribute.
-     *
-     * @param sig               If true will show the entityattribute type and
-     *                  initial value.
-     * @return  Returns a string representation of the UMLEntityAttribute.
-     */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
-    /**
-     * Creates the <UML:EntityAttribute> XMI element.
-     */
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    /**
-     * Display the properties configuration dialog for the entityattribute.
-     */
     bool showPropertiesDialog(QWidget* parent);
 
 protected:
-    /**
-     * Initialize members of this class.
-     * Auxiliary method used by constructors.
-     */
+
     void init();
 
-    /**
-     * Loads the <UML:EntityAttribute> XMI element.
-     */
     bool load(QDomElement& element);
 
 private:

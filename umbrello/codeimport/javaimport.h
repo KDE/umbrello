@@ -27,39 +27,19 @@ public:
     virtual ~JavaImport();
 
 protected:
-    /**
-     * Reimplement operation from NativeImportBase.
-     */
+
     void initVars();
 
-    /**
-     * Implement abstract operation from NativeImportBase.
-     */
     bool parseStmt();
 
-    /**
-     * Implement abstract operation from NativeImportBase.
-     */
     void fillSource(const QString& word);
 
-    /**
-     * Keep track of the filename currently being parsed
-     */
     void parseFile(const QString& filename);
 
-    /**
-     * Try to resolve the specified class the current class depends on
-     */
     UMLObject* resolveClass (QString className);
 
-    /**
-     * spawn off an import of the specified file
-     */
     void spawnImport(QString file);
 
-    /**
-     * figure out if the type is really an array or template of the given typeName
-     */
     QString joinTypename(QString typeName);
 
     /**

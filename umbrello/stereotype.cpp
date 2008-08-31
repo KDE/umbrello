@@ -21,6 +21,12 @@
 #include "umldoc.h"
 #include "uml.h"
 
+/**
+ * Sets up a stereotype.
+ *
+ * @param name              The name of this UMLStereotype.
+ * @param id                The unique id given to this UMLStereotype.
+ */
 UMLStereotype::UMLStereotype(const QString &name, Uml::IDType id /* = Uml::id_None */)
         : UMLObject( name, id ) {
     m_BaseType = Uml::ot_Stereotype;
@@ -51,11 +57,18 @@ bool UMLStereotype::operator==( const UMLStereotype &rhs) {
     return true;
 }
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLStereotype::copyInto(UMLObject *lhs) const
 {
     UMLObject::copyInto(lhs);
 }
 
+/**
+ * Make a clone of this object.
+ */
 UMLObject* UMLStereotype::clone() const
 {
     UMLStereotype *clone = new UMLStereotype();
@@ -65,12 +78,19 @@ UMLObject* UMLStereotype::clone() const
 }
 
 
+/**
+ * Saves to the <UML:StereoType> XMI element.
+ */
 void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     //FIXME: uml13.dtd compliance
     QDomElement stereotypeElement = UMLObject::save("UML:Stereotype", qDoc);
     qElement.appendChild( stereotypeElement );
 }
 
+/**
+ * Display the properties configuration dialog for the stereotype
+ * (just a line edit).
+ */
 bool UMLStereotype::showPropertiesDialog(QWidget* parent) {
     bool ok;
     QString name = KInputDialog::getText(i18n("Stereotype"), i18n("Enter name:"), getName(),&ok, parent);
@@ -80,14 +100,23 @@ bool UMLStereotype::showPropertiesDialog(QWidget* parent) {
     return ok;
 }
 
+/**
+ * Increments the reference count for this stereotype.
+ */
 void UMLStereotype::incrRefCount() {
     m_refCount++;
 }
 
+/**
+ * Decrements the reference count for this stereotype.
+ */
 void UMLStereotype::decrRefCount() {
     m_refCount--;
 }
 
+/**
+ * Returns the reference count for this stereotype.
+ */
 int UMLStereotype::refCount() const {
     return m_refCount;
 }

@@ -15,6 +15,9 @@
 
 namespace Uml {
 
+/**
+ * Function for comparing tags in XMI files.
+ */
 bool tagEq (const QString& inTag, const QString& inPattern) {
     QString tag = inTag;
     QString pattern = inPattern;
@@ -24,6 +27,14 @@ bool tagEq (const QString& inTag, const QString& inPattern) {
     return (tagEnd.toLower() == pattern.toLower());
 }
 
+/**
+ * Convert Visibility value into QString representation.
+ *
+ * @param value       Value to convert
+ * @param mnemonic    If true then return a single character:
+ *              "+" for public, "-" for private,
+ *              "#" for protected or "~" for implementation
+ */
 QString Visibility::toString(Value value, bool mnemonic) {
     switch (value) {
     case Protected:
@@ -65,6 +76,13 @@ Visibility::Visibility(): _v(Public) {
 Visibility::Visibility(Value v): _v(v) {
 }
 
+/**
+ * Convert Visibility value into QString representation.
+ *
+ * @param mnemonic    If true then return a single character:
+ *              "+" for public, "-" for private,
+ *              "#" for protected or "~" for implementation
+ */
 QString Visibility::toString(bool mnemonic) const {
     return toString(_v, mnemonic);
 }

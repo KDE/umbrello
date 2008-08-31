@@ -70,69 +70,27 @@ public:
      */
     virtual ~UMLForeignKeyConstraint();
 
-    /**
-     * Copy the internal presentation of this object into the UMLForeignKeyConstraint
-     * object.
-     */
     virtual void copyInto(UMLObject *lhs) const;
 
-    /**
-     * Make a clone of the UMLForeignKeyConstraint.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Returns a string representation of the UMLForeignKeyConstraint.
-     *
-     * @param sig               If true will show the attribute type and
-     *                  initial value.
-     * @return  Returns a string representation of the UMLAttribute.
-     */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
-    /**
-     * Set the Referenced Entity
-     * @param ent The Entity to Reference
-     */
     void setReferencedEntity(UMLEntity* ent);
 
     UMLEntity* getReferencedEntity() const {
         return m_ReferencedEntity;
     }
 
-    /**
-     * Creates the <UML:ForeignKeyConstraint> XMI element.
-     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * Display the properties configuration dialog for the attribute.
-     */
     virtual bool showPropertiesDialog(QWidget* parent);
 
 
-    /**
-     * Adds the attribute pair to the attributeMap
-     * @param pAttr The Attribute of the Parent Entity
-     * @param rAttr The Attribute of the Referenced Entity
-     * @return true if the attribute pair could be added successfully
-     */
     bool addEntityAttributePair(UMLEntityAttribute* pAttr, UMLEntityAttribute* rAttr);
 
-    /**
-     * Removes an Attribute pair
-     * @param pAttr The Attribute of the Parent Entity in the map. This attribute is the
-                    key of the map
-     * @return true of the attribute pair could be removed successfully
-     */
     bool removeEntityAttributePair(UMLEntityAttribute* /*key*/ pAttr);
 
-    /**
-     * Check if a attribute pair already exists
-     * @param pAttr The Attribute of the Parent Entity
-     * @param rAttr The Attribute of the Referenced Entity
-     * @return true if the attribute pair could be found.
-     */
     bool hasEntityAttributePair(UMLEntityAttribute* pAttr,UMLEntityAttribute* rAttr) const;
 
     /**
@@ -142,43 +100,24 @@ public:
          return m_AttributeMap;
     }
 
-    /**
-     * Get the Delete Action
-     */
     UpdateDeleteAction getDeleteAction() const {
         return m_DeleteAction;
     }
 
-    /**
-     * Get the Update Action
-     */
     UpdateDeleteAction getUpdateAction() const {
         return m_UpdateAction;
     }
 
-    /**
-     * Set the Delete Action to the specified UpdateDeleteAction
-     */
     void setDeleteAction(UpdateDeleteAction uda) {
         m_DeleteAction = uda;
     }
 
-    /**
-     * Set the Update Action to the specified UpdateDeleteAction
-     */
     void setUpdateAction(UpdateDeleteAction uda) {
         m_UpdateAction = uda;
     }
 
-    /**
-     * Clears all mappings between local and referenced attributes
-     */
     void clearMappings();
 
-    /**
-     * Remimplementation from base classes
-     * Used to resolve forward references to referenced entities in xmi
-     */
     bool resolveRef();
 
 signals:
@@ -189,9 +128,7 @@ private slots:
     void slotReferencedEntityChanged();
 
 protected:
-    /**
-     * Loads the <UML:ForeignKeyConstraint> XMI element.
-     */
+
     bool load( QDomElement & element );
 
 private:
@@ -209,9 +146,6 @@ private:
     QMap<UMLEntityAttribute*, Uml::IDType> m_pEntityAttributeIDMap;
 
 
-    /**
-     * Initialisation of common variables
-     */
     void init();
 
     /**
@@ -222,7 +156,6 @@ private:
     /**
      * Stores the Mapping of attributes between parent table and referenced table
      */
-
     QMap<UMLEntityAttribute*, UMLEntityAttribute*> m_AttributeMap;
 
     /**

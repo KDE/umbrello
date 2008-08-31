@@ -24,13 +24,6 @@ class PetalNode;
  */
 namespace Import_Rose {
 
-    /**
-     * This is really an auxiliary method for loadFromMDL() but is kept in a
-     * separate file to reflect that it is not coupled with the parser
-     * (other than by the PetalNode.)
-     *
-     * @return  true for success.
-     */
     bool petalTree2Uml(PetalNode *root);
 
 }

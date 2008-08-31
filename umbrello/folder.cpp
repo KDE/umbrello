@@ -26,6 +26,13 @@
 #include "model_utils.h"
 #include "umlscene.h"
 
+/**
+ * Sets up a Folder.
+ *
+ * @param name    The name of the Folder.
+ * @param id      The unique id of the Folder. A new ID will be generated
+ *                if this argument is left away.
+ */
 UMLFolder::UMLFolder(const QString & name, Uml::IDType id)
         : UMLPackage(name, id)
 {
@@ -40,6 +47,9 @@ UMLFolder::~UMLFolder()
     }
 }
 
+/**
+ * Initializes key variables of the class.
+ */
 void UMLFolder::init()
 {
     m_BaseType = Uml::ot_Folder;
@@ -48,6 +58,9 @@ void UMLFolder::init()
     UMLObject::setStereotype("folder");
 }
 
+/**
+ * Make a clone of this object.
+ */
 UMLObject* UMLFolder::clone() const
 {
     UMLFolder *clone = new UMLFolder();
@@ -55,20 +68,36 @@ UMLObject* UMLFolder::clone() const
     return clone;
 }
 
+/**
+ * Set the localized name of this folder.
+ * This is set for the predefined root views (Logical,
+ * UseCase, Component, Deployment, EntityRelationship,
+ * and the Datatypes folder inside the Logical View.)
+ */
 void UMLFolder::setLocalName(const QString& localName)
 {
     m_localName = localName;
 }
 
+/**
+ * Return the localized name of this folder.
+ * Only useful for the predefined root folders.
+ */
 QString UMLFolder::getLocalName() {
     return m_localName;
 }
 
+/**
+ * Add a view to the diagram list.
+ */
 void UMLFolder::addView(UMLView *view)
 {
     m_diagrams.append(view);
 }
 
+/**
+ * Remove a view from the diagram list.
+ */
 void UMLFolder::removeView(UMLView *view)
 {
     // m_diagrams is set to autodelete!
@@ -76,6 +105,13 @@ void UMLFolder::removeView(UMLView *view)
     delete view;
 }
 
+/**
+ * Append the views in this folder to the given diagram list.
+ *
+ * @param viewList       The UMLViewList to which to append the diagrams.
+ * @param includeNested  Whether to include diagrams from nested folders
+ *                       (default: true.)
+ */
 void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
 {
     if (includeNested) {
@@ -90,6 +126,11 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
         viewList.append(v);
 }
 
+/**
+ * Acivate the views in this folder.
+ * "Activation": Some widgets require adjustments after loading from file,
+ * those are done here.
+ */
 void UMLFolder::activateViews()
 {
     foreach (UMLObject* o, m_objects ) {
@@ -114,6 +155,14 @@ void UMLFolder::activateViews()
     }
 }
 
+/**
+ * Seek a view by the type and name given.
+ *
+ * @param type              The type of view to find.
+ * @param name              The name of the view to find.
+ * @param searchAllScopes   Search in all subfolders (default: true.)
+ * @return  Pointer to the view found, or NULL if not found.
+ */
 UMLView *UMLFolder::findView(Uml::IDType id)
 {
     foreach (UMLView* v, m_diagrams ) {
@@ -133,6 +182,14 @@ UMLView *UMLFolder::findView(Uml::IDType id)
     return v;
 }
 
+/**
+ * Seek a view by the type and name given.
+ *
+ * @param type              The type of view to find.
+ * @param name              The name of the view to find.
+ * @param searchAllScopes   Search in all subfolders (default: true.)
+ * @return  Pointer to the view found, or NULL if not found.
+ */
 UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool searchAllScopes)
 {
     foreach (UMLView* v, m_diagrams ) {
@@ -154,6 +211,9 @@ UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool s
     return v;
 }
 
+/**
+ * Set the options for the views in this folder.
+ */
 void UMLFolder::setViewOptions(const Settings::OptionState& optionState)
 {
     // for each view update settings
@@ -161,6 +221,9 @@ void UMLFolder::setViewOptions(const Settings::OptionState& optionState)
         v->umlScene()->setOptionState(optionState);
 }
 
+/**
+ * Remove all views in this folder.
+ */
 void UMLFolder::removeAllViews()
 {
     foreach (UMLObject* o, m_objects) {
@@ -185,16 +248,27 @@ void UMLFolder::removeAllViews()
     }
 }
 
+/**
+ * Set the folder file name for a separate submodel.
+ */
 void UMLFolder::setFolderFile(const QString& fileName)
 {
     m_folderFile = fileName;
 }
 
+/**
+ * Get the folder file name for a separate submodel.
+ */
 QString UMLFolder::getFolderFile()
 {
     return m_folderFile;
 }
 
+/**
+ * Auxiliary to saveToXMI(): Save the contained objects and diagrams.
+ * Can be used regardless of whether saving to the main model file
+ * or to an external folder file (see m_folderFile.)
+ */
 void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
@@ -224,6 +298,12 @@ void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement)
     }
 }
 
+/**
+ * Auxiliary to saveToXMI(): Creates a <UML:Model> element when saving
+ * a predefined modelview, or a <UML:Package> element when saving a
+ * user created folder. Invokes saveContents() with the newly created
+ * element.
+ */
 void UMLFolder::save(QDomDocument& qDoc, QDomElement& qElement)
 {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
@@ -236,6 +316,11 @@ void UMLFolder::save(QDomDocument& qDoc, QDomElement& qElement)
     qElement.appendChild(folderElement);
 }
 
+/**
+ * Creates a UML:Model or UML:Package element:
+ * UML:Model is created for the predefined fixed folders,
+ * UML:Package with stereotype "folder" is created for all else.
+ */
 void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     if (m_folderFile.isEmpty()) {
@@ -286,6 +371,10 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     file.close();
 }
 
+/**
+ * Auxiliary to load():
+ * Load the diagrams from the "diagrams" in the <XMI.extension>
+ */
 bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams)
 {
     const Settings::OptionState optionState = Settings::getOptionState();
@@ -311,6 +400,17 @@ bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams)
     return totalSuccess;
 }
 
+/**
+ * Folders in the listview can be marked such that their contents
+ * are saved to a separate file.
+ * This method loads the separate folder file.
+ * CAVEAT: This is not XMI standard compliant.
+ * If standard compliance is an issue then avoid folder files.
+ *
+ * @param path  Fully qualified file name, i.e. absolute directory
+ *              plus file name.
+ * @return   True for success.
+ */
 bool UMLFolder::loadFolderFile(const QString& path)
 {
     QFile file(path);
@@ -349,6 +449,9 @@ bool UMLFolder::loadFolderFile(const QString& path)
     return load(element);
 }
 
+/**
+ * Loads the UML:Component element.
+ */
 bool UMLFolder::load(QDomElement& element)
 {
     UMLDoc *umldoc = UMLApp::app()->getDocument();

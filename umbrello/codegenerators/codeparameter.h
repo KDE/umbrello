@@ -37,72 +37,26 @@ public:
      */
     virtual ~CodeParameter ( );
 
-    /**
-     * Get the parent Code Document
-     */
     ClassifierCodeDocument * getParentDocument ( );
 
-    /**
-     * Get the parent UMLObject
-     */
     UMLObject * getParentObject ( );
 
-    /**
-      * Utility method. Get the value of parent abstract value.
-      * @return the value
-      */
     bool getAbstract ( );
 
-    /**
-     * Utility method. Get the value of parent Static.
-     * Whether or not this is static.
-     * @return the value
-     */
     bool getStatic ( );
 
-    /**
-     * The name of this code parameter.
-     * @return the value of parameter name
-     */
     QString getName ( ) const;
 
-    /**
-     * Get the value of m_typeName,
-     * the typeName of this parameters (e.g. boolean, int, etc or perhaps Class name of
-     * an object).
-     * @return the value of m_typeName
-     */
     virtual QString getTypeName ( );
 
-    /**
-     * Get the value of m_visibility.
-     * The visibility of this code parameter.
-     * @return the value of m_visibility
-     */
     Uml::Visibility getVisibility ( ) const;
 
-    /**
-     * Set the value of m_initialValue
-     * The initial value of this code parameter
-     * @param new_var the new value of m_initialValue
-     */
     virtual void setInitialValue ( const QString &new_var );
 
-    /**
-     * Get the value of m_initialValue.
-     * The initial value of this code parameter.
-     * @return the value of m_initialValue
-     */
     virtual QString getInitialValue ( );
 
-    /**
-     * Set a Comment.
-     */
     void setComment ( CodeComment * comment );
 
-    /**
-     * Get any Comment object on this.
-     */
     CodeComment * getComment ( );
 
     // the id of this parameter is the same as the parent UMLObject id.
@@ -112,16 +66,8 @@ public:
 
 protected:
 
-    /**
-     * Set attributes of the node that represents this class
-     * in the XMI document.
-     */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /**
-     * Set the class attributes of this object from
-     * the passed element node.
-     */
     virtual void setAttributesFromNode ( QDomElement & element);
 
 private:

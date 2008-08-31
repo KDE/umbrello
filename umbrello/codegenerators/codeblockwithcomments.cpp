@@ -19,6 +19,9 @@
 // kde includes
 #include <kdebug.h>
 
+/**
+ * Basic Constructor
+ */
 CodeBlockWithComments::CodeBlockWithComments ( CodeDocument * parent , const QString & body, const QString & comment)
         : CodeBlock (parent, body)
 {
@@ -31,16 +34,25 @@ CodeBlockWithComments::~CodeBlockWithComments ( )
 {
 }
 
+/**
+ * Set the Comment object.
+ */
 void CodeBlockWithComments::setComment ( CodeComment * object )
 {
     m_comment = object;
 }
 
+/**
+ * Get the Comment object.
+ */
 CodeComment * CodeBlockWithComments::getComment ( ) const
 {
     return m_comment;
 }
 
+/**
+ * Save the XMI representation of this object
+ */
 void CodeBlockWithComments::saveToXMI ( QDomDocument & doc, QDomElement & root )
 {
     QDomElement blockElement = doc.createElement( "codeblockwithcomments" );
@@ -51,6 +63,10 @@ void CodeBlockWithComments::saveToXMI ( QDomDocument & doc, QDomElement & root )
     root.appendChild( blockElement );
 }
 
+/**
+ * Set attributes of the node that represents this class
+ * in the XMI document.
+ */
 void CodeBlockWithComments::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
 {
     // set super-class attributes
@@ -63,6 +79,9 @@ void CodeBlockWithComments::setAttributesOnNode ( QDomDocument & doc, QDomElemen
     blockElement.appendChild( commElement);
 }
 
+/**
+ * Set the class attributes from a passed object.
+ */
 void CodeBlockWithComments::setAttributesFromObject(TextBlock * obj)
 {
     CodeBlock::setAttributesFromObject(obj);
@@ -73,11 +92,18 @@ void CodeBlockWithComments::setAttributesFromObject(TextBlock * obj)
     }
 }
 
+/**
+ * Load params from the appropriate XMI element node.
+ */
 void CodeBlockWithComments::loadFromXMI ( QDomElement & root )
 {
     setAttributesFromNode(root);
 }
 
+/**
+ * Set the class attributes of this object from
+ * the passed element node.
+ */
 void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
 {
     // set attributes from superclass method the XMI
@@ -106,6 +132,9 @@ void CodeBlockWithComments::setAttributesFromNode( QDomElement & root)
     }
 }
 
+/**
+ * @return  QString
+ */
 QString CodeBlockWithComments::toString ( ) const
 {
     QString string;
@@ -128,6 +157,11 @@ QString CodeBlockWithComments::toString ( ) const
 }
 
 // slave indentation level for both the header and text body
+
+/**
+ * A utility method that causes the comment and body of the code block
+ * to have the same indentation level.
+ */
 void CodeBlockWithComments::setOverallIndentationLevel ( int level )
 {
     setIndentationLevel(level);

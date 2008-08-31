@@ -47,6 +47,13 @@ CppImport::CppImport() {
 
 CppImport::~CppImport() {}
 
+/**
+ * Auxiliary method for recursively traversing the #include dependencies
+ * in order to feed innermost includes to the model before dependent
+ * includes.  It is important that includefiles are fed to the model
+ * in proper order so that references between UML objects are created
+ * properly.
+ */
 void CppImport::feedTheModel(const QString& fileName) {
     if (ms_seenFiles.indexOf(fileName) != -1)
         return;
@@ -77,6 +84,9 @@ void CppImport::feedTheModel(const QString& fileName) {
     modelFeeder.parseTranslationUnit( ast );
 }
 
+/**
+ * Implement abstract operation from ClassImport for C++.
+ */
 void CppImport::initialize() {
     // Reset the driver
     ms_driver->reset();
@@ -98,6 +108,11 @@ void CppImport::initialize() {
     ms_seenFiles.clear();
 }
 
+/**
+ * Import a single file.
+ *
+ * @param filename  The file to import.
+ */
 void CppImport::parseFile(const QString& fileName) {
     if (ms_seenFiles.indexOf(fileName) != -1)
         return;

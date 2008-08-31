@@ -37,6 +37,9 @@ ActivityPage::~ActivityPage()
 {
 }
 
+/**
+ *   Sets up the page.
+ */
 void ActivityPage::setupPage()
 {
     int margin = fontMetrics().height();
@@ -113,6 +116,9 @@ void ActivityPage::setupPage()
     enableWidgets(false);
 }
 
+/**
+ *   Sets the activities of the widget.
+ */
 void ActivityPage::updateActivities()
 {
     QStringList list;
@@ -123,6 +129,9 @@ void ActivityPage::updateActivities()
     m_pStateWidget->setActivities( list );
 }
 
+/**
+ *  Popup menu item selected
+ */
 void ActivityPage::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
@@ -285,6 +294,11 @@ void ActivityPage::slotDoubleClicked(QListWidgetItem* item)
     }
 }
 
+/**
+ *  Set the state of the widgets on the page with the given value.
+ *
+ *  @param state The state to set the widgets as.
+ */
 void ActivityPage::enableWidgets(bool state)
 {
     if ( !state ) {

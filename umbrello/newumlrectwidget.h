@@ -42,6 +42,7 @@ class NewUMLRectWidget : public NewUMLWidget
 {
 	Q_OBJECT
 public:
+
     /**
      * This enum presents options for @ref setMinimumSize and @ref
      * setMaximumSize methods.

@@ -68,6 +68,9 @@ UMLOperation * CodeOperation::getParentOperation( )
     return dynamic_cast<UMLOperation*>(getParentObject());
 }
 
+/**
+ * Save the XMI representation of this object.
+ */
 void CodeOperation::saveToXMI ( QDomDocument & doc, QDomElement & root )
 {
     QDomElement blockElement = doc.createElement( "codeoperation" );
@@ -76,21 +79,35 @@ void CodeOperation::saveToXMI ( QDomDocument & doc, QDomElement & root )
     root.appendChild( blockElement );
 }
 
+/**
+ * Load params from the appropriate XMI element node.
+ */
 void CodeOperation::loadFromXMI ( QDomElement & root )
 {
     setAttributesFromNode(root);
 }
 
+/**
+ * Find the value of the tag that this operation would have.
+ */
 QString CodeOperation::findTag (UMLOperation * op)
 {
     return QString("operation_" + ID2STR(op->getID()));
 }
 
+/**
+ * Set attributes of the node that represents this class
+ * in the XMI document.
+ */
 void CodeOperation::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem)
 {
     CodeMethodBlock::setAttributesOnNode(doc,elem); // superclass
 }
 
+/**
+ * Set the class attributes of this object from
+ * the passed element node.
+ */
 void CodeOperation::setAttributesFromNode ( QDomElement & element)
 {
     CodeMethodBlock::setAttributesFromNode(element); // superclass
@@ -112,6 +129,9 @@ void CodeOperation::setAttributesFromNode ( QDomElement & element)
         uError() << "ERROR: could not load code operation because of missing UMLoperation, corrupt savefile?";
 }
 
+/**
+ * Set the class attributes from a passed object.
+ */
 void CodeOperation::setAttributesFromObject(TextBlock * obj)
 {
     CodeMethodBlock::setAttributesFromObject(obj);

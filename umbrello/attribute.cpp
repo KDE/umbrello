@@ -50,6 +50,10 @@ UMLAttribute::~UMLAttribute()
 {
 }
 
+/**
+ * Reimplementation of method from UMLObject is required as
+ * an extra signal, attributeChanged(), is emitted.
+ */
 void UMLAttribute::setName(const QString &name)
 {
     m_Name = name;
@@ -57,6 +61,10 @@ void UMLAttribute::setName(const QString &name)
     UMLObject::emitModified();
 }
 
+/**
+ * Reimplementation of method from UMLObject is required as
+ * an extra signal, attributeChanged(), is emitted.
+ */
 void UMLAttribute::setVisibility(Uml::Visibility s)
 {
     m_Vis = s;
@@ -64,11 +72,21 @@ void UMLAttribute::setVisibility(Uml::Visibility s)
     UMLObject::emitModified();
 }
 
+/**
+ * Returns The initial value of the UMLAttribute.
+ *
+ * @return  The initial value of the Atrtibute.
+ */
 QString UMLAttribute::getInitialValue() const
 {
     return m_InitialValue;
 }
 
+/**
+ * Sets the initial value of the UMLAttribute.
+ *
+ * @param iv                The initial value of the UMLAttribute.
+ */
 void UMLAttribute::setInitialValue(const QString &iv) 
 {
     if(m_InitialValue != iv) {
@@ -87,6 +105,13 @@ Uml::Parameter_Direction UMLAttribute::getParmKind () const
     return m_ParmKind;
 }
 
+/**
+ * Returns a string representation of the UMLAttribute.
+ *
+ * @param sig               If true will show the attribute type and
+ *                  initial value.
+ * @return  Returns a string representation of the UMLAttribute.
+ */
 QString UMLAttribute::toString(Uml::Signature_Type sig)
 {
     QString s;
@@ -134,6 +159,9 @@ QString UMLAttribute::toString(Uml::Signature_Type sig)
     return s + getName();
 }
 
+/**
+ * Reimplement method from UMLObject.
+ */
 QString UMLAttribute::getFullyQualifiedName( const QString& separator,
                                             bool includeRoot /* = false */) const
 {
@@ -175,6 +203,10 @@ bool UMLAttribute::operator==(const UMLAttribute &rhs)
     return true;
 }
 
+/**
+ * Copy the internal presentation of this object into the UMLAttribute
+ * object.
+ */
 void UMLAttribute::copyInto(UMLObject *lhs) const
 {
     UMLAttribute *target = static_cast<UMLAttribute*>(lhs);
@@ -188,6 +220,9 @@ void UMLAttribute::copyInto(UMLObject *lhs) const
     target->m_ParmKind = m_ParmKind;
 }
 
+/**
+ * Make a clone of the UMLAttribute.
+ */
 UMLObject* UMLAttribute::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
@@ -197,6 +232,9 @@ UMLObject* UMLAttribute::clone() const
     return clone;
 }
 
+/**
+ * Creates the <UML:Attribute> XMI element.
+ */
 void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement attributeElement = UMLObject::save("UML:Attribute", qDoc);
@@ -211,6 +249,9 @@ void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     qElement.appendChild( attributeElement );
 }
 
+/**
+ * Loads the <UML:Attribute> XMI element.
+ */
 bool UMLAttribute::load( QDomElement & element )
 {
     m_SecondaryId = element.attribute( "type", "" );
@@ -258,12 +299,18 @@ bool UMLAttribute::load( QDomElement & element )
     return true;
 }
 
+/**
+ * Display the properties configuration dialog for the attribute.
+ */
 bool UMLAttribute::showPropertiesDialog(QWidget* parent)
 {
     UMLAttributeDialog dialog(parent, this);
     return dialog.exec();
 }
 
+/**
+ * Puts in the param templateParamList all the template params that are in templateParam
+ */
 void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifierList &templateParamList)
 {
     if (templateParam.isEmpty())
@@ -313,6 +360,9 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
     }
 }
 
+/**
+ * Returns all the template params (if any) that are in the type of this attribute
+ */
 UMLClassifierList UMLAttribute::getTemplateParams()
 {
     UMLClassifierList templateParamList;

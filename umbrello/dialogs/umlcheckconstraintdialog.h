@@ -31,6 +31,7 @@ class UMLCheckConstraintDialog : public KDialog
 {
     Q_OBJECT
 public:
+
     /**
      *  Sets up the UMLCheckConstraintDialog
      *
@@ -46,14 +47,8 @@ public:
 
 protected:
 
-    /**
-     *   Sets up the dialog
-     */
     void setupDialog();
 
-    /**
-     * Apply Changes
-     */
     bool apply();
 
 private:
@@ -75,9 +70,6 @@ private:
 
 public slots:
 
-    /**
-     * Used when the OK button is clicked. Calls apply()
-     */
     void slotOk();
 
 };

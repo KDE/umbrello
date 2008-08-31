@@ -39,6 +39,9 @@ PythonImport::~PythonImport()
 {
 }
 
+/**
+ * Reimplement operation from NativeImportBase.
+ */
 void PythonImport::initVars()
 {
     m_srcIndentIndex = 0;
@@ -46,6 +49,14 @@ void PythonImport::initVars()
     m_braceWasOpened = false;
 }
 
+/**
+ * Reimplement operation from NativeImportBase.
+ * In addition to handling multiline comments, this method transforms
+ * changes in leading indentation into braces (opening brace for increase
+ * in indentation, closing brace for decrease in indentation) in m_source.
+ * Removal of Python's indentation sensitivity simplifies subsequent
+ * processing using Umbrello's native import framework.
+ */
 bool PythonImport::preprocess(QString& line)
 {
     if (NativeImportBase::preprocess(line))
@@ -96,6 +107,9 @@ bool PythonImport::preprocess(QString& line)
     return false;  // The input was not completely consumed by preprocessing.
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ */
 void PythonImport::fillSource(const QString& word) 
 {
     QString lexeme;
@@ -120,6 +134,9 @@ void PythonImport::fillSource(const QString& word)
     }
 }
 
+/**
+ * Return an amount of spaces that corresponds to @param level
+ */
 QString PythonImport::indentation(int level)
 {
     QString spaces;
@@ -128,6 +145,10 @@ QString PythonImport::indentation(int level)
     return spaces;
 }
 
+/**
+ * Skip ahead to outermost closing brace.
+ * @return  body contents skipped
+ */
 QString PythonImport::skipBody()
 {
     /* During input preprocessing, changes in indentation were replaced by
@@ -168,6 +189,9 @@ QString PythonImport::skipBody()
     return body;
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ */
 bool PythonImport::parseStmt()
 {
     const int srcLength = m_source.count();

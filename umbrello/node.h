@@ -28,12 +28,7 @@
 class UMLNode : public UMLCanvasObject {
     Q_OBJECT
 public:
-    /**
-     * Sets up a Node.
-     *
-     * @param name              The name of the Concept.
-     * @param id                The unique id of the Concept.
-     */
+
     explicit UMLNode(const QString & name = QString(), Uml::IDType id = Uml::id_None);
 
     /**
@@ -41,25 +36,14 @@ public:
      */
     virtual ~UMLNode();
 
-    /**
-     * Initializes key variables of the class.
-     */
     virtual void init();
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Creates the <UML:Node> XMI element.
-     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-    /**
-     * Loads the <UML:Node> XMI element (empty.)
-     */
+
     bool load( QDomElement & element );
 
 };

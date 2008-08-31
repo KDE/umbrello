@@ -60,264 +60,80 @@ public:
      */
     virtual ~CodeGenerationPolicy ( );
 
-    /**
-     * Set the value of m_overwritePolicy
-     * Policy of how to deal with overwriting existing files.
-     * OverwritePolicy  can have the following values
-     *  - Ok: if there is a file named the same as what you want to name your output file,
-     *        you can overwrite the old file.
-     *  - Ask:if there is a file named the same as what you want to name your output file,
-     *        you should ask the User what to do, and give him the option to overwrite the file
-     *        write the code to a different file, or to abort the generation of this class.
-     *  - Never: you cannot overwrite any files. Generates a new file name like "fileName1.h", "fileName2.h"
-     *        until you find an appropriate name.
-     *  - Cancel: Do not output anything.  This is only set if the user chooses Apply to All Remaining Files
-     *            and clicks on Do not Output  in the Ask dialog
-     *
-     * @param new_var the new value of m_overwritePolicy
-     */
     void setOverwritePolicy ( OverwritePolicy new_var );
 
-    /**
-     * Get the value of m_overwritePolicy
-     * Policy of how to deal with overwriting existing files. Allowed values are "Ok", "Ask",
-     * "Never" "Cancel".
-     * @return the value of m_overwritePolicy
-     */
     OverwritePolicy getOverwritePolicy ( ) const;
 
-    /**
-     * Set the value of m_codeVerboseSectionComments
-     * Whether or not verbose code commenting for sections is desired. If true, comments
-     * for sections will be written even if the section is empty.
-     * @param new_var the new value of m_codeVerboseSectionComments
-     */
     void setCodeVerboseSectionComments ( bool new_var );
 
-    /**
-     * Get the value of m_codeVerboseSectionComments
-     * Whether or not verbose code commenting for sections is desired. If true, comments
-     * for sections will be written even if the section is empty.
-     * @return the value of m_codeVerboseSectionComments
-     */
     bool getCodeVerboseSectionComments ( ) const;
 
-    /**
-     * Set the value of m_codeVerboseDocumentComments
-     * Whether or not verbose code commenting for documentation is desired. If true,
-     * documentation for various code will be written even if no code would normally be
-     * created at that point in the file.
-     * @param new_var the new value of m_codeVerboseDocumentComments
-     */
     void setCodeVerboseDocumentComments ( bool new_var );
 
-    /**
-     * Get the value of m_codeVerboseDocumentComments
-     * Whether or not verbose code commenting for documentation is desired. If true,
-     * documentation for various code will be written even if no code would normally be
-     * created at that point in the file.
-     * @return the value of m_codeVerboseDocumentComments
-     */
     bool getCodeVerboseDocumentComments ( ) const;
 
-    /**
-     * Set the value of m_headingFileDir
-     * location of the header file template.
-     * @param path the new path of m_headingFileDir
-     */
     void setHeadingFileDir ( const QString & path);
 
-    /**
-     * Get the value of m_headingFileDir
-     * location of the header file template.
-     * @return the value of m_headingFileDir
-     */
     QString getHeadingFileDir ( ) const;
 
-    /**
-     * Set the value of m_includeHeadings
-     * @param new_var the new value of m_includeHeadings
-     */
     void setIncludeHeadings ( bool new_var );
 
-    /**
-     * Get the value of m_includeHeadings
-     * @return the value of m_includeHeadings
-     */
     bool getIncludeHeadings ( ) const;
 
-    /**
-     * Set the value of m_outputDirectory
-     * location of where output files will go.
-     * @param new_var the new value of m_outputDirectory
-     */
     void setOutputDirectory ( QDir new_var );
 
-    /**
-     * Get the value of m_outputDirectory
-     * location of where output files will go.
-     * @return the value of m_outputDirectory
-     */
     QDir getOutputDirectory ( );
 
-    /**
-     * Set the value of m_lineEndingType
-     * What line ending characters to use.
-     * @param new_var the new value of m_lineEndingType
-     */
     void setLineEndingType ( NewLineType new_var );
 
-    /**
-     * Get the value of m_lineEndingType
-     * What line ending characters to use.
-     * @return the value of m_lineEndingType
-     */
     NewLineType getLineEndingType ( );
 
-    /**
-     * Utility function to get the actual characters.
-     * @return the new line ending chars
-     */
     QString getNewLineEndingChars ( ) const;
 
-    /**
-     * Set the value of m_indentationType
-     * The amount and type of whitespace to indent with.
-     * @param type the new value of m_indentationType
-     */
     void  setIndentationType ( IndentationType type );
 
-    /**
-     * Get the value of m_indentationType
-     */
     IndentationType getIndentationType ( );
 
-    /**
-     * Set how many units to indent for each indentation level.
-     */
     void  setIndentationAmount ( int amount );
 
-    /**
-     * Get indentation level units.
-     */
     int getIndentationAmount ( );
 
-    /**
-     * Get the string representation of each level of indentation.
-     * The amount and type of whitespace to indent with.
-     * @return the value of m_indentationType
-     */
     QString getIndentation ( ) const;
 
-    /**
-     * Set the value of m_modifyPolicy
-     * @param new_var the new value of m_modifyPolicy
-     */
     void setModifyPolicy ( ModifyNamePolicy new_var );
 
-    /**
-     * Get the value of m_modifyPolicy
-     * @return the value of m_modifyPolicy
-     */
     ModifyNamePolicy getModifyPolicy ( ) const;
 
-    /**
-     * Set the value of m_autoGenerateConstructors
-     * @param var     the new value
-     */
     void setAutoGenerateConstructors ( bool var );
 
-    /**
-     * Get the value of m_autoGenerateConstructors
-     * @return value the boolean value of m_autoGenerateConstructors
-     */
     bool getAutoGenerateConstructors ( );
 
-    /**
-     * Set the value of m_attributeAccessorScope
-     * @param var the new value
-     */
     void setAttributeAccessorScope(Uml::Visibility::Value var);
 
-    /**
-     * Get the value of m_attributeAccessorScope
-     * @return the Visibility value of m_attributeAccessorScope
-     */
     Uml::Visibility::Value getAttributeAccessorScope();
 
-    /**
-     * Set the value of m_associationFieldScope
-     * @param var the new value
-     */
     void setAssociationFieldScope(Uml::Visibility::Value var);
 
-    /**
-     * Get the value of m_associationFieldScope
-     * @return the Visibility value of m_associationFieldScope
-     */
     Uml::Visibility::Value getAssociationFieldScope();
 
-    /**
-     * Create a new dialog interface for this object.
-     * @return dialog object
-     */
     virtual CodeGenerationPolicyPage * createPage ( QWidget *parent = 0, const char * name = 0);
 
-    /**
-     *  Gets the heading file (as a string) to be inserted at the
-     *  beginning of the generated file. you give the file type as
-     *  parameter and get the string. if fileName starts with a
-     *  period (.) then fileName is the extension (.cpp, .h,
-     *  .java) if fileName starts with another character you are
-     *  requesting a specific file (mylicensefile.txt).  The files
-     *  can have parameters which are denoted by %parameter%.
-     *
-     *  current parameters are
-     *  %author%
-     *  %date%
-     *  %time%
-     *  %filepath%
-     */
     QString getHeadingFile(const QString& str);
 
-    /**
-     * set the defaults for this code generator from the passed generator.
-     */
     virtual void setDefaults (CodeGenerationPolicy * defaults, bool emitUpdateSignal = true);
 
-    /**
-     * set the defaults from a config file
-     */
     virtual void setDefaults(bool emitUpdateSignal = true);
 
-    /**
-     * Write Default params.
-     */
     virtual void writeConfig ();
 
-    /**
-     * Emits the signal 'ModifiedCodeContent'.
-     */
     void emitModifiedCodeContentSig();
 
-    /**
-     * Set the value of m_commentStyle
-     * @param new_var the new value of m_commentStyle
-     */
     void setCommentStyle ( CommentStyle new_var );
 
-    /**
-     * Get the value of m_commentStyle
-     * @return the value of m_commentStyle
-     */
     CommentStyle getCommentStyle ( );
 
 signals:
 
-    /**
-     * This signal is sent whenever a change is made to the policy
-     * which could modifiy code document content.
-     */
     void modifiedCodeContent();
 
 protected:

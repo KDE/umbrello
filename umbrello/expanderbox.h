@@ -76,10 +76,7 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *opt, QWidget*);
 
 signals:
-    /**
-     * This signal is emitted on pressing the mouse on box resulting
-     * in the state to toggle.
-     */
+
     void expansionToggled(bool currentState);
 
 protected:

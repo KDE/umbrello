@@ -47,64 +47,18 @@ public:
 
 protected:
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Returns the cursor to be shown when resizing the widget.
-     * The cursor shown is KCursor::sizeHorCursor().
-     *
-     * @return The cursor to be shown when resizing the widget.
-     */
     virtual QCursor getResizeCursor();
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Resizes the width of the object widget.
-     * Object widgets can only be resized horizontally, so height isn't modified.
-     *
-     * @param newW The new width for the widget.
-     * @param newH The new height for the widget (isn't used).
-     */
     virtual void resizeWidget(qreal newW, qreal newH);
 
-     /**
-     * Overrides the standard operation.
-     */
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
 
-     /**
-     * Overrides the standard operation.
-     */
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* me);
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Moves the widget to a new position using the difference between the
-     * current position and the new position.
-     * Y position is ignored, and widget is only moved along X axis.
-     *
-     * @param diffX The difference between current X position and new X position.
-     * @param diffY The difference between current Y position and new Y position
-     *                          (isn't used).
-     */
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
 
-    /**
-     * Moves the destruction Box to a new position using the difference between the
-     * current position and the new position.
-     * The destruction box is only moved along Y axis.
-     *
-     * @param diffY The difference between current Y position and new Y position
-     */
     void moveDestructionBy (qreal diffY);
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Modifies the value of the diffX and diffY variables used to move the widgets.
-     * All the widgets are constrained to be moved only in X axis (diffY is set to 0).
-     *
-     * @param diffX The difference between current X position and new X position.
-     * @param diffY The difference between current Y position and new Y position.
-     */
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
     /**

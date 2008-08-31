@@ -267,6 +267,9 @@ void ActivityWidget::updateTextItemGroups()
 	NewUMLRectWidget::updateTextItemGroups();
 }
 
+/**
+ * Captures any popup menu signals for menus it created.
+ */
 void ActivityWidget::slotMenuSelection(QAction* action)
 {
     bool ok = false;

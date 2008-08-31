@@ -86,6 +86,10 @@ LinePath::~LinePath()
 {
 }
 
+/**
+ *   This will setup the class ready to display the line correctly.
+ *   This MUST be called before you can use this class.
+ */
 void LinePath::setAssociation(AssociationWidget * association )
 {
     if( !association )
@@ -101,6 +105,9 @@ void LinePath::setAssociation(AssociationWidget * association )
     connect( scene, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
 }
 
+/**
+ *   Returns the point at the point index.
+ */
 QPointF LinePath::getPoint( int pointIndex ) const {
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
@@ -114,6 +121,9 @@ QPointF LinePath::getPoint( int pointIndex ) const {
     return lineItem->line().p1();
 }
 
+/**
+ *   Sets the position of an already set point.
+ */
 bool LinePath::setPoint( int pointIndex, const QPointF &point ) {
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
@@ -150,6 +160,11 @@ bool LinePath::setPoint( int pointIndex, const QPointF &point ) {
     return true;
 }
 
+/**
+ *   Checks, if we are at an end of the segment or somewhere in the middle.
+ *   We use the delta, because with the mouse it is hard to find the
+ *   exactly point.
+ */
 bool LinePath::isPoint( int pointIndex, const QPointF &point, qreal delta) {
     int count = m_LineList.count();
     if ( pointIndex >= count )
@@ -173,6 +188,9 @@ bool LinePath::isPoint( int pointIndex, const QPointF &point, qreal delta) {
     return false;
 }
 
+/**
+ *   Inserts a point at the given index.
+ */
 bool LinePath::insertPoint( int pointIndex, const QPointF &point ) {
     int count = m_LineList.count();
     if( count == 0 )
@@ -227,6 +245,10 @@ bool LinePath::insertPoint( int pointIndex, const QPointF &point ) {
     return true;
 }
 
+/**
+ *   Removes the point on the line given by the index, at the coordinates
+ *   given by point with a fuzzy of delta
+ */
 bool LinePath::removePoint( int pointIndex, const QPointF &point, qreal delta )
 {
     /* get the number of line segments */
@@ -284,6 +306,9 @@ bool LinePath::removePoint( int pointIndex, const QPointF &point, qreal delta )
     return true;
 }
 
+/**
+ *   Sets the start and end points.
+ */
 bool LinePath::setStartEndPoints( const QPointF &start, const QPointF &end ) {
     int count = m_LineList.count();
     if( count == 0 ) {
@@ -302,10 +327,19 @@ bool LinePath::setStartEndPoints( const QPointF &start, const QPointF &end ) {
     return false;
 }
 
+/**
+ *   Returns the amount of POINTS on the line.
+ *   Includes start and end points.
+ */
 int LinePath::count() const {
     return m_LineList.count() + 1;
 }
 
+/**
+ *   Returns -1 if the given point is not on the line.
+ *   else returns the line segment the point is on.
+ *   Use the value to insert points at the point position.
+ */
 int LinePath::onLinePath( const QPointF &position ) {
     QList<QGraphicsItem*> list = getScene()->items(position);
 
@@ -320,6 +354,9 @@ int LinePath::onLinePath( const QPointF &position ) {
     return -1;
 }
 
+/**
+ *   Sets the status of whether the line is selected or not.
+ */
 void LinePath::setSelected( bool select ) {
     if(select) {
         setupSelected();
@@ -330,6 +367,9 @@ void LinePath::setSelected( bool select ) {
     }
 }
 
+/**
+ *   Sets the Association type.
+ */
 void LinePath::setAssocType( Uml::Association_Type type )
 {
     QList<QGraphicsLineItem*>::Iterator it = m_LineList.begin();
@@ -351,6 +391,9 @@ void LinePath::setAssocType( Uml::Association_Type type )
     update();
 }
 
+/**
+ *   Calls a group of methods to update the line.  Used to save you calling multiple methods.
+ */
 void LinePath::update()
 {
     if (getAssocType() == Uml::at_Coll_Message) {
@@ -373,6 +416,11 @@ void LinePath::update()
     }
 }
 
+/**
+ *   Sets the line color used by the line.
+ *
+ * @param viewID The id of the object behind the widget.
+ */
 void LinePath::slotLineColorChanged( Uml::IDType viewID )
 {
     if(m_pAssociation->getUMLScene()->getID() != viewID) {
@@ -382,6 +430,9 @@ void LinePath::slotLineColorChanged( Uml::IDType viewID )
 }
 
 
+/**
+ *   Sets the line color used by the line.
+ */
 void LinePath::setLineColor( const QColor &color )
 {
     uint linewidth = 0;
@@ -419,6 +470,11 @@ void LinePath::setLineColor( const QColor &color )
     }
 }
 
+/**
+ *   Sets the line width used by the line.
+ *
+ * @param viewID The id of the object behind the widget.
+ */
 void LinePath::slotLineWidthChanged( Uml::IDType viewID ) {
     if(m_pAssociation->getUMLScene()->getID() != viewID) {
         return;
@@ -426,6 +482,9 @@ void LinePath::slotLineWidthChanged( Uml::IDType viewID ) {
     setLineWidth( m_pAssociation->getUMLScene()->getLineWidth() );
 }
 
+/**
+ *   Sets the line width used by the line.
+ */
 void LinePath::setLineWidth( uint width )
 {
     QColor linecolor;
@@ -452,6 +511,9 @@ void LinePath::setLineWidth( uint width )
     }
 }
 
+/**
+ *   Moves the selected canvas widgets.
+ */
 void LinePath::moveSelected( int pointIndex )
 {
     int lineCount = m_LineList.count();
@@ -479,6 +541,9 @@ void LinePath::moveSelected( int pointIndex )
     rect->setZValue( 4 );
 }
 
+/**
+ *   Sets up the selected canvases needed.
+ */
 void LinePath::setupSelected()
 {
     qDeleteAll( m_RectList.begin(), m_RectList.end() );
@@ -498,6 +563,9 @@ void LinePath::setupSelected()
     update();
 }
 
+/**
+ * Returns the type of pen to use depending on the type of Association.
+ */
 QPen LinePath::getPen()
 {
     Uml::Association_Type type = getAssocType();
@@ -506,6 +574,9 @@ QPen LinePath::getPen()
     return QPen( getLineColor(), getLineWidth() );
 }
 
+/**
+ *   Calculates the head points.
+ */
 void LinePath::calculateHead()
 {
     uint size = m_LineList.count();
@@ -589,6 +660,9 @@ void LinePath::calculateHead()
 
 }
 
+/**
+ *   Updates the head lines.  Call after calculating the new points.
+ */
 void LinePath::updateHead()
 {
     int count = m_HeadList.count();
@@ -677,6 +751,12 @@ void LinePath::updateHead()
     }
 }
 
+/**
+ * Create a number of new lines and append them to the given list.
+ *
+ * @param list  The list into which to append lines.
+ * @param by    The number of lines to insert into the given list.
+ */
 void LinePath::growList(LineList &list, int by)
 {
     QPen pen( getLineColor(), getLineWidth() );
@@ -690,6 +770,9 @@ void LinePath::growList(LineList &list, int by)
     }
 }
 
+/**
+ *   Creates the head lines to display the head.
+ */
 void LinePath::createHeadLines()
 {
     qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
@@ -741,6 +824,9 @@ void LinePath::createHeadLines()
     m_bHeadCreated = true;
 }
 
+/**
+ *   Calculates the position of the parallel line.
+ */
 void LinePath::calculateParallelLine()
 {
     int midCount = count() / 2;
@@ -790,6 +876,9 @@ void LinePath::calculateParallelLine()
     m_ParallelLines.setPoint(3, QPointF( pointT.x() - (qreal)cosx, pointT.y() - (qreal)siny ).toPoint());
 }
 
+/**
+ *   Creates the line objects to display the parallel line.
+ */
 void LinePath::setupParallelLine()
 {
     qDeleteAll( m_ParallelList.begin(), m_ParallelList.end() );
@@ -798,6 +887,10 @@ void LinePath::setupParallelLine()
     m_bParallelLineCreated = true;
 }
 
+/**
+ *   Updates the parallel line.
+ *   Call after calculating the new position.
+ */
 void LinePath::updateParallelLine() {
     if( !m_bParallelLineCreated )
         return;
@@ -846,6 +939,13 @@ LinePath & LinePath::operator=( const LinePath & rhs ) {
     return *this;
 }
 
+/**
+ *   Returns the canvas being used.
+ *   Will return zero if the Association hasn't been set.
+ *
+ *   This class doesn't hold this information but is a wrapper
+ *   method to stop calls to undefined variable like m_pAssociation.
+ */
 QGraphicsScene * LinePath::getScene()
 {
     if( !m_pAssociation )
@@ -853,18 +953,39 @@ QGraphicsScene * LinePath::getScene()
     return const_cast<UMLScene*>(m_pAssociation->getUMLScene());
 }
 
+/**
+ *   Returns the Association type.
+ *   Returns Uml::at_Association if association hasn't been set.
+ *
+ *   This class doesn't hold this information but is a wrapper
+ *   method to stop calls to undefined variable like m_pAssociation.
+ */
 Uml::Association_Type LinePath::getAssocType() const {
     if( m_pAssociation )
         return m_pAssociation->getAssocType();
     return Uml::at_Association;
 }
 
+/**
+ *   Returns the Line Color to use.
+ *   Returns black if association not set.
+ *
+ *   This class doesn't hold this information but is a wrapper
+ *   method to stop calls to undefined variable like m_pAssociation.
+ */
 QColor LinePath::getLineColor() {
     if( !m_pAssociation )
         return Qt::black;
     return m_pAssociation->getLineColor();
 }
 
+/**
+ *   Returns the Line Width to use.
+ *   Returns 0 if association not set.
+ *
+ *   This class doesn't hold this information but is a wrapper
+ *   method to stop calls to undefined variable like m_pAssociation.
+ */
 uint LinePath::getLineWidth() {
     if( !m_pAssociation )
         return 0;
@@ -878,6 +999,9 @@ uint LinePath::getLineWidth() {
     }
 }
 
+/**
+ *   Removes and item created that are no longer needed.
+ */
 void LinePath::cleanup()
 {
     if (m_pAssociation) {
@@ -914,6 +1038,9 @@ void LinePath::cleanup()
     }
 }
 
+/**
+ *   Tell the line where the line docks
+ */
 void LinePath::setDockRegion( Region region )
 {
     m_DockRegion = region;
@@ -1002,6 +1129,15 @@ bool LinePath::loadFromXMI( QDomElement & qElement )
 }
 
 
+/**
+ *   Activates the line list.
+ *   This is needed because the m_pAssociation does not yet
+ *   exist at the time of the LinePath::loadFromXMI call.
+ *   However, this means that the points in the m_LineList
+ *   do not have a parent when they are loaded.
+ *   They need to be reparented by calling LinePath::activate()
+ *   once the m_pAssociation exists.
+ */
 void LinePath::activate()
 {
     int count = m_LineList.count();
@@ -1019,6 +1155,9 @@ void LinePath::activate()
 
 
 
+/**
+ *   Creates the subset symbol
+ */
 void LinePath::createSubsetSymbol()
 {
     if ( m_LineList.count() < 1 ) {
@@ -1039,6 +1178,9 @@ void LinePath::createSubsetSymbol()
 }
 
 
+/**
+ *   Updates the subset symbol.Call after calculating the new points.
+ */
 void LinePath::updateSubsetSymbol()
 {
     if ( m_LineList.count() < 1 ) {

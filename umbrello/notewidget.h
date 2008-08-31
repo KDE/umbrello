@@ -53,10 +53,6 @@ public:
     void setNoteType( NoteType noteType );
     void setNoteType( const QString& noteType );
 
-    /**
-     * @return  ID of an UMLScene, or Uml::id_None if no
-     *          hyperlink is set.
-     */
     Uml::IDType diagramLink() const {
         return m_diagramLink;
     }

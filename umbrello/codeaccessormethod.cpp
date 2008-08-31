@@ -159,6 +159,9 @@ void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root)
     setType((AccessorType) root.attribute("accessType","0").toInt());
 }
 
+/**
+ * Set the class attributes from a passed object.
+ */
 void CodeAccessorMethod::setAttributesFromObject(TextBlock * obj)
 {
     CodeMethodBlock::setAttributesFromObject(obj);

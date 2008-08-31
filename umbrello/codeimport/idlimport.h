@@ -24,25 +24,12 @@ public:
     IDLImport();
     virtual ~IDLImport();
 
-    /**
-     * Implement abstract operation from NativeImportBase.
-     */
     bool parseStmt();
 
-    /**
-     * Reimplement operation from NativeImportBase.
-     * Need to do this because we use the external C preprocessor.
-     */
     void parseFile(const QString& file);
 
-    /**
-     * Override operation from NativeImportBase.
-     */
     bool preprocess(QString& line);
 
-    /**
-     * Implement abstract operation from NativeImportBase.
-     */
     void fillSource(const QString& word);
 
 protected:

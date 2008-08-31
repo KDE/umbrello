@@ -47,9 +47,6 @@ public:
      */
     virtual void lwSetFont(QFont font) = 0;
 
-    /**
-     * Motivated by FloatingTextWidget::slotMenuSelection(mt_Operation)
-     */
     virtual UMLClassifier *getOperationOwner();
 
     /**
@@ -72,15 +69,8 @@ public:
      */
     virtual void setCustomOpText(const QString &opText) = 0;
 
-    /**
-     * Uses getOperation() if set, else calls getCustomOpText().
-     */
     QString getOperationText(UMLScene *scene = NULL);
 
-    /**
-     * Motivated by FloatingTextWidget::slotMenuSelection(mt_Reset_Label_Positions)
-     * Only applies to AssociationWidget.
-     */
     virtual void resetTextPositions();
 
     /**
@@ -93,10 +83,6 @@ public:
      */
     virtual void setText(FloatingTextWidget *ft, const QString &newText) = 0;
 
-    /**
-     * Motivated by FloatingTextWidget::mouseDoubleClickEvent()
-     * Only applies to AssociationWidget.
-     */
     virtual bool showDialog();
 
     /**
@@ -117,10 +103,6 @@ public:
                                   qreal textWidth, qreal textHeight,
                                   Uml::Text_Role tr) = 0;
 
-    /**
-     * Motivated by FloatingTextWidget::setLink().
-     * Only applies to AssociationWidget.
-     */
     virtual void calculateNameTextSegment();
 
 };

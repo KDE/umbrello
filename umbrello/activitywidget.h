@@ -91,9 +91,6 @@ protected:
 
 public Q_SLOTS:
 
-    /**
-     * Captures any popup menu signals for menus it created.
-     */
     virtual void slotMenuSelection(QAction* action);
 
 private:

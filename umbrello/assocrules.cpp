@@ -43,6 +43,10 @@ bool allowAssociation( Association_Type/* assocType*/, const std::type_info/* &t
 
 }
 
+/**
+ * Returns whether an association is valid with the given variables.
+ * This method is used to finish an association.
+ */
 bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWidget * widget ) {
     Widget_Type widgetType = widget->getBaseType();
     bool bValid = false;
@@ -128,6 +132,11 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWi
 
 // when we know what we are going to connect both ends of the association to, we can
 // use this method.
+
+/**
+ * Returns whether an association is valid with the given variables.
+ * This method is used to finish an association.
+ */
 bool AssocRules::allowAssociation( Uml::Association_Type assocType,
                                    NewUMLRectWidget * widgetA, NewUMLRectWidget * widgetB,
                                    bool extendedCheck ) {
@@ -285,6 +294,9 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     return false;
 }
 
+/**
+ * Returns whether to allow a role text for the given association type.
+ */
 bool AssocRules::allowRole( Uml::Association_Type assocType ) {
     for( int i = 0; i < m_nNumRules; i++ )
         if( assocType == m_AssocRules[ i ].assoc_type )
@@ -292,6 +304,10 @@ bool AssocRules::allowRole( Uml::Association_Type assocType ) {
     return false;
 }
 
+/**
+ * Returns whether to allow a multiplicity text for the given
+ * association and widget type.
+ */
 bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget_Type widgetType ) {
     for( int i = 0; i < m_nNumRules; i++ )
         if( assocType == m_AssocRules[ i ].assoc_type )
@@ -300,6 +316,9 @@ bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget
     return false;
 }
 
+/**
+ * Returns whether to allow an association to self for given variables.
+ */
 bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type widgetType ) {
     for( int i = 0; i < m_nNumRules; i++ )
         if( assocType == m_AssocRules[ i ].assoc_type )
@@ -309,6 +328,11 @@ bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type wi
     return false;
 }
 
+/**
+ * Returns whether an implements association should be a Realisation or
+ * a Generalisation.
+ * as defined in m_AssocRules.
+ */
 Uml::Association_Type AssocRules::isGeneralisationOrRealisation(NewUMLRectWidget* widgetA, NewUMLRectWidget* widgetB) {
     Widget_Type widgetTypeA = widgetA->getBaseType();
     Widget_Type widgetTypeB = widgetB->getBaseType();

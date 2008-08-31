@@ -57,18 +57,31 @@ OverwriteDialogue::OverwriteDialogue(
 OverwriteDialogue::~OverwriteDialogue() {
 }
 
+/**
+ * Overrides standard operation to call QDialog::done(Yes).
+ *  This is a kludge, see note in class description.
+ */
 void OverwriteDialogue::slotOk() {
     done(Yes);
 }
 
+/**
+ * Overrides standard operation to call QDialog::done(No).
+ */
 void OverwriteDialogue::slotApply() {
     done(No);
 }
 
+/**
+ * Overrides standard operation to call QDialog::done(Cancel).
+ */
 void OverwriteDialogue::slotCancel() {
     done(Cancel);
 }
 
+/**
+ * @return the value of the Apply To All Remaining Files checkbox
+ */
 bool OverwriteDialogue::applyToAllRemaining() {
     return m_applyToAllRemaining->isChecked();
 }

@@ -32,6 +32,10 @@ bool IDChangeLog::operator==(const IDChangeLog& /*Other*/) {
     return false;
 }
 
+/**
+ * Returns the new assigned ID of the object that had OldID as its
+ * previous id.
+ */
 Uml::IDType IDChangeLog::findNewID(Uml::IDType OldID) {
     uint count = m_LogArray.size();
     for(uint i = 0; i < count; i++) {
@@ -53,6 +57,9 @@ IDChangeLog& IDChangeLog::operator+=(const IDChangeLog& Other) {
     return *this;
 }
 
+/**
+ * Adds a new ID Change to the log.
+ */
 void IDChangeLog::addIDChange(Uml::IDType OldID, Uml::IDType NewID) {
     uint pos;
     if(!findIDChange(OldID, NewID, pos)) {
@@ -64,6 +71,9 @@ void IDChangeLog::addIDChange(Uml::IDType OldID, Uml::IDType NewID) {
     }
 }
 
+/**
+ * Returns the old ID of an UMLobject given its new one.
+ */
 Uml::IDType IDChangeLog::findOldID(Uml::IDType NewID) {
     uint count = m_LogArray.size();
     for(uint i = 0; i < count; i++) {
@@ -75,6 +85,9 @@ Uml::IDType IDChangeLog::findOldID(Uml::IDType NewID) {
     return Uml::id_None;
 }
 
+/**
+ * Finds a specific change in the log.
+ */
 bool IDChangeLog::findIDChange(Uml::IDType OldID, Uml::IDType NewID, uint& pos) {
     uint count = m_LogArray.size();
     for(uint i = 0; i < count; i++) {
@@ -87,6 +100,9 @@ bool IDChangeLog::findIDChange(Uml::IDType OldID, Uml::IDType NewID, uint& pos) 
     return false;
 }
 
+/**
+ * Removes a change giving an New ID.
+ */
 void IDChangeLog::removeChangeByNewID(Uml::IDType OldID) {
     uint count = m_LogArray.size();
     for(uint i = 0; i < count; i++) {

@@ -21,25 +21,17 @@
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class ClassImport {
 public:
     ClassImport() {}
     virtual ~ClassImport() {}
 
-    /**
-     * Import files.
-     *
-     * @param files  List of files to import.
-     */
     void importFiles(const QStringList &files);
 
-    /**
-     * Factory method.
-     */
     static ClassImport *createImporterByFileExt(const QString &filename);
 
 protected:
+
     /**
      * Initialize the importer.
      * This is called by importFiles() once, before entering

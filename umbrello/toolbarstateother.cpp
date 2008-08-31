@@ -48,9 +48,24 @@ ToolBarStateOther::ToolBarStateOther(UMLScene *umlScene) : ToolBarStatePool(umlS
 ToolBarStateOther::~ToolBarStateOther() {
 }
 
+/**
+ * Sets nothing.
+ * Overridden from base class to ignore associations and widgets and treat
+ * them as empty spaces to create widgets on it.
+ */
 void ToolBarStateOther::setCurrentElement() {
 }
 
+/**
+ * Called when the release event happened on an empty space.
+ * Associations, widgets and actual empty spaces are all treated as empty
+ * spaces. It creates a new widget if the left button was released.
+ * The widget to create depends on the type of the toolbar button selected.
+ * If the widget is the visual representation of an UMLObject, the object
+ * factory handles its creation. Otherwise, the widget is created using
+ * newWidget().
+ * The UMLView is resized to fit on all the items.
+ */
 void ToolBarStateOther::mouseReleaseEmpty()
 {
     if (m_pMouseEvent->button() == Qt::LeftButton) {
@@ -65,6 +80,11 @@ void ToolBarStateOther::mouseReleaseEmpty()
     }
 }
 
+/**
+ * Returns the object type of this tool.
+ *
+ * @return The object type of this tool.
+ */
 Uml::Object_Type ToolBarStateOther::getObjectType()
 {
     Object_Type ot;
@@ -91,6 +111,17 @@ Uml::Object_Type ToolBarStateOther::getObjectType()
 }
 
 // TODO: The name is a bit confusing.
+
+/**
+ * Creates and adds a new widget to the UMLView (if widgets of that type
+ * don't have an associated UMLObject).
+ * If the type of the widget doesn't use an UMLObject (for example, a note
+ * or a box), it creates the widget, adds it to the view and returns true.
+ * Otherwise, it returns false.
+ *
+ * @return True if the widget was created, false otherwise.
+ * @todo rename to something more clear
+ */
 bool ToolBarStateOther::newWidget()
 {
     NewUMLRectWidget* umlWidget = NULL;

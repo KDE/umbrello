@@ -64,6 +64,9 @@
 
 namespace Widget_Factory {
 
+/**
+ * Create a NewUMLRectWidget in the given view and representing the given document object.
+ */
 NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
 {
     QPointF pos = scene->getPos();
@@ -156,7 +159,8 @@ NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
     return newWidget;
 }
 
-bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id) {
+bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id)
+{
     if (o == NULL) {
         uDebug() << "Widget_Factory::validateObjType: creating new object of type "
                  << expected << endl;
@@ -178,8 +182,12 @@ bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id) {
     return false;
 }
 
+/**
+ * Create a NewUMLRectWidget according to the given XMI tag.
+ */
 NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
-                             const QString& idStr, UMLScene *scene) {
+                             const QString& idStr, UMLScene *scene)
+{
     NewUMLRectWidget *widget = NULL;
 
         // Loading of widgets which do NOT represent any UMLObject,

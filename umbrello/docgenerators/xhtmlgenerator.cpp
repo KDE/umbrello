@@ -43,6 +43,15 @@ XhtmlGenerator::XhtmlGenerator()
 
 XhtmlGenerator::~XhtmlGenerator(){}
 
+/**
+ * Exports the current model to XHTML in a directory named as the model
+ * with the .xmi suffix removed. The XHTML file will have the same name
+ * with the .html suffix. Figures will be named as the corresponding
+ * diagrams in the GUI
+ * @todo change file naming to avoid paths with spaces or non-ASCII chars
+ * @todo better handling of error conditions
+ * @return true if saving is successful and false otherwise.
+ */
 bool XhtmlGenerator::generateXhtmlForProject()
 {
   KUrl url = umlDoc->url();
@@ -53,6 +62,13 @@ bool XhtmlGenerator::generateXhtmlForProject()
   return generateXhtmlForProjectInto(url);
 }
 
+/**
+ * Exports the current model to XHTML in the given directory
+ * @param destDir the directory where the XHTML file and the figures will
+ * be written
+ * @todo better handling of error conditions
+ * @return true if saving is successful and false otherwise.
+ */
 bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
 {
     uDebug() << "First convert to docbook";
@@ -66,6 +82,11 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
   return true;
 }
 
+/** This slot is triggerd when the first part, xmi to docbook, is
+ * finished
+ * @param docbookJob the job copying the docbook file to its destination.
+ * Used only for error reporting
+ */
 void XhtmlGenerator::slotDocbookToXhtml(bool status)
 {
   uDebug() << "Now convert docbook to html...";
@@ -91,6 +112,9 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
   }
 }
 
+/** Triggered when the copying of the HTML result file is finished. Emits
+ * the signal finished().
+ */
 void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 {
 
@@ -132,6 +156,9 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     emit finished( m_pStatus );
 }
 
+/**
+ * Invoked when a thread is finished
+ */
 void XhtmlGenerator::threadFinished() {
     m_pThreadFinished = true;
     delete d2xg;

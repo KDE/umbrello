@@ -36,6 +36,9 @@ UMLView::~UMLView()
     //TODO: Check if the scene shd be deleted
 }
 
+/**
+ * Sets the zoom of the diagram.
+ */
 void UMLView::setZoom(int zoom)
 {
     if (zoom < 10) {
@@ -52,6 +55,9 @@ void UMLView::setZoom(int zoom)
     umlScene()->resizeCanvasToItems();
 }
 
+/**
+ * return the current zoom factor
+ */
 int UMLView::currentZoom()
 {
     return (int)(matrix().m11()*100.0);
@@ -104,6 +110,9 @@ void UMLView::hideEvent(QHideEvent* /*he*/)
                UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(NewUMLRectWidget*)));
 }
 
+/**
+ * Override standard method.
+ */
 void UMLView::closeEvent(QCloseEvent * e)
 {
     QWidget::closeEvent(e);
@@ -114,6 +123,10 @@ UMLScene* UMLView::umlScene() const
     return qobject_cast<UMLScene*>(scene());
 }
 
+/**
+ * Overrides standard method from QWidget to resize canvas when
+ * it's shown.
+ */
 void UMLView::show()
 {
     QWidget::show();

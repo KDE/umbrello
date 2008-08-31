@@ -37,6 +37,9 @@ UMLRoleDialog::~UMLRoleDialog()
 {
 }
 
+/**
+ *   Sets up the dialog
+ */
 void UMLRoleDialog::setupDialog()
 {
     // UMLRoleDialogLayout = new QGridLayout( this, 1, 1, 11, 6, "UMLRoleLayout");
@@ -48,6 +51,10 @@ void UMLRoleDialog::setupDialog()
     //  topLayout->addWidget( m_pParmsGB);
 }
 
+/**
+ * Checks if changes are valid and applies them if they are,
+ * else returns false
+ */
 bool UMLRoleDialog::apply()
 {
     if ( m_pRoleProps ) {
@@ -57,11 +64,18 @@ bool UMLRoleDialog::apply()
     return false;
 }
 
+/**
+ * I don't think this is used, but if we had an apply button
+ * it would slot into here
+ */
 void UMLRoleDialog::slotApply()
 {
     apply();
 }
 
+/**
+ * Used when the OK button is clicked.  Calls apply()
+ */
 void UMLRoleDialog::slotOk()
 {
     if ( apply() ) {

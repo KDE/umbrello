@@ -51,6 +51,9 @@ UMLTemplateDialog::~UMLTemplateDialog()
 {
 }
 
+/**
+ *   Sets up the dialog
+ */
 void UMLTemplateDialog::setupDialog()
 {
     int margin = fontMetrics().height();
@@ -90,6 +93,12 @@ void UMLTemplateDialog::setupDialog()
     m_pNameLE->setFocus();
 }
 
+/**
+ * Inserts @p type into the type-combobox.
+ * The combobox is cleared and all types together with the optional new one
+ * sorted and then added again.
+ * @param type   a new type to add and selected
+ */
 void UMLTemplateDialog::insertTypesSorted(const QString& type)
 {
     QStringList types;
@@ -117,6 +126,10 @@ void UMLTemplateDialog::insertTypesSorted(const QString& type)
     }
 }
 
+/**
+ * Checks if changes are valid and applies them if they are,
+ * else returns false
+ */
 bool UMLTemplateDialog::apply()
 {
     QString typeName = m_pTypeCB->currentText();
@@ -156,11 +169,18 @@ bool UMLTemplateDialog::apply()
     return true;
 }
 
+/**
+ * I don't think this is used, but if we had an apply button
+ * it would slot into here
+ */
 void UMLTemplateDialog::slotApply()
 {
     apply();
 }
 
+/**
+ * Used when the OK button is clicked.  Calls apply()
+ */
 void UMLTemplateDialog::slotOk()
 {
     if ( apply() ) {

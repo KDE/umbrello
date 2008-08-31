@@ -30,6 +30,8 @@
 #include <QApplication>
 #include <kdebug.h>
 
+/** Closes the popup frame when Alt, Tab, Esc, Enter or Return is pressed.
+ */
 void KPlayerPopupFrame::keyPressEvent (QKeyEvent* ev)
 {
     switch ( ev->key() )
@@ -89,6 +91,8 @@ KPlayerPopupSliderAction::~KPlayerPopupSliderAction()
 
 
 
+/** Pops up the slider.
+ */
 void KPlayerPopupSliderAction::slotTriggered()
 {
 
@@ -262,6 +266,8 @@ KPlayerSlider::~KPlayerSlider()
     //CHANGED  uDebug() << "KPlayerSlider destroyed\n";
 }
 
+/** The size hint.
+ */
 QSize KPlayerSlider::sizeHint() const
 {
     QSize hint = QSlider::sizeHint();
@@ -280,6 +286,8 @@ QSize KPlayerSlider::sizeHint() const
     return hint;
 }
 
+/** The minimum size hint.
+ */
 QSize KPlayerSlider::minimumSizeHint() const
 {
     //uDebug() << "KPlayerSlider minimum size hint\n";
@@ -299,6 +307,8 @@ QSize KPlayerSlider::minimumSizeHint() const
     return hint;
 }
 
+/** Sets the slider orientation.
+ */
 void KPlayerSlider::setOrientation (Qt::Orientation o)
 {
     if ( o == orientation() )
@@ -314,6 +324,8 @@ void KPlayerSlider::setOrientation (Qt::Orientation o)
     m_changing_orientation = false;
 }
 
+/** The minimum value.
+ */
 int KPlayerSlider::minimum (void) const
 {
     if ( orientation() == Qt::Horizontal )
@@ -321,6 +333,8 @@ int KPlayerSlider::minimum (void) const
     return - QSlider::maximum();
 }
 
+/** Sets the minimum value.
+ */
 void KPlayerSlider::setMinimum (int minimum)
 {
     if ( orientation() == Qt::Horizontal )
@@ -329,6 +343,8 @@ void KPlayerSlider::setMinimum (int minimum)
         QSlider::setMaximum (- minimum);
 }
 
+/** The maximum value.
+ */
 int KPlayerSlider::maximum (void) const
 {
     if ( orientation() == Qt::Horizontal )
@@ -336,6 +352,8 @@ int KPlayerSlider::maximum (void) const
     return - QSlider::minimum();
 }
 
+/** Sets the maximum value.
+ */
 void KPlayerSlider::setMaximum (int maximum)
 {
     if ( orientation() == Qt::Horizontal )
@@ -344,27 +362,37 @@ void KPlayerSlider::setMaximum (int maximum)
         QSlider::setMinimum (- maximum);
 }
 
+/** The single step.
+ */
 int KPlayerSlider::singleStep (void) const
 {
     return QSlider::singleStep();
 }
 
+/** Sets the single step.
+ */
 void KPlayerSlider::setSingleStep (int singleStep)
 {
     QSlider::setSingleStep (singleStep);
 }
 
+/** The page step.
+ */
 int KPlayerSlider::pageStep (void) const
 {
     return QSlider::pageStep();
 }
 
+/** Sets the page step.
+ */
 void KPlayerSlider::setPageStep (int pageStep)
 {
     QSlider::setPageStep (pageStep);
     setTickInterval (pageStep);
 }
 
+/** The current value.
+ */
 int KPlayerSlider::value (void) const
 {
     if ( orientation() == Qt::Horizontal )
@@ -372,6 +400,8 @@ int KPlayerSlider::value (void) const
     return - QSlider::value();
 }
 
+/** Sets the current value. The extra parameter prevents overriding of the virtual QSlider::setValue.
+ */
 void KPlayerSlider::setValue (int value, int)
 {
     if ( orientation() == Qt::Horizontal )
@@ -380,6 +410,8 @@ void KPlayerSlider::setValue (int value, int)
         QSlider::setValue (- value);
 }
 
+/** Sets up the slider by setting five options in one go.
+ */
 void KPlayerSlider::setup (int minimum, int maximum, int value, int pageStep, int singleStep)
 {
     setMinimum (minimum);
@@ -389,6 +421,8 @@ void KPlayerSlider::setup (int minimum, int maximum, int value, int pageStep, in
     setValue (value);
 }
 
+/** Receives the valueChanged signal from QSlider.
+ */
 void KPlayerSlider::sliderValueChanged (int)
 {
     if ( ! m_changing_orientation )

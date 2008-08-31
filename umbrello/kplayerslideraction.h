@@ -31,66 +31,37 @@ class KPlayerSlider : public QSlider
     Q_OBJECT
 
 public:
-    /** The KPlayerSlider constructor. Parameters are passed on to QSlider.
-      */
+
     explicit KPlayerSlider (Qt::Orientation, QWidget* parent = 0, const char* name = 0);
+
     /** The KPlayerSlider destructor. Does nothing.
       */
     virtual ~KPlayerSlider();
 
-    /** The size hint.
-     */
     virtual QSize sizeHint() const;
-    /** The minimum size hint.
-     */
     virtual QSize minimumSizeHint() const;
 
-    /** The minimum value.
-      */
     int minimum (void) const;
-    /** Sets the minimum value.
-      */
     void setMinimum (int);
-    /** The maximum value.
-      */
     int maximum (void) const;
-    /** Sets the maximum value.
-      */
     void setMaximum (int);
-    /** The single step.
-      */
     int singleStep (void) const;
-    /** Sets the single step.
-      */
     void setSingleStep (int);
-    /** The page step.
-      */
     int pageStep (void) const;
-    /** Sets the page step.
-      */
     void setPageStep (int);
-    /** The current value.
-      */
     int value (void) const;
-    /** Sets the current value. The extra parameter prevents overriding of the virtual QSlider::setValue.
-      */
     void setValue (int, int = 0); // do not override the virtual setValue
 
-    /** Sets up the slider by setting five options in one go.
-      */
     void setup (int minimum, int maximum, int value, int pageStep, int lineStep = 1);
-    /** Sets the slider orientation.
-      */
+
     virtual void setOrientation (Qt::Orientation);
 
 signals:
-    /** Emitted when the slider value changes.
-      */
+
     void changed (int);
 
 protected slots:
-    /** Receives the valueChanged signal from QSlider.
-      */
+
     void sliderValueChanged (int);
 
 protected:
@@ -109,17 +80,18 @@ class KPlayerPopupFrame : public QFrame
     Q_OBJECT
 
 public:
+
     /** The KPlayerPopupFrame constructor. Parameters are passed on to QFrame.
       */
     KPlayerPopupFrame (QWidget* parent = 0/*, const char* name = 0*/)
             : QFrame (parent, Qt::WType_Popup) { }
+
     /** The KPlayerPopupFrame destructor. Does nothing.
       */
     virtual ~KPlayerPopupFrame() { }
 
 protected:
-    /** Closes the popup frame when Alt, Tab, Esc, Enter or Return is pressed.
-      */
+
     virtual void keyPressEvent (QKeyEvent*);
 };
 
@@ -131,15 +103,15 @@ class KPlayerPopupSliderAction : public KAction
     Q_OBJECT
 
 public:
+
     /** The KPlayerPopupSliderAction constructor. Parameters are passed on to KAction.
       */
     KPlayerPopupSliderAction (const QObject* receiver, const char* slot, QObject *parent);
+
     /** The KPlayerPopupSliderAction destructor. Deletes the KPlayerPopupFrame.
       */
     virtual ~KPlayerPopupSliderAction();
 
-    /** Returns a pointer to the KPlayerSlider object.
-      */
     KPlayerSlider* slider (void)
     { return m_slider; }
 
@@ -149,14 +121,15 @@ public:
     //virtual void unplug (QWidget*);
 
 protected slots:
-    /** Pops up the slider.
-      */
+
     virtual void slotTriggered();
 
 protected:
+
     /** The slider.
       */
     KPlayerSlider* m_slider;
+
     /** The popup frame.
       */
     KPlayerPopupFrame* m_frame;

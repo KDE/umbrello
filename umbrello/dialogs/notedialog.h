@@ -29,6 +29,7 @@ class NoteDialog : public KDialog
    Q_OBJECT
 
 public:
+
     /**
      *  Constructs an NoteDialog.
      */

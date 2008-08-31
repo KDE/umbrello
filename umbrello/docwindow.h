@@ -25,7 +25,6 @@ class NewUMLRectWidget;
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class DocWindow : public QWidget
 {
     Q_OBJECT
@@ -40,83 +39,29 @@ public:
      */
     ~DocWindow();
 
-    /**
-     * Called when a widget wishes to display its documentation in the
-     * doc window.  If there was already documentation there, that will
-     * be updated before being removed from the view.
-     *
-     * Also call this function if you update the documentation in another
-     * place, such as a properties dialog.  Just set overwrite to true.
-     *
-     * Overwrite is used when you believe that the documentation window
-     * is already displaying documentation for the widget you wish to
-     * display.
-     * Overwrite just determines whose version is more up to date.
-     */
     void showDocumentation( UMLObject * object, bool overwrite = false );
 
-    /**
-     * This method is the same as the one for UMLObjects except it
-     * displays documentation for a diagram.
-     */
     void showDocumentation( UMLView * view, bool overwrite = false );
 
-    /**
-     * This method is the same as the one for UMLObjects except it
-     * displays documentation for an object instance (StateWidget/
-     * ObjectWidget).
-     */
     void showDocumentation( NewUMLRectWidget * widget, bool overwrite = false );
 
-    /**
-     * This method is the same as the one for UMLObjects except it
-     * displays documentation for an association instance
-     * (AssociationWidget).
-     */
     void showDocumentation( AssociationWidget * widget, bool overwrite = false );
 
-    /**
-     * Call when you wish move changes in the doc window back into the
-     * members documentation.
-     *
-     * If clear is true the doc window will display the documentation
-     * for the current project instead of the widget documentation.
-     *
-     * This is usually called before displaying a properties dialog.
-     *
-     * @param clear     If true, show the documentation of current project
-     * @param startup   If true, no setModified(true) calls will be done and nothing is pushed to the undo stack
-     */
     void updateDocumentation( bool clear = false, bool startup = false );
 
 
-    /**
-     *  Re-initializes the class for a new document.
-     */
     void newDocumentation( );
 
-    /**
-     * Checks if the user is typing in the documentation edit window
-     */
     bool isTyping();
 
 public slots:
 
-    /**
-     * An association was removed from the UMLView.
-     * If the association removed was the association which documentation is
-     * being shown, m_pAssocWidget is set to 0.
-     */
     void slotAssociationRemoved(AssociationWidget* association);
 
-    /**
-     * A widget was removed from the UMLView.
-     * If the association removed was the association which documentation is
-     * being shown, m_pUMLWidget is set to 0.
-     */
     void slotWidgetRemoved(NewUMLRectWidget* widget);
 
 private:
+
     /**
      * Used internally to know which type of object we are showing
      * documentation for.

@@ -67,6 +67,9 @@ UMLForeignKeyConstraintDialog::~UMLForeignKeyConstraintDialog()
 {
 }
 
+/**
+ * Adds pair to the list.
+ */
 void UMLForeignKeyConstraintDialog::slotAddPair()
 {
     // get the index of the selected local column and referenced column
@@ -105,6 +108,9 @@ void UMLForeignKeyConstraintDialog::slotAddPair()
     slotResetWidgetState();
 }
 
+/**
+ * Deletes a pair from the list.
+ */
 void UMLForeignKeyConstraintDialog::slotDeletePair()
 {
     // get the index of the selected pair in the view
@@ -139,6 +145,10 @@ void UMLForeignKeyConstraintDialog::slotDeletePair()
     slotResetWidgetState();
 }
 
+/**
+ * Checks if changes are valid and applies them if they are,
+ * else returns false.
+ */
 bool UMLForeignKeyConstraintDialog::apply()
 {
     // set the Referenced Entity
@@ -178,6 +188,9 @@ bool UMLForeignKeyConstraintDialog::apply()
     return true;
 }
 
+/**
+ * Setup the General Page.
+ */
 void UMLForeignKeyConstraintDialog::setupGeneralPage()
 {
     //setup General page
@@ -260,6 +273,9 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     connect(m_GeneralWidgets.referencedEntityCB, SIGNAL(activated(int)), this, SLOT(slotReferencedEntityChanged(int)));
 }
 
+/**
+ * Setup Column Page.
+ */
 void UMLForeignKeyConstraintDialog::setupColumnPage()
 {
     //setup Columns page
@@ -341,11 +357,17 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
     connect(m_ColumnWidgets.mappingTW, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotResetWidgetState()));
 }
 
+/**
+ * Used when the Apply button is clicked.
+ */
 void UMLForeignKeyConstraintDialog::slotApply()
 {
     apply();
 }
 
+/**
+ * Used when the OK button is clicked.  Calls apply().
+ */
 void UMLForeignKeyConstraintDialog::slotOk()
 {
     if (apply()) {
@@ -413,6 +435,9 @@ void UMLForeignKeyConstraintDialog::refillLocalAttributeCB()
     }
 }
 
+/**
+ * Enable/Disable the widgets in the Dialog Box.
+ */
 void UMLForeignKeyConstraintDialog::slotResetWidgetState()
 {
     m_ColumnWidgets.addPB->setEnabled(true);

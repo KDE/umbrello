@@ -42,6 +42,7 @@ typedef QList<QGraphicsRectItem*> RectList;
 class LinePath : public QObject {
     Q_OBJECT
     public:
+
     /**
      *   Constructor
      */
@@ -69,128 +70,56 @@ class LinePath : public QObject {
         TopBottom, LeftRight
     };
 
-    /**
-     *   Tell the line where the line docks
-     */
     void setDockRegion( Region region );
 
     bool hasPoints () const;
     void dumpPoints ();
 
-    /**
-     *   Returns the point at the point index.
-     */
     QPointF getPoint( int pointIndex ) const;
 
-    /**
-     *   Sets the position of an already set point.
-     */
     bool setPoint( int pointIndex, const QPointF &point );
 
-    /**
-     *   Checks, if we are at an end of the segment or somewhere in the middle.
-     *   We use the delta, because with the mouse it is hard to find the
-     *   exactly point.
-     */
     bool isPoint( int pointIndex, const QPointF &point, qreal delta = 0 );
 
-    /**
-     *   Inserts a point at the given index.
-     */
     bool insertPoint( int pointIndex, const QPointF &point );
 
-    /**
-     *   Removes the point on the line given by the index, at the coordinates
-     *   given by point with a fuzzy of delta
-     */
     bool removePoint( int pointIndex, const QPointF &point, qreal delta = 0 );
 
-    /**
-     *   Sets the start and end points.
-     */
     bool setStartEndPoints( const QPointF &start, const QPointF &end );
 
-    /**
-     *   Returns the amount of POINTS on the line.
-     *   Includes start and end points.
-     */
     int count() const;
 
-    /**
-     *   Returns -1 if the given point is not on the line.
-     *   else returns the line segment the point is on.
-     *   Use the value to insert points at the point position.
-     */
     int onLinePath( const QPointF &position );
 
     // [PORT] Looks like it is not used
 #if 0
-    /**
-     *   Sets the canvas to be used.
-     */
+
     void setCanvas( Q3Canvas * canvas );
 #endif
 
-    /**
-     *   Sets the Association type.
-     */
     void setAssocType( Uml::Association_Type type );
 
-    /**
-     *   Calls a group of methods to update the line.  Used to save you calling multiple methods.
-     */
     void update();
 
-    /**
-     *   This will setup the class ready to display the line correctly.
-     *   This MUST be called before you can use this class.
-     */
     void setAssociation( AssociationWidget * association );
 
-    /**
-     *   Returns the Association this class is linked to.
-     */
     AssociationWidget * getAssociation() {
         return m_pAssociation;
     }
 
-    /**
-     *   Sets the status of whether the line is selected or not.
-     */
     void setSelected( bool select );
 
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     bool loadFromXMI( QDomElement & qElement );
 
-    /**
-     *   Activates the line list.
-     *   This is needed because the m_pAssociation does not yet
-     *   exist at the time of the LinePath::loadFromXMI call.
-     *   However, this means that the points in the m_LineList
-     *   do not have a parent when they are loaded.
-     *   They need to be reparented by calling LinePath::activate()
-     *   once the m_pAssociation exists.
-     */
     void activate();
 
-    /**
-     *   Removes and item created that are no longer needed.
-     */
     void cleanup();
 
-    /**
-     * Returns the type of pen to use depending on the type of Association.
-     */
     QPen getPen();
 
-    /**
-     *   Sets the line color used by the line.
-     */
     void setLineColor( const QColor &color );
-    /**
-     *   Sets the line width used by the line.
-     */
     void setLineWidth( uint width );
 
 protected:
@@ -220,10 +149,6 @@ protected:
     public:
         explicit SubsetSymbol(QGraphicsScene* scene);
 
-        /**
-         * Sets the Inclination of the Subset Symbol w.r.t horizontal x axis
-         * @param angle The inclination angle
-         */
         void setInclination(qreal angle) {
             // [PORT]
             QGraphicsEllipseItem::rotate(angle);
@@ -232,106 +157,39 @@ protected:
 
         // [PORT]
 #if 0
-        /**
-         * Reimplementation from base class
-         */
+
         void paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidget *);
 #endif
 
     };
 
-    /**
-     *   Returns the canvas being used.
-     *   Will return zero if the Association hasn't been set.
-     *
-     *   This class doesn't hold this information but is a wrapper
-     *   method to stop calls to undefined variable like m_pAssociation.
-     */
     QGraphicsScene*  getScene();
 
-    /**
-     *   Returns the Association type.
-     *   Returns Uml::at_Association if association hasn't been set.
-     *
-     *   This class doesn't hold this information but is a wrapper
-     *   method to stop calls to undefined variable like m_pAssociation.
-     */
     Uml::Association_Type getAssocType() const;
 
-    /**
-     *   Returns the Line Color to use.
-     *   Returns black if association not set.
-     *
-     *   This class doesn't hold this information but is a wrapper
-     *   method to stop calls to undefined variable like m_pAssociation.
-     */
     QColor getLineColor();
-    /**
-     *   Returns the Line Width to use.
-     *   Returns 0 if association not set.
-     *
-     *   This class doesn't hold this information but is a wrapper
-     *   method to stop calls to undefined variable like m_pAssociation.
-     */
     uint getLineWidth();
 
-    /**
-     *   Moves the selected canvas widgets.
-     */
     void moveSelected( int pointIndex );
 
-    /**
-     *   Sets up the selected canvases needed.
-     */
     void setupSelected();
 
-    /**
-     *   Calculates the head points.
-     */
     void calculateHead();
 
-    /**
-     *   Creates the head lines to display the head.
-     */
     void createHeadLines();
 
-    /**
-     *   Creates the subset symbol
-     */
     void createSubsetSymbol();
 
-    /**
-     * Create a number of new lines and append them to the given list.
-     *
-     * @param list  The list into which to append lines.
-     * @param by    The number of lines to insert into the given list.
-     */
     void growList(LineList &list, int by);
 
-    /**
-     *   Updates the head lines.  Call after calculating the new points.
-     */
     void updateHead();
 
-    /**
-     *   Updates the subset symbol.Call after calculating the new points.
-     */
     void updateSubsetSymbol();
 
-    /**
-     *   Creates the line objects to display the parallel line.
-     */
     void setupParallelLine();
 
-    /**
-     *   Calculates the position of the parallel line.
-     */
     void calculateParallelLine();
 
-    /**
-     *   Updates the parallel line.
-     *   Call after calculating the new position.
-     */
     void updateParallelLine();
 
     /********Attributes*************/
@@ -412,17 +270,7 @@ protected:
 
 public slots:
 
-    /**
-     *   Sets the line color used by the line.
-     *
-     * @param viewID The id of the object behind the widget.
-     */
     void slotLineColorChanged( Uml::IDType viewID );
-    /**
-     *   Sets the line width used by the line.
-     *
-     * @param viewID The id of the object behind the widget.
-     */
     void slotLineWidthChanged( Uml::IDType viewID );
 };
 

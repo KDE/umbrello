@@ -25,40 +25,17 @@ public:
     virtual ~PythonImport();
 
 protected:
-    /**
-     * Reimplement operation from NativeImportBase.
-     */
+
     void initVars();
 
-    /**
-     * Implement abstract operation from NativeImportBase.
-     */
     bool parseStmt();
 
-    /**
-     * Implement abstract operation from NativeImportBase.
-     */
     void fillSource(const QString& line);
 
-    /**
-     * Reimplement operation from NativeImportBase.
-     * In addition to handling multiline comments, this method transforms
-     * changes in leading indentation into braces (opening brace for increase
-     * in indentation, closing brace for decrease in indentation) in m_source.
-     * Removal of Python's indentation sensitivity simplifies subsequent
-     * processing using Umbrello's native import framework.
-     */
     bool preprocess(QString& line);
 
-    /**
-     * Return an amount of spaces that corresponds to @param level
-     */
     QString indentation(int level);
 
-    /**
-     * Skip ahead to outermost closing brace.
-     * @return  body contents skipped
-     */
     QString skipBody();
 
     /**

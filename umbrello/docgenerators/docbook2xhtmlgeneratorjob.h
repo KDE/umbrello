@@ -16,6 +16,7 @@
 #include <QThread>
 
 #include <kurl.h>
+
 /**
  * This class is used to generate XHTML from Docbook.
  * It emits the name of the temporary file to which it as generated the XHtml as output.

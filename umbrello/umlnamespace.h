@@ -76,13 +76,7 @@ namespace Uml
         Visibility(Value v);
         static QString toString(Value value, bool mnemonic = false);
         static Visibility fromString(const QString& vis);
-        /**
-         * Convert Visibility value into QString representation.
-         *
-         * @param mnemonic    If true then return a single character:
-         *              "+" for public, "-" for private,
-         *              "#" for protected or "~" for implementation
-         */
+
         QString toString(bool mnemonic = false) const;
         operator Value () const;
     private:
@@ -317,9 +311,6 @@ namespace Uml
     const IDType id_None = "-1";
     const IDType id_Reserved = "0";
 
-    /**
-     * Function for comparing tags in XMI files.
-     */
     bool tagEq (const QString& tag, const QString& pattern);
 
 }  // end namespace Uml

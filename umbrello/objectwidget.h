@@ -41,12 +41,6 @@ public:
     ObjectWidget(UMLObject *o, const Uml::IDType &lid = Uml::id_None );
     virtual ~ObjectWidget();
 
-    /**
-     * @return The local ID for this object.
-     *
-     * This ID is used so that many objects of the same @ref UMLObject
-     * instance can be on the same diagram.
-     */
     Uml::IDType localID() const {
         return m_localID;
     }

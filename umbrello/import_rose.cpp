@@ -364,6 +364,12 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
     return node;
 }
 
+/**
+ * Parse a file into the PetalNode internal tree representation
+ * and then create Umbrello objects by traversing the tree.
+ *
+ * @return  True for success, false in case of error.
+ */
 bool loadFromMDL(QIODevice& file) 
 {
     QTextStream stream(&file);

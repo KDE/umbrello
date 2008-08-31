@@ -70,6 +70,10 @@ void UMLRoleProperties::constructWidget()
     //ui_pDocTE->setWordWrap(QMultiLineEdit::WidgetWidth);
 }
 
+/**
+ *  Will move information from the dialog into the object.
+ *  Call when the ok or apply button is pressed.
+ */
 void UMLRoleProperties::updateObject()
 {
     if (m_pRole) {

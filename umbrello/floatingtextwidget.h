@@ -112,6 +112,7 @@ private:
 
     /// Prepended text (such as for scope of association Role or method)
     QString m_preText;
+
     /**
      * Ending text (such as bracket on changability notation for
      * association Role)

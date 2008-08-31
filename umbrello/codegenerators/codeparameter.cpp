@@ -125,6 +125,9 @@ CodeComment * CodeParameter::getComment ( )
     return m_comment;
 }
 
+/**
+ * Get the parent Code Document
+ */
 ClassifierCodeDocument * CodeParameter::getParentDocument ( )
 {
     return m_parentDocument;
@@ -154,6 +157,10 @@ QString CodeParameter::getID ()
 
 }
 
+/**
+ * Set attributes of the node that represents this class
+ * in the XMI document.
+ */
 void CodeParameter::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
 {
     // set local attributes

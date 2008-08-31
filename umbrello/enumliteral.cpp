@@ -42,11 +42,18 @@ bool UMLEnumLiteral::operator==(const UMLEnumLiteral& rhs)
     return true;
 }
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLEnumLiteral::copyInto(UMLObject *lhs) const
 {
     UMLClassifierListItem::copyInto(lhs);
 }
 
+/**
+ * Make a clone of this object.
+ */
 UMLObject* UMLEnumLiteral::clone() const
 {
     UMLEnumLiteral *clone = new UMLEnumLiteral((UMLObject *) parent());
@@ -55,17 +62,26 @@ UMLObject* UMLEnumLiteral::clone() const
     return clone;
 }
 
+/**
+ * Creates the <UML:EnumLiteral> XMI element.
+ */
 void UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement attributeElement = UMLObject::save("UML:EnumerationLiteral", qDoc);
     qElement.appendChild( attributeElement );
 }
 
+/**
+ * Loads the <UML:EnumLiteral> XMI element (empty.)
+ */
 bool UMLEnumLiteral::load(QDomElement& )
 {
     return true;
 }
 
+/**
+ * Display the properties configuration dialog for the enum literal.
+ */
 bool UMLEnumLiteral::showPropertiesDialog(QWidget* parent)
 {
     bool ok;

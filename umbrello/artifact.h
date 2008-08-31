@@ -40,12 +40,6 @@ public:
         table
     };
 
-    /**
-     * Sets up a Artifact.
-     *
-     * @param Name              The name of the Concept.
-     * @param id                The unique id of the Concept.
-     */
     explicit UMLArtifact(const QString & name = QString(), Uml::IDType id = Uml::id_None);
 
     /**
@@ -53,40 +47,22 @@ public:
      */
     virtual ~UMLArtifact();
 
-    /**
-     * Initializes key variables of the class.
-     */
     virtual void init();
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Creates the UML:Artifact element including its operations,
-     * attributes and templates
-     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * sets m_drawAsType for which method to draw the artifact as
-     */
     void setDrawAsType(Draw_Type type);
 
-    /**
-     * returns the value of m_drawAsType
-     */
     Draw_Type getDrawAsType();
 
 protected:
-    /**
-     * Loads the UML:Artifact element including its operations,
-     * attributes and templates
-     */
+
     bool load( QDomElement & element );
 
 private:
+
     /**
      * Artifacts can be drawn as one of several different icons,
      * this value choosing how to draw them.

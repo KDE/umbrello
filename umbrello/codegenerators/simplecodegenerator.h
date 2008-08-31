@@ -49,11 +49,6 @@ public:
      */
     virtual void writeClass(UMLClassifier *c) = 0;
 
-    /**
-     * This is implemented only because we HAVE to.
-     * @return  ClassifierCodeDocument
-     * @param   classifier
-     */
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 
 protected:
@@ -67,9 +62,6 @@ protected:
     bool hasDefaultValueAttr(UMLClassifier *c);
     bool hasAbstractOps(UMLClassifier *c);
 
-    /**
-     * Returns the current indent string based on m_indentLevel and m_indentation.
-     */
     QString getIndent ();
 
     /**

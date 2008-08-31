@@ -43,6 +43,9 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
     setupPage();
 }
 
+/**
+ * Sets up the page.
+ */
 void ClassifierListPage::setupPage()
 {
     int margin = fontMetrics().height();
@@ -75,6 +78,10 @@ void ClassifierListPage::setupPage()
     connect(m_pBottomArrowB, SIGNAL( clicked() ), this, SLOT( slotBottomClicked() ) );
 }
 
+/**
+ * Sets up the list group.
+ * @param margin  The margin of the group.
+ */
 void ClassifierListPage::setupListGroup(int margin)
 {
     QString typeName;
@@ -129,6 +136,10 @@ void ClassifierListPage::setupListGroup(int margin)
     setupActionButtons(newItemType, listVBoxLayout);
 }
 
+/**
+ * Sets up the move up/down buttons.
+ * @param parentLayout  The parent layout to which this group belongs.
+ */
 void ClassifierListPage::setupMoveButtons(QHBoxLayout* parentLayout)
 {
     QVBoxLayout* buttonLayout = new QVBoxLayout();
@@ -155,6 +166,11 @@ void ClassifierListPage::setupMoveButtons(QHBoxLayout* parentLayout)
     buttonLayout->addWidget( m_pBottomArrowB );
 }
 
+/**
+ * Sets up the action buttons.
+ * @param itemType      The item type.
+ * @param parentLayout  The parent layout to which this group belongs.
+ */
 void ClassifierListPage::setupActionButtons(const QString& itemType, QVBoxLayout* parentLayout)
 {
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pItemListGB);
@@ -166,6 +182,10 @@ void ClassifierListPage::setupActionButtons(const QString& itemType, QVBoxLayout
     parentLayout->addWidget(buttonBox);
 }
 
+/**
+ * Sets up the documentation group.
+ * @param margin  The margin of the group.
+ */
 void ClassifierListPage::setupDocumentationGroup(int margin)
 {
     m_pDocGB = new QGroupBox(i18n("Documentation"), this);
@@ -186,6 +206,9 @@ void ClassifierListPage::setupDocumentationGroup(int margin)
     }
 }
 
+/**
+ * Loads the Item List Box.
+ */
 void ClassifierListPage::reloadItemListBox()
 {
     UMLClassifierListItemList itemList(getItemList());
@@ -205,6 +228,10 @@ ClassifierListPage::~ClassifierListPage()
 {
 }
 
+/**
+ * Set the state of the widgets on the page with the given value.
+ * @param  state   The state to set the widgets as.
+ */
 void ClassifierListPage::enableWidgets(bool state)
 {
     m_pDocTE->setEnabled( state );
@@ -257,6 +284,10 @@ void ClassifierListPage::enableWidgets(bool state)
     m_pPropertiesButton->setEnabled(true);
 }
 
+/**
+ * Called when list view is clicked on
+ * calls enableWidgets().
+ */
 void ClassifierListPage::slotClicked(QListWidgetItem* item)
 {
     //if not first time an item is highlighted
@@ -306,6 +337,10 @@ void ClassifierListPage::slotClicked(QListWidgetItem* item)
     }
 }
 
+/**
+ *  Will move information from the dialog into the object.
+ *  Call when the ok or apply button is pressed.
+ */
 void ClassifierListPage::updateObject()
 {
     saveCurrentItemDocumentation();
@@ -349,6 +384,9 @@ void ClassifierListPage::slotListItemModified()
     }
 }
 
+/**
+ * Hide menu and free all its resources.
+ */
 void ClassifierListPage::deleteMenu()
 {
     if (m_pMenu) {
@@ -398,6 +436,9 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
 }
 
+/**
+ * Called when an item is selected in a right click menu.
+ */
 void ClassifierListPage::slotPopupMenuSel(QAction* action)
 {
     ListPopupMenu::Menu_Type id = m_pMenu->getMenuType(action);
@@ -438,6 +479,10 @@ void ClassifierListPage::slotPopupMenuSel(QAction* action)
     }
 }
 
+/**
+ * Utility for debugging, prints the current item list.
+ * Only effective if VERBOSE_DEBUGGING is defined.
+ */
 void ClassifierListPage::printItemList(const QString &prologue)
 {
 #ifdef VERBOSE_DEBUGGING
@@ -454,6 +499,9 @@ void ClassifierListPage::printItemList(const QString &prologue)
 #endif
 }
 
+/**
+ * Moves selected attribute to the top of the list.
+ */
 void ClassifierListPage::slotTopClicked()
 {
     int count = m_pItemListLB->count();
@@ -485,6 +533,9 @@ void ClassifierListPage::slotTopClicked()
     slotClicked(item);
 }
 
+/**
+ * Moves selected attribute up in list.
+ */
 void ClassifierListPage::slotUpClicked()
 {
     int count = m_pItemListLB->count();
@@ -519,6 +570,9 @@ void ClassifierListPage::slotUpClicked()
     slotClicked(item);
 }
 
+/**
+ * Moved selected attribute down in list.
+ */
 void ClassifierListPage::slotDownClicked()
 {
     int count = m_pItemListLB->count();
@@ -552,6 +606,9 @@ void ClassifierListPage::slotDownClicked()
     slotClicked(item);
 }
 
+/**
+ * Moved selected attribute to the bottom of the list.
+ */
 void ClassifierListPage::slotBottomClicked()
 {
     int count = m_pItemListLB->count();
@@ -583,6 +640,9 @@ void ClassifierListPage::slotBottomClicked()
     slotClicked(item);
 }
 
+/**
+ * Shows properties dialog for the attribute clicked on.
+ */
 void ClassifierListPage::slotDoubleClick( QListWidgetItem* item )
 {
     if ( !item ) {
@@ -601,6 +661,9 @@ void ClassifierListPage::slotDoubleClick( QListWidgetItem* item )
     }
 }
 
+/**
+ * Removes currently seleted attribute.
+ */
 void ClassifierListPage::slotDelete()
 {
     int currentItemIndex = m_pItemListLB->currentRow();
@@ -619,12 +682,18 @@ void ClassifierListPage::slotDelete()
     slotClicked(NULL);
 }
 
+/**
+ * Shows properties dialog for currently selected attribute.
+ */
 void ClassifierListPage::slotProperties()
 {
     saveCurrentItemDocumentation();
     slotDoubleClick( m_pItemListLB->currentItem() );
 }
 
+/**
+ * Shows dialog for new attribute.
+ */
 void ClassifierListPage::slotNewListItem()
 {
     saveCurrentItemDocumentation();
@@ -635,6 +704,9 @@ void ClassifierListPage::slotNewListItem()
     }
 }
 
+/**
+ * Saves the documentation for the currently selected item.
+ */
 void ClassifierListPage::saveCurrentItemDocumentation()
 {
     int currentItemIndex = m_pItemListLB->currentRow();
@@ -653,11 +725,21 @@ void ClassifierListPage::saveCurrentItemDocumentation()
     }
 }
 
+/**
+ * Get classifier list items.
+ */
 UMLClassifierListItemList ClassifierListPage::getItemList()
 {
     return m_pClassifier->getFilteredList(m_itemType);
 }
 
+/**
+ * Attempts to add classifier to the appropriate list.
+ * @param classifier   Pointer to the classifier to add.
+ * @param position     Index at which to insert into the list.
+ * @return             true if the classifier could be added
+ *
+ */
 bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int position)
 {
     switch (m_itemType) {
@@ -696,6 +778,19 @@ bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int posi
     return false;
 }
 
+/**
+ * Take a classifier's subordinate item.
+ * Ownership of the classifier list item is transferred to the caller.
+ * @param listitem        UMLClassifierListItem to take.
+ * @param seekPeerBefore  True if a peer index should be sought which
+ *                        is smaller than the current listitem's index.
+ * @param peerIndex       Return value: Index in the UMLClassifier's
+ *                        item list at which a peer item, i.e. another
+ *                        UMLClassifierListItem of the same type as
+ *                        listItem, is found.  If no such item exists
+ *                        then return -1.
+ * @return                True for success.
+ */
 bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
                                   bool seekPeerBefore, int &peerIndex)
 {
@@ -725,12 +820,22 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
     return true;
 }
 
+/**
+ * Calculates the new index to be assigned when an object of type ot is to
+ * be added to the list box. The default Implementation is to add it to the end of the list.
+ * @param ot The Object Type to be added
+ * @return The index
+ */
 int ClassifierListPage::calculateNewIndex(Uml::Object_Type ot)
 {
     Q_UNUSED(ot);
     return m_pItemListLB->count();
 }
 
+/**
+ * Sets the visibility of the arrow buttons.
+ * @param hide true hides the arrow buttons
+ */
 void ClassifierListPage::hideArrowButtons(bool hide)
 {
     // if hide is true, we have to make state = false

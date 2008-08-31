@@ -36,7 +36,6 @@ class CodeViewerOptionsPage;
  * modified by brian thomas Aug-2003
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class SettingsDlg : public KPageDialog
 {
     Q_OBJECT

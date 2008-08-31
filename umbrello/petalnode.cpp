@@ -51,6 +51,11 @@ void PetalNode::setAttributes(PetalNode::NameValueList vl) {
     m_attributes = vl;
 }
 
+/**
+ * Find an attribute by name.
+ * @return  The value of the attribute. StringOrNode::isEmpty() returns true
+ *          if the name could not be found.
+ */
 PetalNode::StringOrNode PetalNode::findAttribute(const QString& name) const {
     for (int i = 0; i < m_attributes.count(); i++) {
         if (m_attributes[i].first == name)

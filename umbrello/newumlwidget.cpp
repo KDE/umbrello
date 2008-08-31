@@ -965,6 +965,9 @@ NewUMLWidget::NewUMLWidget(UMLScene *scene, const Uml::IDType &_id) :
     setFlags(ItemIsSelectable | ItemIsMovable);
 }
 
+/** Template Method, override this to set the default
+ *  font metric.
+ */
 void NewUMLWidget::setDefaultFontMetrics(NewUMLWidget::FontType fontType)
 {
     setupFontType(m_font, fontType);
@@ -1018,6 +1021,9 @@ void NewUMLWidget::setupFontType(QFont &font, NewUMLWidget::FontType fontType)
     }
 }
 
+/** Template Method, override this to set the default
+ *  font metric.
+ */
 void NewUMLWidget::setDefaultFontMetrics(NewUMLWidget::FontType fontType, QPainter &painter)
 {
     setupFontType(m_font, fontType);
@@ -1026,6 +1032,8 @@ void NewUMLWidget::setDefaultFontMetrics(NewUMLWidget::FontType fontType, QPaint
 }
 
 //FIXME this is probably the source of problems with widgets not being wide enough
+
+/** Returns the font metric used by this object for Text which uses bold/italic fonts*/
 QFontMetrics &NewUMLWidget::getFontMetrics(NewUMLWidget::FontType fontType)
 {
     if (m_pFontMetrics[fontType] == 0) {
@@ -1034,6 +1042,7 @@ QFontMetrics &NewUMLWidget::getFontMetrics(NewUMLWidget::FontType fontType)
     return *m_pFontMetrics[fontType];
 }
 
+/** set the font metric to use */
 void NewUMLWidget::setFontMetrics(NewUMLWidget::FontType fontType, QFontMetrics fm)
 {
     delete m_pFontMetrics[fontType];

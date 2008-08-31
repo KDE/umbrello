@@ -32,6 +32,7 @@ class ClassifierWidget : public NewUMLRectWidget
 {
     Q_OBJECT;
 public:
+
     /**
      * This enumeration lists the visual properties that can be easily
      * set, reset and toggled and all these operate on an integer
@@ -58,10 +59,6 @@ public:
 
     UMLClassifier *classifier() const;
 
-    /**
-     * @return An OR combination of all VisualProperty values
-     *         indicating current visual property status.
-     */
     VisualProperties visualProperties() const {
         return m_visualProperties;
     }
@@ -88,10 +85,6 @@ public:
     void changeToClass();
     void changeToInterface();
 
-    /**
-     * @return The AssociationWidget when this classifier acts as an
-     *         association class (else return NULL.)
-     */
     AssociationWidget *classAssociationWidget() const {
         return m_classAssociationWidget;
     }

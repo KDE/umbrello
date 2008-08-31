@@ -32,6 +32,9 @@ ToolBarStateArrow::~ToolBarStateArrow()
 {
 }
 
+/**
+ * Goes back to the initial state.
+ */
 void ToolBarStateArrow::init()
 {
     ToolBarState::init();
@@ -62,16 +65,29 @@ void ToolBarStateArrow::mouseDoubleClick(QGraphicsSceneMouseEvent *ome)
 }
 
 
+/**
+ * Called when the press event happened on an association.
+ * Delivers the event to the association.
+ */
 void ToolBarStateArrow::mousePressAssociation()
 {
     // [PORT] getCurrentAssociation()->mousePressEvent(m_pMouseEvent);
 }
 
+/**
+ * Called when the press event happened on a widget.
+ * Delivers the event to the widget.
+ */
 void ToolBarStateArrow::mousePressWidget()
 {
     // [PORT] getCurrentWidget()->mousePressEvent(m_pMouseEvent);
 }
 
+/**
+ * Called when the press event happened on an empty space.
+ * Calls base method and, if left button was pressed, prepares the selection
+ * rectangle.
+ */
 void ToolBarStateArrow::mousePressEmpty()
 {
     if (m_pMouseEvent->button() != Qt::LeftButton) {
@@ -100,16 +116,29 @@ void ToolBarStateArrow::mousePressEmpty()
     }
 }
 
+/**
+ * Called when the release event happened on an association.
+ * Delivers the event to the association.
+ */
 void ToolBarStateArrow::mouseReleaseAssociation()
 {
     // [PORT] getCurrentAssociation()->mouseReleaseEvent(m_pMouseEvent);
 }
 
+/**
+ * Called when the release event happened on a widget.
+ * Delivers the event to the widget.
+ */
 void ToolBarStateArrow::mouseReleaseWidget()
 {
     // [PORT] getCurrentWidget()->mouseReleaseEvent(m_pMouseEvent);
 }
 
+/**
+ * Called when the release event happened on an empty space.
+ * If selection rectangle is active, it is cleared. Else, if the right
+ * button was released, it shows the pop up menu for the diagram.
+ */
 void ToolBarStateArrow::mouseReleaseEmpty()
 {
     if (m_selectionRect.count() == 4) {
@@ -121,26 +150,52 @@ void ToolBarStateArrow::mouseReleaseEmpty()
     }
 }
 
+/**
+ * Called when the double click event happened on an association.
+ * Delivers the event to the association.
+ */
 void ToolBarStateArrow::mouseDoubleClickAssociation()
 {
     // [PORT] getCurrentAssociation()->mouseDoubleClickEvent(m_pMouseEvent);
 }
 
+/**
+ * Called when the double click event happened on a widget.
+ * Delivers the event to the widget.
+ */
 void ToolBarStateArrow::mouseDoubleClickWidget()
 {
     // [PORT] getCurrentWidget()->mouseDoubleClickEvent(m_pMouseEvent);
 }
 
+/**
+ * Called when the move event happened when an association is
+ * currently available.
+ * Delivers the event to the association.
+ */
 void ToolBarStateArrow::mouseMoveAssociation()
 {
     // [PORT] getCurrentAssociation()->mouseMoveEvent(m_pMouseEvent);
 }
 
+/**
+ * Called when the move event happened when a widget is
+ * currently available.
+ * Delivers the event to the widget.
+ */
 void ToolBarStateArrow::mouseMoveWidget()
 {
     // [PORT] getCurrentWidget()->mouseMoveEvent(m_pMouseEvent);
 }
 
+/**
+ * Called when the move event happened when no association nor
+ * widget are currently available.
+ * Updates the selection rectangle to the new position and selectes all the
+ * widgets in the rectangle.
+ *
+ * @todo Fix selection
+ */
 void ToolBarStateArrow::mouseMoveEmpty()
 {
     qreal x = m_pMouseEvent->scenePos().x(), y = m_pMouseEvent->scenePos().y();
@@ -167,10 +222,21 @@ void ToolBarStateArrow::mouseMoveEmpty()
     }
 }
 
+/**
+ * Overridden from base class to do nothing, as arrow is the default tool.
+ */
 void ToolBarStateArrow::changeTool()
 {
 }
 
+/**
+ * Sets the widget currently in use.
+ * It ensures that the widget is only set if there is no other widget set
+ * already.
+ * It avoids things like moving a big widget over a little one, clicking
+ * right button to cancel the movement and the little widget getting the
+ * event, thus not canceling the movement in the big widget.
+ */
 void ToolBarStateArrow::setCurrentWidget(NewUMLRectWidget* currentWidget)
 {
     if (currentWidget != 0 && getCurrentWidget() != 0) {

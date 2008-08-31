@@ -30,6 +30,14 @@ FloatingTextWidgetController::FloatingTextWidgetController(FloatingTextWidget *f
 FloatingTextWidgetController::~FloatingTextWidgetController() {
 }
 
+/**
+ * Overridden from UMLWidgetController.
+ * Saves the values of the widget needed for move/resize.
+ * Calls parent method and then saves the value of m_unconstrainedPositionX/Y
+ * and m_movementDirectionX/Y.
+ *
+ * @param me The QGraphicsSceneMouseEvent to get the offset from.
+ */
 void FloatingTextWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me) {
     UMLWidgetController::saveWidgetValues(me);
 
@@ -43,6 +51,25 @@ bool FloatingTextWidgetController::isInResizeArea(QGraphicsSceneMouseEvent* /*me
     return false;
 }
 
+/**
+ * Overridden from UMLWidgetController.
+ * Moves the widget to a new position using the difference between the
+ * current position and the new position.
+ * If the floating text widget is part of a sequence message, and the
+ * message widget is selected, it does nothing: the message widget will
+ * update the text position when it's moved.
+ * In any other case, the floating text widget constrains its move using
+ * constrainPosition. When the position of the floating text is constrained,
+ * it's kept at that position until it can be moved to another valid
+ * position (m_unconstrainedPositionX/Y and m_movementDirectionX/Y are
+ * used for that).
+ * Moreover, if is part of a sequence message (and the message widget
+ * isn't selected), it updates the position of the message widget.
+ * @see constrainPosition
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
 void FloatingTextWidgetController::moveWidgetBy(qreal diffX, qreal diffY) {
     if (m_floatingTextWidget->m_Role == Uml::tr_Seq_Message_Self)
         return;
@@ -97,6 +124,16 @@ void FloatingTextWidgetController::moveWidgetBy(qreal diffX, qreal diffY) {
     }
 }
 
+/**
+ * Overridden from UMLWidgetController.
+ * Modifies the value of the diffX and diffY variables used to move the
+ * widgets.
+ * The values are constrained using constrainPosition.
+ * @see constrainPosition
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
 void FloatingTextWidgetController::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY) {
     QPointF constrainedPosition = constrainPosition(diffX, diffY);
 
@@ -104,6 +141,18 @@ void FloatingTextWidgetController::constrainMovementForAllWidgets(qreal &diffX, 
     diffY = constrainedPosition.y() - m_floatingTextWidget->getY();
 }
 
+/**
+ * Returns a constrained position for the widget after applying the position
+ * difference.
+ * If no link widget exists, the position returned is the current widget
+ * position with the difference applied. If there's a link, the position
+ * to be returned is constrained using constrainTextPos method from the
+ * LinkWidget, if any.
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ * @return A QPointF with the constrained new position.
+ */
 QPointF FloatingTextWidgetController::constrainPosition(qreal diffX, qreal diffY) {
     qreal newX = m_floatingTextWidget->getX() + diffX;
     qreal newY = m_floatingTextWidget->getY() + diffY;

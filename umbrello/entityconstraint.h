@@ -29,6 +29,7 @@ class UMLEntityConstraint : public UMLClassifierListItem {
      Q_OBJECT
 
 public:
+
     /**
      * Sets up a constraint.
      *
@@ -56,15 +57,8 @@ public:
      */
     virtual ~UMLEntityConstraint();
 
-    /**
-     * Copy the internal presentation of this object into the UMLEntityConstraint
-     * object.
-     */
     virtual void copyInto(UMLObject *lhs) const;
 
-    /**
-     * Make a clone of the UMLEntityConstraint.
-     */
     virtual UMLObject* clone() const = 0;
 
 

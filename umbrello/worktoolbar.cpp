@@ -51,6 +51,10 @@ WorkToolBar::~WorkToolBar()
 {
 }
 
+/**
+ * Inserts the button corresponding to the tbb value given
+ * and activates the toggle.
+ */
 QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
 {
     QAction* action = addAction(QIcon(m_ToolButtons[tbb].Symbol), m_ToolButtons[tbb].Label,
@@ -60,6 +64,10 @@ QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
     return action;
 }
 
+/**
+ * Inserts most associations, just reduces some string
+ * duplication (nice to translators)
+ */
 void WorkToolBar::insertBasicAssociations()
 {
     insertHotBtn(tbb_Association);
@@ -219,6 +227,9 @@ void WorkToolBar::buttonChanged(int b)
     view->setCursor(currentCursor());
 }
 
+/**
+ * Returns the current cursor depending on m_CurrentButtonID
+ */
 QCursor WorkToolBar::currentCursor()
 {
     return m_ToolButtons[m_CurrentButtonID].Cursor;
@@ -244,6 +255,10 @@ void WorkToolBar::slotResetToolBar()
     }
 }
 
+/**
+ * Sets the current tool to the previously used Tool. This is just
+ * as if the user had pressed the button for the other tool.
+ */
 void WorkToolBar::setOldTool()
 {
     QToolButton *b = (QToolButton*) widgetForAction(m_actions[m_map[m_Type]]);
@@ -251,6 +266,11 @@ void WorkToolBar::setOldTool()
         b->animateClick();
 }
 
+/**
+ * Sets the current tool to the default tool. (select tool)
+ * Calling this function is as if the user had pressed the "arrow"
+ * button on the toolbar.
+ */
 void WorkToolBar::setDefaultTool()
 {
     QToolButton *b = (QToolButton*) widgetForAction(m_actions[tbb_Arrow]);
@@ -258,6 +278,9 @@ void WorkToolBar::setDefaultTool()
         b->animateClick();
 }
 
+/**
+ * Loads toolbar icon and mouse cursor images from disk
+ */
 void WorkToolBar::loadPixmaps()
 {
     const struct ButtonInfo {
@@ -354,6 +377,11 @@ void WorkToolBar::loadPixmaps()
     }
 }
 
+/**
+ * These slots are triggered by the buttons. They call buttonChanged with
+ * the button id
+ *@{
+ */
 void WorkToolBar::slotArrow()                    { buttonChanged(tbb_Arrow);                    }
 void WorkToolBar::slotGeneralization()           { buttonChanged(tbb_Generalization);           }
 void WorkToolBar::slotAggregation()              { buttonChanged(tbb_Aggregation);              }

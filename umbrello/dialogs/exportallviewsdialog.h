@@ -30,18 +30,6 @@ class ExportAllViewsDialog : public QDialog, private Ui::ExportAllViewsDialogBas
 
 public:
 
-    /**
-     * Constructor for UMLViewImageExporterModel.
-     *
-     * @param parent The parent of the dialog.
-     * @param name The internal name.
-     * @param modal If modal is true the dialog will block input to other the windows
-     *              in the application until it's closed.
-     * @param fl Window flags.
-     * @param defaultMimeType The default mime type that appears in the mime types list.
-     *
-     * @see QDialog::QDialog
-     */
     explicit ExportAllViewsDialog(QWidget* parent = 0, const char* name = 0,
                          bool modal = false, Qt::WindowFlags fl = 0,
                          const QString& defaultMimeType = "image/png");
@@ -61,10 +49,6 @@ protected slots:
 
     friend class UMLViewImageExporterAll;
 
-    /**
-     *  Sets the strings of the subwidgets using the current
-     *  language.
-     */
     virtual void languageChange();
 
 };

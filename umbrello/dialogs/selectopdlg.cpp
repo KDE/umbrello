@@ -86,12 +86,20 @@ SelectOpDlg::~SelectOpDlg()
 {
 }
 
+/**
+ * Inserts @p type into the type-combobox as well as its completion object.
+ */
 void SelectOpDlg::insertOperation( const QString& type, int index )
 {
     m_pOpCB->insertItem( index, type );
     m_pOpCB->completionObject()->addItem( type );
 }
 
+/**
+ *  Returns the operation to display.
+ *
+ *  @return The operation to display.
+ */
 QString SelectOpDlg::getOpText()
 {
     if (m_pOpRB->isChecked())
@@ -100,6 +108,13 @@ QString SelectOpDlg::getOpText()
         return m_pOpLE->text();
 }
 
+/**
+ * Return whether the user selected a class operation
+ * or a custom operation.
+ *
+ * @return  True if user selected a class operation,
+ *          false if user selected a custom operation
+ */
 bool SelectOpDlg::isClassOp() const
 {
     return (m_id == OP);
@@ -121,6 +136,11 @@ void SelectOpDlg::slotSelectedCustom()
     m_id = CUSTOM;
 }
 
+/**
+ * Set the custom operation text.
+ *
+ *  @param op The operation to set as the custom operation.
+ */
 void SelectOpDlg::setCustomOp(const QString &op)
 {
     m_pOpLE->setText(op);
@@ -130,6 +150,12 @@ void SelectOpDlg::setCustomOp(const QString &op)
     }
 }
 
+/**
+ * Set the class operation text.
+ *
+ *  @param op The operation to set as the class operation.
+ * @return false if no such operation exists.
+ */
 bool SelectOpDlg::setClassOp(const QString &op)
 {
     for (int i = 1; i!= m_pOpCB->count(); ++i) {
@@ -143,11 +169,21 @@ bool SelectOpDlg::setClassOp(const QString &op)
     return false;
 }
 
+/**
+ *  Returns the sequence number for the operation.
+ *
+ *  @return Returns the sequence number for the operation.
+ */
 QString SelectOpDlg::getSeqNumber()
 {
     return m_pSeqLE->text();
 }
 
+/**
+ * Set the sequence number text.
+ *
+ *  @param  num     The number to set the sequence to.
+ */
 void SelectOpDlg::setSeqNumber(const QString &num)
 {
     m_pSeqLE->setText(num);
