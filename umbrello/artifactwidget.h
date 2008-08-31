@@ -44,18 +44,7 @@ protected:
 	virtual void updateTextItemGroups();
 
 private:
-
-    /**
-     * draw as a file icon
-     * @see Widget_Utils::drawTriangledRect
-     */
     void drawAsFile(QPainter *painter);
-
-    /**
-     * draw as a library file icon
-     * @see Widget_Utils::drawTriangledRect
-     * @todo Drawing should have gears on it.
-     */
 	void drawAsLibrary(QPainter *painter);
 	void drawAsTable(QPainter *painter);
 	void drawAsNormal(QPainter *painter);

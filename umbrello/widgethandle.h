@@ -56,89 +56,20 @@ public:
         calcResizeHandles();
     }
 
-    /**
-     * Reimplemented to draw the resize handles.
-     *
-     * @note The handles are drawn only if this WidgetHandle object is
-     * active.
-     *
-     * @see WidgetHandle::isActive()
-     */
     void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
 
 protected:
-
-    /**
-     * Reimplemented to handles resizing on dragging the resize handle, if any.
-     *
-     * @note This method handles resizing only if this handle is active
-     *       and resizing is enabled on the associated NewUMLRectWidget
-     *       object.
-     *
-     * @see WidgetHandle::isActive()
-     */
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
-
-    /**
-     * @copydoc WidgetHandle::mousePressEvent
-     */
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-
-    /**
-     * @copydoc WidgetHandle::mousePressEvent
-     */
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
-    /**
-     * Reimplemented to handle the cursor change on hovering mouse over
-     * resize handle.
-     *
-     * @see WidgetHandle::handleCursorChange
-     */
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-
-    /**
-     * @copydoc WidgetHandle::hoverEnterEvent
-     */
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
-
-    /**
-     * @copydoc WidgetHandle::hoverEnterEvent
-     */
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
 private:
-
-    /**
-     * @return The active status of the WidgetHandle (used to determine
-     *         whether to draw, react)
-     *
-     * @retval true If a widget is associated with this handle and that
-     *              widget is selected
-     *
-     * @retval false Otherwise.
-     */
     bool isActive() const;
-
-    /**
-     * Calculates the position and geometry of resize handle rects.  In
-     * the process, the complete geometry of this WidgetHandle is
-     * calculated.
-     *
-     * @note This method calculates only if a widget is associated with
-     *       this handle. And this doesn't check to see if that widget is
-     *       selected or not as that check is already done by event
-     *       handlers and also this might be needed for bookkeeping
-     */
     void calcResizeHandles();
-
-    /**
-     * Sets a proper cursor for this WidgetHandle item based on
-     * QGraphicsSceneHoverEvent parameter.
-     *
-     * @note The cursor set is Qt::ArrowCursor if either this handle is
-     *       not active or the associated widget is not resizable.
-     */
     void handleCursorChange(QGraphicsSceneHoverEvent *event);
 
     NewUMLRectWidget *m_widget;

@@ -65,81 +65,27 @@ public:
     VisualProperties visualProperties() const {
         return m_visualProperties;
     }
-
-    /**
-     * Set an OR combination of properties stored in \a properties on this
-     * widget.
-     */
     void setVisualProperties(VisualProperties properties);
 
-    /**
-     * @return The status of the property passed in.
-     *
-     * @note Use @ref attributeSignatureType() and @ref
-     *       operationSignatureType() to get signature status.  This
-     *       method only indicates whether signature is visible or not.
-     */
     bool visualProperty(VisualProperty property) const;
-
-    /**
-     * A convenient method to set and reset individual VisualProperty
-     *
-     * @param property The property to be set/reset.
-     * @param enable   True/false to set/reset. (default = true)
-     *
-     * @note This method handles ShowAttributeSignature and
-     *       ShowOperationSignature specially.
-     */
     void setVisualProperty(VisualProperty property, bool enable = true);
-
-    /**
-     * A convenient method to toggle individual VisualProperty of this
-     * widget.
-     *
-     * @param property The property to be toggled.
-     *
-     * @note This method handles ShowAttributeSignature and
-     *       ShowOperationSignature specially.
-     */
     void toggleVisualProperty(VisualProperty property);
 
-    /**
-     * @retval true  If this widget represents interface and DrawAsCircle
-     *               property is set.
-     */
     bool shouldDrawAsCircle() const;
 
     /// @return The Uml::Signature_Type value for the attributes.
     Uml::Signature_Type attributeSignatureType() const {
         return m_attributeSignatureType;
     }
-
-    /**
-     * Set's the attribute signature type to \a sigType.
-     */
     void setAttributeSignature(Uml::Signature_Type sig);
 
     /// @return The Uml::Signature_Type value for the operations.
     Uml::Signature_Type operationSignatureType() const {
         return m_operationSignatureType;
     }
-
-    /**
-     * Set's the operation signature type to \a sigType.
-     */
     void setOperationSignature(Uml::Signature_Type sig);
 
-    /**
-     * Changes this classifier from an interface to a class.  Attributes
-     * and stereotype visibility is got from the view OptionState.  This
-     * widget is also updated.
-     */
     void changeToClass();
-
-    /**
-     * Changes this classifier from a class to an interface.  Attributes
-     * are hidden and stereotype is shown.  This widget is also updated.
-     */
     void changeToInterface();
 
     /**
@@ -149,11 +95,6 @@ public:
     AssociationWidget *classAssociationWidget() const {
         return m_classAssociationWidget;
     }
-
-    /**
-     * Set the AssociationWidget when this ClassWidget acts as an
-     * association class.
-     */
     void setClassAssociationWidget(AssociationWidget *assocwidget);
     virtual void adjustAssociations();
 
@@ -175,26 +116,8 @@ private Q_SLOTS:
     void slotShowOperations(bool state);
 
 private:
-
-    /**
-     * Determines the appropriate signature types for both operations and
-     * attributes based on their current state and also based on access.
-     */
     void updateSignatureTypes();
-
-    /**
-     * Calculates the template box dimensions and the position of text
-     * items inside it based on the current size.
-     */
     void calculateTemplateDrawing();
-
-    /**
-     * Calculates the classifier box dimensions and the position of text
-     * items inside it based on the current size.
-     *
-     * @note Assumes calculateTemplateDrawing is called before calling
-     *       this method.
-     */
     void calculateClassifierDrawing();
 
     VisualProperties m_visualProperties;
@@ -225,9 +148,6 @@ private:
     QRectF m_templateRect;
     QLineF m_classifierLines[2];
 
-    /**
-     * Invalidates all dummies used so that they can be recalculated again.
-     */
     void invalidateDummies();
 
     int m_lineItem1Index;

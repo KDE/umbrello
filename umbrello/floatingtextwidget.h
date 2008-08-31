@@ -59,47 +59,17 @@ public:
     virtual ~FloatingTextWidget();
 
     QString text() const;
-
-    /**
-     * Set the main body of text to display.
-     *
-     * @param t The text to display.
-     */
     void setText(const QString &t);
 
     QString preText() const;
-
-    /**
-     * Set some text to be prepended to the main body of text.
-     * @param t The text to prepend to main body which is displayed.
-     */
     void setPreText(const QString &t);
 
     QString postText() const;
-
-    /**
-     * Set some text to be appended to the main body of text.
-     * @param t The text to apppended to main body which is displayed.
-     */
     void setPostText(const QString &t);
 
-    /**
-     * Use to get the total text (prepended + main body + appended)
-     * currently displayed by the widget.
-     */
     QString displayText() const;
 
-    /**
-     * Shows a dialogbox to change text of this widget and also ensures
-     * validity of the set text.
-     */
     void showChangeTextDialog();
-
-    /**
-     * Shows a dialogbox for the user to choose an operation, creates a
-     * new operation if the user enters a new one and updates linkWidget
-     * status.
-     */
     void showOperationDialog();
     virtual void showPropertiesDialog();
 
@@ -107,17 +77,6 @@ public:
     LinkWidget* link() const {
         return m_linkWidget;
     }
-
-    /**
-     * Sets the link widget linked to this FloatingTextWidget to \a link
-     * and also sets the link as its parent.
-     *
-     * @param link The LinkWidget to be linked (0 for removing link)
-     *
-     * @note If link is not null, then this floatingwidget is
-     *       automatically parented to the corresponding linkwidget item
-     *       and hence is made linkWidget's scene's member.
-     */
     void setLink(LinkWidget * l);
 
     /// @return The Text_Role of this FloatingTextWidget.
@@ -143,11 +102,6 @@ protected:
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
-
-    /**
-     * Sets the text for this label if it is acting as a sequence diagram
-     * message or a collaboration diagram message.
-     */
     void setMessageText();
 
 private:

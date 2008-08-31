@@ -241,7 +241,6 @@ public:
      */
     bool contains(NewUMLRectWidget* widget);
 
-    /** Returns true if the Widget is either at the starting or ending side of the association */
     bool contains(const QPointF& point) const {
         return NewUMLWidget::contains(point);
     }

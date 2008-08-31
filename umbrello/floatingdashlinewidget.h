@@ -71,10 +71,6 @@ protected:
 private:
     static const qreal Margin;
 
-    /**
-     * Ensures that the line of this widget satisfies the requirement
-     * yMin < pos().y() < yMax
-     */
     void ensureConstraintRequirement();
 
     /// @ref yMin

@@ -57,16 +57,7 @@ public:
 
     virtual void showPropertiesDialog();
 
-    /**
-     * Open a dialog box to input the state of the widget This box is
-     * shown only if m_objectNodeType = Flow
-     */
 	void askStateForWidget();
-
-    /**
-     * Open a dialog box to select the objectNode type (Data, Buffer or
-     * Flow)
-     */
 	void askForObjectNodeType(NewUMLRectWidget* &targetWidget);
 
 	virtual bool loadFromXMI( QDomElement & qElement );

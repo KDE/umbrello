@@ -39,38 +39,15 @@ class CodeGenStatusPage : public QWizardPage, private Ui::CodeGenStatusPage
 public:
     CodeGenStatusPage(QWidget *parent = 0);
     ~CodeGenStatusPage();
-
-    /**
-     * Reimplemented QWizardPage method to initialize page after clicking next button.
-     */
     void initializePage();
-
-    /**
-     * Reimplemented QWizardPage method the enable / disable the next button.
-     * @return   complete state 
-     */
     bool isComplete() const;
 
 private:
     bool m_generationDone;
       
 protected slots:
-
-    /**
-     * Slot for the generate button. Starts the code generation.
-     */
     void generateCode();
-
-    /**
-     * Updates the status of the code generation in the status table.
-     * @param concept     the class for which the code was generated
-     * @param generated   the status of the generation
-     */
     void classGenerated(UMLClassifier* concept, bool generated);
-
-    /**
-     * Fills the status list with the selected classes for generation.
-     */
     void populateStatusList();
 
 };

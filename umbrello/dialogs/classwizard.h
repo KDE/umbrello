@@ -43,19 +43,8 @@ private:
     QWizardPage        * m_AttributesPage;
     QWizardPage        * m_OperationsPage;
 
-    /**
-     * Create page 1 of wizard - the general class info.
-     */
     QWizardPage* createGeneralPage();
-
-    /**
-     * Create page 2 of wizard - the class attributes editor.
-     */
     QWizardPage* createAttributesPage();
-
-    /**
-     * Create page 3 of wizard - the class operations editor.
-     */
     QWizardPage* createOperationsPage();
 
     void next();
@@ -64,10 +53,6 @@ private:
     void reject();
 
 protected slots:
-
-    /**
-     * Opens Umbrello handbook. Is called when help button is pressed.
-     */
     void showHelp();
 
 };

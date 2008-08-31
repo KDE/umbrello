@@ -273,12 +273,6 @@ public:
 //    Menu_Type getMenuType(KAction* action);
     Menu_Type getMenuType(QAction* action);
 
-    /**
-     * Utility method to fetch owner of the menu.
-     *
-     * @return The owned NewUMLWidget if this menu is owned by a
-     *         widget. Otherwise returns 0.
-     */
     NewUMLWidget *ownerWidget() const;
 
 private:

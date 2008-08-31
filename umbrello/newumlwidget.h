@@ -86,31 +86,9 @@ public:
     UMLObject* umlObject() const {
         return m_umlObject;
     }
-
-    /**
-     * Set the UMLObject for this widget to represent.
-     *
-     * @todo Either remove this method, or allow it to only allow specific
-     *       users as making this method public violates encapsulation.
-     */
     void setUMLObject(UMLObject *obj);
 
-    /**
-     * If this widget represents a UMLObject, the id of that object is
-     * returned. Else the id stored in this widget is returned.
-     *
-     * @return The identifier of this widget.
-     */
     Uml::IDType id() const;
-
-    /**
-     * If this widget represents a UMLObject, the id of that object is set
-     * to \a id. Else the id is stored in this widget.
-     *
-     * This method issues a @ref IDHasChanged notification after setting
-     * the id.
-     * @see NewUMLWidget::attributeChange
-     */
     void setID(Uml::IDType id);
 
 	/// @return The base type rtti info.
@@ -118,138 +96,43 @@ public:
         return m_baseType;
     }
 
-    /**
-     * @return The UMLScene for this widget is returned, or 0 if the
-     *         widget is not stored in a scene.
-     *
-     * @note To add or remove widgets to scene, use UMLScene::addItem
-     */
     UMLScene* umlScene() const;
-
-    /**
-     * This is shortcut method for UMLApp::app()->getDocument()
-     *
-     * @return Pointer to the UMLDoc object.
-     */
     UMLDoc* umlDoc() const;
 
-    /**
-     * If this widget represents a UMLObject, the documentation string
-     * stored in the object is returned. Else the documentation string
-     * stored in the widget is returned.
-     *
-     * @return A string representing the documentation for this widget
-     *         which is usually set by the user.
-     */
     QString documentation() const;
-
-    /**
-     * If this widget represents a UMLObject, the documentation string
-     * of that object is set to \a doc. Else the documentation string
-     * stored in the widget is set to \a doc.
-     *
-     * This method issues a @ref DocumentationHasChanged notification
-     * after setting the new documentation.
-     * @see NewUMLWidget::attributeChange
-     */
     void setDocumentation(const QString& doc);
 
-    /**
-     * If this widget represents a UMLObject, the name string stored
-     * in the object is returned. Else the name string stored in the
-     * widget is returned.
-     *
-     * @return A string representing the name for this widget
-     *         which is usually set by the user.
-     */
     QString name() const;
-
-    /**
-     * If this widget represents a UMLObject, the name string of that
-     * object is set to \a name. Else the name string stored in the
-     * widget is set to \a name.
-     *
-     * This method issues a @ref NameHasChanged notification after setting
-     * the new name.
-     * @see NewUMLWidget::attributeChange
-     */
     void setName(const QString& doc);
 
 	/// @return The color used to draw lines of the widget.
     QColor lineColor() const {
         return m_lineColor;
     }
-
-    /**
-     * Set the linecolor to \a color and updates the widget.
-     * @param color The color to be set
-     *
-     * This method issues a @ref LineColorHasChanged notification after
-     * setting the new line color.
-     * @see NewUMLWidget::attributeChange
-     */
     void setLineColor(const QColor& color);
 
 	/// @return The width of the lines drawn in the widget.
     uint lineWidth() const {
         return m_lineWidth;
     }
-
-    /**
-     * Sets the line width of widget lines to \a lw and calls
-     * updateGeometry() method to let object calculate new bound rect
-     * based on the new line width.
-     *
-     * @param lw  The width of line to be set.
-     *
-     * This method issues @ref LineWidthHasChanged notification after
-     * setting new line width.
-     * @see NewUMLWidget::attributeChange
-     */
     void setLineWidth(uint lw);
 
 	/// @return Font color used to draw font.
     QColor fontColor() const {
         return m_fontColor;
     }
-
-    /**
-     * Sets the color of the font to \a color.
-     * If \a color is invalid, line color is used for font color.
-     *
-     * This method issues @ref FontColorHasChanged notification after
-     * setting the new font color.
-     * @see NewUMLWidget::attributeChange
-     */
     void setFontColor(const QColor& color);
 
 	/// @return The QBrush object used to fill this widget.
     QBrush brush() const {
         return m_brush;
     }
-
-    /**
-     * Sets the QBrush object of this widget to \a brush which is used to
-     * fill this widget.
-     *
-     * This method issues @ref BrushHasChanged notification after setting
-     * the new brush.
-     * @see NewUMLWidget::attributeChange
-     */
     void setBrush(const QBrush& brush);
 
 	/// @return The font used for displaying any text
     QFont font() const {
         return m_font;
     }
-
-    /**
-     * Set the font used to display text inside this widget.
-     *
-     * This method issues @ref FontHasChanged notification after setting
-     * the new font.
-     * @see NewUMLWidget::attributeChange
-     */
     void setFont(const QFont& font);
 
 	/**
@@ -282,18 +165,9 @@ protected Q_SLOTS:
     virtual void slotUMLObjectDataChanged();
 
 private Q_SLOTS:
-
-    /**
-     * This slot is used to intialize the widget, also allowing virtual
-     * methods to be called.
-     */
     void slotInit();
 
 protected:
-
-    /**
-     * Reimplemented to show appropriate context menu.
-     */
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
@@ -303,43 +177,7 @@ protected:
 
     virtual void umlObjectChanged(UMLObject *old);
 
-    /**
-     * This method sets the bounding rectangle of this widget to \a
-     * rect. The bounding rect being set is cached locally for performance
-     * reasons.
-     *
-     * Also the prepareGeometryChange() method is implicitly called to
-     * update QGraphicsScene indexes.
-     *
-     * @param rect The bounding rectangle for this widget.
-     *
-     * @note The bounding rect being set should also be compensated with
-     *       half pen width if the widget is painting an outline/stroke.
-     *
-     * @note Also note that, subclasses reimplementing @ref boundingRect()
-     *       virtual method will not be affected by this method unless the
-     *       subclassed widget explicitly uses it.
-     *
-     * @see Widget_Utils::adjustedBoundingRect
-     */
     void setBoundingRect(const QRectF &rect);
-
-    /**
-     * This method sets the shape of the widget to \a path. The shape of
-     * the widget is cached for performance reasons.
-     *
-     * @param path The shape of this widget. If empty, boundingRect will
-     *             be used as widget shape.
-     *
-     * @see NewUMLWidget::setBoundingRect
-     *
-     * @todo Check the accuracy of this method for non rectangular widgets
-     *       as this doesn't call prepareGeometryChange.
-     *
-     * @note Also note that, subclasses reimplementing @ref shape()
-     *       virtual method will not be affected by this method unless the
-     *       subclassed widget explicitly uses it.
-     */
     void setShape(const QPainterPath& path);
 
     QRectF m_boundingRect;

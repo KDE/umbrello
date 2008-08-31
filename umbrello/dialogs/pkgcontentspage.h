@@ -37,18 +37,10 @@ private:
     QGroupBox * m_contentGB;
     ListPopupMenu * m_menu;
 
-    /**
-     * Fills the list box with the package's contents.
-     */
     void fillListBox();
 
 public slots:
     void slotDoubleClick(QListWidgetItem * item);
-
-    /**
-     * Slot for the context menu by right clicking in the list widget.
-     * @param p   point of the right click inside the list widget
-     */
     void slotShowContextMenu(const QPoint&);
     void slotPopupMenuSel(QAction* action);
 };

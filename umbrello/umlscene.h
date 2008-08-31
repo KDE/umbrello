@@ -1087,15 +1087,6 @@ protected:
     void findMaxBoundingRectangle(const FloatingTextWidget* ft,
                                   qreal& px, qreal& py, qreal& qx, qreal& qy);
 
-    /**
-     * Force the widget font metrics to be updated next time
-     * the widgets are drawn.
-     * This is necessary because the widget size might depend on the
-     * font metrics and the font metrics might change for different
-     * QPainter, i.e. font metrics for Display font and Printer font are
-     * usually different.
-     * Call this when you change the QPainter.
-     */
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
     /**
