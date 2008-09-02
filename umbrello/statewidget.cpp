@@ -304,8 +304,7 @@ QVariant StateWidget::attributeChange(WidgetAttributeChange change, const QVaria
 {
 	if(change == SizeHasChanged && m_stateType == StateWidget::Normal) {
 		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		const qreal m = margin();
-		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+		grp->setGroupGeometry(rect());
 
 		// line after each "line of text" except for the last one
 		// as it is unnecessary to draw line on round rect.

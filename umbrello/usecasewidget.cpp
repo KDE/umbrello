@@ -81,8 +81,7 @@ QVariant UseCaseWidget::attributeChange(WidgetAttributeChange change, const QVar
 {
 	if(change == SizeHasChanged) {
 		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		const qreal m = margin();
-		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+		grp->setGroupGeometry(rect());
 	}
 	return NewUMLRectWidget::attributeChange(change, oldValue);
 }
