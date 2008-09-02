@@ -300,8 +300,9 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
  */
 void CombinedFragmentWidget::updateGeometry()
 {
-    TextItemGroup *grp = textItemGroupAt(TypeBoxIndex);
-    QSizeF minSize = grp->minimumSize();
+    TextItemGroup *typeGroup = textItemGroupAt(TypeBoxIndex);
+    const QSizeF typeGroupSize = typeGroup->minimumSize();
+    QSizeF minSize = typeGroupSize;
 
     // Now ensure that there is enough space for
     // FloatingDashLineWidget in between
@@ -314,9 +315,8 @@ void CombinedFragmentWidget::updateGeometry()
 
     if (combinedFragmentType() == Ref) {
         QSizeF refSize = textItemGroupAt(ReferenceDiagramNameBoxIndex)->minimumSize();
-
         minSize.rwidth() = qMax(minSize.width(), refSize.width());
-        minSize.rheight() += refSize.height();
+        minSize.setHeight(typeGroupSize.height() + qMax(floatingMinSize.height(), refSize.height()));
     }
 
     setMinimumSize(minSize);
@@ -430,9 +430,8 @@ QVariant CombinedFragmentWidget::attributeChange(WidgetAttributeChange change, c
 {
     if (change == SizeHasChanged) {
         TextItemGroup *typeGroup  = textItemGroupAt(TypeBoxIndex);
-        const qreal m = margin();
         const QSizeF typeGroupMinSize = typeGroup->minimumSize();
-        typeGroup->setGroupGeometry(QRectF(QPointF(m, 0), typeGroupMinSize));
+        typeGroup->setGroupGeometry(QRectF(QPointF(0, 0), typeGroupMinSize));
 
         // Calculate lines only if the group has text items in it.
         if (typeGroup->textItemCount() > 0) {
@@ -448,7 +447,7 @@ QVariant CombinedFragmentWidget::attributeChange(WidgetAttributeChange change, c
 
         if (combinedFragmentType() == Ref) {
             TextItemGroup *refDiagNameGroup = textItemGroupAt(ReferenceDiagramNameBoxIndex);
-            QRectF r = rect().adjusted(+m, +m, -m, -m);
+            QRectF r = rect();
             r.setTop(r.top() + typeGroupMinSize.height());
             refDiagNameGroup->setGroupGeometry(r);
         }
