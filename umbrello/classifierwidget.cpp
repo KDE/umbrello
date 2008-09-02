@@ -411,13 +411,8 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*,
     painter->setBrush(brush());
 
     if (shouldDrawAsCircle()) {
-        // m_classifierRect represents rectangle within which the
-        // circle should be drawn. We have to calculate sane dimension
-        // and position of this circle.
-        qreal radius = qMin(m_classifierRect.width(), m_classifierRect.height());
-        QRectF circle(.5 * (width() - radius), 0, radius, radius);
-
-        painter->drawEllipse(circle);
+        // m_classifierRect represents circle geometry when shouldDrawAsCircle is true.
+        painter->drawEllipse(m_classifierRect);
     }
     else {
         // The elements not to be drawn will have null dimension and
@@ -445,9 +440,11 @@ void ClassifierWidget::updateGeometry()
     QSizeF classifierMinSize = textItemGroupAt(ClassifierGroupIndex)->minimumSize();
 
     if (shouldDrawAsCircle()) {
-        totalMinSize.setWidth(qMax(classifierMinSize.width(), ClassifierWidget::CircleMinimumRadius));
-        totalMinSize.setHeight(classifierMinSize.height() + 2 * ClassifierWidget::CircleMinimumRadius);
+        qreal minDiameter = 2 * ClassifierWidget::CircleMinimumRadius;
+        totalMinSize.setWidth(qMax(classifierMinSize.width(), minDiameter));
+        totalMinSize.setHeight(classifierMinSize.height() + minDiameter);
         setMinimumSize(totalMinSize);
+        NewUMLRectWidget::updateGeometry();
         return;
     }
 
@@ -527,10 +524,11 @@ void ClassifierWidget::calculateClassifierDrawing()
         // Allocates circle space algined at top and "minimum space"
         // for the text which is aligned bottom.
         qreal fontHeight = classifierGroup->minimumSize().height();
-        m_classifierRect = rect();
-        m_classifierRect.setBottom(m_classifierRect.bottom() - fontHeight);
+        qreal diameter = qMin(w, h - fontHeight);
+        m_classifierRect.setRect(0, 0, diameter, diameter);
+        m_classifierRect.moveCenter(QPointF(.5 * w, m_classifierRect.center().y()));
 
-        QRectF groupRect(0, m_classifierRect.bottom(), w, fontHeight);
+        QRectF groupRect(0, diameter, w, h - diameter);
         classifierGroup->setGroupGeometry(groupRect);
         m_classifierLines[0] = m_classifierLines[1] = QLineF();
     }
@@ -649,7 +647,7 @@ void ClassifierWidget::updateTextItemGroups()
     // Setup line and dummies.
     if (!showNameOnly) {
         // Stuff in a dummy item as spacer if there are no attributes,
-        if (attribList.isEmpty() || !visualProperty(ShowAttributes)) {
+        if ((attribList.isEmpty() || !visualProperty(ShowAttributes)) && !shouldDrawAsCircle()) {
             m_dummyAttributeItem = new TextItem(dummyText);
             classifierGroup->insertTextItemAt(attribStartIndex, m_dummyAttributeItem);
             m_lineItem2Index = attribStartIndex;
@@ -679,7 +677,7 @@ void ClassifierWidget::updateTextItemGroups()
     m_operationExpanderBox->setExpanded(visualProperty(ShowOperations));
     m_operationExpanderBox->setVisible(!visualProperty(DrawAsCircle));
 
-    if (!showNameOnly && opList.isEmpty()) {
+    if (!showNameOnly && opList.isEmpty() && !shouldDrawAsCircle()) {
         m_dummyOperationItem = new TextItem(dummyText);
         classifierGroup->insertTextItemAt(opStartIndex, m_dummyOperationItem);
     }
