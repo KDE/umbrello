@@ -250,8 +250,7 @@ QVariant NoteWidget::attributeChange(WidgetAttributeChange change, const QVarian
 {
     if(change == SizeHasChanged) {
 		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		const qreal m = margin();
-		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+		grp->setGroupGeometry(rect());
 	}
 	else if(change == DocumentationHasChanged) {
 		updateTextItemGroups();
