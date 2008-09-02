@@ -26,8 +26,6 @@
 #include <QtGui/QStyleOptionGraphicsItem>
 #include <QtGui/QPainterPathStroker>
 
-const qreal FloatingDashLineWidget::Margin = 5.;
-
 /**
  * Constructs a horizontal FloatingDashLineWidget which is used in
  * CombinedFragmentWidget.
@@ -55,7 +53,7 @@ FloatingDashLineWidget::~FloatingDashLineWidget()
 void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                                    QWidget *)
 {
-    QLineF line(0, 0, size().width(), 0);
+    QLineF line(0, 0, width(), 0);
 
     QPen pen = QPen(lineColor(), lineWidth(), Qt::DashLine);
     painter->setPen(pen);
@@ -208,7 +206,7 @@ QVariant FloatingDashLineWidget::attributeChange(WidgetAttributeChange change, c
 {
     if (change == SizeHasChanged) {
         TextItemGroup *grp = textItemGroupAt(0);
-        const QRectF grpRect(QPointF(Margin, Margin), grp->minimumSize());
+        const QRectF grpRect(QPointF(0, 0), grp->minimumSize());
         grp->setGroupGeometry(grpRect);
 
         QRectF boundRect = boundingRect();
@@ -219,7 +217,7 @@ QVariant FloatingDashLineWidget::attributeChange(WidgetAttributeChange change, c
 
         QPainterPath shape;
         shape.moveTo(QPointF(0, 0));
-        shape.lineTo(QPointF(size().width(), 0));
+        shape.lineTo(QPointF(width(), 0));
 
         QPainterPathStroker stroker;
         stroker.setWidth(lineWidth() + 5);

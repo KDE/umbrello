@@ -905,9 +905,6 @@ void UMLScene::removeWidget(NewUMLRectWidget * o)
         checkMessages(static_cast<ObjectWidget*>(o));
 
     o->cleanup();
-    disconnect(this, SIGNAL(sigRemovePopupMenu()), o, SLOT(slotRemovePopupMenu()));
-    disconnect(this, SIGNAL(sigClearAllSelected()), o, SLOT(slotClearAllSelected()));
-    disconnect(this, SIGNAL(sigColorChanged(Uml::IDType)), o, SLOT(slotColorChanged(Uml::IDType)));
     if (t == wt_Message) {
         m_MessageList.removeAll(static_cast<MessageWidget*>(o));
     } else

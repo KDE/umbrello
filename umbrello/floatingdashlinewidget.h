@@ -61,8 +61,6 @@ protected:
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
-    static const qreal Margin;
-
     void ensureConstraintRequirement();
 
     /// @ref yMin
