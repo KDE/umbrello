@@ -61,13 +61,13 @@ public:
 	QSizeF minimumSize() const {
 		return m_minimumSize;
 	}
-	void setMinimumSize(const QSizeF& newSize, SizeHintOption option = AddMargin);
+	void setMinimumSize(const QSizeF& newSize, SizeHintOption option = DontAddMargin);
 
 	/// @return The maximum size for this widget.
 	QSizeF maximumSize() const {
 		return m_maximumSize;
 	}
-	void setMaximumSize(const QSizeF& newSize, SizeHintOption option = AddMargin);
+	void setMaximumSize(const QSizeF& newSize, SizeHintOption option = DontAddMargin);
 
 	/// @return The current size of this widget.
     QSizeF size() const {

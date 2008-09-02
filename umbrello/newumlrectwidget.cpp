@@ -68,7 +68,6 @@ NewUMLRectWidget::~NewUMLRectWidget()
  *
  * @param option Adds (2 * margin()) to the size if
  *               "option = AddMargin". Otherwise adds nothing.
- *               Default value = AddMargin.
  *
  * This method only sets the variable m_minimumSize and doesn't update
  * the geometry. The geometry should be explicitly updated using
@@ -92,7 +91,6 @@ void NewUMLRectWidget::setMinimumSize(const QSizeF& newSize, SizeHintOption opti
  *
  * @param option Adds (2 * margin()) to the size if
  *               "option = AddMargin". Otherwise adds nothing.
- *               Default value = AddMargin.
  *
  * This method only sets the variable m_maximumSize and doesn't update
  * the geometry. The geometry should be explicitly updated using
