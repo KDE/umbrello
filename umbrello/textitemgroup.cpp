@@ -182,8 +182,10 @@ void TextItemGroup::setGroupGeometry(const QRectF& rect)
     qreal x = rect.left() + m_margin;
     qreal y = (rect.top() + m_margin) + spacing;
 
+
+    qreal textWidth = rect.width() - 2 * margin();
     foreach(TextItem *item, visibleItems) {
-        item->setTextWidth(rect.width());
+        item->setTextWidth(textWidth);
         item->setPos(x, y);
         y += item->height() + spacing;
     }
