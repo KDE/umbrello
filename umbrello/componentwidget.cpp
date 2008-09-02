@@ -79,8 +79,7 @@ void ComponentWidget::updateGeometry()
 		minSize.setHeight(minHeight);
 	}
 
-	// Note: Adds 2 * margin() to both width and height!
-	setMinimumSize(minSize);
+	setMinimumSize(minSize, NewUMLRectWidget::AddMargin);
 
 	NewUMLRectWidget::updateGeometry();
 }

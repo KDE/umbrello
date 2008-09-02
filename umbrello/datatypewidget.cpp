@@ -98,8 +98,7 @@ QVariant DatatypeWidget::attributeChange(WidgetAttributeChange change, const QVa
 {
     if(change == SizeHasChanged) {
 		TextItemGroup *grp = textItemGroupAt(DatatypeWidget::GroupIndex);
-		const qreal m = margin();
-		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+		grp->setGroupGeometry(rect());
 	}
     return NewUMLRectWidget::attributeChange(change, oldValue);
 }
