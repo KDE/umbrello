@@ -293,11 +293,10 @@ QVariant ObjectNodeWidget::attributeChange(WidgetAttributeChange change, const Q
 {
 	if(change == SizeHasChanged) {
 		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		const qreal m = margin();
-		grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+		grp->setGroupGeometry(rect());
 
 		// Calculate only if text items are properly intialized (which
-		// is not case during creation)
+		// is not during construction of this Widget)
 		if (grp->textItemCount() > 0) {
 			if (m_objectNodeType == ObjectNodeWidget::Flow) {
 				const TextItem *item = grp->textItemAt(0);
