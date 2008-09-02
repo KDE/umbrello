@@ -382,19 +382,17 @@ void ObjectWidget::slotMenuSelection(QAction* action)
 void ObjectWidget::updateGeometry()
 {
     TextItemGroup *grp = textItemGroupAt(0);
+    grp->setMargin(m_drawAsActor ? 0 : margin());
     QSizeF minSize = grp->minimumSize();
-    setMargin(5);
     if (m_drawAsActor) {
         minSize.rheight() += ObjectWidget::ActorSize.height();
         if (minSize.width() < ObjectWidget::ActorSize.width()) {
             minSize.setWidth(ObjectWidget::ActorSize.width());
         }
-        setMargin(0);
     }
     setMinimumSize(minSize);
     setMaximumSize(QSizeF(NewUMLRectWidget::DefaultMaximumSize.width(),
                           minSize.height()));
-
     NewUMLRectWidget::updateGeometry();
 }
 
@@ -431,7 +429,6 @@ QVariant ObjectWidget::attributeChange(WidgetAttributeChange change, const QVari
 {
     if (change == SizeHasChanged) {
         const QSizeF curSize = size();
-        const qreal m = margin();
         const QRectF r = rect();
 
         TextItemGroup *grp = textItemGroupAt(0);
@@ -450,8 +447,8 @@ QVariant ObjectWidget::attributeChange(WidgetAttributeChange change, const QVari
         m_objectWidgetPath = QPainterPath();
 
         if (m_drawAsActor) {
-            QRectF grpRect(+m, curSize.height() - grpSize.height() - 2 * m,
-                           curSize.width() - 2  * m, grpSize.height());
+            QRectF grpRect(0, curSize.height() - grpSize.height(),
+                           curSize.width(), grpSize.height());
             grp->setGroupGeometry(grpRect);
 
             // NOTE: Copy-pasted from ActorWidget::attributeChange!!
@@ -461,7 +458,7 @@ QVariant ObjectWidget::attributeChange(WidgetAttributeChange change, const QVari
             qreal actorWidth = ActorSize.width();
 
             QRectF headEllipse;
-            headEllipse.setTopLeft(QPointF(.5 * (curSize.width() - actorWidth), m));
+            headEllipse.setTopLeft(QPointF(.5 * (curSize.width() - actorWidth), 0));
             headEllipse.setSize(QSizeF(actorWidth, actorHeight / 3));
             m_objectWidgetPath.addEllipse(headEllipse);
 
@@ -487,7 +484,7 @@ QVariant ObjectWidget::attributeChange(WidgetAttributeChange change, const QVari
         }
         else {
             // Utilize entire space for text
-            grp->setGroupGeometry(r.adjusted(+m, +m, -m, -m));
+            grp->setGroupGeometry(r);
             m_objectWidgetPath.addRect(r);
         }
     } // End if(change == SizeHasChanged)
