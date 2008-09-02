@@ -72,8 +72,7 @@ void NodeWidget::updateGeometry()
 	TextItemGroup *grp = textItemGroupAt(GroupIndex);
 	QSizeF minSize = grp->minimumSize();
 
-	const qreal m = 2 * margin(); // This will be added by setMinimumSize call
-	minSize += QSizeF(m, m) + QSizeF(NodeWidget::DEPTH, NodeWidget::DEPTH);
+	minSize += QSizeF(NodeWidget::DEPTH, NodeWidget::DEPTH);
 
 	setMinimumSize(minSize);
 
@@ -125,7 +124,6 @@ QVariant NodeWidget::attributeChange(WidgetAttributeChange change, const QVarian
 		TextItemGroup *grp = textItemGroupAt(GroupIndex);
 		m_nodeWidgetPath = QPainterPath(); // reset path
 
-		const qreal m = margin();
 		const qreal w = size().width();
 		const qreal h = size().height();
 		const qreal wDepth = qMin(w/3, NodeWidget::DEPTH);
@@ -151,7 +149,6 @@ QVariant NodeWidget::attributeChange(WidgetAttributeChange change, const QVarian
 		m_nodeWidgetPath.moveTo(line.p1());
 		m_nodeWidgetPath.lineTo(line.p2());
 
-		bodyRect.adjust(+m, +m, -m, -m);
 		grp->setGroupGeometry(bodyRect);
 	}
 
