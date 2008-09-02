@@ -82,6 +82,25 @@ qreal PreconditionWidget::maxY() const
 }
 
 /**
+ * This is a utility method to align the PreconditionWidget to center
+ * of ObjectLine as well as ensure the presence of widget well with
+ * ObjectLine vertical dimentsion.
+ */
+void PreconditionWidget::alignToObjectLine()
+{
+    QPointF newPos = pos();
+    if (m_objectWidget) {
+        QRectF objectRect = m_objectWidget->rect();
+        newPos.setX(objectRect.center().x() - .5 * size().width());
+    }
+
+    newPos.ry() = qMax(newPos.y(), minY());
+    newPos.ry() = qMin(newPos.y(), maxY());
+
+    setPos(newPos);
+}
+
+/**
  * Reimplemented from NewUMLRectWidget::paint to draw the rounded
  * rect. The text is drawn by the TextItem.
  */
@@ -170,10 +189,7 @@ void PreconditionWidget::updateTextItemGroups()
 QVariant PreconditionWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
     if (change == SizeHasChanged) {
-        const qreal m = margin();
-        QRectF r = rect();
-        r.adjust(+m, +m, -m, -m);
-        textItemGroupAt(0)->setGroupGeometry(r);
+        textItemGroupAt(0)->setGroupGeometry(rect());
 
         // Center the precondtion widget horizontally on sequential line.
         if (m_objectWidget) {

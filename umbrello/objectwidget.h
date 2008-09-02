@@ -71,6 +71,8 @@ public:
     qreal lineEndYInParentCoords() const;
     void setLineEndY(qreal yPosition);
 
+    void alignPreconditionWidgets();
+
     qreal sequentialLineX() const;
 
     void messageAdded(MessageWidget* message);

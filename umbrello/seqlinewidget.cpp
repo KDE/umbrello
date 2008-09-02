@@ -98,6 +98,10 @@ void SeqLineWidget::setLength(qreal len)
     m_sequentialLine.setP1(QPointF(0, 0));
     m_sequentialLine.setP2(QPointF(0, m_length));
 
+    if (m_objectWidget) {
+        m_objectWidget->alignPreconditionWidgets();
+    }
+
     updateDestructionBoxVisibility();
 }
 

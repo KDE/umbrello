@@ -16,6 +16,7 @@
 #include "dialogs/classpropdlg.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
+#include "preconditionwidget.h"
 #include "seqlinewidget.h"
 #include "textitem.h"
 #include "textitemgroup.h"
@@ -169,6 +170,19 @@ void ObjectWidget::setLineEndY(qreal yPosition)
 {
     if (m_sequentialLine) {
         m_sequentialLine->setEndOfLine(yPosition);
+    }
+}
+
+/**
+ * Aligns all the PreconditionWidgets belonging to this widget.
+ */
+void ObjectWidget::alignPreconditionWidgets()
+{
+    foreach (QGraphicsItem *item, childItems()) {
+        PreconditionWidget *pre = dynamic_cast<PreconditionWidget*>(item);
+        if (pre) {
+            pre->alignToObjectLine();
+        }
     }
 }
 
@@ -438,9 +452,11 @@ QVariant ObjectWidget::attributeChange(WidgetAttributeChange change, const QVari
         if (m_sequentialLine) {
             m_sequentialLine->setPos(r.center().x(), r.bottom());
         }
-        foreach(MessageWidget *msg, m_messages) {
+        foreach (MessageWidget *msg, m_messages) {
             msg->handleObjectMove(this);
         }
+
+        alignPreconditionWidgets();
         // Now update text position and also the path.
 
         // Reset the path

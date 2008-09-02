@@ -38,6 +38,7 @@ public:
     qreal minY() const;
     qreal maxY() const;
 
+    void alignToObjectLine();
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *w);
 
     virtual bool loadFromXMI( QDomElement & qElement );
