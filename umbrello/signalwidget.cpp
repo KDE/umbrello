@@ -25,7 +25,7 @@
 #include <QtGui/QPolygonF>
 
 /// Minimum size for signal widget.
-const QSizeF SignalWidget::MinimumSize(45,15);
+const QSizeF SignalWidget::MinimumSize(50, 50);
 
 /**
  * Creates a Signal widget.
@@ -138,25 +138,24 @@ void SignalWidget::slotMenuSelection(QAction* action)
 void SignalWidget::updateGeometry()
 {
 	QSizeF minSize = textItemGroupAt(GroupIndex)->minimumSize();
-	if(minSize.width() < SignalWidget::MinimumSize.width()) {
+	if (minSize.width() < SignalWidget::MinimumSize.width()) {
 		minSize.setWidth(SignalWidget::MinimumSize.width());
 	}
-	// We need 1/3rd part for the rotated 'V' shape.
-	if(m_signalType == SignalWidget::Accept) {
+
+	if (m_signalType == SignalWidget::Accept) {
+        // We need 1/3rd part for the '>' shape.(hollow or convex)
 		minSize.rwidth() += minSize.width() / 3 + margin();
 	}
-
-	// In case of SignalWidget::Time add minimum height to calculated
-	// as the text appears below drawing.
-	if(m_signalType == SignalWidget::Time) {
+    else if (m_signalType == SignalWidget::Send) {
+        // Add one third for the '>' shape.
+        minSize.rwidth() += minSize.width() / 3 + margin();
+    }
+    else if (m_signalType == SignalWidget::Time) {
+        // In case of SignalWidget::Time add minimum height to
+        // calculated as the text appears below drawing.
 		minSize.rheight() += SignalWidget::MinimumSize.height();
 	}
-	else {
-		// Otherwise assure minimum height >= MinimumSize.height()
-		if(minSize.height() < SignalWidget::MinimumSize.height()) {
-			minSize.setHeight(SignalWidget::MinimumSize.height());
-		}
-	}
+
 	setMinimumSize(minSize);
 
 	NewUMLRectWidget::updateGeometry();
@@ -187,51 +186,65 @@ QVariant SignalWidget::attributeChange(WidgetAttributeChange change, const QVari
 	if (change == SizeHasChanged) {
 		QSizeF sz = size();
 		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+        const QSizeF grpMinSize = grp->minimumSize();
 		const qreal m = margin();
 		m_signalPath = QPainterPath(); // reset path
 
 		if (m_signalType == SignalWidget::Send) {
 			QPolygonF poly;
+
+            qreal vShapeWidth = sz.width() - grpMinSize.width();
+            // Ensure atmost one third of space is available at the
+            // right end for '>' shape.
+            vShapeWidth = qMin(vShapeWidth, sz.width() / 3.0);
+            qreal textWidth = sz.width() - vShapeWidth;
+
 			poly << QPointF(0,0)
-				 << QPointF((sz.width() * 2) / 3, 0)
+				 << QPointF(textWidth, 0)
 				 << QPointF(sz.width(), 0.5 * sz.height())
-				 << QPointF(sz.width() * 2 / 3., sz.height())
+				 << QPointF(textWidth, sz.height())
 				 << QPointF(0, sz.height())
 				 << QPointF(0, 0);
 
 			m_signalPath.addPolygon(poly);
-			grp->setGroupGeometry(rect().adjusted(+m, +m, -m, -m));
+
+            QRectF grpRect = rect();
+            grpRect.setRight(textWidth);
+			grp->setGroupGeometry(grpRect);
 		}
 		else if (m_signalType == SignalWidget::Accept) {
 			QPolygonF poly;
+
+            // This represents the sharp point of VShape.
+            qreal vShapeX = sz.width() - grpMinSize.width();
+            // VShape is atmost one third of widget width so that it
+            // doesn't look ugly.
+            vShapeX = qMin(vShapeX, sz.width() / 3.);
+
 			poly << QPointF(0, 0)
-				 << QPointF(sz.width() / 3, .5 * sz.height())
+				 << QPointF(vShapeX, .5 * sz.height())
 				 << QPointF(0 , sz.height())
 				 << QPointF(sz.width(), sz.height())
 				 << QPointF(sz.width(), 0)
 				 << QPointF(0, 0);
 
 			m_signalPath.addPolygon(poly);
-			QRectF grpRect(sz.width() / 3, m,
-						   2 * sz.width() / 3, sz.height() - 2 * m);
+			QRectF grpRect(vShapeX, 0,
+						   sz.width() - vShapeX, sz.height());
 			grp->setGroupGeometry(grpRect);
 		}
-		else {
-			qreal grpMinHeight = grp->minimumSize().height();
-			QSizeF polySize(sz.width(),
-							sz.height() - grpMinHeight - 2 * m);
+		else if (m_signalType == SignalWidget::Time) {
+            QRectF polyRect(0, 0, sz.width(), sz.height() - grpMinSize.height());
 			QPolygonF poly;
-			poly << QPointF(0, 0)
-				 << QPointF(polySize.width(), polySize.height())
-				 << QPointF(0,                polySize.height())
-				 << QPointF(polySize.width(), 0)
-				 << QPointF(0, 0);
+			poly << polyRect.topLeft()
+				 << polyRect.bottomRight()
+				 << polyRect.bottomLeft()
+				 << polyRect.topRight()
+				 << polyRect.topLeft();
 
 			m_signalPath.addPolygon(poly);
 
-			QRectF grpRect(m, polySize.height() + m,
-						   polySize.width() - 2 * m,
-						   grpMinHeight);
+			QRectF grpRect(0, polyRect.bottom(), polyRect.width(), grpMinSize.height());
 			grp->setGroupGeometry(grpRect);
         }
 	}
