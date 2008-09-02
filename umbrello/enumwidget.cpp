@@ -165,8 +165,6 @@ QVariant EnumWidget::attributeChange(WidgetAttributeChange change, const QVarian
 {
 	if(change == SizeHasChanged) {
 		QRectF groupGeometry(rect());
-		const qreal m = margin();
-		groupGeometry.adjust(+m, +m, -m, -m);
 
 		TextItemGroup *grp = textItemGroupAt(GroupIndex);
 		grp->setGroupGeometry(groupGeometry);
