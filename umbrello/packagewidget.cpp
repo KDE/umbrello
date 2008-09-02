@@ -81,9 +81,7 @@ void PackageWidget::updateGeometry()
 	if(minSize.width() < 70) {
 		minSize.setWidth(70);
 	}
-	minSize.rheight() += QFontMetricsF(grp->font()).lineSpacing()
-		+ 3 * margin(); // HACK
-
+	minSize.rheight() += QFontMetricsF(grp->font()).lineSpacing();
 	setMinimumSize(minSize);
 
 	NewUMLRectWidget::updateGeometry();
@@ -124,12 +122,7 @@ QVariant PackageWidget::attributeChange(WidgetAttributeChange change, const QVar
 		m_packageTextRect.setTopLeft(QPointF(0, m_topRect.bottom()));
 		m_packageTextRect.setBottomRight(rect().bottomRight());
 
-		QRectF groupGeometry(margin(),
-							 m_packageTextRect.top(),
-							 m_packageTextRect.width() - 2 * margin(),
-							 m_packageTextRect.height());
-
-		grp->setGroupGeometry(groupGeometry);
+		grp->setGroupGeometry(m_packageTextRect);
 	}
 
     return NewUMLRectWidget::attributeChange(change, oldValue);
