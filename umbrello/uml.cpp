@@ -229,7 +229,7 @@ void UMLApp::initActions()
     editPaste = KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
     createStandardStatusBarAction();
     setStandardToolBarMenuEnabled(true);
-    QAction* selectAll = KStandardAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
+    /* QAction* selectAll = */ KStandardAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
     QAction* fileExportDocbook = actionCollection()->addAction("file_export_docbook");
     fileExportDocbook->setText(i18n("&Export model to DocBook"));

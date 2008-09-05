@@ -52,36 +52,36 @@ class NewUMLWidget : public QObject, public QGraphicsItem
 {
     Q_OBJECT;
 public:
-	/**
-	 * This enumeration is used by NewUMLWidget::attributeChange() to
-	 * identify which attribute has changed.
-	 * This is modelled on QGraphicsItem::GraphicsItemChange.
-	 */
-	enum WidgetAttributeChange {
-		// These 3 work only if NewUMLWidget::setters are used , that
-		// is, the notifications arent' sent when UMLObject::setters
-		// are used.
-		IDHasChanged,
-		DocumentationHasChanged,
-		NameHasChanged,
+    /**
+     * This enumeration is used by NewUMLWidget::attributeChange() to
+     * identify which attribute has changed.
+     * This is modelled on QGraphicsItem::GraphicsItemChange.
+     */
+    enum WidgetAttributeChange {
+        // These 3 work only if NewUMLWidget::setters are used , that
+        // is, the notifications arent' sent when UMLObject::setters
+        // are used.
+        IDHasChanged,
+        DocumentationHasChanged,
+        NameHasChanged,
 
-		// Graphical attribute change notification
-		LineColorHasChanged,
-		LineWidthHasChanged,
-		FontColorHasChanged,
-		FontHasChanged,
-		BrushHasChanged,
+        // Graphical attribute change notification
+        LineColorHasChanged,
+        LineWidthHasChanged,
+        FontColorHasChanged,
+        FontHasChanged,
+        BrushHasChanged,
 
-		// Provided by NewUMLRectWidget
-		SizeHasChanged
-	};
+        // Provided by NewUMLRectWidget
+        SizeHasChanged
+    };
 
     explicit NewUMLWidget(UMLObject *object);
     ~NewUMLWidget();
 
-	/**
-	 * @retval The UMLObject represented by this widget
-	 * @retval null if no UMLObject representation.
+    /**
+     * @retval The UMLObject represented by this widget
+     * @retval null if no UMLObject representation.
      */
     UMLObject* umlObject() const {
         return m_umlObject;
@@ -91,7 +91,7 @@ public:
     Uml::IDType id() const;
     void setID(Uml::IDType id);
 
-	/// @return The base type rtti info.
+    /// @return The base type rtti info.
     Uml::Widget_Type baseType() const {
         return m_baseType;
     }
@@ -103,49 +103,49 @@ public:
     void setDocumentation(const QString& doc);
 
     QString name() const;
-    void setName(const QString& doc);
+    void setName(const QString& name);
 
-	/// @return The color used to draw lines of the widget.
+    /// @return The color used to draw lines of the widget.
     QColor lineColor() const {
         return m_lineColor;
     }
     void setLineColor(const QColor& color);
 
-	/// @return The width of the lines drawn in the widget.
+    /// @return The width of the lines drawn in the widget.
     uint lineWidth() const {
         return m_lineWidth;
     }
     void setLineWidth(uint lw);
 
-	/// @return Font color used to draw font.
+    /// @return Font color used to draw font.
     QColor fontColor() const {
         return m_fontColor;
     }
     void setFontColor(const QColor& color);
 
-	/// @return The QBrush object used to fill this widget.
+    /// @return The QBrush object used to fill this widget.
     QBrush brush() const {
         return m_brush;
     }
     void setBrush(const QBrush& brush);
 
-	/// @return The font used for displaying any text
+    /// @return The font used for displaying any text
     QFont font() const {
         return m_font;
     }
     void setFont(const QFont& font);
 
-	/**
-	 * @return The bounding rectangle for this widget.
-	 * @see setBoundingRect
-	 */
+    /**
+     * @return The bounding rectangle for this widget.
+     * @see setBoundingRect
+     */
     QRectF boundingRect() const {
         return m_boundingRect;
     }
-	/**
-	 * @return The shape of this widget.
-	 * @see setShape
-	 */
+    /**
+     * @return The shape of this widget.
+     * @see setShape
+     */
     QPainterPath shape() const {
         return m_shape;
     }
@@ -170,7 +170,7 @@ private Q_SLOTS:
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
     virtual void updateGeometry();

@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -34,11 +33,11 @@ const QSizeF SignalWidget::MinimumSize(50, 50);
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 SignalWidget::SignalWidget(SignalType signalType, Uml::IDType id)
-	: NewUMLRectWidget(0, id)
+    : NewUMLRectWidget(0, id)
 {
     m_baseType = Uml::wt_Signal;
     m_signalType = signalType;
-	createTextItemGroup();
+    createTextItemGroup();
 }
 
 /// Destructor
@@ -51,16 +50,16 @@ SignalWidget::~SignalWidget()
  */
 void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-	painter->setPen(QPen(lineColor(), lineWidth()));
-	painter->setBrush(brush());
-	painter->drawPath(m_signalPath);
+    painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setBrush(brush());
+    painter->drawPath(m_signalPath);
 }
 
 /// Sets the signaltype of widget to \a signalType
 void SignalWidget::setSignalType( SignalType signalType )
 {
     m_signalType = signalType;
-	updateTextItemGroups();
+    updateTextItemGroups();
 }
 
 /**
@@ -81,9 +80,9 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
         return false;
     setName(qElement.attribute( "signalname", "" ));
 
-	setDocumentation(qElement.attribute( "documentation", "" ));
+    setDocumentation(qElement.attribute( "documentation", "" ));
 
-	QString type = qElement.attribute( "signaltype", "" );
+    QString type = qElement.attribute( "signaltype", "" );
     setSignalType((SignalType)type.toInt());
 
    return true;
@@ -112,18 +111,18 @@ void SignalWidget::slotMenuSelection(QAction* action)
     bool ok = false;
     QString text;
 
-	// ListPopupMenu is passed as parent of action
-	ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    // ListPopupMenu is passed as parent of action
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
 
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
         text = KInputDialog::getText( i18n("Enter signal name"),
-									  i18n("Enter the signal name :"),
-									  name(), &ok );
+                                      i18n("Enter the signal name :"),
+                                      name(), &ok );
         if (ok && !text.isEmpty()) {
             setName(text);
-		}
+        }
         break;
 
     default:
@@ -137,15 +136,15 @@ void SignalWidget::slotMenuSelection(QAction* action)
  */
 void SignalWidget::updateGeometry()
 {
-	QSizeF minSize = textItemGroupAt(GroupIndex)->minimumSize();
-	if (minSize.width() < SignalWidget::MinimumSize.width()) {
-		minSize.setWidth(SignalWidget::MinimumSize.width());
-	}
+    QSizeF minSize = textItemGroupAt(GroupIndex)->minimumSize();
+    if (minSize.width() < SignalWidget::MinimumSize.width()) {
+        minSize.setWidth(SignalWidget::MinimumSize.width());
+    }
 
-	if (m_signalType == SignalWidget::Accept) {
+    if (m_signalType == SignalWidget::Accept) {
         // We need 1/3rd part for the '>' shape.(hollow or convex)
-		minSize.rwidth() += minSize.width() / 3 + margin();
-	}
+        minSize.rwidth() += minSize.width() / 3 + margin();
+    }
     else if (m_signalType == SignalWidget::Send) {
         // Add one third for the '>' shape.
         minSize.rwidth() += minSize.width() / 3 + margin();
@@ -153,12 +152,12 @@ void SignalWidget::updateGeometry()
     else if (m_signalType == SignalWidget::Time) {
         // In case of SignalWidget::Time add minimum height to
         // calculated as the text appears below drawing.
-		minSize.rheight() += SignalWidget::MinimumSize.height();
-	}
+        minSize.rheight() += SignalWidget::MinimumSize.height();
+    }
 
-	setMinimumSize(minSize);
+    setMinimumSize(minSize);
 
-	NewUMLRectWidget::updateGeometry();
+    NewUMLRectWidget::updateGeometry();
 }
 
 /**
@@ -167,13 +166,13 @@ void SignalWidget::updateGeometry()
  */
 void SignalWidget::updateTextItemGroups()
 {
-	TextItemGroup *grp = textItemGroupAt(GroupIndex);
-	grp->setTextItemCount(1); // Only name item
+    TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    grp->setTextItemCount(1); // Only name item
 
-	TextItem *nameItem = grp->textItemAt(0);
-	nameItem->setText(name());
+    TextItem *nameItem = grp->textItemAt(0);
+    nameItem->setText(name());
 
-	NewUMLRectWidget::updateTextItemGroups();
+    NewUMLRectWidget::updateTextItemGroups();
 }
 
 /**
@@ -183,15 +182,14 @@ void SignalWidget::updateTextItemGroups()
  */
 QVariant SignalWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-	if (change == SizeHasChanged) {
-		QSizeF sz = size();
-		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    if (change == SizeHasChanged) {
+        QSizeF sz = size();
+        TextItemGroup *grp = textItemGroupAt(GroupIndex);
         const QSizeF grpMinSize = grp->minimumSize();
-		const qreal m = margin();
-		m_signalPath = QPainterPath(); // reset path
+        m_signalPath = QPainterPath(); // reset path
 
-		if (m_signalType == SignalWidget::Send) {
-			QPolygonF poly;
+        if (m_signalType == SignalWidget::Send) {
+            QPolygonF poly;
 
             qreal vShapeWidth = sz.width() - grpMinSize.width();
             // Ensure atmost one third of space is available at the
@@ -199,21 +197,21 @@ QVariant SignalWidget::attributeChange(WidgetAttributeChange change, const QVari
             vShapeWidth = qMin(vShapeWidth, sz.width() / 3.0);
             qreal textWidth = sz.width() - vShapeWidth;
 
-			poly << QPointF(0,0)
-				 << QPointF(textWidth, 0)
-				 << QPointF(sz.width(), 0.5 * sz.height())
-				 << QPointF(textWidth, sz.height())
-				 << QPointF(0, sz.height())
-				 << QPointF(0, 0);
+            poly << QPointF(0,0)
+                 << QPointF(textWidth, 0)
+                 << QPointF(sz.width(), 0.5 * sz.height())
+                 << QPointF(textWidth, sz.height())
+                 << QPointF(0, sz.height())
+                 << QPointF(0, 0);
 
-			m_signalPath.addPolygon(poly);
+            m_signalPath.addPolygon(poly);
 
             QRectF grpRect = rect();
             grpRect.setRight(textWidth);
-			grp->setGroupGeometry(grpRect);
-		}
-		else if (m_signalType == SignalWidget::Accept) {
-			QPolygonF poly;
+            grp->setGroupGeometry(grpRect);
+        }
+        else if (m_signalType == SignalWidget::Accept) {
+            QPolygonF poly;
 
             // This represents the sharp point of VShape.
             qreal vShapeX = sz.width() - grpMinSize.width();
@@ -221,35 +219,35 @@ QVariant SignalWidget::attributeChange(WidgetAttributeChange change, const QVari
             // doesn't look ugly.
             vShapeX = qMin(vShapeX, sz.width() / 3.);
 
-			poly << QPointF(0, 0)
-				 << QPointF(vShapeX, .5 * sz.height())
-				 << QPointF(0 , sz.height())
-				 << QPointF(sz.width(), sz.height())
-				 << QPointF(sz.width(), 0)
-				 << QPointF(0, 0);
+            poly << QPointF(0, 0)
+                 << QPointF(vShapeX, .5 * sz.height())
+                 << QPointF(0 , sz.height())
+                 << QPointF(sz.width(), sz.height())
+                 << QPointF(sz.width(), 0)
+                 << QPointF(0, 0);
 
-			m_signalPath.addPolygon(poly);
-			QRectF grpRect(vShapeX, 0,
-						   sz.width() - vShapeX, sz.height());
-			grp->setGroupGeometry(grpRect);
-		}
-		else if (m_signalType == SignalWidget::Time) {
-            QRectF polyRect(0, 0, sz.width(), sz.height() - grpMinSize.height());
-			QPolygonF poly;
-			poly << polyRect.topLeft()
-				 << polyRect.bottomRight()
-				 << polyRect.bottomLeft()
-				 << polyRect.topRight()
-				 << polyRect.topLeft();
-
-			m_signalPath.addPolygon(poly);
-
-			QRectF grpRect(0, polyRect.bottom(), polyRect.width(), grpMinSize.height());
-			grp->setGroupGeometry(grpRect);
+            m_signalPath.addPolygon(poly);
+            QRectF grpRect(vShapeX, 0,
+                           sz.width() - vShapeX, sz.height());
+            grp->setGroupGeometry(grpRect);
         }
-	}
+        else if (m_signalType == SignalWidget::Time) {
+            QRectF polyRect(0, 0, sz.width(), sz.height() - grpMinSize.height());
+            QPolygonF poly;
+            poly << polyRect.topLeft()
+                 << polyRect.bottomRight()
+                 << polyRect.bottomLeft()
+                 << polyRect.topRight()
+                 << polyRect.topLeft();
 
-	return NewUMLRectWidget::attributeChange(change, oldValue);
+            m_signalPath.addPolygon(poly);
+
+            QRectF grpRect(0, polyRect.bottom(), polyRect.width(), grpMinSize.height());
+            grp->setGroupGeometry(grpRect);
+        }
+    }
+
+    return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 #include "signalwidget.moc"
