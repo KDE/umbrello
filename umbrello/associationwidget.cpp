@@ -88,11 +88,10 @@ AssociationWidget::AssociationWidget(UMLScene *scene, NewUMLRectWidget* pWidgetA
                 UMLAssociation * myAssoc = m_umldoc->findAssociation( assocType, umlRoleA, umlRoleB, &swap );
                 if (myAssoc != NULL) {
                     if (assocType == at_Generalization) {
-                        uDebug() << " Ignoring second construction of same generalization"
-                        << endl;
+                        uDebug() << " Ignoring second construction of same generalization";
                     } else {
                         uDebug() << " constructing a similar or exact same assoc " <<
-                        "as an already existing assoc (swap=" << swap << ")" << endl;
+                        "as an already existing assoc (swap=" << swap << ")";
                         // now, just create a new association anyways
                         myAssoc = NULL;
                     }
@@ -421,7 +420,6 @@ void AssociationWidget::setName(const QString &strName)
 
     setTextPosition( tr_Name );
     if (newLabel) {
-        m_pName->setActivated();
         umlScene()->addWidget(m_pName);
     }
 
@@ -638,7 +636,6 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Rol
         }
         m_role[role].m_pChangeWidget->setText(strChangeWidget);
     }
-    m_role[role].m_pChangeWidget->setActivated();
 
     if (newLabel) {
         setTextPosition( tr );
@@ -708,7 +705,7 @@ bool AssociationWidget::activate()
         UMLAssociation::assocTypeHasUMLRepresentation(m_AssocType)) {
         UMLObject *myObj = m_umldoc->findObjectById(getID());
         if (myObj == NULL) {
-            uError() << "cannot find UMLObject " << ID2STR(getID()) << endl;
+            uError() << "cannot find UMLObject " << ID2STR(getID());
             return false;
         } else {
             const Uml::Object_Type ot = myObj->getBaseType();
@@ -1066,7 +1063,7 @@ Uml::IDType AssociationWidget::getWidgetID(Uml::Role_Type role) const
             UMLAssociation *umla = static_cast<UMLAssociation*>(umlObject());
             return umla->getObjectId(role);
         }
-        uError() << "m_pWidget is NULL" << endl;
+        uError() << "m_pWidget is NULL";
         return Uml::id_None;
     }
     if (m_role[role].m_pWidget->getBaseType() == Uml::wt_Object)
@@ -1134,13 +1131,12 @@ void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * me)
             uDebug() << "segStart=(" << segStart.x() << "," << segStart.y()
                   << "), segEnd=(" << segEnd.x() << "," << segEnd.y()
                   << "), midSeg=(" << midSegX << "," << midSegY
-                  << "), mp=(" << mp.x() << "," << mp.y() << ")"
-                  << endl;
+                  << "), mp=(" << mp.x() << "," << mp.y() << ")";
              */
             if (midSegX > mp.x() || midSegY < mp.y()) {
                 m_nLinePathSegmentIndex++;
                 uDebug() << "setting m_nLinePathSegmentIndex to "
-                    << m_nLinePathSegmentIndex << endl;
+                    << m_nLinePathSegmentIndex;
                 computeAssocClassLine();
             }
         }
@@ -1185,8 +1181,7 @@ void AssociationWidget::moveEvent(QMoveEvent* me)
         //->avoid movement during opening
         //->print warn and stay at old position
         uWarning() << "called during load of XMI for ViewType: "
-            << umlScene()->getType() << ", and BaseType: " << getBaseType()
-            << endl;
+            << umlScene()->getType() << ", and BaseType: " << getBaseType();
         return;
     }
     /*to be here a line segment has moved.
@@ -1529,7 +1524,7 @@ void AssociationWidget::widgetMoved(NewUMLRectWidget* widget, qreal x, qreal y )
         //->avoid movement during opening
         //->print warn and stay at old position
         uDebug() << "called during load of XMI for ViewType: " << umlScene()->getType()
-            << ", and BaseType: " << getBaseType() << endl;
+            << ", and BaseType: " << getBaseType();
         return;
     }
 
@@ -2082,7 +2077,7 @@ QPointF AssociationWidget::calculateTextPosition(Uml::Text_Role role)
         q = m_LinePath.getPoint(lastSegment - 1);
         pWidget = m_role[B].m_pWidget;
     } else if (role != tr_Name) {
-        uError() << "called with unsupported Text_Role " << role << endl;
+        uError() << "called with unsupported Text_Role " << role;
         return QPointF(-1, -1);
     }
 
@@ -2227,7 +2222,7 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY,
             }
             break;
         default:
-            uError() << "unexpected Text_Role " << tr << endl;
+            uError() << "unexpected Text_Role " << tr;
             return;
             break;
     }
@@ -2394,9 +2389,8 @@ void AssociationWidget::setTextPosition(Uml::Text_Role role)
     if ( (x < 0 || x > FloatingTextWidget::restrictPositionMax) ||
             (y < 0 || y > FloatingTextWidget::restrictPositionMax) ) {
         uDebug() << "(x=" << x << " , y=" << y << ") "
-        << "- was blocked because at least one value is out of bounds: ["
-        << "0 ... " << FloatingTextWidget::restrictPositionMax << "]"
-        << endl;
+            << "- was blocked because at least one value is out of bounds: ["
+            << "0 ... " << FloatingTextWidget::restrictPositionMax << "]";
         return;
     }
     ft->setX( x );
@@ -2437,7 +2431,7 @@ void AssociationWidget::setTextPositionRelatively(Uml::Text_Role role, const QPo
             (ftY < 0 || ftY > FloatingTextWidget::restrictPositionMax) ) {
         uDebug() << "blocked because the FloatingTextWidget original position ("
             << ftX << "," << ftY << " is out of bounds: [0 ... "
-            << FloatingTextWidget::restrictPositionMax << "]" << endl;
+            << FloatingTextWidget::restrictPositionMax << "]";
         return;
     }
     QPointF pos = calculateTextPosition(role);
@@ -2449,7 +2443,7 @@ void AssociationWidget::setTextPositionRelatively(Uml::Text_Role role, const QPo
             (ftNewY < 0 || ftNewY > FloatingTextWidget::restrictPositionMax) ) {
         uDebug() << "blocked because the FloatingTextWidget new position ("
             << ftNewX << "," << ftNewY << " is out of bounds: [0 ... "
-            << FloatingTextWidget::restrictPositionMax << "]" << endl;
+            << FloatingTextWidget::restrictPositionMax << "]";
         return;
     }
     bool oldIgnoreSnapToGrid = ft->getIgnoreSnapToGrid();
@@ -2528,7 +2522,7 @@ void AssociationWidget::computeAssocClassLine()
     if (m_pAssocClassWidget == NULL || m_pAssocClassLine == NULL)
         return;
     if (m_nLinePathSegmentIndex < 0) {
-        uError() << "m_nLinePathSegmentIndex is not set" << endl;
+        uError() << "m_nLinePathSegmentIndex is not set";
         return;
     }
     QPointF segStart = m_LinePath.getPoint(m_nLinePathSegmentIndex);
@@ -2560,7 +2554,7 @@ void AssociationWidget::selectAssocClassLine(bool sel /* =true */)
         return;
     }
     if (m_pAssocClassLine == NULL) {
-        uError() << "cannot select because m_pAssocClassLine is NULL" << endl;
+        uError() << "cannot select because m_pAssocClassLine is NULL";
         return;
     }
     if (m_pAssocClassLineSel0)
@@ -2730,7 +2724,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             // don't worry about here, I don't think it can get here as
             // line is widget on seq. diagram
             // here just in case - remove later after testing
-            uDebug() << "mt_Properties: assoctype is " << atype << endl;
+            uDebug() << "mt_Properties: assoctype is " << atype;
         } else {  //standard assoc dialog
             umlScene()->updateDocumentation( false );
             showDialog();
@@ -2846,7 +2840,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "Menu_Type " << sel << " not implemented" << endl;
+        uDebug() << "Menu_Type " << sel << " not implemented";
     }//end switch
 }
 
@@ -3082,8 +3076,7 @@ QPointF AssociationWidget::findIntercept(const QRectF &rect, const QPointF &poin
     };
     uDebug() << "findPointRegion(rect(" << rect.x() << "," << rect.y()
           << "," << rect.width() << "," << rect.height() << "), p("
-          << point.x() << "," << point.y() << ")) = " << regionStr[region]
-          << endl;
+          << point.x() << "," << point.y() << ")) = " << regionStr[region];
      */
     // Move some regions to the standard ones.
     switch (region) {
@@ -3141,7 +3134,7 @@ QPointF AssociationWidget::findIntercept(const QRectF &rect, const QPointF &poin
             return QPointF(rectMidY + yoff, rectMidX);  // swap back X and Y
         }
         if (dY == 0) {
-            uError() << "usage error: " << "North/South (dY == 0)" << endl;
+            uError() << "usage error: " << "North/South (dY == 0)";
             return QPointF(0,0);
         }
         const float m = (float)dY / (float)dX;
@@ -3156,7 +3149,7 @@ QPointF AssociationWidget::findIntercept(const QRectF &rect, const QPointF &poin
         if (dY == 0)
             return QPointF(rectMidY, rectMidX + xoff);  // swap back X and Y
         if (dX == 0) {
-            uError() << "usage error: " << "East/West (dX == 0)" << endl;
+            uError() << "usage error: " << "East/West (dX == 0)";
             return QPointF(0,0);
         }
         const float m = (float)dY / (float)dX;
@@ -3215,7 +3208,7 @@ qreal AssociationWidget::findInterceptOnEdge(const QRectF &rect,
             return rectMidY;
         // should be rectMidX, but we go back to Qt coord.sys.
         if (dY == 0) {
-            uError() << "usage error: " << "North/South (dY == 0)" << endl;
+            uError() << "usage error: " << "North/South (dY == 0)";
             return -1;
         }
         const float m = (float)dY / (float)dX;
@@ -3231,7 +3224,7 @@ qreal AssociationWidget::findInterceptOnEdge(const QRectF &rect,
             return rectMidX;
         // should be rectMidY, but we go back to Qt coord.sys.
         if (dX == 0) {
-            uError() << "usage error: " << "East/West (dX == 0)" << endl;
+            uError() << "usage error: " << "East/West (dX == 0)";
             return -1;
         }
         const float m = (float)dY / (float)dX;
@@ -3323,9 +3316,9 @@ void AssociationWidget::updateAssociations(int totalCount,
         qreal intercept = findInterceptOnEdge(ownWidget->boundingRect(), region, refpoint);
         if (intercept < 0) {
             uDebug() << "updateAssociations: error from findInterceptOnEdge for"
-            << " assocType=" << assocwidget->getAssocType()
-            << " ownWidget=" << ownWidget->getName()
-            << " otherWidget=" << otherWidget->getName() << endl;
+                << " assocType=" << assocwidget->getAssocType()
+                << " ownWidget=" << ownWidget->getName()
+                << " otherWidget=" << otherWidget->getName();
             continue;
         }
         insertIntoLists(intercept, assocwidget);
@@ -3675,8 +3668,7 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
             connect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
                     this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
         default:
-            uError() << "UMLAssociation constructor: cannot associate UMLObject of type "
-                << ot << endl;
+            uError() << "UMLAssociation constructor: cannot associate UMLObject of type " << ot;
     }
 }
 
@@ -3690,7 +3682,7 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
 void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* obj)
 {
     if (obj != umlObject()) {
-        uDebug() << "obj=" << obj << ": umlObject()=" << umlObject() << endl;
+        uDebug() << "obj=" << obj << ": umlObject()=" << umlObject();
         return;
     }
     setUMLObject(NULL);
@@ -3705,7 +3697,7 @@ void AssociationWidget::slotAttributeChanged()
 {
     UMLAttribute *attr = getAttribute();
     if (attr == NULL) {
-        uError() << "getAttribute returns NULL" << endl;
+        uError() << "getAttribute returns NULL";
         return;
     }
     setVisibility(attr->getVisibility(), B);
@@ -3861,7 +3853,7 @@ UMLClassifier *AssociationWidget::getOperationOwner()
         return NULL;
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
     if (c == NULL)
-        uError() << "getWidget(" << role << ") is not a classifier" << endl;
+        uError() << "getWidget(" << role << ") is not a classifier";
     return c;
 }
 
@@ -4009,12 +4001,12 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
     Uml::IDType bId = STR2ID(widgetbid);
     NewUMLRectWidget *pWidgetA = Widget_Utils::findWidget( aId, widgets, pMessages );
     if (!pWidgetA) {
-        uError() << "cannot find widget for roleA id " << ID2STR(aId) << endl;
+        uError() << "cannot find widget for roleA id " << ID2STR(aId);
         return false;
     }
     NewUMLRectWidget *pWidgetB = Widget_Utils::findWidget( bId, widgets, pMessages );
     if (!pWidgetB) {
-        uError() << "cannot find widget for roleB id " << ID2STR(bId) << endl;
+        uError() << "cannot find widget for roleB id " << ID2STR(bId);
         return false;
     }
     setWidget(pWidgetA, A);
@@ -4148,7 +4140,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
             QString aclsegindex = qElement.attribute("aclsegindex", "0");
             m_nLinePathSegmentIndex = aclsegindex.toInt();
         } else {
-            uError() << "cannot find assocclass " << assocclassid << endl;
+            uError() << "cannot find assocclass " << assocclassid;
         }
     }
 
@@ -4217,7 +4209,6 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
             case Uml::tr_Coll_Message_Self:
                 m_pName = ft;
                 ft->setLink(this);
-                ft->setActivated();
                 if(FloatingTextWidget::isTextValid(ft->text()))
                     ft->show();
                 else
@@ -4233,8 +4224,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                 setRoleName( ft->text(), B );
                 break;
             default:
-                uDebug() << "unexpected FloatingTextWidget (textrole "
-                    << role << ")" << endl;
+                uDebug() << "unexpected FloatingTextWidget (textrole " << role << ")";
                 delete ft;
                 break;
             }

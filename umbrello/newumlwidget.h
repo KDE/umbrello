@@ -280,9 +280,6 @@ public:
     qreal m_origZ;
     void setZ(qreal z) { setZValue(z); }
     qreal getZ() const { return zValue(); }
-    void setActivated() {}
-    bool activate(IDChangeLog*) { return true;}
-    void cleanup() {}
     qreal onWidget(const QPointF& pos) const {
         if(this->contains(mapFromScene(pos))) {
             QSizeF s = boundingRect().size();
@@ -290,7 +287,6 @@ public:
         }
         return 0;
     }
-    void constrain(qreal, qreal) {}
     ////////////////////////////////////////////////////////////////////////////////
 
 };

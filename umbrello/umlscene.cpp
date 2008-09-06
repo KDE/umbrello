@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -377,7 +376,6 @@ void UMLScene::setupNewWidget(NewUMLRectWidget *w)
     w->setX(m_Pos.x());
     w->setY(m_Pos.y());
     w->setVisible(true);
-    w->setActivated();
     w->setFont(getFont());
 
     // [PORT]
@@ -431,7 +429,6 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         return;
 
     newWidget->setVisible(true);
-    newWidget->setActivated();
     newWidget->setFont(getFont());
 
     // [PORT]
@@ -734,7 +731,6 @@ void UMLScene::checkMessages(ObjectWidget * w)
             continue;
         //make sure message doesn't have any associations
         removeAssociations(obj);
-        obj->cleanup();
         //make sure not in selected list
         m_MessageList.removeAll(obj);
         delete obj;
@@ -904,7 +900,6 @@ void UMLScene::removeWidget(NewUMLRectWidget * o)
     if (getType() == dt_Sequence && t == wt_Object)
         checkMessages(static_cast<ObjectWidget*>(o));
 
-    o->cleanup();
     if (t == wt_Message) {
         m_MessageList.removeAll(static_cast<MessageWidget*>(o));
     } else
@@ -1496,12 +1491,12 @@ void UMLScene::activate()
         if (/* [PORT] obj->isActivated() || */ obj->getBaseType() == wt_Message)
             continue;
 
-        if (obj->activate(0)) {
+// [PORT]        if (obj->activate(0)) {
             obj->setVisible(true);
-        } else {
-            m_WidgetList.removeAll(obj);
-            delete obj;
-        }
+//        } else {
+//            m_WidgetList.removeAll(obj);
+//            delete obj;
+//        }
     }//end foreach
 
     //Activate Message widgets
@@ -1511,7 +1506,7 @@ void UMLScene::activate()
         // if (obj->isActivated())
         //     continue;
 
-        obj->activate(m_pDoc->getChangeLog());
+// [PORT]        obj->activate(m_pDoc->getChangeLog());
         obj->setVisible(true);
 
     }//end foreach
@@ -3643,7 +3638,6 @@ NewUMLRectWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
     if (widget == NULL)
         return NULL;
     if (!widget->loadFromXMI(widgetElement)) {
-        widget->cleanup();
         delete widget;
         return 0;
     }

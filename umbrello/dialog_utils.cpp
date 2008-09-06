@@ -72,7 +72,6 @@ void askNameForWidget(NewUMLRectWidget * &targetWidget, const QString& dialogTit
         targetWidget->setName(name);
     }
     else {
-        targetWidget->cleanup();
         delete targetWidget;
         targetWidget = NULL;
     }
