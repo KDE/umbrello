@@ -52,7 +52,7 @@ bool allowAssociation( Association_Type assocType, const std::type_info &type )
  */
 bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWidget * widget )
 {
-    Widget_Type widgetType = widget->getBaseType();
+    Widget_Type widgetType = widget->baseType();
     bool bValid = false;
     for (int i = 0; i < m_nNumRules; i++) {
         if (assocType == m_AssocRules[i].assoc_type) {
@@ -145,8 +145,8 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
                                    NewUMLRectWidget * widgetA, NewUMLRectWidget * widgetB,
                                    bool extendedCheck )
 {
-    Widget_Type widgetTypeA = widgetA->getBaseType();
-    Widget_Type widgetTypeB = widgetB->getBaseType();
+    Widget_Type widgetTypeA = widgetA->baseType();
+    Widget_Type widgetTypeB = widgetB->baseType();
     bool bValid = false;
 
     if ( widgetA->umlObject() == widgetB->umlObject() ) {
@@ -207,10 +207,10 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
                 return false;
             }
         }
-        if (widgetB->getBaseType() == wt_Class) {
+        if (widgetB->baseType() == wt_Class) {
             return widgetB->umlObject()->getAbstract();
-        } else if (widgetB->getBaseType() == wt_Interface ||
-                   widgetB->getBaseType() == wt_Package) {
+        } else if (widgetB->baseType() == wt_Interface ||
+                   widgetB->baseType() == wt_Package) {
             return true;
         }
         break;
@@ -343,8 +343,8 @@ bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type wi
  */
 Uml::Association_Type AssocRules::isGeneralisationOrRealisation(NewUMLRectWidget* widgetA, NewUMLRectWidget* widgetB)
 {
-    Widget_Type widgetTypeA = widgetA->getBaseType();
-    Widget_Type widgetTypeB = widgetB->getBaseType();
+    Widget_Type widgetTypeA = widgetA->baseType();
+    Widget_Type widgetTypeB = widgetB->baseType();
     for (int i = 0; i < m_nNumRules; i++) {
         if (m_AssocRules[i].assoc_type == at_Realization &&
                 widgetTypeA == m_AssocRules[i].widgetA_type &&

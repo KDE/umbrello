@@ -619,7 +619,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
         NewUMLRectWidget* w = 0;
         foreach(w ,  m_WidgetList) {
             bool isPointOnWidget = w->onWidget(e->scenePos());
-            if (w->getBaseType() == Uml::wt_Note && isPointOnWidget) {
+            if (w->baseType() == Uml::wt_Note && isPointOnWidget) {
                 breakFlag = true;
                 break;
             }
@@ -681,7 +681,7 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
             continue;
         SeqLineWidget *pLine = ow->sequentialLine();
         if (pLine == NULL) {
-            uError() << "SeqLineWidget of " << ow->getName()
+            uError() << "SeqLineWidget of " << ow->name()
                      << " (id=" << ID2STR(ow->localID()) << ") is NULL";
             continue;
         }
@@ -781,7 +781,7 @@ NewUMLRectWidget * UMLScene::findWidget(Uml::IDType id)
 {
     foreach(NewUMLRectWidget* obj, m_WidgetList) {
         // object widgets are special..the widget id is held by 'localId' attribute (crappy!)
-        if (obj->getBaseType() == wt_Object) {
+        if (obj->baseType() == wt_Object) {
             if (static_cast<ObjectWidget *>(obj)->localID() == id)
                 return obj;
         } else if (obj->id() == id) {
@@ -895,7 +895,7 @@ void UMLScene::removeWidget(NewUMLRectWidget * o)
 
     removeAssociations(o);
 
-    Widget_Type t = o->getBaseType();
+    Widget_Type t = o->baseType();
     if (getType() == dt_Sequence && t == wt_Object)
         checkMessages(static_cast<ObjectWidget*>(o));
 
@@ -1155,7 +1155,7 @@ void UMLScene::selectionToggleShow(int sel)
 {
     // loop through all selected items
     foreach(NewUMLRectWidget *temp , selectedWidgets()) {
-        Widget_Type type = temp->getBaseType();
+        Widget_Type type = temp->baseType();
         ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(temp);
 
         // toggle the show setting sel
@@ -1215,7 +1215,7 @@ void UMLScene::deleteSelection()
     */
 
     foreach(NewUMLRectWidget* temp ,  selectedWidgets()) {
-        if (temp->getBaseType() == wt_Text &&
+        if (temp->baseType() == wt_Text &&
             ((FloatingTextWidget *)temp)->textRole() != tr_Floating) {
             temp->hide();
 
@@ -1460,7 +1460,7 @@ UMLObjectList UMLScene::getUMLObjects()
     UMLObjectList list;
     foreach(NewUMLRectWidget* w,  m_WidgetList) {
 
-        switch (w->getBaseType()) { //use switch for easy future expansion
+        switch (w->baseType()) { //use switch for easy future expansion
         case wt_Actor:
         case wt_Class:
         case wt_Interface:
@@ -1487,7 +1487,7 @@ void UMLScene::activate()
     //Activate Regular widgets then activate  messages
     foreach(NewUMLRectWidget* obj , m_WidgetList) {
         //If this NewUMLRectWidget is already activated or is a MessageWidget then skip it
-        if (/* [PORT] obj->isActivated() || */ obj->getBaseType() == wt_Message)
+        if (/* [PORT] obj->isActivated() || */ obj->baseType() == wt_Message)
             continue;
 
 // [PORT]        if (obj->activate(0)) {
@@ -1541,7 +1541,7 @@ int UMLScene::getSelectCount(bool filterText) const
     int counter = 0;
     const NewUMLRectWidget * temp = 0;
     foreach(temp, selectedWidgets()) {
-        if (temp->getBaseType() == wt_Text) {
+        if (temp->baseType() == wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
             if (ft->textRole() == tr_Floating)
                 counter++;
@@ -1556,7 +1556,7 @@ int UMLScene::getSelectCount(bool filterText) const
 bool UMLScene::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/)
 {
     foreach(NewUMLRectWidget* temp, selectedWidgets()) {
-        if (filterText && temp->getBaseType() == wt_Text) {
+        if (filterText && temp->baseType() == wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
             if (ft->textRole() == tr_Floating)
                 WidgetList.append(temp);
@@ -1593,7 +1593,7 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
     if (pWidget->scene() != this) {
         addItem(pWidget);
     }
-    Widget_Type type = pWidget->getBaseType();
+    Widget_Type type = pWidget->baseType();
     if (isPasteOperation) {
         if (type == Uml::wt_Message)
             m_MessageList.append(static_cast<MessageWidget*>(pWidget));
@@ -1603,7 +1603,7 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
     }
     if (!isPasteOperation && findWidget(pWidget->id())) {
         uError() << "Not adding (id=" << ID2STR(pWidget->id())
-                 << "/type=" << type << "/name=" << pWidget->getName()
+                 << "/type=" << type << "/name=" << pWidget->name()
                  << ") because it is already there";
         return false;
     }
@@ -1620,13 +1620,13 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
     bool xIsOutOfRange = (wX <= 0. || wX >= FloatingTextWidget::restrictPositionMax);
     bool yIsOutOfRange = (wY <= 0. || wY >= FloatingTextWidget::restrictPositionMax);
     if (xIsOutOfRange || yIsOutOfRange) {
-        QString name = pWidget->getName();
+        QString name = pWidget->name();
         if (name.isEmpty()) {
             FloatingTextWidget *ft = dynamic_cast<FloatingTextWidget*>(pWidget);
             if (ft)
                 name = ft->displayText();
         }
-        uDebug() << name << " type=" << pWidget->getBaseType() << "): position ("
+        uDebug() << name << " type=" << pWidget->baseType() << "): position ("
                  << wX << "," << wY << ") is out of range";
         if (xIsOutOfRange) {
             pWidget->setX(0);
@@ -1675,8 +1675,8 @@ bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
         //make sure it doesn't already exist.
         if (findWidget(newID)) {
             uDebug() << "Not adding (id=" << ID2STR(pWidget->id())
-                     << "/type=" << pWidget->getBaseType()
-                     << "/name=" << pWidget->getName()
+                     << "/type=" << pWidget->baseType()
+                     << "/name=" << pWidget->name()
                      << ") because it is already there";
             delete pWidget; // Not nice but if _we_ don't do it nobody else will
             return true;//don't stop paste just because widget found.
@@ -2080,7 +2080,7 @@ void UMLScene::removeAllWidgets()
     foreach(NewUMLRectWidget* temp , m_WidgetList) {
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
-        if (!(temp->getBaseType() == wt_Text &&
+        if (!(temp->baseType() == wt_Text &&
               ((FloatingTextWidget *)temp)->textRole() != tr_Floating)) {
             removeWidget(temp);
         }
@@ -3127,7 +3127,7 @@ void UMLScene::setFont(QFont font, bool changeAllWidgets /* = false */)
 void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
 {
     foreach(NewUMLRectWidget* pWidget , m_WidgetList) {
-        Uml::Widget_Type wt = pWidget->getBaseType();
+        Uml::Widget_Type wt = pWidget->baseType();
         if (wt == Uml::wt_Class || wt == Uml::wt_Interface) {
             page->setWidget(static_cast<ClassifierWidget *>(pWidget));
             page->updateUMLWidget();
@@ -3146,7 +3146,7 @@ void UMLScene::checkSelections()
     NewUMLRectWidget * pWA = 0, * pWB = 0;
     //check messages
     foreach(NewUMLRectWidget *pTemp , selectedWidgets()) {
-        if (pTemp->getBaseType() == wt_Message && pTemp->isSelected()) {
+        if (pTemp->baseType() == wt_Message && pTemp->isSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
             pWA = pMessage->objectWidget(A);
             pWB = pMessage->objectWidget(B);
@@ -3192,11 +3192,11 @@ bool UMLScene::checkUniqueSelection()
 
     // get the first item and its base type
     NewUMLRectWidget * pTemp = (NewUMLRectWidget *) selectedWidgets().first();
-    Widget_Type tmpType = pTemp->getBaseType();
+    Widget_Type tmpType = pTemp->baseType();
 
     // check all selected items, if they have the same BaseType
     foreach(pTemp , selectedWidgets()) {
-        if (pTemp->getBaseType() != tmpType) {
+        if (pTemp->baseType() != tmpType) {
             return false; // the base types are different, the list is not unique
         }
     } // for (through all selected items)
@@ -3421,7 +3421,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         // We DON'T want to record any text widgets which are belonging
         // to associations as they are recorded later in the "associations"
         // section when each owning association is dumped. -b.t.
-        if ((widget->getBaseType() != wt_Text && widget->getBaseType() != wt_FloatingDashLine) ||
+        if ((widget->baseType() != wt_Text && widget->baseType() != wt_FloatingDashLine) ||
             static_cast<FloatingTextWidget*>(widget)->link() == NULL)
             widget->saveToXMI(qDoc, widgetElement);
     }

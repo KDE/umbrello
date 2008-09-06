@@ -78,24 +78,24 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, NewUMLRectWidget *w)
     m_Type = pt_Widget;
     m_pObject = w->umlObject();
 
-    if (w->getBaseType() == Uml::wt_Class
-            || w->getBaseType() == Uml::wt_Interface
-            || w->getBaseType() == Uml::wt_Package) {
+    if (w->baseType() == Uml::wt_Class
+            || w->baseType() == Uml::wt_Interface
+            || w->baseType() == Uml::wt_Package) {
         setupPages(true);
-    } else if (w->getBaseType() == Uml::wt_Component) {
+    } else if (w->baseType() == Uml::wt_Component) {
         if ( w->isInstance() ) {
             setupInstancePages();
         } else {
             setupPages();
         }
-    } else if (w->getBaseType() == Uml::wt_Node) {
+    } else if (w->baseType() == Uml::wt_Node) {
         setupInstancePages();
     } else {
         setupPages();
     }
 
     // now setup the options page for classes
-    if (w->getBaseType() == Uml::wt_Class || w->getBaseType() == Uml::wt_Interface) {
+    if (w->baseType() == Uml::wt_Class || w->baseType() == Uml::wt_Interface) {
         setupDisplayPage();
     }
     setupColorPage();

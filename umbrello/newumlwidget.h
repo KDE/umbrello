@@ -228,15 +228,11 @@ public:
     qreal getY() const { return pos().y(); }
     void setY(qreal y) { setPos(x(), y); }
 
-    Uml::Widget_Type getBaseType() const { return baseType(); }
     void setBaseType(Uml::Widget_Type type) { m_baseType = type; }
 
     void setPenFromSettings(QPainter &p) { p.setPen(QPen(m_lineColor, m_lineWidth)); }
     void updateComponentSize();
 
-    QString getDoc() const { return documentation(); }
-    void setDoc(const QString &doc) { setDocumentation(doc); }
-    QString getName() const { return name(); }
     QColor getLineColor() const { return lineColor(); }
     void setLineColorcmd(const QColor& col) { setLineColor(col); }
     uint getLineWidth() const { return lineWidth(); }

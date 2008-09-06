@@ -250,7 +250,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, NewUMLWidget * object,
     //make menu for logical view
     if (!object)
         return;
-    Uml::Widget_Type type = object->getBaseType();
+    Uml::Widget_Type type = object->baseType();
     // uDebug() << "ListPopupMenu created with multi=" << multi << " , unique="
     //          << unique << " for Widget_Type=" << type;
 
@@ -873,7 +873,7 @@ void ListPopupMenu::insertSubmodelAction()
  */
 void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
 {
-    Uml::Widget_Type type = c->getBaseType();
+    Uml::Widget_Type type = c->baseType();
     ClassifierWidget *cls = NULL;
 
     KMenu* show = new KMenu(i18n("Show"), this);
@@ -913,7 +913,7 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
  */
 void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 {
-    Uml::Widget_Type type = c->getBaseType();
+    Uml::Widget_Type type = c->baseType();
     KMenu* menu = new KMenu(i18nc("new classifier menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     if (type == Uml::wt_Class)

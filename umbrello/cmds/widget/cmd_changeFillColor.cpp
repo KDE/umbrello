@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -25,15 +24,13 @@
 #include "associationwidget.h"
 #include "messagewidget.h"
 
-
-
 #include <klocale.h>
 
 namespace Uml
 {
     CmdChangeFillColor::CmdChangeFillColor(NewUMLRectWidget *w, const QColor& col):UMLw(w),color(col)
     {
-        setText(i18n("Change Fill Color")+ w->getName());
+        setText(i18n("Change Fill Color")+ w->name());
         oldColor= w->getFillColor() ;
     }
 

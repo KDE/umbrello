@@ -724,7 +724,7 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList ) {
     bool retval = true;
 
     foreach ( NewUMLRectWidget* p, widgetList ) {
-        switch( p->getBaseType() ) {
+        switch( p->baseType() ) {
         case Uml::wt_Note:
             break;
 

@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -33,7 +32,7 @@ namespace Uml
 
         // [PORT]
         NewUMLRectWidget * widget = scene->getFirstMultiSelectedWidget();
-        setText(i18n("Change Font")+ " : " + widget->getName());/*+ widget->getName()*/
+        setText(i18n("Change Font")+ " : " + widget->name());
         pDoc=doc;
         pScene=scene;
         newFont = fon;

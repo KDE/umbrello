@@ -48,7 +48,7 @@ NoteDialog::NoteDialog( QWidget * parent, NoteWidget * pNote )
     m_pDocTE = new KTextEdit( m_pDocGB );
     m_pDocTE->setFocus();
     docLayout->addWidget( m_pDocTE );
-    m_pDocTE->setText( pNote->getDoc() );
+    m_pDocTE->setText( pNote->documentation() );
     setMinimumSize(330, 160);
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 }
@@ -59,7 +59,7 @@ NoteDialog::~NoteDialog()
 
 void NoteDialog::slotOk()
 {
-    m_pNoteWidget->setDoc( m_pDocTE->toPlainText() );
+    m_pNoteWidget->setDocumentation( m_pDocTE->toPlainText() );
     accept();
 }
 

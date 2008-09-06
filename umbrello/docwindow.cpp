@@ -114,22 +114,22 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLWidget->getDoc() )
+        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLWidget->documentation() )
         {
             mark_modified = true;
         }
 
-        m_pUMLWidget->setDoc( m_pDocTE->toPlainText() );
+        m_pUMLWidget->setDocumentation( m_pDocTE->toPlainText() );
     } else if( m_pAssocWidget ) {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pAssocWidget->getDoc() )
+        if ( startup == false && m_pDocTE->toPlainText() != m_pAssocWidget->documentation() )
         {
             mark_modified = true;
         }
 
-        m_pAssocWidget->setDoc( m_pDocTE->toPlainText() );
+        m_pAssocWidget->setDocumentation( m_pDocTE->toPlainText() );
     } else {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
@@ -197,7 +197,7 @@ void DocWindow::showDocumentation( NewUMLRectWidget * widget, bool overwrite )
         return;
     }
     m_pUMLWidget = widget;
-    m_pDocTE->setText( m_pUMLWidget->getDoc() );
+    m_pDocTE->setText( m_pUMLWidget->documentation() );
 }
 
 /**
@@ -218,7 +218,7 @@ void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite )
         return;
     }
     m_pAssocWidget = widget;
-    m_pDocTE->setText( m_pAssocWidget->getDoc() );
+    m_pDocTE->setText( m_pAssocWidget->documentation() );
 }
 
 /**

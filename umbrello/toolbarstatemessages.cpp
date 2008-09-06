@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -66,7 +65,8 @@ void ToolBarStateMessages::cleanBeforeChange()
  * It executes the base method and then updates the position of the
  * message line, if any.
  */
-void ToolBarStateMessages::mouseMove(QGraphicsSceneMouseEvent* ome) {
+void ToolBarStateMessages::mouseMove(QGraphicsSceneMouseEvent* ome)
+{
     ToolBarStatePool::mouseMove(ome);
 
     if (m_messageLine) {
@@ -137,7 +137,7 @@ void ToolBarStateMessages::mouseReleaseWidget()
     //TODO When an association between UMLObjects of invalid types is made, an error message
     //is shown. Shouldn't also a message be used here?
     if (m_pMouseEvent->button() != Qt::LeftButton ||
-                getCurrentWidget()->getBaseType() != Uml::wt_Object) {
+                getCurrentWidget()->baseType() != Uml::wt_Object) {
         cleanMessage();
         return;
     }
@@ -261,7 +261,8 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
  * @param secondObject The second object of the message.
  * @param messageType The type of the message to create.
  */
-void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageType messageType) {
+void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageType messageType)
+{
     Uml::Sequence_Message_Type msgType = getMessageType();
 
     //There shouldn't be second widget for a lost or a found message
@@ -305,7 +306,8 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
  *
  * @return The message type of this tool.
  */
-Uml::Sequence_Message_Type ToolBarStateMessages::getMessageType() {
+Uml::Sequence_Message_Type ToolBarStateMessages::getMessageType()
+{
     if (getButton() == WorkToolBar::tbb_Seq_Message_Synchronous) {
         return Uml::sequence_message_synchronous;
     }
@@ -322,7 +324,8 @@ Uml::Sequence_Message_Type ToolBarStateMessages::getMessageType() {
  * Cleans the first widget and the temporal message line, if any.
  * Both are set to null, and the message line is also deleted.
  */
-void ToolBarStateMessages::cleanMessage() {
+void ToolBarStateMessages::cleanMessage()
+{
     m_firstObject = 0;
 
     delete m_messageLine;

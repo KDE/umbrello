@@ -46,7 +46,7 @@ namespace Widget_Utils
     {
         UMLWidgetListIt it( widgets );
         foreach ( NewUMLRectWidget* obj , widgets ) {
-            if (obj->getBaseType() == Uml::wt_Object) {
+            if (obj->baseType() == Uml::wt_Object) {
                 if (static_cast<ObjectWidget *>(obj)->localID() == id)
                     return obj;
             } else if (obj->id() == id) {

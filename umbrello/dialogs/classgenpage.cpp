@@ -265,7 +265,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     m_pNameLayout->addWidget(m_pNameL, 0, 0);
 
     m_pClassNameLE = new KLineEdit(this);
-    m_pClassNameLE->setText(o->getName());
+    m_pClassNameLE->setText(o->name());
     m_pNameLayout->addWidget(m_pClassNameLE, 0, 1);
 
     m_pInstanceL = new QLabel(this);
@@ -303,7 +303,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
 
     m_pDoc = new KTextEdit(m_pDocGB);
     m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
-    m_pDoc->setText(o->getDoc());
+    m_pDoc->setText(o->documentation());
     docLayout->addWidget(m_pDoc);
     m_pObject = 0;  // needs to be set to zero
     if (m_pMultiCB) {
@@ -330,9 +330,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, NewUMLRectWidget* widget)
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 3, 2);
     m_pNameL = new QLabel(this);
-    if (widget->getBaseType() == Uml::wt_Component) {
+    if (widget->baseType() == Uml::wt_Component) {
         m_pNameL->setText(i18n("Component name:"));
-    } else if (widget->getBaseType() == Uml::wt_Node) {
+    } else if (widget->baseType() == Uml::wt_Node) {
         m_pNameL->setText(i18n("Node name:"));
     } else {
         uWarning() << "ClassGenPage called on unknown widget type";
@@ -340,7 +340,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, NewUMLRectWidget* widget)
     m_pNameLayout->addWidget(m_pNameL, 0, 0);
 
     m_pClassNameLE = new KLineEdit(this);
-    m_pClassNameLE->setText(widget->getName());
+    m_pClassNameLE->setText(widget->name());
     m_pNameLayout->addWidget(m_pClassNameLE, 0, 1);
 
     m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), this);
@@ -369,7 +369,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, NewUMLRectWidget* widget)
 
     m_pDoc = new KTextEdit(m_pDocGB);
     m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
-    m_pDoc->setText(widget->getDoc());
+    m_pDoc->setText(widget->documentation());
     docLayout->addWidget(m_pDoc);
     m_pObject = 0; // needs to be set to zero
 }
@@ -492,7 +492,7 @@ void ClassGenPage::updateObject()
             m_pWidget->setShowDestruction( m_pDeconCB->isChecked() );
         }
         QString name = m_pClassNameLE->text();
-        m_pWidget->setDoc(m_pDoc->toPlainText());
+        m_pWidget->setDocumentation(m_pDoc->toPlainText());
         UMLObject * o = m_pWidget->umlObject();
         UMLObject * old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
@@ -504,7 +504,7 @@ void ClassGenPage::updateObject()
     } else if (m_pInstanceWidget) {
         m_pInstanceWidget->setInstanceName(m_pInstanceLE->text());
         QString name = m_pClassNameLE->text();
-        m_pInstanceWidget->setDoc(m_pDoc->toPlainText());
+        m_pInstanceWidget->setDocumentation(m_pDoc->toPlainText());
         UMLObject* o = m_pInstanceWidget->umlObject();
         UMLObject* old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {

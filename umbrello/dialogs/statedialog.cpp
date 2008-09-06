@@ -91,7 +91,7 @@ void StateDialog::applyPage( KPageWidgetItem*item )
     m_bChangesMade = true;
     if ( item == pageGeneral ) {
         m_pStateWidget->setName( m_GenPageWidgets.nameLE->text() );
-        m_pStateWidget->setDoc( m_GenPageWidgets.docMLE->toPlainText() );
+        m_pStateWidget->setDocumentation( m_GenPageWidgets.docMLE->toPlainText() );
     }
     else if ( item == pageActivity ) {
         if ( m_pActivityPage ) {
@@ -144,14 +144,14 @@ void StateDialog::setupGeneralPage()
     docLayout->setMargin(  fontMetrics().height()  );
 
     m_GenPageWidgets.docMLE = new KTextEdit( m_GenPageWidgets.docGB );
-    m_GenPageWidgets.docMLE->setText( m_pStateWidget->getDoc() );
+    m_GenPageWidgets.docMLE->setText( m_pStateWidget->documentation() );
     docLayout->addWidget( m_GenPageWidgets.docMLE );
 
     if ( type != StateWidget::Normal ) {
         m_GenPageWidgets.nameLE->setEnabled( false );
         m_GenPageWidgets.nameLE->setText( "" );
     } else
-        m_GenPageWidgets.nameLE->setText( m_pStateWidget->getName() );
+        m_GenPageWidgets.nameLE->setText( m_pStateWidget->name() );
 }
 
 /**

@@ -107,7 +107,7 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     if ( item == pageItemGeneral )
     {
         m_pActivityWidget->setName( m_GenPageWidgets.nameLE->text() );
-        m_pActivityWidget->setDoc( m_GenPageWidgets.docTE->toPlainText() );
+        m_pActivityWidget->setDocumentation( m_GenPageWidgets.docTE->toPlainText() );
         m_pActivityWidget->setPreconditionText( m_GenPageWidgets.preLE->text() );
         m_pActivityWidget->setPostconditionText( m_GenPageWidgets.postLE->text() );
 
@@ -204,14 +204,14 @@ void ActivityDialog::setupGeneralPage()
     docLayout->setMargin(  fontMetrics().height()  );
 
     m_GenPageWidgets.docTE = new KTextEdit( m_GenPageWidgets.docGB );
-    m_GenPageWidgets.docTE->setText( m_pActivityWidget->getDoc() );
+    m_GenPageWidgets.docTE->setText( m_pActivityWidget->documentation() );
     docLayout->addWidget( m_GenPageWidgets.docTE );
 
     if ( type != ActivityWidget::Normal && type != ActivityWidget::Invok && type != ActivityWidget::Param) {
         m_GenPageWidgets.nameLE->setEnabled( false );
         m_GenPageWidgets.nameLE->setText( "" );
     } else
-        m_GenPageWidgets.nameLE->setText( m_pActivityWidget->getName() );
+        m_GenPageWidgets.nameLE->setText( m_pActivityWidget->name() );
 }
 
 /**

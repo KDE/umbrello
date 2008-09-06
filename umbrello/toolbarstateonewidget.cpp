@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,7 +31,6 @@
 
 #include <klocale.h>
 #include <kmessagebox.h>
-
 
 using namespace Uml;
 
@@ -131,9 +129,9 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
     }
 
     if (m_pMouseEvent->button() != Qt::LeftButton ||(
-                getCurrentWidget()->getBaseType() != Uml::wt_Object &&
-                getCurrentWidget()->getBaseType() != Uml::wt_Activity &&
-                getCurrentWidget()->getBaseType() != Uml::wt_Region)) {
+                getCurrentWidget()->baseType() != Uml::wt_Object &&
+                getCurrentWidget()->baseType() != Uml::wt_Activity &&
+                getCurrentWidget()->baseType() != Uml::wt_Region)) {
         return;
     }
 
@@ -157,7 +155,8 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
  * Cleans the message.
  * Empty spaces are not only actual empty spaces, but also associations.
  */
-void ToolBarStateOneWidget::mouseReleaseEmpty() {
+void ToolBarStateOneWidget::mouseReleaseEmpty()
+{
 }
 
 /**
@@ -193,13 +192,13 @@ void ToolBarStateOneWidget::setWidget(NewUMLRectWidget* firstObject)
 
 }
 
-
 /**
  * Returns the widget type of this tool.
  *
  * @return The widget type of this tool.
  */
-Uml::Widget_Type ToolBarStateOneWidget::getWidgetType() {
+Uml::Widget_Type ToolBarStateOneWidget::getWidgetType()
+{
     if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
         return Uml::wt_Precondition;
     }
@@ -211,6 +210,5 @@ Uml::Widget_Type ToolBarStateOneWidget::getWidgetType() {
     Q_ASSERT(0);
     return Uml::wt_Pin;
 }
-
 
 #include "toolbarstateonewidget.moc"

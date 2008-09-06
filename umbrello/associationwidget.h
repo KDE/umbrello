@@ -48,7 +48,8 @@ class QGraphicsSceneMouseEvent;
  * @short This class represents an association inside a diagram.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssociationWidget : public NewUMLWidget, public LinkWidget {
+class AssociationWidget : public NewUMLWidget, public LinkWidget
+{
     Q_OBJECT
 public:
 
@@ -65,7 +66,7 @@ public:
     /**
      * Constructor.
      *
-     * @param scene              The scene to which this association belongs.
+     * @param scene   The scene to which this association belongs.
      */
     AssociationWidget(UMLScene *scene);
 
@@ -172,9 +173,7 @@ public:
 
     void widgetMoved(NewUMLRectWidget* widget, qreal x, qreal y);
 
-
     void updatePointsException ();
-
 
     void saveIdealTextPositions();
 
@@ -472,10 +471,7 @@ private:
 
     ClassifierWidget *m_pAssocClassWidget;  ///< used if we have an assoc. class
 
-    /**
-     * The definition points for the association line.
-     */
-    LinePath m_LinePath;
+    LinePath m_LinePath;  ///< definition points for the association line
 
     // The following items are only used if umlObject() is not set.
     Uml::Association_Type m_AssocType;
@@ -483,16 +479,12 @@ private:
 public slots:
 
     void slotMenuSelection(QAction* action);
-
     void slotRemovePopupMenu();
-
     void slotClearAllSelected();
-
     void slotClassifierListItemRemoved(UMLClassifierListItem* obj);
-
-
     void slotAttributeChanged();
 
     void syncToModel();
+
 };
 #endif

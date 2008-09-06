@@ -109,7 +109,7 @@ void ToolBarStateAssociation::slotWidgetRemoved(NewUMLRectWidget* widget)
 void ToolBarStateAssociation::mouseReleaseAssociation()
 {
     if (m_pMouseEvent->button() != Qt::LeftButton ||
-            !m_firstWidget || m_firstWidget->getBaseType() != Uml::wt_Class) {
+            !m_firstWidget || m_firstWidget->baseType() != Uml::wt_Class) {
         cleanAssociation();
         return;
     }
@@ -210,7 +210,7 @@ void ToolBarStateAssociation::setSecondWidget()
     Association_Type type = getAssociationType();
     NewUMLRectWidget* widgetA = m_firstWidget;
     NewUMLRectWidget* widgetB = getCurrentWidget();
-    Widget_Type at = widgetA->getBaseType();
+    Widget_Type at = widgetA->baseType();
     bool valid = true;
     if (type == at_Generalization) {
         type = AssocRules::isGeneralisationOrRealisation(widgetA, widgetB);
