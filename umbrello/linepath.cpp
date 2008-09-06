@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,9 +16,9 @@
 #include <cmath>
 
 // qt includes
-#include <QGraphicsScene>
-#include <QDomDocument>
-#include <QPainter>
+#include <QtXml/QDomDocument>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QPainter>
 
 // kde includes
 #include <kdebug.h>
@@ -68,7 +67,8 @@ void LinePath::Circle::paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWi
     QGraphicsEllipseItem::paint(p, o, w);
 }
 
-LinePath::LinePath() {
+LinePath::LinePath()
+{
     m_bSelected = false;
     m_pClearPoly = 0;
     m_pCircle = 0;
@@ -100,7 +100,7 @@ void LinePath::setAssociation(AssociationWidget * association )
     createSubsetSymbol();
     if( getAssocType() == Uml::at_Coll_Message )
         setupParallelLine();
-    UMLScene *scene =  const_cast<UMLScene *>(m_pAssociation->getUMLScene());
+    UMLScene *scene =  const_cast<UMLScene *>(m_pAssociation->umlScene());
     connect( scene, SIGNAL( sigColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
     connect( scene, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
 }
@@ -108,7 +108,8 @@ void LinePath::setAssociation(AssociationWidget * association )
 /**
  *   Returns the point at the point index.
  */
-QPointF LinePath::getPoint( int pointIndex ) const {
+QPointF LinePath::getPoint( int pointIndex ) const 
+{
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
         return QPointF( -1, -1 );
@@ -124,7 +125,8 @@ QPointF LinePath::getPoint( int pointIndex ) const {
 /**
  *   Sets the position of an already set point.
  */
-bool LinePath::setPoint( int pointIndex, const QPointF &point ) {
+bool LinePath::setPoint( int pointIndex, const QPointF &point ) 
+{
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
         return false;
@@ -165,7 +167,8 @@ bool LinePath::setPoint( int pointIndex, const QPointF &point ) {
  *   We use the delta, because with the mouse it is hard to find the
  *   exactly point.
  */
-bool LinePath::isPoint( int pointIndex, const QPointF &point, qreal delta) {
+bool LinePath::isPoint( int pointIndex, const QPointF &point, qreal delta) 
+{
     int count = m_LineList.count();
     if ( pointIndex >= count )
         return false;
@@ -191,7 +194,8 @@ bool LinePath::isPoint( int pointIndex, const QPointF &point, qreal delta) {
 /**
  *   Inserts a point at the given index.
  */
-bool LinePath::insertPoint( int pointIndex, const QPointF &point ) {
+bool LinePath::insertPoint( int pointIndex, const QPointF &point ) 
+{
     int count = m_LineList.count();
     if( count == 0 )
         return false;
@@ -309,7 +313,8 @@ bool LinePath::removePoint( int pointIndex, const QPointF &point, qreal delta )
 /**
  *   Sets the start and end points.
  */
-bool LinePath::setStartEndPoints( const QPointF &start, const QPointF &end ) {
+bool LinePath::setStartEndPoints( const QPointF &start, const QPointF &end )
+{
     int count = m_LineList.count();
     if( count == 0 ) {
         QGraphicsLineItem * line = new QGraphicsLineItem();
@@ -331,7 +336,8 @@ bool LinePath::setStartEndPoints( const QPointF &start, const QPointF &end ) {
  *   Returns the amount of POINTS on the line.
  *   Includes start and end points.
  */
-int LinePath::count() const {
+int LinePath::count() const 
+{
     return m_LineList.count() + 1;
 }
 
@@ -340,7 +346,8 @@ int LinePath::count() const {
  *   else returns the line segment the point is on.
  *   Use the value to insert points at the point position.
  */
-int LinePath::onLinePath( const QPointF &position ) {
+int LinePath::onLinePath( const QPointF &position )
+{
     QList<QGraphicsItem*> list = getScene()->items(position);
 
     foreach(QGraphicsItem *item, list) {
@@ -357,7 +364,8 @@ int LinePath::onLinePath( const QPointF &position ) {
 /**
  *   Sets the status of whether the line is selected or not.
  */
-void LinePath::setSelected( bool select ) {
+void LinePath::setSelected( bool select ) 
+{
     if(select) {
         setupSelected();
     }
@@ -423,10 +431,10 @@ void LinePath::update()
  */
 void LinePath::slotLineColorChanged( Uml::IDType viewID )
 {
-    if(m_pAssociation->getUMLScene()->getID() != viewID) {
+    if(m_pAssociation->umlScene()->getID() != viewID) {
         return;
     }
-    setLineColor( m_pAssociation->getUMLScene()->getLineColor() );
+    setLineColor( m_pAssociation->umlScene()->getLineColor() );
 }
 
 
@@ -475,11 +483,12 @@ void LinePath::setLineColor( const QColor &color )
  *
  * @param viewID The id of the object behind the widget.
  */
-void LinePath::slotLineWidthChanged( Uml::IDType viewID ) {
-    if(m_pAssociation->getUMLScene()->getID() != viewID) {
+void LinePath::slotLineWidthChanged( Uml::IDType viewID )
+{
+    if(m_pAssociation->umlScene()->getID() != viewID) {
         return;
     }
-    setLineWidth( m_pAssociation->getUMLScene()->getLineWidth() );
+    setLineWidth( m_pAssociation->umlScene()->getLineWidth() );
 }
 
 /**
@@ -891,7 +900,8 @@ void LinePath::setupParallelLine()
  *   Updates the parallel line.
  *   Call after calculating the new position.
  */
-void LinePath::updateParallelLine() {
+void LinePath::updateParallelLine() 
+{
     if( !m_bParallelLineCreated )
         return;
     QGraphicsLineItem * line = 0;
@@ -909,7 +919,8 @@ void LinePath::updateParallelLine() {
     line->setLine( common.x(), common.y(), p.x(), p.y() );
 }
 
-bool LinePath::operator==( const LinePath & rhs ) {
+bool LinePath::operator==( const LinePath & rhs ) 
+{
     if( this->m_LineList.count() != rhs.m_LineList.count() )
         return false;
 
@@ -921,7 +932,8 @@ bool LinePath::operator==( const LinePath & rhs ) {
     return true;
 }
 
-LinePath & LinePath::operator=( const LinePath & rhs ) {
+LinePath & LinePath::operator=( const LinePath & rhs )
+{
     if( this == &rhs )
         return *this;
     //clear out the old canvas objects
@@ -950,7 +962,7 @@ QGraphicsScene * LinePath::getScene()
 {
     if( !m_pAssociation )
         return 0;
-    return const_cast<UMLScene*>(m_pAssociation->getUMLScene());
+    return const_cast<UMLScene*>(m_pAssociation->umlScene());
 }
 
 /**
@@ -960,7 +972,8 @@ QGraphicsScene * LinePath::getScene()
  *   This class doesn't hold this information but is a wrapper
  *   method to stop calls to undefined variable like m_pAssociation.
  */
-Uml::Association_Type LinePath::getAssocType() const {
+Uml::Association_Type LinePath::getAssocType() const 
+{
     if( m_pAssociation )
         return m_pAssociation->getAssocType();
     return Uml::at_Association;
@@ -973,7 +986,8 @@ Uml::Association_Type LinePath::getAssocType() const {
  *   This class doesn't hold this information but is a wrapper
  *   method to stop calls to undefined variable like m_pAssociation.
  */
-QColor LinePath::getLineColor() {
+QColor LinePath::getLineColor()
+{
     if( !m_pAssociation )
         return Qt::black;
     return m_pAssociation->getLineColor();
@@ -986,7 +1000,8 @@ QColor LinePath::getLineColor() {
  *   This class doesn't hold this information but is a wrapper
  *   method to stop calls to undefined variable like m_pAssociation.
  */
-uint LinePath::getLineWidth() {
+uint LinePath::getLineWidth()
+{
     if( !m_pAssociation )
         return 0;
     int viewLineWidth = m_pAssociation->getLineWidth();
@@ -1029,7 +1044,7 @@ void LinePath::cleanup()
     m_pSubsetSymbol = 0;
     m_bHeadCreated = m_bParallelLineCreated = m_bSubsetSymbolCreated = false;
     if( m_pAssociation ) {
-        UMLScene * scene =  const_cast<UMLScene *>(m_pAssociation->getUMLScene());
+        UMLScene * scene =  const_cast<UMLScene *>(m_pAssociation->umlScene());
         if(scene) {
             disconnect( scene, SIGNAL( sigColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
             disconnect( scene, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
@@ -1128,7 +1143,6 @@ bool LinePath::loadFromXMI( QDomElement & qElement )
     return true;
 }
 
-
 /**
  *   Activates the line list.
  *   This is needed because the m_pAssociation does not yet
@@ -1152,8 +1166,6 @@ void LinePath::activate()
         line->setPen( getPen() );
     }
 }
-
-
 
 /**
  *   Creates the subset symbol

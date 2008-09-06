@@ -283,7 +283,6 @@ public:
     void setActivated() {}
     bool activate(IDChangeLog*) { return true;}
     void cleanup() {}
-    UMLScene* getUMLScene() const { return umlScene(); }
     qreal onWidget(const QPointF& pos) const {
         if(this->contains(mapFromScene(pos))) {
             QSizeF s = boundingRect().size();
