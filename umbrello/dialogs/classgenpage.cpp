@@ -349,7 +349,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, NewUMLRectWidget* widget)
     m_pStereoTypeCB = new KComboBox(true, this);
     m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
-    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), widget->getUMLObject()->getStereotype() );
+    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), widget->umlObject()->getStereotype() );
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
 
     m_pInstanceL = new QLabel(this);
@@ -478,7 +478,7 @@ void ClassGenPage::updateObject()
                 drawAsType = UMLArtifact::defaultDraw;
             }
             (static_cast<UMLArtifact*>(m_pObject))->setDrawAsType(drawAsType);
-			m_pObject->emitModified();
+            m_pObject->emitModified();
         }
 
     } // end if m_pObject
@@ -493,7 +493,7 @@ void ClassGenPage::updateObject()
         }
         QString name = m_pClassNameLE->text();
         m_pWidget->setDoc(m_pDoc->toPlainText());
-        UMLObject * o = m_pWidget->getUMLObject();
+        UMLObject * o = m_pWidget->umlObject();
         UMLObject * old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
@@ -505,7 +505,7 @@ void ClassGenPage::updateObject()
         m_pInstanceWidget->setInstanceName(m_pInstanceLE->text());
         QString name = m_pClassNameLE->text();
         m_pInstanceWidget->setDoc(m_pDoc->toPlainText());
-        UMLObject* o = m_pInstanceWidget->getUMLObject();
+        UMLObject* o = m_pInstanceWidget->umlObject();
         UMLObject* old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),

@@ -74,8 +74,8 @@ AssociationWidget::AssociationWidget(UMLScene *scene, NewUMLRectWidget* pWidgetA
     } else {
         // set up UMLAssociation obj if assoc is represented and both roles are UML objects
         if (UMLAssociation::assocTypeHasUMLRepresentation(assocType)) {
-            UMLObject* umlRoleA = pWidgetA->getUMLObject();
-            UMLObject* umlRoleB = pWidgetB->getUMLObject();
+            UMLObject* umlRoleA = pWidgetA->umlObject();
+            UMLObject* umlRoleB = pWidgetB->umlObject();
             if (umlRoleA != NULL && umlRoleB != NULL) {
                 bool swap;
 
@@ -703,9 +703,9 @@ bool AssociationWidget::activate()
 {
     if (umlObject() == NULL &&
         UMLAssociation::assocTypeHasUMLRepresentation(m_AssocType)) {
-        UMLObject *myObj = m_umldoc->findObjectById(getID());
+        UMLObject *myObj = m_umldoc->findObjectById(id());
         if (myObj == NULL) {
-            uError() << "cannot find UMLObject " << ID2STR(getID());
+            uError() << "cannot find UMLObject " << ID2STR(id());
             return false;
         } else {
             const Uml::Object_Type ot = myObj->getBaseType();
@@ -754,7 +754,7 @@ bool AssociationWidget::activate()
             else
                 robj.m_pRole->hide();
             if (umlScene()->getType() == dt_Collaboration)
-                robj.m_pRole->setUMLObject(robj.m_pWidget->getUMLObject());
+                robj.m_pRole->setUMLObject(robj.m_pWidget->umlObject());
         }
     }
 
@@ -1068,7 +1068,7 @@ Uml::IDType AssociationWidget::getWidgetID(Uml::Role_Type role) const
     }
     if (m_role[role].m_pWidget->getBaseType() == Uml::wt_Object)
         return static_cast<ObjectWidget*>(m_role[role].m_pWidget)->localID();
-    Uml::IDType id = m_role[role].m_pWidget->getID();
+    Uml::IDType id = m_role[role].m_pWidget->id();
     return id;
 }
 
@@ -3848,7 +3848,7 @@ void AssociationWidget::setOperation(UMLOperation *op)
 UMLClassifier *AssociationWidget::getOperationOwner()
 {
     Uml::Role_Type role = (isCollaboration() ? B : A);
-    UMLObject *o = getWidget(role)->getUMLObject();
+    UMLObject *o = getWidget(role)->umlObject();
     if (o == NULL)
         return NULL;
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
@@ -3882,7 +3882,7 @@ UMLClassifier *AssociationWidget::getSeqNumAndOp(QString& seqNum, QString& op)
 {
     seqNum = getMulti(A);
     op = getName();
-    UMLObject *o = getWidget(B)->getUMLObject();
+    UMLObject *o = getWidget(B)->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
     return c;
 }
@@ -3917,7 +3917,7 @@ void AssociationWidget::setWidget( NewUMLRectWidget* widget, Uml::Role_Type role
     if (widget) {
         m_role[role].m_pWidget->addAssociationWidget(this);
         if (umlObject() && umlObject()->getBaseType() == ot_Association)
-            getAssociation()->setObject(widget->getUMLObject(), role);
+            getAssociation()->setObject(widget->umlObject(), role);
     }
 }
 
@@ -3974,7 +3974,7 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         m_role[B].m_pChangeWidget->saveToXMI( qDoc, assocElement );
 
     if (m_pAssocClassWidget) {
-        QString acid = ID2STR(m_pAssocClassWidget->getID());
+        QString acid = ID2STR(m_pAssocClassWidget->id());
         assocElement.setAttribute("assocclass", acid);
         assocElement.setAttribute("aclsegindex", m_nLinePathSegmentIndex);
     }
@@ -4032,8 +4032,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
             // create, and add, the UMLAssociation for this widget.
             // Remove this special code when backwards compatibility
             // with older files isn't important anymore. -b.t.
-            UMLObject* umlRoleA = pWidgetA->getUMLObject();
-            UMLObject* umlRoleB = pWidgetB->getUMLObject();
+            UMLObject* umlRoleA = pWidgetA->umlObject();
+            UMLObject* umlRoleB = pWidgetB->umlObject();
             if (!umlObject() && umlRoleA && umlRoleB)
             {
                 oldStyleLoad = true; // flag for further special config below
@@ -4056,8 +4056,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                     pWidgetB = tmpWidget;
                     setWidget(pWidgetA, A);
                     setWidget(pWidgetB, B);
-                    umlRoleA = pWidgetA->getUMLObject();
-                    umlRoleB = pWidgetB->getUMLObject();
+                    umlRoleA = pWidgetA->umlObject();
+                    umlRoleB = pWidgetB->umlObject();
                 }
 
                 setUMLAssociation(m_umldoc->createUMLAssociation(umlRoleA, umlRoleB, aType));
@@ -4104,7 +4104,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
         // If the UMLObject is not found right now, we try again later
         // during the type resolution pass - see activate().
         setID(STR2ID(id));
-        UMLObject *myObj = m_umldoc->findObjectById(getID());
+        UMLObject *myObj = m_umldoc->findObjectById( STR2ID(id) );  //:TODO: id() );
         if (myObj) {
             const Uml::Object_Type ot = myObj->getBaseType();
             if (ot != ot_Association) {

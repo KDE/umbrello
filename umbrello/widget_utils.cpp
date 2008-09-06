@@ -49,7 +49,7 @@ namespace Widget_Utils
             if (obj->getBaseType() == Uml::wt_Object) {
                 if (static_cast<ObjectWidget *>(obj)->localID() == id)
                     return obj;
-            } else if (obj->getID() == id) {
+            } else if (obj->id() == id) {
                 return obj;
             }
         }
@@ -58,7 +58,7 @@ namespace Widget_Utils
             return NULL;
 
         foreach ( NewUMLRectWidget* obj , *pMessages ) {
-            if( obj->getID() == id )
+            if( obj->id() == id )
                 return obj;
         }
         return NULL;

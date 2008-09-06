@@ -508,7 +508,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data) {
 
     foreach ( NewUMLRectWidget* widget, widgets ) {
 
-        Uml::IDType oldId = widget->getID();
+        Uml::IDType oldId = widget->id();
         Uml::IDType newId = idchanges->findNewID(oldId);
         if (currentView->umlScene()->findWidget(newId)) {
             uError() << "widget (oldID=" << ID2STR(oldId) << ", newID="

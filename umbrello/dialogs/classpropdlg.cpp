@@ -58,7 +58,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
     init();
     m_pWidget = o;
     m_Type = pt_ObjectWidget;
-    m_pObject = m_pWidget->getUMLObject();
+    m_pObject = m_pWidget->umlObject();
     m_pDoc = UMLApp::app()->getDocument();
 
     setupGeneralPage();
@@ -76,7 +76,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, NewUMLRectWidget *w)
     init();
     m_pWidget = w;
     m_Type = pt_Widget;
-    m_pObject = w->getUMLObject();
+    m_pObject = w->umlObject();
 
     if (w->getBaseType() == Uml::wt_Class
             || w->getBaseType() == Uml::wt_Interface

@@ -1,20 +1,20 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "docwindow.h"
 
-// qt/kde includes
-#include <QVBoxLayout>
+// qt includes
+#include <QtGui/QVBoxLayout>
 
+// kde includes
 #include <ktextedit.h>
 #include <klocale.h>
 
@@ -25,7 +25,6 @@
 #include "umlview.h"
 #include "umlwidget.h"
 #include "umlscene.h"
-
 
 DocWindow::DocWindow( UMLDoc * doc, QWidget *parent ) : QWidget( parent )
 {
@@ -49,7 +48,8 @@ DocWindow::DocWindow( UMLDoc * doc, QWidget *parent ) : QWidget( parent )
 }
 
 DocWindow::~DocWindow()
-{}
+{
+}
 
 /**
  * This method is the same as the one for UMLObjects except it
@@ -155,8 +155,6 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         m_pAssocWidget = 0;
         m_Showing = st_Project;
     }
-
-    return;
 }
 
 /**
@@ -254,7 +252,7 @@ bool DocWindow::isTyping()
  */
 void DocWindow::slotAssociationRemoved(AssociationWidget* association)
 {
-    if (association == m_pAssocWidget || association->getUMLObject() == m_pUMLObject) {
+    if (association == m_pAssocWidget || association->umlObject() == m_pUMLObject) {
         // In old code, the below line crashed (bugs.kde.org/89860)
         // A hotfix was made and detailed analysis was To Be Done:
         // newDocumentation()
@@ -270,7 +268,7 @@ void DocWindow::slotAssociationRemoved(AssociationWidget* association)
  */
 void DocWindow::slotWidgetRemoved(NewUMLRectWidget* widget)
 {
-    if (widget == m_pUMLWidget || widget->getUMLObject() == m_pUMLObject) {
+    if (widget == m_pUMLWidget || widget->umlObject() == m_pUMLObject) {
         updateDocumentation(true);
     }
 }

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,21 +32,26 @@
 
 using namespace Uml;
 
-AssocRules::AssocRules() {}
-
-AssocRules::~AssocRules() {}
-
-bool allowAssociation( Association_Type/* assocType*/, const std::type_info/* &type*/ )
+AssocRules::AssocRules()
 {
-    return false;
+}
 
+AssocRules::~AssocRules()
+{
+}
+
+bool allowAssociation( Association_Type assocType, const std::type_info &type )
+{
+    Q_UNUSED(assocType); Q_UNUSED(type);
+    return false;
 }
 
 /**
  * Returns whether an association is valid with the given variables.
  * This method is used to finish an association.
  */
-bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWidget * widget ) {
+bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWidget * widget )
+{
     Widget_Type widgetType = widget->getBaseType();
     bool bValid = false;
     for (int i = 0; i < m_nNumRules; i++) {
@@ -139,12 +143,13 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWi
  */
 bool AssocRules::allowAssociation( Uml::Association_Type assocType,
                                    NewUMLRectWidget * widgetA, NewUMLRectWidget * widgetB,
-                                   bool extendedCheck ) {
+                                   bool extendedCheck )
+{
     Widget_Type widgetTypeA = widgetA->getBaseType();
     Widget_Type widgetTypeB = widgetB->getBaseType();
     bool bValid = false;
 
-    if ( widgetA->getUMLObject() == widgetB->getUMLObject() ) {
+    if ( widgetA->umlObject() == widgetB->umlObject() ) {
         return allowSelf( assocType, widgetTypeA );
     }
 
@@ -171,7 +176,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
 
     switch( assocType ) {
     case at_Association_Self:
-        if ( widgetA->getUMLObject() == widgetB->getUMLObject() )
+        if ( widgetA->umlObject() == widgetB->umlObject() )
             return true;
         break;
 
@@ -203,7 +208,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
             }
         }
         if (widgetB->getBaseType() == wt_Class) {
-            return widgetB->getUMLObject()->getAbstract();
+            return widgetB->umlObject()->getAbstract();
         } else if (widgetB->getBaseType() == wt_Interface ||
                    widgetB->getBaseType() == wt_Package) {
             return true;
@@ -297,7 +302,8 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
 /**
  * Returns whether to allow a role text for the given association type.
  */
-bool AssocRules::allowRole( Uml::Association_Type assocType ) {
+bool AssocRules::allowRole( Uml::Association_Type assocType )
+{
     for( int i = 0; i < m_nNumRules; i++ )
         if( assocType == m_AssocRules[ i ].assoc_type )
             return m_AssocRules[ i ].role;
@@ -308,7 +314,8 @@ bool AssocRules::allowRole( Uml::Association_Type assocType ) {
  * Returns whether to allow a multiplicity text for the given
  * association and widget type.
  */
-bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget_Type widgetType ) {
+bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget_Type widgetType )
+{
     for( int i = 0; i < m_nNumRules; i++ )
         if( assocType == m_AssocRules[ i ].assoc_type )
             if( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
@@ -319,7 +326,8 @@ bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget
 /**
  * Returns whether to allow an association to self for given variables.
  */
-bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type widgetType ) {
+bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type widgetType )
+{
     for( int i = 0; i < m_nNumRules; i++ )
         if( assocType == m_AssocRules[ i ].assoc_type )
             if( widgetType == m_AssocRules[ i ].widgetA_type || widgetType == m_AssocRules[ i ].widgetB_type )
@@ -333,7 +341,8 @@ bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type wi
  * a Generalisation.
  * as defined in m_AssocRules.
  */
-Uml::Association_Type AssocRules::isGeneralisationOrRealisation(NewUMLRectWidget* widgetA, NewUMLRectWidget* widgetB) {
+Uml::Association_Type AssocRules::isGeneralisationOrRealisation(NewUMLRectWidget* widgetA, NewUMLRectWidget* widgetB)
+{
     Widget_Type widgetTypeA = widgetA->getBaseType();
     Widget_Type widgetTypeB = widgetB->getBaseType();
     for (int i = 0; i < m_nNumRules; i++) {

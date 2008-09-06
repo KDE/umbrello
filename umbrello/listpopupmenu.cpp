@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -300,7 +299,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, NewUMLWidget * object,
     case Uml::wt_Category:
        {
          KMenu* m = makeCategoryTypeMenu(
-                        static_cast<UMLCategory*>(object->getUMLObject()));
+                        static_cast<UMLCategory*>(object->umlObject()));
          m->setTitle(i18n("Category Type"));
          addMenu(m);
          insertSubMenuColor(object->getUseFillColour());

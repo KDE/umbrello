@@ -228,8 +228,8 @@ void ToolBarStateAssociation::setSecondWidget()
         addAssociationInViewAndDoc(temp);
         if (type == at_Containment) {
             UMLListView *lv = UMLApp::app()->getListView();
-            UMLObject *newContainer = widgetA->getUMLObject();
-            UMLObject *objToBeMoved = widgetB->getUMLObject();
+            UMLObject *newContainer = widgetA->umlObject();
+            UMLObject *objToBeMoved = widgetB->umlObject();
             if (newContainer && objToBeMoved) {
                 UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
                 lv->moveObject(objToBeMoved->getID(),

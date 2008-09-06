@@ -202,7 +202,7 @@ void NewUMLRectWidget::showPropertiesDialog()
     ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
 
     if (dlg->exec()) {
-        docwindow->showDocumentation(getUMLObject() , true);
+        docwindow->showDocumentation(umlObject() , true);
         umlDoc()->setModified(true);
     }
     dlg->close(); //wipe from memory

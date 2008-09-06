@@ -149,7 +149,7 @@ public:
                              Uml::Object_Type type = Uml::ot_UMLObject,
                              UMLObject *currentObj = NULL);
 
-    UMLObject* findObjectByAuxId(const QString &idStr);
+    //:TODO: UMLObject* findObjectByAuxId(const QString &idStr);
 
     UMLClassifier * findUMLClassifier (const QString &name);
 

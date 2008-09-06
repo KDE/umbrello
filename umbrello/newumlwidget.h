@@ -223,9 +223,6 @@ public:
     NewUMLWidget(UMLScene *scene, const Uml::IDType &id = Uml::id_None);
     NewUMLWidget(UMLScene *scene, UMLObject *object);
 
-    UMLObject* getUMLObject() const { return umlObject(); }
-
-    Uml::IDType getID() const { return id(); }
     qreal getX() const { return pos().x(); }
     void setX(qreal x) { setPos(x, y()); }
     qreal getY() const { return pos().y(); }
