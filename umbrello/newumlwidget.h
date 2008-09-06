@@ -233,9 +233,7 @@ public:
     void setPenFromSettings(QPainter &p) { p.setPen(QPen(m_lineColor, m_lineWidth)); }
     void updateComponentSize();
 
-    QColor getLineColor() const { return lineColor(); }
     void setLineColorcmd(const QColor& col) { setLineColor(col); }
-    uint getLineWidth() const { return lineWidth(); }
     QColor getFillColour() const { return brush().color(); }
     QColor getFillColor() const { return getFillColour(); }
     void setFillColour(const QColor& col) { setBrush(QBrush(col)); }
@@ -243,7 +241,6 @@ public:
 
     bool getUseFillColour() const { return false; }
     void setUseFillColour(bool) {}
-    QFont getFont() const { return font(); }
 
     typedef enum {
         FT_NORMAL = 0,

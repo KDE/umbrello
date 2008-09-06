@@ -30,7 +30,7 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, NewUMLRectWidget *pWid
     m_pUMLWidget = pWidget;
     m_options = 0;
     init();
-    m_pLineColorB->setColor( pWidget->getLineColor() );
+    m_pLineColorB->setColor( pWidget->lineColor() );
     m_pFillColorB->setColor( pWidget->getFillColour() );
     m_pUseFillColorCB->setChecked( pWidget->getUseFillColour() );
 }

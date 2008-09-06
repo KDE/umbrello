@@ -990,7 +990,7 @@ QColor LinePath::getLineColor()
 {
     if( !m_pAssociation )
         return Qt::black;
-    return m_pAssociation->getLineColor();
+    return m_pAssociation->lineColor();
 }
 
 /**
@@ -1004,7 +1004,7 @@ uint LinePath::getLineWidth()
 {
     if( !m_pAssociation )
         return 0;
-    int viewLineWidth = m_pAssociation->getLineWidth();
+    int viewLineWidth = m_pAssociation->lineWidth();
     if ( viewLineWidth >= 0 && viewLineWidth <= 10 )
         return viewLineWidth;
     else {

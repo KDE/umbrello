@@ -2485,7 +2485,7 @@ void AssociationWidget::createAssocClassLine()
         umlScene()->addItem(m_pAssocClassLine);
     }
     computeAssocClassLine();
-    QPen pen(getLineColor(), getLineWidth(), Qt::DashLine);
+    QPen pen(lineColor(), lineWidth(), Qt::DashLine);
     m_pAssocClassLine->setPen(pen);
     m_pAssocClassLine->setVisible(true);
 }
@@ -2881,21 +2881,21 @@ QFont AssociationWidget::getFont() const
     QFont font;
 
     if( m_role[A].m_pRole )
-        font = m_role[A].m_pRole->getFont( );
+        font = m_role[A].m_pRole->font( );
     else    if( m_role[B].m_pRole)
-        font = m_role[B].m_pRole->getFont( );
+        font = m_role[B].m_pRole->font( );
     else    if( m_role[A].m_pMulti )
-        font = m_role[A].m_pMulti->getFont( );
+        font = m_role[A].m_pMulti->font( );
     else    if( m_role[B].m_pMulti )
-        font = m_role[B].m_pMulti->getFont( );
+        font = m_role[B].m_pMulti->font( );
     else    if( m_role[A].m_pChangeWidget)
-        font = m_role[A].m_pChangeWidget->getFont( );
+        font = m_role[A].m_pChangeWidget->font( );
     else    if( m_role[B].m_pChangeWidget)
-        font = m_role[B].m_pChangeWidget->getFont( );
+        font = m_role[B].m_pChangeWidget->font( );
     else    if( m_pName)
-        font = m_pName->getFont( );
+        font = m_pName->font( );
     else
-        font = m_role[A].m_pWidget->getFont();
+        font = m_role[A].m_pWidget->font();
 
     return font;
 }

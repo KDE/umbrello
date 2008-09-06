@@ -381,7 +381,7 @@ void ClassPropDlg::setupFontPage()
     pageItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageItem );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-    m_pChooser->setFont( m_pWidget->getFont() );
+    m_pChooser->setFont( m_pWidget->font() );
 }
 
 
