@@ -40,7 +40,7 @@ class TextItemGroup;
  */
 class NewUMLRectWidget : public NewUMLWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
     /**
@@ -54,25 +54,25 @@ public:
     static const QSizeF DefaultMinimumSize;
     static const QSizeF DefaultMaximumSize;
 
-	explicit NewUMLRectWidget(UMLObject *object);
+    explicit NewUMLRectWidget(UMLObject *object);
     ~NewUMLRectWidget();
 
-	/// @return The minimum size for this widget.
-	QSizeF minimumSize() const {
-		return m_minimumSize;
-	}
-	void setMinimumSize(const QSizeF& newSize, SizeHintOption option = DontAddMargin);
+    /// @return The minimum size for this widget.
+    QSizeF minimumSize() const {
+        return m_minimumSize;
+    }
+    void setMinimumSize(const QSizeF& newSize, SizeHintOption option = DontAddMargin);
 
-	/// @return The maximum size for this widget.
-	QSizeF maximumSize() const {
-		return m_maximumSize;
-	}
-	void setMaximumSize(const QSizeF& newSize, SizeHintOption option = DontAddMargin);
+    /// @return The maximum size for this widget.
+    QSizeF maximumSize() const {
+        return m_maximumSize;
+    }
+    void setMaximumSize(const QSizeF& newSize, SizeHintOption option = DontAddMargin);
 
-	/// @return The current size of this widget.
+    /// @return The current size of this widget.
     QSizeF size() const {
-		return m_size;
-	}
+        return m_size;
+    }
     void setSize(const QSizeF &size);
     void setSize(qreal width, qreal height) {
         setSize(QSizeF(width, height));
@@ -95,51 +95,51 @@ public:
         setSize(wt, m_size.height());
     }
 
-	/// @return Whether widget is resizable or not.
+    /// @return Whether widget is resizable or not.
     bool isResizable() const {
         return m_resizable;
     }
-	/**
-	 * Shorthand for QRectF(QPointF(0, 0), size()); The rect() area is
-	 * where all the widget painting should go.
-	 *
-	 * @note boundingRect() is always larger than or equal to rect().
-	 */
+    /**
+     * Shorthand for QRectF(QPointF(0, 0), size()); The rect() area is
+     * where all the widget painting should go.
+     *
+     * @note boundingRect() is always larger than or equal to rect().
+     */
     QRectF rect() const {
         return QRectF(QPointF(0, 0), size());
     }
 
-	/**
-	 * @return The margin from the rect() left for good visual appeal.
-	 */
-	qreal margin() const {
-		return m_margin;
-	}
-	void setMargin(qreal margin);
+    /**
+     * @return The margin from the rect() left for good visual appeal.
+     */
+    qreal margin() const {
+        return m_margin;
+    }
+    void setMargin(qreal margin);
 
-	/// @return The instance name for this widget.
+    /// @return The instance name for this widget.
     QString instanceName() const {
-		return m_instanceName;
-	}
+        return m_instanceName;
+    }
     void setInstanceName(const QString &name);
 
-	/// @return Whether this is an instance or not.
-	bool isInstance() const {
-		return m_isInstance;
-	}
-	void setIsInstance(bool b);
+    /// @return Whether this is an instance or not.
+    bool isInstance() const {
+        return m_isInstance;
+    }
+    void setIsInstance(bool b);
 
-	/// @return Whether to show stereotype or not.
+    /// @return Whether to show stereotype or not.
     bool showStereotype() const {
-		return m_showStereotype;
-	}
+        return m_showStereotype;
+    }
     void setShowStereotype(bool b);
 
-	/// @return A list representing AssociationWidget connected to
-	///         this widget.
+    /// @return A list representing AssociationWidget connected to
+    ///         this widget.
     AssociationWidgetList associationWidgetList() const {
-		return m_associationWidgetList;
-	}
+        return m_associationWidgetList;
+    }
     void addAssociationWidget(AssociationWidget *assoc);
     void removeAssociationWidget(AssociationWidget *assoc);
     virtual void adjustAssociations();
@@ -151,7 +151,7 @@ public:
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
 protected:
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
     virtual void updateGeometry();
     virtual void setResizable(bool resizable);
 
@@ -163,44 +163,44 @@ protected:
 
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
-	TextItemGroup* createTextItemGroup();
-	int indexOfTextItemGroup(TextItemGroup *group) const;
-	TextItemGroup* textItemGroupAt(int index) const;
-	virtual void updateTextItemGroups();
+    TextItemGroup* createTextItemGroup();
+    int indexOfTextItemGroup(TextItemGroup *group) const;
+    TextItemGroup* textItemGroupAt(int index) const;
+    virtual void updateTextItemGroups();
 
-	/**
-	 * List of TextItemGroup , which manages various texts for this
-	 * widget.
-	 */
-	QList<TextItemGroup*> m_textItemGroups;
+    /**
+     * List of TextItemGroup , which manages various texts for this
+     * widget.
+     */
+    QList<TextItemGroup*> m_textItemGroups;
 
 protected Q_SLOTS:
     virtual void slotUMLObjectDataChanged();
 
 private:
-	/// Current size of the widget.
+    /// Current size of the widget.
     QSizeF m_size;
 
-	QSizeF m_minimumSize;
-	QSizeF m_maximumSize;
+    QSizeF m_minimumSize;
+    QSizeF m_maximumSize;
 
-	/// Margin for this widget.
-	qreal m_margin;
+    /// Margin for this widget.
+    qreal m_margin;
 
-	QString m_instanceName;
-	bool m_isInstance;
-	bool m_showStereotype;
+    QString m_instanceName;
+    bool m_isInstance;
+    bool m_showStereotype;
 
-	/// Whether resizable or not.
-	bool m_resizable;
+    /// Whether resizable or not.
+    bool m_resizable;
     AssociationWidgetList m_associationWidgetList;
 
-	/// Widget handle for this widget (for resizing)
-	WidgetHandle *m_widgetHandle;
+    /// Widget handle for this widget (for resizing)
+    WidgetHandle *m_widgetHandle;
 
-	QRectF m_geometryBeforeResize;
+    QRectF m_geometryBeforeResize;
 
-	// Dispable copy constructor and operator=
+    // Dispable copy constructor and operator=
     DISABLE_COPY(NewUMLRectWidget);
 
 public:

@@ -4,13 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2008                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2002-2008                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
  /* Created By Krzywda Stanislas and Bouchikhi Mohamed-Amine ;) */
 
 #include "cmd_changeFillColor.h"
+
 // app includes
 #include "uml.h"
 #include "umlwidgetcontroller.h"
@@ -28,24 +29,24 @@
 
 namespace Uml
 {
-    CmdChangeFillColor::CmdChangeFillColor(NewUMLRectWidget *w, const QColor& col):UMLw(w),color(col)
+    CmdChangeFillColor::CmdChangeFillColor(NewUMLRectWidget *w, const QColor& col)
+        : m_umlWidget(w), m_color(col)
     {
-        setText(i18n("Change Fill Color")+ w->name());
-        oldColor= w->getFillColor() ;
+        setText(i18n("Change Fill Color") + w->name());
+        m_oldColor= w->getFillColor() ;
     }
 
     CmdChangeFillColor::~CmdChangeFillColor()
     {
-
     }
+
     void CmdChangeFillColor::redo()
     {
-        UMLw->setFillColourcmd( color );
+        m_umlWidget->setFillColour( m_color );
     }
 
     void CmdChangeFillColor::undo()
     {
-
-        UMLw->setFillColourcmd( oldColor );
+        m_umlWidget->setFillColour( m_oldColor );
     }
 }

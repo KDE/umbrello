@@ -237,7 +237,6 @@ public:
     QColor getFillColour() const { return brush().color(); }
     QColor getFillColor() const { return getFillColour(); }
     void setFillColour(const QColor& col) { setBrush(QBrush(col)); }
-    void setFillColourcmd(const QColor& col) { setFillColour(col); }
 
     bool getUseFillColour() const { return false; }
     void setUseFillColour(bool) {}
@@ -268,8 +267,6 @@ public:
     ListPopupMenu *m_pMenu;
     virtual ListPopupMenu* setupPopupMenu();
     qreal m_origZ;
-    void setZ(qreal z) { setZValue(z); }
-    qreal getZ() const { return zValue(); }
     qreal onWidget(const QPointF& pos) const {
         if(this->contains(mapFromScene(pos))) {
             QSizeF s = boundingRect().size();
