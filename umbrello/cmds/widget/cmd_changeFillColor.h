@@ -22,13 +22,13 @@ namespace Uml
 
     class CmdChangeFillColor : public QUndoCommand
     {
-        UMLRectWidget *m_umlWidget;
+        NewUMLRectWidget *m_umlWidget;
 
         QColor m_oldColor;  ///< old color
         QColor m_color;     ///< new color
 
         public:
-            CmdChangeFillColor(UMLRectWidget *w, const QColor& col);
+            CmdChangeFillColor(NewUMLRectWidget *w, const QColor& col);
             ~CmdChangeFillColor();
             void redo();
             void undo();

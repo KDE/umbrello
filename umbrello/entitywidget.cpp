@@ -36,7 +36,7 @@
  * @param o The UMLObject this will be representing.
  */
 EntityWidget::EntityWidget(UMLObject* o) :
-	UMLRectWidget(o)
+	NewUMLRectWidget(o)
 {
     m_baseType = Uml::wt_Entity;
 	createTextItemGroup();
@@ -48,7 +48,7 @@ EntityWidget::~EntityWidget()
 }
 
 /**
- * Reimplemented from UMLRectWidget::paint
+ * Reimplemented from NewUMLRectWidget::paint
  *
  * Draws the entity as a rectangle with a box underneith with a list
  * of literals
@@ -63,29 +63,29 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QW
 }
 
 /**
- * Reimplemented from UMLRectWidget::saveToXMI to save this widget
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save this widget
  * info to the "entitywidget" XMI element.
  */
 void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
 {
     QDomElement conceptElement = qDoc.createElement("entitywidget");
-    UMLRectWidget::saveToXMI(qDoc, conceptElement);
+    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateGeometry to apply the
+ * Reimplemented from NewUMLRectWidget::updateGeometry to apply the
  * properties and calculate minimum size for this widget.
  */
 void EntityWidget::updateGeometry()
 {
 	TextItemGroup *grp = textItemGroupAt(GroupIndex);
 	setMinimumSize(grp->minimumSize());
-	UMLRectWidget::updateGeometry();
+	NewUMLRectWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateTextItemGroups to set
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to set
  * text properties.
  */
 void EntityWidget::updateTextItemGroups()
@@ -120,11 +120,11 @@ void EntityWidget::updateTextItemGroups()
             ++index;
         }
     }
-    UMLRectWidget::updateTextItemGroups();
+    NewUMLRectWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from UMLRectWidget::attributeChange to handle
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle
  * SizeHasChanged to align and position the text items.
  */
 QVariant EntityWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -145,7 +145,7 @@ QVariant EntityWidget::attributeChange(WidgetAttributeChange change, const QVari
 		}
 	}
 
-    return UMLRectWidget::attributeChange(change, oldValue);
+    return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 /**
@@ -198,7 +198,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        UMLRectWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 
 }

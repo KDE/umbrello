@@ -184,13 +184,13 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite )
  * displays documentation for an association instance
  * (AssociationWidget).
  */
-void DocWindow::showDocumentation( UMLRectWidget * widget, bool overwrite )
+void DocWindow::showDocumentation( NewUMLRectWidget * widget, bool overwrite )
 {
     if( widget == m_pUMLWidget && !overwrite )
         return;
     if( widget != m_pUMLWidget )
         updateDocumentation( true );
-    m_Showing = st_UMLRectWidget;
+    m_Showing = st_NewUMLRectWidget;
     if( !widget ) {
         m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
         m_pUMLWidget = 0;
@@ -266,7 +266,7 @@ void DocWindow::slotAssociationRemoved(AssociationWidget* association)
  * If the association removed was the association which documentation is
  * being shown, m_pUMLWidget is set to 0.
  */
-void DocWindow::slotWidgetRemoved(UMLRectWidget* widget)
+void DocWindow::slotWidgetRemoved(NewUMLRectWidget* widget)
 {
     if (widget == m_pUMLWidget || widget->umlObject() == m_pUMLObject) {
         updateDocumentation(true);

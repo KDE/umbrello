@@ -12,7 +12,7 @@
 #ifndef FLOATINGDASHLINEWIDGET_H
 #define FLOATINGDASHLINEWIDGET_H
 
-#include "umlrectwidget.h"
+#include "newumlrectwidget.h"
 
 /**
  * This class is used to draw dash lines for UML combined fragments. A
@@ -24,7 +24,7 @@
  * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class FloatingDashLineWidget : public UMLRectWidget
+class FloatingDashLineWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 public:

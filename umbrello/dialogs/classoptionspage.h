@@ -21,11 +21,11 @@ class QCheckBox;
 class QGroupBox;
 
 /**
- * A dialog page to display options for a @ref UMLRectWidget and its
+ * A dialog page to display options for a @ref NewUMLRectWidget and its
  * children.  This is not normally called by you.  It is used by
  * the @ref ClassPropDlg.
  *
- * @short A dialog page to display the options for a UMLRectWidget.
+ * @short A dialog page to display the options for a NewUMLRectWidget.
  * @author Paul Hensgen <phensgen@techie.com>
  * @see ClassPropDlg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org

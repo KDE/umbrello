@@ -22,7 +22,7 @@ class AssociationWidget;
 class MessageWidget;
 class FloatingDashLineWidget;
 class UMLScene;
-class UMLRectWidget;
+class NewUMLRectWidget;
 
 
 /**
@@ -95,7 +95,7 @@ public slots:
 
     virtual void slotAssociationRemoved(AssociationWidget* association);
 
-    virtual void slotWidgetRemoved(UMLRectWidget* widget);
+    virtual void slotWidgetRemoved(NewUMLRectWidget* widget);
 
 protected:
 
@@ -137,11 +137,11 @@ protected:
 
     virtual void changeTool();
 
-    virtual UMLRectWidget* getCurrentWidget() {
+    virtual NewUMLRectWidget* getCurrentWidget() {
         return m_currentWidget;
     }
 
-    virtual void setCurrentWidget(UMLRectWidget* currentWidget) {
+    virtual void setCurrentWidget(NewUMLRectWidget* currentWidget) {
         m_currentWidget = currentWidget;
     }
 
@@ -179,7 +179,7 @@ private:
     /**
      * The widget currently in use, if any.
      */
-    UMLRectWidget* m_currentWidget;
+    NewUMLRectWidget* m_currentWidget;
 
     /**
      * The association currently in use, if any.

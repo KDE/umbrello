@@ -19,7 +19,7 @@ class KTextEdit;
 class UMLObject;
 class UMLDoc;
 class UMLView;
-class UMLRectWidget;
+class NewUMLRectWidget;
 
 /**
  * @author Paul Hensgen
@@ -43,7 +43,7 @@ public:
 
     void showDocumentation( UMLView * view, bool overwrite = false );
 
-    void showDocumentation( UMLRectWidget * widget, bool overwrite = false );
+    void showDocumentation( NewUMLRectWidget * widget, bool overwrite = false );
 
     void showDocumentation( AssociationWidget * widget, bool overwrite = false );
 
@@ -58,7 +58,7 @@ public slots:
 
     void slotAssociationRemoved(AssociationWidget* association);
 
-    void slotWidgetRemoved(UMLRectWidget* widget);
+    void slotWidgetRemoved(NewUMLRectWidget* widget);
 
 private:
 
@@ -70,7 +70,7 @@ private:
         st_Project,
         st_UMLView,
         st_UMLObject,
-        st_UMLRectWidget,
+        st_NewUMLRectWidget,
         st_Association
     };
 
@@ -90,9 +90,9 @@ private:
     UMLDoc * m_pUMLDoc;
 
     /**
-     * A pointer to the UMLRectWidget we are going to show documentation.
+     * A pointer to the NewUMLRectWidget we are going to show documentation.
      */
-    UMLRectWidget * m_pUMLWidget;
+    NewUMLRectWidget * m_pUMLWidget;
 
     /**
      * A pointer to the association we are going to show documentation.

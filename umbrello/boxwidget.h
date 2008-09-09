@@ -13,7 +13,7 @@
 #define BOXWIDGET_H
 
 //app includes
-#include "umlrectwidget.h"
+#include "newumlrectwidget.h"
 
 /**
  * @class BoxWidget
@@ -25,10 +25,10 @@
  * @short Displays a box.
  * @author Jonathan Riddell
  * @author Gopala Krishna
- * @see UMLRectWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class BoxWidget : public UMLRectWidget
+class BoxWidget : public NewUMLRectWidget
 {
 public:
     explicit BoxWidget(Uml::IDType id = Uml::id_None);

@@ -38,7 +38,7 @@ const int ClassifierWidget::InvalidIndex = 99999;
  * @param c The UMLObject to represent.
  */
 ClassifierWidget::ClassifierWidget(UMLClassifier *c)
-    : UMLRectWidget(c)
+    : NewUMLRectWidget(c)
 {
     createTextItemGroup(); // For classifier text items
     createTextItemGroup(); // For template text items'
@@ -315,7 +315,7 @@ void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
  */
 void ClassifierWidget::adjustAssociations()
 {
-    UMLRectWidget::adjustAssociations();
+    NewUMLRectWidget::adjustAssociations();
 
     if (umlDoc()->loading() || m_classAssociationWidget == 0) {
         return;
@@ -325,12 +325,12 @@ void ClassifierWidget::adjustAssociations()
 }
 
 /**
- * Reimplemented from UMLRectWidget::loadFromXMI to load the
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load the
  * classifier widget from XMI.
  */
 bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
 {
-    if (!UMLRectWidget::loadFromXMI(qElement))
+    if (!NewUMLRectWidget::loadFromXMI(qElement))
         return false;
 
     // Determine str
@@ -369,7 +369,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
 }
 
 /**
- * Reimplemented from UMLRectWidget::saveToXMI to save
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save
  * classifierwidget data either to 'interfacewidget' or 'classwidget'
  * XMI element.
  */
@@ -381,7 +381,7 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     QString tagName = umlc->isInterface() ?
         "interfacewidget" : "classwidget";
     conceptElement = qDoc.createElement(tagName);
-    UMLRectWidget::saveToXMI( qDoc, conceptElement );
+    NewUMLRectWidget::saveToXMI( qDoc, conceptElement );
 
     conceptElement.setAttribute("showoperations", visualProperty(ShowOperations));
     conceptElement.setAttribute("showpubliconly", visualProperty(ShowPublicOnly));
@@ -401,7 +401,7 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 }
 
 /**
- * Reimplemented form UMLRectWidget::paint to draw
+ * Reimplemented form NewUMLRectWidget::paint to draw
  * ClassifierWidget.
  */
 void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget *)
@@ -427,7 +427,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*,
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateGeometry to calculate
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
  * minimum size for this widget based on the current state of this
  * widget.
  */
@@ -444,7 +444,7 @@ void ClassifierWidget::updateGeometry()
         totalMinSize.setWidth(qMax(classifierMinSize.width(), minDiameter));
         totalMinSize.setHeight(classifierMinSize.height() + minDiameter);
         setMinimumSize(totalMinSize);
-        UMLRectWidget::updateGeometry();
+        NewUMLRectWidget::updateGeometry();
         return;
     }
 
@@ -462,14 +462,14 @@ void ClassifierWidget::updateGeometry()
         totalMinSize.setWidth(classifierMinSize.width() + .5 * templateBoxSize.width());
 
         // Dont add margin as we have already added manually
-        setMinimumSize(totalMinSize, UMLRectWidget::DontAddMargin);
+        setMinimumSize(totalMinSize, NewUMLRectWidget::DontAddMargin);
     }
 
-    UMLRectWidget::updateGeometry();
+    NewUMLRectWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from UMLRectWidget::attributeChange to handle @ref
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle @ref
  * SizeHasChanged notification and pre-calculate the TextItem position
  * and the drawing elements like rectangle, lines ...
  */
@@ -479,7 +479,7 @@ QVariant ClassifierWidget::attributeChange(WidgetAttributeChange change, const Q
         calculateTemplateDrawing();
         calculateClassifierDrawing();
     }
-    return UMLRectWidget::attributeChange(change, oldValue);
+    return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 /**
@@ -564,7 +564,7 @@ void ClassifierWidget::calculateClassifierDrawing()
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateTextItemGroups to
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to
  * calculate the Text strings , their properties and also hide/show
  * them based on the current state.
  */
@@ -682,7 +682,7 @@ void ClassifierWidget::updateTextItemGroups()
         classifierGroup->insertTextItemAt(opStartIndex, m_dummyOperationItem);
     }
 
-    UMLRectWidget::updateTextItemGroups();
+    NewUMLRectWidget::updateTextItemGroups();
 }
 
 /**
@@ -796,7 +796,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        UMLRectWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
         break;
     }
 }

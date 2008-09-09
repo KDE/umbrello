@@ -12,7 +12,7 @@
 #ifndef OBJECTNODEWIDGET_H
 #define OBJECTNODEWIDGET_H
 
-#include "umlrectwidget.h"
+#include "newumlrectwidget.h"
 
 /**
  * This class is the graphical version of a UML Object Node which is
@@ -23,7 +23,7 @@
  * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ObjectNodeWidget : public UMLRectWidget
+class ObjectNodeWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 
@@ -58,7 +58,7 @@ public:
     virtual void showPropertiesDialog();
 
 	void askStateForWidget();
-	void askForObjectNodeType(UMLRectWidget* &targetWidget);
+	void askForObjectNodeType(NewUMLRectWidget* &targetWidget);
 
 	virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );

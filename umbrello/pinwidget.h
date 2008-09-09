@@ -26,11 +26,11 @@
  * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PinWidget : public UMLRectWidget
+class PinWidget : public NewUMLRectWidget
 {
 Q_OBJECT
 public:
-    PinWidget( UMLRectWidget* a, Uml::IDType id = Uml::id_None );
+    PinWidget( NewUMLRectWidget* a, Uml::IDType id = Uml::id_None );
     virtual ~PinWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *w);
@@ -61,7 +61,7 @@ private:
      *
      * @todo why not ActivityWidget directly ?
      */
-    UMLRectWidget * m_ownerWidget;
+    NewUMLRectWidget * m_ownerWidget;
 
     /// This is used to display text for the Pin
     FloatingTextWidget * m_nameFloatingTextWiget;

@@ -65,15 +65,15 @@
 namespace Widget_Factory {
 
 /**
- * Create a UMLRectWidget in the given view and representing the given document object.
+ * Create a NewUMLRectWidget in the given view and representing the given document object.
  */
-UMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
+NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *o)
 {
     QPointF pos = scene->getPos();
     qreal y = pos.y();
     Uml::Diagram_Type diagramType = scene->getType();
     Uml::Object_Type type = o->getBaseType();
-    UMLRectWidget *newWidget = NULL;
+    NewUMLRectWidget *newWidget = NULL;
     switch (type) {
     case Uml::ot_Actor:
         if (diagramType == Uml::dt_Sequence) {
@@ -183,12 +183,12 @@ bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id)
 }
 
 /**
- * Create a UMLRectWidget according to the given XMI tag.
+ * Create a NewUMLRectWidget according to the given XMI tag.
  */
-UMLRectWidget* makeWidgetFromXMI(const QString& tag,
+NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
                              const QString& idStr, UMLScene *scene)
 {
-    UMLRectWidget *widget = NULL;
+    NewUMLRectWidget *widget = NULL;
 
         // Loading of widgets which do NOT represent any UMLObject,
         // just graphic stuff with no real model information

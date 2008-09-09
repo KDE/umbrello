@@ -22,10 +22,10 @@ class QCursor;
 class QGraphicsSceneMouseEvent;
 class QPointF;
 
-class UMLRectWidget;
+class NewUMLRectWidget;
 
 /**
- * Controller for UMLRectWidget
+ * Controller for NewUMLRectWidget
  * This class takes care of user interaction with UMLWidgets: select, deselect,
  * move, resize...
  * Those actions are done using events. There are handlers for mousePressEvent,
@@ -73,7 +73,7 @@ public:
      *
      * @param widget The widget which uses the controller.
      */
-    UMLWidgetController(UMLRectWidget *widget);
+    UMLWidgetController(NewUMLRectWidget *widget);
 
     /**
      * Destructor for UMLWidgetController.
@@ -104,7 +104,7 @@ public:
 
     virtual void resizeWidget(qreal newW, qreal newH);
 
-    virtual UMLRectWidget* getWidget();
+    virtual NewUMLRectWidget* getWidget();
 
 protected:
 
@@ -153,7 +153,7 @@ protected:
     /**
      * The widget which uses the controller.
      */
-    UMLRectWidget *m_widget;
+    NewUMLRectWidget *m_widget;
 
     /**
      * Timer that prevents excessive updates (be easy on the CPU).

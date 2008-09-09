@@ -40,7 +40,7 @@ const QSizeF ObjectNodeWidget::MinimumSize(30, 10);
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 ObjectNodeWidget::ObjectNodeWidget(ObjectNodeType objectNodeType, Uml::IDType id )
-	: UMLRectWidget(0, id)
+	: NewUMLRectWidget(0, id)
 {
     m_baseType = Uml::wt_ObjectNode;
     m_objectNodeType = objectNodeType;
@@ -88,7 +88,7 @@ void ObjectNodeWidget::setState(const QString& state)
 }
 
 /**
- * Reimplemented from UMLRectWidget::showPropertiesDialog to show
+ * Reimplemented from NewUMLRectWidget::showPropertiesDialog to show
  * appropriate dialog for objectnode widget.
  */
 void ObjectNodeWidget::showPropertiesDialog()
@@ -121,7 +121,7 @@ void ObjectNodeWidget::askStateForWidget()
  * Open a dialog box to select the objectNode type (Data, Buffer or
  * Flow)
  */
-void ObjectNodeWidget::askForObjectNodeType(UMLRectWidget* &targetWidget)
+void ObjectNodeWidget::askForObjectNodeType(NewUMLRectWidget* &targetWidget)
 {
     bool pressedOK = false;
     int current = 0;
@@ -164,12 +164,12 @@ void ObjectNodeWidget::askForObjectNodeType(UMLRectWidget* &targetWidget)
 }
 
 /**
- * Reimplemented from UMLRectWidget::loadFromXMI to load
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load
  * ObjectNodeWidget from XMI.
  */
 bool ObjectNodeWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !UMLRectWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     setName(qElement.attribute( "objectnodename", "" ));
     setDocumentation(qElement.attribute( "documentation", "" ));
@@ -182,13 +182,13 @@ bool ObjectNodeWidget::loadFromXMI( QDomElement & qElement )
 }
 
 /**
- * Reimplemented from UMLRectWidget::saveToXMI to save
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save
  * ObjectNodeType info to XMI.
  */
 void ObjectNodeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement objectNodeElement = qDoc.createElement( "objectnodewidget" );
-    UMLRectWidget::saveToXMI( qDoc, objectNodeElement );
+    NewUMLRectWidget::saveToXMI( qDoc, objectNodeElement );
     objectNodeElement.setAttribute( "objectnodename", name() );
     objectNodeElement.setAttribute( "documentation", documentation());
     objectNodeElement.setAttribute( "objectnodetype", m_objectNodeType );
@@ -197,7 +197,7 @@ void ObjectNodeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 }
 
 /**
- * Reimplemented from UMLRectWidget::slotMenuSelection to handle
+ * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
  * particular menu actions.
  */
 void ObjectNodeWidget::slotMenuSelection(QAction* action)
@@ -224,12 +224,12 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        UMLRectWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateGeometry to
+ * Reimplemented from NewUMLRectWidget::updateGeometry to
  * calculate minimumSize for this widget.
  */
 void ObjectNodeWidget::updateGeometry()
@@ -238,11 +238,11 @@ void ObjectNodeWidget::updateGeometry()
 	minSize = minSize.expandedTo(ObjectNodeWidget::MinimumSize);
 	setMinimumSize(minSize);
 
-	UMLRectWidget::updateGeometry();
+	NewUMLRectWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateTextItemGroups to update
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
  * texts of this widget based on current state.
  */
 void ObjectNodeWidget::updateTextItemGroups()
@@ -281,11 +281,11 @@ void ObjectNodeWidget::updateTextItemGroups()
 	grp->textItemAt(1)->setText(second);
 	grp->textItemAt(1)->setVisible(visible);
 
-	UMLRectWidget::updateTextItemGroups();
+	NewUMLRectWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented form UMLRectWidget::attributeChange to handle @ref
+ * Reimplemented form NewUMLRectWidget::attributeChange to handle @ref
  * SizeHasChanged notification by placing text at right place and also
  * calculating the line (in case of Flow).
  */
@@ -310,7 +310,7 @@ QVariant ObjectNodeWidget::attributeChange(WidgetAttributeChange change, const Q
 		}
 
 	}
-	return UMLRectWidget::attributeChange(change, oldValue);
+	return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 #include "objectnodewidget.moc"

@@ -40,12 +40,12 @@ class MessageWidgetController;
  * @author Paul Hensgen
  * @author Gopala Krishna
  *
- * @see UMLRectWidget
+ * @see NewUMLRectWidget
  * @see ObjectWidget
  * @see FloatingTextWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
 n */
-class MessageWidget : public UMLRectWidget, public LinkWidget
+class MessageWidget : public NewUMLRectWidget, public LinkWidget
 {
     Q_OBJECT
 public:
@@ -163,7 +163,7 @@ private:
      * A state variable to keep track of initialization which has to
      * happen only once when the scene is set for the first time.
      *
-     * @note There is an identicle variable in UMLWidget called
+     * @note There is an identicle variable in NewUMLWidget called
      *       m_isSceneSetBefore. But we can't use it as that variable
      *       is for base intialization and hence that is delibarately
      *       made private.

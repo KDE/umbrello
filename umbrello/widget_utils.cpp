@@ -40,12 +40,12 @@ namespace Widget_Utils
      * @param pMessages     Optional pointer to a MessageWidgetList to
      *                      search in.
      */
-    UMLRectWidget* findWidget(Uml::IDType id,
+    NewUMLRectWidget* findWidget(Uml::IDType id,
                                  const UMLWidgetList& widgets,
                                  const MessageWidgetList* pMessages /* = NULL */)
     {
         UMLWidgetListIt it( widgets );
-        foreach ( UMLRectWidget* obj , widgets ) {
+        foreach ( NewUMLRectWidget* obj , widgets ) {
             if (obj->baseType() == Uml::wt_Object) {
                 if (static_cast<ObjectWidget *>(obj)->localID() == id)
                     return obj;
@@ -57,7 +57,7 @@ namespace Widget_Utils
         if (pMessages == NULL)
             return NULL;
 
-        foreach ( UMLRectWidget* obj , *pMessages ) {
+        foreach ( NewUMLRectWidget* obj , *pMessages ) {
             if( obj->id() == id )
                 return obj;
         }

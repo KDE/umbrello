@@ -12,7 +12,7 @@
 #ifndef ACTIVITYWIDGET_H
 #define ACTIVITYWIDGET_H
 
-#include "umlrectwidget.h"
+#include "newumlrectwidget.h"
 
 /**
  * @class ActivityWidget
@@ -21,7 +21,7 @@
  * by a @ref UMLView.  An ActivityWidget belongs to only one @ref UMLView instance.
  * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
  *
- * The ActivityWidget class inherits from the @ref UMLRectWidget class which adds most of the functionality
+ * The ActivityWidget class inherits from the @ref NewUMLRectWidget class which adds most of the functionality
  * to this class.
  *
  * @short  A graphical version of a UML Activity.
@@ -29,7 +29,7 @@
  * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ActivityWidget : public UMLRectWidget
+class ActivityWidget : public NewUMLRectWidget
 {
 Q_OBJECT
 

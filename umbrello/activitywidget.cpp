@@ -41,7 +41,7 @@
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 ActivityWidget::ActivityWidget(ActivityType activityType, Uml::IDType id)
-    : UMLRectWidget(0, id),
+    : NewUMLRectWidget(0, id),
       m_activityType(activityType)
 {
     m_baseType = Uml::wt_Activity;
@@ -75,7 +75,7 @@ void ActivityWidget::setPostconditionText(const QString& aPostText)
 }
 
 /**
- * Reimplemented fron UMLRectWidget::showPropertiesDialog to show a
+ * Reimplemented fron NewUMLRectWidget::showPropertiesDialog to show a
  * properties dialog for an ActivityWidget.
  */
 void ActivityWidget::showPropertiesDialog()
@@ -159,7 +159,7 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidge
 
 /// Loads the widget from the "activitywidget" XMI element.
 bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
-    if( !UMLRectWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
     setName(qElement.attribute( "activityname", "" ));
     setDocumentation(qElement.attribute( "documentation", "" ));
@@ -176,7 +176,7 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
 void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement activityElement = qDoc.createElement( "activitywidget" );
-    UMLRectWidget::saveToXMI( qDoc, activityElement );
+    NewUMLRectWidget::saveToXMI( qDoc, activityElement );
     activityElement.setAttribute( "activityname", name() );
     activityElement.setAttribute( "documentation", documentation() );
     activityElement.setAttribute( "precondition", preconditionText() );
@@ -186,7 +186,7 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateGeometry to calculate
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
  * minimum size for activity widget.
  */
 void ActivityWidget::updateGeometry()
@@ -213,7 +213,7 @@ void ActivityWidget::updateGeometry()
 
 	setMinimumSize(minSize);
 
-	UMLRectWidget::updateGeometry();
+	NewUMLRectWidget::updateGeometry();
 }
 
 QVariant ActivityWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -230,7 +230,7 @@ QVariant ActivityWidget::attributeChange(WidgetAttributeChange change, const QVa
         }
 	}
 
-	return UMLRectWidget::attributeChange(change, oldValue);
+	return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 void ActivityWidget::updateTextItemGroups()
@@ -264,7 +264,7 @@ void ActivityWidget::updateTextItemGroups()
 		nameItem->hide();
 	}
 
-	UMLRectWidget::updateTextItemGroups();
+	NewUMLRectWidget::updateTextItemGroups();
 }
 
 /**
@@ -292,7 +292,7 @@ void ActivityWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        UMLRectWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
     }
 }
 

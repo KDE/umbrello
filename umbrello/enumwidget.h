@@ -21,16 +21,16 @@
 #define ENUMWIDGET_H
 
 
-#include "umlrectwidget.h"
+#include "newumlrectwidget.h"
 
 /**
  * @short A uml widget to visualize enum.
  * @author Gopala Krishna A
- * @see UMLRectWidget
+ * @see NewUMLRectWidget
  *
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class EnumWidget : public UMLRectWidget
+class EnumWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 public:

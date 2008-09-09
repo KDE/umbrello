@@ -237,7 +237,7 @@ void ToolBarStateArrow::changeTool()
  * right button to cancel the movement and the little widget getting the
  * event, thus not canceling the movement in the big widget.
  */
-void ToolBarStateArrow::setCurrentWidget(UMLRectWidget* currentWidget)
+void ToolBarStateArrow::setCurrentWidget(NewUMLRectWidget* currentWidget)
 {
     if (currentWidget != 0 && getCurrentWidget() != 0) {
         return;

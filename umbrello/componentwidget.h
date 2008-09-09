@@ -12,7 +12,7 @@
 #ifndef COMPONENTWIDGET_H
 #define COMPONENTWIDGET_H
 
-#include "umlrectwidget.h"
+#include "newumlrectwidget.h"
 
 class UMLComponent;
 
@@ -23,10 +23,10 @@ class UMLComponent;
  * @short A graphical version of a Component.
  * @author Jonathan Riddell
  * @author Gopala Krishna
- * @see UMLRectWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ComponentWidget : public UMLRectWidget
+class ComponentWidget : public NewUMLRectWidget
 {
 public:
 	ComponentWidget(UMLComponent *c);
@@ -34,7 +34,7 @@ public:
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-	// Uses UMLRectWidget::loadFromXMI to load info.
+	// Uses NewUMLRectWidget::loadFromXMI to load info.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:

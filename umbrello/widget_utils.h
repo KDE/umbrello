@@ -32,7 +32,7 @@ class QGraphicsRectItem;
 namespace Widget_Utils
 {
 
-    UMLRectWidget* findWidget(Uml::IDType id,
+    NewUMLRectWidget* findWidget(Uml::IDType id,
                           const UMLWidgetList& widgets,
                           const MessageWidgetList* pMessages = NULL);
 

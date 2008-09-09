@@ -49,7 +49,7 @@ const qreal ObjectWidget::SequenceLineMargin = 20;
  * @param lid       The local id for the object.
  */
 ObjectWidget::ObjectWidget(UMLObject *object, const Uml::IDType& lid)
-        : UMLRectWidget(0, object)
+        : NewUMLRectWidget(0, object)
 {
     m_baseType = Uml::wt_Object;
     m_localID = lid;
@@ -264,14 +264,14 @@ void ObjectWidget::adjustSequentialLineEnd()
 }
 
 /**
- * Reimplemented from UMLRectWidget::loadFromXMI to load
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load
  * ObjectWidget from XMI.
  *
- * @note Instance name is loaded from UMLRectWidget::loadFromXMI
+ * @note Instance name is loaded from NewUMLRectWidget::loadFromXMI
  */
 bool ObjectWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !UMLRectWidget::loadFromXMI( qElement ) )
+    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
         return false;
 
     QString draw = qElement.attribute( "drawasactor", "0" );
@@ -288,15 +288,15 @@ bool ObjectWidget::loadFromXMI( QDomElement & qElement )
 }
 
 /**
- * Reimplemented from UMLRectWidget::saveToXMI to save ObjectWidget
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save ObjectWidget
  * data into 'objectwidget' XMI element.
  *
- * @note Instance name is saved by UMLRectWidget::saveToXMI
+ * @note Instance name is saved by NewUMLRectWidget::saveToXMI
  */
 void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement objectElement = qDoc.createElement( "objectwidget" );
-    UMLRectWidget::saveToXMI( qDoc, objectElement );
+    NewUMLRectWidget::saveToXMI( qDoc, objectElement );
 
     objectElement.setAttribute( "drawasactor", m_drawAsActor );
     objectElement.setAttribute( "multipleinstance", m_multipleInstance );
@@ -306,7 +306,7 @@ void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 }
 
 /**
- * Reimplemented from UMLRectWidget::paint to draw the object
+ * Reimplemented from NewUMLRectWidget::paint to draw the object
  * widget.
  *
  * An actor is drawn if m_drawAsActor is true. Otherwise a rectangle
@@ -322,7 +322,7 @@ void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QW
 }
 
 /**
- * Reimplemented from UMLRectWidget::showPropertiesDialog to
+ * Reimplemented from NewUMLRectWidget::showPropertiesDialog to
  * display the dialog box to change properties of this ObjectWidget.
  */
 void ObjectWidget::showPropertiesDialog()
@@ -338,7 +338,7 @@ void ObjectWidget::showPropertiesDialog()
 }
 
 /**
- * Reimplemented from UMLRectWidget::slotMenuSelection to handle
+ * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
  * some ObjectWidget specific actions.
  */
 void ObjectWidget::slotMenuSelection(QAction* action)
@@ -378,13 +378,13 @@ void ObjectWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        UMLRectWidget::slotMenuSelection(action);
+        NewUMLRectWidget::slotMenuSelection(action);
         break;
     }
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateGeometry to calculate
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
  * the minimum size for this widget based on whether the Object is
  * drawn as an actor or just a rectangle.
  *
@@ -405,13 +405,13 @@ void ObjectWidget::updateGeometry()
         }
     }
     setMinimumSize(minSize);
-    setMaximumSize(QSizeF(UMLRectWidget::DefaultMaximumSize.width(),
+    setMaximumSize(QSizeF(NewUMLRectWidget::DefaultMaximumSize.width(),
                           minSize.height()));
-    UMLRectWidget::updateGeometry();
+    NewUMLRectWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateTextItemGroups to update
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
  * the text content of this widget's text display.
  */
 void ObjectWidget::updateTextItemGroups()
@@ -423,11 +423,11 @@ void ObjectWidget::updateTextItemGroups()
     QString objectText = instanceName() + QLatin1String(" : ") + name();
     nameItem->setText(objectText);
 
-    UMLRectWidget::updateTextItemGroups();
+    NewUMLRectWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from UMLRectWidget::attributeChange
+ * Reimplemented from NewUMLRectWidget::attributeChange
  *
  * To handle SizeHasChanged notification
  * - To align the text.
@@ -514,7 +514,7 @@ QVariant ObjectWidget::attributeChange(WidgetAttributeChange change, const QVari
         }
     }
 
-    return UMLRectWidget::attributeChange(change, oldValue);
+    return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 /**
@@ -556,7 +556,7 @@ QVariant ObjectWidget::itemChange(GraphicsItemChange change, const QVariant& val
         }
 
     }
-    return UMLRectWidget::itemChange(change, value);
+    return NewUMLRectWidget::itemChange(change, value);
 }
 
 /**

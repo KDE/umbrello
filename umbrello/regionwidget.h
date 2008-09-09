@@ -12,12 +12,12 @@
 #ifndef REGIONWIDGET_H
 #define REGIONWIDGET_H
 
-#include "umlrectwidget.h"
+#include "newumlrectwidget.h"
 
 /**
  * Represents a rectangular region on Activity diagram.
  */
-class RegionWidget: public UMLRectWidget
+class RegionWidget: public NewUMLRectWidget
 {
 public:
 	explicit RegionWidget(Uml::IDType id = Uml::id_None );

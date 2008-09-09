@@ -43,8 +43,8 @@ void ToolBarState::init()
 
     connect(m_pUMLScene, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
             this, SLOT(slotAssociationRemoved(AssociationWidget*)));
-    connect(m_pUMLScene, SIGNAL(sigWidgetRemoved(UMLRectWidget*)),
-            this, SLOT(slotWidgetRemoved(UMLRectWidget*)));
+    connect(m_pUMLScene, SIGNAL(sigWidgetRemoved(NewUMLRectWidget*)),
+            this, SLOT(slotWidgetRemoved(NewUMLRectWidget*)));
 }
 
 /**
@@ -56,8 +56,8 @@ void ToolBarState::cleanBeforeChange()
 {
     disconnect(m_pUMLScene, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
                this, SLOT(slotAssociationRemoved(AssociationWidget*)));
-    disconnect(m_pUMLScene, SIGNAL(sigWidgetRemoved(UMLRectWidget*)),
-               this, SLOT(slotWidgetRemoved(UMLRectWidget*)));
+    disconnect(m_pUMLScene, SIGNAL(sigWidgetRemoved(NewUMLRectWidget*)),
+               this, SLOT(slotWidgetRemoved(NewUMLRectWidget*)));
 }
 
 /**
@@ -148,7 +148,7 @@ void ToolBarState::mouseDoubleClick(QGraphicsSceneMouseEvent* ome)
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
 // [PORT] Check if scenePos fits in here
-    UMLRectWidget* currentWidget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
+    NewUMLRectWidget* currentWidget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
 // [PORT] Check if scenePos fits in here
     AssociationWidget* currentAssociation = getAssociationAt(m_pMouseEvent->scenePos());
     if (currentWidget) {
@@ -228,7 +228,7 @@ void ToolBarState::slotAssociationRemoved(AssociationWidget* association)
  * to 0.
  * It can be extended in subclasses if needed.
  */
-void ToolBarState::slotWidgetRemoved(UMLRectWidget* widget)
+void ToolBarState::slotWidgetRemoved(NewUMLRectWidget* widget)
 {
     if (widget == getCurrentWidget()) {
         setCurrentWidget(0);
@@ -287,7 +287,7 @@ void ToolBarState::setCurrentElement()
 
     // Check widgets.
 // [PORT] Check if scenePos fits in here
-    UMLRectWidget *widget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
+    NewUMLRectWidget *widget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;
@@ -483,7 +483,7 @@ FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPointF& pos)
 {
     FloatingDashLineWidget* floatingline = 0;
 
-    foreach ( UMLRectWidget* widget, m_pUMLScene->getWidgetList() ) {
+    foreach ( NewUMLRectWidget* widget, m_pUMLScene->getWidgetList() ) {
         if (widget->baseType() == Uml::wt_FloatingDashLine){
             if (dynamic_cast<FloatingDashLineWidget*>(widget)->contains(pos)) {
                 floatingline = dynamic_cast<FloatingDashLineWidget*>(widget);

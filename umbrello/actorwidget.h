@@ -12,7 +12,7 @@
 #ifndef ACTORWIDGET_H
 #define ACTORWIDGET_H
 
-#include "umlrectwidget.h"
+#include "newumlrectwidget.h"
 
 class UMLActor;
 
@@ -20,16 +20,16 @@ class UMLActor;
  * This class is the graphical version of a UML Actor and can be
  * placed in UseCase diagram.
  *
- * The ActorWidget class inherits from the @ref UMLRectWidget class
+ * The ActorWidget class inherits from the @ref NewUMLRectWidget class
  * which adds most of the functionality to this class.
  *
  * @short A graphical version of a UML Actor.
  * @author Paul Hensgen <phensgen@techie.com>
  * @author Gopala Krishna
- * @see UMLRectWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ActorWidget : public UMLRectWidget
+class ActorWidget : public NewUMLRectWidget
 {
 public:
 

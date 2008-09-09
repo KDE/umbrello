@@ -22,7 +22,7 @@
 
 #include <QtGui/QGraphicsItem>
 
-class UMLRectWidget;
+class NewUMLRectWidget;
 
 class WidgetHandle : public QGraphicsItem
 {
@@ -42,7 +42,7 @@ public:
         rh_None
     };
 
-    WidgetHandle(UMLRectWidget *widget);
+    WidgetHandle(NewUMLRectWidget *widget);
 
     QRectF boundingRect() const {
         return m_boundingRect;
@@ -72,7 +72,7 @@ private:
     void calcResizeHandles();
     void handleCursorChange(QGraphicsSceneHoverEvent *event);
 
-    UMLRectWidget *m_widget;
+    NewUMLRectWidget *m_widget;
     QRectF m_boundingRect;
     QPainterPath m_shape;
 

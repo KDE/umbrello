@@ -57,16 +57,16 @@ using namespace Uml;
 // is bad..and shouldn't be allowed as it creates an incomplete
 // associationwidget.
 AssociationWidget::AssociationWidget(UMLScene *scene)
-        : UMLWidget(scene)
+        : NewUMLWidget(scene)
 {
     init(scene);
 }
 
 // the preferred constructor
-AssociationWidget::AssociationWidget(UMLScene *scene, UMLRectWidget* pWidgetA,
-                                     Uml::Association_Type assocType, UMLRectWidget* pWidgetB,
+AssociationWidget::AssociationWidget(UMLScene *scene, NewUMLRectWidget* pWidgetA,
+                                     Uml::Association_Type assocType, NewUMLRectWidget* pWidgetB,
                                      UMLObject *umlobject /* = NULL */)
-        : UMLWidget(scene)
+        : NewUMLWidget(scene)
 {
     init(scene);
     if (umlobject) {
@@ -651,7 +651,7 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Rol
 /**
  * Returns true if the line path starts at the given widget.
  */
-bool AssociationWidget::linePathStartsAt(const UMLRectWidget* widget)
+bool AssociationWidget::linePathStartsAt(const NewUMLRectWidget* widget)
 {
     QPointF lpStart = m_LinePath.getPoint(0);
     qreal startX = lpStart.x();
@@ -830,9 +830,9 @@ Uml::Text_Role AssociationWidget::CalculateNameType(Uml::Text_Role defaultRole)
 /**
  * Gets the given role widget.
  *
- * @return  Pointer to the role's UMLRectWidget.
+ * @return  Pointer to the role's NewUMLRectWidget.
  */
-UMLRectWidget* AssociationWidget::getWidget(Uml::Role_Type role) const
+NewUMLRectWidget* AssociationWidget::getWidget(Uml::Role_Type role) const
 {
     return m_role[role].m_pWidget;
 }
@@ -844,9 +844,9 @@ UMLRectWidget* AssociationWidget::getWidget(Uml::Role_Type role) const
  * @param assocType The Association_Type for this association.
  * @param widgetB   Pointer the role B widget for the association.
  */
-bool AssociationWidget::setWidgets( UMLRectWidget* widgetA,
+bool AssociationWidget::setWidgets( NewUMLRectWidget* widgetA,
                                     Uml::Association_Type assocType,
-                                    UMLRectWidget* widgetB)
+                                    NewUMLRectWidget* widgetB)
 {
     //if the association already has a WidgetB or WidgetA associated, then
     //it cannot be changed to other widget, that would require a  deletion
@@ -865,7 +865,7 @@ bool AssociationWidget::setWidgets( UMLRectWidget* widgetA,
 
 /** Returns true if this association associates WidgetA to WidgetB, otherwise it returns
     false */
-bool AssociationWidget::checkAssoc(UMLRectWidget * widgetA, UMLRectWidget *widgetB)
+bool AssociationWidget::checkAssoc(NewUMLRectWidget * widgetA, NewUMLRectWidget *widgetB)
 {
     return (widgetA == m_role[A].m_pWidget && widgetB == m_role[B].m_pWidget);
 }
@@ -994,7 +994,7 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
 
 
 /** Returns true if the Widget is either at the starting or ending side of the association */
-bool AssociationWidget::contains(UMLRectWidget* widget)
+bool AssociationWidget::contains(NewUMLRectWidget* widget)
 {
     return (widget == m_role[A].m_pWidget || widget == m_role[B].m_pWidget);
 }
@@ -1240,13 +1240,13 @@ void AssociationWidget::moveEvent(QMoveEvent* me)
 
 
 /** Calculates and sets the first and last point in the Association's LinePath
-    Each point is a middle point of its respecting UMLRectWidget's Bounding rectangle
+    Each point is a middle point of its respecting NewUMLRectWidget's Bounding rectangle
     or a corner of it
     This method picks which sides to use for the association */
 void AssociationWidget::calculateEndingPoints()
 {
     /*
-     * For each UMLRectWidget the diagram is divided in four regions by its diagonals
+     * For each NewUMLRectWidget the diagram is divided in four regions by its diagonals
      * as indicated below
      *                              Region 2
      *                         \                /
@@ -1271,8 +1271,8 @@ void AssociationWidget::calculateEndingPoints()
      * in the opposite direction (from widgetB to WidgetA)
      */
 
-    UMLRectWidget *pWidgetA = m_role[A].m_pWidget;
-    UMLRectWidget *pWidgetB = m_role[B].m_pWidget;
+    NewUMLRectWidget *pWidgetA = m_role[A].m_pWidget;
+    NewUMLRectWidget *pWidgetB = m_role[B].m_pWidget;
     if (!pWidgetA || !pWidgetB)
         return;
     m_role[A].m_OldCorner.setX( pWidgetA->getX() );
@@ -1360,7 +1360,7 @@ void AssociationWidget::doUpdates(qreal otherX, qreal otherY, Uml::Role_Type rol
 {
     // Find widget region.
     Region oldRegion = m_role[role].m_WidgetRegion;
-    UMLRectWidget *pWidget = m_role[role].m_pWidget;
+    NewUMLRectWidget *pWidget = m_role[role].m_pWidget;
     QRectF rc(pWidget->getX(), pWidget->getY(),
              pWidget->width(), pWidget->height());
     Region& region = m_role[role].m_WidgetRegion;  // alias for brevity
@@ -1511,7 +1511,7 @@ void AssociationWidget::saveIdealTextPositions()
 }
 
 /** Adjusts the ending point of the association that connects to Widget */
-void AssociationWidget::widgetMoved(UMLRectWidget* widget, qreal x, qreal y )
+void AssociationWidget::widgetMoved(NewUMLRectWidget* widget, qreal x, qreal y )
 {
     // 2004-04-30: Achim Spangler
     // Simple Approach to block moveEvent during load of
@@ -1602,8 +1602,8 @@ void AssociationWidget::widgetMoved(UMLRectWidget* widget, qreal x, qreal y )
  */
 void AssociationWidget::updatePointsException ()
 {
-    UMLRectWidget *pWidgetA = m_role[A].m_pWidget;
-    UMLRectWidget *pWidgetB = m_role[B].m_pWidget;
+    NewUMLRectWidget *pWidgetA = m_role[A].m_pWidget;
+    NewUMLRectWidget *pWidgetB = m_role[B].m_pWidget;
 
     qreal xa = pWidgetA->getX();
     qreal ya = pWidgetA->getY();
@@ -2065,7 +2065,7 @@ QPointF AssociationWidget::calculateTextPosition(Uml::Text_Role role)
 
     // used to find out if association end point (p)
     // is at top or bottom edge of widget.
-    UMLRectWidget *pWidget(0);
+    NewUMLRectWidget *pWidget(0);
 
     if (role == tr_MultiA || role == tr_ChangeA || role == tr_RoleAName) {
         p = m_LinePath.getPoint( 0 );
@@ -2901,20 +2901,20 @@ QFont AssociationWidget::getFont() const
 }
 
 /**
- * Overrides the method from UMLWidget.
+ * Overrides the method from NewUMLWidget.
  */
 void AssociationWidget::setLineColor(const QColor &colour)
 {
-    UMLWidget::setLineColor(colour);
+    NewUMLWidget::setLineColor(colour);
     m_LinePath.setLineColor(colour);
 }
 
 /**
- * Overrides the method from UMLWidget.
+ * Overrides the method from NewUMLWidget.
  */
 void AssociationWidget::setLineWidth(uint width)
 {
-    UMLWidget::setLineWidth(width);
+    NewUMLWidget::setLineWidth(width);
     m_LinePath.setLineWidth(width);
 }
 
@@ -2984,7 +2984,7 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     // Prevent the moving vertex from disappearing underneath a widget
     // (else there's no way to get it back.)
-    UMLRectWidget *onW = umlScene()->getWidgetAt(p);
+    NewUMLRectWidget *onW = umlScene()->getWidgetAt(p);
     if (onW && onW->baseType() != Uml::wt_Box) {  // boxes are transparent
         const qreal pX = p.x();
         const qreal pY = p.y();
@@ -3049,8 +3049,8 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Uml::Rol
             continue;
         const WidgetRole& otherA = assocwidget->m_role[A];
         const WidgetRole& otherB = assocwidget->m_role[B];
-        const UMLRectWidget *a = otherA.m_pWidget;
-        const UMLRectWidget *b = otherB.m_pWidget;
+        const NewUMLRectWidget *a = otherA.m_pWidget;
+        const NewUMLRectWidget *b = otherB.m_pWidget;
         /*
         //don't count associations to self if both of their end points are on the same region
         //they are different and placement won't interfere with them
@@ -3275,15 +3275,15 @@ void AssociationWidget::updateAssociations(int totalCount,
         return;
     AssociationWidgetList list = umlScene()->getAssociationList();
 
-    UMLRectWidget *ownWidget = m_role[role].m_pWidget;
+    NewUMLRectWidget *ownWidget = m_role[role].m_pWidget;
     m_positions_len = 0;
     m_ordered.clear();
     // we order the AssociationWidget list by region and x/y value
     foreach ( AssociationWidget* assocwidget, list ) {
         WidgetRole *roleA = &assocwidget->m_role[A];
         WidgetRole *roleB = &assocwidget->m_role[B];
-        UMLRectWidget *wA = roleA->m_pWidget;
-        UMLRectWidget *wB = roleB->m_pWidget;
+        NewUMLRectWidget *wA = roleA->m_pWidget;
+        NewUMLRectWidget *wB = roleB->m_pWidget;
         // Skip self associations.
         if (wA == wB)
             continue;
@@ -3296,7 +3296,7 @@ void AssociationWidget::updateAssociations(int totalCount,
         if ( !inWidgetARegion && !inWidgetBRegion )
             continue;
         // Determine intercept position on the edge indicated by `region'.
-        UMLRectWidget * otherWidget = (inWidgetARegion ? wB : wA);
+        NewUMLRectWidget * otherWidget = (inWidgetARegion ? wB : wA);
         LinePath *linepath = assocwidget->getLinePath();
         QPointF refpoint;
         if (assocwidget->linePathStartsAt(otherWidget))
@@ -3353,7 +3353,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     // use a different calculation.
     if (m_role[A].m_pWidget == m_role[B].m_pWidget &&
             m_role[A].m_WidgetRegion == m_role[B].m_WidgetRegion) {
-        UMLRectWidget * pWidget = m_role[A].m_pWidget;
+        NewUMLRectWidget * pWidget = m_role[A].m_pWidget;
         qreal x = pWidget->getX();
         qreal y = pWidget->getY();
         qreal wh = pWidget->height();
@@ -3392,7 +3392,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     }
 
     WidgetRole& robj = m_role[role];
-    UMLRectWidget * pWidget = robj.m_pWidget;
+    NewUMLRectWidget * pWidget = robj.m_pWidget;
 
     robj.m_nIndex = index;
     robj.m_nTotalCount = totalCount;
@@ -3631,13 +3631,13 @@ QRectF AssociationWidget::getAssocLineRectangle()
 }
 
 /**
- * Overriding the method from UMLWidget because we need to do
+ * Overriding the method from NewUMLWidget because we need to do
  * something extra in case this AssociationWidget represents
  * an attribute of a classifier.
  */
 void AssociationWidget::setUMLObject(UMLObject *obj)
 {
-    UMLWidget::setUMLObject(obj);
+    NewUMLWidget::setUMLObject(obj);
     if (obj == NULL)
         return;
     UMLClassifier *klass = NULL;
@@ -3712,7 +3712,7 @@ void AssociationWidget::init (UMLScene *scene)
     Q_UNUSED(scene);
 
     // DEPRECATED
-    //UMLWidget::init(scene, wt_Association);
+    //NewUMLWidget::init(scene, wt_Association);
 
     // pointers to floating text widgets objects owned by this association
     m_pName = 0;
@@ -3908,10 +3908,10 @@ QString AssociationWidget::getCustomOpText()
 /**
  * Set the widget of the given role.
  *
- * @param widget    Pointer to the UMLRectWidget.
+ * @param widget    Pointer to the NewUMLRectWidget.
  * @param role      Role for which to set the widget.
  */
-void AssociationWidget::setWidget( UMLRectWidget* widget, Uml::Role_Type role)
+void AssociationWidget::setWidget( NewUMLRectWidget* widget, Uml::Role_Type role)
 {
     m_role[role].m_pWidget = widget;
     if (widget) {
@@ -3928,7 +3928,7 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement assocElement = qDoc.createElement( "assocwidget" );
 
-    UMLWidget::saveToXMI(qDoc, assocElement);
+    NewUMLWidget::saveToXMI(qDoc, assocElement);
     if (umlObject()) {
         assocElement.setAttribute( "xmi.id", ID2STR(umlObject()->getID()) );
     }
@@ -3992,19 +3992,19 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                                      const UMLWidgetList& widgets,
                                      const MessageWidgetList* pMessages )
 {
-    UMLWidget::loadFromXMI(qElement);
+    NewUMLWidget::loadFromXMI(qElement);
 
     // load child widgets first
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
     QString widgetbid = qElement.attribute( "widgetbid", "-1" );
     Uml::IDType aId = STR2ID(widgetaid);
     Uml::IDType bId = STR2ID(widgetbid);
-    UMLRectWidget *pWidgetA = Widget_Utils::findWidget( aId, widgets, pMessages );
+    NewUMLRectWidget *pWidgetA = Widget_Utils::findWidget( aId, widgets, pMessages );
     if (!pWidgetA) {
         uError() << "cannot find widget for roleA id " << ID2STR(aId);
         return false;
     }
-    UMLRectWidget *pWidgetB = Widget_Utils::findWidget( bId, widgets, pMessages );
+    NewUMLRectWidget *pWidgetB = Widget_Utils::findWidget( bId, widgets, pMessages );
     if (!pWidgetB) {
         uError() << "cannot find widget for roleB id " << ID2STR(bId);
         return false;
@@ -4051,7 +4051,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                     // contained), and has compensated for this anomaly
                     // by drawing the aggregations/compositions from
                     // target to source.
-                    UMLRectWidget *tmpWidget = pWidgetA;
+                    NewUMLRectWidget *tmpWidget = pWidgetA;
                     pWidgetA = pWidgetB;
                     pWidgetB = tmpWidget;
                     setWidget(pWidgetA, A);
@@ -4132,7 +4132,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
     QString assocclassid = qElement.attribute("assocclass", "");
     if (! assocclassid.isEmpty()) {
         Uml::IDType acid = STR2ID(assocclassid);
-        UMLRectWidget *w = Widget_Utils::findWidget(acid, widgets);
+        NewUMLRectWidget *w = Widget_Utils::findWidget(acid, widgets);
         if (w) {
             m_pAssocClassWidget = static_cast<ClassifierWidget*>(w);
             m_pAssocClassWidget->setClassAssociationWidget(this);

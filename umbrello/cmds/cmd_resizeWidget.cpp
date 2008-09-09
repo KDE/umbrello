@@ -32,7 +32,7 @@ namespace Uml
     CmdResizeWidget::CmdResizeWidget(UMLWidgetController* _UMLwc):UMLwc(_UMLwc),already(false)
     {
         setText(i18n("Resizing Widget."));
-        UMLRectWidget * w = _UMLwc->getWidget();
+        NewUMLRectWidget * w = _UMLwc->getWidget();
         W = w->width();
         H = w->height();
         oldH = _UMLwc->getOldH();

@@ -303,19 +303,19 @@ class UMLScene : public QGraphicsScene
 
     void checkMessages(ObjectWidget * w);
 
-    UMLRectWidget* findWidget(Uml::IDType id);
+    NewUMLRectWidget* findWidget(Uml::IDType id);
 
     AssociationWidget* findAssocWidget(Uml::IDType id);
 
     AssociationWidget* findAssocWidget(Uml::Association_Type at,
-                                       UMLRectWidget *pWidgetA, UMLRectWidget *pWidgetB);
+                                       NewUMLRectWidget *pWidgetA, NewUMLRectWidget *pWidgetB);
 
-    AssociationWidget* findAssocWidget(UMLRectWidget *pWidgetA,
-                                       UMLRectWidget *pWidgetB, const QString& roleNameB);
+    AssociationWidget* findAssocWidget(NewUMLRectWidget *pWidgetA,
+                                       NewUMLRectWidget *pWidgetB, const QString& roleNameB);
 
-    void removeWidget(UMLRectWidget *o);
+    void removeWidget(NewUMLRectWidget *o);
 
-    void setSelected(UMLRectWidget *w, QGraphicsSceneMouseEvent *me);
+    void setSelected(NewUMLRectWidget *w, QGraphicsSceneMouseEvent *me);
 
     UMLWidgetList selectedWidgets() const;
 
@@ -397,7 +397,7 @@ class UMLScene : public QGraphicsScene
 
     void removeAssoc(AssociationWidget* pAssoc);
 
-    void removeAssociations(UMLRectWidget* pWidget);
+    void removeAssociations(NewUMLRectWidget* pWidget);
 
     void selectAssociations(bool bSelect);
 
@@ -409,7 +409,7 @@ class UMLScene : public QGraphicsScene
 
     void showDocumentation(UMLObject * object, bool overwrite);
 
-    void showDocumentation(UMLRectWidget * widget, bool overwrite);
+    void showDocumentation(NewUMLRectWidget * widget, bool overwrite);
 
     void showDocumentation(AssociationWidget * widget, bool overwrite);
 
@@ -427,7 +427,7 @@ class UMLScene : public QGraphicsScene
 
     void removeAssocInViewAndDoc(AssociationWidget* assoc);
 
-    bool addWidget(UMLRectWidget * pWidget , bool isPasteOperation = false);
+    bool addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation = false);
 
     QPointF getPastePoint();
 
@@ -441,11 +441,11 @@ class UMLScene : public QGraphicsScene
         m_bStartedCut = true;
     }
 
-    void createAutoAssociations(UMLRectWidget * widget);
+    void createAutoAssociations(NewUMLRectWidget * widget);
 
-    void createAutoAttributeAssociations(UMLRectWidget *widget);
+    void createAutoAttributeAssociations(NewUMLRectWidget *widget);
 
-    void createAutoConstraintAssociations(UMLRectWidget* widget);
+    void createAutoConstraintAssociations(NewUMLRectWidget* widget);
 
 
     void updateContainment(UMLCanvasObject *self);
@@ -484,7 +484,7 @@ class UMLScene : public QGraphicsScene
 
     bool loadUISDiagram(QDomElement & qElement);
 
-    UMLRectWidget* loadWidgetFromXMI(QDomElement& widgetElement);
+    NewUMLRectWidget* loadWidgetFromXMI(QDomElement& widgetElement);
 
     void addObject(UMLObject *object);
 
@@ -494,11 +494,11 @@ class UMLScene : public QGraphicsScene
 
     ObjectWidget * onWidgetDestructionBox(const QPointF &point) const;
 
-    UMLRectWidget* getFirstMultiSelectedWidget() const;
+    NewUMLRectWidget* getFirstMultiSelectedWidget() const;
 
-    UMLRectWidget *getWidgetAt(const QPointF& p);
+    NewUMLRectWidget *getWidgetAt(const QPointF& p);
 
-    void setupNewWidget(UMLRectWidget *w);
+    void setupNewWidget(NewUMLRectWidget *w);
 
     /**
      * Return whether we are currently creating an object.
@@ -647,7 +647,7 @@ protected:
 
     void selectWidgetsOfAssoc (AssociationWidget * a);
 
-    void makeSelected (UMLRectWidget * uw);
+    void makeSelected (NewUMLRectWidget * uw);
 
     void updateComponentSizes();
 
@@ -721,15 +721,15 @@ private:
 
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
-                                        UMLRectWidget *widget);
+                                        NewUMLRectWidget *widget);
 
     void createAutoConstraintAssociation(UMLEntity* refEntity,
                                          UMLForeignKeyConstraint* fkConstraint,
-                                         UMLRectWidget* widget);
+                                         NewUMLRectWidget* widget);
 
-    static bool hasWidgetSmallerX(const UMLRectWidget* widget1, const UMLRectWidget* widget2);
+    static bool hasWidgetSmallerX(const NewUMLRectWidget* widget1, const NewUMLRectWidget* widget2);
 
-    static bool hasWidgetSmallerY(const UMLRectWidget* widget1, const UMLRectWidget* widget2);
+    static bool hasWidgetSmallerY(const NewUMLRectWidget* widget1, const NewUMLRectWidget* widget2);
 
     qreal getSmallestX(const UMLWidgetList &widgetList);
 
@@ -747,7 +747,7 @@ private:
      * Sorts the given UMLWidgetList based on the Compare function.
      * The list is cleared and all the widgets are added again in order.
      *
-     * The comp function gets two const UMLRectWidget* params and returns
+     * The comp function gets two const NewUMLRectWidget* params and returns
      * a boolean telling if the first widget was smaller than the second,
      * whatever the "smaller" concept is depending on the sorting to do.
      *
@@ -804,7 +804,7 @@ signals:
 
     void sigAssociationRemoved(AssociationWidget*);
 
-    void sigWidgetRemoved(UMLRectWidget*);
+    void sigWidgetRemoved(NewUMLRectWidget*);
 };
 
 #endif // UMLSCENE_H

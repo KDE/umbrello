@@ -34,12 +34,12 @@ class UMLScene;
  *
  * @author Paul Hensgen <phensgen@techie.com>
  * @author Gopala Krishna
- * @see UMLRectWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  *
  * @todo Implement constraints
  */
-class FloatingTextWidget : public UMLRectWidget
+class FloatingTextWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 public:

@@ -37,7 +37,7 @@
  * @param o The NewUMLObject this will be representing.
  */
 EnumWidget::EnumWidget(UMLObject* o) :
-    UMLRectWidget(o),
+    NewUMLRectWidget(o),
     m_showPackage(false)
 {
     m_baseType = Uml::wt_Enum;
@@ -61,7 +61,7 @@ void EnumWidget::setShowPackage(bool b)
 }
 
 /**
- * Reimplemented from UMLRectWidget::paint to draw enum widget.
+ * Reimplemented from NewUMLRectWidget::paint to draw enum widget.
  */
 void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
@@ -76,7 +76,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
 /// Loads from an "enumwidget" XMI element.
 bool EnumWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !UMLRectWidget::loadFromXMI(qElement) ) {
+    if( !NewUMLRectWidget::loadFromXMI(qElement) ) {
         return false;
     }
     bool show = bool(qElement.attribute("showpackage", "0").toInt());
@@ -88,7 +88,7 @@ bool EnumWidget::loadFromXMI( QDomElement & qElement )
 void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
 {
     QDomElement conceptElement = qDoc.createElement("enumwidget");
-    UMLRectWidget::saveToXMI(qDoc, conceptElement);
+    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
 
     conceptElement.setAttribute("showpackage", m_showPackage);
     qElement.appendChild(conceptElement);
@@ -108,22 +108,22 @@ void EnumWidget::slotMenuSelection(QAction *action)
         return;
     }
 
-    UMLRectWidget::slotMenuSelection(action);
+    NewUMLRectWidget::slotMenuSelection(action);
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateGeometry to calculate
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
  * minimum size.
  */
 void EnumWidget::updateGeometry()
 {
 	TextItemGroup *grp = textItemGroupAt(GroupIndex);
 	setMinimumSize(grp->minimumSize());
-	UMLRectWidget::updateGeometry();
+	NewUMLRectWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateTextItemGroups to update
+ * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
  * the texts and its properties.
  */
 void EnumWidget::updateTextItemGroups()
@@ -154,11 +154,11 @@ void EnumWidget::updateTextItemGroups()
             ++index;
         }
     }
-    UMLRectWidget::updateTextItemGroups();
+    NewUMLRectWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from UMLRectWidget::attributeChange to handle
+ * Reimplemented from NewUMLRectWidget::attributeChange to handle
  * SizeHasChanged to adjust position of texts.
  */
 QVariant EnumWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -179,7 +179,7 @@ QVariant EnumWidget::attributeChange(WidgetAttributeChange change, const QVarian
 		}
 	}
 
-	return UMLRectWidget::attributeChange(change, oldValue);
+	return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 #include "enumwidget.moc"

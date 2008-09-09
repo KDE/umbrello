@@ -32,7 +32,7 @@ class UMLWidgetColorPage;
 class ObjectWidget;
 class UMLDoc;
 class UMLObject;
-class UMLRectWidget;
+class NewUMLRectWidget;
 
 /**
  * @author Paul Hensgen <phensgen@techie.com>
@@ -65,9 +65,9 @@ public:
      *  Sets up a ClassPropDlg.
      *
      *  @param  parent  The parent of the ClassPropDlg
-     *  @param  o       The UMLRectWidget to display properties of.
+     *  @param  o       The NewUMLRectWidget to display properties of.
      */
-    ClassPropDlg(QWidget *parent, UMLRectWidget * o);
+    ClassPropDlg(QWidget *parent, NewUMLRectWidget * o);
 
 
     /**
@@ -131,7 +131,7 @@ private:
 
     UMLDoc*              m_pDoc;
     UMLObject*           m_pObject;
-    UMLRectWidget*           m_pWidget;
+    NewUMLRectWidget*           m_pWidget;
 
     enum Page_Type {
         pt_Object = 1,    // Show General page + Assoc. page if Class i.e. no colours page

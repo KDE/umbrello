@@ -13,7 +13,7 @@
 #define NOTEWIDGET_H
 
 //app includes
-#include "umlrectwidget.h"
+#include "newumlrectwidget.h"
 
 /**
  * Displays a note box to allow multiple lines of text to be
@@ -24,10 +24,10 @@
  * @short Displays a note box.
  * @author Paul Hensgen <phensgen@techie.com>
  * @author Gopala Krishna
- * @see UMLRectWidget
+ * @see NewUMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class NoteWidget : public UMLRectWidget
+class NoteWidget : public NewUMLRectWidget
 {
 Q_OBJECT
 public:
@@ -60,7 +60,7 @@ public:
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    void askForNoteType(UMLRectWidget* &targetWidget);
+    void askForNoteType(NewUMLRectWidget* &targetWidget);
 
 	virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );

@@ -12,7 +12,7 @@
 #ifndef PRECONDITIONWIDGET_H
 #define PRECONDITIONWIDGET_H
 
-#include "umlrectwidget.h"
+#include "newumlrectwidget.h"
 
 class ObjectWidget;
 
@@ -27,7 +27,7 @@ class ObjectWidget;
  *
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PreconditionWidget : public UMLRectWidget
+class PreconditionWidget : public NewUMLRectWidget
 {
 Q_OBJECT
 

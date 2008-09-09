@@ -28,7 +28,7 @@ const QSizeF ArtifactWidget::MinimumIconSize(50, 50);
  *
  * @param a The Artifact this widget will be representing.
  */
-ArtifactWidget::ArtifactWidget(UMLArtifact *a) : UMLRectWidget(a)
+ArtifactWidget::ArtifactWidget(UMLArtifact *a) : NewUMLRectWidget(a)
 {
 	m_baseType = Uml::wt_Artifact;
 	m_cachedTextHeight = 0; // Initialize on first call of sizeHasChanged.
@@ -82,18 +82,18 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, 
 }
 
 /**
- * Reimplemented from UMLWidget::saveToXMI to save the widget to
+ * Reimplemented from NewUMLWidget::saveToXMI to save the widget to
  * the "artifactwidget" XMI element.
  */
 void ArtifactWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement("artifactwidget");
-    UMLRectWidget::saveToXMI(qDoc, conceptElement);
+    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateGeometry to calculate
+ * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
  * minimum size appropriately.
  */
 void ArtifactWidget::updateGeometry()
@@ -111,14 +111,14 @@ void ArtifactWidget::updateGeometry()
 
 		setMinimumSize(minSize);
 	}
-	UMLRectWidget::updateGeometry();
+	NewUMLRectWidget::updateGeometry();
 }
 
 QVariant ArtifactWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
 	if (!umlObject()) {
 		uWarning() << "No UMLArtifact for this widget.";
-		return UMLRectWidget::attributeChange(change, oldValue);
+		return NewUMLRectWidget::attributeChange(change, oldValue);
 	}
 
 	if(change == SizeHasChanged) {
@@ -136,7 +136,7 @@ QVariant ArtifactWidget::attributeChange(WidgetAttributeChange change, const QVa
 		m_cachedTextHeight = groupHeight;
 	}
 
-	return UMLRectWidget::attributeChange(change, oldValue);
+	return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 void ArtifactWidget::updateTextItemGroups()
@@ -155,7 +155,7 @@ void ArtifactWidget::updateTextItemGroups()
 		TextItem *nameItem = grp->textItemAt(ArtifactWidget::NameItemIndex);
 		nameItem->setText(name());
 	}
-	UMLRectWidget::updateTextItemGroups();
+	NewUMLRectWidget::updateTextItemGroups();
 }
 
 /**

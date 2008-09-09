@@ -77,7 +77,7 @@ void ToolBarStateOneWidget::mouseMove(QGraphicsSceneMouseEvent* ome)
  * to 0.
  * Also, if it was the first object, the message is cleaned.
  */
-void ToolBarStateOneWidget::slotWidgetRemoved(UMLRectWidget* widget)
+void ToolBarStateOneWidget::slotWidgetRemoved(NewUMLRectWidget* widget)
 {
     ToolBarState::slotWidgetRemoved(widget);
 }
@@ -99,7 +99,7 @@ void ToolBarStateOneWidget::setCurrentElement()
         return;
     }
 
-    UMLRectWidget *widget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
+    NewUMLRectWidget *widget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;
@@ -166,11 +166,11 @@ void ToolBarStateOneWidget::mouseReleaseEmpty()
  *
  * @param firstObject The first object of the message.
  */
-void ToolBarStateOneWidget::setWidget(UMLRectWidget* firstObject)
+void ToolBarStateOneWidget::setWidget(NewUMLRectWidget* firstObject)
 {
     m_firstObject = firstObject;
 
-    UMLRectWidget * umlwidget = NULL;
+    NewUMLRectWidget * umlwidget = NULL;
     //m_pUMLScene->viewport()->setMouseTracking(true);
     if (getWidgetType() == Uml::wt_Precondition) {
         umlwidget = new PreconditionWidget(static_cast<ObjectWidget*>(m_firstObject));

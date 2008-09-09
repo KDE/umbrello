@@ -43,7 +43,7 @@ void ForkJoinWidget::setOrientation(Qt::Orientation o)
 }
 
 /**
- * Reimplemented from UMLRectWidget::paint to draw the plate of
+ * Reimplemented from NewUMLRectWidget::paint to draw the plate of
  * fork join.
  */
 void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -52,12 +52,12 @@ void ForkJoinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, 
 }
 
 /**
- * Reimplemented from UMLRectWidget::loadFromXMI to load widget
+ * Reimplemented from NewUMLRectWidget::loadFromXMI to load widget
  * info from XMI element - 'forkjoin'.
  */
 bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
 {
-    if ( !UMLRectWidget::loadFromXMI(qElement) ) {
+    if ( !NewUMLRectWidget::loadFromXMI(qElement) ) {
         return false;
     }
     QString orientation = qElement.attribute("orientation",
@@ -67,19 +67,19 @@ bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
 }
 
 /**
- * Reimplemented from UMLRectWidget::saveToXMI to save widget info
+ * Reimplemented from NewUMLRectWidget::saveToXMI to save widget info
  * into XMI element - 'forkjoin'.
  */
 void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement fjElement = qDoc.createElement("forkjoin");
-    UMLRectWidget::saveToXMI(qDoc, fjElement);
+    NewUMLRectWidget::saveToXMI(qDoc, fjElement);
     fjElement.setAttribute("orientation", m_orientation);
     qElement.appendChild(fjElement);
 }
 
 /**
- * Reimplemented form UMLRectWidget::slotMenuSelection to handle
+ * Reimplemented form NewUMLRectWidget::slotMenuSelection to handle
  * Flip action.
  */
 void ForkJoinWidget::slotMenuSelection(QAction* action)
@@ -96,7 +96,7 @@ void ForkJoinWidget::slotMenuSelection(QAction* action)
 }
 
 /**
- * Reimplemented from UMLRectWidget::updateGeometry to update the
+ * Reimplemented from NewUMLRectWidget::updateGeometry to update the
  * minimum and maximum size of the widget based on current
  * orientation.
  */

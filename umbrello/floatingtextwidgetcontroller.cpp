@@ -118,7 +118,7 @@ void FloatingTextWidgetController::moveWidgetBy(qreal diffX, qreal diffY) {
             //TODO This should be moved to somewhere in MessageWidget, refactor with messagewidgetcontroller.cpp:44
             if (messageWidget->getSequenceMessageType() == Uml::sequence_message_creation) {
                 const qreal objWidgetHalfHeight = messageWidget->getWidget(Uml::B)->getHeight() / 2;
-                messageWidget->getWidget(Uml::B)->UMLRectWidget::setY(messageWidget->getY() - objWidgetHalfHeight);
+                messageWidget->getWidget(Uml::B)->NewUMLRectWidget::setY(messageWidget->getY() - objWidgetHalfHeight);
             }
         }
     }

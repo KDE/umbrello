@@ -72,7 +72,7 @@ public:
 
 public slots:
 
-    virtual void slotWidgetRemoved(UMLRectWidget* widget);
+    virtual void slotWidgetRemoved(NewUMLRectWidget* widget);
 
 protected:
 
@@ -115,7 +115,7 @@ protected:
 
     /**
      * If there is a current widget, it is true if the press event happened on
-     * the line of an object, or false if it happened on a normal UMLRectWidget.
+     * the line of an object, or false if it happened on a normal NewUMLRectWidget.
      */
     bool m_isObjectWidgetLine;
 

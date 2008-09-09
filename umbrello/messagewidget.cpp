@@ -49,7 +49,7 @@ const qreal MessageWidget::SelfLoopBoxWidth = 50;
 MessageWidget::MessageWidget(ObjectWidget* a, ObjectWidget* b,
                              Uml::Sequence_Message_Type sequenceMessageType,
                              Uml::IDType id /* = Uml::id_None */)
-    : UMLRectWidget(0, id)
+    : NewUMLRectWidget(0, id)
 {
     init();
     m_objectWidgets[Uml::A] = a;
@@ -66,7 +66,7 @@ MessageWidget::MessageWidget(ObjectWidget* a, ObjectWidget* b,
  */
 MessageWidget::MessageWidget(Uml::Sequence_Message_Type seqMsgType,
                              Uml::IDType id)
-    : UMLRectWidget(0, id)
+    : NewUMLRectWidget(0, id)
 {
     init();
     m_sequenceMessageType = seqMsgType;
@@ -86,7 +86,7 @@ MessageWidget::MessageWidget(Uml::Sequence_Message_Type seqMsgType,
 MessageWidget::MessageWidget(ObjectWidget* a, const QPointF& clickedPos,
                              Uml::Sequence_Message_Type seqMsgType,
                              Uml::IDType id)
-    : UMLRectWidget(0, id)
+    : NewUMLRectWidget(0, id)
 {
     init();
     m_objectWidgets[Uml::A] = m_objectWidgets[Uml::B] = a;
@@ -132,7 +132,7 @@ MessageWidget::~MessageWidget()
  */
 void MessageWidget::lwSetFont (QFont font)
 {
-    UMLRectWidget::setFont( font );
+    NewUMLRectWidget::setFont( font );
 }
 
 /**
@@ -409,7 +409,7 @@ void MessageWidget::handleObjectMove(ObjectWidget *wid)
 }
 
 /**
- * Reimplemented from UMLRectWidget::paint to draw the
+ * Reimplemented from NewUMLRectWidget::paint to draw the
  * MessageWidget based on the messagetype.
  */
 void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -471,7 +471,7 @@ qreal MessageWidget::maxY() const
 }
 
 /**
- * Reimplemented from UMLRectWidget::setupContextMenuActions to add
+ * Reimplemented from NewUMLRectWidget::setupContextMenuActions to add
  * a submenu to change the text of the FloatingTextWidget of this
  * message widget.
  */
@@ -487,7 +487,7 @@ void MessageWidget::setupContextMenuActions(ListPopupMenu &menu)
 
 bool MessageWidget::loadFromXMI(QDomElement& qElement)
 {
-    if ( !UMLRectWidget::loadFromXMI(qElement) ) {
+    if ( !NewUMLRectWidget::loadFromXMI(qElement) ) {
         return false;
     }
 
@@ -537,7 +537,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
 void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement messageElement = qDoc.createElement( "messagewidget" );
-    UMLRectWidget::saveToXMI( qDoc, messageElement );
+    NewUMLRectWidget::saveToXMI( qDoc, messageElement );
     messageElement.setAttribute( "widgetaid", ID2STR(m_objectWidgets[Uml::A]->localID()) );
     messageElement.setAttribute( "widgetbid", ID2STR(m_objectWidgets[Uml::B]->localID()) );
     UMLOperation *pOperation = getOperation();
@@ -563,8 +563,8 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 
 void MessageWidget::updateGeometry()
 {
-    QSizeF minSize = UMLRectWidget::DefaultMinimumSize;
-    QSizeF maxSize = UMLRectWidget::DefaultMaximumSize;
+    QSizeF minSize = NewUMLRectWidget::DefaultMinimumSize;
+    QSizeF maxSize = NewUMLRectWidget::DefaultMaximumSize;
 
     switch(m_sequenceMessageType) {
     case Uml::sequence_message_asynchronous:
@@ -607,7 +607,7 @@ void MessageWidget::updateGeometry()
     setMinimumSize(minSize);
     setMaximumSize(maxSize);
 
-    UMLRectWidget::updateGeometry();
+    NewUMLRectWidget::updateGeometry();
 }
 
 QVariant MessageWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -616,7 +616,7 @@ QVariant MessageWidget::attributeChange(WidgetAttributeChange change, const QVar
         // code to ensure proper position of FloatingText
 
     }
-    return UMLRectWidget::attributeChange(change, oldValue);
+    return NewUMLRectWidget::attributeChange(change, oldValue);
 }
 
 QVariant MessageWidget::itemChange(GraphicsItemChange change, const QVariant& value)
@@ -647,14 +647,14 @@ QVariant MessageWidget::itemChange(GraphicsItemChange change, const QVariant& va
                 // appropriately.
 
                 // Also, set the timeout to higher value than the one
-                // used in UMLWidget::itemChange so that the base's
+                // used in NewUMLWidget::itemChange so that the base's
                 // delayed initialization is done before.
 
                 QTimer::singleShot(100, this, SLOT(slotDelayedInit()));
             }
         }
     }
-    return UMLRectWidget::itemChange(change, value);
+    return NewUMLRectWidget::itemChange(change, value);
 }
 
 void MessageWidget::setTextPosition()
@@ -917,7 +917,7 @@ void MessageWidget::slotMenuSelection(QAction* action)
         umlScene()->removeWidget(this);
     } else {
 
-        UMLRectWidget::slotMenuSelection( action );
+        NewUMLRectWidget::slotMenuSelection( action );
     }
 }
 

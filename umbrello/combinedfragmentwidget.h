@@ -27,7 +27,7 @@
  *
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class CombinedFragmentWidget : public UMLRectWidget
+class CombinedFragmentWidget : public NewUMLRectWidget
 {
     Q_OBJECT
 
@@ -58,7 +58,7 @@ public:
 
     static CombinedFragmentType stringToCombinedFragementType(const QString& string);
 
-    void askNameForWidgetType(UMLRectWidget* &targetWidget, const QString& dialogTitle,
+    void askNameForWidgetType(NewUMLRectWidget* &targetWidget, const QString& dialogTitle,
                               const QString& dialogPrompt, const QString& defaultName);
 
     bool loadFromXMI( QDomElement & qElement );
