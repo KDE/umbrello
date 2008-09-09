@@ -48,17 +48,17 @@ class IDChangeLog;
  * widgets including rectangular and non rectangular widgets.
  * Rectangular widgets should use NewUmlRectWidget as its base.
  */
-class NewUMLWidget : public QObject, public QGraphicsItem
+class WidgetBase : public QObject, public QGraphicsItem
 {
     Q_OBJECT;
 public:
     /**
-     * This enumeration is used by NewUMLWidget::attributeChange() to
+     * This enumeration is used by WidgetBase::attributeChange() to
      * identify which attribute has changed.
      * This is modelled on QGraphicsItem::GraphicsItemChange.
      */
     enum WidgetAttributeChange {
-        // These 3 work only if NewUMLWidget::setters are used , that
+        // These 3 work only if WidgetBase::setters are used , that
         // is, the notifications arent' sent when UMLObject::setters
         // are used.
         IDHasChanged,
@@ -72,12 +72,12 @@ public:
         FontHasChanged,
         BrushHasChanged,
 
-        // Provided by NewUMLRectWidget
+        // Provided by UMLWidget
         SizeHasChanged
     };
 
-    explicit NewUMLWidget(UMLObject *object);
-    ~NewUMLWidget();
+    explicit WidgetBase(UMLObject *object);
+    ~WidgetBase();
 
     /**
      * @retval The UMLObject represented by this widget
@@ -211,7 +211,7 @@ private:
     /*
      * Disable the copy constructor and assignment operator.
      */
-    DISABLE_COPY(NewUMLWidget);
+    DISABLE_COPY(WidgetBase);
 
 
 public:
@@ -220,8 +220,8 @@ public:
 
     bool firstTime;
 
-    NewUMLWidget(UMLScene *scene, const Uml::IDType &id = Uml::id_None);
-    NewUMLWidget(UMLScene *scene, UMLObject *object);
+    WidgetBase(UMLScene *scene, const Uml::IDType &id = Uml::id_None);
+    WidgetBase(UMLScene *scene, UMLObject *object);
 
     qreal getX() const { return pos().x(); }
     void setX(qreal x) { setPos(x, y()); }
@@ -255,12 +255,12 @@ public:
 
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
 
-    virtual void setDefaultFontMetrics(NewUMLWidget::FontType fontType);
-    virtual void setDefaultFontMetrics(NewUMLWidget::FontType fontType, QPainter &painter);
+    virtual void setDefaultFontMetrics(WidgetBase::FontType fontType);
+    virtual void setDefaultFontMetrics(WidgetBase::FontType fontType, QPainter &painter);
 
-    QFontMetrics &getFontMetrics(NewUMLWidget::FontType fontType);
-    void setFontMetrics(NewUMLWidget::FontType fontType, QFontMetrics fm);
-    void setupFontType(QFont &font, NewUMLWidget::FontType fontType);
+    QFontMetrics &getFontMetrics(WidgetBase::FontType fontType);
+    void setFontMetrics(WidgetBase::FontType fontType, QFontMetrics fm);
+    void setupFontType(QFont &font, WidgetBase::FontType fontType);
     void forceUpdateFontMetrics(QPainter *);
     void drawSelected(QPainter *, qreal, qreal) {}
     QString m_Text;

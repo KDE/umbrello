@@ -82,7 +82,7 @@ void ToolBarStateMessages::mouseMove(QGraphicsSceneMouseEvent* ome)
  * to 0.
  * Also, if it was the first object, the message is cleaned.
  */
-void ToolBarStateMessages::slotWidgetRemoved(NewUMLRectWidget* widget)
+void ToolBarStateMessages::slotWidgetRemoved(UMLWidget* widget)
 {
     ToolBarState::slotWidgetRemoved(widget);
 
@@ -114,7 +114,7 @@ void ToolBarStateMessages::setCurrentElement()
     //However, the applied patch doesn't seem to be necessary no more, so it was removed
     //The widgets weren't got from UMLView, but from a method in this class similarto the
     //one in UMLView but containing special code to handle the zoom
-    NewUMLRectWidget *widget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
+    UMLWidget *widget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;

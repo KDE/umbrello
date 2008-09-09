@@ -102,7 +102,7 @@ void MessageWidgetController::moveWidgetBy(qreal /*diffX*/, qreal diffY) {
 
     if (m_messageWidget->m_sequenceMessageType == Uml::sequence_message_creation) {
         const qreal objWidgetHalfHeight = m_messageWidget->m_pOw[Uml::B]->getHeight() / 2;
-        m_messageWidget->m_pOw[Uml::B]->NewUMLRectWidget::setY(newY - objWidgetHalfHeight);
+        m_messageWidget->m_pOw[Uml::B]->UMLWidget::setY(newY - objWidgetHalfHeight);
     }
 
     m_messageWidget->moveEvent(0);

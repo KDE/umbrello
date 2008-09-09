@@ -48,7 +48,7 @@ class QGraphicsSceneMouseEvent;
  * @short This class represents an association inside a diagram.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssociationWidget : public NewUMLWidget, public LinkWidget
+class AssociationWidget : public WidgetBase, public LinkWidget
 {
     Q_OBJECT
 public:
@@ -79,8 +79,8 @@ public:
      * @param WidgetB   Pointer to the role B widget for the association.
      * @param umlobject Pointer to the underlying UMLObject (if applicable.)
      */
-    AssociationWidget(UMLScene *scene, NewUMLRectWidget* WidgetA,
-                      Uml::Association_Type Type, NewUMLRectWidget* WidgetB,
+    AssociationWidget(UMLScene *scene, UMLWidget* WidgetA,
+                      Uml::Association_Type Type, UMLWidget* WidgetB,
                       UMLObject *umlobject = NULL);
 
     /**
@@ -105,7 +105,7 @@ public:
 
     bool activate();
 
-    void setWidget(NewUMLRectWidget* widget, Uml::Role_Type role);
+    void setWidget(UMLWidget* widget, Uml::Role_Type role);
 
     FloatingTextWidget* getMultiWidget(Uml::Role_Type role);
 
@@ -137,16 +137,16 @@ public:
 
     Uml::IDType getWidgetID(Uml::Role_Type role) const;
 
-    NewUMLRectWidget* getWidget(Uml::Role_Type role) const;
+    UMLWidget* getWidget(Uml::Role_Type role) const;
 
-    bool setWidgets( NewUMLRectWidget* widgetA, Uml::Association_Type assocType, NewUMLRectWidget* widgetB);
+    bool setWidgets( UMLWidget* widgetA, Uml::Association_Type assocType, UMLWidget* widgetB);
 
-    bool checkAssoc(NewUMLRectWidget * widgetA, NewUMLRectWidget *widgetB);
+    bool checkAssoc(UMLWidget * widgetA, UMLWidget *widgetB);
 
-    bool contains(NewUMLRectWidget* widget);
+    bool contains(UMLWidget* widget);
 
     bool contains(const QPointF& point) const {
-        return NewUMLWidget::contains(point);
+        return WidgetBase::contains(point);
     }
 
     bool isCollaboration();
@@ -171,7 +171,7 @@ public:
         return &m_LinePath;
     }
 
-    void widgetMoved(NewUMLRectWidget* widget, qreal x, qreal y);
+    void widgetMoved(UMLWidget* widget, qreal x, qreal y);
 
     void updatePointsException ();
 
@@ -353,10 +353,10 @@ private:
         FloatingTextWidget* m_pRole;
 
         /**
-         * This member holds a pointer to the NewUMLRectWidget at this role's side
+         * This member holds a pointer to the UMLWidget at this role's side
          * of the association.
          */
-        NewUMLRectWidget* m_pWidget;
+        UMLWidget* m_pWidget;
 
         /**
          * This role's old top left corner before moving.
@@ -402,7 +402,7 @@ private:
 
     void checkPoints(const QPointF &p);
 
-    bool linePathStartsAt(const NewUMLRectWidget* widget);
+    bool linePathStartsAt(const UMLWidget* widget);
 
     void insertIntoLists(int position, const AssociationWidget* assoc);
 

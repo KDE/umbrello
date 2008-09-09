@@ -12,19 +12,19 @@
 #ifndef ENTITYWIDGET_H
 #define ENTITYWIDGET_H
 
-#include "newumlrectwidget.h"
+#include "umlwidget.h"
 
 /**
  * Defines a graphical version of the entity.  Most of the functionality
- * will come from the @ref NewUMLRectWidget class from which class inherits from.
+ * will come from the @ref UMLWidget class from which class inherits from.
  *
  * @short A graphical version of an entity.
  * @author Jonathan Riddell
  * @author Gopala Krishna
- * @see NewUMLRectWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class EntityWidget : public NewUMLRectWidget
+class EntityWidget : public UMLWidget
 {
 	Q_OBJECT
 public:
@@ -33,7 +33,7 @@ public:
 
 	virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    // NewUMLRectWidget::loadFromXMI is used to load this widget.
+    // UMLWidget::loadFromXMI is used to load this widget.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:

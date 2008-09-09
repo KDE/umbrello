@@ -367,7 +367,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
  * Initialize and announce a newly created widget.
  * Auxiliary to contentsMouseReleaseEvent().
  */
-void UMLScene::setupNewWidget(NewUMLRectWidget *w)
+void UMLScene::setupNewWidget(UMLWidget *w)
 {
 	if(w->scene() != this) {
 		addItem(w);
@@ -422,7 +422,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         return;
     }
 
-    NewUMLRectWidget* newWidget = Widget_Factory::createWidget(this, o);
+    UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
 
     if (newWidget == NULL)
         return;
@@ -456,7 +456,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
         // We need to invoke createAutoAttributeAssociations()
         // on all other widgets again because the newly created
         // widget might saturate some latent attribute assocs.
-        foreach(NewUMLRectWidget* w,  m_WidgetList) {
+        foreach(UMLWidget* w,  m_WidgetList) {
             if (w != newWidget) {
                 createAutoAttributeAssociations(w);
 
@@ -476,7 +476,7 @@ void UMLScene::slotObjectRemoved(UMLObject * o)
     m_bPaste = false;
     Uml::IDType id = o->getID();
 
-    foreach(NewUMLRectWidget* obj, m_WidgetList) {
+    foreach(UMLWidget* obj, m_WidgetList) {
         if (obj->id() != id)
             continue;
         removeWidget(obj);
@@ -616,7 +616,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
 
     if (Model_Utils::typeIsDiagram(lvtype)) {
         bool breakFlag = false;
-        NewUMLRectWidget* w = 0;
+        UMLWidget* w = 0;
         foreach(w ,  m_WidgetList) {
             bool isPointOnWidget = w->onWidget(e->scenePos());
             if (w->baseType() == Uml::wt_Note && isPointOnWidget) {
@@ -675,7 +675,7 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
 ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
 {
 
-    foreach(NewUMLRectWidget* obj,  m_WidgetList) {
+    foreach(UMLWidget* obj,  m_WidgetList) {
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
         if (ow == NULL)
             continue;
@@ -698,12 +698,12 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
  * Returns NULL if the point is not inside any widget.
  * Does not use or modify the m_pOnWidget member.
  */
-NewUMLRectWidget *UMLScene::getWidgetAt(const QPointF& p)
+UMLWidget *UMLScene::getWidgetAt(const QPointF& p)
 {
     int relativeSize = 10000;  // start with an arbitrary large number
-    NewUMLRectWidget  *retObj = NULL;
+    UMLWidget  *retObj = NULL;
     UMLWidgetListIt it(m_WidgetList);
-    foreach(NewUMLRectWidget* obj,  m_WidgetList) {
+    foreach(UMLWidget* obj,  m_WidgetList) {
         const qreal s = obj->onWidget(p);
         if (!s)
             continue;
@@ -746,12 +746,12 @@ void UMLScene::checkMessages(ObjectWidget * w)
 bool UMLScene::widgetOnDiagram(Uml::IDType id)
 {
 
-    foreach(NewUMLRectWidget *obj, m_WidgetList) {
+    foreach(UMLWidget *obj, m_WidgetList) {
         if (id == obj->id())
             return true;
     }
 
-    foreach(NewUMLRectWidget *obj , m_MessageList) {
+    foreach(UMLWidget *obj , m_MessageList) {
         if (id == obj->id())
             return true;
     }
@@ -768,7 +768,7 @@ void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
     m_pToolBarState->mouseMove(ome);
 }
 
-// search both our NewUMLRectWidget AND MessageWidget lists
+// search both our UMLWidget AND MessageWidget lists
 
 /**
  * Finds a widget with the given ID.
@@ -777,9 +777,9 @@ void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
  *
  * @return Returns the widget found, returns 0 if no widget found.
  */
-NewUMLRectWidget * UMLScene::findWidget(Uml::IDType id)
+UMLWidget * UMLScene::findWidget(Uml::IDType id)
 {
-    foreach(NewUMLRectWidget* obj, m_WidgetList) {
+    foreach(UMLWidget* obj, m_WidgetList) {
         // object widgets are special..the widget id is held by 'localId' attribute (crappy!)
         if (obj->baseType() == wt_Object) {
             if (static_cast<ObjectWidget *>(obj)->localID() == id)
@@ -789,7 +789,7 @@ NewUMLRectWidget * UMLScene::findWidget(Uml::IDType id)
         }
     }
 
-    foreach(NewUMLRectWidget* obj, m_MessageList) {
+    foreach(UMLWidget* obj, m_MessageList) {
         if (obj->id() == id)
             return obj;
     }
@@ -805,8 +805,8 @@ NewUMLRectWidget * UMLScene::findWidget(Uml::IDType id)
  *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
  * This is used for seeking an attribute association.
  *
- * @param pWidgetA  Pointer to the NewUMLRectWidget of role A.
- * @param pWidgetB  Pointer to the NewUMLRectWidget of role B.
+ * @param pWidgetA  Pointer to the UMLWidget of role A.
+ * @param pWidgetB  Pointer to the UMLWidget of role B.
  * @param roleNameB Name at the B side of the association (the attribute name)
  *
  * @return Returns the widget found, returns 0 if no widget found.
@@ -828,14 +828,14 @@ AssociationWidget * UMLScene::findAssocWidget(Uml::IDType id)
  *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
  * This is used for seeking an attribute association.
  *
- * @param pWidgetA  Pointer to the NewUMLRectWidget of role A.
- * @param pWidgetB  Pointer to the NewUMLRectWidget of role B.
+ * @param pWidgetA  Pointer to the UMLWidget of role A.
+ * @param pWidgetB  Pointer to the UMLWidget of role B.
  * @param roleNameB Name at the B side of the association (the attribute name)
  *
  * @return Returns the widget found, returns 0 if no widget found.
  */
-AssociationWidget * UMLScene::findAssocWidget(NewUMLRectWidget *pWidgetA,
-                                              NewUMLRectWidget *pWidgetB, const QString& roleNameB)
+AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
+                                              UMLWidget *pWidgetB, const QString& roleNameB)
 {
     foreach(AssociationWidget* assoc, m_AssociationList) {
         const Association_Type testType = assoc->getAssocType();
@@ -860,14 +860,14 @@ AssociationWidget * UMLScene::findAssocWidget(NewUMLRectWidget *pWidgetA,
  *  at_Association, at_UniAssociation, at_Composition, at_Aggregation
  * This is used for seeking an attribute association.
  *
- * @param pWidgetA  Pointer to the NewUMLRectWidget of role A.
- * @param pWidgetB  Pointer to the NewUMLRectWidget of role B.
+ * @param pWidgetA  Pointer to the UMLWidget of role A.
+ * @param pWidgetB  Pointer to the UMLWidget of role B.
  * @param roleNameB Name at the B side of the association (the attribute name)
  *
  * @return Returns the widget found, returns 0 if no widget found.
  */
 AssociationWidget * UMLScene::findAssocWidget(Uml::Association_Type at,
-                                              NewUMLRectWidget *pWidgetA, NewUMLRectWidget *pWidgetB)
+                                              UMLWidget *pWidgetA, UMLWidget *pWidgetB)
 {
 
     foreach(AssociationWidget* assoc, m_AssociationList) {
@@ -886,7 +886,7 @@ AssociationWidget * UMLScene::findAssocWidget(Uml::Association_Type at,
  *
  * @param o  The widget to remove.
  */
-void UMLScene::removeWidget(NewUMLRectWidget * o)
+void UMLScene::removeWidget(UMLWidget * o)
 {
     if (!o)
         return;
@@ -1005,7 +1005,7 @@ QRectF UMLScene::getDiagramRect()
  * @param w The widget to set to selected.
  * @param me The mouse event containing the information about the selection.
  */
-void UMLScene::setSelected(NewUMLRectWidget * w, QGraphicsSceneMouseEvent * me)
+void UMLScene::setSelected(UMLWidget * w, QGraphicsSceneMouseEvent * me)
 {
     Q_UNUSED(me);
     int count = selectedItems().count();
@@ -1034,7 +1034,7 @@ UMLWidgetList UMLScene::selectedWidgets() const
 {
     UMLWidgetList list;
     foreach(QGraphicsItem *item, selectedItems()) {
-        NewUMLRectWidget *wid = dynamic_cast<NewUMLRectWidget*>(item);
+        UMLWidget *wid = dynamic_cast<UMLWidget*>(item);
         if(wid) {
             list << wid;
         }
@@ -1045,7 +1045,7 @@ UMLWidgetList UMLScene::selectedWidgets() const
 /**
  * Return pointer to the first selected widget (for multi-selection)
  */
-NewUMLRectWidget* UMLScene::getFirstMultiSelectedWidget() const
+UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
 {
     UMLWidgetList list = selectedWidgets();
     if(list.isEmpty()) {
@@ -1073,7 +1073,7 @@ void UMLScene::clearSelected()
 void UMLScene::moveSelectedBy(qreal dX, qreal dY)
 {
     // uDebug() << "********** selectedWidgets() count=" << selectedWidgets().count();
-    foreach(NewUMLRectWidget *w, selectedWidgets()) {
+    foreach(UMLWidget *w, selectedWidgets()) {
         w->moveBy(dX, dY);
     }
 }
@@ -1085,7 +1085,7 @@ void UMLScene::moveSelectedBy(qreal dX, qreal dY)
  */
 void UMLScene::selectionUseFillColor(bool useFC)
 {
-    foreach(NewUMLRectWidget* temp, selectedWidgets()) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         temp->setUseFillColour(useFC);
     }
 }
@@ -1095,7 +1095,7 @@ void UMLScene::selectionUseFillColor(bool useFC)
  */
 void UMLScene::selectionSetFont(const QFont &font)
 {
-    foreach(NewUMLRectWidget* temp, selectedWidgets()) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         temp->setFont(font);
     }
 }
@@ -1106,7 +1106,7 @@ void UMLScene::selectionSetFont(const QFont &font)
 void UMLScene::selectionSetLineColor(const QColor &color)
 {
     UMLApp::app()->BeginMacro("Change Line Color");
-    foreach(NewUMLRectWidget *temp ,  selectedWidgets()) {
+    foreach(UMLWidget *temp ,  selectedWidgets()) {
         temp->setLineColor(color);
         // [PORT] temp->setUsesDiagramLineColour(false);
     }
@@ -1123,7 +1123,7 @@ void UMLScene::selectionSetLineColor(const QColor &color)
  */
 void UMLScene::selectionSetLineWidth(uint width)
 {
-    foreach(NewUMLRectWidget* temp , selectedWidgets()) {
+    foreach(UMLWidget* temp , selectedWidgets()) {
         temp->setLineWidth(width);
         // [PORT] temp->setUsesDiagramLineWidth(false);
     }
@@ -1141,7 +1141,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 {
     UMLApp::app()->BeginMacro("Change Fill Color");
 
-    foreach(NewUMLRectWidget* temp ,  selectedWidgets()) {
+    foreach(UMLWidget* temp ,  selectedWidgets()) {
         temp->setFillColour(color);
         // [PORT] temp->setUsesDiagramFillColour(false);
     }
@@ -1154,7 +1154,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 void UMLScene::selectionToggleShow(int sel)
 {
     // loop through all selected items
-    foreach(NewUMLRectWidget *temp , selectedWidgets()) {
+    foreach(UMLWidget *temp , selectedWidgets()) {
         Widget_Type type = temp->baseType();
         ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(temp);
 
@@ -1214,7 +1214,7 @@ void UMLScene::deleteSelection()
       be cleaned up by the associations.
     */
 
-    foreach(NewUMLRectWidget* temp ,  selectedWidgets()) {
+    foreach(UMLWidget* temp ,  selectedWidgets()) {
         if (temp->baseType() == wt_Text &&
             ((FloatingTextWidget *)temp)->textRole() != tr_Floating) {
             temp->hide();
@@ -1340,11 +1340,11 @@ bool UMLScene::isArrowMode()
 }
 
 /**
- * Calls setSelected on the given NewUMLRectWidget and enters
+ * Calls setSelected on the given UMLWidget and enters
  * it into the m_SelectedList while making sure it is
  * there only once.
  */
-void UMLScene::makeSelected(NewUMLRectWidget * uw)
+void UMLScene::makeSelected(UMLWidget * uw)
 {
     if (uw) {
         uw->setSelected(true);
@@ -1406,7 +1406,7 @@ void  UMLScene::getDiagram(const QRectF &area, QPainter & painter)
     //UMLViewImageExporter and UMLViewImageExporterModel
 
     UMLWidgetList selected = selectedWidgets();
-    foreach(NewUMLRectWidget* widget , selected) {
+    foreach(UMLWidget* widget , selected) {
         widget->setSelected(false);
     }
     AssociationWidgetList selectedAssociationsList = getSelectedAssocs();
@@ -1426,7 +1426,7 @@ void  UMLScene::getDiagram(const QRectF &area, QPainter & painter)
     setShowSnapGrid(showSnapGrid);
 
     //select again
-    foreach(NewUMLRectWidget* widget , selected) {
+    foreach(UMLWidget* widget , selected) {
         widget->setSelected(true);
     }
     foreach(AssociationWidget* association , selectedAssociationsList) {
@@ -1458,7 +1458,7 @@ void UMLScene::slotActivate()
 UMLObjectList UMLScene::getUMLObjects()
 {
     UMLObjectList list;
-    foreach(NewUMLRectWidget* w,  m_WidgetList) {
+    foreach(UMLWidget* w,  m_WidgetList) {
 
         switch (w->baseType()) { //use switch for easy future expansion
         case wt_Actor:
@@ -1485,8 +1485,8 @@ UMLObjectList UMLScene::getUMLObjects()
 void UMLScene::activate()
 {
     //Activate Regular widgets then activate  messages
-    foreach(NewUMLRectWidget* obj , m_WidgetList) {
-        //If this NewUMLRectWidget is already activated or is a MessageWidget then skip it
+    foreach(UMLWidget* obj , m_WidgetList) {
+        //If this UMLWidget is already activated or is a MessageWidget then skip it
         if (/* [PORT] obj->isActivated() || */ obj->baseType() == wt_Message)
             continue;
 
@@ -1499,7 +1499,7 @@ void UMLScene::activate()
     }//end foreach
 
     //Activate Message widgets
-    foreach(NewUMLRectWidget* obj , m_MessageList) {
+    foreach(UMLWidget* obj , m_MessageList) {
         //If this MessageWidget is already activated then skip it
         // [PORT]
         // if (obj->isActivated())
@@ -1539,7 +1539,7 @@ int UMLScene::getSelectCount(bool filterText) const
     if (!filterText)
         return selectedWidgets().count();
     int counter = 0;
-    const NewUMLRectWidget * temp = 0;
+    const UMLWidget * temp = 0;
     foreach(temp, selectedWidgets()) {
         if (temp->baseType() == wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
@@ -1555,7 +1555,7 @@ int UMLScene::getSelectCount(bool filterText) const
 
 bool UMLScene::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/)
 {
-    foreach(NewUMLRectWidget* temp, selectedWidgets()) {
+    foreach(UMLWidget* temp, selectedWidgets()) {
         if (filterText && temp->baseType() == wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
             if (ft->textRole() == tr_Floating)
@@ -1585,7 +1585,7 @@ AssociationWidgetList UMLScene::getSelectedAssocs()
  * Adds a widget to the view from the given data.
  * Use this method when pasting.
  */
-bool UMLScene::addWidget(NewUMLRectWidget * pWidget , bool isPasteOperation)
+bool UMLScene::addWidget(UMLWidget * pWidget , bool isPasteOperation)
 {
     if (!pWidget) {
         return false;
@@ -1871,8 +1871,8 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
         pAssoc->setWidget(findWidget(idb), B);
     }
 
-    NewUMLRectWidget * pWidgetA = findWidget(pAssoc->getWidgetID(A));
-    NewUMLRectWidget * pWidgetB = findWidget(pAssoc->getWidgetID(B));
+    UMLWidget * pWidgetA = findWidget(pAssoc->getWidgetID(A));
+    UMLWidget * pWidgetB = findWidget(pAssoc->getWidgetID(B));
     //make sure valid widget ids
     if (!pWidgetA || !pWidgetB) {
         return false;
@@ -2004,7 +2004,7 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
 }
 
 /** Removes all the associations related to Widget */
-void UMLScene::removeAssociations(NewUMLRectWidget* Widget)
+void UMLScene::removeAssociations(UMLWidget* Widget)
 {
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
@@ -2072,12 +2072,12 @@ void UMLScene::removeAllWidgets()
 {
     // Do this because ~QGraphicsItem deletes its children causing
     // crash here due to double deletion!
-    foreach(NewUMLRectWidget *temp, m_WidgetList) {
+    foreach(UMLWidget *temp, m_WidgetList) {
         temp->setParentItem(0);
     }
 
     // Remove widgets.
-    foreach(NewUMLRectWidget* temp , m_WidgetList) {
+    foreach(UMLWidget* temp , m_WidgetList) {
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
         if (!(temp->baseType() == wt_Text &&
@@ -2103,7 +2103,7 @@ void UMLScene::showDocumentation(UMLObject * object, bool overwrite)
 /**
  *  Calls the same method in the DocWindow.
  */
-void UMLScene::showDocumentation(NewUMLRectWidget * widget, bool overwrite)
+void UMLScene::showDocumentation(UMLWidget * widget, bool overwrite)
 {
     UMLApp::app()->getDocWindow()->showDocumentation(widget, overwrite);
     m_bChildDisplayedDoc = true;
@@ -2140,9 +2140,9 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
         return;
     // See if the object has a widget representation in this view.
     // While we're at it, also see if the new parent has a widget here.
-    NewUMLRectWidget *selfWidget = NULL, *newParentWidget = NULL;
+    UMLWidget *selfWidget = NULL, *newParentWidget = NULL;
     UMLPackage *newParent = self->getUMLPackage();
-    foreach(NewUMLRectWidget* w, m_WidgetList) {
+    foreach(UMLWidget* w, m_WidgetList) {
         UMLObject *o = w->umlObject();
         if (o == self)
             selfWidget = w;
@@ -2157,11 +2157,11 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
             continue;
         // Container is at role A, containee at B.
         // We only look at association for which we are B.
-        NewUMLRectWidget *wB = a->getWidget(B);
+        UMLWidget *wB = a->getWidget(B);
         UMLObject *roleBObj = wB->umlObject();
         if (roleBObj != self)
             continue;
-        NewUMLRectWidget *wA = a->getWidget(A);
+        UMLWidget *wA = a->getWidget(A);
         UMLObject *roleAObj = wA->umlObject();
         if (roleAObj == newParent) {
             // Wow, all done. Great!
@@ -2183,11 +2183,11 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
 }
 
 /**
- * Creates automatically any Associations that the given @ref NewUMLRectWidget
- * may have on any diagram.  This method is used when you just add the NewUMLRectWidget
+ * Creates automatically any Associations that the given @ref UMLWidget
+ * may have on any diagram.  This method is used when you just add the UMLWidget
  * to a diagram.
  */
-void UMLScene::createAutoAssociations(NewUMLRectWidget * widget)
+void UMLScene::createAutoAssociations(UMLWidget * widget)
 {
     if (widget == NULL ||
         (m_Type != Uml::dt_Class &&
@@ -2260,7 +2260,7 @@ void UMLScene::createAutoAssociations(NewUMLRectWidget * widget)
         Uml::IDType otherID = other->getID();
 
         bool breakFlag = false;
-        NewUMLRectWidget* pOtherWidget = 0;
+        UMLWidget* pOtherWidget = 0;
         foreach(pOtherWidget ,  m_WidgetList) {
             if (pOtherWidget->id() == otherID) {
                 breakFlag = true;
@@ -2271,7 +2271,7 @@ void UMLScene::createAutoAssociations(NewUMLRectWidget * widget)
             continue;
         // Both objects are represented in this view:
         // Assign widget roles as indicated by the UMLAssociation.
-        NewUMLRectWidget *widgetA, *widgetB;
+        UMLWidget *widgetA, *widgetB;
         if (myID == roleAObj->getID()) {
             widgetA = widget;
             widgetB = pOtherWidget;
@@ -2324,7 +2324,7 @@ void UMLScene::createAutoAssociations(NewUMLRectWidget * widget)
         foreach(UMLObject* obj,  lst) {
             // if the containedObject has a widget representation on this view then
             Uml::IDType id = obj->getID();
-            foreach(NewUMLRectWidget *w , m_WidgetList) {
+            foreach(UMLWidget *w , m_WidgetList) {
                 if (w->id() != id)
                     continue;
                 // if the containedWidget is not physically located inside this widget
@@ -2348,7 +2348,7 @@ void UMLScene::createAutoAssociations(NewUMLRectWidget * widget)
     Uml::IDType pkgID = parent->getID();
 
     bool breakFlag = false;
-    NewUMLRectWidget* pWidget = 0;
+    UMLWidget* pWidget = 0;
     foreach(pWidget , m_WidgetList) {
         if (pWidget->id() == pkgID) {
             breakFlag = true;
@@ -2371,7 +2371,7 @@ void UMLScene::createAutoAssociations(NewUMLRectWidget * widget)
  * association to each attribute type widget that is present
  * on the current diagram.
  */
-void UMLScene::createAutoAttributeAssociations(NewUMLRectWidget *widget)
+void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
 {
     if (widget == NULL || m_Type != Uml::dt_Class || !m_Options.classState.showAttribAssocs)
         return;
@@ -2436,11 +2436,11 @@ void UMLScene::createAutoAttributeAssociations(NewUMLRectWidget *widget)
 }
 
 /**
- * Create an association with the attribute attr associated with the NewUMLRectWidget
+ * Create an association with the attribute attr associated with the UMLWidget
  * widget if the UMLClassifier type is present on the current diagram.
  */
 void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *attr,
-                                              NewUMLRectWidget *widget /*, UMLClassifier * klass*/)
+                                              UMLWidget *widget /*, UMLClassifier * klass*/)
 {
     if (type == NULL) {
         // uDebug() << klass->getName() << ": type is NULL for "
@@ -2448,7 +2448,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
         return;
     }
     Uml::Association_Type assocType = Uml::at_Composition;
-    NewUMLRectWidget *w = findWidget(type->getID());
+    UMLWidget *w = findWidget(type->getID());
     AssociationWidget *aw = NULL;
     // if the attribute type has a widget representation on this view
     if (w) {
@@ -2481,7 +2481,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
         if (dt->isReference()) {
             //Uml::Association_Type assocType = Uml::at_Composition;
             UMLClassifier *c = dt->originType();
-            NewUMLRectWidget *w = c ? findWidget(c->getID()) : 0;
+            UMLWidget *w = c ? findWidget(c->getID()) : 0;
             // if the referenced type has a widget representation on this view
             if (w) {
                 aw = findAssocWidget(widget, w, attr->getName());
@@ -2507,7 +2507,7 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
     }
 }
 
-void UMLScene::createAutoConstraintAssociations(NewUMLRectWidget *widget)
+void UMLScene::createAutoConstraintAssociations(UMLWidget *widget)
 {
     if (widget == NULL || m_Type != Uml::dt_EntityRelationship)
         return;
@@ -2557,7 +2557,7 @@ void UMLScene::createAutoConstraintAssociations(NewUMLRectWidget *widget)
     }
 }
 
-void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKeyConstraint* fkConstraint, NewUMLRectWidget* widget)
+void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKeyConstraint* fkConstraint, UMLWidget* widget)
 {
 
     if (refEntity == NULL) {
@@ -2565,7 +2565,7 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
     }
 
     Uml::Association_Type assocType = Uml::at_Relationship;
-    NewUMLRectWidget *w = findWidget(refEntity->getID());
+    UMLWidget *w = findWidget(refEntity->getID());
     AssociationWidget *aw = NULL;
 
     if (w) {
@@ -2644,7 +2644,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     qreal px = -1, py = -1, qx = -1, qy = -1;
 
     //first get the smallest rect holding the widgets
-    foreach(NewUMLRectWidget* temp , selectedWidgets()) {
+    foreach(UMLWidget* temp , selectedWidgets()) {
         qreal x = temp->x();
         qreal y = temp->y();
         qreal x1 = x + temp->width() - 1;
@@ -3116,7 +3116,7 @@ void UMLScene::setFont(QFont font, bool changeAllWidgets /* = false */)
     m_Options.uiState.font = font;
     if (!changeAllWidgets)
         return;
-    foreach(NewUMLRectWidget* w, m_WidgetList) {
+    foreach(UMLWidget* w, m_WidgetList) {
         w->setFont(font);
     }
 }
@@ -3126,7 +3126,7 @@ void UMLScene::setFont(QFont font, bool changeAllWidgets /* = false */)
  */
 void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
 {
-    foreach(NewUMLRectWidget* pWidget , m_WidgetList) {
+    foreach(UMLWidget* pWidget , m_WidgetList) {
         Uml::Widget_Type wt = pWidget->baseType();
         if (wt == Uml::wt_Class || wt == Uml::wt_Interface) {
             page->setWidget(static_cast<ClassifierWidget *>(pWidget));
@@ -3143,9 +3143,9 @@ void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
  */
 void UMLScene::checkSelections()
 {
-    NewUMLRectWidget * pWA = 0, * pWB = 0;
+    UMLWidget * pWA = 0, * pWB = 0;
     //check messages
-    foreach(NewUMLRectWidget *pTemp , selectedWidgets()) {
+    foreach(UMLWidget *pTemp , selectedWidgets()) {
         if (pTemp->baseType() == wt_Message && pTemp->isSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
             pWA = pMessage->objectWidget(A);
@@ -3191,7 +3191,7 @@ bool UMLScene::checkUniqueSelection()
         return true;
 
     // get the first item and its base type
-    NewUMLRectWidget * pTemp = (NewUMLRectWidget *) selectedWidgets().first();
+    UMLWidget * pTemp = (UMLWidget *) selectedWidgets().first();
     Widget_Type tmpType = pTemp->baseType();
 
     // check all selected items, if they have the same BaseType
@@ -3356,7 +3356,7 @@ void UMLScene::updateComponentSizes()
 {
     // update sizes of all components
 
-    foreach(NewUMLRectWidget *obj , m_WidgetList) {
+    foreach(UMLWidget *obj , m_WidgetList) {
         obj->updateComponentSize();
     }
 }
@@ -3372,7 +3372,7 @@ void UMLScene::updateComponentSizes()
  */
 void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
 {
-    foreach(NewUMLRectWidget *obj , m_WidgetList) {
+    foreach(UMLWidget *obj , m_WidgetList) {
         obj->forceUpdateFontMetrics(painter);
     }
 }
@@ -3415,7 +3415,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 
 
     QDomElement widgetElement = qDoc.createElement("widgets");
-    foreach(NewUMLRectWidget *widget , m_WidgetList) {
+    foreach(UMLWidget *widget , m_WidgetList) {
         // Having an exception is bad I know, but gotta work with
         // system we are given.
         // We DON'T want to record any text widgets which are belonging
@@ -3428,7 +3428,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.appendChild(widgetElement);
     //now save the message widgets
     QDomElement messageElement = qDoc.createElement("messages");
-    foreach(NewUMLRectWidget* widget , m_MessageList) {
+    foreach(UMLWidget* widget , m_MessageList) {
         widget->saveToXMI(qDoc, messageElement);
     }
     viewElement.appendChild(messageElement);
@@ -3599,7 +3599,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
 
 bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
 {
-    NewUMLRectWidget* widget = 0;
+    UMLWidget* widget = 0;
     QDomNode node = qElement.firstChild();
     QDomElement widgetElement = node.toElement();
     while (!widgetElement.isNull()) {
@@ -3622,7 +3622,7 @@ bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
 /**
  * Loads a "widget" element from XMI, used by loadFromXMI() and the clipboard.
  */
-NewUMLRectWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
+UMLWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
 {
 
     if (!m_pDoc) {
@@ -3632,7 +3632,7 @@ NewUMLRectWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
 
     QString tag  = widgetElement.tagName();
     QString idstr  = widgetElement.attribute("xmi.id", "-1");
-    NewUMLRectWidget* widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
+    UMLWidget* widget = Widget_Factory::makeWidgetFromXMI(tag, idstr, this);
 
     if (widget == NULL)
         return NULL;
@@ -3762,7 +3762,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
         } else {
             Uml::Object_Type ot = o->getBaseType();
             uDebug() << "Create widget for model object of type " << ot;
-            NewUMLRectWidget *widget = NULL;
+            UMLWidget *widget = NULL;
             switch (ot) {
             case Uml::ot_Class:
                 widget = new ClassifierWidget(static_cast<UMLClassifier*>(o));
@@ -3776,8 +3776,8 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                     uError() << "intern err 1";
                     return false;
                 }
-                NewUMLRectWidget *wA = findWidget(objA->getID());
-                NewUMLRectWidget *wB = findWidget(objB->getID());
+                UMLWidget *wA = findWidget(objA->getID());
+                UMLWidget *wB = findWidget(objB->getID());
                 if (wA != NULL && wB != NULL) {
                     AssociationWidget *aw =
                         new AssociationWidget(this, wA, at, wB, umla);
@@ -3867,7 +3867,7 @@ void UMLScene::alignLeft()
 
     qreal smallestX = getSmallestX(widgetList);
 
-    foreach(NewUMLRectWidget *widget , widgetList) {
+    foreach(UMLWidget *widget , widgetList) {
         widget->setX(smallestX);
         widget->adjustAssociations();
     }
@@ -3884,7 +3884,7 @@ void UMLScene::alignRight()
         return;
     qreal biggestX = getBiggestX(widgetList);
 
-    foreach(NewUMLRectWidget *widget , widgetList) {
+    foreach(UMLWidget *widget , widgetList) {
         widget->setX(biggestX - widget->width());
         widget->adjustAssociations();
     }
@@ -3902,7 +3902,7 @@ void UMLScene::alignTop()
 
     qreal smallestY = getSmallestY(widgetList);
 
-    foreach(NewUMLRectWidget *widget , widgetList) {
+    foreach(UMLWidget *widget , widgetList) {
         widget->setY(smallestY);
         widget->adjustAssociations();
     }
@@ -3919,7 +3919,7 @@ void UMLScene::alignBottom()
         return;
     qreal biggestY = getBiggestY(widgetList);
 
-    foreach(NewUMLRectWidget *widget , widgetList) {
+    foreach(UMLWidget *widget , widgetList) {
         widget->setY(biggestY - widget->height());
         widget->adjustAssociations();
     }
@@ -3939,7 +3939,7 @@ void UMLScene::alignVerticalMiddle()
     qreal biggestX = getBiggestX(widgetList);
     qreal middle = int((biggestX - smallestX) / 2) + smallestX;
 
-    foreach(NewUMLRectWidget *widget , widgetList) {
+    foreach(UMLWidget *widget , widgetList) {
         widget->setX(middle - int(widget->width() / 2));
         widget->adjustAssociations();
     }
@@ -3959,7 +3959,7 @@ void UMLScene::alignHorizontalMiddle()
     qreal biggestY = getBiggestY(widgetList);
     qreal middle = int((biggestY - smallestY) / 2) + smallestY;
 
-    foreach(NewUMLRectWidget *widget , widgetList) {
+    foreach(UMLWidget *widget , widgetList) {
         widget->setY(middle - int(widget->height() / 2));
         widget->adjustAssociations();
     }
@@ -3983,8 +3983,8 @@ void UMLScene::alignVerticalDistribute()
     sortWidgetList(widgetList, hasWidgetSmallerY);
 
     int i = 1;
-    NewUMLRectWidget* widgetPrev = NULL;
-    foreach(NewUMLRectWidget *widget , widgetList) {
+    UMLWidget* widgetPrev = NULL;
+    foreach(UMLWidget *widget , widgetList) {
         if (i == 1) {
             widgetPrev = widget;
         } else {
@@ -4014,8 +4014,8 @@ void UMLScene::alignHorizontalDistribute()
     sortWidgetList(widgetList, hasWidgetSmallerX);
 
     int i = 1;
-    NewUMLRectWidget* widgetPrev = NULL;
-    foreach(NewUMLRectWidget *widget ,  widgetList) {
+    UMLWidget* widgetPrev = NULL;
+    foreach(UMLWidget *widget ,  widgetList) {
         if (i == 1) {
             widgetPrev = widget;
         } else {
@@ -4035,7 +4035,7 @@ void UMLScene::alignHorizontalDistribute()
  * @param widget1 The widget to compare.
  * @param widget2 The widget to compare with.
  */
-bool UMLScene::hasWidgetSmallerX(const NewUMLRectWidget* widget1, const NewUMLRectWidget* widget2)
+bool UMLScene::hasWidgetSmallerX(const UMLWidget* widget1, const UMLWidget* widget2)
 {
     return widget1->x() < widget2->x();
 }
@@ -4047,7 +4047,7 @@ bool UMLScene::hasWidgetSmallerX(const NewUMLRectWidget* widget1, const NewUMLRe
  * @param widget1 The widget to compare.
  * @param widget2 The widget to compare with.
  */
-bool UMLScene::hasWidgetSmallerY(const NewUMLRectWidget* widget1, const NewUMLRectWidget* widget2)
+bool UMLScene::hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widget2)
 {
     return widget1->y() < widget2->y();
 }
@@ -4064,7 +4064,7 @@ qreal UMLScene::getSmallestX(const UMLWidgetList &widgetList)
     qreal smallestX = 0;
 
     int i = 1;
-    foreach(NewUMLRectWidget *widget ,  widgetList) {
+    foreach(UMLWidget *widget ,  widgetList) {
         if (i == 1) {
             smallestX = widget->x();
         } else {
@@ -4091,7 +4091,7 @@ qreal UMLScene::getSmallestY(const UMLWidgetList &widgetList)
     qreal smallestY = 0;
 
     int i = 1;
-    foreach(NewUMLRectWidget *widget ,  widgetList) {
+    foreach(UMLWidget *widget ,  widgetList) {
         if (i == 1) {
             smallestY = widget->y();
         } else {
@@ -4117,7 +4117,7 @@ qreal UMLScene::getBiggestX(const UMLWidgetList &widgetList)
     qreal biggestX = 0;
 
     int i = 1;
-    foreach(NewUMLRectWidget *widget , widgetList) {
+    foreach(UMLWidget *widget , widgetList) {
         if (i == 1) {
             biggestX = widget->x();
             biggestX += widget->width();
@@ -4145,7 +4145,7 @@ qreal UMLScene::getBiggestY(const UMLWidgetList &widgetList)
     qreal biggestY = 0;
 
     int i = 1;
-    foreach(NewUMLRectWidget *widget , widgetList) {
+    foreach(UMLWidget *widget , widgetList) {
         if (i == 1) {
             biggestY = widget->y();
             biggestY += widget->height();
@@ -4169,7 +4169,7 @@ qreal UMLScene::getHeightsSum(const UMLWidgetList &widgetList)
     qreal heightsSum = 0;
 
 
-    foreach(NewUMLRectWidget *widget , widgetList) {
+    foreach(UMLWidget *widget , widgetList) {
         heightsSum += widget->height();
     }
 
@@ -4185,7 +4185,7 @@ qreal UMLScene::getWidthsSum(const UMLWidgetList &widgetList)
 {
     qreal widthsSum = 0;
 
-    foreach(NewUMLRectWidget *widget , widgetList) {
+    foreach(UMLWidget *widget , widgetList) {
         widthsSum += widget->width();
     }
 
@@ -4195,7 +4195,7 @@ qreal UMLScene::getWidthsSum(const UMLWidgetList &widgetList)
 template<typename Compare>
 void UMLScene::sortWidgetList(UMLWidgetList &widgetList, Compare comp)
 {
-    QVector<NewUMLRectWidget*> widgetVector;
+    QVector<UMLWidget*> widgetVector;
 
     for (UMLWidgetList::iterator it = widgetList.begin(); it != widgetList.end(); ++it) {
         widgetVector.push_back(*it);
@@ -4204,7 +4204,7 @@ void UMLScene::sortWidgetList(UMLWidgetList &widgetList, Compare comp)
 
     widgetList.clear();
 
-    for (QVector<NewUMLRectWidget*>::iterator it = widgetVector.begin(); it != widgetVector.end(); ++it) {
+    for (QVector<UMLWidget*>::iterator it = widgetVector.begin(); it != widgetVector.end(); ++it) {
         widgetList.append(*it);
     }
 }

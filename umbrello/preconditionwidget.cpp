@@ -30,7 +30,7 @@
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 PreconditionWidget::PreconditionWidget( ObjectWidget* a, Uml::IDType id )
-    : NewUMLRectWidget(0, id),
+    : UMLWidget(0, id),
       m_objectWidget(a)
 {
     m_baseType = Uml::wt_Precondition;
@@ -101,7 +101,7 @@ void PreconditionWidget::alignToObjectLine()
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::paint to draw the rounded
+ * Reimplemented from UMLWidget::paint to draw the rounded
  * rect. The text is drawn by the TextItem.
  */
 void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -114,12 +114,12 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::loadFromXMI to load
+ * Reimplemented from UMLWidget::loadFromXMI to load
  * PreconditionWidget data from XMI into this widget.
  */
 bool PreconditionWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+    if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
     setName(qElement.attribute( "preconditionname", "" ));
@@ -140,13 +140,13 @@ bool PreconditionWidget::loadFromXMI( QDomElement & qElement )
 }
 
 /**
- * Reimplemented form NewUMLRectWidget::saveToXMI to save this
+ * Reimplemented form UMLWidget::saveToXMI to save this
  * PreconditionWidget data into 'preconditionwidget' XMI element.
  */
 void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, preconditionElement );
+    UMLWidget::saveToXMI( qDoc, preconditionElement );
 
     preconditionElement.setAttribute( "widgetaid", ID2STR(m_objectWidget->localID()) );
     preconditionElement.setAttribute( "preconditionname", name() );
@@ -155,17 +155,17 @@ void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * Reimplemented from UMLWidget::updateGeometry to calculate
  * minimum size.
  */
 void PreconditionWidget::updateGeometry()
 {
     setMinimumSize(textItemGroupAt(0)->minimumSize());
-    NewUMLRectWidget::updateGeometry();
+    UMLWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * Reimplemented from UMLWidget::updateTextItemGroups to update
  * the text content dispaly.
  */
 void PreconditionWidget::updateTextItemGroups()
@@ -179,11 +179,11 @@ void PreconditionWidget::updateTextItemGroups()
 
     grp->textItemAt(0)->setText(text);
 
-    NewUMLRectWidget::updateTextItemGroups();
+    UMLWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::attributeChange to handle @ref
+ * Reimplemented from UMLWidget::attributeChange to handle @ref
  * SizeHasChanged to align the text in the widget area.
  */
 QVariant PreconditionWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -197,11 +197,11 @@ QVariant PreconditionWidget::attributeChange(WidgetAttributeChange change, const
             setX(objectRect.center().x() - .5 * size().width());
         }
     }
-    return NewUMLRectWidget::attributeChange(change, oldValue);
+    return UMLWidget::attributeChange(change, oldValue);
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::itemChange to ensure
+ * Reimplemented from UMLWidget::itemChange to ensure
  * X-centered and Y-limited constraints on this PreconditionWidget.
  */
 QVariant PreconditionWidget::itemChange(GraphicsItemChange change, const QVariant& value)
@@ -220,11 +220,11 @@ QVariant PreconditionWidget::itemChange(GraphicsItemChange change, const QVarian
         return newPos;
     }
 
-    return NewUMLRectWidget::itemChange(change, value);
+    return UMLWidget::itemChange(change, value);
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * Reimplemented from UMLWidget::slotMenuSelection to handle
  * Rename action.
  */
 void PreconditionWidget::slotMenuSelection(QAction* action)
@@ -246,7 +246,7 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        NewUMLRectWidget::slotMenuSelection(action);
+        UMLWidget::slotMenuSelection(action);
     }
 }
 

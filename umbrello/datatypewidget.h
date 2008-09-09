@@ -12,7 +12,7 @@
 #ifndef DATATYPEWIDGET_H
 #define DATATYPEWIDGET_H
 
-#include "newumlrectwidget.h"
+#include "umlwidget.h"
 
 class UMLClassifier;
 
@@ -20,23 +20,23 @@ class UMLClassifier;
  * @class DatatypeWidget
  *
  * Defines a graphical version of the datatype.  Most of the
- * functionality will come from the @ref NewUMLRectWidget class from
+ * functionality will come from the @ref UMLWidget class from
  * which class inherits from.
  *
  * @short A graphical version of an datatype.
  * @author Jonathan Riddell
  * @author Gopala Krishna
  *
- * @see NewUMLRectWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class DatatypeWidget : public NewUMLRectWidget
+class DatatypeWidget : public UMLWidget
 {
 public:
     DatatypeWidget(UMLClassifier *d);
     virtual ~DatatypeWidget();
 
-	// Uses NewUMLRectWidget::loadFromXMI to load data from XMI
+	// Uses UMLWidget::loadFromXMI to load data from XMI
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);

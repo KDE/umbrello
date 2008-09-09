@@ -240,7 +240,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject
 }
 
 //ListPopupMenu for a canvas widget
-ListPopupMenu::ListPopupMenu(QWidget * parent, NewUMLWidget * object,
+ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
                              bool multi, bool unique)
         : KMenu(parent)
 {
@@ -776,7 +776,7 @@ void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QString & text,
 }
 
 void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
-                                   Uml::Widget_Type type /* = wt_NewUMLRectWidget */)
+                                   Uml::Widget_Type type /* = wt_UMLWidget */)
 {
     if (insertLeadingSeparator)
         addSeparator();
@@ -784,7 +784,7 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
     insert(mt_Copy);
     insert(mt_Paste);
     addSeparator();
-    if (type == Uml::wt_NewUMLRectWidget)
+    if (type == Uml::wt_UMLWidget)
         insert(mt_Rename);
     else if (Model_Utils::isCloneable(type))
         insert(mt_Clone);
@@ -1715,10 +1715,10 @@ ListPopupMenu::Menu_Type ListPopupMenu::getMenuType(QAction* action)
 /**
  * Utility method to fetch owner of the menu.
  *
- * @return The owned NewUMLWidget if this menu is owned by a
+ * @return The owned WidgetBase if this menu is owned by a
  *         widget. Otherwise returns 0.
  */
-NewUMLWidget* ListPopupMenu::ownerWidget() const
+WidgetBase* ListPopupMenu::ownerWidget() const
 {
     if (m_TriggerObjectType == tot_Widget) {
         return m_TriggerObject.m_Widget;

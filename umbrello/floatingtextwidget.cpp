@@ -50,7 +50,7 @@ const qreal FloatingTextWidget::restrictPositionMax = 3000;
  */
 FloatingTextWidget::FloatingTextWidget(Uml::Text_Role role,
                                        Uml::IDType id)
-    : NewUMLRectWidget(0, id)
+    : UMLWidget(0, id)
 {
     m_baseType = Uml::wt_Text;
     m_linkWidget = 0;
@@ -383,7 +383,7 @@ bool FloatingTextWidget::isTextValid( const QString &text )
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::paint . This method does
+ * Reimplemented from UMLWidget::paint . This method does
  * nothing as the text drawing is handled by TextItemGroup.
  */
 void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
@@ -393,12 +393,12 @@ void FloatingTextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::loadFromXMI to load
+ * Reimplemented from UMLWidget::loadFromXMI to load
  * FloatingTextWidget from XMI element.
  */
 bool FloatingTextWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+    if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
 
     QString role = qElement.attribute( "role", "" );
@@ -419,13 +419,13 @@ bool FloatingTextWidget::loadFromXMI( QDomElement & qElement )
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::saveToXMI to save the widget
+ * Reimplemented from UMLWidget::saveToXMI to save the widget
  * data into XMI 'floatingtext' element.
  */
 void FloatingTextWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement textElement = qDoc.createElement( "floatingtext" );
-    NewUMLRectWidget::saveToXMI( qDoc, textElement );
+    UMLWidget::saveToXMI( qDoc, textElement );
     textElement.setAttribute( "text", text() );
     textElement.setAttribute( "pretext", m_preText );
     textElement.setAttribute( "posttext", m_postText );
@@ -435,7 +435,7 @@ void FloatingTextWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * Reimplemented from UMLWidget::updateGeometry to calculate
  * minimum size and maximum size.
  */
 void FloatingTextWidget::updateGeometry()
@@ -445,11 +445,11 @@ void FloatingTextWidget::updateGeometry()
     setMinimumSize(minSize);
     setMaximumSize(minSize);
 
-    NewUMLRectWidget::updateGeometry();
+    UMLWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateTextItemGroups to set
+ * Reimplemented from UMLWidget::updateTextItemGroups to set
  * the text for the TextItem.
  */
 void FloatingTextWidget::updateTextItemGroups()
@@ -461,11 +461,11 @@ void FloatingTextWidget::updateTextItemGroups()
     item->setText(text());
     item->show();
 
-    NewUMLRectWidget::updateTextItemGroups();
+    UMLWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::attributeChange to react to
+ * Reimplemented from UMLWidget::attributeChange to react to
  * notification NameHasChanged and SizeHasChanged.
  */
 QVariant FloatingTextWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -483,11 +483,11 @@ QVariant FloatingTextWidget::attributeChange(WidgetAttributeChange change, const
         grp->setGroupGeometry(QRectF(QPointF(0, 0), grp->minimumSize()));
     }
 
-    return NewUMLRectWidget::attributeChange(change, oldValue);
+    return UMLWidget::attributeChange(change, oldValue);
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * Reimplemented from UMLWidget::slotMenuSelection to handle
  * some specific actions.
  */
 void FloatingTextWidget::slotMenuSelection(QAction* action)
@@ -556,7 +556,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        NewUMLRectWidget::slotMenuSelection(action);
+        UMLWidget::slotMenuSelection(action);
         break;
     }//end switch
 }

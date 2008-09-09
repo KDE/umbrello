@@ -28,11 +28,11 @@ const qreal NodeWidget::DEPTH = 30;  ///< pixels on Z axis
  * @param n The UMLNode this will be representing.
  */
 NodeWidget::NodeWidget(UMLNode *n )
-	: NewUMLRectWidget(n)
+	: UMLWidget(n)
 {
     m_baseType = Uml::wt_Node;
 	createTextItemGroup();
-	// above box but below NewUMLRectWidget because may embed widgets
+	// above box but below UMLWidget because may embed widgets
     setZValue(1);
 }
 
@@ -42,7 +42,7 @@ NodeWidget::~NodeWidget()
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::paint to draw node widget
+ * Reimplemented from UMLWidget::paint to draw node widget
  * drawing stored in the painter path.
  */
 void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -53,18 +53,18 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
 }
 
 /**
- * Reimplemented form NewUMLRectWidget::saveToXMI to save this widget
+ * Reimplemented form UMLWidget::saveToXMI to save this widget
  * info into 'nodewidget' xmi element.
  */
 void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement("nodewidget");
-    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * Reimplemented from UMLWidget::updateGeometry to calculate
  * minimum size for this widget.
  */
 void NodeWidget::updateGeometry()
@@ -76,11 +76,11 @@ void NodeWidget::updateGeometry()
 
 	setMinimumSize(minSize);
 
-	NewUMLRectWidget::updateGeometry();
+	UMLWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateTextItemGroups() to
+ * Reimplemented from UMLWidget::updateTextItemGroups() to
  * calculate the texts and also show/hide the texts based on current
  * state.
  */
@@ -110,11 +110,11 @@ void NodeWidget::updateTextItemGroups()
 		nameItem->setText(nameText);
 	}
 
-	NewUMLRectWidget::updateTextItemGroups();
+	UMLWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::attributeChange to handle @ref
+ * Reimplemented from UMLWidget::attributeChange to handle @ref
  * SizeHasChanged to position the texts as well as build the painter
  * path corresponding to current size.
  */
@@ -152,6 +152,6 @@ QVariant NodeWidget::attributeChange(WidgetAttributeChange change, const QVarian
 		grp->setGroupGeometry(bodyRect);
 	}
 
-	return NewUMLRectWidget::attributeChange(change, oldValue);
+	return UMLWidget::attributeChange(change, oldValue);
 }
 

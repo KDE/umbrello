@@ -345,8 +345,8 @@ set(libumbrello_SRCS
     main.cpp
     messagewidget.cpp
     model_utils.cpp
-    newumlwidget.cpp
-    newumlrectwidget.cpp
+    widgetbase.cpp
+    umlwidget.cpp
     node.cpp
     nodewidget.cpp
     notewidget.cpp

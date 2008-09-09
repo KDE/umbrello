@@ -12,13 +12,13 @@
 #ifndef CATEGORYWIDGET_H
 #define CATEGORYWIDGET_H
 
-#include "newumlrectwidget.h"
+#include "umlwidget.h"
 
 class UMLCategory;
 
 /**
  * This class is the graphical version of a UMLCategory.  The
- * CategoryWidget class inherits from the @ref NewUMLRectWidget class
+ * CategoryWidget class inherits from the @ref UMLWidget class
  * which adds most of the functionality to this class.
  *
  * @short  A graphical version of a UMLCategory.
@@ -26,7 +26,7 @@ class UMLCategory;
  * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class CategoryWidget : public NewUMLRectWidget
+class CategoryWidget : public UMLWidget
 {
 	Q_OBJECT
 public:
@@ -35,7 +35,7 @@ public:
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-	// For loading , NewUMLRectWidget::loadFromXMI() is used.
+	// For loading , UMLWidget::loadFromXMI() is used.
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:

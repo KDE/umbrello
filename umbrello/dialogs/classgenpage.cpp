@@ -311,7 +311,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     }
 }
 
-ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, NewUMLRectWidget* widget) : QWidget(parent)
+ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWidget(parent)
 {
     m_pWidget = 0;
     m_pObject = 0;

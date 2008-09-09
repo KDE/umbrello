@@ -20,7 +20,7 @@
 #ifndef NEWUMLRECTWIDGET_H
 #define NEWUMLRECTWIDGET_H
 
-#include "newumlwidget.h"
+#include "widgetbase.h"
 #include "associationwidgetlist.h"
 
 class AssociationWidget;
@@ -31,14 +31,14 @@ class TextItemGroup;
 /**
  * @short The base class for rectangular base UML widgets.
  *
- * This class extends the functionality provided by NewUMLWidget with
+ * This class extends the functionality provided by WidgetBase with
  * facilities to resize the widget, provide flexible constraints
  * management.
  *
  * Also this class handles connected association widgets whenever
  * required.
  */
-class NewUMLRectWidget : public NewUMLWidget
+class UMLWidget : public WidgetBase
 {
     Q_OBJECT
 public:
@@ -54,8 +54,8 @@ public:
     static const QSizeF DefaultMinimumSize;
     static const QSizeF DefaultMaximumSize;
 
-    explicit NewUMLRectWidget(UMLObject *object);
-    ~NewUMLRectWidget();
+    explicit UMLWidget(UMLObject *object);
+    ~UMLWidget();
 
     /// @return The minimum size for this widget.
     QSizeF minimumSize() const {
@@ -201,12 +201,12 @@ private:
     QRectF m_geometryBeforeResize;
 
     // Dispable copy constructor and operator=
-    DISABLE_COPY(NewUMLRectWidget);
+    DISABLE_COPY(UMLWidget);
 
 public:
     //////////////////  DEPRECATED //////////////////////////
-    NewUMLRectWidget(UMLScene *scene, const Uml::IDType & _id = Uml::id_None);
-    NewUMLRectWidget(UMLScene *scene, UMLObject *obj);
+    UMLWidget(UMLScene *scene, const Uml::IDType & _id = Uml::id_None);
+    UMLWidget(UMLScene *scene, UMLObject *obj);
 
     bool getStartMove() const { return false; }
     bool getIgnoreSnapToGrid() const { return false; }

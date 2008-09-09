@@ -20,7 +20,7 @@
 #include "icon_utils.h"
 
 class UMLView;
-class NewUMLWidget;
+class WidgetBase;
 class ClassifierWidget;
 class UMLCategory;
 class UMLObject;
@@ -223,12 +223,12 @@ public:
      * Constructs the popup menu for a canvas widget.
      *
      * @param parent   The parent to ListPopupMenu.
-     * @param object   The NewUMLRectWidget to represent a menu for.
+     * @param object   The UMLWidget to represent a menu for.
      * @param multi    True if multiple items are selected.
      * @param unique   True if multiple selected items all have
      *                 the same type (e.g. Class, Interface)
      */
-    ListPopupMenu(QWidget* parent, NewUMLWidget* object, bool multi = false, bool unique = false);
+    ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false, bool unique = false);
 
     /**
      * Standard deconstructor.
@@ -253,7 +253,7 @@ public:
 //    Menu_Type getMenuType(KAction* action);
     Menu_Type getMenuType(QAction* action);
 
-    NewUMLWidget *ownerWidget() const;
+    WidgetBase *ownerWidget() const;
 
 private:
 
@@ -270,7 +270,7 @@ private:
     void insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable = false);
 
     void insertStdItems(bool insertLeadingSeparator = true,
-                        Uml::Widget_Type type = Uml::wt_NewUMLRectWidget);
+                        Uml::Widget_Type type = Uml::wt_UMLWidget);
 
     void insertContainerItems(bool folderAndDiagrams);
 
@@ -301,7 +301,7 @@ private:
     union TriggerObject{
         UMLView* m_View;
         UMLObject* m_Object;
-        NewUMLWidget* m_Widget;
+        WidgetBase* m_Widget;
     };
 
     /**

@@ -22,7 +22,7 @@
 
 /// Constructs a dataTypeWidget representing UMLClassifier \a d
 DatatypeWidget::DatatypeWidget(UMLClassifier *d) :
-    NewUMLRectWidget(d)
+    UMLWidget(d)
 {
     m_baseType = Uml::wt_Datatype;
 	createTextItemGroup();
@@ -34,18 +34,18 @@ DatatypeWidget::~DatatypeWidget()
 }
 
 /**
- * Reimplemented from NewUMLWidget::saveToXMI to save DataTypeWidget
+ * Reimplemented from WidgetBase::saveToXMI to save DataTypeWidget
  * data into XMI element.
  */
 void DatatypeWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     QDomElement conceptElement = qDoc.createElement("datatypewidget");
-    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::paint. Draws a rectangle.
+ * Reimplemented from UMLWidget::paint. Draws a rectangle.
  */
 void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
@@ -56,7 +56,7 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, 
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * Reimplemented from UMLWidget::updateGeometry to calculate
  * and set the minimum size for this widget.
  */
 void DatatypeWidget::updateGeometry()
@@ -65,11 +65,11 @@ void DatatypeWidget::updateGeometry()
 	QSizeF minSize = grp->minimumSize();
 	setMinimumSize(minSize);
 
-	NewUMLRectWidget::updateGeometry();
+	UMLWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * Reimplemented from UMLWidget::updateTextItemGroups to update
  * the text of TextItemGroups.
  */
 void DatatypeWidget::updateTextItemGroups()
@@ -87,11 +87,11 @@ void DatatypeWidget::updateTextItemGroups()
         nameItem->setItalic(umlObject()->getAbstract());
     }
 
-    NewUMLRectWidget::updateTextItemGroups();
+    UMLWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * Reimplemented from UMLWidget::attributeChange to handle
  * change of size to align TextItemGroup
  */
 QVariant DatatypeWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -100,5 +100,5 @@ QVariant DatatypeWidget::attributeChange(WidgetAttributeChange change, const QVa
 		TextItemGroup *grp = textItemGroupAt(DatatypeWidget::GroupIndex);
 		grp->setGroupGeometry(rect());
 	}
-    return NewUMLRectWidget::attributeChange(change, oldValue);
+    return UMLWidget::attributeChange(change, oldValue);
 }

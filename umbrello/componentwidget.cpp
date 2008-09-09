@@ -26,7 +26,7 @@
  * @param c The UMLComponent this will be representing.
  */
 ComponentWidget::ComponentWidget(UMLComponent *c)
-	: NewUMLRectWidget(0, c)
+	: UMLWidget(0, c)
 {
 	m_baseType = Uml::wt_Component;
     setMargin(10); // override default of 5 for other widgets.
@@ -39,7 +39,7 @@ ComponentWidget::~ComponentWidget()
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::paint to paint component
+ * Reimplemented from UMLWidget::paint to paint component
  * widget.
  */
 void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -59,7 +59,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
 void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement("componentwidget");
-    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
@@ -79,9 +79,9 @@ void ComponentWidget::updateGeometry()
 		minSize.setHeight(minHeight);
 	}
 
-	setMinimumSize(minSize, NewUMLRectWidget::AddMargin);
+	setMinimumSize(minSize, UMLWidget::AddMargin);
 
-	NewUMLRectWidget::updateGeometry();
+	UMLWidget::updateGeometry();
 }
 
 void ComponentWidget::updateTextItemGroups()
@@ -108,7 +108,7 @@ void ComponentWidget::updateTextItemGroups()
 		nameItem->setUnderline(underline);
 	}
 
-	NewUMLRectWidget::updateTextItemGroups();
+	UMLWidget::updateTextItemGroups();
 }
 
 QVariant ComponentWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -128,5 +128,5 @@ QVariant ComponentWidget::attributeChange(WidgetAttributeChange change, const QV
 		grp->setGroupGeometry(grpRect);
     }
 
-	return NewUMLRectWidget::attributeChange(change, oldValue);
+	return UMLWidget::attributeChange(change, oldValue);
 }

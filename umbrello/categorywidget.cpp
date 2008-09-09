@@ -23,7 +23,7 @@
  *
  *  @param  o The UMLCategory to represent.
  */
-CategoryWidget::CategoryWidget(UMLCategory *o) : NewUMLRectWidget(o)
+CategoryWidget::CategoryWidget(UMLCategory *o) : UMLWidget(o)
 {
     m_baseType = Uml::wt_Category;
 }
@@ -33,7 +33,7 @@ CategoryWidget::~CategoryWidget()
 {
 }
 
-/// Reimplemented from NewUMLRectWidget::paint to draw this widget.
+/// Reimplemented from UMLWidget::paint to draw this widget.
 void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
     Q_UNUSED(o);
@@ -80,11 +80,11 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
     painter->drawText(circle, Qt::AlignCenter, letterType );
 }
 
-/// Reimplemented from NewUMLRectWidget::saveToXMI to save CategoyWidget
+/// Reimplemented from UMLWidget::saveToXMI to save CategoyWidget
 void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement categoryElement = qDoc.createElement( "categorywidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, categoryElement );
+    UMLWidget::saveToXMI( qDoc, categoryElement );
     qElement.appendChild( categoryElement );
 }
 
@@ -94,7 +94,7 @@ void CategoryWidget::updateGeometry()
     qreal minRadius = fm.lineSpacing();
     setMinimumSize(QSizeF(minRadius, minRadius));
 
-    NewUMLRectWidget::updateGeometry();
+    UMLWidget::updateGeometry();
 }
 
 /**
@@ -129,7 +129,7 @@ void CategoryWidget::slotMenuSelection(QAction* action)
           break;
 
       default:
-          NewUMLRectWidget::slotMenuSelection(action);
+          UMLWidget::slotMenuSelection(action);
     }
 }
 

@@ -16,7 +16,7 @@
 class QGroupBox;
 class QGridLayout;
 class QLabel;
-class NewUMLRectWidget;
+class UMLWidget;
 class KLineEdit;
 
 /**
@@ -31,7 +31,7 @@ KLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, i
                                 KLineEdit * &editField,
                                 const QString& editFieldText = QString());
 
-void askNameForWidget(NewUMLRectWidget * &targetWidget, const QString& dialogTitle,
+void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);
 
 

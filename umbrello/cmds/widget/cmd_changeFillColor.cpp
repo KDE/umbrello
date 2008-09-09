@@ -29,7 +29,7 @@
 
 namespace Uml
 {
-    CmdChangeFillColor::CmdChangeFillColor(NewUMLRectWidget *w, const QColor& col)
+    CmdChangeFillColor::CmdChangeFillColor(UMLWidget *w, const QColor& col)
         : m_umlWidget(w), m_color(col)
     {
         setText(i18n("Change Fill Color") + w->name());

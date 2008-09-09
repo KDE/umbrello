@@ -12,7 +12,7 @@
 #ifndef CLASSIFIERWIDGET_H
 #define CLASSIFIERWIDGET_H
 
-#include "newumlrectwidget.h"
+#include "umlwidget.h"
 
 class AssociationWidget;
 class ExpanderBox;
@@ -25,10 +25,10 @@ class UMLClassifier;
  * @author Oliver Kellogg
  * @author Gopala Krishna
  *
- * @see NewUMLRectWidget
+ * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassifierWidget : public NewUMLRectWidget
+class ClassifierWidget : public UMLWidget
 {
     Q_OBJECT;
 public:

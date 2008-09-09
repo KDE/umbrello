@@ -37,7 +37,7 @@
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 CombinedFragmentWidget::CombinedFragmentWidget(CombinedFragmentType combinedfragmentType, Uml::IDType id ) :
-    NewUMLRectWidget(0, id)
+    UMLWidget(0, id)
 {
     m_baseType = Uml::wt_CombinedFragment;
     m_combinedFragmentType = combinedfragmentType;
@@ -56,7 +56,7 @@ CombinedFragmentWidget::~CombinedFragmentWidget()
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::paint to draw
+ * Reimplemented from UMLWidget::paint to draw
  * Combinedfragmentwidget. The text drawing is taken care by the
  * underlying textitems.
  */
@@ -134,7 +134,7 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::stringToCom
 /**
  * Pops up a dialog box and asks for the name.
  */
-void CombinedFragmentWidget::askNameForWidgetType(NewUMLRectWidget* &targetWidget,
+void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget,
                                                   const QString& dialogTitle,
                                                   const QString& dialogPrompt,
                                                   const QString& /*defaultName*/)
@@ -179,14 +179,14 @@ void CombinedFragmentWidget::askNameForWidgetType(NewUMLRectWidget* &targetWidge
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::loadFromXMI to load
+ * Reimplemented from UMLWidget::loadFromXMI to load
  * CombinedFragmentWidget data from XMI.
  *
  * This method also loads the child FloatingDashLineWidgets.
  */
 bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+    if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     setName(qElement.attribute( "combinedFragmentname", "" ));
     setDocumentation(qElement.attribute( "documentation", "" ));
@@ -223,13 +223,13 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::saveToXMI to save widget data
+ * Reimplemented from UMLWidget::saveToXMI to save widget data
  * into 'combinedfragmentwidget' XMI element.
  */
 void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, combinedFragmentElement );
+    UMLWidget::saveToXMI( qDoc, combinedFragmentElement );
 
     combinedFragmentElement.setAttribute( "combinedFragmentname", name() );
     combinedFragmentElement.setAttribute( "documentation", documentation() );
@@ -244,7 +244,7 @@ void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * Reimplemented from UMLWidget::slotMenuSelection to handle
  * some specific actions.
  */
 void CombinedFragmentWidget::slotMenuSelection(QAction* action)
@@ -290,12 +290,12 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
         }
     }
     else {
-        NewUMLRectWidget::slotMenuSelection(action);
+        UMLWidget::slotMenuSelection(action);
     }
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * Reimplemented from UMLWidget::updateGeometry to calculate
  * the minimum size for this widget.
  */
 void CombinedFragmentWidget::updateGeometry()
@@ -321,11 +321,11 @@ void CombinedFragmentWidget::updateGeometry()
 
     setMinimumSize(minSize);
 
-    NewUMLRectWidget::updateGeometry();
+    UMLWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * Reimplemented from UMLWidget::updateTextItemGroups to update
  * the TextItem's values and TextItems visibility.
  */
 void CombinedFragmentWidget::updateTextItemGroups()
@@ -402,11 +402,11 @@ void CombinedFragmentWidget::updateTextItemGroups()
         break;
     }
 
-    NewUMLRectWidget::updateTextItemGroups();
+    UMLWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * Reimplemented from UMLWidget::attributeChange to handle
  *
  * - SizeHasChanged -> To set text position and update floating
  *                     widget's position and limits.
@@ -477,7 +477,7 @@ QVariant CombinedFragmentWidget::attributeChange(WidgetAttributeChange change, c
         updateFloatingWidgetsPosition();
     }
 
-    return NewUMLRectWidget::attributeChange(change, oldValue);
+    return UMLWidget::attributeChange(change, oldValue);
 }
 
 /**

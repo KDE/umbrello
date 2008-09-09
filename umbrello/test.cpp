@@ -103,7 +103,7 @@ void Test::testScene(UMLScene *scene)
     scene->addItem(msg);
 }
 
-void Test::updateWidgetGeometry(NewUMLWidget *wid)
+void Test::updateWidgetGeometry(WidgetBase *wid)
 {
     widgetsForUpdation.append(wid);
 }
@@ -151,7 +151,7 @@ QBrush Test::randomGradientBrush()
 void Test::timerEvent(QTimerEvent *event)
 {
     if (!widgetsForUpdation.isEmpty()) {
-        NewUMLWidget *wid = widgetsForUpdation.takeFirst();
+        WidgetBase *wid = widgetsForUpdation.takeFirst();
         wid->setFont(qApp->font());
     }
     return QObject::timerEvent(event);

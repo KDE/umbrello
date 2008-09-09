@@ -37,8 +37,8 @@ const qreal PinWidget::Size = 10;
  * @param  owner  The widget to which this pin is attached.
  * @param     id  The ID to assign (-1 will prompt a new ID.)
  */
-PinWidget::PinWidget(NewUMLRectWidget* owner, Uml::IDType id ):
-    NewUMLRectWidget(0, id)
+PinWidget::PinWidget(UMLWidget* owner, Uml::IDType id ):
+    UMLWidget(0, id)
 {
     m_baseType = Uml::wt_Pin;
 
@@ -71,7 +71,7 @@ PinWidget::~PinWidget()
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::paint to draw the pin widget
+ * Reimplemented from UMLWidget::paint to draw the pin widget
  * box.
  */
 void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -83,19 +83,19 @@ void PinWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::loadFromXMI to load PinWidget
+ * Reimplemented from UMLWidget::loadFromXMI to load PinWidget
  * from XMI element.
  */
 bool PinWidget::loadFromXMI( QDomElement & qElement )
 {
-    if (!NewUMLRectWidget::loadFromXMI(qElement)) {
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
 
     Uml::IDType aId = STR2ID(widgetaid);
 
-    NewUMLRectWidget *pWA = umlScene()->findWidget( aId );
+    UMLWidget *pWA = umlScene()->findWidget( aId );
     if (pWA == 0) {
         uDebug() << "role A object " << ID2STR(aId) << " not found";
         return false;
@@ -107,7 +107,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement )
     QString textid = qElement.attribute( "textid", "-1" );
     Uml::IDType textId = STR2ID(textid);
     if (textId != Uml::id_None) {
-        NewUMLRectWidget *flotext = umlScene()->findWidget( textId );
+        UMLWidget *flotext = umlScene()->findWidget( textId );
         if (flotext != 0) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
@@ -145,14 +145,14 @@ bool PinWidget::loadFromXMI( QDomElement & qElement )
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::saveToXMI to save PinWidget
+ * Reimplemented from UMLWidget::saveToXMI to save PinWidget
  * data into 'pinwidget' XMI element.
  */
 void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
     PinElement.setAttribute( "widgetaid", ID2STR(m_ownerWidget->id()));
-    NewUMLRectWidget::saveToXMI( qDoc, PinElement );
+    UMLWidget::saveToXMI( qDoc, PinElement );
     if (m_nameFloatingTextWiget && !m_nameFloatingTextWiget->text().isEmpty()) {
         PinElement.setAttribute( "textid", ID2STR(m_nameFloatingTextWiget->id()) );
         m_nameFloatingTextWiget->saveToXMI( qDoc, PinElement );
@@ -196,7 +196,7 @@ void PinWidget::updatePosition(const QPointF& reference)
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateGeometry to set minimum
+ * Reimplemented from UMLWidget::updateGeometry to set minimum
  * and maximum size for this widget.
  */
 void PinWidget::updateGeometry()
@@ -205,11 +205,11 @@ void PinWidget::updateGeometry()
     setMinimumSize(sz);
     setMaximumSize(sz);
 
-    NewUMLRectWidget::updateGeometry();
+    UMLWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::attributeChange to handle @ref
+ * Reimplemented from UMLWidget::attributeChange to handle @ref
  * NameHasChanged to create/delete and update FloatingTextWidget's
  * text.
  */
@@ -229,11 +229,11 @@ QVariant PinWidget::attributeChange(WidgetAttributeChange change, const QVariant
         }
     }
 
-    return NewUMLRectWidget::attributeChange(change, oldValue);
+    return UMLWidget::attributeChange(change, oldValue);
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::mouseMoveEvent to move this
+ * Reimplemented from UMLWidget::mouseMoveEvent to move this
  * widget only along the edge of the ActivityWidget to which this
  * widget is pinned to.
  */
@@ -246,7 +246,7 @@ void PinWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * Reimplemented from UMLWidget::slotMenuSelection to handle
  * rename action to set the text of this widget.
  */
 void PinWidget::slotMenuSelection(QAction* action)
@@ -267,7 +267,7 @@ void PinWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        NewUMLRectWidget::slotMenuSelection(action);
+        UMLWidget::slotMenuSelection(action);
     }
 }
 

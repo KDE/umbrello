@@ -36,7 +36,7 @@ const QSizeF StateWidget::MinimumEllipseSize(30, 10);
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 StateWidget::StateWidget(StateType stateType, Uml::IDType id)
-	: NewUMLRectWidget(0, id)
+	: UMLWidget(0, id)
 {
 	m_baseType = Uml::wt_State;
     m_stateType = stateType;
@@ -48,7 +48,7 @@ StateWidget::~StateWidget()
 {
 }
 
-/// Reimplemented from NewUMLRectWidget::paint to paint state widget.
+/// Reimplemented from UMLWidget::paint to paint state widget.
 void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	painter->setPen(QPen(lineColor(), lineWidth()));
@@ -186,7 +186,7 @@ void StateWidget::setActivities( QStringList & list )
 }
 
 /**
- * Reimplemented from NewUMLWidget::showPropertiesDialog to show
+ * Reimplemented from WidgetBase::showPropertiesDialog to show
  * appropriate dialog for this widget.
  */
 void StateWidget::showPropertiesDialog()
@@ -202,12 +202,12 @@ void StateWidget::showPropertiesDialog()
 }
 
 /**
- * Reimplemented from NewUMLWidget::loadFromXMI to load StateWidget
+ * Reimplemented from WidgetBase::loadFromXMI to load StateWidget
  * from XMI element.
  */
 bool StateWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) ) {
+    if( !UMLWidget::loadFromXMI( qElement ) ) {
         return false;
 	}
 
@@ -237,13 +237,13 @@ bool StateWidget::loadFromXMI( QDomElement & qElement )
 }
 
 /**
- * Reimplemented from NewUMLWidget::saveToXMI to save StateWidget info
+ * Reimplemented from WidgetBase::saveToXMI to save StateWidget info
  * into XMI.
  */
 void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement stateElement = qDoc.createElement( "statewidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, stateElement );
+    UMLWidget::saveToXMI( qDoc, stateElement );
 
     stateElement.setAttribute( "statename", name());
     stateElement.setAttribute( "documentation", documentation() );
@@ -271,7 +271,7 @@ void StateWidget::updateGeometry()
 		setMinimumSize(grp->minimumSize());
 	}
 
-	NewUMLRectWidget::updateGeometry();
+	UMLWidget::updateGeometry();
 }
 
 void StateWidget::updateTextItemGroups()
@@ -297,7 +297,7 @@ void StateWidget::updateTextItemGroups()
 		grp->textItemAt(StateWidget::NameItemIndex)->setBold(sz > 1);
 	}
 
-	NewUMLRectWidget::updateTextItemGroups();
+	UMLWidget::updateTextItemGroups();
 }
 
 QVariant StateWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -317,11 +317,11 @@ QVariant StateWidget::attributeChange(WidgetAttributeChange change, const QVaria
 			m_separatorLines[i].setLine(1, y, size().width() - 1, y);
 		}
 	}
-	return NewUMLRectWidget::attributeChange(change, oldValue);
+	return UMLWidget::attributeChange(change, oldValue);
 }
 
 /**
- * Reimplemented from NewUMLWidget::slotMenuSelection to react to
+ * Reimplemented from WidgetBase::slotMenuSelection to react to
  * special menu actions.
  */
 void StateWidget::slotMenuSelection(QAction* action)
@@ -357,7 +357,7 @@ void StateWidget::slotMenuSelection(QAction* action)
 		break;
 
     default:
-        NewUMLRectWidget::slotMenuSelection(action);
+        UMLWidget::slotMenuSelection(action);
     }
 }
 

@@ -52,7 +52,7 @@ KLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, i
 }
 
 /**
- * Helper function for requesting a name for an NewUMLRectWidget using a dialog.
+ * Helper function for requesting a name for an UMLWidget using a dialog.
  *
  * @param targetWidget          By-reference pointer to the widget to request the name for.
  *                              The widget may be deallocated, and the pointer returned
@@ -61,7 +61,7 @@ KLineEdit* makeLabeledEditField(QGroupBox *containingBox, QGridLayout *layout, i
  * @param dialogPrompt          Prompt of the dialog.
  * @param defaultName           Default value of the name field.
  */
-void askNameForWidget(NewUMLRectWidget * &targetWidget, const QString& dialogTitle,
+void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName)
 {
     bool pressedOK = false;

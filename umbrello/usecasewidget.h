@@ -19,7 +19,7 @@ class UMLUseCase;
 
 /**
  * This class is the graphical version of a UMLUseCase. The
- * UseCaseWidget class inherits from the @ref NewUMLRectWidget class
+ * UseCaseWidget class inherits from the @ref UMLWidget class
  * which adds most of the functionality to this class.
  *
  * @short  A graphical version of a UMLUseCase.
@@ -27,7 +27,7 @@ class UMLUseCase;
  * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UseCaseWidget : public NewUMLRectWidget
+class UseCaseWidget : public UMLWidget
 {
 public:
     UseCaseWidget(UMLUseCase *o);
@@ -36,7 +36,7 @@ public:
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     // For loading we can use the loadFromXMI() inherited from
-    // NewUMLRectWidget.
+    // UMLWidget.
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:

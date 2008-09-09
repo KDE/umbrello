@@ -70,7 +70,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
-ClassPropDlg::ClassPropDlg(QWidget *parent, NewUMLRectWidget *w)
+ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget *w)
         : KPageDialog(parent)
 {
     init();

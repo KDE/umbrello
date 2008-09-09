@@ -85,7 +85,7 @@ namespace Uml
 
     enum Widget_Type
     {
-        wt_NewUMLRectWidget = 300,         // does not have UMLObject representation
+        wt_UMLWidget = 300,         // does not have UMLObject representation
         wt_Actor,                   // has UMLObject representation
         wt_UseCase,                 // has UMLObject representation
         wt_Class,                   // has UMLObject representation

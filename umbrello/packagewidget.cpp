@@ -26,7 +26,7 @@
  * Constructs a PackageWidget for a given UMLPackage object.
  */
 PackageWidget::PackageWidget(UMLPackage *o) :
-    NewUMLRectWidget(o)
+    UMLWidget(o)
 {
     m_baseType = Uml::wt_Package;
 	createTextItemGroup();
@@ -38,18 +38,18 @@ PackageWidget::~PackageWidget()
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::saveToXMI to save
+ * Reimplemented from UMLWidget::saveToXMI to save
  * PackageWidget info into XMI.
  */
 void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement conceptElement = qDoc.createElement("packagewidget");
-    NewUMLRectWidget::saveToXMI(qDoc, conceptElement);
+    UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::paint to draw PackageWidget.
+ * Reimplemented from UMLWidget::paint to draw PackageWidget.
  */
 void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
@@ -70,7 +70,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * Reimplemented from UMLWidget::updateGeometry to calculate
  * minimum size.
  */
 void PackageWidget::updateGeometry()
@@ -84,11 +84,11 @@ void PackageWidget::updateGeometry()
 	minSize.rheight() += QFontMetricsF(grp->font()).lineSpacing();
 	setMinimumSize(minSize);
 
-	NewUMLRectWidget::updateGeometry();
+	UMLWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * Reimplemented from UMLWidget::updateTextItemGroups to update
  * texts and their properties.
  */
 void PackageWidget::updateTextItemGroups()
@@ -105,11 +105,11 @@ void PackageWidget::updateTextItemGroups()
         TextItem *nameItem = grp->textItemAt(PackageWidget::NameItemIndex);
         nameItem->setText(name());
     }
-    NewUMLRectWidget::updateGeometry();
+    UMLWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * Reimplemented from UMLWidget::attributeChange to handle
  * SizeHasChanged in which the text position is updated.
  */
 QVariant PackageWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -125,5 +125,5 @@ QVariant PackageWidget::attributeChange(WidgetAttributeChange change, const QVar
 		grp->setGroupGeometry(m_packageTextRect);
 	}
 
-    return NewUMLRectWidget::attributeChange(change, oldValue);
+    return UMLWidget::attributeChange(change, oldValue);
 }
