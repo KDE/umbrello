@@ -61,7 +61,7 @@ public:
 
 public slots:
 
-    virtual void slotWidgetRemoved(NewUMLRectWidget* widget);
+    virtual void slotWidgetRemoved(UMLRectWidget* widget);
 
 protected:
 
@@ -86,7 +86,7 @@ private:
     /**
      * The first widget in the association.
      */
-    NewUMLRectWidget* m_firstWidget;
+    UMLRectWidget* m_firstWidget;
 
     /**
      * The association line shown while the first widget is selected and the

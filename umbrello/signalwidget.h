@@ -12,13 +12,13 @@
 #ifndef SIGNALWIDGET_H
 #define SIGNALWIDGET_H
 
-#include "newumlrectwidget.h"
+#include "umlrectwidget.h"
 
 /**
  * Represents a Send signal, Accept signal or Time event on an
  * Activity diagram.
  */
-class SignalWidget : public NewUMLRectWidget
+class SignalWidget : public UMLRectWidget
 {
     Q_OBJECT
 public:

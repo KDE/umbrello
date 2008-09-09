@@ -79,7 +79,7 @@ protected:
 
     virtual void mouseMoveEmpty();
 
-    virtual void setCurrentWidget(NewUMLRectWidget* currentWidget);
+    virtual void setCurrentWidget(UMLRectWidget* currentWidget);
 
     virtual void changeTool();
 

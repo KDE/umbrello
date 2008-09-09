@@ -31,7 +31,7 @@
  * CombinedFragmentWidget.
  */
 FloatingDashLineWidget::FloatingDashLineWidget(QGraphicsItem *parent, Uml::IDType id)
-    : NewUMLRectWidget(0, id),
+    : UMLRectWidget(0, id),
       m_yMin(0),
       m_yMax(1000)
 {
@@ -47,7 +47,7 @@ FloatingDashLineWidget::~FloatingDashLineWidget()
 }
 
 /**
- * Reimplement from NewUMLWidget::paint to draw a dash line and text
+ * Reimplement from UMLWidget::paint to draw a dash line and text
  * associated with this widget.
  */
 void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -86,12 +86,12 @@ void FloatingDashLineWidget::setYMax(qreal y)
 }
 
 /**
- * Reimplemented from NewUMLWidget::loadFromXMI to load
+ * Reimplemented from UMLWidget::loadFromXMI to load
  * FloatingDashLineWidget data from XMI element.
  */
 bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !NewUMLWidget::loadFromXMI( qElement ) ) {
+    if( !UMLWidget::loadFromXMI( qElement ) ) {
         return false;
     }
 
@@ -103,13 +103,13 @@ bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement )
 }
 
 /**
- * Reimplemented from NewUMLWidget::saveToXMI to save widget data into
+ * Reimplemented from UMLWidget::saveToXMI to save widget data into
  * XMI element - 'floatingdashlinewidget'
  */
 void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement textElement = qDoc.createElement( "floatingdashlinewidget" );
-    NewUMLWidget::saveToXMI( qDoc, textElement );
+    UMLWidget::saveToXMI( qDoc, textElement );
     textElement.setAttribute( "text", name() );
     textElement.setAttribute( "minY", m_yMin );
     textElement.setAttribute( "maxY", m_yMax );
@@ -118,7 +118,7 @@ void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
 }
 
 /**
- * Reimplemented from NewUMLWidget::slotMenuSelection to handle rename
+ * Reimplemented from UMLWidget::slotMenuSelection to handle rename
  * action.
  */
 void FloatingDashLineWidget::slotMenuSelection(QAction* action)
@@ -139,7 +139,7 @@ void FloatingDashLineWidget::slotMenuSelection(QAction* action)
         }
         break;
     default:
-        NewUMLWidget::slotMenuSelection(action);
+        UMLWidget::slotMenuSelection(action);
     }
 }
 
@@ -166,11 +166,11 @@ QVariant FloatingDashLineWidget::itemChange(GraphicsItemChange change, const QVa
         point.setY(y);
         return point;
     }
-    return NewUMLWidget::itemChange(change, value);
+    return UMLWidget::itemChange(change, value);
 }
 
 /**
- * Reimplemented from NewUMLWidget::updateGeometry to calculate the
+ * Reimplemented from UMLWidget::updateGeometry to calculate the
  * minimum size.
  */
 void FloatingDashLineWidget::updateGeometry()
@@ -179,11 +179,11 @@ void FloatingDashLineWidget::updateGeometry()
     QSizeF minSize = grp->minimumSize();
     setMinimumSize(minSize);
 
-    NewUMLRectWidget::updateGeometry();
+    UMLRectWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget to update the text.
+ * Reimplemented from UMLRectWidget to update the text.
  */
 void FloatingDashLineWidget::updateTextItemGroups()
 {
@@ -195,11 +195,11 @@ void FloatingDashLineWidget::updateTextItemGroups()
     text.append(']');
     grp->textItemAt(0)->setText(text);
 
-    NewUMLRectWidget::updateTextItemGroups();
+    UMLRectWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::attributeChange to handle @ref
+ * Reimplemented from UMLRectWidget::attributeChange to handle @ref
  * SizeHasChanged and to calculate the new bounding rect and shape.
  */
 QVariant FloatingDashLineWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -228,7 +228,7 @@ QVariant FloatingDashLineWidget::attributeChange(WidgetAttributeChange change, c
         return QVariant();
     }
 
-    return NewUMLRectWidget::attributeChange(change, oldValue);
+    return UMLRectWidget::attributeChange(change, oldValue);
 }
 
 /**

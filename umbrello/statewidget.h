@@ -12,12 +12,12 @@
 #ifndef STATEWIDGET_H
 #define STATEWIDGET_H
 
-#include "newumlrectwidget.h"
+#include "umlrectwidget.h"
 
 /**
  * This class is the graphical version of a UML State.
  *
- * The StateWidget class inherits from the @ref NewUMLRectWidget class
+ * The StateWidget class inherits from the @ref UMLRectWidget class
  * which adds most of the functionality to this class.
  *
  * @short  A graphical version of a UML State.
@@ -25,7 +25,7 @@
  * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class StateWidget : public NewUMLRectWidget
+class StateWidget : public UMLRectWidget
 {
     Q_OBJECT
 public:

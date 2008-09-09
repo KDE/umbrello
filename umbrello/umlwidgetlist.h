@@ -21,9 +21,9 @@
 
 #include <qlist.h>
 
-class NewUMLRectWidget;
+class UMLRectWidget;
 
-typedef QList<NewUMLRectWidget*> UMLWidgetList;
-typedef QListIterator<NewUMLRectWidget*> UMLWidgetListIt;
+typedef QList<UMLRectWidget*> UMLWidgetList;
+typedef QListIterator<UMLRectWidget*> UMLWidgetListIt;
 
 #endif

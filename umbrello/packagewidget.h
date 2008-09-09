@@ -12,7 +12,7 @@
 #ifndef PACKAGEWIDGET_H
 #define PACKAGEWIDGET_H
 
-#include "newumlrectwidget.h"
+#include "umlrectwidget.h"
 
 class UMLPackage;
 
@@ -24,16 +24,16 @@ class UMLPackage;
  * @author Jonathan Riddell
  * @author Gopala Krishna
  *
- * @see NewUMLRectWidget
+ * @see UMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PackageWidget : public NewUMLRectWidget
+class PackageWidget : public UMLRectWidget
 {
 public:
     PackageWidget(UMLPackage * o);
     virtual ~PackageWidget();
 
-	// Uses NewUMLRectWidget::loadFromXMI to load from XMI
+	// Uses UMLRectWidget::loadFromXMI to load from XMI
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 	void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);

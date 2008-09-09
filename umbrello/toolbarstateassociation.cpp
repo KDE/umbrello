@@ -90,7 +90,7 @@ void ToolBarStateAssociation::mouseMove(QGraphicsSceneMouseEvent* ome)
  * to 0.
  * Also, if it was the first widget, the association is cleaned.
  */
-void ToolBarStateAssociation::slotWidgetRemoved(NewUMLRectWidget* widget)
+void ToolBarStateAssociation::slotWidgetRemoved(UMLRectWidget* widget)
 {
     ToolBarState::slotWidgetRemoved(widget);
 
@@ -164,7 +164,7 @@ void ToolBarStateAssociation::mouseReleaseEmpty() {
  * tracking is enabled, so move events will be delivered.
  */
 void ToolBarStateAssociation::setFirstWidget() {
-    NewUMLRectWidget* widget = getCurrentWidget();
+    UMLRectWidget* widget = getCurrentWidget();
     Association_Type type = getAssociationType();
 
     if (!AssocRules::allowAssociation(type, widget)) {
@@ -208,8 +208,8 @@ void ToolBarStateAssociation::setFirstWidget() {
 void ToolBarStateAssociation::setSecondWidget()
 {
     Association_Type type = getAssociationType();
-    NewUMLRectWidget* widgetA = m_firstWidget;
-    NewUMLRectWidget* widgetB = getCurrentWidget();
+    UMLRectWidget* widgetA = m_firstWidget;
+    UMLRectWidget* widgetB = getCurrentWidget();
     Widget_Type at = widgetA->baseType();
     bool valid = true;
     if (type == at_Generalization) {

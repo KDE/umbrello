@@ -89,8 +89,8 @@ void UMLView::showEvent(QShowEvent* /*se*/)
             us, SLOT(slotObjectCreated(UMLObject *)));
     connect(us, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
             UMLApp::app()->getDocWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
-    connect(us, SIGNAL(sigWidgetRemoved(NewUMLRectWidget*)),
-            UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(NewUMLRectWidget*)));
+    connect(us, SIGNAL(sigWidgetRemoved(UMLRectWidget*)),
+            UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(UMLRectWidget*)));
     us->resetToolbar();
 
 }
@@ -106,8 +106,8 @@ void UMLView::hideEvent(QHideEvent* /*he*/)
     disconnect(doc, SIGNAL(sigObjectCreated(UMLObject *)), us, SLOT(slotObjectCreated(UMLObject *)));
     disconnect(us, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
                UMLApp::app()->getDocWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
-    disconnect(us, SIGNAL(sigWidgetRemoved(NewUMLRectWidget*)),
-               UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(NewUMLRectWidget*)));
+    disconnect(us, SIGNAL(sigWidgetRemoved(UMLRectWidget*)),
+               UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(UMLRectWidget*)));
 }
 
 /**

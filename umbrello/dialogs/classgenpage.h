@@ -22,7 +22,7 @@ class KLineEdit;
 class KTextEdit;
 
 class UMLObject;
-class NewUMLRectWidget;
+class UMLRectWidget;
 class ObjectWidget;
 class UMLDoc;
 
@@ -56,14 +56,14 @@ public:
     ClassGenPage(UMLDoc *d, QWidget *parent, ObjectWidget * o);
 
     /**
-     *  Sets up the ClassGenPage for a NewUMLRectWidget instance (used
+     *  Sets up the ClassGenPage for a UMLRectWidget instance (used
      *  for component instances on deployment diagrams)
      *
      *  @param  d       The UMLDoc which controls controls object creation.
      *  @param  parent  The parent to the ClassGenPage.
-     *  @param  widget  The NewUMLRectWidget to display the properties of.
+     *  @param  widget  The UMLRectWidget to display the properties of.
      */
-    ClassGenPage(UMLDoc* d, QWidget* parent, NewUMLRectWidget* widget);
+    ClassGenPage(UMLDoc* d, QWidget* parent, UMLRectWidget* widget);
 
     /**
      * Standard deconstructor.
@@ -84,7 +84,7 @@ private:
     UMLObject * m_pObject;
     UMLDoc * m_pUmldoc;
     ObjectWidget * m_pWidget;
-    NewUMLRectWidget * m_pInstanceWidget;
+    UMLRectWidget * m_pInstanceWidget;
     QGroupBox * m_pDrawAsGB;
     QRadioButton * m_pDefaultRB, * m_pFileRB, * m_pLibraryRB, * m_pTableRB;
     QCheckBox * m_pExecutableCB;

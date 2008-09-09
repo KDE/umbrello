@@ -12,7 +12,7 @@
 #ifndef NODEWIDGET_H
 #define NODEWIDGET_H
 
-#include "newumlrectwidget.h"
+#include "umlrectwidget.h"
 
 class UMLNode;
 
@@ -23,10 +23,10 @@ class UMLNode;
  * @short A graphical version of a Node.
  * @author Jonathan Riddell
  * @author Gopala Krishna
- * @see NewUMLRectWidget
+ * @see UMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class NodeWidget : public NewUMLRectWidget
+class NodeWidget : public UMLRectWidget
 {
 public:
 	NodeWidget(UMLNode *n );
@@ -34,7 +34,7 @@ public:
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *w);
 
-	// Uses NewUMLRectWidget::loadFromXMI to load info.
+	// Uses UMLRectWidget::loadFromXMI to load info.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:

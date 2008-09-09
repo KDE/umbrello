@@ -18,7 +18,7 @@
 #include <qpoint.h>
 
 class ObjectWidget;
-class NewUMLRectWidget;
+class UMLRectWidget;
 
 /**
  * Sequence tool to create components linked with one object in sequence diagram
@@ -51,7 +51,7 @@ public:
 
 public slots:
 
-    virtual void slotWidgetRemoved(NewUMLRectWidget* widget);
+    virtual void slotWidgetRemoved(UMLRectWidget* widget);
 
 protected:
 
@@ -63,7 +63,7 @@ protected:
 
 protected:
 
-    void setWidget(NewUMLRectWidget* firstObject);
+    void setWidget(UMLRectWidget* firstObject);
 
 
     Uml::Widget_Type getWidgetType();
@@ -72,13 +72,13 @@ protected:
     /**
      * The first object in the message.
      */
-    NewUMLRectWidget* m_firstObject;
+    UMLRectWidget* m_firstObject;
 
     UMLScene * m_umlScene;
 
     /**
      * If there is a current widget, it is true if the press event happened on
-     * the line of an object, or false if it happened on a normal NewUMLRectWidget.
+     * the line of an object, or false if it happened on a normal UMLRectWidget.
      */
     bool m_isObjectWidgetLine;
 

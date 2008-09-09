@@ -26,7 +26,7 @@
  *
  *  @param  o The UMLObject to represent.
  */
-UseCaseWidget::UseCaseWidget(UMLUseCase *o) : NewUMLRectWidget(o)
+UseCaseWidget::UseCaseWidget(UMLUseCase *o) : UMLRectWidget(o)
 {
     m_baseType = Uml::wt_UseCase;
     createTextItemGroup();
@@ -53,7 +53,7 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
 void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement usecaseElement = qDoc.createElement( "usecasewidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, usecaseElement );
+    UMLRectWidget::saveToXMI( qDoc, usecaseElement );
     qElement.appendChild( usecaseElement );
 }
 
@@ -61,7 +61,7 @@ void UseCaseWidget::updateGeometry()
 {
 	TextItemGroup *grp = textItemGroupAt(GroupIndex);
 	setMinimumSize(grp->minimumSize());
-	NewUMLRectWidget::updateGeometry();
+	UMLRectWidget::updateGeometry();
 }
 
 void UseCaseWidget::updateTextItemGroups()
@@ -74,7 +74,7 @@ void UseCaseWidget::updateTextItemGroups()
         nameItem->setText(name());
         nameItem->setItalic(umlObject()->getAbstract());
     }
-    NewUMLRectWidget::updateTextItemGroups();
+    UMLRectWidget::updateTextItemGroups();
 }
 
 QVariant UseCaseWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
@@ -83,5 +83,5 @@ QVariant UseCaseWidget::attributeChange(WidgetAttributeChange change, const QVar
 		TextItemGroup *grp = textItemGroupAt(GroupIndex);
 		grp->setGroupGeometry(rect());
 	}
-	return NewUMLRectWidget::attributeChange(change, oldValue);
+	return UMLRectWidget::attributeChange(change, oldValue);
 }

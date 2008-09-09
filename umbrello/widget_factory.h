@@ -17,7 +17,7 @@
 // forward declarations
 class UMLView;
 class UMLObject;
-class NewUMLRectWidget;
+class UMLRectWidget;
 class UMLScene;
 
 /**
@@ -26,9 +26,9 @@ class UMLScene;
  */
 namespace Widget_Factory {
 
-    NewUMLRectWidget *createWidget(UMLScene *scene, UMLObject *docObj);
+    UMLRectWidget *createWidget(UMLScene *scene, UMLObject *docObj);
 
-    NewUMLRectWidget* makeWidgetFromXMI(const QString& tag,
+    UMLRectWidget* makeWidgetFromXMI(const QString& tag,
                                  const QString& idStr, UMLScene *scene);
 
 }   // end namespace Widget_Factory

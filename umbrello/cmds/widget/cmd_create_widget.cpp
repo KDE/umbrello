@@ -19,7 +19,7 @@
 namespace Uml
 {
 
-    CmdCreateWidget::CmdCreateWidget(UMLView* view, NewUMLRectWidget* w):m_view(view), m_widget(w)
+    CmdCreateWidget::CmdCreateWidget(UMLView* view, UMLRectWidget* w):m_view(view), m_widget(w)
     {
         setText(i18n("Create widget :") + w->name());
     }

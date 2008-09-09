@@ -25,7 +25,7 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QGridLayout>
 
-UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, NewUMLRectWidget *pWidget ) : QWidget( pParent )
+UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLRectWidget *pWidget ) : QWidget( pParent )
 {
     m_pUMLWidget = pWidget;
     m_options = 0;
@@ -112,7 +112,7 @@ void UMLWidgetColorPage::slotFillButtonClicked()
 }
 
 /**
- *   Updates the @ref NewUMLRectWidget with the dialog properties.
+ *   Updates the @ref UMLRectWidget with the dialog properties.
  */
 void UMLWidgetColorPage::updateUMLWidget()
 {

@@ -31,10 +31,10 @@ class SeqLineWidget;
  * @author Paul Hensgen <phensgen@techie.com>
  * @author Gopala Krishna
  *
- * @see NewUMLRectWidget
+ * @see UMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ObjectWidget : public NewUMLRectWidget
+class ObjectWidget : public UMLRectWidget
 {
     Q_OBJECT
 public:

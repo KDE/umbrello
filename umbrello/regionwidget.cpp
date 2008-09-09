@@ -21,7 +21,7 @@ const QSizeF RegionWidget::MinimumSize(90, 45);
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 RegionWidget::RegionWidget(Uml::IDType id)
-	: NewUMLRectWidget(0, id)
+	: UMLRectWidget(0, id)
 {
 	m_baseType = Uml::wt_Region;
 	setMinimumSize(RegionWidget::MinimumSize);
@@ -48,7 +48,7 @@ void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QW
 /// Loads region widget from XMI element
 bool RegionWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+    if( !UMLRectWidget::loadFromXMI( qElement ) )
         return false;
     setName(qElement.attribute( "regionname", "" ));
     setDocumentation(qElement.attribute( "documentation", "" ));
@@ -59,7 +59,7 @@ bool RegionWidget::loadFromXMI( QDomElement & qElement )
 void RegionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement regionElement = qDoc.createElement( "regionwidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, regionElement );
+    UMLRectWidget::saveToXMI( qDoc, regionElement );
     regionElement.setAttribute( "regionname", name() );
     regionElement.setAttribute( "documentation", documentation() );
 

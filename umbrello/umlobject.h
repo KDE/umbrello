@@ -24,7 +24,7 @@ class UMLStereotype;
 class UMLObject;
 
 /**
- * This class is the non-graphical version of @ref NewUMLRectWidget.  These are
+ * This class is the non-graphical version of @ref UMLRectWidget.  These are
  * created and maintained in the class @ref UMLDoc.  This class holds all
  * the generic information needed for all UML objects.
  *

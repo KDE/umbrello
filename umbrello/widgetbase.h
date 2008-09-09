@@ -1,1 +1,1 @@
-#include "newumlwidget.h"
+#include "umlwidget.h"

@@ -18,7 +18,7 @@
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 BoxWidget::BoxWidget(Uml::IDType id)
-    : NewUMLRectWidget(0, id)
+    : UMLRectWidget(0, id)
 {
     m_baseType = Uml::wt_Box;
     setMinimumSize(QSizeF(20, 20));
@@ -45,6 +45,6 @@ void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWid
 void BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement boxElement = qDoc.createElement("boxwidget");
-    NewUMLRectWidget::saveToXMI(qDoc, boxElement);
+    UMLRectWidget::saveToXMI(qDoc, boxElement);
     qElement.appendChild(boxElement);
 }

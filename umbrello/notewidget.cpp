@@ -41,7 +41,7 @@
  *           The default (-1) will prompt a new ID.
  */
 NoteWidget::NoteWidget(NoteType noteType , Uml::IDType id)
-    : NewUMLRectWidget(0, id),
+    : UMLRectWidget(0, id),
       m_diagramLink(Uml::id_None),
       m_noteType(noteType)
 {
@@ -126,7 +126,7 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
 }
 
 /// Display a dialogBox to allow the user to choose the note's type
-void NoteWidget::askForNoteType(NewUMLRectWidget* &targetWidget)
+void NoteWidget::askForNoteType(UMLRectWidget* &targetWidget)
 {
     static const QStringList list = QStringList() << i18n("Precondition")
 												  << i18n("Postcondition")
@@ -145,13 +145,13 @@ void NoteWidget::askForNoteType(NewUMLRectWidget* &targetWidget)
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::saveToXMI to save note widget
+ * Reimplemented from UMLRectWidget::saveToXMI to save note widget
  * into XMI.
  */
 void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement noteElement = qDoc.createElement( "notewidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, noteElement );
+    UMLRectWidget::saveToXMI( qDoc, noteElement );
     noteElement.setAttribute("text", documentation());
     if (m_diagramLink != Uml::id_None) {
         noteElement.setAttribute( "diagramlink", ID2STR(m_diagramLink) );
@@ -161,12 +161,12 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::loadFromXMI to load note
+ * Reimplemented from UMLRectWidget::loadFromXMI to load note
  * widget info from XMI.
  */
 bool NoteWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+    if( !UMLRectWidget::loadFromXMI( qElement ) )
         return false;
     setDocumentation(qElement.attribute("text", ""));
     QString diagramlink = qElement.attribute("diagramlink", "");
@@ -179,7 +179,7 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement )
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * Reimplemented from UMLRectWidget::updateGeometry to calculate
  * minimum size for this widget.
  */
 void NoteWidget::updateGeometry()
@@ -202,11 +202,11 @@ void NoteWidget::updateGeometry()
 	}
 
 	setMinimumSize(grp->minimumSize());
-	NewUMLRectWidget::updateGeometry();
+	UMLRectWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * Reimplemented from UMLRectWidget::updateTextItemGroups to update
  * texts and their properties.
  */
 void NoteWidget::updateTextItemGroups()
@@ -238,11 +238,11 @@ void NoteWidget::updateTextItemGroups()
     TextItem *noteTextItem = grp->textItemAt(NoteTextItemIndex);
     noteTextItem->setText(documentation());
 
-    NewUMLRectWidget::updateTextItemGroups();
+    UMLRectWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * Reimplemented from UMLRectWidget::attributeChange to handle
  * SizeHasChanged in which we set the positions of texts and to handle
  * DocumentationHasChanged to update the geometry.
  */
@@ -256,11 +256,11 @@ QVariant NoteWidget::attributeChange(WidgetAttributeChange change, const QVarian
 		updateTextItemGroups();
 		return QVariant(); // no need for base method.
 	}
-	return NewUMLRectWidget::attributeChange(change, oldValue);
+	return UMLRectWidget::attributeChange(change, oldValue);
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * Reimplemented from UMLRectWidget::slotMenuSelection to handle
  * some menu actions.
  */
 void NoteWidget::slotMenuSelection(QAction* action) {
@@ -289,7 +289,7 @@ void NoteWidget::slotMenuSelection(QAction* action) {
         break;
 
     default:
-        NewUMLRectWidget::slotMenuSelection(action);
+        UMLRectWidget::slotMenuSelection(action);
         break;
     }
 }

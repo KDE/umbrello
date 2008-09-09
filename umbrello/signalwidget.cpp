@@ -33,7 +33,7 @@ const QSizeF SignalWidget::MinimumSize(50, 50);
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 SignalWidget::SignalWidget(SignalType signalType, Uml::IDType id)
-    : NewUMLRectWidget(0, id)
+    : UMLRectWidget(0, id)
 {
     m_baseType = Uml::wt_Signal;
     m_signalType = signalType;
@@ -46,7 +46,7 @@ SignalWidget::~SignalWidget()
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::paint to draw signal widget.
+ * Reimplemented from UMLRectWidget::paint to draw signal widget.
  */
 void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
@@ -63,7 +63,7 @@ void SignalWidget::setSignalType( SignalType signalType )
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::showPropertiesDialog to not to
+ * Reimplemented from UMLRectWidget::showPropertiesDialog to not to
  * show anything.
  */
 void SignalWidget::showPropertiesDialog()
@@ -71,12 +71,12 @@ void SignalWidget::showPropertiesDialog()
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::loadFromXMI to load
+ * Reimplemented from UMLRectWidget::loadFromXMI to load
  * SignalWidget from XMI.
  */
 bool SignalWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !NewUMLRectWidget::loadFromXMI( qElement ) )
+    if( !UMLRectWidget::loadFromXMI( qElement ) )
         return false;
     setName(qElement.attribute( "signalname", "" ));
 
@@ -89,13 +89,13 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::saveToXMI to save SignalWidget
+ * Reimplemented from UMLRectWidget::saveToXMI to save SignalWidget
  * to XMI.
  */
 void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement signalElement = qDoc.createElement( "signalwidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, signalElement );
+    UMLRectWidget::saveToXMI( qDoc, signalElement );
     signalElement.setAttribute( "signalname", name() );
     signalElement.setAttribute( "documentation", documentation() );
     signalElement.setAttribute( "signaltype", m_signalType );
@@ -103,7 +103,7 @@ void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::slotMenuSelection to handle
+ * Reimplemented from UMLRectWidget::slotMenuSelection to handle
  * rename action.
  */
 void SignalWidget::slotMenuSelection(QAction* action)
@@ -126,12 +126,12 @@ void SignalWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        NewUMLRectWidget::slotMenuSelection(action);
+        UMLRectWidget::slotMenuSelection(action);
     }
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateGeometry to calculate
+ * Reimplemented from UMLRectWidget::updateGeometry to calculate
  * minimum size for signal widget based on the current signal type.
  */
 void SignalWidget::updateGeometry()
@@ -157,11 +157,11 @@ void SignalWidget::updateGeometry()
 
     setMinimumSize(minSize);
 
-    NewUMLRectWidget::updateGeometry();
+    UMLRectWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update
+ * Reimplemented from UMLRectWidget::updateTextItemGroups to update
  * the texts displayed.
  */
 void SignalWidget::updateTextItemGroups()
@@ -172,11 +172,11 @@ void SignalWidget::updateTextItemGroups()
     TextItem *nameItem = grp->textItemAt(0);
     nameItem->setText(name());
 
-    NewUMLRectWidget::updateTextItemGroups();
+    UMLRectWidget::updateTextItemGroups();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * Reimplemented from UMLRectWidget::attributeChange to handle
  * SizeHasChanged to position the texts and calculate the path to be
  * drawn based on current signal type.
  */
@@ -247,7 +247,7 @@ QVariant SignalWidget::attributeChange(WidgetAttributeChange change, const QVari
         }
     }
 
-    return NewUMLRectWidget::attributeChange(change, oldValue);
+    return UMLRectWidget::attributeChange(change, oldValue);
 }
 
 #include "signalwidget.moc"

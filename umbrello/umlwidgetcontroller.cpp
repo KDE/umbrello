@@ -38,7 +38,7 @@
 
 using namespace Uml;
 
-UMLWidgetController::UMLWidgetController(NewUMLRectWidget *widget)
+UMLWidgetController::UMLWidgetController(UMLRectWidget *widget)
 {
     m_widget = widget;
 
@@ -238,7 +238,7 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
         m_widget->adjustUnselectedAssocs(m_widget->getX(), m_widget->getY());
     }
 
-    foreach(NewUMLRectWidget* widget , m_selectedWidgetsList) {
+    foreach(UMLRectWidget* widget , m_selectedWidgetsList) {
 
         //UMLDoc* m_doc = UMLApp::app()->getDocument();
         //CmdMoveWidgetBy* cmd = new CmdMoveWidgetBy(widget,diffX,diffY);
@@ -269,7 +269,7 @@ void UMLWidgetController::widgetMoved()
     //Ensure associations are updated (the timer could prevent the
     //adjustment in the last move event before the release)
 
-    foreach(NewUMLRectWidget* widget , m_selectedWidgetsList) {
+    foreach(UMLRectWidget* widget , m_selectedWidgetsList) {
 
         widget->adjustAssocs(widget->getX(), widget->getY());
     }
@@ -365,7 +365,7 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
     }
 
     //TODO Copied from old code. Does it really work as intended?
-    NewUMLRectWidget *bkgnd = m_widget->umlScene()->getWidgetAt(me->pos());
+    UMLRectWidget *bkgnd = m_widget->umlScene()->getWidgetAt(me->pos());
     if (bkgnd) {
         //uDebug() << "setting Z to " << bkgnd->getZ() + 1 << endl;
         m_widget->setZ(bkgnd->getZ() + 1);
@@ -374,7 +374,7 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
     }
 }
 
-NewUMLRectWidget* UMLWidgetController::getWidget()
+UMLRectWidget* UMLWidgetController::getWidget()
 {
     return m_widget;
 }
@@ -687,7 +687,7 @@ qreal UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList)
 {
     qreal smallestX = 0;
     int i = 1;
-    foreach(NewUMLRectWidget* widget , widgetList) {
+    foreach(UMLRectWidget* widget , widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;
@@ -714,7 +714,7 @@ qreal UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList)
 {
     qreal smallestY = 0;
     int i = 1;
-    foreach(NewUMLRectWidget* widget , widgetList) {
+    foreach(UMLRectWidget* widget , widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;
@@ -743,7 +743,7 @@ qreal UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList)
     qreal biggestX = 0;
 
     int i = 1;
-    foreach(NewUMLRectWidget* widget , widgetList) {
+    foreach(UMLRectWidget* widget , widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;
@@ -771,7 +771,7 @@ qreal UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
 {
     qreal biggestY = 0;
     int i = 1;
-    foreach(NewUMLRectWidget* widget , widgetList) {
+    foreach(UMLRectWidget* widget , widgetList) {
         if (i == 1) {
             if (widget == NULL)
                 break;

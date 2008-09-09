@@ -50,7 +50,7 @@ bool allowAssociation( Association_Type assocType, const std::type_info &type )
  * Returns whether an association is valid with the given variables.
  * This method is used to finish an association.
  */
-bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWidget * widget )
+bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLRectWidget * widget )
 {
     Widget_Type widgetType = widget->baseType();
     bool bValid = false;
@@ -142,7 +142,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, NewUMLRectWi
  * This method is used to finish an association.
  */
 bool AssocRules::allowAssociation( Uml::Association_Type assocType,
-                                   NewUMLRectWidget * widgetA, NewUMLRectWidget * widgetB,
+                                   UMLRectWidget * widgetA, UMLRectWidget * widgetB,
                                    bool extendedCheck )
 {
     Widget_Type widgetTypeA = widgetA->baseType();
@@ -341,7 +341,7 @@ bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type wi
  * a Generalisation.
  * as defined in m_AssocRules.
  */
-Uml::Association_Type AssocRules::isGeneralisationOrRealisation(NewUMLRectWidget* widgetA, NewUMLRectWidget* widgetB)
+Uml::Association_Type AssocRules::isGeneralisationOrRealisation(UMLRectWidget* widgetA, UMLRectWidget* widgetB)
 {
     Widget_Type widgetTypeA = widgetA->baseType();
     Widget_Type widgetTypeB = widgetB->baseType();

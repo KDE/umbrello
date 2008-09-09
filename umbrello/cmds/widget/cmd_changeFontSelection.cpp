@@ -31,7 +31,7 @@ namespace Uml
     {
 
         // [PORT]
-        NewUMLRectWidget * widget = scene->getFirstMultiSelectedWidget();
+        UMLRectWidget * widget = scene->getFirstMultiSelectedWidget();
         setText(i18n("Change Font")+ " : " + widget->name());
         pDoc=doc;
         pScene=scene;

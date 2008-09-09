@@ -16,7 +16,7 @@
 namespace std
     { class type_info; }
 
-class NewUMLRectWidget;
+class UMLRectWidget;
 
 /**
  * Used to determine rules for associations.
@@ -37,12 +37,12 @@ public:
      */
     ~AssocRules();
 
-    static bool allowAssociation( Uml::Association_Type assocType, NewUMLRectWidget * widget );
+    static bool allowAssociation( Uml::Association_Type assocType, UMLRectWidget * widget );
 
     static bool allowAssociation( Uml::Association_Type assocType, const std::type_info & );
 
     static bool allowAssociation( Uml::Association_Type assocType,
-                                  NewUMLRectWidget * widgetA, NewUMLRectWidget * widgetB,
+                                  UMLRectWidget * widgetA, UMLRectWidget * widgetB,
                                   bool extendedCheck = true );
 
     static bool allowRole( Uml::Association_Type assocType );
@@ -51,7 +51,7 @@ public:
 
     static bool allowSelf( Uml::Association_Type assocType, Uml::Widget_Type widgetType );
 
-    static Uml::Association_Type isGeneralisationOrRealisation(NewUMLRectWidget* widgetA, NewUMLRectWidget* widgetB);
+    static Uml::Association_Type isGeneralisationOrRealisation(UMLRectWidget* widgetA, UMLRectWidget* widgetB);
 
 private:
 

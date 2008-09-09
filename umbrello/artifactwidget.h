@@ -12,21 +12,21 @@
 #ifndef ARTIFACTWIDGET_H
 #define ARTIFACTWIDGET_H
 
-#include "newumlrectwidget.h"
+#include "umlrectwidget.h"
 
 class UMLArtifact;
 
 /**
  * Defines a graphical version of the @ref UMLArtifact.
- * Most of the functionality will come from the @ref NewUMLRectWidget class.
+ * Most of the functionality will come from the @ref UMLRectWidget class.
  *
  * @short A graphical version of a Artifact.
  * @author Jonathan Riddell
  * @author Gopala Krishna (port using TextItems)
- * @see NewUMLRectWidget
+ * @see UMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ArtifactWidget : public NewUMLRectWidget
+class ArtifactWidget : public UMLRectWidget
 {
 public:
 	ArtifactWidget(UMLArtifact *a);

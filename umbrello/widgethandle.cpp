@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "widgethandle.h"
-#include "newumlrectwidget.h"
+#include "umlrectwidget.h"
 
 #include <QtGui/QPainter>
 #include <QtGui/QGraphicsSceneMouseEvent>
@@ -30,7 +30,7 @@
  * @class WidgetHandle
  *
  * @short This class provides the resize handles for a
- *        NewUMLRectWidget.
+ *        UMLRectWidget.
  *
  * @details This class handles the cursor change and checks for the
  *          sizeHint constraints of the widget class while resizing
@@ -39,7 +39,7 @@
  *          this on deselection.
  *
  *          There might be situation where the associted
- *          NewUMLRectWidget is not resizable. In such cases, the
+ *          UMLRectWidget is not resizable. In such cases, the
  *          resize handles are drawn on creating this object (to show
  *          selection) but aren't resized when the resize handle is
  *          dragged.
@@ -97,11 +97,11 @@ const qreal WidgetHandle::HandleSize = 6;
  * The hover events are enabled and the array of resize handle rect's
  * are initialized to have their size equal to HandleSize.
  *
- * @param widget The NewUMLRectWidget object with which this
+ * @param widget The UMLRectWidget object with which this
  *               WidgetHandle should be associated with. \a widget is
  *               also is the parent item for this WidgetHandle item.
  */
-WidgetHandle::WidgetHandle(NewUMLRectWidget *widget) :
+WidgetHandle::WidgetHandle(UMLRectWidget *widget) :
     QGraphicsItem(widget),
     m_widget(widget)
 {
@@ -138,7 +138,7 @@ void WidgetHandle::paint(QPainter *p, const QStyleOptionGraphicsItem* opt,
  * Reimplemented to handles resizing on dragging the resize handle, if any.
  *
  * @note This method handles resizing only if this handle is active
- *       and resizing is enabled on the associated NewUMLRectWidget
+ *       and resizing is enabled on the associated UMLRectWidget
  *       object.
  *
  * @see WidgetHandle::isActive()

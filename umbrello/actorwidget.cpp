@@ -27,7 +27,7 @@ const QSizeF ActorWidget::MinimumSize = QSizeF(20, 40);
  *
  * @param o The Actor class this ActorWidget will display.
  */
-ActorWidget::ActorWidget(UMLActor *a) : NewUMLRectWidget(a)
+ActorWidget::ActorWidget(UMLActor *a) : UMLRectWidget(a)
 {
 	m_baseType = Uml::wt_Actor;
 	createTextItemGroup();
@@ -53,7 +53,7 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
 void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement actorElement = qDoc.createElement( "actorwidget" );
-    NewUMLRectWidget::saveToXMI( qDoc, actorElement );
+    UMLRectWidget::saveToXMI( qDoc, actorElement );
     qElement.appendChild( actorElement );
 }
 
@@ -72,11 +72,11 @@ void ActorWidget::updateGeometry()
 	minSize.rheight() += ActorWidget::MinimumSize.height();
 	setMinimumSize(minSize);
 
-	NewUMLRectWidget::updateGeometry();
+	UMLRectWidget::updateGeometry();
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::attributeChange to handle
+ * Reimplemented from UMLRectWidget::attributeChange to handle
  * SizeHasChanged change.
  */
 QVariant ActorWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldVal)
@@ -132,11 +132,11 @@ QVariant ActorWidget::attributeChange(WidgetAttributeChange change, const QVaria
 		m_actorPath.lineTo(arms.p2());
 	}
 
-	return NewUMLRectWidget::attributeChange(change, oldVal);
+	return UMLRectWidget::attributeChange(change, oldVal);
 }
 
 /**
- * Reimplemented from NewUMLRectWidget::updateTextItemGroups to update text content.
+ * Reimplemented from UMLRectWidget::updateTextItemGroups to update text content.
  */
 void ActorWidget::updateTextItemGroups()
 {

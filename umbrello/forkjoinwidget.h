@@ -21,7 +21,7 @@
  * @author Oliver Kellogg  <okellogg@users.sourceforge.net>
  * @author Gopala Krishna
  *
- * @see NewUMLRectWidget
+ * @see UMLRectWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 class ForkJoinWidget : public BoxWidget
