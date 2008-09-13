@@ -17,8 +17,8 @@
  * Boston, MA 02110-1301, USA.                                             *
  ***************************************************************************/
 
-#ifndef NEWUMLRECTWIDGET_H
-#define NEWUMLRECTWIDGET_H
+#ifndef UMLWIDGET_H
+#define UMLWIDGET_H
 
 #include "widgetbase.h"
 #include "associationwidgetlist.h"
@@ -218,4 +218,4 @@ public:
     ListPopupMenu* setupPopupMenu();
 };
 
-#endif //NEWUMLRECTWIDGET_H
+#endif

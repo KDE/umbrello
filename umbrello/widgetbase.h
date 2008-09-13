@@ -17,8 +17,8 @@
  * Boston, MA 02110-1301, USA.                                             *
  ***************************************************************************/
 
-#ifndef NEWUMLWIDGET_H
-#define NEWUMLWIDGET_H
+#ifndef WIDGETBASE_H
+#define WIDGETBASE_H
 
 #include "umlnamespace.h"
 
@@ -46,7 +46,7 @@ class IDChangeLog;
  *
  * This class provides the common interface required for all the UML
  * widgets including rectangular and non rectangular widgets.
- * Rectangular widgets should use NewUmlRectWidget as its base.
+ * Rectangular widgets should use UMLWidget as its base.
  */
 class WidgetBase : public QObject, public QGraphicsItem
 {
@@ -278,4 +278,4 @@ public:
 
 };
 
-#endif //NEWUMLWIDGET_H
+#endif
