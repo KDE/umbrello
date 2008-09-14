@@ -215,7 +215,6 @@ public:
     void setIgnoreSnapComponentSizeToGrid(bool) {}
     bool m_bStartMove;
     void adjustUnselectedAssocs(qreal, qreal) {}
-    ListPopupMenu* setupPopupMenu();
 };
 
 #endif

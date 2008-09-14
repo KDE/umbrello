@@ -111,8 +111,6 @@ WidgetBase::WidgetBase(UMLObject *object) :
         for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
             m_pFontMetrics[i] = new QFontMetrics(font());
         }
-
-        m_pMenu = 0;
     }
 }
 
@@ -928,7 +926,6 @@ WidgetBase::WidgetBase(UMLScene *scene, UMLObject *object) :
     for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
         m_pFontMetrics[i] = new QFontMetrics(font());
     }
-    m_pMenu = 0;
     if(!object) {
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
@@ -950,7 +947,6 @@ WidgetBase::WidgetBase(UMLScene *scene, const Uml::IDType &_id) :
     for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
         m_pFontMetrics[i] = new QFontMetrics(font());
     }
-    m_pMenu = 0;
     m_widgetInterfaceData = new WidgetInterfaceData;
     if(_id == Uml::id_None) {
         m_widgetInterfaceData->id = UniqueID::gen();
@@ -1064,11 +1060,6 @@ void WidgetBase::forceUpdateFontMetrics(QPainter *painter)
     }
     // calculate the size, based on the new font metric
     updateComponentSize();
-}
-
-ListPopupMenu* WidgetBase::setupPopupMenu()
-{
-    return 0;
 }
 
 void WidgetBase::updateComponentSize()

@@ -210,6 +210,7 @@ void UMLWidget::showPropertiesDialog()
 
 void UMLWidget::setupContextMenuActions(ListPopupMenu &menu)
 {
+    Q_UNUSED(menu);
 }
 
 /**
@@ -443,13 +444,6 @@ UMLWidget::UMLWidget(UMLScene *scene, const Uml::IDType & id) :
     m_resizable(true),
     m_widgetHandle(0)
 {
-}
-
-ListPopupMenu* UMLWidget::setupPopupMenu()
-{
-    delete m_pMenu;
-    m_pMenu = new ListPopupMenu(0, this, false, false);
-    return m_pMenu;
 }
 
 #include "umlwidget.moc"

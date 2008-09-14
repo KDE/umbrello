@@ -264,9 +264,6 @@ public:
     void forceUpdateFontMetrics(QPainter *);
     void drawSelected(QPainter *, qreal, qreal) {}
     QString m_Text;
-    ListPopupMenu *m_pMenu;
-    virtual ListPopupMenu* setupPopupMenu();
-    qreal m_origZ;
     qreal onWidget(const QPointF& pos) const {
         if(this->contains(mapFromScene(pos))) {
             QSizeF s = boundingRect().size();
