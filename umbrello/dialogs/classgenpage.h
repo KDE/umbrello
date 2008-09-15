@@ -73,6 +73,11 @@ public:
     void updateObject();
 
 private:
+    UMLObject * m_pObject;
+    ObjectWidget * m_pWidget;
+    UMLWidget * m_pInstanceWidget;
+    UMLDoc * m_pUmldoc;
+
     QGroupBox * m_pDocGB;
     QGroupBox * m_pButtonGB;
     QLabel * m_pNameL, * m_pInstanceL, * m_pStereoTypeL, * m_pPackageL;
@@ -81,10 +86,6 @@ private:
     QRadioButton * m_pPublicRB, * m_pPrivateRB, * m_pProtectedRB, * m_pImplementationRB;
     QCheckBox * m_pMultiCB, * m_pDrawActorCB, * m_pAbstractCB, * m_pDeconCB;
     KTextEdit * m_pDoc;
-    UMLObject * m_pObject;
-    UMLDoc * m_pUmldoc;
-    ObjectWidget * m_pWidget;
-    UMLWidget * m_pInstanceWidget;
     QGroupBox * m_pDrawAsGB;
     QRadioButton * m_pDefaultRB, * m_pFileRB, * m_pLibraryRB, * m_pTableRB;
     QCheckBox * m_pExecutableCB;

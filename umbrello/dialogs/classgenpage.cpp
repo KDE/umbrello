@@ -46,45 +46,56 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QGridLayout>
 
-ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(parent)
+ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
+    : QWidget(parent), m_pObject(o), m_pWidget(0), m_pInstanceWidget(0), m_pUmldoc(d)
 {
-    m_pWidget = 0;
-    m_pObject = 0;
-    m_pInstanceWidget = 0;
-    QString name;
     int margin = fontMetrics().height();
-    Uml::Object_Type t = o->getBaseType();
-    m_pUmldoc = d;
-    if (t == Uml::ot_Class) {
-        name = i18n("Class &name:");
-    } else if (t == Uml::ot_Actor) {
-        name = i18n("Actor &name:");
-    } else if (t == Uml::ot_Package) {
-        name = i18n("Package &name:");
-    } else if (t == Uml::ot_UseCase) {
-        name = i18n("Use case &name:");
-    } else if (t == Uml::ot_Interface) {
-        name = i18n("Interface &name:");
-    } else if (t == Uml::ot_Component) {
-        name = i18n("Component &name:");
-    } else if (t == Uml::ot_Node) {
-        name = i18n("Node &name:");
-    } else if (t == Uml::ot_Artifact) {
-        name = i18n("Artifact &name:");
-    } else if (t == Uml::ot_Enum) {
-        name = i18n("Enum &name:");
-    } else if (t == Uml::ot_Datatype) {
-        name = i18n("Datatype &name:");
-    } else if (t == Uml::ot_Entity) {
-        name = i18n("Entity &name:");
-    } else {
-        uWarning() << "creating class gen page for unknown widget type";
-    }
+
     setMinimumSize(310,330);
     QVBoxLayout * topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(6);
 
     // setup name
+    QString name;
+    Uml::Object_Type t = o->getBaseType();
+    switch (t) {
+    case Uml::ot_Class:
+        name = i18n("Class &name:");
+        break;
+    case Uml::ot_Actor:
+        name = i18n("Actor &name:");
+        break;
+    case  Uml::ot_Package:
+        name = i18n("Package &name:");
+        break;
+    case  Uml::ot_UseCase:
+        name = i18n("Use case &name:");
+        break;
+    case  Uml::ot_Interface:
+        name = i18n("Interface &name:");
+        break;
+    case  Uml::ot_Component:
+        name = i18n("Component &name:");
+        break;
+    case  Uml::ot_Node:
+        name = i18n("Node &name:");
+        break;
+    case  Uml::ot_Artifact:
+        name = i18n("Artifact &name:");
+        break;
+    case  Uml::ot_Enum:
+        name = i18n("Enum &name:");
+        break;
+    case  Uml::ot_Datatype:
+        name = i18n("Datatype &name:");
+        break;
+    case  Uml::ot_Entity:
+        name = i18n("Entity &name:");
+        break;
+    default:
+        uWarning() << "creating class gen page for unknown widget type";
+        break;
+    }
     QGridLayout * m_pNameLayout = new QGridLayout();
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 4);
@@ -220,7 +231,6 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     docLayout->addWidget(m_pDoc);
     topLayout->addWidget(m_pDocGB);
 
-    m_pObject = o;
     // setup fields
     m_pClassNameLE->setText(o->getName());
     m_pDoc->setText(o->getDoc());
@@ -242,16 +252,14 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o) : QWidget(p
     m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
 }
 
-ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidget(parent)
+ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
+    : QWidget(parent), m_pObject(0), m_pWidget(o), m_pInstanceWidget(0), m_pUmldoc(d) 
 {
-    m_pObject = 0;
-    m_pInstanceWidget = 0;
-    m_pWidget = o;
     m_pDeconCB = 0;
     m_pMultiCB = 0;
+
     int margin = fontMetrics().height();
-    //int t = o->getBaseType();
-    m_pUmldoc = d;
+
     setMinimumSize(310,330);
     QGridLayout * topLayout = new QGridLayout(this);
     topLayout->setSpacing(6);
@@ -288,8 +296,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
         if ( m_pDrawActorCB->isChecked() )
             m_pMultiCB->setEnabled( false );
     }
-    else  // sequence diagram
-    {
+    else {  // sequence diagram
         m_pDeconCB = new QCheckBox(i18n("Show destruction"), this);
         m_pDeconCB->setChecked(o->showDestruction());
         m_pNameLayout->addWidget(m_pDeconCB, 2,1);
@@ -305,22 +312,19 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o) : QWidge
     m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
     m_pDoc->setText(o->documentation());
     docLayout->addWidget(m_pDoc);
-    m_pObject = 0;  // needs to be set to zero
     if (m_pMultiCB) {
         connect( m_pDrawActorCB, SIGNAL( toggled( bool ) ), this, SLOT( slotActorToggled( bool ) ) );
     }
 }
 
-ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWidget(parent)
+ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
+    : QWidget(parent), m_pObject(0), m_pWidget(0), m_pInstanceWidget(widget), m_pUmldoc(d)
 {
-    m_pWidget = 0;
-    m_pObject = 0;
-    m_pInstanceWidget = widget;
     m_pDeconCB = 0;
     m_pMultiCB = 0;
+
     int margin = fontMetrics().height();
-    //int t = o->getBaseType();
-    m_pUmldoc = d;
+
     setMinimumSize(310,330);
     QGridLayout* topLayout = new QGridLayout(this);
     topLayout->setSpacing(6);
@@ -371,7 +375,6 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget) : QWid
     m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
     m_pDoc->setText(widget->documentation());
     docLayout->addWidget(m_pDoc);
-    m_pObject = 0; // needs to be set to zero
 }
 
 ClassGenPage::~ClassGenPage()
@@ -451,6 +454,7 @@ void ClassGenPage::updateObject()
         } else {
              m_pObject->setName(name);
         }
+
         Uml::Visibility s;
         if (m_pPublicRB->isChecked())
             s = Uml::Visibility::Public;
@@ -480,7 +484,6 @@ void ClassGenPage::updateObject()
             (static_cast<UMLArtifact*>(m_pObject))->setDrawAsType(drawAsType);
             m_pObject->emitModified();
         }
-
     } // end if m_pObject
     else if (m_pWidget) {
         m_pWidget->setInstanceName(m_pInstanceLE->text());
@@ -501,7 +504,8 @@ void ClassGenPage::updateObject()
         } else {
             o->setName(name);
         }
-    } else if (m_pInstanceWidget) {
+    } // end if m_pWidget
+    else if (m_pInstanceWidget) {
         m_pInstanceWidget->setInstanceName(m_pInstanceLE->text());
         QString name = m_pClassNameLE->text();
         m_pInstanceWidget->setDocumentation(m_pDoc->toPlainText());
@@ -514,7 +518,7 @@ void ClassGenPage::updateObject()
             o->setName(name);
         }
         o->setStereotype( m_pStereoTypeCB->currentText() );
-    }
+    } // end if m_pInstanceWidget
 }
 
 /**
