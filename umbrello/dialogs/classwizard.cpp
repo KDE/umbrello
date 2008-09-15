@@ -23,6 +23,7 @@
 #include "umlclassifierlistitemlist.h"
 
 // kde includes
+#include <kdebug.h>
 #include <khelpmenu.h>
 #include <klocale.h>
 
@@ -127,6 +128,9 @@ QWizardPage* ClassWizard::createOperationsPage()
     return m_OperationsPage;
 }
 
+/**
+ * Advances to the next page. Is called when the next button is pressed.
+ */
 void ClassWizard::next()
 {
     QWizardPage* page = currentPage();
@@ -138,6 +142,9 @@ void ClassWizard::next()
     QWizard::next();
 }
 
+/**
+ * Back button was called.
+ */
 void ClassWizard::back()
 {
     QWizardPage* page = currentPage();
@@ -149,8 +156,15 @@ void ClassWizard::back()
     QWizard::back();
 }
 
+/**
+ * Finish button was called.
+ * @todo Calling m_pGenPage->updateObject() twice is ugly,
+ *       but without the first call the documentation of the class is cleared.
+ */
 void ClassWizard::accept()
 {
+    m_pGenPage->updateObject();
+
     m_pDoc->addUMLObject(m_pClass);
     m_pDoc->signalUMLObjectCreated(m_pClass);
 
@@ -161,6 +175,9 @@ void ClassWizard::accept()
     QWizard::accept();
 }
 
+/**
+ * Cancel button was called.
+ */
 void ClassWizard::reject()
 {
     m_pDoc->removeUMLObject(m_pClass);
