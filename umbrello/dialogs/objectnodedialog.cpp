@@ -233,7 +233,7 @@ void ObjectNodeDialog::showState()
     m_GenPageWidgets.stateL->show();
     m_GenPageWidgets.stateLE->show();
 
-	if (m_pObjectNodeWidget->state() != NULL) {
+    if (m_pObjectNodeWidget->state() != NULL) {
         m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->state());
     }
 }
