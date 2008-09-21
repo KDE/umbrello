@@ -345,8 +345,7 @@ set(libumbrello_SRCS
     main.cpp
     messagewidget.cpp
     model_utils.cpp
-    widgetbase.cpp
-    umlwidget.cpp
+    newlinepath.cpp
     node.cpp
     nodewidget.cpp
     notewidget.cpp
@@ -395,13 +394,15 @@ set(libumbrello_SRCS
     umlviewimageexporter.cpp
     umlviewimageexporterall.cpp
     umlviewimageexportermodel.cpp
+    umlwidget.cpp
     uniqueid.cpp
     uniqueconstraint.cpp
     usecase.cpp
     usecasewidget.cpp
-    widgethandle.cpp
     widget_factory.cpp
     widget_utils.cpp
+    widgetbase.cpp
+    widgethandle.cpp
     worktoolbar.cpp
 )
 

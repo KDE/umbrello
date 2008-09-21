@@ -24,6 +24,7 @@
 #include "enum.h"
 #include "floatingdashlinewidget.h"
 #include "messagewidget.h"
+#include "newlinepath.h"
 #include "objectwidget.h"
 #include "textitem.h"
 #include "umlscene.h"
@@ -85,22 +86,12 @@ Test* Test::self()
 
 void Test::testScene(UMLScene *scene)
 {
-    if (scene->getType() != Uml::dt_Sequence)
-        return;
-
-    UMLClassifier *obj = new UMLClassifier("hello");
-    ObjectWidget *wid = new ObjectWidget(obj);
-    wid->setPos(100, 100);
-
-    UMLClassifier *obj1 = new UMLClassifier("world");
-    ObjectWidget *wid1 = new ObjectWidget(obj1);
-    wid1->setPos(200, 100);
-
-    MessageWidget *msg = new MessageWidget(wid, wid1, Uml::sequence_message_asynchronous);
-
-    scene->addItem(wid);
-    scene->addItem(wid1);
-    scene->addItem(msg);
+    New::LinePath *path = new New::LinePath(0);
+    scene->addItem(path);
+    path->insertPoint(0, QPointF(100, 100));
+    path->insertPoint(1, QPointF(200, 50));
+    path->insertPoint(2, QPointF(400, 300));
+    path->setPen(QPen(Qt::blue));
 }
 
 void Test::updateWidgetGeometry(WidgetBase *wid)
