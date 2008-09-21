@@ -315,7 +315,7 @@ void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-	painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());
 
     painter->drawPath(m_objectWidgetPath);

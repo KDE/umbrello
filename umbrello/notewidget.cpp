@@ -46,7 +46,7 @@ NoteWidget::NoteWidget(NoteType noteType , Uml::IDType id)
       m_noteType(noteType)
 {
     m_baseType = Uml::wt_Note;
-	createTextItemGroup();
+    createTextItemGroup();
     setZValue(20); //make sure always on top.
 }
 
@@ -72,7 +72,7 @@ NoteWidget::NoteType NoteWidget::stringToNoteType(const QString& noteType)
 void NoteWidget::setNoteType(NoteType noteType)
 {
     m_noteType = noteType;
-	updateTextItemGroups();
+    updateTextItemGroups();
 }
 
 /**
@@ -118,19 +118,19 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
 {
     const QSizeF sz = size();
 
-	painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());
 
-	QSizeF triSize(10, 10);
-	Widget_Utils::drawTriangledRect(painter, rect(), triSize);
+    QSizeF triSize(10, 10);
+    Widget_Utils::drawTriangledRect(painter, rect(), triSize);
 }
 
 /// Display a dialogBox to allow the user to choose the note's type
 void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
 {
     static const QStringList list = QStringList() << i18n("Precondition")
-												  << i18n("Postcondition")
-												  << i18n("Transformation");
+                                                  << i18n("Postcondition")
+                                                  << i18n("Transformation");
 
     bool pressedOK = false;
     QString type = KInputDialog::getItem(i18n("Note Type"), i18n("Select the Note Type"), list,
@@ -184,25 +184,25 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement )
  */
 void NoteWidget::updateGeometry()
 {
-	TextItemGroup *grp = textItemGroupAt(GroupIndex);
-	qreal widthWithoutNote = 0;
+    TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    qreal widthWithoutNote = 0;
 
-	// Ignore if TextItems haven't been properly constructed
-	// still. (happens during creation of object)
-	if(grp->textItemCount() > NoteTextItemIndex) {
-		TextItem *noteTextItem = grp->textItemAt(NoteTextItemIndex);
-		noteTextItem->hide();
-		widthWithoutNote = grp->minimumSize().width();
-		noteTextItem->show();
-	}
+    // Ignore if TextItems haven't been properly constructed
+    // still. (happens during creation of object)
+    if(grp->textItemCount() > NoteTextItemIndex) {
+        TextItem *noteTextItem = grp->textItemAt(NoteTextItemIndex);
+        noteTextItem->hide();
+        widthWithoutNote = grp->minimumSize().width();
+        noteTextItem->show();
+    }
 
-	const qreal atleast6Chars = QFontMetricsF(grp->font()).width("w") * 6;
-	if(widthWithoutNote > atleast6Chars) {
-		grp->setLineBreakWidth(widthWithoutNote);
-	}
+    const qreal atleast6Chars = QFontMetricsF(grp->font()).width("w") * 6;
+    if(widthWithoutNote > atleast6Chars) {
+        grp->setLineBreakWidth(widthWithoutNote);
+    }
 
-	setMinimumSize(grp->minimumSize());
-	UMLWidget::updateGeometry();
+    setMinimumSize(grp->minimumSize());
+    UMLWidget::updateGeometry();
 }
 
 /**
@@ -211,12 +211,12 @@ void NoteWidget::updateGeometry()
  */
 void NoteWidget::updateTextItemGroups()
 {
-	TextItemGroup *grp = textItemGroupAt(GroupIndex);
-	grp->setTextItemCount(TextItemCount);
+    TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    grp->setTextItemCount(TextItemCount);
 
-	TextItem *diagramLinkItem = grp->textItemAt(DiagramLinkItemIndex);
+    TextItem *diagramLinkItem = grp->textItemAt(DiagramLinkItemIndex);
     diagramLinkItem->hide();
-	//FIXME: Fixe diagram link drawing
+    //FIXME: Fixe diagram link drawing
 
     TextItem *noteTypeItem = grp->textItemAt(NoteTypeItemIndex);
     if(m_noteType == NoteWidget::PreCondition) {
@@ -249,14 +249,14 @@ void NoteWidget::updateTextItemGroups()
 QVariant NoteWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
     if(change == SizeHasChanged) {
-		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		grp->setGroupGeometry(rect());
-	}
-	else if(change == DocumentationHasChanged) {
-		updateTextItemGroups();
-		return QVariant(); // no need for base method.
-	}
-	return UMLWidget::attributeChange(change, oldValue);
+        TextItemGroup *grp = textItemGroupAt(GroupIndex);
+        grp->setGroupGeometry(rect());
+    }
+    else if(change == DocumentationHasChanged) {
+        updateTextItemGroups();
+        return QVariant(); // no need for base method.
+    }
+    return UMLWidget::attributeChange(change, oldValue);
 }
 
 /**

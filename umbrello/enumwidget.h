@@ -34,10 +34,10 @@ class EnumWidget : public UMLWidget
 {
     Q_OBJECT
 public:
-	explicit EnumWidget(UMLObject* o);
+    explicit EnumWidget(UMLObject* o);
     virtual ~EnumWidget();
 
-	///  @return True if package is shown , false otherwise.
+    ///  @return True if package is shown , false otherwise.
     bool showPackage() const {
         return m_showPackage;
     }
@@ -57,13 +57,13 @@ public Q_SLOTS:
 
 protected:
     virtual void updateGeometry();
-	virtual void updateTextItemGroups();
+    virtual void updateTextItemGroups();
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldVal);
 
 private:
-	enum {
-		GroupIndex = 0
-	};
+    enum {
+        GroupIndex = 0
+    };
     enum {
         StereoTypeItemIndex = 0,
         NameItemIndex,
@@ -71,7 +71,7 @@ private:
     };
 
     bool m_showPackage;
-	QLineF m_nameLine;
+    QLineF m_nameLine;
 };
 
 #endif // ENUMWIDGET_H

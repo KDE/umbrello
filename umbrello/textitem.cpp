@@ -174,11 +174,11 @@ void TextItem::setItalic(bool b)
 
 void TextItem::setUnderline(bool u)
 {
-	QFont f = font();
-	if(u != f.underline()) {
-		f.setUnderline(u);
-		QGraphicsTextItem::setFont(f);
-	}
+    QFont f = font();
+    if(u != f.underline()) {
+        f.setUnderline(u);
+        QGraphicsTextItem::setFont(f);
+    }
 }
 
 /**

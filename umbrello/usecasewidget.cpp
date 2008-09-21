@@ -59,16 +59,16 @@ void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 
 void UseCaseWidget::updateGeometry()
 {
-	TextItemGroup *grp = textItemGroupAt(GroupIndex);
-	setMinimumSize(grp->minimumSize());
-	UMLWidget::updateGeometry();
+    TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    setMinimumSize(grp->minimumSize());
+    UMLWidget::updateGeometry();
 }
 
 void UseCaseWidget::updateTextItemGroups()
 {
     if(umlObject()) {
-		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		grp->setTextItemCount(UseCaseWidget::TextItemCount);
+        TextItemGroup *grp = textItemGroupAt(GroupIndex);
+        grp->setTextItemCount(UseCaseWidget::TextItemCount);
 
         TextItem *nameItem = grp->textItemAt(UseCaseWidget::NameItemIndex);
         nameItem->setText(name());
@@ -79,9 +79,9 @@ void UseCaseWidget::updateTextItemGroups()
 
 QVariant UseCaseWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-	if(change == SizeHasChanged) {
-		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		grp->setGroupGeometry(rect());
-	}
-	return UMLWidget::attributeChange(change, oldValue);
+    if(change == SizeHasChanged) {
+        TextItemGroup *grp = textItemGroupAt(GroupIndex);
+        grp->setGroupGeometry(rect());
+    }
+    return UMLWidget::attributeChange(change, oldValue);
 }

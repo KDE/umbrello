@@ -62,7 +62,7 @@ public:
 
     void askForNoteType(UMLWidget* &targetWidget);
 
-	virtual bool loadFromXMI( QDomElement & qElement );
+    virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 public Q_SLOTS:
@@ -71,12 +71,12 @@ public Q_SLOTS:
 protected:
     virtual void updateGeometry();
     virtual void updateTextItemGroups();
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
-	enum {
-		GroupIndex
-	};
+    enum {
+        GroupIndex
+    };
     enum {
         DiagramLinkItemIndex,
         NoteTypeItemIndex,

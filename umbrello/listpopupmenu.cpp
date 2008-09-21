@@ -411,12 +411,12 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
             ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(object);
             if (pForkJoin->orientation() == Qt::Vertical) {
                 insert(mt_Flip, i18n("Flip Horizontal"));
-			}
+            }
             else {
                 insert(mt_Flip, i18n("Flip Vertical"));
-			}
-			m_actions[mt_Fill_Color] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill),
-												 i18n("Fill Color..."));
+            }
+            m_actions[mt_Fill_Color] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Color_Fill),
+                                                 i18n("Fill Color..."));
         }
         break;
 

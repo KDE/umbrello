@@ -238,7 +238,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
 
         if (tag == "actorwidget" || tag == "UML:ActorWidget") {
             if (validateObjType(Uml::ot_Actor, o, id))
-				widget = new ActorWidget(static_cast<UMLActor*>(o));
+                widget = new ActorWidget(static_cast<UMLActor*>(o));
         } else if (tag == "usecasewidget" || tag ==  "UML:UseCaseWidget") {
             if (validateObjType(Uml::ot_UseCase, o, id))
                 widget = new UseCaseWidget(static_cast<UMLUseCase*>(o));

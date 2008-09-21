@@ -29,7 +29,7 @@ PackageWidget::PackageWidget(UMLPackage *o) :
     UMLWidget(o)
 {
     m_baseType = Uml::wt_Package;
-	createTextItemGroup();
+    createTextItemGroup();
 }
 
 /// Destructor
@@ -75,16 +75,16 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
  */
 void PackageWidget::updateGeometry()
 {
-	TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    TextItemGroup *grp = textItemGroupAt(GroupIndex);
 
-	QSizeF minSize = grp->minimumSize();
-	if(minSize.width() < 70) {
-		minSize.setWidth(70);
-	}
-	minSize.rheight() += QFontMetricsF(grp->font()).lineSpacing();
-	setMinimumSize(minSize);
+    QSizeF minSize = grp->minimumSize();
+    if(minSize.width() < 70) {
+        minSize.setWidth(70);
+    }
+    minSize.rheight() += QFontMetricsF(grp->font()).lineSpacing();
+    setMinimumSize(minSize);
 
-	UMLWidget::updateGeometry();
+    UMLWidget::updateGeometry();
 }
 
 /**
@@ -93,9 +93,9 @@ void PackageWidget::updateGeometry()
  */
 void PackageWidget::updateTextItemGroups()
 {
-	if(umlObject()) {
-		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		grp->setTextItemCount(TextItemCount);
+    if(umlObject()) {
+        TextItemGroup *grp = textItemGroupAt(GroupIndex);
+        grp->setTextItemCount(TextItemCount);
 
         TextItem *stereo = grp->textItemAt(PackageWidget::StereoTypeItemIndex);
         stereo->setText(umlObject()->getStereotype(true));
@@ -114,16 +114,16 @@ void PackageWidget::updateTextItemGroups()
  */
 QVariant PackageWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-	if(change == SizeHasChanged) {
-		TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    if(change == SizeHasChanged) {
+        TextItemGroup *grp = textItemGroupAt(GroupIndex);
 
-		m_topRect.setRect(0, 0, 50, QFontMetricsF(grp->font()).lineSpacing());
+        m_topRect.setRect(0, 0, 50, QFontMetricsF(grp->font()).lineSpacing());
 
-		m_packageTextRect.setTopLeft(QPointF(0, m_topRect.bottom()));
-		m_packageTextRect.setBottomRight(rect().bottomRight());
+        m_packageTextRect.setTopLeft(QPointF(0, m_topRect.bottom()));
+        m_packageTextRect.setBottomRight(rect().bottomRight());
 
-		grp->setGroupGeometry(m_packageTextRect);
-	}
+        grp->setGroupGeometry(m_packageTextRect);
+    }
 
     return UMLWidget::attributeChange(change, oldValue);
 }

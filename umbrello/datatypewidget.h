@@ -36,24 +36,24 @@ public:
     DatatypeWidget(UMLClassifier *d);
     virtual ~DatatypeWidget();
 
-	// Uses UMLWidget::loadFromXMI to load data from XMI
+    // Uses UMLWidget::loadFromXMI to load data from XMI
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
 
 protected:
     virtual void updateGeometry();
-	virtual void updateTextItemGroups();
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& old);
+    virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& old);
 
 private:
-	enum {
-		GroupIndex = 0
-	};
+    enum {
+        GroupIndex = 0
+    };
     enum {
         StereoTypeItemIndex = 0,
         NameItemIndex,
-		TextItemCount
+        TextItemCount
     };
 };
 

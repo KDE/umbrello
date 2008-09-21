@@ -47,10 +47,10 @@ public:
     }
     void setItalic(bool i);
 
-	bool underline() const {
-		return font().underline();
-	}
-	void setUnderline(bool u);
+    bool underline() const {
+        return font().underline();
+    }
+    void setUnderline(bool u);
 
     qreal width() const {
         return boundingRect().width();

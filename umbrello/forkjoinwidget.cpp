@@ -23,11 +23,11 @@
  */
 ForkJoinWidget::ForkJoinWidget(Qt::Orientation o, Uml::IDType id)
     : BoxWidget(id),
-	  m_orientation(o)
+      m_orientation(o)
 {
-	m_baseType = Uml::wt_ForkJoin;
-	setMargin(0);
-	setBrush(QBrush(Qt::black));
+    m_baseType = Uml::wt_ForkJoin;
+    setMargin(0);
+    setBrush(QBrush(Qt::black));
 }
 
 /// Destructor
@@ -38,8 +38,8 @@ ForkJoinWidget::~ForkJoinWidget()
 /// Sets the orientation of this widget to \a o
 void ForkJoinWidget::setOrientation(Qt::Orientation o)
 {
-	m_orientation = o;
-	updateGeometry();
+    m_orientation = o;
+    updateGeometry();
 }
 
 /**
@@ -61,7 +61,7 @@ bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
         return false;
     }
     QString orientation = qElement.attribute("orientation",
-											 QString::number(Qt::Horizontal));
+                                             QString::number(Qt::Horizontal));
     setOrientation( (Qt::Orientation)orientation.toInt() );
     return true;
 }
@@ -84,15 +84,15 @@ void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 void ForkJoinWidget::slotMenuSelection(QAction* action)
 {
-	// Menu is passed as parent of action
-	ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
-	if (menu->getMenuType(action) == ListPopupMenu::mt_Flip) {
+    // Menu is passed as parent of action
+    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    if (menu->getMenuType(action) == ListPopupMenu::mt_Flip) {
         setOrientation(m_orientation == Qt::Horizontal ?
-					   Qt::Vertical : Qt::Horizontal);
-	}
-	else {
-		BoxWidget::slotMenuSelection(action);
-	}
+                       Qt::Vertical : Qt::Horizontal);
+    }
+    else {
+        BoxWidget::slotMenuSelection(action);
+    }
 }
 
 /**
@@ -102,16 +102,16 @@ void ForkJoinWidget::slotMenuSelection(QAction* action)
  */
 void ForkJoinWidget::updateGeometry()
 {
-	if(m_orientation == Qt::Horizontal) {
-		setMinimumSize(QSizeF(40, 4));
-		setMaximumSize(QSizeF(100, 10));
-	}
-	else {
-		setMinimumSize(QSizeF(4, 40));
-		setMaximumSize(QSizeF(10, 100));
-	}
+    if(m_orientation == Qt::Horizontal) {
+        setMinimumSize(QSizeF(40, 4));
+        setMaximumSize(QSizeF(100, 10));
+    }
+    else {
+        setMinimumSize(QSizeF(4, 40));
+        setMaximumSize(QSizeF(10, 100));
+    }
 
-	BoxWidget::updateGeometry();
+    BoxWidget::updateGeometry();
 }
 
 #include "forkjoinwidget.moc"

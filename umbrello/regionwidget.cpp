@@ -21,10 +21,10 @@ const QSizeF RegionWidget::MinimumSize(90, 45);
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 RegionWidget::RegionWidget(Uml::IDType id)
-	: UMLWidget(0, id)
+    : UMLWidget(0, id)
 {
-	m_baseType = Uml::wt_Region;
-	setMinimumSize(RegionWidget::MinimumSize);
+    m_baseType = Uml::wt_Region;
+    setMinimumSize(RegionWidget::MinimumSize);
 }
 
 /// Destructor
@@ -35,14 +35,14 @@ RegionWidget::~RegionWidget()
 /// Draws a rounded rect with dash line property.
 void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-	QPen pen(lineColor(), lineWidth());
-	pen.setStyle(Qt::DashLine);
+    QPen pen(lineColor(), lineWidth());
+    pen.setStyle(Qt::DashLine);
 
-	painter->setPen(pen);
-	painter->setBrush(Qt::NoBrush);
+    painter->setPen(pen);
+    painter->setBrush(Qt::NoBrush);
 
-	const QRectF r = rect();
-	painter->drawRoundRect(r, (r.height() * 60) / r.width(), 60);
+    const QRectF r = rect();
+    painter->drawRoundRect(r, (r.height() * 60) / r.width(), 60);
 }
 
 /// Loads region widget from XMI element

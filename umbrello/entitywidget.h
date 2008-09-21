@@ -26,37 +26,37 @@
  */
 class EntityWidget : public UMLWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	explicit EntityWidget(UMLObject* o);
-	virtual ~EntityWidget();
+    explicit EntityWidget(UMLObject* o);
+    virtual ~EntityWidget();
 
-	virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
     // UMLWidget::loadFromXMI is used to load this widget.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-	virtual void updateGeometry();
-	virtual void updateTextItemGroups();
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual void updateGeometry();
+    virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 private:
 
-	// Hardcoded indices for text items
-	enum {
-		GroupIndex
-	};
-	enum {
-		StereotypeItemIndex,
-		NameItemIndex,
-		EntityItemStartIndex
-	};
+    // Hardcoded indices for text items
+    enum {
+        GroupIndex
+    };
+    enum {
+        StereotypeItemIndex,
+        NameItemIndex,
+        EntityItemStartIndex
+    };
 
-	QLineF m_nameLine;
+    QLineF m_nameLine;
 };
 
 #endif

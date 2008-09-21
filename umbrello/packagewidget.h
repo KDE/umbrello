@@ -33,27 +33,27 @@ public:
     PackageWidget(UMLPackage * o);
     virtual ~PackageWidget();
 
-	// Uses UMLWidget::loadFromXMI to load from XMI
+    // Uses UMLWidget::loadFromXMI to load from XMI
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-	void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *opt, QWidget *w);
 
 protected:
     void updateGeometry();
-	void updateTextItemGroups();
-	QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    void updateTextItemGroups();
+    QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
-	enum {
-		GroupIndex
-	};
+    enum {
+        GroupIndex
+    };
     enum {
         StereoTypeItemIndex = 0,
         NameItemIndex,
-		TextItemCount
+        TextItemCount
     };
 
-	QRectF m_topRect;
+    QRectF m_topRect;
     QRectF m_packageTextRect;
 };
 

@@ -35,10 +35,10 @@ public:
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-	/// @return The type of Signal.
+    /// @return The type of Signal.
     SignalType signalType() const {
-		return m_signalType;
-	}
+        return m_signalType;
+    }
     void setSignalType( SignalType signalType );
 
     virtual void  showPropertiesDialog();
@@ -50,18 +50,18 @@ public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 protected:
-	virtual void updateGeometry();
-	virtual void updateTextItemGroups();
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual void updateGeometry();
+    virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
-	enum {
-		GroupIndex
-	};
-	static const QSizeF MinimumSize;
+    enum {
+        GroupIndex
+    };
+    static const QSizeF MinimumSize;
 
     SignalType m_signalType; ///< Type of signal
-	QPainterPath m_signalPath; ///< Path representing current drawing.
+    QPainterPath m_signalPath; ///< Path representing current drawing.
 };
 
 #endif

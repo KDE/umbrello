@@ -45,7 +45,7 @@ ActivityWidget::ActivityWidget(ActivityType activityType, Uml::IDType id)
       m_activityType(activityType)
 {
     m_baseType = Uml::wt_Activity;
-	createTextItemGroup();
+    createTextItemGroup();
 }
 
 /// Destructor
@@ -116,16 +116,16 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidge
         break;
 
     case End :
-	{
+    {
         p->setBrush(Qt::NoBrush);
-		qreal adj = lineWidth() + 1;
+        qreal adj = lineWidth() + 1;
         p->drawEllipse(r.adjusted(+adj, +adj, -adj, -adj));
 
         p->setBrush(lineColor());
-		adj = lineWidth() + 3;
+        adj = lineWidth() + 3;
         p->drawEllipse(r.adjusted(+adj, +adj, -adj, -adj));
         break;
-	}
+    }
 
     case Branch :
     {
@@ -191,15 +191,15 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 void ActivityWidget::updateGeometry()
 {
-	TextItemGroup *grp = textItemGroupAt(ActivityWidget::TextGroupIndex);
-	QSizeF minSize = grp->minimumSize();
+    TextItemGroup *grp = textItemGroupAt(ActivityWidget::TextGroupIndex);
+    QSizeF minSize = grp->minimumSize();
 
-	switch(m_activityType) {
-	case Invok:
-		minSize.rheight() += 40; // FIXME: Magic number
-		break;
+    switch(m_activityType) {
+    case Invok:
+        minSize.rheight() += 40; // FIXME: Magic number
+        break;
 
-	case Initial:
+    case Initial:
     case Final:
     case End:
     case Branch:
@@ -207,20 +207,20 @@ void ActivityWidget::updateGeometry()
         break;
 
     case Param:
-	case Normal:
-		break; // Nothing to add.
+    case Normal:
+        break; // Nothing to add.
     }
 
-	setMinimumSize(minSize);
+    setMinimumSize(minSize);
 
-	UMLWidget::updateGeometry();
+    UMLWidget::updateGeometry();
 }
 
 QVariant ActivityWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-	if(change == SizeHasChanged) {
-		TextItemGroup *grp = textItemGroupAt(ActivityWidget::TextGroupIndex);
-		grp->setGroupGeometry(rect());
+    if(change == SizeHasChanged) {
+        TextItemGroup *grp = textItemGroupAt(ActivityWidget::TextGroupIndex);
+        grp->setGroupGeometry(rect());
 
         foreach(QGraphicsItem *child, childItems()) {
             PinWidget *pin = dynamic_cast<PinWidget*>(child);
@@ -228,43 +228,43 @@ QVariant ActivityWidget::attributeChange(WidgetAttributeChange change, const QVa
                 pin->updatePosition(pin->pos());
             }
         }
-	}
+    }
 
-	return UMLWidget::attributeChange(change, oldValue);
+    return UMLWidget::attributeChange(change, oldValue);
 }
 
 void ActivityWidget::updateTextItemGroups()
 {
-	TextItemGroup *grp = textItemGroupAt(ActivityWidget::TextGroupIndex);
-	grp->setTextItemCount(ActivityWidget::TextItemCount);
+    TextItemGroup *grp = textItemGroupAt(ActivityWidget::TextGroupIndex);
+    grp->setTextItemCount(ActivityWidget::TextItemCount);
 
-	TextItem *nameItem = grp->textItemAt(NameItemIndex);
-	nameItem->setText(name());
-	nameItem->show();
+    TextItem *nameItem = grp->textItemAt(NameItemIndex);
+    nameItem->setText(name());
+    nameItem->show();
 
-	if(m_activityType == Normal || m_activityType == Invok) {
-		grp->textItemAt(PrecondtionItemIndex)->hide();
+    if(m_activityType == Normal || m_activityType == Invok) {
+        grp->textItemAt(PrecondtionItemIndex)->hide();
         grp->textItemAt(PostconditionItemIndex)->hide();
-		nameItem->show();
-	}
-	else if(m_activityType == Param) {
-		TextItem *preconditionItem = grp->textItemAt(PrecondtionItemIndex);
-		preconditionItem->setText(preconditionText().prepend("<<precondition>> "));
+        nameItem->show();
+    }
+    else if(m_activityType == Param) {
+        TextItem *preconditionItem = grp->textItemAt(PrecondtionItemIndex);
+        preconditionItem->setText(preconditionText().prepend("<<precondition>> "));
         preconditionItem->show();
 
         TextItem *postconditionItem = grp->textItemAt(PostconditionItemIndex);
         postconditionItem->setText(postconditionText().prepend("<<postcondition>> "));
         postconditionItem->show();
 
-		nameItem->show();
-	}
-	else {
-		grp->textItemAt(PrecondtionItemIndex)->hide();
+        nameItem->show();
+    }
+    else {
+        grp->textItemAt(PrecondtionItemIndex)->hide();
         grp->textItemAt(PostconditionItemIndex)->hide();
-		nameItem->hide();
-	}
+        nameItem->hide();
+    }
 
-	UMLWidget::updateTextItemGroups();
+    UMLWidget::updateTextItemGroups();
 }
 
 /**

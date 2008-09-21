@@ -369,9 +369,9 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
  */
 void UMLScene::setupNewWidget(UMLWidget *w)
 {
-	if(w->scene() != this) {
-		addItem(w);
-	}
+    if(w->scene() != this) {
+        addItem(w);
+    }
     w->setX(m_Pos.x());
     w->setY(m_Pos.y());
     w->setVisible(true);
@@ -2918,14 +2918,14 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Initial_State: {
         StateWidget* state = new StateWidget(StateWidget::Initial);
-		addItem(state);
+        addItem(state);
         setupNewWidget(state);
     }
         break;
 
     case ListPopupMenu::mt_End_State: {
         StateWidget* state = new StateWidget(StateWidget::End);
-		addItem(state);
+        addItem(state);
         setupNewWidget(state);
     }
         break;
@@ -2938,7 +2938,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         if (ok) {
             StateWidget* state = new StateWidget();
             state->setName(name);
-			addItem(state);
+            addItem(state);
             setupNewWidget(state);
         }
     }

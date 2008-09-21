@@ -28,11 +28,11 @@ const qreal NodeWidget::DEPTH = 30;  ///< pixels on Z axis
  * @param n The UMLNode this will be representing.
  */
 NodeWidget::NodeWidget(UMLNode *n )
-	: UMLWidget(n)
+    : UMLWidget(n)
 {
     m_baseType = Uml::wt_Node;
-	createTextItemGroup();
-	// above box but below UMLWidget because may embed widgets
+    createTextItemGroup();
+    // above box but below UMLWidget because may embed widgets
     setZValue(1);
 }
 
@@ -47,9 +47,9 @@ NodeWidget::~NodeWidget()
  */
 void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-	painter->setPen(QPen(lineColor(), lineWidth()));
-	painter->setBrush(brush());
-	painter->drawPath(m_nodeWidgetPath);
+    painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setBrush(brush());
+    painter->drawPath(m_nodeWidgetPath);
 }
 
 /**
@@ -69,14 +69,14 @@ void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 void NodeWidget::updateGeometry()
 {
-	TextItemGroup *grp = textItemGroupAt(GroupIndex);
-	QSizeF minSize = grp->minimumSize();
+    TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    QSizeF minSize = grp->minimumSize();
 
-	minSize += QSizeF(NodeWidget::DEPTH, NodeWidget::DEPTH);
+    minSize += QSizeF(NodeWidget::DEPTH, NodeWidget::DEPTH);
 
-	setMinimumSize(minSize);
+    setMinimumSize(minSize);
 
-	UMLWidget::updateGeometry();
+    UMLWidget::updateGeometry();
 }
 
 /**
@@ -86,31 +86,31 @@ void NodeWidget::updateGeometry()
  */
 void NodeWidget::updateTextItemGroups()
 {
-	TextItemGroup *grp = textItemGroupAt(GroupIndex);
-	grp->setTextItemCount(NodeWidget::TextItemCount);
+    TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    grp->setTextItemCount(NodeWidget::TextItemCount);
 
-	if(umlObject()) {
-		UMLNode *node = static_cast<UMLNode*>(umlObject());
+    if(umlObject()) {
+        UMLNode *node = static_cast<UMLNode*>(umlObject());
 
-		TextItem *stereo = grp->textItemAt(NodeWidget::StereoItemIndex);
-		stereo->setText(node->getStereotype(true));
-		stereo->setBold(true);
-		stereo->setVisible(!node->getStereotype(false).isEmpty());
+        TextItem *stereo = grp->textItemAt(NodeWidget::StereoItemIndex);
+        stereo->setText(node->getStereotype(true));
+        stereo->setBold(true);
+        stereo->setVisible(!node->getStereotype(false).isEmpty());
 
-		TextItem *nameItem = grp->textItemAt(NodeWidget::NameItemIndex);
-		QString nameText = name();
-		bool underline = false;
-		if(isInstance()) {
-			nameText.prepend(':');
-			nameText.prepend(instanceName());
-			underline = true;
-		}
-		nameItem->setBold(true);
-		nameItem->setUnderline(underline);
-		nameItem->setText(nameText);
-	}
+        TextItem *nameItem = grp->textItemAt(NodeWidget::NameItemIndex);
+        QString nameText = name();
+        bool underline = false;
+        if(isInstance()) {
+            nameText.prepend(':');
+            nameText.prepend(instanceName());
+            underline = true;
+        }
+        nameItem->setBold(true);
+        nameItem->setUnderline(underline);
+        nameItem->setText(nameText);
+    }
 
-	UMLWidget::updateTextItemGroups();
+    UMLWidget::updateTextItemGroups();
 }
 
 /**
@@ -120,38 +120,38 @@ void NodeWidget::updateTextItemGroups()
  */
 QVariant NodeWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-	if(change == SizeHasChanged) {
-		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		m_nodeWidgetPath = QPainterPath(); // reset path
+    if(change == SizeHasChanged) {
+        TextItemGroup *grp = textItemGroupAt(GroupIndex);
+        m_nodeWidgetPath = QPainterPath(); // reset path
 
-		const qreal w = size().width();
-		const qreal h = size().height();
-		const qreal wDepth = qMin(w/3, NodeWidget::DEPTH);
-		const qreal hDepth = qMin(h/3, NodeWidget::DEPTH);
-		const qreal bodyOffsetY = hDepth;
-		const qreal bodyWidth = w - wDepth;
-		const qreal bodyHeight = h - hDepth;
+        const qreal w = size().width();
+        const qreal h = size().height();
+        const qreal wDepth = qMin(w/3, NodeWidget::DEPTH);
+        const qreal hDepth = qMin(h/3, NodeWidget::DEPTH);
+        const qreal bodyOffsetY = hDepth;
+        const qreal bodyWidth = w - wDepth;
+        const qreal bodyHeight = h - hDepth;
 
-		QPolygonF poly;
-		poly << QPointF(0, bodyOffsetY)
-			 << QPointF(wDepth, 0)
-			 << QPointF(w - 1, 0)
-			 << QPointF(w - 1, bodyHeight)
-			 << QPointF(bodyWidth, h - 1)
-			 << QPointF(bodyWidth, bodyOffsetY)
-			 << QPointF(0, bodyOffsetY);
-		m_nodeWidgetPath.addPolygon(poly);
+        QPolygonF poly;
+        poly << QPointF(0, bodyOffsetY)
+             << QPointF(wDepth, 0)
+             << QPointF(w - 1, 0)
+             << QPointF(w - 1, bodyHeight)
+             << QPointF(bodyWidth, h - 1)
+             << QPointF(bodyWidth, bodyOffsetY)
+             << QPointF(0, bodyOffsetY);
+        m_nodeWidgetPath.addPolygon(poly);
 
-		QRectF bodyRect(0, bodyOffsetY, bodyWidth, bodyHeight);
-		m_nodeWidgetPath.addRect(bodyRect);
+        QRectF bodyRect(0, bodyOffsetY, bodyWidth, bodyHeight);
+        m_nodeWidgetPath.addRect(bodyRect);
 
-		QLineF line(w - 1, 0, bodyWidth - 2, bodyOffsetY + 1);
-		m_nodeWidgetPath.moveTo(line.p1());
-		m_nodeWidgetPath.lineTo(line.p2());
+        QLineF line(w - 1, 0, bodyWidth - 2, bodyOffsetY + 1);
+        m_nodeWidgetPath.moveTo(line.p1());
+        m_nodeWidgetPath.lineTo(line.p2());
 
-		grp->setGroupGeometry(bodyRect);
-	}
+        grp->setGroupGeometry(bodyRect);
+    }
 
-	return UMLWidget::attributeChange(change, oldValue);
+    return UMLWidget::attributeChange(change, oldValue);
 }
 

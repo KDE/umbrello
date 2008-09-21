@@ -41,13 +41,13 @@ public:
 
 protected:
     virtual void updateGeometry();
-	virtual void updateTextItemGroups();
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
-	enum {
-		GroupIndex
-	};
+    enum {
+        GroupIndex
+    };
     enum {
         NameItemIndex,
         TextItemCount

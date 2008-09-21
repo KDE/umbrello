@@ -29,38 +29,38 @@ class UMLArtifact;
 class ArtifactWidget : public UMLWidget
 {
 public:
-	ArtifactWidget(UMLArtifact *a);
-	virtual ~ArtifactWidget();
+    ArtifactWidget(UMLArtifact *a);
+    virtual ~ArtifactWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-	// Note: For loading from XMI, the inherited parent method is
-	//       used.
+    // Note: For loading from XMI, the inherited parent method is
+    //       used.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-	virtual void updateGeometry();
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
-	virtual void updateTextItemGroups();
+    virtual void updateGeometry();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual void updateTextItemGroups();
 
 private:
     void drawAsFile(QPainter *painter);
-	void drawAsLibrary(QPainter *painter);
-	void drawAsTable(QPainter *painter);
-	void drawAsNormal(QPainter *painter);
+    void drawAsLibrary(QPainter *painter);
+    void drawAsTable(QPainter *painter);
+    void drawAsNormal(QPainter *painter);
 
-	static const QSizeF MinimumIconSize;
+    static const QSizeF MinimumIconSize;
 
-	enum {
-		GroupIndex = 0
-	};
-	enum {
-		StereotypeItemIndex = 0,
-		NameItemIndex,
-		TextItemCount
-	};
+    enum {
+        GroupIndex = 0
+    };
+    enum {
+        StereotypeItemIndex = 0,
+        NameItemIndex,
+        TextItemCount
+    };
 
-	qreal m_cachedTextHeight; //< Cache textheight to speedup.
+    qreal m_cachedTextHeight; //< Cache textheight to speedup.
 };
 
 #endif

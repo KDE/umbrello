@@ -29,8 +29,8 @@ const QSizeF ActorWidget::MinimumSize = QSizeF(20, 40);
  */
 ActorWidget::ActorWidget(UMLActor *a) : UMLWidget(a)
 {
-	m_baseType = Uml::wt_Actor;
-	createTextItemGroup();
+    m_baseType = Uml::wt_Actor;
+    createTextItemGroup();
 }
 
 /// Destructor
@@ -43,10 +43,10 @@ ActorWidget::~ActorWidget()
  */
 void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-	painter->setPen(QPen(lineColor(), lineWidth()));
-	painter->setBrush(brush());
+    painter->setPen(QPen(lineColor(), lineWidth()));
+    painter->setBrush(brush());
 
-	painter->drawPath(m_actorPath);
+    painter->drawPath(m_actorPath);
 }
 
 /// Saves the widget to the "actorwidget" XMI element.
@@ -63,16 +63,16 @@ void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 void ActorWidget::updateGeometry()
 {
-	const int groupIndex = 0; // Only one group
+    const int groupIndex = 0; // Only one group
 
-	QSizeF minSize = textItemGroupAt(groupIndex)->minimumSize();
-	if(minSize.width() < ActorWidget::MinimumSize.width()) {
-		minSize.setWidth(ActorWidget::MinimumSize.width());
-	}
-	minSize.rheight() += ActorWidget::MinimumSize.height();
-	setMinimumSize(minSize);
+    QSizeF minSize = textItemGroupAt(groupIndex)->minimumSize();
+    if(minSize.width() < ActorWidget::MinimumSize.width()) {
+        minSize.setWidth(ActorWidget::MinimumSize.width());
+    }
+    minSize.rheight() += ActorWidget::MinimumSize.height();
+    setMinimumSize(minSize);
 
-	UMLWidget::updateGeometry();
+    UMLWidget::updateGeometry();
 }
 
 /**
@@ -81,58 +81,58 @@ void ActorWidget::updateGeometry()
  */
 QVariant ActorWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldVal)
 {
-	if(change == SizeHasChanged) {
-		// Calculate new path and position the text.
-		const QSizeF sz = size();
+    if(change == SizeHasChanged) {
+        // Calculate new path and position the text.
+        const QSizeF sz = size();
 
-		const int groupIndex = 0; // Only one group
-		TextItemGroup *grp = textItemGroupAt(groupIndex);
+        const int groupIndex = 0; // Only one group
+        TextItemGroup *grp = textItemGroupAt(groupIndex);
 
-		// First adjust the position of text and align it.
-		qreal fontHeight = grp->minimumSize().height();
+        // First adjust the position of text and align it.
+        qreal fontHeight = grp->minimumSize().height();
 
-		QRectF r(0, rect().bottom() - fontHeight,
-				 sz.width(), fontHeight);
-		grp->setGroupGeometry(r);
+        QRectF r(0, rect().bottom() - fontHeight,
+                 sz.width(), fontHeight);
+        grp->setGroupGeometry(r);
 
-		// Now calculate actorPath
-		m_actorPath = QPainterPath();
-		qreal actorHeight = r.top();
-		qreal actorWidth = r.width();
+        // Now calculate actorPath
+        m_actorPath = QPainterPath();
+        qreal actorHeight = r.top();
+        qreal actorWidth = r.width();
 
-		// Make sure width of actor isn't too much, it looks ugly otherwise.
-		if(actorWidth > .5 * actorHeight) {
-			actorWidth = .5 * actorHeight;
-		}
-		//TODO: Probably use above similar approach to limit height.
+        // Make sure width of actor isn't too much, it looks ugly otherwise.
+        if(actorWidth > .5 * actorHeight) {
+            actorWidth = .5 * actorHeight;
+        }
+        //TODO: Probably use above similar approach to limit height.
 
-		QRectF headEllipse;
-		headEllipse.setTopLeft(QPointF(.5 * (sz.width() - actorWidth), 0));
-		headEllipse.setSize(QSizeF(actorWidth, actorHeight / 3));
-		m_actorPath.addEllipse(headEllipse);
+        QRectF headEllipse;
+        headEllipse.setTopLeft(QPointF(.5 * (sz.width() - actorWidth), 0));
+        headEllipse.setSize(QSizeF(actorWidth, actorHeight / 3));
+        m_actorPath.addEllipse(headEllipse);
 
-		QLineF bodyLine(.5 * sz.width(), headEllipse.bottom(),
-						.5 * sz.width(), (2. / 3.) * actorHeight);
-		m_actorPath.moveTo(bodyLine.p1());
-		m_actorPath.lineTo(bodyLine.p2());
+        QLineF bodyLine(.5 * sz.width(), headEllipse.bottom(),
+                        .5 * sz.width(), (2. / 3.) * actorHeight);
+        m_actorPath.moveTo(bodyLine.p1());
+        m_actorPath.lineTo(bodyLine.p2());
 
-		QLineF leftLeg(.5 * sz.width(), bodyLine.p2().y(),
-				   headEllipse.left(), actorHeight);
-		m_actorPath.moveTo(leftLeg.p1());
-		m_actorPath.lineTo(leftLeg.p2());
+        QLineF leftLeg(.5 * sz.width(), bodyLine.p2().y(),
+                   headEllipse.left(), actorHeight);
+        m_actorPath.moveTo(leftLeg.p1());
+        m_actorPath.lineTo(leftLeg.p2());
 
-		QLineF rightLeg(.5 * sz.width(), bodyLine.p2().y(),
-						headEllipse.right(), actorHeight);
-		m_actorPath.moveTo(rightLeg.p1());
-		m_actorPath.lineTo(rightLeg.p2());
+        QLineF rightLeg(.5 * sz.width(), bodyLine.p2().y(),
+                        headEllipse.right(), actorHeight);
+        m_actorPath.moveTo(rightLeg.p1());
+        m_actorPath.lineTo(rightLeg.p2());
 
-		QLineF arms(headEllipse.left(), .5 * actorHeight,
-					headEllipse.right(), .5 * actorHeight);
-		m_actorPath.moveTo(arms.p1());
-		m_actorPath.lineTo(arms.p2());
-	}
+        QLineF arms(headEllipse.left(), .5 * actorHeight,
+                    headEllipse.right(), .5 * actorHeight);
+        m_actorPath.moveTo(arms.p1());
+        m_actorPath.lineTo(arms.p2());
+    }
 
-	return UMLWidget::attributeChange(change, oldVal);
+    return UMLWidget::attributeChange(change, oldVal);
 }
 
 /**
@@ -140,9 +140,9 @@ QVariant ActorWidget::attributeChange(WidgetAttributeChange change, const QVaria
  */
 void ActorWidget::updateTextItemGroups()
 {
-	const int groupIndex = 0; // Only one group
-	TextItemGroup *grp = textItemGroupAt(groupIndex);
-	grp->setTextItemCount(1);
-	const int nameIndex = 0;
-	grp->textItemAt(nameIndex)->setText(name());
+    const int groupIndex = 0; // Only one group
+    TextItemGroup *grp = textItemGroupAt(groupIndex);
+    grp->setTextItemCount(1);
+    const int nameIndex = 0;
+    grp->textItemAt(nameIndex)->setText(name());
 }

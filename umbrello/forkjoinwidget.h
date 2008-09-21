@@ -26,16 +26,16 @@
  */
 class ForkJoinWidget : public BoxWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
 
     explicit ForkJoinWidget(Qt::Orientation o = Qt::Horizontal, Uml::IDType id = Uml::id_None);
-	virtual ~ForkJoinWidget();
+    virtual ~ForkJoinWidget();
 
-	/// @return Whether to draw plate vertically or not.
-	Qt::Orientation orientation() const {
-		return m_orientation;
-	}
+    /// @return Whether to draw plate vertically or not.
+    Qt::Orientation orientation() const {
+        return m_orientation;
+    }
     void setOrientation(Qt::Orientation o);
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
@@ -47,10 +47,10 @@ public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 protected:
-	virtual void updateGeometry();
+    virtual void updateGeometry();
 
 private:
-	/// whether to draw the plate horizontally or vertically
+    /// whether to draw the plate horizontally or vertically
     Qt::Orientation m_orientation;
 };
 

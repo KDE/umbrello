@@ -34,22 +34,22 @@ class ActorWidget : public UMLWidget
 public:
 
     ActorWidget(UMLActor *o);
-	virtual ~ActorWidget();
+    virtual ~ActorWidget();
 
-	virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
+    virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-	//Note: For loading from XMI, the inherited parent method is used.
-	virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    //Note: For loading from XMI, the inherited parent method is used.
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
     virtual void updateGeometry();
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
-	virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual void updateTextItemGroups();
 
 private:
-	static const QSizeF MinimumSize;
-	/// A path representing the actor drawing.
-	QPainterPath m_actorPath;
+    static const QSizeF MinimumSize;
+    /// A path representing the actor drawing.
+    QPainterPath m_actorPath;
 };
 
 #endif

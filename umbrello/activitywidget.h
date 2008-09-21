@@ -48,26 +48,26 @@ public:
     explicit ActivityWidget(ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
     virtual ~ActivityWidget();
 
-	/// @return Type of activity.
+    /// @return Type of activity.
     ActivityType activityType() const {
         return m_activityType;
     }
     void setActivityType( ActivityType activityType );
 
-     /// This method get the name of the preText attribute
+    /// This method get the name of the preText attribute
     QString preconditionText() const {
         return m_preconditionText;
     }
     void setPreconditionText(const QString&);
 
-	/// This method get the name of the postText attribute
+    /// This method get the name of the postText attribute
     QString postconditionText() const {
         return m_postconditionText;
     }
     void setPostconditionText(const QString&);
 
     virtual void showPropertiesDialog();
-	void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *);
+    void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *);
 
     virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
@@ -75,7 +75,7 @@ public:
 protected:
     virtual void updateGeometry();
     QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
-	void updateTextItemGroups();
+    void updateTextItemGroups();
 
     /**
      * Type of activity.
@@ -89,19 +89,19 @@ protected:
      */
     bool m_NormalActivityType;
 
-public Q_SLOTS:
+                             public Q_SLOTS:
 
     virtual void slotMenuSelection(QAction* action);
 
 private:
-	enum {
-		TextGroupIndex = 0
-	};
+    enum {
+        TextGroupIndex = 0
+    };
     enum {
         NameItemIndex = 0,
         PrecondtionItemIndex,
         PostconditionItemIndex,
-		TextItemCount
+        TextItemCount
     };
 
     QString m_preconditionText;

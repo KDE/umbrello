@@ -29,10 +29,10 @@ TextItemGroup::TextItemGroup(QGraphicsItem *parent) :
     m_parentItem(parent),
     m_lineBreakageWidth(TextItemGroup::NoLineBreak),
     m_margin(0),
-	m_alignment(Qt::AlignCenter),
-	m_fontColor(Qt::black),
-	m_hoverBrush(Qt::NoBrush),
-	m_backgroundBrush(Qt::NoBrush)
+    m_alignment(Qt::AlignCenter),
+    m_fontColor(Qt::black),
+    m_hoverBrush(Qt::NoBrush),
+    m_backgroundBrush(Qt::NoBrush)
 {
 }
 
@@ -52,12 +52,12 @@ void TextItemGroup::setParentItem(QGraphicsItem *item)
 
 TextItem* TextItemGroup::textItemAt(int index)
 {
-	if(index < 0 || index >= m_textItems.size()) {
-		uError() << "TextItemGroup::textItemAt: Invalid index %d" << index;
-		return 0;
-	}
+    if(index < 0 || index >= m_textItems.size()) {
+        uError() << "TextItemGroup::textItemAt: Invalid index %d" << index;
+        return 0;
+    }
 
-	return m_textItems[index];
+    return m_textItems[index];
 }
 
 void TextItemGroup::setTextItemCount(int count)
@@ -79,13 +79,13 @@ void TextItemGroup::appendTextItem(TextItem *textItem)
         return;
     }
 
-	textItem->setAlignment(m_alignment);
-	textItem->setDefaultTextColor(m_fontColor);
-	textItem->setHoverBrush(m_hoverBrush);
-	textItem->setBackgroundBrush(m_backgroundBrush);
-	textItem->setFont(m_font);
+    textItem->setAlignment(m_alignment);
+    textItem->setDefaultTextColor(m_fontColor);
+    textItem->setHoverBrush(m_hoverBrush);
+    textItem->setBackgroundBrush(m_backgroundBrush);
+    textItem->setFont(m_font);
 
-	textItem->setParentItem(m_parentItem);
+    textItem->setParentItem(m_parentItem);
     m_textItems.append(textItem);
 }
 
@@ -97,13 +97,13 @@ void TextItemGroup::insertTextItemAt(int i, TextItem *textItem)
         return;
     }
 
-	textItem->setAlignment(m_alignment);
-	textItem->setDefaultTextColor(m_fontColor);
-	textItem->setHoverBrush(m_hoverBrush);
-	textItem->setBackgroundBrush(m_backgroundBrush);
-	textItem->setFont(m_font);
+    textItem->setAlignment(m_alignment);
+    textItem->setDefaultTextColor(m_fontColor);
+    textItem->setHoverBrush(m_hoverBrush);
+    textItem->setBackgroundBrush(m_backgroundBrush);
+    textItem->setFont(m_font);
 
-	textItem->setParentItem(m_parentItem);
+    textItem->setParentItem(m_parentItem);
     m_textItems.insert(i, textItem);
 }
 
@@ -161,9 +161,9 @@ QSizeF TextItemGroup::minimumSize() const
 
 void TextItemGroup::setGroupGeometry(const QRectF& rect)
 {
-	QSizeF minSize = minimumSize();
+    QSizeF minSize = minimumSize();
 
-	if(rect.width() < minSize.width() || rect.height() < minSize.height()) {
+    if(rect.width() < minSize.width() || rect.height() < minSize.height()) {
         uDebug() << "Size of group less then minimum size\n"
                  << "Min size" << minSize << endl
                  << "Cur size" << rect.size();
@@ -190,50 +190,50 @@ void TextItemGroup::setGroupGeometry(const QRectF& rect)
         y += item->height() + spacing;
     }
 
-	m_groupGeometry = rect;
+    m_groupGeometry = rect;
 }
 
 void TextItemGroup::setAlignment(Qt::Alignment align)
 {
     m_alignment = align;
-	foreach(TextItem *item, m_textItems) {
-		item->setAlignment(align);
-	}
+    foreach(TextItem *item, m_textItems) {
+        item->setAlignment(align);
+    }
 }
 
 void TextItemGroup::setFontColor(const QColor& color)
 {
     m_fontColor = color;
-	foreach(TextItem *item, m_textItems) {
-		item->setDefaultTextColor(color);
-	}
+    foreach(TextItem *item, m_textItems) {
+        item->setDefaultTextColor(color);
+    }
 }
 
 void TextItemGroup::setHoverBrush(const QBrush& brush)
 {
     m_hoverBrush = brush;
-	foreach(TextItem *item, m_textItems) {
-		item->setHoverBrush(brush);
-	}
+    foreach(TextItem *item, m_textItems) {
+        item->setHoverBrush(brush);
+    }
 }
 
 void TextItemGroup::setBackgroundBrush(const QBrush& brush)
 {
     m_backgroundBrush = brush;
-	foreach(TextItem *item, m_textItems) {
-		item->setBackgroundBrush(brush);
-	}
+    foreach(TextItem *item, m_textItems) {
+        item->setBackgroundBrush(brush);
+    }
 }
 
 void TextItemGroup::setFont(const QFont& font)
 {
     m_font = font;
-	foreach(TextItem *item, m_textItems) {
-		QFont newFont = m_font;
-		newFont.setBold(item->bold());
-		newFont.setItalic(item->italic());
-		newFont.setUnderline(item->underline());
+    foreach(TextItem *item, m_textItems) {
+        QFont newFont = m_font;
+        newFont.setBold(item->bold());
+        newFont.setItalic(item->italic());
+        newFont.setUnderline(item->underline());
 
-		item->setFont(newFont);
-	}
+        item->setFont(newFont);
+    }
 }

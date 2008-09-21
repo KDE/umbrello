@@ -29,32 +29,32 @@ class UMLNode;
 class NodeWidget : public UMLWidget
 {
 public:
-	NodeWidget(UMLNode *n );
+    NodeWidget(UMLNode *n );
     virtual ~NodeWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *o, QWidget *w);
 
-	// Uses UMLWidget::loadFromXMI to load info.
+    // Uses UMLWidget::loadFromXMI to load info.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-	virtual void updateGeometry();
-	virtual void updateTextItemGroups();
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual void updateGeometry();
+    virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
-	static const qreal DEPTH;  ///< pixels on Z axis
-	enum {
-		GroupIndex
-	};
-	enum {
-		StereoItemIndex,
-		NameItemIndex,
-		TextItemCount
-	};
+    static const qreal DEPTH;  ///< pixels on Z axis
+    enum {
+        GroupIndex
+    };
+    enum {
+        StereoItemIndex,
+        NameItemIndex,
+        TextItemCount
+    };
 
-	/// Path representing the drawing of node widget.
-	QPainterPath m_nodeWidgetPath;
+    /// Path representing the drawing of node widget.
+    QPainterPath m_nodeWidgetPath;
 };
 
 #endif

@@ -36,31 +36,31 @@ public:
         Flow
     };
 
-	explicit ObjectNodeWidget( ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );
-	virtual ~ObjectNodeWidget();
+    explicit ObjectNodeWidget( ObjectNodeType objectNodeType = Normal, Uml::IDType id = Uml::id_None );
+    virtual ~ObjectNodeWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-	/// Returns the type of object node.
+    /// Returns the type of object node.
     ObjectNodeType objectNodeType() const {
-		return m_objectNodeType;
-	}
+        return m_objectNodeType;
+    }
     static ObjectNodeType stringToObjectNodeType(const QString& objectNodeType);
 
     void setObjectNodeType( ObjectNodeType objectNodeType );
 
-	/// @return the state of object node. (when objectFlow)
+    /// @return the state of object node. (when objectFlow)
     QString state() const {
-		return m_state;
-	}
+        return m_state;
+    }
     void setState(const QString& state);
 
     virtual void showPropertiesDialog();
 
-	void askStateForWidget();
-	void askForObjectNodeType(UMLWidget* &targetWidget);
+    void askStateForWidget();
+    void askForObjectNodeType(UMLWidget* &targetWidget);
 
-	virtual bool loadFromXMI( QDomElement & qElement );
+    virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 public Q_SLOTS:
@@ -68,18 +68,18 @@ public Q_SLOTS:
 
 protected:
     virtual void updateGeometry();
-	virtual void updateTextItemGroups();
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
-	enum {
-		GroupIndex = 0
-	};
-	static const QSizeF MinimumSize;
+    enum {
+        GroupIndex = 0
+    };
+    static const QSizeF MinimumSize;
 
     ObjectNodeType m_objectNodeType;
     QString m_state;
-	QLineF m_objectFlowLine;
+    QLineF m_objectFlowLine;
 };
 
 #endif

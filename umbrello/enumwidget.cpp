@@ -41,7 +41,7 @@ EnumWidget::EnumWidget(UMLObject* o) :
     m_showPackage(false)
 {
     m_baseType = Uml::wt_Enum;
-	createTextItemGroup();
+    createTextItemGroup();
 }
 
 /// Destructor
@@ -70,7 +70,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
 
     // First draw the outer rectangle with the pen and brush of this widget.
     painter->drawRect(rect());
-	painter->drawLine(m_nameLine);
+    painter->drawLine(m_nameLine);
 }
 
 /// Loads from an "enumwidget" XMI element.
@@ -96,12 +96,12 @@ void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
 
 void EnumWidget::slotMenuSelection(QAction *action)
 {
-	// The menu is passed in as parameter of action
+    // The menu is passed in as parameter of action
     ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
 
     if (sel == ListPopupMenu::mt_EnumLiteral) {
-		if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),
+        if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),
                                               Uml::ot_EnumLiteral) )  {
             UMLApp::app()->getDocument()->setModified();
         }
@@ -117,9 +117,9 @@ void EnumWidget::slotMenuSelection(QAction *action)
  */
 void EnumWidget::updateGeometry()
 {
-	TextItemGroup *grp = textItemGroupAt(GroupIndex);
-	setMinimumSize(grp->minimumSize());
-	UMLWidget::updateGeometry();
+    TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    setMinimumSize(grp->minimumSize());
+    UMLWidget::updateGeometry();
 }
 
 /**
@@ -133,8 +133,8 @@ void EnumWidget::updateTextItemGroups()
         UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
         int totalTextItems = list.size() + 2; // +2 because stereo text + name text.
 
-		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		grp->setTextItemCount(totalTextItems);
+        TextItemGroup *grp = textItemGroupAt(GroupIndex);
+        grp->setTextItemCount(totalTextItems);
 
         TextItem *stereo = grp->textItemAt(EnumWidget::StereoTypeItemIndex);
         stereo->setText(classifier->getStereotype(true));
@@ -163,23 +163,23 @@ void EnumWidget::updateTextItemGroups()
  */
 QVariant EnumWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-	if(change == SizeHasChanged) {
-		QRectF groupGeometry(rect());
+    if(change == SizeHasChanged) {
+        QRectF groupGeometry(rect());
 
-		TextItemGroup *grp = textItemGroupAt(GroupIndex);
-		grp->setGroupGeometry(groupGeometry);
+        TextItemGroup *grp = textItemGroupAt(GroupIndex);
+        grp->setGroupGeometry(groupGeometry);
 
-		// Check as textItems are uninitialized in during very first updates.
-		if(grp->textItemCount() > NameItemIndex) {
-			// Now get the position to draw the line.
-			const TextItem *item = grp->textItemAt(NameItemIndex);
-			const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
-			const qreal y = bottomLeft.y();
-			m_nameLine.setLine(0, y, size().width() - 1, y);
-		}
-	}
+        // Check as textItems are uninitialized in during very first updates.
+        if(grp->textItemCount() > NameItemIndex) {
+            // Now get the position to draw the line.
+            const TextItem *item = grp->textItemAt(NameItemIndex);
+            const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
+            const qreal y = bottomLeft.y();
+            m_nameLine.setLine(0, y, size().width() - 1, y);
+        }
+    }
 
-	return UMLWidget::attributeChange(change, oldValue);
+    return UMLWidget::attributeChange(change, oldValue);
 }
 
 #include "enumwidget.moc"

@@ -20,7 +20,7 @@
 class RegionWidget: public UMLWidget
 {
 public:
-	explicit RegionWidget(Uml::IDType id = Uml::id_None );
+    explicit RegionWidget(Uml::IDType id = Uml::id_None );
     virtual ~RegionWidget();
 
     void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
@@ -29,6 +29,6 @@ public:
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 private:
-	static const QSizeF MinimumSize;
+    static const QSizeF MinimumSize;
 };
 #endif

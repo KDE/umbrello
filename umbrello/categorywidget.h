@@ -28,14 +28,14 @@ class UMLCategory;
  */
 class CategoryWidget : public UMLWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	CategoryWidget(UMLCategory *o);
-	virtual ~CategoryWidget();
+    CategoryWidget(UMLCategory *o);
+    virtual ~CategoryWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-	// For loading , UMLWidget::loadFromXMI() is used.
+    // For loading , UMLWidget::loadFromXMI() is used.
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:

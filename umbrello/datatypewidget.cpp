@@ -25,7 +25,7 @@ DatatypeWidget::DatatypeWidget(UMLClassifier *d) :
     UMLWidget(d)
 {
     m_baseType = Uml::wt_Datatype;
-	createTextItemGroup();
+    createTextItemGroup();
 }
 
 /// Destructor
@@ -61,11 +61,11 @@ void DatatypeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, 
  */
 void DatatypeWidget::updateGeometry()
 {
-	TextItemGroup *grp = textItemGroupAt(GroupIndex);
-	QSizeF minSize = grp->minimumSize();
-	setMinimumSize(minSize);
+    TextItemGroup *grp = textItemGroupAt(GroupIndex);
+    QSizeF minSize = grp->minimumSize();
+    setMinimumSize(minSize);
 
-	UMLWidget::updateGeometry();
+    UMLWidget::updateGeometry();
 }
 
 /**
@@ -74,9 +74,9 @@ void DatatypeWidget::updateGeometry()
  */
 void DatatypeWidget::updateTextItemGroups()
 {
-	if(umlObject()) {
-		TextItemGroup *grp = textItemGroupAt(DatatypeWidget::GroupIndex);
-		grp->setTextItemCount(DatatypeWidget::TextItemCount);
+    if(umlObject()) {
+        TextItemGroup *grp = textItemGroupAt(DatatypeWidget::GroupIndex);
+        grp->setTextItemCount(DatatypeWidget::TextItemCount);
 
         TextItem *stereo = grp->textItemAt(DatatypeWidget::StereoTypeItemIndex);
         stereo->setText(umlObject()->getStereotype(true));
@@ -97,8 +97,8 @@ void DatatypeWidget::updateTextItemGroups()
 QVariant DatatypeWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
     if(change == SizeHasChanged) {
-		TextItemGroup *grp = textItemGroupAt(DatatypeWidget::GroupIndex);
-		grp->setGroupGeometry(rect());
-	}
+        TextItemGroup *grp = textItemGroupAt(DatatypeWidget::GroupIndex);
+        grp->setGroupGeometry(rect());
+    }
     return UMLWidget::attributeChange(change, oldValue);
 }

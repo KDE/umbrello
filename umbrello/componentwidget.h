@@ -29,32 +29,32 @@ class UMLComponent;
 class ComponentWidget : public UMLWidget
 {
 public:
-	ComponentWidget(UMLComponent *c);
-	virtual ~ComponentWidget();
+    ComponentWidget(UMLComponent *c);
+    virtual ~ComponentWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-	// Uses UMLWidget::loadFromXMI to load info.
+    // Uses UMLWidget::loadFromXMI to load info.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-	virtual void updateGeometry();
-	virtual void updateTextItemGroups();
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual void updateGeometry();
+    virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 private:
-	// Hard coded indices used for TextItemGroup and TextItems.
-	enum {
-		GroupIndex
-	};
-	enum {
-		StereoItemIndex,
-		NameItemIndex,
-		TextItemCount
-	};
+    // Hard coded indices used for TextItemGroup and TextItems.
+    enum {
+        GroupIndex
+    };
+    enum {
+        StereoItemIndex,
+        NameItemIndex,
+        TextItemCount
+    };
 
-	/// The rectangles to be drawn (calculated in attributeChange)
-	QRectF m_rects[3];
+    /// The rectangles to be drawn (calculated in attributeChange)
+    QRectF m_rects[3];
 };
 
 #endif

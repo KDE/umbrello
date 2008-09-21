@@ -42,48 +42,48 @@ public:
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-	/// @return Type of state.
+    /// @return Type of state.
     StateType stateType() const {
-		return m_stateType;
-	}
-	void setStateType( StateType stateType );
+        return m_stateType;
+    }
+    void setStateType( StateType stateType );
 
     bool addActivity( const QString &activity );
-	bool removeActivity( const QString &activity );
-	bool renameActivity( const QString &activity, const QString &newName );
+    bool removeActivity( const QString &activity );
+    bool renameActivity( const QString &activity, const QString &newName );
 
-	QStringList activities() const;
-	void setActivities( QStringList & list );
+    QStringList activities() const;
+    void setActivities( QStringList & list );
 
-	virtual void showPropertiesDialog();
+    virtual void showPropertiesDialog();
 
-	virtual bool loadFromXMI( QDomElement & qElement );
+    virtual bool loadFromXMI( QDomElement & qElement );
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-	virtual void updateGeometry();
-	virtual void updateTextItemGroups();
-	virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+    virtual void updateGeometry();
+    virtual void updateTextItemGroups();
+    virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 private:
-	static const QSizeF MinimumEllipseSize;
+    static const QSizeF MinimumEllipseSize;
 
-	/// Type of state
-	StateType m_stateType;
+    /// Type of state
+    StateType m_stateType;
 
-	enum {
-		GroupIndex
-	};
-	/// Indicies of text items in m_textItemGroup
-	enum {
-		NameItemIndex = 0,
-		ActivityStartIndex = 1
-	};
+    enum {
+        GroupIndex
+    };
+    /// Indicies of text items in m_textItemGroup
+    enum {
+        NameItemIndex = 0,
+        ActivityStartIndex = 1
+    };
 
-	QVector<QLineF> m_separatorLines;
+    QVector<QLineF> m_separatorLines;
 };
 
 #endif
