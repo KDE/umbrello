@@ -41,6 +41,7 @@ namespace New
         void optimizeLinePoints();
 
         int closestPointIndex(const QPointF& point, qreal delta = LinePath::Delta) const;
+        int segmentIndex(const QPointF& point, qreal delta = LinePath::Delta) const;
 
         bool isEndPoint(const QPointF& point) const;
         bool isEndPointIndex(int index) const;
@@ -87,15 +88,27 @@ namespace New
         /// The pen used to draw lines
         QPen m_pen;
 
+        /// Index of active point which can be dragged to modify linepath.
+        int m_activePointIndex;
+        /**
+         * Index of active segment index.
+         * @note m_activePointIndex and m_activePointIndex can't be
+         *       active at same time!
+         */
+        int m_activeSegmentIndex;
+
         /// The bounding rectangle of this linepath
         QRectF m_boundingRect;
         /// The shape of this linepath.
         QPainterPath m_shape;
 
+        /// State variable to keep track of first move of segment.
+        bool m_hasSegmentMoved;
+
         /// The default delta for fuzzy recognition of points closer to point.
         static const qreal Delta;
         /// The radius of circles drawn to show "selection".
-        static const qreal SelectedPointRadius;
+        static const qreal SelectedPointDiameter;
     };
 
 }

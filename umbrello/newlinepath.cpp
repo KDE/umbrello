@@ -12,7 +12,10 @@
 #include "newlinepath.h"
 
 // qt includes
+#include <QtGui/QGraphicsSceneMouseEvent>
 #include <QtGui/QPainter>
+#include <QtGui/QStyleOptionGraphicsItem>
+
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomNode>
 #include <QtXml/QDomNodeList>
@@ -37,7 +40,7 @@ namespace New
 
     // Initialize static variables.
     const qreal LinePath::Delta = 5;
-    const qreal LinePath::SelectedPointRadius = 5;
+    const qreal LinePath::SelectedPointDiameter = 8;
 
 
     /**
@@ -45,6 +48,9 @@ namespace New
      */
     LinePath::LinePath(QGraphicsItem *parent) : QGraphicsItem(parent)
     {
+        m_activePointIndex = m_activeSegmentIndex = -1;
+        m_hasSegmentMoved = false;
+        setFlags(ItemIsSelectable | ItemIsFocusable);
     }
 
     /// Destructor
@@ -152,8 +158,9 @@ namespace New
      *         passed.
      * @rertval -1 If no linepoint is closer to passed in \a point.
      *
-     * The closeness is measured by "delta" which indicates radius
-     * around the linepoint to be regarded as closer.
+     * @param point The point which is to be tested for closeness.
+     * @param delta The closeness is measured by "delta" which indicates radius
+     *              around the linepoint to be regarded as closer.
      */
     int LinePath::closestPointIndex(const QPointF& point, qreal delta) const
     {
@@ -171,6 +178,36 @@ namespace New
                 return i;
             }
         }
+        return -1;
+    }
+
+    /**
+     * @retval "Index" of the segment on which the point lies (fuzzy)
+     * @retval -1 If no segment contains the point
+     *
+     * @param point The point to be tested for line-segment closure.
+     * @param delta Represents extent of fuzzy region around the line
+     *              to be tested for point closure.
+     */
+    int LinePath::segmentIndex(const QPointF& point, qreal delta) const
+    {
+        QPainterPathStroker stroker;
+        stroker.setWidth(delta);
+
+        for(int i = 1; i < m_points.size(); ++i) {
+            QLineF segment(m_points[i-1], m_points[i]);
+
+            QPainterPath path;
+            path.moveTo(segment.p1());
+            path.lineTo(segment.p2());
+
+            path = stroker.createStroke(path);
+
+            if (path.contains(point)) {
+                return i-1;
+            }
+        }
+
         return -1;
     }
 
@@ -235,10 +272,19 @@ namespace New
      */
     int LinePath::insertableLinePathIndex(const QPointF &pos) const
     {
-        QLineF posLine(pos, pos);
+        QPainterPathStroker stroker;
+        stroker.setWidth(LinePath::Delta);
+
         for(int i = 1; i < m_points.size(); ++i) {
             QLineF segment(m_points[i-1], m_points[i]);
-            if (segment.intersect(posLine, 0) != QLineF::NoIntersection) {
+
+            QPainterPath path;
+            path.moveTo(segment.p1());
+            path.lineTo(segment.p2());
+
+            path = stroker.createStroke(path);
+
+            if (path.contains(pos)) {
                 return i;
             }
         }
@@ -299,22 +345,26 @@ namespace New
         calculateBoundingRect();
     }
 
+    /// @return Color of line being drawn.
     QColor LinePath::lineColor() const
     {
         return m_pen.color();
     }
 
+    /// Sets the color for the lines being drawn.
     void LinePath::setLineColor(const QColor& color)
     {
         m_pen.setColor(color);
         update();
     }
 
+    /// @return The width of the line being drawn.
     uint LinePath::lineWidth() const
     {
         return m_pen.width();
     }
 
+    /// Sets the width of line being drawn to \a width.
     void LinePath::setLineWidth(uint width)
     {
         prepareGeometryChange();
@@ -322,65 +372,159 @@ namespace New
         calculateBoundingRect();
     }
 
+    /// @return The bounding rectangle for the linepath.
     QRectF LinePath::boundingRect() const
     {
         return m_boundingRect;
     }
 
+    /// @return The shape of the linepath.
     QPainterPath LinePath::shape() const
     {
         return m_shape;
     }
 
+    /// Draws the line path and also takes care of highlighting active point or line.
     void LinePath::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt, QWidget *)
     {
         painter->setPen(m_pen);
         painter->setBrush(Qt::NoBrush);
         painter->drawPolyline(m_points.constData(), m_points.size());
+
+        if (opt->state & QStyle::State_Selected) {
+            QRectF ellipse(0, 0, SelectedPointDiameter, SelectedPointDiameter);
+            painter->setBrush(Qt::blue);
+            foreach (QPointF point, m_points) {
+                ellipse.moveCenter(point);
+                painter->drawEllipse(ellipse);
+            }
+
+            if (m_activePointIndex != -1) {
+                ellipse.moveCenter(m_points.at(m_activePointIndex));
+                painter->setBrush(Qt::darkBlue);
+                painter->drawEllipse(ellipse);
+            }
+            else if (m_activeSegmentIndex != -1) {
+                painter->setPen(Qt::yellow);
+                painter->drawLine(QLineF(m_points[m_activeSegmentIndex], m_points[m_activeSegmentIndex+1]));
+            }
+        }
     }
 
+    /// Determines the active point or segment, the latter being given more priority.
     void LinePath::mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
-
+        if (event->buttons() & Qt::LeftButton) {
+            m_activePointIndex = closestPointIndex(event->pos());
+            // calculate only if active point index is -1
+            m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : segmentIndex(event->pos());
+            m_hasSegmentMoved = false;
+        }
+        else {
+            m_activePointIndex = m_activeSegmentIndex = -1;
+        }
+        QGraphicsItem::mousePressEvent(event);
     }
 
+    /// Moves the point or line if active.
     void LinePath::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     {
-
+        if (m_activePointIndex != -1) {
+            setPoint(m_activePointIndex, event->pos());
+        }
+        else if (m_activeSegmentIndex != -1) {
+            if (m_hasSegmentMoved == false) {
+                insertPoint(m_activeSegmentIndex, m_points[m_activeSegmentIndex]);
+                ++m_activeSegmentIndex;
+                insertPoint(m_activeSegmentIndex + 1, m_points[m_activeSegmentIndex + 1]);
+                m_hasSegmentMoved = true;
+            }
+            QPointF delta = event->scenePos() - event->lastScenePos();
+            setPoint(m_activeSegmentIndex, m_points[m_activeSegmentIndex] + delta);
+            setPoint(m_activeSegmentIndex + 1, m_points[m_activeSegmentIndex + 1] + delta);
+        }
     }
 
+    /// Reset active indices and also push undo command.
     void LinePath::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     {
-
+        if (event->buttons() & Qt::LeftButton) {
+            m_activeSegmentIndex = m_activePointIndex = -1;
+            m_hasSegmentMoved = false;
+        }
+        QGraphicsItem::mouseReleaseEvent(event);
     }
 
+    /// Inserts a new point at double click position.
     void LinePath::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     {
-
+        int index = insertableLinePathIndex(event->pos());
+        if (index != -1) {
+            insertPoint(index, event->pos());
+        }
     }
 
-
+    /**
+     * Calculates the "to be highlighted" point and segment indicies
+     * and updates if necessary.
+     */
     void LinePath::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     {
+        int oldPointIndex = m_activePointIndex;
+        int oldSegmentIndex = m_activeSegmentIndex;
 
+        m_activePointIndex = closestPointIndex(event->pos());
+        // Activate segment index only if point index is -1
+        m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : segmentIndex(event->pos());
+
+        bool isChanged = (oldSegmentIndex != m_activeSegmentIndex || oldPointIndex != m_activePointIndex);
+        if (isChanged) {
+            update();
+        }
     }
 
+    /**
+     * Calculates the "to be highlighted" point and segment indicies
+     * and updates if necessary.
+     */
     void LinePath::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
     {
+        int oldPointIndex = m_activePointIndex;
+        int oldSegmentIndex = m_activeSegmentIndex;
 
+        m_activePointIndex = closestPointIndex(event->pos());
+        // Activate segment index only if point index is -1
+        m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : segmentIndex(event->pos());
+
+        bool isChanged = (oldSegmentIndex != m_activeSegmentIndex || oldPointIndex != m_activePointIndex);
+        if (isChanged) {
+            update();
+        }
     }
 
+    /// Reset active indicies and updates.
     void LinePath::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     {
-
+        m_activePointIndex = m_activeSegmentIndex = -1;
+        update();
     }
 
-
+    /**
+     * Enables hover events on selection and disables the same on
+     * deselection.
+     */
     QVariant LinePath::itemChange(GraphicsItemChange change, const QVariant& value)
     {
+        if (change == ItemSelectedHasChanged) {
+            setAcceptHoverEvents(value.toBool());
+        }
         return QGraphicsItem::itemChange(change, value);
     }
 
+    /**
+     * Calculates the "shape" and also the "bounding rectangle"
+     * required by GraphicsView framework.
+     */
     void LinePath::calculateBoundingRect()
     {
         if (m_points.isEmpty()) {
@@ -388,6 +532,7 @@ namespace New
             m_boundingRect = QRectF();
             return;
         }
+
         QPainterPath path;
         path.moveTo(m_points.first());
         for(int i = 1; i < m_points.size(); ++i) {
@@ -395,10 +540,16 @@ namespace New
             path.lineTo(pt);
         }
 
+        QRectF ellipse(0, 0, SelectedPointDiameter, SelectedPointDiameter);
+        foreach(QPointF point, m_points) {
+            ellipse.moveCenter(point);
+            path.addEllipse(ellipse);
+        }
+
         QPainterPathStroker stroker;
-        stroker.setWidth(lineWidth());
+        stroker.setWidth(LinePath::Delta); // allow delta region
 
         m_shape = stroker.createStroke(path);
-        m_boundingRect = m_shape.controlPointRect();
+        m_boundingRect = m_shape.boundingRect();
     }
 }
