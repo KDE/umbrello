@@ -88,7 +88,7 @@ protected:
      * This is a convenience method for derived classes. Configuration actions
      * that are intended to load plugins can use this method to parse the string
      * and actually load the plugins. The string is a set of space separated names.
-     * Each name corresponds the the share object implementing the plugin.
+     * Each name corresponds to the share object implementing the plugin.
      *
      * @param config    The object used for configuration.
      * @param key   The group in the config objec.
