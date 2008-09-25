@@ -49,7 +49,6 @@ namespace New
     LinePath::LinePath(QGraphicsItem *parent) : QGraphicsItem(parent)
     {
         m_activePointIndex = m_activeSegmentIndex = -1;
-        m_hasSegmentMoved = false;
         setFlags(ItemIsSelectable | ItemIsFocusable);
     }
 
@@ -418,7 +417,6 @@ namespace New
             m_activePointIndex = closestPointIndex(event->pos());
             // calculate only if active point index is -1
             m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : segmentIndex(event->pos());
-            m_hasSegmentMoved = false;
         }
         else {
             m_activePointIndex = m_activeSegmentIndex = -1;
@@ -433,12 +431,6 @@ namespace New
             setPoint(m_activePointIndex, event->pos());
         }
         else if (m_activeSegmentIndex != -1) {
-            if (m_hasSegmentMoved == false) {
-                insertPoint(m_activeSegmentIndex, m_points[m_activeSegmentIndex]);
-                ++m_activeSegmentIndex;
-                insertPoint(m_activeSegmentIndex + 1, m_points[m_activeSegmentIndex + 1]);
-                m_hasSegmentMoved = true;
-            }
             QPointF delta = event->scenePos() - event->lastScenePos();
             setPoint(m_activeSegmentIndex, m_points[m_activeSegmentIndex] + delta);
             setPoint(m_activeSegmentIndex + 1, m_points[m_activeSegmentIndex + 1] + delta);
@@ -450,7 +442,6 @@ namespace New
     {
         if (event->buttons() & Qt::LeftButton) {
             m_activeSegmentIndex = m_activePointIndex = -1;
-            m_hasSegmentMoved = false;
         }
         QGraphicsItem::mouseReleaseEvent(event);
     }
@@ -458,9 +449,20 @@ namespace New
     /// Inserts a new point at double click position.
     void LinePath::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     {
-        int index = insertableLinePathIndex(event->pos());
+        int index = closestPointIndex(event->pos());
+        // First check if double click was on a point
         if (index != -1) {
-            insertPoint(index, event->pos());
+            // If on point but not endpoint, delete the point
+            if (!isEndPointIndex(index)) {
+                removePoint(index);
+            }
+        }
+        else {
+            // Else insert a new point on the line segment
+            index = insertableLinePathIndex(event->pos());
+            if (index != -1) {
+                insertPoint(index, event->pos());
+            }
         }
     }
 

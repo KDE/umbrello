@@ -102,9 +102,6 @@ namespace New
         /// The shape of this linepath.
         QPainterPath m_shape;
 
-        /// State variable to keep track of first move of segment.
-        bool m_hasSegmentMoved;
-
         /// The default delta for fuzzy recognition of points closer to point.
         static const qreal Delta;
         /// The radius of circles drawn to show "selection".
