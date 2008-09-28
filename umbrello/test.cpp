@@ -86,12 +86,24 @@ Test* Test::self()
 
 void Test::testScene(UMLScene *scene)
 {
-    New::LinePath *path = new New::LinePath(0);
-    scene->addItem(path);
-    path->insertPoint(0, QPointF(100, 100));
-    path->insertPoint(1, QPointF(200, 50));
-    path->insertPoint(2, QPointF(400, 300));
-    path->setPen(QPen(Qt::blue));
+    New::LinePath *path1 = new New::LinePath(0);
+    scene->addItem(path1);
+    path1->insertPoint(0, QPointF(100, 100));
+    path1->insertPoint(1, QPointF(200, 50));
+    path1->insertPoint(2, QPointF(700, 300));
+    path1->setPen(QPen(Qt::blue));
+
+    path1->setStartHeadSymbol(New::HeadSymbol::Diamond);
+    path1->setEndHeadSymbol(New::HeadSymbol::Circle);
+
+    New::LinePath *path2 = new New::LinePath(0);
+    scene->addItem(path2);
+    path2->insertPoint(0, QPointF(80, 400));
+    path2->insertPoint(1, QPointF(120, 450));
+    path2->insertPoint(2, QPointF(300, 350));
+    path2->setPen(QPen(Qt::darkGreen));
+
+    path2->setStartHeadSymbol(New::HeadSymbol::Arrow);
 }
 
 void Test::updateWidgetGeometry(WidgetBase *wid)
