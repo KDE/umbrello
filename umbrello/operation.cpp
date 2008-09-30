@@ -193,7 +193,7 @@ QString UMLOperation::getUniqueParameterName()
 {
     QString currentName = i18n("new_parameter");
     QString name = currentName;
-    for (int number = 1; findParm(name); number++) {
+    for (int number = 1; findParm(name); ++number) {
         name = currentName + '_' + QString::number(number);
     }
     return name;
