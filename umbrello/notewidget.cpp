@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -310,7 +309,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     if( text.length() == 0 )
         return;
 
-    for (int i = 0; i <= text.length(); i++) {
+    for (int i = 0; i <= text.length(); ++i) {
         if (i < text.length()) {
             c = text[i];
         } else {
