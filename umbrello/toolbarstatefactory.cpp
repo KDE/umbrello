@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #include "toolbarstatefactory.h"
@@ -22,17 +21,18 @@
 
 ToolBarStateFactory::ToolBarStateFactory()
 {
-    for (int i = 0; i < NR_OF_TOOLBAR_STATES; i++)
+    for (int i = 0; i < NR_OF_TOOLBAR_STATES; ++i)
     {
-        m_states[i] = NULL;
+        m_states[i] = 0;
     }
 }
 
 ToolBarStateFactory::~ToolBarStateFactory()
 {
-    for (int i = 0; i < NR_OF_TOOLBAR_STATES; i++)
+    for (int i = 0; i < NR_OF_TOOLBAR_STATES; ++i)
     {
-        if (m_states[i] != NULL) delete m_states[i];
+        if (m_states[i])
+            delete m_states[i];
     }
 }
 
@@ -41,7 +41,7 @@ ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &
 {
     int key = getKey(toolbarButton);
 
-    if (m_states[key] == NULL)
+    if (m_states[key] == 0)
     {
         switch (key)
         {

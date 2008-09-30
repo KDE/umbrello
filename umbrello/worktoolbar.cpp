@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -14,7 +13,6 @@
 
 // qt/kde include files
 #include <QtGui/QAction>
-#include <Q3MainWindow>
 #include <QtGui/QToolButton>
 #include <kdebug.h>
 #include <klocale.h>
@@ -367,7 +365,7 @@ void WorkToolBar::loadPixmaps()
                                     QCursor(),
                                     SLOT(slotArrow())));
 
-    for (uint i = 0; i < n_buttonInfos; i++) {
+    for (uint i = 0; i < n_buttonInfos; ++i) {
         const ButtonInfo& info = buttonInfo[i];
         m_ToolButtons.insert(info.tbb,
                              ToolButton(info.btnName,
@@ -380,7 +378,6 @@ void WorkToolBar::loadPixmaps()
 /**
  * These slots are triggered by the buttons. They call buttonChanged with
  * the button id
- *@{
  */
 void WorkToolBar::slotArrow()                    { buttonChanged(tbb_Arrow);                    }
 void WorkToolBar::slotGeneralization()           { buttonChanged(tbb_Generalization);           }
