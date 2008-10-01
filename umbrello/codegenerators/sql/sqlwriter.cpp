@@ -141,16 +141,14 @@ void SQLWriter::writeClass(UMLClassifier *c)
     }
 
     QMap<UMLAssociation*,UMLAssociation*>::Iterator itor = constraintMap.begin();
-    for (;itor != constraintMap.end();itor++) {
+    for (; itor != constraintMap.end(); ++itor) {
         UMLAssociation* a = itor.value();
         sql << "ALTER TABLE "<< entityname
             << " ADD CONSTRAINT " << a->getName() << " FOREIGN KEY ("
             << a->getRoleName(Uml::B) << ") REFERENCES "
             << a->getObject(Uml::A)->getName()
             << " (" << a->getRoleName(Uml::A) << ");" << m_endl;
-
     }
-
 
     file.close();
     emit codeGenerated(m_pEntity, true);

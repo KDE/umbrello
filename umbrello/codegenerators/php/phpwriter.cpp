@@ -3325,7 +3325,7 @@ const QStringList PhpWriter::reservedKeywords() const
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        for (int i = 0; words[i]; i++)
+        for (int i = 0; words[i]; ++i)
             keywords.append(words[i]);
     }
 

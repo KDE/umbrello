@@ -328,9 +328,10 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
         if(hasAttributes)
         {
             writeAttributeDecls(attribs, XMLschema);
-            for (int i= 0; i < attribGroups.count(); i++)
+            for (int i= 0; i < attribGroups.count(); ++i) {
                 XMLschema<<getIndent()<<"<"<<makeSchemaTag("attributeGroup")<<" ref=\""
                 <<makePackageTag(attribGroups[i])<<"\"/>"<<m_endl;
+            }
         }
 
         if(hasSuperclass)

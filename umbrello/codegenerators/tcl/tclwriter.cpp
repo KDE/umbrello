@@ -355,7 +355,7 @@ void TclWriter::writeCode(const QString &text)
 void TclWriter::writeComm(const QString &text)
 {
     QStringList lines = text.split(QRegExp("\n"));
-    for (int i = 0; i < lines.count(); i++) {
+    for (int i = 0; i < lines.count(); ++i) {
         *mStream << getIndent() << "# " << lines[i] << m_endl;
     }
 }
@@ -363,7 +363,7 @@ void TclWriter::writeComm(const QString &text)
 void TclWriter::writeDocu(const QString &text)
 {
     QStringList lines = text.split(QRegExp("\n"));
-    for (int i = 0; i < lines.count(); i++) {
+    for (int i = 0; i < lines.count(); ++i) {
         *mStream << getIndent() << "## " << lines[i] << m_endl;
     }
 }
@@ -879,8 +879,9 @@ const QStringList TclWriter::reservedKeywords() const
 
     if (keywords.isEmpty())
     {
-        for (int i = 0; tclwords[i]; i++)
+        for (int i = 0; tclwords[i]; ++i) {
             keywords.append(tclwords[i]);
+        }
     }
     return keywords;
 }
