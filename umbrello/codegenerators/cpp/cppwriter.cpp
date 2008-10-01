@@ -51,7 +51,7 @@ CppWriter::CppWriter()
     // allows you to specify where the vector variable should be in your code,
     // and "%ITEMCLASS%", if needed, where the class of the item is declared.
     VECTOR_METHOD_APPEND = "%VARNAME%.push_back(add_object);"; // for std::vector
-    VECTOR_METHOD_REMOVE = "int i, size = %VARNAME%.size();\nfor ( i = 0; i < size; i++) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == remove_object) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }"; // for std::vector
+    VECTOR_METHOD_REMOVE = "int i, size = %VARNAME%.size();\nfor ( i = 0; i < size; ++i) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == remove_object) {\n\t\tvector<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }"; // for std::vector
     VECTOR_METHOD_INIT.clear(); // nothing to be done
     /*
         VECTOR_METHOD_APPEND = "%VARNAME%.append(&add_object);"; // Qt lib implementation
@@ -582,7 +582,7 @@ void CppWriter::writeComment(const QString &comment, const QString &myIndent, QT
     if (comment.contains(QRegExp("\n"))) {
 
         QStringList lines = comment.split( '\n' );
-        for (int i= 0; i < lines.count(); i++)
+        for (int i= 0; i < lines.count(); ++i)
         {
             cpp << myIndent << "// " << lines[i] << m_endl;
         }
@@ -606,7 +606,7 @@ void CppWriter::writeDocumentation(QString header, QString body, QString end, QT
     if (!end.isEmpty())
     {
         QStringList lines = end.split( '\n' );
-        for (int i= 0; i < lines.count(); i++)
+        for (int i = 0; i < lines.count(); ++i)
             cpp << formatDoc(lines[i], indent + " * ");
     }
     cpp << indent << " */" << m_endl;
@@ -1099,7 +1099,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
 
         // generate parameters
         uint j = 0;
-        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext() ; j++) {
+        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext() ; ++j) {
             UMLAttribute* at = atlIt.next();
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->getName());
@@ -1201,7 +1201,7 @@ void CppWriter::printTextAsSeparateLinesWithIndent (const QString &text, const Q
         return;
 
     QStringList lines = text.split( '\n' );
-    for (int i= 0; i < lines.count(); i++)
+    for (int i= 0; i < lines.count(); ++i)
         stream << indent << lines[i] << m_endl;
 }
 

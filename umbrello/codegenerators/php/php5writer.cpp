@@ -3401,8 +3401,9 @@ const QStringList Php5Writer::reservedKeywords() const
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        for (int i = 0; php5words[i]; i++)
+        for (int i = 0; php5words[i]; ++i) {
             keywords.append(php5words[i]);
+        }
     }
 
     return keywords;

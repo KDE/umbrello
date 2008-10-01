@@ -508,7 +508,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         // method parameters
         int i= atl.count();
         int j=0;
-        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext() ; j++) {
+        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext(); ++j) {
             UMLAttribute* at = atlIt.next();
             cs << makeLocalTypeName(at) << " " << cleanName(at->getName());
 
@@ -713,8 +713,9 @@ const QStringList CSharpWriter::reservedKeywords() const
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        for (int i = 0; reserved_words[i]; i++)
+        for (int i = 0; reserved_words[i]; ++i) {
             keywords.append(reserved_words[i]);
+        }
     }
 
     return keywords;

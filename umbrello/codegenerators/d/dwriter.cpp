@@ -472,10 +472,11 @@ void DWriter::writeDocumentation(QString header, QString body, QString end, QStr
     if (!end.isEmpty())
     {
         QStringList lines = end.split( "\n" );
-        for (int i= 0; i < lines.count(); i++)
+        for (int i= 0; i < lines.count(); ++i) {
             d << formatDoc(lines[i], indent + " * ");
+        }
     }
-    d<<indent<< " */" << m_endl;
+    d << indent << " */" << m_endl;
 }
 
 void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType id, QTextStream &d)
@@ -893,7 +894,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
         atl = op->getParmList();
         int i = atl.count();
         int j = 0;
-        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext();  j++) {
+        for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext();  ++j) {
             UMLAttribute* at = atlIt.next();
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->getName());
