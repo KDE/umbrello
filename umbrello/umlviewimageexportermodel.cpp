@@ -60,7 +60,7 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
         QList<QByteArray> qImageFormats = QImageWriter::supportedImageFormats();
         QList<QByteArray>::const_iterator it, it_end;
         it = qImageFormats.begin(); it_end = qImageFormats.end();
-        for (; it != it_end; it++) {
+        for (; it != it_end; ++it) {
             supportedImageTypesList << QString(*it).toLower();
         }
     }
@@ -78,7 +78,7 @@ QStringList UMLViewImageExporterModel::supportedMimeTypes()
 {
     if (!supportedMimeTypesList.size()) {
         QStringList imageTypes = UMLViewImageExporterModel::supportedImageTypes();
-        for(QStringList::Iterator it = imageTypes.begin(); it != imageTypes.end(); ++it ) {
+        for (QStringList::Iterator it = imageTypes.begin(); it != imageTypes.end(); ++it) {
             QString mimeType = imageTypeToMimeType(*it);
             if (!mimeType.isNull())
                 supportedMimeTypesList.append(mimeType);
@@ -278,7 +278,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
 
     // creates the directory and any needed parent directories
     QStringList dirs = url.directory().split(QDir::separator(), QString::SkipEmptyParts );
-    for (QStringList::ConstIterator it = dirs.begin() ; it != dirs.end(); ++it ) {
+    for (QStringList::ConstIterator it = dirs.begin() ; it != dirs.end(); ++it) {
         directory.addPath(*it);
 
         if (!KIO::NetAccess::exists(directory, KIO::NetAccess::SourceSide, UMLApp::app())) {
