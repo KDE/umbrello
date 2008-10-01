@@ -26,6 +26,7 @@
 class ObjectNodeWidget : public UMLWidget
 {
     Q_OBJECT
+    Q_PROPERTY(QString state READ state WRITE setState)
 
 public:
     enum ObjectNodeType

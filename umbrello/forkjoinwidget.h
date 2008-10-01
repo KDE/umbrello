@@ -27,6 +27,7 @@
 class ForkJoinWidget : public BoxWidget
 {
     Q_OBJECT
+    Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation)
 public:
 
     explicit ForkJoinWidget(Qt::Orientation o = Qt::Horizontal, Uml::IDType id = Uml::id_None);

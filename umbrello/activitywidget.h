@@ -31,7 +31,11 @@
  */
 class ActivityWidget : public UMLWidget
 {
-Q_OBJECT
+    Q_OBJECT
+    Q_ENUMS(ActivityType)
+    Q_PROPERTY(ActivityType activityType READ activityType WRITE setActivityType DESIGNABLE false)
+    Q_PROPERTY(QString preconditionText READ preconditionText WRITE setPreconditionText DESIGNABLE false)
+    Q_PROPERTY(QString postconditionText READ postconditionText WRITE setPostconditionText DESIGNABLE false)
 
 public:
     enum ActivityType
@@ -89,7 +93,7 @@ protected:
      */
     bool m_NormalActivityType;
 
-                             public Q_SLOTS:
+public Q_SLOTS:
 
     virtual void slotMenuSelection(QAction* action);
 

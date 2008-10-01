@@ -33,6 +33,8 @@
 class EnumWidget : public UMLWidget
 {
     Q_OBJECT
+    Q_PROPERTY(bool showPackage READ showPackage WRITE setShowPackage)
+
 public:
     explicit EnumWidget(UMLObject* o);
     virtual ~EnumWidget();

@@ -41,6 +41,16 @@ class TextItemGroup;
 class UMLWidget : public WidgetBase
 {
     Q_OBJECT
+    Q_PROPERTY(QSizeF minimumSize READ minimumSize WRITE setMinimumSize DESIGNABLE false)
+    Q_PROPERTY(QSizeF maximumSize READ maximumSize WRITE setMaximumSize DESIGNABLE false)
+    Q_PROPERTY(QSizeF size READ size WRITE setSize)
+    Q_PROPERTY(bool resizable READ isResizable WRITE setResizable DESIGNABLE false)
+    Q_PROPERTY(QRectF rect READ rect DESIGNABLE false)
+    Q_PROPERTY(double margin READ margin WRITE setMargin)
+    Q_PROPERTY(QString instanceName READ instanceName WRITE setInstanceName)
+    Q_PROPERTY(bool isInstance READ isInstance WRITE setIsInstance)
+    Q_PROPERTY(bool showStereotype READ showStereotype WRITE setShowStereotype)
+
 public:
 
     /**

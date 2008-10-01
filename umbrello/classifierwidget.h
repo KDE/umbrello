@@ -30,7 +30,8 @@ class UMLClassifier;
  */
 class ClassifierWidget : public UMLWidget
 {
-    Q_OBJECT;
+    Q_OBJECT
+    Q_ENUMS(VisualProperty)
 public:
 
     /**

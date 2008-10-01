@@ -50,7 +50,15 @@ class IDChangeLog;
  */
 class WidgetBase : public QObject, public QGraphicsItem
 {
-    Q_OBJECT;
+    Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE setName)
+    Q_PROPERTY(QString documentation READ documentation WRITE setDocumentation)
+    Q_PROPERTY(QColor lineColor READ lineColor WRITE setLineColor)
+    Q_PROPERTY(uint lineWidth READ lineWidth WRITE setLineWidth)
+    Q_PROPERTY(QColor fontColor READ fontColor WRITE setFontColor)
+    Q_PROPERTY(QBrush brush READ brush WRITE setBrush)
+    Q_PROPERTY(QFont font READ font WRITE setFont)
+    Q_PROPERTY(QPointF pos READ pos WRITE setPos)
 public:
     /**
      * This enumeration is used by WidgetBase::attributeChange() to

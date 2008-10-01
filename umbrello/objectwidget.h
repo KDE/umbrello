@@ -12,12 +12,6 @@
 #ifndef OBJECTWIDGET_H
 #define OBJECTWIDGET_H
 
-#define O_MARGIN 5
-#define O_WIDTH 40
-#define A_WIDTH 20
-#define A_HEIGHT 40
-#define A_MARGIN 5
-
 #include "messagewidgetlist.h"
 #include "messagewidget.h"
 
@@ -37,6 +31,10 @@ class SeqLineWidget;
 class ObjectWidget : public UMLWidget
 {
     Q_OBJECT
+    Q_PROPERTY(bool multipleInstance READ multipleInstance WRITE setMultipleInstance)
+    Q_PROPERTY(bool drawAsActor READ drawAsActor WRITE setDrawAsActor)
+    Q_PROPERTY(bool showDestruction READ showDestruction WRITE setShowDestruction)
+
 public:
     ObjectWidget(UMLObject *o, const Uml::IDType &lid = Uml::id_None );
     virtual ~ObjectWidget();
