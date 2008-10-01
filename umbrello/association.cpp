@@ -226,7 +226,7 @@ bool UMLAssociation::load( QDomElement & element )
         m_AssocType == Uml::at_Child2Category ||
         m_AssocType == Uml::at_Category2Parent
         ) {
-        for (unsigned r = Uml::A; r <= Uml::B; r++) {
+        for (unsigned r = Uml::A; r <= Uml::B; ++r) {
             const QString fetch = (m_AssocType == Uml::at_Generalization ?
                                    r == Uml::A ? "child" : "parent"
                        : r == Uml::A ? "client" : "supplier");
@@ -404,7 +404,7 @@ bool UMLAssociation::load( QDomElement & element )
         };
 
         unsigned index;
-        for (index = 0; index < nAssocTypes; index++)
+        for (index = 0; index < nAssocTypes; ++index)
             if (assocTypeStr == assocTypeString[index])
                 break;
         if (index < nAssocTypes)
@@ -499,10 +499,11 @@ Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role)
 }
 
 /* CURRENTLY UNUSED
-Uml::IDType UMLAssociation::getRoleId(Role_Type role) const {
+Uml::IDType UMLAssociation::getRoleId(Role_Type role) const
+{
     return m_pRole[role]->getID();
 }
- */
+*/
 
 Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) const
 {

@@ -64,7 +64,7 @@ QStringList scan(const QString& lin)
     QString lexeme;
     const uint len = line.length();
     bool inString = false;
-    for (uint i = 0; i < len; i++) {
+    for (uint i = 0; i < len; ++i) {
         QChar c = line[i];
         if (c == '"') {
             lexeme += c;
@@ -192,7 +192,7 @@ QString collectVerbatimText(QTextStream& stream)
         return QString();
     }
     if (! line.isEmpty()) {
-        for (int i = 0; i < line.length(); i++) {
+        for (int i = 0; i < line.length(); ++i) {
             const QChar& clParenth = line[i];
             if (clParenth != ')') {
                 uError() << loc() << "expected ')', found: " << clParenth;
