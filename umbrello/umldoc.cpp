@@ -113,7 +113,7 @@ void UMLDoc::init()
         i18n("Deployment View"),
         i18n("Entity Relationship Model")
     };
-    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
         m_root[i] = new UMLFolder(nativeRootName[i], STR2ID(nativeRootName[i]));
         m_root[i]->setLocalName(localizedRootName[i]);
     }
@@ -292,8 +292,9 @@ void UMLDoc::closeDocument()
         // Remove all objects from the predefined folders.
         // @fixme With advanced code generation enabled, this crashes.
 
-        for (int i = 0; i < Uml::N_MODELTYPES; i++)
+        for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
             m_root[i]->removeAllObjects();
+        }
         // Restore the datatype folder, it has been deleted above.
         m_datatypeRoot = new UMLFolder("Datatypes", "Datatypes");
         m_datatypeRoot->setLocalName(i18n("Datatypes"));
@@ -680,7 +681,7 @@ void UMLDoc::setupSignals()
 UMLView * UMLDoc::findView(Uml::IDType id)
 {
     UMLView *v = NULL;
-    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
         v = m_root[i]->findView(id);
         if (v)
             break;
@@ -698,7 +699,7 @@ UMLView * UMLDoc::findView(Uml::Diagram_Type type, const QString &name,
 UMLObject* UMLDoc::findObjectById(Uml::IDType id)
 {
     UMLObject *o = NULL;
-    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
         if (id == m_root[i]->getID())
             return m_root[i];
         o = m_root[i]->findObjectById(id);
@@ -725,7 +726,7 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
     UMLObject *o = m_datatypeRoot->findObject(name);
     if (o)
         return o;
-    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
         UMLObjectList list = m_root[i]->containedObjects();
         o = Model_Utils::findUMLObject(list, name, type, currentObj);
         if (o)
@@ -1346,7 +1347,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
             stereoNames.append(stName);
         }
     }
-    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
         m_root[i]->saveToXMI(doc, ownedNS);
     }
 
@@ -1632,7 +1633,7 @@ void UMLDoc::resolveTypes()
         return;
     m_bTypesAreResolved = true;
     writeToStatusBar( i18n("Resolving object references...") );
-    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
        UMLFolder *obj = m_root[i];
 #ifdef VERBOSE_DEBUGGING
         uDebug() << "UMLDoc: invoking resolveRef() for " << obj->getName()
@@ -1682,7 +1683,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         if (tagEq(type, "Model")) {
             bool foundUmbrelloRootFolder = false;
             QString name = tempElement.attribute("name");
-            for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+            for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
                 if (name == m_root[i]->getName()) {
                     m_pCurrentRoot = m_root[i];
                     m_root[i]->loadFromXMI(tempElement);
@@ -1885,8 +1886,9 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
 
 void UMLDoc::removeAllViews()
 {
-    for (int i = 0; i < Uml::N_MODELTYPES; i++)
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
         m_root[i]->removeAllViews();
+    }
 
     UMLApp::app()->setCurrentView(NULL);
     emit sigDiagramChanged(dt_Undefined);
@@ -1952,7 +1954,7 @@ UMLClassifierList UMLDoc::getDatatypes()
 UMLAssociationList UMLDoc::getAssociations()
 {
     UMLAssociationList associationList;
-    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
         UMLAssociationList assocs = m_root[i]->getAssociations();
 
         foreach (UMLAssociation* a, assocs )
@@ -1966,7 +1968,7 @@ void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
     UMLView * printView = 0;
     int count = selectPage -> printUmlCount();
     QPainter painter(pPrinter);
-    for(int i = 0;i < count;i++) {
+    for(int i = 0; i < count; ++i) {
         if(i>0)
             pPrinter -> newPage();
         QString sID = selectPage -> printUmlDiagram(i);
@@ -1983,8 +1985,9 @@ void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
 UMLViewList UMLDoc::getViewIterator()
 {
     UMLViewList accumulator;
-    for (int i = 0; i < Uml::N_MODELTYPES; i++)
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
         m_root[i]->appendViews(accumulator, true);
+    }
     return accumulator;
 }
 
@@ -2045,7 +2048,7 @@ UMLFolder *UMLDoc::getRootFolder(Uml::Model_Type mt)
 
 Uml::Model_Type UMLDoc::rootFolderType(UMLObject *obj)
 {
-    for (int i = 0; i < Uml::N_MODELTYPES; i++) {
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
         const Uml::Model_Type m = (Uml::Model_Type)i;
         if (obj == m_root[m])
             return m;
@@ -2119,15 +2122,17 @@ void UMLDoc::activateAllViews()
     bool m_bLoading_old = m_bLoading;
     m_bLoading = true; //this is to prevent document becoming modified when activating a view
 
-    for (int i = 0; i < Uml::N_MODELTYPES; i++)
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
         m_root[i]->activateViews();
+    }
     m_bLoading = m_bLoading_old;
 }
 
 void UMLDoc::settingsChanged(Settings::OptionState optionState)
 {
-    for (int i = 0; i < Uml::N_MODELTYPES; i++)
+    for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
         m_root[i]->setViewOptions(optionState);
+    }
     initSaveTimer();
 }
 
