@@ -191,7 +191,7 @@ QString CodeDocument::getUniqueTag ( const QString& prefix )
 
     tag = tag + "_0";
     int number = m_lastTagIndex;
-    for ( ; findTextBlockByTag(tag, true); number++) {
+    for ( ; findTextBlockByTag(tag, true); ++number) {
         tag = prefix + '_' + QString::number(number);
     }
     m_lastTagIndex = number;
