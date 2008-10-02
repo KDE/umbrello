@@ -111,12 +111,14 @@ QString TextBlock::getIndentation()
 
 QString TextBlock::getIndentationString ( int level ) const
 {
-    if (!level)
+    if (!level) {
         level = m_indentationLevel;
+    }
     QString indentAmount = getIndentation();
     QString indentation;
-    for(int i=0; i<level; i++)
+    for (int i=0; i<level; ++i) {
         indentation.append(indentAmount);
+    }
     return indentation;
 }
 
@@ -167,7 +169,7 @@ QString TextBlock::formatMultiLineText ( const QString & work, const QString & l
         if (!text.contains(QRegExp(breakStr + "\\$")))
             matches++;
 
-        for (int i=0; i < matches; i++)
+        for (int i=0; i < matches; ++i)
         {
             QString line = text.section(QRegExp(breakStr),i,i);
             output += linePrefix + line;

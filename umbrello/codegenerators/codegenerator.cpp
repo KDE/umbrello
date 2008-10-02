@@ -88,7 +88,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
         QString prefix = "doc";
         QString id = prefix + "_0";
         int number = lastIDIndex;
-        for ( ; findCodeDocumentByID(id); number++) {
+        for ( ; findCodeDocumentByID(id); ++number) {
             id = prefix + '_' + QString::number(number);
         }
         lastIDIndex = number;

@@ -515,8 +515,9 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
     QTextStream ts(&f);
     QString retstr;
     QString endLine = getNewLineEndingChars();
-    for(int l = 0; l < MAXLINES && !ts.atEnd(); l++)
+    for (int l = 0; l < MAXLINES && !ts.atEnd(); ++l) {
         retstr += ts.readLine()+endLine;
+    }
 
     //do variable substitution
     retstr.replace( QRegExp("%author%"),QString(qgetenv("USER")));  //get the user name from some where else

@@ -56,8 +56,9 @@ SimpleCodeGenerator::~SimpleCodeGenerator ( )
 QString SimpleCodeGenerator::getIndent ()
 {
     QString myIndent;
-    for (int i = 0 ; i < m_indentLevel ; i++)
+    for (int i = 0 ; i < m_indentLevel; ++i) {
         myIndent.append(m_indentation);
+    }
     return myIndent;
 }
 
