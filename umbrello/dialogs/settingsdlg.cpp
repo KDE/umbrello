@@ -200,7 +200,7 @@ void SettingsDlg::setupGeneralPage()
     // start at 1 because we don't allow No Diagram any more
     // diagramNo 1 is Uml::dt_Class
     // digaramNo 9 is Uml::dt_EntityRelationship
-    for (int diagramNo=1; diagramNo < 10; diagramNo++) {
+    for (int diagramNo=1; diagramNo < 10; ++diagramNo) {
         insertDiagram( Model_Utils::diagramTypeToString( ( Uml::Diagram_Type )diagramNo ), /*index*/ diagramNo - 1  );
     }
 

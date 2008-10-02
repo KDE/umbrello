@@ -123,7 +123,7 @@ void ActivityPage::updateActivities()
 {
     QStringList list;
     int count = m_pActivityLW->count();
-    for( int i = 0; i < count; i++ ) {
+    for (int i = 0; i < count; ++i) {
         list.append( m_pActivityLW->item(i)->text() );
     }
     m_pStateWidget->setActivities( list );

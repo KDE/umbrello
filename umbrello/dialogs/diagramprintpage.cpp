@@ -91,7 +91,7 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(
     QStringList types;
     // diagramNo 1 is Uml::dt_Class
     // digaramNo 9 is Uml::dt_EntityRelationship
-    for (int diagramNo = 1; diagramNo < Uml::N_DIAGRAMTYPES; diagramNo++) {
+    for (int diagramNo = 1; diagramNo < Uml::N_DIAGRAMTYPES; ++diagramNo) {
         types << Model_Utils::diagramTypeToString( ( Uml::Diagram_Type )diagramNo ) ;
     }
 
@@ -115,7 +115,7 @@ QString DiagramPrintPage::printUmlDiagram(int sel)
 {
     int count = 0;
 
-    for (int i = 0; i < m_pSelectLW->count(); i++) {
+    for (int i = 0; i < m_pSelectLW->count(); ++i) {
         if (isSelected(i)) {
             if (count == sel) {
                 UMLView *view = (UMLView *)m_pDoc->findView(m_nIdList[i]);
@@ -135,7 +135,7 @@ bool DiagramPrintPage::isValid( QString& msg )
 {
     int listCount = m_pSelectLW->count();
     bool sel = false;
-    for(int i = 0; i < listCount; i++) {
+    for (int i = 0; i < listCount; ++i) {
         if (isSelected(i)) {
             sel = true;
             i = listCount;

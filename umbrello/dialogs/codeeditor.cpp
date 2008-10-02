@@ -892,7 +892,7 @@ void CodeEditor::updateTextBlockFromText (TextBlock * block)
                     int lastpara = item->start+pstart+item->size;
                     int endEdit = block->lastEditableLine();
                     int lastLineToAddNewLine = lastpara + endEdit;
-                    for(int para=(item->start+pstart);para<=lastpara;para++)
+                    for (int para=(item->start+pstart); para<=lastpara; ++para)
                     {
                         QString line = block->unformatText(text(para), baseIndent);
                         content += line;
