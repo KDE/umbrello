@@ -1955,7 +1955,7 @@ void UMLApp::initGenerator()
 void UMLApp::updateLangSelectMenu(Uml::Programming_Language activeLanguage)
 {
     //m_langSelect->clear();
-    for (int i = 0; i < Uml::pl_Reserved; i++) {
+    for (int i = 0; i < Uml::pl_Reserved; ++i) {
         m_langAct[i]->setChecked(i == activeLanguage);
     }
 }
