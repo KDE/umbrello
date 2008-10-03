@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -318,7 +317,7 @@ QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString pre
     }
     UMLDoc *doc = UMLApp::app()->getDocument();
     QString name = currentName;
-    for (int number = 1; !doc->isUnique(name, parentPkg); number++)  {
+    for (int number = 1; !doc->isUnique(name, parentPkg); ++number)  {
         name = currentName + '_' + QString::number(number);
     }
     return name;
@@ -440,7 +439,7 @@ Uml::Model_Type guessContainer(UMLObject *o)
             {
                 UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
                 UMLDoc *umldoc = UMLApp::app()->getDocument();
-                for (int r = Uml::A; r <= Uml::B; r++) {
+                for (int r = Uml::A; r <= Uml::B; ++r) {
                     UMLObject *roleObj = assoc->getObject((Uml::Role_Type)r);
                     if (roleObj == NULL) {
                         // Ouch! we have been called while types are not yet resolved
