@@ -100,7 +100,7 @@ void PythonImport::fillSource(const QString& word)
 {
     QString lexeme;
     const uint len = word.length();
-    for (uint i = 0; i < len; i++) {
+    for (uint i = 0; i < len; ++i) {
         const QChar& c = word[i];
         if (c.isLetterOrNumber() || c == '_' || c == '.') {
             lexeme += c;
@@ -123,8 +123,9 @@ void PythonImport::fillSource(const QString& word)
 QString PythonImport::indentation(int level)
 {
     QString spaces;
-    for (int i = 0; i < level; i++)
+    for (int i = 0; i < level; ++i) {
         spaces += "  ";
+    }
     return spaces;
 }
 

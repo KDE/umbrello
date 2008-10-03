@@ -51,7 +51,7 @@ void PascalImport::fillSource(const QString& word)
 {
     QString lexeme;
     const uint len = word.length();
-    for (uint i = 0; i < len; i++) {
+    for (uint i = 0; i < len; ++i) {
         QChar c = word[i];
         if (c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
             lexeme += c;
@@ -260,7 +260,7 @@ bool PascalImport::parseStmt()
                     }
                     nextToken = advance();
                 }
-                for (uint i = 0; i < parNameCount; i++) {
+                for (uint i = 0; i < parNameCount; ++i) {
                     UMLAttribute *att = Import_Utils::addMethodParameter(op, nextToken, parName[i]);
                     att->setParmKind(dir);
                 }
