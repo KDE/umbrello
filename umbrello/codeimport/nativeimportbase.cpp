@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2007                                                *
+ *  copyright (C) 2005-2008                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -18,10 +17,12 @@
 #include <qregexp.h>
 #include <klocale.h>
 #include <kdebug.h>
+
 // app includes
 #include "import_utils.h"
 
-NativeImportBase::NativeImportBase(const QString &singleLineCommentIntro) {
+NativeImportBase::NativeImportBase(const QString &singleLineCommentIntro)
+{
     m_singleLineCommentIntro = singleLineCommentIntro;
     m_srcIndex = 0;
     m_scopeIndex = 0;  // index 0 is reserved for global scope
@@ -31,7 +32,8 @@ NativeImportBase::NativeImportBase(const QString &singleLineCommentIntro) {
     m_inComment = false;
 }
 
-NativeImportBase::~NativeImportBase() {
+NativeImportBase::~NativeImportBase()
+{
 }
 
 /**
@@ -42,7 +44,8 @@ NativeImportBase::~NativeImportBase() {
  * @param end    In languages with a C style multiline comment
  *               this is star-slash.
  */
-void NativeImportBase::setMultiLineComment(const QString &intro, const QString &end) {
+void NativeImportBase::setMultiLineComment(const QString &intro, const QString &end)
+{
     m_multiLineCommentIntro = intro;
     m_multiLineCommentEnd = end;
 }
@@ -51,12 +54,14 @@ void NativeImportBase::setMultiLineComment(const QString &intro, const QString &
  * Set the delimiter strings for an alternative form of
  * multi line comment. See setMultiLineComment().
  */
-void NativeImportBase::setMultiLineAltComment(const QString &intro, const QString &end) {
+void NativeImportBase::setMultiLineAltComment(const QString &intro, const QString &end)
+{
     m_multiLineAltCommentIntro = intro;
     m_multiLineAltCommentEnd = end;
 }
 
-void NativeImportBase::skipStmt(QString until /* = ";" */) {
+void NativeImportBase::skipStmt(QString until /* = ";" */)
+{
     const int srcLength = m_source.count();
     while (m_srcIndex < srcLength && m_source[m_srcIndex] != until)
         m_srcIndex++;
@@ -70,7 +75,8 @@ void NativeImportBase::skipStmt(QString until /* = ";" */) {
  * @return  True for success, false for misuse (invalid opener) or
  *          if no matching closing character is found in m_source.
  */
-bool NativeImportBase::skipToClosing(QChar opener) {
+bool NativeImportBase::skipToClosing(QChar opener)
+{
     QString closing;
     switch (opener.toLatin1()) {
         case '{':
@@ -115,7 +121,8 @@ bool NativeImportBase::skipToClosing(QChar opener) {
  * Comments encountered during advancement are accumulated in `m_comment'.
  * If m_srcIndex hits the end of m_source then QString() is returned.
  */
-QString NativeImportBase::advance() {
+QString NativeImportBase::advance()
+{
     while (m_srcIndex < m_source.count() - 1) {
         if (m_source[++m_srcIndex].startsWith(m_singleLineCommentIntro))
             m_comment += m_source[m_srcIndex];
@@ -142,7 +149,8 @@ QString NativeImportBase::advance() {
  *              false if there are still items left in the line
  *              for further analysis.
  */
-bool NativeImportBase::preprocess(QString& line) {
+bool NativeImportBase::preprocess(QString& line)
+{
     if (m_multiLineCommentIntro.isEmpty())
         return false;
     // Check for end of multi line comment.
@@ -223,21 +231,19 @@ bool NativeImportBase::preprocess(QString& line) {
     return false;  // The input was not completely consumed by preprocessing.
 }
 
-/// Split the line so that a string is returned as a single element of the list,
-/// when not in a string then split at white space.
-
 /**
  * Split the line so that a string is returned as a single element of the list.
  * When not in a string then split at white space.
  * The default implementation is suitable for C style strings and char constants.
  */
-QStringList NativeImportBase::split(const QString& lin) {
+QStringList NativeImportBase::split(const QString& lin)
+{
     QStringList list;
     QString listElement;
     QChar stringIntro = 0;  // buffers the string introducer character
     bool seenSpace = false;
     QString line = lin.trimmed();
-    for (int i = 0; i < line.length(); i++) {
+    for (int i = 0; i < line.length(); ++i) {
         const QChar& c = line[i];
         if (stringIntro.toLatin1()) {        // we are in a string
             listElement += c;
@@ -272,17 +278,16 @@ QStringList NativeImportBase::split(const QString& lin) {
     return list;
 }
 
-/// The lexer. Tokenizes the given string and fills `m_source'.
-/// Stores possible comments in `m_comment'.
 
 /**
- * Scan a single line.
+ * The lexer. Scan a single line. Tokenizes the given string and fills `m_source'.
+ * Stores possible comments in `m_comment'.
  * parseFile() calls this for each line read from the input file.
  * This in turn calls other methods such as preprocess() and fillSource().
- *
  * @param line  The line to scan.
  */
-void NativeImportBase::scan(QString line) {
+void NativeImportBase::scan(QString line)
+{
     if (preprocess(line))
         return;
     // Check for single line comment.
@@ -312,7 +317,8 @@ void NativeImportBase::scan(QString line) {
  * after scanning (before parsing the QStringList m_source.)
  * The default implementation is empty.
  */
-void NativeImportBase::initVars() {
+void NativeImportBase::initVars()
+{
 }
 
 /**
@@ -322,7 +328,8 @@ void NativeImportBase::initVars() {
  *
  * @param filename  The file to import.
  */
-void NativeImportBase::parseFile(const QString& filename) {
+void NativeImportBase::parseFile(const QString& filename)
+{
     QString nameWithoutPath = filename;
     nameWithoutPath.remove(QRegExp("^.*/"));
     if (m_parsedFiles.contains(nameWithoutPath))
@@ -382,7 +389,7 @@ void NativeImportBase::parseFile(const QString& filename) {
     m_scopeIndex = 0;
     m_scope[0] = NULL;  // index 0 is reserved for global scope
     const int srcLength = m_source.count();
-    for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
+    for (m_srcIndex = 0; m_srcIndex < srcLength; ++m_srcIndex) {
         const QString& firstToken = m_source[m_srcIndex];
         //uDebug() << '"' << firstToken << '"';
         if (firstToken.startsWith(m_singleLineCommentIntro)) {
@@ -399,7 +406,8 @@ void NativeImportBase::parseFile(const QString& filename) {
 /**
  * Implement abstract operation from ClassImport.
  */
-void NativeImportBase::initialize() {
+void NativeImportBase::initialize()
+{
     m_parsedFiles.clear();
 }
 

@@ -68,7 +68,7 @@ QStringList AdaImport::split(const QString& lin)
     bool seenSpace = false;
     QString line = lin.trimmed();
     uint len = line.length();
-    for (uint i = 0; i < len; i++) {
+    for (uint i = 0; i < len; ++i) {
         const QChar& c = line[i];
         if (inString) {
             listElement += c;
@@ -125,7 +125,7 @@ void AdaImport::fillSource(const QString& word)
 {
     QString lexeme;
     const uint len = word.length();
-    for (uint i = 0; i < len; i++) {
+    for (uint i = 0; i < len; ++i) {
         QChar c = word[i];
         if (c.isLetterOrNumber() || c == '_' || c == '.' || c == '#') {
             lexeme += c;
@@ -523,11 +523,12 @@ bool AdaImport::parseStmt()
                 // The controlling parameter is suppressed.
                 parNameCount--;
                 if (parNameCount) {
-                    for (uint i = 0; i < parNameCount; i++)
+                    for (uint i = 0; i < parNameCount; ++i) {
                         parName[i] = parName[i + 1];
+                    }
                 }
             }
-            for (uint i = 0; i < parNameCount; i++) {
+            for (uint i = 0; i < parNameCount; ++i) {
                 UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName[i]);
                 att->setParmKind(dir);
             }

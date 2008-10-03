@@ -76,7 +76,7 @@ void IDLImport::fillSource(const QString& word)
 {
     QString lexeme;
     const uint len = word.length();
-    for (uint i = 0; i < len; i++) {
+    for (uint i = 0; i < len; ++i) {
         QChar c = word[i];
         if (c.isLetterOrNumber() || c == '_') {
             lexeme += c;
@@ -142,7 +142,7 @@ void IDLImport::parseFile(const QString& filename)
     m_scopeIndex = 0;
     m_scope[0] = NULL;
     const int srcLength = m_source.count();
-    for (m_srcIndex = 0; m_srcIndex < srcLength; m_srcIndex++) {
+    for (m_srcIndex = 0; m_srcIndex < srcLength; ++m_srcIndex) {
         const QString& keyword = m_source[m_srcIndex];
         //uDebug() << '"' << keyword << '"';
         if (keyword.startsWith(m_singleLineCommentIntro)) {

@@ -64,7 +64,7 @@ QString JavaImport::joinTypename(QString typeName)
         int start = ++m_srcIndex;
         if (! skipToClosing(m_source[start][0]))
             return typeName;
-        for (int i = start; i <= m_srcIndex; i++) {
+        for (int i = start; i <= m_srcIndex; ++i) {
             typeName += m_source[i];
         }
     }
@@ -82,7 +82,7 @@ void JavaImport::fillSource(const QString& word)
 {
     QString lexeme;
     const uint len = word.length();
-    for (uint i = 0; i < len; i++) {
+    for (uint i = 0; i < len; ++i) {
         const QChar& c = word[i];
         if (c.isLetterOrNumber() || c == '_' || c == '.') {
             lexeme += c;
@@ -176,7 +176,7 @@ UMLObject* JavaImport::resolveClass (QString className)
     QStringList package = m_currentPackage.split( '.' );
     int dirsInPackageCount = package.size();
 
-    for (int count=0; count < dirsInPackageCount; count ++ ) {
+    for (int count=0; count < dirsInPackageCount; ++count) {
         // pop off one by one the directories, until only the source root remains
         //
         file.pop_back();
