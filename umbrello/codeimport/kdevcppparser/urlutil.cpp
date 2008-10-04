@@ -20,19 +20,15 @@
 */
 #include "urlutil.h"
 
-#include <QtCore/QStringList>
-#include <QtCore/QDir>
-#include <QtCore/QFileInfo>
-#include <kdebug.h>
-
 #include <unistd.h>
 #include <limits.h>
 #include <stdlib.h>
 
-#include <kdeversion.h>
-#if (KDE_VERSION_MINOR==0) && (KDE_VERSION_MAJOR==3)
-#include <kdevkurl.h>
-#endif
+#include <kdebug.h>
+
+#include <QtCore/QStringList>
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace URLUtil
@@ -100,7 +96,6 @@ KUrl URLUtil::mergeURL(const KUrl & source, const KUrl & dest, const KUrl & chil
     QString destStemStr = dest.url(KUrl::AddTrailingSlash);
     QString sourceStemStr = source.url(KUrl::AddTrailingSlash);
     return KUrl(sourceStemStr.append(childUrlStr.mid(destStemStr.length())));
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -133,11 +128,7 @@ QString URLUtil::extractPathNameRelative(const KUrl &baseDirUrl, const KUrl &url
 
 QString URLUtil::extractPathNameRelative(const QString &basePath, const KUrl &url)
 {
-#if (KDE_VERSION_MINOR!=0) || (KDE_VERSION_MAJOR!=3)
     KUrl baseDirUrl = KUrl(basePath);
-#else
-    KUrl baseDirUrl = KdevKUrl::fromPathOrUrl(basePath);
-#endif
     return extractPathNameRelative(baseDirUrl, url);
 }
 
@@ -145,13 +136,8 @@ QString URLUtil::extractPathNameRelative(const QString &basePath, const KUrl &ur
 
 QString URLUtil::extractPathNameRelative(const QString &basePath, const QString &absFilePath)
 {
-#if (KDE_VERSION_MINOR!=0) || (KDE_VERSION_MAJOR!=3)
     KUrl baseDirUrl = KUrl(basePath),
                       fileUrl = KUrl(absFilePath);
-#else
-    KUrl baseDirUrl = KdevKUrl::fromPathOrUrl(basePath),
-                      fileUrl = KdevKUrl::fromPathOrUrl(absFilePath);
-#endif
     return extractPathNameRelative(baseDirUrl, fileUrl);
 }
 

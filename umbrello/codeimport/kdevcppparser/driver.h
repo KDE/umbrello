@@ -41,10 +41,10 @@ class Problem
 public:
     enum
     {
-	Level_Error = 0,
-	Level_Warning,
-	Level_Todo,
-	Level_Fixme
+        Level_Error = 0,
+        Level_Warning,
+        Level_Todo,
+        Level_Fixme
     };
 
 public:
@@ -53,23 +53,23 @@ public:
     : m_text( source.m_text ), m_position( source.m_position ),
       m_level( source.m_level ) {}
   Problem( const QString& text, Position const& position,
-	   int level = Level_Error )
+           int level = Level_Error )
     : m_text( text ), m_position( position ), m_level(level) {}
 
     Problem& operator = ( const Problem& source )
     {
     if( this != &source) {
-	m_text = source.m_text;
-      m_position = source.m_position;
-	m_level = source.m_level;
+        m_text = source.m_text;
+        m_position = source.m_position;
+        m_level = source.m_level;
     }
-	return( *this );
+        return( *this );
     }
 
     bool operator == ( const Problem& p ) const
     {
     return ((m_text == p.m_text) && (m_position == p.m_position)
-	    && (m_level == p.m_level));
+            && (m_level == p.m_level));
     }
 
     QString text() const { return m_text; }
@@ -78,7 +78,7 @@ public:
 
 private:
     QString m_text;
-  Position m_position;
+    Position m_position;
     int m_level;
 };
 
@@ -139,6 +139,7 @@ public:
   void clearArgumentList() {m_arguments.clear();}
   void push_back( Argument const& argument)
   {m_arguments.push_back( argument);}
+
 private:
   QString m_name;
   QString m_fileName;
@@ -175,7 +176,7 @@ public:
     virtual void parseFile( const QString& fileName, bool onlyPreProcesss=false, bool force=false );
     virtual void fileParsed( const QString& fileName );
     virtual void addDependence( const QString& fileName, const Dependence& dep );
-  virtual void addMacro( const Macro& macro) {m_macroManager.addMacro( macro);}
+    virtual void addMacro( const Macro& macro) {m_macroManager.addMacro( macro);}
     virtual void addProblem( const QString& fileName, const Problem& problem );
 
     QString currentFileName() const { return m_currentFileName; }
@@ -183,14 +184,14 @@ public:
     TranslationUnitAST* translationUnit( const QString& fileName ) const;
     QMap<QString, Dependence> dependences( const QString& fileName ) const;
 private:
-  MacroMap macros() const {return m_macroManager.macros();}
+    MacroMap macros() const {return m_macroManager.macros();}
 public:
     Q3ValueList<Problem> problems( const QString& fileName ) const;
-  bool hasMacro( const QString& name ) const
-  {return m_macroManager.hasMacro( name);}
-  Macro& macro( const QString& name) {return m_macroManager.macro( name);}
-  virtual void removeMacro( const QString& macroName )
-  {m_macroManager.removeMacro( macroName);}
+    bool hasMacro( const QString& name ) const
+    {return m_macroManager.hasMacro( name);}
+    Macro& macro( const QString& name) {return m_macroManager.macro( name);}
+    virtual void removeMacro( const QString& macroName )
+    {m_macroManager.removeMacro( macroName);}
     QStringList includePaths() const { return m_includePaths; }
     virtual void addIncludePath( const QString &path );
 
@@ -226,7 +227,7 @@ private:
   };
     QString m_currentFileName;
     QMap< QString, QMap<QString, Dependence> > m_dependences;
-  MacroManager m_macroManager;
+    MacroManager m_macroManager;
     QMap< QString, Q3ValueList<Problem> > m_problems;
     QMap<QString, TranslationUnitAST*> m_parsedUnits;
     QStringList m_includePaths;

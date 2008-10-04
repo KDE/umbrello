@@ -18,11 +18,11 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef _URLUTIL_H_
-#define _URLUTIL_H_
+#ifndef URLUTIL_H
+#define URLUTIL_H
 
-#include <QtCore/QString>
 #include <kurl.h>
+#include <QtCore/QString>
 
 namespace URLUtil
 {
@@ -33,18 +33,22 @@ enum SlashesPosition { SLASH_PREFIX = 1, SLASH_SUFFIX = 2 };
  * Returns the filename part of a pathname (i.e. everything past the last slash)
  */
 QString filename(const QString & pathName);
+
 /**
  * Returns the directory part of a path (i.e. everything up to but not including the last slash)
  */
 QString directory(const QString & pathName);
+
 /**
  * Returns the relative path between a parent and child URL, or blank if the specified child is not a child of parent
  */
 QString relativePath(const KUrl & parent, const KUrl & child, uint slashPolicy = SLASH_PREFIX);
+
 /**
  * Returns the relative path between a parent and child URL, or blank if the specified child is not a child of parent
  */
 QString relativePath(const QString & parent, const QString & child, uint slashPolicy = SLASH_PREFIX);
+
 /**
  * Returns the relative path between a directory and file. Should never return empty path.
  *  Example:
@@ -53,10 +57,12 @@ QString relativePath(const QString & parent, const QString & child, uint slashPo
  *  returns:  ../lib/mylib.cpp
  */
 QString relativePathToFile(const QString & dirUrl, const QString & fileUrl);
+
 /**
  * Returns the path 'up one level' - the opposite of what filename returns
  */
 QString upDir(const QString & path, bool slashSuffix = false);
+
 /**
  * 'Merges' URLs - changes a URL that starts with dest to start with source instead
  *   Example:
@@ -66,6 +72,7 @@ QString upDir(const QString & path, bool slashSuffix = false);
  *   returns /home/me/dir1/fil1
  */
 KUrl mergeURL(const KUrl & source, const KUrl & dest, const KUrl & child);
+
 /**
  * Returns the file extension for a filename or path
  */

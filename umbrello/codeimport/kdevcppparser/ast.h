@@ -17,12 +17,12 @@
     Boston, MA 02110-1301, USA.
 */
 
-#ifndef __ast_h
-#define __ast_h
+#ifndef AST_H
+#define AST_H
 
 #include "position.h"
 #include <memory>
-#include <qstring.h>
+#include <QtCore/QString>
 #include <q3ptrlist.h>
 
 #if defined( Q_OS_WIN32 ) || defined( Q_CC_SUN )

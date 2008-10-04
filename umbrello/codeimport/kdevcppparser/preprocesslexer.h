@@ -17,8 +17,8 @@
     Boston, MA 02110-1301, USA.
 */
 
-#ifndef PreprocessLexer_H
-#define PreprocessLexer_H
+#ifndef PREPROCESSLEXER_H
+#define PREPROCESSLEXER_H
 
 #include <QChar>
 
@@ -31,19 +31,11 @@ namespace boost { namespace spirit { namespace impl {
 
 #include "driver.h"
 #include "position.h"
-
-#include <list>
-#include <qstring.h>
-#include <qmap.h>
-#include <q3valuestack.h>
-#include <qpair.h>
-#include <q3ptrvector.h>
-//Added by qt3to4:
-#include <Q3MemArray>
-
-#include <assert.h>
-
 #include "skip_rule.hpp"
+
+#include <QtCore/QString>
+#include <QtCore/QMap>
+#include <QtCore/QPair>
 
 using boost::spirit::parse_info;
 using boost::spirit::rule;
