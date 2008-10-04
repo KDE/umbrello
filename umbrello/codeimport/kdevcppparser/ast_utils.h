@@ -9,10 +9,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef __ast_utils_h
-#define __ast_utils_h
+#ifndef AST_UTILS_H
+#define AST_UTILS_H
 
-#include <qstring.h>
+#include <QtCore/QString>
 
 class AST;
 class DeclaratorAST;
@@ -26,4 +26,4 @@ void scopeOfNode( AST* ast, QStringList& );
 QString typeSpecToString( TypeSpecifierAST* typeSpec );
 QString declaratorToString( DeclaratorAST* declarator, const QString& scope = QString(), bool skipPtrOp=false );
 
-#endif // __ast_utils_h
+#endif // AST_UTILS_H

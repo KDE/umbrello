@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -13,8 +12,8 @@
 #define CPPTREE2UML_H
 
 #include "tree_parser.h"
-#include <qstringlist.h>
-#include "../../model_utils.h"
+#include <QtCore/QStringList>
+#include "model_utils.h"
 
 // fwd decls
 class UMLClassifier;

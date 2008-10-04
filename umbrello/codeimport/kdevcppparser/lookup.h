@@ -21,11 +21,10 @@
 
 // adapted to kdevelop by Roberto Raggi <roberto@kdevelop.org>
 
-#ifndef _KJSLOOKUP_H_
-#define _KJSLOOKUP_H_
+#ifndef KJSLOOKUP_H
+#define KJSLOOKUP_H
 
-#include <qstring.h>
-#include <stdio.h>
+#include <QtCore/QString>
 
   /**
    * An entry in a hash table.

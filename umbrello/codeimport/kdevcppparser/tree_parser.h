@@ -17,8 +17,8 @@
     Boston, MA 02110-1301, USA.
 */
 
-#ifndef __tree_parser_h
-#define __tree_parser_h
+#ifndef TREE_PARSER_H
+#define TREE_PARSER_H
 
 #include "ast.h"
 
@@ -56,4 +56,4 @@ private:
     void operator = ( const TreeParser& source );
 };
 
-#endif // __tree_parser_h
+#endif // TREE_PARSER_H

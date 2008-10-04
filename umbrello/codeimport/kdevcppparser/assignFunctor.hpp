@@ -18,8 +18,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _assignFunctor_H_
-#define _assignFunctor_H_
+#ifndef ASSIGNFUNCTOR_H
+#define ASSIGNFUNCTOR_H
 
 /** (Dirty) tool used in a rule to assign the result of a function
     into a variable. Should be replaced by something of boost if it

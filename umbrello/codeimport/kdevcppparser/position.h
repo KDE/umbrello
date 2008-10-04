@@ -17,8 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef _Position_H_
-#define _Position_H_
+#ifndef POSITION_H
+#define POSITION_H
 
 #include <limits.h>
 #include <boost/version.hpp>

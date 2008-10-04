@@ -20,9 +20,7 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
-#include <qstring.h>
 #include <klocalizedstring.h>
-
 
 struct Error{
     int code;
@@ -40,7 +38,5 @@ public:
     QT_STATIC_CONST Error& SyntaxError;
     QT_STATIC_CONST Error& ParseError;
 };
-
-
 
 #endif

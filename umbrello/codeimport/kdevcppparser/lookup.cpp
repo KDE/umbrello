@@ -25,9 +25,6 @@
 
 #include <kdebug.h>
 
-#include <stdio.h>
-#include <string.h>
-
 const HashEntry* Lookup::findEntry( const struct HashTable *table,
                               const QChar *c, unsigned int len )
 {

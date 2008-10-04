@@ -18,7 +18,7 @@
 */
 
 #include "ast.h"
-#include <qstringlist.h>
+#include <QtCore/QStringList>
 #include <kdebug.h>
 
 QString nodeTypeToString( int type )
@@ -26,102 +26,102 @@ QString nodeTypeToString( int type )
     switch( type )
     {
     case NodeType_Generic:
-	return "Generic";
+        return "Generic";
     case NodeType_TemplateArgumentList:
-	return "TemplateArgumentList";
+        return "TemplateArgumentList";
     case NodeType_ClassOrNamespaceName:
-	return "ClassOrNamespaceName";
+        return "ClassOrNamespaceName";
     case NodeType_Name:
-	return "Name";
+        return "Name";
     case NodeType_Declaration:
-	return "Declaration";
+        return "Declaration";
     case NodeType_TypeSpecifier:
-	return "TypeSpecifier";
+        return "TypeSpecifier";
     case NodeType_BaseSpecifier:
-	return "BaseSpecifier";
+        return "BaseSpecifier";
     case NodeType_BaseClause:
-	return "BaseClause";
+        return "BaseClause";
     case NodeType_ClassSpecifier:
-	return "ClassSpecifier";
+        return "ClassSpecifier";
     case NodeType_Enumerator:
-	return "Enumerator";
+        return "Enumerator";
     case NodeType_EnumSpecifier:
-	return "EnumSpecifier";
+        return "EnumSpecifier";
     case NodeType_ElaboratedTypeSpecifier:
-	return "ElaboratedTypeSpecifier";
+        return "ElaboratedTypeSpecifier";
     case NodeType_LinkageBody:
-	return "LinkageBody";
+        return "LinkageBody";
     case NodeType_LinkageSpecification:
-	return "LinkageSpecification";
+        return "LinkageSpecification";
     case NodeType_Namespace:
-	return "Namespace";
+        return "Namespace";
     case NodeType_NamespaceAlias:
-	return "NamespaceAlias";
+        return "NamespaceAlias";
     case NodeType_Using:
-	return "Using";
+        return "Using";
     case NodeType_UsingDirective:
-	return "UsingDirective";
+        return "UsingDirective";
     case NodeType_InitDeclaratorList:
-	return "InitDeclaratorList";
+        return "InitDeclaratorList";
     case NodeType_Typedef:
-	return "Typedef";
+        return "Typedef";
     case NodeType_Declarator:
-	return "Declarator";
+        return "Declarator";
     case NodeType_InitDeclarator:
-	return "InitDeclarator";
+        return "InitDeclarator";
     case NodeType_TemplateDeclaration:
-	return "TemplateDeclaration";
+        return "TemplateDeclaration";
     case NodeType_SimpleDeclaration:
-	return "SimpleDeclaration";
+        return "SimpleDeclaration";
     case NodeType_Statement:
-	return "Statement";
+        return "Statement";
     case NodeType_IfStatement:
-	return "IfStatement";
+        return "IfStatement";
     case NodeType_WhileStatement:
-	return "WhileStatement";
+        return "WhileStatement";
     case NodeType_DoStatement:
-	return "DoStatement";
+        return "DoStatement";
     case NodeType_ForStatement:
-	return "ForStatement";
+        return "ForStatement";
     case NodeType_SwitchStatement:
-	return "SwitchStatement";
+        return "SwitchStatement";
     case NodeType_DeclarationStatement:
-	return "DeclarationStatement";
+        return "DeclarationStatement";
     case NodeType_StatementList:
-	return "StatementList";
+        return "StatementList";
     case NodeType_TranslationUnit:
-	return "TranslationUnit";
+        return "TranslationUnit";
     case NodeType_FunctionDefinition:
-	return "FunctionDefinition";
+        return "FunctionDefinition";
     case NodeType_ExpressionStatement:
-	return "ExpressionStatement";
+        return "ExpressionStatement";
     case NodeType_ParameterDeclaration:
-	return "ParameterDeclaration";
+        return "ParameterDeclaration";
     case NodeType_ParameterDeclarationList:
-	return "ParameterDeclarationList";
+        return "ParameterDeclarationList";
     case NodeType_ParameterDeclarationClause:
-	return "ParameterDeclarationClause";
+        return "ParameterDeclarationClause";
     case NodeType_Group:
-	return "Group";
+        return "Group";
     case NodeType_AccessDeclaration:
-	return "AccessDeclaration";
+        return "AccessDeclaration";
     case NodeType_TypeParameter:
-	return "TypeParameter";
+        return "TypeParameter";
     case NodeType_TemplateParameter:
-	return "TemplateParameter";
+        return "TemplateParameter";
     case NodeType_TemplateParameterList:
-	return "TemplateParameterList";
+        return "TemplateParameterList";
     case NodeType_Condition:
-	return "Condition";
+        return "Condition";
     case NodeType_Custom:
-	return "Custom";
+        return "Custom";
     }
 
     return QString();
 }
 
-
 // ------------------------------------------------------------------------
+
 AST::AST()
     : m_nodeType( NodeType_Generic ), m_parent( 0 ),
     m_startPosition(), m_endPosition()
@@ -135,7 +135,7 @@ AST::~AST()
 {
 #ifndef CPPPARSER_NO_CHILDREN
     if( m_parent )
-	m_parent->removeChild( this );
+        m_parent->removeChild( this );
 #endif
 }
 
@@ -151,14 +151,14 @@ void AST::setParent( AST* parent )
 {
 #ifndef CPPPARSER_NO_CHILDREN
     if( m_parent )
-	m_parent->removeChild( this );
+        m_parent->removeChild( this );
 #endif
 
     m_parent = parent;
 
 #ifndef CPPPARSER_NO_CHILDREN
     if( m_parent )
-	m_parent->appendChild( this );
+        m_parent->appendChild( this );
 #endif
 }
 
@@ -175,6 +175,7 @@ void AST::removeChild( AST* child )
 #endif
 
 // ------------------------------------------------------------------------
+
 NameAST::NameAST()
     : m_global( false )
 {
@@ -219,17 +220,19 @@ QString NameAST::text() const
     }
 
     if( m_unqualifiedName.get() )
-	str += m_unqualifiedName->text();
+        str += m_unqualifiedName->text();
 
     return str;
 }
 
 // ------------------------------------------------------------------------
+
 DeclarationAST::DeclarationAST()
 {
 }
 
 // ------------------------------------------------------------------------
+
 LinkageBodyAST::LinkageBodyAST()
 {
     m_declarationList.setAutoDelete( true );
@@ -245,6 +248,7 @@ void LinkageBodyAST::addDeclaration( DeclarationAST::Node& ast )
 }
 
 // ------------------------------------------------------------------------
+
 LinkageSpecificationAST::LinkageSpecificationAST()
 {
 }
@@ -268,9 +272,10 @@ void LinkageSpecificationAST::setDeclaration( DeclarationAST::Node& decl )
 }
 
 // ------------------------------------------------------------------------
+
 TranslationUnitAST::TranslationUnitAST()
 {
-    //kDebug(9007) << "++ TranslationUnitAST::TranslationUnitAST()";
+    //uDebug() << "++ TranslationUnitAST::TranslationUnitAST()";
     m_declarationList.setAutoDelete( true );
 }
 
@@ -284,6 +289,7 @@ void TranslationUnitAST::addDeclaration( DeclarationAST::Node& ast )
 }
 
 // ------------------------------------------------------------------------
+
 NamespaceAST::NamespaceAST()
 {
 }
@@ -300,8 +306,8 @@ void NamespaceAST::setLinkageBody( LinkageBodyAST::Node& linkageBody )
     if( m_linkageBody.get() ) m_linkageBody->setParent( this );
 }
 
-
 // ------------------------------------------------------------------------
+
 NamespaceAliasAST::NamespaceAliasAST()
 {
 }
@@ -319,6 +325,7 @@ void NamespaceAliasAST::setAliasName( NameAST::Node& name )
 }
 
 // ------------------------------------------------------------------------
+
 UsingAST::UsingAST()
 {
 }
@@ -336,6 +343,7 @@ void UsingAST::setName( NameAST::Node& name )
 }
 
 // ------------------------------------------------------------------------
+
 UsingDirectiveAST::UsingDirectiveAST()
 {
 }
@@ -369,6 +377,7 @@ void TypedefAST::setInitDeclaratorList( InitDeclaratorListAST::Node& initDeclara
 }
 
 // ------------------------------------------------------------------------
+
 TemplateArgumentListAST::TemplateArgumentListAST()
 {
     m_argumentList.setAutoDelete( true );
@@ -390,13 +399,14 @@ QString TemplateArgumentListAST::text() const
     Q3PtrListIterator<AST> it( m_argumentList );
     while( it.current() ){
         l.append( it.current()->text() );
-	++it;
+        ++it;
     }
 
     return l.join( ", " );
 }
 
 // ------------------------------------------------------------------------
+
 TemplateDeclarationAST::TemplateDeclarationAST()
 {
 }
@@ -420,6 +430,7 @@ void TemplateDeclarationAST::setDeclaration( DeclarationAST::Node& declaration )
 }
 
 // ------------------------------------------------------------------------
+
 ClassOrNamespaceNameAST::ClassOrNamespaceNameAST()
 {
 }
@@ -449,6 +460,7 @@ QString ClassOrNamespaceNameAST::text() const
 }
 
 // ------------------------------------------------------------------------
+
 TypeSpecifierAST::TypeSpecifierAST()
 {
 }
@@ -482,6 +494,7 @@ QString TypeSpecifierAST::text() const
 }
 
 // ------------------------------------------------------------------------
+
 ClassSpecifierAST::ClassSpecifierAST()
 {
     m_declarationList.setAutoDelete( true );
@@ -509,6 +522,7 @@ void ClassSpecifierAST::setBaseClause( BaseClauseAST::Node& baseClause )
 }
 
 // ------------------------------------------------------------------------
+
 EnumSpecifierAST::EnumSpecifierAST()
 {
     m_enumeratorList.setAutoDelete( true );
@@ -525,6 +539,7 @@ void EnumSpecifierAST::addEnumerator( EnumeratorAST::Node& enumerator )
 
 
 // ------------------------------------------------------------------------
+
 ElaboratedTypeSpecifierAST::ElaboratedTypeSpecifierAST()
 {
 }
@@ -544,11 +559,13 @@ QString ElaboratedTypeSpecifierAST::text() const
 }
 
 // ------------------------------------------------------------------------
+
 StatementAST::StatementAST()
 {
 }
 
 // ------------------------------------------------------------------------
+
 EnumeratorAST::EnumeratorAST()
 {
 }
@@ -566,6 +583,7 @@ void EnumeratorAST::setExpr( AST::Node& expr )
 }
 
 // ------------------------------------------------------------------------
+
 BaseClauseAST::BaseClauseAST()
 {
     m_baseSpecifierList.setAutoDelete( true );
@@ -581,6 +599,7 @@ void BaseClauseAST::addBaseSpecifier( BaseSpecifierAST::Node& baseSpecifier )
 }
 
 // ------------------------------------------------------------------------
+
 BaseSpecifierAST::BaseSpecifierAST()
 {
 }
@@ -604,6 +623,7 @@ void BaseSpecifierAST::setName( NameAST::Node& name )
 }
 
 // ------------------------------------------------------------------------
+
 SimpleDeclarationAST::SimpleDeclarationAST()
 {
 }
@@ -640,6 +660,7 @@ void SimpleDeclarationAST::setWinDeclSpec( GroupAST::Node& winDeclSpec )
 
 
 // ------------------------------------------------------------------------
+
 InitDeclaratorListAST::InitDeclaratorListAST()
 {
     m_initDeclaratorList.setAutoDelete( true );
@@ -648,13 +669,14 @@ InitDeclaratorListAST::InitDeclaratorListAST()
 void InitDeclaratorListAST::addInitDeclarator( InitDeclaratorAST::Node& decl )
 {
     if( !decl.get() )
-	return;
+        return;
 
     decl->setParent( this );
     m_initDeclaratorList.append( decl.release() );
 }
 
 // ------------------------------------------------------------------------
+
 DeclaratorAST::DeclaratorAST()
 {
     m_ptrOpList.setAutoDelete( true );
@@ -716,6 +738,7 @@ void DeclaratorAST::addPtrOp( AST::Node& ptrOp )
 }
 
 // --------------------------------------------------------------------------
+
 InitDeclaratorAST::InitDeclaratorAST()
 {
 }
@@ -733,6 +756,7 @@ void InitDeclaratorAST::setInitializer( AST::Node& initializer )
 }
 
 // --------------------------------------------------------------------------
+
 FunctionDefinitionAST::FunctionDefinitionAST()
 {
 }
@@ -774,6 +798,7 @@ void FunctionDefinitionAST::setWinDeclSpec( GroupAST::Node& winDeclSpec )
 }
 
 // --------------------------------------------------------------------------
+
 StatementListAST::StatementListAST()
 {
     m_statementList.setAutoDelete( true );
@@ -782,13 +807,14 @@ StatementListAST::StatementListAST()
 void StatementListAST::addStatement( StatementAST::Node& statement )
 {
     if( !statement.get() )
-	return;
+        return;
 
     statement->setParent( this );
     m_statementList.append( statement.release() );
 }
 
 // --------------------------------------------------------------------------
+
 IfStatementAST::IfStatementAST()
 {
 }
@@ -812,6 +838,7 @@ void IfStatementAST::setElseStatement( StatementAST::Node& elseStatement )
 }
 
 // --------------------------------------------------------------------------
+
 WhileStatementAST::WhileStatementAST()
 {
 }
@@ -829,6 +856,7 @@ void WhileStatementAST::setStatement( StatementAST::Node& statement )
 }
 
 // --------------------------------------------------------------------------
+
 DoStatementAST::DoStatementAST()
 {
 }
@@ -846,6 +874,7 @@ void DoStatementAST::setStatement( StatementAST::Node& statement )
 }
 
 // --------------------------------------------------------------------------
+
 ForStatementAST::ForStatementAST()
 {
 }
@@ -875,6 +904,7 @@ void ForStatementAST::setInitStatement( StatementAST::Node& initStatement )
 }
 
 // --------------------------------------------------------------------------
+
 SwitchStatementAST::SwitchStatementAST()
 {
 }
@@ -892,6 +922,7 @@ void SwitchStatementAST::setStatement( StatementAST::Node& statement )
 }
 
 // --------------------------------------------------------------------------
+
 DeclarationStatementAST::DeclarationStatementAST()
 {
 }
@@ -903,6 +934,7 @@ void DeclarationStatementAST::setDeclaration( DeclarationAST::Node& declaration 
 }
 
 // --------------------------------------------------------------------------
+
 ExpressionStatementAST::ExpressionStatementAST()
 {
 }
@@ -915,6 +947,7 @@ void ExpressionStatementAST::setExpression( AST::Node& expression )
 
 
 // --------------------------------------------------------------------------
+
 ParameterDeclarationAST::ParameterDeclarationAST()
 {
 }
@@ -953,6 +986,7 @@ QString ParameterDeclarationAST::text() const
 }
 
 // --------------------------------------------------------------------------
+
 ParameterDeclarationListAST::ParameterDeclarationListAST()
 {
     m_parameterList.setAutoDelete( true );
@@ -974,14 +1008,14 @@ QString ParameterDeclarationListAST::text() const
     Q3PtrListIterator<ParameterDeclarationAST> it( m_parameterList );
     while( it.current() ){
         l.append( it.current()->text() );
-	++it;
+        ++it;
     }
 
     return l.join( ", " );
 }
 
-
 // --------------------------------------------------------------------------
+
 ParameterDeclarationClauseAST::ParameterDeclarationClauseAST()
 {
 }
@@ -1011,8 +1045,8 @@ QString ParameterDeclarationClauseAST::text() const
     return str;
 }
 
-
 // --------------------------------------------------------------------------
+
 GroupAST::GroupAST()
 {
     m_nodeList.setAutoDelete( true );
@@ -1034,13 +1068,14 @@ QString GroupAST::text() const
     Q3PtrListIterator<AST> it( m_nodeList );
     while( it.current() ){
         l.append( it.current()->text() );
-	++it;
+        ++it;
     }
 
     return l.join( " " );
 }
 
 // --------------------------------------------------------------------------
+
 AccessDeclarationAST::AccessDeclarationAST()
 {
     m_accessList.setAutoDelete( true );
@@ -1062,13 +1097,14 @@ QString AccessDeclarationAST::text() const
     Q3PtrListIterator<AST> it( m_accessList );
     while( it.current() ){
         l.append( it.current()->text() );
-	++it;
+        ++it;
     }
 
     return l.join( " " );
 }
 
 // --------------------------------------------------------------------------
+
 TypeParameterAST::TypeParameterAST()
 {
 }
@@ -1098,6 +1134,7 @@ void TypeParameterAST::setTypeId( AST::Node& typeId )
 }
 
 // --------------------------------------------------------------------------
+
 TemplateParameterAST::TemplateParameterAST()
 {
 }
@@ -1115,6 +1152,7 @@ void TemplateParameterAST::setTypeValueParameter( ParameterDeclarationAST::Node&
 }
 
 // --------------------------------------------------------------------------
+
 TemplateParameterListAST::TemplateParameterListAST()
 {
     m_templateParameterList.setAutoDelete( true );
@@ -1130,6 +1168,7 @@ void TemplateParameterListAST::addTemplateParameter( TemplateParameterAST::Node&
 }
 
 // --------------------------------------------------------------------------
+
 ConditionAST::ConditionAST()
 {
 }
@@ -1157,4 +1196,3 @@ void ClassSpecifierAST::setWinDeclSpec( GroupAST::Node & winDeclSpec )
     m_winDeclSpec = winDeclSpec;
     if( m_winDeclSpec.get() ) m_winDeclSpec->setParent( this );
 }
-
