@@ -132,12 +132,16 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
     m_pTypeCB->setEditable(true);
     m_pTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
 //    m_pTypeCB->setCompleter(...);
-    insertTypesSorted(attr->getTypeName());
+    if (attr) {
+        insertTypesSorted(attr->getTypeName());
+    }
 
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false); //only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-    insertStereotypesSorted(m_pAtt->getStereotype());
+    if (m_pAtt) {
+        insertStereotypesSorted(m_pAtt->getStereotype());
+    }
 
     // set tab order
     setTabOrder(m_pKind, m_pTypeCB);

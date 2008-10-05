@@ -445,7 +445,7 @@ bool UMLOperationDialog::apply()
     }
 
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>( m_operation->parent() );
-    if( classifier != 0L &&
+    if( classifier != 0 &&
             classifier->checkOperationSignature(name, m_operation->getParmList(), m_operation) )
     {
         QString msg = i18n("An operation with that signature already exists in %1.\n", classifier->getName())
@@ -466,7 +466,10 @@ bool UMLOperationDialog::apply()
       m_operation -> setVisibility( Uml::Visibility::Implementation );
 
     QString typeName = m_pRtypeCB->currentText();
-    UMLTemplate *tmplParam = classifier->findTemplate(typeName);
+    UMLTemplate *tmplParam = 0;
+    if (classifier) {
+        tmplParam = classifier->findTemplate(typeName);
+    }
     if (tmplParam)
         m_operation->setType(tmplParam);
     else
@@ -482,7 +485,9 @@ bool UMLOperationDialog::apply()
            The inverse is not true: The fact that no operation is
            abstract does not mean that the class must be non-abstract.
          */
-        classifier->setAbstract(true);
+        if (classifier) {
+            classifier->setAbstract(true);
+        }
     }
     m_operation->setStatic( m_pStaticCB->isChecked() );
     m_operation->setConst( m_pQueryCB->isChecked() );

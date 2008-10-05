@@ -2258,8 +2258,8 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
 {
     if (cmd != NULL) {
         m_pUndoStack->push(cmd);
+        uDebug() << cmd->text() << " [" << m_pUndoStack->count() << "]";
     }
-    uDebug() << cmd->text() << " [" << m_pUndoStack->count() << "]";
 
     UMLApp::app()->enableUndo(true);
 }
