@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -142,7 +141,7 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget & Other)
         m_pName = NULL;
     }
 
-    for (unsigned r = (unsigned)A; r <= (unsigned)B; r++) {
+    for (unsigned r = (unsigned)A; r <= (unsigned)B; ++r) {
         WidgetRole& lhs = m_role[r];
         const WidgetRole& rhs = Other.m_role[r];
         lhs.m_nIndex = rhs.m_nIndex;
@@ -615,7 +614,7 @@ bool AssociationWidget::activate()
     m_LinePath.activate();
 
     if (AssocRules::allowRole(type)) {
-        for (unsigned r = A; r <= B; r++) {
+        for (unsigned r = A; r <= B; ++r) {
             WidgetRole& robj = m_role[r];
             if (robj.m_pRole == NULL)
                 continue;
@@ -648,7 +647,7 @@ bool AssociationWidget::activate()
         calculateNameTextSegment();
     }
 
-    for (unsigned r = A; r <= B; r++) {
+    for (unsigned r = A; r <= B; ++r) {
         WidgetRole& robj = m_role[r];
 
         FloatingTextWidget* pMulti = robj.m_pMulti;
@@ -747,7 +746,7 @@ void AssociationWidget::cleanup()
     if(m_role[B].m_nTotalCount > 2)
         updateAssociations(m_role[B].m_nTotalCount - 1, m_role[B].m_WidgetRegion, B);
 
-    for (unsigned r = A; r <= B; r++) {
+    for (unsigned r = A; r <= B; ++r) {
         WidgetRole& robj = m_role[r];
 
         if(robj.m_pWidget) {
@@ -1370,7 +1369,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
 
     // Assoc to self - move all points:
     if( m_role[A].m_pWidget == m_role[B].m_pWidget) {
-        for( int i=1 ; i < (int)pos ; i++ ) {
+        for (int i = 1; i < (int)pos; ++i) {
             QPoint p = m_LinePath.getPoint( i );
             int newX = p.x() - dx;
             int newY = p.y() - dy;
@@ -1574,7 +1573,7 @@ float AssociationWidget::totalLength()
     uint size = m_LinePath.count();
     float total_length = 0;
 
-    for(uint i = 0; i < size - 1; i++) {
+    for(uint i = 0; i < size - 1; ++i) {
         QPoint pi = m_LinePath.getPoint( i );
         QPoint pj = m_LinePath.getPoint( i+1 );
         int xi = pi.y();
@@ -2003,7 +2002,7 @@ void AssociationWidget::constrainTextPos(int &textX, int &textY,
             {
                 int minDistSquare = 100000;  // utopian initial value
                 int lpIndex = 0;
-                for (uint i = 0; i < lastSegment; i++) {
+                for (uint i = 0; i < lastSegment; ++i) {
                     p0 = m_LinePath.getPoint(i);
                     p1 = m_LinePath.getPoint(i + 1);
                     QPoint midP = midPoint(p0, p1);
@@ -2122,7 +2121,7 @@ void AssociationWidget::calculateNameTextSegment()
     //sum of length(PTP1) and length(PTP2)
     float total_length = 0;
     float smallest_length = 0;
-    for(uint i = 0; i < size - 1; i++) {
+    for(uint i = 0; i < size - 1; ++i) {
         QPoint pi = m_LinePath.getPoint( i );
         QPoint pj = m_LinePath.getPoint( i+1 );
         int xtiDiff = xt - pi.x();
@@ -2647,7 +2646,7 @@ void AssociationWidget::checkPoints(const QPoint &p)
     QPoint tempPoint;
     int x, y;
     const int BOUNDARY = 4; // check for pixels around the point
-    for(int i=1;i<size-1;i++) {
+    for (int i = 1; i < size - 1; ++i) {
         tempPoint = m_LinePath.getPoint( i );
         x = tempPoint.x();
         y = tempPoint.y();
@@ -2922,7 +2921,7 @@ int AssociationWidget::findInterceptOnEdge(const QRect &rect,
 void AssociationWidget::insertIntoLists(int position, const AssociationWidget* assoc)
 {
     bool did_insertion = false;
-    for (int index = 0; index < m_positions_len; index++) {
+    for (int index = 0; index < m_positions_len; ++index) {
         if (position < m_positions[index]) {
             for (int moveback = m_positions_len; moveback > index; moveback--)
                 m_positions[moveback] = m_positions[moveback - 1];
@@ -3205,7 +3204,7 @@ void AssociationWidget::slotClearAllSelected()
 void AssociationWidget::moveMidPointsBy( int x, int y )
 {
     int pos = m_LinePath.count() - 1;
-    for( int i=1 ; i < (int)pos ; i++ ) {
+    for (int i = 1; i < (int)pos; ++i) {
         QPoint p = m_LinePath.getPoint( i );
         int newX = p.x() + x;
         int newY = p.y() + y;
@@ -3240,7 +3239,7 @@ QRect AssociationWidget::getAssocLineRectangle()
         pen_width = 1; // width must be at least 1
 
     /* go through all points on the linepath */
-    for (int i = 0; i < pos; i++)
+    for (int i = 0; i < pos; ++i)
     {
         QPoint p = m_LinePath.getPoint(i);
 
