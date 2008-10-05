@@ -231,14 +231,12 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if ( hasEntityAttribute( attr ) ) {
-        uDebug() << "Unique Constraint already contains"<<attr->getName();
+        uDebug() << "Unique Constraint already contains" << attr->getName();
         return false;
 
     }
     if (owningParent == NULL) {
-        uError() << m_Name
-            << "): parent " << owningParent->getName()
-            << " is not a UMLEntity";
+        uError() << m_Name << ": parent is not a UMLEntity";
         return false;
     }
 
@@ -266,9 +264,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if (owningParent == NULL) {
-        uError() << m_Name
-            << "): parent " << owningParent->getName()
-            << " is not a UMLEntity";
+        uError() << m_Name << ": parent is not a UMLEntity";
         return false;
     }
 

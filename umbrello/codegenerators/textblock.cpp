@@ -319,20 +319,17 @@ void TextBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockEle
 {
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
-    if (&doc != 0 ) {
+    blockElement.setAttribute("tag",getTag());
 
-        blockElement.setAttribute("tag",getTag());
-
-        // only write these if different from defaults
-        if (getIndentationLevel())
-            blockElement.setAttribute("indentLevel", QString::number(getIndentationLevel()));
-        if (!m_text.isEmpty())
-            blockElement.setAttribute("text", encodeText(m_text, endLine));
-        if (!getWriteOutText())
-            blockElement.setAttribute("writeOutText", getWriteOutText()?"true":"false");
-        if (!canDelete())
-            blockElement.setAttribute("canDelete", canDelete()?"true":"false");
-    }
+    // only write these if different from defaults
+    if (getIndentationLevel())
+        blockElement.setAttribute("indentLevel", QString::number(getIndentationLevel()));
+    if (!m_text.isEmpty())
+        blockElement.setAttribute("text", encodeText(m_text, endLine));
+    if (!getWriteOutText())
+        blockElement.setAttribute("writeOutText", getWriteOutText()?"true":"false");
+    if (!canDelete())
+        blockElement.setAttribute("canDelete", canDelete()?"true":"false");
 }
 
 /**
