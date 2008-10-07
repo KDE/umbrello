@@ -34,7 +34,7 @@ const HashEntry* Lookup::findEntry( const struct HashTable *table,
   }
   char *ascii = new char[len+1];
   unsigned int i;
-  for(i = 0; i < len; i++, c++) {
+  for (i = 0; i < len; ++i, ++c) {
     if (!c->row())
       ascii[i] = c->cell();
     else
@@ -89,8 +89,9 @@ unsigned int Lookup::hash(const QChar *c, unsigned int len)
 {
   unsigned int val = 0;
   // ignoring rower byte
-  for (unsigned int i = 0; i < len; i++, c++)
+  for (unsigned int i = 0; i < len; ++i, ++c) {
     val += c->cell();
+  }
 
   return val;
 }
