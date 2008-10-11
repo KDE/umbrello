@@ -345,6 +345,7 @@ set(libumbrello_SRCS
     main.cpp
     messagewidget.cpp
     model_utils.cpp
+    newassociationwidget.cpp
     newlinepath.cpp
     node.cpp
     nodewidget.cpp
