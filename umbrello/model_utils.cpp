@@ -309,9 +309,9 @@ bool isCommonDataType(QString type)
     if (gen == NULL)
         return false;
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
-    QStringList dataTypes = gen->defaultDatatypes();
-    QStringList::Iterator end(dataTypes.end());
-    for (QStringList::Iterator it = dataTypes.begin(); it != end; ++it) {
+    const QStringList dataTypes = gen->defaultDatatypes();
+    QStringList::ConstIterator end(dataTypes.end());
+    for (QStringList::ConstIterator it = dataTypes.begin(); it != end; ++it) {
         if (caseSensitive) {
             if (type == *it)
                 return true;
@@ -563,8 +563,8 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     arglist = arglist.trimmed();
     if (arglist.isEmpty())
         return PS_OK;
-    QStringList args = arglist.split( QRegExp("\\s*,\\s*") );
-    for (QStringList::Iterator lit = args.begin(); lit != args.end(); ++lit) {
+    const QStringList args = arglist.split( QRegExp("\\s*,\\s*") );
+    for (QStringList::ConstIterator lit = args.begin(); lit != args.end(); ++lit) {
         NameAndType nmTp;
         Parse_Status ps = parseAttribute(*lit, nmTp, owningScope);
         if (ps)

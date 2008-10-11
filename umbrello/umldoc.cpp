@@ -396,11 +396,11 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 
         // get the root directory and all entries in
         const KArchiveDirectory * rootDir = archive.directory();
-        QStringList entries = rootDir->entries();
+        const QStringList entries = rootDir->entries();
         QString entryMimeType;
         bool foundXMI = false;
-        QStringList::Iterator it;
-        QStringList::Iterator end(entries.end());
+        QStringList::ConstIterator it;
+        QStringList::ConstIterator end(entries.end());
 
         // now go through all entries till we find an xmi file
         for (it = entries.begin(); it != end; ++it)

@@ -305,9 +305,9 @@ void JavaClassifierCodeDocument::updateContent( )
 
     // first, set the global flag on whether or not to show classfield info
     // This depends on whether or not we have attribute/association classes
-    CodeClassFieldList * cfList = getCodeClassFieldList();
-    CodeClassFieldList::iterator it = cfList->begin();
-    CodeClassFieldList::iterator end = cfList->end();
+    const CodeClassFieldList * cfList = getCodeClassFieldList();
+    CodeClassFieldList::const_iterator it = cfList->begin();
+    CodeClassFieldList::const_iterator end = cfList->end();
     for( ; it != end; ++it ) {
         CodeClassField * field = *it;
         if(field->parentIsAttribute())

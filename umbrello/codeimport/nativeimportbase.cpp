@@ -256,8 +256,8 @@ void NativeImportBase::scan(QString line)
     }
     if (line.contains(QRegExp("^\\s*$")))
         return;
-    QStringList words = split(line);
-    for (QStringList::Iterator it = words.begin(); it != words.end(); ++it) {
+    const QStringList words = split(line);
+    for (QStringList::ConstIterator it = words.begin(); it != words.end(); ++it) {
         QString word = *it;
         if (word[0] == '"' || word[0] == '\'')
             m_source.append(word);  // string constants are handled by split()
@@ -291,8 +291,8 @@ void NativeImportBase::parseFile(const QString& filename)
             return;
         }
         bool found = false;
-        QStringList includePaths = Import_Utils::includePathList();
-        for (QStringList::Iterator pathIt = includePaths.begin();
+        const QStringList includePaths = Import_Utils::includePathList();
+        for (QStringList::ConstIterator pathIt = includePaths.begin();
                                    pathIt != includePaths.end(); ++pathIt) {
             QString path = (*pathIt);
             if (! path.endsWith('/')) {

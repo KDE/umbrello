@@ -64,8 +64,8 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
 QStringList UMLViewImageExporterModel::supportedMimeTypes()
 {
     if (!supportedMimeTypesList.size()) {
-        QStringList imageTypes = UMLViewImageExporterModel::supportedImageTypes();
-        for (QStringList::Iterator it = imageTypes.begin(); it != imageTypes.end(); ++it) {
+        const QStringList imageTypes = UMLViewImageExporterModel::supportedImageTypes();
+        for (QStringList::ConstIterator it = imageTypes.begin(); it != imageTypes.end(); ++it) {
             QString mimeType = imageTypeToMimeType(*it);
             if (!mimeType.isNull())
                 supportedMimeTypesList.append(mimeType);

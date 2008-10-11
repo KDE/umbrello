@@ -148,9 +148,9 @@ void CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
     QDomElement docElement = doc.createElement( "codegenerator" );
     docElement.setAttribute("language", "C++");
 
-    CodeDocumentList * docList = getCodeDocumentList();
-    CodeDocumentList::Iterator it  = docList->begin();
-    CodeDocumentList::Iterator end  = docList->end();
+    const CodeDocumentList * docList = getCodeDocumentList();
+    CodeDocumentList::ConstIterator it  = docList->begin();
+    CodeDocumentList::ConstIterator end  = docList->end();
     for ( ; it != end; ++it )
         (*it)->saveToXMI(doc, docElement);
 
@@ -168,9 +168,9 @@ void CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
  */
 void CPPCodeGenerator::syncCodeToDocument ( )
 {
-    CodeDocumentList * docList = getCodeDocumentList();
-    CodeDocumentList::Iterator it  = docList->begin();
-    CodeDocumentList::Iterator end  = docList->end();
+    const CodeDocumentList * docList = getCodeDocumentList();
+    CodeDocumentList::ConstIterator it  = docList->begin();
+    CodeDocumentList::ConstIterator end  = docList->end();
     for ( ; it != end; ++it )
         (*it)->synchronize();
 

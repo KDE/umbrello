@@ -234,8 +234,8 @@ bool JavaImport::parseStmt()
     if (keyword == "package") {
         m_currentPackage = advance();
         const QString& qualifiedName = m_currentPackage;
-        QStringList names = qualifiedName.split('.');
-        for (QStringList::Iterator it = names.begin(); it != names.end(); ++it) {
+        const QStringList names = qualifiedName.split('.');
+        for (QStringList::ConstIterator it = names.begin(); it != names.end(); ++it) {
             QString name = (*it);
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
                             name, m_scope[m_scopeIndex], m_comment);
