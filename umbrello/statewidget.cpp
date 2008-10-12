@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -13,7 +12,7 @@
 #include "statewidget.h"
 
 // app includes
-#include "dialogs/statedialog.h"
+#include "statedialog.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "textitem.h"
@@ -43,33 +42,41 @@ StateWidget::StateWidget(StateType stateType, Uml::IDType id)
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 StateWidget::~StateWidget()
 {
 }
 
-/// Reimplemented from UMLWidget::paint to paint state widget.
+/**
+ * Reimplemented from UMLWidget::paint to paint state widget.
+ */
 void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());
-    const QSizeF sz = size();
 
-    if(m_stateType == StateWidget::Normal) {
-        painter->drawRoundRect(rect(), sz.height() * 40 / sz.width(),
-                               sz.width() * 40 / sz.height());
+    if (m_stateType == StateWidget::Normal) {
+        const QSizeF sz = size();
+        painter->drawRoundRect(rect(), 50, 50);
         painter->drawLines(m_separatorLines);
     }
-    else if(m_stateType == StateWidget::Initial) {
+    else if (m_stateType == StateWidget::Initial) {
+        const QSizeF sz = QSizeF(18, 18);
+        setMinimumSize(sz);
+        setSize(sz);
         painter->drawEllipse(rect());
     }
-    else if(m_stateType == StateWidget::End) {
+    else if (m_stateType == StateWidget::End) {
+        const QSizeF sz = QSizeF(18, 18);
+        setMinimumSize(sz);
+        setSize(sz);
         // Draw inner ellipse with brush set.
         QRectF inner(rect());
         qreal adj = lineWidth() + 3;
         inner.adjust(+adj, +adj, -adj, -adj);
         painter->drawEllipse(inner);
-
         // Now draw outer ellipse with no brush
         painter->setBrush(Qt::NoBrush);
         painter->drawEllipse(rect());
@@ -79,7 +86,9 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
     }
 }
 
-/// Sets the StateType of this widget to \a stateType
+/**
+ * Sets the StateType of this widget to \a stateType.
+ */
 void StateWidget::setStateType(StateType stateType)
 {
     m_stateType = stateType;
@@ -107,22 +116,22 @@ bool StateWidget::removeActivity( const QString &activity )
     int removedCount = 0;
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
     // Keep removing until all entries are removed
-    while(1) {
+    while (1) {
         int sz = grp->textItemCount();
         int i = StateWidget::ActivityStartIndex;
-        for(; i < sz; ++i) {
-            if(grp->textItemAt(i)->text() == activity) {
+        for (; i < sz; ++i) {
+            if (grp->textItemAt(i)->text() == activity) {
                 grp->deleteTextItemAt(i);
                 ++removedCount;
                 break;
             }
         }
-        if(i == sz) {
+        if (i == sz) {
             break;
         }
     }
 
-    if(removedCount) {
+    if (removedCount) {
         updateTextItemGroups();
         return true;
     }
@@ -139,16 +148,16 @@ bool StateWidget::renameActivity( const QString &activity, const QString &newNam
     bool renamed = false;
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
     int sz = grp->textItemCount();
-    for(int i = StateWidget::ActivityStartIndex; i < sz; ++i) {
+    for (int i = StateWidget::ActivityStartIndex; i < sz; ++i) {
         TextItem *item = grp->textItemAt(i);
-        if(item->text() == activity) {
+        if (item->text() == activity) {
             item->setText(newName);
             renamed = true;
             break;
         }
     }
 
-    if(renamed) {
+    if (renamed) {
         updateTextItemGroups();
         return true;
     }
@@ -163,7 +172,7 @@ QStringList StateWidget::activities() const
     QStringList retVal;
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
     int sz = grp->textItemCount();
-    for(int i = StateWidget::ActivityStartIndex; i < sz; ++i) {
+    for (int i = StateWidget::ActivityStartIndex; i < sz; ++i) {
         retVal << grp->textItemAt(i)->text();
     }
     return retVal;
@@ -178,7 +187,7 @@ void StateWidget::setActivities( QStringList & list )
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
     grp->setTextItemCount(reqdSize);
 
-    for(int i = StateWidget::ActivityStartIndex; i < reqdSize; ++i) {
+    for (int i = StateWidget::ActivityStartIndex; i < reqdSize; ++i) {
         grp->textItemAt(i)->setText(list[i-StateWidget::ActivityStartIndex]);
     }
 
@@ -207,7 +216,7 @@ void StateWidget::showPropertiesDialog()
  */
 bool StateWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !UMLWidget::loadFromXMI( qElement ) ) {
+    if ( !UMLWidget::loadFromXMI( qElement ) ) {
         return false;
     }
 
@@ -219,13 +228,13 @@ bool StateWidget::loadFromXMI( QDomElement & qElement )
     //load states activities
     QDomNode node = qElement.firstChild();
     QDomElement tempElement = node.toElement();
-    if( !tempElement.isNull() && tempElement.tagName() == "Activities" ) {
+    if ( !tempElement.isNull() && tempElement.tagName() == "Activities" ) {
         QDomNode node = tempElement.firstChild();
         QDomElement activityElement = node.toElement();
-        while( !activityElement.isNull() ) {
-            if( activityElement.tagName() == "Activity" ) {
+        while ( !activityElement.isNull() ) {
+            if ( activityElement.tagName() == "Activity" ) {
                 QString name = activityElement.attribute( "name", "" );
-                if( !name.isEmpty() ) {
+                if ( !name.isEmpty() ) {
                     addActivity(name);
                 }
             }//end if
@@ -252,7 +261,7 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     QDomElement activitiesElement = qDoc.createElement( "Activities" );
 
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
-    for(int i = StateWidget::ActivityStartIndex; i < grp->textItemCount(); ++i) {
+    for (int i = StateWidget::ActivityStartIndex; i < grp->textItemCount(); ++i) {
         QDomElement tempElement = qDoc.createElement( "Activity" );
         tempElement.setAttribute( "name", grp->textItemAt(i)->text());
         activitiesElement.appendChild( tempElement );
@@ -261,9 +270,12 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     qElement.appendChild( stateElement );
 }
 
+/**
+ * Reimplementation from WidgetBase.
+ */
 void StateWidget::updateGeometry()
 {
-    if(m_stateType != StateWidget::Normal) {
+    if (m_stateType != StateWidget::Normal) {
         setMinimumSize(StateWidget::MinimumEllipseSize);
     }
     else {
@@ -274,22 +286,25 @@ void StateWidget::updateGeometry()
     UMLWidget::updateGeometry();
 }
 
+/**
+ *
+ */
 void StateWidget::updateTextItemGroups()
 {
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
-    if(m_stateType != StateWidget::Normal) {
-        for(int i = 0; i < grp->textItemCount(); ++i) {
+    if (m_stateType != StateWidget::Normal) {
+        for (int i = 0; i < grp->textItemCount(); ++i) {
             grp->textItemAt(i)->hide();
         }
     }
     else {
         int sz = grp->textItemCount();
         // Ensure atleast there is one item, that is - Name Item.
-        if(sz == 0) {
+        if (sz == 0) {
             grp->appendTextItem(new TextItem(name()));
             sz = 1;
         }
-        for(int i = 0; i < sz; ++i) {
+        for (int i = 0; i < sz; ++i) {
             TextItem *item = grp->textItemAt(i);
             item->show();
         }
@@ -300,9 +315,12 @@ void StateWidget::updateTextItemGroups()
     UMLWidget::updateTextItemGroups();
 }
 
+/**
+ *
+ */
 QVariant StateWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-    if(change == SizeHasChanged && m_stateType == StateWidget::Normal) {
+    if (change == SizeHasChanged && m_stateType == StateWidget::Normal) {
         TextItemGroup *grp = textItemGroupAt(GroupIndex);
         grp->setGroupGeometry(rect());
 
@@ -310,7 +328,7 @@ QVariant StateWidget::attributeChange(WidgetAttributeChange change, const QVaria
         // as it is unnecessary to draw line on round rect.
         int cnt = grp->textItemCount();
         m_separatorLines.resize(cnt - 1);
-        for(int i = 0; i < cnt - 1; ++i) {
+        for (int i = 0; i < cnt - 1; ++i) {
             const TextItem *item = grp->textItemAt(i);
             const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
             const qreal y = bottomLeft.y();
@@ -338,7 +356,7 @@ void StateWidget::slotMenuSelection(QAction* action)
         text = KInputDialog::getText( i18n("Enter State Name"),
                                       i18n("Enter the name of the new state:"),
                                       name(), &ok );
-        if( ok && !text.isEmpty()) {
+        if ( ok && !text.isEmpty()) {
             setName( text );
         }
         break;
@@ -347,7 +365,7 @@ void StateWidget::slotMenuSelection(QAction* action)
         text = KInputDialog::getText( i18n("Enter Activity"),
                                       i18n("Enter the name of the new activity:"),
                                       i18n("new activity"), &ok );
-        if( ok && !text.isEmpty()) {
+        if ( ok && !text.isEmpty()) {
             addActivity( text );
         }
         break;
@@ -358,8 +376,8 @@ void StateWidget::slotMenuSelection(QAction* action)
 
     default:
         UMLWidget::slotMenuSelection(action);
+        break;
     }
 }
-
 
 #include "statewidget.moc"
