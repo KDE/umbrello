@@ -565,7 +565,7 @@ void UMLListView::popupMenuSel(QAction* action)
         } else {
             uWarning() << "calling properties on unknown type";
         }
-        temp -> cancelRename(0);
+        temp->cancelRename(0);
         break;
 
     case ListPopupMenu::mt_Logical_Folder:
@@ -1216,8 +1216,8 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
     UMLDragData::LvTypeAndID * data = 0;
     Uml::ListView_Type dstType = item->getType();
     bool accept = true;
-    while (accept && ((data = it.current()) != 0)) {
-        ++it;
+    while (accept && it.hasNext()) {
+        data = it.next();
         Uml::ListView_Type srcType = data->type;
         switch (srcType) {
         case Uml::lvt_Class:
@@ -1628,8 +1628,8 @@ void UMLListView::slotDropped(QDropEvent* de, Q3ListViewItem* /* parent */, Q3Li
     uDebug() << "slotDropped: newParent->getText() is " << newParent->getText();
     UMLDragData::LvTypeAndID_It it(srcList);
     UMLDragData::LvTypeAndID * src = 0;
-    while ((src = it.current()) != 0) {
-        ++it;
+    while (it.hasNext()) {
+        src = it.next();
         moveObject(src->id, src->type, newParent);
     }
 }

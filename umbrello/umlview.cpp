@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -554,11 +553,12 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
         return;
     }
     UMLDragData::LvTypeAndID_It tidIt(tidList);
-    UMLDragData::LvTypeAndID * tid = tidIt.current();
-    if (!tid) {
-        uDebug() << "UMLDragData::getClip3TypeAndID returned empty list" << endl;
+    UMLDragData::LvTypeAndID * tid;
+    if (!tidIt.hasNext()) {
+        uDebug() << "UMLDragData::getClip3TypeAndID returned empty list";
         return;
     }
+    tid = tidIt.next();
     ListView_Type lvtype = tid->type;
     Uml::IDType id = tid->id;
 
@@ -660,11 +660,12 @@ void UMLView::dropEvent(QDropEvent *e)
         return;
     }
     UMLDragData::LvTypeAndID_It tidIt(tidList);
-    UMLDragData::LvTypeAndID * tid = tidIt.current();
-    if (!tid) {
-        uDebug() << "UMLDragData::getClip3TypeAndID returned empty list" << endl;
+    UMLDragData::LvTypeAndID * tid;
+    if (!tidIt.hasNext()) {
+        uDebug() << "UMLDragData::getClip3TypeAndID returned empty list";
         return;
     }
+    tid = tidIt.next();
     ListView_Type lvtype = tid->type;
     Uml::IDType id = tid->id;
 
