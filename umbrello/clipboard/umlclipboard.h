@@ -1,27 +1,25 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLCLIPBOARD_H
 #define UMLCLIPBOARD_H
 
-#include <qmimedata.h>
-
-#include "../associationwidgetlist.h"
-#include "../umlobjectlist.h"
-#include "../umllistviewitemlist.h"
-#include "../umllistviewitem.h"
-#include "../umlviewlist.h"
-#include "../umlwidgetlist.h"
+#include "associationwidgetlist.h"
+#include "umlobjectlist.h"
+#include "umllistviewitemlist.h"
+#include "umllistviewitem.h"
+#include "umlviewlist.h"
+#include "umlwidgetlist.h"
 
 class IDChangeLog;
+class QMimeData;
 
 /**
  * This class manages the uml's interaction with the KDE
@@ -32,18 +30,13 @@ class IDChangeLog;
  * @author Gustavo Madrigal
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLClipboard : public QObject {
+class UMLClipboard : public QObject
+{
     Q_OBJECT
 public:
 
-    /**
-     * Constructor.
-     */
     UMLClipboard();
 
-    /**
-     * Deconstructor.
-     */
     virtual ~UMLClipboard();
 
     bool paste(const QMimeData* Data);
@@ -65,13 +58,9 @@ private:
     void CleanAssociations(AssociationWidgetList& associations);
 
     bool pasteClip1(const QMimeData* data);
-
     bool pasteClip2(const QMimeData* data);
-
     bool pasteClip3(const QMimeData* data);
-
     bool pasteClip4(const QMimeData* data);
-
     bool pasteClip5(const QMimeData* data);
 
     bool checkPasteWidgets(UMLWidgetList & widgetList);

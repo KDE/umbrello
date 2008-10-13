@@ -494,11 +494,12 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
         return;
     }
     UMLDragData::LvTypeAndID_It tidIt(tidList);
-    UMLDragData::LvTypeAndID * tid = tidIt.current();
-    if (!tid) {
+    UMLDragData::LvTypeAndID * tid;
+    if (!tidIt.hasNext()) {
         uDebug() << "UMLDragData::getClip3TypeAndID returned empty list";
         return;
     }
+    tid = tidIt.next();
     ListView_Type lvtype = tid->type;
     Uml::IDType id = tid->id;
 
@@ -606,11 +607,12 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
         return;
     }
     UMLDragData::LvTypeAndID_It tidIt(tidList);
-    UMLDragData::LvTypeAndID * tid = tidIt.current();
-    if (!tid) {
+    UMLDragData::LvTypeAndID * tid;
+    if (!tidIt.hasNext()) {
         uDebug() << "UMLDragData::getClip3TypeAndID returned empty list";
         return;
     }
+    tid = tidIt.next();
     ListView_Type lvtype = tid->type;
     Uml::IDType id = tid->id;
 

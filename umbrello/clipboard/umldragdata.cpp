@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,34 +11,44 @@
 // own header
 #include "umldragdata.h"
 
-// qt/kde includes
+// qt includes
 #include <QtCore/QTextStream>
 #include <QtXml/QDomDocument>
 #include <QtGui/QPixmap>
+
+// kde includes
 #include <kdebug.h>
 
 // local includes
 #include "idchangelog.h"
-#include "../uml.h"
-#include "../umldoc.h"
-#include "../umlview.h"
-#include "../umlobject.h"
-#include "../folder.h"
-#include "../classifier.h"
-#include "../umlwidget.h"
-#include "../umllistview.h"
-#include "../umllistviewitem.h"
-#include "../associationwidget.h"
-#include "../object_factory.h"
-#include "../model_utils.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "umlscene.h"
+#include "umlview.h"
+#include "umlobject.h"
+#include "folder.h"
+#include "classifier.h"
+#include "umlwidget.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
+#include "associationwidget.h"
+#include "object_factory.h"
+#include "model_utils.h"
 
+/**
+ *  Constructor.
+ */
 UMLDragData::UMLDragData(UMLObjectList& objects, QWidget* dragSource /* = 0 */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip1(objects);
 }
 
+/**
+ * For use when the user selects UML Object and Diagrams
+ * from the ListView to be copied, Mime type =
+ * "application/x-uml-clip2
+ */
 UMLDragData::UMLDragData(UMLObjectList& objects, UMLListViewItemList& umlListViewItems, UMLViewList& diagrams,
                  QWidget* dragSource /* = 0 */)
 {
@@ -47,12 +56,22 @@ UMLDragData::UMLDragData(UMLObjectList& objects, UMLListViewItemList& umlListVie
     setUMLDataClip2(objects, umlListViewItems, diagrams);
 }
 
+/**
+ *  Constructor.
+ */
 UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems, QWidget* dragSource /* = 0 */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip3(umlListViewItems);
 }
 
+/**
+ * For use when the user selects UMLObjects from a
+ * Diagram. The Selected widgets and the relationships
+ * between only selected widgets will be copied and also
+ * its respective ListView Items, Mime type =
+ * "application/x-uml-clip4
+ */
 UMLDragData::UMLDragData(UMLObjectList& objects,
                  UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
                  QPixmap& pngImage, Uml::Diagram_Type dType, QWidget* dragSource /* = 0 */)
@@ -61,6 +80,11 @@ UMLDragData::UMLDragData(UMLObjectList& objects,
     setUMLDataClip4(objects, widgets, associationDatas, pngImage, dType);
 }
 
+/**
+ * For use when the user selects only Operations and/or
+ * Attributes from the ListView, Mime type =
+ * "application/x-uml-clip5
+ */
 UMLDragData::UMLDragData(UMLObjectList& objects, int,
                          QWidget* dragSource /* = 0 */)
 {
@@ -68,11 +92,17 @@ UMLDragData::UMLDragData(UMLObjectList& objects, int,
     setUMLDataClip5(objects);
 }
 
+/**
+ *  Constructor.
+ */
 UMLDragData::UMLDragData(QWidget* dragSource /* = 0 */)
 {
     Q_UNUSED(dragSource);
 }
 
+/**
+ *  Deconstructor.
+ */
 UMLDragData::~UMLDragData()
 {
 }
@@ -446,7 +476,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
  * Return just the LvTypeAndID of a Clip3.
  *
  * @param mimeData        The encoded source.
- * @param typeAndIdList     The LvTypeAndID_List decoded from the source.
+ * @param typeAndIdList   The LvTypeAndID_List decoded from the source.
  * @return  True if decoding was successful.
  */
 bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
@@ -760,7 +790,6 @@ int UMLDragData::getCodingType(const QMimeData* mimeData)
     if (mimeData->hasFormat("application/x-uml-clip5") ) {
         result = 5;
     }
-
     return result;
 }
 
