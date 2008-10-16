@@ -27,13 +27,15 @@
 class StateWidget : public UMLWidget
 {
     Q_OBJECT
+    Q_ENUMS(StateType)
 public:
     /// Enumeration that codes the different types of state.
     enum StateType
     {
         Initial = 0,
         Normal,
-        End
+        End,
+        Junction
     };
 
     explicit StateWidget(StateType stateType = Normal, Uml::IDType id = Uml::id_None );

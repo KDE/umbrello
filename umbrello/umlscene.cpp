@@ -2932,6 +2932,13 @@ void UMLScene::slotMenuSelection(QAction* action)
     }
         break;
 
+    case ListPopupMenu::mt_Junction: {
+        StateWidget* state = new StateWidget(StateWidget::Junction);
+        addItem(state);
+        setupNewWidget(state);
+    }
+        break;
+
     case ListPopupMenu::mt_State: {
         bool ok = false;
         QString name = KInputDialog::getText(i18n("Enter State Name"),

@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -36,6 +35,7 @@ class UMLObject;
 class ListPopupMenu : public KMenu
 {
     Q_OBJECT
+    Q_ENUMS(Menu_Type)
 public:
 
     /// This type hosts all possible menu types.
@@ -51,7 +51,7 @@ public:
         mt_Sequence_Diagram,
         mt_Class_Diagram,
         mt_Collaboration_Diagram,
-        mt_State_Diagram,                                // 10
+        mt_State_Diagram,
         mt_Activity_Diagram,
         mt_Component_Diagram,
         mt_Deployment_Diagram,
@@ -61,7 +61,7 @@ public:
         mt_On_Class_Diagram,
         mt_On_Collaboration_Diagram,
         mt_On_State_Diagram,
-        mt_On_Activity_Diagram,                          // 20
+        mt_On_Activity_Diagram,
         mt_On_Component_Diagram,
         mt_On_Deployment_Diagram,
         mt_On_EntityRelationship_Diagram,
@@ -71,7 +71,7 @@ public:
         mt_Deployment_Folder,
         mt_EntityRelationship_Folder,
         mt_Class,
-        mt_Package,                                      // 30
+        mt_Package,
         mt_Subsystem,
         mt_Component,
         mt_Node,
@@ -81,7 +81,7 @@ public:
         mt_Entity,
         mt_Datatype,
         mt_Actor,
-        mt_UseCase,                                      // 40
+        mt_UseCase,
         mt_Attribute,
         mt_EntityAttribute,
         mt_EnumLiteral,
@@ -91,17 +91,18 @@ public:
         mt_CheckConstraint,
         mt_Object,
         mt_Category,
-        mt_DisjointSpecialisation,                       // 50
+        mt_DisjointSpecialisation,
         mt_OverlappingSpecialisation,
         mt_Union,
         mt_Initial_State,
         mt_End_State,
         mt_State,
+        mt_Junction,
         mt_Activity,
         mt_Initial_Activity,
         mt_End_Activity,
         mt_Operation,
-        mt_Template,                                     // 60
+        mt_Template,
         mt_New_Parameter,
         mt_New_Operation,
         mt_New_Attribute,
@@ -111,7 +112,7 @@ public:
         mt_New_UniqueConstraint,
         mt_New_PrimaryKeyConstraint,
         mt_New_ForeignKeyConstraint,
-        mt_New_CheckConstraint,                          // 70
+        mt_New_CheckConstraint,
         mt_Parameter_Selected,
         mt_Operation_Selected,
         mt_Attribute_Selected,
@@ -121,27 +122,27 @@ public:
         mt_UniqueConstraint_Selected,
         mt_PrimaryKeyConstraint_Selected,
         mt_ForeignKeyConstraint_Selected,
-        mt_CheckConstraint_Selected,                     // 80
-        mt_Association_Selected,          // Association without role names
+        mt_CheckConstraint_Selected,
+        mt_Association_Selected,                 // Association without role names
         mt_Show_Attributes,
-        mt_Show_Attributes_Selection,     //SHOWATTS, multiple items
+        mt_Show_Attributes_Selection,            // SHOWATTS, multiple items
         mt_Show_Operations,
-        mt_Show_Operations_Selection,     //SHOWOPS, multiple items
+        mt_Show_Operations_Selection,            // SHOWOPS, multiple items
         mt_Show_Packages,
-        mt_Show_Packages_Selection,       //SHOWPACKAGE, multiple items
+        mt_Show_Packages_Selection,              // SHOWPACKAGE, multiple items
         mt_Show_Stereotypes,
-        mt_Show_Stereotypes_Selection,    //SHOWSTEREOTYPE, multiple items
-        mt_Visibility,                                   // 90
-        mt_Visibility_Selection,          //SCOPE, multiple items
+        mt_Show_Stereotypes_Selection,           // SHOWSTEREOTYPE, multiple items
+        mt_Visibility,
+        mt_Visibility_Selection,                 // SCOPE, multiple items
         mt_DrawAsCircle,
-        mt_DrawAsCircle_Selection,        //DRAWASCIRCLE, multiple items
+        mt_DrawAsCircle_Selection,               // DRAWASCIRCLE, multiple items
         mt_ChangeToClass,
         mt_ChangeToClass_Selection,
         mt_ChangeToInterface,
         mt_ChangeToInterface_Selection,
         mt_Rename_Object,
         mt_Select_Operation,
-        mt_Anchor,                                       // 100
+        mt_Anchor,
         mt_Properties,
         mt_Rename,
         mt_Delete,
@@ -151,27 +152,27 @@ public:
         mt_Sequence_Number,
         mt_Cut,
         mt_Copy,
-        mt_Paste,                                        // 110
+        mt_Paste,
         mt_Clear,
         mt_Redo,
         mt_Undo,
         mt_Link_Docs,
         mt_Show_Operation_Signature,
-        mt_Show_Operation_Signature_Selection, //SHOWOPSIG, multiple items
+        mt_Show_Operation_Signature_Selection,   //SHOWOPSIG, multiple items
         mt_Show_Attribute_Signature,
-        mt_Show_Attribute_Signature_Selection, //SHOWATTSIG, multiple items
+        mt_Show_Attribute_Signature_Selection,   //SHOWATTSIG, multiple items
         mt_Message_Text,
-        mt_Collaboration_Message,                        // 120
+        mt_Collaboration_Message,
         mt_FloatText,
         mt_MultiA,
         mt_MultiB,
-        mt_Name,                       // Association name
-        mt_FullAssociation,            // Association with role names
-        mt_AttributeAssociation,       // Rendering of an attribute as an association
+        mt_Name,                                 // Association name
+        mt_FullAssociation,                      // Association with role names
+        mt_AttributeAssociation,                 // Rendering of an attribute as an association
         mt_RoleNameA,
         mt_RoleNameB,
         mt_Delete_Selection,
-        mt_Reset_Label_Positions,                        // 130
+        mt_Reset_Label_Positions,
         mt_Line_Color,
         mt_Fill_Color,
         mt_Use_Fill_Color,
@@ -181,7 +182,7 @@ public:
         mt_Rename_Name,
         mt_Rename_RoleAName,
         mt_Rename_RoleBName,
-        mt_Change_Font,                                  // 140
+        mt_Change_Font,
         mt_Change_Font_Selection,
         mt_SnapToGrid,
         mt_ShowSnapGrid,
@@ -192,18 +193,18 @@ public:
         mt_Branch,
         mt_Flip,
 
-        mt_Expand_All,                                        // 150 Expand all items in the list
-        mt_Collapse_All,                                // Collapse all items in the list
+        mt_Expand_All,                           // Expand all items in the list
+        mt_Collapse_All,                         // Collapse all items in the list
 
         mt_Refactoring,
-        mt_ViewCode, // view code document contents
-        mt_Clone, // Create a deep copy of the object.
-        mt_Show_Public_Only, // (not currently used)
-        mt_Show_Public_Only_Selection,  // Show public operations/attributes only.
-        mt_Externalize_Folder,  // Mark folder for saving as separate submodel
-        mt_Internalize_Folder,  // Reintegrate separate submodel into main model
+        mt_ViewCode,                             // view code document contents
+        mt_Clone,                                // Create a deep copy of the object.
+        mt_Show_Public_Only,                     // (not currently used)
+        mt_Show_Public_Only_Selection,           // Show public operations/attributes only.
+        mt_Externalize_Folder,                   // Mark folder for saving as separate submodel
+        mt_Internalize_Folder,                   // Reintegrate separate submodel into main model
 
-        mt_AddInteractionOperand,   // add a dash line to an alternative or a parallel combined fragment
+        mt_AddInteractionOperand,                // add a dash line to an alternative or a parallel combined fragment
 
         mt_Undefined  =  - 1
     };

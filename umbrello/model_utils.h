@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -13,7 +12,7 @@
 #define MODEL_UTILS_H
 
 #include <QtCore/QString>
-#include <q3valuelist.h>
+#include <QtCore/QLinkedList>
 
 #include "umlnamespace.h"
 #include "umlobjectlist.h"
@@ -93,7 +92,6 @@ QString progLangToString(Uml::Programming_Language pl);
 
 Uml::Programming_Language stringToProgLang(QString str);
 
-
 QString diagramTypeToString(Uml::Diagram_Type dt);
 
 /**
@@ -125,8 +123,8 @@ struct NameAndType {
 /**
  * Auxiliary type for OpDescriptor
  */
-typedef Q3ValueList<NameAndType> NameAndType_List;
-typedef Q3ValueListIterator<NameAndType> NameAndType_ListIt;
+typedef QLinkedList<NameAndType> NameAndType_List;
+typedef QLinkedList<NameAndType>::iterator NameAndType_ListIt;
 
 /**
  * Data structure filled by parseOperation()
@@ -146,10 +144,17 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
 
 Parse_Status parseConstraint(QString m, QString& name, UMLEntity* owningScope);
 
-
 QString psText(Parse_Status value);
 
 QString updateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda );
+
+/**
+ * In a Q_OBJECT class define any enum as Q_ENUMS.
+ * With the above the following macro returns the name of a given enum.
+ * This can be used in debug output.
+ * TODO: convert it to a function.
+ */
+#define ENUM_NAME(o,e,v) (o::staticMetaObject.enumerator(o::staticMetaObject.indexOfEnumerator(#e)).valueToKey((v)))
 
 }
 

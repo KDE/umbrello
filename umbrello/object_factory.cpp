@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -77,8 +76,7 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
                               UMLPackage *parentPkg)
 {
     if (parentPkg == NULL) {
-        uError() << "Object_Factory::createNewUMLObject(" << name
-            << "): parentPkg is NULL";
+        uError() << name << ": parentPkg is NULL";
         return NULL;
     }
     UMLObject *o = NULL;
@@ -129,7 +127,7 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
             o = new UMLCategory(name, g_predefinedId);
             break;
         default:
-            uWarning() << "createNewUMLObject error unknown type: " << type;
+            uWarning() << "error unknown type: " << type;
             return NULL;
     }
     o->setUMLPackage(parentPkg);

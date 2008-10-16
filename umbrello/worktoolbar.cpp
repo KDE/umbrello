@@ -140,7 +140,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt)
         //insertHotBtn(tbb_ShallowHistory);     //NotYetImplemented
         //insertHotBtn(tbb_Join);               //NotYetImplemented
         insertHotBtn(tbb_StateFork);
-        //insertHotBtn(tbb_Junction);           //NotYetImplemented
+        insertHotBtn(tbb_Junction);
         //insertHotBtn(tbb_Choice);             //NotYetImplemented
         //insertHotBtn(tbb_Andline);            //NotYetImplemented
         break;
@@ -330,7 +330,7 @@ void WorkToolBar::loadPixmaps()
         { tbb_ShallowHistory,           i18n("Shallow History"),         Icon_Utils::it_History_Shallow,         SLOT(slotShallowHistory()) },  //NotYetImplemented
         { tbb_Join,                     i18nc("join states", "Join"),    Icon_Utils::it_Join,                    SLOT(slotJoin()) },            //NotYetImplemented
         { tbb_StateFork,                i18n("Fork"),                    Icon_Utils::it_Fork_State,              SLOT(slotStateFork()) },
-        { tbb_Junction,                 i18n("Junction"),                Icon_Utils::it_Junction,                SLOT(slotJunction()) },        //NotYetImplemented
+        { tbb_Junction,                 i18n("Junction"),                Icon_Utils::it_Junction,                SLOT(slotJunction()) },
         { tbb_Choice,                   i18nc("state choice", "Choice"), Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
         //:TODO: let the user decide which symbol he wants (setting an option)
         //    { tbb_Choice,                   i18n("Choice"),                  Icon_Utils::it_Choice_Rhomb,           SLOT(slotChoice()) },          //NotYetImplemented

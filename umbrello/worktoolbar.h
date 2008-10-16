@@ -39,6 +39,7 @@ class QAction;
 class WorkToolBar : public KToolBar
 {
     Q_OBJECT
+    Q_ENUMS(ToolBar_Buttons)
 public:
 
     /**

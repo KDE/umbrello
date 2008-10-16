@@ -633,7 +633,7 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture), i18n("Export as Picture..."));
         break;
     default:
-        uWarning() << "called on unimplemented Menu_Type " << m;
+        uWarning() << "called on unimplemented Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, m));
         break;
     }
 }
@@ -712,7 +712,7 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line..." ));
         break;
     default:
-        uWarning() << "called on unimplemented Menu_Type " << m;
+        uWarning() << "called on unimplemented Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, m));
         break;
     }
 }
@@ -1111,6 +1111,7 @@ void ListPopupMenu::insertSubMenuNew(Menu_Type type)
             insert(mt_Initial_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial State"));
             insert(mt_End_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End State"));
             insert(mt_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18nc("add new state", "State..."));
+            insert(mt_Junction, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Junction), i18nc("Junction", "Junction..."));
             insert(mt_FloatText, menu);
             break;
         case mt_On_Activity_Diagram:
@@ -1739,7 +1740,7 @@ void ListPopupMenu::setActionChecked(Menu_Type idx, bool value)
         action->setChecked(value);
 #ifdef VERBOSE_DEBUGGING
     else
-        uWarning() << "called on unknown Menu_Type " << idx;
+        uWarning() << "called on unknown Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, idx));
 #endif
 }
 
@@ -1756,7 +1757,7 @@ void ListPopupMenu::setActionEnabled(Menu_Type idx, bool value)
         action->setEnabled(value);
 #ifdef VERBOSE_DEBUGGING
     else
-        uWarning() << "called on unknown Menu_Type " << idx;
+        uWarning() << "called on unknown Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, idx));
 #endif
 }
 

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -37,7 +36,7 @@
 #include "objectnodewidget.h"
 #include "pinwidget.h"
 #include "umlscene.h"
-
+#include "model_utils.h"  // for ENUM_NAMES only
 
 using namespace Uml;
 
@@ -45,7 +44,8 @@ ToolBarStateOther::ToolBarStateOther(UMLScene *umlScene) : ToolBarStatePool(umlS
 {
 }
 
-ToolBarStateOther::~ToolBarStateOther() {
+ToolBarStateOther::~ToolBarStateOther()
+{
 }
 
 /**
@@ -53,7 +53,8 @@ ToolBarStateOther::~ToolBarStateOther() {
  * Overridden from base class to ignore associations and widgets and treat
  * them as empty spaces to create widgets on it.
  */
-void ToolBarStateOther::setCurrentElement() {
+void ToolBarStateOther::setCurrentElement()
+{
 }
 
 /**
@@ -177,6 +178,10 @@ bool ToolBarStateOther::newWidget()
             umlWidget = new StateWidget(StateWidget::End);
             break;
 
+        case WorkToolBar::tbb_Junction:
+            umlWidget = new StateWidget(StateWidget::Junction);
+            break;
+
         case WorkToolBar::tbb_Send_Signal:
             umlWidget = new SignalWidget(SignalWidget::Send);
             break;
@@ -218,35 +223,63 @@ bool ToolBarStateOther::newWidget()
     m_pUMLScene->addItem(umlWidget);
 
     // Special treatment for some buttons
-    if (getButton() == WorkToolBar::tbb_Activity) {
-        Dialog_Utils::askNameForWidget(
-            umlWidget, i18n("Enter Activity Name"),
-            i18n("Enter the name of the new activity:"), i18n("new activity"));
-    } else if (getButton() == WorkToolBar::tbb_Accept_Signal
-            || getButton() == WorkToolBar::tbb_Send_Signal) {
-        Dialog_Utils::askNameForWidget(
-            umlWidget, i18n("Enter Signal Name"),
-            i18n("Enter Signal"), i18n("new Signal"));
-    } else if (getButton() == WorkToolBar::tbb_Accept_Time_Event) {
-        Dialog_Utils::askNameForWidget(
-            umlWidget, i18n("Enter Time Event Name"),
-            i18n("Enter Time Event"), i18n("new time event"));
-    } else if (getButton() == WorkToolBar::tbb_Seq_Combined_Fragment) {
-        dynamic_cast<CombinedFragmentWidget*>(umlWidget)->askNameForWidgetType(
-            umlWidget, i18n("Enter Combined Fragment Name"),
-            i18n("Enter the Combined Fragment"), i18n("new Combined Fragment"));
-    } else if (getButton() == WorkToolBar::tbb_State) {
-        Dialog_Utils::askNameForWidget(
-            umlWidget, i18n("Enter State Name"),
-            i18n("Enter the name of the new state:"), i18n("new state"));
-    } else if (getButton() == WorkToolBar::tbb_Text) {
-        // It is pretty invisible otherwise.
-        FloatingTextWidget* ft = (FloatingTextWidget*) umlWidget;
-        ft->showChangeTextDialog();
-    } else if (getButton() == WorkToolBar::tbb_Object_Node) {
-         dynamic_cast<ObjectNodeWidget*>(umlWidget)->askForObjectNodeType(umlWidget);
-    } else if (getButton() == WorkToolBar::tbb_PrePostCondition) {
-         dynamic_cast<NoteWidget*>(umlWidget)->askForNoteType(umlWidget);
+    switch (getButton()) {
+    case WorkToolBar::tbb_Activity:
+        {
+            Dialog_Utils::askNameForWidget(
+                umlWidget, i18n("Enter Activity Name"),
+                i18n("Enter the name of the new activity:"), i18n("new activity"));
+        }
+        break;
+    case WorkToolBar::tbb_Accept_Signal:
+    case WorkToolBar::tbb_Send_Signal:
+        {
+            Dialog_Utils::askNameForWidget(
+                umlWidget, i18n("Enter Signal Name"),
+                i18n("Enter Signal"), i18n("new Signal"));
+        }
+        break;
+    case WorkToolBar::tbb_Accept_Time_Event:
+        {
+            Dialog_Utils::askNameForWidget(
+                umlWidget, i18n("Enter Time Event Name"),
+                i18n("Enter Time Event"), i18n("new time event"));
+        }
+        break;
+    case WorkToolBar::tbb_Seq_Combined_Fragment:
+        {
+            dynamic_cast<CombinedFragmentWidget*>(umlWidget)->askNameForWidgetType(
+                umlWidget, i18n("Enter Combined Fragment Name"),
+                i18n("Enter the Combined Fragment"), i18n("new Combined Fragment"));
+        }
+        break;
+    case WorkToolBar::tbb_State:
+        {
+            Dialog_Utils::askNameForWidget(
+                umlWidget, i18n("Enter State Name"),
+                i18n("Enter the name of the new state:"), i18n("new state"));
+        }
+        break;
+    case WorkToolBar::tbb_Text:
+        {
+            // It is pretty invisible otherwise.
+            FloatingTextWidget* ft = (FloatingTextWidget*) umlWidget;
+            ft->showChangeTextDialog();
+        }
+        break;
+    case WorkToolBar::tbb_Object_Node:
+        {
+            dynamic_cast<ObjectNodeWidget*>(umlWidget)->askForObjectNodeType(umlWidget);
+        }
+        break;
+    case WorkToolBar::tbb_PrePostCondition:
+        {
+            dynamic_cast<NoteWidget*>(umlWidget)->askForNoteType(umlWidget);
+        }
+        break;
+    default:
+        uWarning() << "Unknown ToolBar_Buttons: " << QLatin1String(ENUM_NAME(WorkToolBar, WorkToolBar::ToolBar_Buttons, getButton()));
+        break;
     }
 
     // Create the widget. Some setup functions can remove the widget.

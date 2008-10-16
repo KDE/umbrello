@@ -21,6 +21,7 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "model_utils.h"  // for ENUM_NAME only
 
 // kde includes
 #include <klocale.h>
@@ -57,32 +58,49 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
     painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());
 
-    if (m_stateType == StateWidget::Normal) {
-        const QSizeF sz = size();
-        painter->drawRoundRect(rect(), 50, 50);
-        painter->drawLines(m_separatorLines);
-    }
-    else if (m_stateType == StateWidget::Initial) {
-        const QSizeF sz = QSizeF(18, 18);
-        setMinimumSize(sz);
-        setSize(sz);
-        painter->drawEllipse(rect());
-    }
-    else if (m_stateType == StateWidget::End) {
-        const QSizeF sz = QSizeF(18, 18);
-        setMinimumSize(sz);
-        setSize(sz);
-        // Draw inner ellipse with brush set.
-        QRectF inner(rect());
-        qreal adj = lineWidth() + 3;
-        inner.adjust(+adj, +adj, -adj, -adj);
-        painter->drawEllipse(inner);
-        // Now draw outer ellipse with no brush
-        painter->setBrush(Qt::NoBrush);
-        painter->drawEllipse(rect());
-    }
-    else {
-        uWarning() << "Unknown state type:" << m_stateType;
+    switch (m_stateType) {
+    case StateWidget::Normal:
+        {
+            const QSizeF sz = size();
+            painter->drawRoundRect(rect(), 50, 50);
+            painter->drawLines(m_separatorLines);
+        }
+        break;
+    case StateWidget::Initial:
+        {
+            const QSizeF sz = QSizeF(18, 18);
+            setMinimumSize(sz);
+            setSize(sz);
+            painter->drawEllipse(rect());
+        }
+        break;
+    case StateWidget::End:
+        {
+            const QSizeF sz = QSizeF(18, 18);
+            setMinimumSize(sz);
+            setSize(sz);
+            // Draw inner ellipse with brush set.
+            QRectF inner(rect());
+            qreal adj = lineWidth() + 3;
+            inner.adjust(+adj, +adj, -adj, -adj);
+            painter->drawEllipse(inner);
+            // Now draw outer ellipse with no brush
+            painter->setBrush(Qt::NoBrush);
+            painter->drawEllipse(rect());
+        }
+        break;
+    case StateWidget::Junction:
+        {
+            const QSizeF sz = QSizeF(18, 18);
+            setMinimumSize(sz);
+            setSize(sz);
+            painter->setBrush(Qt::black);
+            painter->drawEllipse(rect());
+        }
+        break;
+    default:
+        uWarning() << "Unknown state type:" << QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
+        break;
     }
 }
 
@@ -327,12 +345,14 @@ QVariant StateWidget::attributeChange(WidgetAttributeChange change, const QVaria
         // line after each "line of text" except for the last one
         // as it is unnecessary to draw line on round rect.
         int cnt = grp->textItemCount();
-        m_separatorLines.resize(cnt - 1);
-        for (int i = 0; i < cnt - 1; ++i) {
-            const TextItem *item = grp->textItemAt(i);
-            const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
-            const qreal y = bottomLeft.y();
-            m_separatorLines[i].setLine(1, y, size().width() - 1, y);
+        if (cnt > 0) {
+            m_separatorLines.resize(cnt - 1);
+            for (int i = 0; i < cnt - 1; ++i) {
+                const TextItem *item = grp->textItemAt(i);
+                const QPointF bottomLeft = item->mapToParent(item->boundingRect().bottomLeft());
+                const qreal y = bottomLeft.y();
+                m_separatorLines[i].setLine(1, y, size().width() - 1, y);
+            }
         }
     }
     return UMLWidget::attributeChange(change, oldValue);
