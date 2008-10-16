@@ -98,6 +98,8 @@ public:
         mt_End_State,
         mt_State,
         mt_Junction,
+        mt_DeepHistory,
+        mt_ShallowHistory,
         mt_Activity,
         mt_Initial_Activity,
         mt_End_Activity,

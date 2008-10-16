@@ -1111,7 +1111,9 @@ void ListPopupMenu::insertSubMenuNew(Menu_Type type)
             insert(mt_Initial_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_InitialState), i18n("Initial State"));
             insert(mt_End_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_EndState), i18n("End State"));
             insert(mt_State, menu, Icon_Utils::SmallIcon(Icon_Utils::it_UseCase), i18nc("add new state", "State..."));
-            insert(mt_Junction, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Junction), i18nc("Junction", "Junction..."));
+            insert(mt_Junction, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Junction), i18nc("Junction", "Junction"));
+            insert(mt_DeepHistory, menu, Icon_Utils::SmallIcon(Icon_Utils::it_History_Deep), i18nc("Deep History", "Deep History"));
+            insert(mt_ShallowHistory, menu, Icon_Utils::SmallIcon(Icon_Utils::it_History_Shallow), i18nc("Shallow History", "Shallow History"));
             insert(mt_FloatText, menu);
             break;
         case mt_On_Activity_Diagram:

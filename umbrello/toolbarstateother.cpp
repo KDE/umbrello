@@ -182,6 +182,14 @@ bool ToolBarStateOther::newWidget()
             umlWidget = new StateWidget(StateWidget::Junction);
             break;
 
+        case WorkToolBar::tbb_DeepHistory:
+            umlWidget = new StateWidget(StateWidget::DeepHistory);
+            break;
+
+        case WorkToolBar::tbb_ShallowHistory:
+            umlWidget = new StateWidget(StateWidget::ShallowHistory);
+            break;
+
         case WorkToolBar::tbb_Send_Signal:
             umlWidget = new SignalWidget(SignalWidget::Send);
             break;

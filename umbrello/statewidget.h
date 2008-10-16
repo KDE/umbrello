@@ -35,7 +35,9 @@ public:
         Initial = 0,
         Normal,
         End,
-        Junction
+        Junction,        // Pseudostate
+        DeepHistory,     // Pseudostate
+        ShallowHistory   // Pseudostate
     };
 
     explicit StateWidget(StateType stateType = Normal, Uml::IDType id = Uml::id_None );

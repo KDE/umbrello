@@ -136,8 +136,8 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt)
         insertHotBtn(tbb_State);
         insertHotBtn(tbb_End_State);
         insertHotBtn(tbb_State_Transition);
-        //insertHotBtn(tbb_DeepHistory);        //NotYetImplemented
-        //insertHotBtn(tbb_ShallowHistory);     //NotYetImplemented
+        insertHotBtn(tbb_DeepHistory);
+        insertHotBtn(tbb_ShallowHistory);
         //insertHotBtn(tbb_Join);               //NotYetImplemented
         insertHotBtn(tbb_StateFork);
         insertHotBtn(tbb_Junction);
@@ -326,8 +326,8 @@ void WorkToolBar::loadPixmaps()
         { tbb_Datatype,                 i18n("Datatype"),                Icon_Utils::it_Datatype,                SLOT(slotDatatype()) },
         { tbb_Enum,                     i18n("Enum"),                    Icon_Utils::it_Enum,                    SLOT(slotEnum()) },
         { tbb_Entity,                   i18n("Entity"),                  Icon_Utils::it_Entity,                  SLOT(slotEntity()) },
-        { tbb_DeepHistory,              i18n("Deep History"),            Icon_Utils::it_History_Deep,            SLOT(slotDeepHistory()) },     //NotYetImplemented
-        { tbb_ShallowHistory,           i18n("Shallow History"),         Icon_Utils::it_History_Shallow,         SLOT(slotShallowHistory()) },  //NotYetImplemented
+        { tbb_DeepHistory,              i18n("Deep History"),            Icon_Utils::it_History_Deep,            SLOT(slotDeepHistory()) },
+        { tbb_ShallowHistory,           i18n("Shallow History"),         Icon_Utils::it_History_Shallow,         SLOT(slotShallowHistory()) },
         { tbb_Join,                     i18nc("join states", "Join"),    Icon_Utils::it_Join,                    SLOT(slotJoin()) },            //NotYetImplemented
         { tbb_StateFork,                i18n("Fork"),                    Icon_Utils::it_Fork_State,              SLOT(slotStateFork()) },
         { tbb_Junction,                 i18n("Junction"),                Icon_Utils::it_Junction,                SLOT(slotJunction()) },

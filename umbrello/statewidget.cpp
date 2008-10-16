@@ -98,6 +98,29 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
             painter->drawEllipse(rect());
         }
         break;
+    case StateWidget::DeepHistory:
+        {
+            const QSizeF sz = QSizeF(18, 18);
+            setMinimumSize(sz);
+            setSize(sz);
+            painter->setBrush(Qt::white);
+            painter->drawEllipse(rect());
+            painter->setPen(Qt::black);
+            painter->drawText(3, 13, "H");
+            painter->drawText(11, 12, "*");
+        }
+        break;
+    case StateWidget::ShallowHistory:
+        {
+            const QSizeF sz = QSizeF(18, 18);
+            setMinimumSize(sz);
+            setSize(sz);
+            painter->setBrush(Qt::white);
+            painter->drawEllipse(rect());
+            painter->setPen(Qt::black);
+            painter->drawText(5, 13, "H");
+        }
+        break;
     default:
         uWarning() << "Unknown state type:" << QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
         break;
