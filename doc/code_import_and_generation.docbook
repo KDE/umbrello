@@ -88,7 +88,7 @@ where you want &umbrello; to put the generated sources.
 The <guilabel>Include heading files from folder</guilabel> option allows you to insert a 
 heading at the beginning of each generated file. Heading files can contain copyright or licensing
  information and contain variables that are evaluated at generation time. You can take a look
- at the template heading files shipped with &umbrello; to see how to use this variables for replacing
+ at the template heading files shipped with &umbrello; to see how to use these variables for replacing
  your name or the current date at generation time.
 </para>
 </sect4>
@@ -127,7 +127,7 @@ at <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &umbrello;...</
 <para>
 If you have set your Code Generation options to the right settings and want to generate
 some code right away without going through the wizard, you can select the entire 
-<guimenuitem>Generate All Code</guimenuitem> from the Code menu. 
+<guimenuitem>Generate All Code</guimenuitem> from the <guimenu>Code</guimenu> menu. 
 This will generate code for all the classes in your Model using the current settings 
 (including Output Folder and Overwrite Policy, so use with care).
 </para>
