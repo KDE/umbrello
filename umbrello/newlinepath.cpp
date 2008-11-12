@@ -642,7 +642,7 @@ namespace New
     {
         if (event->buttons() & Qt::LeftButton) {
             m_activePointIndex = closestPointIndex(event->pos());
-            if (isEndPointIndex(m_activePointIndex)) {
+            if (m_activePointIndex != -1 && isEndPointIndex(m_activePointIndex)) {
                 // End points are not drawn and hence not active.
                 m_activePointIndex = -1;
             }
@@ -704,7 +704,7 @@ namespace New
 
         m_activePointIndex = closestPointIndex(event->pos());
         // End points are not drawn and hence not active.
-        if (isEndPointIndex(m_activePointIndex)) {
+        if (m_activePointIndex != -1 && isEndPointIndex(m_activePointIndex)) {
             m_activePointIndex = -1;
         }
         // Activate segment index only if point index is -1
@@ -727,7 +727,7 @@ namespace New
 
         m_activePointIndex = closestPointIndex(event->pos());
         // End points are not drawn and hence not active.
-        if (isEndPointIndex(m_activePointIndex)) {
+        if (m_activePointIndex != -1 && isEndPointIndex(m_activePointIndex)) {
             m_activePointIndex = -1;
         }
         // Activate segment index only if point index is -1
