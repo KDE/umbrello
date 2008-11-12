@@ -93,10 +93,10 @@ void Test::testScene(UMLScene *scene)
     path1->insertPoint(0, QPointF(100, 100));
     path1->insertPoint(1, QPointF(200, 50));
     path1->insertPoint(2, QPointF(700, 300));
-    wid->setLineColor(QColor(Qt::blue));
-    wid->setLineWidth(2);
+    wid->setLineColor(QColor(qrand() % 256, qrand() % 256, qrand() % 256));
+    wid->setLineWidth(4);
 
-    path1->setStartHeadSymbol(New::HeadSymbol::Diamond);
+    path1->setStartHeadSymbol(New::HeadSymbol::Arrow);
     // path1->setEndHeadSymbol(New::HeadSymbol::Circle);
 
     // New::AssociationLine *path2 = new New::AssociationLine(0);

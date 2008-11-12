@@ -62,7 +62,6 @@ namespace New
             setName('m' + QString::number(collabID));
         }
 #endif
-        setAcceptHoverEvents(true);
         setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
     }
 
@@ -121,6 +120,9 @@ namespace New
 
     QVariant AssociationWidget::itemChange(GraphicsItemChange change, const QVariant& value)
     {
+        if (change == ItemSelectedHasChanged) {
+            setAcceptHoverEvents(isSelected());
+        }
         return WidgetBase::itemChange(change, value);
     }
 

@@ -589,8 +589,14 @@ namespace New
     /// Draws the line path and also takes care of highlighting active point or line.
     void AssociationLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt)
     {
-        painter->setPen(pen());
-        painter->setBrush(Qt::NoBrush);
+        QPen _pen = pen();
+        const QColor orig = _pen.color().lighter();
+        QColor invertedColor(orig.green(), orig.blue(), orig.red());
+        if (invertedColor == _pen.color()) {
+            // Ensure different color.
+            invertedColor.setRed((invertedColor.red() + 50) % 256);
+        }
+        invertedColor.setAlpha(150);
 
         int sz = m_points.size();
         if (sz == 0) {
@@ -611,30 +617,40 @@ namespace New
             m_points[sz - 1] = newEnd;
         }
 
-        painter->drawPolyline(m_points.constData(), m_points.size());
+        painter->setPen(_pen);
+        painter->setBrush(Qt::NoBrush);
 
-        // Now restore the points array
-        m_points[0] = savedStart;
-        m_points[sz - 1] = savedEnd;
+        painter->drawPolyline(m_points.constData(), m_points.size());
 
         if (opt->state & QStyle::State_Selected) {
             QRectF ellipse(0, 0, SelectedPointDiameter, SelectedPointDiameter);
-            painter->setBrush(Qt::blue);
+            painter->setBrush(_pen.color());
+            painter->setPen(Qt::NoPen);
             for (int i = 1; i < sz - 1; ++i) {
-                ellipse.moveCenter(m_points.at(i));
-                painter->drawEllipse(ellipse);
+                if (i != m_activePointIndex) {
+                    ellipse.moveCenter(m_points.at(i));
+                    painter->drawEllipse(ellipse);
+                }
             }
 
             if (m_activePointIndex != -1) {
                 ellipse.moveCenter(m_points.at(m_activePointIndex));
-                painter->setBrush(Qt::darkBlue);
+                painter->setBrush(invertedColor);
+                painter->setPen(Qt::NoPen);
                 painter->drawEllipse(ellipse);
             }
             else if (m_activeSegmentIndex != -1) {
-                painter->setPen(Qt::yellow);
-                painter->drawLine(QLineF(m_points[m_activeSegmentIndex], m_points[m_activeSegmentIndex+1]));
+                painter->setPen(QPen(invertedColor, _pen.widthF() + 1));
+                painter->setBrush(Qt::NoBrush);
+
+                QLineF segmentLine(m_points[m_activeSegmentIndex], m_points[m_activeSegmentIndex + 1]);
+                painter->drawLine(segmentLine);
             }
         }
+
+        // Now restore the points array
+        m_points[0] = savedStart;
+        m_points[sz - 1] = savedEnd;
     }
 
     /// Determines the active point or segment, the latter being given more priority.
@@ -771,7 +787,7 @@ namespace New
         }
 
         QPainterPathStroker stroker;
-        stroker.setWidth(AssociationLine::Delta); // allow delta region
+        stroker.setWidth(qMax(AssociationLine::Delta, pen().widthF()) + 2); // allow delta region
 
         m_shape = stroker.createStroke(path);
         m_boundingRect = m_shape.boundingRect();
