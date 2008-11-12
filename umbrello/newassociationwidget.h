@@ -19,7 +19,7 @@ class UMLWidget;
 
 namespace New
 {
-    class LinePath;
+    class AssociationLine;
 
     struct WidgetRole
     {
@@ -58,8 +58,34 @@ namespace New
 
         bool isCollaboration() const;
 
+        ////////////////////////////////////////////////
+        New::AssociationLine* associationLine() const {
+            return m_associationLine;
+        }
+        ///////////////////////////////////////////////
+
+        virtual QRectF boundingRect() const;
+        virtual QPainterPath shape() const;
+        virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget*);
+
+    protected:
+        virtual void updateGeometry();
+        virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
+        virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+
+        virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
+        virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+        virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+        virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
+        virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+        virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+        virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+
     private:
-        New::LinePath *m_linePath;
+        friend class New::AssociationLine;
+
+        New::AssociationLine *m_associationLine;
         WidgetRole m_widgetRole[2];
     };
 }

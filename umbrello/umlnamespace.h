@@ -301,6 +301,22 @@ namespace Uml
     };
 
     /**
+     * Enumeration used for stating where a line is on a widget.
+     */
+    enum Region {
+        Error = 0,
+        West,
+        North,
+        East,
+        South,
+        NorthWest,
+        NorthEast,
+        SouthEast,
+        SouthWest,
+        Center
+    };
+
+    /**
      * The data type used for unique IDs.
      */
     typedef std::string IDType;

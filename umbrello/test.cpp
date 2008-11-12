@@ -24,6 +24,7 @@
 #include "enum.h"
 #include "floatingdashlinewidget.h"
 #include "messagewidget.h"
+#include "newassociationwidget.h"
 #include "newlinepath.h"
 #include "objectwidget.h"
 #include "textitem.h"
@@ -86,24 +87,26 @@ Test* Test::self()
 
 void Test::testScene(UMLScene *scene)
 {
-    New::LinePath *path1 = new New::LinePath(0);
-    scene->addItem(path1);
+    New::AssociationWidget *wid = new New::AssociationWidget(0, Uml::at_Association, 0, 0);
+    New::AssociationLine *path1 = wid->associationLine();
+    scene->addItem(wid);
     path1->insertPoint(0, QPointF(100, 100));
     path1->insertPoint(1, QPointF(200, 50));
     path1->insertPoint(2, QPointF(700, 300));
-    path1->setPen(QPen(Qt::blue));
+    wid->setLineColor(QColor(Qt::blue));
+    wid->setLineWidth(2);
 
     path1->setStartHeadSymbol(New::HeadSymbol::Diamond);
-    path1->setEndHeadSymbol(New::HeadSymbol::Circle);
+    // path1->setEndHeadSymbol(New::HeadSymbol::Circle);
 
-    New::LinePath *path2 = new New::LinePath(0);
-    scene->addItem(path2);
-    path2->insertPoint(0, QPointF(80, 400));
-    path2->insertPoint(1, QPointF(120, 450));
-    path2->insertPoint(2, QPointF(300, 350));
-    path2->setPen(QPen(Qt::darkGreen));
+    // New::AssociationLine *path2 = new New::AssociationLine(0);
+    // scene->addItem(path2);
+    // path2->insertPoint(0, QPointF(80, 400));
+    // path2->insertPoint(1, QPointF(120, 450));
+    // path2->insertPoint(2, QPointF(300, 350));
+    // path2->setPen(QPen(Qt::darkGreen));
 
-    path2->setStartHeadSymbol(New::HeadSymbol::Arrow);
+    // path2->setStartHeadSymbol(New::HeadSymbol::Arrow);
 }
 
 void Test::updateWidgetGeometry(WidgetBase *wid)

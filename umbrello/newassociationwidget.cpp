@@ -34,8 +34,10 @@ namespace New
     AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type type,
                                          UMLWidget *widgetB, UMLObject *umlObj) : WidgetBase(umlObj)
     {
-        m_linePath = new New::LinePath(this);
+        m_associationLine = new New::AssociationLine(this);
 
+// Disabled for testing purpose
+#if 0
         if (!umlObj && UMLAssociation::assocTypeHasUMLRepresentation(type)) {
             UMLObject *objectA = widgetA->umlObject();
             UMLObject *objectB = widgetB->umlObject();
@@ -59,11 +61,14 @@ namespace New
             int collabID = scene->generateCollaborationId();
             setName('m' + QString::number(collabID));
         }
+#endif
+        setAcceptHoverEvents(true);
+        setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
     }
 
     AssociationWidget::~AssociationWidget()
     {
-        // for now nothing, as linePath is deleted by ~QGraphicsItem
+        delete m_associationLine;
     }
 
     UMLWidget* AssociationWidget::widgetForRole(Uml::Role_Type role) const
@@ -91,6 +96,77 @@ namespace New
     {
         Uml::Association_Type at = associationType();
         return (at == Uml::at_Coll_Message || at == Uml::at_Coll_Message_Self);
+    }
+
+    QRectF AssociationWidget::boundingRect() const
+    {
+        return m_associationLine->boundingRect();
+    }
+
+    QPainterPath AssociationWidget::shape() const
+    {
+        return m_associationLine->shape();
+    }
+
+    void AssociationWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget *)
+    {
+        m_associationLine->paint(painter, opt);
+    }
+
+    void AssociationWidget::updateGeometry()
+    {
+        prepareGeometryChange();
+        m_associationLine->calculateBoundingRect();
+    }
+
+    QVariant AssociationWidget::itemChange(GraphicsItemChange change, const QVariant& value)
+    {
+        return WidgetBase::itemChange(change, value);
+    }
+
+    QVariant AssociationWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
+    {
+        if (change == LineWidthHasChanged || change == LineColorHasChanged) {
+            m_associationLine->updatePenSettings();
+            return QVariant();
+        }
+        return WidgetBase::attributeChange(change, oldValue);
+    }
+
+    void AssociationWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
+    {
+        setSelected(true);
+        m_associationLine->mousePressEvent(event);
+    }
+
+    void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+    {
+        m_associationLine->mouseMoveEvent(event);
+    }
+
+    void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+    {
+        m_associationLine->mouseReleaseEvent(event);
+    }
+
+    void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+    {
+        m_associationLine->mouseDoubleClickEvent(event);
+    }
+
+    void AssociationWidget::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+    {
+        m_associationLine->hoverEnterEvent(event);
+    }
+
+    void AssociationWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+    {
+        m_associationLine->hoverMoveEvent(event);
+    }
+
+    void AssociationWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+    {
+        m_associationLine->hoverLeaveEvent(event);
     }
 
 #include "newassociationwidget.moc"

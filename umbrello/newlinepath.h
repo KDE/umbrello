@@ -24,6 +24,9 @@ class QDomElement;
 
 namespace New
 {
+    // More forward declaration (New namespace)
+    class AssociationWidget;
+
     typedef QPair<QPointF, QPointF> PointPair;
 
     class HeadSymbol : public QGraphicsItem
@@ -43,7 +46,7 @@ namespace New
         };
 
         HeadSymbol(Symbol symbol, QGraphicsItem *parent = 0);
-        ~HeadSymbol();
+        virtual ~HeadSymbol();
 
         Symbol symbol() const;
         void setSymbol(Symbol symbol);
@@ -87,56 +90,49 @@ namespace New
         friend void setupSymbolTable();
     };
 
-    class LinePath : public QGraphicsItem
+
+    class AssociationLine
     {
     public:
-        explicit LinePath(QGraphicsItem *parent = 0);
-        virtual ~LinePath();
+        AssociationLine(New::AssociationWidget *assoc);
+        ~AssociationLine();
 
         QPointF point(int index) const;
         void setPoint(int index, const QPointF& point);
 
         void insertPoint(int index, const QPointF& point);
         void removePoint(int index);
-        void removeNonEndPoint(int index);
+
+        int count() const;
         void clear();
 
-        void removeDuplicatePoints();
         void optimizeLinePoints();
 
-        int closestPointIndex(const QPointF& point, qreal delta = LinePath::Delta) const;
-        int segmentIndex(const QPointF& point, qreal delta = LinePath::Delta) const;
+        int closestPointIndex(const QPointF& point, qreal delta = AssociationLine::Delta) const;
+        int segmentIndex(const QPointF& point, qreal delta = AssociationLine::Delta) const;
 
-        bool isEndPoint(const QPointF& point) const;
         bool isEndPointIndex(int index) const;
-
         void setEndPoints(const QPointF &start, const QPointF &end);
 
         void setStartHeadSymbol(HeadSymbol::Symbol symbol);
         void setEndHeadSymbol(HeadSymbol::Symbol symbol);
         void alignHeadSymbols();
 
-        int count() const;
-        int insertableLinePathIndex(const QPointF &position) const;
-
         bool loadFromXMI(QDomElement &qElement);
         void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
         QPen pen() const;
-        void setPen(const QPen& pen);
+        void updatePenSettings();
 
-        QColor lineColor() const;
-        void setLineColor(const QColor &color);
+        QRectF boundingRect() const;
+        QPainterPath shape() const;
 
-        uint lineWidth() const;
-        void setLineWidth(uint width);
+        void paint(QPainter *painter, const QStyleOptionGraphicsItem *opt);
 
-        virtual QRectF boundingRect() const;
-        virtual QPainterPath shape() const;
+        // Convenience functions which takes care of various
+        // states. The user of this class, just has to call these
+        // correspoding methods from its events.
 
-        virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *opt, QWidget *);
-
-    protected:
         void mousePressEvent(QGraphicsSceneMouseEvent *event);
         void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
         void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
@@ -146,15 +142,10 @@ namespace New
         void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
         void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
-        QVariant itemChange(GraphicsItemChange change, const QVariant& value);
-
-    private:
         void calculateBoundingRect();
-
+    private:
         /// These points represents the linepath.
         QVector<QPointF> m_points;
-        /// The pen used to draw lines
-        QPen m_pen;
 
         /// Index of active point which can be dragged to modify linepath.
         int m_activePointIndex;
@@ -164,6 +155,9 @@ namespace New
          *       active at same time!
          */
         int m_activeSegmentIndex;
+
+        /// The association widget for which this line represents.
+        AssociationWidget *m_associationWidget;
 
         /// The symbol drawn at the end of "first" line segment.
         HeadSymbol *m_startHeadSymbol;
