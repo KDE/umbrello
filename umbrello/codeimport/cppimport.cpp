@@ -14,6 +14,12 @@
 // qt/kde includes
 #include <QMap>
 #include <kdebug.h>
+
+// must be located here for win32 msvc (see kdevcppparser/position.h)
+#include "kdevcppparser/lexer.h"
+#include "kdevcppparser/driver.h"
+#include "kdevcppparser/cpptree2uml.h"
+
 // app includes
 #include "import_utils.h"
 #include "../umlobject.h"
@@ -25,9 +31,7 @@
 #include "../attribute.h"
 #include "../template.h"
 #include "../association.h"
-#include "kdevcppparser/lexer.h"
-#include "kdevcppparser/driver.h"
-#include "kdevcppparser/cpptree2uml.h"
+
 
 // static members
 CppDriver * CppImport::ms_driver;

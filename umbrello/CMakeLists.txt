@@ -224,8 +224,8 @@ set(libcodeimport_SRCS
     codeimport/pythonimport.cpp
 )
 
-if (WIN32)
-    # Both MSVC and SunPRO CC have a problem with position.h; we try to put a
+if (WIN32 AND NOT MSVC)
+    # SunPRO CC have a problem with position.h; we try to put a
     # QChar into a spirit iterator, which, after a bunch of futzing, ends up in
     # the STL string_ref templates, which use
     #
@@ -238,7 +238,7 @@ if (WIN32)
     #
     add_definitions(-DDISABLE_CPP_IMPORT)
     set(libkdevcppparser_SRCS)
-else (WIN32)
+else (WIN32 AND NOT MSVC)
     list(APPEND libcodeimport_SRCS
         codeimport/cppimport.cpp
     )
@@ -255,7 +255,7 @@ else (WIN32)
         codeimport/kdevcppparser/ast_utils.cpp
         codeimport/kdevcppparser/cpptree2uml.cpp
     )
-endif(WIN32)
+endif(WIN32 AND NOT MSVC)
 
 set(libclipboard_SRCS
     clipboard/umldragdata.cpp

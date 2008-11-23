@@ -29,8 +29,9 @@ namespace boost { namespace spirit { namespace impl {
   bool isdigit_( QChar const& c);
 }}}
 
-#include "driver.h"
+// must be first for msvc (see position.h for more informations)
 #include "position.h"
+#include "driver.h"
 #include "skip_rule.hpp"
 
 #include <QtCore/QString>
