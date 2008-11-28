@@ -190,7 +190,7 @@ protected:
     virtual int relativeIndexOf(QListWidgetItem* item) {
         return m_pItemListLB->row(item);
     }
-
+    
     Uml::Object_Type m_itemType;
     UMLClassifier* m_pClassifier;
     UMLClassifierListItem* m_pLastObjectCreated;
@@ -201,13 +201,13 @@ protected:
 
     bool m_bSigWaiting;
 
-public slots:
+protected slots:
 
     /**
-     * Called when list view is clicked on
+     * Called whenever the list item needs to be activated
      * calls enableWidgets().
      */
-    void slotClicked(QListWidgetItem* item);
+    void slotActivateItem(QListWidgetItem* item);
 
     /**
      * Called when an item is selected in a right click menu.
