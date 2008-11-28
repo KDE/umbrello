@@ -2430,7 +2430,9 @@ void UMLView::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKe
                 // if the current diagram type permits relationships
                 AssocRules::allowAssociation(assocType, widget, w, false)) {
 
-            AssociationWidget *a = new AssociationWidget(this, widget, assocType, w);
+            // for foreign key contstraint, we need to create the association type Uml::at_Relationship.
+            // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. ( Role B)
+            AssociationWidget *a = new AssociationWidget(this, w, assocType, widget);
             a->setUMLObject(fkConstraint);
             a->calculateEndingPoints();
             //a->setVisibility(attr->getVisibility(), B);
