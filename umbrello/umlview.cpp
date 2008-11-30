@@ -766,7 +766,7 @@ void UMLView::checkMessages(ObjectWidget * w)
         //make sure not in selected list
         m_SelectedList.removeAll(obj);
         m_MessageList.removeAll(obj);
-        delete obj;
+        obj->deleteLater();
     }
 }
 
@@ -884,7 +884,7 @@ void UMLView::removeWidget(UMLWidget * o)
         m_MessageList.removeAll(static_cast<MessageWidget*>(o));
     } else
         m_WidgetList.removeAll(o);
-    delete o;
+    o->deleteLater();
     m_pDoc->setModified();
 }
 
@@ -1873,7 +1873,7 @@ void UMLView::removeAssoc(AssociationWidget* pAssoc)
 
     pAssoc->cleanup();
     m_AssociationList.removeAll(pAssoc);
-    delete pAssoc;
+    pAssoc->deleteLater();
     m_pDoc->setModified();
 }
 
