@@ -20,6 +20,22 @@
 #ifndef POSITION_H
 #define POSITION_H
 
+#ifdef _MSC_VER //Q_CC_MSVC isn't defined here
+/*
+workaround for the following msvc error 
+...\Microsoft Visual Studio 8\VC\INCLUDE\xstring(2044) : error C2620: 
+    member 'std::basic_string<_Elem>::_Bxty::_Buf ' of union 'std::basic_string<_Elem>::_Bxty' 
+    has user-defined constructor or non-trivial default constructor with [  _Elem=QChar]
+...\Microsoft Visual Studio 8\VC\INCLUDE\xstring(2046) : see reference to class 
+    template instantiation 'std::basic_string<_Elem>::_Bxty' being compiled with [  _Elem=QChar]
+..\umbrello\umbrello\codeimport\kdevcppparser\position.h(49) : see reference to class 
+    template instantiation 'std::basic_string<_Elem>' being compiled with [  _Elem=QChar]
+*/
+#define union struct 
+#include <xstring>
+#undef union 
+#endif
+
 #include <limits.h>
 #include <boost/version.hpp>
 #include <boost/spirit.hpp>

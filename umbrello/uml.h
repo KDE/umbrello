@@ -43,6 +43,7 @@ class KTabWidget;
 class KMenu;
 class KMenuBar;
 class KUndoStack;
+class KAction;
 
 // Qt forward declarations
 class QStackedWidget;
@@ -514,8 +515,8 @@ private:
     KPlayerPopupSliderAction* zoomAction;
 
     QAction* m_langAct[Uml::pl_Reserved];
-    QAction* deleteSelectedWidget;
-    QAction* deleteDiagram;
+    KAction* deleteSelectedWidget;
+    KAction* deleteDiagram;
 
     QToolButton* m_newSessionButton;
     KMenu* m_diagramMenu;

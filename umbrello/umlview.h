@@ -72,7 +72,6 @@ public slots:
 
     void zoomIn();
     void zoomOut();
-
     void show();
 };
 

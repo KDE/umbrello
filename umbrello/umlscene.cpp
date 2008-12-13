@@ -2782,7 +2782,7 @@ void UMLScene::setMenu()
  * This slot is entered when an event has occurred on the views display,
  * most likely a mouse event.  Before it sends out that mouse event everyone
  * that displays a menu on the views surface (widgets and this) thould remove any
- * menu.  This stops more then one menu bieing displayed.
+ * menu.  This stops more than one menu bieing displayed.
  */
 void UMLScene::slotRemovePopupMenu()
 {
