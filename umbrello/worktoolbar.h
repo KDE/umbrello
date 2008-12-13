@@ -169,6 +169,10 @@ public slots:
     void buttonChanged(int b);
     void slotResetToolBar();
 
+    /**
+      * These slots are triggered by the buttons. They call buttonChanged with
+      * the button id
+      */
     void slotArrow();
     void slotGeneralization();
     void slotAggregation();

@@ -28,8 +28,7 @@
     <Action name="view_export_image_all"/>
     <Separator/>
     <Menu name="show_view"><text>Sh&amp;ow</text>
-      <ActionList name="view_list">
-      </ActionList>
+      <ActionList name="view_list" />
     </Menu>
     <Menu name="zoom_menu"><text>&amp;Zoom</text>
     </Menu>

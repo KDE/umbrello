@@ -253,7 +253,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 }
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
-    : QWidget(parent), m_pObject(0), m_pWidget(o), m_pInstanceWidget(0), m_pUmldoc(d) 
+    : QWidget(parent), m_pObject(0), m_pWidget(o), m_pInstanceWidget(0), m_pUmldoc(d)
 {
     m_pDeconCB = 0;
     m_pMultiCB = 0;
@@ -295,8 +295,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
         m_pNameLayout->addWidget(m_pMultiCB, 2,1);
         if ( m_pDrawActorCB->isChecked() )
             m_pMultiCB->setEnabled( false );
-    }
-    else {  // sequence diagram
+    } else {  // sequence diagram
         m_pDeconCB = new QCheckBox(i18n("Show destruction"), this);
         m_pDeconCB->setChecked(o->showDestruction());
         m_pNameLayout->addWidget(m_pDeconCB, 2,1);

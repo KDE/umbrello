@@ -549,12 +549,6 @@ Uml::IDType UMLAssociation::getRoleId(Role_Type role) const
     return m_pRole[role]->getID();
 }
 */
-
-/**
- * Returns the Changeablity of the given role.
- *
- * @return  Changeability_Type of the given role.
- */
 Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) const
 {
     return m_pRole[role]->getChangeability();

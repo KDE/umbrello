@@ -2215,7 +2215,7 @@ bool UMLListView::itemRenamed(Q3ListViewItem * item , int /*col*/)
         UMLObject* obj = renamedItem->getUMLObject();
         UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(obj);
         UMLEntity* ent = static_cast<UMLEntity*>(uuc->parent());
-        if (ent != 0)
+        if (ent)
             ent->setAsPrimaryKey(uuc);
 
         return result;

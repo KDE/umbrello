@@ -227,8 +227,10 @@ void UMLApp::initActions()
     editCut = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
     editCopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     editPaste = KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
+
     createStandardStatusBarAction();
     setStandardToolBarMenuEnabled(true);
+
     /* QAction* selectAll = */ KStandardAction::selectAll(this,  SLOT( slotSelectAll() ), actionCollection());
 
     QAction* fileExportDocbook = actionCollection()->addAction("file_export_docbook");

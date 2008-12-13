@@ -84,7 +84,18 @@ public:
     virtual bool configure() = 0;
 
 protected:
-
+    /**
+     * This is a convenience method for derived classes. Configuration actions
+     * that are intended to load plugins can use this method to parse the string
+     * and actually load the plugins. The string is a set of space separated names.
+     * Each name corresponds to the share object implementing the plugin.
+     *
+     * @param config    The object used for configuration.
+     * @param key   The group in the config objec.
+     * @param key   The key in the group that contains libraries to load.
+     *
+     * @return True on success, false on failure.
+     */
     bool loadPlugins(KConfig *config, const QString &group, const QString &key);
 
     bool unloadPlugins();

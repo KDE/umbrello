@@ -3794,7 +3794,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                     m_AssociationList.append(aw);
                 } else {
                     uError() << "cannot create assocwidget from ("
-                             << (int)wA << ", " << (int)wB << ")";
+                             << (void*)wA << ", " << (void*)wB << ")";
                 }
                 break;
             }

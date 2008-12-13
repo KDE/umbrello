@@ -131,8 +131,14 @@ public:
 
     void setVisibility (Uml::Visibility visibility, Uml::Role_Type role );
 
+    /**
+     * Gets the changeability on the given end of the association.
+     */
     Uml::Changeability_Type getChangeability(Uml::Role_Type role) const;
 
+    /**
+     * Sets the changeability on the given end of the association.
+     */
     void setChangeability (Uml::Changeability_Type value, Uml::Role_Type role);
 
     Uml::IDType getWidgetID(Uml::Role_Type role) const;
