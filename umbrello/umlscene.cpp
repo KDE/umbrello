@@ -734,7 +734,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
         removeAssociations(obj);
         //make sure not in selected list
         m_MessageList.removeAll(obj);
-        delete obj;
+        obj->deleteLater();
     }
 }
 
@@ -905,7 +905,7 @@ void UMLScene::removeWidget(UMLWidget * o)
         m_MessageList.removeAll(static_cast<MessageWidget*>(o));
     } else
         m_WidgetList.removeAll(o);
-    delete o;
+    o->deleteLater();
     m_pDoc->setModified(true);
 }
 
@@ -1968,7 +1968,7 @@ void UMLScene::removeAssoc(AssociationWidget* pAssoc)
 
     pAssoc->cleanup();
     m_AssociationList.removeAll(pAssoc);
-    delete pAssoc;
+    pAssoc->deleteLater();
     m_pDoc->setModified();
 }
 
@@ -2576,7 +2576,10 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
             // if the current diagram type permits relationships
             AssocRules::allowAssociation(assocType, widget, w, false)) {
 
-            AssociationWidget *a = new AssociationWidget(this, widget, assocType, w);
+            // for foreign key contstraint, we need to create the association type Uml::at_Relationship.
+            // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. ( Role B)
+            AssociationWidget *a = new AssociationWidget(this, w, assocType, widget);
+
             a->setUMLObject(fkConstraint);
             a->calculateEndingPoints();
             //a->setVisibility(attr->getVisibility(), B);
