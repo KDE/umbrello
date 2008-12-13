@@ -97,10 +97,10 @@ void CppImport::initialize() {
     ms_driver->addIncludePath( "/usr/include/c++" );
     ms_driver->addIncludePath( "/usr/include/g++" );
     ms_driver->addIncludePath( "/usr/local/include" );
-    QStringList incPathList = Import_Utils::includePathList();
+    const QStringList incPathList = Import_Utils::includePathList();
     if (incPathList.count()) {
-        QStringList::Iterator end(incPathList.end());
-        for (QStringList::Iterator i(incPathList.begin()); i != end; ++i) {
+        QStringList::ConstIterator end(incPathList.end());
+        for (QStringList::ConstIterator i(incPathList.begin()); i != end; ++i) {
             ms_driver->addIncludePath( *i );
         }
 

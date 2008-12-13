@@ -176,7 +176,7 @@ UMLObject* JavaImport::resolveClass (QString className)
     QStringList package = m_currentPackage.split( '.' );
     int dirsInPackageCount = package.size();
 
-    for (int count=0; count < dirsInPackageCount; ++count) {
+    for (int count=0; count < dirsInPackageCount; ++count ) {
         // pop off one by one the directories, until only the source root remains
         //
         file.pop_back();
@@ -259,8 +259,8 @@ bool JavaImport::parseStmt()
     if (keyword == "package") {
         m_currentPackage = advance();
         const QString& qualifiedName = m_currentPackage;
-        QStringList names = qualifiedName.split('.');
-        for (QStringList::Iterator it = names.begin(); it != names.end(); ++it) {
+        const QStringList names = qualifiedName.split('.');
+        for (QStringList::ConstIterator it = names.begin(); it != names.end(); ++it) {
             QString name = (*it);
             UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
                             name, m_scope[m_scopeIndex], m_comment);

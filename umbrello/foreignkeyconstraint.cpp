@@ -34,9 +34,6 @@ UMLForeignKeyConstraint::UMLForeignKeyConstraint(UMLObject *parent)
     init();
 }
 
-/**
- * Initialisation of common variables
- */
 void UMLForeignKeyConstraint::init()
 {
     // initialise attributes
@@ -68,10 +65,6 @@ UMLForeignKeyConstraint::~UMLForeignKeyConstraint()
 {
 }
 
-/**
- * Copy the internal presentation of this object into the UMLForeignKeyConstraint
- * object.
- */
 void UMLForeignKeyConstraint::copyInto(UMLObject *lhs) const
 {
     UMLForeignKeyConstraint *target = static_cast<UMLForeignKeyConstraint*>(lhs);
@@ -86,9 +79,6 @@ void UMLForeignKeyConstraint::copyInto(UMLObject *lhs) const
     target->m_UpdateAction = m_UpdateAction;
 }
 
-/**
- * Make a clone of the UMLForeignKeyConstraint.
- */
 UMLObject* UMLForeignKeyConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
@@ -97,13 +87,6 @@ UMLObject* UMLForeignKeyConstraint::clone() const
     return clone;
 }
 
-/**
- * Returns a string representation of the UMLForeignKeyConstraint.
- *
- * @param sig               If true will show the attribute type and
- *                  initial value.
- * @return  Returns a string representation of the UMLAttribute.
- */
 QString UMLForeignKeyConstraint::toString(Uml::Signature_Type sig )
 {
     QString s;
@@ -126,9 +109,6 @@ QString UMLForeignKeyConstraint::toString(Uml::Signature_Type sig )
     return s;
 }
 
-/**
- * Creates the <UML:ForeignKeyConstraint> XMI element.
- */
 void UMLForeignKeyConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement foreignKeyConstraintElement = UMLObject::save( "UML:ForeignKeyConstraint", qDoc );
@@ -152,21 +132,12 @@ void UMLForeignKeyConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qEle
     qElement.appendChild(foreignKeyConstraintElement);
 }
 
-/**
- * Display the properties configuration dialog for the attribute.
- */
 bool UMLForeignKeyConstraint::showPropertiesDialog(QWidget* parent)
 {
     UMLForeignKeyConstraintDialog dialog(parent, this );
     return dialog.exec();
 }
 
-/**
- * Adds the attribute pair to the attributeMap
- * @param pAttr The Attribute of the Parent Entity
- * @param rAttr The Attribute of the Referenced Entity
- * @return true if the attribute pair could be added successfully
- */
 bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, UMLEntityAttribute* rAttr)
 {
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
@@ -228,12 +199,6 @@ bool UMLForeignKeyConstraint::removeEntityAttributePair(UMLEntityAttribute* /*ke
     return state;
 }
 
-/**
- * Check if a attribute pair already exists
- * @param pAttr The Attribute of the Parent Entity
- * @param rAttr The Attribute of the Referenced Entity
- * @return true if the attribute pair could be found.
- */
 bool UMLForeignKeyConstraint::hasEntityAttributePair(UMLEntityAttribute* pAttr,UMLEntityAttribute* rAttr) const
 {
     if ( m_AttributeMap.contains( pAttr ) ) {
@@ -245,9 +210,6 @@ bool UMLForeignKeyConstraint::hasEntityAttributePair(UMLEntityAttribute* pAttr,U
     return false;
 }
 
-/**
- * Loads the <UML:ForeignKeyConstraint> XMI element.
- */
 bool UMLForeignKeyConstraint::load( QDomElement & element )
 {
     UMLDoc* doc = UMLApp::app()->getDocument();
@@ -293,7 +255,6 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
                value = static_cast<UMLEntityAttribute*>( valueObj );
             }
 
-
         } else {
             uWarning() << "unknown child type in UMLUniqueConstraint::load";
         }
@@ -304,10 +265,6 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
     return true;
 }
 
-/**
- * Set the Referenced Entity
- * @param ent The Entity to Reference
- */
 void UMLForeignKeyConstraint::setReferencedEntity(UMLEntity* ent)
 {
     if ( ent == m_ReferencedEntity )
@@ -324,18 +281,11 @@ void UMLForeignKeyConstraint::slotReferencedEntityChanged()
     m_AttributeMap.clear();
 }
 
-/**
- * Clears all mappings between local and referenced attributes
- */
 void UMLForeignKeyConstraint::clearMappings()
 {
     m_AttributeMap.clear();
 }
 
-/**
- * Remimplementation from base classes
- * Used to resolve forward references to referenced entities in xmi
- */
 bool UMLForeignKeyConstraint::resolveRef()
 {
     // resolve referenced entity first

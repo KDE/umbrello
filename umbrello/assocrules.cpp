@@ -46,10 +46,6 @@ bool allowAssociation( Association_Type assocType, const std::type_info &type )
     return false;
 }
 
-/**
- * Returns whether an association is valid with the given variables.
- * This method is used to finish an association.
- */
 bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * widget )
 {
     Widget_Type widgetType = widget->baseType();
@@ -299,9 +295,6 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     return false;
 }
 
-/**
- * Returns whether to allow a role text for the given association type.
- */
 bool AssocRules::allowRole( Uml::Association_Type assocType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
@@ -310,10 +303,6 @@ bool AssocRules::allowRole( Uml::Association_Type assocType )
     return false;
 }
 
-/**
- * Returns whether to allow a multiplicity text for the given
- * association and widget type.
- */
 bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget_Type widgetType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
@@ -323,9 +312,6 @@ bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget
     return false;
 }
 
-/**
- * Returns whether to allow an association to self for given variables.
- */
 bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type widgetType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
@@ -336,11 +322,6 @@ bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type wi
     return false;
 }
 
-/**
- * Returns whether an implements association should be a Realisation or
- * a Generalisation.
- * as defined in m_AssocRules.
- */
 Uml::Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB)
 {
     Widget_Type widgetTypeA = widgetA->baseType();

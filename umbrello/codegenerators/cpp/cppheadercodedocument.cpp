@@ -355,9 +355,9 @@ void CPPHeaderCodeDocument::updateContent( )
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
 
     // first, set the global flag on whether or not to show classfield info
-    CodeClassFieldList * cfList = getCodeClassFieldList();
-    CodeClassFieldList::iterator it = cfList->begin();
-    CodeClassFieldList::iterator end = cfList->end();
+    const CodeClassFieldList * cfList = getCodeClassFieldList();
+    CodeClassFieldList::const_iterator it = cfList->begin();
+    CodeClassFieldList::const_iterator end = cfList->end();
     for( ; it != end; ++it )
         (*it)->setWriteOutMethods(policy->getAutoGenerateAccessors());
 

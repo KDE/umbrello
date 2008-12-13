@@ -289,11 +289,11 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         return o;
     // Create dependencies on template parameters.
     QString caption = templateInstantiation.cap(1);
-    QStringList params = caption.split(QRegExp("[^\\w:\\.]+"));
+    const QStringList params = caption.split(QRegExp("[^\\w:\\.]+"));
     if (!params.count())
         return o;
-    QStringList::Iterator end(params.end());
-    for (QStringList::Iterator it(params.begin()); it != end; ++it) {
+    QStringList::ConstIterator end(params.end());
+    for (QStringList::ConstIterator it(params.begin()); it != end; ++it) {
         UMLObject *p = umldoc->findUMLObject(*it, Uml::ot_UMLObject, parentPkg);
         if (p == NULL || p->getBaseType() == Uml::ot_Datatype)
             continue;

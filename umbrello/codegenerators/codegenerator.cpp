@@ -276,9 +276,9 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
     }
     else
     {
-        CodeDocumentList * docList = getCodeDocumentList();
-        CodeDocumentList::iterator it = docList->begin();
-        CodeDocumentList::iterator end = docList->end();
+        const CodeDocumentList * docList = getCodeDocumentList();
+        CodeDocumentList::const_iterator it = docList->begin();
+        CodeDocumentList::const_iterator end = docList->end();
         for ( ; it != end; ++it ) {
             (*it)->saveToXMI(doc, docElement);
         }
@@ -621,11 +621,11 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument )
         if (!pathDir.exists())
         {
             // ugh. dir separator here is UNIX specific..
-            QStringList dirs = pathDir.absolutePath().split('/');
+            const QStringList dirs = pathDir.absolutePath().split('/');
             QString currentDir;
 
-            QStringList::iterator end(dirs.end());
-            for (QStringList::iterator dir(dirs.begin()); dir != end; ++dir)
+            QStringList::const_iterator end(dirs.end());
+            for (QStringList::const_iterator dir(dirs.begin()); dir != end; ++dir)
             {
                 currentDir += '/' + *dir;
                 if (! (pathDir.exists(currentDir)

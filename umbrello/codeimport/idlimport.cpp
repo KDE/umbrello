@@ -113,10 +113,10 @@ void IDLImport::parseFile(const QString& filename)
         uDebug() << "adding path " << path;
         Import_Utils::addIncludePath(path);
     }
-    QStringList includePaths = Import_Utils::includePathList();
+    const QStringList includePaths = Import_Utils::includePathList();
     //QProcess command("cpp", UMLAp::app());
     QString command("cpp -C");   // -C means "preserve comments"
-    for (QStringList::Iterator pathIt = includePaths.begin();
+    for (QStringList::ConstIterator pathIt = includePaths.begin();
             pathIt != includePaths.end(); ++pathIt) {
         QString path = (*pathIt);
         //command.addArgument(" -I" + path);
