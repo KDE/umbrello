@@ -66,7 +66,7 @@ void ClassifierListPage::setupPage()
     enableWidgets(false);//disable widgets until an att is chosen
     m_pOldListItem = 0;
 
-    connect(m_pItemListLB, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotClicked(QListWidgetItem*)));
+    connect(m_pItemListLB, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(slotActivateItem(QListWidgetItem*)));
     connect(m_pItemListLB, SIGNAL(itemDoubleClicked( QListWidgetItem*)), this, SLOT(slotDoubleClick(QListWidgetItem*)));
     connect(m_pItemListLB, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(slotRightButtonPressed(const QPoint&)));
 
@@ -284,11 +284,7 @@ void ClassifierListPage::enableWidgets(bool state)
     m_pPropertiesButton->setEnabled(true);
 }
 
-/**
- * Called when list view is clicked on
- * calls enableWidgets().
- */
-void ClassifierListPage::slotClicked(QListWidgetItem* item)
+void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
 {
     //if not first time an item is highlighted
     //save old highlighted item first
@@ -345,7 +341,7 @@ void ClassifierListPage::updateObject()
 {
     saveCurrentItemDocumentation();
     QListWidgetItem* i = m_pItemListLB->currentItem();
-    slotClicked(i);
+    slotActivateItem(i);
 }
 
 void ClassifierListPage::slotListItemCreated(UMLObject* object)
@@ -366,7 +362,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object)
     // now select the new item, so that the user can go on adding doc or calling
     // the property dialog
     m_pItemListLB->setCurrentRow(index);
-    slotClicked(m_pItemListLB->item(index));
+    slotActivateItem(m_pItemListLB->item(index));
     connect( object, SIGNAL( modified() ), this, SLOT( slotListItemModified() ) );
 }
 
@@ -530,7 +526,7 @@ void ClassifierListPage::slotTopClicked()
     uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index;
     addClassifier(currentAtt, 0);
     printItemList("itemList after change: ");
-    slotClicked(item);
+    slotActivateItem(item);
 }
 
 /**
@@ -567,7 +563,7 @@ void ClassifierListPage::slotUpClicked()
         index = 0;
     addClassifier(currentAtt, index);
     printItemList("itemList after change: ");
-    slotClicked(item);
+    slotActivateItem(item);
 }
 
 /**
@@ -603,7 +599,7 @@ void ClassifierListPage::slotDownClicked()
         index++;   // because we want to go _after_ the following peer item
     addClassifier(currentAtt, index);
     printItemList("itemList after change: ");
-    slotClicked(item);
+    slotActivateItem(item);
 }
 
 /**
@@ -637,7 +633,7 @@ void ClassifierListPage::slotBottomClicked()
     uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index;
     addClassifier(currentAtt, getItemList().count());
     printItemList("itemList after change: ");
-    slotClicked(item);
+    slotActivateItem(item);
 }
 
 /**
@@ -679,7 +675,7 @@ void ClassifierListPage::slotDelete()
     m_pDoc->removeUMLObject(selectedItem);
     m_pItemListLB->takeItem( m_pItemListLB->currentRow());
     m_pOldListItem = 0;
-    slotClicked(NULL);
+    slotActivateItem(NULL);
 }
 
 /**
@@ -846,7 +842,6 @@ void ClassifierListPage::hideArrowButtons(bool hide)
     m_pDownArrowB->setVisible(state);
     m_pBottomArrowB->setVisible(state) ;
 }
-
 
 #include "classifierlistpage.moc"
 

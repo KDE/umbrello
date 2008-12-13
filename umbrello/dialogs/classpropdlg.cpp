@@ -262,7 +262,7 @@ void ClassPropDlg::setupDisplayPage()
  */
 void ClassPropDlg::setupAttributesPage()
 {
-    QFrame* page = createPage( i18n("Attributes"), i18n("General Settings"),
+    QFrame* page = createPage( i18n("Attributes"), i18n("Attribute Settings"),
                                Icon_Utils::it_Properties_Attributes );
     m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Attribute);
     QHBoxLayout * attLayout = new QHBoxLayout(page);

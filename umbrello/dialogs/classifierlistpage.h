@@ -125,9 +125,13 @@ protected:
 
     bool m_bSigWaiting;
 
-public slots:
+protected slots:
 
-    void slotClicked(QListWidgetItem* item);
+    /**
+     * Called whenever the list item needs to be activated
+     * calls enableWidgets().
+     */
+    void slotActivateItem(QListWidgetItem* item);
 
     void slotPopupMenuSel(QAction* action);
 
