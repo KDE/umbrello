@@ -48,7 +48,7 @@
 #include <QtGui/QGridLayout>
 
 UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation )
-        : KDialog( parent) 
+        : KDialog( parent)
 {
     setCaption( i18n("Operation Properties") );
     setButtons( Help | Ok | Cancel );
@@ -178,7 +178,7 @@ void UMLOperationDialog::setupDialog()
     // fill in parm list box
     UMLAttributeList list = m_operation->getParmList();
     foreach (UMLAttribute* pAtt, list ) {
-        m_pParmsLW->addItem( pAtt->getName() );
+        m_pParmsLW->addItem( pAtt->toString( Uml::st_SigNoVis ) );
     }
 
     // set scope
@@ -282,24 +282,14 @@ void UMLOperationDialog::slotNewParameter()
 
     ParmPropDlg dlg(this, m_doc, newAttribute);
     result = dlg.exec();
-    QString name = dlg.getName();
-    pAtt = m_operation -> findParm( name );
+
     if ( result ) {
-        if ( name.length() == 0 ) {
-            KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
-                               i18n("Parameter Name Invalid"), false);
-            delete newAttribute;
-            return;
-        }
+        pAtt = m_operation -> findParm( newAttribute->getName() );
+
         if ( !pAtt ) {
             newAttribute->setID( UniqueID::gen() );
-            newAttribute->setName( name );
-            newAttribute->setTypeName( dlg.getTypeName() );
-            newAttribute->setInitialValue( dlg.getInitialValue() );
-            newAttribute->setDoc( dlg.getDoc() );
-            newAttribute->setParmKind( dlg.getParmKind() );
             m_operation->addParm( newAttribute );
-            m_pParmsLW->addItem( name );
+            m_pParmsLW->addItem( newAttribute->toString( Uml::st_SigNoVis ) );
             m_doc->setModified( true );
         } else {
             KMessageBox::sorry(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
@@ -313,7 +303,7 @@ void UMLOperationDialog::slotNewParameter()
 
 void UMLOperationDialog::slotDeleteParameter()
 {
-    UMLAttribute* pOldAtt = m_operation->findParm( m_pParmsLW->currentItem()->text() );
+    UMLAttribute* pOldAtt = m_operation->getParmList().at( m_pParmsLW->row( m_pParmsLW->currentItem() ) );
 
     m_operation->removeParm( pOldAtt );
     m_pParmsLW->takeItem( m_pParmsLW->currentRow() );
@@ -329,53 +319,41 @@ void UMLOperationDialog::slotParameterProperties()
 {
     int result = 0;
     UMLAttribute* pAtt = 0, * pOldAtt = 0;
-    pOldAtt = m_operation->findParm( m_pParmsLW->currentItem()->text() );
 
+    int position = m_pParmsLW->row( m_pParmsLW->currentItem() );
+    pOldAtt = m_operation->getParmList().at( position );
     if ( !pOldAtt ) {
         uDebug() << "THE impossible has occurred for:" << m_pParmsLW->currentItem()->text();
         return;
     } // should never occur
-    ParmPropDlg dlg(this, m_doc, pOldAtt);
+
+    QString oldAttName = pOldAtt->getName();
+    UMLAttribute* tempAttribute = static_cast<UMLAttribute*>( pOldAtt->clone() ); // create a clone of the parameter
+
+    ParmPropDlg dlg(this, m_doc, tempAttribute); // send the clone to the properties dialog box. it will fill in the new parameters.
     result = dlg.exec();
-    QString name = dlg.getName();
-    pAtt = m_operation->findParm( name );
+
     if ( result ) {
-        if ( name.length() == 0 ) {
-            KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
-                               i18n("Parameter Name Invalid"), false);
-            return;
-        }
-        if ( !pAtt || pOldAtt->getTypeName() != dlg.getTypeName() ||
-                pOldAtt->getDoc() != dlg.getDoc() ||
-                pOldAtt->getInitialValue() != dlg.getInitialValue() ) {
-            pOldAtt->setName( name );
-            QString typeName = dlg.getTypeName();
-            if (pOldAtt->getTypeName() != typeName) {
-                UMLClassifierList namesList( m_doc->getConcepts() );
-                bool breakFlag = false;
-                foreach (UMLObject* obj, namesList) {
-                    if (typeName == obj->getFullyQualifiedName()) {
-                        pOldAtt->setType(obj);
-                        breakFlag = true;
-                        break;
-                    }
-                }
-                if (!breakFlag) {
-                    // Nothing found: set type name directly. Bad.
-                    uDebug() << typeName << " not found.";
-                    pOldAtt->setTypeName( typeName );  // Bad.
-                }
-            }
-            QListWidgetItem* item = m_pParmsLW->currentItem();
-            item->setText( dlg.getName() );
-            pOldAtt->setDoc( dlg.getDoc() );
-            pOldAtt->setInitialValue( dlg.getInitialValue() );
-            m_doc->setModified( true );
-        } else if( pAtt != pOldAtt ) {
+        bool namingConflict = false;
+        QString newName = tempAttribute->getName();
+
+        pAtt = m_operation->findParm( newName ); // search whether a parameter with this name already exists
+        if( pAtt && pAtt != pOldAtt  ) {
             KMessageBox::error(this, i18n("The parameter name you have chosen is already being used in this operation."),
                                i18n("Parameter Name Not Unique"), false);
+            namingConflict = true;
         }
+
+        tempAttribute->copyInto( pOldAtt ); // copy all attributes from the clone
+        if ( namingConflict ) {
+            pOldAtt->setName( oldAttName ); // reset the name if there was a naming conflict
+        }
+
+        QListWidgetItem* item = m_pParmsLW->currentItem();
+        item->setText( pOldAtt->toString(Uml::st_SigNoVis) );
+        m_doc->setModified( true );
     }
+    delete tempAttribute;
 }
 
 void UMLOperationDialog::slotParameterUp()
@@ -383,7 +361,7 @@ void UMLOperationDialog::slotParameterUp()
     int row = m_pParmsLW->currentRow();
     QListWidgetItem* item = m_pParmsLW->currentItem();
     if (item) {
-        UMLAttribute* pOldAtt = m_operation->findParm(item->text());
+        UMLAttribute* pOldAtt = m_operation->getParmList().at( m_pParmsLW->row( item ) );
 
         m_operation->moveParmLeft( pOldAtt );
         m_pParmsLW->takeItem(row);
@@ -402,7 +380,7 @@ void UMLOperationDialog::slotParameterDown()
     int row = m_pParmsLW->currentRow();
     QListWidgetItem* item = m_pParmsLW->currentItem();
     if (item) {
-        UMLAttribute* pOldAtt = m_operation->findParm(item->text());
+        UMLAttribute* pOldAtt = m_operation->getParmList().at( m_pParmsLW->row( item ) );
 
         m_operation->moveParmRight( pOldAtt );
         m_pParmsLW->takeItem(row);
@@ -500,7 +478,7 @@ void UMLOperationDialog::slotApply()
     apply();
 }
 
-void UMLOperationDialog::slotOk() 
+void UMLOperationDialog::slotOk()
 {
     if ( apply() ) {
         accept();

@@ -49,6 +49,11 @@ public:
      */
     ~ParmPropDlg();
 
+public slots:
+    void slotOk();
+
+protected:
+
     /**
      * Returns the documentation.
      * @return  Returns the documentation.
@@ -88,10 +93,6 @@ public:
      */
     Uml::Parameter_Direction getParmKind();
 
-public slots:
-    void slotOk();
-
-protected:
     /**
      * Inserts @p type into the type-combobox as well as its completion object.
      * The combobox is cleared and all types together with the optional new one
@@ -107,6 +108,19 @@ protected:
      * @param type   a new type to add and selected
      */
     void insertStereotypesSorted(const QString& type = "");
+
+    /**
+     * Validates the fields in the dialog box.
+     */
+    bool validate();
+
+protected slots:
+
+    /** 
+     * Activated when a button is clicked 
+     * @param button The button that was clicked
+     */
+    virtual void slotButtonClicked(int button);
 
 private:
     QGroupBox * m_pParmGB, * m_pDocGB;
