@@ -50,6 +50,15 @@ public:
      */
     ~ParmPropDlg();
 
+public slots:
+    void slotOk();
+
+protected:
+
+    /**
+     * Returns the documentation.
+     * @return  Returns the documentation.
+     */
     QString getDoc() {
         return m_pDoc->toPlainText();
     }
@@ -68,14 +77,23 @@ public:
 
     Uml::Parameter_Direction getParmKind();
 
-public slots:
-    void slotOk();
-
-protected:
 
     void insertTypesSorted(const QString& type = "");
 
     void insertStereotypesSorted(const QString& type = "");
+
+    /**
+     * Validates the fields in the dialog box.
+     */
+    bool validate();
+
+protected slots:
+
+    /**
+     * Activated when a button is clicked
+     * @param button The button that was clicked
+     */
+    virtual void slotButtonClicked(int button);
 
 private:
     QGroupBox * m_pParmGB, * m_pDocGB;

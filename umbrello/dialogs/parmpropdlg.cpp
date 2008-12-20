@@ -23,6 +23,7 @@
 // kde includes
 #include <klocale.h>
 #include <kdebug.h>
+#include <kmessagebox.h>
 
 // qt includes
 #include <QtGui/QLayout>
@@ -243,11 +244,36 @@ Uml::Parameter_Direction ParmPropDlg::getParmKind()
     return pk;
 }
 
+bool ParmPropDlg::validate()
+{
+    // currently only validates whether the name is not null.
+    if ( getName().trimmed().length() == 0 ) {
+            KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
+                               i18n("Parameter Name Invalid"), false);
+            return false;
+    }
+    return true;
+}
+
+void ParmPropDlg::slotButtonClicked(int button)
+{
+    if ( button == KDialog::Ok ) {
+        if ( !validate() ) {
+            return;
+        }
+    }
+    KDialog::slotButtonClicked( button );
+}
+
 void ParmPropDlg::slotOk()
 {
     if (m_pAtt != NULL) {
-        m_pAtt->setParmKind( getParmKind() );
-        m_pAtt->setStereotype( m_pStereoTypeCB->currentText() );
+
+        m_pAtt->setName( getName() );         // set the name
+        m_pAtt->setParmKind( getParmKind() );  // set the direction
+        m_pAtt->setStereotype( m_pStereoTypeCB->currentText() ); // set the stereotype
+
+        // set the type name
         QString typeName = m_pTypeCB->currentText();
         UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
         if (pConcept == NULL) {
@@ -256,7 +282,6 @@ void ParmPropDlg::slotOk()
             UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
             if (tmplParam) {
                 m_pAtt->setType(tmplParam);
-                accept();
                 return;
             }
         }
@@ -280,8 +305,9 @@ void ParmPropDlg::slotOk()
             m_pAtt->setType(newObj);
         }
 
+        m_pAtt->setDoc( getDoc() ); // set the documentation
+        m_pAtt->setInitialValue( getInitialValue() ); // set the initial value
     }
-    accept();
 }
 
 #include "parmpropdlg.moc"
