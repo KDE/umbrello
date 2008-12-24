@@ -25,7 +25,7 @@
 
 
 WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
-        : KToolBar("worktoolbar", parentWindow, Qt::RightToolBarArea, false, true)
+  : KToolBar("worktoolbar", parentWindow, Qt::TopToolBarArea, true, true, true)
 {
     m_CurrentButtonID = tbb_Undefined;
     loadPixmaps();

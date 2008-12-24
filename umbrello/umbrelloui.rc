@@ -78,7 +78,7 @@
     <Action name="class_wizard"/>
   </Menu>
 </MenuBar>
-<ToolBar name="mainToolBar">
+<ToolBar name="mainToolBar" fullWidth="true" newline="true">
   <Action name="popup_zoom"/>
   <Action name="zoom100"/>
 </ToolBar>
