@@ -408,6 +408,18 @@ namespace New
     }
 
     /**
+     * retval True If segment at \a index is start or end.
+     */
+    bool AssociationLine::isEndSegmentIndex(int index) const
+    {
+        // num of seg = num of points - 1
+        const int sz = m_points.size() - 1;
+        Q_ASSERT(index >= 0 && index < sz);
+
+        return (index == 0 || index == (sz - 1));
+    }
+
+    /**
      * Sets the start and end points to passed parameters.
      */
     void AssociationLine::setEndPoints(const QPointF& start, const QPointF& end)
@@ -676,7 +688,7 @@ namespace New
         if (m_activePointIndex != -1) {
             setPoint(m_activePointIndex, event->pos());
         }
-        else if (m_activeSegmentIndex != -1) {
+        else if (m_activeSegmentIndex != -1 && !isEndSegmentIndex(m_activeSegmentIndex)) {
             QPointF delta = event->scenePos() - event->lastScenePos();
             setPoint(m_activeSegmentIndex, m_points[m_activeSegmentIndex] + delta);
             setPoint(m_activeSegmentIndex + 1, m_points[m_activeSegmentIndex + 1] + delta);

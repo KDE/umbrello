@@ -112,6 +112,8 @@ namespace New
         int segmentIndex(const QPointF& point, qreal delta = AssociationLine::Delta) const;
 
         bool isEndPointIndex(int index) const;
+        bool isEndSegmentIndex(int index) const;
+
         void setEndPoints(const QPointF &start, const QPointF &end);
 
         void setStartHeadSymbol(HeadSymbol::Symbol symbol);
