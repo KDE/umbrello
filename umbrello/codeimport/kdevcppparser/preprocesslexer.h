@@ -29,7 +29,7 @@ namespace boost { namespace spirit { namespace impl {
   bool isdigit_( QChar const& c);
 }}}
 
-// must be first for msvc (see position.h for more informations)
+// must be first for msvc (see position.h for more information)
 #include "position.h"
 #include "driver.h"
 #include "skip_rule.hpp"
