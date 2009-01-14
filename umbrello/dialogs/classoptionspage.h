@@ -91,7 +91,7 @@ protected:
     QGroupBox * m_pVisibilityGB;
     QCheckBox * m_pShowVisibilityCB, * m_pShowAttSigCB;
     QCheckBox * m_pShowOpSigCB, * m_pShowAttsCB, * m_pShowOpsCB;
-    QCheckBox * m_pShowStereotypeCB, * m_pShowPackageCB;
+    QCheckBox * m_pShowStereotypeCB, * m_pShowPackageCB, * m_pShowPublicOnlyCB;
     QCheckBox * m_pShowAttribAssocsCB;
     QCheckBox * m_pDrawAsCircleCB;
 

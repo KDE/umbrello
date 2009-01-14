@@ -274,6 +274,10 @@ void SettingsDlg::setupClassPage()
     m_ClassWidgets.showOpSigCB = new QCheckBox( i18n("Show operation signature"), m_ClassWidgets.visibilityGB );
     m_ClassWidgets.showOpSigCB->setChecked(  m_pOptionState->classState.showOpSig );
     visibilityLayout->addWidget( m_ClassWidgets.showOpSigCB, 3, 0 );
+
+    m_ClassWidgets.showPublicOnlyCB = new QCheckBox( i18n("Show Public Only"), m_ClassWidgets.visibilityGB );
+    m_ClassWidgets.showPublicOnlyCB->setChecked(  m_pOptionState->classState.showPublicOnly );
+    visibilityLayout->addWidget( m_ClassWidgets.showPublicOnlyCB, 3, 1 );
     visibilityLayout->setRowStretch( 3, 1 );
 
     m_ClassWidgets.scopeGB = new QGroupBox( i18n("Starting Scope"), page );

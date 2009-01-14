@@ -745,6 +745,7 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setShowOpSig( optionState.classState.showOpSig );
     UmbrelloSettings::setShowPackage(  optionState.classState.showPackage );
     UmbrelloSettings::setShowAttribAssocs(  optionState.classState.showAttribAssocs );
+    UmbrelloSettings::setShowPublicOnly(  optionState.classState.showPublicOnly );
     UmbrelloSettings::setDefaultAttributeScope( optionState.classState.defaultAttributeScope);
     UmbrelloSettings::setDefaultOperationScope( optionState.classState.defaultOperationScope);
 
@@ -1463,6 +1464,7 @@ void UMLApp::readOptionState()
     optionState.classState.showOpSig =  UmbrelloSettings::showOpSig();
     optionState.classState.showPackage =  UmbrelloSettings::showPackage();
     optionState.classState.showAttribAssocs =  UmbrelloSettings::showAttribAssocs();
+    optionState.classState.showPublicOnly =  UmbrelloSettings::showPublicOnly();
     optionState.classState.defaultAttributeScope = UmbrelloSettings::defaultAttributeScope();
     optionState.classState.defaultOperationScope = UmbrelloSettings::defaultOperationScope();
 

@@ -154,6 +154,11 @@
          <whatisthis>Show Attribute Associations</whatisthis>
          <default>true</default>
        </entry>
+       <entry name="showPublicOnly" type="Bool">
+          <label>Show Public Only</label>
+          <whatisthis>Enables/Disables showing of public attributes/methods</whatisthis>
+          <default>true</default>
+       </entry> 
        <entry name="showAttSig" type="Bool">
          <label>Show Attribute Signature</label>
          <whatisthis>Show Attribute Signature</whatisthis>

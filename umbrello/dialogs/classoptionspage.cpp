@@ -49,6 +49,7 @@ void ClassOptionsPage::init()
     m_pShowAttsCB = NULL;
     m_pShowAttSigCB = NULL;
     m_pShowAttribAssocsCB = NULL;
+    m_pShowPublicOnlyCB = NULL;
     m_pDrawAsCircleCB = NULL;
 }
 
@@ -113,6 +114,11 @@ void ClassOptionsPage::setupPage()
         m_pShowAttSigCB->setChecked(sig);
         visibilityLayout->addWidget(m_pShowAttSigCB, 3, 0);
 
+        m_pShowPublicOnlyCB = new QCheckBox(i18n("&Public Only"), m_pVisibilityGB);
+        m_pShowPublicOnlyCB->setChecked(m_pWidget->getShowPublicOnly());
+        visibilityLayout->addWidget(m_pShowPublicOnlyCB, 3, 1);
+
+
     } else if (type == Uml::wt_Interface) {
         m_pDrawAsCircleCB = new QCheckBox(i18n("Draw as circle"), m_pVisibilityGB);
         m_pDrawAsCircleCB->setChecked( m_pWidget->getDrawAsCircle() );
@@ -164,6 +170,10 @@ void ClassOptionsPage::setupClassPageOption()
     m_pShowAttribAssocsCB = new QCheckBox(i18n("&Attribute associations"), m_pVisibilityGB);
     m_pShowAttribAssocsCB->setChecked(m_options->classState.showAttribAssocs);
     visibilityLayout->addWidget(m_pShowAttribAssocsCB, 3, 1);
+    
+    m_pShowPublicOnlyCB = new QCheckBox(i18n("&Public Only"), m_pVisibilityGB);
+    m_pShowPublicOnlyCB->setChecked(m_options->classState.showPublicOnly);
+    visibilityLayout->addWidget(m_pShowPublicOnlyCB, 4, 1);
 }
 
 void ClassOptionsPage::updateUMLWidget()
@@ -186,6 +196,7 @@ void ClassOptionsPage::updateWidget()
         m_pWidget->setShowStereotype( m_pShowStereotypeCB->isChecked() );
         m_pWidget->setShowAtts( m_pShowAttsCB->isChecked() );
         m_pWidget->setShowAttSigs( m_pShowAttSigCB->isChecked() );
+        m_pWidget->setShowPublicOnly( m_pShowPublicOnlyCB->isChecked() );
     } else if (type == Uml::wt_Interface) {
         if (m_pDrawAsCircleCB)
             m_pWidget->setDrawAsCircle( m_pDrawAsCircleCB->isChecked() );
@@ -206,4 +217,5 @@ void ClassOptionsPage::updateOptionState()
     if (m_pShowAttSigCB)
         m_options->classState.showAttSig = m_pShowAttSigCB->isChecked();
     m_options->classState.showOpSig = m_pShowOpSigCB->isChecked();
+    m_options->classState.showPublicOnly = m_pShowPublicOnlyCB->isChecked();
 }

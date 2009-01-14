@@ -3144,6 +3144,7 @@ void UMLView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("showops", m_Options.classState.showOps);
     viewElement.setAttribute("showpackage", m_Options.classState.showPackage);
     viewElement.setAttribute("showattribassocs", m_Options.classState.showAttribAssocs);
+    viewElement.setAttribute("showpubliconly", m_Options.classState.showPublicOnly);
     viewElement.setAttribute("showscope", m_Options.classState.showVisibility);
     viewElement.setAttribute("showstereotype", m_Options.classState.showStereoType);
     //misc
@@ -3239,6 +3240,8 @@ bool UMLView::loadFromXMI(QDomElement & qElement)
     m_Options.classState.showVisibility = (bool)temp.toInt();
     temp = qElement.attribute("showstereotype", "0");
     m_Options.classState.showStereoType = (bool)temp.toInt();
+    temp = qElement.attribute("showpubliconly", "0");
+    m_Options.classState.showPublicOnly = (bool)temp.toInt();
     //misc
     QString showgrid = qElement.attribute("showgrid", "0");
     m_bShowSnapGrid = (bool)showgrid.toInt();

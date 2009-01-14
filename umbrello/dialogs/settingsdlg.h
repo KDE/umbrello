@@ -117,6 +117,7 @@ private:
         QCheckBox * showStereotypeCB;
         QCheckBox * showAttSigCB;
         QCheckBox * showPackageCB;
+        QCheckBox * showPublicOnlyCB;
 
         QCheckBox * showOpSigCB;
 
