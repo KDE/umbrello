@@ -89,7 +89,7 @@ IDChangeLog& IDChangeLog::operator+=(const IDChangeLog& Other)
 
 void IDChangeLog::addIDChange(Uml::IDType OldID, Uml::IDType NewID)
 {
-    uint pos;
+    uint pos = 0;
     if (!findIDChange(OldID, NewID, pos)) {
         pos = m_LogArray.size();
         m_LogArray.resize(pos + 1);
