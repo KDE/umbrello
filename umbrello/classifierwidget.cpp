@@ -50,7 +50,7 @@ void ClassifierWidget::init() {
     const Settings::OptionState& ops = m_pView->getOptionState();
     m_bShowAccess = ops.classState.showVisibility;
     m_bShowOperations = ops.classState.showOps;
-    m_bShowPublicOnly = false;
+    m_bShowPublicOnly = ops.classState.showPublicOnly;
     m_bShowPackage = ops.classState.showPackage;
     m_ShowAttSigs = Uml::st_ShowSig;
     /* setShowOpSigs( ops.classState.showOpSig );
