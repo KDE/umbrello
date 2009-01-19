@@ -42,13 +42,6 @@ using boost::spirit::parse_info;
 using boost::spirit::rule;
 using boost::spirit::scanner;
 using boost::spirit::ext::skip_rule_parser;
-#ifdef Q_CC_MSVC
-// this template isn't available in boost/static_assert.hpp:50
-// but msvc needs it (boost 1.37.0)
-namespace boost {
-  template <> struct STATIC_ASSERTION_FAILURE<false> { enum { value = 0 }; };
-}
-#endif
 
 typedef boost::spirit::position_iterator<QChar const*> CharIterator;
 typedef rule<scanner<CharIterator> > SkipRule;
