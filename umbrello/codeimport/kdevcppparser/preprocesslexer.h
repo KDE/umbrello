@@ -29,7 +29,7 @@ namespace boost { namespace spirit { namespace impl {
   bool isdigit_( QChar const& c);
 }}}
 
-// must be first for msvc (see position.h for more informations)
+// must be first for msvc (see position.h for more information)
 #include "position.h"
 #include "driver.h"
 #include "skip_rule.hpp"
@@ -264,8 +264,8 @@ private:
     QChar currentChar() const {
       return m_ptr != m_endPtr ? *m_ptr : QChar::null;
     }
-    bool eof() const {return m_ptr >= m_endPtr;}
-    int length() const {return m_endPtr - m_ptr;}
+    bool eof() const {return m_ptr == m_endPtr;}
+    int length() const {return std::distance(m_ptr, m_endPtr);}
     void nextChar() {
       QChar l_current = *m_ptr++;
     }
