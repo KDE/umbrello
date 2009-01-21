@@ -159,6 +159,12 @@ ParmPropDlg::~ParmPropDlg()
 {
 }
 
+/**
+ * Inserts @p type into the type-combobox as well as its completion object.
+ * The combobox is cleared and all types together with the optional new one
+ * sorted and then added again.
+ * @param type   a new type to add and selected
+ */
 void ParmPropDlg::insertTypesSorted(const QString& type)
 {
     QStringList types;
@@ -194,6 +200,12 @@ void ParmPropDlg::insertTypesSorted(const QString& type)
     }
 }
 
+/**
+ * Inserts @p type into the stereotype-combobox as well as its completion object.
+ * The combobox is cleared and all types together with the optional new one
+ * sorted and then added again.
+ * @param type   a new type to add and selected
+ */
 void ParmPropDlg::insertStereotypesSorted(const QString& type)
 {
     QStringList types;
@@ -217,6 +229,11 @@ void ParmPropDlg::insertStereotypesSorted(const QString& type)
     }
 }
 
+/**
+ * Return the kind of the parameter (in, out, or inout).
+ * @return  The Uml::Parameter_Direction corresponding to
+ *          the selected "Kind" radiobutton.
+ */
 Uml::Parameter_Direction ParmPropDlg::getParmKind()
 {
     Uml::Parameter_Direction pk = Uml::pd_In;

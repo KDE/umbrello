@@ -70,6 +70,9 @@ ImportProjectDlg::~ImportProjectDlg()
 {
 }
 
+/**
+ * Recursively get all the sources files that matches the filters from the path aPath
+ */
 void ImportProjectDlg::getFiles(const QString& path, QStringList& filters)
 {
     QDir searchDir(path);
@@ -88,6 +91,11 @@ void ImportProjectDlg::languageChange()
 }
 */
 
+/**
+ * Inherited slot.
+ * Once the directory and the language are choose, it looks recursively for the source files of this programming language
+ * in this directory
+ */
 void ImportProjectDlg::accept()
 {
     const KUrl url = m_kURL->url();

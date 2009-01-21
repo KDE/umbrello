@@ -40,14 +40,8 @@ public:
 
     ~CodeViewerDialog ();
 
-    /**
-     * Return the code viewer state.
-     */
     Settings::CodeViewerState getState( );
 
-    /**
-     * Adds a code document to the tabbed output.
-     */
     void addCodeDocument( CodeDocument * doc);
 
 protected:
@@ -66,10 +60,6 @@ public slots:
 
 protected slots:
 
-    /**
-     *  Sets the strings of the subwidgets using the current
-     *  language.
-     */
     virtual void languageChange();
 
 };

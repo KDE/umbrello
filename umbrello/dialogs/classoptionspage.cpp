@@ -41,6 +41,9 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, Settings::OptionState *opti
     setupClassPageOption();
 }
 
+/**
+ * Initialize optional items
+ */
 void ClassOptionsPage::init()
 {
     m_options = NULL;
@@ -57,6 +60,9 @@ ClassOptionsPage::~ClassOptionsPage()
 {
 }
 
+/**
+ * Creates the page with the correct options for the class/interface
+ */
 void ClassOptionsPage::setupPage()
 {
     int margin = fontMetrics().height();
@@ -65,6 +71,7 @@ void ClassOptionsPage::setupPage()
     Uml::Signature_Type sigtype;
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
+
     topLayout->setSpacing(6);
     m_pVisibilityGB = new QGroupBox(i18n("Show"), this);
     topLayout->addWidget(m_pVisibilityGB);
@@ -126,11 +133,15 @@ void ClassOptionsPage::setupPage()
     }
 }
 
+/**
+ * Creates the page based on the OptionState
+ */
 void ClassOptionsPage::setupClassPageOption()
 {
     int margin = fontMetrics().height();
 
     QVBoxLayout * topLayout = new QVBoxLayout(this);
+
     topLayout->setSpacing(6);
     m_pVisibilityGB = new QGroupBox(i18n("Show"), this);
     topLayout->addWidget(m_pVisibilityGB);
@@ -176,6 +187,9 @@ void ClassOptionsPage::setupClassPageOption()
     visibilityLayout->addWidget(m_pShowPublicOnlyCB, 4, 1);
 }
 
+/**
+ * Updates the widget with the dialog page properties.
+ */
 void ClassOptionsPage::updateUMLWidget()
 {
     if (m_pWidget) {
@@ -185,6 +199,9 @@ void ClassOptionsPage::updateUMLWidget()
     }
 }
 
+/**
+ * Sets the ClassifierWidget's properties to those selected in this dialog page.
+ */
 void ClassOptionsPage::updateWidget()
 {
     m_pWidget->setShowPackage( m_pShowPackageCB->isChecked() );
@@ -203,6 +220,9 @@ void ClassOptionsPage::updateWidget()
     }
 }
 
+/**
+ * Sets the OptionState to the values selected in this dialog page.
+ */
 void ClassOptionsPage::updateOptionState()
 {
     m_options->classState.showVisibility = m_pShowVisibilityCB->isChecked();

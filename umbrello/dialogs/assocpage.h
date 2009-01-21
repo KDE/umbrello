@@ -35,6 +35,7 @@ class AssocPage : public QWidget
 {
     Q_OBJECT
 public:
+
     /**
      *  Constructs an instance of AssocPage.
      *
@@ -57,9 +58,6 @@ private:
     AssociationWidgetList m_List;
     ListPopupMenu * m_pMenu;
 
-    /**
-     *  Fills the list box with the objects associations.
-     */
     void fillListBox();
 
 public slots:

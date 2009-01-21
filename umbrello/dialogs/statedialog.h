@@ -37,6 +37,7 @@ class StateDialog : public KPageDialog
     Q_OBJECT
 
 public:
+
     /**
      * Constructor
      */
@@ -51,45 +52,22 @@ public:
 
 protected slots:
 
-    /**
-     * Entered when OK button pressed.
-     */
     void slotOk();
 
-    /**
-     * Entered when Apply button pressed.
-     */
     void slotApply();
 
 protected:
-    /**
-     * Sets up the pages of the dialog.
-     */
+
     void setupPages();
 
-    /**
-     * Sets up the general page of the dialog.
-     */
     void setupGeneralPage();
 
-    /**
-     * Sets up the color page.
-     */
     void setupColorPage();
 
-    /**
-     * Sets up the font selection page.
-     */
     void setupFontPage();
 
-    /**
-     * Sets up the activity page.
-     */
     void setupActivityPage();
 
-    /**
-     * Applys changes to the given page.
-     */
     void applyPage( KPageWidgetItem*item );
 
     /**

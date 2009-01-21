@@ -43,6 +43,7 @@ class UMLForeignKeyConstraintDialog : public KPageDialog
 {
     Q_OBJECT
 public:
+
     /**
      *  Sets up the UMLForeignKeyConstraintDialog
      *
@@ -58,20 +59,10 @@ public:
 
 private:
 
-    /**
-     * Checks if changes are valid and applies them if they are,
-     * else returns false.
-     */
     bool apply();
 
-    /**
-     * Setup the General Page.
-     */
     void setupGeneralPage();
 
-    /**
-     * Setup Column Page.
-     */
     void setupColumnPage();
 
     void refillReferencedAttributeCB();
@@ -137,29 +128,14 @@ private:
 
 public slots:
 
-    /**
-     * Enable/Disable the widgets in the Dialog Box.
-     */
     void slotResetWidgetState();
 
-    /**
-     * Used when the Apply button is clicked.
-     */
     void slotApply();
 
-    /**
-     * Used when the OK button is clicked.  Calls apply().
-     */
     void slotOk();
 
-    /**
-     * Adds pair to the list.
-     */
     void slotAddPair();
 
-    /**
-     * Deletes a pair from the list.
-     */
     void slotDeletePair();
 
     void slotReferencedEntityChanged(int index);

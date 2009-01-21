@@ -50,6 +50,9 @@ ObjectNodeDialog::ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget 
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
+/**
+ * Entered when OK button pressed.
+ */
 void ObjectNodeDialog::slotOk()
 {
     applyPage( pageItemColor );
@@ -58,6 +61,9 @@ void ObjectNodeDialog::slotOk()
     accept();
 }
 
+/**
+ * Entered when Apply button pressed.
+ */
 void ObjectNodeDialog::slotApply()
 {
     applyPage(currentPage());
@@ -80,6 +86,9 @@ void ObjectNodeDialog::slotHideState()
     m_GenPageWidgets.stateLE->hide();
 }
 
+/**
+ * Sets up the pages of the dialog.
+ */
 void ObjectNodeDialog::setupPages()
 {
     setupGeneralPage();
@@ -87,6 +96,9 @@ void ObjectNodeDialog::setupPages()
     setupFontPage();
 }
 
+/**
+ * Applies changes to the given page.
+ */
 void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
 {
     m_bChangesMade = true;
@@ -116,6 +128,9 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
     }
 }
 
+/**
+ * Sets up the general page of the dialog.
+ */
 void ObjectNodeDialog::setupGeneralPage()
 {
     QStringList types;
@@ -197,6 +212,9 @@ void ObjectNodeDialog::setupGeneralPage()
         m_GenPageWidgets.nameLE->setText( m_pObjectNodeWidget->getName() );
 }
 
+/**
+ * Sets up the font selection page.
+ */
 void ObjectNodeDialog::setupFontPage()
 {
     KVBox *page = new KVBox();
@@ -208,6 +226,9 @@ void ObjectNodeDialog::setupFontPage()
     m_pChooser->setFont( m_pObjectNodeWidget->getFont() );
 }
 
+/**
+ * Show the State entry text.
+ */
 void ObjectNodeDialog::showState()
 {
     m_GenPageWidgets.stateL->show();
@@ -219,6 +240,9 @@ void ObjectNodeDialog::showState()
     }
 }
 
+/**
+ * Sets up the color page.
+ */
 void ObjectNodeDialog::setupColorPage()
 {
     QFrame *colorPage = new QFrame();

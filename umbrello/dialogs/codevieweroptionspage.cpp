@@ -28,12 +28,12 @@ CodeViewerOptionsPage::CodeViewerOptionsPage( Settings::CodeViewerState options,
     // set widget stuff
     /*
         fontChooser->setFont( options.font );
-        selectColorButton -> setColor (options.selectedColor);
-        fontColorButton -> setColor (options.fontColor);
-        paperColorButton -> setColor (options.paperColor);
-        editBlockColorButton -> setColor (options.editBlockColor);
-        nonEditBlockColorButton -> setColor (options.nonEditBlockColor);
-        umlObjectColorButton -> setColor (options.umlObjectColor);
+        selectColorButton->setColor (options.selectedColor);
+        fontColorButton->setColor (options.fontColor);
+        paperColorButton->setColor (options.paperColor);
+        editBlockColorButton->setColor (options.editBlockColor);
+        nonEditBlockColorButton->setColor (options.nonEditBlockColor);
+        umlObjectColorButton->setColor (options.umlObjectColor);
      */
 }
 

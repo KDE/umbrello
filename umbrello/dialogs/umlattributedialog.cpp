@@ -55,6 +55,9 @@ UMLAttributeDialog::~UMLAttributeDialog()
 {
 }
 
+/**
+ *   Sets up the dialog
+ */
 void UMLAttributeDialog::setupDialog()
 {
     int margin = fontMetrics().height();
@@ -146,6 +149,10 @@ void UMLAttributeDialog::slotNameChanged( const QString &_text )
     enableButtonOk( !_text.isEmpty() );
 }
 
+/**
+ * Checks if changes are valid and applies them if they are,
+ * else returns false
+ */
 bool UMLAttributeDialog::apply()
 {
     QString name = m_pNameLE->text();
@@ -213,11 +220,18 @@ bool UMLAttributeDialog::apply()
     return true;
 }
 
+/**
+ * I don't think this is used, but if we had an apply button
+ * it would slot into here
+ */
 void UMLAttributeDialog::slotApply()
 {
     apply();
 }
 
+/**
+ * Used when the OK button is clicked.  Calls apply()
+ */
 void UMLAttributeDialog::slotOk()
 {
     if ( apply() ) {
@@ -225,6 +239,12 @@ void UMLAttributeDialog::slotOk()
     }
 }
 
+/**
+ * Inserts @p type into the type-combobox as well as its completion object.
+ * The combobox is cleared and all types together with the optional new one
+ * sorted and then added again.
+ * @param type   a new type to add
+ */
 void UMLAttributeDialog::insertTypesSorted( const QString& type )
 {
     UMLDoc * uDoc = UMLApp::app()->getDocument();

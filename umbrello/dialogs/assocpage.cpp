@@ -72,6 +72,9 @@ void AssocPage::slotDoubleClick(QListWidgetItem * item)
     }
 }
 
+/**
+ *  Fills the list box with the objects associations.
+ */
 void AssocPage::fillListBox()
 {
     m_List.clear();

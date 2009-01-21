@@ -131,6 +131,10 @@ void AssocGenPage::constructWidget()
     nameLayout->addWidget(m_pTypeCB, 1, 1);
 }
 
+/**
+ *  Will move information from the dialog into the object.
+ *  Call when the ok or apply button is pressed.
+ */
 void AssocGenPage::updateObject()
 {
     if (m_pAssociationWidget) {

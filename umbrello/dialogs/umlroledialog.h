@@ -18,7 +18,6 @@
 /**
  * @author Paul Hensgen
  */
-
 class UMLRole;
 class UMLRoleProperties;
 
@@ -26,6 +25,7 @@ class UMLRoleDialog : public KDialog
 {
     Q_OBJECT
 public:
+
     /**
      *   Constructor
      */
@@ -38,15 +38,8 @@ public:
 
 protected:
 
-    /**
-     *   Sets up the dialog
-     */
     void setupDialog();
 
-    /**
-     * Checks if changes are valid and applies them if they are,
-     * else returns false
-     */
     bool apply();
 
     /**
@@ -60,15 +53,8 @@ private:
 
 public slots:
 
-    /**
-     * I don't think this is used, but if we had an apply button
-     * it would slot into here
-     */
     void slotApply();
 
-    /**
-     * Used when the OK button is clicked.  Calls apply()
-     */
     void slotOk();
 };
 

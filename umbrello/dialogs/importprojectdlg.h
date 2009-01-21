@@ -53,18 +53,10 @@ public:
 
 protected slots:
 
-    /**
-    * Inherited slot.
-    * Once the directory and the language are choose, it looks recursively for the source files of this programming language
-    * in this directory
-    */
     virtual void accept();
 
 private:
 
-    /**
-    * Recursively get all the sources files that matches the filters from the path aPath
-    */
     virtual void getFiles(const QString& aPath, QStringList& filters);
 
     QStringList* fileList;

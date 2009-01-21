@@ -33,67 +33,42 @@ class KTextEdit;
  *   @author   Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class ObjectNodeDialog : public KPageDialog
 {
     Q_OBJECT
 
 public:
+
     /**
      * Constructor
      */
     ObjectNodeDialog( UMLView * pView, ObjectNodeWidget * pWidget );
 
-    /**
-     * Returns whether changes were made.
-     */
     bool getChangesMade() {
         return m_bChangesMade;
     }
 
 protected slots:
-    /**
-     * Entered when OK button pressed.
-     */
+
     void slotOk();
 
-    /**
-     * Entered when Apply button pressed.
-     */
     void slotApply();
 
     void slotShowState();
     void slotHideState();
 
 protected:
-    /**
-     * Sets up the pages of the dialog.
-     */
+
     void setupPages();
 
-    /**
-     * Sets up the general page of the dialog.
-     */
     void setupGeneralPage();
 
-    /**
-     * Sets up the color page.
-     */
     void setupColorPage();
 
-    /**
-     * Sets up the font selection page.
-     */
     void setupFontPage();
 
-    /**
-     * Show the State entry text.
-     */
     void showState();
 
-    /**
-     * Applys changes to the given page.
-     */
     void applyPage( KPageWidgetItem * );
 
     /**

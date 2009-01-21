@@ -46,25 +46,16 @@ public:
      */
     virtual ~UMLWidgetColorPage();
 
-    /**
-     *   Updates the @ref UMLWidget with the dialog properties.
-     */
     void updateUMLWidget();
 
 public slots:
-    /**
-     *   Sets the default line color when default line button
-     *   clicked.
-     */
+
     void slotLineButtonClicked();
 
-    /**
-     *   Sets the default fill color when default fill button
-     *   clicked.
-     */
     void slotFillButtonClicked();
 
 protected:
+
     /**
      *   The widget to set the color for.
      */

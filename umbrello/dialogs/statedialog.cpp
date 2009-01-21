@@ -50,6 +50,9 @@ StateDialog::StateDialog( UMLView * pView, StateWidget * pWidget )
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
+/**
+ * Entered when OK button pressed.
+ */
 void StateDialog::slotOk()
 {
     applyPage( pageGeneral );
@@ -59,11 +62,17 @@ void StateDialog::slotOk()
     accept();
 }
 
+/**
+ * Entered when Apply button pressed.
+ */
 void StateDialog::slotApply()
 {
     applyPage( currentPage() );
 }
 
+/**
+ * Sets up the pages of the dialog.
+ */
 void StateDialog::setupPages()
 {
     setupGeneralPage();
@@ -74,6 +83,9 @@ void StateDialog::setupPages()
     setupFontPage();
 }
 
+/**
+ * Applies changes to the given page.
+ */
 void StateDialog::applyPage( KPageWidgetItem*item )
 {
     m_bChangesMade = true;
@@ -94,6 +106,9 @@ void StateDialog::applyPage( KPageWidgetItem*item )
     }
 }
 
+/**
+ * Sets up the general page of the dialog.
+ */
 void StateDialog::setupGeneralPage()
 {
     QString types[ ] = { i18nc("initial state in statechart", "Initial state"),
@@ -139,6 +154,9 @@ void StateDialog::setupGeneralPage()
         m_GenPageWidgets.nameLE->setText( m_pStateWidget->getName() );
 }
 
+/**
+ * Sets up the font selection page.
+ */
 void StateDialog::setupFontPage()
 {
     if ( !m_pStateWidget ) {
@@ -153,6 +171,9 @@ void StateDialog::setupFontPage()
     m_pChooser->setFont( m_pStateWidget->getFont() );
 }
 
+/**
+ * Sets up the color page.
+ */
 void StateDialog::setupColorPage()
 {
     QFrame * colorPage = new QFrame();
@@ -165,6 +186,9 @@ void StateDialog::setupColorPage()
     m_pColorLayout->addWidget(m_pColorPage);
 }
 
+/**
+ * Sets up the activity page.
+ */
 void StateDialog::setupActivityPage()
 {
     QFrame * activityPage = new QFrame();

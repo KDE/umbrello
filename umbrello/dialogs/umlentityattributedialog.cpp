@@ -58,6 +58,9 @@ UMLEntityAttributeDialog::~UMLEntityAttributeDialog()
 {
 }
 
+/**
+ *   Sets up the dialog.
+ */
 void UMLEntityAttributeDialog::setupDialog()
 {
     int margin = fontMetrics().height();
@@ -144,7 +147,7 @@ void UMLEntityAttributeDialog::setupDialog()
     if ( scope == Uml::Primary )
         m_pPublicRB->setChecked( true );
     else if( scope == Uml::Unique )
-        m_pProtectedRB -> setChecked( true );
+        m_pProtectedRB->setChecked( true );
     else */
 
     if ( scope == Uml::Index )
@@ -168,6 +171,10 @@ void UMLEntityAttributeDialog::slotNameChanged( const QString &_text )
     enableButtonOk( !_text.isEmpty() );
 }
 
+/**
+ * Checks if changes are valid and applies them if they are,
+ * else returns false
+ */
 bool UMLEntityAttributeDialog::apply()
 {
     QString name = m_pNameLE->text();
@@ -196,12 +203,12 @@ bool UMLEntityAttributeDialog::apply()
     /*
     if ( m_pPublicRB->isChecked() ) {
         m_pEntityAttribute->setIndexType(Uml::Primary);
-    } else if ( m_pProtectedRB -> isChecked() ) {
+    } else if ( m_pProtectedRB->isChecked() ) {
         m_pEntityAttribute->setIndexType(Uml::Unique);
     } else
     */
 
-    if ( m_pPrivateRB -> isChecked() ) {
+    if ( m_pPrivateRB->isChecked() ) {
         m_pEntityAttribute->setIndexType(Uml::Index);
     } else {
         m_pEntityAttribute->setIndexType(Uml::None);
@@ -232,11 +239,18 @@ bool UMLEntityAttributeDialog::apply()
     return true;
 }
 
+/**
+ * I don't think this is used, but if we had an apply button
+ * it would slot into here.
+ */
 void UMLEntityAttributeDialog::slotApply()
 {
     apply();
 }
 
+/**
+ * Used when the OK button is clicked.  Calls apply().
+ */
 void UMLEntityAttributeDialog::slotOk()
 {
     if ( apply() ) {
@@ -244,6 +258,9 @@ void UMLEntityAttributeDialog::slotOk()
     }
 }
 
+/**
+ * Inserts @p type into the type-combobox as well as its completion object.
+ */
 void UMLEntityAttributeDialog::insertTypesSorted(const QString& type)
 {
     QStringList types;
@@ -277,12 +294,18 @@ void UMLEntityAttributeDialog::insertTypesSorted(const QString& type)
     m_pTypeCB->completionObject()->addItem( type );
 }
 
+/**
+ * Inserts @p type into the type-combobox as well as its completion object.
+ */
 void UMLEntityAttributeDialog::insertAttribute( const QString& type, int index )
 {
     m_pAttributesCB->insertItem( index, type );
     m_pAttributesCB->completionObject()->addItem( type );
 }
 
+/**
+ * Is activated when the auto increment state is changed.
+ */
 void UMLEntityAttributeDialog::slotAutoIncrementStateChanged(bool checked)
 {
     if ( checked == true ) {

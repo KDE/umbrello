@@ -33,10 +33,8 @@ void UMLRoleProperties::constructWidget()
 
     // Rolename
     ui_pRoleLE->setText(m_pRole->getName());
-
     // Multiplicity
     ui_pMultiLE->setText(m_pRole->getMultiplicity());
-
     // Visibility
     switch (m_pRole->getVisibility()) {
     case Uml::Visibility::Public:
@@ -54,7 +52,6 @@ void UMLRoleProperties::constructWidget()
     default:
         break;
     }
-
     // Changeability
     switch (m_pRole->getChangeability()) {
     case Uml::chg_Changeable:
@@ -73,6 +70,10 @@ void UMLRoleProperties::constructWidget()
     //ui_pDocTE->setWordWrap(QMultiLineEdit::WidgetWidth);
 }
 
+/**
+ *  Will move information from the dialog into the object.
+ *  Call when the ok or apply button is pressed.
+ */
 void UMLRoleProperties::updateObject()
 {
     if (m_pRole) {

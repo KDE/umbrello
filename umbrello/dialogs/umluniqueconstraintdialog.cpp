@@ -57,6 +57,9 @@ UMLUniqueConstraintDialog::~UMLUniqueConstraintDialog()
 {
 }
 
+/**
+ * Sets up the dialog.
+ */
 void UMLUniqueConstraintDialog::setupDialog()
 {
     QFrame *frame = new QFrame( this );
@@ -151,6 +154,9 @@ void UMLUniqueConstraintDialog::setupDialog()
     connect( m_pAttributeListLW, SIGNAL( itemClicked( QListWidgetItem* ) ), this, SLOT( slotResetWidgetState() ) );
 }
 
+/**
+ * Adds attribute to the list.
+ */
 void UMLUniqueConstraintDialog::slotAddAttribute()
 {
     int index = m_pAttributeCB->currentIndex();
@@ -179,6 +185,9 @@ void UMLUniqueConstraintDialog::slotAddAttribute()
     slotResetWidgetState();
 }
 
+/**
+ * Deletes an attribute from the list.
+ */
 void UMLUniqueConstraintDialog::slotDeleteAttribute()
 {
     int index = m_pAttributeListLW->currentRow();
@@ -204,11 +213,17 @@ void UMLUniqueConstraintDialog::slotDeleteAttribute()
     slotResetWidgetState();
 }
 
+/**
+ * Used when the Apply Button is clicked.
+ */
 void UMLUniqueConstraintDialog::slotApply()
 {
     apply();
 }
 
+/**
+ * Used when the OK button is clicked.  Calls apply().
+ */
 void UMLUniqueConstraintDialog::slotOk()
 {
     if ( apply() ) {
@@ -216,13 +231,16 @@ void UMLUniqueConstraintDialog::slotOk()
     }
 }
 
+/**
+ * Apply changes.
+ */
 bool UMLUniqueConstraintDialog::apply()
 {
-    QString name = m_pNameLE -> text();
+    QString name = m_pNameLE->text();
     if ( name.length() == 0 ) {
         KMessageBox::error(this, i18n("You have entered an invalid constraint name."),
                            i18n("Constraint Name Invalid"), false);
-        m_pNameLE -> setText( m_pUniqueConstraint -> getName() );
+        m_pNameLE->setText( m_pUniqueConstraint->getName() );
         return false;
     }
 
@@ -240,6 +258,9 @@ bool UMLUniqueConstraintDialog::apply()
     return true;
 }
 
+/**
+ * Enable or Disable the widgets.
+ */
 void UMLUniqueConstraintDialog::slotResetWidgetState()
 {
     m_pAttributeCB->setEnabled( true );

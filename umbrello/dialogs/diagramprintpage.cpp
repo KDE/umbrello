@@ -101,6 +101,9 @@ DiagramPrintPage::~DiagramPrintPage()
 {
 }
 
+/**
+ * Get selected print options
+ */
 int DiagramPrintPage::printUmlCount()
 {
     QList<QListWidgetItem *> selectedItems = m_pSelectLW->selectedItems();
@@ -124,6 +127,9 @@ QString DiagramPrintPage::printUmlDiagram(int sel)
     return QString();
 }
 
+/**
+ * Overridden method.
+ */
 bool DiagramPrintPage::isValid( QString& msg )
 {
     int listCount = m_pSelectLW->count();
@@ -150,6 +156,11 @@ bool DiagramPrintPage::isSelected(int index)
     }
 }
 
+/**
+ * Gets called when the users chooses to print all diagrams, the current
+ * diagram, a selection of diagrams or diagrams by type. It will change the
+ * listed diagrams in the diagram box.
+ */
 void DiagramPrintPage::slotClicked()
 {
     UMLViewList list = m_pDoc->getViewIterator();
@@ -202,6 +213,10 @@ void DiagramPrintPage::slotClicked()
     }
 }
 
+/**
+ * Gets called when the user chooses another diagram type. Only diagrams of
+ * this type will be shown in the diagram box.
+ */
 void DiagramPrintPage::slotActivated(int index)
 {
     UMLViewList list = m_pDoc->getViewIterator();

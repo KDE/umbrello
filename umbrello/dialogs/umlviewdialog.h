@@ -42,6 +42,7 @@ class UMLViewDialog : public KPageDialog
 {
     Q_OBJECT
 public:
+
     /**
      * Constructor
      */
@@ -54,39 +55,18 @@ public:
 
 protected:
 
-    /**
-     * Sets up the dialog pages.
-     */
     void setupPages();
 
-    /**
-     * Sets up the general Diagram Properties Page
-     */
     void setupDiagramPropertiesPage();
 
-    /**
-     * Sets up the Class page
-     */
     void setupClassPage();
 
-    /**
-     * Sets up the color page.
-     */
     void setupColorPage();
 
-    /**
-    *   Sets up font page.
-    */
     void setupFontPage();
 
-    /**
-     * Applys the properties of the given page.
-     */
     void applyPage( KPageWidgetItem* );
 
-    /**
-     * Checks whether the name is unique and sets it if it is.
-     */
     void checkName();
 
     /**

@@ -66,6 +66,9 @@ void CodeViewerDialog::initGUI ( const char * name)
     CodeViewerDialogBase::gridLayout->setMargin(margin);
 }
 
+/**
+ * Adds a code document to the tabbed output.
+ */
 void CodeViewerDialog::addCodeDocument( CodeDocument * doc)
 {
     CodeEditor * page = new CodeEditor ( this, "_codedocumenteditor_", doc );
@@ -78,6 +81,9 @@ void CodeViewerDialog::addCodeDocument( CodeDocument * doc)
     connect( m_showHiddenCodeCB, SIGNAL( stateChanged(int) ), page, SLOT( changeShowHidden(int) ) );
 }
 
+/**
+ * Return the code viewer state.
+ */
 Settings::CodeViewerState CodeViewerDialog::getState()
 {
     return m_state;
@@ -96,6 +102,10 @@ bool CodeViewerDialog::close()
     return KDialog::close();
 }
 
+/**
+ *  Sets the strings of the subwidgets using the current
+ *  language.
+ */
 void CodeViewerDialog::languageChange()
 {
     Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();

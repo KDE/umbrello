@@ -19,7 +19,6 @@
 /**
  * @author Brian Thomas
  */
-
 class CodeViewerOptionsPage : public QWidget, private Ui::CodeViewerOptionsBase
 {
     Q_OBJECT

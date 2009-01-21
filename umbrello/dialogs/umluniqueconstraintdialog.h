@@ -41,6 +41,7 @@ class UMLUniqueConstraintDialog : public KDialog
 {
     Q_OBJECT
 public:
+
     /**
      *  Sets up the UMLUniqueConstraintDialog.
      *  @param parent   The parent to the UMLUniqueConstraintDialog.
@@ -55,14 +56,8 @@ public:
 
 protected:
 
-    /**
-     * Sets up the dialog.
-     */
     void setupDialog();
 
-    /**
-     * Apply changes.
-     */
     bool apply();
 
 private:
@@ -89,29 +84,14 @@ private:
 
 public slots:
 
-    /**
-     * Enable or Disable the widgets.
-     */
     void slotResetWidgetState();
 
-    /**
-     * Used when the Apply Button is clicked.
-     */
     void slotApply();
 
-    /**
-     * Used when the OK button is clicked.  Calls apply().
-     */
     void slotOk();
 
-    /**
-     * Adds attribute to the list.
-     */
     void slotAddAttribute();
 
-    /**
-     * Deletes an attribute from the list.
-     */
     void slotDeleteAttribute();
 
 };

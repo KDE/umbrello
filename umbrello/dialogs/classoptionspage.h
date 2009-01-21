@@ -33,6 +33,7 @@ class QGroupBox;
 class ClassOptionsPage : public QWidget
 {
 public:
+
     /**
      * Constructor - observe and modify a Widget
      */
@@ -48,43 +49,22 @@ public:
      */
     virtual ~ClassOptionsPage();
 
-    /**
-     * Updates the widget with the dialog page properties.
-     */
     void updateUMLWidget();
 
-    /**
-     * Sets the widget to be used.  Only used by @ref UMLView to set
-     * settings of a widget.
-     */
     void setWidget( ClassifierWidget * pWidget ) {
         m_pWidget = pWidget;
     }
 
 protected:
-    /**
-     * Initialize optional items
-     */
+
     void init();
 
-    /**
-     * Creates the page with the correct options for the class/interface
-     */
     void setupPage();
 
-    /**
-     * Creates the page based on the OptionState
-     */
     void setupClassPageOption();
 
-    /**
-     * Sets the ClassifierWidget's properties to those selected in this dialog page.
-     */
     void updateWidget();
 
-    /**
-     * Sets the OptionState to the values selected in this dialog page.
-     */
     void updateOptionState();
 
     //GUI widgets

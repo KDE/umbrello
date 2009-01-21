@@ -403,6 +403,10 @@ void ClassGenPage::insertStereotypesSorted(const QString& type)
     m_pStereoTypeCB->completionObject()->addItem( type );
 }
 
+/**
+ * Will move information from the dialog into the object.
+ * Call when the ok or apply button is pressed.
+ */
 void ClassGenPage::updateObject()
 {
     if (m_pObject) {
@@ -514,6 +518,11 @@ void ClassGenPage::updateObject()
     } // end if m_pInstanceWidget
 }
 
+/**
+ * When the draw as actor check box is toggled, the draw
+ * as multi instance need to be enabled/disabled. They
+ * both can't be available at the same time.
+ */
 void ClassGenPage::slotActorToggled( bool state )
 {
     if (m_pMultiCB) {

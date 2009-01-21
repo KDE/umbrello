@@ -36,6 +36,7 @@ class DiagramPrintPage : public QWidget
 {
     Q_OBJECT
 public:
+
     /**
      *  Constructs the diagram print page.
      *  @param parent The parent to the page.
@@ -48,15 +49,9 @@ public:
      */
     ~DiagramPrintPage();
 
-    /**
-     * Get selected print options
-     */
     int printUmlCount();
     QString printUmlDiagram(int sel);
 
-    /**
-     * Overridden method.
-     */
     bool isValid( QString& msg );
 
 private:
@@ -80,17 +75,8 @@ private:
 
 public slots:
 
-    /**
-     * Gets called when the users chooses to print all diagrams, the current
-     * diagram, a selection of diagrams or diagrams by type. It will change the
-     * listed diagrams in the diagram box.
-     */
     void slotClicked();
 
-    /**
-     * Gets called when the user chooses another diagram type. Only diagrams of
-     * this type will be shown in the diagram box.
-     */
     void slotActivated(int index);
 };
 

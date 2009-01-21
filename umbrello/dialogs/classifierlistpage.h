@@ -44,6 +44,7 @@ class ClassifierListPage : public QWidget
 {
     Q_OBJECT
 public:
+
     /**
      *  Sets up the ClassifierListPage.
      *  @param parent      The parent to the ClassAttPage.
@@ -58,94 +59,33 @@ public:
      */
     ~ClassifierListPage();
 
-    /**
-     *  Will move information from the dialog into the object.
-     *  Call when the ok or apply button is pressed.
-     */
     void updateObject();
 
 private:
 
-    /**
-     * Sets up the page.
-     */
     void setupPage();
 
-    /**
-     * Sets up the list group.
-     * @param margin  The margin of the group.
-     */
     void setupListGroup(int margin);
 
-    /**
-     * Sets up the documentation group.
-     * @param margin  The margin of the group.
-     */
     void setupDocumentationGroup(int margin);
 
-    /**
-     * Sets up the move up/down buttons.
-     * @param parentLayout  The parent layout to which this group belongs.
-     */
     void setupMoveButtons(QHBoxLayout* parentLayout);
 
-    /**
-     * Sets up the action buttons.
-     * @param itemType      The item type.
-     * @param parentLayout  The parent layout to which this group belongs.
-     */
     void setupActionButtons(const QString& itemType, QVBoxLayout* parentLayout);
 
-    /**
-     * Set the state of the widgets on the page with the given value.
-     * @param  state   The state to set the widgets as.
-     */
     void enableWidgets(bool state);
 
-    /**
-     * Saves the documentation for the currently selected item.
-     */
     void saveCurrentItemDocumentation();
 
-    /**
-     * Get classifier list items.
-     */
     UMLClassifierListItemList getItemList();
 
-    /**
-     * Attempts to add classifier to the appropriate list.
-     * @param classifier   Pointer to the classifier to add.
-     * @param position     Index at which to insert into the list.
-     * @return             true if the classifier could be added
-     *
-     */
     bool addClassifier(UMLClassifierListItem* classifier, int position = -1);
 
-    /**
-     * Take a classifier's subordinate item.
-     * Ownership of the classifier list item is transferred to the caller.
-     * @param listitem        UMLClassifierListItem to take.
-     * @param seekPeerBefore  True if a peer index should be sought which
-     *                        is smaller than the current listitem's index.
-     * @param peerIndex       Return value: Index in the UMLClassifier's
-     *                        item list at which a peer item, i.e. another
-     *                        UMLClassifierListItem of the same type as
-     *                        listItem, is found.  If no such item exists
-     *                        then return -1.
-     * @return                True for success.
-     */
     bool takeItem(UMLClassifierListItem* listitem,
                   bool seekPeerBefore, int &peerIndex);
 
-    /**
-     * Hide menu and free all its resources.
-     */
     void deleteMenu();
 
-    /**
-     * Utility for debugging, prints the current item list.
-     * Only effective if VERBOSE_DEBUGGING is defined.
-     */
     void printItemList(const QString &prologue);
 
     QGroupBox* m_pDocGB;
@@ -165,32 +105,16 @@ private:
 
 protected:
 
-    /**
-     * Loads the Item List Box.
-     */
     void reloadItemListBox();
 
-    /**
-     * Sets the visibility of the arrow buttons.
-     * @param hide true hides the arrow buttons
-     */
     void hideArrowButtons(bool hide);
 
-    /**
-     * Calculates the new index to be assigned when an object of type ot is to
-     * be added to the list box. The default Implementation is to add it to the end of the list.
-     * @param ot The Object Type to be added
-     * @return The index
-     */
     virtual int calculateNewIndex(Uml::Object_Type ot);
 
-    /**
-     * Returns the index of the Item in the List Box. Default Implementation is same as actual Index of Item.
-     */
     virtual int relativeIndexOf(QListWidgetItem* item) {
         return m_pItemListLB->row(item);
     }
-    
+
     Uml::Object_Type m_itemType;
     UMLClassifier* m_pClassifier;
     UMLClassifierListItem* m_pLastObjectCreated;
@@ -209,53 +133,26 @@ protected slots:
      */
     void slotActivateItem(QListWidgetItem* item);
 
-    /**
-     * Called when an item is selected in a right click menu.
-     */
     void slotPopupMenuSel(QAction* action);
 
     void slotListItemCreated(UMLObject* object);
     void slotListItemModified();
     void slotRightButtonPressed(const QPoint& p);
 
-    /**
-     * Shows properties dialog for the attribute clicked on.
-     */
     void slotDoubleClick(QListWidgetItem* item);
 
-    /**
-     * Moves selected attribute to the top of the list.
-     */
     void slotTopClicked();
 
-    /**
-     * Moves selected attribute up in list.
-     */
     void slotUpClicked();
 
-    /**
-     * Moved selected attribute down in list.
-     */
     void slotDownClicked();
 
-    /**
-     * Moved selected attribute to the bottom of the list.
-     */
     void slotBottomClicked();
 
-    /**
-     * Shows dialog for new attribute.
-     */
     void slotNewListItem();
 
-    /**
-     * Removes currently seleted attribute.
-     */
     void slotDelete();
 
-    /**
-     * Shows properties dialog for currently selected attribute.
-     */
     void slotProperties();
 };
 

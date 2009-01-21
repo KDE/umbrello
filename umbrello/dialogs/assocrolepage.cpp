@@ -281,6 +281,10 @@ void AssocRolePage::constructWidget()
     mainLayout->addWidget(   docBGB, 3, 1);
 }
 
+/**
+ *  Will move information from the dialog into the object.
+ *  Call when the ok or apply button is pressed.
+ */
 void AssocRolePage::updateObject()
 {
     if (m_pAssociationWidget) {

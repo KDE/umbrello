@@ -91,18 +91,29 @@ UMLWidgetColorPage::~UMLWidgetColorPage()
 {
 }
 
+/**
+ *   Sets the default line color when default line button
+ *   clicked.
+ */
 void UMLWidgetColorPage::slotLineButtonClicked()
 {
     //  UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget->parent() );
     m_pLineColorB->setColor( Settings::getOptionState().uiState.lineColor );
 }
 
+/**
+ *   Sets the default fill color when default fill button
+ *   clicked.
+ */
 void UMLWidgetColorPage::slotFillButtonClicked()
 {
     //  UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget->parent() );
     m_pFillColorB->setColor( Settings::getOptionState().uiState.fillColor );
 }
 
+/**
+ *   Updates the @ref UMLWidget with the dialog properties.
+ */
 void UMLWidgetColorPage::updateUMLWidget()
 {
     if(m_pUMLWidget)

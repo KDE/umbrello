@@ -29,11 +29,11 @@ class QRadioButton;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class SelectOpDlg : public KDialog
 {
     Q_OBJECT
 public:
+
     /**
      *  Constructs a SelectOpDlg instance.
      *
@@ -47,55 +47,20 @@ public:
      */
     ~SelectOpDlg();
 
-    /**
-     *  Returns the operation to display.
-     *
-     *  @return The operation to display.
-     */
     QString getOpText();
 
-    /**
-     * Return whether the user selected a class operation
-     * or a custom operation.
-     *
-     * @return  True if user selected a class operation,
-     *          false if user selected a custom operation
-     */
     bool isClassOp() const;
 
-    /**
-     *  Returns the sequence number for the operation.
-     *
-     *  @return Returns the sequence number for the operation.
-     */
     QString getSeqNumber();
 
-    /**
-     * Set the sequence number text.
-     *
-     *  @param  num     The number to set the sequence to.
-     */
     void setSeqNumber(const QString &num);
 
-    /**
-     * Set the custom operation text.
-     *
-     *  @param op The operation to set as the custom operation.
-     */
     void setCustomOp(const QString &op);
 
-    /**
-     * Set the class operation text.
-     *
-     *  @param op The operation to set as the class operation.
-     * @return false if no such operation exists.
-     */
     bool setClassOp(const QString &op);
 
 protected:
-    /**
-     * Inserts @p type into the type-combobox as well as its completion object.
-     */
+
     void insertOperation( const QString& type, int index = -1 );
 
 private:

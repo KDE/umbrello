@@ -56,11 +56,12 @@ public:
     ClassGenPage(UMLDoc *d, QWidget *parent, ObjectWidget * o);
 
     /**
-     * Sets up the ClassGenPage for a UMLWidget instance (used
-     * for component instances on deployment diagrams)
-     * @param  d       The UMLDoc which controls controls object creation.
-     * @param  parent  The parent to the ClassGenPage.
-     * @param  widget  The UMLWidget to display the properties of.
+     *  Sets up the ClassGenPage for a UMLWidget instance (used
+     *  for component instances on deployment diagrams)
+     *
+     *  @param  d       The UMLDoc which controls controls object creation.
+     *  @param  parent  The parent to the ClassGenPage.
+     *  @param  widget  The UMLWidget to display the properties of.
      */
     ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget);
 
@@ -69,10 +70,6 @@ public:
      */
     ~ClassGenPage();
 
-    /**
-     * Will move information from the dialog into the object.
-     * Call when the ok or apply button is pressed.
-     */
     void updateObject();
 
 private:
@@ -96,11 +93,7 @@ private:
     void insertStereotypesSorted(const QString& type);
 
 public slots:
-    /**
-     * When the draw as actor check box is toggled, the draw
-     * as multi instance need to be enabled/disabled. They
-     * both can't be available at the same time.
-     */
+
     void slotActorToggled( bool state );
 };
 

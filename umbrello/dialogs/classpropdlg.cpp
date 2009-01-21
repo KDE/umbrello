@@ -128,12 +128,18 @@ ClassPropDlg::~ClassPropDlg()
 {
 }
 
+/**
+ * Calls slotApply() and accepts (closes) the dialog.
+ */
 void ClassPropDlg::slotOk()
 {
     slotApply();
     KDialog::accept();
 }
 
+/**
+ * Applies the settings in the dialog to the widget and object.
+ */
 void ClassPropDlg::slotApply()
 {
     if (m_pGenPage) {
@@ -168,6 +174,9 @@ void ClassPropDlg::slotApply()
     }
 }
 
+/**
+ * Sets up the general, attribute, operations, template and association pages as appropriate.
+ */
 void ClassPropDlg::setupPages(bool assoc)
 {
     setupGeneralPage();
@@ -210,6 +219,9 @@ QFrame* ClassPropDlg::createPage(const QString& name, const QString& header, Ico
     return page;
 }
 
+/**
+ * Sets up the page "General" for the component.
+ */
 void ClassPropDlg::setupGeneralPage()
 {
     QFrame* page = createPage( i18nc("general settings page name", "General"), i18n("General Settings"), 
@@ -220,15 +232,21 @@ void ClassPropDlg::setupGeneralPage()
     topLayout -> addWidget(m_pGenPage);
 }
 
+/**
+ * Sets up the page "Color" for the component.
+ */
 void ClassPropDlg::setupColorPage()
 {
     QFrame * page = createPage( i18nc("widget color page name", "Color"), i18n("Widget Colors"),
                                 Icon_Utils::it_Properties_Color );
     QHBoxLayout * m_pColorLayout = new QHBoxLayout(page);
     m_pColorPage = new UMLWidgetColorPage(page, m_pWidget);
-    m_pColorLayout -> addWidget(m_pColorPage);
+    m_pColorLayout->addWidget(m_pColorPage);
 }
 
+/**
+ * Sets up the page "Display" for the component.
+ */
 void ClassPropDlg::setupDisplayPage()
 {
     QFrame* page = createPage( i18nc("display option page name", "Display"), i18n("Display Options"),
@@ -236,36 +254,48 @@ void ClassPropDlg::setupDisplayPage()
     QHBoxLayout* m_pOptionsLayout = new QHBoxLayout(page);
     ClassifierWidget *cw = static_cast<ClassifierWidget*>(m_pWidget);
     m_pOptionsPage = new ClassOptionsPage(page, cw);
-    m_pOptionsLayout -> addWidget(m_pOptionsPage);
+    m_pOptionsLayout->addWidget(m_pOptionsPage);
 }
 
+/**
+ * Sets up the page "Attributes" for the component.
+ */
 void ClassPropDlg::setupAttributesPage()
 {
     QFrame* page = createPage( i18n("Attributes"), i18n("Attribute Settings"),
                                Icon_Utils::it_Properties_Attributes );
     m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Attribute);
     QHBoxLayout * attLayout = new QHBoxLayout(page);
-    attLayout -> addWidget(m_pAttPage);
+    attLayout->addWidget(m_pAttPage);
 }
 
+/**
+ * Sets up the page "Operations" for the component.
+ */
 void ClassPropDlg::setupOperationsPage()
 {
     QFrame* page = createPage( i18n("Operations"), i18n("Operation Settings"),
                                Icon_Utils::it_Properties_Operations );
     m_pOpsPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_Operation);
     QHBoxLayout* pOpsLayout = new QHBoxLayout(page);
-    pOpsLayout -> addWidget(m_pOpsPage);
+    pOpsLayout->addWidget(m_pOpsPage);
 }
 
+/**
+ * Sets up the page "Templates" for the component.
+ */
 void ClassPropDlg::setupTemplatesPage()
 {
-    QFrame* page = createPage( i18n("Templates"), i18n("Templates Settings"), 
+    QFrame* page = createPage( i18n("Templates"), i18n("Templates Settings"),
                                Icon_Utils::it_Properties_Templates );
     m_pTemplatePage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Template);
     QHBoxLayout* templatesLayout = new QHBoxLayout(page);
     templatesLayout->addWidget(m_pTemplatePage);
 }
 
+/**
+ * Sets up the page "Enum Literals" for the component.
+ */
 void ClassPropDlg::setupEnumLiteralsPage()
 {
     QFrame* page = createPage( i18n("Enum Literals"), i18n("Enum Literals Settings"),
@@ -275,6 +305,9 @@ void ClassPropDlg::setupEnumLiteralsPage()
     enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
 }
 
+/**
+ * Sets up the page "Entity Attributes" for the component.
+ */
 void ClassPropDlg::setupEntityAttributesPage()
 {
     QFrame* page = createPage( i18n("Entity Attributes"), i18n("Entity Attributes Settings"),
@@ -284,15 +317,21 @@ void ClassPropDlg::setupEntityAttributesPage()
     entityAttributesLayout->addWidget(m_pEntityAttributePage);
 }
 
+/**
+ * Sets up the page "Entity Constraints" for the component.
+ */
 void ClassPropDlg::setupEntityConstraintsPage()
 {
-    QFrame* page = createPage( i18n("Entity Constraints"), i18n("Entity Constraints Settings"), 
+    QFrame* page = createPage( i18n("Entity Constraints"), i18n("Entity Constraints Settings"),
                                Icon_Utils::it_Properties_EntityConstraints );
     m_pEntityConstraintPage = new ConstraintListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EntityConstraint );
     QHBoxLayout* entityConstraintsLayout = new QHBoxLayout(page);
     entityConstraintsLayout->addWidget(m_pEntityConstraintPage);
 }
 
+/**
+ * Sets up the page "Contents" for the component.
+ */
 void ClassPropDlg::setupContentsPage()
 {
     QFrame* page = createPage( i18nc("contents settings page name", "Contents"), i18n("Contents Settings"),
@@ -302,15 +341,21 @@ void ClassPropDlg::setupContentsPage()
     contentsLayout->addWidget(m_pPkgContentsPage);
 }
 
+/**
+ * Sets up the page "Associations" for the component.
+ */
 void ClassPropDlg::setupAssociationsPage()
 {
-    QFrame* page = createPage( i18n("Associations"), i18n("Class Associations"), 
+    QFrame* page = createPage( i18n("Associations"), i18n("Class Associations"),
                                Icon_Utils::it_Properties_Associations );
     m_pAssocPage = new AssocPage(page, UMLApp::app()->getCurrentView(), m_pObject);
     QHBoxLayout* assocLayout = new QHBoxLayout(page);
-    assocLayout -> addWidget(m_pAssocPage);
+    assocLayout->addWidget(m_pAssocPage);
 }
 
+/**
+ * Sets up the general page for the component.
+ */
 void ClassPropDlg::setupInstancePages()
 {
     QFrame* page = createPage( i18nc("instance general settings page name", "General"), i18n("General Settings"),
@@ -322,6 +367,9 @@ void ClassPropDlg::setupInstancePages()
     m_pAssocPage = 0;
 }
 
+/**
+ * Sets up the font page.
+ */
 void ClassPropDlg::setupFontPage()
 {
     if ( !m_pWidget ) {
