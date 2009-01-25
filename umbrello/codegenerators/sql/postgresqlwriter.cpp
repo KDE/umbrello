@@ -88,7 +88,7 @@ void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeL
         sequenceName = m_pEntity->getName() + '_' + ea->getName();
 
         // we assume the sequence count starts with 1 and interval is 1 too
-        // change the values when we start suporting different start values and
+        // change the values when we start supporting different start values and
         // interval values
 
         sql<<"CREATE SEQUENCE "<<cleanName( sequenceName )
