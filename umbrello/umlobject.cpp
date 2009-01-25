@@ -68,6 +68,9 @@ UMLObject::~UMLObject()
 {
 }
 
+/**
+ * Initializes key variables of the class.
+ */
 void UMLObject::init()
 {
     m_BaseType = Uml::ot_UMLObject;
@@ -84,6 +87,15 @@ void UMLObject::init()
     m_pSecondary = 0;
 }
 
+/**
+ * This method is called if you wish to see the properties of a
+ * UMLObject.  A dialog box will be displayed from which you
+ * can change the object's properties.
+ *
+ * @param page    The page to show.
+ * @param assoc   Whether to show association page.
+ * @return        True if we modified the object.
+ */
 bool UMLObject::showProperties(int page, bool assoc)
 {
     Q_UNUSED(page);
@@ -100,34 +112,69 @@ bool UMLObject::showProperties(int page, bool assoc)
     return modified;
 }
 
+/**
+ * This should be reimplemented by subclasses if they wish to
+ * accept certain types of associations. Note that this only
+ * tells if this UMLObject can accept the association
+ * type. When creating an association another check is made to
+ * see if the association is valid. For example a UMLClass
+ * (UMLClassifier) can accept generalizations and should
+ * return true. If while creating a generalization the
+ * superclass is already subclassed from this, the association
+ * is not valid and will not be created.  The default accepts
+ * nothing (returns false)
+ */
 bool UMLObject::acceptAssociationType(Uml::Association_Type)
 {
     // A UMLObject accepts nothing. This should be reimplemented by the subclasses
     return false;
 }
 
+/**
+ * Assigns a new Id to the object
+ */
 void UMLObject::setID(Uml::IDType NewID)
 {
     m_nId = NewID;
     emitModified();
 }
 
+/**
+ * Set the UMLObject's name
+ */
 void UMLObject::setName(const QString &strName)
 {
     UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(this, strName));
 }
 
+/**
+ * Method used by setName: its called by  cmdSetName, Don't use it!
+ */
 void UMLObject::setNamecmd(const QString &strName)
 {
     m_Name = strName;
     emitModified();
 }
 
+/**
+ * Returns a copy of m_Name
+ */
 QString UMLObject::getName() const
 {
     return m_Name;
 }
 
+/**
+ * Returns the fully qualified name, i.e. all package prefixes and then m_Name.
+ *
+ * @param separator  The separator string to use (optional.)
+ *                   If not given then the separator is chosen according
+ *                   to the currently selected active programming language
+ *                   of import and code generation.
+ * @param includeRoot  Whether to prefix the root folder name to the FQN.
+ *                     See UMLDoc::getRootFolder(). Default: false.
+ * @return  The fully qualified name of this UMLObject.
+ */
 QString UMLObject::getFullyQualifiedName(const QString& separator,
         bool includeRoot /* = false */) const
 {
@@ -207,6 +254,10 @@ bool UMLObject::operator==(const UMLObject & rhs)
     return true;
 }
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLObject::copyInto(UMLObject *lhs) const
 {
     // Data members with copy constructor
@@ -229,11 +280,17 @@ void UMLObject::copyInto(UMLObject *lhs) const
         uDebug() << "copyInto has a wrong parent";
 }
 
+/**
+ * Returns the abstract state of the object.
+ */
 bool UMLObject::getAbstract() const
 {
     return m_bAbstract;
 }
 
+/**
+ * Sets the paste state of the object.
+ */
 void UMLObject::setAbstract(bool bAbstract)
 {
     m_bAbstract = bAbstract;
@@ -245,17 +302,29 @@ void UMLObject::setInPaste(bool bInPaste /* =true */)
     m_bInPaste = bInPaste;
 }
 
+/**
+ * Returns true if this UMLObject has classifier scope,
+ * otherwise false (the default).
+ */
 bool UMLObject::getStatic() const
 {
     return m_bStatic;
 }
 
+/**
+ * Sets the value for m_bStatic.
+ */
 void UMLObject::setStatic(bool bStatic)
 {
     m_bStatic = bStatic;
     emitModified();
 }
 
+/**
+ * Forces the emission of the modified signal.  Useful when
+ * updating several attributes at a time: you can block the
+ * signals, update all atts, and then force the signal.
+ */
 void UMLObject::emitModified()
 {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
@@ -263,48 +332,95 @@ void UMLObject::emitModified()
         emit modified();
 }
 
+/**
+ * Sets the documentation for the object.
+ *
+ * @param d The documentation for the object.
+ */
 void UMLObject::setDoc(const QString &d)
 {
     m_Doc = d;
     //emit modified();  No, this is done centrally at DocWindow::updateDocumentation()
 }
 
+/**
+ * Returns the type of the object.
+ *
+ * @return  Returns the type of the object.
+ */
 Uml::Object_Type UMLObject::getBaseType() const
 {
     return m_BaseType;
 }
 
+/**
+ * Set the type of the object.
+ *
+ * @param ot The Uml::Object_Type to set.
+ */
 void UMLObject::setBaseType(Uml::Object_Type ot)
 {
     m_BaseType = ot;
 }
 
+/**
+ * Returns the ID of the object.
+ *
+ * @return  Returns the ID of the object.
+ */
 Uml::IDType UMLObject::getID() const
 {
     return m_nId;
 }
 
+/**
+ * Returns the documentation for the object.
+ *
+ * @return  Returns the documentation for the object.
+ */
 QString UMLObject::getDoc() const
 {
     return m_Doc;
 }
 
+/**
+ * Returns the visibility of the object.
+ *
+ * @return  Returns the visibility of the object.
+ */
 Uml::Visibility UMLObject::getVisibility() const
 {
     return m_Vis;
 }
 
+/**
+ * Sets the visibility of the object.
+ *
+ * @param s   The visibility of the object.
+ */
 void UMLObject::setVisibility(Uml::Visibility s)
 {
     UMLApp::app()->executeCommand(new CmdSetVisibility(this, s));
 }
 
+/**
+ * Method used by setVisibility: its called by  cmdSetVisibility, Don't use it!
+ */
 void UMLObject::setVisibilitycmd(Uml::Visibility s)
 {
     m_Vis = s;
     emitModified();
 }
 
+/**
+ * Sets the class' UMLStereotype. Adjusts the reference counts
+ * at the previously set stereotype and at the new stereotype.
+ * If the previously set UMLStereotype's reference count drops
+ * to zero then the UMLStereotype is removed at the UMLDoc and
+ * it is then physically deleted.
+ *
+ * @param s Sets the classes UMLStereotype.
+ */
 void UMLObject::setUMLStereotype(UMLStereotype *stereo)
 {
     if (stereo == m_pStereotype)
@@ -325,6 +441,12 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo)
     emitModified();
 }
 
+/**
+ * Sets the classes stereotype name.
+ * Internally uses setUMLStereotype().
+ *
+ * @param _name     Sets the classes stereotype name.
+ */
 void UMLObject::setStereotype(const QString &_name)
 {
     // UMLDoc* pDoc = UMLApp::app()->getDocument();
@@ -343,6 +465,12 @@ void UMLObject::setStereotypecmd(const QString& /*_name*/)
 //TODO: put SetStereotype into QundoStack
 }
 
+/**
+ * Sets the classes Package.
+ * DEPRECATED - use SetUMLPackage instead.
+ *
+ * @param _name   The classes Package name.
+ */
 void UMLObject::setPackage(const QString &_name)
 {
     UMLObject *pkgObj = NULL;
@@ -365,6 +493,11 @@ void UMLObject::setPackage(const QString &_name)
     setUMLPackage(static_cast<UMLPackage *>(pkgObj));
 }
 
+/**
+ * Sets the UMLPackage in which this class is located.
+ *
+ * @param pPkg   Pointer to the class' UMLPackage.
+ */
 void UMLObject::setUMLPackage(UMLPackage* pPkg)
 {
     m_pUMLPackage = pPkg;
@@ -386,6 +519,18 @@ QString UMLObject::getStereotype(bool includeAdornments /* = false */) const
     return name;
 }
 
+/**
+ * Return the package(s) in which this UMLObject is contained
+ * as a text.
+ *
+ * @param separator Separator string for joining together the
+ *                  individual package prefixes (optional.)
+ *                  If no separator is given then the separator
+ *                  of the currently selected language is used.
+ * @param includeRoot  Whether to prefix the root folder name.
+ *                     Default: false.
+ * @return  The UMLObject's enclosing package(s) as a text.
+ */
 QString UMLObject::getPackage(const QString& separator, bool includeRoot)
 {
     QString tempSeparator = separator;
@@ -398,6 +543,14 @@ QString UMLObject::getPackage(const QString& separator, bool includeRoot)
     return scope;
 }
 
+/**
+ * Return a list of the packages in which this class is embedded.
+ * The outermost package is first in the list.
+ *
+ * @param includeRoot  Whether to prefix the root folder name.
+ *                     Default: false.
+ * @return  UMLPackageList of the containing packages.
+ */
 UMLPackageList UMLObject::getPackages(bool includeRoot) const
 {
     UMLPackageList pkgList;
@@ -411,31 +564,56 @@ UMLPackageList UMLObject::getPackages(bool includeRoot) const
     return pkgList;
 }
 
+/**
+ * Returns the UMLPackage that this class is located in.
+ *
+ * @return  Pointer to the UMLPackage of this class.
+ */
 UMLPackage* UMLObject::getUMLPackage()
 {
     return m_pUMLPackage;
 }
 
+/**
+ * Return secondary ID. Required by resolveRef().
+ */
 QString UMLObject::getSecondaryId() const
 {
     return m_SecondaryId;
 }
 
+/**
+ * Set the secondary ID.
+ * Currently only required by petalTree2Uml(); all other setting of the
+ * m_SecondaryID is internal to the UMLObject class hierarchy.
+ */
 void UMLObject::setSecondaryId(const QString& id)
 {
     m_SecondaryId = id;
 }
 
+/**
+ * Return secondary ID fallback.
+ * Required by resolveRef() for imported model files.
+ */
 QString UMLObject::getSecondaryFallback() const
 {
     return m_SecondaryFallback;
 }
 
+/**
+ * Set the secondary ID fallback.
+ * Currently only used by petalTree2Uml().
+ */
 void UMLObject::setSecondaryFallback(const QString& id)
 {
     m_SecondaryFallback = id;
 }
 
+/**
+ * Calls UMLDoc::signalUMLObjectCreated() if m_BaseType affords
+ * doing so.
+ */
 void UMLObject::maybeSignalObjectCreated()
 {
     if (!m_bCreationWasSignalled &&
@@ -448,6 +626,17 @@ void UMLObject::maybeSignalObjectCreated()
     }
 }
 
+/**
+ * Resolve referenced objects (if any.)
+ * Needs to be called after all UML objects are loaded from file.
+ * This needs to be done after all model objects are loaded because
+ * some of the xmi.id's might be forward references, i.e. they may
+ * identify model objects which were not yet loaded at the point of
+ * reference.
+ * The default implementation attempts resolution of the m_SecondaryId.
+ *
+ * @return   True for success.
+ */
 bool UMLObject::resolveRef()
 {
     if (m_pSecondary || (m_SecondaryId.isEmpty() && m_SecondaryFallback.isEmpty())) {
@@ -541,6 +730,12 @@ bool UMLObject::resolveRef()
     return true;
 }
 
+/**
+ * Auxiliary to saveToXMI.
+ * Create a QDomElement with the given tag, and save the XMI attributes
+ * that are common to all child classes to the newly created element.
+ * This method does not need to be overridden by child classes.
+ */
 QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
 {
     /*
@@ -589,6 +784,12 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
     return qElement;
 }
 
+/**
+ * Auxiliary to loadFromXMI.
+ * This method is usually overridden by child classes.
+ * It is responsible for loading the specific XMI structure
+ * of the child class.
+ */
 bool UMLObject::load(QDomElement&)
 {
     // This body is not usually executed because child classes
@@ -596,6 +797,12 @@ bool UMLObject::load(QDomElement&)
     return true;
 }
 
+/**
+ * Analyzes the given QDomElement for a reference to a stereotype.
+ *
+ * @param element   QDomElement to analyze.
+ * @return          True if a stereotype reference was found, else false.
+ */
 bool UMLObject::loadStereotype(QDomElement & element)
 {
     QString tag = element.tagName();
@@ -627,6 +834,14 @@ bool UMLObject::loadStereotype(QDomElement & element)
     return true;
 }
 
+/**
+ * This method loads the generic parts of the XMI common to most model
+ * classes.  It is not usually reimplemented by child classes.
+ * Instead, it invokes the load() method which implements the loading
+ * of the specifics of each child class.
+ *
+ * @param element   The QDomElement from which to load.
+ */
 bool UMLObject::loadFromXMI(QDomElement & element)
 {
     UMLDoc* umldoc = UMLApp::app()->getDocument();

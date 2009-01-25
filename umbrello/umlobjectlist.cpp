@@ -18,6 +18,10 @@ UMLObjectList::UMLObjectList()
 UMLObjectList::~UMLObjectList()
 {}
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLObjectList::copyInto(UMLObjectList *rhs) const
 {
     // Don't copy yourself.
@@ -38,6 +42,9 @@ void UMLObjectList::copyInto(UMLObjectList *rhs) const
 }
 
 
+/**
+ * Make a clone of this object.
+ */
 UMLObjectList* UMLObjectList::clone() const
 {
     UMLObjectList *clone = new UMLObjectList();

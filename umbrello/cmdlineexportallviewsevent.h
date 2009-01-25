@@ -28,9 +28,6 @@
 class CmdLineExportAllViewsEvent : public QCustomEvent {
 public:
 
-    /**
-     * Returns the type of the event.
-     */
     static int getType();
 
     /**
@@ -49,11 +46,6 @@ public:
     virtual ~CmdLineExportAllViewsEvent() {
     }
 
-    /**
-     * Exports all the views using UMLViewImageExporterModel, prints the errors
-     * occurred in the error output and sends a close event to the application to finish it.
-     * To export the views, it uses the attributes set when the event was created.
-     */
     void exportAllViews();
 
 private:

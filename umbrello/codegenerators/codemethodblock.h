@@ -42,24 +42,12 @@ public:
      */
     virtual ~CodeMethodBlock ( );
 
-    /**
-     * @return  QString
-     */
     virtual QString toString ( ) const;
 
-    /**
-     * Get the starting text that begins this method before the body is printed.
-     */
     QString getStartMethodText () const;
 
-    /**
-     * Get the ending text that finishes this method after the body is printed.
-     */
     QString getEndMethodText () const;
 
-    /**
-     * Get the parent code document.
-     */
     CodeDocument * getParentDocument();
 
     /**
@@ -71,21 +59,10 @@ public:
 
 protected:
 
-    /**
-     * Causes the text block to release all of its connections
-     * and any other text blocks that it 'owns'.
-     * needed to be called prior to deletion of the textblock.
-     */
     virtual void release ();
 
-    /**
-     * Set the starting text that begins this method before the body is printed.
-     */
     void setStartMethodText (const QString &value);
 
-    /**
-     * Set the ending text that finishes this method after the body is printed.
-     */
     void setEndMethodText (const QString &value);
 
     /**
@@ -95,21 +72,10 @@ protected:
      */
     virtual void updateMethodDeclaration ( ) = 0;
 
-    /**
-     * Set attributes of the node that represents this class
-     * in the XMI document.
-     */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /**
-     * Set the class attributes of this object from
-     * the passed element node.
-     */
     virtual void setAttributesFromNode ( QDomElement & element);
 
-    /**
-     * Set the class attributes from a passed object
-     */
     virtual void setAttributesFromObject (TextBlock * obj);
 
 private:

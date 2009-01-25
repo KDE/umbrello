@@ -40,56 +40,26 @@ public:
      */
     virtual ~CodeClassFieldDeclarationBlock ( );
 
-    /**
-     * Get the value of m_parentclassfield.
-     * @return the value of m_parentclassfield
-     */
     CodeClassField * getParentClassField ( );
 
-    /**
-     * A utility method to get the parent object of the parentCodeClassfield.
-     */
     UMLObject * getParentObject ( );
 
-    /**
-     * Set the class attributes from a passed object.
-     */
     virtual void setAttributesFromObject (TextBlock * obj);
 
-    /**
-     * This is called by syncToParent.
-     */
     virtual void updateContent() = 0;
 
-    /**
-     * Save the XMI representation of this object.
-     */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-    /**
-     * Load params from the appropriate XMI element node.
-     */
     virtual void loadFromXMI ( QDomElement & root );
 
 protected:
 
     virtual void release ();
 
-    /**
-     * Set attributes of the node that represents this class
-     * in the XMI document.
-     */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /**
-     * Set the class attributes of this object from
-     * the passed element node.
-     */
     virtual void setAttributesFromNode ( QDomElement & element);
 
-    /**
-     * So parent can actually release this block.
-     */
     void forceRelease ();
 
 private:

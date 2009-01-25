@@ -22,33 +22,19 @@ class CppDriver;
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class CppImport : public ClassImport {
 public:
     CppImport();
     virtual ~CppImport();
 
 protected:
-    /**
-     * Implement abstract operation from ClassImport for C++.
-     */
+
     void initialize();
 
-    /**
-     * Import a single file.
-     *
-     * @param filename  The file to import.
-     */
     void parseFile(const QString& filename);
 
 private:
-    /**
-    * Auxiliary method for recursively traversing the #include dependencies
-    * in order to feed innermost includes to the model before dependent
-    * includes.  It is important that includefiles are fed to the model
-    * in proper order so that references between UML objects are created
-    * properly.
-    */
+
     void feedTheModel(const QString& fileName);
 
     static CppDriver * ms_driver;

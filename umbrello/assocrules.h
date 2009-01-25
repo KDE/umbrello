@@ -26,6 +26,7 @@ class UMLWidget;
  */
 class AssocRules {
 public:
+
     /**
      * Constructor.
      */

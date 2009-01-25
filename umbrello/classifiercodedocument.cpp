@@ -116,6 +116,10 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
 
 // do we have accessor methods for lists of objects?
 // (as opposed to lists of primitive types like 'int' or 'float', etc)
+
+/**
+ * Tell if any of the accessor classfields will be of lists of objects.
+ */
 bool ClassifierCodeDocument::hasObjectVectorClassFields()
 {
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
@@ -136,6 +140,9 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields()
     return false;
 }
 
+/**
+ * Does this object have any classfields declared?
+ */
 bool ClassifierCodeDocument::hasClassFields()
 {
     if(m_classfieldVector.count() > 0 )
@@ -167,6 +174,10 @@ bool ClassifierCodeDocument::hasAttributeClassFields()
  */
 // We DON'T add methods of the code classfield here because we need to allow
 // the codegenerator writer the liberty to organize their document as they desire.
+
+/**
+ * Add a CodeClassField object to the m_classfieldVector List
+ */
 bool ClassifierCodeDocument::addCodeClassField ( CodeClassField * add_object )
 {
     UMLObject * umlobj = add_object->getParentObject();
@@ -181,6 +192,10 @@ bool ClassifierCodeDocument::addCodeClassField ( CodeClassField * add_object )
 }
 
 // this is a slot..should only be called from a signal
+
+/**
+ * Synchronize this document to the attributes/associations of the parent classifier.
+ */
 void ClassifierCodeDocument::addAttributeClassField (UMLClassifierListItem *obj, bool syncToParentIfAdded)
 {
     UMLAttribute *at = (UMLAttribute*)obj;
@@ -370,11 +385,17 @@ void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list ,
     }
 }
 
+/**
+ * Return if the parent classifier is a class
+ */
 bool ClassifierCodeDocument::parentIsClass()
 {
     return (m_parentclassifier->getBaseType() == Uml::ot_Class);
 }
 
+/**
+ * Return if the parent classifier is an interface
+ */
 bool ClassifierCodeDocument::parentIsInterface()
 {
     return (m_parentclassifier->getBaseType() == Uml::ot_Interface);
@@ -620,6 +641,9 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
     return (CodeClassField*) NULL; // not found
 }
 
+/**
+ * Load CodeClassFields from XMI element node.
+ */
 void ClassifierCodeDocument::loadClassFieldsFromXMI( QDomElement & elem)
 {
     QDomNode node = elem.firstChild();

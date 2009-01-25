@@ -39,14 +39,12 @@ public:
      */
     virtual ~OwnedHierarchicalCodeBlock ( );
 
-    /**
-     * Return the parent code document
-     */
     CodeDocument * getParentDocument();
 
     virtual void updateContent ( ) = 0;
 
     // these next 2 methods should be supplied by inheriting classes
+
     /**
      * Save the XMI representation of this object
      */
@@ -59,28 +57,12 @@ public:
 
 protected:
 
-    /**
-     * causes the text block to release all of its connections
-     * and any other text blocks that it 'owns'.
-     * needed to be called prior to deletion of the textblock.
-     */
     virtual void release ();
 
-    /**
-     * set attributes of the node that represents this class
-     * in the XMI document.
-     */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /**
-     * set the class attributes of this object from
-     * the passed element node.
-     */
     virtual void setAttributesFromNode ( QDomElement & element);
 
-    /**
-     * set the class attributes from a passed object
-     */
     virtual void setAttributesFromObject (TextBlock * obj);
 
 private:

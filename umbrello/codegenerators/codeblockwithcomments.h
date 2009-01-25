@@ -25,9 +25,6 @@ class CodeBlockWithComments : public CodeBlock
 {
 public:
 
-    /**
-     * Basic Constructor
-     */
     explicit CodeBlockWithComments ( CodeDocument * parent , const QString & body = "", const QString & comment = "");
 
     /**
@@ -35,54 +32,24 @@ public:
      */
     virtual ~CodeBlockWithComments ( );
 
-    /**
-     * Set the Comment object.
-     */
     void setComment ( CodeComment * object );
 
-    /**
-     * Get the Comment object.
-     */
     CodeComment * getComment ( ) const;
 
-    /**
-     * @return  QString
-     */
     virtual QString toString ( ) const;
 
-    /**
-     * A utility method that causes the comment and body of the code block
-     * to have the same indentation level.
-     */
     void setOverallIndentationLevel ( int level );
 
-    /**
-     * Save the XMI representation of this object
-     */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-    /**
-     * Load params from the appropriate XMI element node.
-     */
     virtual void loadFromXMI ( QDomElement & root );
 
-    /**
-     * Set the class attributes from a passed object.
-     */
     virtual void setAttributesFromObject (TextBlock * obj);
 
 protected:
 
-    /**
-     * Set attributes of the node that represents this class
-     * in the XMI document.
-     */
     virtual void setAttributesOnNode (QDomDocument & doc, QDomElement & blockElement);
 
-    /**
-     * Set the class attributes of this object from
-     * the passed element node.
-     */
     virtual void setAttributesFromNode ( QDomElement & element);
 
 private:

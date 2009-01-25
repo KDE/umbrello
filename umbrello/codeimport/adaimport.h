@@ -29,40 +29,17 @@ public:
     virtual ~AdaImport();
 
 protected:
-    /**
-     * Reimplement operation from NativeImportBase.
-     */
+
     void initVars();
 
-    /**
-     * Implement abstract operation from NativeImportBase.
-     */
     bool parseStmt();
 
-    /**
-     * Split the line so that a string is returned as a single element of the list.
-     * When not in a string then split at white space.
-     * Reimplementation of method from NativeImportBase is required because of
-     * Ada's tic which is liable to be confused with the beginning of a character
-     * constant.
-     */
     QStringList split(const QString& line);
 
-    /**
-     * Implement abstract operation from NativeImportBase.
-     */
     void fillSource(const QString& word);
 
-    /**
-     * Apply package renamings to the given name.
-     *
-     * @return  expanded name
-     */
     QString expand(const QString& name);
 
-    /**
-     * Parse all files that can be formed by concatenation of the given stems.
-     */
     void parseStems(const QStringList& stems);
 
     bool m_inGenericFormalPart; ///< auxiliary variable

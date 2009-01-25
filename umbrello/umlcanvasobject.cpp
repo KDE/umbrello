@@ -26,6 +26,12 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+/**
+ * Sets up a UMLCanvasObject.
+ *
+ * @param name              The name of the Concept.
+ * @param id                The unique id of the Concept.
+ */
 UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
         : UMLObject(name, id)
 {
@@ -51,6 +57,12 @@ UMLCanvasObject::~UMLCanvasObject()
         uDebug() << "UMLCanvasObject destructor: FIXME: there are still associations()";
 }
 
+/**
+ * Return the subset of m_List that matches the given type.
+ *
+ * @param assocType   The Association_Type to match.
+ * @return   The list of associations that match assocType.
+ */
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType)
 {
     UMLAssociationList list;
@@ -66,6 +78,12 @@ UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type asso
     return list;
 }
 
+/**
+ * Adds an association end to m_List.
+ *
+ * @param assoc  The association to add.
+ *               @todo change param type to UMLRole
+ */
 bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc)
 {
     // add association only if not already present in list
@@ -81,6 +99,11 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc)
     return false;
 }
 
+/**
+ * Determine if this canvasobject has the given association.
+ *
+ * @param assoc   The association to check.
+ */
 bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc)
 {
     if(m_List.count(assoc) > 0)
@@ -88,6 +111,12 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc)
     return false;
 }
 
+/**
+ * Remove an association end from the CanvasObject.
+ *
+ * @param assoc   The association to remove.
+ *                @todo change param type to UMLRole
+ */
 int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
 {
     if(!hasAssociation(assoc) || !m_List.removeAll(assoc)) {
@@ -99,6 +128,9 @@ int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
     return m_List.count();
 }
 
+/**
+ * Remove all association ends from the CanvasObject.
+ */
 void UMLCanvasObject::removeAllAssociationEnds()
 {
     for (int i = 0; i < m_List.count(); ) {
@@ -137,6 +169,17 @@ void UMLCanvasObject::removeAllChildObjects()
     }
 }
 
+/**
+ * Returns a name for the new association, operation, template
+ * or attribute appended with a number if the default name is
+ * taken e.g. new_association, new_association_1 etc.
+ *
+ * @param type      The object type for which to make a name.
+ * @param prefix    Optional prefix to use for the name.
+ *                  If not given then uniqChildName() will choose the prefix
+ *                  internally based on the object type.
+ * @return  Unique name string for the Object_Type given.
+ */
 QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
                                         const QString &prefix /* = QString() */ )
 {
@@ -184,6 +227,14 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
     return name;
 }
 
+/**
+ * Find a child object with the given name.
+ *
+ * @param n         The name of the object to find.
+ * @param t         The type to find (optional.) If not given then
+ *                  any object type will match.
+ * @return  Pointer to the object found; NULL if none found.
+ */
 UMLObject * UMLCanvasObject::findChildObject(const QString &n, Uml::Object_Type t)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
@@ -202,6 +253,13 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, Uml::Object_Type 
     return NULL;
 }
 
+/**
+ * Find an association.
+ *
+ * @param id        The id of the object to find.
+ * @param considerAncestors boolean switch to consider ancestors while searching
+ * @return  Pointer to the object found (NULL if not found.)
+ */
 UMLObject* UMLCanvasObject::findChildObjectById(Uml::IDType id, bool considerAncestors)
 {
     Q_UNUSED(considerAncestors);
@@ -231,6 +289,10 @@ bool UMLCanvasObject::operator==(const UMLCanvasObject& rhs)
     return true;
 }
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLCanvasObject::copyInto(UMLObject *lhs) const
 {
     UMLObject::copyInto(lhs);
@@ -241,6 +303,12 @@ void UMLCanvasObject::copyInto(UMLObject *lhs) const
     //target->m_List = m_List;
 }
 
+/**
+ * Returns the number of associations for the CanvasObject.
+ * This is the sum of the aggregations and compositions.
+ *
+ * @return  The number of associations for the Concept.
+ */
 int UMLCanvasObject::associations()
 {
     int count = 0;
@@ -253,6 +321,11 @@ int UMLCanvasObject::associations()
     return count;
 }
 
+/**
+ * Return the list of associations for the CanvasObject.
+ *
+ * @return   The list of associations for the CanvasObject.
+ */
 UMLAssociationList UMLCanvasObject::getAssociations()
 {
     UMLAssociationList assocs;
@@ -267,6 +340,13 @@ UMLAssociationList UMLCanvasObject::getAssociations()
     return assocs;
 }
 
+/**
+ * Return a list of the superclasses of this concept.
+ * TODO: This overlaps with UMLClassifier::findSuperClassConcepts(),
+ *       see if we can merge the two.
+ *
+ * @return  The list of superclasses for the concept.
+ */
 UMLClassifierList UMLCanvasObject::getSuperClasses()
 {
     UMLClassifierList list;
@@ -286,6 +366,13 @@ UMLClassifierList UMLCanvasObject::getSuperClasses()
     return list;
 }
 
+/**
+ * Return a list of the classes that inherit from this concept.
+ * TODO: This overlaps with UMLClassifier::findSubClassConcepts(),
+ *       see if we can merge the two.
+ *
+ * @return  The list of classes inheriting from the concept.
+ */
 UMLClassifierList UMLCanvasObject::getSubClasses()
 {
     UMLClassifierList list;
@@ -305,26 +392,49 @@ UMLClassifierList UMLCanvasObject::getSubClasses()
     return list;
 }
 
+/**
+ * Shorthand for getSpecificAssocs(Uml::at_Realization)
+ *
+ * @return  The list of realizations for the Concept.
+ */
 UMLAssociationList UMLCanvasObject::getRealizations()
 {
     return getSpecificAssocs(Uml::at_Realization);
 }
 
+/**
+ * Shorthand for getSpecificAssocs(Uml::at_Aggregation)
+ *
+ * @return  The list of aggregations for the Concept.
+ */
 UMLAssociationList UMLCanvasObject::getAggregations()
 {
     return getSpecificAssocs(Uml::at_Aggregation);
 }
 
+/**
+ * Shorthand for getSpecificAssocs(Uml::at_Composition)
+ *
+ * @return  The list of compositions for the Concept.
+ */
 UMLAssociationList UMLCanvasObject::getCompositions()
 {
     return getSpecificAssocs(Uml::at_Composition);
 }
 
+/**
+ * Shorthand for getSpecificAssocs(Uml::at_Relationship)
+ *
+ * @return  The list of relationships for the entity.
+ */
 UMLAssociationList UMLCanvasObject::getRelationships()
 {
     return getSpecificAssocs(Uml::at_Relationship);
 }
 
+/**
+ * Reimplementation of UMLObject method.
+ */
 bool UMLCanvasObject::resolveRef()
 {
     bool overallSuccess = UMLObject::resolveRef();

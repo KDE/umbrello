@@ -28,12 +28,7 @@
 class UMLActor : public UMLCanvasObject {
     Q_OBJECT
 public:
-    /**
-     * Constructs an Actor.
-     *
-     * @param name              The name of the Actor.
-     * @param id                The unique id to assign to this Actor.
-     */
+
     explicit UMLActor(const QString & name = QString(), Uml::IDType id = Uml::id_None);
 
     /**
@@ -41,25 +36,14 @@ public:
      */
     ~UMLActor();
 
-    /**
-     * Initializes key variables of the class.
-     */
     virtual void init();
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Creates the <UML:Actor> XMI element.
-     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-    /**
-     * Loads the <UML:Actor> XMI element (empty.)
-     */
+
     bool load( QDomElement & element );
 };
 

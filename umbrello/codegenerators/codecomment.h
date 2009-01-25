@@ -24,9 +24,6 @@ class CodeComment : public TextBlock
 {
 public:
 
-    /**
-     * Empty Constructor.
-     */
     explicit CodeComment ( CodeDocument * doc, const QString & comment = "");
 
     /**
@@ -34,14 +31,8 @@ public:
      */
     virtual ~CodeComment ( );
 
-    /**
-     * Save the XMI representation of this object.
-     */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-    /**
-     * Load params from the appropriate XMI element node.
-     */
     virtual void loadFromXMI ( QDomElement & root );
 
 protected:

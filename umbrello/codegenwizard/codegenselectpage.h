@@ -22,7 +22,6 @@
  * @author Brian Thomas
  * @author Andi Fischer
  */
-
 class CodeGenSelectPage : public QWizardPage, private Ui::CodeGenSelectPage
 {
     Q_OBJECT

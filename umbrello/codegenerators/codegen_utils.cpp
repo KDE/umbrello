@@ -17,6 +17,9 @@
 
 namespace Codegen_Utils {
 
+/**
+ * Return list of C++ datatypes.
+ */
 QStringList cppDatatypes()
 {
     QStringList l;
@@ -34,6 +37,9 @@ QStringList cppDatatypes()
     return l;
 }
 
+/**
+ * Get list of C++ reserved keywords.
+ */
 const QStringList reservedCppKeywords()
 {
     static QStringList keywords;
@@ -396,6 +402,9 @@ const QStringList reservedCppKeywords()
     return keywords;
 }
 
+/**
+ * Add C++ stereotypes.
+ */
 void createCppStereotypes()
 {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
@@ -406,6 +415,9 @@ void createCppStereotypes()
     umldoc->findOrCreateStereotype("virtual");
 }
 
+/**
+ * Return the input string with the first letter capitalized.
+ */
 QString capitalizeFirstLetter(const QString &string)
 {
     QChar firstChar = string.at(0);

@@ -61,6 +61,9 @@ CodeClassField::~CodeClassField ( )
 
 }
 
+/**
+ * Set the parent UMLobject appropriately.
+ */
 void CodeClassField::setParentUMLObject (UMLObject * obj)
 {
     UMLRole *role = dynamic_cast<UMLRole*>(obj);
@@ -192,6 +195,11 @@ bool CodeClassField::getWriteOutMethods () const
     return m_writeOutMethods;
 }
 
+/**
+ * Determine if we will *allow* methods to be viewable.
+ * this flag is often used to toggle autogeneration of accessor
+ * methods in the code class field.
+ */
 void CodeClassField::setWriteOutMethods ( bool val )
 {
     m_writeOutMethods = val;
@@ -301,6 +309,12 @@ void CodeClassField::saveToXMI ( QDomDocument & doc, QDomElement & root )
     root.appendChild( docElement );
 }
 
+/**
+ * Find the minimum number of things that can occur in an association
+ * If mistakenly called on attribute CF's the default value of is "0"
+ * is returned. Similarly, if the association (role) CF doesn't have a multiplicty
+ * 0 is returned.
+ */
 int CodeClassField::minimumListOccurances( )
 {
     if (!parentIsAttribute())
@@ -319,6 +333,12 @@ int CodeClassField::minimumListOccurances( )
     return 0;
 }
 
+/**
+ * Find the maximum number of things that can occur in an association
+ * If mistakenly called on attribute CF's the default value of is "1"
+ * is returned. If the association (role) CF doesn't have a multiplicty
+ * or has a "*" specified then '-1' (unbounded) is returned.
+ */
 int CodeClassField::maximumListOccurances( )
 {
     if (!parentIsAttribute())
@@ -340,11 +360,19 @@ int CodeClassField::maximumListOccurances( )
     return 1;
 }
 
+/**
+ * A little utility method to make life easier for code document programmers
+ */
 QString CodeClassField::cleanName ( const QString &name )
 {
     return getParentDocument()->cleanName(name);
 }
 
+/**
+ * Another utility method to make life easier for code document programmers
+ * this one fixes the initial declared value of string attributes so that if
+ * its empty or lacking quotations, it comes out as ""
+ */
 QString CodeClassField::fixInitialStringDeclValue(const QString& val, const QString &type)
 {
     QString value = val;
@@ -358,6 +386,10 @@ QString CodeClassField::fixInitialStringDeclValue(const QString& val, const QStr
     return value;
 }
 
+/**
+ * Force the synchronization of the content (methods and declarations)
+ * of this class field.
+ */
 void CodeClassField::synchronize ()
 {
     updateContent();
@@ -368,6 +400,10 @@ void CodeClassField::synchronize ()
         m_declCodeBlock->syncToParent();
 }
 
+/**
+ * Utility method to allow finding particular accessor method of this
+ * code class field by its type identifier.
+ */
 CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::AccessorType type, int role_id)
 {
     //if we already know to which file this class was written/should be written, just return it.
@@ -456,6 +492,10 @@ void CodeClassField::initAccessorMethods()
     }
 }
 
+/**
+ * Updates the status of the accessor methods
+ * as to whether or not they should be written out.
+ */
 void CodeClassField::updateContent()
 {
     // Set properties for writing out the various methods derived from UMLRoles.
@@ -548,6 +588,12 @@ void CodeClassField::updateContent()
 // determine whether the parent object in this classfield indicates that it is
 // a single variable or a List (Vector). One day this will be done correctly with special
 // multiplicity object that we don't have to figure out what it means via regex.
+
+/**
+ * Determine whether the parent object in this classfield indicates that it is
+ * a single variable or a List (Vector). One day this will be done correctly with special
+ * multiplicity object.
+ */
 bool CodeClassField::fieldIsSingleValue ( )
 {
     // For the time being, all attributes ARE single values (yes,
@@ -568,6 +614,9 @@ bool CodeClassField::fieldIsSingleValue ( )
     return false;
 }
 
+/**
+ * Init class fields.
+ */
 void CodeClassField::initFields(bool inConstructor)
 {
     m_writeOutMethods = false;
@@ -580,6 +629,14 @@ void CodeClassField::initFields(bool inConstructor)
         finishInitialization();
 }
 
+/**
+ * Finish off initializations of the object.
+ * This is necessary as a separate method because we cannot call
+ * virtual methods that are reimplemented in a language specific class
+ * during our own construction (the own object is not finished being
+ * constructed and therefore the C++ dispatch mechanism does not yet
+ * work as expected.)
+ */
 void CodeClassField::finishInitialization()
 {
     m_declCodeBlock = CodeGenFactory::newDeclarationCodeBlock(getParentDocument(), this);

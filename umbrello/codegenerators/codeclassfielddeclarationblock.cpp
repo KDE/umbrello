@@ -32,11 +32,18 @@ CodeClassFieldDeclarationBlock::~CodeClassFieldDeclarationBlock ( )
     //      m_parentclassfield->getParentObject()->disconnect(this);
 }
 
+/**
+ * Get the value of m_parentclassfield.
+ * @return the value of m_parentclassfield
+ */
 CodeClassField * CodeClassFieldDeclarationBlock::getParentClassField ( )
 {
     return m_parentclassfield;
 }
 
+/**
+ * A utility method to get the parent object of the parentCodeClassfield.
+ */
 UMLObject * CodeClassFieldDeclarationBlock::getParentObject ( )
 {
     return m_parentclassfield->getParentObject();
@@ -51,6 +58,9 @@ void CodeClassFieldDeclarationBlock::release ()
     // do nothing
 }
 
+/**
+ * So parent can actually release this block.
+ */
 void CodeClassFieldDeclarationBlock::forceRelease ()
 {
     if (m_parentclassfield)
@@ -63,6 +73,9 @@ void CodeClassFieldDeclarationBlock::forceRelease ()
     TextBlock::release();
 }
 
+/**
+ * Save the XMI representation of this object.
+ */
 void CodeClassFieldDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement & elem)
 {
     QDomElement docElement = doc.createElement( "ccfdeclarationcodeblock" );
@@ -70,11 +83,18 @@ void CodeClassFieldDeclarationBlock::saveToXMI ( QDomDocument & doc, QDomElement
     elem.appendChild( docElement );
 }
 
+/**
+ * Load params from the appropriate XMI element node.
+ */
 void CodeClassFieldDeclarationBlock::loadFromXMI ( QDomElement & root )
 {
     setAttributesFromNode(root);
 }
 
+/**
+ * Set attributes of the node that represents this class
+ * in the XMI document.
+ */
 void CodeClassFieldDeclarationBlock::setAttributesOnNode (QDomDocument & doc, QDomElement & elem )
 {
     // set super-class attributes
@@ -82,6 +102,10 @@ void CodeClassFieldDeclarationBlock::setAttributesOnNode (QDomDocument & doc, QD
     OwnedCodeBlock::setAttributesOnNode(doc, elem);
 }
 
+/**
+ * Set the class attributes of this object from
+ * the passed element node.
+ */
 void CodeClassFieldDeclarationBlock::setAttributesFromNode( QDomElement & root )
 {
     // set attributes from the XMI
@@ -91,6 +115,9 @@ void CodeClassFieldDeclarationBlock::setAttributesFromNode( QDomElement & root )
     syncToParent();
 }
 
+/**
+ * Set the class attributes from a passed object.
+ */
 void CodeClassFieldDeclarationBlock::setAttributesFromObject (TextBlock * obj)
 {
     CodeBlockWithComments::setAttributesFromObject(obj);

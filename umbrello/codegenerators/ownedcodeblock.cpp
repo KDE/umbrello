@@ -40,6 +40,11 @@ OwnedCodeBlock::~OwnedCodeBlock ( )
     */
 }
 
+/**
+ * Causes the text block to release all of its connections
+ * and any other text blocks that it 'owns'.
+ * Needed to be called prior to deletion of the textblock.
+ */
 void OwnedCodeBlock::release ()
 {
     if (m_parentObject) {
@@ -48,11 +53,18 @@ void OwnedCodeBlock::release ()
     m_parentObject = 0;
 }
 
+/**
+ * Get the value of m_parentObject.
+ * @return the value of m_parentObject
+ */
 UMLObject * OwnedCodeBlock::getParentObject ()
 {
     return m_parentObject;
 }
 
+/**
+ * Set the class attributes from a passed object.
+ */
 void OwnedCodeBlock::setAttributesFromObject (TextBlock * obj)
 {
     OwnedCodeBlock * oc = dynamic_cast<OwnedCodeBlock*>(obj);
@@ -83,6 +95,10 @@ void OwnedCodeBlock::setAttributesOnNode(QDomDocument& /*doc*/, QDomElement& ele
     }
 }
 
+/**
+ * Set the class attributes of this object from
+ * the passed element node.
+ */
 void OwnedCodeBlock::setAttributesFromNode ( QDomElement & elem)
 {
     // set local attributes, parent object first

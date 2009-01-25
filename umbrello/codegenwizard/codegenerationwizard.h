@@ -29,7 +29,6 @@ class CodeGenStatusPage;
  * based on wizard from Paul Hensgen
  * @author Andi Fischer refactored and ported to QWizard
  */
-
 class CodeGenerationWizard : public QWizard 
 {
     Q_OBJECT

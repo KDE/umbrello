@@ -40,32 +40,57 @@ CodeDocument::~CodeDocument ( )
     delete m_header;
 }
 
+/**
+ * Set the complete value (name plus any extension) of m_filename.
+ * @param new_var   the new value of m_filename
+ */
 void CodeDocument::setFileName ( const QString &new_var )
 {
     m_filename = new_var;
 }
 
+/**
+ * Get the value of m_filename. This name is the "complete" filename,
+ * meaning that it contains both the file name plus any extension (e.g. "file.cpp").
+ * @return   the value of m_filename
+ */
 QString CodeDocument::getFileName ( ) const
 {
     return m_filename;
 }
 
+/**
+ * Set the value of m_fileExtension.
+ * @param new_var   the new value of m_fileExtension
+ */
 void CodeDocument::setFileExtension ( const QString &new_var )
 {
     m_fileExtension = new_var;
     updateHeader(); // because we are using new heading file
 }
 
+/**
+ * Get the value of m_fileExtension.
+ * @return   the value of m_fileExtension
+ */
 QString CodeDocument::getFileExtension( ) const
 {
     return m_fileExtension;
 }
 
+/**
+ * Set the value of m_package.
+ * @param new_var   the new value of m_package
+ */
 void CodeDocument::setPackage ( UMLPackage *new_var )
 {
     m_package = new_var;
 }
 
+/**
+ * Get the value of the path to this code document.
+ * @return the value of m_pathName
+ */
 QString CodeDocument::getPath ( )
 {
     QString path = getPackage();
@@ -84,6 +109,10 @@ QString CodeDocument::getPath ( )
     return path;
 }
 
+/**
+ * Get the value of the package of this code document.
+ * @return   the value of m_pathName
+ */
 QString CodeDocument::getPackage ( ) const
 {
     if (m_package)
@@ -91,36 +120,69 @@ QString CodeDocument::getPackage ( ) const
     return QString();
 }
 
+/**
+ * Set the value of m_ID.
+ * @param new_id   the new value of m_ID
+ */
 void CodeDocument::setID ( const QString &new_var )
 {
     m_ID = new_var;
 }
 
+/**
+ * Get the value of m_ID.
+ * @return   the value of m_ID
+ */
 QString CodeDocument::getID ( ) const
 {
     return m_ID;
 }
 
+/**
+ * Set the value of m_writeOutCode.
+ * Whether or not to write out this code document and any codeblocks, etc that it
+ * owns.
+ * @param new_var   the new value of m_writeOutCode
+ */
 void CodeDocument::setWriteOutCode ( bool new_var )
 {
     m_writeOutCode = new_var;
 }
 
+/**
+ * Get the value of m_writeOutCode.
+ * Whether or not to write out this code document and any codeblocks, etc that it
+ * owns.
+ * @return   the value of m_writeOutCode
+ */
 bool CodeDocument::getWriteOutCode ( )
 {
     return m_writeOutCode;
 }
 
+/**
+ * Set a Header comment object.
+ * @param comment   the comment for the header
+ */
 void CodeDocument::setHeader ( CodeComment * header )
 {
     m_header = header;
 }
 
+/**
+ * Get the Header comment object.
+ * @return   the comment for the header
+ */
 CodeComment * CodeDocument::getHeader ( )
 {
     return m_header;
 }
 
+/**
+ * Return a unique and currently unallocated text block tag for this document.
+ * @param prefix   the prefix to add
+ * @return         the just created unique tag
+ */
 QString CodeDocument::getUniqueTag ( const QString& prefix )
 {
     QString tag = prefix ;
@@ -136,6 +198,14 @@ QString CodeDocument::getUniqueTag ( const QString& prefix )
     return tag;
 }
 
+/**
+ * Insert a new text block after the existing text block. Returns
+ * false if it cannot insert the textblock.
+ * @param newBlock        the text block to insert
+ * @param existingBlock   the place where to insert
+ * @param after           at the index of the existingBlock or after
+ * @return                the success status
+ */
 bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlock, bool after)
 {
     if (!newBlock || !existingBlock)
@@ -185,12 +255,21 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
     return true;
 }
 
+/**
+ * A little utility method which calls CodeGenerator::cleanName.
+ * @param name   the cleanable name
+ * @return       the cleaned name
+ */
 QString CodeDocument::cleanName ( const QString &name )
 {
     return CodeGenerator::cleanName(name);
 }
 
 // update the text and status of the head comment
+
+/**
+ * Update the header text of this codedocument.
+ */
 void CodeDocument::updateHeader ()
 {
     //try to find a heading file (license, coments, etc) then extract its text
@@ -210,6 +289,10 @@ void CodeDocument::updateHeader ()
         getHeader()->setWriteOutText(false);
 }
 
+/**
+ * Create the string representation of this object.
+ * @return   the created string
+ */
 QString CodeDocument::toString ( )
 {
     // IF the whole document is turned "Off" then don't bother
@@ -234,23 +317,38 @@ QString CodeDocument::toString ( )
     return content;
 }
 
+/**
+ * Cause this code document to synchronize to current generator policy.
+ */
 void CodeDocument::synchronize()
 {
     updateContent();
 }
 
 // need to overload method to be able to clear the childTextBlockMap
+
+/**
+ * Reset/clear our inventory of textblocks in this document.
+ */
 void CodeDocument::resetTextBlocks()
 {
     CodeGenObjectWithTextBlocks::resetTextBlocks();
     m_childTextBlockTagMap.clear();
 }
 
+/**
+ * Load params from the appropriate XMI element node.
+ * @param root   the starting point for loading
+ */
 void CodeDocument::loadFromXMI ( QDomElement & root )
 {
     setAttributesFromNode(root);
 }
 
+/**
+ * Set attributes of the node that represents this class
+ * in the XMI document.
+ */
 void CodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docElement)
 {
     // superclass call
@@ -277,6 +375,10 @@ void CodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docEl
     // policy.. something which is not possible right now. -b.t.
 }
 
+/**
+ * Set the class attributes of this object from
+ * the passed element node.
+ */
 void CodeDocument::setAttributesFromNode ( QDomElement & root)
 {
     // now set local attributes
@@ -319,6 +421,11 @@ void CodeDocument::setAttributesFromNode ( QDomElement & root)
     CodeGenObjectWithTextBlocks::setAttributesFromNode(root);
 }
 
+/**
+ * Save the XMI representation of this object.
+ * @param doc   the xmi document
+ * @param root  the starting point to append
+ */
 void CodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root )
 {
     QDomElement docElement = doc.createElement( "codedocument" );
@@ -329,21 +436,39 @@ void CodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root )
 // vanilla code documents don't have much
 // to do.. override this with a different
 // version for your own documents
+
+/**
+ * Update the content of this code document.
+ * This is where you should lay out your code document structure of textblocks
+ * in the inheriting class, should it have any text in it.
+ */
 void CodeDocument::updateContent()
 {
     updateHeader(); // doing this insures time/date stamp is at the time of this call
 }
 
+/**
+ * Create a new CodeBlock object belonging to this CodeDocument.
+ * @return      the just created CodeBlock
+ */
 CodeBlock * CodeDocument::newCodeBlock ( )
 {
     return new CodeBlock(this);
 }
 
+/**
+ * Create a new CodeBlockWithComments object belonging to this CodeDocument.
+ * @return   the just created CodeBlockWithComments
+ */
 CodeBlockWithComments * CodeDocument::newCodeBlockWithComments ( )
 {
     return new CodeBlockWithComments(this);
 }
 
+/**
+ * Create a new HierarchicalCodeBlock object belonging to this CodeDocument.
+ * @return   the just created HierarchicalCodeBlock
+ */
 HierarchicalCodeBlock * CodeDocument::newHierarchicalCodeBlock ( )
 {
     HierarchicalCodeBlock *hb = new HierarchicalCodeBlock(this);
@@ -361,6 +486,14 @@ void CodeDocument::addChildTagToMap ( const QString &tag, TextBlock * tb)
     m_childTextBlockTagMap.insert(tag, tb);
 }
 
+/**
+ * Lookup a certain textblock by its tag value, returns NULL if it can not
+ * find the TextBlock with such a tag. If descendIntoChildren is true, then
+ * any child hierarchical textblocks will also be searched for a match.
+ * @param tag                   the tag to look for
+ * @param descendIntoChildren   look down the hierarchy
+ * @return                      the found text block
+ */
 TextBlock * CodeDocument::findTextBlockByTag( const QString &tag , bool descendIntoChildren)
 {
     //if we already know to which file this class was written/should be written, just return it.
@@ -374,6 +507,10 @@ TextBlock * CodeDocument::findTextBlockByTag( const QString &tag , bool descendI
     return NULL;
 }
 
+/**
+ * Have to implement this for CodeObjectWithTextBlocks.
+ * Actually does not do anythying for a vannilla code document.
+ */
 TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag ( const QString &tag )
 {
     uWarning() << "Called findCodeClassFieldMethodByTag(" << tag << ") for a regular CodeDocument";

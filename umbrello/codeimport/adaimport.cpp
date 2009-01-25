@@ -40,6 +40,9 @@ AdaImport::~AdaImport()
 {
 }
 
+/**
+ * Reimplement operation from NativeImportBase.
+ */
 void AdaImport::initVars()
 {
     m_inGenericFormalPart = false;
@@ -49,6 +52,14 @@ void AdaImport::initVars()
 
 /// Split the line so that a string is returned as a single element of the list,
 /// when not in a string then split at white space.
+
+/**
+ * Split the line so that a string is returned as a single element of the list.
+ * When not in a string then split at white space.
+ * Reimplementation of method from NativeImportBase is required because of
+ * Ada's tic which is liable to be confused with the beginning of a character
+ * constant.
+ */
 QStringList AdaImport::split(const QString& lin)
 {
     QStringList list;
@@ -107,6 +118,9 @@ QStringList AdaImport::split(const QString& lin)
     return list;
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ */
 void AdaImport::fillSource(const QString& word)
 {
     QString lexeme;
@@ -132,6 +146,11 @@ void AdaImport::fillSource(const QString& word)
         m_source.append(lexeme);
 }
 
+/**
+ * Apply package renamings to the given name.
+ *
+ * @return  expanded name
+ */
 QString AdaImport::expand(const QString& name)
 {
     QRegExp pfxRegExp("^(\\w+)\\.");
@@ -148,6 +167,9 @@ QString AdaImport::expand(const QString& name)
     return result;
 }
 
+/**
+ * Parse all files that can be formed by concatenation of the given stems.
+ */
 void AdaImport::parseStems(const QStringList& stems)
 {
     if (stems.isEmpty())
@@ -175,6 +197,9 @@ void AdaImport::parseStems(const QStringList& stems)
     }
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ */
 bool AdaImport::parseStmt()
 {
     const int srcLength = m_source.count();

@@ -28,31 +28,56 @@ CodeMethodBlock::~CodeMethodBlock ( )
 }
 
 // we can just call the superclass
+
+/**
+ * Get the parent code document.
+ */
 CodeDocument * CodeMethodBlock::getParentDocument()
 {
+
+/**
+ * Get the parent code document.
+ */
     return TextBlock::getParentDocument();
 }
 
+/**
+ * Get the starting text that begins this method before the body is printed.
+ */
 QString CodeMethodBlock::getStartMethodText() const
 {
     return m_startMethod;
 }
 
+/**
+ * Get the ending text that finishes this method after the body is printed.
+ */
 QString CodeMethodBlock::getEndMethodText() const
 {
     return m_endMethod;
 }
 
+/**
+ * Set the starting text that begins this method before the body is printed.
+ */
 void CodeMethodBlock::setStartMethodText (const QString &value)
 {
     m_startMethod = value;
 }
 
+/**
+ * Set the ending text that finishes this method after the body is printed.
+ */
 void CodeMethodBlock::setEndMethodText (const QString &value)
 {
     m_endMethod = value;
 }
 
+/**
+ * Causes the text block to release all of its connections
+ * and any other text blocks that it 'owns'.
+ * needed to be called prior to deletion of the textblock.
+ */
 void CodeMethodBlock::release ()
 {
     // just call super-class versions
@@ -60,6 +85,10 @@ void CodeMethodBlock::release ()
     TextBlock::release();
 }
 
+/**
+ * Set attributes of the node that represents this class
+ * in the XMI document.
+ */
 void CodeMethodBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem)
 {
     // set super-class attributes
@@ -75,6 +104,10 @@ void CodeMethodBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & el
     }
 }
 
+/**
+ * Set the class attributes of this object from
+ * the passed element node.
+ */
 void CodeMethodBlock::setAttributesFromNode ( QDomElement & elem)
 {
     // set attributes from the XMI
@@ -90,6 +123,9 @@ void CodeMethodBlock::setAttributesFromNode ( QDomElement & elem)
     }
 }
 
+/**
+ * Set the class attributes from a passed object
+ */
 void CodeMethodBlock::setAttributesFromObject(TextBlock * obj)
 {
     CodeBlockWithComments::setAttributesFromObject(obj);
@@ -102,6 +138,9 @@ void CodeMethodBlock::setAttributesFromObject(TextBlock * obj)
     }
 }
 
+/**
+ * @return  QString
+ */
 QString CodeMethodBlock::toString ( ) const
 {
     QString string;

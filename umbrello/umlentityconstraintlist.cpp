@@ -26,6 +26,10 @@ UMLEntityConstraintList::UMLEntityConstraintList(const UMLEntityConstraintList& 
 UMLEntityConstraintList::~UMLEntityConstraintList()
 {}
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLEntityConstraintList::copyInto(UMLEntityConstraintList* rhs) const {
     // Don't copy yourself.
     if (rhs == this) return;
@@ -44,6 +48,9 @@ void UMLEntityConstraintList::copyInto(UMLEntityConstraintList* rhs) const {
 }
 
 
+/**
+ * Make a clone of this object.
+ */
 UMLEntityConstraintList* UMLEntityConstraintList::clone() const {
     UMLEntityConstraintList *clone = new UMLEntityConstraintList();
     copyInto(clone);

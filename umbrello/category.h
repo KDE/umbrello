@@ -35,12 +35,6 @@ public:
         ct_Union
     };
 
-   /**
-     * Constructs an Category.
-     *
-     * @param name              The name of the Category.
-     * @param id                The unique id to assign to this Category.
-     */
     explicit UMLCategory(const QString & name = QString(), Uml::IDType id = Uml::id_None);
 
     /**
@@ -48,41 +42,20 @@ public:
      */
     ~UMLCategory();
 
-    /**
-     * Initializes key variables of the class.
-     */
     virtual void init();
 
-    /**
-     * Copy the internal presentation of this object into the new
-     * object.
-     */
     void copyInto(UMLObject *lhs) const;
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Creates the <UML:Category> XMI element.
-     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * Get the category type
-     */
     UMLCategory::Category_Type getType();
 
-    /**
-     * Set the category type
-     */
     void setType(Category_Type type);
 
 protected:
-    /**
-     * Loads the <UML:Category> XMI element (empty.)
-     */
+
     bool load( QDomElement & element );
 
 private:

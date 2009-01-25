@@ -32,7 +32,6 @@
  * @author Brian Thomas
  * @author Andi Fischer
  */
-
 class CodeGenStatusPage : public QWizardPage, private Ui::CodeGenStatusPage
 {
     Q_OBJECT

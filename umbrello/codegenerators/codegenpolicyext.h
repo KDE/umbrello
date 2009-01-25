@@ -32,15 +32,8 @@ public:
     CodeGenPolicyExt() {}
     virtual ~CodeGenPolicyExt() {}
 
-    /**
-     * Create a new dialog interface for this object.
-     * @return dialog object
-     */
     virtual CodeGenerationPolicyPage * createPage(QWidget *parent = 0, const char *name = 0) = 0;
 
-    /**
-     * set the defaults from a config file for this code generator from the passed KConfig pointer.
-     */
     virtual void setDefaults(bool emitUpdateSignal = true) = 0;
 
 };

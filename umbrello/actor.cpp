@@ -11,27 +11,45 @@
 
 #include "actor.h"
 
+/**
+ * Constructs an Actor.
+ *
+ * @param name              The name of the Actor.
+ * @param id                The unique id to assign to this Actor.
+ */
 UMLActor::UMLActor(const QString & name, Uml::IDType id) : UMLCanvasObject(name, id) {
     init();
 }
 
 UMLActor::~UMLActor() {}
 
+/**
+ * Initializes key variables of the class.
+ */
 void UMLActor::init() {
     m_BaseType = Uml::ot_Actor;
 }
 
+/**
+ * Make a clone of this object.
+ */
 UMLObject* UMLActor::clone() const {
     UMLActor *clone = new UMLActor();
     UMLObject::copyInto(clone);
     return clone;
 }
 
+/**
+ * Creates the <UML:Actor> XMI element.
+ */
 void UMLActor::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
     QDomElement actorElement = UMLObject::save("UML:Actor", qDoc);
     qElement.appendChild(actorElement);
 }
 
+/**
+ * Loads the <UML:Actor> XMI element (empty.)
+ */
 bool UMLActor::load(QDomElement&) {
     return true;
 }

@@ -38,41 +38,18 @@ public:
      */
     virtual ~OwnedCodeBlock ( );
 
-    /**
-     * Get the value of m_parentObject.
-     * @return the value of m_parentObject
-     */
     UMLObject * getParentObject ( );
 
-    /**
-     * This is the method called from within syncToParent
-     */
     virtual void updateContent ( ) = 0;
 
 protected:
 
-    /**
-     * Causes the text block to release all of its connections
-     * and any other text blocks that it 'owns'.
-     * Needed to be called prior to deletion of the textblock.
-     */
     virtual void release ();
 
-    /**
-     * Set attributes of the node that represents this class
-     * in the XMI document.
-     */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /**
-     * Set the class attributes of this object from
-     * the passed element node.
-     */
     virtual void setAttributesFromNode ( QDomElement & element);
 
-    /**
-     * Set the class attributes from a passed object.
-     */
     virtual void setAttributesFromObject (TextBlock * obj);
 
 private:

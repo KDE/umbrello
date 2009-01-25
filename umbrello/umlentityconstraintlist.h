@@ -33,15 +33,9 @@ public:
     UMLEntityConstraintList(const UMLEntityConstraintList& );
 
     virtual ~UMLEntityConstraintList();
-    /**
-     * Copy the internal presentation of this object into the new
-     * object.
-     */
+
     virtual void copyInto (UMLEntityConstraintList* rhs) const;
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLEntityConstraintList* clone() const;
 };
 

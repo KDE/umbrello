@@ -14,10 +14,10 @@
 
 #include <string>
 #include <QtCore/QString>
-
+#include <kdebug.h>
 
 /**
- *@author Paul Hensgen
+ * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 namespace Uml {

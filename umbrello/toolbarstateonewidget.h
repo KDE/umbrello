@@ -26,8 +26,8 @@ class UMLWidget;
  * With sequence tool, one objects is selected clicking with left button on
  * it
  */
-
-class ToolBarStateOneWidget : public ToolBarStatePool {
+class ToolBarStateOneWidget : public ToolBarStatePool
+{
     Q_OBJECT
 public:
 

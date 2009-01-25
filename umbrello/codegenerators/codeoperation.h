@@ -36,29 +36,14 @@ public:
      */
     virtual ~CodeOperation ( );
 
-    /**
-     * Get the parent UMLOperation of this codeoperation.
-     */
     UMLOperation * getParentOperation( );
 
-    /**
-     * Save the XMI representation of this object.
-     */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-    /**
-     * Load params from the appropriate XMI element node.
-     */
     virtual void loadFromXMI ( QDomElement & root );
 
-    /**
-     * Find the value of the tag that this operation would have.
-     */
     static QString findTag (UMLOperation * op) ;
 
-    /**
-     * Set the class attributes from a passed object.
-     */
     virtual void setAttributesFromObject (TextBlock * obj);
 
     virtual void updateMethodDeclaration() = 0;
@@ -69,16 +54,8 @@ protected:
     // list of parameters used by this code operation.
     // QList<CodeParameter*> m_parameterVector;
 
-    /**
-     * Set attributes of the node that represents this class
-     * in the XMI document.
-     */
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
 
-    /**
-     * Set the class attributes of this object from
-     * the passed element node.
-     */
     virtual void setAttributesFromNode ( QDomElement & element);
 
 private:

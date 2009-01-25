@@ -24,15 +24,9 @@
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class UMLStereotype : public UMLObject {
 public:
-    /**
-     * Sets up a stereotype.
-     *
-     * @param name              The name of this UMLStereotype.
-     * @param id                The unique id given to this UMLStereotype.
-     */
+
     explicit UMLStereotype(const QString &name, Uml::IDType id = Uml::id_None);
 
     /**
@@ -50,44 +44,22 @@ public:
      */
     virtual ~UMLStereotype();
 
-    /**
-     * Copy the internal presentation of this object into the new
-     * object.
-     */
     virtual void copyInto(UMLObject *lhs) const;
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Increments the reference count for this stereotype.
-     */
     void incrRefCount();
 
-    /**
-     * Decrements the reference count for this stereotype.
-     */
     void decrRefCount();
 
-    /**
-     * Returns the reference count for this stereotype.
-     */
     int refCount() const;
 
-    /**
-     * Saves to the <UML:StereoType> XMI element.
-     */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    /**
-     * Display the properties configuration dialog for the stereotype
-     * (just a line edit).
-     */
     bool showPropertiesDialog(QWidget* parent);
 
 protected:
+
     /**
      * Each stereotype object is reference counted, i.e. client code
      * manages it such that it comes into existence as soon as there is

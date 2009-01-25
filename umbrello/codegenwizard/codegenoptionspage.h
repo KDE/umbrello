@@ -32,7 +32,6 @@ class CodeGenerationPolicyPage;
  * @author Brian Thomas
  * @author Andi Fischer
  */
-
 class CodeGenOptionsPage : public QWizardPage, private Ui::CodeGenOptionsPage
 {
     Q_OBJECT

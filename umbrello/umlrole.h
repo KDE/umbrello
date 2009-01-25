@@ -22,10 +22,10 @@ class UMLAssociation;
  * @author Brian Thomas <brian.thomas@gsfc.nasa.gov>
  * @see UMLObject
  */
-
 class UMLRole : public UMLObject {
     Q_OBJECT
 public:
+
     /**
      * Sets up an association.
      *
@@ -45,78 +45,32 @@ public:
      */
     virtual ~UMLRole();
 
-    /**
-     * Returns the UMLObject assigned to the role.
-     * @return  Pointer to the UMLObject in role.
-     */
     UMLObject* getObject();
 
-    /**
-     * Returns the Changeablity of the role.
-     *
-     * @return  Changeability_Type of role.
-     */
     Uml::Changeability_Type getChangeability() const;
 
-    /**
-     * Returns the multiplicity assigned to the role.
-     *
-     * @return  The multiplicity assigned to the role.
-     */
     QString getMultiplicity() const;
 
-    /**
-     * Sets the UMLObject playing the role in the association.
-     *
-     * @param obj               Pointer to the UMLObject of role.
-     */
     void setObject(UMLObject *obj);
 
-    /**
-     * Sets the changeability of the role.
-     *
-     * @param value     Changeability_Type of role changeability.
-     */
     void setChangeability (Uml::Changeability_Type value);
 
-    /**
-     * Sets the multiplicity of the role.
-     *
-     * @param multi             The multiplicity of role.
-     */
     void setMultiplicity ( const QString &multi );
 
     UMLAssociation * getParentAssociation ();
 
-    /** get the 'id' of the role (NOT the parent object). This could be
-     * either Uml::A or Uml::B. Yes, it would be better if we
-     * could get along without this, but we need it to distinguish saved
-     * umlrole objects in the XMI for 'self' associations where both roles
-     * will point to the same underlying UMLObject.
-     */
     Uml::Role_Type getRole();
 
-    /**
-     * Make a clone of this object.
-     * Not yet implemented.
-     */
     UMLObject* clone() const { return NULL; }
 
-    /**
-     * Creates the <UML:AssociationEnd> XMI element.
-     */
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-    /**
-     * Loads the <UML:AssociationEnd> XMI element.
-     * Auxiliary to UMLObject::loadFromXMI.
-     */
+
     bool load(QDomElement& element);
 
 private:
 
-    /** do some initialization at construction time */
     void init (UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type r);
 
     UMLAssociation * m_pAssoc;

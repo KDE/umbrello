@@ -25,6 +25,10 @@ UMLEntityAttributeList::UMLEntityAttributeList(const UMLEntityAttributeList& oth
 UMLEntityAttributeList::~UMLEntityAttributeList()
 {}
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLEntityAttributeList::copyInto(UMLEntityAttributeList* rhs) const {
     // Don't copy yourself.
     if (rhs == this) return;
@@ -43,6 +47,9 @@ void UMLEntityAttributeList::copyInto(UMLEntityAttributeList* rhs) const {
 }
 
 
+/**
+ * Make a clone of this object.
+ */
 UMLEntityAttributeList* UMLEntityAttributeList::clone() const {
     UMLEntityAttributeList *clone = new UMLEntityAttributeList();
     copyInto(clone);

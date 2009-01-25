@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -35,7 +34,7 @@ namespace Uml
         UMLWidget * widget = view->getFirstMultiSelectedWidget();
         pView=view;
         color = col;
-        oldColor=widget -> getLineColor() ;
+        oldColor=widget->getLineColor() ;
     }*/
 
 CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col):UMLw(w),color(col)
@@ -50,11 +49,11 @@ CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col):UMLw(w),
     void CmdChangeLineColor::redo()
     {
 
-        UMLw -> setLineColorcmd( color );
+        UMLw->setLineColorcmd( color );
     }
 
     void CmdChangeLineColor::undo()
     {
-        UMLw -> setLineColorcmd( oldColor );
+        UMLw->setLineColorcmd( oldColor );
     }
 }

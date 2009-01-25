@@ -253,11 +253,17 @@ void CodeGenerationPolicy::setIndentationType ( IndentationType new_var )
     emit modifiedCodeContent();
 }
 
+/**
+ * Get the value of m_indentationType
+ */
 CodeGenerationPolicy::IndentationType CodeGenerationPolicy::getIndentationType ( )
 {
     return Settings::getOptionState().codeGenerationState.indentationType;
 }
 
+/**
+ * Set how many units to indent for each indentation level.
+ */
 void CodeGenerationPolicy::setIndentationAmount ( int amount )
 {
     if (amount > -1)
@@ -268,6 +274,9 @@ void CodeGenerationPolicy::setIndentationAmount ( int amount )
     }
 }
 
+/**
+ * Get indentation level units.
+ */
 int CodeGenerationPolicy::getIndentationAmount ( )
 {
     return Settings::getOptionState().codeGenerationState.indentationAmount;
@@ -345,23 +354,39 @@ bool CodeGenerationPolicy::getAutoGenerateConstructors( )
     return Settings::getOptionState().codeGenerationState.autoGenEmptyConstructors;
 }
 
+/**
+ * Set the value of m_attributeAccessorScope
+ * @param var the new value
+ */
 void CodeGenerationPolicy::setAttributeAccessorScope(Uml::Visibility::Value var)
 {
     Settings::getOptionState().codeGenerationState.defaultAttributeAccessorScope = var;
     emit modifiedCodeContent();
 }
 
+/**
+ * Get the value of m_attributeAccessorScope
+ * @return the Visibility value of m_attributeAccessorScope
+ */
 Uml::Visibility::Value CodeGenerationPolicy::getAttributeAccessorScope()
 {
     return Settings::getOptionState().codeGenerationState.defaultAttributeAccessorScope;
 }
 
+/**
+ * Set the value of m_associationFieldScope
+ * @param var the new value
+ */
 void CodeGenerationPolicy::setAssociationFieldScope(Uml::Visibility::Value var)
 {
     Settings::getOptionState().codeGenerationState.defaultAssocFieldScope = var;
     emit modifiedCodeContent();
 }
 
+/**
+ * Get the value of m_associationFieldScope
+ * @return the Visibility value of m_associationFieldScope
+ */
 Uml::Visibility::Value CodeGenerationPolicy::getAssociationFieldScope()
 {
     return Settings::getOptionState().codeGenerationState.defaultAssocFieldScope;
@@ -376,12 +401,18 @@ CodeGenerationPolicyPage * CodeGenerationPolicy::createPage ( QWidget *pWidget, 
     return new CodeGenerationPolicyPage ( pWidget, name, 0 );
 }
 
+/**
+ * Emits the signal 'ModifiedCodeContent'.
+ */
 void CodeGenerationPolicy::emitModifiedCodeContentSig()
 {
     if (!UMLApp::app()->getDocument()->loading())
         emit modifiedCodeContent();
 }
 
+/**
+ * set the defaults from a config file
+ */
 void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emitUpdateSignal)
 {
     if (!clone)
@@ -409,6 +440,9 @@ void CodeGenerationPolicy::setDefaults ( CodeGenerationPolicy * clone , bool emi
         emit modifiedCodeContent();
 }
 
+/**
+ * set the defaults from a config file
+ */
 void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 {
     blockSignals(true); // we need to do this because otherwise most of these
@@ -449,6 +483,9 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
         emit modifiedCodeContent();
 }
 
+/**
+ * Write Default params.
+ */
 void CodeGenerationPolicy::writeConfig ()
 {
     UmbrelloSettings::setDefaultAttributeAccessorScope(getAttributeAccessorScope());
@@ -473,6 +510,22 @@ void CodeGenerationPolicy::writeConfig ()
 }
 
 // return the actual text
+
+/**
+ *  Gets the heading file (as a string) to be inserted at the
+ *  beginning of the generated file. you give the file type as
+ *  parameter and get the string. if fileName starts with a
+ *  period (.) then fileName is the extension (.cpp, .h,
+ *  .java) if fileName starts with another character you are
+ *  requesting a specific file (mylicensefile.txt).  The files
+ *  can have parameters which are denoted by %parameter%.
+ *
+ *  current parameters are
+ *  %author%
+ *  %date%
+ *  %time%
+ *  %filepath%
+ */
 QString CodeGenerationPolicy::getHeadingFile(const QString& str)
 {
     if (!getIncludeHeadings() || str.isEmpty())

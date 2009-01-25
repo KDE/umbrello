@@ -32,15 +32,9 @@ public:
     UMLAttributeList(const UMLAttributeList&);
 
     virtual ~UMLAttributeList();
-    /**
-     * Copy the internal presentation of this object into the new
-     * object.
-     */
+
     virtual void copyInto (UMLAttributeList *rhs) const;
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLAttributeList* clone() const;
 };
 

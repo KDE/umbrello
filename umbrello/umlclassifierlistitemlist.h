@@ -34,15 +34,9 @@ public:
     UMLClassifierListItemList(const UMLClassifierListItemList& other);
 
     virtual ~UMLClassifierListItemList();
-    /**
-     * Copy the internal presentation of this object into the new
-     * object.
-     */
+
     virtual void copyInto (UMLClassifierListItemList *rhs) const;
 
-    /**
-     * Make a clone of this object.
-     */
     virtual UMLClassifierListItemList* clone() const;
 
 };

@@ -39,10 +39,10 @@ AssocRules::~AssocRules()
 {
 }
 
-bool allowAssociation( Association_Type/* assocType*/, const std::type_info/* &type*/ )
+bool allowAssociation( Association_Type assocType, const std::type_info &type )
 {
+    Q_UNUSED(assocType); Q_UNUSED(type);
     return false;
-
 }
 
 bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * widget )
@@ -87,7 +87,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
 
     case at_Realization:  // one connected to widget only (a or b)
         foreach ( AssociationWidget* assoc, list ) {
-            if( assoc -> getAssocType() == at_Realization )
+            if( assoc->getAssocType() == at_Realization )
                 return false;
         }
         return true;
@@ -131,6 +131,11 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
 
 // when we know what we are going to connect both ends of the association to, we can
 // use this method.
+
+/**
+ * Returns whether an association is valid with the given variables.
+ * This method is used to finish an association.
+ */
 bool AssocRules::allowAssociation( Uml::Association_Type assocType,
                                    UMLWidget * widgetA, UMLWidget * widgetB,
                                    bool extendedCheck )
@@ -183,7 +188,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     case at_Containment:   // can't have mutual containment
     case at_Generalization://can have many sub/super types but can't sup/sub each
         foreach ( AssociationWidget * assoc, list ) {
-            if( ( widgetA == assoc -> getWidget(A) || widgetA == assoc -> getWidget(B) )
+            if( ( widgetA == assoc->getWidget(A) || widgetA == assoc->getWidget(B) )
                     && assoc->getAssocType() == assocType )
                 return false;
         }

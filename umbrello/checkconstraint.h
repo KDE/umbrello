@@ -26,6 +26,7 @@
 class UMLCheckConstraint : public UMLEntityConstraint {
      Q_OBJECT
 public:
+
     /**
      * Sets up a constraint.
      *
@@ -53,64 +54,33 @@ public:
      */
     virtual ~UMLCheckConstraint();
 
-    /**
-     * Copy the internal presentation of this object into the UMLCheckConstraint
-     * object.
-     */
     virtual void copyInto(UMLObject *lhs) const;
 
-    /**
-     * Make a clone of the UMLCheckConstraint.
-     */
     virtual UMLObject* clone() const;
 
-    /**
-     * Returns a string representation of the UMLCheckConstraint.
-     *
-     * @param sig               If true will show the attribute type and
-     *                  initial value.
-     * @return  Returns a string representation of the UMLAttribute.
-     */
     QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
     QString getFullyQualifiedName(const QString& separator = QString(),
                                   bool includeRoot = false) const;
 
-    /**
-     * Creates the <UML:UniqueConstraint> XMI element.
-     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * Display the properties configuration dialog for the attribute.
-     */
     virtual bool showPropertiesDialog(QWidget* parent);
 
-    /**
-     * Returns a string represention of the condition that this constraint is checking
-     */
     QString getCheckCondition() const {
         return m_CheckCondition;
     }
 
-    /**
-     * Sets the Condition that's to be checked
-     */
     void setCheckCondition(const QString& condition) {
         m_CheckCondition = condition.trimmed();
     }
 
 protected:
-    /**
-     * Loads the <UML:CheckConstraint> XMI element.
-     */
+
     bool load( QDomElement & element );
 
 private:
 
-    /**
-     * Initialises Check Constraint
-     */
     void init();
 
     /**
