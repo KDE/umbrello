@@ -28,30 +28,21 @@ class TextBlock
 public:
 
     explicit TextBlock ( CodeDocument * parent, const QString & text = "");
-
-    /**
-     * Destructor.
-     */
     virtual ~TextBlock ( );
 
     void setText ( const QString & text );
-
+    QString getText() const;
     void appendText ( const QString & text );
 
-    QString getText() const;
-
-    QString getTag() const;
-
     void setTag( const QString & value );
+    QString getTag() const;
 
     CodeDocument * getParentDocument() const;
 
     void setWriteOutText( bool write );
-
     bool getWriteOutText() const;
 
     void setIndentationLevel( int level );
-
     int getIndentationLevel() const;
 
     QString getIndentationString ( int level = 0) const;
@@ -69,20 +60,9 @@ public:
     virtual QString toString() const;
 
     static QString encodeText(const QString & text , const QString & endChars);
-
     static QString decodeText(const QString & text, const QString & endChars);
 
-    /**
-     * Save the XMI representation of this object
-     * @param doc    the xmi document
-     * @param root   the starting point to append
-     */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
-
-    /**
-     * Load params from the appropriate XMI element node.
-     * @param root   the starting point in the xmi document to load from
-     */
     virtual void loadFromXMI ( QDomElement & root ) = 0;
 
     bool canDelete() const;
@@ -92,7 +72,6 @@ public:
     virtual QString getNewEditorLine( int indentAmount = 0 );
 
     virtual int firstEditableLine();
-
     virtual int lastEditableLine();
 
 protected:
@@ -102,7 +81,6 @@ protected:
     virtual void release ();
 
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
-
     virtual void setAttributesFromNode ( QDomElement & element);
 
     friend QTextStream& operator<<(QTextStream& os, const TextBlock& obj);
