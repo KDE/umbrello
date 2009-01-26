@@ -14,7 +14,7 @@
 
 #include <string>
 #include <QtCore/QString>
-
+#include <kdebug.h>
 
 /**
  *@author Paul Hensgen
@@ -323,6 +323,8 @@ const IDType id_Reserved = "0";
 #define uDebug()   kDebug(8060)
 #define uError()   kError(8060)
 #define uWarning() kWarning(8060)
+
+#define uIgnoreZeroPointer(a) if (!a) { uDebug() << "zero pointer detected" << __FILE__ << __LINE__; continue; }
 
 /**
  * Function for comparing tags in XMI files.

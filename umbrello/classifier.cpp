@@ -222,6 +222,7 @@ UMLOperation* UMLClassifier::createOperation(
 
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
 {
+    Q_ASSERT(op);
     if (m_List.indexOf(op) != -1) {
         uDebug() << "findRef(" << op->getName() << ") finds op (bad)";
         return false;
@@ -327,6 +328,7 @@ UMLAttributeList UMLClassifier::getAttributeList() const
 {
     UMLAttributeList attributeList;
     foreach (UMLObject* listItem , m_List ) {
+        uIgnoreZeroPointer(listItem);
         if (listItem->getBaseType() == Uml::ot_Attribute) {
             attributeList.append(static_cast<UMLAttribute*>(listItem));
         }
@@ -342,6 +344,7 @@ UMLAttributeList UMLClassifier::getAttributeList(Uml::Visibility scope) const
         UMLAttributeList atl = getAttributeList();
         foreach(UMLAttribute* at, atl )
         {
+            uIgnoreZeroPointer(at);
             if (! at->getStatic())
             {
                 if (scope == Uml::Visibility::Private)
@@ -370,6 +373,7 @@ UMLAttributeList UMLClassifier::getAttributeListStatic(Uml::Visibility scope) co
         UMLAttributeList atl = getAttributeList();
         foreach(UMLAttribute* at, atl )
         {
+            uIgnoreZeroPointer(at);
             if (at->getStatic())
             {
                 if (scope == Uml::Visibility::Private)
@@ -395,6 +399,7 @@ UMLOperationList UMLClassifier::findOperations(const QString &n)
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     UMLOperationList list;
     foreach (UMLObject*  obj, m_List) {
+        uIgnoreZeroPointer(obj);
         if (obj->getBaseType() != Uml::ot_Operation)
             continue;
         UMLOperation *op = static_cast<UMLOperation*>(obj);
@@ -434,6 +439,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
     UMLClassifierList inheritingConcepts;
     Uml::IDType myID = getID();
     foreach(UMLClassifier *c , list ) {
+        uIgnoreZeroPointer(c);
         if (type == ALL || (!c->isInterface() && type == CLASS)
                 || (c->isInterface() && type == INTERFACE)) {
             inheritingConcepts.append(c);
@@ -441,6 +447,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
     }
 
     foreach (UMLAssociation *a , rlist ) {
+        uIgnoreZeroPointer(a);
         if (a->getObjectId(A) != myID)
         {
             UMLObject* obj = a->getObject(A);
@@ -465,6 +472,7 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
     UMLClassifierList parentConcepts;
     Uml::IDType myID = getID();
     foreach (UMLClassifier *concept , list ) {
+        uIgnoreZeroPointer(concept);
         if (type == ALL || (!concept->isInterface() && type == CLASS)
                 || (concept->isInterface() && type == INTERFACE))
             parentConcepts.append(concept);
@@ -520,6 +528,7 @@ bool UMLClassifier::resolveRef()
     bool success = UMLPackage::resolveRef();
     // Using reentrant iteration is a bare necessity here:
     foreach (UMLObject* obj, m_List ) {
+        uIgnoreZeroPointer(obj);
         /**** For reference, here is the non-reentrant iteration scheme -
               DO NOT USE THIS !
         for (UMLObject *obj = m_List.first(); obj; obj = m_List.next())
@@ -614,6 +623,7 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
 UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /* = Uml::id_None */)
 {
     foreach (UMLObject* obj, m_List ) {
+        uIgnoreZeroPointer(obj);
         if (obj->getBaseType() == Uml::ot_Attribute && obj->getName() == name)
             return static_cast<UMLAttribute*>(obj);
     }
@@ -645,6 +655,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, 
 bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* log /* = 0 */,
                                  int position /* = -1 */)
 {
+    Q_ASSERT(att);
     if (findChildObject(att->getName()) == NULL) {
         att->setParent(this);
         if (position >= 0 && position < (int)m_List.count()) {
@@ -693,6 +704,7 @@ bool UMLClassifier::hasAbstractOps ()
 {
     UMLOperationList opl( getOpList() );
     foreach(UMLOperation *op , opl ) {
+        uIgnoreZeroPointer(op);
         if (op->getAbstract()) {
             return true;
         }
@@ -709,6 +721,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited)
 {
     UMLOperationList ops;
     foreach (UMLObject* li, m_List) {
+        uIgnoreZeroPointer(li);
         if (li->getBaseType() == ot_Operation) {
             ops.append(static_cast<UMLOperation*>(li));
         }
@@ -744,7 +757,8 @@ UMLClassifierListItemList UMLClassifier::getFilteredList(Uml::Object_Type ot) co
 {
     UMLClassifierListItemList resultList;
     foreach (UMLObject* o, m_List) {
-        if (o->getBaseType() == Uml::ot_Association) {
+        uIgnoreZeroPointer(o);
+        if (!o || o->getBaseType() == Uml::ot_Association) {
             continue;
         }
         UMLClassifierListItem *listItem = static_cast<UMLClassifierListItem*>(o);
@@ -841,6 +855,7 @@ UMLTemplateList UMLClassifier::getTemplateList() const
 {
     UMLTemplateList templateList;
     foreach (UMLObject* listItem, m_List) {
+        uIgnoreZeroPointer(listItem);
         if (listItem->getBaseType() == Uml::ot_Template) {
             templateList.append(static_cast<UMLTemplate*>(listItem));
         }
@@ -852,6 +867,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
 {
     QString buf;
     foreach (UMLObject* currentAtt, m_List ) {
+        uIgnoreZeroPointer(currentAtt);
         QString txt = currentAtt->getName();
         if (txt.isEmpty()) {
            txt = "Type-" + QString::number((int) currentAtt->getBaseType());
@@ -994,6 +1010,7 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented()
     UMLAssociationList uniAssocListToBeImplemented;
 
     foreach (UMLAssociation *a , associations ) {
+        uIgnoreZeroPointer(a);
         if (a->getObjectId(Uml::B) == getID()) {
             continue;  // we need to be at the A side
         }
@@ -1003,6 +1020,7 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented()
             bool found = false;
             //make sure that an attribute with the same name doesn't already exist
             foreach (UMLAttribute *at , atl ) {
+                uIgnoreZeroPointer(a);
                 if (at->getName() == roleNameB) {
                     found = true;
                     break;
