@@ -2400,6 +2400,9 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
     m_pMenu = new ListPopupMenu(m_pView, menuType);
     m_pMenu->popup(me -> globalPos());
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
+    if (isCollaboration()) 
+        m_pName->setupPopupMenu(m_pMenu);
+
     setSelected();
 }//end method mouseReleaseEvent
 
@@ -3190,6 +3193,7 @@ bool AssociationWidget::onAssociation(const QPoint & point)
 void AssociationWidget::slotRemovePopupMenu()
 {
     if(m_pMenu) {
+        m_pName->slotRemovePopupMenu();
         disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;

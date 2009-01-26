@@ -41,7 +41,7 @@ using namespace Uml;
 
 UMLWidget::UMLWidget(UMLView * view, UMLObject * o, UMLWidgetController *widgetController /* = 0*/)
         : WidgetBase(view), Q3CanvasRectangle(view->canvas()),
-        m_pMenu(0)
+        m_pMenu(0), m_menuIsEmbedded(false)
 {
     if (widgetController) {
         m_widgetController = widgetController;
@@ -651,10 +651,17 @@ void UMLWidget::showProperties()
     dlg->close(); //wipe from memory
 }
 
-ListPopupMenu*  UMLWidget::setupPopupMenu()
+ListPopupMenu*  UMLWidget::setupPopupMenu(ListPopupMenu* menu)
 {
     slotRemovePopupMenu();
 
+    if (menu) {
+        m_pMenu = menu;
+        m_menuIsEmbedded = true;
+        return m_pMenu;
+    }
+
+    m_menuIsEmbedded = false;
     //if in a multi- selection to a specific m_pMenu for that
     // NEW: ask UMLView to count ONLY the widgets and not their floatingtextwidgets
     int count = m_pView->getSelectCount(true);
@@ -687,8 +694,10 @@ ListPopupMenu*  UMLWidget::setupPopupMenu()
 void UMLWidget::slotRemovePopupMenu()
 {
     if (m_pMenu) {
-        disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
-        delete m_pMenu;
+        if (!m_menuIsEmbedded) {
+            disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
+            delete m_pMenu;
+        }
         m_pMenu = 0;
     }
 }
