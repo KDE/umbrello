@@ -255,8 +255,6 @@ public:
 public slots:
     /**
      * Called when a menu selection has been made.
-     * This method is public due to called by @ref MessageWidget
-     * when this is text for a @ref MessageWidget.
      *
      * @param action  The action that has been selected.
      */

@@ -458,10 +458,15 @@ public:
     virtual QString getName() const;
 
     /**
-     * Starts the popup menu.
+     * Starts the popup menu. If menu is non zero,
+     * the widgets popup menu is embedded into another widget. 
+     * The another widget is responsible for calling 
+     * setupPopupMenu(), slotMenuSelection() and 
+     * removePopupMenu() manually.
      *
+     * @return pointer to the popup menu object
      */
-    virtual ListPopupMenu* setupPopupMenu();
+    virtual ListPopupMenu* setupPopupMenu(ListPopupMenu *menu=0);
 
     /**
      * Adjusts associations with the given co-ordinates
@@ -658,6 +663,7 @@ protected:
     int            m_nPosX;
     int            m_origZ;
     ListPopupMenu *m_pMenu;
+    bool           m_menuIsEmbedded;
     UMLDoc        *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
     bool           m_bResizable;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];

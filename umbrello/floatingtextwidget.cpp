@@ -105,6 +105,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
         m_pView -> removeWidget(this);
         break;
 
+    case ListPopupMenu::mt_New_Operation: // needed by AssociationWidget
     case ListPopupMenu::mt_Operation:
         {
             if (m_pLink == NULL) {
