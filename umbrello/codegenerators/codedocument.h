@@ -36,32 +36,21 @@ class CodeDocument : public QObject, public CodeGenObjectWithTextBlocks
     Q_OBJECT
 public:
 
-    /**
-     * Empty Constructor
-     */
     CodeDocument ( );
-
-    /**
-     * Empty Destructor
-     */
     virtual ~CodeDocument ( );
 
     void setFileExtension ( const QString &new_var );
-
     QString getFileExtension ( ) const;
 
     void setFileName ( const QString &new_var );
-
     QString getFileName ( ) const;
 
     void setPackage ( UMLPackage *new_var );
-
     QString getPackage ( ) const;
 
     virtual QString getPath ( );
 
     void setID ( const QString &new_id);
-
     QString getID ( ) const;
 
     void setWriteOutCode ( bool new_var );
@@ -69,7 +58,6 @@ public:
     bool getWriteOutCode ( );
 
     void setHeader ( CodeComment * comment );
-
     CodeComment * getHeader ( );
 
     bool insertTextBlock (TextBlock * newBlock, TextBlock * existingBlock, bool after = true);
@@ -79,13 +67,10 @@ public:
     virtual QString toString ( );
 
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
-
     virtual void loadFromXMI ( QDomElement & root );
 
     virtual CodeBlock * newCodeBlock ( );
-
     virtual HierarchicalCodeBlock * newHierarchicalCodeBlock ( );
-
     virtual CodeBlockWithComments * newCodeBlockWithComments ( );
 
     virtual QString getUniqueTag( const QString& prefix = QString("") );
