@@ -328,6 +328,9 @@ set (libwidgets_SRCS
     widgets/toolbarstateonewidget.cpp
     widgets/umlwidget.cpp
     widgets/usecasewidget.cpp
+    widgets/widget_factory.cpp
+    widgets/widget_utils.cpp
+    widgets/widgetbase.cpp
 )
 
 set (libcontroller_SRCS
@@ -407,9 +410,6 @@ set(libumbrello_SRCS
     uniqueconstraint.cpp
     uniqueid.cpp
     usecase.cpp
-    widget_factory.cpp
-    widget_utils.cpp
-    widgetbase.cpp
     worktoolbar.cpp
 )
 
