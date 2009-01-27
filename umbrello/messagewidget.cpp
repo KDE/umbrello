@@ -915,7 +915,7 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.appendChild( messageElement );
 }
 
-bool MessageWidget::loadFromXMI(QDomElement& qElement) {
+bool MessageWidget::loadFromXMI(QDomElement& qElement){
     if ( !UMLWidget::loadFromXMI(qElement) ) {
         return false;
     }
@@ -958,9 +958,9 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement) {
     return true;
 }
 
-ListPopupMenu* MessageWidget::setupPopupMenu() {
-
-    UMLWidget::setupPopupMenu( ); // will setup the menu in m_pMenu
+ListPopupMenu* MessageWidget::setupPopupMenu(ListPopupMenu *menu)
+{
+    UMLWidget::setupPopupMenu(menu); // will setup the menu in m_pMenu
     ListPopupMenu* floatingtextSubMenu = m_pFText->setupPopupMenu();
     floatingtextSubMenu->setTitle( i18n( "Operation" ) );
 
