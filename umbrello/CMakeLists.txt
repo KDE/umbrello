@@ -165,6 +165,7 @@ set(libdialogs_SRCS
     dialogs/codevieweroptionspage.cpp
     dialogs/defaultcodegenpolicypage.cpp
     dialogs/diagramprintpage.cpp
+    dialogs/dialog_utils.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/notedialog.cpp
     dialogs/objectnodedialog.cpp
@@ -357,7 +358,6 @@ set(libumbrello_SRCS
     cmdlineexportallviewsevent.cpp
     codeaccessormethod.cpp
     component.cpp
-    dialog_utils.cpp
     docwindow.cpp
     entity.cpp
     entityattribute.cpp
