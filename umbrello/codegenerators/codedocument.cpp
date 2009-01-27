@@ -262,12 +262,6 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
  */
 QString CodeDocument::cleanName ( const QString &name )
 {
-
-/**
- * A little utility method which calls CodeGenerator::cleanName.
- * @param name   the cleanable name
- * @return       the cleaned name
- */
     return CodeGenerator::cleanName(name);
 }
 
