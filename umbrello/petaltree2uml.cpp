@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -423,7 +423,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
             QStringList initialArgs = roleNode->initialArgs();
             if (initialArgs.count() > 1) {
                 QString roleName = clean(initialArgs[1]);
-                if (! roleName.startsWith("$UNNAMED"))
+                if (! roleName.startsWith(QLatin1String("$UNNAMED")))
                     role->setName(roleName);
             }
             role->setID(quid(roleNode));

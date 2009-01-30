@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2004-2008                                                *
+ *  copyright (C) 2004-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -483,13 +483,13 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         name.remove(mnemonicVis);
     }
     Uml::Parameter_Direction pd = Uml::pd_In;
-    if (name.startsWith("in ")) {
+    if (name.startsWith(QLatin1String("in "))) {
         pd = Uml::pd_In;
         name = name.mid(3);
-    } else if (name.startsWith("inout ")) {
+    } else if (name.startsWith(QLatin1String("inout "))) {
         pd = Uml::pd_InOut;
         name = name.mid(6);
-    } else if (name.startsWith("out ")) {
+    } else if (name.startsWith(QLatin1String("out "))) {
         pd = Uml::pd_Out;
         name = name.mid(4);
     }
