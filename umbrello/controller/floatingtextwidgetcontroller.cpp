@@ -71,10 +71,10 @@ bool FloatingTextWidgetController::isInResizeArea(QGraphicsSceneMouseEvent* /*me
  * @param diffY The difference between current Y position and new Y position.
  */
 void FloatingTextWidgetController::moveWidgetBy(qreal diffX, qreal diffY) {
-    if (m_floatingTextWidget->m_Role == Uml::tr_Seq_Message_Self)
+    if (m_floatingTextWidget->textRole() == Uml::tr_Seq_Message_Self)
         return;
 
-    if (m_floatingTextWidget->m_Role == Uml::tr_Seq_Message
+    if (m_floatingTextWidget->textRole() == Uml::tr_Seq_Message
                     && ((MessageWidget*)m_floatingTextWidget->m_pLink)->isSelected()) {
         return;
     }

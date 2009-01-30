@@ -51,7 +51,7 @@ QCursor ObjectWidgetController::getResizeCursor() {
 }
 
 void ObjectWidgetController::resizeWidget(qreal newW, qreal /*newH*/) {
-    m_widget->setSize(newW, m_widget->getHeight());
+    m_widget->setSize(newW, m_widget->height());
 }
 
 /**
@@ -60,12 +60,12 @@ void ObjectWidgetController::resizeWidget(qreal newW, qreal /*newH*/) {
 void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me) {
     UMLWidgetController::mousePressEvent(me);
      isOnDestructionBox = false;
-    SeqLineWidget * pLine = dynamic_cast<ObjectWidget*>(m_widget)->getSeqLine();
+    SeqLineWidget * pLine = dynamic_cast<ObjectWidget*>(m_widget)->sequentialLine();
 
     if (pLine->onDestructionBox(pLine->mapFromScene(me->scenePos()))) {
         isOnDestructionBox = true;
-        m_oldX = dynamic_cast<ObjectWidget*>(m_widget)->getX() + dynamic_cast<ObjectWidget*>(m_widget)->getWidth() / 2;
-        m_oldY = dynamic_cast<ObjectWidget*>(m_widget)->getEndLineY() - 10;
+        m_oldX = dynamic_cast<ObjectWidget*>(m_widget)->getX() + dynamic_cast<ObjectWidget*>(m_widget)->width() / 2;
+        m_oldY = dynamic_cast<ObjectWidget*>(m_widget)->lineEndY() - 10;
     }
 
 }

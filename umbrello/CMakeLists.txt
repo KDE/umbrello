@@ -315,6 +315,7 @@ set (libwidgets_SRCS
     widgets/forkjoinwidget.cpp
     widgets/linkwidget.cpp
     widgets/messagewidget.cpp
+    widgets/newassociationwidget.cpp
     widgets/nodewidget.cpp
     widgets/notewidget.cpp
     widgets/objectnodewidget.cpp
@@ -336,11 +337,11 @@ set (libwidgets_SRCS
 )
 
 set (libcontroller_SRCS
-    controller/floatingtextwidgetcontroller.cpp
-    controller/messagewidgetcontroller.cpp
-    controller/notewidgetcontroller.cpp
-    controller/objectwidgetcontroller.cpp
-    controller/umlwidgetcontroller.cpp
+#    controller/floatingtextwidgetcontroller.cpp
+#    controller/messagewidgetcontroller.cpp
+#    controller/notewidgetcontroller.cpp
+#    controller/objectwidgetcontroller.cpp
+#    controller/umlwidgetcontroller.cpp
 )
 
 ########### next target ###############
@@ -367,6 +368,7 @@ set(libumbrello_SRCS
     enum.cpp
     enumliteral.cpp
     folder.cpp
+    foreignkeyconstraint.cpp
     icon_utils.cpp
     import_rose.cpp
     kplayerslideraction.cpp

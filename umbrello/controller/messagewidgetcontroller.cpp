@@ -64,17 +64,19 @@ QCursor MessageWidgetController::getResizeCursor() {
  * @param newH The new height for the widget.
  */
 void MessageWidgetController::resizeWidget(qreal newW, qreal newH) {
-    if (m_messageWidget->getSequenceMessageType() == Uml::sequence_message_creation)
-        m_messageWidget->setSize(m_messageWidget->getWidth(), newH);
+    // WE DONT USE controller in the current implementation
+#if 0
+    if (m_messageWidget->sequenceMessageType() == Uml::sequence_message_creation)
+        m_messageWidget->setSize(m_messageWidget->width(), newH);
     else {
-        qreal x1 = m_messageWidget->m_pOw[Uml::A]->getX();
+        qreal x1 = m_messageWidget->objectWidget(Uml::A)->x();
         qreal x2 = m_messageWidget->getxclicked();
         qreal diffX = 0;
         if (x1 < x2) {
-            diffX = x2 + (newW - m_messageWidget->getWidth());
+            diffX = x2 + (newW - m_messageWidget->width());
         }
         else {
-            diffX = x2 - (newW - m_messageWidget->getWidth());
+            diffX = x2 - (newW - m_messageWidget->width());
         }
         if (diffX <= 0 )
             diffX = 10;
@@ -84,6 +86,7 @@ void MessageWidgetController::resizeWidget(qreal newW, qreal newH) {
 
     }
     emit m_messageWidget->sigMessageMoved();
+#endif
 }
 
 void MessageWidgetController::moveWidgetBy(qreal /*diffX*/, qreal diffY) {
