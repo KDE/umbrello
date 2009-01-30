@@ -30,6 +30,8 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/tcl/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/xml/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/
+  ${CMAKE_CURRENT_SOURCE_DIR}/controller/
+  ${CMAKE_CURRENT_SOURCE_DIR}/widgets/
   ${Boost_INCLUDE_DIR}
 )
 
