@@ -163,6 +163,7 @@ set(libdialogs_SRCS
     dialogs/codevieweroptionspage.cpp
     dialogs/defaultcodegenpolicypage.cpp
     dialogs/diagramprintpage.cpp
+    dialogs/dialog_utils.cpp
     dialogs/exportallviewsdialog.cpp
     dialogs/notedialog.cpp
     dialogs/objectnodedialog.cpp
@@ -294,76 +295,91 @@ set(libcmds_SRCS
     cmds/widget/cmd_changeMulti.cpp
 )
 
+set (libwidgets_SRCS
+    widgets/activitywidget.cpp
+    widgets/actorwidget.cpp
+    widgets/artifactwidget.cpp
+    widgets/associationwidget.cpp
+    widgets/boxwidget.cpp
+    widgets/categorywidget.cpp
+    widgets/classifierwidget.cpp
+    widgets/combinedfragmentwidget.cpp
+    widgets/componentwidget.cpp
+    widgets/datatypewidget.cpp
+    widgets/entitywidget.cpp
+    widgets/enumwidget.cpp
+    widgets/floatingdashlinewidget.cpp
+    widgets/floatingtextwidget.cpp
+    widgets/forkjoinwidget.cpp
+    widgets/linkwidget.cpp
+    widgets/messagewidget.cpp
+    widgets/nodewidget.cpp
+    widgets/notewidget.cpp
+    widgets/objectnodewidget.cpp
+    widgets/objectwidget.cpp
+    widgets/packagewidget.cpp
+    widgets/pinwidget.cpp
+    widgets/preconditionwidget.cpp
+    widgets/regionwidget.cpp
+    widgets/seqlinewidget.cpp
+    widgets/signalwidget.cpp
+    widgets/statewidget.cpp
+    widgets/toolbarstateonewidget.cpp
+    widgets/umlwidget.cpp
+    widgets/usecasewidget.cpp
+    widgets/widget_factory.cpp
+    widgets/widget_utils.cpp
+    widgets/widgetbase.cpp
+    widgets/widgethandle.cpp
+)
+
+set (libcontroller_SRCS
+    controller/floatingtextwidgetcontroller.cpp
+    controller/messagewidgetcontroller.cpp
+    controller/notewidgetcontroller.cpp
+    controller/objectwidgetcontroller.cpp
+    controller/umlwidgetcontroller.cpp
+)
+
 ########### next target ###############
 
 set(libumbrello_SRCS
-    activitywidget.cpp
     actor.cpp
-    actorwidget.cpp
     artifact.cpp
-    artifactwidget.cpp
     association.cpp
-    associationwidget.cpp
     assocrules.cpp
     attribute.cpp
-    boxwidget.cpp
     category.cpp
-    categorywidget.cpp
     checkconstraint.cpp
     classifier.cpp
     classifiercodedocument.cpp
     classifierlistitem.cpp
-    classifierwidget.cpp
     cmdlineexportallviewsevent.cpp
     codeaccessormethod.cpp
-    combinedfragmentwidget.cpp
     component.cpp
-    componentwidget.cpp
-    datatypewidget.cpp
-    dialog_utils.cpp
     docwindow.cpp
     entity.cpp
     entityattribute.cpp
     entityconstraint.cpp
-    entitywidget.cpp
     expanderbox.cpp
-    regionwidget.cpp
     enum.cpp
     enumliteral.cpp
-    enumwidget.cpp
-    floatingdashlinewidget.cpp
-    floatingtextwidget.cpp
     folder.cpp
-    foreignkeyconstraint.cpp
-    forkjoinwidget.cpp
     icon_utils.cpp
     import_rose.cpp
     kplayerslideraction.cpp
     linepath.cpp
-    linkwidget.cpp
     listpopupmenu.cpp
     main.cpp
-    messagewidget.cpp
     model_utils.cpp
-    newassociationwidget.cpp
     newlinepath.cpp
     node.cpp
-    nodewidget.cpp
-    notewidget.cpp
-    objectnodewidget.cpp
-    objectwidget.cpp
     object_factory.cpp
     operation.cpp
     optionstate.cpp
     package.cpp
-    packagewidget.cpp
     petalnode.cpp
     petaltree2uml.cpp
-    pinwidget.cpp
-    preconditionwidget.cpp
-    seqlinewidget.cpp
-    statewidget.cpp
-    signalwidget.cpp
     stereotype.cpp
     template.cpp
     test.cpp
@@ -374,7 +390,6 @@ set(libumbrello_SRCS
     toolbarstateassociation.cpp
     toolbarstatefactory.cpp
     toolbarstatemessages.cpp
-    toolbarstateonewidget.cpp
     toolbarstateother.cpp
     toolbarstatepool.cpp
     uml.cpp
@@ -395,15 +410,9 @@ set(libumbrello_SRCS
     umlviewimageexporter.cpp
     umlviewimageexporterall.cpp
     umlviewimageexportermodel.cpp
-    umlwidget.cpp
     uniqueid.cpp
     uniqueconstraint.cpp
     usecase.cpp
-    usecasewidget.cpp
-    widget_factory.cpp
-    widget_utils.cpp
-    widgetbase.cpp
-    widgethandle.cpp
     worktoolbar.cpp
 )
 
@@ -411,6 +420,7 @@ kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 
 set (umbrello_SRCS
     ${umbrello_SRCS}
+    ${libcontroller_SRCS}
     ${libdialogs_SRCS}
     ${librefactoring_SRCS}
     ${libcodegenwizard_SRCS}
@@ -421,6 +431,7 @@ set (umbrello_SRCS
     ${libcodegenerator_SRCS}
     ${libdocgenerator_SRCS}
     ${libcmds_SRCS}
+    ${libwidgets_SRCS}
     ${libumbrello_SRCS}
 )
 
