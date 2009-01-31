@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,7 +11,7 @@
 #ifndef DOCBOOKGENERATORJOB_H
 #define DOCBOOKGENERATORJOB_H
 
-#include <QThread>
+#include <QtCore/QThread>
 
 /**
  * This class is used to generate docbook from the document.
@@ -23,21 +22,19 @@
  * @author Sharan Rao
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class DocbookGeneratorJob : public QThread {
+class DocbookGeneratorJob : public QThread 
+{
+    Q_OBJECT
 
-  Q_OBJECT
   public:
-
     DocbookGeneratorJob(QObject* parent );
 
   protected:
-
     void run();
 
   signals:
     void docbookGenerated(const QString& url);
 
 };
-
 
 #endif

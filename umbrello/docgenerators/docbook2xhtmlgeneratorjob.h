@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -12,8 +11,7 @@
 #ifndef DOCBOOK2XHTMLGENERATORJOB_H
 #define DOCBOOK2XHTMLGENERATORJOB_H
 
-
-#include <QThread>
+#include <QtCore/QThread>
 
 #include <kurl.h>
 
@@ -26,16 +24,10 @@
  * @author Sharan Rao
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class Docbook2XhtmlGeneratorJob : public QThread {
-
-  Q_OBJECT
+class Docbook2XhtmlGeneratorJob : public QThread
+{
+    Q_OBJECT
   public:
-
-    /**
-     * Constructor
-     * @param docBookUrl The Url of the Docbook that is to be converted to XHtml
-     * @param parent     Parent object for QThread constructor
-     */
     Docbook2XhtmlGeneratorJob(KUrl& docBookUrl,QObject* parent);
 
   protected:
