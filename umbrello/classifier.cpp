@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #include "classifier.h"
@@ -40,7 +40,6 @@
 
 using namespace Uml;
 
-
 /**
  * Sets up a Classifier.
  *
@@ -55,6 +54,9 @@ UMLClassifier::UMLClassifier(const QString & name, Uml::IDType id)
     m_isRef = false;
 }
 
+/**
+ * Standard deconstructor.
+ */
 UMLClassifier::~UMLClassifier()
 {
 }
@@ -617,6 +619,9 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
     return parentConcepts;
 }
 
+/**
+ * Overloaded '==' operator.
+ */
 bool UMLClassifier::operator==(const UMLClassifier & rhs )
 {
   /*
@@ -629,7 +634,6 @@ bool UMLClassifier::operator==(const UMLClassifier & rhs )
    */
     return UMLCanvasObject::operator==(rhs);
 }
-
 
 /**
  * Copy the internal presentation of this object into the new
@@ -989,6 +993,14 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::IDType id)
     return templt;
 }
 
+/**
+ * Adds an already created template.
+ * The template object must not belong to any other concept.
+ *
+ * @param newTemplate   Pointer to the UMLTemplate object to add.
+ * @param log           Pointer to the IDChangeLog.
+ * @return  True if the template was successfully added.
+ */
 bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/)
 {
     QString name = newTemplate->getName();
@@ -1008,11 +1020,13 @@ bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 
 }
 
 /**
- * Adds an already created template.
- * The template object must not belong to any other concept.
- *
- * @param newTemplate   Pointer to the UMLTemplate object to add.
- * @param log           Pointer to the IDChangeLog.
+ * Adds an template to the class.
+ * The template object must not belong to any other class.
+ * TODO: If the param IDChangeLog from the method above is not being used,
+ * give position a default value of -1 and the method can replace the above one.
+ * @param templt     Pointer to the UMLTemplate to add.
+ * @param position   The position of the template in the list.
+ *                   A value of -1 will add the template at the end.
  * @return  True if the template was successfully added.
  */
 bool UMLClassifier::addTemplate(UMLTemplate* templt, int position)
@@ -1053,7 +1067,6 @@ int UMLClassifier::removeTemplate(UMLTemplate* umltemplate)
     disconnect(umltemplate, SIGNAL(modified()), this, SIGNAL(modified()));
     return m_List.count();
 }
-
 
 /**
  * Seeks the template parameter of the given name.

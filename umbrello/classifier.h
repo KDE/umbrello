@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef CLASSIFIER_H
@@ -47,15 +46,8 @@ public:
     enum ClassifierType { ALL = 0, CLASS, INTERFACE, DATATYPE };
 
     explicit UMLClassifier(const QString & name = QString(), Uml::IDType id = Uml::id_None);
-
-    /**
-     * Standard deconstructor.
-     */
     virtual ~UMLClassifier();
 
-    /**
-     * Overloaded '==' operator.
-     */
     bool operator==(const UMLClassifier & rhs );
 
     virtual void copyInto(UMLObject *lhs) const;
@@ -68,7 +60,6 @@ public:
                                           const QString &init = QString());
 
     UMLAttribute* addAttribute(const QString &name, Uml::IDType id = Uml::id_None);
-
     UMLAttribute* addAttribute(const QString &name, UMLObject *type, Uml::Visibility scope);
 
     bool addAttribute(UMLAttribute* att, IDChangeLog* log = 0,
@@ -79,7 +70,6 @@ public:
     int attributes() ;
 
     UMLAttributeList getAttributeList() const;
-
     UMLAttributeList getAttributeList(Uml::Visibility scope) const;
 
     UMLAttributeList getAttributeListStatic(Uml::Visibility scope) const;
@@ -89,7 +79,6 @@ public:
                                    Model_Utils::NameAndType_List *params = NULL);
 
     bool addOperation(UMLOperation* op, int position = -1);
-
     bool addOperation(UMLOperation* op, IDChangeLog* log);
 
     UMLOperation * checkOperationSignature( const QString& name,
@@ -107,18 +96,6 @@ public:
     UMLTemplate* addTemplate(const QString &name, Uml::IDType id = Uml::id_None);
 
     bool addTemplate(UMLTemplate* newTemplate, IDChangeLog* log = 0);
-
-    /**
-     * Adds an template to the class.
-     * The template object must not belong to any other class.
-     *
-     * @param templt     Pointer to the UMLTemplate to add.
-     * @param position   The position of the template in the list.
-     *                   A value of -1 will add the template at the end.
-     * @return  True if the template was successfully added.
-     */
-    //TODO: if the param IDChangeLog from the method above is not being used,
-    // give position a default value of -1 and the method can replace the above one
     bool addTemplate(UMLTemplate* templt, int position);
 
     int removeTemplate(UMLTemplate* umltemplate);
@@ -198,7 +175,6 @@ public:
 signals:
 
     void operationAdded(UMLClassifierListItem *);
-
     void operationRemoved(UMLClassifierListItem *);
 
     void templateAdded(UMLClassifierListItem*);
@@ -230,4 +206,4 @@ protected:
 
 };
 
-#endif // CONCEPT_H
+#endif // CLASSIFIER_H
