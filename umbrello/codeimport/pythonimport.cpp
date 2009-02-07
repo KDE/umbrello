@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,19 +26,29 @@
 #include <kdebug.h>
 
 // qt includes
-#include <qstringlist.h>
-#include <qregexp.h>
+#include <QtCore/QStringList>
+#include <QtCore/QRegExp>
 
-PythonImport::PythonImport() : NativeImportBase("#") 
+/**
+ * Constructor.
+ */
+PythonImport::PythonImport()
+  : NativeImportBase("#") 
 {
     setMultiLineComment("\"\"\"", "\"\"\"");
     initVars();
 }
 
+/**
+ * Destructor.
+ */
 PythonImport::~PythonImport() 
 {
 }
 
+/**
+ * Reimplement operation from NativeImportBase.
+ */
 void PythonImport::initVars()
 {
     m_srcIndentIndex = 0;
@@ -46,6 +56,16 @@ void PythonImport::initVars()
     m_braceWasOpened = false;
 }
 
+/**
+ * Reimplement operation from NativeImportBase.
+ * In addition to handling multiline comments, this method transforms
+ * changes in leading indentation into braces (opening brace for increase
+ * in indentation, closing brace for decrease in indentation) in m_source.
+ * Removal of Python's indentation sensitivity simplifies subsequent
+ * processing using Umbrello's native import framework.
+ * @param line   the line to preprocess
+ * @return success status of operation
+ */
 bool PythonImport::preprocess(QString& line)
 {
     if (NativeImportBase::preprocess(line))
@@ -69,7 +89,7 @@ bool PythonImport::preprocess(QString& line)
     int leadingWhite = line.left(pos).count( QRegExp("\\s") );
     if (leadingWhite > m_srcIndent[m_srcIndentIndex]) {
         if (m_srcIndex == 0) {
-            uError() << "internal error 1";
+            uError() << "internal error";
             return true;
         }
         if (m_braceWasOpened) {
@@ -96,6 +116,10 @@ bool PythonImport::preprocess(QString& line)
     return false;  // The input was not completely consumed by preprocessing.
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ * @param word   whitespace delimited item
+ */
 void PythonImport::fillSource(const QString& word) 
 {
     QString lexeme;
@@ -120,6 +144,10 @@ void PythonImport::fillSource(const QString& word)
     }
 }
 
+/**
+ * Return an amount of spaces that corresponds to @param level
+ * @return spaces of indentation
+ */
 QString PythonImport::indentation(int level)
 {
     QString spaces;
@@ -129,6 +157,10 @@ QString PythonImport::indentation(int level)
     return spaces;
 }
 
+/**
+ * Skip ahead to outermost closing brace.
+ * @return  body contents skipped
+ */
 QString PythonImport::skipBody()
 {
     /* During input preprocessing, changes in indentation were replaced by
@@ -169,6 +201,10 @@ QString PythonImport::skipBody()
     return body;
 }
 
+/**
+ * Implement abstract operation from NativeImportBase.
+ * @return success status of operation
+ */
 bool PythonImport::parseStmt()
 {
     const int srcLength = m_source.count();
@@ -222,7 +258,7 @@ bool PythonImport::parseStmt()
         if (m_scopeIndex)
             m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
         else
-            uError() << "importPython: too many }";
+            uError() << "parsing: too many }";
         return true;
     }
     return false;  // @todo parsing of attributes

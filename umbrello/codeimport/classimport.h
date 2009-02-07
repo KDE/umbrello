@@ -1,18 +1,17 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2006                                                *
+ *  copyright (C) 2005-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 #ifndef CLASSIMPORT_H
 #define CLASSIMPORT_H
 
-#include <qstringlist.h>
+#include <QtCore/QStringList>
 
 /**
  * Interfaces classparser library to uml models
@@ -21,7 +20,8 @@
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ClassImport {
+class ClassImport
+{
 public:
     ClassImport() {}
     virtual ~ClassImport() {}

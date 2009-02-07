@@ -1,18 +1,17 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2007                                                *
+ *  copyright (C) 2005-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 // own header
 #include "cppimport.h"
 // qt/kde includes
-#include <QMap>
+#include <QtCore/QMap>
 #include <kdebug.h>
 
 // must be located here for win32 msvc (see kdevcppparser/position.h)
@@ -22,34 +21,44 @@
 
 // app includes
 #include "import_utils.h"
-#include "../umlobject.h"
-#include "../docwindow.h"
-#include "../package.h"
-#include "../enum.h"
-#include "../classifier.h"
-#include "../operation.h"
-#include "../attribute.h"
-#include "../template.h"
-#include "../association.h"
-
+#include "umlobject.h"
+#include "docwindow.h"
+#include "package.h"
+#include "enum.h"
+#include "classifier.h"
+#include "operation.h"
+#include "attribute.h"
+#include "template.h"
+#include "association.h"
 
 // static members
 CppDriver * CppImport::ms_driver;
 QStringList CppImport::ms_seenFiles;
 
-class CppDriver : public Driver {
+class CppDriver : public Driver
+{
 public:
-    void setupLexer(Lexer* lexer) {
+    void setupLexer(Lexer* lexer)
+    {
         Driver::setupLexer(lexer);
         lexer->setRecordComments(true);
     }
 };
 
-CppImport::CppImport() {
+/**
+ * Constructor.
+ */
+CppImport::CppImport()
+{
     ms_driver = new CppDriver();
 }
 
-CppImport::~CppImport() {}
+/**
+ * Destructor.
+ */
+CppImport::~CppImport()
+{
+}
 
 /**
  * Auxiliary method for recursively traversing the #include dependencies
@@ -57,8 +66,10 @@ CppImport::~CppImport() {}
  * includes.  It is important that includefiles are fed to the model
  * in proper order so that references between UML objects are created
  * properly.
+ * @param fileName   the file to import
  */
-void CppImport::feedTheModel(const QString& fileName) {
+void CppImport::feedTheModel(const QString& fileName)
+{
     if (ms_seenFiles.indexOf(fileName) != -1)
         return;
     ms_seenFiles.append(fileName);
@@ -70,8 +81,7 @@ void CppImport::feedTheModel(const QString& fileName) {
                 continue;
             QString includeFile = it.key();
             if (includeFile.isEmpty()) {
-                uError() << fileName << ": " << it.value().first
-                << " not found" << endl;
+                uError() << fileName << ": " << it.value().first << " not found";
                 continue;
             }
             uDebug() << fileName << ": " << includeFile << " => " << it.value().first;
@@ -81,7 +91,7 @@ void CppImport::feedTheModel(const QString& fileName) {
     }
     TranslationUnitAST *ast = ms_driver->translationUnit( fileName );
     if (ast == NULL) {
-        uError() << fileName << " not found" << endl;
+        uError() << fileName << " not found";
         return;
     }
     CppTree2Uml modelFeeder( fileName );
@@ -91,7 +101,8 @@ void CppImport::feedTheModel(const QString& fileName) {
 /**
  * Implement abstract operation from ClassImport for C++.
  */
-void CppImport::initialize() {
+void CppImport::initialize()
+{
     // Reset the driver
     ms_driver->reset();
     // The driver shall attempt to parse included files.
@@ -107,17 +118,16 @@ void CppImport::initialize() {
         for (QStringList::ConstIterator i(incPathList.begin()); i != end; ++i) {
             ms_driver->addIncludePath( *i );
         }
-
     }
     ms_seenFiles.clear();
 }
 
 /**
  * Import a single file.
- *
- * @param filename  The file to import.
+ * @param fileName  The file to import.
  */
-void CppImport::parseFile(const QString& fileName) {
+void CppImport::parseFile(const QString& fileName) 
+{
     if (ms_seenFiles.indexOf(fileName) != -1)
         return;
     ms_driver->parseFile( fileName );

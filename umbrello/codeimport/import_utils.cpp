@@ -533,7 +533,7 @@ void createGeneralization(UMLClassifier *child, const QString &parentName)
 /**
  * Return the list of paths set by previous calls to addIncludePath()
  * and the environment variable UMBRELLO_INCPATH.
- * This list can be used for finding #included (or Ada with'ed or...)
+ * This list can be used for finding included (or Ada with'ed or...)
  * files.
  */
 QStringList includePathList()
