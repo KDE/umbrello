@@ -144,8 +144,8 @@ void JavaWriter::writeClass(UMLClassifier *c)
         java<<"package "<<c->getPackage()<<";"<<m_endl;
 
     // IMPORT statements
-    // Q: Why all utils? Isnt just List and Vector the only classes we are using?
-    // A: doesn't matter at all; its more readable to just include '*' and java compilers
+    // Q: Why all utils? Aren't just List and Vector the only classes we are using?
+    // A: doesn't matter at all; it is more readable to just include '*' and java compilers
     //    don't slow down or anything. (TZ)
     if (hasVectorFields )
     {
@@ -394,7 +394,7 @@ void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility 
         QString fieldName = cleanName(at->getName());
         // force capitalizing the field name, this is silly,
         // from what I can tell, this IS the default behavior for
-        // cleanName. I dunno why its not working -b.t.
+        // cleanName. I dunno why it is not working -b.t.
         fieldName.replace(0,1,fieldName.at(0).toUpper());
 
         writeSingleAttributeAccessorMethods(at->getTypeName(),
@@ -499,7 +499,7 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
         QString doc, Uml::Visibility visib, QTextStream &java)
 {
     // ONLY write out IF there is a rolename given
-    // otherwise its not meant to be declared in the code
+    // otherwise it is not meant to be declared in the code
     if (roleName.isEmpty())
         return;
 
@@ -853,7 +853,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
         doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
         str+= " )";
 
-        // method only gets a body IF its not abstract
+        // method only gets a body IF it is not abstract
         if (op->getAbstract() || isInterface)
             str+=";\n\n"; // terminate now
         else {

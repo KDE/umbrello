@@ -60,7 +60,7 @@ CodeGenerator::CodeGenerator (QDomElement & element )
         : QObject (UMLApp::app()->getDocument())
 {
     initFields();
-    loadFromXMI(element); // hmm. cant call this here.. its 'pure' virtual
+    loadFromXMI(element); // hmm. cant call this here.. it is 'pure' virtual
 }
 
 CodeGenerator::~CodeGenerator ()
@@ -82,7 +82,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
     if (!id.isEmpty() && findCodeDocumentByID(id))
         return id;
 
-    // approach now differs by whether or not its a classifier code document
+    // approach now differs by whether or not it is a classifier code document
     ClassifierCodeDocument * classDoc = dynamic_cast<ClassifierCodeDocument*>(codeDoc);
     if (classDoc) {
         UMLClassifier *c = classDoc->getParentClassifier();
@@ -694,7 +694,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
             break;
         }
 
-        // now add in list ONLY if its not already there
+        // now add in list ONLY if it is not already there
         if(temp  && !cList.count(temp))
             cList.append(temp);
     }

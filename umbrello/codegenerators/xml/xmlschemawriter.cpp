@@ -162,7 +162,7 @@ void XMLSchemaWriter::writeClassifier (UMLClassifier *c, QTextStream &XMLschema)
         writeComment(c->getDoc(),XMLschema);
 
     if(c->getAbstract() || c->isInterface() )
-        writeAbstractClassifier(c,XMLschema); // if its an interface or abstract class
+        writeAbstractClassifier(c,XMLschema); // if it is an interface or abstract class
     else
         writeConcreteClassifier(c,XMLschema);
 }
@@ -464,7 +464,7 @@ void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLs
     // default value?
     if(!initialValue.isEmpty())
     {
-        // IF its static, then we use "fixed", otherwise, we use "default" decl.
+        // IF it is static, then we use "fixed", otherwise, we use "default" decl.
         // For the default decl, we _must_ use "optional" decl
         if(isStatic)
             XMLschema<<" use=\"required\" fixed=\""<<initialValue<<"\"";
@@ -568,7 +568,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
                 UMLClassifier *classifierB = dynamic_cast<UMLClassifier*>(a->getObjectB());
                 if (classifierB) {
                         // ONLY write out IF there is a rolename given
-                        // otherwise its not meant to be declared
+                        // otherwise it is not meant to be declared
                         if (!a->getRoleNameB().isEmpty() || noRoleNameOK)
                                 writeAssociationRoleDecl(classifierB, a->getMultiB(), XMLschema);
                 }
@@ -581,7 +581,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
                 UMLClassifier *classifierA = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
                 if (classifierA) {
                     // ONLY write out IF there is a rolename given
-                    // otherwise its not meant to be declared
+                    // otherwise it is not meant to be declared
                     if (!a->getRoleName(Uml::A).isEmpty() || noRoleNameOK )
                         writeAssociationRoleDecl(classifierA, a->getMulti(Uml::A), XMLschema);
                 }
@@ -674,7 +674,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
     // class (err. element node) wont be able to go into the document where it parent went without
     // you heavily editing the schema.
     //
-    // Therefore, IF a group is abstract, but has no inheriting sub-classes, there are no choices, and its nigh
+    // Therefore, IF a group is abstract, but has no inheriting sub-classes, there are no choices, and it is nigh
     // on pointless to declare it as a group, in this special case, abstract classes get declared
     // as complexTypes.
     //

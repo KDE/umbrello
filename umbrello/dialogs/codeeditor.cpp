@@ -238,7 +238,7 @@ void CodeEditor::insert (const QString & text, TextBlock * parent,
     bool isInsert = false;
     setColor(fgcolor);
 
-    // its an append op if startLine is -1, otherwise its
+    // it is an append op if startLine is -1, otherwise it is
     // an actual insert, which is more complicated
     if (startLine == -1)
     {
@@ -275,7 +275,7 @@ void CodeEditor::insert (const QString & text, TextBlock * parent,
         m_tbInfoMap.insert(parent, tbinfo);
     }
 
-    // set a parent, if its not already set
+    // set a parent, if it is not already set
     if (umlobj && !tbinfo->getParent())
     {
         tbinfo->displayName = displayName;
@@ -913,7 +913,7 @@ void CodeEditor::updateTextBlockFromText (TextBlock * block)
             block->setText(content);
 
             // if a parent for the block, try to set its documentation
-            // as long as its NOT an accessor codeblock.
+            // as long as it is NOT an accessor codeblock.
             if (info) {
                 UMLObject * parentObj = info->getParent();
                 if (parentObj && !info->isCodeAccessorMethod) {
@@ -921,7 +921,7 @@ void CodeEditor::updateTextBlockFromText (TextBlock * block)
                 }
             }
 
-            // make note that its now user generated
+            // make note that it is now user generated
             if (cmb) {
                 cmb->setContentType(CodeBlock::UserGenerated);
             }
@@ -981,7 +981,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
             if (m_backspacePressed && para && priorParaIsEditable)
             {
                 int endOfPriorLine = paragraphLength(para-1);
-                // IN this case, we remove old (para) line, and tack its
+                // In this case, we remove old (para) line, and tack its
                 // contents on the line we are going to.
                 QString contents = text(para);
                 contents = contents.right(contents.length()-m_lastPos+1);
@@ -1009,7 +1009,7 @@ void CodeEditor::cursorPositionChanged(int para, int pos)
                     insertParagraph(contents,para+1);
                     removeParagraph(para);
 
-                    // furthermore, IF its nothing but indentation + whitespace
+                    // furthermore, If it is nothing but indentation + whitespace
                     // we switch this back to Auto-Generated.
                     if (cmb && contents.contains(QRegExp('^'+baseIndent+"\\s$")))
                     {

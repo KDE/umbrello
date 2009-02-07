@@ -413,7 +413,7 @@ void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAs
     for (UMLAssociationListIt alit(*realizations); alit.hasNext(); ) {
         UMLAssociation *a = alit.next();
 
-        // we know its a classifier if its in the list
+        // we know it is a classifier if it is in the list
         UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
 
         //FIXME: Interfaces realize themselves without this condition!?

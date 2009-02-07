@@ -98,8 +98,8 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 
     setStartMethodText(startText);
 
-    // Only write this out if its a child of an interface OR is abstract.
-    // and its not inline
+    // Only write this out if it is a child of an interface OR is abstract.
+    // and it is not inline
     if (isInterface || o->getAbstract() || isInlineMethod)
     {
         setWriteOutText(false);

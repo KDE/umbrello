@@ -148,7 +148,7 @@ void UMLObject::setName(const QString &strName)
 }
 
 /**
- * Method used by setName: its called by  cmdSetName, Don't use it!
+ * Method used by setName: it is called by  cmdSetName, Don't use it!
  */
 void UMLObject::setNamecmd(const QString &strName)
 {
@@ -404,7 +404,7 @@ void UMLObject::setVisibility(Uml::Visibility s)
 }
 
 /**
- * Method used by setVisibility: its called by  cmdSetVisibility, Don't use it!
+ * Method used by setVisibility: it is called by  cmdSetVisibility, Don't use it!
  */
 void UMLObject::setVisibilitycmd(Uml::Visibility s)
 {

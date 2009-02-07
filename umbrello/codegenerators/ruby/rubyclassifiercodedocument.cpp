@@ -381,7 +381,7 @@ void RubyClassifierCodeDocument::updateContent( )
     // CLASS DECLARATION BLOCK
     //
 
-    // get the declaration block. If its not already present, add it too
+    // get the declaration block. If it is not already present, add it too
     RubyClassDeclarationBlock * myClassDeclCodeBlock = getClassDecl();
     addTextBlock(myClassDeclCodeBlock); // note: wont add if already present
 
