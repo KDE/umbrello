@@ -42,4 +42,3 @@ void CodeComment::loadFromXMI ( QDomElement & root )
     setAttributesFromNode(root);
 }
 
-#include "codecomment.moc"
