@@ -45,19 +45,23 @@ static QStringList supportedMimeTypesList;
 QStringList UMLViewImageExporterModel::supportedImageTypes()
 {
     if (!supportedImageTypesList.size()) {
-        // specific supported formats
-        supportedImageTypesList << "eps";
-        supportedImageTypesList << "svg";
-
         // QT supported formats
         QList<QByteArray> qImageFormats = QImageWriter::supportedImageFormats();
         QList<QByteArray>::const_iterator it, it_end;
         it = qImageFormats.begin(); it_end = qImageFormats.end();
         for (; it != it_end; ++it) {
-            supportedImageTypesList << QString(*it).toLower();
+            QString format = QString(*it).toLower();
+            if (!supportedImageTypesList.contains(format))
+                supportedImageTypesList << format;
         }
+        // specific supported formats
+        if (!supportedImageTypesList.contains("eps"))
+            supportedImageTypesList << "eps";
+        if (!supportedImageTypesList.contains("svg"))
+            supportedImageTypesList << "svg";
     }
-
+    supportedImageTypesList.sort();
+    
     return supportedImageTypesList;
 }
 
