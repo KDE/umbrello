@@ -75,7 +75,7 @@ void NativeImportBase::setMultiLineAltComment(const QString &intro, const QStrin
  * given by `until'.
  * @param until   the target string
  */
-void NativeImportBase::skipStmt(QString until /* = ";" */) 
+void NativeImportBase::skipStmt(const QString& until /* = ";" */) 
 {
     const int srcLength = m_source.count();
     while (m_srcIndex < srcLength && m_source[m_srcIndex] != until)
@@ -253,19 +253,19 @@ bool NativeImportBase::preprocess(QString& line)
  * @param lin   the line to split
  * @return the parts of the line
  */
-QStringList NativeImportBase::split(const QString& lin)
+QStringList NativeImportBase::split(const QString& line)
 {
     QStringList list;
     QString listElement;
     QChar stringIntro = 0;  // buffers the string introducer character
     bool seenSpace = false;
-    QString line = lin.trimmed();
-    for (int i = 0; i < line.length(); ++i) {
-        const QChar& c = line[i];
+    QString ln = line.trimmed();
+    for (int i = 0; i < ln.length(); ++i) {
+        const QChar& c = ln[i];
         if (stringIntro.toLatin1()) {        // we are in a string
             listElement += c;
             if (c == stringIntro) {
-                if (line[i - 1] != '\\') {
+                if (ln[i - 1] != '\\') {
                     list.append(listElement);
                     listElement.clear();
                     stringIntro = 0;  // we are no longer in a string
@@ -303,22 +303,23 @@ QStringList NativeImportBase::split(const QString& lin)
  * Stores possible comments in `m_comment'.
  * @param line  The line to scan.
  */
-void NativeImportBase::scan(QString line)
+void NativeImportBase::scan(const QString& line)
 {
-    if (preprocess(line))
+    QString ln = line;
+    if (preprocess(ln))
         return;
     // Check for single line comment.
-    int pos = line.indexOf(m_singleLineCommentIntro);
+    int pos = ln.indexOf(m_singleLineCommentIntro);
     if (pos != -1) {
-        QString cmnt = line.mid(pos);
+        QString cmnt = ln.mid(pos);
         m_source.append(cmnt);
         if (pos == 0)
             return;
-        line = line.left(pos);
+        ln = ln.left(pos);
     }
-    if (line.contains(QRegExp("^\\s*$")))
+    if (ln.contains(QRegExp("^\\s*$")))
         return;
-    const QStringList words = split(line);
+    const QStringList words = split(ln);
     for (QStringList::ConstIterator it = words.begin(); it != words.end(); ++it) {
         QString word = *it;
         if (word[0] == '"' || word[0] == '\'')
