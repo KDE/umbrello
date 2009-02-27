@@ -271,7 +271,7 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget){
 
 void ObjectNodeWidget::askStateForWidget(){
     bool pressedOK = false;
-    QString state = KInputDialog::getText(i18n("Enter Object Flow State"),i18n("Enter State (keep '-' if there's no state for the object) "),i18n("-"), &pressedOK, UMLApp::app());
+    QString state = KInputDialog::getText(i18n("Enter Object Flow State"),i18n("Enter State (keep '-' if there is no state for the object) "),i18n("-"), &pressedOK, UMLApp::app());
 
     if (pressedOK) {
         setState(state);
