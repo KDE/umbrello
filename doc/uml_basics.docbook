@@ -706,13 +706,14 @@ In ER Diagrams , Entity Attributes are shown with their name in a different comp
 </para>
 </sect4>
 </sect3>
-<sect3 id="extended-entity-relationship-concepts">
+</sect2>
+<sect2 id="extended-entity-relationship-concepts">
 <title>Extended Entity Relationship (EER) Diagram Concepts</title>
-<sect4 id="specialization">
+<sect3 id="specialization">
 <title>Specialization</title>
 <para> Specialization is a way to form new entities using entities that have already been defined. The new entities, known as derived entities, take over (or inherit) attributes of the pre-existing entities, which are referred to as base entities . It is intended to help reuse existing data with little or no modification.</para>
 <para> In Umbrello, one can specify Disjoint and Overlapping Specialization</para>
- <sect5 id="disjoint-specialization">
+ <sect4 id="disjoint-specialization">
    <title>Disjoint Specialization</title>
    <para>Disjoint Specialization specifies that the subclasses of the specialization must be disjoint. This means that an entity can be a member of at most one of the derived entities of the specialization</para>
    <para>
@@ -732,8 +733,8 @@ In ER Diagrams , Entity Attributes are shown with their name in a different comp
 	</mediaobject>
    </screenshot>
     </para>
- </sect5>
- <sect5 id="overlapping-specialization">
+ </sect4>
+ <sect4 id="overlapping-specialization">
    <title>Overlapping Specialization</title>
    <para>When the derived entities are not constrained to be disjoint, their set of entities are said to be in overlapping specialization. This means that the same real world entity may be a member of more than one derived entity of the specialization</para>
    <para>
@@ -753,8 +754,8 @@ In ER Diagrams , Entity Attributes are shown with their name in a different comp
 	</mediaobject>
    </screenshot>
   </para>
- </sect5>
- <sect5 id="category">
+ </sect4>
+ <sect4 id="category">
 
  <title>Category</title>
  <para>
@@ -776,9 +777,8 @@ In ER Diagrams , Entity Attributes are shown with their name in a different comp
 	</mediaobject>
    </screenshot>
   </para>
- </sect5>
+ </sect4>
 
-</sect4>
 </sect3>
 </sect2>
 
