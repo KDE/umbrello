@@ -130,9 +130,9 @@ QString CodeDocument::getPackage ( ) const
  * Set the value of m_ID.
  * @param new_id   the new value of m_ID
  */
-void CodeDocument::setID ( const QString &new_var )
+void CodeDocument::setID ( const QString &new_id )
 {
-    m_ID = new_var;
+    m_ID = new_id;
 }
 
 /**
@@ -170,9 +170,9 @@ bool CodeDocument::getWriteOutCode ( )
  * Set a Header comment object.
  * @param comment   the comment for the header
  */
-void CodeDocument::setHeader ( CodeComment * header )
+void CodeDocument::setHeader ( CodeComment * comment )
 {
-    m_header = header;
+    m_header = comment;
 }
 
 /**
