@@ -161,8 +161,7 @@ Only the folders made by the user are created in the base directory (Logical vie
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
+  <customwidgets>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>

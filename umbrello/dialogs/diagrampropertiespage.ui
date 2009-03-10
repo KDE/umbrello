@@ -334,8 +334,7 @@ If 'Snap to Grid' is enabled a component will always be aligned with the grid on
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
+  <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
