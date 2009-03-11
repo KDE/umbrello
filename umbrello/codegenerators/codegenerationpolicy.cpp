@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,27 +27,35 @@
 // app includes
 #include "uml.h"
 #include "umldoc.h"
-#include "dialogs/codegenerationpolicypage.h"
+#include "codegenerationpolicypage.h"
 #include "umbrellosettings.h"
 
 using namespace std;
 
 #define MAXLINES 256
 
-
+/**
+ * Constructor
+ */
 CodeGenerationPolicy::CodeGenerationPolicy(CodeGenerationPolicy * clone)
 {
     // first call the function which can give us values from disk, so that we have something to fall back on
     setDefaults(false);
     // then set the values from the object passed.
-    setDefaults(clone,false);
+    setDefaults(clone, false);
 }
 
+/**
+ * Constructor
+ */
 CodeGenerationPolicy::CodeGenerationPolicy()
 {
     setDefaults(false);
 }
 
+/**
+ * Destructor
+ */
 CodeGenerationPolicy::~CodeGenerationPolicy()
 {
 }
@@ -144,7 +152,7 @@ bool CodeGenerationPolicy::getCodeVerboseDocumentComments ( ) const
 /**
  * Set the value of m_headingFileDir
  * location of the header file template.
- * @param new_var the new value of m_headingFileDir
+ * @param path   the new value of m_headingFileDir
  */
 void CodeGenerationPolicy::setHeadingFileDir ( const QString & path)
 {
@@ -203,7 +211,7 @@ QDir CodeGenerationPolicy::getOutputDirectory ( )
 /**
  * Set the value of m_lineEndingType
  * What line ending characters to use.
- * @param new_var the new value of m_lineEndingType
+ * @param type   the new value of m_lineEndingType
  */
 void CodeGenerationPolicy::setLineEndingType ( NewLineType type)
 {
@@ -235,6 +243,7 @@ CodeGenerationPolicy::NewLineType CodeGenerationPolicy::getLineEndingType ( )
 
 /**
  * Utility function to get the actual characters.
+ * @return   the line ending characters
  */
 QString CodeGenerationPolicy::getNewLineEndingChars ( ) const
 {
@@ -263,6 +272,7 @@ CodeGenerationPolicy::IndentationType CodeGenerationPolicy::getIndentationType (
 
 /**
  * Set how many units to indent for each indentation level.
+ * @param amount   the amount of indentation units
  */
 void CodeGenerationPolicy::setIndentationAmount ( int amount )
 {
@@ -291,6 +301,9 @@ QString CodeGenerationPolicy::getIndentation ( ) const
     return m_indentation;
 }
 
+/**
+ * Calculate the indentation.
+ */
 void CodeGenerationPolicy::calculateIndentation ( )
 {
     QString indent;
@@ -337,7 +350,7 @@ CodeGenerationPolicy::ModifyNamePolicy CodeGenerationPolicy::getModifyPolicy ( )
 
 /**
  * Set the value of m_autoGenerateConstructors
- * @param new_var the new value
+ * @param var   the new value
  */
 void CodeGenerationPolicy::setAutoGenerateConstructors( bool var )
 {
@@ -508,8 +521,6 @@ void CodeGenerationPolicy::writeConfig ()
 
     // this will be written to the disk from the place it was called :)
 }
-
-// return the actual text
 
 /**
  *  Gets the heading file (as a string) to be inserted at the
