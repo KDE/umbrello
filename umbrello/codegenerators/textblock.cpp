@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -234,8 +234,8 @@ int TextBlock::lastEditableLine()
  * <p>
  * TODO: Can be refactored away and replaced with
  * <a href="#getIndentationString">getIndentationString</a>.
- * @param indentAmount   the number of indent steps to use
- * @return               the new line
+ * @param amount   the number of indent steps to use
+ * @return         the new line
  */
 QString TextBlock::getNewEditorLine ( int amount )
 {
@@ -275,10 +275,10 @@ void TextBlock::release()
 
 /**
  * Format a long text string to be more readable.
- * @param text               the original text for formatting
+ * @param work               the original text for formatting
  * @param linePrefix         a line prefix
  * @param breakStr           a break string
- * @param alwaysAddBreak     control to add always a break string
+ * @param addBreak           control to add always a break string
  * @param lastLineHasBreak   control to add a break string to the last line
  * @return                   the new formatted text
  */
@@ -353,7 +353,7 @@ void TextBlock::setAttributesFromObject(TextBlock * obj)
 /**
  * Set the class attributes of this object from
  * the passed element node.
- * @param element   the xmi element from which to load
+ * @param root   the xmi element from which to load
  */
 void TextBlock::setAttributesFromNode(QDomElement & root)
 {
@@ -370,9 +370,9 @@ void TextBlock::setAttributesFromNode(QDomElement & root)
  * Encode text for XML storage.
  * We simply convert all types of newLines to the "\n" or &#010;
  * entity.
- * @param text       the not yet encoded text
- * @param endChars   the chars at the end of each line
- * @return           the encoded text
+ * @param text      the not yet encoded text
+ * @param endLine   the chars at the end of each line
+ * @return          the encoded text
  */
 QString TextBlock::encodeText(const QString & text, const QString & endLine)
 {
@@ -411,6 +411,9 @@ QString TextBlock::toString() const
         return QString();
 }
 
+/**
+ * Operator '<<' for TextBlock.
+ */
 QTextStream& operator<<(QTextStream& os, const TextBlock& obj)
 {
     os << "TextBlock: tag=" << obj.getTag()
@@ -421,15 +424,4 @@ QTextStream& operator<<(QTextStream& os, const TextBlock& obj)
        << ", text=" << obj.getText();
     return os;
 }
-
-/**
- * Save the XMI representation of this object
- * @param doc    the xmi document
- * @param root   the starting point to append
- */
-
-/**
- * Load params from the appropriate XMI element node.
- * @param root   the starting point in the xmi document to load from
- */
 
