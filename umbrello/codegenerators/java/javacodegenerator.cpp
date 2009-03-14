@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,21 +27,35 @@
 // qt includes
 #include <QtCore/QRegExp>
 
+/**
+ * Constructor.
+ * @param elem   the element of the DOM tree
+ */
 JavaCodeGenerator::JavaCodeGenerator (QDomElement & elem)
   : CodeGenerator(elem)
 {
     init();
 }
 
+/**
+ * Constructor.
+ */
 JavaCodeGenerator::JavaCodeGenerator ()
 {
     init();
 }
 
+/**
+ * Destructor.
+ */
 JavaCodeGenerator::~JavaCodeGenerator ( )
 {
 }
 
+/**
+ * Return "Java".
+ * @return programming language identifier
+ */
 Uml::Programming_Language JavaCodeGenerator::getLanguage()
 {
     return Uml::pl_Java;
@@ -49,7 +63,7 @@ Uml::Programming_Language JavaCodeGenerator::getLanguage()
 
 /**
  * Set the value of m_createANTBuildFile
- * @param new_var the new value of m_createANTBuildFile
+ * @param buildIt the new value of m_createANTBuildFile
  */
 void JavaCodeGenerator::setCreateANTBuildFile ( bool buildIt)
 {
@@ -68,7 +82,10 @@ bool JavaCodeGenerator::getCreateANTBuildFile ( )
     return m_createANTBuildFile;
 }
 
-// In the Java version, we make the ANT build file also available.
+/**
+ * Get the editing dialog for this code document.
+ * In the Java version, we make the ANT build file also available.
+ */
 CodeViewerDialog * JavaCodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc,
         Settings::CodeViewerState state)
 {
@@ -78,29 +95,43 @@ CodeViewerDialog * JavaCodeGenerator::getCodeViewerDialog ( QWidget* parent, Cod
     return dialog;
 }
 
+/**
+ * Utility function for getting the java code generation policy.
+ */
 JavaCodeGenerationPolicy * JavaCodeGenerator::getJavaPolicy()
 {
     return dynamic_cast<JavaCodeGenerationPolicy*>(UMLApp::app()->getPolicyExt());
 }
 
+/**
+ * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAttribAccessors() value.
+ */
 bool JavaCodeGenerator::getAutoGenerateAttribAccessors ( )
 {
     return getJavaPolicy()->getAutoGenerateAttribAccessors ();
 }
 
+/**
+ * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAssocAccessors() value.
+ */
 bool JavaCodeGenerator::getAutoGenerateAssocAccessors ( )
 {
     return getJavaPolicy()->getAutoGenerateAssocAccessors ();
 }
 
+/**
+ * Get the list variable class name to use. For Java, we have set this to "Vector".
+ */
 QString JavaCodeGenerator::getListFieldClassName ()
 {
     return QString("Vector");
 }
 
-// IF the type is "string" we need to declare it as
-// the Java Object "String" (there is no string primative in Java).
-// Same thing again for "bool" to "boolean"
+/**
+ * IF the type is "string" we need to declare it as
+ * the Java Object "String" (there is no string primative in Java).
+ * Same thing again for "bool" to "boolean".
+ */
 QString JavaCodeGenerator::fixTypeName(const QString &string)
 {
     if (string.isEmpty() || string.contains(QRegExp("^\\s+$")))
@@ -113,7 +144,8 @@ QString JavaCodeGenerator::fixTypeName(const QString &string)
 }
 
 /**
- * @return      JavaANTCodeDocument
+ * Create ANT code document.
+ * @return JavaANTCodeDocument object
  */
 JavaANTCodeDocument * JavaCodeGenerator::newANTCodeDocument ( )
 {
@@ -121,16 +153,20 @@ JavaANTCodeDocument * JavaCodeGenerator::newANTCodeDocument ( )
 }
 
 /**
- * @return      ClassifierCodeDocument
- * @param       classifier
+ * Create a classifier code document.
+ * @param classifier   the UML classifier
+ * @return the created classifier code document
  */
-CodeDocument * JavaCodeGenerator::newClassifierCodeDocument ( UMLClassifier * c)
+CodeDocument * JavaCodeGenerator::newClassifierCodeDocument ( UMLClassifier * classifier)
 {
-    JavaClassifierCodeDocument * doc = new JavaClassifierCodeDocument(c);
+    JavaClassifierCodeDocument * doc = new JavaClassifierCodeDocument(classifier);
     doc->initCodeClassFields();
     return doc;
 }
 
+/**
+ * Initialize class.
+ */
 void JavaCodeGenerator::init()
 {
     // load Classifier documents from parent document
@@ -144,6 +180,10 @@ void JavaCodeGenerator::init()
     setCreateANTBuildFile(UmbrelloSettings::buildANTDocumentJava());
 }
 
+/**
+ * Adds Java's primitives as datatypes.
+ * @return a string list of Java primitives
+ */
 QStringList JavaCodeGenerator::defaultDatatypes()
 {
     QStringList l;
@@ -159,6 +199,10 @@ QStringList JavaCodeGenerator::defaultDatatypes()
     return l;
 }
 
+/**
+ * Get list of reserved keywords.
+ * @return the string list of reserved keywords for Java
+ */
 const QStringList JavaCodeGenerator::reservedKeywords() const
 {
     static QStringList keywords;
