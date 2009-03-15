@@ -384,9 +384,9 @@ QString TextBlock::encodeText(const QString & text, const QString & endLine)
 /**
  * Decode text from XML storage.
  * We simply convert all newLine entity &#010; to chosen line ending.
- * @param text       the not yet decoded text
- * @param endChars   the chars at the end of each line
- * @return           the decoded text
+ * @param text      the not yet decoded text
+ * @param endLine   the chars at the end of each line
+ * @return          the decoded text
  */
 QString TextBlock::decodeText(const QString & text, const QString & endLine)
 {

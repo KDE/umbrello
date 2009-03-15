@@ -421,9 +421,7 @@ int UMLClassifier::attributes()
 
 /**
  * Returns the attributes for the specified scope.
- *
- * @param scope   The scope of the attribute.
- * @return        List of true attributes for the class.
+ * @return   List of true attributes for the class.
  */
 UMLAttributeList UMLClassifier::getAttributeList() const
 {
@@ -439,7 +437,6 @@ UMLAttributeList UMLClassifier::getAttributeList() const
 
 /**
  * Returns the attributes for the specified scope.
- *
  * @param scope   The scope of the attribute.
  * @return        List of true attributes for the class.
  */

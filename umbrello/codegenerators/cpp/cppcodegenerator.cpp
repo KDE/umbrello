@@ -60,7 +60,7 @@ Uml::Programming_Language CPPCodeGenerator::getLanguage()
 
 /**
  * Set the value of m_createMakefile
- * @param new_var the new value of m_createMakefile
+ * @param new_var the new value to set for creating makefile
  */
 void CPPCodeGenerator::setCreateProjectMakefile ( bool buildIt)
 {

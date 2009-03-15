@@ -35,7 +35,8 @@ using namespace std;
 #define MAXLINES 256
 
 /**
- * Constructor
+ * Constructor.
+ * @param clone   generation policy to clone
  */
 CodeGenerationPolicy::CodeGenerationPolicy(CodeGenerationPolicy * clone)
 {
@@ -46,7 +47,7 @@ CodeGenerationPolicy::CodeGenerationPolicy(CodeGenerationPolicy * clone)
 }
 
 /**
- * Constructor
+ * Constructor.
  */
 CodeGenerationPolicy::CodeGenerationPolicy()
 {
@@ -75,7 +76,7 @@ void CodeGenerationPolicy::setOverwritePolicy ( OverwritePolicy new_var )
  * Get the value of m_overwritePolicy
  * Policy of how to deal with overwriting existing files. Allowed values are "ask",
  * "yes" and "no".
- * @return the value of m_overwritePolicy
+ * @return the overwrite policy
  */
 CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::getOverwritePolicy ( ) const
 {
@@ -94,7 +95,7 @@ void CodeGenerationPolicy::setCommentStyle ( CommentStyle new_var )
 
 /**
  * Get the value of m_commentStyle
- * @return the value of m_commentStyle
+ * @return the comment style
  */
 CodeGenerationPolicy::CommentStyle CodeGenerationPolicy::getCommentStyle()
 {
@@ -117,7 +118,7 @@ void CodeGenerationPolicy::setCodeVerboseSectionComments ( bool new_var )
  * Get the value of m_codeVerboseSectionComments
  * Whether or not verbose code commenting for sections is desired. If true, comments
  * for sections will be written even if the section is empty.
- * @return the value of m_codeVerboseSectionComments
+ * @return the flag whether verbose code commenting for sections is desired
  */
 bool CodeGenerationPolicy::getCodeVerboseSectionComments ( ) const
 {
@@ -129,7 +130,7 @@ bool CodeGenerationPolicy::getCodeVerboseSectionComments ( ) const
  * Whether or not verbose code commenting for documentation is desired. If true,
  * documentation for various code will be written even if no code would normally be
  * created at that point in the file.
- * @param new_var the new value of m_codeVerboseDocumentComments
+ * @param new_var the new value to set verbose code commenting
  */
 void CodeGenerationPolicy::setCodeVerboseDocumentComments ( bool new_var )
 {
