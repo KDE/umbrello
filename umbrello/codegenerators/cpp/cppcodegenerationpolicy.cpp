@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,16 +30,24 @@ const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_REMOVE = "int size =
 const char * CPPCodeGenerationPolicy::DEFAULT_VECTOR_METHOD_INIT = ""; // nothing to do in std::vector
 const char * CPPCodeGenerationPolicy::DEFAULT_OBJECT_METHOD_INIT = "%VARNAME% = new %ITEMCLASS%( );";
 
+/**
+ * Constructor.
+ */
 CPPCodeGenerationPolicy::CPPCodeGenerationPolicy()
 {
     init();
 }
 
-CPPCodeGenerationPolicy::~CPPCodeGenerationPolicy ( ) { }
+/**
+ * Destructor.
+ */
+CPPCodeGenerationPolicy::~CPPCodeGenerationPolicy()
+{
+}
 
 /**
  * Set the value of publicAccessors
- * @param new_var the new value
+ * @param var the new value
  */
 void CPPCodeGenerationPolicy::setAccessorsArePublic ( bool var )
 {
@@ -49,27 +57,27 @@ void CPPCodeGenerationPolicy::setAccessorsArePublic ( bool var )
 }
 
 /**
- * Get the value of publicAccessors
- * @return value the boolean value of m_publicAccessors
+ * Get the value of m_publicAccessors
+ * @return the boolean value of m_publicAccessors
  */
-bool CPPCodeGenerationPolicy::getAccessorsArePublic( )
+bool CPPCodeGenerationPolicy::getAccessorsArePublic()
 {
     return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.publicAccessors;
 }
 
 /**
- * Set the value of inlineAccessors
- * @param new_var the new value
+ * Set the value of m_inlineAccessors
+ * @param var the new value
  */
-void CPPCodeGenerationPolicy::setAccessorsAreInline ( bool var )
+void CPPCodeGenerationPolicy::setAccessorsAreInline(bool var)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.inlineAccessors = var;
     UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
- * Get the value of inlineAccessors
- * @return value the boolean value of m_inlineAccessors
+ * Get the value of m_inlineAccessors.
+ * @return the boolean value of m_inlineAccessors
  */
 bool CPPCodeGenerationPolicy::getAccessorsAreInline( )
 {
@@ -77,73 +85,77 @@ bool CPPCodeGenerationPolicy::getAccessorsAreInline( )
 }
 
 /**
- * Set the value of inlineOperations
- * @param new_var the new value
+ * Set the value of m_inlineOperations.
+ * @param var the new value
  */
-void CPPCodeGenerationPolicy::setOperationsAreInline ( bool var )
+void CPPCodeGenerationPolicy::setOperationsAreInline(bool var)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.inlineOps = var;
     UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
- * Get the value of inlineOperations
- * @return value the boolean value of m_inlineOperations
+ * Get the value of m_inlineOperations.
+ * @return the boolean value of m_inlineOperations
  */
-bool CPPCodeGenerationPolicy::getOperationsAreInline( )
+bool CPPCodeGenerationPolicy::getOperationsAreInline()
 {
     return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.inlineOps;
 }
 
 /**
- * Set the value of virtualDestructors
- * @param new_var the new value
+ * Set the value of m_virtualDestructors.
+ * @param var the new value
  */
-void CPPCodeGenerationPolicy::setDestructorsAreVirtual ( bool var )
+void CPPCodeGenerationPolicy::setDestructorsAreVirtual(bool var)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.virtualDestructors = var;
     UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
- * Get the value of virtualDestructors
- * @return value the boolean value of m_virtualDestructors
+ * Get the value of m_virtualDestructors.
+ * @return the boolean value of m_virtualDestructors
  */
-bool CPPCodeGenerationPolicy::getDestructorsAreVirtual( )
+bool CPPCodeGenerationPolicy::getDestructorsAreVirtual()
 {
     return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.virtualDestructors;
 }
 
 /**
- * Set the value of packageIsNamespace
- * @param new_var the new value
+ * Set the value of m_packageIsNamespace.
+ * @param var the new value
  */
-void CPPCodeGenerationPolicy::setPackageIsNamespace ( bool var )
+void CPPCodeGenerationPolicy::setPackageIsNamespace(bool var)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.packageIsNamespace = var;
     UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
- * Get the value of packageIsNamespace
- * @return value the boolean value of m_packageIsNamespace
+ * Get the value of m_packageIsNamespace.
+ * @return the boolean value of m_packageIsNamespace
  */
-bool CPPCodeGenerationPolicy::getPackageIsNamespace( )
+bool CPPCodeGenerationPolicy::getPackageIsNamespace()
 {
     return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.packageIsNamespace;
 }
 
 /**
- * Set the value of autoGenerateAccessors
- * @param new_var the new value
+ * Set the value of m_autoGenerateAccessors.
+ * @param var the new value
  */
-void CPPCodeGenerationPolicy::setAutoGenerateAccessors( bool var )
+void CPPCodeGenerationPolicy::setAutoGenerateAccessors(bool var)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.autoGenAccessors = var;
     UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 }
 
-bool CPPCodeGenerationPolicy::getAutoGenerateAccessors( )
+/**
+ * Get the value of m_autoGenerateAccessors.
+ * @return the boolean value of m_autoGenerateAccessors
+ */
+bool CPPCodeGenerationPolicy::getAutoGenerateAccessors()
 {
     return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.autoGenAccessors;
 }
@@ -192,23 +204,38 @@ void CPPCodeGenerationPolicy::setVectorClassNameInclude(const QString &value)
     UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 }
 
-/** determine if the string include is global one */
-bool CPPCodeGenerationPolicy::stringIncludeIsGlobal ()
+/**
+ * Determine if the string include is global.
+ * @return value of flag
+ */
+bool CPPCodeGenerationPolicy::stringIncludeIsGlobal()
 {
     return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.stringIncludeIsGlobal;
 }
 
-bool CPPCodeGenerationPolicy::vectorIncludeIsGlobal ()
+/**
+ * Determine if the vector include is global.
+ * @return value of flag
+ */
+bool CPPCodeGenerationPolicy::vectorIncludeIsGlobal()
 {
     return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal;
 }
 
+/**
+ * Set flag whether string include is global.
+ * @param value   the value of the flag
+ */
 void CPPCodeGenerationPolicy::setStringIncludeIsGlobal(bool value)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.stringIncludeIsGlobal = value;
     UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 }
 
+/**
+ * Set flag whether vector include is global.
+ * @param value   the value of the flag
+ */
 void CPPCodeGenerationPolicy::setVectorIncludeIsGlobal(bool value)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal = value;
@@ -248,6 +275,13 @@ QString CPPCodeGenerationPolicy::getVectorMethodInit(const QString & variableNam
     return value;
 }
 
+/**
+ * Be somewhat flexible about how new object classes are initialized.
+ * Not sure if this should be user configureable. For now, it is not.
+ * @param   variableName    variable name
+ * @param   itemClassName   item class name
+ * @return object method init string
+ */
 QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableName, const QString & itemClassName)
 {
     QString value = m_objectMethodInitBase;
@@ -259,6 +293,11 @@ QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableNam
     return value;
 }
 
+/**
+ * Set the defaults for this code generator from the passed generator.
+ * @param cppclone           code generation policy object for cloning
+ * @param emitUpdateSignal   flag whether to emit update signal
+ */
 void CPPCodeGenerationPolicy::setDefaults ( CPPCodeGenerationPolicy * cppclone, bool emitUpdateSignal )
 {
     blockSignals(true); // we need to do this because otherwise most of these
@@ -286,10 +325,13 @@ void CPPCodeGenerationPolicy::setDefaults ( CPPCodeGenerationPolicy * cppclone, 
 
     if(emitUpdateSignal)
         UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
-
 }
 
-void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal )
+/**
+ * Set the defaults from a config file for this code generator from the passed KConfig pointer.
+ * @param emitUpdateSignal   flag whether to emit update signal
+ */
+void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 {
     blockSignals(true); // we need to do this because otherwise most of these
     // settors below will each send the modifiedCodeContent() signal
@@ -317,9 +359,10 @@ void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal )
         UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 }
 
-
 /**
  * Create a new dialog interface for this object.
+ * @param parent   the parent widget
+ * @param name     the name of the page
  * @return dialog object
  */
 CodeGenerationPolicyPage * CPPCodeGenerationPolicy::createPage ( QWidget *parent, const char *name )
@@ -327,6 +370,9 @@ CodeGenerationPolicyPage * CPPCodeGenerationPolicy::createPage ( QWidget *parent
     return new CPPCodeGenerationPolicyPage ( parent, name, this );
 }
 
+/**
+ * Initialisation routine.
+ */
 void CPPCodeGenerationPolicy::init()
 {
     blockSignals(true);

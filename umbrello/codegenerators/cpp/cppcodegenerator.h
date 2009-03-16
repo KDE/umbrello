@@ -30,11 +30,11 @@ public:
 
     static const bool DEFAULT_BUILD_MAKEFILE;
 
-    CPPCodeGenerator ();
-    virtual ~CPPCodeGenerator ( );
+    CPPCodeGenerator();
+    virtual ~CPPCodeGenerator();
 
-    void setCreateProjectMakefile ( bool new_var );
-    bool getCreateProjectMakefile ( );
+    void setCreateProjectMakefile(bool buildIt);
+    bool getCreateProjectMakefile();
 
     QString fixTypeName(const QString &name);
 
@@ -49,7 +49,7 @@ public:
     virtual CodeViewerDialog * getCodeViewerDialog(QWidget* parent, CodeDocument * doc,
             Settings::CodeViewerState state);
 
-    virtual void writeCodeToFile ( );
+    virtual void writeCodeToFile();
     virtual void writeCodeToFile(UMLClassifierList &list);
 
     QStringList defaultDatatypes();

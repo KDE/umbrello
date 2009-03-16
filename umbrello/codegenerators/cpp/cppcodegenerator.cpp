@@ -60,9 +60,9 @@ Uml::Programming_Language CPPCodeGenerator::getLanguage()
 
 /**
  * Set the value of m_createMakefile
- * @param new_var the new value to set for creating makefile
+ * @param buildIt the new value to set for creating makefile
  */
-void CPPCodeGenerator::setCreateProjectMakefile ( bool buildIt)
+void CPPCodeGenerator::setCreateProjectMakefile(bool buildIt)
 {
     m_createMakefile = buildIt;
     CodeDocument * antDoc = findCodeDocumentByID(CPPMakefileCodeDocument::DOCUMENT_ID_VALUE);

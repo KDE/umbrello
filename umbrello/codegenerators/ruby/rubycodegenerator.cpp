@@ -112,9 +112,9 @@ QString RubyCodeGenerator::getListFieldClassName()
  * @param cppType the C++ type to be converted
  * @return the ruby type as string
  */
-QString RubyCodeGenerator::cppToRubyType(const QString &typeStr)
+QString RubyCodeGenerator::cppToRubyType(const QString &cppType)
 {
-    QString type = cleanName(typeStr);
+    QString type = cleanName(cppType);
     type.remove("const ");
     type.remove(QRegExp("[*&\\s]"));
     type.replace(QRegExp("[<>]"), "_");
@@ -136,9 +136,9 @@ QString RubyCodeGenerator::cppToRubyType(const QString &typeStr)
  * @param cppName the C++ name to be converted
  * @return the ruby name as string
  */
-QString RubyCodeGenerator::cppToRubyName(const QString &nameStr)
+QString RubyCodeGenerator::cppToRubyName(const QString &cppName)
 {
-    QString name = cleanName(nameStr);
+    QString name = cleanName(cppName);
     name.remove(QRegExp("^m_"));
     name.remove(QRegExp("^[pbn](?=[A-Z])"));
     name = name.mid(0, 1).toLower() + name.mid(1);
