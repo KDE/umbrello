@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -541,7 +541,8 @@ public:
     /**
      * Controls the printing of the program.
      *
-     * @param pPrinter  The printer (object) to use.
+     * @param pPrinter   The printer (object) to use.
+     * @param selectPage diagram print page
      */
     void print(QPrinter * pPrinter, DiagramPrintPage * selectPage);
 

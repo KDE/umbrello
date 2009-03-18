@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,6 +35,13 @@
 
 using namespace Uml;
 
+/**
+ * Creates a UMLObject.
+ * @param parent   The parent of the object.
+ * @param name     The name of the object.
+ * @param id       The ID of the object (optional.) If omitted
+ *                 then a new ID will be assigned internally.
+ */
 UMLObject::UMLObject(UMLObject * parent, const QString &name, Uml::IDType id)
         : QObject(parent)
 {
@@ -47,6 +54,12 @@ UMLObject::UMLObject(UMLObject * parent, const QString &name, Uml::IDType id)
     m_Name = name;
 }
 
+/**
+ * Creates a UMLObject.
+ * @param name     The name of the object.
+ * @param id       The ID of the object (optional.) If omitted
+ *                 then a new ID will be assigned internally.
+ */
 UMLObject::UMLObject(const QString &name, Uml::IDType id)
         :  QObject(UMLApp::app()->getDocument())
 {
@@ -58,12 +71,19 @@ UMLObject::UMLObject(const QString &name, Uml::IDType id)
     m_Name = name;
 }
 
+/**
+ * Creates a UMLObject.
+ * @param   parent   The parent of the object.
+ */
 UMLObject::UMLObject(UMLObject * parent)
         : QObject(parent)
 {
     init();
 }
 
+/**
+ * Standard destructor.
+ */
 UMLObject::~UMLObject()
 {
 }
@@ -199,6 +219,9 @@ QString UMLObject::getFullyQualifiedName(const QString& separator,
     return fqn;
 }
 
+/**
+ * Overloaded '==' operator
+ */
 bool UMLObject::operator==(const UMLObject & rhs)
 {
     if (this == &rhs)
@@ -419,7 +442,7 @@ void UMLObject::setVisibilitycmd(Uml::Visibility s)
  * to zero then the UMLStereotype is removed at the UMLDoc and
  * it is then physically deleted.
  *
- * @param s Sets the classes UMLStereotype.
+ * @param stereo Sets the classes UMLStereotype.
  */
 void UMLObject::setUMLStereotype(UMLStereotype *stereo)
 {
@@ -504,6 +527,11 @@ void UMLObject::setUMLPackage(UMLPackage* pPkg)
     emitModified();
 }
 
+/**
+ * Returns the classes UMLStereotype object.
+ *
+ * @return   Returns the classes UMLStereotype object.
+ */
 const UMLStereotype * UMLObject::getUMLStereotype()
 {
     return m_pStereotype;

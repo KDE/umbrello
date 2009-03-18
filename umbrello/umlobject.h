@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -37,33 +36,12 @@ class UMLObject : public QObject
     Q_OBJECT
 public:
 
-    /**
-     * Creates a UMLObject.
-     *
-     * @param parent   The parent of the object.
-     * @param name     The name of the object.
-     * @param id       The ID of the object (optional.) If omitted
-     *                 then a new ID will be assigned internally.
-     */
     UMLObject(UMLObject * parent, const QString &name, Uml::IDType id = Uml::id_None);
-
-    /**
-     * Creates a UMLObject.
-     *
-     * @param   parent   The parent of the object.
-     */
     UMLObject(UMLObject * parent);
-
     explicit UMLObject(const QString &name = QString() , Uml::IDType id = Uml::id_None);
 
-    /**
-     * Overloaded '==' operator
-     */
     bool operator==(const UMLObject & rhs );
 
-    /**
-     * Standard deconstructor.
-     */
     virtual ~UMLObject();
 
     virtual void copyInto(UMLObject *lhs) const;
@@ -84,23 +62,18 @@ public:
 
     void setVisibility(Uml::Visibility s);
 
-     void setVisibilitycmd(Uml::Visibility s);
+    void setVisibilitycmd(Uml::Visibility s);
 
     void setStereotype(const QString &_name);
 
     void setStereotypecmd(const QString &_name);
 
-    void setUMLStereotype(UMLStereotype *s);
+    void setUMLStereotype(UMLStereotype *stereo);
 
     void setPackage(const QString &_name);
 
     void setUMLPackage(UMLPackage* pPkg);
 
-    /**
-     * Returns the classes UMLStereotype object.
-     *
-     * @return   Returns the classes UMLStereotype object.
-     */
     const UMLStereotype * getUMLStereotype();
 
     QString getStereotype(bool includeAdornments = false) const;
@@ -114,18 +87,16 @@ public:
 
     virtual void setID(Uml::IDType NewID);
 
-    QString getName() const;
-
     virtual void setName(const QString &strName);
+    QString getName() const;
 
     void setNamecmd(const QString &strName) ;
 
     virtual QString getFullyQualifiedName(const QString& separator = QString(),
                                           bool includeRoot = false) const;
 
-    bool getAbstract() const;
-
     void setAbstract(bool bAbstract);
+    bool getAbstract() const;
 
     void setInPaste(bool bInPaste = true);
 
