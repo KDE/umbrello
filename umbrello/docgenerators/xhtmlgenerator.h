@@ -49,8 +49,8 @@ signals:
 
 protected slots:
 
-    void slotDocbookToXhtml(bool);
-    void slotHtmlGenerated(const QString&);
+    void slotDocbookToXhtml(bool status);
+    void slotHtmlGenerated(const QString& tmpFileName);
 
     void threadFinished();
 

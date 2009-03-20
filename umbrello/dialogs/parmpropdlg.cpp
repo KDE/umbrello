@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,6 +35,12 @@
 #include <QtGui/QComboBox>
 #include <QtGui/QRadioButton>
 
+/**
+ * Constructs a ParmPropDlg.
+ * @param parent   the parent of the dialog
+ * @param doc      
+ * @param attr     the parameter to represent
+ */
 ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
         : KDialog(parent)
 {
@@ -155,6 +161,9 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
     m_pNameLE->setFocus();
 }
 
+/**
+ * Standard destructor.
+ */
 ParmPropDlg::~ParmPropDlg()
 {
 }
@@ -244,6 +253,10 @@ Uml::Parameter_Direction ParmPropDlg::getParmKind()
     return pk;
 }
 
+/**
+ * Validates the fields in the dialog box.
+ * @return success state
+ */
 bool ParmPropDlg::validate()
 {
     // currently only validates whether the name is not null.
@@ -255,6 +268,10 @@ bool ParmPropDlg::validate()
     return true;
 }
 
+/**
+ * Activated when a button is clicked
+ * @param button The button that was clicked
+ */
 void ParmPropDlg::slotButtonClicked(int button)
 {
     if ( button == KDialog::Ok ) {
@@ -265,6 +282,9 @@ void ParmPropDlg::slotButtonClicked(int button)
     KDialog::slotButtonClicked( button );
 }
 
+/**
+ * Ok clicked slot.
+ */
 void ParmPropDlg::slotOk()
 {
     if (m_pAtt != NULL) {
