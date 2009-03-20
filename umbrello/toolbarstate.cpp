@@ -237,7 +237,7 @@ void ToolBarState::mouseMoveEmpty() {
 }
 
 void ToolBarState::changeTool() {
-    if (m_pMouseEvent->state() == Qt::RightButton) {
+    if (m_pMouseEvent->buttons() == Qt::RightButton) {
         UMLApp::app()->getWorkToolBar()->setDefaultTool();
     }
 }
@@ -246,7 +246,7 @@ void ToolBarState::setMouseEvent(QMouseEvent* ome, const QEvent::Type &type) {
     if (m_pMouseEvent) delete m_pMouseEvent;
 
     m_pMouseEvent = new QMouseEvent(type, m_pUMLView->inverseWorldMatrix().map(ome->pos()),
-                                    ome->button(),ome->state());
+                                    ome->button(),ome->buttons(),ome->modifiers());
 }
 
 MessageWidget* ToolBarState::getMessageAt(const QPoint& pos) {

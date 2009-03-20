@@ -270,11 +270,11 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
             //Cancel move/edit
             QMouseEvent move(QMouseEvent::MouseMove,
                              QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
-                             Qt::LeftButton, Qt::NoButton);
+                             Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             mouseMoveEvent(&move);
             QMouseEvent release(QMouseEvent::MouseButtonRelease,
                                 QPoint(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
-                                Qt::LeftButton, Qt::NoButton);
+                                Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             mouseReleaseEvent(&release);
         }
     }
