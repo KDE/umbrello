@@ -61,3 +61,4 @@ private:
 QTextStream& operator<<(QTextStream& str, const CodeBlock& obj);
 
 #endif // CODEBLOCK_H
+

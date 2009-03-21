@@ -33,14 +33,17 @@
 #include <kapplication.h>
 
 // qt includes
-#include <qdatetime.h>
-#include <qregexp.h>
-#include <qdir.h>
+#include <QtCore/QDateTime>
+#include <QtCore/QRegExp>
+#include <QtCore/QDir>
 
 // system includes
 #include <cstdlib> //to get the user name
 
-SimpleCodeGenerator::SimpleCodeGenerator (bool createDirHierarchyForPackages /* =true */)
+/**
+ * Constructor.
+ */
+SimpleCodeGenerator::SimpleCodeGenerator (bool createDirHierarchyForPackages)
 {
     m_indentLevel = 0;
     UMLDoc * parentDoc = UMLApp::app()->getDocument();
@@ -49,12 +52,16 @@ SimpleCodeGenerator::SimpleCodeGenerator (bool createDirHierarchyForPackages /* 
     initFields(parentDoc);
 }
 
-SimpleCodeGenerator::~SimpleCodeGenerator ( )
+/**
+ * Destructor.
+ */
+SimpleCodeGenerator::~SimpleCodeGenerator ()
 {
 }
 
 /**
  * Returns the current indent string based on m_indentLevel and m_indentation.
+ * @return indentation string
  */
 QString SimpleCodeGenerator::getIndent ()
 {
@@ -65,6 +72,12 @@ QString SimpleCodeGenerator::getIndent ()
     return myIndent;
 }
 
+/**
+ * Determine the file name.
+ * @param concept   the package
+ * @param ext       the file extension
+ * @return the valid file name
+ */
 QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ext)
 {
     //if we already know to which file this class was written/should be written, just return it.
@@ -134,9 +147,15 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
     return overwritableName(concept, name, extension);
 }
 
+/**
+ * Check if a file named "name" with extension "ext" already exists.
+ * @param concept   the package
+ * @param name      the name of the file
+ * @param ext       the extension of the file
+ * @return the valid filename or null
+ */
 QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString &name, const QString &ext)
 {
-    //check if a file named "name" with extension "ext" already exists
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
     QDir outputDir = commonPolicy->getOutputDirectory();
     QString filename = name + ext;
@@ -203,6 +222,11 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
     return filename;
 }
 
+/**
+ * Check whether classifier has default values for attributes.
+ * @param c   the classifier to check
+ * @return true when classifier attributes has default values
+ */
 bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c)
 {
     UMLAttributeList atl = c->getAttributeList();
@@ -213,6 +237,11 @@ bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c)
     return false;
 }
 
+/**
+ * Check whether classifier has abstract operations.
+ * @param c   the classifier to check
+ * @return true when classifier has abstract operations
+ */
 bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c)
 {
     UMLOperationList opl(c->getOpList());
@@ -224,16 +253,20 @@ bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c)
 }
 
 /**
- * @return      ClassifierCodeDocument
- * @param       classifier
- * @param       this This package generator object.
+ * Create a new classifier code document.
+ * TODO: Not yet implemented.
+ * @param classifier   UML classifier
+ * @return classifier code document object
  */
-CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* /*classifier*/)
+CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* classifier)
 {
-    return (CodeDocument*)NULL;
+    Q_UNUSED(classifier);
+    return 0;
 }
 
-// write all concepts in project to file
+/**
+ * Write all concepts in project to file.
+ */
 void SimpleCodeGenerator::writeCodeToFile ( )
 {
     m_fileMap.clear(); // need to do this, else just keep getting same directory to write to.
@@ -244,7 +277,10 @@ void SimpleCodeGenerator::writeCodeToFile ( )
     }
 }
 
-// write only selected concepts to file
+/**
+ * Write only selected concepts to file.
+ * @param concepts   the selected concepts
+ */
 void SimpleCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts)
 {
     m_fileMap.clear(); // ??
@@ -253,6 +289,10 @@ void SimpleCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts)
     }
 }
 
+/**
+ * Initialization of fields.
+ * @param parentDoc   the parent document
+ */
 void SimpleCodeGenerator::initFields ( UMLDoc * parentDoc )
 {
     // load Classifier documents from parent document
@@ -267,21 +307,24 @@ void SimpleCodeGenerator::initFields ( UMLDoc * parentDoc )
     syncCodeToDocument();
 }
 
-// a little method to provide some compatibility between
-// the newer codegenpolicy object and the older class fields.
+/**
+ * A little method to provide some compatibility between
+ * the newer codegenpolicy object and the older class fields.
+ */
 void SimpleCodeGenerator::syncCodeToDocument()
 {
     CodeGenerationPolicy *policy = UMLApp::app()->getCommonPolicy();
 
     m_indentation = policy->getIndentation();
     m_endl = policy->getNewLineEndingChars();
-
 }
 
-// override parent method
+/**
+ * Override parent method.
+ */
 void SimpleCodeGenerator::initFromParentDocument( )
 {
-    // Do nothing
+    // do nothing
 }
 
 #include "simplecodegenerator.moc"

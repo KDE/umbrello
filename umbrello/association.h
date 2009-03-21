@@ -33,35 +33,12 @@ class UMLAssociation : public UMLObject
     friend class AssociationWidget;
 public:
 
-    /**
-     * Sets up an association.
-     * A new unique ID is assigned internally.
-     *
-     * @param type              The Uml::Association_Type to construct.
-     * @param roleA             Pointer to the UMLObject in role A.
-     * @param roleB             Pointer to the UMLObject in role B.
-     */
     UMLAssociation(Uml::Association_Type type, UMLObject *roleA, UMLObject *roleB);
-
-    /**
-     * Constructs an association - for loading only.
-     * This constructor should not normally be used as it constructs
-     * an incomplete association (i.e. the role objects are missing.)
-     *
-     * @param type              The Uml::Association_Type to construct.
-     *                  Default: Uml::at_Unknown.
-     */
     UMLAssociation(Uml::Association_Type type = Uml::at_Unknown);
 
-    /**
-     * Overloaded '==' operator
-     */
-    bool operator==(const UMLAssociation &rhs);
-
-    /**
-     * Standard deconstructor.
-     */
     virtual ~UMLAssociation();
+
+    bool operator==(const UMLAssociation &rhs);
 
     QString toString( ) const;
 

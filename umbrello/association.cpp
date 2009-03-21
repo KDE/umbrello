@@ -31,10 +31,17 @@ const Uml::Association_Type UMLAssociation::atypeLast = Uml::at_Relationship;
 const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
         (unsigned)atypeFirst + 1;
 
-// constructor
+/**
+ * Sets up an association.
+ * A new unique ID is assigned internally.
+ *
+ * @param type    The Uml::Association_Type to construct.
+ * @param roleA   Pointer to the UMLObject in role A.
+ * @param roleB   Pointer to the UMLObject in role B.
+ */
 UMLAssociation::UMLAssociation( Uml::Association_Type type,
                                 UMLObject * roleA, UMLObject * roleB )
-        : UMLObject("")
+  : UMLObject("")
 {
     init(type, roleA, roleB);
 
@@ -42,13 +49,23 @@ UMLAssociation::UMLAssociation( Uml::Association_Type type,
     m_pRole[Uml::B]->setID( UniqueID::gen() );
 }
 
-UMLAssociation::UMLAssociation( Uml::Association_Type type /* = Uml::at_Unknown */)
-        : UMLObject("", Uml::id_Reserved)
+/**
+ * Constructs an association - for loading only.
+ * This constructor should not normally be used as it constructs
+ * an incomplete association (i.e. the role objects are missing.)
+ *
+ * @param type   The Uml::Association_Type to construct.
+ *               Default: Uml::at_Unknown.
+ */
+UMLAssociation::UMLAssociation( Uml::Association_Type type)
+  : UMLObject("", Uml::id_Reserved)
 {
     init(type, NULL, NULL);
 }
 
-// destructor
+/**
+ * Standard destructor.
+ */
 UMLAssociation::~UMLAssociation( )
 {
     if (m_pRole[A] == NULL) {
@@ -65,6 +82,9 @@ UMLAssociation::~UMLAssociation( )
     }
 }
 
+/**
+ * Overloaded '==' operator
+ */
 bool UMLAssociation::operator==(const UMLAssociation &rhs)
 {
     if (this == &rhs) {
@@ -137,7 +157,7 @@ QString UMLAssociation::toString ( ) const
 /**
  * Converts a Uml::Association_Type to its string representation.
  *
- * @param atype             The Association_Type enum value to convert.
+ * @param atype   The Association_Type enum value to convert.
  * @return  The string representation of the Association_Type.
  */
 QString UMLAssociation::typeAsString (Uml::Association_Type atype)
@@ -549,6 +569,7 @@ Uml::IDType UMLAssociation::getRoleId(Role_Type role) const
     return m_pRole[role]->getID();
 }
 */
+
 Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) const
 {
     return m_pRole[role]->getChangeability();
@@ -675,10 +696,10 @@ void UMLAssociation::setChangeability(Uml::Changeability_Type value, Uml::Role_T
  * @param multi    The multiplicity of the given role.
  * @param role     The Uml::Role_Type to which the multiplicity is being applied
  */
-void UMLAssociation::setMulti(const QString &value, Uml::Role_Type role)
+void UMLAssociation::setMulti(const QString &multi, Uml::Role_Type role)
 {
-    UMLApp::app()->executeCommand(new CmdChangeMulti(m_pRole[role], value));
-    //m_pRole[role]->setMultiplicity(value);
+    UMLApp::app()->executeCommand(new CmdChangeMulti(m_pRole[role], multi));
+    //m_pRole[role]->setMultiplicity(multi);
 }
 
 /**
@@ -687,9 +708,9 @@ void UMLAssociation::setMulti(const QString &value, Uml::Role_Type role)
  * @param roleName  The name to set for the given role.
  * @param role      The Uml::Role_Type for which to set the name.
  */
-void UMLAssociation::setRoleName(const QString &value, Uml::Role_Type role)
+void UMLAssociation::setRoleName(const QString &roleName, Uml::Role_Type role)
 {
-    m_pRole[role]->setName(value);
+    m_pRole[role]->setName(roleName);
 }
 
 /**
@@ -706,7 +727,7 @@ void UMLAssociation::setRoleDoc(const QString &doc, Uml::Role_Type role)
 /**
  * Convert Changeability_Type value into QString representation.
  *
- * @param type              The Changeability_Type enum value to convert.
+ * @param type   The Changeability_Type enum value to convert.
  */
 QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type)
 {
@@ -727,7 +748,7 @@ QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type)
 /**
  * Common initializations at construction time.
  *
- * @param type              The Association_Type to represent.
+ * @param type      The Association_Type to represent.
  * @param roleAObj  Pointer to the role A UMLObject.
  * @param roleBObj  Pointer to the role B UMLObject.
  */
