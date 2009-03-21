@@ -3412,6 +3412,7 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("showops", m_Options.classState.showOps);
     viewElement.setAttribute("showpackage", m_Options.classState.showPackage);
     viewElement.setAttribute("showattribassocs", m_Options.classState.showAttribAssocs);
+    viewElement.setAttribute("showpubliconly", m_Options.classState.showPublicOnly);
     viewElement.setAttribute("showscope", m_Options.classState.showVisibility);
     viewElement.setAttribute("showstereotype", m_Options.classState.showStereoType);
     //misc
