@@ -264,8 +264,8 @@ private:
     QChar currentChar() const {
       return m_ptr != m_endPtr ? *m_ptr : QChar::null;
     }
-    bool eof() const {return m_ptr >= m_endPtr;}
-    int length() const {return m_endPtr - m_ptr;}
+    bool eof() const {return m_ptr == m_endPtr;}
+    int length() const {return std::distance(m_ptr, m_endPtr);}
     void nextChar() {
       QChar l_current = *m_ptr++;
     }
