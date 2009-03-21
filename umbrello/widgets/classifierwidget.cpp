@@ -54,6 +54,9 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
     m_lineItem1Index = m_lineItem2Index = InvalidIndex;
 
     m_baseType = Uml::wt_Class;
+    // TODO: The following properties should be set using the
+    //       OptionState rather than direct defaults.
+
     // Set the following properties by default. The remaining
     // properties are not set.
     m_visualProperties = ShowOperations | ShowVisibility | ShowAttributes;
