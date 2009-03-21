@@ -56,7 +56,7 @@ protected:
     /**
      * Reimplement printAutoIncrements from Base Class for MySQL
      */
-    void printAutoIncrements(QTextStream& sql, const UMLEntityAttributeList entAttList);
+    virtual void printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList);
 
 };
 

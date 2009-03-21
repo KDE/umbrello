@@ -174,6 +174,7 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     m_imageExporterAll    = new UMLViewImageExporterAll();
 
     setAutoSaveSettings();
+    toolsbar->setToolButtonStyle(Qt::ToolButtonIconOnly); //too many items for text, really we want a toolbox widget
 }
 
 UMLApp::~UMLApp()
