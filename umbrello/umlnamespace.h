@@ -343,4 +343,6 @@ namespace Uml
     Class(const Class &);                       \
     Class &operator=(const Class &);
 
+#define uIgnoreZeroPointer(a) if (!a) { uDebug() << "zero pointer detected" << __FILE__ << __LINE__; continue; }
+
 #endif

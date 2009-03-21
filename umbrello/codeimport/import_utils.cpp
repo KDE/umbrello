@@ -325,6 +325,7 @@ UMLOperation* makeOperation(UMLClassifier *parent, const QString &name)
 
 /**
  * Create a UMLAttribute and insert it into the document.
+ * Use the specified existing attrType.
  */
 UMLObject* insertAttribute(UMLClassifier *owner,
                            Uml::Visibility scope,
@@ -335,9 +336,9 @@ UMLObject* insertAttribute(UMLClassifier *owner,
 {
     Uml::Object_Type ot = owner->getBaseType();
     Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
-    if (! (ot == Uml::ot_Class || ot == Uml::ot_Interface && pl == Uml::pl_Java)) {
+    if (! (ot == Uml::ot_Class || (ot == Uml::ot_Interface && pl == Uml::pl_Java))) {
         uDebug() << "insertAttribute: Don not know what to do with "
-        << owner->getName() << " (object type " << ot << ")";
+                 << owner->getName() << " (object type " << ot << ")";
         return NULL;
     }
     UMLObject *o = owner->findChildObject(name, Uml::ot_Attribute);
@@ -358,7 +359,6 @@ UMLObject* insertAttribute(UMLClassifier *owner,
 
 /**
  * Create a UMLAttribute and insert it into the document.
- * Use the specified existing attrType.
  */
 UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope,
                            const QString& name,
@@ -380,23 +380,23 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope,
 }
 
 /**
- * Insert the UMLOperation into the given classifier.
- *
- * @param klass  The classifier into which the operation shall be added.
- * @param op     Reference to pointer to the temporary UMLOperation
- *               for insertion.  The caller relinquishes ownership of the
- *               object pointed to.  If an UMLOperation of same signature
- *               already exists  at the classifier then the incoming
- *               UMLOperation is deleted and the pointer is set to the
- *               existing UMLOperation.
- * @param scope  The Uml::Visibility of the method
- * @param type   The return type
- * @param isStatic boolean switch to decide if method is static
- * @param isAbstract boolean switch to decide if method is abstract
- * @param isFriend true boolean switch to decide if methods is a friend function
- * @param isConstructor boolean switch to decide if methods is a constructor
- * @param comment The Documentation for this method
- */
+  * Insert the UMLOperation into the given classifier.
+  *
+  * @param klass          The classifier into which the operation shall be added.
+  * @param op             Reference to pointer to the temporary UMLOperation
+  *                       for insertion.  The caller relinquishes ownership of the
+  *                       object pointed to.  If an UMLOperation of same signature
+  *                       already exists  at the classifier then the incoming
+  *                       UMLOperation is deleted and the pointer is set to the
+  *                       existing UMLOperation.
+  * @param scope          The Uml::Visibility of the method
+  * @param type           The return type
+  * @param isStatic       boolean switch to decide if method is static
+  * @param isAbstract     boolean switch to decide if method is abstract
+  * @param isFriend       true boolean switch to decide if methods is a friend function
+  * @param isConstructor  boolean switch to decide if methods is a constructor
+  * @param comment        The Documentation for this method
+  */
 void insertMethod(UMLClassifier *klass, UMLOperation* &op,
                   Uml::Visibility scope, const QString& type,
                   bool isStatic, bool isAbstract,

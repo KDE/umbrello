@@ -36,6 +36,9 @@ TextBlock::TextBlock ( CodeDocument * parent, const QString & text )
     setText(text);
 }
 
+/**
+ * Destructor.
+ */
 TextBlock::~TextBlock ()
 {
 }
@@ -317,6 +320,8 @@ QString TextBlock::formatMultiLineText ( const QString & work, const QString & l
  */
 void TextBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
 {
+    Q_UNUSED(doc);
+
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 
     blockElement.setAttribute("tag",getTag());
@@ -416,3 +421,15 @@ QTextStream& operator<<(QTextStream& os, const TextBlock& obj)
        << ", text=" << obj.getText();
     return os;
 }
+
+/**
+ * Save the XMI representation of this object
+ * @param doc    the xmi document
+ * @param root   the starting point to append
+ */
+
+/**
+ * Load params from the appropriate XMI element node.
+ * @param root   the starting point in the xmi document to load from
+ */
+

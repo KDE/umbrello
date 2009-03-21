@@ -46,7 +46,6 @@ namespace Import_Utils {
                                const QString& type,
                                const QString& comment = QString(),
                                bool isStatic = false);
-
     UMLObject* insertAttribute(UMLClassifier *klass, Uml::Visibility scope,
                                const QString& name,
                                UMLClassifier *attrType,
@@ -69,7 +68,6 @@ namespace Import_Utils {
                         const QString &comment = QString());
 
     void createGeneralization(UMLClassifier *child, UMLClassifier *parent);
-
     void createGeneralization(UMLClassifier *child, const QString &parentName);
 
     QString formatComment(const QString &comment);
