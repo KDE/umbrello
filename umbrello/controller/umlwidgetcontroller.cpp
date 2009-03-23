@@ -354,11 +354,11 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
 #if 0
             QGraphicsSceneMouseEvent move(QGraphicsSceneMouseEvent::MouseMove,
                              QPointF(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
-                             Qt::LeftButton, Qt::NoButton);
+                             Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             mouseMoveEvent(&move);
             QGraphicsSceneMouseEvent release(QGraphicsSceneMouseEvent::MouseButtonRelease,
                                 QPointF(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
-                                Qt::LeftButton, Qt::NoButton);
+                                Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             mouseReleaseEvent(&release);
 #endif
         }
