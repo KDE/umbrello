@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -197,7 +197,7 @@ QString UMLOperation::toString(Uml::Signature_Type sig)
     if (returnType.length() > 0 && returnType != "void") {
         s.append(" : ");
 
-        if (returnType.startsWith("virtual ")) {
+        if (returnType.startsWith(QLatin1String("virtual "))) {
             s += returnType.mid(8);
         } else {
             s += returnType;

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2008                                                *
+ *  copyright (C) 2006-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -55,15 +54,15 @@ void ClassImport::importFiles(const QStringList &fileList)
 ClassImport *ClassImport::createImporterByFileExt(const QString &filename) 
 {
     ClassImport *classImporter;
-    if (filename.endsWith(".idl"))
+    if (filename.endsWith(QLatin1String(".idl")))
         classImporter = new IDLImport();
-    else if (filename.endsWith(".py"))
+    else if (filename.endsWith(QLatin1String(".py")))
         classImporter = new PythonImport();
-    else if (filename.endsWith(".java"))
+    else if (filename.endsWith(QLatin1String(".java")))
         classImporter = new JavaImport();
     else if (filename.contains( QRegExp("\\.ad[sba]$") ))
         classImporter = new AdaImport();
-    else if (filename.endsWith(".pas"))
+    else if (filename.endsWith(QLatin1String(".pas")))
         classImporter = new PascalImport();
 #ifndef DISABLE_CPP_IMPORT
     else

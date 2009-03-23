@@ -120,7 +120,7 @@ QString formatComment(const QString &comment)
     QStringList lines = comment.split('\n');
     QString& first = lines.first();
     QRegExp wordex("\\w");
-    if (first.startsWith("/*")) {
+    if (first.startsWith(QLatin1String("/*"))) {
         int wordpos = wordex.indexIn(first);
         if (wordpos != -1)
             first = first.mid(wordpos);  // remove comment start

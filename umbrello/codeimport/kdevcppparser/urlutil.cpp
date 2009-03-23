@@ -121,7 +121,7 @@ QString URLUtil::extractPathNameRelative(const KUrl &baseDirUrl, const KUrl &url
     if (absRef == absBase)
         return QString(".");
     else
-        return absRef.replace(0, absBase.length(), QString());
+        return absRef.remove(0, absBase.length());
 }
 
 ///////////////////////////////////////////////////////////////////////////////

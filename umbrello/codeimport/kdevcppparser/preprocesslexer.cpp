@@ -547,15 +547,15 @@ void PreprocessLexer::nextToken(Token& tk)
                     m_preprocessedString += QString(" ") + (*pos).second + QString(" ");
                 }
             } else if (/*qt_rx.exactMatch(ide) ||*/
-                ide.endsWith("EXPORT") ||
-                (ide.startsWith("Q_EXPORT") && ide != "Q_EXPORT_INTERFACE") ||
-                ide.startsWith("QM_EXPORT") ||
-                ide.startsWith("QM_TEMPLATE")) {
+                ide.endsWith(QLatin1String("EXPORT")) ||
+                (ide.startsWith(QLatin1String("Q_EXPORT")) && ide != "Q_EXPORT_INTERFACE") ||
+                ide.startsWith(QLatin1String("QM_EXPORT")) ||
+                ide.startsWith(QLatin1String("QM_TEMPLATE"))) {
 
                 m_source.parse(*gr_whiteSpace);
                 if (m_source.currentChar() == '(')
                     skip('(', ')');
-            } else if (ide.startsWith("K_TYPELIST_") || ide.startsWith("TYPELIST_")) {
+            } else if (ide.startsWith(QLatin1String("K_TYPELIST_")) || ide.startsWith(QLatin1String("TYPELIST_"))) {
                 tk = m_source.createToken(Token_identifier, start);
                 m_source.parse(*gr_whiteSpace);
                 if (m_source.currentChar() == '(')
