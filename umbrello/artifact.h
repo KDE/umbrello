@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +12,6 @@
 #define ARTIFACT_H
 
 #include "umlcanvasobject.h"
-
 
 /**
  * This class contains the non-graphical information required for a UML
@@ -26,7 +24,8 @@
  * @see UMLCanvasObject
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLArtifact : public UMLCanvasObject {
+class UMLArtifact : public UMLCanvasObject
+{
     Q_OBJECT
 public:
 
@@ -41,13 +40,7 @@ public:
     };
 
     explicit UMLArtifact(const QString & name = QString(), Uml::IDType id = Uml::id_None);
-
-    /**
-     * Standard deconstructor.
-     */
     virtual ~UMLArtifact();
-
-    virtual void init();
 
     virtual UMLObject* clone() const;
 
