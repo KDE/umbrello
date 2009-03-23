@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,58 +21,69 @@
 #include "uml.h"
 #include "umbrellosettings.h"
 
+/**
+ * Constructor.
+ */
 RubyCodeGenerationPolicy::RubyCodeGenerationPolicy()
 {
     m_commonPolicy = UMLApp::app()->getCommonPolicy();
     init();
 }
 
-RubyCodeGenerationPolicy::~RubyCodeGenerationPolicy ( )
+/**
+ * Destructor.
+ */
+RubyCodeGenerationPolicy::~RubyCodeGenerationPolicy()
 {
 }
 
 /**
- * Set the value of autoGenerateAttribAccessors
- * @param new_var the new value
+ * Set the value of m_autoGenerateAttribAccessors.
+ * @param var the new value
  */
-void RubyCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
+void RubyCodeGenerationPolicy::setAutoGenerateAttribAccessors(bool var)
 {
     Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
 /**
- * Set the value of autoGenerateAssocAccessors
- * @param new_var the new value
+ * Set the value of m_autoGenerateAssocAccessors.
+ * @param var the new value
  */
-void RubyCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var )
+void RubyCodeGenerationPolicy::setAutoGenerateAssocAccessors(bool var)
 {
     Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
 /**
- * Get the value of autoGenerateAttribAccessors
- * @return the value of autoGenerateAttribAccessors
+ * Get the value of m_autoGenerateAttribAccessors
+ * @return the value of m_autoGenerateAttribAccessors
  */
-bool RubyCodeGenerationPolicy::getAutoGenerateAttribAccessors( )
+bool RubyCodeGenerationPolicy::getAutoGenerateAttribAccessors()
 {
     return Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors;
 }
 
 /**
- * Get the value of autoGenerateAssocAccessors
- * @return the value of autoGenerateAssocAccessors
+ * Get the value of m_autoGenerateAssocAccessors.
+ * @return the value of m_autoGenerateAssocAccessors
  */
-bool RubyCodeGenerationPolicy::getAutoGenerateAssocAccessors( )
+bool RubyCodeGenerationPolicy::getAutoGenerateAssocAccessors()
 {
     return Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors;
 }
 
-void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpdateSignal )
+/**
+ * Set the defaults for this code generator from the passed generator.
+ * @param defaults           the defaults to set
+ * @param emitUpdateSignal   flag whether to emit the update signal
+ */
+void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * defaults, bool emitUpdateSignal )
 {
     RubyCodeGenerationPolicy * rclone;
-    if (!clone)
+    if (!defaults)
         return;
 
     // NOW block signals for ruby param setting
@@ -81,7 +92,7 @@ void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
     // needlessly (we can just make one call at the end).
 
     // now do ruby-specific stuff IF our clone is also a RubyCodeGenerationPolicy object
-    if((rclone = dynamic_cast<RubyCodeGenerationPolicy*>(clone)))
+    if((rclone = dynamic_cast<RubyCodeGenerationPolicy*>(defaults)))
     {
         setAutoGenerateAttribAccessors(rclone->getAutoGenerateAttribAccessors());
         setAutoGenerateAssocAccessors(rclone->getAutoGenerateAssocAccessors());
@@ -93,6 +104,10 @@ void RubyCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
         m_commonPolicy->emitModifiedCodeContentSig();
 }
 
+/**
+ * Set the defaults from a config file for this code generator from the passed KConfig pointer.
+ * @param emitUpdateSignal   flag whether to emit the update signal
+ */
 void RubyCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
 {
     // call the superclass to init default stuff
@@ -114,9 +129,10 @@ void RubyCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
         m_commonPolicy->emitModifiedCodeContentSig();
 }
 
-
 /**
  * Create a new dialog interface for this object.
+ * @param parent   the parent widget
+ * @param name     the name of the page
  * @return dialog object
  */
 CodeGenerationPolicyPage * RubyCodeGenerationPolicy::createPage ( QWidget *parent, const char *name )
@@ -124,7 +140,9 @@ CodeGenerationPolicyPage * RubyCodeGenerationPolicy::createPage ( QWidget *paren
     return new RubyCodeGenerationPolicyPage ( parent, name, this );
 }
 
-
+/**
+ * Initialisation.
+ */
 void RubyCodeGenerationPolicy::init()
 {
     blockSignals(true);

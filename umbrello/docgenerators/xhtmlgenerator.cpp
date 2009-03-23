@@ -88,8 +88,7 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const KUrl& destDir)
 
 /**
  * This slot is triggerd when the first part, xmi to docbook, is finished
- * @param docbookJob the job copying the docbook file to its destination.
- * Used only for error reporting.
+ * @param status   status to continue with converting
  */
 void XhtmlGenerator::slotDocbookToXhtml(bool status)
 {
@@ -119,10 +118,11 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
 /**
  * Triggered when the copying of the HTML result file is finished.
  * Emits the signal finished().
+ * @param tmpFileName   temporary file name
  */
 void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 {
-    uDebug() << "HTML Generated"<<tmpFileName;
+    uDebug() << "HTML Generated " << tmpFileName;
     KUrl url = m_umlDoc->url();
     QString fileName = url.fileName();
     fileName.replace(QRegExp(".xmi$"),".html");

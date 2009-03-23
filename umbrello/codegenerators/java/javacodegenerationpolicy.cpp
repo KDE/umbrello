@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -24,13 +24,16 @@
 
 /*
 JavaCodeGenerationPolicy::JavaCodeGenerationPolicy(CodeGenerationPolicy *defaults)
-        : CodeGenerationPolicy(defaults)
+  : CodeGenerationPolicy(defaults)
 {
     init();
     setDefaults(defaults,false);
 }
  */
 
+/**
+ * Constructor.
+ */
 JavaCodeGenerationPolicy::JavaCodeGenerationPolicy()
   //      : CodeGenerationPolicy()
 {
@@ -38,13 +41,16 @@ JavaCodeGenerationPolicy::JavaCodeGenerationPolicy()
     init();
 }
 
-JavaCodeGenerationPolicy::~JavaCodeGenerationPolicy ( )
+/**
+ * Empty Destructor.
+ */
+JavaCodeGenerationPolicy::~JavaCodeGenerationPolicy()
 {
 }
 
 /**
- * Set the value of autoGenerateAttribAccessors
- * @param new_var the new value
+ * Set the value of m_autoGenerateAttribAccessors.
+ * @param var the new value
  */
 void JavaCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
 {
@@ -53,20 +59,20 @@ void JavaCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
 }
 
 /**
- * Set the value of m_autoGenerateAssocAccessors
- * @param new_var the new value
+ * Set the value of m_autoGenerateAssocAccessors.
+ * @param var the new value
  */
-void JavaCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var )
+void JavaCodeGenerationPolicy::setAutoGenerateAssocAccessors(bool var)
 {
     Settings::getOptionState().codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
 /**
- * Get the value of m_autoGenerateAttribAccessors
+ * Get the value of m_autoGenerateAttribAccessors.
  * @return the value of m_autoGenerateAttribAccessors
  */
-bool JavaCodeGenerationPolicy::getAutoGenerateAttribAccessors( )
+bool JavaCodeGenerationPolicy::getAutoGenerateAttribAccessors()
 {
     return Settings::getOptionState().codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors;
 }
@@ -75,15 +81,20 @@ bool JavaCodeGenerationPolicy::getAutoGenerateAttribAccessors( )
  * Get the value of m_autoGenerateAssocAccessors
  * @return the value of m_autoGenerateAssocAccessors
  */
-bool JavaCodeGenerationPolicy::getAutoGenerateAssocAccessors( )
+bool JavaCodeGenerationPolicy::getAutoGenerateAssocAccessors()
 {
     return Settings::getOptionState().codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors;
 }
 
-void JavaCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpdateSignal )
+/**
+ * Set the defaults for this code generator from the passed generator.
+ * @param defaults           the defaults to set
+ * @param emitUpdateSignal   flag whether update signal has to be emitted
+ */
+void JavaCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * defaults, bool emitUpdateSignal )
 {
     JavaCodeGenerationPolicy * jclone;
-    if (!clone)
+    if (!defaults)
         return;
 
     // NOW block signals for java param setting
@@ -92,7 +103,7 @@ void JavaCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
     // needlessly (we can just make one call at the end).
 
     // now do java-specific stuff IF our clone is also a JavaCodeGenerationPolicy object
-    if((jclone = dynamic_cast<JavaCodeGenerationPolicy*>(clone)))
+    if((jclone = dynamic_cast<JavaCodeGenerationPolicy*>(defaults)))
     {
         setAutoGenerateAttribAccessors(jclone->getAutoGenerateAttribAccessors());
         setAutoGenerateAssocAccessors(jclone->getAutoGenerateAssocAccessors());
@@ -104,6 +115,10 @@ void JavaCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emit
         m_commonPolicy->emitModifiedCodeContentSig();
 }
 
+/**
+ * Set the defaults from a config file for this code generator from the passed KConfig pointer.
+ * @param emitUpdateSignal   flag whether update signal has to be emitted
+ */
 void JavaCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
 {
     // call method at the common policy to init default stuff
@@ -132,6 +147,8 @@ void JavaCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
 
 /**
  * Create a new dialog interface for this object.
+ * @param parent   the parent widget
+ * @param name     page name
  * @return dialog object
  */
 CodeGenerationPolicyPage * JavaCodeGenerationPolicy::createPage ( QWidget *parent, const char *name )
@@ -139,6 +156,9 @@ CodeGenerationPolicyPage * JavaCodeGenerationPolicy::createPage ( QWidget *paren
     return new JavaCodeGenerationPolicyPage ( parent, name, this );
 }
 
+/**
+ * Initialisation.
+ */
 void JavaCodeGenerationPolicy::init()
 {
     blockSignals( true );

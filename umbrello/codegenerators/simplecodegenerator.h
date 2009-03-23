@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,21 +30,14 @@ class SimpleCodeGenerator : public CodeGenerator
     Q_OBJECT
 public:
 
-    /**
-     * Empty Constructor
-     */
     SimpleCodeGenerator (bool createDirHierarchyForPackages = true);
-
-    /**
-     * Empty Destructor
-     */
     virtual ~SimpleCodeGenerator ( );
 
     void writeCodeToFile ( UMLClassifierList & concepts);
     void writeCodeToFile ( );
 
     /**
-     * call this method to generate code for a UMLClassifier
+     * Call this method to generate code for a UMLClassifier
      * @param c the class you want to generate code for.
      */
     virtual void writeClass(UMLClassifier *c) = 0;
@@ -56,7 +49,6 @@ protected:
     QString className_;
     QString fileName_;
 
-    // compatibility methods..
     QString findFileName(UMLPackage* concept, const QString &ext);
     QString overwritableName(UMLPackage* concept, const QString &name, const QString &ext);
     bool hasDefaultValueAttr(UMLClassifier *c);

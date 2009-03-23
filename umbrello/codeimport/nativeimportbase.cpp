@@ -250,7 +250,7 @@ bool NativeImportBase::preprocess(QString& line)
  * Split the line so that a string is returned as a single element of the list.
  * When not in a string then split at white space.
  * The default implementation is suitable for C style strings and char constants.
- * @param lin   the line to split
+ * @param line   the line to split
  * @return the parts of the line
  */
 QStringList NativeImportBase::split(const QString& line)

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,6 +32,11 @@
 #include <QtGui/QGroupBox>
 #include "umlscene.h"
 
+/**
+ *  Constructs the diagram print page.
+ *  @param parent The parent to the page.
+ *  @param doc    The @ref UMLDoc class instance being used.
+ */
 DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(parent), m_pDoc(m_pDoc)
 {
     int margin = fontMetrics().height();
@@ -98,6 +103,9 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(
     m_pTypeCB->insertItems(0, types);
 }
 
+/**
+ *  Standard destructor.
+ */
 DiagramPrintPage::~DiagramPrintPage()
 {
 }
