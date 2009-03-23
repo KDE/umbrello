@@ -23,6 +23,9 @@
 #include "umldoc.h"
 #include "uml.h"
 
+/**
+ * Constructor.
+ */
 CodeDocument::CodeDocument () : CodeGenObjectWithTextBlocks(this),
     m_lastTagIndex(0), m_filename(QString()), m_fileExtension(QString()),
     m_ID(QString()), m_pathName(QString()), m_package(NULL), m_writeOutCode(true)  
@@ -31,6 +34,9 @@ CodeDocument::CodeDocument () : CodeGenObjectWithTextBlocks(this),
     //  m_dialog = new CodeDocumentDialog( );
 }
 
+/**
+ * Destructor.
+ */
 CodeDocument::~CodeDocument ( )
 {
     // delete all the text blocks we have
@@ -265,10 +271,9 @@ QString CodeDocument::cleanName ( const QString &name )
     return CodeGenerator::cleanName(name);
 }
 
-// update the text and status of the head comment
-
 /**
- * Update the header text of this codedocument.
+ * Update the header text of this codedocument
+ * (text and status of the head comment).
  */
 void CodeDocument::updateHeader ()
 {
@@ -325,10 +330,9 @@ void CodeDocument::synchronize()
     updateContent();
 }
 
-// need to overload method to be able to clear the childTextBlockMap
-
 /**
  * Reset/clear our inventory of textblocks in this document.
+ * Need to overload method to be able to clear the childTextBlockMap.
  */
 void CodeDocument::resetTextBlocks()
 {
@@ -433,14 +437,12 @@ void CodeDocument::saveToXMI ( QDomDocument & doc, QDomElement & root )
     root.appendChild( docElement );
 }
 
-// vanilla code documents don't have much
-// to do.. override this with a different
-// version for your own documents
-
 /**
  * Update the content of this code document.
  * This is where you should lay out your code document structure of textblocks
  * in the inheriting class, should it have any text in it.
+ * Vanilla code documents don't have much to do.. override this with a different
+ * version for your own documents.
  */
 void CodeDocument::updateContent()
 {
