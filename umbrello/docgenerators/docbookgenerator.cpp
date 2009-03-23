@@ -1,15 +1,12 @@
 /***************************************************************************
- *                        docbookgenerator.cpp  -  description             *
- *                           -------------------                           *
- *  copyright            : (C) 2006 by Gael de Chalendar (aka Kleag)       *
- *    (C) 2006-2007 Umbrello UML Modeller Authors <uml-devel@uml.sf.net>   *
- ***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2006      Gael de Chalendar (aka Kleag) kleag@free.fr   *
+ *   copyright (C) 2006-2007                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "docbookgenerator.h"
@@ -22,11 +19,10 @@
 #include <kio/netaccess.h>
 #include <kio/job.h>
 
-#include <QApplication>
-
-#include <qfile.h>
-#include <qregexp.h>
-#include <qtextstream.h>
+#include <QtGui/QApplication>
+#include <QtCore/QFile>
+#include <QtCore/QRegExp>
+#include <QtCore/QTextStream>
 
 #include "docbookgeneratorjob.h"
 
@@ -34,6 +30,9 @@
 #include "umldoc.h"
 #include "umlviewimageexportermodel.h"
 
+/**
+ * Constructor.
+ */
 DocbookGenerator::DocbookGenerator()
 {
   umlDoc = UMLApp::app()->getDocument();
@@ -42,8 +41,12 @@ DocbookGenerator::DocbookGenerator()
   docbookGeneratorJob = 0;
 }
 
-DocbookGenerator::~DocbookGenerator() {}
-
+/**
+ * Destructor.
+ */
+DocbookGenerator::~DocbookGenerator()
+{
+}
 
 /**
  * Exports the current model to docbook in a directory named as the model
@@ -60,7 +63,7 @@ bool DocbookGenerator::generateDocbookForProject()
   QString fileName = url.fileName();
   fileName.remove(QRegExp(".xmi$"));
   url.setFileName(fileName);
-  uDebug() <<"Exporting to directory: " << url;
+  uDebug() << "Exporting to directory: " << url;
   generateDocbookForProjectInto(url);
   return true;
 }
@@ -95,7 +98,7 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
 
 void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
 {
-    uDebug()<<"Generation Finished"<<tmpFileName;
+    uDebug() << "Generation Finished" << tmpFileName;
     KUrl url = umlDoc->url();
     QString fileName = url.fileName();
     fileName.replace(QRegExp(".xmi$"),".docbook");
@@ -119,7 +122,8 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
     emit finished(m_pStatus);
 }
 
-void DocbookGenerator::threadFinished() {
+void DocbookGenerator::threadFinished()
+{
     m_pThreadFinished = true;
     delete docbookGeneratorJob;
     docbookGeneratorJob = 0;

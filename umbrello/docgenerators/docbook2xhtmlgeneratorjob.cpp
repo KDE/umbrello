@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -22,7 +21,7 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
-#include <QTextOStream>
+#include <QtCore/QTextOStream>
 
 #include <ktemporaryfile.h>
 #include <kstandarddirs.h>
@@ -34,13 +33,18 @@
 
 extern int xmlLoadExtDtdDefaultValue;
 
+/**
+ * Constructor
+ * @param docBookUrl The Url of the Docbook that is to be converted to XHtml
+ * @param parent     Parent object for QThread constructor
+ */
 Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent )
-    :QThread(parent),m_pDocbookUrl( docBookUrl ) {
+    :QThread(parent),m_pDocbookUrl( docBookUrl )
+{
 }
 
-
-void Docbook2XhtmlGeneratorJob::run() {
-
+void Docbook2XhtmlGeneratorJob::run()
+{
   UMLDoc* umlDoc = UMLApp::app()->getDocument();
   xsltStylesheetPtr cur = NULL;
   xmlDocPtr doc, res;
@@ -97,7 +101,6 @@ void Docbook2XhtmlGeneratorJob::run() {
   xmlCleanupParser();
 
   emit xhtmlGenerated( tmpXhtml.fileName() );
-
 }
 
 #include "docbook2xhtmlgeneratorjob.moc"
