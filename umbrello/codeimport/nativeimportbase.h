@@ -57,7 +57,7 @@ protected:
 
     virtual void initVars();
 
-    void scan(QString line);
+    void scan(const QString& line);
 
     virtual bool preprocess(QString& line);
 
@@ -80,7 +80,7 @@ protected:
      */
     virtual bool parseStmt() = 0;
 
-    void skipStmt(QString until = ";");
+    void skipStmt(const QString& until = ";");
     bool skipToClosing(QChar opener);
 
     QString advance();

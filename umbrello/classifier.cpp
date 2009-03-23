@@ -64,6 +64,7 @@ UMLClassifier::~UMLClassifier()
 /**
  * Reimplementation of method from class UMLObject for controlling the
  * exact type of this classifier: class, interface, or datatype.
+ * @param ot   the base type to set
  */
 void UMLClassifier::setBaseType(Uml::Object_Type ot)
 {
@@ -215,9 +216,9 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
  *                       none given.)
  * @param isExistingOp   Optional pointer to bool. If supplied, the bool is
  *                       set to true if an existing operation is returned.
- * @param params    Optional list of parameter names and types.
- *                  If supplied, new operation parameters are
- *                  constructed using this list.
+ * @param params         Optional list of parameter names and types.
+ *                       If supplied, new operation parameters are
+ *                       constructed using this list.
  * @return The new operation, or NULL if the operation could not be
  *         created because for example, the user canceled the dialog
  *         or no appropriate name can be found.
@@ -280,12 +281,11 @@ UMLOperation* UMLClassifier::createOperation(
 
 /**
  * Appends an operation to the classifier.
- * @see bool addOperation(UMLOperation* Op, int position = -1)
  * This function is mainly intended for the clipboard.
  *
- * @param op    Pointer to the UMLOperation to add.
- * @param log   Pointer to the IDChangeLog.
- * @return      True if the operation was added successfully.
+ * @param op         Pointer to the UMLOperation to add.
+ * @param position   Inserted at the given position.
+ * @return           True if the operation was added successfully.
  */
 bool UMLClassifier::addOperation(UMLOperation* op, int position )
 {
@@ -365,6 +365,11 @@ int UMLClassifier::removeOperation(UMLOperation *op)
     return m_List.count();
 }
 
+/**
+ * Create and add a just created template.
+ * @param currentName   the name of the template
+ * @return              the template or NULL
+ */
 UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString()*/)
 {
     QString name = currentName;
@@ -527,6 +532,12 @@ UMLOperationList UMLClassifier::findOperations(const QString &n)
     return list;
 }
 
+/**
+ * Find the child object by the given id.
+ * @param id                  the id of the child object
+ * @param considerAncestors   flag whether the ancestors should be considered during search
+ * @return                    the found child object or NULL
+ */
 UMLObject* UMLClassifier::findChildObjectById(Uml::IDType id, bool considerAncestors /* =false */)
 {
     UMLObject *o = UMLCanvasObject::findChildObjectById(id);
@@ -587,8 +598,8 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
 /**
  * Returns a list of concepts which this concept inherits from.
  *
- * @param type              The ClassifierType to seek.
- * @return  List of UMLClassifiers we inherit from.
+ * @param type   The ClassifierType to seek.
+ * @return       List of UMLClassifiers we inherit from.
  */
 UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
 {
@@ -697,7 +708,9 @@ bool UMLClassifier::resolveRef()
     return success;
 }
 
-/** reimplemented from UMLObject */
+/**
+ * Reimplemented from UMLObject.
+ */
 bool UMLClassifier::acceptAssociationType(Uml::Association_Type type)
 {
     switch(type)
@@ -773,6 +786,14 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
     return newAttribute;
 }
 
+/**
+ * Creates and adds an attribute for the class.
+ *
+ * @param name  an optional name, used by when creating through UMLListView
+ * @param id    an optional id
+ * @return      the UMLAttribute created and added
+ */
+
 UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /* = Uml::id_None */)
 {
     foreach (UMLObject* obj, m_List ) {
@@ -793,13 +814,10 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /*
  * Adds an already created attribute.
  * The attribute object must not belong to any other concept.
  *
- * @param att        Pointer to the UMLAttribute.
- * @param log        Pointer to the IDChangeLog (optional.)
- * @param position   Position index for the insertion (optional.)
- *                   If the position is omitted, or if it is
- *                   negative or too large, the attribute is added
- *                   to the end of the list.
- * @return           True if the attribute was successfully added.
+ * @param name    the name of the attribute
+ * @param type    the type of the attribute 
+ * @param scope   the visibility of the attribute
+ * @return        the just created and added attribute
  */
 UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, Uml::Visibility scope)
 {
@@ -817,6 +835,18 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, 
     return a;
 }
 
+/**
+ * Adds an already created attribute.
+ * The attribute object must not belong to any other concept.
+ *
+ * @param att        Pointer to the UMLAttribute.
+ * @param log        Pointer to the IDChangeLog (optional.)
+ * @param position   Position index for the insertion (optional.)
+ *                   If the position is omitted, or if it is
+ *                   negative or too large, the attribute is added
+ *                   to the end of the list.
+ * @return           True if the attribute was successfully added.
+ */
 bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* log /* = 0 */,
                                  int position /* = -1 */)
 {
@@ -897,7 +927,7 @@ bool UMLClassifier::hasAbstractOps ()
 }
 
 /**
- * counts the number of operations in the Classifier.
+ * Counts the number of operations in the Classifier.
  *
  * @return   The number of operations for the Classifier.
  */
@@ -952,8 +982,8 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited)
  * Returns the entries in m_List that are of the requested type.
  * If the requested type is Uml::ot_UMLObject then all entries
  * are returned.
- *
- * @return  The list of true operations for the Concept.
+ * @param ot   the requested object type
+ * @return     The list of true operations for the Concept.
  */
 UMLClassifierListItemList UMLClassifier::getFilteredList(Uml::Object_Type ot) const
 {
@@ -975,9 +1005,9 @@ UMLClassifierListItemList UMLClassifier::getFilteredList(Uml::Object_Type ot) co
  * Adds an already created template.
  * The template object must not belong to any other concept.
  *
- * @param newTemplate   Pointer to the UMLTemplate object to add.
- * @param log           Pointer to the IDChangeLog.
- * @return  True if the template was successfully added.
+ * @param name   the name of the template
+ * @param id     the id of the template
+ * @return       the added template
  */
 UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::IDType id)
 {
@@ -999,7 +1029,7 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::IDType id)
  *
  * @param newTemplate   Pointer to the UMLTemplate object to add.
  * @param log           Pointer to the IDChangeLog.
- * @return  True if the template was successfully added.
+ * @return              True if the template was successfully added.
  */
 bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/)
 {
@@ -1070,6 +1100,8 @@ int UMLClassifier::removeTemplate(UMLTemplate* umltemplate)
 
 /**
  * Seeks the template parameter of the given name.
+ * @param name   the template name
+ * @return       the found template or 0
  */
 UMLTemplate *UMLClassifier::findTemplate(const QString& name)
 {
@@ -1079,7 +1111,7 @@ UMLTemplate *UMLClassifier::findTemplate(const QString& name)
             return templt;
         }
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -1195,6 +1227,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
 
 /**
  * Set the origin type (in case of e.g. typedef)
+ * @param origType   the origin type to set
  */
 void UMLClassifier::setOriginType(UMLClassifier *origType)
 {
@@ -1203,6 +1236,7 @@ void UMLClassifier::setOriginType(UMLClassifier *origType)
 
 /**
  * Get the origin type (in case of e.g. typedef)
+ * @return   the origin type
  */
 UMLClassifier * UMLClassifier::originType() const
 {
@@ -1211,6 +1245,7 @@ UMLClassifier * UMLClassifier::originType() const
 
 /**
  * Set the m_isRef flag (true when dealing with a pointer type)
+ * @param isRef   the flag to set
  */
 void UMLClassifier::setIsReference(bool isRef)
 {
@@ -1219,6 +1254,7 @@ void UMLClassifier::setIsReference(bool isRef)
 
 /**
  * Get the m_isRef flag.
+ * @return   true if is reference, otherwise false
  */
 bool UMLClassifier::isReference() const
 {
@@ -1227,6 +1263,7 @@ bool UMLClassifier::isReference() const
 
 /**
  * Return true if this classifier has associations.
+ * @return   true if classifier has associations
  */
 bool UMLClassifier::hasAssociations()
 {
