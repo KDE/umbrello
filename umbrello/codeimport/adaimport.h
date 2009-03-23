@@ -1,29 +1,29 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2007                                               *
+ *   copyright (C) 2005-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ADAIMPORT_H
 #define ADAIMPORT_H
 
-#include <qmap.h>
-#include <qstringlist.h>
+#include <QtCore/QMap>
+#include <QtCore/QStringList>
 
 #include "nativeimportbase.h"
-#include "../umlobjectlist.h"
+#include "umlobjectlist.h"
 
 /**
  * Ada code import
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AdaImport : public NativeImportBase {
+class AdaImport : public NativeImportBase
+{
 public:
     AdaImport();
     virtual ~AdaImport();

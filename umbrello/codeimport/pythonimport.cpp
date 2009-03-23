@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,16 +26,23 @@
 #include <kdebug.h>
 
 // qt includes
-#include <qstringlist.h>
-#include <qregexp.h>
+#include <QtCore/QStringList>
+#include <QtCore/QRegExp>
 
-PythonImport::PythonImport() : NativeImportBase("#") 
+/**
+ * Constructor.
+ */
+PythonImport::PythonImport()
+  : NativeImportBase("#")
 {
     setMultiLineComment("\"\"\"", "\"\"\"");
     initVars();
 }
 
-PythonImport::~PythonImport() 
+/**
+ * Destructor.
+ */
+PythonImport::~PythonImport()
 {
 }
 
@@ -56,6 +63,8 @@ void PythonImport::initVars()
  * in indentation, closing brace for decrease in indentation) in m_source.
  * Removal of Python's indentation sensitivity simplifies subsequent
  * processing using Umbrello's native import framework.
+ * @param line   the line to preprocess
+ * @return success status of operation
  */
 bool PythonImport::preprocess(QString& line)
 {
@@ -80,7 +89,7 @@ bool PythonImport::preprocess(QString& line)
     int leadingWhite = line.left(pos).count( QRegExp("\\s") );
     if (leadingWhite > m_srcIndent[m_srcIndentIndex]) {
         if (m_srcIndex == 0) {
-            uError() << "internal error 1";
+            uError() << "internal error";
             return true;
         }
         if (m_braceWasOpened) {
@@ -109,8 +118,9 @@ bool PythonImport::preprocess(QString& line)
 
 /**
  * Implement abstract operation from NativeImportBase.
+ * @param word   whitespace delimited item
  */
-void PythonImport::fillSource(const QString& word) 
+void PythonImport::fillSource(const QString& word)
 {
     QString lexeme;
     const uint len = word.length();
@@ -136,6 +146,7 @@ void PythonImport::fillSource(const QString& word)
 
 /**
  * Return an amount of spaces that corresponds to @param level
+ * @return spaces of indentation
  */
 QString PythonImport::indentation(int level)
 {
@@ -192,6 +203,7 @@ QString PythonImport::skipBody()
 
 /**
  * Implement abstract operation from NativeImportBase.
+ * @return success status of operation
  */
 bool PythonImport::parseStmt()
 {
@@ -246,7 +258,7 @@ bool PythonImport::parseStmt()
         if (m_scopeIndex)
             m_klass = dynamic_cast<UMLClassifier*>(m_scope[--m_scopeIndex]);
         else
-            uError() << "importPython: too many }";
+            uError() << "parsing: too many }";
         return true;
     }
     return false;  // @todo parsing of attributes

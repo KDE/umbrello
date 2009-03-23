@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006                                                     *
+ *  copyright (C) 2006-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -13,7 +12,8 @@
 #define JAVAIMPORT_H
 
 #include "nativeimportbase.h"
-#include "../umlobject.h"
+
+class UMLObject;
 
 /**
  * Java code import
@@ -21,13 +21,13 @@
  * @author JP Fournier
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class JavaImport : public NativeImportBase {
+class JavaImport : public NativeImportBase
+{
 public:
     JavaImport();
     virtual ~JavaImport();
 
 protected:
-
     void initVars();
 
     bool parseStmt();
@@ -36,31 +36,17 @@ protected:
 
     void parseFile(const QString& filename);
 
-    UMLObject* resolveClass (QString className);
+    UMLObject* resolveClass (const QString& className);
 
-    void spawnImport(QString file);
+    void spawnImport(const QString& file);
 
-    QString joinTypename(QString typeName);
+    QString joinTypename(const QString& typeName);
 
-    /**
-     * true if the member var or method is declared static
-     */
-    bool m_isStatic;
-
-    /**
-     * The current filename being parsed
-     */
-    QString m_currentFileName;
-
-    /**
-     * the current package of the file being parsed
-     */
-    QString m_currentPackage;
-
-    /**
-     * the imports included in the current file
-     */
-    QStringList m_imports;
+    bool        m_isStatic;         ///< static flag for the member var or method
+    QString     m_currentFileName;  ///< current filename being parsed
+    QString     m_currentPackage;   ///< current package of the file being parsed
+    QStringList m_imports;          ///< imports included in the current file
+    Uml::Visibility m_defaultCurrentAccess;  ///< current visibility for when the visibility is absent
 
     /**
      * Keep track of the files we have already parsed so we don't
@@ -74,11 +60,8 @@ protected:
      */
     static int s_parseDepth;
 
-    /**
-     * The current visibility for when the visibility is absent
-     */
-    Uml::Visibility m_defaultCurrentAccess;
-
+private:
+    static UMLObject* findObject(const QString& name, UMLPackage *parentPkg);
 
 };
 

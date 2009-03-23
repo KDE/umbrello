@@ -30,7 +30,7 @@
 /**
  * Import files.
  *
- * @param files  List of files to import.
+ * @param fileList  List of files to import.
  */
 void ClassImport::importFiles(const QStringList &fileList)
 {
@@ -50,13 +50,16 @@ void ClassImport::importFiles(const QStringList &fileList)
 
 /**
  * Factory method.
+ * @param filename  name of imported file
+ * @return the class import object
  */
 ClassImport *ClassImport::createImporterByFileExt(const QString &filename) 
 {
     ClassImport *classImporter;
     if (filename.endsWith(QLatin1String(".idl")))
         classImporter = new IDLImport();
-    else if (filename.endsWith(QLatin1String(".py")))
+    else if (filename.endsWith(QLatin1String(".py")) ||
+             filename.endsWith(QLatin1String(".pyw")))
         classImporter = new PythonImport();
     else if (filename.endsWith(QLatin1String(".java")))
         classImporter = new JavaImport();

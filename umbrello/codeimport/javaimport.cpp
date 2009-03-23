@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,12 +34,18 @@
 QStringList JavaImport::s_filesAlreadyParsed;
 int JavaImport::s_parseDepth = 0;
 
+/**
+ * Constructor.
+ */
 JavaImport::JavaImport() : NativeImportBase("//")
 {
     setMultiLineComment("/*", "*/");
     initVars();
 }
 
+/**
+ * Destructor.
+ */
 JavaImport::~JavaImport()
 {
 }
@@ -52,31 +58,34 @@ void JavaImport::initVars()
     m_isStatic = false;
 }
 
-/// Catenate possible template arguments/array dimensions to the end of the type name.
-
 /**
- * figure out if the type is really an array or template of the given typeName
+ * Figure out if the type is really an array or template of the given typeName.
+ * Catenate possible template arguments/array dimensions to the end of the type name.
+ * @param typeName   the type name
+ * @return the type name with the additional information
  */
-QString JavaImport::joinTypename(QString typeName)
+QString JavaImport::joinTypename(const QString& typeName)
 {
+    QString typeNameRet(typeName);
     if (m_source[m_srcIndex + 1] == "<" ||
         m_source[m_srcIndex + 1] == "[") {
         int start = ++m_srcIndex;
         if (! skipToClosing(m_source[start][0]))
-            return typeName;
+            return typeNameRet;
         for (int i = start; i <= m_srcIndex; ++i) {
-            typeName += m_source[i];
+            typeNameRet += m_source[i];
         }
     }
     // to handle multidimensional arrays, call recursively
     if (m_source[m_srcIndex + 1] == "[") {
-        typeName = joinTypename( typeName );
+        typeNameRet = joinTypename( typeNameRet );
     }
-    return typeName;
+    return typeNameRet;
 }
 
 /**
  * Implement abstract operation from NativeImportBase.
+ * @param word   whitespace delimited item
  */
 void JavaImport::fillSource(const QString& word)
 {
@@ -98,12 +107,11 @@ void JavaImport::fillSource(const QString& word)
         m_source.append(lexeme);
 }
 
-///Spawn off an import of the specified file
-
 /**
- * spawn off an import of the specified file
+ * Spawn off an import of the specified file.
+ * @param file   the specified file
  */
-void JavaImport::spawnImport( QString file )
+void JavaImport::spawnImport(const QString& file )
 {
     // if the file is being parsed, don't bother
     //
@@ -119,21 +127,24 @@ void JavaImport::spawnImport( QString file )
     }
 }
 
-///returns the UML Object if found, or null otherwise
-UMLObject* findObject( QString name,   UMLPackage *parentPkg )
+/**
+ * Returns the UML Object if found, or null otherwise.
+ * @param name        name of the uml object
+ * @param parentPkg   parent package
+ * @return null or the uml objecct
+ */
+UMLObject* JavaImport::findObject(const QString& name, UMLPackage *parentPkg)
 {
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLObject * o = umldoc->findUMLObject(name, Uml::ot_UMLObject , parentPkg);
     return o;
 }
 
-
-///Resolve the specified className
-
 /**
- * Try to resolve the specified class the current class depends on
+ * Try to resolve the specified class the current class depends on.
+ * @param className  the name of the class
  */
-UMLObject* JavaImport::resolveClass (QString className)
+UMLObject* JavaImport::resolveClass (const QString& className)
 {
     uDebug() << "importJava trying to resolve " << className;
     // keep track if we are dealing with an array
@@ -221,7 +232,10 @@ UMLObject* JavaImport::resolveClass (QString className)
     return NULL; // no match
 }
 
-/// keep track of the current file being parsed and reset the list of imports
+/**
+ * Keep track of the current file being parsed and reset the list of imports.
+ * @param filename   the name of the file being parsed
+ */
 
 /**
  * Keep track of the filename currently being parsed
@@ -250,6 +264,7 @@ void JavaImport::parseFile(const QString& filename)
 
 /**
  * Implement abstract operation from NativeImportBase.
+ * @return success status of operation
  */
 bool JavaImport::parseStmt()
 {

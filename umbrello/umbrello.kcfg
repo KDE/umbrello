@@ -11,173 +11,173 @@
     <group name="General Options">
        <entry name="Geometry" type="Size">
          <label>Geometry</label>
-         <whatisthis>Geometry</whatisthis>
+         <whatsthis>Geometry</whatsthis>
          <default></default>
        </entry>
        <entry name="imageMimeType" type="String">
          <label>Image Mime Type</label>
-         <whatisthis>The Mime Type of the Images</whatisthis>
+         <whatsthis>The Mime Type of the Images</whatsthis>
          <default>image/png</default>
        </entry>
        <entry name="undo" type="Bool">
          <label>Undo Support</label>
-         <whatisthis>Undo Support is enabled when this is true</whatisthis>
+         <whatsthis>Undo Support is enabled when this is true</whatsthis>
          <default>true</default>
        </entry>
        <entry name="tabdiagrams" type="Bool">
          <label>Tabbed Diagrams</label>
-         <whatisthis>Enables/Disables Tabbed View of Diagrams in the view area</whatisthis>
+         <whatsthis>Enables/Disables Tabbed View of Diagrams in the view area</whatsthis>
          <default>true</default>
        </entry>
        <entry name="newcodegen" type="Bool">
          <label>New Code Generator</label>
-         <whatisthis>Enables/Disables Support for the New Code Generator</whatisthis>
+         <whatsthis>Enables/Disables Support for the New Code Generator</whatsthis>
          <default>false</default>
        </entry>
        <entry name="angularlines" type="Bool">
          <label>Angular Lines</label>
-         <whatisthis>Enables/Disables Support for Angular Lines in diagrams</whatisthis>
+         <whatsthis>Enables/Disables Support for Angular Lines in diagrams</whatsthis>
          <default>true</default>
        </entry>
        <entry name="footerPrinting" type="Bool">
          <label>Footer Printing</label>
-         <whatisthis>Enables/Disables Support for footer printing</whatisthis>
+         <whatsthis>Enables/Disables Support for footer printing</whatsthis>
          <default>true</default>
        </entry>
        <entry name="autosave" type="Bool">
          <label>Auto Save</label>
-         <whatisthis>Enables/Disables Auto Saving at Regular Intervals</whatisthis>
+         <whatsthis>Enables/Disables Auto Saving at Regular Intervals</whatsthis>
          <default>true</default>
        </entry>
        <entry name="time" type="Int">
          <label>Auto Save Time ( Old )</label>
-         <whatisthis>Auto Save Time Interval ( Old )</whatisthis>
+         <whatsthis>Auto Save Time Interval ( Old )</whatsthis>
          <default>0</default>
          <min>0</min>
          <max>25</max>
        </entry>
        <entry name="autosavetime" type="Int">
          <label></label>
-         <whatisthis></whatisthis>
+         <whatsthis></whatsthis>
          <default>0</default>
          <min>0</min>
          <max>25</max>
        </entry>
        <entry name="autosavesuffix" type="String">
          <label>Auto Save Suffix</label>
-         <whatisthis>The Suffix for the auto save file</whatisthis>
+         <whatsthis>The Suffix for the auto save file</whatsthis>
          <default>.xmi</default>
        </entry>
        <entry name="loadlast" type="Bool">
          <label>Load Last</label>
-         <whatisthis>Enables/Disables Loading of the last open file</whatisthis>
+         <whatsthis>Enables/Disables Loading of the last open file</whatsthis>
          <default>false</default>
        </entry>
        <entry name="diagram" type="Enum">
          <label>Diagram To Load at Startup</label>
-         <whatisthis>The Diagram to load at startup</whatisthis>
+         <whatsthis>The Diagram to load at startup</whatsthis>
          <choices name="Uml::Diagram_Type" />
          <default>Uml::dt_Class</default>
        </entry>
        <entry name="defaultLanguage" type="Enum">
          <label>Default Language at Startup</label>
-         <whatisthis>The Language that Umbrello should start with by default</whatisthis>
+         <whatsthis>The Language that Umbrello should start with by default</whatsthis>
          <choices name="Uml::Programming_Language" />
          <default>Uml::pl_Cpp</default>
        </entry>
        <entry name="lastFile" type="String">
          <label></label>
-         <whatisthis></whatisthis>
+         <whatsthis></whatsthis>
          <default></default>
        </entry>
     </group>
     <group name="UI Options">
        <entry name="useFillColor" type="Bool">
          <label>Use Fill Color</label>
-         <whatisthis>Enables/Disables usage of fill color</whatisthis>
+         <whatsthis>Enables/Disables usage of fill color</whatsthis>
          <default>true</default>
        </entry>
        <entry name="fillColor" type="Color">
          <label>Fill Color</label>
-         <whatisthis>The Fill Color to be used</whatisthis>
+         <whatsthis>The Fill Color to be used</whatsthis>
          <default>yellow</default>
        </entry>
        <entry name="lineColor" type="Color">
          <label>Line Color</label>
-         <whatisthis>The Color of the Lines</whatisthis>
+         <whatsthis>The Color of the Lines</whatsthis>
          <default>red</default>
        </entry>
        <entry name="lineWidth" type="UInt">
          <label>Line Width</label>
-         <whatisthis>The Width of the Line</whatisthis>
+         <whatsthis>The Width of the Line</whatsthis>
          <default>0</default>
        </entry>
        <entry name="showDocWindow" type="Bool">
          <label>Show Doc Window</label>
-         <whatisthis>Enables/Disables showing of the doc window</whatisthis>
+         <whatsthis>Enables/Disables showing of the doc window</whatsthis>
          <default>true</default>
        </entry>
        <entry name="uiFont" key="font" type="Font">
          <label>Font</label>
-         <whatisthis>The Font to be used</whatisthis>
+         <whatsthis>The Font to be used</whatsthis>
          <default code="true">KGlobalSettings::generalFont()</default>
        </entry>
    </group>
    <group name ="Class Options">
        <entry name="showVisibility" type="Bool">
          <label>Show Visibility</label>
-         <whatisthis>Show the Visibility of the Attributes ( eg: private, public, protected)</whatisthis>
+         <whatsthis>Show the Visibility of the Attributes ( eg: private, public, protected)</whatsthis>
          <default>true</default>
        </entry>
        <entry name="showAtts" type="Bool">
          <label>Show Attributes</label>
-         <whatisthis>Show attributes of the class</whatisthis>
+         <whatsthis>Show attributes of the class</whatsthis>
          <default>true</default>
        </entry>
        <entry name="showOps" type="Bool">
          <label>Show Operations</label>
-         <whatisthis>Show Operations</whatisthis>
+         <whatsthis>Show Operations</whatsthis>
          <default>true</default>
        </entry>
        <entry name="showPackage" type="Bool">
           <label>Show Package</label>
-          <whatisthis>Enables/Disables showing of packages</whatisthis>
+          <whatsthis>Enables/Disables showing of packages</whatsthis>
           <default>true</default>
        </entry> 
        <entry name="showStereoType" type="Bool">
          <label>Show Stereotypes</label>
-         <whatisthis>Show Stereotypes</whatisthis>
+         <whatsthis>Show Stereotypes</whatsthis>
          <default>true</default>
        </entry>
        <entry name="showAttribAssocs" type="Bool">
          <label>Show Attribute Associations</label>
-         <whatisthis>Show Attribute Associations</whatisthis>
+         <whatsthis>Show Attribute Associations</whatsthis>
          <default>true</default>
        </entry>
        <entry name="showPublicOnly" type="Bool">
           <label>Show Public Only</label>
-          <whatisthis>Enables/Disables showing of public attributes/methods</whatisthis>
+          <whatsthis>Enables/Disables showing of public attributes/methods</whatsthis>
           <default>true</default>
        </entry> 
        <entry name="showAttSig" type="Bool">
          <label>Show Attribute Signature</label>
-         <whatisthis>Show Attribute Signature</whatisthis>
+         <whatsthis>Show Attribute Signature</whatsthis>
          <default>true</default>
        </entry>
        <entry name="showOpSig" type="Bool">
          <label>Show Operation Signature</label>
-         <whatisthis>Show operation signature</whatisthis>
+         <whatsthis>Show operation signature</whatsthis>
          <default>true</default>
        </entry>
        <entry name="defaultAttributeScope" type="Enum">
          <label>Default Attribute Scope</label>
-         <whatisthis>Default Attribute Scope</whatisthis>
+         <whatsthis>Default Attribute Scope</whatsthis>
          <choices name="Uml::Visibility::Value" />
          <default>Uml::Visibility::Public</default>
        </entry>
        <entry name="defaultOperationScope" type="Enum">
          <label>Default Operation Scope</label>
-         <whatisthis>Default Operation Scope</whatisthis>
+         <whatsthis>Default Operation Scope</whatsthis>
          <choices name="Uml::Visibility::Value" />
          <default>Uml::Visibility::Public</default>
        </entry>
@@ -185,143 +185,143 @@
    <group name="Code Viewer Options">
        <entry name="height" type="Int">
          <label>Height</label>
-         <whatisthis>Height of the code viewer</whatisthis>
+         <whatsthis>Height of the code viewer</whatsthis>
          <default>40</default>
          <max>100</max>
        </entry>
        <entry name="width" type="Int">
          <label>Width</label>
-         <whatisthis>Width of the Code Viewer</whatisthis>
+         <whatsthis>Width of the Code Viewer</whatsthis>
          <default>80</default>
          <max>100</max>
        </entry>
        <entry name="showHiddenBlocks" type="Bool">
          <label>Show Hidden Blocks</label>
-         <whatisthis>Show Hidden Blocks</whatisthis>
+         <whatsthis>Show Hidden Blocks</whatsthis>
          <default>true</default>
        </entry>
        <entry name="blocksAreHighlighted" type="Bool">
          <label>Highlight Blocks</label>
-         <whatisthis>Enables/Disables Highlighting of blocks</whatisthis>
+         <whatsthis>Enables/Disables Highlighting of blocks</whatsthis>
          <default>true</default>
        </entry>
        <entry name="codeViewerFont" key="font" type="Font">
          <label>Font</label>
-         <whatisthis>Font to be used in the Code Viewer</whatisthis>
+         <whatsthis>Font to be used in the Code Viewer</whatsthis>
          <default>KGlobalSettings::generalFont()</default>
        </entry>
        <entry name="paperColor" type="Color">
          <label>Paper Color</label>
-         <whatisthis>Color of the Paper</whatisthis>
+         <whatsthis>Color of the Paper</whatsthis>
          <default>white</default>
        </entry>
        <entry name="fontColor" type="Color">
          <label>Font Color</label>
-         <whatisthis>Color of the Font</whatisthis>
+         <whatsthis>Color of the Font</whatsthis>
          <default>black</default>
        </entry>
        <entry name="selectedColor" type="Color">
          <label>Selected Color</label>
-         <whatisthis>Selected Color</whatisthis>
+         <whatsthis>Selected Color</whatsthis>
          <default>yellow</default>
        </entry>
        <entry name="editBlockColor" type="Color">
          <label>Edit Block Color</label>
-         <whatisthis>Color of the Edit Block</whatisthis>
+         <whatsthis>Color of the Edit Block</whatsthis>
          <default>pink</default>
        </entry>
        <entry name="nonEditBlockColor" type="Color">
          <label>Non Edit Block Color</label>
-         <whatisthis>Non Edit Block Color</whatisthis>
+         <whatsthis>Non Edit Block Color</whatsthis>
          <default>pink</default>
        </entry>
        <entry name="umlObjectColor" type="Color">
          <label>UML Object Color</label>
-         <whatisthis>Color of the UML Object</whatisthis>
+         <whatsthis>Color of the UML Object</whatsthis>
          <default>grey</default>
        </entry>
        <entry name="hiddenColor" type="Color">
          <label>Hidden Color</label>
-         <whatisthis>Hidden Color</whatisthis>
+         <whatsthis>Hidden Color</whatsthis>
          <default>grey</default>
        </entry>
    </group>
    <group name="Code Generation">
        <entry name="autoGenEmptyConstructors" type="Bool">
          <label>Auto Generate Empty Constructors</label>
-         <whatisthis>Enables/Disables Auto Generation of Empty Constructors</whatisthis>
+         <whatsthis>Enables/Disables Auto Generation of Empty Constructors</whatsthis>
          <default>true</default>
        </entry>
        <entry name="commentStyle" type="Enum">
          <label>Comment Style</label>
-         <whatisthis>Sets the Style of Comments to be used</whatisthis>
+         <whatsthis>Sets the Style of Comments to be used</whatsthis>
          <choices name="CodeGenerationPolicy::CommentStyle" />
          <default>CodeGenerationPolicy::SingleLine</default>
        </entry>
        <entry name="defaultAssocFieldScope" type="Enum">
          <label>Default Association Field Scope</label>
-         <whatisthis>Sets the default Association field scope</whatisthis>
+         <whatsthis>Sets the default Association field scope</whatsthis>
          <choices name="Uml::Visibility::Value" />
          <default>Uml::Visibility::FromParent</default>
        </entry>
        <entry name="defaultAttributeAccessorScope" type="Enum">
          <label>Default Attribute Accessor Scope</label>
-         <whatisthis>Sets the default attribute accessor scope</whatisthis>
+         <whatsthis>Sets the default attribute accessor scope</whatsthis>
          <choices name="Uml::Visibility::Value" />
          <default>Uml::Visibility::FromParent</default>
        </entry>
        <entry name="forceDoc" type="Bool">
          <label>Force Documentation</label>
-         <whatisthis>Enables/Disables Verbose Documentation</whatisthis>
+         <whatsthis>Enables/Disables Verbose Documentation</whatsthis>
          <default>true</default>
        </entry>
        <entry name="forceSections" type="Bool">
          <label>Force Section Documentation</label>
-         <whatisthis>Enables/Disables verbose section documentation</whatisthis>
+         <whatsthis>Enables/Disables verbose section documentation</whatsthis>
          <default>true</default>
        </entry>
        <entry name="headingsDirectory" type="Path">
          <label>Headings Directory</label>
-         <whatisthis>The Path in which the headings are stored</whatisthis>
+         <whatsthis>The Path in which the headings are stored</whatsthis>
          <default>$HOME/kde/share/apps/umbrello/headings</default>
        </entry>
        <entry name="includeHeadings" type="Bool">
          <label>Include headings</label>
-         <whatisthis>Enables/Disables inclusion of headings</whatisthis>
+         <whatsthis>Enables/Disables inclusion of headings</whatsthis>
          <default>true</default>
        </entry>
        <entry name="indentationAmount" type="Int">
          <label>Indentation Amount</label>
-         <whatisthis>The amount of indentation</whatisthis>
+         <whatsthis>The amount of indentation</whatsthis>
          <default>2</default>
          <max>10</max>
        </entry>
        <entry name="indentationType" type="Enum">
          <label>Indentation Type</label>
-         <whatisthis>The Type of Indentation</whatisthis>
+         <whatsthis>The Type of Indentation</whatsthis>
          <choices name="CodeGenerationPolicy::IndentationType" />
          <default>CodeGenerationPolicy::SPACE</default>
        </entry>
        <entry name="lineEndingType" type="Enum">
          <label>Line Ending Type</label>
-         <whatisthis>The type of line ending ( or new line type )</whatisthis>
+         <whatsthis>The type of line ending ( or new line type )</whatsthis>
          <choices name="CodeGenerationPolicy::NewLineType" /> 
          <default>CodeGenerationPolicy::UNIX</default>
        </entry>
        <entry name="modnamePolicy" type="Enum">
          <label>Modifier Name Policy</label>
-         <whatisthis>Modifier Name Policy</whatisthis>
+         <whatsthis>Modifier Name Policy</whatsthis>
          <choices name="CodeGenerationPolicy::ModifyNamePolicy" />
          <default>CodeGenerationPolicy::Capitalise</default>
        </entry>
        <entry name="outputDirectory" type="Path">
          <label>Output Directory</label>
-         <whatisthis>The directory to which the code has to be outputted</whatisthis>
+         <whatsthis>The directory to which the code has to be outputted</whatsthis>
          <default>$HOME/uml-generated-code</default>
        </entry>
        <entry name="overwritePolicy" type="Enum">
          <label>Overwrite Policy</label>
-         <whatisthis>The policy to be followed when there are name conflicts</whatisthis>
+         <whatsthis>The policy to be followed when there are name conflicts</whatsthis>
          <choices name="CodeGenerationPolicy::OverwritePolicy" />
          <default>CodeGenerationPolicy::Ask</default>
        </entry>
@@ -329,108 +329,108 @@
     <group name="CPP Code Generation">
        <entry name="autoGenAccessors" type="Bool">
          <label>Auto Generate Accessors</label>
-         <whatisthis>Enables/Disables auto generation of accessors</whatisthis>
+         <whatsthis>Enables/Disables auto generation of accessors</whatsthis>
          <default>true</default>
        </entry>
        <entry name="inlineAccessors" type="Bool">
          <label>Inline Accessors</label>
-         <whatisthis>Enables/Disables Inline accessors</whatisthis>
+         <whatsthis>Enables/Disables Inline accessors</whatsthis>
          <default>true</default>
        </entry>
        <entry name="inlineOps" type="Bool">
          <label>Inline operations</label>
-         <whatisthis>Enables/Disables Inline Operations</whatisthis>
+         <whatsthis>Enables/Disables Inline Operations</whatsthis>
          <default>true</default>
        </entry>
        <entry name="packageIsNamespace" type="Bool">
          <label>Package is namespace</label>
-         <whatisthis>Enables/Disables treating a package as a namespace</whatisthis>
+         <whatsthis>Enables/Disables treating a package as a namespace</whatsthis>
          <default>true</default>
        </entry>
        <entry name="publicAccessors" type="Bool">
          <label>Public Accessors</label>
-         <whatisthis>Enables/Disables public accessors</whatisthis>
+         <whatsthis>Enables/Disables public accessors</whatsthis>
          <default>true</default>
        </entry>
        <entry name="stringClassName" type="String">
          <label>String Class Name</label>
-         <whatisthis>The name of the string class</whatisthis>
+         <whatsthis>The name of the string class</whatsthis>
          <default>string</default>
        </entry>
        <entry name="stringClassNameInclude" type="String">
          <label>String Class Name Include</label>
-         <whatisthis>The name of the string class to be included</whatisthis>
+         <whatsthis>The name of the string class to be included</whatsthis>
          <default>string</default>
        </entry>
        <entry name="stringIncludeIsGlobal" type="Bool">
          <label>String Include is Global</label>
-         <whatisthis>Enables/Disables global inclusion of string</whatisthis>
+         <whatsthis>Enables/Disables global inclusion of string</whatsthis>
          <default>true</default>
        </entry>
        <entry name="vectorClassName" type="String">
          <label>Vector Class Name</label>
-         <whatisthis>The name of the vector class</whatisthis>
+         <whatsthis>The name of the vector class</whatsthis>
          <default>vector</default>
        </entry>
        <entry name="vectorClassNameInclude" type="String">
          <label>Vector Class Name Include </label>
-         <whatisthis>The name of the vector class to be included</whatisthis>
+         <whatsthis>The name of the vector class to be included</whatsthis>
          <default>vector</default>
        </entry>
        <entry name="vectorIncludeIsGlobal" type="Bool">
          <label>Vector include is global</label>
-         <whatisthis>Enables/Disables global inclusing of vector class</whatisthis>
+         <whatsthis>Enables/Disables global inclusing of vector class</whatsthis>
          <default>true</default>
        </entry>
        <entry name="virtualDestructors" type="Bool">
          <label>Virtual Destructors</label>
-         <whatisthis>Enables/Disables virtual destructors</whatisthis>
+         <whatsthis>Enables/Disables virtual destructors</whatsthis>
          <default>true</default>
        </entry>
     </group>
     <group name="D Code Generation">
        <entry name="autoGenerateAttributeAccessorsD" key="autoGenerateAttributeAccessors" type="Bool">
           <label>Auto Generate Attribute Accessors ( D ) </label>
-          <whatisthis>Enables/Disables auto generation of attribute accessors ( D )</whatisthis>
+          <whatsthis>Enables/Disables auto generation of attribute accessors ( D )</whatsthis>
           <default>true</default>
        </entry>
        <entry name="autoGenerateAssocAccessorsD" key="autoGenerateAssocAccessors" type="Bool">
           <label>Auto Generate Assoc Accessors ( D )</label>
-          <whatisthis>Enables/Disables auto generation of association accessors ( D )</whatisthis>
+          <whatsthis>Enables/Disables auto generation of association accessors ( D )</whatsthis>
           <default>true</default>
        </entry>
        <entry name="buildANTDocumentD" key="buildANTDocument" type="Bool">
           <label>Build ANT Document (D) </label>
-          <whatisthis>Enables/Disables building of ANT Document (D) </whatisthis>
+          <whatsthis>Enables/Disables building of ANT Document (D) </whatsthis>
           <default>false</default> 
        </entry>
     </group>
     <group name="Java Code Generation">
        <entry name="autoGenerateAttributeAccessorsJava" key="autoGenerateAttributeAccessors" type="Bool">
           <label>Auto Generate Attribute Accessors (Java)</label>
-          <whatisthis>Enables/Disables auto generation of attribute accessors (Java)</whatisthis>
+          <whatsthis>Enables/Disables auto generation of attribute accessors (Java)</whatsthis>
           <default>true</default>
        </entry>
        <entry name="autoGenerateAssocAccessorsJava" key="autoGenerateAssocAccessors" type="Bool">
           <label>Auto Generate Assoc Accessors (Java) </label>
-          <whatisthis>Enables/Disables auto generation of association accessors (Java) </whatisthis>
+          <whatsthis>Enables/Disables auto generation of association accessors (Java) </whatsthis>
           <default>true</default>
        </entry>
        <entry name="buildANTDocumentJava" key="buildANTDocument" type="Bool">
           <label>Build ANT Document (Java) </label>
-          <whatisthis>Enables/Disables building of ANT Document (Java) </whatisthis>
+          <whatsthis>Enables/Disables building of ANT Document (Java) </whatsthis>
           <default>false</default> 
        </entry>
     </group>
     <group name="Ruby Code Generation">
        <entry name="autoGenerateAttributeAccessorsRuby" key="autoGenerateAttributeAccessors" type="Bool">
           <label>Auto Generate Attribute Accessors (Ruby) </label>
-          <whatisthis>Enables/Disables auto generation of attribute accessors (Ruby)</whatisthis>
+          <whatsthis>Enables/Disables auto generation of attribute accessors (Ruby)</whatsthis>
           <default>true</default>
        </entry>
        <entry name="autoGenerateAssocAccessorsRuby" key="autoGenerateAssocAccessors" type="Bool">
           <label>Auto Generate Assoc Accessors (Ruby)</label>
-          <whatisthis>Enables/Disables auto generation of association accessors (Ruby)</whatisthis>
+          <whatsthis>Enables/Disables auto generation of association accessors (Ruby)</whatsthis>
           <default>true</default>
        </entry>
     </group>    

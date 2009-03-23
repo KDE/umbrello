@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,6 +29,9 @@
 
 #include <stdio.h>
 
+/**
+ * Constructor.
+ */
 PascalImport::PascalImport() : NativeImportBase("//")
 {
     setMultiLineComment("(*", "*)");
@@ -36,6 +39,9 @@ PascalImport::PascalImport() : NativeImportBase("//")
     initVars();
 }
 
+/**
+ * Destructor.
+ */
 PascalImport::~PascalImport()
 {
 }
@@ -81,10 +87,10 @@ void PascalImport::fillSource(const QString& word)
 /**
  * Check for, and skip over, all modifiers following a method.
  * Set the output arguments on encountering abstract and/or virtual.
- *
  * @param isVirtual   return value, set to true when "virtual" seen
  * @param isAbstract  return value, set to true when "abstract" seen
  */
+
 void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract)
 {
     const int srcLength = m_source.count();
@@ -108,7 +114,9 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract)
 
 /**
  * Implement abstract operation from NativeImportBase.
+ * @return success status of operation
  */
+
 bool PascalImport::parseStmt()
 {
     const int srcLength = m_source.count();
@@ -412,7 +420,7 @@ bool PascalImport::parseStmt()
     }
     if (advance() != ":") {
         uError() << "PascalImport: expecting \":\" at " << name << " "
-                  << m_source[m_srcIndex];
+                 << m_source[m_srcIndex];
         skipStmt();
         return true;
     }

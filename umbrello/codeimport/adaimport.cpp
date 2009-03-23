@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2008                                               *
+ *   copyright (C) 2005-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,11 +31,18 @@
 
 #include <stdio.h>
 
-AdaImport::AdaImport() : NativeImportBase("--")
+/**
+ * Constructor.
+ */
+AdaImport::AdaImport()
+  : NativeImportBase("--")
 {
-   initVars();
+    initVars();
 }
 
+/**
+ * Destructor.
+ */
 AdaImport::~AdaImport()
 {
 }
@@ -49,9 +56,6 @@ void AdaImport::initVars()
     m_classesDefinedInThisScope.clear();
     m_renaming.clear();
 }
-
-/// Split the line so that a string is returned as a single element of the list,
-/// when not in a string then split at white space.
 
 /**
  * Split the line so that a string is returned as a single element of the list.
@@ -148,7 +152,6 @@ void AdaImport::fillSource(const QString& word)
 
 /**
  * Apply package renamings to the given name.
- *
  * @return  expanded name
  */
 QString AdaImport::expand(const QString& name)
