@@ -156,8 +156,8 @@ PluginLoader::slotDestroyed(QObject *obj)
 {
     Plugin *plugin = static_cast<Plugin *>(obj);
 
-    // we can't just use the name because its already been destroyed
-    // at this point. we have to iterate thru and find the reference
+    // we cannot just use the name because it has already been destroyed
+    // at this point. we have to iterate through and find the reference
     // by hand.
 
     PluginMap::iterator end(_plugins.end());

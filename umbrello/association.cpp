@@ -323,7 +323,7 @@ bool UMLAssociation::load( QDomElement & element )
             }
         }
 
-        // its a realization if either endpoint is an interface
+        // it is a realization if either endpoint is an interface
         if (m_AssocType == Uml::at_Generalization &&
                 (obj[A] && obj[A]->getBaseType() == Uml::ot_Interface ||
                  obj[B] && obj[B]->getBaseType() == Uml::ot_Interface))

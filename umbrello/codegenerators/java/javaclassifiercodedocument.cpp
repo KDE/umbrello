@@ -353,8 +353,8 @@ void JavaClassifierCodeDocument::updateContent( )
 
     // IMPORT CODEBLOCK
     //
-    // Q: Why all utils? Isnt just List and Vector the only classes we are using?
-    // A: doesn't matter at all; its more readable to just include '*' and java compilers
+    // Q: Why all utils? Aren't just List and Vector the only classes we are using?
+    // A: doesn't matter at all; it is more readable to just include '*' and java compilers
     //    don't slow down or anything. (TZ)
     QString importStatement = "";
     if ( hasObjectVectorClassFields() )
@@ -397,7 +397,7 @@ void JavaClassifierCodeDocument::updateContent( )
     // CLASS DECLARATION BLOCK
     //
 
-    // get the declaration block. If its not already present, add it too
+    // get the declaration block. If it is not already present, add it too
     JavaClassDeclarationBlock * myClassDeclCodeBlock = getClassDecl();
     addTextBlock(myClassDeclCodeBlock); // note: wont add if already present
 

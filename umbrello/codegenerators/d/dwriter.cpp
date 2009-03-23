@@ -519,7 +519,7 @@ void DWriter::writeAssociationRoleDecl(QString fieldClassName,
         QString doc, Uml::Visibility /*visib*/, QTextStream &d)
 {
     // ONLY write out IF there is a rolename given
-    // otherwise its not meant to be declared in the code
+    // otherwise it is not meant to be declared in the code
     if (roleName.isEmpty()) return;
 
     if (!doc.isEmpty()) {
@@ -908,7 +908,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
         doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
         str+= ')';
 
-        // method only gets a body IF its not abstract
+        // method only gets a body IF it is not abstract
         if (op->getAbstract() || isInterface)
             str += ';'; // terminate now
         else {

@@ -370,7 +370,7 @@ void TclWriter::writeDocu(const QString &text)
 
 // To prevent circular including when both classifiers on either end
 // of an association have roles we need to have forward declaration of
-// the other class...but only IF its not THIS class (as could happen
+// the other class...but only IF it is not THIS class (as could happen
 // in self-association relationship).
 void TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::IDType myId,
                                      const QString &type)
@@ -380,7 +380,7 @@ void TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::IDType myId,
 
         writeComm(m_endl + type + m_endl + a->toString() + m_endl + a->getDoc());
         // only use OTHER classes (e.g. we don't need to write includes for ourselves!!
-        // AND only IF the roleName is defined, otherwise, its not meant to be noticed.
+        // AND only IF the roleName is defined, otherwise, it is not meant to be noticed.
         if (a->getObjectId(Uml::A) == myId && !a->getRoleName(Uml::B).isEmpty()) {
             classifier = dynamic_cast < UMLClassifier * >(a->getObject(Uml::B));
             writeUse(classifier);
@@ -538,7 +538,7 @@ void TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QS
                                     const QString &multi, const QString &doc, const QString &scope)
 {
     // ONLY write out IF there is a rolename given
-    // otherwise its not meant to be declared in the code
+    // otherwise it is not meant to be declared in the code
     if (roleName.isEmpty())
         return;
 
@@ -820,7 +820,7 @@ void TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
                                       const QString &roleName, const QString &multi)
 {
     // ONLY write out IF there is a rolename given
-    // otherwise its not meant to be declared in the code
+    // otherwise it is not meant to be declared in the code
     if (roleName.isEmpty())
         return;
 

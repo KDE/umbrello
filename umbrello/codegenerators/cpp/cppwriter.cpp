@@ -45,7 +45,7 @@
 CppWriter::CppWriter()
 {
     // Probably we could resolve this better through the use of templates,
-    // but its a quick n dirty fix for the timebeing.. until codegeneration
+    // but it is a quick n dirty fix for the timebeing.. until codegeneration
     // template system is in place.
     // You can insert code here. 3 general variables exist: "%VARNAME%"
     // allows you to specify where the vector variable should be in your code,
@@ -564,7 +564,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
 
         // force capitalizing the field name, this is silly,
         // from what I can tell, this IS the default behavior for
-        // cleanName. I dunno why its not working -b.t.
+        // cleanName. I dunno why it is not working -b.t.
         methodBaseName = methodBaseName.trimmed();
         methodBaseName.replace(0,1,methodBaseName.at(0).toUpper());
 
@@ -657,7 +657,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
         QString doc, QTextStream &stream)
 {
     // ONLY write out IF there is a rolename given
-    // otherwise its not meant to be declared in the code
+    // otherwise it is not meant to be declared in the code
     if (roleName.isEmpty())
         return;
 
@@ -859,7 +859,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
         bool writeMethodBody,
         QTextStream &stream)
 {
-    // DON'T write this IF its a source method AND writeMethodBody is "false"
+    // DON'T write this IF it is a source method AND writeMethodBody is "false"
     if (!isHeaderMethod && !writeMethodBody)
         return;
 
@@ -1117,7 +1117,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         if (op->getConst())
             str += " const";
 
-        // method body : only gets IF its not in a header
+        // method body : only gets IF it is not in a header
         if (isHeaderMethod && !policyExt()->getOperationsAreInline()) {
             str += ';'; // terminate now
         }
@@ -1142,7 +1142,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
 
 // To prevent circular including when both classifiers on either end
 // of an association have roles we need to have forward declaration of
-// the other class...but only IF its not THIS class (as could happen
+// the other class...but only IF it is not THIS class (as could happen
 // in self-association relationship).
 void CppWriter::printAssociationIncludeDecl (UMLAssociationList list, Uml::IDType myId, QTextStream &stream)
 {
@@ -1152,7 +1152,7 @@ void CppWriter::printAssociationIncludeDecl (UMLAssociationList list, Uml::IDTyp
         bool isFirstClass = true;
 
         // only use OTHER classes (e.g. we don't need to write includes for ourselves!!
-        // AND only IF the roleName is defined, otherwise, its not meant to be noticed.
+        // AND only IF the roleName is defined, otherwise, it is not meant to be noticed.
         if (a->getObjectId(Uml::A) == myId && !a->getRoleName(Uml::B).isEmpty()) {
             current = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
         } else if (a->getObjectId(Uml::B) == myId && !a->getRoleName(Uml::A).isEmpty()) {
