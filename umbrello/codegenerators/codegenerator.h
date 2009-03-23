@@ -71,22 +71,9 @@ class CodeGenerator : public QObject
 
 public:
 
-    /**
-     * Build a code generator.
-     * @return      CodeGenerator
-     */
     CodeGenerator ();
-
-    /**
-     * Build a code generator and then initialize it from an XMI element.
-     * @return      CodeGenerator
-     * @param       element an element from an XMI document
-     */
     CodeGenerator (QDomElement & element );
 
-    /**
-     * Empty Destructor.
-     */
     virtual ~CodeGenerator ( );
 
     bool addCodeDocument ( CodeDocument * add_object );
@@ -112,7 +99,6 @@ public:
     CodeDocument * findCodeDocumentByID (const QString &id );
 
     virtual void writeCodeToFile ( );
-
     virtual void writeCodeToFile(UMLClassifierList &list);
 
     // these are utility methods for accessing the default
@@ -136,11 +122,11 @@ public:
 
     virtual QString getHeadingFile (const QString &file );
 
-    QString findFileName(CodeDocument * doc);
+    QString findFileName(CodeDocument * codeDocument);
 
     static QString cleanName ( const QString &name );
 
-    static QString formatDoc (const QString & text, const QString & linePrefix = " *", int lineWidth = 80 );
+    static QString formatDoc (const QString& text, const QString& linePrefix = " *", int lineWidth = 80 );
 
     static QString formatSourceCode(const QString& code, const QString& indentation);
 
@@ -175,7 +161,7 @@ public:
     virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
             Settings::CodeViewerState state);
 
-    virtual bool isReservedKeyword(const QString & rPossiblyReservedKeyword);
+    virtual bool isReservedKeyword(const QString & keyword);
 
     /**
      * Get list of reserved keywords.

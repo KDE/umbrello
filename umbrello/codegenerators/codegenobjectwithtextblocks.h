@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,14 +32,7 @@ class CodeGenObjectWithTextBlocks
 {
 public:
 
-    /**
-     * Constructor
-     */
     CodeGenObjectWithTextBlocks ( CodeDocument *parent );
-
-    /**
-     * Empty Destructor
-     */
     virtual ~CodeGenObjectWithTextBlocks ( );
 
     virtual bool addTextBlock ( TextBlock * add_object );
@@ -61,7 +54,7 @@ public:
     CodeComment * addOrUpdateTaggedCodeComment (const QString &tag = "", const QString &text = "", int indentationLevel = 0 );
 
     CodeBlockWithComments * addOrUpdateTaggedCodeBlockWithComments
-                             (const QString &tag, const QString &text, const QString &comment,
+                             (const QString &tag, const QString &text, const QString &ctext,
                               int indentLevel, bool forceUserBlockUpdate );
 
     TextBlock * findTextBlockByTag ( const QString &tag );

@@ -39,7 +39,7 @@ public:
 
     virtual ~UMLClipboard();
 
-    bool paste(const QMimeData* Data);
+    bool paste(const QMimeData* data);
 
     QMimeData* copy(bool fromView = false);
 
@@ -74,17 +74,17 @@ private:
 
 private:
 
-    bool fillSelectionLists(UMLListViewItemList& SelectedItems);
+    bool fillSelectionLists(UMLListViewItemList& selectedItems);
 
-    void setCopyType(UMLListViewItemList& SelectedItems);
+    void setCopyType(UMLListViewItemList& selectedItems);
 
-    void checkItemForCopyType(UMLListViewItem* Item,
-                              bool& WithDiagrams,
-                              bool& WithObjects,
-                              bool& OnlyAttsOps);
+    void checkItemForCopyType(UMLListViewItem* item,
+                              bool& withDiagrams,
+                              bool& withObjects,
+                              bool& onlyAttsOps);
 
-    bool insertItemChildren(UMLListViewItem* Item,
-                            UMLListViewItemList& SelectedItems);
+    bool insertItemChildren(UMLListViewItem* item,
+                            UMLListViewItemList& selectedItems);
 
     bool insertItemChildren(UMLListViewItem* item);
 

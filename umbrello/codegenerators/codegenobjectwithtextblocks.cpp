@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -24,11 +24,18 @@
 // kde includes
 #include <kdebug.h>
 
+/**
+ * Constructor
+ * @param parent   parent code document
+ */
 CodeGenObjectWithTextBlocks::CodeGenObjectWithTextBlocks ( CodeDocument *parent )
   : m_pCodeDoc(parent)
 {
 }
 
+/**
+ * Destructor
+ */
 CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( )
 {
     resetTextBlocks();
@@ -36,7 +43,7 @@ CodeGenObjectWithTextBlocks::~CodeGenObjectWithTextBlocks ( )
 
 /**
  * Get the list of TextBlock objects held by m_textblockVector
- * @return TextBlockList list of TextBlock objects held by m_textblockVector
+ * @return list of TextBlock objects held by m_textblockVector
  */
 TextBlockList * CodeGenObjectWithTextBlocks::getTextBlockList ( ) const
 {
@@ -44,7 +51,8 @@ TextBlockList * CodeGenObjectWithTextBlocks::getTextBlockList ( ) const
 }
 
 /**
- * Add a TextBlock object to the m_textblockVector List
+ * Add a TextBlock object to the m_textblockVector List.
+ * @param  add_object   text block to add
  * @return boolean value where false means not added because an TextBlock
  *                 object with that tag already exists in this document.
  */
@@ -82,7 +90,9 @@ bool CodeGenObjectWithTextBlocks::addTextBlock(TextBlock* add_object )
 }
 
 /**
- * Remove a TextBlock object from m_textblockVector List
+ * Remove a TextBlock object from m_textblockVector list.
+ * @param remove_object   the text block to be removed
+ * @return success status
  */
 bool CodeGenObjectWithTextBlocks::removeTextBlock ( TextBlock * remove_object )
 {
@@ -111,8 +121,9 @@ bool CodeGenObjectWithTextBlocks::removeTextBlock ( TextBlock * remove_object )
 }
 
 /**
- * @return  TextBlock
- * @param   tag
+ * Find the text block with a given tag.
+ * @param tag   the tag to search with
+ * @return      the found TextBlock object
  */
 TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag( const QString &tag )
 {
@@ -120,19 +131,19 @@ TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag( const QString &tag 
     if (m_textBlockTagMap.contains(tag)) {
         return m_textBlockTagMap[tag];
     }
-    return (TextBlock*) NULL;
+    return 0;
 }
-
-// IMPORTANT: this will only search for a parent from the viewpoint of this object
-// and down into its Hierarchical codeblocks. This means you should start any
-// search from the parent document of the text block. This method NOT meant for
-// casual usage.
 
 /**
  * Find the direct parent for a given textblock. This
  * may be any object which holds text blocks, e.g. a CodeGenObjectWithTextBlocks.
+ * IMPORTANT: this will only search for a parent from the viewpoint of this object
+ * and down into its Hierarchical codeblocks. This means you should start any
+ * search from the parent document of the text block. This method NOT meant for
+ * casual usage.
+ * @param  tag   tag to find the text block
  * @return parent object. Could return null if the textblock is missing from the
- * branch of the document tree being examined.
+ *         branch of the document tree being examined.
  */
 CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTaggedTextBlock (const QString & tag)
 {
@@ -166,10 +177,10 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
  * Will get a hierarchicalcodeblock from the document with given tag. IF the codeblock
  * doesn't exist, then it will create it at the end of the document textBlock
  * list and pass back a reference.
- * @return  HierarchicalCodeBlock
- * @param   tag
- * @param   comment
- * @param   indentLevel
+ * @param   tag           tag to find the text block
+ * @param   comment       comment
+ * @param   indentLevel   indentation level
+ * @return  HierarchicalCodeBlock object
  */
 HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( const QString &tag, const QString &comment, int indentLevel )
 {
@@ -197,13 +208,13 @@ HierarchicalCodeBlock * CodeGenObjectWithTextBlocks::getHierarchicalCodeBlock ( 
 }
 
 /**
- * Will get a codeblockwithcomments from the document with given tag. IF the codeblock
+ * Will get a codeblockwithcomments from the document with given tag. If the codeblock
  * doesn't exist, then it will create it at the end of the document textBlock
  * list and pass back a reference.
- * @return  CodeBlockWithComments
- * @param   tag
- * @param   comment
- * @param   indentLevel
+ * @param   tag           tag to find the text block
+ * @param   comment       comment
+ * @param   indentLevel   indentation level
+ * @return  CodeBlockWithComments object
  */
 CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( const QString &tag, const QString &comment, int indentLevel )
 {
@@ -229,11 +240,10 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::getCodeBlockWithComments ( 
  * Allows the user to add a code comment to the end of the list
  * of text blocks in this document OR, if a text block already exists
  * with that tag, it will update it with the passed text as appropriate.
+ * @param tag                tag to find the text block
+ * @param text               code comment to set
+ * @param indentationLevel   indentation level
  * @return codeblock/comment pointer to the object which was created/updated.
- * @return   CodeComment
- * @param    tag
- * @param    text
- * @param    indentationLevel
  */
 CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const QString &tag, const QString &text, int indentationLevel)
 {
@@ -248,7 +258,7 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const 
         if(!addTextBlock(codeComment))
         {
             delete codeComment;
-            return (CodeComment*) NULL; // hmm. total failure..,was there a preexisting comment with this tag?? lets return null
+            return 0; // hmm. total failure..,was there a preexisting comment with this tag?? lets return null
         }
     }
 
@@ -269,13 +279,12 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment ( const 
  * Allows the user to either add a code block with comments to the end of the list
  * of text blocks in this document OR, if a text block already exists
  * with that tag, it will update it with the passed text as appropriate.
- * @return codeblock/comment pointer to the object which was created/updated.
- * @return   CodeBlockWithComments
- * @param    tag
- * @param    text
- * @param    comment
- * @param    indentLevel
- * @param    forceUserBlockUpdate
+ * @param tag                    tag to find the text block
+ * @param text                   text to set
+ * @param ctext                  comment to set
+ * @param indentLevel            indentation level
+ * @param forceUserBlockUpdate   ...
+ * @return  codeblock/comment pointer to the object which was created/updated
  */
 CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockWithComments (const QString &tag, const QString &text, const QString &ctext, int indentLevel, bool forceUserBlockUpdate )
 {
@@ -290,7 +299,7 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockW
         if(!addTextBlock(codeBlock))
         {
             delete codeBlock;
-            return (CodeBlockWithComments*) NULL; // hmm. total failure..,was there a preexisting codeblock with this tag?? lets return null
+            return 0; // hmm. total failure..,was there a preexisting codeblock with this tag?? lets return null
         }
     }
 
@@ -315,7 +324,6 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockW
         }
 
         codeBlock->setOverallIndentationLevel(indentLevel);
-
     }
 
     return codeBlock;
@@ -378,7 +386,9 @@ void CodeGenObjectWithTextBlocks::resetTextBlocks()
     m_textblockVector.clear();
 }
 
-
+/**
+ * Empty method.
+ */
 void CodeGenObjectWithTextBlocks::setAttributesFromObject (CodeGenObjectWithTextBlocks * obj)
 {
     Q_UNUSED(obj);
@@ -411,6 +421,7 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QDomDocument & doc, QDomE
 /**
  * Set the class attributes of this object from
  * the passed element node.
+ * @param root   node from which to load the child text blocks
  */
 void CodeGenObjectWithTextBlocks::setAttributesFromNode ( QDomElement & root)
 {
@@ -420,19 +431,14 @@ void CodeGenObjectWithTextBlocks::setAttributesFromNode ( QDomElement & root)
     loadChildTextBlocksFromNode(root);
 }
 
-// load text blocks
-// in this vanilla version, we only load comments and codeblocks
-// as they are the only instanciatable (vanilla) things
-// this method should be overridden if this class is inherited
-// by some other class that is concrete and takes children
-// derived from codeblock/codecomment
-
 /**
+ * Load text blocks.
  * In this vanilla version, we only load comments and codeblocks
  * as they are the only instanciatable (vanilla) things
  * this method should be overridden if this class is inherited
  * by some other class that is concrete and takes children
- * derived from codeblock/codecomment/hierarchicalcb/ownedhiercodeblock
+ * derived from codeblock/codecomment/hierarchicalcb/ownedhiercodeblock.
+ * @param root   node from which to load the child text blocks
  */
 void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & root)
 {

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,94 +29,43 @@ class JavaCodeGenerator : public CodeGenerator
     Q_OBJECT
 public:
 
-    /**
-     * Empty Constructor
-     */
     JavaCodeGenerator ();
     JavaCodeGenerator (QDomElement & element);
 
-    /**
-     * Empty Destructor
-     */
     virtual ~JavaCodeGenerator ( );
 
-    /**
-     * Set the value of m_createANTBuildFile.
-     * @param new_var the new value of m_createANTBuildFile
-     */
-    void setCreateANTBuildFile ( bool new_var );
-
-    /**
-     * Get the value of m_createANTBuildFile.
-     * @return the value of m_createANTBuildFile
-     */
+    void setCreateANTBuildFile ( bool buildIt );
     bool getCreateANTBuildFile ( );
 
-    /**
-     * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAttribAccessors() value.
-     */
     bool getAutoGenerateAttribAccessors( );
 
-    /**
-     * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAssocAccessors() value.
-     */
     bool getAutoGenerateAssocAccessors( );
 
-    /**
-     * Get the list variable class name to use. For Java, we have set this to "Vector".
-     */
     static QString getListFieldClassName();
 
-    /**
-     * Get the editing dialog for this code document.
-     */
     virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
             Settings::CodeViewerState state);
 
-    /**
-     * Utility function for getting the java code generation policy.
-     */
     JavaCodeGenerationPolicy * getJavaPolicy();
 
-    /**
-     * @return  ClassifierCodeDocument
-     * @param   classifier
-     */
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 
-    /**
-     * Return "Java".
-     */
     Uml::Programming_Language getLanguage();
 
-    /**
-     * Adds Java's primitives as datatypes
-     */
     virtual QStringList defaultDatatypes();
 
-    /**
-     * IF the type is "string" we need to declare it as
-     * the Java Object "String" (there is no string primative in Java).
-     * Same thing again for "bool" to "boolean".
-     */
     static QString fixTypeName(const QString &string);
 
-    /**
-     * Get list of reserved keywords.
-     */
     virtual const QStringList reservedKeywords() const;
 
 protected:
 
-    /**
-     * Create the codeblock that will represent the class declaration
-     * for this classifier.
-     */
-    CodeBlockWithComments * createClassDecl ( UMLClassifier *c, JavaClassifierCodeDocument * doc);
+//    /**
+//     * Create the codeblock that will represent the class declaration
+//     * for this classifier.
+//     */
+//    CodeBlockWithComments * createClassDecl ( UMLClassifier *c, JavaClassifierCodeDocument * doc);
 
-    /**
-     * @return  JavaANTCodeDocument
-     */
     JavaANTCodeDocument * newANTCodeDocument ( );
 
 private:

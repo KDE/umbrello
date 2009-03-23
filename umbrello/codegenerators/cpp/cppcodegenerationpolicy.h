@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,111 +30,46 @@ public:
     static const char * DEFAULT_VECTOR_METHOD_INIT;
     static const char * DEFAULT_OBJECT_METHOD_INIT;
 
-    /**
-     * Constructors
-     */
-    CPPCodeGenerationPolicy ();
+    CPPCodeGenerationPolicy();
+    virtual ~CPPCodeGenerationPolicy();
+
+    void setAccessorsAreInline(bool var);
+    bool getAccessorsAreInline();
+
+    void setOperationsAreInline(bool var);
+    bool getOperationsAreInline();
+
+    void setDestructorsAreVirtual(bool var);
+    bool getDestructorsAreVirtual();
+
+    void setPackageIsNamespace(bool var);
+    bool getPackageIsNamespace();
+
+    void setAutoGenerateAccessors(bool var);
+    bool getAutoGenerateAccessors();
+
+    void setAccessorsArePublic(bool var);
+    bool getAccessorsArePublic();
 
     /**
-     * Empty Destructor
-     */
-    virtual ~CPPCodeGenerationPolicy ( );
-
-    /**
-     * Set the value of m_inlineAccessors
-     * @param var the new value
-     */
-    void setAccessorsAreInline ( bool var );
-
-    /**
-     * Get the value of m_inlineAccessors
-     * @return value the boolean value of m_inlineAccessors
-     */
-    bool getAccessorsAreInline( );
-
-    /**
-     * Set the value of m_inlineOperations
-     * @param var the new value
-     */
-    void setOperationsAreInline ( bool var );
-
-    /**
-     * Get the value of m_inlineOperations
-     * @return value the boolean value of m_inlineOperations
-     */
-    bool getOperationsAreInline( );
-
-    /**
-      * Set the value of m_virtualDestructors
-      * @param var the new value
-      */
-    void setDestructorsAreVirtual ( bool var );
-
-    /**
-     * Get the value of m_virtualDestructors
-     * @return value the boolean value of m_virtualDestructors
-     */
-    bool getDestructorsAreVirtual( );
-
-    /**
-       * Set the value of m_packageIsNamespace
-       * @param var the new value
-       */
-    void setPackageIsNamespace ( bool var );
-
-    /**
-     * Get the value of m_packageIsNamespace
-     * @return value the boolean value of m_packageIsNamespace
-     */
-    bool getPackageIsNamespace( );
-
-
-    /**
-      * Set the value of m_autoGenerateAccessors
-      * @param var the new value
-      */
-    void setAutoGenerateAccessors ( bool var );
-
-    /**
-      * Get the value of m_autoGenerateAccessors
-      * @return value the boolean value of m_autoGenerateAccessors
-      */
-    bool getAutoGenerateAccessors( );
-
-    /**
-     * Set the value of m_publicAccessors
-     * @param var the new value
-     */
-    void setAccessorsArePublic ( bool var );
-
-    /**
-     * Get the value of m_publicAccessors
-     * @return value the boolean value of m_inlineAccessors
-     */
-    bool getAccessorsArePublic( );
-
-    /** We want to be flexible about which classes are allowed for generation
-     * of the CPP code. In the next 4 methods, we give accessors that allow getting
+     * We want to be flexible about which classes are allowed for generation
+     * of the CPP code. In the next 4 method pairs, we give accessors that allow setting and getting
      * the names of the classes, and their include files for string and vectors.
      */
+    void setStringClassName(const QString &value);
     QString getStringClassName();
+    void setStringClassNameInclude(const QString &value);
     QString getStringClassNameInclude();
+    void setVectorClassName(const QString &value);
     QString getVectorClassName();
+    void setVectorClassNameInclude(const QString &value);
     QString getVectorClassNameInclude();
 
-    /** determine if the string include is global one */
-    bool stringIncludeIsGlobal ();
-    bool vectorIncludeIsGlobal ();
-
-    /** also allow setting these parameters! */
-    void setStringClassName(const QString &value);
-    void setStringClassNameInclude(const QString &value);
-    void setVectorClassName(const QString &value);
-    void setVectorClassNameInclude(const QString &value);
-
-    /** allow setting of these params */
     void setStringIncludeIsGlobal (bool value);
+    bool stringIncludeIsGlobal ();
+
     void setVectorIncludeIsGlobal (bool value);
+    bool vectorIncludeIsGlobal ();
 
     /** More flexible generation. We want to allow the user to specify how the
      *  bodies of the vector methods should be auto-generated.
@@ -143,32 +78,16 @@ public:
     QString getVectorMethodRemove(const QString & variableName ="", const QString & itemClassName = "");
     QString getVectorMethodInit(const QString & variableName ="", const QString & itemClassName = "");
 
-    /** Be somewhat flexible about how new object classes are initialized.
-     * Not sure if this should be user configureable. For now, it isnt.
-     */
     QString getObjectMethodInit(const QString & variableName ="", const QString & itemClassName = "");
 
-    /**
-     * set the defaults for this code generator from the passed generator.
-     */
-    virtual void setDefaults (CPPCodeGenerationPolicy * defaults, bool emitUpdateSignal = true);
-
-    /**
-     * set the defaults from a config file for this code generator from the passed KConfig pointer.
-     */
+    virtual void setDefaults (CPPCodeGenerationPolicy * cppclone, bool emitUpdateSignal = true);
     virtual void setDefaults(bool emitUpdateSignal = true);
 
-    /**
-     * Create a new dialog interface for this object.
-     * @return dialog object
-     */
     CodeGenerationPolicyPage * createPage ( QWidget *parent = 0, const char * name = 0);
 
 protected:
 
-    /**
-     */
-    void init ( );
+    void init();
 
 private:
 

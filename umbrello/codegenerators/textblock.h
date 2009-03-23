@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -51,25 +51,35 @@ public:
 
     static QString getNewLineEndingChars();
 
-    static QString formatMultiLineText ( const QString & text, const QString & linePrefix,
+    static QString formatMultiLineText ( const QString & work, const QString & linePrefix,
                                   const QString & breakStr,
-                                  bool alwaysAddBreak = true, bool lastLineHasBreak = true);
+                                  bool addBreak = true, bool lastLineHasBreak = true);
 
     virtual QString unformatText ( const QString & text, const QString & indent = "");
 
     virtual QString toString() const;
 
-    static QString encodeText(const QString & text , const QString & endChars);
-    static QString decodeText(const QString & text, const QString & endChars);
+    static QString encodeText(const QString & text, const QString & endLine);
+    static QString decodeText(const QString & text, const QString & endLine);
 
+    /**
+     * Save the XMI representation of this object
+     * @param doc    the xmi document
+     * @param root   the starting point to append
+     */
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
+
+    /**
+     * Load params from the appropriate XMI element node.
+     * @param root   the starting point in the xmi document to load from
+     */
     virtual void loadFromXMI ( QDomElement & root ) = 0;
 
     bool canDelete() const;
 
     virtual void setAttributesFromObject (TextBlock * obj);
 
-    virtual QString getNewEditorLine( int indentAmount = 0 );
+    virtual QString getNewEditorLine( int amount = 0 );
 
     virtual int firstEditableLine();
     virtual int lastEditableLine();
@@ -81,22 +91,17 @@ protected:
     virtual void release ();
 
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode ( QDomElement & root);
 
     friend QTextStream& operator<<(QTextStream& os, const TextBlock& obj);
 
 private:
 
-    // The actual text of this code block.
-    QString m_text;
+    QString m_text;   //< The actual text of this code block.
     QString m_tag;
-
-    bool m_canDelete;
-
-    // Whether or not to include the text of this TextBlock into a file.
-    bool m_writeOutText;
-
-    int m_indentationLevel;
+    bool    m_canDelete;
+    bool    m_writeOutText;   //< Flag to write the text of this TextBlock into a file.
+    int     m_indentationLevel;
     CodeDocument * m_parentDocument;
 
 };

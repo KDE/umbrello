@@ -48,14 +48,20 @@
 // system includes
 #include <cstdlib>  // to get the user name
 
+/**
+ * Constructor for a code generator.
+ */
 CodeGenerator::CodeGenerator ()
         : QObject (UMLApp::app()->getDocument())
 {
     initFields();
 }
 
-// FIX
-// hmm. this should be pure virtual so that implemented in sub-class
+/**
+ * Constructor for a code generator and then initialize it from an XMI element.
+ * FIX: hmm. this should be pure virtual so that implemented in sub-class.
+ * @param element   an element from an XMI document
+ */
 CodeGenerator::CodeGenerator (QDomElement & element )
         : QObject (UMLApp::app()->getDocument())
 {
@@ -63,6 +69,9 @@ CodeGenerator::CodeGenerator (QDomElement & element )
     loadFromXMI(element); // hmm. cant call this here.. it is 'pure' virtual
 }
 
+/**
+ * Destructor.
+ */
 CodeGenerator::~CodeGenerator ()
 {
     // destroy all owned codedocuments
@@ -176,7 +185,8 @@ CodeViewerDialog * CodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDoc
 }
 
 /**
- * @param       element
+ * Load codegenerator data from xmi.
+ * @param qElement   the element from which to load
  */
 void CodeGenerator::loadFromXMI (QDomElement & qElement )
 {
@@ -217,10 +227,9 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement )
     }
 }
 
-// probably we have code which was entered in classpropdlg for an operation
-
 /**
  * Extract and load code for operations from xmi section.
+ * Probably we have code which was entered in classpropdlg for an operation.
  */
 void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement& codeDocElement)
 {
@@ -552,9 +561,9 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
  * Opens a file named "name" for writing in the outputDirectory.
  * If something goes wrong, it informs the user
  * if this function returns true, you know you can write to the file.
- * @return      bool
- * @param       file
- * @param       name
+ * @param file       file descriptor
+ * @param fileName   the name of the file
+ * @return           success state
  */
 bool CodeGenerator::openFile (QFile & file, const QString &fileName )
 {
@@ -590,7 +599,7 @@ QString CodeGenerator::cleanName ( const QString &name )
  * account the Overwrite Policy and asking the user what to do if need be
  * (if policy == Ask).
  *
- * @param doc  the CodeDocument for which an output file name is desired.
+ * @param codeDocument  the CodeDocument for which an output file name is desired.
  * @return the file name that should be used. (with extension) or
  *      NULL if none to be used
  */
@@ -847,7 +856,7 @@ QStringList CodeGenerator::defaultDatatypes()
  * Check whether the given string is a reserved word for the
  * language of this code generator.
  *
- * @param rPossiblyReservedKeyword is the string to check
+ * @param keyword   string to check
  *
  */
 bool CodeGenerator::isReservedKeyword(const QString & keyword)

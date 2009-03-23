@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,17 +20,18 @@
 #include "umbrellosettings.h"
 #include "optionstate.h"
 
-// Constructors/Destructors
 /*
-
 DCodeGenerationPolicy::DCodeGenerationPolicy(CodeGenerationPolicy *defaults)
         : CodeGenerationPolicy(defaults)
 {
     init();
     setDefaults(defaults,false);
 }
- */
+*/
 
+/**
+ * Constructor.
+ */
 DCodeGenerationPolicy::DCodeGenerationPolicy()
   //      : CodeGenerationPolicy()
 {
@@ -38,13 +39,16 @@ DCodeGenerationPolicy::DCodeGenerationPolicy()
     init();
 }
 
-DCodeGenerationPolicy::~DCodeGenerationPolicy ( )
+/**
+ * Destructor.
+ */
+DCodeGenerationPolicy::~DCodeGenerationPolicy()
 {
 }
 
 /**
  * Set the value of m_autoGenerateAttribAccessors
- * @param new_var the new value
+ * @param var the new value
  */
 void DCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
 {
@@ -54,7 +58,7 @@ void DCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
 
 /**
  * Set the value of m_autoGenerateAssocAccessors
- * @param new_var the new value
+ * @param var the new value
  */
 void DCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var )
 {
@@ -66,7 +70,7 @@ void DCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var )
  * Get the value of m_autoGenerateAttribAccessors
  * @return the value of m_autoGenerateAttribAccessors
  */
-bool DCodeGenerationPolicy::getAutoGenerateAttribAccessors( )
+bool DCodeGenerationPolicy::getAutoGenerateAttribAccessors()
 {
     return Settings::getOptionState().codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors;
 }
@@ -75,11 +79,16 @@ bool DCodeGenerationPolicy::getAutoGenerateAttribAccessors( )
  * Get the value of m_autoGenerateAssocAccessors
  * @return the value of m_autoGenerateAssocAccessors
  */
-bool DCodeGenerationPolicy::getAutoGenerateAssocAccessors( )
+bool DCodeGenerationPolicy::getAutoGenerateAssocAccessors()
 {
     return Settings::getOptionState().codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors;
 }
 
+/**
+ * Set the defaults for this code generator from the passed generator.
+ * @param clone   the code gen policy ext object
+ * @param emitUpdateSignal   flag whether to emit the update signal
+ */
 void DCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpdateSignal )
 {
     DCodeGenerationPolicy * jclone;
@@ -91,7 +100,6 @@ void DCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpd
     // settors below will each send the modifiedCodeContent() signal
     // needlessly (we can just make one call at the end).
 
-
     // now do d-specific stuff IF our clone is also a DCodeGenerationPolicy object
     if((jclone = dynamic_cast<DCodeGenerationPolicy*>(clone)))
     {
@@ -101,12 +109,16 @@ void DCodeGenerationPolicy::setDefaults ( CodeGenPolicyExt * clone, bool emitUpd
 
     blockSignals(false); // "as you were citizen"
 
-    if(emitUpdateSignal)
+    if(emitUpdateSignal) {
         m_commonPolicy->emitModifiedCodeContentSig();
-
+    }
 }
 
-void DCodeGenerationPolicy::setDefaults(bool emitUpdateSignal )
+/**
+ * Set the defaults from a config file for this code generator from the passed KConfig pointer.
+ * @param emitUpdateSignal   flag whether to emit the update signal
+ */
+void DCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 {
     // call method at the common policy to init default stuff
     m_commonPolicy->setDefaults(false);
@@ -131,13 +143,16 @@ void DCodeGenerationPolicy::setDefaults(bool emitUpdateSignal )
 
     blockSignals(false); // "as you were citizen"
 
-    if(emitUpdateSignal)
+    if(emitUpdateSignal) {
         m_commonPolicy->emitModifiedCodeContentSig();
+    }
 }
 
 
 /**
  * Create a new dialog interface for this object.
+ * @param parent   the parent widget
+ * @param name     name of policy page
  * @return dialog object
  */
 CodeGenerationPolicyPage * DCodeGenerationPolicy::createPage ( QWidget *parent, const char *name )
@@ -145,7 +160,10 @@ CodeGenerationPolicyPage * DCodeGenerationPolicy::createPage ( QWidget *parent, 
     return new DCodeGenerationPolicyPage ( parent, name, this );
 }
 
-void DCodeGenerationPolicy::init( )
+/**
+ * Initialisation routine.
+ */
+void DCodeGenerationPolicy::init()
 {
     blockSignals( true );
 

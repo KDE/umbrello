@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,6 +23,8 @@ class CodeGenerationPolicyPage;
 /**
  * class CodeGenerationPolicy
  * This class describes the code generation policy for this project.
+ * Note that as the code gen policy may be the 'default' policy, it may
+ * not be coupled with a code generator.
  */
 class CodeGenerationPolicy : public QObject
 {
@@ -47,73 +49,52 @@ public:
     enum IndentationType {NONE=0, TAB, SPACE};
     enum CommentStyle { SingleLine=0, MultiLine };
 
-    /**
-     * Constructor
-     */
-    // note that as the code gen policy may be the 'default' policy, it may
-    // not be coupled with a code generator.
     CodeGenerationPolicy (CodeGenerationPolicy * clone);
     CodeGenerationPolicy ();
 
-    /**
-     * Empty Destructor
-     */
     virtual ~CodeGenerationPolicy ( );
 
     void setOverwritePolicy ( OverwritePolicy new_var );
-
     OverwritePolicy getOverwritePolicy ( ) const;
 
     void setCodeVerboseSectionComments ( bool new_var );
-
     bool getCodeVerboseSectionComments ( ) const;
 
     void setCodeVerboseDocumentComments ( bool new_var );
-
     bool getCodeVerboseDocumentComments ( ) const;
 
     void setHeadingFileDir ( const QString & path);
-
     QString getHeadingFileDir ( ) const;
 
     void setIncludeHeadings ( bool new_var );
-
     bool getIncludeHeadings ( ) const;
 
     void setOutputDirectory ( QDir new_var );
-
     QDir getOutputDirectory ( );
 
-    void setLineEndingType ( NewLineType new_var );
-
+    void setLineEndingType ( NewLineType type );
     NewLineType getLineEndingType ( );
 
     QString getNewLineEndingChars ( ) const;
 
     void  setIndentationType ( IndentationType type );
-
     IndentationType getIndentationType ( );
 
     void  setIndentationAmount ( int amount );
-
     int getIndentationAmount ( );
 
     QString getIndentation ( ) const;
 
     void setModifyPolicy ( ModifyNamePolicy new_var );
-
     ModifyNamePolicy getModifyPolicy ( ) const;
 
     void setAutoGenerateConstructors ( bool var );
-
     bool getAutoGenerateConstructors ( );
 
     void setAttributeAccessorScope(Uml::Visibility::Value var);
-
     Uml::Visibility::Value getAttributeAccessorScope();
 
     void setAssociationFieldScope(Uml::Visibility::Value var);
-
     Uml::Visibility::Value getAssociationFieldScope();
 
     virtual CodeGenerationPolicyPage * createPage ( QWidget *parent = 0, const char * name = 0);
@@ -121,7 +102,6 @@ public:
     QString getHeadingFile(const QString& str);
 
     virtual void setDefaults (CodeGenerationPolicy * defaults, bool emitUpdateSignal = true);
-
     virtual void setDefaults(bool emitUpdateSignal = true);
 
     virtual void writeConfig ();
@@ -129,7 +109,6 @@ public:
     void emitModifiedCodeContentSig();
 
     void setCommentStyle ( CommentStyle new_var );
-
     CommentStyle getCommentStyle ( );
 
 signals:
