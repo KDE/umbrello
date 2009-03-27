@@ -36,7 +36,7 @@
  *  @param parent The parent to the page.
  *  @param doc    The @ref UMLDoc class instance being used.
  */
-DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(parent), m_pDoc(m_pDoc)
+DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc) : QWidget(parent), m_pDoc(doc)
 {
     int margin = fontMetrics().height();
     setWindowTitle(i18n("&Diagrams"));
@@ -103,14 +103,15 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * m_pDoc) : QWidget(
 }
 
 /**
- *  Standard destructor.
+ * Standard destructor.
  */
 DiagramPrintPage::~DiagramPrintPage()
 {
 }
 
 /**
- * Get selected print options
+ * Get selected print options.
+ * @return number of selected items
  */
 int DiagramPrintPage::printUmlCount()
 {
@@ -118,6 +119,11 @@ int DiagramPrintPage::printUmlCount()
     return selectedItems.count();
 }
 
+/**
+ * Return ID string of UML diagram.
+ * @param sel   index of selected item
+ * @return      ID as string or empty string
+ */
 QString DiagramPrintPage::printUmlDiagram(int sel)
 {
     int count = 0;
@@ -138,7 +144,7 @@ QString DiagramPrintPage::printUmlDiagram(int sel)
 /**
  * Overridden method.
  */
-bool DiagramPrintPage::isValid( QString& msg )
+bool DiagramPrintPage::isValid(QString& msg)
 {
     int listCount = m_pSelectLW->count();
     bool sel = false;
@@ -152,6 +158,11 @@ bool DiagramPrintPage::isValid( QString& msg )
     return sel;
 }
 
+/**
+ * Check if item with given index is selected.
+ * @param index   index of selected item
+ * @return flag whether item is selected
+ */
 bool DiagramPrintPage::isSelected(int index)
 {
     QList<QListWidgetItem *> selectedItems = m_pSelectLW->selectedItems();
@@ -224,6 +235,7 @@ void DiagramPrintPage::slotClicked()
 /**
  * Gets called when the user chooses another diagram type. Only diagrams of
  * this type will be shown in the diagram box.
+ * @param index   diagram type (combo box index)
  */
 void DiagramPrintPage::slotActivated(int index)
 {

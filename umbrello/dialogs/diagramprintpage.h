@@ -43,7 +43,7 @@ public:
     int printUmlCount();
     QString printUmlDiagram(int sel);
 
-    bool isValid( QString& msg );
+    bool isValid(QString& msg);
 
 private:
     bool isSelected(int index);
