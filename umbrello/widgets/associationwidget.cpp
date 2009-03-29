@@ -494,7 +494,7 @@ void AssociationWidget::setChangeability (Uml::Changeability_Type value, Uml::Ro
 {
     if (value == getChangeability(role))
         return;
-    QString changeString = UMLAssociation::ChangeabilityToString(value);
+    QString changeString = UMLAssociation::toString(value);
     if (m_pObject && m_pObject->getBaseType() == ot_Association)  // update our model object
         getAssociation()->setChangeability(value, role);
     m_role[role].m_Changeability = value;
@@ -941,7 +941,7 @@ QString AssociationWidget::toString()
         string += m_role[A].m_pRole -> getText();
     }
     string.append(":");
-    string.append( UMLAssociation::typeAsString(getAssocType()) );
+    string.append( UMLAssociation::toString(getAssocType()) );
     string.append(":");
     if(m_role[B].m_pWidget) {
         string += m_role[B].m_pWidget -> getName();

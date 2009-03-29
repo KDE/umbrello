@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #define ASSOCIATION_H
 
 #include <qdom.h>
+
 #include "umlnamespace.h"
 #include "umlobject.h"
 
@@ -40,56 +41,39 @@ public:
 
     bool operator==(const UMLAssociation &rhs);
 
-    QString toString( ) const;
+    QString toString() const;
 
-    static QString typeAsString(Uml::Association_Type atype);
+    static QString toString(Uml::Association_Type atype);
+    static QString toString(Uml::Changeability_Type type);
 
     static bool assocTypeHasUMLRepresentation(Uml::Association_Type atype);
 
-    Uml::Association_Type getAssocType() const;
-
-    UMLObject* getObject(Uml::Role_Type role);
-
-    Uml::IDType getObjectId(Uml::Role_Type role);
-
-    /*
-     * Returns the ID of the UMLObject assigned to the given role.
-     * CURRENTLY UNUSED.
-     *
-     * @return  ID of the UMLObject of the given role.
+    UMLRole * getUMLRole(Uml::Role_Type role) const;
+    Uml::IDType getObjectId(Uml::Role_Type role) const;
     Uml::IDType getRoleId(Uml::Role_Type role) const;
-     */
-
-    Uml::Changeability_Type getChangeability(Uml::Role_Type role) const;
-
-    Uml::Visibility getVisibility(Uml::Role_Type role) const;
-
-    QString getMulti(Uml::Role_Type role) const;
-
-    QString getRoleName(Uml::Role_Type role) const;
-
-    QString getRoleDoc(Uml::Role_Type role) const;
 
     void setAssocType(Uml::Association_Type assocType);
+    Uml::Association_Type getAssocType() const;
 
     void setObject(UMLObject *obj, Uml::Role_Type role);
+    UMLObject* getObject(Uml::Role_Type role) const;
 
     void setVisibility(Uml::Visibility value, Uml::Role_Type role);
+    Uml::Visibility getVisibility(Uml::Role_Type role) const;
 
     void setChangeability(Uml::Changeability_Type value, Uml::Role_Type role);
+    Uml::Changeability_Type getChangeability(Uml::Role_Type role) const;
 
     void setMulti(const QString &multi, Uml::Role_Type role);
+    QString getMulti(Uml::Role_Type role) const;
 
     void setRoleName(const QString &roleName, Uml::Role_Type role);
+    QString getRoleName(Uml::Role_Type role) const;
 
     void setRoleDoc(const QString &doc, Uml::Role_Type role);
-
-    static QString ChangeabilityToString(Uml::Changeability_Type type);
-
-    UMLRole * getUMLRole(Uml::Role_Type role);
+    QString getRoleDoc(Uml::Role_Type role) const;
 
     void setOldLoadMode(bool value = true);
-
     bool getOldLoadMode() const;
 
     virtual UMLObject* clone() const { return NULL; }
@@ -118,11 +102,14 @@ protected:
     static const unsigned int nAssocTypes;
     static const QString assocTypeStr[];
 
-    UMLRole * m_pRole[2];
+    UMLRole *              m_pRole[2];
+    Uml::Association_Type  m_AssocType;
+    QString                m_Name;
+    bool                   m_bOldLoadMode;
 
-    Uml::Association_Type m_AssocType;
-    QString m_Name;
-    bool m_bOldLoadMode;
+private:
+
+    bool isRealization(UMLObject* objA, UMLObject* objB) const;
 };
 
 #endif
