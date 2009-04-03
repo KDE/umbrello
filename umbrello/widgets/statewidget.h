@@ -32,12 +32,18 @@ public:
     /// Enumeration that codes the different types of state.
     enum StateType
     {
-        Initial = 0,
+        Initial = 0,     // Pseudostate
         Normal,
         End,
+        Fork,            // Pseudostate
+        Join,            // Pseudostate
         Junction,        // Pseudostate
         DeepHistory,     // Pseudostate
-        ShallowHistory   // Pseudostate
+        ShallowHistory,  // Pseudostate
+        Choice           // Pseudostate
+        //Terminate        // Pseudostate
+        //EntryPoint       // Pseudostate
+        //ExitPoint        // Pseudostate
     };
 
     explicit StateWidget(StateType stateType = Normal, Uml::IDType id = Uml::id_None );

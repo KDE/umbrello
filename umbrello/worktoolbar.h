@@ -113,8 +113,8 @@ public:
         tbb_Fork,
         tbb_DeepHistory,
         tbb_ShallowHistory,
-        tbb_Join,
         tbb_StateFork,
+        tbb_StateJoin,
         tbb_Junction,
         tbb_Choice,
         tbb_Andline,
@@ -222,7 +222,7 @@ public slots:
     void slotFork();
     void slotDeepHistory();
     void slotShallowHistory();
-    void slotJoin();
+    void slotStateJoin();
     void slotStateFork();
     void slotJunction();
     void slotChoice();

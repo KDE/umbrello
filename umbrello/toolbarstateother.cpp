@@ -40,10 +40,17 @@
 
 using namespace Uml;
 
+/**
+ * Creates a new ToolBarStateOther.
+ * @param umlView The UMLView to use.
+ */
 ToolBarStateOther::ToolBarStateOther(UMLScene *umlScene) : ToolBarStatePool(umlScene)
 {
 }
 
+/**
+ * Destroys this ToolBarStateOther.
+ */
 ToolBarStateOther::~ToolBarStateOther()
 {
 }
@@ -83,7 +90,6 @@ void ToolBarStateOther::mouseReleaseEmpty()
 
 /**
  * Returns the object type of this tool.
- *
  * @return The object type of this tool.
  */
 Uml::Object_Type ToolBarStateOther::getObjectType()
@@ -162,7 +168,6 @@ bool ToolBarStateOther::newWidget()
             break;
 
         case WorkToolBar::tbb_Fork:
-        case WorkToolBar::tbb_StateFork:
             umlWidget = new ForkJoinWidget();
             break;
 
@@ -178,6 +183,14 @@ bool ToolBarStateOther::newWidget()
             umlWidget = new StateWidget(StateWidget::End);
             break;
 
+        case WorkToolBar::tbb_StateFork:
+            umlWidget = new StateWidget(StateWidget::Fork);
+            break;
+
+        case WorkToolBar::tbb_StateJoin:
+            umlWidget = new StateWidget(StateWidget::Join);
+            break;
+
         case WorkToolBar::tbb_Junction:
             umlWidget = new StateWidget(StateWidget::Junction);
             break;
@@ -188,6 +201,10 @@ bool ToolBarStateOther::newWidget()
 
         case WorkToolBar::tbb_ShallowHistory:
             umlWidget = new StateWidget(StateWidget::ShallowHistory);
+            break;
+
+        case WorkToolBar::tbb_Choice:
+            umlWidget = new StateWidget(StateWidget::Choice);
             break;
 
         case WorkToolBar::tbb_Send_Signal:
@@ -223,7 +240,7 @@ bool ToolBarStateOther::newWidget()
     }
 
     // Return false if we didn't find a suitable widget.
-    if (umlWidget == NULL) {
+    if (umlWidget == 0) {
         return false;
     }
 

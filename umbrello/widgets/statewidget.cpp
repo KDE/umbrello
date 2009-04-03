@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,7 +31,6 @@ const QSizeF StateWidget::MinimumEllipseSize(30, 10);
 
 /**
  * Creates a State widget.
- *
  * @param stateType The type of state.
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
@@ -41,6 +40,74 @@ StateWidget::StateWidget(StateType stateType, Uml::IDType id)
     m_baseType = Uml::wt_State;
     m_stateType = stateType;
     createTextItemGroup();
+
+    const qreal radius = 18.0;
+
+    switch (m_stateType) {
+    case StateWidget::Normal:
+        {
+        }
+        break;
+    case StateWidget::Initial:
+        {
+            const QSizeF sz = QSizeF(radius, radius);
+            setMinimumSize(sz);
+            setMaximumSize(sz);
+            setSize(sz);
+        }
+        break;
+    case StateWidget::End:
+        {
+            const QSizeF sz = QSizeF(radius, radius);
+            setMinimumSize(sz);
+            setMaximumSize(sz);
+            setSize(sz);
+        }
+        break;
+    case StateWidget::Fork:
+    case StateWidget::Join:
+        {
+            const QSizeF sz = QSizeF(8, 60);
+            setSize(sz);
+        }
+        break;
+    case StateWidget::Junction:
+        {
+            const QSizeF sz = QSizeF(radius, radius);
+            setMinimumSize(sz);
+            setMaximumSize(sz);
+            setSize(sz);
+        }
+        break;
+    case StateWidget::DeepHistory:
+        {
+            const QSizeF sz = QSizeF(radius, radius);
+            setMinimumSize(sz);
+            setMaximumSize(sz);
+            setSize(sz);
+        }
+        break;
+    case StateWidget::ShallowHistory:
+        {
+            const QSizeF sz = QSizeF(radius, radius);
+            setMinimumSize(sz);
+            setMaximumSize(sz);
+            setSize(sz);
+        }
+        break;
+    case StateWidget::Choice:
+        {
+            const qreal len = 25.0;
+            const QSizeF sz = QSizeF(len, len);
+            setMinimumSize(sz);
+            setSize(sz);
+        }
+        break;
+    default:
+        uWarning() << "Unknown state type:" << QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
+        break;
+    }
+
 }
 
 /**
@@ -61,24 +128,17 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
     switch (m_stateType) {
     case StateWidget::Normal:
         {
-            const QSizeF sz = size();
             painter->drawRoundRect(rect(), 50, 50);
             painter->drawLines(m_separatorLines);
         }
         break;
     case StateWidget::Initial:
         {
-            const QSizeF sz = QSizeF(18, 18);
-            setMinimumSize(sz);
-            setSize(sz);
             painter->drawEllipse(rect());
         }
         break;
     case StateWidget::End:
         {
-            const QSizeF sz = QSizeF(18, 18);
-            setMinimumSize(sz);
-            setSize(sz);
             // Draw inner ellipse with brush set.
             QRectF inner(rect());
             qreal adj = lineWidth() + 3;
@@ -89,20 +149,23 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
             painter->drawEllipse(rect());
         }
         break;
+    case StateWidget::Fork:
+    case StateWidget::Join:
+        {
+            painter->setPen(Qt::black);
+            painter->setBrush(Qt::black);
+            painter->drawRect(rect());
+        }
+        break;
     case StateWidget::Junction:
         {
-            const QSizeF sz = QSizeF(18, 18);
-            setMinimumSize(sz);
-            setSize(sz);
+            painter->setPen(Qt::black);
             painter->setBrush(Qt::black);
             painter->drawEllipse(rect());
         }
         break;
     case StateWidget::DeepHistory:
         {
-            const QSizeF sz = QSizeF(18, 18);
-            setMinimumSize(sz);
-            setSize(sz);
             painter->setBrush(Qt::white);
             painter->drawEllipse(rect());
             painter->setPen(Qt::black);
@@ -112,13 +175,19 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
         break;
     case StateWidget::ShallowHistory:
         {
-            const QSizeF sz = QSizeF(18, 18);
-            setMinimumSize(sz);
-            setSize(sz);
             painter->setBrush(Qt::white);
             painter->drawEllipse(rect());
             painter->setPen(Qt::black);
             painter->drawText(5, 13, "H");
+        }
+        break;
+    case StateWidget::Choice:
+        {
+            const qreal len = 25.0;
+            const qreal pnt = len / 2.0;
+            QPolygonF polygon;
+            polygon << QPointF(pnt, 0) << QPointF(len, pnt) << QPointF(pnt, len) << QPointF(0, pnt);
+            painter->drawPolygon(polygon);
         }
         break;
     default:
@@ -316,12 +385,27 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 void StateWidget::updateGeometry()
 {
-    if (m_stateType != StateWidget::Normal) {
+    switch (m_stateType) {
+    case StateWidget::Fork:
+    case StateWidget::Join:
+/*        if (m_orientation == Qt::Horizontal) {
+            setMinimumSize(QSizeF(40, 4));
+            setMaximumSize(QSizeF(100, 10));
+        }
+        else {*/
+            setMinimumSize(QSizeF(4, 40));
+            setMaximumSize(QSizeF(10, 100));
+//        }
+        break;
+    case StateWidget::Normal:
+        {
+            TextItemGroup *grp = textItemGroupAt(GroupIndex);
+            setMinimumSize(grp->minimumSize());
+        }
+        break;
+    default:
         setMinimumSize(StateWidget::MinimumEllipseSize);
-    }
-    else {
-        TextItemGroup *grp = textItemGroupAt(GroupIndex);
-        setMinimumSize(grp->minimumSize());
+        break;
     }
 
     UMLWidget::updateGeometry();

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2008                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,20 +21,12 @@
  * Associations and widgets aren't taken into account, and are treated as empty
  * spaces.
  */
-class ToolBarStateOther : public ToolBarStatePool {
+class ToolBarStateOther : public ToolBarStatePool
+{
     Q_OBJECT
 public:
 
-    /**
-     * Creates a new ToolBarStateOther.
-     *
-     * @param umlView The UMLView to use.
-     */
     ToolBarStateOther(UMLScene *umlScene);
-
-    /**
-     * Destroys this ToolBarStateOther.
-     */
     virtual ~ToolBarStateOther();
 
 private:

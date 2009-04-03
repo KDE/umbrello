@@ -11,9 +11,11 @@
 // own header
 #include "worktoolbar.h"
 
-// qt/kde include files
+// qt include files
 #include <QtGui/QAction>
 #include <QtGui/QToolButton>
+
+// kde include files
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -22,7 +24,6 @@
 #include "umldoc.h"
 #include "umlview.h"
 #include "icon_utils.h"
-
 
 WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
   : KToolBar("worktoolbar", parentWindow, Qt::TopToolBarArea, true, true, true)
@@ -138,10 +139,10 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt)
         insertHotBtn(tbb_State_Transition);
         insertHotBtn(tbb_DeepHistory);
         insertHotBtn(tbb_ShallowHistory);
-        //insertHotBtn(tbb_Join);               //NotYetImplemented
+        insertHotBtn(tbb_StateJoin);
         insertHotBtn(tbb_StateFork);
         insertHotBtn(tbb_Junction);
-        //insertHotBtn(tbb_Choice);             //NotYetImplemented
+        insertHotBtn(tbb_Choice);
         //insertHotBtn(tbb_Andline);            //NotYetImplemented
         break;
 
@@ -328,12 +329,12 @@ void WorkToolBar::loadPixmaps()
         { tbb_Entity,                   i18n("Entity"),                  Icon_Utils::it_Entity,                  SLOT(slotEntity()) },
         { tbb_DeepHistory,              i18n("Deep History"),            Icon_Utils::it_History_Deep,            SLOT(slotDeepHistory()) },
         { tbb_ShallowHistory,           i18n("Shallow History"),         Icon_Utils::it_History_Shallow,         SLOT(slotShallowHistory()) },
-        { tbb_Join,                     i18nc("join states", "Join"),    Icon_Utils::it_Join,                    SLOT(slotJoin()) },            //NotYetImplemented
+        { tbb_StateJoin,                i18nc("join states", "Join"),    Icon_Utils::it_Join,                    SLOT(slotStateJoin()) },
         { tbb_StateFork,                i18n("Fork"),                    Icon_Utils::it_Fork_State,              SLOT(slotStateFork()) },
         { tbb_Junction,                 i18n("Junction"),                Icon_Utils::it_Junction,                SLOT(slotJunction()) },
-        { tbb_Choice,                   i18nc("state choice", "Choice"), Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
+        { tbb_Choice,                   i18nc("state choice", "Choice"), Icon_Utils::it_Choice_Rhomb,            SLOT(slotChoice()) },
         //:TODO: let the user decide which symbol he wants (setting an option)
-        //    { tbb_Choice,                   i18n("Choice"),                  Icon_Utils::it_Choice_Rhomb,           SLOT(slotChoice()) },          //NotYetImplemented
+        //{ tbb_Choice,                   i18n("Choice"),                  Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
         { tbb_Andline,                  i18n("And Line"),                Icon_Utils::it_And_Line,                SLOT(slotAndline()) },         //NotYetImplemented
         { tbb_State_Transition,         i18n("State Transition"),        Icon_Utils::it_State_Transition,        SLOT(slotState_Transition()) },
         { tbb_Activity_Transition,      i18n("Activity Transition"),     Icon_Utils::it_Activity_Transition,     SLOT(slotActivity_Transition()) },
@@ -428,7 +429,7 @@ void WorkToolBar::slotBranch()                   { buttonChanged(tbb_Branch);   
 void WorkToolBar::slotFork()                     { buttonChanged(tbb_Fork);                     }
 void WorkToolBar::slotDeepHistory()              { buttonChanged(tbb_DeepHistory);              }
 void WorkToolBar::slotShallowHistory()           { buttonChanged(tbb_ShallowHistory);           }
-void WorkToolBar::slotJoin()                     { buttonChanged(tbb_Join);                     }
+void WorkToolBar::slotStateJoin()                { buttonChanged(tbb_StateJoin);                }
 void WorkToolBar::slotPin()                      { buttonChanged(tbb_Pin);                      }
 void WorkToolBar::slotStateFork()                { buttonChanged(tbb_StateFork);                }
 void WorkToolBar::slotJunction()                 { buttonChanged(tbb_Junction);                 }
