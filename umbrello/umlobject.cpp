@@ -31,7 +31,7 @@
 #include <kdebug.h>
 
 // qt includes
-#include <QApplication>
+#include <QtGui/QApplication>
 
 using namespace Uml;
 
@@ -537,6 +537,9 @@ const UMLStereotype * UMLObject::getUMLStereotype()
     return m_pStereotype;
 }
 
+/**
+ * Returns the stereotype.
+ */
 QString UMLObject::getStereotype(bool includeAdornments /* = false */) const
 {
     if (m_pStereotype == NULL)

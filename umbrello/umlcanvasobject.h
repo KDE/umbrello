@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,7 +15,6 @@
 #include "umlobjectlist.h"
 #include "umlclassifierlist.h"
 #include "umlassociationlist.h"
-
 
 /**
  * This class contains the non-graphical information required for UMLObjects
@@ -38,15 +36,8 @@ class UMLCanvasObject : public UMLObject
 public:
 
     explicit UMLCanvasObject(const QString & name = QString(), Uml::IDType id = Uml::id_None);
-
-    /**
-     * Standard deconstructor.
-     */
     virtual ~UMLCanvasObject();
 
-    /**
-     *  Overloaded '==' operator
-     */
     bool operator==(const UMLCanvasObject& rhs);
 
     virtual void copyInto(UMLObject *lhs) const;
@@ -75,13 +66,10 @@ public:
     virtual UMLAssociationList getRealizations();
 
     UMLAssociationList getAggregations();
-
     UMLAssociationList getCompositions();
-
     UMLAssociationList getRelationships();
 
     virtual UMLObject *findChildObject(const QString &n, Uml::Object_Type t = Uml::ot_UMLObject);
-
     virtual UMLObject *findChildObjectById(Uml::IDType id, bool considerAncestors = false);
 
     virtual QString uniqChildName(const Uml::Object_Type type,
@@ -107,14 +95,12 @@ protected:
      *
      * @todo Only a pointer to the appropriate assocation end object
      *       (UMLRole) should be saved here, not the entire UMLAssociation.
-     *
      */
     UMLObjectList m_List;
 
 signals:
 
     void sigAssociationEndAdded(UMLAssociation * assoc);
-
     void sigAssociationEndRemoved(UMLAssociation * assoc);
 
 };

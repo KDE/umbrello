@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,10 +12,12 @@
 #include "umlobject.h"
 
 UMLObjectList::UMLObjectList()
-{}
+{
+}
 
 UMLObjectList::~UMLObjectList()
-{}
+{
+}
 
 /**
  * Copy the internal presentation of this object into the new
@@ -41,7 +42,6 @@ void UMLObjectList::copyInto(UMLObjectList *rhs) const
     delete tmp;
 }
 
-
 /**
  * Make a clone of this object.
  */
@@ -51,8 +51,3 @@ UMLObjectList* UMLObjectList::clone() const
     copyInto(clone);
     return clone;
 }
-
-
-
-
-

@@ -11,6 +11,7 @@ include_directories (
   ${LIBXML2_INCLUDE_DIR}
   ${LIBXSLT_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
+  ${CMAKE_CURRENT_SOURCE_DIR}/clipboard/
   ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/ada/

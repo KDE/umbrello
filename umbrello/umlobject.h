@@ -27,6 +27,13 @@ class UMLObject;
  * created and maintained in the class @ref UMLDoc.  This class holds all
  * the generic information needed for all UML objects.
  *
+ * @ref clone needs to be implemented by each child class.
+ *
+ * @ref saveToXMI saves the XMI attributes of each specific model class.
+ * It needs to be implemented by each child class.
+ * For creating the QDomElement and saving the common XMI parts,
+ * it can use the save() method.
+ *
  * @short The base class for UML objects.
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -36,61 +43,49 @@ class UMLObject : public QObject
     Q_OBJECT
 public:
 
-    UMLObject(UMLObject * parent, const QString &name, Uml::IDType id = Uml::id_None);
-    UMLObject(UMLObject * parent);
+    explicit UMLObject(UMLObject * parent, const QString &name, Uml::IDType id = Uml::id_None);
+    explicit UMLObject(UMLObject * parent);
     explicit UMLObject(const QString &name = QString() , Uml::IDType id = Uml::id_None);
+    virtual ~UMLObject();
 
     bool operator==(const UMLObject & rhs );
-
-    virtual ~UMLObject();
 
     virtual void copyInto(UMLObject *lhs) const;
 
     virtual UMLObject* clone() const = 0;
 
+    virtual void setBaseType(Uml::Object_Type ot);
     Uml::Object_Type getBaseType() const;
 
-    virtual void setBaseType(Uml::Object_Type ot);
-
+    virtual void setID(Uml::IDType NewID);
     virtual Uml::IDType getID() const;
 
     void setDoc(const QString &d);
-
     QString getDoc() const;
 
+    void setVisibility(Uml::Visibility s);
+    void setVisibilitycmd(Uml::Visibility s);
     Uml::Visibility getVisibility() const;
 
-    void setVisibility(Uml::Visibility s);
-
-    void setVisibilitycmd(Uml::Visibility s);
-
     void setStereotype(const QString &_name);
-
     void setStereotypecmd(const QString &_name);
-
-    void setUMLStereotype(UMLStereotype *stereo);
-
-    void setPackage(const QString &_name);
-
-    void setUMLPackage(UMLPackage* pPkg);
-
-    const UMLStereotype * getUMLStereotype();
-
     QString getStereotype(bool includeAdornments = false) const;
 
+    void setUMLStereotype(UMLStereotype *stereo);
+    const UMLStereotype * getUMLStereotype();
+
+    void setPackage(const QString &_name);
     QString getPackage(const QString& separator = QString(),
                        bool includeRoot = false);
 
-    UMLPackageList getPackages(bool includeRoot = false) const;
-
+    void setUMLPackage(UMLPackage* pPkg);
     UMLPackage* getUMLPackage();
 
-    virtual void setID(Uml::IDType NewID);
+    UMLPackageList getPackages(bool includeRoot = false) const;
 
     virtual void setName(const QString &strName);
-    QString getName() const;
-
     void setNamecmd(const QString &strName) ;
+    QString getName() const;
 
     virtual QString getFullyQualifiedName(const QString& separator = QString(),
                                           bool includeRoot = false) const;
@@ -104,31 +99,21 @@ public:
 
     virtual bool resolveRef();
 
-    /**
-     * This method saves the XMI attributes of each specific model class.
-     * It needs to be implemented by each child class.
-     * For creating the QDomElement and saving the common XMI parts,
-     * it can use the save() method.
-     */
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) = 0;
-
     virtual bool loadFromXMI( QDomElement & element );
 
     bool loadStereotype(QDomElement & element);
 
-    bool getStatic() const;
-
     void setStatic(bool bStatic);
+    bool getStatic() const;
 
     virtual bool acceptAssociationType(Uml::Association_Type);
 
+    void setSecondaryId(const QString& id);
     QString getSecondaryId() const;
 
-    void setSecondaryId(const QString& id);
-
-    QString getSecondaryFallback() const;
-
     void setSecondaryFallback(const QString& id);
+    QString getSecondaryFallback() const;
 
     QDomElement save( const QString &tag, QDomDocument & qDoc );
 
@@ -148,61 +133,17 @@ protected:
 
     virtual bool load( QDomElement& element );
 
-    /**
-     * The object's id.
-     */
-    Uml::IDType m_nId;
-
-    /**
-     * The object's documentation.
-     */
-    QString m_Doc;
-
-    /**
-     * The package the object belongs to if applicable.
-     */
-    UMLPackage* m_pUMLPackage;
-
-    /**
-     * The stereotype of the object if applicable.
-     */
-    UMLStereotype* m_pStereotype;
-
-    /**
-     * The objects name.
-     */
-    QString m_Name;
-
-    /**
-     * The objects type.
-     */
-    Uml::Object_Type m_BaseType;
-
-    /**
-     * The objects visibility.
-     */
-    Uml::Visibility m_Vis;
-
-    /**
-     * The state of whether the object is abstract or not.
-     */
-    bool m_bAbstract;
-
-    /**
-     * This attribute holds whether the UMLObject has instance scope
-     * (false - the default) or classifier scope (true).
-     */
-    bool m_bStatic;
-
-    /**
-     * Caller sets this true when in paste operation.
-     */
-    bool m_bInPaste;
-
-    /**
-     * Auxiliary to maybeSignalObjectCreated().
-     */
-    bool m_bCreationWasSignalled;
+    Uml::IDType      m_nId;          ///< The object's id.
+    QString          m_Doc;          ///< The object's documentation. 
+    UMLPackage*      m_pUMLPackage;  ///< The package the object belongs to if applicable.
+    UMLStereotype*   m_pStereotype;  ///< The stereotype of the object if applicable.
+    QString          m_Name;         ///< The objects name.
+    Uml::Object_Type m_BaseType;     ///< The objects type.
+    Uml::Visibility  m_Vis;          ///< The objects visibility.
+    bool             m_bAbstract;    ///< The state of whether the object is abstract or not.
+    bool             m_bStatic;      ///< Flag for instance scope.
+    bool             m_bInPaste;     ///< Caller sets this true when in paste operation.
+    bool  m_bCreationWasSignalled;   ///< Auxiliary to maybeSignalObjectCreated().
 
     /**
      * Pointer to an associated object.
@@ -237,6 +178,7 @@ protected:
  *   kdWarn() << "This object shouldn't be here:" << illegalObject << endl;
  */
 QDebug operator<< (QDebug s, const UMLObject& a);
+
 #endif
 
 #endif
