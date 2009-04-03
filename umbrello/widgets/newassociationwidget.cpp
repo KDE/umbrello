@@ -14,6 +14,7 @@
 #include "association.h"
 #include "floatingtextwidget.h"
 #include "newlinepath.h"
+#include "objectwidget.h"
 #include "umlscene.h"
 #include "umlwidget.h"
 
@@ -23,6 +24,9 @@ namespace New
     {
         multiplicityWidget = changeabilityWidget = roleWidget = 0;
         umlWidget = 0;
+        region = New::Left;
+        visibility = Uml::Visibility::Public;
+        changeability = Uml::chg_Changeable;
     }
 
     WidgetRole::~WidgetRole()
@@ -68,6 +72,61 @@ namespace New
     AssociationWidget::~AssociationWidget()
     {
         delete m_associationLine;
+    }
+
+    UMLAssociation* AssociationWidget::association() const
+    {
+        if (!umlObject()) return 0;
+        Q_ASSERT(umlObject()->getBaseType() == Uml::ot_Association);
+        return static_cast<UMLAssociation*>(umlObject());
+    }
+
+    bool AssociationWidget::isEqual(New::AssociationWidget *other) const
+    {
+        if( this == other )
+            return true;
+
+        // if no model representation exists, then the widgets are not equal
+        if ( !association() || !other->association() )
+            return false;
+        else if (association() != other->association()) {
+            return false;
+        }
+
+        if (associationType() != other->associationType())
+            return false;
+
+        UMLWidget *aWid = widgetForRole(Uml::A);
+        UMLWidget *bWid = widgetForRole(Uml::B);
+
+        UMLWidget *oaWid = other->widgetForRole(Uml::A);
+        UMLWidget *obWid = other->widgetForRole(Uml::B);
+
+        if (aWid->id() != oaWid->id() || bWid->id() != obWid->id())
+            return false;
+
+        if (aWid->baseType() == Uml::wt_Object && oaWid->baseType() == Uml::wt_Object) {
+            ObjectWidget *a = static_cast<ObjectWidget*>(aWid);
+            ObjectWidget *oa = static_cast<ObjectWidget*>(oaWid);
+            if (a->localID() != oa->localID()) {
+                return false;
+            }
+        }
+
+        if (bWid->baseType() == Uml::wt_Object && obWid->baseType() == Uml::wt_Object) {
+            ObjectWidget *b = static_cast<ObjectWidget*>(bWid);
+            ObjectWidget *ob = static_cast<ObjectWidget*>(obWid);
+            if (b->localID() != ob->localID()) {
+                return false;
+            }
+        }
+
+        // Two objects in a collaboration can have multiple messages between each other.
+        // Here we depend on the messages having names, and the names must be different.
+        // That is the reason why collaboration messages have strange initial names like
+        // "m29997" or similar.
+        return (name() == other->name());
+
     }
 
     UMLWidget* AssociationWidget::widgetForRole(Uml::Role_Type role) const

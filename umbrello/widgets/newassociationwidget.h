@@ -15,11 +15,23 @@
 #include "widgetbase.h"
 
 class FloatingTextWidget;
+class UMLAssociation;
 class UMLWidget;
 
 namespace New
 {
     class AssociationLine;
+
+    enum Region {
+        Left,
+        TopLeft,
+        Top,
+        TopRight,
+        Right,
+        BottomRight,
+        Bottom,
+        BottomLeft
+    };
 
     struct WidgetRole
     {
@@ -28,6 +40,13 @@ namespace New
         FloatingTextWidget *roleWidget;
 
         UMLWidget *umlWidget;
+
+        New::Region region;
+
+        // The following are used only in case of absence of UMLObject
+        Uml::Visibility visibility;
+        Uml::Changeability_Type changeability;
+        QString roleDocumentation;
 
         WidgetRole();
         ~WidgetRole();
@@ -40,6 +59,9 @@ namespace New
         AssociationWidget(UMLWidget *widgetA, Uml::Association_Type type,
                           UMLWidget *widgetB, UMLObject *obj = 0);
         virtual ~AssociationWidget();
+
+        UMLAssociation* association() const;
+        bool isEqual(New::AssociationWidget *other) const;
 
         QString multiplicity(Uml::Role_Type role) const;
         void setMultiplicity(const QString& text, Uml::Role_Type role);
