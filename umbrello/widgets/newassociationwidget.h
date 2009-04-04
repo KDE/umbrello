@@ -5,17 +5,19 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2009                                                    *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef NEWASSOCIATIONWIDGET_H
 #define NEWASSOCIATIONWIDGET_H
 
+#include "linkwidget.h"
 #include "widgetbase.h"
 
 class FloatingTextWidget;
 class UMLAssociation;
+class UMLAttribute;
 class UMLWidget;
 
 namespace New
@@ -52,7 +54,7 @@ namespace New
         ~WidgetRole();
     };
 
-    class AssociationWidget : public WidgetBase
+    class AssociationWidget : public WidgetBase, public LinkWidget
     {
         Q_OBJECT
     public:
@@ -60,7 +62,36 @@ namespace New
                           UMLWidget *widgetB, UMLObject *obj = 0);
         virtual ~AssociationWidget();
 
+        //---------- LinkWidget Interface methods implemementation from now on.
+
+        virtual void lwSetFont (QFont font);
+        virtual UMLClassifier *getOperationOwner();
+
+        virtual UMLOperation *getOperation();
+        virtual void setOperation(UMLOperation *op);
+
+        virtual QString getCustomOpText();
+        virtual void setCustomOpText(const QString &opText);
+
+        virtual void resetTextPositions();
+
+        virtual void setMessageText(FloatingTextWidget *ft);
+        virtual void setText(FloatingTextWidget *ft, const QString &newText);
+
+        virtual bool showDialog();
+
+        virtual UMLClassifier* getSeqNumAndOp(QString& seqNum, QString& op);
+        virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
+
+        virtual void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
+                Uml::Text_Role tr);
+
+        virtual void calculateNameTextSegment();
+
+        //---------- End LinkWidget Interface methods implemementation.
         UMLAssociation* association() const;
+        UMLAttribute* attribute() const;
+
         bool isEqual(New::AssociationWidget *other) const;
 
         QString multiplicity(Uml::Role_Type role) const;
@@ -71,6 +102,9 @@ namespace New
 
         Uml::Changeability_Type changeability(Uml::Role_Type role) const;
         void setChangeability(Uml::Changeability_Type c, Uml::Role_Type role);
+        void setChangeWidget(const QString &strChangeWidget, Uml::Role_Type role);
+
+        void setRoleName (const QString &strRole, Uml::Role_Type role);
 
         UMLWidget* widgetForRole(Uml::Role_Type role) const;
         void setWidgetForRole(UMLWidget *widget, Uml::Role_Type role);
@@ -105,10 +139,15 @@ namespace New
         virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
     private:
+        void setFloatingText(Uml::Text_Role tr, const QString& text,
+                FloatingTextWidget* &ft);
+        void setTextPosition(Uml::Text_Role tr);
+
         friend class New::AssociationLine;
 
         New::AssociationLine *m_associationLine;
         WidgetRole m_widgetRole[2];
+        FloatingTextWidget *m_nameWidget;
     };
 }
 
