@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -364,7 +364,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             computeAssocTypeAndRole(a, c, typeName, roleName);
             if (roleName.isEmpty())  // presumably because we are at the "wrong" end
                 continue;
-            idl << getIndent() << "// " << UMLAssociation::typeAsString(at) << m_endl;
+            idl << getIndent() << "// " << UMLAssociation::toString(at) << m_endl;
             idl << getIndent();
             if (isValuetype)
                 idl << "public ";

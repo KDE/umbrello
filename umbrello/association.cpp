@@ -4,16 +4,13 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "association.h"
-// qt/kde includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <QtCore/QRegExp>
+
 // app includes
 #include "classifier.h"
 #include "folder.h"
@@ -23,18 +20,47 @@
 #include "uniqueid.h"
 #include "model_utils.h"
 #include "cmds.h"
+
+// kde includes
+#include <kdebug.h>
+#include <klocale.h>
+
+// qt includes
+#include <QtCore/QRegExp>
+
 using namespace Uml;
 
 // static members
 const Uml::Association_Type UMLAssociation::atypeFirst = Uml::at_Generalization;
 const Uml::Association_Type UMLAssociation::atypeLast = Uml::at_Relationship;
-const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast -
-        (unsigned)atypeFirst + 1;
+const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast - (unsigned)atypeFirst + 1;
+const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
+            // Elements must be listed in the same order as in the Uml::Association_Type.
+            i18n("Generalization"),             // at_Generalization
+            i18n("Aggregation"),                // at_Aggregation
+            i18n("Dependency"),                 // at_Dependency
+            i18n("Association"),                // at_Association
+            i18n("Self Association"),           // at_Association_Self
+            i18n("Collaboration Message"),      // at_Coll_Message
+            i18n("Sequence Message"),           // at_Seq_Message
+            i18n("Collaboration Self Message"), // at_Coll_Message_Self
+            i18n("Sequence Self Message"),      // at_Seq_Message_Self
+            i18n("Containment"),                // at_Containment
+            i18n("Composition"),                // at_Composition
+            i18n("Realization"),                // at_Realization
+            i18n("Uni Association"),            // at_UniAssociation
+            i18n("Anchor"),                     // at_Anchor
+            i18n("State Transition"),           // at_State
+            i18n("Activity"),                   // at_Activity
+            i18n("Exception"),                  // at_Activity
+            i18n("Category to Parent"),         // at_Category2Parent
+            i18n("Child to Category"),          // at_Child2Category
+            i18n("Relationship" )               // at_Relationship
+        };
 
 /**
  * Sets up an association.
  * A new unique ID is assigned internally.
- *
  * @param type    The Uml::Association_Type to construct.
  * @param roleA   Pointer to the UMLObject in role A.
  * @param roleB   Pointer to the UMLObject in role B.
@@ -53,7 +79,6 @@ UMLAssociation::UMLAssociation( Uml::Association_Type type,
  * Constructs an association - for loading only.
  * This constructor should not normally be used as it constructs
  * an incomplete association (i.e. the role objects are missing.)
- *
  * @param type   The Uml::Association_Type to construct.
  *               Default: Uml::at_Unknown.
  */
@@ -97,34 +122,8 @@ bool UMLAssociation::operator==(const UMLAssociation &rhs)
              m_pRole[B] == rhs.m_pRole[B] );
 }
 
-const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
-            /* The elements must be listed in the same order as in the
-               Uml::Association_Type.  */
-            i18n("Generalization"),             // at_Generalization
-            i18n("Aggregation"),                // at_Aggregation
-            i18n("Dependency"),                 // at_Dependency
-            i18n("Association"),                // at_Association
-            i18n("Self Association"),           // at_Association_Self
-            i18n("Collaboration Message"),      // at_Coll_Message
-            i18n("Sequence Message"),           // at_Seq_Message
-            i18n("Collaboration Self Message"), // at_Coll_Message_Self
-            i18n("Sequence Self Message"),      // at_Seq_Message_Self
-            i18n("Containment"),                // at_Containment
-            i18n("Composition"),                // at_Composition
-            i18n("Realization"),                // at_Realization
-            i18n("Uni Association"),            // at_UniAssociation
-            i18n("Anchor"),                     // at_Anchor
-            i18n("State Transition"),           // at_State
-            i18n("Activity"),                   // at_Activity
-            i18n("Exception"),                  // at_Activity
-            i18n("Category to Parent"),         // at_Category2Parent
-            i18n("Child to Category"),          // at_Child2Category
-            i18n("Relationship" )               // at_Relationship
-        };
-
 /**
  * Returns the Association_Type of the UMLAssociation.
- *
  * @return  The Association_Type of the UMLAssociation.
  */
 Uml::Association_Type UMLAssociation::getAssocType() const
@@ -135,7 +134,7 @@ Uml::Association_Type UMLAssociation::getAssocType() const
 /**
  * Returns a String representation of this UMLAssociation.
  */
-QString UMLAssociation::toString ( ) const
+QString UMLAssociation::toString() const
 {
     QString string;
     if(m_pRole[A])
@@ -144,7 +143,7 @@ QString UMLAssociation::toString ( ) const
         string += ':';
         string += m_pRole[A]->getName();
     }
-    string += ':' + typeAsString(m_AssocType) + ':';
+    string += ':' + toString(m_AssocType) + ':';
     if(m_pRole[B])
     {
         string += m_pRole[B]->getObject( )->getName();
@@ -160,7 +159,7 @@ QString UMLAssociation::toString ( ) const
  * @param atype   The Association_Type enum value to convert.
  * @return  The string representation of the Association_Type.
  */
-QString UMLAssociation::typeAsString (Uml::Association_Type atype)
+QString UMLAssociation::toString (Uml::Association_Type atype)
 {
     if (atype < atypeFirst || atype > atypeLast)
         return QString();
@@ -191,7 +190,6 @@ bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
  * Needs to be called after all UML objects are loaded from file.
  * Overrides the method from UMLObject.
  * Calls resolveRef() for each role.
- *
  * @return  True for success.
  */
 bool UMLAssociation::resolveRef()
@@ -202,10 +200,9 @@ bool UMLAssociation::resolveRef()
         UMLObject *objA = getUMLRole(A)->getObject();
         UMLObject *objB = getUMLRole(B)->getObject();
         // Check if need to change the assoc type to Realization
-        if (m_AssocType == Uml::at_Generalization &&
-                (objA && objA->getBaseType() == Uml::ot_Interface ||
-                 objB && objB->getBaseType() == Uml::ot_Interface))
+        if (isRealization(objA, objB)) {
             m_AssocType = Uml::at_Realization;
+        }
         m_pUMLPackage->addAssocToConcepts(this);
         return true;
     }
@@ -275,8 +272,8 @@ bool UMLAssociation::load( QDomElement & element )
     UMLDoc * doc = UMLApp::app()->getDocument();
     UMLObject * obj[2] = { NULL, NULL };
     if (m_AssocType == Uml::at_Generalization ||
-        m_AssocType == Uml::at_Realization ||
-        m_AssocType == Uml::at_Dependency ||
+        m_AssocType == Uml::at_Realization    ||
+        m_AssocType == Uml::at_Dependency     ||
         m_AssocType == Uml::at_Child2Category ||
         m_AssocType == Uml::at_Category2Parent
         ) {
@@ -344,11 +341,9 @@ bool UMLAssociation::load( QDomElement & element )
         }
 
         // it is a realization if either endpoint is an interface
-        if (m_AssocType == Uml::at_Generalization &&
-                (obj[A] && obj[A]->getBaseType() == Uml::ot_Interface ||
-                 obj[B] && obj[B]->getBaseType() == Uml::ot_Interface))
+        if (isRealization(obj[A], obj[B])) {
             m_AssocType = Uml::at_Realization;
-
+        }
         return true;
     }
 
@@ -530,10 +525,9 @@ bool UMLAssociation::load( QDomElement & element )
 
 /**
  * Returns the UMLObject assigned to the given role.
- *
  * @return  Pointer to the UMLObject in the given role.
  */
-UMLObject* UMLAssociation::getObject(Uml::Role_Type role)
+UMLObject* UMLAssociation::getObject(Uml::Role_Type role) const
 {
     if (m_pRole[role] == NULL)
         return NULL;
@@ -543,10 +537,9 @@ UMLObject* UMLAssociation::getObject(Uml::Role_Type role)
 /**
  * Returns the ID of the UMLObject assigned to the given role.
  * Shorthand for getObject(role)->getID().
- *
  * @return  ID of the UMLObject in the given role.
  */
-Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role)
+Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) const
 {
     UMLRole *roleObj = m_pRole[role];
     UMLObject *o = roleObj->getObject();
@@ -563,13 +556,19 @@ Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role)
     return o->getID();
 }
 
-/* CURRENTLY UNUSED
+/**
+ * Returns the ID of the UMLObject assigned to the given role.
+ * CURRENTLY UNUSED.
+ * @return  ID of the UMLObject of the given role.
+ */
 Uml::IDType UMLAssociation::getRoleId(Role_Type role) const
 {
     return m_pRole[role]->getID();
 }
-*/
 
+/**
+ * Returns the changeability.
+ */
 Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) const
 {
     return m_pRole[role]->getChangeability();
@@ -577,7 +576,6 @@ Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) co
 
 /**
  * Returns the Visibility of the given role.
- *
  * @return  Visibility of the given role.
  */
 Uml::Visibility UMLAssociation::getVisibility(Uml::Role_Type role) const
@@ -587,7 +585,6 @@ Uml::Visibility UMLAssociation::getVisibility(Uml::Role_Type role) const
 
 /**
  * Returns the multiplicity assigned to the given role.
- *
  * @return  The multiplicity assigned to the given role.
  */
 QString UMLAssociation::getMulti(Uml::Role_Type role) const
@@ -597,7 +594,6 @@ QString UMLAssociation::getMulti(Uml::Role_Type role) const
 
 /**
  * Returns the name assigned to the role A.
- *
  * @return  The name assigned to the given role.
  */
 QString UMLAssociation::getRoleName(Uml::Role_Type role) const
@@ -607,7 +603,6 @@ QString UMLAssociation::getRoleName(Uml::Role_Type role) const
 
 /**
  * Returns the documentation assigned to the given role.
- *
  * @return  Documentation text of given role.
  */
 QString UMLAssociation::getRoleDoc(Uml::Role_Type role) const
@@ -617,14 +612,17 @@ QString UMLAssociation::getRoleDoc(Uml::Role_Type role) const
 
 /**
  * Get the underlying UMLRole object for the given role.
- *
  * @return  Pointer to the UMLRole object for the given role.
  */
-UMLRole * UMLAssociation::getUMLRole(Uml::Role_Type role)
+UMLRole * UMLAssociation::getUMLRole(Uml::Role_Type role) const
 {
     return m_pRole[role];
 }
 
+/**
+ * Set the attribute m_bOldLoadMode.
+ * @param value   the new value to set
+ */
 void UMLAssociation::setOldLoadMode(bool value /* = true */)
 {
     m_bOldLoadMode = value;
@@ -640,7 +638,6 @@ bool UMLAssociation::getOldLoadMode() const
 
 /**
  * Sets the assocType of the UMLAssociation.
- *
  * @param assocType The Association_Type of the UMLAssociation.
  */
 void UMLAssociation::setAssocType(Uml::Association_Type assocType)
@@ -659,7 +656,6 @@ void UMLAssociation::setAssocType(Uml::Association_Type assocType)
 
 /**
  * Sets the UMLObject playing the given role in the association.
- *
  * @param obj  Pointer to the UMLObject of the given role.
  * @param role The Uml::Role_Type played by the association
  */
@@ -670,7 +666,6 @@ void UMLAssociation::setObject(UMLObject *obj, Uml::Role_Type role)
 
 /**
  * Sets the visibility of the given role of the UMLAssociation.
- *
  * @param value  Visibility of role.
  * @param role   The Uml::Role_Type to which the visibility is being applied
  */
@@ -681,7 +676,6 @@ void UMLAssociation::setVisibility(Uml::Visibility value, Uml::Role_Type role)
 
 /**
  * Sets the changeability of the given role of the UMLAssociation.
- *
  * @param value     Changeability_Type of the given role.
  * @param role      The Uml::Role_Type to which the changeability is being set
  */
@@ -692,7 +686,6 @@ void UMLAssociation::setChangeability(Uml::Changeability_Type value, Uml::Role_T
 
 /**
  * Sets the multiplicity of the given role of the UMLAssociation.
- *
  * @param multi    The multiplicity of the given role.
  * @param role     The Uml::Role_Type to which the multiplicity is being applied
  */
@@ -704,7 +697,6 @@ void UMLAssociation::setMulti(const QString &multi, Uml::Role_Type role)
 
 /**
  * Sets the name of the given role of the UMLAssociation.
- *
  * @param roleName  The name to set for the given role.
  * @param role      The Uml::Role_Type for which to set the name.
  */
@@ -715,7 +707,6 @@ void UMLAssociation::setRoleName(const QString &roleName, Uml::Role_Type role)
 
 /**
  * Sets the documentation on the given role in the association.
- *
  * @param doc      The string with the documentation.
  * @param role     The Uml::Role_Type to which the documentation is being applied
  */
@@ -726,10 +717,9 @@ void UMLAssociation::setRoleDoc(const QString &doc, Uml::Role_Type role)
 
 /**
  * Convert Changeability_Type value into QString representation.
- *
  * @param type   The Changeability_Type enum value to convert.
  */
-QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type)
+QString UMLAssociation::toString(Uml::Changeability_Type type)
 {
     switch (type) {
     case Uml::chg_Frozen:
@@ -746,8 +736,28 @@ QString UMLAssociation::ChangeabilityToString(Uml::Changeability_Type type)
 }
 
 /**
+ * When the association type is "Generalization" and at least one of the
+ * given objects an interface, then it is a "Realization".
+ * @param objA   UML object as role A
+ * @param objB   UML object as role B
+ * @return flag whether association is a realization
+ */
+bool UMLAssociation::isRealization(UMLObject* objA, UMLObject* objB) const
+{
+    bool aIsInterface = false;
+    if (objA && (objA->getBaseType() == Uml::ot_Interface)) {
+        aIsInterface = true;
+    }
+    bool bIsInterface = false;
+    if (objB && (objB->getBaseType() == Uml::ot_Interface)) {
+        bIsInterface = true;
+    }
+    return (m_AssocType == Uml::at_Generalization) &&
+           (aIsInterface || bIsInterface);
+}
+
+/**
  * Common initializations at construction time.
- *
  * @param type      The Association_Type to represent.
  * @param roleAObj  Pointer to the role A UMLObject.
  * @param roleBObj  Pointer to the role B UMLObject.

@@ -226,7 +226,7 @@
          <default>yellow</default>
        </entry>
        <entry name="editBlockColor" type="Color">
-         <label>Edit Block Color</label>
+         <label context="Color of the Edit Block">Edit Block Color</label>
          <whatsthis>Color of the Edit Block</whatsthis>
          <default>pink</default>
        </entry>

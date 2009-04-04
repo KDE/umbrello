@@ -4,8 +4,8 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2008                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2003-2009                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
@@ -81,7 +81,7 @@ void AssocGenPage::constructWidget()
     docLayout->addWidget(m_pDoc);
     m_pDoc-> setText(m_pAssociationWidget->documentation());
     Uml::Association_Type currentType =  m_pAssociationWidget->getAssocType();
-    QString currentTypeAsString = UMLAssociation::typeAsString(currentType);
+    QString currentTypeAsString = UMLAssociation::toString(currentType);
     QLabel *pTypeL = new QLabel(i18n("Type:"), nameGB);
     nameLayout->addWidget(pTypeL, 1, 0);
 
@@ -109,7 +109,7 @@ void AssocGenPage::constructWidget()
     m_AssocTypeStrings.clear();
     for (int i = 0; i < m_AssocTypes.size(); ++i) {
         if (m_AssocTypes[i] == currentType) found=true;
-        QString typeStr = UMLAssociation::typeAsString(m_AssocTypes[i]);
+        QString typeStr = UMLAssociation::toString(m_AssocTypes[i]);
         m_AssocTypeStrings << typeStr;
     }
 
