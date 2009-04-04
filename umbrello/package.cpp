@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,9 +30,8 @@ using namespace Uml;
 
 /**
  * Sets up a Package.
- *
- * @param name              The name of the Concept.
- * @param id                The unique id of the Concept.
+ * @param name   The name of the Concept.
+ * @param id     The unique id of the Concept.
  */
 UMLPackage::UMLPackage(const QString & name, Uml::IDType id)
         : UMLCanvasObject(name, id)
@@ -40,13 +39,15 @@ UMLPackage::UMLPackage(const QString & name, Uml::IDType id)
     m_BaseType = ot_Package;
 }
 
+/**
+ * Destructor.
+ */
 UMLPackage::~UMLPackage()
 {
 }
 
 /**
- * Copy the internal presentation of this object into the new
- * object.
+ * Copy the internal presentation of this object into the new object.
  */
 void UMLPackage::copyInto(UMLObject *lhs) const
 {
@@ -75,7 +76,7 @@ UMLObject* UMLPackage::clone() const
  * For aggregations and compositions , the assoc is added to the concept
  * that matches role B.
  *
- * @param assoc     The association to add
+ * @param assoc   The association to add
  */
 void UMLPackage::addAssocToConcepts(UMLAssociation* a)
 {
@@ -84,8 +85,8 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* a)
     Uml::IDType AId = a->getObjectId(Uml::A);
     Uml::IDType BId = a->getObjectId(Uml::B);
     UMLObject *o = NULL;
-    for (UMLObjectListIt it(m_objects); it.hasNext(); ) {
-        o = it.next();
+    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+        o = oit.next();
         UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);
         if (c == NULL)
             continue;
@@ -106,17 +107,17 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* a)
  */
 void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
 {
-    UMLObject *o = NULL;
-    for (UMLObjectListIt it(m_objects); it.hasNext(); ) {
-        o = it.next();
-        UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);
-        if (c == NULL)
-            continue;
-        if (c->hasAssociation(assoc))
-            c->removeAssociationEnd(assoc);
-        UMLPackage *pkg = dynamic_cast<UMLPackage*>(c);
-        if (pkg)
-            pkg->removeAssocFromConcepts(assoc);
+    UMLObject *o = 0;
+    for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
+        o = oit.next();
+        UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);  //:TODO: crash here ?
+        if (c) {
+            if (c->hasAssociation(assoc))
+                c->removeAssociationEnd(assoc);
+            UMLPackage *pkg = dynamic_cast<UMLPackage*>(c);
+            if (pkg)
+                pkg->removeAssocFromConcepts(assoc);
+        }
     }
 }
 
@@ -228,7 +229,7 @@ UMLObjectList UMLPackage::containedObjects()
 /**
  * Find the object of the given name in the list of contained objects.
  *
- * @param name              The name to seek.
+ * @param name   The name to seek.
  * @return  Pointer to the UMLObject found or NULL if not found.
  */
 UMLObject * UMLPackage::findObject(const QString &name)
@@ -249,7 +250,7 @@ UMLObject * UMLPackage::findObject(const QString &name)
 /**
  * Find the object of the given ID in the list of contained objects.
  *
- * @param id                The ID to seek.
+ * @param id   The ID to seek.
  * @return  Pointer to the UMLObject found or NULL if not found.
  */
 UMLObject * UMLPackage::findObjectById(Uml::IDType id)
@@ -261,9 +262,9 @@ UMLObject * UMLPackage::findObjectById(Uml::IDType id)
  * Append all packages from this packaed ( and those from nested packeges)
  * to the given UMLPackageList.
  *
- * @param packages     The list to append to
- * @param includeNested  Whether to include the packages from nested packages
- *                          (default:true)
+ * @param packages        The list to append to
+ * @param includeNested   Whether to include the packages from nested packages
+ *                        (default:true)
  */
 void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested )
 {
@@ -284,9 +285,9 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested )
  * Append all classifiers from this package (and those from
  * nested packages) to the given UMLClassifierList.
  *
- * @param classifiers               The list to append to.
- * @param includeNested             Whether to include the classifiers from
- *                          nested packages (default: true.)
+ * @param classifiers     The list to append to.
+ * @param includeNested   Whether to include the classifiers from
+ *                        nested packages (default: true.)
  */
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
                                    bool includeNested /* = true */)
@@ -308,9 +309,9 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
  * Append all classes from this package (and those from
  * nested packages) to the given UMLClassifierList.
  *
- * @param classes           The list to append to.
- * @param includeNested             Whether to include the classes from
- *                          nested packages (default: true.)
+ * @param classes         The list to append to.
+ * @param includeNested   Whether to include the classes from
+ *                        nested packages (default: true.)
  */
 void UMLPackage::appendClasses(UMLClassifierList& classes,
                                bool includeNested /* = true */)
@@ -332,9 +333,9 @@ void UMLPackage::appendClasses(UMLClassifierList& classes,
  * Append all entities from this package (and those
  * from nested packages) to the given UMLEntityList.
  *
- * @param entities               The list to append to.
- * @param includeNested          Whether to include the entities from
- *                          nested packages (default: true.)
+ * @param entities        The list to append to.
+ * @param includeNested   Whether to include the entities from
+ *                        nested packages (default: true.)
  */
 void UMLPackage::appendEntities( UMLEntityList& entities,
                                  bool includeNested /* = true */ )
@@ -356,9 +357,9 @@ void UMLPackage::appendEntities( UMLEntityList& entities,
  * Append all classes and interfaces from this package (and those
  * from nested packages) to the given UMLClassifierList.
  *
- * @param classifiers               The list to append to.
- * @param includeNested             Whether to include the classifiers from
- *                          nested packages (default: true.)
+ * @param classifiers     The list to append to.
+ * @param includeNested   Whether to include the classifiers from
+ *                        nested packages (default: true.)
  */
 void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
         bool includeNested /* = true */)
@@ -380,9 +381,9 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
  * Append all interfaces from this package (and those from
  * nested packages) to the given UMLClassifierList.
  *
- * @param interfaces                The list to append to.
- * @param includeNested             Whether to include the interfaces from
- *                          nested packages (default: true.)
+ * @param interfaces      The list to append to.
+ * @param includeNested   Whether to include the interfaces from
+ *                        nested packages (default: true.)
  */
 void UMLPackage::appendInterfaces( UMLClassifierList& interfaces,
                                    bool includeNested /* = true */)

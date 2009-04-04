@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,7 +20,7 @@
 #include "operation.h"
 #include "template.h"
 #include "stereotype.h"
-#include "clipboard/idchangelog.h"
+#include "idchangelog.h"
 
 // kde includes
 #include <kdebug.h>
@@ -29,30 +29,23 @@
 /**
  * Sets up a UMLCanvasObject.
  *
- * @param name              The name of the Concept.
- * @param id                The unique id of the Concept.
+ * @param name   The name of the Concept.
+ * @param id     The unique id of the Concept.
  */
 UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
         : UMLObject(name, id)
 {
 }
 
+/**
+ * Standard deconstructor.
+ */
 UMLCanvasObject::~UMLCanvasObject()
 {
     //removeAllAssociations();
-    /* No! This is way too late to do that.
-      It should have been called explicitly before destructing the
-      UMLCanvasObject.
-      Here is an example crash that happens if we rely on
-      removeAllAssociations() at this point:
-#4  0x415aac7f in __dynamic_cast () from /usr/lib/libstdc++.so.5
-#5  0x081acdbd in UMLCanvasObject::removeAllAssociations() (this=0x89e5b08)
-    at umlcanvasobject.cpp:83
-#6  0x081ac9fa in ~UMLCanvasObject (this=0x89e5b08) at umlcanvasobject.cpp:29
-#7  0x08193ffc in ~UMLPackage (this=0x89e5b08) at package.cpp:35
-#8  0x0813cbf6 in ~UMLClassifier (this=0x89e5b08) at classifier.cpp:40
-#9  0x081af3a6 in UMLDoc::closeDocument() (this=0x8468b10) at umldoc.cpp:284
-     */
+    // No! This is way too late to do that.
+    //  It should have been called explicitly before destructing the
+    //  UMLCanvasObject.
     if (associations())
         uDebug() << "UMLCanvasObject destructor: FIXME: there are still associations()";
 }
@@ -89,7 +82,7 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc)
 {
     Q_ASSERT(assoc);
     // add association only if not already present in list
-    if(!hasAssociation(assoc))
+    if (!hasAssociation(assoc))
     {
         m_List.append( assoc );
 
@@ -108,8 +101,9 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc)
  */
 bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc)
 {
-    if(m_List.count(assoc) > 0)
+    if (m_List.count(assoc) > 0) {
         return true;
+    }
     return false;
 }
 
@@ -121,7 +115,7 @@ bool UMLCanvasObject::hasAssociation(UMLAssociation* assoc)
  */
 int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
 {
-    if(!hasAssociation(assoc) || !m_List.removeAll(assoc)) {
+    if (!hasAssociation(assoc) || !m_List.removeAll(assoc)) {
         uWarning() << "can not find given assoc in list";
         return -1;
     }
@@ -159,15 +153,19 @@ void UMLCanvasObject::removeAllAssociationEnds()
             uDebug() << m_Name << "): objB " << objB->getName() << " is not a UMLCanvasObject";
         else
             uDebug() << m_Name << "): objB is NULL";
-        m_List.removeAt(i);
     }
 }
 
+/**
+ * Remove all child objects.
+ * Just clear list, objects must be deleted where they were created
+ * (or we have bad crashes).
+ */
 void UMLCanvasObject::removeAllChildObjects()
 {
-    removeAllAssociationEnds();
-    while ( !m_List.isEmpty() ) {
-        delete m_List.takeFirst();
+    if (!m_List.isEmpty()) {
+        removeAllAssociationEnds();
+        m_List.clear();
     }
 }
 
@@ -276,6 +274,9 @@ UMLObject* UMLCanvasObject::findChildObjectById(Uml::IDType id, bool considerAnc
     return 0;
 }
 
+/**
+ *  Overloaded '==' operator
+ */
 bool UMLCanvasObject::operator==(const UMLCanvasObject& rhs)
 {
     if (this == &rhs) {

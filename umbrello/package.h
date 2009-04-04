@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,7 +17,6 @@
 
 // forward declarations
 class UMLAssociation;
-
 
 /**
  * This class contains the non-graphical information required for a UML
@@ -35,12 +33,7 @@ class UMLPackage : public UMLCanvasObject
 {
     Q_OBJECT
 public:
-
     explicit UMLPackage(const QString & name = QString(), Uml::IDType id = Uml::id_None);
-
-    /**
-     * Empty deconstructor.
-     */
     virtual ~UMLPackage();
 
     virtual void copyInto(UMLObject *lhs) const;
@@ -48,7 +41,6 @@ public:
     virtual UMLObject* clone() const;
 
     bool addObject(UMLObject *pObject);
-
     void removeObject(UMLObject *pObject);
 
     virtual void removeAllObjects();
@@ -56,27 +48,19 @@ public:
     UMLObjectList containedObjects();
 
     void addAssocToConcepts(UMLAssociation* assoc);
-
     void removeAssocFromConcepts(UMLAssociation *assoc);
 
     UMLObject * findObject(const QString &name);
-
     UMLObject * findObjectById(Uml::IDType id);
 
-
     void appendPackages(UMLPackageList& packages, bool includeNested = true);
-
     void appendClassifiers( UMLClassifierList& classifiers,
                             bool includeNested = true );
-
     void appendClasses( UMLClassifierList& classes, bool includeNested = true );
-
     void appendClassesAndInterfaces(UMLClassifierList& classifiers,
                                     bool includeNested = true);
-
     void appendEntities(UMLEntityList& entities,
                                     bool includeNested = true);
-
     void appendInterfaces(UMLClassifierList& interfaces,
                           bool includeNested = true );
 
