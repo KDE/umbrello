@@ -60,7 +60,7 @@ public:
     void appendClassesAndInterfaces(UMLClassifierList& classifiers,
                                     bool includeNested = true);
     void appendEntities(UMLEntityList& entities,
-                                    bool includeNested = true);
+                        bool includeNested = true);
     void appendInterfaces(UMLClassifierList& interfaces,
                           bool includeNested = true );
 
@@ -69,7 +69,6 @@ public:
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
 protected:
-
     virtual bool load(QDomElement& element);
 
     /**
