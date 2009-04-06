@@ -75,15 +75,14 @@ UMLObject* UMLPackage::clone() const
  * For generalizations, the assoc is added to the concept that matches role A.
  * For aggregations and compositions , the assoc is added to the concept
  * that matches role B.
- *
- * @param assoc   The association to add
+ * @param assoc   the association to add
  */
-void UMLPackage::addAssocToConcepts(UMLAssociation* a)
+void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
 {
-    if (! UMLAssociation::assocTypeHasUMLRepresentation(a->getAssocType()) )
+    if (! UMLAssociation::assocTypeHasUMLRepresentation(assoc->getAssocType()) )
         return;
-    Uml::IDType AId = a->getObjectId(Uml::A);
-    Uml::IDType BId = a->getObjectId(Uml::B);
+    Uml::IDType AId = assoc->getObjectId(Uml::A);
+    Uml::IDType BId = assoc->getObjectId(Uml::B);
     UMLObject *o = NULL;
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         o = oit.next();
@@ -91,26 +90,27 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* a)
         if (c == NULL)
             continue;
         if (AId == c->getID() || (BId == c->getID())) {
-            if (c->hasAssociation(a))
-                uDebug() << c->getName() << " already has association id=" << ID2STR(a->getID());
+            if (c->hasAssociation(assoc))
+                uDebug() << c->getName() << " already has association id=" << ID2STR(assoc->getID());
             else
-               c->addAssociationEnd(a);
+               c->addAssociationEnd(assoc);
         }
         UMLPackage *pkg = dynamic_cast<UMLPackage*>(c);
         if (pkg)
-            pkg->addAssocToConcepts(a);
+            pkg->addAssocToConcepts(assoc);
     }
 }
 
 /**
  * Remove the association from the participating concepts.
+ * @param assoc   the association to remove
  */
 void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
 {
     UMLObject *o = 0;
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         o = oit.next();
-        UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);  //:TODO: crash here ?
+        UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);
         if (c) {
             if (c->hasAssociation(assoc))
                 c->removeAssociationEnd(assoc);
