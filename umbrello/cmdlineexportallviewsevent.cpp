@@ -4,39 +4,58 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "cmdlineexportallviewsevent.h"
 
-// qt includes
-#include <QtCore/QStringList>
+// app includes
+#include "uml.h"
+#include "umlviewimageexportermodel.h"
 
 // kde includes
 #include <kapplication.h>
 #include <kdebug.h>
 
-// app includes
-#include "uml.h"
-#include "umlviewimageexportermodel.h"
+// qt includes
+#include <QtCore/QStringList>
+#include <QtGui/QCloseEvent>
 
+const QEvent::Type CmdLineExportAllViewsEvent::type_ =
+    (QEvent::Type)QEvent::registerEventType(QEvent::User + 1);
 
 /**
  * Returns the type of the event.
+ * @return event type
  */
-int CmdLineExportAllViewsEvent::getType()
+QEvent::Type CmdLineExportAllViewsEvent::eventType()
 {
-    return QEvent::User + 1;
+    return type_;
 }
 
+/**
+ * Constructor.
+ * @param imageType The type of the images the views will be exported to.
+ * @param directory The url of the directory where the images will be saved.
+ * @param useFolders If the tree structure of the views in the document must be created
+ *                   in the target directory.
+ */
 CmdLineExportAllViewsEvent::CmdLineExportAllViewsEvent(const QString &imageType, const KUrl &directory, const bool useFolders)
-  : QCustomEvent(CmdLineExportAllViewsEvent::getType())
+  : QEvent(type_),
+    m_imageType(imageType),
+    m_directory(directory),
+    m_useFolders(useFolders)
 {
-    m_imageType = imageType;
-    m_directory = directory;
-    m_useFolders = useFolders;
+    uDebug() << "created with type value " << type_;
+}
+
+/**
+ * Destructor for CmdLineExportAllViewsEvent
+ */
+CmdLineExportAllViewsEvent::~CmdLineExportAllViewsEvent()
+{
 }
 
 /**
@@ -48,9 +67,9 @@ void CmdLineExportAllViewsEvent::exportAllViews()
 {
     QStringList errors = UMLViewImageExporterModel().exportAllViews(m_imageType, m_directory, m_useFolders);
     if (!errors.isEmpty()) {
-        uError() << "Errors while exporting:";
+        uError() << "CmdLineExportAllViewsEvent::exportAllViews(): Errors while exporting:";
         for (QStringList::Iterator it = errors.begin(); it != errors.end(); ++it) {
-            uError() << *it << endl;
+            uError() << *it;
         }
     }
 
