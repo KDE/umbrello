@@ -144,7 +144,7 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
     QString fileName;
     KTemporaryFile tmpFile;
     if (url.isLocalFile()) {
-        fileName = url.path();
+        fileName = url.toLocalFile();
     } else {
         tmpFile.open();
         fileName = tmpFile.fileName();
