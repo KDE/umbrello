@@ -60,7 +60,7 @@ CmdLineExportAllViewsEvent::~CmdLineExportAllViewsEvent()
 
 /**
  * Exports all the views using UMLViewImageExporterModel, prints the errors
- * occurred in the error output and sends a close event to the application to finish it.
+ * occurred in the error output and quits the application.
  * To export the views, it uses the attributes set when the event was created.
  */
 void CmdLineExportAllViewsEvent::exportAllViews()
@@ -73,5 +73,5 @@ void CmdLineExportAllViewsEvent::exportAllViews()
         }
     }
 
-    kapp->sendEvent(UMLApp::app(), new QCloseEvent());
+    kapp->quit();
 }
