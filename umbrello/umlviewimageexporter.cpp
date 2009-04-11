@@ -1,20 +1,21 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "umlviewimageexporter.h"
 
-// include files for Qt
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+// application specific includes
+#include "umlviewimageexportermodel.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlview.h"
 
 //kde include files
 #include <klocale.h>
@@ -23,19 +24,40 @@
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
 
-// application specific includes
-#include "umlviewimageexportermodel.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlview.h"
+// Qt include files
+#include <QtCore/QString>
+#include <QtCore/QStringList>
 
-
+/**
+ * Constructor for UMLViewImageExporter.
+ */
 UMLViewImageExporter::UMLViewImageExporter(UMLView* view)
 {
     m_view = view;
     m_imageMimeType = UMLApp::app()->getImageMimeType();
 }
 
+/**
+ * Destructor for UMLViewImageExporter
+ */
+UMLViewImageExporter::~UMLViewImageExporter()
+{
+}
+
+/**
+ * Shows a save dialog to the user to get the needed parameters and then exports
+ * the view.
+ * If the selected file already exists, an overwrite confirmation
+ * dialog is shown. If the user doesn't want to overwrite the file,
+ * the save dialog is shown again.
+ * The dialog remembers values between calls (in the same application instance,
+ * although it's not persistent between Umbrello executions).
+ *
+ * The status bar shows an information message until the export finishes.
+ *
+ * If something went wrong while exporting, an error dialog is shown to the
+ * user with the error message explaining the problem that happened.
+ */
 void UMLViewImageExporter::exportView()
 {
     if (!prepareExportView()) {
@@ -54,6 +76,16 @@ void UMLViewImageExporter::exportView()
     app->getDocument()->writeToStatusBar(i18nc("reset status bar", "Ready."));
 }
 
+/**
+ * Shows a save file dialog to the user to get the parameters used
+ * to export the view.
+ * If the selected file already exists, an overwrite confirmation
+ * dialog is shown. If the user doesn't want to overwrite the file,
+ * the save dialog is shown again.
+ *
+ * @return True if the user wants to save the image,
+ *         false if the operation is cancelled.
+ */
 bool UMLViewImageExporter::prepareExportView()
 {
     bool exportPrepared = false;
@@ -79,6 +111,13 @@ bool UMLViewImageExporter::prepareExportView()
     return true;
 }
 
+/**
+ * Shows a save file dialog to the user to get the parameters used
+ * to export the view and updates the attributes with the parameters got.
+ *
+ * @return True if the user wants to save the image,
+ *         false if the operation is cancelled.
+ */
 bool UMLViewImageExporter::getParametersFromUser()
 {
     UMLApp *app = UMLApp::app();
@@ -109,6 +148,12 @@ bool UMLViewImageExporter::getParametersFromUser()
     return true;
 }
 
+/**
+ * Prepares the save file dialog.
+ * Sets the mime type filter, sensible default values...
+ *
+ * @param fileDialog The dialog to prepare.
+ */
 void UMLViewImageExporter::prepareFileDialog(KFileDialog &fileDialog)
 {
     // get all supported mime types

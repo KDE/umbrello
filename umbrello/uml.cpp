@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -44,8 +44,8 @@
 #include "classimport.h"
 #include "refactoring/refactoringassistant.h"
 // clipboard
-#include "clipboard/umlclipboard.h"
-#include "clipboard/umldragdata.h"
+#include "umlclipboard.h"
+#include "umldragdata.h"
 // docgenerators
 #include "docgenerators/docbookgenerator.h"
 #include "docgenerators/xhtmlgenerator.h"
@@ -89,11 +89,16 @@
 #include <QtGui/QPrintDialog>
 #include <QtGui/QUndoView>
 
-// Static pointer, holding the last created instance.
+/** Static pointer, holding the last created instance. */
 UMLApp* UMLApp::s_instance;
 
-/// @todo This is an ugly _HACK_ to allow to compile umbrello.
-/// All the menu stuff should be ported to KDE4 (using actions)
+/**
+ * Searches for a menu with the given name.
+ * @todo This is an ugly _HACK_ to allow to compile umbrello.
+ *       All the menu stuff should be ported to KDE4 (using actions)
+ *
+ * @param name  The name of the menu to search for (name, not text)
+ */
 QMenu* UMLApp::findMenu(const QString& name)
 {
     QWidget* widget = factory()->container(name, this);
@@ -104,6 +109,9 @@ QMenu* UMLApp::findMenu(const QString& name)
     return NULL;
 }
 
+/**
+ * Constructor. Calls all init functions to create the application.
+ */
 UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
 {
     s_instance   = this;
@@ -166,6 +174,9 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     toolsbar->setToolButtonStyle(Qt::ToolButtonIconOnly); //too many items for text, really we want a toolbox widget
 }
 
+/**
+ * Standard deconstructor.
+ */
 UMLApp::~UMLApp()
 {
     delete m_imageExporterAll;
@@ -175,11 +186,17 @@ UMLApp::~UMLApp()
     delete m_pUndoStack;
 }
 
+/**
+ * Get the last created instance of this class.
+ */
 UMLApp* UMLApp::app()
 {
     return s_instance;
 }
 
+/**
+ * Helper method to setup the programming language action.
+ */
 void UMLApp::setProgLangAction(Uml::Programming_Language pl, const QString& name, const QString& action)
 {
     m_langAct[pl] = actionCollection()->addAction(action);
@@ -187,6 +204,10 @@ void UMLApp::setProgLangAction(Uml::Programming_Language pl, const QString& name
     m_langAct[pl]->setCheckable(true);
 }
 
+/**
+ * Initializes the KActions and the status bar of the application 
+ * and calls setupGUI().
+ */
 void UMLApp::initActions()
 {
     QAction* fileNew = KStandardAction::openNew(this, SLOT(slotFileNew()), actionCollection());
@@ -295,7 +316,7 @@ void UMLApp::initActions()
     fileSave->setToolTip(i18n("Saves the document"));
     fileSaveAs->setToolTip(i18n("Saves the document as..."));
     fileClose->setToolTip(i18n("Closes the document"));
-    filePrint ->setToolTip(i18n("Prints out the document"));
+    filePrint->setToolTip(i18n("Prints out the document"));
     fileQuit->setToolTip(i18n("Quits the application"));
     fileExportDocbook->setToolTip(i18n("Exports the model to the docbook format"));
     fileExportXhtml->setToolTip(i18n("Exports the model to the XHTML format"));
@@ -508,22 +529,40 @@ void UMLApp::initActions()
     editRedo->setEnabled(false);
 }
 
+/**
+ * Connected to by the KPlayerSliderAction zoomAction, a value of between 300
+ * and 2200 is scaled to zoom to between 9% and 525%.
+ * The min and max values of the slider are hard coded in KPlayerSliderAction for now.
+ */
 void UMLApp::slotZoomSliderMoved(int value)
 {
     int zoom = (int)(value*0.01);
     getCurrentView()->setZoom(zoom*zoom);
 }
 
+/**
+ * Set zoom to 100%.
+ */
 void UMLApp::slotZoom100()
 {
     setZoom(100);
 }
 
+/**
+ * Set the zoom factor of the current diagram.
+ *
+ * @param zoom  Zoom factor in percentage.
+ */
 void UMLApp::setZoom(int zoom)
 {
     getCurrentView()->setZoom(zoom);
 }
 
+/**
+ * Set the zoom factor of the current diagram.
+ *
+ * @param action  Action which is called.
+ */
 void UMLApp::slotSetZoom(QAction* action)
 {
     QVariant var = action->data();
@@ -532,6 +571,9 @@ void UMLApp::slotSetZoom(QAction* action)
     }
 }
 
+/**
+ * Helper method to create the zoom actions.
+ */
 QAction* UMLApp::createZoomAction(int zoom, int currentZoom)
 {
     //IMPORTANT: The zoom value is added to the action.
@@ -545,6 +587,9 @@ QAction* UMLApp::createZoomAction(int zoom, int currentZoom)
     return action;
 }
 
+/**
+ * Prepares the zoom menu for display.
+ */
 void UMLApp::setupZoomMenu()
 {
     m_zoomSelect->clear();
@@ -576,12 +621,20 @@ void UMLApp::setupZoomMenu()
     }
 }
 
+/**
+ * Sets up the statusbar for the main window by
+ * initialzing a statuslabel.
+ */
 void UMLApp::initStatusBar()
 {
     statusBar()->insertPermanentItem( i18nc("init status bar", "Ready"), 1 );
     connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
 }
 
+/**
+ * Creates the centerwidget of the KMainWindow instance and
+ * sets it as the view.
+ */
 void UMLApp::initView()
 {
     setCaption(m_doc->url().fileName(),false);
@@ -669,6 +722,9 @@ void UMLApp::initView()
     //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);
 }
 
+/**
+ * Opens a file specified by commandline option.
+ */
 void UMLApp::openDocumentFile(const KUrl& url)
 {
     slotStatusMsg(i18n("Opening file..."));
@@ -680,16 +736,31 @@ void UMLApp::openDocumentFile(const KUrl& url)
     enablePrint(true);
 }
 
+/**
+ * Returns a pointer to the current document connected to the
+ * KMainWindow instance.
+ * Used by the View class to access the document object's methods.
+ */
 UMLDoc *UMLApp::getDocument() const
 {
     return m_doc;
 }
 
+/**
+ * Returns a pointer to the list view.
+ *
+ * @return  The listview being used.
+ */
 UMLListView* UMLApp::getListView()
 {
     return m_listView;
 }
 
+/**
+ * Save general Options like all bar positions and status
+ * as well as the geometry and the recent file list to
+ * the configuration file.
+ */
 void UMLApp::saveOptions()
 {
     // The Toolbar settings will be handled by the respective classes ( KToolBar )
@@ -721,7 +792,7 @@ void UMLApp::saveOptions()
         UmbrelloSettings::setLastFile(  "" );
     }
     else {
-        UmbrelloSettings::setLastFile(  m_doc -> url().prettyUrl() );
+        UmbrelloSettings::setLastFile(  m_doc->url().prettyUrl() );
     }
 
     UmbrelloSettings::setImageMimeType(  getImageMimeType() );
@@ -798,6 +869,10 @@ void UMLApp::saveOptions()
     UmbrelloSettings::self()->writeConfig();
 }
 
+/**
+ * Read general Options again and initialize all variables
+ * like the recent file list.
+ */
 void UMLApp::readOptions()
 {
     // bar status settings
@@ -809,6 +884,13 @@ void UMLApp::readOptions()
     resize( UmbrelloSettings::geometry());
 }
 
+/**
+ * Saves the window properties for each open window
+ * during session end to the session config file,
+ * including saving the currently opened file by a
+ * temporary filename provided by KApplication.
+ * @see KMainWindow#saveProperties
+ */
 void UMLApp::saveProperties(KConfigGroup & cfg)
 {
     uDebug() << "******************* commented out - UNUSED?";
@@ -829,6 +911,13 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
 */
 }
 
+/**
+ * Reads the session config file and restores the
+ * application's state including the last opened files and
+ * documents by reading the temporary files saved by
+ * saveProperties()
+ * @see KMainWindow#readProperties
+ */
 void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWindowSettings(const KConfigGroup& config, bool force = false)
 {
     uDebug() << "******************* commented out - UNUSED?";
@@ -864,18 +953,45 @@ void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWind
 */
 }
 
+/**
+ * queryClose is called by KMainWindow on each closeEvent of a
+ * window. Counter to the default implementation (which only
+ * returns true), this calls saveModified() on the document object
+ * to ask if the document shall be saved if Modified; on cancel
+ * the closeEvent is rejected.
+ * @see KMainWindow#queryClose
+ * @see KMainWindow#closeEvent
+ *
+ * @return  True if window may be closed.
+ */
 bool UMLApp::queryClose()
 {
     return m_doc->saveModified();
 }
 
+/**
+ * queryExit is called by KMainWindow when the last
+ * window of the application is going to be closed during
+ * the closeEvent().  In contrast to the default
+ * implementation that just returns true, this calls
+ * saveOptions() to save the settings of the last
+ * window's properties.
+ * @see KMainWindow#queryExit
+ * @see KMainWindow#closeEvent
+ *
+ * @return  True if window may be closed.
+ */
 bool UMLApp::queryExit()
 {
     saveOptions();
-    m_doc -> closeDocument();
+    m_doc->closeDocument();
     return true;
 }
 
+/**
+ * Clears the document in the actual view to reuse it as the new
+ * document.
+ */
 void UMLApp::slotFileNew()
 {
     slotStatusMsg(i18n("Creating new document..."));
@@ -891,6 +1007,9 @@ void UMLApp::slotFileNew()
     resetStatusMsg();
 }
 
+/**
+ * Open a file and load it into the document.
+ */
 void UMLApp::slotFileOpen()
 {
     slotStatusMsg(i18n("Opening file..."));
@@ -919,6 +1038,9 @@ void UMLApp::slotFileOpen()
     resetStatusMsg();
 }
 
+/**
+ * Opens a file from the recent files menu.
+ */
 void UMLApp::slotFileOpenRecent(const KUrl& url)
 {
     slotStatusMsg(i18n("Opening file..."));
@@ -946,6 +1068,9 @@ void UMLApp::slotFileOpenRecent(const KUrl& url)
     resetStatusMsg();
 }
 
+/**
+ * Save a document.
+ */
 void UMLApp::slotFileSave()
 {
     slotStatusMsg(i18n("Saving file..."));
@@ -953,12 +1078,15 @@ void UMLApp::slotFileSave()
         slotFileSaveAs();
     }
     else {
-        m_doc->saveDocument(m_doc -> url());
+        m_doc->saveDocument(m_doc->url());
     }
     m_pUndoStack->setClean();
     resetStatusMsg();
 }
 
+/**
+ * Save a document by a new filename.
+ */
 bool UMLApp::slotFileSaveAs()
 {
     slotStatusMsg(i18n("Saving file with a new filename..."));
@@ -1013,12 +1141,19 @@ bool UMLApp::slotFileSaveAs()
     }
 }
 
+/**
+ * Asks for saving if the file is modified, then closes the current
+ * file and window.
+ */
 void UMLApp::slotFileClose()
 {
     slotStatusMsg(i18n("Closing file..."));
     slotFileNew();
 }
 
+/**
+ * Print the current file.
+ */
 void UMLApp::slotFilePrint()
 {
     slotStatusMsg(i18n("Printing..."));
@@ -1038,6 +1173,13 @@ void UMLApp::slotFilePrint()
     resetStatusMsg();
 }
 
+/**
+ * Closes all open windows by calling close() on each
+ * memberList item until the list is empty, then quits the
+ * application.  If queryClose() returns false because the
+ * user canceled the saveModified() dialog, the closing
+ * aborts.
+ */
 void UMLApp::slotFileQuit()
 {
     slotStatusMsg(i18n("Exiting..."));
@@ -1048,6 +1190,12 @@ void UMLApp::slotFileQuit()
     resetStatusMsg();
 }
 
+/**
+ * Exports the current model to docbook in a subdir of the
+ * current model directory named from the model name.
+ * @todo Let the user chose the destination directory and
+ * name, using network transparency.
+ */
 void UMLApp::slotFileExportDocbook()
 {
   DocbookGenerator* docbookGenerator = new DocbookGenerator;
@@ -1055,6 +1203,12 @@ void UMLApp::slotFileExportDocbook()
   connect( docbookGenerator, SIGNAL( finished( bool ) ), docbookGenerator, SLOT( deleteLater() ) );
 }
 
+/**
+ * Exports the current model to XHTML in a subdir of the
+ * current model directory named from the model name.
+ * @todo Let the user chose the destination directory and
+ * name, using network transparency.
+ */
 void UMLApp::slotFileExportXhtml()
 {
   if (m_xhtmlGenerator != 0) {
@@ -1065,18 +1219,30 @@ void UMLApp::slotFileExportXhtml()
   connect(m_xhtmlGenerator, SIGNAL(finished(bool)), this, SLOT(slotXhtmlDocGenerationFinished(bool)));
 }
 
+/**
+ * Reverts the document back to the state it was prior to the
+ * last action performed by the user.
+ */
 void UMLApp::slotEditUndo()
 {
     undo();
     resetStatusMsg();
 }
 
+/**
+ * Reverts the document back to the state it was prior to the
+ * last undo.
+ */
 void UMLApp::slotEditRedo()
 {
     redo();
     resetStatusMsg();
 }
 
+/**
+ * Put the marked text/object into the clipboard and remove
+ * it from the document.
+ */
 void UMLApp::slotEditCut()
 {
     slotStatusMsg(i18n("Cutting selection..."));
@@ -1091,6 +1257,9 @@ void UMLApp::slotEditCut()
     resetStatusMsg();
 }
 
+/**
+ * Put the marked text/object into the clipboard.
+ */
 void UMLApp::slotEditCopy()
 {
     slotStatusMsg(i18n("Copying selection to clipboard..."));
@@ -1100,6 +1269,9 @@ void UMLApp::slotEditCopy()
     m_doc->setModified( true );
 }
 
+/**
+ * Paste the clipboard into the document.
+ */
 void UMLApp::slotEditPaste()
 {
     slotStatusMsg(i18n("Inserting clipboard contents..."));
@@ -1117,110 +1289,180 @@ void UMLApp::slotEditPaste()
     m_doc->setModified( true );
 }
 
+/**
+ * Changes the statusbar contents for the standard label
+ * permanently, used to indicate current actions.
+ * @param text   The text that is displayed in the statusbar
+ */
 void UMLApp::slotStatusMsg(const QString &text)
 {
     // change status message permanently
     statusBar()->changeItem( text, 1 );
 }
 
+/**
+ * Helper method to reset the status bar message.
+ */
 void UMLApp::resetStatusMsg()
 {
     statusBar()->changeItem( i18nc("reset status bar", "Ready."), 1 );
 }
 
+/**
+ * Create this view.
+ */
 void UMLApp::slotClassDiagram()
 {
     executeCommand(new Uml::CmdCreateClassDiag(m_doc));
 }
 
+/**
+ * Create this view.
+ */
 void UMLApp::slotSequenceDiagram()
 {
     executeCommand(new Uml::CmdCreateSeqDiag(m_doc));
 }
 
+/**
+ * Create this view.
+ */
 void UMLApp::slotCollaborationDiagram()
 {
     executeCommand(new Uml::CmdCreateCollaborationDiag(m_doc));
 }
 
+/**
+ * Create this view.
+ */
 void UMLApp::slotUseCaseDiagram()
 {
     executeCommand(new Uml::CmdCreateUseCaseDiag(m_doc));
 }
 
+/**
+ * Create this view.
+ */
 void UMLApp::slotStateDiagram()
 {
     executeCommand(new Uml::CmdCreateStateDiag(m_doc));
 }
 
+/**
+ * Create this view.
+ */
 void UMLApp::slotActivityDiagram()
 {
     executeCommand(new Uml::CmdCreateActivityDiag(m_doc));
 }
 
+/**
+ * Create this view.
+ */
 void UMLApp::slotComponentDiagram()
 {
     executeCommand(new Uml::CmdCreateComponentDiag(m_doc));
 }
 
+/**
+ * Create this view.
+ */
 void UMLApp::slotDeploymentDiagram()
 {
     executeCommand(new Uml::CmdCreateDeployDiag(m_doc));
 }
 
+/**
+ * Create this view.
+ */
 void UMLApp::slotEntityRelationshipDiagram()
 {
     executeCommand(new Uml::CmdCreateEntityRelationDiag(m_doc));
 }
 
+/**
+ * Left Alignment
+ */
 void UMLApp::slotAlignLeft()
 {
     getCurrentView()->alignLeft();
 }
 
+/**
+ * Right Alignment
+ */
 void UMLApp::slotAlignRight()
 {
     getCurrentView()->alignLeft();
 }
 
+/**
+ * Top Alignment
+ */
 void UMLApp::slotAlignTop()
 {
     getCurrentView()->alignTop();
 }
 
+/**
+ * Bottom Alignment
+ */
 void UMLApp::slotAlignBottom()
 {
     getCurrentView()->alignBottom();
 }
 
+/**
+ * Vertical Middle Alignment
+ */
 void UMLApp::slotAlignVerticalMiddle()
 {
     getCurrentView()->alignVerticalMiddle();
 }
 
+/**
+ * Horizontal Middle Alignment
+ */
 void UMLApp::slotAlignHorizontalMiddle()
 {
     getCurrentView()->alignHorizontalMiddle();
 }
 
+/**
+ * Vertical Distribute Alignment
+ */
 void UMLApp::slotAlignVerticalDistribute()
 {
     getCurrentView()->alignVerticalDistribute();
 }
 
+/**
+ * Horizontal Distribute Alignment
+ */
 void UMLApp::slotAlignHorizontalDistribute()
 {
     getCurrentView()->alignHorizontalDistribute();
 }
 
+/**
+ * Returns the toolbar being used.
+ *
+ * @return  The toolbar being used.
+ */
 WorkToolBar* UMLApp::getWorkToolBar()
 {
     return toolsbar;
 }
 
+/**
+ * Sets whether the program has been modified.
+ * This will change how the program saves/exits.
+ *
+ * @param modified   true - modified.
+ */
 void UMLApp::setModified(bool modified)
 {
-    //fileSave -> setEnabled(modified);
+    //fileSave->setEnabled(modified);
 
     //if anything else needs to be done on a mofication, put it here
 
@@ -1234,21 +1476,42 @@ void UMLApp::setModified(bool modified)
     }
 }
 
+/**
+ * Set whether to allow printing.
+ * It will enable/disable the menu/toolbar options.
+ *
+ * @param enable    Set whether to allow printing.
+ */
 void UMLApp::enablePrint(bool enable)
 {
     filePrint->setEnabled(enable);
 }
 
+/**
+ * Set whether to allow printing.
+ * It will enable/disable the menu/toolbar options.
+ *
+ * @param enable    Set whether to allow printing.
+ */
 void UMLApp::enableUndo(bool enable)
 {
     editUndo->setEnabled(enable);
 }
 
+/**
+ * Set whether to allow printing.
+ * It will enable/disable the menu/toolbar options.
+ *
+ * @param enable    Set whether to allow printing.
+ */
 void UMLApp::enableRedo(bool enable)
 {
     editRedo->setEnabled(enable);
 }
 
+/**
+ * Initialize Qt's global clipboard support for the application.
+ */
 void UMLApp::initClip()
 {
     QClipboard* clip = QApplication::clipboard();
@@ -1269,6 +1532,9 @@ void UMLApp::initClip()
     connect(m_copyTimer, SIGNAL(timeout()), this, SLOT(slotCopyChanged()));
 }
 
+/**
+ *  Returns whether we can decode the given mimesource
+ */
 bool UMLApp::canDecode(const QMimeData* mimeData)
 {
     QStringList supportedFormats = mimeData->formats();
@@ -1284,6 +1550,9 @@ bool UMLApp::canDecode(const QMimeData* mimeData)
     return false;
 }
 
+/**
+ * Notification of changed clipboard data.
+ */
 void UMLApp::slotClipDataChanged()
 {
     const QMimeData * data = QApplication::clipboard()->mimeData();
@@ -1292,6 +1561,9 @@ void UMLApp::slotClipDataChanged()
     editPaste->setEnabled( data && canDecode(data) );
 }
 
+/**
+ * Slot for enabling cut and copy to clipboard.
+ */
 void UMLApp::slotCopyChanged()
 {
     if (m_listView->getSelectedCount() || (getCurrentView() && getCurrentView()->getSelectCount())) {
@@ -1304,6 +1576,9 @@ void UMLApp::slotCopyChanged()
     }
 }
 
+/**
+ * Shows the global preferences dialog.
+ */
 void UMLApp::slotPrefs()
 {
        Settings::OptionState& optionState = Settings::getOptionState();
@@ -1319,6 +1594,9 @@ void UMLApp::slotPrefs()
        m_dlg = NULL;
 }
 
+/**
+ * Commits the changes from the global preferences dialog.
+ */
 void UMLApp::slotApplyPrefs()
 {
     if (m_dlg) {
@@ -1368,26 +1646,55 @@ void UMLApp::slotApplyPrefs()
     }
 }
 
+/**
+ * Returns the undo state.
+ *
+ * @return  True if Undo is enabled.
+ */
 bool UMLApp::getUndoEnabled()
 {
     return editUndo->isEnabled();
 }
 
+/**
+ * Returns the redo state.
+ *
+ * @return  True if Redo is enabled.
+ */
 bool UMLApp::getRedoEnabled()
 {
     return editRedo->isEnabled();
 }
 
+/**
+ * Returns the paste state.
+ *
+ * @return  True if Paste is enabled.
+ */
 bool UMLApp::getPasteState()
 {
     return editPaste->isEnabled();
 }
 
+/**
+ * Returns the state on Cut/Copy.
+ *
+ * @return  True if Cut/Copy is enabled.
+ */
 bool UMLApp::getCutCopyState()
 {
     return editCopy->isEnabled();
 }
 
+/**
+ * Carries out the cut/copy command with different action performed
+ * depending on if from view or list view.
+ * Cut/Copy are the same.  It is up to the caller to delete/cut the selection..
+ *
+ * If the operation is successful, the signal sigCutSuccessful() is emitted.
+ *
+ * Callers should connect to this signal to know what to do next.
+ */
 bool UMLApp::editCutCopy( bool bFromView )
 {
     UMLClipboard clipboard;
@@ -1402,6 +1709,11 @@ bool UMLApp::editCutCopy( bool bFromView )
     return false;
 }
 
+/**
+ * Reads from the config file the options state.
+ * Not in @ref readOptions as it needs to be read earlier than some
+ * of the other options, before some items are created.
+ */
 void UMLApp::readOptionState()
 {
     Settings::OptionState& optionState = Settings::getOptionState();
@@ -1495,6 +1807,11 @@ void UMLApp::readOptionState()
     // general config options will be read when created
 }
 
+/**
+ * Call the code viewing assistant on a given UMLClassifier.
+ *
+ * @param classifier  Pointer to the classifier to view.
+ */
 void UMLApp::viewCodeDocument(UMLClassifier* classifier)
 {
     CodeGenerator * currentGen = getGenerator();
@@ -1521,6 +1838,11 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
     }
 }
 
+/**
+ * Call the refactoring assistant on a classifier.
+ *
+ * @param classifier  Pointer to the classifier to refactor.
+ */
 void UMLApp::refactor(UMLClassifier* classifier)
 {
     if (!m_refactoringAssist) {
@@ -1530,21 +1852,37 @@ void UMLApp::refactor(UMLClassifier* classifier)
     m_refactoringAssist->show();
 }
 
+/**
+ * Returns the default code generation policy.
+ */
 CodeGenerationPolicy *UMLApp::getCommonPolicy()
 {
     return m_commoncodegenpolicy;
 }
 
+/**
+ * Sets the CodeGenPolicyExt object.
+ */
 void UMLApp::setPolicyExt(CodeGenPolicyExt *policy)
 {
     m_policyext = policy;
 }
 
+/**
+ * Returns the CodeGenPolicyExt object.
+ */
 CodeGenPolicyExt *UMLApp::getPolicyExt()
 {
     return m_policyext;
 }
 
+/**
+ * Auxiliary function for UMLDoc::loadExtensionsFromXMI():
+ * Return the code generator of the given language if it already
+ * exists; if it does not yet exist then create it and return
+ * the newly created generator. It is the caller's responsibility
+ * to load XMI into the newly created generator.
+ */
 CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl)
 {
     if (pl == Uml::pl_Reserved) {
@@ -1576,11 +1914,21 @@ CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl)
     return m_codegen;
 }
 
+/**
+ * Gets the appropriate CodeGenerator.
+ *
+ * @return  Pointer to the CodeGenerator.
+ */
 CodeGenerator* UMLApp::getGenerator()
 {
     return m_codegen;
 }
 
+/**
+ * Determines if SimpleCodeGenerator is active.
+ *
+ * @return  true if SimpleCodeGenerator is active.
+ */
 bool UMLApp::isSimpleCodeGeneratorActive()
 {
     if (m_codegen && dynamic_cast<SimpleCodeGenerator*>(m_codegen)) {
@@ -1591,6 +1939,9 @@ bool UMLApp::isSimpleCodeGeneratorActive()
     }
 }
 
+/**
+ * Generate code for all classes.
+ */
 void UMLApp::generateAllCode()
 {
     if (m_codegen) {
@@ -1598,12 +1949,18 @@ void UMLApp::generateAllCode()
     }
 }
 
+/**
+ * Runs the code generation wizard.
+ */
 void UMLApp::generationWizard()
 {
     CodeGenerationWizard wizard(0 /*classList*/);
     wizard.exec();
 }
 
+/**
+ * Slots for connection to the QActions of the m_langSelect menu.
+ */
 void UMLApp::setLang_actionscript()
 {
     setActiveLanguage(Uml::pl_ActionScript);
@@ -1699,17 +2056,28 @@ void UMLApp::setLang_xmlschema()
     setActiveLanguage(Uml::pl_XMLSchema);
 }
 
+/**
+ * Set the language for which code will be generated.
+ *
+ * @param pl    The name of the language to set
+ */
 void UMLApp::setActiveLanguage(Uml::Programming_Language pl)
 {
     updateLangSelectMenu(pl);
     setGenerator(pl);
 }
 
+/**
+ * Get the language for import and code generation.
+ */
 Uml::Programming_Language UMLApp::getActiveLanguage()
 {
     return m_activeLanguage;
 }
 
+/**
+ * Return true if the active language is case sensitive.
+ */
 bool UMLApp::activeLanguageIsCaseSensitive()
 {
     return (m_activeLanguage != Uml::pl_Pascal &&
@@ -1719,6 +2087,9 @@ bool UMLApp::activeLanguageIsCaseSensitive()
             m_activeLanguage != Uml::pl_PostgreSQL);
 }
 
+/**
+ * Return the target language depedent scope separator.
+ */
 QString UMLApp::activeLanguageScopeSeparator()
 {
     Uml::Programming_Language pl = getActiveLanguage();
@@ -1732,38 +2103,61 @@ QString UMLApp::activeLanguageScopeSeparator()
     return "::";
 }
 
+/**
+ * Menu selection for clear current view.
+ */
 void UMLApp::slotCurrentViewClearDiagram()
 {
     getCurrentView()->clearDiagram();
 }
 
+/**
+ * Menu selection for current view snap to grid property.
+ */
 void UMLApp::slotCurrentViewToggleSnapToGrid()
 {
     getCurrentView()->toggleSnapToGrid();
     viewSnapToGrid->setChecked( getCurrentView()->getSnapToGrid() );
 }
 
+/**
+ * Menu selection for current view show grid property.
+ */
 void UMLApp::slotCurrentViewToggleShowGrid()
 {
     getCurrentView()->toggleShowGrid();
     viewShowGrid->setChecked( getCurrentView()->getShowSnapGrid() );
 }
 
+/**
+ * Menu selection for exporting current view as an image.
+ */
 void UMLApp::slotCurrentViewExportImage()
 {
     getCurrentView()->getImageExporter()->exportView();
 }
 
+/**
+ * Menu selection for exporting all views as images.
+ */
 void UMLApp::slotAllViewsExportImage()
 {
     m_imageExporterAll->exportAllViews();
 }
 
+/**
+ * Menu selection for current view properties.
+ */
 void UMLApp::slotCurrentViewProperties()
 {
     getCurrentView()->showPropDialog();
 }
 
+/**
+ * Sets the state of the view properties menu item.
+ *
+ * @param bState  Boolean, true to enable the view properties item.
+ */
 void UMLApp::setDiagramMenuItemsState(bool bState)
 {
     viewClearDiagram->setEnabled( bState );
@@ -1779,6 +2173,10 @@ void UMLApp::setDiagramMenuItemsState(bool bState)
     }
 }
 
+/**
+ * Register new views (aka diagram) with the GUI so they show up
+ * in the menu.
+ */
 void UMLApp::slotUpdateViews()
 {
     QMenu* menu = findMenu( QString("views") );
@@ -1802,6 +2200,9 @@ void UMLApp::slotUpdateViews()
     }
 }
 
+/**
+ * Import the source files that are in fileList.
+ */
 void UMLApp::importFiles(QStringList* fileList)
 {
     if (! fileList->isEmpty()) {
@@ -1817,6 +2218,9 @@ void UMLApp::importFiles(QStringList* fileList)
     }
 }
 
+/**
+ * Import classes menu selection.
+ */
 void UMLApp::slotImportClasses()
 {
     m_doc->setLoading(true);
@@ -1844,6 +2248,9 @@ void UMLApp::slotImportClasses()
     importFiles(&fileList);
 }
 
+/**
+ * Import project menu selection.
+ */
 void UMLApp::slotImportProject()
 {
     QStringList listFile;
@@ -1854,17 +2261,26 @@ void UMLApp::slotImportProject()
     }
 }
 
+/**
+ * Class wizard menu selection.
+ */
 void UMLApp::slotClassWizard()
 {
     ClassWizard dlg( m_doc );
     dlg.exec();
 }
 
+/**
+ * Calls the active code generator to add its default datatypes.
+ */
 void UMLApp::slotAddDefaultDatatypes()
 {
     m_doc->addDefaultDatatypes();
 }
 
+/**
+ * The displayed diagram has changed.
+ */
 void UMLApp::slotCurrentViewChanged()
 {
     UMLView *view = getCurrentView();
@@ -1876,21 +2292,33 @@ void UMLApp::slotCurrentViewChanged()
     }
 }
 
+/**
+ * The snap to grid value has been changed.
+ */
 void UMLApp::slotSnapToGridToggled(bool gridOn)
 {
     viewSnapToGrid->setChecked(gridOn);
 }
 
+/**
+ * The show grid value has been changed.
+ */
 void UMLApp::slotShowGridToggled(bool gridOn)
 {
     viewShowGrid->setChecked(gridOn);
 }
 
+/**
+ * Select all widgets on the current diagram.
+ */
 void UMLApp::slotSelectAll()
 {
     getCurrentView()->selectAll();
 }
 
+/**
+ * Deletes the selected widget.
+ */
 void UMLApp::slotDeleteSelectedWidget()
 {
     if ( getCurrentView() ) {
@@ -1901,6 +2329,10 @@ void UMLApp::slotDeleteSelectedWidget()
     }
 }
 
+/**
+ * Deletes the current diagram.
+ * @param tab   Widget's tab to close
+ */
 void UMLApp::slotDeleteDiagram(QWidget* tab)
 {
     if (tab == NULL) {  // called from menu action
@@ -1915,12 +2347,20 @@ void UMLApp::slotDeleteDiagram(QWidget* tab)
     }
 }
 
+/**
+ * Return the default code generation language as configured by KConfig.
+ * If the activeLanguage is not found in the KConfig then use Uml::pl_Cpp
+ * as the default.
+ */
 Uml::Programming_Language UMLApp::getDefaultLanguage()
 {
     Settings::OptionState& optionState = Settings::getOptionState();
     return optionState.generalState.defaultLanguage;
 }
 
+/**
+ * Reads the activeLanguage from the KConfig and calls updateLangSelectMenu()
+ */
 void UMLApp::initGenerator()
 {
     if (m_codegen) {
@@ -1931,6 +2371,12 @@ void UMLApp::initGenerator()
     setActiveLanguage(defaultLanguage);
 }
 
+/**
+ * Updates the Menu for language selection and sets the
+ * active lanugage. If no active lanugage is found or if it is
+ * not one of the registered languages it tries to fall back
+ * to Cpp
+ */
 void UMLApp::updateLangSelectMenu(Uml::Programming_Language activeLanguage)
 {
     //m_langSelect->clear();
@@ -1939,6 +2385,9 @@ void UMLApp::updateLangSelectMenu(Uml::Programming_Language activeLanguage)
     }
 }
 
+/**
+ * Event handler to receive key press events.
+ */
 void UMLApp::keyPressEvent(QKeyEvent *e)
 {
     switch(e->key()) {
@@ -1952,6 +2401,11 @@ void UMLApp::keyPressEvent(QKeyEvent *e)
     }
 }
 
+/**
+ * Event handler to receive custom events.
+ * It handles events such as exporting all views from command line (in
+ * that case, it executes the exportAllViews method in the event).
+ */
 void UMLApp::customEvent(QEvent* e)
 {
     if (e->type() == CmdLineExportAllViewsEvent::eventType()) {
@@ -1960,7 +2414,10 @@ void UMLApp::customEvent(QEvent* e)
     }
 }
 
-//TODO Move this to UMLWidgetController?
+/**
+ * Helper method for handling cursor key release events (refactoring).
+ * TODO Move this to UMLWidgetController?
+ */
 void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e)
 {
     // in case we have selected something in the diagram, move it by one pixel
@@ -1998,6 +2455,9 @@ void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e)
     e->accept();
 }
 
+/**
+ * Event handler for key release.
+ */
 void UMLApp::keyReleaseEvent(QKeyEvent *e)
 {
     switch(e->key()) {
@@ -2022,12 +2482,19 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e)
     }
 }
 
+/**
+ * Calls the UMLDoc method to create a new Document.
+ */
 void UMLApp::newDocument()
 {
     m_doc->newDocument();
     slotUpdateViews();
 }
 
+/**
+ * Returns the widget used as the parent for UMLViews.
+ * @return  The main view widget.
+ */
 QWidget* UMLApp::getMainViewWidget()
 {
     Settings::OptionState& optionState = Settings::getOptionState();
@@ -2039,6 +2506,12 @@ QWidget* UMLApp::getMainViewWidget()
     }
 }
 
+/**
+ * Puts this view to the top of the viewStack, i.e. makes it
+ * visible to the user.
+ *
+ * @param view   Pointer to the UMLView to push.
+ */
 void UMLApp::setCurrentView(UMLView* view)
 {
     m_view = view;
@@ -2070,11 +2543,39 @@ void UMLApp::setCurrentView(UMLView* view)
     }
 }
 
+/**
+ * Get the current view.
+ * This may return a null pointer (when no view was previously
+ * specified.)
+ */
 UMLView* UMLApp::getCurrentView()
 {
     return m_view;
 }
 
+/**
+ * Sets the default mime type for all diagrams that are exported as images.
+ * @param mimeType   the mime type
+ */
+void UMLApp::setImageMimeType(QString const & mimeType)
+{
+    m_imageMimeType = mimeType;
+}
+
+/**
+ * Gets the default mime type for all diagrams that are exported as
+ * images.
+ * @return  The default MIME type for images.
+ */
+QString UMLApp::getImageMimeType() const
+{
+    return m_imageMimeType;
+}
+
+/**
+ * Called when the tab has changed.
+ * @param tab   The changed tab widget
+ */
 void UMLApp::slotTabChanged(QWidget* tab)
 {
     UMLView* view = ( UMLView* )tab;
@@ -2083,6 +2584,9 @@ void UMLApp::slotTabChanged(QWidget* tab)
     }
 }
 
+/**
+ * Make the tab on the left of the current one the active one.
+ */
 void UMLApp::slotChangeTabLeft()
 {
     //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
@@ -2110,6 +2614,9 @@ void UMLApp::slotChangeTabLeft()
     }
 }
 
+/**
+ * Make the tab on the right of the current one the active one.
+ */
 void UMLApp::slotChangeTabRight()
 {
     //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
@@ -2148,6 +2655,9 @@ static void showTabTexts(KTabWidget* tabWidget)
 }
 */
 
+/**
+ * Move the current tab left.
+ */
 void UMLApp::slotMoveTabLeft()
 {
     //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
@@ -2163,6 +2673,9 @@ void UMLApp::slotMoveTabLeft()
     m_tabWidget->moveTab(from, to);
 }
 
+/**
+ * Move the current tab right.
+ */
 void UMLApp::slotMoveTabRight()
 {
     //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
@@ -2178,6 +2691,11 @@ void UMLApp::slotMoveTabRight()
     m_tabWidget->moveTab(from, to);
 }
 
+/**
+ * This slot deletes the current XHTML documentation generator as soon as
+ * this one signals that it has finished.
+ * @param status true if successful else false
+ */
 void UMLApp::slotXhtmlDocGenerationFinished(bool status)
 {
   if ( !status ) {
@@ -2188,21 +2706,36 @@ void UMLApp::slotXhtmlDocGenerationFinished(bool status)
   m_xhtmlGenerator = 0;
 }
 
+/**
+ * Return the tab widget.
+ */
 KTabWidget* UMLApp::tabWidget()
 {
     return m_tabWidget;
 }
 
+/**
+ * Returns the current text in the status bar.
+ *
+ * @return The text in the status bar.
+ */
 QString UMLApp::getStatusBarMsg()
 {
     return statusBar()->itemText(1);
 }
 
+/**
+ * Removes all entries from the UndoStack and RedoStack and disables the
+ * undo and redo actions.
+ */
 void UMLApp::clearUndoStack()
 {
     m_pUndoStack->clear();
 }
 
+/**
+ * Undo last command
+ */
 void UMLApp::undo()
 {
     uDebug() << m_pUndoStack->undoText() << " [" << m_pUndoStack->count() << "]";
@@ -2218,6 +2751,9 @@ void UMLApp::undo()
     UMLApp::app()->enableRedo(true);
 }
 
+/**
+ * Redo last 'undoed' command
+ */
 void UMLApp::redo()
 {
     uDebug() << m_pUndoStack->redoText() << " [" << m_pUndoStack->count() << "]";
@@ -2233,6 +2769,9 @@ void UMLApp::redo()
     UMLApp::app()->enableUndo(true);
 }
 
+/**
+ * Execute a command and pushit in the stack.
+ */
 void UMLApp::executeCommand(QUndoCommand* cmd)
 {
     if (cmd != NULL) {
@@ -2243,6 +2782,9 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
     UMLApp::app()->enableUndo(true);
 }
 
+/**
+ * Begin a U/R command macro
+ */
 void UMLApp::BeginMacro( const QString & text )
 {
     if (m_hasBegunMacro) {
@@ -2253,6 +2795,9 @@ void UMLApp::BeginMacro( const QString & text )
     m_pUndoStack->beginMacro(text);
 }
 
+/**
+ * End an U/R command macro
+ */
 void UMLApp::EndMacro()
 {
     if (m_hasBegunMacro) {

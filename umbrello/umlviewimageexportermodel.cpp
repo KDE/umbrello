@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -42,6 +42,12 @@
 static QStringList supportedImageTypesList;
 static QStringList supportedMimeTypesList;
 
+/**
+ * Returns a QStringList containing all the supported image types to use when exporting.
+ * All the types will be lower case.
+ *
+ * @return A QStringList containing all the supported image types to use when exporting.
+ */
 QStringList UMLViewImageExporterModel::supportedImageTypes()
 {
     if (!supportedImageTypesList.size()) {
@@ -65,6 +71,12 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
     return supportedImageTypesList;
 }
 
+/**
+ * Returns a QStringList containing all the supported mime types to use when exporting.
+ * All the types will be lower case.
+ *
+ * @return A QStringList containing all the supported mime types to use when exporting.
+ */
 QStringList UMLViewImageExporterModel::supportedMimeTypes()
 {
     if (!supportedMimeTypesList.size()) {
@@ -79,6 +91,14 @@ QStringList UMLViewImageExporterModel::supportedMimeTypes()
     return supportedMimeTypesList;
 }
 
+/**
+ * Returns the mime type for an image type.
+ * The supported image types are those that the diagrams can be exported to.
+ *
+ * @param imageType The type of the image.
+ * @return A QString with the equivalent mime type, or QString() if
+ *         it's unknown.
+ */
 QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType)
 {
     const QString imgType = imageType.toLower();
@@ -95,6 +115,14 @@ QString UMLViewImageExporterModel::imageTypeToMimeType(const QString& imageType)
     return QString();
 }
 
+/**
+ * Returns the image type for a mime type.
+ * The supported image types are those that the diagrams can be exported to.
+ *
+ * @param mimeType The mime type.
+ * @return A lowercase QString with the equivalent image type, or QString()
+ *         if it's unknown.
+ */
 QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType)
 {
     if (QString("image/bmp") == mimeType) return "bmp";
@@ -110,6 +138,42 @@ QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType)
     return QString();
 }
 
+/**
+ * Constructor for UMLViewImageExporterModel.
+ */
+UMLViewImageExporterModel::UMLViewImageExporterModel()
+{
+}
+
+/**
+ * Destructor for UMLViewImageExporterModel.
+ */
+UMLViewImageExporterModel::~UMLViewImageExporterModel()
+{
+}
+
+/**
+ * Exports all the views in the document to the directory specified in the url
+ * using the 'imageType' for the images.
+ * The name of the exported images will be like their view's name and using the
+ * 'imageType' as extension.
+ *
+ * The views are stored in folders in the document. The same tree structure used
+ * in the document to store the views can be created in the target directory with
+ * 'useFolders'. Only the folders made by the user are created in the target
+ * directory (Logical view, use case view and so on aren't created).
+ *
+ * This method creates the specified target directory if needed. If there was an
+ * existing file with the same path as one to be created overwrites it without asking.
+ * The url used can be local or remote, using supported KIO slaves.
+ *
+ * @param imageType The type of the images the views will be exported to.
+ * @param directory The url of the directory where the images will be saved.
+ * @param useFolders If the tree structure of the views in the document must be created
+ *                   in the target directory.
+ * @return A QStringList with all the error messages that occurred during export.
+ *         If the list is empty, all the views were exported successfully.
+ */
 QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const
 {
     UMLApp *app = UMLApp::app();
@@ -131,6 +195,21 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
     return errors;
 }
 
+/**
+ * Exports the view to the url using the 'imageType' for the image.
+ *
+ * This method creates the needed directories, if any. If there was an existing
+ * file in the specified url overwrites it without asking.
+ * The url used can be local or remote, using supported KIO slaves.
+ *
+ * If some problem occurs when exporting, an error message is returned.
+ *
+ * @param view The view to export.
+ * @param imageType The type of the image the view will be exported to.
+ * @param url The url where the image will be saved.
+ * @return The message error if some problem occurred when exporting, or
+ *         QString() if all went fine.
+ */
 QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imageType, const KUrl &url) const
 {
     // create the needed directories
@@ -171,6 +250,13 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
     return QString();
 }
 
+/**
+ * Returns the diagram file name.
+ * @param view         the diagram
+ * @param imageType    the image type as file name extension
+ * @param useFolders   flag whether to add folder to the file name
+ * @return the file name with extension
+ */
 QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders /* = false */) const
 {
     QString name = view->getName() + '.' + imageType.toLower();
@@ -197,6 +283,14 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QStri
     return name;
 }
 
+/**
+ * Creates, if it doesn't exist, the directory to save the file.
+ * It also creates all the needed parent directories.
+ *
+ * @param url The url where the image will be saved.
+ * @return True if the operation was successful,
+ *         false if the directory didn't exist and couldn't be created.
+ */
 bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
 {
     // the KUrl is copied to get protocol, user and so on and then the path is cleaned
@@ -219,6 +313,15 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
     return true;
 }
 
+/**
+ * Exports the view to the file 'fileName' as the specified type.
+ *
+ * @param view The view to export.
+ * @param imageType The type of the image the view will be exported to.
+ * @param fileName The name of the file where the image will be saved.
+ * @return True if the operation was successful,
+ *         false if a problem occurred while exporting.
+ */
 bool UMLViewImageExporterModel::exportViewTo(UMLView* view, const QString &imageType, const QString &fileName) const
 {
     // remove 'blue squares' from exported picture.
@@ -242,6 +345,16 @@ bool UMLViewImageExporterModel::exportViewTo(UMLView* view, const QString &image
     return true;
 }
 
+/**
+ * Exports the view to the file 'fileName' as EPS.
+ *
+ * @param view The view to export.
+ * @param fileName The name of the file where the image will be saved.
+ * @param isEPS The file is an eps file and needs adjusting
+ *              of the eps bounding box values.
+ * @return True if the operation was successful,
+ *         false if a problem occurred while exporting.
+ */
 bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fileName, bool isEPS) const
 {
     bool exportSuccessful = true;
@@ -273,8 +386,8 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
     view->forceUpdateWidgetFontMetrics(painter);
 
     QRect rect = view->getDiagramRect();
-    painter->translate(-rect.x(),-rect.y());
-    view->getDiagram(rect,*painter);
+    painter->translate(-rect.x(), -rect.y());
+    view->getDiagram(rect, *painter);
 
     int resolution = printer->resolution();
 
@@ -285,7 +398,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
         // modify bounding box from screen to eps resolution.
         rect.setWidth( int(ceil(rect.width() * 72.0/resolution)) );
         rect.setHeight( int(ceil(rect.height() * 72.0/resolution)) );
-        exportSuccessful = fixEPS(fileName,rect);
+        exportSuccessful = fixEPS(fileName, rect);
     }
     // next painting will most probably be to a different device (i.e. the screen)
     view->forceUpdateWidgetFontMetrics(0);
@@ -293,6 +406,14 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
     return exportSuccessful;
 }
 
+/**
+ * Fix the file 'fileName' to be a valid EPS containing the
+ * specified area (rect) of the diagram.
+ * Corrects the bounding box.
+ *
+ * @return True if the operation was successful,
+ *         false if a problem occurred while exporting.
+ */
 bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rect) const
 {
     // now open the file and make a correct eps out of it
@@ -338,6 +459,14 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rec
     return true;
 }
 
+/**
+ * Exports the view to the file 'fileName' as SVG.
+ *
+ * @param view The view to export.
+ * @param fileName The name of the file where the image will be saved.
+ * @return True if the operation was successful,
+ *         false if a problem occurred while exporting.
+ */
 bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fileName) const
 {
     bool exportSuccessful;
@@ -368,6 +497,16 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fi
     return exportSuccessful;
 }
 
+/**
+ * Exports the view to the file 'fileName' as a pixmap of the specified type.
+ * The valid types are those supported by QPixmap save method.
+ *
+ * @param view The view to export.
+ * @param imageType The type of the image the view will be exported to.
+ * @param fileName The name of the file where the image will be saved.
+ * @return True if the operation was successful,
+ *         false if a problem occurred while exporting.
+ */
 bool UMLViewImageExporterModel::exportViewToPixmap(UMLView* view, const QString &imageType, const QString &fileName) const
 {
     bool exportSuccessful;
