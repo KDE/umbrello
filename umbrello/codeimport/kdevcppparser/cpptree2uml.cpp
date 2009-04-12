@@ -6,7 +6,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -243,7 +243,7 @@ void CppTree2Uml::parseSimpleDeclaration( SimpleDeclarationAST* ast )
 
         Q3PtrListIterator<InitDeclaratorAST> it( l );
         while( it.current() ){
-            parseDeclaration(  ast->functionSpecifier(), ast->storageSpecifier(), typeSpec, it.current() );
+            parseDeclaration2(  ast->functionSpecifier(), ast->storageSpecifier(), typeSpec, it.current() );
             ++it;
         }
     }
@@ -420,7 +420,7 @@ void CppTree2Uml::parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* type
     flushTemplateParams( static_cast<UMLClassifier*>(o) );
 }
 
-void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
+void CppTree2Uml::parseDeclaration2( GroupAST* funSpec, GroupAST* storageSpec,
                                     TypeSpecifierAST* typeSpec, InitDeclaratorAST* decl )
 {
     if( m_inStorageSpec )
@@ -443,13 +443,13 @@ void CppTree2Uml::parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec,
         id = t->declaratorId()->unqualifiedName()->text();
 
     if( !scopeOfDeclarator(d, QStringList()).isEmpty() ){
-        uDebug() << "CppTree2Uml::parseDeclaration (" << id << "): skipping.";
+        uDebug() << "CppTree2Uml::parseDeclaration2 (" << id << "): skipping.";
         return;
     }
 
     UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
-        uDebug() << "CppTree2Uml::parseDeclaration (" << id
+        uDebug() << "CppTree2Uml::parseDeclaration2 (" << id
                   << "): need a surrounding class.";
         return;
     }
