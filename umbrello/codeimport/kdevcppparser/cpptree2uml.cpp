@@ -35,7 +35,8 @@
 CppTree2Uml::CppTree2Uml( const QString& fileName)
     : m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 )
 {
-    m_fileName = URLUtil::canonicalPath(fileName);
+    QDir dir(fileName);
+    m_fileName = dir.canonicalPath();
 }
 
 CppTree2Uml::~CppTree2Uml()

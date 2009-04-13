@@ -120,12 +120,6 @@ bool isDirectory(const QString &absFilePath);
 void dump(const KUrl::List &urls, const QString &aMessage = QString());
 
 /**
- * Same as QDir::canonicalPath in later versions of QT. Earlier versions of QT
- * had this broken, so it's reproduced here.
- */
-QString canonicalPath(const QString & path);
-
-/**
  * Performs environment variable expansion on @p variable.
  *
  * @param variable the string with the environment variable to expand.
