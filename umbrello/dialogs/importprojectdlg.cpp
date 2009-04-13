@@ -103,7 +103,7 @@ void ImportProjectDlg::accept()
         KMessageBox::sorry(this, i18n("You have to choose a directory."));
         return;
     }
-    QDir dir(url.path());
+    QDir dir(url.toLocalFile());
     if (!dir.exists()){
         KMessageBox::sorry(this, i18n("This directory does not exist."));
         return;
