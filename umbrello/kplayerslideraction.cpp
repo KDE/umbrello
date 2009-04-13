@@ -1,36 +1,44 @@
 /***************************************************************************
-    begin                : Sat Jan 11 2003
-    copyright            : (C) 2003 by kiriuja
-    email                : kplayer-dev@en-directo.net
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003      kiriuja  <kplayer-dev@en-directo.net>         *
+ *   copyright (C) 2003-2009                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-/* Taken from kplayer CVS 2003-09-21 (kplayer > 0.3.1) by Jonathan Riddell
- * Changes from kplayer original marked by CHANGED
+/*
+ * Taken from kplayer CVS 2003-09-21 (kplayer > 0.3.1) by Jonathan Riddell.
  */
 
-//CHANGED #include "kplayersettings.h"
 #include "kplayerslideraction.h"
 
 #include <ktoolbar.h>
-
-
-//Added by qt3to4:
-#include <QFrame>
-#include <QKeyEvent>
-#include <QDesktopWidget>
-#include <QApplication>
 #include <kdebug.h>
 
-/** Closes the popup frame when Alt, Tab, Esc, Enter or Return is pressed.
+#include <QtGui/QKeyEvent>
+#include <QtGui/QDesktopWidget>
+#include <QtGui/QApplication>
+
+/**
+ * The KPlayerPopupFrame constructor. Parameters are passed on to QFrame.
+ */
+KPlayerPopupFrame::KPlayerPopupFrame (QWidget* parent)
+  : QFrame (parent, Qt::WType_Popup)
+{
+}
+
+/**
+ * The KPlayerPopupFrame destructor. Does nothing.
+ */
+KPlayerPopupFrame::~KPlayerPopupFrame()
+{
+}
+
+/**
+ * Closes the popup frame when Alt, Tab, Esc, Enter or Return is pressed.
  */
 void KPlayerPopupFrame::keyPressEvent (QKeyEvent* ev)
 {
@@ -45,7 +53,8 @@ void KPlayerPopupFrame::keyPressEvent (QKeyEvent* ev)
     }
 }
 
-/*void KPlayerPopupFrame::closeEvent (QCloseEvent* ev)
+/*
+void KPlayerPopupFrame::closeEvent (QCloseEvent* ev)
 {
   QFrame::closeEvent (ev);
 }
@@ -66,36 +75,43 @@ void KPlayerPopupFrame::mouseReleaseEvent (QMouseEvent* ev)
     if ( ! rect().contains (ev->pos()) )
       close();
   }
-}*/
+}
+*/
 
+/**
+ * The KPlayerPopupSliderAction constructor. Parameters are passed on to KAction.
+ */
 KPlayerPopupSliderAction::KPlayerPopupSliderAction (const QObject* receiver, const char* slot,
                                                     QObject *parent)
-        : KAction (parent)
+  : KAction(parent)
 {
     m_frame = new KPlayerPopupFrame;
-    m_frame->setFrameStyle (QFrame::Raised);
+    m_frame->setFrameStyle(QFrame::Raised);
     m_frame->setLineWidth (2);
-    m_slider = new KPlayerSlider (Qt::Vertical, m_frame);
+    m_slider = new KPlayerSlider(Qt::Vertical, m_frame);
     m_frame->resize (36, m_slider->sizeHint().height() + 4);
-    m_slider->setGeometry (m_frame->contentsRect());
-    //CHANGED  uDebug() << "Popup slider size " << m_slider->width() << "x" << m_slider->height() << "\n";
+    m_slider->setGeometry(m_frame->contentsRect());
+    // uDebug() << "Popup slider size " << m_slider->width() << "x" << m_slider->height();
     connect (this, SIGNAL(triggered()), this , SLOT(slotTriggered()));
     connect (m_slider, SIGNAL (changed (int)), receiver, slot);
 }
 
+/**
+ * The KPlayerPopupSliderAction destructor. Deletes the KPlayerPopupFrame.
+ */
 KPlayerPopupSliderAction::~KPlayerPopupSliderAction()
 {
     delete m_frame;
     m_frame = 0;
 }
 
-
-
+/**
+ * Pops up the slider.
+ */
 /** Pops up the slider.
  */
 void KPlayerPopupSliderAction::slotTriggered()
 {
-
     QPoint point;
 
     QList<QWidget*> associatedWidgetsList = QWidgetAction::associatedWidgets();
@@ -104,17 +120,13 @@ void KPlayerPopupSliderAction::slotTriggered()
     QWidget* associatedToolButton = 0;
 
     // find the toolbutton which was clicked on
-
    foreach(associatedWidget, associatedWidgetsList) {
-
-      if(KToolBar* associatedToolBar = dynamic_cast<KToolBar*>(associatedWidget)) {
-
+      if (KToolBar* associatedToolBar = dynamic_cast<KToolBar*>(associatedWidget)) {
         associatedToolButton = associatedToolBar->childAt(associatedToolBar->mapFromGlobal(QCursor::pos()));
-        if(associatedToolButton)
-          break;             // found the tool button which was clicked
-
+        if(associatedToolButton) {
+          break;  // found the tool button which was clicked
+        }
       }
-
     }
 
    if ( associatedToolButton  ) {
@@ -133,11 +145,9 @@ void KPlayerPopupSliderAction::slotTriggered()
        point.setY (0);
    }
 
-
-    //CHANGED  uDebug() << "Point: " << point.x() << "x" << point.y() << "\n";
+    // uDebug() << "Point: " << point.x() << "x" << point.y() << "\n";
     m_frame->move (point);
-    /*if ( kapp && kapp->activeWindow() )
-      {
+    /*if ( kapp && kapp->activeWindow() ) {
         QMouseEvent me (QEvent::MouseButtonRelease, QPoint(0,0), QPoint(0,0), QMouseEvent::LeftButton, QMouseEvent::NoButton);
         QApplication::sendEvent (kapp->activeWindow(), &me);
       }*/
@@ -145,97 +155,112 @@ void KPlayerPopupSliderAction::slotTriggered()
     m_slider->setFocus();
 }
 
-/*KPlayerSliderAction::KPlayerSliderAction (const QString& text, const KShortcut& cut,
-        const QObject* receiver, const char* slot, KActionCollection* parent, const char* name)
-        : KAction (new KPlayerSlider (Qt::Horizontal, 0, name), text, cut, receiver, slot, parent, name)
-        //: KAction (text, 0, parent, name)
-{
-    setAutoSized (true);
-    connect (slider(), SIGNAL (changed (int)), receiver, slot);
-}
+// /**
+//  * The KPlayerSliderAction constructor. Parameters are passed on to KAction.
+//  */
+// KPlayerSliderAction::KPlayerSliderAction (const QString& text, const KShortcut& cut,
+//         const QObject* receiver, const char* slot, KActionCollection* parent, const char* name)
+//         : KAction (new KPlayerSlider(Qt::Horizontal, 0), text, cut, receiver, slot, parent, name)
+//         //: KAction (text, 0, parent, name)
+// {
+//     setAutoSized (true);
+//     connect (slider(), SIGNAL (changed (int)), receiver, slot);
+// }
 
-KPlayerSliderAction::~KPlayerSliderAction()
-{
-}*/
-/*
-int KPlayerSliderAction::plug (QWidget* widget, int index)
-{
-    //Q_ASSERT (widget);
-    //Q_ASSERT (! isPlugged());
-    //Q_ASSERT (slider());
-    //if ( ! slider() || ! widget || isPlugged() )
-    //  return -1;
-    //Q_ASSERT (widget->inherits ("KToolBar"));
-    //if ( ! widget->inherits ("KToolBar") )
-    //  return -1;
-    //if ( kapp && ! kapp->authorizeKAction (name()) )
-    //  return -1;
-    int result = K3WidgetAction::plug (widget, index);
-    if ( result < 0 )
-        return result;
-    KToolBar* toolbar = (KToolBar*) widget;
-    //int id = getToolButtonID();
-    //uDebug() << "Orientation: " << toolbar->orientation() << "\n";
-    //m_slider->reparent (toolbar, QPoint());
-    //toolbar->insertWidget (id, 0, m_slider, index);
-    //toolbar->setItemAutoSized (id, true);
-    //QWhatsThis::remove (m_slider);
-    //if ( ! whatsThis().isEmpty() )
-    //  QWhatsThis::add (m_slider, whatsThis());
-    //if ( ! text().isEmpty() )
-    //  QToolTip::add (m_slider, text());
-    //addContainer (toolbar, id);
-    //setupToolbar (toolbar->orientation(), toolbar);
-    orientationChanged (toolbar->orientation());
-    connect (toolbar, SIGNAL (orientationChanged (Orientation)), this, SLOT (orientationChanged (Orientation)));
-    //connect (toolbar, SIGNAL (destroyed()), this, SLOT (toolbarDestroyed()));
-    //if ( parentCollection() )
-    //  parentCollection()->connectHighlight (toolbar, this);
-    //return containerCount() - 1;
-    return result;
-}
+// /**
+//  * The KPlayerSliderAction destructor. Does nothing.
+//  */
+// KPlayerSliderAction::~KPlayerSliderAction()
+// {
+// }
 
-void KPlayerSliderAction::unplug (QWidget* widget)
-{
-    //Q_ASSERT (m_slider);
-    //Q_ASSERT (isPlugged());
-    //Q_ASSERT (widget->inherits ("KToolBar"));
-    K3WidgetAction::unplug (widget);
-    if ( ! slider() || ! isPlugged() || widget != slider()->parent() )
-        return;
-    //KToolBar* toolbar = (KToolBar*) widget;
-    disconnect (widget, SIGNAL (orientationChanged (Orientation)), this, SLOT (orientationChanged (Orientation)));
-    //disconnect (toolbar, SIGNAL (destroyed()), this, SLOT (toolbarDestroyed()));
-    //m_slider->reparent (0, QPoint());
-//    int index = findContainer (toolbar);
-//      if ( index == -1 )
-//        return;
-//      bar->removeItem (menuId (index));
-//      removeContainer (index);
-}
-*/
-/*void KPlayerSliderAction::setupToolbar (Orientation orientation, KToolBar* toolbar)
-{
-    if ( orientation == Qt::Horizontal )
-    {
-//      toolbar->setMinimumWidth (300);
-//      toolbar->setMinimumHeight (0);
-      toolbar->setFixedExtentWidth (300);
-      toolbar->setFixedExtentHeight (-1);
-//      toolbar->setHorizontallyStretchable (true);
-//      toolbar->setVerticallyStretchable (false);
-    }
-    else
-    {
-//      toolbar->setMinimumWidth (0);
-//      toolbar->setMinimumHeight (300);
-      toolbar->setFixedExtentWidth (-1);
-      toolbar->setFixedExtentHeight (300);
-//      toolbar->setHorizontallyStretchable (false);
-//      toolbar->setVerticallyStretchable (true);
-    }
-}*/
+// /**
+//  * Plugs the slider into the toolbar.
+//  */
+// int KPlayerSliderAction::plug (QWidget* widget, int index)
+// {
+//     //Q_ASSERT (widget);
+//     //Q_ASSERT (! isPlugged());
+//     //Q_ASSERT (slider());
+//     //if ( ! slider() || ! widget || isPlugged() )
+//     //  return -1;
+//     //Q_ASSERT (widget->inherits ("KToolBar"));
+//     //if ( ! widget->inherits ("KToolBar") )
+//     //  return -1;
+//     //if ( kapp && ! kapp->authorizeKAction (name()) )
+//     //  return -1;
+//     int result = K3WidgetAction::plug (widget, index);
+//     if ( result < 0 )
+//         return result;
+//     KToolBar* toolbar = (KToolBar*) widget;
+//     //int id = getToolButtonID();
+//     //uDebug() << "Orientation: " << toolbar->orientation() << "\n";
+//     //m_slider->reparent (toolbar, QPoint());
+//     //toolbar->insertWidget (id, 0, m_slider, index);
+//     //toolbar->setItemAutoSized (id, true);
+//     //QWhatsThis::remove (m_slider);
+//     //if ( ! whatsThis().isEmpty() )
+//     //  QWhatsThis::add (m_slider, whatsThis());
+//     //if ( ! text().isEmpty() )
+//     //  QToolTip::add (m_slider, text());
+//     //addContainer (toolbar, id);
+//     //setupToolbar (toolbar->orientation(), toolbar);
+//     orientationChanged (toolbar->orientation());
+//     connect (toolbar, SIGNAL (orientationChanged (Orientation)), this, SLOT (orientationChanged (Orientation)));
+//     //connect (toolbar, SIGNAL (destroyed()), this, SLOT (toolbarDestroyed()));
+//     //if ( parentCollection() )
+//     //  parentCollection()->connectHighlight (toolbar, this);
+//     //return containerCount() - 1;
+//     return result;
+// }
 
+// /**
+//  * Unplugs the slider from the toolbar.
+//  */
+// void KPlayerSliderAction::unplug (QWidget* widget)
+// {
+//     //Q_ASSERT (m_slider);
+//     //Q_ASSERT (isPlugged());
+//     //Q_ASSERT (widget->inherits ("KToolBar"));
+//     K3WidgetAction::unplug (widget);
+//     if ( ! slider() || ! isPlugged() || widget != slider()->parent() )
+//         return;
+//     //KToolBar* toolbar = (KToolBar*) widget;
+//     disconnect (widget, SIGNAL (orientationChanged (Orientation)), this, SLOT (orientationChanged (Orientation)));
+//     //disconnect (toolbar, SIGNAL (destroyed()), this, SLOT (toolbarDestroyed()));
+//     //m_slider->reparent (0, QPoint());
+// //    int index = findContainer (toolbar);
+// //      if ( index == -1 )
+// //        return;
+// //      bar->removeItem (menuId (index));
+// //      removeContainer (index);
+// }
+
+// void KPlayerSliderAction::setupToolbar (Orientation orientation, KToolBar* toolbar)
+// {
+//     if ( orientation == Qt::Horizontal )
+//     {
+// //      toolbar->setMinimumWidth (300);
+// //      toolbar->setMinimumHeight (0);
+//       toolbar->setFixedExtentWidth (300);
+//       toolbar->setFixedExtentHeight (-1);
+// //      toolbar->setHorizontallyStretchable (true);
+// //      toolbar->setVerticallyStretchable (false);
+//     }
+//     else
+//     {
+// //      toolbar->setMinimumWidth (0);
+// //      toolbar->setMinimumHeight (300);
+//       toolbar->setFixedExtentWidth (-1);
+//       toolbar->setFixedExtentHeight (300);
+// //      toolbar->setHorizontallyStretchable (false);
+// //      toolbar->setVerticallyStretchable (true);
+//     }
+// }
+
+// /**
+//  * Changes the slider orientation when the toolbar orientation changes.
+//  */
 // void KPlayerSliderAction::orientationChanged (Qt::Orientation orientation)
 // {
 //     //if ( sender() && sender()->inherits ("KToolBar") )
@@ -246,32 +271,38 @@ void KPlayerSliderAction::unplug (QWidget* widget)
 //         slider()->setOrientation (orientation);
 // }
 
-/*void KPlayerSliderAction::toolbarDestroyed (void)
-{
-  if ( m_slider )
-    m_slider->reparent (0, QPoint());
-}*/
+// void KPlayerSliderAction::toolbarDestroyed (void)
+// {
+//   if ( m_slider )
+//     m_slider->reparent (0, QPoint());
+// }
 
-KPlayerSlider::KPlayerSlider (Qt::Orientation orientation, QWidget* parent, const char* name)
-//CHANGED  : QSlider (orientation, parent, name)
-        : QSlider (300, 2200, 400, 1000, orientation, parent, name)
+/**
+ * The KPlayerSlider constructor. Parameters are passed on to QSlider.
+ */
+KPlayerSlider::KPlayerSlider (Qt::Orientation orientation, QWidget* parent)
+  : QSlider (orientation, parent)
 {
+    setup(300, 2200, 1000, 400);
     m_changing_orientation = false;
     setTickPosition (QSlider::TicksBothSides);
     connect (this, SIGNAL (valueChanged (int)), this, SLOT (sliderValueChanged (int)));
 }
 
+/**
+ * The KPlayerSlider destructor. Does nothing.
+ */
 KPlayerSlider::~KPlayerSlider()
 {
-    //CHANGED  uDebug() << "KPlayerSlider destroyed\n";
+    // uDebug() << "KPlayerSlider destroyed\n";
 }
 
-/** The size hint.
+/**
+ * The size hint.
  */
 QSize KPlayerSlider::sizeHint() const
 {
     QSize hint = QSlider::sizeHint();
-    //CHANGED int length = kPlayerSettings()->preferredSliderLength();
     int length = 200;
     if ( orientation() == Qt::Horizontal )
     {
@@ -286,13 +317,13 @@ QSize KPlayerSlider::sizeHint() const
     return hint;
 }
 
-/** The minimum size hint.
+/**
+ * The minimum size hint.
  */
 QSize KPlayerSlider::minimumSizeHint() const
 {
-    //uDebug() << "KPlayerSlider minimum size hint\n";
+    // uDebug() << "KPlayerSlider minimum size hint\n";
     QSize hint = QSlider::minimumSizeHint();
-    //CHANGED  int length = kPlayerSettings()->minimumSliderLength();
     int length = 200;
     if ( orientation() == Qt::Horizontal )
     {
@@ -307,7 +338,8 @@ QSize KPlayerSlider::minimumSizeHint() const
     return hint;
 }
 
-/** Sets the slider orientation.
+/**
+ * Sets the slider orientation.
  */
 void KPlayerSlider::setOrientation (Qt::Orientation o)
 {
@@ -324,7 +356,8 @@ void KPlayerSlider::setOrientation (Qt::Orientation o)
     m_changing_orientation = false;
 }
 
-/** The minimum value.
+/**
+ * The minimum value.
  */
 int KPlayerSlider::minimum (void) const
 {
@@ -333,7 +366,8 @@ int KPlayerSlider::minimum (void) const
     return - QSlider::maximum();
 }
 
-/** Sets the minimum value.
+/**
+ * Sets the minimum value.
  */
 void KPlayerSlider::setMinimum (int minimum)
 {
@@ -343,7 +377,8 @@ void KPlayerSlider::setMinimum (int minimum)
         QSlider::setMaximum (- minimum);
 }
 
-/** The maximum value.
+/**
+ * The maximum value.
  */
 int KPlayerSlider::maximum (void) const
 {
@@ -352,7 +387,8 @@ int KPlayerSlider::maximum (void) const
     return - QSlider::minimum();
 }
 
-/** Sets the maximum value.
+/**
+ * Sets the maximum value.
  */
 void KPlayerSlider::setMaximum (int maximum)
 {
@@ -362,28 +398,32 @@ void KPlayerSlider::setMaximum (int maximum)
         QSlider::setMinimum (- maximum);
 }
 
-/** The single step.
+/**
+ * The single step.
  */
 int KPlayerSlider::singleStep (void) const
 {
     return QSlider::singleStep();
 }
 
-/** Sets the single step.
+/**
+ * Sets the single step.
  */
 void KPlayerSlider::setSingleStep (int singleStep)
 {
     QSlider::setSingleStep (singleStep);
 }
 
-/** The page step.
+/**
+ * The page step.
  */
 int KPlayerSlider::pageStep (void) const
 {
     return QSlider::pageStep();
 }
 
-/** Sets the page step.
+/**
+ * Sets the page step.
  */
 void KPlayerSlider::setPageStep (int pageStep)
 {
@@ -391,7 +431,8 @@ void KPlayerSlider::setPageStep (int pageStep)
     setTickInterval (pageStep);
 }
 
-/** The current value.
+/**
+ * The current value.
  */
 int KPlayerSlider::value (void) const
 {
@@ -400,7 +441,10 @@ int KPlayerSlider::value (void) const
     return - QSlider::value();
 }
 
-/** Sets the current value. The extra parameter prevents overriding of the virtual QSlider::setValue.
+/**
+ * Sets the current value.
+ * Do not override the virtual setValue.
+ * The extra parameter prevents overriding of the virtual QSlider::setValue.
  */
 void KPlayerSlider::setValue (int value, int)
 {
@@ -410,7 +454,8 @@ void KPlayerSlider::setValue (int value, int)
         QSlider::setValue (- value);
 }
 
-/** Sets up the slider by setting five options in one go.
+/**
+ * Sets up the slider by setting five options in one go.
  */
 void KPlayerSlider::setup (int minimum, int maximum, int value, int pageStep, int singleStep)
 {
@@ -421,7 +466,8 @@ void KPlayerSlider::setup (int minimum, int maximum, int value, int pageStep, in
     setValue (value);
 }
 
-/** Receives the valueChanged signal from QSlider.
+/**
+ * Receives the valueChanged signal from QSlider.
  */
 void KPlayerSlider::sliderValueChanged (int)
 {

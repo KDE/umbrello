@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -126,7 +125,6 @@ bool getShowGUI(KCmdLineArgs *args)
     return true;
 }
 
-
 void initDocument(KCmdLineArgs *args)
 {
     if ( args->count() ) {
@@ -141,7 +139,6 @@ void initDocument(KCmdLineArgs *args)
         }
     }
 }
-
 
 void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
 {
@@ -162,7 +159,7 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
 
     uDebug() << "directory: " << directory.prettyUrl();
 
-    // the event is posted so when the QT loop begins it's processed. UMLApp process this event executing
+    // the event is posted so when the Qt loop begins it's processed. UMLApp process this event executing
     // the method it provides for exporting the views. Once all the views were exported, a quit event
     // is sent and the app finishes without user interaction
     kapp->postEvent(UMLApp::app(), new CmdLineExportAllViewsEvent(extension, directory, useFolders));
