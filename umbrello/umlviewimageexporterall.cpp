@@ -1,21 +1,21 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "umlviewimageexporterall.h"
 
-// include files for Qt
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtGui/QCheckBox>
+// application specific includes
+#include "dialogs/exportallviewsdialog.h"
+#include "umlviewimageexportermodel.h"
+#include "uml.h"
+#include "umldoc.h"
 
 // kde include files
 #include <klocale.h>
@@ -24,17 +24,21 @@
 #include <kfilefiltercombo.h>
 #include <kmessagebox.h>
 
-// application specific includes
-#include "dialogs/exportallviewsdialog.h"
-#include "umlviewimageexportermodel.h"
-#include "uml.h"
-#include "umldoc.h"
+// Qt include files 
+#include <QtCore/QString>
+#include <QtCore/QStringList>
 
+/**
+ * Constructor for UMLViewImageExporterAll
+ */
 UMLViewImageExporterAll::UMLViewImageExporterAll()
 {
     m_dialog = new ExportAllViewsDialog(0, "exportAllViewsDialog", false, 0, UMLApp::app()->getImageMimeType());
 }
 
+/**
+ * Destructor for UMLViewImageExporterAll
+ */
 UMLViewImageExporterAll::~UMLViewImageExporterAll()
 {
     delete m_dialog;

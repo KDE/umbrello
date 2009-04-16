@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2007                                               *
+ *   copyright (C) 2005-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,8 +12,9 @@
 #define CPPTREE2UML_H
 
 #include "tree_parser.h"
-#include <QtCore/QStringList>
 #include "model_utils.h"
+
+#include <QtCore/QStringList>
 
 // fwd decls
 class UMLClassifier;
@@ -53,7 +54,7 @@ public:
 
     // non-overriding (locally added) methods
 
-    virtual void parseDeclaration( GroupAST* funSpec, GroupAST* storageSpec, TypeSpecifierAST* typeSpec, InitDeclaratorAST* decl );
+    virtual void parseDeclaration2( GroupAST* funSpec, GroupAST* storageSpec, TypeSpecifierAST* typeSpec, InitDeclaratorAST* decl );
     virtual void parseFunctionDeclaration( GroupAST* funSpec, GroupAST* storageSpec, TypeSpecifierAST* typeSpec, InitDeclaratorAST* decl );
     void parseFunctionArguments( DeclaratorAST* declarator, UMLOperation* method);
     virtual void parseBaseClause( BaseClauseAST* baseClause, UMLClassifier* klass );

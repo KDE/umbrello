@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -140,6 +140,20 @@ QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType)
 }
 
 /**
+ * Constructor for UMLViewImageExporterModel.
+ */
+UMLViewImageExporterModel::UMLViewImageExporterModel()
+{
+}
+
+/**
+ * Destructor for UMLViewImageExporterModel.
+ */
+UMLViewImageExporterModel::~UMLViewImageExporterModel()
+{
+}
+
+/**
  * Exports all the views in the document to the directory specified in the url
  * using the 'imageType' for the images.
  * The name of the exported images will be like their view's name and using the
@@ -239,6 +253,13 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
     return QString();
 }
 
+/**
+ * Returns the diagram file name.
+ * @param view         the diagram
+ * @param imageType    the image type as file name extension
+ * @param useFolders   flag whether to add folder to the file name
+ * @return the file name with extension
+ */
 QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders /* = false */) const
 {
     // [PORT]
@@ -369,8 +390,8 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
     view->umlScene()->forceUpdateWidgetFontMetrics(painter);
 
     QRectF rect = view->umlScene()->getDiagramRect();
-    painter->translate(-rect.x(),-rect.y());
-    view->umlScene()->getDiagram(rect,*painter);
+    painter->translate(-rect.x(), -rect.y());
+    view->umlScene()->getDiagram(rect, *painter);
 
     int resolution = printer->resolution();
 
@@ -381,7 +402,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
         // modify bounding box from screen to eps resolution.
         rect.setWidth( int(ceil(rect.width() * 72.0/resolution)) );
         rect.setHeight( int(ceil(rect.height() * 72.0/resolution)) );
-        exportSuccessful = fixEPS(fileName,rect.toRect());
+        exportSuccessful = fixEPS(fileName, rect.toRect());
     }
     // next painting will most probably be to a different device (i.e. the screen)
     view->umlScene()->forceUpdateWidgetFontMetrics(0);

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -44,8 +44,8 @@
 #include "classimport.h"
 #include "refactoring/refactoringassistant.h"
 // clipboard
-#include "clipboard/umlclipboard.h"
-#include "clipboard/umldragdata.h"
+#include "umlclipboard.h"
+#include "umldragdata.h"
 // docgenerators
 #include "docgenerators/docbookgenerator.h"
 #include "docgenerators/xhtmlgenerator.h"
@@ -90,11 +90,16 @@
 #include <QtGui/QPrintDialog>
 #include <QtGui/QUndoView>
 
-// Static pointer, holding the last created instance.
+/** Static pointer, holding the last created instance. */
 UMLApp* UMLApp::s_instance;
 
-/// @todo This is an ugly _HACK_ to allow to compile umbrello.
-/// All the menu stuff should be ported to KDE4 (using actions)
+/**
+ * Searches for a menu with the given name.
+ * @todo This is an ugly _HACK_ to allow to compile umbrello.
+ *       All the menu stuff should be ported to KDE4 (using actions)
+ *
+ * @param name  The name of the menu to search for (name, not text)
+ */
 
 /**
  * Searches for a menu with the given name.
@@ -111,6 +116,9 @@ QMenu* UMLApp::findMenu(const QString& name)
     return NULL;
 }
 
+/**
+ * Constructor. Calls all init functions to create the application.
+ */
 UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
 {
     s_instance   = this;
@@ -173,6 +181,9 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     toolsbar->setToolButtonStyle(Qt::ToolButtonIconOnly); //too many items for text, really we want a toolbox widget
 }
 
+/**
+ * Standard deconstructor.
+ */
 UMLApp::~UMLApp()
 {
     delete m_imageExporterAll;
@@ -201,7 +212,7 @@ void UMLApp::setProgLangAction(Uml::Programming_Language pl, const QString& name
 }
 
 /**
- * Initializes the KActions and the status bar of the application
+ * Initializes the KActions and the status bar of the application 
  * and calls setupGUI().
  */
 void UMLApp::initActions()
@@ -1140,6 +1151,10 @@ bool UMLApp::slotFileSaveAs()
  * Asks for saving if the file is modified, then closes the current
  * file and window.
  */
+/**
+ * Asks for saving if the file is modified, then closes the current
+ * file and window.
+ */
 void UMLApp::slotFileClose()
 {
     slotStatusMsg(i18n("Closing file..."));
@@ -1461,7 +1476,7 @@ WorkToolBar* UMLApp::getWorkToolBar()
  * Sets whether the program has been modified.
  * This will change how the program saves/exits.
  *
- * @param _m        true - modified.
+ * @param modified   true - modified.
  */
 void UMLApp::setModified(bool modified)
 {
@@ -2214,7 +2229,7 @@ void UMLApp::slotUpdateViews()
 }
 
 /**
- * import the source files that are in fileList
+ * Import the source files that are in fileList.
  */
 void UMLApp::importFiles(QStringList* fileList)
 {
@@ -2401,6 +2416,9 @@ void UMLApp::updateLangSelectMenu(Uml::Programming_Language activeLanguage)
     }
 }
 
+/**
+ * Event handler to receive key press events.
+ */
 void UMLApp::keyPressEvent(QKeyEvent *e)
 {
     switch(e->key()) {
@@ -2427,7 +2445,10 @@ void UMLApp::customEvent(QEvent* e)
     }
 }
 
-//TODO Move this to UMLWidgetController?
+/**
+ * Helper method for handling cursor key release events (refactoring).
+ * TODO Move this to UMLWidgetController?
+ */
 
 /**
  * Helper method for handling cursor key release events (refactoring).
@@ -2469,6 +2490,9 @@ void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e)
     e->accept();
 }
 
+/**
+ * Event handler for key release.
+ */
 void UMLApp::keyReleaseEvent(QKeyEvent *e)
 {
     switch(e->key()) {
@@ -2558,11 +2582,29 @@ void UMLApp::setCurrentView(UMLView* view)
  * Get the current view.
  * This may return a null pointer (when no view was previously
  * specified.)
- *
  */
 UMLView* UMLApp::getCurrentView()
 {
     return m_view;
+}
+
+/**
+ * Sets the default mime type for all diagrams that are exported as images.
+ * @param mimeType   the mime type
+ */
+void UMLApp::setImageMimeType(QString const & mimeType)
+{
+    m_imageMimeType = mimeType;
+}
+
+/**
+ * Gets the default mime type for all diagrams that are exported as
+ * images.
+ * @return  The default MIME type for images.
+ */
+QString UMLApp::getImageMimeType() const
+{
+    return m_imageMimeType;
 }
 
 /**

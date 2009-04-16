@@ -1,20 +1,21 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "umlviewimageexporter.h"
 
-// include files for Qt
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+// application specific includes
+#include "umlviewimageexportermodel.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlview.h"
 
 //kde include files
 #include <klocale.h>
@@ -23,18 +24,25 @@
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
 
-// application specific includes
-#include "umlviewimageexportermodel.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlview.h"
+// Qt include files
+#include <QtCore/QString>
+#include <QtCore/QStringList>
 #include "umlscene.h"
 
-
+/**
+ * Constructor for UMLViewImageExporter.
+ */
 UMLViewImageExporter::UMLViewImageExporter(UMLView* view)
 {
     m_view = view;
     m_imageMimeType = UMLApp::app()->getImageMimeType();
+}
+
+/**
+ * Destructor for UMLViewImageExporter
+ */
+UMLViewImageExporter::~UMLViewImageExporter()
+{
 }
 
 /**

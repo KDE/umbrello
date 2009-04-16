@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -79,15 +79,7 @@ class UMLApp : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-
-    /**
-     * Constructor. Calls all init functions to create the application.
-     */
     UMLApp(QWidget* parent=0);
-
-    /**
-     * Standard deconstructor.
-     */
     ~UMLApp();
 
     static UMLApp* app();
@@ -105,32 +97,23 @@ public:
     void setModified(bool _m);
 
     void enablePrint(bool enable);
-
     void enableUndo(bool enable);
-
     void enableRedo(bool enable);
 
-    DocWindow * getDocWindow() {
-        return m_pDocWindow;
-    }
+    DocWindow * getDocWindow() { return m_pDocWindow; }
 
     bool getUndoEnabled();
-
     bool getRedoEnabled();
-
     bool getPasteState();
-
     bool getCutCopyState();
-
-    CodeGenerator* getGenerator();
 
     bool isSimpleCodeGeneratorActive();
 
     void setGenerator(CodeGenerator* gen, bool giveWarning = true);
+    CodeGenerator* setGenerator(Uml::Programming_Language pl);
+    CodeGenerator* getGenerator();
 
     CodeGenerator* createGenerator();
-
-    CodeGenerator *setGenerator(Uml::Programming_Language pl);
 
     void refactor(UMLClassifier* classifier);
 
@@ -141,18 +124,10 @@ public:
     QWidget* getMainViewWidget();
 
     void setCurrentView(UMLView* view);
-
     UMLView* getCurrentView();
 
-    void setImageMimeType(QString const & mimeType){m_imageMimeType=mimeType;}
-
-    /**
-     * Gets the default mime type for all diagrams that are exported as
-     * images.
-     *
-     * @return  The default MIME type for images.
-     */
-    QString const & getImageMimeType()const{return m_imageMimeType;}
+    void setImageMimeType(QString const & mimeType);
+    QString getImageMimeType() const;
 
     bool editCutCopy( bool bFromView );
 
@@ -163,13 +138,11 @@ public:
     CodeGenerationPolicy *getCommonPolicy();
 
     void setPolicyExt(CodeGenPolicyExt *policy);
-
     CodeGenPolicyExt *getPolicyExt();
 
     void clearUndoStack();
 
     void undo();
-
     void redo();
 
     void executeCommand(QUndoCommand* cmd);
@@ -187,21 +160,16 @@ protected:
     void handleCursorKeyReleaseEvent(QKeyEvent* e);
 
     void saveOptions();
-
     void readOptions();
 
     void initActions();
-
     void initStatusBar();
-
     void initView();
 
     virtual bool queryClose();
-
     virtual bool queryExit();
 
     virtual void saveProperties(KConfigGroup & cfg);
-
     virtual void readProperties(const KConfigGroup & cfg);
 
     CodeGenerationPolicy * m_commoncodegenpolicy;
@@ -209,87 +177,50 @@ protected:
     void updateLangSelectMenu(Uml::Programming_Language activeLanguage);
 
 public slots:
-
     void initGenerator();
 
     void generationWizard();
 
     void slotFileNew();
-
     void slotFileOpen();
-
     void slotFileOpenRecent(const KUrl& url);
-
     void slotFileSave();
-
     bool slotFileSaveAs();
-
     void slotFileClose();
-
     void slotFilePrint();
-
     void slotFileQuit();
-
     void slotFileExportDocbook();
-
     void slotFileExportXhtml();
-
     void slotEditCut();
-
     void slotEditCopy();
-
     void slotEditPaste();
-
     void slotStatusMsg(const QString &text);
-
     void slotClassDiagram();
-
     void slotSequenceDiagram();
-
     void slotCollaborationDiagram();
-
     void slotUseCaseDiagram();
-
     void slotStateDiagram();
-
     void slotActivityDiagram();
-
     void slotComponentDiagram();
-
     void slotDeploymentDiagram();
-
     void slotEntityRelationshipDiagram();
-
     void slotAlignLeft();
-
     void slotAlignRight();
-
     void slotAlignTop();
-
     void slotAlignBottom();
-
     void slotAlignVerticalMiddle();
-
     void slotAlignHorizontalMiddle();
-
     void slotAlignVerticalDistribute();
-
     void slotAlignHorizontalDistribute();
-
     void slotClipDataChanged();
-
     void slotCopyChanged();
-
     void slotPrefs();
-
     void slotApplyPrefs();
-
     void slotUpdateViews();
 
     void generateAllCode();
 
     void setActiveLanguage(Uml::Programming_Language pl);
-
     Uml::Programming_Language getActiveLanguage();
 
     bool activeLanguageIsCaseSensitive();
@@ -299,61 +230,39 @@ public slots:
     Uml::Programming_Language getDefaultLanguage();
 
     void slotCurrentViewClearDiagram();
-
     void slotCurrentViewToggleSnapToGrid();
-
     void slotCurrentViewToggleShowGrid();
-
     void slotCurrentViewExportImage();
-
     void slotAllViewsExportImage();
-
     void slotCurrentViewProperties();
-
     void slotImportClasses();
-
     void slotImportProject();
-
     void slotClassWizard();
-
     void slotAddDefaultDatatypes();
-
     void slotCurrentViewChanged();
-
     void slotSnapToGridToggled(bool gridOn);
-
     void slotShowGridToggled(bool gridOn);
-
     void slotSelectAll();
-
     void slotDeleteSelectedWidget();
-
     void slotDeleteDiagram(QWidget* tab = NULL);
 
     void setZoom(int zoom);
 
     void slotSetZoom(QAction* action);
-
     void slotZoomSliderMoved(int value);
-
     void slotZoom100();
 
     void setupZoomMenu();
 
     void slotEditUndo();
-
     void slotEditRedo();
 
     QMenu* findMenu(const QString &name);
 
     void slotTabChanged(QWidget* tab);
-
     void slotChangeTabLeft();
-
     void slotChangeTabRight();
-
     void slotMoveTabLeft();
-
     void slotMoveTabRight();
 
     KConfig* getConfig() { return m_config.data(); }
@@ -361,7 +270,6 @@ public slots:
     void slotXhtmlDocGenerationFinished(bool status);
 
 private slots:
-
     void setLang_actionscript();
     void setLang_ada();
     void setLang_cpp();
@@ -383,21 +291,10 @@ private slots:
     void setLang_xmlschema();
 
 private:
+    static UMLApp* s_instance;  ///< The last created instance of this class.
 
-    /**
-     * Variable for holding the last created instance of this class.
-     */
-    static UMLApp* s_instance;
-
-    /**
-     * For selecting the active language.
-     */
-    QMenu *m_langSelect;
-
-    /**
-     * Popup menu for zoom selection.
-     */
-    QMenu *m_zoomSelect;
+    QMenu* m_langSelect;  ///< For selecting the active language.
+    QMenu* m_zoomSelect;  ///< Popup menu for zoom selection.
 
     QAction* createZoomAction(int zoom, int currentZoom);
 
@@ -405,36 +302,21 @@ private:
 
     void setProgLangAction(Uml::Programming_Language pl, const QString& name, const QString& action);
 
-    /**
-     * Active language.
-     */
-    Uml::Programming_Language m_activeLanguage;
-
-    /**
-     * Active code generator.
-     */
-    CodeGenerator *m_codegen;
-
-    /**
-     * Active policy extension.
-     * Only used for new code generators ({Cpp,Java,Ruby,D}CodeGenerator)
-     */
-    CodeGenPolicyExt *m_policyext;
+    Uml::Programming_Language m_activeLanguage;  ///< Active language.
+    CodeGenerator*            m_codegen;         ///< Active code generator.
+    CodeGenPolicyExt*         m_policyext;       ///< Active policy extension.
+    // Only used for new code generators ({Cpp,Java,Ruby,D}CodeGenerator).
 
     static bool canDecode(const QMimeData* mimeSource);
 
     void readOptionState();
 
     void initClip();
-
     void initSavedCodeGenerators();
 
     void importFiles(QStringList* fileList);
 
-     /**
-      * The configuration object of the application.
-      */
-    KSharedConfigPtr m_config;
+    KSharedConfigPtr m_config;  ///< The configuration object of the application.
 
     /**
      * View is the main widget which represents your working area.
@@ -445,54 +327,22 @@ private:
     UMLView* m_view;
 
     /**
-     * doc represents your actual document and is created only once.
+     * Doc represents your actual document and is created only once.
      * It keeps information such as filename and does the loading and
      * saving of your files.
      */
     UMLDoc* m_doc;
 
-    /**
-     * Listview shows the current open file.
-     */
-    UMLListView* m_listView;
+    UMLListView* m_listView;  ///< Listview shows the current open file.
 
-    /**
-     * The widget which shows the diagrams.
-     */
-    QDockWidget* m_mainDock;
-
-    /**
-     * Contains the UMLListView tree view.
-     */
-    QDockWidget* m_listDock;
-
-    /**
-     * Contains the documentation DocWindow widget.
-     */
-    QDockWidget* m_documentationDock;
-
-    /**
-     * Contains the undo/redo viewer widget.
-     */
-    QDockWidget* m_cmdHistoryDock;
-
-    /**
-     * Contains the property browser widget
-     */
-    QDockWidget* m_propertyDock;
-
-    /**
-     * Documentation window.
-     */
-    DocWindow* m_pDocWindow;
-
-    /**
-     * Undo / Redo Viewer
-     */
-    QUndoView* m_pQUndoView;
-
-    /** Refactoring assistant. */
-    RefactoringAssistant* m_refactoringAssist;
+    QDockWidget* m_mainDock;           ///< The widget which shows the diagrams.
+    QDockWidget* m_listDock;           ///< Contains the UMLListView tree view.
+    QDockWidget* m_documentationDock;  ///< Contains the documentation DocWindow widget.
+    QDockWidget* m_cmdHistoryDock;     ///< Contains the undo/redo viewer widget.
+    QDockWidget* m_propertyDock;       ///< Contains the property browser widget.
+    DocWindow*   m_pDocWindow;         ///< Documentation window.
+    QUndoView*   m_pQUndoView;         ///< Undo / Redo Viewer
+    RefactoringAssistant* m_refactoringAssist;  ///< Refactoring assistant.
 
     // KAction pointers to enable/disable actions
     KRecentFilesAction* fileOpenRecent;
@@ -527,10 +377,7 @@ private:
     QTimer* m_copyTimer;
     AlignToolBar* m_alignToolBar;
 
-    /**
-     * True if the application is opening an existing document
-     */
-    bool m_loading;
+    bool m_loading;  ///< True if the application is opening an existing document.
 
     /**
      * Shows, and is parent of, all the UMLViews (diagrams)
@@ -551,41 +398,24 @@ private:
      */
     QVBoxLayout* m_layout;
 
-    /**
-     * Default mime type to use for image export.
-     */
-    QString m_imageMimeType;
+    QString m_imageMimeType;  ///< Default mime type to use for image export.
+
+    SettingsDlg* m_dlg;  ///< The global UML settings dialog.
+
+    UMLViewImageExporterAll* m_imageExporterAll;  ///< Used to export all the views.
 
     /**
-     * the global UML settings dialog
-     */
-    SettingsDlg* m_dlg;
-
-    /**
-     * The UMLViewImageExporterAll used to export all the views.
-     */
-    UMLViewImageExporterAll* m_imageExporterAll;
-
-    /**
-     * The running XHTML documentation generator. null when no generation is
-     * running
+     * The running XHTML documentation generator. Null when no generation is running.
      */
     XhtmlGenerator* m_xhtmlGenerator;
 
-    /**
-     * UndoStack
-     * used to store actions, to provide Undo/Redo feature.
-     */
-    KUndoStack* m_pUndoStack;
+    KUndoStack* m_pUndoStack;  ///< UndoStack used to store actions, to provide Undo/Redo feature.
 
-    /**
-     * Macro creation flag
-     */
-    bool m_hasBegunMacro;
+    bool m_hasBegunMacro;  ///< Macro creation flag.
 
 signals:
-
     void sigCutSuccessful();
+
 };
 
 #endif // UML_H

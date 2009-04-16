@@ -1,24 +1,21 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLVIEWIMAGEEXPORTERMODEL_H
 #define UMLVIEWIMAGEEXPORTERMODEL_H
 
-#include <qstringlist.h>
-#include <qrect.h>
+#include <QtCore/QStringList>
+#include <QtCore/QRect>
 
 // forward declarations
 class UMLView;
-
-// KDE forward declarations
 class KUrl;
 
 /**
@@ -31,31 +28,20 @@ class KUrl;
  * The only exception is asking passwords for example when KIO slaves are used, as this
  * operation is made automatically by the KIO classes.
  */
-class UMLViewImageExporterModel {
+class UMLViewImageExporterModel
+{
 public:
 
     static QStringList supportedImageTypes();
-
     static QStringList supportedMimeTypes();
 
     static QString imageTypeToMimeType(const QString& imageType);
-
     static QString mimeTypeToImageType(const QString& mimeType);
 
-    /**
-     * Constructor for UMLViewImageExporterModel.
-     */
-    UMLViewImageExporterModel() {
-    }
-
-    /**
-     * Destructor for UMLViewImageExporterModel.
-     */
-    virtual ~UMLViewImageExporterModel() {
-    }
+    UMLViewImageExporterModel();
+    virtual ~UMLViewImageExporterModel();
 
     QStringList exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const;
-
     QString exportView(UMLView* view, const QString &imageType, const KUrl &url) const;
 
 private:
@@ -65,14 +51,11 @@ private:
     bool prepareDirectory(const KUrl &url) const;
 
     bool exportViewTo(UMLView* view, const QString &imageType, const QString &fileName) const;
-
+    bool exportViewToSvg(UMLView* view, const QString &fileName) const;
+    bool exportViewToPixmap(UMLView* view, const QString &imageType, const QString &fileName) const;
     bool exportViewToEps(UMLView* view, const QString &fileName, bool isEPS) const;
 
     bool fixEPS(const QString &fileName, const QRect& rect) const;
-
-    bool exportViewToSvg(UMLView* view, const QString &fileName) const;
-
-    bool exportViewToPixmap(UMLView* view, const QString &imageType, const QString &fileName) const;
 
 };
 
