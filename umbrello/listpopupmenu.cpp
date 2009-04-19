@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -250,7 +249,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     //make menu for logical view
     if (!object)
         return;
-    Uml::Widget_Type type = object->getBaseType();
+    Uml::Widget_Type type = object->baseType();
     // uDebug() << "ListPopupMenu created with multi=" << multi << " , unique="
     //          << unique << " for Widget_Type=" << type;
 
@@ -299,7 +298,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_Category:
        {
          KMenu* m = makeCategoryTypeMenu(
-                        static_cast<UMLCategory*>(object->getUMLObject()));
+                        static_cast<UMLCategory*>(object->umlObject()));
          m->setTitle(i18n("Category Type"));
          addMenu(m);
          insertSubMenuColor(object->getUseFillColour());
@@ -393,12 +392,12 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_State:
         {
             StateWidget* pState = static_cast< StateWidget *>( object );
-            if (pState->getStateType() == StateWidget::Normal) {
+            if (pState->stateType() == StateWidget::Normal) {
                 insertSubMenuNew(mt_New_Activity);
             }
             insertSubMenuColor( object->getUseFillColour() );
             insertStdItems(false, type);
-            if (pState->getStateType() == StateWidget::Normal) {
+            if (pState->stateType() == StateWidget::Normal) {
                 insert(mt_Rename, i18n("Change State Name..."));
                 insert(mt_Change_Font);
                 insert(mt_Properties);
@@ -419,15 +418,15 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_Activity:
         {
             ActivityWidget* pActivity = static_cast<ActivityWidget *>(object);
-            if( pActivity -> getActivityType() == ActivityWidget::Normal
-              || pActivity -> getActivityType() == ActivityWidget::Invok
-              || pActivity -> getActivityType() == ActivityWidget::Param) {
+            if( pActivity->activityType() == ActivityWidget::Normal
+              || pActivity->activityType() == ActivityWidget::Invok
+              || pActivity->activityType() == ActivityWidget::Param) {
                 insertSubMenuColor( object->getUseFillColour() );
             }
             insertStdItems(false, type);
-            if( pActivity -> getActivityType() == ActivityWidget::Normal
-              || pActivity -> getActivityType() == ActivityWidget::Invok
-              || pActivity -> getActivityType() == ActivityWidget::Param) {
+            if( pActivity->activityType() == ActivityWidget::Normal
+              || pActivity->activityType() == ActivityWidget::Invok
+              || pActivity->activityType() == ActivityWidget::Param) {
                 insert(mt_Rename, i18n("Change Activity Name..."));
                 insert(mt_Change_Font);
                 insert(mt_Properties);
@@ -805,7 +804,7 @@ void ListPopupMenu::insertSubmodelAction()
 
 void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
 {
-    Uml::Widget_Type type = c->getBaseType();
+    Uml::Widget_Type type = c->baseType();
     ClassifierWidget *cls = NULL;
 
     KMenu* show = new KMenu(i18n("Show"), this);
@@ -842,7 +841,7 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
 
 void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 {
-    Uml::Widget_Type type = c->getBaseType();
+    Uml::Widget_Type type = c->baseType();
     KMenu* menu = new KMenu(i18nc("new classifier menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     if (type == Uml::wt_Class)

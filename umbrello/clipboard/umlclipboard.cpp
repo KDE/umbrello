@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -562,7 +562,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
 
     foreach ( UMLWidget* widget, widgets ) {
 
-        Uml::IDType oldId = widget->getID();
+        Uml::IDType oldId = widget->id();
         Uml::IDType newId = idchanges->findNewID(oldId);
         if (currentView->findWidget(newId)) {
             uError() << "widget (oldID=" << ID2STR(oldId) << ", newID="
@@ -791,7 +791,7 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList )
     bool retval = true;
 
     foreach ( UMLWidget* p, widgetList ) {
-        switch( p -> getBaseType() ) {
+        switch( p->baseType() ) {
         case Uml::wt_Note:
             break;
 

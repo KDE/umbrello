@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -109,7 +109,7 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     if ( item == pageItemGeneral )
     {
         m_pActivityWidget->setName( m_GenPageWidgets.nameLE->text() );
-        m_pActivityWidget->setDoc( m_GenPageWidgets.docTE->toPlainText() );
+        m_pActivityWidget->setDocumentation( m_GenPageWidgets.docTE->toPlainText() );
         m_pActivityWidget->setPreText( m_GenPageWidgets.preLE->text() );
         m_pActivityWidget->setPostText( m_GenPageWidgets.postLE->text() );
 
@@ -137,7 +137,7 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
 void ActivityDialog::setupGeneralPage()
 {
     QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n( "Branch/Merge"), i18n( "Fork/Join" ) };
-    ActivityWidget::ActivityType type = m_pActivityWidget->getActivityType();
+    ActivityWidget::ActivityType type = m_pActivityWidget->activityType();
 
     KVBox *page = new KVBox();
     pageItemGeneral = new KPageWidgetItem( page, i18nc("general properties page", "General") );
@@ -191,7 +191,7 @@ void ActivityDialog::setupGeneralPage()
     connect(m_GenPageWidgets.NormalRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
     connect(m_GenPageWidgets.InvokRB,SIGNAL(clicked()),this,SLOT(slotHideActivityParameter()));
 
-    ActivityWidget::ActivityType newType = m_pActivityWidget->getActivityType() ;
+    ActivityWidget::ActivityType newType = m_pActivityWidget->activityType() ;
 
     m_GenPageWidgets.NormalRB->setChecked(newType == ActivityWidget::Normal);
 
@@ -206,7 +206,7 @@ void ActivityDialog::setupGeneralPage()
     docLayout->setMargin(  fontMetrics().height()  );
 
     m_GenPageWidgets.docTE = new KTextEdit( m_GenPageWidgets.docGB );
-    m_GenPageWidgets.docTE->setText( m_pActivityWidget->getDoc() );
+    m_GenPageWidgets.docTE->setText( m_pActivityWidget->documentation() );
     docLayout->addWidget( m_GenPageWidgets.docTE );
 
     if ( type != ActivityWidget::Normal && type != ActivityWidget::Invok && type != ActivityWidget::Param) {

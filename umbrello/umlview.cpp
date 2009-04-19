@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -539,7 +539,7 @@ void UMLView::slotObjectRemoved(UMLObject * o)
     Uml::IDType id = o->getID();
 
     foreach(UMLWidget* obj, m_WidgetList) {
-        if (obj -> getID() != id)
+        if (obj->id() != id)
             continue;
         removeWidget(obj);
         break;
@@ -673,7 +673,7 @@ void UMLView::dropEvent(QDropEvent *e)
         bool breakFlag = false;
         UMLWidget* w = 0;
         foreach(w ,  m_WidgetList) {
-            if (w->getBaseType() == Uml::wt_Note && w->onWidget(e->pos())) {
+            if (w->baseType() == Uml::wt_Note && w->onWidget(e->pos())) {
                 breakFlag = true;
                 break;
             }
@@ -774,12 +774,12 @@ bool UMLView::widgetOnDiagram(Uml::IDType id)
 {
 
     foreach(UMLWidget *obj, m_WidgetList) {
-        if (id == obj -> getID())
+        if (id == obj->id())
             return true;
     }
 
     foreach(UMLWidget *obj , m_MessageList) {
-        if (id == obj -> getID())
+        if (id == obj->id())
             return true;
     }
 
@@ -794,30 +794,26 @@ void UMLView::contentsMouseMoveEvent(QMouseEvent* ome)
 // search both our UMLWidget AND MessageWidget lists
 UMLWidget * UMLView::findWidget(Uml::IDType id)
 {
-
     foreach(UMLWidget* obj, m_WidgetList) {
         // object widgets are special..the widget id is held by 'localId' attribute (crappy!)
-        if (obj -> getBaseType() == wt_Object) {
+        if (obj->baseType() == wt_Object) {
             if (static_cast<ObjectWidget *>(obj) -> getLocalID() == id)
                 return obj;
-        } else if (obj -> getID() == id) {
+        } else if (obj->id() == id) {
             return obj;
         }
     }
 
     foreach(UMLWidget* obj, m_MessageList) {
-        if (obj -> getID() == id)
+        if (obj->id() == id)
             return obj;
     }
 
     return 0;
 }
 
-
-
 AssociationWidget * UMLView::findAssocWidget(Uml::IDType id)
 {
-
     foreach(AssociationWidget* obj , m_AssociationList) {
         UMLAssociation* umlassoc = obj -> getAssociation();
         if (umlassoc && umlassoc->getID() == id) {
@@ -838,25 +834,23 @@ AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA,
                 testType != Uml::at_Aggregation &&
                 testType != Uml::at_Relationship)
             continue;
-        if (pWidgetA->getID() == assoc->getWidgetID(A) &&
-                pWidgetB->getID() == assoc->getWidgetID(B) &&
+        if (pWidgetA->id() == assoc->getWidgetID(A) &&
+                pWidgetB->id() == assoc->getWidgetID(B) &&
                 assoc->getRoleName(Uml::B) == roleNameB)
             return assoc;
     }
     return 0;
 }
 
-
 AssociationWidget * UMLView::findAssocWidget(Uml::Association_Type at,
         UMLWidget *pWidgetA, UMLWidget *pWidgetB)
 {
-
     foreach(AssociationWidget* assoc, m_AssociationList) {
         Association_Type testType = assoc->getAssocType();
         if (testType != at)
             continue;
-        if (pWidgetA->getID() == assoc->getWidgetID(A) &&
-                pWidgetB->getID() == assoc->getWidgetID(B))
+        if (pWidgetA->id() == assoc->getWidgetID(A) &&
+                pWidgetB->id() == assoc->getWidgetID(B))
             return assoc;
     }
     return 0;
@@ -871,7 +865,7 @@ void UMLView::removeWidget(UMLWidget * o)
 
     removeAssociations(o);
 
-    Widget_Type t = o->getBaseType();
+    Widget_Type t = o->baseType();
     if (getType() == dt_Sequence && t == wt_Object)
         checkMessages(static_cast<ObjectWidget*>(o));
 
@@ -1096,7 +1090,7 @@ void UMLView::selectionToggleShow(int sel)
 {
     // loop through all selected items
     foreach(UMLWidget *temp , m_SelectedList) {
-        Widget_Type type = temp->getBaseType();
+        Widget_Type type = temp->baseType();
         ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(temp);
 
         // toggle the show setting sel
@@ -1153,7 +1147,7 @@ void UMLView::deleteSelection()
     */
 
     foreach(UMLWidget* temp ,  m_SelectedList) {
-        if (temp -> getBaseType() == wt_Text &&
+        if (temp->baseType() == wt_Text &&
                 ((FloatingTextWidget *)temp) -> getRole() != tr_Floating) {
             // Porting from Q3PtrList to QList
             //m_SelectedList.remove(); // remove advances the iterator to the next position,
@@ -1310,7 +1304,7 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
             continue;
         //if it is text that is part of an association then select the association
         //and the objects that are connected to it.
-        if (temp -> getBaseType() == wt_Text) {
+        if (temp->baseType() == wt_Text) {
             FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(temp);
             Text_Role t = ft -> getRole();
             LinkWidget *lw = ft->getLink();
@@ -1324,7 +1318,7 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
                 if (a)
                     selectWidgetsOfAssoc(a);
             }
-        } else if (temp -> getBaseType() == wt_Message) {
+        } else if (temp->baseType() == wt_Message) {
             MessageWidget *mw = static_cast<MessageWidget*>(temp);
             makeSelected(mw -> getWidget(A));
             makeSelected(mw -> getWidget(B));
@@ -1405,7 +1399,7 @@ UMLObjectList UMLView::getUMLObjects()
     UMLObjectList list;
     foreach(UMLWidget* w,  m_WidgetList) {
 
-        switch (w->getBaseType()) { //use switch for easy future expansion
+        switch (w->baseType()) { //use switch for easy future expansion
         case wt_Actor:
         case wt_Class:
         case wt_Interface:
@@ -1415,7 +1409,7 @@ UMLObjectList UMLView::getUMLObjects()
         case wt_Artifact:
         case wt_UseCase:
         case wt_Object:
-            list.append(w->getUMLObject());
+            list.append(w->umlObject());
             break;
         default:
             break;
@@ -1429,7 +1423,7 @@ void UMLView::activate()
     //Activate Regular widgets then activate  messages
     foreach(UMLWidget* obj , m_WidgetList) {
         //If this UMLWidget is already activated or is a MessageWidget then skip it
-        if (obj->isActivated() || obj->getBaseType() == wt_Message)
+        if (obj->isActivated() || obj->baseType() == wt_Message)
             continue;
 
         if (obj->activate()) {
@@ -1474,7 +1468,7 @@ int UMLView::getSelectCount(bool filterText) const
     int counter = 0;
     const UMLWidget * temp = 0;
     foreach(temp, m_SelectedList) {
-        if (temp->getBaseType() == wt_Text) {
+        if (temp->baseType() == wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
             if (ft->getRole() == tr_Floating)
                 counter++;
@@ -1489,7 +1483,7 @@ int UMLView::getSelectCount(bool filterText) const
 bool UMLView::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/)
 {
     foreach(UMLWidget* temp, m_SelectedList) {
-        if (filterText && temp->getBaseType() == wt_Text) {
+        if (filterText && temp->baseType() == wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
             if (ft->getRole() == tr_Floating)
                 WidgetList.append(temp);
@@ -1516,7 +1510,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
     if (!pWidget) {
         return false;
     }
-    Widget_Type type = pWidget->getBaseType();
+    Widget_Type type = pWidget->baseType();
     if (isPasteOperation) {
         if (type == Uml::wt_Message)
             m_MessageList.append(static_cast<MessageWidget*>(pWidget));
@@ -1524,8 +1518,8 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             m_WidgetList.append(pWidget);
         return true;
     }
-    if (!isPasteOperation && findWidget(pWidget->getID())) {
-        uError() << "Not adding (id=" << ID2STR(pWidget->getID())
+    if (!isPasteOperation && findWidget(pWidget->id())) {
+        uError() << "Not adding (id=" << ID2STR(pWidget->id())
         << "/type=" << type << "/name=" << pWidget->getName()
         << ") because it is already there" << endl;
         return false;
@@ -1546,7 +1540,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             if (ft)
                 name = ft->getDisplayText();
         }
-        uDebug() << name << " type=" << pWidget->getBaseType() << "): position ("
+        uDebug() << name << " type=" << pWidget->baseType() << "): position ("
         << wX << "," << wY << ") is out of range" << endl;
         if (xIsOutOfRange) {
             pWidget->setX(0);
@@ -1577,7 +1571,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
     case wt_Actor:
     case wt_UseCase:
     case wt_Category: {
-        Uml::IDType id = pWidget -> getID();
+        Uml::IDType id = pWidget->id();
         Uml::IDType newID = log->findNewID(id);
         if (newID == Uml::id_None) {   // happens after a cut
             if (id == Uml::id_None)
@@ -1594,8 +1588,8 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         pWidget -> setUMLObject(pObject);
         //make sure it doesn't already exist.
         if (findWidget(newID)) {
-            uDebug() << "Not adding (id=" << ID2STR(pWidget->getID())
-            << "/type=" << pWidget->getBaseType()
+            uDebug() << "Not adding (id=" << ID2STR(pWidget->id())
+            << "/type=" << pWidget->baseType()
             << "/name=" << pWidget->getName()
             << ") because it is already there" << endl;
             delete pWidget; // Not nice but if _we_ don't do it nobody else will
@@ -1612,7 +1606,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
     case wt_State:
     case wt_Activity:
     case wt_ObjectNode: {
-        Uml::IDType newID = m_pDoc->assignNewID(pWidget->getID());
+        Uml::IDType newID = m_pDoc->assignNewID(pWidget->id());
         pWidget->setID(newID);
         if (type != wt_Message) {
             m_WidgetList.append(pWidget);
@@ -1643,10 +1637,10 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         FloatingTextWidget *ft = pMessage->getFloatingTextWidget();
         if (ft == NULL)
             uDebug() << "FloatingTextWidget of Message is NULL";
-        else if (ft->getID() == Uml::id_None)
+        else if (ft->id() == Uml::id_None)
             ft->setID(UniqueID::gen());
         else {
-            Uml::IDType newTextID = m_pDoc->assignNewID(ft->getID());
+            Uml::IDType newTextID = m_pDoc->assignNewID(ft->id());
             ft->setID(newTextID);
         }
         m_MessageList.append(pMessage);
@@ -1663,7 +1657,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         Uml::IDType nOldLocalID = pObjectWidget -> getLocalID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget -> setLocalID(nNewLocalID);
-        UMLObject *pObject = m_pDoc->findObjectById(pWidget->getID());
+        UMLObject *pObject = m_pDoc->findObjectById(pWidget->id());
         if (!pObject) {
             uDebug() << "Cannot find UMLObject";
             return false;
@@ -1679,7 +1673,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             uDebug() << "pObjectWidget is NULL";
             return false;
         }
-        Uml::IDType newID = log->findNewID(pWidget -> getID());
+        Uml::IDType newID = log->findNewID(pWidget->id());
         if (newID == Uml::id_None) {
             return false;
         }
@@ -1706,7 +1700,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             uDebug() << "pObjectWidget is NULL";
             return false;
         }
-        Uml::IDType newID = log->findNewID(pWidget -> getID());
+        Uml::IDType newID = log->findNewID(pWidget->id());
         if (newID == Uml::id_None) {
             return false;
         }
@@ -1886,7 +1880,7 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a)
     if (!a)
         return;
     if (a->getAssocType() == at_Containment) {
-        UMLObject *objToBeMoved = a->getWidget(B)->getUMLObject();
+        UMLObject *objToBeMoved = a->getWidget(B)->umlObject();
         if (objToBeMoved != NULL) {
             UMLListView *lv = UMLApp::app()->getListView();
             lv->moveObject(objToBeMoved->getID(),
@@ -1937,8 +1931,8 @@ void UMLView::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associatio
         return;
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->getWidget(A)->getUMLObject() == Obj ||
-                assocwidget->getWidget(B)->getUMLObject() == Obj)
+        if (assocwidget->getWidget(A)->umlObject() == Obj ||
+                assocwidget->getWidget(B)->umlObject() == Obj)
             Associations.append(assocwidget);
     }//end foreach
 
@@ -1972,7 +1966,7 @@ void UMLView::removeAllWidgets()
     foreach(UMLWidget* temp , m_WidgetList) {
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
-        if (!(temp -> getBaseType() == wt_Text &&
+        if (!(temp->baseType() == wt_Text &&
                 ((FloatingTextWidget *)temp)-> getRole() != tr_Floating)) {
             removeWidget(temp);
         }
@@ -2017,7 +2011,7 @@ void UMLView::updateContainment(UMLCanvasObject *self)
     UMLWidget *selfWidget = NULL, *newParentWidget = NULL;
     UMLPackage *newParent = self->getUMLPackage();
     foreach(UMLWidget* w, m_WidgetList) {
-        UMLObject *o = w->getUMLObject();
+        UMLObject *o = w->umlObject();
         if (o == self)
             selfWidget = w;
         else if (newParent != NULL && o == newParent)
@@ -2032,11 +2026,11 @@ void UMLView::updateContainment(UMLCanvasObject *self)
         // Container is at role A, containee at B.
         // We only look at association for which we are B.
         UMLWidget *wB = a->getWidget(B);
-        UMLObject *roleBObj = wB->getUMLObject();
+        UMLObject *roleBObj = wB->umlObject();
         if (roleBObj != self)
             continue;
         UMLWidget *wA = a->getWidget(A);
-        UMLObject *roleAObj = wA->getUMLObject();
+        UMLObject *roleAObj = wA->umlObject();
         if (roleAObj == newParent) {
             // Wow, all done. Great!
             return;
@@ -2091,7 +2085,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
     //     end if
     //   end if
     // end if
-    UMLObject *tmpUmlObj = widget->getUMLObject();
+    UMLObject *tmpUmlObj = widget->umlObject();
     if (tmpUmlObj == NULL)
         return;
     UMLCanvasObject *umlObj = dynamic_cast<UMLCanvasObject*>(tmpUmlObj);
@@ -2131,7 +2125,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
         bool breakFlag = false;
         UMLWidget* pOtherWidget = 0;
         foreach(pOtherWidget ,  m_WidgetList) {
-            if (pOtherWidget->getID() == otherID) {
+            if (pOtherWidget->id() == otherID) {
                 breakFlag = true;
                 break;
             }
@@ -2193,7 +2187,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
             // if the containedObject has a widget representation on this view then
             Uml::IDType id = obj->getID();
             foreach(UMLWidget *w , m_WidgetList) {
-                if (w->getID() != id)
+                if (w->id() != id)
                     continue;
                 // if the containedWidget is not physically located inside this widget
                 if (widget->rect().contains(w->rect()))
@@ -2218,7 +2212,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
     bool breakFlag = false;
     UMLWidget* pWidget = 0;
     foreach(pWidget , m_WidgetList) {
-        if (pWidget->getID() == pkgID) {
+        if (pWidget->id() == pkgID) {
             breakFlag = true;
             break;
         }
@@ -2264,7 +2258,7 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget)
     //   end if
     //
     // Implementation:
-    UMLObject *tmpUmlObj = widget->getUMLObject();
+    UMLObject *tmpUmlObj = widget->umlObject();
     if (tmpUmlObj == NULL)
         return;
     // if the underlying model object is really a UMLClassifier then
@@ -2379,7 +2373,7 @@ void UMLView::createAutoConstraintAssociations(UMLWidget *widget)
     //         end if
     //       end if
 
-    UMLObject *tmpUmlObj = widget->getUMLObject();
+    UMLObject *tmpUmlObj = widget->umlObject();
     if (tmpUmlObj == NULL)
         return;
     // check if the underlying model object is really a UMLEntity
@@ -2896,7 +2890,7 @@ void UMLView::setClassWidgetOptions(ClassOptionsPage * page)
 
 
     foreach(UMLWidget* pWidget , m_WidgetList) {
-        Uml::Widget_Type wt = pWidget->getBaseType();
+        Uml::Widget_Type wt = pWidget->baseType();
         if (wt == Uml::wt_Class || wt == Uml::wt_Interface) {
             page -> setWidget(static_cast<ClassifierWidget *>(pWidget));
             page -> updateUMLWidget();
@@ -2910,7 +2904,7 @@ void UMLView::checkSelections()
     UMLWidget * pWA = 0, * pWB = 0;
     //check messages
     foreach(UMLWidget *pTemp , m_SelectedList) {
-        if (pTemp->getBaseType() == wt_Message && pTemp -> getSelected()) {
+        if (pTemp->baseType() == wt_Message && pTemp -> getSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
             pWA = pMessage -> getWidget(A);
             pWB = pMessage -> getWidget(B);
@@ -2950,11 +2944,11 @@ bool UMLView::checkUniqueSelection()
 
     // get the first item and its base type
     UMLWidget * pTemp = (UMLWidget *) m_SelectedList.first();
-    Widget_Type tmpType = pTemp -> getBaseType();
+    Widget_Type tmpType = pTemp->baseType();
 
     // check all selected items, if they have the same BaseType
     foreach(pTemp , m_SelectedList) {
-        if (pTemp->getBaseType() != tmpType) {
+        if (pTemp->baseType() != tmpType) {
             return false; // the base types are different, the list is not unique
         }
     } // for ( through all selected items )
@@ -3167,7 +3161,7 @@ void UMLView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         // We DON'T want to record any text widgets which are belonging
         // to associations as they are recorded later in the "associations"
         // section when each owning association is dumped. -b.t.
-        if ((widget->getBaseType() != wt_Text && widget->getBaseType() != wt_FloatingDashLine) ||
+        if ((widget->baseType() != wt_Text && widget->baseType() != wt_FloatingDashLine) ||
                 static_cast<FloatingTextWidget*>(widget)->getLink() == NULL)
             widget->saveToXMI(qDoc, widgetElement);
     }
@@ -3408,7 +3402,7 @@ bool UMLView::loadMessagesFromXMI(QDomElement & qElement)
             if (ft)
                 m_WidgetList.append(ft);
             else if (message->getSequenceMessageType() != sequence_message_creation)
-                uDebug() << "ft is NULL for message " << ID2STR(message->getID()) << endl;
+                uDebug() << "ft is NULL for message " << ID2STR(message->id()) << endl;
         }
         node = messageElement.nextSibling();
         messageElement = node.toElement();

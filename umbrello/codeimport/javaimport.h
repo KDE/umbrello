@@ -21,7 +21,7 @@ class UMLObject;
  * @author JP Fournier
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class JavaImport : public NativeImportBase 
+class JavaImport : public NativeImportBase
 {
 public:
     JavaImport();

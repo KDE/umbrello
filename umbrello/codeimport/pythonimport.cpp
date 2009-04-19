@@ -33,7 +33,7 @@
  * Constructor.
  */
 PythonImport::PythonImport()
-  : NativeImportBase("#") 
+  : NativeImportBase("#")
 {
     setMultiLineComment("\"\"\"", "\"\"\"");
     initVars();
@@ -42,7 +42,7 @@ PythonImport::PythonImport()
 /**
  * Destructor.
  */
-PythonImport::~PythonImport() 
+PythonImport::~PythonImport()
 {
 }
 
@@ -120,7 +120,7 @@ bool PythonImport::preprocess(QString& line)
  * Implement abstract operation from NativeImportBase.
  * @param word   whitespace delimited item
  */
-void PythonImport::fillSource(const QString& word) 
+void PythonImport::fillSource(const QString& word)
 {
     QString lexeme;
     const uint len = word.length();

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,7 +30,7 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) :
     m_pUMLWidget = pWidget;
     m_options = 0;
     init();
-    m_pLineColorB->setColor( pWidget->getLineColor() );
+    m_pLineColorB->setColor( pWidget->lineColor() );
     m_pFillColorB->setColor( pWidget->getFillColour() );
     m_pUseFillColorCB->setChecked( pWidget->getUseFillColour() );
 }

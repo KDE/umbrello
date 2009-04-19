@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -128,7 +128,7 @@ bool UMLWidget::operator==(const UMLWidget& other)
         return false;
     }
 
-    if (getID() != other.getID())
+    if (id() != other.id())
         return false;
 
     /* Testing the associations is already an exaggeration, no?
@@ -303,7 +303,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Line_Color:
         widget = m_pView->getFirstMultiSelectedWidget();
         if (widget) {
-            newColour = widget->getLineColor();
+            newColour = widget->lineColor();
         }
         if (KColorDialog::getColor(newColour)) {
             m_pView -> selectionSetLineColor(newColour);
@@ -527,7 +527,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
         x = x < 0 ? 0 : x;
         y = y < 0 ? 0 : y;
         if (m_pView -> getType() == dt_Sequence) {
-            switch (getBaseType()) {
+            switch (baseType()) {
             case wt_Object:
             case wt_Precondition :
                 setY(getY());
@@ -645,7 +645,7 @@ void UMLWidget::showProperties()
     ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
 
     if (dlg->exec()) {
-        docwindow->showDocumentation(getUMLObject() , true);
+        docwindow->showDocumentation(umlObject() , true);
         m_pDoc->setModified(true);
     }
     dlg->close(); //wipe from memory
@@ -1030,7 +1030,7 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
       Type must be set in the child class.
     */
     WidgetBase::saveToXMI(qDoc, qElement);
-    qElement.setAttribute("xmi.id", ID2STR(getID()));
+    qElement.setAttribute("xmi.id", ID2STR(id()));
     qElement.setAttribute("font", m_Font.toString());
     qElement.setAttribute("usefillcolor", m_bUseFillColour);
     qElement.setAttribute("x", getX());

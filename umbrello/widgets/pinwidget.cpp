@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -191,10 +190,10 @@ void PinWidget::slotMenuSelection(QAction* action) {
 
 void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
-    PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->getID()) );
+    PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->id()) );
     UMLWidget::saveToXMI( qDoc, PinElement );
     if (m_pName && !m_pName->getText().isEmpty()) {
-        PinElement.setAttribute( "textid", ID2STR(m_pName->getID()) );
+        PinElement.setAttribute( "textid", ID2STR(m_pName->id()) );
         m_pName -> saveToXMI( qDoc, PinElement );
     }
     qElement.appendChild( PinElement );

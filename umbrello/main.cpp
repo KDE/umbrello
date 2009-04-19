@@ -127,7 +127,7 @@ bool getShowGUI(KCmdLineArgs *args)
 
 void initDocument(KCmdLineArgs *args)
 {
-    if ( args -> count() ) {
+    if ( args->count() ) {
         UMLApp::app()->openDocumentFile( args->url( 0 ) );
     } else {
         bool last = UmbrelloSettings::loadlast();
@@ -159,7 +159,7 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
 
     uDebug() << "directory: " << directory.prettyUrl();
 
-    // the event is posted so when the Qt loop begins it's processed. UMLApp process this event executing
+    // the event is posted so when the QT loop begins it's processed. UMLApp process this event executing
     // the method it provides for exporting the views. Once all the views were exported, a quit event
     // is sent and the app finishes without user interaction
     kapp->postEvent(UMLApp::app(), new CmdLineExportAllViewsEvent(extension, directory, useFolders));

@@ -27,7 +27,6 @@ class UMLEnum;
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 namespace Import_Utils {
 
     UMLObject* createUMLObject(Uml::Object_Type type,

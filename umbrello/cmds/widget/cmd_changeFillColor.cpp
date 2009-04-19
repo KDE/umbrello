@@ -29,10 +29,11 @@
 
 namespace Uml
 {
-    CmdChangeFillColor::CmdChangeFillColor(UMLWidget *w, const QColor& col):UMLw(w),color(col)
+    CmdChangeFillColor::CmdChangeFillColor(UMLWidget *w, const QColor& col)
+        : m_umlWidget(w), m_color(col)
     {
         setText(i18n("Change Fill Color")+ w->getName());
-        oldColor= w -> getFillColor() ;
+        m_oldColor= w->getFillColor() ;
     }
 
     CmdChangeFillColor::~CmdChangeFillColor()
@@ -41,12 +42,11 @@ namespace Uml
 
     void CmdChangeFillColor::redo()
     {
-        UMLw -> setFillColourcmd( color );
+        m_umlWidget->setFillColourcmd( m_color );
     }
 
     void CmdChangeFillColor::undo()
     {
-
-        UMLw -> setFillColourcmd( oldColor );
+        m_umlWidget->setFillColourcmd( m_oldColor );
     }
 }

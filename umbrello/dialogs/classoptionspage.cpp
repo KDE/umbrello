@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -101,7 +101,7 @@ void ClassOptionsPage::setupPage()
     m_pShowPackageCB->setChecked(m_pWidget->getShowPackage());
     visibilityLayout->addWidget(m_pShowPackageCB, 1, 1);
 
-    Uml::Widget_Type type = m_pWidget->getBaseType();
+    Uml::Widget_Type type = m_pWidget->baseType();
 
     if (type == Uml::wt_Class) {
         m_pShowAttsCB = new QCheckBox(i18n("Att&ributes"), m_pVisibilityGB);
@@ -208,7 +208,7 @@ void ClassOptionsPage::updateWidget()
     m_pWidget->setShowVisibility( m_pShowVisibilityCB->isChecked() );
     m_pWidget->setShowOps( m_pShowOpsCB->isChecked() );
     m_pWidget->setShowOpSigs( m_pShowOpSigCB->isChecked() );
-    Uml::Widget_Type type = m_pWidget->getBaseType();
+    Uml::Widget_Type type = m_pWidget->baseType();
     if (type == Uml::wt_Class) {
         m_pWidget->setShowStereotype( m_pShowStereotypeCB->isChecked() );
         m_pWidget->setShowAtts( m_pShowAttsCB->isChecked() );

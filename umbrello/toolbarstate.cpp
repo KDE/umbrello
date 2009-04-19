@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -274,7 +273,7 @@ FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPoint& pos) {
     FloatingDashLineWidget* floatingline = 0;
 
     foreach ( UMLWidget* widget, m_pUMLView->getWidgetList() ) {
-        if (widget->getBaseType() == Uml::wt_FloatingDashLine){
+        if (widget->baseType() == Uml::wt_FloatingDashLine){
             if (dynamic_cast<FloatingDashLineWidget*>(widget)->onLine(pos)) {
                 floatingline = dynamic_cast<FloatingDashLineWidget*>(widget);
             }

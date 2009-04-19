@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -50,14 +49,14 @@ public:
     /**
      * Read property of m_Type.
      */
-    Uml::Widget_Type getBaseType() const;
+    Uml::Widget_Type baseType() const;
 
     /**
      * Returns the @ref UMLObject set to represent.
      *
      * @return the UMLObject to represent.
      */
-    UMLObject *getUMLObject();
+    UMLObject* umlObject() const;
 
     /**
      * Deliver a const pointer to the connected UMLView
@@ -77,7 +76,7 @@ public:
      *
      * @return  The documentation from the UMLObject (if m_pObject is set.)
      */
-    virtual QString getDoc() const;
+    virtual QString documentation() const;
 
     /**
      * Used by some child classes to set documentation.
@@ -85,7 +84,7 @@ public:
      * @param doc       The documentation to be set in the UMLObject
      *          (if m_pObject is set.)
      */
-    virtual void setDoc( const QString &doc );
+    virtual void setDocumentation( const QString &doc );
 
     /**
      * Sets the line colour
@@ -104,7 +103,7 @@ public:
     /**
      * Read property of m_LineColour.
      */
-    QColor getLineColor() const {
+    QColor lineColor() const {
         return m_LineColour;
     }
 
@@ -151,7 +150,7 @@ public:
     /**
     * Read property of m_nId.
     */
-    Uml::IDType getID() const;
+    Uml::IDType id() const;
 
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 

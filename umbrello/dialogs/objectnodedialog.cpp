@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -105,7 +105,7 @@ void ObjectNodeDialog::applyPage( KPageWidgetItem *item )
     if ( item == pageItemGeneral )
     {
         m_pObjectNodeWidget->setName( m_GenPageWidgets.nameLE->text() );
-        m_pObjectNodeWidget->setDoc( m_GenPageWidgets.docMLE->toPlainText() );
+        m_pObjectNodeWidget->setDocumentation( m_GenPageWidgets.docMLE->toPlainText() );
         m_pObjectNodeWidget->setState( m_GenPageWidgets.stateLE->text() );
 
         ObjectNodeWidget::ObjectNodeType newType = ObjectNodeWidget::Normal;
@@ -202,7 +202,7 @@ void ObjectNodeDialog::setupGeneralPage()
     docLayout->setMargin(  fontMetrics().height()  );
 
     m_GenPageWidgets.docMLE = new KTextEdit( m_GenPageWidgets.docGB );
-    m_GenPageWidgets.docMLE->setText( m_pObjectNodeWidget->getDoc() );
+    m_GenPageWidgets.docMLE->setText( m_pObjectNodeWidget->documentation() );
     docLayout->addWidget( m_GenPageWidgets.docMLE );
 
     if (type != ObjectNodeWidget::Buffer && type != ObjectNodeWidget::Data && type != ObjectNodeWidget::Flow) {

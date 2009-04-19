@@ -41,7 +41,7 @@ class UMLClassifier;
  * @author Oliver Kellogg <okellogg@users.sourceforge.net>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class NativeImportBase : public ClassImport 
+class NativeImportBase : public ClassImport
 {
 public:
     NativeImportBase(const QString &singleLineCommentIntro);

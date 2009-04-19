@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2008                                                *
+ *  copyright (C) 2002-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -37,18 +37,18 @@ namespace Uml
         oldColor=widget->getLineColor() ;
     }*/
 
-CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col):UMLw(w),color(col)
-{
-    setText(i18n("Change Line Color") + w->getName());
-    oldColor= w -> getLineColor() ;
+    CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col):UMLw(w),color(col)
+    {
+        setText(i18n("Change Line Color") + w->getName());
+        oldColor= w->lineColor() ;
+    }
 
-}
     CmdChangeLineColor::~CmdChangeLineColor()
     {
     }
+
     void CmdChangeLineColor::redo()
     {
-
         UMLw->setLineColorcmd( color );
     }
 
@@ -56,4 +56,5 @@ CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col):UMLw(w),
     {
         UMLw->setLineColorcmd( oldColor );
     }
+
 }

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -73,7 +72,7 @@ void ToolBarStateAssociation::slotWidgetRemoved(UMLWidget* widget) {
 
 void ToolBarStateAssociation::mouseReleaseAssociation() {
     if (m_pMouseEvent->button() != Qt::LeftButton ||
-            !m_firstWidget || m_firstWidget->getBaseType() != Uml::wt_Class) {
+            !m_firstWidget || m_firstWidget->baseType() != Uml::wt_Class) {
         cleanAssociation();
         return;
     }
@@ -142,7 +141,7 @@ void ToolBarStateAssociation::setSecondWidget() {
     Association_Type type = getAssociationType();
     UMLWidget* widgetA = m_firstWidget;
     UMLWidget* widgetB = getCurrentWidget();
-    Widget_Type at = widgetA->getBaseType();
+    Widget_Type at = widgetA->baseType();
     bool valid = true;
     if (type == at_Generalization) {
         type = AssocRules::isGeneralisationOrRealisation(widgetA, widgetB);
@@ -160,8 +159,8 @@ void ToolBarStateAssociation::setSecondWidget() {
         addAssociationInViewAndDoc(temp);
         if (type == at_Containment) {
             UMLListView *lv = UMLApp::app()->getListView();
-            UMLObject *newContainer = widgetA->getUMLObject();
-            UMLObject *objToBeMoved = widgetB->getUMLObject();
+            UMLObject *newContainer = widgetA->umlObject();
+            UMLObject *objToBeMoved = widgetB->umlObject();
             if (newContainer && objToBeMoved) {
                 UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
                 lv->moveObject(objToBeMoved->getID(),

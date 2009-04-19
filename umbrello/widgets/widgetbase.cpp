@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2007                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,11 +15,13 @@
 #include "umlobject.h"
 #include "optionstate.h"
 
-WidgetBase::WidgetBase(UMLView *view) : QObject(view) {
+WidgetBase::WidgetBase(UMLView *view) : QObject(view)
+{
     init(view);
 }
 
-void WidgetBase::init(UMLView *view, Uml::Widget_Type type /* = Uml::wt_UMLWidget */) {
+void WidgetBase::init(UMLView *view, Uml::Widget_Type type /* = Uml::wt_UMLWidget */)
+{
     m_pView = view;
     m_Type = type;
     m_pObject = NULL;
@@ -39,23 +40,28 @@ void WidgetBase::init(UMLView *view, Uml::Widget_Type type /* = Uml::wt_UMLWidge
     }
 }
 
-void WidgetBase::setBaseType( Uml::Widget_Type type ) {
+void WidgetBase::setBaseType( Uml::Widget_Type type )
+{
     m_Type = type;
 }
 
-Uml::Widget_Type WidgetBase::getBaseType() const {
+Uml::Widget_Type WidgetBase::baseType() const
+{
     return m_Type;
 }
 
-UMLObject *WidgetBase::getUMLObject() {
+UMLObject* WidgetBase::umlObject() const
+{
     return m_pObject;
 }
 
-void WidgetBase::setUMLObject(UMLObject * o) {
+void WidgetBase::setUMLObject(UMLObject * o)
+{
     m_pObject = o;
 }
 
-void WidgetBase::setID(Uml::IDType id) {
+void WidgetBase::setID(Uml::IDType id)
+{
     if (m_pObject) {
         if (m_pObject->getID() != Uml::id_None)
             uWarning() << "changing old UMLObject " << ID2STR(m_pObject->getID())
@@ -65,36 +71,42 @@ void WidgetBase::setID(Uml::IDType id) {
     m_nId = id;
 }
 
-Uml::IDType WidgetBase::getID() const {
+Uml::IDType WidgetBase::id() const
+{
     if (m_pObject)
         return m_pObject->getID();
     return m_nId;
 }
 
-QString WidgetBase::getDoc() const {
-    if (m_pObject != NULL)
+QString WidgetBase::documentation() const
+{
+    if (m_pObject)
         return m_pObject->getDoc();
     return m_Doc;
 }
 
-void WidgetBase::setDoc( const QString &doc ) {
-    if (m_pObject != NULL)
+void WidgetBase::setDocumentation( const QString &doc )
+{
+    if (m_pObject)
         m_pObject->setDoc( doc );
     else
         m_Doc = doc;
 }
 
-void WidgetBase::setLineColor(const QColor &colour) {
+void WidgetBase::setLineColor(const QColor &colour)
+{
     m_LineColour = colour;
     m_bUsesDiagramLineColour = false;
 }
 
-void WidgetBase::setLineWidth(uint width) {
+void WidgetBase::setLineWidth(uint width)
+{
     m_LineWidth = width;
     m_bUsesDiagramLineWidth = false;
 }
 
-void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
+void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement )
+{
     if (m_bUsesDiagramLineColour) {
         qElement.setAttribute( "linecolor", "none" );
     } else {
@@ -107,7 +119,8 @@ void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement ) {
     }
 }
 
-bool WidgetBase::loadFromXMI( QDomElement & qElement ) {
+bool WidgetBase::loadFromXMI( QDomElement & qElement )
+{
     // first load from "linecolour" and then overwrite with the "linecolor"
     // attribute if that one is present. The "linecolour" name was a "typo" in
     // earlier versions of Umbrello

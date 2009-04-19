@@ -75,7 +75,7 @@ void NativeImportBase::setMultiLineAltComment(const QString &intro, const QStrin
  * given by `until'.
  * @param until   the target string
  */
-void NativeImportBase::skipStmt(const QString& until /* = ";" */) 
+void NativeImportBase::skipStmt(const QString& until /* = ";" */)
 {
     const int srcLength = m_source.count();
     while (m_srcIndex < srcLength && m_source[m_srcIndex] != until)

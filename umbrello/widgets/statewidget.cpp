@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -91,15 +90,15 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
         }
         break;
     case Initial :
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         break;
     case End :
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         p.setBrush( Qt::white );
         p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
         break;
     default:
@@ -147,7 +146,7 @@ QString StateWidget::getName() const {
     return m_Text;
 }
 
-StateWidget::StateType StateWidget::getStateType() const {
+StateWidget::StateType StateWidget::stateType() const {
     return m_StateType;
 }
 

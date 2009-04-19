@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -306,7 +305,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
         }
 
         setPenFromSettings(p);
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse(x1 + w - h , offsetY - h/2, h, h);
         drawArrow(p,offsetX, offsetY, w - h, Qt::RightArrow);
 
@@ -315,7 +314,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY){
         }
     } else      {
         setPenFromSettings(p);
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse(offsetX, offsetY - h/2, h, h);
         drawArrow(p, offsetX + h, offsetY, w - h, Qt::LeftArrow);
     }
@@ -339,7 +338,7 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
             w -= 7;
         }
         setPenFromSettings(p);
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse(x2, offsetY - h/2, h, h);
         drawArrow(p, x2 - w + h, offsetY, w, Qt::LeftArrow);
         if (messageOverlapsA)  {
@@ -350,7 +349,7 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY){
             w -= 7;
         }
         setPenFromSettings(p);
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse(x2, offsetY - h/2, h, h);
         drawArrow(p, x2, offsetY, w, Qt::RightArrow);
     }
@@ -535,7 +534,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
     }
     updateResizability();
 
-    UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pOw[Uml::B]->getUMLObject());
+    UMLClassifier *c = dynamic_cast<UMLClassifier*>(m_pOw[Uml::B]->umlObject());
     UMLOperation *op = NULL;
     if (c && !m_CustomOp.isEmpty()) {
         Uml::IDType opId = STR2ID(m_CustomOp);
@@ -606,7 +605,7 @@ void MessageWidget::lwSetFont (QFont font) {
 }
 
 UMLClassifier *MessageWidget::getOperationOwner() {
-    UMLObject *pObject = m_pOw[Uml::B]->getUMLObject();
+    UMLObject *pObject = m_pOw[Uml::B]->umlObject();
     if (pObject == NULL)
         return NULL;
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(pObject);
@@ -642,7 +641,7 @@ UMLClassifier * MessageWidget::getSeqNumAndOp(QString& seqNum, QString& op) {
     } else {
         op = m_CustomOp;
     }
-    UMLObject *o = m_pOw[Uml::B]->getUMLObject();
+    UMLObject *o = m_pOw[Uml::B]->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
     return c;
 }
@@ -908,7 +907,7 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 
     // save the corresponding message text
     if (m_pFText && !m_pFText->getText().isEmpty()) {
-        messageElement.setAttribute( "textid", ID2STR(m_pFText->getID()) );
+        messageElement.setAttribute( "textid", ID2STR(m_pFText->id()) );
         m_pFText -> saveToXMI( qDoc, messageElement );
     }
 

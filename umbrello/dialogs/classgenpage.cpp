@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -308,7 +308,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
 
     m_pDoc = new KTextEdit(m_pDocGB);
     m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
-    m_pDoc->setText(o->getDoc());
+    m_pDoc->setText(o->documentation());
     docLayout->addWidget(m_pDoc);
     if (m_pMultiCB) {
         connect( m_pDrawActorCB, SIGNAL( toggled( bool ) ), this, SLOT( slotActorToggled( bool ) ) );
@@ -332,9 +332,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 3, 2);
     m_pNameL = new QLabel(this);
-    if (widget->getBaseType() == Uml::wt_Component) {
+    if (widget->baseType() == Uml::wt_Component) {
         m_pNameL->setText(i18n("Component name:"));
-    } else if (widget->getBaseType() == Uml::wt_Node) {
+    } else if (widget->baseType() == Uml::wt_Node) {
         m_pNameL->setText(i18n("Node name:"));
     } else {
         uWarning() << "ClassGenPage called on unknown widget type";
@@ -351,7 +351,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
     m_pStereoTypeCB = new KComboBox(true, this);
     m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
-    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), widget->getUMLObject()->getStereotype() );
+    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), widget->umlObject()->getStereotype() );
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
 
     m_pInstanceL = new QLabel(this);
@@ -371,7 +371,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
 
     m_pDoc = new KTextEdit(m_pDocGB);
     m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
-    m_pDoc->setText(widget->getDoc());
+    m_pDoc->setText(widget->documentation());
     docLayout->addWidget(m_pDoc);
 }
 
@@ -492,8 +492,8 @@ void ClassGenPage::updateObject()
             m_pWidget->setShowDestruction( m_pDeconCB->isChecked() );
         }
         QString name = m_pClassNameLE->text();
-        m_pWidget->setDoc(m_pDoc->toPlainText());
-        UMLObject * o = m_pWidget->getUMLObject();
+        m_pWidget->setDocumentation(m_pDoc->toPlainText());
+        UMLObject * o = m_pWidget->umlObject();
         UMLObject * old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
@@ -505,8 +505,8 @@ void ClassGenPage::updateObject()
     else if (m_pInstanceWidget) {
         m_pInstanceWidget->setInstanceName(m_pInstanceLE->text());
         QString name = m_pClassNameLE->text();
-        m_pInstanceWidget->setDoc(m_pDoc->toPlainText());
-        UMLObject* o = m_pInstanceWidget->getUMLObject();
+        m_pInstanceWidget->setDocumentation(m_pDoc->toPlainText());
+        UMLObject* o = m_pInstanceWidget->umlObject();
         UMLObject* old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),

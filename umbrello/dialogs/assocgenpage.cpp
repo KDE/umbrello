@@ -79,7 +79,7 @@ void AssocGenPage::constructWidget()
 
     m_pDoc = new KTextEdit(docGB);
     docLayout->addWidget(m_pDoc);
-    m_pDoc-> setText(m_pAssociationWidget-> getDoc());
+    m_pDoc->setText(m_pAssociationWidget->documentation());
     Uml::Association_Type currentType =  m_pAssociationWidget->getAssocType();
     QString currentTypeAsString = UMLAssociation::toString(currentType);
     QLabel *pTypeL = new QLabel(i18n("Type:"), nameGB);
@@ -142,7 +142,7 @@ void AssocGenPage::updateObject()
         Uml::Association_Type newType = m_AssocTypes[comboBoxItem];
         m_pAssociationWidget->setAssocType(newType);
         m_pAssociationWidget->setName(m_pAssocNameLE->text());
-        m_pAssociationWidget->setDoc(m_pDoc->toPlainText());
+        m_pAssociationWidget->setDocumentation(m_pDoc->toPlainText());
     }
 }
 

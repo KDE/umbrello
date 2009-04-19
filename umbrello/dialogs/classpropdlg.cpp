@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -58,7 +58,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
     init();
     m_pWidget = o;
     m_Type = pt_ObjectWidget;
-    m_pObject = m_pWidget->getUMLObject();
+    m_pObject = m_pWidget->umlObject();
     m_pDoc = UMLApp::app()->getDocument();
 
     setupGeneralPage();
@@ -76,26 +76,26 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget *w)
     init();
     m_pWidget = w;
     m_Type = pt_Widget;
-    m_pObject = w -> getUMLObject();
+    m_pObject = w->umlObject();
 
-    if (w->getBaseType() == Uml::wt_Class
-            || w->getBaseType() == Uml::wt_Interface
-            || w->getBaseType() == Uml::wt_Package) {
+    if (w->baseType() == Uml::wt_Class
+            || w->baseType() == Uml::wt_Interface
+            || w->baseType() == Uml::wt_Package) {
         setupPages(true);
-    } else if (w->getBaseType() == Uml::wt_Component) {
+    } else if (w->baseType() == Uml::wt_Component) {
         if ( w->getIsInstance() ) {
             setupInstancePages();
         } else {
             setupPages();
         }
-    } else if (w->getBaseType() == Uml::wt_Node) {
+    } else if (w->baseType() == Uml::wt_Node) {
         setupInstancePages();
     } else {
         setupPages();
     }
 
     // now setup the options page for classes
-    if (w->getBaseType() == Uml::wt_Class || w->getBaseType() == Uml::wt_Interface) {
+    if (w->baseType() == Uml::wt_Class || w->baseType() == Uml::wt_Interface) {
         setupDisplayPage();
     }
     setupColorPage();

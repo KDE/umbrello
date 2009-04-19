@@ -1,19 +1,18 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "entityattribute.h"
 // qt/kde includes
-#include <qregexp.h>
 #include <kdebug.h>
+#include <QtCore/QRegExp>
 // app includes
 #include "umlcanvasobject.h"
 #include "umldoc.h"
@@ -21,70 +20,152 @@
 #include "dialogs/umlentityattributedialog.h"
 #include "object_factory.h"
 
+/**
+ * Sets up an entityattribute.
+ * @param parent    The parent of this UMLEntityAttribute.
+ * @param name      The name of this UMLEntityAttribute.
+ * @param id        The unique id given to this UMLEntityAttribute.
+ * @param s         The visibility of the UMLEntityAttribute.
+ * @param type      The type of this UMLEntityAttribute.
+ * @param iv        The initial value of the entityattribute.
+ */
 UMLEntityAttribute::UMLEntityAttribute( UMLObject *parent, const QString& name,
                                         Uml::IDType id, Uml::Visibility s,
                                         UMLObject *type, const QString& iv )
-        : UMLAttribute(parent, name, id, s, type, iv) {
+  : UMLAttribute(parent, name, id, s, type, iv)
+{
     init();
     if (m_pSecondary) {
         m_pSecondary->setBaseType(Uml::ot_Entity);
     }
 }
 
-UMLEntityAttribute::UMLEntityAttribute(UMLObject *parent) : UMLAttribute(parent) {
+/**
+ * Sets up an entityattribute.
+ * @param parent    The parent of this UMLEntityAttribute.
+ */
+UMLEntityAttribute::UMLEntityAttribute(UMLObject *parent)
+ : UMLAttribute(parent)
+{
     init();
 }
 
-UMLEntityAttribute::~UMLEntityAttribute() { }
+/**
+ * Destructor.
+ */
+UMLEntityAttribute::~UMLEntityAttribute()
+{
+}
 
-void UMLEntityAttribute::init() {
+/**
+ * Initialize members of this class.
+ * Auxiliary method used by constructors.
+ */
+void UMLEntityAttribute::init()
+{
     m_BaseType = Uml::ot_EntityAttribute;
     m_indexType = Uml::None;
     m_autoIncrement = false;
     m_null = false;
 }
 
-QString UMLEntityAttribute::getAttributes() const{
+/**
+ * Returns the value of the UMLEntityAttribute's attributes property.
+ * @return  The value of the UMLEntityAttribute's attributes property.
+ */
+QString UMLEntityAttribute::getAttributes() const
+{
     return m_attributes;
 }
 
-void UMLEntityAttribute::setAttributes(const QString& attributes) {
+/**
+ * Sets the UMLEntityAttribute's attributes property.
+ * @param attributes  The new value for the attributes property.
+ */
+void UMLEntityAttribute::setAttributes(const QString& attributes)
+{
     m_attributes = attributes;
 }
 
-QString UMLEntityAttribute::getValues() const{
+/**
+ * Returns the UMLEntityAttribute's length/values property.
+ * @return  The new value of the length/values property.
+ */
+QString UMLEntityAttribute::getValues() const
+{
     return m_values;
 }
 
-void UMLEntityAttribute::setValues(const QString& values) {
+/**
+ * Sets the UMLEntityAttribute's length/values property.
+ * @param values    The new value of the length/values property.
+ */
+void UMLEntityAttribute::setValues(const QString& values)
+{
     m_values = values;
 }
 
-bool UMLEntityAttribute::getAutoIncrement() const{
+/**
+ * Returns the UMLEntityAttribute's auto_increment boolean
+ * @return  The UMLEntityAttribute's auto_increment boolean
+ */
+bool UMLEntityAttribute::getAutoIncrement() const
+{
     return m_autoIncrement;
 }
 
-void UMLEntityAttribute::setAutoIncrement(const bool autoIncrement) {
+/**
+ * Sets the UMLEntityAttribute's auto_increment boolean
+ * @param autoIncrement  The UMLEntityAttribute's auto_increment boolean
+ */
+void UMLEntityAttribute::setAutoIncrement(const bool autoIncrement)
+{
     m_autoIncrement = autoIncrement;
 }
 
-Uml::DBIndex_Type UMLEntityAttribute::getIndexType() const{
+/**
+ * Returns the UMLEntityAttribute's index type property.
+ * @return  The value of the UMLEntityAttribute's index type property.
+ */
+Uml::DBIndex_Type UMLEntityAttribute::getIndexType() const
+{
     return m_indexType;
 }
 
-void UMLEntityAttribute::setIndexType(const Uml::DBIndex_Type indexType) {
+/**
+ * Sets the initial value of the UMLEntityAttribute's index type property.
+ * @param indexType  The initial value of the UMLEntityAttribute's index type property.
+ */
+void UMLEntityAttribute::setIndexType(const Uml::DBIndex_Type indexType)
+{
     m_indexType = indexType;
 }
 
-bool UMLEntityAttribute::getNull() const{
+/**
+ * Returns the UMLEntityAttribute's allow null value.
+ * @return  The UMLEntityAttribute's allow null value.
+ */
+bool UMLEntityAttribute::getNull() const
+{
     return m_null;
 }
 
-void UMLEntityAttribute::setNull(const bool nullIn) {
+/**
+ * Sets the initial value of the UMLEntityAttribute's allow null value.
+ * @param nullIn   The initial value of the UMLEntityAttribute's allow null value.
+ */
+void UMLEntityAttribute::setNull(const bool nullIn)
+{
     m_null = nullIn;
 }
 
-QString UMLEntityAttribute::toString(Uml::Signature_Type sig) {
+/**
+ * Returns a string representation of the UMLEntityAttribute.
+ * @param sig   If true will show the entityattribute type and initial value.
+ * @return  Returns a string representation of the UMLEntityAttribute.
+ */
+QString UMLEntityAttribute::toString(Uml::Signature_Type sig)
+{
     QString s;
     //FIXME
 
@@ -101,7 +182,11 @@ QString UMLEntityAttribute::toString(Uml::Signature_Type sig) {
         return s + getName();
 }
 
-bool UMLEntityAttribute::operator==(const UMLEntityAttribute &rhs) {
+/**
+ * Overloaded '==' operator
+ */
+bool UMLEntityAttribute::operator==(const UMLEntityAttribute &rhs)
+{
     if( this == &rhs )
         return true;
 
@@ -116,6 +201,10 @@ bool UMLEntityAttribute::operator==(const UMLEntityAttribute &rhs) {
     return true;
 }
 
+/**
+ * Copy the internal presentation of this object into the UMLEntityAttribute
+ * object.
+ */
 void UMLEntityAttribute::copyInto(UMLObject *lhs) const
 {
     UMLEntityAttribute *target = static_cast<UMLEntityAttribute*>(lhs);
@@ -130,6 +219,9 @@ void UMLEntityAttribute::copyInto(UMLObject *lhs) const
     target->m_ParmKind = m_ParmKind;
 }
 
+/**
+ * Make a clone of the UMLEntityAttribute.
+ */
 UMLObject* UMLEntityAttribute::clone() const
 {
     UMLEntityAttribute* clone = new UMLEntityAttribute( (UMLEntityAttribute*)parent() );
@@ -138,12 +230,14 @@ UMLObject* UMLEntityAttribute::clone() const
     return clone;
 }
 
-
-void UMLEntityAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+/**
+ * Creates the <UML:EntityAttribute> XMI element.
+ */
+void UMLEntityAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement entityattributeElement = UMLObject::save("UML:EntityAttribute", qDoc);
     if (m_pSecondary == NULL) {
-        uDebug() << m_Name << ": m_pSecondary is NULL, using local name "
-            << m_SecondaryId << endl;
+        uDebug() << m_Name << ": m_pSecondary is NULL, using local name " << m_SecondaryId;
         entityattributeElement.setAttribute( "type", m_SecondaryId );
     } else {
         entityattributeElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
@@ -157,7 +251,11 @@ void UMLEntityAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
     qElement.appendChild( entityattributeElement );
 }
 
-bool UMLEntityAttribute::load( QDomElement & element ) {
+/**
+ * Loads the <UML:EntityAttribute> XMI element.
+ */
+bool UMLEntityAttribute::load( QDomElement & element )
+{
     if (! UMLAttribute::load(element))
         return false;
     int indexType = element.attribute( "dbindex_type", "1100" ).toInt();
@@ -169,7 +267,11 @@ bool UMLEntityAttribute::load( QDomElement & element ) {
     return true;
 }
 
-bool UMLEntityAttribute::showPropertiesDialog(QWidget* parent) {
+/**
+ * Display the properties configuration dialog for the entityattribute.
+ */
+bool UMLEntityAttribute::showPropertiesDialog(QWidget* parent)
+{
     UMLEntityAttributeDialog dialog(parent, this);
     return dialog.exec();
 }

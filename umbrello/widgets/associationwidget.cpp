@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -71,8 +71,8 @@ AssociationWidget::AssociationWidget(UMLView *view, UMLWidget* pWidgetA,
     } else {
         // set up UMLAssociation obj if assoc is represented and both roles are UML objects
         if (UMLAssociation::assocTypeHasUMLRepresentation(assocType)) {
-            UMLObject* umlRoleA = pWidgetA->getUMLObject();
-            UMLObject* umlRoleB = pWidgetB->getUMLObject();
+            UMLObject* umlRoleA = pWidgetA->umlObject();
+            UMLObject* umlRoleB = pWidgetB->umlObject();
             if (umlRoleA != NULL && umlRoleB != NULL) {
                 bool swap;
 
@@ -210,16 +210,16 @@ bool AssociationWidget::operator==(const AssociationWidget & Other)
     if (getWidgetID(B) != Other.getWidgetID(B))
         return false;
 
-    if (getWidget(A)->getBaseType() == Uml::wt_Object &&
-            Other.getWidget(A)->getBaseType() == Uml::wt_Object) {
+    if (getWidget(A)->baseType() == Uml::wt_Object &&
+            Other.getWidget(A)->baseType() == Uml::wt_Object) {
         ObjectWidget *ownA = static_cast<ObjectWidget*>(getWidget(A));
         ObjectWidget *otherA = static_cast<ObjectWidget*>(Other.getWidget(A));
         if (ownA->getLocalID() != otherA->getLocalID())
             return false;
     }
 
-    if (getWidget(B)->getBaseType() == Uml::wt_Object &&
-            Other.getWidget(B)->getBaseType() == Uml::wt_Object) {
+    if (getWidget(B)->baseType() == Uml::wt_Object &&
+            Other.getWidget(B)->baseType() == Uml::wt_Object) {
         ObjectWidget *ownB = static_cast<ObjectWidget*>(getWidget(B));
         ObjectWidget *otherB = static_cast<ObjectWidget*>(Other.getWidget(B));
         if (ownB->getLocalID() != otherB->getLocalID())
@@ -629,7 +629,7 @@ bool AssociationWidget::activate()
             else
                 robj.m_pRole -> hide();
             if (m_pView->getType() == dt_Collaboration)
-                robj.m_pRole->setUMLObject(robj.m_pWidget->getUMLObject());
+                robj.m_pRole->setUMLObject(robj.m_pWidget->umlObject());
             robj.m_pRole->activate();
         }
     }
@@ -652,7 +652,7 @@ bool AssociationWidget::activate()
 
         FloatingTextWidget* pMulti = robj.m_pMulti;
         if (pMulti != NULL &&
-                AssocRules::allowMultiplicity(type, robj.m_pWidget->getBaseType())) {
+                AssocRules::allowMultiplicity(type, robj.m_pWidget->baseType())) {
             pMulti->setLink(this);
             Text_Role tr = (r == A ? tr_MultiA : tr_MultiB);
             pMulti->setRole(tr);
@@ -891,7 +891,7 @@ void AssociationWidget::setAssocType(Uml::Association_Type type)
     // to empty.
     // NB We do not physically delete the floatingtext widgets here because
     // those widgets are also stored in the UMLView::m_WidgetList.
-    if( !AssocRules::allowMultiplicity(type, getWidget(A)->getBaseType()) ) {
+    if( !AssocRules::allowMultiplicity(type, getWidget(A)->baseType()) ) {
         if (m_role[A].m_pMulti) {
             m_role[A].m_pMulti->setName("");
         }
@@ -921,9 +921,9 @@ Uml::IDType AssociationWidget::getWidgetID(Uml::Role_Type role) const
         uError() << "m_pWidget is NULL" << endl;
         return Uml::id_None;
     }
-    if (m_role[role].m_pWidget->getBaseType() == Uml::wt_Object)
+    if (m_role[role].m_pWidget->baseType() == Uml::wt_Object)
         return static_cast<ObjectWidget*>(m_role[role].m_pWidget)->getLocalID();
-    Uml::IDType id = m_role[role].m_pWidget->getID();
+    Uml::IDType id = m_role[role].m_pWidget->id();
     return id;
 }
 
@@ -1030,7 +1030,7 @@ void AssociationWidget::moveEvent(QMoveEvent* me)
         // -> avoid movement during opening
         // -> print warn and stay at old position
         uWarning() << "called during load of XMI for ViewType: "
-            << m_pView->getType() << ", and BaseType: " << getBaseType()
+            << m_pView->getType() << ", and BaseType: " << baseType()
             << endl;
         return;
     }
@@ -1352,7 +1352,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
         // -> avoid movement during opening
         // -> print warn and stay at old position
         uDebug() << "called during load of XMI for ViewType: " << m_pView -> getType()
-            << ", and BaseType: " << getBaseType() << endl;
+            << ", and BaseType: " << baseType() << endl;
         return;
     }
 
@@ -2246,7 +2246,7 @@ void AssociationWidget::createAssocClassLine()
     if (m_pAssocClassLine == NULL)
         m_pAssocClassLine = new Q3CanvasLine(m_pView->canvas());
     computeAssocClassLine();
-    QPen pen(getLineColor(), getLineWidth(), Qt::DashLine);
+    QPen pen(lineColor(), getLineWidth(), Qt::DashLine);
     m_pAssocClassLine->setPen(pen);
     m_pAssocClassLine->setVisible(true);
 }
@@ -2379,7 +2379,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
     const float lengthMBP = sqrt( double(endXDiff * endXDiff + endYDiff * endYDiff) );
     const Uml::Association_Type type = getAssocType();
     //allow multiplicity
-    if( AssocRules::allowMultiplicity( type, getWidget(A) -> getBaseType() ) ) {
+    if( AssocRules::allowMultiplicity( type, getWidget(A)->baseType() ) ) {
         if(lengthMAP < DISTANCE)
             menuType =  ListPopupMenu::mt_MultiA;
         else if(lengthMBP < DISTANCE)
@@ -2412,7 +2412,7 @@ bool AssociationWidget::showDialog()
     if (! dlg.exec())
         return false;
     QString name = getName();
-    QString doc = getDoc();
+    QString doc = documentation();
     QString roleADoc = getRoleDoc(A), roleBDoc = getRoleDoc(B);
     QString rnA = getRoleName(A), rnB = getRoleName(B);
     QString ma = getMulti(A), mb = getMulti(B);
@@ -2422,7 +2422,7 @@ bool AssociationWidget::showDialog()
     setName(name);
     setRoleName(rnA, A);
     setRoleName(rnB, B);
-    setDoc(doc);
+    setDocumentation(doc);
     setRoleDoc(roleADoc, A);
     setRoleDoc(roleBDoc, B);
     setMulti(ma, A);
@@ -2694,7 +2694,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
     // Prevent the moving vertex from disappearing underneath a widget
     // (else there's no way to get it back.)
     UMLWidget *onW = m_pView->getWidgetAt(p);
-    if (onW && onW->getBaseType() != Uml::wt_Box) {  // boxes are transparent
+    if (onW && onW->baseType() != Uml::wt_Box) {  // boxes are transparent
         const int pX = p.x();
         const int pY = p.y();
         const int wX = onW->getX();
@@ -3437,7 +3437,7 @@ void AssociationWidget::setOperation(UMLOperation *op)
 UMLClassifier *AssociationWidget::getOperationOwner()
 {
     Uml::Role_Type role = (isCollaboration() ? B : A);
-    UMLObject *o = getWidget(role)->getUMLObject();
+    UMLObject *o = getWidget(role)->umlObject();
     if (o == NULL)
         return NULL;
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
@@ -3457,7 +3457,7 @@ UMLClassifier *AssociationWidget::getSeqNumAndOp(QString& seqNum, QString& op)
 {
     seqNum = getMulti(A);
     op = getName();
-    UMLObject *o = getWidget(B)->getUMLObject();
+    UMLObject *o = getWidget(B)->umlObject();
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(o);
     return c;
 }
@@ -3478,7 +3478,7 @@ void AssociationWidget::setWidget( UMLWidget* widget, Uml::Role_Type role)
     if (widget) {
         m_role[role].m_pWidget->addAssoc(this);
         if (m_pObject && m_pObject->getBaseType() == ot_Association)
-            getAssociation()->setObject(widget->getUMLObject(), role);
+            getAssociation()->setObject(widget->umlObject(), role);
     }
 }
 
@@ -3532,7 +3532,7 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         m_role[B].m_pChangeWidget -> saveToXMI( qDoc, assocElement );
 
     if (m_pAssocClassWidget) {
-        QString acid = ID2STR(m_pAssocClassWidget->getID());
+        QString acid = ID2STR(m_pAssocClassWidget->id());
         assocElement.setAttribute("assocclass", acid);
         assocElement.setAttribute("aclsegindex", m_nLinePathSegmentIndex);
     }
@@ -3584,8 +3584,8 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
             // create, and add, the UMLAssociation for this widget.
             // Remove this special code when backwards compatibility
             // with older files isn't important anymore. -b.t.
-            UMLObject* umlRoleA = pWidgetA->getUMLObject();
-            UMLObject* umlRoleB = pWidgetB->getUMLObject();
+            UMLObject* umlRoleA = pWidgetA->umlObject();
+            UMLObject* umlRoleB = pWidgetB->umlObject();
             if (!m_pObject && umlRoleA && umlRoleB)
             {
                 oldStyleLoad = true; // flag for further special config below
@@ -3606,15 +3606,15 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                     pWidgetB = tmpWidget;
                     setWidget(pWidgetA, A);
                     setWidget(pWidgetB, B);
-                    umlRoleA = pWidgetA->getUMLObject();
-                    umlRoleB = pWidgetB->getUMLObject();
+                    umlRoleA = pWidgetA->umlObject();
+                    umlRoleB = pWidgetB->umlObject();
                 }
 
                 setUMLAssociation(m_umldoc->createUMLAssociation(umlRoleA, umlRoleB, aType));
             }
         }
 
-        setDoc( qElement.attribute("documentation", "") );
+        setDocumentation( qElement.attribute("documentation", "") );
         setRoleDoc( qElement.attribute("roleAdoc", ""), A );
         setRoleDoc( qElement.attribute("roleBdoc", ""), B );
 

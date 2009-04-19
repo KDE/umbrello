@@ -4,37 +4,43 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "component.h"
-// qt/kde includes
-#include <kdebug.h>
-#include <klocale.h>
 // app includes
 #include "association.h"
 #include "object_factory.h"
 #include "model_utils.h"
 #include "clipboard/idchangelog.h"
+// kde includes
+#include <kdebug.h>
+#include <klocale.h>
 
+/**
+ * Sets up a Component.
+ * @param name   The name of the Concept.
+ * @param id     The unique id of the Concept.
+ */
 UMLComponent::UMLComponent(const QString & name, Uml::IDType id)
-        : UMLPackage(name, id)
+  : UMLPackage(name, id),
+    m_executable(false)
 {
-    init();
+    m_BaseType = Uml::ot_Component;
 }
 
+/**
+ * Destructor.
+ */
 UMLComponent::~UMLComponent()
 {
 }
 
-void UMLComponent::init()
-{
-    m_BaseType = Uml::ot_Component;
-    m_executable = false;
-}
-
+/**
+ * Make a clone of this object.
+ */
 UMLObject* UMLComponent::clone() const
 {
     UMLComponent *clone = new UMLComponent();
@@ -42,6 +48,10 @@ UMLObject* UMLComponent::clone() const
     return clone;
 }
 
+/**
+ * Creates the UML:Component element including its operations,
+ * attributes and templates
+ */
 void UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement componentElement = UMLObject::save("UML:Component", qDoc);
@@ -58,6 +68,10 @@ void UMLComponent::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     qElement.appendChild(componentElement);
 }
 
+/**
+ * Loads the UML:Component element including its operations,
+ * attributes and templates
+ */
 bool UMLComponent::load(QDomElement& element)
 {
     QString executable = element.attribute("executable", "0");
@@ -94,11 +108,17 @@ bool UMLComponent::load(QDomElement& element)
     return true;
 }
 
+/**
+ * Sets m_executable.
+ */
 void UMLComponent::setExecutable(bool executable)
 {
     m_executable = executable;
 }
 
+/**
+ * Returns the value of m_executable.
+ */
 bool UMLComponent::getExecutable()
 {
     return m_executable;

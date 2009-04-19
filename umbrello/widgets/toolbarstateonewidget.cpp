@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -86,9 +85,9 @@ void ToolBarStateOneWidget::mouseReleaseWidget() {
     }
 
     if (m_pMouseEvent->button() != Qt::LeftButton ||(
-                getCurrentWidget()->getBaseType() != Uml::wt_Object &&
-                getCurrentWidget()->getBaseType() != Uml::wt_Activity &&
-                getCurrentWidget()->getBaseType() != Uml::wt_Region)) {
+                getCurrentWidget()->baseType() != Uml::wt_Object &&
+                getCurrentWidget()->baseType() != Uml::wt_Activity &&
+                getCurrentWidget()->baseType() != Uml::wt_Region)) {
         return;
     }
 

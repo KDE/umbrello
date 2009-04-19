@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,26 +28,39 @@
 #include "signalwidget.h"
 #include "forkjoinwidget.h"
 
-
 using namespace Uml;
 
+/**
+ * Constructor.
+ */
 AssocRules::AssocRules()
 {
 }
 
+/**
+ * Destructor.
+ */
 AssocRules::~AssocRules()
 {
 }
 
+/**
+ * Returns whether an association is going to be allowed for the given
+ * values. This method is used to test if you can start an association.
+ */
 bool allowAssociation( Association_Type assocType, const std::type_info &type )
 {
     Q_UNUSED(assocType); Q_UNUSED(type);
     return false;
 }
 
+/**
+ * Returns whether an association is going to be allowed for the given
+ * values. This method is used to test if you can start an association.
+ */
 bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * widget )
 {
-    Widget_Type widgetType = widget -> getBaseType();
+    Widget_Type widgetType = widget->baseType();
     bool bValid = false;
     for (int i = 0; i < m_nNumRules; ++i) {
         if (assocType == m_AssocRules[i].assoc_type) {
@@ -66,7 +79,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
         else
             return false;
     }
-    AssociationWidgetList list = widget -> getAssocList();
+    AssociationWidgetList list = widget->associationWidgetList();
 
     switch( assocType ) {
     case at_Association:
@@ -96,7 +109,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
     case at_State:
         {
             StateWidget *pState = dynamic_cast<StateWidget*>(widget);
-            return (pState == NULL || pState->getStateType() != StateWidget::End);
+            return (pState == NULL || pState->stateType() != StateWidget::End);
         }
         break;
 
@@ -104,7 +117,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
     case at_Exception:
         {
             ActivityWidget *pActivity = dynamic_cast<ActivityWidget*>(widget);
-            return (pActivity == NULL || pActivity->getActivityType() != ActivityWidget::End);
+            return (pActivity == NULL || pActivity->activityType() != ActivityWidget::End);
         }
         break;
 
@@ -129,22 +142,21 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
     return false;
 }
 
-// when we know what we are going to connect both ends of the association to, we can
-// use this method.
-
 /**
  * Returns whether an association is valid with the given variables.
  * This method is used to finish an association.
+ * When we know what we are going to connect both ends of the association to, we can
+ * use this method.
  */
 bool AssocRules::allowAssociation( Uml::Association_Type assocType,
                                    UMLWidget * widgetA, UMLWidget * widgetB,
                                    bool extendedCheck )
 {
-    Widget_Type widgetTypeA = widgetA->getBaseType();
-    Widget_Type widgetTypeB = widgetB->getBaseType();
+    Widget_Type widgetTypeA = widgetA->baseType();
+    Widget_Type widgetTypeB = widgetB->baseType();
     bool bValid = false;
 
-    if ( widgetA->getUMLObject() == widgetB->getUMLObject() ) {
+    if ( widgetA->umlObject() == widgetB->umlObject() ) {
         return allowSelf( assocType, widgetTypeA );
     }
 
@@ -167,11 +179,11 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
         return false;
     }
 
-    AssociationWidgetList list = widgetB -> getAssocList();
+    AssociationWidgetList list = widgetB->associationWidgetList();
 
     switch( assocType ) {
     case at_Association_Self:
-        if ( widgetA->getUMLObject() == widgetB->getUMLObject() )
+        if ( widgetA->umlObject() == widgetB->umlObject() )
             return true;
         break;
 
@@ -202,10 +214,10 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
                 return false;
             }
         }
-        if (widgetB->getBaseType() == wt_Class) {
-            return widgetB->getUMLObject()->getAbstract();
-        } else if (widgetB->getBaseType() == wt_Interface ||
-                   widgetB->getBaseType() == wt_Package) {
+        if (widgetB->baseType() == wt_Class) {
+            return widgetB->umlObject()->getAbstract();
+        } else if (widgetB->baseType() == wt_Interface ||
+                   widgetB->baseType() == wt_Package) {
             return true;
         }
         break;
@@ -215,10 +227,10 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
             StateWidget *stateA = dynamic_cast<StateWidget*>(widgetA);
             StateWidget *stateB = dynamic_cast<StateWidget*>(widgetB);
             if (stateA && stateB) {
-                if (stateB->getStateType() == StateWidget::Initial)
+                if (stateB->stateType() == StateWidget::Initial)
                     return false;
-                if (stateB->getStateType() == StateWidget::End &&
-                    stateA->getStateType() != StateWidget::Normal)
+                if (stateB->stateType() == StateWidget::End &&
+                    stateA->stateType() != StateWidget::Normal)
                     return false;
             }
         }
@@ -241,16 +253,16 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
                 isObjectNode = true;
 
             // no transitions to initial activity allowed
-            if (actB && actB->getActivityType() == ActivityWidget::Initial) {
+            if (actB && actB->activityType() == ActivityWidget::Initial) {
                 return false;
             }
             // actType -1 here means "not applicable".
             int actTypeA = -1;
             if (actA)
-                actTypeA = actA->getActivityType();
+                actTypeA = actA->activityType();
             int actTypeB = -1;
             if (actB)
-                actTypeB = actB->getActivityType();
+                actTypeB = actB->activityType();
             // only from a signalwidget a objectnode widget, a normal activity, branch or fork activity, to the end
             if ((actTypeB == ActivityWidget::End || actTypeB == ActivityWidget::Final) &&
                 actTypeA != ActivityWidget::Normal &&
@@ -260,7 +272,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
             }
             // only Forks and Branches can have more than one "outgoing" transition
             if (actA != NULL && actTypeA != ActivityWidget::Branch) {
-                AssociationWidgetList list = widgetA->getAssocList();
+                AssociationWidgetList list = widgetA->associationWidgetList();
                 foreach (AssociationWidget* assoc , list ) {
                     if (assoc->getWidget(A) == widgetA) {
                         return false;
@@ -294,6 +306,9 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     return false;
 }
 
+/**
+ * Returns whether to allow a role text for the given association type.
+ */
 bool AssocRules::allowRole( Uml::Association_Type assocType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
@@ -302,6 +317,10 @@ bool AssocRules::allowRole( Uml::Association_Type assocType )
     return false;
 }
 
+/**
+ * Returns whether to allow a multiplicity text for the given
+ * association and widget type.
+ */
 bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget_Type widgetType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
@@ -311,6 +330,9 @@ bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget
     return false;
 }
 
+/**
+ * Returns whether to allow an association to self for given variables.
+ */
 bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type widgetType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
@@ -321,10 +343,15 @@ bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type wi
     return false;
 }
 
+/**
+ * Returns whether an implements association should be a Realisation or
+ * a Generalisation.
+ * as defined in m_AssocRules.
+ */
 Uml::Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB)
 {
-    Widget_Type widgetTypeA = widgetA->getBaseType();
-    Widget_Type widgetTypeB = widgetB->getBaseType();
+    Widget_Type widgetTypeA = widgetA->baseType();
+    Widget_Type widgetTypeB = widgetB->baseType();
     for (int i = 0; i < m_nNumRules; ++i) {
         if (m_AssocRules[i].assoc_type == at_Realization &&
                 widgetTypeA == m_AssocRules[i].widgetA_type &&
@@ -336,14 +363,14 @@ Uml::Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widge
 }
 
 AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
-    //  Association     widgetA         widgetB         role    multi   directional  self
+    //  Association     widgetA         widgetB         role    multi   direct. self
     //---------------+----------------+----------------+-------+-------+-------+---------
     { at_Association_Self,wt_Class,     wt_Class,       true,   true,   true,   true  },
     { at_Association_Self,wt_Object,    wt_Object,      true,   true,   true,   true  },
     { at_Association_Self,wt_Interface, wt_Interface,   true,   true,   true,   true  },
-    { at_Association,   wt_Class,       wt_Class,       true,   true,   true,   true },
-    { at_Association,   wt_Object,      wt_Object,      true,   true,   true,   true },
-    { at_Association,   wt_Interface,   wt_Interface,   true,   true,   true,   true },
+    { at_Association,   wt_Class,       wt_Class,       true,   true,   true,   true  },
+    { at_Association,   wt_Object,      wt_Object,      true,   true,   true,   true  },
+    { at_Association,   wt_Interface,   wt_Interface,   true,   true,   true,   true  },
     { at_Association,   wt_Interface,   wt_Class,       true,   true,   true,   false },
     { at_Association,   wt_Class,       wt_Interface,   true,   true,   true,   false },
     { at_Association,   wt_Datatype,    wt_Class,       true,   true,   true,   false },
@@ -377,7 +404,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Aggregation,   wt_Class,       wt_Interface,   true,   true,   false,  false },
     { at_Aggregation,   wt_Class,       wt_Enum,        true,   true,   false,  false },
     { at_Aggregation,   wt_Class,       wt_Datatype,    true,   true,   false,  false },
-    { at_Dependency,    wt_Class,       wt_Class,       true,   false,  false,  true },
+    { at_Dependency,    wt_Class,       wt_Class,       true,   false,  false,  true  },
     { at_Dependency,    wt_UseCase,     wt_UseCase,     true,   false,  false,  false },
     { at_Dependency,    wt_Actor,       wt_Actor,       true,   false,  false,  false },
     { at_Dependency,    wt_Actor,       wt_UseCase,     true,   false,  false,  false },
@@ -437,7 +464,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Activity,      wt_Pin,         wt_Pin,         true,   false,  true,   true  },
     { at_Activity,      wt_Activity,    wt_Pin,         true,   false,  true,   true  },
     { at_Activity,      wt_Pin,         wt_ForkJoin,    true,   false,  true,   true  },
-    { at_Activity,      wt_ForkJoin,    wt_Pin,    true,   false,  true,   true  },
+    { at_Activity,      wt_ForkJoin,    wt_Pin,         true,   false,  true,   true  },
     { at_Anchor,        wt_Class,       wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Package,     wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Interface,   wt_Note,        false,  false,  false,  false },

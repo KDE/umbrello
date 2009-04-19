@@ -1,20 +1,16 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "enum.h"
-// qt/kde includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
+
 // app includes
 #include "enumliteral.h"
 #include "umldoc.h"
@@ -22,26 +18,49 @@
 #include "uniqueid.h"
 #include "clipboard/idchangelog.h"
 
+// kde includes
+#include <kdebug.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+
+/**
+ * Sets up an enum.
+ * @param name  The name of the Enum.
+ * @param id  The unique id of the Enum.
+ */
 UMLEnum::UMLEnum(const QString& name, Uml::IDType id) : UMLClassifier(name, id)
 {
     init();
 }
 
+/**
+ * Standard destructor.
+ */
 UMLEnum::~UMLEnum()
 {
     m_List.clear();
 }
 
+/**
+ * Overloaded '==' operator.
+ */
 bool UMLEnum::operator==(const UMLEnum & rhs )
 {
     return UMLClassifier::operator==(rhs);
 }
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLEnum::copyInto(UMLObject *lhs) const
 {
     UMLClassifier::copyInto(lhs);
 }
 
+/**
+ * Make a clone of this object.
+ */
 UMLObject* UMLEnum::clone() const
 {
     UMLEnum *clone = new UMLEnum();
@@ -50,12 +69,19 @@ UMLObject* UMLEnum::clone() const
     return clone;
 }
 
+/**
+ * Initializes key variables of the class.
+ */
 void UMLEnum::init()
 {
     m_BaseType = Uml::ot_Enum;
     setStereotype( "enum" );
 }
 
+/**
+ * Creates a literal for the enum.
+ * @return  The UMLEnum created
+ */
 UMLObject* UMLEnum::createEnumLiteral(const QString& name)
 {
     Uml::IDType id = UniqueID::gen();
@@ -96,11 +122,18 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
     return newEnumLiteral;
 }
 
+/**
+ * Adds an enumliteral to the enum.
+ * @param name  The name of the enumliteral.
+ * @param id  The id of the enumliteral (optional.)
+ *            If omitted a new ID is assigned internally.
+ * @return  Pointer to the UMLEnumliteral created.
+ */
 UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id)
 {
     UMLObject *el = UMLCanvasObject::findChildObject(name);
     if (el != NULL) {
-        uDebug() << name << " is already present" << endl;
+        uDebug() << name << " is already present";
         return el;
     }
     UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id);
@@ -111,6 +144,13 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id)
     return literal;
 }
 
+/**
+ * Adds an already created enumliteral.
+ * The enumliteral object must not belong to any other concept.
+ * @param literal  Pointer to the UMLEnumLiteral.
+ * @param Log      Pointer to the IDChangeLog.
+ * @return  True if the enumliteral was successfully added.
+ */
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
 {
     QString name = (QString)literal->getName();
@@ -128,6 +168,15 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
     return false;
 }
 
+/**
+ * Adds an enumliteral to the enum, at the given position.
+ * If position is negative or too large, the enumliteral is added
+ * to the end of the list.
+ * TODO:  give default value -1 to position (append) - now it conflicts with the method above..
+ * @param literal   Pointer to the UMLEnumLiteral.
+ * @param position  Position index for the insertion.
+ * @return  True if the enumliteral was successfully added.
+ */
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
 {
     QString name = (QString)literal->getName();
@@ -146,6 +195,12 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
     return false;
 }
 
+/**
+ * Removes an enumliteral from the class.
+ * @param literal  The enumliteral to remove.
+ * @return  Count of the remaining enumliterals after removal.
+ *          Returns -1 if the given enumliteral was not found.
+ */
 int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal)
 {
     if (!m_List.removeAll(literal)) {
@@ -161,16 +216,26 @@ int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal)
     return m_List.count();
 }
 
+/**
+ * Returns the number of enumliterals for the class.
+ * @return  The number of enumliterals for the class.
+ */
 int UMLEnum::enumLiterals()
 {
     return m_List.count();
 }
 
+/**
+ * Emit the enumLiteralRemoved signal.
+ */
 void UMLEnum::signalEnumLiteralRemoved(UMLClassifierListItem *elit)
 {
     emit enumLiteralRemoved(elit);
 }
 
+/**
+ * Creates the <UML:Enum> element including its enumliterals.
+ */
 void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement enumElement = UMLObject::save("UML:Enumeration", qDoc);
@@ -182,6 +247,9 @@ void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     qElement.appendChild(enumElement);
 }
 
+/**
+ * Loads the <UML:Enum> element including its enumliterals.
+ */
 bool UMLEnum::load(QDomElement& element)
 {
     QDomNode node = element.firstChild();
@@ -200,7 +268,7 @@ bool UMLEnum::load(QDomElement& element)
             }
             m_List.append(pEnumLiteral);
         } else if (tag == "stereotype") {
-            uDebug() << m_Name << ": losing old-format stereotype." << endl;
+            uDebug() << m_Name << ": losing old-format stereotype.";
         } else {
             uWarning() << "unknown child type in UMLEnum::load";
         }
@@ -209,7 +277,14 @@ bool UMLEnum::load(QDomElement& element)
     return true;
 }
 
-
+/**
+ * Create a new ClassifierListObject (enumLiteral)
+ * according to the given XMI tag.
+ * Returns NULL if the string given does not contain one of the tags
+ * <UML:EnumLiteral>
+ * Used by the clipboard for paste operation.
+ * Reimplemented from UMLClassifier for UMLEnum
+ */
 UMLClassifierListItem* UMLEnum::makeChildObject(const QString& xmiTag)
 {
     UMLClassifierListItem* pObject = NULL;

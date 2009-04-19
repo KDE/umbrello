@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,10 +31,10 @@ UMLWidget* findWidget(Uml::IDType id,
 {
     UMLWidgetListIt it( widgets );
     foreach ( UMLWidget* obj , widgets ) {
-        if (obj->getBaseType() == Uml::wt_Object) {
+        if (obj->baseType() == Uml::wt_Object) {
             if (static_cast<ObjectWidget *>(obj)->getLocalID() == id)
                 return obj;
-        } else if (obj->getID() == id) {
+        } else if (obj->id() == id) {
             return obj;
         }
     }
@@ -44,7 +43,7 @@ UMLWidget* findWidget(Uml::IDType id,
         return NULL;
 
     foreach ( UMLWidget* obj , *pMessages ) {
-        if( obj -> getID() == id )
+        if( obj->id() == id )
             return obj;
     }
     return NULL;

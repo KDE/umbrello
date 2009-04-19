@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,7 +29,7 @@ int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
 SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : Q3CanvasLine( pView -> canvas() ) {
     m_pView = pView;
     m_pObject = pObject;
-    setPen( QPen( m_pObject->getLineColor(), 0, Qt::DashLine ) );
+    setPen( QPen( m_pObject->lineColor(), 0, Qt::DashLine ) );
     setZ( 0 );
     setVisible( true );
     m_DestructionBox.line1 = 0;
@@ -106,13 +105,13 @@ void SeqLineWidget::setupDestructionBox() {
     m_DestructionBox.line1 = new Q3CanvasLine( m_pView->canvas() );
     m_DestructionBox.setLine1Points(rect);
     m_DestructionBox.line1->setVisible( true );
-    m_DestructionBox.line1->setPen( QPen(m_pObject->getLineColor(), 2) );
+    m_DestructionBox.line1->setPen( QPen(m_pObject->lineColor(), 2) );
     m_DestructionBox.line1->setZ( 3 );
 
     m_DestructionBox.line2 = new Q3CanvasLine( m_pView -> canvas() );
     m_DestructionBox.setLine2Points(rect);
     m_DestructionBox.line2->setVisible( true );
-    m_DestructionBox.line2->setPen( QPen(m_pObject->getLineColor(), 2) );
+    m_DestructionBox.line2->setPen( QPen(m_pObject->lineColor(), 2) );
     m_DestructionBox.line2->setZ( 3 );
 }
 

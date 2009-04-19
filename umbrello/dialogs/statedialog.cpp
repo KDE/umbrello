@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -76,7 +76,7 @@ void StateDialog::slotApply()
 void StateDialog::setupPages()
 {
     setupGeneralPage();
-    if ( m_pStateWidget->getStateType() == StateWidget::Normal ) {
+    if ( m_pStateWidget->stateType() == StateWidget::Normal ) {
         setupActivityPage();
     }
     setupColorPage();
@@ -91,7 +91,7 @@ void StateDialog::applyPage( KPageWidgetItem*item )
     m_bChangesMade = true;
     if ( item == pageGeneral ) {
         m_pStateWidget->setName( m_GenPageWidgets.nameLE->text() );
-        m_pStateWidget->setDoc( m_GenPageWidgets.docMLE->toPlainText() );
+        m_pStateWidget->setDocumentation( m_GenPageWidgets.docMLE->toPlainText() );
     }
     else if ( item == pageActivity ) {
         if ( m_pActivityPage ) {
@@ -114,7 +114,7 @@ void StateDialog::setupGeneralPage()
     QString types[ ] = { i18nc("initial state in statechart", "Initial state"),
                          i18nc("state in statechart", "State"),
                          i18nc("end state in statechart", "End state") };
-    StateWidget::StateType type = m_pStateWidget->getStateType();
+    StateWidget::StateType type = m_pStateWidget->stateType();
 
     KVBox * page = new KVBox();
     pageGeneral = new KPageWidgetItem( page, i18nc("general page", "General")  );
@@ -144,7 +144,7 @@ void StateDialog::setupGeneralPage()
     docLayout->setMargin(  fontMetrics().height()  );
 
     m_GenPageWidgets.docMLE = new KTextEdit( m_GenPageWidgets.docGB );
-    m_GenPageWidgets.docMLE->setText( m_pStateWidget->getDoc() );
+    m_GenPageWidgets.docMLE->setText( m_pStateWidget->documentation() );
     docLayout->addWidget( m_GenPageWidgets.docMLE );
 
     if ( type != StateWidget::Normal ) {

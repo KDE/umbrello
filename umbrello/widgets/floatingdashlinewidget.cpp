@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 // own header
@@ -44,7 +43,7 @@ void FloatingDashLineWidget::draw(QPainter & p, int /*offsetX*/, int /*offsetY*/
     p.drawText(getX() + FLOATING_DASH_LINE_TEXT_MARGIN, getY(),
                getWidth() - FLOATING_DASH_LINE_TEXT_MARGIN * 2, fontHeight,
                Qt::AlignLeft, '[' + m_Text + ']');
-    p.setPen(QPen(UMLWidget::getLineColor(), 0, Qt::DashLine));
+    p.setPen(QPen(UMLWidget::lineColor(), 0, Qt::DashLine));
     p.drawLine(getX(), getY(), getX() + getWidth(), getY());
     if(m_bSelected)
         drawSelected(&p, getX(), getY());

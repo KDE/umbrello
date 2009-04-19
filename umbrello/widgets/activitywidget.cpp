@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -73,7 +72,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     case Initial :
         p.setPen( QPen(m_LineColour, 1) );
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         break;
 
@@ -96,11 +95,11 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     case End :
         p.setPen( QPen(m_LineColour, 1) );
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX, offsetY, w, h );
         p.setBrush( Qt::white );
         p.drawEllipse( offsetX + 1, offsetY + 1, w - 2, h - 2 );
-        p.setBrush( WidgetBase::getLineColor() );
+        p.setBrush( WidgetBase::lineColor() );
         p.drawEllipse( offsetX + 3, offsetY + 3, w - 6, h - 6 );
         break;
 
@@ -240,7 +239,7 @@ QSize ActivityWidget::calculateSize() {
     return QSize(width, height);
 }
 
-ActivityWidget::ActivityType ActivityWidget::getActivityType() const {
+ActivityWidget::ActivityType ActivityWidget::activityType() const {
     return m_ActivityType;
 }
 
