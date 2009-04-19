@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,7 +12,6 @@
 #define COMPONENT_H
 
 #include "package.h"
-
 
 /**
  * This class contains the non-graphical information required for a
@@ -29,34 +28,21 @@ class UMLComponent : public UMLPackage
 {
     Q_OBJECT
 public:
-
     explicit UMLComponent(const QString & name = QString(), Uml::IDType id = Uml::id_None);
-
-    /**
-     * Empty deconstructor.
-     */
     virtual ~UMLComponent();
-
-    virtual void init();
 
     virtual UMLObject* clone() const;
 
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     void setExecutable(bool executable);
-
     bool getExecutable();
 
 protected:
-
     bool load( QDomElement & element );
 
 private:
-
-    /**
-     * holds whether this is an executable component or not
-     */
-    bool m_executable;
+    bool m_executable;  ///< holds whether this is an executable component or not
 };
 
 #endif

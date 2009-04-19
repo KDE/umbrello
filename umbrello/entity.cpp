@@ -245,12 +245,6 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
  * @param name   an optional name
  * @return the CheckConstraint created
  */
-/**
- * Creates a Check  Constraint for this Entity.
- *
- * @param name An optional name
- * @return The CheckConstraint created
- */
 UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name )
 {
     Uml::IDType id = UniqueID::gen();
@@ -299,14 +293,6 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name )
  * The entityAttribute object must not belong to any other concept.
  * @param name   name of the UMLEntityAttribute
  * @param id     id of the UMLEntityAttribute
- * @return  True if the entityAttribute was successfully added.
- */
-/**
- * Adds an already created entityAttribute.
- * The entityAttribute object must not belong to any other concept.
- *
- * @param att           Pointer to the UMLEntityAttribute.
- * @param Log               Pointer to the IDChangeLog.
  * @return  True if the entityAttribute was successfully added.
  */
 UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id)
@@ -514,14 +500,6 @@ bool UMLEntity::load(QDomElement& element)
  * @param uconstr The Unique Constraint that is  to be set as Primary Key
  * @return true if Primary key could be set successfully
  */
-/**
- * Sets the UniqueConstraint passed as the Primary Key of this Entity
- * If the UniqueConstraint exists, then it is made a primary key
- * Else the UniqueConstraint is added and set as PrimaryKey
- *
- * @param uconstr The Unique Constraint that is  to be set as Primary Key
- * @return true if Primary key could be set successfully
- */
 bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr)
 {
     if ( uconstr == NULL ) {
@@ -679,9 +657,6 @@ UMLClassifierListItemList UMLEntity::getFilteredList(Uml::Object_Type ot) const
 
         return rcList;
     } else {
-/**
- * Reimplementation of getFilteredList to support ot=Uml::ot_EntityConstraint
- */
         return UMLClassifier::getFilteredList( ot );
     }
 }

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,7 +26,11 @@
 #include "umlwidget.h"
 #include "umlscene.h"
 
-DocWindow::DocWindow( UMLDoc * doc, QWidget *parent ) : QWidget( parent )
+/**
+ * Constructor.
+ */
+DocWindow::DocWindow( UMLDoc * doc, QWidget *parent )
+  : QWidget( parent )
 {
     //setup visual display
     QVBoxLayout * docLayout = new QVBoxLayout( this );
@@ -47,14 +51,25 @@ DocWindow::DocWindow( UMLDoc * doc, QWidget *parent ) : QWidget( parent )
     updateDocumentation( true, true );
 }
 
+/**
+ * Destructor.
+ */
 DocWindow::~DocWindow()
 {
 }
 
 /**
- * This method is the same as the one for UMLObjects except it
- * displays documentation for an association instance
- * (AssociationWidget).
+ * Called when a widget wishes to display its documentation in the
+ * doc window.  If there was already documentation there, that will
+ * be updated before being removed from the view.
+ *
+ * Also call this function if you update the documentation in another
+ * place, such as a properties dialog.  Just set overwrite to true.
+ *
+ * Overwrite is used when you believe that the documentation window
+ * is already displaying documentation for the widget you wish to
+ * display.
+ * Overwrite just determines whose version is more up to date.
  */
 void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
 {
@@ -159,8 +174,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
 
 /**
  * This method is the same as the one for UMLObjects except it
- * displays documentation for an association instance
- * (AssociationWidget).
+ * displays documentation for a diagram.
  */
 void DocWindow::showDocumentation( UMLView * view, bool overwrite )
 {
@@ -181,8 +195,8 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite )
 
 /**
  * This method is the same as the one for UMLObjects except it
- * displays documentation for an association instance
- * (AssociationWidget).
+ * displays documentation for an object instance (StateWidget/
+ * ObjectWidget).
  */
 void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite )
 {
@@ -235,7 +249,7 @@ void DocWindow::newDocumentation( )
 }
 
 /**
- * Checks if the user is typing in the documentation edit window
+ * Checks if the user is typing in the documentation edit window.
  */
 bool DocWindow::isTyping()
 {

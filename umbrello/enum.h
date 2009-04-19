@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,20 +25,14 @@ class UMLEnumLiteral;
  * @author Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLEnum : public UMLClassifier {
+class UMLEnum : public UMLClassifier
+{
     Q_OBJECT
 public:
-
     explicit UMLEnum(const QString& name = QString(), Uml::IDType id = Uml::id_None);
 
-    /**
-     * Standard deconstructor.
-     */
     virtual ~UMLEnum();
 
-    /**
-     * Overloaded '==' operator.
-     */
     bool operator==(const UMLEnum& rhs);
 
     virtual void copyInto(UMLObject *lhs) const;
@@ -50,21 +43,10 @@ public:
 
     UMLObject* addEnumLiteral(const QString &name, Uml::IDType id = Uml::id_None);
 
-    bool addEnumLiteral(UMLEnumLiteral* Att, IDChangeLog* Log = 0);
+    bool addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log = 0);
+    bool addEnumLiteral(UMLEnumLiteral* literal, int position );
 
-    /**
-     * Adds an enumliteral to the enum, at the given position.
-     * If position is negative or too large, the enumliteral is added
-     * to the end of the list.
-     *
-     * @param Att    Pointer to the UMLEnumLiteral.
-     * @param position  Position index for the insertion.
-     * @return  True if the enumliteral was successfully added.
-     */
-    //TODO:  give default value -1 to position (append) - now it conflicts with the method above..
-    bool addEnumLiteral(UMLEnumLiteral* Att, int position );
-
-    int removeEnumLiteral(UMLEnumLiteral *a);
+    int removeEnumLiteral(UMLEnumLiteral* literal);
 
     int enumLiterals();
 
@@ -79,11 +61,9 @@ signals:
     void enumLiteralRemoved(UMLClassifierListItem*);
 
 protected:
-
     bool load( QDomElement & element );
 
 private:
-
     void init();
 
 };

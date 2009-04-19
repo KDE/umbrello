@@ -100,12 +100,6 @@ UMLApp* UMLApp::s_instance;
  *
  * @param name  The name of the menu to search for (name, not text)
  */
-
-/**
- * Searches for a menu with the given name.
- *
- * @param name  The name of the menu to search for (name, not text)
- */
 QMenu* UMLApp::findMenu(const QString& name)
 {
     QWidget* widget = factory()->container(name, this);
@@ -1024,7 +1018,7 @@ void UMLApp::slotFileOpen()
 
     if (!m_doc->saveModified()) {
         // here saving wasn't successful
-    }
+    } 
     else {
         KUrl url=KFileDialog::getOpenUrl(KUrl(),
             i18n("*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl)\n"
@@ -1062,7 +1056,7 @@ void UMLApp::slotFileOpenRecent(const KUrl& url)
         if (!m_doc->openDocument(url)) {
             fileOpenRecent->removeUrl(url);
             fileOpenRecent->setCurrentItem( -1 );
-        }
+        } 
         else {
             fileOpenRecent->addUrl(url);
         }
@@ -1141,7 +1135,7 @@ bool UMLApp::slotFileSaveAs()
             resetStatusMsg();
         }
         return b;
-    }
+    } 
     else {
         resetStatusMsg();
         return false;
@@ -2448,10 +2442,6 @@ void UMLApp::customEvent(QEvent* e)
 /**
  * Helper method for handling cursor key release events (refactoring).
  * TODO Move this to UMLWidgetController?
- */
-
-/**
- * Helper method for handling cursor key release events (refactoring).
  */
 void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e)
 {

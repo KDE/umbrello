@@ -90,7 +90,6 @@ void PascalImport::fillSource(const QString& word)
  * @param isVirtual   return value, set to true when "virtual" seen
  * @param isAbstract  return value, set to true when "abstract" seen
  */
-
 void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract)
 {
     const int srcLength = m_source.count();
@@ -116,7 +115,6 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract)
  * Implement abstract operation from NativeImportBase.
  * @return success status of operation
  */
-
 bool PascalImport::parseStmt()
 {
     const int srcLength = m_source.count();

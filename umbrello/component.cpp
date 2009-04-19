@@ -4,38 +4,38 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "component.h"
-// qt/kde includes
-#include <kdebug.h>
-#include <klocale.h>
 // app includes
 #include "association.h"
 #include "object_factory.h"
 #include "model_utils.h"
 #include "clipboard/idchangelog.h"
+// kde includes
+#include <kdebug.h>
+#include <klocale.h>
 
+/**
+ * Sets up a Component.
+ * @param name   The name of the Concept.
+ * @param id     The unique id of the Concept.
+ */
 UMLComponent::UMLComponent(const QString & name, Uml::IDType id)
-        : UMLPackage(name, id)
+  : UMLPackage(name, id),
+    m_executable(false)
 {
-    init();
-}
-
-UMLComponent::~UMLComponent()
-{
+    m_BaseType = Uml::ot_Component;
 }
 
 /**
- * Initializes key variables of the class.
+ * Destructor.
  */
-void UMLComponent::init()
+UMLComponent::~UMLComponent()
 {
-    m_BaseType = Uml::ot_Component;
-    m_executable = false;
 }
 
 /**
@@ -109,7 +109,7 @@ bool UMLComponent::load(QDomElement& element)
 }
 
 /**
- * sets m_executable
+ * Sets m_executable.
  */
 void UMLComponent::setExecutable(bool executable)
 {
@@ -117,7 +117,7 @@ void UMLComponent::setExecutable(bool executable)
 }
 
 /**
- * returns the value of m_executable
+ * Returns the value of m_executable.
  */
 bool UMLComponent::getExecutable()
 {

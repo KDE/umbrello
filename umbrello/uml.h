@@ -64,10 +64,10 @@ class QUndoView;
  * to the window's Doc object. The handling of views is realized with two different widgets:
  *   - stack widget
  *   - tab widget
- * The current view handling is set as an option.
+ * The current view handling is set as an option. 
  * UMLApp reimplements the methods that KMainWindow provides for main window handling and supports
  * full session management as well as using KActions.
- *
+ * 
  * @see KMainWindow
  * @see KApplication
  * @see KConfig

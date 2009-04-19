@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,23 +29,36 @@
 #include "forkjoinwidget.h"
 #include "umlscene.h"
 
-
 using namespace Uml;
 
+/**
+ * Constructor.
+ */
 AssocRules::AssocRules()
 {
 }
 
+/**
+ * Destructor.
+ */
 AssocRules::~AssocRules()
 {
 }
 
+/**
+ * Returns whether an association is going to be allowed for the given
+ * values. This method is used to test if you can start an association.
+ */
 bool allowAssociation( Association_Type assocType, const std::type_info &type )
 {
     Q_UNUSED(assocType); Q_UNUSED(type);
     return false;
 }
 
+/**
+ * Returns whether an association is going to be allowed for the given
+ * values. This method is used to test if you can start an association.
+ */
 bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * widget )
 {
     Widget_Type widgetType = widget->baseType();
@@ -130,12 +143,11 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
     return false;
 }
 
-// when we know what we are going to connect both ends of the association to, we can
-// use this method.
-
 /**
  * Returns whether an association is valid with the given variables.
  * This method is used to finish an association.
+ * When we know what we are going to connect both ends of the association to, we can
+ * use this method.
  */
 bool AssocRules::allowAssociation( Uml::Association_Type assocType,
                                    UMLWidget * widgetA, UMLWidget * widgetB,
@@ -295,6 +307,9 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     return false;
 }
 
+/**
+ * Returns whether to allow a role text for the given association type.
+ */
 bool AssocRules::allowRole( Uml::Association_Type assocType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
@@ -303,6 +318,10 @@ bool AssocRules::allowRole( Uml::Association_Type assocType )
     return false;
 }
 
+/**
+ * Returns whether to allow a multiplicity text for the given
+ * association and widget type.
+ */
 bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget_Type widgetType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
@@ -312,6 +331,9 @@ bool AssocRules::allowMultiplicity( Uml::Association_Type assocType, Uml::Widget
     return false;
 }
 
+/**
+ * Returns whether to allow an association to self for given variables.
+ */
 bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type widgetType )
 {
     for( int i = 0; i < m_nNumRules; ++i )
@@ -322,6 +344,11 @@ bool AssocRules::allowSelf( Uml::Association_Type assocType, Uml::Widget_Type wi
     return false;
 }
 
+/**
+ * Returns whether an implements association should be a Realisation or
+ * a Generalisation.
+ * as defined in m_AssocRules.
+ */
 Uml::Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB)
 {
     Widget_Type widgetTypeA = widgetA->baseType();
@@ -337,14 +364,14 @@ Uml::Association_Type AssocRules::isGeneralisationOrRealisation(UMLWidget* widge
 }
 
 AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
-    //  Association     widgetA         widgetB         role    multi   directional  self
+    //  Association     widgetA         widgetB         role    multi   direct. self
     //---------------+----------------+----------------+-------+-------+-------+---------
     { at_Association_Self,wt_Class,     wt_Class,       true,   true,   true,   true  },
     { at_Association_Self,wt_Object,    wt_Object,      true,   true,   true,   true  },
     { at_Association_Self,wt_Interface, wt_Interface,   true,   true,   true,   true  },
-    { at_Association,   wt_Class,       wt_Class,       true,   true,   true,   true },
-    { at_Association,   wt_Object,      wt_Object,      true,   true,   true,   true },
-    { at_Association,   wt_Interface,   wt_Interface,   true,   true,   true,   true },
+    { at_Association,   wt_Class,       wt_Class,       true,   true,   true,   true  },
+    { at_Association,   wt_Object,      wt_Object,      true,   true,   true,   true  },
+    { at_Association,   wt_Interface,   wt_Interface,   true,   true,   true,   true  },
     { at_Association,   wt_Interface,   wt_Class,       true,   true,   true,   false },
     { at_Association,   wt_Class,       wt_Interface,   true,   true,   true,   false },
     { at_Association,   wt_Datatype,    wt_Class,       true,   true,   true,   false },
@@ -378,7 +405,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Aggregation,   wt_Class,       wt_Interface,   true,   true,   false,  false },
     { at_Aggregation,   wt_Class,       wt_Enum,        true,   true,   false,  false },
     { at_Aggregation,   wt_Class,       wt_Datatype,    true,   true,   false,  false },
-    { at_Dependency,    wt_Class,       wt_Class,       true,   false,  false,  true },
+    { at_Dependency,    wt_Class,       wt_Class,       true,   false,  false,  true  },
     { at_Dependency,    wt_UseCase,     wt_UseCase,     true,   false,  false,  false },
     { at_Dependency,    wt_Actor,       wt_Actor,       true,   false,  false,  false },
     { at_Dependency,    wt_Actor,       wt_UseCase,     true,   false,  false,  false },
@@ -438,7 +465,7 @@ AssocRules::Assoc_Rule AssocRules::m_AssocRules []= {
     { at_Activity,      wt_Pin,         wt_Pin,         true,   false,  true,   true  },
     { at_Activity,      wt_Activity,    wt_Pin,         true,   false,  true,   true  },
     { at_Activity,      wt_Pin,         wt_ForkJoin,    true,   false,  true,   true  },
-    { at_Activity,      wt_ForkJoin,    wt_Pin,    true,   false,  true,   true  },
+    { at_Activity,      wt_ForkJoin,    wt_Pin,         true,   false,  true,   true  },
     { at_Anchor,        wt_Class,       wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Package,     wt_Note,        false,  false,  false,  false },
     { at_Anchor,        wt_Interface,   wt_Note,        false,  false,  false,  false },

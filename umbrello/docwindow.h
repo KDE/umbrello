@@ -1,18 +1,17 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef DOCWINDOW_H
 #define DOCWINDOW_H
 
-#include <qwidget.h>
+#include <QtGui/QWidget>
 
 class AssociationWidget;
 class KTextEdit;
@@ -29,35 +28,22 @@ class DocWindow : public QWidget
 {
     Q_OBJECT
 public:
-    /**
-     * Constructor
-     */
     explicit DocWindow( UMLDoc * doc, QWidget *parent = 0 );
-
-    /**
-     * Deconstructor
-     */
     ~DocWindow();
 
     void showDocumentation( UMLObject * object, bool overwrite = false );
-
     void showDocumentation( UMLView * view, bool overwrite = false );
-
     void showDocumentation( UMLWidget * widget, bool overwrite = false );
-
     void showDocumentation( AssociationWidget * widget, bool overwrite = false );
 
     void updateDocumentation( bool clear = false, bool startup = false );
-
 
     void newDocumentation( );
 
     bool isTyping();
 
 public slots:
-
     void slotAssociationRemoved(AssociationWidget* association);
-
     void slotWidgetRemoved(UMLWidget* widget);
 
 private:
@@ -74,38 +60,16 @@ private:
         st_Association
     };
 
-    /**
-     * A pointer to the UMLObject we are going to show documentation.
-     */
-    UMLObject * m_pUMLObject;
+    UMLObject * m_pUMLObject;  ///< The UMLObject we are going to show documentation.
+    UMLView *   m_pUMLView;    ///< The UMLView we are going to show documentation.
+    UMLDoc *    m_pUMLDoc;     ///< The Project we are going to show documentation.
+    UMLWidget * m_pUMLWidget;  ///< The UMLWidget we are going to show documentation.
+    AssociationWidget * m_pAssocWidget;  ///< The association we are going to show documentation.
 
-    /**
-     * A pointer to the UMLView we are going to show documentation.
-     */
-    UMLView * m_pUMLView;
-
-    /**
-     * A pointer to the Project we are going to show documentation.
-     */
-    UMLDoc * m_pUMLDoc;
-
-    /**
-     * A pointer to the UMLWidget we are going to show documentation.
-     */
-    UMLWidget * m_pUMLWidget;
-
-    /**
-     * A pointer to the association we are going to show documentation.
-     */
-    AssociationWidget * m_pAssocWidget;
-
-    /**
-     * Which type of documentation we are showing.
-     */
-    Showing_Type m_Showing;
+    Showing_Type m_Showing;  ///< Which type of documentation we are showing.
 
     //visual widgets
-    KTextEdit      * m_pDocTE;
+    KTextEdit *  m_pDocTE;
 
 };
 

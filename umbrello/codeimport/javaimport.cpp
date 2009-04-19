@@ -236,10 +236,6 @@ UMLObject* JavaImport::resolveClass (const QString& className)
  * Keep track of the current file being parsed and reset the list of imports.
  * @param filename   the name of the file being parsed
  */
-
-/**
- * Keep track of the filename currently being parsed
- */
 void JavaImport::parseFile(const QString& filename)
 {
     m_currentFileName= filename;

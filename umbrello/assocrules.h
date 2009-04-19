@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,6 +12,7 @@
 #define ASSOCRULES_H
 
 #include "umlnamespace.h"
+
 namespace std
     { class type_info; }
 
@@ -24,23 +24,15 @@ class UMLWidget;
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssocRules {
+class AssocRules
+{
 public:
 
-    /**
-     * Constructor.
-     */
     AssocRules();
-
-    /**
-     * Deconstructor.
-     */
     ~AssocRules();
 
     static bool allowAssociation( Uml::Association_Type assocType, UMLWidget * widget );
-
     static bool allowAssociation( Uml::Association_Type assocType, const std::type_info & );
-
     static bool allowAssociation( Uml::Association_Type assocType,
                                   UMLWidget * widgetA, UMLWidget * widgetB,
                                   bool extendedCheck = true );
@@ -55,30 +47,18 @@ public:
 
 private:
 
-    /**
-     * Structure to help determine association rules.
-     */
-    struct Assoc_Rule {
-        Uml::Association_Type assoc_type; ///< association type
-        Uml::Widget_Type widgetA_type; ///< type of role A widget
-        Uml::Widget_Type widgetB_type; ///< type of role B widget
-        bool role;                   ///< role text
-        bool multiplicity;           ///< multipliciy text on association
-        /// can have an association of same type going between widget each way
-        bool directional;
-
-        bool self;                   ///< association to self
+    struct Assoc_Rule {  ///< Structure to help determine association rules.
+        Uml::Association_Type assoc_type;  ///< association type
+        Uml::Widget_Type widgetA_type;     ///< type of role A widget
+        Uml::Widget_Type widgetB_type;     ///< type of role B widget
+        bool role;                         ///< role text
+        bool multiplicity;                 ///< multipliciy text on association
+        bool directional;                  ///< can have an association of same type going between widget each way
+        bool self;                         ///< association to self
     };
 
-    /**
-     * Container that holds all the rules.
-     */
-    static Assoc_Rule m_AssocRules[];
-
-    /**
-     * The number of rules known about.
-     */
-    static int m_nNumRules;
+    static Assoc_Rule m_AssocRules[];  ///< Container that holds all the rules.
+    static int        m_nNumRules;     ///< The number of rules known about.
 };
 
 #endif
