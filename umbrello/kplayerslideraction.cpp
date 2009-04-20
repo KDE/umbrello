@@ -108,8 +108,6 @@ KPlayerPopupSliderAction::~KPlayerPopupSliderAction()
 /**
  * Pops up the slider.
  */
-/** Pops up the slider.
- */
 void KPlayerPopupSliderAction::slotTriggered()
 {
     QPoint point;

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,22 +14,39 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+/**
+ * Sets up an enum literal.
+ * @param parent    The parent of this UMLEnumLiteral.
+ * @param name      The name of this UMLEnumLiteral.
+ * @param id        The unique id given to this UMLEnumLiteral.
+ */
 UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent,
                                const QString& name, Uml::IDType id)
-        : UMLClassifierListItem(parent, name, id)
+  : UMLClassifierListItem(parent, name, id)
 {
     m_BaseType = Uml::ot_EnumLiteral;
 }
 
-UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent) : UMLClassifierListItem(parent)
+/**
+ * Sets up an enum literal.
+ * @param parent    The parent of this UMLEnumLiteral.
+ */
+UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent)
+  : UMLClassifierListItem(parent)
 {
     m_BaseType = Uml::ot_EnumLiteral;
 }
 
+/**
+ * Destructor.
+ */
 UMLEnumLiteral::~UMLEnumLiteral()
 {
 }
 
+/**
+ * Overloaded '==' operator
+ */
 bool UMLEnumLiteral::operator==(const UMLEnumLiteral& rhs)
 {
     if ( this == &rhs )  {
@@ -74,8 +90,9 @@ void UMLEnumLiteral::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 /**
  * Loads the <UML:EnumLiteral> XMI element (empty.)
  */
-bool UMLEnumLiteral::load(QDomElement& )
+bool UMLEnumLiteral::load(QDomElement& element)
 {
+    Q_UNUSED(element);
     return true;
 }
 

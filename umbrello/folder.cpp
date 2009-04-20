@@ -1,21 +1,16 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "folder.h"
-// qt/kde includes
-#include <QtCore/QFile>
-#include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
+
 // app includes
 #include "uml.h"
 #include "umldoc.h"
@@ -26,9 +21,16 @@
 #include "model_utils.h"
 #include "umlscene.h"
 
+// kde includes
+#include <kdebug.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+
+// qt includes
+#include <QtCore/QFile>
+
 /**
  * Sets up a Folder.
- *
  * @param name    The name of the Folder.
  * @param id      The unique id of the Folder. A new ID will be generated
  *                if this argument is left away.
@@ -39,6 +41,9 @@ UMLFolder::UMLFolder(const QString & name, Uml::IDType id)
     init();
 }
 
+/**
+ * Empty destructor.
+ */
 UMLFolder::~UMLFolder()
 {
     // TODO : check if safe
@@ -83,7 +88,8 @@ void UMLFolder::setLocalName(const QString& localName)
  * Return the localized name of this folder.
  * Only useful for the predefined root folders.
  */
-QString UMLFolder::getLocalName() {
+QString UMLFolder::getLocalName()
+{
     return m_localName;
 }
 
@@ -107,7 +113,6 @@ void UMLFolder::removeView(UMLView *view)
 
 /**
  * Append the views in this folder to the given diagram list.
- *
  * @param viewList       The UMLViewList to which to append the diagrams.
  * @param includeNested  Whether to include diagrams from nested folders
  *                       (default: true.)
@@ -156,12 +161,9 @@ void UMLFolder::activateViews()
 }
 
 /**
- * Seek a view by the type and name given.
- *
- * @param type              The type of view to find.
- * @param name              The name of the view to find.
- * @param searchAllScopes   Search in all subfolders (default: true.)
- * @return  Pointer to the view found, or NULL if not found.
+ * Seek a view of the given ID in this folder.
+ * @param id   ID of the view to find.
+ * @return     Pointer to the view if found, NULL if no view found.
  */
 UMLView *UMLFolder::findView(Uml::IDType id)
 {
@@ -184,7 +186,6 @@ UMLView *UMLFolder::findView(Uml::IDType id)
 
 /**
  * Seek a view by the type and name given.
- *
  * @param type              The type of view to find.
  * @param name              The name of the view to find.
  * @param searchAllScopes   Search in all subfolders (default: true.)
@@ -334,8 +335,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
         uError() << m_folderFile << ": "
-            << "cannot create file, contents will be saved in main model file"
-            << endl;
+            << "cannot create file, contents will be saved in main model file";
         m_folderFile.clear();
         save(qDoc, qElement);
         return;
@@ -384,7 +384,7 @@ bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams)
          diagrams = diagrams.nextSibling(), diagram = diagrams.toElement()) {
         QString tag = diagram.tagName();
         if (tag != "diagram") {
-            uDebug() << "ignoring " << tag << " in <diagrams>" << endl;
+            uDebug() << "ignoring " << tag << " in <diagrams>";
             continue;
         }
         UMLView * pView = new UMLView(this);
@@ -406,7 +406,6 @@ bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams)
  * This method loads the separate folder file.
  * CAVEAT: This is not XMI standard compliant.
  * If standard compliance is an issue then avoid folder files.
- *
  * @param path  Fully qualified file name, i.e. absolute directory
  *              plus file name.
  * @return   True for success.

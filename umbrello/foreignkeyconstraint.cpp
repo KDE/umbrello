@@ -4,14 +4,13 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 //own header
 #include "foreignkeyconstraint.h"
-// qt/kde includes
-#include <kdebug.h>
+
 // app includes
 #include "entity.h"
 #include "entityattribute.h"
@@ -21,19 +20,35 @@
 #include "dialogs/umlforeignkeyconstraintdialog.h"
 #include "object_factory.h"
 
+// kde includes
+#include <kdebug.h>
+
+/**
+ * Sets up a constraint.
+ * @param parent    The parent of this UMLForeignKeyConstraint.
+ * @param name      The name of this UMLForeignKeyConstraint.
+ * @param id        The unique id given to this UMLForeignKeyConstraint.
+ */
 UMLForeignKeyConstraint::UMLForeignKeyConstraint(UMLObject *parent,
     const QString& name, Uml::IDType id)
-    : UMLEntityConstraint(parent, name, id)
+  : UMLEntityConstraint(parent, name, id)
 {
     init();
 }
 
+/**
+ * Sets up a constraint.
+ * @param parent    The parent of this UMLForeignKeyConstraint.
+ */
 UMLForeignKeyConstraint::UMLForeignKeyConstraint(UMLObject *parent)
     : UMLEntityConstraint( parent )
 {
     init();
 }
 
+/**
+ * Initialisation of common variables
+ */
 void UMLForeignKeyConstraint::init()
 {
     // initialise attributes
@@ -50,6 +65,9 @@ void UMLForeignKeyConstraint::init()
      connect( this,SIGNAL( sigReferencedEntityChanged() ),this,SLOT( slotReferencedEntityChanged() ) );
 }
 
+/**
+ * Overloaded '==' operator
+ */
 bool UMLForeignKeyConstraint::operator==( const UMLForeignKeyConstraint &rhs)
 {
     if( this == &rhs )
@@ -61,10 +79,17 @@ bool UMLForeignKeyConstraint::operator==( const UMLForeignKeyConstraint &rhs)
     return true;
 }
 
+/**
+ * Destructor.
+ */
 UMLForeignKeyConstraint::~UMLForeignKeyConstraint()
 {
 }
 
+/**
+ * Copy the internal presentation of this object into the UMLForeignKeyConstraint
+ * object.
+ */
 void UMLForeignKeyConstraint::copyInto(UMLObject *lhs) const
 {
     UMLForeignKeyConstraint *target = static_cast<UMLForeignKeyConstraint*>(lhs);
@@ -79,6 +104,9 @@ void UMLForeignKeyConstraint::copyInto(UMLObject *lhs) const
     target->m_UpdateAction = m_UpdateAction;
 }
 
+/**
+ * Make a clone of the UMLForeignKeyConstraint.
+ */
 UMLObject* UMLForeignKeyConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
@@ -87,6 +115,11 @@ UMLObject* UMLForeignKeyConstraint::clone() const
     return clone;
 }
 
+/**
+ * Returns a string representation of the UMLForeignKeyConstraint.
+ * @param sig   If true will show the attribute type and initial value.
+ * @return  Returns a string representation of the UMLAttribute.
+ */
 QString UMLForeignKeyConstraint::toString(Uml::Signature_Type sig )
 {
     QString s;
@@ -109,6 +142,9 @@ QString UMLForeignKeyConstraint::toString(Uml::Signature_Type sig )
     return s;
 }
 
+/**
+ * Creates the <UML:ForeignKeyConstraint> XMI element.
+ */
 void UMLForeignKeyConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement foreignKeyConstraintElement = UMLObject::save( "UML:ForeignKeyConstraint", qDoc );
@@ -132,12 +168,21 @@ void UMLForeignKeyConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qEle
     qElement.appendChild(foreignKeyConstraintElement);
 }
 
+/**
+ * Display the properties configuration dialog for the attribute.
+ */
 bool UMLForeignKeyConstraint::showPropertiesDialog(QWidget* parent)
 {
     UMLForeignKeyConstraintDialog dialog(parent, this );
     return dialog.exec();
 }
 
+/**
+ * Adds the attribute pair to the attributeMap
+ * @param pAttr The Attribute of the Parent Entity
+ * @param rAttr The Attribute of the Referenced Entity
+ * @return true if the attribute pair could be added successfully
+ */
 bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, UMLEntityAttribute* rAttr)
 {
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
@@ -188,10 +233,15 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
          uDebug()<<i.key()->getName()<<" "<<i.key()->getBaseType()
                  <<" "<<i.value()->getName()<<" "<<i.value()->getBaseType()<<endl;
 
-
      return true;
 }
 
+/**
+ * Removes an Attribute pair
+ * @param pAttr The Attribute of the Parent Entity in the map. This attribute is the
+                key of the map.
+ * @return true of the attribute pair could be removed successfully
+ */
 bool UMLForeignKeyConstraint::removeEntityAttributePair(UMLEntityAttribute* /*key*/ pAttr)
 {
     bool state = m_AttributeMap.remove( pAttr );
@@ -199,6 +249,12 @@ bool UMLForeignKeyConstraint::removeEntityAttributePair(UMLEntityAttribute* /*ke
     return state;
 }
 
+/**
+ * Check if a attribute pair already exists
+ * @param pAttr The Attribute of the Parent Entity
+ * @param rAttr The Attribute of the Referenced Entity
+ * @return true if the attribute pair could be found.
+ */
 bool UMLForeignKeyConstraint::hasEntityAttributePair(UMLEntityAttribute* pAttr,UMLEntityAttribute* rAttr) const
 {
     if ( m_AttributeMap.contains( pAttr ) ) {
@@ -210,11 +266,14 @@ bool UMLForeignKeyConstraint::hasEntityAttributePair(UMLEntityAttribute* pAttr,U
     return false;
 }
 
+/**
+ * Loads the <UML:ForeignKeyConstraint> XMI element.
+ */
 bool UMLForeignKeyConstraint::load( QDomElement & element )
 {
     UMLDoc* doc = UMLApp::app()->getDocument();
 
-    Uml::IDType referencedEntityId = STR2ID( element.attribute("referencedEntity","" ) );
+    Uml::IDType referencedEntityId = STR2ID( element.attribute("referencedEntity", "") );
 
     UMLObject* obj = doc->findObjectById(referencedEntityId);
     m_ReferencedEntity = static_cast<UMLEntity*>(obj);
@@ -237,8 +296,8 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
         QString tag = tempElement.tagName();
         if (Uml::tagEq(tag, "AttributeMap")) {
 
-            Uml::IDType keyId = STR2ID(tempElement.attribute("key","" ));
-            Uml::IDType valueId = STR2ID(tempElement.attribute("value","" ));
+            Uml::IDType keyId = STR2ID(tempElement.attribute("key", ""));
+            Uml::IDType valueId = STR2ID(tempElement.attribute("value", ""));
 
             UMLEntityAttribute* key = NULL , *value = NULL;
 
@@ -265,6 +324,10 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
     return true;
 }
 
+/**
+ * Set the Referenced Entity.
+ * @param ent The Entity to Reference
+ */
 void UMLForeignKeyConstraint::setReferencedEntity(UMLEntity* ent)
 {
     if ( ent == m_ReferencedEntity )
@@ -275,17 +338,36 @@ void UMLForeignKeyConstraint::setReferencedEntity(UMLEntity* ent)
     emit sigReferencedEntityChanged();
 }
 
+/**
+ * Get the Referenced Entity.
+ * @return the UML entity object
+ */
+UMLEntity* UMLForeignKeyConstraint::getReferencedEntity() const
+{
+    return m_ReferencedEntity;
+}
+
+/**
+ * Slot for referenced entity changed.
+ */
 void UMLForeignKeyConstraint::slotReferencedEntityChanged()
 {
     // clear all mappings
     m_AttributeMap.clear();
 }
 
+/**
+ * Clears all mappings between local and referenced attributes
+ */
 void UMLForeignKeyConstraint::clearMappings()
 {
     m_AttributeMap.clear();
 }
 
+/**
+ * Remimplementation from base classes
+ * Used to resolve forward references to referenced entities in xmi
+ */
 bool UMLForeignKeyConstraint::resolveRef()
 {
     // resolve referenced entity first
@@ -314,6 +396,46 @@ bool UMLForeignKeyConstraint::resolveRef()
     }
 
     return success;
+}
+
+/**
+ * Retrieve all Pairs of Attributes.
+ */
+QMap<UMLEntityAttribute*,UMLEntityAttribute*> UMLForeignKeyConstraint::getEntityAttributePairs()
+{
+    return m_AttributeMap;
+}
+
+/**
+ * Get the Delete Action.
+ */
+UMLForeignKeyConstraint::UpdateDeleteAction UMLForeignKeyConstraint::getDeleteAction() const
+{
+    return m_DeleteAction;
+}
+
+/**
+ * Get the Update Action.
+ */
+UMLForeignKeyConstraint::UpdateDeleteAction UMLForeignKeyConstraint::getUpdateAction() const
+{
+    return m_UpdateAction;
+}
+
+/**
+ * Set the Delete Action to the specified UpdateDeleteAction.
+ */
+void UMLForeignKeyConstraint::setDeleteAction(UpdateDeleteAction uda)
+{
+    m_DeleteAction = uda;
+}
+
+/**
+ * Set the Update Action to the specified UpdateDeleteAction
+ */
+void UMLForeignKeyConstraint::setUpdateAction(UpdateDeleteAction uda)
+{
+    m_UpdateAction = uda;
 }
 
 #include "foreignkeyconstraint.moc"

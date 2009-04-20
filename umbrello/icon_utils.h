@@ -21,7 +21,9 @@
 #define ICON_UTILS_H
 
 #include "umlnamespace.h"
+
 #include <kicon.h>
+
 #include <QtGui/QCursor>
 #include <QtGui/QPixmap>
 
@@ -213,11 +215,8 @@ namespace Icon_Utils {
     };
 
     QPixmap SmallIcon(Icon_Type type);
-
     QPixmap BarIcon(Icon_Type type);
-
     QPixmap MainBarIcon(Icon_Type type);
-
     QPixmap UserIcon(Icon_Type type);
 
     KIcon DesktopIcon(Icon_Type type);

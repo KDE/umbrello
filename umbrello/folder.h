@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,15 +30,12 @@
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 //[PORT] This whole class needs a relook regd scene/view.
-class UMLFolder : public UMLPackage {
+class UMLFolder : public UMLPackage
+{
     Q_OBJECT
 public:
-
     explicit UMLFolder(const QString & name = QString(), Uml::IDType id = Uml::id_None);
 
-    /**
-     * Empty deconstructor.
-     */
     virtual ~UMLFolder();
 
     virtual void init();
@@ -47,7 +43,6 @@ public:
     virtual UMLObject* clone() const;
 
     void setLocalName(const QString& localName);
-
     QString getLocalName();
 
     void addView(UMLView *view);
@@ -58,22 +53,19 @@ public:
 
     void activateViews();
 
-    UMLView *findView(Uml::IDType id);
-
-    UMLView * findView(Uml::Diagram_Type type, const QString &name, bool searchAllScopes = true);
+    UMLView* findView(Uml::IDType id);
+    UMLView* findView(Uml::Diagram_Type type, const QString &name, bool searchAllScopes = true);
 
     void setViewOptions(const Settings::OptionState& optionState);
 
     void removeAllViews();
 
     void setFolderFile(const QString& fileName);
-
     QString getFolderFile();
 
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-
     void saveContents(QDomDocument& qDoc, QDomElement& qElement);
 
     void save(QDomDocument& qDoc, QDomElement& qElement);
@@ -86,7 +78,6 @@ protected:
 
 private:
     QString m_localName;  ///< i18n name, only used for predefined root folders
-
     /**
      * If m_folderFile is not empty then it contains a file name to which
      * this folder is saved.
