@@ -41,18 +41,30 @@
 
 const bool CHECKABLE = true;
 
-//ListPopupMenu for a UMLView (diagram)
+/**
+ * Constructs the popup menu for a UMLView (diagram).
+ *
+ * @param parent   The parent to ListPopupMenu.
+ * @param type     The type of menu to display.
+ * @param object   The UMLObject of the ListViewItem
+ */
 ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view)
-        : KMenu(parent)
+  : KMenu(parent)
 {
     m_TriggerObject.m_View = view;
     m_TriggerObjectType = tot_View;
     setupMenu(type);
 }
 
-//ListPopupMenu for the tree list view
+/**
+ * Constructs the popup menu for a tree list view item.
+ *
+ * @param parent   The parent to ListPopupMenu.
+ * @param type     The type of menu to display.
+ * @param object   The UMLObject of the ListViewItem
+ */
 ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject* object)
-        : KMenu(parent)
+  : KMenu(parent)
 {
     m_TriggerObject.m_Object = object;
     m_TriggerObjectType = tot_Object;
@@ -238,10 +250,18 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject
     setupMenu(mt);
 }
 
-//ListPopupMenu for a canvas widget
+/**
+ * Constructs the popup menu for a canvas widget.
+ *
+ * @param parent   The parent to ListPopupMenu.
+ * @param object   The UMLWidget to represent a menu for.
+ * @param multi    True if multiple items are selected.
+ * @param unique   True if multiple selected items all have
+ *                 the same type (e.g. Class, Interface)
+ */
 ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
                              bool multi, bool unique)
-        : KMenu(parent)
+  : KMenu(parent)
 {
     m_TriggerObject.m_Widget = object;
     m_TriggerObjectType = tot_Widget;
@@ -276,7 +296,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
                 setActionChecked(mt_DrawAsCircle_Selection, c->getDrawAsCircle());
                 insert(mt_ChangeToClass_Selection, i18n("Change into Class"));
             } else if (type == Uml::wt_Class) {
-                UMLClassifier *umlc = c->getClassifier();
+                UMLClassifier *umlc = c->classifier();
                 if (umlc->getAbstract() && umlc->attributes() == 0)
                     insert(mt_ChangeToInterface_Selection, i18n("Change into Interface"));
             }
@@ -408,10 +428,12 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_ForkJoin:
         {
             ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(object);
-            if (pForkJoin->getDrawVertical())
+            if (pForkJoin->getDrawVertical()) {
                 insert(mt_Flip, i18n("Flip Horizontal"));
-            else
+            }
+            else {
                 insert(mt_Flip, i18n("Flip Vertical"));
+            }
         }
         break;
 
@@ -489,7 +511,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
 
     case Uml::wt_Text:
-        switch( (static_cast<FloatingTextWidget*>(object))->getRole() ) {
+        switch( (static_cast<FloatingTextWidget*>(object))->textRole() ) {
         case Uml::tr_MultiB:
             insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
             break;
@@ -534,12 +556,15 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         break;
     }//end switch
 
-    bool bCutState = UMLApp::app() -> getCutCopyState();
+    bool bCutState = UMLApp::app()->getCutCopyState();
     setActionEnabled( mt_Cut, bCutState );
     setActionEnabled( mt_Copy, bCutState );
     setActionEnabled( mt_Paste, false );
 }
 
+/**
+ * Standard destructor.
+ */
 ListPopupMenu::~ListPopupMenu()
 {
     foreach (QAction* action, m_actions) {
@@ -548,6 +573,11 @@ ListPopupMenu::~ListPopupMenu()
     m_actions.clear();
 }
 
+/**
+ * Shortcut for the frequently used addAction() calls.
+ *
+ * @param m   The Menu_Type for which to insert a menu item.
+ */
 void ListPopupMenu::insert(Menu_Type m)
 {
     switch (m) {
@@ -621,12 +651,18 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture), i18n("Export as Picture..."));
         break;
     default:
-        uWarning() << "called on unimplemented Menu_Type " << m;
+        uWarning() << "called on unimplemented Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, m));
         break;
     }
 }
 
-void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
+/**
+ * Shortcut for the frequently used addAction() calls.
+ *
+ * @param m      The Menu_Type for which to insert a menu item.
+ * @param menu   The KMenu for which to insert a menu item.
+ */
+void ListPopupMenu::insert(const Menu_Type m, KMenu* menu)
 {
     Q_ASSERT(menu != NULL);
     switch (m) {
@@ -693,16 +729,30 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line..." ));
         break;
     default:
-        uWarning() << "called on unimplemented Menu_Type " << m;
+        uWarning() << "called on unimplemented Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, m));
         break;
     }
 }
 
+/**
+ * Shortcut for the frequently used addAction() calls.
+ *
+ * @param m      The Menu_Type for which to insert a menu item.
+ * @param icon   The icon for this action.
+ * @param text   The text for this action.
+ */
 void ListPopupMenu::insert(const Menu_Type m, const QIcon & icon, const QString & text)
 {
     m_actions[m] = addAction(icon, text);
 }
 
+/**
+ * Shortcut for the frequently used addAction() calls.
+ *
+ * @param m           The Menu_Type for which to insert a menu item.
+ * @param text        The text for this action.
+ * @param checkable   Sets the action to checkable.
+ */
 void ListPopupMenu::insert(const Menu_Type m, const QString & text, const bool checkable)
 {
     m_actions[m] = addAction(text);
@@ -713,11 +763,27 @@ void ListPopupMenu::insert(const Menu_Type m, const QString & text, const bool c
     }
 }
 
+/**
+ * Shortcut for the frequently used addAction() calls.
+ *
+ * @param m      The Menu_Type for which to insert a menu item.
+ * @param menu   The KMenu for which to insert a menu item.
+ * @param icon   The icon for this action.
+ * @param text   The text for this action.
+ */
 void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QIcon & icon, const QString & text)
 {
     m_actions[m] = menu->addAction(icon, text);
 }
 
+/**
+ * Shortcut for the frequently used addAction() calls.
+ *
+ * @param m      The Menu_Type for which to insert a menu item.
+ * @param menu   The KMenu for which to insert a menu item.
+ * @param text   The text for this action.
+ * @param checkable   Sets the action to checkable.
+ */
 void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable)
 {
     m_actions[m] = menu->addAction(text);
@@ -728,6 +794,15 @@ void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QString & text,
     }
 }
 
+/**
+ * Shortcut for the frequently used insertStdItem() calls.
+ *
+ * @param insertLeadingSeparator   Set this true if the group shall
+ *                                 start with a separator.
+ * @param type      The Widget_Type for which to insert the menu items.
+ *                  If no argument is supplied then a Rename item will be
+ *                  included.
+ */
 void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
                                    Uml::Widget_Type type /* = wt_UMLWidget */)
 {
@@ -744,6 +819,13 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
     insert(mt_Delete);
 }
 
+/**
+ * Shortcut for inserting standard model items (Class, Interface,
+ * Datatype, Enum, Package) as well as diagram choices.
+ *
+ * @param folderAndDiagrams Set this true if folders and diagram
+ *                          types shall be included as choices.
+ */
 void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
 {
     KMenu* menu = new KMenu(i18nc("new container menu", "New"), this);
@@ -765,6 +847,13 @@ void ListPopupMenu::insertContainerItems(bool folderAndDiagrams)
     addMenu(menu);
 }
 
+/**
+ * Inserts a menu item for an association related text
+ * (such as name, role, multiplicity etc.)
+ *
+ * @param label   The menu text.
+ * @param mt      The menu type.
+ */
 void ListPopupMenu::insertAssocItem(const QString &label, Menu_Type mt)
 {
     insert(mt, label);
@@ -773,6 +862,10 @@ void ListPopupMenu::insertAssocItem(const QString &label, Menu_Type mt)
     insert(mt_Properties);
 }
 
+/**
+ * Inserts a menu item for externalization/de-externalization
+ * of a folder.
+ */
 void ListPopupMenu::insertSubmodelAction()
 {
     const Settings::OptionState& ostat = Settings::getOptionState();
@@ -802,6 +895,10 @@ void ListPopupMenu::insertSubmodelAction()
         insert(mt_Internalize_Folder);
 }
 
+/**
+ * Creates a popup menu for a multiple selection of class and
+ * interface widgets.
+ */
 void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
 {
     Uml::Widget_Type type = c->baseType();
@@ -839,6 +936,9 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
     addMenu(show);
 }
 
+/**
+ * Creates a popup menu for a single class or interface widgets.
+ */
 void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 {
     Uml::Widget_Type type = c->baseType();
@@ -863,13 +963,18 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
     } else {
         insert(mt_Refactoring, Icon_Utils::SmallIcon(Icon_Utils::it_Refactor), i18n("Refactor"));
         insert(mt_ViewCode, Icon_Utils::SmallIcon(Icon_Utils::it_View_Code), i18n("View Code"));
-        UMLClassifier *umlc = c->getClassifier();
+        UMLClassifier *umlc = c->classifier();
         if (umlc->getAbstract() && umlc->attributes() == 0)
             insert(mt_ChangeToInterface, i18n("Change into Interface"));
     }
     insert(mt_Properties);
 }
 
+/**
+ * Shortcut for commonly used sub menu initializations.
+ *
+ * @param fc   The "Use Fill Color" is checked.
+ */
 void ListPopupMenu::insertSubMenuColor(bool fc)
 {
     KMenu* color = new KMenu(i18nc("color menu", "Color"), this);
@@ -880,6 +985,9 @@ void ListPopupMenu::insertSubMenuColor(bool fc)
     addMenu(color);
 }
 
+/**
+ * Utility: Convert a Menu_Type value to a Diagram_Type value.
+ */
 Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt)
 {
     Uml::Diagram_Type type =  Uml::dt_Undefined;
@@ -918,6 +1026,9 @@ Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt)
     return type;
 }
 
+/**
+ * Utility: Convert a Menu_Type value to an Object_Type value.
+ */
 Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt)
 {
     Uml::Object_Type type =  Uml::ot_UMLObject;
@@ -956,6 +1067,11 @@ Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt)
     return type;
 }
 
+/**
+ * Shortcut for commonly used sub menu initializations.
+ *
+ * @param type   The Menu_Type for which to set up the menu.
+ */
 void ListPopupMenu::insertSubMenuNew(Menu_Type type)
 {
     KMenu* menu = new KMenu(i18nc("new sub menu", "New"), this);
@@ -1083,6 +1199,11 @@ void ListPopupMenu::insertSubMenuNew(Menu_Type type)
     addMenu(menu);
 }
 
+/**
+ * Shortcut for commonly used menu initializations.
+ *
+ * @param type   The Menu_Type for which to set up the menu.
+ */
 void ListPopupMenu::setupMenu(Menu_Type type)
 {
     // uDebug() << "ListPopupMenu created for Menu_Type=" << type;
@@ -1559,6 +1680,9 @@ void ListPopupMenu::setupMenu(Menu_Type type)
 
 }
 
+/**
+ * Shortcut for diagramm menu initializations.
+ */
 void ListPopupMenu::setupDiagramMenu(UMLView* view)
 {
     insert(mt_Undo, Icon_Utils::SmallIcon(Icon_Utils::it_Undo), i18n("Undo"));
@@ -1578,6 +1702,10 @@ void ListPopupMenu::setupDiagramMenu(UMLView* view)
     insert(mt_Properties);
 }
 
+/**
+ * Creates a popup menu for a single category Object
+ * @param category The UMLCategory for which the category menu is created
+ */
 KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category)
 {
     KMenu* catTypeMenu = new KMenu(this);
@@ -1591,16 +1719,25 @@ KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category)
     return catTypeMenu;
 }
 
+/**
+ * Get the action from the menu type as index.
+ */
 QAction* ListPopupMenu::getAction(Menu_Type idx)
 {
     return m_actions.value(idx, NULL);
 }
 
+// /**
+//  * Get the Menu_Type from the action.
+//  */
 // ListPopupMenu::Menu_Type ListPopupMenu::getMenuType(KAction* action)
 // {
 //     return m_actions.key(action);
 // }
 
+/**
+ * Get the Menu_Type from the action.
+ */
 ListPopupMenu::Menu_Type ListPopupMenu::getMenuType(QAction* action)
 {
     QList<Menu_Type> keyList = m_actions.keys( action );
@@ -1612,6 +1749,26 @@ ListPopupMenu::Menu_Type ListPopupMenu::getMenuType(QAction* action)
     }
 }
 
+/**
+ * Utility method to fetch owner of the menu.
+ *
+ * @return The owned WidgetBase if this menu is owned by a
+ *         widget. Otherwise returns 0.
+ */
+WidgetBase* ListPopupMenu::ownerWidget() const
+{
+    if (m_TriggerObjectType == tot_Widget) {
+        return m_TriggerObject.m_Widget;
+    }
+    return 0;
+}
+
+/**
+ * Checks the action item.
+ *
+ * @param idx     The Menu_Type for which to check the menu item.
+ * @param value   The value.
+ */
 void ListPopupMenu::setActionChecked(Menu_Type idx, bool value)
 {
     QAction* action = getAction(idx);
@@ -1619,10 +1776,16 @@ void ListPopupMenu::setActionChecked(Menu_Type idx, bool value)
         action->setChecked(value);
 #ifdef VERBOSE_DEBUGGING
     else
-        uWarning() << "called on unknown Menu_Type " << idx;
+        uWarning() << "called on unknown Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, idx));
 #endif
 }
 
+/**
+ * Enables the action item.
+ *
+ * @param idx     The Menu_Type for which to enable the menu item.
+ * @param value   The value.
+ */
 void ListPopupMenu::setActionEnabled(Menu_Type idx, bool value)
 {
     QAction* action = getAction(idx);
@@ -1630,6 +1793,6 @@ void ListPopupMenu::setActionEnabled(Menu_Type idx, bool value)
         action->setEnabled(value);
 #ifdef VERBOSE_DEBUGGING
     else
-        uWarning() << "called on unknown Menu_Type " << idx;
+        uWarning() << "called on unknown Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, idx));
 #endif
 }

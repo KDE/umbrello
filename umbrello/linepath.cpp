@@ -16,9 +16,9 @@
 #include <cmath>
 
 // qt includes
+#include <QtXml/QDomDocument>
 #include <q3canvas.h>
-#include <QDomDocument>
-#include <QPainter>
+#include <QtGui/QPainter>
 
 // kde includes
 #include <kdebug.h>
@@ -31,34 +31,43 @@
 #include "umldoc.h"
 #include "uml.h"
 
-
 LinePath::Circle::Circle(Q3Canvas * canvas, int radius /* = 0 */)
-        : Q3CanvasEllipse(radius * 2, radius * 2, canvas) {
+        : Q3CanvasEllipse(radius * 2, radius * 2, canvas)
+{
 }
 
-void LinePath::Circle::setX(int x) {
+void LinePath::Circle::setX(int x)
+{
     Q3CanvasItem::setX( (double) x );
 }
 
-void LinePath::Circle::setY(int y) {
+void LinePath::Circle::setY(int y)
+{
     Q3CanvasItem::setY( (double) y );
 }
 
-void LinePath::Circle::setRadius(int radius) {
+void LinePath::Circle::setRadius(int radius)
+{
     Q3CanvasEllipse::setSize(radius * 2, radius * 2);
 }
 
-int LinePath::Circle::getRadius() const {
+int LinePath::Circle::getRadius() const
+{
     return (Q3CanvasEllipse::height() / 2);
 }
 
-void LinePath::Circle::drawShape(QPainter& p) {
+void LinePath::Circle::drawShape(QPainter& p)
+{
     int diameter = height();
     int radius = diameter / 2;
     p.drawEllipse( (int)x() - radius, (int)y() - radius, diameter, diameter);
 }
 
-LinePath::LinePath() {
+/**
+ * Constructor.
+ */
+LinePath::LinePath()
+{
     m_bSelected = false;
     m_pClearPoly = 0;
     m_pCircle = 0;
@@ -72,11 +81,19 @@ LinePath::LinePath() {
     m_DockRegion = TopBottom;
 }
 
+/**
+ * Destructor.
+ */
 LinePath::~LinePath()
 {
 }
 
-void LinePath::setAssociation(AssociationWidget * association ) {
+/**
+ * This will setup the class ready to display the line correctly.
+ * This MUST be called before you can use this class.
+ */
+void LinePath::setAssociation(AssociationWidget * association)
+{
     if( !association )
         return;
     cleanup();
@@ -90,7 +107,11 @@ void LinePath::setAssociation(AssociationWidget * association ) {
     connect( view, SIGNAL( sigLineWidthChanged( Uml::IDType ) ), this, SLOT( slotLineWidthChanged( Uml::IDType ) ) );
 }
 
-QPoint LinePath::getPoint( int pointIndex ) const {
+/**
+ * Returns the point at the point index.
+ */
+QPoint LinePath::getPoint( int pointIndex ) const 
+{
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
         return QPoint( -1, -1 );
@@ -103,12 +124,16 @@ QPoint LinePath::getPoint( int pointIndex ) const {
     return line -> startPoint();
 }
 
-bool LinePath::setPoint( int pointIndex, const QPoint &point ) {
+/**
+ * Sets the position of an already set point.
+ */
+bool LinePath::setPoint( int pointIndex, const QPoint &point )
+{
     int count = m_LineList.count();
     if( count == 0 || pointIndex > count  || pointIndex < 0)
         return false;
     if (point.x() == 0 && point.y() == 0) {
-        uError() << "ignoring request for (0,0)" << endl;
+        uError() << "ignoring request for (0,0)";
         return false;
     }
 
@@ -139,7 +164,13 @@ bool LinePath::setPoint( int pointIndex, const QPoint &point ) {
     return true;
 }
 
-bool LinePath::isPoint( int pointIndex, const QPoint &point, unsigned short delta) {
+/**
+ * Checks, if we are at an end of the segment or somewhere in the middle.
+ * We use the delta, because with the mouse it is hard to find the
+ * exactly point.
+ */
+bool LinePath::isPoint( int pointIndex, const QPoint &point, unsigned short delta)
+{
     int count = m_LineList.count();
     if ( pointIndex >= count )
         return false;
@@ -162,7 +193,11 @@ bool LinePath::isPoint( int pointIndex, const QPoint &point, unsigned short delt
     return false;
 }
 
-bool LinePath::insertPoint( int pointIndex, const QPoint &point ) {
+/**
+ * Inserts a point at the given index.
+ */
+bool LinePath::insertPoint( int pointIndex, const QPoint &point )
+{
     int count = m_LineList.count();
     if( count == 0 )
         return false;
@@ -173,7 +208,7 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point ) {
         QPoint sp = first -> startPoint();
         QPoint ep = first -> endPoint();
         first -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
-        Q3CanvasLine * line = new Q3CanvasLine( getCanvas() );
+        Q3CanvasLine * line = new Q3CanvasLine( getScene() );
         line -> setZ( -2 );
         line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
         line -> setPen( getPen() );
@@ -188,7 +223,7 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point ) {
         QPoint sp = before -> startPoint();
         QPoint ep = before -> endPoint();
         before -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
-        Q3CanvasLine * line = new Q3CanvasLine( getCanvas() );
+        Q3CanvasLine * line = new Q3CanvasLine( getScene() );
         line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
         line -> setZ( -2 );
         line -> setPen( getPen() );
@@ -202,7 +237,7 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point ) {
     QPoint sp = before -> startPoint();
     QPoint ep = before -> endPoint();
     before -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
-    Q3CanvasLine * line = new Q3CanvasLine(getCanvas() );
+    Q3CanvasLine * line = new Q3CanvasLine(getScene() );
     line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
     line -> setZ( -2 );
     line -> setPen( getPen() );
@@ -213,6 +248,10 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point ) {
     return true;
 }
 
+/**
+ * Removes the point on the line given by the index, at the coordinates
+ * given by point with a fuzzy of delta.
+ */
 bool LinePath::removePoint( int pointIndex, const QPoint &point, unsigned short delta )
 {
     /* get the number of line segments */
@@ -263,17 +302,20 @@ bool LinePath::removePoint( int pointIndex, const QPoint &point, unsigned short 
             return false;
         }
 
-
     /* remove the segment from the list */
     delete m_LineList.takeAt( pointIndex );
 
     return true;
 }
 
-bool LinePath::setStartEndPoints( const QPoint &start, const QPoint &end ) {
+/**
+ * Sets the start and end points.
+ */
+bool LinePath::setStartEndPoints( const QPoint &start, const QPoint &end )
+{
     int count = m_LineList.count();
     if( count == 0 ) {
-        Q3CanvasLine * line = new Q3CanvasLine(getCanvas() );
+        Q3CanvasLine * line = new Q3CanvasLine(getScene() );
         line -> setPoints( start.x(), start.y(),end.x(),end.y() );
         line -> setZ( -2 );
         line -> setPen( getPen() );
@@ -287,12 +329,23 @@ bool LinePath::setStartEndPoints( const QPoint &start, const QPoint &end ) {
     return false;
 }
 
-int LinePath::count() const {
+/**
+ * Returns the amount of POINTS on the line.
+ * Includes start and end points.
+ */
+int LinePath::count() const 
+{
     return m_LineList.count() + 1;
 }
 
-int LinePath::onLinePath( const QPoint &position ) {
-    Q3CanvasItemList list = getCanvas() -> collisions( position );
+/**
+ * Returns -1 if the given point is not on the line.
+ * else returns the line segment the point is on.
+ * Use the value to insert points at the point position.
+ */
+int LinePath::onLinePath( const QPoint &position )
+{
+    Q3CanvasItemList list = getScene()->collisions( position );
     int index = -1;
 
     Q3CanvasItemList::iterator end(list.end());
@@ -303,28 +356,37 @@ int LinePath::onLinePath( const QPoint &position ) {
     return index;
 }
 
-void LinePath::setSelected( bool select ) {
-    if(select)
+/**
+ * Sets the status of whether the line is selected or not.
+ */
+void LinePath::setSelected( bool select ) 
+{
+    if(select) {
         setupSelected();
-    else if( m_RectList.count() > 0 ) {
-        qDeleteAll( m_RectList.begin(), m_RectList.end() );
+    }
+    else if(!m_RectList.isEmpty()) {
+        qDeleteAll(m_RectList);
         m_RectList.clear();
     }
 }
 
-void LinePath::setAssocType( Uml::Association_Type type ) {
+/**
+ * Sets the Association type.
+ */
+void LinePath::setAssocType( Uml::Association_Type type )
+{
     QList<Q3CanvasLine*>::Iterator it = m_LineList.begin();
     QList<Q3CanvasLine*>::Iterator end = m_LineList.end();
 
     for( ; it != end; ++it )
         (*it) -> setPen( getPen() );
 
-    if( m_pClearPoly ) {
-        delete m_pClearPoly;
-        m_pClearPoly = 0;
-    }
-    if( type == Uml::at_Coll_Message )
+    delete m_pClearPoly;
+    m_pClearPoly = 0;
+
+    if( type == Uml::at_Coll_Message ) {
         setupParallelLine();
+    }
     else {
         createHeadLines();
         createSubsetSymbol();
@@ -332,7 +394,11 @@ void LinePath::setAssocType( Uml::Association_Type type ) {
     update();
 }
 
-void LinePath::update() {
+/**
+ * Calls a group of methods to update the line. Used to save you calling multiple methods.
+ */
+void LinePath::update()
+{
     if (getAssocType() == Uml::at_Coll_Message) {
         if (m_bParallelLineCreated) {
             calculateParallelLine();
@@ -353,37 +419,51 @@ void LinePath::update() {
     }
 }
 
-void LinePath::slotLineColorChanged( Uml::IDType viewID ) {
-    if(m_pAssociation->getUMLView()->getID() != viewID) {
+/**
+ * Sets the line color used by the line.
+ *
+ * @param viewID The id of the object behind the widget.
+ */
+void LinePath::slotLineColorChanged( Uml::IDType viewID )
+{
+    if(m_pAssociation->umlScene()->getID() != viewID) {
         return;
     }
-    setLineColor( m_pAssociation->getUMLView()->getLineColor() );
+    setLineColor( m_pAssociation->umlScene()->getLineColor() );
 }
 
-
-void LinePath::setLineColor( const QColor &color ) {
+/**
+ * Sets the line color used by the line.
+ */
+void LinePath::setLineColor( const QColor &color )
+{
     uint linewidth = 0;
     Q3CanvasLine * line = 0;
 
     Q_FOREACH( line, m_LineList ) {
         linewidth = line->pen().width();
-        line -> setPen( QPen( color, linewidth ) );
+        line->setPen( QPen( color, linewidth ) );
     }
 
     Q_FOREACH( line, m_HeadList ) {
         linewidth = line->pen().width();
-        line -> setPen( QPen( color, linewidth ) );
+        line->setPen( QPen( color, linewidth ) );
     }
 
     Q_FOREACH( line, m_ParallelList ) {
         linewidth = line->pen().width();
-        line -> setPen( QPen( color, linewidth ) );
+        line->setPen( QPen( color, linewidth ) );
     }
 
     if (getAssocType() == Uml::at_Aggregation) {
-        if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( Qt::white ) );
-        else if( getAssocType() == Uml::at_Composition )
-            if (m_pClearPoly) m_pClearPoly -> setBrush( QBrush( color ) );
+        if (m_pClearPoly) {
+            m_pClearPoly->setBrush( QBrush( Qt::white ) );
+        }
+        else if( getAssocType() == Uml::at_Composition ) {
+            if (m_pClearPoly) {
+                m_pClearPoly->setBrush( QBrush( color ) );
+            }
+        }
     }
 
     if( m_pCircle ) {
@@ -392,30 +472,41 @@ void LinePath::setLineColor( const QColor &color ) {
     }
 }
 
-void LinePath::slotLineWidthChanged( Uml::IDType viewID ) {
-    if(m_pAssociation->getUMLView()->getID() != viewID) {
+/**
+ * Sets the line width used by the line.
+ *
+ * @param viewID The id of the object behind the widget.
+ */
+void LinePath::slotLineWidthChanged( Uml::IDType viewID )
+{
+    if(m_pAssociation->umlScene()->getID() != viewID) {
         return;
     }
-    setLineWidth( m_pAssociation->getUMLView()->getLineWidth() );
+    setLineWidth( m_pAssociation->umlScene()->getLineWidth() );
 }
 
-void LinePath::setLineWidth( uint width ) {
+/**
+ * Sets the line width used by the line.
+ * @param width   the new width of the line
+ */
+void LinePath::setLineWidth( uint width )
+{
     QColor linecolor;
     Q3CanvasLine * line = 0;
 
     Q_FOREACH( line, m_LineList ) {
         linecolor = line->pen().color();
-        line -> setPen( QPen( linecolor, width ) );
+        line->setPen( QPen( linecolor, width ) );
     }
 
     Q_FOREACH( line, m_HeadList ) {
         linecolor = line->pen().color();
-        line -> setPen( QPen( linecolor, width ) );
+        line->setPen( QPen( linecolor, width ) );
     }
 
     Q_FOREACH( line, m_ParallelList ) {
         linecolor = line->pen().color();
-        line -> setPen( QPen( linecolor, width ) );
+        line->setPen( QPen( linecolor, width ) );
     }
 
     if( m_pCircle ) {
@@ -424,7 +515,11 @@ void LinePath::setLineWidth( uint width ) {
     }
 }
 
-void LinePath::moveSelected( int pointIndex ) {
+/**
+ * Moves the selected canvas widgets.
+ */
+void LinePath::moveSelected( int pointIndex )
+{
     int lineCount = m_LineList.count();
     if( !m_bSelected ) {
         qDeleteAll( m_RectList.begin(), m_RectList.end() );
@@ -452,7 +547,11 @@ void LinePath::moveSelected( int pointIndex ) {
     rect -> setZ( 4 );
 }
 
-void LinePath::setupSelected() {
+/**
+ * Sets up the selected canvases needed.
+ */
+void LinePath::setupSelected()
+{
     qDeleteAll( m_RectList.begin(), m_RectList.end() );
     m_RectList.clear();
     Q3CanvasLine * line = 0;
@@ -470,14 +569,22 @@ void LinePath::setupSelected() {
     update();
 }
 
-QPen LinePath::getPen() {
+/**
+ * Returns the type of pen to use depending on the type of Association.
+ */
+QPen LinePath::getPen()
+{
     Uml::Association_Type type = getAssocType();
     if( type == Uml::at_Dependency || type == Uml::at_Realization || type == Uml::at_Anchor )
         return QPen( getLineColor(), getLineWidth(), Qt::DashLine );
     return QPen( getLineColor(), getLineWidth() );
 }
 
-void LinePath::calculateHead() {
+/**
+ * Calculates the head points.
+ */
+void LinePath::calculateHead()
+{
     uint size = m_LineList.count();
     QPoint farPoint;
     int halfLength = 10;
@@ -559,7 +666,11 @@ void LinePath::calculateHead() {
 
 }
 
-void LinePath::updateHead() {
+/**
+ * Updates the head lines. Call after calculating the new points.
+ */
+void LinePath::updateHead()
+{
     int count = m_HeadList.count();
     Q3CanvasLine * line = 0;
 
@@ -646,10 +757,17 @@ void LinePath::updateHead() {
     }
 }
 
-void LinePath::growList(LineList &list, int by) {
+/**
+ * Create a number of new lines and append them to the given list.
+ *
+ * @param list  The list into which to append lines.
+ * @param by    The number of lines to insert into the given list.
+ */
+void LinePath::growList(LineList &list, int by)
+{
     QPen pen( getLineColor(), getLineWidth() );
     for (int i = 0; i < by; i++) {
-        Q3CanvasLine * line = new Q3CanvasLine( getCanvas() );
+        Q3CanvasLine * line = new Q3CanvasLine( getScene() );
         line -> setZ( 0 );
         line -> setPen( pen );
         line -> setVisible( true );
@@ -657,10 +775,14 @@ void LinePath::growList(LineList &list, int by) {
     }
 }
 
-void LinePath::createHeadLines() {
+/**
+ * Creates the head lines to display the head.
+ */
+void LinePath::createHeadLines()
+{
     qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
     m_HeadList.clear();
-    Q3Canvas * canvas = getCanvas();
+    Q3Canvas * canvas = getScene();
     switch( getAssocType() ) {
     case Uml::at_Activity:
     case Uml::at_Exception:
@@ -686,7 +808,7 @@ void LinePath::createHeadLines() {
         m_pClearPoly = new Q3CanvasPolygon( canvas );
         m_pClearPoly -> setVisible( true );
         if( getAssocType() == Uml::at_Aggregation )
-            m_pClearPoly -> setBrush( QBrush( Qt::white ) );
+            m_pClearPoly->setBrush( QBrush( Qt::white ) );
         else
             m_pClearPoly -> setBrush( QBrush( getLineColor() ) );
         m_pClearPoly -> setZ( -1 );
@@ -706,7 +828,11 @@ void LinePath::createHeadLines() {
     m_bHeadCreated = true;
 }
 
-void LinePath::calculateParallelLine() {
+/**
+ * Calculates the position of the parallel line.
+ */
+void LinePath::calculateParallelLine()
+{
     int midCount = count() / 2;
     double ATAN = atan(1.0);
     int lineDist = 10;
@@ -754,14 +880,23 @@ void LinePath::calculateParallelLine() {
     m_ParallelLines[ 3 ] = QPoint( pointT.x() - (int)cosx, pointT.y() - (int)siny );
 }
 
-void LinePath::setupParallelLine() {
+/**
+ * Creates the line objects to display the parallel line.
+ */
+void LinePath::setupParallelLine()
+{
     qDeleteAll( m_ParallelList.begin(), m_ParallelList.end() );
     m_ParallelList.clear();
     growList(m_ParallelList, 3);
     m_bParallelLineCreated = true;
 }
 
-void LinePath::updateParallelLine() {
+/**
+ * Updates the parallel line.
+ * Call after calculating the new position.
+ */
+void LinePath::updateParallelLine() 
+{
     if( !m_bParallelLineCreated )
         return;
     Q3CanvasLine * line = 0;
@@ -779,19 +914,27 @@ void LinePath::updateParallelLine() {
     line -> setPoints( common.x(), common.y(), p.x(), p.y() );
 }
 
-bool LinePath::operator==( const LinePath & rhs ) {
-    if( this -> m_LineList.count() != rhs.m_LineList.count() )
+/**
+ * Equal to (==) operator.
+ */
+bool LinePath::operator==( const LinePath & rhs ) 
+{
+    if( this->m_LineList.count() != rhs.m_LineList.count() )
         return false;
 
     //Check to see if all points at the same position
     for( int i = 0; i< rhs.count() ; i++ ) {
-        if( this -> getPoint( i ) != rhs.getPoint( i ) )
+        if( this->getPoint( i ) != rhs.getPoint( i ) )
             return false;
     }
     return true;
 }
 
-LinePath & LinePath::operator=( const LinePath & rhs ) {
+/**
+ * Copy ( = ) operator.
+ */
+LinePath & LinePath::operator=( const LinePath & rhs )
+{
     if( this == &rhs )
         return *this;
     //clear out the old canvas objects
@@ -799,49 +942,85 @@ LinePath & LinePath::operator=( const LinePath & rhs ) {
 
     int count = rhs.m_LineList.count();
     //setup start end points
-    this -> setStartEndPoints( rhs.getPoint( 0 ), rhs.getPoint( count) );
+    this->setStartEndPoints( rhs.getPoint( 0 ), rhs.getPoint( count) );
     //now insert the rest
     for( int i = 1; i < count ; i++ ) {
-        this -> insertPoint( i, rhs.getPoint ( i ) );
+        this->insertPoint( i, rhs.getPoint ( i ) );
     }
-    this -> setAssocType( rhs.getAssocType() );
+    this->setAssocType( rhs.getAssocType() );
 
     return *this;
 }
 
-Q3Canvas * LinePath::getCanvas() {
+/**
+ * Returns the canvas being used.
+ * Will return zero if the Association hasn't been set.
+ *
+ * This class doesn't hold this information but is a wrapper
+ * method to stop calls to undefined variable like m_pAssociation.
+ */
+Q3Canvas * LinePath::getScene()
+{
     if( !m_pAssociation )
         return 0;
-    const UMLView * view =  m_pAssociation->getUMLView();
-    return view -> canvas();
+    const UMLView * view =  m_pAssociation->umlScene();
+    return view->canvas();
 }
 
-Uml::Association_Type LinePath::getAssocType() const {
+/**
+ * Returns the Association type.
+ * Returns Uml::at_Association if association hasn't been set.
+ *
+ * This class doesn't hold this information but is a wrapper
+ * method to stop calls to undefined variable like m_pAssociation.
+ */
+Uml::Association_Type LinePath::getAssocType() const 
+{
     if( m_pAssociation )
-        return m_pAssociation -> getAssocType();
+        return m_pAssociation->getAssocType();
     return Uml::at_Association;
 }
 
-QColor LinePath::getLineColor() {
+/**
+ * Returns the Line Color to use.
+ * Returns black if association not set.
+ *
+ * This class doesn't hold this information but is a wrapper
+ * method to stop calls to undefined variable like m_pAssociation.
+ */
+QColor LinePath::getLineColor()
+{
     if( !m_pAssociation )
         return Qt::black;
     return m_pAssociation->lineColor();
 }
 
-uint LinePath::getLineWidth() {
+/**
+ * Returns the Line Width to use.
+ * Returns 0 if association not set.
+ *
+ * This class doesn't hold this information but is a wrapper
+ * method to stop calls to undefined variable like m_pAssociation.
+ */
+uint LinePath::getLineWidth()
+{
     if( !m_pAssociation )
         return 0;
-    int viewLineWidth = m_pAssociation -> getLineWidth();
+    int viewLineWidth = m_pAssociation->lineWidth();
     if ( viewLineWidth >= 0 && viewLineWidth <= 10 )
         return viewLineWidth;
     else {
         uWarning() << "Ignore wrong LineWidth of " << viewLineWidth
-        << " in LinePath::getLineWidth" << endl;
+                   << " in LinePath::getLineWidth";
         return 0;
     }
 }
 
-void LinePath::cleanup() {
+/**
+ * Removes and item created that are no longer needed.
+ */
+void LinePath::cleanup()
+{
     if (m_pAssociation) {
         qDeleteAll( m_LineList.begin(), m_LineList.end() );
         m_LineList.clear();
@@ -876,17 +1055,24 @@ void LinePath::cleanup() {
     }
 }
 
-void LinePath::setDockRegion( Region region ) {
+/**
+ * Tell the line where the line docks.
+ */
+void LinePath::setDockRegion( Region region )
+{
     m_DockRegion = region;
 }
 
-bool LinePath::hasPoints () const {
+bool LinePath::hasPoints () const
+{
     int count = m_LineList.count();
     if (count>1)
         return true;
     return false;
 }
-void LinePath::dumpPoints () {
+
+void LinePath::dumpPoints ()
+{
     int count = m_LineList.count();
     for( int i = 1; i < count; i++ ) {
         QPoint point = getPoint( i );
@@ -894,7 +1080,8 @@ void LinePath::dumpPoints () {
     }
 }
 
-void LinePath::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void LinePath::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     int count = m_LineList.count();
     QPoint point = getPoint( 0 );
     QDomElement lineElement = qDoc.createElement( "linepath" );
@@ -917,7 +1104,8 @@ void LinePath::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.appendChild( lineElement );
 }
 
-bool LinePath::loadFromXMI( QDomElement & qElement ) {
+bool LinePath::loadFromXMI( QDomElement & qElement )
+{
     QDomNode node = qElement.firstChild();
     QDomElement startElement = node.toElement();
     if( startElement.isNull() || startElement.tagName() != "startpoint" )
@@ -957,12 +1145,21 @@ bool LinePath::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
-
-void LinePath::activate() {
+/**
+ * Activates the line list.
+ * This is needed because the m_pAssociation does not yet
+ * exist at the time of the LinePath::loadFromXMI call.
+ * However, this means that the points in the m_LineList
+ * do not have a parent when they are loaded.
+ * They need to be reparented by calling LinePath::activate()
+ * once the m_pAssociation exists.
+ */
+void LinePath::activate()
+{
     int count = m_LineList.count();
     if (count == 0)
         return;
-    Q3Canvas * canvas = getCanvas();
+    Q3Canvas * canvas = getScene();
     if (canvas == NULL)
         return;
     for (int i = 0; i < count ; i++) {
@@ -972,16 +1169,18 @@ void LinePath::activate() {
     }
 }
 
-
-
-void LinePath::createSubsetSymbol() {
+/**
+ * Creates the subset symbol.
+ */
+void LinePath::createSubsetSymbol()
+{
     if ( m_LineList.count() < 1 ) {
         return;
     }
 
     switch( getAssocType() ) {
        case Uml::at_Child2Category:
-           m_pSubsetSymbol = new SubsetSymbol(getCanvas());
+           m_pSubsetSymbol = new SubsetSymbol(getScene());
            m_pSubsetSymbol->setPen( QPen( getLineColor(), getLineWidth() ) );
            updateSubsetSymbol();
            m_pSubsetSymbol->show();
@@ -993,7 +1192,11 @@ void LinePath::createSubsetSymbol() {
 }
 
 
-void LinePath::updateSubsetSymbol() {
+/**
+ * Updates the subset symbol.Call after calculating the new points.
+ */
+void LinePath::updateSubsetSymbol()
+{
     if ( m_LineList.count() < 1 ) {
         return;
     }
@@ -1016,13 +1219,13 @@ void LinePath::updateSubsetSymbol() {
             else // yDiff < 0
                 inclination = 270;
         } else {
-           inclination = (int)(atan( yDiff/xDiff )*180/3.14159) ;
-           // convert to 360 degree scale
-           if (  xDiff < 0 ) {
-               inclination = 180 + inclination ;
-           } else if ( xDiff > 0 && yDiff < 0 ) {
-               inclination = 360 +  inclination;
-           }
+            inclination = (int)(atan( yDiff/xDiff )*180/3.14159) ;
+            // convert to 360 degree scale
+            if (  xDiff < 0 ) {
+                inclination = 180 + inclination ;
+            } else if ( xDiff > 0 && yDiff < 0 ) {
+                inclination = 360 +  inclination;
+            }
         }
 
         m_pSubsetSymbol->setInclination(inclination);
@@ -1036,8 +1239,6 @@ LinePath::SubsetSymbol::SubsetSymbol(Q3Canvas* canvas)
     inclination = 0;
 }
 
-
-
 void LinePath::SubsetSymbol::drawShape(QPainter& p) {
     p.translate(QPoint( ( int )x(), ( int )y() ) );
     p.rotate( inclination );
@@ -1047,7 +1248,6 @@ void LinePath::SubsetSymbol::drawShape(QPainter& p) {
     // revert back
     p.rotate( -inclination );
     p.translate( QPoint( ( int )-x(), ( int )-y() ) );
-
 }
 
 #include "linepath.moc"

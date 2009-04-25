@@ -29,9 +29,21 @@
 // qt includes
 #include <QtCore/QRegExp>
 
+/**
+ * Constructs an UMLOperation.
+ * Not intended for general use: The operation is not tied in with
+ * umbrello's Qt signalling for object creation.
+ * If you want to create an Operation use the method in UMLDoc instead.
+ *
+ * @param parent    the parent to this operation
+ * @param name      the name of the operation
+ * @param id        the id of the operation
+ * @param s         the visibility of the operation
+ * @param rt        the return type of the operation
+ */
 UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
                            Uml::IDType id, Uml::Visibility s, UMLObject *rt)
-        : UMLClassifierListItem(parent, name, id)
+  : UMLClassifierListItem(parent, name, id)
 {
     if (rt)
         m_returnId = UniqueID::gen();
@@ -44,18 +56,34 @@ UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
     m_Code.clear();
 }
 
+/**
+ * Constructs an UMLOperation.
+ * Not intended for general use: The operation is not tied in with
+ * umbrello's Qt signalling for object creation.
+ * If you want to create an Operation use the method in UMLDoc instead.
+ *
+ * @param parent    the parent to this operation
+ */
 UMLOperation::UMLOperation(UMLClassifier * parent)
-        : UMLClassifierListItem (parent)
+  : UMLClassifierListItem (parent)
 {
     m_BaseType = Uml::ot_Operation;
     m_bConst = false;
     m_Code.clear();
 }
 
+/**
+ * Destructor.
+ */
 UMLOperation::~UMLOperation()
 {
 }
 
+/**
+ * Reimplement method from UMLClassifierListItem.
+ *
+ * @param type      pointer to the type object
+ */
 void UMLOperation::setType(UMLObject* type)
 {
     UMLClassifierListItem::setType(type);
@@ -63,6 +91,11 @@ void UMLOperation::setType(UMLObject* type)
         m_returnId = UniqueID::gen();
 }
 
+/**
+ * Move a parameter one position to the left.
+ *
+ * @param a         the parameter to move
+ */
 void UMLOperation::moveParmLeft(UMLAttribute * a)
 {
     if (a == NULL) {
@@ -82,6 +115,11 @@ void UMLOperation::moveParmLeft(UMLAttribute * a)
     m_List.insert( idx-1, a );
 }
 
+/**
+ * Move a parameter one position to the right.
+ *
+ * @param a         the parameter to move
+ */
 void UMLOperation::moveParmRight(UMLAttribute * a)
 {
     if (a == NULL) {
@@ -102,6 +140,14 @@ void UMLOperation::moveParmRight(UMLAttribute * a)
     m_List.insert( idx+1, a );
 }
 
+/**
+ * Remove a parameter from the operation.
+ *
+ * @param a         the parameter to remove
+ * @param emitModifiedSignal  whether to emit the "modified" signal
+ *                  which creates an entry in the Undo stack for the
+ *                  removal, default: true
+ */
 void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true */)
 {
     if (a == NULL) {
@@ -117,6 +163,22 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
         emit modified();
 }
 
+/**
+ * Returns a list of parameters.
+ *
+ * @return a list of the parameters in the operation
+ */
+UMLAttributeList UMLOperation::getParmList() const
+{
+    return m_List;
+}
+
+/**
+ * Finds a parameter of the operation.
+ *
+ * @param name      the parameter name to search for
+ * @return          the found parameter, 0 if not found
+ */
 UMLAttribute* UMLOperation::findParm(const QString &name)
 {
     UMLAttribute * obj=0;
@@ -127,6 +189,12 @@ UMLAttribute* UMLOperation::findParm(const QString &name)
     return 0;
 }
 
+/**
+ * Returns a string representation of the operation.
+ *
+ * @param sig       what type of operation string to show
+ * @return          the string representation of the operation
+ */
 QString UMLOperation::toString(Uml::Signature_Type sig)
 {
     QString s;
@@ -179,6 +247,14 @@ QString UMLOperation::toString(Uml::Signature_Type sig)
     return s;
 }
 
+/**
+ * Add a parameter to the operation.
+ *
+ * @param parameter the parameter to add
+ * @param position  the position in the parameter list.
+ *                  If position = -1 the parameter will be
+ *                  appended to the list.
+ */
 void UMLOperation::addParm(UMLAttribute *parameter, int position)
 {
     if( position >= 0 && position <= (int)m_List.count() )
@@ -189,6 +265,9 @@ void UMLOperation::addParm(UMLAttribute *parameter, int position)
     connect(parameter,SIGNAL(modified()),this,SIGNAL(modified()));
 }
 
+/**
+ * Returns an unused parameter name for a new parameter.
+ */
 QString UMLOperation::getUniqueParameterName()
 {
     QString currentName = i18n("new_parameter");
@@ -199,6 +278,9 @@ QString UMLOperation::getUniqueParameterName()
     return name;
 }
 
+/**
+ * Overloaded '==' operator.
+ */
 bool UMLOperation::operator==(const  UMLOperation & rhs )
 {
     if ( this == &rhs )
@@ -219,6 +301,10 @@ bool UMLOperation::operator==(const  UMLOperation & rhs )
     return true;
 }
 
+/**
+ * Copy the internal presentation of this object into the new
+ * object.
+ */
 void UMLOperation::copyInto(UMLObject *lhs) const
 {
     UMLOperation *target = static_cast<UMLOperation*>(lhs);
@@ -228,6 +314,9 @@ void UMLOperation::copyInto(UMLObject *lhs) const
     m_List.copyInto(&(target->m_List));
 }
 
+/**
+ * Make a clone of this object.
+ */
 UMLObject* UMLOperation::clone() const
 {
     //FIXME: The new operation should be slaved to the NEW parent not the old.
@@ -237,6 +326,12 @@ UMLObject* UMLOperation::clone() const
     return clone;
 }
 
+/**
+ * Calls resolveRef() on all parameters.
+ * Needs to be called after all UML objects are loaded from file.
+ *
+ * @return  true for success
+ */
 bool UMLOperation::resolveRef()
 {
     bool overallSuccess = UMLObject::resolveRef();
@@ -248,6 +343,11 @@ bool UMLOperation::resolveRef()
     return overallSuccess;
 }
 
+/**
+ * Returns whether this operation is a constructor.
+ *
+ * @return  true if this operation is a constructor
+ */
 bool UMLOperation::isConstructorOperation()
 {
     // if an operation has the stereotype constructor
@@ -264,6 +364,11 @@ bool UMLOperation::isConstructorOperation()
     return (cName == opName);
 }
 
+/**
+ * Returns whether this operation is a destructor.
+ *
+ * @return  true if this operation is a destructor
+ */
 bool UMLOperation::isDestructorOperation()
 {
     if (getStereotype() == "destructor")
@@ -281,37 +386,64 @@ bool UMLOperation::isDestructorOperation()
     return (cName == opName);
 }
 
+/**
+ * Shortcut for (isConstructorOperation() || isDestructorOperation()).
+ *
+ * @return  true if this operation is a constructor or destructor
+ */
 bool UMLOperation::isLifeOperation()
 {
     return (isConstructorOperation() || isDestructorOperation());
 }
 
+/**
+ * Sets whether this operation is a query (C++ "const").
+ */
 void UMLOperation::setConst(bool b)
 {
     m_bConst = b;
 }
 
+/**
+ * Returns whether this operation is a query (C++ "const").
+ */
 bool UMLOperation::getConst() const
 {
     return m_bConst;
 }
 
+/**
+ * Display the properties configuration dialog for the template.
+ *
+ * @param parent   the parent for the dialog
+ */
 bool UMLOperation::showPropertiesDialog(QWidget* parent)
 {
     UMLOperationDialog dialog(parent, this);
     return dialog.exec();
 }
 
+/**
+ * Sets the source code for this operation.
+ *
+ * @param code  the body of this operation
+ */
 void UMLOperation::setSourceCode(const QString& code)
 {
     m_Code = code;
 }
 
+/**
+ * Returns the source code for this operation.
+ */
 QString UMLOperation::getSourceCode() const
 {
     return m_Code;
 }
 
+/**
+ * Saves to the <UML:Operation> XMI element.
+ */
 void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement operationElement = UMLObject::save("UML:Operation", qDoc);
@@ -338,9 +470,9 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         if (attrType) {
             attElement.setAttribute( "type", ID2STR(attrType->getID()) );
         } else {
-            attElement.setAttribute( "type", pAtt -> getTypeName() );
+            attElement.setAttribute( "type", pAtt->getTypeName() );
         }
-        attElement.setAttribute( "value", pAtt -> getInitialValue() );
+        attElement.setAttribute( "value", pAtt->getInitialValue() );
 
         Uml::Parameter_Direction kind = pAtt->getParmKind();
         if (kind == Uml::pd_Out)
@@ -357,6 +489,9 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     qElement.appendChild( operationElement );
 }
 
+/**
+ * Loads a <UML:Operation> XMI element.
+ */
 bool UMLOperation::load( QDomElement & element )
 {
     m_SecondaryId = element.attribute( "type", "" );

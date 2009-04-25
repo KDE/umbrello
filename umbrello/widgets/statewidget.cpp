@@ -199,7 +199,8 @@ void StateWidget::setActivities( QStringList & list ) {
     updateComponentSize();
 }
 
-QStringList & StateWidget::getActivityList() {
+QStringList & StateWidget::activities()
+{
     return m_Activities;
 }
 

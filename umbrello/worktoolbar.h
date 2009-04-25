@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,36 +36,16 @@ class QAction;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
-
 class WorkToolBar : public KToolBar
 {
     Q_OBJECT
+    Q_ENUMS(ToolBar_Buttons)
 public:
 
-    /**
-     * Creates a work tool bar.
-     *
-     * @param parentWindow      The parent of the toolbar.
-     */
     WorkToolBar(QMainWindow *parentWindow);
-
-    /**
-     * Standard deconstructor.
-     */
     ~WorkToolBar();
 
-    /**
-     * Sets the current tool to the previously used Tool. This is just
-     * as if the user had pressed the button for the other tool.
-     */
     void setOldTool();
-
-    /**
-     * Sets the current tool to the default tool. (select tool)
-     * Calling this function is as if the user had pressed the "arrow"
-     * button on the toolbar.
-     */
     void setDefaultTool();
 
     /**
@@ -164,30 +144,17 @@ private:
     ToolButtonMap       m_ToolButtons;
     ActionsMap          m_actions;
 
-    /**
-     * Loads toolbar icon and mouse cursor images from disk
-     */
     void loadPixmaps();
 
-    /**
-     * Returns the current cursor depending on m_CurrentButtonID
-     */
     QCursor currentCursor();
 
-    /**
-     * Inserts the button corresponding to the tbb value given
-     * and activates the toggle.
-     */
     QAction* insertHotBtn(ToolBar_Buttons tbb);
 
-    /**
-     * Inserts most associations, just reduces some string
-     * duplication (nice to translators)
-     */
     void insertBasicAssociations();
 
 signals:
     void sigButtonChanged(int);
+
 public slots:
     void slotCheckToolBar(Uml::Diagram_Type dt);
     void buttonChanged(int b);

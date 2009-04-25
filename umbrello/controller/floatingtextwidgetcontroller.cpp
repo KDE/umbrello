@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -44,11 +43,11 @@ bool FloatingTextWidgetController::isInResizeArea(QMouseEvent* /*me*/) {
 }
 
 void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY) {
-    if (m_floatingTextWidget->m_Role == Uml::tr_Seq_Message_Self)
+    if (m_floatingTextWidget->m_textRole == Uml::tr_Seq_Message_Self)
         return;
 
-    if (m_floatingTextWidget->m_Role == Uml::tr_Seq_Message
-                    && ((MessageWidget*)m_floatingTextWidget->m_pLink)->getSelected()) {
+    if (m_floatingTextWidget->m_textRole == Uml::tr_Seq_Message
+                    && ((MessageWidget*)m_floatingTextWidget->m_linkWidget)->getSelected()) {
         return;
     }
 
@@ -82,10 +81,10 @@ void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY) {
     m_floatingTextWidget->setX(newX);
     m_floatingTextWidget->setY(newY);
 
-    if (m_floatingTextWidget->m_pLink) {
-        m_floatingTextWidget->m_pLink->calculateNameTextSegment();
-        if (m_floatingTextWidget->m_Role == Uml::tr_Seq_Message) {
-            MessageWidget* messageWidget = (MessageWidget*)m_floatingTextWidget->m_pLink;
+    if (m_floatingTextWidget->m_linkWidget) {
+        m_floatingTextWidget->m_linkWidget->calculateNameTextSegment();
+        if (m_floatingTextWidget->m_textRole == Uml::tr_Seq_Message) {
+            MessageWidget* messageWidget = (MessageWidget*)m_floatingTextWidget->m_linkWidget;
             messageWidget->setY(newY + m_floatingTextWidget->getHeight());
 
             //TODO This should be moved to somewhere in MessageWidget, refactor with messagewidgetcontroller.cpp:44
@@ -108,10 +107,10 @@ QPoint FloatingTextWidgetController::constrainPosition(int diffX, int diffY) {
     int newX = m_floatingTextWidget->getX() + diffX;
     int newY = m_floatingTextWidget->getY() + diffY;
 
-    if (m_floatingTextWidget->m_pLink) {
-        m_floatingTextWidget->m_pLink->constrainTextPos(newX, newY,
+    if (m_floatingTextWidget->m_linkWidget) {
+        m_floatingTextWidget->m_linkWidget->constrainTextPos(newX, newY,
                     m_floatingTextWidget->width(), m_floatingTextWidget->height(),
-                    m_floatingTextWidget->m_Role);
+                    m_floatingTextWidget->m_textRole);
     }
 
     return QPoint(newX, newY);

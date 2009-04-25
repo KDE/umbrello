@@ -1,21 +1,20 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef PETALNODE__H
 #define PETALNODE__H
 
-#include <qstring.h>
-#include <qpair.h>
-#include <q3valuelist.h>
-#include <qstringlist.h>
+#include <QtCore/QString>
+#include <QtCore/QPair>
+#include <QtCore/QList>  //<q3valuelist.h>
+#include <QtCore/QStringList>
 
 /**
  * Rose petal node - parse tree for model import
@@ -37,7 +36,8 @@
  * @author Oliver Kellogg
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class PetalNode {
+class PetalNode
+{
 public:
     /**
      * Use `string' if it is not empty.
@@ -53,7 +53,7 @@ public:
         bool isEmpty() { return (string.isEmpty() && node == 0); }
     };
     typedef QPair<QString, StringOrNode> NameValue;
-    typedef Q3ValueList<NameValue> NameValueList;
+    typedef QList<NameValue> NameValueList;
 
     enum NodeType { nt_object, nt_list };
 
@@ -65,17 +65,15 @@ public:
     QStringList initialArgs() const;  // name and other initial args
     QString name() const;  // convenience function: equal to initialArgs().first()
     NameValueList attributes() const;
+
     // setters
     //void setType(NodeType nt);   see constructor
     void setInitialArgs(const QStringList& args);
     void setAttributes(NameValueList vl);
+
     // utilities
-    /**
-     * Find an attribute by name.
-     * @return  The value of the attribute. StringOrNode::isEmpty() returns true
-     *          if the name could not be found.
-     */
     StringOrNode findAttribute(const QString& name) const;
+
 private:
     NodeType m_type;
     QStringList m_initialArgs;

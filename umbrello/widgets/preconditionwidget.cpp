@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,7 +30,6 @@
 #include "uniqueid.h"
 
 //Added by qt3to4:
-//Added by qt3to4:
 #include <QMouseEvent>
 #include <QPolygon>
 #include <QMoveEvent>
@@ -51,10 +49,11 @@ PreconditionWidget::PreconditionWidget(UMLView * view, ObjectWidget* a, Uml::IDT
     y = y > getMaxY() ? getMaxY() : y;
     m_nY = y;
     this->activate();
-
 }
 
-PreconditionWidget::~PreconditionWidget() {}
+PreconditionWidget::~PreconditionWidget()
+{
+}
 
 void PreconditionWidget::init() {
     UMLWidget::setBaseType(Uml::wt_Precondition);
@@ -103,7 +102,6 @@ void PreconditionWidget::draw(QPainter & p, int /*offsetX*/, int offsetY) {
         drawSelected(&p, x, y);
 }
 
-
 QSize PreconditionWidget::calculateSize() {
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -116,9 +114,7 @@ QSize PreconditionWidget::calculateSize() {
     height += PRECONDITION_MARGIN * 2;
 
     return QSize(width, height);
-
 }
-
 
 void PreconditionWidget::slotMenuSelection(QAction* action) {
     bool ok = false;
@@ -179,13 +175,12 @@ void PreconditionWidget::calculateDimensions() {
     m_nPosX = x;
 
     setSize(w,h);
-
 }
 
 void PreconditionWidget::slotWidgetMoved(Uml::IDType id) {
-    const Uml::IDType idA = m_pOw->getLocalID();
+    const Uml::IDType idA = m_pOw->localID();
     if (idA != id ) {
-        uDebug() << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA) << endl;
+        uDebug() << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA);
         return;
     }
     m_nY = getY();
@@ -199,7 +194,6 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id) {
         return;
 
 }
-
 
 int PreconditionWidget::getMinY() {
     if (!m_pOw) {
@@ -225,7 +219,7 @@ int PreconditionWidget::getMaxY() {
 void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
     UMLWidget::saveToXMI( qDoc, preconditionElement );
-    preconditionElement.setAttribute( "widgetaid", ID2STR(m_pOw->getLocalID()) );
+    preconditionElement.setAttribute( "widgetaid", ID2STR(m_pOw->localID()) );
     preconditionElement.setAttribute( "preconditionname", m_Text );
     preconditionElement.setAttribute( "documentation", m_Doc );
     qElement.appendChild( preconditionElement );
@@ -242,13 +236,13 @@ bool PreconditionWidget::loadFromXMI( QDomElement & qElement ) {
 
     UMLWidget *pWA = m_pView -> findWidget( aId );
     if (pWA == NULL) {
-        uDebug() << "role A object " << ID2STR(aId) << " not found" << endl;
+        uDebug() << "role A object " << ID2STR(aId) << " not found";
         return false;
     }
 
     m_pOw = dynamic_cast<ObjectWidget*>(pWA);
     if (m_pOw == NULL) {
-        uDebug() << "role A widget " << ID2STR(aId) << " is not an ObjectWidget" << endl;
+        uDebug() << "role A widget " << ID2STR(aId) << " is not an ObjectWidget";
         return false;
     }
 

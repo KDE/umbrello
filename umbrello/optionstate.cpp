@@ -19,7 +19,7 @@ namespace Settings{
      * QApplication there by avoiding nasty font rendering issues
      * which occurs due to creation of QFont objects before
      * QApplication object is created.
-    */
+     */
     K_GLOBAL_STATIC(OptionState, opState)
 
     OptionState& getOptionState()
@@ -33,3 +33,4 @@ namespace Settings{
     }
 
 }  // namespace Settings
+

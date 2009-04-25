@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -282,7 +281,7 @@ void ClassifierWidget::toggleShowAttSigs()
 
 int ClassifierWidget::displayedMembers(Uml::Object_Type ot) {
     int count = 0;
-    UMLClassifierListItemList list = getClassifier()->getFilteredList(ot);
+    UMLClassifierListItemList list = classifier()->getFilteredList(ot);
     foreach (UMLClassifierListItem *m , list ) {
       if (!(m_bShowPublicOnly && m->getVisibility() != Uml::Visibility::Public))
             count++;
@@ -300,7 +299,7 @@ QSize ClassifierWidget::calculateSize() {
     if (!m_pObject) {
         return UMLWidget::calculateSize();
     }
-    if (getClassifier()->isInterface() && m_bDrawAsCircle) {
+    if (classifier()->isInterface() && m_bDrawAsCircle) {
         return calculateAsCircleSize();
     }
 
@@ -340,7 +339,7 @@ QSize ClassifierWidget::calculateSize() {
     } else {
         height += fontHeight * numAtts;
         // calculate width of the attributes
-        UMLClassifierListItemList list = getClassifier()->getFilteredList(Uml::ot_Attribute);
+        UMLClassifierListItemList list = classifier()->getFilteredList(Uml::ot_Attribute);
         foreach (UMLClassifierListItem *a , list ) {
             if (m_bShowPublicOnly && a->getVisibility() != Uml::Visibility::Public)
                 continue;
@@ -357,7 +356,7 @@ QSize ClassifierWidget::calculateSize() {
     } else {
         height += numOps * fontHeight;
         // ... width
-        UMLOperationList list(getClassifier()->getOpList());
+        UMLOperationList list(classifier()->getOpList());
         foreach (UMLOperation* op ,  list) {
                   if (m_bShowPublicOnly && op->getVisibility() != Uml::Visibility::Public)
                 continue;
@@ -400,7 +399,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action) {
     case ListPopupMenu::mt_Template:
         {
             Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(sel);
-            if (Object_Factory::createChildObject(getClassifier(), ot)) {
+            if (Object_Factory::createChildObject(classifier(), ot)) {
                 updateComponentSize();
                 update();
                 UMLApp::app()->getDocument()->setModified();
@@ -469,7 +468,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action) {
 }
 
 QSize ClassifierWidget::calculateTemplatesBoxSize() {
-    UMLTemplateList list = getClassifier()->getTemplateList();
+    UMLTemplateList list = classifier()->getTemplateList();
     int count = list.count();
     if (count == 0) {
         return QSize(0, 0);
@@ -507,14 +506,15 @@ void ClassifierWidget::setClassAssocWidget(AssociationWidget *assocwidget) {
     UMLAssociation *umlassoc = NULL;
     if (assocwidget)
         umlassoc = assocwidget->getAssociation();
-    getClassifier()->setClassAssoc(umlassoc);
+    classifier()->setClassAssoc(umlassoc);
 }
 
 AssociationWidget *ClassifierWidget::getClassAssocWidget() {
     return m_pAssocWidget;
 }
 
-UMLClassifier *ClassifierWidget::getClassifier() {
+UMLClassifier *ClassifierWidget::classifier()
+{
     return static_cast<UMLClassifier*>(m_pObject);
 }
 
@@ -525,7 +525,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
     else
         p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
 
-    if (getClassifier()->isInterface() && m_bDrawAsCircle) {
+    if (classifier()->isInterface() && m_bDrawAsCircle) {
         drawAsCircle(p, offsetX, offsetY);
         return;
     }
@@ -550,7 +550,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY) {
     const int fontHeight = fm.lineSpacing();
 
     //If there are any templates then draw them
-    UMLTemplateList tlist = getClassifier()->getTemplateList();
+    UMLTemplateList tlist = classifier()->getTemplateList();
     if ( tlist.count() > 0 ) {
         setPenFromSettings(p);
         QPen pen = p.pen();
@@ -688,7 +688,7 @@ void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signa
                                    int x, int y, int fontHeight) {
     QFont f = UMLWidget::getFont();
     f.setBold(false);
-    UMLClassifierListItemList list = getClassifier()->getFilteredList(ot);
+    UMLClassifierListItemList list = classifier()->getFilteredList(ot);
     foreach (UMLClassifierListItem *obj , list ) {
           if (m_bShowPublicOnly && obj->getVisibility() != Uml::Visibility::Public)
             continue;
@@ -724,7 +724,7 @@ void ClassifierWidget::toggleDrawAsCircle() {
 
 void ClassifierWidget::changeToClass() {
     WidgetBase::setBaseType(Uml::wt_Class);
-    getClassifier()->setBaseType(Uml::ot_Class);
+    classifier()->setBaseType(Uml::ot_Class);
 
     const Settings::OptionState& ops = m_pView->getOptionState();
     m_bShowAttributes = ops.classState.showAtts;
@@ -736,7 +736,7 @@ void ClassifierWidget::changeToClass() {
 
 void ClassifierWidget::changeToInterface() {
     WidgetBase::setBaseType(Uml::wt_Interface);
-    getClassifier()->setBaseType(Uml::ot_Interface);
+    classifier()->setBaseType(Uml::ot_Interface);
 
     m_bShowAttributes = false;
     m_bShowStereotype = true;
@@ -757,7 +757,7 @@ void ClassifierWidget::adjustAssocs(int x, int y) {
 
 void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement) {
     QDomElement conceptElement;
-    UMLClassifier *umlc = getClassifier();
+    UMLClassifier *umlc = classifier();
     if (umlc->isInterface())
         conceptElement = qDoc.createElement("interfacewidget");
     else

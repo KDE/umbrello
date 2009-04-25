@@ -108,7 +108,7 @@ public:
     /**
      * Returns the list of activities.
      */
-    QStringList & getActivityList();
+    QStringList & activities();
 
     /**
      * Show a properties dialog for a StateWidget.

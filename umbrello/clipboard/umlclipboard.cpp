@@ -798,7 +798,7 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList )
         case Uml::wt_Text:
             {
                 FloatingTextWidget *ft = static_cast<FloatingTextWidget*>(p);
-                if (ft->getRole() != Uml::tr_Floating) {
+                if (ft->textRole() != Uml::tr_Floating) {
                     widgetList.removeAll(p);
                     delete ft;
                     retval = false;

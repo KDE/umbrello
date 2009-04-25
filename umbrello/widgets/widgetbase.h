@@ -62,7 +62,7 @@ public:
      * Deliver a const pointer to the connected UMLView
      * ( needed esp. by event handling of LinePath )
      */
-    const UMLView *getUMLView() const { return m_pView; }
+    const UMLView *umlScene() const { return m_pView; }
 
     /**
      * Sets the @ref UMLObject to represent.
@@ -110,7 +110,7 @@ public:
     /**
      * Read property of m_LineWidth.
      */
-    uint getLineWidth() const {
+    uint lineWidth() const {
         return m_LineWidth;
     }
 

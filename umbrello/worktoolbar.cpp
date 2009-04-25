@@ -4,16 +4,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "worktoolbar.h"
 
-// qt/kde include files
+// qt include files
 #include <QtGui/QAction>
 #include <QtGui/QToolButton>
+
+// kde include files
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -23,7 +25,11 @@
 #include "umlview.h"
 #include "icon_utils.h"
 
-
+/**
+ * Creates a work tool bar.
+ *
+ * @param parentWindow      The parent of the toolbar.
+ */
 WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
   : KToolBar("worktoolbar", parentWindow, Qt::TopToolBarArea, true, true, true)
 {
@@ -45,10 +51,17 @@ WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
     slotCheckToolBar(Uml::dt_Undefined);
 }
 
+/**
+ * Standard destructor.
+ */
 WorkToolBar::~WorkToolBar()
 {
 }
 
+/**
+ * Inserts the button corresponding to the tbb value given
+ * and activates the toggle.
+ */
 QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
 {
     QAction* action = addAction(QIcon(m_ToolButtons[tbb].Symbol), m_ToolButtons[tbb].Label,
@@ -58,6 +71,10 @@ QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
     return action;
 }
 
+/**
+ * Inserts most associations, just reduces some string
+ * duplication (nice to translators)
+ */
 void WorkToolBar::insertBasicAssociations()
 {
     insertHotBtn(tbb_Association);
@@ -217,6 +234,9 @@ void WorkToolBar::buttonChanged(int b)
     view->setCursor(currentCursor());
 }
 
+/**
+ * Returns the current cursor depending on m_CurrentButtonID
+ */
 QCursor WorkToolBar::currentCursor()
 {
     return m_ToolButtons[m_CurrentButtonID].Cursor;
@@ -238,24 +258,36 @@ void WorkToolBar::slotResetToolBar()
 
     UMLView* view = UMLApp::app()->getCurrentView();
     if (view != NULL) {
-        view -> setCursor(curs);
+        view->setCursor(curs);
     }
 }
 
+/**
+ * Sets the current tool to the previously used Tool. This is just
+ * as if the user had pressed the button for the other tool.
+ */
 void WorkToolBar::setOldTool()
 {
     QToolButton *b = (QToolButton*) widgetForAction(m_actions[m_map[m_Type]]);
     if (b)
-        b -> animateClick();
+        b->animateClick();
 }
 
+/**
+ * Sets the current tool to the default tool. (select tool)
+ * Calling this function is as if the user had pressed the "arrow"
+ * button on the toolbar.
+ */
 void WorkToolBar::setDefaultTool()
 {
     QToolButton *b = (QToolButton*) widgetForAction(m_actions[tbb_Arrow]);
     if (b)
-        b -> animateClick();
+        b->animateClick();
 }
 
+/**
+ * Loads toolbar icon and mouse cursor images from disk
+ */
 void WorkToolBar::loadPixmaps()
 {
     const struct ButtonInfo {
@@ -352,6 +384,10 @@ void WorkToolBar::loadPixmaps()
     }
 }
 
+/**
+ * These slots are triggered by the buttons. They call buttonChanged with
+ * the button id
+ */
 void WorkToolBar::slotArrow()                    { buttonChanged(tbb_Arrow);                    }
 void WorkToolBar::slotGeneralization()           { buttonChanged(tbb_Generalization);           }
 void WorkToolBar::slotAggregation()              { buttonChanged(tbb_Aggregation);              }

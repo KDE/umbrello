@@ -195,7 +195,7 @@ void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
     UMLWidget::setLineColor( m_pView->getLineColor() );
 
     if( m_pLine)
-        m_pLine -> setPen( QPen( UMLWidget::lineColor(), UMLWidget::getLineWidth(), Qt::DashLine ) );
+        m_pLine->setPen( QPen( UMLWidget::lineColor(), UMLWidget::lineWidth(), Qt::DashLine ) );
 }
 
 void ObjectWidget::cleanup() {

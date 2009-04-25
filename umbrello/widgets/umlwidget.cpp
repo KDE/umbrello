@@ -541,7 +541,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
 
             case wt_Text:
                 ft = static_cast<FloatingTextWidget *>(this);
-                if (ft->getRole() == tr_Seq_Message) {
+                if (ft->textRole() == tr_Seq_Message) {
                     setX(x);
                     setY(getY());
                 } else {

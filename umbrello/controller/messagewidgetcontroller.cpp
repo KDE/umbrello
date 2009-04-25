@@ -37,6 +37,13 @@ void MessageWidgetController::saveWidgetValues(QMouseEvent *me) {
     m_unconstrainedPositionY = m_widget->getY();
 }
 
+/**
+ * Overridden from UMLWidgetController.
+ * Returns the cursor to be shown when resizing the widget.
+ * The cursor shown is KCursor::sizeVerCursor().
+ *
+ * @return The cursor to be shown when resizing the widget.
+ */
 QCursor MessageWidgetController::getResizeCursor() {
     return Qt::SizeVerCursor;
 }
@@ -102,7 +109,7 @@ int MessageWidgetController::constrainPositionY(int diffY) {
     int newY = m_widget->getY() + diffY;
 
     int minY = m_messageWidget->getMinY();
-    if (m_messageWidget->m_pFText && !m_messageWidget->m_pFText->getDisplayText().isEmpty()) {
+    if (m_messageWidget->m_pFText && !m_messageWidget->m_pFText->displayText().isEmpty()) {
         minY += m_messageWidget->m_pFText->getHeight();
     }
 

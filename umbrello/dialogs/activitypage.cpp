@@ -94,7 +94,7 @@ void ActivityPage::setupPage()
     mainLayout->addWidget( m_pActivityGB );
 
     //now fill activity list box
-    const QStringList list = m_pStateWidget -> getActivityList();
+    QStringList list = m_pStateWidget->activities();
     QStringList::ConstIterator end(list.end());
 
     for( QStringList::ConstIterator it(list.begin()); it != end; ++it ) {

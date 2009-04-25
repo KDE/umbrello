@@ -135,7 +135,7 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
     //make sure it's always above the other
     setZ(20);
     setPenFromSettings(p);
-    m_pName->setVisible(( m_pName->getText().length() > 0 ));
+    m_pName->setVisible(( m_pName->text().length() > 0 ));
     m_pName->updateComponentSize();
     if(m_bSelected)
          drawSelected(&p, offsetX, offsetY);
@@ -164,7 +164,7 @@ void PinWidget::mouseMoveEvent(QMouseEvent* me) {
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - getX();
     int diffY = m_oldY - getY();
-    if (m_pName!=NULL && !( m_pName->getText() ).isEmpty()) {
+    if (m_pName!=NULL && !( m_pName->text() ).isEmpty()) {
         m_pName->setX(m_pName->getX() - diffX);
         m_pName->setY(m_pName->getY() - diffY);
     }
@@ -192,7 +192,7 @@ void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
     PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->id()) );
     UMLWidget::saveToXMI( qDoc, PinElement );
-    if (m_pName && !m_pName->getText().isEmpty()) {
+    if (m_pName && !m_pName->text().isEmpty()) {
         PinElement.setAttribute( "textid", ID2STR(m_pName->id()) );
         m_pName -> saveToXMI( qDoc, PinElement );
     }
@@ -209,7 +209,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
 
     UMLWidget *pWA = m_pView -> findWidget( aId );
     if (pWA == NULL) {
-        uDebug() << "role A object " << ID2STR(aId) << " not found" << endl;
+        uDebug() << "role A object " << ID2STR(aId) << " not found";
         return false;
     }
 

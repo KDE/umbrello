@@ -132,7 +132,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
             m_pName->setX(offsetX + w/2 - m_pName->getWidth()/2);
             m_pName->setY(offsetY + h);
         }
-        m_pName->setVisible( ( m_pName->getText().length() > 0 ) );
+        m_pName->setVisible( ( m_pName->text().length() > 0 ) );
         m_pName->updateComponentSize();
 
         break;
@@ -231,7 +231,7 @@ void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     signalElement.setAttribute( "signalname", m_Text );
     signalElement.setAttribute( "documentation", m_Doc );
     signalElement.setAttribute( "signaltype", m_SignalType );
-    if (m_pName && !m_pName->getText().isEmpty()) {
+    if (m_pName && !m_pName->text().isEmpty()) {
         signalElement.setAttribute( "textid", ID2STR(m_pName->id()) );
         m_pName -> saveToXMI( qDoc, signalElement );
     }

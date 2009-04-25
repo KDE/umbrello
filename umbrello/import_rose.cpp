@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -364,6 +364,12 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
     return node;
 }
 
+/**
+ * Parse a file into the PetalNode internal tree representation
+ * and then create Umbrello objects by traversing the tree.
+ *
+ * @return  True for success, false in case of error.
+ */
 bool loadFromMDL(QIODevice& file) 
 {
     QTextStream stream(&file);

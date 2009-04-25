@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2008                                                *
+ *  copyright (C) 2006-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -53,6 +52,13 @@ namespace Object_Factory {
 
 Uml::IDType g_predefinedId = Uml::id_None;
 
+/**
+ * Control whether the createUMLObject() solicits a new unique ID for the
+ * created object.
+ * By default, unique ID generation is turned on.
+ *
+ * @param yesno   False turns UID generation off, true turns it on.
+ */
 void assignUniqueIdOnCreation(bool yesno)
 {
     if (yesno)
@@ -61,6 +67,9 @@ void assignUniqueIdOnCreation(bool yesno)
         g_predefinedId = Uml::id_Reserved;
 }
 
+/**
+ * Return whether unique ID generation is on or off.
+ */
 bool assignUniqueIdOnCreation()
 {
     return (g_predefinedId == Uml::id_None);
@@ -70,8 +79,7 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
                               UMLPackage *parentPkg)
 {
     if (parentPkg == NULL) {
-        uError() << "Object_Factory::createNewUMLObject(" << name
-            << "): parentPkg is NULL";
+        uError() << name << ": parentPkg is NULL";
         return NULL;
     }
     UMLObject *o = NULL;
@@ -122,7 +130,7 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
             o = new UMLCategory(name, g_predefinedId);
             break;
         default:
-            uWarning() << "createNewUMLObject error unknown type: " << type;
+            uWarning() << "error unknown type: " << type;
             return NULL;
     }
     o->setUMLPackage(parentPkg);
@@ -135,6 +143,20 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
     return o;
 }
 
+/**
+ * Creates a UMLObject of the given type.
+ *
+ * @param type      The type of @ref UMLObject to create.
+ * @param n         A name to give to the object (optional.)
+ *                  If not given then an input dialog prompts
+ *                  the user to supply a name.
+ * @param parentPkg The object's parent package.
+ * @param solicitNewName  Ask user for a different name if an object
+ *                        of the given name already exists.
+ *                        If set to false and the name already exists
+ *                        then the existing object is returned.
+ *                        The default is to ask for the new name.
+ */
 UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
                            UMLPackage *parentPkg /* = NULL */,
                            bool solicitNewName /* = true */)
@@ -206,6 +228,14 @@ UMLOperation *createOperation(UMLClassifier *parent, const QString& name)
     return op;
 }
 
+/**
+ * Creates an operation, attribute, template, or enum literal
+ * for the parent classifier.
+ *
+ * @param parent    The parent concept
+ * @param type      The type to create
+ * @return      Pointer to the UMLClassifierListItem created
+ */
 UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type type)
 {
     UMLObject* returnObject = NULL;
@@ -269,6 +299,10 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type
     return static_cast<UMLClassifierListItem*>(returnObject);
 }
 
+/**
+ * Make a new UMLObject according to the given XMI tag.
+ * Used by loadFromXMI and clipboard paste.
+ */
 UMLObject* makeObjectFromXMI(const QString& xmiTag,
                              const QString& stereoID /* = QString() */)
 {

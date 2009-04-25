@@ -382,14 +382,14 @@ int MessageWidget::onWidget(const QPoint & p) {
 
 void MessageWidget::setTextPosition() {
     if (m_pFText == NULL) {
-        uDebug() << "m_pFText is NULL" << endl;
+        uDebug() << "m_pFText is NULL";
         return;
     }
-    if (m_pFText->getDisplayText().isEmpty()) {
+    if (m_pFText->displayText().isEmpty()) {
         return;
     }
     m_pFText->updateComponentSize();
-    int ftX = constrainX(m_pFText->getX(), m_pFText->getWidth(), m_pFText->getRole());
+    int ftX = constrainX(m_pFText->getX(), m_pFText->getWidth(), m_pFText->textRole());
     int ftY = getY() - m_pFText->getHeight();
     m_pFText->setX( ftX );
     m_pFText->setY( ftY );
@@ -465,11 +465,11 @@ void MessageWidget::calculateWidget() {
 }
 
 void MessageWidget::slotWidgetMoved(Uml::IDType id) {
-    const Uml::IDType idA = m_pOw[Uml::A]->getLocalID();
-    const Uml::IDType idB = m_pOw[Uml::B]->getLocalID();
+    const Uml::IDType idA = m_pOw[Uml::A]->localID();
+    const Uml::IDType idB = m_pOw[Uml::B]->localID();
     if (idA != id && idB != id) {
         uDebug() << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA)
-            << ", idB=" << ID2STR(idB) << endl;
+            << ", idB=" << ID2STR(idB);
         return;
     }
     m_nY = getY();
@@ -509,26 +509,26 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
     if (m_pOw[Uml::A] == NULL) {
         UMLWidget *pWA = m_pView->findWidget(m_widgetAId);
         if (pWA == NULL) {
-            uDebug() << "role A object " << ID2STR(m_widgetAId) << " not found" << endl;
+            uDebug() << "role A object " << ID2STR(m_widgetAId) << " not found";
             return false;
         }
         m_pOw[Uml::A] = dynamic_cast<ObjectWidget*>(pWA);
         if (m_pOw[Uml::A] == NULL) {
             uDebug() << "role A widget " << ID2STR(m_widgetAId)
-                << " is not an ObjectWidget" << endl;
+                << " is not an ObjectWidget";
             return false;
         }
     }
     if (m_pOw[Uml::B] == NULL) {
         UMLWidget *pWB = m_pView->findWidget(m_widgetBId);
         if (pWB == NULL) {
-            uDebug() << "role B object " << ID2STR(m_widgetBId) << " not found" << endl;
+            uDebug() << "role B object " << ID2STR(m_widgetBId) << " not found";
             return false;
         }
         m_pOw[Uml::B] = dynamic_cast<ObjectWidget*>(pWB);
         if (m_pOw[Uml::B] == NULL) {
             uDebug() << "role B widget " << ID2STR(m_widgetBId)
-                << " is not an ObjectWidget" << endl;
+                << " is not an ObjectWidget";
             return false;
         }
     }
@@ -558,7 +558,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/) {
     setLinkAndTextPos();
     m_pFText -> setText("");
     m_pFText->setActivated();
-    QString messageText = m_pFText->getText();
+    QString messageText = m_pFText->text();
     m_pFText->setVisible( messageText.length() > 1 );
 
     connect(m_pOw[Uml::A], SIGNAL(sigWidgetMoved(Uml::IDType)), this, SLOT(slotWidgetMoved(Uml::IDType)));
@@ -824,7 +824,7 @@ void MessageWidget::cleanup() {
 
 void MessageWidget::setSelected(bool _select) {
     UMLWidget::setSelected( _select );
-    if( !m_pFText || m_pFText->getDisplayText().isEmpty())
+    if( !m_pFText || m_pFText->displayText().isEmpty())
         return;
     if( m_bSelected && m_pFText -> getSelected() )
         return;
@@ -891,8 +891,8 @@ void MessageWidget::setyclicked (int yclick){
 void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     QDomElement messageElement = qDoc.createElement( "messagewidget" );
     UMLWidget::saveToXMI( qDoc, messageElement );
-    messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->getLocalID()) );
-    messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::B]->getLocalID()) );
+    messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->localID()) );
+    messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::B]->localID()) );
     UMLOperation *pOperation = getOperation();
     if (pOperation)
         messageElement.setAttribute( "operation", ID2STR(pOperation->getID()) );
@@ -906,7 +906,7 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     }
 
     // save the corresponding message text
-    if (m_pFText && !m_pFText->getText().isEmpty()) {
+    if (m_pFText && !m_pFText->text().isEmpty()) {
         messageElement.setAttribute( "textid", ID2STR(m_pFText->id()) );
         m_pFText -> saveToXMI( qDoc, messageElement );
     }
@@ -951,7 +951,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement){
                 m_pFText = NULL;
             }
         } else {
-            uError() << "unknown tag " << tag << endl;
+            uError() << "unknown tag " << tag;
         }
     }
     return true;

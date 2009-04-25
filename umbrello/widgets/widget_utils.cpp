@@ -32,7 +32,7 @@ UMLWidget* findWidget(Uml::IDType id,
     UMLWidgetListIt it( widgets );
     foreach ( UMLWidget* obj , widgets ) {
         if (obj->baseType() == Uml::wt_Object) {
-            if (static_cast<ObjectWidget *>(obj)->getLocalID() == id)
+            if (static_cast<ObjectWidget *>(obj)->localID() == id)
                 return obj;
         } else if (obj->id() == id) {
             return obj;
