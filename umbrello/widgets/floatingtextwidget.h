@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,10 +13,8 @@
 
 #include "umlwidget.h"
 #include "linkwidget.h"
-#include "clipboard/idchangelog.h"
 
 class UMLScene;
-
 
 /**
  * @short Displays a line of text or an operation.
@@ -113,10 +110,7 @@ private:
     /// Prepended text (such as for scope of association Role or method)
     QString m_preText;
 
-    /**
-     * Ending text (such as bracket on changability notation for
-     * association Role)
-     */
+    /// Ending text (such as bracket on changability notation for association Role)
     QString m_postText;
 
     /// The role the text widget will enact.

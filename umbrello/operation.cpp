@@ -29,9 +29,21 @@
 // qt includes
 #include <QtCore/QRegExp>
 
+/**
+ * Constructs an UMLOperation.
+ * Not intended for general use: The operation is not tied in with
+ * umbrello's Qt signalling for object creation.
+ * If you want to create an Operation use the method in UMLDoc instead.
+ *
+ * @param parent    the parent to this operation
+ * @param name      the name of the operation
+ * @param id        the id of the operation
+ * @param s         the visibility of the operation
+ * @param rt        the return type of the operation
+ */
 UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
                            Uml::IDType id, Uml::Visibility s, UMLObject *rt)
-        : UMLClassifierListItem(parent, name, id)
+  : UMLClassifierListItem(parent, name, id)
 {
     if (rt)
         m_returnId = UniqueID::gen();
@@ -44,14 +56,25 @@ UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
     m_Code.clear();
 }
 
+/**
+ * Constructs an UMLOperation.
+ * Not intended for general use: The operation is not tied in with
+ * umbrello's Qt signalling for object creation.
+ * If you want to create an Operation use the method in UMLDoc instead.
+ *
+ * @param parent    the parent to this operation
+ */
 UMLOperation::UMLOperation(UMLClassifier * parent)
-        : UMLClassifierListItem (parent)
+  : UMLClassifierListItem (parent)
 {
     m_BaseType = Uml::ot_Operation;
     m_bConst = false;
     m_Code.clear();
 }
 
+/**
+ * Destructor.
+ */
 UMLOperation::~UMLOperation()
 {
 }
@@ -93,7 +116,7 @@ void UMLOperation::moveParmLeft(UMLAttribute * a)
 }
 
 /**
- *Move a parameter one position to the right.
+ * Move a parameter one position to the right.
  *
  * @param a         the parameter to move
  */
@@ -117,6 +140,14 @@ void UMLOperation::moveParmRight(UMLAttribute * a)
     m_List.insert( idx+1, a );
 }
 
+/**
+ * Remove a parameter from the operation.
+ *
+ * @param a         the parameter to remove
+ * @param emitModifiedSignal  whether to emit the "modified" signal
+ *                  which creates an entry in the Undo stack for the
+ *                  removal, default: true
+ */
 void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true */)
 {
     if (a == NULL) {
@@ -130,6 +161,16 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
 
     if (emitModifiedSignal)
         emit modified();
+}
+
+/**
+ * Returns a list of parameters.
+ *
+ * @return a list of the parameters in the operation
+ */
+UMLAttributeList UMLOperation::getParmList() const
+{
+    return m_List;
 }
 
 /**
@@ -237,6 +278,9 @@ QString UMLOperation::getUniqueParameterName()
     return name;
 }
 
+/**
+ * Overloaded '==' operator.
+ */
 bool UMLOperation::operator==(const  UMLOperation & rhs )
 {
     if ( this == &rhs )

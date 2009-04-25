@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,6 +25,11 @@
 #include "umlview.h"
 #include "icon_utils.h"
 
+/**
+ * Creates a work tool bar.
+ *
+ * @param parentWindow      The parent of the toolbar.
+ */
 WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
   : KToolBar("worktoolbar", parentWindow, Qt::TopToolBarArea, true, true, true)
 {
@@ -46,6 +51,9 @@ WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
     slotCheckToolBar(Uml::dt_Undefined);
 }
 
+/**
+ * Standard destructor.
+ */
 WorkToolBar::~WorkToolBar()
 {
 }

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,44 +25,15 @@ class UMLOperation : public UMLClassifierListItem
 {
     Q_OBJECT
 public:
-
-    /**
-     * Constructs an UMLOperation.
-     * Not intended for general use: The operation is not tied in with
-     * umbrello's Qt signalling for object creation.
-     * If you want to create an Operation use the method in UMLDoc instead.
-     *
-     * @param parent    the parent to this operation
-     * @param name      the name of the operation
-     * @param id        the id of the operation
-     * @param s         the visibility of the operation
-     * @param rt        the return type of the operation
-     */
     UMLOperation(UMLClassifier * parent, const QString& name,
                  Uml::IDType id = Uml::id_None,
                  Uml::Visibility s = Uml::Visibility::Public,
                  UMLObject *rt = 0);
 
-    /**
-     * Constructs an UMLOperation.
-     * Not intended for general use: The operation is not tied in with
-     * umbrello's Qt signalling for object creation.
-     * If you want to create an Operation use the method in UMLDoc instead.
-     *
-     * @param parent    the parent to this operation
-     */
     UMLOperation(UMLClassifier * parent);
 
-public:
-
-    /**
-     * Destructor.
-     */
     virtual ~UMLOperation();
 
-    /**
-     * Overloaded '==' operator.
-     */
     bool operator==( const UMLOperation & rhs );
 
     virtual void copyInto(UMLObject *lhs) const;
@@ -72,14 +43,11 @@ public:
     void setType(UMLObject* type);
 
     void moveParmLeft(UMLAttribute *a);
-
     void moveParmRight(UMLAttribute *a);
 
     void removeParm(UMLAttribute *a, bool emitModifiedSignal = true);
 
-    UMLAttributeList getParmList() const {
-        return m_List;
-    }
+    UMLAttributeList getParmList() const;
 
     UMLAttribute * findParm(const QString &name);
 
@@ -94,30 +62,25 @@ public:
     bool showPropertiesDialog(QWidget* parent);
 
     bool isConstructorOperation();
-
     bool isDestructorOperation();
-
     bool isLifeOperation();
 
     void setConst(bool b);
-
     bool getConst() const;
 
     void setSourceCode(const QString& code);
-
     QString getSourceCode() const;
 
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-
     bool load( QDomElement & element );
 
 private:
-    Uml::IDType m_returnId;   ///< Holds the xmi.id of the <UML:Parameter kind="return">
-    UMLAttributeList m_List;   /// Parameter list
-    bool m_bConst;   ///< Holds the isQuery attribute of the <UML:Operation>
-    QString m_Code;   ///< Holds the entered source code
+    Uml::IDType      m_returnId;  ///< Holds the xmi.id of the <UML:Parameter kind="return">
+    UMLAttributeList m_List;      /// Parameter list
+    bool             m_bConst;    ///< Holds the isQuery attribute of the <UML:Operation>
+    QString          m_Code;      ///< Holds the entered source code
 };
 
 #endif

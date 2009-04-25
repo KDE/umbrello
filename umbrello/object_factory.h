@@ -1,19 +1,18 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006                                                     *
+ *  copyright (C) 2006-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 #ifndef OBJECT_FACTORY__H
 #define OBJECT_FACTORY__H
 
-#include <qstring.h>
 #include "umlnamespace.h"
+#include <QtCore/QString>
 
 class UMLObject;
 class UMLPackage;
@@ -37,7 +36,6 @@ UMLAttribute *createAttribute(UMLObject *parent, const QString& name,
 UMLOperation *createOperation(UMLClassifier *parent, const QString& name);
 
 void assignUniqueIdOnCreation(bool yesno);
-
 bool assignUniqueIdOnCreation();
 
 UMLObject* makeObjectFromXMI(const QString& xmiTag,

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -42,20 +42,10 @@ class WorkToolBar : public KToolBar
     Q_ENUMS(ToolBar_Buttons)
 public:
 
-    /**
-     * Creates a work tool bar.
-     *
-     * @param parentWindow      The parent of the toolbar.
-     */
     WorkToolBar(QMainWindow *parentWindow);
-
-    /**
-     * Standard deconstructor.
-     */
     ~WorkToolBar();
 
     void setOldTool();
-
     void setDefaultTool();
 
     /**
@@ -164,6 +154,7 @@ private:
 
 signals:
     void sigButtonChanged(int);
+
 public slots:
     void slotCheckToolBar(Uml::Diagram_Type dt);
     void buttonChanged(int b);

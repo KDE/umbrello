@@ -4,19 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2004-2009                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2004-2009                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "model_utils.h"
-
-// qt/kde includes
-#include <QtCore/QRegExp>
-#include <QtCore/QStringList>
-#include <klocale.h>
-#include <kdebug.h>
-#include <kinputdialog.h>
 
 // app includes
 #include "umlobject.h"
@@ -36,12 +29,20 @@
 #include "uml.h"
 #include "codegenerator.h"
 
+// kde includes
+#include <klocale.h>
+#include <kdebug.h>
+
+// qt includes
+#include <QtCore/QRegExp>
+#include <QtCore/QStringList>
+
 namespace Model_Utils {
 
 /**
  * Determines whether the given widget type is cloneable.
  *
- * @param type          The input Widget_Type.
+ * @param type  The input Widget_Type.
  * @return      True if the given type is cloneable.
  */
 bool isCloneable(Uml::Widget_Type type)
@@ -68,12 +69,11 @@ bool isCloneable(Uml::Widget_Type type)
  * Each list element may itself contain other objects
  * and the search is done recursively.
  *
- * @param id            The unique ID to seek.
- * @param inList        The UMLObjectList in which to search.
- * @return      Pointer to the UMLObject that matches the ID
- *              (NULL if none matches.)
+ * @param id       The unique ID to seek.
+ * @param inList   The UMLObjectList in which to search.
+ * @return Pointer to the UMLObject that matches the ID (NULL if none matches).
  */
-UMLObject * findObjectInList(Uml::IDType id, const UMLObjectList& inList)
+UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList)
 {
     for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
@@ -272,9 +272,9 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
  * Returns a name for the new object, appended with a number
  * if the default name is taken e.g. new_actor, new_actor_1
  * etc.
- * @param type              The object type.
+ * @param type      The object type.
  * @param parentPkg The package in which to compare the name.
- * @param prefix    The prefix to use (optional.)
+ * @param prefix    The prefix to use (optional)
  *                  If no prefix is given then a type related
  *                  prefix will be chosen internally.
  */
@@ -681,7 +681,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
 }
 
 /**
- * Parses a constraint
+ * Parses a constraint.
  *
  * @param m             Input text of the constraint
  *
@@ -1240,7 +1240,7 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o)
 /**
  * Converts a list view type enum to the equivalent object type.
  *
- * @param lvt               The ListView_Type to convert.
+ * @param lvt   The ListView_Type to convert.
  * @return  The converted Object_Type if the listview type
  *          has a Uml::Object_Type representation, else 0.
  */

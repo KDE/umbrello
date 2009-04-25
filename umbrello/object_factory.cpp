@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2008                                                *
+ *  copyright (C) 2006-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -67,6 +67,9 @@ void assignUniqueIdOnCreation(bool yesno)
         g_predefinedId = Uml::id_Reserved;
 }
 
+/**
+ * Return whether unique ID generation is on or off.
+ */
 bool assignUniqueIdOnCreation()
 {
     return (g_predefinedId == Uml::id_None);

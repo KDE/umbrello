@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,7 +17,7 @@
 #include <kactioncollection.h>
 
 // app includes
-#include "umlwidget.h"
+#include "widgetbase.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
@@ -42,18 +42,30 @@
 
 const bool CHECKABLE = true;
 
-//ListPopupMenu for a UMLView (diagram)
+/**
+ * Constructs the popup menu for a UMLView (diagram).
+ *
+ * @param parent   The parent to ListPopupMenu.
+ * @param type     The type of menu to display.
+ * @param object   The UMLObject of the ListViewItem
+ */
 ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view)
-        : KMenu(parent)
+  : KMenu(parent)
 {
     m_TriggerObject.m_View = view;
     m_TriggerObjectType = tot_View;
     setupMenu(type);
 }
 
-//ListPopupMenu for the tree list view
+/**
+ * Constructs the popup menu for a tree list view item.
+ *
+ * @param parent   The parent to ListPopupMenu.
+ * @param type     The type of menu to display.
+ * @param object   The UMLObject of the ListViewItem
+ */
 ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject* object)
-        : KMenu(parent)
+  : KMenu(parent)
 {
     m_TriggerObject.m_Object = object;
     m_TriggerObjectType = tot_Object;
@@ -239,10 +251,18 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject
     setupMenu(mt);
 }
 
-//ListPopupMenu for a canvas widget
+/**
+ * Constructs the popup menu for a canvas widget.
+ *
+ * @param parent   The parent to ListPopupMenu.
+ * @param object   The WidgetBase to represent a menu for.
+ * @param multi    True if multiple items are selected.
+ * @param unique   True if multiple selected items all have
+ *                 the same type (e.g. Class, Interface)
+ */
 ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
                              bool multi, bool unique)
-        : KMenu(parent)
+  : KMenu(parent)
 {
     m_TriggerObject.m_Widget = object;
     m_TriggerObjectType = tot_Widget;
@@ -545,6 +565,9 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     setActionEnabled( mt_Paste, false );
 }
 
+/**
+ * Standard destructor.
+ */
 ListPopupMenu::~ListPopupMenu()
 {
     foreach (QAction* action, m_actions) {
@@ -556,9 +579,7 @@ ListPopupMenu::~ListPopupMenu()
 /**
  * Shortcut for the frequently used addAction() calls.
  *
- * @param m      The Menu_Type for which to insert a menu item.
- * @param menu   The KMenu for which to insert a menu item.
- * @param text   The text for this action.
+ * @param m   The Menu_Type for which to insert a menu item.
  */
 void ListPopupMenu::insert(Menu_Type m)
 {
@@ -643,9 +664,8 @@ void ListPopupMenu::insert(Menu_Type m)
  *
  * @param m      The Menu_Type for which to insert a menu item.
  * @param menu   The KMenu for which to insert a menu item.
- * @param text   The text for this action.
  */
-void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
+void ListPopupMenu::insert(const Menu_Type m, KMenu* menu)
 {
     Q_ASSERT(menu != NULL);
     switch (m) {
@@ -721,7 +741,7 @@ void ListPopupMenu::insert(Menu_Type m, KMenu* menu)
  * Shortcut for the frequently used addAction() calls.
  *
  * @param m      The Menu_Type for which to insert a menu item.
- * @param menu   The KMenu for which to insert a menu item.
+ * @param icon   The icon for this action.
  * @param text   The text for this action.
  */
 void ListPopupMenu::insert(const Menu_Type m, const QIcon & icon, const QString & text)
@@ -732,9 +752,9 @@ void ListPopupMenu::insert(const Menu_Type m, const QIcon & icon, const QString 
 /**
  * Shortcut for the frequently used addAction() calls.
  *
- * @param m      The Menu_Type for which to insert a menu item.
- * @param menu   The KMenu for which to insert a menu item.
- * @param text   The text for this action.
+ * @param m           The Menu_Type for which to insert a menu item.
+ * @param text        The text for this action.
+ * @param checkable   Sets the action to checkable.
  */
 void ListPopupMenu::insert(const Menu_Type m, const QString & text, const bool checkable)
 {
@@ -751,6 +771,7 @@ void ListPopupMenu::insert(const Menu_Type m, const QString & text, const bool c
  *
  * @param m      The Menu_Type for which to insert a menu item.
  * @param menu   The KMenu for which to insert a menu item.
+ * @param icon   The icon for this action.
  * @param text   The text for this action.
  */
 void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QIcon & icon, const QString & text)
@@ -764,6 +785,7 @@ void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QIcon & icon, c
  * @param m      The Menu_Type for which to insert a menu item.
  * @param menu   The KMenu for which to insert a menu item.
  * @param text   The text for this action.
+ * @param checkable   Sets the action to checkable.
  */
 void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable)
 {
@@ -775,6 +797,15 @@ void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QString & text,
     }
 }
 
+/**
+ * Shortcut for the most frequently used insertStdItem() calls.
+ *
+ * @param insertLeadingSeparator   Set this true if the group shall
+ *                                 start with a separator.
+ * @param type      The Widget_Type for which to insert the menu items.
+ *                  If no argument is supplied then a Rename item will be
+ *                  included.
+ */
 void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
                                    Uml::Widget_Type type /* = wt_UMLWidget */)
 {
@@ -1659,7 +1690,7 @@ void ListPopupMenu::setupMenu(Menu_Type type)
 }
 
 /**
- *
+ * Shortcut for diagramm menu initializations.
  */
 void ListPopupMenu::setupDiagramMenu(UMLView* view)
 {
@@ -1697,16 +1728,25 @@ KMenu* ListPopupMenu::makeCategoryTypeMenu(UMLCategory* category)
     return catTypeMenu;
 }
 
+/**
+ * Get the action from the menu type as index.
+ */
 QAction* ListPopupMenu::getAction(Menu_Type idx)
 {
     return m_actions.value(idx, NULL);
 }
 
+// /**
+//  * Get the Menu_Type from the action.
+//  */
 // ListPopupMenu::Menu_Type ListPopupMenu::getMenuType(KAction* action)
 // {
 //     return m_actions.key(action);
 // }
 
+/**
+ * Get the Menu_Type from the action.
+ */
 ListPopupMenu::Menu_Type ListPopupMenu::getMenuType(QAction* action)
 {
     QList<Menu_Type> keyList = m_actions.keys( action );

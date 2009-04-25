@@ -1141,10 +1141,7 @@ bool UMLApp::slotFileSaveAs()
         return false;
     }
 } 
-/**
- * Asks for saving if the file is modified, then closes the current
- * file and window.
- */
+
 /**
  * Asks for saving if the file is modified, then closes the current
  * file and window.

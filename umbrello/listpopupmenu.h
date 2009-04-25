@@ -4,19 +4,20 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef LISTPOPUPMENU_H
 #define LISTPOPUPMENU_H
 
-#include <QtCore/QHash>
+#include "umlnamespace.h"
+#include "icon_utils.h"
+
 #include <kmenu.h>
 // #include <kaction.h>
 
-#include "umlnamespace.h"
-#include "icon_utils.h"
+#include <QtCore/QHash>
 
 class UMLView;
 class WidgetBase;
@@ -38,8 +39,7 @@ class ListPopupMenu : public KMenu
     Q_ENUMS(Menu_Type)
 public:
 
-    /// This type hosts all possible menu types.
-    enum Menu_Type
+    enum Menu_Type  ///< This type hosts all possible menu types.
     {
         mt_Model,
         mt_Logical_View,
@@ -215,47 +215,19 @@ public:
     };
 
     explicit ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
-
-    /**
-     * Constructs the popup menu for a list view item.
-     *
-     * @param parent   The parent to ListPopupMenu.
-     * @param type     The type of menu to display.
-     * @param object   The UMLObject of the ListViewItem
-     */
     ListPopupMenu(QWidget* parent, Uml::ListView_Type type, UMLObject* object);
-
-    /**
-     * Constructs the popup menu for a canvas widget.
-     *
-     * @param parent   The parent to ListPopupMenu.
-     * @param object   The UMLWidget to represent a menu for.
-     * @param multi    True if multiple items are selected.
-     * @param unique   True if multiple selected items all have
-     *                 the same type (e.g. Class, Interface)
-     */
     ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false, bool unique = false);
 
-    /**
-     * Standard deconstructor.
-     */
     ~ListPopupMenu();
 
     static Uml::Object_Type convert_MT_OT(Menu_Type mt);
-
     static Uml::Diagram_Type convert_MT_DT(Menu_Type mt);
 
-    /**
-     * Get the action from the menu type as index.
-     */
 //    KAction* getAction(Menu_Type idx);
     QAction* getAction(Menu_Type idx);
 
     void setActionEnabled(Menu_Type idx, bool value);
 
-    /**
-     * Get the Menu_Type from the action.
-     */
 //    Menu_Type getMenuType(KAction* action);
     Menu_Type getMenuType(QAction* action);
 
@@ -264,56 +236,37 @@ public:
 private:
 
     void insert(Menu_Type m);
-
     void insert(const Menu_Type m, KMenu* menu);
-
     void insert(const Menu_Type m, const QIcon & icon, const QString & text);
-
     void insert(const Menu_Type m, const QString & text, const bool checkable = false);
-
     void insert(const Menu_Type m, KMenu* menu, const QIcon & icon, const QString & text);
-
     void insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable = false);
 
     void insertStdItems(bool insertLeadingSeparator = true,
                         Uml::Widget_Type type = Uml::wt_UMLWidget);
-
     void insertContainerItems(bool folderAndDiagrams);
-
     void insertAssocItem(const QString &label, Menu_Type mt);
-
     void insertSubmodelAction();
 
     void makeMultiClassifierPopup(ClassifierWidget *c);
-
     void makeClassifierPopup(ClassifierWidget *c);
-
     KMenu* makeCategoryTypeMenu(UMLCategory* category);
 
     void insertSubMenuNew(Menu_Type type);
-
     void insertSubMenuColor(bool fc);
 
     void setupDiagramMenu(UMLView* view);
-
     void setupMenu(Menu_Type type);
 
     void setActionChecked(Menu_Type idx, bool value);
 
-    /**
-     * The List Popup Menu is triggered by either by right clicking on the
-     * View, a ListViewItem ( Object ) , or a widget
-     */
-    union TriggerObject{
+    union TriggerObject {  ///< The List Popup Menu is triggered either by right clicking on the View, a ListViewItem (Object), or a widget.
         UMLView* m_View;
         UMLObject* m_Object;
         WidgetBase* m_Widget;
     };
 
-    /**
-     * Enum to keep track on TriggerObject Type
-     */
-    enum TriggerObjectType {
+    enum TriggerObjectType {  ///< Enum to keep track on TriggerObject Type.
         tot_View,
         tot_Object,
         tot_Widget
