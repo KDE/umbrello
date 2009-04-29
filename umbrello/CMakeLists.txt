@@ -351,6 +351,7 @@ set(libumbrello_SRCS
     actor.cpp
     artifact.cpp
     association.cpp
+    associationwidgetmanager.cpp
     assocrules.cpp
     attribute.cpp
     category.cpp
