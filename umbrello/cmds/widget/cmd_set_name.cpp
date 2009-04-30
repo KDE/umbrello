@@ -1,52 +1,42 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2008                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2002-2009                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "cmd_set_name.h"
 
 // app includes
-#include "umlwidgetcontroller.h"
-#include "umlwidget.h"
-#include "umlwidgetlist.h"
-#include "umlnamespace.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlview.h"
 #include "umlobject.h"
-#include "classifierwidget.h"
-#include "associationwidget.h"
-#include "messagewidget.h"
 
+// kde includes
 #include <klocale.h>
 
 namespace Uml
 {
 
-    CmdSetName::CmdSetName(UMLObject * _UMLObj, const QString& _name):UMLObj(_UMLObj), name (_name)
+    CmdSetName::CmdSetName(UMLObject * obj, const QString& name)
+      : m_umlObject(obj), m_name (name)
     {
-        oldname = _UMLObj->getName();
+        m_oldname = obj->getName();
     }
 
     CmdSetName::~CmdSetName()
     {
-
     }
 
     void CmdSetName::redo()
     {
-        UMLObj->setNamecmd(name);
+        m_umlObject->setNamecmd(m_name);
     }
 
     void CmdSetName::undo()
     {
-        UMLObj->setNamecmd(oldname);
+        m_umlObject->setNamecmd(m_oldname);
     }
 
 }
