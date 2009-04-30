@@ -2214,7 +2214,7 @@ void UMLApp::slotUpdateViews()
 
     UMLViewList views = m_doc->getViewIterator();
     foreach (UMLView *view , views ) {
-        menu->addAction(view->umlScene()->getName(), view, SLOT(slotShowView()));
+        menu->addAction(view->umlScene()->getName(), view->umlScene(), SLOT(slotShowView()));
         view->umlScene()->fileLoaded();
     }
 }

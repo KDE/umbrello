@@ -189,7 +189,8 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
         return;
     }
     if ( UMLApp::app()->getListView() ) {
-        disconnect(this,SIGNAL(sigObjectRemoved(UMLObject *)), view,SLOT(slotObjectRemoved(UMLObject *)));
+        disconnect(this, SIGNAL(sigObjectRemoved(UMLObject *)),
+                   view->umlScene(), SLOT(slotObjectRemoved(UMLObject *)));
     }
     view->hide();
     //remove all widgets before deleting view
