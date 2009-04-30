@@ -10,6 +10,8 @@
 
 #include "cmd_handle_rename.h"
 
+#include "floatingtextwidget.h"
+
 // kde includes
 #include <klocale.h>
 #include <kdebug.h>
@@ -17,11 +19,11 @@
 namespace Uml
 {
 
-    CmdHandleRename::CmdHandleRename(FloatingTextWidget* _ftw, QString& txt)
-      : ftw(_ftw), newstring(txt)
+    CmdHandleRename::CmdHandleRename(FloatingTextWidget* ftw, QString& txt)
+      : m_ftw(ftw), m_newstring(txt)
     {
         setText(i18n("Change text"));
-        oldstring = _ftw->text();
+        m_oldstring = ftw->text();
     }
 
     CmdHandleRename::~CmdHandleRename()
@@ -30,12 +32,12 @@ namespace Uml
 
     void CmdHandleRename::redo()
     {
-        ftw->changeName(newstring);
+        m_ftw->changeName(m_newstring);
     }
 
     void CmdHandleRename::undo()
     {
-        ftw->changeName(oldstring);
+        m_ftw->changeName(m_oldstring);
     }
 
 }

@@ -10,6 +10,9 @@
 
 #include "cmd_set_txt.h"
 
+// app includes
+#include "floatingtextwidget.h"
+
 // kde includes
 #include <klocale.h>
 #include <kdebug.h>
@@ -17,11 +20,11 @@
 namespace Uml
 {
 
-    CmdSetTxt::CmdSetTxt(FloatingTextWidget* _ftw, const QString& txt)
-      : ftw(_ftw), newstring(txt)
+    CmdSetTxt::CmdSetTxt(FloatingTextWidget* ftw, const QString& txt)
+      : m_ftw(ftw), m_newstring(txt)
     {
-        oldstring = _ftw->text();
-        uDebug() << "oldstring: "<< oldstring << ", newstring: "<< newstring;
+        m_oldstring = ftw->text();
+        uDebug() << "oldstring: "<< m_oldstring << ", newstring: "<< m_newstring;
     }
 
     CmdSetTxt::~CmdSetTxt()
@@ -30,15 +33,17 @@ namespace Uml
 
     void CmdSetTxt::redo()
     {
-        ftw->setText(newstring);
-        uDebug() << "string after redo" << ftw->text()<< ", oldstring: "<< oldstring << ", newstring: "<< newstring;
+        m_ftw->setText(m_newstring);
+        uDebug() << "string after redo" << m_ftw->text()
+            << ", oldstring: "<< m_oldstring << ", newstring: " << m_newstring;
     }
 
     void CmdSetTxt::undo()
     {
-        ftw->setName("balbalbalbalbla");
-        ftw->setText(oldstring);
-        uDebug() << "string after undo: " << ftw->text()<< "oldstring: "<< oldstring << "newstring: "<< newstring;
+        m_ftw->setName("balbalbalbalbla");
+        m_ftw->setText(m_oldstring);
+        uDebug() << "string after undo: " << m_ftw->text()
+            << "oldstring: "<< m_oldstring << "newstring: "<< m_newstring;
     }
 
 }

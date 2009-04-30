@@ -4,53 +4,45 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007-2008                                               *
+ *   copyright (C) 2007-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "cmd_changeFontSelection.h"
 
 // app includes
-#include "umlwidgetcontroller.h"
-#include "umlwidget.h"
-#include "umlwidgetlist.h"
-#include "umlnamespace.h"
-#include "uml.h"
 #include "umldoc.h"
-#include "umlobject.h"
-#include "classifierwidget.h"
-#include "associationwidget.h"
-#include "messagewidget.h"
 #include "umlscene.h"
+#include "umlwidget.h"
 
+// kde includes
 #include <klocale.h>
 
 namespace Uml
 {
-    CmdChangeFontSelection::CmdChangeFontSelection(UMLDoc * doc,UMLScene *scene,QFont fon)
+    CmdChangeFontSelection::CmdChangeFontSelection(UMLDoc* doc, UMLScene* scene, QFont fon)
     {
-
         // [PORT]
         UMLWidget * widget = scene->getFirstMultiSelectedWidget();
         setText(i18n("Change Font")+ " : " + widget->name());
-        pDoc=doc;
-        pScene=scene;
-        newFont = fon;
-        oldFont = widget->font() ;
+        m_doc = doc;
+        m_scene = scene;
+        m_newFont = fon;
+        m_oldFont = widget->font();
     }
 
     void CmdChangeFontSelection::undo()
     {
         // [PORT]
-        pScene->selectionSetFont( oldFont );
-        pDoc->setModified(true);
+        m_scene->selectionSetFont( m_oldFont );
+        m_doc->setModified(true);
     }
 
     void CmdChangeFontSelection::redo()
     {
         // [PORT]
-        pScene->selectionSetFont( newFont );
-        pDoc->setModified(true);
+        m_scene->selectionSetFont( m_newFont );
+        m_doc->setModified(true);
     }
 
 }

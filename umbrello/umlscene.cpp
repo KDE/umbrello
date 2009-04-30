@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,6 +36,7 @@
 #include "listpopupmenu.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umlview.h"
 #include "umlobject.h"
 #include "docwindow.h"
 #include "assocrules.h"
@@ -94,9 +95,11 @@ const qreal UMLScene::defaultCanvasSize = 1300;
 
 using namespace Uml;
 
-// constructor
-UMLScene::UMLScene(UMLFolder *parentFolder) :
-    QGraphicsScene(0, 0, defaultCanvasSize, defaultCanvasSize)
+/**
+ * Constructor.
+ */
+UMLScene::UMLScene(UMLFolder *parentFolder)
+  : QGraphicsScene(0, 0, defaultCanvasSize, defaultCanvasSize)
 {
     // Initialize loaded/saved data
     m_nID = Uml::id_None;
@@ -144,6 +147,9 @@ UMLScene::UMLScene(UMLFolder *parentFolder) :
     m_pFolder = parentFolder;
 }
 
+/**
+ * Destructor.
+ */
 UMLScene::~UMLScene()
 {
     delete m_pImageExporter;

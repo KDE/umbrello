@@ -4,25 +4,16 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2008                                                *
- *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
+ *   copyright (C) 2002-2009                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "cmd_changeLineColor.h"
 
 // app includes
-#include "umlwidgetcontroller.h"
 #include "umlwidget.h"
-#include "umlwidgetlist.h"
-#include "umlnamespace.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlview.h"
-#include "umlobject.h"
-#include "classifierwidget.h"
-#include "associationwidget.h"
-#include "messagewidget.h"
 
+// kde includes
 #include <klocale.h>
 
 namespace Uml
@@ -32,28 +23,30 @@ namespace Uml
     {
         setText(i18n("Change Line Color"));
         UMLWidget * widget = view->getFirstMultiSelectedWidget();
-        pView=view;
-        color = col;
-        oldColor=widget->getLineColor() ;
+        m_view = view;
+        m_newColor = col;
+        m_oldColor = widget->getLineColor();
     }*/
 
-CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col):UMLw(w),color(col)
-{
-    setText(i18n("Change Line Color") + w->name());
-    oldColor= w->lineColor() ;
+    CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col)
+      : m_umlWidget(w), m_newColor(col)
+    {
+        setText(i18n("Change Line Color") + w->name());
+        m_oldColor= w->lineColor() ;
+    }
 
-}
     CmdChangeLineColor::~CmdChangeLineColor()
     {
     }
+
     void CmdChangeLineColor::redo()
     {
-
-        UMLw->setLineColorcmd( color );
+        m_umlWidget->setLineColorcmd( m_newColor );
     }
 
     void CmdChangeLineColor::undo()
     {
-        UMLw->setLineColorcmd( oldColor );
+        m_umlWidget->setLineColorcmd( m_oldColor );
     }
+
 }

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,17 +52,11 @@ class ToolBarStateFactory;
 class UMLScene : public QGraphicsScene
 {
     Q_OBJECT
-    public:
+public:
     friend class UMLViewImageExporterModel;
 
-    /**
-     * Constructor
-     */
     UMLScene(UMLFolder *parentFolder);
 
-    /**
-     * Destructor
-     */
     virtual ~UMLScene();
 
     // Accessors and other methods dealing with loaded/saved data
@@ -96,14 +89,7 @@ class UMLScene : public QGraphicsScene
          m_Documentation = doc;
      }
  
-    /**
-     * Return the name of the diagram.
-     */
      QString getName() const;
- 
-    /**
-     * Set the name of the diagram.
-     */
      void setName(const QString &name);
  
     /**
@@ -408,16 +394,13 @@ class UMLScene : public QGraphicsScene
     void removeAllWidgets();
 
     void showDocumentation(UMLObject * object, bool overwrite);
-
     void showDocumentation(UMLWidget * widget, bool overwrite);
-
     void showDocumentation(AssociationWidget * widget, bool overwrite);
 
     void updateDocumentation(bool clear);
 
     void getDiagram(const QRectF &rect, QPixmap & diagram);
-
-    void  getDiagram(const QRectF &area, QPainter & painter);
+    void getDiagram(const QRectF &area, QPainter & painter);
 
     void copyAsImage(QPixmap*& pix);
 
@@ -447,9 +430,7 @@ class UMLScene : public QGraphicsScene
 
     void createAutoConstraintAssociations(UMLWidget* widget);
 
-
     void updateContainment(UMLCanvasObject *self);
-
 
     bool showPropDialog();
 
@@ -479,7 +460,6 @@ class UMLScene : public QGraphicsScene
     // Load/Save interface:
 
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
-
     virtual bool loadFromXMI(QDomElement & qElement);
 
     bool loadUISDiagram(QDomElement & qElement);
@@ -491,7 +471,6 @@ class UMLScene : public QGraphicsScene
     void selectWidgets(qreal px, qreal py, qreal qx, qreal qy);
 
     ObjectWidget * onWidgetLine(const QPointF &point) const;
-
     ObjectWidget * onWidgetDestructionBox(const QPointF &point) const;
 
     UMLWidget* getFirstMultiSelectedWidget() const;
@@ -543,9 +522,7 @@ protected:
     // Methods and members related to loading/saving
 
     bool loadWidgetsFromXMI(QDomElement & qElement);
-
     bool loadMessagesFromXMI(QDomElement & qElement);
-
     bool loadAssociationsFromXMI(QDomElement & qElement);
 
     bool loadUisDiagramPresentation(QDomElement & qElement);
@@ -626,24 +603,18 @@ protected:
     ////////////////////////////////////////////////////////////////////////
 
     void dragEnterEvent(QGraphicsSceneDragDropEvent *enterEvent);
-
     void dragMoveEvent(QGraphicsSceneDragDropEvent *moveEvent);
-
     void dropEvent(QGraphicsSceneDragDropEvent *dropEvent);
 
     QRectF getDiagramRect();
 
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
-
     void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
-
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* mouseEvent);
-
     void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
 
     bool m_isMouseMovingItems;
     bool isArrowMode();
-
 
     void selectWidgetsOfAssoc (AssociationWidget * a);
 
@@ -693,7 +664,6 @@ private:
     IDChangeLog * m_pIDChangesLog;
 
     /**
-     *
      * True if the view was activated after the serialization(load)
      */
     bool m_bActivated;
@@ -758,36 +728,22 @@ private:
     void sortWidgetList(UMLWidgetList &widgetList, Compare comp);
 
 public slots:
-
-
     void slotToolBarChanged(int c);
     void slotObjectCreated(UMLObject * o);
     void slotObjectRemoved(UMLObject * o);
-
     void slotMenuSelection(QAction* action);
-
     void slotRemovePopupMenu();
-
     void slotActivate();
-
     void slotCutSuccessful();
-
     void slotShowView();
 
     void alignLeft();
-
     void alignRight();
-
     void alignTop();
-
     void alignBottom();
-
     void alignVerticalMiddle();
-
     void alignHorizontalMiddle();
-
     void alignVerticalDistribute();
-
     void alignHorizontalDistribute();
 
     void test();
@@ -801,9 +757,7 @@ signals:
     void sigSnapToGridToggled(bool);
     void sigSnapComponentSizeToGridToggled(bool);
     void sigShowGridToggled(bool);
-
     void sigAssociationRemoved(AssociationWidget*);
-
     void sigWidgetRemoved(UMLWidget*);
 };
 
