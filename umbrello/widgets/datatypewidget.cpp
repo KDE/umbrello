@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +12,7 @@
 #include "datatypewidget.h"
 
 // qt/kde includes
-#include <qpainter.h>
+#include <QtGui/QPainter>
 #include <kdebug.h>
 
 // app includes
@@ -23,22 +22,26 @@
 #include "umlview.h"
 #include "umldoc.h"
 
-
 #define CIRCLE_SIZE 30
 
-DatatypeWidget::DatatypeWidget(UMLView* view, UMLClassifier *d) : UMLWidget(view, d) {
+DatatypeWidget::DatatypeWidget(UMLView* view, UMLClassifier *d) : UMLWidget(view, d)
+{
     init();
 }
 
-DatatypeWidget::~DatatypeWidget() {}
+DatatypeWidget::~DatatypeWidget()
+{
+}
 
-void DatatypeWidget::init() {
+void DatatypeWidget::init()
+{
     UMLWidget::setBaseType(Uml::wt_Datatype);
     setSize(100, 30);
     m_pMenu = 0;
 }
 
-void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
+void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY)
+{
     setPenFromSettings(p);
     if (UMLWidget::getUseFillColour())  {
         p.setBrush(UMLWidget::getFillColour());
@@ -51,12 +54,11 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
 
     QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     int fontHeight  = fm.lineSpacing();
-    QString name = getName();
 
     p.drawRect(offsetX, offsetY, w, h);
     p.setPen(QPen(Qt::black));
 
-    QFont font = UMLWidget::getFont();
+    QFont font = UMLWidget::font();
     font.setBold(true);
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY,
@@ -66,14 +68,15 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY) {
     font.setItalic( m_pObject->getAbstract() );
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY + fontHeight,
-               w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
+               w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
 
     if (m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
 
-QSize DatatypeWidget::calculateSize() {
+QSize DatatypeWidget::calculateSize()
+{
     if (!m_pObject)  {
         return UMLWidget::calculateSize();
     }
@@ -101,13 +104,15 @@ QSize DatatypeWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement conceptElement = qDoc.createElement("datatypewidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);
 }
 
-bool DatatypeWidget::loadFromXMI( QDomElement & qElement ) {
+bool DatatypeWidget::loadFromXMI( QDomElement & qElement )
+{
     return UMLWidget::loadFromXMI(qElement);
 }
 

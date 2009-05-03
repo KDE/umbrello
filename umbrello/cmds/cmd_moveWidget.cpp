@@ -23,7 +23,7 @@ namespace Uml
       : QUndoCommand(), m_widgetCtrl(wc), m_already(false)
     {
         UMLWidget * w = wc->getWidget();
-        setText(i18n("Move widget :") + w->getName());
+        setText(i18n("Move widget :") + w->name());
         m_x = w->getX();
         m_y = w->getY();
         m_oldX = wc->getOldX();

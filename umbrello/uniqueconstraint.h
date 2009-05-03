@@ -17,6 +17,7 @@
 #include "umlnamespace.h"
 #include "umlclassifierlist.h"
 #include "umlentityattributelist.h"
+
 /**
  * This class is used to set up information for a unique entity constraint.
  *
@@ -27,6 +28,7 @@
  */
 class UMLUniqueConstraint : public UMLEntityConstraint {
 public:
+
     /**
      * Sets up a constraint.
      *
@@ -135,6 +137,7 @@ protected:
 private:
 
     void init();
+
     /**
      * The list of entity attributes that together make up the unique constraint
      */

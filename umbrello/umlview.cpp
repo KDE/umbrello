@@ -704,7 +704,7 @@ ObjectWidget * UMLView::onWidgetLine(const QPoint &point)
             continue;
         SeqLineWidget *pLine = ow->getSeqLine();
         if (pLine == NULL) {
-            uError() << "SeqLineWidget of " << ow->getName()
+            uError() << "SeqLineWidget of " << ow->name()
             << " (id=" << ID2STR(ow->localID()) << ") is NULL";
             continue;
         }
@@ -722,7 +722,7 @@ ObjectWidget * UMLView::onWidgetDestructionBox(const QPoint &point)
             continue;
         SeqLineWidget *pLine = ow->getSeqLine();
         if (pLine == NULL) {
-            uError() << "SeqLineWidget of " << ow->getName()
+            uError() << "SeqLineWidget of " << ow->name()
             << " (id=" << ID2STR(ow->localID()) << ") is NULL";
             continue;
         }
@@ -1515,7 +1515,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
     }
     if (!isPasteOperation && findWidget(pWidget->id())) {
         uError() << "Not adding (id=" << ID2STR(pWidget->id())
-            << "/type=" << type << "/name=" << pWidget->getName()
+            << "/type=" << type << "/name=" << pWidget->name()
             << ") because it is already there";
         return false;
     }
@@ -1529,7 +1529,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
     bool xIsOutOfRange = (wX <= 0 || wX >= FloatingTextWidget::restrictPositionMax);
     bool yIsOutOfRange = (wY <= 0 || wY >= FloatingTextWidget::restrictPositionMax);
     if (xIsOutOfRange || yIsOutOfRange) {
-        QString name = pWidget->getName();
+        QString name = pWidget->name();
         if (name.isEmpty()) {
             FloatingTextWidget *ft = dynamic_cast<FloatingTextWidget*>(pWidget);
             if (ft)
@@ -1584,7 +1584,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         if (findWidget(newID)) {
             uDebug() << "Not adding (id=" << ID2STR(pWidget->id())
                 << "/type=" << pWidget->baseType()
-                << "/name=" << pWidget->getName()
+                << "/name=" << pWidget->name()
                 << ") because it is already there";
             delete pWidget; // Not nice but if _we_ don't do it nobody else will
             return true;//don't stop paste just because widget found.

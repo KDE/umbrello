@@ -1,37 +1,41 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header file
 #include "categorywidget.h"
 // system includes
-#include <qpainter.h>
+#include <QtGui/QPainter>
 #include <kdebug.h>
 // local includes
 #include "category.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
 
-CategoryWidget::CategoryWidget(UMLView * view, UMLCategory *o) : UMLWidget(view, o) {
+CategoryWidget::CategoryWidget(UMLView * view, UMLCategory *o)
+  : UMLWidget(view, o)
+{
     UMLWidget::setBaseType(Uml::wt_Category);
     //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
     //                  Instead, it is done afterwards by UMLWidget::activate()
 }
 
-CategoryWidget::~CategoryWidget() {}
+CategoryWidget::~CategoryWidget()
+{
+}
 
-void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     UMLWidget::setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
-    QFont font = UMLWidget::getFont();
+    QFont font = UMLWidget::font();
     font.setUnderline(false);
     font.setBold(false);
     font.setItalic( m_pObject->getAbstract() );
@@ -71,7 +75,8 @@ void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY) {
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize CategoryWidget::calculateSize() {
+QSize CategoryWidget::calculateSize()
+{
     const UMLWidget::FontType ft = ( m_pObject->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
     const int fontHeight = fm.lineSpacing();
@@ -80,13 +85,15 @@ QSize CategoryWidget::calculateSize() {
     return QSize(radius, radius);
 }
 
-void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement categoryElement = qDoc.createElement( "categorywidget" );
     UMLWidget::saveToXMI( qDoc, categoryElement );
     qElement.appendChild( categoryElement );
 }
 
-void CategoryWidget::slotMenuSelection(QAction* action){
+void CategoryWidget::slotMenuSelection(QAction* action)
+{
     UMLCategory* catObj = static_cast<UMLCategory*>(m_pObject);
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {

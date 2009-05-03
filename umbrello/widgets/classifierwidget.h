@@ -103,7 +103,7 @@ public:
      *
      * @return  Status of showing operation signatures.
      */
-    Uml::Signature_Type getShowOpSigs() const;
+    Uml::Signature_Type operationSignatureType() const;
 
     /**
      * Set the status of whether to show Operation signature
@@ -175,7 +175,7 @@ public:
      *
      * @return  Status of how attribute signatures are shown.
      */
-    Uml::Signature_Type getShowAttSigs() {
+    Uml::Signature_Type attributeSignatureType() {
         return m_ShowAttSigs;
     }
 

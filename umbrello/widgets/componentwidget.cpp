@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,20 +12,21 @@
 #include "componentwidget.h"
 
 // qt/kde includes
-#include <qpainter.h>
+#include <QtGui/QPainter>
+#include <kdebug.h>
 
 // app includes
-#include <kdebug.h>
 #include "component.h"
 #include "umlview.h"
 
-
 ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c)
-  : UMLWidget(view, c) {
+  : UMLWidget(view, c)
+{
     init();
 }
 
-void ComponentWidget::init() {
+void ComponentWidget::init()
+{
     UMLWidget::setBaseType(Uml::wt_Component);
     setSize(100, 30);
     m_pMenu = 0;
@@ -43,9 +43,12 @@ void ComponentWidget::init() {
     }
 }
 
-ComponentWidget::~ComponentWidget() {}
+ComponentWidget::~ComponentWidget()
+{
+}
 
-void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     UMLComponent *umlcomp = static_cast<UMLComponent*>(m_pObject);
     if (umlcomp == NULL)
         return;
@@ -63,11 +66,11 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     const int w = width();
     const int h = height();
-    QFont font = UMLWidget::getFont();
+    QFont font = UMLWidget::font();
     font.setBold(true);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const int fontHeight = fm.lineSpacing();
-    QString name = getName();
+    QString nameStr = name();
     const QString stereotype = m_pObject->getStereotype();
 
     p.drawRect(offsetX + 2*COMPONENT_MARGIN, offsetY, w - 2*COMPONENT_MARGIN, h);
@@ -86,18 +89,18 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
         lines = 2;
     }
 
-    if ( UMLWidget::getIsInstance() ) {
+    if ( UMLWidget::isInstance() ) {
         font.setUnderline(true);
         p.setFont(font);
-        name = UMLWidget::getInstanceName() + " : " + name;
+        nameStr = UMLWidget::instanceName() + " : " + nameStr;
     }
 
     if (lines == 1) {
         p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - (fontHeight/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, name );
+                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr );
     } else {
         p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2),
-                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, name );
+                   w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr );
     }
 
     if(m_bSelected) {
@@ -105,7 +108,8 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     }
 }
 
-QSize ComponentWidget::calculateSize() {
+QSize ComponentWidget::calculateSize()
+{
     if ( !m_pObject) {
         return QSize(70, 70);
     }
@@ -113,8 +117,8 @@ QSize ComponentWidget::calculateSize() {
     const int fontHeight = fm.lineSpacing();
 
     QString name = m_pObject->getName();
-    if ( UMLWidget::getIsInstance() ) {
-        name = UMLWidget::getInstanceName() + " : " + name;
+    if ( UMLWidget::isInstance() ) {
+        name = UMLWidget::instanceName() + " : " + name;
     }
 
     int width = fm.width(name);
@@ -133,7 +137,8 @@ QSize ComponentWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void ComponentWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement conceptElement = qDoc.createElement("componentwidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);

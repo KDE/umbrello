@@ -65,6 +65,7 @@ class UMLDoc : public QObject
 {
     Q_OBJECT
 public:
+
     /**
      * Constructor for the fileclass of the application
      */

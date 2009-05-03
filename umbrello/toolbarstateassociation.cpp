@@ -37,17 +37,27 @@ ToolBarStateAssociation::ToolBarStateAssociation(UMLView *umlView) : ToolBarStat
     m_associationLine = 0;
 }
 
-ToolBarStateAssociation::~ToolBarStateAssociation() {
+ToolBarStateAssociation::~ToolBarStateAssociation()
+{
     delete m_associationLine;
 }
 
-void ToolBarStateAssociation::init() {
+/**
+ * Goes back to the initial state.
+ */
+void ToolBarStateAssociation::init()
+{
     ToolBarStatePool::init();
 
     cleanAssociation();
 }
 
-void ToolBarStateAssociation::cleanBeforeChange() {
+/**
+ * Called when the current tool is changed to use another tool.
+ * Executes base method and cleans the association.
+ */
+void ToolBarStateAssociation::cleanBeforeChange()
+{
     ToolBarStatePool::cleanBeforeChange();
 
     cleanAssociation();
@@ -62,7 +72,14 @@ void ToolBarStateAssociation::mouseMove(QMouseEvent* ome) {
     }
 }
 
-void ToolBarStateAssociation::slotWidgetRemoved(UMLWidget* widget) {
+/**
+ * A widget was removed from the UMLScene.
+ * If the widget removed was the current widget, the current widget is set
+ * to 0.
+ * Also, if it was the first widget, the association is cleaned.
+ */
+void ToolBarStateAssociation::slotWidgetRemoved(UMLWidget* widget)
+{
     ToolBarState::slotWidgetRemoved(widget);
 
     if (widget == m_firstWidget) {
@@ -70,7 +87,15 @@ void ToolBarStateAssociation::slotWidgetRemoved(UMLWidget* widget) {
     }
 }
 
-void ToolBarStateAssociation::mouseReleaseAssociation() {
+/**
+ * Called when the release event happened on an association.
+ * If the button pressed isn't left button, the association being created is
+ * cleaned. If it is left button, and the first widget is set and is a
+ * classifier widget, it creates an association class. Otherwise, the
+ * association being created is cleaned.
+ */
+void ToolBarStateAssociation::mouseReleaseAssociation()
+{
     if (m_pMouseEvent->button() != Qt::LeftButton ||
             !m_firstWidget || m_firstWidget->baseType() != Uml::wt_Class) {
         cleanAssociation();
@@ -84,6 +109,12 @@ void ToolBarStateAssociation::mouseReleaseAssociation() {
     cleanAssociation();
 }
 
+/**
+ * Called when the release event happened on a widget.
+ * If the button pressed isn't left button, the association is cleaned. If
+ * it is left button, sets the first widget or the second, depending on
+ * whether the first widget is already set or not.
+ */
 void ToolBarStateAssociation::mouseReleaseWidget() {
     if (m_pMouseEvent->button() != Qt::LeftButton) {
         cleanAssociation();
@@ -105,10 +136,21 @@ void ToolBarStateAssociation::mouseReleaseWidget() {
     }
 }
 
+/**
+ * Called when the release event happened on an empty space.
+ * Cleans the association.
+ */
 void ToolBarStateAssociation::mouseReleaseEmpty() {
     cleanAssociation();
 }
 
+/**
+ * Sets the first widget in the association using the current widget.
+ * If the widget can't be associated using the current type of association,
+ * an error is shown and the widget isn't set.
+ * Otherwise, the temporal visual association is created and the mouse
+ * tracking is enabled, so move events will be delivered.
+ */
 void ToolBarStateAssociation::setFirstWidget() {
     UMLWidget* widget = getCurrentWidget();
     Association_Type type = getAssociationType();
@@ -137,7 +179,20 @@ void ToolBarStateAssociation::setFirstWidget() {
     m_pUMLView->viewport()->setMouseTracking(true);
 }
 
-void ToolBarStateAssociation::setSecondWidget() {
+/**
+ * Sets the second widget in the association using the current widget and
+ * creates the association.
+ * If the association between the two widgets using the current type of
+ * association, an error is shown and the association cancelled.
+ * Otherwise, the association is created and added to the scene, and the tool
+ * is changed to the default tool.
+ *
+ * @todo Why change to the default tool? Shouldn't it better to stay on
+ *       association and let the user change with a right click? The tool to
+ *       create widgets doesn't change to default after creating a widget
+ */
+void ToolBarStateAssociation::setSecondWidget()
+{
     Association_Type type = getAssociationType();
     UMLWidget* widgetA = m_firstWidget;
     UMLWidget* widgetB = getCurrentWidget();
@@ -178,7 +233,13 @@ void ToolBarStateAssociation::setSecondWidget() {
     cleanAssociation();
 }
 
-Association_Type ToolBarStateAssociation::getAssociationType() {
+/**
+ * Returns the association type of this tool.
+ *
+ * @return The association type of this tool.
+ */
+Association_Type ToolBarStateAssociation::getAssociationType()
+{
     Association_Type at;
 
     switch(getButton()) {
@@ -208,7 +269,15 @@ Association_Type ToolBarStateAssociation::getAssociationType() {
     return at;
 }
 
-void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a) {
+/**
+ * Adds an AssociationWidget to the association list and creates the
+ * corresponding UMLAssociation in the current UMLDoc.
+ * If the association can't be added, is deleted.
+ *
+ * @param association The AssociationWidget to add.
+ */
+void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a)
+{
     // append in view
     if (m_pUMLView->addAssociation(a, false)) {
         // if view went ok, then append in document
@@ -227,6 +296,10 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a) {
     }
 }
 
+/**
+ * Cleans the first widget and the temporal association line, if any.
+ * Both are set to null, and the association line is also deleted.
+ */
 void ToolBarStateAssociation::cleanAssociation() {
     m_firstWidget = 0;
 

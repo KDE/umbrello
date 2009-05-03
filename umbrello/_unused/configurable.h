@@ -32,7 +32,6 @@ class KConfig;
  * features such as configurability and plugin management. Also provided
  * within this API are the core interfaces for GUI management.
  */
-
 namespace Umbrello
 {
 // forward declarations
@@ -65,6 +64,7 @@ class Plugin;
 class Configurable
 {
 public:
+
     /** Construct a configurable object. */
     Configurable();
 

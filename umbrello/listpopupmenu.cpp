@@ -918,13 +918,13 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
     insert(mt_Visibility_Selection, show, i18n("Visibility"), CHECKABLE);
     setActionChecked(mt_Visibility_Selection, c->getShowVisibility());
     insert(mt_Show_Operation_Signature_Selection, show, i18n("Operation Signature"), CHECKABLE);
-    bool sig = (c->getShowOpSigs() == Uml::st_SigNoVis ||
-                c->getShowOpSigs() == Uml::st_ShowSig);
+    bool sig = (c->operationSignatureType() == Uml::st_SigNoVis ||
+                c->operationSignatureType() == Uml::st_ShowSig);
     setActionChecked(mt_Show_Operation_Signature_Selection, sig);
     if (type == Uml::wt_Class) {
         insert(mt_Show_Attribute_Signature_Selection, show, i18n("Attribute Signature"), CHECKABLE);
-        sig = (cls->getShowAttSigs() == Uml::st_SigNoVis ||
-               cls->getShowAttSigs() == Uml::st_ShowSig);
+        sig = (cls->attributeSignatureType() == Uml::st_SigNoVis ||
+               cls->attributeSignatureType() == Uml::st_ShowSig);
         setActionChecked(mt_Show_Attribute_Signature_Selection, sig);
     }
     insert(mt_Show_Packages_Selection, show, i18n("Package"), CHECKABLE);

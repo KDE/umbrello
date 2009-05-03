@@ -588,6 +588,14 @@ bool importView(PetalNode *root, const QString& rootName,
     return true;
 }
 
+/**
+ * This is really an auxiliary method for loadFromMDL() but is kept in a
+ * separate file to reflect that it is not coupled with the parser
+ * (other than by the PetalNode.)
+ *
+ * @param root   the root of the tree
+ * @return  true for success.
+ */
 bool petalTree2Uml(PetalNode *root)
 {
     if (root == NULL) {
@@ -598,7 +606,7 @@ bool petalTree2Uml(PetalNode *root)
         uError() << "petalTree2Uml: expecting root name Design";
         return false;
     }
-    /*************************** import  Logical View ********************************/
+    //*************************** import  Logical View ********************************
     PetalNode *root_category = root->findAttribute("root_category").node;
     if (root_category == NULL) {
         uError() << "petalTree2Uml: cannot find root_category";
@@ -621,22 +629,22 @@ bool petalTree2Uml(PetalNode *root)
         umbrellify(atts[i].second.node);
     }
 
-    /** Shorthand for UMLApp::app()->getListView() **/
+    // Shorthand for UMLApp::app()->getListView()
     UMLListView *lv = UMLApp::app()->getListView();
 
-    /*************************** import Use Case View ********************************/
+    //*************************** import Use Case View ********************************
     umldoc->setCurrentRoot(Uml::mt_UseCase);
     importView(root, "root_usecase_package", "logical_models", lv->theUseCaseView());
 
-    /*************************** import Component View *******************************/
+    //*************************** import Component View *******************************
     umldoc->setCurrentRoot(Uml::mt_Component);
     importView(root, "root_subsystem", "physical_models", lv->theComponentView());
 
-    /*************************** import Deployment View ******************************/
+    //*************************** import Deployment View ******************************
     umldoc->setCurrentRoot(Uml::mt_Deployment);
     importView(root, "process_structure", "ProcsNDevs", lv->theDeploymentView());
 
-    /***************************       wrap up        ********************************/
+    //***************************       wrap up        ********************************
     umldoc->setCurrentRoot(Uml::mt_Logical);
     Import_Utils::assignUniqueIdOnCreation(true);
     umldoc->resolveTypes();

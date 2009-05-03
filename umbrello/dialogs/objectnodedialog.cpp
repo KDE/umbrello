@@ -209,7 +209,7 @@ void ObjectNodeDialog::setupGeneralPage()
         m_GenPageWidgets.nameLE->setEnabled( false );
         m_GenPageWidgets.nameLE->setText( "" );
     } else
-        m_GenPageWidgets.nameLE->setText( m_pObjectNodeWidget->getName() );
+        m_GenPageWidgets.nameLE->setText( m_pObjectNodeWidget->name() );
 }
 
 /**
@@ -223,7 +223,7 @@ void ObjectNodeDialog::setupFontPage()
     pageItemFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageItemFont );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-    m_pChooser->setFont( m_pObjectNodeWidget->getFont() );
+    m_pChooser->setFont( m_pObjectNodeWidget->font() );
 }
 
 /**

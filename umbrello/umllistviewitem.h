@@ -33,10 +33,10 @@ class UMLClassifierListItem;
  * @see    UMLListView
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-
 class UMLListViewItem : public Q3ListViewItem
 {
 public:
+
     /**
      * Sets up an instance.
      *

@@ -32,17 +32,27 @@ ToolBarStateMessages::ToolBarStateMessages(UMLView *umlView) : ToolBarStatePool(
     yclick = 0;
 }
 
-ToolBarStateMessages::~ToolBarStateMessages() {
+ToolBarStateMessages::~ToolBarStateMessages()
+{
     delete m_messageLine;
 }
 
-void ToolBarStateMessages::init() {
+/**
+ * Goes back to the initial state.
+ */
+void ToolBarStateMessages::init()
+{
     ToolBarStatePool::init();
 
     cleanMessage();
 }
 
-void ToolBarStateMessages::cleanBeforeChange() {
+/**
+ * Called when the current tool is changed to use another tool.
+ * Executes base method and cleans the message.
+ */
+void ToolBarStateMessages::cleanBeforeChange()
+{
     ToolBarStatePool::cleanBeforeChange();
 
     cleanMessage();
@@ -57,7 +67,14 @@ void ToolBarStateMessages::mouseMove(QMouseEvent* ome) {
     }
 }
 
-void ToolBarStateMessages::slotWidgetRemoved(UMLWidget* widget) {
+/**
+ * A widget was removed from the UMLView.
+ * If the widget removed was the current widget, the current widget is set
+ * to 0.
+ * Also, if it was the first object, the message is cleaned.
+ */
+void ToolBarStateMessages::slotWidgetRemoved(UMLWidget* widget)
+{
     ToolBarState::slotWidgetRemoved(widget);
 
     if (widget == m_firstObject) {
@@ -65,7 +82,15 @@ void ToolBarStateMessages::slotWidgetRemoved(UMLWidget* widget) {
     }
 }
 
-void ToolBarStateMessages::setCurrentElement() {
+/**
+ * Selects only widgets, but no associations.
+ * Overrides base class method.
+ * If the press event happened on the line of an object, the object is set
+ * as current widget. If the press event happened on a widget, the widget is
+ * set as current widget.
+ */
+void ToolBarStateMessages::setCurrentElement()
+{
     m_isObjectWidgetLine = false;
 
     ObjectWidget* objectWidgetLine = m_pUMLView->onWidgetLine(m_pMouseEvent->pos());
@@ -86,7 +111,19 @@ void ToolBarStateMessages::setCurrentElement() {
     }
 }
 
-void ToolBarStateMessages::mouseReleaseWidget() {
+/**
+ * Called when the release event happened on a widget.
+ * If the button pressed isn't left button or the widget isn't an object
+ * widget, the message is cleaned.
+ * If the release event didn't happen on the line of an object and the first
+ * object wasn't selected, nothing is done. If the first object was already
+ * selected, a creation message is made.
+ * If the event happened on the line of an object, the first object or the
+ * second are set, depending on whether the first object was already set or
+ * not.
+ */
+void ToolBarStateMessages::mouseReleaseWidget()
+{
     //TODO When an association between UMLObjects of invalid types is made, an error message
     //is shown. Shouldn't also a message be used here?
     if (m_pMouseEvent->button() != Qt::LeftButton ||
@@ -111,7 +148,13 @@ void ToolBarStateMessages::mouseReleaseWidget() {
     }
 }
 
-void ToolBarStateMessages::mouseReleaseEmpty() {
+/**
+ * Called when the release event happened on an empty space.
+ * Cleans the message.
+ * Empty spaces are not only actual empty spaces, but also associations.
+ */
+void ToolBarStateMessages::mouseReleaseEmpty()
+{
     Uml::Sequence_Message_Type msgType = getMessageType();
 
     if (m_firstObject && msgType ==  Uml::sequence_message_lost) {
@@ -151,7 +194,15 @@ void ToolBarStateMessages::mouseReleaseEmpty() {
         cleanMessage();
 }
 
-void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject) {
+/**
+ * Sets the first object of the message using the specified object.
+ * The temporal visual message is created and mouse tracking enabled, so
+ * mouse events will be delivered.
+ *
+ * @param firstObject The first object of the message.
+ */
+void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
+{
     m_firstObject = firstObject;
     Uml::Sequence_Message_Type msgType = getMessageType();
 
@@ -183,7 +234,17 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject) {
     }
 }
 
-void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageType messageType) {
+/**
+ * Sets the second object of the message using the specified widget and
+ * creates the message.
+ * The association is created and added to the view. The dialog to select
+ * the operation of the message is shown.
+ *
+ * @param secondObject The second object of the message.
+ * @param messageType The type of the message to create.
+ */
+void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageType messageType)
+{
     Uml::Sequence_Message_Type msgType = getMessageType();
 
     //There shouldn't be second widget for a lost or a found message
@@ -193,7 +254,7 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
         yclick = 0;
         return;
     }
-     //TODO shouldn't start position in the first widget be used also for normal messages
+    //TODO shouldn't start position in the first widget be used also for normal messages
     //and not only for creation?
     int y = m_pMouseEvent->y();
     if (messageType == CreationMessage) {
@@ -218,7 +279,13 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
     UMLApp::app()->getDocument()->setModified();
 }
 
-Uml::Sequence_Message_Type ToolBarStateMessages::getMessageType() {
+/**
+ * Returns the message type of this tool.
+ *
+ * @return The message type of this tool.
+ */
+Uml::Sequence_Message_Type ToolBarStateMessages::getMessageType()
+{
     if (getButton() == WorkToolBar::tbb_Seq_Message_Synchronous) {
         return Uml::sequence_message_synchronous;
     }
@@ -231,7 +298,12 @@ Uml::Sequence_Message_Type ToolBarStateMessages::getMessageType() {
     return Uml::sequence_message_asynchronous;
 }
 
-void ToolBarStateMessages::cleanMessage() {
+/**
+ * Cleans the first widget and the temporal message line, if any.
+ * Both are set to null, and the message line is also deleted.
+ */
+void ToolBarStateMessages::cleanMessage()
+{
     m_firstObject = 0;
 
     delete m_messageLine;

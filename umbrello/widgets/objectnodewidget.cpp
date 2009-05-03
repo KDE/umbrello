@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,12 +12,7 @@
 #include "objectnodewidget.h"
 
 // qt includes
-#include <qpainter.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <QVBoxLayout>
-#include <QGridLayout>
-//#include <pen.h>
+#include <QtGui/QPainter>
 
 // kde includes
 #include <klocale.h>
@@ -26,6 +20,7 @@
 #include <kinputdialog.h>
 #include <kdialog.h>
 #include <kcombobox.h>
+
 #include <cmath>
 
 // app includes
@@ -37,12 +32,8 @@
 #include "listpopupmenu.h"
 #include "dialogs/objectnodedialog.h"
 
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPolygon>
-
 ObjectNodeWidget::ObjectNodeWidget(UMLView * view, ObjectNodeType objectNodeType, Uml::IDType id )
-        : UMLWidget(view, id)
+  : UMLWidget(view, id)
 {
     UMLWidget::setBaseType( Uml::wt_ObjectNode );
     setObjectNodeType( objectNodeType );
@@ -50,9 +41,12 @@ ObjectNodeWidget::ObjectNodeWidget(UMLView * view, ObjectNodeType objectNodeType
     updateComponentSize();
 }
 
-ObjectNodeWidget::~ObjectNodeWidget() {}
+ObjectNodeWidget::~ObjectNodeWidget()
+{
+}
 
-void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     int w = width();
     int h = height();
 
@@ -67,8 +61,7 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     }
 
     p.drawRect(offsetX, offsetY, w, h);
-    p.setFont( UMLWidget::getFont() );
-
+    p.setFont( UMLWidget::font() );
 
     switch ( m_ObjectNodeType )
     {
@@ -77,14 +70,14 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
         {
             p.setPen(Qt::black);
             p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, "<< centralBuffer >>");
-            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
+            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
         }
         break;
     case Data :
         {
             p.setPen(Qt::black);
             p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2), w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, "<< datastore >>");
-            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
+            p.drawText(offsetX + OBJECTNODE_MARGIN, (offsetY + textStartY/2) + fontHeight + 5, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
         }
         break;
     case Flow :
@@ -101,8 +94,8 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
             p.drawLine(offsetX + 10 , offsetY + h/2, (offsetX + w)-10, offsetY + h/2  );
             p.setPen(Qt::black);
-            p.setFont( UMLWidget::getFont() );
-            p.drawText(offsetX + OBJECTNODE_MARGIN, offsetY + textStartY/2 - OBJECTNODE_MARGIN , w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, getName());
+            p.setFont( UMLWidget::font() );
+            p.drawText(offsetX + OBJECTNODE_MARGIN, offsetY + textStartY/2 - OBJECTNODE_MARGIN , w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, name());
             p.drawText(offsetX + OBJECTNODE_MARGIN, offsetY + textStartY/2 + textStartY + OBJECTNODE_MARGIN, w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
         }
         break;
@@ -114,13 +107,14 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
 }
 
-QSize ObjectNodeWidget::calculateSize() {
+QSize ObjectNodeWidget::calculateSize()
+{
     int widthtmp = 10, height = 10,width=10;
     if ( m_ObjectNodeType == Buffer ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
         const int textWidth = fm.width("<< centrelBuffer >>");
-        const int namewidth = fm.width(getName());
+        const int namewidth = fm.width(name());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
         width = namewidth > widthtmp ? namewidth : widthtmp;
@@ -131,7 +125,7 @@ QSize ObjectNodeWidget::calculateSize() {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
         const int textWidth = fm.width("<< datastore >>");
-        const int namewidth = fm.width(getName());
+        const int namewidth = fm.width(name());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
         width = namewidth > widthtmp ? namewidth : widthtmp;
@@ -142,7 +136,7 @@ QSize ObjectNodeWidget::calculateSize() {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
         const int textWidth = fm.width('[' + getState() + ']');
-        const int namewidth = fm.width(getName());
+        const int namewidth = fm.width(name());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
         width = namewidth > widthtmp ? namewidth : widthtmp;
@@ -154,11 +148,13 @@ QSize ObjectNodeWidget::calculateSize() {
     return QSize(width, height);
 }
 
-ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType() const {
+ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType() const
+{
     return m_ObjectNodeType;
 }
 
-ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType(const QString& objectNodeType) const {
+ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType(const QString& objectNodeType) const
+{
     if (objectNodeType == "Central buffer")
        return ObjectNodeWidget::Buffer;
     if (objectNodeType == "Data store")
@@ -170,25 +166,30 @@ ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType(const QStri
     return ObjectNodeWidget::Flow;
 }
 
-void ObjectNodeWidget::setObjectNodeType( ObjectNodeType objectNodeType ) {
+void ObjectNodeWidget::setObjectNodeType( ObjectNodeType objectNodeType )
+{
     m_ObjectNodeType = objectNodeType;
     UMLWidget::m_bResizable = true;
 }
 
-void ObjectNodeWidget::setObjectNodeType( const QString& objectNodeType ) {
+void ObjectNodeWidget::setObjectNodeType( const QString& objectNodeType )
+{
    setObjectNodeType(getObjectNodeType(objectNodeType) );
 }
 
-void ObjectNodeWidget::setState(const QString& state){
+void ObjectNodeWidget::setState(const QString& state)
+{
     m_State = state;
     updateComponentSize();
 }
 
-QString ObjectNodeWidget::getState() {
+QString ObjectNodeWidget::getState()
+{
     return m_State;
 }
 
-void ObjectNodeWidget::slotMenuSelection(QAction* action) {
+void ObjectNodeWidget::slotMenuSelection(QAction* action)
+{
     bool ok = false;
     QString name = m_Text;
 
@@ -209,7 +210,8 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-void ObjectNodeWidget::showProperties() {
+void ObjectNodeWidget::showProperties()
+{
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
@@ -218,12 +220,10 @@ void ObjectNodeWidget::showProperties() {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
     }
-
 }
 
-
-
-void ObjectNodeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void ObjectNodeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement objectNodeElement = qDoc.createElement( "objectnodewidget" );
     UMLWidget::saveToXMI( qDoc, objectNodeElement );
     objectNodeElement.setAttribute( "objectnodename", m_Text );
@@ -233,7 +233,8 @@ void ObjectNodeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) 
     qElement.appendChild( objectNodeElement );
 }
 
-bool ObjectNodeWidget::loadFromXMI( QDomElement & qElement ) {
+bool ObjectNodeWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "objectnodename", "" );
@@ -244,7 +245,8 @@ bool ObjectNodeWidget::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
-void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget){
+void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
+{
     bool pressedOK = false;
     int current = 0;
     const QStringList list = QStringList() << "Central buffer" << "Data store" <<"Object Flow";
@@ -269,7 +271,8 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget){
     }
 }
 
-void ObjectNodeWidget::askStateForWidget(){
+void ObjectNodeWidget::askStateForWidget()
+{
     bool pressedOK = false;
     QString state = KInputDialog::getText(i18n("Enter Object Flow State"),i18n("Enter State (keep '-' if there is no state for the object) "),i18n("-"), &pressedOK, UMLApp::app());
 
@@ -280,7 +283,8 @@ void ObjectNodeWidget::askStateForWidget(){
     }
 }
 
-void ObjectNodeWidget::slotOk() {
+void ObjectNodeWidget::slotOk()
+{
      //   KDialog::accept();
 }
 

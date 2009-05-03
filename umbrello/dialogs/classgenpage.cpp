@@ -46,7 +46,7 @@
 #include <QtGui/QGridLayout>
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
-    : QWidget(parent), m_pObject(o), m_pWidget(0), m_pInstanceWidget(0), m_pUmldoc(d)
+  : QWidget(parent), m_pObject(o), m_pWidget(0), m_pInstanceWidget(0), m_pUmldoc(d)
 {
     int margin = fontMetrics().height();
 
@@ -252,7 +252,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 }
 
 ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
-    : QWidget(parent), m_pObject(0), m_pWidget(o), m_pInstanceWidget(0), m_pUmldoc(d) 
+  : QWidget(parent), m_pObject(0), m_pWidget(o), m_pInstanceWidget(0), m_pUmldoc(d)
 {
     m_pDeconCB = 0;
     m_pMultiCB = 0;
@@ -272,7 +272,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pNameLayout->addWidget(m_pNameL, 0, 0);
 
     m_pClassNameLE = new KLineEdit(this);
-    m_pClassNameLE->setText(o->getName());
+    m_pClassNameLE->setText(o->name());
     m_pNameLayout->addWidget(m_pClassNameLE, 0, 1);
 
     m_pInstanceL = new QLabel(this);
@@ -280,23 +280,23 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pNameLayout->addWidget(m_pInstanceL, 1, 0);
 
     m_pInstanceLE = new KLineEdit(this);
-    m_pInstanceLE->setText(o->getInstanceName());
+    m_pInstanceLE->setText(o->instanceName());
     m_pNameLayout->addWidget(m_pInstanceLE, 1, 1);
     UMLView *view = UMLApp::app()->getCurrentView();
 
     m_pDrawActorCB = new QCheckBox( i18n( "Draw as actor" ) , this );
-    m_pDrawActorCB->setChecked( o->getDrawAsActor() );
+    m_pDrawActorCB->setChecked( o->drawAsActor() );
     m_pNameLayout->addWidget( m_pDrawActorCB, 2, 0 );
 
     if (view->getType() == Uml::dt_Collaboration) {
         m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
-        m_pMultiCB->setChecked(o->getMultipleInstance());
+        m_pMultiCB->setChecked(o->multipleInstance());
         m_pNameLayout->addWidget(m_pMultiCB, 2,1);
         if ( m_pDrawActorCB->isChecked() )
             m_pMultiCB->setEnabled( false );
     } else {  // sequence diagram
         m_pDeconCB = new QCheckBox(i18n("Show destruction"), this);
-        m_pDeconCB->setChecked(o->getShowDestruction());
+        m_pDeconCB->setChecked(o->showDestruction());
         m_pNameLayout->addWidget(m_pDeconCB, 2,1);
     }
     // setup documentation
@@ -342,7 +342,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
     m_pNameLayout->addWidget(m_pNameL, 0, 0);
 
     m_pClassNameLE = new KLineEdit(this);
-    m_pClassNameLE->setText(widget->getName());
+    m_pClassNameLE->setText(widget->name());
     m_pNameLayout->addWidget(m_pClassNameLE, 0, 1);
 
     m_pStereoTypeL = new QLabel(i18n("Stereotype name:"), this);
@@ -359,7 +359,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
     m_pNameLayout->addWidget(m_pInstanceL, 2, 0);
 
     m_pInstanceLE = new KLineEdit(this);
-    m_pInstanceLE->setText(widget->getInstanceName());
+    m_pInstanceLE->setText(widget->instanceName());
     m_pNameLayout->addWidget(m_pInstanceLE, 2, 1);
 
     //setup documentation
@@ -375,7 +375,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
     docLayout->addWidget(m_pDoc);
 }
 
-ClassGenPage::~ClassGenPage() 
+ClassGenPage::~ClassGenPage()
 {
 }
 

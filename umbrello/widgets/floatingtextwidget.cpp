@@ -82,7 +82,7 @@ void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     int w = width();
     int h = height();
-    p.setFont( UMLWidget::getFont() );
+    p.setFont( UMLWidget::font() );
     QColor textColor(50, 50, 50);
     p.setPen(textColor);
     p.drawText( offsetX, offsetY,w,h, Qt::AlignCenter, displayText() );
@@ -150,7 +150,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Change_Font:
         {
-            QFont font = getFont();
+            QFont font = UMLWidget::font();
             if( KFontDialog::getFont( font, false, m_pView ) ) {
                 if( m_textRole == Uml::tr_Floating || m_textRole == Uml::tr_Seq_Message ) {
                     setFont( font );

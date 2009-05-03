@@ -23,7 +23,8 @@
 #include "umlview.h"
 #include "umlwidget.h"
 
-ToolBarState::~ToolBarState() {
+ToolBarState::~ToolBarState()
+{
     delete m_pMouseEvent;
 }
 
@@ -148,7 +149,14 @@ void ToolBarState::slotAssociationRemoved(AssociationWidget* association) {
     }
 }
 
-void ToolBarState::slotWidgetRemoved(UMLWidget* widget) {
+/**
+ * A widget was removed from the UMLScene.
+ * If the widget removed was the current widget, the current widget is set
+ * to 0.
+ * It can be extended in subclasses if needed.
+ */
+void ToolBarState::slotWidgetRemoved(UMLWidget* widget)
+{
     if (widget == getCurrentWidget()) {
         setCurrentWidget(0);
     }
@@ -159,7 +167,16 @@ ToolBarState::ToolBarState(UMLView *umlView) : QObject(umlView), m_pUMLView(umlV
     init();
 }
 
-void ToolBarState::setCurrentElement() {
+/**
+ * Sets the current association or widget.
+ * It sets the current element when a press event happened. The element will
+ * be used until the next release event.
+ * Default implementation first checks for associations, then message widgets
+ * and then any other widgets.
+ * It can be overridden in subclasses if needed.
+ */
+void ToolBarState::setCurrentElement()
+{
     // Check associations.
     AssociationWidget* association = getAssociationAt(m_pMouseEvent->pos());
     if (association) {
@@ -197,42 +214,95 @@ void ToolBarState::setCurrentElement() {
     }
 }
 
-void ToolBarState::mousePressAssociation() {
+/**
+ * Called when the press event happened on an association.
+ * Default implementation does nothing.
+ */
+void ToolBarState::mousePressAssociation()
+{
 }
 
-void ToolBarState::mousePressWidget() {
+/**
+ * Called when the press event happened on a widget.
+ * Default implementation does nothing.
+ */
+void ToolBarState::mousePressWidget()
+{
 }
 
 void ToolBarState::mousePressEmpty() {
     m_pUMLView->clearSelected();
 }
 
-void ToolBarState::mouseReleaseAssociation() {
+/**
+ * Called when the release event happened on an association.
+ * Default implementation does nothing.
+ */
+void ToolBarState::mouseReleaseAssociation()
+{
 }
 
-void ToolBarState::mouseReleaseWidget() {
+/**
+ * Called when the release event happened on a widget.
+ * Default implementation does nothing.
+ */
+void ToolBarState::mouseReleaseWidget()
+{
 }
 
-void ToolBarState::mouseReleaseEmpty() {
+/**
+ * Called when the release event happened on an empty space.
+ * Default implementation does nothing.
+ */
+void ToolBarState::mouseReleaseEmpty()
+{
 }
 
-void ToolBarState::mouseDoubleClickAssociation() {
+/**
+ * Called when the double click event happened on an association.
+ * Default implementation does nothing.
+ */
+void ToolBarState::mouseDoubleClickAssociation()
+{
 }
 
-void ToolBarState::mouseDoubleClickWidget() {
+/**
+ * Called when the double click event happened on a widget.
+ * Default implementation does nothing.
+ */
+void ToolBarState::mouseDoubleClickWidget()
+{
 }
 
 void ToolBarState::mouseDoubleClickEmpty() {
     m_pUMLView->clearSelected();
 }
 
-void ToolBarState::mouseMoveAssociation() {
+/**
+ * Called when the move event happened when an association is
+ * currently available.
+ * Default implementation does nothing.
+ */
+void ToolBarState::mouseMoveAssociation()
+{
 }
 
-void ToolBarState::mouseMoveWidget() {
+/**
+ * Called when the move event happened when a widget is
+ * currently available.
+ * Default implementation does nothing.
+ */
+void ToolBarState::mouseMoveWidget()
+{
 }
 
-void ToolBarState::mouseMoveEmpty() {
+/**
+ * Called when the move event happened when no association nor
+ * widget are currently available.
+ * Default implementation does nothing.
+ */
+void ToolBarState::mouseMoveEmpty()
+{
 }
 
 void ToolBarState::changeTool() {

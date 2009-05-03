@@ -15,7 +15,6 @@
 #include "toolbarstatepool.h"
 //Added by qt3to4:
 #include <QMouseEvent>
-#include <qpoint.h>
 
 class Q3CanvasLine;
 class ObjectWidget;

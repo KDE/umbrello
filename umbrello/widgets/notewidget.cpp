@@ -4,19 +4,16 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "notewidget.h"
 //qt includes
-#include <q3pointarray.h>
-#include <qpainter.h>
+#include <QtGui/QPainter>
 #include <q3textedit.h>
-#include <qframe.h>
-//Added by qt3to4:
-#include <QMouseEvent>
+#include <QtGui/QFrame>
 // kde includes
 #include <kdebug.h>
 #include <klocale.h>
@@ -34,7 +31,8 @@
 #define NOTEMARGIN 10
 
 NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
-        : UMLWidget(view, id, new NoteWidgetController(this)) {
+  : UMLWidget(view, id, new NoteWidgetController(this))
+{
     init();
     m_NoteType = noteType;
     setSize(100,80);
@@ -57,45 +55,52 @@ NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
 
 }
 
-void NoteWidget::init() {
+void NoteWidget::init()
+{
     UMLWidget::setBaseType(Uml::wt_Note);
     m_DiagramLink = Uml::id_None;
 }
 
-NoteWidget::NoteType NoteWidget::getNoteType() const {
+NoteWidget::NoteType NoteWidget::getNoteType() const
+{
     return m_NoteType;
 }
 
-NoteWidget::NoteType NoteWidget::getNoteType(const QString& noteType) const {
-        if (noteType == "Precondition")
+NoteWidget::NoteType NoteWidget::getNoteType(const QString& noteType) const
+{
+    if (noteType == "Precondition")
         return NoteWidget::PreCondition;
     else if (noteType == "Postcondition")
         return NoteWidget::PostCondition;
     else if (noteType == "Transformation")
         return NoteWidget::Transformation;
-        else
-                return NoteWidget::Normal;
+    else
+        return NoteWidget::Normal;
 }
 
-void NoteWidget::setNoteType( NoteType noteType ) {
+void NoteWidget::setNoteType( NoteType noteType )
+{
     m_NoteType = noteType;
 }
 
-void NoteWidget::setNoteType( const QString& noteType ) {
+void NoteWidget::setNoteType( const QString& noteType )
+{
     setNoteType(getNoteType(noteType));
 }
 
-NoteWidget::~NoteWidget() {
+NoteWidget::~NoteWidget()
+{
 #ifdef NOTEWIDGET_EMBED_EDITOR
     delete m_pEditor;
 #endif
 }
 
-void NoteWidget::setDiagramLink(Uml::IDType viewID) {
+void NoteWidget::setDiagramLink(Uml::IDType viewID)
+{
     UMLDoc *umldoc = UMLApp::app()->getDocument();
     UMLView *view = umldoc->findView(viewID);
     if (view == NULL) {
-        uError() << "no view found for viewID " << ID2STR(viewID) << endl;
+        uError() << "no view found for viewID " << ID2STR(viewID);
         return;
     }
     QString linkText("Diagram: " + view->getName());
@@ -110,22 +115,26 @@ void NoteWidget::setDiagramLink(Uml::IDType viewID) {
     m_DiagramLink = viewID;
 }
 
-Uml::IDType NoteWidget::getDiagramLink() const {
+Uml::IDType NoteWidget::getDiagramLink() const
+{
     return m_DiagramLink;
 }
 
-void NoteWidget::slotViewScrolled(int x, int y) {
+void NoteWidget::slotViewScrolled(int x, int y)
+{
     setEditorGeometry(x, y);
 }
 
-void NoteWidget::setFont(QFont font) {
+void NoteWidget::setFont(QFont font)
+{
     UMLWidget::setFont(font);
 #ifdef NOTEWIDGET_EMBED_EDITOR
     m_pEditor->setFont(font);
 #endif
 }
 
-void NoteWidget::setEditorGeometry(int dx /*=0*/, int dy /*=0*/) {
+void NoteWidget::setEditorGeometry(int dx /*=0*/, int dy /*=0*/)
+{
 #if defined (NOTEWIDGET_EMBED_EDITOR)
     const QRect editorGeometry( UMLWidget::getX() - dx + 6,
                                 UMLWidget::getY() - dy + 10,
@@ -138,17 +147,20 @@ void NoteWidget::setEditorGeometry(int dx /*=0*/, int dy /*=0*/) {
 #endif
 }
 
-void NoteWidget::setX( int x ) {
+void NoteWidget::setX( int x )
+{
     UMLWidget::setX(x);
     setEditorGeometry();
 }
 
-void NoteWidget::setY( int y ) {
+void NoteWidget::setY( int y )
+{
     UMLWidget::setY(y);
     setEditorGeometry();
 }
 
-QString NoteWidget::getDoc() const {
+QString NoteWidget::getDoc() const
+{
 #if defined (NOTEWIDGET_EMBED_EDITOR)
     return m_pEditor->text();
 #else
@@ -156,7 +168,8 @@ QString NoteWidget::getDoc() const {
 #endif
 }
 
-void NoteWidget::setDoc(const QString &newText) {
+void NoteWidget::setDoc(const QString &newText)
+{
 #if defined (NOTEWIDGET_EMBED_EDITOR)
     m_pEditor->setText(newText);
 #else
@@ -164,7 +177,8 @@ void NoteWidget::setDoc(const QString &newText) {
 #endif
 }
 
-void NoteWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     int margin = 10;
     int w = width()-1;
 
@@ -215,7 +229,8 @@ if(m_bSelected) {
     drawText(&p, offsetX, offsetY);
 }
 
-QSize NoteWidget::calculateSize() {
+QSize NoteWidget::calculateSize()
+{
     int width = 50, height = 50;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     //const int fontHeight  = fm.lineSpacing();
@@ -241,7 +256,8 @@ QSize NoteWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void NoteWidget::slotMenuSelection(QAction* action) {
+void NoteWidget::slotMenuSelection(QAction* action)
+{
     NoteDialog * dlg = 0;
     UMLDoc *doc = UMLApp::app()->getDocument();
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
@@ -269,7 +285,8 @@ void NoteWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offsetY /*=0*/) {
+void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offsetY /*=0*/)
+{
 #if defined (NOTEWIDGET_EMBED_EDITOR)
     m_pEditor->setText( getDoc() );
     m_pEditor->setShown(true);
@@ -285,7 +302,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     start new line on \n character
     */
     p->setPen( Qt::black );
-    QFont font = UMLWidget::getFont();
+    QFont font = UMLWidget::font();
     p->setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -302,7 +319,6 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     const int height = this -> height() - fontHeight;
     QChar returnChar('\n');
     QChar c;
-
 
  //   QString text = getDoc();
     //QString text = l_Type + "\n" + m_Text;
@@ -370,8 +386,8 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
 #endif
 }
 
-void NoteWidget::askForNoteType(UMLWidget* &targetWidget) {
-
+void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
+{
     bool pressedOK = false;
     const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
     QString type = KInputDialog::getItem (i18n("Note Type"), i18n("Select the Note Type"), list, 0, false, &pressedOK, UMLApp::app());
@@ -385,7 +401,8 @@ void NoteWidget::askForNoteType(UMLWidget* &targetWidget) {
     }
 }
 
-void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement noteElement = qDoc.createElement( "notewidget" );
     UMLWidget::saveToXMI( qDoc, noteElement );
     noteElement.setAttribute( "text", getDoc() );
@@ -395,7 +412,8 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.appendChild( noteElement );
 }
 
-bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
+bool NoteWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     setZ( 20 ); //make sure always on top.
@@ -407,7 +425,6 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement ) {
     setNoteType( (NoteType)type.toInt() );
     return true;
 }
-
 
 #include "notewidget.moc"
 

@@ -12,7 +12,8 @@
 #include "activitywidget.h"
 
 // qt includes
-#include <qpainter.h>
+#include <QtGui/QPainter>
+#include <QtGui/QPolygon>
 
 // kde includes
 #include <klocale.h>
@@ -27,10 +28,6 @@
 #include "listpopupmenu.h"
 #include "dialogs/activitydialog.h"
 
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPolygon>
-
 ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::IDType id )
         : UMLWidget(view, id)
 {
@@ -39,9 +36,12 @@ ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::I
     updateComponentSize();
 }
 
-ActivityWidget::~ActivityWidget() {}
+ActivityWidget::~ActivityWidget()
+{
+}
 
-void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     int w = width();
     int h = height();
 
@@ -64,9 +64,9 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p.setPen(Qt::black);
-            p.setFont( UMLWidget::getFont() );
+            p.setFont( UMLWidget::font() );
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
-                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
+                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
         }
         break;
 
@@ -128,9 +128,9 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
             int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p.setPen(Qt::black);
-            p.setFont( UMLWidget::getFont() );
+            p.setFont( UMLWidget::font() );
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + textStartY,
-                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
+                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
 
         }
         x = offsetX + w - (w/5);
@@ -150,18 +150,18 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
-            QString preCond= "<<precondition>> "+getPreText();
-            QString postCond= "<<postcondition>> "+getPostText();
+            QString preCond= "<<precondition>> "+preconditionText();
+            QString postCond= "<<postcondition>> "+postconditionText();
             //int textStartY = (h / 2) - (fontHeight / 2);
             p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
             p.setPen(Qt::black);
-            p.setFont( UMLWidget::getFont() );
+            p.setFont( UMLWidget::font() );
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight + 10,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, preCond);
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + fontHeight * 2 + 10,
                        w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, postCond);
             p.drawText(offsetX + ACTIVITY_MARGIN, offsetY + (fontHeight / 2),
-                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
+                       w - ACTIVITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
         }
 
         break;
@@ -171,7 +171,8 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY) {
         drawSelected(&p, offsetX, offsetY);
 }
 
-void ActivityWidget::constrain(int& width, int& height) {
+void ActivityWidget::constrain(int& width, int& height)
+{
     if (m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param) {
         QSize minSize = calculateSize();
         if (width < minSize.width())
@@ -203,13 +204,14 @@ void ActivityWidget::constrain(int& width, int& height) {
     }
 }
 
-QSize ActivityWidget::calculateSize() {
+QSize ActivityWidget::calculateSize()
+{
     int width, height;
     if ( m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
 
-        int textWidth = fm.width(getName());
+        int textWidth = fm.width(name());
         height = fontHeight;
         height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
         height += ACTIVITY_MARGIN * 2;
@@ -221,8 +223,8 @@ QSize ActivityWidget::calculateSize() {
         } else if (m_ActivityType == Param) {
             QString maxSize;
 
-            maxSize = getName().length() > getPostText().length() ? getName() : getPostText();
-            maxSize = maxSize.length() > getPreText().length() ? maxSize : getPreText();
+            maxSize = name().length() > postconditionText().length() ? name() : postconditionText();
+            maxSize = maxSize.length() > preconditionText().length() ? maxSize : preconditionText();
 
             textWidth = fm.width(maxSize);
             textWidth = textWidth + 50;
@@ -239,17 +241,20 @@ QSize ActivityWidget::calculateSize() {
     return QSize(width, height);
 }
 
-ActivityWidget::ActivityType ActivityWidget::activityType() const {
+ActivityWidget::ActivityType ActivityWidget::activityType() const
+{
     return m_ActivityType;
 }
 
-void ActivityWidget::setActivityType( ActivityType activityType ) {
+void ActivityWidget::setActivityType( ActivityType activityType )
+{
     m_ActivityType = activityType;
     updateComponentSize();
     UMLWidget::m_bResizable = true;
 }
 
-void ActivityWidget::slotMenuSelection(QAction* action) {
+void ActivityWidget::slotMenuSelection(QAction* action)
+{
     bool ok = false;
     QString name = m_Text;
 
@@ -270,7 +275,8 @@ void ActivityWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-void ActivityWidget::showProperties() {
+void ActivityWidget::showProperties()
+{
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
@@ -308,7 +314,8 @@ bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
     return status;
 }
 
-void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement activityElement = qDoc.createElement( "activitywidget" );
     UMLWidget::saveToXMI( qDoc, activityElement );
     activityElement.setAttribute( "activityname", m_Text );
@@ -319,7 +326,8 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.appendChild( activityElement );
 }
 
-bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
+bool ActivityWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "activityname", "" );
@@ -333,28 +341,29 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
-void ActivityWidget::setPreText(const QString& aPreText)
+void ActivityWidget::setPreconditionText(const QString& aPreText)
 {
     preText=aPreText;
     updateComponentSize();
     adjustAssocs( getX(), getY() );
 }
 
-QString ActivityWidget::getPreText()
+QString ActivityWidget::preconditionText()
 {
     return preText;
 }
 
-void ActivityWidget::setPostText(const QString& aPostText)
+void ActivityWidget::setPostconditionText(const QString& aPostText)
 {
     postText=aPostText;
     updateComponentSize();
     adjustAssocs( getX(), getY() );
 }
 
-QString ActivityWidget::getPostText()
+QString ActivityWidget::postconditionText()
 {
     return postText;
 }
+
 #include "activitywidget.moc"
 

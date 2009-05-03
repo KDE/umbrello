@@ -10,15 +10,23 @@
 
 // own header
 #include "floatingtextwidgetcontroller.h"
-// qt/kde includes
-#include <kdebug.h>
+
 // app includes
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
 
-FloatingTextWidgetController::FloatingTextWidgetController(FloatingTextWidget *floatingTextWidget):
-            UMLWidgetController(floatingTextWidget) {
+// kde includes
+#include <kdebug.h>
+
+/**
+ * Constructor for FloatingTextWidgetController.
+ *
+ * @param floatingTextWidget The floating text widget which uses the controller.
+ */
+FloatingTextWidgetController::FloatingTextWidgetController(FloatingTextWidget *floatingTextWidget)
+  : UMLWidgetController(floatingTextWidget)
+{
     m_floatingTextWidget = floatingTextWidget;
     m_unconstrainedPositionX = 0;
     m_unconstrainedPositionY = 0;
@@ -26,10 +34,23 @@ FloatingTextWidgetController::FloatingTextWidgetController(FloatingTextWidget *f
     m_movementDirectionY = 0;
 }
 
-FloatingTextWidgetController::~FloatingTextWidgetController() {
+/**
+ * Destructor for MessageWidgetController.
+ */
+FloatingTextWidgetController::~FloatingTextWidgetController()
+{
 }
 
-void FloatingTextWidgetController::saveWidgetValues(QMouseEvent *me) {
+/**
+ * Overridden from UMLWidgetController.
+ * Saves the values of the widget needed for move/resize.
+ * Calls parent method and then saves the value of m_unconstrainedPositionX/Y
+ * and m_movementDirectionX/Y.
+ *
+ * @param me The QMouseEvent to get the offset from.
+ */
+void FloatingTextWidgetController::saveWidgetValues(QMouseEvent *me)
+{
     UMLWidgetController::saveWidgetValues(me);
 
     m_unconstrainedPositionX = m_widget->getX();
@@ -38,11 +59,41 @@ void FloatingTextWidgetController::saveWidgetValues(QMouseEvent *me) {
     m_movementDirectionY = 0;
 }
 
-bool FloatingTextWidgetController::isInResizeArea(QMouseEvent* /*me*/) {
+/**
+ * Overridden from UMLWidgetController.
+ * FloatingTextWidgets can't be resized, so this method always returns false.
+ * Cursor isn't changed.
+ *
+ * @param me The QMouseEVent to check.
+ * @return true if the mouse is in resize area, false otherwise.
+ */
+bool FloatingTextWidgetController::isInResizeArea(QMouseEvent* me)
+{
+    Q_UNUSED(me);
     return false;
 }
 
-void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY) {
+/**
+ * Overridden from UMLWidgetController.
+ * Moves the widget to a new position using the difference between the
+ * current position and the new position.
+ * If the floating text widget is part of a sequence message, and the
+ * message widget is selected, it does nothing: the message widget will
+ * update the text position when it's moved.
+ * In any other case, the floating text widget constrains its move using
+ * constrainPosition. When the position of the floating text is constrained,
+ * it's kept at that position until it can be moved to another valid
+ * position (m_unconstrainedPositionX/Y and m_movementDirectionX/Y are
+ * used for that).
+ * Moreover, if is part of a sequence message (and the message widget
+ * isn't selected), it updates the position of the message widget.
+ * @see constrainPosition
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY)
+{
     if (m_floatingTextWidget->m_textRole == Uml::tr_Seq_Message_Self)
         return;
 
@@ -96,14 +147,38 @@ void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY) {
     }
 }
 
-void FloatingTextWidgetController::constrainMovementForAllWidgets(int &diffX, int &diffY) {
+/**
+ * Overridden from UMLWidgetController.
+ * Modifies the value of the diffX and diffY variables used to move the
+ * widgets.
+ * The values are constrained using constrainPosition.
+ * @see constrainPosition
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void FloatingTextWidgetController::constrainMovementForAllWidgets(int &diffX, int &diffY)
+{
     QPoint constrainedPosition = constrainPosition(diffX, diffY);
 
     diffX = constrainedPosition.x() - m_floatingTextWidget->getX();
     diffY = constrainedPosition.y() - m_floatingTextWidget->getY();
 }
 
-QPoint FloatingTextWidgetController::constrainPosition(int diffX, int diffY) {
+/**
+ * Returns a constrained position for the widget after applying the position
+ * difference.
+ * If no link widget exists, the position returned is the current widget
+ * position with the difference applied. If there's a link, the position
+ * to be returned is constrained using constrainTextPos method from the
+ * LinkWidget, if any.
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ * @return A QPoint with the constrained new position.
+ */
+QPoint FloatingTextWidgetController::constrainPosition(int diffX, int diffY)
+{
     int newX = m_floatingTextWidget->getX() + diffX;
     int newY = m_floatingTextWidget->getY() + diffY;
 

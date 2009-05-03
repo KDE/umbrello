@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +12,7 @@
 #include "enumwidget.h"
 
 // qt/kde includes
-#include <qpainter.h>
+#include <QtGui/QPainter>
 #include <kdebug.h>
 
 // app includes
@@ -28,12 +27,13 @@
 #include "listpopupmenu.h"
 #include "object_factory.h"
 
-
-EnumWidget::EnumWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o) {
+EnumWidget::EnumWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o)
+{
     init();
 }
 
-void EnumWidget::init() {
+void EnumWidget::init()
+{
     UMLWidget::setBaseType(Uml::wt_Enum);
     setSize(100, 30);
     //set defaults from m_pView
@@ -49,9 +49,12 @@ void EnumWidget::init() {
         updateComponentSize();
 }
 
-EnumWidget::~EnumWidget() {}
+EnumWidget::~EnumWidget()
+{
+}
 
-void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
+void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
+{
     setPenFromSettings(p);
     if(UMLWidget::getUseFillColour())
         p.setBrush(UMLWidget::getFillColour());
@@ -67,13 +70,13 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     if ( m_bShowPackage ) {
         name = m_pObject->getFullyQualifiedName();
     } else {
-        name = this -> getName();
+        name = this->name();
     }
 
     p.drawRect(offsetX, offsetY, w, h);
     p.setPen(QPen(Qt::black));
 
-    QFont font = UMLWidget::getFont();
+    QFont font = UMLWidget::font();
     font.setBold(true);
     p.setFont(font);
     p.drawText(offsetX + ENUM_MARGIN, offsetY,
@@ -111,13 +114,14 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY) {
     }
 }
 
-QSize EnumWidget::calculateSize() {
+QSize EnumWidget::calculateSize()
+{
     if (!m_pObject) {
         return UMLWidget::calculateSize();
     }
 
     int width, height;
-    QFont font = UMLWidget::getFont();
+    QFont font = UMLWidget::font();
     font.setItalic(false);
     font.setUnderline(false);
     font.setBold(false);
@@ -145,7 +149,7 @@ QSize EnumWidget::calculateSize() {
     if (m_bShowPackage)  {
         width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getFullyQualifiedName()).width();
     } else {
-        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(getName()).width();
+        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(name()).width();
     }
     int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
 
@@ -166,7 +170,8 @@ QSize EnumWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void EnumWidget::slotMenuSelection(QAction* action) {
+void EnumWidget::slotMenuSelection(QAction* action)
+{
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     if (sel == ListPopupMenu::mt_EnumLiteral) {
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
@@ -182,17 +187,20 @@ void EnumWidget::slotMenuSelection(QAction* action) {
     UMLWidget::slotMenuSelection(action);
 }
 
-void EnumWidget::setShowPackage(bool _status) {
+void EnumWidget::setShowPackage(bool _status)
+{
     m_bShowPackage = _status;
     updateComponentSize();
     update();
 }
 
-bool EnumWidget::getShowPackage() const {
+bool EnumWidget::getShowPackage() const
+{
     return m_bShowPackage;
 }
 
-void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {
+void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
+{
     QDomElement conceptElement = qDoc.createElement("enumwidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);
 
@@ -200,7 +208,8 @@ void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement ) {
     qElement.appendChild(conceptElement);
 }
 
-bool EnumWidget::loadFromXMI( QDomElement & qElement ) {
+bool EnumWidget::loadFromXMI( QDomElement & qElement )
+{
     if ( !UMLWidget::loadFromXMI(qElement) ) {
         return false;
     }
@@ -211,11 +220,10 @@ bool EnumWidget::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
-void EnumWidget::toggleShowPackage() {
+void EnumWidget::toggleShowPackage()
+{
     m_bShowPackage = !m_bShowPackage;
     updateComponentSize();
     update();
-
-    return;
 }
 

@@ -355,7 +355,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Change_Font:
     case ListPopupMenu::mt_Change_Font_Selection: {
-        QFont font = getFont();
+        QFont font = UMLWidget::font();
         if (KFontDialog::getFont(font, false, m_pView)) {
             UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_pDoc, m_pView, font));
         }
@@ -826,7 +826,7 @@ void UMLWidget::setName(const QString &strName)
     adjustAssocs(getX(), getY());
 }
 
-QString UMLWidget::getName() const
+QString UMLWidget::name() const
 {
     if (m_pObject)
         return m_pObject->getName();
@@ -976,7 +976,7 @@ void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm)
     m_pFontMetrics[fontType] = new QFontMetrics(fm);
 }
 
-QFont UMLWidget::getFont() const
+QFont UMLWidget::font() const
 {
     return m_Font;
 }

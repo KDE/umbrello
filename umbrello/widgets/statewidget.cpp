@@ -12,7 +12,7 @@
 #include "statewidget.h"
 
 // qt includes
-#include <qevent.h>
+#include <QEvent>
 
 // kde includes
 #include <klocale.h>
@@ -29,16 +29,20 @@
 #include "listpopupmenu.h"
 
 StateWidget::StateWidget(UMLView * view, StateType stateType, Uml::IDType id)
-        : UMLWidget(view, id) {
+  : UMLWidget(view, id)
+{
     UMLWidget::setBaseType(Uml::wt_State);
     m_StateType = stateType;
     m_Text = "State";
     updateComponentSize();
 }
 
-StateWidget::~StateWidget() {}
+StateWidget::~StateWidget()
+{
+}
 
-void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void StateWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     setPenFromSettings(p);
     const int w = width();
     const int h = height();
@@ -55,7 +59,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
             if( count == 0 ) {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
                 p.setPen(Qt::black);
-                QFont font = UMLWidget::getFont();
+                QFont font = UMLWidget::font();
                 font.setBold( false );
                 p.setFont( font );
                 p.drawText(offsetX + STATE_MARGIN, offsetY + textStartY,
@@ -66,7 +70,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
                 textStartY = offsetY + STATE_MARGIN;
                 p.setPen(Qt::black);
-                QFont font = UMLWidget::getFont();
+                QFont font = UMLWidget::font();
                 font.setBold( true );
                 p.setFont( font );
                 p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2,
@@ -109,7 +113,8 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY) {
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize StateWidget::calculateSize() {
+QSize StateWidget::calculateSize()
+{
     int width = 10, height = 10;
     if ( m_StateType == Normal ) {
         const QFontMetrics &fm = getFontMetrics(FT_BOLD);
@@ -136,25 +141,30 @@ QSize StateWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void StateWidget::setName(const QString &strName) {
+void StateWidget::setName(const QString &strName)
+{
     m_Text = strName;
     updateComponentSize();
     adjustAssocs( getX(), getY() );
 }
 
-QString StateWidget::getName() const {
+QString StateWidget::getName() const
+{
     return m_Text;
 }
 
-StateWidget::StateType StateWidget::stateType() const {
+StateWidget::StateType StateWidget::stateType() const
+{
     return m_StateType;
 }
 
-void StateWidget::setStateType( StateType stateType ) {
+void StateWidget::setStateType( StateType stateType )
+{
     m_StateType = stateType;
 }
 
-void StateWidget::slotMenuSelection(QAction* action) {
+void StateWidget::slotMenuSelection(QAction* action)
+{
     bool ok = false;
     QString name = getName();
 
@@ -181,20 +191,23 @@ void StateWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-bool StateWidget::addActivity( const QString &activity ) {
+bool StateWidget::addActivity( const QString &activity )
+{
     m_Activities.append( activity );
     updateComponentSize();
     return true;
 }
 
-bool StateWidget::removeActivity( const QString &activity ) {
+bool StateWidget::removeActivity( const QString &activity )
+{
     if( m_Activities.removeAll( activity ) == 0 )
         return false;
     updateComponentSize();
     return true;
 }
 
-void StateWidget::setActivities( QStringList & list ) {
+void StateWidget::setActivities( QStringList & list )
+{
     m_Activities = list;
     updateComponentSize();
 }
@@ -204,7 +217,8 @@ QStringList & StateWidget::activities()
     return m_Activities;
 }
 
-bool StateWidget::renameActivity( const QString &activity, const QString &newName ) {
+bool StateWidget::renameActivity( const QString &activity, const QString &newName )
+{
     int index = - 1;
     if( ( index = m_Activities.indexOf( activity ) ) == -1 )
         return false;
@@ -212,7 +226,8 @@ bool StateWidget::renameActivity( const QString &activity, const QString &newNam
     return true;
 }
 
-void StateWidget::showProperties() {
+void StateWidget::showProperties()
+{
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
@@ -243,7 +258,8 @@ bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultTyp
     return status;
 }
 
-void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement stateElement = qDoc.createElement( "statewidget" );
     UMLWidget::saveToXMI( qDoc, stateElement );
     stateElement.setAttribute( "statename", m_Text );
@@ -262,7 +278,8 @@ void StateWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.appendChild( stateElement );
 }
 
-bool StateWidget::loadFromXMI( QDomElement & qElement ) {
+bool StateWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "statename", "" );
@@ -287,7 +304,6 @@ bool StateWidget::loadFromXMI( QDomElement & qElement ) {
     }//end if
     return true;
 }
-
 
 #include "statewidget.moc"
 

@@ -12,9 +12,8 @@
 #include "objectwidget.h"
 
 // system includes
-#include <qpainter.h>
-#include <qvalidator.h>
-#include <qevent.h>
+#include <QtGui/QPainter>
+#include <QValidator>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
@@ -37,7 +36,8 @@
 static const int sequenceLineMargin = 20;
 
 ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
-        : UMLWidget(view, o) {
+  : UMLWidget(view, o)
+{
     init();
     if( lid != Uml::id_None )
         m_nLocalID = lid;
@@ -46,7 +46,8 @@ ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
     //                  Instead, it is done afterwards by UMLWidget::activate()
 }
 
-void ObjectWidget::init() {
+void ObjectWidget::init()
+{
     UMLWidget::setBaseType(Uml::wt_Object);
     m_nLocalID = Uml::id_None;
     m_InstanceName = "";
@@ -64,9 +65,12 @@ void ObjectWidget::init() {
     }
 }
 
-ObjectWidget::~ObjectWidget() {}
+ObjectWidget::~ObjectWidget()
+{
+}
 
-void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY) {
+void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY)
+{
     if ( m_bDrawAsActor )
         drawActor( p, offsetX, offsetY );
     else
@@ -77,7 +81,8 @@ void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY) {
         drawSelected(&p, offsetX, offsetY);
 }
 
-void ObjectWidget::slotMenuSelection(QAction* action) {
+void ObjectWidget::slotMenuSelection(QAction* action)
+{
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename_Object:
@@ -122,7 +127,8 @@ void ObjectWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-QSize ObjectWidget::calculateSize() {
+QSize ObjectWidget::calculateSize()
+{
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
     const int fontHeight  = fm.lineSpacing();
@@ -145,12 +151,14 @@ QSize ObjectWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void ObjectWidget::setDrawAsActor( bool drawAsActor ) {
+void ObjectWidget::setDrawAsActor( bool drawAsActor )
+{
     m_bDrawAsActor = drawAsActor;
     updateComponentSize();
 }
 
-void ObjectWidget::setMultipleInstance(bool multiple) {
+void ObjectWidget::setMultipleInstance(bool multiple)
+{
     //make sure only calling this in relation to an object on a collab. diagram
     if(m_pView -> getType() != Uml::dt_Collaboration)
         return;
@@ -159,7 +167,8 @@ void ObjectWidget::setMultipleInstance(bool multiple) {
     update();
 }
 
-bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
+bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/)
+{
     if (! UMLWidget::activate(ChangeLog))
         return false;
     if (m_bShowDestruction && m_pLine)
@@ -168,17 +177,20 @@ bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/) {
     return true;
 }
 
-void ObjectWidget::setX( int x ) {
+void ObjectWidget::setX( int x )
+{
     UMLWidget::setX(x);
     moveEvent(0);
 }
 
-void ObjectWidget::setY( int y ) {
+void ObjectWidget::setY( int y )
+{
     UMLWidget::setY(y);
     moveEvent(0);
 }
 
-void ObjectWidget::moveEvent(QMoveEvent *m) {
+void ObjectWidget::moveEvent(QMoveEvent *m)
+{
     Q_UNUSED(m)
     emit sigWidgetMoved( m_nLocalID );
     if (m_pLine) {
@@ -190,7 +202,8 @@ void ObjectWidget::moveEvent(QMoveEvent *m) {
     }
 }
 
-void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
+void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/)
+{
     UMLWidget::setFillColour( m_pView->getFillColor() );
     UMLWidget::setLineColor( m_pView->getLineColor() );
 
@@ -198,8 +211,8 @@ void ObjectWidget::slotColorChanged(Uml::IDType /*viewID*/) {
         m_pLine->setPen( QPen( UMLWidget::lineColor(), UMLWidget::lineWidth(), Qt::DashLine ) );
 }
 
-void ObjectWidget::cleanup() {
-
+void ObjectWidget::cleanup()
+{
     UMLWidget::cleanup();
     if( m_pLine ) {
         m_pLine -> cleanup();
@@ -207,7 +220,8 @@ void ObjectWidget::cleanup() {
     }
 }
 
-void ObjectWidget::showProperties() {
+void ObjectWidget::showProperties()
+{
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
     ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
@@ -218,10 +232,10 @@ void ObjectWidget::showProperties() {
     dlg->close();
 }
 
-void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
-
+void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
+{
     QFont oldFont = p.font();
-    QFont font = UMLWidget::getFont();
+    QFont font = UMLWidget::font();
     font.setUnderline( true );
     p.setFont( font );
 
@@ -249,7 +263,8 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY) {
     p.setFont( oldFont );
 }
 
-void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
+void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY)
+{
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
 
     setPenFromSettings(p);
@@ -278,7 +293,8 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY) {
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
 }
 
-void ObjectWidget::tabUp() {
+void ObjectWidget::tabUp()
+{
     int newY = getY() - height();
     if (newY < topMargin())
         newY = topMargin();
@@ -287,33 +303,39 @@ void ObjectWidget::tabUp() {
     adjustAssocs( getX(), newY);
 }
 
-void ObjectWidget::tabDown() {
+void ObjectWidget::tabDown()
+{
     int newY = getY() + height();
     setY( newY );
     moveEvent( 0 );
     adjustAssocs( getX(), newY);
 }
 
-int ObjectWidget::topMargin() {
+int ObjectWidget::topMargin()
+{
     return 80 - height();
 }
 
-bool ObjectWidget::canTabUp() {
+bool ObjectWidget::canTabUp()
+{
     int y = getY();
     return (y > topMargin());
 }
 
-void ObjectWidget::setShowDestruction( bool bShow ) {
+void ObjectWidget::setShowDestruction( bool bShow )
+{
     m_bShowDestruction = bShow;
     if( m_pLine )
         m_pLine -> setupDestructionBox();
 }
 
-void ObjectWidget::setEndLine(int yPosition) {
+void ObjectWidget::setEndLine(int yPosition)
+{
     m_pLine->setEndOfLine(yPosition);
 }
 
-int ObjectWidget::getEndLineY() {
+int ObjectWidget::getEndLineY()
+{
     int y = this -> getY() + getHeight();
     if( m_pLine)
         y += m_pLine -> getLineLength();
@@ -322,24 +344,25 @@ int ObjectWidget::getEndLineY() {
     return y;
 }
 
-void ObjectWidget::messageAdded(MessageWidget* message) {
+void ObjectWidget::messageAdded(MessageWidget* message)
+{
     if ( messageWidgetList.count(message) ) {
-        uError() << message->getName() << ": duplicate entry !" << endl;
+        uError() << message->name() << ": duplicate entry !";
         return ;
     }
     messageWidgetList.append(message);
 }
 
-void ObjectWidget::messageRemoved(MessageWidget* message) {
+void ObjectWidget::messageRemoved(MessageWidget* message)
+{
     if ( messageWidgetList.removeAll(message) == false ) {
-        uError() << message->getName() << ": missing entry !"
-                  << endl;
+        uError() << message->name() << ": missing entry !";
         return ;
     }
 }
 
-void ObjectWidget::slotMessageMoved() {
-
+void ObjectWidget::slotMessageMoved()
+{
     int lowestMessage = 0;
     foreach ( MessageWidget* message, messageWidgetList ) {
         int messageHeight = message->getY() + message->getHeight();
@@ -350,8 +373,8 @@ void ObjectWidget::slotMessageMoved() {
     m_pLine->setEndOfLine(lowestMessage + sequenceLineMargin);
 }
 
-bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
-
+bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget)
+{
     foreach ( MessageWidget* message , messageWidgetList ) {
         const int msgY = message->getY();
         const int msgHeight = msgY + message->getHeight();
@@ -362,11 +385,13 @@ bool ObjectWidget::messageOverlap(int y, MessageWidget* messageWidget) {
     return false;
 }
 
-SeqLineWidget *ObjectWidget::getSeqLine() {
+SeqLineWidget *ObjectWidget::getSeqLine()
+{
     return m_pLine;
 }
 
-void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement objectElement = qDoc.createElement( "objectwidget" );
     UMLWidget::saveToXMI( qDoc, objectElement );
     objectElement.setAttribute( "instancename", m_InstanceName );
@@ -377,7 +402,8 @@ void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.appendChild( objectElement );
 }
 
-bool ObjectWidget::loadFromXMI( QDomElement & qElement ) {
+bool ObjectWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_InstanceName = qElement.attribute( "instancename", "" );
@@ -391,7 +417,6 @@ bool ObjectWidget::loadFromXMI( QDomElement & qElement ) {
     m_nLocalID = STR2ID(localid);
     m_bShowDestruction = (bool)decon.toInt();
     return true;
-
 }
 
 #include "objectwidget.moc"

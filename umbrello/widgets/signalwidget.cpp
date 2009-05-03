@@ -12,7 +12,7 @@
 #include "signalwidget.h"
 
 // qt includes
-#include <qevent.h>
+#include <QEvent>
 #include <QPolygon>
 
 // kde includes
@@ -35,7 +35,8 @@
 #include "listpopupmenu.h"
 
 SignalWidget::SignalWidget(UMLView * view, SignalType signalType, Uml::IDType id)
-        : UMLWidget(view, id) {
+  : UMLWidget(view, id)
+{
     UMLWidget::setBaseType(Uml::wt_Signal);
     m_SignalType = signalType;
     updateComponentSize();
@@ -48,9 +49,12 @@ SignalWidget::SignalWidget(UMLView * view, SignalType signalType, Uml::IDType id
     }
 }
 
-SignalWidget::~SignalWidget() {}
+SignalWidget::~SignalWidget()
+{
+}
 
-void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     setPenFromSettings(p);
     const int w = width();
     const int h = height();
@@ -73,7 +77,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
             int textStartY = (h / 2) - (fontHeight / 2);
 
             p.setPen(Qt::black);
-            QFont font = UMLWidget::getFont();
+            QFont font = UMLWidget::font();
             font.setBold( false );
             p.setFont( font );
             p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
@@ -98,7 +102,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
             int textStartY = (h / 2) - (fontHeight / 2);
 
             p.setPen(Qt::black);
-            QFont font = UMLWidget::getFont();
+            QFont font = UMLWidget::font();
             font.setBold( false );
             p.setFont( font );
             p.drawText(offsetX + SIGNAL_MARGIN, offsetY + textStartY,
@@ -121,7 +125,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
             //const int fontHeight  = fm.lineSpacing();
             //int textStartY = (h / 2) - (fontHeight / 2);
             p.setPen(Qt::black);
-            QFont font = UMLWidget::getFont();
+            QFont font = UMLWidget::font();
             font.setBold( false );
             p.setFont( font );
 
@@ -145,17 +149,20 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY) {
 }
 
 
-void SignalWidget::setX(int newX) {
+void SignalWidget::setX(int newX)
+{
     m_oldX = getX();
     UMLWidget::setX(newX);
 }
 
-void SignalWidget::setY(int newY) {
+void SignalWidget::setY(int newY)
+{
     m_oldY = getY();
     UMLWidget::setY(newY);
 }
 
-QSize SignalWidget::calculateSize() {
+QSize SignalWidget::calculateSize()
+{
         int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
         const QFontMetrics &fm = getFontMetrics(FT_BOLD);
         const int fontHeight  = fm.lineSpacing();
@@ -175,7 +182,8 @@ QSize SignalWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void SignalWidget::setName(const QString &strName) {
+void SignalWidget::setName(const QString &strName)
+{
     m_Text = strName;
     updateComponentSize();
     if (getSignalType() == SignalWidget::Time) {
@@ -183,19 +191,23 @@ void SignalWidget::setName(const QString &strName) {
     }
 }
 
-QString SignalWidget::getName() const {
+QString SignalWidget::getName() const
+{
     return m_Text;
 }
 
-SignalWidget::SignalType SignalWidget::getSignalType() const {
+SignalWidget::SignalType SignalWidget::getSignalType() const
+{
     return m_SignalType;
 }
 
-void SignalWidget::setSignalType( SignalType signalType ) {
+void SignalWidget::setSignalType( SignalType signalType )
+{
     m_SignalType = signalType;
 }
 
-void SignalWidget::slotMenuSelection(QAction* action) {
+void SignalWidget::slotMenuSelection(QAction* action)
+{
     bool ok = false;
     QString name = m_Text;
 
@@ -213,9 +225,12 @@ void SignalWidget::slotMenuSelection(QAction* action) {
 }
 
 
-void SignalWidget::showProperties() {}
+void SignalWidget::showProperties()
+{
+}
 
-void SignalWidget::mouseMoveEvent(QMouseEvent* me) {
+void SignalWidget::mouseMoveEvent(QMouseEvent* me)
+{
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - getX();
     int diffY = m_oldY - getY();
@@ -225,7 +240,8 @@ void SignalWidget::mouseMoveEvent(QMouseEvent* me) {
     }
 }
 
-void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement signalElement = qDoc.createElement( "signalwidget" );
     UMLWidget::saveToXMI( qDoc, signalElement );
     signalElement.setAttribute( "signalname", m_Text );
@@ -238,7 +254,8 @@ void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
     qElement.appendChild( signalElement );
 }
 
-bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
+bool SignalWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "signalname", "" );
@@ -276,12 +293,11 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement ) {
                 m_pName = NULL;
             }
         } else {
-            uError() << "unknown tag " << tag << endl;
+            uError() << "unknown tag " << tag;
         }
     }
    return true;
 }
-
 
 #include "signalwidget.moc"
 

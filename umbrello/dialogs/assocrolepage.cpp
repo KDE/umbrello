@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,8 +53,8 @@ void AssocRolePage::constructWidget()
     QString nameB = m_pAssociationWidget->getRoleName(Uml::B);
     QString titleA = i18n("Role A Properties");
     QString titleB = i18n("Role B Properties");
-    QString widgetNameA = m_pAssociationWidget->getWidget(Uml::A)->getName();
-    QString widgetNameB = m_pAssociationWidget->getWidget(Uml::B)->getName();
+    QString widgetNameA = m_pAssociationWidget->getWidget(Uml::A)->name();
+    QString widgetNameB = m_pAssociationWidget->getWidget(Uml::B)->name();
     if(!widgetNameA.isEmpty())
         titleA.append(" (" + widgetNameA + ')');
     if(!widgetNameB.isEmpty())

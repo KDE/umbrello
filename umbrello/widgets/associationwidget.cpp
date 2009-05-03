@@ -1067,7 +1067,7 @@ QString AssociationWidget::toString()
     QString string;
 
     if(m_role[A].m_pWidget) {
-        string = m_role[A].m_pWidget -> getName();
+        string = m_role[A].m_pWidget->name();
     }
     string.append(":");
 
@@ -1078,7 +1078,7 @@ QString AssociationWidget::toString()
     string.append( UMLAssociation::toString(getAssocType()) );
     string.append(":");
     if(m_role[B].m_pWidget) {
-        string += m_role[B].m_pWidget -> getName();
+        string += m_role[B].m_pWidget->name();
     }
 
     string.append(":");
@@ -2821,21 +2821,21 @@ QFont AssociationWidget::getFont() const
     QFont font;
 
     if( m_role[A].m_pRole )
-        font = m_role[A].m_pRole -> getFont( );
+        font = m_role[A].m_pRole->font( );
     else    if( m_role[B].m_pRole)
-        font = m_role[B].m_pRole -> getFont( );
+        font = m_role[B].m_pRole->font( );
     else    if( m_role[A].m_pMulti )
-        font = m_role[A].m_pMulti -> getFont( );
+        font = m_role[A].m_pMulti->font( );
     else    if( m_role[B].m_pMulti )
-        font = m_role[B].m_pMulti -> getFont( );
+        font = m_role[B].m_pMulti->font( );
     else    if( m_role[A].m_pChangeWidget)
-        font = m_role[A].m_pChangeWidget-> getFont( );
+        font = m_role[A].m_pChangeWidget->font( );
     else    if( m_role[B].m_pChangeWidget)
-        font = m_role[B].m_pChangeWidget-> getFont( );
+        font = m_role[B].m_pChangeWidget->font( );
     else    if( m_pName)
-        font = m_pName-> getFont( );
+        font = m_pName->font( );
     else
-        font = m_role[A].m_pWidget -> getFont();
+        font = m_role[A].m_pWidget->font();
 
     return font;
 }
@@ -3233,8 +3233,8 @@ void AssociationWidget::updateAssociations(int totalCount,
         if (intercept < 0) {
             uDebug() << "updateAssociations: error from findInterceptOnEdge for"
             << " assocType=" << assocwidget->getAssocType()
-            << " ownWidget=" << ownWidget->getName()
-            << " otherWidget=" << otherWidget->getName();
+            << " ownWidget=" << ownWidget->name()
+            << " otherWidget=" << otherWidget->name();
             continue;
         }
         insertIntoLists(intercept, assocwidget);

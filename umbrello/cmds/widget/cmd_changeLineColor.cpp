@@ -31,7 +31,7 @@ namespace Uml
     CmdChangeLineColor::CmdChangeLineColor(UMLWidget *w, const QColor& col)
       : m_umlWidget(w), m_newColor(col)
     {
-        setText(i18n("Change Line Color") + w->getName());
+        setText(i18n("Change Line Color") + w->name());
         m_oldColor= w->lineColor() ;
     }
 

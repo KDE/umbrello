@@ -11,9 +11,6 @@
 // own header
 #include "preconditionwidget.h"
 
-// qt includes
-#include <qpainter.h>
-
 // kde includes
 #include <klocale.h>
 #include <kdebug.h>
@@ -29,14 +26,11 @@
 #include "classifier.h"
 #include "uniqueid.h"
 
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPolygon>
-#include <QMoveEvent>
-#include <QResizeEvent>
+// qt includes
+#include <QtGui/QPainter>
 
 PreconditionWidget::PreconditionWidget(UMLView * view, ObjectWidget* a, Uml::IDType id )
-        : UMLWidget(view, id)
+  : UMLWidget(view, id)
 {
     init();
     m_pOw = a;
@@ -55,7 +49,8 @@ PreconditionWidget::~PreconditionWidget()
 {
 }
 
-void PreconditionWidget::init() {
+void PreconditionWidget::init()
+{
     UMLWidget::setBaseType(Uml::wt_Precondition);
     m_bIgnoreSnapToGrid = true;
     m_bIgnoreSnapComponentSizeToGrid = true;
@@ -65,7 +60,8 @@ void PreconditionWidget::init() {
     setVisible(true);
 }
 
-void PreconditionWidget::draw(QPainter & p, int /*offsetX*/, int offsetY) {
+void PreconditionWidget::draw(QPainter & p, int /*offsetX*/, int offsetY)
+{
     int w = width();
     int h = height();
 
@@ -89,12 +85,12 @@ void PreconditionWidget::draw(QPainter & p, int /*offsetX*/, int offsetY) {
     {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const QString precondition_value = "{ " + getName() + " }";
+        const QString precondition_value = "{ " + name() + " }";
         //int middleX = w / 2;
         int textStartY = (h / 2) - (fontHeight / 2);
         p.drawRoundRect(x, y, w, h, (h * 60) / w, 60);
         p.setPen(Qt::black);
-        p.setFont( UMLWidget::getFont() );
+        p.setFont( UMLWidget::font() );
         p.drawText(x + PRECONDITION_MARGIN, y + textStartY,
                        w - PRECONDITION_MARGIN * 2, fontHeight, Qt::AlignCenter, precondition_value);
     }
@@ -102,11 +98,12 @@ void PreconditionWidget::draw(QPainter & p, int /*offsetX*/, int offsetY) {
         drawSelected(&p, x, y);
 }
 
-QSize PreconditionWidget::calculateSize() {
+QSize PreconditionWidget::calculateSize()
+{
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    const int textWidth = fm.width(getName()) + 25;
+    const int textWidth = fm.width(name()) + 25;
     height = fontHeight;
     width = textWidth > PRECONDITION_WIDTH ? textWidth : PRECONDITION_WIDTH;
     height = height > PRECONDITION_HEIGHT ? height : PRECONDITION_HEIGHT;
@@ -116,7 +113,8 @@ QSize PreconditionWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void PreconditionWidget::slotMenuSelection(QAction* action) {
+void PreconditionWidget::slotMenuSelection(QAction* action)
+{
     bool ok = false;
     QString name = m_Text;
 
@@ -134,7 +132,8 @@ void PreconditionWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-void PreconditionWidget::calculateWidget() {
+void PreconditionWidget::calculateWidget()
+{
     calculateDimensions();
 
     setVisible(true);
@@ -143,7 +142,8 @@ void PreconditionWidget::calculateWidget() {
     setY(m_nY);
 }
 
-bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/) {
+bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
+{
     m_pView->resetPastePoint();
     UMLWidget::activate(Log);
     if (m_pOw == NULL) {
@@ -157,7 +157,8 @@ bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/) {
     return true;
 }
 
-void PreconditionWidget::calculateDimensions() {
+void PreconditionWidget::calculateDimensions()
+{
     int x = 0;
     int w = 0;
     int h = 0;
@@ -177,7 +178,8 @@ void PreconditionWidget::calculateDimensions() {
     setSize(w,h);
 }
 
-void PreconditionWidget::slotWidgetMoved(Uml::IDType id) {
+void PreconditionWidget::slotWidgetMoved(Uml::IDType id)
+{
     const Uml::IDType idA = m_pOw->localID();
     if (idA != id ) {
         uDebug() << "id=" << ID2STR(id) << ": ignoring for idA=" << ID2STR(idA);
@@ -195,7 +197,8 @@ void PreconditionWidget::slotWidgetMoved(Uml::IDType id) {
 
 }
 
-int PreconditionWidget::getMinY() {
+int PreconditionWidget::getMinY()
+{
     if (!m_pOw) {
         return 0;
     }
@@ -205,7 +208,8 @@ int PreconditionWidget::getMinY() {
     return height;
 }
 
-int PreconditionWidget::getMaxY() {
+int PreconditionWidget::getMaxY()
+{
     if( !m_pOw) {
         return 0;
     }
@@ -215,8 +219,8 @@ int PreconditionWidget::getMaxY() {
     return (height - this->height());
 }
 
-
-void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement preconditionElement = qDoc.createElement( "preconditionwidget" );
     UMLWidget::saveToXMI( qDoc, preconditionElement );
     preconditionElement.setAttribute( "widgetaid", ID2STR(m_pOw->localID()) );
@@ -225,7 +229,8 @@ void PreconditionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
     qElement.appendChild( preconditionElement );
 }
 
-bool PreconditionWidget::loadFromXMI( QDomElement & qElement ) {
+bool PreconditionWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );

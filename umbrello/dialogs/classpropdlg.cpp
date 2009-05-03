@@ -83,7 +83,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget *w)
             || w->baseType() == Uml::wt_Package) {
         setupPages(true);
     } else if (w->baseType() == Uml::wt_Component) {
-        if ( w->getIsInstance() ) {
+        if ( w->isInstance() ) {
             setupInstancePages();
         } else {
             setupPages();
@@ -224,12 +224,12 @@ QFrame* ClassPropDlg::createPage(const QString& name, const QString& header, Ico
  */
 void ClassPropDlg::setupGeneralPage()
 {
-    QFrame* page = createPage( i18nc("general settings page name", "General"), i18n("General Settings"), 
+    QFrame* page = createPage( i18nc("general settings page name", "General"), i18n("General Settings"),
                                Icon_Utils::it_Properties_General );
-    page -> setMinimumSize(310, 330);
+    page->setMinimumSize(310, 330);
     QHBoxLayout * topLayout = new QHBoxLayout(page);
     m_pGenPage = new ClassGenPage(m_pDoc, page, m_pObject);
-    topLayout -> addWidget(m_pGenPage);
+    topLayout->addWidget(m_pGenPage);
 }
 
 /**
@@ -381,7 +381,7 @@ void ClassPropDlg::setupFontPage()
     pageItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageItem );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-    m_pChooser -> setFont( m_pWidget -> getFont() );
+    m_pChooser->setFont( m_pWidget->font() );
 }
 
 

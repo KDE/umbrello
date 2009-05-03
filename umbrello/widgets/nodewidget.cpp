@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +12,8 @@
 #include "nodewidget.h"
 
 // qt/kde includes
-#include <qpainter.h>
+#include <QtGui/QPainter>
+#include <QtGui/QPolygon>
 #include <kdebug.h>
 
 // app includes
@@ -21,10 +21,10 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
-#include <QPolygon>
 
 NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
-  : UMLWidget(view, n) {
+  : UMLWidget(view, n)
+{
     UMLWidget::setBaseType(Uml::wt_Node);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
     setSize(100, 30);
@@ -32,9 +32,12 @@ NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
         updateComponentSize();
 }
 
-NodeWidget::~NodeWidget() {}
+NodeWidget::~NodeWidget()
+{
+}
 
-void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void NodeWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {
         p.setBrush( UMLWidget::getFillColour() );
@@ -48,11 +51,11 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     const int bodyOffsetY = offsetY + hDepth;
     const int bodyWidth = w - wDepth;
     const int bodyHeight = h - hDepth;
-    QFont font = UMLWidget::getFont();
+    QFont font = UMLWidget::font();
     font.setBold(true);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const int fontHeight  = fm.lineSpacing();
-    QString name = getName();
+    QString nameStr = name();
 
     QPolygon pointArray(5);
     pointArray.setPoint(0, offsetX, bodyOffsetY);
@@ -77,18 +80,18 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
         }
     }
 
-    if ( UMLWidget::getIsInstance() ) {
+    if ( UMLWidget::isInstance() ) {
         font.setUnderline(true);
         p.setFont(font);
-        name = UMLWidget::getInstanceName() + " : " + name;
+        nameStr = UMLWidget::instanceName() + " : " + nameStr;
     }
 
     if (lines == 1) {
         p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - (fontHeight/2),
-                   bodyWidth, fontHeight, Qt::AlignCenter, name);
+                   bodyWidth, fontHeight, Qt::AlignCenter, nameStr);
     } else {
         p.drawText(offsetX, bodyOffsetY + (bodyHeight/2),
-                   bodyWidth, fontHeight, Qt::AlignCenter, name);
+                   bodyWidth, fontHeight, Qt::AlignCenter, nameStr);
     }
 
     if(m_bSelected) {
@@ -96,7 +99,8 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY) {
     }
 }
 
-QSize NodeWidget::calculateSize() {
+QSize NodeWidget::calculateSize()
+{
     if (m_pObject == NULL) {
         uDebug() << "m_pObject is NULL";
         return UMLWidget::calculateSize();
@@ -106,8 +110,8 @@ QSize NodeWidget::calculateSize() {
     const int fontHeight  = fm.lineSpacing();
 
     QString name = m_pObject->getName();
-    if ( UMLWidget::getIsInstance() ) {
-        name = UMLWidget::getInstanceName() + " : " + name;
+    if ( UMLWidget::isInstance() ) {
+        name = UMLWidget::instanceName() + " : " + name;
     }
 
     int width = fm.width(name);
@@ -125,7 +129,8 @@ QSize NodeWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void NodeWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement conceptElement = qDoc.createElement("nodewidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);

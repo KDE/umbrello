@@ -50,6 +50,10 @@ UMLUniqueConstraint::~UMLUniqueConstraint()
 {
 }
 
+/**
+ * Copy the internal presentation of this object into the UMLUniqueConstraint
+ * object.
+ */
 void UMLUniqueConstraint::copyInto(UMLObject *lhs) const
 {
     UMLUniqueConstraint *target = static_cast<UMLUniqueConstraint*>(lhs);
@@ -72,6 +76,9 @@ void UMLUniqueConstraint::copyInto(UMLObject *lhs) const
     }
 }
 
+/**
+ * Make a clone of the UMLUniqueConstraint.
+ */
 UMLObject* UMLUniqueConstraint::clone() const
 {
     //FIXME: The new attribute should be slaved to the NEW parent not the old.
@@ -80,6 +87,13 @@ UMLObject* UMLUniqueConstraint::clone() const
     return clone;
 }
 
+/**
+ * Returns a string representation of the UMLUniqueConstraint.
+ *
+ * @param sig               If true will show the attribute type and
+ *                  initial value.
+ * @return  Returns a string representation of the UMLAttribute.
+ */
 QString UMLUniqueConstraint::toString(Uml::Signature_Type sig )
 {
      QString s;
@@ -114,6 +128,9 @@ QString UMLUniqueConstraint::getFullyQualifiedName(const QString& separator,
     return this->getName();
 }
 
+/**
+ * Creates the <UML:UniqueConstraint> XMI element.
+ */
 void UMLUniqueConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement uniqueConstraintElement = UMLObject::save("UML:UniqueConstraint", qDoc);
@@ -132,12 +149,18 @@ void UMLUniqueConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qElement
     qElement.appendChild( uniqueConstraintElement );
 }
 
+/**
+ * Display the properties configuration dialog for the attribute.
+ */
 bool UMLUniqueConstraint::showPropertiesDialog(QWidget* parent)
 {
     UMLUniqueConstraintDialog dialog(parent, this);
     return dialog.exec();
 }
 
+/**
+ * Loads the <UML:UniqueConstraint> XMI element.
+ */
 bool UMLUniqueConstraint::load( QDomElement & element )
 {
 
@@ -178,6 +201,12 @@ bool UMLUniqueConstraint::load( QDomElement & element )
 }
 
 
+/**
+ * Check if a entity attribute is present in m_entityAttributeList
+ *
+ * @param attr The Entity Attribute to check for existence in list
+ * @return true if it exists in the list, else false
+ */
 bool UMLUniqueConstraint::hasEntityAttribute(UMLEntityAttribute* attr)
 {
     if ( m_EntityAttributeList.indexOf( attr ) == -1 ) {
@@ -189,6 +218,14 @@ bool UMLUniqueConstraint::hasEntityAttribute(UMLEntityAttribute* attr)
     return true;
 }
 
+/**
+ * Adds a UMLEntityAttribute to the list.
+ * The UMLEntityAttribute should already exist and should
+ * belong to the parent UMLEntity.
+ *
+ * @param attr The UMLEntityAttribute to add
+ * @return false if it failed to add , else true
+ */
 bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
 {
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
@@ -216,6 +253,12 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
     return true;
 }
 
+/**
+ * Removes a UMLEntityAttribute from the list
+ *
+ * @param attr The UMLEntityAttribute to remove from list
+ * @return false if it failed to remove the attribute from the list
+ */
 bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
 {
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
@@ -250,6 +293,9 @@ void UMLUniqueConstraint::init()
     m_BaseType = Uml::ot_UniqueConstraint;
 }
 
+/**
+ * Clear the list of attributes contained in this UniqueConstraint
+ */
 void UMLUniqueConstraint::clearAttributeList()
 {
     m_EntityAttributeList.clear();

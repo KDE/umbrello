@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +12,7 @@
 #include "packagewidget.h"
 
 // qt/kde includes
-#include <qpainter.h>
+#include <QtGui/QPainter>
 #include <kdebug.h>
 
 // app includes
@@ -23,13 +22,14 @@
 #include "umlview.h"
 #include "umlobject.h"
 
-
 PackageWidget::PackageWidget(UMLView * view, UMLPackage *o)
-  : UMLWidget(view, o) {
+  : UMLWidget(view, o)
+{
     init();
 }
 
-void PackageWidget::init() {
+void PackageWidget::init()
+{
     UMLWidget::setBaseType(Uml::wt_Package);
     setSize(100, 30);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
@@ -45,9 +45,12 @@ void PackageWidget::init() {
         updateComponentSize();
 }
 
-PackageWidget::~PackageWidget() {}
+PackageWidget::~PackageWidget()
+{
+}
 
-void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void PackageWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
@@ -56,13 +59,12 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
 
     int w = width();
     int h = height();
-    QFont font = UMLWidget::getFont();
+    QFont font = UMLWidget::font();
     font.setBold(true);
     //FIXME italic is true when a package is first created until you click elsewhere, not sure why
     font.setItalic(false);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const int fontHeight  = fm.lineSpacing();
-    QString name = getName();
 
     p.drawRect(offsetX, offsetY, 50, fontHeight);
     if (m_pObject->getStereotype() == "subsystem") {
@@ -90,14 +92,15 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY) {
     }
 
     p.drawText(offsetX, offsetY + (fontHeight*lines) + PACKAGE_MARGIN,
-               w, fontHeight, Qt::AlignCenter, name );
+               w, fontHeight, Qt::AlignCenter, name() );
 
     if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
 
-QSize PackageWidget::calculateSize() {
+QSize PackageWidget::calculateSize()
+{
     if ( !m_pObject ) {
         return UMLWidget::calculateSize();
     }
@@ -125,7 +128,8 @@ QSize PackageWidget::calculateSize() {
     return QSize(width, height);
 }
 
-void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void PackageWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement conceptElement = qDoc.createElement("packagewidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);
     qElement.appendChild(conceptElement);

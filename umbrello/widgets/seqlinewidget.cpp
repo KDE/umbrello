@@ -59,7 +59,7 @@ int SeqLineWidget::onDestructionBox ( const QPoint & p ) {
     int y = m_pObject->getY() + m_pObject->getHeight() + m_nLengthY;
 
     //see if on destruction box
-    if( !m_pObject->getShowDestruction() ) {
+    if( !m_pObject->showDestruction() ) {
         return 0;
     }
     if( x - 10 < p.x() && x + 10 > p.x()
@@ -93,7 +93,7 @@ void SeqLineWidget::cleanupDestructionBox() {
 
 void SeqLineWidget::setupDestructionBox() {
     cleanupDestructionBox();
-    if( !m_pObject->getShowDestruction() ) {
+    if( !m_pObject->showDestruction() ) {
         return;
     }
     QRect rect;

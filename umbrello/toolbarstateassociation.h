@@ -35,7 +35,8 @@ class Q3CanvasLine;
  *
  * @todo refactor with common code in ToolBarStateMessages?
  */
-class ToolBarStateAssociation : public ToolBarStatePool {
+class ToolBarStateAssociation : public ToolBarStatePool
+{
     Q_OBJECT
 public:
 

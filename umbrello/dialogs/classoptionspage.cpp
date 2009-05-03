@@ -88,7 +88,7 @@ void ClassOptionsPage::setupPage()
     m_pShowVisibilityCB->setChecked(m_pWidget->getShowVisibility());
     visibilityLayout->addWidget(m_pShowVisibilityCB, 0, 1);
 
-    sigtype = m_pWidget->getShowOpSigs();
+    sigtype = m_pWidget->operationSignatureType();
     if (sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoVis)
         sig = false;
     else
@@ -113,7 +113,7 @@ void ClassOptionsPage::setupPage()
         visibilityLayout->addWidget(m_pShowStereotypeCB, 2, 1);
 
         m_pShowAttSigCB = new QCheckBox(i18n("Attr&ibute signature"), m_pVisibilityGB);
-        sigtype = m_pWidget->getShowAttSigs();
+        sigtype = m_pWidget->attributeSignatureType();
         if (sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoVis)
             sig = false;
         else
@@ -181,7 +181,7 @@ void ClassOptionsPage::setupClassPageOption()
     m_pShowAttribAssocsCB = new QCheckBox(i18n("&Attribute associations"), m_pVisibilityGB);
     m_pShowAttribAssocsCB->setChecked(m_options->classState.showAttribAssocs);
     visibilityLayout->addWidget(m_pShowAttribAssocsCB, 3, 1);
-    
+
     m_pShowPublicOnlyCB = new QCheckBox(i18n("&Public Only"), m_pVisibilityGB);
     m_pShowPublicOnlyCB->setChecked(m_options->classState.showPublicOnly);
     visibilityLayout->addWidget(m_pShowPublicOnlyCB, 4, 1);

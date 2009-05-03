@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,28 +12,32 @@
 #include "actorwidget.h"
 
 // system includes
-#include <qpainter.h>
+#include <QtGui/QPainter>
 
 // local includes
 #include "actor.h"
 #include "umlview.h"
 
 
-ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a) {
+ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a)
+{
     UMLWidget::setBaseType( Uml::wt_Actor );
 }
 
-ActorWidget::~ActorWidget() {}
+ActorWidget::~ActorWidget()
+{
+}
 
-void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void ActorWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     UMLWidget::setPenFromSettings(p);
     if( UMLWidget::getUseFillColour() )
         p.setBrush( UMLWidget::getFillColour() );
     const int w = width();
     const int h = height();
-    p.setFont( UMLWidget::getFont() );
+    p.setFont( UMLWidget::font() );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    const int textWidth = fm.width(getName());
+    const int textWidth = fm.width(name());
     const int fontHeight = fm.lineSpacing();
     const int a_height = h - fontHeight - A_MARGIN;
     const int h2 = a_height / 2;
@@ -56,22 +59,24 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY) {
     //draw text
     p.setPen(QPen(Qt::black));
     p.drawText(offsetX + A_MARGIN, offsetY + h - fontHeight,
-               w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, getName());
+               w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize ActorWidget::calculateSize() {
+QSize ActorWidget::calculateSize() 
+{
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    const int textWidth = fm.width(getName());
+    const int textWidth = fm.width(name());
     int width = textWidth > A_WIDTH ? textWidth : A_WIDTH;
     int height = A_HEIGHT + fontHeight + A_MARGIN;
     width += A_MARGIN * 2;
     return QSize(width, height);
 }
 
-void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement actorElement = qDoc.createElement( "actorwidget" );
     UMLWidget::saveToXMI( qDoc, actorElement );
     qElement.appendChild( actorElement );

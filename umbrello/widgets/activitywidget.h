@@ -30,7 +30,8 @@
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ActivityWidget : public UMLWidget {
+class ActivityWidget : public UMLWidget
+{
     Q_OBJECT
 
     QString preText;
@@ -55,7 +56,6 @@ public:
      * @param id                The ID to assign (-1 will prompt a new ID.)
      */
     explicit ActivityWidget( UMLView * view, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
-
 
     /**
      *  destructor
@@ -109,26 +109,25 @@ public:
      */
     bool loadFromXMI( QDomElement & qElement );
 
-
     /**
      * This method set the name of the preText attribute
      */
-     void setPreText(const QString&);
+     void setPreconditionText(const QString&);
 
     /**
      * This method get the name of the preText attribute
      */
-     QString getPreText();
+     QString preconditionText();
 
      /**
      * This method set the name of the postText attribute
      */
-     void setPostText(const QString&);
+     void setPostconditionText(const QString&);
 
    /**
      * This method get the name of the postText attribute
      */
-     QString getPostText();
+     QString postconditionText();
 
 protected:
     /**
@@ -140,7 +139,6 @@ protected:
      * Type of activity.
      */
     ActivityType m_ActivityType;
-
 
     /**
      * Type of normal activity (Invok or not).

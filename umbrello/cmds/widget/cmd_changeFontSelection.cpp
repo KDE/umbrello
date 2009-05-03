@@ -23,11 +23,11 @@ namespace Uml
     CmdChangeFontSelection::CmdChangeFontSelection(UMLDoc* doc, UMLView* view, QFont fon)
     {
         UMLWidget * widget = view->getFirstMultiSelectedWidget();
-        setText(i18n("Change Font")+ " : " + widget->getName());
+        setText(i18n("Change Font")+ " : " + widget->name());
         m_doc = doc;
         m_view = view;
         m_newFont = fon;
-        m_oldFont = widget->getFont() ;
+        m_oldFont = widget->font() ;
     }
 
     void CmdChangeFontSelection::undo()

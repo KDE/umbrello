@@ -67,6 +67,7 @@ class PluginLoader : public QObject
 {
     Q_OBJECT
 public:
+
     /** Destry the plugin loader */
     ~PluginLoader();
 

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,9 +12,8 @@
 #include "combinedfragmentwidget.h"
 
 // qt includes
-#include <qpainter.h>
-#include <qstring.h>
-#include <qevent.h>
+#include <QtGui/QPainter>
+#include <QtCore/QString>
 
 // kde includes
 #include <klocale.h>
@@ -30,24 +28,23 @@
 #include "listpopupmenu.h"
 #include "dialog_utils.h"
 
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QPolygon>
-
-CombinedFragmentWidget::CombinedFragmentWidget(UMLView * view, CombinedFragmentType combinedfragmentType, Uml::IDType id ) : UMLWidget(view, id)
+CombinedFragmentWidget::CombinedFragmentWidget(UMLView * view, CombinedFragmentType combinedfragmentType, Uml::IDType id )
+  : UMLWidget(view, id)
 {
     UMLWidget::setBaseType( Uml::wt_CombinedFragment );
     setCombinedFragmentType( combinedfragmentType );
     updateComponentSize();
 }
 
-CombinedFragmentWidget::~CombinedFragmentWidget() {
+CombinedFragmentWidget::~CombinedFragmentWidget()
+{
     for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
         delete(*it);
     }
 }
 
-void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     int w = width();
     int h = height();
     int line_width = 45;
@@ -56,18 +53,18 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
     setPenFromSettings(p);
 
     if ( m_CombinedFragment == Ref ) {
-    if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
-    }
+        if ( UMLWidget::getUseFillColour() ) {
+            p.setBrush( UMLWidget::getFillColour() );
+        }
     }
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    const QString combined_fragment_value =  getName();
+    const QString combined_fragment_value =  name();
     int textStartY = (h / 2) - (fontHeight / 2);
     p.drawRect(offsetX, offsetY, w, h );
 
     p.setPen(Qt::black);
-    p.setFont( UMLWidget::getFont() );
+    p.setFont( UMLWidget::font() );
         QString temp = "loop";
 
     switch ( m_CombinedFragment )
@@ -165,11 +162,12 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY) {
         drawSelected(&p, offsetX, offsetY);
 }
 
-QSize CombinedFragmentWidget::calculateSize() {
+QSize CombinedFragmentWidget::calculateSize()
+{
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    const int textWidth = fm.width(getName());
+    const int textWidth = fm.width(name());
     height = fontHeight;
     width = textWidth + 60 > COMBINED_FRAGMENT_WIDTH ? textWidth + 60: COMBINED_FRAGMENT_WIDTH;
     if ( m_CombinedFragment == Loop )
@@ -187,8 +185,8 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombined
     return m_CombinedFragment;
 }
 
-void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType ) {
-
+void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType )
+{
     m_CombinedFragment = combinedfragmentType;
     UMLWidget::m_bResizable =  true ; //(m_CombinedFragment == Normal);
     // creates a dash line if the combined fragment type is alternative or parallel
@@ -208,7 +206,8 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     }
 }
 
-CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType(const QString& type) const {
+CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType(const QString& type) const
+{
     if(type == "Reference")
         return (CombinedFragmentWidget::Ref);
     if(type == "Option")
@@ -232,14 +231,14 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombined
     return (CombinedFragmentWidget::Ref);
 }
 
-void CombinedFragmentWidget::setCombinedFragmentType( const QString& combinedfragmentType ) {
-
+void CombinedFragmentWidget::setCombinedFragmentType( const QString& combinedfragmentType )
+{
     setCombinedFragmentType(getCombinedFragmentType(combinedfragmentType) );
 }
 
 void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
-    const QString& dialogPrompt, const QString& /*defaultName*/) {
-
+    const QString& dialogPrompt, const QString& /*defaultName*/)
+{
     bool pressedOK = false;
     const QStringList list = QStringList() << "Reference" << "Option" << "Break" << "Loop" << "Negative" << "Critical" << "Assertion" << "Alternative" << "Parallel" ;
     const QStringList select = QStringList() << "Reference" << "Option" << "Break" << "Loop" << "Negative" << "Critical" << "Assertion" << "Alternative" << "Parallel" ;
@@ -261,7 +260,8 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
     }
 }
 
-void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement combinedFragmentElement = qDoc.createElement( "combinedFragmentwidget" );
     UMLWidget::saveToXMI( qDoc, combinedFragmentElement );
     combinedFragmentElement.setAttribute( "combinedFragmentname", m_Text );
@@ -276,7 +276,8 @@ void CombinedFragmentWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElem
     qElement.appendChild( combinedFragmentElement );
 }
 
-bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
+bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     m_Text = qElement.attribute( "combinedFragmentname", "" );
@@ -302,7 +303,7 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
                 m_pView->setupNewWidget(fdlwidget);
             }
         } else {
-            uError() << "unknown tag " << tag << endl;
+            uError() << "unknown tag " << tag;
         }
         node = node.nextSibling();
         element = node.toElement();
@@ -313,7 +314,8 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
-void CombinedFragmentWidget::slotMenuSelection(QAction* action) {
+void CombinedFragmentWidget::slotMenuSelection(QAction* action)
+{
     bool ok = false;
     QString name = m_Text;
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);

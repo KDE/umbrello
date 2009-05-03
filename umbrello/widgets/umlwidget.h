@@ -244,7 +244,7 @@ public:
     /**
      *  Returns the font the widget is to use.
      */
-    virtual QFont getFont() const;
+    virtual QFont font() const;
 
     /**
      * Returns whether we triggered the update of position movement.
@@ -396,7 +396,7 @@ public:
     /**
      * Read property of bool m_bIsInstance
      */
-    bool getIsInstance() const {
+    bool isInstance() const {
         return m_bIsInstance;
     }
 
@@ -410,7 +410,7 @@ public:
     /**
      * Read property of m_instanceName
      */
-    QString getInstanceName() const {
+    QString instanceName() const {
         return m_instanceName;
     }
 
@@ -454,7 +454,7 @@ public:
      *
      * @return The currently set name.
      */
-    virtual QString getName() const;
+    virtual QString name() const;
 
     /**
      * Starts the popup menu. If menu is non zero,

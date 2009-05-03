@@ -81,7 +81,7 @@ public:
      *
      * @return  The instance name.
      */
-    QString getInstanceName() const {
+    QString instanceName() const {
         return m_InstanceName;
     }
 
@@ -99,7 +99,7 @@ public:
      *
      * @return  True if object is representing a multi-object.
      */
-    bool getMultipleInstance() const {
+    bool multipleInstance() const {
         return m_bMultipleInstance;
     }
 
@@ -149,7 +149,7 @@ public:
      *
      * @return  True if widget is drawn as an actor.
      */
-    bool getDrawAsActor() const {
+    bool drawAsActor() const {
         return m_bDrawAsActor;
     }
 
@@ -172,7 +172,7 @@ public:
      *
      * @return  True if destruction on sequence line is shown.
      */
-    bool getShowDestruction() const {
+    bool showDestruction() const {
         return m_bShowDestruction;
     }
 

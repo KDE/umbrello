@@ -72,13 +72,11 @@ void ActivityDialog::slotShowActivityParameter()
     m_GenPageWidgets.preLE->show();
     m_GenPageWidgets.postL->show();
     m_GenPageWidgets.postLE->show();
-    if (m_pActivityWidget->getPostText() != NULL)
-    {
-        m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());
+    if(!m_pActivityWidget->postconditionText().isEmpty()) {
+        m_GenPageWidgets.postLE->setText(m_pActivityWidget->postconditionText());
     }
-    if (m_pActivityWidget->getPreText() != NULL)
-    {
-        m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());
+    if (!m_pActivityWidget->preconditionText().isEmpty()) {
+        m_GenPageWidgets.preLE->setText(m_pActivityWidget->preconditionText());
     }
 }
 
@@ -110,8 +108,8 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
     {
         m_pActivityWidget->setName( m_GenPageWidgets.nameLE->text() );
         m_pActivityWidget->setDocumentation( m_GenPageWidgets.docTE->toPlainText() );
-        m_pActivityWidget->setPreText( m_GenPageWidgets.preLE->text() );
-        m_pActivityWidget->setPostText( m_GenPageWidgets.postLE->text() );
+        m_pActivityWidget->setPreconditionText( m_GenPageWidgets.preLE->text() );
+        m_pActivityWidget->setPostconditionText( m_GenPageWidgets.postLE->text() );
 
         ActivityWidget::ActivityType newType = ActivityWidget::Normal;
         if ( m_GenPageWidgets.InvokRB->isChecked() )
@@ -213,7 +211,7 @@ void ActivityDialog::setupGeneralPage()
         m_GenPageWidgets.nameLE->setEnabled( false );
         m_GenPageWidgets.nameLE->setText( "" );
     } else
-        m_GenPageWidgets.nameLE->setText( m_pActivityWidget->getName() );
+        m_GenPageWidgets.nameLE->setText( m_pActivityWidget->name() );
 }
 
 /**
@@ -227,7 +225,7 @@ void ActivityDialog::setupFontPage()
     pageItemFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageItemFont );
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-    m_pChooser->setFont( m_pActivityWidget->getFont() );
+    m_pChooser->setFont( m_pActivityWidget->font() );
 }
 
 /**
@@ -239,13 +237,11 @@ void ActivityDialog::showParameterActivity()
     m_GenPageWidgets.preLE->show();
     m_GenPageWidgets.postL->show();
     m_GenPageWidgets.postLE->show();
-    if (m_pActivityWidget->getPostText() != NULL)
-    {
-        m_GenPageWidgets.postLE->setText(m_pActivityWidget->getPostText());
+    if (!m_pActivityWidget->postconditionText().isEmpty()) {
+        m_GenPageWidgets.postLE->setText(m_pActivityWidget->postconditionText());
     }
-    if (m_pActivityWidget->getPreText() != NULL)
-    {
-        m_GenPageWidgets.preLE->setText(m_pActivityWidget->getPreText());
+    if (!m_pActivityWidget->preconditionText().isEmpty()) {
+        m_GenPageWidgets.preLE->setText(m_pActivityWidget->preconditionText());
     }
 }
 
