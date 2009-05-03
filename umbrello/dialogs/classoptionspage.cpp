@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -89,7 +89,7 @@ void ClassOptionsPage::setupPage()
     visibilityLayout->addWidget(m_pShowVisibilityCB, 0, 1);
 
     sigtype = m_pWidget->operationSignatureType();
-    if(sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoVis)
+    if (sigtype == Uml::st_NoSig || sigtype == Uml::st_NoSigNoVis)
         sig = false;
     else
         sig = true;

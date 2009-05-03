@@ -666,7 +666,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
         tmpfile.setAutoRemove(false);
 
         // save in _any_ case to a temp file
-        //->if something goes wrong during saveToXmi, the
+        // -> if something goes wrong during saveToXmi, the
         //     original content is preserved
         //     ( e.g. if umbrello dies in the middle of the document model parsing
         //      for saveToXMI due to some problems )

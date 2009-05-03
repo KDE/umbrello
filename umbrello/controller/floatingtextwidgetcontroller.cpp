@@ -1,25 +1,32 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "floatingtextwidgetcontroller.h"
-// qt/kde includes
-#include <kdebug.h>
+
 // app includes
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
 
-FloatingTextWidgetController::FloatingTextWidgetController(FloatingTextWidget *floatingTextWidget):
-            UMLWidgetController(floatingTextWidget) {
+// kde includes
+#include <kdebug.h>
+
+/**
+ * Constructor for FloatingTextWidgetController.
+ *
+ * @param floatingTextWidget The floating text widget which uses the controller.
+ */
+FloatingTextWidgetController::FloatingTextWidgetController(FloatingTextWidget *floatingTextWidget)
+  : UMLWidgetController(floatingTextWidget)
+{
     m_floatingTextWidget = floatingTextWidget;
     m_unconstrainedPositionX = 0;
     m_unconstrainedPositionY = 0;
@@ -27,7 +34,11 @@ FloatingTextWidgetController::FloatingTextWidgetController(FloatingTextWidget *f
     m_movementDirectionY = 0;
 }
 
-FloatingTextWidgetController::~FloatingTextWidgetController() {
+/**
+ * Destructor for MessageWidgetController.
+ */
+FloatingTextWidgetController::~FloatingTextWidgetController()
+{
 }
 
 /**
@@ -38,7 +49,8 @@ FloatingTextWidgetController::~FloatingTextWidgetController() {
  *
  * @param me The QGraphicsSceneMouseEvent to get the offset from.
  */
-void FloatingTextWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me) {
+void FloatingTextWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me)
+{
     UMLWidgetController::saveWidgetValues(me);
 
     m_unconstrainedPositionX = m_widget->getX();
@@ -47,7 +59,17 @@ void FloatingTextWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me
     m_movementDirectionY = 0;
 }
 
-bool FloatingTextWidgetController::isInResizeArea(QGraphicsSceneMouseEvent* /*me*/) {
+/**
+ * Overridden from UMLWidgetController.
+ * FloatingTextWidgets can't be resized, so this method always returns false.
+ * Cursor isn't changed.
+ *
+ * @param me The QMouseEVent to check.
+ * @return true if the mouse is in resize area, false otherwise.
+ */
+bool FloatingTextWidgetController::isInResizeArea(QGraphicsSceneMouseEvent* me)
+{
+    Q_UNUSED(me);
     return false;
 }
 
@@ -70,7 +92,8 @@ bool FloatingTextWidgetController::isInResizeArea(QGraphicsSceneMouseEvent* /*me
  * @param diffX The difference between current X position and new X position.
  * @param diffY The difference between current Y position and new Y position.
  */
-void FloatingTextWidgetController::moveWidgetBy(qreal diffX, qreal diffY) {
+void FloatingTextWidgetController::moveWidgetBy(qreal diffX, qreal diffY)
+{
     if (m_floatingTextWidget->textRole() == Uml::tr_Seq_Message_Self)
         return;
 
@@ -134,7 +157,8 @@ void FloatingTextWidgetController::moveWidgetBy(qreal diffX, qreal diffY) {
  * @param diffX The difference between current X position and new X position.
  * @param diffY The difference between current Y position and new Y position.
  */
-void FloatingTextWidgetController::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY) {
+void FloatingTextWidgetController::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
+{
     QPointF constrainedPosition = constrainPosition(diffX, diffY);
 
     diffX = constrainedPosition.x() - m_floatingTextWidget->getX();
@@ -153,7 +177,8 @@ void FloatingTextWidgetController::constrainMovementForAllWidgets(qreal &diffX, 
  * @param diffY The difference between current Y position and new Y position.
  * @return A QPointF with the constrained new position.
  */
-QPointF FloatingTextWidgetController::constrainPosition(qreal diffX, qreal diffY) {
+QPointF FloatingTextWidgetController::constrainPosition(qreal diffX, qreal diffY)
+{
     qreal newX = m_floatingTextWidget->getX() + diffX;
     qreal newY = m_floatingTextWidget->getY() + diffY;
 

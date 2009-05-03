@@ -23,8 +23,8 @@ namespace Uml
       : m_umlWidget(w),
         m_color(col)
     {
-        setText(i18n("Change Fill Color") + w->name());
-        m_oldColor= w->getFillColor() ;
+        setText(i18n("Change Fill Color")+ w->name());
+        m_oldColor = w->getFillColor();
     }
 
     CmdChangeFillColor::~CmdChangeFillColor()

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -76,7 +76,7 @@ void StateDialog::slotApply()
 void StateDialog::setupPages()
 {
     setupGeneralPage();
-    if( m_pStateWidget->stateType() == StateWidget::Normal ) {
+    if ( m_pStateWidget->stateType() == StateWidget::Normal ) {
         setupActivityPage();
     }
     setupColorPage();

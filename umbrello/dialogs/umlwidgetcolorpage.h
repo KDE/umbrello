@@ -32,8 +32,8 @@ class UMLWidgetColorPage : public QWidget
 public:
 
     /**
-    *   Constructor - Observe a UMLWidget
-    */
+     *   Constructor - Observe a UMLWidget
+     */
     UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget );
 
     /**

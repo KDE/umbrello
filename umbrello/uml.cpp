@@ -1140,7 +1140,7 @@ bool UMLApp::slotFileSaveAs()
         resetStatusMsg();
         return false;
     }
-} 
+}
 
 /**
  * Asks for saving if the file is modified, then closes the current
