@@ -72,7 +72,7 @@
           <string>Add class for code generation</string>
          </property>
          <property name="text" >
-          <string>add >></string>
+          <string>Add >></string>
          </property>
          <property name="icon" >
           <iconset>../../../../../../../</iconset>
@@ -101,7 +101,7 @@
           <string>Remove class from Code Generation</string>
          </property>
          <property name="text" >
-          <string>&lt;&lt; remove</string>
+          <string>&lt;&lt; Remove</string>
          </property>
          <property name="icon" >
           <iconset>../../../../../../../</iconset>
