@@ -199,7 +199,7 @@ QString UMLObject::getFullyQualifiedName(const QString& separator,
         bool includeRoot /* = false */) const
 {
     QString fqn;
-    if (m_pUMLPackage) {
+    if (m_pUMLPackage && m_pUMLPackage != this) {
         bool skipPackage = false;
         if (!includeRoot) {
             UMLDoc *umldoc = UMLApp::app()->getDocument();
