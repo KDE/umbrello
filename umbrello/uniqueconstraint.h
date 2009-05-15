@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,35 +25,16 @@
  * @see UMLObject UMLClassifierListItem UMLEntityConstraint
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLUniqueConstraint : public UMLEntityConstraint {
+class UMLUniqueConstraint : public UMLEntityConstraint
+{
 public:
 
-    /**
-     * Sets up a constraint.
-     *
-     * @param parent    The parent of this UMLUniqueConstraint.
-     * @param name      The name of this UMLUniqueConstraint.
-     * @param id        The unique id given to this UMLUniqueConstraint.
-     */
     UMLUniqueConstraint(UMLObject *parent, const QString& name,
                         Uml::IDType id = Uml::id_None );
-
-    /**
-     * Sets up a constraint.
-     *
-     * @param parent    The parent of this UMLUniqueConstraint.
-     */
     UMLUniqueConstraint(UMLObject *parent);
-
-    /**
-     * Overloaded '==' operator
-     */
-    bool operator==(const UMLUniqueConstraint &rhs);
-
-    /**
-     * destructor.
-     */
     virtual ~UMLUniqueConstraint();
+
+    bool operator==(const UMLUniqueConstraint &rhs);
 
     virtual void copyInto(UMLObject *lhs) const;
 
@@ -75,10 +55,7 @@ public:
 
     bool removeEntityAttribute(UMLEntityAttribute* attr);
 
-
-    UMLEntityAttributeList getEntityAttributeList() const {
-        return m_EntityAttributeList;
-    }
+    UMLEntityAttributeList getEntityAttributeList() const;
 
     void clearAttributeList();
 
@@ -91,10 +68,9 @@ private:
     void init();
 
     /**
-     * The list of entity attributes that together make up the unique constraint
+     * The list of entity attributes that together make up the unique constraint.
      */
     UMLEntityAttributeList m_EntityAttributeList;
-
 
 };
 

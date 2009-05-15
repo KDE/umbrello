@@ -50,7 +50,6 @@
 #include "umlroledialog.h"
 #include "umloperationdialog.h"
 
-
 CodeEditor::CodeEditor (const QString & text, const QString & context, CodeViewerDialog * parent,
     const char * name, CodeDocument * doc)
         : Q3TextEdit (text, context, parent, name)
@@ -219,7 +218,7 @@ void CodeEditor::loadFromDocument ()
     QString header = m_parentDoc->getHeader()->toString();
     QString componentName = QString("header for file ") +caption;
     if (!stringIsBlank(header)) {
-        insert(header,m_parentDoc->getHeader(),false,getState().fontColor,
+        insertText(header,m_parentDoc->getHeader(),false,getState().fontColor,
                getState().nonEditBlockColor,0,componentName);
     }
 
@@ -230,7 +229,7 @@ void CodeEditor::loadFromDocument ()
 //:TODO:    setCursorPosition(0, 0);  // crashes application
 }
 
-void CodeEditor::insert (const QString & text, TextBlock * parent,
+void CodeEditor::insertText (const QString & text, TextBlock * parent,
     bool editable, const QColor & fgcolor, const QColor & bgcolor,
     UMLObject * umlobj, const QString & displayName, int startLine)
 {
@@ -385,7 +384,7 @@ void CodeEditor::appendText (CodeComment * comment, TextBlock * parent, UMLObjec
     QString indent = comment->getIndentationString();
     QString text = comment->toString(); // use comment formatting, NOT formatMultiLineText(comment->toString(), indent, "\n");
     if (!stringIsBlank(text))
-        insert(text, parent, true, getState().fontColor, bgcolor, umlObj, componentName);
+        insertText(text, parent, true, getState().fontColor, bgcolor, umlObj, componentName);
 }
 
 void CodeEditor::appendText (CodeBlockWithComments * cb )
@@ -406,7 +405,7 @@ void CodeEditor::appendText (CodeBlockWithComments * cb )
         bgcolor = getState().hiddenColor;
 
     if (!stringIsBlank(body))
-        insert(body, cb, true, getState().fontColor, bgcolor, 0);
+        insertText(body, cb, true, getState().fontColor, bgcolor, 0);
 }
 
 void CodeEditor::appendText (CodeClassFieldDeclarationBlock * db )
@@ -439,7 +438,7 @@ void CodeEditor::appendText (CodeClassFieldDeclarationBlock * db )
         bgcolor = getState().hiddenColor;
 
     if (!stringIsBlank(body))
-        insert(body, db, false, getState().fontColor, bgcolor, parentObj);
+        insertText(body, db, false, getState().fontColor, bgcolor, parentObj);
 }
 
 void CodeEditor::appendText (CodeMethodBlock * mb)
@@ -497,12 +496,12 @@ void CodeEditor::appendText (CodeMethodBlock * mb)
     appendText(mb->getComment(), mb->getComment(), parentObj, componentName);
 
     if (!stringIsBlank(startText))
-        insert(startText, mb, false, getState().fontColor, bgcolor, parentObj);
-    // always insert body for methods..IF we don't, we create a
+        insertText(startText, mb, false, getState().fontColor, bgcolor, parentObj);
+    // always insert body for methods. IF we don't, we create a
     // situation where the user cant edit the body (!)
-    insert(body, mb, true, getState().fontColor, bgcolor, parentObj);
+    insertText(body, mb, true, getState().fontColor, bgcolor, parentObj);
     if (!stringIsBlank(endText))
-        insert(endText, mb, false, getState().fontColor, bgcolor, parentObj);
+        insertText(endText, mb, false, getState().fontColor, bgcolor, parentObj);
 }
 
 void CodeEditor::appendText (TextBlock * tb)
@@ -516,7 +515,7 @@ void CodeEditor::appendText (TextBlock * tb)
         bgcolor = getState().hiddenColor;
 
     QString str = tb->toString();
-    insert(str, tb, false, getState().fontColor, bgcolor);
+    insertText(str, tb, false, getState().fontColor, bgcolor);
 }
 
 void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
@@ -558,10 +557,10 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
     appendText(hblock->getComment(), hblock, parentObj, componentName);
 
     if (!stringIsBlank(startText))
-        insert(startText, hblock, false, getState().fontColor, paperColor, parentObj);
+        insertText(startText, hblock, false, getState().fontColor, paperColor, parentObj);
     appendText(items);
     if (!stringIsBlank(endText))
-        insert(endText, hblock, false, getState().fontColor, paperColor);
+        insertText(endText, hblock, false, getState().fontColor, paperColor);
 }
 
 void CodeEditor::insertParagraph ( const QString & text, int para )
@@ -628,7 +627,7 @@ void CodeEditor::slotInsertCodeBlockBeforeSelected()
 
     QString body = newBlock->formatMultiLineText (newBlock->getText(), newBlock->getIndentationString(), "\n");
 
-    insert(body, newBlock, true, getState().fontColor,
+    insertText(body, newBlock, true, getState().fontColor,
            getState().editBlockColor, 0, QString("CodeBlock"), location);
 }
 
@@ -648,7 +647,7 @@ void CodeEditor::slotInsertCodeBlockAfterSelected()
 
     QString body = newBlock->formatMultiLineText (newBlock->getText(), newBlock->getIndentationString(), "\n");
 
-    insert(body,newBlock,true,getState().fontColor,
+    insertText(body,newBlock,true,getState().fontColor,
            getState().editBlockColor,0,QString("CodeBlock"),location);
 }
 
@@ -663,7 +662,7 @@ uDebug() << "show popup menu" << endl;
 */
 
 // This is ugly and can be deleted when we move Q3TextEdit to QTextEdit.
-Q3PopupMenu * CodeEditor::createPopupMenu(const QPoint & pos)
+Q3PopupMenu * CodeEditor::createPopupMenuAt(const QPoint & pos)
 {
     m_lastPara = paragraphAt(pos);
     KMenu* menu = createPopup();

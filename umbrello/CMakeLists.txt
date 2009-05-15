@@ -400,11 +400,11 @@ set(libumbrello_SRCS
     toolbarstatepool.cpp
     uml.cpp
     umlattributelist.cpp
-    umlentityattributelist.cpp
-    umlentityconstraintlist.cpp
     umlcanvasobject.cpp
     umlclassifierlistitemlist.cpp
     umldoc.cpp
+    umlentityattributelist.cpp
+    umlentityconstraintlist.cpp
     umllistview.cpp
     umllistviewitem.cpp
     umlnamespace.cpp
@@ -416,8 +416,8 @@ set(libumbrello_SRCS
     umlviewimageexporter.cpp
     umlviewimageexporterall.cpp
     umlviewimageexportermodel.cpp
-    uniqueid.cpp
     uniqueconstraint.cpp
+    uniqueid.cpp
     usecase.cpp
     worktoolbar.cpp
 )

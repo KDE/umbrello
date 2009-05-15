@@ -4,14 +4,13 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 //own header
 #include "uniqueconstraint.h"
-// qt/kde includes
-#include <kdebug.h>
+
 // app includes
 #include "entity.h"
 #include "entityattribute.h"
@@ -21,20 +20,36 @@
 #include "dialogs/umluniqueconstraintdialog.h"
 #include "object_factory.h"
 
+// kde includes
+#include <kdebug.h>
 
-UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent,
-                          const QString& name, Uml::IDType id)
-    : UMLEntityConstraint(parent, name, id)
+/**
+ * Sets up a constraint.
+ *
+ * @param parent    The parent of this UMLUniqueConstraint.
+ * @param name      The name of this UMLUniqueConstraint.
+ * @param id        The unique id given to this UMLUniqueConstraint.
+ */
+UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent, const QString& name, Uml::IDType id)
+  : UMLEntityConstraint(parent, name, id)
 {
     init();
 }
 
+/**
+ * Sets up a constraint.
+ *
+ * @param parent    The parent of this UMLUniqueConstraint.
+ */
 UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent)
     : UMLEntityConstraint( parent )
 {
     init();
 }
 
+/**
+ * Overloaded '==' operator
+ */
 bool UMLUniqueConstraint::operator==(const  UMLUniqueConstraint &rhs)
 {
     if( this == &rhs )
@@ -46,6 +61,9 @@ bool UMLUniqueConstraint::operator==(const  UMLUniqueConstraint &rhs)
     return true;
 }
 
+/**
+ * Destructor.
+ */
 UMLUniqueConstraint::~UMLUniqueConstraint()
 {
 }
@@ -90,8 +108,7 @@ UMLObject* UMLUniqueConstraint::clone() const
 /**
  * Returns a string representation of the UMLUniqueConstraint.
  *
- * @param sig               If true will show the attribute type and
- *                  initial value.
+ * @param sig  If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
 QString UMLUniqueConstraint::toString(Uml::Signature_Type sig )
@@ -163,7 +180,6 @@ bool UMLUniqueConstraint::showPropertiesDialog(QWidget* parent)
  */
 bool UMLUniqueConstraint::load( QDomElement & element )
 {
-
     int isPrimary = element.attribute( "isPrimary", "0" ).toInt();
     UMLEntity* parentEnt = static_cast<UMLEntity*>(parent());
 
@@ -286,6 +302,14 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
     }
 
     return false;
+}
+
+/**
+ * Get the Entity Attributes List.
+ */
+UMLEntityAttributeList UMLUniqueConstraint::getEntityAttributeList() const
+{
+    return m_EntityAttributeList;
 }
 
 void UMLUniqueConstraint::init()

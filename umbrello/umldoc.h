@@ -26,8 +26,6 @@
 // kde includes
 #include <kurl.h>
 
-// qt includes
-
 // system includes
 #include <typeinfo>
 
@@ -66,82 +64,54 @@ class UMLDoc : public QObject
     Q_OBJECT
 public:
 
-    /**
-     * Constructor for the fileclass of the application
-     */
     UMLDoc();
-
-    /**
-     * Destructor for the fileclass of the application
-     */
     ~UMLDoc();
 
     void init();
 
     void addView(UMLView *view);
-
     void removeView(UMLView *view , bool enforceOneView = true );
-
     void setMainViewID(Uml::IDType viewID);
+    void changeCurrentView(Uml::IDType id);
+    void activateAllViews();
+    void removeAllViews();
 
-    void setModified(bool _m=true);
-
-    bool isModified() {
-        return m_modified;
-    }
-
+    void setModified(bool modified = true);
+    bool isModified();
     bool saveModified();
 
     bool newDocument();
-
     void closeDocument();
-
     bool openDocument(const KUrl& url, const char *format=0);
-
     bool saveDocument(const KUrl& url, const char *format=0);
 
-    /**
-     * Returns the KUrl of the document.
-     *
-     * @return  The KUrl of this UMLDoc.
-     */
     const KUrl& url() const;
-
     void setUrl(const KUrl& url);
 
     void setupSignals();
 
     bool isUnique(const QString &name);
-
     bool isUnique(const QString &name, UMLPackage *package);
 
     UMLStereotype* findOrCreateStereotype(const QString &name);
 
     UMLAssociation* createUMLAssociation(UMLObject *a, UMLObject *b, Uml::Association_Type type);
 
-    void addAssociation(UMLAssociation *pAssoc);
-
-    void removeAssociation(UMLAssociation *pAssoc, bool doSetModified = true);
-
+    void addAssociation(UMLAssociation *assoc);
+    void removeAssociation(UMLAssociation *assoc, bool doSetModified = true);
     UMLAssociation * findAssociation(Uml::Association_Type assocType,
                                      const UMLObject *roleAObj,
                                      const UMLObject *roleBObj,
                                      bool *swap = NULL);
 
     UMLView* createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName = true);
-
-    void removeUMLObject(UMLObject*o);
-
+    void removeDiagram(Uml::IDType id);
     void renameDiagram(Uml::IDType id);
 
+    void removeUMLObject(UMLObject* umlobject);
+
     void renameUMLObject(UMLObject *o);
-
     void renameChildUMLObject(UMLObject *o);
-
-
-    void  changeCurrentView(Uml::IDType id);
-
-    void removeDiagram(Uml::IDType id);
 
     UMLObject* findObjectById(Uml::IDType id);
 
@@ -156,12 +126,10 @@ public:
     UMLStereotype * findStereotype(const QString &name);
 
     UMLView * findView(Uml::IDType id);
-
     UMLView * findView(Uml::Diagram_Type type, const QString &name,
                        bool searchAllScopes = false);
 
     void setName(const QString& name);
-
     QString getName() const;
 
     Uml::IDType getModelID() const;
@@ -174,37 +142,22 @@ public:
 
     bool validateXMIHeader(QDomNode& headerNode);
 
-    bool loadUMLObjectsFromXMI( QDomElement & element );
-
+    bool loadUMLObjectsFromXMI(QDomElement & element);
     void loadExtensionsFromXMI(QDomNode & node);
+    bool loadDiagramsFromXMI(QDomNode & node);
 
-    bool loadDiagramsFromXMI( QDomNode & node );
-
-    void signalDiagramRenamed(UMLView * pView );
-
-    void removeAllViews();
-
+    void signalDiagramRenamed(UMLView * pView);
     void signalUMLObjectCreated(UMLObject * o);
 
-    UMLFolder * getDatatypeFolder() {
-        return m_datatypeRoot;
-    }
+    UMLFolder * getDatatypeFolder() const;
 
     UMLClassifierList getConcepts(bool includeNested = true);
-
     UMLClassifierList getClasses(bool includeNested = true);
-
     UMLClassifierList getClassesAndInterfaces(bool includeNested = true);
-
     UMLEntityList getEntities(bool includeNested = true);
-
     UMLClassifierList getInterfaces(bool includeNested = true);
-
     UMLClassifierList getDatatypes();
-
     UMLAssociationList getAssociations();
-
-
     UMLPackageList getPackages(bool includeNested = true);
 
     void print(QPrinter * pPrinter, DiagramPrintPage * selectPage);
@@ -214,7 +167,6 @@ public:
     bool assignNewIDs(UMLObject* obj);
 
     bool addUMLObject(UMLObject * object);
-
     bool addUMLView(UMLView * pView );
 
     UMLFolder *getRootFolder(Uml::Model_Type mt);
@@ -222,57 +174,36 @@ public:
     Uml::Model_Type rootFolderType(UMLObject *obj);
 
     UMLFolder *currentRoot();
-
     void setCurrentRoot(Uml::Model_Type rootType);
 
     virtual IDChangeLog* getChangeLog();
 
-    void endPaste();
-
     void beginPaste();
+    void endPaste();
 
     Uml::IDType assignNewID(Uml::IDType oldID);
 
-    QString getDocumentation() const {
-        return m_Doc;
-    }
-
-    void setDocumentation(const QString &doc) {
-        m_Doc = doc;
-    }
-
-    void activateAllViews();
+    void setDocumentation(const QString &doc);
+    QString getDocumentation() const;
 
     void settingsChanged(Settings::OptionState optionState);
 
-
-    int getFileVersion(void) {return version;}
+    int getFileVersion() const;
 
     QString uniqViewName(const Uml::Diagram_Type type);
 
     bool loading() const;
-
     void setLoading(bool state = true);
 
     bool closing() const;
 
     void addDefaultDatatypes();
-
     void createDatatype(const QString &name);
 
     UMLStereotype * findStereotypeById(Uml::IDType id);
-
     void addStereotype(UMLStereotype *s);
-
     void removeStereotype(UMLStereotype *s);
-
     void addDefaultStereotypes();
-
-    /**
-     * Returns a list of the stereotypes in this UMLDoc.
-     *
-     * @return  List of UML stereotypes.
-     */
     const UMLStereotypeList& getStereotypes();
 
     void writeToStatusBar(const QString &text);
@@ -282,13 +213,13 @@ public:
     ListPopupMenu::Menu_Type getPopupMenuSelection(QAction* action);
 
 private:
-
     void initSaveTimer();
 
     /**
      * Array of predefined root folders.
      */
     UMLFolder *m_root[Uml::N_MODELTYPES];
+
     /**
      * Predefined root folder for datatypes, contained in
      * m_root[Uml::mt_Logical]
@@ -333,7 +264,7 @@ private:
     /**
      * Stores the version of old UML files.
      */
-    int version;
+    int m_version;
 
     /**
      * Auxiliary to <docsettings> processing
@@ -364,11 +295,8 @@ private:
     bool m_bClosing;
 
 public slots:
-
     void slotRemoveUMLObject(UMLObject*o);
-
     void slotAutoSave();
-
     void slotDiagramPopupMenu(QWidget* umlview, const QPoint& point);
 
 signals:
@@ -380,17 +308,35 @@ signals:
     void sigObjectCreated(UMLObject *);
     void sigObjectRemoved(UMLObject *);
 
+    /**
+     * Reset the status bar.
+     */
     void sigResetStatusbarProgress();
 
+    /**
+     * Set the total range of the progressbar.
+     *
+     * @param totalSteps Total range of the progressbar (0..totalSteps)
+     */
     void sigSetStatusbarProgressSteps(int totalSteps);
 
-
+    /**
+     * Set the progress position of the progressbar.
+     *
+     * @param stepPosition   The step position to set.
+     */
     void sigSetStatusbarProgress(int stepPosition);
 
+    /**
+     * Write text to the status bar.
+     */
     void sigWriteToStatusBar(const QString &text);
 
+    /**
+     * The diagram being displayed has changed.
+     * UMLApp uses this to keep its menu items state up to date.
+     */
     void sigCurrentViewChanged();
-
 
 };
 

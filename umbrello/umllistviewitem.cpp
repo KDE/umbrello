@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -45,9 +44,17 @@
 
 UMLListView* UMLListViewItem::s_pListView = 0;
 
+/**
+ * Sets up an instance.
+ *
+ * @param parent   The parent to this instance.
+ * @param name     The name of this instance.
+ * @param t        The type of this instance.
+ * @param o        The object it represents.
+ */
 UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
                                  Uml::ListView_Type t, UMLObject* o)
-        : Q3ListViewItem(parent, name)
+  : Q3ListViewItem(parent, name)
 {
     init(parent);
     m_Type = t;
@@ -59,22 +66,40 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
     setRenameEnabled(0, false);
 }
 
+/**
+ * Sets up an instance for subsequent loadFromXMI().
+ *
+ * @param parent   The parent to this instance.
+ */
 UMLListViewItem::UMLListViewItem(UMLListView * parent)
-        : Q3ListViewItem(parent)
+  : Q3ListViewItem(parent)
 {
     init(parent);
     if (parent == NULL)
         uDebug() << "UMLListViewItem constructor called with a NULL listview parent";
 }
 
+/**
+ * Sets up an instance for subsequent loadFromXMI().
+ *
+ * @param parent   The parent to this instance.
+ */
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent)
-        : Q3ListViewItem(parent)
+  : Q3ListViewItem(parent)
 {
     init();
 }
 
+/**
+ * Sets up an instance.
+ *
+ * @param parent   The parent to this instance.
+ * @param name     The name of this instance.
+ * @param t        The type of this instance.
+ * @param o        The object it represents.
+ */
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t, UMLObject*o)
-        : Q3ListViewItem(parent, name)
+  : Q3ListViewItem(parent, name)
 {
     init();
     m_Type = t;
@@ -93,8 +118,16 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     setText(name);
 }
 
+/**
+ * Sets up an instance.
+ *
+ * @param parent   The parent to this instance.
+ * @param name     The name of this instance.
+ * @param t        The type of this instance.
+ * @param id       The id of this instance.
+ */
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t, Uml::IDType id)
-        : Q3ListViewItem(parent, name)
+  : Q3ListViewItem(parent, name)
 {
     init();
     m_Type = t;
@@ -136,6 +169,9 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     setRenameEnabled(0, true);
 }
 
+/**
+ * Standard destructor.
+ */
 UMLListViewItem::~UMLListViewItem()
 {
 }
@@ -213,9 +249,29 @@ void UMLListViewItem::setID(Uml::IDType id)
         Uml::IDType oid = m_pObject->getID();
         if (id != Uml::id_None && oid != id)
             uDebug() << "new id " << ID2STR(id) << " does not agree with object id "
-            << ID2STR(oid);
+                << ID2STR(oid);
     }
     m_nId = id;
+}
+
+/**
+ * Set the UMLObject associated with this instance.
+ *
+ * @param obj  The object this class represents.
+ */
+void UMLListViewItem::setUMLObject(UMLObject * obj)
+{
+    m_pObject = obj;
+}
+
+/**
+ * Return the UMLObject associated with this instance.
+ *
+ * @return  The object this class represents.
+ */
+UMLObject * UMLListViewItem::getUMLObject() const
+{
+    return m_pObject;
 }
 
 /**
@@ -336,7 +392,7 @@ void UMLListViewItem::setText(const QString &newText)
 }
 
 /**
- * Changes the current text of column 0.
+ * Changes the current text.
  */
 void UMLListViewItem::setText(int column, const QString &newText)
 {
@@ -350,6 +406,14 @@ void UMLListViewItem::setText(int column, const QString &newText)
 QString UMLListViewItem::getText() const
 {
     return m_Label;
+}
+
+/**
+ * Sets if the item is in the middle of being created.
+ */
+void UMLListViewItem::setCreating( bool creating )
+{
+    m_bCreating = creating;
 }
 
 /**
@@ -614,11 +678,10 @@ void UMLListViewItem::cancelRename(int col)
     }
 }
 
-// Sort the listview items by type and position within the corresponding list
-// of UMLObjects. If the item does not have an UMLObject then place it last.
-
 /**
  * Overrides the default sorting to sort by item type.
+ * Sort the listview items by type and position within the corresponding list
+ * of UMLObjects. If the item does not have an UMLObject then place it last.
  */
 int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) const
 {
@@ -708,6 +771,15 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
 }
 
 /**
+ * Returns the number of children of the UMLListViewItem
+ * containing this object
+ */
+int UMLListViewItem::childCount() const
+{
+    return m_nChildren;
+}
+
+/**
  * Create a deep copy of this UMLListViewItem, but using the
  * given parent instead of the parent of this UMLListViewItem.
  * Return the new UMLListViewItem created.
@@ -769,8 +841,8 @@ UMLListViewItem* UMLListViewItem::findChildObject(UMLClassifierListItem *cli)
  * the current UMLListViewItem.
  * Return a pointer to the item or NULL if not found.
  *
- * @param id                The ID to search for.
- * @return  The item with the given ID or NULL if not found.
+ * @param id   The ID to search for.
+ * @return The item with the given ID or NULL if not found.
  */
 UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
 {
@@ -787,7 +859,7 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
 }
 
 /**
- * saves the listview item to a "listitem" tag
+ * Saves the listview item to a "listitem" tag.
  */
 void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
@@ -829,7 +901,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 }
 
 /**
- * Loads a "listitem" tag, this is only used by the clipboard currently
+ * Loads a "listitem" tag, this is only used by the clipboard currently.
  */
 bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
 {

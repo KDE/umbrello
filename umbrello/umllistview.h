@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,17 +52,7 @@ class UMLListView : public K3ListView
     Q_OBJECT
 public:
 
-    /**
-     * Constructs the tree view.
-     *
-     * @param parent   The parent to this.
-     * @param name     The internal name for this class.
-     */
     UMLListView(QWidget *parent,const char *name);
-
-    /**
-     *  Standard deconstructor.
-     */
     ~UMLListView();
 
     void setDocument(UMLDoc * doc);
@@ -73,7 +62,6 @@ public:
     void setView(UMLView* view);
 
     int getSelectedItems(UMLListViewItemList &ItemList);
-
     int getSelectedItemsRoot(UMLListViewItemList &ItemList);
 
     UMLListViewItem* createDiagramItem(UMLView *view);
@@ -81,26 +69,21 @@ public:
     UMLListViewItem* createItem(UMLListViewItem& Data, IDChangeLog& IDChanges,
                                 UMLListViewItem* parent = 0);
 
-    UMLListViewItem *findFolderForDiagram(Uml::Diagram_Type dt);
+    UMLListViewItem* findFolderForDiagram(Uml::Diagram_Type dt);
 
     UMLListViewItem* determineParentItem(UMLObject* object) const;
-
     UMLListViewItem* determineParentItem(Uml::ListView_Type lvt) const;
 
     static bool mayHaveChildItems(Uml::Object_Type type);
 
     int getSelectedCount();
 
-    UMLDoc * getDocument() {
-        return m_doc;
-    }
+    UMLDoc * getDocument() const;
 
     void addNewItem( UMLListViewItem * parent, Uml::ListView_Type type );
 
     UMLListViewItem * findUMLObject(const UMLObject *p) const;
-
     UMLListViewItem * findView(UMLView *v);
-
     UMLListViewItem * findItem(Uml::IDType id);
 
     UMLListViewItem *rootView(Uml::ListView_Type type);
@@ -108,21 +91,17 @@ public:
     void changeIconOf(UMLObject *o, Icon_Utils::Icon_Type to);
 
     UMLObject *createUMLObject( UMLListViewItem * item, Uml::Object_Type type );
-
     bool createChildUMLObject( UMLListViewItem * item, Uml::Object_Type type );
-
     UMLView* createDiagram( UMLListViewItem * item, Uml::Diagram_Type type );
 
     QString getUniqueDiagramName( Uml::Diagram_Type type );
 
     bool isUnique( UMLListViewItem * item, const QString &name );
 
-    void  cancelRename( Q3ListViewItem * item );
+    void cancelRename( Q3ListViewItem * item );
 
     void setStartedCut(bool startedCut);
-
     void setStartedCopy(bool startedCopy);
-
     bool startedCopy() const;
 
     UMLListViewItem * moveObject(Uml::IDType srcId, Uml::ListView_Type srcType,
@@ -142,22 +121,20 @@ public:
     Uml::ListView_Type rootViewType(UMLListViewItem *item);
 
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement);
-
     bool loadFromXMI( QDomElement & element );
-
     bool loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & element );
 
 protected:
-    UMLListViewItem* m_rv;    // root view (home)
-    UMLListViewItem* m_lv[Uml::N_MODELTYPES];    // predefined list view roots
+
+    UMLListViewItem* m_rv;                     // root view (home)
+    UMLListViewItem* m_lv[Uml::N_MODELTYPES];  // predefined list view roots
     UMLListViewItem* m_datatypeFolder;
-    ListPopupMenu * m_pMenu;
-    QString oldText, message;
-    UMLDoc *m_doc;
+    ListPopupMenu*   m_pMenu;
+    UMLDoc*          m_doc;
     bool m_bStartedCut, m_bStartedCopy, m_bIgnoreCancelRename;
 
     /**
-     * Used when creating an attribute or an operation to stop it adding a second listViewItem
+     * Used when creating an attribute or an operation to stop it adding a second listViewItem.
      */
     bool m_bCreatingChildObject;
 
@@ -176,7 +153,7 @@ protected:
     void dragMoveEvent(QDragMoveEvent* event);
     void dropEvent(QDropEvent* event);
 
-    UMLListViewItem * findUMLObjectInFolder(UMLListViewItem *item, UMLObject *o);
+    UMLListViewItem * findUMLObjectInFolder(UMLListViewItem *folder, UMLObject *obj);
 
     static bool isExpandable(Uml::ListView_Type lvt);
 
@@ -191,33 +168,26 @@ protected:
 public slots:
 
     void slotDiagramCreated(Uml::IDType id);
-
     void slotDiagramRenamed(Uml::IDType id);
-
+    void slotDiagramRemoved(Uml::IDType id);
     void slotObjectCreated(UMLObject* object);
+    void slotObjectRemoved(UMLObject* object);
 
     void connectNewObjectsSlots(UMLObject* object);
 
     void childObjectAdded(UMLClassifierListItem* obj);
-
-    void slotObjectRemoved(UMLObject* object);
-
     void childObjectRemoved(UMLClassifierListItem* obj);
 
     void slotObjectChanged();
-
-    void slotDiagramRemoved(Uml::IDType id);
 
     void popupMenuSel(QAction* action);
 
     void slotDropped(QDropEvent* de, Q3ListViewItem* parent, Q3ListViewItem* item);
 
     void slotExpanded(Q3ListViewItem* item);
-
     void slotCollapsed(Q3ListViewItem* item);
 
     void expandAll(Q3ListViewItem *item);
-
     void collapseAll(Q3ListViewItem *item);
 
     void slotCutSuccessful();

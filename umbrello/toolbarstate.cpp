@@ -24,6 +24,10 @@
 #include "umlscene.h"
 #include "umlwidget.h"
 
+/**
+ * Destroys this ToolBarState.
+ * Frees m_pMouseEvent.
+ */
 ToolBarState::~ToolBarState()
 {
     delete m_pMouseEvent;
@@ -235,8 +239,17 @@ void ToolBarState::slotWidgetRemoved(UMLWidget* widget)
     }
 }
 
-ToolBarState::ToolBarState(UMLScene *umlScene) : QObject(umlScene),
-                                                 m_pUMLScene(umlScene)
+/**
+ * Creates a new ToolBarState.
+ * UMLScene is set as parent of this QObject, and name is left empty.
+ * Protected to avoid classes other than derived to create objects of this
+ * class.
+ *
+ * @param umlScene The UMLScene to use.
+ */
+ToolBarState::ToolBarState(UMLScene *umlScene)
+  : QObject(umlScene),
+    m_pUMLScene(umlScene)
 {
     m_pMouseEvent = NULL;
     init();
@@ -405,6 +418,54 @@ void ToolBarState::changeTool()
     if (m_pMouseEvent->button() == Qt::RightButton) {
         UMLApp::app()->getWorkToolBar()->setDefaultTool();
     }
+}
+
+/**
+ * Returns the widget currently in use.
+ *
+ * @return The widget currently in use.
+ */
+UMLWidget* ToolBarState::getCurrentWidget() const
+{
+    return m_currentWidget;
+}
+
+/**
+ * Sets the widget currently in use.
+ * This method is called in main press events handler just before calling
+ * the press event for widgets handler.
+ * Default implementation is set the specified widget, although this
+ * behaviour can be overridden in subclasses if needed.
+ *
+ * @param currentWidget The widget to be set.
+ */
+void ToolBarState::setCurrentWidget(UMLWidget* currentWidget)
+{
+    m_currentWidget = currentWidget;
+}
+
+/**
+ * Returns the association currently in use.
+ *
+ * @return The association currently in use.
+ */
+AssociationWidget* ToolBarState::getCurrentAssociation() const
+{
+    return m_currentAssociation;
+}
+
+/**
+ * Sets the association currently in use.
+ * This method is called in main press events handler just before calling
+ * the press event for associations handler.
+ * Default implementation is set the specified association, although this
+ * behaviour can be overridden in subclasses if needed.
+ *
+ * @param currentAssociation The association to be set.
+ */
+void ToolBarState::setCurrentAssociation(AssociationWidget* currentAssociation)
+{
+    m_currentAssociation = currentAssociation;
 }
 
 /**

@@ -1,13 +1,11 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
- *                                                                         *
  ***************************************************************************/
 
 #ifndef UMLLISTVIEWITEM_H
@@ -16,6 +14,7 @@
 #include <q3listview.h>
 #include <QtCore/QMap>
 #include <qdom.h>
+
 #include "umlnamespace.h"
 #include "icon_utils.h"
 
@@ -37,86 +36,34 @@ class UMLListViewItem : public Q3ListViewItem
 {
 public:
 
-    /**
-     * Sets up an instance.
-     *
-     * @param parent    The parent to this instance.
-     * @param name              The name of this instance.
-     * @param t         The type of this instance.
-     * @param o         The object it represents.
-     */
     UMLListViewItem(UMLListView * parent, const QString &name, Uml::ListView_Type t, UMLObject*o=0);
-
-    /**
-     * Sets up an instance for subsequent loadFromXMI().
-     *
-     * @param parent    The parent to this instance.
-     */
     UMLListViewItem(UMLListView * parent);
-
-    /**
-     * Sets up an instance for subsequent loadFromXMI().
-     *
-     * @param parent    The parent to this instance.
-     */
     UMLListViewItem(UMLListViewItem * parent);
-
-    /**
-     * Sets up an instance.
-     *
-     * @param parent    The parent to this instance.
-     * @param name              The name of this instance.
-     * @param t         The type of this instance.
-     * @param o         The object it represents.
-     */
     UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t, UMLObject*o=0);
-
-    /**
-     * Sets up an instance.
-     *
-     * @param parent    The parent to this instance.
-     * @param name              The name of this instance.
-     * @param t         The type of this instance.
-     * @param id                The id of this instance.
-     */
     UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t, Uml::IDType id);
 
-    /**
-     * Standard deconstructor.
-     */
     ~UMLListViewItem();
 
     Uml::ListView_Type getType() const;
 
     void setID(Uml::IDType id);
-
     Uml::IDType getID() const;
 
-    void setUMLObject(UMLObject * obj) {
-        m_pObject = obj;
-    }
-
-    UMLObject * getUMLObject() {
-        return m_pObject;
-    }
+    void setUMLObject(UMLObject * obj);
+    UMLObject * getUMLObject() const;
 
     bool isOwnParent(Uml::IDType listViewItemID);
 
     void updateObject();
-
     void updateFolder();
 
     void setOpen( bool open );
 
-    void setText(int column, const QString &text );
-
+    void setText(int column, const QString &text);
     void setText(const QString &text );
-
     QString getText() const;
 
-    void setCreating( bool creating ) {
-        m_bCreating = creating;
-    }
+    void setCreating( bool creating );
 
     void setIcon(Icon_Utils::Icon_Type iconType);
 
@@ -128,24 +75,18 @@ public:
 
     virtual int compare(Q3ListViewItem *other, int col, bool ascending) const;
 
-    int childCount() const {
-        return m_nChildren;
-    }
+    int childCount() const;
 
     UMLListViewItem* deepCopy(UMLListViewItem *newParent);
 
     UMLListViewItem* findUMLObject(const UMLObject *o);
-
     UMLListViewItem* findChildObject(UMLClassifierListItem *cli);
-
-    UMLListViewItem * findItem(Uml::IDType id);
+    UMLListViewItem* findItem(Uml::IDType id);
 
     void saveToXMI( QDomDocument& qDoc, QDomElement& qElement);
-
     bool loadFromXMI(QDomElement& qElement);
 
 protected:
-
     void init(UMLListView * parent = 0);
 
     void okRename( int col );

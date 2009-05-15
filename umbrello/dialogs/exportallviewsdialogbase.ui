@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Export all views</string>
+   <string>Export All Views</string>
   </property>
   <property name="sizeGripEnabled" >
    <bool>true</bool>

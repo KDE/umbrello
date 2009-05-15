@@ -1,21 +1,20 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef TOOLBARSTATE_H
 #define TOOLBARSTATE_H
 
-#include <qevent.h>
-#include <qobject.h>
+#include <QtCore/QEvent>
+#include <QtCore/QObject>
+#include <QtCore/QPoint>
 
-class QEvent;
 class QGraphicsSceneMouseEvent;
 
 class AssociationWidget;
@@ -23,7 +22,6 @@ class MessageWidget;
 class FloatingDashLineWidget;
 class UMLScene;
 class UMLWidget;
-
 
 /**
  * Base class for toolbar states.
@@ -69,14 +67,11 @@ class UMLWidget;
  * @todo Handle, for example, left press, right press, left release, right
  *       release and other similar strange combinations?
  */
-class ToolBarState: public QObject {
+class ToolBarState: public QObject
+{
     Q_OBJECT
 public:
 
-    /**
-     * Destroys this ToolBarState.
-     * Frees m_pMouseEvent.
-     */
     virtual ~ToolBarState();
 
     virtual void init();
@@ -84,88 +79,49 @@ public:
     virtual void cleanBeforeChange();
 
     virtual void mousePress(QGraphicsSceneMouseEvent *ome);
-
     virtual void mouseRelease(QGraphicsSceneMouseEvent* ome);
-
     virtual void mouseDoubleClick(QGraphicsSceneMouseEvent* ome);
-
     virtual void mouseMove(QGraphicsSceneMouseEvent* ome);
 
 public slots:
 
     virtual void slotAssociationRemoved(AssociationWidget* association);
-
     virtual void slotWidgetRemoved(UMLWidget* widget);
 
 protected:
 
-    /**
-     * Creates a new ToolBarState.
-     * UMLScene is set as parent of this QObject, and name is left empty.
-     * Protected to avoid classes other than derived to create objects of this
-     * class.
-     *
-     * @param umlScene The UMLScene to use.
-     */
     ToolBarState(UMLScene *umlScene);
 
     virtual void setCurrentElement();
 
     virtual void mousePressAssociation();
-
     virtual void mousePressWidget();
-
     virtual void mousePressEmpty();
-
     virtual void mouseReleaseAssociation();
-
     virtual void mouseReleaseWidget();
-
     virtual void mouseReleaseEmpty();
-
     virtual void mouseDoubleClickAssociation();
-
     virtual void mouseDoubleClickWidget();
-
     virtual void mouseDoubleClickEmpty();
-
     virtual void mouseMoveAssociation();
-
     virtual void mouseMoveWidget();
-
     virtual void mouseMoveEmpty();
 
     virtual void changeTool();
 
-    virtual UMLWidget* getCurrentWidget() {
-        return m_currentWidget;
-    }
+    virtual UMLWidget* getCurrentWidget() const;
+    virtual void setCurrentWidget(UMLWidget* currentWidget);
 
-    virtual void setCurrentWidget(UMLWidget* currentWidget) {
-        m_currentWidget = currentWidget;
-    }
-
-    virtual AssociationWidget* getCurrentAssociation() {
-        return m_currentAssociation;
-    }
-
-    virtual void setCurrentAssociation(AssociationWidget* currentAssociation) {
-        m_currentAssociation = currentAssociation;
-    }
+    virtual AssociationWidget* getCurrentAssociation() const;
+    virtual void setCurrentAssociation(AssociationWidget* currentAssociation);
 
     void setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Type &type);
 
     AssociationWidget* getAssociationAt(const QPointF& pos);
-
     MessageWidget* getMessageAt(const QPointF& pos);
-
     FloatingDashLineWidget* getFloatingLineAt(const QPointF& pos);
 
-
-    /**
-     * The UMLScene.
-     */
-    UMLScene* m_pUMLScene;
+    UMLScene* m_pUMLScene;  ///< The UMLScene.
 
     /**
      * The mouse event currently in use.
@@ -176,15 +132,8 @@ protected:
 
 private:
 
-    /**
-     * The widget currently in use, if any.
-     */
-    UMLWidget* m_currentWidget;
-
-    /**
-     * The association currently in use, if any.
-     */
-    AssociationWidget* m_currentAssociation;
+    UMLWidget*         m_currentWidget;       ///< The widget currently in use, if any.
+    AssociationWidget* m_currentAssociation;  ///< The association currently in use, if any.
 
 };
 
