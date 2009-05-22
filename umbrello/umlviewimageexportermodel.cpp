@@ -53,10 +53,8 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
     if (!supportedImageTypesList.size()) {
         // QT supported formats
         QList<QByteArray> qImageFormats = QImageWriter::supportedImageFormats();
-        QList<QByteArray>::const_iterator it, it_end;
-        it = qImageFormats.begin(); it_end = qImageFormats.end();
-        for (; it != it_end; ++it) {
-            QString format = QString(*it).toLower();
+        Q_FOREACH(const QByteArray& it, qImageFormats) {
+            const QString format = it.toLower();
             if (!supportedImageTypesList.contains(format))
                 supportedImageTypesList << format;
         }
@@ -67,7 +65,7 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
             supportedImageTypesList << "svg";
     }
     supportedImageTypesList.sort();
-    
+
     return supportedImageTypesList;
 }
 
@@ -299,7 +297,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
 
     // creates the directory and any needed parent directories
     QStringList dirs = url.directory().split(QDir::separator(), QString::SkipEmptyParts );
-    for (QStringList::ConstIterator it = dirs.begin() ; it != dirs.end(); ++it) {
+    for (QStringList::ConstIterator it = dirs.constBegin() ; it != dirs.constEnd(); ++it) {
         directory.addPath(*it);
 
         if (!KIO::NetAccess::exists(directory, KIO::NetAccess::SourceSide, UMLApp::app())) {

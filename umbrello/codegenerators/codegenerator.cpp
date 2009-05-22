@@ -751,7 +751,7 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
     const QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
     QString output;
     QStringList lines = text.split(endLine);
-    for (QStringList::ConstIterator lit = lines.begin(); lit != lines.end(); ++lit) {
+    for (QStringList::ConstIterator lit = lines.constBegin(); lit != lines.constEnd(); ++lit) {
         QString input = *lit;
         input.remove( QRegExp("\\s+$") );
         if (input.length() < lineWidth) {
