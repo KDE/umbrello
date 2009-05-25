@@ -9,7 +9,7 @@
  ***************************************************************************/
 #include "classifier.h"
 
-// qt/kde includes
+// kde includes
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -38,6 +38,9 @@
 #include "optionstate.h"
 #include "icon_utils.h"
 
+// qt includes
+#include <QtCore/QPointer>
+
 using namespace Uml;
 
 /**
@@ -47,7 +50,7 @@ using namespace Uml;
  * @param id     The unique id of the Concept.
  */
 UMLClassifier::UMLClassifier(const QString & name, Uml::IDType id)
-        : UMLPackage(name, id)
+  : UMLPackage(name, id)
 {
     m_BaseType = Uml::ot_Class;  // default value
     m_pClassAssoc = NULL;
@@ -255,9 +258,10 @@ UMLOperation* UMLClassifier::createOperation(
         if (nameNotSet)
             op->setName( uniqChildName(Uml::ot_Operation) );
         while (true) {
-            UMLOperationDialog operationDialogue(0, op);
-            if( operationDialogue.exec() != KDialog::Accepted ) {
+            QPointer<UMLOperationDialog> operationDialog = new UMLOperationDialog(0, op);
+            if( operationDialog->exec() != KDialog::Accepted ) {
                 delete op;
+                delete operationDialog;
                 return NULL;
             } else if (checkOperationSignature(op->getName(), op->getParmList())) {
                 KMessageBox::information(0,
@@ -265,6 +269,7 @@ UMLOperation* UMLClassifier::createOperation(
             } else {
                 break;
             }
+            delete operationDialog;
         }
     }
 
@@ -381,9 +386,9 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
 
     int button = KDialog::Accepted;
 
-    while (button==KDialog::Accepted && !goodName) {
-        UMLTemplateDialog templateDialogue(0, newTemplate);
-        button = templateDialogue.exec();
+    while (button == KDialog::Accepted && !goodName) {
+        QPointer<UMLTemplateDialog> templateDialog = new UMLTemplateDialog(0, newTemplate);
+        button = templateDialog->exec();
         name = newTemplate->getName();
 
         if (name.length() == 0) {
@@ -395,6 +400,7 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
         else {
             goodName = true;
         }
+        delete templateDialog;
     }
 
     if (button != KDialog::Accepted) {
@@ -758,8 +764,8 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
     while (button == KDialog::Accepted && !goodName && name.isNull()) {
-        UMLAttributeDialog attributeDialogue(0, newAttribute);
-        button = attributeDialogue.exec();
+        QPointer<UMLAttributeDialog> attributeDialog = new UMLAttributeDialog(0, newAttribute);
+        button = attributeDialog->exec();
         QString name = newAttribute->getName();
 
         if(name.length() == 0) {
@@ -769,6 +775,7 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
         } else {
             goodName = true;
         }
+        delete attributeDialog;
     }
 
     if (button != KDialog::Accepted) {

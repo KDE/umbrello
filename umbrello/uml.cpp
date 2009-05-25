@@ -75,8 +75,9 @@
 #include <kundostack.h>
 
 // qt includes
-#include <QtCore/QTimer>
+#include <QtCore/QPointer>
 #include <QtCore/QRegExp>
+#include <QtCore/QTimer>
 #include <QtGui/QClipboard>
 #include <QtGui/QSlider>
 #include <QtGui/QToolButton>
@@ -1954,8 +1955,9 @@ void UMLApp::generateAllCode()
  */
 void UMLApp::generationWizard()
 {
-    CodeGenerationWizard wizard(0 /*classList*/);
-    wizard.exec();
+    QPointer<CodeGenerationWizard> wizard = new CodeGenerationWizard(0 /*classList*/);
+    wizard->exec();
+    delete wizard;
 }
 
 /**
@@ -2255,10 +2257,11 @@ void UMLApp::slotImportProject()
 {
     QStringList listFile;
 
-    ImportProjectDlg importDlg(&listFile, m_codegen->getLanguage(), this);
-    if (importDlg.exec() == KDialog::Accepted) {
+    QPointer<ImportProjectDlg> importDlg = new ImportProjectDlg(&listFile, m_codegen->getLanguage(), this);
+    if (importDlg->exec() == KDialog::Accepted) {
         importFiles(&listFile);
     }
+    delete importDlg;
 }
 
 /**
@@ -2266,8 +2269,9 @@ void UMLApp::slotImportProject()
  */
 void UMLApp::slotClassWizard()
 {
-    ClassWizard dlg( m_doc );
-    dlg.exec();
+    QPointer<ClassWizard> dlg  = new ClassWizard( m_doc );
+    dlg->exec();
+    delete dlg;
 }
 
 /**

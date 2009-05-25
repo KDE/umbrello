@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,6 +36,7 @@
 #include <karrowbutton.h>
 
 //qt includes
+#include <QtCore/QPointer>
 #include <QtGui/QLayout>
 #include <QtGui/QGroupBox>
 #include <QtGui/QListWidget>
@@ -48,7 +49,7 @@
 #include <QtGui/QGridLayout>
 
 UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation )
-        : KDialog( parent)
+  : KDialog( parent)
 {
     setCaption( i18n("Operation Properties") );
     setButtons( Help | Ok | Cancel );
@@ -185,25 +186,25 @@ void UMLOperationDialog::setupDialog()
     }
 
     // set scope
-    switch (m_operation -> getVisibility()) {
+    switch (m_operation->getVisibility()) {
     case Uml::Visibility::Public:
-        m_pPublicRB -> setChecked( true );
+        m_pPublicRB->setChecked( true );
         break;
     case Uml::Visibility::Private:
-        m_pPrivateRB -> setChecked( true );
+        m_pPrivateRB->setChecked( true );
         break;
     case Uml::Visibility::Protected:
-        m_pProtectedRB -> setChecked( true );
+        m_pProtectedRB->setChecked( true );
         break;
     case Uml::Visibility::Implementation:
-        m_pImplementationRB -> setChecked( true );
+        m_pImplementationRB->setChecked( true );
         break;
     default:
         break;
     }
 
     // manage stereotypes
-    m_pStereoTypeCB -> setDuplicatesEnabled(false); // only allow one of each type in box
+    m_pStereoTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     insertStereotypesSorted(m_operation->getStereotype());
 
@@ -240,7 +241,7 @@ void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
         type = ListPopupMenu::mt_New_Parameter;
     }
     if (m_menu) {
-        m_menu -> hide();
+        m_menu->hide();
         disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotParmPopupMenuSel(QAction*)));
         delete m_menu;
         m_menu = 0;
@@ -277,17 +278,14 @@ void UMLOperationDialog::slotParmPopupMenuSel(QAction* action)
 
 void UMLOperationDialog::slotNewParameter()
 {
-    int result = 0;
     UMLAttribute* pAtt = 0;
 
     QString currentName = m_operation->getUniqueParameterName();
     UMLAttribute* newAttribute = new UMLAttribute(m_operation, currentName, Uml::id_Reserved);
 
-    ParmPropDlg dlg(this, m_doc, newAttribute);
-    result = dlg.exec();
-
-    if ( result ) {
-        pAtt = m_operation -> findParm( newAttribute->getName() );
+    QPointer<ParmPropDlg> dlg = new ParmPropDlg(this, m_doc, newAttribute);
+    if ( dlg->exec() ) {
+        pAtt = m_operation->findParm( newAttribute->getName() );
 
         if ( !pAtt ) {
             newAttribute->setID( UniqueID::gen() );
@@ -302,6 +300,7 @@ void UMLOperationDialog::slotNewParameter()
     } else {
         delete newAttribute;
     }
+    delete dlg;
 }
 
 void UMLOperationDialog::slotDeleteParameter()
@@ -320,7 +319,6 @@ void UMLOperationDialog::slotDeleteParameter()
 
 void UMLOperationDialog::slotParameterProperties()
 {
-    int result = 0;
     UMLAttribute* pAtt = 0, * pOldAtt = 0;
 
     int position = m_pParmsLW->row( m_pParmsLW->currentItem() );
@@ -333,10 +331,9 @@ void UMLOperationDialog::slotParameterProperties()
     QString oldAttName = pOldAtt->getName();
     UMLAttribute* tempAttribute = static_cast<UMLAttribute*>( pOldAtt->clone() ); // create a clone of the parameter
 
-    ParmPropDlg dlg(this, m_doc, tempAttribute); // send the clone to the properties dialog box. it will fill in the new parameters.
-    result = dlg.exec();
-
-    if ( result ) {
+    // send the clone to the properties dialog box. it will fill in the new parameters.
+    QPointer<ParmPropDlg> dlg = new ParmPropDlg(this, m_doc, tempAttribute); 
+    if ( dlg->exec() ) {
         bool namingConflict = false;
         QString newName = tempAttribute->getName();
 
@@ -357,6 +354,7 @@ void UMLOperationDialog::slotParameterProperties()
         m_doc->setModified( true );
     }
     delete tempAttribute;
+    delete dlg;
 }
 
 void UMLOperationDialog::slotParameterUp()
@@ -428,7 +426,7 @@ bool UMLOperationDialog::apply()
     if( name.length() == 0 ) {
         KMessageBox::error(this, i18n("You have entered an invalid operation name."),
                            i18n("Operation Name Invalid"), false);
-        m_pNameLE -> setText( m_operation -> getName() );
+        m_pNameLE->setText( m_operation->getName() );
         return false;
     }
 
@@ -442,16 +440,16 @@ bool UMLOperationDialog::apply()
         KMessageBox::error(this, msg, i18n("Operation Name Invalid"), false);
         return false;
     }
-    m_operation -> setName( name );
+    m_operation->setName( name );
 
-    if( m_pPublicRB -> isChecked() )
-      m_operation -> setVisibility( Uml::Visibility::Public );
-    else if( m_pPrivateRB -> isChecked() )
-      m_operation -> setVisibility( Uml::Visibility::Private );
-    else if (m_pProtectedRB -> isChecked() )
-      m_operation -> setVisibility( Uml::Visibility::Protected );
-    else if (m_pImplementationRB -> isChecked() )
-      m_operation -> setVisibility( Uml::Visibility::Implementation );
+    if( m_pPublicRB->isChecked() )
+      m_operation->setVisibility( Uml::Visibility::Public );
+    else if( m_pPrivateRB->isChecked() )
+      m_operation->setVisibility( Uml::Visibility::Private );
+    else if (m_pProtectedRB->isChecked() )
+      m_operation->setVisibility( Uml::Visibility::Protected );
+    else if (m_pImplementationRB->isChecked() )
+      m_operation->setVisibility( Uml::Visibility::Implementation );
 
     QString typeName = m_pRtypeCB->currentText();
     UMLTemplate *tmplParam = 0;
@@ -466,7 +464,7 @@ bool UMLOperationDialog::apply()
     m_operation->setStereotype( m_pStereoTypeCB->currentText() );
 
     bool isAbstract = m_pAbstractCB->isChecked();
-    m_operation -> setAbstract( isAbstract );
+    m_operation->setAbstract( isAbstract );
     if (isAbstract) {
         /* If any operation is abstract then the owning class needs
            to be made abstract.
