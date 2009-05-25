@@ -16,6 +16,7 @@
 #include <math.h>
 
 // include files for Qt
+#include <QtCore/QPointer>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QVector>
@@ -2852,11 +2853,13 @@ int UMLView::snappedY(int y)
 
 bool UMLView::showPropDialog()
 {
-    UMLViewDialog dlg(this, this);
-    if (dlg.exec()) {
-        return true;
+    bool success = false;
+    QPointer<UMLViewDialog> dlg = new UMLViewDialog(this, this);
+    if (dlg->exec() == QDialog::Accepted) {
+        success = true;
     }
-    return false;
+    delete dlg;
+    return success;
 }
 
 QFont UMLView::getFont() const

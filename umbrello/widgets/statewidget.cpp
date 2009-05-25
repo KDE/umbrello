@@ -12,7 +12,8 @@
 #include "statewidget.h"
 
 // qt includes
-#include <QEvent>
+#include <QtCore/QPointer>
+#include <QtCore/QEvent>
 
 // kde includes
 #include <klocale.h>
@@ -231,11 +232,12 @@ void StateWidget::showProperties()
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    StateDialog dialog(m_pView, this);
-    if (dialog.exec() && dialog.getChangesMade()) {
+    QPointer<StateDialog> dialog = new StateDialog(m_pView, this);
+    if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
     }
+    delete dialog;
 }
 
 bool StateWidget::isState(WorkToolBar::ToolBar_Buttons tbb, StateType& resultType)
