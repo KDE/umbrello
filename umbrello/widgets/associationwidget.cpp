@@ -15,12 +15,13 @@
 #include <cstdlib>
 #include <cmath>
 
-// qt/kde includes
+// qt includes
+#include <QtCore/QPointer>
 #include <q3canvas.h>
-#include <QRegExpValidator>
-#include <QMouseEvent>
-#include <QMoveEvent>
-#include <QApplication>
+#include <QtGui/QRegExpValidator>
+#include <QtGui/QMouseEvent>
+#include <QtGui/QMoveEvent>
+#include <QtGui/QApplication>
 
 // kde includes
 #include <kdebug.h>
@@ -626,9 +627,9 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Rol
     }
 
     if(FloatingTextWidget::isTextValid(m_role[role].m_pChangeWidget->text()))
-        m_role[role].m_pChangeWidget -> show();
+        m_role[role].m_pChangeWidget->show();
     else
-        m_role[role].m_pChangeWidget -> hide();
+        m_role[role].m_pChangeWidget->hide();
 }
 
 /**
@@ -733,9 +734,9 @@ bool AssociationWidget::activate()
             robj.m_pRole->setPreText(vis.toString(true));
 
             if (FloatingTextWidget::isTextValid(robj.m_pRole->text()))
-                robj.m_pRole -> show();
+                robj.m_pRole->show();
             else
-                robj.m_pRole -> hide();
+                robj.m_pRole->hide();
             if (m_pView->getType() == dt_Collaboration)
                 robj.m_pRole->setUMLObject(robj.m_pWidget->umlObject());
             robj.m_pRole->activate();
@@ -767,7 +768,7 @@ bool AssociationWidget::activate()
             if (FloatingTextWidget::isTextValid(pMulti->text()))
                 pMulti->show();
             else
-                pMulti -> hide();
+                pMulti->hide();
             pMulti->activate();
         }
 
@@ -779,7 +780,7 @@ bool AssociationWidget::activate()
             if (FloatingTextWidget::isTextValid(pChangeWidget->text()))
                 pChangeWidget->show();
             else
-                pChangeWidget -> hide ();
+                pChangeWidget->hide ();
             pChangeWidget->activate();
         }
     }
@@ -797,13 +798,13 @@ bool AssociationWidget::activate()
 Uml::Text_Role AssociationWidget::CalculateNameType(Uml::Text_Role defaultRole)
 {
     Text_Role result = defaultRole;
-    if( m_pView -> getType() == dt_Collaboration ) {
+    if( m_pView->getType() == dt_Collaboration ) {
         if(m_role[A].m_pWidget == m_role[B].m_pWidget) {
             result = tr_Coll_Message;//for now same as other Coll_Message
         } else {
             result = tr_Coll_Message;
         }
-    } else if( m_pView -> getType() == dt_Sequence ) {
+    } else if( m_pView->getType() == dt_Sequence ) {
         if(m_role[A].m_pWidget == m_role[B].m_pWidget) {
             result = tr_Seq_Message_Self;
         } else {
@@ -1275,10 +1276,10 @@ void AssociationWidget::calculateEndingPoints()
     // This only happens on first time through that we are worried about.
     if (pWidgetA == pWidgetB && size < 4) {
         const int DISTANCE = 50;
-        int x = pWidgetA -> getX();
-        int y = pWidgetA -> getY();
-        int h = pWidgetA -> getHeight();
-        int w = pWidgetA -> getWidth();
+        int x = pWidgetA->getX();
+        int y = pWidgetA->getY();
+        int h = pWidgetA->getHeight();
+        int w = pWidgetA->getWidth();
         //see if above widget ok to start
         if( y - DISTANCE > 0 ) {
             m_LinePath.setStartEndPoints( QPoint( x + w / 4, y ) , QPoint( x + w * 3 / 4, y ) );
@@ -1295,15 +1296,15 @@ void AssociationWidget::calculateEndingPoints()
     }//end a == b
 
     if (getAssocType() == at_Exception && size < 4) {
-        int xa = pWidgetA -> getX();
-        int ya = pWidgetA -> getY();
-        int ha = pWidgetA -> getHeight();
-        int wa = pWidgetA -> getWidth();
+        int xa = pWidgetA->getX();
+        int ya = pWidgetA->getY();
+        int ha = pWidgetA->getHeight();
+        int wa = pWidgetA->getWidth();
 
-        int xb = pWidgetB -> getX();
-        int yb = pWidgetB -> getY();
-        int hb = pWidgetB -> getHeight();
-        //int wb = pWidgetB -> getWidth();
+        int xb = pWidgetB->getX();
+        int yb = pWidgetB->getY();
+        int hb = pWidgetB->getHeight();
+        //int wb = pWidgetB->getWidth();
 
         m_LinePath.setStartEndPoints( QPoint( xa + wa , ya + ha/2 ) , QPoint( xb , yb + hb/2 ) );
         m_LinePath.insertPoint( 1, QPoint( xa + wa , ya + ha/2 ));
@@ -1504,7 +1505,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
         // -> there is something wrong
         // -> avoid movement during opening
         // -> print warn and stay at old position
-        uDebug() << "called during load of XMI for ViewType: " << m_pView -> getType()
+        uDebug() << "called during load of XMI for ViewType: " << m_pView->getType()
             << ", and BaseType: " << baseType();
         return;
     }
@@ -1532,8 +1533,8 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
             // safety. We DON'T want to go off the screen
             if(newY < 0)
                 newY = 0;
-            newX = m_pView -> snappedX( newX );
-            newY = m_pView -> snappedY( newY );
+            newX = m_pView->snappedX( newX );
+            newY = m_pView->snappedY( newY );
             p.setX( newX );
             p.setY( newY );
             m_LinePath.setPoint( i, p );
@@ -1586,15 +1587,15 @@ void AssociationWidget::updatePointsException ()
     UMLWidget *pWidgetA = m_role[A].m_pWidget;
     UMLWidget *pWidgetB = m_role[B].m_pWidget;
 
-    int xa = pWidgetA -> getX();
-    int ya = pWidgetA -> getY();
-    int ha = pWidgetA -> getHeight();
-    int wa = pWidgetA -> getWidth();
+    int xa = pWidgetA->getX();
+    int ya = pWidgetA->getY();
+    int ha = pWidgetA->getHeight();
+    int wa = pWidgetA->getWidth();
 
-    int xb = pWidgetB -> getX();
-    int yb = pWidgetB -> getY();
-    int hb = pWidgetB -> getHeight();
-    int wb = pWidgetB -> getWidth();
+    int xb = pWidgetB->getX();
+    int yb = pWidgetB->getY();
+    int hb = pWidgetB->getHeight();
+    int wb = pWidgetB->getWidth();
     int xmil, ymil;
     int xdeb, ydeb;
     int xfin, yfin;
@@ -2514,8 +2515,8 @@ void AssociationWidget::selectAssocClassLine(bool sel /* =true */)
 void AssociationWidget::mousePressEvent(QMouseEvent * me)
 {
     // clear other selected stuff on the screen of ShiftKey
-    if( me -> modifiers() != Qt::ShiftModifier )
-        m_pView -> clearSelected();
+    if( me->modifiers() != Qt::ShiftModifier )
+        m_pView->clearSelected();
 
     m_nMovingPoint = -1;
     //make sure we should be here depending on the button
@@ -2596,7 +2597,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
             menuType = ListPopupMenu::mt_Association_Selected;
     }
     m_pMenu = new ListPopupMenu(m_pView, menuType);
-    m_pMenu->popup(me -> globalPos());
+    m_pMenu->popup(me->globalPos());
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
     if (isCollaboration()) 
         m_pName->setupPopupMenu(m_pMenu);
@@ -2611,31 +2612,34 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
  */
 bool AssociationWidget::showDialog()
 {
-    AssocPropDlg dlg(static_cast<QWidget*>(m_pView), this );
-    if (! dlg.exec())
-        return false;
-    QString name = getName();
-    QString doc = documentation();
-    QString roleADoc = getRoleDoc(A), roleBDoc = getRoleDoc(B);
-    QString rnA = getRoleName(A), rnB = getRoleName(B);
-    QString ma = getMulti(A), mb = getMulti(B);
-    Uml::Visibility vA = getVisibility(A), vB = getVisibility(B);
-    Uml::Changeability_Type cA = getChangeability(A), cB = getChangeability(B);
-    //rules built into these functions to stop updating incorrect values
-    setName(name);
-    setRoleName(rnA, A);
-    setRoleName(rnB, B);
-    setDocumentation(doc);
-    setRoleDoc(roleADoc, A);
-    setRoleDoc(roleBDoc, B);
-    setMulti(ma, A);
-    setMulti(mb, B);
-    setVisibility(vA, A);
-    setVisibility(vB, B);
-    setChangeability(cA, A);
-    setChangeability(cB, B);
-    m_pView -> showDocumentation( this, true );
-    return true;
+    bool success = false;
+    QPointer<AssocPropDlg> dlg = new AssocPropDlg(static_cast<QWidget*>(m_pView), this );
+    if (dlg->exec()) {
+        success = true;
+        QString name = getName();
+        QString doc = documentation();
+        QString roleADoc = getRoleDoc(A), roleBDoc = getRoleDoc(B);
+        QString rnA = getRoleName(A), rnB = getRoleName(B);
+        QString ma = getMulti(A), mb = getMulti(B);
+        Uml::Visibility vA = getVisibility(A), vB = getVisibility(B);
+        Uml::Changeability_Type cA = getChangeability(A), cB = getChangeability(B);
+        //rules built into these functions to stop updating incorrect values
+        setName(name);
+        setRoleName(rnA, A);
+        setRoleName(rnB, B);
+        setDocumentation(doc);
+        setRoleDoc(roleADoc, A);
+        setRoleDoc(roleBDoc, B);
+        setMulti(ma, A);
+        setMulti(mb, B);
+        setVisibility(vA, A);
+        setVisibility(vB, B);
+        setChangeability(cA, A);
+        setChangeability(cB, B);
+        m_pView->showDocumentation( this, true );
+    }
+    delete dlg;
+    return success;
 }
 
 /**
@@ -2666,7 +2670,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
             // here just in case - remove later after testing
             uDebug() << "mt_Properties: assoctype is " << atype;
         } else {  //standard assoc dialog
-            m_pView -> updateDocumentation( false );
+            m_pView->updateDocumentation( false );
             showDialog();
         }
         break;
@@ -2747,7 +2751,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font_Selection:
         font = getFont();
         if( KFontDialog::getFont( font, false, m_pView ) ) {
-            m_pView -> selectionSetFont( font );
+            m_pView->selectionSetFont( font );
             m_umldoc->setModified(true);
         }
         break;
@@ -2904,7 +2908,7 @@ void AssociationWidget::mouseMoveEvent(QMouseEvent* me)
     QPoint p = me->pos();
     QPoint oldp = m_LinePath.getPoint(m_nMovingPoint);
 
-    if( m_pView -> getSnapToGrid() ) {
+    if( m_pView->getSnapToGrid() ) {
         int newX = m_pView->snappedX( p.x() );
         int newY = m_pView->snappedY( p.y() );
         p.setX(newX);
@@ -2970,7 +2974,7 @@ int AssociationWidget::getRegionCount(AssociationWidget::Region region, Uml::Rol
     if(region == Error)
         return 0;
     int widgetCount = 0;
-    AssociationWidgetList list = m_pView -> getAssociationList();
+    AssociationWidgetList list = m_pView->getAssociationList();
     foreach ( AssociationWidget* assocwidget, list ) {
         //don't count this association
         if (assocwidget == this)
@@ -3190,7 +3194,7 @@ void AssociationWidget::updateAssociations(int totalCount,
 {
     if( region == Error )
         return;
-    AssociationWidgetList list = m_pView -> getAssociationList();
+    AssociationWidgetList list = m_pView->getAssociationList();
 
     UMLWidget *ownWidget = m_role[role].m_pWidget;
     m_positions_len = 0;
@@ -3270,10 +3274,10 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
     if (m_role[A].m_pWidget == m_role[B].m_pWidget &&
             m_role[A].m_WidgetRegion == m_role[B].m_WidgetRegion) {
         UMLWidget * pWidget = m_role[A].m_pWidget;
-        int x = pWidget -> getX();
-        int y = pWidget -> getY();
-        int wh = pWidget -> height();
-        int ww = pWidget -> width();
+        int x = pWidget->getX();
+        int y = pWidget->getY();
+        int wh = pWidget->height();
+        int ww = pWidget->width();
         int size = m_LinePath.count();
         // See if above widget ok to place assoc.
         switch( m_role[A].m_WidgetRegion ) {
@@ -3408,10 +3412,10 @@ void AssociationWidget::setSelected(bool _select /* = true */)
     // overwrites the docwindow, but we want the main association doc
     // to win.
     if( _select ) {
-        if( m_pView -> getSelectCount() == 0 )
-                m_pView -> showDocumentation( this, false );
+        if( m_pView->getSelectCount() == 0 )
+                m_pView->showDocumentation( this, false );
     } else
-        m_pView -> updateDocumentation( true );
+        m_pView->updateDocumentation( true );
     qApp->processEvents();
 
     m_LinePath.setSelected( _select );
@@ -3446,14 +3450,16 @@ bool AssociationWidget::onAssociation(const QPoint & point)
 
 /**
  * This slot is entered when an event has occurred on the views display,
- * most likely a mouse event.  Before it sends out that mouse event all
+ * most likely a mouse event. Before it sends out that mouse event all
  * children should make sure that they don't have a menu active or there
  * could be more than one popup menu displayed.
  */
 void AssociationWidget::slotRemovePopupMenu()
 {
-    if(m_pMenu) {
-        m_pName->slotRemovePopupMenu();
+    if (m_pMenu) {
+        if (m_pName) {
+            m_pName->slotRemovePopupMenu();
+        }
         disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         delete m_pMenu;
         m_pMenu = 0;
@@ -3475,8 +3481,8 @@ void AssociationWidget::moveMidPointsBy( int x, int y )
         QPoint p = m_LinePath.getPoint( i );
         int newX = p.x() + x;
         int newY = p.y() + y;
-        newX = m_pView -> snappedX( newX );
-        newY = m_pView -> snappedY( newY );
+        newX = m_pView->snappedX( newX );
+        newY = m_pView->snappedY( newY );
         p.setX( newX );
         p.setY( newY );
         m_LinePath.setPoint( i, p );

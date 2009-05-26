@@ -12,6 +12,7 @@
 #include "activitywidget.h"
 
 // qt includes
+#include <QtCore/QPointer>
 #include <QtGui/QPainter>
 #include <QtGui/QPolygon>
 
@@ -280,11 +281,12 @@ void ActivityWidget::showProperties()
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    ActivityDialog dialog(m_pView, this);
-    if (dialog.exec() && dialog.getChangesMade()) {
+    QPointer<ActivityDialog> dialog = new ActivityDialog(m_pView, this);
+    if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
     }
+    delete dialog;
 }
 
 bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,

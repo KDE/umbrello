@@ -31,6 +31,7 @@
 #include <kdebug.h>
 
 // qt includes
+#include <QtCore/QPointer>
 #include <QtGui/QApplication>
 
 using namespace Uml;
@@ -121,7 +122,7 @@ bool UMLObject::showProperties(int page, bool assoc)
     Q_UNUSED(page);
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
-    ClassPropDlg* dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this, assoc);
+    QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this, assoc);
     bool modified = false;
     if (dlg->exec()) {
         docwindow->showDocumentation(this, true);
@@ -129,6 +130,7 @@ bool UMLObject::showProperties(int page, bool assoc)
         modified = true;
     }
     dlg->close();
+    delete dlg;
     return modified;
 }
 

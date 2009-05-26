@@ -12,8 +12,9 @@
 #include "objectwidget.h"
 
 // system includes
+#include <QtCore/QPointer>
 #include <QtGui/QPainter>
-#include <QValidator>
+#include <QtGui/QValidator>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
@@ -224,12 +225,13 @@ void ObjectWidget::showProperties()
 {
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
-    ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
+    QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
     if (dlg->exec()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
     }
     dlg->close();
+    delete dlg;
 }
 
 void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)

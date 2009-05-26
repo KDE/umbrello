@@ -12,6 +12,7 @@
 #include "objectnodewidget.h"
 
 // qt includes
+#include <QtCore/QPointer>
 #include <QtGui/QPainter>
 
 // kde includes
@@ -215,11 +216,12 @@ void ObjectNodeWidget::showProperties()
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    ObjectNodeDialog dialog(m_pView, this);
-    if (dialog.exec() && dialog.getChangesMade()) {
+    QPointer<ObjectNodeDialog> dialog = new ObjectNodeDialog(m_pView, this);
+    if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
     }
+    delete dialog;
 }
 
 void ObjectNodeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )

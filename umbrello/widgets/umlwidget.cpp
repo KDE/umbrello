@@ -11,9 +11,10 @@
 // own header file
 #include "umlwidget.h"
 // system includes
+#include <QtCore/QPointer>
 #include <QtGui/QPainter>
 #include <QtGui/QColor>
-#include <QMouseEvent>
+#include <QtGui/QMouseEvent>
 #include <kdebug.h>
 #include <kcolordialog.h>
 #include <kfontdialog.h>
@@ -642,13 +643,14 @@ void UMLWidget::showProperties()
     // back it the widget
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
-    ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
+    QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
 
     if (dlg->exec()) {
         docwindow->showDocumentation(umlObject() , true);
         m_pDoc->setModified(true);
     }
     dlg->close(); //wipe from memory
+    delete dlg;
 }
 
 ListPopupMenu*  UMLWidget::setupPopupMenu(ListPopupMenu* menu)

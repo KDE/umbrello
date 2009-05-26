@@ -12,9 +12,10 @@
 #include "floatingtextwidget.h"
 
 // system includes
+#include <QtCore/QEvent>
+#include <QtCore/QPointer>
 #include <QtCore/QRegExp>
 #include <QtGui/QPainter>
-#include <QtCore/QEvent>
 #include <QtGui/QValidator>
 #include <klocale.h>
 #include <kdebug.h>
@@ -336,48 +337,47 @@ void FloatingTextWidget::showOpDlg()
         return;
     }
 
-    SelectOpDlg selectDlg(m_pView, c);
-    selectDlg.setSeqNumber( seqNum );
+    QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(m_pView, c);
+    selectDlg->setSeqNumber( seqNum );
     if (m_linkWidget->getOperation() == NULL) {
-        selectDlg.setCustomOp( opText );
+        selectDlg->setCustomOp( opText );
     } else {
-        selectDlg.setClassOp( opText );
+        selectDlg->setClassOp( opText );
     }
-    int result = selectDlg.exec();
-    if(!result) {
-        return;
-    }
-    seqNum = selectDlg.getSeqNumber();
-    opText = selectDlg.getOpText();
-    if (selectDlg.isClassOp()) {
-        Model_Utils::OpDescriptor od;
-        Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
-        if (st == Model_Utils::PS_OK) {
-            UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
-            selfAndAncestors.prepend(c);
-            UMLOperation *op = NULL;
-            foreach (UMLClassifier *cl , selfAndAncestors) {
-                op = cl->findOperation(od.m_name, od.m_args);
-                if (op != NULL)
-                    break;
+    if (selectDlg->exec()) {
+        seqNum = selectDlg->getSeqNumber();
+        opText = selectDlg->getOpText();
+        if (selectDlg->isClassOp()) {
+            Model_Utils::OpDescriptor od;
+            Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
+            if (st == Model_Utils::PS_OK) {
+                UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
+                selfAndAncestors.prepend(c);
+                UMLOperation *op = NULL;
+                foreach (UMLClassifier *cl , selfAndAncestors) {
+                    op = cl->findOperation(od.m_name, od.m_args);
+                    if (op != NULL)
+                        break;
+                }
+                if (op == NULL) {
+                    // The op does not yet exist. Create a new one.
+                    UMLObject *o = c->createOperation(od.m_name, NULL, &od.m_args);
+                    op = static_cast<UMLOperation*>(o);
+                }
+                if (od.m_pReturnType)
+                    op->setType(od.m_pReturnType);
+                m_linkWidget->setOperation(op);
+                opText.clear();
+            } else {
+                m_linkWidget->setOperation(NULL);
             }
-            if (op == NULL) {
-                // The op does not yet exist. Create a new one.
-                UMLObject *o = c->createOperation(od.m_name, NULL, &od.m_args);
-                op = static_cast<UMLOperation*>(o);
-            }
-            if (od.m_pReturnType)
-                op->setType(od.m_pReturnType);
-            m_linkWidget->setOperation(op);
-            opText.clear();
         } else {
             m_linkWidget->setOperation(NULL);
         }
-    } else {
-        m_linkWidget->setOperation(NULL);
+        m_linkWidget->setSeqNumAndOp(seqNum, opText);
+        setMessageText();
     }
-    m_linkWidget->setSeqNumAndOp(seqNum, opText);
-    setMessageText();
+    delete selectDlg;
 }
 
 /**

@@ -32,6 +32,9 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
+// qt includes
+#include <QtCore/QPointer>
+
 /**
  * Constructor.
  */
@@ -113,18 +116,19 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*= QString()*/, UM
 
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
-    while (button==KDialog::Accepted && !goodName && name.isNull()) {
-        UMLEntityAttributeDialog attributedialog(0, newAttribute);
-        button = attributedialog.exec();
+    while (button == KDialog::Accepted && !goodName && name.isNull()) {
+        QPointer<UMLEntityAttributeDialog> dialog = new UMLEntityAttributeDialog(0, newAttribute);
+        button = dialog->exec();
         QString name = newAttribute->getName();
 
-        if(name.length() == 0) {
+        if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         } else if ( findChildObject(name) != NULL ) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
         }
+        delete dialog;
     }
 
     if (button != KDialog::Accepted) {
@@ -165,18 +169,19 @@ UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name )
 
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
-    while (button==KDialog::Accepted && !goodName && name.isNull()) {
-        UMLUniqueConstraintDialog uniqueConstraintDialog(0, newUniqueConstraint);
-        button = uniqueConstraintDialog.exec();
+    while (button == KDialog::Accepted && !goodName && name.isNull()) {
+        QPointer<UMLUniqueConstraintDialog> dialog = new UMLUniqueConstraintDialog(0, newUniqueConstraint);
+        button = dialog->exec();
         QString name = newUniqueConstraint->getName();
 
-        if(name.length() == 0) {
+        if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         } else if ( findChildObject(name) != NULL ) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
         }
+        delete dialog;
     }
 
     if (button != KDialog::Accepted) {
@@ -214,18 +219,19 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
 
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
-    while (button==KDialog::Accepted && !goodName && name.isNull()) {
-        UMLForeignKeyConstraintDialog foreignKeyConstraintDialog(0, newForeignKeyConstraint);
-        button = foreignKeyConstraintDialog.exec();
+    while (button == KDialog::Accepted && !goodName && name.isNull()) {
+        QPointer<UMLForeignKeyConstraintDialog> dialog = new UMLForeignKeyConstraintDialog(0, newForeignKeyConstraint);
+        button = dialog->exec();
         QString name = newForeignKeyConstraint->getName();
 
-        if(name.length() == 0) {
+        if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         } else if ( findChildObject(name) != NULL ) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
         }
+        delete dialog;
     }
 
     if (button != KDialog::Accepted) {
@@ -262,18 +268,19 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name )
 
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
-    while (button==KDialog::Accepted && !goodName && name.isNull()) {
-        UMLCheckConstraintDialog checkConstraintDialog(0, newCheckConstraint);
-        button = checkConstraintDialog.exec();
+    while (button == KDialog::Accepted && !goodName && name.isNull()) {
+        QPointer<UMLCheckConstraintDialog> dialog = new UMLCheckConstraintDialog(0, newCheckConstraint);
+        button = dialog->exec();
         QString name = newCheckConstraint->getName();
 
-        if(name.length() == 0) {
+        if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         } else if ( findChildObject(name) != NULL ) {
             KMessageBox::error(0, i18n("That name is already being used."), i18n("Not a Unique Name"));
         } else {
             goodName = true;
         }
+        delete dialog;
     }
 
     if (button != KDialog::Accepted) {
