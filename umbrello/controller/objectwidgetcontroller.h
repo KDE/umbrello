@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,19 +29,11 @@ class ObjectWidget;
  *
  * @author Umbrello UML Modeller Authors <uml-devel@lists.sourceforge.net>
  */
-class ObjectWidgetController : public UMLWidgetController {
+class ObjectWidgetController : public UMLWidgetController
+{
 public:
 
-    /**
-     * Constructor for ObjectWidgetController.
-     *
-     * @param objectWidget The object widget which uses the controller.
-     */
     ObjectWidgetController(ObjectWidget *objectWidget);
-
-    /**
-     * Destructor for ObjectWidgetController.
-     */
     virtual ~ObjectWidgetController();
 
 protected:
@@ -51,8 +42,7 @@ protected:
 
     virtual void resizeWidget(qreal newW, qreal newH);
 
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
-
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent* me);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* me);
 
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
@@ -61,10 +51,7 @@ protected:
 
     virtual void constrainMovementForAllWidgets(qreal &diffX, qreal &diffY);
 
-    /**
-     * passed to true when a click occurred on the destruction box
-     */
-    bool isOnDestructionBox;
+    bool m_isOnDestructionBox;  ///< true when a click occurred on the destruction box
 };
 
 #endif

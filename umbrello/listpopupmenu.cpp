@@ -798,7 +798,7 @@ void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QString & text,
 }
 
 /**
- * Shortcut for the most frequently used insertStdItem() calls.
+ * Shortcut for the frequently used insertStdItem() calls.
  *
  * @param insertLeadingSeparator   Set this true if the group shall
  *                                 start with a separator.
@@ -1805,5 +1805,3 @@ void ListPopupMenu::setActionEnabled(Menu_Type idx, bool value)
         uWarning() << "called on unknown Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, idx));
 #endif
 }
-
-#include "listpopupmenu.moc"

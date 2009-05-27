@@ -35,13 +35,22 @@
 
 using namespace Uml;
 
-ToolBarStateAssociation::ToolBarStateAssociation(UMLScene *umlScene) :
-    ToolBarStatePool(umlScene)
+/**
+ * Creates a new ToolBarStateAssociation.
+ *
+ * @param umlScene The UMLScene to use.
+ */
+ToolBarStateAssociation::ToolBarStateAssociation(UMLScene *umlScene)
+  : ToolBarStatePool(umlScene)
 {
     m_firstWidget = 0;
     m_associationLine = 0;
 }
 
+/**
+ * Destroys this ToolBarStateAssociation.
+ * Deletes the association line.
+ */
 ToolBarStateAssociation::~ToolBarStateAssociation()
 {
     delete m_associationLine;
@@ -127,7 +136,8 @@ void ToolBarStateAssociation::mouseReleaseAssociation()
  * it is left button, sets the first widget or the second, depending on
  * whether the first widget is already set or not.
  */
-void ToolBarStateAssociation::mouseReleaseWidget() {
+void ToolBarStateAssociation::mouseReleaseWidget()
+{
     if (m_pMouseEvent->button() != Qt::LeftButton) {
         cleanAssociation();
         return;
@@ -152,7 +162,8 @@ void ToolBarStateAssociation::mouseReleaseWidget() {
  * Called when the release event happened on an empty space.
  * Cleans the association.
  */
-void ToolBarStateAssociation::mouseReleaseEmpty() {
+void ToolBarStateAssociation::mouseReleaseEmpty()
+{
     cleanAssociation();
 }
 
@@ -163,7 +174,8 @@ void ToolBarStateAssociation::mouseReleaseEmpty() {
  * Otherwise, the temporal visual association is created and the mouse
  * tracking is enabled, so move events will be delivered.
  */
-void ToolBarStateAssociation::setFirstWidget() {
+void ToolBarStateAssociation::setFirstWidget()
+{
     UMLWidget* widget = getCurrentWidget();
     Association_Type type = getAssociationType();
 
@@ -288,14 +300,14 @@ Association_Type ToolBarStateAssociation::getAssociationType()
  * corresponding UMLAssociation in the current UMLDoc.
  * If the association can't be added, is deleted.
  *
- * @param association The AssociationWidget to add.
+ * @param assoc The AssociationWidget to add.
  */
-void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a)
+void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* assoc)
 {
     // append in view
-    if (m_pUMLScene->addAssociation(a, false)) {
+    if (m_pUMLScene->addAssociation(assoc, false)) {
         // if view went ok, then append in document
-        UMLAssociation *umla = a->getAssociation();
+        UMLAssociation *umla = assoc->getAssociation();
         if (umla == NULL) {
             // association without model representation in UMLDoc
             return;
@@ -305,8 +317,8 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a)
         umla->setUMLPackage(umldoc->getRootFolder(m));
         UMLApp::app()->getDocument()->addAssociation(umla);
     } else {
-        uError() << "cannot addAssocInViewAndDoc(), deleting" << endl;
-        delete a;
+        uError() << "cannot addAssocInViewAndDoc(), deleting";
+        delete assoc;
     }
 }
 
@@ -314,7 +326,8 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* a)
  * Cleans the first widget and the temporal association line, if any.
  * Both are set to null, and the association line is also deleted.
  */
-void ToolBarStateAssociation::cleanAssociation() {
+void ToolBarStateAssociation::cleanAssociation()
+{
     m_firstWidget = 0;
 
     delete m_associationLine;

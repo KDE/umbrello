@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -44,7 +44,8 @@ using namespace Uml;
  * Creates a new ToolBarStateOther.
  * @param umlView The UMLView to use.
  */
-ToolBarStateOther::ToolBarStateOther(UMLScene *umlScene) : ToolBarStatePool(umlScene)
+ToolBarStateOther::ToolBarStateOther(UMLScene *umlScene)
+  : ToolBarStatePool(umlScene)
 {
 }
 
@@ -56,9 +57,9 @@ ToolBarStateOther::~ToolBarStateOther()
 }
 
 /**
- * Sets nothing.
  * Overridden from base class to ignore associations and widgets and treat
  * them as empty spaces to create widgets on it.
+ * Sets nothing.
  */
 void ToolBarStateOther::setCurrentElement()
 {
@@ -117,8 +118,6 @@ Uml::Object_Type ToolBarStateOther::getObjectType()
     return ot;
 }
 
-// TODO: The name is a bit confusing.
-
 /**
  * Creates and adds a new widget to the UMLView (if widgets of that type
  * don't have an associated UMLObject).
@@ -127,11 +126,11 @@ Uml::Object_Type ToolBarStateOther::getObjectType()
  * Otherwise, it returns false.
  *
  * @return True if the widget was created, false otherwise.
- * @todo rename to something more clear
+ * @todo Rename to something more clear. The name is a bit confusing.
  */
 bool ToolBarStateOther::newWidget()
 {
-    UMLWidget* umlWidget = NULL;
+    UMLWidget* umlWidget = 0;
 
     switch (getButton()) {
         case WorkToolBar::tbb_Note:
@@ -308,7 +307,7 @@ bool ToolBarStateOther::newWidget()
     }
 
     // Create the widget. Some setup functions can remove the widget.
-    if (umlWidget != NULL) {
+    if (umlWidget != 0) {
         m_pUMLScene->setupNewWidget(umlWidget);
     }
 

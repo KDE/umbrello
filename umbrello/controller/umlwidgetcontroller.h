@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +12,7 @@
 #define UMLWIDGETCONTROLLER_H
 
 // qt includes
-#include <qdatetime.h>
+#include <QtCore/QDateTime>
 
 // app includes
 #include "umlwidgetlist.h"
@@ -68,34 +67,19 @@ class UMLWidgetController
 {
 public:
 
-    /**
-     * Constructor for UMLWidgetController.
-     *
-     * @param widget The widget which uses the controller.
-     */
     UMLWidgetController(UMLWidget *widget);
-
-    /**
-     * Destructor for UMLWidgetController.
-     */
     virtual ~UMLWidgetController();
 
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *me);
-
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* me);
-
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * me);
-
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me);
 
     virtual void widgetMoved();
 
     qreal getOldX();
-
     qreal getOldY();
-
     qreal getOldH();
-
     qreal getOldW();
 
     void insertSaveValues(qreal _oldX, qreal _oldY, qreal X, qreal Y);
@@ -121,7 +105,6 @@ protected:
     void resetSelection();
 
     void selectSingle(QGraphicsSceneMouseEvent *me);
-
     void selectMultiple(QGraphicsSceneMouseEvent *me);
 
     void deselect(QGraphicsSceneMouseEvent *me);
@@ -133,21 +116,17 @@ protected:
     void resize(QGraphicsSceneMouseEvent *me);
 
     qreal getSmallestX(const UMLWidgetList &widgetList);
-
     qreal getSmallestY(const UMLWidgetList &widgetList);
 
     qreal getBiggestX(const UMLWidgetList &widgetList);
-
     qreal getBiggestY(const UMLWidgetList &widgetList);
 
     QPointF getPosition(QGraphicsSceneMouseEvent *me);
-
     QPointF getPositionDifference(QGraphicsSceneMouseEvent *me);
 
     void showPopupMenu(QGraphicsSceneMouseEvent *me);
 
     bool wasSizeChanged();
-
     bool wasPositionChanged();
 
     /**
@@ -158,7 +137,7 @@ protected:
     /**
      * Timer that prevents excessive updates (be easy on the CPU).
      */
-    QTime lastUpdate;
+    QTime m_lastUpdate;
 
     /**
      * A list containing the selected widgets.

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,8 +12,6 @@
 #define TOOLBARSTATEMESSAGES_H
 
 #include "toolbarstatepool.h"
-//Added by qt3to4:
-#include <QMouseEvent>
 
 class QGraphicsLineItem;
 class ObjectWidget;
@@ -48,20 +45,12 @@ class ObjectWidget;
  * created message,the message line must be got instead of the message, even if
  * the message is smaller than the line.
  */
-class ToolBarStateMessages : public ToolBarStatePool {
+class ToolBarStateMessages : public ToolBarStatePool
+{
     Q_OBJECT
 public:
 
-    /**
-     * Creates a new ToolBarStateMessages.
-     *
-     * @param umlView The UMLView to use.
-     */
     ToolBarStateMessages(UMLScene *umlScene);
-
-    /**
-     * Destroys this ToolBarStateMessages.
-     */
     virtual ~ToolBarStateMessages();
 
     virtual void init();
@@ -79,7 +68,6 @@ protected:
     virtual void setCurrentElement();
 
     virtual void mouseReleaseWidget();
-
     virtual void mouseReleaseEmpty();
 
 protected:
@@ -95,7 +83,6 @@ protected:
     };
 
     void setFirstWidget(ObjectWidget* firstObject);
-
     void setSecondWidget(ObjectWidget* secondObject, MessageType messageType);
 
     Uml::Sequence_Message_Type getMessageType();
@@ -122,8 +109,8 @@ protected:
 private:
 
     /**
-    * x and y clicked for lost and found messages
-    */
+     * x and y clicked for lost and found messages
+     */
     qreal xclick;
     qreal yclick;
 

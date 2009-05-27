@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,14 +29,17 @@
 #include "umlview.h"
 #include "umlobject.h"
 #include "listpopupmenu.h"
-#include "classifierwidget.h"
 #include "associationwidget.h"
-#include "messagewidget.h"
 #include "cmds.h"
 #include "umlscene.h"
 
 using namespace Uml;
 
+/**
+ * Constructor for UMLWidgetController.
+ *
+ * @param widget The widget which uses the controller.
+ */
 UMLWidgetController::UMLWidgetController(UMLWidget *widget)
 {
     m_widget = widget;
@@ -55,6 +57,9 @@ UMLWidgetController::UMLWidgetController(UMLWidget *widget)
     m_wasSelected = m_moved = m_resized = 0;
 }
 
+/**
+ * Destructor for UMLWidgetController.
+ */
 UMLWidgetController::~UMLWidgetController()
 {
 }
@@ -131,7 +136,7 @@ void UMLWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
         if (m_widget->isSelected() && count > 1) {
             //Single selection is made in release event if the widget wasn't moved
             m_inMoveArea = true;
-            lastUpdate.start();
+            m_lastUpdate.start();
             return;
         }
 
@@ -231,9 +236,9 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     }
 
     bool update = false;
-    if (lastUpdate.elapsed() > 25) {
+    if (m_lastUpdate.elapsed() > 25) {
         update = true;
-        lastUpdate.restart();
+        m_lastUpdate.restart();
 
         m_widget->adjustUnselectedAssocs(m_widget->getX(), m_widget->getY());
     }
@@ -258,7 +263,6 @@ void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 
     m_widget->umlScene()->resizeCanvasToItems();
     updateSelectionBounds(diffX, diffY);
-
 }
 
 void UMLWidgetController::widgetMoved()
@@ -276,7 +280,6 @@ void UMLWidgetController::widgetMoved()
 
     m_widget->m_bStartMove = false;
 }
-
 
 /**
  * Handles a mouse release event.
@@ -475,8 +478,26 @@ void UMLWidgetController::moveWidgetBy(qreal diffX, qreal diffY)
     m_widget->setY(m_widget->getY() + diffY);
 }
 
-void UMLWidgetController::constrainMovementForAllWidgets(qreal &/*diffX*/, qreal &/*diffY*/)
+/**
+ * Modifies the value of the diffX and diffY variables used to move the widgets.
+ *
+ * It can be overridden to constrain movement of all the selected widgets only in one
+ * axis even when the user isn't constraining the movement with shift or control
+ * buttons, for example.
+ * The difference with moveWidgetBy is that the diff positions used here are
+ * applied to all the selected widgets instead of only to m_widget, and that
+ * moveWidgetBy, in fact, moves the widget, and here simply the diff positions
+ * are modified.
+ *
+ * Default behaviour is do nothing.
+ * @see moveWidgetBy
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void UMLWidgetController::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
 {
+    Q_UNUSED(diffX); Q_UNUSED(diffY);
 }
 
 /**
@@ -621,12 +642,11 @@ void UMLWidgetController::setSelectionBounds()
     }
 }
 
-//TODO optimize it
-
 /**
  * Updates the selection bounds based on the movement made.
  * If it was only a vertical movement, there's no need to update horizontal bounds,
  * and vice versa.
+ * TODO: optimize it
  *
  * @param diffX The difference between current X position and new X position.
  * @param diffY The difference between current Y position and new Y position.
@@ -675,10 +695,9 @@ void UMLWidgetController::resize(QGraphicsSceneMouseEvent *me)
     m_widget->umlScene()->resizeCanvasToItems();
 }
 
-//TODO refactor with AlignToolbar method.
-
 /**
  * Returns the smallest X position of all the widgets in the list.
+ * TODO: refactor with AlignToolbar method.
  *
  * @param widgetList A list with UMLWidgets.
  * @return The smallest X position.
@@ -702,10 +721,9 @@ qreal UMLWidgetController::getSmallestX(const UMLWidgetList &widgetList)
     return smallestX;
 }
 
-//TODO refactor with AlignToolbar method.
-
 /**
  * Returns the smallest Y position of all the widgets in the list.
+ * TODO: refactor with AlignToolbar method.
  *
  * @param widgetList A list with UMLWidgets.
  * @return The smallest Y position.
@@ -730,10 +748,9 @@ qreal UMLWidgetController::getSmallestY(const UMLWidgetList &widgetList)
     return smallestY;
 }
 
-//TODO refactor with AlignToolbar method.
-
 /**
  * Returns the biggest X position of all the widgets in the list.
+ * TODO: refactor with AlignToolbar method.
  *
  * @param widgetList A list with UMLWidgets.
  * @return The biggest X position.
@@ -759,10 +776,9 @@ qreal UMLWidgetController::getBiggestX(const UMLWidgetList &widgetList)
     return biggestX;
 }
 
-//TODO refactor with AlignToolbar method.
-
 /**
  * Returns the biggest Y position of all the widgets in the list.
+ * TODO: refactor with AlignToolbar method.
  *
  * @param widgetList A list with UMLWidgets.
  * @return The biggest Y position.

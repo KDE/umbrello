@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,12 +30,21 @@
 #include "associationwidget.h"
 #include "messagewidget.h"
 
-
-ObjectWidgetController::ObjectWidgetController(ObjectWidget* objectWidget):
-            UMLWidgetController(objectWidget) {
+/**
+ * Constructor for ObjectWidgetController.
+ *
+ * @param objectWidget The object widget which uses the controller.
+ */
+ObjectWidgetController::ObjectWidgetController(ObjectWidget* objectWidget)
+  : UMLWidgetController(objectWidget)
+{
 }
 
-ObjectWidgetController::~ObjectWidgetController() {
+/**
+ * Destructor for ObjectWidgetController.
+ */
+ObjectWidgetController::~ObjectWidgetController()
+{
 }
 
 /**
@@ -46,24 +54,36 @@ ObjectWidgetController::~ObjectWidgetController() {
  *
  * @return The cursor to be shown when resizing the widget.
  */
-QCursor ObjectWidgetController::getResizeCursor() {
+QCursor ObjectWidgetController::getResizeCursor()
+{
     return Qt::SizeHorCursor;
 }
 
-void ObjectWidgetController::resizeWidget(qreal newW, qreal /*newH*/) {
-    m_widget->setSize(newW, m_widget->height());
+/**
+ * Overridden from UMLWidgetController.
+ * Resizes the width of the object widget.
+ * Object widgets can only be resized horizontally, so height isn't modified.
+ *
+ * @param newW The new width for the widget.
+ * @param newH The new height for the widget (isn't used).
+ */
+void ObjectWidgetController::resizeWidget(qreal newW, qreal newH)
+{
+    Q_UNUSED(newH);
+    m_widget->setSize(newW, m_widget->getHeight());
 }
 
 /**
  * Overrides the standard operation.
  */
-void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me) {
+void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
+{
     UMLWidgetController::mousePressEvent(me);
-     isOnDestructionBox = false;
+    m_isOnDestructionBox = false;
     SeqLineWidget * pLine = dynamic_cast<ObjectWidget*>(m_widget)->sequentialLine();
 
     if (pLine->onDestructionBox(pLine->mapFromScene(me->scenePos()))) {
-        isOnDestructionBox = true;
+        m_isOnDestructionBox = true;
         m_oldX = dynamic_cast<ObjectWidget*>(m_widget)->getX() + dynamic_cast<ObjectWidget*>(m_widget)->width() / 2;
         m_oldY = dynamic_cast<ObjectWidget*>(m_widget)->lineEndY() - 10;
     }
@@ -73,7 +93,8 @@ void ObjectWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me) {
 /**
  * Overrides the standard operation.
  */
-void ObjectWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me) {
+void ObjectWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
+{
     if (!m_leftButtonDown)
         return;
 
@@ -85,16 +106,27 @@ void ObjectWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me) {
     // [PORT]
     qreal diffY = me->scenePos().y() - m_oldY;
 
-    if (isOnDestructionBox) {
+    if (m_isOnDestructionBox) {
         moveDestructionBy (diffY);
     }
-
-    else
+    else {
         UMLWidgetController::mouseMoveEvent(me);
-
+    }
 }
 
-void ObjectWidgetController::moveWidgetBy(qreal diffX, qreal /*diffY*/) {
+/**
+ * Overridden from UMLWidgetController.
+ * Moves the widget to a new position using the difference between the
+ * current position and the new position.
+ * Y position is ignored, and widget is only moved along X axis.
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position
+ *                          (isn't used).
+ */
+void ObjectWidgetController::moveWidgetBy(qreal diffX, qreal diffY)
+{
+    Q_UNUSED(diffY);
     m_widget->setX(m_widget->getX() + diffX);
 }
 
@@ -105,7 +137,8 @@ void ObjectWidgetController::moveWidgetBy(qreal diffX, qreal /*diffY*/) {
  *
  * @param diffY The difference between current Y position and new Y position
  */
-void ObjectWidgetController::moveDestructionBy(qreal diffY) {
+void ObjectWidgetController::moveDestructionBy(qreal diffY)
+{
     // endLine = length of the life line + diffY - 10 to center on the destruction box
     qreal endLine = dynamic_cast<ObjectWidget *>(m_widget)->getEndLineY() + diffY - 10;
     SeqLineWidget * pLine = dynamic_cast<ObjectWidget *>(m_widget)->getSeqLine();
@@ -113,6 +146,16 @@ void ObjectWidgetController::moveDestructionBy(qreal diffY) {
     m_oldY = endLine;
 }
 
-void ObjectWidgetController::constrainMovementForAllWidgets(qreal& /*diffX*/, qreal& diffY) {
+/**
+ * Overridden from UMLWidgetController.
+ * Modifies the value of the diffX and diffY variables used to move the widgets.
+ * All the widgets are constrained to be moved only in X axis (diffY is set to 0).
+ *
+ * @param diffX The difference between current X position and new X position.
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void ObjectWidgetController::constrainMovementForAllWidgets(qreal& diffX, qreal& diffY)
+{
+    Q_UNUSED(diffX);
     diffY = 0;
 }

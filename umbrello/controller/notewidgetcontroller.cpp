@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,12 +15,22 @@
 #include "umldoc.h"
 #include "listpopupmenu.h"
 
-NoteWidgetController::NoteWidgetController(NoteWidget *noteWidget):
-            UMLWidgetController(noteWidget) {
+/**
+ * Constructor for NoteWidgetController.
+ *
+ * @param noteWidget The NoteWidget which uses the controller.
+ */
+NoteWidgetController::NoteWidgetController(NoteWidget *noteWidget)
+  : UMLWidgetController(noteWidget)
+{
     m_noteWidget = noteWidget;
 }
 
-NoteWidgetController::~NoteWidgetController() {
+/**
+ * Destructor for NoteWidgetController.
+ */
+NoteWidgetController::~NoteWidgetController()
+{
 }
 
 /**
@@ -31,7 +40,8 @@ NoteWidgetController::~NoteWidgetController() {
  *
  * @param me The QGraphicsSceneMouseEvent event.
  */
-void NoteWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent *me) {
+void NoteWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent *me)
+{
     UMLWidgetController::mouseMoveEvent(me);
     //m_noteWidget->setEditorGeometry();
 }
@@ -43,7 +53,8 @@ void NoteWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent *me) {
  *
  * @param me The QGraphicsSceneMouseEvent event.
  */
-void NoteWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me) {
+void NoteWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
+{
     UMLWidgetController::mouseReleaseEvent(me);
     //TODO why is it needed? drawText is already called in draw,
     //and draw is (well, I think that is) called when the canvas rectangle is resized
@@ -52,7 +63,16 @@ void NoteWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me) {
     }
 }
 
-void NoteWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent* /*me*/) {
+/**
+ * Overridden from UMLWidgetController.
+ * Executes the action for double click in the widget.
+ * Shows the dialog to change the text of the note.
+ *
+ * @param me The QMouseEvent which triggered the double click event.
+ */
+void NoteWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent* me)
+{
+    Q_UNUSED(me);
     //TODO Copied from old code. What it does?
     // [PORT]
 #if 0

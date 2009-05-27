@@ -11,9 +11,6 @@
 // own header
 #include "toolbarstatemessages.h"
 
-// kde includes
-#include <kdebug.h>
-
 // local includes
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
@@ -23,10 +20,18 @@
 #include "umlview.h"
 #include "umlscene.h"
 
+// kde includes
+#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
-ToolBarStateMessages::ToolBarStateMessages(UMLScene *umlScene) : ToolBarStatePool(umlScene)
+/**
+ * Creates a new ToolBarStateMessages.
+ *
+ * @param umlScene The UMLScene to use.
+ */
+ToolBarStateMessages::ToolBarStateMessages(UMLScene *umlScene)
+  : ToolBarStatePool(umlScene)
 {
     m_firstObject = 0;
     m_messageLine = 0;
@@ -34,6 +39,9 @@ ToolBarStateMessages::ToolBarStateMessages(UMLScene *umlScene) : ToolBarStatePoo
     yclick = 0;
 }
 
+/**
+ * Destroys this ToolBarStateMessages.
+ */
 ToolBarStateMessages::~ToolBarStateMessages()
 {
     delete m_messageLine;

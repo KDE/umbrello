@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -40,17 +39,7 @@ class ToolBarStateAssociation : public ToolBarStatePool
     Q_OBJECT
 public:
 
-    /**
-     * Creates a new ToolBarStateAssociation.
-     *
-     * @param umlScene The UMLScene to use.
-     */
     ToolBarStateAssociation(UMLScene *umlScene);
-
-    /**
-     * Destroys this ToolBarStateAssociation.
-     * Deletes the association line.
-     */
     virtual ~ToolBarStateAssociation();
 
     virtual void init();
@@ -66,20 +55,17 @@ public slots:
 protected:
 
     virtual void mouseReleaseAssociation();
-
     virtual void mouseReleaseWidget();
-
     virtual void mouseReleaseEmpty();
 
 private:
 
     void setFirstWidget();
-
     void setSecondWidget();
 
     Uml::Association_Type getAssociationType();
 
-    void addAssociationInViewAndDoc(AssociationWidget* association);
+    void addAssociationInViewAndDoc(AssociationWidget* assoc);
 
     void cleanAssociation();
 

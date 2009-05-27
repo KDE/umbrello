@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,13 +21,23 @@
 #include "objectwidget.h"
 #include "listpopupmenu.h"
 
-MessageWidgetController::MessageWidgetController(MessageWidget* messageWidget):
-            UMLWidgetController(messageWidget) {
+/**
+ * Constructor for MessageWidgetController.
+ *
+ * @param messageWidget The message widget which uses the controller.
+ */
+MessageWidgetController::MessageWidgetController(MessageWidget* messageWidget)
+  : UMLWidgetController(messageWidget)
+{
     m_messageWidget = messageWidget;
     m_unconstrainedPositionY = 0;
 }
 
-MessageWidgetController::~MessageWidgetController() {
+/**
+ * Destructor for MessageWidgetController.
+ */
+MessageWidgetController::~MessageWidgetController()
+{
 }
 
 /**
@@ -38,7 +47,8 @@ MessageWidgetController::~MessageWidgetController() {
  *
  * @param me The QGraphicsSceneMouseEvent to get the offset from.
  */
-void MessageWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me) {
+void MessageWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me)
+{
     UMLWidgetController::saveWidgetValues(me);
 
     m_unconstrainedPositionY = m_widget->getY();
@@ -51,7 +61,8 @@ void MessageWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me) {
  *
  * @return The cursor to be shown when resizing the widget.
  */
-QCursor MessageWidgetController::getResizeCursor() {
+QCursor MessageWidgetController::getResizeCursor()
+{
     return Qt::SizeVerCursor;
 }
 
@@ -63,7 +74,8 @@ QCursor MessageWidgetController::getResizeCursor() {
  * @param newW The new width for the widget (isn't used).
  * @param newH The new height for the widget.
  */
-void MessageWidgetController::resizeWidget(qreal newW, qreal newH) {
+void MessageWidgetController::resizeWidget(qreal newW, qreal newH)
+{
     // WE DONT USE controller in the current implementation
 #if 0
     if (m_messageWidget->sequenceMessageType() == Uml::sequence_message_creation)
@@ -89,7 +101,24 @@ void MessageWidgetController::resizeWidget(qreal newW, qreal newH) {
 #endif
 }
 
-void MessageWidgetController::moveWidgetBy(qreal /*diffX*/, qreal diffY) {
+/**
+ * Overridden from UMLWidgetController.
+ * Moves the widget to a new position using the difference between the
+ * current position and the new position. X position is ignored, and widget
+ * is only moved along Y axis. If message goes upper than the object, it's
+ * kept at this position until it should be lowered again (the unconstrained
+ * Y position is saved to know when it's the time to lower it again).
+ * If the message is a creation message, the object created is also moved to
+ * the new vertical position.
+ * @see constrainPositionY
+ *
+ * @param diffX The difference between current X position and new X position
+ *                          (isn't used).
+ * @param diffY The difference between current Y position and new Y position.
+ */
+void MessageWidgetController::moveWidgetBy(qreal diffX, qreal diffY)
+{
+    Q_UNUSED(diffX);
     m_unconstrainedPositionY += diffY;
     qreal newY = constrainPositionY(diffY);
 
@@ -120,12 +149,22 @@ void MessageWidgetController::moveWidgetBy(qreal /*diffX*/, qreal diffY) {
  * @param diffX The difference between current X position and new X position.
  * @param diffY The difference between current Y position and new Y position.
  */
-void MessageWidgetController::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY) {
+void MessageWidgetController::constrainMovementForAllWidgets(qreal &diffX, qreal &diffY)
+{
     diffX = 0;
     diffY = constrainPositionY(diffY) - m_widget->getY();
 }
 
-void MessageWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent* /*me*/) {
+/**
+ * Overridden from UMLWidgetController.
+ * Executes the action for double click in the widget.
+ * Shows the dialog to select the operation of the message.
+ *
+ * @param me The QMouseEvent which triggered the double click event.
+ */
+void MessageWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent* me)
+{
+    Q_UNUSED(me);
     if (m_messageWidget->m_pFText != NULL) {
         QAction* action = m_messageWidget->m_pMenu->getAction(ListPopupMenu::mt_Select_Operation);
         m_messageWidget->m_pFText->slotMenuSelection(action);
@@ -141,7 +180,8 @@ void MessageWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent* /*me*
  * @param diffY The difference between current Y position and new Y position.
  * @return The new Y position, constrained.
  */
-qreal MessageWidgetController::constrainPositionY(qreal diffY) {
+qreal MessageWidgetController::constrainPositionY(qreal diffY)
+{
     qreal newY = m_widget->getY() + diffY;
 
     qreal minY = m_messageWidget->getMinY();
