@@ -1,40 +1,49 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2008                                                *
+ *  copyright (C) 2003-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 #include "constraintlistpage.h"
-#include "../attribute.h"
-#include "../classifierlistitem.h"
-#include "../classifier.h"
-#include "../enum.h"
-#include "../entity.h"
-#include "../entityattribute.h"
-#include "../enumliteral.h"
-#include "../object_factory.h"
-#include "../operation.h"
-#include "../template.h"
-#include "../umldoc.h"
-#include "../uniqueconstraint.h"
+#include "attribute.h"
+#include "classifierlistitem.h"
+#include "classifier.h"
+#include "enum.h"
+#include "entity.h"
+#include "entityattribute.h"
+#include "enumliteral.h"
+#include "object_factory.h"
+#include "operation.h"
+#include "template.h"
+#include "umldoc.h"
+#include "uniqueconstraint.h"
 
+#include <kaction.h>
+#include <karrowbutton.h>
 #include <kdebug.h>
 #include <kdialogbuttonbox.h>
-#include <kpushbutton.h>
 #include <klocale.h>
-#include <qlayout.h>
+#include <kmenu.h>
+#include <kpushbutton.h>
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QApplication>
 
-
-ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type):ClassifierListPage( parent, classifier, doc, type )
+/**
+ *  Sets up the ConstraintListPage
+ *
+ *  @param parent   The parent to the ConstraintListPage.
+ *  @param classifier       The Concept to display the properties of.
+ *  @param doc The UMLDoc document
+ *  @param type The object type
+ */
+ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type)
+  : ClassifierListPage( parent, classifier, doc, type )
 {
     setupActions();
 
@@ -50,7 +59,9 @@ ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifie
     hideArrowButtons( true );
 }
 
-
+/**
+ *  Standard destructor.
+ */
 ConstraintListPage::~ConstraintListPage()
 {
 }
@@ -69,7 +80,6 @@ void ConstraintListPage::setupActions()
     newCheckConstraintAction = new KAction( i18n( "Check Constraint..." ), this );
     connect( newCheckConstraintAction, SIGNAL( triggered( bool ) ), this ,  SLOT( slotNewCheckConstraint() ) );
 }
-
 
 void ConstraintListPage::slotNewUniqueConstraint()
 {
@@ -122,72 +132,72 @@ void ConstraintListPage::slotNewCheckConstraint()
     m_itemType = Uml::ot_EntityConstraint;
 }
 
-/**
- * Calculates the new index to be assigned when an object of type ot is to
- * be added to the list box. The default Implementation is to add it to the end of the list
- * @param ot The Object Type to be added
- * @return The index
- */
-int ConstraintListPage::calculateNewIndex(Uml::Object_Type ot)
-{
-    // we want to show all Unique Constraints first , followed by ForeignKey Constraints
-    UMLClassifierListItemList ucList, fkcList,  ccList;
-    ucList =  m_pClassifier->getFilteredList(Uml::ot_UniqueConstraint);
-    fkcList = m_pClassifier->getFilteredList(Uml::ot_ForeignKeyConstraint);
-    ccList =  m_pClassifier->getFilteredList(Uml::ot_CheckConstraint);
+// /**
+//  * Calculates the new index to be assigned when an object of type ot is to
+//  * be added to the list box. The default Implementation is to add it to the end of the list
+//  * @param ot The Object Type to be added
+//  * @return The index
+//  */
+// int ConstraintListPage::calculateNewIndex(Uml::Object_Type ot)
+// {
+//     // we want to show all Unique Constraints first , followed by ForeignKey Constraints
+//     UMLClassifierListItemList ucList, fkcList,  ccList;
+//     ucList =  m_pClassifier->getFilteredList(Uml::ot_UniqueConstraint);
+//     fkcList = m_pClassifier->getFilteredList(Uml::ot_ForeignKeyConstraint);
+//     ccList =  m_pClassifier->getFilteredList(Uml::ot_CheckConstraint);
+// 
+//     int ucCount,  fkcCount, ccCount;
+//     ucCount = ucList.count();
+//     fkcCount = fkcList.count();
+//     ccCount = ccList.count();
+// 
+//     int index = 0;
+// 
+//     if ( greaterThan( Uml::ot_UniqueConstraint, ot ) ) {
+//         index += ucCount;
+//     }
+// 
+//     if ( greaterThan( Uml::ot_ForeignKeyConstraint, ot ) ) {
+//         index += fkcCount;
+//     }
+// 
+//     if ( greaterThan( Uml::ot_CheckConstraint, ot ) ) {
+//         index += ccCount;
+//     }
+// 
+//     // we subtract 1 from the count as the new item is already in the list (m_List) and
+//     // hence contributes to the count we obtained
+//     index = index - 1;
+// 
+//     return index;
+// }
 
-    int ucCount,  fkcCount, ccCount;
-    ucCount = ucList.count();
-    fkcCount = fkcList.count();
-    ccCount = ccList.count();
-
-    int index = 0;
-
-    if ( greaterThan( Uml::ot_UniqueConstraint, ot ) ) {
-        index += ucCount;
-    }
-
-    if ( greaterThan( Uml::ot_ForeignKeyConstraint, ot ) ) {
-        index += fkcCount;
-    }
-
-    if ( greaterThan( Uml::ot_CheckConstraint, ot ) ) {
-        index += ccCount;
-    }
-
-    // we subtract 1 from the count as the new item is already in the list (m_List) and
-    // hence contributes to the count we obtained
-    index = index - 1;
-
-    return index;
-}
-
-/**
- * Returns the index of the Item in the List Box
- */
-int ConstraintListPage::relativeIndexOf(QListWidgetItem* item)
-{
-    int actualIndex = ClassifierListPage::relativeIndexOf( item );
-
-    int ucCount = m_pClassifier->getFilteredList( Uml::ot_UniqueConstraint ).count();
-    int fkcCount = m_pClassifier->getFilteredList( Uml::ot_ForeignKeyConstraint ).count();
-    //int ccCount = m_pClassifier->getFilteredList( Uml::ot_CheckConstraint ).count();
-
-    //if ( m_itemType == Uml::ot_EntityConstraint )
-    //    return actualIndex;
-
-    int newIndex = actualIndex;
-
-    if ( !greaterThan( m_itemType, Uml::ot_UniqueConstraint ) ) {
-        newIndex -= ucCount;
-    }
-
-    if ( !greaterThan( m_itemType, Uml::ot_ForeignKeyConstraint ) ) {
-        newIndex -= fkcCount;
-    }
-
-    return newIndex;
-}
+// /**
+//  * Returns the index of the Item in the List Box
+//  */
+// int ConstraintListPage::relativeIndexOf(QListWidgetItem* item)
+// {
+//     int actualIndex = ClassifierListPage::relativeIndexOf( item );
+// 
+//     int ucCount = m_pClassifier->getFilteredList( Uml::ot_UniqueConstraint ).count();
+//     int fkcCount = m_pClassifier->getFilteredList( Uml::ot_ForeignKeyConstraint ).count();
+//     //int ccCount = m_pClassifier->getFilteredList( Uml::ot_CheckConstraint ).count();
+// 
+//     //if ( m_itemType == Uml::ot_EntityConstraint )
+//     //    return actualIndex;
+// 
+//     int newIndex = actualIndex;
+// 
+//     if ( !greaterThan( m_itemType, Uml::ot_UniqueConstraint ) ) {
+//         newIndex -= ucCount;
+//     }
+// 
+//     if ( !greaterThan( m_itemType, Uml::ot_ForeignKeyConstraint ) ) {
+//         newIndex -= fkcCount;
+//     }
+// 
+//     return newIndex;
+// }
 
 /**
  * Will return true if ot1 has a higher (top)  place in the list than ot2

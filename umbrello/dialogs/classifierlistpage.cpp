@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2008                                                *
+ *  copyright (C) 2003-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -16,23 +16,39 @@
 #include "enum.h"
 #include "entity.h"
 #include "attribute.h"
+#include "listpopupmenu.h"
 #include "operation.h"
 #include "template.h"
 #include "enumliteral.h"
 #include "entityattribute.h"
 #include "object_factory.h"
 
+#include <karrowbutton.h>
 #include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
 #include <ktabwidget.h>
+#include <ktextedit.h>
 
 #include <QtGui/QApplication>
+#include <QtGui/QGroupBox>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QListWidget>
+#include <QtGui/QPushButton>
+#include <QtGui/QVBoxLayout>
 
 using namespace Uml;
 
+/**
+ *  Sets up the ClassifierListPage.
+ *  @param parent      The parent to the ClassAttPage.
+ *  @param classifier  The Concept to display the properties of.
+ *  @param doc         The UMLDoc document
+ *  @param type        The type of listItem this handles
+ */
 ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifier,
-                                       UMLDoc* doc, Uml::Object_Type type) : QWidget(parent)
+                                       UMLDoc* doc, Uml::Object_Type type)
+  : QWidget(parent)
 {
     m_itemType = type;
     m_bSigWaiting = false;
@@ -41,6 +57,13 @@ ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifie
     m_pMenu = 0;
 
     setupPage();
+}
+
+/**
+ *  Standard destructor.
+ */
+ClassifierListPage::~ClassifierListPage()
+{
 }
 
 /**
@@ -224,10 +247,6 @@ void ClassifierListPage::reloadItemListBox()
     }
 }
 
-ClassifierListPage::~ClassifierListPage()
-{
-}
-
 /**
  * Set the state of the widgets on the page with the given value.
  * @param  state   The state to set the widgets as.
@@ -284,6 +303,10 @@ void ClassifierListPage::enableWidgets(bool state)
     m_pPropertiesButton->setEnabled(true);
 }
 
+/**
+ * Called whenever the list item needs to be activated
+ * calls enableWidgets().
+ */
 void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
 {
     //if not first time an item is highlighted
@@ -354,16 +377,26 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object)
         return;
     }
 
-    int index = calculateNewIndex(listItem->getBaseType());
-
-    m_pItemListLB->insertItem(index, listItem->toString(Uml::st_SigNoVis));
+    QString itemStr = listItem->toString(Uml::st_SigNoVis);
+    // already in list?
+    QList<QListWidgetItem*> foundItems = m_pItemListLB->findItems(itemStr, Qt::MatchExactly);
+    int index = -1;
+    if (foundItems.empty()) {
+        index = m_pItemListLB->count();
+        m_pItemListLB->insertItem(index, itemStr);
+    }
+    else {
+        index = m_pItemListLB->row(foundItems[0]);
+    }
     m_bSigWaiting = false;
 
     // now select the new item, so that the user can go on adding doc or calling
     // the property dialog
-    m_pItemListLB->setCurrentRow(index);
-    slotActivateItem(m_pItemListLB->item(index));
-    connect( object, SIGNAL( modified() ), this, SLOT( slotListItemModified() ) );
+    if (index > -1) {
+        m_pItemListLB->setCurrentItem(m_pItemListLB->item(index));
+        slotActivateItem(m_pItemListLB->item(index));
+        connect( object, SIGNAL( modified() ), this, SLOT( slotListItemModified() ) );
+    }
 }
 
 void ClassifierListPage::slotListItemModified()
@@ -664,18 +697,19 @@ void ClassifierListPage::slotDelete()
 {
     int currentItemIndex = m_pItemListLB->currentRow();
 
-    // index is -1 . Quit
-    if ( currentItemIndex==-1 ) {
-        return;
-    }
+    if ( currentItemIndex > -1 ) {
 
-    UMLClassifierListItem* selectedItem = getItemList().at( currentItemIndex );
-    //should really wait for signal back
-    //but really shouldn't matter
-    m_pDoc->removeUMLObject(selectedItem);
-    m_pItemListLB->takeItem( m_pItemListLB->currentRow());
-    m_pOldListItem = 0;
-    slotActivateItem(NULL);
+        // do this first
+        delete m_pItemListLB->takeItem(currentItemIndex);
+
+        UMLClassifierListItem* selectedItem = getItemList().at(currentItemIndex);
+        //should really wait for signal back
+        //but really shouldn't matter
+        m_pDoc->removeUMLObject(selectedItem);
+        m_pOldListItem = 0;
+
+        slotActivateItem(NULL);
+    }
 }
 
 /**
@@ -814,18 +848,6 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
         }
     }
     return true;
-}
-
-/**
- * Calculates the new index to be assigned when an object of type ot is to
- * be added to the list box. The default Implementation is to add it to the end of the list.
- * @param ot The Object Type to be added
- * @return The index
- */
-int ClassifierListPage::calculateNewIndex(Uml::Object_Type ot)
-{
-    Q_UNUSED(ot);
-    return m_pItemListLB->count();
 }
 
 /**
