@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>          *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -628,14 +628,14 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
     // Min/Max Occurs is based on whether it is this a single element
     // or a List (maxoccurs>1). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    QString minOccurs = "0";
+    QString minOccurs = QChar('0');
     QString maxOccurs = "unbounded";
     if (multi.isEmpty())
     {
         // in this case, association will only specify ONE element can exist
         // as a child
-        minOccurs = "1";
-        maxOccurs = "1";
+        minOccurs = '1';
+        maxOccurs = '1';
     }
     else
     {

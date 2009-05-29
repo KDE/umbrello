@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -95,10 +95,10 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     if(objectType.isEmpty())
         objectType = fieldName;
 
-    QString methodReturnType = "void";
-    QString methodName = ""; // "get"+cppdoc->capitalizeFirstLetter(fieldName);
-    QString methodParams = " "; // "get"+cppdoc->capitalizeFirstLetter(fieldName);
-    QString headerText = "";
+    QString methodReturnType("void");
+    QString methodName; // "get"+cppdoc->capitalizeFirstLetter(fieldName);
+    QString methodParams = QChar(' '); // "get"+cppdoc->capitalizeFirstLetter(fieldName);
+    QString headerText;
     QString className = CodeGenerator::cleanName(c->getName());
     QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
 

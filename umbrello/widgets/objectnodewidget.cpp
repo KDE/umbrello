@@ -86,7 +86,7 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY)
             QString objectflow_value;
             if(getState() == "-" || getState() == NULL)
             {
-                objectflow_value = " ";
+                objectflow_value = ' ';
             }
             else
             {

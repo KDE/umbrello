@@ -386,7 +386,7 @@ bool JavaImport::parseStmt()
                 if (next == ";") {
                     // @todo handle methods in enum
                     // For now, we cheat (skip them)
-                    m_source[m_srcIndex] = "{";
+                    m_source[m_srcIndex] = '{';
                     if (! skipToClosing('{'))
                         return false;
                 }
