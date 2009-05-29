@@ -671,7 +671,7 @@ UMLClassifierListItemList UMLEntity::getFilteredList(Uml::Object_Type ot) const
 /**
  * Checks if a given Unique Constraint is primary key of this entity
  * @param uConstr   a Unique Constraint
- * @return bool true if passed paramater is a primary key of this entity
+ * @return bool true if passed parameter is a primary key of this entity
  */
 bool UMLEntity::isPrimaryKey(UMLUniqueConstraint* uConstr) const
 {
