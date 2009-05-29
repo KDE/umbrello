@@ -28,14 +28,20 @@ namespace New {
     class AssociationWidget;
 }
 
+/**
+ * @short A class to manage distribution of AssociationWidget around UMLWidget.
+ *
+ * This class mainly includes functionality required to move around the AssociationWidget endings
+ * along the 8 sides around the UMLWidget, based on simple distance based algorithms.
+ * The object of this class resides in a UMLWidget.
+ */
 class AssociationSpaceManager
 {
 public:
     AssociationSpaceManager(UMLWidget *widget);
 
-    void addAssociationWidget(New::AssociationWidget *assoc);
-    void addAssociationWidget(New::AssociationWidget *assoc, Uml::Region region);
-    void removeAssociatinWidget(New::AssociationWidget *assoc);
+    Uml::Region add(New::AssociationWidget *assoc, Uml::Region region = Uml::Error);
+    void remove(New::AssociationWidget *assoc);
 
     QPointF endPoint(New::AssociationWidget *assoc) const;
     QPointF penultimateEndPoint(New::AssociationWidget *assoc) const;
@@ -45,8 +51,12 @@ public:
     void arrange(Uml::Region region);
     void arrangeAllRegions();
 
+    Uml::Region region(New::AssociationWidget *assoc) const;
+    bool registered(New::AssociationWidget* assoc) const;
+
 private:
     QMap<Uml::Region, QList<New::AssociationWidget*> > m_regionAssociationsMap;
+    QSet<New::AssociationWidget*> m_registeredAssociationSet;
     UMLWidget *m_umlWidget;
 };
 
