@@ -17,30 +17,30 @@
  * Boston, MA 02110-1301, USA.                                             *
  ***************************************************************************/
 
-#include "associationwidgetmanager.h"
+#include "associationspacemanager.h"
 #include "newassociationwidget.h"
 #include "newlinepath.h"
 #include "umlwidget.h"
 
-AssociationWidgetManager::AssociationWidgetManager(UMLWidget *widget)
+AssociationSpaceManager::AssociationSpaceManager(UMLWidget *widget)
 {
     m_umlWidget = widget;
     Q_ASSERT(widget);
 }
 
-void AssociationWidgetManager::addAssociationWidget(New::AssociationWidget *assoc)
+void AssociationSpaceManager::addAssociationWidget(New::AssociationWidget *assoc)
 {
 }
 
-void AssociationWidgetManager::addAssociationWidget(New::AssociationWidget *assoc, Uml::Region region)
+void AssociationSpaceManager::addAssociationWidget(New::AssociationWidget *assoc, Uml::Region region)
 {
 }
 
-void AssociationWidgetManager::removeAssociatinWidget(New::AssociationWidget *assoc)
+void AssociationSpaceManager::removeAssociatinWidget(New::AssociationWidget *assoc)
 {
 }
 
-QPointF AssociationWidgetManager::endPoint(New::AssociationWidget *assoc) const
+QPointF AssociationSpaceManager::endPoint(New::AssociationWidget *assoc) const
 {
     UMLWidget *widA = assoc->widgetForRole(Uml::A);
     UMLWidget *widB = assoc->widgetForRole(Uml::B);
@@ -54,13 +54,13 @@ QPointF AssociationWidgetManager::endPoint(New::AssociationWidget *assoc) const
         retVal = line->point(line->count() - 1);
     }
     else {
-        uWarning() << "Passed association " << assoc->name() << " is not related to this AssociationWidgetManager";
+        uWarning() << "Passed association " << assoc->name() << " is not related to this AssociationSpaceManager";
     }
     retVal = assoc->mapToScene(retVal);
     return retVal;
 }
 
-QPointF AssociationWidgetManager::penultimateEndPoint(New::AssociationWidget *assoc) const
+QPointF AssociationSpaceManager::penultimateEndPoint(New::AssociationWidget *assoc) const
 {
     UMLWidget *widA = assoc->widgetForRole(Uml::A);
     UMLWidget *widB = assoc->widgetForRole(Uml::B);
@@ -74,13 +74,13 @@ QPointF AssociationWidgetManager::penultimateEndPoint(New::AssociationWidget *as
         retVal = line->point(line->count() - 2);
     }
     else {
-        uWarning() << "Passed association " << assoc->name() << " is not related to this AssociationWidgetManager";
+        uWarning() << "Passed association " << assoc->name() << " is not related to this AssociationSpaceManager";
     }
     retVal = assoc->mapToScene(retVal);
     return retVal;
 }
 
-Uml::Region AssociationWidgetManager::nearestRegion(New::AssociationWidget *assoc) const
+Uml::Region AssociationSpaceManager::nearestRegion(New::AssociationWidget *assoc) const
 {
     QPointF penultimate = penultimateEndPoint(assoc);
     QRectF widRect = m_umlWidget->mapToScene(m_umlWidget->rect()).boundingRect();
@@ -119,10 +119,10 @@ Uml::Region AssociationWidgetManager::nearestRegion(New::AssociationWidget *asso
     }
 }
 
-void AssociationWidgetManager::arrange(Uml::Region region)
+void AssociationSpaceManager::arrange(Uml::Region region)
 {
 }
 
-void AssociationWidgetManager::arrangeAllRegions()
+void AssociationSpaceManager::arrangeAllRegions()
 {
 }

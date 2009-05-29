@@ -17,8 +17,8 @@
  * Boston, MA 02110-1301, USA.                                             *
  ***************************************************************************/
 
-#ifndef ASSOCIATIONWIDGETMANAGER_H
-#define ASSOCIATIONWIDGETMANAGER_H
+#ifndef ASSOCIATIONSPACEMANAGER_H
+#define ASSOCIATIONSPACEMANAGER_H
 
 #include "umlnamespace.h"
 #include <QPointF>
@@ -28,10 +28,10 @@ namespace New {
     class AssociationWidget;
 }
 
-class AssociationWidgetManager
+class AssociationSpaceManager
 {
 public:
-    AssociationWidgetManager(UMLWidget *widget);
+    AssociationSpaceManager(UMLWidget *widget);
 
     void addAssociationWidget(New::AssociationWidget *assoc);
     void addAssociationWidget(New::AssociationWidget *assoc, Uml::Region region);
