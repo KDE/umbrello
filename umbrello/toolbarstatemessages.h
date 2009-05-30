@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,10 +12,9 @@
 #define TOOLBARSTATEMESSAGES_H
 
 #include "toolbarstatepool.h"
-//Added by qt3to4:
-#include <QMouseEvent>
 
 class Q3CanvasLine;
+class QMouseEvent;
 class ObjectWidget;
 
 /**
@@ -48,79 +46,29 @@ class ObjectWidget;
  * created message,the message line must be got instead of the message, even if
  * the message is smaller than the line.
  */
-class ToolBarStateMessages : public ToolBarStatePool {
+class ToolBarStateMessages : public ToolBarStatePool
+{
     Q_OBJECT
 public:
 
-    /**
-     * Creates a new ToolBarStateMessages.
-     *
-     * @param umlView The UMLView to use.
-     */
     ToolBarStateMessages(UMLView *umlView);
-
-    /**
-     * Destroys this ToolBarStateMessages.
-     */
     virtual ~ToolBarStateMessages();
 
-    /**
-     * Goes back to the initial state.
-     */
     virtual void init();
 
-    /**
-     * Called when the current tool is changed to use another tool.
-     * Executes base method and cleans the message.
-     */
     virtual void cleanBeforeChange();
 
-    /**
-     * Called when a mouse event happened.
-     * It executes the base method and then updates the position of the
-     * message line, if any.
-     */
     virtual void mouseMove(QMouseEvent* ome);
 
 public slots:
 
-    /**
-     * A widget was removed from the UMLView.
-     * If the widget removed was the current widget, the current widget is set
-     * to 0.
-     * Also, if it was the first object, the message is cleaned.
-     */
     virtual void slotWidgetRemoved(UMLWidget* widget);
 
 protected:
 
-    /**
-     * Selects only widgets, but no associations.
-     * Overrides base class method.
-     * If the press event happened on the line of an object, the object is set
-     * as current widget. If the press event happened on a widget, the widget is
-     * set as current widget.
-     */
     virtual void setCurrentElement();
 
-    /**
-     * Called when the release event happened on a widget.
-     * If the button pressed isn't left button or the widget isn't an object
-     * widget, the message is cleaned.
-     * If the release event didn't happen on the line of an object and the first
-     * object wasn't selected, nothing is done. If the first object was already
-     * selected, a creation message is made.
-     * If the event happened on the line of an object, the first object or the
-     * second are set, depending on whether the first object was already set or
-     * not.
-     */
     virtual void mouseReleaseWidget();
-
-    /**
-     * Called when the release event happened on an empty space.
-     * Cleans the message.
-     * Empty spaces are not only actual empty spaces, but also associations.
-     */
     virtual void mouseReleaseEmpty();
 
 protected:
@@ -135,37 +83,11 @@ protected:
         LostMessage
     };
 
-    /**
-     * Sets the first object of the message using the specified object.
-     * The temporal visual message is created and mouse tracking enabled, so
-     * mouse events will be delivered.
-     *
-     * @param firstObject The first object of the message.
-     */
     void setFirstWidget(ObjectWidget* firstObject);
-
-    /**
-     * Sets the second object of the message using the specified widget and
-     * creates the message.
-     * The association is created and added to the view. The dialog to select
-     * the operation of the message is shown.
-     *
-     * @param secondObject The second object of the message.
-     * @param messageType The type of the message to create.
-     */
     void setSecondWidget(ObjectWidget* secondObject, MessageType messageType);
 
-    /**
-     * Returns the message type of this tool.
-     *
-     * @return The message type of this tool.
-     */
     Uml::Sequence_Message_Type getMessageType();
 
-    /**
-     * Cleans the first widget and the temporal message line, if any.
-     * Both are set to null, and the message line is also deleted.
-     */
     void cleanMessage();
 
     /**
@@ -186,9 +108,10 @@ protected:
     bool m_isObjectWidgetLine;
 
 private:
+
     /**
-    * x and y clicked for lost and found messages
-    */
+     * x and y clicked for lost and found messages
+     */
     int xclick;
     int yclick;
 

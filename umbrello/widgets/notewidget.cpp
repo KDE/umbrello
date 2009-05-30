@@ -109,7 +109,7 @@ void NoteWidget::setDiagramLink(Uml::IDType viewID)
     m_pEditor->insert(linkText);
     m_pEditor->setUnderline(false);
 #else
-    setDoc(linkText);
+    setDocumentation(linkText);
     update();
 #endif
     m_DiagramLink = viewID;
@@ -159,7 +159,7 @@ void NoteWidget::setY( int y )
     setEditorGeometry();
 }
 
-QString NoteWidget::getDoc() const
+QString NoteWidget::documentation() const
 {
 #if defined (NOTEWIDGET_EMBED_EDITOR)
     return m_pEditor->text();
@@ -168,7 +168,7 @@ QString NoteWidget::getDoc() const
 #endif
 }
 
-void NoteWidget::setDoc(const QString &newText)
+void NoteWidget::setDocumentation(const QString &newText)
 {
 #if defined (NOTEWIDGET_EMBED_EDITOR)
     m_pEditor->setText(newText);
@@ -222,7 +222,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
     default :  break;
     }
 
-if(m_bSelected) {
+    if(m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 
@@ -306,7 +306,7 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     p->setFont( font );
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    QString text = getDoc();
+    QString text = documentation();
     if( text.length() == 0 )
         return;
     QString word = "";
@@ -405,7 +405,7 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement noteElement = qDoc.createElement( "notewidget" );
     UMLWidget::saveToXMI( qDoc, noteElement );
-    noteElement.setAttribute( "text", getDoc() );
+    noteElement.setAttribute( "text", documentation() );
     if (m_DiagramLink != Uml::id_None)
         noteElement.setAttribute( "diagramlink", ID2STR(m_DiagramLink) );
     noteElement.setAttribute( "noteType", m_NoteType);
@@ -417,7 +417,7 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement )
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     setZ( 20 ); //make sure always on top.
-    setDoc( qElement.attribute("text", "") );
+    setDocumentation( qElement.attribute("text", "") );
     QString diagramlink = qElement.attribute("diagramlink", "");
     if (!diagramlink.isEmpty())
         m_DiagramLink = STR2ID(diagramlink);

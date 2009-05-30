@@ -65,7 +65,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY)
                 p.setFont( font );
                 p.drawText(offsetX + STATE_MARGIN, offsetY + textStartY,
                            w - STATE_MARGIN * 2, fontHeight,
-                           Qt::AlignCenter, getName());
+                           Qt::AlignCenter, name());
                 setPenFromSettings(p);
             } else {
                 p.drawRoundRect(offsetX, offsetY, w, h, (h*40)/w, (w*40)/h);
@@ -75,7 +75,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY)
                 font.setBold( true );
                 p.setFont( font );
                 p.drawText(offsetX + STATE_MARGIN, textStartY, w - STATE_MARGIN * 2,
-                           fontHeight, Qt::AlignCenter, getName());
+                           fontHeight, Qt::AlignCenter, name());
                 font.setBold( false );
                 p.setFont( font );
                 setPenFromSettings(p);
@@ -120,7 +120,7 @@ QSize StateWidget::calculateSize()
     if ( m_StateType == Normal ) {
         const QFontMetrics &fm = getFontMetrics(FT_BOLD);
         const int fontHeight  = fm.lineSpacing();
-        int textWidth = fm.width(getName());
+        int textWidth = fm.width(name());
         const int count = m_Activities.count();
         height = fontHeight;
         if( count > 0 ) {
@@ -149,7 +149,7 @@ void StateWidget::setName(const QString &strName)
     adjustAssocs( getX(), getY() );
 }
 
-QString StateWidget::getName() const
+QString StateWidget::name() const
 {
     return m_Text;
 }
@@ -167,14 +167,14 @@ void StateWidget::setStateType( StateType stateType )
 void StateWidget::slotMenuSelection(QAction* action)
 {
     bool ok = false;
-    QString name = getName();
+    QString nameNew = name();
 
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), getName(), &ok );
-        if( ok && name.length() > 0 )
-            setName( name );
+        nameNew = KInputDialog::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), name(), &ok );
+        if( ok && nameNew.length() > 0 )
+            setName( nameNew );
         break;
 
     case ListPopupMenu::mt_Properties:
@@ -182,9 +182,9 @@ void StateWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_New_Activity:
-        name = KInputDialog::getText( i18n("Enter Activity"), i18n("Enter the name of the new activity:"), i18n("new activity"), &ok );
-        if( ok && name.length() > 0 )
-            addActivity( name );
+        nameNew = KInputDialog::getText( i18n("Enter Activity"), i18n("Enter the name of the new activity:"), i18n("new activity"), &ok );
+        if( ok && nameNew.length() > 0 )
+            addActivity( nameNew );
         break;
 
     default:

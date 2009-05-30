@@ -10,8 +10,10 @@
 
 #ifndef STATEWIDGET_H
 #define STATEWIDGET_H
-#include <qpainter.h>
-#include <qstringlist.h>
+
+#include <QtGui/QPainter>
+#include <QtCore/QStringList>
+
 #include "umlwidget.h"
 #include "worktoolbar.h"
 
@@ -34,7 +36,8 @@
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class StateWidget : public UMLWidget {
+class StateWidget : public UMLWidget
+{
     Q_OBJECT
 public:
 
@@ -73,7 +76,7 @@ public:
     /**
      * Returns the name of the State.
      */
-    virtual QString getName() const;
+    virtual QString name() const;
 
     /**
      * Returns the type of state.
@@ -141,15 +144,8 @@ protected:
      */
     QSize calculateSize();
 
-    /**
-     * Type of state.
-     */
-    StateType m_StateType;
-
-    /**
-     * List of activities for the state.
-     */
-    QStringList m_Activities;
+    StateType   m_StateType;   ///< Type of state.
+    QStringList m_Activities;  ///< List of activities for the state.
 
 public slots:
 

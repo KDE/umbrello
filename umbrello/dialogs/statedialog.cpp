@@ -151,7 +151,7 @@ void StateDialog::setupGeneralPage()
         m_GenPageWidgets.nameLE->setEnabled( false );
         m_GenPageWidgets.nameLE->setText( "" );
     } else
-        m_GenPageWidgets.nameLE->setText( m_pStateWidget->getName() );
+        m_GenPageWidgets.nameLE->setText( m_pStateWidget->name() );
 }
 
 /**

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,7 +31,8 @@ class Q3TextEdit;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class NoteWidget : public UMLWidget {
+class NoteWidget : public UMLWidget
+{
     Q_OBJECT
 public:
     friend class NoteWidgetController;
@@ -82,14 +82,14 @@ public:
      *
      * @return  The text in the box.
      */
-    QString getDoc() const;
+    QString documentation() const;
 
     /**
      * Sets the note documentation.
      *
      * @param newText   The text to set the documentation to.
      */
-    void setDoc(const QString &newText);
+    void setDocumentation(const QString &newText);
 
     /**
      * Set the ID of the diagram hyperlinked to this note.

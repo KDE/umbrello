@@ -1,18 +1,18 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef COMBINEDFRAGMENTWIDGET_H
 #define COMBINEDFRAGMENTWIDGET_H
 
-#include <qlist.h>
+#include <QtCore/QList>
+
 #include "umlwidget.h"
 #include "worktoolbar.h"
 #include "floatingdashlinewidget.h"
@@ -33,7 +33,8 @@
  * @author Hassan KOUCH <hkouch@hotmail.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class CombinedFragmentWidget : public UMLWidget {
+class CombinedFragmentWidget : public UMLWidget
+{
     Q_OBJECT
 
 public:
@@ -73,8 +74,8 @@ public:
     /**
      * Returns the type of combined fragment.
      */
-    CombinedFragmentType getCombinedFragmentType() const;
-    CombinedFragmentType getCombinedFragmentType(const QString& combinedfragmentType) const;
+    CombinedFragmentType combinedFragmentType() const;
+    CombinedFragmentType combinedFragmentType(const QString& combinedfragmentType) const;
 
     /**
      * Sets the type of combined fragment.

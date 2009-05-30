@@ -27,7 +27,7 @@ namespace Uml
         m_doc = doc;
         m_view = view;
         m_newFont = fon;
-        m_oldFont = widget->font() ;
+        m_oldFont = widget->font();
     }
 
     void CmdChangeFontSelection::undo()

@@ -84,13 +84,13 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY)
     case Flow :
         {
             QString objectflow_value;
-            if(getState() == "-" || getState() == NULL)
+            if(state() == "-" || state() == NULL)
             {
                 objectflow_value = ' ';
             }
             else
             {
-                objectflow_value = '[' + getState() + ']';
+                objectflow_value = '[' + state() + ']';
             }
 
             p.drawLine(offsetX + 10 , offsetY + h/2, (offsetX + w)-10, offsetY + h/2  );
@@ -136,7 +136,7 @@ QSize ObjectNodeWidget::calculateSize()
     } else if ( m_ObjectNodeType == Flow ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width('[' + getState() + ']');
+        const int textWidth = fm.width('[' + state() + ']');
         const int namewidth = fm.width(name());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
@@ -149,18 +149,18 @@ QSize ObjectNodeWidget::calculateSize()
     return QSize(width, height);
 }
 
-ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType() const
+ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType() const
 {
     return m_ObjectNodeType;
 }
 
-ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::getObjectNodeType(const QString& objectNodeType) const
+ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType(const QString& type) const
 {
-    if (objectNodeType == "Central buffer")
+    if (type == "Central buffer")
        return ObjectNodeWidget::Buffer;
-    if (objectNodeType == "Data store")
+    if (type == "Data store")
        return ObjectNodeWidget::Data;
-    if (objectNodeType == "Object Flow")
+    if (type == "Object Flow")
        return ObjectNodeWidget::Flow;
     // Shouldn't happen
     Q_ASSERT(0);
@@ -173,9 +173,9 @@ void ObjectNodeWidget::setObjectNodeType( ObjectNodeType objectNodeType )
     UMLWidget::m_bResizable = true;
 }
 
-void ObjectNodeWidget::setObjectNodeType( const QString& objectNodeType )
+void ObjectNodeWidget::setObjectNodeType( const QString& type )
 {
-   setObjectNodeType(getObjectNodeType(objectNodeType) );
+   setObjectNodeType(ObjectNodeWidget::objectNodeType(type) );
 }
 
 void ObjectNodeWidget::setState(const QString& state)
@@ -184,7 +184,7 @@ void ObjectNodeWidget::setState(const QString& state)
     updateComponentSize();
 }
 
-QString ObjectNodeWidget::getState()
+QString ObjectNodeWidget::state()
 {
     return m_State;
 }

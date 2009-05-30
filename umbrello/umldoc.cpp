@@ -79,6 +79,9 @@
 
 using namespace Uml;
 
+/**
+ * Constructor for the fileclass of the application.
+ */
 UMLDoc::UMLDoc()
 {
     m_Name = i18n("UML Model");
@@ -134,6 +137,9 @@ void UMLDoc::init()
     connect(this, SIGNAL( sigCurrentViewChanged() ), pApp, SLOT( slotCurrentViewChanged() ) );
 }
 
+/**
+ * Destructor for the fileclass of the application.
+ */
 UMLDoc::~UMLDoc()
 {
     delete m_pChangeLog;
@@ -165,7 +171,7 @@ void UMLDoc::addView(UMLView *view)
 
     pApp->setCurrentView(view);
     if ( !m_bLoading ) {
-        view -> show();
+        view->show();
         emit sigDiagramChanged(view ->getType());
     }
 
@@ -234,9 +240,13 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
 void UMLDoc::setUrl(const KUrl &url)
 {
     m_doc_url = url;
-    return;
 }
 
+/**
+ * Returns the KUrl of the document.
+ *
+ * @return  The KUrl of this UMLDoc.
+ */
 const KUrl& UMLDoc::url() const
 {
     return m_doc_url;
@@ -376,6 +386,14 @@ bool UMLDoc::newDocument()
     return true;
 }
 
+/**
+ * Loads the document by filename and format and emits the
+ * updateViews() signal.
+ *
+ * @param url      The filename in KUrl format.
+ * @param format   The format (optional.)
+ * @return  True if operation successful.
+ */
 bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 {
     Q_UNUSED(format);
@@ -717,6 +735,12 @@ void UMLDoc::setupSignals()
     return;
 }
 
+/**
+ * Finds a view (diagram) by the ID given to method.
+ *
+ * @param id   The ID of the view to search for.
+ * @return  Pointer to the view found, or NULL if not found.
+ */
 UMLView * UMLDoc::findView(Uml::IDType id)
 {
     UMLView *v = NULL;
@@ -765,6 +789,8 @@ UMLObject* UMLDoc::findObjectById(Uml::IDType id)
 
 /**
  * Find a UMLStereotype by its unique ID.
+ * @param id   the unique ID
+ * @return the found stereotype or NULL
  */
 UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id)
 {
@@ -807,6 +833,20 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
     return NULL;
 }
 
+//:TODO:
+//    /**
+//     * Used to find a reference to a @ref UMLObject given its non-numeric
+//     * ID string.
+//     * Only used for intermediate processing while loading files
+//     * containing objects with non-numeric xmi.id's.
+//     *
+//     * @param idStr   The AuxId for the @ref UMLObject to find.*/
+//     * @return  Pointer to the UMLObject found, or NULL if not found.
+//     */
+//    UMLObject* UMLDoc::findObjectByAuxId(const QString &idStr)
+//    {
+//    }
+
 /**
  * Used to find a @ref UMLClassifier by its name.
  *
@@ -847,6 +887,7 @@ bool UMLDoc::addUMLObject(UMLObject* object)
 
 /**
  * Add a UMLStereotype to the application.
+ * @param s  the stereotype to be added
  */
 void UMLDoc::addStereotype(UMLStereotype *s)
 {
@@ -856,6 +897,7 @@ void UMLDoc::addStereotype(UMLStereotype *s)
 
 /**
  * Remove a UMLStereotype from the application.
+ * @param s   the stereotype to be removed
  */
 void UMLDoc::removeStereotype(UMLStereotype *s)
 {
@@ -865,13 +907,17 @@ void UMLDoc::removeStereotype(UMLStereotype *s)
 
 /**
  * Write text to the status bar.
+ * @param text   the text to write
  */
 void UMLDoc::writeToStatusBar(const QString &text)
 {
     emit sigWriteToStatusBar(text);
 }
 
-// simple removal of an object
+/**
+ * Simple removal of an object.
+ * @param object   the UMLObject to be removed
+ */
 void UMLDoc::slotRemoveUMLObject(UMLObject* object)
 {
     //m_objectList.remove(object);
@@ -883,6 +929,12 @@ void UMLDoc::slotRemoveUMLObject(UMLObject* object)
     pkg->removeObject(object);
 }
 
+/**
+ * Returns true if the given name is unique within its scope.
+ *
+ * @param name   The name to check.
+ * @return  True if name is unique.
+ */
 bool UMLDoc::isUnique(const QString &name)
 {
     UMLListView *listView = UMLApp::app()->getListView();
@@ -960,6 +1012,8 @@ UMLStereotype* UMLDoc::findStereotype(const QString &name)
 
 /**
  * Finds or creates a stereotype for the parent object.
+ * @param name   the name of the stereotype
+ * @return the found stereotype object or a just created one
  */
 UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name)
 {
@@ -972,6 +1026,12 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name)
     return s;
 }
 
+/**
+ * Removes an association.
+ *
+ * @param assoc    Pointer to the UMLAssociation to remove.
+ * @param doSetModified  Whether to mark the document as modified (default: true.)
+ */
 void UMLDoc::removeAssociation (UMLAssociation * assoc, bool doSetModified /*=true*/)
 {
     if(!assoc)
@@ -1022,10 +1082,9 @@ UMLAssociation * UMLDoc::findAssociation(Uml::Association_Type assocType,
     return ret;
 }
 
-// create AND add an association. Used by refactoring assistant.
-
 /**
- * Creates an association between two UMLObjects.
+ * Creates AND adds an association between two UMLObjects.
+ * Used by refactoring assistant.
  * NOTE: this method does not check if the association is valid / legal
  *
  * @param a      The UMLObject "A" for the association (source)
@@ -1047,11 +1106,11 @@ UMLAssociation* UMLDoc::createUMLAssociation(UMLObject *a, UMLObject *b, Uml::As
 /**
  * Adds an association.
  *
- * @param pAssoc    Pointer to the UMLAssociation to add.
+ * @param assoc    Pointer to the UMLAssociation to add.
  */
-void UMLDoc::addAssociation(UMLAssociation *Assoc)
+void UMLDoc::addAssociation(UMLAssociation *assoc)
 {
-    if (Assoc == NULL)
+    if (assoc == NULL)
         return;
 
     // First, check that this association has not already been added.
@@ -1061,7 +1120,7 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
     foreach (UMLAssociation* a,  assocs ) {
         // check if its already been added (shouldn't be the case right now
         // as UMLAssociations only belong to one associationwidget at a time)
-        if (a == Assoc)
+        if (a == assoc)
         {
             uDebug() << "duplicate addition attempted";
             return;
@@ -1071,12 +1130,12 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
     // If we get here it's really a new association.
 
     // Add the UMLAssociation at the owning UMLPackage.
-    UMLPackage *pkg = Assoc->getUMLPackage();
+    UMLPackage *pkg = assoc->getUMLPackage();
     if (pkg == NULL) {
-        uError() << Assoc->getName() << ": parent package is not set !";
+        uError() << assoc->getName() << ": parent package is not set !";
         return;
     }
-    pkg->addObject(Assoc);
+    pkg->addObject(assoc);
 
     // I don't believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
     // emit sigObjectCreated(o);
@@ -1087,7 +1146,9 @@ void UMLDoc::addAssociation(UMLAssociation *Assoc)
 /**
  * Returns a name for the new object, appended with a number
  * if the default name is taken e.g. class diagram, class
- * diagram_1 etc
+ * diagram_1 etc.
+ * @param type   the diagram type
+ * @return the unique view name
  */
 QString UMLDoc::uniqViewName(const Uml::Diagram_Type type)
 {
@@ -1122,12 +1183,17 @@ QString UMLDoc::uniqViewName(const Uml::Diagram_Type type)
 
 /**
  * Returns true when loading a document file.
+ * @return the value of the flag
  */
 bool UMLDoc::loading() const
 {
     return m_bLoading;
 }
 
+/**
+ * Sets loading boolean flag to the value given.
+ * @param state   value to set
+ */
 void UMLDoc::setLoading(bool state /* = true */)
 {
     m_bLoading = state;
@@ -1135,12 +1201,22 @@ void UMLDoc::setLoading(bool state /* = true */)
 
 /**
  * Returns the m_bClosing flag.
+ * @return the value of the flag
  */
 bool UMLDoc::closing() const
 {
     return m_bClosing;
 }
 
+/**
+ * Creates a diagram of the given type.
+ *
+ * @param folder       The folder in which tp create the diagram.
+ * @param type         The type of diagram to create.
+ * @param askForName   If true shows a dialog box asking for name,
+ *                     else uses a default name.
+ * @return Pointer to the UMLView of the new diagram.
+ */
 UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName /*= true */)
 {
     bool ok = true;
@@ -1320,6 +1396,7 @@ void UMLDoc::removeDiagram(Uml::IDType id)
 /**
  * Return the currently selected root folder.
  * This will be an element from the m_root[] array.
+ * @return the currently selected root folder or NULL
  */
 UMLFolder *UMLDoc::currentRoot()
 {
@@ -1354,7 +1431,7 @@ void UMLDoc::setCurrentRoot(Uml::Model_Type rootType)
  * is being represented on a diagram it will also delete all those
  * representations.
  *
- * @param o   Pointer to the UMLObject to delete.
+ * @param umlobject   Pointer to the UMLObject to delete.
  */
 void UMLDoc::removeUMLObject(UMLObject* umlobject)
 {
@@ -1458,7 +1535,7 @@ Uml::IDType UMLDoc::getModelID() const
  * It is virtual and calls the corresponding saveToXMI() functions
  * of the derived classes.
  *
- * @param file              The file to be saved to.
+ * @param file   The file to be saved to.
  */
 void UMLDoc::saveToXMI(QIODevice& file)
 {
@@ -1525,10 +1602,8 @@ void UMLDoc::saveToXMI(QIODevice& file)
 
     header.appendChild( documentation );
 
-    /**
-     * See comment on <XMI.model> above
-    header.appendChild( model );
-     */
+    // See comment on <XMI.model> above
+    // header.appendChild( model );
     header.appendChild( meta );
     root.appendChild( header );
 
@@ -2082,11 +2157,10 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
     }
 }
 
-// For backward compatibility only:
-// Since version 1.5.5 diagrams are saved as part of the UMLFolder.
-
 /**
  * Loads all diagrams from XMI into the current UMLDoc.
+ * For backward compatibility only:
+ * Since version 1.5.5 diagrams are saved as part of the UMLFolder.
  *
  * @return  True if operation successful.
  */
@@ -2151,7 +2225,11 @@ void UMLDoc::removeAllViews()
     UMLApp::app()->setDiagramMenuItemsState(false);
 }
 
-
+/**
+ * Returns a list of the packages in this UMLDoc,
+ *
+ * @return List of UMLPackages.
+ */
 UMLPackageList UMLDoc::getPackages(bool includeNested /* = true */)
 {
     UMLPackageList packageList;
@@ -2159,7 +2237,23 @@ UMLPackageList UMLDoc::getPackages(bool includeNested /* = true */)
     return packageList;
 }
 
+/**
+ * Returns the datatype folder.
+ *
+ * @return  Pointer to the predefined folder for datatypes.
+ */
+UMLFolder * UMLDoc::getDatatypeFolder() const
+{
+    return m_datatypeRoot;
+}
 
+/**
+ * Returns a list of the concepts in this UMLDoc.
+ *
+ * @param includeNested   Whether to include the concepts from
+ *                        nested packages (default: true.)
+ * @return  List of UML concepts.
+ */
 UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */)
 {
     UMLClassifierList conceptList;
@@ -2167,6 +2261,13 @@ UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */)
     return conceptList;
 }
 
+/**
+ * Returns a list of the classes in this UMLDoc.
+ *
+ * @param includeNested   Whether to include the concepts from
+ *                        nested packages (default: true.)
+ * @return  List of UML classes.
+ */
 UMLClassifierList UMLDoc::getClasses(bool includeNested /* =true */)
 {
     UMLClassifierList conceptList;
@@ -2174,6 +2275,13 @@ UMLClassifierList UMLDoc::getClasses(bool includeNested /* =true */)
     return conceptList;
 }
 
+/**
+ * Returns a list of the classes and interfaces in this UMLDoc.
+ *
+ * @param includeNested   Whether to include the concepts from
+ *                        nested packages (default: true.)
+ * @return  List of UML concepts.
+ */
 UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */)
 {
     UMLClassifierList conceptList;
@@ -2181,6 +2289,13 @@ UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */
     return conceptList;
 }
 
+/**
+ * Returns a list of the entities in this UMLDoc.
+ *
+ * @param includeNested   Whether to include the entities from
+ *                        nested packages (default: true.)
+ * @return  List of UML Entities.
+ */
 UMLEntityList UMLDoc::getEntities( bool includeNested /* =true */ )
 {
     UMLEntityList entityList;
@@ -2188,6 +2303,13 @@ UMLEntityList UMLDoc::getEntities( bool includeNested /* =true */ )
     return entityList;
 }
 
+/**
+ * Returns a list of the interfaces in this UMLDoc.
+ *
+ * @param includeNested   Whether to include the concepts from
+ *                        nested packages (default: true.)
+ * @return  List of UML interfaces.
+ */
 UMLClassifierList UMLDoc::getInterfaces(bool includeNested /* =true */)
 {
     UMLClassifierList interfaceList;
@@ -2247,7 +2369,7 @@ void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
         printView = findView(id);
 
         if(printView)
-            printView ->print(pPrinter, painter);
+            printView->print(pPrinter, painter);
         printView = 0;
     }
     painter.end();
@@ -2267,12 +2389,30 @@ UMLViewList UMLDoc::getViewIterator()
     return accumulator;
 }
 
+/**
+ * Sets the modified flag for the document after a modifying
+ * action on the view connected to the document.
+ *
+ * @param modified   The value to set the modified flag to.
+ */
 void UMLDoc::setModified(bool modified /*=true*/)
 {
     if(!m_bLoading) {
         m_modified = modified;
         UMLApp::app()->setModified(modified);
     }
+}
+
+/**
+ * Returns if the document is modified or not. Use this to
+ * determine if your document needs saving by the user on
+ * closing.
+ *
+ * @return  True if this UMLDoc is modified.
+ */
+bool UMLDoc::isModified()
+{
+    return m_modified;
 }
 
 /**
@@ -2349,14 +2489,20 @@ Uml::Model_Type UMLDoc::rootFolderType(UMLObject *obj)
     return Uml::N_MODELTYPES;
 }
 
-/** Read property of IDChangeLog* m_pChangeLog. */
+/**
+ * Read property of IDChangeLog* m_pChangeLog.
+ *
+ * @return  Pointer to the IDChangeLog object.
+ */
 IDChangeLog* UMLDoc::getChangeLog()
 {
     return m_pChangeLog;
 }
 
-/** Opens a Paste session,
-Deletes the Old ChangeLog and Creates an empty one */
+/**
+ * Opens a Paste session, deletes the old ChangeLog and
+ * creates an empty one.
+ */
 void UMLDoc::beginPaste()
 {
     if(m_pChangeLog) {
@@ -2366,7 +2512,9 @@ void UMLDoc::beginPaste()
     m_pChangeLog = new IDChangeLog;
 }
 
-/** Closes a Paste session, Deletes the ChangeLog */
+/**
+ * Closes a paste session, deletes the ChangeLog.
+ */
 void UMLDoc::endPaste()
 {
     if(m_pChangeLog) {
@@ -2375,7 +2523,13 @@ void UMLDoc::endPaste()
     }
 }
 
-/** Assigns a New ID to an Object, and also logs the assignment to its internal ChangeLog */
+/**
+ * Assigns a New ID to an Object, and also logs the assignment
+ * to its internal ChangeLog.
+ *
+ * @param oldID   The present ID of the object.
+ * @return  The new ID assigned to the object.
+ */
 Uml::IDType UMLDoc::assignNewID(Uml::IDType oldID)
 {
     Uml::IDType result = UniqueID::gen();
@@ -2383,6 +2537,26 @@ Uml::IDType UMLDoc::assignNewID(Uml::IDType oldID)
         m_pChangeLog->addIDChange(oldID, result);
     }
     return result;
+}
+
+/**
+ * Returns the documentation for the project.
+ *
+ * @return  The documentation text of this UMLDoc.
+ */
+QString UMLDoc::getDocumentation() const
+{
+    return m_Doc;
+}
+
+/**
+ * Sets the documentation for the project.
+ *
+ * @param doc   The documentation to set for this UMLDoc.
+ */
+void UMLDoc::setDocumentation(const QString &doc)
+{
+    m_Doc = doc;
 }
 
 /**
@@ -2437,6 +2611,7 @@ void UMLDoc::activateAllViews()
 
 /**
  * Sets the default settings to the given settings.
+ * @param optionState   settings
  */
 void UMLDoc::settingsChanged(Settings::OptionState optionState)
 {
@@ -2444,6 +2619,14 @@ void UMLDoc::settingsChanged(Settings::OptionState optionState)
         m_root[i]->setViewOptions(optionState);
     }
     initSaveTimer();
+}
+
+/**
+ * Returns the version of the old UML files.
+ */
+int UMLDoc::getFileVersion() const
+{
+    return m_version;
 }
 
 /**
@@ -2523,7 +2706,7 @@ void UMLDoc::signalDiagramRenamed(UMLView* pView )
 }
 
 /**
- * Calls the active code generator to create its default datatypes
+ * Calls the active code generator to create its default datatypes.
  */
 void UMLDoc::addDefaultDatatypes()
 {
@@ -2555,7 +2738,7 @@ void UMLDoc::createDatatype(const QString &name)
 
 /**
  * Make a popup menu for the tabs
- * signalled from tabWidget's contextMenu()
+ * signalled from tabWidget's contextMenu().
  */
 void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
 {
@@ -2617,7 +2800,9 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
 
 /**
  * Find and return the user selected type of the popup menu.
- * See also m_pTabPopupMenu and slotDiagramPopupMenu
+ * See also m_pTabPopupMenu and slotDiagramPopupMenu.
+ * @param action  the selected action
+ * @return the selected menu type
  */
 ListPopupMenu::Menu_Type UMLDoc::getPopupMenuSelection(QAction* action)
 {
@@ -2640,6 +2825,11 @@ void UMLDoc::addDefaultStereotypes()
         gen->createDefaultStereotypes();
 }
 
+/**
+ * Returns a list of the stereotypes in this UMLDoc.
+ *
+ * @return  List of UML stereotypes.
+ */
 const UMLStereotypeList& UMLDoc::getStereotypes()
 {
     return m_stereoList;

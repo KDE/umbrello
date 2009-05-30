@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,7 +12,7 @@
 #include "toolbarstatearrow.h"
 
 // qt includes
-#include <QMouseEvent>
+#include <QtGui/QMouseEvent>
 
 // app includes
 #include "associationwidget.h"
@@ -22,11 +22,20 @@
 
 #include <kdebug.h>
 
-ToolBarStateArrow::ToolBarStateArrow(UMLView *umlView): ToolBarState(umlView)
+/**
+ * Creates a new ToolBarStateArrow.
+ *
+ * @param umlView The UMLView to use.
+ */
+ToolBarStateArrow::ToolBarStateArrow(UMLView *umlView)
+  : ToolBarState(umlView)
 {
     init();
 }
 
+/**
+ * Destroys this ToolBarStateArrow.
+ */
 ToolBarStateArrow::~ToolBarStateArrow()
 {
 }
@@ -43,6 +52,10 @@ void ToolBarStateArrow::init()
     m_selectionRect.clear();
 }
 
+/**
+ * Called when the press event happened on an association.
+ * Delivers the event to the association.
+ */
 void ToolBarStateArrow::mousePressAssociation()
 {
     getCurrentAssociation()->mousePressEvent(m_pMouseEvent);
@@ -96,7 +109,12 @@ void ToolBarStateArrow::mouseReleaseAssociation()
     getCurrentAssociation()->mouseReleaseEvent(m_pMouseEvent);
 }
 
-void ToolBarStateArrow::mouseReleaseWidget() {
+/**
+ * Called when the release event happened on a widget.
+ * Delivers the event to the widget.
+ */
+void ToolBarStateArrow::mouseReleaseWidget()
+{
     getCurrentWidget()->mouseReleaseEvent(m_pMouseEvent);
 }
 

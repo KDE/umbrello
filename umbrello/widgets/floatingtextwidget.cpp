@@ -142,7 +142,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Select_Operation:
-        showOpDlg();
+        showOperationDialog();
         break;
 
     case ListPopupMenu::mt_Rename:
@@ -309,7 +309,7 @@ void FloatingTextWidget::setPostText(const QString &t)
     update();
 }
 
-void FloatingTextWidget::changeTextDlg()
+void FloatingTextWidget::showChangeTextDialog()
 {
     bool ok = false;
     QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), text(), &ok, m_pView);
@@ -324,7 +324,7 @@ void FloatingTextWidget::changeTextDlg()
         hide();
 }
 
-void FloatingTextWidget::showOpDlg()
+void FloatingTextWidget::showOperationDialog()
 {
     if (m_linkWidget == NULL) {
         uError() << "m_linkWidget is NULL";
@@ -479,7 +479,7 @@ void FloatingTextWidget::showProperties()
 {
     if (m_textRole == Uml::tr_Coll_Message || m_textRole == Uml::tr_Coll_Message_Self ||
             m_textRole == Uml::tr_Seq_Message || m_textRole == Uml::tr_Seq_Message_Self) {
-        showOpDlg();
+        showOperationDialog();
     } else if (m_textRole == Uml::tr_Floating) {
         // double clicking on a text line opens the dialog to change the text
         handleRename();

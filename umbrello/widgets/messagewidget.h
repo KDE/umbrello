@@ -41,7 +41,8 @@ class MessageWidgetController;
  * @see FloatingTextWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class MessageWidget : public UMLWidget, public LinkWidget {
+class MessageWidget : public UMLWidget, public LinkWidget
+{
     Q_OBJECT
 public:
     friend class MessageWidgetController;
@@ -139,7 +140,7 @@ public:
      *
      * @return  The text widget we are related to.
      */
-    FloatingTextWidget * getFloatingTextWidget() {
+    FloatingTextWidget * floatingTextWidget() {
         return m_pFText;
     }
 

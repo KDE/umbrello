@@ -459,15 +459,15 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     case Uml::wt_ObjectNode:
         {
             ObjectNodeWidget* objWidget = static_cast<ObjectNodeWidget *>(object);
-            if (objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
-              || objWidget -> getObjectNodeType() == ObjectNodeWidget::Data
-              || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow) {
+            if (objWidget->objectNodeType() == ObjectNodeWidget::Buffer
+              || objWidget->objectNodeType() == ObjectNodeWidget::Data
+              || objWidget->objectNodeType() == ObjectNodeWidget::Flow) {
                 insertSubMenuColor( object->getUseFillColour() );
             }
             insertStdItems(false, type);
-            if (objWidget -> getObjectNodeType() == ObjectNodeWidget::Buffer
-                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Data
-                || objWidget -> getObjectNodeType() == ObjectNodeWidget::Flow) {
+            if (objWidget->objectNodeType() == ObjectNodeWidget::Buffer
+                || objWidget->objectNodeType() == ObjectNodeWidget::Data
+                || objWidget->objectNodeType() == ObjectNodeWidget::Flow) {
                 insert(mt_Rename, i18n("Change Object Node Name..."));
                 insert(mt_Change_Font);
                 insert(mt_Properties);
@@ -493,8 +493,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
 
     case Uml::wt_CombinedFragment:
         // for alternative and parallel combined fragments
-        if ((static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Alt ||
-            (static_cast<CombinedFragmentWidget*>(object))->getCombinedFragmentType() == CombinedFragmentWidget::Par) {
+        if ((static_cast<CombinedFragmentWidget*>(object))->combinedFragmentType() == CombinedFragmentWidget::Alt ||
+            (static_cast<CombinedFragmentWidget*>(object))->combinedFragmentType() == CombinedFragmentWidget::Par) {
             insert(mt_AddInteractionOperand, i18n("Add Interaction Operand"));
             addSeparator();
         }

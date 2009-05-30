@@ -11,9 +11,6 @@
 // own header
 #include "toolbarstatemessages.h"
 
-// kde includes
-#include <kdebug.h>
-
 // local includes
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
@@ -22,16 +19,31 @@
 #include "umldoc.h"
 #include "umlview.h"
 
+// kde includes
+#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
-ToolBarStateMessages::ToolBarStateMessages(UMLView *umlView) : ToolBarStatePool(umlView) {
+// qt includes
+#include <QtGui/QMouseEvent>
+
+/**
+ * Creates a new ToolBarStateMessages.
+ *
+ * @param umlView The UMLView to use.
+ */
+ToolBarStateMessages::ToolBarStateMessages(UMLView *umlView)
+  : ToolBarStatePool(umlView)
+{
     m_firstObject = 0;
     m_messageLine = 0;
     xclick = 0;
     yclick = 0;
 }
 
+/**
+ * Destroys this ToolBarStateMessages.
+ */
 ToolBarStateMessages::~ToolBarStateMessages()
 {
     delete m_messageLine;
@@ -58,7 +70,13 @@ void ToolBarStateMessages::cleanBeforeChange()
     cleanMessage();
 }
 
-void ToolBarStateMessages::mouseMove(QMouseEvent* ome) {
+/**
+ * Called when a mouse event happened.
+ * It executes the base method and then updates the position of the
+ * message line, if any.
+ */
+void ToolBarStateMessages::mouseMove(QMouseEvent* ome)
+{
     ToolBarStatePool::mouseMove(ome);
 
     if (m_messageLine) {
@@ -168,10 +186,10 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         xclick = 0;
         yclick = 0;
 
-        FloatingTextWidget *ft = message->getFloatingTextWidget();
+        FloatingTextWidget *ft = message->floatingTextWidget();
         //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
         //Shouldn't it cancel also the whole creation?
-        ft->showOpDlg();
+        ft->showOperationDialog();
         message->setTextPosition();
         m_pUMLView->getWidgetList().append(ft);
 
@@ -214,10 +232,10 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         xclick = 0;
         yclick = 0;
 
-        FloatingTextWidget *ft = message->getFloatingTextWidget();
+        FloatingTextWidget *ft = message->floatingTextWidget();
         //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
         //Shouldn't it cancel also the whole creation?
-        ft->showOpDlg();
+        ft->showOperationDialog();
         message->setTextPosition();
         m_pUMLView->getWidgetList().append(ft);
 
@@ -269,10 +287,10 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
 
     m_pUMLView->getMessageList().append(message);
 
-    FloatingTextWidget *ft = message->getFloatingTextWidget();
+    FloatingTextWidget *ft = message->floatingTextWidget();
     //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
     //Shouldn't it cancel also the whole creation?
-    ft->showOpDlg();
+    ft->showOperationDialog();
     message->setTextPosition();
     m_pUMLView->getWidgetList().append(ft);
 

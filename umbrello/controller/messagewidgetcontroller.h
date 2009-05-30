@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006                                                    *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -44,99 +43,29 @@ class MessageWidget;
  *
  * @author Umbrello UML Modeller Authors <uml-devel@lists.sourceforge.net>
  */
-class MessageWidgetController : public UMLWidgetController {
+class MessageWidgetController : public UMLWidgetController
+{
 public:
 
-    /**
-     * Constructor for MessageWidgetController.
-     *
-     * @param messageWidget The message widget which uses the controller.
-     */
     MessageWidgetController(MessageWidget* messageWidget);
-
-    /**
-     * Destructor for MessageWidgetController.
-     */
     ~MessageWidgetController();
 
 protected:
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Saves the values of the widget needed for move/resize.
-     * Calls parent method and then saves the value of m_unconstrainedPositionY
-     *
-     * @param me The QMouseEvent to get the offset from.
-     */
     virtual void saveWidgetValues(QMouseEvent *me);
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Returns the cursor to be shown when resizing the widget.
-     * The cursor shown is KCursor::sizeVerCursor().
-     *
-     * @return The cursor to be shown when resizing the widget.
-     */
     virtual QCursor getResizeCursor();
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Resizes the height of the message widget and emits the message moved signal.
-     * Message widgets can only be resized vertically, so width isn't modified.
-     *
-     * @param newW The new width for the widget (isn't used).
-     * @param newH The new height for the widget.
-     */
     virtual void resizeWidget(int newW, int newH);
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Moves the widget to a new position using the difference between the
-     * current position and the new position. X position is ignored, and widget
-     * is only moved along Y axis. If message goes upper than the object, it's
-     * kept at this position until it should be lowered again (the unconstrained
-     * Y position is saved to know when it's the time to lower it again).
-     * If the message is a creation message, the object created is also moved to
-     * the new vertical position.
-     * @see constrainPositionY
-     *
-     * @param diffX The difference between current X position and new X position
-     *                          (isn't used).
-     * @param diffY The difference between current Y position and new Y position.
-     */
     virtual void moveWidgetBy(int diffX, int diffY);
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Modifies the value of the diffX and diffY variables used to move the widgets.
-     * All the widgets are constrained to be moved only in Y axis (diffX is set to 0).
-     * @see constrainPositionY
-     *
-     * @param diffX The difference between current X position and new X position.
-     * @param diffY The difference between current Y position and new Y position.
-     */
     virtual void constrainMovementForAllWidgets(int &diffX, int &diffY);
 
-    /**
-     * Overridden from UMLWidgetController.
-     * Executes the action for double click in the widget.
-     * Shows the dialog to select the operation of the message.
-     *
-     * @param me The QMouseEvent which triggered the double click event.
-     */
     virtual void doMouseDoubleClick(QMouseEvent *me);
 
 private:
 
-    /**
-     * Constrains the vertical position of the message widget so it doesn't go
-     * upper than the bottom side of the lower object.
-     * The height of the floating text widget in the message is taken in account
-     * if there is any and isn't empty.
-     *
-     * @param diffY The difference between current Y position and new Y position.
-     * @return The new Y position, constrained.
-     */
     int constrainPositionY(int diffY);
 
     /**

@@ -84,7 +84,7 @@ protected:
      * At classifiers, only the method names are shown in the list view -
      * we use a tooltip for the full signature display.
      * Once K3ListView's tooltip overriding mechanism works, we can kick
-     * this class out.
+     * this class out (TODO).
      */
     virtual void maybeTip(const QPoint& pos) {
         UMLListView *lv = UMLApp::app()->getListView();
@@ -102,10 +102,16 @@ protected:
 };
 #endif
 
-
-UMLListView::UMLListView(QWidget *parent, const char *)
-        : K3ListView(parent), m_pMenu(0), m_doc(UMLApp::app()->getDocument())
+/**
+ * Constructs the tree view.
+ *
+ * @param parent   The parent to this.
+ * @param name     The internal name for this class.
+ */
+UMLListView::UMLListView(QWidget *parent, const char *name)
+  : K3ListView(parent), m_pMenu(0), m_doc(UMLApp::app()->getDocument())
 {
+    Q_UNUSED(name);
     //setup list view
     setBackgroundColor(Qt::white);
     setAcceptDrops(true);
@@ -145,6 +151,9 @@ UMLListView::UMLListView(QWidget *parent, const char *)
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()), this, SLOT(slotCutSuccessful()));
 }
 
+/**
+ *  Standard destructor.
+ */
 UMLListView::~UMLListView()
 {
 }
@@ -224,7 +233,6 @@ void UMLListView::contentsMouseMoveEvent(QMouseEvent* me)
     QDrag* drag = new QDrag(this);
     drag->setMimeData(getDragData());
     drag->exec(Qt::CopyAction);
-
 }
 
 void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me)
@@ -269,7 +277,7 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
 }
 
 /**
- * Called when a right mouse button menu has an item selected
+ * Called when a right mouse button menu has an item selected.
  */
 void UMLListView::popupMenuSel(QAction* action)
 {
@@ -675,7 +683,7 @@ UMLListViewItem *UMLListView::findFolderForDiagram(Uml::Diagram_Type dt)
 }
 
 /**
- * Creates a new item to represent a new diagram
+ * Creates a new item to represent a new diagram.
  * @param id the id of the new diagram
  */
 void UMLListView::slotDiagramCreated(Uml::IDType id)
@@ -693,11 +701,11 @@ void UMLListView::slotDiagramCreated(Uml::IDType id)
 }
 
 /**
- * Determine the parent ListViewItem given a ListView_Type.
- * This parent is used for creating new UMLListViewItems.
+ * Determine the parent ListViewItem given an UMLObject.
  *
- * @param lvt       The ListView_Type for which to lookup the parent.
- * @return  Pointer to the parent UMLListViewItem chosen.
+ * @param object   Pointer to the UMLObject for which to look up the parent.
+ * @return    Pointer to the parent UMLListViewItem chosen.
+ *            Returns NULL on error (no parent could be determined.)
  */
 UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
 {
@@ -773,7 +781,7 @@ bool UMLListView::mayHaveChildItems(Uml::Object_Type type)
 }
 
 /**
- * Creates a new list view item and connects the appropriate signals/slots
+ * Creates a new list view item and connects the appropriate signals/slots.
  * @param object the newly created object
  */
 void UMLListView::slotObjectCreated(UMLObject* object)
@@ -789,7 +797,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     if (newItem) {
         uDebug() << newItem->getType();
         uDebug() << object->getName() << ", id= " << ID2STR(object->getID())
-        << ": item already exists.";
+            << ": item already exists.";
         Icon_Utils::Icon_Type icon = Model_Utils::convert_LVT_IT(newItem->getType());
         newItem->setIcon(icon);
         return;
@@ -825,7 +833,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
 }
 
 /**
- * connect some signals into slots in the list view for newly created UMLObjects
+ * Connect some signals into slots in the list view for newly created UMLObjects.
  */
 void UMLListView::connectNewObjectsSlots(UMLObject* object)
 {
@@ -901,8 +909,8 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
 }
 
 /**
- * calls updateObject() on the item representing the sending object
- * no parameters, uses sender() to work out which object called the slot
+ * Calls updateObject() on the item representing the sending object
+ * no parameters, uses sender() to work out which object called the slot.
  */
 void UMLListView::slotObjectChanged()
 {
@@ -917,7 +925,7 @@ void UMLListView::slotObjectChanged()
 }
 
 /**
- * Adds a new operation, attribute or template item to a classifier
+ * Adds a new operation, attribute or template item to a classifier.
  * @param obj the child object
  */
 void UMLListView::childObjectAdded(UMLClassifierListItem* obj)
@@ -927,8 +935,10 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* obj)
 }
 
 /**
- * Adds a new operation, attribute or template item to a classifier
- * @param obj the child object
+ * Adds a new operation, attribute or template item to a classifier, identical to
+ * childObjectAdded(obj) but with an explicit parent.
+ * @param child the child object
+ * @param parent the parent object
  */
 void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent)
 {
@@ -960,7 +970,7 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* 
 }
 
 /**
- * deletes the list view item
+ * Deletes the list view item.
  * @param obj the object to remove
  */
 void UMLListView::childObjectRemoved(UMLClassifierListItem* obj)
@@ -975,7 +985,7 @@ void UMLListView::childObjectRemoved(UMLClassifierListItem* obj)
 }
 
 /**
- * renames a diagram in the list view
+ * Renames a diagram in the list view
  * @param id    the id of the renamed diagram
  */
 void UMLListView::slotDiagramRenamed(Uml::IDType id)
@@ -1010,7 +1020,7 @@ void UMLListView::setDocument(UMLDoc *doc)
 }
 
 /**
- * disconnects signals and removes the list view item
+ * Disconnects signals and removes the list view item.
  * @param object the object about to be removed
  */
 void UMLListView::slotObjectRemoved(UMLObject* object)
@@ -1025,7 +1035,7 @@ void UMLListView::slotObjectRemoved(UMLObject* object)
 }
 
 /**
- * removes the item representing a diagram
+ * Removes the item representing a diagram.
  * @param id the id of the diagram
  */
 void UMLListView::slotDiagramRemoved(Uml::IDType id)
@@ -1057,8 +1067,8 @@ UMLDragData* UMLListView::getDragData()
 
 /**
  * This methods looks for a object in a folder an its subfolders recursive.
- * @param item The folder entry of the list view.
- * @param o The object to be found in the folder.
+ * @param folder   The folder entry of the list view.
+ * @param obj      The object to be found in the folder.
  * @return The object if found else a NULL pointer.
  */
 UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UMLObject* obj)
@@ -1129,7 +1139,7 @@ void UMLListView::changeIconOf(UMLObject *o, Icon_Utils::Icon_Type to)
 }
 
 /**
- * Searches through the tree for the item which represents the diagram given
+ * Searches through the tree for the item which represents the diagram given.
  * @param v  the diagram to search for
  * @return the item which represents the diagram
  */
@@ -1207,15 +1217,11 @@ UMLListViewItem* UMLListView::findItem(Uml::IDType id)
     return 0;
 }
 
-
-//
-// This method is called more than once during an instance's lifetime (by UMLDoc)!
-// So we must not allocate any memory before freeing the previously allocated one
-// or do connect()s.
-//
-
 /**
  * Carries out initalisation of attributes in class.
+ * This method is called more than once during an instance's lifetime (by UMLDoc)!
+ * So we must not allocate any memory before freeing the previously allocated one
+ * or do connect()s.
  */
 void UMLListView::init()
 {
@@ -1315,7 +1321,6 @@ void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me)
         object->showProperties(page);
     item->cancelRename(0);  //double click can cause it to go into rename mode.
 }
-
 
 bool UMLListView::acceptDrag(QDropEvent* event) const
 {
@@ -1745,8 +1750,12 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
     return newItem;
 }
 
-void UMLListView::slotDropped(QDropEvent* de, Q3ListViewItem* /* parent */, Q3ListViewItem* item)
+/**
+ * Something has been dragged and dropped onto the list view.
+ */
+void UMLListView::slotDropped(QDropEvent* de, Q3ListViewItem* parent, Q3ListViewItem* item)
 {
+    Q_UNUSED(parent);
     item = (UMLListViewItem *)currentItem();
     if (!item) {
         uDebug() << "item is 0 - doing nothing";
@@ -1842,9 +1851,12 @@ UMLListViewItem* UMLListView::createDiagramItem(UMLView *view)
     return item;
 }
 
-/** Creates a new UMLListViewItem from a UMLListViewItem,
-    if parent is 0 the ListView Decides who is going to be
-    the parent */
+/**
+ * CHECK - This is perhaps redundant since the
+ *         UMLListViewItemData => UMLListViewItem merge.
+ * Creates a new UMLListViewItem from a UMLListViewItem, if
+ * parent is null the ListView Decides who is going to be the parent.
+ */
 UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDChanges,
         UMLListViewItem* parent /*= 0*/)
 {
@@ -1938,7 +1950,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
  * Determine the parent ListViewItem given a ListView_Type.
  * This parent is used for creating new UMLListViewItems.
  *
- * @param lvt       The ListView_Type for which to lookup the parent.
+ * @param lvt   The ListView_Type for which to lookup the parent.
  * @return  Pointer to the parent UMLListViewItem chosen.
  */
 UMLListViewItem* UMLListView::determineParentItem(Uml::ListView_Type lvt) const
@@ -1991,6 +2003,14 @@ int UMLListView::getSelectedCount()
     }
 
     return count;
+}
+
+/**
+ * Returns the document pointer. Called by the UMLListViewItem class.
+ */
+UMLDoc * UMLListView::getDocument() const
+{
+    return m_doc;
 }
 
 void UMLListView::focusOutEvent(QFocusEvent * fe)
@@ -2054,7 +2074,7 @@ bool UMLListView::isExpandable(Uml::ListView_Type lvt)
 }
 
 /**
- * calls updateFolder() on the item to update the icon to open
+ * Calls updateFolder() on the item to update the icon to open.
  */
 void UMLListView::slotExpanded(Q3ListViewItem * item)
 {
@@ -2064,7 +2084,7 @@ void UMLListView::slotExpanded(Q3ListViewItem * item)
 }
 
 /**
- * calls updateFolder() on the item to update the icon to closed
+ * Calls updateFolder() on the item to update the icon to closed.
  */
 void UMLListView::slotCollapsed(Q3ListViewItem * item)
 {
@@ -2136,8 +2156,12 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type typ
     // is called (automatically by QListViewItem.)
 }
 
-bool UMLListView::itemRenamed(Q3ListViewItem * item , int /*col*/)
+/**
+ * Called for informing the list view that an item was renamed.
+ */
+bool UMLListView::itemRenamed(Q3ListViewItem * item , int col)
 {
+    Q_UNUSED(col);
     //if true the item was cancel before this message
     if (m_bIgnoreCancelRename) {
         return true;
@@ -2908,7 +2932,9 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
     return true;
 }
 
-/** Open all items in the list view*/
+/**
+ * Open all items in the list view.
+ */
 void UMLListView::expandAll(Q3ListViewItem *item)
 {
     if (!item) item = firstChild();
@@ -2917,7 +2943,10 @@ void UMLListView::expandAll(Q3ListViewItem *item)
         item->setOpen(true);
     }
 }
-/** Close all items in the list view*/
+
+/**
+ * Close all items in the list view.
+ */
 void UMLListView::collapseAll(Q3ListViewItem *item)
 {
     if (!item) item = firstChild();
@@ -2929,7 +2958,7 @@ void UMLListView::collapseAll(Q3ListViewItem *item)
 /**
  * Set the variable m_bStartedCut
  * to indicate that selection should be deleted
- * in slotCutSuccessful()
+ * in slotCutSuccessful().
  */
 void UMLListView::setStartedCut(bool startedCut)
 {

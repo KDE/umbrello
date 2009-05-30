@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,7 +30,8 @@
  * @author Florence Mattler <florence.mattler@libertysurf.fr>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class ObjectNodeWidget : public UMLWidget {
+class ObjectNodeWidget : public UMLWidget
+{
     Q_OBJECT
 
 public:
@@ -66,14 +66,14 @@ public:
     /**
      * Returns the type of object node.
      */
-    ObjectNodeType getObjectNodeType() const;
-    ObjectNodeType getObjectNodeType(const QString& objectNodeType) const;
+    ObjectNodeType objectNodeType() const;
+    ObjectNodeType objectNodeType(const QString& type) const;
 
     /**
      * Sets the type of object node.
      */
     void setObjectNodeType( ObjectNodeType objectNodeType );
-    void setObjectNodeType( const QString& objectNodeType ) ;
+    void setObjectNodeType( const QString& type ) ;
 
      /**
      * Sets the state of an object node when it's an objectflow.
@@ -83,7 +83,7 @@ public:
     /**
      * Returns the state of object node.
      */
-    QString getState();
+    QString state();
 
     /**
      * Show a properties dialog for an ObjectNodeWidget.
@@ -125,11 +125,9 @@ protected:
     ObjectNodeType m_ObjectNodeType;
 
     /**
-    * State of the object node when it's an objectFlow
-    */
+     * State of the object node when it's an objectFlow
+     */
     QString m_State;
-
-
 
 public slots:
 

@@ -11,13 +11,14 @@
 #ifndef WIDGETBASE_H
 #define WIDGETBASE_H
 
-#include <qobject.h>
-#include <qcolor.h>
-#include <qdom.h>
-
 #include "umlnamespace.h"
 
+#include <QtCore/QObject>
+#include <qcolor.h>
+#include <QtXml/QDomDocument>
+
 // forward declarations
+class UMLDoc;
 class UMLView;
 class UMLObject;
 
@@ -26,20 +27,13 @@ class UMLObject;
  * @author      Oliver Kellogg <okellogg@users.sourceforge.net>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class WidgetBase : public QObject {
+class WidgetBase : public QObject
+{
     Q_OBJECT
 public:
-    /**
-     * Creates a WidgetBase object.
-     *
-     * @param view      The view to be displayed on.
-     */
-    WidgetBase(UMLView * view);
 
-    /**
-     * Standard deconstructor
-     */
-    virtual ~WidgetBase() {}
+    explicit WidgetBase(UMLView * view);
+    virtual ~WidgetBase();
 
     /**
      * Write property of m_Type.
@@ -58,11 +52,8 @@ public:
      */
     UMLObject* umlObject() const;
 
-    /**
-     * Deliver a const pointer to the connected UMLView
-     * ( needed esp. by event handling of LinePath )
-     */
-    const UMLView *umlScene() const { return m_pView; }
+    UMLView* umlScene() const;
+    UMLDoc* umlDoc() const;
 
     /**
      * Sets the @ref UMLObject to represent.

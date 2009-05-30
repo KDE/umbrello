@@ -1629,7 +1629,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         // are pristine in the sense that we may freely change their local IDs.
         objWidgetA -> setLocalID(newWAID);
         objWidgetB -> setLocalID(newWBID);
-        FloatingTextWidget *ft = pMessage->getFloatingTextWidget();
+        FloatingTextWidget *ft = pMessage->floatingTextWidget();
         if (ft == NULL)
             uDebug() << "FloatingTextWidget of Message is NULL";
         else if (ft->id() == Uml::id_None)
@@ -2611,7 +2611,7 @@ void UMLView::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_FloatText: {
         FloatingTextWidget* ft = new FloatingTextWidget(this);
-        ft->changeTextDlg();
+        ft->showChangeTextDialog();
         //if no text entered delete
         if (!FloatingTextWidget::isTextValid(ft->text())) {
             delete ft;
@@ -3390,7 +3390,7 @@ bool UMLView::loadMessagesFromXMI(QDomElement & qElement)
                 return false;
             }
             m_MessageList.append(message);
-            FloatingTextWidget *ft = message->getFloatingTextWidget();
+            FloatingTextWidget *ft = message->floatingTextWidget();
             if (ft)
                 m_WidgetList.append(ft);
             else if (message->getSequenceMessageType() != sequence_message_creation)

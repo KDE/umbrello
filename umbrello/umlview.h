@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -78,6 +77,16 @@ public:
      * Destructor
      */
     virtual ~UMLView();
+
+    /**
+     * Hack for reducing the difference
+     * between the new QGraphicsScreen port.
+     * TODO: Check if we should pass an UMLScene instead of an UMLView
+     *       at places where we see "view->umlScene()->doSomething()".
+     */
+    UMLView* umlScene() {
+        return this;
+    }
 
     // Accessors and other methods dealing with loaded/saved data
 

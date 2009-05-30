@@ -1,16 +1,16 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2006                                               *
+ *   copyright (C) 2005-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "forkjoinwidget.h"
+
 //qt includes
 #include <qdom.h>
 //kde includes
@@ -20,20 +20,40 @@
 #include "umlview.h"
 #include "listpopupmenu.h"
 
+/**
+ * Constructs a ForkJoinWidget.
+ *
+ * @param view          The parent to this widget.
+ * @param drawVertical  Whether to draw the plate horizontally or vertically.
+ * @param id            The ID to assign (-1 will prompt a new ID.)
+ */
 ForkJoinWidget::ForkJoinWidget(UMLView * view, bool drawVertical, Uml::IDType id)
-  : BoxWidget(view, id), m_drawVertical(drawVertical) {
+  : BoxWidget(view, id), m_drawVertical(drawVertical)
+{
     init();
 }
 
-void ForkJoinWidget::init() {
+/**
+ * Initializes key variables for the class.
+ */
+void ForkJoinWidget::init()
+{
     WidgetBase::setBaseType( Uml::wt_ForkJoin );
     UMLWidget::updateComponentSize();
 }
 
-ForkJoinWidget::~ForkJoinWidget() {
+/**
+ * Destructor.
+ */
+ForkJoinWidget::~ForkJoinWidget()
+{
 }
 
-QSize ForkJoinWidget::calculateSize() {
+/**
+ * Overrides the function from UMLWidget.
+ */
+QSize ForkJoinWidget::calculateSize()
+{
     if (m_drawVertical) {
         return QSize(4, 40);
     } else {
@@ -41,7 +61,11 @@ QSize ForkJoinWidget::calculateSize() {
     }
 }
 
-void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY) {
+/**
+ * Draws a slim solid black rectangle.
+ */
+void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY)
+{
     p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::black ));
 
     if (m_bSelected) {
@@ -49,10 +73,20 @@ void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY) {
     }
 }
 
-void ForkJoinWidget::drawSelected(QPainter *, int /*offsetX*/, int /*offsetY*/) {
+/**
+ * Reimplement method from UMLWidget to suppress the resize corner.
+ * Although the ForkJoinWidget supports resizing, we suppress the
+ * resize corner because it is too large for this very slim widget.
+ */
+void ForkJoinWidget::drawSelected(QPainter *, int /*offsetX*/, int /*offsetY*/)
+{
 }
 
-void ForkJoinWidget::constrain(int& width, int& height) {
+/**
+ * Reimplement method from UMLWidget.
+ */
+void ForkJoinWidget::constrain(int& width, int& height)
+{
     if (m_drawVertical) {
         if (width < 4)
             width = 4;
@@ -74,7 +108,13 @@ void ForkJoinWidget::constrain(int& width, int& height) {
     }
 }
 
-void ForkJoinWidget::slotMenuSelection(QAction* action) {
+/**
+ * Overrides the function from UMLWidget.
+ *
+ * @param action  The action to be executed.
+ */
+void ForkJoinWidget::slotMenuSelection(QAction* action)
+{
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch (sel) {
     case ListPopupMenu::mt_Flip:
@@ -95,14 +135,22 @@ bool ForkJoinWidget::getDrawVertical() const {
     return m_drawVertical;
 }
 
-void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+/**
+ * Saves the widget to the "forkjoinwidget" XMI element.
+ */
+void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     QDomElement fjElement = qDoc.createElement("forkjoin");
     UMLWidget::saveToXMI(qDoc, fjElement);
     fjElement.setAttribute("drawvertical", m_drawVertical);
     qElement.appendChild(fjElement);
 }
 
-bool ForkJoinWidget::loadFromXMI(QDomElement& qElement) {
+/**
+ * Loads the widget from the "forkjoinwidget" XMI element.
+ */
+bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
+{
     if ( !UMLWidget::loadFromXMI(qElement) ) {
         return false;
     }

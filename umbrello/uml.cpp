@@ -1249,7 +1249,7 @@ void UMLApp::slotEditCut()
     slotStatusMsg(i18n("Cutting selection..."));
     //FIXME bug 59774 this fromview isn't very reliable.
     //when cutting diagrams it is set to true even though it shouldn't be
-    bool fromview = (getCurrentView() && getCurrentView()->getSelectCount());
+    bool fromview = (getCurrentView() && getCurrentView()->umlScene()->getSelectCount());
     if ( editCutCopy(fromview) ) {
         emit sigCutSuccessful();
         slotDeleteSelectedWidget();

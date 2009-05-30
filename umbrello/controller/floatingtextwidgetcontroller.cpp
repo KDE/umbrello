@@ -94,11 +94,11 @@ bool FloatingTextWidgetController::isInResizeArea(QMouseEvent* me)
  */
 void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY)
 {
-    if (m_floatingTextWidget->m_textRole == Uml::tr_Seq_Message_Self)
+    if (m_floatingTextWidget->textRole() == Uml::tr_Seq_Message_Self)
         return;
 
-    if (m_floatingTextWidget->m_textRole == Uml::tr_Seq_Message
-                    && ((MessageWidget*)m_floatingTextWidget->m_linkWidget)->getSelected()) {
+    if (m_floatingTextWidget->textRole() == Uml::tr_Seq_Message
+                    && ((MessageWidget*)m_floatingTextWidget->link())->getSelected()) {
         return;
     }
 
@@ -132,10 +132,10 @@ void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY)
     m_floatingTextWidget->setX(newX);
     m_floatingTextWidget->setY(newY);
 
-    if (m_floatingTextWidget->m_linkWidget) {
-        m_floatingTextWidget->m_linkWidget->calculateNameTextSegment();
-        if (m_floatingTextWidget->m_textRole == Uml::tr_Seq_Message) {
-            MessageWidget* messageWidget = (MessageWidget*)m_floatingTextWidget->m_linkWidget;
+    if (m_floatingTextWidget->link()) {
+        m_floatingTextWidget->link()->calculateNameTextSegment();
+        if (m_floatingTextWidget->textRole() == Uml::tr_Seq_Message) {
+            MessageWidget* messageWidget = (MessageWidget*)m_floatingTextWidget->link();
             messageWidget->setY(newY + m_floatingTextWidget->getHeight());
 
             //TODO This should be moved to somewhere in MessageWidget, refactor with messagewidgetcontroller.cpp:44
@@ -182,10 +182,10 @@ QPoint FloatingTextWidgetController::constrainPosition(int diffX, int diffY)
     int newX = m_floatingTextWidget->getX() + diffX;
     int newY = m_floatingTextWidget->getY() + diffY;
 
-    if (m_floatingTextWidget->m_linkWidget) {
-        m_floatingTextWidget->m_linkWidget->constrainTextPos(newX, newY,
+    if (m_floatingTextWidget->link()) {
+        m_floatingTextWidget->link()->constrainTextPos(newX, newY,
                     m_floatingTextWidget->width(), m_floatingTextWidget->height(),
-                    m_floatingTextWidget->m_textRole);
+                    m_floatingTextWidget->textRole());
     }
 
     return QPoint(newX, newY);

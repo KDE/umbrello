@@ -111,7 +111,7 @@ protected:
     void loadFromDocument();
 
     // specialized popup menu for our tool
-    Q3PopupMenu * createPopupMenu(const QPoint & pos);
+    Q3PopupMenu * createPopupMenuAt(const QPoint & pos);
     KMenu * createPopup();
 
 //    virtual void mousePressEvent(QMouseEvent * event);
@@ -138,7 +138,7 @@ private:
     TextBlockList m_textBlockList;
 
     // main insert routine. Will append if startline is not supplied.
-    void insert (const QString & text, TextBlock * parent, bool isEditable = false,
+    void insertText (const QString & text, TextBlock * parent, bool isEditable = false,
                  const QColor & fgcolor = QColor("black"), const QColor & bgcolor = QColor("white"),
                  UMLObject * umlobj = 0, const QString & displayName = "", int startLine = -1);
 

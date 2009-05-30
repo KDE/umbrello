@@ -23,12 +23,21 @@
 #include "umlview.h"
 #include "umlwidget.h"
 
+/**
+ * Destroys this ToolBarState.
+ * Frees m_pMouseEvent.
+ */
 ToolBarState::~ToolBarState()
 {
     delete m_pMouseEvent;
 }
 
-void ToolBarState::init() {
+/**
+ * Goes back to the initial state.
+ * Subclasses can extend, but not override, this method as needed.
+ */
+void ToolBarState::init()
+{
     m_pUMLView->viewport()->setMouseTracking(false);
     m_pMouseEvent = 0;
     m_currentWidget = 0;
@@ -40,14 +49,32 @@ void ToolBarState::init() {
             this, SLOT(slotWidgetRemoved(UMLWidget*)));
 }
 
-void ToolBarState::cleanBeforeChange() {
+/**
+ * Called when the current tool is changed to use another tool.
+ * Subclasses can extend, but not override, this method as needed.
+ * Default implementation does nothing.
+ */
+void ToolBarState::cleanBeforeChange()
+{
     disconnect(m_pUMLView, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
                this, SLOT(slotAssociationRemoved(AssociationWidget*)));
     disconnect(m_pUMLView, SIGNAL(sigWidgetRemoved(UMLWidget*)),
                this, SLOT(slotWidgetRemoved(UMLWidget*)));
 }
 
-void ToolBarState::mousePress(QMouseEvent* ome) {
+/**
+ * Handler for mouse press events.
+ * Mouse tracking is enabled, any pop up menu removed, the position of the
+ * cursor set and paste state disabled.
+ * Then, the current association or widget are set (if any), and events are
+ * delivered to the specific methods, depending on where the cursor was
+ * pressed.
+ *
+ * @param ome The received event.
+ * @see setCurrentElement()
+ */
+void ToolBarState::mousePress(QMouseEvent* ome)
+{
     setMouseEvent(ome, QEvent::MouseButtonPress);
 
     m_pUMLView->viewport()->setMouseTracking(true);
@@ -73,7 +100,17 @@ void ToolBarState::mousePress(QMouseEvent* ome) {
     }
 }
 
-void ToolBarState::mouseRelease(QMouseEvent* ome) {
+/**
+ * Handler for mouse release events.
+ * Mouse tracking is disabled and the position of the cursor set.
+ * The events are delivered to the specific methods, depending on where the
+ * cursor was released, and the current association or widget cleaned.
+ * Finally, the current tool is changed if needed.
+ *
+ * @param ome The received event.
+ */
+void ToolBarState::mouseRelease(QMouseEvent* ome)
+{
     setMouseEvent(ome, QEvent::MouseButtonRelease);
 
     // Set the position of the mouse
@@ -97,7 +134,16 @@ void ToolBarState::mouseRelease(QMouseEvent* ome) {
     changeTool();
 }
 
-void ToolBarState::mouseDoubleClick(QMouseEvent* ome) {
+/**
+ * Handler for mouse double click events.
+ * The current association or widget is set (if any), and events are
+ * delivered to the specific methods, depending on where the cursor was pressed.
+ * After delivering the events, the current association or widget is cleaned.
+ *
+ * @param ome The received event.
+ */
+void ToolBarState::mouseDoubleClick(QMouseEvent* ome)
+{
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
     UMLWidget* currentWidget = m_pUMLView->getWidgetAt(m_pMouseEvent->pos());
@@ -115,7 +161,21 @@ void ToolBarState::mouseDoubleClick(QMouseEvent* ome) {
     }
 }
 
-void ToolBarState::mouseMove(QMouseEvent* ome) {
+/**
+ * Handler for mouse double click events.
+ * Events are delivered to the specific methods, depending on where the cursor
+ * was pressed. It uses the current widget or association set in press event,
+ * if any.
+ * Then, the view is scrolled if needed (if the cursor is moved in any of the
+ * 30 pixels width area from left, top, right or bottom sides, and there is
+ * more diagram currently not being shown in that direction).
+ * This method is only called when mouse tracking is enabled and the mouse
+ * is moved.
+ *
+ * @param ome The received event.
+ */
+void ToolBarState::mouseMove(QMouseEvent* ome)
+{
     setMouseEvent(ome, QEvent::MouseMove);
 
     if (getCurrentWidget()) {
@@ -143,7 +203,14 @@ void ToolBarState::mouseMove(QMouseEvent* ome) {
     if (dtt < 30) m_pUMLView->scrollBy(0,-(30-dtt));
 }
 
-void ToolBarState::slotAssociationRemoved(AssociationWidget* association) {
+/**
+ * An association was removed from the UMLView.
+ * If the association removed was the current association, the current
+ * association is set to 0.
+ * It can be extended in subclasses if needed.
+ */
+void ToolBarState::slotAssociationRemoved(AssociationWidget* association)
+{
     if (association == getCurrentAssociation()) {
         setCurrentAssociation(0);
     }
@@ -162,7 +229,17 @@ void ToolBarState::slotWidgetRemoved(UMLWidget* widget)
     }
 }
 
-ToolBarState::ToolBarState(UMLView *umlView) : QObject(umlView), m_pUMLView(umlView) {
+/**
+ * Creates a new ToolBarState.
+ * UMLView is set as parent of this QObject, and name is left empty.
+ * Protected to avoid classes other than derived to create objects of this
+ * class.
+ *
+ * @param umlView The UMLView to use.
+ */
+ToolBarState::ToolBarState(UMLView *umlView)
+  : QObject(umlView), m_pUMLView(umlView)
+{
     m_pMouseEvent = NULL;
     init();
 }
@@ -199,7 +276,6 @@ void ToolBarState::setCurrentElement()
         return;
     }
 
-
     ObjectWidget* objectWidgetLine = m_pUMLView->onWidgetDestructionBox(m_pMouseEvent->pos());
     if (objectWidgetLine) {
         setCurrentWidget(objectWidgetLine);
@@ -230,7 +306,12 @@ void ToolBarState::mousePressWidget()
 {
 }
 
-void ToolBarState::mousePressEmpty() {
+/**
+ * Called when the press event happened on an empty space.
+ * Default implementation cleans the selection.
+ */
+void ToolBarState::mousePressEmpty()
+{
     m_pUMLView->clearSelected();
 }
 
@@ -274,7 +355,12 @@ void ToolBarState::mouseDoubleClickWidget()
 {
 }
 
-void ToolBarState::mouseDoubleClickEmpty() {
+/**
+ * Called when the double click event happened on an empty space.
+ * Default implementation cleans the selection.
+ */
+void ToolBarState::mouseDoubleClickEmpty()
+{
     m_pUMLView->clearSelected();
 }
 
@@ -305,20 +391,92 @@ void ToolBarState::mouseMoveEmpty()
 {
 }
 
-void ToolBarState::changeTool() {
+/**
+ * Changes the current tool to the default one if the right button was released.
+ * It can be overridden in subclasses if needed.
+ */
+void ToolBarState::changeTool()
+{
     if (m_pMouseEvent->buttons() == Qt::RightButton) {
         UMLApp::app()->getWorkToolBar()->setDefaultTool();
     }
 }
 
-void ToolBarState::setMouseEvent(QMouseEvent* ome, const QEvent::Type &type) {
-    if (m_pMouseEvent) delete m_pMouseEvent;
+/**
+ * Returns the widget currently in use.
+ *
+ * @return The widget currently in use.
+ */
+UMLWidget* ToolBarState::getCurrentWidget() const
+{
+    return m_currentWidget;
+}
+
+/**
+ * Sets the widget currently in use.
+ * This method is called in main press events handler just before calling
+ * the press event for widgets handler.
+ * Default implementation is set the specified widget, although this
+ * behaviour can be overridden in subclasses if needed.
+ *
+ * @param currentWidget The widget to be set.
+ */
+void ToolBarState::setCurrentWidget(UMLWidget* currentWidget)
+{
+    m_currentWidget = currentWidget;
+}
+
+/**
+ * Returns the association currently in use.
+ *
+ * @return The association currently in use.
+ */
+AssociationWidget* ToolBarState::getCurrentAssociation() const
+{
+    return m_currentAssociation;
+}
+
+/**
+ * Sets the association currently in use.
+ * This method is called in main press events handler just before calling
+ * the press event for associations handler.
+ * Default implementation is set the specified association, although this
+ * behaviour can be overridden in subclasses if needed.
+ *
+ * @param currentAssociation The association to be set.
+ */
+void ToolBarState::setCurrentAssociation(AssociationWidget* currentAssociation)
+{
+    m_currentAssociation = currentAssociation;
+}
+
+/**
+ * Sets m_pMouseEvent as the equivalent of the received event after transforming it
+ * using the inverse world matrix in the UMLView.
+ * This method is called at the beginning of the main event handler methods.
+ *
+ * @param ome The mouse event to transform.
+ * @param type The type of the event.
+ */
+void ToolBarState::setMouseEvent(QMouseEvent* ome, const QEvent::Type &type)
+{
+    delete m_pMouseEvent;
 
     m_pMouseEvent = new QMouseEvent(type, m_pUMLView->inverseWorldMatrix().map(ome->pos()),
                                     ome->button(),ome->buttons(),ome->modifiers());
 }
 
-MessageWidget* ToolBarState::getMessageAt(const QPoint& pos) {
+/**
+ * Returns the MessageWidget at the specified position, or null if there is none.
+ * The message is only returned if it is visible.
+ * If there are more than one message at this point, it returns the first found.
+ *
+ * @param pos The position to get the message.
+ * @return The MessageWidget at the specified position, or null if there is none.
+ * @todo Better handling for messages at the same point
+ */
+MessageWidget* ToolBarState::getMessageAt(const QPoint& pos)
+{
     foreach (  MessageWidget* message, m_pUMLView->getMessageList() ) {
         if (message->isVisible() && message->onWidget(pos)) {
             return message;
@@ -328,8 +486,16 @@ MessageWidget* ToolBarState::getMessageAt(const QPoint& pos) {
     return 0;
 }
 
-AssociationWidget* ToolBarState::getAssociationAt(const QPoint& pos) {
-
+/**
+ * Returns the AssociationWidget at the specified position, or null if there is none.
+ * If there are more than one association at this point, it returns the first found.
+ *
+ * @param pos The position to get the association.
+ * @return The AssociationWidget at the specified position, or null if there is none.
+ * @todo Better handling for associations at the same point
+ */
+AssociationWidget* ToolBarState::getAssociationAt(const QPoint& pos)
+{
     foreach ( AssociationWidget* association, m_pUMLView->getAssociationList() ) {
         if (association->onAssociation(pos)) {
             return association;
@@ -339,7 +505,15 @@ AssociationWidget* ToolBarState::getAssociationAt(const QPoint& pos) {
     return 0;
 }
 
-FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPoint& pos) {
+/**
+ * Returns the FloatingDashLineWidget at the specified position, or null if there is none.
+ * The floatingdashline is only returned if it is visible.
+ *
+ * @param pos The position to get the floatingLine.
+ * @return The MessageWidget at the specified position, or null if there is none.
+ */
+FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPoint& pos)
+{
     FloatingDashLineWidget* floatingline = 0;
 
     foreach ( UMLWidget* widget, m_pUMLView->getWidgetList() ) {

@@ -74,9 +74,8 @@ void ObjectNodeDialog::slotShowState()
     m_GenPageWidgets.stateL->show();
     m_GenPageWidgets.stateLE->show();
 
-    if (m_pObjectNodeWidget->getState() != NULL)
-    {
-        m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->getState());
+    if (m_pObjectNodeWidget->state() != NULL) {
+        m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->state());
     }
 }
 
@@ -135,7 +134,7 @@ void ObjectNodeDialog::setupGeneralPage()
 {
     QStringList types;
     types << i18n("Central Buffer") << i18n("Data Store") << i18n("ObjectFlow");
-    ObjectNodeWidget::ObjectNodeType type = m_pObjectNodeWidget->getObjectNodeType();
+    ObjectNodeWidget::ObjectNodeType type = m_pObjectNodeWidget->objectNodeType();
 
     KVBox *page = new KVBox();
     pageItemGeneral = new KPageWidgetItem( page, i18n("General") );
@@ -189,7 +188,7 @@ void ObjectNodeDialog::setupGeneralPage()
     connect(m_GenPageWidgets.dataRB,SIGNAL(clicked()),this,SLOT(slotHideState()));
     connect(m_GenPageWidgets.flowRB,SIGNAL(clicked()),this,SLOT(slotShowState()));
 
-    ObjectNodeWidget::ObjectNodeType newType = m_pObjectNodeWidget->getObjectNodeType() ;
+    ObjectNodeWidget::ObjectNodeType newType = m_pObjectNodeWidget->objectNodeType() ;
 
     m_GenPageWidgets.bufferRB->setChecked(newType == ObjectNodeWidget::Buffer);
     m_GenPageWidgets.dataRB->setChecked (newType == ObjectNodeWidget::Data);
@@ -234,9 +233,8 @@ void ObjectNodeDialog::showState()
     m_GenPageWidgets.stateL->show();
     m_GenPageWidgets.stateLE->show();
 
-    if (m_pObjectNodeWidget->getState() != NULL)
-    {
-        m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->getState());
+    if (m_pObjectNodeWidget->state() != NULL) {
+        m_GenPageWidgets.stateLE->setText(m_pObjectNodeWidget->state());
     }
 }
 

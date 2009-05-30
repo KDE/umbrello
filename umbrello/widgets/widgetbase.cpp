@@ -11,10 +11,17 @@
 #include "widgetbase.h"
 
 #include <kdebug.h>
+#include "uml.h"
+#include "umldoc.h"
 #include "umlview.h"
 #include "umlobject.h"
 #include "optionstate.h"
 
+/**
+ * Creates a WidgetBase object.
+ *
+ * @param view      The view to be displayed on.
+ */
 WidgetBase::WidgetBase(UMLView *view) : QObject(view)
 {
     init(view);
@@ -32,12 +39,19 @@ void WidgetBase::init(UMLView *view, Uml::Widget_Type type /* = Uml::wt_UMLWidge
         m_LineColour = optionState.uiState.lineColor;
         m_LineWidth  = optionState.uiState.lineWidth;
     } else {
-        uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_pView is NULL" << endl;
+        uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_pView is NULL";
         m_bUsesDiagramLineColour = false;
         m_bUsesDiagramLineWidth  = false;
         m_LineColour = QColor("black");
         m_LineWidth = 0; // initialize with 0 to have valid start condition
     }
+}
+
+/**
+ * Destructor.
+ */
+WidgetBase::~WidgetBase()
+{
 }
 
 void WidgetBase::setBaseType( Uml::Widget_Type type )
@@ -48,6 +62,25 @@ void WidgetBase::setBaseType( Uml::Widget_Type type )
 Uml::Widget_Type WidgetBase::baseType() const
 {
     return m_Type;
+}
+
+/**
+ * Deliver a pointer to the connected UMLView
+ * ( needed esp. by event handling of LinePath ).
+ */
+UMLView* WidgetBase::umlScene() const
+{
+    return m_pView;
+}
+
+/**
+ * This is shortcut method for UMLApp::app()->getDocument().
+ *
+ * @return Pointer to the UMLDoc object.
+ */
+UMLDoc* WidgetBase::umlDoc() const
+{
+    return UMLApp::app()->getDocument();
 }
 
 UMLObject* WidgetBase::umlObject() const

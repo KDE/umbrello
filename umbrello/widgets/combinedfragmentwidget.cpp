@@ -181,7 +181,8 @@ QSize CombinedFragmentWidget::calculateSize()
     return QSize(width, height);
 }
 
-CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType() const {
+CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::combinedFragmentType() const
+{
     return m_CombinedFragment;
 }
 
@@ -206,7 +207,7 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     }
 }
 
-CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombinedFragmentType(const QString& type) const
+CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::combinedFragmentType(const QString& type) const
 {
     if(type == "Reference")
         return (CombinedFragmentWidget::Ref);
@@ -233,12 +234,13 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::getCombined
 
 void CombinedFragmentWidget::setCombinedFragmentType( const QString& combinedfragmentType )
 {
-    setCombinedFragmentType(getCombinedFragmentType(combinedfragmentType) );
+    setCombinedFragmentType(combinedFragmentType(combinedfragmentType) );
 }
 
 void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
-    const QString& dialogPrompt, const QString& /*defaultName*/)
+    const QString& dialogPrompt, const QString& defaultName)
 {
+    Q_UNUSED(defaultName);
     bool pressedOK = false;
     const QStringList list = QStringList() << "Reference" << "Option" << "Break" << "Loop" << "Negative" << "Critical" << "Assertion" << "Alternative" << "Parallel" ;
     const QStringList select = QStringList() << "Reference" << "Option" << "Break" << "Loop" << "Negative" << "Critical" << "Assertion" << "Alternative" << "Parallel" ;

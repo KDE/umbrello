@@ -99,7 +99,7 @@ public:
     /**
      * Displays a dialog box to change the text.
      */
-    void changeTextDlg();
+    void showChangeTextDialog();
 
     /**
      * Set the LinkWidget that this FloatingTextWidget is related to.
@@ -175,7 +175,7 @@ public:
     /**
      * Shows an operation dialog box.
      */
-    void showOpDlg();
+    void showOperationDialog();
 
     /**
      * Show the properties for a FloatingTextWidget.

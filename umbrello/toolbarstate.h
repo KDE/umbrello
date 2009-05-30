@@ -1,21 +1,20 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef TOOLBARSTATE_H
 #define TOOLBARSTATE_H
 
-#include <qevent.h>
-#include <qobject.h>
+#include <QtCore/QEvent>
+#include <QtCore/QObject>
+#include <QtCore/QPoint>
 
-class QEvent;
 class QMouseEvent;
 
 class AssociationWidget;
@@ -23,7 +22,6 @@ class MessageWidget;
 class FloatingDashLineWidget;
 class UMLView;
 class UMLWidget;
-
 
 /**
  * Base class for toolbar states.
@@ -69,288 +67,61 @@ class UMLWidget;
  * @todo Handle, for example, left press, right press, left release, right
  *       release and other similar strange combinations?
  */
-class ToolBarState: public QObject {
+class ToolBarState: public QObject
+{
     Q_OBJECT
 public:
 
-    /**
-     * Destroys this ToolBarState.
-     * Frees m_pMouseEvent.
-     */
     virtual ~ToolBarState();
 
-    /**
-     * Goes back to the initial state.
-     * Subclasses can extend, but not override, this method as needed.
-     */
     virtual void init();
 
-    /**
-     * Called when the current tool is changed to use another tool.
-     * Subclasses can extend, but not override, this method as needed.
-     * Default implementation does nothing.
-     */
     virtual void cleanBeforeChange();
 
-    /**
-     * Handler for mouse press events.
-     * Mouse tracking is enabled, any pop up menu removed, the position of the
-     * cursor set and paste state disabled.
-     * Then, the current association or widget are set (if any), and events are
-     * delivered to the specific methods, depending on where the cursor was
-     * pressed.
-     *
-     * @param ome The received event.
-     * @see setCurrentElement()
-     */
     virtual void mousePress(QMouseEvent *ome);
-
-    /**
-     * Handler for mouse release events.
-     * Mouse tracking is disabled and the position of the cursor set.
-     * The events are delivered to the specific methods, depending on where the
-     * cursor was released, and the current association or widget cleaned.
-     * Finally, the current tool is changed if needed.
-     *
-     * @param ome The received event.
-     */
     virtual void mouseRelease(QMouseEvent* ome);
-
-    /**
-     * Handler for mouse double click events.
-     * The current association or widget is set (if any), and events are
-     * delivered to the specific methods, depending on where the cursor was pressed.
-     * After delivering the events, the current association or widget is cleaned.
-     *
-     * @param ome The received event.
-     */
     virtual void mouseDoubleClick(QMouseEvent* ome);
-
-    /**
-     * Handler for mouse double click events.
-     * Events are delivered to the specific methods, depending on where the cursor
-     * was pressed. It uses the current widget or association set in press event,
-     * if any.
-     * Then, the view is scrolled if needed (if the cursor is moved in any of the
-     * 30 pixels width area from left, top, right or bottom sides, and there is
-     * more diagram currently not being shown in that direction).
-     * This method is only called when mouse tracking is enabled and the mouse
-     * is moved.
-     *
-     * @param ome The received event.
-     */
     virtual void mouseMove(QMouseEvent* ome);
 
 public slots:
 
-    /**
-     * An association was removed from the UMLView.
-     * If the association removed was the current association, the current
-     * association is set to 0.
-     * It can be extended in subclasses if needed.
-     */
     virtual void slotAssociationRemoved(AssociationWidget* association);
-
-    /**
-     * A widget was removed from the UMLView.
-     * If the widget removed was the current widget, the current widget is set
-     * to 0.
-     * It can be extended in subclasses if needed.
-     */
     virtual void slotWidgetRemoved(UMLWidget* widget);
 
 protected:
 
-    /**
-     * Creates a new ToolBarState.
-     * UMLView is set as parent of this QObject, and name is left empty.
-     * Protected to avoid classes other than derived to create objects of this
-     * class.
-     *
-     * @param umlView The UMLView to use.
-     */
     ToolBarState(UMLView *umlView);
 
-    /**
-     * Sets the current association or widget.
-     * It sets the current element when a press event happened. The element will
-     * be used until the next release event.
-     * Default implementation first checks for associations, then message widgets
-     * and then any other widgets.
-     * It can be overridden in subclasses if needed.
-     */
     virtual void setCurrentElement();
 
-    /**
-     * Called when the press event happened on an association.
-     * Default implementation does nothing.
-     */
     virtual void mousePressAssociation();
-
-    /**
-     * Called when the press event happened on a widget.
-     * Default implementation does nothing.
-     */
     virtual void mousePressWidget();
-
-    /**
-     * Called when the press event happened on an empty space.
-     * Default implementation cleans the selection.
-     */
     virtual void mousePressEmpty();
-
-    /**
-     * Called when the release event happened on an association.
-     * Default implementation does nothing.
-     */
     virtual void mouseReleaseAssociation();
-
-    /**
-     * Called when the release event happened on a widget.
-     * Default implementation does nothing.
-     */
     virtual void mouseReleaseWidget();
-
-    /**
-     * Called when the release event happened on an empty space.
-     * Default implementation does nothing.
-     */
     virtual void mouseReleaseEmpty();
-
-    /**
-     * Called when the double click event happened on an association.
-     * Default implementation does nothing.
-     */
     virtual void mouseDoubleClickAssociation();
-
-    /**
-     * Called when the double click event happened on a widget.
-     * Default implementation does nothing.
-     */
     virtual void mouseDoubleClickWidget();
-
-    /**
-     * Called when the double click event happened on an empty space.
-     * Default implementation cleans the selection.
-     */
     virtual void mouseDoubleClickEmpty();
-
-    /**
-     * Called when the move event happened when an association is
-     * currently available.
-     * Default implementation does nothing.
-     */
     virtual void mouseMoveAssociation();
-
-    /**
-     * Called when the move event happened when a widget is
-     * currently available.
-     * Default implementation does nothing.
-     */
     virtual void mouseMoveWidget();
-
-    /**
-     * Called when the move event happened when no association nor
-     * widget are currently available.
-     * Default implementation does nothing.
-     */
     virtual void mouseMoveEmpty();
 
-    /**
-     * Changes the current tool to the default one if the right button was released.
-     * It can be overridden in subclasses if needed.
-     */
     virtual void changeTool();
 
-    /**
-     * Returns the widget currently in use.
-     *
-     * @return The widget currently in use.
-     */
-    virtual UMLWidget* getCurrentWidget() {
-        return m_currentWidget;
-    }
+    virtual UMLWidget* getCurrentWidget() const;
+    virtual void setCurrentWidget(UMLWidget* currentWidget);
 
-    /**
-     * Sets the widget currently in use.
-     * This method is called in main press events handler just before calling
-     * the press event for widgets handler.
-     * Default implementation is set the specified widget, although this
-     * behaviour can be overridden in subclasses if needed.
-     *
-     * @param currentWidget The widget to be set.
-     */
-    virtual void setCurrentWidget(UMLWidget* currentWidget) {
-        m_currentWidget = currentWidget;
-    }
+    virtual AssociationWidget* getCurrentAssociation() const;
+    virtual void setCurrentAssociation(AssociationWidget* currentAssociation);
 
-    /**
-     * Returns the association currently in use.
-     *
-     * @return The association currently in use.
-     */
-    virtual AssociationWidget* getCurrentAssociation() {
-        return m_currentAssociation;
-    }
-
-    /**
-     * Sets the association currently in use.
-     * This method is called in main press events handler just before calling
-     * the press event for associations handler.
-     * Default implementation is set the specified association, although this
-     * behaviour can be overridden in subclasses if needed.
-     *
-     * @param currentAssociation The association to be set.
-     */
-    virtual void setCurrentAssociation(AssociationWidget* currentAssociation) {
-        m_currentAssociation = currentAssociation;
-    }
-
-    /**
-     * Sets m_pMouseEvent as the equivalent of the received event after transforming it
-     * using the inverse world matrix in the UMLView.
-     * This method is called at the beginning of the main event handler methods.
-     *
-     * @param ome The mouse event to transform.
-     * @param type The type of the event.
-     */
     void setMouseEvent(QMouseEvent* ome, const QEvent::Type &type);
 
-    /**
-     * Returns the AssociationWidget at the specified position, or null if there is none.
-     * If there are more than one association at this point, it returns the first found.
-     *
-     * @param pos The position to get the association.
-     * @return The AssociationWidget at the specified position, or null if there is none.
-     * @todo Better handling for associations at the same point
-     */
     AssociationWidget* getAssociationAt(const QPoint& pos);
-
-    /**
-     * Returns the MessageWidget at the specified position, or null if there is none.
-     * The message is only returned if it is visible.
-     * If there are more than one message at this point, it returns the first found.
-     *
-     * @param pos The position to get the message.
-     * @return The MessageWidget at the specified position, or null if there is none.
-     * @todo Better handling for messages at the same point
-     */
     MessageWidget* getMessageAt(const QPoint& pos);
-
-    /**
-     * Returns the FloatingDashLineWidget at the specified position, or null if there is none.
-     * The floatingdashline is only returned if it is visible.
-     *
-     * @param pos The position to get the floatingLine.
-     * @return The MessageWidget at the specified position, or null if there is none.
-     */
     FloatingDashLineWidget* getFloatingLineAt(const QPoint& pos);
 
-
-    /**
-     * The UMLView.
-     */
-    UMLView* m_pUMLView;
+    UMLView* m_pUMLView;  ///< The UMLView.
 
     /**
      * The mouse event currently in use.
@@ -361,15 +132,8 @@ protected:
 
 private:
 
-    /**
-     * The widget currently in use, if any.
-     */
-    UMLWidget* m_currentWidget;
-
-    /**
-     * The association currently in use, if any.
-     */
-    AssociationWidget* m_currentAssociation;
+    UMLWidget*         m_currentWidget;       ///< The widget currently in use, if any.
+    AssociationWidget* m_currentAssociation;  ///< The association currently in use, if any.
 
 };
 
