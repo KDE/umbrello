@@ -29,25 +29,20 @@
 #include "umlviewimageexportermodel.h"
 #include "umbrellosettings.h"
 
-
 /**
  * Description for this application
  */
 static const char description[] =
     I18N_NOOP("Umbrello UML Modeller");
 
-
-/**
- * @todo Add options to use the documentation generators from command line.
- */
 /**
  * Determines if the application GUI should be shown based on command line arguments.
+ * @todo Add options to use the documentation generators from command line.
  *
  * @param args The command line arguments given.
  * @return True if the GUI should be shown, false otherwise.
  */
 bool getShowGUI(KCmdLineArgs *args);
-
 
 /**
  * Initializes the document used by the application.
@@ -58,7 +53,6 @@ bool getShowGUI(KCmdLineArgs *args);
  * @param args The command line arguments given.
  */
 void initDocument(KCmdLineArgs *args);
-
 
 /**
  * Export all the views in the document using the command line args set by the user.
@@ -104,8 +98,8 @@ int main(int argc, char *argv[])
         initDocument(args);
 
         if (args->isSet("export-formats")) {
-            foreach(QString type, UMLViewImageExporterModel::supportedImageTypes())
-                fprintf(stderr,"%s\n",qPrintable(type));
+            foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
+                fprintf(stderr, "%s\n", qPrintable(type));
             return 0;
         }
         // export option

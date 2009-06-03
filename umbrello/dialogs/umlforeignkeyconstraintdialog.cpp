@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2008                                                *
+ *  copyright (C) 2003-2009                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -35,7 +35,6 @@
 #include <kmessagebox.h>
 
 #include <QtGui/QLabel>
-#include <QtGui/QLayout>
 #include <QtGui/QGridLayout>
 #include <QtGui/QGroupBox>
 #include <QtGui/QVBoxLayout>
@@ -43,8 +42,10 @@
 #include <QtGui/QApplication>
 #include <QtGui/QTreeWidget>
 
+typedef QPair<UMLEntityAttribute*, UMLEntityAttribute*> EntityAttributePair;
+
 UMLForeignKeyConstraintDialog::UMLForeignKeyConstraintDialog(QWidget* parent, UMLForeignKeyConstraint* pForeignKeyConstraint)
-    : KPageDialog(parent)
+  : KPageDialog(parent)
 {
     setCaption(i18n("Foreign Key Setup"));
     setButtons(Help | Ok | Apply | Cancel);
@@ -94,8 +95,7 @@ void UMLForeignKeyConstraintDialog::slotAddPair()
     m_pReferencedAttributeList.removeAt(indexR);
 
     // add to local cache of mapping
-    QPair<UMLEntityAttribute*, UMLEntityAttribute*> pair =
-        qMakePair(localColumn, referencedColumn);
+    EntityAttributePair pair = qMakePair(localColumn, referencedColumn);
     m_pAttributeMapList.append(pair);
     // update mapping view
 
@@ -121,7 +121,7 @@ void UMLForeignKeyConstraintDialog::slotDeletePair()
     }
 
     //find pair in local cache
-    QPair<UMLEntityAttribute*, UMLEntityAttribute*> pair = m_pAttributeMapList.at(indexP);
+    EntityAttributePair pair = m_pAttributeMapList.at(indexP);
 
     // remove them from the view and the list
     m_ColumnWidgets.mappingTW->takeTopLevelItem(indexP);
@@ -136,8 +136,7 @@ void UMLForeignKeyConstraintDialog::slotDeletePair()
     m_ColumnWidgets.localColumnCB->addItem((pair.first)->toString(Uml::st_SigNoVis));
     m_ColumnWidgets.referencedColumnCB->addItem((pair.second)->toString(Uml::st_SigNoVis));
 
-    QPair<UMLEntityAttribute*, UMLEntityAttribute*> p;
-    foreach(p, m_pAttributeMapList) {
+    foreach(const EntityAttributePair& p, m_pAttributeMapList) {
         uDebug() << (p.first)->getName() << " " << (p.first)->getBaseType() << " "
                  << (p.second)->getName() << " " << (p.second)->getBaseType();
     }
@@ -175,8 +174,7 @@ bool UMLForeignKeyConstraintDialog::apply()
     m_pForeignKeyConstraint->clearMappings();
 
     // add all mappings  present in local cache
-    QPair<UMLEntityAttribute*, UMLEntityAttribute*> pair;
-    foreach(pair, m_pAttributeMapList) {
+    foreach(const EntityAttributePair& pair, m_pAttributeMapList) {
         if (!m_pForeignKeyConstraint->addEntityAttributePair(pair.first, pair.second)) {
             return false;
         }
