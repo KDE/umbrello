@@ -106,6 +106,8 @@ namespace New
 
         void setRoleName (const QString &strRole, Uml::Role_Type role);
 
+        Uml::Role_Type roleForWidget(UMLWidget *widget) const;
+
         UMLWidget* widgetForRole(Uml::Role_Type role) const;
         void setWidgetForRole(UMLWidget *widget, Uml::Role_Type role);
 

@@ -455,6 +455,18 @@ namespace New
         }
     }
 
+    Uml::Role_Type AssociationWidget::roleForWidget(UMLWidget *widget) const
+    {
+        if (m_widgetRole[Uml::A].umlWidget == widget) {
+            return Uml::A;
+        } else if (m_widgetRole[Uml::B].umlWidget == widget) {
+            return Uml::B;
+        } else {
+            Q_ASSERT_X(false, "roleForWidget()", "widget passed isn't pariticpant of association");
+        }
+        return Uml::A; // unreachable.
+    }
+
     UMLWidget* AssociationWidget::widgetForRole(Uml::Role_Type role) const
     {
         return m_widgetRole[role].umlWidget;
