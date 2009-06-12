@@ -23,6 +23,7 @@
 #include "classifierwidget.h"
 #include "folder.h"
 #include "model_utils.h"
+#include "newassociationwidget.h"
 #include "uml.h"
 #include "umlobject.h"
 #include "umlscene.h"
@@ -236,6 +237,9 @@ void ToolBarStateAssociation::setSecondWidget()
         valid = AssocRules::allowAssociation(type, widgetA, widgetB);
     }
     if (valid) {
+        New::AssociationWidget *newTemp = new New::AssociationWidget(widgetA, type, widgetB);
+        m_pUMLScene->addItem(newTemp);
+#if 0
         AssociationWidget *temp = new AssociationWidget(m_pUMLScene, widgetA, type, widgetB);
         addAssociationInViewAndDoc(temp);
         if (type == at_Containment) {
@@ -250,6 +254,7 @@ void ToolBarStateAssociation::setSecondWidget()
             }
         }
         UMLApp::app()->getDocument()->setModified();
+#endif
     } else {
         //TODO improve error feedback: tell the user what are the valid type of associations for
         //the second widget using the first widget

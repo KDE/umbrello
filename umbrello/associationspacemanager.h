@@ -21,6 +21,7 @@
 #define ASSOCIATIONSPACEMANAGER_H
 
 #include "umlnamespace.h"
+#include <QObject>
 #include <QPointF>
 
 class UMLWidget;
@@ -35,16 +36,19 @@ namespace New {
  * along the 8 sides around the UMLWidget, based on simple distance based algorithms.
  * The object of this class resides in a UMLWidget.
  */
-class AssociationSpaceManager
+class AssociationSpaceManager : public QObject
 {
+Q_OBJECT;
 public:
     AssociationSpaceManager(UMLWidget *widget);
 
     Uml::Region add(New::AssociationWidget *assoc, Uml::Region region = Uml::Error);
-    void remove(New::AssociationWidget *assoc);
+    Uml::Region remove(New::AssociationWidget *assoc);
 
     QPointF endPoint(New::AssociationWidget *assoc) const;
     QPointF penultimateEndPoint(New::AssociationWidget *assoc) const;
+
+    QPointF referenePoint(New::AssociationWidget *assoc) const;
 
     Uml::Region nearestRegion(New::AssociationWidget *assoc) const;
 
@@ -53,6 +57,10 @@ public:
 
     Uml::Region region(New::AssociationWidget *assoc) const;
     bool registered(New::AssociationWidget* assoc) const;
+
+    void adjust();
+
+    QSet<New::AssociationWidget*> associationWidgets() const;
 
 private:
     QMap<Uml::Region, QList<New::AssociationWidget*> > m_regionAssociationsMap;

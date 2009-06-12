@@ -18,9 +18,10 @@
 #include <QtGui/QGraphicsItem>
 #include <QtGui/QPen>
 
-// Qt forward declarations
+// Forward declarations
 class QDomDocument;
 class QDomElement;
+class UMLWidget;
 
 namespace New
 {
@@ -145,6 +146,9 @@ namespace New
         void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
         void calculateBoundingRect();
+        void calculateInitialEndPoints(UMLWidget *widA = 0, UMLWidget *widB = 0);
+        void calculateEndPoints();
+
     private:
         /// These points represents the linepath.
         QVector<QPointF> m_points;
@@ -170,6 +174,7 @@ namespace New
         QRectF m_boundingRect;
         /// The shape of this linepath.
         QPainterPath m_shape;
+        QGraphicsLineItem *tracker;
 
         /// The default delta for fuzzy recognition of points closer to point.
         static const qreal Delta;

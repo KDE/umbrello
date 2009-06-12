@@ -19,16 +19,19 @@
 
 #include "umlwidget.h"
 
+#include "associationspacemanager.h"
 #include "dialogs/classpropdlg.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
-#include "textitem.h"
+#include "newassociationwidget.h"
+#include "newlinepath.h"
 #include "textitemgroup.h"
-#include "uml.h"
+#include "textitem.h"
 #include "umldoc.h"
+#include "uml.h"
 #include "umlscene.h"
-#include "widget_utils.h"
 #include "widgethandle.h"
+#include "widget_utils.h"
 
 #include <QtGui/QDialog>
 #include <QtGui/QGraphicsSceneHoverEvent>
@@ -52,12 +55,14 @@ UMLWidget::UMLWidget(UMLObject *object) :
     m_resizable(true),
     m_widgetHandle(0)
 {
+    m_associationSpaceManager = new AssociationSpaceManager(this);
 }
 
 /// Destructor
 UMLWidget::~UMLWidget()
 {
     qDeleteAll(m_textItemGroups);
+    delete m_associationSpaceManager;
 }
 
 /**
@@ -136,6 +141,13 @@ void UMLWidget::setSize(const QSizeF &size)
 }
 
 /**
+ * @return The rect area of widget in scene coordinates.
+ */
+QRectF UMLWidget::sceneRect() const
+{
+    return mapToScene(rect()).boundingRect();
+}
+/**
  * Sets the margin of this widget to \a margin. This method only
  * updates the variable. To see the effective margin, updateGeometry()
  * should be called.
@@ -213,6 +225,12 @@ void UMLWidget::setupContextMenuActions(ListPopupMenu &menu)
     Q_UNUSED(menu);
 }
 
+
+AssociationSpaceManager* UMLWidget::associationSpaceManager() const
+{
+    return m_associationSpaceManager;
+}
+
 /**
  * Adjusts the position and lines of connected association
  * widgets. This method is used usually after this widget moves
@@ -222,6 +240,11 @@ void UMLWidget::setupContextMenuActions(ListPopupMenu &menu)
  */
 void UMLWidget::adjustAssociations()
 {
+    foreach (New::AssociationWidget *assoc,
+            m_associationSpaceManager->associationWidgets()) {
+        assoc->associationLine()->calculateEndPoints();
+    }
+    // m_associationSpaceManager->adjust();
     //TODO: Implement this once AssociationWidget's are implemented.
 }
 
@@ -365,6 +388,8 @@ QVariant UMLWidget::itemChange(GraphicsItemChange change, const QVariant &value)
             delete m_widgetHandle;
             m_widgetHandle = 0;
         }
+    } else if (change == QGraphicsItem::ItemPositionHasChanged) {
+        adjustAssociations();
     }
     return WidgetBase::itemChange(change, value);
 }
@@ -432,6 +457,7 @@ UMLWidget::UMLWidget(UMLScene *scene, UMLObject *object) :
     m_resizable(true),
     m_widgetHandle(0)
 {
+    m_associationSpaceManager = new AssociationSpaceManager(this);
 }
 
 UMLWidget::UMLWidget(UMLScene *scene, const Uml::IDType & id) :
@@ -444,6 +470,7 @@ UMLWidget::UMLWidget(UMLScene *scene, const Uml::IDType & id) :
     m_resizable(true),
     m_widgetHandle(0)
 {
+    m_associationSpaceManager = new AssociationSpaceManager(this);
 }
 
 #include "umlwidget.moc"

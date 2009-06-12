@@ -13,6 +13,7 @@
 
 #include "association.h"
 #include "assocrules.h"
+#include "associationspacemanager.h"
 #include "attribute.h"
 #include "classifier.h"
 #include "floatingtextwidget.h"
@@ -43,16 +44,12 @@ namespace New
 
 
     AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type type,
-                                         UMLWidget *widgetB, UMLObject *umlObj) : WidgetBase(umlObj)
+                                         UMLWidget *widgetB, UMLObject *umlObj) :
+        WidgetBase(umlObj)
     {
         m_associationLine = new New::AssociationLine(this);
         m_nameWidget = 0;
 
-        // Disabled for testing purpose
-        Q_UNUSED(widgetA);
-        Q_UNUSED(type);
-        Q_UNUSED(widgetB);
-#if 0
         if (!umlObj && UMLAssociation::assocTypeHasUMLRepresentation(type)) {
             UMLObject *objectA = widgetA->umlObject();
             UMLObject *objectB = widgetB->umlObject();
@@ -66,6 +63,8 @@ namespace New
             }
         }
 
+        m_associationLine->calculateInitialEndPoints(widgetA, widgetB);
+
         setWidgetForRole(widgetA, Uml::A);
         setWidgetForRole(widgetB, Uml::B);
 
@@ -76,7 +75,6 @@ namespace New
             int collabID = scene->generateCollaborationId();
             setName('m' + QString::number(collabID));
         }
-#endif
         setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
     }
 
@@ -475,6 +473,7 @@ namespace New
     void AssociationWidget::setWidgetForRole(UMLWidget *widget, Uml::Role_Type role)
     {
         m_widgetRole[role].umlWidget = widget;
+        widget->associationSpaceManager()->add(this);
     }
 
     Uml::Association_Type AssociationWidget::associationType() const
@@ -596,6 +595,7 @@ namespace New
         Q_UNUSED(tr);
         // TODO: Implement this stub
     }
+
 
 #include "newassociationwidget.moc"
 }

@@ -37,7 +37,9 @@ const int ClassifierWidget::InvalidIndex = 99999;
  * @param c The UMLObject to represent.
  */
 ClassifierWidget::ClassifierWidget(UMLClassifier *c)
-    : UMLWidget(c)
+    : UMLWidget(c),
+    m_classAssociationWidget(0)
+
 {
     createTextItemGroup(); // For classifier text items
     createTextItemGroup(); // For template text items'
@@ -62,9 +64,6 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
 
     m_attributeSignatureType = Uml::st_ShowSig;
     m_operationSignatureType = Uml::st_ShowSig;
-
-    // Intially this is null
-    m_classAssociationWidget = 0;
 
     // Check if this widget is representing an interface and set
     // properties corresponding to that if it is.

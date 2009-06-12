@@ -23,10 +23,16 @@
 #include "widgetbase.h"
 #include "associationwidgetlist.h"
 
+class AssociationSpaceManager;
 class AssociationWidget;
 class WidgetHandle;
 class UMLWidgetController;
 class TextItemGroup;
+
+namespace New
+{
+    class AssociationWidget;
+}
 
 /**
  * @short The base class for rectangular base UML widgets.
@@ -118,6 +124,7 @@ public:
     QRectF rect() const {
         return QRectF(QPointF(0, 0), size());
     }
+    QRectF sceneRect() const;
 
     /**
      * @return The margin from the rect() left for good visual appeal.
@@ -145,13 +152,8 @@ public:
     }
     void setShowStereotype(bool b);
 
-    /// @return A list representing AssociationWidget connected to
-    ///         this widget.
-    AssociationWidgetList associationWidgetList() const {
-        return m_associationWidgetList;
-    }
-    void addAssociationWidget(AssociationWidget *assoc);
-    void removeAssociationWidget(AssociationWidget *assoc);
+    AssociationSpaceManager* associationSpaceManager() const;
+
     virtual void adjustAssociations();
 
     virtual void showPropertiesDialog();
@@ -197,13 +199,17 @@ private:
     /// Margin for this widget.
     qreal m_margin;
 
+    /// Manages the alignment of New::AssociationWidget's.
+    AssociationSpaceManager *m_associationSpaceManager;
+    /// List of New::AssociationWidget's in which this widget is participating.
+    QList<New::AssociationWidget*> m_newAssociationWidgetList;
+
     QString m_instanceName;
     bool m_isInstance;
     bool m_showStereotype;
 
     /// Whether resizable or not.
     bool m_resizable;
-    AssociationWidgetList m_associationWidgetList;
 
     /// Widget handle for this widget (for resizing)
     WidgetHandle *m_widgetHandle;
@@ -214,6 +220,8 @@ private:
     DISABLE_COPY(UMLWidget);
 
 public:
+    // Use New::AssociationWidget and slowly move the New::AssociationWidget outside New::.
+    AssociationWidgetList m_associationWidgetList;
     //////////////////  DEPRECATED //////////////////////////
     UMLWidget(UMLScene *scene, const Uml::IDType & _id = Uml::id_None);
     UMLWidget(UMLScene *scene, UMLObject *obj);
@@ -225,6 +233,13 @@ public:
     void setIgnoreSnapComponentSizeToGrid(bool) {}
     bool m_bStartMove;
     void adjustUnselectedAssocs(qreal, qreal) {}
+    void addAssociationWidget(AssociationWidget *assoc);
+    void removeAssociationWidget(AssociationWidget *assoc);
+    /// @return A list representing AssociationWidget connected to
+    ///         this widget.
+    AssociationWidgetList associationWidgetList() const {
+        return m_associationWidgetList;
+    }
 };
 
 #endif

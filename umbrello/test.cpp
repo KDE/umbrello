@@ -87,16 +87,16 @@ Test* Test::self()
 
 void Test::testScene(UMLScene *scene)
 {
-    New::AssociationWidget *wid = new New::AssociationWidget(0, Uml::at_Association, 0, 0);
-    New::AssociationLine *path1 = wid->associationLine();
-    scene->addItem(wid);
-    path1->insertPoint(0, QPointF(100, 100));
-    path1->insertPoint(1, QPointF(200, 50));
-    path1->insertPoint(2, QPointF(700, 300));
-    wid->setLineColor(QColor(qrand() % 256, qrand() % 256, qrand() % 256));
-    wid->setLineWidth(0);
-
-    path1->setStartHeadSymbol(New::HeadSymbol::Arrow);
+//X     New::AssociationWidget *wid = new New::AssociationWidget(0, Uml::at_Association, 0, 0);
+//X     New::AssociationLine *path1 = wid->associationLine();
+//X     scene->addItem(wid);
+//X     path1->insertPoint(0, QPointF(100, 100));
+//X     path1->insertPoint(1, QPointF(200, 50));
+//X     path1->insertPoint(2, QPointF(700, 300));
+//X     wid->setLineColor(QColor(qrand() % 256, qrand() % 256, qrand() % 256));
+//X     wid->setLineWidth(0);
+//X 
+//X     path1->setStartHeadSymbol(New::HeadSymbol::Arrow);
     // path1->setEndHeadSymbol(New::HeadSymbol::Circle);
 
     // New::AssociationLine *path2 = new New::AssociationLine(0);

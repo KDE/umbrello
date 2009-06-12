@@ -302,6 +302,7 @@ namespace Uml
 
     /**
      * Enumeration used for stating where a line is on a widget.
+     * @note Do not change this ordering, as we use these values in for loop.
      */
     enum Region {
         Error = 0,
