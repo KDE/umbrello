@@ -300,6 +300,7 @@ QVariant UMLWidget::attributeChange(WidgetAttributeChange change, const QVariant
         if(m_widgetHandle) {
             m_widgetHandle->updateHandlePosition();
         }
+        adjustAssociations();
         return QVariant();
     }
     else if(change == FontHasChanged) {

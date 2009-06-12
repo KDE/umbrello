@@ -249,6 +249,7 @@ namespace New
     {
         m_activePointIndex = m_activeSegmentIndex = -1;
         m_startHeadSymbol = m_endHeadSymbol = 0;
+        // This tracker is only for debugging and testing purpose.
         tracker = new QGraphicsLineItem;
         tracker->setPen(QPen(Qt::darkBlue, 1));
         tracker->setZValue(100);
@@ -698,7 +699,10 @@ namespace New
             QPointF delta = event->scenePos() - event->lastScenePos();
             setPoint(m_activeSegmentIndex, m_points[m_activeSegmentIndex] + delta);
             setPoint(m_activeSegmentIndex + 1, m_points[m_activeSegmentIndex + 1] + delta);
+        } else {
+            return;
         }
+        calculateEndPoints();
     }
 
     /// Reset active indices and also push undo command.
@@ -844,21 +848,27 @@ namespace New
         bRectLines[Uml::East] = QLineF(bRect.topRight(), bRect.bottomRight());
         bRectLines[Uml::South] = QLineF(bRect.bottomLeft(), bRect.bottomRight());
 
-        QLineF centerLine = QLineF(aRect.center(), bRect.center());
-        if (!tracker->scene()) {
-            widA->scene()->addItem(tracker);
+        QLineF  aLine = QLineF(aRect.center(), bRect.center());
+        QLineF bLine = aLine;
+        if (count() > 2) {
+            uDebug() << "here";
+            aLine.setP2(m_associationWidget->mapToScene(point(1)));
+            bLine.setP1(m_associationWidget->mapToScene(point(count()-2)));
         }
-        tracker->setLine(centerLine);
+        if (!tracker->scene()) {
+            //widA->scene()->addItem(tracker);
+        }
+        tracker->setLine(aLine);
         bool aNoIntersections = false, bNoIntersections = false;
 
         for (int i = Uml::West; i <= Uml::South; ++i) {
             Uml::Region r = (Uml::Region)i;
             QPointF temp;
-            aIntersections[r] = (centerLine.intersect(aRectLines[r], &temp) ==
+            aIntersections[r] = (aLine.intersect(aRectLines[r], &temp) ==
                     QLineF::BoundedIntersection);
             aNoIntersections = aNoIntersections || aIntersections[r];
 
-            bIntersections[r] = (centerLine.intersect(bRectLines[r], &temp) ==
+            bIntersections[r] = (bLine.intersect(bRectLines[r], &temp) ==
                     QLineF::BoundedIntersection);
             bNoIntersections = bNoIntersections || bIntersections[r];
         }
