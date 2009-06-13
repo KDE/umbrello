@@ -32,9 +32,13 @@ namespace New {
 /**
  * @short A class to manage distribution of AssociationWidget around UMLWidget.
  *
- * This class mainly includes functionality required to move around the AssociationWidget endings
- * along the 8 sides around the UMLWidget, based on simple distance based algorithms.
- * The object of this class resides in a UMLWidget.
+ * This class mainly has the following duties
+ *  - Store New::AssociationWidgets associated with the UMLWidget to which
+ *    this belongs.
+ *  - Arrange/distribute the AssociationLine endings for all regions of
+ *    UMLWidget based on AssociationSpaceManager::referencePoint.
+ *
+ * The object of this class is stored in a UMLWidget.
  */
 class AssociationSpaceManager : public QObject
 {
