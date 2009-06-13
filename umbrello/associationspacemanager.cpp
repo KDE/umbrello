@@ -143,15 +143,45 @@ QPointF AssociationSpaceManager::penultimateEndPoint(New::AssociationWidget *ass
         retVal = line->point(line->count() - 2);
     }
     else {
-        uWarning() << "Passed association " << assoc->name() << " is not related to this AssociationSpaceManager";
+        uWarning() << "Passed association " << assoc->name() << " is not managed by this AssociationSpaceManager";
     }
     retVal = assoc->mapToScene(retVal);
     return retVal;
 }
 
-QPointF AssociationSpaceManager::referenePoint(New::AssociationWidget *assoc) const
+/**
+ * This method returns the point for given \a assoc which acts as reference
+ * for arranging the association widget lines of particular region.
+ *
+ * The reference point is either the penultimate point or other widget's center
+ * based on whether number of points is greater than two or equal to two
+ * respectively.
+ */
+QPointF AssociationSpaceManager::referencePoint(New::AssociationWidget *assoc) const
 {
-    return QPointF();
+    UMLWidget *widA = assoc->widgetForRole(Uml::A);
+    UMLWidget *widB = assoc->widgetForRole(Uml::B);
+    QPointF retVal;
+    const int pointCount = assoc->associationLine()->count();
+    Q_ASSERT(pointCount >= 2);
+    if (pointCount == 2) {
+        if (widA == m_umlWidget) {
+            retVal = widB->sceneRect().center();
+        } else if (widB == m_umlWidget) {
+            retVal = widA->sceneRect().center();
+        } else {
+            uWarning() << "Passed association " << assoc->name() << " is not managed by this AssociationSpaceManager";
+        }
+    } else {
+        if (widA == m_umlWidget) {
+            retVal = assoc->mapToScene(assoc->associationLine()->point(1));
+        } else if (widB == m_umlWidget) {
+            retVal = assoc->mapToScene(assoc->associationLine()->point(pointCount-2));
+        } else {
+            uWarning() << "Passed association " << assoc->name() << " is not managed by this AssociationSpaceManager";
+        }
+    }
+    return retVal;
 }
 
 /**
@@ -206,85 +236,60 @@ void AssociationSpaceManager::arrange(Uml::Region region)
 {
     if (region == Uml::Error || region == Uml::Center) return;
 
+    QRectF rect = m_umlWidget->sceneRect();
+    QPointF lineEnd;
+
+    bool xBasis = false;
+    switch (region) {
+        case Uml::North:
+            xBasis = true;
+        case Uml::NorthWest:
+        case Uml::West:
+            lineEnd = rect.topLeft(); break;
+
+        case Uml::NorthEast:
+        case Uml::East:
+            lineEnd = rect.topRight(); break;
+
+        case Uml::South:
+            xBasis = true;
+        case Uml::SouthWest:
+            lineEnd = rect.bottomLeft(); break;
+
+        case Uml::SouthEast:
+            lineEnd = rect.bottomRight(); break;
+
+        default: ;
+    }
+
     QList<New::AssociationWidget*> &listRef = m_regionAssociationsMap[region];
     if (listRef.isEmpty()) {
         return;
     }
 
-    QList<QPair<New::AssociationWidget*, QPointF> > assocPenuls;
+    QList<QPair<New::AssociationWidget*, qreal> > assocDistances;
     foreach (New::AssociationWidget* assoc, listRef) {
-        QPointF p = penultimateEndPoint(assoc);
-        assocPenuls.append(qMakePair(assoc, p));
-    }
-
-    QRectF rect = m_umlWidget->sceneRect();
-    QPointF other;
-    bool xBasis = false;
-    switch (region) {
-        case Uml::North:
-        case Uml::NorthWest:
-            other = rect.topLeft(); xBasis = true; break;
-
-        case Uml::NorthEast:
-            other = rect.topRight(); break;
-
-        case Uml::East:
-        case Uml::SouthEast:
-            other = rect.bottomRight(); break;
-
-        case Uml::South:
-        case Uml::SouthWest:
-            xBasis = true;
-            // intended fall through
-        case Uml::West:
-            other = rect.bottomLeft(); break;
-
-        default:
-            break;
-    }
-
-    for (int i = 0; i < assocPenuls.size() - 1; ++i) {
-        qreal minVal = xBasis ? assocPenuls[i].second.x() : assocPenuls[i].second.y();
-        qreal minInd = i;
-        for (int j = i+1; j < assocPenuls.size(); ++j) {
-            qreal val = xBasis ? assocPenuls[j].second.x() : assocPenuls[j].second.y();
-            if (val < minVal) {
-                minVal = val;
-                minInd = j;
-            }
+        QPointF lineStart = referencePoint(assoc);
+        QPointF pointDist = lineEnd - lineStart;
+        // qreal distance = (xBasis ? pointDist.x() : pointDist.y());
+        qreal distance = (xBasis ? lineStart.x() : lineStart.y());
+        int i = 0;
+        while (i < assocDistances.size() && assocDistances[i].second < distance) {
+            ++i;
         }
-
-        if (minInd == i) continue;
-        qSwap(assocPenuls[i], assocPenuls[minInd]);
-        qSwap(listRef[i], listRef[minInd]);
+        assocDistances.insert(i, qMakePair(assoc, distance));
+    }
+    listRef.clear();
+    QListIterator<QPair<New::AssociationWidget*, qreal> > it(assocDistances);
+    while (it.hasNext()) {
+        listRef.append(it.next().first);
     }
 
     const qreal totalSpace = xBasis ? rect.width() : rect.height();
-    const qreal slotSize = totalSpace / assocPenuls.size();
-    qreal pos = (.5 * slotSize) + xBasis ? rect.left() : rect.top();
-    foreach (New::AssociationWidget *a, listRef) {
-        QPointF end;
-        if (xBasis) {
-            end.setX(pos);
-        } else {
-            end.setY(pos);
-        }
-#if 1
-        switch (region) {
-            case Uml::North: end = QPointF(rect.center().x(), rect.top()); break;
-            case Uml::East: end = QPointF(rect.right(), rect.center().y()); break;
-            case Uml::South: end = QPointF(rect.center().x(), rect.bottom()); break;
-            case Uml::West: end = QPointF(rect.left(), rect.center().y()); break;
-
-            case Uml::NorthWest: end = rect.topLeft(); break;
-            case Uml::NorthEast: end = rect.topRight(); break;
-            case Uml::SouthEast: end = rect.bottomRight(); break;
-            case Uml::SouthWest: end = rect.bottomLeft(); break;
-
-            default: break;
-        }
-
-#else
+    const qreal slotSize = totalSpace / listRef.size();
+    qreal pos = (.5 * slotSize) + (xBasis ? rect.left() : rect.top());
+    foreach (New::AssociationWidget *assoc, listRef) {
+        QPointF end(pos, pos);
         switch (region) {
             case Uml::North: end.setY(rect.top()); break;
             case Uml::East: end.setX(rect.right()); break;
@@ -298,10 +303,9 @@ void AssociationSpaceManager::arrange(Uml::Region region)
 
             default: break;
         }
-#endif
-        end = a->mapFromScene(end);
-        New::AssociationLine *line = a->associationLine();
-        int endIndex = a->roleForWidget(m_umlWidget) == Uml::A ? 0 : line->count()-1;
+        end = assoc->mapFromScene(end);
+        New::AssociationLine *line = assoc->associationLine();
+        int endIndex = assoc->roleForWidget(m_umlWidget) == Uml::A ? 0 : line->count()-1;
         line->setPoint(endIndex, end);
         pos += slotSize;
     }

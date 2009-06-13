@@ -48,7 +48,7 @@ public:
     QPointF endPoint(New::AssociationWidget *assoc) const;
     QPointF penultimateEndPoint(New::AssociationWidget *assoc) const;
 
-    QPointF referenePoint(New::AssociationWidget *assoc) const;
+    QPointF referencePoint(New::AssociationWidget *assoc) const;
 
     Uml::Region nearestRegion(New::AssociationWidget *assoc) const;
 
