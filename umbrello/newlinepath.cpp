@@ -817,10 +817,20 @@ namespace New
         alignHeadSymbols();
     }
 
+    /**
+     * This important method is responsible for determining the appropriate
+     * regions of UMLWidget to be occupied by this AssociationLine ends.
+     *
+     * After determining, AssociationSpaceManager::arrange() is invoked for
+     * the UMLWidget's modified region space to set the actual end points of
+     * this AssociationLine.
+     */
     void AssociationLine::calculateEndPoints()
     {
+        // For debugging purpose
         const QString regionNames[] = {"Error", "West", "North", "East", "South",
             "NorthWest", "NorthEast", "SouthEast", "SouthWest", "Center" };
+        Q_UNUSED(regionNames);
 
         UMLWidget *widA = m_associationWidget->widgetForRole(Uml::A);
         UMLWidget *widB = m_associationWidget->widgetForRole(Uml::B);
@@ -828,51 +838,71 @@ namespace New
         QRectF aRect = widA->sceneRect();
         QRectF bRect = widB->sceneRect();
 
+        // aLine and bLine are QLineF objects whose intersection with the
+        // rectangle edges determine the AssociationLine's endings regions
+        // occupied in both the UMLWidgets.
+        // Intially for count <= 2, this is line joining centres of two
+        // rects.
+        // For count > 2, we set the AssociationLine's penultimate point from
+        // corresponding widgets, as line's other end.
+        QLineF  aLine = QLineF(aRect.center(), bRect.center());
+        QLineF bLine = aLine;
+        if (count() > 2) {
+            aLine.setP2(m_associationWidget->mapToScene(point(1)));
+            bLine.setP1(m_associationWidget->mapToScene(point(count()-2)));
+        }
 
         if (widA == widB) {
-            // do self calculation
+            // TODO: do self calculation
             return;
         }
 
+        // This maps the region of widget to QLineF objects representing
+        // widgets' edges.
         QMap<Uml::Region, QLineF> aRectLines, bRectLines;
-        QMap<Uml::Region, bool> aIntersections, bIntersections;
 
+        // Do the mapping.
         aRectLines[Uml::West] = QLineF(aRect.topLeft(), aRect.bottomLeft());
         aRectLines[Uml::North] = QLineF(aRect.topLeft(), aRect.topRight());
         aRectLines[Uml::East] = QLineF(aRect.topRight(), aRect.bottomRight());
         aRectLines[Uml::South] = QLineF(aRect.bottomLeft(), aRect.bottomRight());
-
 
         bRectLines[Uml::West] = QLineF(bRect.topLeft(), bRect.bottomLeft());
         bRectLines[Uml::North] = QLineF(bRect.topLeft(), bRect.topRight());
         bRectLines[Uml::East] = QLineF(bRect.topRight(), bRect.bottomRight());
         bRectLines[Uml::South] = QLineF(bRect.bottomLeft(), bRect.bottomRight());
 
-        QLineF  aLine = QLineF(aRect.center(), bRect.center());
-        QLineF bLine = aLine;
-        if (count() > 2) {
-            uDebug() << "here";
-            aLine.setP2(m_associationWidget->mapToScene(point(1)));
-            bLine.setP1(m_associationWidget->mapToScene(point(count()-2)));
-        }
+        // NOTE: Don't add tracker to scene for now.. tracker is still needed
+        //       for visual debugging and hence not removed yet.
+#if 0
         if (!tracker->scene()) {
+
             //widA->scene()->addItem(tracker);
         }
         tracker->setLine(aLine);
-        bool aNoIntersections = false, bNoIntersections = false;
+#endif
+        bool aSomeIntersection = false, bSomeIntersection = false;
 
+        // This holds whether a given UMLWidget edge(represented by QLineF
+        // objects) is intersected by aLine and bLine.
+        QMap<Uml::Region, bool> aIntersections, bIntersections;
+
+        // Now determine which all regions (represented by QLineF objects) is
+        // intersected by the aLine and bLine for widA and widB
+        // respectively, and store resultant in the above declared maps.
         for (int i = Uml::West; i <= Uml::South; ++i) {
             Uml::Region r = (Uml::Region)i;
             QPointF temp;
             aIntersections[r] = (aLine.intersect(aRectLines[r], &temp) ==
                     QLineF::BoundedIntersection);
-            aNoIntersections = aNoIntersections || aIntersections[r];
+            aSomeIntersection = aSomeIntersection || aIntersections[r];
 
             bIntersections[r] = (bLine.intersect(bRectLines[r], &temp) ==
                     QLineF::BoundedIntersection);
-            bNoIntersections = bNoIntersections || bIntersections[r];
+            bSomeIntersection = bSomeIntersection || bIntersections[r];
         }
 
+        // Do intersection mapping separately for corner regions.
         aIntersections[Uml::NorthWest] = (aIntersections[Uml::North] == true
                 && aIntersections[Uml::West] == true);
         aIntersections[Uml::NorthEast] = (aIntersections[Uml::North] == true
@@ -891,27 +921,23 @@ namespace New
         bIntersections[Uml::SouthEast] = (bIntersections[Uml::South] == true
                 && bIntersections[Uml::East] == true);
 
-        if (!aNoIntersections) {
-            aIntersections[Uml::North] = true; //defaults to North if no intersections
+        // If no intersecion happened above, default it to North
+        if (!aSomeIntersection) {
+            aIntersections[Uml::North] = true;
         }
-        if (!bNoIntersections) {
-            bIntersections[Uml::North] = true; //defaults to North if no intersections
-        }
-
-        uDebug() << "A's intersection map: ";
-        for (int i = Uml::West; i <= Uml::SouthWest; ++i) {
-            Uml::Region r = (Uml::Region)i;
-            uDebug() << "\t" << regionNames[r] << " : " << (aIntersections[r] ? "true" : "false");
+        if (!bSomeIntersection) {
+            bIntersections[Uml::North] = true;
         }
 
+        // Determine the new region occupied so that an updation of only
+        // changed regions can be done.
+        // Because corner regions have higher enum values than non-corner
+        // regions, the new regions determined will appropriately point to
+        // corner region if it intersected corner region (two edge regions).
+        // (i.e we are not breaking from loop on first true value)
         Uml::Region aNewRegion = Uml::Error;
         Uml::Region bNewRegion = Uml::Error;
         for (int i = Uml::West; i <= Uml::SouthWest; ++i) {
-            // note: Because loop continues till SouthWest, if a line
-            //       intersects any corner region like NorthEast and since
-            //       NorthEast is tested after North and East region, the
-            //       final determined region will ensure to point to
-            //       cornered region if it interects that.
             Uml::Region r = (Uml::Region)i;
             if (aIntersections[r] == true) {
                 aNewRegion = r; 
@@ -923,37 +949,31 @@ namespace New
         AssociationSpaceManager *aSpaceManager = widA->associationSpaceManager();
         AssociationSpaceManager *bSpaceManager = widB->associationSpaceManager();
 
+        // Now move the AssociationWidget to proper regions.
         Uml::Region aPrevRegion = aSpaceManager->remove(m_associationWidget);
         aSpaceManager->add(m_associationWidget, aNewRegion);
-
         Uml::Region bPrevRegion = bSpaceManager->remove(m_associationWidget);
         bSpaceManager->add(m_associationWidget, bNewRegion);
 
-
-//X         uDebug() << endl << "Moving widA from " << regionNames[aPrevRegion] << " to "
-//X             << regionNames[aNewRegion];
-//X         uDebug() << "Moving widB from " << regionNames[bPrevRegion] << " to "
-//X             << regionNames[bNewRegion] << endl;
+        // Finally call AssociationSpaceManager::arrange to do the actual
+        // placement of line endings of this AssociationLine.
         aSpaceManager->arrange(aPrevRegion);
         aSpaceManager->arrange(aNewRegion);
-
         bSpaceManager->arrange(bPrevRegion);
         bSpaceManager->arrange(bNewRegion);
     }
 
-    void AssociationLine::calculateInitialEndPoints(UMLWidget *a, UMLWidget *b)
+    /**
+     * This method simply ensures presence of two points and delegates
+     * calculation to AssociationLine::calculateEndPoints()
+     */
+    void AssociationLine::calculateInitialEndPoints()
     {
-        if (!a) {
-            a = m_associationWidget->widgetForRole(Uml::A);
+        if (count() < 2) {
+            setEndPoints(QPointF(), QPointF());
         }
-        if (!b) {
-            b = m_associationWidget->widgetForRole(Uml::B);
-        }
-        QPointF s = a->sceneRect().topLeft();
-        QPointF e = b->sceneRect().topLeft();
-        s = m_associationWidget->mapFromScene(s);
-        e = m_associationWidget->mapFromScene(e);
-        setEndPoints(s, e);
+
+        calculateEndPoints();
     }
 }
 

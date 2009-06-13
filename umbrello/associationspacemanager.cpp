@@ -32,40 +32,36 @@ AssociationSpaceManager::AssociationSpaceManager(UMLWidget *widget)
 }
 
 /**
- * This method is used to register the AssociationWidget associatied with this UMLWidget along
- * specified region passed.
+ * This method is used to register the AssociationWidget associatied with this
+ * UMLWidget along specified region passed.
  *
  * @param  assoc The AssociationWidget to be registered.
- * @param region The region with which the AssociationWidget has to be registered. If region =
- *               Uml::Error, then region is computed using @ref nearestRegion() function.
- *
- * @note This method does not call arrange(region) as that is the decision to be taken dynamically.
- * @note region should not be Uml::Center.
+ * @param region The region with which the AssociationWidget has to be
+ *               registered.
+ * @note This method does not call arrange(region) as that is the decision to
+ *       be taken dynamically.
+ * @note region should not be Uml::Center nor Uml::Error.
  */
-Uml::Region AssociationSpaceManager::add(New::AssociationWidget *assoc,
+void AssociationSpaceManager::add(New::AssociationWidget *assoc,
         Uml::Region region)
 {
     Q_ASSERT(region != Uml::Center);
+    Q_ASSERT(region != Uml::Error);
 
     if (registered(assoc)) {
         uDebug() << assoc->name() << " is already registered!";
-        return Uml::Error;
-    }
-
-    if (region == Uml::Error) {
-        region = nearestRegion(assoc);
-        Q_ASSERT(region != Uml::Error);
+        return;
     }
 
     QList<New::AssociationWidget*> &listRef = m_regionAssociationsMap[region];
     listRef << assoc;
     m_registeredAssociationSet << assoc;
-
-    return region;
 }
 
 /**
- * This method unregisters the AssociationWidget by removing it from region specific list.
+ * This method unregisters the AssociationWidget by removing it from region
+ * specific list.
+ *
  * @return The last region occupied by AssociationWidget.
  *
  * @note The AssociationWidget is however @b not deleted.
@@ -91,65 +87,6 @@ Uml::Region AssociationSpaceManager::remove(New::AssociationWidget *assoc)
 }
 
 /**
- * This method returns the appropriate end point location in scene coordinates based on whether the
- * association is pointing to widget or pointing away from it (that is whether it is Uml::A or
- * Uml::B respectively).
- *
- * @param assoc The AssociationWidget for which end point should be returned.
- * @return The end point of assoc in scene coordinates which is associated to m_umlWidget.
- *
- * @see AssociationSpaceManager::penultimateEndPoint()
- */
-QPointF AssociationSpaceManager::endPoint(New::AssociationWidget *assoc) const
-{
-    UMLWidget *widA = assoc->widgetForRole(Uml::A);
-    UMLWidget *widB = assoc->widgetForRole(Uml::B);
-    QPointF retVal;
-
-    if (widA == m_umlWidget) {
-        retVal = assoc->associationLine()->point(0);
-    }
-    else if (widB == m_umlWidget) {
-        New::AssociationLine *line = assoc->associationLine();
-        retVal = line->point(line->count() - 1);
-    }
-    else {
-        uWarning() << "Passed association " << assoc->name() << " is not related to this AssociationSpaceManager";
-    }
-    retVal = assoc->mapToScene(retVal);
-    return retVal;
-}
-
-/**
- * This method returns the appropriate penultimate end point location in scene coordinates based on
- * whether the association is pointing to widget or pointing away from it (that is whether it is
- * Uml::A or Uml::B respectively).
- *
- * @param assoc The AssociationWidget for which penultimate end point should be returned.
- * @return The penultimate end point of assoc in scene coordinates which is associated to
- *         m_umlWidget.
- */
-QPointF AssociationSpaceManager::penultimateEndPoint(New::AssociationWidget *assoc) const
-{
-    UMLWidget *widA = assoc->widgetForRole(Uml::A);
-    UMLWidget *widB = assoc->widgetForRole(Uml::B);
-    QPointF retVal;
-
-    if (widA == m_umlWidget) {
-        retVal = assoc->associationLine()->point(1);
-    }
-    else if (widB == m_umlWidget) {
-        New::AssociationLine *line = assoc->associationLine();
-        retVal = line->point(line->count() - 2);
-    }
-    else {
-        uWarning() << "Passed association " << assoc->name() << " is not managed by this AssociationSpaceManager";
-    }
-    retVal = assoc->mapToScene(retVal);
-    return retVal;
-}
-
-/**
  * This method returns the point for given \a assoc which acts as reference
  * for arranging the association widget lines of particular region.
  *
@@ -170,7 +107,8 @@ QPointF AssociationSpaceManager::referencePoint(New::AssociationWidget *assoc) c
         } else if (widB == m_umlWidget) {
             retVal = widA->sceneRect().center();
         } else {
-            uWarning() << "Passed association " << assoc->name() << " is not managed by this AssociationSpaceManager";
+            uWarning() << "Passed association " << assoc->name()
+                       << " is not managed by this AssociationSpaceManager";
         }
     } else {
         if (widA == m_umlWidget) {
@@ -178,113 +116,62 @@ QPointF AssociationSpaceManager::referencePoint(New::AssociationWidget *assoc) c
         } else if (widB == m_umlWidget) {
             retVal = assoc->mapToScene(assoc->associationLine()->point(pointCount-2));
         } else {
-            uWarning() << "Passed association " << assoc->name() << " is not managed by this AssociationSpaceManager";
+            uWarning() << "Passed association " << assoc->name()
+                       << " is not managed by this AssociationSpaceManager";
         }
     }
     return retVal;
 }
 
 /**
- * This method calculates the region which is closest for the AssociationWidget based on distance
- * of penultimate point from m_umlWidget.
- * The distance calculation happens in scene coordinates.
- */
-Uml::Region AssociationSpaceManager::nearestRegion(New::AssociationWidget *assoc) const
-{
-    QPointF penultimate = penultimateEndPoint(assoc);
-    QRectF widRect = m_umlWidget->mapToScene(m_umlWidget->rect()).boundingRect();
-    bool left = false, top = false;
-    qreal horDist = 0., verDist = 0.;
-
-    if (qAbs(widRect.left() - penultimate.x()) < qAbs(widRect.right() - penultimate.x())) {
-        left = true;
-        horDist = qAbs(widRect.left() - penultimate.x());
-    }
-    else {
-        left = false;
-        horDist = qAbs(widRect.right() - penultimate.x());
-    }
-
-    if (qAbs(widRect.top() - penultimate.y()) < qAbs(widRect.bottom() - penultimate.y())) {
-        top = true;
-        verDist = qAbs(widRect.top() - penultimate.y());
-    }
-    else {
-        top = false;
-        verDist = qAbs(widRect.bottom() - penultimate.y());
-    }
-
-    if (qFuzzyCompare(horDist, verDist)) {
-        if (left) {
-            return top ? Uml::NorthWest : Uml::SouthWest;
-        }
-        return top ? Uml::NorthEast : Uml::SouthEast;
-    }
-    else if (horDist < verDist) {
-        return left ? Uml::West : Uml::East;
-    }
-    else {
-        return top ? Uml::North : Uml::South;
-    }
-}
-
-/**
- * This method arranges the AssociationWidget line end points for a given region based on its
- * distance of penultimate point from edge.
+ * This method arranges the AssociationWidget line end points for a given
+ * region based on its x or y value of the reference point depending upon
+ * the region.
+ *
+ * @see AssociationSpaceManager::referencePoint
  */
 void AssociationSpaceManager::arrange(Uml::Region region)
 {
     if (region == Uml::Error || region == Uml::Center) return;
 
     QRectF rect = m_umlWidget->sceneRect();
-    QPointF lineEnd;
 
-    bool xBasis = false;
-    switch (region) {
-        case Uml::North:
-            xBasis = true;
-        case Uml::NorthWest:
-        case Uml::West:
-            lineEnd = rect.topLeft(); break;
-
-        case Uml::NorthEast:
-        case Uml::East:
-            lineEnd = rect.topRight(); break;
-
-        case Uml::South:
-            xBasis = true;
-        case Uml::SouthWest:
-            lineEnd = rect.bottomLeft(); break;
-
-        case Uml::SouthEast:
-            lineEnd = rect.bottomRight(); break;
-
-        default: ;
-    }
+    // Holds whether arrangement is based on x(horizontal) or not (which means
+    // its vertically arranged based on y).
+    bool xBasis = (region == Uml::North || region == Uml::South);
 
     QList<New::AssociationWidget*> &listRef = m_regionAssociationsMap[region];
     if (listRef.isEmpty()) {
-        return;
+        return; // nothing to arrange.
     }
 
+    // assocDistances contains a list of pairs of New::AssociationWidget and
+    // its x or y value depending on region.
     QList<QPair<New::AssociationWidget*, qreal> > assocDistances;
+    // This for loop computes the pair values and inserts them in sorted
+    // manner based on pair.second variable.
     foreach (New::AssociationWidget* assoc, listRef) {
+        // Obtain reference point first.
         QPointF lineStart = referencePoint(assoc);
-        QPointF pointDist = lineEnd - lineStart;
-        // qreal distance = (xBasis ? pointDist.x() : pointDist.y());
+        // Get x or y coord based on xBasis variable.
         qreal distance = (xBasis ? lineStart.x() : lineStart.y());
         int i = 0;
+        // Find appropriate position to insert this new value in.
         while (i < assocDistances.size() && assocDistances[i].second < distance) {
             ++i;
         }
         assocDistances.insert(i, qMakePair(assoc, distance));
     }
+
+    // Now order the New::AssociationWidget in listRef as per ordering in
+    // assocDistances list, which is sorted based on x or y value.
     listRef.clear();
     QListIterator<QPair<New::AssociationWidget*, qreal> > it(assocDistances);
     while (it.hasNext()) {
         listRef.append(it.next().first);
     }
 
+    // Do the actual distribution now.
     const qreal totalSpace = xBasis ? rect.width() : rect.height();
     const qreal slotSize = totalSpace / listRef.size();
     qreal pos = (.5 * slotSize) + (xBasis ? rect.left() : rect.top());
@@ -305,26 +192,22 @@ void AssociationSpaceManager::arrange(Uml::Region region)
         }
         end = assoc->mapFromScene(end);
         New::AssociationLine *line = assoc->associationLine();
-        int endIndex = assoc->roleForWidget(m_umlWidget) == Uml::A ? 0 : line->count()-1;
+        int endIndex = (assoc->roleForWidget(m_umlWidget) == Uml::A ?
+            0 : line->count()-1);
         line->setPoint(endIndex, end);
         pos += slotSize;
     }
 }
 
 /**
- * This utility method arranges the AssociationWidget line end points for a all regions based on
- * its distance of penultimate point from edge.
+ * Shortcut for calling arrange(region) for all regions.
+ * @see AssociationSpaceManager::arrange
  */
 void AssociationSpaceManager::arrangeAllRegions()
 {
-    arrange(Uml::North);
-    arrange(Uml::East);
-    arrange(Uml::South);
-    arrange(Uml::West);
-    arrange(Uml::NorthEast);
-    arrange(Uml::SouthEast);
-    arrange(Uml::SouthWest);
-    arrange(Uml::NorthWest);
+    for (int i = Uml::West; i <= Uml::SouthWest; ++i) {
+        arrange((Uml::Region)i);
+    }
 }
 
 /**
@@ -335,7 +218,8 @@ Uml::Region AssociationSpaceManager::region(New::AssociationWidget *assoc) const
     if (!registered(assoc)) {
         return Uml::Error;
     }
-    QMapIterator<Uml::Region, QList<New::AssociationWidget*> > it(m_regionAssociationsMap);
+    QMapIterator<Uml::Region, QList<New::AssociationWidget*> >
+        it(m_regionAssociationsMap);
     while (it.hasNext()) {
         it.next();
         if (it.value().contains(assoc)) {
@@ -354,26 +238,9 @@ bool AssociationSpaceManager::registered(New::AssociationWidget* assoc) const
 }
 
 /**
- * Computes nearest region for all New::AssociationWidget's, moves them to calculated regions and
- * arranges them.
- *
- * The logic involved is to remove all resitered associations and add it back by calling
- * AssociationSpaceManager::add() method without passing second argument. That will recalculate the
- * new regions based on its distances of penultimate end point and finally, arrangeAllRegions()
- * method will do the actual arrangement of associations.
+ * @return The set containing all the New::AssociationWidget managed by this
+ *         AssociationSpaceManager.
  */
-void AssociationSpaceManager::adjust()
-{
-    QSet<New::AssociationWidget*> registered = m_registeredAssociationSet;
-    foreach (New::AssociationWidget *a, registered) {
-        remove(a);
-    }
-    foreach (New::AssociationWidget *a, registered) {
-        add(a);
-    }
-    arrangeAllRegions();
-}
-
 QSet<New::AssociationWidget*> AssociationSpaceManager::associationWidgets() const
 {
     return m_registeredAssociationSet;

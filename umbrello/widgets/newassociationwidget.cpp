@@ -63,10 +63,10 @@ namespace New
             }
         }
 
-        m_associationLine->calculateInitialEndPoints(widgetA, widgetB);
-
         setWidgetForRole(widgetA, Uml::A);
         setWidgetForRole(widgetB, Uml::B);
+        // TODO: Probably move this calculation to slotInit.
+        m_associationLine->calculateInitialEndPoints();
 
         Q_ASSERT(widgetA->umlScene() == widgetB->umlScene());
 
@@ -473,7 +473,7 @@ namespace New
     void AssociationWidget::setWidgetForRole(UMLWidget *widget, Uml::Role_Type role)
     {
         m_widgetRole[role].umlWidget = widget;
-        widget->associationSpaceManager()->add(this);
+        widget->associationSpaceManager()->add(this, Uml::North);
     }
 
     Uml::Association_Type AssociationWidget::associationType() const

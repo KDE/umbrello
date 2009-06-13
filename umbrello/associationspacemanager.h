@@ -42,23 +42,16 @@ Q_OBJECT;
 public:
     AssociationSpaceManager(UMLWidget *widget);
 
-    Uml::Region add(New::AssociationWidget *assoc, Uml::Region region = Uml::Error);
+    void add(New::AssociationWidget *assoc, Uml::Region region);
     Uml::Region remove(New::AssociationWidget *assoc);
 
-    QPointF endPoint(New::AssociationWidget *assoc) const;
-    QPointF penultimateEndPoint(New::AssociationWidget *assoc) const;
-
     QPointF referencePoint(New::AssociationWidget *assoc) const;
-
-    Uml::Region nearestRegion(New::AssociationWidget *assoc) const;
 
     void arrange(Uml::Region region);
     void arrangeAllRegions();
 
     Uml::Region region(New::AssociationWidget *assoc) const;
     bool registered(New::AssociationWidget* assoc) const;
-
-    void adjust();
 
     QSet<New::AssociationWidget*> associationWidgets() const;
 

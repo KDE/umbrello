@@ -146,7 +146,7 @@ namespace New
         void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
         void calculateBoundingRect();
-        void calculateInitialEndPoints(UMLWidget *widA = 0, UMLWidget *widB = 0);
+        void calculateInitialEndPoints();
         void calculateEndPoints();
 
     private:
