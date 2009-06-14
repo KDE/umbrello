@@ -53,6 +53,8 @@ private:
     int id() const;
 };
 
+typedef QPair<QPointF, QPointF> PointPair;
+
 /**
  * @short A class to manage distribution of AssociationWidget around UMLWidget.
  *
@@ -82,7 +84,7 @@ public:
     QSet<New::AssociationWidget*> associationWidgets() const;
 
 private:
-    QPointF referencePoint(New::AssociationWidget *assoc) const;
+    PointPair referencePoints(New::AssociationWidget *assoc) const;
 
     QMap<RegionPair, QList<New::AssociationWidget*> > m_regionsAssociationsMap;
     QSet<New::AssociationWidget*> m_registeredAssociationSet;

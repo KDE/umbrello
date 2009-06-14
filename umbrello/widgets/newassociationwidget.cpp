@@ -465,6 +465,11 @@ namespace New
         return Uml::A; // unreachable.
     }
 
+    bool AssociationWidget::isSelf() const
+    {
+        return widgetForRole(Uml::A) == widgetForRole(Uml::B);
+    }
+
     UMLWidget* AssociationWidget::widgetForRole(Uml::Role_Type role) const
     {
         return m_widgetRole[role].umlWidget;

@@ -104,40 +104,51 @@ RegionPair AssociationSpaceManager::remove(New::AssociationWidget *assoc)
 }
 
 /**
- * This method returns the point for given \a assoc which acts as reference
+ * This method returns the points for given \a assoc which acts as reference
  * for arranging the association widget lines of particular region.
  *
- * The reference point is either the penultimate point or other widget's center
+ * In case of non-self association,
+ * the reference point is either the penultimate point or other widget's center
  * based on whether number of points is greater than two or equal to two
- * respectively.
+ * respectively, and is stored in PointPair.first.
+ *
+ * In case of self associations,
+ * the reference point pair is always the penultimate points from both ends as
+ * a self association line has atleast 4 points.
  */
-QPointF AssociationSpaceManager::referencePoint(New::AssociationWidget *assoc) const
+PointPair AssociationSpaceManager::referencePoints(New::AssociationWidget *assoc) const
 {
     UMLWidget *widA = assoc->widgetForRole(Uml::A);
     UMLWidget *widB = assoc->widgetForRole(Uml::B);
-    QPointF retVal;
-    const int pointCount = assoc->associationLine()->count();
-    Q_ASSERT(pointCount >= 2);
-    if (pointCount == 2) {
-        if (widA == m_umlWidget) {
-            retVal = widB->sceneRect().center();
-        } else if (widB == m_umlWidget) {
-            retVal = widA->sceneRect().center();
+    New::AssociationLine *line = assoc->associationLine();
+    if (!assoc->isSelf()) {
+        QPointF retVal;
+        Q_ASSERT(line->count() >= 2);
+        if (line->count() == 2) {
+            if (widA == m_umlWidget) {
+                retVal = widB->sceneRect().center();
+            } else if (widB == m_umlWidget) {
+                retVal = widA->sceneRect().center();
+            } else {
+                uWarning() << "Passed association " << assoc->name()
+                    << " is not managed by this AssociationSpaceManager";
+            }
         } else {
-            uWarning() << "Passed association " << assoc->name()
-                       << " is not managed by this AssociationSpaceManager";
+            if (widA == m_umlWidget) {
+                retVal = assoc->mapToScene(line->point(1));
+            } else if (widB == m_umlWidget) {
+                retVal = assoc->mapToScene(line->point(line->count()-2));
+            } else {
+                uWarning() << "Passed association " << assoc->name()
+                    << " is not managed by this AssociationSpaceManager";
+            }
         }
+
+        return PointPair(retVal, QPointF());
     } else {
-        if (widA == m_umlWidget) {
-            retVal = assoc->mapToScene(assoc->associationLine()->point(1));
-        } else if (widB == m_umlWidget) {
-            retVal = assoc->mapToScene(assoc->associationLine()->point(pointCount-2));
-        } else {
-            uWarning() << "Passed association " << assoc->name()
-                       << " is not managed by this AssociationSpaceManager";
-        }
+        Q_ASSERT(line->count() >= 4);
+        return PointPair(line->point(1), line->point(line->count()-2));
     }
-    return retVal;
 }
 
 /**
@@ -145,7 +156,7 @@ QPointF AssociationSpaceManager::referencePoint(New::AssociationWidget *assoc) c
  * regions based on its x or y value of the reference point depending upon
  * the region.
  *
- * @see AssociationSpaceManager::referencePoint
+ * @see AssociationSpaceManager::referencePoints
  * @note Refer @ref RegionPair to understand why pair is used.
  */
 void AssociationSpaceManager::arrange(RegionPair regions)
@@ -169,7 +180,7 @@ void AssociationSpaceManager::arrange(RegionPair regions)
     // manner based on pair.second variable.
     foreach (New::AssociationWidget* assoc, listRef) {
         // Obtain reference point first.
-        QPointF lineStart = referencePoint(assoc);
+        QPointF lineStart = referencePoints(assoc).first;
         // Get x or y coord based on xBasis variable.
         qreal distance = (xBasis ? lineStart.x() : lineStart.y());
         int i = 0;
