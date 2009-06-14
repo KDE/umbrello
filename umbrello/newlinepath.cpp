@@ -862,15 +862,15 @@ namespace New
         QMap<Uml::Region, QLineF> aRectLines, bRectLines;
 
         // Do the mapping.
-        aRectLines[Uml::West] = QLineF(aRect.topLeft(), aRect.bottomLeft());
-        aRectLines[Uml::North] = QLineF(aRect.topLeft(), aRect.topRight());
-        aRectLines[Uml::East] = QLineF(aRect.topRight(), aRect.bottomRight());
-        aRectLines[Uml::South] = QLineF(aRect.bottomLeft(), aRect.bottomRight());
+        aRectLines[Uml::reg_West] = QLineF(aRect.topLeft(), aRect.bottomLeft());
+        aRectLines[Uml::reg_North] = QLineF(aRect.topLeft(), aRect.topRight());
+        aRectLines[Uml::reg_East] = QLineF(aRect.topRight(), aRect.bottomRight());
+        aRectLines[Uml::reg_South] = QLineF(aRect.bottomLeft(), aRect.bottomRight());
 
-        bRectLines[Uml::West] = QLineF(bRect.topLeft(), bRect.bottomLeft());
-        bRectLines[Uml::North] = QLineF(bRect.topLeft(), bRect.topRight());
-        bRectLines[Uml::East] = QLineF(bRect.topRight(), bRect.bottomRight());
-        bRectLines[Uml::South] = QLineF(bRect.bottomLeft(), bRect.bottomRight());
+        bRectLines[Uml::reg_West] = QLineF(bRect.topLeft(), bRect.bottomLeft());
+        bRectLines[Uml::reg_North] = QLineF(bRect.topLeft(), bRect.topRight());
+        bRectLines[Uml::reg_East] = QLineF(bRect.topRight(), bRect.bottomRight());
+        bRectLines[Uml::reg_South] = QLineF(bRect.bottomLeft(), bRect.bottomRight());
 
         // NOTE: Don't add tracker to scene for now.. tracker is still needed
         //       for visual debugging and hence not removed yet.
@@ -890,7 +890,7 @@ namespace New
         // Now determine which all regions (represented by QLineF objects) is
         // intersected by the aLine and bLine for widA and widB
         // respectively, and store resultant in the above declared maps.
-        for (int i = Uml::West; i <= Uml::South; ++i) {
+        for (int i = Uml::reg_West; i <= Uml::reg_South; ++i) {
             Uml::Region r = (Uml::Region)i;
             QPointF temp;
             aIntersections[r] = (aLine.intersect(aRectLines[r], &temp) ==
@@ -903,30 +903,30 @@ namespace New
         }
 
         // Do intersection mapping separately for corner regions.
-        aIntersections[Uml::NorthWest] = (aIntersections[Uml::North] == true
-                && aIntersections[Uml::West] == true);
-        aIntersections[Uml::NorthEast] = (aIntersections[Uml::North] == true
-                && aIntersections[Uml::East] == true);
-        aIntersections[Uml::SouthWest] = (aIntersections[Uml::South] == true
-                && aIntersections[Uml::West] == true);
-        aIntersections[Uml::SouthEast] = (aIntersections[Uml::South] == true
-                && aIntersections[Uml::East] == true);
+        aIntersections[Uml::reg_NorthWest] = (aIntersections[Uml::reg_North] == true
+                && aIntersections[Uml::reg_West] == true);
+        aIntersections[Uml::reg_NorthEast] = (aIntersections[Uml::reg_North] == true
+                && aIntersections[Uml::reg_East] == true);
+        aIntersections[Uml::reg_SouthWest] = (aIntersections[Uml::reg_South] == true
+                && aIntersections[Uml::reg_West] == true);
+        aIntersections[Uml::reg_SouthEast] = (aIntersections[Uml::reg_South] == true
+                && aIntersections[Uml::reg_East] == true);
 
-        bIntersections[Uml::NorthWest] = (bIntersections[Uml::North] == true
-                && bIntersections[Uml::West] == true);
-        bIntersections[Uml::NorthEast] = (bIntersections[Uml::North] == true
-                && bIntersections[Uml::East] == true);
-        bIntersections[Uml::SouthWest] = (bIntersections[Uml::South] == true
-                && bIntersections[Uml::West] == true);
-        bIntersections[Uml::SouthEast] = (bIntersections[Uml::South] == true
-                && bIntersections[Uml::East] == true);
+        bIntersections[Uml::reg_NorthWest] = (bIntersections[Uml::reg_North] == true
+                && bIntersections[Uml::reg_West] == true);
+        bIntersections[Uml::reg_NorthEast] = (bIntersections[Uml::reg_North] == true
+                && bIntersections[Uml::reg_East] == true);
+        bIntersections[Uml::reg_SouthWest] = (bIntersections[Uml::reg_South] == true
+                && bIntersections[Uml::reg_West] == true);
+        bIntersections[Uml::reg_SouthEast] = (bIntersections[Uml::reg_South] == true
+                && bIntersections[Uml::reg_East] == true);
 
         // If no intersecion happened above, default it to North
         if (!aSomeIntersection) {
-            aIntersections[Uml::North] = true;
+            aIntersections[Uml::reg_North] = true;
         }
         if (!bSomeIntersection) {
-            bIntersections[Uml::North] = true;
+            bIntersections[Uml::reg_North] = true;
         }
 
         // Determine the new region occupied so that an updation of only
@@ -935,9 +935,9 @@ namespace New
         // regions, the new regions determined will appropriately point to
         // corner region if it intersected corner region (two edge regions).
         // (i.e we are not breaking from loop on first true value)
-        Uml::Region aNewRegion = Uml::Error;
-        Uml::Region bNewRegion = Uml::Error;
-        for (int i = Uml::West; i <= Uml::SouthWest; ++i) {
+        Uml::Region aNewRegion = Uml::reg_Error;
+        Uml::Region bNewRegion = Uml::reg_Error;
+        for (int i = Uml::reg_West; i <= Uml::reg_SouthWest; ++i) {
             Uml::Region r = (Uml::Region)i;
             if (aIntersections[r] == true) {
                 aNewRegion = r; 

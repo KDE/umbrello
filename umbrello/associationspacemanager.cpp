@@ -40,13 +40,12 @@ AssociationSpaceManager::AssociationSpaceManager(UMLWidget *widget)
  *               registered.
  * @note This method does not call arrange(region) as that is the decision to
  *       be taken dynamically.
- * @note region should not be Uml::Center nor Uml::Error.
+ * @note region should not be Uml::reg_Error.
  */
 void AssociationSpaceManager::add(New::AssociationWidget *assoc,
         Uml::Region region)
 {
-    Q_ASSERT(region != Uml::Center);
-    Q_ASSERT(region != Uml::Error);
+    Q_ASSERT(region != Uml::reg_Error);
 
     if (registered(assoc)) {
         uDebug() << assoc->name() << " is already registered!";
@@ -71,13 +70,12 @@ Uml::Region AssociationSpaceManager::remove(New::AssociationWidget *assoc)
 {
     if (!registered(assoc)) {
         uDebug() << assoc->name() << " is not registered!";
-        return Uml::Error;
+        return Uml::reg_Error;
     }
 
     Uml::Region reg = region(assoc);
     //TODO: Remove these checks after extensive testing.
-    Q_ASSERT(reg != Uml::Error);
-    Q_ASSERT(reg != Uml::Center);
+    Q_ASSERT(reg != Uml::reg_Error);
 
     QList<New::AssociationWidget*> &listRef = m_regionAssociationsMap[reg];
     listRef.removeOne(assoc);
@@ -132,13 +130,13 @@ QPointF AssociationSpaceManager::referencePoint(New::AssociationWidget *assoc) c
  */
 void AssociationSpaceManager::arrange(Uml::Region region)
 {
-    if (region == Uml::Error || region == Uml::Center) return;
+    if (region == Uml::reg_Error) return;
 
     QRectF rect = m_umlWidget->sceneRect();
 
     // Holds whether arrangement is based on x(horizontal) or not (which means
     // its vertically arranged based on y).
-    bool xBasis = (region == Uml::North || region == Uml::South);
+    bool xBasis = (region == Uml::reg_North || region == Uml::reg_South);
 
     QList<New::AssociationWidget*> &listRef = m_regionAssociationsMap[region];
     if (listRef.isEmpty()) {
@@ -178,15 +176,15 @@ void AssociationSpaceManager::arrange(Uml::Region region)
     foreach (New::AssociationWidget *assoc, listRef) {
         QPointF end(pos, pos);
         switch (region) {
-            case Uml::North: end.setY(rect.top()); break;
-            case Uml::East: end.setX(rect.right()); break;
-            case Uml::South: end.setY(rect.bottom()); break;
-            case Uml::West: end.setX(rect.left()); break;
+            case Uml::reg_North: end.setY(rect.top()); break;
+            case Uml::reg_East: end.setX(rect.right()); break;
+            case Uml::reg_South: end.setY(rect.bottom()); break;
+            case Uml::reg_West: end.setX(rect.left()); break;
 
-            case Uml::NorthWest: end = rect.topLeft(); break;
-            case Uml::NorthEast: end = rect.topRight(); break;
-            case Uml::SouthEast: end = rect.bottomRight(); break;
-            case Uml::SouthWest: end = rect.bottomLeft(); break;
+            case Uml::reg_NorthWest: end = rect.topLeft(); break;
+            case Uml::reg_NorthEast: end = rect.topRight(); break;
+            case Uml::reg_SouthEast: end = rect.bottomRight(); break;
+            case Uml::reg_SouthWest: end = rect.bottomLeft(); break;
 
             default: break;
         }
@@ -205,7 +203,7 @@ void AssociationSpaceManager::arrange(Uml::Region region)
  */
 void AssociationSpaceManager::arrangeAllRegions()
 {
-    for (int i = Uml::West; i <= Uml::SouthWest; ++i) {
+    for (int i = Uml::reg_West; i <= Uml::reg_SouthWest; ++i) {
         arrange((Uml::Region)i);
     }
 }
@@ -216,7 +214,7 @@ void AssociationSpaceManager::arrangeAllRegions()
 Uml::Region AssociationSpaceManager::region(New::AssociationWidget *assoc) const
 {
     if (!registered(assoc)) {
-        return Uml::Error;
+        return Uml::reg_Error;
     }
     QMapIterator<Uml::Region, QList<New::AssociationWidget*> >
         it(m_regionAssociationsMap);
@@ -226,7 +224,7 @@ Uml::Region AssociationSpaceManager::region(New::AssociationWidget *assoc) const
             return it.key();
         }
     }
-    return Uml::Error;
+    return Uml::reg_Error;
 }
 
 /**

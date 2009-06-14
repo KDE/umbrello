@@ -473,7 +473,7 @@ namespace New
     void AssociationWidget::setWidgetForRole(UMLWidget *widget, Uml::Role_Type role)
     {
         m_widgetRole[role].umlWidget = widget;
-        widget->associationSpaceManager()->add(this, Uml::North);
+        widget->associationSpaceManager()->add(this, Uml::reg_North);
     }
 
     Uml::Association_Type AssociationWidget::associationType() const
