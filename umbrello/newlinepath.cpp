@@ -935,32 +935,31 @@ namespace New
         // regions, the new regions determined will appropriately point to
         // corner region if it intersected corner region (two edge regions).
         // (i.e we are not breaking from loop on first true value)
-        Uml::Region aNewRegion = Uml::reg_Error;
-        Uml::Region bNewRegion = Uml::reg_Error;
+        RegionPair aNewRegions, bNewRegions;
         for (int i = Uml::reg_West; i <= Uml::reg_SouthWest; ++i) {
             Uml::Region r = (Uml::Region)i;
             if (aIntersections[r] == true) {
-                aNewRegion = r; 
+                aNewRegions = r;
             }
             if (bIntersections[r] == true) {
-                bNewRegion = r;
+                bNewRegions = r;
             }
         }
         AssociationSpaceManager *aSpaceManager = widA->associationSpaceManager();
         AssociationSpaceManager *bSpaceManager = widB->associationSpaceManager();
 
         // Now move the AssociationWidget to proper regions.
-        Uml::Region aPrevRegion = aSpaceManager->remove(m_associationWidget);
-        aSpaceManager->add(m_associationWidget, aNewRegion);
-        Uml::Region bPrevRegion = bSpaceManager->remove(m_associationWidget);
-        bSpaceManager->add(m_associationWidget, bNewRegion);
+        RegionPair aPrevRegions = aSpaceManager->remove(m_associationWidget);
+        aSpaceManager->add(m_associationWidget, aNewRegions);
+        RegionPair bPrevRegions = bSpaceManager->remove(m_associationWidget);
+        bSpaceManager->add(m_associationWidget, bNewRegions);
 
         // Finally call AssociationSpaceManager::arrange to do the actual
         // placement of line endings of this AssociationLine.
-        aSpaceManager->arrange(aPrevRegion);
-        aSpaceManager->arrange(aNewRegion);
-        bSpaceManager->arrange(bPrevRegion);
-        bSpaceManager->arrange(bNewRegion);
+        aSpaceManager->arrange(aPrevRegions);
+        aSpaceManager->arrange(aNewRegions);
+        bSpaceManager->arrange(bPrevRegions);
+        bSpaceManager->arrange(bNewRegions);
     }
 
     /**

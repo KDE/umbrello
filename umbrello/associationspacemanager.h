@@ -30,6 +30,30 @@ namespace New {
 }
 
 /**
+ * This helper struct accomplishes task of being data store for both self and
+ * non self associations.
+ * A less than operator along with id() method enables RegionPair to be used
+ * as key in QMap and QSet.
+ *
+ * For self association, first and second variable contains regions occupied by
+ * the RoleA line end as well as RoleB line end respectively.
+ *
+ * For non self association, first variable contains region occupied by the
+ * association line end corresponding to role of UMLWidget in association.
+ */
+struct RegionPair
+{
+    RegionPair(Uml::Region f = Uml::reg_Error, Uml::Region s = Uml::reg_Error);
+    bool isValid() const;
+    bool operator<(const RegionPair& rhs) const;
+
+    Uml::Region first, second;
+
+private:
+    int id() const;
+};
+
+/**
  * @short A class to manage distribution of AssociationWidget around UMLWidget.
  *
  * This class mainly has the following duties
@@ -46,21 +70,21 @@ Q_OBJECT;
 public:
     AssociationSpaceManager(UMLWidget *widget);
 
-    void add(New::AssociationWidget *assoc, Uml::Region region);
-    Uml::Region remove(New::AssociationWidget *assoc);
+    void add(New::AssociationWidget *assoc, RegionPair regions);
+    RegionPair remove(New::AssociationWidget *assoc);
 
-    QPointF referencePoint(New::AssociationWidget *assoc) const;
+    void arrange(RegionPair regions);
 
-    void arrange(Uml::Region region);
-    void arrangeAllRegions();
+    RegionPair regions(New::AssociationWidget *assoc) const;
 
-    Uml::Region region(New::AssociationWidget *assoc) const;
-    bool registered(New::AssociationWidget* assoc) const;
+    bool isRegistered(New::AssociationWidget* assoc) const;
 
     QSet<New::AssociationWidget*> associationWidgets() const;
 
 private:
-    QMap<Uml::Region, QList<New::AssociationWidget*> > m_regionAssociationsMap;
+    QPointF referencePoint(New::AssociationWidget *assoc) const;
+
+    QMap<RegionPair, QList<New::AssociationWidget*> > m_regionsAssociationsMap;
     QSet<New::AssociationWidget*> m_registeredAssociationSet;
     UMLWidget *m_umlWidget;
 };

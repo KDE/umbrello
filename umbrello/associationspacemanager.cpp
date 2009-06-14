@@ -22,6 +22,25 @@
 #include "newlinepath.h"
 #include "umlwidget.h"
 
+RegionPair::RegionPair(Uml::Region f, Uml::Region s) : first(f), second(s)
+{
+}
+
+bool RegionPair::isValid() const
+{
+    return first != Uml::reg_Error;
+}
+
+bool RegionPair::operator<(const RegionPair& rhs) const
+{
+    return id() < rhs.id();
+}
+
+int RegionPair::id() const
+{
+    return (100*first) + second;
+}
+
 /**
  * Constructs a new space manager object for given widget.
  */
@@ -35,50 +54,50 @@ AssociationSpaceManager::AssociationSpaceManager(UMLWidget *widget)
  * This method is used to register the AssociationWidget associatied with this
  * UMLWidget along specified region passed.
  *
- * @param  assoc The AssociationWidget to be registered.
- * @param region The region with which the AssociationWidget has to be
- *               registered.
+ * @param  assoc  The AssociationWidget to be registered.
+ * @param regions The regions with which the AssociationWidget has to be
+ *                registered.
+ *
  * @note This method does not call arrange(region) as that is the decision to
  *       be taken dynamically.
- * @note region should not be Uml::reg_Error.
+ * @note Refer @ref RegionPair to understand why pair is used.
  */
 void AssociationSpaceManager::add(New::AssociationWidget *assoc,
-        Uml::Region region)
+        RegionPair regions)
 {
-    Q_ASSERT(region != Uml::reg_Error);
+    if (!regions.isValid()) return;
 
-    if (registered(assoc)) {
+    if (isRegistered(assoc)) {
         uDebug() << assoc->name() << " is already registered!";
         return;
     }
 
-    QList<New::AssociationWidget*> &listRef = m_regionAssociationsMap[region];
-    listRef << assoc;
+    m_regionsAssociationsMap[regions] << assoc;
     m_registeredAssociationSet << assoc;
 }
 
 /**
- * This method unregisters the AssociationWidget by removing it from region
+ * This method unregisters the AssociationWidget by removing it from regions
  * specific list.
  *
- * @return The last region occupied by AssociationWidget.
+ * @return The last regions occupied by AssociationWidget.
  *
  * @note The AssociationWidget is however @b not deleted.
  * @note Also the arrange method is not called.
+ * @note Refer @ref RegionPair to understand why pair is used.
  */
-Uml::Region AssociationSpaceManager::remove(New::AssociationWidget *assoc)
+RegionPair AssociationSpaceManager::remove(New::AssociationWidget *assoc)
 {
-    if (!registered(assoc)) {
+    if (!isRegistered(assoc)) {
         uDebug() << assoc->name() << " is not registered!";
         return Uml::reg_Error;
     }
 
-    Uml::Region reg = region(assoc);
+    RegionPair reg = regions(assoc);
     //TODO: Remove these checks after extensive testing.
-    Q_ASSERT(reg != Uml::reg_Error);
+    Q_ASSERT(reg.isValid());
 
-    QList<New::AssociationWidget*> &listRef = m_regionAssociationsMap[reg];
-    listRef.removeOne(assoc);
+    m_regionsAssociationsMap[reg].removeOne(assoc);
     m_registeredAssociationSet.remove(assoc);
 
     return reg;
@@ -122,27 +141,27 @@ QPointF AssociationSpaceManager::referencePoint(New::AssociationWidget *assoc) c
 }
 
 /**
- * This method arranges the AssociationWidget line end points for a given
- * region based on its x or y value of the reference point depending upon
+ * This method arranges the AssociationWidget line end points for given
+ * regions based on its x or y value of the reference point depending upon
  * the region.
  *
  * @see AssociationSpaceManager::referencePoint
+ * @note Refer @ref RegionPair to understand why pair is used.
  */
-void AssociationSpaceManager::arrange(Uml::Region region)
+void AssociationSpaceManager::arrange(RegionPair regions)
 {
-    if (region == Uml::reg_Error) return;
+    if (!regions.isValid()) return;
 
     QRectF rect = m_umlWidget->sceneRect();
-
-    // Holds whether arrangement is based on x(horizontal) or not (which means
-    // its vertically arranged based on y).
-    bool xBasis = (region == Uml::reg_North || region == Uml::reg_South);
-
-    QList<New::AssociationWidget*> &listRef = m_regionAssociationsMap[region];
+    QList<New::AssociationWidget*> &listRef = m_regionsAssociationsMap[regions];
     if (listRef.isEmpty()) {
         return; // nothing to arrange.
     }
 
+    // Holds whether arrangement is based on x(horizontal) or not (which means
+    // its vertically arranged based on y).
+    bool xBasis = (regions.first == Uml::reg_North ||
+            regions.first == Uml::reg_South);
     // assocDistances contains a list of pairs of New::AssociationWidget and
     // its x or y value depending on region.
     QList<QPair<New::AssociationWidget*, qreal> > assocDistances;
@@ -175,7 +194,7 @@ void AssociationSpaceManager::arrange(Uml::Region region)
     qreal pos = (.5 * slotSize) + (xBasis ? rect.left() : rect.top());
     foreach (New::AssociationWidget *assoc, listRef) {
         QPointF end(pos, pos);
-        switch (region) {
+        switch (regions.first) {
             case Uml::reg_North: end.setY(rect.top()); break;
             case Uml::reg_East: end.setX(rect.right()); break;
             case Uml::reg_South: end.setY(rect.bottom()); break;
@@ -198,39 +217,29 @@ void AssociationSpaceManager::arrange(Uml::Region region)
 }
 
 /**
- * Shortcut for calling arrange(region) for all regions.
- * @see AssociationSpaceManager::arrange
+ * @return The RegionPair where assoc's end points resides.
+ * @note Refer @ref RegionPair to understand why pair is used.
  */
-void AssociationSpaceManager::arrangeAllRegions()
+RegionPair AssociationSpaceManager::regions(New::AssociationWidget *assoc) const
 {
-    for (int i = Uml::reg_West; i <= Uml::reg_SouthWest; ++i) {
-        arrange((Uml::Region)i);
-    }
-}
-
-/**
- * @return The Uml::Region where assoc's end point resides.
- */
-Uml::Region AssociationSpaceManager::region(New::AssociationWidget *assoc) const
-{
-    if (!registered(assoc)) {
+    if (!isRegistered(assoc)) {
         return Uml::reg_Error;
     }
-    QMapIterator<Uml::Region, QList<New::AssociationWidget*> >
-        it(m_regionAssociationsMap);
+    QMapIterator<RegionPair, QList<New::AssociationWidget*> >
+        it(m_regionsAssociationsMap);
     while (it.hasNext()) {
         it.next();
         if (it.value().contains(assoc)) {
             return it.key();
         }
     }
-    return Uml::reg_Error;
+    return RegionPair();
 }
 
 /**
  * @return Registration status of assoc.
  */
-bool AssociationSpaceManager::registered(New::AssociationWidget* assoc) const
+bool AssociationSpaceManager::isRegistered(New::AssociationWidget* assoc) const
 {
     return m_registeredAssociationSet.contains(assoc);
 }
