@@ -100,6 +100,8 @@ namespace New
 
         QPointF point(int index) const;
         void setPoint(int index, const QPointF& point);
+        QPointF startPoint() const;
+        QPointF endPoint() const;
 
         void insertPoint(int index, const QPointF& point);
         void removePoint(int index);
@@ -148,6 +150,7 @@ namespace New
         void calculateBoundingRect();
         void calculateInitialEndPoints();
         void calculateEndPoints();
+        void calculateSelfEndPoints();
 
     private:
         /// These points represents the linepath.
@@ -180,6 +183,8 @@ namespace New
         static const qreal Delta;
         /// The radius of circles drawn to show "selection".
         static const qreal SelectedPointDiameter;
+        /// Minimum height for self association's loop.
+        static const qreal SelfAssociationMinimumHeight;
     };
 
 }
