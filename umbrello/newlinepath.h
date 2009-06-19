@@ -31,14 +31,19 @@ namespace New
 
     typedef QPair<QPointF, QPointF> PointPair;
 
-    class HeadSymbol : public QGraphicsItem
+    /**
+     * This class provides with various symbols that can be embedded in
+     * AssociationLine.  It also provides with convenience methods to align
+     * the symbol to AssociationLine.
+     */
+    class Symbol : public QGraphicsItem
     {
     public:
         /**
          * This enumeration lists all the symbols that can be used as
-         * Head on linepath.
+         * embedded on AssociationLine.
          */
-        enum Symbol {
+        enum SymbolType {
             None = -1,
             Arrow,
             Diamond,
@@ -47,11 +52,11 @@ namespace New
             Count
         };
 
-        HeadSymbol(Symbol symbol, QGraphicsItem *parent = 0);
-        virtual ~HeadSymbol();
+        Symbol(SymbolType symbolType, QGraphicsItem *parent = 0);
+        virtual ~Symbol();
 
-        Symbol symbol() const;
-        void setSymbol(Symbol symbol);
+        SymbolType symbolType() const;
+        void setSymbolType(SymbolType symbolType);
 
         virtual void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
 
@@ -69,12 +74,12 @@ namespace New
         void setBrush(const QBrush& brush);
 
     private:
-        /// Pen used to draw HeadSymbol
+        /// Pen used to draw Symbol
         QPen m_pen;
-        /// Brush used to fill HeadSymbol
+        /// Brush used to fill Symbol
         QBrush m_brush;
         /// The current symbol being represented by this item.
-        Symbol m_symbol;
+        SymbolType m_symbolType;
 
         /// A structure to hold a table of values for all symbols.
         struct SymbolProperty {
@@ -88,11 +93,22 @@ namespace New
         bool m_firstTime;
 
         /// A table which stores all symbol properties.
-        static SymbolProperty symbolTable[HeadSymbol::Count];
+        static SymbolProperty symbolTable[Symbol::Count];
         friend void setupSymbolTable();
     };
 
 
+    /**
+     * A convenience class that encapsulates geometry management, handles
+     * mouse and hover events, embeds and aligns symbols and finally draws the
+     * lines and points.
+     *
+     * This class is infact a draw and event handling proxy for
+     * New::AssociationWidget.
+     *
+     * @author Gopala Krishna
+     * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+     */
     class AssociationLine
     {
     public:
@@ -120,9 +136,9 @@ namespace New
 
         void setEndPoints(const QPointF &start, const QPointF &end);
 
-        void setStartHeadSymbol(HeadSymbol::Symbol symbol);
-        void setEndHeadSymbol(HeadSymbol::Symbol symbol);
-        void alignHeadSymbols();
+        void setStartSymbol(Symbol::SymbolType symbolType);
+        void setEndSymbol(Symbol::SymbolType symbolType);
+        void alignSymbols();
 
         bool loadFromXMI(QDomElement &qElement);
         void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
@@ -156,10 +172,10 @@ namespace New
 
 
     private:
-        /// These points represents the linepath.
+        /// These points represents the association line.
         QVector<QPointF> m_points;
 
-        /// Index of active point which can be dragged to modify linepath.
+        /// Index of active point which can be dragged to modify association line.
         int m_activePointIndex;
         /**
          * Index of active segment index.
@@ -172,13 +188,13 @@ namespace New
         AssociationWidget *m_associationWidget;
 
         /// The symbol drawn at the end of "first" line segment.
-        HeadSymbol *m_startHeadSymbol;
+        Symbol *m_startSymbol;
         /// The symbol drawn at the end of "last" line segment.
-        HeadSymbol *m_endHeadSymbol;
+        Symbol *m_endSymbol;
 
-        /// The bounding rectangle of this linepath
+        /// The bounding rectangle of this AssociationLine
         QRectF m_boundingRect;
-        /// The shape of this linepath.
+        /// The shape of this AssociationLine.
         QPainterPath m_shape;
         QGraphicsLineItem *tracker;
 

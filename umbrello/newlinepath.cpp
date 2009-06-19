@@ -26,15 +26,7 @@
 
 namespace New
 {
-    /**
-     * @class HeadSymbol
-     *
-     * This class provides with various symbols that can be used as
-     * "head" at any end of the AssociationLine.  It also provides with
-     * convenience methods to align the head to AssociationLine.
-     */
-
-    HeadSymbol::SymbolProperty HeadSymbol::symbolTable[Count] =
+    Symbol::SymbolProperty Symbol::symbolTable[Count] =
     {
         {
             QRectF(-6, 0, 12, 10), QPainterPath(), QLineF(0, 0, 0, 10),
@@ -54,7 +46,7 @@ namespace New
     /// @internal A convenience method to setup shapes of all symbols.
     void setupSymbolTable()
     {
-        HeadSymbol::SymbolProperty &arrow = HeadSymbol::symbolTable[HeadSymbol::Arrow];
+        Symbol::SymbolProperty &arrow = Symbol::symbolTable[Symbol::Arrow];
         if (arrow.shape.isEmpty()) {
             QRectF rect = arrow.boundRect;
             // Defines a 'V' shape arrow fitting in the bound rect.
@@ -63,7 +55,7 @@ namespace New
             arrow.shape.lineTo(rect.topRight());
         }
 
-        HeadSymbol::SymbolProperty &diamond = HeadSymbol::symbolTable[HeadSymbol::Diamond];
+        Symbol::SymbolProperty &diamond = Symbol::symbolTable[Symbol::Diamond];
         if (diamond.shape.isEmpty()) {
             QRectF rect = diamond.boundRect;
             // Defines a 'diamond' shape fitting in the bound rect.
@@ -74,7 +66,7 @@ namespace New
             diamond.shape.lineTo(rect.center().x(), rect.top());
         }
 
-        HeadSymbol::SymbolProperty &circle = HeadSymbol::symbolTable[HeadSymbol::Circle];
+        Symbol::SymbolProperty &circle = Symbol::symbolTable[Symbol::Circle];
         if (circle.shape.isEmpty()) {
             QRectF rect = circle.boundRect;
             // Defines a circle with a horizontal-vertical cross lines.
@@ -91,31 +83,31 @@ namespace New
 
 
     /**
-     * Constructs a HeadSymbol with current symbol being \a symbol and
+     * Constructs a Symbol with current symbol being \a symbol and
      * parented to \a parent.
      */
-    HeadSymbol::HeadSymbol(Symbol symbol, QGraphicsItem *parent) :
+    Symbol::Symbol(SymbolType symbolType, QGraphicsItem *parent) :
         QGraphicsItem(parent),
         m_firstTime(true)
     {
         // Ensure SymbolTable is validly initialized.
         setupSymbolTable();
-        setSymbol(symbol);
+        setSymbolType(symbolType);
     }
 
     /// Destructor
-    HeadSymbol::~HeadSymbol()
+    Symbol::~Symbol()
     {
     }
 
     /// @return The current symbol being represented.
-    HeadSymbol::Symbol HeadSymbol::symbol() const
+    Symbol::SymbolType Symbol::symbolType() const
     {
-        return m_symbol;
+        return m_symbolType;
     }
 
     /// Sets the current symbol type to \a symbol and updates the geometry.
-    void HeadSymbol::setSymbol(Symbol symbol)
+    void Symbol::setSymbolType(SymbolType symbolType)
     {
         if (m_firstTime) {
             m_firstTime = false;
@@ -124,27 +116,31 @@ namespace New
         else {
             prepareGeometryChange(); //calls update implicitly
         }
-        m_symbol = symbol;
+        m_symbolType = symbolType;
     }
 
-    /// Draws the current symbol using the QPainterPath stored for the current symbol.
-    void HeadSymbol::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget *)
+    /**
+     * Draws the current symbol using the QPainterPath stored for the current
+     * symbol.
+     */
+    void Symbol::paint(QPainter *painter, const QStyleOptionGraphicsItem*,
+            QWidget *)
     {
         painter->setPen(m_pen);
         painter->setBrush(m_brush);
-        painter->drawPath(HeadSymbol::symbolTable[m_symbol].shape);
+        painter->drawPath(Symbol::symbolTable[m_symbolType].shape);
     }
 
     /// @return The bound rectangle for this based on current symbol.
-    QRectF HeadSymbol::boundingRect() const
+    QRectF Symbol::boundingRect() const
     {
         const qreal adj = .5 * m_pen.widthF();
-        return HeadSymbol::symbolTable[m_symbol].boundRect.
+        return Symbol::symbolTable[m_symbolType].boundRect.
             adjusted(-adj, -adj, adj, adj);
     }
 
     /// @return The path for this based on current symbol.
-    QPainterPath HeadSymbol::shape() const
+    QPainterPath Symbol::shape() const
     {
         QPainterPath path;
         path.addRect(boundingRect());
@@ -152,7 +148,7 @@ namespace New
     }
 
     /**
-     * This method aligns *this* HeadSymbol to the line being
+     * This method aligns *this* Symbol to the line being
      * passed. That is, it ensures that the axis of this symbol aligns
      * exactly with the \a "to" line passed.
      *
@@ -160,7 +156,7 @@ namespace New
      * PointPair for the current symbol *collides* with the second end
      * point of \a "to" line.
      */
-    void HeadSymbol::alignTo(const QLineF& to)
+    void Symbol::alignTo(const QLineF& to)
     {
         QLineF toMapped(mapFromParent(to.p1()), mapFromParent(to.p2()));
 
@@ -175,9 +171,9 @@ namespace New
     }
 
     /// @return The axis line for this item based on current symbol.
-    QLineF HeadSymbol::axisLine() const
+    QLineF Symbol::axisLine() const
     {
-        return HeadSymbol::symbolTable[m_symbol].axisLine;
+        return Symbol::symbolTable[m_symbolType].axisLine;
     }
 
     /**
@@ -186,55 +182,41 @@ namespace New
      *         The first point is where the AssociationLine's visible line is
      *         supposed to end.
      *
-     *         The second points is where the actual "head" part is to
+     *         The second points is where the actual symbol part is to
      *         appear.
      */
-    PointPair HeadSymbol::symbolEndPoints() const
+    PointPair Symbol::symbolEndPoints() const
     {
-        return HeadSymbol::symbolTable[m_symbol].endPoints;
+        return Symbol::symbolTable[m_symbolType].endPoints;
     }
 
     /// @return The pen used to draw symbol.
-    QPen HeadSymbol::pen() const
+    QPen Symbol::pen() const
     {
         return m_pen;
     }
 
     /// Sets the pen used to draw the symbol
-    void HeadSymbol::setPen(const QPen& pen)
+    void Symbol::setPen(const QPen& pen)
     {
         prepareGeometryChange();
         m_pen = pen;
     }
 
     /// @return The brush used to fill symbol.
-    QBrush HeadSymbol::brush() const
+    QBrush Symbol::brush() const
     {
         return m_brush;
     }
 
     /// Sets the brush used to fill symbol.
-    void HeadSymbol::setBrush(const QBrush &brush)
+    void Symbol::setBrush(const QBrush &brush)
     {
         m_brush = brush;
         update();
     }
 
 
-    /**
-     * @class AssociationLine
-     *
-     * @short A class to manage a set of connected lines (eg Association line).
-     *
-     * This class inherits QGraphicsItem and hence can be directly
-     * embedded in other QGraphicsItem. It provides interface methods
-     * to insert, remove ..  Also it handles mouse events to allow
-     * user to insert line points, move line points and also move
-     * lines.
-     *
-     * @author Gopala Krishna
-     * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
-     */
 
 
     // Initialize static variables.
@@ -249,7 +231,7 @@ namespace New
     AssociationLine::AssociationLine(New::AssociationWidget *assoc) : m_associationWidget(assoc)
     {
         m_activePointIndex = m_activeSegmentIndex = -1;
-        m_startHeadSymbol = m_endHeadSymbol = 0;
+        m_startSymbol = m_endSymbol = 0;
         // This tracker is only for debugging and testing purpose.
         tracker = new QGraphicsLineItem;
         tracker->setPen(QPen(Qt::darkBlue, 1));
@@ -318,7 +300,7 @@ namespace New
     }
 
     /**
-     * @return The number of points in the linepath.
+     * @return The number of points in the AssociationLine.
      */
     int AssociationLine::count() const
     {
@@ -326,7 +308,7 @@ namespace New
     }
 
     /**
-     * Clears the linepath by removing all the points in the linepath.
+     * Removes all the points and signals a geometry updation.
      */
     void AssociationLine::clear()
     {
@@ -465,57 +447,57 @@ namespace New
     }
 
     /**
-     * Sets the HeadSymbol to appear at the first line segment to \a
+     * Sets the Symbol to appear at the first line segment to \a
      * symbol.
      *
-     * If symbol == HeadSymbol::None , then it deletes the symbol item.
+     * If symbol == Symbol::None , then it deletes the symbol item.
      *
-     * Also this method aligns the head symbols.
+     * Also this method aligns the symbols.
      */
-    void AssociationLine::setStartHeadSymbol(HeadSymbol::Symbol symbol)
+    void AssociationLine::setStartSymbol(Symbol::SymbolType symbolType)
     {
-        Q_ASSERT(symbol != HeadSymbol::Count);
-        if (symbol == HeadSymbol::None) {
-            delete m_startHeadSymbol;
-            m_startHeadSymbol = 0;
+        Q_ASSERT(symbolType != Symbol::Count);
+        if (symbolType == Symbol::None) {
+            delete m_startSymbol;
+            m_startSymbol = 0;
             return;
         }
 
-        if (m_startHeadSymbol) {
-            m_startHeadSymbol->setSymbol(symbol);
+        if (m_startSymbol) {
+            m_startSymbol->setSymbolType(symbolType);
         }
         else {
-            m_startHeadSymbol = new HeadSymbol(symbol, m_associationWidget);
+            m_startSymbol = new Symbol(symbolType, m_associationWidget);
         }
-        m_startHeadSymbol->setPen(pen());
-        alignHeadSymbols();
+        m_startSymbol->setPen(pen());
+        alignSymbols();
     }
 
     /**
-     * Sets the HeadSymbol to appear at the last line segment to \a
+     * Sets the Symbol to appear at the last line segment to \a
      * symbol.
      *
-     * If symbol == HeadSymbol::None , then it deletes the symbol item.
+     * If symbol == Symbol::None , then it deletes the symbol item.
      *
-     * Also this method aligns the head symbols.
+     * Also this method aligns the symbols.
      */
-    void AssociationLine::setEndHeadSymbol(HeadSymbol::Symbol symbol)
+    void AssociationLine::setEndSymbol(Symbol::SymbolType symbolType)
     {
-        Q_ASSERT(symbol != HeadSymbol::Count);
-        if (symbol == HeadSymbol::None) {
-            delete m_endHeadSymbol;
-            m_endHeadSymbol = 0;
+        Q_ASSERT(symbolType != Symbol::Count);
+        if (symbolType == Symbol::None) {
+            delete m_endSymbol;
+            m_endSymbol = 0;
             return;
         }
 
-        if (m_endHeadSymbol) {
-            m_endHeadSymbol->setSymbol(symbol);
+        if (m_endSymbol) {
+            m_endSymbol->setSymbolType(symbolType);
         }
         else {
-            m_endHeadSymbol = new HeadSymbol(symbol, m_associationWidget);
+            m_endSymbol = new Symbol(symbolType, m_associationWidget);
         }
-        m_endHeadSymbol->setPen(pen());
-        alignHeadSymbols();
+        m_endSymbol->setPen(pen());
+        alignSymbols();
     }
 
     /**
@@ -523,7 +505,7 @@ namespace New
      * the current angles of the \b "first" and the \b "last" line
      * segment respectively.
      */
-    void AssociationLine::alignHeadSymbols()
+    void AssociationLine::alignSymbols()
     {
         const int sz = m_points.size();
         if (sz < 2) {
@@ -531,14 +513,14 @@ namespace New
             return;
         }
 
-        if (m_startHeadSymbol) {
+        if (m_startSymbol) {
             QLineF segment(m_points[1], m_points[0]);
-            m_startHeadSymbol->alignTo(segment);
+            m_startSymbol->alignTo(segment);
         }
 
-        if (m_endHeadSymbol) {
+        if (m_endSymbol) {
             QLineF segment(m_points[sz-2], m_points[sz - 1]);
-            m_endHeadSymbol->alignTo(segment);
+            m_endSymbol->alignTo(segment);
         }
     }
 
@@ -565,7 +547,8 @@ namespace New
     }
 
     /**
-     * Saves linepath information into XMI element named "linepath".
+     * Saves association line information into XMI element named "linepath".
+     * @note Stored as linepath for backwared compatibility
      */
     void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     {
@@ -591,34 +574,34 @@ namespace New
     }
 
     /**
-     * Update the pen used to draw head symbol.
+     * Update the pen used to draw symbol.
      */
     void AssociationLine::updatePenSettings()
     {
         m_associationWidget->prepareGeometryChange();
         QPen changedPen = pen();
-        if (m_startHeadSymbol) {
-            m_startHeadSymbol->setPen(changedPen);
+        if (m_startSymbol) {
+            m_startSymbol->setPen(changedPen);
         }
-        if (m_endHeadSymbol) {
-            m_endHeadSymbol->setPen(changedPen);
+        if (m_endSymbol) {
+            m_endSymbol->setPen(changedPen);
         }
         calculateBoundingRect();
     }
 
-    /// @return The bounding rectangle for the linepath.
+    /// @return The bounding rectangle for the AssociationLine.
     QRectF AssociationLine::boundingRect() const
     {
         return m_boundingRect;
     }
 
-    /// @return The shape of the linepath.
+    /// @return The shape of the AssociationLine.
     QPainterPath AssociationLine::shape() const
     {
         return m_shape;
     }
 
-    /// Draws the line path and also takes care of highlighting active point or line.
+    /// Draws the AssociationLine and also takes care of highlighting active point or line.
     void AssociationLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt)
     {
         QPen _pen = pen();
@@ -638,14 +621,14 @@ namespace New
         QPointF savedStart = m_points.first();
         QPointF savedEnd = m_points.last();
 
-        // Modify the m_points array not to include the HeadSymbol, the value depends on HeadSymbol.
-        if (m_startHeadSymbol) {
-            QPointF newStart = m_startHeadSymbol->mapToParent(m_startHeadSymbol->symbolEndPoints().first);
+        // Modify the m_points array not to include the Symbol, the value depends on Symbol.
+        if (m_startSymbol) {
+            QPointF newStart = m_startSymbol->mapToParent(m_startSymbol->symbolEndPoints().first);
             m_points[0] = newStart;
         }
 
-        if (m_endHeadSymbol) {
-            QPointF newEnd = m_endHeadSymbol->mapToParent(m_endHeadSymbol->symbolEndPoints().first);
+        if (m_endSymbol) {
+            QPointF newEnd = m_endSymbol->mapToParent(m_endSymbol->symbolEndPoints().first);
             m_points[sz - 1] = newEnd;
         }
 
@@ -829,7 +812,7 @@ namespace New
         m_shape = stroker.createStroke(path);
         m_boundingRect = m_shape.boundingRect();
 
-        alignHeadSymbols();
+        alignSymbols();
     }
 
     /**
