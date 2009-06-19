@@ -45,7 +45,9 @@ namespace New
          */
         enum SymbolType {
             None = -1,
-            Arrow,
+            OpenArrow,
+            ClosedArrow,
+            CrowFeet,
             Diamond,
             Subset,
             Circle,
@@ -171,6 +173,7 @@ namespace New
         void calculateEndPoints();
         void calculateInitialEndPoints();
 
+        void setupSymbols();
 
     private:
         /// These points represents the association line.

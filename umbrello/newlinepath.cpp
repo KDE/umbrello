@@ -33,6 +33,14 @@ namespace New
             PointPair(QPointF(0, 10), QPointF(0, 10))
         },
         {
+            QRectF(-6, 0, 12, 10), QPainterPath(), QLineF(0, 0, 0, 10),
+            PointPair(QPointF(0, 0), QPointF(0, 10))
+        },
+        {
+            QRectF(-6, 0, 12, 10), QPainterPath(), QLineF(0, 0, 0, 10),
+            PointPair(QPointF(0, 10), QPointF(0, 10))
+        },
+        {
             QRectF(-5, -10, 10, 20), QPainterPath(), QLineF(0, -10, 0, 10),
             PointPair(QPointF(0, -10), QPointF(0, 10))
         },
@@ -50,13 +58,42 @@ namespace New
     /// @internal A convenience method to setup shapes of all symbols.
     void Symbol::setupSymbolTable()
     {
-        SymbolProperty &arrow = symbolTable[Arrow];
-        if (arrow.shape.isEmpty()) {
-            QRectF rect = arrow.boundRect;
+        SymbolProperty &openArrow = symbolTable[OpenArrow];
+        if (openArrow.shape.isEmpty()) {
+            QRectF rect = openArrow.boundRect;
             // Defines a 'V' shape arrow fitting in the bound rect.
-            arrow.shape.moveTo(rect.topLeft());
-            arrow.shape.lineTo(rect.center().x(), rect.bottom());
-            arrow.shape.lineTo(rect.topRight());
+            openArrow.shape.moveTo(rect.topLeft());
+            openArrow.shape.lineTo(rect.center().x(), rect.bottom());
+            openArrow.shape.lineTo(rect.topRight());
+        }
+
+        SymbolProperty &closedArrow = symbolTable[ClosedArrow];
+        if (closedArrow.shape.isEmpty()) {
+            QRectF rect = closedArrow.boundRect;
+            // Defines a 'V' shape arrow fitting in the bound rect.
+            closedArrow.shape.moveTo(rect.topLeft());
+            closedArrow.shape.lineTo(rect.center().x(), rect.bottom());
+            closedArrow.shape.lineTo(rect.topRight());
+            closedArrow.shape.lineTo(rect.topLeft());
+        }
+
+        SymbolProperty &crowFeet = symbolTable[CrowFeet];
+        if (crowFeet.shape.isEmpty()) {
+            QRectF rect = crowFeet.boundRect;
+            // Defines a crowFeet fitting in the bound rect.
+            QPointF topMid(rect.center().x(), rect.top());
+
+            // left leg
+            crowFeet.shape.moveTo(rect.bottomLeft());
+            crowFeet.shape.lineTo(topMid);
+
+            // middle leg
+            crowFeet.shape.moveTo(rect.center().x(), rect.bottom());
+            crowFeet.shape.lineTo(topMid);
+
+            // left leg
+            crowFeet.shape.moveTo(rect.bottomRight());
+            crowFeet.shape.lineTo(topMid);
         }
 
         SymbolProperty &diamond = symbolTable[Diamond];
@@ -1017,6 +1054,43 @@ namespace New
             setEndPoints(QPointF(), QPointF());
         }
         calculateEndPoints();
+    }
+
+    /**
+     * This method creates appropriate symbols based on type of
+     * m_associationWidget.
+     */
+    void AssociationLine::setupSymbols()
+    {
+        switch( m_associationWidget->associationType() ) {
+            case Uml::at_State:
+            case Uml::at_Activity:
+            case Uml::at_Exception:
+            case Uml::at_UniAssociation:
+            case Uml::at_Dependency:
+                setEndSymbol(Symbol::OpenArrow);
+                break;
+
+            case Uml::at_Relationship:
+                setEndSymbol(Symbol::CrowFeet);
+                break;
+
+            case Uml::at_Generalization:
+            case Uml::at_Realization:
+                setEndSymbol(Symbol::ClosedArrow);
+                break;
+
+            case Uml::at_Composition:
+            case Uml::at_Aggregation:
+                setStartSymbol(Symbol::Diamond);
+                break;
+
+            case Uml::at_Containment:
+                setStartSymbol(Symbol::Circle);
+                break;
+            default:
+                break;
+        }
     }
 
 }

@@ -45,7 +45,8 @@ namespace New
 
     AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type type,
                                          UMLWidget *widgetB, UMLObject *umlObj) :
-        WidgetBase(umlObj)
+        WidgetBase(umlObj),
+        m_associationType(type)
     {
         m_associationLine = new New::AssociationLine(this);
         m_nameWidget = 0;
@@ -76,6 +77,7 @@ namespace New
         }
         // TODO: Probably move this calculation to slotInit.
         m_associationLine->calculateInitialEndPoints();
+        m_associationLine->setupSymbols();
 
         Q_ASSERT(widgetA->umlScene() == widgetB->umlScene());
 
@@ -491,12 +493,18 @@ namespace New
 
     Uml::Association_Type AssociationWidget::associationType() const
     {
-        return static_cast<UMLAssociation*>(umlObject())->getAssocType();
+        if (umlObject()) {
+            return static_cast<UMLAssociation*>(umlObject())->getAssocType();
+        }
+        return m_associationType;
     }
 
     void AssociationWidget::setAssociationType(Uml::Association_Type type)
     {
-        static_cast<UMLAssociation*>(umlObject())->setAssocType(type);
+        m_associationType = type;
+        if (umlObject()) {
+            static_cast<UMLAssociation*>(umlObject())->setAssocType(type);
+        }
     }
 
     bool AssociationWidget::isCollaboration() const

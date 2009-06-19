@@ -151,6 +151,8 @@ namespace New
         New::AssociationLine *m_associationLine;
         WidgetRole m_widgetRole[2];
         FloatingTextWidget *m_nameWidget;
+
+        Uml::Association_Type m_associationType;
     };
 }
 
