@@ -880,19 +880,18 @@ namespace New
     }
 
     /**
-     * This important method is responsible for determining the appropriate
-     * regions of UMLWidget to be occupied by this AssociationLine ends.
-     *
-     * After determining, AssociationSpaceManager::arrange() is invoked for
-     * the UMLWidget's modified region space to set the actual end points of
-     * this AssociationLine.
+     * This method determines new regions for both ends of this AssociationLine
+     * @see intersectedRegion()
      */
-    void AssociationLine::calculateEndPoints()
+    RegionPair AssociationLine::determineRegions()
     {
-        if (m_associationWidget->isSelf()) {
-            calculateSelfEndPoints();
-            return;
+        if (m_associationWidget->isSelf() && count() < 4) {
+            return RegionPair();
         }
+        if (!m_associationWidget->isSelf() && count() < 2) {
+            return RegionPair();
+        }
+
         UMLWidget *widA = m_associationWidget->widgetForRole(Uml::A);
         UMLWidget *widB = m_associationWidget->widgetForRole(Uml::B);
 
@@ -913,108 +912,58 @@ namespace New
             bLine.setP1(m_associationWidget->mapToScene(point(count()-2)));
         }
 
-#if 0
-        if (!tracker->scene()) {
-
-            //widA->scene()->addItem(tracker);
+        RegionPair result;
+        result[Uml::A] = intersectedRegion(aRect, aLine);
+        result[Uml::B] = intersectedRegion(bRect, bLine);
+        if (result[Uml::A] == Uml::reg_Error) {
+            result[Uml::A] = Uml::reg_North;
         }
-        tracker->setLine(aLine);
-#endif
-
-
-        // Though a pair is used, only the first value is used in case of
-        // non self associations.
-        RegionPair aNewRegion = intersectedRegion(aRect, aLine);
-        RegionPair bNewRegion = intersectedRegion(bRect, bLine);
-        if (aNewRegion.first == Uml::reg_Error) {
-            aNewRegion.first = Uml::reg_North; // defaults to North
-        }
-        if (bNewRegion.first == Uml::reg_Error) {
-            bNewRegion.first = Uml::reg_North; // defaults to North
+        if (result[Uml::B] == Uml::reg_Error) {
+            result[Uml::B] = Uml::reg_North;
         }
 
-        AssociationSpaceManager *aSpaceManager = widA->associationSpaceManager();
-        AssociationSpaceManager *bSpaceManager = widB->associationSpaceManager();
-
-        // Now move the AssociationWidget to proper regions.
-        RegionPair aPrevRegions = aSpaceManager->remove(m_associationWidget);
-        aSpaceManager->add(m_associationWidget, aNewRegion);
-        RegionPair bPrevRegions = bSpaceManager->remove(m_associationWidget);
-        bSpaceManager->add(m_associationWidget, bNewRegion);
-
-        // Finally call AssociationSpaceManager::arrange to do the actual
-        // placement of line endings of this AssociationLine.
-        aSpaceManager->arrange(aPrevRegions);
-        aSpaceManager->arrange(aNewRegion);
-        bSpaceManager->arrange(bPrevRegions);
-        bSpaceManager->arrange(bNewRegion);
+        return result;
     }
-
     /**
-     * This method is responsible for determining the appropriate
-     * regions of UMLWidget to be occupied by this self AssociationLine ends.
+     * This important method is responsible for determining the appropriate
+     * regions of UMLWidget to be occupied by this AssociationLine ends.
      *
      * After determining, AssociationSpaceManager::arrange() is invoked for
      * the UMLWidget's modified region space to set the actual end points of
      * this AssociationLine.
      */
-    void AssociationLine::calculateSelfEndPoints()
+    void AssociationLine::calculateEndPoints()
     {
-        Q_ASSERT(m_associationWidget->isSelf());
-        UMLWidget *wid = m_associationWidget->widgetForRole(Uml::A);
-        AssociationSpaceManager *spaceManager = wid->associationSpaceManager();
+        UMLWidget *aWid = m_associationWidget->widgetForRole(Uml::A);
+        UMLWidget *bWid = m_associationWidget->widgetForRole(Uml::B);
 
-        QRectF rect = wid->sceneRect();
+        AssociationSpaceManager *aSpaceManager =
+            aWid->associationSpaceManager();
+        AssociationSpaceManager *bSpaceManager =
+            bWid->associationSpaceManager();
 
-        if (count() < 4) {
-            RegionPair newRegions;
-            for (int i = count(); i < 4; ++i) {
-                insertPoint(i, QPointF());
-            }
-            qreal left = rect.left() + (.25 * rect.width());
-            QRectF r(0, 0, rect.width() * .5,
-                    SelfAssociationMinimumHeight);
-            bool drawAbove = rect.top() >= SelfAssociationMinimumHeight;
-            if (drawAbove) {
-                r.moveBottomLeft(QPointF(left, rect.top()));
-                r = m_associationWidget->mapFromScene(r).boundingRect();
+        RegionPair prevRegions(
+                aSpaceManager->region(m_associationWidget)[Uml::A],
+                bSpaceManager->region(m_associationWidget)[Uml::B]);
+        RegionPair newRegions = determineRegions();
 
-                setPoint(0, r.bottomLeft());
-                setPoint(1, r.topLeft());
-                setPoint(2, r.topRight());
-                setPoint(3, r.bottomRight());
+        aSpaceManager->remove(m_associationWidget);
+        bSpaceManager->remove(m_associationWidget);
 
-                newRegions = RegionPair(Uml::reg_North, Uml::reg_North);
-            } else {
-                r.moveTopLeft(QPointF(left, rect.bottom()));
-                r = m_associationWidget->mapFromScene(r).boundingRect();
+        aSpaceManager->add(m_associationWidget, newRegions);
+        if (aWid != bWid) {
+            bSpaceManager->add(m_associationWidget, newRegions);
+        }
 
-                setPoint(0, r.topLeft());
-                setPoint(1, r.bottomLeft());
-                setPoint(2, r.bottomRight());
-                setPoint(3, r.topRight());
-
-                newRegions = RegionPair(Uml::reg_South, Uml::reg_South);
-            }
-
-            RegionPair prevRegions = spaceManager->remove(m_associationWidget);
-            spaceManager->add(m_associationWidget, newRegions);
-            spaceManager->arrange(prevRegions);
-            spaceManager->arrange(newRegions);
-        } else {
-            QLineF aLine(rect.center(), m_associationWidget->mapToScene(point(1)));
-            QLineF bLine(m_associationWidget->mapToScene(point(count()-2)),
-                    rect.center());
-
-            RegionPair intersectedRegions;
-            intersectedRegions.first = intersectedRegion(rect, aLine);
-            intersectedRegions.second = intersectedRegion(rect, bLine);
-
-            RegionPair oldIntersections = spaceManager->remove(m_associationWidget);
-            spaceManager->add(m_associationWidget, intersectedRegions);
-
-            spaceManager->arrange(oldIntersections);
-            spaceManager->arrange(intersectedRegions);
+        // To minimize multiple calls of arrange on same region.
+        typedef QPair<AssociationSpaceManager*, Uml::Region> Pair;
+        QSet<Pair> toArrange;
+        toArrange << qMakePair(aSpaceManager, prevRegions[Uml::A]);
+        toArrange << qMakePair(bSpaceManager, prevRegions[Uml::B]);
+        toArrange << qMakePair(aSpaceManager, newRegions[Uml::A]);
+        toArrange << qMakePair(bSpaceManager, newRegions[Uml::B]);
+        foreach (Pair p, toArrange) {
+            p.first->arrange(p.second);
         }
     }
 
@@ -1024,11 +973,32 @@ namespace New
      */
     void AssociationLine::calculateInitialEndPoints()
     {
-        if (count() < 2) {
+        if (m_associationWidget->isSelf() && count() < 4) {
+            for (int i = count(); i < 4; ++i) {
+                insertPoint(i, QPointF());
+            }
+            UMLWidget *wid = m_associationWidget->widgetForRole(Uml::A);
+            const QRectF rect = m_associationWidget->mapFromScene(
+                    wid->sceneRect()).boundingRect();
+
+            qreal l = rect.left() + .25 * rect.width();
+            qreal r = rect.left() + .75 * rect.width();
+            bool drawAbove = rect.top() >= SelfAssociationMinimumHeight;
+            qreal y = drawAbove ? rect.top() : rect.bottom();
+            qreal yOffset = SelfAssociationMinimumHeight;
+            if (drawAbove) {
+                yOffset *= -1.0;
+            }
+
+            setPoint(0, QPointF(l, y));
+            setPoint(1, QPointF(l, y + yOffset));
+            setPoint(2, QPointF(r, y + yOffset));
+            setPoint(3, QPointF(r, y));
+        } else if (!m_associationWidget->isSelf() && count() < 2) {
             setEndPoints(QPointF(), QPointF());
         }
-
         calculateEndPoints();
     }
+
 }
 

@@ -22,6 +22,7 @@
 class QDomDocument;
 class QDomElement;
 class UMLWidget;
+class RegionPair;
 
 namespace New
 {
@@ -148,9 +149,11 @@ namespace New
         void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
         void calculateBoundingRect();
-        void calculateInitialEndPoints();
+
+        RegionPair determineRegions();
         void calculateEndPoints();
-        void calculateSelfEndPoints();
+        void calculateInitialEndPoints();
+
 
     private:
         /// These points represents the linepath.

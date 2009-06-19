@@ -65,6 +65,15 @@ namespace New
 
         setWidgetForRole(widgetA, Uml::A);
         setWidgetForRole(widgetB, Uml::B);
+        if (widgetA == widgetB) {
+            widgetA->associationSpaceManager()->add(this,
+                    RegionPair(Uml::reg_North, Uml::reg_North));
+        } else {
+            widgetA->associationSpaceManager()->add(this,
+                    RegionPair(Uml::reg_North));
+            widgetB->associationSpaceManager()->add(this,
+                    RegionPair(Uml::reg_Error, Uml::reg_North));
+        }
         // TODO: Probably move this calculation to slotInit.
         m_associationLine->calculateInitialEndPoints();
 
@@ -478,7 +487,6 @@ namespace New
     void AssociationWidget::setWidgetForRole(UMLWidget *widget, Uml::Role_Type role)
     {
         m_widgetRole[role].umlWidget = widget;
-        widget->associationSpaceManager()->add(this, Uml::reg_North);
     }
 
     Uml::Association_Type AssociationWidget::associationType() const
