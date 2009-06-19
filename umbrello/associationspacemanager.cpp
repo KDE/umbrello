@@ -50,12 +50,12 @@ const Uml::Region& RegionPair::operator[](Uml::Role_Type role) const
     return second;
 }
 
-PointPair::PointPair(const QPointF& p1, const QPointF& p2) :
+AssociationSpaceManager::PointPair::PointPair(const QPointF& p1, const QPointF& p2) :
     first(p1), second(p2)
 {
 }
 
-QPointF& PointPair::operator[](Uml::Role_Type role)
+QPointF& AssociationSpaceManager::PointPair::operator[](Uml::Role_Type role)
 {
     if (role == Uml::A) {
         return first;
@@ -63,7 +63,7 @@ QPointF& PointPair::operator[](Uml::Role_Type role)
     return second;
 }
 
-const QPointF& PointPair::operator[](Uml::Role_Type role) const
+const QPointF& AssociationSpaceManager::PointPair::operator[](Uml::Role_Type role) const
 {
     if (role == Uml::A) {
         return first;
@@ -170,7 +170,8 @@ void AssociationSpaceManager::remove(New::AssociationWidget *assoc)
  * the reference point pair is always the penultimate points from both ends as
  * a self association line has atleast 4 points.
  */
-PointPair AssociationSpaceManager::referencePoints(New::AssociationWidget *assoc) const
+AssociationSpaceManager::PointPair
+AssociationSpaceManager::referencePoints(New::AssociationWidget *assoc) const
 {
     New::AssociationLine *line = assoc->associationLine();
     if (!assoc->isSelf()) {

@@ -47,31 +47,6 @@ private:
 };
 
 /**
- * This helper structure is used to store two points corresponding to Uml::A
- * role and Uml::B role.
- * The two points can be end points, penultimate end points etc.
- */
-struct PointPair
-{
-    PointPair(const QPointF& p1 = QPointF(), const QPointF& p2 = QPointF());
-    QPointF& operator[](Uml::Role_Type role);
-    const QPointF& operator[](Uml::Role_Type role) const;
-
-private:
-    QPointF first, second;
-};
-
-/**
- * This structure is used to store some extra data for self association
- * widgets.
- */
-struct SelfAssociationItem
-{
-    New::AssociationWidget *associationWidget;
-    RegionPair regions;
-};
-
-/**
  * @short A class to manage distribution of AssociationWidget around UMLWidget.
  *
  * This class mainly has the following duties
@@ -101,6 +76,31 @@ public:
     QSet<New::AssociationWidget*> associationWidgets() const;
 
 private:
+    /**
+     * This helper structure is used to store two points corresponding to Uml::A
+     * role and Uml::B role.
+     * The two points can be end points, penultimate end points etc.
+     */
+    struct PointPair
+    {
+        PointPair(const QPointF& p1 = QPointF(), const QPointF& p2 = QPointF());
+        QPointF& operator[](Uml::Role_Type role);
+        const QPointF& operator[](Uml::Role_Type role) const;
+
+        private:
+        QPointF first, second;
+    };
+
+    /**
+     * This structure is used to store some extra data for self association
+     * widgets.
+     */
+    struct SelfAssociationItem
+    {
+        New::AssociationWidget *associationWidget;
+        RegionPair regions;
+    };
+
     PointPair referencePoints(New::AssociationWidget *assoc) const;
 
     /// Store for non self associations.
