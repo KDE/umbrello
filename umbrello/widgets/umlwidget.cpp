@@ -379,6 +379,7 @@ void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 QVariant UMLWidget::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if(change == QGraphicsItem::ItemSelectedHasChanged) {
+        // create/delete widget handle on selection change
         bool selection = value.toBool();
         if(selection) {
             if(!m_widgetHandle) {
@@ -389,7 +390,21 @@ QVariant UMLWidget::itemChange(GraphicsItemChange change, const QVariant &value)
             delete m_widgetHandle;
             m_widgetHandle = 0;
         }
+    } else if (change == QGraphicsItem::ItemPositionChange) {
+        // move all points of self associations before this widget is moved.
+        // normal adjusting is not enough for self association updation.
+        QPointF diff(value.toPointF() - pos());
+        foreach (New::AssociationWidget* assoc,
+                m_associationSpaceManager->associationWidgets()) {
+            if (assoc->isSelf()) {
+                New::AssociationLine *line = assoc->associationLine();
+                for (int i = 0; i < line->count(); ++i) {
+                    line->setPoint(i, line->point(i) + diff);
+                }
+            }
+        }
     } else if (change == QGraphicsItem::ItemPositionHasChanged) {
+        // adjust the association lines by new computations.
         adjustAssociations();
     }
     return WidgetBase::itemChange(change, value);
