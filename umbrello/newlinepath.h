@@ -47,7 +47,7 @@ namespace New
             None = -1,
             Arrow,
             Diamond,
-            // Subset,
+            Subset,
             Circle,
             Count
         };
@@ -138,6 +138,7 @@ namespace New
 
         void setStartSymbol(Symbol::SymbolType symbolType);
         void setEndSymbol(Symbol::SymbolType symbolType);
+        void createSubsetSymbol();
         void alignSymbols();
 
         bool loadFromXMI(QDomElement &qElement);
@@ -191,6 +192,8 @@ namespace New
         Symbol *m_startSymbol;
         /// The symbol drawn at the end of "last" line segment.
         Symbol *m_endSymbol;
+        /// The subset symbol.
+        Symbol *m_subsetSymbol;
 
         /// The bounding rectangle of this AssociationLine
         QRectF m_boundingRect;

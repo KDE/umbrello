@@ -37,6 +37,10 @@ namespace New
             PointPair(QPointF(0, -10), QPointF(0, 10))
         },
         {
+            QRectF(-15, -10, 30, 20), QPainterPath(), QLineF(-10, 0, 0, 0),
+            PointPair(QPointF(0, 0), QPointF(0, 0))
+        },
+        {
             QRectF(-8, -8, 16, 16), QPainterPath(), QLineF(0, -8, 0, 8),
             PointPair(QPointF(0, -8), QPointF(0, 8))
         }
@@ -64,6 +68,15 @@ namespace New
             diamond.shape.lineTo(rect.center().x(), rect.bottom());
             diamond.shape.lineTo(rect.right(), rect.center().y());
             diamond.shape.lineTo(rect.center().x(), rect.top());
+        }
+
+        SymbolProperty &subset = symbolTable[Subset];
+        if (subset.shape.isEmpty()) {
+            QRectF rect = subset.boundRect;
+            //Defines an arc fitting in bound rect.
+            qreal start = 90, span = 180;
+            subset.shape.arcMoveTo(rect, start);
+            subset.shape.arcTo(rect, start, span);
         }
 
         SymbolProperty &circle = symbolTable[Circle];
@@ -230,13 +243,13 @@ namespace New
      */
     AssociationLine::AssociationLine(New::AssociationWidget *assoc) : m_associationWidget(assoc)
     {
+        Q_ASSERT(assoc);
         m_activePointIndex = m_activeSegmentIndex = -1;
-        m_startSymbol = m_endSymbol = 0;
+        m_startSymbol = m_endSymbol = m_subsetSymbol = 0;
         // This tracker is only for debugging and testing purpose.
         tracker = new QGraphicsLineItem;
         tracker->setPen(QPen(Qt::darkBlue, 1));
         tracker->setZValue(100);
-        Q_ASSERT(assoc);
     }
 
     /// Destructor
@@ -501,6 +514,19 @@ namespace New
     }
 
     /**
+     * Creates a subset symbol and aligns it.
+     */
+    void AssociationLine::createSubsetSymbol()
+    {
+        if (m_subsetSymbol) {
+            return;
+        }
+        m_subsetSymbol = new Symbol(Symbol::Subset, m_associationWidget);
+        m_subsetSymbol->setPen(pen());
+        alignSymbols();
+    }
+
+    /**
      * This method aligns both the \b "start" and \b "end" symbols to
      * the current angles of the \b "first" and the \b "last" line
      * segment respectively.
@@ -521,6 +547,13 @@ namespace New
         if (m_endSymbol) {
             QLineF segment(m_points[sz-2], m_points[sz - 1]);
             m_endSymbol->alignTo(segment);
+        }
+
+        if (m_subsetSymbol) {
+            QLineF segment(m_points.at(0), (m_points.at(0) + m_points.at(1)) * .5);
+            uDebug() << "points: " << m_points.at(0) << m_points.at(1);
+            uDebug() << "segment: " << segment;
+            m_subsetSymbol->alignTo(segment);
         }
     }
 
@@ -585,6 +618,9 @@ namespace New
         }
         if (m_endSymbol) {
             m_endSymbol->setPen(changedPen);
+        }
+        if (m_subsetSymbol) {
+            m_subsetSymbol->setPen(changedPen);
         }
         calculateBoundingRect();
     }
