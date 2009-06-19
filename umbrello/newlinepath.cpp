@@ -44,9 +44,9 @@ namespace New
     };
 
     /// @internal A convenience method to setup shapes of all symbols.
-    void setupSymbolTable()
+    void Symbol::setupSymbolTable()
     {
-        Symbol::SymbolProperty &arrow = Symbol::symbolTable[Symbol::Arrow];
+        SymbolProperty &arrow = symbolTable[Arrow];
         if (arrow.shape.isEmpty()) {
             QRectF rect = arrow.boundRect;
             // Defines a 'V' shape arrow fitting in the bound rect.
@@ -55,7 +55,7 @@ namespace New
             arrow.shape.lineTo(rect.topRight());
         }
 
-        Symbol::SymbolProperty &diamond = Symbol::symbolTable[Symbol::Diamond];
+        SymbolProperty &diamond = symbolTable[Diamond];
         if (diamond.shape.isEmpty()) {
             QRectF rect = diamond.boundRect;
             // Defines a 'diamond' shape fitting in the bound rect.
@@ -66,7 +66,7 @@ namespace New
             diamond.shape.lineTo(rect.center().x(), rect.top());
         }
 
-        Symbol::SymbolProperty &circle = Symbol::symbolTable[Symbol::Circle];
+        SymbolProperty &circle = symbolTable[Circle];
         if (circle.shape.isEmpty()) {
             QRectF rect = circle.boundRect;
             // Defines a circle with a horizontal-vertical cross lines.

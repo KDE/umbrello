@@ -94,7 +94,7 @@ namespace New
 
         /// A table which stores all symbol properties.
         static SymbolProperty symbolTable[Symbol::Count];
-        friend void setupSymbolTable();
+        static void setupSymbolTable();
     };
 
 
