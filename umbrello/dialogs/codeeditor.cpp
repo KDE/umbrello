@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003  Brian Thomas  <brian.thomas@gsfc.nasa.gov>        *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,6 +21,7 @@
 #include <QtGui/QLabel>
 #include <QtGui/QBrush>
 #include <QtGui/QLayout>
+#include <QtCore/QPointer>
 #include <QtCore/QRegExp>
 
 // kde includes
@@ -52,13 +53,13 @@
 
 CodeEditor::CodeEditor (const QString & text, const QString & context, CodeViewerDialog * parent,
     const char * name, CodeDocument * doc)
-        : Q3TextEdit (text, context, parent, name)
+  : Q3TextEdit (text, context, parent, name)
 {
     init(parent, doc);
 }
 
 CodeEditor::CodeEditor (CodeViewerDialog * parent, const char* name, CodeDocument * doc)
-        : Q3TextEdit (parent, name)
+  : Q3TextEdit (parent, name)
 {
     init(parent, doc);
 }
@@ -148,10 +149,11 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
 
                 if ( (at = dynamic_cast<UMLAttribute*>(obj)) )
                 {
-                    UMLAttributeDialog dlg( this, at);
-                    if ( dlg.exec() ) {
+                    QPointer<UMLAttributeDialog> dlg = new UMLAttributeDialog( this, at);
+                    if ( dlg->exec() == KDialog::Accepted ) {
                         rebuildView(para);
                     }
+                    delete dlg;
                 }
                 else if ( (dynamic_cast<UMLClassifier*>(obj)) )
                 {
@@ -161,18 +163,20 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
                 }
                 else if ( (role = dynamic_cast<UMLRole*>(obj)))
                 {
-                    UMLRoleDialog dlg(this,role);
-                    if ( dlg.exec() ) {
+                    QPointer<UMLRoleDialog> dlg = new UMLRoleDialog(this, role);
+                    if ( dlg->exec() == KDialog::Accepted ) {
                         rebuildView(para);
                     }
+                    delete dlg;
                 }
                 else if ( (op = dynamic_cast<UMLOperation*>(obj)) )
                     //else if( (cop = dynamic_cast<CodeOperation*>(tBlock)) )
                 {
-                    UMLOperationDialog dlg(this,op);
-                    if ( dlg.exec() ) {
+                    QPointer<UMLOperationDialog> dlg = new UMLOperationDialog(this, op);
+                    if ( dlg->exec() == KDialog::Accepted ) {
                         rebuildView(para);
                     }
+                    delete dlg;
                 }
                 else
                 {

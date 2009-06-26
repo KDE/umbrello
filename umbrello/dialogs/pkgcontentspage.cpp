@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,6 +18,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 
+#include <QtCore/QPointer>
 #include <QtGui/QLayout>
 #include <QtGui/QHBoxLayout>
 
@@ -28,7 +29,7 @@
  * @param pkg       The UMLPackage being represented.
  */
 PkgContentsPage::PkgContentsPage(QWidget *parent, UMLPackage *pkg)
-        : QWidget(parent)
+  : QWidget(parent)
 {
     m_package = pkg;
     int margin = fontMetrics().height();
@@ -78,8 +79,9 @@ void PkgContentsPage::slotDoubleClick(QListWidgetItem *item)
     }
     UMLObjectList contents = m_package->containedObjects();
     UMLObject *o = contents.at(index);
-    ClassPropDlg dlg(this, o, true);
-    dlg.exec();
+    QPointer<ClassPropDlg> dlg = new ClassPropDlg(this, o, true);
+    dlg->exec();
+    delete dlg;
 }
 
 /**

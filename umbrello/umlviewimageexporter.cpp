@@ -25,6 +25,7 @@
 #include <kio/netaccess.h>
 
 // Qt include files
+#include <QtCore/QPointer>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include "umlscene.h"
@@ -121,32 +122,35 @@ bool UMLViewImageExporter::prepareExportView()
  */
 bool UMLViewImageExporter::getParametersFromUser()
 {
-    UMLApp *app = UMLApp::app();
+    bool success = true;
 
     // configure & show the file dialog
     KUrl url;
-    KFileDialog fileDialog(url, QString(), m_view);
-    prepareFileDialog(fileDialog);
-    fileDialog.exec();
+    QPointer<KFileDialog> dialog = new KFileDialog(url, QString(), m_view);
+    prepareFileDialog(dialog);
+    dialog->exec();
 
-    if (fileDialog.selectedUrl().isEmpty())
-        return false;
-    m_view->umlScene()->clearSelected();   // Thanks to Peter Soetens for the idea
-
-    // update image url and mime type
-    m_imageMimeType = fileDialog.currentMimeFilter();
-    app->setImageMimeType(m_imageMimeType);
-    m_imageURL = fileDialog.selectedUrl();
-
-    // check if the extension is the extension of the mime type
-    QFileInfo info(m_imageURL.fileName());
-    QString ext = info.suffix();
-    QString extDef = UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType);
-    if(ext != extDef) {
-        m_imageURL.setFileName(m_imageURL.fileName() + '.' + extDef);
+    if (dialog->selectedUrl().isEmpty()) {
+        success = false;
     }
+    else {
+        m_view->umlScene()->clearSelected();   // Thanks to Peter Soetens for the idea
 
-    return true;
+        // update image url and mime type
+        m_imageMimeType = dialog->currentMimeFilter();
+        UMLApp::app()->setImageMimeType(m_imageMimeType);
+        m_imageURL = dialog->selectedUrl();
+
+        // check if the extension is the extension of the mime type
+        QFileInfo info(m_imageURL.fileName());
+        QString ext = info.suffix();
+        QString extDef = UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType);
+        if (ext != extDef) {
+            m_imageURL.setFileName(m_imageURL.fileName() + '.' + extDef);
+        }
+    }
+    delete dialog;
+    return success;
 }
 
 /**
@@ -155,14 +159,14 @@ bool UMLViewImageExporter::getParametersFromUser()
  *
  * @param fileDialog The dialog to prepare.
  */
-void UMLViewImageExporter::prepareFileDialog(KFileDialog &fileDialog)
+void UMLViewImageExporter::prepareFileDialog(KFileDialog *fileDialog)
 {
     // get all supported mime types
     QStringList mimeTypes = UMLViewImageExporterModel::supportedMimeTypes();
 
-    fileDialog.setCaption(i18n("Save As"));
-    fileDialog.setOperationMode(KFileDialog::Saving);
-    fileDialog.setMimeFilter(mimeTypes, m_imageMimeType);
+    fileDialog->setCaption(i18n("Save As"));
+    fileDialog->setOperationMode(KFileDialog::Saving);
+    fileDialog->setMimeFilter(mimeTypes, m_imageMimeType);
 
     // set a sensible default filename
     if (m_imageURL.isEmpty()) {
@@ -170,10 +174,10 @@ void UMLViewImageExporter::prepareFileDialog(KFileDialog &fileDialog)
         KUrl directory = docURL;
         directory.setPath(docURL.directory());
 
-        fileDialog.setUrl(directory);
-        fileDialog.setSelection(m_view->umlScene()->getName() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+        fileDialog->setUrl(directory);
+        fileDialog->setSelection(m_view->umlScene()->getName() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
-        fileDialog.setUrl(m_imageURL);
-        fileDialog.setSelection(m_imageURL.fileName());
+        fileDialog->setUrl(m_imageURL);
+        fileDialog->setSelection(m_imageURL.fileName());
     }
 }

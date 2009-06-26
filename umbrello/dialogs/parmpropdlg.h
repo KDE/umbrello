@@ -25,7 +25,7 @@ class QLabel;
 class QRadioButton;
 
 /**
- * Displays a dialog box that displays properties of a paramater.
+ * Displays a dialog box that displays properties of a parameter.
  * You need to make sure that @ref UMLDoc is made to be the
  * parent.
  *

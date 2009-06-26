@@ -441,7 +441,7 @@ set (umbrello_SRCS
     ${libumbrello_SRCS}
 )
 
-kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-umbrello.png")
+kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/hi*-app-umbrello.png")
 kde4_add_executable(umbrello-soc ${umbrello_SRCS})
 target_link_libraries(umbrello-soc  ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} )
 install(TARGETS umbrello-soc ${INSTALL_TARGETS_DEFAULT_ARGS} )

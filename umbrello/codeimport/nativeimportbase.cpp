@@ -95,16 +95,16 @@ bool NativeImportBase::skipToClosing(QChar opener)
     QString closing;
     switch (opener.toLatin1()) {
         case '{':
-            closing = "}";
+            closing = '}';
             break;
         case '[':
-            closing = "]";
+            closing = ']';
             break;
         case '(':
-            closing = ")";
+            closing = ')';
             break;
         case '<':
-            closing = ">";
+            closing = '>';
             break;
         default:
             uError() << "opener='" << opener << "': illegal input character";

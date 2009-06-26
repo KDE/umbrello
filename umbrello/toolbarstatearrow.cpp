@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,11 +23,20 @@
 
 #include <kdebug.h>
 
-ToolBarStateArrow::ToolBarStateArrow(UMLScene *umlScene): ToolBarState(umlScene)
+/**
+ * Creates a new ToolBarStateArrow.
+ *
+ * @param umlScene The UMLScene to use.
+ */
+ToolBarStateArrow::ToolBarStateArrow(UMLScene *umlScene)
+  : ToolBarState(umlScene)
 {
     init();
 }
 
+/**
+ * Destroys this ToolBarStateArrow.
+ */
 ToolBarStateArrow::~ToolBarStateArrow()
 {
 }

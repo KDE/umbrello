@@ -12,10 +12,11 @@
 #include "umllistview.h"
 
 // qt includes
-#include <QRegExp>
-#include <QPoint>
-#include <QRect>
-#include <QEvent>
+#include <QtCore/QPointer>
+#include <QtCore/QRegExp>
+#include <QtCore/QPoint>
+#include <QtCore/QRect>
+#include <QtCore/QEvent>
 #include <q3header.h>
 #include <QFocusEvent>
 #include <QKeyEvent>
@@ -428,16 +429,19 @@ void UMLListView::popupMenuSel(QAction* action)
         }
         // configure & show the file dialog
         const QString rootDir(m_doc->url().directory());
-        KFileDialog fileDialog(rootDir, "*.xml", this);
-        fileDialog.setCaption(i18n("Externalize Folder"));
-        fileDialog.setOperationMode(KFileDialog::Other);
+        QPointer<KFileDialog> fileDialog = new KFileDialog(rootDir, "*.xml", this);
+        fileDialog->setCaption(i18n("Externalize Folder"));
+        fileDialog->setOperationMode(KFileDialog::Other);
         // set a sensible default filename
         QString defaultFilename = current->getText().toLower();
         defaultFilename.replace(QRegExp("\\W+"), "_");
         defaultFilename.append(".xml");  // default extension
-        fileDialog.setSelection(defaultFilename);
-        fileDialog.exec();
-        KUrl selURL = fileDialog.selectedUrl();
+        fileDialog->setSelection(defaultFilename);
+        KUrl selURL;
+        if (fileDialog->exec() == QDialog::Accepted) {
+            selURL = fileDialog->selectedUrl();
+        }
+        delete fileDialog;
         if (selURL.isEmpty())
             return;
         QString path = selURL.path();
@@ -445,8 +449,8 @@ void UMLListView::popupMenuSel(QAction* action)
         if (fileName.startsWith(rootDir)) {
             fileName.remove(rootDir);
         } else {
-            // This should be done using a KMessageBox but we currently
-            // cannot add new i18n strings.
+            // TODO: This should be done using a KMessageBox but we currently
+            //       cannot add new i18n strings.
             uError() << "Folder " << path
             << " must be relative to the main model directory, "
             << rootDir;
@@ -455,8 +459,8 @@ void UMLListView::popupMenuSel(QAction* action)
         QFile file(path);
         // Warn if file exists.
         if (file.exists()) {
-            // This should be done using a KMessageBox but we currently
-            // cannot add new i18n strings.
+            // TODO: This should be done using a KMessageBox but we currently
+            //       cannot add new i18n strings.
             uWarning() << "file " << fileName << " already exists!";
             uWarning() << "The existing file will be overwritten.";
         }
@@ -542,38 +546,45 @@ void UMLListView::popupMenuSel(QAction* action)
         } else if (umlType == Uml::ot_Attribute) {
             // show the attribute dialog
             UMLAttribute* selectedAttribute = static_cast<UMLAttribute*>(object);
-            UMLAttributeDialog dialog(this, selectedAttribute);
-            dialog.exec();
+            QPointer<UMLAttributeDialog> dialog = new UMLAttributeDialog(this, selectedAttribute);
+            dialog->exec();
+            delete dialog;
         } else if (umlType == Uml::ot_EntityAttribute) {
             // show the attribute dialog
             UMLEntityAttribute* selectedAttribute = static_cast<UMLEntityAttribute*>(object);
-            UMLEntityAttributeDialog dialog(this, selectedAttribute);
-            dialog.exec();
+            QPointer<UMLEntityAttributeDialog> dialog = new UMLEntityAttributeDialog(this, selectedAttribute);
+            dialog->exec();
+            delete dialog;
         } else if (umlType == Uml::ot_Operation) {
             // show the operation dialog
             UMLOperation* selectedOperation = static_cast<UMLOperation*>(object);
-            UMLOperationDialog dialog(this, selectedOperation);
-            dialog.exec();
+            QPointer<UMLOperationDialog> dialog = new UMLOperationDialog(this, selectedOperation);
+            dialog->exec();
+            delete dialog;
         } else if (umlType == Uml::ot_Template) {
             // show the template dialog
             UMLTemplate* selectedTemplate = static_cast<UMLTemplate*>(object);
-            UMLTemplateDialog dialog(this, selectedTemplate);
-            dialog.exec();
+            QPointer<UMLTemplateDialog> dialog = new UMLTemplateDialog(this, selectedTemplate);
+            dialog->exec();
+            delete dialog;
         } else if (umlType == Uml::ot_UniqueConstraint) {
             // show the Unique Constraint dialog
             UMLUniqueConstraint* selectedUniqueConstraint = static_cast<UMLUniqueConstraint*>(object);
-            UMLUniqueConstraintDialog dialog(this, selectedUniqueConstraint);
-            dialog.exec();
+            QPointer<UMLUniqueConstraintDialog> dialog = new UMLUniqueConstraintDialog(this, selectedUniqueConstraint);
+            dialog->exec();
+            delete dialog;
         } else if (umlType == Uml::ot_ForeignKeyConstraint) {
             // show the Unique Constraint dialog
             UMLForeignKeyConstraint* selectedForeignKeyConstraint = static_cast<UMLForeignKeyConstraint*>(object);
-            UMLForeignKeyConstraintDialog dialog(this, selectedForeignKeyConstraint);
-            dialog.exec();
+            QPointer<UMLForeignKeyConstraintDialog> dialog = new UMLForeignKeyConstraintDialog(this, selectedForeignKeyConstraint);
+            dialog->exec();
+            delete dialog;
         } else if (umlType == Uml::ot_CheckConstraint) {
             // show the Check Constraint dialog
             UMLCheckConstraint* selectedCheckConstraint = static_cast<UMLCheckConstraint*>(object);
-            UMLCheckConstraintDialog dialog(this, selectedCheckConstraint);
-            dialog.exec();
+            QPointer<UMLCheckConstraintDialog> dialog = new UMLCheckConstraintDialog(this, selectedCheckConstraint);
+            dialog->exec();
+            delete dialog;
         } else {
             uWarning() << "calling properties on unknown type";
         }

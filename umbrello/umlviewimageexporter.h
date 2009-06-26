@@ -45,7 +45,7 @@ private:
 
     bool getParametersFromUser();
 
-    void prepareFileDialog(KFileDialog &fileDialog);
+    void prepareFileDialog(KFileDialog *fileDialog);
 
 };
 

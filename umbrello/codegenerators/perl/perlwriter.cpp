@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      David Hugh-Jones  <hughjonesd@yahoo.co.uk>    *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -44,9 +44,9 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   UMLPackageList includes;
   findObjectsRelated(c,includes);
 
-  QString AV = "@";
-  QString SV = "$";
-  QString HV = "%";
+  QString AV = QChar('@');
+  QString SV = QChar('$');
+  QString HV = QChar('%');
   foreach (UMLPackage* conc, includes ) {
     if (conc->getBaseType() == Uml::ot_Datatype)
         continue;

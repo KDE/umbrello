@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,7 +14,7 @@
 #include "toolbarstate.h"
 #include "worktoolbar.h"
 
-#include <QList>
+#include <QtCore/QList>
 
 class UMLScene;
 class QGraphicsLineItem;
@@ -34,16 +33,7 @@ class ToolBarStateArrow : public ToolBarState
     Q_OBJECT
 public:
 
-    /**
-     * Creates a new ToolBarStateArrow.
-     *
-     * @param umlScene The UMLScene to use.
-     */
     ToolBarStateArrow(UMLScene *umlScene);
-
-    /**
-     * Destroys this ToolBarStateArrow.
-     */
     virtual ~ToolBarStateArrow();
 
     virtual void init();
@@ -58,25 +48,15 @@ public:
 protected:
 
     virtual void mousePressAssociation();
-
     virtual void mousePressWidget();
-
     virtual void mousePressEmpty();
-
     virtual void mouseReleaseAssociation();
-
     virtual void mouseReleaseWidget();
-
     virtual void mouseReleaseEmpty();
-
     virtual void mouseDoubleClickAssociation();
-
     virtual void mouseDoubleClickWidget();
-
     virtual void mouseMoveAssociation();
-
     virtual void mouseMoveWidget();
-
     virtual void mouseMoveEmpty();
 
     virtual void setCurrentWidget(UMLWidget* currentWidget);
