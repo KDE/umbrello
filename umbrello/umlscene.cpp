@@ -3113,11 +3113,13 @@ bool UMLScene::showPropDialog()
 {
     // Be explict to avoid confusion
     QWidget *parent = activeView();
-    UMLViewDialog dlg(parent, this);
-    if (dlg.exec()) {
-        return true;
+    bool success = false;
+    QPointer<UMLViewDialog> dlg = new UMLViewDialog(parent, this);
+    if (dlg->exec() == QDialog::Accepted) {
+        success = true;
     }
-    return false;
+    delete dlg;
+    return success;
 }
 
 

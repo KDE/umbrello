@@ -23,7 +23,10 @@
 #include "umlview.h"
 #include "model_utils.h"  // for ENUM_NAME only
 
-// kde includes
+// qt includes
+#include <QtCore/QPointer>
+
+#// kde includes
 #include <klocale.h>
 #include <kinputdialog.h>
 
@@ -313,8 +316,8 @@ void StateWidget::showPropertiesDialog()
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    StateDialog dialog(umlScene()->activeView(), this);
-    if (dialog.exec() && dialog.getChangesMade()) {
+    QPointer<StateDialog> dialog = new StateDialog(umlScene()->activeView(), this);
+    if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
     }
