@@ -82,11 +82,12 @@ void ActivityWidget::showPropertiesDialog()
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    ActivityDialog dialog(umlScene()->activeView(), this);
-    if (dialog.exec() && dialog.getChangesMade()) {
+    QPointer<ActivityDialog> dialog = new ActivityDialog(umlScene()->activeView(), this);
+    if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
     }
+    delete dialog;
 }
 
 void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidget *)

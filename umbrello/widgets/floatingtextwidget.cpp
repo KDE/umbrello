@@ -34,6 +34,7 @@
 #include <klocale.h>
 
 // qt includes
+#include <QtCore/QPointer>
 #include <QtCore/QRegExp>
 #include <QtGui/QValidator>
 
@@ -179,52 +180,50 @@ void FloatingTextWidget::showOperationDialog()
         return;
     }
 
-    SelectOpDlg selectDlg(umlScene()->activeView(), c);
-    selectDlg.setSeqNumber( seqNum );
+    QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(umlScene()->activeView(), c);
+    selectDlg->setSeqNumber( seqNum );
     if (m_linkWidget->getOperation() == 0) {
-        selectDlg.setCustomOp( opText );
+        selectDlg->setCustomOp( opText );
     } else {
-        selectDlg.setClassOp( opText );
+        selectDlg->setClassOp( opText );
     }
-    int result = selectDlg.exec();
-    if (!result) {
-        return;
-    }
-
-    seqNum = selectDlg.getSeqNumber();
-    opText = selectDlg.getOpText();
-    if (selectDlg.isClassOp()) {
-        Model_Utils::OpDescriptor od;
-        Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
-        if (st == Model_Utils::PS_OK) {
-            UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
-            selfAndAncestors.prepend(c);
-            UMLOperation *op = 0;
-            foreach (UMLClassifier *cl , selfAndAncestors) {
-                op = cl->findOperation(od.m_name, od.m_args);
-                if (op) {
-                    break;
+    if (selectDlg->exec()) {
+        seqNum = selectDlg->getSeqNumber();
+        opText = selectDlg->getOpText();
+        if (selectDlg->isClassOp()) {
+            Model_Utils::OpDescriptor od;
+            Model_Utils::Parse_Status st = Model_Utils::parseOperation(opText, od, c);
+            if (st == Model_Utils::PS_OK) {
+                UMLClassifierList selfAndAncestors = c->findSuperClassConcepts();
+                selfAndAncestors.prepend(c);
+                UMLOperation *op = 0;
+                foreach (UMLClassifier *cl , selfAndAncestors) {
+                    op = cl->findOperation(od.m_name, od.m_args);
+                    if (op) {
+                        break;
+                    }
                 }
-            }
-            if (!op) {
-                // The op does not yet exist. Create a new one.
-                UMLObject *o = c->createOperation(od.m_name, 0, &od.m_args);
-                op = static_cast<UMLOperation*>(o);
-            }
-            if (od.m_pReturnType) {
-                op->setType(od.m_pReturnType);
-            }
+                if (!op) {
+                    // The op does not yet exist. Create a new one.
+                    UMLObject *o = c->createOperation(od.m_name, 0, &od.m_args);
+                    op = static_cast<UMLOperation*>(o);
+                }
+                if (od.m_pReturnType) {
+                    op->setType(od.m_pReturnType);
+                }
 
-            m_linkWidget->setOperation(op);
-            opText = QString();
+                m_linkWidget->setOperation(op);
+                opText = QString();
+            } else {
+                m_linkWidget->setOperation(0);
+            }
         } else {
             m_linkWidget->setOperation(0);
         }
-    } else {
-        m_linkWidget->setOperation(0);
+        m_linkWidget->setSeqNumAndOp(seqNum, opText);
+        setMessageText();
     }
-    m_linkWidget->setSeqNumAndOp(seqNum, opText);
-    setMessageText();
+    delete selectDlg;
 }
 
 /**

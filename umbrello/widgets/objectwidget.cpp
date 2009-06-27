@@ -30,6 +30,7 @@
 #include <kinputdialog.h>
 
 // qt includes
+#include <QtCore/QPointer>
 #include <QtGui/QValidator>
 
 /// Size used for drawing Actor
@@ -329,11 +330,12 @@ void ObjectWidget::showPropertiesDialog()
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    ClassPropDlg dlg((QWidget*)UMLApp::app(), this);
-    if (dlg.exec()) {
+    QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
+    if (dlg->exec()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
     }
+    delete dlg;
 }
 
 /**

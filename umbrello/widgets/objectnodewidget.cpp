@@ -28,6 +28,7 @@
 #include <kinputdialog.h>
 
 // qt includes
+#include <QtCore/QPointer>
 #include <QtGui/QPainter>
 
 const QSizeF ObjectNodeWidget::MinimumSize(30, 10);
@@ -95,11 +96,12 @@ void ObjectNodeWidget::showPropertiesDialog()
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
 
-    ObjectNodeDialog dialog(umlScene()->activeView(), this);
-    if (dialog.exec() && dialog.getChangesMade()) {
+    QPointer<ObjectNodeDialog> dialog = new ObjectNodeDialog(umlScene()->activeView(), this);
+    if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->getDocument()->setModified(true);
     }
+    delete dialog;
 }
 
 /**

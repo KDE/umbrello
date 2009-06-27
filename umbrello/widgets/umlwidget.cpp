@@ -33,6 +33,7 @@
 #include "widgethandle.h"
 #include "widget_utils.h"
 
+#include <QtCore/QPointer>
 #include <QtGui/QDialog>
 #include <QtGui/QGraphicsSceneHoverEvent>
 
@@ -211,13 +212,14 @@ void UMLWidget::showPropertiesDialog()
     // back it the widget
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
-    ClassPropDlg *dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
+    QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
 
     if (dlg->exec()) {
         docwindow->showDocumentation(umlObject() , true);
         umlDoc()->setModified(true);
     }
-    dlg->close(); //wipe from memory
+    dlg->close();
+    delete dlg;
 }
 
 void UMLWidget::setupContextMenuActions(ListPopupMenu &menu)

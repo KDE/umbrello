@@ -16,10 +16,11 @@
 #include <cmath>
 
 // qt includes
-#include <QRegExpValidator>
-#include <QGraphicsSceneMouseEvent>
-#include <QMoveEvent>
-#include <QApplication>
+#include <QtCore/QPointer>
+#include <QtGui/QRegExpValidator>
+#include <QtGui/QGraphicsSceneMouseEvent>
+#include <QtGui/QMoveEvent>
+#include <QtGui/QApplication>
 
 // kde includes
 #include <kdebug.h>
@@ -2671,31 +2672,34 @@ void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent * me)
  */
 bool AssociationWidget::showDialog()
 {
-    AssocPropDlg dlg(static_cast<QWidget*>(umlScene()->activeView()), this );
-    if (! dlg.exec())
-        return false;
-    QString name = getName();
-    QString doc = documentation();
-    QString roleADoc = getRoleDoc(A), roleBDoc = getRoleDoc(B);
-    QString rnA = getRoleName(A), rnB = getRoleName(B);
-    QString ma = getMulti(A), mb = getMulti(B);
-    Uml::Visibility vA = getVisibility(A), vB = getVisibility(B);
-    Uml::Changeability_Type cA = getChangeability(A), cB = getChangeability(B);
-    //rules built into these functions to stop updating incorrect values
-    setName(name);
-    setRoleName(rnA, A);
-    setRoleName(rnB, B);
-    setDocumentation(doc);
-    setRoleDoc(roleADoc, A);
-    setRoleDoc(roleBDoc, B);
-    setMulti(ma, A);
-    setMulti(mb, B);
-    setVisibility(vA, A);
-    setVisibility(vB, B);
-    setChangeability(cA, A);
-    setChangeability(cB, B);
-    umlScene()->showDocumentation( this, true );
-    return true;
+    bool success = false;
+    QPointer<AssocPropDlg> dlg = new AssocPropDlg(static_cast<QWidget*>(umlScene()->activeView()), this );
+    if (dlg->exec()) {
+        success = true;
+        QString name = getName();
+        QString doc = documentation();
+        QString roleADoc = getRoleDoc(A), roleBDoc = getRoleDoc(B);
+        QString rnA = getRoleName(A), rnB = getRoleName(B);
+        QString ma = getMulti(A), mb = getMulti(B);
+        Uml::Visibility vA = getVisibility(A), vB = getVisibility(B);
+        Uml::Changeability_Type cA = getChangeability(A), cB = getChangeability(B);
+        //rules built into these functions to stop updating incorrect values
+        setName(name);
+        setRoleName(rnA, A);
+        setRoleName(rnB, B);
+        setDocumentation(doc);
+        setRoleDoc(roleADoc, A);
+        setRoleDoc(roleBDoc, B);
+        setMulti(ma, A);
+        setMulti(mb, B);
+        setVisibility(vA, A);
+        setVisibility(vB, B);
+        setChangeability(cA, A);
+        setChangeability(cB, B);
+        umlScene()->showDocumentation( this, true );
+    }
+    delete dlg;
+    return success;
 }
 
 /**
