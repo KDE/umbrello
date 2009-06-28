@@ -76,13 +76,13 @@
        <entry name="diagram" type="Enum">
          <label>Diagram To Load at Startup</label>
          <whatsthis>The Diagram to load at startup</whatsthis>
-         <choices name="Uml::Diagram_Type" />
+         <choices name="Uml::Diagram_Type"></choices>
          <default>Uml::dt_Class</default>
        </entry>
        <entry name="defaultLanguage" type="Enum">
          <label>Default Language at Startup</label>
          <whatsthis>The Language that Umbrello should start with by default</whatsthis>
-         <choices name="Uml::Programming_Language" />
+         <choices name="Uml::Programming_Language"></choices>
          <default>Uml::pl_Cpp</default>
        </entry>
        <entry name="lastFile" type="String">
@@ -172,13 +172,13 @@
        <entry name="defaultAttributeScope" type="Enum">
          <label>Default Attribute Scope</label>
          <whatsthis>Default Attribute Scope</whatsthis>
-         <choices name="Uml::Visibility::Value" />
+         <choices name="Uml::Visibility::Value"></choices>
          <default>Uml::Visibility::Public</default>
        </entry>
        <entry name="defaultOperationScope" type="Enum">
          <label>Default Operation Scope</label>
          <whatsthis>Default Operation Scope</whatsthis>
-         <choices name="Uml::Visibility::Value" />
+         <choices name="Uml::Visibility::Value"></choices>
          <default>Uml::Visibility::Public</default>
        </entry>
    </group>
@@ -255,19 +255,19 @@
        <entry name="commentStyle" type="Enum">
          <label>Comment Style</label>
          <whatsthis>Sets the Style of Comments to be used</whatsthis>
-         <choices name="CodeGenerationPolicy::CommentStyle" />
+         <choices name="CodeGenerationPolicy::CommentStyle"></choices>
          <default>CodeGenerationPolicy::SingleLine</default>
        </entry>
        <entry name="defaultAssocFieldScope" type="Enum">
          <label>Default Association Field Scope</label>
          <whatsthis>Sets the default Association field scope</whatsthis>
-         <choices name="Uml::Visibility::Value" />
+         <choices name="Uml::Visibility::Value"></choices>
          <default>Uml::Visibility::FromParent</default>
        </entry>
        <entry name="defaultAttributeAccessorScope" type="Enum">
          <label>Default Attribute Accessor Scope</label>
          <whatsthis>Sets the default attribute accessor scope</whatsthis>
-         <choices name="Uml::Visibility::Value" />
+         <choices name="Uml::Visibility::Value"></choices>
          <default>Uml::Visibility::FromParent</default>
        </entry>
        <entry name="forceDoc" type="Bool">
@@ -299,19 +299,19 @@
        <entry name="indentationType" type="Enum">
          <label>Indentation Type</label>
          <whatsthis>The Type of Indentation</whatsthis>
-         <choices name="CodeGenerationPolicy::IndentationType" />
+         <choices name="CodeGenerationPolicy::IndentationType"></choices>
          <default>CodeGenerationPolicy::SPACE</default>
        </entry>
        <entry name="lineEndingType" type="Enum">
          <label>Line Ending Type</label>
          <whatsthis>The type of line ending ( or new line type )</whatsthis>
-         <choices name="CodeGenerationPolicy::NewLineType" /> 
+         <choices name="CodeGenerationPolicy::NewLineType"></choices> 
          <default>CodeGenerationPolicy::UNIX</default>
        </entry>
        <entry name="modnamePolicy" type="Enum">
          <label>Modifier Name Policy</label>
          <whatsthis>Modifier Name Policy</whatsthis>
-         <choices name="CodeGenerationPolicy::ModifyNamePolicy" />
+         <choices name="CodeGenerationPolicy::ModifyNamePolicy"></choices>
          <default>CodeGenerationPolicy::Capitalise</default>
        </entry>
        <entry name="outputDirectory" type="Path">
@@ -322,7 +322,7 @@
        <entry name="overwritePolicy" type="Enum">
          <label>Overwrite Policy</label>
          <whatsthis>The policy to be followed when there are name conflicts</whatsthis>
-         <choices name="CodeGenerationPolicy::OverwritePolicy" />
+         <choices name="CodeGenerationPolicy::OverwritePolicy"></choices>
          <default>CodeGenerationPolicy::Ask</default>
        </entry>
     </group>
