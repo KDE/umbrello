@@ -41,7 +41,8 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
     m_classAssociationWidget(0)
 
 {
-    createTextItemGroup(); // For classifier text items
+    createTextItemGroup(); // For header (name, stereotype..)
+    createTextItemGroup(); // For attributes and operations.
     createTextItemGroup(); // For template text items'
 
     m_attributeExpanderBox = new ExpanderBox(false, this);
@@ -436,36 +437,40 @@ void ClassifierWidget::updateGeometry()
 {
     // Min size including classifier and template box.
     QSizeF totalMinSize;
+    UMLWidget::SizeHintOption sizeHintOption = UMLWidget::AddMargin;
 
-    // Min size only for classifier items.
-    QSizeF classifierMinSize = textItemGroupAt(ClassifierGroupIndex)->minimumSize();
+    // Min size for classifier items and header (doesn't include template)
+    QSizeF headerSize = textItemGroupAt(HeaderGroupIndex)->minimumSize();
+    QSizeF attribOpSize = textItemGroupAt(AttribOpGroupIndex)->minimumSize();
+
+    QSizeF classifierMinSize; // combined size
+    classifierMinSize.setWidth(qMax(headerSize.width(), attribOpSize.width()));
+    classifierMinSize.setHeight(headerSize.height() + attribOpSize.height());
 
     if (shouldDrawAsCircle()) {
         qreal minDiameter = 2 * ClassifierWidget::CircleMinimumRadius;
-        totalMinSize.setWidth(qMax(classifierMinSize.width(), minDiameter));
-        totalMinSize.setHeight(classifierMinSize.height() + minDiameter);
-        setMinimumSize(totalMinSize);
-        UMLWidget::updateGeometry();
-        return;
+        // only header items are drawn, so total min size should include only that.
+        totalMinSize.setWidth(qMax(headerSize.width(), minDiameter));
+        totalMinSize.setHeight(headerSize.height() + minDiameter);
+    } else {
+        // Draw the bounding rectangle
+        QSizeF templateBoxSize = textItemGroupAt(TemplateGroupIndex)->minimumSize();
+
+        if (textItemGroupAt(TemplateGroupIndex)->textItemCount() == 0) {
+            // If we don't have template params use entire size for header, params and operations.
+            totalMinSize = classifierMinSize;
+        }
+        else {
+            // minus margin() below because to overlap a bit.
+            totalMinSize.setHeight(classifierMinSize.height() +
+                    templateBoxSize.height() - margin());
+            totalMinSize.setWidth(classifierMinSize.width() + .5 * templateBoxSize.width());
+            // Dont add margin as we have already added manually
+            sizeHintOption = UMLWidget::DontAddMargin;
+        }
+
     }
-
-    // Draw the bounding rectangle
-    QSizeF templateBoxSize = textItemGroupAt(TemplateGroupIndex)->minimumSize();
-
-    // If we don't have template params use entire size for params and operations.
-    if (textItemGroupAt(TemplateGroupIndex)->textItemCount() == 0) {
-        totalMinSize = classifierMinSize;
-        setMinimumSize(totalMinSize);
-    }
-    else {
-        // minus margin() below because to overlap a bit.
-        totalMinSize.setHeight(classifierMinSize.height() + templateBoxSize.height() - margin());
-        totalMinSize.setWidth(classifierMinSize.width() + .5 * templateBoxSize.width());
-
-        // Dont add margin as we have already added manually
-        setMinimumSize(totalMinSize, UMLWidget::DontAddMargin);
-    }
-
+    setMinimumSize(totalMinSize, sizeHintOption);
     UMLWidget::updateGeometry();
 }
 
@@ -516,21 +521,23 @@ void ClassifierWidget::calculateTemplateDrawing()
  */
 void ClassifierWidget::calculateClassifierDrawing()
 {
-    const qreal w = size().width();
-    const qreal h = size().height();
+    const qreal w = width();
+    const qreal h = height();
 
-    TextItemGroup *classifierGroup = textItemGroupAt(ClassifierGroupIndex);
+    TextItemGroup *headerGroup = textItemGroupAt(HeaderGroupIndex);
+    TextItemGroup *attribOpGroup = textItemGroupAt(AttribOpGroupIndex);
 
     if (shouldDrawAsCircle()) {
         // Allocates circle space algined at top and "minimum space"
         // for the text which is aligned bottom.
-        qreal fontHeight = classifierGroup->minimumSize().height();
+        qreal fontHeight = headerGroup->minimumSize().height();
         qreal diameter = qMin(w, h - fontHeight);
         m_classifierRect.setRect(0, 0, diameter, diameter);
         m_classifierRect.moveCenter(QPointF(.5 * w, m_classifierRect.center().y()));
 
         QRectF groupRect(0, diameter, w, h - diameter);
-        classifierGroup->setGroupGeometry(groupRect);
+        headerGroup->setGroupGeometry(groupRect);
+        // classifierGroup->setGroupGeometry(groupRect);
         m_classifierLines[0] = m_classifierLines[1] = QLineF();
     }
     else {
@@ -544,18 +551,27 @@ void ClassifierWidget::calculateClassifierDrawing()
             m_classifierRect.setBottomRight(QPointF(m_templateRect.center().x(), h));
         }
 
-        classifierGroup->setGroupGeometry(m_classifierRect);
-        const int cnt = classifierGroup->textItemCount();
+        QRectF headerGeometry(m_classifierRect);
+        headerGeometry.setHeight(headerGroup->minimumSize().height());
+        headerGroup->setGroupGeometry(headerGeometry);
+
+        QRectF attribOpGeometry(m_classifierRect);
+        attribOpGeometry.setTop(headerGeometry.bottom());
+        attribOpGroup->setGroupGeometry(attribOpGeometry);
+
+        const int cnt = attribOpGroup->textItemCount();
         qreal expanderDistance = 4;
         if (cnt > m_lineItem1Index) {
-            TextItem *item = classifierGroup->textItemAt(m_lineItem1Index);
+            TextItem *item = headerGroup->textItemAt(m_lineItem1Index);
             qreal y = item->mapToParent(item->boundingRect().bottomLeft()).y();
             m_classifierLines[0].setLine(m_classifierRect.left(), y, m_classifierRect.right(), y);
-            qreal expanderX = rect().left() - m_attributeExpanderBox->rect().width() - expanderDistance;
+            qreal expanderX = rect().left() -
+                m_attributeExpanderBox->rect().width() -
+                expanderDistance;
             m_attributeExpanderBox->setPos(expanderX, y);
         }
-        if (cnt > m_lineItem1Index) {
-            TextItem *item = classifierGroup->textItemAt(m_lineItem2Index);
+        if (cnt > m_lineItem2Index) {
+            TextItem *item = attribOpGroup->textItemAt(m_lineItem2Index);
             qreal y = item->mapToParent(item->boundingRect().bottomLeft()).y();
             m_classifierLines[1].setLine(m_classifierRect.left(), y, m_classifierRect.right(), y);
             qreal expanderX = rect().left() - m_operationExpanderBox->rect().width() - expanderDistance;
@@ -574,8 +590,10 @@ void ClassifierWidget::updateTextItemGroups()
     // Invalidate stuff and recalculate them.
     invalidateDummies();
 
-    TextItemGroup *classifierGroup = textItemGroupAt(ClassifierGroupIndex);
+    TextItemGroup *headerGroup = textItemGroupAt(HeaderGroupIndex);
+    TextItemGroup *attribOpGroup = textItemGroupAt(AttribOpGroupIndex);
     TextItemGroup *templateGroup = textItemGroupAt(TemplateGroupIndex);
+
     UMLClassifier *umlC = classifier();
     UMLClassifierListItemList attribList = umlC->getFilteredList(Uml::ot_Attribute);
     UMLClassifierListItemList opList = umlC->getFilteredList(Uml::ot_Operation);
@@ -590,12 +608,15 @@ void ClassifierWidget::updateTextItemGroups()
         templateGroup->textItemAt(i)->setVisible(!templateHide);
     }
 
-    // +2 because we have NameItem and StereotypeItem
-    const int cnt = attribList.count() + opList.count() + 2;
-    classifierGroup->setTextItemCount(cnt);
+    // Stereo type and name.
+    const int headerItemCount = 2;
+    headerGroup->setTextItemCount(headerItemCount);
+
+    const int cnt = attribList.count() + opList.count();
+    attribOpGroup->setTextItemCount(cnt);
 
     // Setup Stereo text item.
-    TextItem *stereoItem = classifierGroup->textItemAt(StereotypeItemIndex);
+    TextItem *stereoItem = headerGroup->textItemAt(StereotypeItemIndex);
     stereoItem->setBold(true);
     stereoItem->setText(umlC->getStereotype(true));
 
@@ -605,7 +626,7 @@ void ClassifierWidget::updateTextItemGroups()
     stereoItem->setVisible(v);
 
     // name item is always visible.
-    TextItem *nameItem = classifierGroup->textItemAt(NameItemIndex);
+    TextItem *nameItem = headerGroup->textItemAt(NameItemIndex);
     nameItem->setBold(true);
     nameItem->setItalic(umlC->getAbstract());
     nameItem->setUnderline(shouldDrawAsCircle());
@@ -621,14 +642,14 @@ void ClassifierWidget::updateTextItemGroups()
         m_lineItem1Index = NameItemIndex;
     }
 
-    int attribStartIndex = NameItemIndex + 1;
+    int attribStartIndex = 0;
     int opStartIndex = attribStartIndex + attribList.size();
 
     // Now setup attribute texts.
     for (int i=0; i < attribList.size(); ++i) {
         UMLClassifierListItem *obj = attribList[i];
 
-        TextItem *item = classifierGroup->textItemAt(attribStartIndex + i);
+        TextItem *item = attribOpGroup->textItemAt(attribStartIndex + i);
         item->setItalic(obj->getAbstract());
         item->setUnderline(obj->getStatic());
         item->setText(obj->toString(m_attributeSignatureType));
@@ -648,9 +669,9 @@ void ClassifierWidget::updateTextItemGroups()
     // Setup line and dummies.
     if (!showNameOnly) {
         // Stuff in a dummy item as spacer if there are no attributes,
-        if ((attribList.isEmpty() || !visualProperty(ShowAttributes)) && !shouldDrawAsCircle()) {
+        if (!shouldDrawAsCircle() && (attribList.isEmpty() || !visualProperty(ShowAttributes))) {
             m_dummyAttributeItem = new TextItem(dummyText);
-            classifierGroup->insertTextItemAt(attribStartIndex, m_dummyAttributeItem);
+            attribOpGroup->insertTextItemAt(attribStartIndex, m_dummyAttributeItem);
             m_lineItem2Index = attribStartIndex;
             ++opStartIndex;
         }
@@ -663,7 +684,7 @@ void ClassifierWidget::updateTextItemGroups()
     for (int i=0; i < opList.size(); ++i) {
         UMLClassifierListItem *obj = opList[i];
 
-        TextItem *item = classifierGroup->textItemAt(opStartIndex + i);
+        TextItem *item = attribOpGroup->textItemAt(opStartIndex + i);
         item->setItalic(obj->getAbstract());
         item->setUnderline(obj->getStatic());
         item->setText(obj->toString(m_operationSignatureType));
@@ -678,9 +699,11 @@ void ClassifierWidget::updateTextItemGroups()
     m_operationExpanderBox->setExpanded(visualProperty(ShowOperations));
     m_operationExpanderBox->setVisible(!visualProperty(DrawAsCircle));
 
-    if (!showNameOnly && opList.isEmpty() && !shouldDrawAsCircle()) {
-        m_dummyOperationItem = new TextItem(dummyText);
-        classifierGroup->insertTextItemAt(opStartIndex, m_dummyOperationItem);
+    if (!showNameOnly) {
+        if (!shouldDrawAsCircle() && (opList.isEmpty() || !visualProperty(ShowOperations))) {
+            m_dummyOperationItem = new TextItem(dummyText);
+            attribOpGroup->insertTextItemAt(opStartIndex, m_dummyOperationItem);
+        }
     }
 
     UMLWidget::updateTextItemGroups();
@@ -819,7 +842,7 @@ void ClassifierWidget::slotShowOperations(bool state)
  */
 void ClassifierWidget::invalidateDummies()
 {
-    TextItemGroup *grp = textItemGroupAt(ClassifierGroupIndex);
+    TextItemGroup *grp = textItemGroupAt(AttribOpGroupIndex);
     if (m_dummyAttributeItem) {
         grp->deleteTextItem(m_dummyAttributeItem);
         m_dummyAttributeItem = 0;

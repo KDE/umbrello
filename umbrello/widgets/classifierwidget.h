@@ -129,7 +129,8 @@ private:
     AssociationWidget *m_classAssociationWidget;
 
     enum {
-        ClassifierGroupIndex=0,
+        HeaderGroupIndex=0,
+        AttribOpGroupIndex,
         TemplateGroupIndex
     };
     enum {
