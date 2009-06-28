@@ -144,7 +144,6 @@ private:
 
     void invalidateDummies();
 
-    int m_lineItem1Index;
     int m_lineItem2Index;
     TextItem *m_dummyAttributeItem;
     TextItem *m_dummyOperationItem;

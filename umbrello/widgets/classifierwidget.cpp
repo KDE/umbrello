@@ -28,6 +28,18 @@
 #include "umlscene.h"
 #include "umlview.h"
 
+static QBrush awesomeHeaderBrush()
+{
+    static QBrush brush;
+    if (brush.style() == Qt::NoBrush) {
+        QColor alphaBlue(Qt::darkBlue);
+        alphaBlue.setAlpha(155);
+        brush.setStyle(Qt::SolidPattern);
+        brush.setColor(alphaBlue);
+    }
+    return brush;
+}
+
 const qreal ClassifierWidget::CircleMinimumRadius = 30;
 const int ClassifierWidget::InvalidIndex = 99999;
 
@@ -53,7 +65,7 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
 
     // Null initially
     m_dummyAttributeItem = m_dummyOperationItem = 0;
-    m_lineItem1Index = m_lineItem2Index = InvalidIndex;
+    m_lineItem2Index = InvalidIndex;
 
     m_baseType = Uml::wt_Class;
     // TODO: The following properties should be set using the
@@ -419,11 +431,16 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*,
     else {
         // The elements not to be drawn will have null dimension and
         // hence it effectively is not drawn. (automatic ;) )
-        painter->drawRect(m_classifierRect);
+        painter->drawRoundedRect(m_classifierRect, 5, 5);
         painter->drawLines(m_classifierLines, 2);
+
+        painter->setPen(QPen(Qt::NoPen));
+        painter->setBrush(awesomeHeaderBrush());
+        painter->drawRoundedRect(textItemGroupAt(HeaderGroupIndex)->groupGeometry(), 5, 5);
 
         pen.setStyle(Qt::DotLine);
         painter->setPen(pen);
+        painter->setBrush(brush());
         painter->drawRect(m_templateRect);
     }
 }
@@ -561,9 +578,10 @@ void ClassifierWidget::calculateClassifierDrawing()
 
         const int cnt = attribOpGroup->textItemCount();
         qreal expanderDistance = 4;
-        if (cnt > m_lineItem1Index) {
-            TextItem *item = headerGroup->textItemAt(m_lineItem1Index);
-            qreal y = item->mapToParent(item->boundingRect().bottomLeft()).y();
+        bool showNameOnly = (!visualProperty(ShowAttributes) && !visualProperty(ShowOperations)
+                && !visualProperty(ShowStereotype) && !shouldDrawAsCircle());
+        if (!showNameOnly && !shouldDrawAsCircle()) {
+            qreal y = textItemGroupAt(HeaderGroupIndex)->groupGeometry().bottom();
             m_classifierLines[0].setLine(m_classifierRect.left(), y, m_classifierRect.right(), y);
             qreal expanderX = rect().left() -
                 m_attributeExpanderBox->rect().width() -
@@ -574,7 +592,8 @@ void ClassifierWidget::calculateClassifierDrawing()
             TextItem *item = attribOpGroup->textItemAt(m_lineItem2Index);
             qreal y = item->mapToParent(item->boundingRect().bottomLeft()).y();
             m_classifierLines[1].setLine(m_classifierRect.left(), y, m_classifierRect.right(), y);
-            qreal expanderX = rect().left() - m_operationExpanderBox->rect().width() - expanderDistance;
+            qreal expanderX = rect().left() - m_operationExpanderBox->rect().width() -
+                expanderDistance;
             m_operationExpanderBox->setPos(expanderX, y);
         }
     }
@@ -593,6 +612,9 @@ void ClassifierWidget::updateTextItemGroups()
     TextItemGroup *headerGroup = textItemGroupAt(HeaderGroupIndex);
     TextItemGroup *attribOpGroup = textItemGroupAt(AttribOpGroupIndex);
     TextItemGroup *templateGroup = textItemGroupAt(TemplateGroupIndex);
+
+    attribOpGroup->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+    templateGroup->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
     UMLClassifier *umlC = classifier();
     UMLClassifierListItemList attribList = umlC->getFilteredList(Uml::ot_Attribute);
@@ -638,9 +660,6 @@ void ClassifierWidget::updateTextItemGroups()
     bool showNameOnly = (!visualProperty(ShowAttributes) && !visualProperty(ShowOperations)
                          && !visualProperty(ShowStereotype) && !shouldDrawAsCircle());
     nameItem->setText(nameText);
-    if (!showNameOnly) {
-        m_lineItem1Index = NameItemIndex;
-    }
 
     int attribStartIndex = 0;
     int opStartIndex = attribStartIndex + attribList.size();
@@ -853,6 +872,6 @@ void ClassifierWidget::invalidateDummies()
         m_dummyOperationItem = 0;
     }
 
-    m_lineItem1Index = m_lineItem2Index = InvalidIndex;
+    m_lineItem2Index = InvalidIndex;
     m_classifierLines[0] = m_classifierLines[1] = QLineF();
 }

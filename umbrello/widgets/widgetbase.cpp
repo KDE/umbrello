@@ -42,10 +42,14 @@ static void setupAwesomeBrush(QBrush &brush)
     QLinearGradient grad;
     grad.setCoordinateMode(QGradient::ObjectBoundingMode);
     grad.setColorAt(0, Qt::white);
-    grad.setColorAt(1, QColor("#ffda0c"));
+    // grad.setColorAt(1, QColor("#ffda0c"));
+    const int grayLevel = 220;
+    const int alpha = 255;
+    QColor gray(grayLevel, grayLevel, grayLevel, alpha);
+    grad.setColorAt(1, gray);
 
     grad.setStart(0, 0);
-    grad.setFinalStop(0, 1);
+    grad.setFinalStop(1, 1);
 
     brush = QBrush(grad);
 }
@@ -57,6 +61,11 @@ static QBrush awesomeBrush()
         setupAwesomeBrush(brush);
     }
     return brush;
+}
+
+static QColor awesomeLineColor()
+{
+    return QColor(80, 80, 0);
 }
 ////////////////////////////////////////////////
 
@@ -92,7 +101,7 @@ struct WidgetInterfaceData
  */
 WidgetBase::WidgetBase(UMLObject *object) :
     m_umlObject(object),
-    m_lineColor(Qt::red),
+    m_lineColor(awesomeLineColor()),
     m_lineWidth(0),
     m_brush(awesomeBrush()),
     m_widgetInterfaceData(0),
