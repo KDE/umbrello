@@ -316,6 +316,14 @@ namespace Uml
         reg_SouthWest
     };
 
+    enum Corner {
+        corner_TopLeft = 0x1,
+        corner_TopRight = 0x2,
+        corner_BottomRight = 0x4,
+        corner_BottomLeft = 0x8
+    };
+    Q_DECLARE_FLAGS(Corners, Corner);
+
     /**
      * The data type used for unique IDs.
      */

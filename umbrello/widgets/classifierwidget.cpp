@@ -27,6 +27,7 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
+#include "widget_utils.h"
 
 static QBrush awesomeHeaderBrush()
 {
@@ -436,7 +437,9 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*,
 
         painter->setPen(QPen(Qt::NoPen));
         painter->setBrush(awesomeHeaderBrush());
-        painter->drawRoundedRect(textItemGroupAt(HeaderGroupIndex)->groupGeometry(), 5, 5);
+        Uml::Corners corners(Uml::corner_TopLeft | Uml::corner_TopRight);
+        Widget_Utils::drawRoundedRect(painter, textItemGroupAt(HeaderGroupIndex)->groupGeometry(),
+                5, 5, corners);
 
         pen.setStyle(Qt::DotLine);
         painter->setPen(pen);

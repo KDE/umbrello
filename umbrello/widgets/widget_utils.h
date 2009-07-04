@@ -34,7 +34,7 @@ namespace Widget_Utils
 
     UMLWidget* findWidget(Uml::IDType id,
                           const UMLWidgetList& widgets,
-                          const MessageWidgetList* pMessages = NULL);
+                          const MessageWidgetList* pMessages = 0);
 
     QGraphicsRectItem *decoratePoint(const QPointF& p);
 
@@ -45,6 +45,9 @@ namespace Widget_Utils
     void drawArrowHead(QPainter *painter, const QPointF& arrowPos,
                        const QSizeF& arrowSize, Qt::ArrowType arrowType,
                        bool solid = false);
+
+    void drawRoundedRect(QPainter *painter, const QRectF& rect, qreal xRadius,
+            qreal yRadius, Uml::Corners corners);
 
     QString pointToString(const QPointF& point);
 

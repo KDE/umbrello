@@ -180,6 +180,56 @@ namespace Widget_Utils
         }
     }
 
+    void drawRoundedRect(QPainter *painter, const QRectF& rect, qreal xRadius,
+            qreal yRadius, Uml::Corners corners)
+    {
+        if (xRadius < 0 || yRadius < 0) {
+            painter->drawRect(rect);
+            return;
+        }
+        QRectF arcRect(0, 0, 2 * xRadius, 2 * yRadius);
+
+        QPainterPath path;
+        path.moveTo(rect.left(), rect.top() + yRadius);
+        if (corners.testFlag(Uml::corner_TopLeft)) {
+            arcRect.moveTopLeft(rect.topLeft());
+            path.arcTo(arcRect, 180, -90);
+        } else {
+            path.lineTo(rect.topLeft());
+        }
+
+        path.lineTo(rect.right() - xRadius, rect.top());
+
+        if (corners.testFlag(Uml::corner_TopRight)) {
+            arcRect.moveTopRight(rect.topRight());
+            path.arcTo(arcRect, 90, -90);
+        } else {
+            path.lineTo(rect.topRight());
+        }
+
+        path.lineTo(rect.right(), rect.bottom() - yRadius);
+
+        if (corners.testFlag(Uml::corner_BottomRight)) {
+            arcRect.moveBottomRight(rect.bottomRight());
+            path.arcTo(arcRect, 0, -90);
+        } else {
+            path.lineTo(rect.bottomRight());
+        }
+
+        path.lineTo(rect.left() + xRadius, rect.bottom());
+
+        if (corners.testFlag(Uml::corner_BottomLeft)) {
+            arcRect.moveBottomLeft(rect.bottomLeft());
+            path.arcTo(arcRect, 270, 90);
+        } else {
+            path.lineTo(rect.bottomLeft());
+        }
+
+        path.closeSubpath();
+        painter->drawPath(path);
+    }
+
+
     /**
      * Converts a point to a comma separated string i.e "x,y"
      */
