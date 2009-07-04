@@ -24,17 +24,6 @@ namespace New
 {
     class AssociationLine;
 
-    enum Region {
-        Left,
-        TopLeft,
-        Top,
-        TopRight,
-        Right,
-        BottomRight,
-        Bottom,
-        BottomLeft
-    };
-
     struct WidgetRole
     {
         FloatingTextWidget *multiplicityWidget;
@@ -42,8 +31,6 @@ namespace New
         FloatingTextWidget *roleWidget;
 
         UMLWidget *umlWidget;
-
-        New::Region region;
 
         // The following are used only in case of absence of UMLObject
         Uml::Visibility visibility;

@@ -29,7 +29,6 @@ namespace New
     {
         multiplicityWidget = changeabilityWidget = roleWidget = 0;
         umlWidget = 0;
-        region = New::Left;
         visibility = Uml::Visibility::Public;
         changeability = Uml::chg_Changeable;
     }
