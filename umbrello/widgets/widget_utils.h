@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,7 +33,7 @@ namespace Widget_Utils
 
     UMLWidget* findWidget(Uml::IDType id,
                           const UMLWidgetList& widgets,
-                          const MessageWidgetList* pMessages = 0);
+                          const MessageWidgetList* messages = 0);
 
     QGraphicsRectItem *decoratePoint(const QPointF& p);
 

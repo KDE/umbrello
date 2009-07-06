@@ -920,57 +920,58 @@ void WidgetBase::setShape(const QPainterPath& path)
 
 ///////////////////////////////SOME DEPRECATED STUFF///////////////
 
-WidgetBase::WidgetBase(UMLScene *scene, UMLObject *object) :
-    QObject(),
-    QGraphicsItem(0),
+// WidgetBase::WidgetBase(UMLScene *scene, UMLObject *object) :
+//     QObject(),
+//     QGraphicsItem(0),
+// 
+//     m_umlObject(object),
+//     m_lineColor(Qt::red),
+//     m_lineWidth(0),
+//     m_brush(awesomeBrush()),
+//     m_widgetInterfaceData(0),
+//     m_isSceneSetBefore(false),
+//     firstTime(true)
+// {
+//     for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
+//         m_pFontMetrics[i] = new QFontMetrics(font());
+//     }
+//     if(!object) {
+//         m_widgetInterfaceData = new WidgetInterfaceData;
+//     }
+//     setFlags(ItemIsSelectable | ItemIsMovable);
+//     hide();
+//     if(scene) {
+//         scene->addItem(this);
+//     }
+// }
 
-    m_umlObject(object),
-    m_lineColor(Qt::red),
-    m_lineWidth(0),
-    m_brush(awesomeBrush()),
-    m_widgetInterfaceData(0),
-    m_isSceneSetBefore(false),
-    firstTime(true)
-{
-    for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
-        m_pFontMetrics[i] = new QFontMetrics(font());
-    }
-    if(!object) {
-        m_widgetInterfaceData = new WidgetInterfaceData;
-    }
-    setFlags(ItemIsSelectable | ItemIsMovable);
-    hide();
-    if(scene) {
-        scene->addItem(this);
-    }
-}
+// WidgetBase::WidgetBase(UMLScene *scene, const Uml::IDType &_id) :
+//     m_umlObject(0),
+//     m_lineColor(Qt::red),
+//     m_lineWidth(0),
+//     m_brush(awesomeBrush()),
+//     m_isSceneSetBefore(false),
+//     firstTime(true)
+// {
+//     for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
+//         m_pFontMetrics[i] = new QFontMetrics(font());
+//     }
+//     m_widgetInterfaceData = new WidgetInterfaceData;
+//     if(_id == Uml::id_None) {
+//         m_widgetInterfaceData->id = UniqueID::gen();
+//     }
+//     else {
+//         m_widgetInterfaceData->id = _id;
+//     }
+//     if(scene) {
+//         scene->addItem(this);
+//     }
+//     hide();
+//     setFlags(ItemIsSelectable | ItemIsMovable);
+// }
 
-WidgetBase::WidgetBase(UMLScene *scene, const Uml::IDType &_id) :
-    m_umlObject(0),
-    m_lineColor(Qt::red),
-    m_lineWidth(0),
-    m_brush(awesomeBrush()),
-    m_isSceneSetBefore(false),
-    firstTime(true)
-{
-    for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
-        m_pFontMetrics[i] = new QFontMetrics(font());
-    }
-    m_widgetInterfaceData = new WidgetInterfaceData;
-    if(_id == Uml::id_None) {
-        m_widgetInterfaceData->id = UniqueID::gen();
-    }
-    else {
-        m_widgetInterfaceData->id = _id;
-    }
-    if(scene) {
-        scene->addItem(this);
-    }
-    hide();
-    setFlags(ItemIsSelectable | ItemIsMovable);
-}
-
-/** Template Method, override this to set the default
+/**
+ * Template Method, override this to set the default
  *  font metric.
  */
 void WidgetBase::setDefaultFontMetrics(WidgetBase::FontType fontType)
@@ -1026,7 +1027,8 @@ void WidgetBase::setupFontType(QFont &font, WidgetBase::FontType fontType)
     }
 }
 
-/** Template Method, override this to set the default
+/**
+ * Template Method, override this to set the default
  *  font metric.
  */
 void WidgetBase::setDefaultFontMetrics(WidgetBase::FontType fontType, QPainter &painter)

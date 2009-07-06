@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,18 +20,23 @@ const QSizeF RegionWidget::MinimumSize(90, 45);
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 RegionWidget::RegionWidget(Uml::IDType id)
-    : UMLWidget(0, id)
+    : UMLWidget(0)
 {
     m_baseType = Uml::wt_Region;
+    setID(id);
     setMinimumSize(RegionWidget::MinimumSize);
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 RegionWidget::~RegionWidget()
 {
 }
 
-/// Draws a rounded rect with dash line property.
+/**
+ * Draws a rounded rect with dash line property.
+ */
 void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     QPen pen(lineColor(), lineWidth());
@@ -45,7 +49,9 @@ void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QW
     painter->drawRoundRect(r, (r.height() * 60) / r.width(), 60);
 }
 
-/// Loads region widget from XMI element
+/**
+ * Loads region widget from XMI element.
+ */
 bool RegionWidget::loadFromXMI( QDomElement & qElement )
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
@@ -55,7 +61,9 @@ bool RegionWidget::loadFromXMI( QDomElement & qElement )
     return true;
 }
 
-/// Saves region widget to XMI element.
+/**
+ * Saves region widget to XMI element.
+ */
 void RegionWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement regionElement = qDoc.createElement( "regionwidget" );

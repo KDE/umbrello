@@ -34,6 +34,7 @@
 #include "umlview.h"
 #include "umldoc.h"
 #include "umlwidget.h"
+#include "umlwidgetlist.h"
 #include "messagewidget.h"
 #include "umlrole.h"
 #include "listpopupmenu.h"
@@ -58,7 +59,7 @@ using namespace Uml;
 // is bad..and shouldn't be allowed as it creates an incomplete
 // associationwidget.
 AssociationWidget::AssociationWidget(UMLScene *scene)
-        : WidgetBase(scene)
+  : WidgetBase(0)
 {
     init(scene);
 }
@@ -67,7 +68,7 @@ AssociationWidget::AssociationWidget(UMLScene *scene)
 AssociationWidget::AssociationWidget(UMLScene *scene, UMLWidget* pWidgetA,
                                      Uml::Association_Type assocType, UMLWidget* pWidgetB,
                                      UMLObject *umlobject /* = NULL */)
-        : WidgetBase(scene)
+  : WidgetBase(umlobject)
 {
     init(scene);
     if (umlobject) {
@@ -2360,24 +2361,27 @@ void AssociationWidget::calculateNameTextSegment()
  * This method calls @ref calculateTextPostion to get the needed position.
  * I.e. the line segment it is on has moved and it should move the same
  * amount as the line.
+ * TODO: returns without doing anything!
  */
 void AssociationWidget::setTextPosition(Uml::Text_Role role)
 {
     bool startMove = false;
-    if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
-        startMove = true;
-    else if( m_role[B].m_pMulti && m_role[B].m_pMulti->getStartMove() )
-        startMove = true;
-    else if( m_role[A].m_pChangeWidget && m_role[A].m_pChangeWidget->getStartMove() )
-        startMove = true;
-    else if( m_role[B].m_pChangeWidget && m_role[B].m_pChangeWidget->getStartMove() )
-        startMove = true;
-    else if( m_role[A].m_pRole  && m_role[A].m_pRole->getStartMove() )
-        startMove = true;
-    else if( m_role[B].m_pRole  && m_role[B].m_pRole->getStartMove() )
-        startMove = true;
-    else if( m_pName && m_pName->getStartMove() )
-        startMove = true;
+//:DEPRECATED:
+//    if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
+//        startMove = true;
+//    else if( m_role[B].m_pMulti && m_role[B].m_pMulti->getStartMove() )
+//        startMove = true;
+//    else if( m_role[A].m_pChangeWidget && m_role[A].m_pChangeWidget->getStartMove() )
+//        startMove = true;
+//    else if( m_role[B].m_pChangeWidget && m_role[B].m_pChangeWidget->getStartMove() )
+//        startMove = true;
+//    else if( m_role[A].m_pRole  && m_role[A].m_pRole->getStartMove() )
+//        startMove = true;
+//    else if( m_role[B].m_pRole  && m_role[B].m_pRole->getStartMove() )
+//        startMove = true;
+//    else if( m_pName && m_pName->getStartMove() )
+//        startMove = true;
+//:DEPRECATED:
     if (startMove) {
         return;
     }
@@ -2401,24 +2405,27 @@ void AssociationWidget::setTextPosition(Uml::Text_Role role)
 /**
  * Moves the text widget with the given role by the difference between
  * the two points.
+ * TODO: returns without doing anything! 
  */
 void AssociationWidget::setTextPositionRelatively(Uml::Text_Role role, const QPointF &oldPosition)
 {
     bool startMove = false;
-    if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
-        startMove = true;
-    else if( m_role[B].m_pMulti && m_role[B].m_pMulti->getStartMove() )
-        startMove = true;
-    else if( m_role[A].m_pChangeWidget && m_role[A].m_pChangeWidget->getStartMove() )
-        startMove = true;
-    else if( m_role[B].m_pChangeWidget && m_role[B].m_pChangeWidget->getStartMove() )
-        startMove = true;
-    else if( m_role[A].m_pRole  && m_role[A].m_pRole->getStartMove() )
-        startMove = true;
-    else if( m_role[B].m_pRole  && m_role[B].m_pRole->getStartMove() )
-        startMove = true;
-    else if( m_pName && m_pName->getStartMove() )
-        startMove = true;
+//:DEPRECATED:
+//    if( m_role[A].m_pMulti && m_role[A].m_pMulti->getStartMove() )
+//        startMove = true;
+//    else if( m_role[B].m_pMulti && m_role[B].m_pMulti->getStartMove() )
+//        startMove = true;
+//    else if( m_role[A].m_pChangeWidget && m_role[A].m_pChangeWidget->getStartMove() )
+//        startMove = true;
+//    else if( m_role[B].m_pChangeWidget && m_role[B].m_pChangeWidget->getStartMove() )
+//        startMove = true;
+//    else if( m_role[A].m_pRole  && m_role[A].m_pRole->getStartMove() )
+//        startMove = true;
+//    else if( m_role[B].m_pRole  && m_role[B].m_pRole->getStartMove() )
+//        startMove = true;
+//    else if( m_pName && m_pName->getStartMove() )
+//        startMove = true;
+//:DEPRECATED:
 
     if (startMove) {
         return;
@@ -2447,11 +2454,11 @@ void AssociationWidget::setTextPositionRelatively(Uml::Text_Role role, const QPo
             << FloatingTextWidget::restrictPositionMax << "]";
         return;
     }
-    bool oldIgnoreSnapToGrid = ft->getIgnoreSnapToGrid();
-    ft->setIgnoreSnapToGrid( true );
+//:DEPRECATED:    bool oldIgnoreSnapToGrid = ft->getIgnoreSnapToGrid();
+//:DEPRECATED:    ft->setIgnoreSnapToGrid( true );
     ft->setX( ftNewX );
     ft->setY( ftNewY );
-    ft->setIgnoreSnapToGrid( oldIgnoreSnapToGrid );
+//:DEPRECATED:    ft->setIgnoreSnapToGrid( oldIgnoreSnapToGrid );
 }
 
 /**
@@ -3994,7 +4001,7 @@ void AssociationWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 bool AssociationWidget::loadFromXMI( QDomElement & qElement,
                                      const UMLWidgetList& widgets,
-                                     const MessageWidgetList* pMessages )
+                                     const MessageWidgetList* messages )
 {
     WidgetBase::loadFromXMI(qElement);
 
@@ -4003,12 +4010,12 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
     QString widgetbid = qElement.attribute( "widgetbid", "-1" );
     Uml::IDType aId = STR2ID(widgetaid);
     Uml::IDType bId = STR2ID(widgetbid);
-    UMLWidget *pWidgetA = Widget_Utils::findWidget( aId, widgets, pMessages );
+    UMLWidget *pWidgetA = Widget_Utils::findWidget( aId, widgets, messages );
     if (!pWidgetA) {
         uError() << "cannot find widget for roleA id " << ID2STR(aId);
         return false;
     }
-    UMLWidget *pWidgetB = Widget_Utils::findWidget( bId, widgets, pMessages );
+    UMLWidget *pWidgetB = Widget_Utils::findWidget( bId, widgets, messages );
     if (!pWidgetB) {
         uError() << "cannot find widget for roleB id " << ID2STR(bId);
         return false;

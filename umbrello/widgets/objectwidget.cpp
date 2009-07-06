@@ -49,7 +49,7 @@ const qreal ObjectWidget::SequenceLineMargin = 20;
  * @param lid       The local id for the object.
  */
 ObjectWidget::ObjectWidget(UMLObject *object, const Uml::IDType& lid)
-        : UMLWidget(0, object)
+        : UMLWidget(object)
 {
     m_baseType = Uml::wt_Object;
     m_localID = lid;
@@ -66,7 +66,9 @@ ObjectWidget::ObjectWidget(UMLObject *object, const Uml::IDType& lid)
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 ObjectWidget::~ObjectWidget()
 {
 }

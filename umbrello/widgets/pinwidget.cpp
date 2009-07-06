@@ -37,12 +37,14 @@ const qreal PinWidget::Size = 10;
  * @param     id  The ID to assign (-1 will prompt a new ID.)
  */
 PinWidget::PinWidget(UMLWidget* owner, Uml::IDType id ):
-    UMLWidget(0, id)
+    UMLWidget(0)
 {
     m_baseType = Uml::wt_Pin;
 
-    setIgnoreSnapToGrid(true);
-    setIgnoreSnapComponentSizeToGrid(true);
+    setID(id);
+
+//:DEPRECATED:    setIgnoreSnapToGrid(true);
+//:DEPRECATED:    setIgnoreSnapComponentSizeToGrid(true);
     setResizable(false);
 
     // Intialize the members now
@@ -64,7 +66,9 @@ PinWidget::PinWidget(UMLWidget* owner, Uml::IDType id ):
     QTimer::singleShot(2, this, SLOT(setInitialPosition()));
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 PinWidget::~PinWidget()
 {
 }
@@ -126,7 +130,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement )
         QString tag = element.tagName();
         if (tag == "floatingtext") {
             m_nameFloatingTextWiget = new FloatingTextWidget( Uml::tr_Floating, textId );
-            m_nameFloatingTextWiget->setText(m_Text);
+            m_nameFloatingTextWiget->setText(name());
             // Set it as parent so that it moves with moving of PinWidget.
             m_nameFloatingTextWiget->setParentItem(this);
 
@@ -136,7 +140,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement )
                 m_nameFloatingTextWiget = 0;
             }
         } else {
-            uError() << "unknown tag " << tag << endl;
+            uError() << "unknown tag " << tag;
         }
     }
 

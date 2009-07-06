@@ -33,14 +33,17 @@ const QSizeF SignalWidget::MinimumSize(50, 50);
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 SignalWidget::SignalWidget(SignalType signalType, Uml::IDType id)
-    : UMLWidget(0, id)
+    : UMLWidget(0)
 {
     m_baseType = Uml::wt_Signal;
     m_signalType = signalType;
+    setID(id);
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 SignalWidget::~SignalWidget()
 {
 }
@@ -55,7 +58,9 @@ void SignalWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QW
     painter->drawPath(m_signalPath);
 }
 
-/// Sets the signaltype of widget to \a signalType
+/**
+ * Sets the signaltype of widget to \a signalType.
+ */
 void SignalWidget::setSignalType( SignalType signalType )
 {
     m_signalType = signalType;

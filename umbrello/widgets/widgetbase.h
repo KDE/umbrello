@@ -85,7 +85,7 @@ public:
     };
 
     explicit WidgetBase(UMLObject *object);
-    ~WidgetBase();
+    virtual ~WidgetBase();
 
     /**
      * @retval The UMLObject represented by this widget
@@ -216,7 +216,7 @@ private:
      * new UMLScene is set for this widget for the first time.
      */
     bool m_isSceneSetBefore;
-    /*
+    /**
      * Disable the copy constructor and assignment operator.
      */
     DISABLE_COPY(WidgetBase);
@@ -226,10 +226,7 @@ public:
 
     // DEPRECATED SECTION ///////////////////////////////
 
-    bool firstTime;
-
-    WidgetBase(UMLScene *scene, const Uml::IDType &id = Uml::id_None);
-    WidgetBase(UMLScene *scene, UMLObject *object);
+    bool firstTime;  // is used in updateComponentSize()
 
     qreal getX() const { return pos().x(); }
     void setX(qreal x) { setPos(x, y()); }
@@ -270,8 +267,7 @@ public:
     void setFontMetrics(WidgetBase::FontType fontType, QFontMetrics fm);
     void setupFontType(QFont &font, WidgetBase::FontType fontType);
     void forceUpdateFontMetrics(QPainter *);
-    void drawSelected(QPainter *, qreal, qreal) {}
-    QString m_Text;
+
     qreal onWidget(const QPointF& pos) const {
         if(this->contains(mapFromScene(pos))) {
             QSizeF s = boundingRect().size();
@@ -279,6 +275,7 @@ public:
         }
         return 0;
     }
+
     ////////////////////////////////////////////////////////////////////////////////
 
 };

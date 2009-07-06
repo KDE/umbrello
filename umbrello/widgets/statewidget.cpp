@@ -26,7 +26,7 @@
 // qt includes
 #include <QtCore/QPointer>
 
-#// kde includes
+// kde includes
 #include <klocale.h>
 #include <kinputdialog.h>
 
@@ -38,10 +38,11 @@ const QSizeF StateWidget::MinimumEllipseSize(30, 10);
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 StateWidget::StateWidget(StateType stateType, Uml::IDType id)
-    : UMLWidget(0, id)
+    : UMLWidget(0)
 {
     m_baseType = Uml::wt_State;
     m_stateType = stateType;
+    setID(id);
     createTextItemGroup();
 
     const qreal radius = 18.0;

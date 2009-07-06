@@ -29,12 +29,13 @@
  * @param id The ID to assign (-1 will prompt a new ID.)
  */
 PreconditionWidget::PreconditionWidget( ObjectWidget* a, Uml::IDType id )
-    : UMLWidget(0, id),
+    : UMLWidget(0),
       m_objectWidget(a)
 {
     m_baseType = Uml::wt_Precondition;
-    setIgnoreSnapToGrid(true);
-    setIgnoreSnapComponentSizeToGrid(true);
+    setID(id);
+//:DEPRECATED:    setIgnoreSnapToGrid(true);
+//:DEPRECATED:    setIgnoreSnapComponentSizeToGrid(true);
 
     // Make the ObjectWidget the parent, so that they move in unison.
     setParentItem(a);
@@ -43,7 +44,9 @@ PreconditionWidget::PreconditionWidget( ObjectWidget* a, Uml::IDType id )
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 PreconditionWidget::~PreconditionWidget()
 {
 }

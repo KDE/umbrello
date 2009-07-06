@@ -227,7 +227,6 @@ void UMLWidget::setupContextMenuActions(ListPopupMenu &menu)
     Q_UNUSED(menu);
 }
 
-
 AssociationSpaceManager* UMLWidget::associationSpaceManager() const
 {
     return m_associationSpaceManager;
@@ -462,33 +461,6 @@ void UMLWidget::updateTextItemGroups()
 void UMLWidget::slotUMLObjectDataChanged()
 {
     updateTextItemGroups();
-}
-
-/////////////////////////// DEPRECATED STUFF ///////////////////////////
-UMLWidget::UMLWidget(UMLScene *scene, UMLObject *object) :
-    WidgetBase(scene, object),
-    m_size(20, 20),
-    m_minimumSize(UMLWidget::DefaultMinimumSize),
-    m_maximumSize(UMLWidget::DefaultMaximumSize),
-    m_margin(5),
-    m_isInstance(false),
-    m_resizable(true),
-    m_widgetHandle(0)
-{
-    m_associationSpaceManager = new AssociationSpaceManager(this);
-}
-
-UMLWidget::UMLWidget(UMLScene *scene, const Uml::IDType & id) :
-    WidgetBase(scene, id),
-    m_size(20, 20),
-    m_minimumSize(UMLWidget::DefaultMinimumSize),
-    m_maximumSize(UMLWidget::DefaultMaximumSize),
-    m_margin(5),
-    m_isInstance(false),
-    m_resizable(true),
-    m_widgetHandle(0)
-{
-    m_associationSpaceManager = new AssociationSpaceManager(this);
 }
 
 #include "umlwidget.moc"

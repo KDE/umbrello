@@ -41,10 +41,9 @@ namespace Widget_Utils
      *                      search in.
      */
     UMLWidget* findWidget(Uml::IDType id,
-                                 const UMLWidgetList& widgets,
-                                 const MessageWidgetList* pMessages /* = NULL */)
+                          const UMLWidgetList& widgets,
+                          const MessageWidgetList* messages /* = 0 */)
     {
-        UMLWidgetListIt it( widgets );
         foreach ( UMLWidget* obj , widgets ) {
             if (obj->baseType() == Uml::wt_Object) {
                 if (static_cast<ObjectWidget *>(obj)->localID() == id)
@@ -54,13 +53,13 @@ namespace Widget_Utils
             }
         }
 
-        if (pMessages == NULL)
-            return NULL;
-
-        foreach ( UMLWidget* obj , *pMessages ) {
-            if( obj->id() == id )
-                return obj;
+        if (messages) {
+            foreach ( UMLWidget* obj , *messages ) {
+                if( obj->id() == id )
+                    return obj;
+            }
         }
+
         return NULL;
     }
 

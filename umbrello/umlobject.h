@@ -14,13 +14,13 @@
 //qt includes
 #include <QtCore/QObject>
 #include <QtCore/QString>
-#include <qdom.h>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
 
 #include "umlnamespace.h"
 #include "umlpackagelist.h"
 
 class UMLStereotype;
-class UMLObject;
 
 /**
  * This class is the non-graphical version of @ref UMLWidget.  These are

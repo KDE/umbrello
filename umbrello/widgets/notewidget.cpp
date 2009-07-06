@@ -40,11 +40,12 @@
  *           The default (-1) will prompt a new ID.
  */
 NoteWidget::NoteWidget(NoteType noteType , Uml::IDType id)
-    : UMLWidget(0, id),
+    : UMLWidget(0),
       m_diagramLink(Uml::id_None),
       m_noteType(noteType)
 {
     m_baseType = Uml::wt_Note;
+    setID(id);
     createTextItemGroup();
     setZValue(20); //make sure always on top.
 }

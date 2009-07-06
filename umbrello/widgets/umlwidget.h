@@ -71,7 +71,7 @@ public:
     static const QSizeF DefaultMaximumSize;
 
     explicit UMLWidget(UMLObject *object);
-    ~UMLWidget();
+    virtual ~UMLWidget();
 
     /// @return The minimum size for this widget.
     QSizeF minimumSize() const {
@@ -216,23 +216,13 @@ private:
 
     QRectF m_geometryBeforeResize;
 
-    // Dispable copy constructor and operator=
+    // Disable copy constructor and operator=
     DISABLE_COPY(UMLWidget);
 
 public:
     // Use New::AssociationWidget and slowly move the New::AssociationWidget outside New::.
     AssociationWidgetList m_associationWidgetList;
     //////////////////  DEPRECATED //////////////////////////
-    UMLWidget(UMLScene *scene, const Uml::IDType & _id = Uml::id_None);
-    UMLWidget(UMLScene *scene, UMLObject *obj);
-
-    bool getStartMove() const { return false; }
-    bool getIgnoreSnapToGrid() const { return false; }
-    void setIgnoreSnapToGrid(bool) {}
-    bool getIgnoreSnapComponentSizeToGrid() const { return false; }
-    void setIgnoreSnapComponentSizeToGrid(bool) {}
-    bool m_bStartMove;
-    void adjustUnselectedAssocs(qreal, qreal) {}
     void addAssociationWidget(AssociationWidget *assoc);
     void removeAssociationWidget(AssociationWidget *assoc);
     /// @return A list representing AssociationWidget connected to

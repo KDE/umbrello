@@ -51,9 +51,10 @@ const qreal FloatingTextWidget::restrictPositionMax = 3000;
  */
 FloatingTextWidget::FloatingTextWidget(Uml::Text_Role role,
                                        Uml::IDType id)
-    : UMLWidget(0, id)
+  : UMLWidget(0)
 {
     m_baseType = Uml::wt_Text;
+    setID(id);
     m_linkWidget = 0;
     setResizable(false);
     m_textRole = role;
@@ -413,7 +414,7 @@ bool FloatingTextWidget::loadFromXMI( QDomElement & qElement )
     // CAVEAT: The caller should not interpret the false return value
     //  as an indication of failure since previous umbrello versions
     //  saved lots of these empty FloatingTexts.
-    bool isDummy = (m_Text.isEmpty() && m_preText.isEmpty() && m_postText.isEmpty());
+    bool isDummy = (m_preText.isEmpty() && m_postText.isEmpty());
     return !isDummy;
 }
 

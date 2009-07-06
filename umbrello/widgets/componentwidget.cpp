@@ -25,14 +25,16 @@
  * @param c The UMLComponent this will be representing.
  */
 ComponentWidget::ComponentWidget(UMLComponent *c)
-    : UMLWidget(0, c)
+    : UMLWidget(c)
 {
     m_baseType = Uml::wt_Component;
     setMargin(10); // override default of 5 for other widgets.
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 ComponentWidget::~ComponentWidget()
 {
 }
