@@ -179,6 +179,15 @@ namespace Widget_Utils
         }
     }
 
+    /**
+     * Draws a rounded rect rounded at specified corners.
+     *
+     * @param painter The painter with which this round rect should be drawn.
+     * @param rect    The rectangle to be drawn.
+     * @param xRadius The x radius of rounded corner.
+     * @param yRadius The y radius of rounded corner.
+     * @param corners The corners to be rounded.
+     */
     void drawRoundedRect(QPainter *painter, const QRectF& rect, qreal xRadius,
             qreal yRadius, Uml::Corners corners)
     {

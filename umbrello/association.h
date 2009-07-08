@@ -17,6 +17,10 @@
 #include "umlobject.h"
 
 class UMLRole;
+namespace New
+{
+    class AssociationWidget;
+} // namespace New
 
 /**
  * This class contains the non-graphic representation of an association.
@@ -32,6 +36,7 @@ class UMLAssociation : public UMLObject
 {
     Q_OBJECT
     friend class AssociationWidget;
+    friend class New::AssociationWidget;
 public:
 
     UMLAssociation(Uml::Association_Type type, UMLObject *roleA, UMLObject *roleB);

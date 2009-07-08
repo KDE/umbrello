@@ -16,6 +16,7 @@
 #include "associationspacemanager.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "entity.h"
 #include "floatingtextwidget.h"
 #include "newlinepath.h"
 #include "objectwidget.h"
@@ -50,7 +51,9 @@ namespace New
         m_associationLine = new New::AssociationLine(this);
         m_nameWidget = 0;
 
-        if (!umlObj && UMLAssociation::assocTypeHasUMLRepresentation(type)) {
+        if (umlObj) {
+            setUMLObject(umlObj);
+        } else if (UMLAssociation::assocTypeHasUMLRepresentation(type)) {
             UMLObject *objectA = widgetA->umlObject();
             UMLObject *objectB = widgetB->umlObject();
 
@@ -268,8 +271,9 @@ namespace New
 
     UMLAssociation* AssociationWidget::association() const
     {
-        if (!umlObject()) return 0;
-        Q_ASSERT(umlObject()->getBaseType() == Uml::ot_Association);
+        if (!umlObject() || umlObject()->getBaseType() != Uml::ot_Association) {
+            return 0;
+        }
         return static_cast<UMLAssociation*>(umlObject());
     }
 
@@ -501,9 +505,10 @@ namespace New
     void AssociationWidget::setAssociationType(Uml::Association_Type type)
     {
         m_associationType = type;
-        if (umlObject()) {
+        if (umlObject() && umlObject()->getBaseType() == Uml::ot_Association) {
             static_cast<UMLAssociation*>(umlObject())->setAssocType(type);
         }
+
     }
 
     bool AssociationWidget::isCollaboration() const
@@ -520,6 +525,32 @@ namespace New
     QPainterPath AssociationWidget::shape() const
     {
         return m_associationLine->shape();
+    }
+
+    /**
+     * Reimplemented to handle updation of underlying UMLObject
+     * @note syncToModel() is deprecated as I see no point in setting the object's variable
+     * value to itself. Probably the intention was to emit the various changed signals indirectly,
+     * which infact can be done directly.
+     */
+    void AssociationWidget::slotUMLObjectDataChanged()
+    {
+        UMLObject *obj = umlObject();
+        if (!obj) {
+            WidgetBase::slotUMLObjectDataChanged();
+            return;
+        }
+        const Uml::Object_Type ot = obj->getBaseType();
+        if (ot == Uml::ot_Operation) {
+            if (m_nameWidget) {
+                m_nameWidget->setMessageText();
+            }
+        } else if (ot == Uml::ot_Attribute) {
+            UMLAttribute *attr = static_cast<UMLAttribute*>(obj);
+            setVisibility(attr->getVisibility(), Uml::B);
+            setRoleName(attr->getName(), Uml::B);
+        }
+        WidgetBase::slotUMLObjectDataChanged();
     }
 
     void AssociationWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget *)
@@ -584,6 +615,107 @@ namespace New
     void AssociationWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     {
         m_associationLine->hoverLeaveEvent(event);
+    }
+
+    /**
+     * Reimplemented to do more checks and changes while setting a new UMLObject.
+     * The old UMLObject's connectivity is removed in @ref umlObjectChanged method, which is
+     * invoked by WidgetBase::setUMLObject.
+     */
+    void AssociationWidget::setUMLObject(UMLObject *obj)
+    {
+        if (obj == umlObject()) {
+            return;
+        }
+        if (!obj) {
+            WidgetBase::setUMLObject(0);
+            return;
+        }
+
+        const Uml::Object_Type ot = obj->getBaseType();
+        if (ot == Uml::ot_Association) {
+
+            UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
+            if (assoc->nrof_parent_widgets < 0) {
+                assoc->nrof_parent_widgets = 0;
+            }
+            assoc->nrof_parent_widgets++;
+
+        } else if (ot == Uml::ot_Operation) {
+
+            // Nothing special to do.
+
+        } else if (ot == Uml::ot_Attribute) {
+
+            UMLClassifier *klass = static_cast<UMLClassifier*>(obj->parent());
+            connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+            // attributeChanged is emitted along with modified signal. So its not
+            // necessary to handle attributeChanged signal.
+
+        } else if (ot == Uml::ot_EntityAttribute) {
+
+            UMLEntity *ent = static_cast<UMLEntity*>(obj->parent());
+            connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+
+        } else if (ot == Uml::ot_ForeignKeyConstraint) {
+
+            UMLEntity *ent = static_cast<UMLEntity*>(obj->parent());
+            connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+
+        } else {
+
+            uError() << "UMLAssociation constructor: cannot associate UMLObject of type " << ot;
+
+        }
+
+        WidgetBase::setUMLObject(obj);
+    }
+
+    /**
+     * Reimplemented to cleanup connectivity with the old UMLObject.
+     */ 
+    void AssociationWidget::umlObjectChanged(UMLObject *old)
+    {
+        if (!old) {
+            return;
+        }
+
+        const Uml::Object_Type ot = old->getBaseType();
+        if (ot == Uml::ot_Association) {
+
+            UMLAssociation *oldAssoc = static_cast<UMLAssociation*>(old);
+            oldAssoc->nrof_parent_widgets--;
+            // TODO: Discussion on ownership of UMLAssociation
+            if (oldAssoc->nrof_parent_widgets == 0) {
+                // TODO: Delete oldAssoc or not ? Depends on cut/copy implementation
+            }
+
+        } else if (ot == Uml::ot_Attribute) {
+
+            UMLClassifier *klass = static_cast<UMLClassifier*>(old->parent());
+            disconnect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+
+        } else if (ot == Uml::ot_EntityAttribute) {
+
+            UMLEntity *ent = static_cast<UMLEntity*>(old->parent());
+            disconnect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
+                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+
+        } else if (ot == Uml::ot_ForeignKeyConstraint) {
+
+            UMLEntity *ent = static_cast<UMLEntity*>(old->parent());
+            disconnect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
+                    this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+
+        } else {
+            uError() << "Had a wrong association of type " << ot;
+        }
+
+        WidgetBase::umlObjectChanged(old);
     }
 
     void AssociationWidget::setFloatingText(Uml::Text_Role tr, const QString& text, FloatingTextWidget* &ft)

@@ -114,6 +114,9 @@ namespace New
         virtual QPainterPath shape() const;
         virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget*);
 
+    protected Q_SLOTS:
+        virtual void slotUMLObjectDataChanged();
+
     protected:
         virtual void updateGeometry();
         virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
@@ -127,6 +130,9 @@ namespace New
         virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
         virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
         virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+
+        virtual void setUMLObject(UMLObject *obj);
+        virtual void umlObjectChanged(UMLObject *old);
 
     private:
         void setFloatingText(Uml::Text_Role tr, const QString& text,
