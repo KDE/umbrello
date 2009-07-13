@@ -87,22 +87,13 @@ public:
     explicit WidgetBase(UMLObject *object);
     virtual ~WidgetBase();
 
-    /**
-     * @retval The UMLObject represented by this widget
-     * @retval null if no UMLObject representation.
-     */
-    UMLObject* umlObject() const {
-        return m_umlObject;
-    }
+    UMLObject* umlObject() const;
     void setUMLObject(UMLObject *obj);
 
     Uml::IDType id() const;
     void setID(Uml::IDType id);
 
-    /// @return The base type rtti info.
-    Uml::Widget_Type baseType() const {
-        return m_baseType;
-    }
+    Uml::Widget_Type baseType() const;
 
     UMLScene* umlScene() const;
     UMLDoc* umlDoc() const;
@@ -113,50 +104,23 @@ public:
     QString name() const;
     void setName(const QString& name);
 
-    /// @return The color used to draw lines of the widget.
-    QColor lineColor() const {
-        return m_lineColor;
-    }
+    QColor lineColor() const;
     void setLineColor(const QColor& color);
 
-    /// @return The width of the lines drawn in the widget.
-    uint lineWidth() const {
-        return m_lineWidth;
-    }
+    uint lineWidth() const;
     void setLineWidth(uint lw);
 
-    /// @return Font color used to draw font.
-    QColor fontColor() const {
-        return m_fontColor;
-    }
+    QColor fontColor() const;
     void setFontColor(const QColor& color);
 
-    /// @return The QBrush object used to fill this widget.
-    QBrush brush() const {
-        return m_brush;
-    }
+    QBrush brush() const;
     void setBrush(const QBrush& brush);
 
-    /// @return The font used for displaying any text
-    QFont font() const {
-        return m_font;
-    }
+    QFont font() const;
     void setFont(const QFont& font);
 
-    /**
-     * @return The bounding rectangle for this widget.
-     * @see setBoundingRect
-     */
-    QRectF boundingRect() const {
-        return m_boundingRect;
-    }
-    /**
-     * @return The shape of this widget.
-     * @see setShape
-     */
-    QPainterPath shape() const {
-        return m_shape;
-    }
+    QRectF boundingRect() const;
+    QPainterPath shape() const;
 
     virtual void showPropertiesDialog();
     virtual void setupContextMenuActions(ListPopupMenu &menu);
@@ -184,6 +148,9 @@ protected:
     virtual void updateGeometry();
 
     virtual void umlObjectChanged(UMLObject *old);
+
+    virtual void delayedInitialize();
+    virtual void sceneSetFirstTime();
 
     void setBoundingRect(const QRectF &rect);
     void setShape(const QPainterPath& path);
@@ -279,5 +246,23 @@ public:
     ////////////////////////////////////////////////////////////////////////////////
 
 };
+
+/**
+ * @return The bounding rectangle for this widget.
+ * @see setBoundingRect
+ */
+inline QRectF WidgetBase::boundingRect() const
+{
+    return m_boundingRect;
+}
+
+/**
+ * @return The shape of this widget.
+ * @see setShape
+ */
+inline QPainterPath WidgetBase::shape() const
+{
+    return m_shape;
+}
 
 #endif

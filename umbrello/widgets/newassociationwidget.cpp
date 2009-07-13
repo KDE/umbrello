@@ -43,11 +43,21 @@ namespace New
     }
 
 
+    AssociationWidget::AssociationWidget() : WidgetBase(0)
+    {
+        m_baseType = Uml::wt_Association;
+        m_associationType = Uml::at_Association;
+        m_associationLine = new New::AssociationLine(this);
+        m_nameWidget = 0;
+        setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
+    }
+
     AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type type,
                                          UMLWidget *widgetB, UMLObject *umlObj) :
         WidgetBase(umlObj),
         m_associationType(type)
     {
+        m_baseType = Uml::wt_Association;
         m_associationLine = new New::AssociationLine(this);
         m_nameWidget = 0;
 
@@ -68,6 +78,9 @@ namespace New
 
         setWidgetForRole(widgetA, Uml::A);
         setWidgetForRole(widgetB, Uml::B);
+
+        setAssociationType(type);
+
         if (widgetA == widgetB) {
             widgetA->associationSpaceManager()->add(this,
                     RegionPair(Uml::reg_North, Uml::reg_North));
@@ -85,9 +98,15 @@ namespace New
 
         if (isCollaboration()) {
             UMLScene *scene = widgetA->umlScene();
-            int collabID = scene->generateCollaborationId();
-            setName('m' + QString::number(collabID));
+            if (scene) {
+                int collabID = scene->generateCollaborationId();
+                setName('m' + QString::number(collabID));
+            } else {
+                uError() << "The UMLWidget's to be associated are not yet on a UMLScene";
+                uError() << "No collaboration id assigned";
+            }
         }
+
         setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
     }
 
@@ -496,10 +515,11 @@ namespace New
 
     Uml::Association_Type AssociationWidget::associationType() const
     {
-        if (umlObject()) {
-            return static_cast<UMLAssociation*>(umlObject())->getAssocType();
+        if (!umlObject() || umlObject()->getBaseType() != Uml::ot_Association) {
+            return m_associationType;
         }
-        return m_associationType;
+
+        return static_cast<UMLAssociation*>(umlObject())->getAssocType();
     }
 
     void AssociationWidget::setAssociationType(Uml::Association_Type type)
@@ -509,6 +529,28 @@ namespace New
             static_cast<UMLAssociation*>(umlObject())->setAssocType(type);
         }
 
+        WidgetRole &a = m_widgetRole[Uml::A];
+        WidgetRole &b = m_widgetRole[Uml::B];
+
+        if( a.umlWidget && !AssocRules::allowMultiplicity(type, a.umlWidget->baseType()) ) {
+            if (a.multiplicityWidget) {
+                a.multiplicityWidget->setName("");
+            }
+            if (b.multiplicityWidget) {
+                b.multiplicityWidget->setName("");
+            }
+        }
+
+        if (!AssocRules::allowRole(type)) {
+            if (a.roleWidget) {
+                a.roleWidget->setName("");
+            }
+            if (b.roleWidget) {
+                b.roleWidget->setName("");
+            }
+            //setRoleDocumentation("", Uml::A);
+            //setRoleDocumentation("", Uml::B);
+        }
     }
 
     bool AssociationWidget::isCollaboration() const

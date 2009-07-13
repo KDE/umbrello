@@ -953,7 +953,7 @@ namespace New
 
         if (!widA || !widB) {
             uError() << "AssociationWidget is only partially constructed."
-                     << "One or both UMLWidget are null";
+                        "One or both UMLWidget are null";
             return RegionPair();
         }
 
@@ -1001,7 +1001,7 @@ namespace New
 
         if (!aWid || !bWid) {
             uError() << "AssociationWidget is only partially constructed."
-                     << "One or both UMLWidget are null";
+                        "One or both UMLWidget are null";
             return;
         }
 

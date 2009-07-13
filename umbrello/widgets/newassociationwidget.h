@@ -45,6 +45,7 @@ namespace New
     {
         Q_OBJECT
     public:
+        AssociationWidget();
         AssociationWidget(UMLWidget *widgetA, Uml::Association_Type type,
                           UMLWidget *widgetB, UMLObject *obj = 0);
         virtual ~AssociationWidget();

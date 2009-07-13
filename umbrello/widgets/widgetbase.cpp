@@ -114,6 +114,7 @@ WidgetBase::WidgetBase(UMLObject *object) :
     setFlags(ItemIsSelectable | ItemIsMovable);
     hide(); // Show up in slotInit
 
+    QTimer::singleShot(10, this, SLOT(slotInit()));
 
     // DEPRECATED INITIALIZATION
     {
@@ -129,6 +130,15 @@ WidgetBase::WidgetBase(UMLObject *object) :
 WidgetBase::~WidgetBase()
 {
     delete m_widgetInterfaceData;
+}
+
+/**
+ * @retval The UMLObject represented by this widget
+ * @retval null if no UMLObject representation.
+ */
+UMLObject* WidgetBase::umlObject() const
+{
+    return m_umlObject;
 }
 
 /**
@@ -156,8 +166,8 @@ void WidgetBase::setUMLObject(UMLObject *obj)
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
 
-    //slotUMLObjectDataChanged();
     umlObjectChanged(oldObj);
+    QTimer::singleShot(10, this, SLOT(slotUMLObjectDataChanged()));
 }
 
 /**
@@ -199,6 +209,14 @@ void WidgetBase::setID(Uml::IDType id)
     }
 
     attributeChange(IDHasChanged, ID2STR(id));
+}
+
+/**
+ * @return The type used for rtti.
+ */
+Uml::Widget_Type WidgetBase::baseType() const
+{
+    return m_baseType;
 }
 
 /**
@@ -299,6 +317,12 @@ void WidgetBase::setName(const QString& name)
     attributeChange(NameHasChanged, oldName);
 }
 
+/// @return The color used to draw lines of the widget.
+QColor WidgetBase::lineColor() const
+{
+    return m_lineColor;
+}
+
 /**
  * Set the linecolor to \a color and updates the widget.
  * @param color The color to be set
@@ -317,6 +341,12 @@ void WidgetBase::setLineColor(const QColor& color)
     }
 
     attributeChange(LineColorHasChanged, oldColor);
+}
+
+/// @return The width of the lines drawn in the widget.
+uint WidgetBase::lineWidth() const
+{
+    return m_lineWidth;
 }
 
 /**
@@ -338,6 +368,12 @@ void WidgetBase::setLineWidth(uint lw)
     attributeChange(LineWidthHasChanged, oldWidth);
 }
 
+/// @return Font color used to draw font.
+QColor WidgetBase::fontColor() const
+{
+    return m_fontColor;
+}
+
 /**
  * Sets the color of the font to \a color.
  * If \a color is invalid, line color is used for font color.
@@ -357,6 +393,12 @@ void WidgetBase::setFontColor(const QColor& color)
     attributeChange(FontColorHasChanged, oldColor);
 }
 
+/// @return The QBrush object used to fill this widget.
+QBrush WidgetBase::brush() const
+{
+    return m_brush;
+}
+
 /**
  * Sets the QBrush object of this widget to \a brush which is used to
  * fill this widget.
@@ -371,6 +413,12 @@ void WidgetBase::setBrush(const QBrush& brush)
     m_brush = brush;
 
     attributeChange(BrushHasChanged, oldBrush);
+}
+
+/// @return The font used for displaying any text
+QFont WidgetBase::font() const
+{
+    return m_font;
 }
 
 /**
@@ -740,22 +788,25 @@ void WidgetBase::slotUMLObjectDataChanged()
  */
 void WidgetBase::slotInit()
 {
+    // Call this virtual method to ensure the superclasses initialize themselves with
+    // various properties of m_umlObject.
     setUMLObject(m_umlObject);
-    // Ensure the texts of subclasses are properly initialized.
-    slotUMLObjectDataChanged();
-    // TODO: Move these to an explicit intializer method
+
+    // Now call attributeChange with various geometry parameters to ensure that proper
+    // initialization of sub objects' properties take place.
     QVariant v;
     attributeChange(LineColorHasChanged, v);
     attributeChange(LineWidthHasChanged, v);
     attributeChange(FontHasChanged, v);
     attributeChange(FontColorHasChanged, v);
     attributeChange(BrushHasChanged, v);
-    // TODO: or rather we can assign the umlScene's default properties
-    // for this widget as umlScene would have been created by now (see
-    // WidgetBase::itemChange where ItemSceneHasChanged is handled.)
 
-    show(); // Now show the item
-    updateGeometry(); // Now just update the geometry for the first ever time after it is shown.
+    // Now show the item
+    show();
+    // Now just update the geometry for the first ever time after it is shown.
+    updateGeometry();
+    // Now invoke the virtual delayedInitialize() for subclasses to do more initialization.
+    delayedInitialize();
 }
 
 /**
@@ -820,6 +871,8 @@ QVariant WidgetBase::attributeChange(WidgetAttributeChange change, const QVarian
 
 /**
  * Do some initialization on first scene change.
+ * @note The virtual function call is legitimate here since scene->addItem() is always
+ *       invoked after item has been fully constructed.
  */
 QVariant WidgetBase::itemChange(GraphicsItemChange change, const QVariant& value)
 {
@@ -827,9 +880,8 @@ QVariant WidgetBase::itemChange(GraphicsItemChange change, const QVariant& value
         UMLScene *uScene = umlScene();
         if (uScene && !m_isSceneSetBefore) {
             m_isSceneSetBefore = true;
-            // Use timer to disambiguate situation where virtual
-            // functions might not call be called appropriately.
-            QTimer::singleShot(10, this, SLOT(slotInit()));
+            // call this virtual method now.
+            sceneSetFirstTime();
         }
     }
     return QGraphicsItem::itemChange(change, value);
@@ -864,6 +916,25 @@ void WidgetBase::updateGeometry()
 void WidgetBase::umlObjectChanged(UMLObject *oldObj)
 {
     Q_UNUSED(oldObj);
+}
+
+/**
+ * This virtual method is called very shortly after the object is constructed completely.
+ * A timer with small timeout is used for this purpose.
+ * @see WidgetBase::slotInit()
+ */
+void WidgetBase::delayedInitialize()
+{
+}
+
+/**
+ * This virtual method is called after this widget has been associated with a UMLScene
+ * for the first time.
+ * Initalization from UMLScene's properties like line color etc. can be done by
+ * reimplementing this method.
+ */
+void WidgetBase::sceneSetFirstTime()
+{
 }
 
 /**
