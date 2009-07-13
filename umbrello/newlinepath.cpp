@@ -951,6 +951,12 @@ namespace New
         UMLWidget *widA = m_associationWidget->widgetForRole(Uml::A);
         UMLWidget *widB = m_associationWidget->widgetForRole(Uml::B);
 
+        if (!widA || !widB) {
+            uError() << "AssociationWidget is only partially constructed."
+                     << "One or both UMLWidget are null";
+            return RegionPair();
+        }
+
         QRectF aRect = widA->sceneRect();
         QRectF bRect = widB->sceneRect();
 
@@ -993,6 +999,12 @@ namespace New
         UMLWidget *aWid = m_associationWidget->widgetForRole(Uml::A);
         UMLWidget *bWid = m_associationWidget->widgetForRole(Uml::B);
 
+        if (!aWid || !bWid) {
+            uError() << "AssociationWidget is only partially constructed."
+                     << "One or both UMLWidget are null";
+            return;
+        }
+
         AssociationSpaceManager *aSpaceManager =
             aWid->associationSpaceManager();
         AssociationSpaceManager *bSpaceManager =
@@ -1034,6 +1046,11 @@ namespace New
                 insertPoint(i, QPointF());
             }
             UMLWidget *wid = m_associationWidget->widgetForRole(Uml::A);
+            if (!wid) {
+                uError() << "AssociationWidget is partially constructed."
+                            "UMLWidget for role A is null.";
+                return;
+            }
             const QRectF rect = m_associationWidget->mapFromScene(
                     wid->sceneRect()).boundingRect();
 
