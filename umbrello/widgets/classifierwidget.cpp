@@ -360,12 +360,6 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     QString showscope = qElement.attribute( "showscope", "0" );
     QString drawascircle = qElement.attribute("drawascircle", "0");
 
-    // Save scene and remove this item to prevent too many updates.
-    UMLScene *saved = umlScene();
-    if (saved) {
-        saved->removeItem(this);
-    }
-
     setVisualProperty(ShowAttributes, (bool)showatts.toInt());
     setVisualProperty(ShowOperations, (bool)showops.toInt());
     setVisualProperty(ShowPublicOnly, (bool)showpubliconly.toInt());
@@ -376,10 +370,6 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     setAttributeSignature((Uml::Signature_Type)showattsigs.toInt());
     setOperationSignature((Uml::Signature_Type)showopsigs.toInt());
 
-    // Now place this item back in the scene it belonged to.
-    if (saved) {
-        saved->addItem(this);
-    }
     return true;
 }
 
