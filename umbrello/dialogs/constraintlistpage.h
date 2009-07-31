@@ -19,7 +19,6 @@
 #include "classifierlistpage.h"
 
 class KAction;
-class KArrowButton;
 class KMenu;
 
 /**

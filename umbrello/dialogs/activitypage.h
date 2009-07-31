@@ -4,15 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ACTIVITYPAGE_H
 #define ACTIVITYPAGE_H
-
-//kde includes
-#include <karrowbutton.h>
 
 //qt includes
 #include <QtGui/QWidget>
@@ -22,6 +19,8 @@ class StateWidget;
 class ListPopupMenu;
 class QGroupBox;
 class QListWidget;
+class QPushButton;
+class QToolButton;
 
 /**
  * @author Paul Hensgen
@@ -32,14 +31,7 @@ class ActivityPage : public QWidget
     Q_OBJECT
 public:
 
-    /**
-     *  Constructor
-     */
     ActivityPage( QWidget * pParent, StateWidget * pWidget );
-
-    /**
-     *   Deconstructor
-     */
     ~ActivityPage();
 
     void setupPage();
@@ -63,9 +55,12 @@ protected:
     /**
      * GUI widgets
      */
-    QListWidget * m_pActivityLW;
-    QGroupBox * m_pActivityGB;
-    KArrowButton * m_pUpArrowB, * m_pDownArrowB, * m_pTopArrowB, *m_pBottomArrowB;
+    QListWidget* m_pActivityLW;
+    QGroupBox*   m_pActivityGB;
+    QToolButton* m_pUpArrowB;
+    QToolButton* m_pDownArrowB;
+    QToolButton* m_pTopArrowB;
+    QToolButton* m_pBottomArrowB;
     QPushButton* m_pDeleteActivityButton;
     QPushButton* m_pRenameButton;
 

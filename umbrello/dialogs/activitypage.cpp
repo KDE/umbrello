@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,7 +25,12 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QGridLayout>
 #include <QtGui/QGroupBox>
+#include <QtGui/QPushButton>
+#include <QtGui/QToolButton>
 
+/**
+ * Constructor.
+ */
 ActivityPage::ActivityPage( QWidget * pParent, StateWidget * pWidget ) : QWidget( pParent )
 {
     m_pStateWidget = pWidget;
@@ -33,12 +38,15 @@ ActivityPage::ActivityPage( QWidget * pParent, StateWidget * pWidget ) : QWidget
     setupPage();
 }
 
+/**
+ * Destructor.
+ */
 ActivityPage::~ActivityPage()
 {
 }
 
 /**
- *   Sets up the page.
+ * Sets up the page.
  */
 void ActivityPage::setupPage()
 {
@@ -66,21 +74,29 @@ void ActivityPage::setupPage()
     QVBoxLayout * buttonLayout = new QVBoxLayout();
     listHBoxLayout->addItem( buttonLayout );
 
-    m_pTopArrowB = new KArrowButton( m_pActivityGB );
+    m_pTopArrowB = new QToolButton( m_pActivityGB );
+    m_pTopArrowB->setArrowType(Qt::UpArrow);
     m_pTopArrowB->setEnabled( false );
+    m_pTopArrowB->setToolTip(i18n("Move selected item to the top"));
     buttonLayout->addWidget( m_pTopArrowB );
 
-    m_pUpArrowB = new KArrowButton( m_pActivityGB );
-    m_pUpArrowB->setEnabled( false );
-    buttonLayout->addWidget( m_pUpArrowB );
+    m_pUpArrowB = new QToolButton(m_pActivityGB);
+    m_pUpArrowB->setArrowType(Qt::UpArrow);
+    m_pUpArrowB->setEnabled(false);
+    m_pUpArrowB->setToolTip(i18n("Move selected item up"));
+    buttonLayout->addWidget(m_pUpArrowB);
 
-    m_pDownArrowB = new KArrowButton( m_pActivityGB, Qt::DownArrow );
-    m_pDownArrowB->setEnabled( false );
-    buttonLayout->addWidget( m_pDownArrowB );
+    m_pDownArrowB = new QToolButton(m_pActivityGB);
+    m_pDownArrowB->setArrowType(Qt::DownArrow);
+    m_pDownArrowB->setEnabled(false);
+    m_pDownArrowB->setToolTip(i18n("Move selected item down"));
+    buttonLayout->addWidget(m_pDownArrowB);
 
-    m_pBottomArrowB = new KArrowButton( m_pActivityGB, Qt::DownArrow );
-    m_pBottomArrowB->setEnabled( false );
-    buttonLayout->addWidget( m_pBottomArrowB );
+    m_pBottomArrowB = new QToolButton(m_pActivityGB);
+    m_pBottomArrowB->setArrowType(Qt::DownArrow);
+    m_pBottomArrowB->setEnabled(false);
+    m_pBottomArrowB->setToolTip(i18n("Move selected item to the bottom"));
+    buttonLayout->addWidget(m_pBottomArrowB);
 
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pActivityGB);
     buttonBox->addButton( i18n("New Activity..."), KDialogButtonBox::ActionRole,
@@ -117,7 +133,7 @@ void ActivityPage::setupPage()
 }
 
 /**
- *   Sets the activities of the widget.
+ * Sets the activities of the widget.
  */
 void ActivityPage::updateActivities()
 {
@@ -130,7 +146,7 @@ void ActivityPage::updateActivities()
 }
 
 /**
- *  Popup menu item selected
+ * Popup menu item selected.
  */
 void ActivityPage::slotMenuSelection(QAction* action)
 {
@@ -295,9 +311,8 @@ void ActivityPage::slotDoubleClicked(QListWidgetItem* item)
 }
 
 /**
- *  Set the state of the widgets on the page with the given value.
- *
- *  @param state The state to set the widgets as.
+ * Set the state of the widgets on the page with the given value.
+ * @param state The state to set the widgets as.
  */
 void ActivityPage::enableWidgets(bool state)
 {

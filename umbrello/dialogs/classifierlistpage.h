@@ -22,13 +22,13 @@ class ListPopupMenu;
 class UMLObject;
 class UMLClassifier;
 class UMLDoc;
-class KArrowButton;
 class KTextEdit;
 class QGroupBox;
 class QHBoxLayout;
 class QListWidget;
 class QListWidgetItem;
 class QPushButton;
+class QToolButton;
 class QVBoxLayout;
 
 /**
@@ -79,10 +79,10 @@ private:
     KTextEdit* m_pCodeTE;
     QListWidget* m_pItemListLB;
 
-    KArrowButton* m_pTopArrowB;
-    KArrowButton* m_pUpArrowB;
-    KArrowButton* m_pDownArrowB;
-    KArrowButton* m_pBottomArrowB;
+    QToolButton* m_pTopArrowB;
+    QToolButton* m_pUpArrowB;
+    QToolButton* m_pDownArrowB;
+    QToolButton* m_pBottomArrowB;
 
     UMLDoc* m_pDoc;
     ListPopupMenu* m_pMenu;

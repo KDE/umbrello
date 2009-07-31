@@ -23,7 +23,6 @@
 #include "entityattribute.h"
 #include "object_factory.h"
 
-#include <karrowbutton.h>
 #include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
@@ -35,6 +34,7 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QListWidget>
 #include <QtGui/QPushButton>
+#include <QtGui/QToolButton>
 #include <QtGui/QVBoxLayout>
 
 using namespace Uml;
@@ -166,27 +166,31 @@ void ClassifierListPage::setupListGroup(int margin)
 void ClassifierListPage::setupMoveButtons(QHBoxLayout* parentLayout)
 {
     QVBoxLayout* buttonLayout = new QVBoxLayout();
-    parentLayout->addItem( buttonLayout );
+    parentLayout->addItem(buttonLayout);
 
-    m_pTopArrowB = new KArrowButton( m_pItemListGB );
-    m_pTopArrowB->setEnabled( false );
+    m_pTopArrowB = new QToolButton(m_pItemListGB);
+    m_pTopArrowB->setArrowType(Qt::UpArrow);
+    m_pTopArrowB->setEnabled(false);
     m_pTopArrowB->setToolTip(i18n("Move selected item to the top"));
-    buttonLayout->addWidget( m_pTopArrowB );
+    buttonLayout->addWidget(m_pTopArrowB);
 
-    m_pUpArrowB = new KArrowButton( m_pItemListGB );
-    m_pUpArrowB->setEnabled( false );
+    m_pUpArrowB = new QToolButton(m_pItemListGB);
+    m_pUpArrowB->setArrowType(Qt::UpArrow);
+    m_pUpArrowB->setEnabled(false);
     m_pUpArrowB->setToolTip(i18n("Move selected item up"));
-    buttonLayout->addWidget( m_pUpArrowB );
+    buttonLayout->addWidget(m_pUpArrowB);
 
-    m_pDownArrowB = new KArrowButton( m_pItemListGB, Qt::DownArrow );
-    m_pDownArrowB->setEnabled( false );
+    m_pDownArrowB = new QToolButton(m_pItemListGB);
+    m_pDownArrowB->setArrowType(Qt::DownArrow);
+    m_pDownArrowB->setEnabled(false);
     m_pDownArrowB->setToolTip(i18n("Move selected item down"));
-    buttonLayout->addWidget( m_pDownArrowB );
+    buttonLayout->addWidget(m_pDownArrowB);
 
-    m_pBottomArrowB = new KArrowButton( m_pItemListGB, Qt::DownArrow );
-    m_pBottomArrowB->setEnabled( false );
+    m_pBottomArrowB = new QToolButton(m_pItemListGB);
+    m_pBottomArrowB->setArrowType(Qt::DownArrow);
+    m_pBottomArrowB->setEnabled(false);
     m_pBottomArrowB->setToolTip(i18n("Move selected item to the bottom"));
-    buttonLayout->addWidget( m_pBottomArrowB );
+    buttonLayout->addWidget(m_pBottomArrowB);
 }
 
 /**
