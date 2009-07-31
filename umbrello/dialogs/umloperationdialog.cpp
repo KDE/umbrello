@@ -33,7 +33,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdialogbuttonbox.h>
-#include <karrowbutton.h>
 
 //qt includes
 #include <QtCore/QPointer>
@@ -47,7 +46,11 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QGridLayout>
+#include <QtGui/QToolButton>
 
+/**
+ * Constructor.
+ */
 UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperation )
   : KDialog( parent)
 {
@@ -65,6 +68,9 @@ UMLOperationDialog::UMLOperationDialog( QWidget * parent, UMLOperation * pOperat
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
+/**
+ * Destructor.
+ */
 UMLOperationDialog::~UMLOperationDialog()
 {
 }
@@ -143,13 +149,16 @@ void UMLOperationDialog::setupDialog()
 
     // the move up/down buttons (another vertical box)
     QVBoxLayout* buttonLayout = new QVBoxLayout();
-    m_pUpButton = new KArrowButton( m_pParmsGB );
-    m_pUpButton->setEnabled( false );
-    buttonLayout->addWidget( m_pUpButton );
 
-    m_pDownButton = new KArrowButton( m_pParmsGB, Qt::DownArrow );
-    m_pDownButton->setEnabled( false );
-    buttonLayout->addWidget( m_pDownButton );
+    m_pUpButton = new QToolButton(m_pParmsGB);
+    m_pUpButton->setArrowType(Qt::UpArrow);
+    m_pUpButton->setEnabled(false);
+    buttonLayout->addWidget(m_pUpButton);
+
+    m_pDownButton = new QToolButton(m_pParmsGB);
+    m_pDownButton->setArrowType(Qt::DownArrow);
+    m_pDownButton->setEnabled(false);
+    buttonLayout->addWidget(m_pDownButton);
 
     KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pParmsGB);
     buttonBox->addButton( i18n("Ne&w Parameter..."), KDialogButtonBox::ActionRole,

@@ -23,7 +23,6 @@
 #include "uniqueconstraint.h"
 
 #include <kaction.h>
-#include <karrowbutton.h>
 #include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
