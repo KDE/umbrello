@@ -524,9 +524,12 @@ MessageWidget* ToolBarState::getMessageAt(const QPointF& pos)
  */
 AssociationWidget* ToolBarState::getAssociationAt(const QPointF& pos)
 {
-    foreach ( AssociationWidget* association, m_pUMLScene->getAssociationList() ) {
-        if (association->onAssociation(pos)) {
-            return association;
+    QList<QGraphicsItem*> collisions = m_pUMLScene->items(pos);
+
+    foreach (QGraphicsItem *item, collisions) {
+        AssociationWidget *assocWidget = dynamic_cast<AssociationWidget*>(item);
+        if (assocWidget) {
+            return assocWidget;
         }
     }
 

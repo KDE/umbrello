@@ -11,6 +11,7 @@
 #ifndef CLASSIFIERWIDGET_H
 #define CLASSIFIERWIDGET_H
 
+#include "associationwidgetlist.h"
 #include "umlwidget.h"
 
 class AssociationWidget;

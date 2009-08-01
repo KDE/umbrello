@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 #include "associationspacemanager.h"
-#include "newassociationwidget.h"
-#include "newlinepath.h"
+#include "associationline.h"
+#include "associationwidget.h"
 #include "umlwidget.h"
 
 RegionPair::RegionPair(Uml::Region f, Uml::Region s) : first(f), second(s)
@@ -95,7 +95,7 @@ AssociationSpaceManager::AssociationSpaceManager(UMLWidget *widget)
  *       be taken dynamically by users of this object.
  * @note Refer @ref RegionPair to understand why pair is used.
  */
-void AssociationSpaceManager::add(New::AssociationWidget *assoc,
+void AssociationSpaceManager::add(AssociationWidget *assoc,
         const RegionPair& regions)
 {
     if (!regions.isValid()) {
@@ -131,7 +131,7 @@ void AssociationSpaceManager::add(New::AssociationWidget *assoc,
  * @note Also the arrange method is not called.
  * @note Refer @ref RegionPair to understand why pair is used.
  */
-void AssociationSpaceManager::remove(New::AssociationWidget *assoc)
+void AssociationSpaceManager::remove(AssociationWidget *assoc)
 {
     if (!isRegistered(assoc)) {
         uDebug() << assoc->name() << " is not registered!";
@@ -171,9 +171,9 @@ void AssociationSpaceManager::remove(New::AssociationWidget *assoc)
  * a self association line has atleast 4 points.
  */
 AssociationSpaceManager::PointPair
-AssociationSpaceManager::referencePoints(New::AssociationWidget *assoc) const
+AssociationSpaceManager::referencePoints(AssociationWidget *assoc) const
 {
-    New::AssociationLine *line = assoc->associationLine();
+    AssociationLine *line = assoc->associationLine();
     if (!assoc->isSelf()) {
         PointPair retVal;
         Uml::Role_Type myRole = role(assoc);
@@ -203,7 +203,7 @@ AssociationSpaceManager::referencePoints(New::AssociationWidget *assoc) const
  */
 struct Tuple
 {
-    New::AssociationWidget *associationWidget;
+    AssociationWidget *associationWidget;
     qreal distance;
     int endIndex;
 };
@@ -212,7 +212,7 @@ struct Tuple
  * @internal
  * This method is used as secondary sorting criteria for a list of Tuple.
  */
-uint hash(New::AssociationWidget *assoc)
+uint hash(AssociationWidget *assoc)
 {
     return qHash(QString(assoc->id().c_str()));
 }
@@ -226,7 +226,7 @@ uint hash(New::AssociationWidget *assoc)
 void AssociationSpaceManager::arrange(Uml::Region region)
 {
     QRectF rect = m_umlWidget->sceneRect();
-    QList<New::AssociationWidget*> &listRef = m_regionsAssociationsMap[region];
+    QList<AssociationWidget*> &listRef = m_regionsAssociationsMap[region];
 
     PointPair selfEndPoints;
     switch (region) {
@@ -266,7 +266,7 @@ void AssociationSpaceManager::arrange(Uml::Region region)
     // sorted fashion, primary sort criteria being x or v value based on region
     // and secondary criteria being hash(association) for consistent sorting.
     QList<Tuple> assocDistEndTuples;
-    foreach (New::AssociationWidget* assoc, listRef) {
+    foreach (AssociationWidget* assoc, listRef) {
         // Obtain reference point first.
         QPointF lineStart = referencePoints(assoc)[role(assoc)];
         // Get x or y coord based on xBasis variable.
@@ -293,7 +293,7 @@ void AssociationSpaceManager::arrange(Uml::Region region)
     }
 
     foreach (SelfAssociationItem item, m_selfAssociationsList) {
-        New::AssociationWidget *self = item.associationWidget;
+        AssociationWidget *self = item.associationWidget;
         Uml::Role_Type r;
         if (item.regions[Uml::A] == item.regions[Uml::B] &&
                 region == item.regions[Uml::A]) {
@@ -371,7 +371,7 @@ void AssociationSpaceManager::arrange(Uml::Region region)
  * @return The RegionPair where assoc's end points resides.
  * @note Refer @ref RegionPair to understand why pair is used.
  */
-RegionPair AssociationSpaceManager::region(New::AssociationWidget *assoc) const
+RegionPair AssociationSpaceManager::region(AssociationWidget *assoc) const
 {
     if (!isRegistered(assoc)) {
         return Uml::reg_Error;
@@ -385,7 +385,7 @@ RegionPair AssociationSpaceManager::region(New::AssociationWidget *assoc) const
             }
         }
     } else {
-        QMapIterator<Uml::Region, QList<New::AssociationWidget*> >
+        QMapIterator<Uml::Region, QList<AssociationWidget*> >
             it(m_regionsAssociationsMap);
         while (it.hasNext()) {
             it.next();
@@ -401,7 +401,7 @@ RegionPair AssociationSpaceManager::region(New::AssociationWidget *assoc) const
 /**
  * @return The role of m_umlWidget in \a assoc.
  */
-Uml::Role_Type AssociationSpaceManager::role(New::AssociationWidget *assoc) const
+Uml::Role_Type AssociationSpaceManager::role(AssociationWidget *assoc) const
 {
     if (assoc->widgetForRole(Uml::A) == m_umlWidget) {
         return Uml::A;
@@ -415,16 +415,16 @@ Uml::Role_Type AssociationSpaceManager::role(New::AssociationWidget *assoc) cons
 /**
  * @return Registration status of assoc.
  */
-bool AssociationSpaceManager::isRegistered(New::AssociationWidget* assoc) const
+bool AssociationSpaceManager::isRegistered(AssociationWidget* assoc) const
 {
     return m_registeredAssociationSet.contains(assoc);
 }
 
 /**
- * @return The set containing all the New::AssociationWidget managed by this
+ * @return The set containing all the AssociationWidget managed by this
  *         AssociationSpaceManager.
  */
-QSet<New::AssociationWidget*> AssociationSpaceManager::associationWidgets() const
+QSet<AssociationWidget*> AssociationSpaceManager::associationWidgets() const
 {
     return m_registeredAssociationSet;
 }

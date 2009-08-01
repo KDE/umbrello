@@ -321,10 +321,10 @@ void FloatingTextWidget::changeName(const QString& newText)
         if (assoc) {
             switch (m_textRole) {
               case Uml::tr_MultiA:
-                assoc->setMulti(QString(), Uml::A);
+                assoc->setMultiplicity(QString(), Uml::A);
                 break;
               case Uml::tr_MultiB:
-                assoc->setMulti(QString(), Uml::B);
+                assoc->setMultiplicity(QString(), Uml::B);
                 break;
               case Uml::tr_RoleAName:
                 assoc->setRoleName(QString(), Uml::A);

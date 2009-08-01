@@ -122,8 +122,14 @@ public:
     QRectF boundingRect() const;
     QPainterPath shape() const;
 
+    bool isActivated() const;
+    void setActivatedFlag(bool value);
+
+    virtual void activate();
+
     virtual void showPropertiesDialog();
     virtual void setupContextMenuActions(ListPopupMenu &menu);
+
 
     virtual bool loadFromXMI(QDomElement &qElement);
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
@@ -176,6 +182,11 @@ private:
 
     // End of properties that will be saved.
 
+    /**
+     * This flag is used to hold whether a widget is partially constructed (due to
+     * delayed construction of sub components) or not.
+     */
+    bool m_activated;
     WidgetInterfaceData *m_widgetInterfaceData;
 
     /**

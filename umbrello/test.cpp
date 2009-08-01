@@ -24,8 +24,6 @@
 #include "enum.h"
 #include "floatingdashlinewidget.h"
 #include "messagewidget.h"
-#include "newassociationwidget.h"
-#include "newlinepath.h"
 #include "objectwidget.h"
 #include "textitem.h"
 #include "umlscene.h"

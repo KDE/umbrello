@@ -5,12 +5,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#ifndef LINEPATH_H
-#define LINEPATH_H
+#ifndef ASSOCIATIONLINE_H
+#define ASSOCIATIONLINE_H
 
 #include "umlnamespace.h"
 
@@ -19,25 +19,22 @@
 #include <QtGui/QPen>
 
 // Forward declarations
+class AssociationWidget;
 class QDomDocument;
 class QDomElement;
 class UMLWidget;
 class RegionPair;
 
-namespace New
+
+typedef QPair<QPointF, QPointF> SymbolEndPoints;
+
+/**
+ * This class provides with various symbols that can be embedded in
+ * AssociationLine.  It also provides with convenience methods to align
+ * the symbol to AssociationLine.
+ */
+class Symbol : public QGraphicsItem
 {
-    // More forward declaration (New namespace)
-    class AssociationWidget;
-
-    typedef QPair<QPointF, QPointF> PointPair;
-
-    /**
-     * This class provides with various symbols that can be embedded in
-     * AssociationLine.  It also provides with convenience methods to align
-     * the symbol to AssociationLine.
-     */
-    class Symbol : public QGraphicsItem
-    {
     public:
         /**
          * This enumeration lists all the symbols that can be used as
@@ -67,7 +64,7 @@ namespace New
 
         void alignTo(const QLineF& line);
         QLineF axisLine() const;
-        PointPair symbolEndPoints() const;
+        SymbolEndPoints symbolEndPoints() const;
 
         QPen pen() const;
         void setPen(const QPen &pen);
@@ -88,7 +85,7 @@ namespace New
             QRectF boundRect;
             QPainterPath shape;
             QLineF axisLine;
-            PointPair endPoints;
+            SymbolEndPoints endPoints;
         };
 
         /// A hack to prevent crash due to prepareGeometryChange call in constructor.
@@ -97,24 +94,24 @@ namespace New
         /// A table which stores all symbol properties.
         static SymbolProperty symbolTable[Symbol::Count];
         static void setupSymbolTable();
-    };
+};
 
 
-    /**
-     * A convenience class that encapsulates geometry management, handles
-     * mouse and hover events, embeds and aligns symbols and finally draws the
-     * lines and points.
-     *
-     * This class is infact a draw and event handling proxy for
-     * New::AssociationWidget.
-     *
-     * @author Gopala Krishna
-     * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
-     */
-    class AssociationLine
-    {
+/**
+ * A convenience class that encapsulates geometry management, handles
+ * mouse and hover events, embeds and aligns symbols and finally draws the
+ * lines and points.
+ *
+ * This class is infact a draw and event handling proxy for
+ * AssociationWidget.
+ *
+ * @author Gopala Krishna
+ * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
+ */
+class AssociationLine
+{
     public:
-        AssociationLine(New::AssociationWidget *assoc);
+        AssociationLine(AssociationWidget *assoc);
         ~AssociationLine();
 
         QPointF point(int index) const;
@@ -213,7 +210,6 @@ namespace New
         static const qreal SelectedPointDiameter;
         /// Minimum height for self association's loop.
         static const qreal SelfAssociationMinimumHeight;
-    };
+};
 
-}
 #endif

@@ -101,7 +101,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
 
     case at_Realization:  // one connected to widget only (a or b)
         foreach ( AssociationWidget* assoc, list ) {
-            if( assoc->getAssocType() == at_Realization )
+            if( assoc->associationType() == at_Realization )
                 return false;
         }
         return true;
@@ -201,8 +201,9 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     case at_Containment:   // can't have mutual containment
     case at_Generalization://can have many sub/super types but can't sup/sub each
         foreach ( AssociationWidget * assoc, list ) {
-            if( ( widgetA == assoc->getWidget(A) || widgetA == assoc->getWidget(B) )
-                    && assoc->getAssocType() == assocType )
+            if( ( widgetA == assoc->widgetForRole(Uml::A) ||
+                        widgetA == assoc->widgetForRole(Uml::B) )
+                    && assoc->associationType() == assocType )
                 return false;
         }
         return true;
@@ -210,8 +211,9 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
 
     case at_Realization: // can only connect to abstract (interface) classes
         foreach( AssociationWidget * assoc, list ) {
-            if( ( widgetA == assoc->getWidget(A) || widgetA == assoc->getWidget(B) )
-                    && assoc->getAssocType() == at_Realization ) {
+            if( ( widgetA == assoc->widgetForRole(Uml::A) ||
+                        widgetA == assoc->widgetForRole(Uml::B) )
+                    && assoc->associationType() == at_Realization ) {
                 return false;
             }
         }
@@ -275,7 +277,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
             if (actA != NULL && actTypeA != ActivityWidget::Branch) {
                 AssociationWidgetList list = widgetA->associationWidgetList();
                 foreach (AssociationWidget* assoc , list ) {
-                    if (assoc->getWidget(A) == widgetA) {
+                    if (assoc->widgetForRole(Uml::A) == widgetA) {
                         return false;
                     }
                 }

@@ -19,12 +19,12 @@
 
 #include "umlwidget.h"
 
+#include "associationline.h"
 #include "associationspacemanager.h"
+#include "associationwidget.h"
 #include "dialogs/classpropdlg.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
-#include "newassociationwidget.h"
-#include "newlinepath.h"
 #include "textitemgroup.h"
 #include "textitem.h"
 #include "umldoc.h"
@@ -183,29 +183,6 @@ void UMLWidget::setShowStereotype(bool b)
     updateTextItemGroups();
 }
 
-/**
- * Adds a association widget to the internal list that involves this
- * widget.
- *
- * @param assoc An association widget connected to this widget.
- */
-void UMLWidget::addAssociationWidget(AssociationWidget *assoc)
-{
-    if(!m_associationWidgetList.contains(assoc)) {
-        m_associationWidgetList << assoc;
-    }
-}
-
-/**
- * Removes a association widget from the internal list that involves this widget.
- *
- * @param assoc The association widget that should be removed.
- */
-void UMLWidget::removeAssociationWidget(AssociationWidget *assoc)
-{
-    m_associationWidgetList.removeAll(assoc);
-}
-
 void UMLWidget::showPropertiesDialog()
 {
     // will already be selected so make sure docWindow updates the doc
@@ -227,6 +204,15 @@ void UMLWidget::setupContextMenuActions(ListPopupMenu &menu)
     Q_UNUSED(menu);
 }
 
+/**
+ * @return The list of AssociationWidget's having one or both its ends associated
+ *         with this ClassifierWidget.
+ */
+AssociationWidgetList UMLWidget::associationWidgetList() const
+{
+    return m_associationSpaceManager->associationWidgets().toList();
+}
+
 AssociationSpaceManager* UMLWidget::associationSpaceManager() const
 {
     return m_associationSpaceManager;
@@ -241,7 +227,7 @@ AssociationSpaceManager* UMLWidget::associationSpaceManager() const
  */
 void UMLWidget::adjustAssociations()
 {
-    foreach (New::AssociationWidget *assoc,
+    foreach (AssociationWidget *assoc,
             m_associationSpaceManager->associationWidgets()) {
         assoc->associationLine()->calculateEndPoints();
     }
@@ -395,10 +381,10 @@ QVariant UMLWidget::itemChange(GraphicsItemChange change, const QVariant &value)
         // move all points of self associations before this widget is moved.
         // normal adjusting is not enough for self association updation.
         QPointF diff(value.toPointF() - pos());
-        foreach (New::AssociationWidget* assoc,
+        foreach (AssociationWidget* assoc,
                 m_associationSpaceManager->associationWidgets()) {
             if (assoc->isSelf()) {
-                New::AssociationLine *line = assoc->associationLine();
+                AssociationLine *line = assoc->associationLine();
                 for (int i = 0; i < line->count(); ++i) {
                     line->setPoint(i, line->point(i) + diff);
                 }

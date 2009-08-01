@@ -125,7 +125,7 @@ void AssocPropDlg::setupFontPage()
     addPage( pageItem );
 
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-    m_pChooser->setFont( m_pAssoc->getFont());
+    m_pChooser->setFont( m_pAssoc->font());
     m_pChooser->setSampleText(i18n("Association font"));
 }
 

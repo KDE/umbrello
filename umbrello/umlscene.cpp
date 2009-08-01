@@ -32,61 +32,62 @@
 #include <kdebug.h>
 
 // application specific includes
-#include "umlviewimageexporter.h"
-#include "listpopupmenu.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlview.h"
-#include "umlobject.h"
-#include "docwindow.h"
+
+#include "activitywidget.h"
+#include "actorwidget.h"
+#include "artifactwidget.h"
+#include "association.h"
+#include "associationline.h"
+#include "associationwidget.h"
 #include "assocrules.h"
-#include "umlrole.h"
-#include "dialogs/classoptionspage.h"
-#include "dialogs/umlviewdialog.h"
+#include "attribute.h"
+#include "boxwidget.h"
+#include "classifier.h"
+#include "classifierwidget.h"
 #include "clipboard/idchangelog.h"
 #include "clipboard/umldragdata.h"
-#include "widget_factory.h"
-#include "floatingtextwidget.h"
-#include "classifierwidget.h"
-#include "classifier.h"
-#include "packagewidget.h"
-#include "package.h"
-#include "folder.h"
+#include "cmds.h"
 #include "componentwidget.h"
-#include "nodewidget.h"
-#include "artifactwidget.h"
 #include "datatypewidget.h"
-#include "enumwidget.h"
+#include "dialogs/classoptionspage.h"
+#include "dialogs/umlviewdialog.h"
+#include "docwindow.h"
+#include "entity.h"
 #include "entitywidget.h"
-#include "actorwidget.h"
-#include "usecasewidget.h"
-#include "notewidget.h"
-#include "boxwidget.h"
-#include "associationwidget.h"
-#include "objectwidget.h"
-#include "messagewidget.h"
-#include "statewidget.h"
-#include "signalwidget.h"
+#include "enumwidget.h"
+#include "floatingtextwidget.h"
+#include "folder.h"
+#include "foreignkeyconstraint.h"
 #include "forkjoinwidget.h"
-#include "activitywidget.h"
+#include "listpopupmenu.h"
+#include "messagewidget.h"
+#include "model_utils.h"
+#include "nodewidget.h"
+#include "notewidget.h"
+#include "object_factory.h"
 #include "objectnodewidget.h"
+#include "objectwidget.h"
+#include "package.h"
+#include "packagewidget.h"
 #include "pinwidget.h"
 #include "seqlinewidget.h"
-#include "uniqueid.h"
-#include "umllistviewitemlist.h"
-#include "umllistviewitem.h"
-#include "umllistview.h"
-#include "umlobjectlist.h"
-#include "association.h"
-#include "attribute.h"
-#include "model_utils.h"
-#include "object_factory.h"
-#include "umlwidget.h"
+#include "signalwidget.h"
+#include "statewidget.h"
 #include "toolbarstatefactory.h"
-#include "cmds.h"
-#include "entity.h"
-#include "foreignkeyconstraint.h"
-
+#include "umldoc.h"
+#include "uml.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
+#include "umllistviewitemlist.h"
+#include "umlobject.h"
+#include "umlobjectlist.h"
+#include "umlrole.h"
+#include "umlview.h"
+#include "umlviewimageexporter.h"
+#include "umlwidget.h"
+#include "uniqueid.h"
+#include "usecasewidget.h"
+#include "widget_factory.h"
 #define TEST 1
 #include "test.h"
 
@@ -821,10 +822,10 @@ UMLWidget * UMLScene::findWidget(Uml::IDType id)
  */
 AssociationWidget * UMLScene::findAssocWidget(Uml::IDType id)
 {
-    foreach(AssociationWidget* obj , m_AssociationList) {
-        UMLAssociation* umlassoc = obj->getAssociation();
+    foreach(AssociationWidget* wid , m_AssociationList) {
+        UMLAssociation* umlassoc = wid->association();
         if (umlassoc && umlassoc->getID() == id) {
-            return obj;
+            return wid;
         }
     }
     return 0;
@@ -846,17 +847,20 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
                                               UMLWidget *pWidgetB, const QString& roleNameB)
 {
     foreach(AssociationWidget* assoc, m_AssociationList) {
-        const Association_Type testType = assoc->getAssocType();
+        const Association_Type testType = assoc->associationType();
         if (testType != Uml::at_Association &&
-            testType != Uml::at_UniAssociation &&
-            testType != Uml::at_Composition &&
-            testType != Uml::at_Aggregation &&
-            testType != Uml::at_Relationship)
+                testType != Uml::at_UniAssociation &&
+                testType != Uml::at_Composition &&
+                testType != Uml::at_Aggregation &&
+                testType != Uml::at_Relationship) {
             continue;
-        if (pWidgetA->id() == assoc->getWidgetID(A) &&
-            pWidgetB->id() == assoc->getWidgetID(B) &&
-            assoc->getRoleName(Uml::B) == roleNameB)
+        }
+
+        if (pWidgetA->id() == assoc->widgetIDForRole(Uml::A) &&
+                pWidgetB->id() == assoc->widgetIDForRole(Uml::B) &&
+                assoc->roleName(Uml::B) == roleNameB) {
             return assoc;
+        }
     }
     return 0;
 }
@@ -879,12 +883,15 @@ AssociationWidget * UMLScene::findAssocWidget(Uml::Association_Type at,
 {
 
     foreach(AssociationWidget* assoc, m_AssociationList) {
-        Association_Type testType = assoc->getAssocType();
-        if (testType != at)
+        Association_Type testType = assoc->associationType();
+        if (testType != at) {
             continue;
-        if (pWidgetA->id() == assoc->getWidgetID(A) &&
-            pWidgetB->id() == assoc->getWidgetID(B))
+        }
+
+        if (pWidgetA->id() == assoc->widgetIDForRole(Uml::A) &&
+                pWidgetB->id() == assoc->widgetIDForRole(Uml::B)) {
             return assoc;
+        }
     }
     return 0;
 }
@@ -1236,7 +1243,7 @@ void UMLScene::deleteSelection()
     // Delete any selected associations.
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->getSelected())
+        if (assocwidget->isSelected())
             removeAssoc(assocwidget);
         // MARK
     }
@@ -1368,15 +1375,15 @@ void UMLScene::selectWidgetsOfAssoc(AssociationWidget * a)
         return;
     a->setSelected(true);
     //select the two widgets
-    makeSelected(a->getWidget(A));
-    makeSelected(a->getWidget(B));
+    makeSelected(a->widgetForRole(Uml::A));
+    makeSelected(a->widgetForRole(Uml::B));
     //select all the text
-    makeSelected(a->getMultiWidget(A));
-    makeSelected(a->getMultiWidget(B));
-    makeSelected(a->getRoleWidget(A));
-    makeSelected(a->getRoleWidget(B));
-    makeSelected(a->getChangeWidget(A));
-    makeSelected(a->getChangeWidget(B));
+    makeSelected(a->multiplicityWidget(Uml::A));
+    makeSelected(a->multiplicityWidget(Uml::B));
+    makeSelected(a->roleWidget(Uml::A));
+    makeSelected(a->roleWidget(Uml::B));
+    makeSelected(a->changeabilityWidget(Uml::A));
+    makeSelected(a->changeabilityWidget(Uml::B));
 }
 
 /**
@@ -1520,6 +1527,8 @@ void UMLScene::activate()
 
     // Activate all association widgets
 
+    // [PORT]
+#if 0
     foreach(AssociationWidget* aw , m_AssociationList) {
         if (aw->activate()) {
             if (m_PastePoint.x() != 0.) {
@@ -1532,6 +1541,7 @@ void UMLScene::activate()
             delete  aw;
         }
     }
+#endif
 }
 
 /**
@@ -1583,7 +1593,7 @@ AssociationWidgetList UMLScene::getSelectedAssocs()
     AssociationWidgetList assocWidgetList;
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->getSelected())
+        if (assocwidget->isSelected())
             assocWidgetList.append(assocwidget);
     }
     return assocWidgetList;
@@ -1834,55 +1844,65 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
     if (!pAssoc) {
         return false;
     }
-    const Association_Type type = pAssoc->getAssocType();
+    addItem(pAssoc);
+    const Association_Type type = pAssoc->associationType();
 
     if (isPasteOperation) {
         IDChangeLog * log = m_pDoc->getChangeLog();
 
-        if (!log)
+        if (!log) {
+            removeItem(pAssoc);
             return false;
+        }
 
         Uml::IDType ida = Uml::id_None, idb = Uml::id_None;
         if (getType() == dt_Collaboration || getType() == dt_Sequence) {
             //check local log first
-            ida = m_pIDChangesLog->findNewID(pAssoc->getWidgetID(A));
-            idb = m_pIDChangesLog->findNewID(pAssoc->getWidgetID(B));
+
+            ida = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::A));
+            idb = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::B));
             //if either is still not found and assoc type is anchor
             //we are probably linking to a notewidet - else an error
             if (ida == Uml::id_None && type == at_Anchor)
-                ida = log->findNewID(pAssoc->getWidgetID(A));
+                ida = log->findNewID(pAssoc->widgetIDForRole(Uml::A));
             if (idb == Uml::id_None && type == at_Anchor)
-                idb = log->findNewID(pAssoc->getWidgetID(B));
+                idb = log->findNewID(pAssoc->widgetIDForRole(Uml::B));
         } else {
-            Uml::IDType oldIdA = pAssoc->getWidgetID(A);
-            Uml::IDType oldIdB = pAssoc->getWidgetID(B);
+            Uml::IDType oldIdA = pAssoc->widgetIDForRole(Uml::A);
+            Uml::IDType oldIdB = pAssoc->widgetIDForRole(Uml::B);
             ida = log->findNewID(oldIdA);
             if (ida == Uml::id_None) {  // happens after a cut
-                if (oldIdA == Uml::id_None)
+                if (oldIdA == Uml::id_None) {
+                    removeItem(pAssoc);
                     return false;
+                }
                 ida = oldIdA;
             }
             idb = log->findNewID(oldIdB);
             if (idb == Uml::id_None) {  // happens after a cut
-                if (oldIdB == Uml::id_None)
+                if (oldIdB == Uml::id_None) {
+                    removeItem(pAssoc);
                     return false;
+                }
                 idb = oldIdB;
             }
         }
         if (ida == Uml::id_None || idb == Uml::id_None) {
+            removeItem(pAssoc);
             return false;
         }
         // cant do this anymore.. may cause problem for pasting
         //      pAssoc->setWidgetID(ida, A);
         //      pAssoc->setWidgetID(idb, B);
-        pAssoc->setWidget(findWidget(ida), A);
-        pAssoc->setWidget(findWidget(idb), B);
+        pAssoc->setWidgetForRole(findWidget(ida), Uml::A);
+        pAssoc->setWidgetForRole(findWidget(idb), Uml::B);
     }
 
-    UMLWidget * pWidgetA = findWidget(pAssoc->getWidgetID(A));
-    UMLWidget * pWidgetB = findWidget(pAssoc->getWidgetID(B));
+    UMLWidget * pWidgetA = findWidget(pAssoc->widgetIDForRole(Uml::A));
+    UMLWidget * pWidgetB = findWidget(pAssoc->widgetIDForRole(Uml::B));
     //make sure valid widget ids
     if (!pWidgetA || !pWidgetB) {
+        removeItem(pAssoc);
         return false;
     }
 
@@ -1890,25 +1910,31 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
     if (!isPasteOperation && !m_pDoc->loading() &&
         !AssocRules::allowAssociation(type, pWidgetA, pWidgetB, false)) {
         uWarning() << "allowAssociation returns false " << "for AssocType " << type;
+        removeItem(pAssoc);
         return false;
     }
 
     //make sure there isn't already the same assoc
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (*pAssoc == *assocwidget)
+        if (pAssoc->isEqual(assocwidget)) {
             // this is nuts. Paste operation wants to know if 'true'
             // for duplicate, but loadFromXMI needs 'false' value
-            return (isPasteOperation ? true : false);
+            bool retVal = (isPasteOperation ? true : false);
+            if (!retVal) {
+                removeItem(pAssoc);
+            }
+            return retVal;
+        }
     }
 
     m_AssociationList.append(pAssoc);
 
-    FloatingTextWidget *ft[5] = { pAssoc->getNameWidget(),
-                                  pAssoc->getRoleWidget(A),
-                                  pAssoc->getRoleWidget(B),
-                                  pAssoc->getMultiWidget(A),
-                                  pAssoc->getMultiWidget(B)
+    FloatingTextWidget *ft[5] = { pAssoc->nameWidget(),
+                                  pAssoc->roleWidget(Uml::A),
+                                  pAssoc->roleWidget(Uml::B),
+                                  pAssoc->multiplicityWidget(Uml::A),
+                                  pAssoc->multiplicityWidget(Uml::B)
     };
     for (int i = 0; i < 5; i++) {
         FloatingTextWidget *flotxt = ft[i];
@@ -1972,7 +1998,8 @@ void UMLScene::removeAssoc(AssociationWidget* pAssoc)
 
     emit sigAssociationRemoved(pAssoc);
 
-    pAssoc->cleanup();
+    // [PORT]
+    // pAssoc->cleanup();
     m_AssociationList.removeAll(pAssoc);
     pAssoc->deleteLater();
     m_pDoc->setModified();
@@ -1990,8 +2017,8 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
     //    on the association and select Delete
     if (!a)
         return;
-    if (a->getAssocType() == at_Containment) {
-        UMLObject *objToBeMoved = a->getWidget(B)->umlObject();
+    if (a->associationType() == at_Containment) {
+        UMLObject *objToBeMoved = a->widgetForRole(Uml::B)->umlObject();
         if (objToBeMoved != NULL) {
             UMLListView *lv = UMLApp::app()->getListView();
             lv->moveObject(objToBeMoved->getID(),
@@ -2005,7 +2032,7 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
         }
     } else {
         // Remove assoc in doc.
-        m_pDoc->removeAssociation(a->getAssociation());
+        m_pDoc->removeAssociation(a->association());
         // Remove assoc in view.
         removeAssoc(a);
     }
@@ -2016,7 +2043,7 @@ void UMLScene::removeAssociations(UMLWidget* Widget)
 {
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->contains(Widget)) {
+        if (assocwidget->containsWidget(Widget)) {
             removeAssoc(assocwidget);
         }
     }
@@ -2029,9 +2056,11 @@ void UMLScene::selectAssociations(bool bSelect)
 {
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
+        UMLWidget *widA = assocwidget->widgetForRole(Uml::A);
+        UMLWidget *widB = assocwidget->widgetForRole(Uml::B);
         if (bSelect &&
-            assocwidget->getWidget(A) && assocwidget->getWidget(A)->isSelected() &&
-            assocwidget->getWidget(B) && assocwidget->getWidget(B)->isSelected()) {
+                widA && widA->isSelected() &&
+                widB && widB->isSelected()) {
             assocwidget->setSelected(true);
         } else {
             assocwidget->setSelected(false);
@@ -2048,8 +2077,8 @@ void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associati
         return;
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget->getWidget(A)->umlObject() == Obj ||
-            assocwidget->getWidget(B)->umlObject() == Obj)
+        if (assocwidget->widgetForRole(Uml::A)->umlObject() == Obj ||
+            assocwidget->widgetForRole(Uml::B)->umlObject() == Obj)
             Associations.append(assocwidget);
     }//end foreach
 
@@ -2161,15 +2190,15 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
         return;
     // Remove possibly obsoleted containment association.
     foreach(AssociationWidget* a, m_AssociationList) {
-        if (a->getAssocType() != Uml::at_Containment)
+        if (a->associationType() != Uml::at_Containment)
             continue;
         // Container is at role A, containee at B.
         // We only look at association for which we are B.
-        UMLWidget *wB = a->getWidget(B);
+        UMLWidget *wB = a->widgetForRole(Uml::B);
         UMLObject *roleBObj = wB->umlObject();
         if (roleBObj != self)
             continue;
-        UMLWidget *wA = a->getWidget(A);
+        UMLWidget *wA = a->widgetForRole(Uml::A);
         UMLObject *roleAObj = wA->umlObject();
         if (roleAObj == newParent) {
             // Wow, all done. Great!
@@ -2183,10 +2212,11 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
     if (newParentWidget == NULL)
         return;
     // Create the new containment association.
-    AssociationWidget *a = new AssociationWidget(this, newParentWidget,
-                                                 Uml::at_Containment, selfWidget);
-    a->calculateEndingPoints();
-    a->setActivated(true);
+    AssociationWidget *a = new AssociationWidget(newParentWidget,
+            Uml::at_Containment, selfWidget);
+    addItem(a);
+    a->associationLine()->calculateEndPoints();
+    a->setActivatedFlag(true);
     m_AssociationList.append(a);
 }
 
@@ -2291,7 +2321,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         Uml::Association_Type assocType = assoc->getAssocType();
         AssociationWidget * assocwidget = findAssocWidget(assocType, widgetA, widgetB);
         if (assocwidget) {
-            assocwidget->calculateEndingPoints();  // recompute assoc lines
+            assocwidget->associationLine()->calculateEndPoints();  // recompute assoc lines
             continue;
         }
         // Check that the assoc is allowed.
@@ -2302,17 +2332,12 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         }
 
         // Create the AssociationWidget.
-        assocwidget = new AssociationWidget(this);
-        assocwidget->setWidget(widgetA, A);
-        assocwidget->setWidget(widgetB, B);
-        assocwidget->setAssocType(assocType);
-        assocwidget->setUMLObject(assoc);
+        assocwidget = new AssociationWidget(widgetA, assocType, widgetB, assoc);
         // Call calculateEndingPoints() before setting the FloatingTexts
         // because their positions are computed according to the
         // assocwidget line positions.
-        assocwidget->calculateEndingPoints();
-        assocwidget->syncToModel();
-        assocwidget->setActivated(true);
+        assocwidget->associationLine()->calculateEndPoints();
+        assocwidget->setActivatedFlag(true);
         if (! addAssociation(assocwidget))
             delete assocwidget;
     }
@@ -2339,10 +2364,10 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
                 if (widget->sceneBoundingRect().contains(w->sceneBoundingRect()))
                     continue;
                 // create the containment AssocWidget
-                AssociationWidget *a = new AssociationWidget(this, widget,
+                AssociationWidget *a = new AssociationWidget(widget,
                                                              at_Containment, w);
-                a->calculateEndingPoints();
-                a->setActivated(true);
+                a->associationLine()->calculateEndPoints();
+                a->setActivatedFlag(true);
                 if (! addAssociation(a))
                     delete a;
             }
@@ -2366,9 +2391,9 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     if (!breakFlag || pWidget->sceneBoundingRect().contains(widget->sceneBoundingRect()))
         return;
     // create the containment AssocWidget
-    AssociationWidget *a = new AssociationWidget(this, pWidget, at_Containment, widget);
-    a->calculateEndingPoints();
-    a->setActivated(true);
+    AssociationWidget *a = new AssociationWidget(pWidget, at_Containment, widget);
+    a->associationLine()->calculateEndPoints();
+    a->setActivatedFlag(true);
     if (! addAssociation(a))
         delete a;
 }
@@ -2469,15 +2494,15 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
             if (type->getStereotype() == "CORBAInterface")
                 assocType = at_UniAssociation;
 
-            AssociationWidget *a = new AssociationWidget(this, widget, assocType, w, attr);
-            a->calculateEndingPoints();
+            AssociationWidget *a = new AssociationWidget(widget, assocType, w, attr);
+            a->associationLine()->calculateEndPoints();
             a->setVisibility(attr->getVisibility(), B);
             /*
               if (assocType == at_Aggregation || assocType == at_UniAssociation)
               a->setMulti("0..1", B);
             */
             a->setRoleName(attr->getName(), B);
-            a->setActivated(true);
+            a->setActivatedFlag(true);
             if (! addAssociation(a))
                 delete a;
         }
@@ -2500,13 +2525,13 @@ void UMLScene::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute 
                     // to the widget of the referenced type
 
                     AssociationWidget *a = new AssociationWidget
-                        (this, widget, at_Aggregation, w, attr);
-                    a->calculateEndingPoints();
+                        (widget, at_Aggregation, w, attr);
+                    a->associationLine()->calculateEndPoints();
                     a->setVisibility(attr->getVisibility(), B);
                     //a->setChangeability(true, B);
-                    a->setMulti("0..1", B);
+                    a->setMultiplicity("0..1", B);
                     a->setRoleName(attr->getName(), B);
-                    a->setActivated(true);
+                    a->setActivatedFlag(true);
                     if (! addAssociation(a))
                         delete a;
                 }
@@ -2584,13 +2609,12 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
 
             // for foreign key contstraint, we need to create the association type Uml::at_Relationship.
             // The referenced entity is the "1" part (Role A) and the entity holding the relationship is the "many" part. ( Role B)
-            AssociationWidget *a = new AssociationWidget(this, w, assocType, widget);
+            AssociationWidget *a = new AssociationWidget(w, assocType, widget, fkConstraint);
 
-            a->setUMLObject(fkConstraint);
-            a->calculateEndingPoints();
+            a->associationLine()->calculateEndPoints();
             //a->setVisibility(attr->getVisibility(), B);
             a->setRoleName(fkConstraint->getName(), B);
-            a->setActivated(true);
+            a->setActivatedFlag(true);
             if (! addAssociation(a))
                 delete a;
         }
@@ -2680,14 +2704,20 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     //This needs to be reimplemented to increase the rectangle
     //if a part of any association is not included
     foreach(AssociationWidget *a , m_AssociationList) {
-        if (! a->getSelected())
+        if (! a->isSelected())
             continue;
-        const FloatingTextWidget* multiA = const_cast<FloatingTextWidget*>(a->getMultiWidget(A));
-        const FloatingTextWidget* multiB = const_cast<FloatingTextWidget*>(a->getMultiWidget(B));
-        const FloatingTextWidget* roleA = const_cast<FloatingTextWidget*>(a->getRoleWidget(A));
-        const FloatingTextWidget* roleB = const_cast<FloatingTextWidget*>(a->getRoleWidget(B));
-        const FloatingTextWidget* changeA = const_cast<FloatingTextWidget*>(a->getChangeWidget(A));
-        const FloatingTextWidget* changeB = const_cast<FloatingTextWidget*>(a->getChangeWidget(B));
+        const FloatingTextWidget* multiA =
+            const_cast<const FloatingTextWidget*>(a->multiplicityWidget(Uml::A));
+        const FloatingTextWidget* multiB =
+            const_cast<const FloatingTextWidget*>(a->multiplicityWidget(Uml::B));
+        const FloatingTextWidget* roleA =
+            const_cast<const FloatingTextWidget*>(a->roleWidget(Uml::A));
+        const FloatingTextWidget* roleB =
+            const_cast<const FloatingTextWidget*>(a->roleWidget(Uml::B));
+        const FloatingTextWidget* changeA =
+            const_cast<const FloatingTextWidget*>(a->changeabilityWidget(Uml::A));
+        const FloatingTextWidget* changeB =
+            const_cast<const FloatingTextWidget*>(a->changeabilityWidget(Uml::B));
         findMaxBoundingRectangle(multiA, px, py, qx, qy);
         findMaxBoundingRectangle(multiB, px, py, qx, qy);
         findMaxBoundingRectangle(roleA, px, py, qx, qy);
@@ -3183,9 +3213,9 @@ void UMLScene::checkSelections()
     //check Associations
 
     foreach(AssociationWidget *pAssoc , m_AssociationList) {
-        if (pAssoc->getSelected()) {
-            pWA = pAssoc->getWidget(A);
-            pWB = pAssoc->getWidget(B);
+        if (pAssoc->isSelected()) {
+            pWA = pAssoc->widgetForRole(Uml::A);
+            pWB = pAssoc->widgetForRole(Uml::B);
             if (!pWA->isSelected()) {
                 // [PORT] Was setSelectedFlag before
                 pWA->setSelected(true);
@@ -3703,7 +3733,7 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
         if (tag == "assocwidget" ||
             tag == "UML:AssocWidget") {  // for bkwd compatibility
             countr++;
-            AssociationWidget *assoc = new AssociationWidget(this);
+            AssociationWidget *assoc = new AssociationWidget();
             if (!assoc->loadFromXMI(assocElement)) {
                 uError() << "could not loadFromXMI association widget:"
                          << (void*)assoc << ", bad XMI file? Deleting from umlview.";
@@ -3801,8 +3831,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
                 UMLWidget *wB = findWidget(objB->getID());
                 if (wA != NULL && wB != NULL) {
                     AssociationWidget *aw =
-                        new AssociationWidget(this, wA, at, wB, umla);
-                    aw->syncToModel();
+                        new AssociationWidget(wA, at, wB, umla);
                     m_AssociationList.append(aw);
                 } else {
                     uError() << "cannot create assocwidget from ("

@@ -14,6 +14,7 @@
 // qt/kde includes
 
 // app includes
+#include "associationline.h"
 #include "associationwidget.h"
 #include "classifier.h"
 #include "expanderbox.h"
@@ -95,7 +96,7 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
 ClassifierWidget::~ClassifierWidget()
 {
     if (m_classAssociationWidget) {
-        m_classAssociationWidget->removeAssocClassLine();
+        m_classAssociationWidget->setAssociationClass(0);
     }
 }
 
@@ -312,7 +313,7 @@ void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
     m_classAssociationWidget = assocwidget;
     UMLAssociation *umlassoc = 0;
     if (assocwidget) {
-        umlassoc = assocwidget->getAssociation();
+        umlassoc = assocwidget->association();
     }
     classifier()->setClassAssoc(umlassoc);
 }
@@ -336,7 +337,7 @@ void ClassifierWidget::adjustAssociations()
         return;
     }
 
-    m_classAssociationWidget->computeAssocClassLine();
+    m_classAssociationWidget->associationLine()->calculateAssociationClassLine();
 }
 
 /**

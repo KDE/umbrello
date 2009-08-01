@@ -83,7 +83,7 @@ void AssocPage::fillListBox()
     m_pScene->getWidgetAssocs(m_pObject, m_List);
     int i = 0;
     foreach( AssociationWidget* assocwidget, m_List ) {
-        if( assocwidget->getAssocType() != Uml::at_Anchor) {
+        if( assocwidget->associationType() != Uml::at_Anchor) {
             m_pAssocLW->insertItem(i, assocwidget->toString());
             i++;
         }

@@ -104,6 +104,7 @@ WidgetBase::WidgetBase(UMLObject *object) :
     m_lineColor(awesomeLineColor()),
     m_lineWidth(0),
     m_brush(awesomeBrush()),
+    m_activated(false),
     m_widgetInterfaceData(0),
     m_isSceneSetBefore(false),
     firstTime(true)
@@ -434,6 +435,40 @@ void WidgetBase::setFont(const QFont& font)
     m_font = font;
 
     attributeChange(FontHasChanged, oldFont);
+}
+
+/**
+ * @return Activation status.
+ * @see WidgetBase::m_activated to understand what activation means.
+ */
+bool WidgetBase::isActivated() const
+{
+    return m_activated;
+}
+
+/**
+ * Sets only the activation flag, without invoking activate() method.
+ * @see WidgetBase::m_activated to understand what activation means.
+ */
+void WidgetBase::setActivatedFlag(bool b)
+{
+    m_activated = b;
+}
+
+/**
+ * This virtual method should be reimplementd by subclasses to attempt complete
+ * construction, with assumption that sub components have been constructed already.
+ *
+ * The flag, m_activated should be set to true/false on success/failure.
+ *
+ * By default, this method just sets the flag to true.
+ *
+ * @see WidgetBase::m_activated to understand what activation means.
+ * @sa WidgetBase::setActivatedFlag
+ */
+void WidgetBase::activate()
+{
+    m_activated = true;
 }
 
 /**

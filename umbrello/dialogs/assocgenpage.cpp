@@ -70,7 +70,7 @@ void AssocGenPage::constructWidget()
     QLabel *pAssocNameL = NULL;
     KLineEdit* nameField = Dialog_Utils::makeLabeledEditField( nameGB, nameLayout, 0,
                            pAssocNameL, i18nc("name of association widget", "Name:"),
-                           m_pAssocNameLE, m_pAssociationWidget->getName() );
+                           m_pAssocNameLE, m_pAssociationWidget->name() );
     nameField->setFocus();
 
     // document
@@ -80,7 +80,7 @@ void AssocGenPage::constructWidget()
     m_pDoc = new KTextEdit(docGB);
     docLayout->addWidget(m_pDoc);
     m_pDoc->setText(m_pAssociationWidget->documentation());
-    Uml::Association_Type currentType =  m_pAssociationWidget->getAssocType();
+    Uml::Association_Type currentType =  m_pAssociationWidget->associationType();
     QString currentTypeAsString = UMLAssociation::toString(currentType);
     QLabel *pTypeL = new QLabel(i18n("Type:"), nameGB);
     nameLayout->addWidget(pTypeL, 1, 0);
@@ -98,8 +98,8 @@ void AssocGenPage::constructWidget()
         if (  ( Uml::Association_Type )i == currentType )
             continue;
 
-        if ( AssocRules::allowAssociation( ( Uml::Association_Type )i, m_pAssociationWidget->getWidget( Uml::A ),
-                                           m_pAssociationWidget->getWidget( Uml::B ))
+        if ( AssocRules::allowAssociation( ( Uml::Association_Type )i, m_pAssociationWidget->widgetForRole( Uml::A ),
+                                           m_pAssociationWidget->widgetForRole( Uml::B ))
              ) {
             m_AssocTypes << (Uml::Association_Type)i;
         }
@@ -140,7 +140,7 @@ void AssocGenPage::updateObject()
     if (m_pAssociationWidget) {
         int comboBoxItem = m_pTypeCB->currentIndex();
         Uml::Association_Type newType = m_AssocTypes[comboBoxItem];
-        m_pAssociationWidget->setAssocType(newType);
+        m_pAssociationWidget->setAssociationType(newType);
         m_pAssociationWidget->setName(m_pAssocNameLE->text());
         m_pAssociationWidget->setDocumentation(m_pDoc->toPlainText());
     }

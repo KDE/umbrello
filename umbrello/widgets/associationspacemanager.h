@@ -24,10 +24,8 @@
 #include <QObject>
 #include <QPointF>
 
+class AssociationWidget;
 class UMLWidget;
-namespace New {
-    class AssociationWidget;
-}
 
 /**
  * This helper struct is used to hold Region occupied by specific end (ends in
@@ -50,7 +48,7 @@ private:
  * @short A class to manage distribution of AssociationWidget around UMLWidget.
  *
  * This class mainly has the following duties
- *  - Store New::AssociationWidgets associated with the UMLWidget to which
+ *  - Store AssociationWidgets associated with the UMLWidget to which
  *    this belongs. (self associations are stored separately)
  *  - Arrange/distribute the AssociationLine endings for all regions of
  *    UMLWidget based on AssociationSpaceManager::referencePoints.
@@ -63,17 +61,17 @@ Q_OBJECT;
 public:
     AssociationSpaceManager(UMLWidget *widget);
 
-    void add(New::AssociationWidget *assoc, const RegionPair& regions);
-    void remove(New::AssociationWidget *assoc);
+    void add(AssociationWidget *assoc, const RegionPair& regions);
+    void remove(AssociationWidget *assoc);
 
     void arrange(Uml::Region region);
 
-    RegionPair region(New::AssociationWidget *assoc) const;
-    Uml::Role_Type role(New::AssociationWidget *assoc) const;
+    RegionPair region(AssociationWidget *assoc) const;
+    Uml::Role_Type role(AssociationWidget *assoc) const;
 
-    bool isRegistered(New::AssociationWidget* assoc) const;
+    bool isRegistered(AssociationWidget* assoc) const;
 
-    QSet<New::AssociationWidget*> associationWidgets() const;
+    QSet<AssociationWidget*> associationWidgets() const;
 
 private:
     /**
@@ -97,21 +95,21 @@ private:
      */
     struct SelfAssociationItem
     {
-        New::AssociationWidget *associationWidget;
+        AssociationWidget *associationWidget;
         RegionPair regions;
     };
 
-    PointPair referencePoints(New::AssociationWidget *assoc) const;
+    PointPair referencePoints(AssociationWidget *assoc) const;
 
     /// Store for non self associations.
-    QMap<Uml::Region, QList<New::AssociationWidget*> > m_regionsAssociationsMap;
+    QMap<Uml::Region, QList<AssociationWidget*> > m_regionsAssociationsMap;
     /// Store for self association. @see SelfAssociationItem
     QList<SelfAssociationItem> m_selfAssociationsList;
     /**
      * This contains all (self and non self) associations managed by this
      * object for easier containment checking (@ref isRegistered())
      */
-    QSet<New::AssociationWidget*> m_registeredAssociationSet;
+    QSet<AssociationWidget*> m_registeredAssociationSet;
     /// The widget whose AssociationWidgets need to be aligned and managed.
     UMLWidget *m_umlWidget;
 };

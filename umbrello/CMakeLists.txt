@@ -303,6 +303,8 @@ set (libwidgets_SRCS
     widgets/activitywidget.cpp
     widgets/actorwidget.cpp
     widgets/artifactwidget.cpp
+    widgets/associationline.cpp
+    widgets/associationspacemanager.cpp
     widgets/associationwidget.cpp
     widgets/boxwidget.cpp
     widgets/categorywidget.cpp
@@ -317,7 +319,6 @@ set (libwidgets_SRCS
     widgets/forkjoinwidget.cpp
     widgets/linkwidget.cpp
     widgets/messagewidget.cpp
-    widgets/newassociationwidget.cpp
     widgets/nodewidget.cpp
     widgets/notewidget.cpp
     widgets/objectnodewidget.cpp
@@ -352,7 +353,6 @@ set(libumbrello_SRCS
     actor.cpp
     artifact.cpp
     association.cpp
-    associationspacemanager.cpp
     assocrules.cpp
     attribute.cpp
     category.cpp
@@ -375,11 +375,9 @@ set(libumbrello_SRCS
     icon_utils.cpp
     import_rose.cpp
     kplayerslideraction.cpp
-    linepath.cpp
     listpopupmenu.cpp
     main.cpp
     model_utils.cpp
-    newlinepath.cpp
     node.cpp
     object_factory.cpp
     operation.cpp

@@ -29,11 +29,6 @@ class WidgetHandle;
 class UMLWidgetController;
 class TextItemGroup;
 
-namespace New
-{
-    class AssociationWidget;
-}
-
 /**
  * @short The base class for rectangular base UML widgets.
  *
@@ -153,6 +148,7 @@ public:
     void setShowStereotype(bool b);
 
     AssociationSpaceManager* associationSpaceManager() const;
+    AssociationWidgetList associationWidgetList() const;
 
     virtual void adjustAssociations();
 
@@ -199,10 +195,10 @@ private:
     /// Margin for this widget.
     qreal m_margin;
 
-    /// Manages the alignment of New::AssociationWidget's.
+    /// Manages the alignment of AssociationWidget's.
     AssociationSpaceManager *m_associationSpaceManager;
-    /// List of New::AssociationWidget's in which this widget is participating.
-    QList<New::AssociationWidget*> m_newAssociationWidgetList;
+    /// List of AssociationWidget's in which this widget is participating.
+    QList<AssociationWidget*> m_associationWidgetList;
 
     QString m_instanceName;
     bool m_isInstance;
@@ -218,18 +214,6 @@ private:
 
     // Disable copy constructor and operator=
     DISABLE_COPY(UMLWidget);
-
-public:
-    // Use New::AssociationWidget and slowly move the New::AssociationWidget outside New::.
-    AssociationWidgetList m_associationWidgetList;
-    //////////////////  DEPRECATED //////////////////////////
-    void addAssociationWidget(AssociationWidget *assoc);
-    void removeAssociationWidget(AssociationWidget *assoc);
-    /// @return A list representing AssociationWidget connected to
-    ///         this widget.
-    AssociationWidgetList associationWidgetList() const {
-        return m_associationWidgetList;
-    }
 };
 
 #endif

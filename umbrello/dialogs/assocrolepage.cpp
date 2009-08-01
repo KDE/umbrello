@@ -49,12 +49,12 @@ AssocRolePage::~AssocRolePage()
 void AssocRolePage::constructWidget()
 {
     // underlying roles and objects
-    QString nameA = m_pAssociationWidget->getRoleName(Uml::A);
-    QString nameB = m_pAssociationWidget->getRoleName(Uml::B);
+    QString nameA = m_pAssociationWidget->roleName(Uml::A);
+    QString nameB = m_pAssociationWidget->roleName(Uml::B);
     QString titleA = i18n("Role A Properties");
     QString titleB = i18n("Role B Properties");
-    QString widgetNameA = m_pAssociationWidget->getWidget(Uml::A)->name();
-    QString widgetNameB = m_pAssociationWidget->getWidget(Uml::B)->name();
+    QString widgetNameA = m_pAssociationWidget->widgetForRole(Uml::A)->name();
+    QString widgetNameB = m_pAssociationWidget->widgetForRole(Uml::B)->name();
     if(!widgetNameA.isEmpty())
         titleA.append(" (" + widgetNameA + ')');
     if(!widgetNameB.isEmpty())
@@ -108,7 +108,7 @@ void AssocRolePage::constructWidget()
     m_pMultiACB->setDuplicatesEnabled(false);
     m_pMultiACB->setEditable(true);
 
-    QString multiA =  m_pAssociationWidget->getMulti(Uml::A );
+    QString multiA =  m_pAssociationWidget->multiplicity(Uml::A );
     if ( !multiA.isEmpty() )
         m_pMultiACB->setEditText(multiA);
 
@@ -131,7 +131,7 @@ void AssocRolePage::constructWidget()
     m_ImplementationARB = new QRadioButton(i18nc("scope for A is implementation", "Implementation"), scopeABG);
     scopeALayout->addWidget(m_ImplementationARB);
 
-    switch (m_pAssociationWidget->getVisibility(Uml::A)) {
+    switch (m_pAssociationWidget->visibility(Uml::A)) {
     case Uml::Visibility::Public:
         m_PublicARB->setChecked( true );
         break;
@@ -159,7 +159,7 @@ void AssocRolePage::constructWidget()
     m_AddOnlyARB = new QRadioButton(i18nc("changeability for A is add only", "Add only"), changeABG);
     changeALayout->addWidget(m_AddOnlyARB);
 
-    switch (m_pAssociationWidget->getChangeability(Uml::A)) {
+    switch (m_pAssociationWidget->changeability(Uml::A)) {
     case Uml::chg_Changeable:
         m_ChangeableARB->setChecked( true );
         break;
@@ -185,7 +185,7 @@ void AssocRolePage::constructWidget()
     m_pMultiBCB->setDuplicatesEnabled(false);
     m_pMultiBCB->setEditable(true);
 
-    QString multiB =  m_pAssociationWidget->getMulti(Uml::B );
+    QString multiB =  m_pAssociationWidget->multiplicity(Uml::B );
     if ( !multiB.isEmpty() )
         m_pMultiBCB->setEditText(multiB);
 
@@ -208,7 +208,7 @@ void AssocRolePage::constructWidget()
     m_ImplementationBRB = new QRadioButton(i18nc("scope for B is implementation", "Implementation"), scopeBBG);
     scopeBLayout->addWidget(m_ImplementationBRB);
 
-    switch (m_pAssociationWidget->getVisibility(Uml::B)) {
+    switch (m_pAssociationWidget->visibility(Uml::B)) {
     case Uml::Visibility::Public:
         m_PublicBRB->setChecked( true );
         break;
@@ -236,7 +236,7 @@ void AssocRolePage::constructWidget()
     m_AddOnlyBRB = new QRadioButton(i18nc("changeability for B is add only", "Add only"), changeBBG);
     changeBLayout->addWidget(m_AddOnlyBRB);
 
-    switch (m_pAssociationWidget->getChangeability(Uml::B)) {
+    switch (m_pAssociationWidget->changeability(Uml::B)) {
     case Uml::chg_Changeable:
         m_ChangeableBRB->setChecked( true );
         break;
@@ -256,7 +256,7 @@ void AssocRolePage::constructWidget()
     docALayout->setMargin(margin);
     m_pDocA = new KTextEdit(docAGB);
     docALayout->addWidget(m_pDocA);
-    m_pDocA-> setText(m_pAssociationWidget-> getRoleDoc(Uml::A));
+    m_pDocA-> setText(m_pAssociationWidget->roleDocumentation(Uml::A));
     // m_pDocA-> setText("<<not implemented yet>>");
     // m_pDocA-> setEnabled(false);
     m_pDocA->setLineWrapMode(QTextEdit::WidgetWidth);
@@ -266,7 +266,7 @@ void AssocRolePage::constructWidget()
     docBLayout->setMargin(margin);
     m_pDocB = new KTextEdit(docBGB);
     docBLayout->addWidget(m_pDocB);
-    m_pDocB->setText(m_pAssociationWidget-> getRoleDoc(Uml::B));
+    m_pDocB->setText(m_pAssociationWidget->roleDocumentation(Uml::B));
     // m_pDocB-> setEnabled(false);
     m_pDocB->setLineWrapMode(QTextEdit::WidgetWidth);
 
@@ -292,8 +292,8 @@ void AssocRolePage::updateObject()
         // set props
         m_pAssociationWidget->setRoleName(m_pRoleALE->text(), Uml::A);
         m_pAssociationWidget->setRoleName(m_pRoleBLE->text(), Uml::B);
-        m_pAssociationWidget->setMulti(m_pMultiACB->currentText(), Uml::A);
-        m_pAssociationWidget->setMulti(m_pMultiBCB->currentText(), Uml::B);
+        m_pAssociationWidget->setMultiplicity(m_pMultiACB->currentText(), Uml::A);
+        m_pAssociationWidget->setMultiplicity(m_pMultiBCB->currentText(), Uml::B);
 
         if (m_PrivateARB->isChecked())
               m_pAssociationWidget->setVisibility(Uml::Visibility::Private, Uml::A);
@@ -327,8 +327,8 @@ void AssocRolePage::updateObject()
         else
             m_pAssociationWidget->setChangeability(Uml::chg_Changeable, Uml::B);
 
-        m_pAssociationWidget->setRoleDoc(m_pDocA->toPlainText(), Uml::A);
-        m_pAssociationWidget->setRoleDoc(m_pDocB->toPlainText(), Uml::B);
+        m_pAssociationWidget->setRoleDocumentation(m_pDocA->toPlainText(), Uml::A);
+        m_pAssociationWidget->setRoleDocumentation(m_pDocB->toPlainText(), Uml::B);
 
     } //end if m_pAssociationWidget
 }
