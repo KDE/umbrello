@@ -172,6 +172,7 @@ namespace New
         RegionPair determineRegions();
         void calculateEndPoints();
         void calculateInitialEndPoints();
+        void calculateAssociationClassLine();
 
         void setupSymbols();
 
@@ -202,6 +203,8 @@ namespace New
         QRectF m_boundingRect;
         /// The shape of this AssociationLine.
         QPainterPath m_shape;
+        /// The line used to represent Association class.
+        QGraphicsLineItem *m_associationClassLine;
         QGraphicsLineItem *tracker;
 
         /// The default delta for fuzzy recognition of points closer to point.

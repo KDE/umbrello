@@ -15,6 +15,7 @@
 #include "linkwidget.h"
 #include "widgetbase.h"
 
+class ClassifierWidget;
 class FloatingTextWidget;
 class UMLAssociation;
 class UMLAttribute;
@@ -82,20 +83,36 @@ namespace New
 
         bool isEqual(New::AssociationWidget *other) const;
 
+        FloatingTextWidget* multiplicityWidget(Uml::Role_Type role) const;
         QString multiplicity(Uml::Role_Type role) const;
         void setMultiplicity(const QString& text, Uml::Role_Type role);
 
         Uml::Visibility visibility(Uml::Role_Type role) const;
         void setVisibility(Uml::Visibility v, Uml::Role_Type role);
 
+        FloatingTextWidget* changeabilityWidget(Uml::Role_Type role) const;
         Uml::Changeability_Type changeability(Uml::Role_Type role) const;
         void setChangeability(Uml::Changeability_Type c, Uml::Role_Type role);
-        void setChangeWidget(const QString &strChangeWidget, Uml::Role_Type role);
 
+        FloatingTextWidget* nameWidget() const;
+
+        FloatingTextWidget* roleWidget(Uml::Role_Type role) const;
+        QString roleName(Uml::Role_Type role) const;
         void setRoleName (const QString &strRole, Uml::Role_Type role);
+
+        QString roleDocumentation(Uml::Role_Type role) const;
+        void setRoleDocumentation(const QString& doc, Uml::Role_Type role);
+
+        bool associates(UMLWidget *a, UMLWidget *b) const;
+        bool containsWidget(UMLWidget *widget) const;
+
+        FloatingTextWidget* textWidgetByRole(Uml::Text_Role tr) const;
 
         Uml::Role_Type roleForWidget(UMLWidget *widget) const;
         bool isSelf() const;
+
+        ClassifierWidget* associationClass() const;
+        void setAssociationClass(ClassifierWidget *classifier);
 
         UMLWidget* widgetForRole(Uml::Role_Type role) const;
         void setWidgetForRole(UMLWidget *widget, Uml::Role_Type role);
@@ -105,11 +122,9 @@ namespace New
 
         bool isCollaboration() const;
 
-        ////////////////////////////////////////////////
-        New::AssociationLine* associationLine() const {
-            return m_associationLine;
-        }
-        ///////////////////////////////////////////////
+        QString toString() const;
+
+        New::AssociationLine* associationLine() const;
 
         virtual QRectF boundingRect() const;
         virtual QPainterPath shape() const;
@@ -143,6 +158,7 @@ namespace New
         friend class New::AssociationLine;
 
         New::AssociationLine *m_associationLine;
+        ClassifierWidget *m_associationClass;
         WidgetRole m_widgetRole[2];
         FloatingTextWidget *m_nameWidget;
 

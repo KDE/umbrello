@@ -12,10 +12,12 @@
 #include "newlinepath.h"
 
 #include "associationspacemanager.h"
+#include "classifierwidget.h"
 #include "newassociationwidget.h"
 #include "umlwidget.h"
 
 // qt includes
+#include <QtGui/QGraphicsLineItem>
 #include <QtGui/QGraphicsSceneMouseEvent>
 #include <QtGui/QGraphicsScene>
 #include <QtGui/QPainter>
@@ -283,6 +285,7 @@ namespace New
         Q_ASSERT(assoc);
         m_activePointIndex = m_activeSegmentIndex = -1;
         m_startSymbol = m_endSymbol = m_subsetSymbol = 0;
+        m_associationClassLine = 0;
         // This tracker is only for debugging and testing purpose.
         tracker = new QGraphicsLineItem;
         tracker->setPen(QPen(Qt::darkBlue, 1));
@@ -659,6 +662,10 @@ namespace New
         if (m_subsetSymbol) {
             m_subsetSymbol->setPen(changedPen);
         }
+        if (m_associationClassLine) {
+            changedPen.setStyle(Qt::DashLine);
+            m_associationClassLine->setPen(changedPen);
+        }
         calculateBoundingRect();
     }
 
@@ -893,7 +900,7 @@ namespace New
      * @short A helper method to return the region of rect intersected by line.
      */
     static Uml::Region intersectedRegion(const QRectF& rect,
-            const QLineF& line)
+            const QLineF& line, QPointF *intersectionPoint = 0)
     {
         // This maps the region of rect to QLineF objects representing rects' edges.
         QMap<Uml::Region, QLineF> rectLines;
@@ -906,29 +913,52 @@ namespace New
 
         // This holds whether a given rect edge(represented by QLineF
         // objects) is intersected by line.
-        QMap<Uml::Region, bool> intersectionMap;
+        typedef QPair<bool, QPointF> BoolPointPair;
+
+        QMap<Uml::Region, BoolPointPair> intersectionMap;
         for (int i = Uml::reg_West; i <= Uml::reg_South; ++i) {
             Uml::Region r = (Uml::Region)i;
-            QPointF temp;
-            intersectionMap[r] = (line.intersect(rectLines[r], &temp) ==
+
+            BoolPointPair value;
+            value.first = (line.intersect(rectLines[r], &value.second) ==
                     QLineF::BoundedIntersection);
+            intersectionMap[r] = value;
         }
 
-        // Do intersection mapping separately for corner regions.
-        intersectionMap[Uml::reg_NorthWest] = (intersectionMap[Uml::reg_North] == true
-                && intersectionMap[Uml::reg_West] == true);
-        intersectionMap[Uml::reg_NorthEast] = (intersectionMap[Uml::reg_North] == true
-                && intersectionMap[Uml::reg_East] == true);
-        intersectionMap[Uml::reg_SouthWest] = (intersectionMap[Uml::reg_South] == true
-                && intersectionMap[Uml::reg_West] == true);
-        intersectionMap[Uml::reg_SouthEast] = (intersectionMap[Uml::reg_South] == true
-                && intersectionMap[Uml::reg_East] == true);
+        {
+            // Do intersection mapping separately for corner regions.
+            BoolPointPair value;
+
+            value.first = intersectionMap[Uml::reg_North].first == true
+                          && intersectionMap[Uml::reg_West].first == true;
+            value.second = rect.topLeft();
+            intersectionMap[Uml::reg_NorthWest] = value;
+
+            value.first = intersectionMap[Uml::reg_North].first == true
+                          && intersectionMap[Uml::reg_East].first == true;
+            value.second = rect.topRight();
+            intersectionMap[Uml::reg_NorthEast] = value;
+
+            value.first = intersectionMap[Uml::reg_South].first == true
+                          && intersectionMap[Uml::reg_West].first == true;
+            value.second = rect.bottomLeft();
+            intersectionMap[Uml::reg_SouthWest] = value;
+
+            value.first = intersectionMap[Uml::reg_South].first == true
+                          && intersectionMap[Uml::reg_East].first == true;
+            value.second = rect.bottomRight();
+            intersectionMap[Uml::reg_SouthEast] = value;
+        }
 
         Uml::Region intersection = Uml::reg_Error;
         for (int i = Uml::reg_West; i <= Uml::reg_SouthWest; ++i) {
             const Uml::Region reg = (Uml::Region)i;
-            if (intersectionMap[reg] == true) {
+            BoolPointPair value = intersectionMap[reg];
+            if (value.first == true) {
                 intersection = reg;
+                if (intersectionPoint) {
+                    *intersectionPoint = value.second;
+                }
             }
         }
 
@@ -1071,6 +1101,52 @@ namespace New
             setEndPoints(QPointF(), QPointF());
         }
         calculateEndPoints();
+    }
+
+    /**
+     * This method calculates the line to represent association class if
+     * the AssociationWidget represented by this line is an Association
+     * class.
+     */
+    void AssociationLine::calculateAssociationClassLine()
+    {
+        ClassifierWidget* assocClass = m_associationWidget->associationClass();
+        if (!assocClass) {
+            delete m_associationClassLine;
+            m_associationClassLine = 0;
+            return;
+        }
+
+        QPointF other = assocClass->sceneRect().center();
+
+        QLineF possibleAssocLine;
+
+        int numSegments = count()-1;
+        for (int i = 0; i < numSegments; ++i) {
+            QPointF mid = (m_points.at(i) + m_points.at(i+1)) * 0.5;
+            mid = m_associationWidget->mapToScene(mid);
+            QLineF newLine(mid, other);
+
+            if (possibleAssocLine.isNull() ||
+                    (newLine.length() < possibleAssocLine.length())) {
+                possibleAssocLine = newLine;
+            }
+        }
+
+        if (!m_associationClassLine) {
+            m_associationClassLine = new QGraphicsLineItem(0);
+
+            QPen p = pen();
+            p.setStyle(Qt::DashLine);
+            m_associationClassLine->setPen(p);
+        }
+
+        QPointF intersectionPoint;
+        intersectedRegion(assocClass->sceneRect(), possibleAssocLine,
+            &intersectionPoint);
+        possibleAssocLine.setP2(intersectionPoint);
+
+        m_associationClassLine->setLine(possibleAssocLine);
     }
 
     /**

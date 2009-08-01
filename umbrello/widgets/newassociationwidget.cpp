@@ -16,6 +16,7 @@
 #include "associationspacemanager.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "classifierwidget.h"
 #include "entity.h"
 #include "floatingtextwidget.h"
 #include "newlinepath.h"
@@ -47,6 +48,7 @@ namespace New
     {
         m_baseType = Uml::wt_Association;
         m_associationType = Uml::at_Association;
+        m_associationClass = 0;
         m_associationLine = new New::AssociationLine(this);
         m_nameWidget = 0;
         setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
@@ -58,6 +60,7 @@ namespace New
         m_associationType(type)
     {
         m_baseType = Uml::wt_Association;
+        m_associationClass = 0;
         m_associationLine = new New::AssociationLine(this);
         m_nameWidget = 0;
 
@@ -354,6 +357,11 @@ namespace New
 
     }
 
+    FloatingTextWidget* AssociationWidget::multiplicityWidget(Uml::Role_Type role) const
+    {
+        return m_widgetRole[role].multiplicityWidget;
+    }
+
     QString AssociationWidget::multiplicity(Uml::Role_Type role) const
     {
         FloatingTextWidget *wid = m_widgetRole[role].multiplicityWidget;
@@ -407,6 +415,11 @@ namespace New
         }
     }
 
+    FloatingTextWidget* AssociationWidget::changeabilityWidget(Uml::Role_Type role) const
+    {
+        return m_widgetRole[role].changeabilityWidget;
+    }
+
     Uml::Changeability_Type AssociationWidget::changeability(Uml::Role_Type role) const
     {
         if (!association()) {
@@ -425,39 +438,24 @@ namespace New
             association()->setChangeability(c, role);
         }
         m_widgetRole[role].changeability = c;
-        // update our string representation
-        setChangeWidget(changeString, role);
     }
 
-    void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Role_Type role)
+    FloatingTextWidget* AssociationWidget::nameWidget() const
     {
-        bool newLabel = false;
-        Uml::Text_Role tr = (role == Uml::A ? Uml::tr_ChangeA : Uml::tr_ChangeB);
+        return m_nameWidget;
+    }
 
-        FloatingTextWidget *&chgWidget = m_widgetRole[role].changeabilityWidget;
-        if(!chgWidget) {
-            // Don't construct the FloatingTextWidget if the string is empty.
-            if (strChangeWidget.isEmpty())
-                return;
+    FloatingTextWidget* AssociationWidget::roleWidget(Uml::Role_Type role) const
+    {
+        return m_widgetRole[role].roleWidget;
+    }
 
-            newLabel = true;
-            chgWidget = new FloatingTextWidget(tr);
-            chgWidget->setText(strChangeWidget);
-            chgWidget->setLink(this);
-            chgWidget->setPreText("{"); // all types have this
-            chgWidget->setPostText("}"); // all types have this
-        } else {
-            if (chgWidget->text().isEmpty()) {
-                newLabel = true;
-            }
-            chgWidget->setText(strChangeWidget);
+    QString AssociationWidget::roleName(Uml::Role_Type role) const
+    {
+        if (m_widgetRole[role].roleWidget) {
+            return m_widgetRole[role].roleWidget->text();
         }
-
-        if (newLabel) {
-            setTextPosition( tr );
-        }
-
-        chgWidget->setVisible(FloatingTextWidget::isTextValid(chgWidget->text()));
+        return QString();
     }
 
     void AssociationWidget::setRoleName (const QString &strRole, Uml::Role_Type role)
@@ -486,6 +484,70 @@ namespace New
         }
     }
 
+    QString AssociationWidget::roleDocumentation(Uml::Role_Type role) const
+    {
+        UMLAssociation *umlAssoc = association();
+        if (!umlAssoc) {
+            return QString();
+        }
+        return umlAssoc->getRoleDoc(role);
+    }
+
+    void AssociationWidget::setRoleDocumentation(const QString& doc, Uml::Role_Type role)
+    {
+        UMLAssociation *umlAssoc = association();
+        if (!umlAssoc) {
+            m_widgetRole[role].roleDocumentation = doc;
+        } else {
+            umlAssoc->setRoleDoc(doc, role);
+        }
+    }
+
+    bool AssociationWidget::associates(UMLWidget *a, UMLWidget *b) const
+    {
+        Q_ASSERT(a != 0);
+        Q_ASSERT(b != 0);
+        return widgetForRole(Uml::A) == a && widgetForRole(Uml::B) == b;
+    }
+
+    bool AssociationWidget::containsWidget(UMLWidget *widget) const
+    {
+        Q_ASSERT(widget != 0);
+        return widgetForRole(Uml::A) == widget || widgetForRole(Uml::B) == widget;
+    }
+
+    FloatingTextWidget* AssociationWidget::textWidgetByRole(Uml::Text_Role tr) const
+    {
+        switch (tr) {
+            case Uml::tr_MultiA:
+                return m_widgetRole[Uml::A].multiplicityWidget;
+
+            case Uml::tr_MultiB:
+                return m_widgetRole[Uml::B].multiplicityWidget;
+
+            case Uml::tr_Name:
+            case Uml::tr_Coll_Message:
+                return m_nameWidget;
+
+            case Uml::tr_RoleAName:
+                return m_widgetRole[Uml::A].roleWidget;
+
+            case Uml::tr_RoleBName:
+                return m_widgetRole[Uml::B].roleWidget;
+
+            case Uml::tr_ChangeA:
+                return m_widgetRole[Uml::A].changeabilityWidget;
+
+            case Uml::tr_ChangeB:
+                return m_widgetRole[Uml::B].changeabilityWidget;
+
+            default:
+                break;
+        }
+
+        return 0;
+    }
+
     Uml::Role_Type AssociationWidget::roleForWidget(UMLWidget *widget) const
     {
         if (m_widgetRole[Uml::A].umlWidget == widget) {
@@ -501,6 +563,17 @@ namespace New
     bool AssociationWidget::isSelf() const
     {
         return widgetForRole(Uml::A) == widgetForRole(Uml::B);
+    }
+
+    ClassifierWidget* AssociationWidget::associationClass() const
+    {
+        return m_associationClass;
+    }
+
+    void AssociationWidget::setAssociationClass(ClassifierWidget *classifier)
+    {
+        m_associationClass = classifier;
+        m_associationLine->calculateAssociationClassLine();
     }
 
     UMLWidget* AssociationWidget::widgetForRole(Uml::Role_Type role) const
@@ -548,8 +621,8 @@ namespace New
             if (b.roleWidget) {
                 b.roleWidget->setName("");
             }
-            //setRoleDocumentation("", Uml::A);
-            //setRoleDocumentation("", Uml::B);
+            setRoleDocumentation("", Uml::A);
+            setRoleDocumentation("", Uml::B);
         }
     }
 
@@ -557,6 +630,41 @@ namespace New
     {
         Uml::Association_Type at = associationType();
         return (at == Uml::at_Coll_Message || at == Uml::at_Coll_Message_Self);
+    }
+
+    QString AssociationWidget::toString() const
+    {
+        QString string;
+        static const QChar colon(':');
+
+
+        if (widgetForRole(Uml::A)) {
+            string = widgetForRole(Uml::A)->name();
+        }
+        string.append(colon);
+
+        if (m_widgetRole[Uml::A].roleWidget) {
+            string += m_widgetRole[Uml::A].roleWidget->text();
+        }
+        string.append(colon);
+        string.append( UMLAssociation::toString(associationType()));
+        string.append(colon);
+
+        if (widgetForRole(Uml::B)) {
+            string += widgetForRole(Uml::B)->name();
+        }
+
+        string.append(colon);
+        if (m_widgetRole[Uml::B].roleWidget) {
+            string += m_widgetRole[Uml::B].roleWidget->text();
+        }
+
+        return string;
+    }
+
+    New::AssociationLine* AssociationWidget::associationLine() const
+    {
+        return m_associationLine;
     }
 
     QRectF AssociationWidget::boundingRect() const
@@ -567,6 +675,11 @@ namespace New
     QPainterPath AssociationWidget::shape() const
     {
         return m_associationLine->shape();
+    }
+
+    void AssociationWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget *)
+    {
+        m_associationLine->paint(painter, opt);
     }
 
     /**
@@ -593,11 +706,6 @@ namespace New
             setRoleName(attr->getName(), Uml::B);
         }
         WidgetBase::slotUMLObjectDataChanged();
-    }
-
-    void AssociationWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget *)
-    {
-        m_associationLine->paint(painter, opt);
     }
 
     void AssociationWidget::updateGeometry()
@@ -765,6 +873,7 @@ namespace New
         if (! FloatingTextWidget::isTextValid(text)) {
             if (ft) {
                 // Remove preexisting FloatingTextWidget
+                // TODO: Don't delete to make it undo friendly
                 delete ft;
                 ft = 0;
             }
@@ -789,7 +898,6 @@ namespace New
         Q_UNUSED(tr);
         // TODO: Implement this stub
     }
-
 
 #include "newassociationwidget.moc"
 }
