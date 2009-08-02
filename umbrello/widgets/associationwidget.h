@@ -49,6 +49,8 @@ class AssociationWidget : public WidgetBase, public LinkWidget
                 UMLWidget *widgetB, UMLObject *obj = 0);
         virtual ~AssociationWidget();
 
+        virtual void setUMLObject(UMLObject *obj);
+
         //---------- LinkWidget Interface methods implemementation from now on.
 
         virtual void lwSetFont (QFont font);
@@ -133,8 +135,8 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual bool loadFromXMI(QDomElement& element);
         bool loadFromXMI(const QDomElement& element, UMLWidgetList &list);
 
-        protected Q_SLOTS:
-            virtual void slotUMLObjectDataChanged();
+    protected Q_SLOTS:
+        virtual void slotUMLObjectDataChanged();
 
     protected:
         virtual void updateGeometry();
@@ -150,7 +152,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
         virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
-        virtual void setUMLObject(UMLObject *obj);
+        virtual void sceneSetFirstTime();
         virtual void umlObjectChanged(UMLObject *old);
 
     private:
@@ -166,6 +168,8 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         FloatingTextWidget *m_nameWidget;
 
         Uml::Association_Type m_associationType;
+        bool m_setCollabIDOnFirstSceneSet;
 };
 
 #endif
+

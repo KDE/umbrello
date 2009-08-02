@@ -158,7 +158,14 @@ UMLClassifier *MessageWidget::getOperationOwner()
  */
 UMLOperation *MessageWidget::getOperation()
 {
-    return static_cast<UMLOperation*>(umlObject());
+    if (umlObject()) {
+        if (umlObject()->getBaseType() == Uml::ot_Operation) {
+            return static_cast<UMLOperation*>(umlObject());
+        }
+        uDebug() << "umlObject() is not null and is not an operation";
+    }
+
+    return 0;
 }
 
 /**

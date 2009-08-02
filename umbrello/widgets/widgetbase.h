@@ -88,7 +88,7 @@ public:
     virtual ~WidgetBase();
 
     UMLObject* umlObject() const;
-    void setUMLObject(UMLObject *obj);
+    virtual void setUMLObject(UMLObject *obj);
 
     Uml::IDType id() const;
     void setID(Uml::IDType id);

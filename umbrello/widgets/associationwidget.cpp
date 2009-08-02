@@ -22,6 +22,7 @@
 #include "floatingtextwidget.h"
 #include "objectwidget.h"
 #include "operation.h"
+#include "umldoc.h"
 #include "umlscene.h"
 #include "umlwidget.h"
 
@@ -49,6 +50,7 @@ AssociationWidget::AssociationWidget() : WidgetBase(0)
     m_associationClass = 0;
     m_associationLine = new AssociationLine(this);
     m_nameWidget = 0;
+    m_setCollabIDOnFirstSceneSet = false;
     setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
 }
 
@@ -69,11 +71,32 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
         UMLObject *objectB = widgetB->umlObject();
 
         if (objectA && objectB) {
-            // TODO: Check for already existing association of
-            //       same type between same two widgets. (better
-            //       to check before creation rather than here.)
+             bool swap = false;
 
-            setUMLObject(new UMLAssociation(type, objectA, objectB));
+             // THis isnt correct. We could very easily have more than one
+             // of the same type of association between the same two objects.
+             // Just create the association. This search should have been
+             // done BEFORE creation of the widget, if it mattered to the code.
+             // But lets leave check in here for the time being so that debugging
+             // output is shown, in case there is a collision with code elsewhere.
+             UMLAssociation * myAssoc = umlDoc()->findAssociation(type,
+                    objectA, objectB, &swap);
+             if (myAssoc) {
+                 if (type == Uml::at_Generalization) {
+                     uDebug() << "Ignoring second construction of same generalization";
+                 } else {
+                     uDebug() << "Constructing a similar or exact same assoc " <<
+                         "as an already existing assoc (swap=" << swap << ")";
+                     // now, just create a new association anyways
+                     myAssoc = 0;
+                 }
+             }
+
+             if (!myAssoc) {
+                myAssoc = new UMLAssociation(type, objectA, objectB);
+             }
+
+             setUMLObject(myAssoc);
         }
     }
 
@@ -95,17 +118,17 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
     m_associationLine->calculateInitialEndPoints();
     m_associationLine->setupSymbols();
 
+
     Q_ASSERT(widgetA->umlScene() == widgetB->umlScene());
 
-    if (isCollaboration()) {
-        UMLScene *scene = widgetA->umlScene();
-        if (scene) {
-            int collabID = scene->generateCollaborationId();
-            setName('m' + QString::number(collabID));
-        } else {
-            uError() << "The UMLWidget's to be associated are not yet on a UMLScene";
-            uError() << "No collaboration id assigned";
-        }
+    if (!isCollaboration()) {
+        m_setCollabIDOnFirstSceneSet = false;
+        setActivatedFlag(true);
+    } else {
+        // Activation flag is set in AssociationWidget::sceneSetFirstTime as
+        // generation of collaboration id requrires this widget to be on
+        // UMLScene.
+        m_setCollabIDOnFirstSceneSet = true;
     }
 
     setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
@@ -114,6 +137,63 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
 AssociationWidget::~AssociationWidget()
 {
     delete m_associationLine;
+}
+
+/**
+ * Reimplemented to do more checks and changes while setting a new UMLObject.
+ * The old UMLObject's connectivity is removed in @ref umlObjectChanged method, which is
+ * invoked by WidgetBase::setUMLObject.
+ */
+void AssociationWidget::setUMLObject(UMLObject *obj)
+{
+    if (obj == umlObject()) {
+        return;
+    }
+    if (!obj) {
+        WidgetBase::setUMLObject(0);
+        return;
+    }
+
+    const Uml::Object_Type ot = obj->getBaseType();
+    if (ot == Uml::ot_Association) {
+
+        UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
+        if (assoc->nrof_parent_widgets < 0) {
+            assoc->nrof_parent_widgets = 0;
+        }
+        assoc->nrof_parent_widgets++;
+
+    } else if (ot == Uml::ot_Operation) {
+
+        // Nothing special to do.
+
+    } else if (ot == Uml::ot_Attribute) {
+
+        UMLClassifier *klass = static_cast<UMLClassifier*>(obj->parent());
+        connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
+                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+        // attributeChanged is emitted along with modified signal. So its not
+        // necessary to handle attributeChanged signal.
+
+    } else if (ot == Uml::ot_EntityAttribute) {
+
+        UMLEntity *ent = static_cast<UMLEntity*>(obj->parent());
+        connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
+                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+
+    } else if (ot == Uml::ot_ForeignKeyConstraint) {
+
+        UMLEntity *ent = static_cast<UMLEntity*>(obj->parent());
+        connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
+                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
+
+    } else {
+
+        uError() << "UMLAssociation constructor: cannot associate UMLObject of type " << ot;
+
+    }
+
+    WidgetBase::setUMLObject(obj);
 }
 
 void AssociationWidget::lwSetFont(QFont font)
@@ -789,61 +869,15 @@ void AssociationWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     m_associationLine->hoverLeaveEvent(event);
 }
 
-/**
- * Reimplemented to do more checks and changes while setting a new UMLObject.
- * The old UMLObject's connectivity is removed in @ref umlObjectChanged method, which is
- * invoked by WidgetBase::setUMLObject.
- */
-void AssociationWidget::setUMLObject(UMLObject *obj)
+void AssociationWidget::sceneSetFirstTime()
 {
-    if (obj == umlObject()) {
-        return;
+    if (m_setCollabIDOnFirstSceneSet) {
+        Q_ASSERT(isCollaboration());
+        int collabID = umlScene()->generateCollaborationId();
+        setName('m' + QString::number(collabID));
+        m_setCollabIDOnFirstSceneSet = false; //reset flag
+        setActivatedFlag(true); // Now activate it.
     }
-    if (!obj) {
-        WidgetBase::setUMLObject(0);
-        return;
-    }
-
-    const Uml::Object_Type ot = obj->getBaseType();
-    if (ot == Uml::ot_Association) {
-
-        UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
-        if (assoc->nrof_parent_widgets < 0) {
-            assoc->nrof_parent_widgets = 0;
-        }
-        assoc->nrof_parent_widgets++;
-
-    } else if (ot == Uml::ot_Operation) {
-
-        // Nothing special to do.
-
-    } else if (ot == Uml::ot_Attribute) {
-
-        UMLClassifier *klass = static_cast<UMLClassifier*>(obj->parent());
-        connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
-                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
-        // attributeChanged is emitted along with modified signal. So its not
-        // necessary to handle attributeChanged signal.
-
-    } else if (ot == Uml::ot_EntityAttribute) {
-
-        UMLEntity *ent = static_cast<UMLEntity*>(obj->parent());
-        connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
-                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
-
-    } else if (ot == Uml::ot_ForeignKeyConstraint) {
-
-        UMLEntity *ent = static_cast<UMLEntity*>(obj->parent());
-        connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
-                this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
-
-    } else {
-
-        uError() << "UMLAssociation constructor: cannot associate UMLObject of type " << ot;
-
-    }
-
-    WidgetBase::setUMLObject(obj);
 }
 
 /**
