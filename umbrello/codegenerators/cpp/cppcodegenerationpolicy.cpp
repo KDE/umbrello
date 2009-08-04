@@ -204,6 +204,17 @@ void CPPCodeGenerationPolicy::setVectorClassNameInclude(const QString &value)
     UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
 }
 
+void CPPCodeGenerationPolicy::setDocToolTag(const QString &value)
+{
+    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.docToolTag = value;
+    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+}
+
+QString CPPCodeGenerationPolicy::getDocToolTag()
+{
+    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.docToolTag;
+}
+
 /**
  * Determine if the string include is global.
  * @return value of flag
@@ -319,6 +330,7 @@ void CPPCodeGenerationPolicy::setDefaults ( CPPCodeGenerationPolicy * cppclone, 
         setVectorClassName(cppclone->getVectorClassName());
         setVectorClassNameInclude(cppclone->getVectorClassNameInclude());
         setVectorIncludeIsGlobal(cppclone->vectorIncludeIsGlobal());
+        setDocToolTag(cppclone->getDocToolTag());
     }
 
     blockSignals(false); // "as you were citizen"
@@ -352,6 +364,7 @@ void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     setVectorClassName(UmbrelloSettings::vectorClassName());
     setVectorClassNameInclude(UmbrelloSettings::vectorClassNameInclude());
     setVectorIncludeIsGlobal(UmbrelloSettings::vectorIncludeIsGlobal());
+    setDocToolTag(UmbrelloSettings::docToolTag());
 
     blockSignals(false); // "as you were citizen"
 

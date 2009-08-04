@@ -65,6 +65,9 @@ public:
     void setVectorClassNameInclude(const QString &value);
     QString getVectorClassNameInclude();
 
+    void setDocToolTag(const QString &value);
+    QString getDocToolTag();
+
     void setStringIncludeIsGlobal (bool value);
     bool stringIncludeIsGlobal ();
 

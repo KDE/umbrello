@@ -40,6 +40,7 @@ CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage( QWidget *parent, const
     form->setOperationsAreInline(policy->getOperationsAreInline());
     form->setAccessorsAreInline(policy->getAccessorsAreInline());
     form->setAccessorsArePublic(policy->getAccessorsArePublic());
+    form->setDocToolTag(policy->getDocToolTag());
 
     form->ui_stringClassHCombo->setCurrentItem(policy->getStringClassName(),true);
     form->ui_listClassHCombo->setCurrentItem(policy->getVectorClassName(),true);
@@ -78,6 +79,7 @@ void CPPCodeGenerationPolicyPage::apply()
     parent->setAccessorsAreInline(form->getAccessorsAreInline());
     parent->setOperationsAreInline(form->getOperationsAreInline());
     parent->setAccessorsArePublic(form->getAccessorsArePublic());
+    parent->setDocToolTag(form->getDocToolTag());
 
     parent->setStringClassName(form->ui_stringClassHCombo->currentText());
     parent->setStringClassNameInclude(form->ui_stringIncludeFileHistoryCombo->currentText());

@@ -63,6 +63,10 @@ CPPCodeGenerationForm::CPPCodeGenerationForm( QWidget *parent, const char *name 
         new QListWidgetItem(tr2i18n("Accessors are public"), ui_generalOptionsListWidget);
     m_optionAccessorsArePublic->setFlags(flags);
 
+    m_optionDocToolTag =
+        new QListWidgetItem(tr2i18n("Use '\\' as documentation tag instead of '@'"), ui_generalOptionsListWidget);
+    m_optionDocToolTag->setFlags(flags);
+    
     connect(ui_generalOptionsListWidget,
             SIGNAL(itemClicked(QListWidgetItem *)), this,
             SLOT(generalOptionsListWidgetClicked(QListWidgetItem *)));
@@ -240,6 +244,15 @@ void CPPCodeGenerationForm::setAccessorsArePublic(bool bFlag)
 }
 
 /**
+ * Set the doc display state of option "Doc Tool Tag".
+ * @param value   the value of the tag
+ */
+void CPPCodeGenerationForm::setDocToolTag(const QString &value)
+{
+    m_optionDocToolTag->setCheckState(toCheckState(value == QLatin1String("\\")));
+}
+
+/**
  * Get the display state of option "Package Is Namespace".
  * @return   the state of the flag
  */
@@ -300,6 +313,11 @@ bool CPPCodeGenerationForm::getAccessorsAreInline()
 bool CPPCodeGenerationForm::getAccessorsArePublic()
 {
     return m_optionAccessorsArePublic->checkState() == Qt::Checked;
+}
+
+QString CPPCodeGenerationForm::getDocToolTag()
+{
+    return m_optionDocToolTag->checkState() == Qt::Checked ? QLatin1String("\\") : QLatin1String("@");
 }
 
 /**

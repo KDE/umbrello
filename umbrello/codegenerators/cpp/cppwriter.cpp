@@ -833,7 +833,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
     QString returnVarName = policyExt()->getVectorClassName() + '<' + className + '>';
     writeDocumentation("Get the list of " + fldName + " objects held by " + fieldVarName,
                        description,
-                       "@return " + returnVarName + " list of " + fldName + " objects held by " + fieldVarName,
+                       policyExt()->getDocToolTag() + "return " + returnVarName + " list of " + fldName + " objects held by " + fieldVarName,
                        stream);
     stream << indent << returnVarName << " ";
     if(!isHeaderMethod)
@@ -869,7 +869,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
 
     // set method
     if (change == Uml::chg_Changeable && !isStatic) {
-        writeDocumentation("Set the value of " + fieldVarName,description,"@param new_var the new value of " + fieldVarName,stream);
+        writeDocumentation("Set the value of " + fieldVarName,description,policyExt()->getDocToolTag() + "param new_var the new value of " + fieldVarName,stream);
         stream << indent << "void ";
         if(!isHeaderMethod)
             stream << className_ << "::";
@@ -889,7 +889,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
     }
 
     // get method
-    writeDocumentation("Get the value of " + fieldVarName,description,"@return the value of " + fieldVarName,stream);
+    writeDocumentation("Get the value of " + fieldVarName,description,policyExt()->getDocToolTag() + "return the value of " + fieldVarName,stream);
     stream << indent << className << " ";
     if (!isHeaderMethod)
         stream << className_ << "::";
@@ -1074,7 +1074,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         } else {
             methodReturnType = fixTypeName(op->getTypeName());
             if(methodReturnType != "void")
-                doc += "@return " + methodReturnType + '\n';
+                doc += policyExt()->getDocToolTag() + "return " + methodReturnType + '\n';
         }
 
         QString str;
@@ -1109,7 +1109,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
                 str += " = " + initVal;
             if (j < ( uint )( atl.count() - 1 ))
                 str += ", ";
-            doc += "@param  " + atName + ' ' + at->getDoc() + m_endl;
+            doc += policyExt()->getDocToolTag() + "param  " + atName + ' ' + at->getDoc() + m_endl;
         }
         doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
         str += " )";

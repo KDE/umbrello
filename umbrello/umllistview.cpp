@@ -1227,6 +1227,8 @@ void UMLListView::init()
 {
     if (m_rv == 0) {
         m_rv =  new UMLListViewItem(this, i18n("Views"), Uml::lvt_View);
+        m_rv->setID("Views");
+
         for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
             Uml::Model_Type mt = (Uml::Model_Type)i;
             UMLFolder *sysFolder = m_doc->getRootFolder(mt);

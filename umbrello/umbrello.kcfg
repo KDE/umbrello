@@ -387,6 +387,11 @@
          <whatsthis>Enables/Disables virtual destructors</whatsthis>
          <default>true</default>
        </entry>
+       <entry name="docToolTag" type="String">
+         <label>Documentation tags</label>
+         <whatsthis>The tag used for generating doxygen documentation (\\, @)</whatsthis>
+         <default>@</default>
+       </entry>
     </group>
     <group name="D Code Generation">
        <entry name="autoGenerateAttributeAccessorsD" key="autoGenerateAttributeAccessors" type="Bool">
