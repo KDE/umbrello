@@ -17,6 +17,7 @@
 #include "widgetbase.h"
 
 class AssociationLine;
+class AssociationWidget;
 class ClassifierWidget;
 class FloatingTextWidget;
 class UMLAssociation;
@@ -38,6 +39,8 @@ struct WidgetRole
 
     WidgetRole();
     ~WidgetRole();
+
+    void initFloatingWidgets(Uml::Role_Type role, AssociationWidget *parent);
 };
 
 class AssociationWidget : public WidgetBase, public LinkWidget
@@ -128,6 +131,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 
         AssociationLine* associationLine() const;
 
+        virtual void activate();
         virtual QRectF boundingRect() const;
         virtual QPainterPath shape() const;
         virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget*);
@@ -156,9 +160,11 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual void umlObjectChanged(UMLObject *old);
 
     private:
+        void init();
         void setFloatingText(Uml::Text_Role tr, const QString& text,
                 FloatingTextWidget* &ft);
         void setTextPosition(Uml::Text_Role tr);
+        void updateNameWidgetRole();
 
         friend class AssociationLine;
 

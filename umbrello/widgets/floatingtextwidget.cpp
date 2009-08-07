@@ -62,6 +62,7 @@ FloatingTextWidget::FloatingTextWidget(Uml::Text_Role role,
     setMargin(0);
     createTextItemGroup(); // Create a group to store text.
     setZValue(10); //make sure always on top.
+    hide();
 }
 
 FloatingTextWidget::~FloatingTextWidget()
@@ -113,6 +114,8 @@ void FloatingTextWidget::setText(const QString &t)
 
     // The text is stored in the "name" string provided by the base.
     setName(text);
+    // Hide/Show this widget if its <Empty>/<Non Empty>
+    setVisible(!text.isEmpty());
 }
 
 /**

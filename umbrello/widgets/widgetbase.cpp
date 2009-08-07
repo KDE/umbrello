@@ -836,8 +836,11 @@ void WidgetBase::slotInit()
     attributeChange(FontColorHasChanged, v);
     attributeChange(BrushHasChanged, v);
 
-    // Now show the item
-    show();
+    // Now show the item (Ugly hack to prevent floatingtext widget from showing up
+    // until sane text is set on it)
+    if (baseType() != Uml::wt_Text) {
+        show();
+    }
     // Now just update the geometry for the first ever time after it is shown.
     updateGeometry();
     // Now invoke the virtual delayedInitialize() for subclasses to do more initialization.

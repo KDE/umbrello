@@ -18,6 +18,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "classifierwidget.h"
+#include "dialogs/assocpropdlg.h"
 #include "entity.h"
 #include "floatingtextwidget.h"
 #include "objectwidget.h"
@@ -25,6 +26,9 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlwidget.h"
+#include "umlview.h"
+
+#include <QPointer>
 
 WidgetRole::WidgetRole()
 {
@@ -42,28 +46,36 @@ WidgetRole::~WidgetRole()
     //    WidgetRole and hence not deleted either.
 }
 
+void WidgetRole::initFloatingWidgets(Uml::Role_Type role, AssociationWidget *parent)
+{
+    Uml::Text_Role textRole = (role == Uml::A ? Uml::tr_MultiA : Uml::tr_MultiB);
+    multiplicityWidget = new FloatingTextWidget(textRole);
+    multiplicityWidget->setLink(parent);
+
+    textRole = (role == Uml::A ? Uml::tr_ChangeA : Uml::tr_ChangeB);
+    changeabilityWidget = new FloatingTextWidget(textRole);
+    changeabilityWidget->setPreText("{");
+    changeabilityWidget->setPostText("}");
+    changeabilityWidget->setLink(parent);
+
+    textRole = (role == Uml::A ? Uml::tr_RoleAName : Uml::tr_RoleBName);
+    roleWidget = new FloatingTextWidget(textRole);
+    roleWidget->setLink(parent);
+
+    // TODO: Activation of floating text widgets
+}
+
 
 AssociationWidget::AssociationWidget() : WidgetBase(0)
 {
-    m_baseType = Uml::wt_Association;
-    m_associationType = Uml::at_Association;
-    m_associationClass = 0;
-    m_associationLine = new AssociationLine(this);
-    m_nameWidget = 0;
-    m_setCollabIDOnFirstSceneSet = false;
-    setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
+    init();
 }
 
 AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type type,
         UMLWidget *widgetB, UMLObject *umlObj) :
-    WidgetBase(umlObj),
-    m_associationType(type)
+    WidgetBase(0) // Set UMLObject in body
 {
-    m_baseType = Uml::wt_Association;
-    m_associationClass = 0;
-    m_associationLine = new AssociationLine(this);
-    m_nameWidget = 0;
-
+    init();
     if (umlObj) {
         setUMLObject(umlObj);
     } else if (UMLAssociation::assocTypeHasUMLRepresentation(type)) {
@@ -130,8 +142,7 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
         // UMLScene.
         m_setCollabIDOnFirstSceneSet = true;
     }
-
-    setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
+    updateNameWidgetRole();
 }
 
 AssociationWidget::~AssociationWidget()
@@ -303,35 +314,38 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
 
 bool AssociationWidget::showDialog()
 {
-    //TODO: Port the following after New::AssociationWidget replaces AssociationWidget.
-    /*
-       AssocPropDlg dlg(static_cast<QWidget*>(m_pView), this );
-       if (! dlg.exec())
-       return false;
-       QString name = getName();
-       QString doc = getDoc();
-       QString roleADoc = getRoleDoc(A), roleBDoc = getRoleDoc(B);
-       QString rnA = getRoleName(A), rnB = getRoleName(B);
-       QString ma = getMulti(A), mb = getMulti(B);
-       Uml::Visibility vA = getVisibility(A), vB = getVisibility(B);
-       Uml::Changeability_Type cA = getChangeability(A), cB = getChangeability(B);
-    //rules built into these functions to stop updating incorrect values
-    setName(name);
-    setRoleName(rnA, A);
-    setRoleName(rnB, B);
-    setDoc(doc);
-    setRoleDoc(roleADoc, A);
-    setRoleDoc(roleBDoc, B);
-    setMulti(ma, A);
-    setMulti(mb, B);
-    setVisibility(vA, A);
-    setVisibility(vB, B);
-    setChangeability(cA, A);
-    setChangeability(cB, B);
-    m_pView -> showDocumentation( this, true );
-    return true;
-    */
-    return false;
+    bool success = false;
+    UMLView *view = umlScene() ? umlScene()->activeView() : 0;
+
+    QPointer<AssocPropDlg> dlg = new AssocPropDlg(view, this );
+    if (dlg->exec()) {
+        success = true;
+        //rules built into these functions to stop updating incorrect values
+        setName(name());
+
+        setRoleName(roleName(Uml::A), Uml::A);
+        setRoleName(roleName(Uml::B), Uml::B);
+
+        setDocumentation(documentation());
+
+        setRoleDocumentation(roleDocumentation(Uml::A), Uml::A);
+        setRoleDocumentation(roleDocumentation(Uml::B), Uml::B);
+
+        setMultiplicity(multiplicity(Uml::A), Uml::A);
+        setMultiplicity(multiplicity(Uml::B), Uml::B);
+
+        setVisibility(visibility(Uml::A), Uml::A);
+        setVisibility(visibility(Uml::B), Uml::B);
+
+        setChangeability(changeability(Uml::A), Uml::A);
+        setChangeability(changeability(Uml::B), Uml::B);
+
+        if (umlScene()) {
+            umlScene()->showDocumentation(this, true);
+        }
+    }
+    delete dlg;
+    return success;
 }
 
 
@@ -351,15 +365,87 @@ void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
 }
 
 
-void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
-        Uml::Text_Role tr)
+void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth,
+        qreal textHeight, Uml::Text_Role tr)
 {
-    //TODO: Implement this
-    Q_UNUSED(textX);
-    Q_UNUSED(textY);
-    Q_UNUSED(textWidth);
-    Q_UNUSED(textHeight);
-    Q_UNUSED(tr);
+    const QPointF textCenter = QRectF(textX, textY, textWidth, textHeight).center();
+    const uint numSegments = m_associationLine->count()-1;
+    const uint lastSegmentIndex = numSegments-1;
+
+    QPointF p0, p1;
+    switch (tr) {
+        case Uml::tr_RoleAName:
+        case Uml::tr_MultiA:
+        case Uml::tr_ChangeA:
+            p0 = m_associationLine->point(0);
+            p1 = m_associationLine->point(1);
+            // If we are dealing with a single line then tie the
+            // role label to the proper half of the line, i.e.
+            // the role label must be closer to the "other"
+            // role object.
+            if (numSegments == 1) {
+                p1 = (p0 + p1)/2.0;
+            }
+            break;
+
+        case Uml::tr_RoleBName:
+        case Uml::tr_MultiB:
+        case Uml::tr_ChangeB:
+            p0 = m_associationLine->point(lastSegmentIndex);
+            p1 = m_associationLine->point(lastSegmentIndex+1);
+            if (numSegments == 1) {
+                p0 = (p0 + p1)/2.0;
+            }
+            break;
+
+        case Uml::tr_Name:
+        case Uml::tr_Coll_Message:  // CHECK: collab.msg texts seem to be tr_Name
+        case Uml::tr_State:         // CHECK: is this used?
+            // Find the linepath segment to which the (textX,textY) is closest
+            // and constrain to the corridor of that segment (see farther below)
+            {
+                qreal minDistSquare = 100000.0;  // utopian initial value
+                int lpIndex = 0;
+                for (uint i = 0; i < numSegments; ++i) {
+                    QPointF mid = (m_associationLine->point(i) +
+                            m_associationLine->point(i+1))/2.0;
+                    QPointF delta = textCenter - mid;
+                    qreal distanceSquare = delta.x() * delta.x() + delta.y() * delta.y();
+                    if (distanceSquare < minDistSquare) {
+                        minDistSquare = distanceSquare;
+                        lpIndex = i;
+                    }
+                }
+                p0 = m_associationLine->point(lpIndex);
+                p1 = m_associationLine->point(lpIndex + 1);
+            }
+            break;
+
+        default:
+            uError() << "unexpected Text_Role " << tr;
+            return;
+    }
+    /* Constraint:
+       The midpoint between p0 and p1 is taken to be the center of a circle
+       with radius D/2 where D is the distance between p0 and p1.
+       The text center needs to be within this circle else it is constrained
+       to the nearest point on the circle.
+     */
+    const QPointF mid = (p0 + p1) / 2.0;
+    const qreal radius = QLineF(p0, mid).length();
+    const QPointF textAbs(textCenterX, textCenterY);
+    const QPointF textRel = textAbs - mid;
+
+    QPointF projected = textRel;
+    QLineF line(QPointF(0, 0), textRel);
+    if (line.length() > radius) {
+        line.setLength(radius);
+        projected = line.p2();
+    }
+    projected += mid;
+
+    textX = projected.x() - .5 * textWidth;
+    textY = projected.y() - .5 * textHeight;
 }
 
 
@@ -379,7 +465,9 @@ UMLAssociation* AssociationWidget::association() const
 
 UMLAttribute* AssociationWidget::attribute() const
 {
-    if (!umlObject()) return 0;
+    if (!umlObject()) {
+        return 0;
+    }
     Uml::Object_Type ot = umlObject()->getBaseType();
     if (ot != Uml::ot_Attribute && ot != Uml::ot_EntityAttribute) {
         return 0;
@@ -670,9 +758,20 @@ void AssociationWidget::setWidgetForRole(UMLWidget *widget, Uml::Role_Type role)
 
 Uml::IDType AssociationWidget::widgetIDForRole(Uml::Role_Type role) const
 {
-    if (m_widgetRole[role].umlWidget) {
-        return m_widgetRole[role].umlWidget->id();
+    UMLWidget *widget = widgetForRole(role);
+    if (widget) {
+        if (widget->baseType() == Uml::wt_Object) {
+            return static_cast<ObjectWidget*>(widget)->localID();
+        }
+        return widget->id();
     }
+
+    UMLAssociation *assoc = association();
+    if (assoc) {
+        return assoc->getObjectId(role);
+    }
+
+    uError() << "m_widgetRole[role].umlWidget is NULL";
     return Uml::id_None;
 }
 
@@ -757,6 +856,78 @@ AssociationLine* AssociationWidget::associationLine() const
     return m_associationLine;
 }
 
+void AssociationWidget::activate()
+{
+    Q_ASSERT(umlScene());
+    setActivatedFlag(false);
+    if (!umlObject() &&
+            UMLAssociation::assocTypeHasUMLRepresentation(associationType())) {
+        UMLObject *myObj = umlDoc()->findObjectById(id());
+        if (!myObj) {
+            uError() << "cannot find UMLObject " << ID2STR(id());
+            return;
+        } else {
+            setUMLObject(myObj);
+            setAssociationType(associationType());
+        }
+    }
+
+    Uml::Association_Type type = associationType();
+    if (!widgetForRole(Uml::A)) {
+        setWidgetForRole(umlScene()->findWidget(widgetIDForRole(Uml::A)), Uml::A);
+    }
+    if (!widgetForRole(Uml::B)) {
+        setWidgetForRole(umlScene()->findWidget(widgetIDForRole(Uml::B)), Uml::B);
+    }
+
+
+    if (!widgetForRole(Uml::A) || !widgetForRole(Uml::B)) {
+        return;
+    }
+
+    // TODO: Check whether this comment should be removed.
+    //calculateEndPoints();
+
+    if (AssocRules::allowRole(type)) {
+        for (unsigned r = Uml::A; r <= Uml::B; ++r) {
+            WidgetRole& robj = m_widgetRole[r];
+            if (!robj.roleWidget) {
+                continue;
+            }
+            Uml::Visibility vis = visibility((Uml::Role_Type)r);
+            robj.roleWidget->setPreText(vis.toString(true));
+
+            if (umlScene()->getType() == Uml::dt_Collaboration) {
+                robj.roleWidget->setUMLObject(robj.umlWidget->umlObject());
+            }
+            robj.roleWidget->activate();
+
+            FloatingTextWidget* multi = robj.multiplicityWidget;
+            if (multi &&
+                    AssocRules::allowMultiplicity(type, robj.umlWidget->baseType())) {
+                multi->activate();
+            }
+
+            FloatingTextWidget* change = robj.changeabilityWidget;
+            if (change) {
+                change->activate();
+            }
+        }
+    }
+
+    if (m_nameWidget) {
+        updateNameWidgetRole();
+        m_nameWidget->activate();
+        // TODO: Check for removal of comment
+        // calculateNameTextSegment();
+    }
+
+    // Prepare the association class line if needed.
+    m_associationLine->calculateAssociationClassLine();
+
+    setActivatedFlag(true);
+}
+
 QRectF AssociationWidget::boundingRect() const
 {
     return m_associationLine->boundingRect();
@@ -829,6 +1000,17 @@ QVariant AssociationWidget::attributeChange(WidgetAttributeChange change, const 
     if (change == LineWidthHasChanged || change == LineColorHasChanged) {
         m_associationLine->updatePenSettings();
         return QVariant();
+    } else if (change == FontHasChanged) {
+        QFont newFont = font();
+        for (unsigned role = Uml::A; role <= Uml::B; ++role) {
+            m_widgetRole[role].multiplicityWidget->setFont(newFont);
+            m_widgetRole[role].changeabilityWidget->setFont(newFont);
+            m_widgetRole[role].roleWidget->setFont(newFont);
+        }
+        m_nameWidget->setFont(newFont);
+    } else if (change == NameHasChanged) {
+        m_nameWidget->setText(name());
+        updateNameWidgetRole();
     }
     return WidgetBase::attributeChange(change, oldValue);
 }
@@ -924,28 +1106,35 @@ void AssociationWidget::umlObjectChanged(UMLObject *old)
     WidgetBase::umlObjectChanged(old);
 }
 
+void AssociationWidget::init()
+{
+    m_baseType = Uml::wt_Association;
+    m_associationType = Uml::at_Association;
+    m_associationClass = 0;
+    m_associationLine = new AssociationLine(this);
+    m_setCollabIDOnFirstSceneSet = false;
+
+    m_nameWidget = new FloatingTextWidget(Uml::tr_Name);
+    m_nameWidget->setLink(this);
+
+    m_widgetRole[Uml::A].initFloatingWidgets(Uml::A, this);
+    m_widgetRole[Uml::B].initFloatingWidgets(Uml::B, this);
+    setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
+}
+
 void AssociationWidget::setFloatingText(Uml::Text_Role tr, const QString& text, FloatingTextWidget* &ft)
 {
     if (! FloatingTextWidget::isTextValid(text)) {
-        if (ft) {
-            // Remove preexisting FloatingTextWidget
-            // TODO: Don't delete to make it undo friendly
-            delete ft;
-            ft = 0;
-        }
+        // FloatingTextWidgets are no longer deleted/reconstructed to make it easier.
+        // Set an empty text, so that floatingtext is implicitly hidden.
+        ft->setText("");
         return;
     }
 
-    if (!ft) {
-        ft = new FloatingTextWidget(tr);
-        ft->setText(text);
-        ft->setLink(this);
+    bool wasHidden = !(ft->isVisible());
+    ft->setText(text);
+    if (wasHidden) {
         setTextPosition(tr);
-    } else {
-        bool newLabel = ft->text().isEmpty();
-        ft->setText(text);
-        if (newLabel)
-            setTextPosition(tr);
     }
 }
 
@@ -953,6 +1142,29 @@ void AssociationWidget::setTextPosition(Uml::Text_Role tr)
 {
     Q_UNUSED(tr);
     // TODO: Implement this stub
+}
+
+void AssociationWidget::updateNameWidgetRole()
+{
+    Uml::Text_Role textRole = Uml::tr_Name;
+    UMLScene *scene = umlScene();
+    if (scene) {
+        if (scene->getType() == Uml::dt_Collaboration) {
+            if (isSelf()) {
+                textRole = Uml::tr_Coll_Message;
+            } else {
+                textRole = Uml::tr_Coll_Message;
+            }
+        } else if (scene->getType() == Uml::dt_Sequence) {
+            if (isSelf()) {
+                textRole = Uml::tr_Seq_Message_Self;
+            } else {
+                textRole = Uml::tr_Seq_Message;
+            }
+        }
+    }
+
+    m_nameWidget->setTextRole(textRole);
 }
 
 #include "associationwidget.moc"
