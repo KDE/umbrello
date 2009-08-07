@@ -163,6 +163,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         void init();
         void setFloatingText(Uml::Text_Role tr, const QString& text,
                 FloatingTextWidget* &ft);
+        QPointF calculateTextPosition(Uml::Text_Role tr);
         void setTextPosition(Uml::Text_Role tr);
         void updateNameWidgetRole();
 
@@ -172,6 +173,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         ClassifierWidget *m_associationClass;
         WidgetRole m_widgetRole[2];
         FloatingTextWidget *m_nameWidget;
+        int m_nameSegmentIndex;
 
         Uml::Association_Type m_associationType;
         bool m_setCollabIDOnFirstSceneSet;

@@ -30,6 +30,8 @@
 
 #include <QPointer>
 
+#include <cmath>
+
 WidgetRole::WidgetRole()
 {
     multiplicityWidget = changeabilityWidget = roleWidget = 0;
@@ -433,8 +435,7 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textW
      */
     const QPointF mid = (p0 + p1) / 2.0;
     const qreal radius = QLineF(p0, mid).length();
-    const QPointF textAbs(textCenterX, textCenterY);
-    const QPointF textRel = textAbs - mid;
+    const QPointF textRel = textCenter - mid;
 
     QPointF projected = textRel;
     QLineF line(QPointF(0, 0), textRel);
@@ -448,10 +449,36 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textW
     textY = projected.y() - .5 * textHeight;
 }
 
-
 void AssociationWidget::calculateNameTextSegment()
 {
-    //TODO: Implement this
+    if (!m_nameWidget) return;
+    //changed to use the middle of the text
+    //i think this will give a better result.
+    //never know what sort of lines people come up with
+    //and text could be long to give a false reading
+    qreal xt = m_nameWidget->x();
+    qreal yt = m_nameWidget->y();
+    xt += m_nameWidget->width() / 2;
+    yt += m_nameWidget->height() / 2;
+    uint size = m_associationLine->count();
+    //sum of length(PTP1) and length(PTP2)
+    qreal total_length = 0;
+    qreal smallest_length = 0;
+    for(uint i = 0; i < size - 1; ++i) {
+        QPointF pi = m_associationLine->point(i);
+        QPointF pj = m_associationLine->point(i+1);
+        qreal xtiDiff = xt - pi.x();
+        qreal xtjDiff = xt - pj.x();
+        qreal ytiDiff = yt - pi.y();
+        qreal ytjDiff = yt - pj.y();
+        total_length =  std::sqrt( double(xtiDiff * xtiDiff + ytiDiff * ytiDiff) )
+                        + std::sqrt( double(xtjDiff * xtjDiff + ytjDiff * ytjDiff) );
+        //this gives the closest point
+        if( total_length < smallest_length || i == 0) {
+            smallest_length = total_length;
+            m_nameSegmentIndex = i;
+        }
+    }
 }
 
 
@@ -918,8 +945,7 @@ void AssociationWidget::activate()
     if (m_nameWidget) {
         updateNameWidgetRole();
         m_nameWidget->activate();
-        // TODO: Check for removal of comment
-        // calculateNameTextSegment();
+        calculateNameTextSegment();
     }
 
     // Prepare the association class line if needed.
@@ -1116,6 +1142,7 @@ void AssociationWidget::init()
 
     m_nameWidget = new FloatingTextWidget(Uml::tr_Name);
     m_nameWidget->setLink(this);
+    m_nameSegmentIndex = -1;
 
     m_widgetRole[Uml::A].initFloatingWidgets(Uml::A, this);
     m_widgetRole[Uml::B].initFloatingWidgets(Uml::B, this);
@@ -1138,10 +1165,116 @@ void AssociationWidget::setFloatingText(Uml::Text_Role tr, const QString& text, 
     }
 }
 
+QPointF AssociationWidget::calculateTextPosition(Uml::Text_Role role)
+{
+    const qreal SPACE = 2;
+    QPointF p(-1, -1), q(-1, -1);
+
+    // used to find out if association end point (p)
+    // is at top or bottom edge of widget.
+    UMLWidget *pWidget = 0;
+
+    if (role == Uml::tr_MultiA || role == Uml::tr_ChangeA || role == Uml::tr_RoleAName) {
+        p = m_associationLine->point( 0 );
+        q = m_associationLine->point( 1 );
+        pWidget = widgetForRole(Uml::A);
+    } else if (role == Uml::tr_MultiB || role == Uml::tr_ChangeB || role == Uml::tr_RoleBName) {
+        const uint lastSegment = m_associationLine->count() - 1;
+        p = m_associationLine->point(lastSegment);
+        q = m_associationLine->point(lastSegment - 1);
+        pWidget = widgetForRole(Uml::B);
+    } else if (role != Uml::tr_Name) {
+        uError() << "called with unsupported Text_Role " << role;
+        return QPoint(-1, -1);
+    }
+
+    FloatingTextWidget *text = textWidgetByRole(role);
+    qreal textW = 0, textH = 0;
+    if (text) {
+        textW = text->width();
+        textH = text->height();
+    }
+
+    qreal x = 0, y = 0;
+
+    if (role == Uml::tr_MultiA || role == Uml::tr_MultiB) {
+        const bool isHorizontal = (p.y() == q.y());
+        const qreal atBottom = p.y() + SPACE;
+        const qreal atTop = p.y() - SPACE - textH;
+        const qreal atLeft = p.x() - SPACE - textW;
+        const qreal atRight = p.x() + SPACE;
+        y = (p.y() > q.y()) == isHorizontal ? atBottom : atTop;
+        x = (p.x() < q.x()) == isHorizontal ? atRight : atLeft;
+
+    } else if (role == Uml::tr_ChangeA || role == Uml::tr_ChangeB) {
+
+        if( p.y() > q.y() ) {
+            y = p.y() - SPACE - (textH * 2);
+        }
+        else {
+            y = p.y() + SPACE + textH;
+        }
+
+        if( p.x() < q.x() ) {
+            x = p.x() + SPACE;
+        }
+        else {
+            x = p.x() - SPACE - textW;
+        }
+
+    } else if (role == Uml::tr_RoleAName || role == Uml::tr_RoleBName) {
+
+        if( p.y() > q.y() ) {
+            y = p.y() - SPACE - textH;
+        }
+        else {
+            y = p.y() + SPACE;
+        }
+
+        if( p.x() < q.x() ) {
+            x = p.x() + SPACE;
+        }
+        else {
+            x = p.x() - SPACE - textW;
+        }
+
+    } else if (role == Uml::tr_Name) {
+
+        calculateNameTextSegment();
+        x = ( m_associationLine->point(m_nameSegmentIndex).x() +
+                m_associationLine->point(m_nameSegmentIndex + 1).x() ) / 2.0;
+
+        y = ( m_associationLine->point(m_nameSegmentIndex).y() +
+                m_associationLine->point(m_nameSegmentIndex + 1).y() ) / 2.0;
+    }
+
+    if (text) {
+        constrainTextPos(x, y, textW, textH, role);
+    }
+    p = QPointF( x, y );
+    return p;
+}
+
 void AssociationWidget::setTextPosition(Uml::Text_Role tr)
 {
-    Q_UNUSED(tr);
-    // TODO: Implement this stub
+    bool startMove = false;
+    //TODO: Check startMove removal
+    if (startMove) {
+        return;
+    }
+    FloatingTextWidget *ft = textWidgetByRole(tr);
+    if (!ft) {
+        return;
+    }
+    QPointF pos = calculateTextPosition(tr);
+    if ( (pos.x() < 0.0 || pos.x() > FloatingTextWidget::restrictPositionMax) ||
+            (pos.y() < 0 || pos.y() > FloatingTextWidget::restrictPositionMax) ) {
+        uDebug() << "(x=" << pos.x() << " , y=" << pos.y() << ") "
+            << "- was blocked because at least one value is out of bounds: ["
+            << "0 ... " << FloatingTextWidget::restrictPositionMax << "]";
+        return;
+    }
+    ft->setPos(pos);
 }
 
 void AssociationWidget::updateNameWidgetRole()
