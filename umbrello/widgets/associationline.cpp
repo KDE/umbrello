@@ -267,8 +267,6 @@ void Symbol::setBrush(const QBrush &brush)
 }
 
 
-
-
 // Initialize static variables.
 const qreal AssociationLine::Delta = 5;
 const qreal AssociationLine::SelectedPointDiameter = 8;
@@ -284,6 +282,8 @@ AssociationLine::AssociationLine(AssociationWidget *assoc) : m_associationWidget
     m_activePointIndex = m_activeSegmentIndex = -1;
     m_startSymbol = m_endSymbol = m_subsetSymbol = 0;
     m_associationClassLine = 0;
+    m_collaborationLineHead = 0;
+    m_collaborationLineItem = 0;
     // This tracker is only for debugging and testing purpose.
     tracker = new QGraphicsLineItem;
     tracker->setPen(QPen(Qt::darkBlue, 1));
@@ -496,105 +496,6 @@ void AssociationLine::setEndPoints(const QPointF& start, const QPointF& end)
 
     calculateBoundingRect();
 }
-
-/**
- * Sets the Symbol to appear at the first line segment to \a
- * symbol.
- *
- * If symbol == Symbol::None , then it deletes the symbol item.
- *
- * Also this method aligns the symbols.
- */
-void AssociationLine::setStartSymbol(Symbol::SymbolType symbolType)
-{
-    Q_ASSERT(symbolType != Symbol::Count);
-    if (symbolType == Symbol::None) {
-        delete m_startSymbol;
-        m_startSymbol = 0;
-        return;
-    }
-
-    if (m_startSymbol) {
-        m_startSymbol->setSymbolType(symbolType);
-    }
-    else {
-        m_startSymbol = new Symbol(symbolType, m_associationWidget);
-    }
-    m_startSymbol->setPen(pen());
-    alignSymbols();
-}
-
-/**
- * Sets the Symbol to appear at the last line segment to \a
- * symbol.
- *
- * If symbol == Symbol::None , then it deletes the symbol item.
- *
- * Also this method aligns the symbols.
- */
-void AssociationLine::setEndSymbol(Symbol::SymbolType symbolType)
-{
-    Q_ASSERT(symbolType != Symbol::Count);
-    if (symbolType == Symbol::None) {
-        delete m_endSymbol;
-        m_endSymbol = 0;
-        return;
-    }
-
-    if (m_endSymbol) {
-        m_endSymbol->setSymbolType(symbolType);
-    }
-    else {
-        m_endSymbol = new Symbol(symbolType, m_associationWidget);
-    }
-    m_endSymbol->setPen(pen());
-    alignSymbols();
-}
-
-/**
- * Creates a subset symbol and aligns it.
- */
-void AssociationLine::createSubsetSymbol()
-{
-    if (m_subsetSymbol) {
-        return;
-    }
-    m_subsetSymbol = new Symbol(Symbol::Subset, m_associationWidget);
-    m_subsetSymbol->setPen(pen());
-    alignSymbols();
-}
-
-/**
- * This method aligns both the \b "start" and \b "end" symbols to
- * the current angles of the \b "first" and the \b "last" line
- * segment respectively.
- */
-void AssociationLine::alignSymbols()
-{
-    const int sz = m_points.size();
-    if (sz < 2) {
-        // Cannot align if there is no line (one line = 2 points)
-        return;
-    }
-
-    if (m_startSymbol) {
-        QLineF segment(m_points[1], m_points[0]);
-        m_startSymbol->alignTo(segment);
-    }
-
-    if (m_endSymbol) {
-        QLineF segment(m_points[sz-2], m_points[sz - 1]);
-        m_endSymbol->alignTo(segment);
-    }
-
-    if (m_subsetSymbol) {
-        QLineF segment(m_points.at(0), (m_points.at(0) + m_points.at(1)) * .5);
-        uDebug() << "points: " << m_points.at(0) << m_points.at(1);
-        uDebug() << "segment: " << segment;
-        m_subsetSymbol->alignTo(segment);
-    }
-}
-
 
 /**
  * Loads AssociationLine information saved in \a qElement XMI element.
@@ -1148,10 +1049,12 @@ void AssociationLine::calculateAssociationClassLine()
 }
 
 /**
- * This method creates appropriate symbols based on type of
- * m_associationWidget.
+ * This method creates, deletes symbols and collaboration lines based on
+ * m_associationWidget->associationType().
+ *
+ * Call this method when associationType of m_associationWidget changes.
  */
-void AssociationLine::setupSymbols()
+void AssociationLine::reconstructSymbols()
 {
     switch( m_associationWidget->associationType() ) {
         case Uml::at_State:
@@ -1159,28 +1062,209 @@ void AssociationLine::setupSymbols()
         case Uml::at_Exception:
         case Uml::at_UniAssociation:
         case Uml::at_Dependency:
+            setStartSymbol(Symbol::None);
             setEndSymbol(Symbol::OpenArrow);
+            removeSubsetSymbol();
+            removeCollaborationLine();
             break;
 
         case Uml::at_Relationship:
+            setStartSymbol(Symbol::None);
             setEndSymbol(Symbol::CrowFeet);
+            removeSubsetSymbol();
+            removeCollaborationLine();
             break;
 
         case Uml::at_Generalization:
         case Uml::at_Realization:
+            setStartSymbol(Symbol::None);
             setEndSymbol(Symbol::ClosedArrow);
+            removeSubsetSymbol();
+            removeCollaborationLine();
             break;
 
         case Uml::at_Composition:
         case Uml::at_Aggregation:
             setStartSymbol(Symbol::Diamond);
+            setEndSymbol(Symbol::None);
+            removeSubsetSymbol();
+            removeCollaborationLine();
             break;
 
         case Uml::at_Containment:
             setStartSymbol(Symbol::Circle);
+            setEndSymbol(Symbol::None);
+            removeSubsetSymbol();
+            removeCollaborationLine();
             break;
+
+        case Uml::at_Child2Category:
+            setStartSymbol(Symbol::None);
+            setEndSymbol(Symbol::None);
+            createSubsetSymbol();
+            removeCollaborationLine();
+            break;
+
+        case Uml::at_Coll_Message:
+        case Uml::at_Coll_Message_Self:
+            setStartSymbol(Symbol::None);
+            setEndSymbol(Symbol::None);
+            removeSubsetSymbol();
+            createCollaborationLine();
+            break;
+
         default:
             break;
+    }
+
+    alignSymbols();
+}
+
+/**
+ * Sets the Symbol to appear at the first line segment to \a symbol.
+ *
+ * If symbol == Symbol::None , then it deletes the symbol item.
+ */
+void AssociationLine::setStartSymbol(Symbol::SymbolType symbolType)
+{
+    Q_ASSERT(symbolType != Symbol::Count);
+    if (symbolType == Symbol::None) {
+        delete m_startSymbol;
+        m_startSymbol = 0;
+        return;
+    }
+
+    if (m_startSymbol) {
+        m_startSymbol->setSymbolType(symbolType);
+    }
+    else {
+        m_startSymbol = new Symbol(symbolType, m_associationWidget);
+    }
+    m_startSymbol->setPen(pen());
+}
+
+/**
+ * Sets the Symbol to appear at the last line segment to \a symbol.
+ *
+ * If symbol == Symbol::None , then it deletes the symbol item.
+ */
+void AssociationLine::setEndSymbol(Symbol::SymbolType symbolType)
+{
+    Q_ASSERT(symbolType != Symbol::Count);
+    if (symbolType == Symbol::None) {
+        delete m_endSymbol;
+        m_endSymbol = 0;
+        return;
+    }
+
+    if (m_endSymbol) {
+        m_endSymbol->setSymbolType(symbolType);
+    }
+    else {
+        m_endSymbol = new Symbol(symbolType, m_associationWidget);
+    }
+    m_endSymbol->setPen(pen());
+}
+
+/**
+ * Constructs a new subset symbol.
+ */
+void AssociationLine::createSubsetSymbol()
+{
+    delete m_subsetSymbol; // recreate
+    m_subsetSymbol = new Symbol(Symbol::Subset, m_associationWidget);
+    m_subsetSymbol->setPen(pen());
+}
+
+/// Removes the subset symbol if it existed by deleting appropriate items.
+void AssociationLine::removeSubsetSymbol()
+{
+    delete m_subsetSymbol;
+    m_subsetSymbol = 0;
+}
+
+/**
+ * Constructs the open arrow symbol and arrow line, that would represent Collaboration line.
+ */
+void AssociationLine::createCollaborationLine()
+{
+    const QPen p = pen();
+
+    // recreate
+    delete m_collaborationLineItem;
+    delete m_collaborationLineHead;
+
+    m_collaborationLineItem = new QGraphicsLineItem(m_associationWidget);
+    m_collaborationLineItem->setPen(p);
+
+    m_collaborationLineHead = new Symbol(Symbol::OpenArrow, m_associationWidget);
+    m_collaborationLineHead->setPen(p);
+}
+
+/// Removes collaboration line by deleting the head and line item.
+void AssociationLine::removeCollaborationLine()
+{
+    delete m_collaborationLineItem;
+    m_collaborationLineItem = 0;
+
+    delete m_collaborationLineHead;
+    m_collaborationLineHead = 0;
+}
+
+/**
+ * This method aligns both the \b "start" and \b "end" symbols to
+ * the current angles of the \b "first" and the \b "last" line
+ * segment respectively.
+ */
+void AssociationLine::alignSymbols()
+{
+    const int sz = m_points.size();
+    if (sz < 2) {
+        // Cannot align if there is no line (one line = 2 points)
+        return;
+    }
+
+    if (m_startSymbol) {
+        QLineF segment(m_points[1], m_points[0]);
+        m_startSymbol->alignTo(segment);
+    }
+
+    if (m_endSymbol) {
+        QLineF segment(m_points[sz-2], m_points[sz - 1]);
+        m_endSymbol->alignTo(segment);
+    }
+
+    if (m_subsetSymbol) {
+        QLineF segment(m_points.at(0), (m_points.at(0) + m_points.at(1)) * .5);
+        uDebug() << "points: " << m_points.at(0) << m_points.at(1);
+        uDebug() << "segment: " << segment;
+        m_subsetSymbol->alignTo(segment);
+    }
+
+    if (m_collaborationLineItem) {
+        Q_ASSERT(m_collaborationLineHead != 0);
+        const qreal distance = 10;
+        const int midSegmentIndex = (sz - 1) / 2;
+
+        const QPointF a = m_points.at(midSegmentIndex);
+        const QPointF b = m_points.at(midSegmentIndex + 1);
+
+        const QPointF p1 = (a + b) / 2.0;
+        const QPointF p2 = (p1 + b) / 2.0;
+
+        // Reversed line as we want normal in opposite direction.
+        QLineF segment(p2, p1);
+        QLineF normal = segment.normalVector().unitVector();
+        normal.setLength(distance);
+
+        QLineF actualLine;
+        actualLine.setP2(normal.p2());
+
+        normal.translate(p1 - p2);
+        actualLine.setP1(normal.p2());
+
+        m_collaborationLineItem->setLine(actualLine);
+        m_collaborationLineHead->alignTo(actualLine);
     }
 }
 

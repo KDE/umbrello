@@ -96,7 +96,6 @@ class Symbol : public QGraphicsItem
         static void setupSymbolTable();
 };
 
-
 /**
  * A convenience class that encapsulates geometry management, handles
  * mouse and hover events, embeds and aligns symbols and finally draws the
@@ -135,11 +134,6 @@ class AssociationLine
 
         void setEndPoints(const QPointF &start, const QPointF &end);
 
-        void setStartSymbol(Symbol::SymbolType symbolType);
-        void setEndSymbol(Symbol::SymbolType symbolType);
-        void createSubsetSymbol();
-        void alignSymbols();
-
         bool loadFromXMI(QDomElement &qElement);
         void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
@@ -171,9 +165,20 @@ class AssociationLine
         void calculateInitialEndPoints();
         void calculateAssociationClassLine();
 
-        void setupSymbols();
+        void reconstructSymbols();
 
     private:
+        void setStartSymbol(Symbol::SymbolType symbolType);
+        void setEndSymbol(Symbol::SymbolType symbolType);
+
+        void createSubsetSymbol();
+        void removeSubsetSymbol();
+
+        void createCollaborationLine();
+        void removeCollaborationLine();
+
+        void alignSymbols();
+
         /// These points represents the association line.
         QVector<QPointF> m_points;
 
@@ -195,6 +200,11 @@ class AssociationLine
         Symbol *m_endSymbol;
         /// The subset symbol.
         Symbol *m_subsetSymbol;
+
+        /// The parallel arrow line drawn in case of collaboration message.
+        QGraphicsLineItem *m_collaborationLineItem;
+        /// The arrow head drawn at end of m_collaborationLineItem
+        Symbol *m_collaborationLineHead;
 
         /// The bounding rectangle of this AssociationLine
         QRectF m_boundingRect;

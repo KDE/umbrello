@@ -130,7 +130,7 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
     }
     // TODO: Probably move this calculation to slotInit.
     m_associationLine->calculateInitialEndPoints();
-    m_associationLine->setupSymbols();
+    m_associationLine->reconstructSymbols();
 
 
     Q_ASSERT(widgetA->umlScene() == widgetB->umlScene());
@@ -840,6 +840,7 @@ void AssociationWidget::setAssociationType(Uml::Association_Type type)
         setRoleDocumentation("", Uml::A);
         setRoleDocumentation("", Uml::B);
     }
+    m_associationLine->reconstructSymbols();
 }
 
 bool AssociationWidget::isCollaboration() const
