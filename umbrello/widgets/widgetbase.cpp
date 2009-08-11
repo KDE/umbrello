@@ -33,8 +33,9 @@
 #include <kfontdialog.h>
 #include <kcolordialog.h>
 
-#include <QtCore/QTimer>
-#include <QtGui/QGraphicsSceneContextMenuEvent>
+#include <QGraphicsSceneContextMenuEvent>
+#include <QPointer>
+#include <QTimer>
 
 ////////////////////////////////////////////////
 static void setupAwesomeBrush(QBrush &brush)
@@ -480,20 +481,6 @@ void WidgetBase::showPropertiesDialog()
 }
 
 /**
- * A virtual method to setup a context menu actions. Subclasses can
- * call this method and add other actions as desired.
- *
- * @param menu The ListPopupMenu into which the menu actions should be
- *             added.
- *
- * @note The menu is not a pointer to avoid destruction problems.
- */
-void WidgetBase::setupContextMenuActions(ListPopupMenu &menu)
-{
-    Q_UNUSED(menu);
-}
-
-/**
  * A virtual method to load the properties of this widget from a
  * QDomElement into this widget.
  *
@@ -669,7 +656,11 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     const Uml::Widget_Type wt = m_baseType; // short hand name
 
-    ListPopupMenu *menu = qobject_cast<ListPopupMenu *>(trigger->parent());
+    ListPopupMenu *menu = ListPopupMenu::menuFromAction(trigger);
+    if (!menu) {
+        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        return;
+    }
 
     ListPopupMenu::Menu_Type sel = menu->getMenuType(trigger);
     switch (sel) {
@@ -852,26 +843,27 @@ void WidgetBase::slotInit()
  */
 void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-    ListPopupMenu menu(0, this, false, false);
-    setupContextMenuActions(menu);
-
     event->accept();
 
-    QAction *triggered = menu.exec(event->screenPos());
-    if(triggered) {
-        ListPopupMenu *parent = qobject_cast<ListPopupMenu*>(triggered->parent());
-        if (parent) {
-            WidgetBase *actionMenuOwner = parent->ownerWidget();
-            if (actionMenuOwner) {
-                actionMenuOwner->slotMenuSelection(triggered);
-                return;
-            }
-        }
+    QPointer<ListPopupMenu> menu = new ListPopupMenu(0, this, false, false);
+    QAction *triggered = menu->exec(event->screenPos());
+    ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
 
-        // If owner fetching fails, then we force *menu* to be parent of triggered action.
-        triggered->setParent(&menu);
-        this->slotMenuSelection(triggered);
+    if (!parentMenu) {
+        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        return;
     }
+
+    WidgetBase *ownerWidget = parentMenu->ownerWidget();
+    // assert because logic is based on only WidgetBase being the owner of 
+    // ListPopupMenu actions executed in this context menu.
+    Q_ASSERT_X(ownerWidget != 0, "WidgetBase::contextMenuEvent",
+            "ownerWidget is null which means action belonging to UMLView, UMLScene"
+            " or UMLObject is the one triggered in ListPopupMenu");
+
+    ownerWidget->slotMenuSelection(triggered);
+
+    delete menu.data();
 }
 
 /**

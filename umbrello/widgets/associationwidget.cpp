@@ -1078,6 +1078,51 @@ void AssociationWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     m_associationLine->hoverLeaveEvent(event);
 }
 
+void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    event->accept();
+
+    Uml::Association_Type type = associationType();
+    ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
+    if (type == Uml::at_Anchor ||
+            m_associationLine->onAssociationClassLine(event->pos())) {
+        menuType = ListPopupMenu::mt_Anchor;
+    } else if (isCollaboration()) {
+        menuType = ListPopupMenu::mt_Collaboration_Message;
+    } else if (!association()) {
+        menuType = ListPopupMenu::mt_AttributeAssociation;
+    } else if (AssocRules::allowRole(type)) {
+        menuType = ListPopupMenu::mt_FullAssociation;
+    } else {
+        menuType = ListPopupMenu::mt_Association_Selected;
+    }
+
+    QWidget *parent = 0;
+    if (umlScene()) {
+        parent = umlScene()->activeView();
+    }
+
+    QPointer<ListPopupMenu> menu = new ListPopupMenu(parent, menuType, this);
+    QAction *triggered = menu->exec(event->screenPos());
+    ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
+
+    if (!parentMenu) {
+        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        return;
+    }
+
+    WidgetBase *ownerWidget = parentMenu->ownerWidget();
+    // assert because logic is based on only WidgetBase being the owner of 
+    // ListPopupMenu actions executed in this context menu.
+    Q_ASSERT_X(ownerWidget != 0, "WidgetBase::contextMenuEvent",
+            "ownerWidget is null which means action belonging to UMLView, UMLScene"
+            " or UMLObject is the one triggered in ListPopupMenu");
+
+    ownerWidget->slotMenuSelection(triggered);
+
+    delete menu.data();
+}
+
 void AssociationWidget::sceneSetFirstTime()
 {
     if (m_setCollabIDOnFirstSceneSet) {

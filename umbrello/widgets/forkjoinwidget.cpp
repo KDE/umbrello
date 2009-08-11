@@ -84,8 +84,11 @@ void ForkJoinWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 void ForkJoinWidget::slotMenuSelection(QAction* action)
 {
-    // Menu is passed as parent of action
-    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu *menu = ListPopupMenu::menuFromAction(action);
+    if (!menu) {
+        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        return;
+    }
     if (menu->getMenuType(action) == ListPopupMenu::mt_Flip) {
         setOrientation(m_orientation == Qt::Horizontal ?
                        Qt::Vertical : Qt::Horizontal);

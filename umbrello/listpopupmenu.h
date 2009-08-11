@@ -215,6 +215,7 @@ public:
     };
 
     explicit ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
+    explicit ListPopupMenu(QWidget* parent, Menu_Type type, WidgetBase *widget);
     ListPopupMenu(QWidget* parent, Uml::ListView_Type type, UMLObject* object);
     ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false, bool unique = false);
 
@@ -222,6 +223,8 @@ public:
 
     static Uml::Object_Type convert_MT_OT(Menu_Type mt);
     static Uml::Diagram_Type convert_MT_DT(Menu_Type mt);
+
+    static ListPopupMenu* menuFromAction(QAction *action);
 
 //    KAction* getAction(Menu_Type idx);
     QAction* getAction(Menu_Type idx);
@@ -259,6 +262,7 @@ private:
     void setupMenu(Menu_Type type);
 
     void setActionChecked(Menu_Type idx, bool value);
+    void setupActionsData();
 
     union TriggerObject {  ///< The List Popup Menu is triggered either by right clicking on the View, a ListViewItem (Object), or a widget.
         UMLView* m_View;
@@ -279,5 +283,8 @@ private:
     QHash<Menu_Type, QAction*> m_actions;
 
 };
+
+/// Need this for ability to store ListPopupMenu* in a QVariant
+Q_DECLARE_METATYPE(ListPopupMenu*)
 
 #endif

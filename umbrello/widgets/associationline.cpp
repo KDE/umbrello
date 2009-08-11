@@ -1049,6 +1049,18 @@ void AssociationLine::calculateAssociationClassLine()
 }
 
 /**
+ * @return Whether the association class line contains \a pos or not.
+ */
+bool AssociationLine::onAssociationClassLine(const QPointF& pos) const
+{
+    if (!m_associationClassLine) {
+        return false;
+    }
+    const QPointF mapped = m_associationClassLine->mapFromParent(pos);
+    return m_associationClassLine->contains(mapped);
+}
+
+/**
  * This method creates, deletes symbols and collaboration lines based on
  * m_associationWidget->associationType().
  *

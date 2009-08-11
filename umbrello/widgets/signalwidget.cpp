@@ -116,8 +116,11 @@ void SignalWidget::slotMenuSelection(QAction* action)
     bool ok = false;
     QString text;
 
-    // ListPopupMenu is passed as parent of action
-    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu *menu = ListPopupMenu::menuFromAction(action);
+    if (!menu) {
+        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        return;
+    }
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
 
     switch( sel ) {

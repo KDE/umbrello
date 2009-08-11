@@ -94,7 +94,7 @@ void PackageWidget::updateTextItemGroups()
 {
     if(umlObject()) {
         TextItemGroup *grp = textItemGroupAt(GroupIndex);
-        grp->setTextItemCount(TextItemCount);
+        grp->setTextItemCount(PackageWidget::TextItemCount);
 
         TextItem *stereo = grp->textItemAt(PackageWidget::StereoTypeItemIndex);
         stereo->setText(umlObject()->getStereotype(true));
@@ -104,7 +104,7 @@ void PackageWidget::updateTextItemGroups()
         TextItem *nameItem = grp->textItemAt(PackageWidget::NameItemIndex);
         nameItem->setText(name());
     }
-    UMLWidget::updateGeometry();
+    UMLWidget::updateTextItemGroups();
 }
 
 /**

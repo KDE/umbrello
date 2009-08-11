@@ -165,6 +165,8 @@ class AssociationLine
         void calculateInitialEndPoints();
         void calculateAssociationClassLine();
 
+        bool onAssociationClassLine(const QPointF& pos) const;
+
         void reconstructSymbols();
 
     private:

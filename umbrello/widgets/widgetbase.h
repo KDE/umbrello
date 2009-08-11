@@ -128,8 +128,6 @@ public:
     virtual void activate();
 
     virtual void showPropertiesDialog();
-    virtual void setupContextMenuActions(ListPopupMenu &menu);
-
 
     virtual bool loadFromXMI(QDomElement &qElement);
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);

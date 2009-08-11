@@ -95,8 +95,11 @@ void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
 
 void EnumWidget::slotMenuSelection(QAction *action)
 {
-    // The menu is passed in as parameter of action
-    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu *menu = ListPopupMenu::menuFromAction(action);
+    if (!menu) {
+        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        return;
+    }
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
 
     if (sel == ListPopupMenu::mt_EnumLiteral) {

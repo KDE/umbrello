@@ -346,8 +346,11 @@ void ObjectWidget::showPropertiesDialog()
  */
 void ObjectWidget::slotMenuSelection(QAction* action)
 {
-    // The ListPopupMenu is passed in as action's parent
-    ListPopupMenu *menu = qobject_cast<ListPopupMenu*>(action->parent());
+    ListPopupMenu *menu = ListPopupMenu::menuFromAction(action);
+    if (!menu) {
+        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        return;
+    }
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
 
     switch(sel) {

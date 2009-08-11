@@ -156,6 +156,8 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
         virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
+        virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
         virtual void sceneSetFirstTime();
         virtual void umlObjectChanged(UMLObject *old);
 

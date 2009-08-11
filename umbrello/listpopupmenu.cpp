@@ -47,7 +47,7 @@ const bool CHECKABLE = true;
  *
  * @param parent   The parent to ListPopupMenu.
  * @param type     The type of menu to display.
- * @param object   The UMLObject of the ListViewItem
+ * @param view     The UMLView object
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view)
   : KMenu(parent)
@@ -55,6 +55,23 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, UMLView * view)
     m_TriggerObject.m_View = view;
     m_TriggerObjectType = tot_View;
     setupMenu(type);
+    setupActionsData();
+}
+
+/**
+ * Constructs the popup menu for a WidgetBase with customized menu type.
+ *
+ * @param parent   The parent to ListPopupMenu.
+ * @param type     The type of menu to display.
+ * @param object   The WidgetBase object.
+ */
+ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, WidgetBase *widget)
+  : KMenu(parent)
+{
+    m_TriggerObject.m_Widget = widget;
+    m_TriggerObjectType = tot_Widget;
+    setupMenu(type);
+    setupActionsData();
 }
 
 /**
@@ -249,6 +266,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject
         break;
     }
     setupMenu(mt);
+    setupActionsData();
 }
 
 /**
@@ -563,6 +581,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     setActionEnabled( mt_Cut, bCutState );
     setActionEnabled( mt_Copy, bCutState );
     setActionEnabled( mt_Paste, false );
+    setupActionsData();
 }
 
 /**
@@ -1068,6 +1087,21 @@ Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt)
         break;
     }
     return type;
+}
+
+/**
+ * Convenience method to extract the ListPopupMenu pointer stored in QAction
+ * objects belonging to ListPopupMenu.
+ */
+ListPopupMenu* ListPopupMenu::menuFromAction(QAction *action)
+{
+    if (action) {
+        QVariant data = action->data();
+        if (qVariantCanConvert<ListPopupMenu*>(data)) {
+            return qvariant_cast<ListPopupMenu*>(data);
+        }
+    }
+    return 0;
 }
 
 /**
@@ -1805,3 +1839,20 @@ void ListPopupMenu::setActionEnabled(Menu_Type idx, bool value)
         uWarning() << "called on unknown Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, idx));
 #endif
 }
+
+/**
+ * Sets up actions added to the ListPopupMenu to have their data field set to
+ * pointer to this ListPopupMenu object, so that this menu pointer can be
+ * retrieved in UMLWidget::slotMenuSelection
+ *
+ * @note This might seem like an ugly hack, but this is the only solution which
+ *       helped in avoiding storage of ListPopupMenu pointer in each UMLWidget.
+ */
+void ListPopupMenu::setupActionsData()
+{
+    foreach (QAction *action, m_actions) {
+        action->setData(qVariantFromValue(this));
+    }
+
+}
+
