@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,7 +32,7 @@
  * @param fl Window flags.
  * @param defaultMimeType The default mime type that appears in the mime types list.
  *
- * @see QDialog::QDialog
+ * @see KDialog::KDialog
  */
 ExportAllViewsDialog::ExportAllViewsDialog(
         QWidget* parent /* = 0 */,
@@ -40,11 +40,11 @@ ExportAllViewsDialog::ExportAllViewsDialog(
         bool modal /* = false */,
         Qt::WindowFlags fl /* = 0*/,
         const QString& defaultMimeType /*= "image/png"*/)
-  : QDialog(parent,fl)
+  : KDialog(parent,fl)
 {
     setObjectName(name);
     setModal(modal);
-    setupUi(this);
+    setupUi(mainWidget());
 
     // create and initialize m_imageType
     m_imageType = new KFileFilterCombo(this);
@@ -65,6 +65,13 @@ ExportAllViewsDialog::ExportAllViewsDialog(
 
     // reload the strings so the m_imageType tooltip is added
     languageChange();
+}
+
+/**
+ * Destructor for UMLViewImageExporterModel.
+ */
+ExportAllViewsDialog::~ExportAllViewsDialog()
+{
 }
 
 /**

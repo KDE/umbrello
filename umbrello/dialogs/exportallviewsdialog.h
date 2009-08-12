@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef EXPORTALLVIEWSDIALOG_H
@@ -24,7 +24,7 @@ class KFileFilterCombo;
  * The KFileFilterCombo is declared here instead of in the .ui file because QT
  * Designer and uic don't recognize it.
  */
-class ExportAllViewsDialog : public QDialog, private Ui::ExportAllViewsDialogBase
+class ExportAllViewsDialog : public KDialog, private Ui::ExportAllViewsDialogBase
 {
   Q_OBJECT
 
@@ -34,16 +34,11 @@ public:
                          bool modal = false, Qt::WindowFlags fl = 0,
                          const QString& defaultMimeType = "image/png");
 
-    /**
-     * Destructor for UMLViewImageExporterModel.
-     */
-    ~ExportAllViewsDialog() {
-    }
+    ~ExportAllViewsDialog();
 
-    /**
-     * The image type selected.
-     */
-    KFileFilterCombo* m_imageType;
+private:
+
+    KFileFilterCombo* m_imageType;  ///< The image type selected.
 
 protected slots:
 
