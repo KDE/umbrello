@@ -368,6 +368,17 @@ void FloatingTextWidget::changeName(const QString& newText)
 }
 
 /**
+ * Checks and returns whether text represented by this FloatingTextWidget is valid
+ * or not.
+ *
+ * @see FloatingTextWidget::isTextValid()
+ */
+bool FloatingTextWidget::hasValidText() const
+{
+    return FloatingTextWidget::isTextValid(text());
+}
+
+/**
  * For a text to be valid it must be non-empty, i.e. have a length
  * larger that zero, and have at least one non whitespace character.
  *
@@ -379,9 +390,11 @@ bool FloatingTextWidget::isTextValid( const QString &text )
     int length = text.length();
     if(length < 1)
         return false;
-    for(int i=0;i<length;i++)
-        if(!text.at(i).isSpace())
+    for(int i=0;i<length;i++) {
+        if(!text.at(i).isSpace()) {
             return true;
+        }
+    }
     return false;
 }
 

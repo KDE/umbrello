@@ -85,6 +85,7 @@ public:
     void handleRename();
     void changeName(const QString& newText);
 
+    bool hasValidText() const;
     static bool isTextValid(const QString &text);
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidget *);
