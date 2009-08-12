@@ -28,7 +28,12 @@
 #include "umlwidget.h"
 #include "umlview.h"
 
+#include <kinputdialog.h>
+#include <klocale.h>
+#include <kcolordialog.h>
+
 #include <QPointer>
+#include <QRegExpValidator>
 
 #include <cmath>
 
@@ -314,14 +319,12 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
 }
 
 
-bool AssociationWidget::showDialog()
+void AssociationWidget::showPropertiesDialog()
 {
-    bool success = false;
     UMLView *view = umlScene() ? umlScene()->activeView() : 0;
 
     QPointer<AssocPropDlg> dlg = new AssocPropDlg(view, this );
     if (dlg->exec()) {
-        success = true;
         //rules built into these functions to stop updating incorrect values
         setName(name());
 
@@ -347,7 +350,6 @@ bool AssociationWidget::showDialog()
         }
     }
     delete dlg;
-    return success;
 }
 
 
@@ -980,6 +982,157 @@ bool AssociationWidget::loadFromXMI(const QDomElement& element, UMLWidgetList &l
 {
     //TODO: Port
     return false;
+}
+
+void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
+{
+    //TODO: Port
+}
+
+void AssociationWidget::slotMenuSelection(QAction *action)
+{
+    QString oldText, newText;
+    QFont font;
+    QRegExpValidator v(QRegExp(".*"), 0);
+    Uml::Association_Type atype = associationType();
+    Uml::Role_Type r = Uml::B;
+    UMLScene *scene = umlScene();
+    UMLView *view = scene ? scene->activeView() : 0;
+
+    ListPopupMenu *menu = ListPopupMenu::menuFromAction(action);
+    if (!menu) {
+        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        return;
+    }
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+
+    //if it's a collaboration message we now just use the code in floatingtextwidget
+    //this means there's some redundant code below but that's better than duplicated code
+    if (isCollaboration() && sel != ListPopupMenu::mt_Delete) {
+        //TODO: Verify the working of following line of code.
+        m_nameWidget->slotMenuSelection(action);
+        return;
+    }
+
+    switch(sel) {
+        case ListPopupMenu::mt_Properties:
+            if(atype == Uml::at_Seq_Message || atype == Uml::at_Seq_Message_Self) {
+                // show op dlg for seq. diagram here
+                // don't worry about here, I don't think it can get here as
+                // line is widget on seq. diagram
+                // here just in case - remove later after testing
+                uDebug() << "mt_Properties: assoctype is " << atype;
+            } else {  //standard assoc dialog
+                UMLScene *scene = umlScene();
+                if (scene) {
+                    scene->updateDocumentation( false );
+                }
+                showPropertiesDialog();
+            }
+            break;
+
+        case ListPopupMenu::mt_Delete:
+            //TODO:
+#if 0
+            if (m_pAssocClassLineSel0)
+                removeAssocClassLine();
+            else if (getAssociation())
+                m_pView->removeAssocInViewAndDoc(this);
+            else
+                m_pView->removeAssoc(this);
+#endif
+            break;
+
+        case ListPopupMenu::mt_Rename_MultiA:
+            r = Uml::A;   // fall through
+        case ListPopupMenu::mt_Rename_MultiB:
+            oldText = multiplicityWidget(r)->text();
+            newText = KInputDialog::getText(i18n("Multiplicity"),
+                    i18n("Enter multiplicity:"),
+                    oldText, 0, view, &v);
+            if (newText != oldText && FloatingTextWidget::isTextValid(newText)) {
+                setMultiplicity(newText, r);
+            }
+            break;
+
+        case ListPopupMenu::mt_Rename_Name:
+            oldText = m_nameWidget->text();
+            newText = KInputDialog::getText(i18n("Association Name"),
+                    i18n("Enter association name:"),
+                    oldText, 0, view, &v);
+            if (newText != oldText && FloatingTextWidget::isTextValid(newText)) {
+                setName(newText);
+            }
+            break;
+
+        case ListPopupMenu::mt_Rename_RoleAName:
+            r = Uml::A;   // fall through
+        case ListPopupMenu::mt_Rename_RoleBName:
+            oldText = roleName(r);
+            newText = KInputDialog::getText(i18n("Role Name"),
+                    i18n("Enter role name:"),
+                    oldText, 0, view, &v);
+            if (newText != oldText && FloatingTextWidget::isTextValid(newText)) {
+                setRoleName(newText, r);
+            }
+            break;
+
+        case ListPopupMenu::mt_Change_Font:
+            font = this->font();
+            if (KFontDialog::getFont(font, false, view)) {
+                lwSetFont(font);
+            }
+            break;
+
+        case ListPopupMenu::mt_Change_Font_Selection:
+            font = this->font();
+            if (KFontDialog::getFont(font, false, view)) {
+                if (scene) {
+                    scene->selectionSetFont(font);
+                }
+                umlDoc()->setModified(true);
+            }
+            break;
+
+        case ListPopupMenu::mt_Line_Color:
+            {
+                QColor newColor = lineColor();
+                if (KColorDialog::getColor(newColor) && scene) {
+                    scene->selectionSetLineColor(newColor);
+                    umlDoc()->setModified(true);
+                }
+            }
+            break;
+
+        case ListPopupMenu::mt_Cut:
+            // TODO:
+#if 0
+            m_pView->setStartedCut();
+            UMLApp::app()->slotEditCut();
+#endif
+            break;
+
+        case ListPopupMenu::mt_Copy:
+            // TODO:
+#if 0
+            UMLApp::app()->slotEditCopy();
+#endif
+            break;
+
+        case ListPopupMenu::mt_Paste:
+            // TODO:
+#if 0
+            UMLApp::app()->slotEditPaste();
+#endif
+            break;
+
+        case ListPopupMenu::mt_Reset_Label_Positions:
+            resetTextPositions();
+            break;
+
+        default:
+            uDebug() << "Menu_Type " << sel << " not implemented";
+    }//end switch
 }
 
 /**

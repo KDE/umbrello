@@ -68,9 +68,8 @@ void AssocPage::slotDoubleClick(QListWidgetItem * item)
     }
 
     AssociationWidget * a = m_List.at(row);
-    if (a->showDialog()) {
-        fillListBox();
-    }
+    a->showPropertiesDialog();
+    fillListBox();
 }
 
 /**

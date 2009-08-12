@@ -83,7 +83,7 @@ public:
      */
     virtual void setText(FloatingTextWidget *ft, const QString &newText) = 0;
 
-    virtual bool showDialog();
+    virtual void showPropertiesDialog();
 
     /**
      * Motivated by FloatingTextWidget::showOpDlg()

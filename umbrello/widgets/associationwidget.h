@@ -70,7 +70,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual void setMessageText(FloatingTextWidget *ft);
         virtual void setText(FloatingTextWidget *ft, const QString &newText);
 
-        virtual bool showDialog();
+        virtual void showPropertiesDialog();
 
         virtual UMLClassifier* getSeqNumAndOp(QString& seqNum, QString& op);
         virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
@@ -136,8 +136,12 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual QPainterPath shape() const;
         virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget*);
 
-        virtual bool loadFromXMI(QDomElement& element);
         bool loadFromXMI(const QDomElement& element, UMLWidgetList &list);
+        virtual bool loadFromXMI(QDomElement& element);
+        virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
+
+    public Q_SLOTS:
+        virtual void slotMenuSelection(QAction *trigger);
 
     protected Q_SLOTS:
         virtual void slotUMLObjectDataChanged();

@@ -246,7 +246,7 @@ void FloatingTextWidget::showPropertiesDialog()
         // double clicking on a text line opens the dialog to change the text
         handleRename();
     } else if (m_linkWidget) {
-        m_linkWidget->showDialog();
+        m_linkWidget->showPropertiesDialog();
     }
 }
 
