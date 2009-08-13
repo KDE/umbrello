@@ -696,7 +696,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     while ( !associationWidgetElement.isNull() ) {
         AssociationWidget* associationWidget = new AssociationWidget;
         scene->addItem(associationWidget);
-        if (associationWidget->loadFromXMI(associationWidgetElement, widgets))
+        if (associationWidget->loadFromXMI(associationWidgetElement, widgets, 0))
             associations.append(associationWidget);
         else {
             //associationWidget->cleanup();

@@ -27,6 +27,7 @@
 #include "umlscene.h"
 #include "umlwidget.h"
 #include "umlview.h"
+#include "widget_utils.h"
 
 #include <kinputdialog.h>
 #include <klocale.h>
@@ -972,9 +973,9 @@ void AssociationWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*
     m_associationLine->paint(painter, opt);
 }
 
-bool AssociationWidget::loadFromXMI(QDomElement& element)
+bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &widgets,
+        const MessageWidgetList* pMessages)
 {
-#if 0
     WidgetBase::loadFromXMI(qElement);
 
     // load child widgets first
@@ -992,12 +993,13 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
         uError() << "cannot find widget for roleB id " << ID2STR(bId);
         return false;
     }
-    setWidget(pWidgetA, A);
-    setWidget(pWidgetB, B);
+    setWidgetForRole(pWidgetA, Uml::A);
+    setWidgetForRole(pWidgetB, Uml::B);
 
     QString type = qElement.attribute("type", "-1");
     Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
 
+    UMLObject *object = umlObject();
     QString id = qElement.attribute("xmi.id", "-1");
     bool oldStyleLoad = false;
     if (id == "-1") {
@@ -1017,11 +1019,12 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
             // with older files isn't important anymore. -b.t.
             UMLObject* umlRoleA = pWidgetA->umlObject();
             UMLObject* umlRoleB = pWidgetB->umlObject();
-            if (!m_pObject && umlRoleA && umlRoleB)
-            {
+            if (!object && umlRoleA && umlRoleB) {
                 oldStyleLoad = true; // flag for further special config below
-                if (aType == at_Aggregation || aType == at_Composition) {
-                    uWarning()<<" Old Style save file? swapping roles on association widget"<<this;
+                if (aType == Uml::at_Aggregation || aType == Uml::at_Composition) {
+                    uWarning()
+                        << " Old Style save file? swapping roles on association widget"
+                        <<(void*)this;
                     // We have to swap the A and B widgets to compensate
                     // for the long standing bug in LinePath of drawing
                     // the diamond at the wrong end which was fixed
@@ -1035,48 +1038,51 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
                     UMLWidget *tmpWidget = pWidgetA;
                     pWidgetA = pWidgetB;
                     pWidgetB = tmpWidget;
-                    setWidget(pWidgetA, A);
-                    setWidget(pWidgetB, B);
+                    setWidgetForRole(pWidgetA, Uml::A);
+                    setWidgetForRole(pWidgetB, Uml::B);
                     umlRoleA = pWidgetA->umlObject();
                     umlRoleB = pWidgetB->umlObject();
                 }
 
-                setUMLAssociation(m_umldoc->createUMLAssociation(umlRoleA, umlRoleB, aType));
+                setUMLObject(umlDoc()->createUMLAssociation(umlRoleA, umlRoleB, aType));
             }
         }
 
         setDocumentation(qElement.attribute("documentation", ""));
-        setRoleDoc(qElement.attribute("roleAdoc", ""), A);
-        setRoleDoc(qElement.attribute("roleBdoc", ""), B);
+        setRoleDocumentation(qElement.attribute("roleAdoc", ""), Uml::A);
+        setRoleDocumentation(qElement.attribute("roleBdoc", ""), Uml::B);
 
         // visibility defaults to Public if it cant set it here..
         QString visibilityA = qElement.attribute("visibilityA", "0");
         int vis = visibilityA.toInt();
-        if (vis >= 200)  // bkwd compat.
+        if (vis >= 200) {  // bkwd compat.
             vis -= 200;
-        setVisibility((Uml::Visibility::Value)vis, A);
+        }
+        setVisibility((Uml::Visibility::Value)vis, Uml::A);
 
         QString visibilityB = qElement.attribute("visibilityB", "0");
         vis = visibilityB.toInt();
-        if (vis >= 200)  // bkwd compat.
+        if (vis >= 200) { // bkwd compat.
             vis -= 200;
-        setVisibility((Uml::Visibility::Value)vis, B);
+        }
+        setVisibility((Uml::Visibility::Value)vis, Uml::B);
 
         // Changeability defaults to "Changeable" if it cant set it here..
         QString changeabilityA = qElement.attribute("changeabilityA", "0");
-        if (changeabilityA.toInt() > 0)
-            setChangeability((Uml::Changeability_Type)changeabilityA.toInt(), A);
+        if (changeabilityA.toInt() > 0) {
+            setChangeability((Uml::Changeability_Type)changeabilityA.toInt(), Uml::A);
+        }
 
         QString changeabilityB = qElement.attribute("changeabilityB", "0");
-        if (changeabilityB.toInt() > 0)
-            setChangeability((Uml::Changeability_Type)changeabilityB.toInt(), B);
+        if (changeabilityB.toInt() > 0) {
+            setChangeability((Uml::Changeability_Type)changeabilityB.toInt(), Uml::B);
+        }
 
     } else {
 
         // we should disconnect any prior association (can this happen??)
-        if (m_pObject && m_pObject->getBaseType() == ot_Association)
-        {
-            UMLAssociation *umla = getAssociation();
+        if (object && object->getBaseType() == Uml::ot_Association) {
+            UMLAssociation *umla = association();
             umla->disconnect(this);
             umla->nrof_parent_widgets--;
         }
@@ -1084,23 +1090,21 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
         // New style: The xmi.id is a reference to the UMLAssociation.
         // If the UMLObject is not found right now, we try again later
         // during the type resolution pass - see activate().
-        m_nId = STR2ID(id);
-        UMLObject *myObj = m_umldoc->findObjectById(m_nId);
+        setID(STR2ID(id));
+        UMLObject *myObj = umlDoc()->findObjectById(this->id());
         if (myObj) {
             const Uml::Object_Type ot = myObj->getBaseType();
-            if (ot != ot_Association) {
-                setUMLObject(myObj);
-            } else {
-                UMLAssociation * myAssoc = static_cast<UMLAssociation*>(myObj);
-                setUMLAssociation(myAssoc);
-                if (type == "-1")
-                    aType = myAssoc->getAssocType();
+            setUMLObject(myObj);
+            if (ot == Uml::ot_Association) {
+                aType = static_cast<UMLAssociation*>(myObj)->getAssocType();
             }
         }
     }
 
-    setAssocType(aType);
+    setAssociationType(aType);
 
+    // TODO: Check if its needed anymore
+#if 0
     QString indexa = qElement.attribute("indexa", "0");
     QString indexb = qElement.attribute("indexb", "0");
     QString totalcounta = qElement.attribute("totalcounta", "0");
@@ -1109,17 +1113,21 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
     m_role[B].m_nIndex = indexb.toInt();
     m_role[A].m_nTotalCount = totalcounta.toInt();
     m_role[B].m_nTotalCount = totalcountb.toInt();
+#endif
 
     QString assocclassid = qElement.attribute("assocclass", "");
     if (! assocclassid.isEmpty()) {
         Uml::IDType acid = STR2ID(assocclassid);
         UMLWidget *w = Widget_Utils::findWidget(acid, widgets);
         if (w) {
-            m_pAssocClassWidget = static_cast<ClassifierWidget*>(w);
-            m_pAssocClassWidget->setClassAssocWidget(this);
+            m_associationClass = static_cast<ClassifierWidget*>(w);
+            m_associationClass->setClassAssociationWidget(this);
             // Preparation of the assoc class line is done in activate()
             QString aclsegindex = qElement.attribute("aclsegindex", "0");
+            //TODO: Fix after implementing segment support for classifier line.
+#if 0
             m_nLinePathSegmentIndex = aclsegindex.toInt();
+#endif
         } else {
             uError() << "cannot find assocclass " << assocclassid;
         }
@@ -1131,9 +1139,11 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
     while(!element.isNull()) {
         QString tag = element.tagName();
         if(tag == "linepath") {
-            if(!m_LinePath.loadFromXMI(element))
+            if (m_associationLine->loadFromXMI(element) == false) {
                 return false;
-            else {
+            } else {
+                //TODO: Check whether following can be removed.
+#if 0
                 // set up 'old' corner from first point in line
                 // as IF this ISNT done, then the subsequent call to
                 // widgetMoved will inadvertantly think we have made a
@@ -1141,17 +1151,23 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
                 QPoint p = m_LinePath.getPoint(0);
                 m_role[A].m_OldCorner.setX(p.x());
                 m_role[A].m_OldCorner.setY(p.y());
+#endif
             }
         } else if (tag == "floatingtext" ||
-                   tag == "UML:FloatingTextWidget") {  // for bkwd compatibility
+                tag == "UML:FloatingTextWidget") {  // for bkwd compatibility
             QString r = element.attribute("role", "-1");
-            if(r == "-1")
+            if(r == "-1") {
                 return false;
+            }
             Uml::Text_Role role = (Uml::Text_Role)r.toInt();
-            FloatingTextWidget *ft = new FloatingTextWidget(m_pView, role, "", Uml::id_Reserved);
+            // FloatingTextWidget are created in constructor and hence valid always.
+            // They will be hidden in case of invalid text set.
+            FloatingTextWidget *ft = textWidgetByRole(role);
             if(! ft->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
-                delete ft;
+                // Ensure it hides by setting it empty again.
+                // @see FloatingTextWidget::setText
+                ft->setText("");
                 node = element.nextSibling();
                 element = node.toElement();
                 continue;
@@ -1159,56 +1175,55 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
             // always need this
             ft->setLink(this);
 
-            switch(role) {
-            case Uml::tr_MultiA:
-                m_role[A].m_pMulti = ft;
-                if(oldStyleLoad)
-                    setMulti(m_role[A].m_pMulti->text(), A);
-                break;
+            // Changes from TRUNK(before soc branch merge) version:
+            // We use ft directly as there is no point in fetching the same pointer
+            // by calling specific multiplicityWidget like methods.
+            if (ft) {
+                switch(role) {
+                    case Uml::tr_MultiA:
+                        if(oldStyleLoad) {
+                            setMultiplicity(ft->text(), Uml::A);
+                        }
+                        break;
 
-            case Uml::tr_MultiB:
-                m_role[B].m_pMulti = ft;
-                if(oldStyleLoad)
-                    setMulti(m_role[B].m_pMulti->text(), B);
-                break;
+                    case Uml::tr_MultiB:
+                        if(oldStyleLoad) {
+                            setMultiplicity(ft->text(), Uml::B);
+                        }
+                        break;
 
-            case Uml::tr_ChangeA:
-                m_role[A].m_pChangeWidget = ft;
-                break;
+                    case Uml::tr_ChangeA:
+                    case Uml::tr_ChangeB:
+                        break;
 
-            case Uml::tr_ChangeB:
-                m_role[B].m_pChangeWidget = ft;
-                break;
+                    case Uml::tr_Name:
+                        if(oldStyleLoad) {
+                            setName(ft->text());
+                        }
+                        break;
 
-            case Uml::tr_Name:
-                m_pName = ft;
-                if(oldStyleLoad)
-                    setName(m_pName->text());
-                break;
+                    case Uml::tr_Coll_Message:
+                    case Uml::tr_Coll_Message_Self:
+                        ft->setLink(this);
+                        ft->setActivatedFlag(true);
+                        break;
 
-            case Uml::tr_Coll_Message:
-            case Uml::tr_Coll_Message_Self:
-                m_pName = ft;
-                ft->setLink(this);
-                ft->setActivated();
-                if(FloatingTextWidget::isTextValid(ft->text()))
-                    ft->show();
-                else
-                    ft->hide();
-                break;
+                    case Uml::tr_RoleAName:
+                        setRoleName(ft->text(), Uml::A);
+                        break;
 
-            case Uml::tr_RoleAName:
-                m_role[A].m_pRole = ft;
-                setRoleName(ft->text(), A);
-                break;
-            case Uml::tr_RoleBName:
-                m_role[B].m_pRole = ft;
-                setRoleName(ft->text(), B);
-                break;
-            default:
-                uDebug() << "unexpected FloatingTextWidget (textrole " << role << ")";
-                delete ft;
-                break;
+                    case Uml::tr_RoleBName:
+                        setRoleName(ft->text(), Uml::B);
+                        break;
+
+                    default:
+                        uDebug() << "unexpected FloatingTextWidget (textrole " << role << ")";
+                        //TODO: Investigate this delete. Firstly, is this reachable ?
+#if 0
+                        delete ft;
+#endif
+                        break;
+                }
             }
         }
         node = element.nextSibling();
@@ -1216,15 +1231,18 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
     }
 
     return true;
-#endif
-    //TODO: Port
-    return false;
 }
 
-bool AssociationWidget::loadFromXMI(const QDomElement& element, UMLWidgetList &list)
+bool AssociationWidget::loadFromXMI(QDomElement& element)
 {
-    //TODO: Port
-    return false;
+    UMLScene *scene = umlScene();
+    if (!scene) {
+        uDebug() << "This isn't on UMLScene yet, so can neither fetch"
+            "messages nor widgets on umlscene";
+    }
+    const UMLWidgetList& widgetList = scene->getWidgetList();
+    const MessageWidgetList& messageList = scene->getMessageList();
+    return loadFromXMI(element, widgetList, &messageList);
 }
 
 void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)

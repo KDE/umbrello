@@ -13,6 +13,7 @@
 #define NEWASSOCIATIONWIDGET_H
 
 #include "linkwidget.h"
+#include "messagewidgetlist.h"
 #include "umlwidgetlist.h"
 #include "widgetbase.h"
 
@@ -136,7 +137,8 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual QPainterPath shape() const;
         virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget*);
 
-        bool loadFromXMI(const QDomElement& element, UMLWidgetList &list);
+        bool loadFromXMI(QDomElement& element, const UMLWidgetList &list,
+                const MessageWidgetList* messages);
         virtual bool loadFromXMI(QDomElement& element);
         virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
