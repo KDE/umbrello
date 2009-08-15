@@ -511,9 +511,8 @@ public:
 
     void callBaseMouseMethod(QGraphicsSceneMouseEvent *event);
 
-    bool isMouseMovingItems() const {
-        return m_isMouseMovingItems;
-    }
+    bool isMouseMovingItems() const;
+    void setIsMouseMovingItems(bool b);
 
 protected:
 
@@ -613,6 +612,10 @@ protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* mouseEvent);
     void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
 
+    /**
+     * This variable is set/reset by items which would call
+     * @ref UMLScene::setIsMouseMovingItems in its mouse events.
+     */
     bool m_isMouseMovingItems;
     bool isArrowMode();
 

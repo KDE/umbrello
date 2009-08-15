@@ -210,7 +210,7 @@ private:
     /// Widget handle for this widget (for resizing)
     WidgetHandle *m_widgetHandle;
 
-    QRectF m_geometryBeforeResize;
+    QGraphicsSceneMouseEvent *m_mouseMoveEventStore;
 
     // Disable copy constructor and operator=
     DISABLE_COPY(UMLWidget);

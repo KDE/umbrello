@@ -52,7 +52,7 @@ public:
 
 
     explicit FloatingTextWidget(Uml::Text_Role role = Uml::tr_Floating,
-                                Uml::IDType id = Uml::id_None);
+            Uml::IDType id = Uml::id_None);
     virtual ~FloatingTextWidget();
 
     QString text() const;
@@ -96,7 +96,11 @@ public:
 protected:
     virtual void updateGeometry();
     virtual void updateTextItemGroups();
+
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant& newValue);
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
+
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
@@ -108,6 +112,8 @@ private:
 
     //////////////////// Data loaded/saved:
 
+    /// The text represented by this widget.
+    QString m_text;
     /// Prepended text (such as for scope of association Role or method)
     QString m_preText;
 
@@ -119,3 +125,4 @@ private:
 };
 
 #endif
+

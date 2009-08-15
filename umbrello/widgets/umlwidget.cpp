@@ -54,7 +54,8 @@ UMLWidget::UMLWidget(UMLObject *object) :
     m_margin(5.0), // Default margin size
     m_isInstance(false),
     m_resizable(true),
-    m_widgetHandle(0)
+    m_widgetHandle(0),
+    m_mouseMoveEventStore(0)
 {
     m_associationSpaceManager = new AssociationSpaceManager(this);
 }
@@ -337,20 +338,112 @@ void UMLWidget::setResizable(bool resizable)
     }
 }
 
+/**
+ * Reimplemented to support multi selection using either Shift or
+ * Control modifier.
+ *
+ * This is implemented by reusing QGraphicsItem::mousePressEvent, but by
+ * customizing the data stored in the event.
+ */
 void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    // inform scene that item is not yet being moved using mouse
+    umlScene()->setIsMouseMovingItems(false);
+    const Qt::KeyboardModifiers save = event->modifiers();
+    const Qt::KeyboardModifiers forMulti = (Qt::ControlModifier | Qt::ShiftModifier);
+    if ((save & forMulti) != 0) {
+        event->setModifiers(Qt::KeyboardModifiers(save | forMulti));
+    }
+    // Now do the call with modified event.
     WidgetBase::mousePressEvent(event);
-    m_geometryBeforeResize = rect(); // save the current geometry
+    // Reset the event data.
+    event->setModifiers(save);
 }
 
+/**
+ * Reimplemented to call UMLScene::setItemMovingUsingMouse to true and also handle
+ * modifier based X constrained or Y constrained movement.
+ */
 void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
+    // Now inform scene that item is being moved using mouse.
+    umlScene()->setIsMouseMovingItems(true);
+
+    bool beganMoveNow = (!m_mouseMoveEventStore);
+    if (!m_mouseMoveEventStore)  {
+        m_mouseMoveEventStore = new QGraphicsSceneMouseEvent();
+
+        m_mouseMoveEventStore->setPos(e->pos());
+        m_mouseMoveEventStore->setScenePos(e->scenePos());
+        m_mouseMoveEventStore->setScreenPos(e->screenPos());
+
+        m_mouseMoveEventStore->setLastPos(e->lastPos());
+        m_mouseMoveEventStore->setLastScenePos(e->lastScenePos());
+        m_mouseMoveEventStore->setLastScreenPos(e->lastScreenPos());
+    }
+    const Qt::KeyboardModifiers save = e->modifiers();
+    const Qt::KeyboardModifiers forMulti = (Qt::ControlModifier | Qt::ShiftModifier);
+
+
+    if ((save & forMulti) != 0) {
+        bool constrainY = ((save & forMulti) != forMulti);
+
+        QPointF p = e->pos();
+        if (constrainY) {
+            p.setY(m_mouseMoveEventStore->lastPos().y());
+        } else {
+            p.setX(m_mouseMoveEventStore->lastPos().x());
+        }
+        m_mouseMoveEventStore->setPos(p);
+
+        p = e->scenePos();
+        if (constrainY) {
+            p.setY(m_mouseMoveEventStore->lastScenePos().y());
+        } else {
+            p.setX(m_mouseMoveEventStore->lastScenePos().x());
+        }
+        m_mouseMoveEventStore->setScenePos(p);
+
+        QPoint pt = e->screenPos();
+        if (constrainY) {
+            pt.setY(m_mouseMoveEventStore->lastScreenPos().y());
+        } else {
+            pt.setX(m_mouseMoveEventStore->lastScreenPos().x());
+        }
+        m_mouseMoveEventStore->setScreenPos(pt);
+
+    } else {
+        m_mouseMoveEventStore->setPos(e->pos());
+        m_mouseMoveEventStore->setScenePos(e->scenePos());
+        m_mouseMoveEventStore->setScreenPos(e->screenPos());
+    }
+
+    e->setPos(m_mouseMoveEventStore->pos());
+    e->setScenePos(m_mouseMoveEventStore->scenePos());
+    e->setScreenPos(m_mouseMoveEventStore->screenPos());
+
+    e->setLastPos(m_mouseMoveEventStore->lastPos());
+    e->setLastScenePos(m_mouseMoveEventStore->lastScenePos());
+    e->setLastScreenPos(m_mouseMoveEventStore->lastScreenPos());
+
     WidgetBase::mouseMoveEvent(e);
+
+    m_mouseMoveEventStore->setLastPos(m_mouseMoveEventStore->pos());
+    m_mouseMoveEventStore->setLastScenePos(m_mouseMoveEventStore->scenePos());
+    m_mouseMoveEventStore->setLastScreenPos(m_mouseMoveEventStore->screenPos());
 }
 
+/**
+ * Reimplemented to call UMLScene::setItemMovingUsingMouse to false.
+ */
 void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    // inform scene that item is not yet being moved using mouse
+    umlScene()->setIsMouseMovingItems(false);
     WidgetBase::mouseReleaseEvent(event);
+
+    delete m_mouseMoveEventStore;
+    m_mouseMoveEventStore = 0;
 }
 
 void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)

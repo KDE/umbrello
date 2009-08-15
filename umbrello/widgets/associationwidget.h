@@ -185,6 +185,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 
         Uml::Association_Type m_associationType;
         bool m_setCollabIDOnFirstSceneSet;
+        bool m_slotUMLObjectDataChangedFirstCall;
 };
 
 #endif

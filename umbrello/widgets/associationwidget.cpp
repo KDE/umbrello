@@ -64,6 +64,7 @@ void WidgetRole::initFloatingWidgets(Uml::Role_Type role, AssociationWidget *par
     changeabilityWidget = new FloatingTextWidget(textRole);
     changeabilityWidget->setPreText("{");
     changeabilityWidget->setPostText("}");
+    changeabilityWidget->setText("");
     changeabilityWidget->setLink(parent);
 
     textRole = (role == Uml::A ? Uml::tr_RoleAName : Uml::tr_RoleBName);
@@ -370,6 +371,8 @@ void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
 }
 
 
+QGraphicsEllipseItem *eellipse = 0;
+QGraphicsLineItem *lline = 0;
 void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth,
         qreal textHeight, Uml::Text_Role tr)
 {
@@ -438,15 +441,28 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textW
      */
     const QPointF mid = (p0 + p1) / 2.0;
     const qreal radius = QLineF(p0, mid).length();
-    const QPointF textRel = textCenter - mid;
 
-    QPointF projected = textRel;
-    QLineF line(QPointF(0, 0), textRel);
+    QPointF projected = textCenter;
+    QLineF line(mid, projected);
     if (line.length() > radius) {
         line.setLength(radius);
         projected = line.p2();
     }
-    projected += mid;
+
+    if (!eellipse) {
+        eellipse = new QGraphicsEllipseItem(this);
+        lline = new QGraphicsLineItem(this);
+    }
+    QGraphicsScene *s = umlScene();
+    if (eellipse->scene() != s && s) {
+        s->addItem(eellipse);
+        s->addItem(lline);
+    }
+
+    QRectF r(0, 0, 2 * radius, 2 * radius);
+    r.moveCenter(mid);
+    eellipse->setRect(r);
+    lline->setLine(QLineF(mid, projected));
 
     textX = projected.x() - .5 * textWidth;
     textY = projected.y() - .5 * textHeight;
@@ -560,15 +576,15 @@ FloatingTextWidget* AssociationWidget::multiplicityWidget(Uml::Role_Type role) c
 
 QString AssociationWidget::multiplicity(Uml::Role_Type role) const
 {
-    FloatingTextWidget *wid = m_widgetRole[role].multiplicityWidget;
-    if (wid) {
-        return wid->text();
+    if (association()) {
+        return association()->getMulti(role);
     }
-    return QString();
+    return m_widgetRole[role].multiplicityWidget->text();
 }
 
 void AssociationWidget::setMultiplicity(const QString& text, Uml::Role_Type role)
 {
+    uDebug() << "Called with " << text << "AB"[role] << " role";
     // If uml association object exists, then set its multiplicity which
     // will eventually signal this particular widget of text change and
     // this widget will react to that change.
@@ -593,19 +609,19 @@ Uml::Visibility AssociationWidget::visibility(Uml::Role_Type role) const
 
 void AssociationWidget::setVisibility(Uml::Visibility value, Uml::Role_Type role)
 {
-    if (value == visibility(role))
+    if (value == visibility(role)) {
         return;
-    if (umlObject()) {
-        // update our model object
-        const Uml::Object_Type ot = umlObject()->getBaseType();
-        if (ot == Uml::ot_Association)
-            association()->setVisibility(value, role);
-        else if (ot == Uml::ot_Attribute)
-            attribute()->setVisibility(value);
     }
+
+    UMLAttribute *attrib = attribute();
+    UMLAssociation *assoc = association();
+
     m_widgetRole[role].visibility = value;
-    // update role pre-text attribute as appropriate
-    if (m_widgetRole[role].roleWidget) {
+    if (attrib) {
+        attrib->setVisibility(value);
+    } else if (assoc) {
+        assoc->setVisibility(value, role);
+    } else {
         QString scopeString = value.toString(true);
         m_widgetRole[role].roleWidget->setPreText(scopeString);
     }
@@ -626,14 +642,12 @@ Uml::Changeability_Type AssociationWidget::changeability(Uml::Role_Type role) co
 
 void AssociationWidget::setChangeability(Uml::Changeability_Type c, Uml::Role_Type role)
 {
-    if (c == changeability(role)) {
-        return;
-    }
-    QString changeString = UMLAssociation::toString(c);
+    m_widgetRole[role].changeability = c;
     if (association()) {
         association()->setChangeability(c, role);
+    } else {
+        m_widgetRole[role].changeabilityWidget->setText(UMLAssociation::toString(c));
     }
-    m_widgetRole[role].changeability = c;
 }
 
 FloatingTextWidget* AssociationWidget::nameWidget() const
@@ -648,36 +662,27 @@ FloatingTextWidget* AssociationWidget::roleWidget(Uml::Role_Type role) const
 
 QString AssociationWidget::roleName(Uml::Role_Type role) const
 {
-    if (m_widgetRole[role].roleWidget) {
-        return m_widgetRole[role].roleWidget->text();
+    if (association()) {
+        return association()->getRoleName(role);
     }
-    return QString();
+    return m_widgetRole[role].roleWidget->text();
 }
 
-void AssociationWidget::setRoleName (const QString &strRole, Uml::Role_Type role)
+void AssociationWidget::setRoleName(const QString &strRole, Uml::Role_Type role)
 {
     //if the association is not supposed to have a Role FloatingTextWidget
     if (!AssocRules::allowRole(associationType()))  {
+        m_widgetRole[role].roleWidget->setText("");
         return;
     }
 
-    Uml::Text_Role tr = (role == Uml::A ? Uml::tr_RoleAName : Uml::tr_RoleBName);
-    setFloatingText(tr, strRole, m_widgetRole[role].roleWidget);
-    if (m_widgetRole[role].roleWidget) {
-        Uml::Visibility vis = visibility(role);
-        if (FloatingTextWidget::isTextValid(m_widgetRole[role].roleWidget->text())) {
-            m_widgetRole[role].roleWidget->setPreText(vis.toString(true));
-            //m_role[role].m_pRole->show();
-        } else {
-            m_widgetRole[role].roleWidget->setPreText("");
-            //m_role[role].m_pRole->hide();
-        }
-    }
-
-    // set attribute of UMLAssociation associated with this associationwidget
     if (association()) {
         association()->setRoleName(strRole, role);
+        return;
     }
+
+    m_widgetRole[role].roleWidget->setText(strRole);
+    m_widgetRole[role].roleWidget->setPreText(visibility(role).toString(true));
 }
 
 QString AssociationWidget::roleDocumentation(Uml::Role_Type role) const
@@ -1484,7 +1489,29 @@ void AssociationWidget::slotUMLObjectDataChanged()
         UMLAttribute *attr = static_cast<UMLAttribute*>(obj);
         setVisibility(attr->getVisibility(), Uml::B);
         setRoleName(attr->getName(), Uml::B);
+    } else if (ot == Uml::ot_Association) {
+        WidgetRole &a = m_widgetRole[Uml::A];
+        WidgetRole &b = m_widgetRole[Uml::B];
+
+        a.multiplicityWidget->setText(multiplicity(Uml::A));
+        b.multiplicityWidget->setText(multiplicity(Uml::B));
+
+        a.roleWidget->setPreText(visibility(Uml::A).toString(true));
+        b.roleWidget->setPreText(visibility(Uml::B).toString(true));
+
+        a.roleWidget->setText(roleName(Uml::A));
+        b.roleWidget->setText(roleName(Uml::B));
+
+        if (!m_slotUMLObjectDataChangedFirstCall) {
+            a.changeabilityWidget->setText(UMLAssociation::toString(changeability(Uml::A)));
+            b.changeabilityWidget->setText(UMLAssociation::toString(changeability(Uml::B)));
+        } else {
+            a.changeabilityWidget->setText("");
+            b.changeabilityWidget->setText("");
+        }
     }
+
+    m_slotUMLObjectDataChangedFirstCall = false;
     WidgetBase::slotUMLObjectDataChanged();
 }
 
@@ -1594,7 +1621,7 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     WidgetBase *ownerWidget = parentMenu->ownerWidget();
     // assert because logic is based on only WidgetBase being the owner of 
     // ListPopupMenu actions executed in this context menu.
-    Q_ASSERT_X(ownerWidget != 0, "WidgetBase::contextMenuEvent",
+    Q_ASSERT_X(ownerWidget != 0, "AssociationWidget::contextMenuEvent",
             "ownerWidget is null which means action belonging to UMLView, UMLScene"
             " or UMLObject is the one triggered in ListPopupMenu");
 
@@ -1665,6 +1692,7 @@ void AssociationWidget::init()
     m_associationClass = 0;
     m_associationLine = new AssociationLine(this);
     m_setCollabIDOnFirstSceneSet = false;
+    m_slotUMLObjectDataChangedFirstCall = true;
 
     m_nameWidget = new FloatingTextWidget(Uml::tr_Name);
     m_nameWidget->setLink(this);

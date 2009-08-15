@@ -403,7 +403,6 @@ void UMLScene::setupNewWidget(UMLWidget *w)
 void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseRelease(ome);
-    m_isMouseMovingItems = false;
 }
 
 /**
@@ -1330,10 +1329,6 @@ bool UMLScene::isSavedInSeparateFile()
  */
 void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* ome)
 {
-    if (isArrowMode() && ome->buttons().testFlag(Qt::LeftButton)) {
-        m_isMouseMovingItems = true;
-    }
-
     m_pToolBarState->mousePress(ome);
 
     //TODO should be managed by widgets when are selected. Right now also has some
@@ -3265,6 +3260,25 @@ void UMLScene::callBaseMouseMethod(QGraphicsSceneMouseEvent *event)
 
     default: ;
     }
+}
+
+/**
+ * @return Whether one or more selected items are being moved using the mouse
+ */
+bool UMLScene::isMouseMovingItems() const
+{
+    return m_isMouseMovingItems;
+}
+
+/**
+ * Sets whether selected items are being moved using mouse.
+ * 
+ * @note This method should always be called by WidgetBase and its descendents only.
+ *       The setter of this flag is also responsible to reset the same.
+ */
+void UMLScene::setIsMouseMovingItems(bool status)
+{
+    m_isMouseMovingItems = status;
 }
 
 void UMLScene::drawBackground(QPainter *p, const QRectF &rect)

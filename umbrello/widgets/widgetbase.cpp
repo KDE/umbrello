@@ -169,7 +169,7 @@ void WidgetBase::setUMLObject(UMLObject *obj)
     }
 
     umlObjectChanged(oldObj);
-    QTimer::singleShot(10, this, SLOT(slotUMLObjectDataChanged()));
+    QTimer::singleShot(0, this, SLOT(slotUMLObjectDataChanged()));
 }
 
 /**
