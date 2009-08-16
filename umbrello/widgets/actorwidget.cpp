@@ -30,6 +30,8 @@ ActorWidget::ActorWidget(UMLActor *a) : UMLWidget(a)
 {
     m_baseType = Uml::wt_Actor;
     createTextItemGroup();
+    textItemGroupAt(0)->setMargin(0);
+    setMargin(0);
 }
 
 /// Destructor
@@ -144,4 +146,5 @@ void ActorWidget::updateTextItemGroups()
     grp->setTextItemCount(1);
     const int nameIndex = 0;
     grp->textItemAt(nameIndex)->setText(name());
+    UMLWidget::updateTextItemGroups();
 }
