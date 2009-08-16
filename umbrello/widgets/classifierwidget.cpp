@@ -659,6 +659,7 @@ void ClassifierWidget::updateTextItemGroups()
     int opStartIndex = attribStartIndex + attribList.size();
 
     // Now setup attribute texts.
+    int visibleAttributes = 0;
     for (int i=0; i < attribList.size(); ++i) {
         UMLClassifierListItem *obj = attribList[i];
 
@@ -673,7 +674,11 @@ void ClassifierWidget::updateTextItemGroups()
             && visualProperty(ShowAttributes) == true;
 
         item->setVisible(v);
+        if (v) {
+            ++visibleAttributes;
+        }
     }
+
     // Update expander box to reflect current state and also visibility
     m_attributeExpanderBox->setExpanded(visualProperty(ShowAttributes));
     m_attributeExpanderBox->setVisible(!visualProperty(DrawAsCircle) && !umlC->isInterface());
@@ -682,10 +687,14 @@ void ClassifierWidget::updateTextItemGroups()
     // Setup line and dummies.
     if (!showNameOnly) {
         // Stuff in a dummy item as spacer if there are no attributes,
-        if (!shouldDrawAsCircle() && (attribList.isEmpty() || !visualProperty(ShowAttributes))) {
+        if (!shouldDrawAsCircle() && (visibleAttributes == 0 || !visualProperty(ShowAttributes))) {
             m_dummyAttributeItem = new TextItem(dummyText);
-            attribOpGroup->insertTextItemAt(attribStartIndex, m_dummyAttributeItem);
-            m_lineItem2Index = attribStartIndex;
+            int index = attribStartIndex;
+            if (visibleAttributes == 0 && !attribList.isEmpty()) {
+                index = opStartIndex;
+            }
+            attribOpGroup->insertTextItemAt(index, m_dummyAttributeItem);
+            m_lineItem2Index = index;
             ++opStartIndex;
         }
         else {
@@ -694,6 +703,7 @@ void ClassifierWidget::updateTextItemGroups()
         }
     }
 
+    int visibleOperations = 0;
     for (int i=0; i < opList.size(); ++i) {
         UMLClassifierListItem *obj = opList[i];
 
@@ -708,14 +718,17 @@ void ClassifierWidget::updateTextItemGroups()
             && visualProperty(ShowOperations);
 
         item->setVisible(v);
+        if (v) {
+            ++visibleOperations;
+        }
     }
     m_operationExpanderBox->setExpanded(visualProperty(ShowOperations));
     m_operationExpanderBox->setVisible(!visualProperty(DrawAsCircle));
 
     if (!showNameOnly) {
-        if (!shouldDrawAsCircle() && (opList.isEmpty() || !visualProperty(ShowOperations))) {
+        if (!shouldDrawAsCircle() && (visibleOperations == 0 || !visualProperty(ShowOperations))) {
             m_dummyOperationItem = new TextItem(dummyText);
-            attribOpGroup->insertTextItemAt(opStartIndex, m_dummyOperationItem);
+            attribOpGroup->insertTextItemAt(opStartIndex+opList.size(), m_dummyOperationItem);
         }
     }
 
