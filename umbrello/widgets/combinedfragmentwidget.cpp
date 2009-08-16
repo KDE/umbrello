@@ -335,6 +335,8 @@ void CombinedFragmentWidget::updateGeometry()
 void CombinedFragmentWidget::updateTextItemGroups()
 {
     TextItemGroup *grp = textItemGroupAt(TypeBoxIndex);
+    grp->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+    grp->setMargin(0);
     TextItemGroup *nameGroup = textItemGroupAt(ReferenceDiagramNameBoxIndex);
 
     grp->setTextItemCount(FirstAlternativeItemIndex + 1);
@@ -434,7 +436,8 @@ QVariant CombinedFragmentWidget::attributeChange(WidgetAttributeChange change, c
 {
     if (change == SizeHasChanged) {
         TextItemGroup *typeGroup  = textItemGroupAt(TypeBoxIndex);
-        const QSizeF typeGroupMinSize = typeGroup->minimumSize();
+        QSizeF typeGroupMinSize = typeGroup->minimumSize();
+        typeGroupMinSize.rwidth() /= 0.6;
         typeGroup->setGroupGeometry(QRectF(QPointF(0, 0), typeGroupMinSize));
 
         // Calculate lines only if the group has text items in it.
