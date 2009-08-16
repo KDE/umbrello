@@ -33,9 +33,8 @@
 /**
  * Constructor for UMLViewImageExporter.
  */
-UMLViewImageExporter::UMLViewImageExporter(UMLView* view)
+UMLViewImageExporter::UMLViewImageExporter()
 {
-    m_view = view;
     m_imageMimeType = UMLApp::app()->getImageMimeType();
 }
 
@@ -66,11 +65,11 @@ void UMLViewImageExporter::exportView()
         return;
     }
 
-    UMLApp *app = UMLApp::app();
+    UMLApp* app = UMLApp::app();
 
     // export the view
     app->getDocument()->writeToStatusBar(i18n("Exporting view..."));
-    QString error = UMLViewImageExporterModel().exportView(m_view,
+    QString error = UMLViewImageExporterModel().exportView(app->getCurrentView(),
                             UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType), m_imageURL);
     if (!error.isNull()) {
         KMessageBox::error(app, i18n("An error happened when exporting the image:\n") + error);
@@ -124,9 +123,11 @@ bool UMLViewImageExporter::getParametersFromUser()
 {
     bool success = true;
 
+    UMLApp *app = UMLApp::app();
+
     // configure & show the file dialog
     KUrl url;
-    QPointer<KFileDialog> dialog = new KFileDialog(url, QString(), m_view);
+    QPointer<KFileDialog> dialog = new KFileDialog(url, QString(), app->getCurrentView());
     prepareFileDialog(dialog);
     dialog->exec();
 
@@ -134,11 +135,12 @@ bool UMLViewImageExporter::getParametersFromUser()
         success = false;
     }
     else {
-        m_view->umlScene()->clearSelected();   // Thanks to Peter Soetens for the idea
+        UMLScene* scene = app->getCurrentView()->umlScene();
+        scene->clearSelected();   // Thanks to Peter Soetens for the idea
 
         // update image url and mime type
         m_imageMimeType = dialog->currentMimeFilter();
-        UMLApp::app()->setImageMimeType(m_imageMimeType);
+        app->setImageMimeType(m_imageMimeType);
         m_imageURL = dialog->selectedUrl();
 
         // check if the extension is the extension of the mime type
@@ -173,9 +175,11 @@ void UMLViewImageExporter::prepareFileDialog(KFileDialog *fileDialog)
         KUrl docURL = UMLApp::app()->getDocument()->url();
         KUrl directory = docURL;
         directory.setPath(docURL.directory());
-
         fileDialog->setUrl(directory);
-        fileDialog->setSelection(m_view->umlScene()->getName() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+
+        UMLApp *app = UMLApp::app();
+        QString sceneName = app->getCurrentView()->umlScene()->getName();
+        fileDialog->setSelection(sceneName + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
         fileDialog->setUrl(m_imageURL);
         fileDialog->setSelection(m_imageURL.fileName());

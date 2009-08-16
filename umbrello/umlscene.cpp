@@ -132,8 +132,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
     m_pIDChangesLog = 0;
     m_pMenu = 0;
 
-    // [PORT] Port ImageExporter properly
-    m_pImageExporter = new UMLViewImageExporter(this->activeView());
+    m_pImageExporter = new UMLViewImageExporter();
 
     //setup signals
     connect(this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));

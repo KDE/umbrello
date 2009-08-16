@@ -26,25 +26,22 @@ class UMLViewImageExporter
 {
 public:
 
-    UMLViewImageExporter(UMLView* view);
+    UMLViewImageExporter();
     virtual ~UMLViewImageExporter();
 
     void exportView();
 
-    KUrl getImageURL() const { return m_imageURL; }
-
+    KUrl    getImageURL() const { return m_imageURL; }
     QString getImageMimeType() const { return m_imageMimeType; }
 
 private:
 
-    UMLView* m_view;           ///< The view to export.
     KUrl     m_imageURL;       ///< The URL used to save the image.
     QString  m_imageMimeType;  ///< The mime type used to save the image.
 
-    bool prepareExportView();
-
     bool getParametersFromUser();
 
+    bool prepareExportView();
     void prepareFileDialog(KFileDialog *fileDialog);
 
 };
