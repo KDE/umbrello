@@ -655,8 +655,8 @@ void UMLApp::initView()
 
     // Prepare Tabbed Diagram Representation
     m_tabWidget = new KTabWidget(this);
-//    m_tabWidget->setAutomaticResizeTabs(true);
-    m_tabWidget->setCloseButtonEnabled(true);
+    m_tabWidget->setAutomaticResizeTabs(true);
+    m_tabWidget->setTabsClosable(true);
     connect(m_tabWidget, SIGNAL(closeRequest(QWidget*)), SLOT(slotDeleteDiagram(QWidget*)));
 
     m_newSessionButton = new QToolButton(m_tabWidget);
