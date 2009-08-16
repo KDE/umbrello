@@ -107,6 +107,7 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidge
         break;
 
     case Initial:
+        p->setBrush(QBrush(lineColor()));
         p->drawEllipse(r);
         break;
 
