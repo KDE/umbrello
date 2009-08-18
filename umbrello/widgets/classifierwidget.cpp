@@ -346,8 +346,9 @@ void ClassifierWidget::adjustAssociations()
  */
 bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
 {
-    if (!UMLWidget::loadFromXMI(qElement))
+    if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
+    }
 
     // Determine str
     QString defaultSigType = QString::number(Uml::st_NoSig);

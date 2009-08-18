@@ -1190,4 +1190,14 @@ void WidgetBase::updateComponentSize()
     }
 }
 
+QColor WidgetBase::getFillColour() const
+{
+    QBrush b = brush();
+    if (b.gradient() || b.style() == Qt::TexturePattern || b.style() == Qt::NoBrush) {
+        return QColor(Qt::transparent);
+    }
+    return b.color();
+}
+
+
 #include "widgetbase.moc"

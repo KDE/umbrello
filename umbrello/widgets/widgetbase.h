@@ -215,7 +215,7 @@ public:
     void updateComponentSize();
 
     void setLineColorcmd(const QColor& col) { setLineColor(col); }
-    QColor getFillColour() const { return brush().color(); }
+    QColor getFillColour() const;
     QColor getFillColor() const { return getFillColour(); }
     void setFillColour(const QColor& col) { setBrush(QBrush(col)); }
 
