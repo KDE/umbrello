@@ -500,6 +500,9 @@ void CombinedFragmentWidget::setupFloatingWidget(FloatingDashLineWidget *flt)
     flt->setLineWidth(lineWidth());
     flt->setFontColor(fontColor());
     flt->setFont(font());
+    if (umlScene()) {
+        umlScene()->addWidget(flt);
+    }
 }
 
 /**
