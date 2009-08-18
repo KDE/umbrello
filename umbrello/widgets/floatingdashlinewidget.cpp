@@ -47,7 +47,7 @@ FloatingDashLineWidget::~FloatingDashLineWidget()
 }
 
 /**
- * Reimplement from WidgetBase::paint to draw a dash line and text
+ * Reimplement from UMLWidget::paint to draw a dash line and text
  * associated with this widget.
  */
 void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -86,39 +86,50 @@ void FloatingDashLineWidget::setYMax(qreal y)
 }
 
 /**
- * Reimplemented from WidgetBase::loadFromXMI to load
+ * Reimplemented from UMLWidget::loadFromXMI to load
  * FloatingDashLineWidget data from XMI element.
  */
 bool FloatingDashLineWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !WidgetBase::loadFromXMI( qElement ) ) {
+    if( !UMLWidget::loadFromXMI( qElement ) ) {
         return false;
     }
 
     m_yMax = qElement.attribute( "maxY", "" ).toDouble();
+    m_yMax = mapToParent(mapFromScene(QPointF(0, m_yMax))).y();
+
     m_yMin = qElement.attribute( "minY", "" ).toDouble();
+    m_yMin = mapToParent(mapFromScene(QPointF(0, m_yMin))).y();
+
+    // y value is already loaded when pos is loaded by UMLWidget
+    // so, no need to reload it even from older version saved file.
     setName(qElement.attribute( "text", "" ));
     ensureConstraintRequirement();
     return true;
 }
 
 /**
- * Reimplemented from WidgetBase::saveToXMI to save widget data into
+ * Reimplemented from UMLWidget::saveToXMI to save widget data into
  * XMI element - 'floatingdashlinewidget'
  */
 void FloatingDashLineWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement textElement = qDoc.createElement( "floatingdashlinewidget" );
-    WidgetBase::saveToXMI( qDoc, textElement );
+    UMLWidget::saveToXMI( qDoc, textElement );
     textElement.setAttribute( "text", name() );
-    textElement.setAttribute( "minY", m_yMin );
-    textElement.setAttribute( "maxY", m_yMax );
+
+    QGraphicsItem *parent = parentItem();
+    Q_ASSERT(parent);
+    qreal yMin = parent->mapToScene(QPointF(0, m_yMin)).y();
+    qreal yMax = parent->mapToScene(QPointF(0, m_yMax)).y();
+    textElement.setAttribute( "minY", yMin );
+    textElement.setAttribute( "maxY", yMax );
 
     qElement.appendChild( textElement );
 }
 
 /**
- * Reimplemented from WidgetBase::slotMenuSelection to handle rename
+ * Reimplemented from UMLWidget::slotMenuSelection to handle rename
  * action.
  */
 void FloatingDashLineWidget::slotMenuSelection(QAction* action)
@@ -142,7 +153,7 @@ void FloatingDashLineWidget::slotMenuSelection(QAction* action)
         }
         break;
     default:
-        WidgetBase::slotMenuSelection(action);
+        UMLWidget::slotMenuSelection(action);
     }
 }
 
@@ -169,11 +180,11 @@ QVariant FloatingDashLineWidget::itemChange(GraphicsItemChange change, const QVa
         point.setY(y);
         return point;
     }
-    return WidgetBase::itemChange(change, value);
+    return UMLWidget::itemChange(change, value);
 }
 
 /**
- * Reimplemented from WidgetBase::updateGeometry to calculate the
+ * Reimplemented from UMLWidget::updateGeometry to calculate the
  * minimum size.
  */
 void FloatingDashLineWidget::updateGeometry()
@@ -192,6 +203,7 @@ void FloatingDashLineWidget::updateTextItemGroups()
 {
     TextItemGroup *grp = textItemGroupAt(0);
     grp->setTextItemCount(1);
+    grp->setMargin(0);
 
     QString text = name();
     text.prepend('[');
