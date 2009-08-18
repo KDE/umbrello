@@ -81,17 +81,17 @@ void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combi
     m_combinedFragmentType = combinedfragmentType;
 
     // creates a dash line if the combined fragment type is alternative or parallel
-    if ((m_combinedFragmentType == Alt  || m_combinedFragmentType == Par)
-        && m_dashLines.isEmpty())
-    {
-        FloatingDashLineWidget *flt = new FloatingDashLineWidget(this);
-        m_dashLines << flt;
+    if (m_combinedFragmentType == Alt  || m_combinedFragmentType == Par) {
+        if (m_dashLines.isEmpty()) {
+            FloatingDashLineWidget *flt = new FloatingDashLineWidget(this);
+            m_dashLines << flt;
 
-        if(m_combinedFragmentType == Alt) {
-            flt->setText("else");
+            if(m_combinedFragmentType == Alt) {
+                flt->setText("else");
+            }
+
+            setupFloatingWidget(flt);
         }
-
-        setupFloatingWidget(flt);
     }
     else {
         // Other widgets do not have dash lines.
@@ -209,7 +209,8 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
             }
             else {
                 m_dashLines.append(fdlwidget);
-                setupFloatingWidget(fdlwidget);
+                // No need to call setupFloatingWidget as that will reset
+                // the line properties of FloatingDashLineWidget.
             }
         } else {
             uError() << "unknown tag " << tag << endl;
@@ -461,28 +462,6 @@ QVariant CombinedFragmentWidget::attributeChange(WidgetAttributeChange change, c
 
         updateFloatingWidgetsPosition();
     }
-    else if (change == FontHasChanged) {
-        foreach (FloatingDashLineWidget *fldw, m_dashLines) {
-            fldw->setFont(font());
-        }
-        updateFloatingWidgetsPosition();
-    }
-    else if (change == FontColorHasChanged) {
-        foreach (FloatingDashLineWidget *fldw, m_dashLines) {
-            fldw->setFontColor(fontColor());
-        }
-    }
-    else if (change == LineColorHasChanged) {
-        foreach(FloatingDashLineWidget *fldw, m_dashLines) {
-            fldw->setLineColor(lineColor());
-        }
-    }
-    else if (change == LineWidthHasChanged) {
-        foreach(FloatingDashLineWidget *fldw, m_dashLines) {
-            fldw->setLineWidth(lineWidth());
-        }
-        updateFloatingWidgetsPosition();
-    }
 
     return UMLWidget::attributeChange(change, oldValue);
 }
@@ -500,9 +479,6 @@ void CombinedFragmentWidget::setupFloatingWidget(FloatingDashLineWidget *flt)
     flt->setLineWidth(lineWidth());
     flt->setFontColor(fontColor());
     flt->setFont(font());
-    if (umlScene()) {
-        umlScene()->addWidget(flt);
-    }
 }
 
 /**
