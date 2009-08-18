@@ -854,6 +854,14 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     event->accept();
 
+    UMLScene *scene = umlScene();
+    if (!isSelected() && scene && !scene->selectedItems().isEmpty()) {
+        Qt::KeyboardModifiers forSelection = (Qt::ControlModifier | Qt::ShiftModifier);
+        if ((event->modifiers() & forSelection) == 0) {
+            scene->clearSelection();
+        }
+    }
+    setSelected(true);
     QPointer<ListPopupMenu> menu = new ListPopupMenu(0, this, false, false);
     QAction *triggered = menu->exec(event->screenPos());
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);

@@ -530,7 +530,8 @@ void FloatingTextWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(m_linkWidget);
 
-    UMLView *view = umlScene() ? umlScene()->activeView() : 0;
+    UMLScene *scene = umlScene();
+    UMLView *view = scene ? scene->activeView() : 0;
     ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
 
     if (assoc) {
@@ -541,6 +542,13 @@ void FloatingTextWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         }
     }
 
+    if (!isSelected() && scene && !scene->selectedItems().isEmpty()) {
+        Qt::KeyboardModifiers forSelection = (Qt::ControlModifier | Qt::ShiftModifier);
+        if ((event->modifiers() & forSelection) == 0) {
+            scene->clearSelection();
+        }
+    }
+    setSelected(true);
     if (menuType != ListPopupMenu::mt_Undefined) {
         QPointer<ListPopupMenu> menu = new ListPopupMenu(view, menuType);
         QAction *triggered = menu->exec(event->screenPos());

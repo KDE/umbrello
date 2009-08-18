@@ -1604,11 +1604,19 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         menuType = ListPopupMenu::mt_Association_Selected;
     }
 
+    UMLScene *scene = umlScene();
     QWidget *parent = 0;
-    if (umlScene()) {
-        parent = umlScene()->activeView();
+    if (scene) {
+        parent = scene->activeView();
     }
 
+    if (!isSelected() && scene && !scene->selectedItems().isEmpty()) {
+        Qt::KeyboardModifiers forSelection = (Qt::ControlModifier | Qt::ShiftModifier);
+        if ((event->modifiers() & forSelection) == 0) {
+            scene->clearSelection();
+        }
+    }
+    setSelected(true);
     QPointer<ListPopupMenu> menu = new ListPopupMenu(parent, menuType, this);
     QAction *triggered = menu->exec(event->screenPos());
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
