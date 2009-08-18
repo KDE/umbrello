@@ -52,15 +52,15 @@ namespace Widget_Utils
 
     QPointF stringToPoint(const QString& str);
 
-    bool loadPixmapFromXMI(const QDomElement &qElement, QPixmap &pixmap);
+    bool loadPixmapFromXMI(QDomElement &qElement, QPixmap &pixmap);
 
     void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap);
 
-    bool loadGradientFromXMI(const QDomElement &qElement, QGradient *&gradient);
+    bool loadGradientFromXMI(QDomElement &qElement, QGradient *&gradient);
 
     void saveGradientToXMI(QDomDocument &qDoc, QDomElement &qElement, const QGradient *gradient);
 
-    bool loadBrushFromXMI(const QDomElement &qElement, QBrush &brush);
+    bool loadBrushFromXMI(QDomElement &qElement, QBrush &brush);
 
     void saveBrushToXMI(QDomDocument &qDoc, QDomElement &qElement,
                         const QBrush& brush);

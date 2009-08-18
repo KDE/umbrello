@@ -537,7 +537,8 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
 
     // Load the brush.
     QBrush newBrush;
-    bool brushSet = Widget_Utils::loadBrushFromXMI(qElement, newBrush);
+    QDomElement brushElement = qElement.firstChildElement("brush");
+    bool brushSet = Widget_Utils::loadBrushFromXMI(brushElement, newBrush);
 
     // If this fails, we try to load fillColor attribute which is used in kde3 version of umbrello.
     if(!brushSet) {

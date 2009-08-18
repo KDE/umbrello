@@ -271,7 +271,7 @@ namespace Widget_Utils
      *
      * @return True or false based on success or failure of this method.
      */
-    bool loadPixmapFromXMI(const QDomElement &pixEle, QPixmap &pixmap)
+    bool loadPixmapFromXMI(QDomElement &pixEle, QPixmap &pixmap)
     {
         if (pixEle.isNull()) {
             return false;
@@ -333,7 +333,7 @@ namespace Widget_Utils
      *
      * @return True or false based on success or failure of this method.
      */
-    bool loadGradientFromXMI(const QDomElement &gradientElement, QGradient *&gradient)
+    bool loadGradientFromXMI(QDomElement &gradientElement, QGradient *&gradient)
     {
         if(gradientElement.isNull()) {
             return false;
@@ -454,14 +454,16 @@ namespace Widget_Utils
      * @param brush The QBrush object into which brush details should
      *              be read into.
      */
-    bool loadBrushFromXMI(const QDomElement &qElement, QBrush &brush)
+    bool loadBrushFromXMI(QDomElement &qElement, QBrush &brush)
     {
         if(qElement.isNull()) {
             return false;
         }
 
         quint8 style = qElement.attribute("style").toShort();
-        QColor color = qElement.attribute("color");
+        const QString colorString = qElement.attribute("color");
+        QColor color;
+        color.setNamedColor(colorString);
 
         if(style == Qt::TexturePattern) {
             QPixmap pixmap;
