@@ -378,7 +378,7 @@ QColor WidgetBase::fontColor() const
 
 /**
  * Sets the color of the font to \a color.
- * If \a color is invalid, line color is used for font color.
+ * If \a color is invalid, black is used instead.
  *
  * This method issues @ref FontColorHasChanged notification after
  * setting the new font color.
@@ -389,7 +389,7 @@ void WidgetBase::setFontColor(const QColor& color)
     const QColor oldColor = fontColor();
     m_fontColor = color;
     if(!m_fontColor.isValid()) {
-        m_fontColor = m_lineColor;
+        m_fontColor = Qt::black;
     }
 
     attributeChange(FontColorHasChanged, oldColor);
@@ -495,6 +495,7 @@ void WidgetBase::showPropertiesDialog()
  */
 bool WidgetBase::loadFromXMI(QDomElement &qElement)
 {
+    Q_ASSERT(umlScene());
     // NOTE:
     // The "none" is used by kde3 version of umbrello. The current
     // technique to determine whether a property is being used from
@@ -526,7 +527,7 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
         setLineWidth(umlScene()->getLineWidth());
     }
 
-    // Load the font color, if invalid line color is automatically used.
+    // Load the font color, if invalid black is used.
     QString fontColor = qElement.attribute("fontcolor");
     setFontColor(QColor(fontColor));
 
@@ -582,9 +583,11 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
         setID(STR2ID(id));
     }
 
-    qreal x = qElement.attribute("x", "0").toDouble();
-    qreal y = qElement.attribute("y", "0").toDouble();
-    setPos(x, y);
+    QPointF pos;
+    pos.setX(qElement.attribute("x", "0").toDouble());
+    pos.setY(qElement.attribute("y", "0").toDouble());
+    pos = mapToParent(mapFromScene(pos));
+    setPos(pos);
 
     return true;
 }
@@ -602,6 +605,7 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
  */
 void WidgetBase::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
+    Q_ASSERT(umlScene());
     qElement.setAttribute("linecolor", m_lineColor.name());
     qElement.setAttribute("linewidth", m_lineWidth);
     qElement.setAttribute("fontcolor", m_fontColor.name());
@@ -610,8 +614,9 @@ void WidgetBase::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     Widget_Utils::saveBrushToXMI(qDoc, qElement, m_brush);
 
     qElement.setAttribute("xmi.id", ID2STR(id()));
-    qElement.setAttribute("x", pos().x());
-    qElement.setAttribute("y", pos().y());
+    const QPointF pos = scenePos();
+    qElement.setAttribute("x", pos.x());
+    qElement.setAttribute("y", pos.y());
 }
 
 /**
