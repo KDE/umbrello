@@ -207,10 +207,14 @@ void WidgetBase::setID(Uml::IDType id)
         m_umlObject->setID(id);
     }
     else {
+        if (id == Uml::id_None) {
+            // generate unique id in case of None and also when m_umlObject is null.
+            id = UniqueID::gen();
+        }
         m_widgetInterfaceData->id = id;
     }
 
-    attributeChange(IDHasChanged, ID2STR(id));
+    attributeChange(IDHasChanged, ID2STR(oldId));
 }
 
 /**
