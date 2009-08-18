@@ -45,6 +45,10 @@ ComponentWidget::~ComponentWidget()
  */
 void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
+    if (!umlObject() || umlObject()->getBaseType() != Uml::ot_Component) {
+        uError() << "Does not contain valid UMLComponent object";
+        return;
+    }
     UMLComponent *umlcomp = static_cast<UMLComponent*>(umlObject());
 
     QPen pen(lineColor(), lineWidth());
@@ -101,7 +105,7 @@ void ComponentWidget::updateTextItemGroups()
         QString nameText = name();
         bool underline = false;
         if(this->isInstance()) {
-            nameText.prepend(':');
+            nameText.prepend(" : ");
             nameText.prepend(instanceName());
             underline = true;
         }
