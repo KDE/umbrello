@@ -293,7 +293,6 @@ AssociationLine::AssociationLine(AssociationWidget *assoc) : m_associationWidget
 /// Destructor
 AssociationLine::~AssociationLine()
 {
-    uDebug() << "Destroyed";
 }
 
 /// @return The point at given index.
@@ -502,17 +501,44 @@ void AssociationLine::setEndPoints(const QPointF& start, const QPointF& end)
  */
 bool AssociationLine::loadFromXMI(QDomElement &qElement)
 {
-    if (!qElement.hasChildNodes()) {
+    QDomNode node = qElement.firstChild();
+
+    m_points.clear();
+
+    QDomElement startElement = node.toElement();
+    if(startElement.isNull() || startElement.tagName() != "startpoint") {
         return false;
     }
+    QPointF startPoint;
+    startPoint.rx() = startElement.attribute("startx", "0").toDouble();
+    startPoint.ry() = startElement.attribute("starty", "0").toDouble();
+    startPoint = m_associationWidget->mapFromScene(startPoint);
 
-    QDomNodeList domNodes = qElement.childNodes();
-    for (int i = 0; i < domNodes.size(); ++i) {
-        QDomElement ele = domNodes.at(i).toElement();
-        qreal x = ele.attribute("x", "0").toDouble();
-        qreal y = ele.attribute("y", "0").toDouble();
-        insertPoint(i, QPointF(x, y));
-        ++i;
+    node = startElement.nextSibling();
+
+    QDomElement endElement = node.toElement();
+    if(endElement.isNull() || endElement.tagName() != "endpoint") {
+        return false;
+    }
+    QPointF endPoint;
+    endPoint.rx() = endElement.attribute("endx", "0").toDouble();
+    endPoint.ry() = endElement.attribute("endy", "0").toDouble();
+    endPoint = m_associationWidget->mapFromScene(endPoint);
+
+    setEndPoints(startPoint, endPoint);
+
+    QPointF point;
+    node = endElement.nextSibling();
+    QDomElement element = node.toElement();
+    int i = 1;
+    while(!element.isNull()) {
+        if(element.tagName() == "point") {
+            point.rx() = element.attribute("x", "0").toDouble();
+            point.ry() = element.attribute("y", "0").toDouble();
+            insertPoint(i++, m_associationWidget->mapFromScene(point));
+        }
+        node = element.nextSibling();
+        element = node.toElement();
     }
 
     return true;
@@ -524,15 +550,25 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
  */
 void AssociationLine::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
-    QDomElement pathElement = qDoc.createElement("linepath");
-    for (int i = 0; i < m_points.size(); ++i ) {
+    QPointF point = m_associationWidget->mapToScene(startPoint());
+    QDomElement lineElement = qDoc.createElement("linepath");
+    QDomElement startElement = qDoc.createElement("startpoint");
+    startElement.setAttribute("startx", point.x());
+    startElement.setAttribute("starty", point.y());
+    lineElement.appendChild(startElement);
+    QDomElement endElement = qDoc.createElement("endpoint");
+    point = m_associationWidget->mapToScene(endPoint());
+    endElement.setAttribute("endx", point.x());
+    endElement.setAttribute("endy", point.y());
+    lineElement.appendChild(endElement);
+    for(int i = 1; i < count()-1; ++i) {
         QDomElement pointElement = qDoc.createElement("point");
-        const QPointF &point = m_points.at(i);
-        pointElement.setAttribute( "x", point.x() );
-        pointElement.setAttribute( "y", point.y() );
-        pathElement.appendChild(pointElement);
+        point = m_associationWidget->mapToScene(this->point(i));
+        pointElement.setAttribute("x", point.x());
+        pointElement.setAttribute("y", point.y());
+        lineElement.appendChild(pointElement);
     }
-    qElement.appendChild(pathElement);
+    qElement.appendChild(lineElement);
 }
 
 QPen AssociationLine::pen() const

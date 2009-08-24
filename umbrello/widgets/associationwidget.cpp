@@ -380,6 +380,10 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textW
     const uint numSegments = m_associationLine->count()-1;
     const uint lastSegmentIndex = numSegments-1;
 
+    if (numSegments == 0) {
+        uError() << "Called when it had zero segments";
+        return;
+    }
     QPointF p0, p1;
     switch (tr) {
         case Uml::tr_RoleAName:
@@ -458,6 +462,8 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textW
         s->addItem(eellipse);
         s->addItem(lline);
     }
+    eellipse->hide();
+    lline->hide();
 
     QRectF r(0, 0, 2 * radius, 2 * radius);
     r.moveCenter(mid);

@@ -3747,6 +3747,7 @@ bool UMLScene::loadAssociationsFromXMI(QDomElement & qElement)
             tag == "UML:AssocWidget") {  // for bkwd compatibility
             countr++;
             AssociationWidget *assoc = new AssociationWidget();
+            addItem(assoc);
             if (!assoc->loadFromXMI(assocElement)) {
                 uError() << "could not loadFromXMI association widget:"
                          << (void*)assoc << ", bad XMI file? Deleting from umlview.";
