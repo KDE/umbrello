@@ -140,7 +140,7 @@ public:
     bool isActivated() const;
     void setActivatedFlag(bool value);
 
-    virtual void activate();
+    virtual bool activate();
 
     virtual void showPropertiesDialog();
 

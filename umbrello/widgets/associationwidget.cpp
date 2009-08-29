@@ -898,16 +898,17 @@ AssociationLine* AssociationWidget::associationLine() const
     return m_associationLine;
 }
 
-void AssociationWidget::activate()
+bool AssociationWidget::activate()
 {
     Q_ASSERT(umlScene());
     setActivatedFlag(false);
-    if (!umlObject() &&
-            UMLAssociation::assocTypeHasUMLRepresentation(associationType())) {
+    bool hasUMLRepresentation =
+        UMLAssociation::assocTypeHasUMLRepresentation(associationType());
+    if (!umlObject() && hasUMLRepresentation) {
         UMLObject *myObj = umlDoc()->findObjectById(id());
         if (!myObj) {
             uError() << "cannot find UMLObject " << ID2STR(id());
-            return;
+            return false;
         } else {
             setUMLObject(myObj);
             setAssociationType(associationType());
@@ -924,7 +925,7 @@ void AssociationWidget::activate()
 
 
     if (!widgetForRole(Uml::A) || !widgetForRole(Uml::B)) {
-        return;
+        return false;
     }
 
     // TODO: Check whether this comment should be removed.
@@ -967,6 +968,7 @@ void AssociationWidget::activate()
     m_associationLine->calculateAssociationClassLine();
 
     setActivatedFlag(true);
+    return true;
 }
 
 QRectF AssociationWidget::boundingRect() const

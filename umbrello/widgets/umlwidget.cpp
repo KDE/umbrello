@@ -219,6 +219,17 @@ AssociationSpaceManager* UMLWidget::associationSpaceManager() const
     return m_associationSpaceManager;
 }
 
+bool UMLWidget::activate()
+{
+    bool activated = WidgetBase::activate();
+    if (!activated) {
+        return false;
+    }
+    setSize(m_size);
+    updateGeometry();
+    return true;
+}
+
 /**
  * Adjusts the position and lines of connected association
  * widgets. This method is used usually after this widget moves
@@ -251,7 +262,7 @@ bool UMLWidget::loadFromXMI(QDomElement &qElement)
     }
     m_size.setWidth(w);
     m_size.setHeight(h);
-    updateGeometry(); // Force updation of the shape as well.
+    setSize(m_size);
 
     QString instName = qElement.attribute("instancename", QString());
     setInstanceName(instName);

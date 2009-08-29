@@ -564,12 +564,28 @@ void WidgetBase::setActivatedFlag(bool b)
  *
  * By default, this method just sets the flag to true.
  *
+ * @return The new activation status.
+ *
  * @see WidgetBase::m_activated to understand what activation means.
  * @sa WidgetBase::setActivatedFlag
  */
-void WidgetBase::activate()
+bool WidgetBase::activate()
 {
-    m_activated = true;
+    Q_ASSERT(umlScene());
+    // Reset flag, because you might be "reactivating" this widget in which case
+    // the new activation status needs to be held.
+    m_activated = false;
+    if (widgetHasUMLObject(baseType()) && !m_umlObject) {
+        m_umlObject = umlDoc()->findObjectById(id());
+        if (!m_umlObject) {
+            uError() << "cannot find UMLObject with id=" << ID2STR(id());
+        } else {
+            m_activated = true;
+        }
+    } else {
+        m_activated = true;
+    }
+    return m_activated;
 }
 
 /**
@@ -596,63 +612,87 @@ void WidgetBase::showPropertiesDialog()
 bool WidgetBase::loadFromXMI(QDomElement &qElement)
 {
     Q_ASSERT(umlScene());
-    // NOTE:
-    // The "none" is used by kde3 version of umbrello. The current
-    // technique to determine whether a property is being used from
-    // the diagram or not is just to compare the same, rather than
-    // having flags for them.
-    //
-    // This way, there is no burden to update the flags and the code
-    // is more robust.
     const QLatin1String none("none");
 
     // Load the line color first
 
     // Workaround for old "linecolour" usage.
-    QString lineColor = qElement.attribute("linecolour");
+    QString lineColor = qElement.attribute("linecolour", none);
     lineColor = qElement.attribute("linecolor", lineColor);
-    if(!lineColor.isEmpty() && lineColor != none) {
+    if (lineColor != none) {
+        m_usesDiagramLineColor = false;
         setLineColor(QColor(lineColor));
-    }
-    else if(umlScene()) {
+    } else {
+        m_usesDiagramLineColor = true;
         setLineColor(umlScene()->getLineColor());
     }
 
     // Load the line width.
-    QString lineWidth = qElement.attribute("linewidth");
-    if(!lineWidth.isEmpty() && lineWidth != none) {
+    QString lineWidth = qElement.attribute("linewidth", none);
+    if(lineWidth != none) {
+        m_usesDiagramLineWidth = false;
         setLineWidth(lineWidth.toInt());
     }
-    else if(umlScene()) {
+    else {
+        m_usesDiagramLineWidth = true;
         setLineWidth(umlScene()->getLineWidth());
     }
 
     // Load the font color, if invalid black is used.
-    QString textColor = qElement.attribute("textcolor");
-    setTextColor(QColor(textColor));
+    QString textColor = qElement.attribute("textcolor", none);
+    if (textColor != none) {
+        m_usesDiagramTextColor = false;
+        setTextColor(QColor(textColor));
+    } else {
+        m_usesDiagramTextColor = true;
+        setTextColor(umlScene()->getTextColor());
+    }
 
     // Load the brush.
-    QBrush newBrush;
     QDomElement brushElement = qElement.firstChildElement("brush");
-    bool brushSet = Widget_Utils::loadBrushFromXMI(brushElement, newBrush);
-
-    // If this fails, we try to load fillColor attribute which is used in kde3 version of umbrello.
-    if(!brushSet) {
-        // Workaround for old "fillcolour" usage.
-        QString fillColor = qElement.attribute("fillcolour");
-        fillColor = qElement.attribute("fillcolor");
-
-        if(!fillColor.isEmpty() && fillColor != none) {
-            setBrush(QColor(fillColor));
-            brushSet = true;
+    int usesDiagramBrush = qElement.attribute("usesdiagrambrush", "-1").toInt();
+    if (!brushElement.isNull() || usesDiagramBrush != -1) {
+        if (usesDiagramBrush == 0 || brushElement.isNull()) {
+            m_usesDiagramBrush = true;
+            setBrush(umlScene()->brush());
+        } else {
+            QBrush newBrush;
+            bool brushSet = Widget_Utils::loadBrushFromXMI(brushElement, newBrush);
+            if (!brushSet) {
+                uError() << "Could not load brush from XMI file";
+                m_usesDiagramBrush = true;
+                setBrush(umlScene()->brush());
+            } else {
+                m_usesDiagramBrush = false;
+            }
         }
-    }
-    else {
-        setBrush(newBrush);
-    }
-    // Set the diagram's brush if it is not yet set.
-    if(!brushSet && umlScene()) {
-        setBrush(umlScene()->brush());
+    } else {
+        // If control is here,
+        // we are loading a file saved using older version mostly.
+
+        bool useFillColor = false;
+        QString usesDiagramUseFillColor = qElement.attribute("usesdiagramusefillcolour", "1");
+        usesDiagramUseFillColor = qElement.attribute("usesdiagramusefillcolor", usesDiagramUseFillColor);
+        if (usesDiagramUseFillColor.toInt()) {
+            useFillColor = (umlScene()->brush().style() != Qt::NoBrush);
+        } else {
+            useFillColor = (qElement.attribute("usefillcolor", "1").toInt() != 0);
+        }
+
+        if (useFillColor == false) {
+            m_usesDiagramBrush = false;
+            setBrush(QBrush(Qt::NoBrush));
+        } else {
+            QString fillColor = qElement.attribute("fillcolour", "none");
+            fillColor = qElement.attribute("fillcolor", fillColor);
+            if (fillColor != none) {
+                m_usesDiagramBrush = false;
+                setBrush(QBrush(QColor(fillColor)));
+            } else {
+                m_usesDiagramBrush = true;
+                setBrush(umlScene()->brush());
+            }
+        }
     }
 
     // Load the font.
@@ -661,6 +701,7 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
     if(!font.isEmpty()) {
         fontSet = m_font.fromString(font);
         if(fontSet) {
+            m_usesDiagramFont = false;
             setFont(m_font);
         }
         else {
@@ -668,7 +709,8 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
         }
     }
     // Set diagram's default font if font is not yet set.
-    if(!fontSet && umlScene()) {
+    if(!fontSet) {
+        m_usesDiagramFont = true;
         setFont(umlScene()->font());
     }
 
@@ -678,9 +720,11 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
         if(id != ID2STR(this->id())) {
             uWarning() << "ID mismatch between UMLWidget and its UMLObject"
                        << "So the id read will be ignored.";
+            // Do not set mismatching id.
         }
     }
     else {
+        // store it to possibly load associated UMLObject if any while activation.
         setID(STR2ID(id));
     }
 

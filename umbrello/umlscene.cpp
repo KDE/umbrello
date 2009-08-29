@@ -1507,15 +1507,16 @@ void UMLScene::activate()
     //Activate Regular widgets then activate  messages
     foreach(UMLWidget* obj , m_WidgetList) {
         //If this UMLWidget is already activated or is a MessageWidget then skip it
-        if (/* [PORT] obj->isActivated() || */ obj->baseType() == wt_Message)
+        if (obj->isActivated() || obj->baseType() == wt_Message) {
             continue;
+        }
 
-// [PORT]        if (obj->activate(0)) {
-            obj->setVisible(true);
-//        } else {
-//            m_WidgetList.removeAll(obj);
-//            delete obj;
-//        }
+       if (obj->activate()) {
+           obj->setVisible(true);
+       } else {
+           m_WidgetList.removeAll(obj);
+           delete obj;
+       }
     }//end foreach
 
     //Activate Message widgets
@@ -1532,21 +1533,14 @@ void UMLScene::activate()
 
     // Activate all association widgets
 
-    // [PORT]
-#if 0
     foreach(AssociationWidget* aw , m_AssociationList) {
         if (aw->activate()) {
-            if (m_PastePoint.x() != 0.) {
-                qreal x = m_PastePoint.x() - m_Pos.x();
-                qreal y = m_PastePoint.y() - m_Pos.y();
-                aw->moveEntireAssoc(x, y);
-            }
+            aw->setVisible(true);
         } else {
             m_AssociationList.removeAll(aw);
-            delete  aw;
+            delete aw;
         }
     }
-#endif
 }
 
 /**

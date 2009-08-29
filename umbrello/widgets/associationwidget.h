@@ -132,7 +132,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 
         AssociationLine* associationLine() const;
 
-        virtual void activate();
+        virtual bool activate();
         virtual QRectF boundingRect() const;
         virtual QPainterPath shape() const;
         virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget*);
