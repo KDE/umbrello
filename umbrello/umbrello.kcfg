@@ -112,6 +112,11 @@
          <whatsthis>The Width of the Line</whatsthis>
          <default>0</default>
        </entry>
+       <entry name="textColor" type="Color">
+         <label>Text Color</label>
+         <whatsthis>The Color of the Text</whatsthis>
+         <default>black</default>
+       </entry>
        <entry name="showDocWindow" type="Bool">
          <label>Show Doc Window</label>
          <whatsthis>Enables/Disables showing of the doc window</whatsthis>

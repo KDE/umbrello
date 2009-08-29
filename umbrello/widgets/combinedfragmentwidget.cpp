@@ -421,8 +421,8 @@ void CombinedFragmentWidget::updateTextItemGroups()
  * - FontHasChanged -> Sets the CombinedFragmentWidget's changed font
  *                     to all the FloatingDashLineWidgets.
  *
- * - FontColorHasChanged -> Sets the CombinedFragmentWidget's changed
- *                          fontcolor to all the
+ * - TextColorHasChanged -> Sets the CombinedFragmentWidget's changed
+ *                          textcolor to all the
  *                          FloatingDashLineWidgets.
  *
  * - LineColorHasChanged -> Sets the CombinedFragmentWidget's changed
@@ -477,7 +477,7 @@ void CombinedFragmentWidget::setupFloatingWidget(FloatingDashLineWidget *flt)
 {
     flt->setLineColor(lineColor());
     flt->setLineWidth(lineWidth());
-    flt->setFontColor(fontColor());
+    flt->setTextColor(textColor());
     flt->setFont(font());
 }
 

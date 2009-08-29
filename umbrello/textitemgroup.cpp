@@ -30,7 +30,7 @@ TextItemGroup::TextItemGroup(QGraphicsItem *parent) :
     m_lineBreakageWidth(TextItemGroup::NoLineBreak),
     m_margin(0),
     m_alignment(Qt::AlignCenter),
-    m_fontColor(Qt::black),
+    m_textColor(Qt::black),
     m_hoverBrush(Qt::NoBrush),
     m_backgroundBrush(Qt::NoBrush)
 {
@@ -80,7 +80,7 @@ void TextItemGroup::appendTextItem(TextItem *textItem)
     }
 
     textItem->setAlignment(m_alignment);
-    textItem->setDefaultTextColor(m_fontColor);
+    textItem->setDefaultTextColor(m_textColor);
     textItem->setHoverBrush(m_hoverBrush);
     textItem->setBackgroundBrush(m_backgroundBrush);
     textItem->setFont(m_font);
@@ -98,7 +98,7 @@ void TextItemGroup::insertTextItemAt(int i, TextItem *textItem)
     }
 
     textItem->setAlignment(m_alignment);
-    textItem->setDefaultTextColor(m_fontColor);
+    textItem->setDefaultTextColor(m_textColor);
     textItem->setHoverBrush(m_hoverBrush);
     textItem->setBackgroundBrush(m_backgroundBrush);
     textItem->setFont(m_font);
@@ -201,9 +201,9 @@ void TextItemGroup::setAlignment(Qt::Alignment align)
     }
 }
 
-void TextItemGroup::setFontColor(const QColor& color)
+void TextItemGroup::setTextColor(const QColor& color)
 {
-    m_fontColor = color;
+    m_textColor = color;
     foreach(TextItem *item, m_textItems) {
         item->setDefaultTextColor(color);
     }

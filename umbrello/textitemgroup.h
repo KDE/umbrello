@@ -87,10 +87,10 @@ public:
     }
     void setAlignment(Qt::Alignment align);
 
-    QColor fontColor() const {
-        return m_fontColor;
+    QColor textColor() const {
+        return m_textColor;
     }
-    void setFontColor(const QColor& color);
+    void setTextColor(const QColor& color);
 
     QBrush hoverBrush() const {
         return m_hoverBrush;
@@ -115,7 +115,7 @@ private:
     qreal m_margin;
 
     Qt::Alignment m_alignment;
-    QColor m_fontColor;
+    QColor m_textColor;
     QBrush m_hoverBrush;
     QBrush m_backgroundBrush;
     QFont m_font;

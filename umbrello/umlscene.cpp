@@ -993,6 +993,17 @@ void UMLScene::setLineWidth(uint width)
     emit sigLineWidthChanged(getID());
 }
 
+QColor UMLScene::getTextColor() const
+{
+    return m_Options.uiState.textColor;
+}
+
+void UMLScene::setTextColor(const QColor& color)
+{
+    m_Options.uiState.textColor = color;
+    // PORT: Apply for widgets.
+}
+
 /**
  * Override standard method.
  * Calls the same method in the current tool bar state.

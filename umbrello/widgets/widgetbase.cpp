@@ -375,28 +375,28 @@ void WidgetBase::setLineWidth(uint lw)
 }
 
 /// @return Font color used to draw font.
-QColor WidgetBase::fontColor() const
+QColor WidgetBase::textColor() const
 {
-    return m_fontColor;
+    return m_textColor;
 }
 
 /**
  * Sets the color of the font to \a color.
  * If \a color is invalid, black is used instead.
  *
- * This method issues @ref FontColorHasChanged notification after
+ * This method issues @ref TextColorHasChanged notification after
  * setting the new font color.
  * @see WidgetBase::attributeChange
  */
-void WidgetBase::setFontColor(const QColor& color)
+void WidgetBase::setTextColor(const QColor& color)
 {
-    const QColor oldColor = fontColor();
-    m_fontColor = color;
-    if(!m_fontColor.isValid()) {
-        m_fontColor = Qt::black;
+    const QColor oldColor = textColor();
+    m_textColor = color;
+    if(!m_textColor.isValid()) {
+        m_textColor = Qt::black;
     }
 
-    attributeChange(FontColorHasChanged, oldColor);
+    attributeChange(TextColorHasChanged, oldColor);
 }
 
 /// @return The QBrush object used to fill this widget.
@@ -419,6 +419,102 @@ void WidgetBase::setBrush(const QBrush& brush)
     m_brush = brush;
 
     attributeChange(BrushHasChanged, oldBrush);
+}
+
+
+bool WidgetBase::usesDiagramLineColor() const
+{
+    return m_usesDiagramLineColor;
+}
+
+void WidgetBase::setUsesDiagramLineColor(bool status)
+{
+    if (m_usesDiagramLineColor == status) {
+        return;
+    }
+    m_usesDiagramLineColor = status;
+    if (status && umlScene()) {
+        QColor color = umlScene()->getLineColor();
+        if (color != lineColor()) {
+            setLineColor(color);
+        }
+    }
+}
+
+bool WidgetBase::usesDiagramLineWidth() const
+{
+    return m_usesDiagramLineWidth;
+}
+
+void WidgetBase::setUsesDiagramLineWidth(bool status)
+{
+    if (m_usesDiagramLineWidth == status) {
+        return;
+    }
+    m_usesDiagramLineWidth = status;
+    if (status && umlScene()) {
+        uint lw = umlScene()->getLineWidth();
+        if (lw != lineWidth()) {
+            setLineWidth(lw);
+        }
+    }
+}
+
+bool WidgetBase::usesDiagramBrush() const
+{
+    return m_usesDiagramBrush;
+}
+
+void WidgetBase::setUsesDiagramBrush(bool status)
+{
+    if (status == m_usesDiagramBrush) {
+        return;
+    }
+    m_usesDiagramBrush = status;
+    if (status && umlScene()) {
+        QBrush b = umlScene()->brush();
+        if (b != brush()) {
+            setBrush(b);
+        }
+    }
+}
+
+bool WidgetBase::usesDiagramFont() const
+{
+    return m_usesDiagramFont;
+}
+
+void WidgetBase::setUsesDiagramFont(bool status)
+{
+    if (status == m_usesDiagramFont) {
+        return;
+    }
+    m_usesDiagramFont = status;
+    if (status && umlScene()) {
+        QFont f = umlScene()->getFont();
+        if (f != font()) {
+            setFont(f);
+        }
+    }
+}
+
+bool WidgetBase::usesDiagramTextColor() const
+{
+    return m_usesDiagramTextColor;
+}
+
+void WidgetBase::setUsesDiagramTextColor(bool status)
+{
+    if (m_usesDiagramTextColor == status) {
+        return;
+    }
+    m_usesDiagramTextColor = status;
+    if (status && umlScene()) {
+        QColor color = umlScene()->getTextColor();
+        if (color != textColor()) {
+            setTextColor(color);
+        }
+    }
 }
 
 /// @return The font used for displaying any text
@@ -532,8 +628,8 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
     }
 
     // Load the font color, if invalid black is used.
-    QString fontColor = qElement.attribute("fontcolor");
-    setFontColor(QColor(fontColor));
+    QString textColor = qElement.attribute("textcolor");
+    setTextColor(QColor(textColor));
 
     // Load the brush.
     QBrush newBrush;
@@ -611,12 +707,37 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
 void WidgetBase::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     Q_ASSERT(umlScene());
-    qElement.setAttribute("linecolor", m_lineColor.name());
-    qElement.setAttribute("linewidth", m_lineWidth);
-    qElement.setAttribute("fontcolor", m_fontColor.name());
-    qElement.setAttribute("font", m_font.toString());
+    if (m_usesDiagramLineColor) {
+        qElement.setAttribute("linecolor", "none");
+    } else {
+        qElement.setAttribute("linecolor", m_lineColor.name());
+    }
 
-    Widget_Utils::saveBrushToXMI(qDoc, qElement, m_brush);
+    if (m_usesDiagramLineWidth) {
+        qElement.setAttribute("linewidth", m_lineWidth);
+    } else {
+        qElement.setAttribute("linewidth", m_lineWidth);
+    }
+
+    if (m_usesDiagramTextColor) {
+        qElement.setAttribute("textcolor", "none");
+    } else {
+        qElement.setAttribute("textcolor", m_textColor.name());
+    }
+
+    if (m_usesDiagramFont) {
+        // do not save font attribute, which would result in default font
+        // being set while loading.
+    } else {
+        qElement.setAttribute("font", m_font.toString());
+    }
+
+    if (m_usesDiagramBrush) {
+        qElement.setAttribute("usesdiagrambrush", true);
+    } else {
+        qElement.setAttribute("usesdiagrambrush", false);
+        Widget_Utils::saveBrushToXMI(qDoc, qElement, m_brush);
+    }
 
     qElement.setAttribute("xmi.id", ID2STR(id()));
     const QPointF pos = scenePos();
@@ -834,7 +955,7 @@ void WidgetBase::slotInit()
     attributeChange(LineColorHasChanged, v);
     attributeChange(LineWidthHasChanged, v);
     attributeChange(FontHasChanged, v);
-    attributeChange(FontColorHasChanged, v);
+    attributeChange(TextColorHasChanged, v);
     attributeChange(BrushHasChanged, v);
 
     // Now show the item (Ugly hack to prevent floatingtext widget from showing up
@@ -906,7 +1027,7 @@ QVariant WidgetBase::attributeChange(WidgetAttributeChange change, const QVarian
         break;
 
     case LineColorHasChanged:
-    case FontColorHasChanged:
+    case TextColorHasChanged:
     case BrushHasChanged:
         update();
         break;

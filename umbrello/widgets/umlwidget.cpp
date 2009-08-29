@@ -296,9 +296,9 @@ QVariant UMLWidget::attributeChange(WidgetAttributeChange change, const QVariant
             group->setFont(font());
         }
     }
-    else if(change == FontColorHasChanged) {
+    else if(change == TextColorHasChanged) {
         foreach(TextItemGroup *group, m_textItemGroups) {
-            group->setFontColor(fontColor());
+            group->setTextColor(textColor());
         }
     }
     else if(change == NameHasChanged) {

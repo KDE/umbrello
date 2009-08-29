@@ -51,6 +51,7 @@ struct UIState {
     QColor fillColor;
     QColor lineColor;
     uint   lineWidth;
+    QColor textColor;
     QFont font;
 };
 

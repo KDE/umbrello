@@ -60,7 +60,7 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
     painter->drawEllipse(circle);
 
     // Now draw the letter inside circle.
-    painter->setPen(fontColor());
+    painter->setPen(textColor());
 
     QString letterType('D');
     switch( static_cast<UMLCategory*>( umlObject() )->getType() ) {

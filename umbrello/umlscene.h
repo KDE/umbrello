@@ -126,31 +126,34 @@ public:
      * @param color  The color to use.
      */
      void setFillColor(const QColor &color);
- 
+
     /**
      * Returns the line color to use.
      */
      QColor getLineColor() const;
- 
+
     /**
      * Sets the line color.
      *
      * @param color  The color to use.
      */
      void setLineColor(const QColor &color);
- 
+
     /**
      * Returns the line width to use.
      */
      uint getLineWidth() const;
- 
+
     /**
      * Sets the line width.
      *
      * @param width  The width to use.
      */
      void setLineWidth(uint width);
- 
+
+     QColor getTextColor() const;
+     void setTextColor(const QColor& color);
+
     /**
      * Returns the ID of the diagram.
      */

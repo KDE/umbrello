@@ -55,7 +55,7 @@ class WidgetBase : public QObject, public QGraphicsItem
     Q_PROPERTY(QString documentation READ documentation WRITE setDocumentation)
     Q_PROPERTY(QColor lineColor READ lineColor WRITE setLineColor)
     Q_PROPERTY(uint lineWidth READ lineWidth WRITE setLineWidth)
-    Q_PROPERTY(QColor fontColor READ fontColor WRITE setFontColor)
+    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
     Q_PROPERTY(QBrush brush READ brush WRITE setBrush)
     Q_PROPERTY(QFont font READ font WRITE setFont)
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
@@ -76,7 +76,7 @@ public:
         // Graphical attribute change notification
         LineColorHasChanged,
         LineWidthHasChanged,
-        FontColorHasChanged,
+        TextColorHasChanged,
         FontHasChanged,
         BrushHasChanged,
 
@@ -110,11 +110,26 @@ public:
     uint lineWidth() const;
     void setLineWidth(uint lw);
 
-    QColor fontColor() const;
-    void setFontColor(const QColor& color);
+    QColor textColor() const;
+    void setTextColor(const QColor& color);
 
     QBrush brush() const;
     void setBrush(const QBrush& brush);
+
+    bool usesDiagramLineColor() const;
+    void setUsesDiagramLineColor(bool status);
+
+    bool usesDiagramLineWidth() const;
+    void setUsesDiagramLineWidth(bool status);
+
+    bool usesDiagramBrush() const;
+    void setUsesDiagramBrush(bool status);
+
+    bool usesDiagramFont() const;
+    void setUsesDiagramFont(bool status);
+
+    bool usesDiagramTextColor() const;
+    void setUsesDiagramTextColor(bool status);
 
     QFont font() const;
     void setFont(const QFont& font);
@@ -173,7 +188,7 @@ private:
     QColor m_lineColor;
     uint m_lineWidth;
 
-    QColor m_fontColor;
+    QColor m_textColor;
 
     QBrush m_brush;
     QFont m_font;
@@ -191,7 +206,14 @@ private:
      * This is used to ensure that there is only one initialization when a
      * new UMLScene is set for this widget for the first time.
      */
-    bool m_isSceneSetBefore;
+    bool m_isSceneSetBefore:1;
+
+    bool m_usesDiagramLineColor:1;
+    bool m_usesDiagramLineWidth:1;
+    bool m_usesDiagramBrush:1;
+    bool m_usesDiagramFont:1;
+    bool m_usesDiagramTextColor:1;
+
     /**
      * Disable the copy constructor and assignment operator.
      */
