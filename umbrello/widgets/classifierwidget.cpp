@@ -622,7 +622,7 @@ void ClassifierWidget::updateTextItemGroups()
     for(int i = 0; i < tlist.size(); ++i) {
         UMLTemplate *t = tlist[i];
         templateGroup->textItemAt(i)->setText(t->toString());
-        templateGroup->textItemAt(i)->setVisible(!templateHide);
+        templateGroup->textItemAt(i)->setExplicitVisibility(!templateHide);
     }
 
     // Stereo type and name.
@@ -640,7 +640,7 @@ void ClassifierWidget::updateTextItemGroups()
     bool v = !shouldDrawAsCircle()
         && visualProperty(ShowStereotype)
         && !(umlC->getStereotype(false).isEmpty());
-    stereoItem->setVisible(v);
+    stereoItem->setExplicitVisibility(v);
 
     // name item is always visible.
     TextItem *nameItem = headerGroup->textItemAt(NameItemIndex);
@@ -674,7 +674,7 @@ void ClassifierWidget::updateTextItemGroups()
                  || obj->getVisibility() == Uml::Visibility::Public)
             && visualProperty(ShowAttributes) == true;
 
-        item->setVisible(v);
+        item->setExplicitVisibility(v);
         if (v) {
             ++visibleAttributes;
         }
@@ -718,7 +718,7 @@ void ClassifierWidget::updateTextItemGroups()
                  || obj->getVisibility() == Uml::Visibility::Public)
             && visualProperty(ShowOperations);
 
-        item->setVisible(v);
+        item->setExplicitVisibility(v);
         if (v) {
             ++visibleOperations;
         }

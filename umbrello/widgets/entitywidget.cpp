@@ -101,7 +101,7 @@ void EntityWidget::updateTextItemGroups()
         stereo->setText(classifier->getStereotype(true));
         stereo->setBold(true);
         bool hideStereo = classifier->getStereotype(false).isEmpty();
-        stereo->setVisible(!hideStereo);
+        stereo->setExplicitVisibility(!hideStereo);
 
         TextItem *nameItem = grp->textItemAt(EntityWidget::NameItemIndex);
         nameItem->setText(name());

@@ -149,7 +149,7 @@ void ArtifactWidget::updateTextItemGroups()
         stereoItem->setText(artifact->getStereotype(true));
         bool hideStereo = artifact->getStereotype(false).isEmpty()
             || artifact->getDrawAsType() != UMLArtifact::defaultDraw ;
-        stereoItem->setVisible(!hideStereo);
+        stereoItem->setExplicitVisibility(!hideStereo);
 
         TextItem *nameItem = grp->textItemAt(ArtifactWidget::NameItemIndex);
         nameItem->setText(name());

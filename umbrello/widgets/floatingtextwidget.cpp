@@ -484,7 +484,7 @@ void FloatingTextWidget::updateTextItemGroups()
 
     TextItem *item = grp->textItemAt(0);
     item->setText(displayText());
-    item->show();
+    item->setExplicitVisibility(true);
 
     UMLWidget::updateTextItemGroups();
 }

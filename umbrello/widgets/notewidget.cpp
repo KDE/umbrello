@@ -191,9 +191,9 @@ void NoteWidget::updateGeometry()
     // still. (happens during creation of object)
     if(grp->textItemCount() > NoteTextItemIndex) {
         TextItem *noteTextItem = grp->textItemAt(NoteTextItemIndex);
-        noteTextItem->hide();
+        noteTextItem->setExplicitVisibility(false);
         widthWithoutNote = grp->minimumSize().width();
-        noteTextItem->show();
+        noteTextItem->setExplicitVisibility(true);
     }
 
     const qreal atleast6Chars = QFontMetricsF(grp->font()).width("w") * 6;
@@ -215,24 +215,24 @@ void NoteWidget::updateTextItemGroups()
     grp->setTextItemCount(TextItemCount);
 
     TextItem *diagramLinkItem = grp->textItemAt(DiagramLinkItemIndex);
-    diagramLinkItem->hide();
+    diagramLinkItem->setExplicitVisibility(false);
     //FIXME: Fixe diagram link drawing
 
     TextItem *noteTypeItem = grp->textItemAt(NoteTypeItemIndex);
     if(m_noteType == NoteWidget::PreCondition) {
         noteTypeItem->setText(i18n("<< precondition >>"));
-        noteTypeItem->show();
+        noteTypeItem->setExplicitVisibility(true);
     }
     else if(m_noteType == NoteWidget::PostCondition) {
         noteTypeItem->setText(i18n("<< postcondition >>"));
-        noteTypeItem->show();
+        noteTypeItem->setExplicitVisibility(true);
     }
     else if(m_noteType == NoteWidget::Transformation) {
         noteTypeItem->setText(i18n("<< transformation >>"));
-        noteTypeItem->show();
+        noteTypeItem->setExplicitVisibility(true);
     }
     else { // = NoteWidget::Normal
-        noteTypeItem->hide();
+        noteTypeItem->setExplicitVisibility(false);
     }
 
     TextItem *noteTextItem = grp->textItemAt(NoteTextItemIndex);

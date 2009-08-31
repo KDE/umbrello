@@ -423,7 +423,7 @@ void StateWidget::updateTextItemGroups()
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
     if (m_stateType != StateWidget::Normal) {
         for (int i = 0; i < grp->textItemCount(); ++i) {
-            grp->textItemAt(i)->hide();
+            grp->textItemAt(i)->setExplicitVisibility(false);
         }
     }
     else {
@@ -435,7 +435,7 @@ void StateWidget::updateTextItemGroups()
         }
         for (int i = 0; i < sz; ++i) {
             TextItem *item = grp->textItemAt(i);
-            item->show();
+            item->setExplicitVisibility(true);
         }
         grp->textItemAt(StateWidget::NameItemIndex)->setText(name());
         grp->textItemAt(StateWidget::NameItemIndex)->setBold(sz > 1);

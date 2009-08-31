@@ -94,7 +94,7 @@ void NodeWidget::updateTextItemGroups()
         TextItem *stereo = grp->textItemAt(NodeWidget::StereoItemIndex);
         stereo->setText(node->getStereotype(true));
         stereo->setBold(true);
-        stereo->setVisible(!node->getStereotype(false).isEmpty());
+        stereo->setExplicitVisibility(!node->getStereotype(false).isEmpty());
 
         TextItem *nameItem = grp->textItemAt(NodeWidget::NameItemIndex);
         QString nameText = name();

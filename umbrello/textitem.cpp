@@ -100,7 +100,8 @@
  * @param parent The parent of this item.
  */
 TextItem::TextItem(const QString& text, QGraphicsItem *parent) :
-    QGraphicsTextItem(text, parent)
+    QGraphicsTextItem(text, parent),
+    m_explicitVisiblity(true)
 {
     setAcceptHoverEvents(false);
 }
@@ -261,6 +262,19 @@ void TextItem::copyAttributesTo(TextItem *other) const
     other->setItalic(italic());
     other->setUnderline(underline());
     other->setBackgroundBrush(backgroundBrush());
+}
+
+void TextItem::setExplicitVisibility(bool b)
+{
+    m_explicitVisiblity = b;
+    updateVisibility();
+}
+
+void TextItem::updateVisibility()
+{
+    bool actual = m_explicitVisiblity &&
+        (!parentItem() || parentItem()->isVisible());
+    setVisible(actual);
 }
 
 void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent *)

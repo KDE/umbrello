@@ -99,7 +99,7 @@ void PackageWidget::updateTextItemGroups()
         TextItem *stereo = grp->textItemAt(PackageWidget::StereoTypeItemIndex);
         stereo->setText(umlObject()->getStereotype(true));
         stereo->setBold(true);
-        stereo->setVisible(umlObject()->getStereotype().isEmpty() == false);
+        stereo->setExplicitVisibility(umlObject()->getStereotype().isEmpty() == false);
 
         TextItem *nameItem = grp->textItemAt(PackageWidget::NameItemIndex);
         nameItem->setText(name());

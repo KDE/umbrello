@@ -515,6 +515,10 @@ QVariant UMLWidget::itemChange(GraphicsItemChange change, const QVariant &value)
     } else if (change == QGraphicsItem::ItemPositionHasChanged) {
         // adjust the association lines by new computations.
         adjustAssociations();
+    } else if (change == QGraphicsItem::ItemVisibleHasChanged) {
+        foreach (TextItemGroup *grp, m_textItemGroups) {
+            grp->updateVisibility();
+        }
     }
     return WidgetBase::itemChange(change, value);
 }

@@ -284,10 +284,10 @@ void ObjectNodeWidget::updateTextItemGroups()
     }
 
     grp->textItemAt(0)->setText(first);
-    grp->textItemAt(0)->setVisible(visible);
+    grp->textItemAt(0)->setExplicitVisibility(visible);
 
     grp->textItemAt(1)->setText(second);
-    grp->textItemAt(1)->setVisible(visible);
+    grp->textItemAt(1)->setExplicitVisibility(visible);
 
     UMLWidget::updateTextItemGroups();
 }

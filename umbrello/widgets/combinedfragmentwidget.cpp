@@ -370,14 +370,14 @@ void CombinedFragmentWidget::updateTextItemGroups()
 
     TextItem *refItem = nameGroup->textItemAt(0);
 
-    firstAltItem->hide();
-    refItem->hide();
+    firstAltItem->setExplicitVisibility(false);
+    refItem->setExplicitVisibility(false);
 
     switch(combinedFragmentType()) {
     case Ref:
         typeItem->setText("ref");
         refItem->setText(combinedFragmentValue);
-        refItem->show();
+        refItem->setExplicitVisibility(true);
         break;
 
     case Opt:
@@ -419,7 +419,7 @@ void CombinedFragmentWidget::updateTextItemGroups()
             temp.append(']');
 
             firstAltItem->setText(temp);
-            firstAltItem->show();
+            firstAltItem->setExplicitVisibility(true);
         }
         break;
 

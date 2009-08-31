@@ -80,6 +80,12 @@ public:
 
     void copyAttributesTo(TextItem *other) const;
 
+    bool explicitVisiblity() const {
+        return m_explicitVisiblity;
+    }
+    void setExplicitVisibility(bool b);
+    void updateVisibility();
+
 protected:
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
@@ -89,6 +95,7 @@ private:
     QBrush m_hoverBrush;
     QBrush m_backgroundBrush;
 
+    bool m_explicitVisiblity;
 };
 
 #endif //TEXTITEM_H

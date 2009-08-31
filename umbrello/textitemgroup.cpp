@@ -193,6 +193,13 @@ void TextItemGroup::setGroupGeometry(const QRectF& rect)
     m_groupGeometry = rect;
 }
 
+void TextItemGroup::updateVisibility()
+{
+    foreach (TextItem *item, m_textItems) {
+        item->updateVisibility();
+    }
+}
+
 void TextItemGroup::setAlignment(Qt::Alignment align)
 {
     m_alignment = align;

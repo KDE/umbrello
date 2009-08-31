@@ -98,7 +98,7 @@ void ComponentWidget::updateTextItemGroups()
         TextItem *stereo = grp->textItemAt(StereoItemIndex);
         stereo->setText(umlObject()->getStereotype(true));
         stereo->setBold(true);
-        stereo->setVisible(umlObject()->getStereotype(false).isEmpty() == false);
+        stereo->setExplicitVisibility(umlObject()->getStereotype(false).isEmpty() == false);
 
         TextItem *nameItem = grp->textItemAt(NameItemIndex);
         nameItem->setBold(true);

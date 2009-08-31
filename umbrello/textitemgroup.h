@@ -82,6 +82,8 @@ public:
     }
     void setGroupGeometry(const QRectF& rect);
 
+    void updateVisibility();
+
     Qt::Alignment alignment() const {
         return m_alignment;
     }

@@ -242,28 +242,28 @@ void ActivityWidget::updateTextItemGroups()
 
     TextItem *nameItem = grp->textItemAt(NameItemIndex);
     nameItem->setText(name());
-    nameItem->show();
+    nameItem->setExplicitVisibility(true);
 
     if(m_activityType == Normal || m_activityType == Invok) {
-        grp->textItemAt(PrecondtionItemIndex)->hide();
-        grp->textItemAt(PostconditionItemIndex)->hide();
-        nameItem->show();
+        grp->textItemAt(PrecondtionItemIndex)->setExplicitVisibility(false);
+        grp->textItemAt(PostconditionItemIndex)->setExplicitVisibility(false);
+        nameItem->setExplicitVisibility(true);
     }
     else if(m_activityType == Param) {
         TextItem *preconditionItem = grp->textItemAt(PrecondtionItemIndex);
         preconditionItem->setText(preconditionText().prepend("<<precondition>> "));
-        preconditionItem->show();
+        preconditionItem->setExplicitVisibility(true);
 
         TextItem *postconditionItem = grp->textItemAt(PostconditionItemIndex);
         postconditionItem->setText(postconditionText().prepend("<<postcondition>> "));
-        postconditionItem->show();
+        postconditionItem->setExplicitVisibility(true);
 
-        nameItem->show();
+        nameItem->setExplicitVisibility(true);
     }
     else {
-        grp->textItemAt(PrecondtionItemIndex)->hide();
-        grp->textItemAt(PostconditionItemIndex)->hide();
-        nameItem->hide();
+        grp->textItemAt(PrecondtionItemIndex)->setExplicitVisibility(false);
+        grp->textItemAt(PostconditionItemIndex)->setExplicitVisibility(false);
+        nameItem->setExplicitVisibility(false);
     }
 
     UMLWidget::updateTextItemGroups();
