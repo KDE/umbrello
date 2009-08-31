@@ -23,6 +23,7 @@ BoxWidget::BoxWidget(Uml::IDType id)
     m_baseType = Uml::wt_Box;
     setID(id);
     setMinimumSize(QSizeF(20, 20));
+    setZValue(-10);
 }
 
 /// destructor
