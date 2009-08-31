@@ -85,8 +85,9 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
     WidgetBase(0) // Set UMLObject in body
 {
     init();
+    const bool doNotNotifyAsSlot = false;
     if (umlObj) {
-        setUMLObject(umlObj);
+        setUMLObject(umlObj, doNotNotifyAsSlot);
     } else if (UMLAssociation::assocTypeHasUMLRepresentation(type)) {
         UMLObject *objectA = widgetA->umlObject();
         UMLObject *objectB = widgetB->umlObject();
@@ -117,7 +118,7 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
                 myAssoc = new UMLAssociation(type, objectA, objectB);
              }
 
-             setUMLObject(myAssoc);
+             setUMLObject(myAssoc, doNotNotifyAsSlot);
         }
     }
 
@@ -131,15 +132,6 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
 
     Q_ASSERT(widgetA->umlScene() == widgetB->umlScene());
 
-    if (!isCollaboration()) {
-        m_setCollabIDOnFirstSceneSet = false;
-        setActivatedFlag(true);
-    } else {
-        // Activation flag is set in AssociationWidget::sceneSetFirstTime as
-        // generation of collaboration id requrires this widget to be on
-        // UMLScene.
-        m_setCollabIDOnFirstSceneSet = true;
-    }
     updateNameWidgetRole();
 }
 
@@ -153,13 +145,13 @@ AssociationWidget::~AssociationWidget()
  * The old UMLObject's connectivity is removed in @ref umlObjectChanged method, which is
  * invoked by WidgetBase::setUMLObject.
  */
-void AssociationWidget::setUMLObject(UMLObject *obj)
+void AssociationWidget::setUMLObject(UMLObject *obj, bool notifyAsSlot)
 {
     if (obj == umlObject()) {
         return;
     }
     if (!obj) {
-        WidgetBase::setUMLObject(0);
+        WidgetBase::setUMLObject(0, notifyAsSlot);
         return;
     }
 
@@ -202,7 +194,7 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
 
     }
 
-    WidgetBase::setUMLObject(obj);
+    WidgetBase::setUMLObject(obj, notifyAsSlot);
 }
 
 void AssociationWidget::lwSetFont(QFont font)
@@ -912,6 +904,14 @@ bool AssociationWidget::activate()
 {
     Q_ASSERT(umlScene());
     setActivatedFlag(false);
+
+    if (isCollaboration() && m_loadData.isEmpty() && !name().startsWith("m")) {
+
+        int collabID = umlScene()->generateCollaborationId();
+
+        setName('m' + QString::number(collabID));
+    }
+
     bool hasUMLRepresentation =
         UMLAssociation::assocTypeHasUMLRepresentation(associationType());
     if (!umlObject() && hasUMLRepresentation) {
@@ -980,8 +980,7 @@ bool AssociationWidget::activate()
     // Prepare the association class line if needed.
     m_associationLine->calculateAssociationClassLine();
 
-    setActivatedFlag(true);
-    return true;
+    return WidgetBase::activate();
 }
 
 QRectF AssociationWidget::boundingRect() const
@@ -1002,7 +1001,9 @@ void AssociationWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*
 bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &widgets,
         const MessageWidgetList* pMessages)
 {
-    WidgetBase::loadFromXMI(qElement);
+    if (!WidgetBase::loadFromXMI(qElement)) {
+        return false;
+    }
 
     // load child widgets first
     QString widgetaid = qElement.attribute("widgetaid", "-1");
@@ -1658,17 +1659,6 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     delete menu.data();
 }
 
-void AssociationWidget::sceneSetFirstTime()
-{
-    if (m_setCollabIDOnFirstSceneSet) {
-        Q_ASSERT(isCollaboration());
-        int collabID = umlScene()->generateCollaborationId();
-        setName('m' + QString::number(collabID));
-        m_setCollabIDOnFirstSceneSet = false; //reset flag
-        setActivatedFlag(true); // Now activate it.
-    }
-}
-
 /**
  * Reimplemented to cleanup connectivity with the old UMLObject.
  */ 
@@ -1719,7 +1709,6 @@ void AssociationWidget::init()
     m_associationType = Uml::at_Association;
     m_associationClass = 0;
     m_associationLine = new AssociationLine(this);
-    m_setCollabIDOnFirstSceneSet = false;
     m_slotUMLObjectDataChangedFirstCall = true;
 
     m_nameWidget = new FloatingTextWidget(Uml::tr_Name);

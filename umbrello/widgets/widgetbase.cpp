@@ -107,8 +107,6 @@ WidgetBase::WidgetBase(UMLObject *object) :
     m_brush(awesomeBrush()),
     m_activated(false),
     m_widgetInterfaceData(0),
-    m_loadData(0),
-    m_isSceneSetBefore(false),
     m_usesDiagramLineColor(true),
     m_usesDiagramLineWidth(true),
     m_usesDiagramBrush(true),
@@ -119,9 +117,7 @@ WidgetBase::WidgetBase(UMLObject *object) :
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
     setFlags(ItemIsSelectable | ItemIsMovable);
-    hide(); // Show up in slotInit
-
-    QTimer::singleShot(10, this, SLOT(slotInit()));
+    hide(); // Show up in activate
 }
 
 /**
@@ -144,10 +140,15 @@ UMLObject* WidgetBase::umlObject() const
 /**
  * Set the UMLObject for this widget to represent.
  *
+ * @param notifyAsSlot If true, slotUMLObjectDataChanged() is invoked as a slot
+ *                     with the aid of QTimer::singleShot.
+ *                     This helps in virtual function calls to function appropriately
+ *                     in case this method was called from constructor.
+ *
  * @todo Either remove this method, or allow it to only allow specific
  *       users as making this method public violates encapsulation.
  */
-void WidgetBase::setUMLObject(UMLObject *obj)
+void WidgetBase::setUMLObject(UMLObject *obj, bool notifyAsSlot)
 {
     UMLObject *oldObj = m_umlObject;
     m_umlObject = obj;
@@ -167,7 +168,11 @@ void WidgetBase::setUMLObject(UMLObject *obj)
     }
 
     umlObjectChanged(oldObj);
-    QTimer::singleShot(0, this, SLOT(slotUMLObjectDataChanged()));
+    if (notifyAsSlot) {
+        QTimer::singleShot(0, this, SLOT(slotUMLObjectDataChanged()));
+    } else {
+        slotUMLObjectDataChanged();
+    }
 }
 
 /**
@@ -552,6 +557,9 @@ bool WidgetBase::isActivated() const
 void WidgetBase::setActivatedFlag(bool b)
 {
     m_activated = b;
+    if (b) {
+        m_loadData.clear();
+    }
 }
 
 /**
@@ -569,21 +577,73 @@ void WidgetBase::setActivatedFlag(bool b)
  */
 bool WidgetBase::activate()
 {
-    Q_ASSERT(umlScene());
+    UMLScene *scene = umlScene();
+    Q_ASSERT(scene);
     // Reset flag, because you might be "reactivating" this widget in which case
     // the new activation status needs to be held.
-    m_activated = false;
-    if (widgetHasUMLObject(baseType()) && !m_umlObject) {
-        m_umlObject = umlDoc()->findObjectById(id());
-        if (!m_umlObject) {
-            uError() << "cannot find UMLObject with id=" << ID2STR(id());
-        } else {
-            m_activated = true;
+    setActivatedFlag(false);
+
+    if (!m_loadData.isEmpty()) {
+        m_usesDiagramLineColor =
+            m_loadData.value("usesDiagramLineColor", true).toBool();
+        QColor lineColor = scene->getLineColor();
+        if (!m_usesDiagramLineColor) {
+            lineColor = m_loadData.value("lineColor").value<QColor>();
         }
+        setLineColor(lineColor);
+
+
+        m_usesDiagramLineWidth =
+            m_loadData.value("usesDiagramLineWidth", true).toBool();
+        uint lineWidth = scene->getLineWidth();
+        if (!m_usesDiagramLineWidth) {
+            lineWidth = m_loadData.value("lineWidth").toUInt();
+        }
+        setLineWidth(lineWidth);
+
+
+        m_usesDiagramTextColor =
+            m_loadData.value("usesDiagramTextColor", true).toBool();
+        QColor textColor = scene->getTextColor();
+        if (!m_usesDiagramTextColor) {
+            textColor = m_loadData.value("textColor").value<QColor>();
+        }
+        setTextColor(textColor);
+
+
+        m_usesDiagramBrush = m_loadData.value("usesDiagramBrush", true).toBool();
+        QBrush brush = scene->brush();
+        if (!m_usesDiagramBrush) {
+            brush = m_loadData.value("brush").value<QBrush>();
+        }
+        setBrush(brush);
+
+
+        m_usesDiagramFont = m_loadData.value("usesDiagramFont", true).toBool();
+        QFont font = scene->getFont();
+        if (!m_usesDiagramFont) {
+            font = m_loadData.value("font").value<QFont>();
+        }
+        setFont(font);
+
+        QPointF pos = m_loadData.value("pos").toPointF();
+        setPos(mapToParent(mapFromScene(pos)));
     } else {
-        m_activated = true;
+        // To ensure even the children of Widgets if any are appropriately
+        // initialized.
+        QVariant v;
+        attributeChange(LineColorHasChanged, v);
+        attributeChange(LineWidthHasChanged, v);
+        attributeChange(FontHasChanged, v);
+        attributeChange(TextColorHasChanged, v);
+        attributeChange(BrushHasChanged, v);
     }
-    return m_activated;
+
+    setVisible(true);
+    setUMLObject(m_umlObject);
+
+    setActivatedFlag(true);
+    return isActivated();
 }
 
 /**
@@ -609,8 +669,9 @@ void WidgetBase::showPropertiesDialog()
  */
 bool WidgetBase::loadFromXMI(QDomElement &qElement)
 {
-    Q_ASSERT(umlScene());
     const QLatin1String none("none");
+    // Start filling m_loadData afresh
+    m_loadData.clear();
 
     // Load the line color first
 
@@ -618,32 +679,29 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
     QString lineColor = qElement.attribute("linecolour", none);
     lineColor = qElement.attribute("linecolor", lineColor);
     if (lineColor != none) {
-        m_usesDiagramLineColor = false;
-        setLineColor(QColor(lineColor));
+        m_loadData.insert("usesDiagramLineColor", false);
+        m_loadData.insert("lineColor", QColor(lineColor));
     } else {
-        m_usesDiagramLineColor = true;
-        setLineColor(umlScene()->getLineColor());
+        m_loadData.insert("usesDiagramLineColor", true);
     }
 
     // Load the line width.
     QString lineWidth = qElement.attribute("linewidth", none);
     if(lineWidth != none) {
-        m_usesDiagramLineWidth = false;
-        setLineWidth(lineWidth.toInt());
+        m_loadData.insert("usesDiagramLineWidth", false);
+        m_loadData.insert("lineWidth", uint(lineWidth.toUInt()));
     }
     else {
-        m_usesDiagramLineWidth = true;
-        setLineWidth(umlScene()->getLineWidth());
+        m_loadData.insert("usesDiagramLineWidth", true);
     }
 
     // Load the font color, if invalid black is used.
     QString textColor = qElement.attribute("textcolor", none);
     if (textColor != none) {
-        m_usesDiagramTextColor = false;
-        setTextColor(QColor(textColor));
+        m_loadData.insert("usesDiagramTextColor", false);
+        m_loadData.insert("textColor", QColor(textColor));
     } else {
-        m_usesDiagramTextColor = true;
-        setTextColor(umlScene()->getTextColor());
+        m_loadData.insert("usesDiagramTextColor", true);
     }
 
     // Load the brush.
@@ -651,17 +709,16 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
     int usesDiagramBrush = qElement.attribute("usesdiagrambrush", "-1").toInt();
     if (!brushElement.isNull() || usesDiagramBrush != -1) {
         if (usesDiagramBrush == 0 || brushElement.isNull()) {
-            m_usesDiagramBrush = true;
-            setBrush(umlScene()->brush());
+            m_loadData.insert("usesDiagramBrush", true);
         } else {
             QBrush newBrush;
             bool brushSet = Widget_Utils::loadBrushFromXMI(brushElement, newBrush);
             if (!brushSet) {
                 uError() << "Could not load brush from XMI file";
-                m_usesDiagramBrush = true;
-                setBrush(umlScene()->brush());
+                m_loadData.insert("usesDiagramBrush", true);
             } else {
-                m_usesDiagramBrush = false;
+                m_loadData.insert("usesDiagramBrush", false);
+                m_loadData.insert("brush", newBrush);
             }
         }
     } else {
@@ -678,17 +735,16 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
         }
 
         if (useFillColor == false) {
-            m_usesDiagramBrush = false;
-            setBrush(QBrush(Qt::NoBrush));
+            m_loadData.insert("usesDiagramBrush", false);
+            m_loadData.insert("brush", QBrush(Qt::NoBrush));
         } else {
             QString fillColor = qElement.attribute("fillcolour", "none");
             fillColor = qElement.attribute("fillcolor", fillColor);
             if (fillColor != none) {
-                m_usesDiagramBrush = false;
-                setBrush(QBrush(QColor(fillColor)));
+                m_loadData.insert("usesDiagramBrush", false);
+                m_loadData.insert("brush", QBrush(QColor(fillColor)));
             } else {
-                m_usesDiagramBrush = true;
-                setBrush(umlScene()->brush());
+                m_loadData.insert("usesDiagramBrush", true);
             }
         }
     }
@@ -697,40 +753,24 @@ bool WidgetBase::loadFromXMI(QDomElement &qElement)
     QString font = qElement.attribute(QLatin1String("font"));
     bool fontSet = false;
     if(!font.isEmpty()) {
-        fontSet = m_font.fromString(font);
+        QFont fnt;
+        fontSet = fnt.fromString(font);
         if(fontSet) {
-            m_usesDiagramFont = false;
-            setFont(m_font);
-        }
-        else {
+            m_loadData.insert("usesDiagramFont", false);
+            m_loadData.insert("font", fnt);
+        } else {
             uWarning() << "Loading font attribute->" << font << " failed";
         }
     }
     // Set diagram's default font if font is not yet set.
     if(!fontSet) {
-        m_usesDiagramFont = true;
-        setFont(umlScene()->font());
-    }
-
-    QString id = qElement.attribute("xmi.id", "-1");
-    // Assert for the correctness of id loaded and the created object.
-    if(m_umlObject) {
-        if(id != ID2STR(this->id())) {
-            uWarning() << "ID mismatch between UMLWidget and its UMLObject"
-                       << "So the id read will be ignored.";
-            // Do not set mismatching id.
-        }
-    }
-    else {
-        // store it to possibly load associated UMLObject if any while activation.
-        setID(STR2ID(id));
+        m_loadData.insert("usesDiagramFont", true);
     }
 
     QPointF pos;
     pos.setX(qElement.attribute("x", "0").toDouble());
     pos.setY(qElement.attribute("y", "0").toDouble());
-    pos = mapToParent(mapFromScene(pos));
-    setPos(pos);
+    m_loadData.insert("pos", pos);
 
     return true;
 }
@@ -781,7 +821,6 @@ void WidgetBase::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
         Widget_Utils::saveBrushToXMI(qDoc, qElement, m_brush);
     }
 
-    qElement.setAttribute("xmi.id", ID2STR(id()));
     const QPointF pos = scenePos();
     qElement.setAttribute("x", pos.x());
     qElement.setAttribute("y", pos.y());
@@ -982,36 +1021,6 @@ void WidgetBase::slotUMLObjectDataChanged()
 }
 
 /**
- * This slot is used to intialize the widget, also allowing virtual
- * methods to be called.
- */
-void WidgetBase::slotInit()
-{
-    // Call this virtual method to ensure the superclasses initialize themselves with
-    // various properties of m_umlObject.
-    setUMLObject(m_umlObject);
-
-    // Now call attributeChange with various geometry parameters to ensure that proper
-    // initialization of sub objects' properties take place.
-    QVariant v;
-    attributeChange(LineColorHasChanged, v);
-    attributeChange(LineWidthHasChanged, v);
-    attributeChange(FontHasChanged, v);
-    attributeChange(TextColorHasChanged, v);
-    attributeChange(BrushHasChanged, v);
-
-    // Now show the item (Ugly hack to prevent floatingtext widget from showing up
-    // until sane text is set on it)
-    if (baseType() != Uml::wt_Text) {
-        show();
-    }
-    // Now just update the geometry for the first ever time after it is shown.
-    updateGeometry();
-    // Now invoke the virtual delayedInitialize() for subclasses to do more initialization.
-    delayedInitialize();
-}
-
-/**
  * Reimplemented to show appropriate context menu.
  */
 void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
@@ -1087,14 +1096,6 @@ QVariant WidgetBase::attributeChange(WidgetAttributeChange change, const QVarian
  */
 QVariant WidgetBase::itemChange(GraphicsItemChange change, const QVariant& value)
 {
-    if (change == ItemSceneHasChanged) {
-        UMLScene *uScene = umlScene();
-        if (uScene && !m_isSceneSetBefore) {
-            m_isSceneSetBefore = true;
-            // call this virtual method now.
-            sceneSetFirstTime();
-        }
-    }
     return QGraphicsItem::itemChange(change, value);
 }
 
@@ -1127,25 +1128,6 @@ void WidgetBase::updateGeometry()
 void WidgetBase::umlObjectChanged(UMLObject *oldObj)
 {
     Q_UNUSED(oldObj);
-}
-
-/**
- * This virtual method is called very shortly after the object is constructed completely.
- * A timer with small timeout is used for this purpose.
- * @see WidgetBase::slotInit()
- */
-void WidgetBase::delayedInitialize()
-{
-}
-
-/**
- * This virtual method is called after this widget has been associated with a UMLScene
- * for the first time.
- * Initalization from UMLScene's properties like line color etc. can be done by
- * reimplementing this method.
- */
-void WidgetBase::sceneSetFirstTime()
-{
 }
 
 /**

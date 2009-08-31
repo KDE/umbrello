@@ -53,7 +53,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
                 UMLWidget *widgetB, UMLObject *obj = 0);
         virtual ~AssociationWidget();
 
-        virtual void setUMLObject(UMLObject *obj);
+        virtual void setUMLObject(UMLObject *obj, bool notifyAsSlot = false);
 
         //---------- LinkWidget Interface methods implemementation from now on.
 
@@ -165,7 +165,6 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 
         virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
-        virtual void sceneSetFirstTime();
         virtual void umlObjectChanged(UMLObject *old);
 
     private:
@@ -185,7 +184,6 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         int m_nameSegmentIndex;
 
         Uml::Association_Type m_associationType;
-        bool m_setCollabIDOnFirstSceneSet;
         bool m_slotUMLObjectDataChangedFirstCall;
 };
 

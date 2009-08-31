@@ -88,7 +88,7 @@ public:
     virtual ~WidgetBase();
 
     UMLObject* umlObject() const;
-    virtual void setUMLObject(UMLObject *obj);
+    virtual void setUMLObject(UMLObject *obj, bool notifyAsSlot = false);
 
     Uml::IDType id() const;
     void setID(Uml::IDType id);
@@ -155,9 +155,6 @@ public Q_SLOTS:
 protected Q_SLOTS:
     virtual void slotUMLObjectDataChanged();
 
-private Q_SLOTS:
-    void slotInit();
-
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
@@ -168,15 +165,20 @@ protected:
 
     virtual void umlObjectChanged(UMLObject *old);
 
-    virtual void delayedInitialize();
-    virtual void sceneSetFirstTime();
-
     void setBoundingRect(const QRectF &rect);
     void setShape(const QPainterPath& path);
 
     QRectF m_boundingRect;
     QPainterPath m_shape;
 
+    /**
+     * This acts like stash to temporarily store data in loadFromXMI, which
+     * are then applied in the activation method.
+     *
+     * This pointer is deleted on setActivatedFlag(true) and is newed in 
+     * WidgetBase::loadFromXMI
+     */
+    QVariantMap m_loadData;
     // Property that will be saved.
     Uml::Widget_Type m_baseType;
 
@@ -201,20 +203,6 @@ private:
      */
     bool m_activated;
     WidgetInterfaceData *m_widgetInterfaceData;
-    /**
-     * This acts like stash to temporarily store data in loadFromXMI, which
-     * are then applied in the activation method.
-     *
-     * This pointer is deleted on setActivatedFlag(true) and is newed in 
-     * WidgetBase::loadFromXMI
-     */
-    QVariantMap *m_loadData;
-
-    /**
-     * This is used to ensure that there is only one initialization when a
-     * new UMLScene is set for this widget for the first time.
-     */
-    bool m_isSceneSetBefore:1;
 
     bool m_usesDiagramLineColor:1;
     bool m_usesDiagramLineWidth:1;

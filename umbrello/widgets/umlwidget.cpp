@@ -221,12 +221,25 @@ AssociationSpaceManager* UMLWidget::associationSpaceManager() const
 
 bool UMLWidget::activate()
 {
-    bool activated = WidgetBase::activate();
-    if (!activated) {
-        return false;
+    setActivatedFlag(false);
+    if (!m_loadData.isEmpty()) {
+        if (widgetHasUMLObject(baseType()) && !umlObject()) {
+            Uml::IDType id = STR2ID(m_loadData.value("id", "-1").toString());
+            UMLObject *obj = umlDoc()->findObjectById(id);
+            if (!obj) {
+                uError() << "cannot find UMLObject with id=" << ID2STR(id);
+                return isActivated();
+            }
+            setUMLObject(obj);
+        }
+
+        setSize(m_loadData.value("size").toSizeF());
+
+        setInstanceName(m_loadData.value("instanceName").toString());
+
+        setShowStereotype(m_loadData.value("showStereotype").toBool());
     }
-    updateGeometry();
-    return true;
+    return WidgetBase::activate();
 }
 
 /**
@@ -248,22 +261,23 @@ void UMLWidget::adjustAssociations()
 
 bool UMLWidget::loadFromXMI(QDomElement &qElement)
 {
-    if(!WidgetBase::loadFromXMI(qElement))
+    if(!WidgetBase::loadFromXMI(qElement)) {
         return false;
-
-    qreal h  = qElement.attribute("height", "-1").toDouble();
-    qreal w = qElement.attribute("width", "-1").toDouble();
-    if(h < 0) {
-        h = 20;
-    }
-    if(w < 0) {
-        w = 20;
     }
 
-    setSize(QSizeF(w, h));
+    m_loadData.insert("id", qElement.attribute("xmi.id", "-1"));
 
-    QString instName = qElement.attribute("instancename", QString());
-    setInstanceName(instName);
+    QSizeF size;
+    size.setWidth(qElement.attribute("width", "0").toDouble());
+    size.setHeight(qElement.attribute("height", "0").toDouble());
+    m_loadData.insert("size", size);
+
+    m_isInstance = (bool)qElement.attribute("isinstance", "0").toInt();
+
+    m_loadData.insert("instanceName", qElement.attribute("instancename"));
+
+    m_loadData.insert("showStereotype",
+            (bool)qElement.attribute("showstereotype", "0").toInt());
 
     return true;
 }
@@ -272,12 +286,18 @@ void UMLWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     WidgetBase::saveToXMI(qDoc, qElement);
 
+    qElement.setAttribute("xmi.id", ID2STR(id()));
     const QSizeF sz = size();
     qElement.setAttribute("width", sz.width());
     qElement.setAttribute("height", sz.height());
+    qElement.setAttribute("isinstance", m_isInstance);
 
     if(!m_instanceName.isEmpty()) {
         qElement.setAttribute("instancename", m_instanceName);
+    }
+
+    if (m_showStereotype) {
+        qElement.setAttribute("showstereotype", m_showStereotype);
     }
 }
 
