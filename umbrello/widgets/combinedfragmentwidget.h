@@ -60,6 +60,7 @@ public:
 
     void askNameForWidgetType(UMLWidget* &targetWidget, const QString& dialogTitle,
                               const QString& dialogPrompt, const QString& defaultName);
+    virtual bool activate();
 
     bool loadFromXMI( QDomElement & qElement );
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );

@@ -173,10 +173,28 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget,
                                            i18n("Enter the first alternative name"),
                                            i18n("-"));
         }
+
+        foreach (FloatingDashLineWidget *fld, m_dashLines) {
+            if (fld->isActivated() == false) {
+                fld->activate();
+            }
+        }
     } else {
         delete targetWidget;
         targetWidget = 0;
     }
+}
+
+
+bool CombinedFragmentWidget::activate()
+{
+    setActivatedFlag(false);
+    bool status = true;
+    foreach (FloatingDashLineWidget *fld, m_dashLines) {
+        status = status && fld->activate();
+        if (!status) return false;
+    }
+    return UMLWidget::activate();
 }
 
 /**
@@ -207,18 +225,17 @@ bool CombinedFragmentWidget::loadFromXMI( QDomElement & qElement )
                 delete fdlwidget;
                 return false;
             }
-            else {
-                m_dashLines.append(fdlwidget);
-                // No need to call setupFloatingWidget as that will reset
-                // the line properties of FloatingDashLineWidget.
-            }
+
+            // No need to call setupFloatingWidget as that will reset
+            // the line properties of FloatingDashLineWidget.
+            m_dashLines.append(fdlwidget);
         } else {
             uError() << "unknown tag " << tag << endl;
         }
         node = node.nextSibling();
         element = node.toElement();
     }
-   // m_dashLines = listline;
+    // m_dashLines = listline;
     setCombinedFragmentType( (CombinedFragmentType)type.toInt() );
 
     return true;
@@ -263,6 +280,8 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
 
     if(sel == ListPopupMenu::mt_AddInteractionOperand) {
         FloatingDashLineWidget *flwd = new FloatingDashLineWidget(this);
+        bool status = flwd->activate(); // should always succeeed
+        Q_ASSERT(status);
         m_dashLines.append(flwd);
 
         if(combinedFragmentType() == Alt) {

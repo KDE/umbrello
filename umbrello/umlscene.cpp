@@ -1674,7 +1674,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget , bool isPasteOperation)
     case wt_UseCase:
     case wt_Category: {
         Uml::IDType id = pWidget->id();
-        Uml::IDType newID = log->findNewID(id);
+        Uml::IDType newID = log ? log->findNewID(id) : Uml::id_None;
         if (newID == Uml::id_None) {   // happens after a cut
             if (id == Uml::id_None)
                 return false;
