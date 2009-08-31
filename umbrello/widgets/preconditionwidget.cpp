@@ -196,7 +196,7 @@ QVariant PreconditionWidget::attributeChange(WidgetAttributeChange change, const
         // Center the precondtion widget horizontally on sequential line.
         if (m_objectWidget) {
             QRectF objectRect = m_objectWidget->rect();
-            setX(objectRect.center().x() - .5 * size().width());
+            setPos(objectRect.center().x() - .5 * size().width(), pos().y());
         }
     }
     return UMLWidget::attributeChange(change, oldValue);

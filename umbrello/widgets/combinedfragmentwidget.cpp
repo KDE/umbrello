@@ -492,7 +492,7 @@ void CombinedFragmentWidget::updateFloatingWidgetsPosition()
     qreal originY = grp->minimumSize().height();
 
     foreach(FloatingDashLineWidget *fldw, m_dashLines) {
-        fldw->setX(0);
+        fldw->setPos(0, fldw->pos().y());
         fldw->setSize(sz.width(), 0);
         fldw->setYMin(originY);
         fldw->setYMax(sz.height() - fldw->minimumSize().height());

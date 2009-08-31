@@ -120,6 +120,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 
         UMLWidget* widgetForRole(Uml::Role_Type role) const;
         void setWidgetForRole(UMLWidget *widget, Uml::Role_Type role);
+        void setWidgets(UMLWidget *widgetA, UMLWidget *widgetB);
 
         Uml::IDType widgetIDForRole(Uml::Role_Type role) const;
 

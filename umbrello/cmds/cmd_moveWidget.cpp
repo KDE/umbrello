@@ -24,8 +24,8 @@ namespace Uml
     {
         UMLWidget * w = wc->getWidget();
         setText(i18n("Move widget :") + w->getName());
-        m_x = w->getX();
-        m_y = w->getY();
+        m_x = w->pos().x();
+        m_y = w->pos().y();
         m_oldX = wc->getOldX();
         m_oldY = wc->getOldY();
     }

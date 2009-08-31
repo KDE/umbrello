@@ -107,8 +107,13 @@ WidgetBase::WidgetBase(UMLObject *object) :
     m_brush(awesomeBrush()),
     m_activated(false),
     m_widgetInterfaceData(0),
+    m_loadData(0),
     m_isSceneSetBefore(false),
-    firstTime(true)
+    m_usesDiagramLineColor(true),
+    m_usesDiagramLineWidth(true),
+    m_usesDiagramBrush(true),
+    m_usesDiagramFont(true),
+    m_usesDiagramTextColor(true)
 {
     if(!object) {
         m_widgetInterfaceData = new WidgetInterfaceData;
@@ -117,13 +122,6 @@ WidgetBase::WidgetBase(UMLObject *object) :
     hide(); // Show up in slotInit
 
     QTimer::singleShot(10, this, SLOT(slotInit()));
-
-    // DEPRECATED INITIALIZATION
-    {
-        for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
-            m_pFontMetrics[i] = new QFontMetrics(font());
-        }
-    }
 }
 
 /**
@@ -1204,176 +1202,7 @@ void WidgetBase::setShape(const QPainterPath& path)
 
 ///////////////////////////////SOME DEPRECATED STUFF///////////////
 
-// WidgetBase::WidgetBase(UMLScene *scene, UMLObject *object) :
-//     QObject(),
-//     QGraphicsItem(0),
-// 
-//     m_umlObject(object),
-//     m_lineColor(Qt::red),
-//     m_lineWidth(0),
-//     m_brush(awesomeBrush()),
-//     m_widgetInterfaceData(0),
-//     m_isSceneSetBefore(false),
-//     firstTime(true)
-// {
-//     for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
-//         m_pFontMetrics[i] = new QFontMetrics(font());
-//     }
-//     if(!object) {
-//         m_widgetInterfaceData = new WidgetInterfaceData;
-//     }
-//     setFlags(ItemIsSelectable | ItemIsMovable);
-//     hide();
-//     if(scene) {
-//         scene->addItem(this);
-//     }
-// }
-
-// WidgetBase::WidgetBase(UMLScene *scene, const Uml::IDType &_id) :
-//     m_umlObject(0),
-//     m_lineColor(Qt::red),
-//     m_lineWidth(0),
-//     m_brush(awesomeBrush()),
-//     m_isSceneSetBefore(false),
-//     firstTime(true)
-// {
-//     for(int i= FT_NORMAL; i < FT_INVALID; ++i) {
-//         m_pFontMetrics[i] = new QFontMetrics(font());
-//     }
-//     m_widgetInterfaceData = new WidgetInterfaceData;
-//     if(_id == Uml::id_None) {
-//         m_widgetInterfaceData->id = UniqueID::gen();
-//     }
-//     else {
-//         m_widgetInterfaceData->id = _id;
-//     }
-//     if(scene) {
-//         scene->addItem(this);
-//     }
-//     hide();
-//     setFlags(ItemIsSelectable | ItemIsMovable);
-// }
-
-/**
- * Template Method, override this to set the default
- *  font metric.
- */
-void WidgetBase::setDefaultFontMetrics(WidgetBase::FontType fontType)
-{
-    setupFontType(m_font, fontType);
-    setFontMetrics(fontType, QFontMetrics(m_font));
-}
-
-void WidgetBase::setupFontType(QFont &font, WidgetBase::FontType fontType)
-{
-    switch (fontType) {
-    case FT_NORMAL:
-        font.setBold(false);
-        font.setItalic(false);
-        font.setUnderline(false);
-        break;
-    case FT_BOLD:
-        font.setBold(true);
-        font.setItalic(false);
-        font.setUnderline(false);
-        break;
-    case FT_ITALIC:
-        font.setBold(false);
-        font.setItalic(true);
-        font.setUnderline(false);
-        break;
-    case FT_UNDERLINE:
-        font.setBold(false);
-        font.setItalic(false);
-        font.setUnderline(true);
-        break;
-    case FT_BOLD_ITALIC:
-        font.setBold(true);
-        font.setItalic(true);
-        font.setUnderline(false);
-        break;
-    case FT_BOLD_UNDERLINE:
-        font.setBold(true);
-        font.setItalic(false);
-        font.setUnderline(true);
-        break;
-    case FT_ITALIC_UNDERLINE:
-        font.setBold(false);
-        font.setItalic(true);
-        font.setUnderline(true);
-        break;
-    case FT_BOLD_ITALIC_UNDERLINE:
-        font.setBold(true);
-        font.setItalic(true);
-        font.setUnderline(true);
-        break;
-    default: return;
-    }
-}
-
-/**
- * Template Method, override this to set the default
- *  font metric.
- */
-void WidgetBase::setDefaultFontMetrics(WidgetBase::FontType fontType, QPainter &painter)
-{
-    setupFontType(m_font, fontType);
-    painter.setFont(m_font);
-    setFontMetrics(fontType, painter.fontMetrics());
-}
-
-//FIXME this is probably the source of problems with widgets not being wide enough
-
-/** Returns the font metric used by this object for Text which uses bold/italic fonts*/
-QFontMetrics &WidgetBase::getFontMetrics(WidgetBase::FontType fontType)
-{
-    if (m_pFontMetrics[fontType] == 0) {
-        setDefaultFontMetrics(fontType);
-    }
-    return *m_pFontMetrics[fontType];
-}
-
-/** set the font metric to use */
-void WidgetBase::setFontMetrics(WidgetBase::FontType fontType, QFontMetrics fm)
-{
-    delete m_pFontMetrics[fontType];
-    m_pFontMetrics[fontType] = new QFontMetrics(fm);
-}
-
-void WidgetBase::forceUpdateFontMetrics(QPainter *painter)
-{
-    if (painter == 0) {
-        for (int i = 0; i < (int)WidgetBase::FT_INVALID; ++i) {
-            if (m_pFontMetrics[(WidgetBase::FontType)i] != 0)
-                setDefaultFontMetrics((WidgetBase::FontType)i);
-        }
-    } else {
-        for (int i2 = 0; i2 < (int)WidgetBase::FT_INVALID; ++i2) {
-            if (m_pFontMetrics[(WidgetBase::FontType)i2] != 0)
-                setDefaultFontMetrics((WidgetBase::FontType)i2, *painter);
-        }
-    }
-    // calculate the size, based on the new font metric
-    updateComponentSize();
-}
-
-void WidgetBase::updateComponentSize()
-{
-    if(firstTime) {
-        firstTime = false;
-    }
-    else {
-        UMLWidget *rect = dynamic_cast<UMLWidget*>(this);
-        if(rect) {
-            slotUMLObjectDataChanged();
-        }
-        else {
-            updateGeometry();
-        }
-    }
-}
-
-QColor WidgetBase::getFillColour() const
+QColor WidgetBase::getFillColor() const
 {
     QBrush b = brush();
     if (b.gradient() || b.style() == Qt::TexturePattern || b.style() == Qt::NoBrush) {

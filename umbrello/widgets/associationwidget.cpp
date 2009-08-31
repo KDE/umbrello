@@ -121,20 +121,9 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
         }
     }
 
-    setWidgetForRole(widgetA, Uml::A);
-    setWidgetForRole(widgetB, Uml::B);
-
+    setWidgets(widgetA, widgetB);
     setAssociationType(type);
 
-    if (widgetA == widgetB) {
-        widgetA->associationSpaceManager()->add(this,
-                RegionPair(Uml::reg_North, Uml::reg_North));
-    } else {
-        widgetA->associationSpaceManager()->add(this,
-                RegionPair(Uml::reg_North));
-        widgetB->associationSpaceManager()->add(this,
-                RegionPair(Uml::reg_Error, Uml::reg_North));
-    }
     // TODO: Probably move this calculation to slotInit.
     m_associationLine->calculateInitialEndPoints();
     m_associationLine->reconstructSymbols();
@@ -794,7 +783,28 @@ UMLWidget* AssociationWidget::widgetForRole(Uml::Role_Type role) const
 
 void AssociationWidget::setWidgetForRole(UMLWidget *widget, Uml::Role_Type role)
 {
+    if (m_widgetRole[role].umlWidget && widget != m_widgetRole[role].umlWidget) {
+        uDebug() << "Was holding" << (widget ? ID2STR(widget->id()) : "null")
+            << "in its " << (role == Uml::A ? "A" : "B")  << "role end";
+    }
     m_widgetRole[role].umlWidget = widget;
+}
+
+void AssociationWidget::setWidgets(UMLWidget *widgetA, UMLWidget *widgetB)
+{
+    setWidgetForRole(widgetA, Uml::A);
+    setWidgetForRole(widgetB, Uml::B);
+    if (widgetA || widgetB) {
+        if (widgetA == widgetB) {
+            widgetA->associationSpaceManager()->add(this,
+                    RegionPair(Uml::reg_North, Uml::reg_North));
+        } else {
+            widgetA->associationSpaceManager()->add(this,
+                    RegionPair(Uml::reg_North));
+            widgetB->associationSpaceManager()->add(this,
+                    RegionPair(Uml::reg_Error, Uml::reg_North));
+        }
+    }
 }
 
 Uml::IDType AssociationWidget::widgetIDForRole(Uml::Role_Type role) const
@@ -923,13 +933,16 @@ bool AssociationWidget::activate()
         setWidgetForRole(umlScene()->findWidget(widgetIDForRole(Uml::B)), Uml::B);
     }
 
-
     if (!widgetForRole(Uml::A) || !widgetForRole(Uml::B)) {
         return false;
     }
 
+    // Call this method to ensure addition of this widget in the associationSpaceManager()
+    // of both widgetForRole(Uml::A) and widgetForRole(Uml::B).
+    setWidgets(widgetForRole(Uml::A), widgetForRole(Uml::B));
+
     // TODO: Check whether this comment should be removed.
-    //calculateEndPoints();
+    m_associationLine->calculateEndPoints();
 
     if (AssocRules::allowRole(type)) {
         for (unsigned r = Uml::A; r <= Uml::B; ++r) {
@@ -1006,8 +1019,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
         uError() << "cannot find widget for roleB id " << ID2STR(bId);
         return false;
     }
-    setWidgetForRole(pWidgetA, Uml::A);
-    setWidgetForRole(pWidgetB, Uml::B);
+    setWidgets(pWidgetA, pWidgetB);
 
     QString type = qElement.attribute("type", "-1");
     Uml::Association_Type aType = (Uml::Association_Type) type.toInt();

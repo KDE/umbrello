@@ -201,6 +201,14 @@ private:
      */
     bool m_activated;
     WidgetInterfaceData *m_widgetInterfaceData;
+    /**
+     * This acts like stash to temporarily store data in loadFromXMI, which
+     * are then applied in the activation method.
+     *
+     * This pointer is deleted on setActivatedFlag(true) and is newed in 
+     * WidgetBase::loadFromXMI
+     */
+    QVariantMap *m_loadData;
 
     /**
      * This is used to ensure that there is only one initialization when a
@@ -224,55 +232,11 @@ public:
 
     // DEPRECATED SECTION ///////////////////////////////
 
-    bool firstTime;  // is used in updateComponentSize()
-
-    qreal getX() const { return pos().x(); }
-    void setX(qreal x) { setPos(x, y()); }
-    qreal getY() const { return pos().y(); }
-    void setY(qreal y) { setPos(x(), y); }
-
-    void setBaseType(Uml::Widget_Type type) { m_baseType = type; }
-
-    void setPenFromSettings(QPainter &p) { p.setPen(QPen(m_lineColor, m_lineWidth)); }
-    void updateComponentSize();
-
-    void setLineColorcmd(const QColor& col) { setLineColor(col); }
-    QColor getFillColour() const;
-    QColor getFillColor() const { return getFillColour(); }
+    QColor getFillColor() const;
     void setFillColour(const QColor& col) { setBrush(QBrush(col)); }
 
     bool getUseFillColour() const { return false; }
     void setUseFillColour(bool) {}
-
-    typedef enum {
-        FT_NORMAL = 0,
-        FT_BOLD  = 1,
-        FT_ITALIC = 2,
-        FT_UNDERLINE = 3,
-        FT_BOLD_ITALIC = 4,
-        FT_BOLD_UNDERLINE = 5,
-        FT_ITALIC_UNDERLINE = 6,
-        FT_BOLD_ITALIC_UNDERLINE = 7,
-        FT_INVALID = 8
-    } FontType;
-
-    QFontMetrics  *m_pFontMetrics[FT_INVALID];
-
-    virtual void setDefaultFontMetrics(WidgetBase::FontType fontType);
-    virtual void setDefaultFontMetrics(WidgetBase::FontType fontType, QPainter &painter);
-
-    QFontMetrics &getFontMetrics(WidgetBase::FontType fontType);
-    void setFontMetrics(WidgetBase::FontType fontType, QFontMetrics fm);
-    void setupFontType(QFont &font, WidgetBase::FontType fontType);
-    void forceUpdateFontMetrics(QPainter *);
-
-    qreal onWidget(const QPointF& pos) const {
-        if(this->contains(mapFromScene(pos))) {
-            QSizeF s = boundingRect().size();
-            return .5 * (s.width() + s.height());
-        }
-        return 0;
-    }
 
     ////////////////////////////////////////////////////////////////////////////////
 

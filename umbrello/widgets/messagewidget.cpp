@@ -362,6 +362,8 @@ void MessageWidget::handleObjectMove(ObjectWidget *wid)
         return;
     }
 
+    qreal y = qMax(pos().y(), minY());
+    y = qMin(y, maxY());
     qreal roleAX = 0;
     if (m_objectWidgets[Uml::A]) {
         roleAX = m_objectWidgets[Uml::A]->sequentialLineX();
@@ -374,17 +376,17 @@ void MessageWidget::handleObjectMove(ObjectWidget *wid)
 
     if (m_sequenceMessageType == Uml::sequence_message_synchronous) {
         if (isSelf()) {
-            setX(roleAX - .5 * SynchronousBoxWidth);
+            setPos(roleAX - .5 * SynchronousBoxWidth, y);
             setWidth(SynchronousBoxWidth + SelfLoopBoxWidth);
         }
         else {
             if (roleAX <= roleBX) {
-                setX(roleAX);
+                setPos(roleAX, y);
                 setWidth(roleBX - roleAX + .5 * SynchronousBoxWidth);
             }
             else {
                 qreal x = roleBX -.5 * SynchronousBoxWidth;
-                setX(x);
+                setPos(x, y);
                 setWidth(roleAX - x);
             }
         }
@@ -392,27 +394,26 @@ void MessageWidget::handleObjectMove(ObjectWidget *wid)
 
     else if (m_sequenceMessageType == Uml::sequence_message_asynchronous) {
         if (isSelf()) {
-            setX(roleAX);
+            setPos(roleAX, y);
             setWidth(SelfLoopBoxWidth);
         }
 
         else {
-            setX(qMin(roleAX, roleBX));
+            setPos(qMin(roleAX, roleBX), y);
             setWidth(qAbs(roleAX - roleBX));
         }
     }
 
     else if (m_sequenceMessageType == Uml::sequence_message_creation) {
+        setPos(pos().x(), y);
         // creation code
     }
 
     else { //lost || found
-        setX(qMin(m_clickedPoint.x(), roleAX));
+        setPos(qMin(m_clickedPoint.x(), roleAX), y);
         setWidth(qAbs(m_clickedPoint.x() - roleAX));
     }
 
-    setY(qMax(y(), minY()));
-    setY(qMin(y(), maxY()));
 
     m_clickedPoint.ry() = qMax(m_clickedPoint.y(), minY());
     m_clickedPoint.ry() = qMin(m_clickedPoint.y(), maxY());
@@ -676,11 +677,9 @@ void MessageWidget::setTextPosition()
     if (m_floatingTextWidget->displayText().isEmpty()) {
         return;
     }
-    m_floatingTextWidget->updateComponentSize();
     qreal ftX = constrainedX(m_floatingTextWidget->x(), m_floatingTextWidget->width(), m_floatingTextWidget->textRole());
     qreal ftY = y() - m_floatingTextWidget->height();
-    m_floatingTextWidget->setX( ftX );
-    m_floatingTextWidget->setY( ftY );
+    m_floatingTextWidget->setPos(ftX, ftY);
 }
 
 

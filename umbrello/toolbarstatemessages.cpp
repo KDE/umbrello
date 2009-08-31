@@ -291,7 +291,7 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
     MessageWidget* message = new MessageWidget(m_firstObject,
                                                secondObject, msgType);
     m_pUMLScene->addWidget(message);
-    message->setY(y);
+    message->setPos(message->pos().x(), y);
 
     cleanMessage();
 

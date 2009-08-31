@@ -263,7 +263,7 @@ void AssociationSpaceManager::arrange(Uml::Region region)
     bool xBasis = (region == Uml::reg_North || region == Uml::reg_South);
 
     // This intermediate tuple stores both self and non self associations in
-    // sorted fashion, primary sort criteria being x or v value based on region
+    // sorted fashion, primary sort criteria being x or y value based on region
     // and secondary criteria being hash(association) for consistent sorting.
     QList<Tuple> assocDistEndTuples;
     foreach (AssociationWidget* assoc, listRef) {

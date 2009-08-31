@@ -506,7 +506,8 @@ void ToolBarState::setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Ty
 MessageWidget* ToolBarState::getMessageAt(const QPointF& pos)
 {
     foreach (  MessageWidget* message, m_pUMLScene->getMessageList() ) {
-        if (message->isVisible() && message->onWidget(pos)) {
+        if (message->isVisible() &&
+                message->contains(message->mapFromScene(pos))) {
             return message;
         }
     }

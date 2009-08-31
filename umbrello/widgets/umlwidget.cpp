@@ -225,7 +225,6 @@ bool UMLWidget::activate()
     if (!activated) {
         return false;
     }
-    setSize(m_size);
     updateGeometry();
     return true;
 }
@@ -260,9 +259,8 @@ bool UMLWidget::loadFromXMI(QDomElement &qElement)
     if(w < 0) {
         w = 20;
     }
-    m_size.setWidth(w);
-    m_size.setHeight(h);
-    setSize(m_size);
+
+    setSize(QSizeF(w, h));
 
     QString instName = qElement.attribute("instancename", QString());
     setInstanceName(instName);

@@ -378,8 +378,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     if(w->scene() != this) {
         addItem(w);
     }
-    w->setX(m_Pos.x());
-    w->setY(m_Pos.y());
+    w->setPos(m_Pos);
     w->setVisible(true);
     w->setFont(getFont());
 
@@ -438,8 +437,6 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     // [PORT]
     // newWidget->slotColorChanged(getID());
     // newWidget->slotLineWidthChanged(getID());
-
-    newWidget->updateComponentSize();
 
     m_bCreateObject = false;
     m_WidgetList.append(newWidget);
@@ -625,7 +622,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
         bool breakFlag = false;
         UMLWidget* w = 0;
         foreach(w ,  m_WidgetList) {
-            bool isPointOnWidget = w->onWidget(e->scenePos());
+            bool isPointOnWidget = w->contains(w->mapFromScene(e->scenePos()));
             if (w->baseType() == Uml::wt_Note && isPointOnWidget) {
                 breakFlag = true;
                 break;
@@ -707,19 +704,21 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
  */
 UMLWidget *UMLScene::getWidgetAt(const QPointF& p)
 {
-    int relativeSize = 10000;  // start with an arbitrary large number
-    UMLWidget  *retObj = NULL;
-    UMLWidgetListIt it(m_WidgetList);
-    foreach(UMLWidget* obj,  m_WidgetList) {
-        const qreal s = obj->onWidget(p);
-        if (!s)
+    qreal metric = 99990.0;
+    UMLWidget  *retWid = 0;
+    foreach(UMLWidget* wid,  m_WidgetList) {
+        if (wid->contains(wid->mapFromScene(p)) == false) {
             continue;
-        if (s < relativeSize) {
-            relativeSize = s;
-            retObj = obj;
+        }
+
+        QSizeF sz = wid->size();
+        qreal widMetric = qMin(sz.width(), sz.height());
+        if (widMetric < metric) {
+            widMetric = metric;
+            retWid = wid;
         }
     }
-    return retObj;
+    return retWid;
 }
 
 /**
@@ -1646,11 +1645,11 @@ bool UMLScene::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         uDebug() << name << " type=" << pWidget->baseType() << "): position ("
                  << wX << "," << wY << ") is out of range";
         if (xIsOutOfRange) {
-            pWidget->setX(0);
+            pWidget->setPos(0, pWidget->pos().y());
             wX = 0;
         }
         if (yIsOutOfRange) {
-            pWidget->setY(0);
+            pWidget->setPos(pWidget->pos().x(), 0);
             wY = 0;
         }
     }
@@ -1938,7 +1937,6 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
     for (int i = 0; i < 5; i++) {
         FloatingTextWidget *flotxt = ft[i];
         if (flotxt) {
-            flotxt->updateComponentSize();
             addWidget(flotxt);
         }
     }
@@ -3425,7 +3423,7 @@ void UMLScene::updateComponentSizes()
     // update sizes of all components
 
     foreach(UMLWidget *obj , m_WidgetList) {
-        obj->updateComponentSize();
+        obj->setSize(obj->size());
     }
 }
 
@@ -3441,7 +3439,8 @@ void UMLScene::updateComponentSizes()
 void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
 {
     foreach(UMLWidget *obj , m_WidgetList) {
-        obj->forceUpdateFontMetrics(painter);
+        //[PORT]
+        //obj->forceUpdateFontMetrics(painter);
     }
 }
 
@@ -3873,8 +3872,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
             if (widget) {
                 uDebug() << "Widget: x=" << x << ", y=" << y
                          << ", w=" << w << ", h=" << h;
-                widget->setX(x);
-                widget->setY(y);
+                widget->setPos(x, y);
                 widget->setSize(w, h);
                 addItem(widget);
                 m_WidgetList.append(widget);
@@ -3937,7 +3935,7 @@ void UMLScene::alignLeft()
     qreal smallestX = getSmallestX(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setX(smallestX);
+        widget->setPos(smallestX, widget->pos().y());
         widget->adjustAssociations();
     }
 }
@@ -3954,7 +3952,7 @@ void UMLScene::alignRight()
     qreal biggestX = getBiggestX(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setX(biggestX - widget->width());
+        widget->setPos(biggestX - widget->width(), widget->pos().y());
         widget->adjustAssociations();
     }
 }
@@ -3972,7 +3970,7 @@ void UMLScene::alignTop()
     qreal smallestY = getSmallestY(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setY(smallestY);
+        widget->setPos(widget->pos().x(), smallestY);
         widget->adjustAssociations();
     }
 }
@@ -3989,7 +3987,7 @@ void UMLScene::alignBottom()
     qreal biggestY = getBiggestY(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setY(biggestY - widget->height());
+        widget->setPos(widget->pos().x(), biggestY - widget->height());
         widget->adjustAssociations();
     }
 }
@@ -4009,7 +4007,7 @@ void UMLScene::alignVerticalMiddle()
     qreal middle = int((biggestX - smallestX) / 2) + smallestX;
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setX(middle - int(widget->width() / 2));
+        widget->setPos(middle - int(widget->width() / 2), widget->pos().y());
         widget->adjustAssociations();
     }
 }
@@ -4029,7 +4027,7 @@ void UMLScene::alignHorizontalMiddle()
     qreal middle = int((biggestY - smallestY) / 2) + smallestY;
 
     foreach(UMLWidget *widget , widgetList) {
-        widget->setY(middle - int(widget->height() / 2));
+        widget->setPos(widget->pos().x(), middle - int(widget->height() / 2));
         widget->adjustAssociations();
     }
 }
@@ -4057,7 +4055,7 @@ void UMLScene::alignVerticalDistribute()
         if (i == 1) {
             widgetPrev = widget;
         } else {
-            widget->setY(widgetPrev->y() + widgetPrev->height() + distance);
+            widget->setPos(widgetPrev->pos().x(), widgetPrev->y() + widgetPrev->height() + distance);
             widget->adjustAssociations();
             widgetPrev = widget;
         }
@@ -4088,7 +4086,8 @@ void UMLScene::alignHorizontalDistribute()
         if (i == 1) {
             widgetPrev = widget;
         } else {
-            widget->setX(widgetPrev->x() + widgetPrev->width() + distance);
+            widget->setPos(widgetPrev->x() + widgetPrev->width() + distance,
+                    widgetPrev->pos().y());
             widget->adjustAssociations();
             widgetPrev = widget;
         }
