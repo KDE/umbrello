@@ -130,7 +130,7 @@ void ImportProjectDlg::accept()
         filter += "*.H";
     }
     fileList->clear();
-    getFiles(url.path(), filter);
+    getFiles(url.toLocalFile(), filter);
     if (fileList->empty()) {
         KMessageBox::sorry(this, i18n("No source file in this directory."));
         return;
