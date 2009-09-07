@@ -3047,8 +3047,7 @@ void UMLScene::slotMenuSelection(QAction* action)
                                              getName(), &ok, UMLApp::app());
         if (ok) {
             setName(name);
-            // [PORT]
-            // m_pDoc->signalDiagramRenamed(this);
+            m_pDoc->signalDiagramRenamed(activeView());
         }
     }
         break;

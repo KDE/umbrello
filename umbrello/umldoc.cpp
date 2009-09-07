@@ -2724,13 +2724,18 @@ void UMLDoc::slotAutoSave()
 /**
  * Signal a view/diagram has been renamed.
  */
-void UMLDoc::signalDiagramRenamed(UMLView* pView )
+void UMLDoc::signalDiagramRenamed(UMLView* view)
 {
-    Settings::OptionState optionState = Settings::getOptionState();
-    if (optionState.generalState.tabdiagrams) {
-        UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(pView), pView->umlScene()->getName() );
+    if (view) {
+        Settings::OptionState optionState = Settings::getOptionState();
+        if (optionState.generalState.tabdiagrams) {
+            UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(view), view->umlScene()->getName() );
+        }
+        emit sigDiagramRenamed( view->umlScene()->getID() );
     }
-    emit sigDiagramRenamed( pView->umlScene()->getID() );
+    else {
+      uError() << "Cannot signal diagram renamed - view is null!";
+    }
 }
 
 /**

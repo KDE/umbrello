@@ -79,7 +79,7 @@ class UMLApp : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-    UMLApp(QWidget* parent=0);
+    UMLApp(QWidget* parent = 0);
     ~UMLApp();
 
     static UMLApp* app();
@@ -340,6 +340,7 @@ private:
     QDockWidget* m_documentationDock;  ///< Contains the documentation DocWindow widget.
     QDockWidget* m_cmdHistoryDock;     ///< Contains the undo/redo viewer widget.
     QDockWidget* m_propertyDock;       ///< Contains the property browser widget.
+
     DocWindow*   m_pDocWindow;         ///< Documentation window.
     QUndoView*   m_pQUndoView;         ///< Undo / Redo Viewer
     RefactoringAssistant* m_refactoringAssist;  ///< Refactoring assistant.

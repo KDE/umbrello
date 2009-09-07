@@ -146,7 +146,7 @@ public:
     void loadExtensionsFromXMI(QDomNode & node);
     bool loadDiagramsFromXMI(QDomNode & node);
 
-    void signalDiagramRenamed(UMLView * pView);
+    void signalDiagramRenamed(UMLView * view);
     void signalUMLObjectCreated(UMLObject * o);
 
     UMLFolder * getDatatypeFolder() const;

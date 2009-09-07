@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -205,9 +205,9 @@ void UMLViewDialog::applyPage( KPageWidgetItem *item )
  */
 void UMLViewDialog::checkName()
 {
-    QString name = m_diagramProperties->ui_diagramName-> text();
-    UMLDoc * pDoc = UMLApp::app()-> getDocument();
-    UMLScene * pScene = pDoc -> findView( m_pScene -> getType(), name )->umlScene();
+    QString name = m_diagramProperties->ui_diagramName->text();
+    UMLDoc * pDoc = UMLApp::app()->getDocument();
+    UMLScene * pScene = pDoc->findView( m_pScene->getType(), name )->umlScene();
     if ( name.length() == 0 ) {
         KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
                            i18n("Invalid Name"), false);
@@ -221,7 +221,6 @@ void UMLViewDialog::checkName()
         return;
     }
     m_pScene->setName( name );
-    // [PORT]
     pDoc->signalDiagramRenamed(m_pScene->activeView());
 }
 
