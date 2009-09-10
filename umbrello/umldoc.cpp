@@ -135,7 +135,7 @@ void UMLDoc::init()
     connect(this, SIGNAL(sigDiagramCreated(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
     connect(this, SIGNAL(sigDiagramRemoved(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
     connect(this, SIGNAL(sigDiagramRenamed(Uml::IDType)), pApp, SLOT(slotUpdateViews()));
-    connect(this, SIGNAL( sigCurrentViewChanged() ), pApp, SLOT( slotCurrentViewChanged() ) );
+    connect(this, SIGNAL(sigCurrentViewChanged()),        pApp, SLOT(slotCurrentViewChanged()));
 }
 
 /**
@@ -1261,7 +1261,7 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool a
 }
 
 /**
- * Used to rename a document.  This method takes care of everything.
+ * Used to rename a document. This method takes care of everything.
  * You just need to give the ID of the diagram to the method.
  *
  * @param id   The ID of the diagram to rename.
@@ -1270,10 +1270,10 @@ void UMLDoc::renameDiagram(Uml::IDType id)
 {
     bool ok = false;
 
-    UMLView *temp =  findView(id);
-    Diagram_Type type = temp->umlScene()->getType();
+    UMLView *view = findView(id);
+    Diagram_Type type = view->umlScene()->getType();
 
-    QString oldName= temp->umlScene()->getName();
+    QString oldName= view->umlScene()->getName();
     while (true) {
         QString name = KInputDialog::getText(i18nc("renaming diagram", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
 
@@ -1284,13 +1284,14 @@ void UMLDoc::renameDiagram(Uml::IDType id)
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
         }
         else if (!findView(type, name)) {
-            temp->umlScene()->setName(name);
-
+            view->umlScene()->setName(name);
             emit sigDiagramRenamed(id);
             setModified(true);
             break;
-        } else
+        }
+        else {
             KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
+        }
     }
 }
 

@@ -878,7 +878,6 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
 AssociationWidget * UMLScene::findAssocWidget(Uml::Association_Type at,
                                               UMLWidget *pWidgetA, UMLWidget *pWidgetB)
 {
-
     foreach(AssociationWidget* assoc, m_AssociationList) {
         Association_Type testType = assoc->associationType();
         if (testType != at) {
@@ -1128,7 +1127,7 @@ void UMLScene::selectionSetFont(const QFont &font)
  */
 void UMLScene::selectionSetLineColor(const QColor &color)
 {
-    UMLApp::app()->BeginMacro("Change Line Color");
+    UMLApp::app()->beginMacro("Change Line Color");
     foreach(UMLWidget *temp ,  selectedWidgets()) {
         temp->setLineColor(color);
         // [PORT] temp->setUsesDiagramLineColour(false);
@@ -1138,7 +1137,7 @@ void UMLScene::selectionSetLineColor(const QColor &color)
         aw->setLineColor(color);
         // [PORT] aw->setUsesDiagramLineColour(false);
     }
-    UMLApp::app()->EndMacro();
+    UMLApp::app()->endMacro();
 }
 
 /**
@@ -1162,13 +1161,13 @@ void UMLScene::selectionSetLineWidth(uint width)
  */
 void UMLScene::selectionSetFillColor(const QColor &color)
 {
-    UMLApp::app()->BeginMacro("Change Fill Color");
+    UMLApp::app()->beginMacro("Change Fill Color");
 
     foreach(UMLWidget* temp ,  selectedWidgets()) {
         temp->setFillColour(color);
         // [PORT] temp->setUsesDiagramFillColour(false);
     }
-    UMLApp::app()->EndMacro();
+    UMLApp::app()->endMacro();
 }
 
 /**
@@ -1579,7 +1578,7 @@ bool UMLScene::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*=
         } else {
             WidgetList.append(temp);
         }
-    }//end for
+    }
     return true;
 }
 
@@ -1976,7 +1975,7 @@ void UMLScene::beginPartialWidgetPaste()
 
 void UMLScene::endPartialWidgetPaste()
 {
-    delete    m_pIDChangesLog;
+    delete m_pIDChangesLog;
     m_pIDChangesLog = 0;
 
     m_bPaste = false;
@@ -2035,10 +2034,11 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
     }
 }
 
-/** Removes all the associations related to Widget */
+/**
+ * Removes all the associations related to Widget.
+ */
 void UMLScene::removeAssociations(UMLWidget* Widget)
 {
-
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
         if (assocwidget->containsWidget(Widget)) {
             removeAssoc(assocwidget);
@@ -2062,7 +2062,7 @@ void UMLScene::selectAssociations(bool bSelect)
         } else {
             assocwidget->setSelected(false);
         }
-    }//end foreach
+    }
 }
 
 /**
@@ -2077,7 +2077,7 @@ void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associati
         if (assocwidget->widgetForRole(Uml::A)->umlObject() == Obj ||
             assocwidget->widgetForRole(Uml::B)->umlObject() == Obj)
             Associations.append(assocwidget);
-    }//end foreach
+    }
 
 }
 
@@ -2589,7 +2589,6 @@ void UMLScene::createAutoConstraintAssociations(UMLWidget *widget)
 
 void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKeyConstraint* fkConstraint, UMLWidget* widget)
 {
-
     if (refEntity == NULL) {
         return;
     }
@@ -3480,7 +3479,6 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("canvaswidth", canvasWidth());
     //now save all the widgets
 
-
     QDomElement widgetElement = qDoc.createElement("widgets");
     foreach(UMLWidget *widget , m_WidgetList) {
         // Having an exception is bad I know, but gotta work with
@@ -3691,7 +3689,6 @@ bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
  */
 UMLWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
 {
-
     if (!m_pDoc) {
         uWarning() << "m_pDoc is NULL";
         return 0L;
@@ -3919,7 +3916,6 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
     }
     return true;
 }
-
 
 /**
  * Left Alignment
@@ -4151,7 +4147,6 @@ qreal UMLScene::getSmallestX(const UMLWidgetList &widgetList)
  */
 qreal UMLScene::getSmallestY(const UMLWidgetList &widgetList)
 {
-
     if (widgetList.isEmpty())
         return -1;
 
@@ -4205,7 +4200,6 @@ qreal UMLScene::getBiggestX(const UMLWidgetList &widgetList)
  */
 qreal UMLScene::getBiggestY(const UMLWidgetList &widgetList)
 {
-
     if (widgetList.isEmpty())
         return -1;
 

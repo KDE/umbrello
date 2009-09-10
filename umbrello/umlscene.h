@@ -229,25 +229,20 @@ public:
     }
 
     qreal snappedX(qreal x);
-
     qreal snappedY(qreal y);
 
     bool getShowSnapGrid() const;
-
     void setShowSnapGrid(bool bShow);
 
     void setSnapComponentSizeToGrid(bool bSnap);
 
     bool getUseFillColor() const;
-
     void setUseFillColor(bool ufc);
 
     QFont getFont() const;
-
     void setFont(QFont font, bool changeAllWidgets = false);
 
     bool getShowOpSig() const;
-
     void setShowOpSig(bool bShowOpSig);
 
     /**
@@ -315,15 +310,10 @@ public:
     int getSelectCount(bool filterText = false) const;
 
     void selectionUseFillColor(bool useFC);
-
     void selectionSetFont(const QFont &font);
-
     void selectionSetLineColor(const QColor &color);
-
     void selectionSetLineWidth(uint width);
-
     void selectionSetFillColor(const QColor &color);
-
     void selectionToggleShow(int sel);
 
     void deleteSelection();
@@ -428,9 +418,7 @@ public:
     }
 
     void createAutoAssociations(UMLWidget * widget);
-
     void createAutoAttributeAssociations(UMLWidget *widget);
-
     void createAutoConstraintAssociations(UMLWidget* widget);
 
     void updateContainment(UMLCanvasObject *self);
@@ -446,9 +434,7 @@ public:
     void clearDiagram();
 
     void toggleSnapToGrid();
-
     void toggleSnapComponentSizeToGrid();
-
     void toggleShowGrid();
 
     void fileLoaded();
@@ -704,19 +690,13 @@ private:
                                          UMLWidget* widget);
 
     static bool hasWidgetSmallerX(const UMLWidget* widget1, const UMLWidget* widget2);
-
     static bool hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widget2);
 
     qreal getSmallestX(const UMLWidgetList &widgetList);
-
     qreal getSmallestY(const UMLWidgetList &widgetList);
-
     qreal getBiggestX(const UMLWidgetList &widgetList);
-
     qreal getBiggestY(const UMLWidgetList &widgetList);
-
     qreal getHeightsSum(const UMLWidgetList &widgetList);
-
     qreal getWidthsSum(const UMLWidgetList &widgetList);
 
     /**

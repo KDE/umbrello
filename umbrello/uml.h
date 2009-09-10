@@ -18,7 +18,6 @@
 #include <ksharedconfig.h>
 
 // forward declaration of the UML classes
-class AlignToolBar;
 class CodeDocument;
 class CodeGenerator;
 class CodeGenerationPolicy;
@@ -147,9 +146,8 @@ public:
 
     void executeCommand(QUndoCommand* cmd);
 
-    void BeginMacro( const QString & text );
-
-    void EndMacro();
+    void beginMacro( const QString & text );
+    void endMacro();
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
@@ -371,12 +369,9 @@ private:
 
     QToolButton* m_newSessionButton;
     KMenu* m_diagramMenu;
-    KToggleAction* viewToolBar;
-    KToggleAction* viewStatusBar;
-    WorkToolBar* toolsbar;
+    WorkToolBar* m_toolsbar;
     QTimer* m_clipTimer;
     QTimer* m_copyTimer;
-    AlignToolBar* m_alignToolBar;
 
     bool m_loading;  ///< True if the application is opening an existing document.
 
