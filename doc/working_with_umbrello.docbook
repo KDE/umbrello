@@ -338,7 +338,7 @@ This page allows you to add class templates which are unspecified classes or dat
 The <guilabel>Class Associations</guilabel> page shows all the associations of this class
 in the current diagram. Double clicking on an association shows its properties, and depending
 on the type of association you may modify some parameters here such as setting multiplicity and Role
-name. If the association does not allow such options be be modified, the Association Properties dialog
+name. If the association does not allow such options to be modified, the Association Properties dialog
 is read-only and you can only modify the documentation associated with this association.
 </para>
 <para>
