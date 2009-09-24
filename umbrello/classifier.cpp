@@ -27,7 +27,6 @@
 #include "stereotype.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "umllistview.h"
 #include "uniqueid.h"
 #include "object_factory.h"
 #include "model_utils.h"
@@ -93,10 +92,7 @@ void UMLClassifier::setBaseType(Uml::Object_Type ot)
             uError() << "cannot set to type " << ot;
             return;
     }
-    // @todo get rid of direct dependencies to UMLListView
-    //  (e.g. move utility methods to Model_Utils and/or use signals)
-    UMLListView *listView = UMLApp::app()->getListView();
-    listView->changeIconOf(this, newIcon);
+    Model_Utils::treeViewChangeIcon(this, newIcon);
 }
 
 /**

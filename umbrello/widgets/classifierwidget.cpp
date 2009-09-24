@@ -52,8 +52,7 @@ const int ClassifierWidget::InvalidIndex = 99999;
  */
 ClassifierWidget::ClassifierWidget(UMLClassifier *c)
     : UMLWidget(c),
-    m_classAssociationWidget(0)
-
+      m_classAssociationWidget(0)
 {
     createTextItemGroup(); // For header (name, stereotype..)
     createTextItemGroup(); // For attributes and operations.

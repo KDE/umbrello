@@ -27,6 +27,10 @@
 #include "umlrole.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
+#include "umlscene.h"
+#include "umlview.h"
 #include "codegenerator.h"
 
 // kde includes
@@ -266,6 +270,43 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                               nameWithoutFirstPrefix, type );
     }
     return NULL;
+}
+
+/**
+ * Add the given list of views to the tree view.
+ * @param viewList   the list of views to add
+ */
+void treeViewAddViews(const UMLViewList& viewList)
+{
+    UMLListView* tree = UMLApp::app()->getListView();
+    foreach (UMLView* v,  viewList) {
+        if (tree->findItem(v->umlScene()->getID()) != NULL) {
+            continue;
+        }
+        tree->createDiagramItem(v);
+    }
+}
+
+/**
+ * Change an icon of an object in the tree view.
+ * @param object   the object in the treeViewAddViews
+ * @param to       the new icon type for the given object
+ */
+void treeViewChangeIcon(UMLObject* object, Icon_Utils::Icon_Type to)
+{
+    UMLListView* tree = UMLApp::app()->getListView();
+    tree->changeIconOf(object, to);
+}
+
+/**
+ * Set the given object to the current item in the tree view.
+ * @param object   the object which will be the current item
+ */
+void treeViewSetCurrentItem(UMLObject* object)
+{
+    UMLListView* tree = UMLApp::app()->getListView();
+    UMLListViewItem* item = tree->findUMLObject(object);
+    tree->setCurrentItem(item);
 }
 
 /**

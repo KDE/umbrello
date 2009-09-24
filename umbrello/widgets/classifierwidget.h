@@ -44,9 +44,9 @@ public:
         ShowOperations = 0x2,
         ShowPublicOnly = 0x4,
         ShowVisibility = 0x8,
-        ShowPackage = 0x10,
+        ShowPackage    = 0x10,
         ShowAttributes = 0x20,
-        DrawAsCircle = 0x40,
+        DrawAsCircle   = 0x40,
 
         // These two are effective only in setters.
         ShowOperationSignature = 0x60,

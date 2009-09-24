@@ -16,6 +16,7 @@
 
 #include "umlnamespace.h"
 #include "umlobjectlist.h"
+#include "umlviewlist.h"
 #include "foreignkeyconstraint.h"
 #include "icon_utils.h"
 
@@ -40,6 +41,10 @@ UMLObject* findUMLObject( const UMLObjectList& inList,
                           const QString& name,
                           Uml::Object_Type type = Uml::ot_UMLObject,
                           UMLObject *currentObj = NULL);
+
+void treeViewAddViews(const UMLViewList& viewList);
+void treeViewChangeIcon(UMLObject* object, Icon_Utils::Icon_Type to);
+void treeViewSetCurrentItem(UMLObject* object);
 
 QString uniqObjectName(Uml::Object_Type type,
                        UMLPackage *parentPkg,

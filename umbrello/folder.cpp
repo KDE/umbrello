@@ -15,7 +15,6 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
-#include "umllistview.h"
 #include "optionstate.h"
 #include "object_factory.h"
 #include "model_utils.h"
@@ -145,19 +144,16 @@ void UMLFolder::activateViews()
         }
     }
 
-    foreach (UMLView* v, m_diagrams)
+    foreach (UMLView* v, m_diagrams) {
         v->umlScene()->activateAfterLoad();
+    }
     // Make sure we have a treeview item for each diagram.
     // It may happen that we are missing them after switching off tabbed widgets.
     Settings::OptionState optionState = Settings::getOptionState();
-    if (optionState.generalState.tabdiagrams)
+    if (optionState.generalState.tabdiagrams) {
         return;
-    UMLListView *lv = UMLApp::app()->getListView();
-    foreach (UMLView* v,  m_diagrams ) {
-        if (lv->findItem(v->umlScene()->getID()) != NULL)
-            continue;
-        lv->createDiagramItem(v);
     }
+    Model_Utils::treeViewAddViews(m_diagrams);
 }
 
 /**
