@@ -1030,18 +1030,7 @@ bool UMLObject::loadFromXMI(QDomElement & element)
             m_BaseType != Uml::ot_Role && m_BaseType != Uml::ot_UniqueConstraint &&
             m_BaseType != Uml::ot_ForeignKeyConstraint) {
         if (m_bInPaste) {
-            m_pUMLPackage = NULL;  // forget any old parent
-            UMLListView *listView = UMLApp::app()->getListView();
-            UMLListViewItem *parentItem = (UMLListViewItem*)listView->currentItem();
-            if (parentItem) {
-                Uml::ListView_Type lvt = parentItem->getType();
-                if (Model_Utils::typeIsContainer(lvt) ||
-                        lvt == Uml::lvt_Class ||
-                        lvt == Uml::lvt_Interface) {
-                    UMLObject *o = parentItem->getUMLObject();
-                    m_pUMLPackage = static_cast<UMLPackage*>(o);
-                }
-            }
+            m_pUMLPackage = Model_Utils::treeViewGetPackageFromCurrent();
         }
         if (m_pUMLPackage) {
             m_pUMLPackage->addObject(this);

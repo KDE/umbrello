@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -351,5 +351,13 @@ namespace Uml
     Class &operator=(const Class &);
 
 #define uIgnoreZeroPointer(a) if (!a) { uDebug() << "zero pointer detected" << __FILE__ << __LINE__; continue; }
+
+/**
+ * In a Q_OBJECT class define any enum as Q_ENUMS.
+ * With the above the following macro returns the name of a given enum.
+ * This can be used in debug output.
+ * TODO: convert it to a function.
+ */
+#define ENUM_NAME(o,e,v) (o::staticMetaObject.enumerator(o::staticMetaObject.indexOfEnumerator(#e)).valueToKey((v)))
 
 #endif

@@ -26,7 +26,6 @@
 #include "uml.h"
 #include "umlobject.h"
 #include "umlscene.h"
-#include "umllistview.h"
 #include "umldoc.h"
 #include "umlwidget.h"
 
@@ -62,7 +61,6 @@ ToolBarStateAssociation::~ToolBarStateAssociation()
 void ToolBarStateAssociation::init()
 {
     ToolBarStatePool::init();
-
     cleanAssociation();
 }
 
@@ -73,7 +71,6 @@ void ToolBarStateAssociation::init()
 void ToolBarStateAssociation::cleanBeforeChange()
 {
     ToolBarStatePool::cleanBeforeChange();
-
     cleanAssociation();
 }
 
@@ -237,14 +234,10 @@ void ToolBarStateAssociation::setSecondWidget()
         AssociationWidget *temp = new AssociationWidget(widgetA, type, widgetB);
         addAssociationInViewAndDoc(temp);
         if (type == at_Containment) {
-            UMLListView *lv = UMLApp::app()->getListView();
             UMLObject *newContainer = widgetA->umlObject();
             UMLObject *objToBeMoved = widgetB->umlObject();
             if (newContainer && objToBeMoved) {
-                UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
-                lv->moveObject(objToBeMoved->getID(),
-                               Model_Utils::convert_OT_LVT(objToBeMoved),
-                               newLVParent);
+                Model_Utils::treeViewMoveObjectTo(newContainer, objToBeMoved);
             }
         }
         UMLApp::app()->getDocument()->setModified();

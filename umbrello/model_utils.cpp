@@ -310,6 +310,84 @@ void treeViewSetCurrentItem(UMLObject* object)
 }
 
 /**
+ * Move an object to a new container in the tree view.
+ * @param container   the new container for the object
+ * @param object      the to be moved object
+ */
+void treeViewMoveObjectTo(UMLObject* container, UMLObject* object)
+{
+    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListViewItem *newParent = listView->findUMLObject(container);
+    listView->moveObject(object->getID(),
+                   Model_Utils::convert_OT_LVT(object),
+                   newParent);
+}
+
+/**
+ * Return the current UMLObject from the tree view.
+ * @return   the UML object of the current item
+ */
+UMLObject* treeViewGetCurrentObject()
+{
+    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListViewItem *current = static_cast<UMLListViewItem*>(listView->currentItem());
+    return current->getUMLObject();
+}
+
+/**
+ * Return the UMLPackage if the current item
+ * in the tree view is a package.
+ * @return   the package or NULL
+ */
+UMLPackage* treeViewGetPackageFromCurrent()
+{
+    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListViewItem *parentItem = (UMLListViewItem*)listView->currentItem();
+    if (parentItem) {
+        Uml::ListView_Type lvt = parentItem->getType();
+        if (Model_Utils::typeIsContainer(lvt) ||
+            lvt == Uml::lvt_Class ||
+            lvt == Uml::lvt_Interface) {
+            UMLObject *o = parentItem->getUMLObject();
+            return static_cast<UMLPackage*>(o);
+        }
+    }
+    return NULL;
+}
+
+/**
+ * Build the diagram name from the tree view.
+ * @param id   the id of the diaram
+ * @return     the constructed diagram name
+ */
+QString treeViewBuildDiagramName(Uml::IDType id)
+{
+    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListViewItem* listViewItem = listView->findItem(id);
+
+    if (listViewItem) {
+        // skip the name of the first item because it's the View
+        listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
+        
+        // Relies on the tree structure of the UMLListView. There are a base "Views" folder
+        // and five children, one for each view type (Logical, use case, components, deployment
+        // and entity relationship)
+        QString name;
+        while (listView->rootView(listViewItem->getType()) == NULL) {
+            name.insert(0, listViewItem->getText() + '/');
+            listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
+            if (listViewItem == NULL)
+                break;
+        }
+        return name;
+    }
+    else {
+        uWarning() << "diagram not found - returning empty name!";
+        return QString();
+    }
+}
+
+/**
  * Returns a name for the new object, appended with a number
  * if the default name is taken e.g. new_actor, new_actor_1
  * etc.

@@ -19,8 +19,6 @@
 // app includes
 #include "widgetbase.h"
 #include "umldoc.h"
-#include "umllistview.h"
-#include "umllistviewitem.h"
 #include "classifierwidget.h"
 #include "classifier.h"
 #include "floatingtextwidget.h"
@@ -898,23 +896,23 @@ void ListPopupMenu::insertSubmodelAction()
         // in the General Settings.
         return;
     }
-    UMLListView *listView = UMLApp::app()->getListView();
-    UMLListViewItem *current = static_cast<UMLListViewItem*>(listView->currentItem());
-    UMLObject *o = current->getUMLObject();
+    UMLObject *o = Model_Utils::treeViewGetCurrentObject();
     if (o == NULL) {
-        uError() << current->getText() << " getUMLObject()  returns NULL";
+        uError() << " Model_Utils::treeViewGetCurrentObject() returns NULL";
         return;
     }
     UMLFolder *f = dynamic_cast<UMLFolder*>(o);
     if (f == NULL) {
-        uError() << "current->getUMLObject (" << o->getName() << ") is not a Folder";
+        uError() << o->getName() << " is not a Folder";
         return;
     }
     QString submodelFile = f->getFolderFile();
-    if (submodelFile.isEmpty())
+    if (submodelFile.isEmpty()) {
         insert(mt_Externalize_Folder);
-    else
+    }
+    else {
         insert(mt_Internalize_Folder);
+    }
 }
 
 /**
