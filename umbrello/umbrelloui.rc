@@ -71,6 +71,7 @@
       <Action name="setLang_python"/>
       <Action name="setLang_ruby"/>
       <Action name="setLang_tcl"/>
+      <Action name="setLang_vala"/>
       <Action name="setLang_xmlschema"/>
     </Menu>
     <Separator/>

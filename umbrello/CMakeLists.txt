@@ -30,6 +30,7 @@ include_directories (
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/ruby/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/sql/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/tcl/
+  ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/vala/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/xml/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/
   ${CMAKE_CURRENT_SOURCE_DIR}/controller/
@@ -127,6 +128,7 @@ set(libcodegenerator_SRCS
     codegenerators/ruby/rubywriter.cpp
     codegenerators/sql/sqlwriter.cpp
     codegenerators/tcl/tclwriter.cpp
+    codegenerators/vala/valawriter.cpp
     codegenerators/xml/xmlschemawriter.cpp
     codegenerators/xml/xmlelementcodeblock.cpp
     codegenerators/xml/xmlcodecomment.cpp
