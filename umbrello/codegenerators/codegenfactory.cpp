@@ -40,6 +40,7 @@
 #include "aswriter.h"
 #include "jswriter.h"
 #include "tclwriter.h"
+#include "valawriter.h"
 #include "xmlschemawriter.h"
 
 // the new
@@ -173,6 +174,9 @@ CodeGenerator* createObject(Uml::Programming_Language pl)
             break;
         case Uml::pl_Tcl:
             obj = new TclWriter();
+            break;
+        case Uml::pl_Vala:
+            obj = new ValaWriter();
             break;
         case Uml::pl_XMLSchema:
             obj = new XMLSchemaWriter();

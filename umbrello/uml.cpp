@@ -289,6 +289,7 @@ void UMLApp::initActions()
     setProgLangAction(Uml::pl_Ruby,         "Ruby",            "setLang_ruby");
     setProgLangAction(Uml::pl_SQL,          "SQL",             "setLang_sql");
     setProgLangAction(Uml::pl_Tcl,          "Tcl",             "setLang_tcl");
+    setProgLangAction(Uml::pl_Vala,         "Vala",            "setLang_vala");
     setProgLangAction(Uml::pl_XMLSchema,    "XMLSchema",       "setLang_xmlschema");
 
     connect(m_langAct[Uml::pl_ActionScript], SIGNAL(triggered()), this, SLOT(setLang_actionscript()));
@@ -309,6 +310,7 @@ void UMLApp::initActions()
     connect(m_langAct[Uml::pl_Ruby],         SIGNAL(triggered()), this, SLOT(setLang_ruby()));
     connect(m_langAct[Uml::pl_SQL],          SIGNAL(triggered()), this, SLOT(setLang_sql()));
     connect(m_langAct[Uml::pl_Tcl],          SIGNAL(triggered()), this, SLOT(setLang_tcl()));
+    connect(m_langAct[Uml::pl_Vala],         SIGNAL(triggered()), this, SLOT(setLang_vala()));
     connect(m_langAct[Uml::pl_XMLSchema],    SIGNAL(triggered()), this, SLOT(setLang_xmlschema()));
 
     fileNew->setToolTip(i18n("Creates a new document"));
@@ -2055,6 +2057,11 @@ void UMLApp::setLang_tcl()
     setActiveLanguage(Uml::pl_Tcl);
 }
 
+void UMLApp::setLang_vala()
+{
+    setActiveLanguage(Uml::pl_Vala);
+}
+
 void UMLApp::setLang_xmlschema()
 {
     setActiveLanguage(Uml::pl_XMLSchema);
@@ -2102,6 +2109,7 @@ QString UMLApp::activeLanguageScopeSeparator()
         pl == Uml::pl_Pascal ||
         pl == Uml::pl_Java ||
         pl == Uml::pl_JavaScript ||
+        pl == Uml::pl_Vala ||
         pl == Uml::pl_Python)  // CHECK: more?
         return ".";
     return "::";

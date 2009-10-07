@@ -761,6 +761,8 @@ QString progLangToString(Uml::Programming_Language pl)
             return "SQL";
         case Uml::pl_Tcl:
             return "Tcl";
+        case Uml::pl_Vala:
+            return "Vala";
         case Uml::pl_XMLSchema:
             return "XMLSchema";
         default:
@@ -810,6 +812,8 @@ Uml::Programming_Language stringToProgLang(QString str)
         return Uml::pl_SQL;
     if (str == "Tcl")
         return Uml::pl_Tcl;
+    if (str == "Vala")
+        return Uml::pl_Vala;
     if (str == "XMLSchema")
         return Uml::pl_XMLSchema;
     return Uml::pl_Reserved;

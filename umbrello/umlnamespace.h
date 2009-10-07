@@ -301,6 +301,7 @@ enum Programming_Language {
     pl_Ruby,
     pl_SQL,
     pl_Tcl,
+    pl_Vala,
     pl_XMLSchema,
     pl_Reserved
 };

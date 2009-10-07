@@ -288,6 +288,7 @@ private slots:
     void setLang_ruby();
     void setLang_sql();
     void setLang_tcl();
+    void setLang_vala();
     void setLang_xmlschema();
 
 private:
