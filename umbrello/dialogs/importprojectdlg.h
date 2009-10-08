@@ -1,22 +1,19 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007-2008                                               *
+ *   copyright (C) 2007-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef IMPORTPROJECTDLG_H
 #define IMPORTPROJECTDLG_H
 
-
 // application specific includes
 #include "ui_importprojectdlgbase.h"
 #include "umlnamespace.h"
-
 
 /**
  * Dialog for collecting the "Import project" params and searching the files that match the params.
@@ -27,39 +24,18 @@
 class ImportProjectDlg : public KDialog, private Ui::ImportProjectDlgBase
 {
   Q_OBJECT
-
 public:
-
-    /**
-     * Constructor for ImportProjectDlg.
-     *
-     * @param list The list of source files.
-     * @param pl The preselected programming language
-     * @param parent The parent of the dialog.
-     * @param name The internal name.
-     * @param modal If modal is true the dialog will block input to other the windows
-     *              in the application until it's closed.
-     * @param fl Window flags.
-     *
-     * @see KDialog::KDialog
-     */
     ImportProjectDlg(QStringList* list, const  Uml::Programming_Language pl,
-                     QWidget* parent = 0, const char* name = 0,bool modal = false, Qt::WindowFlags fl = 0);
-
-    /**
-     * Destructor for ImportProjectDlg.
-     */
+                     QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WindowFlags fl = 0);
     virtual ~ImportProjectDlg();
 
 protected slots:
-
     virtual void accept();
 
 private:
-
     virtual void getFiles(const QString& aPath, QStringList& filters);
 
-    QStringList* fileList;
+    QStringList* m_fileList;
 
     static const QString ADA;
     static const QString CPP;

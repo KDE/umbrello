@@ -1,24 +1,25 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007-2008                                               *
+ *   copyright (C) 2007-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "importprojectdlg.h"
 
-// qt/kde includes
-#include <QtCore/QFileInfo>
-#include <QtCore/QRegExp>
-#include <kmessagebox.h>
-
 // local includes
 #include "model_utils.h"
+
+// kde includes
+#include <kmessagebox.h>
+
+// qt includes
+#include <QtCore/QFileInfo>
+#include <QtCore/QRegExp>
 
 const QString ImportProjectDlg::ADA    = Model_Utils::progLangToString(Uml::pl_Ada);
 const QString ImportProjectDlg::CPP    = Model_Utils::progLangToString(Uml::pl_Cpp);
@@ -27,10 +28,23 @@ const QString ImportProjectDlg::JAVA   = Model_Utils::progLangToString(Uml::pl_J
 const QString ImportProjectDlg::PASCAL = Model_Utils::progLangToString(Uml::pl_Pascal);
 const QString ImportProjectDlg::PYTHON = Model_Utils::progLangToString(Uml::pl_Python);
 
-
+/**
+ * Constructor for ImportProjectDlg.
+ *
+ * @param list   The list of source files.
+ * @param pl     The preselected programming language
+ * @param parent The parent of the dialog.
+ * @param name   The internal name.
+ * @param modal  If modal is true the dialog will block input to other the windows
+ *               in the application until it's closed.
+ * @param fl     Window flags.
+ *
+ * @see KDialog::KDialog
+ */
 ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::Programming_Language pl,
-                                   QWidget* parent,const char* name,bool modal,Qt::WindowFlags fl)
-  : KDialog(parent, fl), fileList(list)
+                                   QWidget* parent, const char* name, bool modal, Qt::WindowFlags fl)
+  : KDialog(parent, fl),
+    m_fileList(list)
 {
     setObjectName(name);
     setModal(modal);
@@ -66,19 +80,24 @@ ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::Programming_La
     m_kURL->setMode(KFile::Directory | KFile::ExistingOnly | KFile::LocalOnly);
 }
 
+/**
+ * Destructor.
+ */
 ImportProjectDlg::~ImportProjectDlg()
 {
 }
 
 /**
- * Recursively get all the sources files that matches the filters from the path aPath
+ * Recursively get all the sources files that matches the filters from the given path.
+ * @param path      path to the parent directory
+ * @param filters   file extensions of the wanted files
  */
 void ImportProjectDlg::getFiles(const QString& path, QStringList& filters)
 {
     QDir searchDir(path);
     if (searchDir.exists()) {
         foreach (const QFileInfo &file, searchDir.entryList(filters, QDir::Files))
-            fileList->append(searchDir.absoluteFilePath(file.fileName()));
+            m_fileList->append(searchDir.absoluteFilePath(file.fileName()));
         foreach (const QFileInfo &subDir, searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks))
             getFiles(searchDir.absoluteFilePath(subDir.fileName()), filters);
     }
@@ -129,14 +148,13 @@ void ImportProjectDlg::accept()
         filter += "*.hxx";
         filter += "*.H";
     }
-    fileList->clear();
-    getFiles(url.path(), filter);
-    if (fileList->empty()) {
+    m_fileList->clear();
+    getFiles(url.toLocalFile(), filter);
+    if (m_fileList->empty()) {
         KMessageBox::sorry(this, i18n("No source file in this directory."));
         return;
     }
     KDialog::accept();
 }
-
 
 #include "importprojectdlg.moc"
