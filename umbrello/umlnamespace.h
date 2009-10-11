@@ -322,7 +322,7 @@ namespace Uml
         corner_BottomRight = 0x4,
         corner_BottomLeft = 0x8
     };
-    Q_DECLARE_FLAGS(Corners, Corner);
+    Q_DECLARE_FLAGS(Corners, Corner)
 
     /**
      * The data type used for unique IDs.
