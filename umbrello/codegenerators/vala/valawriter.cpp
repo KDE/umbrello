@@ -107,16 +107,25 @@ static const char *reserved_words[] = {
     0
 };
 
+/**
+ * Constructor.
+ */
 ValaWriter::ValaWriter()
  : SimpleCodeGenerator()
 {
 }
 
-
+/**
+ * Destructor.
+ */
 ValaWriter::~ValaWriter()
 {
 }
 
+/**
+ * Get list of predefined data types.
+ * @return  the list of default data types
+ */
 QStringList ValaWriter::defaultDatatypes()
 {
     QStringList l;
@@ -169,6 +178,10 @@ QStringList ValaWriter::defaultDatatypes()
     return l;
 }
 
+/**
+ * Call this method to generate Vala code for a UMLClassifier
+ * @param c the class you want to generate code for.
+ */
 void ValaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
@@ -214,21 +227,21 @@ void ValaWriter::writeClass(UMLClassifier *c)
     cs << "using GLib;" << m_endl << m_endl;
 
     //write includes and namespace
-
     UMLPackage *container = c->getUMLPackage();
-    if (container == logicalView)
+    if (container == logicalView) {
         container = NULL;
+    }
 
     UMLPackageList includes;
     findObjectsRelated(c, includes);
     m_seenIncludes.clear();
     //m_seenIncludes.append(logicalView);
     if (includes.count()) {
-
         foreach ( UMLPackage* p , includes ) {
             UMLClassifier *cl = dynamic_cast<UMLClassifier*>(p);
-            if (cl)
+            if (cl) {
                 p = cl->getUMLPackage();
+            }
             if (p != logicalView && m_seenIncludes.indexOf(p) == -1 && p != container) {
                 cs << "using " << p->getFullyQualifiedName(".") << ";" << m_endl;
                 m_seenIncludes.append(p);
@@ -249,8 +262,12 @@ void ValaWriter::writeClass(UMLClassifier *c)
     //Write class Documentation if there is somthing or if force option
     if (forceDoc() || !c->getDoc().isEmpty()) {
         cs << m_container_indent << "/**" << m_endl;
-        if (c->getDoc().isEmpty()) cs << formatDoc(c->getDoc(), m_container_indent + " * TODO: Add documentation here." );
-        else cs << formatDoc(c->getDoc(), m_container_indent + m_indentation + " * ");
+        if (c->getDoc().isEmpty()) {
+            cs << formatDoc(c->getDoc(), m_container_indent + " * TODO: Add documentation here." );
+        }
+        else {
+            cs << formatDoc(c->getDoc(), m_container_indent + m_indentation + " * ");
+        }
         cs << m_container_indent << " */" << m_endl ;
     }
 
@@ -266,10 +283,12 @@ void ValaWriter::writeClass(UMLClassifier *c)
     //check if it is an interface or regular class
     if (isInterface) {
         cs << "interface " << classname;
-    } else {
+    }
+    else {
         //check if class is abstract and / or has abstract methods
-        if (c->getAbstract() || c->hasAbstractOps())
+        if (c->getAbstract() || c->hasAbstractOps()) {
             cs << "abstract ";
+        }
 
         cs << "class " << classname << (superclasses.count() > 0 ? " : ":"");
 
@@ -287,7 +306,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
             }
             if (supers > 1) {
                 cs << m_endl << "//WARNING: Vala does not support multiple inheritance but there is more than 1 superclass defined in your UML model!" << m_endl;
-        }
+            }
         }
         //check for realizations
         UMLAssociationList realizations = c->getRealizations();
@@ -299,7 +318,6 @@ void ValaWriter::writeClass(UMLClassifier *c)
                     // write list of realizations
                     cs << ", " << real->getName();
                 }
-
             }
         }
     }
@@ -321,8 +339,9 @@ void ValaWriter::writeClass(UMLClassifier *c)
 
     //attributes
     // FIXME: Vala allows Properties in interface!
-    if (!isInterface)
+    if (!isInterface) {
         writeAttributes(c, cs);
+    }
 
     //operations
     writeOperations(c, cs);
@@ -343,6 +362,11 @@ void ValaWriter::writeClass(UMLClassifier *c)
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
+/**
+ * Write all operations for a given class.
+ * @param c the concept we are generating code for
+ * @param cs output stream
+ */
 void ValaWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
 {
     //Lists to store operations  sorted by scope
@@ -400,13 +424,17 @@ void ValaWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
     // write superclasses abstract methods
     UMLClassifierList superclasses = c->getSuperClasses();
 
-    if (!isInterface && !c->getAbstract() && !c->hasAbstractOps()
-            && superclasses.count() > 0) {
+    if (!isInterface && !c->getAbstract() && !c->hasAbstractOps() && superclasses.count() > 0) {
         writeOverridesRecursive(&superclasses, cs);
     }
 
 }
 
+/**
+ * Write superclasses' abstract methods.
+ * @param superclasses List of superclasses to start recursing on
+ * @param cs output stream
+ */
 void ValaWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTextStream &cs)
 {
     // oplist for implemented abstract operations
@@ -438,6 +466,12 @@ void ValaWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTextS
     }
 }
 
+/**
+ * Write realizations of a class and recurse to parent classes.
+ * @param currentClass class to start with
+ * @param realizations realizations of this class
+ * @param cs output stream
+ */
 void ValaWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAssociationList *realizations, QTextStream &cs)
 {
     for (UMLAssociationListIt alit(*realizations); alit.hasNext(); ) {
@@ -447,8 +481,9 @@ void ValaWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAsso
         UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
 
         //FIXME: Interfaces realize themselves without this condition!?
-        if (real == currentClass)
+        if (real == currentClass) {
             continue;
+        }
 
         // collect operations of one realization
         UMLOperationList opreal = real->getOpList();
@@ -466,6 +501,13 @@ void ValaWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAsso
     }
 }
 
+/**
+ * Write a list of class operations.
+ * @param opList the list of operations
+ * @param cs output stream
+ * @param interface indicates if the operation is an interface member
+ * @param isOverride implementation of an inherited abstract function
+ */
 void ValaWriter::writeOperations(UMLOperationList opList,
                                  QTextStream &cs, bool isInterface /* = false */,
                                  bool isOverride /* = false */,
@@ -482,11 +524,14 @@ void ValaWriter::writeOperations(UMLOperationList opList,
         }
 
         //write method documentation
-        if (writeDoc && !isOverride)
-        {
+        if (writeDoc && !isOverride) {
             cs << m_container_indent << m_indentation << "/**" << m_endl;
-            if (op->getDoc().isEmpty()) cs << formatDoc(op->getDoc(), m_container_indent + m_indentation + " * TODO: Add documentation here. ");
-            else cs << formatDoc(op->getDoc(), m_container_indent + m_indentation + " * ");
+            if (op->getDoc().isEmpty()) {
+                cs << formatDoc(op->getDoc(), m_container_indent + m_indentation + " * TODO: Add documentation here. ");
+            }
+            else {
+                cs << formatDoc(op->getDoc(), m_container_indent + m_indentation + " * ");
+            }
             
             //write parameter documentation
             foreach ( UMLAttribute* at, atl ) {
@@ -504,21 +549,27 @@ void ValaWriter::writeOperations(UMLOperationList opList,
                 cs << makeLocalTypeName(op);
             }
             cs << m_endl;
-	    cs << m_container_indent << m_indentation << " */" << m_endl;
+	        cs << m_container_indent << m_indentation << " */" << m_endl;
         }
 
         // method visibility
         cs << m_container_indent << m_indentation;
         if (!isInterface) {
             if (!isOverride) {
-                if (op->getAbstract()) cs << "abstract ";
+                if (op->getAbstract()) {
+                    cs << "abstract ";
+                }
                 cs << op->getVisibility().toString() << " ";
-                if (op->getStatic()) cs << "static ";
+                if (op->getStatic()) {
+                    cs << "static ";
+                }
             }
             else {
                 // method overriding an abstract parent
                 cs << op->getVisibility().toString() << " override ";
-                if (op->getStatic()) cs << "static ";
+                if (op->getStatic()) {
+                    cs << "static ";
+                }
             }
         }
 
@@ -577,6 +628,11 @@ void ValaWriter::writeOperations(UMLOperationList opList,
     }
 }
 
+/**
+ * Write all the attributes of a class.
+ * @param c the class we are generating code for
+ * @param cs output stream
+ */
 void ValaWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
 {
     UMLAttributeList  atpub, atprot, atpriv, atdefval;
@@ -602,8 +658,9 @@ void ValaWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
         }
     }
 
-    if (forceSections() || atl.count())
+    if (forceSections() || atl.count()) {
         cs << m_endl << m_container_indent << m_indentation << "//region Attributes" << m_endl << m_endl;
+    }
 
     // write public attributes
     if (forceSections() || atpub.count()) {
@@ -620,11 +677,16 @@ void ValaWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
         writeAttributes(atpriv,cs);
     }
 
-    if (forceSections() || atl.count())
+    if (forceSections() || atl.count()) {
         cs << m_endl << m_container_indent << m_indentation << "//endregion" << m_endl << m_endl;
-
+    }
 }
 
+/**
+ * Write a list of class attributes.
+ * @param atList the list of attributes
+ * @param cs output stream
+ */
 void ValaWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
 {
     foreach (UMLAttribute* at, atList ) {
@@ -641,11 +703,18 @@ void ValaWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
     return;
 }
 
+/**
+ * Write attributes from associated objects (compositions, aggregations).
+ * @param associated list of associated objects
+ * @param c currently written class, to see association direction
+ * @param cs output stream
+ */
 void ValaWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs)
 {
     foreach (UMLAssociation *a,  associated ) {
-        if (c != a->getObject(Uml::A))  // we need to be at the A side
+        if (c != a->getObject(Uml::A)) { // we need to be at the A side
             continue;
+        }
 
         UMLObject *o = a->getObject(Uml::B);
         if (o == NULL) {
@@ -664,7 +733,8 @@ void ValaWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLCl
         if (a->getMulti(Uml::B).isEmpty() || a->getMulti(Uml::B) == "1")  {
             // normal attribute
             writeAttribute(roleDoc, a->getVisibility(Uml::B), false, typeName, roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
-        } else {
+        }
+        else {
             // array
             roleDoc += "\n(Array of " + typeName + ')';
             writeAttribute(roleDoc, a->getVisibility(Uml::B), false, "ArrayList", roleName, "", ( a->getVisibility(Uml::B) != Uml::Visibility::Private), cs);
@@ -672,6 +742,17 @@ void ValaWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLCl
     }
 }
 
+/**
+ * Write a single attribute to the output stream.
+ * @param doc attribute documentation
+ * @param visibility attribute visibility
+ * @param isStatic static attribute
+ * @param typeName class/type of the attribute
+ * @param name name of the attribute
+ * @param initialValue initial value given to the attribute at declaration
+ * @param asProperty true writes as property (get/set), false writes single line variable
+ * @param cs output stream
+ */
 void ValaWriter::writeAttribute(const QString& doc,
                                   Uml::Visibility visibility,
                                   bool isStatic,
@@ -682,16 +763,20 @@ void ValaWriter::writeAttribute(const QString& doc,
                                   QTextStream &cs)
 {
     if (forceDoc() || !doc.isEmpty()) {
-
         cs << m_container_indent << m_indentation << "/**" << m_endl;
-        if (doc.isEmpty()) cs << formatDoc(doc, m_container_indent + " * TODO: Add documentation here." ); 
-        else cs << formatDoc(doc, m_container_indent + m_indentation + " * ");
+        if (doc.isEmpty()) {
+            cs << formatDoc(doc, m_container_indent +  m_indentation + " * TODO: Add documentation here." );
+        }
+        else {
+            cs << formatDoc(doc, m_container_indent + m_indentation + " * ");
+        }
         cs << m_container_indent << m_indentation << " */" << m_endl;
-
     }
     cs << m_container_indent << m_indentation;
     cs << visibility.toString() << " ";
-    if (isStatic) cs << "static ";
+    if (isStatic) {
+        cs << "static ";
+    }
 
     //Variable type with/without namespace path
     cs << typeName << " ";
@@ -701,8 +786,7 @@ void ValaWriter::writeAttribute(const QString& doc,
     // FIXME: may need a GUI switch to not generate as Property?
 
     // Generate as Property if not private
-    if (asProperty)
-    {
+    if (asProperty) {
         cs << m_endl;
         cs << m_container_indent << m_indentation << "{" << m_endl;
         cs << m_container_indent << m_indentation << m_indentation << "get" << m_endl;
@@ -716,16 +800,24 @@ void ValaWriter::writeAttribute(const QString& doc,
         cs << m_container_indent << m_indentation << m_indentation << "}" << m_endl;
         cs << m_container_indent << m_indentation << "}" << m_endl;
         cs << m_container_indent << m_indentation << "private ";
-        if (isStatic) cs << "static ";
+        if (isStatic) {
+            cs << "static ";
+        }
         cs << typeName << " m_" << cleanName(name);
     }
 
-    if (!initialValue.isEmpty())
+    if (!initialValue.isEmpty()) {
         cs << " = " << initialValue;
+    }
 
     cs << ";" << m_endl << m_endl;
 }
 
+/**
+ * Find the type in used namespaces, if namespace found return short name, complete otherwise.
+ * @param at Operation or Attribute to check type
+ * @return   the local type name
+ */
 QString ValaWriter::makeLocalTypeName(UMLClassifierListItem *cl)
 {
     UMLPackage *p = cl->getType()->getUMLPackage();
@@ -735,14 +827,21 @@ QString ValaWriter::makeLocalTypeName(UMLClassifierListItem *cl)
     else {
         return cl->getTypeName();
     }
-
 }
 
+/**
+ * Returns "Vala".
+ * @return programming language id
+ */
 Uml::Programming_Language ValaWriter::getLanguage()
 {
     return Uml::pl_Vala;
 }
 
+/**
+ * Get list of reserved keywords.
+ * @return list of reserved keywords
+ */
 const QStringList ValaWriter::reservedKeywords() const
 {
     static QStringList keywords;
