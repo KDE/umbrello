@@ -1,6 +1,5 @@
 add_subdirectory( pics )
 add_subdirectory( headings )
-add_subdirectory( cmds )
 
 add_definitions (-DQT3_SUPPORT_WARNINGS)
 
