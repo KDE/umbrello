@@ -100,7 +100,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
 
     case at_Realization:  // one connected to widget only (a or b)
         foreach ( AssociationWidget* assoc, list ) {
-            if( assoc->getAssocType() == at_Realization )
+            if( assoc->associationType() == at_Realization )
                 return false;
         }
         return true;
@@ -201,7 +201,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     case at_Generalization://can have many sub/super types but can't sup/sub each
         foreach ( AssociationWidget * assoc, list ) {
             if( ( widgetA == assoc->getWidget(A) || widgetA == assoc->getWidget(B) )
-                    && assoc->getAssocType() == assocType )
+                    && assoc->associationType() == assocType )
                 return false;
         }
         return true;
@@ -210,7 +210,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
     case at_Realization: // can only connect to abstract (interface) classes
         foreach( AssociationWidget * assoc, list ) {
             if( ( widgetA == assoc->getWidget(A) || widgetA == assoc->getWidget(B) )
-                    && assoc->getAssocType() == at_Realization ) {
+                    && assoc->associationType() == at_Realization ) {
                 return false;
             }
         }

@@ -14,8 +14,6 @@
 // app includes
 #include "uml.h"
 #include "umldoc.h"
-#include "umllistview.h"
-#include "umllistviewitem.h"
 #include "umlobject.h"
 #include "package.h"
 #include "folder.h"
@@ -26,6 +24,7 @@
 #include "template.h"
 #include "association.h"
 #include "object_factory.h"
+#include "model_utils.h"
 
 // kde includes
 #include <kmessagebox.h>
@@ -221,9 +220,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                     Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
                     o = Object_Factory::createUMLObject(ot, scopeName, parentPkg);
                     parentPkg = static_cast<UMLPackage*>(o);
-                    UMLListView *listView = UMLApp::app()->getListView();
-                    UMLListViewItem *lvitem = listView->findUMLObject(o);
-                    listView->setCurrentItem(lvitem);
+                    Model_Utils::treeViewSetCurrentItem(o);
                 }
                 // All scope qualified datatypes live in the global scope.
                 bPutAtGlobalScope = true;

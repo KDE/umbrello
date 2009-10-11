@@ -204,7 +204,7 @@ bool AssociationWidget::operator==(const AssociationWidget & Other)
     } else if( m_pObject != Other.m_pObject )
         return false;
 
-    if (getAssocType() != Other.getAssocType())
+    if (associationType() != Other.associationType())
         return false;
 
     if (getWidgetID(A) != Other.getWidgetID(A))
@@ -475,7 +475,7 @@ void AssociationWidget::setMulti(const QString &strMulti, Uml::Role_Type role)
  */
 void AssociationWidget::setRoleName (const QString &strRole, Uml::Role_Type role)
 {
-    Uml::Association_Type type = getAssocType();
+    Uml::Association_Type type = associationType();
     //if the association is not supposed to have a Role FloatingTextWidget
     if (!AssocRules::allowRole(type))  {
         return;
@@ -707,7 +707,7 @@ bool AssociationWidget::activate()
     if (m_bActivated)
         return true;
 
-    Uml::Association_Type type = getAssocType();
+    Uml::Association_Type type = associationType();
 
     if (m_role[A].m_pWidget == NULL)
         setWidget(m_pView->findWidget(getWidgetID(A)), A);
@@ -992,7 +992,7 @@ bool AssociationWidget::contains(UMLWidget* widget)
  */
 bool AssociationWidget::isCollaboration()
 {
-    Uml::Association_Type at = getAssocType();
+    Uml::Association_Type at = associationType();
     return (at == at_Coll_Message || at == at_Coll_Message_Self);
 }
 
@@ -1001,7 +1001,7 @@ bool AssociationWidget::isCollaboration()
  *
  * @return  This AssociationWidget's Association_Type.
  */
-Uml::Association_Type AssociationWidget::getAssocType() const
+Uml::Association_Type AssociationWidget::associationType() const
 {
     if (m_pObject == NULL || m_pObject->getBaseType() != ot_Association)
         return m_AssocType;
@@ -1076,7 +1076,7 @@ QString AssociationWidget::toString()
         string += m_role[A].m_pRole->text();
     }
     string.append(":");
-    string.append( UMLAssociation::toString(getAssocType()) );
+    string.append( UMLAssociation::toString(associationType()) );
     string.append(":");
     if(m_role[B].m_pWidget) {
         string += m_role[B].m_pWidget->name();
@@ -1102,7 +1102,7 @@ void AssociationWidget::mouseDoubleClickEvent(QMouseEvent * me)
     if (me->button() != Qt::LeftButton)
         return;
     const QPoint mp(me->pos());
-    if (getAssocType() == at_Exception ){
+    if (associationType() == at_Exception ){
         return;
     }
     /* if there is no point around the mouse pointer, we insert a new one */
@@ -1295,7 +1295,7 @@ void AssociationWidget::calculateEndingPoints()
         return;
     }//end a == b
 
-    if (getAssocType() == at_Exception && size < 4) {
+    if (associationType() == at_Exception && size < 4) {
         int xa = pWidgetA->getX();
         int ya = pWidgetA->getY();
         int ha = pWidgetA->getHeight();
@@ -1514,7 +1514,7 @@ void AssociationWidget::widgetMoved(UMLWidget* widget, int x, int y )
     int dy = m_role[A].m_OldCorner.y() - y;
     uint size = m_LinePath.count();
     uint pos = size - 1;
-    if (getAssocType() == at_Exception) {
+    if (associationType() == at_Exception) {
         updatePointsException ();
         setTextPosition( tr_Name );
     }
@@ -2576,7 +2576,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
     const int endYDiff = lpEnd.y() - p.y();
     const float lengthMAP = sqrt( double(startXDiff * startXDiff + startYDiff * startYDiff) );
     const float lengthMBP = sqrt( double(endXDiff * endXDiff + endYDiff * endYDiff) );
-    const Uml::Association_Type type = getAssocType();
+    const Uml::Association_Type type = associationType();
     //allow multiplicity
     if( AssocRules::allowMultiplicity( type, getWidget(A)->baseType() ) ) {
         if(lengthMAP < DISTANCE)
@@ -2650,7 +2650,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     QString oldText, newText;
     QFont font;
     QRegExpValidator v(QRegExp(".*"), 0);
-    Uml::Association_Type atype = getAssocType();
+    Uml::Association_Type atype = associationType();
     Uml::Role_Type r = Uml::B;
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
 
@@ -3236,7 +3236,7 @@ void AssociationWidget::updateAssociations(int totalCount,
         int intercept = findInterceptOnEdge(ownWidget->rect(), region, refpoint);
         if (intercept < 0) {
             uDebug() << "updateAssociations: error from findInterceptOnEdge for"
-            << " assocType=" << assocwidget->getAssocType()
+            << " assocType=" << assocwidget->associationType()
             << " ownWidget=" << ownWidget->name()
             << " otherWidget=" << otherWidget->name();
             continue;

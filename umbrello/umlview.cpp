@@ -826,7 +826,7 @@ AssociationWidget * UMLView::findAssocWidget(UMLWidget *pWidgetA,
         UMLWidget *pWidgetB, const QString& roleNameB)
 {
     foreach(AssociationWidget* assoc, m_AssociationList) {
-        const Association_Type testType = assoc->getAssocType();
+        const Association_Type testType = assoc->associationType();
         if (testType != Uml::at_Association &&
                 testType != Uml::at_UniAssociation &&
                 testType != Uml::at_Composition &&
@@ -845,7 +845,7 @@ AssociationWidget * UMLView::findAssocWidget(Uml::Association_Type at,
         UMLWidget *pWidgetA, UMLWidget *pWidgetB)
 {
     foreach(AssociationWidget* assoc, m_AssociationList) {
-        Association_Type testType = assoc->getAssocType();
+        Association_Type testType = assoc->associationType();
         if (testType != at)
             continue;
         if (pWidgetA->id() == assoc->getWidgetID(A) &&
@@ -1047,7 +1047,7 @@ void UMLView::selectionSetFont(const QFont &font)
 
 void UMLView::selectionSetLineColor(const QColor &color)
 {
-    UMLApp::app()->BeginMacro("Change Line Color");
+    UMLApp::app()->beginMacro("Change Line Color");
     UMLWidget * temp = 0;
     foreach(temp ,  m_SelectedList) {
         temp->setLineColor(color);
@@ -1058,7 +1058,7 @@ void UMLView::selectionSetLineColor(const QColor &color)
         aw->setLineColor(color);
         aw->setUsesDiagramLineColour(false);
     }
-    UMLApp::app()->EndMacro();
+    UMLApp::app()->endMacro();
 }
 
 void UMLView::selectionSetLineWidth(uint width)
@@ -1076,13 +1076,13 @@ void UMLView::selectionSetLineWidth(uint width)
 
 void UMLView::selectionSetFillColor(const QColor &color)
 {
-    UMLApp::app()->BeginMacro("Change Fill Color");
+    UMLApp::app()->beginMacro("Change Fill Color");
 
     foreach(UMLWidget* temp ,  m_SelectedList) {
         temp -> setFillColour(color);
         temp -> setUsesDiagramFillColour(false);
     }
-    UMLApp::app()->EndMacro();
+    UMLApp::app()->endMacro();
 }
 
 void UMLView::selectionToggleShow(int sel)
@@ -1730,7 +1730,7 @@ bool UMLView::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
     if (!pAssoc) {
         return false;
     }
-    const Association_Type type = pAssoc->getAssocType();
+    const Association_Type type = pAssoc->associationType();
 
     if (isPasteOperation) {
         IDChangeLog * log = m_pDoc -> getChangeLog();
@@ -1874,7 +1874,7 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a)
     //    on the association and select Delete
     if (!a)
         return;
-    if (a->getAssocType() == at_Containment) {
+    if (a->associationType() == at_Containment) {
         UMLObject *objToBeMoved = a->getWidget(B)->umlObject();
         if (objToBeMoved != NULL) {
             UMLListView *lv = UMLApp::app()->getListView();
@@ -2015,7 +2015,7 @@ void UMLView::updateContainment(UMLCanvasObject *self)
         return;
     // Remove possibly obsoleted containment association.
     foreach(AssociationWidget* a, m_AssociationList) {
-        if (a->getAssocType() != Uml::at_Containment)
+        if (a->associationType() != Uml::at_Containment)
             continue;
         // Container is at role A, containee at B.
         // We only look at association for which we are B.

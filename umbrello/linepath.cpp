@@ -977,7 +977,7 @@ Q3Canvas * LinePath::getScene()
 Uml::Association_Type LinePath::getAssocType() const 
 {
     if( m_pAssociation )
-        return m_pAssociation->getAssocType();
+        return m_pAssociation->associationType();
     return Uml::at_Association;
 }
 

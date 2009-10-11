@@ -256,7 +256,7 @@ public:
      *
      * @return  This AssociationWidget's Association_Type.
      */
-    Uml::Association_Type getAssocType() const;
+    Uml::Association_Type associationType() const;
 
     /**
      * Sets the association's type.

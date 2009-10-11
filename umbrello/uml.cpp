@@ -172,7 +172,7 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     m_imageExporterAll    = new UMLViewImageExporterAll();
 
     setAutoSaveSettings();
-    toolsbar->setToolButtonStyle(Qt::ToolButtonIconOnly); //too many items for text, really we want a toolbox widget
+    m_toolsbar->setToolButtonStyle(Qt::ToolButtonIconOnly);  // too many items for text, really we want a toolbox widget
 }
 
 /**
@@ -642,9 +642,9 @@ void UMLApp::initView()
 {
     setCaption(m_doc->url().fileName(),false);
     m_view = NULL;
-    toolsbar = new WorkToolBar(this);
-    toolsbar->setWindowTitle(i18n("Diagram Toolbar"));
-    addToolBar(Qt::TopToolBarArea, toolsbar);
+    m_toolsbar = new WorkToolBar(this);
+    m_toolsbar->setWindowTitle(i18n("Diagram Toolbar"));
+    addToolBar(Qt::TopToolBarArea, m_toolsbar);
 
 //     m_mainDock = new QDockWidget( this );
 //     addDockWidget ( Qt::RightDockWidgetArea, m_mainDock );
@@ -656,8 +656,8 @@ void UMLApp::initView()
 
     // Prepare Tabbed Diagram Representation
     m_tabWidget = new KTabWidget(this);
-//    m_tabWidget->setAutomaticResizeTabs(true);
-    m_tabWidget->setCloseButtonEnabled(true);
+    m_tabWidget->setAutomaticResizeTabs(true);
+    m_tabWidget->setTabsClosable(true);
     connect(m_tabWidget, SIGNAL(closeRequest(QWidget*)), SLOT(slotDeleteDiagram(QWidget*)));
 
     m_newSessionButton = new QToolButton(m_tabWidget);
@@ -689,6 +689,7 @@ void UMLApp::initView()
     widget->setLayout(m_layout);
     setCentralWidget(widget);
 
+    // create the tree viewer
     m_listDock = new QDockWidget( i18n("&Tree View"), this );
     m_listDock->setObjectName("TreeViewDock");
     addDockWidget(Qt::LeftDockWidgetArea, m_listDock);
@@ -698,31 +699,32 @@ void UMLApp::initView()
     m_listView->init();
     m_listDock->setWidget(m_listView);
 
+    // create the documentation viewer
     m_documentationDock = new QDockWidget( i18n("Doc&umentation"), this );
     m_documentationDock->setObjectName("DocumentationDock");
-
     addDockWidget(Qt::LeftDockWidgetArea, m_documentationDock);
     m_pDocWindow = new DocWindow(m_doc, m_documentationDock);
     m_pDocWindow->setObjectName("DOCWINDOW");
     m_documentationDock->setWidget(m_pDocWindow);
 
-    m_doc->setupSignals();//make sure gets signal from list view
+    m_doc->setupSignals(); // make sure gets signal from list view
 
+    // create the command history viewer
     m_cmdHistoryDock = new QDockWidget(i18n("Co&mmand history"), this);
     m_cmdHistoryDock->setObjectName("CmdHistoryDock");
     addDockWidget(Qt::LeftDockWidgetArea, m_cmdHistoryDock);
-    // create cmd history view
     m_pQUndoView = new QUndoView(m_cmdHistoryDock);
-    m_cmdHistoryDock->setWidget(m_pQUndoView);
     m_pQUndoView->setCleanIcon(Icon_Utils::SmallIcon(Icon_Utils::it_UndoView));
     m_pQUndoView->setStack(m_pUndoStack);
+    m_cmdHistoryDock->setWidget(m_pQUndoView);
 
-    // Create the property viewer
+    // create the property viewer
     //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
-    //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);
+    //m_propertyDock->setObjectName("PropertyDock");
+    //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
-    //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);
+    //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);  //:TODO:
 }
 
 /**
@@ -770,7 +772,7 @@ void UMLApp::saveOptions()
     KConfigGroup cg( m_config, "toolbar" );
     toolBar("mainToolBar")->saveSettings( cg );
     KConfigGroup workBarConfig(m_config, "workbar" );
-    toolsbar->saveSettings(workBarConfig );
+    m_toolsbar->saveSettings(workBarConfig );
     fileOpenRecent->saveEntries( m_config->group( "Recent Files") );
 
     UmbrelloSettings::setGeometry( size() );
@@ -882,7 +884,7 @@ void UMLApp::readOptions()
     // bar status settings
     toolBar("mainToolBar")->applySettings(m_config->group( "toolbar") );
     // do config for work toolbar
-    toolsbar->applySettings(m_config->group( "workbar") );
+    m_toolsbar->applySettings(m_config->group( "workbar") );
     fileOpenRecent->loadEntries(m_config->group( "Recent Files") );
     setImageMimeType( UmbrelloSettings::imageMimeType() );
     resize( UmbrelloSettings::geometry());
@@ -1455,7 +1457,7 @@ void UMLApp::slotAlignHorizontalDistribute()
  */
 WorkToolBar* UMLApp::getWorkToolBar()
 {
-    return toolsbar;
+    return m_toolsbar;
 }
 
 /**
@@ -2406,7 +2408,7 @@ void UMLApp::keyPressEvent(QKeyEvent *e)
 {
     switch(e->key()) {
     case Qt::Key_Shift:
-        //toolsbar->setOldTool();
+        //m_toolsbar->setOldTool();
         e->accept();
         break;
 
@@ -2477,12 +2479,12 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e)
     switch(e->key()) {
     case Qt::Key_Backspace:
         if (!m_pDocWindow->isTyping()) {
-            toolsbar->setOldTool();
+            m_toolsbar->setOldTool();
         }
         e->accept();
         break;
     case Qt::Key_Escape:
-        toolsbar->setDefaultTool();
+        m_toolsbar->setDefaultTool();
         e->accept();
         break;
     case Qt::Key_Left:
@@ -2611,7 +2613,7 @@ void UMLApp::slotChangeTabLeft()
     UMLViewList views = m_doc->getViewIterator();
     UMLView *currView = m_view;
     int viewIndex = 0;
-    if ( (viewIndex = views.indexOf(currView)) < 0) {
+    if ((viewIndex = views.indexOf(currView)) < 0) {
         uError() << "currView not found in viewlist";
         return;
     }
@@ -2799,7 +2801,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
 /**
  * Begin a U/R command macro
  */
-void UMLApp::BeginMacro( const QString & text )
+void UMLApp::beginMacro( const QString & text )
 {
     if (m_hasBegunMacro) {
         return;
@@ -2812,7 +2814,7 @@ void UMLApp::BeginMacro( const QString & text )
 /**
  * End an U/R command macro
  */
-void UMLApp::EndMacro()
+void UMLApp::endMacro()
 {
     if (m_hasBegunMacro) {
         m_pUndoStack->endMacro();

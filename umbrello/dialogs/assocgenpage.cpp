@@ -80,7 +80,7 @@ void AssocGenPage::constructWidget()
     m_pDoc = new KTextEdit(docGB);
     docLayout->addWidget(m_pDoc);
     m_pDoc->setText(m_pAssociationWidget->documentation());
-    Uml::Association_Type currentType =  m_pAssociationWidget->getAssocType();
+    Uml::Association_Type currentType =  m_pAssociationWidget->associationType();
     QString currentTypeAsString = UMLAssociation::toString(currentType);
     QLabel *pTypeL = new QLabel(i18n("Type:"), nameGB);
     nameLayout->addWidget(pTypeL, 1, 0);

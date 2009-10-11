@@ -27,6 +27,9 @@
 #include "umlrole.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "umllistview.h"
+#include "umllistviewitem.h"
+#include "umlview.h"
 #include "codegenerator.h"
 
 // kde includes
@@ -266,6 +269,121 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                               nameWithoutFirstPrefix, type );
     }
     return NULL;
+}
+
+/**
+ * Add the given list of views to the tree view.
+ * @param viewList   the list of views to add
+ */
+void treeViewAddViews(const UMLViewList& viewList)
+{
+    UMLListView* tree = UMLApp::app()->getListView();
+    foreach (UMLView* v,  viewList) {
+        if (tree->findItem(v->umlScene()->getID()) != NULL) {
+            continue;
+        }
+        tree->createDiagramItem(v);
+    }
+}
+
+/**
+ * Change an icon of an object in the tree view.
+ * @param object   the object in the treeViewAddViews
+ * @param to       the new icon type for the given object
+ */
+void treeViewChangeIcon(UMLObject* object, Icon_Utils::Icon_Type to)
+{
+    UMLListView* tree = UMLApp::app()->getListView();
+    tree->changeIconOf(object, to);
+}
+
+/**
+ * Set the given object to the current item in the tree view.
+ * @param object   the object which will be the current item
+ */
+void treeViewSetCurrentItem(UMLObject* object)
+{
+    UMLListView* tree = UMLApp::app()->getListView();
+    UMLListViewItem* item = tree->findUMLObject(object);
+    tree->setCurrentItem(item);
+}
+
+/**
+ * Move an object to a new container in the tree view.
+ * @param container   the new container for the object
+ * @param object      the to be moved object
+ */
+void treeViewMoveObjectTo(UMLObject* container, UMLObject* object)
+{
+    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListViewItem *newParent = listView->findUMLObject(container);
+    listView->moveObject(object->getID(),
+                   Model_Utils::convert_OT_LVT(object),
+                   newParent);
+}
+
+/**
+ * Return the current UMLObject from the tree view.
+ * @return   the UML object of the current item
+ */
+UMLObject* treeViewGetCurrentObject()
+{
+    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListViewItem *current = static_cast<UMLListViewItem*>(listView->currentItem());
+    return current->getUMLObject();
+}
+
+/**
+ * Return the UMLPackage if the current item
+ * in the tree view is a package.
+ * @return   the package or NULL
+ */
+UMLPackage* treeViewGetPackageFromCurrent()
+{
+    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListViewItem *parentItem = (UMLListViewItem*)listView->currentItem();
+    if (parentItem) {
+        Uml::ListView_Type lvt = parentItem->getType();
+        if (Model_Utils::typeIsContainer(lvt) ||
+            lvt == Uml::lvt_Class ||
+            lvt == Uml::lvt_Interface) {
+            UMLObject *o = parentItem->getUMLObject();
+            return static_cast<UMLPackage*>(o);
+        }
+    }
+    return NULL;
+}
+
+/**
+ * Build the diagram name from the tree view.
+ * @param id   the id of the diaram
+ * @return     the constructed diagram name
+ */
+QString treeViewBuildDiagramName(Uml::IDType id)
+{
+    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListViewItem* listViewItem = listView->findItem(id);
+
+    if (listViewItem) {
+        // skip the name of the first item because it's the View
+        listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
+        
+        // Relies on the tree structure of the UMLListView. There are a base "Views" folder
+        // and five children, one for each view type (Logical, use case, components, deployment
+        // and entity relationship)
+        QString name;
+        while (listView->rootView(listViewItem->getType()) == NULL) {
+            name.insert(0, listViewItem->getText() + '/');
+            listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
+            if (listViewItem == NULL)
+                break;
+        }
+        return name;
+    }
+    else {
+        uWarning() << "diagram not found - returning empty name!";
+        return QString();
+    }
 }
 
 /**

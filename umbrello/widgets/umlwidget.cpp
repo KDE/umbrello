@@ -288,13 +288,13 @@ void UMLWidget::slotMenuSelection(QAction* action)
                 wt == wt_Component || wt == wt_Artifact ||
                 wt == wt_Node || wt == wt_Enum || wt == wt_Entity ||
                 (wt == wt_Class && m_pView -> getType() == dt_Class)) {
-            UMLApp::app()->BeginMacro("Change Properties");
+            UMLApp::app()->beginMacro("Change Properties");
             showProperties();
-            UMLApp::app()->EndMacro();
+            UMLApp::app()->endMacro();
         } else if (wt == wt_Object) {
-            UMLApp::app()->BeginMacro("Change Properties");
+            UMLApp::app()->beginMacro("Change Properties");
             m_pObject->showProperties();
-            UMLApp::app()->EndMacro();
+            UMLApp::app()->endMacro();
         } else {
             uWarning() << "making properties dialog for unknown widget type";
         }

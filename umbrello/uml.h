@@ -18,7 +18,6 @@
 #include <ksharedconfig.h>
 
 // forward declaration of the UML classes
-class AlignToolBar;
 class CodeDocument;
 class CodeGenerator;
 class CodeGenerationPolicy;
@@ -79,7 +78,7 @@ class UMLApp : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-    UMLApp(QWidget* parent=0);
+    UMLApp(QWidget* parent = 0);
     ~UMLApp();
 
     static UMLApp* app();
@@ -147,9 +146,8 @@ public:
 
     void executeCommand(QUndoCommand* cmd);
 
-    void BeginMacro( const QString & text );
-
-    void EndMacro();
+    void beginMacro( const QString & text );
+    void endMacro();
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
@@ -341,6 +339,7 @@ private:
     QDockWidget* m_documentationDock;  ///< Contains the documentation DocWindow widget.
     QDockWidget* m_cmdHistoryDock;     ///< Contains the undo/redo viewer widget.
     QDockWidget* m_propertyDock;       ///< Contains the property browser widget.
+
     DocWindow*   m_pDocWindow;         ///< Documentation window.
     QUndoView*   m_pQUndoView;         ///< Undo / Redo Viewer
     RefactoringAssistant* m_refactoringAssist;  ///< Refactoring assistant.
@@ -371,12 +370,9 @@ private:
 
     QToolButton* m_newSessionButton;
     KMenu* m_diagramMenu;
-    KToggleAction* viewToolBar;
-    KToggleAction* viewStatusBar;
-    WorkToolBar* toolsbar;
+    WorkToolBar* m_toolsbar;
     QTimer* m_clipTimer;
     QTimer* m_copyTimer;
-    AlignToolBar* m_alignToolBar;
 
     bool m_loading;  ///< True if the application is opening an existing document.
 

@@ -134,7 +134,7 @@ void ActivityDialog::applyPage( KPageWidgetItem *item )
  */
 void ActivityDialog::setupGeneralPage()
 {
-    QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n("Final activity"), i18n( "Branch/Merge"), i18n( "Invoke action" ), i18n("Parameter activity") };
+    QString types[ ] = { i18n("Initial activity"), i18n("Activity"), i18n("End activity"), i18n("Final activity"), i18n( "Branch/Merge"), i18n( "Invoke action"), i18n("Parameter activity") };
     ActivityWidget::ActivityType type = m_pActivityWidget->activityType();
 
     KVBox *page = new KVBox();

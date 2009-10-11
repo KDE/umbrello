@@ -65,7 +65,7 @@ void UMLViewImageExporter::exportView()
         return;
     }
 
-    UMLApp *app = UMLApp::app();
+    UMLApp* app = UMLApp::app();
 
     // export the view
     app->getDocument()->writeToStatusBar(i18n("Exporting view..."));

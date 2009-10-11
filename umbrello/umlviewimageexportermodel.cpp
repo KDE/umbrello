@@ -33,11 +33,10 @@
 #include <kio/netaccess.h>
 
 // application specific includes
+#include "model_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
-#include "umllistview.h"
-#include "umllistviewitem.h"
 
 static QStringList supportedImageTypesList;
 static QStringList supportedMimeTypesList;
@@ -257,28 +256,13 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
  */
 QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders /* = false */) const
 {
-    QString name = view->getName() + '.' + imageType.toLower();
-
-    if (!useFolders) {
-        return name;
+    if (useFolders) {
+        qApp->processEvents();  //:TODO: still needed ???
+        return Model_Utils::treeViewBuildDiagramName(view->getID());
     }
-
-    qApp->processEvents();
-    UMLListView *listView = UMLApp::app()->getListView();
-    UMLListViewItem* listViewItem = listView->findItem(view->getID());
-    // skip the name of the first item because it's the View
-    listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
-
-    // Relies on the tree structure of the UMLListView. There are a base "Views" folder
-    // and five children, one for each view type (Logical, use case, components, deployment
-    // and entity relationship)
-    while (listView->rootView(listViewItem->getType()) == NULL) {
-        name.insert(0, listViewItem->getText() + '/');
-        listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
-        if (listViewItem == NULL)
-            break;
+    else {
+        return view->getName() + '.' + imageType.toLower();
     }
-    return name;
 }
 
 /**

@@ -16,6 +16,7 @@
 
 #include "umlnamespace.h"
 #include "umlobjectlist.h"
+#include "umlviewlist.h"
 #include "foreignkeyconstraint.h"
 #include "icon_utils.h"
 
@@ -23,7 +24,6 @@
 class UMLClassifier;
 class UMLPackage;
 class UMLEntity;
-class UMLForeignKeyConstraint;
 
 /**
  * General purpose model utilities.
@@ -40,6 +40,14 @@ UMLObject* findUMLObject( const UMLObjectList& inList,
                           const QString& name,
                           Uml::Object_Type type = Uml::ot_UMLObject,
                           UMLObject *currentObj = NULL);
+
+void treeViewAddViews(const UMLViewList& viewList);
+void treeViewChangeIcon(UMLObject* object, Icon_Utils::Icon_Type to);
+void treeViewSetCurrentItem(UMLObject* object);
+void treeViewMoveObjectTo(UMLObject* container, UMLObject* object);
+UMLObject*  treeViewGetCurrentObject();
+UMLPackage* treeViewGetPackageFromCurrent();
+QString treeViewBuildDiagramName(Uml::IDType id);
 
 QString uniqObjectName(Uml::Object_Type type,
                        UMLPackage *parentPkg,
@@ -114,14 +122,6 @@ Parse_Status parseConstraint(QString m, QString& name, UMLEntity* owningScope);
 QString psText(Parse_Status value);
 
 QString updateDeleteActionToString( UMLForeignKeyConstraint::UpdateDeleteAction uda );
-
-/**
- * In a Q_OBJECT class define any enum as Q_ENUMS.
- * With the above the following macro returns the name of a given enum.
- * This can be used in debug output.
- * TODO: convert it to a function.
- */
-#define ENUM_NAME(o,e,v) (o::staticMetaObject.enumerator(o::staticMetaObject.indexOfEnumerator(#e)).valueToKey((v)))
 
 }
 

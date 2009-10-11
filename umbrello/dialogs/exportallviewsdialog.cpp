@@ -65,6 +65,8 @@ ExportAllViewsDialog::ExportAllViewsDialog(
 
     // reload the strings so the m_imageType tooltip is added
     languageChange();
+    
+    m_kURL->setMode(KFile::Directory | KFile::ExistingOnly);
 }
 
 /**

@@ -21,8 +21,6 @@
 #include "umlview.h"
 #include "stereotype.h"
 #include "umlpackagelist.h"
-#include "umllistviewitem.h"
-#include "umllistview.h"
 #include "model_utils.h"
 #include "package.h"
 #include "folder.h"
@@ -432,11 +430,7 @@ void ClassGenPage::updateObject()
             }
 
             // adjust list view items
-            UMLListView *lv = UMLApp::app()->getListView();
-            UMLListViewItem *newLVParent = lv->findUMLObject(newPackage);
-            lv->moveObject(m_pObject->getID(),
-                           Model_Utils::convert_OT_LVT(m_pObject),
-                           newLVParent);
+            Model_Utils::treeViewMoveObjectTo(newPackage, m_pObject);
         }
 
         if ( m_pAbstractCB ) {
@@ -480,6 +474,7 @@ void ClassGenPage::updateObject()
                 drawAsType = UMLArtifact::defaultDraw;
             }
             (static_cast<UMLArtifact*>(m_pObject))->setDrawAsType(drawAsType);
+            m_pObject->emitModified();
         }
     } // end if m_pObject
     else if (m_pWidget) {
