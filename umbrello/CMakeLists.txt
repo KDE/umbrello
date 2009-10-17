@@ -339,6 +339,7 @@ set (libwidgets_SRCS
     widgets/widget_utils.cpp
     widgets/widgetbase.cpp
     widgets/widgethandle.cpp
+    widgets/widgetlist_utils.cpp
 )
 
 set (libcontroller_SRCS

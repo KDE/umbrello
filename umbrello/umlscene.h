@@ -11,7 +11,7 @@
 #ifndef UMLSCENE_H
 #define UMLSCENE_H
 
-//local includes
+// local includes
 #include "umlnamespace.h"
 #include "optionstate.h"
 #include "umlobjectlist.h"
@@ -25,11 +25,14 @@
 #include <QtXml/QDomDocument>
 
 // forward declarations
+class QPrinter;
 class ClassOptionsPage;
 class IDChangeLog;
 class ListPopupMenu;
 class FloatingTextWidget;
 class ObjectWidget;
+class ToolBarState;
+class ToolBarStateFactory;
 class UMLFolder;
 class UMLApp;
 class UMLDoc;
@@ -40,10 +43,6 @@ class UMLViewImageExporter;
 class UMLForeignKeyConstraint;
 class UMLEntity;
 class UMLView;
-
-class QPrinter;
-class ToolBarState;
-class ToolBarStateFactory;
 
 /**
  * UMLScene instances represent diagrams.
@@ -688,30 +687,6 @@ private:
     void createAutoConstraintAssociation(UMLEntity* refEntity,
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
-
-    static bool hasWidgetSmallerX(const UMLWidget* widget1, const UMLWidget* widget2);
-    static bool hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widget2);
-
-    qreal getSmallestX(const UMLWidgetList &widgetList);
-    qreal getSmallestY(const UMLWidgetList &widgetList);
-    qreal getBiggestX(const UMLWidgetList &widgetList);
-    qreal getBiggestY(const UMLWidgetList &widgetList);
-    qreal getHeightsSum(const UMLWidgetList &widgetList);
-    qreal getWidthsSum(const UMLWidgetList &widgetList);
-
-    /**
-     * Sorts the given UMLWidgetList based on the Compare function.
-     * The list is cleared and all the widgets are added again in order.
-     *
-     * The comp function gets two const UMLWidget* params and returns
-     * a boolean telling if the first widget was smaller than the second,
-     * whatever the "smaller" concept is depending on the sorting to do.
-     *
-     * @param widgetList The list with the widgets to order.
-     * @param comp The comp function to compare the widgets.
-     */
-    template<typename Compare>
-    void sortWidgetList(UMLWidgetList &widgetList, Compare comp);
 
 public slots:
     void slotToolBarChanged(int c);

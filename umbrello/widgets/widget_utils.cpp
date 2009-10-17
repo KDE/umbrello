@@ -18,7 +18,7 @@
 #include "umlview.h"
 #include "umlwidget.h"
 
-// qt/kde includes
+// qt includes
 #include <QtCore/QBuffer>
 #include <QtGui/QBrush>
 #include <QtGui/QImageReader>
@@ -236,7 +236,6 @@ namespace Widget_Utils
         path.closeSubpath();
         painter->drawPath(path);
     }
-
 
     /**
      * Converts a point to a comma separated string i.e "x,y"
@@ -527,6 +526,28 @@ namespace Widget_Utils
 
         //TODO: Check if transform of this brush needs to be saved.
         qElement.appendChild(brushElement);
+    }
+
+    /**
+     * Returns true if the first widget's X is smaller than second's.
+     * Used for sorting the UMLWidgetList.
+     * @param widget1 The widget to compare.
+     * @param widget2 The widget to compare with.
+     */
+    bool hasSmallerX(const UMLWidget* widget1, const UMLWidget* widget2)
+    {
+        return widget1->x() < widget2->x();
+    }
+
+    /**
+     * Returns true if the first widget's Y is smaller than second's.
+     * Used for sorting the UMLWidgetList.
+     * @param widget1 The widget to compare.
+     * @param widget2 The widget to compare with.
+     */
+    bool hasSmallerY(const UMLWidget* widget1, const UMLWidget* widget2)
+    {
+        return widget1->y() < widget2->y();
     }
 
 }  // namespace Widget_Utils

@@ -30,7 +30,6 @@ class QGraphicsRectItem;
  */
 namespace Widget_Utils
 {
-
     UMLWidget* findWidget(Uml::IDType id,
                           const UMLWidgetList& widgets,
                           const MessageWidgetList* messages = 0);
@@ -38,33 +37,28 @@ namespace Widget_Utils
     QGraphicsRectItem *decoratePoint(const QPointF& p);
 
     void drawCrossInEllipse(QPainter *p, const QRectF& ellipse);
-
     void drawTriangledRect(QPainter *painter, const QRectF& rect, const QSizeF& triSize);
-
     void drawArrowHead(QPainter *painter, const QPointF& arrowPos,
                        const QSizeF& arrowSize, Qt::ArrowType arrowType,
                        bool solid = false);
-
     void drawRoundedRect(QPainter *painter, const QRectF& rect, qreal xRadius,
             qreal yRadius, Uml::Corners corners);
 
     QString pointToString(const QPointF& point);
-
     QPointF stringToPoint(const QString& str);
 
     bool loadPixmapFromXMI(QDomElement &qElement, QPixmap &pixmap);
-
     void savePixmapToXMI(QDomDocument &qDoc, QDomElement &qElement, const QPixmap& pixmap);
 
     bool loadGradientFromXMI(QDomElement &qElement, QGradient *&gradient);
-
     void saveGradientToXMI(QDomDocument &qDoc, QDomElement &qElement, const QGradient *gradient);
 
     bool loadBrushFromXMI(QDomElement &qElement, QBrush &brush);
-
     void saveBrushToXMI(QDomDocument &qDoc, QDomElement &qElement,
                         const QBrush& brush);
 
+    bool hasSmallerX(const UMLWidget* widget1, const UMLWidget* widget2);
+    bool hasSmallerY(const UMLWidget* widget1, const UMLWidget* widget2);
 }
 
 #endif

@@ -12,10 +12,10 @@
 #include "umlscene.h"
 
 // system includes
-#include <climits>
-#include <math.h>
+#include <cmath>  // for ceil
 
 // include files for Qt
+#include <QtAlgorithms>  // for qSort
 #include <QtGui/QPainter>
 #include <QtGui/QPrinter>
 #include <QtGui/QPixmap>
@@ -32,7 +32,6 @@
 #include <kdebug.h>
 
 // application specific includes
-
 #include "activitywidget.h"
 #include "actorwidget.h"
 #include "artifactwidget.h"
@@ -44,13 +43,13 @@
 #include "boxwidget.h"
 #include "classifier.h"
 #include "classifierwidget.h"
-#include "clipboard/idchangelog.h"
-#include "clipboard/umldragdata.h"
+#include "idchangelog.h"
+#include "umldragdata.h"
 #include "cmds.h"
 #include "componentwidget.h"
 #include "datatypewidget.h"
-#include "dialogs/classoptionspage.h"
-#include "dialogs/umlviewdialog.h"
+#include "classoptionspage.h"
+#include "umlviewdialog.h"
 #include "docwindow.h"
 #include "entity.h"
 #include "entitywidget.h"
@@ -88,6 +87,9 @@
 #include "uniqueid.h"
 #include "usecasewidget.h"
 #include "widget_factory.h"
+#include "widget_utils.h"
+#include "widgetlist_utils.h"
+
 #define TEST 1
 #include "test.h"
 
@@ -3927,7 +3929,7 @@ void UMLScene::alignLeft()
     if (widgetList.isEmpty())
         return;
 
-    qreal smallestX = getSmallestX(widgetList);
+    qreal smallestX = WidgetList_Utils::getSmallestX(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
         widget->setPos(smallestX, widget->pos().y());
@@ -3944,7 +3946,7 @@ void UMLScene::alignRight()
     getSelectedWidgets(widgetList);
     if (widgetList.isEmpty())
         return;
-    qreal biggestX = getBiggestX(widgetList);
+    qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
         widget->setPos(biggestX - widget->width(), widget->pos().y());
@@ -3962,7 +3964,7 @@ void UMLScene::alignTop()
     if (widgetList.isEmpty())
         return;
 
-    qreal smallestY = getSmallestY(widgetList);
+    qreal smallestY = WidgetList_Utils::getSmallestY(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
         widget->setPos(widget->pos().x(), smallestY);
@@ -3979,7 +3981,7 @@ void UMLScene::alignBottom()
     getSelectedWidgets(widgetList);
     if (widgetList.isEmpty())
         return;
-    qreal biggestY = getBiggestY(widgetList);
+    qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
         widget->setPos(widget->pos().x(), biggestY - widget->height());
@@ -3997,8 +3999,8 @@ void UMLScene::alignVerticalMiddle()
     if (widgetList.isEmpty())
         return;
 
-    qreal smallestX = getSmallestX(widgetList);
-    qreal biggestX = getBiggestX(widgetList);
+    qreal smallestX = WidgetList_Utils::getSmallestX(widgetList);
+    qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
     qreal middle = int((biggestX - smallestX) / 2) + smallestX;
 
     foreach(UMLWidget *widget , widgetList) {
@@ -4017,8 +4019,8 @@ void UMLScene::alignHorizontalMiddle()
     if (widgetList.isEmpty())
         return;
 
-    qreal smallestY = getSmallestY(widgetList);
-    qreal biggestY = getBiggestY(widgetList);
+    qreal smallestY = WidgetList_Utils::getSmallestY(widgetList);
+    qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
     qreal middle = int((biggestY - smallestY) / 2) + smallestY;
 
     foreach(UMLWidget *widget , widgetList) {
@@ -4037,12 +4039,12 @@ void UMLScene::alignVerticalDistribute()
     if (widgetList.isEmpty())
         return;
 
-    qreal smallestY = getSmallestY(widgetList);
-    qreal biggestY = getBiggestY(widgetList);
-    qreal heightsSum = getHeightsSum(widgetList);
+    qreal smallestY = WidgetList_Utils::getSmallestY(widgetList);
+    qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
+    qreal heightsSum = WidgetList_Utils::getHeightsSum(widgetList);
     qreal distance = int(((biggestY - smallestY) - heightsSum) / (widgetList.count() - 1.0) + 0.5);
 
-    sortWidgetList(widgetList, hasWidgetSmallerY);
+    qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerY);
 
     int i = 1;
     UMLWidget* widgetPrev = NULL;
@@ -4068,12 +4070,12 @@ void UMLScene::alignHorizontalDistribute()
     if (widgetList.isEmpty())
         return;
 
-    qreal smallestX = getSmallestX(widgetList);
-    qreal biggestX = getBiggestX(widgetList);
-    qreal widthsSum = getWidthsSum(widgetList);
+    qreal smallestX = WidgetList_Utils::getSmallestX(widgetList);
+    qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
+    qreal widthsSum = WidgetList_Utils::getWidthsSum(widgetList);
     qreal distance = int(((biggestX - smallestX) - widthsSum) / (widgetList.count() - 1.0) + 0.5);
 
-    sortWidgetList(widgetList, hasWidgetSmallerX);
+    qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerX);
 
     int i = 1;
     UMLWidget* widgetPrev = NULL;
@@ -4089,185 +4091,6 @@ void UMLScene::alignHorizontalDistribute()
         i++;
     }
 
-}
-
-/**
- * Returns true if the first widget's X is smaller than second's.
- * Used for sorting the UMLWidgetList.
- *
- * @param widget1 The widget to compare.
- * @param widget2 The widget to compare with.
- */
-bool UMLScene::hasWidgetSmallerX(const UMLWidget* widget1, const UMLWidget* widget2)
-{
-    return widget1->x() < widget2->x();
-}
-
-/**
- * Returns true if the first widget's Y is smaller than second's.
- * Used for sorting the UMLWidgetList.
- *
- * @param widget1 The widget to compare.
- * @param widget2 The widget to compare with.
- */
-bool UMLScene::hasWidgetSmallerY(const UMLWidget* widget1, const UMLWidget* widget2)
-{
-    return widget1->y() < widget2->y();
-}
-
-/**
- * Looks for the smallest x-value of the given UMLWidgets.
- *
- * @param widgetList A list with UMLWidgets.
- */
-qreal UMLScene::getSmallestX(const UMLWidgetList &widgetList)
-{
-    UMLWidgetListIt it(widgetList);
-
-    qreal smallestX = 0;
-
-    int i = 1;
-    foreach(UMLWidget *widget ,  widgetList) {
-        if (i == 1) {
-            smallestX = widget->x();
-        } else {
-            if (smallestX > widget->x())
-                smallestX = widget->x();
-        }
-        i++;
-    }
-
-    return smallestX;
-}
-
-/**
- * Looks for the smallest y-value of the given UMLWidgets.
- *
- * @param widgetList A list with UMLWidgets.
- */
-qreal UMLScene::getSmallestY(const UMLWidgetList &widgetList)
-{
-    if (widgetList.isEmpty())
-        return -1;
-
-    qreal smallestY = 0;
-
-    int i = 1;
-    foreach(UMLWidget *widget ,  widgetList) {
-        if (i == 1) {
-            smallestY = widget->y();
-        } else {
-            if (smallestY > widget->y())
-                smallestY = widget->y();
-        }
-        i++;
-    }
-
-    return smallestY;
-}
-
-/**
- * Looks for the biggest x-value of the given UMLWidgets.
- *
- * @param widgetList A list with UMLWidgets.
- */
-qreal UMLScene::getBiggestX(const UMLWidgetList &widgetList)
-{
-    if (widgetList.isEmpty())
-        return -1;
-
-    qreal biggestX = 0;
-
-    int i = 1;
-    foreach(UMLWidget *widget , widgetList) {
-        if (i == 1) {
-            biggestX = widget->x();
-            biggestX += widget->width();
-        } else {
-            if (biggestX < widget->x() + widget->width())
-                biggestX = widget->x() + widget->width();
-        }
-        i++;
-    }
-
-    return biggestX;
-}
-
-/**
- * Looks for the biggest y-value of the given UMLWidgets.
- *
- * @param widgetList A list with UMLWidgets.
- */
-qreal UMLScene::getBiggestY(const UMLWidgetList &widgetList)
-{
-    if (widgetList.isEmpty())
-        return -1;
-
-    qreal biggestY = 0;
-
-    int i = 1;
-    foreach(UMLWidget *widget , widgetList) {
-        if (i == 1) {
-            biggestY = widget->y();
-            biggestY += widget->height();
-        } else {
-            if (biggestY < widget->y() + widget->height())
-                biggestY = widget->y() + widget->height();
-        }
-        i++;
-    }
-
-    return biggestY;
-}
-
-/**
- * Returns the sum of the heights of the given UMLWidgets
- *
- * @param widgetList A list with UMLWidgets.
- */
-qreal UMLScene::getHeightsSum(const UMLWidgetList &widgetList)
-{
-    qreal heightsSum = 0;
-
-
-    foreach(UMLWidget *widget , widgetList) {
-        heightsSum += widget->height();
-    }
-
-    return heightsSum;
-}
-
-/**
- * Returns the sum of the widths of the given UMLWidgets.
- *
- * @param widgetList A list with UMLWidgets.
- */
-qreal UMLScene::getWidthsSum(const UMLWidgetList &widgetList)
-{
-    qreal widthsSum = 0;
-
-    foreach(UMLWidget *widget , widgetList) {
-        widthsSum += widget->width();
-    }
-
-    return widthsSum;
-}
-
-template<typename Compare>
-void UMLScene::sortWidgetList(UMLWidgetList &widgetList, Compare comp)
-{
-    QVector<UMLWidget*> widgetVector;
-
-    for (UMLWidgetList::iterator it = widgetList.begin(); it != widgetList.end(); ++it) {
-        widgetVector.push_back(*it);
-    }
-    qSort(widgetVector.begin(), widgetVector.end(), comp);
-
-    widgetList.clear();
-
-    for (QVector<UMLWidget*>::iterator it = widgetVector.begin(); it != widgetVector.end(); ++it) {
-        widgetList.append(*it);
-    }
 }
 
 void UMLScene::test()
