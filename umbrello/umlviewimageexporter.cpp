@@ -15,7 +15,7 @@
 #include "umlviewimageexportermodel.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlview.h"
+#include "umlscene.h"
 
 //kde include files
 #include <klocale.h>
@@ -28,13 +28,13 @@
 #include <QtCore/QPointer>
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-#include "umlscene.h"
 
 /**
  * Constructor for UMLViewImageExporter.
  */
-UMLViewImageExporter::UMLViewImageExporter()
+UMLViewImageExporter::UMLViewImageExporter(UMLScene* scene)
 {
+    m_scene = scene;
     m_imageMimeType = UMLApp::app()->getImageMimeType();
 }
 
@@ -61,7 +61,7 @@ UMLViewImageExporter::~UMLViewImageExporter()
  */
 void UMLViewImageExporter::exportView()
 {
-    if (!prepareExportView()) {
+    if (!prepareExport()) {
         return;
     }
 
@@ -69,7 +69,7 @@ void UMLViewImageExporter::exportView()
 
     // export the view
     app->getDocument()->writeToStatusBar(i18n("Exporting view..."));
-    QString error = UMLViewImageExporterModel().exportView(app->getCurrentView(),
+    QString error = UMLViewImageExporterModel().exportView(m_scene,
                             UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType), m_imageURL);
     if (!error.isNull()) {
         KMessageBox::error(app, i18n("An error happened when exporting the image:\n") + error);
@@ -79,7 +79,7 @@ void UMLViewImageExporter::exportView()
 
 /**
  * Shows a save file dialog to the user to get the parameters used
- * to export the view.
+ * to export the scene.
  * If the selected file already exists, an overwrite confirmation
  * dialog is shown. If the user doesn't want to overwrite the file,
  * the save dialog is shown again.
@@ -87,7 +87,7 @@ void UMLViewImageExporter::exportView()
  * @return True if the user wants to save the image,
  *         false if the operation is cancelled.
  */
-bool UMLViewImageExporter::prepareExportView()
+bool UMLViewImageExporter::prepareExport()
 {
     bool exportPrepared = false;
 
@@ -123,11 +123,9 @@ bool UMLViewImageExporter::getParametersFromUser()
 {
     bool success = true;
 
-    UMLApp *app = UMLApp::app();
-
     // configure & show the file dialog
     KUrl url;
-    QPointer<KFileDialog> dialog = new KFileDialog(url, QString(), app->getCurrentView());
+    QPointer<KFileDialog> dialog = new KFileDialog(url, QString(), UMLApp::app());
     prepareFileDialog(dialog);
     dialog->exec();
 
@@ -135,12 +133,11 @@ bool UMLViewImageExporter::getParametersFromUser()
         success = false;
     }
     else {
-        UMLScene* scene = app->getCurrentView()->umlScene();
-        scene->clearSelected();   // Thanks to Peter Soetens for the idea
+        m_scene->clearSelected();   // Thanks to Peter Soetens for the idea
 
         // update image url and mime type
         m_imageMimeType = dialog->currentMimeFilter();
-        app->setImageMimeType(m_imageMimeType);
+        UMLApp::app()->setImageMimeType(m_imageMimeType);
         m_imageURL = dialog->selectedUrl();
 
         // check if the extension is the extension of the mime type
@@ -175,11 +172,9 @@ void UMLViewImageExporter::prepareFileDialog(KFileDialog *fileDialog)
         KUrl docURL = UMLApp::app()->getDocument()->url();
         KUrl directory = docURL;
         directory.setPath(docURL.directory());
-        fileDialog->setUrl(directory);
 
-        UMLApp *app = UMLApp::app();
-        QString sceneName = app->getCurrentView()->umlScene()->getName();
-        fileDialog->setSelection(sceneName + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+        fileDialog->setUrl(directory);
+        fileDialog->setSelection(m_scene->getName() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
         fileDialog->setUrl(m_imageURL);
         fileDialog->setSelection(m_imageURL.fileName());
