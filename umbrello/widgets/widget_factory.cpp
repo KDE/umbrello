@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -69,15 +68,15 @@ namespace Widget_Factory {
  */
 UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 {
-    QPointF pos = scene->getPos();
+    QPointF pos = scene->pos();
     qreal y = pos.y();
-    Uml::Diagram_Type diagramType = scene->getType();
+    Uml::Diagram_Type diagramType = scene->type();
     Uml::Object_Type type = o->getBaseType();
     UMLWidget *newWidget = NULL;
     switch (type) {
     case Uml::ot_Actor:
         if (diagramType == Uml::dt_Sequence) {
-            ObjectWidget *ow = new ObjectWidget(o, scene->getLocalID());
+            ObjectWidget *ow = new ObjectWidget(o, scene->localID());
             ow->setDrawAsActor(true);
             y = ow->topMargin();
             newWidget = ow;
@@ -113,7 +112,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
         break;
     case Uml::ot_Interface:
         if (diagramType == Uml::dt_Sequence || diagramType == Uml::dt_Collaboration) {
-            ObjectWidget *ow = new ObjectWidget( o, scene->getLocalID() );
+            ObjectWidget *ow = new ObjectWidget( o, scene->localID() );
             if (diagramType == Uml::dt_Sequence) {
                 y = ow->topMargin();
             }
@@ -136,7 +135,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
                 cw->setVisualProperty(ClassifierWidget::DrawAsCircle, true);
             newWidget = cw;
         } else {
-            ObjectWidget *ow = new ObjectWidget(o, scene->getLocalID() );
+            ObjectWidget *ow = new ObjectWidget(o, scene->localID() );
             if (diagramType == Uml::dt_Sequence) {
                 y = ow->topMargin();
             }
@@ -162,7 +161,7 @@ bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id)
 {
     if (o == NULL) {
         uDebug() << "Widget_Factory::validateObjType: creating new object of type "
-                 << expected << endl;
+                 << expected;
         QString artificialName = "LOST_" + ID2STR(id);
         o = Object_Factory::createUMLObject(expected, artificialName, NULL, false);
         if (o == NULL)
@@ -177,7 +176,7 @@ bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id)
         return true;
     uError() << "validateObjType(" << o->getName()
         << "): expected type " << expected << ", actual type "
-        << actual << endl;
+        << actual;
     return false;
 }
 
@@ -232,7 +231,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         UMLObject *o = umldoc->findObjectById(id);
         if (o == NULL) {
             uDebug() << "makeWidgetFromXMI: cannot find object with id "
-                << ID2STR(id) << endl;
+                << ID2STR(id);
         }
 
         if (tag == "actorwidget" || tag == "UML:ActorWidget") {

@@ -437,7 +437,7 @@ void WidgetBase::setUsesDiagramLineColor(bool status)
     }
     m_usesDiagramLineColor = status;
     if (status && umlScene()) {
-        QColor color = umlScene()->getLineColor();
+        QColor color = umlScene()->lineColor();
         if (color != lineColor()) {
             setLineColor(color);
         }
@@ -456,7 +456,7 @@ void WidgetBase::setUsesDiagramLineWidth(bool status)
     }
     m_usesDiagramLineWidth = status;
     if (status && umlScene()) {
-        uint lw = umlScene()->getLineWidth();
+        uint lw = umlScene()->lineWidth();
         if (lw != lineWidth()) {
             setLineWidth(lw);
         }
@@ -513,7 +513,7 @@ void WidgetBase::setUsesDiagramTextColor(bool status)
     }
     m_usesDiagramTextColor = status;
     if (status && umlScene()) {
-        QColor color = umlScene()->getTextColor();
+        QColor color = umlScene()->textColor();
         if (color != textColor()) {
             setTextColor(color);
         }
@@ -586,30 +586,27 @@ bool WidgetBase::activate()
     if (!m_loadData.isEmpty()) {
         m_usesDiagramLineColor =
             m_loadData.value("usesDiagramLineColor", true).toBool();
-        QColor lineColor = scene->getLineColor();
+        QColor lineColor = scene->lineColor();
         if (!m_usesDiagramLineColor) {
             lineColor = m_loadData.value("lineColor").value<QColor>();
         }
         setLineColor(lineColor);
 
-
         m_usesDiagramLineWidth =
             m_loadData.value("usesDiagramLineWidth", true).toBool();
-        uint lineWidth = scene->getLineWidth();
+        uint lineWidth = scene->lineWidth();
         if (!m_usesDiagramLineWidth) {
             lineWidth = m_loadData.value("lineWidth").toUInt();
         }
         setLineWidth(lineWidth);
 
-
         m_usesDiagramTextColor =
             m_loadData.value("usesDiagramTextColor", true).toBool();
-        QColor textColor = scene->getTextColor();
+        QColor textColor = scene->textColor();
         if (!m_usesDiagramTextColor) {
             textColor = m_loadData.value("textColor").value<QColor>();
         }
         setTextColor(textColor);
-
 
         m_usesDiagramBrush = m_loadData.value("usesDiagramBrush", true).toBool();
         QBrush brush = scene->brush();
@@ -617,7 +614,6 @@ bool WidgetBase::activate()
             brush = m_loadData.value("brush").value<QBrush>();
         }
         setBrush(brush);
-
 
         m_usesDiagramFont = m_loadData.value("usesDiagramFont", true).toBool();
         QFont font = scene->getFont();
@@ -890,7 +886,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
             wt == Uml::wt_Package || wt == Uml::wt_Interface || wt == Uml::wt_Datatype ||
             wt == Uml::wt_Component || wt == Uml::wt_Artifact ||
             wt == Uml::wt_Node || wt == Uml::wt_Enum || wt == Uml::wt_Entity ||
-            (wt == Uml::wt_Class && umlScene()->getType() == Uml::dt_Class)) {
+            (wt == Uml::wt_Class && umlScene()->type() == Uml::dt_Class)) {
 
             showPropertiesDialog();
 

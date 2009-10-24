@@ -109,7 +109,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
             //widgets in the ListView
             // [PORT]
             foreach (UMLView* view, m_ViewList ) {
-                UMLObjectList objects = view->umlScene()->getUMLObjects();
+                UMLObjectList objects = view->umlScene()->umlObjects();
                 foreach (UMLObject* o, objects ) {
                     UMLListViewItem *item = listView->findUMLObject(o);
                     if(item) {
@@ -140,7 +140,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         if(png) {
             UMLView *view = UMLApp::app()->getCurrentView();
             data = new UMLDragData(m_ObjectList, m_WidgetList,
-                                   m_AssociationList, *png, view->umlScene()->getType());
+                                   m_AssociationList, *png, view->umlScene()->type());
         } else {
             return 0;
         }
@@ -535,7 +535,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
         return false;
     }
 
-    if( diagramType != UMLApp::app()->getCurrentView()->umlScene()->getType() ) {
+    if( diagramType != UMLApp::app()->getCurrentView()->umlScene()->type() ) {
         if( !checkPasteWidgets(widgets) ) {
             while ( !assocs.isEmpty() ) {
                 delete assocs.takeFirst();

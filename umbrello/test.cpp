@@ -85,6 +85,7 @@ Test* Test::self()
 
 void Test::testScene(UMLScene *scene)
 {
+    Q_UNUSED(scene);
 //X     New::AssociationWidget *wid = new New::AssociationWidget(0, Uml::at_Association, 0, 0);
 //X     New::AssociationLine *path1 = wid->associationLine();
 //X     scene->addItem(wid);

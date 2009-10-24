@@ -287,7 +287,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pDrawActorCB->setChecked( o->drawAsActor() );
     m_pNameLayout->addWidget( m_pDrawActorCB, 2, 0 );
 
-    if (view->umlScene()->getType() == Uml::dt_Collaboration) {
+    if (view->umlScene()->type() == Uml::dt_Collaboration) {
         m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
         m_pMultiCB->setChecked(o->multipleInstance());
         m_pNameLayout->addWidget(m_pMultiCB, 2,1);

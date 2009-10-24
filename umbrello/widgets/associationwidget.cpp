@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2009                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -953,7 +952,7 @@ bool AssociationWidget::activate()
             Uml::Visibility vis = visibility((Uml::Role_Type)r);
             robj.roleWidget->setPreText(vis.toString(true));
 
-            if (umlScene()->getType() == Uml::dt_Collaboration) {
+            if (umlScene()->type() == Uml::dt_Collaboration) {
                 robj.roleWidget->setUMLObject(robj.umlWidget->umlObject());
             }
             robj.roleWidget->activate();
@@ -1266,8 +1265,8 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
         uDebug() << "This isn't on UMLScene yet, so can neither fetch"
             "messages nor widgets on umlscene";
     }
-    const UMLWidgetList& widgetList = scene->getWidgetList();
-    const MessageWidgetList& messageList = scene->getMessageList();
+    const UMLWidgetList& widgetList = scene->widgetList();
+    const MessageWidgetList& messageList = scene->messageList();
     return loadFromXMI(element, widgetList, &messageList);
 }
 
@@ -1853,13 +1852,13 @@ void AssociationWidget::updateNameWidgetRole()
     Uml::Text_Role textRole = Uml::tr_Name;
     UMLScene *scene = umlScene();
     if (scene) {
-        if (scene->getType() == Uml::dt_Collaboration) {
+        if (scene->type() == Uml::dt_Collaboration) {
             if (isSelf()) {
                 textRole = Uml::tr_Coll_Message;
             } else {
                 textRole = Uml::tr_Coll_Message;
             }
-        } else if (scene->getType() == Uml::dt_Sequence) {
+        } else if (scene->type() == Uml::dt_Sequence) {
             if (isSelf()) {
                 textRole = Uml::tr_Seq_Message_Self;
             } else {

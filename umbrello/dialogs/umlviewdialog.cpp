@@ -40,7 +40,7 @@ UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLScene * pScene )
     setFaceType( KPageDialog::List );
     showButtonSeparator( true );
     m_pScene = pScene;
-    m_options = m_pScene->getOptionState();
+    m_options = m_pScene->optionState();
     setupPages();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
@@ -88,18 +88,18 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 
     m_diagramProperties = new DiagramPropertiesPage(page);
 
-    m_diagramProperties->ui_diagramName->setText( m_pScene->getName() );
+    m_diagramProperties->ui_diagramName->setText( m_pScene->name() );
     m_diagramProperties->ui_zoom->setValue(m_pScene->activeView()->currentZoom());
     m_diagramProperties->ui_showOpSigs->setChecked( m_pScene->getShowOpSig() );
 
     m_diagramProperties->ui_checkBoxShowGrid->setChecked(m_pScene->getShowSnapGrid());
-    m_diagramProperties->ui_snapToGrid->setChecked(m_pScene-> getSnapToGrid());
+    m_diagramProperties->ui_snapToGrid->setChecked(m_pScene->getSnapToGrid());
     m_diagramProperties->ui_snapComponentSizeToGrid->setChecked(m_pScene->getSnapComponentSizeToGrid());
 
     m_diagramProperties->ui_gridSpaceX->setValue( m_pScene->getSnapX());
     m_diagramProperties->ui_gridSpaceY->setValue( m_pScene->getSnapY());
-    m_diagramProperties->ui_lineWidth->setValue( m_pScene->getLineWidth());
-    m_diagramProperties->ui_documentation->setText(m_pScene->getDoc());
+    m_diagramProperties->ui_lineWidth->setValue( m_pScene->lineWidth());
+    m_diagramProperties->ui_documentation->setText(m_pScene->documentation());
 }
 
 /**
@@ -107,7 +107,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
  */
 void UMLViewDialog::setupClassPage()
 {
-    if ( m_pScene->getType() != Uml::dt_Class ) {
+    if ( m_pScene->type() != Uml::dt_Class ) {
         return;
     }
     QFrame * newPage = new QFrame();
@@ -149,7 +149,7 @@ void UMLViewDialog::setupFontPage()
     addPage(m_pageFontItem);
 
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
-    m_pChooser->setFont( m_pScene->getOptionState().uiState.font );
+    m_pChooser->setFont( m_pScene->optionState().uiState.font );
 }
 
 /**
@@ -162,7 +162,7 @@ void UMLViewDialog::applyPage( KPageWidgetItem *item )
         checkName();
         // [PORT]
         // m_pScene->setZoom( m_diagramProperties->ui_zoom->value() );
-        m_pScene->setDoc( m_diagramProperties->ui_documentation->toPlainText() );
+        m_pScene->setDocumentation( m_diagramProperties->ui_documentation->toPlainText() );
         m_pScene->setSnapX( m_diagramProperties->ui_gridSpaceX->value() );
         m_pScene->setSnapY( m_diagramProperties->ui_gridSpaceY->value() );
         m_pScene->setLineWidth( m_diagramProperties->ui_lineWidth->value() );
@@ -185,7 +185,7 @@ void UMLViewDialog::applyPage( KPageWidgetItem *item )
     }
     else if ( item == m_pageDisplayItem )
     {
-        if ( m_pScene->getType() != Uml::dt_Class ) {
+        if ( m_pScene->type() != Uml::dt_Class ) {
             return;
         }
         m_pOptionsPage->updateUMLWidget();
@@ -209,16 +209,16 @@ void UMLViewDialog::checkName()
     if ( newName.length() == 0 ) {
         KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
                            i18n("Invalid Name"), false);
-        m_diagramProperties->ui_diagramName->setText( m_pScene->getName() );
+        m_diagramProperties->ui_diagramName->setText( m_pScene->name() );
         return;
     }
 
     UMLDoc* doc = UMLApp::app()->getDocument();
-    UMLView* view = doc->findView( m_pScene->getType(), newName);
+    UMLView* view = doc->findView( m_pScene->type(), newName);
     if (view) {
         KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
                            i18n("Name Not Unique"), false);
-        m_diagramProperties->ui_diagramName->setText( m_pScene->getName() );
+        m_diagramProperties->ui_diagramName->setText( m_pScene->name() );
     }
     else {
         // uDebug() << "Cannot find view with name " << newName;

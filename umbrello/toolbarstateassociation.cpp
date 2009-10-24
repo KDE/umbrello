@@ -192,7 +192,7 @@ void ToolBarStateAssociation::setFirstWidget()
     m_associationLine = new QGraphicsLineItem();
     m_pUMLScene->addItem(m_associationLine);
     m_associationLine->setLine(pos.x(), pos.y(), pos.x(), pos.y());
-    m_associationLine->setPen(QPen(m_pUMLScene->getLineColor(), m_pUMLScene->getLineWidth(), Qt::DashLine));
+    m_associationLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
     m_associationLine->setVisible(true);
 
@@ -303,7 +303,7 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
             // association without model representation in UMLDoc
             return;
         }
-        Uml::Model_Type m = Model_Utils::convert_DT_MT(m_pUMLScene->getType());
+        Uml::Model_Type m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
         UMLDoc *umldoc = UMLApp::app()->getDocument();
         umla->setUMLPackage(umldoc->getRootFolder(m));
         UMLApp::app()->getDocument()->addAssociation(umla);

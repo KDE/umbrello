@@ -277,7 +277,7 @@ void ClassifierWidget::changeToClass()
     bool showStereotype = false;
 
     if (umlScene()) {
-        const Settings::OptionState& ops = umlScene()->getOptionState();
+        const Settings::OptionState& ops = umlScene()->optionState();
         showAtts = ops.classState.showAtts;
         showStereotype = ops.classState.showStereoType;
     }

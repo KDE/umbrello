@@ -187,7 +187,7 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
         QString returnString = exportView(view->umlScene(), imageType, url);
         if (!returnString.isNull()) {
             // [PORT]
-            errors.append(view->umlScene()->getName() + ": " + returnString);
+            errors.append(view->umlScene()->name() + ": " + returnString);
         }
     }
 
@@ -267,7 +267,7 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLScene* scene, const QSt
             return Model_Utils::treeViewBuildDiagramName(scene->getID());
         }
         else {
-            return scene->getName() + '.' + imageType.toLower();;
+            return scene->name() + '.' + imageType.toLower();;
         }
     }
     else {

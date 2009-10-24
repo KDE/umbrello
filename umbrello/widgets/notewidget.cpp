@@ -102,7 +102,7 @@ void NoteWidget::setDiagramLink(Uml::IDType sceneID)
         return;
     }
 
-    QString linkText("Diagram: " + view->umlScene()->getName());
+    QString linkText("Diagram: " + view->umlScene()->name());
 // #if defined (NOTEWIDGET_EMBED_EDITOR)
 //     m_pEditor->setUnderline(true);
 //     m_pEditor->insert(linkText);

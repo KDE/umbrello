@@ -18,13 +18,13 @@
 #include "umlwidgetlist.h"
 #include "associationwidgetlist.h"
 #include "messagewidgetlist.h"
-#include "worktoolbar.h"
 
 // Qt includes
 #include <QtGui/QGraphicsScene>
 #include <QtXml/QDomDocument>
 
 // forward declarations
+class QAction;
 class QPrinter;
 class ClassOptionsPage;
 class IDChangeLog;
@@ -55,185 +55,64 @@ public:
     friend class UMLViewImageExporterModel;
 
     UMLScene(UMLFolder *parentFolder);
-
     virtual ~UMLScene();
 
     // Accessors and other methods dealing with loaded/saved data
 
-    /**
-     * Return the UMLFolder in which this diagram lives.
-     */
-     UMLFolder *getFolder() {
-         return m_pFolder;
-     }
+    UMLFolder* folder() const; 
+    void setFolder(UMLFolder *folder);
  
-    /**
-     * Set the UMLFolder in which this diagram lives.
-     */
-     void setFolder(UMLFolder *folder) {
-         m_pFolder = folder;
-     }
+    QString documentation() const;
+    void setDocumentation(const QString &doc);
  
-    /**
-     * Return the documentation of the diagram.
-     */
-     QString getDoc() const {
-         return m_Documentation;
-     }
+    QString name() const;
+    void setName(const QString &name);
  
-    /**
-     * Set the documentation of the diagram.
-     */
-     void setDoc(const QString &doc) {
-         m_Documentation = doc;
-     }
- 
-     QString getName() const;
-     void setName(const QString &name);
- 
-    /**
-     * Returns the type of the diagram.
-     */
-     Uml::Diagram_Type getType() const {
-         return m_Type;
-     }
- 
-    /**
-     * Set the type of diagram.
-     */
-    void setType(Uml::Diagram_Type type) {
-        m_Type = type;
-        test();
-    }
+    Uml::Diagram_Type type() const;
+    void setType(Uml::Diagram_Type type);
 
-    /**
-     * Returns the fill color to use.
-     */
-     QColor getFillColor() const;
+    Uml::IDType getID() const;
+    void setID(Uml::IDType id);
+
+    QPointF pos() const;
+    void setPos(const QPointF &pos);
+
+    QColor fillColor() const;
+    void setFillColor(const QColor &color);
  
     /**
      * Returns the default brush for diagram widgets.
      */
     QBrush brush() const {
-        // TODO: Remove getFillColor()
-        return getFillColor();
+        // TODO: Remove fillColor()
+        return fillColor();
     }
 
-    /**
-     * Set the background color.
-     *
-     * @param color  The color to use.
-     */
-     void setFillColor(const QColor &color);
+    QColor lineColor() const;
+    void setLineColor(const QColor &color);
 
-    /**
-     * Returns the line color to use.
-     */
-     QColor getLineColor() const;
+    uint lineWidth() const;
+    void setLineWidth(uint width);
 
-    /**
-     * Sets the line color.
-     *
-     * @param color  The color to use.
-     */
-     void setLineColor(const QColor &color);
-
-    /**
-     * Returns the line width to use.
-     */
-     uint getLineWidth() const;
-
-    /**
-     * Sets the line width.
-     *
-     * @param width  The width to use.
-     */
-     void setLineWidth(uint width);
-
-     QColor getTextColor() const;
-     void setTextColor(const QColor& color);
-
-    /**
-     * Returns the ID of the diagram.
-     */
-     Uml::IDType getID() const {
-         return m_nID;
-     }
+    QColor textColor() const;
+    void setTextColor(const QColor& color);
  
-    /**
-     * Sets the ID of the diagram.
-     */
-     void setID(Uml::IDType id) {
-         m_nID = id;
-     }
- 
-    /**
-     * Returns height of the diagram canvas.
-     */
-     qreal canvasHeight() const {
-         return sceneRect().height();
-     }
- 
-    /**
-     * Returns width of the diagram canvas.
-     */
-    qreal canvasWidth() const {
-        return sceneRect().width();
-    }
-
-    /**
-     * Return whether to use snap to grid.
-     */
-    bool getSnapToGrid() const {
-        return m_bUseSnapToGrid;
-    }
-
+    bool getSnapToGrid() const;
     void setSnapToGrid(bool bSnap);
 
-    /**
-     * Return whether to use snap to grid for component size.
-     */
-    bool getSnapComponentSizeToGrid() const {
-        return m_bUseSnapComponentSizeToGrid;
-    }
+    bool getSnapComponentSizeToGrid() const;
+    void setSnapComponentSizeToGrid(bool bSnap);
 
-    /**
-     * Returns the x grid size.
-     */
-    int getSnapX() const {
-        return m_nSnapX;
-    }
-
-    /**
-     * Sets the x grid size.
-     */
-    void setSnapX(int x) {
-        m_nSnapX = x;
-        update();
-    }
-
-    /**
-     * Returns the y grid size.
-     */
-    int getSnapY() const {
-        return m_nSnapY;
-    }
-
-    /**
-     * Sets the y grid size.
-     */
-    void setSnapY(int y) {
-        m_nSnapY = y;
-        update();
-    }
+    int getSnapX() const;
+    void setSnapX(int x);
+    int getSnapY() const;
+    void setSnapY(int y);
 
     qreal snappedX(qreal x);
     qreal snappedY(qreal y);
 
     bool getShowSnapGrid() const;
     void setShowSnapGrid(bool bShow);
-
-    void setSnapComponentSizeToGrid(bool bSnap);
 
     bool getUseFillColor() const;
     void setUseFillColor(bool ufc);
@@ -244,40 +123,12 @@ public:
     bool getShowOpSig() const;
     void setShowOpSig(bool bShowOpSig);
 
-    /**
-     * Returns the options being used.
-     */
-    const Settings::OptionState& getOptionState() const {
-        return m_Options;
-    }
+    const Settings::OptionState& optionState() const;
+    void setOptionState(const Settings::OptionState& options);
 
-    /**
-     * Sets the options to be used.
-     */
-    void setOptionState(const Settings::OptionState& options) {
-        m_Options = options;
-    }
-
-    /**
-     * Returns a reference to the association list.
-     */
-    AssociationWidgetList& getAssociationList() {
-        return m_AssociationList;
-    }
-
-    /**
-     * Returns a reference to the widget list.
-     */
-    UMLWidgetList& getWidgetList() {
-        return m_WidgetList;
-    }
-
-    /**
-     * Returns a reference to the message list.
-     */
-    MessageWidgetList& getMessageList() {
-        return m_MessageList;
-    }
+    AssociationWidgetList& associationList();
+    UMLWidgetList& widgetList();
+    MessageWidgetList& messageList();
 
     // End of accessors and methods that only deal with loaded/saved data
     ////////////////////////////////////////////////////////////////////////
@@ -319,48 +170,22 @@ public:
 
     void selectAll();
 
-    Uml::IDType getLocalID();
+    Uml::IDType localID();
 
     bool widgetOnDiagram(Uml::IDType id);
 
     bool isSavedInSeparateFile();
 
-    QPointF & getPos() {
-        return m_Pos;
-    }
-
-    void setPos(const QPointF &_pos) {
-        m_Pos = _pos;
-    }
-
     UMLView* activeView() const;
 
     void setMenu();
 
-    /**
-     * Reset the toolbar.
-     */
-    void resetToolbar() {
-        emit sigResetToolBar();
-    }
+    void resetToolbar();
 
-    /**
-     * Returns the status on whether in a paste state.
-     *
-     * @return Returns the status on whether in a paste state.
-     */
-    bool getPaste() const {
-        return m_bPaste;
-    }
+    bool getPaste() const;
+    void setPaste(bool paste);
 
-    /**
-     * Sets the status on whether in a paste state.
-     */
-    void setPaste(bool paste) {
-        m_bPaste = paste;
-    }
-
-    UMLObjectList getUMLObjects();
+    UMLObjectList umlObjects();
 
     void activate();
 
@@ -405,16 +230,9 @@ public:
     bool addWidget(UMLWidget * pWidget , bool isPasteOperation = false);
 
     QPointF getPastePoint();
-
     void resetPastePoint();
 
-    /**
-     * Called by the view or any of its children when they start a cut
-     * operation.
-     */
-    void setStartedCut() {
-        m_bStartedCut = true;
-    }
+    void setStartedCut();
 
     void createAutoAssociations(UMLWidget * widget);
     void createAutoAttributeAssociations(UMLWidget *widget);
@@ -440,11 +258,6 @@ public:
 
     void resizeCanvasToItems();
 
-    /**
-     * The width and height of a diagram canvas in pixels.
-     */
-    static const qreal defaultCanvasSize;
-
     // Load/Save interface:
 
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
@@ -467,19 +280,8 @@ public:
 
     void setupNewWidget(UMLWidget *w);
 
-    /**
-     * Return whether we are currently creating an object.
-     */
-    bool getCreateObject() const {
-        return m_bCreateObject;
-    }
-
-    /**
-     * Set whether we are currently creating an object.
-     */
-    void setCreateObject(bool bCreate) {
-        m_bCreateObject = bCreate;
-    }
+    bool getCreateObject() const;
+    void setCreateObject(bool bCreate);
 
     /**
      * Emit the sigRemovePopupMenu Qt signal.
@@ -489,13 +291,6 @@ public:
     }
 
     int generateCollaborationId();
-
-    /**
-     * Return the UMLDoc pointer
-     */
-    UMLDoc* getUMLDoc() {
-        return m_pDoc;
-    }
 
     void callBaseMouseMethod(QGraphicsSceneMouseEvent *event);
 
@@ -520,71 +315,22 @@ protected:
      */
     Uml::IDType m_nLocalID;
 
-    /**
-     * The ID of the view.  Allocated by @ref UMLDoc
-     */
-    Uml::IDType m_nID;
+    Uml::IDType m_nID;                ///< The ID of the view. Allocated by @ref UMLDoc.
+    Uml::Diagram_Type m_Type;         ///< The type of diagram to represent.
+    QString m_Name;                   ///< The name of the diagram.
+    QString m_Documentation;          ///< The documentation of the diagram.
+    Settings::OptionState m_Options;  ///< Options used by view.
 
-    /**
-     * The type of diagram to represent.
-     */
-    Uml::Diagram_Type m_Type;
+    MessageWidgetList m_MessageList;  ///< All the message widgets on the diagram.
+    UMLWidgetList m_WidgetList;       ///< All the UMLWidgets on the diagram.
+    AssociationWidgetList m_AssociationList;  ///< All the AssociationWidgets on the diagram.
 
-    /**
-     * The name of the diagram.
-     */
-    QString m_Name;
+    int m_nSnapX;  ///< The snap to grid x size.
+    int m_nSnapY;  ///< The snap to grid y size.
 
-    /**
-     * The documentation of the diagram.
-     */
-    QString m_Documentation;
-
-    /**
-     * Options used by view
-     */
-    Settings::OptionState m_Options;
-
-    /**
-     * Contains all the message widgets on the diagram.
-     */
-    MessageWidgetList m_MessageList;
-
-    /**
-     * Contains all the UMLWidgets on the diagram.
-     */
-    UMLWidgetList m_WidgetList;
-
-    /**
-     * Contains all the AssociationWidgets on the diagram.
-     */
-    AssociationWidgetList m_AssociationList;
-
-    /**
-     * The snap to grid x size.
-     */
-    int m_nSnapX;
-
-    /**
-     * The snap to grid y size.
-     */
-    int m_nSnapY;
-
-    /**
-     * Determines whether to use snap to grid.  The default is off.
-     */
-    bool m_bUseSnapToGrid;
-
-    /**
-     * Determines whether to use snap to grid for component
-     * size.  The default is off.
-     */
-    bool m_bUseSnapComponentSizeToGrid;
-
-    /**
-     * Determines whether to show the snap grid.  The default will be on if the grid is on.
-     */
-    bool m_bShowSnapGrid;
+    bool m_bUseSnapToGrid;  ///< Flag to use snap to grid. The default is off.
+    bool m_bUseSnapComponentSizeToGrid;  ///< Flag to use snap to grid for component size. The default is off.
+    bool m_bShowSnapGrid;  ///< Flag to show the snap grid. The default will be on if the grid is on.
 
     // End of methods and members related to loading/saving
     ////////////////////////////////////////////////////////////////////////
@@ -618,26 +364,19 @@ protected:
 
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
-    /**
-     * Used for creating unique name of collaboration messages.
-     */
-    int m_nCollaborationId;
-
+    int m_nCollaborationId;  ///< Used for creating unique name of collaboration messages.
     QPointF m_Pos;
-    bool m_bCreateObject, m_bDrawSelectedOnly, m_bPaste;
+    bool m_bCreateObject;
+    bool m_bDrawSelectedOnly;
+    bool m_bPaste;
     ListPopupMenu * m_pMenu;
-
-    /**
-     *  Flag if view/children started cut operation.
-     */
-    bool m_bStartedCut;
+    bool m_bStartedCut;  ///< Flag if view/children started cut operation.
 
 private:
 
-    /**
-     * The folder in which this UMLScene is contained
-     */
-    UMLFolder *m_pFolder;
+    static const qreal DEFAULT_CANVAS_SIZE;  ///< The default size of a diagram in pixels.
+
+    UMLFolder *m_pFolder;  ///< The folder in which this UMLScene is contained.
 
     /**
      * set to true when a child has used the showDocumentation method,
@@ -648,37 +387,12 @@ private:
 
     ToolBarStateFactory* m_pToolBarStateFactory;
     ToolBarState* m_pToolBarState;
-
-    /**
-     * LocalID Changes Log for paste actions
-     */
-    IDChangeLog * m_pIDChangesLog;
-
-    /**
-     * True if the view was activated after the serialization(load)
-     */
-    bool m_bActivated;
-
-    /**
-     * Status of a popupmenu on view.
-     * true - a popup is on view
-     */
-    bool m_bPopupShowing;
-
-    /**
-     * The offset at which to paste the clipboard.
-     */
-    QPointF m_PastePoint;
-
-    /**
-     * Pointer to the UMLDoc
-     */
-    UMLDoc* m_pDoc;
-
-    /**
-     * The UMLViewImageExporter used to export the view.
-     */
-    UMLViewImageExporter* m_pImageExporter;
+    IDChangeLog * m_pIDChangesLog;  ///< LocalID Changes Log for paste actions
+    bool m_isActivated;             ///< True if the view was activated after the serialization(load).
+    bool m_bPopupShowing;           ///< Status of a popupmenu on view. True - a popup is on view.
+    QPointF m_PastePoint;           ///< The offset at which to paste the clipboard.
+    UMLDoc* m_pDoc;                 ///< Pointer to the UMLDoc.
+    UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
 
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,

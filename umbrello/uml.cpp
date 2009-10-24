@@ -1634,8 +1634,8 @@ void UMLApp::slotApplyPrefs()
                 foreach (UMLView *view, views) {
                     UMLScene *scene = view->umlScene();
                     m_viewStack->removeWidget(view);
-                    m_tabWidget->addTab(view, scene->getName());
-                    m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Icon_Utils::iconSet(scene->getType()));
+                    m_tabWidget->addTab(view, scene->name());
+                    m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Icon_Utils::iconSet(scene->type()));
                 }
                 m_layout->addWidget(m_tabWidget);
                 m_tabWidget->show();
@@ -2228,7 +2228,7 @@ void UMLApp::slotUpdateViews()
 
     UMLViewList views = m_doc->getViewIterator();
     foreach (UMLView *view , views ) {
-        menu->addAction(view->umlScene()->getName(), view->umlScene(), SLOT(slotShowView()));
+        menu->addAction(view->umlScene()->name(), view->umlScene(), SLOT(slotShowView()));
         view->umlScene()->fileLoaded();
     }
 }
@@ -2561,8 +2561,8 @@ void UMLApp::setCurrentView(UMLView* view)
     Settings::OptionState optionState = Settings::getOptionState();
     if (optionState.generalState.tabdiagrams) {
         if ( m_tabWidget->indexOf(view) < 0 ) {
-            m_tabWidget->addTab(view, view->umlScene()->getName());
-            m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Icon_Utils::iconSet(view->umlScene()->getType()));
+            m_tabWidget->addTab(view, view->umlScene()->name());
+            m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Icon_Utils::iconSet(view->umlScene()->type()));
         }
         m_tabWidget->setCurrentIndex(m_tabWidget->indexOf(view));
     }
@@ -2574,7 +2574,7 @@ void UMLApp::setCurrentView(UMLView* view)
         view->show();
     }
     qApp->processEvents();
-    slotStatusMsg(view->umlScene()->getName());
+    slotStatusMsg(view->umlScene()->name());
     UMLListViewItem* lvitem = m_listView->findView(view);
     if (lvitem) {
         m_listView->setCurrentItem(lvitem);

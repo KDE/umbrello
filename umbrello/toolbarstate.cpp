@@ -23,6 +23,7 @@
 #include "uml.h"
 #include "umlscene.h"
 #include "umlwidget.h"
+#include "worktoolbar.h"
 
 /**
  * Destroys this ToolBarState.
@@ -505,7 +506,7 @@ void ToolBarState::setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Ty
  */
 MessageWidget* ToolBarState::getMessageAt(const QPointF& pos)
 {
-    foreach (  MessageWidget* message, m_pUMLScene->getMessageList() ) {
+    foreach (  MessageWidget* message, m_pUMLScene->messageList() ) {
         if (message->isVisible() &&
                 message->contains(message->mapFromScene(pos))) {
             return message;
@@ -548,7 +549,7 @@ FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPointF& pos)
 {
     FloatingDashLineWidget* floatingline = 0;
 
-    foreach ( UMLWidget* widget, m_pUMLScene->getWidgetList() ) {
+    foreach ( UMLWidget* widget, m_pUMLScene->widgetList() ) {
         if (widget->baseType() == Uml::wt_FloatingDashLine){
             if (dynamic_cast<FloatingDashLineWidget*>(widget)->contains(pos)) {
                 floatingline = dynamic_cast<FloatingDashLineWidget*>(widget);

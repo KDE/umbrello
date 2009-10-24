@@ -164,18 +164,21 @@ void UMLFolder::activateViews()
 UMLView *UMLFolder::findView(Uml::IDType id)
 {
     foreach (UMLView* v, m_diagrams ) {
-        if (v->umlScene()->getID() == id)
+        if (v->umlScene()->getID() == id) {
             return v;
+        }
     }
 
     UMLView* v = NULL;
     foreach (UMLObject* o, m_objects ) {
-        if (o->getBaseType() != Uml::ot_Folder)
+        if (o->getBaseType() != Uml::ot_Folder) {
             continue;
+        }
         UMLFolder *f = static_cast<UMLFolder*>(o);
         v = f->findView(id);
-        if (v)
+        if (v) {
             break;
+        }
     }
     return v;
 }
@@ -190,19 +193,22 @@ UMLView *UMLFolder::findView(Uml::IDType id)
 UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool searchAllScopes)
 {
     foreach (UMLView* v, m_diagrams ) {
-        if (v->umlScene()->getType() == type && v->umlScene()->getName() == name)
+        if (v->umlScene()->type() == type && v->umlScene()->name() == name) {
             return v;
+        }
     }
 
     UMLView* v = NULL;
     if (searchAllScopes) {
         foreach (UMLObject* o, m_objects  ) {
-            if (o->getBaseType() != Uml::ot_Folder)
+            if (o->getBaseType() != Uml::ot_Folder) {
                 continue;
+            }
             UMLFolder *f = static_cast<UMLFolder*>(o);
             v = f->findView(type, name, searchAllScopes);
-            if (v)
+            if (v) {
                 break;
+            }
         }
     }
     return v;
@@ -214,8 +220,9 @@ UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool s
 void UMLFolder::setViewOptions(const Settings::OptionState& optionState)
 {
     // for each view update settings
-    foreach (UMLView* v, m_diagrams )
+    foreach (UMLView* v, m_diagrams ) {
         v->umlScene()->setOptionState(optionState);
+    }
 }
 
 /**

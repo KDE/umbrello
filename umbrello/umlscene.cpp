@@ -16,6 +16,7 @@
 
 // include files for Qt
 #include <QtAlgorithms>  // for qSort
+#include <QtGui/QAction>
 #include <QtGui/QPainter>
 #include <QtGui/QPrinter>
 #include <QtGui/QPixmap>
@@ -94,7 +95,7 @@
 #include "test.h"
 
 // static members
-const qreal UMLScene::defaultCanvasSize = 1300;
+const qreal UMLScene::DEFAULT_CANVAS_SIZE = 1300;
 
 using namespace Uml;
 
@@ -102,7 +103,7 @@ using namespace Uml;
  * Constructor.
  */
 UMLScene::UMLScene(UMLFolder *parentFolder)
-  : QGraphicsScene(0, 0, defaultCanvasSize, defaultCanvasSize)
+  : QGraphicsScene(0, 0, DEFAULT_CANVAS_SIZE, DEFAULT_CANVAS_SIZE)
 {
     // Initialize loaded/saved data
     m_nID = Uml::id_None;
@@ -125,7 +126,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
     //Setup up booleans
     m_bChildDisplayedDoc = false;
     m_bPaste = false;
-    m_bActivated = false;
+    m_isActivated = false;
     m_bCreateObject = false;
     m_bDrawSelectedOnly = false;
     m_bPopupShowing = false;
@@ -171,13 +172,44 @@ UMLScene::~UMLScene()
 
     delete m_pToolBarStateFactory;
     m_pToolBarStateFactory = NULL;
+}
 
+/**
+ * Return the UMLFolder in which this diagram lives.
+ */
+UMLFolder* UMLScene::folder() const
+{
+     return m_pFolder;
+}
+ 
+/**
+ * Set the UMLFolder in which this diagram lives.
+ */
+void UMLScene::setFolder(UMLFolder *folder)
+{
+    m_pFolder = folder;
+}
+
+/**
+ * Return the documentation of the diagram.
+ */
+QString UMLScene::documentation() const
+{
+    return m_Documentation;
+}
+ 
+/**
+ * Set the documentation of the diagram.
+ */
+void UMLScene::setDocumentation(const QString &doc)
+{
+    m_Documentation = doc;
 }
 
 /**
  * Return the name of the diagram.
  */
-QString UMLScene::getName() const
+QString UMLScene::name() const
 {
     return m_Name;
 }
@@ -188,6 +220,95 @@ QString UMLScene::getName() const
 void UMLScene::setName(const QString &name)
 {
     m_Name = name;
+}
+
+/**
+ * Returns the type of the diagram.
+ */
+Uml::Diagram_Type UMLScene::type() const
+{
+    return m_Type;
+}
+ 
+/**
+ * Set the type of diagram.
+ */
+void UMLScene::setType(Uml::Diagram_Type type)
+{
+    m_Type = type;
+    test();
+}
+
+/**
+ * Returns the ID of the diagram.
+ */
+Uml::IDType UMLScene::getID() const
+{
+    return m_nID;
+}
+
+/**
+ * Sets the ID of the diagram.
+ */
+void UMLScene::setID(Uml::IDType id)
+{
+    m_nID = id;
+}
+
+/**
+ * Returns the position of the diagram.
+ */
+QPointF UMLScene::pos() const
+{
+    return m_Pos;
+}
+
+/**
+ * Sets the position of the diagram.
+ */
+void UMLScene::setPos(const QPointF &pos)
+{
+    m_Pos = pos;
+}
+
+/**
+ * Return whether we are currently creating an object.
+ */
+bool UMLScene::getCreateObject() const
+{
+    return m_bCreateObject;
+}
+
+/**
+ * Set whether we are currently creating an object.
+ */
+void UMLScene::setCreateObject(bool bCreate)
+{
+    m_bCreateObject = bCreate;
+}
+
+/**
+ * Returns a reference to the association list.
+ */
+AssociationWidgetList& UMLScene::associationList()
+{
+    return m_AssociationList;
+}
+
+/**
+ * Returns a reference to the widget list.
+ */
+UMLWidgetList& UMLScene::widgetList()
+{
+    return m_WidgetList;
+}
+
+/**
+ * Returns a reference to the message list.
+ */
+MessageWidgetList& UMLScene::messageList()
+{
+    return m_MessageList;
 }
 
 /**
@@ -313,7 +434,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     int footHeight;
     int footTop;
     int drawHeight;
-    bool isFooter = getOptionState().generalState.footerPrinting;
+    bool isFooter = optionState().generalState.footerPrinting;
     if (isFooter) {
         footHeight = (2 * fontHeight) + 7;
         footTop    = rect.y() + diagramHeight  + 4 + fontHeight;
@@ -357,7 +478,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
 
     if (isFooter) {
         //draw foot note
-        QString string = i18n("Diagram: %2 Page %1", 1, getName());
+        QString string = i18n("Diagram: %2 Page %1", 1, name());
         QColor textColor(50, 50, 50);
         pPainter.setPen(textColor);
         pPainter.drawLine(rect.x(), footTop    , windowWidth, footTop);
@@ -507,7 +628,7 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
     ListView_Type lvtype = tid->type;
     Uml::IDType id = tid->id;
 
-    Diagram_Type diagramType = getType();
+    Diagram_Type diagramType = type();
 
     UMLObject* temp = 0;
     //if dragging diagram - might be a drag-to-note
@@ -729,13 +850,15 @@ UMLWidget *UMLScene::getWidgetAt(const QPointF& p)
  */
 void UMLScene::checkMessages(ObjectWidget * w)
 {
-    if (getType() != dt_Sequence)
+    if (type() != dt_Sequence) {
         return;
+    }
 
     MessageWidgetListIt it(m_MessageList);
     foreach(MessageWidget *obj , m_MessageList) {
-        if (! obj->hasObjectWidget(w))
+        if (! obj->hasObjectWidget(w)) {
             continue;
+        }
         //make sure message doesn't have any associations
         removeAssociations(obj);
         //make sure not in selected list
@@ -909,8 +1032,9 @@ void UMLScene::removeWidget(UMLWidget * o)
     removeAssociations(o);
 
     Widget_Type t = o->baseType();
-    if (getType() == dt_Sequence && t == wt_Object)
+    if (type() == dt_Sequence && t == wt_Object) {
         checkMessages(static_cast<ObjectWidget*>(o));
+    }
 
     if (t == wt_Message) {
         m_MessageList.removeAll(static_cast<MessageWidget*>(o));
@@ -939,7 +1063,7 @@ void UMLScene::setUseFillColor(bool ufc)
 /**
  * Returns the fill color to use.
  */
-QColor UMLScene::getFillColor() const
+QColor UMLScene::fillColor() const
 {
     return m_Options.uiState.fillColor;
 }
@@ -958,7 +1082,7 @@ void UMLScene::setFillColor(const QColor &color)
 /**
  * Returns the line color to use.
  */
-QColor UMLScene::getLineColor() const
+QColor UMLScene::lineColor() const
 {
     return m_Options.uiState.lineColor;
 }
@@ -977,7 +1101,7 @@ void UMLScene::setLineColor(const QColor &color)
 /**
  * Returns the line width to use.
  */
-uint UMLScene::getLineWidth() const
+uint UMLScene::lineWidth() const
 {
     return m_Options.uiState.lineWidth;
 }
@@ -993,11 +1117,19 @@ void UMLScene::setLineWidth(uint width)
     emit sigLineWidthChanged(getID());
 }
 
-QColor UMLScene::getTextColor() const
+/**
+ * Returns the text color to use.
+ */
+QColor UMLScene::textColor() const
 {
     return m_Options.uiState.textColor;
 }
 
+/**
+ * Sets the text color.
+ *
+ * @param color  The color to use.
+ */
 void UMLScene::setTextColor(const QColor& color)
 {
     m_Options.uiState.textColor = color;
@@ -1289,7 +1421,7 @@ void UMLScene::selectAll()
  *
  * @return Return a unique ID for the diagram.
  */
-Uml::IDType UMLScene::getLocalID()
+Uml::IDType UMLScene::localID()
 {
     m_nLocalID = UniqueID::gen();
     return m_nLocalID;
@@ -1301,12 +1433,12 @@ Uml::IDType UMLScene::getLocalID()
  */
 bool UMLScene::isSavedInSeparateFile()
 {
-    if (getOptionState().generalState.tabdiagrams) {
+    if (optionState().generalState.tabdiagrams) {
         // Umbrello currently does not support external folders
         // when tabbed diagrams are enabled.
         return false;
     }
-    const QString msgPrefix("UMLScene::isSavedInSeparateFile(" + getName() + "): ");
+    const QString msgPrefix("UMLScene::isSavedInSeparateFile(" + name() + "): ");
     UMLListView *listView = UMLApp::app()->getListView();
     UMLListViewItem *lvItem = listView->findItem(m_nID);
     if (lvItem == NULL) {
@@ -1475,7 +1607,7 @@ void UMLScene::slotActivate()
 /**
  * Returns a List of all the UMLObjects(Use Cases, Concepts and Actors) in the View
  */
-UMLObjectList UMLScene::getUMLObjects()
+UMLObjectList UMLScene::umlObjects()
 {
     UMLObjectList list;
     foreach(UMLWidget* w,  m_WidgetList) {
@@ -1756,7 +1888,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             uDebug() << "pObjectWidget is NULL";
             return false;
         }
-        Uml::IDType nNewLocalID = getLocalID();
+        Uml::IDType nNewLocalID = localID();
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
@@ -1781,7 +1913,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             return false;
         }
         pObjectWidget->setID(newID);
-        Uml::IDType nNewLocalID = getLocalID();
+        Uml::IDType nNewLocalID = localID();
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
@@ -1808,7 +1940,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             return false;
         }
         pObjectWidget->setID(newID);
-        Uml::IDType nNewLocalID = getLocalID();
+        Uml::IDType nNewLocalID = localID();
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget->setLocalID(nNewLocalID);
@@ -1844,7 +1976,7 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
         return false;
     }
     addItem(pAssoc);
-    const Association_Type type = pAssoc->associationType();
+    const Association_Type assoType = pAssoc->associationType();
 
     if (isPasteOperation) {
         IDChangeLog * log = m_pDoc->getChangeLog();
@@ -1855,16 +1987,16 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
         }
 
         Uml::IDType ida = Uml::id_None, idb = Uml::id_None;
-        if (getType() == dt_Collaboration || getType() == dt_Sequence) {
+        if (type() == dt_Collaboration || type() == dt_Sequence) {
             //check local log first
 
             ida = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::A));
             idb = m_pIDChangesLog->findNewID(pAssoc->widgetIDForRole(Uml::B));
             //if either is still not found and assoc type is anchor
             //we are probably linking to a notewidet - else an error
-            if (ida == Uml::id_None && type == at_Anchor)
+            if (ida == Uml::id_None && assoType == at_Anchor)
                 ida = log->findNewID(pAssoc->widgetIDForRole(Uml::A));
-            if (idb == Uml::id_None && type == at_Anchor)
+            if (idb == Uml::id_None && assoType == at_Anchor)
                 idb = log->findNewID(pAssoc->widgetIDForRole(Uml::B));
         } else {
             Uml::IDType oldIdA = pAssoc->widgetIDForRole(Uml::A);
@@ -1907,8 +2039,8 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
 
     //make sure valid
     if (!isPasteOperation && !m_pDoc->loading() &&
-        !AssocRules::allowAssociation(type, pWidgetA, pWidgetB, false)) {
-        uWarning() << "allowAssociation returns false " << "for AssocType " << type;
+        !AssocRules::allowAssociation(assoType, pWidgetA, pWidgetB, false)) {
+        uWarning() << "allowAssociation returns false " << "for AssocType " << assoType;
         removeItem(pAssoc);
         return false;
     }
@@ -1950,8 +2082,9 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
  */
 void UMLScene::activateAfterLoad(bool bUseLog)
 {
-    if (m_bActivated)
+    if (m_isActivated) {
         return;
+    }
     if (bUseLog) {
         beginPartialWidgetPaste();
     }
@@ -1963,7 +2096,7 @@ void UMLScene::activateAfterLoad(bool bUseLog)
         endPartialWidgetPaste();
     }
     resizeCanvasToItems();
-    m_bActivated = true;
+    m_isActivated = true;
 }
 
 void UMLScene::beginPartialWidgetPaste()
@@ -2755,6 +2888,32 @@ UMLView* UMLScene::activeView() const
 }
 
 /**
+ * Reset the toolbar.
+ */
+void UMLScene::resetToolbar()
+{
+    emit sigResetToolBar();
+}
+
+/**
+ * Returns the status on whether in a paste state.
+ *
+ * @return Returns the status on whether in a paste state.
+ */
+bool UMLScene::getPaste() const
+{
+    return m_bPaste;
+}
+
+/**
+ * Sets the status on whether in a paste state.
+ */
+void UMLScene::setPaste(bool paste)
+{
+    m_bPaste = paste;
+}
+
+/**
  * Sets the popup menu to use when clicking on a diagram background
  * (rather than a widget or listView).
  */
@@ -2762,7 +2921,7 @@ void UMLScene::setMenu()
 {
     slotRemovePopupMenu();
     ListPopupMenu::Menu_Type menu = ListPopupMenu::mt_Undefined;
-    switch (getType()) {
+    switch (type()) {
     case dt_Class:
         menu = ListPopupMenu::mt_On_Class_Diagram;
         break;
@@ -2800,7 +2959,7 @@ void UMLScene::setMenu()
         break;
 
     default:
-        uWarning() << "unknown diagram type " << getType();
+        uWarning() << "unknown diagram type " << type();
         menu = ListPopupMenu::mt_Undefined;
         break;
     }//end switch
@@ -3043,11 +3202,11 @@ void UMLScene::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Rename: {
         bool ok = false;
-        QString name = KInputDialog::getText(i18n("Enter Diagram Name"),
-                                             i18n("Enter the new name of the diagram:"),
-                                             getName(), &ok, UMLApp::app());
+        QString newName = KInputDialog::getText(i18n("Enter Diagram Name"),
+                                                i18n("Enter the new name of the diagram:"),
+                                                name(), &ok, UMLApp::app());
         if (ok) {
-            setName(name);
+            setName(newName);
             m_pDoc->signalDiagramRenamed(activeView());
         }
     }
@@ -3099,6 +3258,49 @@ QPointF UMLScene::getPastePoint()
 void UMLScene::resetPastePoint()
 {
     m_PastePoint = m_Pos;
+}
+
+/**
+ * Called by the view or any of its children when they start a cut
+ * operation.
+ */
+void UMLScene::setStartedCut()
+{
+    m_bStartedCut = true;
+}
+
+/**
+ * Returns the x grid size.
+ */
+int UMLScene::getSnapX() const
+{
+    return m_nSnapX;
+}
+
+/**
+ * Sets the x grid size.
+ */
+void UMLScene::setSnapX(int x)
+{
+    m_nSnapX = x;
+    update();
+}
+
+/**
+ * Returns the y grid size.
+ */
+int UMLScene::getSnapY() const
+{
+    return m_nSnapY;
+}
+
+/**
+ * Sets the y grid size.
+ */
+void UMLScene::setSnapY(int y)
+{
+    m_nSnapY = y;
+    update();
 }
 
 /**
@@ -3343,12 +3545,28 @@ void UMLScene::toggleShowGrid()
 }
 
 /**
+ * Return whether to use snap to grid.
+ */
+bool UMLScene::getSnapToGrid() const
+{
+    return m_bUseSnapToGrid;
+}
+
+/**
  *  Sets whether to snap to grid.
  */
 void UMLScene::setSnapToGrid(bool bSnap)
 {
     m_bUseSnapToGrid = bSnap;
     emit sigSnapToGridToggled(getSnapToGrid());
+}
+
+/**
+ * Return whether to use snap to grid for component size.
+ */
+bool UMLScene::getSnapComponentSizeToGrid() const
+{
+    return m_bUseSnapComponentSizeToGrid;
 }
 
 /**
@@ -3393,6 +3611,22 @@ bool UMLScene::getShowOpSig() const
 void UMLScene::setShowOpSig(bool bShowOpSig)
 {
     m_Options.classState.showOpSig = bShowOpSig;
+}
+
+/**
+ * Returns the options being used.
+ */
+const Settings::OptionState& UMLScene::optionState() const
+{
+    return m_Options;
+}
+
+/**
+ * Sets the options to be used.
+ */
+void UMLScene::setOptionState(const Settings::OptionState& options)
+{
+    m_Options = options;
 }
 
 /**
@@ -3451,9 +3685,9 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement viewElement = qDoc.createElement("diagram");
     viewElement.setAttribute("xmi.id", ID2STR(m_nID));
-    viewElement.setAttribute("name", getName());
-    viewElement.setAttribute("type", m_Type);
-    viewElement.setAttribute("documentation", m_Documentation);
+    viewElement.setAttribute("name", name());
+    viewElement.setAttribute("type", type());
+    viewElement.setAttribute("documentation", documentation());
     //optionstate uistate
     viewElement.setAttribute("fillcolor", m_Options.uiState.fillColor.name());
     viewElement.setAttribute("linecolor", m_Options.uiState.lineColor.name());
@@ -3477,8 +3711,8 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("snapcsgrid", m_bUseSnapComponentSizeToGrid);
     viewElement.setAttribute("snapx", m_nSnapX);
     viewElement.setAttribute("snapy", m_nSnapY);
-    viewElement.setAttribute("canvasheight", canvasHeight());
-    viewElement.setAttribute("canvaswidth", canvasWidth());
+    viewElement.setAttribute("canvasheight", height());
+    viewElement.setAttribute("canvaswidth", width());
     //now save all the widgets
 
     QDomElement widgetElement = qDoc.createElement("widgets");
@@ -3580,10 +3814,10 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString snapy = qElement.attribute("snapy", "10");
     m_nSnapY = snapy.toInt();
 
-    QString height = qElement.attribute("canvasheight", QString("%1").arg(UMLScene::defaultCanvasSize));
+    QString height = qElement.attribute("canvasheight", QString("%1").arg(DEFAULT_CANVAS_SIZE));
     qreal canvasHeight = height.toDouble();
 
-    QString width = qElement.attribute("canvaswidth", QString("%1").arg(UMLScene::defaultCanvasSize));
+    QString width = qElement.attribute("canvaswidth", QString("%1").arg(DEFAULT_CANVAS_SIZE));
     qreal canvasWidth = width.toDouble();
     setSceneRect(0, 0, canvasWidth, canvasHeight);
 
@@ -3898,7 +4132,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
         if (tag == "uisDiagramName") {
             setName(elem.text());
             if (ulvi)
-                ulvi->setText(getName());
+                ulvi->setText(name());
         } else if (tag == "uisDiagramStyle") {
             QString diagramStyle = elem.text();
             if (diagramStyle != "ClassDiagram") {
@@ -3908,7 +4142,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
             m_pDoc->setMainViewID(m_nID);
             m_Type = Uml::dt_Class;
             UMLListView *lv = UMLApp::app()->getListView();
-            ulvi = new UMLListViewItem(lv->theLogicalView(), getName(),
+            ulvi = new UMLListViewItem(lv->theLogicalView(), name(),
                                        Uml::lvt_Class_Diagram, m_nID);
         } else if (tag == "uisDiagramPresentation") {
             loadUisDiagramPresentation(elem);

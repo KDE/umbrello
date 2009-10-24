@@ -634,9 +634,10 @@ void UMLListViewItem::okRename(int col)
             cancelRenameWithMsg();
             return;
         }
-        UMLView *anotherView = doc->findView(view->umlScene()->getType(), newText);
-        if (anotherView && anotherView->umlScene()->getID() == getID())
+        UMLView *anotherView = doc->findView(view->umlScene()->type(), newText);
+        if (anotherView && anotherView->umlScene()->getID() == getID()) {
             anotherView = 0;
+        }
         if (anotherView) {
             cancelRenameWithMsg();
             return;

@@ -77,13 +77,13 @@ MessageWidget::MessageWidget(Uml::Sequence_Message_Type seqMsgType,
 /**
  * Constructs a Lost or Found MessageWidget.
  *
- * @param view              The parent to this class.
- * @param a                 The role A widget for this message.
- * @param clickedPos        The position clicked by the user
- *                          (static position for found/lost message type)
+ * @param view         The parent to this class.
+ * @param a            The role A widget for this message.
+ * @param clickedPos   The position clicked by the user
+ *                     (static position for found/lost message type)
  *
- * @param seqMsgType        Whether lost or found
- * @param id                The ID to assign (-1 will prompt a new ID.)
+ * @param seqMsgType   Whether lost or found
+ * @param id           The ID to assign (-1 will prompt a new ID.)
  */
 MessageWidget::MessageWidget(ObjectWidget* a, const QPointF& clickedPos,
                              Uml::Sequence_Message_Type seqMsgType,
@@ -205,7 +205,7 @@ void MessageWidget::setCustomOpText(const QString &opText)
  * Overrides operation from LinkWidget.  Required by
  * FloatingTextWidget.
  *
- * @param ft        The text widget which to update.
+ * @param ft   The text widget which to update.
  */
 void MessageWidget::setMessageText(FloatingTextWidget *ft)
 {
@@ -233,8 +233,8 @@ void MessageWidget::setText(FloatingTextWidget *ft, const QString &newText)
  * Overrides operation from LinkWidget.  Required by
  * FloatingTextWidget.
  *
- * @param seqNum    Return this MessageWidget's sequence number string.
- * @param op        Return this MessageWidget's operation string.
+ * @param seqNum   Return this MessageWidget's sequence number string.
+ * @param op       Return this MessageWidget's operation string.
  */
 UMLClassifier * MessageWidget::getSeqNumAndOp(QString& seqNum, QString& op)
 {
@@ -254,8 +254,8 @@ UMLClassifier * MessageWidget::getSeqNumAndOp(QString& seqNum, QString& op)
  * Overrides operation from LinkWidget.  Required by
  * FloatingTextWidget.
  *
- * @param seqNum    The new sequence number string to set.
- * @param op                The new operation string to set.
+ * @param seqNum   The new sequence number string to set.
+ * @param op       The new operation string to set.
  */
 void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
 {
@@ -267,11 +267,11 @@ void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
  * Constrains the FloatingTextWidget X and Y values supplied.
  * Overrides operation from LinkWidget.
  *
- * @param textX             Candidate X value (may be modified by the constraint.)
- * @param textY             Candidate Y value (may be modified by the constraint.)
- * @param textWidth Width of the text.
- * @param textHeight        Height of the text.
- * @param tr                Uml::Text_Role of the text.
+ * @param textX        Candidate X value (may be modified by the constraint.)
+ * @param textY        Candidate Y value (may be modified by the constraint.)
+ * @param textWidth    Width of the text.
+ * @param textHeight   Height of the text.
+ * @param tr           Uml::Text_Role of the text.
  */
 void MessageWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
                                      Uml::Text_Role tr)

@@ -38,13 +38,14 @@
 #include "umllistviewitem.h"
 #include "umlview.h"
 #include "entityconstraint.h"
-#include "clipboard/idchangelog.h"
-#include "dialogs/classpropdlg.h"
-#include "codegenerators/codegenfactory.h"
+#include "idchangelog.h"
+#include "classpropdlg.h"
+#include "codegenfactory.h"
 #include "listpopupmenu.h"
 #include "cmds.h"
 #include "diagramprintpage.h"
 #include "umlscene.h"
+#include "worktoolbar.h"
 
 // kde includes
 #include <kdeversion.h>
@@ -159,7 +160,7 @@ void UMLDoc::addView(UMLView *view)
         uError() << "argument is NULL";
         return;
     }
-    UMLFolder *f = view->umlScene()->getFolder();
+    UMLFolder *f = view->umlScene()->folder();
     if (f == NULL) {
         uError() << "view folder is not set";
         return;
@@ -174,7 +175,7 @@ void UMLDoc::addView(UMLView *view)
     pApp->setCurrentView(view);
     if ( !m_bLoading ) {
         view->show();
-        emit sigDiagramChanged(view->umlScene()->getType());
+        emit sigDiagramChanged(view->umlScene()->type());
     }
 
     pApp->setDiagramMenuItemsState(true);
@@ -201,9 +202,9 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
     view->hide();
     //remove all widgets before deleting view
     view->umlScene()->removeAllWidgets();
-    UMLFolder *f = view->umlScene()->getFolder();
+    UMLFolder *f = view->umlScene()->folder();
     if (f == NULL) {
-        uError() << view->umlScene()->getName() << ": view->getFolder() returns NULL";
+        uError() << view->umlScene()->name() << ": view->getFolder() returns NULL";
         return;
     }
     f->removeView(view);
@@ -1271,9 +1272,9 @@ void UMLDoc::renameDiagram(Uml::IDType id)
     bool ok = false;
 
     UMLView *view = findView(id);
-    Diagram_Type type = view->umlScene()->getType();
+    Diagram_Type type = view->umlScene()->type();
 
-    QString oldName= view->umlScene()->getName();
+    QString oldName= view->umlScene()->name();
     while (true) {
         QString name = KInputDialog::getText(i18nc("renaming diagram", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
 
@@ -1373,7 +1374,7 @@ void UMLDoc::changeCurrentView(Uml::IDType id)
     UMLView* w = findView(id);
     if (w) {
         pApp->setCurrentView(w);
-        emit sigDiagramChanged(w->umlScene()->getType());
+        emit sigDiagramChanged(w->umlScene()->type());
         pApp->setDiagramMenuItemsState( true );
         setModified(true);
     }
@@ -1394,7 +1395,7 @@ void UMLDoc::removeDiagram(Uml::IDType id)
         return;
     }
     if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to delete diagram %1?",
-                                                   umlview->umlScene()->getName()), i18n("Delete Diagram"),
+                                                   umlview->umlScene()->name()), i18n("Delete Diagram"),
                                            KGuiItem( i18n("&Delete"), "edit-delete")) == KMessageBox::Continue) {
         removeView(umlview);
         emit sigDiagramRemoved(id);
@@ -1423,7 +1424,7 @@ UMLFolder *UMLDoc::currentRoot()
         uError() << "m_pCurrentRoot is NULL";
         return NULL;
     }
-    UMLFolder *f = currentView->umlScene()->getFolder();
+    UMLFolder *f = currentView->umlScene()->folder();
     while (f->getUMLPackage()) {
         f = static_cast<UMLFolder*>(f->getUMLPackage());
     }
@@ -2220,7 +2221,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
             }
             // Put diagram in default predefined folder.
             // @todo pass in the parent folder - it might be a user defined one.
-            Uml::Model_Type mt = Model_Utils::convert_DT_MT(pView->umlScene()->getType());
+            Uml::Model_Type mt = Model_Utils::convert_DT_MT(pView->umlScene()->type());
             pView->umlScene()->setFolder(m_root[mt]);
             pView->hide();
             addView( pView );
@@ -2602,9 +2603,9 @@ bool UMLDoc::addUMLView(UMLView * pView )
     }
 
     int i = 0;
-    QString viewName = pView->umlScene()->getName();
+    QString viewName = pView->umlScene()->name();
     QString name = viewName;
-    while ( findView(pView->umlScene()->getType(), name) != NULL) {
+    while ( findView(pView->umlScene()->type(), name) != NULL) {
         name = viewName + '_' + QString::number(++i);
     }
     if (i) { //If name was modified
@@ -2730,7 +2731,7 @@ void UMLDoc::signalDiagramRenamed(UMLView* view)
     if (view) {
         Settings::OptionState optionState = Settings::getOptionState();
         if (optionState.generalState.tabdiagrams) {
-            UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(view), view->umlScene()->getName() );
+            UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(view), view->umlScene()->name() );
         }
         emit sigDiagramRenamed( view->umlScene()->getID() );
     }
@@ -2784,7 +2785,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
     }
 
     Uml::ListView_Type type = lvt_Unknown;
-    switch ( view->umlScene()->getType() ) {
+    switch ( view->umlScene()->type() ) {
     case dt_Class:
         type = lvt_Class_Diagram;
         break;
@@ -2822,7 +2823,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
         break;
 
     default:
-        uWarning() << "unknown diagram type " << view->umlScene()->getType();
+        uWarning() << "unknown diagram type " << view->umlScene()->type();
         return;
     }//end switch
 

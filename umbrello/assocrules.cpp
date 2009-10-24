@@ -74,7 +74,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
     if( !bValid ) {
         // Special case: Subsystem realizes interface in component diagram
         UMLView *view = UMLApp::app()->getCurrentView();
-        if (view && view->umlScene()->getType() == dt_Component && widgetType == wt_Package &&
+        if (view && view->umlScene()->type() == dt_Component && widgetType == wt_Package &&
             (assocType == at_Generalization || assocType == at_Realization))
             bValid = true;
         else

@@ -278,10 +278,10 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
     }
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
 
-    if(sel == ListPopupMenu::mt_AddInteractionOperand) {
+    if (sel == ListPopupMenu::mt_AddInteractionOperand) {
         FloatingDashLineWidget *flwd = new FloatingDashLineWidget(this);
         bool status = flwd->activate(); // should always succeeed
-        Q_ASSERT(status);
+        Q_ASSERT(status); Q_UNUSED(status);
         m_dashLines.append(flwd);
 
         if(combinedFragmentType() == Alt) {

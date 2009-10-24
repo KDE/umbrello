@@ -182,7 +182,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         MessageWidget* message = new MessageWidget(m_firstObject, QPointF(xclick, yclick), msgType);
         m_pUMLScene->addWidget(message);
         cleanMessage();
-        m_pUMLScene->getMessageList().append(message);
+        m_pUMLScene->messageList().append(message);
         xclick = 0;
         yclick = 0;
 
@@ -191,7 +191,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         //Shouldn't it cancel also the whole creation?
         ft->showOperationDialog();
         message->setTextPosition();
-        m_pUMLScene->getWidgetList().append(ft);
+        m_pUMLScene->widgetList().append(ft);
 
         UMLApp::app()->getDocument()->setModified();
     }
@@ -204,7 +204,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         m_pUMLScene->addItem(m_messageLine);
         qreal x = m_pMouseEvent->scenePos().x(), y = m_pMouseEvent->scenePos().y();
         m_messageLine->setLine(x, y, x, y);
-        m_messageLine->setPen(QPen(m_pUMLScene->getLineColor(), m_pUMLScene->getLineWidth(), Qt::DashLine));
+        m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
         m_messageLine->setVisible(true);
 
@@ -231,7 +231,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         MessageWidget* message = new MessageWidget(m_firstObject, QPointF(xclick, yclick), msgType);
         m_pUMLScene->addWidget(message);
         cleanMessage();
-        m_pUMLScene->getMessageList().append(message);
+        m_pUMLScene->messageList().append(message);
 
         xclick = 0;
         yclick = 0;
@@ -241,7 +241,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         //Shouldn't it cancel also the whole creation?
         ft->showOperationDialog();
         message->setTextPosition();
-        m_pUMLScene->getWidgetList().append(ft);
+        m_pUMLScene->widgetList().append(ft);
 
         UMLApp::app()->getDocument()->setModified();
     }
@@ -251,7 +251,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         qreal x = m_pMouseEvent->scenePos().x();
         qreal y = m_pMouseEvent->scenePos().y();
         m_messageLine->setLine(x, y, x, y);
-        m_messageLine->setPen(QPen(m_pUMLScene->getLineColor(), m_pUMLScene->getLineWidth(), Qt::DashLine));
+        m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
         m_messageLine->setVisible(true);
 
@@ -295,16 +295,15 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
 
     cleanMessage();
 
-    m_pUMLScene->getMessageList().append(message);
+    m_pUMLScene->messageList().append(message);
 
     FloatingTextWidget *ft = message->floatingTextWidget();
     if (ft) {
-
         //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
         //Shouldn't it cancel also the whole creation?
         ft->showOperationDialog();
         message->setTextPosition();
-        m_pUMLScene->getWidgetList().append(ft);
+        m_pUMLScene->widgetList().append(ft);
     }
     UMLApp::app()->getDocument()->setModified();
 }

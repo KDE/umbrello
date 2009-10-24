@@ -9,14 +9,16 @@
  ***************************************************************************/
 
 // own header
+#include "docwindow.h"
 #include "umlview.h"
 #include "umlscene.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "docwindow.h"
+#include "worktoolbar.h"
 
 // constructor
-UMLView::UMLView(UMLFolder *f) : QGraphicsView(UMLApp::app()->getMainViewWidget())
+UMLView::UMLView(UMLFolder *f)
+  : QGraphicsView(UMLApp::app()->getMainViewWidget())
 {
     m_nZoom = 100;
     setAcceptDrops(true);
