@@ -1,0 +1,495 @@
+ ============================
+| Application Test Procedure |  (last updated: 2009-11-11 by Andi Fischer)
+ ============================
+
+===============================================================================
+Instructions
+===============================================================================
+ 1) Make a copy of this file.
+ 2) Open this copy in an editor.
+ 3) Enter the test data.
+ 4) Do the tests (part of it or all) and enter the result into this file.
+
+
+===============================================================================
+Test data
+===============================================================================
+Name of tester:
+Date:
+OS Version:
+Qt Version:
+KDE Version:
+
+
+===============================================================================
+Start, stop, and command line (SSC)
+===============================================================================
+
+-------------------------------------------------------------------------------
+SSC01 - Start application:                                       OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Start application in a konsole
+        $ umbrello
+     or from the desktop control center in Applications - Development - Umbrello.
+Testresult:
+  1) Application main window is visible.
+  2) All icons are set and visible.
+  3) In menu Code - Active Language all programming languages are listed.
+
+-------------------------------------------------------------------------------
+SSC02 - Position on screen:                                      OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Start application.
+  2) Move window to another location on the screen.
+  3) Stop application (File - Quit or Close Window).
+  4) Start application again.
+Testresult:
+  1) Verify that application comes up at the last screen position.
+
+-------------------------------------------------------------------------------
+SSC03 - Size of window:                                          OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Start application.
+  2) Resize application to the minimum size in width and height.
+  3) Stop application.
+  4) Start application again.
+  5) Do the same again with a user defined window size.
+  6) Do the same again by changing only width or height.
+Testresult:
+  1) Verify that application comes up again with the minimum width and height.
+  2) Verify that application comes up again with the user defined size.
+
+-------------------------------------------------------------------------------
+SSC04 - Layout of docks:                                         OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Start application.
+  2) Attach Tree View dock to the left side, Documentation dock to the right
+     side, and hide any other dock (Command history).
+  3) Drag the separation between the diagram area and the Documentation dock
+     to the right. The Documentation dock is now at its minimum width.
+  4) Stop application.
+  5) Start application again.
+  6) Activate the Command history dock over the popup menu and undock it.
+  7) Move the Command history dock window at a desired position.
+  8) Resize the Command history dock window to a desired size.
+  9) Stop application.
+ 10) Start application again.
+Testresult:
+  1) Verify that the adjusted dock layout comes up again.
+
+-------------------------------------------------------------------------------
+SSC05 - Popupmenu of docks:                                      OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+
+Testresult:
+
+-------------------------------------------------------------------------------
+SSC06 - Layout of toolbars:                                      OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+
+Testresult:
+
+-------------------------------------------------------------------------------
+SSC07 - Configured toolbar:                                      OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+
+Testresult:
+
+-------------------------------------------------------------------------------
+SSC08 - Menu open recent:                                        OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+
+Testresult:
+
+-------------------------------------------------------------------------------
+SSC09 - Status bar:                                              OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+
+Testresult:
+
+-------------------------------------------------------------------------------
+SSC10 - Command line:                                            OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+
+  --export
+
+  umbrello [-e png] [filename.xmi]
+  umbrello [-e eps] [filename.xmi]
+
+Testresult:
+
+-------------------------------------------------------------------------------
+SSC11 - Stop applicaton:                                         OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Start application in a konsole.
+  2) Load model "./umbrello/models/UmbrelloArchitecture/Overview.xmi".
+  3) Verify the successfull loading of the model.
+  4) Stop application from menu File - Quit.
+  5) Do the same by clicking on the Window Close icon.
+Testresult:
+  1) The application is closed without any error message.
+
+===============================================================================
+Menu commands File (MEF)
+===============================================================================
+
+
+===============================================================================
+Menu commands Edit (MEE)
+===============================================================================
+
+
+===============================================================================
+Menu commands Diagram (MED)
+===============================================================================
+
+-------------------------------------------------------------------------------
+MED01 - "New":                                                   OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+MED02 - "Clear Diagram":                                         OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+MED03 - "Delete":                                                OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+MED04 - "Export as Picture...":                                  OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Load model "./umbrello/models/UmbrelloArchitecture/Overview.xmi".
+  2) Activate the tab "WidgetBase Hierarchy".
+  3) Open the menu 'Diagram' and select 'Export as Picture...'.
+  4) In the now opened file dialog select the place where the picture should be
+     stored.
+  5) Set the filter to 'Windows BMP image'.
+  6) Press 'Save' button.
+  7) Set the filter to 'EPS image'.
+  8) Press 'Save' button.
+  9) Set the filter to 'JPG image'.
+ 10) Press 'Save' button.
+ 11) Set the filter to 'PNG image'.
+ 12) Press 'Save' button.
+ 12) Set the filter to 'PPM image'.
+ 14) Press 'Save' button.
+ 15) Set the filter to 'SVG image'.
+ 16) Press 'Save' button.
+ 17) Set the filter to 'XBM image'.
+ 18) Press 'Save' button.
+ 19) Set the filter to 'XPM image'.
+ 20) Press 'Save' button.
+Testresult:
+  1) Open Gwenview (or any other similar picture viewer).
+  2) Open "WidgetBase Hierarchy.bmp" from the selected directory and
+     verify the correct format of the picture.
+  3) Open "WidgetBase Hierarchy.epsf" from the selected directory and
+     verify the correct format of the picture.
+  4) Open "WidgetBase Hierarchy.jbg" from the selected directory and
+     verify the correct format of the picture.
+  5) Open "WidgetBase Hierarchy.png" from the selected directory and
+     verify the correct format of the picture.
+  6) Open "WidgetBase Hierarchy.ppm" from the selected directory and
+     verify the correct format of the picture.
+  7) Open "WidgetBase Hierarchy.svg" from the selected directory and
+     verify the correct format of the picture.
+  8) Open "WidgetBase Hierarchy.xbm" from the selected directory and
+     verify the correct format of the picture.
+  9) Open "WidgetBase Hierarchy.xpm" from the selected directory and
+     verify the correct format of the picture.
+
+-------------------------------------------------------------------------------
+MED05 - "Export All Diagrmas as Pictures...":                    OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Load model "./umbrello/models/UmbrelloArchitecture/Overview.xmi".
+  2) Open the menu 'Diagram' and select 'Export All Diagrams as Pictures...'.
+  3) In the now opened file dialog select the place where the pictures should
+     be stored.
+  4) Set the filter to one out of ['Windows BMP image', 'EPS image',
+     'JPG image', 'PNG image', 'PPM image', 'SVG image', 'XBM image',
+     'XPM image'].
+  5) Unselect 'Use folders'.
+  6) Press 'OK' button.
+Testresult:
+  1) Open Gwenview (or any other similar picture viewer).
+  2) Open all the pictures from the selected directory and
+     verify the correct format of each picture.
+  3) Verify that all diagrams where exported.
+
+-------------------------------------------------------------------------------
+MED06 - "Show":                                                  OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+MED07 - "Zoom":                                                  OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+MED08 - "Align":                                                 OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+MED09 - "Snap to Grid":                                          OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+MED10 - "Show Grid":                                             OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+MED11 - "Properties":                                            OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+
+===============================================================================
+Menu commands Code (MEC)
+===============================================================================
+
+
+===============================================================================
+Menu commands Settings (MES)
+===============================================================================
+
+
+===============================================================================
+Menu commands Help (MEH)
+===============================================================================
+
+
+===============================================================================
+Toolbar popup menu (TPM)
+===============================================================================
+
+
+===============================================================================
+Main toolbar (MTB)
+===============================================================================
+
+
+===============================================================================
+Diagram toolbar (DTB)
+===============================================================================
+
+
+===============================================================================
+Tree view dock window (TDW)
+===============================================================================
+
+===============================================================================
+Documentation dock window (DDW)
+===============================================================================
+
+===============================================================================
+Command history dock window (CDW)
+===============================================================================
+
+Code import ActionScript (IAS)
+Code import Ada (IAD)
+Code import C++ (ICP)
+Code import C# (ICS)
+Code import D (ID_)
+Code import IDL (IID)
+Code import Java (IJA)
+Code import JavaScript (IJS)
+Code import MySQL (IMS)
+Code import Pascal (IPA)
+Code import Perl (IPE)
+Code import PHP (IPH)
+Code import PHP5 (IP5)
+Code import PostgreSQL (IPG)
+Code import Python (IPY)
+Code import Ruby (IRU)
+Code import TCL (ITC)
+Code import XMLSchema (IXS)
+
+===============================================================================
+Diagram drawing common (DDR)
+===============================================================================
+
+===============================================================================
+Drawing class diagram (DCL)
+===============================================================================
+
+-------------------------------------------------------------------------------
+DCL01 - Create class diagram:                                    OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Click on the button left to the first tab view and select class diagram
+     in the popupmenu.
+    OR
+     Select the menu 'Diagram' - 'New' - 'Class Diagram...'.
+  2) In the just opened dialog enter the name "Car Class Diagram".
+  3) Select from the diagram toolbar the interface drawing tool.
+  4) Draw a class and name it "Car".
+  5) Select the menu 'File' - 'Save As...' and save the current work in
+     the file "test.xmi" in a location of your choice.
+  6) Draw a class and name it "Engine".
+  7) Draw a class and name it "Tire".
+  8) Select from the diagram toolbar the aggregation drawing tool.
+  9) Click on "Car" and drag to "Engine".
+ 10) Click on "Car" and drag to "Tire".
+ 11) Click on the save button in the main toolbar.
+Testresult:
+  1) A simple class diagram with three classes is created.
+
+-------------------------------------------------------------------------------
+DCL02 - Load existing class diagram:                             OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+  1) Load file "./umbrello/test/test-DCL.xmi".
+  2) Load your file "test.xmi"
+Testresult:
+  1) The file is loading correctly.
+  2) The file is loading correctly.
+
+-------------------------------------------------------------------------------
+DCL03 - Add attributes to classes:                               OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+
+Testresult:
+
+-------------------------------------------------------------------------------
+DCL04 - Add operations to classes:                               OK[ ]   NOK[ ]
+-------------------------------------------------------------------------------
+Testprocedure:
+
+Testresult:
+
+===============================================================================
+Drawing sequence diagram (DSQ)
+===============================================================================
+
+===============================================================================
+Drawing collaboration diagram (DCO)
+===============================================================================
+
+===============================================================================
+Drawing use case diagram (DUC)
+===============================================================================
+
+===============================================================================
+Drawing state diagram (DST)
+===============================================================================
+
+===============================================================================
+Drawing activity diagram (DAC)
+===============================================================================
+
+===============================================================================
+Drawing component diagram (DCP)
+===============================================================================
+
+===============================================================================
+Drawing deployment diagram (DDP)
+===============================================================================
+
+===============================================================================
+Drawing entity relationship diagram (DER) 
+===============================================================================
+
+===============================================================================
+Code export ActionScript (XAS)
+===============================================================================
+
+===============================================================================
+Code export Ada (XAD)
+===============================================================================
+
+===============================================================================
+Code export C++ (XCP)
+===============================================================================
+
+===============================================================================
+Code export C# (XCS)
+===============================================================================
+
+===============================================================================
+Code export D (XD_)
+===============================================================================
+
+===============================================================================
+Code export IDL (XID)
+===============================================================================
+
+===============================================================================
+Code export Java (XJA)
+===============================================================================
+
+===============================================================================
+Code export JavaScript (XJS)
+===============================================================================
+
+===============================================================================
+Code export MySQL (XMS)
+===============================================================================
+
+===============================================================================
+Code export Pascal (XPA)
+===============================================================================
+
+===============================================================================
+Code export Perl (XPE)
+===============================================================================
+
+===============================================================================
+Code export PHP (XPH)
+===============================================================================
+
+===============================================================================
+Code export PHP5 (XP5)
+===============================================================================
+
+===============================================================================
+Code export PostgreSQL (XPG)
+===============================================================================
+
+===============================================================================
+Code export Python (XPY)
+===============================================================================
+
+===============================================================================
+Code export Ruby (XRU)
+===============================================================================
+
+===============================================================================
+Code export Vala (XVA)
+===============================================================================
+
+===============================================================================
+Code export TCL (XTC)
+===============================================================================
+
+===============================================================================
+Code export XMLSchema (XXS)
+===============================================================================
+
+===============================================================================
+Printing (PRI)
+===============================================================================
+
+===============================================================================
+Pictur export (PEX)
+===============================================================================
+
+===============================================================================
+Settings (SET)
+===============================================================================
+
+===============================================================================
+Check Krazy output (KRZ)
+===============================================================================
+- checks
+- API documentation
