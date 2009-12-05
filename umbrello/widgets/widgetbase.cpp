@@ -116,7 +116,7 @@ WidgetBase::WidgetBase(UMLObject *object) :
     if(!object) {
         m_widgetInterfaceData = new WidgetInterfaceData;
     }
-    setFlags(ItemIsSelectable | ItemIsMovable);
+    setFlags(ItemIsSelectable | ItemIsMovable |ItemSendsGeometryChanges);
     hide(); // Show up in activate
 }
 
@@ -200,8 +200,13 @@ Uml::IDType WidgetBase::id() const
 void WidgetBase::setID(Uml::IDType id)
 {
     const Uml::IDType oldId = this->id();
-    if(m_umlObject) {
 
+    if (id == Uml::id_None) {
+        // generate unique id in case of None.
+        id = UniqueID::gen();
+    }
+
+    if(m_umlObject) {
         if(m_umlObject->getID() != Uml::id_None) {
             uWarning() << "changing old UMLObject " << ID2STR(m_umlObject->getID())
                        << " to " << ID2STR(id);
@@ -210,10 +215,6 @@ void WidgetBase::setID(Uml::IDType id)
         m_umlObject->setID(id);
     }
     else {
-        if (id == Uml::id_None) {
-            // generate unique id in case of None and also when m_umlObject is null.
-            id = UniqueID::gen();
-        }
         m_widgetInterfaceData->id = id;
     }
 
@@ -1032,6 +1033,7 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     }
     setSelected(true);
     QPointer<ListPopupMenu> menu = new ListPopupMenu(0, this, false, false);
+    setupContextMenuActions(*(menu.data()));
     QAction *triggered = menu->exec(event->screenPos());
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
 
@@ -1050,6 +1052,11 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     ownerWidget->slotMenuSelection(triggered);
 
     delete menu.data();
+}
+
+void WidgetBase::setupContextMenuActions(ListPopupMenu &menu)
+{
+    Q_UNUSED(menu);
 }
 
 /**

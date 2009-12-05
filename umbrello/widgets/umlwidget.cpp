@@ -200,11 +200,6 @@ void UMLWidget::showPropertiesDialog()
     delete dlg;
 }
 
-void UMLWidget::setupContextMenuActions(ListPopupMenu &menu)
-{
-    Q_UNUSED(menu);
-}
-
 /**
  * @return The list of AssociationWidget's having one or both its ends associated
  *         with this ClassifierWidget.

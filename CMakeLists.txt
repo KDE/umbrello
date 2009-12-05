@@ -1,6 +1,8 @@
 project(umbrello)
 
 # search packages used by KDE
+set(QT_MIN_VERSION "4.6.0")
+find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
 include(MacroLibrary)

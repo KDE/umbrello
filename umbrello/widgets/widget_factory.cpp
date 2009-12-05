@@ -151,7 +151,6 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 
     if (newWidget) {
         newWidget->setPos(pos.x(), y);
-        scene->addWidget(newWidget);
     }
 
     return newWidget;

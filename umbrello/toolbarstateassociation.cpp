@@ -85,7 +85,8 @@ void ToolBarStateAssociation::mouseMove(QGraphicsSceneMouseEvent* ome)
 
     if (m_associationLine) {
         QPointF sp = m_associationLine->line().p1();
-        qreal x = m_pMouseEvent->scenePos().x(), y = m_pMouseEvent->scenePos().y();
+        qreal x = m_pMouseEvent->scenePos().x();
+        qreal y = m_pMouseEvent->scenePos().y();
         m_associationLine->setLine(sp.x(), sp.y(), x, y);
     }
 }
@@ -181,9 +182,7 @@ void ToolBarStateAssociation::setFirstWidget()
         return;
     }
     //set up position
-    QPointF pos;
-    pos.setX(widget->x() + (widget->width() / 2));
-    pos.setY(widget->y() + (widget->height() / 2));
+    QPointF pos = widget->sceneRect().center();
     //TODO why is this needed?
     m_pUMLScene->setPos(pos);
 
@@ -195,9 +194,6 @@ void ToolBarStateAssociation::setFirstWidget()
     m_associationLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
     m_associationLine->setVisible(true);
-
-    // [PORT]
-    // m_pUMLScene->viewport()->setMouseTracking(true);
 }
 
 /**
@@ -299,7 +295,7 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
     if (m_pUMLScene->addAssociation(assoc, false)) {
         // if view went ok, then append in document
         UMLAssociation *umla = assoc->association();
-        if (umla == NULL) {
+        if (!umla) {
             // association without model representation in UMLDoc
             return;
         }

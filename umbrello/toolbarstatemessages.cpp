@@ -180,20 +180,10 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         yclick = m_pMouseEvent->scenePos().y();
 
         MessageWidget* message = new MessageWidget(m_firstObject, QPointF(xclick, yclick), msgType);
-        m_pUMLScene->addWidget(message);
+        setupMessageWidget(message);
         cleanMessage();
-        m_pUMLScene->messageList().append(message);
         xclick = 0;
         yclick = 0;
-
-        FloatingTextWidget *ft = message->floatingTextWidget();
-        //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
-        //Shouldn't it cancel also the whole creation?
-        ft->showOperationDialog();
-        message->setTextPosition();
-        m_pUMLScene->widgetList().append(ft);
-
-        UMLApp::app()->getDocument()->setModified();
     }
 
     else if (!m_firstObject && msgType == Uml::sequence_message_found && xclick == 0 && yclick == 0) {
@@ -207,12 +197,10 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
         m_messageLine->setVisible(true);
-
-        // [PORT]
-        // m_pUMLScene->viewport()->setMouseTracking(true);
     }
-    else
+    else {
         cleanMessage();
+    }
 }
 
 /**
@@ -229,21 +217,11 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
 
     if (msgType ==  Uml::sequence_message_found && xclick!=0 && yclick!=0) {
         MessageWidget* message = new MessageWidget(m_firstObject, QPointF(xclick, yclick), msgType);
-        m_pUMLScene->addWidget(message);
+        setupMessageWidget(message);
         cleanMessage();
-        m_pUMLScene->messageList().append(message);
 
         xclick = 0;
         yclick = 0;
-
-        FloatingTextWidget *ft = message->floatingTextWidget();
-        //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
-        //Shouldn't it cancel also the whole creation?
-        ft->showOperationDialog();
-        message->setTextPosition();
-        m_pUMLScene->widgetList().append(ft);
-
-        UMLApp::app()->getDocument()->setModified();
     }
     else {
         m_messageLine = new QGraphicsLineItem();
@@ -254,9 +232,6 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         m_messageLine->setPen(QPen(m_pUMLScene->lineColor(), m_pUMLScene->lineWidth(), Qt::DashLine));
 
         m_messageLine->setVisible(true);
-
-        // [PORT]
-        // m_pUMLScene->viewport()->setMouseTracking(true);
     }
 }
 
@@ -286,26 +261,15 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
     if (messageType == CreationMessage) {
         msgType = Uml::sequence_message_creation;
         y = m_messageLine->line().p1().y();
+
     }
 
     MessageWidget* message = new MessageWidget(m_firstObject,
                                                secondObject, msgType);
-    m_pUMLScene->addWidget(message);
     message->setPos(message->pos().x(), y);
+    setupMessageWidget(message);
 
     cleanMessage();
-
-    m_pUMLScene->messageList().append(message);
-
-    FloatingTextWidget *ft = message->floatingTextWidget();
-    if (ft) {
-        //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
-        //Shouldn't it cancel also the whole creation?
-        ft->showOperationDialog();
-        message->setTextPosition();
-        m_pUMLScene->widgetList().append(ft);
-    }
-    UMLApp::app()->getDocument()->setModified();
 }
 
 /**
@@ -337,6 +301,22 @@ void ToolBarStateMessages::cleanMessage()
 
     delete m_messageLine;
     m_messageLine = 0;
+}
+
+void ToolBarStateMessages::setupMessageWidget(MessageWidget *message)
+{
+    m_pUMLScene->messageList().append(message);
+    m_pUMLScene->addItem(message);
+    message->activate();
+
+    FloatingTextWidget *ft = message->floatingTextWidget();
+    //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
+    //Shouldn't it cancel also the whole creation?
+    ft->showOperationDialog();
+    message->setTextPosition();
+    m_pUMLScene->widgetList().append(ft);
+
+    UMLApp::app()->getDocument()->setModified();
 }
 
 #include "toolbarstatemessages.moc"

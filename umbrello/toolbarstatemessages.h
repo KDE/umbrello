@@ -14,6 +14,7 @@
 #include "toolbarstatepool.h"
 
 class QGraphicsLineItem;
+class MessageWidget;
 class ObjectWidget;
 
 /**
@@ -107,6 +108,7 @@ protected:
     bool m_isObjectWidgetLine;
 
 private:
+    void setupMessageWidget(MessageWidget *msg);
 
     /**
      * x and y clicked for lost and found messages

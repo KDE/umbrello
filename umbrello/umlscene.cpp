@@ -502,12 +502,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
         addItem(w);
     }
     w->setPos(m_Pos);
-    w->setVisible(true);
-    w->setFont(getFont());
-
-    // [PORT]
-    //w->slotColorChanged(getID());
-    //w->slotLineWidthChanged(getID());
+    w->activate();
 
     resizeCanvasToItems();
     m_WidgetList.append(w);
@@ -551,18 +546,15 @@ void UMLScene::slotObjectCreated(UMLObject* o)
 
     UMLWidget* newWidget = Widget_Factory::createWidget(this, o);
 
-    if (newWidget == NULL)
+    if (!newWidget) {
         return;
+    }
 
-    newWidget->setVisible(true);
-    newWidget->setFont(getFont());
-
-    // [PORT]
-    // newWidget->slotColorChanged(getID());
-    // newWidget->slotLineWidthChanged(getID());
+    m_WidgetList.append(newWidget);
+    addItem(newWidget);
+    newWidget->activate();
 
     m_bCreateObject = false;
-    m_WidgetList.append(newWidget);
 
     switch (o->getBaseType()) {
     case ot_Actor:
@@ -2073,6 +2065,8 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
             addWidget(flotxt);
         }
     }
+
+    pAssoc->activate();
 
     return true;
 }

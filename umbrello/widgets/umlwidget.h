@@ -154,7 +154,6 @@ public:
     virtual void adjustAssociations();
 
     virtual void showPropertiesDialog();
-    virtual void setupContextMenuActions(ListPopupMenu &menu);
 
     virtual bool loadFromXMI(QDomElement &qElement);
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);

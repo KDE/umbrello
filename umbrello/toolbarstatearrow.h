@@ -34,45 +34,13 @@ class ToolBarStateArrow : public ToolBarState
 public:
 
     ToolBarStateArrow(UMLScene *umlScene);
-    virtual ~ToolBarStateArrow();
 
-    virtual void init();
-
-    /* The following 4 methods are only temporary hack
-     */
+    // We just forward events back to UMLScene, which handles the
+    // conversion of scene events to widget events as well as selection.
     void mousePress(QGraphicsSceneMouseEvent *ome);
     void mouseMove(QGraphicsSceneMouseEvent *ome);
     void mouseRelease(QGraphicsSceneMouseEvent *ome);
     void mouseDoubleClick(QGraphicsSceneMouseEvent *ome);
-
-protected:
-
-    virtual void mousePressAssociation();
-    virtual void mousePressWidget();
-    virtual void mousePressEmpty();
-    virtual void mouseReleaseAssociation();
-    virtual void mouseReleaseWidget();
-    virtual void mouseReleaseEmpty();
-    virtual void mouseDoubleClickAssociation();
-    virtual void mouseDoubleClickWidget();
-    virtual void mouseMoveAssociation();
-    virtual void mouseMoveWidget();
-    virtual void mouseMoveEmpty();
-
-    virtual void setCurrentWidget(UMLWidget* currentWidget);
-
-    virtual void changeTool();
-
-    /**
-     * The selection rectangle that contains the four lines of its borders.
-     */
-    QList<QGraphicsLineItem *> m_selectionRect;
-
-    /**
-     * The start position of the selection rectangle.
-     */
-    QPointF m_startPosition;
-
 };
 
 #endif //TOOLBARSTATEARROW_H

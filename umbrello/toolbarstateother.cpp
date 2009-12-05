@@ -243,9 +243,6 @@ bool ToolBarStateOther::newWidget()
         return false;
     }
 
-    // add the widget.
-    m_pUMLScene->addItem(umlWidget);
-
     // Special treatment for some buttons
     switch (getButton()) {
     case WorkToolBar::tbb_Activity:

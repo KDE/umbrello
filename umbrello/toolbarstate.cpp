@@ -40,8 +40,6 @@ ToolBarState::~ToolBarState()
  */
 void ToolBarState::init()
 {
-    // [PORT]
-    // m_pUMLScene->viewport()->setMouseTracking(false);
     m_pMouseEvent = 0;
     m_currentWidget = 0;
     m_currentAssociation = 0;
@@ -80,13 +78,6 @@ void ToolBarState::mousePress(QGraphicsSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonPress);
 
-    // [PORT]
-    // m_pUMLScene->viewport()->setMouseTracking(true);
-
-    //TODO Doesn't another way of emiting the signal exist? A method only for
-    //that seems a bit dirty.
-    m_pUMLScene->emitRemovePopupMenu();
-
     // TODO: Check who needs this.
     m_pUMLScene->setPos(m_pMouseEvent->scenePos());
 
@@ -119,11 +110,7 @@ void ToolBarState::mouseRelease(QGraphicsSceneMouseEvent* ome)
 
     // Set the position of the mouse
     // TODO, should only be available in this state?
-// [PORT] Check if scenePos fits in here
     m_pUMLScene->setPos(m_pMouseEvent->scenePos());
-
-    // [PORT]
-    // m_pUMLScene->viewport()->setMouseTracking(false);
 
     if (getCurrentWidget()) {
         mouseReleaseWidget();
@@ -152,9 +139,7 @@ void ToolBarState::mouseDoubleClick(QGraphicsSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
-// [PORT] Check if scenePos fits in here
     UMLWidget* currentWidget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
-// [PORT] Check if scenePos fits in here
     AssociationWidget* currentAssociation = getAssociationAt(m_pMouseEvent->scenePos());
     if (currentWidget) {
         setCurrentWidget(currentWidget);
@@ -267,7 +252,6 @@ ToolBarState::ToolBarState(UMLScene *umlScene)
 void ToolBarState::setCurrentElement()
 {
     // Check associations.
-// [PORT] Check if scenePos fits in here
     AssociationWidget* association = getAssociationAt(m_pMouseEvent->scenePos());
     if (association) {
         setCurrentAssociation(association);
@@ -276,7 +260,6 @@ void ToolBarState::setCurrentElement()
 
     // Check messages.
     //TODO check why message widgets are treated different
-// [PORT] Check if scenePos fits in here
     MessageWidget* message = getMessageAt(m_pMouseEvent->scenePos());
     if (message) {
         setCurrentWidget(message);
@@ -284,7 +267,6 @@ void ToolBarState::setCurrentElement()
     }
 
     //TODO check why message widgets are treated different
-// [PORT] Check if scenePos fits in here
     FloatingDashLineWidget* floatingline = getFloatingLineAt(m_pMouseEvent->scenePos());
     if (floatingline) {
         setCurrentWidget(floatingline);
@@ -292,7 +274,6 @@ void ToolBarState::setCurrentElement()
     }
 
 
-// [PORT] Check if scenePos fits in here
     ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetDestructionBox(m_pMouseEvent->scenePos());
     if (objectWidgetLine) {
         setCurrentWidget(objectWidgetLine);
@@ -300,7 +281,6 @@ void ToolBarState::setCurrentElement()
     }
 
     // Check widgets.
-// [PORT] Check if scenePos fits in here
     UMLWidget *widget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
@@ -330,7 +310,7 @@ void ToolBarState::mousePressWidget()
  */
 void ToolBarState::mousePressEmpty()
 {
-    m_pUMLScene->clearSelected();
+    m_pUMLScene->clearSelection();
 }
 
 /**
@@ -379,7 +359,7 @@ void ToolBarState::mouseDoubleClickWidget()
  */
 void ToolBarState::mouseDoubleClickEmpty()
 {
-    m_pUMLScene->clearSelected();
+    m_pUMLScene->clearSelection();
 }
 
 /**
@@ -506,13 +486,15 @@ void ToolBarState::setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Ty
  */
 MessageWidget* ToolBarState::getMessageAt(const QPointF& pos)
 {
-    foreach (  MessageWidget* message, m_pUMLScene->messageList() ) {
-        if (message->isVisible() &&
-                message->contains(message->mapFromScene(pos))) {
-            return message;
-        }
-    }
+    QList<QGraphicsItem*> collisions = m_pUMLScene->items(pos);
 
+    foreach (QGraphicsItem *item, collisions) {
+        MessageWidget *msgWidget = dynamic_cast<MessageWidget*>(item);
+        if (msgWidget) {
+            return msgWidget;
+        }
+
+    }
     return 0;
 }
 
@@ -547,17 +529,16 @@ AssociationWidget* ToolBarState::getAssociationAt(const QPointF& pos)
  */
 FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPointF& pos)
 {
-    FloatingDashLineWidget* floatingline = 0;
+    QList<QGraphicsItem*> collisions = m_pUMLScene->items(pos);
 
-    foreach ( UMLWidget* widget, m_pUMLScene->widgetList() ) {
-        if (widget->baseType() == Uml::wt_FloatingDashLine){
-            if (dynamic_cast<FloatingDashLineWidget*>(widget)->contains(pos)) {
-                floatingline = dynamic_cast<FloatingDashLineWidget*>(widget);
-            }
+    foreach (QGraphicsItem *item, collisions) {
+        FloatingDashLineWidget *floatingLine = dynamic_cast<FloatingDashLineWidget*>(item);
+        if (floatingLine) {
+            return floatingLine;
         }
     }
 
-    return floatingline;
+    return 0;
 }
 
 #include "toolbarstate.moc"

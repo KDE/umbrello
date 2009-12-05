@@ -27,7 +27,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QBrush>
 #include <QtGui/QFont>
-#include <QtGui/QGraphicsItem>
+#include <QtGui/QGraphicsObject>
 #include <QtGui/QPainter>
 #include <QtGui/QPen>
 
@@ -48,7 +48,7 @@ class IDChangeLog;
  * widgets including rectangular and non rectangular widgets.
  * Rectangular widgets should use UMLWidget as its base.
  */
-class WidgetBase : public QObject, public QGraphicsItem
+class WidgetBase : public QGraphicsObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName)
@@ -157,6 +157,7 @@ protected Q_SLOTS:
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    virtual void setupContextMenuActions(ListPopupMenu &menu);
 
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
