@@ -99,6 +99,7 @@ struct CodeGenerationState{
         bool stringIncludeIsGlobal;
         QString vectorClassName;
         QString vectorClassNameInclude;
+        QString docToolTag;
         bool vectorIncludeIsGlobal;
         bool virtualDestructors;
     };

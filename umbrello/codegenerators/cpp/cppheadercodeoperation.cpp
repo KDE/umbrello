@@ -61,6 +61,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
     CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     bool isInlineMethod = policy->getOperationsAreInline( );
+    QString tag = policy->getDocToolTag( );
 
     QString endLine = getNewLineEndingChars();
 
@@ -70,7 +71,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
     {
         UMLAttributeList parameters = o->getParmList();
         foreach (UMLAttribute* currentAtt, parameters ) {
-            comment += endLine + "@param " + currentAtt->getName() + ' ';
+            comment += endLine + tag + "param " + currentAtt->getName() + ' ';
             comment += currentAtt->getDoc();
         }
         getComment()->setText(comment);

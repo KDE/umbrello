@@ -852,6 +852,7 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setVectorClassName(optionState.codeGenerationState.cppCodeGenerationState.vectorClassName);
     UmbrelloSettings::setVectorClassNameInclude(optionState.codeGenerationState.cppCodeGenerationState.vectorClassNameInclude);
     UmbrelloSettings::setVectorIncludeIsGlobal(optionState.codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal);
+    UmbrelloSettings::setDocToolTag(optionState.codeGenerationState.cppCodeGenerationState.docToolTag);
 
     // write config for Java code generation options
     UmbrelloSettings::setAutoGenerateAttributeAccessorsJava(optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors);
@@ -1808,6 +1809,7 @@ void UMLApp::readOptionState()
     optionState.codeGenerationState.cppCodeGenerationState.vectorClassName = UmbrelloSettings::vectorClassName();
     optionState.codeGenerationState.cppCodeGenerationState.vectorClassNameInclude = UmbrelloSettings::vectorClassNameInclude();
     optionState.codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal = UmbrelloSettings::vectorIncludeIsGlobal();
+    optionState.codeGenerationState.cppCodeGenerationState.docToolTag = UmbrelloSettings::docToolTag();
 
     // Java code generation options
     optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors = UmbrelloSettings::autoGenerateAttributeAccessorsJava();

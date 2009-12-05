@@ -34,6 +34,7 @@ public:
     void setAccessorsAreInline(bool bFlag = true);
     void setAccessorsArePublic(bool bFlag = true);
     void setGenerateMakefileDocument(bool bFlag = true);
+    void setDocToolTag(const QString &value);
 
     bool getPackageIsANamespace();
     bool getVirtualDestructors();
@@ -43,6 +44,7 @@ public:
     bool getAccessorsAreInline();
     bool getAccessorsArePublic();
     bool getGenerateMakefileDocument();
+    QString getDocToolTag();
 
 public slots:
 
@@ -64,6 +66,7 @@ private:
     QListWidgetItem *m_optionOperationsAreInline;
     QListWidgetItem *m_optionAccessorsAreInline;
     QListWidgetItem *m_optionAccessorsArePublic;
+    QListWidgetItem *m_optionDocToolTag;
 
     static Qt::CheckState toCheckState(bool value);
 

@@ -875,14 +875,16 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     if (m_pObject == NULL) {
         if (! Model_Utils::typeIsDiagram(m_Type) && m_Type != Uml::lvt_View)
             uError() << m_Label << ": m_pObject is NULL";
-        itemElement.setAttribute("label", m_Label);
+        if (m_Type != Uml::lvt_View)
+            itemElement.setAttribute("label", m_Label);
     } else if (m_pObject->getID() == Uml::id_None) {
         if (m_Label.isEmpty()) {
             uDebug() << "Skipping empty item";
             return;
         }
         uDebug() << "saving local label " << m_Label << " because umlobject ID is not set";
-        itemElement.setAttribute("label", m_Label);
+        if (m_Type != Uml::lvt_View)
+            itemElement.setAttribute("label", m_Label);
     } else if (m_pObject->getBaseType() == Uml::ot_Folder) {
         extFolder = static_cast<UMLFolder*>(m_pObject);
         if (!extFolder->getFolderFile().isEmpty()) {
