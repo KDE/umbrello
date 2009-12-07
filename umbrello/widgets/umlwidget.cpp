@@ -244,11 +244,17 @@ bool UMLWidget::activate()
  *
  * Subclasses can reimplement to fine tune this behvaior.
  */
-void UMLWidget::adjustAssociations()
+void UMLWidget::adjustAssociations(bool userChangeAdjust)
 {
     foreach (AssociationWidget *assoc,
             m_associationSpaceManager->associationWidgets()) {
+        if (userChangeAdjust) {
+            assoc->setUserChange(AssocAdjustChange, true);
+        }
         assoc->associationLine()->calculateEndPoints();
+        if (userChangeAdjust) {
+            assoc->setUserChange(AssocAdjustChange, false);
+        }
     }
     // m_associationSpaceManager->adjust();
     //TODO: Implement this once AssociationWidget's are implemented.
@@ -312,7 +318,7 @@ QVariant UMLWidget::attributeChange(WidgetAttributeChange change, const QVariant
         if(m_widgetHandle) {
             m_widgetHandle->updateHandlePosition();
         }
-        adjustAssociations();
+        adjustAssociations(true);
         return QVariant();
     }
     else if(change == FontHasChanged) {
@@ -450,7 +456,37 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
     e->setLastScenePos(m_mouseMoveEventStore->lastScenePos());
     e->setLastScreenPos(m_mouseMoveEventStore->lastScreenPos());
 
+    QList<QGraphicsItem*> selection = scene()->selectedItems();
+    if (beganMoveNow) {
+        foreach (QGraphicsItem *item, selection) {
+            if (item != this) {
+                if (item->parentItem() && item->parentItem()->isSelected()) {
+                    item->setSelected(false);
+                }
+            } else {
+                if (item->parentItem() && item->parentItem()->isSelected()) {
+                    item->parentItem()->setSelected(false);
+                }
+            }
+        }
+    }
+
+
+    foreach (QGraphicsItem *item, selection) {
+        WidgetBase *wid = qobject_cast<WidgetBase*>(item->toGraphicsObject());
+        if (wid) {
+            wid->setUserChange(PositionChange, true);
+        }
+    }
+
     WidgetBase::mouseMoveEvent(e);
+
+    foreach (QGraphicsItem *item, selection) {
+        WidgetBase *wid = qobject_cast<WidgetBase*>(item->toGraphicsObject());
+        if (wid) {
+            wid->setUserChange(PositionChange, false);
+        }
+    }
 
     m_mouseMoveEventStore->setLastPos(m_mouseMoveEventStore->pos());
     m_mouseMoveEventStore->setLastScenePos(m_mouseMoveEventStore->scenePos());
@@ -466,8 +502,11 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     umlScene()->setIsMouseMovingItems(false);
     WidgetBase::mouseReleaseEvent(event);
 
-    delete m_mouseMoveEventStore;
-    m_mouseMoveEventStore = 0;
+    if (m_mouseMoveEventStore) {
+        //TODO: Push cmds to stack.
+        delete m_mouseMoveEventStore;
+        m_mouseMoveEventStore = 0;
+    }
 }
 
 void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
@@ -494,22 +533,23 @@ QVariant UMLWidget::itemChange(GraphicsItemChange change, const QVariant &value)
             delete m_widgetHandle;
             m_widgetHandle = 0;
         }
-    } else if (change == QGraphicsItem::ItemPositionChange) {
-        // move all points of self associations before this widget is moved.
-        // normal adjusting is not enough for self association updation.
-        QPointF diff(value.toPointF() - pos());
+    } else if (change == QGraphicsItem::ItemPositionHasChanged) {
+        // adjust the association lines by new computations.
+        adjustAssociations(true);
+        // Move the self association widgets separately.
+        QPointF diff(pos() - m_itemPositionChangePos);
         foreach (AssociationWidget* assoc,
                 m_associationSpaceManager->associationWidgets()) {
             if (assoc->isSelf()) {
+                assoc->setUserChange(AssocAdjustChange, true);
+                //TODO: Push undo command
                 AssociationLine *line = assoc->associationLine();
                 for (int i = 0; i < line->count(); ++i) {
                     line->setPoint(i, line->point(i) + diff);
                 }
+                assoc->setUserChange(AssocAdjustChange, false);
             }
         }
-    } else if (change == QGraphicsItem::ItemPositionHasChanged) {
-        // adjust the association lines by new computations.
-        adjustAssociations();
     } else if (change == QGraphicsItem::ItemVisibleHasChanged) {
         foreach (TextItemGroup *grp, m_textItemGroups) {
             grp->updateVisibility();

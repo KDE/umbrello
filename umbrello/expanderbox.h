@@ -23,7 +23,7 @@
 #include <QtCore/QObject>
 
 #include <QtGui/QBrush>
-#include <QtGui/QGraphicsItem>
+#include <QtGui/QGraphicsObject>
 #include <QtGui/QPen>
 
 /**
@@ -33,7 +33,7 @@
  * This can be used as GUI for the user to expand/deexpand
  * something. Currently this is used in ClassifierWidget.
  */
-class ExpanderBox : public QObject, public QGraphicsItem
+class ExpanderBox : public QGraphicsObject
 {
 Q_OBJECT
 public:

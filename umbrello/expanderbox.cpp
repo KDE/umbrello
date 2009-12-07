@@ -30,7 +30,7 @@ const qreal ExpanderBox::Size = 10;
  * \a expanded and parent item being \a parent.
  */
 ExpanderBox::ExpanderBox(bool expanded, QGraphicsItem *parent) :
-    QGraphicsItem(parent),
+    QGraphicsObject(parent),
     m_expanded(expanded),
     m_brush(Qt::NoBrush)
 {

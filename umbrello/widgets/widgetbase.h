@@ -84,6 +84,14 @@ public:
         SizeHasChanged
     };
 
+    enum UserChangeType {
+        PositionChange = 0x1,
+        GeometryChange = 0x2,
+        AssocAdjustChange = 0x4
+    };
+    Q_DECLARE_FLAGS(UserChange, UserChangeType)
+
+
     explicit WidgetBase(UMLObject *object);
     virtual ~WidgetBase();
 
@@ -142,6 +150,10 @@ public:
 
     virtual bool activate();
 
+    bool userChange(UserChangeType c) const;
+    UserChange userChanges() const;
+    void setUserChange(UserChangeType c, bool value = true);
+
     virtual void showPropertiesDialog();
 
     virtual bool loadFromXMI(QDomElement &qElement);
@@ -171,6 +183,8 @@ protected:
 
     QRectF m_boundingRect;
     QPainterPath m_shape;
+
+    QPointF m_itemPositionChangePos;
 
     /**
      * This acts like stash to temporarily store data in loadFromXMI, which
@@ -205,6 +219,8 @@ private:
     bool m_activated;
     WidgetInterfaceData *m_widgetInterfaceData;
 
+    UserChange m_userChange;
+
     bool m_usesDiagramLineColor:1;
     bool m_usesDiagramLineWidth:1;
     bool m_usesDiagramBrush:1;
@@ -230,6 +246,8 @@ public:
     ////////////////////////////////////////////////////////////////////////////////
 
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(WidgetBase::UserChange)
 
 /**
  * @return The bounding rectangle for this widget.

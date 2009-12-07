@@ -151,7 +151,7 @@ public:
     AssociationWidgetList associationWidgetList() const;
 
     virtual bool activate();
-    virtual void adjustAssociations();
+    virtual void adjustAssociations(bool userChangeAdjustAssoc);
 
     virtual void showPropertiesDialog();
 

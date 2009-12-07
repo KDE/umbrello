@@ -90,7 +90,7 @@ public:
         return m_classAssociationWidget;
     }
     void setClassAssociationWidget(AssociationWidget *assocwidget);
-    virtual void adjustAssociations();
+    virtual void adjustAssociations(bool userAdjustChange);
 
     virtual bool loadFromXMI(QDomElement & qElement);
     virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);

@@ -540,6 +540,7 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     //check to see if we want the message
     //may be wanted by someone else e.g. list view
 
+    uDebug() << endl << endl << "called" << endl << endl;
     if (!m_bCreateObject)  {
         return;
     }
@@ -4160,9 +4161,11 @@ void UMLScene::alignLeft()
     qreal smallestX = WidgetList_Utils::getSmallestX(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
+        widget->setUserChange(WidgetBase::PositionChange, true);
         widget->setPos(smallestX, widget->pos().y());
-        widget->adjustAssociations();
+        widget->setUserChange(WidgetBase::PositionChange, false);
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4177,9 +4180,11 @@ void UMLScene::alignRight()
     qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
+        widget->setUserChange(WidgetBase::PositionChange, true);
         widget->setPos(biggestX - widget->width(), widget->pos().y());
-        widget->adjustAssociations();
+        widget->setUserChange(WidgetBase::PositionChange, false);
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4195,9 +4200,11 @@ void UMLScene::alignTop()
     qreal smallestY = WidgetList_Utils::getSmallestY(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
+        widget->setUserChange(WidgetBase::PositionChange, true);
         widget->setPos(widget->pos().x(), smallestY);
-        widget->adjustAssociations();
+        widget->setUserChange(WidgetBase::PositionChange, false);
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4212,9 +4219,11 @@ void UMLScene::alignBottom()
     qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
 
     foreach(UMLWidget *widget , widgetList) {
+        widget->setUserChange(WidgetBase::PositionChange, true);
         widget->setPos(widget->pos().x(), biggestY - widget->height());
-        widget->adjustAssociations();
+        widget->setUserChange(WidgetBase::PositionChange, false);
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4232,9 +4241,11 @@ void UMLScene::alignVerticalMiddle()
     qreal middle = int((biggestX - smallestX) / 2) + smallestX;
 
     foreach(UMLWidget *widget , widgetList) {
+        widget->setUserChange(WidgetBase::PositionChange, true);
         widget->setPos(middle - int(widget->width() / 2), widget->pos().y());
-        widget->adjustAssociations();
+        widget->setUserChange(WidgetBase::PositionChange, false);
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4252,9 +4263,11 @@ void UMLScene::alignHorizontalMiddle()
     qreal middle = int((biggestY - smallestY) / 2) + smallestY;
 
     foreach(UMLWidget *widget , widgetList) {
+        widget->setUserChange(WidgetBase::PositionChange, true);
         widget->setPos(widget->pos().x(), middle - int(widget->height() / 2));
-        widget->adjustAssociations();
+        widget->setUserChange(WidgetBase::PositionChange, false);
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4280,12 +4293,14 @@ void UMLScene::alignVerticalDistribute()
         if (i == 1) {
             widgetPrev = widget;
         } else {
+            widget->setUserChange(WidgetBase::PositionChange, true);
             widget->setPos(widgetPrev->pos().x(), widgetPrev->y() + widgetPrev->height() + distance);
-            widget->adjustAssociations();
+            widget->setUserChange(WidgetBase::PositionChange, false);
             widgetPrev = widget;
         }
         i++;
     }
+    //TODO: Push stored cmds to stack.
 }
 
 /**
@@ -4311,14 +4326,15 @@ void UMLScene::alignHorizontalDistribute()
         if (i == 1) {
             widgetPrev = widget;
         } else {
+            widget->setUserChange(WidgetBase::PositionChange, true);
             widget->setPos(widgetPrev->x() + widgetPrev->width() + distance,
                     widgetPrev->pos().y());
-            widget->adjustAssociations();
+            widget->setUserChange(WidgetBase::PositionChange, false);
             widgetPrev = widget;
         }
         i++;
     }
-
+    //TODO: Push stored cmds to stack.
 }
 
 void UMLScene::test()

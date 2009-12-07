@@ -328,15 +328,22 @@ void ClassifierWidget::setClassAssociationWidget(AssociationWidget *assocwidget)
  *
  * @todo Implement this properly after implementing AssociationWidget.
  */
-void ClassifierWidget::adjustAssociations()
+void ClassifierWidget::adjustAssociations(bool userAdjustChange)
 {
-    UMLWidget::adjustAssociations();
+    UMLWidget::adjustAssociations(userAdjustChange);
 
     if (umlDoc()->loading() || m_classAssociationWidget == 0) {
         return;
     }
 
+    //TODO: Push undo command
+    if (userAdjustChange) {
+        m_classAssociationWidget->setUserChange(AssocAdjustChange, true);
+    }
     m_classAssociationWidget->associationLine()->calculateAssociationClassLine();
+    if (userAdjustChange) {
+        m_classAssociationWidget->setUserChange(AssocAdjustChange, false);
+    }
 }
 
 /**

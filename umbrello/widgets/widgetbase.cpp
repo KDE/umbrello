@@ -643,6 +643,25 @@ bool WidgetBase::activate()
     return isActivated();
 }
 
+bool WidgetBase::userChange(UserChangeType c) const
+{
+    return m_userChange.testFlag(c);
+}
+
+WidgetBase::UserChange WidgetBase::userChanges() const
+{
+    return m_userChange;
+}
+
+void WidgetBase::setUserChange(UserChangeType c, bool value)
+{
+    if (value) {
+        m_userChange = m_userChange & c;
+    } else {
+        m_userChange = m_userChange & ~c;
+    }
+}
+
 /**
  * A virtual method for the widget to display a property dialog box.
  * Subclasses should reimplment this appropriately.
@@ -1099,7 +1118,23 @@ QVariant WidgetBase::attributeChange(WidgetAttributeChange change, const QVarian
  */
 QVariant WidgetBase::itemChange(GraphicsItemChange change, const QVariant& value)
 {
-    return QGraphicsItem::itemChange(change, value);
+    if (change == ItemPositionChange) {
+        m_itemPositionChangePos = pos();
+        if (userChange(PositionChange)) {
+            QPointF pt = value.toPointF();
+            pt = QPointF(qMax(pt.x(), qreal(0)), qMax(pt.y(), qreal(0)));
+            return QGraphicsObject::itemChange(change, pt);
+        }
+    }
+
+    if (change == ItemPositionHasChanged) {
+        if (userChange(PositionChange)) {
+            // TODO: Push move undo command
+
+        }
+    }
+
+    return QGraphicsObject::itemChange(change, value);
 }
 
 /**
