@@ -1,0 +1,71 @@
+Flat todo list (in no particular order - some are new features,
+  some are missing features)
+----------------------------------------------------------------------------
+
+1) Widget size vary considerably wrt trunk version..
+   Fix is to hack on TextItem and TextItemGroup classes to eliminate the
+   extra margin inherent in QGraphicsTextItem class.
+
+2) Rock stable undo/redo system implementation.. All user visible changes
+   should be undoable.
+
+3) Modification handling (ask for save at right time..)
+    Utilize undo/redo's functionality for this.
+
+4) Ensure compatibility of older umbrello xmi files.
+
+5) Fix export to XHTML, DOCBOOK and picture bugs..
+   Fixing export to picture will automatically fix everything.
+
+6) Fix print issue (very large ugly pdf's produced and reproducible in trunk)
+
+7) Sane cut/copy/paste implementation.
+
+8) Implement support for deletion and cloning of widgets.
+
+9) Improve the working of Association widgets.
+   (non angular line support, floating text widget position improvement)
+
+10) Implement auto adjustment of diagram size.
+
+11) Implement snap to grid feature.
+
+12) Performance is terrible when grid is visible.. Optimize this.
+
+13) Implement user option to choose text colour of widgets.
+    The variables and methods are already in place, just a user visible
+    setting option is requried.
+
+14) Increase max size of widget, as QSizeF(1000, 1000) is the current limit.
+
+15) Fix the selection behavior when large hollow widget (Ex BoxWidget)
+    surrounds a set of smaller widgets, the smaller widgets aren't selectable
+    as the focus is stolen by the larger wigdet.
+
+16) The alignment of text in all widgets should be restored back to TopLeft.
+
+17) Fix incosistencies of text attributes (bold, italics etc) of all widgets.
+
+18) Fix the bug, where package name in classifierwidget isn't updated on
+    renaming packagewidget to which the classifierwidget belongs.
+
+19) MessageWidget, ObjectWidget behavior to be perfected still. (in progress)
+
+20) Some widgets in State diagram are inconsistent with that of trunk
+    (state's round rect, end state, fork/join and their resizable constraint)
+
+21) The "exception" association shape requires implemention of 'Z' shape
+    constraint.
+
+22) Check whether AcceptTimeEvent widget's text (Activity diagram) should be
+    made floating text widget or not.
+
+23) The line separating state in Objectnode with type = ObjectFlow should be
+    90% and centred.
+
+24) Check whether aspect ratio is to be constrained for Artifact widget.
+
+25) Check/implement constraints on entity in Entity relationship diagram.
+
+26) Ensure working of code generation, auto associations.. etc.
+
