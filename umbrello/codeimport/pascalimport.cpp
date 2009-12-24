@@ -72,7 +72,7 @@ void PascalImport::fillSource(const QString& word)
                 m_source.append(lexeme);
                 lexeme.clear();
             }
-            if (c == ':' && word[i + 1] == '=') {
+            if (i+1 < len && c == ':' && word[i + 1] == '=') {
                 m_source.append(":=");
                 i++;
             } else {
