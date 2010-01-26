@@ -356,6 +356,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
         printer = new QPrinter(QPrinter::ScreenResolution);
     }
     printer->setOutputFileName(fileName);
+    printer->setOutputFormat(QPrinter::PostScriptFormat);
     printer->setColorMode(QPrinter::Color);
 
     // do not call printer.setup(); because we want no user
