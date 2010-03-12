@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -362,6 +362,7 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
 bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
                           UMLListViewItemList& umlListViewItems, UMLViewList& diagrams)
 {
+    Q_UNUSED(diagrams);
     if ( !mimeData->hasFormat("application/x-uml-clip2") ) {
         return false;
     }
@@ -436,9 +437,9 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
             uError() << "Bad parent for view.";
             return false;
         }
-        UMLFolder *f = static_cast<UMLFolder*>(po);
         // [PORT]
 #if 0
+        UMLFolder *f = static_cast<UMLFolder*>(po);
         UMLView* view = new UMLView(f);
         view->loadFromXMI(diagramElement);
         diagrams.append(view);
