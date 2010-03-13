@@ -24,9 +24,9 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-#include <qregexp.h>
-#include <qmap.h>
-#include <q3valuelist.h>
+#include <QtCore/QRegExp>
+#include <QtCore/QMap>
+#include <QtCore/QList>
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
@@ -267,7 +267,7 @@ using namespace std;
 
 struct LexerData {
     typedef QMap<QString, QString> Scope;
-    typedef Q3ValueList<Scope> StaticChain;
+    typedef QList<Scope> StaticChain;
 
     StaticChain staticChain;
 
@@ -426,6 +426,7 @@ void Lexer::tokenize()
 
 void Lexer::handleDirective(const QString& directive)
 {
+    Q_UNUSED(directive);
     assert(directive != "define");
     assert(directive != "else");
     assert(directive != "elif");

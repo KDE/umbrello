@@ -26,7 +26,7 @@
 
 #include <QtCore/QRegExp>
 #include <QtCore/QMap>
-#include <q3valuelist.h>
+#include <QtCore/QList>
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
@@ -248,7 +248,7 @@ using namespace std;
 
 struct LexerData {
     typedef QMap<QString, QString> Scope;
-    typedef Q3ValueList<Scope> StaticChain;
+    typedef QList<Scope> StaticChain;
 
     StaticChain staticChain;
 
