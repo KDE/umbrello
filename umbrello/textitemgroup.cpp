@@ -164,7 +164,7 @@ void TextItemGroup::setGroupGeometry(const QRectF& rect)
     QSizeF minSize = minimumSize();
 
     if(rect.width() < minSize.width() || rect.height() < minSize.height()) {
-        uDebug() << "Size of group less then minimum size\n"
+        uDebug() << "Size of group less then minimum size"  << endl
                  << "Min size" << minSize << endl
                  << "Cur size" << rect.size();
 

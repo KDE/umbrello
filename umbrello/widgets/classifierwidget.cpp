@@ -489,6 +489,7 @@ void ClassifierWidget::updateGeometry()
 
     }
     setMinimumSize(totalMinSize, sizeHintOption);
+    setSize(totalMinSize);  //:fischer:
     UMLWidget::updateGeometry();
 }
 
@@ -596,6 +597,10 @@ void ClassifierWidget::calculateClassifierDrawing()
             qreal expanderX = rect().left() - m_operationExpanderBox->rect().width() -
                 expanderDistance;
             m_operationExpanderBox->setPos(expanderX, y);
+        }
+        if (InvalidIndex == m_lineItem2Index) {  // attributes and operations invisible   //:fischer:
+            QPointF pos = m_attributeExpanderBox->pos();
+            m_operationExpanderBox->setPos(pos.x(), pos.y() + 12);
         }
     }
 }
