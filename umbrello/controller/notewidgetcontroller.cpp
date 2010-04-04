@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,14 +36,13 @@ NoteWidgetController::~NoteWidgetController()
 /**
  * Overridden from UMLWidgetController.
  * Handles a mouse move event.
- * Executes base code and then sets the geometry of the editor.
+ * Executes base code.
  *
  * @param me The QGraphicsSceneMouseEvent event.
  */
 void NoteWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent *me)
 {
     UMLWidgetController::mouseMoveEvent(me);
-    //m_noteWidget->setEditorGeometry();
 }
 
 /**

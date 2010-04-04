@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -103,14 +103,6 @@ void NoteWidget::setDiagramLink(Uml::IDType sceneID)
     }
 
     QString linkText("Diagram: " + view->umlScene()->name());
-// #if defined (NOTEWIDGET_EMBED_EDITOR)
-//     m_pEditor->setUnderline(true);
-//     m_pEditor->insert(linkText);
-//     m_pEditor->setUnderline(false);
-// #else
-//     setDoc(linkText);
-//     update();
-// #endif
     m_diagramLink = sceneID;
 }
 
@@ -274,12 +266,6 @@ void NoteWidget::slotMenuSelection(QAction* action) {
     }
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
     switch(sel) {
-        ///OBSOLETE - remove ListPopupMenu::mt_Link_Docs
-        // case ListPopupMenu::mt_Link_Docs:
-        //      umlScene()->updateNoteWidgets();
-        //      doc->setModified(true);
-        //      break;
-
     case ListPopupMenu::mt_Rename:
         umlScene()->updateDocumentation( false );
         dlg = new NoteDialog( umlScene()->activeView(), this );
@@ -290,7 +276,6 @@ void NoteWidget::slotMenuSelection(QAction* action) {
         }
         delete dlg;
         break;
-
     default:
         UMLWidget::slotMenuSelection(action);
         break;
