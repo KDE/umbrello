@@ -19,7 +19,6 @@ class NoteWidgetController;
 
 // Qt forward declarations
 class QPainter;
-class Q3TextEdit;
 
 /**
  * Displays a note box to allow multiple lines of text to be displayed.
@@ -144,7 +143,6 @@ public:
 
 public slots:
     void slotMenuSelection(QAction* action);
-    void slotViewScrolled(int x, int y);
 
 protected:
     // Data loaded/saved
@@ -170,12 +168,7 @@ private:
      */
     void init();
 
-    void setEditorGeometry(int dx = 0, int dy = 0);
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-    Q3TextEdit *m_pEditor;
-#else
     QString m_Text;
-#endif
 };
 
 #endif

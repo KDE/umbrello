@@ -12,7 +12,6 @@
 #include "notewidget.h"
 //qt includes
 #include <QtGui/QPainter>
-#include <q3textedit.h>
 #include <QtGui/QFrame>
 // kde includes
 #include <kdebug.h>
@@ -28,8 +27,6 @@
 #include "listpopupmenu.h"
 #include "dialog_utils.h"
 
-#define NOTEMARGIN 10
-
 NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
   : UMLWidget(view, id, new NoteWidgetController(this))
 {
@@ -37,22 +34,6 @@ NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
     m_NoteType = noteType;
     setSize(100,80);
     setZ( 20 ); //make sure always on top.
-#ifdef NOTEWIDGET_EMBED_EDITOR
-    // NB: This code is currently deactivated because
-    // Zoom does not yet work with the embedded text editor.
-    m_pEditor = new Q3TextEdit(view);
-    m_pEditor->setFrameStyle(QFrame::NoFrame | QFrame::Plain);
-    m_pEditor->setHScrollBarMode(Q3ScrollView::AlwaysOff);
-    m_pEditor->setVScrollBarMode(Q3ScrollView::AlwaysOff);
-    m_pEditor->setTextFormat(Qt::RichText);
-    m_pEditor->setShown(true);
-    setEditorGeometry();
-    setNoteType(noteType);
-
-    connect(m_pView, SIGNAL(contentsMoving(int, int)),
-            this, SLOT(slotViewScrolled(int, int)));
-#endif
-
 }
 
 void NoteWidget::init()
@@ -90,9 +71,6 @@ void NoteWidget::setNoteType( const QString& noteType )
 
 NoteWidget::~NoteWidget()
 {
-#ifdef NOTEWIDGET_EMBED_EDITOR
-    delete m_pEditor;
-#endif
 }
 
 void NoteWidget::setDiagramLink(Uml::IDType viewID)
@@ -104,14 +82,8 @@ void NoteWidget::setDiagramLink(Uml::IDType viewID)
         return;
     }
     QString linkText("Diagram: " + view->getName());
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-    m_pEditor->setUnderline(true);
-    m_pEditor->insert(linkText);
-    m_pEditor->setUnderline(false);
-#else
     setDocumentation(linkText);
     update();
-#endif
     m_DiagramLink = viewID;
 }
 
@@ -120,61 +92,30 @@ Uml::IDType NoteWidget::getDiagramLink() const
     return m_DiagramLink;
 }
 
-void NoteWidget::slotViewScrolled(int x, int y)
-{
-    setEditorGeometry(x, y);
-}
 
 void NoteWidget::setFont(QFont font)
 {
     UMLWidget::setFont(font);
-#ifdef NOTEWIDGET_EMBED_EDITOR
-    m_pEditor->setFont(font);
-#endif
-}
-
-void NoteWidget::setEditorGeometry(int dx /*=0*/, int dy /*=0*/)
-{
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-    const QRect editorGeometry( UMLWidget::getX() - dx + 6,
-                                UMLWidget::getY() - dy + 10,
-                                UMLWidget::getWidth() - 16,
-                                UMLWidget::getHeight() - 16);
-    m_pEditor->setGeometry( editorGeometry );
-    drawText();
-#else
-    dx=0; dy=0;   // avoid "unused arg" warnings
-#endif
 }
 
 void NoteWidget::setX( int x )
 {
     UMLWidget::setX(x);
-    setEditorGeometry();
 }
 
 void NoteWidget::setY( int y )
 {
     UMLWidget::setY(y);
-    setEditorGeometry();
 }
 
 QString NoteWidget::documentation() const
 {
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-    return m_pEditor->text();
-#else
     return m_Text;
-#endif
 }
 
 void NoteWidget::setDocumentation(const QString &newText)
 {
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-    m_pEditor->setText(newText);
-#else
     m_Text = newText;
-#endif
 }
 
 void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
@@ -198,9 +139,6 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
         QBrush brush( UMLWidget::getFillColour() );
         p.setBrush(brush);
         p.drawPolygon(poly);
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-        m_pEditor->setPaper(brush);
-#endif
     } else
         p.drawPolyline(poly);
     p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
@@ -262,12 +200,6 @@ void NoteWidget::slotMenuSelection(QAction* action)
     UMLDoc *doc = UMLApp::app()->getDocument();
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
-        ///OBSOLETE - remove ListPopupMenu::mt_Link_Docs
-        // case ListPopupMenu::mt_Link_Docs:
-        //      m_pView->updateNoteWidgets();
-        //      doc -> setModified(true);
-        //      break;
-
     case ListPopupMenu::mt_Rename:
         m_pView -> updateDocumentation( false );
         dlg = new NoteDialog( m_pView, this );
@@ -287,11 +219,6 @@ void NoteWidget::slotMenuSelection(QAction* action)
 
 void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offsetY /*=0*/)
 {
-#if defined (NOTEWIDGET_EMBED_EDITOR)
-    m_pEditor->setText( getDoc() );
-    m_pEditor->setShown(true);
-    m_pEditor->repaint();
-#else
     if (p == NULL)
         return;
     /*
@@ -320,8 +247,6 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
     QChar returnChar('\n');
     QChar c;
 
- //   QString text = getDoc();
-    //QString text = l_Type + "\n" + m_Text;
     if( text.length() == 0 )
         return;
 
@@ -383,7 +308,6 @@ void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offset
                 word += c;
         }
     }//end for
-#endif
 }
 
 void NoteWidget::askForNoteType(UMLWidget* &targetWidget)

@@ -36,14 +36,13 @@ NoteWidgetController::~NoteWidgetController()
 /**
  * Overridden from UMLWidgetController.
  * Handles a mouse move event.
- * Executes base code and then sets the geometry of the editor.
+ * Executes base code
  *
  * @param me The QMouseEvent event.
  */
 void NoteWidgetController::mouseMoveEvent(QMouseEvent *me)
 {
     UMLWidgetController::mouseMoveEvent(me);
-    m_noteWidget->setEditorGeometry();
 }
 
 /**
