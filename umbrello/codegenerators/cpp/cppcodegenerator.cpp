@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,7 +53,7 @@ CPPCodeGenerator::~CPPCodeGenerator ( )
  * Returns language identifier. In this case "Cpp".
  * @return language identifier
  */
-Uml::Programming_Language CPPCodeGenerator::getLanguage()
+Uml::Programming_Language CPPCodeGenerator::language() const
 {
     return Uml::pl_Cpp;
 }
@@ -66,8 +66,9 @@ void CPPCodeGenerator::setCreateProjectMakefile(bool buildIt)
 {
     m_createMakefile = buildIt;
     CodeDocument * antDoc = findCodeDocumentByID(CPPMakefileCodeDocument::DOCUMENT_ID_VALUE);
-    if (antDoc)
+    if (antDoc) {
         antDoc->setWriteOutCode(buildIt);
+    }
 }
 
 /**
@@ -89,13 +90,12 @@ bool CPPCodeGenerator::addHeaderCodeDocument ( CPPHeaderCodeDocument * doc )
     QString tag = doc->getID();
 
     // assign a tag if one doesn't already exist
-    if(tag.isEmpty())
-    {
+    if (tag.isEmpty()) {
         tag = "cppheader"+ID2STR(doc->getParentClassifier()->getID());
         doc->setID(tag);
     }
 
-    if(m_codeDocumentDictionary.contains(tag))
+    if (m_codeDocumentDictionary.contains(tag))
         return false; // return false, we already have some object with this tag in the list
     else
         m_codeDocumentDictionary.insert(tag, doc);
@@ -110,7 +110,7 @@ bool CPPCodeGenerator::addHeaderCodeDocument ( CPPHeaderCodeDocument * doc )
 bool CPPCodeGenerator::removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove_object )
 {
     QString tag = remove_object->getID();
-    if(!(tag.isEmpty()))
+    if (!(tag.isEmpty()))
         m_codeDocumentDictionary.remove(tag);
     else
         return false;
@@ -132,7 +132,7 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog (QWidget* parent, CodeD
         Settings::CodeViewerState state)
 {
     ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(doc);
-    if(!cdoc)
+    if (!cdoc)
         // bah..not a classcode document?? then just use vanilla version
         return CodeGenerator::getCodeViewerDialog(parent,doc,state);
     else {
@@ -142,19 +142,19 @@ CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog (QWidget* parent, CodeD
         // use classifier to find appropriate header document
         UMLClassifier * c = cdoc->getParentClassifier();
         CPPHeaderCodeDocument * hdoc = findHeaderCodeDocumentByClassifier(c);
-        if(hdoc)
-        {
+        if (hdoc) {
             // if we have a header document..build with that
             dialog = new CodeViewerDialog(parent, hdoc, state);
             dialog->addCodeDocument(doc);
-        } else
+        }
+        else {
             // shouldn't happen, but lets try to gracefully deliver something.
             dialog = new CodeViewerDialog(parent, doc, state);
-
+        }
         // add in makefile if available and desired
-        if(getCreateProjectMakefile())
+        if (getCreateProjectMakefile()) {
             dialog->addCodeDocument(findCodeDocumentByID(CPPMakefileCodeDocument::DOCUMENT_ID_VALUE));
-
+        }
         return dialog;
     }
 }
@@ -206,14 +206,14 @@ void CPPCodeGenerator::syncCodeToDocument ( )
     const CodeDocumentList * docList = getCodeDocumentList();
     CodeDocumentList::ConstIterator it  = docList->begin();
     CodeDocumentList::ConstIterator end  = docList->end();
-    for ( ; it != end; ++it )
+    for ( ; it != end; ++it ) {
         (*it)->synchronize();
-
+    }
     CodeDocumentList::Iterator it2  = m_headercodedocumentVector.begin();
     CodeDocumentList::Iterator end2  = m_headercodedocumentVector.end();
-    for ( ; it2 != end2; ++it2 )
+    for ( ; it2 != end2; ++it2 ) {
         (*it2)->synchronize();
-
+    }
 }
 
 /**
@@ -406,7 +406,7 @@ QStringList CPPCodeGenerator::defaultDatatypes()
  * Get list of reserved keywords.
  * @return a string list with reserve keywords of this language
  */
-const QStringList CPPCodeGenerator::reservedKeywords() const
+QStringList CPPCodeGenerator::reservedKeywords() const
 {
     return Codegen_Utils::reservedCppKeywords();
 }

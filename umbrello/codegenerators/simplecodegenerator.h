@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,11 +30,11 @@ class SimpleCodeGenerator : public CodeGenerator
     Q_OBJECT
 public:
 
-    SimpleCodeGenerator (bool createDirHierarchyForPackages = true);
-    virtual ~SimpleCodeGenerator ( );
+    SimpleCodeGenerator(bool createDirHierarchyForPackages = true);
+    virtual ~SimpleCodeGenerator();
 
-    void writeCodeToFile ( UMLClassifierList & concepts);
-    void writeCodeToFile ( );
+    void writeCodeToFile(UMLClassifierList & concepts);
+    void writeCodeToFile();
 
     /**
      * Call this method to generate code for a UMLClassifier
@@ -42,7 +42,7 @@ public:
      */
     virtual void writeClass(UMLClassifier *c) = 0;
 
-    CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
+    CodeDocument * newClassifierCodeDocument(UMLClassifier * classifier);
 
 protected:
 
@@ -54,7 +54,7 @@ protected:
     bool hasDefaultValueAttr(UMLClassifier *c);
     bool hasAbstractOps(UMLClassifier *c);
 
-    QString getIndent ();
+    QString indent();
 
     /**
      * Maps UMLObjects to filenames. Used for finding out which file
@@ -62,8 +62,7 @@ protected:
      */
     QMap<UMLPackage*,QString> m_fileMap;
 
-    // the parent document
-    UMLDoc *m_doc;
+    UMLDoc *m_doc;  ///< the parent document
 
     /**
      * For some code generators, it does not make much sense to create a
@@ -73,21 +72,21 @@ protected:
      */
     bool m_createDirHierarchyForPackages;
 
-    /* Old Attributes writers will look for */
+    // old attributes writers will look for
     QString m_indentation;
     int m_indentLevel;
     QString m_endl;
 
     // override parent method..we need special handling
-    void initFromParentDocument( );
+    void initFromParentDocument();
 
 private:
 
-    void initFields ( UMLDoc * doc) ;
+    void initFields(UMLDoc * doc) ;
 
 public slots:
 
-    void syncCodeToDocument ( );
+    void syncCodeToDocument();
 
 };
 

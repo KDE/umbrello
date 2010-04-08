@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -46,12 +46,12 @@ public:
 
     CodeDocument * newClassifierCodeDocument(UMLClassifier * classifier);
 
-    Uml::Programming_Language getLanguage();
+    Uml::Programming_Language language() const;
 
     static QString cppToRubyType(const QString &cppType);
     static QString cppToRubyName(const QString &cppName);
 
-    virtual const QStringList reservedKeywords() const;
+    virtual QStringList reservedKeywords() const;
 
 protected:
 

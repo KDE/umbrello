@@ -1,20 +1,11 @@
 /***************************************************************************
-                          pythonwriter.h  -  description
-                             -------------------
-    begin                : Sat Dec 21 2002
-    copyright            : Vincent Decorges
-    email                : vincent.decorges@eivd.ch
-      (C) 2003-2007  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
- ***************************************************************************/
-
-/***************************************************************************
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002      Vincent Decorges  <vincent.decorges@eivd.ch>  *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,6 +27,144 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QRegExp>
 
+static const char *reserved_words[] = {
+    "abs",
+    "and",
+    "apply",
+    "ArithmeticError",
+    "assert",
+    "AssertionError",
+    "AttributeError",
+    "break",
+    "buffer",
+    "callable",
+    "chr",
+    "class",
+    "classmethod",
+    "cmp",
+    "coerce",
+    "compile",
+    "complex",
+    "continue",
+    "def",
+    "del",
+    "delattr",
+    "DeprecationWarning",
+    "dict",
+    "dir",
+    "divmod",
+    "elif",
+    "Ellipsis",
+    "else",
+    "EnvironmentError",
+    "EOFError",
+    "eval",
+    "except",
+    "Exception",
+    "exec",
+    "execfile",
+    "file",
+    "filter",
+    "finally",
+    "float",
+    "FloatingPointError",
+    "for",
+    "from",
+    "getattr",
+    "global",
+    "globals",
+    "hasattr",
+    "hash",
+    "hex",
+    "id",
+    "if",
+    "import",
+    "__import__",
+    "ImportError",
+    "in",
+    "IndentationError",
+    "IndexError",
+    "input",
+    "int",
+    "intern",
+    "IOError",
+    "is",
+    "isinstance",
+    "issubclass",
+    "iter",
+    "KeyboardInterrupt",
+    "KeyError",
+    "lambda",
+    "len",
+    "list",
+    "locals",
+    "long",
+    "LookupError",
+    "map",
+    "max",
+    "MemoryError",
+    "min",
+    "NameError",
+    "None",
+    "not",
+    "NotImplemented",
+    "NotImplementedError",
+    "object",
+    "oct",
+    "open",
+    "or",
+    "ord",
+    "OSError",
+    "OverflowError",
+    "OverflowWarning",
+    "pass",
+    "pow",
+    "print",
+    "property",
+    "raise",
+    "range",
+    "raw_input",
+    "reduce",
+    "ReferenceError",
+    "reload",
+    "repr",
+    "return",
+    "round",
+    "RuntimeError",
+    "RuntimeWarning",
+    "setattr",
+    "slice",
+    "StandardError",
+    "staticmethod",
+    "StopIteration",
+    "str",
+    "super",
+    "SyntaxError",
+    "SyntaxWarning",
+    "SystemError",
+    "SystemExit",
+    "TabError",
+    "try",
+    "tuple",
+    "type",
+    "TypeError",
+    "UnboundLocalError",
+    "unichr",
+    "unicode",
+    "UnicodeError",
+    "UserWarning",
+    "ValueError",
+    "vars",
+    "Warning",
+    "while",
+    "WindowsError",
+    "xrange",
+    "yield",
+    "ZeroDivisionError",
+    "zip",
+    0
+};
+
 PythonWriter::PythonWriter() : m_bNeedPass(true)
 {
 }
@@ -47,7 +176,7 @@ PythonWriter::~PythonWriter()
 void PythonWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        uDebug()<<"Cannot write class of NULL concept!";
+        uDebug() << "Cannot write class of NULL concept!";
         return;
     }
 
@@ -291,7 +420,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
     }//end for
 }
 
-Uml::Programming_Language PythonWriter::getLanguage()
+Uml::Programming_Language PythonWriter::language() const
 {
     return Uml::pl_Python;
 }
@@ -312,145 +441,14 @@ QStringList PythonWriter::defaultDatatypes()
     return l;
 }
 
-const QStringList PythonWriter::reservedKeywords() const
+QStringList PythonWriter::reservedKeywords() const
 {
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        keywords << "abs"
-        << "and"
-        << "apply"
-        << "ArithmeticError"
-        << "assert"
-        << "AssertionError"
-        << "AttributeError"
-        << "break"
-        << "buffer"
-        << "callable"
-        << "chr"
-        << "class"
-        << "classmethod"
-        << "cmp"
-        << "coerce"
-        << "compile"
-        << "complex"
-        << "continue"
-        << "def"
-        << "del"
-        << "delattr"
-        << "DeprecationWarning"
-        << "dict"
-        << "dir"
-        << "divmod"
-        << "elif"
-        << "Ellipsis"
-        << "else"
-        << "EnvironmentError"
-        << "EOFError"
-        << "eval"
-        << "except"
-        << "Exception"
-        << "exec"
-        << "execfile"
-        << "file"
-        << "filter"
-        << "finally"
-        << "float"
-        << "FloatingPointError"
-        << "for"
-        << "from"
-        << "getattr"
-        << "global"
-        << "globals"
-        << "hasattr"
-        << "hash"
-        << "hex"
-        << "id"
-        << "if"
-        << "import"
-        << "__import__"
-        << "ImportError"
-        << "in"
-        << "IndentationError"
-        << "IndexError"
-        << "input"
-        << "int"
-        << "intern"
-        << "IOError"
-        << "is"
-        << "isinstance"
-        << "issubclass"
-        << "iter"
-        << "KeyboardInterrupt"
-        << "KeyError"
-        << "lambda"
-        << "len"
-        << "list"
-        << "locals"
-        << "long"
-        << "LookupError"
-        << "map"
-        << "max"
-        << "MemoryError"
-        << "min"
-        << "NameError"
-        << "None"
-        << "not"
-        << "NotImplemented"
-        << "NotImplementedError"
-        << "object"
-        << "oct"
-        << "open"
-        << "or"
-        << "ord"
-        << "OSError"
-        << "OverflowError"
-        << "OverflowWarning"
-        << "pass"
-        << "pow"
-        << "print"
-        << "property"
-        << "raise"
-        << "range"
-        << "raw_input"
-        << "reduce"
-        << "ReferenceError"
-        << "reload"
-        << "repr"
-        << "return"
-        << "round"
-        << "RuntimeError"
-        << "RuntimeWarning"
-        << "setattr"
-        << "slice"
-        << "StandardError"
-        << "staticmethod"
-        << "StopIteration"
-        << "str"
-        << "super"
-        << "SyntaxError"
-        << "SyntaxWarning"
-        << "SystemError"
-        << "SystemExit"
-        << "TabError"
-        << "try"
-        << "tuple"
-        << "type"
-        << "TypeError"
-        << "UnboundLocalError"
-        << "unichr"
-        << "unicode"
-        << "UnicodeError"
-        << "UserWarning"
-        << "ValueError"
-        << "vars"
-        << "Warning"
-        << "while"
-        << "WindowsError"
-        << "xrange"
-        << "yield"
-        << "ZeroDivisionError"
-        << "zip";
+        for (int i = 0; reserved_words[i]; ++i) {
+            keywords.append(reserved_words[i]);
+        }
     }
 
     return keywords;

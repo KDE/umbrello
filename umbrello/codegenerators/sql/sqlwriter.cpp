@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Nikolaus Gradwohl  <guru@local-guru.net>      *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,6 +32,147 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QRegExp>
 #include <QtCore/QList>
+
+static const char *reserved_words[] = {
+    "access",
+    "add",
+    "all",
+    "alter",
+    "analyze",
+    "and",
+    "any",
+    "as",
+    "asc",
+    "audit",
+    "begin",
+    "between",
+    "boolean",
+    "by",
+    "char",
+    "character",
+    "check",
+    "cluster",
+    "column",
+    "comment",
+    "commit",
+    "compress",
+    "connect",
+    "create",
+    "current",
+    "cursor",
+    "date",
+    "decimal",
+    "default",
+    "delete",
+    "desc",
+    "distinct",
+    "drop",
+    "else",
+    "elsif",
+    "end",
+    "escape",
+    "exception",
+    "exclusive",
+    "execute",
+    "exists",
+    "explain",
+    "false",
+    "file",
+    "float",
+    "for",
+    "from",
+    "function",
+    "grant",
+    "group",
+    "having",
+    "identified",
+    "if",
+    "immediate",
+    "in",
+    "increment",
+    "index",
+    "initial",
+    "insert",
+    "integer",
+    "intersect",
+    "into",
+    "is",
+    "level",
+    "like",
+    "lock",
+    "long",
+    "loop",
+    "maxextents",
+    "minus",
+    "mlslabel",
+    "mode",
+    "modify",
+    "noaudit",
+    "nocompress",
+    "not",
+    "nowait",
+    "null",
+    "number",
+    "of",
+    "offline",
+    "on",
+    "online",
+    "option",
+    "or",
+    "order",
+    "out",
+    "pctfree",
+    "prior",
+    "privileges",
+    "procedure",
+    "public",
+    "raw",
+    "rename",
+    "resource",
+    "return",
+    "revoke",
+    "rollback",
+    "row",
+    "rowid",
+    "rowlabel",
+    "rownum",
+    "rows",
+    "savepoint",
+    "select",
+    "session",
+    "set",
+    "share",
+    "size",
+    "smallint",
+    "some",
+    "start",
+    "successful",
+    "synonym",
+    "sysdate",
+    "table",
+    "then",
+    "to",
+    "trigger",
+    "true",
+    "truncate",
+    "type",
+    "uid",
+    "union",
+    "unique",
+    "update",
+    "user",
+    "using",
+    "validate",
+    "values",
+    "varchar",
+    "varchar2",
+    "varray",
+    "view",
+    "whenever",
+    "where",
+    "with",
+    0
+};
 
 SQLWriter::SQLWriter()
 {
@@ -154,7 +295,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
     emit codeGenerated(m_pEntity, true);
 }
 
-Uml::Programming_Language SQLWriter::getLanguage()
+Uml::Programming_Language SQLWriter::language() const
 {
     return Uml::pl_SQL;
 }
@@ -189,148 +330,14 @@ QStringList SQLWriter::defaultDatatypes()
     return l;
 }
 
-const QStringList SQLWriter::reservedKeywords() const
+QStringList SQLWriter::reservedKeywords() const
 {
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        keywords << "access"
-        << "add"
-        << "all"
-        << "alter"
-        << "analyze"
-        << "and"
-        << "any"
-        << "as"
-        << "asc"
-        << "audit"
-        << "begin"
-        << "between"
-        << "boolean"
-        << "by"
-        << "char"
-        << "character"
-        << "check"
-        << "cluster"
-        << "column"
-        << "comment"
-        << "commit"
-        << "compress"
-        << "connect"
-        << "create"
-        << "current"
-        << "cursor"
-        << "date"
-        << "decimal"
-        << "default"
-        << "delete"
-        << "desc"
-        << "distinct"
-        << "drop"
-        << "else"
-        << "elsif"
-        << "end"
-        << "escape"
-        << "exception"
-        << "exclusive"
-        << "execute"
-        << "exists"
-        << "explain"
-        << "false"
-        << "file"
-        << "float"
-        << "for"
-        << "from"
-        << "function"
-        << "grant"
-        << "group"
-        << "having"
-        << "identified"
-        << "if"
-        << "immediate"
-        << "in"
-        << "increment"
-        << "index"
-        << "initial"
-        << "insert"
-        << "integer"
-        << "intersect"
-        << "into"
-        << "is"
-        << "level"
-        << "like"
-        << "lock"
-        << "long"
-        << "loop"
-        << "maxextents"
-        << "minus"
-        << "mlslabel"
-        << "mode"
-        << "modify"
-        << "noaudit"
-        << "nocompress"
-        << "not"
-        << "nowait"
-        << "null"
-        << "number"
-        << "of"
-        << "offline"
-        << "on"
-        << "online"
-        << "option"
-        << "or"
-        << "order"
-        << "out"
-        << "pctfree"
-        << "prior"
-        << "privileges"
-        << "procedure"
-        << "public"
-        << "raw"
-        << "rename"
-        << "resource"
-        << "return"
-        << "revoke"
-        << "rollback"
-        << "row"
-        << "rowid"
-        << "rowlabel"
-        << "rownum"
-        << "rows"
-        << "savepoint"
-        << "select"
-        << "session"
-        << "set"
-        << "share"
-        << "size"
-        << "smallint"
-        << "some"
-        << "start"
-        << "successful"
-        << "synonym"
-        << "sysdate"
-        << "table"
-        << "then"
-        << "to"
-        << "trigger"
-        << "true"
-        << "truncate"
-        << "type"
-        << "uid"
-        << "union"
-        << "unique"
-        << "update"
-        << "user"
-        << "using"
-        << "validate"
-        << "values"
-        << "varchar"
-        << "varchar2"
-        << "varray"
-        << "view"
-        << "whenever"
-        << "where"
-        << "with";
+        for (int i = 0; reserved_words[i]; ++i) {
+            keywords.append(reserved_words[i]);
+        }
     }
 
     return keywords;

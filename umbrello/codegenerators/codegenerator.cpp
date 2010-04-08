@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,9 +13,9 @@
 #include "codegenerator.h"
 
 // app includes
-#include "dialogs/overwritedialogue.h"
-#include "dialogs/codeviewerdialog.h"
-#include "codegenerators/simplecodegenerator.h"
+#include "overwritedialogue.h"
+#include "codeviewerdialog.h"
+#include "simplecodegenerator.h"
 #include "attribute.h"
 #include "association.h"
 #include "classifier.h"
@@ -51,8 +51,8 @@
 /**
  * Constructor for a code generator.
  */
-CodeGenerator::CodeGenerator ()
-        : QObject (UMLApp::app()->getDocument())
+CodeGenerator::CodeGenerator()
+  : QObject(UMLApp::app()->getDocument())
 {
     initFields();
 }
@@ -62,17 +62,17 @@ CodeGenerator::CodeGenerator ()
  * FIX: hmm. this should be pure virtual so that implemented in sub-class.
  * @param element   an element from an XMI document
  */
-CodeGenerator::CodeGenerator (QDomElement & element )
-        : QObject (UMLApp::app()->getDocument())
+CodeGenerator::CodeGenerator(QDomElement & element)
+  : QObject(UMLApp::app()->getDocument())
 {
     initFields();
-    loadFromXMI(element); // hmm. cant call this here.. it is 'pure' virtual
+    loadFromXMI(element);  // hmm. cannot call this here.. it is 'pure' virtual
 }
 
 /**
  * Destructor.
  */
-CodeGenerator::~CodeGenerator ()
+CodeGenerator::~CodeGenerator()
 {
     // destroy all owned codedocuments
     qDeleteAll(m_codedocumentVector);
@@ -88,16 +88,17 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
     QString id = codeDoc->getID();
 
     // does this document already exist? then just return its present id
-    if (!id.isEmpty() && findCodeDocumentByID(id))
+    if (!id.isEmpty() && findCodeDocumentByID(id)) {
         return id;
+    }
 
     // approach now differs by whether or not it is a classifier code document
     ClassifierCodeDocument * classDoc = dynamic_cast<ClassifierCodeDocument*>(codeDoc);
     if (classDoc) {
         UMLClassifier *c = classDoc->getParentClassifier();
         id = ID2STR(c->getID()); // this is supposed to be unique already..
-    } else {
-
+    }
+    else {
         QString prefix = "doc";
         QString id = prefix + "_0";
         int number = lastIDIndex;
@@ -114,34 +115,37 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
  * Find a code document by the given id string.
  * @return  CodeDocument
  */
-CodeDocument * CodeGenerator::findCodeDocumentByID( const QString &tag )
+CodeDocument * CodeGenerator::findCodeDocumentByID(const QString &tag)
 {
     CodeDocument* doc = m_codeDocumentDictionary.value(tag);
-    if (doc)
+    if (doc) {
         return doc;
-    else
+    }
+    else {
         return NULL;
+    }
 }
 
 /**
  * Add a CodeDocument object to the m_codedocumentVector List.
  * @return boolean - will return false if it couldnt add a document
  */
-bool CodeGenerator::addCodeDocument ( CodeDocument * doc )
+bool CodeGenerator::addCodeDocument(CodeDocument * doc)
 {
     QString tag = doc->getID();
 
     // assign a tag if one doesn't already exist
-    if (tag.isEmpty())
-    {
+    if (tag.isEmpty()) {
         tag = getUniqueID(doc);
         doc->setID(tag);
     }
 
-    if (m_codeDocumentDictionary.contains(tag))
-        return false; // return false, we already have some object with this tag in the list
-    else
+    if (m_codeDocumentDictionary.contains(tag)) {
+        return false;  // return false, we already have some object with this tag in the list
+    }
+    else {
         m_codeDocumentDictionary.insert(tag, doc);
+    }
 
     m_codedocumentVector.append(doc);
     return true;
@@ -151,13 +155,15 @@ bool CodeGenerator::addCodeDocument ( CodeDocument * doc )
  * Remove a CodeDocument object from m_codedocumentVector List.
  * @return boolean - will return false if it couldnt remove a document
  */
-bool CodeGenerator::removeCodeDocument ( CodeDocument * remove_object )
+bool CodeGenerator::removeCodeDocument(CodeDocument * remove_object)
 {
     QString tag = remove_object->getID();
-    if (!(tag.isEmpty()))
+    if (!(tag.isEmpty())) {
         m_codeDocumentDictionary.remove(tag);
-    else
+    }
+    else {
         return false;
+    }
 
     m_codedocumentVector.removeAll(remove_object);
     return true;
@@ -168,7 +174,7 @@ bool CodeGenerator::removeCodeDocument ( CodeDocument * remove_object )
  * @return CodeDocumentList list of CodeDocument objects held by
  * m_codedocumentVector
  */
-CodeDocumentList * CodeGenerator::getCodeDocumentList ()
+CodeDocumentList * CodeGenerator::getCodeDocumentList()
 {
     return &m_codedocumentVector;
 }
@@ -178,7 +184,7 @@ CodeDocumentList * CodeGenerator::getCodeDocumentList ()
 /**
  * Get the editing dialog for this code document.
  */
-CodeViewerDialog * CodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc,
+CodeViewerDialog * CodeGenerator::getCodeViewerDialog(QWidget* parent, CodeDocument *doc,
         Settings::CodeViewerState state)
 {
     return new CodeViewerDialog(parent, doc, state);
@@ -188,30 +194,28 @@ CodeViewerDialog * CodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDoc
  * Load codegenerator data from xmi.
  * @param qElement   the element from which to load
  */
-void CodeGenerator::loadFromXMI (QDomElement & qElement )
+void CodeGenerator::loadFromXMI(QDomElement & qElement)
 {
     // look for our particular child element
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
-    QString langType = Model_Utils::progLangToString( getLanguage() );
+    QString langType = Model_Utils::progLangToString( language() );
 
     if (qElement.tagName() != "codegenerator"
-            || qElement.attribute("language", "UNKNOWN") != langType)
+            || qElement.attribute("language", "UNKNOWN") != langType) {
         return;
+    }
     // got our code generator element, now load
     // codedocuments
     QDomNode codeDocNode = qElement.firstChild();
     QDomElement codeDocElement = codeDocNode.toElement();
-    while (!codeDocElement.isNull())
-    {
+    while (!codeDocElement.isNull()) {
         QString docTag = codeDocElement.tagName();
         QString id = codeDocElement.attribute( "id", "-1" );
-        if (docTag == "sourcecode")
-        {
+        if (docTag == "sourcecode") {
             loadCodeForOperation(id, codeDocElement);
         }
-        else if (docTag == "codedocument" || docTag == "classifiercodedocument")
-        {
+        else if (docTag == "codedocument" || docTag == "classifiercodedocument") {
             CodeDocument * codeDoc = findCodeDocumentByID(id);
             if (codeDoc) {
                 codeDoc->loadFromXMI(codeDocElement);
@@ -219,7 +223,8 @@ void CodeGenerator::loadFromXMI (QDomElement & qElement )
             else {
                 uWarning() << "missing code document for id:" << id;
             }
-        } else {
+        }
+        else {
             uWarning() << "got strange codegenerator child node:" << docTag << ", ignoring.";
         }
         codeDocNode = codeDocElement.nextSibling();
@@ -235,22 +240,20 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
 {
     Uml::IDType id = STR2ID(idStr);
     UMLObject *obj = m_document->findObjectById(id);
-    if (obj)
-    {
+    if (obj) {
         uDebug() << "found UMLObject for id:" << idStr;
         QString value = codeDocElement.attribute("value", "");
 
         Uml::Object_Type t = obj->getBaseType();
-        if (t == Uml::ot_Operation)
-        {
+        if (t == Uml::ot_Operation) {
             UMLOperation *op = static_cast<UMLOperation*>(obj);
             op->setSourceCode(value);
         }
-        else
+        else {
             uError() << "sourcecode id " << idStr << " has unexpected type " << t;
+        }
     }
-    else
-    {
+    else {
         uError() << "unknown sourcecode id " << idStr;
     }
 }
@@ -258,24 +261,22 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
 /**
  * Save the XMI representation of this object
  */
-void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void CodeGenerator::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QString langType = Model_Utils::progLangToString( getLanguage() );
+    QString langType = Model_Utils::progLangToString( language() );
     QDomElement docElement = doc.createElement( "codegenerator" );
     docElement.setAttribute("language",langType);
 
-    if (dynamic_cast<SimpleCodeGenerator*>(this))
-    {
+    if (dynamic_cast<SimpleCodeGenerator*>(this)) {
         UMLClassifierList concepts = m_document->getClassesAndInterfaces();
-        foreach (UMLClassifier *c, concepts)
-        {
+        foreach (UMLClassifier *c, concepts) {
             UMLOperationList operations = c->getOpList();
-            foreach (UMLOperation *op, operations)
-            {
+            foreach (UMLOperation *op, operations) {
                 // save the source code
                 QString code = op->getSourceCode();
-                if (code.isEmpty())
+                if (code.isEmpty()) {
                     continue;
+                }
                 QDomElement codeElement = doc.createElement("sourcecode");
                 codeElement.setAttribute("id", ID2STR(op->getID()));
                 codeElement.setAttribute("value", code);
@@ -283,8 +284,7 @@ void CodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
             }
         }
     }
-    else
-    {
+    else {
         const CodeDocumentList * docList = getCodeDocumentList();
         CodeDocumentList::const_iterator it = docList->begin();
         CodeDocumentList::const_iterator end = docList->end();
@@ -316,12 +316,10 @@ void CodeGenerator::initFromParentDocument()
     // Walk through the document converting classifiers into
     // classifier code documents as needed (e.g only if doesn't exist)
     UMLClassifierList concepts = m_document->getClassesAndInterfaces();
-    foreach (UMLClassifier *c , concepts)
-    {
+    foreach (UMLClassifier *c , concepts) {
         // Doesn't exist? Then build one.
         CodeDocument * codeDoc = findCodeDocumentByClassifier(c);
-        if (!codeDoc)
-        {
+        if (!codeDoc) {
             codeDoc = newClassifierCodeDocument(c);
             addCodeDocument(codeDoc); // this will also add a unique tag to the code document
         }
@@ -333,22 +331,24 @@ void CodeGenerator::initFromParentDocument()
  * "UserGenerated" code will be preserved, but Autogenerated contents will be updated/replaced
  * or removed as is apppropriate.
  */
-void CodeGenerator::syncCodeToDocument ()
+void CodeGenerator::syncCodeToDocument()
 {
     CodeDocumentList::iterator it = m_codedocumentVector.begin();
     CodeDocumentList::iterator end = m_codedocumentVector.end();
-    for ( ; it != end; ++it )
+    for ( ; it != end; ++it ) {
         (*it)->synchronize();
+    }
 }
 
 // in this 'vanilla' version, we only worry about adding classifier
 // documents
 
 /** These 2 functions check for adding or removing objects to the UMLDocument */
-void CodeGenerator::checkAddUMLObject (UMLObject * obj)
+void CodeGenerator::checkAddUMLObject(UMLObject * obj)
 {
-    if (!obj)
+    if (!obj) {
         return;
+    }
 
     UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
     if (c) {
@@ -357,20 +357,22 @@ void CodeGenerator::checkAddUMLObject (UMLObject * obj)
     }
 }
 
-void CodeGenerator::checkRemoveUMLObject (UMLObject * obj)
+void CodeGenerator::checkRemoveUMLObject(UMLObject * obj)
 {
-    if (!obj)
+    if (!obj) {
         return;
+    }
 
     UMLClassifier * c = dynamic_cast<UMLClassifier*>(obj);
     if (c) {
         ClassifierCodeDocument * cDoc = (ClassifierCodeDocument*) findCodeDocumentByClassifier(c);
-        if (cDoc)
+        if (cDoc) {
             removeCodeDocument(cDoc);
+        }
     }
 }
 
-CodeDocument * CodeGenerator::findCodeDocumentByClassifier ( UMLClassifier * classifier )
+CodeDocument * CodeGenerator::findCodeDocumentByClassifier(UMLClassifier * classifier)
 {
     return findCodeDocumentByID(ID2STR(classifier->getID()));
 }
@@ -380,7 +382,7 @@ CodeDocument * CodeGenerator::findCodeDocumentByClassifier ( UMLClassifier * cla
  * ability to write out only those classes which
  * are selected by the user.
  */
-void CodeGenerator::writeCodeToFile ( )
+void CodeGenerator::writeCodeToFile()
 {
     writeListedCodeDocsToFile(&m_codedocumentVector);
 }
@@ -390,14 +392,15 @@ void CodeGenerator::writeCodeToFile ( )
  * ability to write out only those classes which
  * are selected by the user.
  */
-void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts)
+void CodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
 {
     CodeDocumentList docs;
 
     foreach (UMLClassifier *concept, concepts ) {
         CodeDocument * doc = findCodeDocumentByClassifier(concept);
-        if (doc)
+        if (doc) {
             docs.append(doc);
+        }
     }
 
     writeListedCodeDocsToFile(&docs);
@@ -408,7 +411,7 @@ void CodeGenerator::writeCodeToFile ( UMLClassifierList & concepts)
 /**
  * The actual internal routine which writes code documents.
  */
-void CodeGenerator::writeListedCodeDocsToFile ( CodeDocumentList * docs )
+void CodeGenerator::writeListedCodeDocsToFile(CodeDocumentList * docs)
 {
     // iterate thru all code documents
     CodeDocumentList::iterator it = docs->begin();
@@ -420,8 +423,7 @@ void CodeGenerator::writeListedCodeDocsToFile ( CodeDocumentList * docs )
         bool codeGenSuccess = false;
 
         // we only write the document, if so requested
-        if ((*it)->getWriteOutCode())
-        {
+        if ((*it)->getWriteOutCode()) {
             QString filename = findFileName(*it);
             // check that we may open that file for writing
             QFile file;
@@ -430,13 +432,15 @@ void CodeGenerator::writeListedCodeDocsToFile ( CodeDocumentList * docs )
                 stream << (*it)->toString() << endl;
                 file.close();
                 codeGenSuccess = true; // we wrote the code OK
-            } else {
+            }
+            else {
                 uWarning() << "Cannot open file :"<<filename<<" for writing ";
             }
         }
 
-        if (cdoc)
+        if (cdoc) {
             emit codeGenerated(cdoc->getParentClassifier(), codeGenSuccess);
+        }
     }
 }
 
@@ -444,9 +448,9 @@ void CodeGenerator::writeListedCodeDocsToFile ( CodeDocumentList * docs )
  * Create a new Code document belonging to this package.
  * @return CodeDocument   pointer to new code document.
  */
-CodeDocument * CodeGenerator::newCodeDocument ()
+CodeDocument * CodeGenerator::newCodeDocument()
 {
-    CodeDocument * newCodeDoc = new CodeDocument ();
+    CodeDocument * newCodeDoc = new CodeDocument();
     return newCodeDoc;
 }
 
@@ -468,7 +472,7 @@ CodeDocument * CodeGenerator::newCodeDocument ()
  * @return      QString
  * @param       file
  */
-QString CodeGenerator::getHeadingFile( const QString &file )
+QString CodeGenerator::getHeadingFile(const QString &file)
 {
     return UMLApp::app()->getCommonPolicy()->getHeadingFile(file);
 }
@@ -488,7 +492,7 @@ QString CodeGenerator::getHeadingFile( const QString &file )
  * @return the real file name that should be used (including extension) or
  *      QString() if none to be used
  */
-QString CodeGenerator::overwritableName(const QString& name, const QString &extension )
+QString CodeGenerator::overwritableName(const QString& name, const QString &extension)
 {
     CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
     QDir outputDirectory = pol->getOutputDirectory();
@@ -511,7 +515,8 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
             if ( overwriteDialog.applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Ok);
                 filename = name + extension;
-            } else {
+            }
+            else {
                 m_applyToAllRemaining = false;
             }
             break;
@@ -525,14 +530,16 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
             }
             if ( overwriteDialog.applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Never);
-            } else {
+            }
+            else {
                 m_applyToAllRemaining = false;
             }
             break;
         case KDialog::Cancel: //don't output anything
             if ( overwriteDialog.applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Cancel);
-            } else {
+            }
+            else {
                 m_applyToAllRemaining = false;
             }
             return QString();
@@ -544,8 +551,9 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
         suffix = 1;
         while (1) {
             filename = name + "__" + QString::number(suffix) + extension;
-            if (!outputDirectory.exists(filename))
+            if (!outputDirectory.exists(filename)) {
                 break;
+            }
             suffix++;
         }
         break;
@@ -565,13 +573,14 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
  * @param fileName   the name of the file
  * @return           success state
  */
-bool CodeGenerator::openFile (QFile & file, const QString &fileName )
+bool CodeGenerator::openFile(QFile & file, const QString &fileName)
 {
     //open files for writing.
     if (fileName.isEmpty()) {
         uWarning() << "cannot find a file name";
         return false;
-    } else {
+    }
+    else {
         QDir outputDirectory = UMLApp::app()->getCommonPolicy()->getOutputDirectory();
         file.setFileName(outputDirectory.absoluteFilePath(fileName));
         if(!file.open(QIODevice::WriteOnly)) {
@@ -587,7 +596,7 @@ bool CodeGenerator::openFile (QFile & file, const QString &fileName )
  * @return      QString
  * @param       name
  */
-QString CodeGenerator::cleanName ( const QString &name )
+QString CodeGenerator::cleanName(const QString &name)
 {
     QString retval = name;
     retval.replace(QRegExp("\\W+"), "_");
@@ -603,7 +612,7 @@ QString CodeGenerator::cleanName ( const QString &name )
  * @return the file name that should be used. (with extension) or
  *      NULL if none to be used
  */
-QString CodeGenerator::findFileName ( CodeDocument * codeDocument )
+QString CodeGenerator::findFileName(CodeDocument * codeDocument)
 {
     // Get the path name
     QString path = codeDocument->getPath();
@@ -614,7 +623,8 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument )
         path.replace(QRegExp("::"), "/"); // Simple hack!
         name = path + '/' + codeDocument->getFileName();
         path = '/' + path;
-    } else {  // determine the "natural" file name
+    }
+    else {  // determine the "natural" file name
         name = codeDocument->getFileName();
     }
 
@@ -627,19 +637,15 @@ QString CodeGenerator::findFileName ( CodeDocument * codeDocument )
         QDir pathDir(outputDirectory.absolutePath() + path);
 
         // does our complete output directory exist yet? if not, try to create it
-        if (!pathDir.exists())
-        {
+        if (!pathDir.exists()) {
             // ugh. dir separator here is UNIX specific..
             const QStringList dirs = pathDir.absolutePath().split('/');
             QString currentDir;
 
             QStringList::const_iterator end(dirs.end());
-            for (QStringList::const_iterator dir(dirs.begin()); dir != end; ++dir)
-            {
+            for (QStringList::const_iterator dir(dirs.begin()); dir != end; ++dir) {
                 currentDir += '/' + *dir;
-                if (! (pathDir.exists(currentDir)
-                        || pathDir.mkdir(currentDir) ) )
-                {
+                if (! (pathDir.exists(currentDir) || pathDir.mkdir(currentDir))) {
                     KMessageBox::error(0, i18n("Cannot create the folder:\n") +
                                        pathDir.absolutePath() + i18n("\nPlease check the access rights"),
                                        i18n("Cannot Create Folder"));
@@ -668,7 +674,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
     UMLPackage *temp;
     UMLAssociationList associations = c->getAssociations();
 
-    foreach (UMLAssociation *a , associations ) {
+    foreach (UMLAssociation *a , associations) {
         temp = 0;
         switch (a->getAssocType()) {
         case Uml::at_Generalization:
@@ -676,8 +682,9 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
             // only the "b" end is seen by the "a" end, not other way around
             {
                 UMLObject *objB = a->getObject(Uml::B);
-                if (objB != c)
+                if (objB != c) {
                     temp = (UMLPackage*)objB;
+                }
             }
             break;
         case Uml::at_Dependency:
@@ -685,8 +692,9 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
             {
                 UMLObject *objA = a->getObject(Uml::A);
                 UMLObject *objB = a->getObject(Uml::B);
-                if (objA == c)
+                if (objA == c) {
                     temp = static_cast<UMLPackage*>(objB);
+                }
             }
             break;
         case Uml::at_Aggregation:
@@ -695,8 +703,9 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
             {
                 UMLObject *objA = a->getObject(Uml::A);
                 UMLObject *objB = a->getObject(Uml::B);
-                if (objA == c && objB->getBaseType() != Uml::ot_Datatype)
+                if (objA == c && objB->getBaseType() != Uml::ot_Datatype) {
                     temp = static_cast<UMLPackage*>(objB);
+                }
             }
             break;
         default: /* all others.. like for state diagrams..we currently don't use */
@@ -704,24 +713,27 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         }
 
         // now add in list ONLY if it is not already there
-        if(temp  && !cList.count(temp))
+        if (temp  && !cList.count(temp)) {
             cList.append(temp);
+        }
     }
 
     //operations
     UMLOperationList opl(c->getOpList());
     foreach(UMLOperation *op , opl ) {
-        temp =0;
+        temp = 0;
         //check return value
-        temp =(UMLClassifier*) op->getType();
-        if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp) )
+        temp = (UMLClassifier*) op->getType();
+        if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp)) {
             cList.append(temp);
+        }
         //check parameters
         UMLAttributeList atl = op->getParmList();
-        foreach (UMLAttribute *at , atl ) {
+        foreach(UMLAttribute *at , atl) {
             temp = (UMLClassifier*)at->getType();
-            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp) )
+            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp)) {
                 cList.append(temp);
+            }
         }
     }
 
@@ -731,8 +743,9 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         foreach (UMLAttribute *at , atl ) {
             temp=0;
             temp = (UMLClassifier*) at->getType();
-            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp) )
+            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp)) {
                 cList.append(temp);
+            }
         }
     }
 }
@@ -763,8 +776,9 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
             output += linePrefix + input.left(index) + endLine; // add line
             input.remove(0, index + 1); // remove processed string, including white space
         }
-        if (!input.isEmpty())
+        if (!input.isEmpty()) {
             output += linePrefix + input + endLine;
+        }
     }
     return output;
 }
@@ -865,7 +879,10 @@ bool CodeGenerator::isReservedKeyword(const QString & keyword)
     return keywords.contains(keyword);
 }
 
-const QStringList CodeGenerator::reservedKeywords() const
+/**
+ * Get list of reserved keywords.
+ */
+QStringList CodeGenerator::reservedKeywords() const
 {
     static QStringList emptyList;
     return emptyList;

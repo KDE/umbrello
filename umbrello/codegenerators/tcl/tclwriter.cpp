@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2005      Rene Meyer <rene.meyer@sturmit.de>            *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,49 +32,49 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QRegExp>
 
-static const char *tclwords[] = {
-                                 "body",
-                                 "break",
-                                 "case",
-                                 "class",
-                                 "common",
-                                 "concat",
-                                 "configbody",
-                                 "constructor",
-                                 "continue",
-                                 "default",
-                                 "destructor",
-                                 "else",
-                                 "elseif",
-                                 "for",
-                                 "foreach",
-                                 "global",
-                                 "if",
-                                 "incr",
-                                 "lappend",
-                                 "lindex",
-                                 "list",
-                                 "llength",
-                                 "load",
-                                 "lrange",
-                                 "lreplace",
-                                 "method",
-                                 "namespace",
-                                 "private",
-                                 "proc",
-                                 "protected",
-                                 "public",
-                                 "return",
-                                 "set",
-                                 "source",
-                                 "switch",
-                                 "then",
-                                 "upvar",
-                                 "variable",
-                                 "virtual",
-                                 "while",
-                                 0
-                             };
+static const char *reserved_words[] = {
+    "body",
+    "break",
+    "case",
+    "class",
+    "common",
+    "concat",
+    "configbody",
+    "constructor",
+    "continue",
+    "default",
+    "destructor",
+    "else",
+    "elseif",
+    "for",
+    "foreach",
+    "global",
+    "if",
+    "incr",
+    "lappend",
+    "lindex",
+    "list",
+    "llength",
+    "load",
+    "lrange",
+    "lreplace",
+    "method",
+    "namespace",
+    "private",
+    "proc",
+    "protected",
+    "public",
+    "return",
+    "set",
+    "source",
+    "switch",
+    "then",
+    "upvar",
+    "variable",
+    "virtual",
+    "while",
+    0
+};
 
 TclWriter::TclWriter()
 {
@@ -84,8 +84,7 @@ TclWriter::~TclWriter()
 {
 }
 
-Uml::Programming_Language
-TclWriter::getLanguage()
+Uml::Programming_Language TclWriter::language() const
 {
     return Uml::pl_Tcl;
 }
@@ -232,7 +231,7 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
         foreach (UMLClassifier * superClass , c->getSuperClasses()) {
             /*
             if (superClass->getAbstract() || superClass->isInterface())
-                stream << getIndent() << "virtual ";
+                stream << indent() << "virtual ";
             */
             if (superClass->getPackage().isEmpty()) {
                 code += " ::" + cleanName(superClass->getName());
@@ -349,14 +348,14 @@ void TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
 
 void TclWriter::writeCode(const QString &text)
 {
-    *mStream << getIndent() << text << m_endl;
+    *mStream << indent() << text << m_endl;
 }
 
 void TclWriter::writeComm(const QString &text)
 {
     QStringList lines = text.split(QRegExp("\n"));
     for (int i = 0; i < lines.count(); ++i) {
-        *mStream << getIndent() << "# " << lines[i] << m_endl;
+        *mStream << indent() << "# " << lines[i] << m_endl;
     }
 }
 
@@ -364,7 +363,7 @@ void TclWriter::writeDocu(const QString &text)
 {
     QStringList lines = text.split(QRegExp("\n"));
     for (int i = 0; i < lines.count(); ++i) {
-        *mStream << getIndent() << "## " << lines[i] << m_endl;
+        *mStream << indent() << "## " << lines[i] << m_endl;
     }
 }
 
@@ -753,7 +752,7 @@ void TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility permitSc
         m_indentLevel++;
         QString sourceCode = op->getSourceCode();
         if (!sourceCode.isEmpty()) {
-            *mStream << formatSourceCode(sourceCode, getIndent());
+            *mStream << formatSourceCode(sourceCode, indent());
         }
         if (methodReturnType != "void") {
             writeCode("return " + methodReturnType);
@@ -873,15 +872,15 @@ QString TclWriter::getUMLObjectName(UMLObject * obj)
     return (obj != 0) ? obj->getName() : QString("NULL");
 }
 
-const QStringList TclWriter::reservedKeywords() const
+QStringList TclWriter::reservedKeywords() const
 {
     static QStringList keywords;
 
-    if (keywords.isEmpty())
-    {
-        for (int i = 0; tclwords[i]; ++i) {
-            keywords.append(tclwords[i]);
+    if (keywords.isEmpty()) {
+        for (int i = 0; reserved_words[i]; ++i) {
+            keywords.append(reserved_words[i]);
         }
     }
+
     return keywords;
 }

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,11 +27,169 @@
 // qt includes
 #include <QtCore/QRegExp>
 
+static const char *reserved_words[] = {
+    "abstract",
+    "AbstractMethodError",
+    "ArithmeticException",
+    "ArrayIndexOutOfBoundsException",
+    "ArrayStoreException",
+    "assert",
+    "AssertionError",
+    "auto",
+    "boolean",
+    "Boolean",
+    "break",
+    "byte",
+    "Byte",
+    "catch",
+    "char",
+    "Character",
+    "CharSequence",
+    "Class",
+    "ClassCastException",
+    "ClassCircularityError",
+    "ClassFormatError",
+    "ClassLoader",
+    "ClassNotFoundException",
+    "clone",
+    "Cloneable",
+    "CloneNotSupportedException",
+    "Comparable",
+    "Compiler",
+    "const",
+    "continue",
+    "default",
+    "delete",
+    "do",
+    "double",
+    "Double",
+    "else",
+    "enum",
+    "equals",
+    "Error",
+    "Exception",
+    "ExceptionInInitializerError",
+    "extends",
+    "extern",
+    "false",
+    "final",
+    "finalize",
+    "finally",
+    "float",
+    "Float",
+    "for",
+    "friend",
+    "getClass",
+    "goto",
+    "hashCode",
+    "if",
+    "IllegalAccessError",
+    "IllegalAccessException",
+    "IllegalArgumentException",
+    "IllegalMonitorStateException",
+    "IllegalStateException",
+    "IllegalThreadStateException",
+    "implements",
+    "import",
+    "IncompatibleClassChangeError",
+    "IndexOutOfBoundsException",
+    "InheritableThreadLocal",
+    "inline",
+    "instanceof",
+    "InstantiationError",
+    "InstantiationException",
+    "int",
+    "Integer",
+    "interface",
+    "InternalError",
+    "InterruptedException",
+    "LinkageError",
+    "long",
+    "Long",
+    "Math",
+    "native",
+    "NegativeArraySizeException",
+    "new",
+    "nextgroup=javaUserLabelRef",
+    "NoClassDefFoundError",
+    "NoSuchFieldError",
+    "NoSuchFieldException",
+    "NoSuchMethodError",
+    "NoSuchMethodException",
+    "notifyAll",
+    "null",
+    "NullPointerException",
+    "Number",
+    "NumberFormatException",
+    "Object",
+    "operator",
+    "OutOfMemoryError",
+    "package",
+    "Package",
+    "private",
+    "Process",
+    "protected",
+    "redeclared",
+    "register",
+    "return",
+    "Runnable",
+    "Runtime",
+    "RuntimeException",
+    "RuntimePermission",
+    "SecurityException",
+    "SecurityManager",
+    "serializable",
+    "short",
+    "Short",
+    "signed",
+    "sizeof",
+    "skipwhite",
+    "StackOverflowError",
+    "StackTraceElement",
+    "static",
+    "strictfp",
+    "StrictMath",
+    "String",
+    "StringBuffer",
+    "StringIndexOutOfBoundsException",
+    "struct",
+    "super",
+    "switch",
+    "synchronized",
+    "template",
+    "this",
+    "Thread",
+    "ThreadDeath",
+    "ThreadGroup",
+    "ThreadLocal",
+    "throw",
+    "Throwable",
+    "throws",
+    "toString",
+    "transient",
+    "true",
+    "try",
+    "typedef",
+    "union",
+    "UnknownError",
+    "UnsatisfiedLinuError",
+    "unsigned",
+    "UnsupportedClassVersionError",
+    "UnsupportedOperationException",
+    "VirtualMachineError",
+    "void",
+    "Void",
+    "volatile",
+    "wait",
+    "while",
+    0
+};
+
 /**
  * Constructor.
  * @param elem   the element of the DOM tree
  */
-JavaCodeGenerator::JavaCodeGenerator (QDomElement & elem)
+JavaCodeGenerator::JavaCodeGenerator(QDomElement & elem)
   : CodeGenerator(elem)
 {
     init();
@@ -40,7 +198,7 @@ JavaCodeGenerator::JavaCodeGenerator (QDomElement & elem)
 /**
  * Constructor.
  */
-JavaCodeGenerator::JavaCodeGenerator ()
+JavaCodeGenerator::JavaCodeGenerator()
 {
     init();
 }
@@ -48,7 +206,7 @@ JavaCodeGenerator::JavaCodeGenerator ()
 /**
  * Destructor.
  */
-JavaCodeGenerator::~JavaCodeGenerator ( )
+JavaCodeGenerator::~JavaCodeGenerator()
 {
 }
 
@@ -56,7 +214,7 @@ JavaCodeGenerator::~JavaCodeGenerator ( )
  * Return "Java".
  * @return programming language identifier
  */
-Uml::Programming_Language JavaCodeGenerator::getLanguage()
+Uml::Programming_Language JavaCodeGenerator::language() const
 {
     return Uml::pl_Java;
 }
@@ -65,7 +223,7 @@ Uml::Programming_Language JavaCodeGenerator::getLanguage()
  * Set the value of m_createANTBuildFile
  * @param buildIt the new value of m_createANTBuildFile
  */
-void JavaCodeGenerator::setCreateANTBuildFile ( bool buildIt)
+void JavaCodeGenerator::setCreateANTBuildFile(bool buildIt)
 {
     m_createANTBuildFile = buildIt;
     CodeDocument * antDoc = findCodeDocumentByID("ANTDOC");
@@ -77,7 +235,7 @@ void JavaCodeGenerator::setCreateANTBuildFile ( bool buildIt)
  * Get the value of m_createANTBuildFile
  * @return the value of m_createANTBuildFile
  */
-bool JavaCodeGenerator::getCreateANTBuildFile ( )
+bool JavaCodeGenerator::getCreateANTBuildFile()
 {
     return m_createANTBuildFile;
 }
@@ -86,7 +244,7 @@ bool JavaCodeGenerator::getCreateANTBuildFile ( )
  * Get the editing dialog for this code document.
  * In the Java version, we make the ANT build file also available.
  */
-CodeViewerDialog * JavaCodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc,
+CodeViewerDialog * JavaCodeGenerator::getCodeViewerDialog(QWidget* parent, CodeDocument *doc,
         Settings::CodeViewerState state)
 {
     CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
@@ -106,7 +264,7 @@ JavaCodeGenerationPolicy * JavaCodeGenerator::getJavaPolicy()
 /**
  * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAttribAccessors() value.
  */
-bool JavaCodeGenerator::getAutoGenerateAttribAccessors ( )
+bool JavaCodeGenerator::getAutoGenerateAttribAccessors()
 {
     return getJavaPolicy()->getAutoGenerateAttribAccessors ();
 }
@@ -114,7 +272,7 @@ bool JavaCodeGenerator::getAutoGenerateAttribAccessors ( )
 /**
  * A utility method to get the javaCodeGenerationPolicy()->getAutoGenerateAssocAccessors() value.
  */
-bool JavaCodeGenerator::getAutoGenerateAssocAccessors ( )
+bool JavaCodeGenerator::getAutoGenerateAssocAccessors()
 {
     return getJavaPolicy()->getAutoGenerateAssocAccessors ();
 }
@@ -122,7 +280,7 @@ bool JavaCodeGenerator::getAutoGenerateAssocAccessors ( )
 /**
  * Get the list variable class name to use. For Java, we have set this to "Vector".
  */
-QString JavaCodeGenerator::getListFieldClassName ()
+QString JavaCodeGenerator::getListFieldClassName()
 {
     return QString("Vector");
 }
@@ -147,7 +305,7 @@ QString JavaCodeGenerator::fixTypeName(const QString &string)
  * Create ANT code document.
  * @return JavaANTCodeDocument object
  */
-JavaANTCodeDocument * JavaCodeGenerator::newANTCodeDocument ( )
+JavaANTCodeDocument * JavaCodeGenerator::newANTCodeDocument()
 {
     return new JavaANTCodeDocument();
 }
@@ -157,7 +315,7 @@ JavaANTCodeDocument * JavaCodeGenerator::newANTCodeDocument ( )
  * @param classifier   the UML classifier
  * @return the created classifier code document
  */
-CodeDocument * JavaCodeGenerator::newClassifierCodeDocument ( UMLClassifier * classifier)
+CodeDocument * JavaCodeGenerator::newClassifierCodeDocument(UMLClassifier * classifier)
 {
     JavaClassifierCodeDocument * doc = new JavaClassifierCodeDocument(classifier);
     doc->initCodeClassFields();
@@ -203,168 +361,14 @@ QStringList JavaCodeGenerator::defaultDatatypes()
  * Get list of reserved keywords.
  * @return the string list of reserved keywords for Java
  */
-const QStringList JavaCodeGenerator::reservedKeywords() const
+QStringList JavaCodeGenerator::reservedKeywords() const
 {
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        keywords << "abstract"
-        << "AbstractMethodError"
-        << "ArithmeticException"
-        << "ArrayIndexOutOfBoundsException"
-        << "ArrayStoreException"
-        << "assert"
-        << "AssertionError"
-        << "auto"
-        << "boolean"
-        << "Boolean"
-        << "break"
-        << "byte"
-        << "Byte"
-        << "catch"
-        << "char"
-        << "Character"
-        << "CharSequence"
-        << "Class"
-        << "ClassCastException"
-        << "ClassCircularityError"
-        << "ClassFormatError"
-        << "ClassLoader"
-        << "ClassNotFoundException"
-        << "clone"
-        << "Cloneable"
-        << "CloneNotSupportedException"
-        << "Comparable"
-        << "Compiler"
-        << "const"
-        << "continue"
-        << "default"
-        << "delete"
-        << "do"
-        << "double"
-        << "Double"
-        << "else"
-        << "enum"
-        << "equals"
-        << "Error"
-        << "Exception"
-        << "ExceptionInInitializerError"
-        << "extends"
-        << "extern"
-        << "false"
-        << "final"
-        << "finalize"
-        << "finally"
-        << "float"
-        << "Float"
-        << "for"
-        << "friend"
-        << "getClass"
-        << "goto"
-        << "hashCode"
-        << "if"
-        << "IllegalAccessError"
-        << "IllegalAccessException"
-        << "IllegalArgumentException"
-        << "IllegalMonitorStateException"
-        << "IllegalStateException"
-        << "IllegalThreadStateException"
-        << "implements"
-        << "import"
-        << "IncompatibleClassChangeError"
-        << "IndexOutOfBoundsException"
-        << "InheritableThreadLocal"
-        << "inline"
-        << "instanceof"
-        << "InstantiationError"
-        << "InstantiationException"
-        << "int"
-        << "Integer"
-        << "interface"
-        << "InternalError"
-        << "InterruptedException"
-        << "LinkageError"
-        << "long"
-        << "Long"
-        << "Math"
-        << "native"
-        << "NegativeArraySizeException"
-        << "new"
-        << "nextgroup=javaUserLabelRef"
-        << "NoClassDefFoundError"
-        << "NoSuchFieldError"
-        << "NoSuchFieldException"
-        << "NoSuchMethodError"
-        << "NoSuchMethodException"
-        << "notify"
-        << "notifyAll"
-        << "null"
-        << "NullPointerException"
-        << "Number"
-        << "NumberFormatException"
-        << "Object"
-        << "operator"
-        << "OutOfMemoryError"
-        << "package"
-        << "Package"
-        << "private"
-        << "Process"
-        << "protected"
-        << "public"
-        << "redeclared"
-        << "register"
-        << "return"
-        << "Runnable"
-        << "Runtime"
-        << "RuntimeException"
-        << "RuntimePermission"
-        << "SecurityException"
-        << "SecurityManager"
-        << "serializable"
-        << "short"
-        << "Short"
-        << "signed"
-        << "sizeof"
-        << "skipwhite"
-        << "StackOverflowError"
-        << "StackTraceElement"
-        << "static"
-        << "strictfp"
-        << "StrictMath"
-        << "String"
-        << "StringBuffer"
-        << "StringIndexOutOfBoundsException"
-        << "struct"
-        << "super"
-        << "switch"
-        << "synchronized"
-        << "template"
-        << "this"
-        << "Thread"
-        << "ThreadDeath"
-        << "ThreadGroup"
-        << "ThreadLocal"
-        << "throw"
-        << "Throwable"
-        << "throws"
-        << "toString"
-        << "transient"
-        << "true"
-        << "try"
-        << "typedef"
-        << "union"
-        << "UnknownError"
-        << "UnsatisfiedLinuError"
-        << "unsigned"
-        << "UnsupportedClassVersionError"
-        << "UnsupportedOperationException"
-        << "VerifyError"
-        << "VirtualMachineError"
-        << "void"
-        << "Void"
-        << "volatile"
-        << "wait"
-        << "while";
+        for (int i = 0; reserved_words[i]; ++i) {
+            keywords.append(reserved_words[i]);
+        }
     }
 
     return keywords;

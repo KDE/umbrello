@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003       Alexander Blum  <blum@kewbee.de>             *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -266,12 +266,12 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
     }//end for
 }
 
-Uml::Programming_Language JSWriter::getLanguage()
+Uml::Programming_Language JSWriter::language() const
 {
     return Uml::pl_JavaScript;
 }
 
-const QStringList JSWriter::reservedKeywords() const
+QStringList JSWriter::reservedKeywords() const
 {
     static QStringList keywords;
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2008                                                *
+ *  copyright (C) 2002-2010                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -29,11 +29,17 @@ MySQLWriter::~MySQLWriter()
 {
 }
 
-Uml::Programming_Language MySQLWriter::getLanguage()
+/**
+ * Returns "MySQL".
+ */
+Uml::Programming_Language MySQLWriter::language() const
 {
     return Uml::pl_MySQL;
 }
 
+/**
+ * Reimplement method from CodeGenerator.
+ */
 QStringList MySQLWriter::defaultDatatypes()
 {
     QStringList l;
@@ -74,6 +80,9 @@ QStringList MySQLWriter::defaultDatatypes()
     return l;
 }
 
+/**
+ * Reimplemented method from SQLWriter.
+ */
 void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
     // we need to create an index on the referenced attributes before we can create a foreign key constraint in MySQL
@@ -99,6 +108,9 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
     SQLWriter::printForeignKeyConstraints( sql, constrList );
 }
 
+/**
+ * Reimplement printAutoIncrements from Base Class for MySQL
+ */
 void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttributeList entAttList)
 {
     // rules
@@ -140,6 +152,9 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttribute
     //sql<<m_endl;
 }
 
+/**
+ * Reimplemented from Base Class to print warning.
+ */
 void MySQLWriter::printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList)
 {
     sql<<m_endl;

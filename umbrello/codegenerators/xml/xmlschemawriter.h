@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <brian.thomas@gsfc.nasa.gov>     *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -58,12 +58,12 @@ public:
     /**
      * returns "XMLSchema"
      */
-    virtual Uml::Programming_Language getLanguage();
+    virtual Uml::Programming_Language language() const;
 
     /**
      * get list of reserved keywords
      */
-    virtual const QStringList reservedKeywords() const;
+    virtual QStringList reservedKeywords() const;
 
 private:
 

@@ -6,7 +6,7 @@
 
     Copyright (C) 2003       Brian Thomas
                              <brian.thomas@gsfc.nasa.gov>
-              (C) 2004-2008  Umbrello UML Modeller Authors
+              (C) 2004-2010  Umbrello UML Modeller Authors
                              <uml-devel@uml.sf.net>
 
  ***************************************************************************
@@ -58,7 +58,7 @@ public:
      * Returns "Java".
      * @return   the programming language identifier
      */
-    virtual Uml::Programming_Language getLanguage();
+    virtual Uml::Programming_Language language() const;
 
     /**
      * Overrides method from class CodeGenerator.

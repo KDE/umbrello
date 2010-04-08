@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,7 +16,7 @@
 #include <QtCore/QList>
 #include <QtCore/QDir>
 
-#include "codegenerators/codegenpolicyext.h"
+#include "codegenpolicyext.h"
 #include "codegenerationpolicy.h"
 #include "umlpackagelist.h"
 #include "umlclassifierlist.h"
@@ -68,15 +68,13 @@ class QDomElement;
 class CodeGenerator : public QObject
 {
     Q_OBJECT
-
 public:
+    CodeGenerator();
+    CodeGenerator(QDomElement & element);
 
-    CodeGenerator ();
-    CodeGenerator (QDomElement & element );
+    virtual ~CodeGenerator();
 
-    virtual ~CodeGenerator ( );
-
-    bool addCodeDocument ( CodeDocument * add_object );
+    bool addCodeDocument(CodeDocument * add_object);
 
 //    /**
 //     * Replace (or possibly add a new) CodeDocument object to the m_codedocumentVector List.
@@ -85,20 +83,20 @@ public:
 //     *    other document OR was added(no prior document existed..only when addIfPriorDocumentNotPresent is true).
 //     *    The document which was replaced will be deleted IF deleteReplacedDocument is true.
 //     */
-//    bool replaceCodeDocument (  CodeDocument * replace_doc=0, bool addIfPriorDocumentNotPresent=true,
-//                                bool deleteReplacedDocument=true );
+//    bool replaceCodeDocument(CodeDocument * replace_doc = 0, bool addIfPriorDocumentNotPresent = true,
+//                             bool deleteReplacedDocument = true);
 
-    bool removeCodeDocument ( CodeDocument * remove_object );
+    bool removeCodeDocument(CodeDocument * remove_object);
 
-    CodeDocumentList * getCodeDocumentList ( );
+    CodeDocumentList * getCodeDocumentList();
 
-    QString getUniqueID ( CodeDocument * codeDoc );
+    QString getUniqueID(CodeDocument * codeDoc);
 
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI(QDomDocument & doc, QDomElement & root);
 
-    CodeDocument * findCodeDocumentByID (const QString &id );
+    CodeDocument * findCodeDocumentByID(const QString &id);
 
-    virtual void writeCodeToFile ( );
+    virtual void writeCodeToFile();
     virtual void writeCodeToFile(UMLClassifierList &list);
 
     // these are utility methods for accessing the default
@@ -120,13 +118,13 @@ public:
     void setForceSections(bool f);
     bool forceSections() const;
 
-    virtual QString getHeadingFile (const QString &file );
+    virtual QString getHeadingFile(const QString &file);
 
     QString findFileName(CodeDocument * codeDocument);
 
-    static QString cleanName ( const QString &name );
+    static QString cleanName(const QString &name );
 
-    static QString formatDoc (const QString& text, const QString& linePrefix = " *", int lineWidth = 80 );
+    static QString formatDoc(const QString& text, const QString& linePrefix = " *", int lineWidth = 80 );
 
     static QString formatSourceCode(const QString& code, const QString& indentation);
 
@@ -136,16 +134,16 @@ public:
      * A series of accessor method constructors that we need to define
      * for any particular language.
      */
-    virtual CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier ) = 0;
+    virtual CodeDocument * newClassifierCodeDocument(UMLClassifier * classifier) = 0;
 
-    virtual void loadFromXMI (QDomElement & element );
+    virtual void loadFromXMI(QDomElement & element);
 
-    virtual CodeDocument * newCodeDocument ( );
+    virtual CodeDocument * newCodeDocument();
 
     /**
      * Return the unique language enum that identifies this type of code generator.
      */
-    virtual Uml::Programming_Language getLanguage() = 0;
+    virtual Uml::Programming_Language language() const = 0;
 
     /**
      * Find a code document by the given classifier.
@@ -154,23 +152,20 @@ public:
      */
     //FIX
     // NOTE: this should be 'protected' or we could have problems with CPP code generator
-    CodeDocument * findCodeDocumentByClassifier (UMLClassifier * classifier );
+    CodeDocument * findCodeDocumentByClassifier(UMLClassifier * classifier);
 
     virtual QStringList defaultDatatypes();
 
-    virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
+    virtual CodeViewerDialog * getCodeViewerDialog(QWidget* parent, CodeDocument * doc,
             Settings::CodeViewerState state);
 
     virtual bool isReservedKeyword(const QString & keyword);
 
-    /**
-     * Get list of reserved keywords.
-     */
-    virtual const QStringList reservedKeywords() const;
+    virtual QStringList reservedKeywords() const;
 
-    virtual void createDefaultStereotypes ();
+    virtual void createDefaultStereotypes();
 
-    virtual void initFromParentDocument( );
+    virtual void initFromParentDocument();
 
     void connect_newcodegen_slots();
 
@@ -180,11 +175,11 @@ protected:
 //     * Remove (and possibly delete) all AutoGenerated content type CodeDocuments but leave
 //     * the UserGenerated (and any other type) documents in this generator alone.
 //     */
-//    void removeAndDeleteAllAutoGeneratedCodeDocuments ( bool deleteRemovedDocs=true );
+//    void removeAndDeleteAllAutoGeneratedCodeDocuments(bool deleteRemovedDocs = true);
 
-    QString overwritableName (const QString& name, const QString &extension );
+    QString overwritableName(const QString& name, const QString &extension);
 
-    bool openFile (QFile& file, const QString &name);
+    bool openFile(QFile& file, const QString &name);
 
     void writeListedCodeDocsToFile(CodeDocumentList * docs);
 
@@ -222,10 +217,10 @@ private:
 
 public slots:
 
-    virtual void checkAddUMLObject (UMLObject * obj);
-    virtual void checkRemoveUMLObject (UMLObject * obj);
+    virtual void checkAddUMLObject(UMLObject * obj);
+    virtual void checkRemoveUMLObject(UMLObject * obj);
 
-    virtual void syncCodeToDocument ( );
+    virtual void syncCodeToDocument();
 
 signals:
 

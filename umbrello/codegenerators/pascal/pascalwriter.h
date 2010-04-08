@@ -4,7 +4,7 @@
  *  the Free Software Foundation; either version 2 of the License, or      *
  *  (at your option) any later version.                                    *
  *                                                                         *
- *  copyright (C) 2006-2008                                                *
+ *  copyright (C) 2006-2010                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -47,7 +47,7 @@ public:
      * Returns "Pascal".
      * @return   the programming language identifier
      */
-    virtual Uml::Programming_Language getLanguage();
+    virtual Uml::Programming_Language language() const;
 
     /**
      * Returns the default datatypes in a list.
@@ -66,7 +66,7 @@ public:
      * Get list of reserved keywords.
      * @return   the list of reserved keywords
      */
-    virtual const QStringList reservedKeywords() const;
+    virtual QStringList reservedKeywords() const;
 
 private:
 

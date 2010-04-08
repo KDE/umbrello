@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2009-2009                                               *
+ *   copyright (C) 2009-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,9 +34,9 @@ public:
 
     virtual void writeClass(UMLClassifier *c);
 
-    virtual Uml::Programming_Language getLanguage();
+    virtual Uml::Programming_Language language() const;
 
-    virtual const QStringList reservedKeywords() const;
+    virtual QStringList reservedKeywords() const;
 
     QStringList defaultDatatypes();
 

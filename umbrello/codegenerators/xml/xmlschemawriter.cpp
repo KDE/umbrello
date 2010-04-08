@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>          *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -41,7 +41,7 @@ XMLSchemaWriter::~XMLSchemaWriter()
 /**
  * returns "XMLSchema"
  */
-Uml::Programming_Language XMLSchemaWriter::getLanguage()
+Uml::Programming_Language XMLSchemaWriter::language() const
 {
     return Uml::pl_XMLSchema;
 }
@@ -125,7 +125,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 
     // 6. Finished: now we may close schema decl
     m_indentLevel--;
-    XMLschema<<getIndent()<<"</"<<makeSchemaTag("schema")<<">"<<m_endl; // finished.. close schema node
+    XMLschema<<indent()<<"</"<<makeSchemaTag("schema")<<">"<<m_endl; // finished.. close schema node
 
     // bookeeping for code generation
     emit codeGenerated(c, true);
@@ -143,7 +143,7 @@ void XMLSchemaWriter::writeElementDecl( const QString &elementName, const QStrin
     if(forceDoc())
         writeComment(elementName+" is the root element, declared here.", XMLschema);
 
-    XMLschema<<getIndent()<<"<"<<makeSchemaTag("element")
+    XMLschema<<indent()<<"<"<<makeSchemaTag("element")
     <<" name=\""<<elementName<<"\""
     <<" type=\""<<makePackageTag(elementTypeName)<<"\""
     <<"/>"<<m_endl;
@@ -240,10 +240,10 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
     QString elementTypeName = getElementGroupTypeName(c);
 
     // start Writing node but only if it has subclasses? Nah..right now put in empty group
-    XMLschema<<getIndent()<<"<"<<makeSchemaTag("group")<<" name=\""<<elementTypeName<<"\">"<<m_endl;
+    XMLschema<<indent()<<"<"<<makeSchemaTag("group")<<" name=\""<<elementTypeName<<"\">"<<m_endl;
     m_indentLevel++;
 
-    XMLschema<<getIndent()<<"<"<<makeSchemaTag("choice")<<">"<<m_endl;
+    XMLschema<<indent()<<"<"<<makeSchemaTag("choice")<<">"<<m_endl;
     m_indentLevel++;
 
     foreach(UMLClassifier *classifier , subclasses ) {
@@ -251,12 +251,12 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
     }
 
     m_indentLevel--;
-    XMLschema<<getIndent()<<"</"<<makeSchemaTag("choice")<<">"<<m_endl;
+    XMLschema<<indent()<<"</"<<makeSchemaTag("choice")<<">"<<m_endl;
 
     m_indentLevel--;
 
     // finish node
-    XMLschema<<getIndent()<<"</"<<makeSchemaTag("group")<<">"<<m_endl;
+    XMLschema<<indent()<<"</"<<makeSchemaTag("group")<<">"<<m_endl;
 }
 
 void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
@@ -283,7 +283,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
     // start body of element
     QString elementTypeName = getElementTypeName(c);
 
-    XMLschema<<getIndent()<<"<"<<makeSchemaTag("complexType")<<" name=\""<<elementTypeName<<"\"";
+    XMLschema<<indent()<<"<"<<makeSchemaTag("complexType")<<" name=\""<<elementTypeName<<"\"";
 
     if(hasAssociations || hasAttributes || hasSuperclass)
     {
@@ -294,11 +294,11 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
         if(hasSuperclass)
         {
             QString superClassName = getElementTypeName(superclasses.first());
-            XMLschema<<getIndent()<<"<"<<makeSchemaTag("complexContent")<<">"<<m_endl;
+            XMLschema<<indent()<<"<"<<makeSchemaTag("complexContent")<<">"<<m_endl;
 
             //PROBLEM: we only treat ONE superclass for inheritence.. bah.
             m_indentLevel++;
-            XMLschema<<getIndent()<<"<"<<makeSchemaTag("extension")<<" base=\""<<makePackageTag(superClassName)
+            XMLschema<<indent()<<"<"<<makeSchemaTag("extension")<<" base=\""<<makePackageTag(superClassName)
             <<"\"";
             if(hasAssociations || hasAttributes )
                 XMLschema<<">"<<m_endl;
@@ -319,7 +319,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
 
             if (didFirstOne) {
                 m_indentLevel--;
-                XMLschema<<getIndent()<<"</"<<makeSchemaTag("sequence")<<">"<<m_endl;
+                XMLschema<<indent()<<"</"<<makeSchemaTag("sequence")<<">"<<m_endl;
             }
         }
 
@@ -329,7 +329,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
         {
             writeAttributeDecls(attribs, XMLschema);
             for (int i= 0; i < attribGroups.count(); ++i) {
-                XMLschema<<getIndent()<<"<"<<makeSchemaTag("attributeGroup")<<" ref=\""
+                XMLschema<<indent()<<"<"<<makeSchemaTag("attributeGroup")<<" ref=\""
                 <<makePackageTag(attribGroups[i])<<"\"/>"<<m_endl;
             }
         }
@@ -339,15 +339,15 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
             m_indentLevel--;
 
             if(hasAssociations || hasAttributes )
-                XMLschema<<getIndent()<<"</"<<makeSchemaTag("extension")<<">"<<m_endl;
+                XMLschema<<indent()<<"</"<<makeSchemaTag("extension")<<">"<<m_endl;
 
             m_indentLevel--;
-            XMLschema<<getIndent()<<"</"<<makeSchemaTag("complexContent")<<">"<<m_endl;
+            XMLschema<<indent()<<"</"<<makeSchemaTag("complexContent")<<">"<<m_endl;
         }
 
         // close this element decl
         m_indentLevel--;
-        XMLschema<<getIndent()<<"</"<<makeSchemaTag("complexType")<<">"<<m_endl;
+        XMLschema<<indent()<<"</"<<makeSchemaTag("complexType")<<">"<<m_endl;
 
     } else
         XMLschema<<"/>"<<m_endl; // empty node. just close this element decl
@@ -457,7 +457,7 @@ void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLs
     if(!documentation.isEmpty())
         writeComment(documentation, XMLschema);
 
-    XMLschema<<getIndent()<<"<"<<makeSchemaTag("attribute")
+    XMLschema<<indent()<<"<"<<makeSchemaTag("attribute")
     <<" name=\""<<cleanName(attrib->getName())<<"\""
     <<" type=\""<<typeName<<"\"";
 
@@ -484,7 +484,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
         writeComment("attributes for element "+elementName,XMLschema);
 
         // open attribute group
-        XMLschema<<getIndent()<<"<"<<makeSchemaTag("attributeGroup")<<" name=\""<<elementName+"AttribGroupType"<<"\">"<<m_endl;
+        XMLschema<<indent()<<"<"<<makeSchemaTag("attributeGroup")<<" name=\""<<elementName+"AttribGroupType"<<"\">"<<m_endl;
 
         m_indentLevel++;
 
@@ -496,7 +496,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
         m_indentLevel--;
 
         // close attrib group node
-        XMLschema<<getIndent()<<"</"<<makeSchemaTag("attributeGroup")<<">"<<m_endl;
+        XMLschema<<indent()<<"</"<<makeSchemaTag("attributeGroup")<<">"<<m_endl;
     }
 }
 
@@ -505,15 +505,15 @@ void XMLSchemaWriter::writeComment( const QString &comment, QTextStream &XMLsche
     // in the case we have several line comment..
     // NOTE: this part of the method has the problem of adopting UNIX newline,
     // need to resolve for using with MAC/WinDoze eventually I assume
-    QString indent = getIndent();
-    XMLschema<<indent<<"<!-- ";
+    QString indnt = indent();
+    XMLschema<<indnt<<"<!-- ";
     if (comment.contains(QRegExp("\n"))) {
         XMLschema<<m_endl;
         QStringList lines = comment.split( '\n' );
         for (int i= 0; i < lines.count(); i++)
-            XMLschema<<indent<<"     "<<lines[i]<<m_endl;
+            XMLschema<<indnt<<"     "<<lines[i]<<m_endl;
 
-        XMLschema<<indent<<"-->"<<m_endl;
+        XMLschema<<indnt<<"-->"<<m_endl;
     } else {
         // this should be more fancy in the future, breaking it up into 80 char
         // lines so that it doesn't look too bad
@@ -554,7 +554,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             if(!didFirstOne && (printRoleA || printRoleB))
             {
                 didFirstOne = true;
-                XMLschema<<getIndent()<<"<"<<makeSchemaTag("sequence")<<">"<<m_endl;
+                XMLschema<<indent()<<"<"<<makeSchemaTag("sequence")<<">"<<m_endl;
                 m_indentLevel++;
             }
 
@@ -687,10 +687,10 @@ void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString 
     //         AND a group declaration for interfaces AND classes which are inherited from.
     //
     if ((isAbstract || isInterface ) && c->findSubClassConcepts().count() > 0)
-        XMLschema<<getIndent()<<"<"<<makeSchemaTag("group")
+        XMLschema<<indent()<<"<"<<makeSchemaTag("group")
         <<" ref=\""<<makePackageTag(getElementGroupTypeName(c))<<"\"";
     else
-        XMLschema<<getIndent()<<"<"<<makeSchemaTag("element")
+        XMLschema<<indent()<<"<"<<makeSchemaTag("element")
         <<" name=\""<<getElementName(c)<<"\""
         <<" type=\""<<makePackageTag(getElementTypeName(c))<<"\"";
 
@@ -756,7 +756,7 @@ QString XMLSchemaWriter::makeSchemaTag (QString tagName)
     return tagName;
 }
 
-const QStringList XMLSchemaWriter::reservedKeywords() const
+QStringList XMLSchemaWriter::reservedKeywords() const
 {
     static QStringList keywords;
 

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      David Hugh-Jones  <hughjonesd@yahoo.co.uk>    *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,6 +25,250 @@
 #include <QtCore/QDir>
 #include <QtCore/QDateTime>
 #include <QtCore/QTextStream>
+
+static const char *reserved_words[] = {
+    "abs",
+    "accept",
+    "alarm",
+    "and",
+    "atan2",
+    "BEGIN",
+    "bind",
+    "binmode",
+    "bless",
+    "byte",
+    "caller",
+    "carp",
+    "chdir",
+    "chmod",
+    "chomp",
+    "chop",
+    "chown",
+    "chr",
+    "chroot",
+    "close",
+    "closedir",
+    "cmp",
+    "confess",
+    "connect",
+    "continue",
+    "cos",
+    "croak",
+    "crypt",
+    "dbmclose",
+    "dbmopen",
+    "defined",
+    "delete",
+    "die",
+    "do",
+    "dump",
+    "each",
+    "else",
+    "elsif",
+    "END",
+    "endgrent",
+    "endhostent",
+    "endnetent",
+    "endprotoent",
+    "endpwent",
+    "endservent",
+    "eof",
+    "eq",
+    "eval",
+    "exec",
+    "exists",
+    "exit",
+    "exp",
+    "fcntl",
+    "fileno",
+    "flock",
+    "for",
+    "foreach",
+    "fork",
+    "format",
+    "formline",
+    "ge",
+    "getc",
+    "getgrent",
+    "getgrgid",
+    "getgrnam",
+    "gethostbyaddr",
+    "gethostbyname",
+    "gethostent",
+    "getlogin",
+    "getnetbyaddr",
+    "getnetbyname",
+    "getnetent",
+    "getpeername",
+    "getpgrp",
+    "getppid",
+    "getpriority",
+    "getprotobyname",
+    "getprotobynumber",
+    "getprotoent",
+    "getpwent",
+    "getpwnam",
+    "getpwuid",
+    "getservbyname",
+    "getservbyport",
+    "getservent",
+    "getsockname",
+    "getsockopt",
+    "glob",
+    "gmtime",
+    "goto",
+    "grep",
+    "gt",
+    "hex",
+    "if",
+    "import",
+    "index",
+    "int",
+    "integer",
+    "ioctl",
+    "join",
+    "keys",
+    "kill",
+    "last",
+    "lc",
+    "lcfirst",
+    "le",
+    "length",
+    "lib",
+    "link",
+    "listen",
+    "local",
+    "localtime",
+    "lock",
+    "log",
+    "lstat",
+    "lt",
+    "map",
+    "mkdir",
+    "msgctl",
+    "msgget",
+    "msgrcv",
+    "msgsnd",
+    "my",
+    "ne",
+    "new",
+    "next",
+    "no",
+    "not",
+    "oct",
+    "open",
+    "opendir",
+    "or",
+    "ord",
+    "our",
+    "pack",
+    "package",
+    "pipe",
+    "pop",
+    "pos",
+    "print",
+    "printf",
+    "prototype",
+    "push",
+    "quotemeta",
+    "rand",
+    "read",
+    "readdir",
+    "readline",
+    "readlink",
+    "readpipe",
+    "recv",
+    "redo",
+    "ref",
+    "rename",
+    "require",
+    "reset",
+    "return",
+    "reverse",
+    "rewinddir",
+    "rindex",
+    "rmdir",
+    "scalar",
+    "seek",
+    "seekdir",
+    "select",
+    "semctl",
+    "semget",
+    "semop",
+    "send",
+    "setgrent",
+    "sethostent",
+    "setnetent",
+    "setpgrp",
+    "setpriority",
+    "setprotoent",
+    "setpwent",
+    "setservent",
+    "setsockopt",
+    "shift",
+    "shmctl",
+    "shmget",
+    "shmread",
+    "shmwrite",
+    "shutdown",
+    "sigtrap",
+    "sin",
+    "sleep",
+    "socket",
+    "socketpair",
+    "sort",
+    "splice",
+    "split",
+    "sprintf",
+    "sqrt",
+    "srand",
+    "stat",
+    "strict",
+    "study",
+    "sub",
+    "subs",
+    "substr",
+    "switch",
+    "symlink",
+    "syscall",
+    "sysopen",
+    "sysread",
+    "sysseek",
+    "system",
+    "syswrite",
+    "tell",
+    "telldir",
+    "tie",
+    "tied",
+    "time",
+    "times",
+    "truncate",
+    "uc",
+    "ucfirst",
+    "umask",
+    "undef",
+    "unless",
+    "unlink",
+    "unpack",
+    "unshift",
+    "untie",
+    "until",
+    "use",
+    "utf8",
+    "utime",
+    "values",
+    "vars",
+    "vec",
+    "wait",
+    "waitpid",
+    "wantarray",
+    "warn",
+    "warnings",
+    "while",
+    "write",
+    "xor",
+    0
+};
 
 PerlWriter::PerlWriter()
 {
@@ -190,7 +434,7 @@ void PerlWriter::writeClass(UMLClassifier *c)
       }
     }
 
-    perl<<str<<m_endl;
+    perl << str << m_endl;
   }
 
   // if the package wasn't declared above during keyword substitution,
@@ -248,7 +492,7 @@ void PerlWriter::writeClass(UMLClassifier *c)
   emit codeGenerated(c, true);
 }
 
-Uml::Programming_Language PerlWriter::getLanguage()
+Uml::Programming_Language PerlWriter::language() const
 {
     return Uml::pl_Perl;
 }
@@ -325,8 +569,9 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
     perl << m_endl << m_endl;
 }
 
-void PerlWriter::writeOperations(const QString &/* classname */, UMLOperationList &opList, QTextStream &perl)
+void PerlWriter::writeOperations(const QString &classname, UMLOperationList &opList, QTextStream &perl)
 {
+    Q_UNUSED(classname);
     foreach (UMLOperation* op , opList ) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
@@ -451,251 +696,14 @@ QStringList PerlWriter::defaultDatatypes()
     return l;
 }
 
-const QStringList PerlWriter::reservedKeywords() const
+QStringList PerlWriter::reservedKeywords() const
 {
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        keywords << "abs"
-        << "accept"
-        << "alarm"
-        << "and"
-        << "atan2"
-        << "BEGIN"
-        << "bind"
-        << "binmode"
-        << "bless"
-        << "byte"
-        << "caller"
-        << "carp"
-        << "chdir"
-        << "chmod"
-        << "chomp"
-        << "chop"
-        << "chown"
-        << "chr"
-        << "chroot"
-        << "close"
-        << "closedir"
-        << "cmp"
-        << "confess"
-        << "connect"
-        << "continue"
-        << "cos"
-        << "croak"
-        << "crypt"
-        << "dbmclose"
-        << "dbmopen"
-        << "defined"
-        << "delete"
-        << "die"
-        << "do"
-        << "dump"
-        << "each"
-        << "else"
-        << "elsif"
-        << "END"
-        << "endgrent"
-        << "endhostent"
-        << "endnetent"
-        << "endprotoent"
-        << "endpwent"
-        << "endservent"
-        << "eof"
-        << "eq"
-        << "eval"
-        << "exec"
-        << "exists"
-        << "exit"
-        << "exp"
-        << "fcntl"
-        << "fileno"
-        << "flock"
-        << "for"
-        << "foreach"
-        << "fork"
-        << "format"
-        << "formline"
-        << "ge"
-        << "getc"
-        << "getgrent"
-        << "getgrgid"
-        << "getgrnam"
-        << "gethostbyaddr"
-        << "gethostbyname"
-        << "gethostent"
-        << "getlogin"
-        << "getnetbyaddr"
-        << "getnetbyname"
-        << "getnetent"
-        << "getpeername"
-        << "getpgrp"
-        << "getppid"
-        << "getpriority"
-        << "getprotobyname"
-        << "getprotobynumber"
-        << "getprotoent"
-        << "getpwent"
-        << "getpwnam"
-        << "getpwuid"
-        << "getservbyname"
-        << "getservbyport"
-        << "getservent"
-        << "getsockname"
-        << "getsockopt"
-        << "glob"
-        << "gmtime"
-        << "goto"
-        << "grep"
-        << "gt"
-        << "hex"
-        << "if"
-        << "import"
-        << "index"
-        << "int"
-        << "integer"
-        << "ioctl"
-        << "join"
-        << "keys"
-        << "kill"
-        << "last"
-        << "lc"
-        << "lcfirst"
-        << "le"
-        << "length"
-        << "lib"
-        << "link"
-        << "listen"
-        << "local"
-        << "localtime"
-        << "lock"
-        << "log"
-        << "lstat"
-        << "lt"
-        << "map"
-        << "mkdir"
-        << "msgctl"
-        << "msgget"
-        << "msgrcv"
-        << "msgsnd"
-        << "my"
-        << "ne"
-        << "new"
-        << "next"
-        << "no"
-        << "not"
-        << "oct"
-        << "open"
-        << "opendir"
-        << "or"
-        << "ord"
-        << "our"
-        << "pack"
-        << "package"
-        << "pipe"
-        << "pop"
-        << "pos"
-        << "print"
-        << "printf"
-        << "prototype"
-        << "push"
-        << "quotemeta"
-        << "rand"
-        << "read"
-        << "readdir"
-        << "readline"
-        << "readlink"
-        << "readpipe"
-        << "recv"
-        << "redo"
-        << "ref"
-        << "rename"
-        << "require"
-        << "reset"
-        << "return"
-        << "reverse"
-        << "rewinddir"
-        << "rindex"
-        << "rmdir"
-        << "scalar"
-        << "seek"
-        << "seekdir"
-        << "select"
-        << "semctl"
-        << "semget"
-        << "semop"
-        << "send"
-        << "setgrent"
-        << "sethostent"
-        << "setnetent"
-        << "setpgrp"
-        << "setpriority"
-        << "setprotoent"
-        << "setpwent"
-        << "setservent"
-        << "setsockopt"
-        << "shift"
-        << "shmctl"
-        << "shmget"
-        << "shmread"
-        << "shmwrite"
-        << "shutdown"
-        << "sigtrap"
-        << "sin"
-        << "sleep"
-        << "socket"
-        << "socketpair"
-        << "sort"
-        << "splice"
-        << "split"
-        << "sprintf"
-        << "sqrt"
-        << "srand"
-        << "stat"
-        << "strict"
-        << "study"
-        << "sub"
-        << "subs"
-        << "substr"
-        << "switch"
-        << "symlink"
-        << "syscall"
-        << "sysopen"
-        << "sysread"
-        << "sysseek"
-        << "system"
-        << "syswrite"
-        << "tell"
-        << "telldir"
-        << "tie"
-        << "tied"
-        << "time"
-        << "times"
-        << "truncate"
-        << "uc"
-        << "ucfirst"
-        << "umask"
-        << "undef"
-        << "unless"
-        << "unlink"
-        << "unpack"
-        << "unshift"
-        << "untie"
-        << "until"
-        << "use"
-        << "utf8"
-        << "utime"
-        << "values"
-        << "vars"
-        << "vec"
-        << "wait"
-        << "waitpid"
-        << "wantarray"
-        << "warn"
-        << "warnings"
-        << "while"
-        << "write"
-        << "xor";
+        for (int i = 0; reserved_words[i]; ++i) {
+            keywords.append(reserved_words[i]);
+        }
     }
 
     return keywords;

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -42,7 +42,7 @@ DWriter::~DWriter()
 {
 }
 
-Uml::Programming_Language DWriter::getLanguage()
+Uml::Programming_Language DWriter::language() const
 {
     return Uml::pl_D;
 }
