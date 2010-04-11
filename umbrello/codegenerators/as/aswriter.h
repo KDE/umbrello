@@ -1,18 +1,12 @@
 /***************************************************************************
-                          aswriter.h  -  description
-                             -------------------
-    begin                : Sat Feb 08 2003
-    copyright            : (C) 2003 by Alexander Blum
-    email                : blum@kewbee.de
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2003      Alexander Blum <blum@kewbee.de>               *
+ *   copyright (C) 2004-2010                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ASWRITER_H
@@ -36,24 +30,11 @@ public:
     ASWriter();
     virtual ~ASWriter();
 
-    /**
-     * Call this method to generate Actionscript code for a UMLClassifier.
-     * @param c   the class you want to generate code for
-     */
     virtual void writeClass(UMLClassifier *c);
 
-    /**
-     * Returns "ActionScript".
-     * @return   the programming language identifier
-     */
-    virtual Uml::Programming_Language getLanguage();
+    virtual Uml::Programming_Language language() const;
 
-    /**
-     * Get list of reserved keywords.
-     * @return   the list of reserved keywords
-     */
-    virtual const QStringList reservedKeywords() const;
-
+    virtual QStringList reservedKeywords() const;
 
 private:
 
@@ -62,22 +43,7 @@ private:
      */
     bool bPrivateSectionCommentIsWritten;
 
-    /**
-     * Write a list of class operations.
-     *
-     * @param classname   the name of the class
-     * @param opList      the list of operations
-     * @param as          output stream for the AS file
-     */
     void writeOperations(QString classname, UMLOperationList *opList, QTextStream &as);
-
-    /**
-     * Write a list of associations.
-     *
-     * @param classname   the name of the class
-     * @param assocList   the list of associations
-     * @param as          output stream for the AS file
-     */
     void writeAssociation(QString& classname, UMLAssociationList& assoclist , QTextStream &as);
 
 };

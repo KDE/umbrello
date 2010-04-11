@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -42,7 +42,7 @@ PascalWriter::~PascalWriter()
 {
 }
 
-Uml::Programming_Language PascalWriter::getLanguage()
+Uml::Programming_Language PascalWriter::language() const
 {
     return Uml::pl_Pascal;
 }
@@ -187,11 +187,11 @@ void PascalWriter::writeClass(UMLClassifier *c)
         UMLEnum *ue = static_cast<UMLEnum*>(c);
         UMLClassifierListItemList litList = ue->getFilteredList(Uml::ot_EnumLiteral);
         uint i = 0;
-        pas << getIndent() << classname << " = (" << m_endl;
+        pas << indent() << classname << " = (" << m_endl;
         m_indentLevel++;
         foreach (UMLClassifierListItem *lit , litList ) {
             QString enumLiteral = cleanName(lit->getName());
-            pas << getIndent() << enumLiteral;
+            pas << indent() << enumLiteral;
             if (++i < ( uint )litList.count())
                 pas << "," << m_endl;
         }
@@ -205,16 +205,16 @@ void PascalWriter::writeClass(UMLClassifier *c)
     if (! isOOClass(c)) {
         QString stype = c->getStereotype();
         if (stype == "CORBAConstant") {
-            pas << getIndent() << "// " << stype << " is Not Yet Implemented" << m_endl << m_endl;
+            pas << indent() << "// " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else if(stype == "CORBAStruct") {
             if (isClass) {
 
-                pas << getIndent() << classname << " = record" << m_endl;
+                pas << indent() << classname << " = record" << m_endl;
                 m_indentLevel++;
                 foreach (UMLAttribute* at , atl ) {
                     QString name = cleanName(at->getName());
                     QString typeName = at->getTypeName();
-                    pas << getIndent() << name << " : " << typeName;
+                    pas << indent() << name << " : " << typeName;
                     QString initialVal = at->getInitialValue();
                     if (!initialVal.isEmpty())
                         pas << " := " << initialVal;
@@ -224,14 +224,14 @@ void PascalWriter::writeClass(UMLClassifier *c)
                 pas << "end;" << m_endl << m_endl;
             }
         } else if(stype == "CORBAUnion") {
-            pas << getIndent() << "// " << stype << " is Not Yet Implemented" << m_endl << m_endl;
+            pas << indent() << "// " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else if(stype == "CORBATypedef") {
-            pas << getIndent() << "// " << stype << " is Not Yet Implemented" << m_endl << m_endl;
+            pas << indent() << "// " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else {
-            pas << getIndent() << "// " << stype << ": Unknown stereotype" << m_endl << m_endl;
+            pas << indent() << "// " << stype << ": Unknown stereotype" << m_endl << m_endl;
         }
         m_indentLevel--;
-        pas << getIndent() << "end." << m_endl << m_endl;
+        pas << indent() << "end." << m_endl << m_endl;
         return;
     }
 
@@ -245,7 +245,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
 
     UMLClassifierList superclasses = c->getSuperClasses();
 
-    pas << getIndent() << classname << " = object";
+    pas << indent() << classname << " = object";
     if (!superclasses.isEmpty()) {
         // FIXME: Multiple inheritance is not yet supported
         UMLClassifier* parent = superclasses.first();
@@ -255,12 +255,12 @@ void PascalWriter::writeClass(UMLClassifier *c)
 
     UMLAttributeList atpub = c->getAttributeList(Uml::Visibility::Public);
     if (isClass && (forceSections() || atpub.count())) {
-        pas << getIndent() << "// Public attributes:" << m_endl;
+        pas << indent() << "// Public attributes:" << m_endl;
 
         foreach ( UMLAttribute* at  , atpub ) {
             // if (at->getStatic())
             //     continue;
-            pas << getIndent() << cleanName(at->getName()) << " : "
+            pas << indent() << cleanName(at->getName()) << " : "
                 << at->getTypeName();
             if (at && !at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
@@ -278,7 +278,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
-        pas << getIndent() << "// Public methods:" << m_endl << m_endl;
+        pas << indent() << "// Public methods:" << m_endl << m_endl;
     foreach (UMLOperation* op , oppub )
         writeOperation(op, pas);
 
@@ -289,7 +289,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
         foreach (UMLAttribute*  at , atprot ) {
             // if (at->getStatic())
             //     continue;
-            pas << getIndent() << cleanName(at->getName()) << " : "
+            pas << indent() << cleanName(at->getName()) << " : "
                 << at->getTypeName();
             if (at && !at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
@@ -305,7 +305,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
         foreach (UMLAttribute* at , atpriv ) {
             // if (at->getStatic())
             //     continue;
-            pas << getIndent() << cleanName(at->getName()) << " : "
+            pas << indent() << cleanName(at->getName()) << " : "
                 << at->getTypeName();
             if (at && !at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
@@ -313,9 +313,9 @@ void PascalWriter::writeClass(UMLClassifier *c)
         }
         pas << m_endl;
     }
-    pas << getIndent() << "end;" << m_endl << m_endl;
+    pas << indent() << "end;" << m_endl << m_endl;
 
-    pas << getIndent() << "P" << classname << " = ^" << classname <<";" << m_endl << m_endl;
+    pas << indent() << "P" << classname << " = ^" << classname <<";" << m_endl << m_endl;
 
     m_indentLevel--;
     pas << "end;" << m_endl << m_endl;
@@ -333,7 +333,7 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
     QString rettype = op->getTypeName();
     bool use_procedure = (rettype.isEmpty() || rettype == "void");
 
-    pas << getIndent();
+    pas << indent();
     if (is_comment)
         pas << "// ";
     if (use_procedure)
@@ -346,7 +346,7 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
         uint i = 0;
         m_indentLevel++;
         foreach (UMLAttribute *at , atl ) {
-            pas << getIndent();
+            pas << indent();
             if (is_comment)
                 pas << "// ";
             pas << cleanName(at->getName()) << " : ";
@@ -373,11 +373,11 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
     }
     else {
         pas << m_endl;
-        pas << getIndent() << "begin" << m_endl;
+        pas << indent() << "begin" << m_endl;
         m_indentLevel++;
-        pas << formatSourceCode(sourceCode, getIndent());
+        pas << formatSourceCode(sourceCode, indent());
         m_indentLevel--;
-        pas << getIndent() << "end;" << m_endl << m_endl;
+        pas << indent() << "end;" << m_endl << m_endl;
     }
 }
 
@@ -412,7 +412,7 @@ QStringList PascalWriter::defaultDatatypes()
 
 /**
  * Check whether the given string is a reserved word for the
- * language of this code generator
+ * language of this code generator.
  *
  * @param rPossiblyReservedKeyword  The string to check.
  */
@@ -429,9 +429,9 @@ bool PascalWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword)
 }
 
 /**
- * get list of reserved keywords
+ * Get list of reserved keywords.
  */
-const QStringList PascalWriter::reservedKeywords() const
+QStringList PascalWriter::reservedKeywords() const
 {
     static QStringList keywords;
 

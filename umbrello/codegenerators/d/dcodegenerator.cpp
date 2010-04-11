@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2009                                               *
+ *   copyright (C) 2008-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -54,7 +54,7 @@ DCodeGenerator::~DCodeGenerator()
  * Return our language.
  * @return language identifier
  */
-Uml::Programming_Language DCodeGenerator::getLanguage()
+Uml::Programming_Language DCodeGenerator::language() const
 {
     return Uml::pl_D;
 }
@@ -194,7 +194,7 @@ QStringList DCodeGenerator::defaultDatatypes()
  * Get list of reserved keywords.
  * @return the list of reserved keywords
  */
-const QStringList DCodeGenerator::reservedKeywords() const
+QStringList DCodeGenerator::reservedKeywords() const
 {
     static QStringList keywords;
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -1902,7 +1902,7 @@ CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl)
     // does the code generator already exist?
     // then simply return that
     if (m_codegen) {
-        if (m_codegen->getLanguage() == pl) {
+        if (m_codegen->language() == pl) {
             return m_codegen;
         }
         delete m_codegen;  // ATTENTION! remove all refs to it or its policy first
@@ -2242,7 +2242,7 @@ void UMLApp::slotImportClasses()
     // because the user might decide to choose a language different from
     // the active language (by using the "All Files" option).
     QString preselectedExtension;
-    const Uml::Programming_Language pl = m_codegen->getLanguage();
+    const Uml::Programming_Language pl = m_codegen->language();
     if (pl == Uml::pl_IDL) {
         preselectedExtension = i18n("*.idl|IDL Files (*.idl)");
     } else if (pl == Uml::pl_Python) {
@@ -2269,7 +2269,7 @@ void UMLApp::slotImportProject()
 {
     QStringList listFile;
 
-    QPointer<ImportProjectDlg> importDlg = new ImportProjectDlg(&listFile, m_codegen->getLanguage(), this);
+    QPointer<ImportProjectDlg> importDlg = new ImportProjectDlg(&listFile, m_codegen->language(), this);
     if (importDlg->exec() == KDialog::Accepted) {
         importFiles(&listFile);
     }

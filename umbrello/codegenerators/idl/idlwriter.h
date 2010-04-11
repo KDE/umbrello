@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003                                                    *
  *   Oliver Kellogg <okellogg@users.sourceforge.net>                       *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -41,14 +41,14 @@ public:
     /**
      * Returns "IDL".
      */
-    virtual Uml::Programming_Language getLanguage();
+    virtual Uml::Programming_Language language() const;
 
     QStringList defaultDatatypes();
 
     /**
      * Get list of reserved keywords.
      */
-    virtual const QStringList reservedKeywords() const;
+    virtual QStringList reservedKeywords() const;
 
 private:
 

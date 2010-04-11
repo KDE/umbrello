@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,21 +27,12 @@ public:
     PostgreSQLWriter();
     virtual ~PostgreSQLWriter();
 
-    /**
-     * returns "PostgreSQL"
-     */
-    Uml::Programming_Language getLanguage();
+    Uml::Programming_Language language() const;
 
-    /**
-     * Reimplement method from CodeGenerator.
-     */
     QStringList defaultDatatypes();
 
 protected:
 
-    /**
-     * Reimplement printAutoIncrement statements from Base Class for PostgreSQL
-     */
     void printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList);
 
 };

@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -378,12 +378,12 @@ void RubyWriter::writeSingleAttributeAccessorMethods(
     return;
 }
 
-Uml::Programming_Language RubyWriter::getLanguage()
+Uml::Programming_Language RubyWriter::language() const
 {
     return Uml::pl_Ruby;
 }
 
-const QStringList RubyWriter::reservedKeywords() const
+QStringList RubyWriter::reservedKeywords() const
 {
     static QStringList keywords;
 

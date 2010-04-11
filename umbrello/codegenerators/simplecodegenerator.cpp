@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +13,7 @@
 #include "simplecodegenerator.h"
 
 // app includes
-#include "dialogs/overwritedialogue.h"
+#include "overwritedialogue.h"
 #include "model_utils.h"
 #include "attribute.h"
 #include "umloperationlist.h"
@@ -43,7 +43,7 @@
 /**
  * Constructor.
  */
-SimpleCodeGenerator::SimpleCodeGenerator (bool createDirHierarchyForPackages)
+SimpleCodeGenerator::SimpleCodeGenerator(bool createDirHierarchyForPackages)
 {
     m_indentLevel = 0;
     UMLDoc * parentDoc = UMLApp::app()->getDocument();
@@ -55,7 +55,7 @@ SimpleCodeGenerator::SimpleCodeGenerator (bool createDirHierarchyForPackages)
 /**
  * Destructor.
  */
-SimpleCodeGenerator::~SimpleCodeGenerator ()
+SimpleCodeGenerator::~SimpleCodeGenerator()
 {
 }
 
@@ -63,7 +63,7 @@ SimpleCodeGenerator::~SimpleCodeGenerator ()
  * Returns the current indent string based on m_indentLevel and m_indentation.
  * @return indentation string
  */
-QString SimpleCodeGenerator::getIndent ()
+QString SimpleCodeGenerator::indent()
 {
     QString myIndent;
     for (int i = 0 ; i < m_indentLevel; ++i) {
@@ -267,7 +267,7 @@ CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* cla
 /**
  * Write all concepts in project to file.
  */
-void SimpleCodeGenerator::writeCodeToFile ( )
+void SimpleCodeGenerator::writeCodeToFile()
 {
     m_fileMap.clear(); // need to do this, else just keep getting same directory to write to.
     UMLClassifierList concepts = m_doc->getClassesAndInterfaces();
@@ -281,7 +281,7 @@ void SimpleCodeGenerator::writeCodeToFile ( )
  * Write only selected concepts to file.
  * @param concepts   the selected concepts
  */
-void SimpleCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts)
+void SimpleCodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
 {
     m_fileMap.clear(); // ??
     foreach (UMLClassifier* c, concepts ) {
@@ -293,7 +293,7 @@ void SimpleCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts)
  * Initialization of fields.
  * @param parentDoc   the parent document
  */
-void SimpleCodeGenerator::initFields ( UMLDoc * parentDoc )
+void SimpleCodeGenerator::initFields(UMLDoc * parentDoc)
 {
     // load Classifier documents from parent document
     // initFromParentDocument();
@@ -322,7 +322,7 @@ void SimpleCodeGenerator::syncCodeToDocument()
 /**
  * Override parent method.
  */
-void SimpleCodeGenerator::initFromParentDocument( )
+void SimpleCodeGenerator::initFromParentDocument()
 {
     // do nothing
 }

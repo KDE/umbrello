@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Nikolaus Gradwohl  <guru@local-guru.net>      *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -43,7 +43,7 @@ public:
     /**
      * Returns "SQL".
      */
-    virtual Uml::Programming_Language getLanguage();
+    virtual Uml::Programming_Language language() const;
 
     /**
      * Reimplement method from CodeGenerator.
@@ -53,7 +53,7 @@ public:
     /**
      * Get list of reserved keywords.
      */
-    virtual const QStringList reservedKeywords() const;
+    virtual QStringList reservedKeywords() const;
 
 protected:
 

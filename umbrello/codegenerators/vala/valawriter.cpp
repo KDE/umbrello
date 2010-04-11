@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2009-2009                                               *
+ *   copyright (C) 2009-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -833,7 +833,7 @@ QString ValaWriter::makeLocalTypeName(UMLClassifierListItem *cl)
  * Returns "Vala".
  * @return programming language id
  */
-Uml::Programming_Language ValaWriter::getLanguage()
+Uml::Programming_Language ValaWriter::language() const
 {
     return Uml::pl_Vala;
 }
@@ -842,7 +842,7 @@ Uml::Programming_Language ValaWriter::getLanguage()
  * Get list of reserved keywords.
  * @return list of reserved keywords
  */
-const QStringList ValaWriter::reservedKeywords() const
+QStringList ValaWriter::reservedKeywords() const
 {
     static QStringList keywords;
 

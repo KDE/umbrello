@@ -6,7 +6,7 @@
 
     Copyright (C) 2003       Brian Thomas
                              <brian.thomas@gsfc.nasa.gov>
-              (C) 2004-2008  Umbrello UML Modeller Authors
+              (C) 2004-2010  Umbrello UML Modeller Authors
                              <uml-devel@uml.sf.net>
 
  ***************************************************************************
@@ -45,7 +45,7 @@ JavaWriter::~JavaWriter()
 {
 }
 
-Uml::Programming_Language JavaWriter::getLanguage()
+Uml::Programming_Language JavaWriter::language() const
 {
     return Uml::pl_Java;
 }

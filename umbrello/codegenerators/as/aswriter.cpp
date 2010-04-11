@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Alexander Blum <blum@kewbee.de>               *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,10 +30,13 @@ ASWriter::~ASWriter()
 {
 }
 
+/**
+ * Call this method to generate Actionscript code for a UMLClassifier.
+ * @param c   the class you want to generate code for
+ */
 void ASWriter::writeClass(UMLClassifier *c)
 {
-    if (!c)
-    {
+    if (!c) {
         uDebug()<<"Cannot write class of NULL concept!";
         return;
     }
@@ -152,7 +155,6 @@ void ASWriter::writeClass(UMLClassifier *c)
     {
         as <<  m_endl << m_indentation << "/**Aggregations: */" << m_endl;
         writeAssociation(classname, aggregations , as );
-
     }
 
     if (forceSections() || !compositions.isEmpty())
@@ -215,7 +217,13 @@ void ASWriter::writeClass(UMLClassifier *c)
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
-
+/**
+ * Write a list of associations.
+ *
+ * @param classname   the name of the class
+ * @param assocList   the list of associations
+ * @param as          output stream for the AS file
+ */
 void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocList , QTextStream &as )
 {
     foreach (UMLAssociation *a , assocList )
@@ -265,6 +273,13 @@ void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
     }
 }
 
+/**
+ * Write a list of class operations.
+ *
+ * @param classname   the name of the class
+ * @param opList      the list of operations
+ * @param as          output stream for the AS file
+ */
 void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &as)
 {
     UMLAttributeList atl;
@@ -313,12 +328,20 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
     }//end for
 }
 
-Uml::Programming_Language ASWriter::getLanguage()
+/**
+ * Returns "ActionScript".
+ * @return   the programming language identifier
+ */
+Uml::Programming_Language ASWriter::language() const
 {
     return Uml::pl_ActionScript;
 }
 
-const QStringList ASWriter::reservedKeywords() const
+/**
+ * Get list of reserved keywords.
+ * @return   the list of reserved keywords
+ */
+QStringList ASWriter::reservedKeywords() const
 {
     static QStringList keywords;
 

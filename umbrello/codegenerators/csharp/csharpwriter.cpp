@@ -4,13 +4,10 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007-2008                                               *
+ *   copyright (C) 2007-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-//
-// C++ Implementation: csharpwriter
-//
 #include "csharpwriter.h"
 
 #include "association.h"
@@ -116,6 +113,9 @@ CSharpWriter::~CSharpWriter()
 {
 }
 
+/**
+ * Get list of predefined data types.
+ */
 QStringList CSharpWriter::defaultDatatypes()
 {
     QStringList l;
@@ -140,6 +140,10 @@ QStringList CSharpWriter::defaultDatatypes()
     return l;
 }
 
+/**
+ * Call this method to generate Php code for a UMLClassifier
+ * @param c the class you want to generate code for.
+ */
 void CSharpWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
@@ -313,6 +317,11 @@ void CSharpWriter::writeClass(UMLClassifier *c)
 ////////////////////////////////////////////////////////////////////////////////////
 //  Helper Methods
 
+/**
+ * Write all operations for a given class.
+ * @param c the concept we are generating code for
+ * @param cs output stream
+ */
 void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
 {
     //Lists to store operations  sorted by scope
@@ -377,6 +386,11 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
 
 }
 
+/**
+ * Write superclasses' abstract methods.
+ * @param superclasses List of superclasses to start recursing on
+ * @param cs output stream
+ */
 void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTextStream &cs)
 {
     // oplist for implemented abstract operations
@@ -408,6 +422,12 @@ void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTex
     }
 }
 
+/**
+ * Write realizations of a class and recurse to parent classes.
+ * @param currentClass class to start with
+ * @param realizations realizations of this class
+ * @param cs output stream
+ */
 void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAssociationList *realizations, QTextStream &cs)
 {
     for (UMLAssociationListIt alit(*realizations); alit.hasNext(); ) {
@@ -436,6 +456,14 @@ void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAs
     }
 }
 
+/**
+ * Write a list of class operations.
+ * @param opList the list of operations
+ * @param cs output stream
+ * @param interface indicates if the operation is an interface member
+ * @param isOverride implementation of an inherited abstract function
+ * @param generateErrorStub flag whether an exception should be thrown
+ */
 void CSharpWriter::writeOperations(UMLOperationList opList,
                                  QTextStream &cs, bool isInterface /* = false */,
                                  bool isOverride /* = false */,
@@ -543,6 +571,11 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
     }
 }
 
+/**
+ * Write all the attributes of a class.
+ * @param c the class we are generating code for
+ * @param cs output stream
+ */
 void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
 {
     UMLAttributeList  atpub, atprot, atpriv, atdefval;
@@ -591,6 +624,11 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
 
 }
 
+/**
+ * Write a list of class attributes.
+ * @param atList the list of attributes
+ * @param cs output stream
+ */
 void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
 {
     foreach (UMLAttribute* at, atList ) {
@@ -607,6 +645,12 @@ void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
     return;
 }
 
+/**
+ * Write attributes from associated objects (compositions, aggregations).
+ * @param associated list of associated objects
+ * @param c currently written class, to see association direction
+ * @param cs output stream
+ */
 void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs)
 {
     foreach (UMLAssociation *a,  associated ) {
@@ -638,6 +682,17 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
     }
 }
 
+/**
+ * Write a single attribute to the output stream.
+ * @param doc attribute documentation
+ * @param visibility attribute visibility
+ * @param isStatic static attribute
+ * @param typeName class/type of the attribute
+ * @param name name of the attribute
+ * @param initialValue initial value given to the attribute at declaration
+ * @param asProperty true writes as property (get/set), false writes single line variable
+ * @param cs output stream
+ */
 void CSharpWriter::writeAttribute(const QString& doc,
                                   Uml::Visibility visibility,
                                   bool isStatic,
@@ -691,6 +746,10 @@ void CSharpWriter::writeAttribute(const QString& doc,
     cs << ";" << m_endl << m_endl;
 }
 
+/**
+ * Find the type in used namespaces, if namespace found return short name, complete otherwise.
+ * @param at Operation or Attribute to check type
+ */
 QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl)
 {
     UMLPackage *p = cl->getType()->getUMLPackage();
@@ -703,12 +762,18 @@ QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl)
 
 }
 
-Uml::Programming_Language CSharpWriter::getLanguage()
+/**
+ * Returns "C#".
+ */
+Uml::Programming_Language CSharpWriter::language() const
 {
     return Uml::pl_CSharp;
 }
 
-const QStringList CSharpWriter::reservedKeywords() const
+/**
+ * Get list of reserved keywords.
+ */
+QStringList CSharpWriter::reservedKeywords() const
 {
     static QStringList keywords;
 

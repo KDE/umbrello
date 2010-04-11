@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -41,7 +41,7 @@ public:
     bool addHeaderCodeDocument ( CPPHeaderCodeDocument * doc );
     bool removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove_object );
 
-    Uml::Programming_Language getLanguage();
+    Uml::Programming_Language language() const;
 
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
     CPPHeaderCodeDocument * newHeaderClassifierCodeDocument (UMLClassifier * classifier);
@@ -56,7 +56,7 @@ public:
 
     virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
 
-    virtual const QStringList reservedKeywords() const;
+    virtual QStringList reservedKeywords() const;
 
     virtual void createDefaultStereotypes ();
 

@@ -1,16 +1,12 @@
 /***************************************************************************
- *                        adawriter.cpp  -  description                    *
- *                           -------------------                           *
- *  Based on javawriter.cpp by Luis De la Parra Blum                       *
- *  copyright            : (C) 2002 by Oliver Kellogg                      *
- *    (C) 2003-2007 Umbrello UML Modeller Authors <uml-devel@uml.sf.net>   *
- ***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
+ *   copyright (C) 2002    Oliver Kellogg <okellogg@users.sourceforge.net> *
+ *   copyright (C) 2003-2010                                               *
+ *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "adawriter.h"
@@ -39,22 +35,32 @@
 
 const QString AdaWriter::defaultPackageSuffix = "_Holder";
 
+/**
+ * Basic Constructor
+ */
 AdaWriter::AdaWriter()
 {
 }
 
+/**
+ * Empty Destructor
+ */
 AdaWriter::~AdaWriter()
 {
 }
 
 /**
- * returns "Ada"
+ * Returns "Ada".
+ * @return   the programming language identifier
  */
-Uml::Programming_Language AdaWriter::getLanguage() 
+Uml::Programming_Language AdaWriter::language() const
 {
     return Uml::pl_Ada;
 }
 
+/**
+ * ...
+ */
 bool AdaWriter::isOOClass(UMLClassifier *c)
 {
     Uml::Object_Type ot = c->getBaseType();
@@ -75,6 +81,9 @@ bool AdaWriter::isOOClass(UMLClassifier *c)
     return true;
 }
 
+/**
+ * Returns the class name.
+ */
 QString AdaWriter::className(UMLClassifier *c, bool inOwnScope)
 {
     // If the class has an enclosing package then it is assumed that
@@ -96,6 +105,9 @@ QString AdaWriter::className(UMLClassifier *c, bool inOwnScope)
     return retval;
 }
 
+/**
+ * Returns the package name.
+ */
 QString AdaWriter::packageName(UMLPackage *p)
 {
     // If the class has an enclosing package then it is assumed that
@@ -120,6 +132,14 @@ QString AdaWriter::packageName(UMLPackage *p)
     return retval;
 }
 
+/**
+ * Compute the type and role name from the given association.
+ *
+ * @param c         The UMLClassifier for which code is being generated.
+ * @param a         The UMLAssociation to analyze.
+ * @param typeName  Return value: type name.
+ * @param roleName  Return value: role name.
+ */
 void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
                                         UMLAssociation *a,
                                         QString& typeName, QString& roleName)
@@ -153,6 +173,10 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
         typeName.append("_Ptr");
 }
 
+/**
+ * Call this method to generate Ada code for a UMLClassifier.
+ * @param c the class to generate code for
+ */
 void AdaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
@@ -204,27 +228,27 @@ void AdaWriter::writeClass(UMLClassifier *c)
     // Generate generic formals.
     UMLTemplateList template_params = c->getTemplateList();
     if (template_params.count()) {
-        ada << getIndent() << "generic" << m_endl;
+        ada << indent() << "generic" << m_endl;
         m_indentLevel++;
         foreach (UMLTemplate* t, template_params ) {
             QString formalName = t->getName();
             QString typeName = t->getTypeName();
             if (typeName == "class") {
-                ada << getIndent() << "type " << formalName << " is tagged private;"
+                ada << indent() << "type " << formalName << " is tagged private;"
                 << m_endl;
             } else {
                 // Check whether it's a data type.
                 UMLClassifier *typeObj = t->getType();
                 if (typeObj == NULL) {
                     uError() << "template_param " << typeName << ": typeObj is NULL";
-                    ada << getIndent() << "type " << formalName << " is new " << typeName
+                    ada << indent() << "type " << formalName << " is new " << typeName
                     << " with private;  -- CHECK: codegen error"
                     << m_endl;
                 } else if (typeObj->getBaseType() == Uml::ot_Datatype) {
-                    ada << getIndent() << formalName << " : " << typeName << ";"
+                    ada << indent() << formalName << " : " << typeName << ";"
                     << m_endl;
                 } else {
-                    ada << getIndent() << "type " << typeName << " is new "
+                    ada << indent() << "type " << typeName << " is new "
                     << formalName << " with private;" << m_endl;
                 }
             }
@@ -234,56 +258,56 @@ void AdaWriter::writeClass(UMLClassifier *c)
 
     // Here comes the package proper.
     QString pkg = packageName(c);
-    ada << getIndent() << "package " << pkg << " is" << m_endl << m_endl;
+    ada << indent() << "package " << pkg << " is" << m_endl << m_endl;
     m_indentLevel++;
     if (c->getBaseType() == Uml::ot_Enum) {
         UMLEnum *ue = static_cast<UMLEnum*>(c);
         UMLClassifierListItemList litList = ue->getFilteredList(Uml::ot_EnumLiteral);
         uint i = 0;
-        ada << getIndent() << "type " << classname << " is (" << m_endl;
+        ada << indent() << "type " << classname << " is (" << m_endl;
         m_indentLevel++;
         foreach (UMLClassifierListItem* lit, litList ) {
             QString enumLiteral = cleanName(lit->getName());
-            ada << getIndent() << enumLiteral;
+            ada << indent() << enumLiteral;
             if (++i < ( uint )litList.count())
                 ada << "," << m_endl;
         }
         m_indentLevel--;
         ada << ");" << m_endl << m_endl;
         m_indentLevel--;
-        ada << getIndent() << "end " << pkg << ";" << m_endl << m_endl;
+        ada << indent() << "end " << pkg << ";" << m_endl << m_endl;
         return;
     }
     if (! isOOClass(c)) {
         QString stype = c->getStereotype();
         if (stype == "CORBAConstant") {
-            ada << getIndent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
+            ada << indent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else if(stype == "CORBAStruct") {
             if (isClass) {
                 UMLAttributeList atl = c->getAttributeList();
-                ada << getIndent() << "type " << classname << " is record" << m_endl;
+                ada << indent() << "type " << classname << " is record" << m_endl;
                 m_indentLevel++;
                 foreach (UMLAttribute* at,  atl ) {
                     QString name = cleanName(at->getName());
                     QString typeName = at->getTypeName();
-                    ada << getIndent() << name << " : " << typeName;
+                    ada << indent() << name << " : " << typeName;
                     QString initialVal = at->getInitialValue();
                     if (! initialVal.isEmpty() && ! initialVal.toLatin1().isEmpty())
                         ada << " := " << initialVal;
                     ada << ";" << m_endl;
                 }
                 m_indentLevel--;
-                ada << getIndent() << "end record;" << m_endl << m_endl;
+                ada << indent() << "end record;" << m_endl << m_endl;
             }
         } else if(stype == "CORBAUnion") {
-            ada << getIndent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
+            ada << indent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else if(stype == "CORBATypedef") {
-            ada << getIndent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
+            ada << indent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else {
-            ada << getIndent() << "-- " << stype << ": Unknown stereotype" << m_endl << m_endl;
+            ada << indent() << "-- " << stype << ": Unknown stereotype" << m_endl << m_endl;
         }
         m_indentLevel--;
-        ada << getIndent() << "end " << pkg << ";" << m_endl << m_endl;
+        ada << indent() << "end " << pkg << ";" << m_endl << m_endl;
         return;
     }
 
@@ -298,7 +322,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     UMLClassifierList superclasses = c->getSuperClasses();
 
     const QString name = className(c);
-    ada << getIndent() << "type " << name << " is ";
+    ada << indent() << "type " << name << " is ";
     if (c->getAbstract())
         ada << "abstract ";
     if (superclasses.isEmpty()) {
@@ -309,9 +333,9 @@ void AdaWriter::writeClass(UMLClassifier *c)
         ada << "new " << className(parent, false) << " with ";
     }
     ada << "private;" << m_endl << m_endl;
-    ada << getIndent() << "type " << name << "_Ptr is access all " << name << "'Class;" << m_endl << m_endl;
-    ada << getIndent() << "type " << name << "_Array is array (Positive range <>) of " << name << "_Ptr;" << m_endl << m_endl;
-    ada << getIndent() << "type " << name << "_Array_Ptr is access " << name << "_Array;" << m_endl << m_endl;
+    ada << indent() << "type " << name << "_Ptr is access all " << name << "'Class;" << m_endl << m_endl;
+    ada << indent() << "type " << name << "_Array is array (Positive range <>) of " << name << "_Ptr;" << m_endl << m_endl;
+    ada << indent() << "type " << name << "_Array_Ptr is access " << name << "_Array;" << m_endl << m_endl;
 
     // Generate accessors for public attributes.
     UMLAttributeList atl;
@@ -325,15 +349,15 @@ void AdaWriter::writeClass(UMLClassifier *c)
                 atpub.append(at);
         }
         if (forceSections() || atpub.count())
-            ada << getIndent() << "-- Accessors for public attributes:" << m_endl << m_endl;
+            ada << indent() << "-- Accessors for public attributes:" << m_endl << m_endl;
 
         foreach (UMLAttribute* at, atpub ) {
             QString member = cleanName(at->getName());
-            ada << getIndent() << "procedure Set_" << member << " (";
+            ada << indent() << "procedure Set_" << member << " (";
             if (! at->getStatic())
                 ada << "Self : access " << name << "; ";
             ada << "To : " << at->getTypeName() << ");" << m_endl;
-            ada << getIndent() << "function  Get_" << member;
+            ada << indent() << "function  Get_" << member;
             if (! at->getStatic())
                 ada << " (Self : access " << name << ")";
             ada << " return " << at->getTypeName() << ";" << m_endl
@@ -349,20 +373,20 @@ void AdaWriter::writeClass(UMLClassifier *c)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
-        ada << getIndent() << "-- Public methods:" << m_endl << m_endl;
+        ada << indent() << "-- Public methods:" << m_endl << m_endl;
 
     foreach (UMLOperation* op, oppub ) {
         writeOperation(op, ada);
     }
 
     m_indentLevel--;
-    ada << getIndent() << "private" << m_endl << m_endl;
+    ada << indent() << "private" << m_endl << m_endl;
     m_indentLevel++;
 
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
 
-    ada << getIndent() << "type " << name << " is ";
+    ada << indent() << "type " << name << " is ";
     if (c->getAbstract())
         ada << "abstract ";
     if (superclasses.isEmpty()) {
@@ -376,34 +400,34 @@ void AdaWriter::writeClass(UMLClassifier *c)
     m_indentLevel++;
 
     if (forceSections() || !aggregations.isEmpty()) {
-        ada << getIndent() << "-- Aggregations:" << m_endl;
+        ada << indent() << "-- Aggregations:" << m_endl;
         foreach (UMLAssociation *a , aggregations) {
             if (c != a->getObject(Uml::A))
                 continue;
             QString typeName, roleName;
             computeAssocTypeAndRole(c, a, typeName, roleName);
-            ada << getIndent() << roleName << " : " << typeName << ";" << m_endl;
+            ada << indent() << roleName << " : " << typeName << ";" << m_endl;
         }
         ada << endl;
     }
     if (forceSections() || !compositions.isEmpty()) {
-        ada << getIndent() << "-- Compositions:" << m_endl;
+        ada << indent() << "-- Compositions:" << m_endl;
         foreach (UMLAssociation *a , compositions ) {
             if (c != a->getObject(Uml::A))
                 continue;
             QString typeName, roleName;
             computeAssocTypeAndRole(c, a, typeName, roleName);
-            ada << getIndent() << roleName << " : " << typeName << ";" << m_endl;
+            ada << indent() << roleName << " : " << typeName << ";" << m_endl;
         }
         ada << endl;
     }
 
     if (isClass && (forceSections() || atl.count())) {
-        ada << getIndent() << "-- Attributes:" << m_endl;
+        ada << indent() << "-- Attributes:" << m_endl;
         foreach (UMLAttribute* at, atl ) {
             if (at->getStatic())
                 continue;
-            ada << getIndent() << cleanName(at->getName()) << " : "
+            ada << indent() << cleanName(at->getName()) << " : "
             << at->getTypeName();
             if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty())
                 ada << " := " << at->getInitialValue();
@@ -412,19 +436,19 @@ void AdaWriter::writeClass(UMLClassifier *c)
     }
     bool haveAttrs = (isClass && atl.count());
     if (aggregations.isEmpty() && compositions.isEmpty() && !haveAttrs)
-        ada << getIndent() << "null;" << m_endl;
+        ada << indent() << "null;" << m_endl;
     m_indentLevel--;
-    ada << getIndent() << "end record;" << m_endl << m_endl;
+    ada << indent() << "end record;" << m_endl << m_endl;
     if (haveAttrs) {
         bool seen_static_attr = false;
         foreach (UMLAttribute* at, atl ) {
             if (! at->getStatic())
                 continue;
             if (! seen_static_attr) {
-                ada << getIndent() << "-- Static attributes:" << m_endl;
+                ada << indent() << "-- Static attributes:" << m_endl;
                 seen_static_attr = true;
             }
-            ada << getIndent();
+            ada << indent();
             if (at->getVisibility() == Uml::Visibility::Private)
                 ada << "-- Private:  ";
             ada << cleanName(at->getName()) << " : " << at->getTypeName();
@@ -442,7 +466,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
             opprot.append(op);
     }
     if (forceSections() || opprot.count())
-        ada << getIndent() << "-- Protected methods:" << m_endl << m_endl;
+        ada << indent() << "-- Protected methods:" << m_endl << m_endl;
     foreach (UMLOperation* op, opprot ) {
         writeOperation(op, ada);
     }
@@ -461,25 +485,30 @@ void AdaWriter::writeClass(UMLClassifier *c)
         oppriv.append(op);
     }
     if (forceSections() || oppriv.count())
-        ada << getIndent() << "-- Private methods:" << m_endl << m_endl;
+        ada << indent() << "-- Private methods:" << m_endl << m_endl;
     foreach (UMLOperation* op, oppriv ) {
         writeOperation(op, ada, true);
     }
 
     m_indentLevel--;
-    ada << getIndent() << "end " << pkg << ";" << m_endl << m_endl;
+    ada << indent() << "end " << pkg << ";" << m_endl << m_endl;
     file.close();
     emit codeGenerated(c, true);
 }
 
-
+/**
+ * Write one operation.
+ * @param op          the class for which we are generating code
+ * @param ada         the stream associated with the output file
+ * @param is_comment  flag for a comment
+ */
 void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comment)
 {
     UMLAttributeList atl = op->getParmList();
     QString rettype = op->getTypeName();
     bool use_procedure = (rettype.isEmpty() || rettype == "void");
 
-    ada << getIndent();
+    ada << indent();
     if (is_comment)
         ada << "-- ";
     if (use_procedure)
@@ -499,7 +528,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
         uint i = 0;
         m_indentLevel++;
         foreach (UMLAttribute* at, atl ) {
-            ada << getIndent();
+            ada << indent();
             if (is_comment)
                 ada << "-- ";
             ada << cleanName(at->getName()) << " : ";
@@ -527,6 +556,9 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
     ada << ";" << m_endl << m_endl;
 }
 
+/**
+ * Returns the default datatypes.
+ */
 QStringList AdaWriter::defaultDatatypes()
 {
     QStringList l;
@@ -564,9 +596,10 @@ bool AdaWriter::isReservedKeyword(const QString & rPossiblyReservedKeyword)
 }
 
 /**
- * get list of reserved keywords
+ * Get list of reserved keywords.
+ * @return   the list of reserved keywords
  */
-const QStringList AdaWriter::reservedKeywords() const
+QStringList AdaWriter::reservedKeywords() const
 {
     static QStringList keywords;
 

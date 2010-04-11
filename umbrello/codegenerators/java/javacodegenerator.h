@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,34 +29,34 @@ class JavaCodeGenerator : public CodeGenerator
     Q_OBJECT
 public:
 
-    JavaCodeGenerator ();
-    JavaCodeGenerator (QDomElement & element);
+    JavaCodeGenerator();
+    JavaCodeGenerator(QDomElement & element);
 
-    virtual ~JavaCodeGenerator ( );
+    virtual ~JavaCodeGenerator();
 
-    void setCreateANTBuildFile ( bool buildIt );
-    bool getCreateANTBuildFile ( );
+    void setCreateANTBuildFile(bool buildIt);
+    bool getCreateANTBuildFile();
 
-    bool getAutoGenerateAttribAccessors( );
+    bool getAutoGenerateAttribAccessors();
 
-    bool getAutoGenerateAssocAccessors( );
+    bool getAutoGenerateAssocAccessors();
 
     static QString getListFieldClassName();
 
-    virtual CodeViewerDialog * getCodeViewerDialog( QWidget* parent, CodeDocument * doc,
+    virtual CodeViewerDialog * getCodeViewerDialog(QWidget* parent, CodeDocument * doc,
             Settings::CodeViewerState state);
 
     JavaCodeGenerationPolicy * getJavaPolicy();
 
-    CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
+    CodeDocument * newClassifierCodeDocument(UMLClassifier * classifier);
 
-    Uml::Programming_Language getLanguage();
+    Uml::Programming_Language language() const;
 
     virtual QStringList defaultDatatypes();
 
     static QString fixTypeName(const QString &string);
 
-    virtual const QStringList reservedKeywords() const;
+    virtual QStringList reservedKeywords() const;
 
 protected:
 
@@ -66,7 +66,7 @@ protected:
 //     */
 //    CodeBlockWithComments * createClassDecl ( UMLClassifier *c, JavaClassifierCodeDocument * doc);
 
-    JavaANTCodeDocument * newANTCodeDocument ( );
+    JavaANTCodeDocument * newANTCodeDocument();
 
 private:
 
