@@ -1,5 +1,7 @@
 project(umbrello)
 
+kde4_no_enable_final( umbrello )
+
 # search packages used by KDE
 set(QT_MIN_VERSION "4.6.0")
 find_package(Qt4 REQUIRED)
