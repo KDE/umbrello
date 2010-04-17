@@ -1,6 +1,5 @@
 project(umbrello)
 
-kde4_no_enable_final( umbrello )
 
 # search packages used by KDE
 set(QT_MIN_VERSION "4.6.0")
@@ -24,6 +23,8 @@ find_package(Boost REQUIRED)
 
 add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS} -DQT3_SUPPORT)
 include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${KDE4_INCLUDES} )
+
+kde4_no_enable_final( umbrello )
 
 add_subdirectory(umbrello)
 
