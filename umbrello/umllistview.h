@@ -16,7 +16,7 @@
 #include <QtGui/QTreeWidget>
 #include <QtGui/QTreeWidgetItem>
 
-#include <k3listview.h>
+#include <QTreeWidget>
 
 #include "umlnamespace.h"
 #include "umllistviewitemlist.h"
@@ -47,7 +47,7 @@ class UMLDragData;
  * @author Paul Hensgen    <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLListView : public K3ListView
+class UMLListView : public QTreeWidget
 {
     Q_OBJECT
 public:
@@ -58,11 +58,16 @@ public:
     void setDocument(UMLDoc * doc);
 
     void init();
+    void clean();
 
     void setView(UMLView* view);
 
+    void setTitle(int column, const QString &text);
     int getSelectedItems(UMLListViewItemList &ItemList);
     int getSelectedItemsRoot(UMLListViewItemList &ItemList);
+
+    void startUpdate();
+    void endUpdate(); 
 
     UMLListViewItem* createDiagramItem(UMLView *view);
 
@@ -98,8 +103,11 @@ public:
 
     bool isUnique( UMLListViewItem * item, const QString &name );
 
-    void cancelRename( Q3ListViewItem * item );
+    void startRename( UMLListViewItem * item );
+    void cancelRename( UMLListViewItem * item );
+    void endRename( UMLListViewItem * item );
 
+    void setSelected(UMLListViewItem * item, bool state) { setItemSelected((QTreeWidgetItem*)item,state);  }
     void setStartedCut(bool startedCut);
     void setStartedCopy(bool startedCopy);
     bool startedCopy() const;
@@ -107,7 +115,7 @@ public:
     UMLListViewItem * moveObject(Uml::IDType srcId, Uml::ListView_Type srcType,
                                  UMLListViewItem *newParent);
 
-    bool itemRenamed(Q3ListViewItem* item , int col);
+    bool itemRenamed(UMLListViewItem* item , int col);
 
     void closeDatatypesFolder();
 
@@ -139,10 +147,10 @@ protected:
     bool m_bCreatingChildObject;
 
     bool eventFilter(QObject *o, QEvent *e);
-    void contentsMouseReleaseEvent(QMouseEvent * me);
-    void contentsMousePressEvent(QMouseEvent *me);
-    void contentsMouseMoveEvent(QMouseEvent* me);
-    void contentsMouseDoubleClickEvent(QMouseEvent * me);
+    void mouseReleaseEvent(QMouseEvent * me);
+    void mousePressEvent(QMouseEvent *me);
+    void mouseMoveEvent(QMouseEvent* me);
+    void mouseDoubleClickEvent(QMouseEvent * me);
     void focusOutEvent ( QFocusEvent * fe);
 
     UMLDragData* getDragData();
@@ -157,7 +165,7 @@ protected:
 
     static bool isExpandable(Uml::ListView_Type lvt);
 
-    void deleteChildrenOf( Q3ListViewItem *parent );
+    void deleteChildrenOf( UMLListViewItem *parent );
 
     bool deleteItem( UMLListViewItem *temp );
 
@@ -182,15 +190,19 @@ public slots:
 
     void popupMenuSel(QAction* action);
 
-    void slotDropped(QDropEvent* de, Q3ListViewItem* parent, Q3ListViewItem* item);
+    void slotDropped(QDropEvent* de, UMLListViewItem* parent, UMLListViewItem* item);
 
-    void slotExpanded(Q3ListViewItem* item);
-    void slotCollapsed(Q3ListViewItem* item);
+    void slotExpanded(UMLListViewItem* item);
+    void slotCollapsed(UMLListViewItem* item);
 
-    void expandAll(Q3ListViewItem *item);
-    void collapseAll(Q3ListViewItem *item);
+    void expandAll(UMLListViewItem *item);
+    void collapseAll(UMLListViewItem *item);
 
     void slotCutSuccessful();
+
+protected slots:
+    void slotItemChanged(QTreeWidgetItem *, int);
+    void slotItemSelectionChanged();
 
 private:
 
@@ -200,7 +212,7 @@ private:
     void setBackgroundColor(const QColor & color);
 
     QPoint m_dragStartPosition;
-
+    UMLListViewItem* m_editItem;
 };
 
 #endif

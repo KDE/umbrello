@@ -318,7 +318,7 @@ void UMLDoc::closeDocument()
 
     UMLListView *listView = UMLApp::app()->getListView();
     if (listView) {
-        listView->init();
+        listView->clean();
         // store old setting - for restore of last setting
         bool m_bLoading_old = m_bLoading;
         m_bLoading = true; // This is to prevent document becoming modified.
@@ -1870,7 +1870,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
                 }
                 m_Name = element.attribute( "name", i18n("UML Model") );
                 UMLListView *lv = UMLApp::app()->getListView();
-                lv->setColumnText(0, m_Name);
+                lv->setTitle(0, m_Name);
                 seen_UMLObjects = true;
             } else if (tagEq(tag, "Package") ||
                        tagEq(tag, "Class") ||

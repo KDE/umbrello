@@ -113,7 +113,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
                 foreach (UMLObject* o, objects ) {
                     UMLListViewItem *item = listView->findUMLObject(o);
                     if(item) {
-                        listView->setSelected(item, true);
+                        listView->setCurrentItem(item);
                     }
                 }
             }
@@ -302,12 +302,9 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* item, bool & withDiagra
         m_ViewList.append( view );
     } else if ( Model_Utils::typeIsFolder(type) ) {
         onlyAttsOps = false;
-        if(item->childCount()) {
-            child = (UMLListViewItem*)item->firstChild();
-            while(child) {
-                checkItemForCopyType(child, withDiagrams, withObjects, onlyAttsOps);
-                child = (UMLListViewItem*)child->nextSibling();
-            }
+        for (int i =0; i < item->childCount(); i++) {
+            child = (UMLListViewItem*)item->child(i);
+            checkItemForCopyType(child, withDiagrams, withObjects, onlyAttsOps);
         }
     }
 }
@@ -321,11 +318,10 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* item, bool & withDiagra
 bool UMLClipboard::insertItemChildren(UMLListViewItem * item, UMLListViewItemList& selectedItems)
 {
     if(item->childCount()) {
-        UMLListViewItem * child = (UMLListViewItem*)item->firstChild();
-        int type;
-        while(child) {
+        for(int i = 0; i < item->childCount(); i++) {
+            UMLListViewItem * child = (UMLListViewItem*)item->child(i);
             m_ItemList.append(child);
-            type = child->getType();
+            int type = child->getType();
             if(type == Uml::lvt_Actor || type == Uml::lvt_UseCase || type == Uml::lvt_Class) {
                 m_ObjectList.append(child->getUMLObject());
             }
@@ -335,7 +331,6 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * item, UMLListViewItemLis
                 selectedItems.removeAll(child);
             }
             insertItemChildren(child, selectedItems);
-            child = (UMLListViewItem*)child->nextSibling();
         }
     }
     return true;
@@ -355,15 +350,14 @@ bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog)
     }
     UMLDoc *doc = UMLApp::app()->getDocument();
     UMLListView *listView = UMLApp::app()->getListView();
-    UMLListViewItem *childItem = static_cast<UMLListViewItem*>(parent->firstChild());
-    while (childItem) {
+    for (int i = 0; i < parent->childCount(); i++) {
+        UMLListViewItem *childItem = static_cast<UMLListViewItem*>(parent->child(i));
         Uml::IDType oldID = childItem->getID();
         Uml::IDType newID = chgLog->findNewID(oldID);
         UMLListViewItem *shouldNotExist = listView->findItem(newID);
         if (shouldNotExist) {
             uError() << "new list view item " << ID2STR(newID)
                 << " already exists (internal error)";
-            childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
             continue;
         }
         UMLObject *newObj = doc->findObjectById(newID);
@@ -375,7 +369,6 @@ bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog)
         } else {
             uDebug() << "no UMLObject found for lvitem " << ID2STR(newID);
         }
-        childItem = static_cast<UMLListViewItem*>(childItem->nextSibling());
     }
     return true;
 }
@@ -463,18 +456,22 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
     }
 
     UMLListView *listView = UMLApp::app()->getListView();
+    listView->startUpdate();
 
     foreach ( UMLListViewItem* itemdata, itemdatalist ) {
         UMLListViewItem* item = listView->createItem(*itemdata, *idchanges);
         if(!item) {
+            listView->endUpdate();
             return false;
         }
         if(itemdata->childCount()) {
             if(!pasteChildren(item, idchanges)) {
+                listView->endUpdate();
                 return false;
             }
         }
     }
+    listView->endUpdate();
 
     return result;
 }
@@ -501,14 +498,17 @@ bool UMLClipboard::pasteClip3(const QMimeData* data)
         return false;
     }
 
+    listView->startUpdate();
     foreach ( UMLListViewItem* itemdata, itemdatalist ) {
         UMLListViewItem* item = listView->createItem(*itemdata, *idchanges);
         if(itemdata->childCount()) {
             if(!pasteChildren(item, idchanges)) {
+                listView->endUpdate();
                 return false;
             }
         }
     }
+    listView->endUpdate();
 
     return result;
 }
@@ -770,13 +770,10 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
  */
 bool UMLClipboard::insertItemChildren( UMLListViewItem * item )
 {
-    if( item->childCount() ) {
-        UMLListViewItem * child =dynamic_cast<UMLListViewItem *>( item->firstChild() );
-        while( child ) {
-            m_ItemList.append( child );
-            insertItemChildren( child );
-            child = dynamic_cast<UMLListViewItem *>( child->nextSibling() );
-        }
+    for (int i = 0; i < item->childCount(); i++) {
+        UMLListViewItem * child =dynamic_cast<UMLListViewItem *>( item->child(i) );
+        m_ItemList.append( child );
+        insertItemChildren( child );
     }
     return true;
 }

@@ -1034,11 +1034,13 @@ void UMLApp::slotFileOpen()
                  "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
                  "*.mdl|Rose model files"), this, i18n("Open File"));
         if (!url.isEmpty()) {
+            m_listView->setSortingEnabled(false);
             if (m_doc->openDocument(url)) {
                 fileOpenRecent->addUrl( url );
             }
             enablePrint(true);
             setCaption(m_doc->url().fileName(), false);
+            m_listView->setSortingEnabled(true);
         }
     }
     slotUpdateViews();
