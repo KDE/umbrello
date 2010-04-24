@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas  <brian.thomas@gsfc.nasa.gov>         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,7 +15,7 @@
 #include <QtCore/QString>
 #include <QtCore/QList>
 #include <QtGui/QLabel>
-//#include <QtGui/QTextEdit>
+//#include <QtGui/QPlainTextEdit>
 #include <q3textedit.h>
 #include <q3popupmenu.h>
 

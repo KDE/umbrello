@@ -28,7 +28,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
-#include <Q3ValueList>
 #include <QTextStream>
 
 class DefaultSourceProvider: public SourceProvider
@@ -182,13 +181,13 @@ QMap< QString, Dependence >& Driver::findOrInsertDependenceList( const QString &
     return m_dependences[ fileName ];
 }
 
-Q3ValueList < Problem >& Driver::findOrInsertProblemList( const QString & fileName )
+QList < Problem >& Driver::findOrInsertProblemList( const QString & fileName )
 {
-    QMap<QString, Q3ValueList<Problem> >::Iterator it = m_problems.find( fileName );
+    QMap<QString, QList<Problem> >::Iterator it = m_problems.find( fileName );
     if( it != m_problems.end() )
         return it.value();
 
-    Q3ValueList<Problem> l;
+    QList<Problem> l;
     m_problems.insert( fileName, l );
     return m_problems[ fileName ];
 }
@@ -204,12 +203,12 @@ QMap< QString, Dependence > Driver::dependences( const QString & fileName ) cons
 Driver::MacroMap const& Driver::MacroManager::macros() const
 {return m_macros;}
 
-Q3ValueList < Problem > Driver::problems( const QString & fileName ) const
+QList < Problem > Driver::problems( const QString & fileName ) const
 {
-    QMap<QString, Q3ValueList<Problem> >::ConstIterator it = m_problems.find( fileName );
+    QMap<QString, QList<Problem> >::ConstIterator it = m_problems.find( fileName );
     if( it != m_problems.end() )
         return it.value();
-    return Q3ValueList<Problem>();
+    return QList<Problem>();
 }
 
 void Driver::parseFile( const QString& fileName, bool onlyPreProcess, bool force )

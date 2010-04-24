@@ -23,12 +23,10 @@
 #include "ast.h"
 #include "position.h"
 
-#include <qpair.h>
-#include <q3valuestack.h>
-#include <qstringlist.h>
-#include <qmap.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QtCore/QPair>
+#include <QtCore/QStringList>
+#include <QtCore/QMap>
+#include <QtCore/QList>
 
 #include <list>
 #include <map>
@@ -186,7 +184,7 @@ public:
 private:
     MacroMap macros() const {return m_macroManager.macros();}
 public:
-    Q3ValueList<Problem> problems( const QString& fileName ) const;
+    QList<Problem> problems( const QString& fileName ) const;
     bool hasMacro( const QString& name ) const
     {return m_macroManager.hasMacro( name);}
     Macro& macro( const QString& name) {return m_macroManager.macro( name);}
@@ -208,7 +206,7 @@ protected:
 
 private:
     QMap<QString, Dependence>& findOrInsertDependenceList( const QString& fileName );
-    Q3ValueList<Problem>& findOrInsertProblemList( const QString& fileName );
+    QList<Problem>& findOrInsertProblemList( const QString& fileName );
     QString findIncludeFile( const Dependence& dep ) const;
 
 private:
@@ -228,7 +226,7 @@ private:
     QString m_currentFileName;
     QMap< QString, QMap<QString, Dependence> > m_dependences;
     MacroManager m_macroManager;
-    QMap< QString, Q3ValueList<Problem> > m_problems;
+    QMap< QString, QList<Problem> > m_problems;
     QMap<QString, TranslationUnitAST*> m_parsedUnits;
     QStringList m_includePaths;
     uint depresolv : 1;

@@ -126,9 +126,6 @@ AST::AST()
     : m_nodeType( NodeType_Generic ), m_parent( 0 ),
     m_startPosition(), m_endPosition()
 {
-#ifndef CPPPARSER_NO_CHILDREN
-    m_children.setAutoDelete( false );
-#endif
 }
 
 AST::~AST()
@@ -170,7 +167,7 @@ void AST::appendChild( AST* child )
 
 void AST::removeChild( AST* child )
 {
-    m_children.remove( child );
+    m_children.removeOne( child );
 }
 #endif
 
@@ -179,7 +176,6 @@ void AST::removeChild( AST* child )
 NameAST::NameAST()
     : m_global( false )
 {
-    m_classOrNamespaceNameList.setAutoDelete( true );
 }
 
 void NameAST::setGlobal( bool b )
@@ -212,13 +208,10 @@ QString NameAST::text() const
     if( m_global )
         str += "::";
 
-    QStringList l;
-    Q3PtrListIterator<ClassOrNamespaceNameAST> it( m_classOrNamespaceNameList );
-    while( it.current() ){
-        str += it.current()->text() + "::";
-        ++it;
+    for( int i = 0; i < m_classOrNamespaceNameList.size(); ++i ) {
+        str += m_classOrNamespaceNameList.at(i)->text() + "::";
     }
-
+    
     if( m_unqualifiedName.get() )
         str += m_unqualifiedName->text();
 
@@ -235,7 +228,6 @@ DeclarationAST::DeclarationAST()
 
 LinkageBodyAST::LinkageBodyAST()
 {
-    m_declarationList.setAutoDelete( true );
 }
 
 void LinkageBodyAST::addDeclaration( DeclarationAST::Node& ast )
@@ -275,8 +267,6 @@ void LinkageSpecificationAST::setDeclaration( DeclarationAST::Node& decl )
 
 TranslationUnitAST::TranslationUnitAST()
 {
-    //uDebug() << "++ TranslationUnitAST::TranslationUnitAST()";
-    m_declarationList.setAutoDelete( true );
 }
 
 void TranslationUnitAST::addDeclaration( DeclarationAST::Node& ast )
@@ -380,7 +370,6 @@ void TypedefAST::setInitDeclaratorList( InitDeclaratorListAST::Node& initDeclara
 
 TemplateArgumentListAST::TemplateArgumentListAST()
 {
-    m_argumentList.setAutoDelete( true );
 }
 
 void TemplateArgumentListAST::addArgument( AST::Node& arg )
@@ -396,10 +385,8 @@ QString TemplateArgumentListAST::text() const
 {
     QStringList l;
 
-    Q3PtrListIterator<AST> it( m_argumentList );
-    while( it.current() ){
-        l.append( it.current()->text() );
-        ++it;
+    for( int i = 0; i < m_argumentList.size(); ++i ) {
+        l.append( m_argumentList.at(i)->text() );
     }
 
     return l.join( ", " );
@@ -497,7 +484,6 @@ QString TypeSpecifierAST::text() const
 
 ClassSpecifierAST::ClassSpecifierAST()
 {
-    m_declarationList.setAutoDelete( true );
 }
 
 void ClassSpecifierAST::setClassKey( AST::Node& classKey )
@@ -525,7 +511,6 @@ void ClassSpecifierAST::setBaseClause( BaseClauseAST::Node& baseClause )
 
 EnumSpecifierAST::EnumSpecifierAST()
 {
-    m_enumeratorList.setAutoDelete( true );
 }
 
 void EnumSpecifierAST::addEnumerator( EnumeratorAST::Node& enumerator )
@@ -586,7 +571,6 @@ void EnumeratorAST::setExpr( AST::Node& expr )
 
 BaseClauseAST::BaseClauseAST()
 {
-    m_baseSpecifierList.setAutoDelete( true );
 }
 
 void BaseClauseAST::addBaseSpecifier( BaseSpecifierAST::Node& baseSpecifier )
@@ -663,7 +647,6 @@ void SimpleDeclarationAST::setWinDeclSpec( GroupAST::Node& winDeclSpec )
 
 InitDeclaratorListAST::InitDeclaratorListAST()
 {
-    m_initDeclaratorList.setAutoDelete( true );
 }
 
 void InitDeclaratorListAST::addInitDeclarator( InitDeclaratorAST::Node& decl )
@@ -679,8 +662,6 @@ void InitDeclaratorListAST::addInitDeclarator( InitDeclaratorAST::Node& decl )
 
 DeclaratorAST::DeclaratorAST()
 {
-    m_ptrOpList.setAutoDelete( true );
-    m_arrayDimensionList.setAutoDelete( true );
 }
 
 void DeclaratorAST::setSubDeclarator( DeclaratorAST::Node& subDeclarator )
@@ -801,7 +782,6 @@ void FunctionDefinitionAST::setWinDeclSpec( GroupAST::Node& winDeclSpec )
 
 StatementListAST::StatementListAST()
 {
-    m_statementList.setAutoDelete( true );
 }
 
 void StatementListAST::addStatement( StatementAST::Node& statement )
@@ -989,7 +969,6 @@ QString ParameterDeclarationAST::text() const
 
 ParameterDeclarationListAST::ParameterDeclarationListAST()
 {
-    m_parameterList.setAutoDelete( true );
 }
 
 void ParameterDeclarationListAST::addParameter( ParameterDeclarationAST::Node& parameter )
@@ -1004,13 +983,9 @@ void ParameterDeclarationListAST::addParameter( ParameterDeclarationAST::Node& p
 QString ParameterDeclarationListAST::text() const
 {
     QStringList l;
-
-    Q3PtrListIterator<ParameterDeclarationAST> it( m_parameterList );
-    while( it.current() ){
-        l.append( it.current()->text() );
-        ++it;
+    for( int i = 0; i  < m_parameterList.size(); ++i ) {
+        l.append( m_parameterList.at(i)->text() );
     }
-
     return l.join( ", " );
 }
 
@@ -1049,7 +1024,6 @@ QString ParameterDeclarationClauseAST::text() const
 
 GroupAST::GroupAST()
 {
-    m_nodeList.setAutoDelete( true );
 }
 
 void GroupAST::addNode( AST::Node& node )
@@ -1064,13 +1038,9 @@ void GroupAST::addNode( AST::Node& node )
 QString GroupAST::text() const
 {
     QStringList l;
-
-    Q3PtrListIterator<AST> it( m_nodeList );
-    while( it.current() ){
-        l.append( it.current()->text() );
-        ++it;
+    for( int i = 0; i < m_nodeList.size();  ++i ) {
+        l.append( m_nodeList.at(i)->text() );
     }
-
     return l.join( " " );
 }
 
@@ -1078,7 +1048,6 @@ QString GroupAST::text() const
 
 AccessDeclarationAST::AccessDeclarationAST()
 {
-    m_accessList.setAutoDelete( true );
 }
 
 void AccessDeclarationAST::addAccess( AST::Node& access )
@@ -1093,13 +1062,9 @@ void AccessDeclarationAST::addAccess( AST::Node& access )
 QString AccessDeclarationAST::text() const
 {
     QStringList l;
-
-    Q3PtrListIterator<AST> it( m_accessList );
-    while( it.current() ){
-        l.append( it.current()->text() );
-        ++it;
+    for( int i = 0; i < m_accessList.size(); ++i ) {
+        l.append( m_accessList.at(i)->text() );
     }
-
     return l.join( " " );
 }
 
@@ -1155,7 +1120,6 @@ void TemplateParameterAST::setTypeValueParameter( ParameterDeclarationAST::Node&
 
 TemplateParameterListAST::TemplateParameterListAST()
 {
-    m_templateParameterList.setAutoDelete( true );
 }
 
 void TemplateParameterListAST::addTemplateParameter( TemplateParameterAST::Node& templateParameter )

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2002 by Roberto Raggi                                   *
- *   roberto@kdevelop.org                                                 *
+ *   roberto@kdevelop.org                                                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,9 +12,8 @@
 #include "ast_utils.h"
 #include "ast.h"
 
-#include <qstringlist.h>
-#include <qregexp.h>
-#include <Q3PtrList>
+#include <QtCore/QStringList>
+#include <QtCore/QRegExp>
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -30,12 +29,9 @@ AST* findNodeAt( AST* node, Position const& position )
     Position endPosition = node->getEndPosition();
 
     if( (position >= startPosition) && (position < endPosition) ) {
-        Q3PtrList<AST> children = node->children();
-        Q3PtrListIterator<AST> it( children );
-        while( it.current() ){
-            AST* a = it.current();
-            ++it;
-
+        QList<AST*> children = node->children();
+        for( int i = 0; i < children.size(); ++i ) {
+            AST* a = children.at(i);
             AST* r = findNodeAt( a, position );
             if( r )
                 return r;
@@ -83,13 +79,10 @@ void scopeOfNode( AST* ast, QStringList& scope )
         if ( !d->declaratorId() )
             break;
 
-        Q3PtrList<ClassOrNamespaceNameAST> l = d->declaratorId()->classOrNamespaceNameList();
-        Q3PtrListIterator<ClassOrNamespaceNameAST> nameIt( l );
-        while( nameIt.current() ){
-            AST* name = nameIt.current()->name();
+        QList<ClassOrNamespaceNameAST*> l = d->declaratorId()->classOrNamespaceNameList();
+        for( int i = 0; i < l.size(); ++i ) {
+            AST* name = l.at(i)->name();
             scope.push_back( name->text() );
-        
-            ++nameIt;
         }
     }
     break;
@@ -115,9 +108,9 @@ QString declaratorToString( DeclaratorAST* declarator, const QString& scope, boo
    QString text;
 
    if( !skipPtrOp ){
-       Q3PtrList<AST> ptrOpList = declarator->ptrOpList();
-       for( Q3PtrListIterator<AST> it(ptrOpList); it.current(); ++it ){
-          text += it.current()->text();
+       QList<AST*> ptrOpList = declarator->ptrOpList();
+       for( int i = 0; i < ptrOpList.size(); ++i ) {
+          text += ptrOpList.at(i)->text();
        }
        text += ' ';
    }
@@ -130,11 +123,9 @@ QString declaratorToString( DeclaratorAST* declarator, const QString& scope, boo
    if( declarator->declaratorId() )
        text += declarator->declaratorId()->text();
 
-   Q3PtrList<AST> arrays = declarator->arrayDimensionList();
-   Q3PtrListIterator<AST> it( arrays );
-   while( it.current() ){
+   QList<AST*> arrays = declarator->arrayDimensionList();
+   for( int i = 0; i < arrays.size(); ++i ) {
        text += "[]";
-       ++it;
    }
 
    if( declarator->parameterDeclarationClause() ){
@@ -142,19 +133,15 @@ QString declaratorToString( DeclaratorAST* declarator, const QString& scope, boo
 
        ParameterDeclarationListAST* l = declarator->parameterDeclarationClause()->parameterDeclarationList();
        if( l != 0 ){
-           Q3PtrList<ParameterDeclarationAST> params = l->parameterList();
-           Q3PtrListIterator<ParameterDeclarationAST> it( params );
-
-           while( it.current() ){
-               QString type = typeSpecToString( it.current()->typeSpec() );
+           QList<ParameterDeclarationAST*> params = l->parameterList();
+           for( int i = 0; i < params.size(); ++i ) {
+               QString type = typeSpecToString( params.at(i)->typeSpec() );
                text += type;
                if( !type.isEmpty() )
                    text += ' ';
-               text += declaratorToString( it.current()->declarator() );
+               text += declaratorToString( params.at(i)->declarator() );
 
-               ++it;
-
-               if( it.current() )
+               if( params.at(i) )
                    text += ", ";
            }
        }

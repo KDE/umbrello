@@ -36,12 +36,7 @@ namespace boost { namespace spirit { namespace impl {
 #include <list>
 #include <qstring.h>
 #include <qmap.h>
-#include <q3valuestack.h>
 #include <qpair.h>
-#include <q3ptrvector.h>
-//Added by qt3to4:
-#include <Q3MemArray>
-
 #include <assert.h>
 
 #include "skip_rule.hpp"
