@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -77,8 +77,10 @@ QString JavaImport::joinTypename(const QString& typeName)
         }
     }
     // to handle multidimensional arrays, call recursively
-    if (m_source[m_srcIndex + 1] == "[") {
-        typeNameRet = joinTypename( typeNameRet );
+    if (m_srcIndex < m_source.count() - 1) {
+        if (m_source[m_srcIndex + 1] == "[") {
+            typeNameRet = joinTypename( typeNameRet );
+        }
     }
     return typeNameRet;
 }
@@ -463,7 +465,8 @@ bool JavaImport::parseStmt()
     // of an operation.) Up next is the name of the attribute
     // or operation.
     if (! keyword.contains( QRegExp("^\\w") )) {
-        uError() << "importJava: ignoring " << keyword;
+        uError() << "importJava: ignoring " << keyword <<
+            " at " << m_srcIndex << ", " << m_source.count() << " in " << m_klass->getName();
         return false;
     }
     QString typeName = m_source[m_srcIndex];
@@ -581,10 +584,17 @@ bool JavaImport::parseStmt()
     }
     // reset visibility to default
     m_currentAccess = m_defaultCurrentAccess;
-    if (m_source[m_srcIndex] != ";") {
-        uError() << "importJava: ignoring trailing items at " << name;
+    if (m_srcIndex < m_source.count()) {
+        if (m_source[m_srcIndex] != ";") {
+            uError() << "importJava: ignoring trailing items at " << name;
+            skipStmt();
+        }
+    }
+    else {
+        uError() << "index out of range: ignoring statement " << name;
         skipStmt();
     }
+
     return true;
 }
 
