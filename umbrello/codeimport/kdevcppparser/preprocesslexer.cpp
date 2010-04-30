@@ -717,7 +717,7 @@ struct push_back_c_impl {
     }
 };
 
-function<push_back_c_impl> const push_back_c = push_back_c_impl();
+phoenix::function<push_back_c_impl> const push_back_c = push_back_c_impl();
 
 struct macroDefinition :
             grammar<macroDefinition, result_closure<Macro>::context_t> {
