@@ -67,20 +67,20 @@ void JavaImport::initVars()
 QString JavaImport::joinTypename(const QString& typeName)
 {
     QString typeNameRet(typeName);
-    if (m_source[m_srcIndex + 1] == "<" ||
-        m_source[m_srcIndex + 1] == "[") {
-        int start = ++m_srcIndex;
-        if (! skipToClosing(m_source[start][0]))
-            return typeNameRet;
-        for (int i = start; i <= m_srcIndex; ++i) {
-            typeNameRet += m_source[i];
+    if (m_srcIndex + 1 < m_source.size()) {
+        if (m_source[m_srcIndex + 1] == "<" ||
+            m_source[m_srcIndex + 1] == "[") {
+            int start = ++m_srcIndex;
+            if (! skipToClosing(m_source[start][0]))
+                return typeNameRet;
+            for (int i = start; i <= m_srcIndex; ++i) {
+                typeNameRet += m_source[i];
+            }
         }
     }
     // to handle multidimensional arrays, call recursively
-    if (m_srcIndex < m_source.count() - 1) {
-        if (m_source[m_srcIndex + 1] == "[") {
-            typeNameRet = joinTypename( typeNameRet );
-        }
+    if ((m_srcIndex + 1 < m_source.size()) && (m_source[m_srcIndex + 1] == "[")) {
+        typeNameRet = joinTypename( typeNameRet );
     }
     return typeNameRet;
 }
@@ -562,6 +562,9 @@ bool JavaImport::parseStmt()
                 name += nextToken;  // add possible array dimensions to `name'
             }
             nextToken = advance();
+            if (nextToken == QString()) {
+                break;
+            }
         }
         // try to resolve the class type, or create a placeholder if that fails
         UMLObject *type = resolveClass( typeName );
@@ -594,7 +597,6 @@ bool JavaImport::parseStmt()
         uError() << "index out of range: ignoring statement " << name;
         skipStmt();
     }
-
     return true;
 }
 
