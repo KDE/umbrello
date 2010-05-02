@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -128,7 +128,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
  */
 UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t, Uml::IDType id)
   : QTreeWidgetItem(parent)
-    {
+{
     init();
     m_Type = t;
     m_nId = id;
@@ -160,10 +160,8 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     default:
         setIcon(Icon_Utils::it_Diagram);
     }
-    /*
-        Constructor also used by folder so just make sure we don't need to
-        to set pixmap to folder.  doesn't hurt diagrams.
-    */
+    //  Constructor also used by folder so just make sure we don't need to
+    //  to set pixmap to folder.  doesn't hurt diagrams.
     updateFolder();
     setText(name);
     //setRenameEnabled(0, true);
@@ -228,7 +226,6 @@ void UMLListViewItem::setVisible(bool state)
 {
     setHidden(!state);
 }
-
 
 /**
  * Returns the id this class represents.
@@ -374,7 +371,7 @@ void UMLListViewItem::updateFolder()
     Icon_Utils::Icon_Type icon = Model_Utils::convert_LVT_IT(m_Type);
     if (icon) {
         if (Model_Utils::typeIsFolder(m_Type))
-            icon = (Icon_Utils::Icon_Type)((int)icon + (int)isOpen());
+            icon = (Icon_Utils::Icon_Type)((int)icon + (int)isExpanded());
         setIcon(icon);
     }
 }
@@ -428,11 +425,12 @@ void UMLListViewItem::setCreating( bool creating )
 void UMLListViewItem::setIcon(Icon_Utils::Icon_Type iconType)
 {
     QPixmap p = Icon_Utils::SmallIcon(iconType);
-    QTreeWidgetItem::setIcon(0,QIcon(p));
+    QTreeWidgetItem::setIcon(0, QIcon(p));
 }
 
-void UMLListViewItem::startRename( int )
+void UMLListViewItem::startRename(int col)
 {
+    Q_UNUSED(col);
     if (m_bCreating) {
         s_pListView->cancelRename(this);
     }
@@ -447,10 +445,9 @@ void UMLListViewItem::okRename(int col)
 {
     QString oldText = m_Label; // copy old name
     //QTreeWidgetItem::okRename(col);
-    UMLDoc* doc = s_pListView->getDocument();
+    UMLDoc* doc = s_pListView->document();
     if (m_bCreating) {
         m_bCreating = false;
-        QString savedLabel = m_Label;
         m_Label = text(col);
         if (s_pListView->itemRenamed(this, col)) {
 //            s_pListView->ensureItemVisible(this);
@@ -686,8 +683,9 @@ void UMLListViewItem::cancelRenameWithMsg()
 /**
  * Overrides default method to make public.
  */
-void UMLListViewItem::cancelRename(int)
+void UMLListViewItem::cancelRename(int col)
 {
+    Q_UNUSED(col);
     //QTreeWidgetItem::cancelRename(col);
     if (m_bCreating) {
         s_pListView->cancelRename(this);
@@ -849,7 +847,7 @@ UMLListViewItem* UMLListViewItem::findChildObject(UMLClassifierListItem *cli)
     if (it != m_comap.end()) {
         return *it;
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -870,7 +868,7 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
         if (inner)
             return inner;
     }
-    return NULL;
+    return 0;
 }
 
 /**
@@ -907,7 +905,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
             return;
         }
     }
-    itemElement.setAttribute("open", isOpen());
+    itemElement.setAttribute("open", isExpanded());
     QDomElement folderRoot;
     for (int i=0; i < childCount(); i++) {
         UMLListViewItem *childItem = static_cast<UMLListViewItem*>(child(i));
@@ -936,7 +934,7 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
 
     m_nId = STR2ID(id);
     if (m_nId != Uml::id_None)
-        m_pObject = s_pListView->getDocument()->findObjectById(m_nId);
+        m_pObject = s_pListView->document()->findObjectById(m_nId);
     m_Type = (Uml::ListView_Type)(type.toInt());
     if (m_pObject)
         updateObject();

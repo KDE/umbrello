@@ -62,14 +62,14 @@ public:
     void setText(int column, const QString &text);
     void setText(const QString &text );
     QString getText() const;
-    void setVisible( bool state );
+    void setVisible(bool state);
 
-    void setCreating( bool creating );
+    void setCreating(bool creating);
 
     void setIcon(Icon_Utils::Icon_Type iconType);
 
-    void startRename( int col );
-    void cancelRename( int col );
+    void startRename(int col);
+    void cancelRename(int col);
 
     void addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem);
 
@@ -86,16 +86,14 @@ public:
     int childCount() const;
     UMLListViewItem* childItem(int i);
 
-    void saveToXMI( QDomDocument& qDoc, QDomElement& qElement);
+    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI(QDomElement& qElement);
 
-    bool isOpen() { return isExpanded(); }
     void setOpen(bool state);
     void okRename( int col );    
         
 protected:
     void init(UMLListView * parent = 0);
-
 
     void cancelRenameWithMsg();
 

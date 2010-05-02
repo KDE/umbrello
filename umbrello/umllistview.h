@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,8 +15,7 @@
 #include <QtXml/QDomElement>
 #include <QtGui/QTreeWidget>
 #include <QtGui/QTreeWidgetItem>
-
-#include <QTreeWidget>
+#include <QtGui/QTreeWidget>
 
 #include "umlnamespace.h"
 #include "umllistviewitemlist.h"
@@ -83,9 +82,9 @@ public:
 
     int getSelectedCount();
 
-    UMLDoc * getDocument() const;
+    UMLDoc * document() const;
 
-    void addNewItem( UMLListViewItem * parent, Uml::ListView_Type type );
+    void addNewItem(UMLListViewItem * parent, Uml::ListView_Type type);
 
     UMLListViewItem * findUMLObject(const UMLObject *p) const;
     UMLListViewItem * findView(UMLView *v);
@@ -95,17 +94,17 @@ public:
 
     void changeIconOf(UMLObject *o, Icon_Utils::Icon_Type to);
 
-    UMLObject *createUMLObject( UMLListViewItem * item, Uml::Object_Type type );
-    bool createChildUMLObject( UMLListViewItem * item, Uml::Object_Type type );
-    UMLView* createDiagram( UMLListViewItem * item, Uml::Diagram_Type type );
+    UMLObject *createUMLObject(UMLListViewItem * item, Uml::Object_Type type);
+    bool createChildUMLObject(UMLListViewItem * item, Uml::Object_Type type);
+    UMLView* createDiagram(UMLListViewItem * item, Uml::Diagram_Type type);
 
-    QString getUniqueDiagramName( Uml::Diagram_Type type );
+    QString getUniqueDiagramName(Uml::Diagram_Type type);
 
-    bool isUnique( UMLListViewItem * item, const QString &name );
+    bool isUnique(UMLListViewItem * item, const QString &name);
 
-    void startRename( UMLListViewItem * item );
-    void cancelRename( UMLListViewItem * item );
-    void endRename( UMLListViewItem * item );
+    void startRename(UMLListViewItem * item);
+    void cancelRename(UMLListViewItem * item);
+    void endRename(UMLListViewItem * item);
 
     void setSelected(UMLListViewItem * item, bool state) { setItemSelected((QTreeWidgetItem*)item,state);  }
     void setStartedCut(bool startedCut);
@@ -128,9 +127,9 @@ public:
 
     Uml::ListView_Type rootViewType(UMLListViewItem *item);
 
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement);
-    bool loadFromXMI( QDomElement & element );
-    bool loadChildrenFromXMI( UMLListViewItem * parent, QDomElement & element );
+    void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
+    bool loadFromXMI(QDomElement & element);
+    bool loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & element);
 
 protected:
 
@@ -139,7 +138,9 @@ protected:
     UMLListViewItem* m_datatypeFolder;
     ListPopupMenu*   m_pMenu;
     UMLDoc*          m_doc;
-    bool m_bStartedCut, m_bStartedCopy, m_bIgnoreCancelRename;
+    bool             m_bStartedCut;
+    bool             m_bStartedCopy;
+    bool             m_bIgnoreCancelRename;
 
     /**
      * Used when creating an attribute or an operation to stop it adding a second listViewItem.
@@ -151,11 +152,11 @@ protected:
     void mousePressEvent(QMouseEvent *me);
     void mouseMoveEvent(QMouseEvent* me);
     void mouseDoubleClickEvent(QMouseEvent * me);
-    void focusOutEvent ( QFocusEvent * fe);
+    void focusOutEvent (QFocusEvent * fe);
 
     UMLDragData* getDragData();
 
-    bool acceptDrag (QDropEvent* event) const;
+    bool acceptDrag(QDropEvent* event) const;
     void keyPressEvent(QKeyEvent *);
     void dragEnterEvent(QDragEnterEvent* event);
     void dragMoveEvent(QDragMoveEvent* event);
@@ -165,9 +166,9 @@ protected:
 
     static bool isExpandable(Uml::ListView_Type lvt);
 
-    void deleteChildrenOf( UMLListViewItem *parent );
+    void deleteChildrenOf(UMLListViewItem *parent);
 
-    bool deleteItem( UMLListViewItem *temp );
+    bool deleteItem(UMLListViewItem *temp);
 
     void childObjectAdded(UMLClassifierListItem* child, UMLClassifier* parent);
 
@@ -192,8 +193,8 @@ public slots:
 
     void slotDropped(QDropEvent* de, UMLListViewItem* parent, UMLListViewItem* item);
 
-    void slotExpanded(UMLListViewItem* item);
-    void slotCollapsed(UMLListViewItem* item);
+    void slotExpanded(QTreeWidgetItem* item);
+    void slotCollapsed(QTreeWidgetItem* item);
 
     void expandAll(UMLListViewItem *item);
     void collapseAll(UMLListViewItem *item);

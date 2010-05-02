@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2009                                                *
+ *  copyright (C) 2002-2010                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -17,11 +17,10 @@
 #include <QtCore/QPoint>
 #include <QtCore/QRect>
 #include <QtCore/QEvent>
-#include <q3header.h>
-#include <QFocusEvent>
-#include <QKeyEvent>
-#include <QDropEvent>
-#include <QMouseEvent>
+#include <QtGui/QFocusEvent>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QMouseEvent>
 
 // kde includes
 #include <kdebug.h>
@@ -152,9 +151,8 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
     m_datatypeFolder = 0;
     m_editItem = 0;
     //setup slots/signals
-    connect(this, SIGNAL(collapsed(QTreeWidgetItem *)),
-            this, SLOT(slotCollapsed(QTreeWidgetItem *)));
-    connect(this, SIGNAL(expanded(QTreeWidgetItem *)), this, SLOT(slotExpanded(QTreeWidgetItem *)));
+    connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem *)), this, SLOT(slotCollapsed(QTreeWidgetItem *)));
+    connect(this, SIGNAL(itemExpanded(QTreeWidgetItem *)), this, SLOT(slotExpanded(QTreeWidgetItem *)));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()), this, SLOT(slotCutSuccessful()));
     connect(this,SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemChanged(QTreeWidgetItem *, int)));
     connect(this,SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
@@ -172,16 +170,19 @@ void UMLListView::setTitle(int column, const QString &text)
     headerItem()->setText(column,text);
 }
 
-void UMLListView::slotItemChanged(QTreeWidgetItem *, int)
+void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
 {
-    if (m_editItem)
+    Q_UNUSED(item); Q_UNUSED(column);
+    if (m_editItem) {
         cancelRename(m_editItem);
+    }
 }
 
 void UMLListView::slotItemSelectionChanged()
 {
-    if (m_editItem)
+    if (m_editItem) {
         cancelRename(m_editItem);
+    }
 }
 
 bool UMLListView::eventFilter(QObject *o, QEvent *e)
@@ -195,8 +196,8 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e)
             disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
             delete m_pMenu;
         }
-        UMLListViewItem * temp = (UMLListViewItem*)currentItem();
-        m_pMenu = new ListPopupMenu(this, Uml::lvt_Model, temp->getUMLObject());
+        UMLListViewItem * currItem = (UMLListViewItem*)currentItem();
+        m_pMenu = new ListPopupMenu(this, Uml::lvt_Model, currItem->getUMLObject());
         m_pMenu->popup(me->globalPos());
         connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
         return true;
@@ -287,8 +288,9 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
         ke->accept();                 // munge and do nothing
     } else if (m_editItem) {
         const int k = ke->key();
-        if (k == Qt::Key_Return)
+        if (k == Qt::Key_Return) {
             endRename(m_editItem);
+        }
         else {
             QWidget *editor = indexWidget(indexFromItem(m_editItem));
             if (editor)
@@ -315,122 +317,124 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
  */
 void UMLListView::popupMenuSel(QAction* action)
 {
-    UMLListViewItem * temp = (UMLListViewItem*)currentItem();
-    if (!temp) {
+    UMLListViewItem * currItem = (UMLListViewItem*)currentItem();
+    if (!currItem) {
         uDebug() << "popupMenuSel invoked without currently selectedItem";
         return;
     }
-    UMLObject * object = temp->getUMLObject();
-    Uml::ListView_Type lvt = temp->getType();
+    Uml::ListView_Type lvt = currItem->getType();
     Uml::Object_Type umlType = Uml::ot_UMLObject;
     ListPopupMenu::Menu_Type menuType = m_pMenu->getMenuType(action);
     QString name;
 
     switch (menuType) {
     case ListPopupMenu::mt_Class:
-        addNewItem(temp, Uml::lvt_Class);
+        addNewItem(currItem, Uml::lvt_Class);
         break;
 
     case ListPopupMenu::mt_Package:
-        addNewItem(temp, Uml::lvt_Package);
+        addNewItem(currItem, Uml::lvt_Package);
         break;
 
     case ListPopupMenu::mt_Subsystem:
-        addNewItem(temp, Uml::lvt_Subsystem);
+        addNewItem(currItem, Uml::lvt_Subsystem);
         break;
 
     case ListPopupMenu::mt_Component:
-        addNewItem(temp, Uml::lvt_Component);
+        addNewItem(currItem, Uml::lvt_Component);
         break;
 
     case ListPopupMenu::mt_Node:
-        addNewItem(temp, Uml::lvt_Node);
+        addNewItem(currItem, Uml::lvt_Node);
         break;
 
     case ListPopupMenu::mt_Artifact:
-        addNewItem(temp, Uml::lvt_Artifact);
+        addNewItem(currItem, Uml::lvt_Artifact);
         break;
 
     case ListPopupMenu::mt_Interface:
-        addNewItem(temp, Uml::lvt_Interface);
+        addNewItem(currItem, Uml::lvt_Interface);
         break;
 
     case ListPopupMenu::mt_Enum:
-        addNewItem(temp, Uml::lvt_Enum);
+        addNewItem(currItem, Uml::lvt_Enum);
         break;
 
     case ListPopupMenu::mt_EnumLiteral:
-        addNewItem(temp, Uml::lvt_EnumLiteral);
+        addNewItem(currItem, Uml::lvt_EnumLiteral);
         break;
 
     case ListPopupMenu::mt_Template:
-        addNewItem(temp, Uml::lvt_Template);
+        addNewItem(currItem, Uml::lvt_Template);
         break;
 
     case ListPopupMenu::mt_Entity:
-        addNewItem(temp, Uml::lvt_Entity);
+        addNewItem(currItem, Uml::lvt_Entity);
         break;
 
     case ListPopupMenu::mt_Category:
-        addNewItem(temp, Uml::lvt_Category);
+        addNewItem(currItem, Uml::lvt_Category);
         break;
 
-    case ListPopupMenu::mt_DisjointSpecialisation: {
-        UMLCategory* catObj = static_cast<UMLCategory*>(temp->getUMLObject());
-        catObj->setType(UMLCategory::ct_Disjoint_Specialisation);
+    case ListPopupMenu::mt_DisjointSpecialisation:
+        {
+            UMLCategory* catObj = static_cast<UMLCategory*>(currItem->getUMLObject());
+            catObj->setType(UMLCategory::ct_Disjoint_Specialisation);
+        }
         break;
-    }
 
-    case ListPopupMenu::mt_OverlappingSpecialisation: {
-        UMLCategory* catObj = static_cast<UMLCategory*>(temp->getUMLObject());
-        catObj->setType(UMLCategory::ct_Overlapping_Specialisation);
+    case ListPopupMenu::mt_OverlappingSpecialisation:
+        {
+            UMLCategory* catObj = static_cast<UMLCategory*>(currItem->getUMLObject());
+            catObj->setType(UMLCategory::ct_Overlapping_Specialisation);
+        }
         break;
-    }
 
-    case ListPopupMenu::mt_Union: {
-        UMLCategory* catObj = static_cast<UMLCategory*>(temp->getUMLObject());
-        catObj->setType(UMLCategory::ct_Union);
+    case ListPopupMenu::mt_Union:
+        {
+            UMLCategory* catObj = static_cast<UMLCategory*>(currItem->getUMLObject());
+            catObj->setType(UMLCategory::ct_Union);
+        }
         break;
-    }
 
     case ListPopupMenu::mt_Datatype:
-        addNewItem(temp, Uml::lvt_Datatype);
+        addNewItem(currItem, Uml::lvt_Datatype);
         break;
 
     case ListPopupMenu::mt_Actor:
-        addNewItem(temp, Uml::lvt_Actor);
+        addNewItem(currItem, Uml::lvt_Actor);
         break;
 
     case ListPopupMenu::mt_UseCase:
-        addNewItem(temp, Uml::lvt_UseCase);
+        addNewItem(currItem, Uml::lvt_UseCase);
         break;
 
     case ListPopupMenu::mt_Attribute:
-        addNewItem(temp, Uml::lvt_Attribute);
+        addNewItem(currItem, Uml::lvt_Attribute);
         break;
 
     case ListPopupMenu::mt_EntityAttribute:
-        addNewItem(temp, Uml::lvt_EntityAttribute);
+        addNewItem(currItem, Uml::lvt_EntityAttribute);
         break;
 
     case ListPopupMenu::mt_Operation:
-        addNewItem(temp, Uml::lvt_Operation);
+        addNewItem(currItem, Uml::lvt_Operation);
         break;
 
     case ListPopupMenu::mt_UniqueConstraint:
-        addNewItem(temp, Uml::lvt_UniqueConstraint);
+        addNewItem(currItem, Uml::lvt_UniqueConstraint);
         break;
 
     case ListPopupMenu::mt_PrimaryKeyConstraint:
-        addNewItem(temp, Uml::lvt_PrimaryKeyConstraint);
+        addNewItem(currItem, Uml::lvt_PrimaryKeyConstraint);
         break;
 
     case ListPopupMenu::mt_ForeignKeyConstraint:
-        addNewItem(temp, Uml::lvt_ForeignKeyConstraint);
+        addNewItem(currItem, Uml::lvt_ForeignKeyConstraint);
         break;
 
     case ListPopupMenu::mt_CheckConstraint:
-        addNewItem(temp, Uml::lvt_CheckConstraint);
+        addNewItem(currItem, Uml::lvt_CheckConstraint);
         break;
 
     case ListPopupMenu::mt_Import_Classes:
@@ -442,206 +446,213 @@ void UMLListView::popupMenuSel(QAction* action)
         break;
 
     case ListPopupMenu::mt_Expand_All:
-        expandAll(temp);
+        expandAll(currItem);
         break;
 
     case ListPopupMenu::mt_Collapse_All:
-        collapseAll(temp);
+        collapseAll(currItem);
         break;
 
     case ListPopupMenu::mt_Export_Image:
-        m_doc->findView(temp->getID())->umlScene()->getImageExporter()->exportView();
+        m_doc->findView(currItem->getID())->umlScene()->getImageExporter()->exportView();
         break;
 
-    case ListPopupMenu::mt_Externalize_Folder: {
-        UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
-        UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->getUMLObject());
-        if (modelFolder == 0) {
-            uError() << "modelFolder is 0";
-            return;
+    case ListPopupMenu::mt_Externalize_Folder:
+        {
+            UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
+            UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->getUMLObject());
+            if (modelFolder == 0) {
+                uError() << "modelFolder is 0";
+                return;
+            }
+            // configure & show the file dialog
+            const QString rootDir(m_doc->url().directory());
+            QPointer<KFileDialog> fileDialog = new KFileDialog(rootDir, "*.xml", this);
+            fileDialog->setCaption(i18n("Externalize Folder"));
+            fileDialog->setOperationMode(KFileDialog::Other);
+            // set a sensible default filename
+            QString defaultFilename = current->getText().toLower();
+            defaultFilename.replace(QRegExp("\\W+"), "_");
+            defaultFilename.append(".xml");  // default extension
+            fileDialog->setSelection(defaultFilename);
+            KUrl selURL;
+            if (fileDialog->exec() == QDialog::Accepted) {
+                selURL = fileDialog->selectedUrl();
+            }
+            delete fileDialog;
+            if (selURL.isEmpty())
+                return;
+            QString path = selURL.toLocalFile();
+            QString fileName = path;
+            if (fileName.startsWith(rootDir)) {
+                fileName.remove(rootDir);
+            } else {
+                // TODO: This should be done using a KMessageBox but we currently
+                //       cannot add new i18n strings.
+                uError() << "Folder " << path
+                        << " must be relative to the main model directory, "
+                        << rootDir;
+                return;
+            }
+            QFile file(path);
+            // Warn if file exists.
+            if (file.exists()) {
+                // TODO: This should be done using a KMessageBox but we currently
+                //       cannot add new i18n strings.
+                uWarning() << "file " << fileName << " already exists!";
+                uWarning() << "The existing file will be overwritten.";
+            }
+            // Test if file is writable.
+            if (file.open(QIODevice::WriteOnly)) {
+                file.close();
+            } else {
+                KMessageBox::error(0,
+                                   i18n("There was a problem saving file: %1", fileName),
+                                   i18n("Save Error"));
+                return;
+            }
+            modelFolder->setFolderFile(fileName);
+            // Recompute text of the folder
+            QString folderText = current->getText();
+            folderText.remove(QRegExp("\\s*\\(.*$"));
+            folderText.append(" (" + fileName + ')');
+            current->setText(folderText);
+            break;
         }
-        // configure & show the file dialog
-        const QString rootDir(m_doc->url().directory());
-        QPointer<KFileDialog> fileDialog = new KFileDialog(rootDir, "*.xml", this);
-        fileDialog->setCaption(i18n("Externalize Folder"));
-        fileDialog->setOperationMode(KFileDialog::Other);
-        // set a sensible default filename
-        QString defaultFilename = current->getText().toLower();
-        defaultFilename.replace(QRegExp("\\W+"), "_");
-        defaultFilename.append(".xml");  // default extension
-        fileDialog->setSelection(defaultFilename);
-        KUrl selURL;
-        if (fileDialog->exec() == QDialog::Accepted) {
-            selURL = fileDialog->selectedUrl();
-        }
-        delete fileDialog;
-        if (selURL.isEmpty())
-            return;
-        QString path = selURL.toLocalFile();
-        QString fileName = path;
-        if (fileName.startsWith(rootDir)) {
-            fileName.remove(rootDir);
-        } else {
-            // TODO: This should be done using a KMessageBox but we currently
-            //       cannot add new i18n strings.
-            uError() << "Folder " << path
-            << " must be relative to the main model directory, "
-            << rootDir;
-            return;
-        }
-        QFile file(path);
-        // Warn if file exists.
-        if (file.exists()) {
-            // TODO: This should be done using a KMessageBox but we currently
-            //       cannot add new i18n strings.
-            uWarning() << "file " << fileName << " already exists!";
-            uWarning() << "The existing file will be overwritten.";
-        }
-        // Test if file is writable.
-        if (file.open(QIODevice::WriteOnly)) {
-            file.close();
-        } else {
-            KMessageBox::error(0,
-                               i18n("There was a problem saving file: %1", fileName),
-                               i18n("Save Error"));
-            return;
-        }
-        modelFolder->setFolderFile(fileName);
-        // Recompute text of the folder
-        QString folderText = current->getText();
-        folderText.remove(QRegExp("\\s*\\(.*$"));
-        folderText.append(" (" + fileName + ')');
-        current->setText(folderText);
-        break;
-    }
 
-    case ListPopupMenu::mt_Internalize_Folder: {
-        UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
-        UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->getUMLObject());
-        if (modelFolder == 0) {
-            uError() << "modelFolder is 0";
-            return;
+    case ListPopupMenu::mt_Internalize_Folder:
+        {
+            UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
+            UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->getUMLObject());
+            if (modelFolder == 0) {
+                uError() << "modelFolder is 0";
+                return;
+            }
+            modelFolder->setFolderFile(QString());
+            // Recompute text of the folder
+            QString folderText = current->getText();
+            folderText.remove(QRegExp("\\s*\\(.*$"));
+            current->setText(folderText);
+            break;
         }
-        modelFolder->setFolderFile(QString());
-        // Recompute text of the folder
-        QString folderText = current->getText();
-        folderText.remove(QRegExp("\\s*\\(.*$"));
-        current->setText(folderText);
-        break;
-    }
 
-    case ListPopupMenu::mt_Model: {
-        bool ok = false;
-        QString name = KInputDialog::getText(i18n("Enter Model Name"),
-                                             i18n("Enter the new name of the model:"),
-                                             m_doc->getName(), &ok, UMLApp::app());
-        if (ok) {
-            setTitle(0, name);
-            m_doc->setName(name);
+    case ListPopupMenu::mt_Model:
+        {
+            bool ok = false;
+            QString name = KInputDialog::getText(i18n("Enter Model Name"),
+                                                 i18n("Enter the new name of the model:"),
+                                                 m_doc->getName(), &ok, UMLApp::app());
+            if (ok) {
+                setTitle(0, name);
+                m_doc->setName(name);
+            }
+            break;
         }
-        break;
-    }
 
     case ListPopupMenu::mt_Rename:
-        startRename(temp);
+        startRename(currItem);
         break;
 
     case ListPopupMenu::mt_Delete:
-        deleteItem(temp);
-
-        return;
+        deleteItem(currItem);
         break;
 
     case ListPopupMenu::mt_Properties:
-        /* first check if we are on a diagram */
+        // first check if we are on a diagram
         if (Model_Utils::typeIsDiagram(lvt)) {
-            UMLView * pView = m_doc->findView(temp->getID());
+            UMLView * pView = m_doc->findView(currItem->getID());
             if (!pView) {
                 return;
             }
             UMLApp::app()->getDocWindow()->updateDocumentation(false);
             pView->umlScene()->showPropDialog();
             UMLApp::app()->getDocWindow()->showDocumentation(pView, true);
-            temp->cancelRename(0);
+            currItem->cancelRename(0);
             return;
         }
 
-        /* ok, we are on another object, so find out on which one */
-        umlType = object->getBaseType();
+        { // ok, we are on another object, so find out on which one
+            UMLObject * object = currItem->getUMLObject();
+            if (!object) {
+                uError() << "UMLObject of ... is null! Doing nothing.";
+                return;
+            }
+            umlType = object->getBaseType();
 
-        if (Model_Utils::typeIsCanvasWidget(lvt)) {
-            object->showProperties(ClassPropDlg::page_gen);
-        } else if (umlType == Uml::ot_EnumLiteral) {
-            // Show the Enum Literal Dialog
-            UMLEnumLiteral* selectedEnumLiteral = static_cast<UMLEnumLiteral*>(object);
-            selectedEnumLiteral->showPropertiesDialog(this);
+            if (Model_Utils::typeIsCanvasWidget(lvt)) {
+                object->showProperties(ClassPropDlg::page_gen);
+            } else if (umlType == Uml::ot_EnumLiteral) {
+                // Show the Enum Literal Dialog
+                UMLEnumLiteral* selectedEnumLiteral = static_cast<UMLEnumLiteral*>(object);
+                selectedEnumLiteral->showPropertiesDialog(this);
 
-        } else if (umlType == Uml::ot_Attribute) {
-            // show the attribute dialog
-            UMLAttribute* selectedAttribute = static_cast<UMLAttribute*>(object);
-            QPointer<UMLAttributeDialog> dialog = new UMLAttributeDialog(this, selectedAttribute);
-            dialog->exec();
-            delete dialog;
-        } else if (umlType == Uml::ot_EntityAttribute) {
-            // show the attribute dialog
-            UMLEntityAttribute* selectedAttribute = static_cast<UMLEntityAttribute*>(object);
-            QPointer<UMLEntityAttributeDialog> dialog = new UMLEntityAttributeDialog(this, selectedAttribute);
-            dialog->exec();
-            delete dialog;
-        } else if (umlType == Uml::ot_Operation) {
-            // show the operation dialog
-            UMLOperation* selectedOperation = static_cast<UMLOperation*>(object);
-            QPointer<UMLOperationDialog> dialog = new UMLOperationDialog(this, selectedOperation);
-            dialog->exec();
-            delete dialog;
-        } else if (umlType == Uml::ot_Template) {
-            // show the template dialog
-            UMLTemplate* selectedTemplate = static_cast<UMLTemplate*>(object);
-            QPointer<UMLTemplateDialog> dialog = new UMLTemplateDialog(this, selectedTemplate);
-            dialog->exec();
-            delete dialog;
-        } else if (umlType == Uml::ot_UniqueConstraint) {
-            // show the Unique Constraint dialog
-            UMLUniqueConstraint* selectedUniqueConstraint = static_cast<UMLUniqueConstraint*>(object);
-            QPointer<UMLUniqueConstraintDialog> dialog = new UMLUniqueConstraintDialog(this, selectedUniqueConstraint);
-            dialog->exec();
-            delete dialog;
-        } else if (umlType == Uml::ot_ForeignKeyConstraint) {
-            // show the Unique Constraint dialog
-            UMLForeignKeyConstraint* selectedForeignKeyConstraint = static_cast<UMLForeignKeyConstraint*>(object);
-            QPointer<UMLForeignKeyConstraintDialog> dialog = new UMLForeignKeyConstraintDialog(this, selectedForeignKeyConstraint);
-            dialog->exec();
-            delete dialog;
-        } else if (umlType == Uml::ot_CheckConstraint) {
-            // show the Check Constraint dialog
-            UMLCheckConstraint* selectedCheckConstraint = static_cast<UMLCheckConstraint*>(object);
-            QPointer<UMLCheckConstraintDialog> dialog = new UMLCheckConstraintDialog(this, selectedCheckConstraint);
-            dialog->exec();
-            delete dialog;
-        } else {
-            uWarning() << "calling properties on unknown type";
+            } else if (umlType == Uml::ot_Attribute) {
+                // show the attribute dialog
+                UMLAttribute* selectedAttribute = static_cast<UMLAttribute*>(object);
+                QPointer<UMLAttributeDialog> dialog = new UMLAttributeDialog(this, selectedAttribute);
+                dialog->exec();
+                delete dialog;
+            } else if (umlType == Uml::ot_EntityAttribute) {
+                // show the attribute dialog
+                UMLEntityAttribute* selectedAttribute = static_cast<UMLEntityAttribute*>(object);
+                QPointer<UMLEntityAttributeDialog> dialog = new UMLEntityAttributeDialog(this, selectedAttribute);
+                dialog->exec();
+                delete dialog;
+            } else if (umlType == Uml::ot_Operation) {
+                // show the operation dialog
+                UMLOperation* selectedOperation = static_cast<UMLOperation*>(object);
+                QPointer<UMLOperationDialog> dialog = new UMLOperationDialog(this, selectedOperation);
+                dialog->exec();
+                delete dialog;
+            } else if (umlType == Uml::ot_Template) {
+                // show the template dialog
+                UMLTemplate* selectedTemplate = static_cast<UMLTemplate*>(object);
+                QPointer<UMLTemplateDialog> dialog = new UMLTemplateDialog(this, selectedTemplate);
+                dialog->exec();
+                delete dialog;
+            } else if (umlType == Uml::ot_UniqueConstraint) {
+                // show the Unique Constraint dialog
+                UMLUniqueConstraint* selectedUniqueConstraint = static_cast<UMLUniqueConstraint*>(object);
+                QPointer<UMLUniqueConstraintDialog> dialog = new UMLUniqueConstraintDialog(this, selectedUniqueConstraint);
+                dialog->exec();
+                delete dialog;
+            } else if (umlType == Uml::ot_ForeignKeyConstraint) {
+                // show the Unique Constraint dialog
+                UMLForeignKeyConstraint* selectedForeignKeyConstraint = static_cast<UMLForeignKeyConstraint*>(object);
+                QPointer<UMLForeignKeyConstraintDialog> dialog = new UMLForeignKeyConstraintDialog(this, selectedForeignKeyConstraint);
+                dialog->exec();
+                delete dialog;
+            } else if (umlType == Uml::ot_CheckConstraint) {
+                // show the Check Constraint dialog
+                UMLCheckConstraint* selectedCheckConstraint = static_cast<UMLCheckConstraint*>(object);
+                QPointer<UMLCheckConstraintDialog> dialog = new UMLCheckConstraintDialog(this, selectedCheckConstraint);
+                dialog->exec();
+                delete dialog;
+            } else {
+                uWarning() << "calling properties on unknown type";
+            }
+            currItem->cancelRename(0);
         }
-        temp->cancelRename(0);
         break;
 
     case ListPopupMenu::mt_Logical_Folder:
-        addNewItem(temp, Uml::lvt_Logical_Folder);
+        addNewItem(currItem, Uml::lvt_Logical_Folder);
         break;
 
     case ListPopupMenu::mt_UseCase_Folder:
-        addNewItem(temp, Uml::lvt_UseCase_Folder);
+        addNewItem(currItem, Uml::lvt_UseCase_Folder);
         break;
 
     case ListPopupMenu::mt_Component_Folder:
-        addNewItem(temp, Uml::lvt_Component_Folder);
+        addNewItem(currItem, Uml::lvt_Component_Folder);
         break;
 
     case ListPopupMenu::mt_Deployment_Folder:
-        addNewItem(temp, Uml::lvt_Deployment_Folder);
+        addNewItem(currItem, Uml::lvt_Deployment_Folder);
         break;
 
     case ListPopupMenu::mt_EntityRelationship_Folder:
-        addNewItem(temp, Uml::lvt_EntityRelationship_Folder);
+        addNewItem(currItem, Uml::lvt_EntityRelationship_Folder);
         break;
 
     case ListPopupMenu::mt_Cut:
@@ -660,22 +671,24 @@ void UMLListView::popupMenuSel(QAction* action)
         UMLApp::app()->slotEditPaste();
         break;
 
-    default: {
-        Uml::Diagram_Type dt = ListPopupMenu::convert_MT_DT(menuType);
-        if (dt == Uml::dt_Undefined) {
-            uWarning() << "unknown type" << menuType;
-        } else {
-            UMLFolder *f = dynamic_cast<UMLFolder*>(object);
-            if (f == 0) {
-                uError() << "menuType=" << menuType
-                    << ": current item's UMLObject is not a UMLFolder";
-            }
-            else {
-                m_doc->createDiagram(f, dt);
+    default:
+        {
+            Uml::Diagram_Type dt = ListPopupMenu::convert_MT_DT(menuType);
+            if (dt == Uml::dt_Undefined) {
+                uWarning() << "unknown type" << menuType;
+            } else {
+                UMLObject* object = currItem->getUMLObject();
+                UMLFolder* f = dynamic_cast<UMLFolder*>(object);
+                if (f == 0) {
+                    uError() << "menuType=" << menuType
+                            << ": current item's UMLObject is not a UMLFolder";
+                }
+                else {
+                    m_doc->createDiagram(f, dt);
+                }
             }
         }
-    }
-    break;
+        break;
     }//end switch
 }
 
@@ -724,15 +737,17 @@ UMLListViewItem *UMLListView::findFolderForDiagram(Uml::Diagram_Type dt)
  */
 void UMLListView::slotDiagramCreated(Uml::IDType id)
 {
-    if (m_doc->loading())
+    if (m_doc->loading()) {
         return;
+    }
     UMLView *v = m_doc->findView(id);
-    if (!v)
+    if (!v) {
         return;
+    }
     const Uml::Diagram_Type dt = v->umlScene()->type();
-    UMLListViewItem * temp = 0, *p = findFolderForDiagram(dt);
-    temp = new UMLListViewItem(p, v->umlScene()->name(), Model_Utils::convert_DT_LVT(dt), id);
-    setSelected(temp, true);
+    UMLListViewItem* p = findFolderForDiagram(dt);
+    UMLListViewItem* item = new UMLListViewItem(p, v->umlScene()->name(), Model_Utils::convert_DT_LVT(dt), id);
+    setSelected(item, true);
     UMLApp::app()->getDocWindow()->showDocumentation(v , false);
 }
 
@@ -1026,13 +1041,13 @@ void UMLListView::childObjectRemoved(UMLClassifierListItem* obj)
  */
 void UMLListView::slotDiagramRenamed(Uml::IDType id)
 {
-    UMLListViewItem* temp;
+    UMLListViewItem* item;
     UMLView* v = m_doc->findView(id);
-    if ((temp = findView(v)) == 0) {
+    if ((item = findView(v)) == 0) {
         uError() << "UMLDoc::findView(" << ID2STR(id) << ") returns 0";
         return;
     }
-    temp->setText(v->umlScene()->name());
+    item->setText(v->umlScene()->name());
 }
 
 /**
@@ -1243,7 +1258,6 @@ UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewIt
  */
 UMLListViewItem* UMLListView::findItem(Uml::IDType id)
 {
-    
     UMLListViewItem *topLevel = static_cast<UMLListViewItem*>(topLevelItem(0));
     UMLListViewItem *item = topLevel->findItem(id);
     if (item)
@@ -1297,6 +1311,7 @@ void UMLListView::clean()
         deleteChildrenOf(m_lv[i]);
     //deleteChildrenOf(m_datatypeFolder);
 }
+
 /**
  * Set the current view to the given view.
  *
@@ -1331,14 +1346,15 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     //else see if an object
     UMLObject * object = item->getUMLObject();
     //continue only if we are on a UMLObject
-    if (!object)
+    if (!object) {
         return;
-
+    }
 
     Uml::Object_Type type = object->getBaseType();
     int page = ClassPropDlg::page_gen;
-    if (Model_Utils::isClassifierListitem(type))
+    if (Model_Utils::isClassifierListitem(type)) {
         object = (UMLObject *)object->parent();
+    }
     //set what page to show
     switch (type) {
 
@@ -1361,8 +1377,9 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
         break;
     }
 
-    if (object)
+    if (object) {
         object->showProperties(page);
+    }
     item->cancelRename(0);  //double click can cause it to go into rename mode.
 }
 
@@ -2043,14 +2060,13 @@ int UMLListView::getSelectedCount()
             count++;
         }
     }
-
     return count;
 }
 
 /**
  * Returns the document pointer. Called by the UMLListViewItem class.
  */
-UMLDoc * UMLListView::getDocument() const
+UMLDoc * UMLListView::document() const
 {
     return m_doc;
 }
@@ -2118,21 +2134,23 @@ bool UMLListView::isExpandable(Uml::ListView_Type lvt)
 /**
  * Calls updateFolder() on the item to update the icon to open.
  */
-void UMLListView::slotExpanded(UMLListViewItem * item)
+void UMLListView::slotExpanded(QTreeWidgetItem * item)
 {
     UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
-    if (isExpandable(myItem->getType()))
+    if (isExpandable(myItem->getType())) {
         myItem->updateFolder();
+    }
 }
 
 /**
  * Calls updateFolder() on the item to update the icon to closed.
  */
-void UMLListView::slotCollapsed(UMLListViewItem * item)
+void UMLListView::slotCollapsed(QTreeWidgetItem * item)
 {
     UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
-    if (isExpandable(myItem->getType()))
+    if (isExpandable(myItem->getType())) {
         myItem->updateFolder();
+    }
 }
 
 /**
@@ -2709,9 +2727,10 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
 
 void UMLListView::startRename(UMLListViewItem* item)
 {
-    if (m_editItem)
+    if (m_editItem) {
         cancelRename(m_editItem);
-    openPersistentEditor(item,0);
+    }
+    openPersistentEditor(item, 0);
     m_editItem = item;
     m_bIgnoreCancelRename = true;
 }
@@ -2723,17 +2742,18 @@ void UMLListView::cancelRename(UMLListViewItem* item)
 {
     // delete pointer first to lock slotItemChanged
     m_editItem = 0;
-    closePersistentEditor(item,0);
+    closePersistentEditor(item, 0);
     if (!m_bIgnoreCancelRename) {
         delete item;
         m_bIgnoreCancelRename = true;
     }
 }
+
 void UMLListView::endRename(UMLListViewItem* item)
 {
     // delete pointer first to lock slotItemChanged
     m_editItem = 0;
-    closePersistentEditor(item,0);
+    closePersistentEditor(item, 0);
     item->okRename(0);
 }
 
@@ -3199,6 +3219,5 @@ void UMLListView::setBackgroundColor(const QColor & color)
     palette.setColor(backgroundRole(), color);
     setPalette(palette);
 }
-
 
 #include "umllistview.moc"
