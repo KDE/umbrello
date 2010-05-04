@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +13,8 @@
 
 #include <QtGui/QTreeWidget>
 #include <QtCore/QMap>
-#include <qdom.h>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
 
 #include "umlnamespace.h"
 #include "icon_utils.h"
@@ -64,6 +65,8 @@ public:
     QString getText() const;
     void setVisible(bool state);
 
+    QString toolTip();
+
     void setCreating(bool creating);
 
     void setIcon(Icon_Utils::Icon_Type iconType);
@@ -103,11 +106,6 @@ protected:
     static UMLListView * s_pListView;
 
     /**
-     * Flag used to set the state of creating.
-     */
-    bool m_bCreating;
-
-    /**
      * Auxiliary map of child UMLLisViewItems keyed by UMLClassifierListItem.
      * Used by findChildObject() for efficiency instead of looping using
      * firstChild()/nextSibling() because the latter incur enforceItemVisible()
@@ -115,13 +113,14 @@ protected:
      */
     typedef QMap<UMLClassifierListItem*, UMLListViewItem*> ChildObjectMap;
 
+    bool               m_bCreating;  ///< flag to set the state of creating
     Uml::ListView_Type m_Type;
-    Uml::IDType m_nId;
-    int m_nChildren;
-    UMLObject * m_pObject;
-    QString m_Label;
-    ChildObjectMap m_comap;
-    int m_childIndex;
+    Uml::IDType        m_nId;
+    int                m_nChildren;
+    UMLObject *        m_pObject;
+    QString            m_Label;
+    ChildObjectMap     m_comap;
+    int                m_childIndex;
 
 };
 

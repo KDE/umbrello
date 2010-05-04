@@ -14,11 +14,13 @@
 // system includes
 #include <cstdlib>
 
-// qt/kde includes
+// qt includes
 #include <QtCore/QTextStream>
 #include <QtCore/QFile>
-#include <QtGui/QDrag>
 #include <QtCore/QRegExp>
+#include <QtGui/QDrag>
+
+// kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
@@ -187,6 +189,22 @@ void UMLListViewItem::init(UMLListView * parent)
     if (s_pListView == NULL && parent != NULL) {
         uDebug() << "s_pListView still NULL, setting it now ";
         s_pListView = parent;
+    }
+}
+
+/**
+ * Returns the signature of items that are operations.
+ * @return signature of an operation item, else an empty string
+ */
+QString UMLListViewItem::toolTip()
+{
+    UMLObject *obj = getUMLObject();
+    if (obj && obj->getBaseType() == Uml::ot_Operation) {
+        UMLOperation *op = static_cast<UMLOperation*>(obj);
+        return op->toString(Uml::st_ShowSig);
+    }
+    else {
+        return QString();
     }
 }
 

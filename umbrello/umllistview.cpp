@@ -21,6 +21,7 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QDropEvent>
 #include <QtGui/QMouseEvent>
+#include <QtGui/QToolTip>
 
 // kde includes
 #include <kdebug.h>
@@ -72,37 +73,6 @@
 #include "umlcheckconstraintdialog.h"
 #include "umlscene.h"
 
-#ifdef WANT_LVTOOLTIP
-class LVToolTip : public QToolTip
-{
-public:
-    LVToolTip(QWidget* parent) : QToolTip(parent) {}
-    virtual ~LVToolTip() {}
-protected:
-    /**
-     * Reimplemented from QToolTip for internal reasons.
-     * At classifiers, only the method names are shown in the list view -
-     * we use a tooltip for the full signature display.
-     * Once K3ListView's tooltip overriding mechanism works, we can kick
-     * this class out (TODO).
-     */
-    virtual void maybeTip(const QPoint& pos) {
-        UMLListView *lv = UMLApp::app()->getListView();
-        UMLListViewItem * item = (UMLListViewItem*)lv->itemAt(pos);
-        if (item == 0)
-            return;
-        UMLObject *obj = item->getUMLObject();
-        if (obj == 0 || obj->getBaseType() != Uml::ot_Operation)
-            return;
-        UMLOperation *op = static_cast<UMLOperation*>(obj);
-        QString text = op->toString(Uml::st_ShowSig);
-        QRect rect = lv->itemRect(item);
-        tip(rect, text);
-    }
-};
-#endif
-
-
 /**
  * Constructs the tree view.
  *
@@ -133,14 +103,6 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 
     setEditTriggers(QAbstractItemView::EditKeyPressed);
 
-#ifdef WANT_LVTOOLTIP
-    /* In KDE-3.3, we cannot use K3ListView's builtin mechanism for
-       overriding the tooltips. Instead, see the above class LVToolTip.
-    setShowToolTips( true );
-    setTooltipColumn( 0 );
-     */
-    (void) new LVToolTip(viewport());
-#endif
     m_pMenu = 0;
     m_bStartedCut = m_bStartedCopy = false;
     m_bIgnoreCancelRename = true;
@@ -183,6 +145,26 @@ void UMLListView::slotItemSelectionChanged()
     if (m_editItem) {
         cancelRename(m_editItem);
     }
+}
+
+/**
+ * Event handler for the tool tip event.
+ * Works only for operations to show the signature.
+ */
+bool UMLListView::event(QEvent *e)
+{
+    if (e->type() == QEvent::ToolTip) {
+        QHelpEvent *helpEvent = static_cast<QHelpEvent *>(e);
+        UMLListViewItem * item = (UMLListViewItem*)itemAt(helpEvent->pos());
+        if (item) {
+            QToolTip::showText(helpEvent->globalPos(), item->toolTip());
+        } else {
+            QToolTip::hideText();
+            e->ignore();
+        }
+        return true;
+    }
+    return QTreeWidget::event(e);
 }
 
 bool UMLListView::eventFilter(QObject *o, QEvent *e)

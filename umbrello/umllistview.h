@@ -147,6 +147,7 @@ protected:
      */
     bool m_bCreatingChildObject;
 
+    bool event(QEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
     void mouseReleaseEvent(QMouseEvent * me);
     void mousePressEvent(QMouseEvent *me);
