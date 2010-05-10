@@ -55,10 +55,10 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
     painter->setBrush(brush());
     painter->setPen(QPen(lineColor(), lineWidth()));
 
-    painter->drawRect(m_topRect);
-    painter->drawRect(m_packageTextRect);
+    painter->drawRect(m_topTextRect);
+    painter->drawRect(m_packageRect);
     if (umlObject()->getStereotype() == "subsystem") {
-        const qreal fHalf = m_topRect.height() / 2;
+        const qreal fHalf = m_topTextRect.height() / 2;
         const qreal symY = fHalf;
         const qreal symX = 38;
         painter->drawLine(symX, symY, symX, symY + fHalf - 2);          // left leg
@@ -77,6 +77,9 @@ void PackageWidget::updateGeometry()
     TextItemGroup *grp = textItemGroupAt(GroupIndex);
 
     QSizeF minSize = grp->minimumSize();
+    // add 10.0 to show more than the topTextRect
+    minSize.setWidth(minSize.width() + 10.0);
+
     if(minSize.width() < 70) {
         minSize.setWidth(70);
     }
@@ -115,13 +118,13 @@ QVariant PackageWidget::attributeChange(WidgetAttributeChange change, const QVar
 {
     if(change == SizeHasChanged) {
         TextItemGroup *grp = textItemGroupAt(GroupIndex);
+        QSizeF minSize = grp->minimumSize();
+        m_topTextRect.setRect(0, 0, minSize.width(), minSize.height());
 
-        m_topRect.setRect(0, 0, 50, QFontMetricsF(grp->font()).lineSpacing());
+        m_packageRect.setTopLeft(QPointF(0, m_topTextRect.bottom()));
+        m_packageRect.setBottomRight(rect().bottomRight());
 
-        m_packageTextRect.setTopLeft(QPointF(0, m_topRect.bottom()));
-        m_packageTextRect.setBottomRight(rect().bottomRight());
-
-        grp->setGroupGeometry(m_packageTextRect);
+        grp->setGroupGeometry(m_topTextRect);
     }
 
     return UMLWidget::attributeChange(change, oldValue);

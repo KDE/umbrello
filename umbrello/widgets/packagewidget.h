@@ -53,8 +53,8 @@ private:
         TextItemCount
     };
 
-    QRectF m_topRect;
-    QRectF m_packageTextRect;
+    QRectF m_topTextRect;
+    QRectF m_packageRect;
 };
 
 #endif
