@@ -121,17 +121,25 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 }
 
 /**
- *  Standard destructor.
+ * Standard destructor.
  */
 UMLListView::~UMLListView()
 {
 }
 
+/**
+ * Sets the title.
+ * @param column   column in which to write
+ * @param text     the text to write
+ */
 void UMLListView::setTitle(int column, const QString &text)
 {
-    headerItem()->setText(column,text);
+    headerItem()->setText(column, text);
 }
 
+/**
+ *
+ */
 void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
 {
     Q_UNUSED(item); Q_UNUSED(column);
@@ -140,6 +148,9 @@ void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
     }
 }
 
+/**
+ *
+ */
 void UMLListView::slotItemSelectionChanged()
 {
     if (m_editItem) {
@@ -167,6 +178,9 @@ bool UMLListView::event(QEvent *e)
     return QTreeWidget::event(e);
 }
 
+/**
+ *
+ */
 bool UMLListView::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() != QEvent::MouseButtonPress || qstrcmp("QHeader", metaObject()->className()) != 0)
@@ -187,6 +201,9 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e)
     return QTreeWidget::eventFilter(o, e);
 }
 
+/**
+ *
+ */
 void UMLListView::mousePressEvent(QMouseEvent *me)
 {
     UMLView *currentView = UMLApp::app()->getCurrentView();
@@ -230,6 +247,9 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
     QTreeWidget::mousePressEvent(me);
 }
 
+/**
+ *
+ */
 void UMLListView::mouseMoveEvent(QMouseEvent* me)
 {
     if (!(me->buttons() & Qt::LeftButton))
@@ -243,6 +263,9 @@ void UMLListView::mouseMoveEvent(QMouseEvent* me)
     drag->exec(Qt::CopyAction);
 }
 
+/**
+ *
+ */
 void UMLListView::mouseReleaseEvent(QMouseEvent *me)
 {
     if (me->button() != Qt::LeftButton) {
@@ -261,6 +284,9 @@ void UMLListView::mouseReleaseEvent(QMouseEvent *me)
     QTreeWidget::mouseReleaseEvent(me);
 }
 
+/**
+ *
+ */
 void UMLListView::keyPressEvent(QKeyEvent *ke)
 {
     UMLView *view = UMLApp::app()->getCurrentView();
@@ -296,6 +322,7 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
 
 /**
  * Called when a right mouse button menu has an item selected.
+ * @param action   the selected action
  */
 void UMLListView::popupMenuSel(QAction* action)
 {
@@ -469,28 +496,28 @@ void UMLListView::popupMenuSel(QAction* action)
             if (fileName.startsWith(rootDir)) {
                 fileName.remove(rootDir);
             } else {
-                // TODO: This should be done using a KMessageBox but we currently
-                //       cannot add new i18n strings.
-                uError() << "Folder " << path
-                        << " must be relative to the main model directory, "
-                        << rootDir;
+                KMessageBox::error(
+                    0,
+                    i18n("Folder %1 must be relative to the main model directory, %2.", path, rootDir),
+                    i18n("Path Error"));
                 return;
             }
             QFile file(path);
             // Warn if file exists.
             if (file.exists()) {
-                // TODO: This should be done using a KMessageBox but we currently
-                //       cannot add new i18n strings.
-                uWarning() << "file " << fileName << " already exists!";
-                uWarning() << "The existing file will be overwritten.";
+                KMessageBox::error(
+                    0,
+                    i18n("File %1 already exists!\nThe existing file will be overwritten.", fileName),
+                    i18n("File Exist"));
             }
             // Test if file is writable.
             if (file.open(QIODevice::WriteOnly)) {
                 file.close();
             } else {
-                KMessageBox::error(0,
-                                   i18n("There was a problem saving file: %1", fileName),
-                                   i18n("Save Error"));
+                KMessageBox::error(
+                    0,
+                    i18n("There was a problem saving file: %1", fileName),
+                    i18n("Save Error"));
                 return;
             }
             modelFolder->setFolderFile(fileName);
@@ -1078,6 +1105,9 @@ void UMLListView::slotDiagramRemoved(Uml::IDType id)
     UMLApp::app()->getDocWindow()->updateDocumentation(true);
 }
 
+/**
+ *
+ */
 UMLDragData* UMLListView::getDragData()
 {
     UMLListViewItemList selecteditems;
@@ -1253,7 +1283,6 @@ UMLListViewItem* UMLListView::findItem(Uml::IDType id)
  * So we must not allocate any memory before freeing the previously allocated one
  * or do connect()s.
  */
-
 void UMLListView::init()
 {
     if (m_rv == 0) {
@@ -1287,6 +1316,9 @@ void UMLListView::init()
     headerItem()->setHidden(true);
 }
 
+/**
+ *
+ */
 void UMLListView::clean()
 {
     for (int i = 0; i < Uml::N_MODELTYPES; ++i)
@@ -1308,6 +1340,9 @@ void UMLListView::setView(UMLView * view)
         setSelected(temp, true);
 }
 
+/**
+ *
+ */
 void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
 {
     UMLListViewItem * item = static_cast<UMLListViewItem *>(currentItem());
@@ -1365,6 +1400,9 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
     item->cancelRename(0);  //double click can cause it to go into rename mode.
 }
 
+/**
+ *
+ */
 bool UMLListView::acceptDrag(QDropEvent* event) const
 {
     UMLListViewItem* item = (UMLListViewItem*)itemAt(event->pos());
@@ -2053,6 +2091,9 @@ UMLDoc * UMLListView::document() const
     return m_doc;
 }
 
+/**
+ *
+ */
 void UMLListView::focusOutEvent(QFocusEvent * fe)
 {
     Qt::FocusReason reason = fe->reason();
@@ -2148,11 +2189,17 @@ void UMLListView::slotCutSuccessful()
     }
 }
 
+/**
+ *
+ */
 void UMLListView::startUpdate()
 {
     setSortingEnabled(false);
 }
 
+/**
+ *
+ */
 void UMLListView::endUpdate()
 {
     setSortingEnabled(true);
@@ -2707,6 +2754,9 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
     return false;
 }
 
+/**
+ *
+ */
 void UMLListView::startRename(UMLListViewItem* item)
 {
     if (m_editItem) {
@@ -2731,6 +2781,9 @@ void UMLListView::cancelRename(UMLListViewItem* item)
     }
 }
 
+/**
+ *
+ */
 void UMLListView::endRename(UMLListViewItem* item)
 {
     // delete pointer first to lock slotItemChanged
@@ -2739,6 +2792,9 @@ void UMLListView::endRename(UMLListViewItem* item)
     item->okRename(0);
 }
 
+/**
+ *
+ */
 void UMLListView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 {
     QDomElement listElement = qDoc.createElement("listview");
@@ -2746,6 +2802,9 @@ void UMLListView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     qElement.appendChild(listElement);
 }
 
+/**
+ *
+ */
 bool UMLListView::loadFromXMI(QDomElement & element)
 {
     /*
@@ -2776,6 +2835,9 @@ bool UMLListView::loadFromXMI(QDomElement & element)
     return true;
 }
 
+/**
+ *
+ */
 bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & element)
 {
     QDomNode node = element.firstChild();
@@ -3103,6 +3165,9 @@ void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
         parent->removeChild(parent->child(i));
 }
 
+/**
+ *
+ */
 void UMLListView::closeDatatypesFolder()
 {
     m_datatypeFolder->setOpen(false);
@@ -3161,20 +3226,27 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
     return true;
 }
 
-
+/**
+ *
+ */
 void UMLListView::dragEnterEvent(QDragEnterEvent* event)
 {
     event->accept();
     QTreeWidget::dragEnterEvent(event);
 }
 
-
+/**
+ *
+ */
 void UMLListView::dragMoveEvent(QDragMoveEvent* event)
 {
     event->accept();
     QTreeWidget::dragMoveEvent( event );
 }
 
+/**
+ *
+ */
 void UMLListView::dropEvent(QDropEvent* event)
 {
     if ( !acceptDrag( event ) ) {
@@ -3194,6 +3266,7 @@ void UMLListView::dropEvent(QDropEvent* event)
 
 /**
  * Set the background color.
+ * @param color   the new background color
  */
 void UMLListView::setBackgroundColor(const QColor & color)
 {

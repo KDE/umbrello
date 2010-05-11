@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -818,7 +818,7 @@ ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
  * Returns NULL if the point is not inside any widget.
  * Does not use or modify the m_pOnWidget member.
  */
-UMLWidget *UMLScene::getWidgetAt(const QPointF& p)
+UMLWidget *UMLScene::widgetAt(const QPointF& p)
 {
     qreal metric = 99990.0;
     UMLWidget  *retWid = 0;
@@ -3650,7 +3650,6 @@ void UMLScene::resizeCanvasToItems()
 void UMLScene::updateComponentSizes()
 {
     // update sizes of all components
-
     foreach(UMLWidget *obj , m_WidgetList) {
         obj->setSize(obj->size());
     }

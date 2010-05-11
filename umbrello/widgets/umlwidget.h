@@ -182,6 +182,9 @@ protected:
      */
     QList<TextItemGroup*> m_textItemGroups;
 
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction *trigger);
+
 protected Q_SLOTS:
     virtual void slotUMLObjectDataChanged();
 

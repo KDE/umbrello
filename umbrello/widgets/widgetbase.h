@@ -241,7 +241,7 @@ public:
     void setFillColour(const QColor& col) { setBrush(QBrush(col)); }
 
     bool getUseFillColour() const { return false; }
-    void setUseFillColour(bool) {}
+    void setUseFillColour(bool) {}  //:TODO: fix UMLWidgetColorPage
 
     ////////////////////////////////////////////////////////////////////////////////
 

@@ -49,8 +49,8 @@ public:
     NoteType noteType() const {
         return m_noteType;
     }
-    void setNoteType( NoteType noteType );
-    void setNoteType( const QString& noteType );
+    void setNoteType(NoteType noteType);
+    void setNoteType(const QString& noteType);
 
     Uml::IDType diagramLink() const {
         return m_diagramLink;
@@ -61,8 +61,8 @@ public:
 
     void askForNoteType(UMLWidget* &targetWidget);
 
-    virtual bool loadFromXMI( QDomElement & qElement );
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual bool loadFromXMI(QDomElement & qElement);
+    virtual void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
 
 public Q_SLOTS:
     void slotMenuSelection(QAction* action);
@@ -86,11 +86,8 @@ private:
 
     // Data loaded/saved
 
-    /// The diagram/scene this note links to.
-    Uml::IDType m_diagramLink;
-
-    /// The type of note. @see NoteWidget::NoteType
-    NoteType m_noteType;
+    Uml::IDType m_diagramLink;  ///< The diagram/scene this note links to.
+    NoteType    m_noteType;     ///< The type of note. @see NoteWidget::NoteType
 };
 
 #endif

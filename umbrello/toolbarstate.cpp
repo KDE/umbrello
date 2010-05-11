@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -139,7 +139,7 @@ void ToolBarState::mouseDoubleClick(QGraphicsSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
-    UMLWidget* currentWidget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
+    UMLWidget* currentWidget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
     AssociationWidget* currentAssociation = getAssociationAt(m_pMouseEvent->scenePos());
     if (currentWidget) {
         setCurrentWidget(currentWidget);
@@ -281,7 +281,7 @@ void ToolBarState::setCurrentElement()
     }
 
     // Check widgets.
-    UMLWidget *widget = m_pUMLScene->getWidgetAt(m_pMouseEvent->scenePos());
+    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;

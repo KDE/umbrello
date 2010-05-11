@@ -22,7 +22,7 @@
 #include "associationline.h"
 #include "associationspacemanager.h"
 #include "associationwidget.h"
-#include "dialogs/classpropdlg.h"
+#include "classpropdlg.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "textitemgroup.h"
@@ -60,7 +60,9 @@ UMLWidget::UMLWidget(UMLObject *object) :
     m_associationSpaceManager = new AssociationSpaceManager(this);
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 UMLWidget::~UMLWidget()
 {
     qDeleteAll(m_textItemGroups);
@@ -149,6 +151,7 @@ QRectF UMLWidget::sceneRect() const
 {
     return mapToScene(rect()).boundingRect();
 }
+
 /**
  * Sets the margin of this widget to \a margin. This method only
  * updates the variable. To see the effective margin, updateGeometry()
@@ -170,7 +173,9 @@ void UMLWidget::setInstanceName(const QString &name)
     updateTextItemGroups();
 }
 
-/// Sets whether this object is instance or not.
+/**
+ * Sets whether this object is instance or not.
+ */
 void UMLWidget::setIsInstance(bool b)
 {
     m_isInstance = b;
@@ -608,6 +613,38 @@ void UMLWidget::updateTextItemGroups()
 void UMLWidget::slotUMLObjectDataChanged()
 {
     updateTextItemGroups();
+}
+
+/**
+ * This is usually called synchronously after menu.exec() and \a
+ * trigger's parent is always the ListPopupMenu which can be used to
+ * get the type of action of \a trigger.
+ *
+ * @note Subclasses can reimplement to handle specific actions and
+ *       leave the rest to WidgetBase::slotMenuSelection.
+ */
+void UMLWidget::slotMenuSelection(QAction *trigger)
+{
+    if (!trigger) {
+        return;
+    }
+
+    ListPopupMenu *menu = ListPopupMenu::menuFromAction(trigger);
+    if (!menu) {
+        uError() << "Action's data field does not contain ListPopupMenu pointer";
+        return;
+    }
+
+    ListPopupMenu::Menu_Type sel = menu->getMenuType(trigger);
+    switch (sel) {
+    case ListPopupMenu::mt_Delete:
+        umlScene()->removeWidget(this);
+        break;
+
+    default:
+        WidgetBase::slotMenuSelection(trigger);
+        break;
+    }
 }
 
 #include "umlwidget.moc"

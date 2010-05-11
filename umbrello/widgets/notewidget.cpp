@@ -13,7 +13,7 @@
 
 // app includes
 #include "dialog_utils.h"
-#include "dialogs/notedialog.h"
+#include "notedialog.h"
 #include "listpopupmenu.h"
 #include "textitem.h"
 #include "textitemgroup.h"
@@ -40,9 +40,9 @@
  *           The default (-1) will prompt a new ID.
  */
 NoteWidget::NoteWidget(NoteType noteType , Uml::IDType id)
-    : UMLWidget(0),
-      m_diagramLink(Uml::id_None),
-      m_noteType(noteType)
+  : UMLWidget(0),
+    m_diagramLink(Uml::id_None),
+    m_noteType(noteType)
 {
     m_baseType = Uml::wt_Note;
     setID(id);
@@ -50,12 +50,16 @@ NoteWidget::NoteWidget(NoteType noteType , Uml::IDType id)
     setZValue(20); //make sure always on top.
 }
 
-/// destructor
+/**
+ * Destructor.
+ */
 NoteWidget::~NoteWidget()
 {
 }
 
-/// Converts a string to NoteWidget::NoteType
+/**
+ * Converts a string to NoteWidget::NoteType.
+ */
 NoteWidget::NoteType NoteWidget::stringToNoteType(const QString& noteType)
 {
     if (noteType == "Precondition")
@@ -68,7 +72,9 @@ NoteWidget::NoteType NoteWidget::stringToNoteType(const QString& noteType)
         return NoteWidget::Normal;
 }
 
-/// Sets the @ref NoteWidget::NoteType for this widget.
+/**
+ * Sets the @ref NoteWidget::NoteType for this widget.
+ */
 void NoteWidget::setNoteType(NoteType noteType)
 {
     m_noteType = noteType;
@@ -95,8 +101,7 @@ void NoteWidget::setNoteType( const QString& noteType )
  */
 void NoteWidget::setDiagramLink(Uml::IDType sceneID)
 {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
-    UMLView *view = umldoc->findView(sceneID);
+    UMLView *view = umlDoc()->findView(sceneID);
     if (view == 0) {
         uError() << "no view found for viewID " << ID2STR(sceneID);
         return;
@@ -106,6 +111,9 @@ void NoteWidget::setDiagramLink(Uml::IDType sceneID)
     m_diagramLink = sceneID;
 }
 
+/**
+ * Implementation of paint.
+ */
 void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     const QSizeF sz = size();
@@ -117,7 +125,9 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
     Widget_Utils::drawTriangledRect(painter, rect(), triSize);
 }
 
-/// Display a dialogBox to allow the user to choose the note's type
+/**
+ * Display a dialog box to allow the user to choose the note's type.
+ */
 void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
 {
     static const QStringList list = QStringList() << i18n("Precondition")
@@ -255,10 +265,8 @@ QVariant NoteWidget::attributeChange(WidgetAttributeChange change, const QVarian
  * Reimplemented from UMLWidget::slotMenuSelection to handle
  * some menu actions.
  */
-void NoteWidget::slotMenuSelection(QAction* action) {
-    NoteDialog * dlg = 0;
-    UMLDoc *doc = UMLApp::app()->getDocument();
-
+void NoteWidget::slotMenuSelection(QAction* action)
+{
     ListPopupMenu *menu = ListPopupMenu::menuFromAction(action);
     if (!menu) {
         uError() << "Action's data field does not contain ListPopupMenu pointer";
@@ -267,15 +275,26 @@ void NoteWidget::slotMenuSelection(QAction* action) {
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
-        umlScene()->updateDocumentation( false );
-        dlg = new NoteDialog( umlScene()->activeView(), this );
-        if( dlg->exec() ) {
-            umlScene()->showDocumentation( this, true );
-            doc->setModified(true);
-            update();
+        {
+            umlScene()->updateDocumentation(false);
+            NoteDialog * dlg = new NoteDialog(umlScene()->activeView(), this);
+            if (dlg->exec()) {
+                umlScene()->showDocumentation(this, true);
+                umlDoc()->setModified(true);
+                update();
+            }
+            delete dlg;
         }
-        delete dlg;
         break;
+
+    case ListPopupMenu::mt_Clear:
+        umlScene()->updateDocumentation(true);
+        setDocumentation(QString());
+        umlScene()->showDocumentation(this, true);
+        umlDoc()->setModified(true);
+        update();
+        break;
+
     default:
         UMLWidget::slotMenuSelection(action);
         break;

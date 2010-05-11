@@ -425,7 +425,6 @@ void WidgetBase::setBrush(const QBrush& brush)
     attributeChange(BrushHasChanged, oldBrush);
 }
 
-
 bool WidgetBase::usesDiagramLineColor() const
 {
     return m_usesDiagramLineColor;
@@ -896,9 +895,9 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         umlDoc()->renameUMLObject(umlObject());
         break;
 
-    case ListPopupMenu::mt_Delete:
-        // umlScene()->removeWidget(this);
-        break;
+    //case ListPopupMenu::mt_Delete:  // is done in UMLWidget
+    //    umlScene()->removeWidget(this);
+    //    break;
 
     //     //UMLWidgetController::doMouseDoubleClick relies on this implementation
     case ListPopupMenu::mt_Properties:
@@ -1020,6 +1019,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
     default:
         uDebug() << "Menu_Type " << sel << " not implemented";
+        break;
     }
 }
 
