@@ -168,7 +168,7 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 bool NoteWidget::loadFromXMI( QDomElement & qElement )
 {
-    if( !UMLWidget::loadFromXMI( qElement ) )
+    if ( !UMLWidget::loadFromXMI(qElement))
         return false;
     setDocumentation(qElement.attribute("text", ""));
     QString diagramlink = qElement.attribute("diagramlink", "");
@@ -191,7 +191,7 @@ void NoteWidget::updateGeometry()
 
     // Ignore if TextItems haven't been properly constructed
     // still. (happens during creation of object)
-    if(grp->textItemCount() > NoteTextItemIndex) {
+    if (grp->textItemCount() > NoteTextItemIndex) {
         TextItem *noteTextItem = grp->textItemAt(NoteTextItemIndex);
         noteTextItem->setExplicitVisibility(false);
         widthWithoutNote = grp->minimumSize().width();
@@ -199,7 +199,7 @@ void NoteWidget::updateGeometry()
     }
 
     const qreal atleast6Chars = QFontMetricsF(grp->font()).width("w") * 6;
-    if(widthWithoutNote > atleast6Chars) {
+    if (widthWithoutNote > atleast6Chars) {
         grp->setLineBreakWidth(widthWithoutNote);
     }
 
@@ -221,15 +221,15 @@ void NoteWidget::updateTextItemGroups()
     //FIXME: Fixe diagram link drawing
 
     TextItem *noteTypeItem = grp->textItemAt(NoteTypeItemIndex);
-    if(m_noteType == NoteWidget::PreCondition) {
+    if (m_noteType == NoteWidget::PreCondition) {
         noteTypeItem->setText(i18n("<< precondition >>"));
         noteTypeItem->setExplicitVisibility(true);
     }
-    else if(m_noteType == NoteWidget::PostCondition) {
+    else if (m_noteType == NoteWidget::PostCondition) {
         noteTypeItem->setText(i18n("<< postcondition >>"));
         noteTypeItem->setExplicitVisibility(true);
     }
-    else if(m_noteType == NoteWidget::Transformation) {
+    else if (m_noteType == NoteWidget::Transformation) {
         noteTypeItem->setText(i18n("<< transformation >>"));
         noteTypeItem->setExplicitVisibility(true);
     }
@@ -250,11 +250,11 @@ void NoteWidget::updateTextItemGroups()
  */
 QVariant NoteWidget::attributeChange(WidgetAttributeChange change, const QVariant& oldValue)
 {
-    if(change == SizeHasChanged) {
+    if (change == SizeHasChanged) {
         TextItemGroup *grp = textItemGroupAt(GroupIndex);
         grp->setGroupGeometry(rect());
     }
-    else if(change == DocumentationHasChanged) {
+    else if (change == DocumentationHasChanged) {
         updateTextItemGroups();
         return QVariant(); // no need for base method.
     }
@@ -299,6 +299,19 @@ void NoteWidget::slotMenuSelection(QAction* action)
         UMLWidget::slotMenuSelection(action);
         break;
     }
+}
+
+void NoteWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    Q_UNUSED(event);
+    umlScene()->updateDocumentation(false);
+    NoteDialog * dlg = new NoteDialog(umlScene()->activeView(), this);
+    if (dlg->exec()) {
+        umlScene()->showDocumentation(this, true);
+        umlDoc()->setModified(true);
+        update();
+    }
+    delete dlg;
 }
 
 #include "notewidget.moc"
