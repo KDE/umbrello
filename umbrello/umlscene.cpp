@@ -156,8 +156,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
 UMLScene::~UMLScene()
 {
     delete m_pImageExporter;
-
-    delete    m_pIDChangesLog;
+    delete m_pIDChangesLog;
     m_pIDChangesLog = 0;
 
     // before we can delete the QCanvas, all widgets must be explicitly
@@ -171,7 +170,7 @@ UMLScene::~UMLScene()
     removeAllWidgets();
 
     delete m_pToolBarStateFactory;
-    m_pToolBarStateFactory = NULL;
+    m_pToolBarStateFactory = 0;
 }
 
 /**
@@ -367,7 +366,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     height = pPrinter->height() - top - bottom;
 
     //get the smallest rect holding the diagram
-    QRect rect = getDiagramRect().toRect();
+    QRect rect = diagramRect().toRect();
     //now draw to printer
 
 #if 0
@@ -794,7 +793,6 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
  */
 ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
 {
-
     foreach(UMLWidget* obj,  m_WidgetList) {
         ObjectWidget *ow = dynamic_cast<ObjectWidget*>(obj);
         if (ow == NULL)
@@ -892,11 +890,9 @@ void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
     m_pToolBarState->mouseMove(ome);
 }
 
-// search both our UMLWidget AND MessageWidget lists
-
 /**
  * Finds a widget with the given ID.
- *
+ * Search both our UMLWidget AND MessageWidget lists.
  * @param id The ID of the widget to find.
  *
  * @return Returns the widget found, returns 0 if no widget found.
@@ -920,8 +916,6 @@ UMLWidget * UMLScene::findWidget(Uml::IDType id)
 
     return 0;
 }
-
-
 
 /**
  * Finds an association widget with the given widgets and the given role B name.
@@ -979,7 +973,6 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
     }
     return 0;
 }
-
 
 /**
  * Finds an association widget with the given widgets and the given role B name.
@@ -1127,6 +1120,7 @@ void UMLScene::setTextColor(const QColor& color)
 {
     m_Options.uiState.textColor = color;
     // PORT: Apply for widgets.
+    // emit sigTextColorChanged(getID());
 }
 
 /**
@@ -1136,6 +1130,17 @@ void UMLScene::setTextColor(const QColor& color)
 void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseDoubleClick(ome);
+
+    UMLWidget* widget = widgetAt(ome->scenePos());
+    if (widget) {
+        ome->ignore();
+    }
+    else {
+        if (showPropDialog() == true) {
+            m_pDoc->setModified();
+        }
+        ome->accept();
+    }
 }
 
 /**
@@ -1143,7 +1148,7 @@ void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* ome)
  *
  * @return Returns the smallest area to print.
  */
-QRectF UMLScene::getDiagramRect()
+QRectF UMLScene::diagramRect()
 {
     return itemsBoundingRect();
 }
@@ -1358,10 +1363,8 @@ void UMLScene::selectionToggleShow(int sel)
  */
 void UMLScene::deleteSelection()
 {
-    /*
-      Don't delete text widget that are connect to associations as these will
-      be cleaned up by the associations.
-    */
+    //  Don't delete text widget that are connect to associations as these will
+    //  be cleaned up by the associations.
 
     foreach(UMLWidget* temp ,  selectedWidgets()) {
         if (temp->baseType() == wt_Text &&
@@ -1382,17 +1385,16 @@ void UMLScene::deleteSelection()
         // MARK
     }
 
-    /* we also have to remove selected messages from sequence diagrams */
+    // we also have to remove selected messages from sequence diagrams
 
-    /* loop through all messages and check the selection state */
+    // loop through all messages and check the selection state
     foreach(MessageWidget* cur_msgWgt , m_MessageList) {
         if (cur_msgWgt->isSelected()) {
             removeWidget(cur_msgWgt);  // Remove message - it is selected.
         }
     }
 
-    // sometimes we miss one widget, so call this function again to remove it as
-    // well
+    // sometimes we miss one widget, so call this function again to remove it as well
     if (!selectedWidgets().isEmpty())
         deleteSelection();
 
@@ -1693,7 +1695,6 @@ int UMLScene::getSelectCount(bool filterText) const
     }
     return counter;
 }
-
 
 bool UMLScene::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/)
 {
@@ -2181,7 +2182,6 @@ void UMLScene::removeAssociations(UMLWidget* Widget)
  */
 void UMLScene::selectAssociations(bool bSelect)
 {
-
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
         UMLWidget *widA = assocwidget->widgetForRole(Uml::A);
         UMLWidget *widB = assocwidget->widgetForRole(Uml::B);
@@ -2227,7 +2227,6 @@ void UMLScene::removeAllAssociations()
     qDeleteAll(m_AssociationList);
     m_AssociationList.clear();
 }
-
 
 /**
  * Removes All the widgets of the diagram
@@ -2793,7 +2792,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
 {
     //get the smallest rect holding the diagram
     // [PORT]
-    QRect rect = getDiagramRect().toRect();
+    QRect rect = diagramRect().toRect();
     QPixmap diagram(rect.width(), rect.height());
 
     //only draw what is selected
@@ -2852,7 +2851,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
         findMaxBoundingRectangle(changeB, px, py, qx, qy);
     }//end foreach
 
-    QRect imageRect;  //area with respect to getDiagramRect()
+    QRect imageRect;  //area with respect to diagramRect()
     //i.e. all widgets on the canvas.  Was previously with
     //respect to whole canvas
 
@@ -2908,11 +2907,24 @@ void UMLScene::setPaste(bool paste)
     m_bPaste = paste;
 }
 
+void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
+{
+    UMLWidget* widget = widgetAt(event->scenePos());
+    if (widget) {
+        uDebug() << "widget " << widget->name();
+        widget->contextMenuEvent(event);
+    }
+    else {
+        setMenu(event->screenPos());
+        event->accept();
+    }
+}
+
 /**
  * Sets the popup menu to use when clicking on a diagram background
  * (rather than a widget or listView).
  */
-void UMLScene::setMenu()
+void UMLScene::setMenu(const QPoint& pos)
 {
     slotRemovePopupMenu();
     ListPopupMenu::Menu_Type menu = ListPopupMenu::mt_Undefined;
@@ -2964,8 +2976,8 @@ void UMLScene::setMenu()
         connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
 
         // [PORT] Calculate using activeView once its implementation is done.
-        QPoint point = m_Pos.toPoint();
-        m_pMenu->popup(point);
+        //QPoint point = m_Pos.toPoint();
+        m_pMenu->popup(pos);
     }
 }
 
@@ -3010,18 +3022,19 @@ void UMLScene::slotMenuSelection(QAction* action)
         m_pImageExporter->exportView();
         break;
 
-    case ListPopupMenu::mt_FloatText: {
-        FloatingTextWidget* ft = new FloatingTextWidget();
-        addItem(ft);
-        ft->showChangeTextDialog();
-        //if no text entered delete
-        if (!FloatingTextWidget::isTextValid(ft->text())) {
-            delete ft;
-        } else {
-            ft->setID(UniqueID::gen());
-            setupNewWidget(ft);
+    case ListPopupMenu::mt_FloatText:
+        {
+            FloatingTextWidget* ft = new FloatingTextWidget();
+            addItem(ft);
+            ft->showChangeTextDialog();
+            //if no text entered delete
+            if (!FloatingTextWidget::isTextValid(ft->text())) {
+                delete ft;
+            } else {
+                ft->setID(UniqueID::gen());
+                setupNewWidget(ft);
+            }
         }
-    }
         break;
 
     case ListPopupMenu::mt_UseCase:
@@ -3109,71 +3122,79 @@ void UMLScene::slotMenuSelection(QAction* action)
         m_PastePoint.setY(0);
         break;
 
-    case ListPopupMenu::mt_Initial_State: {
-        StateWidget* state = new StateWidget(StateWidget::Initial);
-        addItem(state);
-        setupNewWidget(state);
-    }
-        break;
-
-    case ListPopupMenu::mt_End_State: {
-        StateWidget* state = new StateWidget(StateWidget::End);
-        addItem(state);
-        setupNewWidget(state);
-    }
-        break;
-
-    case ListPopupMenu::mt_Junction: {
-        StateWidget* state = new StateWidget(StateWidget::Junction);
-        addItem(state);
-        setupNewWidget(state);
-    }
-        break;
-
-    case ListPopupMenu::mt_State: {
-        bool ok = false;
-        QString name = KInputDialog::getText(i18n("Enter State Name"),
-                                             i18n("Enter the name of the new state:"),
-                                             i18n("new state"), &ok, UMLApp::app());
-        if (ok) {
-            StateWidget* state = new StateWidget();
-            state->setName(name);
+    case ListPopupMenu::mt_Initial_State:
+        {
+            StateWidget* state = new StateWidget(StateWidget::Initial);
             addItem(state);
             setupNewWidget(state);
         }
-    }
         break;
 
-    case ListPopupMenu::mt_Initial_Activity: {
-        ActivityWidget* activity = new ActivityWidget(ActivityWidget::Initial);
-        setupNewWidget(activity);
-    }
+    case ListPopupMenu::mt_End_State:
+        {
+            StateWidget* state = new StateWidget(StateWidget::End);
+            addItem(state);
+            setupNewWidget(state);
+        }
         break;
 
-
-    case ListPopupMenu::mt_End_Activity: {
-        ActivityWidget* activity = new ActivityWidget(ActivityWidget::End);
-        setupNewWidget(activity);
-    }
+    case ListPopupMenu::mt_Junction:
+        {
+            StateWidget* state = new StateWidget(StateWidget::Junction);
+            addItem(state);
+            setupNewWidget(state);
+        }
         break;
 
-    case ListPopupMenu::mt_Branch: {
-        ActivityWidget* activity = new ActivityWidget(ActivityWidget::Branch);
-        setupNewWidget(activity);
-    }
+    case ListPopupMenu::mt_State:
+        {
+            bool ok = false;
+            QString name = KInputDialog::getText(i18n("Enter State Name"),
+                                                 i18n("Enter the name of the new state:"),
+                                                 i18n("new state"), &ok, UMLApp::app());
+            if (ok) {
+                StateWidget* state = new StateWidget();
+                state->setName(name);
+                addItem(state);
+                setupNewWidget(state);
+            }
+        }
         break;
 
-    case ListPopupMenu::mt_Activity: {
-        bool ok = false;
-        QString name = KInputDialog::getText(i18n("Enter Activity Name"),
-                                             i18n("Enter the name of the new activity:"),
-                                             i18n("new activity"), &ok, UMLApp::app());
-        if (ok) {
-            ActivityWidget* activity = new ActivityWidget(ActivityWidget::Normal);
-            activity->setName(name);
+    case ListPopupMenu::mt_Initial_Activity:
+        {
+            ActivityWidget* activity = new ActivityWidget(ActivityWidget::Initial);
             setupNewWidget(activity);
         }
-    }
+        break;
+
+
+    case ListPopupMenu::mt_End_Activity:
+        {
+            ActivityWidget* activity = new ActivityWidget(ActivityWidget::End);
+            setupNewWidget(activity);
+        }
+        break;
+
+    case ListPopupMenu::mt_Branch:
+        {
+            ActivityWidget* activity = new ActivityWidget(ActivityWidget::Branch);
+            setupNewWidget(activity);
+        }
+        break;
+
+    case ListPopupMenu::mt_Activity:
+        {
+            bool ok = false;
+            QString name = KInputDialog::getText(i18n("Enter Activity Name"),
+                                                 i18n("Enter the name of the new activity:"),
+                                                 i18n("new activity"), &ok, UMLApp::app());
+            if (ok) {
+                ActivityWidget* activity = new ActivityWidget(ActivityWidget::Normal);
+                activity->setName(name);
+                setupNewWidget(activity);
+            }
+        }
         break;
 
     case ListPopupMenu::mt_SnapToGrid:
@@ -3195,16 +3216,17 @@ void UMLScene::slotMenuSelection(QAction* action)
         m_pDoc->removeDiagram(getID());
         break;
 
-    case ListPopupMenu::mt_Rename: {
-        bool ok = false;
-        QString newName = KInputDialog::getText(i18n("Enter Diagram Name"),
-                                                i18n("Enter the new name of the diagram:"),
-                                                name(), &ok, UMLApp::app());
-        if (ok) {
-            setName(newName);
-            m_pDoc->signalDiagramRenamed(activeView());
+    case ListPopupMenu::mt_Rename:
+        {
+            bool ok = false;
+            QString newName = KInputDialog::getText(i18n("Enter Diagram Name"),
+                                                    i18n("Enter the new name of the diagram:"),
+                                                    name(), &ok, UMLApp::app());
+            if (ok) {
+                setName(newName);
+                m_pDoc->signalDiagramRenamed(activeView());
+            }
         }
-    }
         break;
 
     default:
@@ -3346,7 +3368,6 @@ bool UMLScene::showPropDialog()
     return success;
 }
 
-
 /**
  * Returns the font to use
  */
@@ -3378,7 +3399,6 @@ void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
         }
     }
 }
-
 
 /**
  * Call before copying/cutting selected widgets.  This will make sure
@@ -3452,12 +3472,20 @@ void UMLScene::callBaseMouseMethod(QGraphicsSceneMouseEvent *event)
 {
     switch(event->type())
     {
-    case QEvent::GraphicsSceneMousePress: QGraphicsScene::mousePressEvent(event); break;
-    case QEvent::GraphicsSceneMouseMove: QGraphicsScene::mouseMoveEvent(event); break;
-    case QEvent::GraphicsSceneMouseRelease: QGraphicsScene::mouseReleaseEvent(event); break;
-    case QEvent::GraphicsSceneMouseDoubleClick: QGraphicsScene::mouseDoubleClickEvent(event); break;
-
-    default: ;
+    case QEvent::GraphicsSceneMousePress:
+        QGraphicsScene::mousePressEvent(event);
+        break;
+    case QEvent::GraphicsSceneMouseMove:
+        QGraphicsScene::mouseMoveEvent(event);
+        break;
+    case QEvent::GraphicsSceneMouseRelease:
+        QGraphicsScene::mouseReleaseEvent(event);
+        break;
+    case QEvent::GraphicsSceneMouseDoubleClick:
+        QGraphicsScene::mouseDoubleClickEvent(event);
+        break;
+    default:
+        break;
     }
 }
 

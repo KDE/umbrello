@@ -875,7 +875,7 @@ bool WidgetBase::widgetHasUMLObject(Uml::Widget_Type type)
  */
 void WidgetBase::slotMenuSelection(QAction *trigger)
 {
-    if(!trigger) {
+    if (!trigger) {
         return;
     }
     QColor newColour;
@@ -899,7 +899,6 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     //    umlScene()->removeWidget(this);
     //    break;
 
-    //     //UMLWidgetController::doMouseDoubleClick relies on this implementation
     case ListPopupMenu::mt_Properties:
         if (wt == Uml::wt_Actor || wt == Uml::wt_UseCase ||
             wt == Uml::wt_Package || wt == Uml::wt_Interface || wt == Uml::wt_Datatype ||

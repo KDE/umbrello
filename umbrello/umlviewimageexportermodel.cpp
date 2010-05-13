@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -232,7 +232,7 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
         fileName = tmpFile.fileName();
     }
 
-    QRectF rect = scene->getDiagramRect();
+    QRectF rect = scene->diagramRect();
     if (rect.isEmpty()) {
         return i18n("Can not save an empty diagram");
     }
@@ -385,11 +385,11 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
     QPainter *painter = new QPainter(printer);
 
     // make sure the widget sizes will be according to the
-    // actually used printer font, important for getDiagramRect()
+    // actually used printer font, important for diagramRect()
     // and the actual painting
     scene->forceUpdateWidgetFontMetrics(painter);
 
-    QRectF rect = scene->getDiagramRect();
+    QRectF rect = scene->diagramRect();
     painter->translate(-rect.x(), -rect.y());
     scene->getDiagram(rect, *painter);
 
@@ -479,7 +479,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     }
 
     bool exportSuccessful;
-    QRectF rect = scene->getDiagramRect();
+    QRectF rect = scene->diagramRect();
 
     QSvgGenerator generator;
     generator.setFileName(fileName);
@@ -487,7 +487,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     QPainter painter(&generator);
 
     // make sure the widget sizes will be according to the
-    // actually used printer font, important for getDiagramRect()
+    // actually used printer font, important for diagramRect()
     // and the actual painting
     scene->forceUpdateWidgetFontMetrics(&painter);
 
@@ -523,7 +523,7 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
     }
 
     bool exportSuccessful;
-    QRectF rect = scene->getDiagramRect();
+    QRectF rect = scene->diagramRect();
     QPixmap diagram(rect.width(), rect.height());
     scene->getDiagram(rect, diagram);
     exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));

@@ -168,7 +168,7 @@ protected Q_SLOTS:
     virtual void slotUMLObjectDataChanged();
 
 protected:
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     virtual void setupContextMenuActions(ListPopupMenu &menu);
 
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);

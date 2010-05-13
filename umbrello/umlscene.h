@@ -178,7 +178,7 @@ public:
 
     UMLView* activeView() const;
 
-    void setMenu();
+    void setMenu(const QPoint& pos);
 
     void resetToolbar();
 
@@ -298,6 +298,7 @@ public:
     void setIsMouseMovingItems(bool b);
 
 protected:
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent * event);
 
     void drawBackground(QPainter *p, const QRectF& rect);
 
@@ -339,7 +340,7 @@ protected:
     void dragMoveEvent(QGraphicsSceneDragDropEvent *moveEvent);
     void dropEvent(QGraphicsSceneDragDropEvent *dropEvent);
 
-    QRectF getDiagramRect();
+    QRectF diagramRect();
 
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
     void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);

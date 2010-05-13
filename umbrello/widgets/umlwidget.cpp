@@ -46,8 +46,8 @@ const QSizeF UMLWidget::DefaultMaximumSize(1000, 1000);
  * @param object UMLObject with which widget should be associated.
  * @see WidgetBase::WidgetBase()
  */
-UMLWidget::UMLWidget(UMLObject *object) :
-    WidgetBase(object),
+UMLWidget::UMLWidget(UMLObject *object)
+  : WidgetBase(object),
     m_size(20, 20),
     m_minimumSize(UMLWidget::DefaultMinimumSize),
     m_maximumSize(UMLWidget::DefaultMaximumSize),
@@ -182,6 +182,9 @@ void UMLWidget::setIsInstance(bool b)
     updateTextItemGroups();
 }
 
+/**
+ * Setter for flag whether stereotypes are shown.
+ */
 void UMLWidget::setShowStereotype(bool b)
 {
     m_showStereotype = b;
@@ -189,6 +192,9 @@ void UMLWidget::setShowStereotype(bool b)
     updateTextItemGroups();
 }
 
+/**
+ * Dialog of the properties is shown.
+ */
 void UMLWidget::showPropertiesDialog()
 {
     // will already be selected so make sure docWindow updates the doc
@@ -196,7 +202,6 @@ void UMLWidget::showPropertiesDialog()
     DocWindow *docwindow = UMLApp::app()->getDocWindow();
     docwindow->updateDocumentation(false);
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
-
     if (dlg->exec()) {
         docwindow->showDocumentation(umlObject() , true);
         umlDoc()->setModified(true);
@@ -214,11 +219,17 @@ AssociationWidgetList UMLWidget::associationWidgetList() const
     return m_associationSpaceManager->associationWidgets().toList();
 }
 
+/**
+ *
+ */
 AssociationSpaceManager* UMLWidget::associationSpaceManager() const
 {
     return m_associationSpaceManager;
 }
 
+/**
+ *
+ */
 bool UMLWidget::activate()
 {
     setActivatedFlag(false);
@@ -232,11 +243,8 @@ bool UMLWidget::activate()
             }
             setUMLObject(obj);
         }
-
         setSize(m_loadData.value("size").toSizeF());
-
         setInstanceName(m_loadData.value("instanceName").toString());
-
         setShowStereotype(m_loadData.value("showStereotype").toBool());
     }
     return WidgetBase::activate();
@@ -265,9 +273,12 @@ void UMLWidget::adjustAssociations(bool userChangeAdjust)
     //TODO: Implement this once AssociationWidget's are implemented.
 }
 
+/**
+ * XMI structure is read and attributes are loaded.
+ */
 bool UMLWidget::loadFromXMI(QDomElement &qElement)
 {
-    if(!WidgetBase::loadFromXMI(qElement)) {
+    if (!WidgetBase::loadFromXMI(qElement)) {
         return false;
     }
 
@@ -277,17 +288,17 @@ bool UMLWidget::loadFromXMI(QDomElement &qElement)
     size.setWidth(qElement.attribute("width", "0").toDouble());
     size.setHeight(qElement.attribute("height", "0").toDouble());
     m_loadData.insert("size", size);
-
     m_isInstance = (bool)qElement.attribute("isinstance", "0").toInt();
-
     m_loadData.insert("instanceName", qElement.attribute("instancename"));
-
     m_loadData.insert("showStereotype",
             (bool)qElement.attribute("showstereotype", "0").toInt());
 
     return true;
 }
 
+/**
+ * Properties of the UMLWidget are written into XMI structure.
+ */
 void UMLWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 {
     WidgetBase::saveToXMI(qDoc, qElement);
@@ -298,7 +309,7 @@ void UMLWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     qElement.setAttribute("height", sz.height());
     qElement.setAttribute("isinstance", m_isInstance);
 
-    if(!m_instanceName.isEmpty()) {
+    if (!m_instanceName.isEmpty()) {
         qElement.setAttribute("instancename", m_instanceName);
     }
 
@@ -367,10 +378,21 @@ void UMLWidget::updateGeometry()
 void UMLWidget::setResizable(bool resizable)
 {
     m_resizable = resizable;
-    if(!m_resizable) {
+    if (!m_resizable) {
         delete m_widgetHandle;
         m_widgetHandle = 0;
     }
+}
+
+/**
+ * Event handler for context menu events.
+ * Note: It is public because it is called from UMLScene::contextMenuEvent(event).
+ *       This should not be.
+ */
+void UMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
+{
+    uDebug() << "widget " << name();
+    WidgetBase::contextMenuEvent(event);
 }
 
 /**
@@ -418,7 +440,6 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
     }
     const Qt::KeyboardModifiers save = e->modifiers();
     const Qt::KeyboardModifiers forMulti = (Qt::ControlModifier | Qt::ShiftModifier);
-
 
     if ((save & forMulti) != 0) {
         bool constrainY = ((save & forMulti) != forMulti);
@@ -476,7 +497,6 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         }
     }
 
-
     foreach (QGraphicsItem *item, selection) {
         WidgetBase *wid = qobject_cast<WidgetBase*>(item->toGraphicsObject());
         if (wid) {
@@ -514,9 +534,16 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
+/**
+ * Event handler for mouse double clicks.
+ * The properties dialog is shown.
+ */
 void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    Q_UNUSED(event);
+    if (event->button() == Qt::LeftButton) {
+        showPropertiesDialog();
+        event->accept();
+    }
 }
 
 /**
@@ -526,11 +553,11 @@ void UMLWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
  */
 QVariant UMLWidget::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if(change == QGraphicsItem::ItemSelectedHasChanged) {
+    if (change == QGraphicsItem::ItemSelectedHasChanged) {
         // create/delete widget handle on selection change
         bool selection = value.toBool();
-        if(selection) {
-            if(!m_widgetHandle) {
+        if (selection) {
+            if (!m_widgetHandle) {
                 m_widgetHandle = new WidgetHandle(this);
             }
         }
@@ -589,7 +616,7 @@ int UMLWidget::indexOfTextItemGroup(TextItemGroup *group) const
  */
 TextItemGroup* UMLWidget::textItemGroupAt(int index) const
 {
-    if(index < 0 || index >= m_textItemGroups.size()) {
+    if (index < 0 || index >= m_textItemGroups.size()) {
         qFatal("UMLWidget::textItemGroupAt: Invalid index %d", index);
     }
     return m_textItemGroups[index];
