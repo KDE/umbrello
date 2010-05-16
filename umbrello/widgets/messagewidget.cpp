@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -92,13 +92,16 @@ MessageWidget::MessageWidget(ObjectWidget* a, const QPointF& clickedPos,
 {
     init();
     setID(id);
-    m_objectWidgets[Uml::A] = m_objectWidgets[Uml::B] = a;
+    m_objectWidgets[Uml::A] = a;
+    m_objectWidgets[Uml::B] = a;
 
     m_sequenceMessageType = seqMsgType;
     m_clickedPoint = clickedPos;
 }
 
-/// A private method for common initialization used in all constructors.
+/**
+ * A private method for common initialization used in all constructors.
+ */
 void MessageWidget::init()
 {
     m_baseType = Uml::wt_Message;
@@ -107,7 +110,7 @@ void MessageWidget::init()
     m_objectWidgets[Uml::A] = m_objectWidgets[Uml::B] = 0;
 
     Uml::Text_Role tr = Uml::tr_Seq_Message;
-    m_floatingTextWidget = new FloatingTextWidget( tr );
+    m_floatingTextWidget = new FloatingTextWidget(tr);
     m_floatingTextWidget->setFont(font());
     m_floatingTextWidget->setLink(this);
     m_floatingTextWidget->hide(); // Hide initially until a text is set
@@ -117,7 +120,9 @@ void MessageWidget::init()
     // on this widget for the first time. (see slotDelayedInit)
 }
 
-/// Destructor. Inform Object widgets about destruction.
+/**
+ * Destructor. Inform Object widgets about destruction.
+ */
 MessageWidget::~MessageWidget()
 {
     if (m_objectWidgets[Uml::A]) {
@@ -135,7 +140,7 @@ MessageWidget::~MessageWidget()
  */
 void MessageWidget::lwSetFont (QFont font)
 {
-    UMLWidget::setFont( font );
+    UMLWidget::setFont(font);
 }
 
 /**
@@ -143,7 +148,7 @@ void MessageWidget::lwSetFont (QFont font)
  *
  * @todo Move to LinkWidget.
  */
-UMLClassifier *MessageWidget::getOperationOwner()
+UMLClassifier *MessageWidget::operationOwner()
 {
     UMLObject *pObject = m_objectWidgets[Uml::B]->umlObject();
     if (pObject == NULL)
@@ -156,7 +161,7 @@ UMLClassifier *MessageWidget::getOperationOwner()
  * Implements operation from LinkWidget.  Motivated by
  * FloatingTextWidget.
  */
-UMLOperation *MessageWidget::getOperation()
+UMLOperation *MessageWidget::operation()
 {
     if (umlObject()) {
         if (umlObject()->getBaseType() == Uml::ot_Operation) {
@@ -186,7 +191,7 @@ void MessageWidget::setOperation(UMLOperation *op)
  * Overrides operation from LinkWidget.  Required by
  * FloatingTextWidget.
  */
-QString MessageWidget::getCustomOpText()
+QString MessageWidget::customOpText()
 {
     return m_customOperation;
 }
@@ -211,7 +216,7 @@ void MessageWidget::setMessageText(FloatingTextWidget *ft)
 {
     if (!ft)
         return;
-    QString displayText = m_sequenceNumber + ": " + LinkWidget::getOperationText(umlScene());
+    QString displayText = m_sequenceNumber + ": " + LinkWidget::operationText(umlScene());
     ft->setText(displayText);
     show();
     setTextPosition();
@@ -236,10 +241,10 @@ void MessageWidget::setText(FloatingTextWidget *ft, const QString &newText)
  * @param seqNum   Return this MessageWidget's sequence number string.
  * @param op       Return this MessageWidget's operation string.
  */
-UMLClassifier * MessageWidget::getSeqNumAndOp(QString& seqNum, QString& op)
+UMLClassifier * MessageWidget::seqNumAndOp(QString& seqNum, QString& op)
 {
     seqNum = m_sequenceNumber;
-    UMLOperation *pOperation = getOperation();
+    UMLOperation *pOperation = operation();
     if (pOperation) {
         op = pOperation->toString(Uml::st_SigNoVis);
     } else {
@@ -259,7 +264,7 @@ UMLClassifier * MessageWidget::getSeqNumAndOp(QString& seqNum, QString& op)
  */
 void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
 {
-    setSequenceNumber( seqNum );
+    setSequenceNumber(seqNum);
     m_customOperation = op;   ///FIXME m_pOperation
 }
 
@@ -414,7 +419,6 @@ void MessageWidget::handleObjectMove(ObjectWidget *wid)
         setWidth(qAbs(m_clickedPoint.x() - roleAX));
     }
 
-
     m_clickedPoint.ry() = qMax(m_clickedPoint.y(), minY());
     m_clickedPoint.ry() = qMin(m_clickedPoint.y(), maxY());
 }
@@ -429,19 +433,24 @@ void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
 
     switch (m_sequenceMessageType) {
     case Uml::sequence_message_asynchronous:
-        drawAsynchronous(painter); break;
+        drawAsynchronous(painter);
+	break;
 
     case Uml::sequence_message_synchronous:
-        drawSynchronous(painter); break;
+        drawSynchronous(painter);
+	break;
 
     case Uml::sequence_message_creation:
-        drawCreation(painter); break;
+        drawCreation(painter);
+	break;
 
     case Uml::sequence_message_lost:
-        drawLost(painter); break;
+        drawLost(painter);
+	break;
 
     case Uml::sequence_message_found:
-        drawFound(painter); break;
+        drawFound(painter);
+	break;
     }
 }
 
@@ -532,7 +541,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
         QString tag = element.tagName();
         if (tag == "floatingtext") {
             m_floatingTextWidget = new FloatingTextWidget( tr, m_textId );
-            m_floatingTextWidget->setText(getOperationText(umlScene()));
+            m_floatingTextWidget->setText(operationText(umlScene()));
             if( ! m_floatingTextWidget->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_floatingTextWidget;
@@ -551,7 +560,7 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     UMLWidget::saveToXMI( qDoc, messageElement );
     messageElement.setAttribute( "widgetaid", ID2STR(m_objectWidgets[Uml::A]->localID()) );
     messageElement.setAttribute( "widgetbid", ID2STR(m_objectWidgets[Uml::B]->localID()) );
-    UMLOperation *pOperation = getOperation();
+    UMLOperation *pOperation = operation();
     if (pOperation)
         messageElement.setAttribute( "operation", ID2STR(pOperation->getID()) );
     else
@@ -682,7 +691,6 @@ void MessageWidget::setTextPosition()
     m_floatingTextWidget->setPos(ftX, ftY);
 }
 
-
 /**
  * Shortcut for calling m_floatingTextWidget->setLink() followed by
  * this->setTextPosition().
@@ -742,7 +750,6 @@ void MessageWidget::drawSynchronous(QPainter *painter)
         painter->drawRect(syncPath);
         Widget_Utils::drawArrowHead(painter, syncPath.bottomLeft(),
                                     ArrowSize, Qt::LeftArrow, false);
-
         return;
     }
 

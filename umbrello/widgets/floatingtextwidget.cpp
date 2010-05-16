@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,8 +15,8 @@
 #include "association.h"
 #include "classifier.h"
 #include "cmds.h"
-#include "dialogs/assocpropdlg.h"
-#include "dialogs/selectopdlg.h"
+#include "assocpropdlg.h"
+#include "selectopdlg.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
 #include "model_utils.h"
@@ -97,7 +97,7 @@ void FloatingTextWidget::setText(const QString &t)
     QString text;
     if (m_textRole == Uml::tr_Seq_Message || m_textRole == Uml::tr_Seq_Message_Self) {
         QString seqNum, op;
-        m_linkWidget->getSeqNumAndOp(seqNum, op);
+        m_linkWidget->seqNumAndOp(seqNum, op);
         if (!seqNum.isEmpty() || !op.isEmpty()) {
             if (umlScene() && ! umlScene()->getShowOpSig()) {
                 op.replace(QRegExp("\\(.*\\)"), "()");
@@ -186,7 +186,7 @@ void FloatingTextWidget::showOperationDialog()
         return;
     }
     QString seqNum, opText;
-    UMLClassifier* c = m_linkWidget->getSeqNumAndOp(seqNum, opText);
+    UMLClassifier* c = m_linkWidget->seqNumAndOp(seqNum, opText);
     if (!c) {
         uError() << "m_linkWidget->getSeqNumAndOp() returns a NULL classifier";
         return;
@@ -194,7 +194,7 @@ void FloatingTextWidget::showOperationDialog()
 
     QPointer<SelectOpDlg> selectDlg = new SelectOpDlg(umlScene()->activeView(), c);
     selectDlg->setSeqNumber(seqNum);
-    if (m_linkWidget->getOperation() == 0) {
+    if (m_linkWidget->operation() == 0) {
         selectDlg->setCustomOp(opText);
     } else {
         selectDlg->setClassOp(opText);
@@ -602,7 +602,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
                 uDebug() << "mt_Operation: " << "m_linkWidget is NULL";
                 return;
             }
-            UMLClassifier* c = m_linkWidget->getOperationOwner();
+            UMLClassifier* c = m_linkWidget->operationOwner();
             if (c == 0) {
                 bool ok = false;
                 QString opText = KInputDialog::getText(i18nc("operation name", "Name"),

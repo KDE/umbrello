@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2008-2009                                               *
+ *   copyright (C) 2008-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,7 +17,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "classifierwidget.h"
-#include "dialogs/assocpropdlg.h"
+#include "assocpropdlg.h"
 #include "entity.h"
 #include "floatingtextwidget.h"
 #include "objectwidget.h"
@@ -201,7 +201,7 @@ void AssociationWidget::lwSetFont(QFont font)
     WidgetBase::setFont(font);
 }
 
-UMLClassifier *AssociationWidget::getOperationOwner()
+UMLClassifier *AssociationWidget::operationOwner()
 {
     Uml::Role_Type role = isCollaboration() ? Uml::B : Uml::A;
     UMLObject *o = widgetForRole(role)->umlObject();
@@ -214,7 +214,7 @@ UMLClassifier *AssociationWidget::getOperationOwner()
 }
 
 
-UMLOperation *AssociationWidget::getOperation()
+UMLOperation *AssociationWidget::operation()
 {
     return dynamic_cast<UMLOperation*>(umlObject());
 }
@@ -224,7 +224,7 @@ void AssociationWidget::setOperation(UMLOperation *op)
     setUMLObject(op);
 }
 
-QString AssociationWidget::getCustomOpText()
+QString AssociationWidget::customOpText()
 {
     return name();
 }
@@ -233,7 +233,6 @@ void AssociationWidget::setCustomOpText(const QString &opText)
 {
     setName(opText);
 }
-
 
 void AssociationWidget::resetTextPositions()
 {
@@ -266,7 +265,7 @@ void AssociationWidget::setMessageText(FloatingTextWidget *ft)
     if (isCollaboration()) {
         if (umlObject()) {
             msg = multiplicity(Uml::A) + QLatin1String(": ") +
-                LinkWidget::getOperationText(umlScene());
+                LinkWidget::operationText(umlScene());
         } else {
             msg = multiplicity(Uml::A) + QLatin1String(": ") +
                 name();
@@ -299,7 +298,6 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
             break;
     }
 }
-
 
 void AssociationWidget::showPropertiesDialog()
 {
@@ -334,8 +332,7 @@ void AssociationWidget::showPropertiesDialog()
     delete dlg;
 }
 
-
-UMLClassifier* AssociationWidget::getSeqNumAndOp(QString& seqNum, QString& op)
+UMLClassifier* AssociationWidget::seqNumAndOp(QString& seqNum, QString& op)
 {
     seqNum = multiplicity(Uml::A);
     op = name();
@@ -349,7 +346,6 @@ void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
     }
     setMultiplicity(seqNum, Uml::A);
 }
-
 
 QGraphicsEllipseItem *eellipse = 0;
 QGraphicsLineItem *lline = 0;
@@ -485,7 +481,6 @@ void AssociationWidget::calculateNameTextSegment()
         }
     }
 }
-
 
 UMLAssociation* AssociationWidget::association() const
 {

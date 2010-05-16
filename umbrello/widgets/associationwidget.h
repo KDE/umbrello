@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2009                                                    *
+ *   copyright (C) 2009-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -58,12 +57,12 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         //---------- LinkWidget Interface methods implemementation from now on.
 
         virtual void lwSetFont (QFont font);
-        virtual UMLClassifier *getOperationOwner();
+        virtual UMLClassifier *operationOwner();
 
-        virtual UMLOperation *getOperation();
+        virtual UMLOperation *operation();
         virtual void setOperation(UMLOperation *op);
 
-        virtual QString getCustomOpText();
+        virtual QString customOpText();
         virtual void setCustomOpText(const QString &opText);
 
         virtual void resetTextPositions();
@@ -73,7 +72,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 
         virtual void showPropertiesDialog();
 
-        virtual UMLClassifier* getSeqNumAndOp(QString& seqNum, QString& op);
+        virtual UMLClassifier* seqNumAndOp(QString& seqNum, QString& op);
         virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
         virtual void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,

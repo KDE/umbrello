@@ -1,18 +1,17 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef LINKWIDGET_H
 #define LINKWIDGET_H
 
-#include <QFont>
+#include <QtGui/QFont>
 
 #include "umlnamespace.h"
 
@@ -47,12 +46,12 @@ public:
      */
     virtual void lwSetFont(QFont font) = 0;
 
-    virtual UMLClassifier *getOperationOwner();
+    virtual UMLClassifier *operationOwner();
 
     /**
      * Motivated by FloatingTextWidget::slotMenuSelection(mt_Operation)
      */
-    virtual UMLOperation *getOperation() = 0;
+    virtual UMLOperation *operation() = 0;
 
     /**
      * Motivated by FloatingTextWidget::slotMenuSelection(mt_Operation)
@@ -62,14 +61,14 @@ public:
     /**
      * Motivated by getOperationText()
      */
-    virtual QString getCustomOpText() = 0;
+    virtual QString customOpText() = 0;
 
     /**
      * Motivated by FloatingTextWidget::slotMenuSelection(mt_Operation)
      */
     virtual void setCustomOpText(const QString &opText) = 0;
 
-    QString getOperationText(UMLScene *scene = NULL);
+    QString operationText(UMLScene *scene = NULL);
 
     virtual void resetTextPositions();
 
@@ -88,7 +87,7 @@ public:
     /**
      * Motivated by FloatingTextWidget::showOpDlg()
      */
-    virtual UMLClassifier *getSeqNumAndOp(QString& seqNum, QString& op) = 0;
+    virtual UMLClassifier *seqNumAndOp(QString& seqNum, QString& op) = 0;
 
     /**
      * Motivated by FloatingTextWidget::showOpDlg()

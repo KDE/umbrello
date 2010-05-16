@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,8 +13,8 @@
 
 #include "umlwidget.h"
 #include "linkwidget.h"
-#include "clipboard/idchangelog.h"
-//Added by qt3to4:
+#include "idchangelog.h"
+
 #include <QGraphicsSceneMouseEvent>
 #include <QMoveEvent>
 #include <QResizeEvent>
@@ -43,7 +43,7 @@ class MessageWidgetController;
  * @see ObjectWidget
  * @see FloatingTextWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
-n */
+ */
 class MessageWidget : public UMLWidget, public LinkWidget
 {
     Q_OBJECT
@@ -61,18 +61,18 @@ public:
     //---------- LinkWidget Interface methods implemementation from now on.
 
     virtual void lwSetFont (QFont font);
-    virtual UMLClassifier *getOperationOwner();
+    virtual UMLClassifier *operationOwner();
 
-    virtual UMLOperation *getOperation();
+    virtual UMLOperation *operation();
     virtual void setOperation(UMLOperation *op);
 
-    virtual QString getCustomOpText();
+    virtual QString customOpText();
     virtual void setCustomOpText(const QString &opText);
 
     virtual void setMessageText(FloatingTextWidget *ft);
     virtual void setText(FloatingTextWidget *ft, const QString &newText);
 
-    virtual UMLClassifier* getSeqNumAndOp(QString& seqNum, QString& op);
+    virtual UMLClassifier* seqNumAndOp(QString& seqNum, QString& op);
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
     virtual void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
@@ -146,11 +146,10 @@ private:
 
     void init();
 
-    ObjectWidget * m_objectWidgets[2];
+    ObjectWidget *       m_objectWidgets[2];
     FloatingTextWidget * m_floatingTextWidget;
-
-    QString m_sequenceNumber;
-    QString m_customOperation;
+    QString              m_sequenceNumber;
+    QString              m_customOperation;
 
     /**
      * This is the static point on diagram used for found/lost message
