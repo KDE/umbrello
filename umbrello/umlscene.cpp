@@ -507,8 +507,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
     m_WidgetList.append(w);
     m_pDoc->setModified();
 
-    // [PORT]
-    // UMLApp::app()->executeCommand(new CmdCreateWidget(this, w));
+    UMLApp::app()->executeCommand(new CmdCreateWidget(this, w));
 }
 
 /**
@@ -1957,15 +1956,12 @@ bool UMLScene::addWidget(UMLWidget * pWidget , bool isPasteOperation)
     return true;
 }
 
-// Add the association, and its child widgets to this view
-
 /**
- * Adds an association to the view from the given data.
+ * Add the association, and its child widgets to this view from the given data.
  * Use this method when pasting.
  */
 bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
 {
-
     if (!pAssoc) {
         return false;
     }
@@ -2915,6 +2911,9 @@ void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
         widget->contextMenuEvent(event);
     }
     else {
+        // set the position for the eventually created widget
+        setPos(event->scenePos());
+
         setMenu(event->screenPos());
         event->accept();
     }
@@ -3000,7 +2999,7 @@ void UMLScene::slotRemovePopupMenu()
 void UMLScene::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::Menu_Type sel = ListPopupMenu::mt_Undefined;
-    if (m_pMenu != NULL) {  // popup from this class
+    if (m_pMenu) {  // popup from this class
         sel = m_pMenu->getMenuType(action);
     } else { // popup from umldoc
         sel = m_pDoc->getPopupMenuSelection(action);

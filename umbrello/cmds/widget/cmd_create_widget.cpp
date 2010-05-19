@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,7 +12,7 @@
 
 // app includes
 #include "umlwidget.h"
-#include "umlview.h"
+#include "umlscene.h"
 
 // kde includes
 #include <klocale.h>
@@ -20,10 +20,11 @@
 namespace Uml
 {
 
-    CmdCreateWidget::CmdCreateWidget(UMLView* view, UMLWidget* w)
-      : m_view(view), m_widget(w)
+    CmdCreateWidget::CmdCreateWidget(UMLScene* scene, UMLWidget* widget)
+      : m_scene(scene),
+        m_widget(widget)
     {
-        setText(i18n("Create widget :") + w->name());
+        setText(i18n("Create widget :") + widget->name());
     }
 
     CmdCreateWidget::~CmdCreateWidget()
@@ -32,7 +33,7 @@ namespace Uml
     }
 
     /**
-     * Create the UMLObject.
+     * Create the UMLWidget.
      */
     void CmdCreateWidget::redo()
     {
@@ -40,7 +41,7 @@ namespace Uml
     }
 
     /**
-     * Suppress the UMLObject.
+     * Suppress the UMLWidget.
      */
     void CmdCreateWidget::undo()
     {
