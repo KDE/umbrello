@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2009                                                *
+ *  copyright (C) 2003-2010                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -239,7 +239,7 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     // fill up the combo boxes
 
     // reference entity combo box
-    UMLEntityList entList = m_doc->getEntities();
+    UMLEntityList entList = m_doc->entities();
 
     foreach(UMLEntity* ent, entList) {
         m_GeneralWidgets.referencedEntityCB->addItem(ent->getName());

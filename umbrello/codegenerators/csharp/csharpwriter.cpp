@@ -180,7 +180,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
     }
 
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
+    UMLFolder *logicalView = umldoc->rootFolder(Uml::mt_Logical);
 
     // write generic includes
     cs << "using System;" << m_endl;

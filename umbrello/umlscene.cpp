@@ -1652,7 +1652,7 @@ void UMLScene::activate()
         // if (obj->isActivated())
         //     continue;
 
-// [PORT]        obj->activate(m_pDoc->getChangeLog());
+// [PORT]        obj->activate(m_pDoc->changeLog());
         obj->setVisible(true);
 
     }//end foreach
@@ -1749,7 +1749,7 @@ bool UMLScene::addWidget(UMLWidget * pWidget , bool isPasteOperation)
                  << ") because it is already there";
         return false;
     }
-    IDChangeLog * log = m_pDoc->getChangeLog();
+    IDChangeLog * log = m_pDoc->changeLog();
     if (isPasteOperation && (!log || !m_pIDChangesLog)) {
         uError() << " Cant addWidget to view in paste op because a log is not open";
         return false;
@@ -1969,7 +1969,7 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
     const Association_Type assoType = pAssoc->associationType();
 
     if (isPasteOperation) {
-        IDChangeLog * log = m_pDoc->getChangeLog();
+        IDChangeLog * log = m_pDoc->changeLog();
 
         if (!log) {
             removeItem(pAssoc);
@@ -3002,7 +3002,7 @@ void UMLScene::slotMenuSelection(QAction* action)
     if (m_pMenu) {  // popup from this class
         sel = m_pMenu->getMenuType(action);
     } else { // popup from umldoc
-        sel = m_pDoc->getPopupMenuSelection(action);
+        sel = m_pDoc->popupMenuSelection(action);
     }
     switch (sel) {
     case ListPopupMenu::mt_Undo:

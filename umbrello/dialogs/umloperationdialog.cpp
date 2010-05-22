@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -530,7 +530,7 @@ void UMLOperationDialog::insertTypesSorted( const QString& type )
         }
     }
     // add the Classes and Interfaces (both are Concepts)
-    UMLClassifierList namesList( m_doc->getConcepts() );
+    UMLClassifierList namesList( m_doc->concepts() );
     foreach (UMLClassifier* obj, namesList) {
          types << obj->getFullyQualifiedName();
     }
@@ -559,7 +559,7 @@ void UMLOperationDialog::insertTypesSorted( const QString& type )
 void UMLOperationDialog::insertStereotypesSorted( const QString& type )
 {
     QStringList types;
-    foreach (UMLStereotype* currentSt, m_doc->getStereotypes() ) {
+    foreach (UMLStereotype* currentSt, m_doc->stereotypes() ) {
         types << currentSt->getName();
     }
     // add the given parameter

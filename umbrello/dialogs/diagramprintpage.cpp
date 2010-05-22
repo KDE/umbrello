@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -183,7 +183,7 @@ bool DiagramPrintPage::isSelected(int index)
  */
 void DiagramPrintPage::slotClicked()
 {
-    UMLViewList list = m_pDoc->getViewIterator();
+    UMLViewList list = m_pDoc->viewIterator();
     QString type;
 
     // clear list with diagrams to print
@@ -241,7 +241,7 @@ void DiagramPrintPage::slotClicked()
  */
 void DiagramPrintPage::slotActivated(int index)
 {
-    UMLViewList list = m_pDoc->getViewIterator();
+    UMLViewList list = m_pDoc->viewIterator();
 
     // combo box entries start from 0 index
     // valid diagram_type enum values start from 1

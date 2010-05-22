@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -438,7 +438,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
         return false;
     }
 
-    idchanges = doc->getChangeLog();
+    idchanges = doc->changeLog();
     if(!idchanges) {
         return false;
     }
@@ -486,7 +486,7 @@ bool UMLClipboard::pasteClip3(const QMimeData* data)
 {
     UMLDoc *doc = UMLApp::app()->getDocument();
     UMLListViewItemList itemdatalist;
-    IDChangeLog* idchanges = doc->getChangeLog();
+    IDChangeLog* idchanges = doc->changeLog();
 
     if(!idchanges) {
         return false;
@@ -544,7 +544,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
         }
     }
 
-    idchanges = doc->getChangeLog();
+    idchanges = doc->changeLog();
     if(!idchanges) {
         return false;
     }
@@ -647,7 +647,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
     }
 
     doc->setModified(true);
-    idchanges = doc->getChangeLog();
+    idchanges = doc->changeLog();
     // Assume success if at least one child object could be pasted
     if (objects.count())
         result = false;

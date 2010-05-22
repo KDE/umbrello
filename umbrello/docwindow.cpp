@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -79,7 +79,7 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
         updateDocumentation( true );
     m_Showing = st_UMLObject;
     if( !object ) {
-        m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
+        m_pDocTE->setText( m_pUMLDoc->documentation() );
         m_pUMLObject = 0;
         return;
     }
@@ -149,7 +149,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLDoc->getDocumentation() )
+        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLDoc->documentation() )
         {
             mark_modified = true;
         }
@@ -163,7 +163,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
 
     // we should show the documentation of the whole project
     if( clear ) {
-        m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
+        m_pDocTE->setText( m_pUMLDoc->documentation() );
         m_pUMLObject = 0;
         m_pUMLView = 0;
         m_pUMLWidget = 0;
@@ -184,7 +184,7 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite )
         updateDocumentation( true );
     m_Showing = st_UMLView;
     if( !view ) {
-        m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
+        m_pDocTE->setText( m_pUMLDoc->documentation() );
         m_pUMLView = 0;
         return;
     }
@@ -206,7 +206,7 @@ void DocWindow::showDocumentation( UMLWidget * widget, bool overwrite )
         updateDocumentation( true );
     m_Showing = st_UMLWidget;
     if( !widget ) {
-        m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
+        m_pDocTE->setText( m_pUMLDoc->documentation() );
         m_pUMLWidget = 0;
         return;
     }
@@ -227,7 +227,7 @@ void DocWindow::showDocumentation( AssociationWidget * widget, bool overwrite )
         updateDocumentation( true );
     m_Showing = st_Association;
     if( !widget ) {
-        m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
+        m_pDocTE->setText( m_pUMLDoc->documentation() );
         m_pAssocWidget = 0;
         return;
     }
@@ -245,7 +245,7 @@ void DocWindow::newDocumentation( )
     m_pUMLWidget = 0;
     m_pAssocWidget = 0;
     m_Showing = st_Project;
-    m_pDocTE->setText( m_pUMLDoc->getDocumentation() );
+    m_pDocTE->setText( m_pUMLDoc->documentation() );
 }
 
 /**

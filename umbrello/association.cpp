@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -296,7 +296,7 @@ bool UMLAssociation::load( QDomElement & element )
                 m_pRole[role]->setObject(obj[r]);
                 if (m_pUMLPackage == NULL) {
                     Uml::Model_Type mt = Model_Utils::convert_OT_MT(obj[r]->getBaseType());
-                    m_pUMLPackage = doc->getRootFolder(mt);
+                    m_pUMLPackage = doc->rootFolder(mt);
                     uDebug() << "assoctype " << m_AssocType
                         << ": setting model type " << mt;
                 }
@@ -399,7 +399,7 @@ bool UMLAssociation::load( QDomElement & element )
 
         if (m_pUMLPackage == NULL) {
             Uml::Model_Type mt = Model_Utils::convert_OT_MT(getObject(B)->getBaseType());
-            m_pUMLPackage = doc->getRootFolder(mt);
+            m_pUMLPackage = doc->rootFolder(mt);
             uDebug() << "setting model type " << mt;
         }
 

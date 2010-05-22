@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -82,8 +82,8 @@ public:
 
     bool newDocument();
     void closeDocument();
-    bool openDocument(const KUrl& url, const char *format=0);
-    bool saveDocument(const KUrl& url, const char *format=0);
+    bool openDocument(const KUrl& url, const char *format = 0);
+    bool saveDocument(const KUrl& url, const char *format = 0);
 
     const KUrl& url() const;
     void setUrl(const KUrl& url);
@@ -102,14 +102,13 @@ public:
     UMLAssociation * findAssociation(Uml::Association_Type assocType,
                                      const UMLObject *roleAObj,
                                      const UMLObject *roleBObj,
-                                     bool *swap = NULL);
+                                     bool *swap = 0);
 
     UMLView* createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName = true);
     void removeDiagram(Uml::IDType id);
     void renameDiagram(Uml::IDType id);
 
     void removeUMLObject(UMLObject* umlobject);
-
     void renameUMLObject(UMLObject *o);
     void renameChildUMLObject(UMLObject *o);
 
@@ -117,7 +116,7 @@ public:
 
     UMLObject* findUMLObject(const QString &name,
                              Uml::Object_Type type = Uml::ot_UMLObject,
-                             UMLObject *currentObj = NULL);
+                             UMLObject *currentObj = 0);
 
     //:TODO: UMLObject* findObjectByAuxId(const QString &idStr);
 
@@ -130,13 +129,13 @@ public:
                        bool searchAllScopes = false);
 
     void setName(const QString& name);
-    QString getName() const;
+    QString name() const;
 
-    Uml::IDType getModelID() const;
+    Uml::IDType modelID() const;
 
     virtual void saveToXMI(QIODevice& file);
 
-    short getEncoding(QIODevice & file);
+    short encoding(QIODevice & file);
 
     virtual bool loadFromXMI(QIODevice& file, short encode = ENC_UNKNOWN);
 
@@ -149,34 +148,32 @@ public:
     void signalDiagramRenamed(UMLView * view);
     void signalUMLObjectCreated(UMLObject * o);
 
-    UMLFolder * getDatatypeFolder() const;
-
-    UMLClassifierList getConcepts(bool includeNested = true);
-    UMLClassifierList getClasses(bool includeNested = true);
-    UMLClassifierList getClassesAndInterfaces(bool includeNested = true);
-    UMLEntityList getEntities(bool includeNested = true);
-    UMLClassifierList getInterfaces(bool includeNested = true);
-    UMLClassifierList getDatatypes();
-    UMLAssociationList getAssociations();
-    UMLPackageList getPackages(bool includeNested = true);
+    UMLClassifierList concepts(bool includeNested = true);
+    UMLClassifierList classes(bool includeNested = true);
+    UMLClassifierList classesAndInterfaces(bool includeNested = true);
+    UMLEntityList entities(bool includeNested = true);
+    UMLClassifierList interfaces(bool includeNested = true);
+    UMLFolder * datatypeFolder() const;
+    UMLClassifierList datatypes();
+    UMLAssociationList associations();
+    UMLPackageList packages(bool includeNested = true);
 
     void print(QPrinter * pPrinter, DiagramPrintPage * selectPage);
 
-    UMLViewList getViewIterator();
+    UMLViewList viewIterator();
 
     bool assignNewIDs(UMLObject* obj);
 
     bool addUMLObject(UMLObject * object);
     bool addUMLView(UMLView * pView );
 
-    UMLFolder *getRootFolder(Uml::Model_Type mt);
-
+    UMLFolder *rootFolder(Uml::Model_Type mt);
     Uml::Model_Type rootFolderType(UMLObject *obj);
 
     UMLFolder *currentRoot();
     void setCurrentRoot(Uml::Model_Type rootType);
 
-    virtual IDChangeLog* getChangeLog();
+    virtual IDChangeLog* changeLog();
 
     void beginPaste();
     void endPaste();
@@ -184,11 +181,11 @@ public:
     Uml::IDType assignNewID(Uml::IDType oldID);
 
     void setDocumentation(const QString &doc);
-    QString getDocumentation() const;
+    QString documentation() const;
 
     void settingsChanged(Settings::OptionState optionState);
 
-    int getFileVersion() const;
+    int fileVersion() const;
 
     QString uniqViewName(const Uml::Diagram_Type type);
 
@@ -204,13 +201,13 @@ public:
     void addStereotype(UMLStereotype *s);
     void removeStereotype(UMLStereotype *s);
     void addDefaultStereotypes();
-    const UMLStereotypeList& getStereotypes();
+    const UMLStereotypeList& stereotypes() const;
 
     void writeToStatusBar(const QString &text);
 
     void resolveTypes();
 
-    ListPopupMenu::Menu_Type getPopupMenuSelection(QAction* action);
+    ListPopupMenu::Menu_Type popupMenuSelection(QAction* action);
 
 private:
     void initSaveTimer();
@@ -285,7 +282,7 @@ private:
     /**
      * Auxiliary variable for currentRoot():
      * m_pCurrentRoot is only used if UMLApp::app()->getCurrentView()
-     * returns NULL.
+     * returns 0.
      */
     UMLFolder * m_pCurrentRoot;
 

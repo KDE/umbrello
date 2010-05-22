@@ -74,7 +74,7 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
     QString className = cleanName(p->getName());
     QString retval;
 
-    if (umlPkg == UMLApp::app()->getDocument()->getRootFolder(Uml::mt_Logical))
+    if (umlPkg == UMLApp::app()->getDocument()->rootFolder(Uml::mt_Logical))
         umlPkg = NULL;
 
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(p);

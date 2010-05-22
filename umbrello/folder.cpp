@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -501,11 +501,11 @@ bool UMLFolder::load(QDomElement& element)
         }
         // Do not re-create the predefined Datatypes folder in the Logical View,
         // it already exists.
-        UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
+        UMLFolder *logicalView = umldoc->rootFolder(Uml::mt_Logical);
         if (this == logicalView && Uml::tagEq(type, "Package")) {
             QString thisName = tempElement.attribute("name", "");
             if (thisName == "Datatypes") {
-                UMLFolder *datatypeFolder = umldoc->getDatatypeFolder();
+                UMLFolder *datatypeFolder = umldoc->datatypeFolder();
                 if (!datatypeFolder->loadFromXMI(tempElement))
                     totalSuccess = false;
                 continue;

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -66,10 +66,10 @@ void CodeGenSelectPage::setClassifierList(UMLClassifierList *classList)
 
         switch (type) {
            case Uml::mt_Logical:
-               cList = doc->getClassesAndInterfaces();
+               cList = doc->classesAndInterfaces();
                break;
            case Uml::mt_EntityRelationship:
-               foreach (UMLEntity* ent, doc->getEntities()) {
+               foreach (UMLEntity* ent, doc->entities()) {
                    cList.append(ent);
                }
                break;

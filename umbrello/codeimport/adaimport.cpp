@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2009                                               *
+ *   copyright (C) 2005-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -252,7 +252,7 @@ bool AdaImport::parseStmt()
                 gp->setStereotype("generic");
                 // Add binding from instantiator to instantiatee
                 UMLAssociation *assoc = new UMLAssociation(Uml::at_Dependency, ns, gp);
-                assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
+                assoc->setUMLPackage(umldoc->rootFolder(Uml::mt_Logical));
                 assoc->setStereotype("bind");
                 // Work around missing display of stereotype in AssociationWidget:
                 assoc->setName(assoc->getStereotype(true));
@@ -287,7 +287,7 @@ bool AdaImport::parseStmt()
         UMLObject *subtype = Import_Utils::createUMLObject(type->getBaseType(), name,
                                                            m_scope[m_scopeIndex], m_comment);
         UMLAssociation *assoc = new UMLAssociation(Uml::at_Dependency, subtype, type);
-        assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
+        assoc->setUMLPackage(umldoc->rootFolder(Uml::mt_Logical));
         assoc->setStereotype("subtype");
         // Work around missing display of stereotype in AssociationWidget:
         assoc->setName(assoc->getStereotype(true));

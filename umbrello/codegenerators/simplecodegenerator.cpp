@@ -270,7 +270,7 @@ CodeDocument * SimpleCodeGenerator::newClassifierCodeDocument(UMLClassifier* cla
 void SimpleCodeGenerator::writeCodeToFile()
 {
     m_fileMap.clear(); // need to do this, else just keep getting same directory to write to.
-    UMLClassifierList concepts = m_doc->getClassesAndInterfaces();
+    UMLClassifierList concepts = m_doc->classesAndInterfaces();
     foreach (UMLClassifier* c, concepts ) {
         if (! Model_Utils::isCommonDataType(c->getName()))
             this->writeClass(c); // call the writer for each class.

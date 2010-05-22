@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -248,7 +248,7 @@ void UMLAttributeDialog::slotOk()
 void UMLAttributeDialog::insertTypesSorted( const QString& type )
 {
     UMLDoc * uDoc = UMLApp::app()->getDocument();
-    UMLClassifierList namesList( uDoc->getConcepts() );
+    UMLClassifierList namesList( uDoc->concepts() );
     QStringList types;
     foreach (UMLClassifier* obj, namesList) {
          types << obj->getFullyQualifiedName();

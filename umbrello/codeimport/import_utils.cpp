@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2008                                               *
+ *   copyright (C) 2005-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -165,7 +165,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
 {
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
+    UMLFolder *logicalView = umldoc->rootFolder(Uml::mt_Logical);
     const Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
     if (parentPkg == NULL) {
         // uDebug() << "Import_Utils::createUMLObject(" << name
@@ -237,7 +237,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             if (isConst)
                 name.prepend("const ");
             o = Object_Factory::createUMLObject(Uml::ot_Datatype, name,
-                                                umldoc->getDatatypeFolder(),
+                                                umldoc->datatypeFolder(),
                                                 false); //solicitNewName
             UMLClassifier *dt = static_cast<UMLClassifier*>(o);
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(origType);
@@ -261,7 +261,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         }
     } else if (parentPkg && !bPutAtGlobalScope) {
         UMLPackage *existingPkg = o->getUMLPackage();
-        if (existingPkg != umldoc->getDatatypeFolder()) {
+        if (existingPkg != umldoc->datatypeFolder()) {
             if (existingPkg)
                 existingPkg->removeObject(o);
             else
@@ -299,7 +299,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         if (assoc)
             continue;
         assoc = new UMLAssociation(at, gRelatedClassifier, p);
-        assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
+        assoc->setUMLPackage(umldoc->rootFolder(Uml::mt_Logical));
         umldoc->addAssociation(assoc);
     }
     return o;
@@ -512,7 +512,7 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
     }
     UMLAssociation *assoc = new UMLAssociation(association, child, parent);
     UMLDoc *umldoc = UMLApp::app()->getDocument();
-    assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
+    assoc->setUMLPackage(umldoc->rootFolder(Uml::mt_Logical));
     umldoc->addAssociation(assoc);
 }
 
