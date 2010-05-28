@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2006      Gael de Chalendar (aka Kleag) kleag@free.fr   *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,7 +34,7 @@
  */
 XhtmlGenerator::XhtmlGenerator()
 {
-    m_umlDoc = UMLApp::app()->getDocument();
+    m_umlDoc = UMLApp::app()->document();
     m_pStatus = true;
     m_pThreadFinished = false;
     m_d2xg = 0;

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -274,7 +274,7 @@ public:
     void insertAtParent(const PetalNode *, UMLObject *item) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
         assoc->setObject(m_classifier, Uml::A);
-        UMLApp::app()->getDocument()->addAssociation(assoc);
+        UMLApp::app()->document()->addAssociation(assoc);
     }
 protected:
     UMLClassifier *m_classifier;
@@ -308,7 +308,7 @@ public:
     void insertAtParent(const PetalNode *, UMLObject *item) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(item);
         assoc->setObject(m_classifier, Uml::A);
-        UMLApp::app()->getDocument()->addAssociation(assoc);
+        UMLApp::app()->document()->addAssociation(assoc);
     }
 protected:
     UMLClassifier *m_classifier;
@@ -459,7 +459,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
             if (! doc.isEmpty())
                 role->setDoc(doc);
         }
-        UMLApp::app()->getDocument()->addAssociation(assoc);
+        UMLApp::app()->document()->addAssociation(assoc);
 
     } else {
         uDebug() << "umbrellify: object type " << objType
@@ -558,7 +558,7 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
         QString doc = node->findAttribute("documentation").string;
         if (! doc.isEmpty())
             obj->setDoc(doc);
-        UMLDoc *theDocument = UMLApp::app()->getDocument();
+        UMLDoc *theDocument = UMLApp::app()->document();
         theDocument->addUMLObject(obj);
     }
     return true;
@@ -621,7 +621,7 @@ bool petalTree2Uml(PetalNode *root)
         uError() << "petalTree2Uml: cannot find logical_models";
         return false;
     }
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     umldoc->setCurrentRoot(Uml::mt_Logical);
     Import_Utils::assignUniqueIdOnCreation(false);
     PetalNode::NameValueList atts = logical_models->attributes();
@@ -629,8 +629,8 @@ bool petalTree2Uml(PetalNode *root)
         umbrellify(atts[i].second.node);
     }
 
-    // Shorthand for UMLApp::app()->getListView()
-    UMLListView *lv = UMLApp::app()->getListView();
+    // Shorthand for UMLApp::app()->listView()
+    UMLListView *lv = UMLApp::app()->listView();
 
     //*************************** import Use Case View ********************************
     umldoc->setCurrentRoot(Uml::mt_UseCase);

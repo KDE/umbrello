@@ -269,7 +269,7 @@ bool UMLAssociation::load( QDomElement & element )
     if (getID() == Uml::id_None)
         return false; // old style XMI file. No real info in this association.
 
-    UMLDoc * doc = UMLApp::app()->getDocument();
+    UMLDoc * doc = UMLApp::app()->document();
     UMLObject * obj[2] = { NULL, NULL };
     if (m_AssocType == Uml::at_Generalization ||
         m_AssocType == Uml::at_Realization    ||
@@ -769,8 +769,8 @@ void UMLAssociation::init(Uml::Association_Type type, UMLObject *roleAObj, UMLOb
     m_Name = "";
     m_bOldLoadMode = false;
     nrof_parent_widgets = -1;
-    if (!UMLApp::app()->getDocument()->loading()) {
-        m_pUMLPackage = UMLApp::app()->getDocument()->currentRoot();
+    if (!UMLApp::app()->document()->loading()) {
+        m_pUMLPackage = UMLApp::app()->document()->currentRoot();
     }
     m_pRole[Uml::A] = new UMLRole (this, roleAObj, Uml::A);
     m_pRole[Uml::B] = new UMLRole (this, roleBObj, Uml::B);

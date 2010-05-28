@@ -397,7 +397,7 @@ void ToolBarState::changeTool()
 {
     // [PORT] Check if button works well instead of state()
     if (m_pMouseEvent->button() == Qt::RightButton) {
-        UMLApp::app()->getWorkToolBar()->setDefaultTool();
+        UMLApp::app()->workToolBar()->setDefaultTool();
     }
 }
 

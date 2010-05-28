@@ -22,7 +22,7 @@
 #include "stereotype.h"
 #include "object_factory.h"
 #include "model_utils.h"
-#include "codeimport/import_utils.h"
+#include "import_utils.h"
 #include "docwindow.h"
 #include "classpropdlg.h"
 #include "cmds.h"
@@ -62,7 +62,7 @@ UMLObject::UMLObject(UMLObject * parent, const QString &name, Uml::IDType id)
  *                 then a new ID will be assigned internally.
  */
 UMLObject::UMLObject(const QString &name, Uml::IDType id)
-        :  QObject(UMLApp::app()->getDocument())
+        :  QObject(UMLApp::app()->document())
 {
     init();
     if (id == Uml::id_None)
@@ -120,13 +120,13 @@ void UMLObject::init()
 bool UMLObject::showProperties(int page, bool assoc)
 {
     Q_UNUSED(page);
-    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this, assoc);
     bool modified = false;
     if (dlg->exec()) {
         docwindow->showDocumentation(this, true);
-        UMLApp::app()->getDocument()->setModified(true);
+        UMLApp::app()->document()->setModified(true);
         modified = true;
     }
     dlg->close();
@@ -204,7 +204,7 @@ QString UMLObject::getFullyQualifiedName(const QString& separator,
     if (m_pUMLPackage && m_pUMLPackage != this) {
         bool skipPackage = false;
         if (!includeRoot) {
-            UMLDoc *umldoc = UMLApp::app()->getDocument();
+            UMLDoc *umldoc = UMLApp::app()->document();
             if (umldoc->rootFolderType(m_pUMLPackage) != Uml::N_MODELTYPES ||
                     m_pUMLPackage == umldoc->datatypeFolder())
                 skipPackage = true;
@@ -352,7 +352,7 @@ void UMLObject::setStatic(bool bStatic)
  */
 void UMLObject::emitModified()
 {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     if (!umldoc->loading() && !umldoc->closing())
         emit modified();
 }
@@ -456,7 +456,7 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo)
     if (m_pStereotype) {
         m_pStereotype->decrRefCount();
         if (m_pStereotype->refCount() == 0) {
-            UMLDoc *pDoc = UMLApp::app()->getDocument();
+            UMLDoc *pDoc = UMLApp::app()->document();
             pDoc->removeStereotype(m_pStereotype);
             delete m_pStereotype;
         }
@@ -474,13 +474,13 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo)
  */
 void UMLObject::setStereotype(const QString &_name)
 {
-    // UMLDoc* pDoc = UMLApp::app()->getDocument();
+    // UMLDoc* pDoc = UMLApp::app()->document();
     // pDoc->executeCommand(new cmdSetStereotype(this,_name));
     if (_name.isEmpty()) {
         setUMLStereotype(NULL);
         return;
     }
-    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLDoc *pDoc = UMLApp::app()->document();
     UMLStereotype *s = pDoc->findOrCreateStereotype(_name);
     setUMLStereotype(s);
 }
@@ -500,7 +500,7 @@ void UMLObject::setPackage(const QString &_name)
 {
     UMLObject *pkgObj = NULL;
     if (!_name.isEmpty()) {
-        UMLDoc* umldoc = UMLApp::app()->getDocument();
+        UMLDoc* umldoc = UMLApp::app()->document();
         pkgObj = umldoc->findUMLObject(_name);
         if (pkgObj == NULL) {
             uDebug() << "creating UMLPackage " << _name << " for " << m_Name;
@@ -654,7 +654,7 @@ void UMLObject::maybeSignalObjectCreated()
             m_BaseType != Uml::ot_Association &&
             m_BaseType != Uml::ot_Role) {
         m_bCreationWasSignalled = true;
-        UMLDoc* umldoc = UMLApp::app()->getDocument();
+        UMLDoc* umldoc = UMLApp::app()->document();
         umldoc->signalUMLObjectCreated(this);
     }
 }
@@ -679,7 +679,7 @@ bool UMLObject::resolveRef()
 #ifdef VERBOSE_DEBUGGING
     uDebug() << m_Name << ": m_SecondaryId is " << m_SecondaryId;
 #endif
-    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLDoc *pDoc = UMLApp::app()->document();
     // In the new, XMI standard compliant save format,
     // the type is the xmi.id of a UMLClassifier.
     if (! m_SecondaryId.isEmpty()) {
@@ -796,7 +796,7 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
         if (m_pUMLPackage)
             nmSpc = m_pUMLPackage->getID();
         else
-            nmSpc = UMLApp::app()->getDocument()->modelID();
+            nmSpc = UMLApp::app()->document()->modelID();
         qElement.setAttribute("namespace", ID2STR(nmSpc));
     }
     if (! m_Doc.isEmpty())
@@ -858,7 +858,7 @@ bool UMLObject::loadStereotype(QDomElement & element)
     if (stereo.isEmpty())
         return false;
     Uml::IDType stereoID = STR2ID(stereo);
-    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLDoc *pDoc = UMLApp::app()->document();
     m_pStereotype = pDoc->findStereotypeById(stereoID);
     if (m_pStereotype)
         m_pStereotype->incrRefCount();
@@ -877,7 +877,7 @@ bool UMLObject::loadStereotype(QDomElement & element)
  */
 bool UMLObject::loadFromXMI(QDomElement & element)
 {
-    UMLDoc* umldoc = UMLApp::app()->getDocument();
+    UMLDoc* umldoc = UMLApp::app()->document();
     if (umldoc == 0) {
         uError() << "umldoc is NULL";
         return false;

@@ -195,11 +195,11 @@ bool UMLAttributeDialog::apply()
         m_pAttribute->setType(tmplParam);
         return true;
     }
-    UMLDoc * pDoc = UMLApp::app()->getDocument();
+    UMLDoc * pDoc = UMLApp::app()->document();
     UMLObject *obj = pDoc->findUMLObject(typeName);
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
     if (classifier == NULL) {
-        Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
+        Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
         if (pl == Uml::pl_Cpp || pl == Uml::pl_Java) {
             // Import_Utils::createUMLObject works better for C++ namespace
             // and java package than Object_Factory::createUMLObject
@@ -247,7 +247,7 @@ void UMLAttributeDialog::slotOk()
  */
 void UMLAttributeDialog::insertTypesSorted( const QString& type )
 {
-    UMLDoc * uDoc = UMLApp::app()->getDocument();
+    UMLDoc * uDoc = UMLApp::app()->document();
     UMLClassifierList namesList( uDoc->concepts() );
     QStringList types;
     foreach (UMLClassifier* obj, namesList) {

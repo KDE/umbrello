@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -87,11 +87,11 @@ public:
 
     void newDocument();
 
-    UMLDoc *getDocument() const;
+    UMLDoc *document() const;
 
-    UMLListView* getListView();
-
-    WorkToolBar* getWorkToolBar();
+    UMLListView* listView() const;
+    WorkToolBar* workToolBar() const;
+    DocWindow * docWindow() const;
 
     void setModified(bool _m);
 
@@ -99,20 +99,19 @@ public:
     void enableUndo(bool enable);
     void enableRedo(bool enable);
 
-    DocWindow * getDocWindow() { return m_pDocWindow; }
-
-    bool getUndoEnabled();
-    bool getRedoEnabled();
-    bool getPasteState();
-    bool getCutCopyState();
+    bool isUndoEnabled() const;
+    bool isRedoEnabled() const;
+    bool isPasteState() const;
+    bool isCutCopyState() const;
 
     bool isSimpleCodeGeneratorActive();
 
     void setGenerator(CodeGenerator* gen, bool giveWarning = true);
     CodeGenerator* setGenerator(Uml::Programming_Language pl);
-    CodeGenerator* getGenerator();
+    CodeGenerator* generator() const;
 
     CodeGenerator* createGenerator();
+    void initGenerator();
 
     void refactor(UMLClassifier* classifier);
 
@@ -120,24 +119,24 @@ public:
 
     void setDiagramMenuItemsState(bool bState);
 
-    QWidget* getMainViewWidget();
+    QWidget* mainViewWidget();
 
     void setCurrentView(UMLView* view);
-    UMLView* getCurrentView();
+    UMLView* currentView() const;
 
     void setImageMimeType(QString const & mimeType);
-    QString getImageMimeType() const;
+    QString imageMimeType() const;
 
-    bool editCutCopy( bool bFromView );
+    bool editCutCopy(bool bFromView);
 
     KTabWidget *tabWidget();
 
-    QString getStatusBarMsg();
+    QString statusBarMsg();
 
-    CodeGenerationPolicy *getCommonPolicy();
+    CodeGenerationPolicy *commonPolicy() const;
 
     void setPolicyExt(CodeGenPolicyExt *policy);
-    CodeGenPolicyExt *getPolicyExt();
+    CodeGenPolicyExt *policyExt() const;
 
     void clearUndoStack();
 
@@ -146,8 +145,20 @@ public:
 
     void executeCommand(QUndoCommand* cmd);
 
-    void beginMacro( const QString & text );
+    void beginMacro(const QString & text);
     void endMacro();
+
+    void generateAllCode();
+
+    void setActiveLanguage(Uml::Programming_Language pl);
+    Uml::Programming_Language activeLanguage() const;
+    Uml::Programming_Language defaultLanguage();
+
+    bool activeLanguageIsCaseSensitive();
+
+    QString activeLanguageScopeSeparator();
+
+    KConfig* config();
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
@@ -175,9 +186,7 @@ protected:
     void updateLangSelectMenu(Uml::Programming_Language activeLanguage);
 
 public slots:
-    void initGenerator();
-
-    void generationWizard();
+    void slotExecGenerationWizard();
 
     void slotFileNew();
     void slotFileOpen();
@@ -215,18 +224,6 @@ public slots:
     void slotPrefs();
     void slotApplyPrefs();
     void slotUpdateViews();
-
-    void generateAllCode();
-
-    void setActiveLanguage(Uml::Programming_Language pl);
-    Uml::Programming_Language getActiveLanguage();
-
-    bool activeLanguageIsCaseSensitive();
-
-    QString activeLanguageScopeSeparator();
-
-    Uml::Programming_Language getDefaultLanguage();
-
     void slotCurrentViewClearDiagram();
     void slotCurrentViewToggleSnapToGrid();
     void slotCurrentViewToggleShowGrid();
@@ -244,8 +241,6 @@ public slots:
     void slotDeleteSelectedWidget();
     void slotDeleteDiagram(QWidget* tab = NULL);
 
-    void setZoom(int zoom);
-
     void slotSetZoom(QAction* action);
     void slotZoomSliderMoved(int value);
     void slotZoom100();
@@ -255,15 +250,11 @@ public slots:
     void slotEditUndo();
     void slotEditRedo();
 
-    QMenu* findMenu(const QString &name);
-
     void slotTabChanged(QWidget* tab);
     void slotChangeTabLeft();
     void slotChangeTabRight();
     void slotMoveTabLeft();
     void slotMoveTabRight();
-
-    KConfig* getConfig() { return m_config.data(); }
 
     void slotXhtmlDocGenerationFinished(bool status);
 
@@ -292,19 +283,14 @@ private slots:
 private:
     static UMLApp* s_instance;  ///< The last created instance of this class.
 
-    QMenu* m_langSelect;  ///< For selecting the active language.
-    QMenu* m_zoomSelect;  ///< Popup menu for zoom selection.
+    QMenu* findMenu(const QString &name);
 
     QAction* createZoomAction(int zoom, int currentZoom);
+    void setZoom(int zoom);
 
     void resetStatusMsg();
 
     void setProgLangAction(Uml::Programming_Language pl, const QString& name, const QString& action);
-
-    Uml::Programming_Language m_activeLanguage;  ///< Active language.
-    CodeGenerator*            m_codegen;         ///< Active code generator.
-    CodeGenPolicyExt*         m_policyext;       ///< Active policy extension.
-    // Only used for new code generators ({Cpp,Java,Ruby,D}CodeGenerator).
 
     static bool canDecode(const QMimeData* mimeSource);
 
@@ -314,6 +300,14 @@ private:
     void initSavedCodeGenerators();
 
     void importFiles(QStringList* fileList);
+
+    QMenu* m_langSelect;  ///< For selecting the active language.
+    QMenu* m_zoomSelect;  ///< Popup menu for zoom selection.
+
+    Uml::Programming_Language m_activeLanguage;  ///< Active language.
+    CodeGenerator*            m_codegen;         ///< Active code generator.
+    CodeGenPolicyExt*         m_policyext;       ///< Active policy extension.
+    // Only used for new code generators ({Cpp,Java,Ruby,D}CodeGenerator).
 
     KSharedConfigPtr m_config;  ///< The configuration object of the application.
 

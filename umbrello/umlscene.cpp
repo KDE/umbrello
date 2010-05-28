@@ -146,7 +146,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
     // needs a pointer to this object.
     m_pToolBarStateFactory = new ToolBarStateFactory();
     m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
-    m_pDoc = UMLApp::app()->getDocument();
+    m_pDoc = UMLApp::app()->document();
     m_pFolder = parentFolder;
 }
 
@@ -1433,7 +1433,7 @@ bool UMLScene::isSavedInSeparateFile()
         return false;
     }
     const QString msgPrefix("UMLScene::isSavedInSeparateFile(" + name() + "): ");
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *lvItem = listView->findItem(m_nID);
     if (lvItem == NULL) {
         uError() << msgPrefix
@@ -1474,7 +1474,7 @@ void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* ome)
     //space in the diagram with arrow tool?
     if (!m_bChildDisplayedDoc) {
         // [PORT]
-        // UMLApp::app()->getDocWindow()->showDocumentation(this, true);
+        // UMLApp::app()->docWindow()->showDocumentation(this, true);
     }
     m_bChildDisplayedDoc = false;
 }
@@ -2143,7 +2143,7 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
     if (a->associationType() == at_Containment) {
         UMLObject *objToBeMoved = a->widgetForRole(Uml::B)->umlObject();
         if (objToBeMoved != NULL) {
-            UMLListView *lv = UMLApp::app()->getListView();
+            UMLListView *lv = UMLApp::app()->listView();
             lv->moveObject(objToBeMoved->getID(),
                            Model_Utils::convert_OT_LVT(objToBeMoved),
                            lv->theLogicalView());
@@ -2255,7 +2255,7 @@ void UMLScene::removeAllWidgets()
  */
 void UMLScene::showDocumentation(UMLObject * object, bool overwrite)
 {
-    UMLApp::app()->getDocWindow()->showDocumentation(object, overwrite);
+    UMLApp::app()->docWindow()->showDocumentation(object, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
@@ -2264,7 +2264,7 @@ void UMLScene::showDocumentation(UMLObject * object, bool overwrite)
  */
 void UMLScene::showDocumentation(UMLWidget * widget, bool overwrite)
 {
-    UMLApp::app()->getDocWindow()->showDocumentation(widget, overwrite);
+    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
@@ -2273,7 +2273,7 @@ void UMLScene::showDocumentation(UMLWidget * widget, bool overwrite)
  */
 void UMLScene::showDocumentation(AssociationWidget * widget, bool overwrite)
 {
-    UMLApp::app()->getDocWindow()->showDocumentation(widget, overwrite);
+    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
@@ -2282,7 +2282,7 @@ void UMLScene::showDocumentation(AssociationWidget * widget, bool overwrite)
  */
 void UMLScene::updateDocumentation(bool clear)
 {
-    UMLApp::app()->getDocWindow()->updateDocumentation(clear);
+    UMLApp::app()->docWindow()->updateDocumentation(clear);
 }
 
 /**
@@ -4162,7 +4162,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
             }
             m_pDoc->setMainViewID(m_nID);
             m_Type = Uml::dt_Class;
-            UMLListView *lv = UMLApp::app()->getListView();
+            UMLListView *lv = UMLApp::app()->listView();
             ulvi = new UMLListViewItem(lv->theLogicalView(), name(),
                                        Uml::lvt_Class_Diagram, m_nID);
         } else if (tag == "uisDiagramPresentation") {

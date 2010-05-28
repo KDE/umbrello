@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -129,7 +129,7 @@ void PkgContentsPage::slotPopupMenuSel(QAction* action)
             if ( m_contentLW->currentRow() == -1 )
                 break;
             UMLObject *o = contents.at( m_contentLW->currentRow() );
-            UMLApp::app()->getDocument()->removeUMLObject(o);
+            UMLApp::app()->document()->removeUMLObject(o);
             fillListBox();
         }
         break;

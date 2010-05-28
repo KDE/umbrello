@@ -241,13 +241,13 @@ UMLScene* WidgetBase::umlScene() const
 }
 
 /**
- * This is shortcut method for UMLApp::app()->getDocument()
+ * This is shortcut method for UMLApp::app()->document()
  *
  * @return Pointer to the UMLDoc object.
  */
 UMLDoc* WidgetBase::umlDoc() const
 {
-    return UMLApp::app()->getDocument();
+    return UMLApp::app()->document();
 }
 
 /**

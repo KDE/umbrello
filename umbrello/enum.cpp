@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -117,7 +117,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
 
     addEnumLiteral(newEnumLiteral);
 
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     umldoc->signalUMLObjectCreated(newEnumLiteral);
     return newEnumLiteral;
 }

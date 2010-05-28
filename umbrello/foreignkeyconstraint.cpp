@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -271,7 +271,7 @@ bool UMLForeignKeyConstraint::hasEntityAttributePair(UMLEntityAttribute* pAttr,U
  */
 bool UMLForeignKeyConstraint::load( QDomElement & element )
 {
-    UMLDoc* doc = UMLApp::app()->getDocument();
+    UMLDoc* doc = UMLApp::app()->document();
 
     Uml::IDType referencedEntityId = STR2ID( element.attribute("referencedEntity", "") );
 
@@ -371,7 +371,7 @@ void UMLForeignKeyConstraint::clearMappings()
 bool UMLForeignKeyConstraint::resolveRef()
 {
     // resolve referenced entity first
-    UMLDoc* doc = UMLApp::app()->getDocument();
+    UMLDoc* doc = UMLApp::app()->document();
 
     bool success = true;
 

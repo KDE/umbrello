@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -37,7 +37,7 @@ JavaCodeGenerationPolicy::JavaCodeGenerationPolicy(CodeGenerationPolicy *default
 JavaCodeGenerationPolicy::JavaCodeGenerationPolicy()
   //      : CodeGenerationPolicy()
 {
-    m_commonPolicy = UMLApp::app()->getCommonPolicy();
+    m_commonPolicy = UMLApp::app()->commonPolicy();
     init();
 }
 
@@ -132,7 +132,7 @@ void JavaCodeGenerationPolicy::setDefaults( bool emitUpdateSignal )
     setAutoGenerateAttribAccessors(UmbrelloSettings::autoGenerateAttributeAccessorsJava());
     setAutoGenerateAssocAccessors(UmbrelloSettings::autoGenerateAssocAccessorsJava());
 
-    CodeGenerator *codegen = UMLApp::app()->getGenerator();
+    CodeGenerator *codegen = UMLApp::app()->generator();
     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
     if (javacodegen) {
         bool mkant = UmbrelloSettings::buildANTDocumentJava();

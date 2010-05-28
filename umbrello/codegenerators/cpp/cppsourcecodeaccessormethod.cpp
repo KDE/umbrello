@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -46,7 +46,7 @@ void CPPSourceCodeAccessorMethod::updateContent( )
 {
     CodeClassField * parentField = getParentClassField();
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
-    CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
+    CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     bool isInlineMethod = policy->getAccessorsAreInline( );
 
@@ -81,7 +81,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
 {
     CodeClassField * parentField = getParentClassField();
     ClassifierCodeDocument * doc = parentField->getParentDocument();
-    CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
+    CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
     UMLClassifier * c = doc->getParentClassifier();
@@ -101,7 +101,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     QString methodParams = QChar(' '); // "get"+cppdoc->capitalizeFirstLetter(fieldName);
     QString headerText;
     QString className = CodeGenerator::cleanName(c->getName());
-    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+    QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
     switch(getType()) {
     case CodeAccessorMethod::ADD:

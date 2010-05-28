@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -56,7 +56,7 @@ QString JavaCodeDocumentation::toString ( ) const
         bool useDoubleDashOutput = true;
 
         // need to figure out output type from java policy
-        CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
+        CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
         if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
             useDoubleDashOutput = false;
 
@@ -79,7 +79,7 @@ QString JavaCodeDocumentation::toString ( ) const
 
 QString JavaCodeDocumentation::getNewEditorLine ( int amount )
 {
-    CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return getIndentationString(amount) + " * ";
     else
@@ -88,7 +88,7 @@ QString JavaCodeDocumentation::getNewEditorLine ( int amount )
 
 int JavaCodeDocumentation::firstEditableLine()
 {
-    CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return 1;
     return 0;
@@ -96,7 +96,7 @@ int JavaCodeDocumentation::firstEditableLine()
 
 int JavaCodeDocumentation::lastEditableLine()
 {
-    CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         return -1; // very last line is NOT editable
@@ -110,7 +110,7 @@ int JavaCodeDocumentation::lastEditableLine()
 QString JavaCodeDocumentation::unformatText ( const QString & text , const QString & indent)
 {
     QString mytext = TextBlock::unformatText(text, indent);
-    CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
     // remove leading or trailing comment stuff
     mytext.remove(QRegExp('^'+indent));
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)

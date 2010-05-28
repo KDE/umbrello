@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,7 +18,7 @@
 
 // constructor
 UMLView::UMLView(UMLFolder *f)
-  : QGraphicsView(UMLApp::app()->getMainViewWidget())
+  : QGraphicsView(UMLApp::app()->mainViewWidget())
 {
     m_nZoom = 100;
     setAcceptDrops(true);
@@ -81,17 +81,17 @@ void UMLView::zoomOut()
 void UMLView::showEvent(QShowEvent* /*se*/)
 {
     UMLApp* theApp = UMLApp::app();
-    UMLDoc *doc = theApp->getDocument();
-    WorkToolBar* tb = theApp->getWorkToolBar();
+    UMLDoc *doc = theApp->document();
+    WorkToolBar* tb = theApp->workToolBar();
     UMLScene *us = umlScene();
     connect(tb, SIGNAL(sigButtonChanged(int)), us, SLOT(slotToolBarChanged(int)));
     connect(us, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
     connect(doc, SIGNAL(sigObjectCreated(UMLObject *)),
             us, SLOT(slotObjectCreated(UMLObject *)));
     connect(us, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
-            UMLApp::app()->getDocWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
+            UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
     connect(us, SIGNAL(sigWidgetRemoved(UMLWidget*)),
-            UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
+            UMLApp::app()->docWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
     us->resetToolbar();
 
 }
@@ -99,16 +99,16 @@ void UMLView::showEvent(QShowEvent* /*se*/)
 void UMLView::hideEvent(QHideEvent* /*he*/)
 {
     UMLApp* theApp = UMLApp::app();
-    UMLDoc *doc = theApp->getDocument();
-    WorkToolBar* tb = theApp->getWorkToolBar();
+    UMLDoc *doc = theApp->document();
+    WorkToolBar* tb = theApp->workToolBar();
     UMLScene *us = umlScene();
     disconnect(tb, SIGNAL(sigButtonChanged(int)), us, SLOT(slotToolBarChanged(int)));
     disconnect(us, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
     disconnect(doc, SIGNAL(sigObjectCreated(UMLObject *)), us, SLOT(slotObjectCreated(UMLObject *)));
     disconnect(us, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
-               UMLApp::app()->getDocWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
+               UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
     disconnect(us, SIGNAL(sigWidgetRemoved(UMLWidget*)),
-               UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
+               UMLApp::app()->docWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
 }
 
 /**

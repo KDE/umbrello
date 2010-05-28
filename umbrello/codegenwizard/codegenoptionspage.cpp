@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra <luis@delaparra.org>                                 *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -45,8 +45,8 @@ CodeGenOptionsPage::CodeGenOptionsPage(QWidget *parent)
     setupUi(this);
 
     m_pCodePolicyPage = 0;
-    m_parentPolicy = UMLApp::app()->getCommonPolicy();
-    CodeGenerator* gen = UMLApp::app()->getGenerator();
+    m_parentPolicy = UMLApp::app()->commonPolicy();
+    CodeGenerator* gen = UMLApp::app()->generator();
 
     ui_forceDoc->setChecked(m_parentPolicy->getCodeVerboseDocumentComments());
     ui_forceSections->setChecked(m_parentPolicy->getCodeVerboseSectionComments());
@@ -92,7 +92,7 @@ void CodeGenOptionsPage::setupActiveLanguageBox()
         ui_SelectLanguageBox->insertItem(indexCounter, language);
         indexCounter++;
     }
-    ui_SelectLanguageBox->setCurrentIndex(UMLApp::app()->getActiveLanguage());
+    ui_SelectLanguageBox->setCurrentIndex(UMLApp::app()->activeLanguage());
     connect(ui_SelectLanguageBox, SIGNAL(activated(int)), this, SLOT(activeLanguageChanged(int)));
 }
 
@@ -249,7 +249,7 @@ bool CodeGenOptionsPage::save()
     // exists and is writable
 
     // get the policy for the current code generator
-    CodeGenerationPolicy *policy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *policy = UMLApp::app()->commonPolicy();
 
     // get the output directory path
     QFileInfo info(policy->getOutputDirectory().absolutePath());

@@ -73,12 +73,12 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
     UMLDragData *data = 0;
     QPixmap* png = 0;
 
-    UMLListView * listView = UMLApp::app()->getListView();
+    UMLListView * listView = UMLApp::app()->listView();
     UMLListViewItemList selectedItems;
 
     if(fromView) {
         m_type = clip4;
-        UMLScene *scene = UMLApp::app()->getCurrentView()->umlScene();
+        UMLScene *scene = UMLApp::app()->currentView()->umlScene();
         scene->checkSelections();
         if(!scene->getSelectedWidgets(m_WidgetList)) {
             return 0;
@@ -138,7 +138,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         break;
     case clip4:
         if(png) {
-            UMLView *view = UMLApp::app()->getCurrentView();
+            UMLView *view = UMLApp::app()->currentView();
             data = new UMLDragData(m_ObjectList, m_WidgetList,
                                    m_AssociationList, *png, view->umlScene()->type());
         } else {
@@ -163,7 +163,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
  */
 bool UMLClipboard::paste(const QMimeData* data)
 {
-    UMLDoc *doc = UMLApp::app()->getDocument();
+    UMLDoc *doc = UMLApp::app()->document();
     bool result = false;
     doc->beginPaste();
     switch(UMLDragData::getCodingType(data)) {
@@ -287,7 +287,7 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* item, bool & withDiagra
     if(!item) {
         return;
     }
-    UMLDoc *doc = UMLApp::app()->getDocument();
+    UMLDoc *doc = UMLApp::app()->document();
     onlyAttsOps = true;
     UMLView * view = 0;
     UMLListViewItem * child = 0;
@@ -348,8 +348,8 @@ bool UMLClipboard::pasteChildren(UMLListViewItem *parent, IDChangeLog *chgLog)
         uWarning() << "Paste Children Error, parent missing";
         return false;
     }
-    UMLDoc *doc = UMLApp::app()->getDocument();
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLDoc *doc = UMLApp::app()->document();
+    UMLListView *listView = UMLApp::app()->listView();
     for (int i = 0; i < parent->childCount(); i++) {
         UMLListViewItem *childItem = static_cast<UMLListViewItem*>(parent->child(i));
         Uml::IDType oldID = childItem->getID();
@@ -399,7 +399,7 @@ bool UMLClipboard::pasteClip1(const QMimeData* data)
     if (! UMLDragData::decodeClip1(data, objects)) {
         return false;
     }
-    UMLListView *lv = UMLApp::app()->getListView();
+    UMLListView *lv = UMLApp::app()->listView();
     if ( !lv->startedCopy() )
         return true;
     lv->setStartedCopy(false);
@@ -427,7 +427,7 @@ bool UMLClipboard::pasteClip1(const QMimeData* data)
  */
 bool UMLClipboard::pasteClip2(const QMimeData* data)
 {
-    UMLDoc*             doc = UMLApp::app()->getDocument();
+    UMLDoc*             doc = UMLApp::app()->document();
     UMLListViewItemList itemdatalist;
     UMLObjectList       objects;
     UMLViewList         views;
@@ -455,7 +455,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
         }
     }
 
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     listView->startUpdate();
 
     foreach ( UMLListViewItem* itemdata, itemdatalist ) {
@@ -484,7 +484,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
  */
 bool UMLClipboard::pasteClip3(const QMimeData* data)
 {
-    UMLDoc *doc = UMLApp::app()->getDocument();
+    UMLDoc *doc = UMLApp::app()->document();
     UMLListViewItemList itemdatalist;
     IDChangeLog* idchanges = doc->changeLog();
 
@@ -492,7 +492,7 @@ bool UMLClipboard::pasteClip3(const QMimeData* data)
         return false;
     }
 
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     bool result = UMLDragData::decodeClip3(data, itemdatalist, listView);
     if(!result) {
         return false;
@@ -521,7 +521,7 @@ bool UMLClipboard::pasteClip3(const QMimeData* data)
  */
 bool UMLClipboard::pasteClip4(const QMimeData* data)
 {
-    UMLDoc *doc = UMLApp::app()->getDocument();
+    UMLDoc *doc = UMLApp::app()->document();
 
     UMLObjectList objects;
     UMLWidgetList widgets;
@@ -535,7 +535,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
         return false;
     }
 
-    if( diagramType != UMLApp::app()->getCurrentView()->umlScene()->type() ) {
+    if( diagramType != UMLApp::app()->currentView()->umlScene()->type() ) {
         if( !checkPasteWidgets(widgets) ) {
             while ( !assocs.isEmpty() ) {
                 delete assocs.takeFirst();
@@ -560,7 +560,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     //now add any widget we are want to paste
     bool objectAlreadyExists = false;
     // [PORT]
-    UMLView *currentView = UMLApp::app()->getCurrentView();
+    UMLView *currentView = UMLApp::app()->currentView();
     // [PORT]
     currentView->umlScene()->beginPartialWidgetPaste();
 
@@ -593,7 +593,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     currentView->umlScene()->endPartialWidgetPaste();
 
     /*
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem* item = 0;
     UMLListViewItem* itemdata = 0;
     UMLListViewItemListIt it(itemdatalist);
@@ -624,8 +624,8 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
  */
 bool UMLClipboard::pasteClip5(const QMimeData* data)
 {
-    UMLDoc *doc = UMLApp::app()->getDocument();
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLDoc *doc = UMLApp::app()->document();
+    UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem* lvitem = dynamic_cast<UMLListViewItem *>( listView->currentItem() );
     if (!lvitem || !Model_Utils::typeIsClassifier( lvitem->getType() )) {
         return false;
@@ -823,7 +823,7 @@ bool UMLClipboard::checkPasteWidgets( UMLWidgetList & widgetList )
  */
 void UMLClipboard::pasteItemAlreadyExists()
 {
-    UMLView *currentView = UMLApp::app()->getCurrentView();
+    UMLView *currentView = UMLApp::app()->currentView();
     KMessageBox::sorry( currentView,
                         i18n("At least one of the items in the clipboard "
                              "could not be pasted because an item of the "

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +13,7 @@
 
 // app includes
 #include "dialog_utils.h"
-#include "dialogs/objectnodedialog.h"
+#include "objectnodedialog.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "textitem.h"
@@ -97,13 +97,13 @@ void ObjectNodeWidget::setState(const QString& state)
  */
 void ObjectNodeWidget::showPropertiesDialog()
 {
-    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
 
     QPointer<ObjectNodeDialog> dialog = new ObjectNodeDialog(umlScene()->activeView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
-        UMLApp::app()->getDocument()->setModified(true);
+        UMLApp::app()->document()->setModified(true);
     }
     delete dialog;
 }

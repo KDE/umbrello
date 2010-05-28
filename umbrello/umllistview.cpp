@@ -80,7 +80,7 @@
  * @param name     The internal name for this class.
  */
 UMLListView::UMLListView(QWidget *parent, const char *name)
-  : QTreeWidget(parent), m_pMenu(0), m_doc(UMLApp::app()->getDocument())
+  : QTreeWidget(parent), m_pMenu(0), m_doc(UMLApp::app()->document())
 {
     Q_UNUSED(name);
     //setup list view
@@ -206,7 +206,7 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e)
  */
 void UMLListView::mousePressEvent(QMouseEvent *me)
 {
-    UMLView *currentView = UMLApp::app()->getCurrentView();
+    UMLView *currentView = UMLApp::app()->currentView();
     if (currentView)
         currentView->umlScene()->clearSelected();
     if (me->modifiers() != Qt::ShiftModifier)
@@ -218,16 +218,16 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
     const Qt::ButtonState button = me->button();
 
     if (!item || (button != Qt::RightButton && button != Qt::LeftButton)) {
-        UMLApp::app()->getDocWindow()->updateDocumentation(true);
+        UMLApp::app()->docWindow()->updateDocumentation(true);
         return;
     }
 
     if (button == Qt::LeftButton) {
         UMLObject *o = item->getUMLObject();
         if (o)
-            UMLApp::app()->getDocWindow()->showDocumentation(o, false);
+            UMLApp::app()->docWindow()->showDocumentation(o, false);
         else
-            UMLApp::app()->getDocWindow()->updateDocumentation(true);
+            UMLApp::app()->docWindow()->updateDocumentation(true);
 
         m_dragStartPosition = me->pos();
     }
@@ -280,7 +280,7 @@ void UMLListView::mouseReleaseEvent(QMouseEvent *me)
     // Switch to diagram on mouse release - not on mouse press
     // because the user might intend a drag-to-note.
     m_doc->changeCurrentView(item->getID());
-    UMLApp::app()->getDocWindow()->showDocumentation(m_doc->findView(item->getID()), false);
+    UMLApp::app()->docWindow()->showDocumentation(m_doc->findView(item->getID()), false);
     QTreeWidget::mouseReleaseEvent(me);
 }
 
@@ -289,7 +289,7 @@ void UMLListView::mouseReleaseEvent(QMouseEvent *me)
  */
 void UMLListView::keyPressEvent(QKeyEvent *ke)
 {
-    UMLView *view = UMLApp::app()->getCurrentView();
+    UMLView *view = UMLApp::app()->currentView();
     if (view && view->umlScene()->getSelectCount()) {
         // Widgets have been selected in the diagram area,
         // assume they handle the keypress.
@@ -573,9 +573,9 @@ void UMLListView::popupMenuSel(QAction* action)
             if (!pView) {
                 return;
             }
-            UMLApp::app()->getDocWindow()->updateDocumentation(false);
+            UMLApp::app()->docWindow()->updateDocumentation(false);
             pView->umlScene()->showPropDialog();
-            UMLApp::app()->getDocWindow()->showDocumentation(pView, true);
+            UMLApp::app()->docWindow()->showDocumentation(pView, true);
             currItem->cancelRename(0);
             return;
         }
@@ -757,7 +757,7 @@ void UMLListView::slotDiagramCreated(Uml::IDType id)
     UMLListViewItem* p = findFolderForDiagram(dt);
     UMLListViewItem* item = new UMLListViewItem(p, v->umlScene()->name(), Model_Utils::convert_DT_LVT(dt), id);
     setSelected(item, true);
-    UMLApp::app()->getDocWindow()->showDocumentation(v , false);
+    UMLApp::app()->docWindow()->showDocumentation(v , false);
 }
 
 /**
@@ -889,7 +889,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     newItem->setOpen(true);
     clearSelection();
     setSelected(newItem, true);
-    UMLApp::app()->getDocWindow()->showDocumentation(object, false);
+    UMLApp::app()->docWindow()->showDocumentation(object, false);
 }
 
 /**
@@ -1091,7 +1091,7 @@ void UMLListView::slotObjectRemoved(UMLObject* object)
     disconnect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
     UMLListViewItem* item = findItem(object->getID());
     delete item;
-    UMLApp::app()->getDocWindow()->updateDocumentation(true);
+    UMLApp::app()->docWindow()->updateDocumentation(true);
 }
 
 /**
@@ -1102,7 +1102,7 @@ void UMLListView::slotDiagramRemoved(Uml::IDType id)
 {
     UMLListViewItem* item = findItem(id);
     delete item;
-    UMLApp::app()->getDocWindow()->updateDocumentation(true);
+    UMLApp::app()->docWindow()->updateDocumentation(true);
 }
 
 /**
@@ -1354,9 +1354,9 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
         UMLView * pView = m_doc->findView(item->getID());
         if (!pView)
             return;
-        UMLApp::app()->getDocWindow()->updateDocumentation(false);
+        UMLApp::app()->docWindow()->updateDocumentation(false);
         pView->umlScene()->showPropDialog();
-        UMLApp::app()->getDocWindow()->showDocumentation(pView, true);
+        UMLApp::app()->docWindow()->showDocumentation(pView, true);
         item->cancelRename(0);
         return;
     }
@@ -1567,7 +1567,7 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
     } else {
         uError() << item->getText() << ": parent type is " << parent->getType();
     }
-    UMLView *currentView = UMLApp::app()->getCurrentView();
+    UMLView *currentView = UMLApp::app()->currentView();
     if (currentView)
         currentView->umlScene()->updateContainment(o);
 }
@@ -1732,7 +1732,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 o->setUMLPackage(pkg);
                 pkg->addObject(o);
             }
-            UMLView *currentView = UMLApp::app()->getCurrentView();
+            UMLView *currentView = UMLApp::app()->currentView();
             if (currentView)
                 currentView->umlScene()->updateContainment(o);
         }
@@ -1777,7 +1777,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                     connectNewObjectsSlots(newAtt);
                     // Let's not forget to update the DocWindow::m_pObject
                     // because the old one is about to be physically deleted !
-                    UMLApp::app()->getDocWindow()->showDocumentation(newAtt, true);
+                    UMLApp::app()->docWindow()->showDocumentation(newAtt, true);
                     delete att;
                 }
             } else {
@@ -1814,7 +1814,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
 
                     // Let's not forget to update the DocWindow::m_pObject
                     // because the old one is about to be physically deleted !
-                    UMLApp::app()->getDocWindow()->showDocumentation(newOp, true);
+                    UMLApp::app()->docWindow()->showDocumentation(newOp, true);
                     delete op;
                 } else {
                     uError() << "moveObject: oldParentClassifier->takeItem(op) returns 0";

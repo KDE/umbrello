@@ -80,10 +80,10 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc) : QWidget(par
     select->addWidget(m_pSelectLW);
     m_pSelectLW->setEnabled(false);
     m_pSelectLW->setSelectionMode(QAbstractItemView::MultiSelection);
-    m_pSelectLW->addItem(UMLApp::app()->getCurrentView()->umlScene()->name());
+    m_pSelectLW->addItem(UMLApp::app()->currentView()->umlScene()->name());
     m_pSelectLW->setCurrentRow(0);
     m_nIdList.clear();
-    m_nIdList.append(UMLApp::app()->getCurrentView()->umlScene()->getID());
+    m_nIdList.append(UMLApp::app()->currentView()->umlScene()->getID());
 
     m_ViewType = Uml::dt_Class;
     connect(m_pAllRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
@@ -189,7 +189,7 @@ void DiagramPrintPage::slotClicked()
     // clear list with diagrams to print
     m_nIdList.clear();
 
-    UMLScene *currentScene = UMLApp::app()->getCurrentView()->umlScene();
+    UMLScene *currentScene = UMLApp::app()->currentView()->umlScene();
     if (m_pCurrentRB->isChecked()) {
         m_pTypeCB->setEnabled(false);
         m_pSelectLW->setEnabled(false);

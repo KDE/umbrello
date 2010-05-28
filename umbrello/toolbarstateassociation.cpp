@@ -236,7 +236,7 @@ void ToolBarStateAssociation::setSecondWidget()
                 Model_Utils::treeViewMoveObjectTo(newContainer, objToBeMoved);
             }
         }
-        UMLApp::app()->getDocument()->setModified();
+        UMLApp::app()->document()->setModified();
     } else {
         //TODO improve error feedback: tell the user what are the valid type of associations for
         //the second widget using the first widget
@@ -300,9 +300,9 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
             return;
         }
         Uml::Model_Type m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        UMLDoc *umldoc = UMLApp::app()->document();
         umla->setUMLPackage(umldoc->rootFolder(m));
-        UMLApp::app()->getDocument()->addAssociation(umla);
+        umldoc->addAssociation(umla);
     } else {
         uError() << "cannot addAssocInViewAndDoc(), deleting";
         delete assoc;

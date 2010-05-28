@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -120,7 +120,7 @@ void CodeOperation::setAttributesFromNode ( QDomElement & element)
 
     QString idStr = element.attribute("parent_id","-1");
     Uml::IDType id = STR2ID(idStr);
-    UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(id);
+    UMLObject * obj = UMLApp::app()->document()->findObjectById(id);
     UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
 
     if (op)

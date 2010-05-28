@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -203,7 +203,7 @@ QString UMLOperation::toString(Uml::Signature_Type sig)
           s = m_Vis.toString(true) + ' ';
 
     s += getName();
-    Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
+    Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
     bool parameterlessOpNeedsParentheses = (pl != Uml::pl_Pascal && pl != Uml::pl_Ada);
 
     if (sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis) {

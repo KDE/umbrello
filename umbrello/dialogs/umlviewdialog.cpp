@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -213,7 +213,7 @@ void UMLViewDialog::checkName()
         return;
     }
 
-    UMLDoc* doc = UMLApp::app()->getDocument();
+    UMLDoc* doc = UMLApp::app()->document();
     UMLView* view = doc->findView( m_pScene->type(), newName);
     if (view) {
         KMessageBox::sorry(this, i18n("The name you have entered is not unique."),

@@ -281,7 +281,7 @@ private:
 
     /**
      * Auxiliary variable for currentRoot():
-     * m_pCurrentRoot is only used if UMLApp::app()->getCurrentView()
+     * m_pCurrentRoot is only used if UMLApp::app()->currentView()
      * returns 0.
      */
     UMLFolder * m_pCurrentRoot;

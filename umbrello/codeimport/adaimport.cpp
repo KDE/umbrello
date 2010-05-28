@@ -207,7 +207,7 @@ bool AdaImport::parseStmt()
 {
     const int srcLength = m_source.count();
     QString keyword = m_source[m_srcIndex];
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     //uDebug() << '"' << keyword << '"';
     if (keyword == "with") {
         if (m_inGenericFormalPart) {

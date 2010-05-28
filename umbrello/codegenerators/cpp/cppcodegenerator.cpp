@@ -303,7 +303,7 @@ void CPPCodeGenerator::initFromParentDocument( )
 {
     // Walk through the document converting classifiers into
     // classifier code documents as needed (e.g only if doesn't exist)
-    UMLClassifierList concepts = UMLApp::app()->getDocument()->classesAndInterfaces();
+    UMLClassifierList concepts = UMLApp::app()->document()->classesAndInterfaces();
     foreach (UMLClassifier* c, concepts ) {
         // Doesn't exist? Then build one.
         CodeDocument * codeDoc = findCodeDocumentByClassifier(c);

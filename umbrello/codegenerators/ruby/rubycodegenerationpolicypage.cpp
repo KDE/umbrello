@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -24,7 +24,7 @@
 RubyCodeGenerationPolicyPage::RubyCodeGenerationPolicyPage( QWidget *parent, const char *name, RubyCodeGenerationPolicy * policy )
   : CodeGenerationPolicyPage(parent, name, policy)
 {
-    CodeGenerationPolicy *common = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *common = UMLApp::app()->commonPolicy();
     form.setupUi(this);
     form.m_SelectCommentStyle->setCurrentIndex((int)(common->getCommentStyle()));
     form.m_generateConstructors->setChecked(common->getAutoGenerateConstructors());
@@ -40,7 +40,7 @@ RubyCodeGenerationPolicyPage::~RubyCodeGenerationPolicyPage()
 
 void RubyCodeGenerationPolicyPage::apply()
 {
-    CodeGenerationPolicy *common = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *common = UMLApp::app()->commonPolicy();
 
     // now do our ruby-specific configs
     RubyCodeGenerationPolicy * parent = (RubyCodeGenerationPolicy*) m_parentPolicy;

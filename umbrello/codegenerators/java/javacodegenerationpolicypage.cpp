@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,7 +22,7 @@
 JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage( QWidget *parent, const char *name, JavaCodeGenerationPolicy * policy )
   : CodeGenerationPolicyPage(parent, name, policy)
 {
-    CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     form = new JavaCodeGenerationFormBase(this);
     form->m_SelectCommentStyle->setCurrentIndex((int)(commonPolicy->getCommentStyle()));
     form->m_generateConstructors->setChecked(commonPolicy->getAutoGenerateConstructors());
@@ -46,7 +46,7 @@ JavaCodeGenerationPolicyPage::~JavaCodeGenerationPolicyPage()
 
 void JavaCodeGenerationPolicyPage::apply()
 {
-    CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     JavaCodeGenerationPolicy * parent = (JavaCodeGenerationPolicy*) m_parentPolicy;
 
     // block signals so we don't cause too many update content calls to code documents

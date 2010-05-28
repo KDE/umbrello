@@ -369,7 +369,7 @@ void FloatingTextWidget::changeName(const QString& newText)
     }
     else {
         setText(newText);
-        UMLApp::app()->getDocument()->setModified(true);
+        UMLApp::app()->document()->setModified(true);
     }
 
     setVisible(true);

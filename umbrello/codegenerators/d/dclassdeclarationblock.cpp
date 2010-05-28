@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -51,7 +51,7 @@ void DClassDeclarationBlock::updateContent ( )
 {
     DClassifierCodeDocument *parentDoc = dynamic_cast<DClassifierCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
-    CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     QString endLine = commonPolicy->getNewLineEndingChars();
     bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
     QString DClassName = parentDoc->getDClassName(c->getName());

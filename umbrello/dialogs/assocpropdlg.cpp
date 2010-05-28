@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -85,7 +85,7 @@ void AssocPropDlg::slotApply()
 // void AssocPropDlg::setupPages (UMLObject * c)
 void AssocPropDlg::setupPages (AssociationWidget *assocWidget)
 {
-    UMLDoc* umlDoc = UMLApp::app()->getDocument();
+    UMLDoc* umlDoc = UMLApp::app()->document();
 
     // general page
     QFrame *page = new QFrame();

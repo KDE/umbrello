@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,7 +30,7 @@
 UMLStereotype::UMLStereotype(const QString &name, Uml::IDType id /* = Uml::id_None */)
         : UMLObject( name, id ) {
     m_BaseType = Uml::ot_Stereotype;
-    UMLStereotype * existing = UMLApp::app()->getDocument()->findStereotype(name);
+    UMLStereotype * existing = UMLApp::app()->document()->findStereotype(name);
     if (existing) {
         uError() << "UMLStereotype constructor: " << name << " already exists"
                   << kBacktrace(25) << endl;

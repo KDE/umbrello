@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,7 +12,7 @@
 #include "objectwidget.h"
 
 // local includes
-#include "dialogs/classpropdlg.h"
+#include "classpropdlg.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "preconditionwidget.h"
@@ -329,13 +329,13 @@ void ObjectWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QW
  */
 void ObjectWidget::showPropertiesDialog()
 {
-    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
 
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
     if (dlg->exec()) {
         docwindow->showDocumentation(this, true);
-        UMLApp::app()->getDocument()->setModified(true);
+        UMLApp::app()->document()->setModified(true);
     }
     delete dlg;
 }
@@ -366,7 +366,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
                                                  &validator);
             if (ok) {
                 setInstanceName(name);
-                UMLApp::app()->getDocument()->setModified(true);
+                UMLApp::app()->document()->setModified(true);
             }
             break;
         }

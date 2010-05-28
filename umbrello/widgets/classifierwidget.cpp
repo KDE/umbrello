@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -801,7 +801,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
     {
         Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(sel);
         if (Object_Factory::createChildObject(classifier(), ot)) {
-            UMLApp::app()->getDocument()->setModified();
+            UMLApp::app()->document()->setModified();
         }
         break;
     }

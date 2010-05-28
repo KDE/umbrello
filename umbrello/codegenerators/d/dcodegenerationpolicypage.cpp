@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,7 +22,7 @@
 DCodeGenerationPolicyPage::DCodeGenerationPolicyPage( QWidget *parent, const char *name, DCodeGenerationPolicy * policy )
   : CodeGenerationPolicyPage(parent, name, policy)
 {
-    CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     form = new DCodeGenerationFormBase(this);
     form->m_SelectCommentStyle->setCurrentIndex((int)(commonPolicy->getCommentStyle()));
     form->m_generateConstructors->setChecked(commonPolicy->getAutoGenerateConstructors());
@@ -46,7 +46,7 @@ DCodeGenerationPolicyPage::~DCodeGenerationPolicyPage()
 
 void DCodeGenerationPolicyPage::apply()
 {
-    CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     DCodeGenerationPolicy * parent = (DCodeGenerationPolicy*) m_parentPolicy;
 
     // block signals so we don't cause too many update content calls to code documents

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -80,13 +80,13 @@ void ActivityWidget::setPostconditionText(const QString& aPostText)
  */
 void ActivityWidget::showPropertiesDialog()
 {
-    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
 
     QPointer<ActivityDialog> dialog = new ActivityDialog(umlScene()->activeView(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
-        UMLApp::app()->getDocument()->setModified(true);
+        UMLApp::app()->document()->setModified(true);
     }
     delete dialog;
 }

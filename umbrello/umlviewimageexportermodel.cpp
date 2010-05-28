@@ -179,7 +179,7 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
     // contains all the error messages returned by exportView calls
     QStringList errors;
 
-    UMLViewList views = app->getDocument()->viewIterator();
+    UMLViewList views = app->document()->viewIterator();
     foreach (UMLView *view , views) {
         KUrl url = directory;
         url.addPath(getDiagramFileName(view->umlScene(), imageType, useFolders));

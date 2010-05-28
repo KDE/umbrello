@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -68,7 +68,7 @@ void RubyCodeAccessorMethod::updateContent()
     CodeClassField * parentField = getParentClassField();
     RubyCodeClassField * rubyfield = dynamic_cast<RubyCodeClassField*>(parentField);
     QString fieldName = rubyfield->getFieldName();
-    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+    QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
     QString text = "";
     switch(getType()) {
@@ -126,7 +126,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     RubyCodeClassField * rubyfield = dynamic_cast<RubyCodeClassField*>(getParentClassField());
 
     // gather defs
-    CodeGenerationPolicy *p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
     Uml::Visibility::Value scopePolicy = p->getAttributeAccessorScope();
     QString strVis = rubyfield->getVisibility().toString();
     QString fieldName = RubyCodeGenerator::cppToRubyName(rubyfield->getFieldName());

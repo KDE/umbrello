@@ -55,7 +55,7 @@ UMLForeignKeyConstraintDialog::UMLForeignKeyConstraintDialog(QWidget* parent, UM
     setFaceType(KPageDialog::List);
 
     m_pForeignKeyConstraint = pForeignKeyConstraint;
-    m_doc = UMLApp::app()->getDocument();
+    m_doc = UMLApp::app()->document();
 
     setupGeneralPage();
     setupColumnPage();

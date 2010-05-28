@@ -46,7 +46,7 @@
 SimpleCodeGenerator::SimpleCodeGenerator(bool createDirHierarchyForPackages)
 {
     m_indentLevel = 0;
-    UMLDoc * parentDoc = UMLApp::app()->getDocument();
+    UMLDoc * parentDoc = UMLApp::app()->document();
     parentDoc->disconnect(this); // disconnect from UMLDoc.. we arent planning to be synced at all
     m_createDirHierarchyForPackages = createDirHierarchyForPackages;
     initFields(parentDoc);
@@ -115,7 +115,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
 
     // if a package name exists check the existence of the package directory
     if (!package.isEmpty() && m_createDirHierarchyForPackages) {
-        QDir pathDir(UMLApp::app()->getCommonPolicy()->getOutputDirectory().absolutePath() + package);
+        QDir pathDir(UMLApp::app()->commonPolicy()->getOutputDirectory().absolutePath() + package);
         // does our complete output directory exist yet? if not, try to create it
         if (!pathDir.exists())
         {
@@ -156,7 +156,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
  */
 QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString &name, const QString &ext)
 {
-    CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     QDir outputDir = commonPolicy->getOutputDirectory();
     QString filename = name + ext;
     if(!outputDir.exists(filename)) {
@@ -313,7 +313,7 @@ void SimpleCodeGenerator::initFields(UMLDoc * parentDoc)
  */
 void SimpleCodeGenerator::syncCodeToDocument()
 {
-    CodeGenerationPolicy *policy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *policy = UMLApp::app()->commonPolicy();
 
     m_indentation = policy->getIndentation();
     m_endl = policy->getNewLineEndingChars();

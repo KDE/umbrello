@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -517,7 +517,7 @@ void CodeGenObjectWithTextBlocks::loadChildTextBlocksFromNode ( QDomElement & ro
             } else if (name == "codeoperation") {
                 // find the code operation by id
                 QString id = element.attribute("parent_id","-1");
-                UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
+                UMLObject * obj = UMLApp::app()->document()->findObjectById(STR2ID(id));
                 UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                 if (op) {
                     CodeOperation * block = CodeGenFactory::newCodeOperation(dynamic_cast<ClassifierCodeDocument*>(m_pCodeDoc), op);

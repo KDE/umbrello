@@ -316,7 +316,7 @@ void ToolBarStateMessages::setupMessageWidget(MessageWidget *message)
     message->setTextPosition();
     m_pUMLScene->widgetList().append(ft);
 
-    UMLApp::app()->getDocument()->setModified();
+    UMLApp::app()->document()->setModified();
 }
 
 #include "toolbarstatemessages.moc"

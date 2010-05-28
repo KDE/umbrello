@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
 {
     CodeClassField * cf = getParentClassField();
     JavaCodeClassField * jcf = dynamic_cast<JavaCodeClassField*>(cf);
-    CodeGenerationPolicy * commonpolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy * commonpolicy = UMLApp::app()->commonPolicy();
 
     Uml::Visibility::Value scopePolicy = commonpolicy->getAssociationFieldScope();
 

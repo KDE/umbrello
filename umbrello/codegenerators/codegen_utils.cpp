@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   Copyright (C) 2004-2008                                               *
+ *   Copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -407,7 +407,7 @@ const QStringList reservedCppKeywords()
  */
 void createCppStereotypes()
 {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     umldoc->findOrCreateStereotype("constructor");
     // declares an operation as friend
     umldoc->findOrCreateStereotype("friend");

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -59,7 +59,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
     m_pWidget = o;
     m_Type = pt_ObjectWidget;
     m_pObject = m_pWidget->umlObject();
-    m_pDoc = UMLApp::app()->getDocument();
+    m_pDoc = UMLApp::app()->document();
 
     setupGeneralPage();
     setupColorPage();
@@ -121,7 +121,7 @@ void ClassPropDlg::init()
     m_pEntityConstraintPage = 0;
     m_pOptionsPage = 0;
     m_pColorPage = 0;
-    m_pDoc = UMLApp::app()->getDocument();
+    m_pDoc = UMLApp::app()->document();
 }
 
 ClassPropDlg::~ClassPropDlg()
@@ -348,7 +348,7 @@ void ClassPropDlg::setupAssociationsPage()
 {
     QFrame* page = createPage( i18n("Associations"), i18n("Class Associations"),
                                Icon_Utils::it_Properties_Associations );
-    m_pAssocPage = new AssocPage(page, UMLApp::app()->getCurrentView()->umlScene(), m_pObject);
+    m_pAssocPage = new AssocPage(page, UMLApp::app()->currentView()->umlScene(), m_pObject);
     QHBoxLayout* assocLayout = new QHBoxLayout(page);
     assocLayout->addWidget(m_pAssocPage);
 }

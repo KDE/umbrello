@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -105,7 +105,7 @@ void EnumWidget::slotMenuSelection(QAction *action)
     if (sel == ListPopupMenu::mt_EnumLiteral) {
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),
                                               Uml::ot_EnumLiteral) )  {
-            UMLApp::app()->getDocument()->setModified();
+            UMLApp::app()->document()->setModified();
         }
         return;
     }

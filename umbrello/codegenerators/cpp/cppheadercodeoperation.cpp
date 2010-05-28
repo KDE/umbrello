@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -43,7 +43,7 @@ CPPHeaderCodeOperation::~CPPHeaderCodeOperation ( )
 // the body text.
 void CPPHeaderCodeOperation::updateContent( )
 {
-    CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
+    CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     bool isInlineMethod = policy->getOperationsAreInline( );
 
@@ -58,7 +58,7 @@ void CPPHeaderCodeOperation::updateMethodDeclaration()
     bool isInterface = ccd->parentIsInterface();
     UMLOperation * o = getParentOperation();
 
-    CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
+    CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
     bool isInlineMethod = policy->getOperationsAreInline( );
     QString tag = policy->getDocToolTag( );

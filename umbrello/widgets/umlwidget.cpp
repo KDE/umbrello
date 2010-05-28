@@ -199,7 +199,7 @@ void UMLWidget::showPropertiesDialog()
 {
     // will already be selected so make sure docWindow updates the doc
     // back it the widget
-    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
     if (dlg->exec()) {

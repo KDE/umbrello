@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,7 +36,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
 {
     CodeClassField * cf = getParentClassField();
     RubyCodeClassField * rcf = dynamic_cast<RubyCodeClassField*>(cf);
-    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     Uml::Visibility::Value scopePolicy = p->getAssociationFieldScope();
 
     // Set the comment

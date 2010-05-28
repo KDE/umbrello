@@ -268,7 +268,7 @@ void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
  */
 bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
 {
-    UMLDoc* doc = UMLApp::app()->getDocument();
+    UMLDoc* doc = UMLApp::app()->document();
     if ( !mimeData->hasFormat("application/x-uml-clip1") ) {
         return false;
     }
@@ -295,7 +295,7 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
         return false;
     }
 
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
 
     //UMLObjects
     QDomNode objectsNode = xmiClipNode.firstChild();
@@ -425,7 +425,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
         uWarning() << "No diagrams in XMI clip.";
         return false;
     }
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     while ( !diagramElement.isNull() ) {
         QString type = diagramElement.attribute("type", "0");
         Uml::Diagram_Type dt = (Uml::Diagram_Type)type.toInt();
@@ -678,7 +678,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         return false;
     }
 
-    UMLView *view = UMLApp::app()->getCurrentView();
+    UMLView *view = UMLApp::app()->currentView();
     UMLScene *scene = view->umlScene();
     while ( !widgetElement.isNull() ) {
 

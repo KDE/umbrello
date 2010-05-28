@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007                                                    *
+ *   copyright (C) 2007-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -45,7 +45,7 @@ Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* 
 
 void Docbook2XhtmlGeneratorJob::run()
 {
-  UMLDoc* umlDoc = UMLApp::app()->getDocument();
+  UMLDoc* umlDoc = UMLApp::app()->document();
   xsltStylesheetPtr cur = NULL;
   xmlDocPtr doc, res;
 

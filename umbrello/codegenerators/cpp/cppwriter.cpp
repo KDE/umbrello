@@ -81,7 +81,7 @@ Uml::Programming_Language CppWriter::language() const
  */
 CPPCodeGenerationPolicy *CppWriter::policyExt()
 {
-    return static_cast<CPPCodeGenerationPolicy*>(UMLApp::app()->getPolicyExt());
+    return static_cast<CPPCodeGenerationPolicy*>(UMLApp::app()->policyExt());
 }
 
 /**
@@ -971,7 +971,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
 void CppWriter::writeConstructorDecls(QTextStream &stream)
 {
     const bool generateEmptyConstructors =
-        UMLApp::app()->getCommonPolicy()->getAutoGenerateConstructors();
+        UMLApp::app()->commonPolicy()->getAutoGenerateConstructors();
     if (forceDoc() || generateEmptyConstructors)
     {
         writeComment("Constructors/Destructors", indent(), stream);
@@ -994,7 +994,7 @@ void CppWriter::writeConstructorDecls(QTextStream &stream)
  */
 void CppWriter::writeInitAttributeDecl(UMLClassifier * c, QTextStream &stream)
 {
-    if (UMLApp::app()->getCommonPolicy()->getAutoGenerateConstructors() &&
+    if (UMLApp::app()->commonPolicy()->getAutoGenerateConstructors() &&
         c->hasAttributes())
         stream << indent() << "void initAttributes ( ) ;" << m_endl;
 }
@@ -1005,7 +1005,7 @@ void CppWriter::writeInitAttributeDecl(UMLClassifier * c, QTextStream &stream)
 void CppWriter::writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream)
 {
     // only need to do this under certain conditions
-    if (!UMLApp::app()->getCommonPolicy()->getAutoGenerateConstructors() ||
+    if (!UMLApp::app()->commonPolicy()->getAutoGenerateConstructors() ||
         !c->hasAttributes())
         return;
 
@@ -1060,7 +1060,7 @@ void CppWriter::writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream)
 void CppWriter::writeConstructorMethods(UMLClassifier * c, QTextStream &stream)
 {
     const bool generateEmptyConstructors =
-        UMLApp::app()->getCommonPolicy()->getAutoGenerateConstructors();
+        UMLApp::app()->commonPolicy()->getAutoGenerateConstructors();
 
     if (forceDoc() || generateEmptyConstructors) {
         writeComment("Constructors/Destructors", indent(), stream);
@@ -1137,7 +1137,7 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
 void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool isHeaderMethod, QTextStream &cpp)
 {
     const bool generateEmptyConstructors =
-        UMLApp::app()->getCommonPolicy()->getAutoGenerateConstructors();
+        UMLApp::app()->commonPolicy()->getAutoGenerateConstructors();
 
     // generate method decl for each operation given
     foreach (UMLOperation* op, oplist  ) {

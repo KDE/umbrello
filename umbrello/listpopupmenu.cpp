@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -575,7 +575,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         break;
     }//end switch
 
-    bool bCutState = UMLApp::app()->getCutCopyState();
+    bool bCutState = UMLApp::app()->isCutCopyState();
     setActionEnabled( mt_Cut, bCutState );
     setActionEnabled( mt_Copy, bCutState );
     setActionEnabled( mt_Paste, false );
@@ -1711,12 +1711,12 @@ void ListPopupMenu::setupMenu(Menu_Type type)
     }//end switch
 
     if( m_TriggerObjectType == tot_View ) {
-        bool bCutState = UMLApp::app()->getCutCopyState();
-        setActionEnabled( mt_Undo, UMLApp::app()->getUndoEnabled() );
-        setActionEnabled( mt_Redo, UMLApp::app()->getRedoEnabled() );
+        bool bCutState = UMLApp::app()->isCutCopyState();
+        setActionEnabled( mt_Undo, UMLApp::app()->isUndoEnabled() );
+        setActionEnabled( mt_Redo, UMLApp::app()->isRedoEnabled() );
         setActionEnabled( mt_Cut, bCutState );
         setActionEnabled( mt_Copy, bCutState );
-        setActionEnabled( mt_Paste, UMLApp::app()->getPasteState() );
+        setActionEnabled( mt_Paste, UMLApp::app()->isPasteState() );
     }
 
 }
