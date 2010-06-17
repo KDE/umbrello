@@ -356,7 +356,7 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textW
     const uint numSegments = m_associationLine->count()-1;
     const uint lastSegmentIndex = numSegments-1;
 
-    if (numSegments == 0) {
+    if (numSegments <= 0) {
         uError() << "Called when it had zero segments";
         return;
     }
