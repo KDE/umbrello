@@ -659,7 +659,7 @@ void UMLApp::initView()
     m_tabWidget = new KTabWidget(this);
     m_tabWidget->setAutomaticResizeTabs(true);
     m_tabWidget->setTabsClosable(true);
-    connect(m_tabWidget, SIGNAL(closeRequest(QWidget*)), SLOT(slotDeleteDiagram(QWidget*)));
+    connect(m_tabWidget, SIGNAL(closeRequest(QWidget*)), SLOT(slotCloseDiagram(QWidget*)));
 
     m_newSessionButton = new QToolButton(m_tabWidget);
     m_newSessionButton->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Tab_New));
@@ -1648,7 +1648,10 @@ void UMLApp::slotApplyPrefs()
                     UMLScene *scene = view->umlScene();
                     m_viewStack->removeWidget(view);
                     m_tabWidget->addTab(view, scene->name());
-                    m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Icon_Utils::iconSet(scene->type()));
+                    int tabIndex = m_tabWidget->indexOf(view);
+                    m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(scene->type()));
+                    m_tabWidget->setTabToolTip(tabIndex, scene->name());
+                    m_tabWidget->setTabWhatsThis(tabIndex, scene->name());
                 }
                 m_layout->addWidget(m_tabWidget);
                 m_tabWidget->show();
@@ -2381,21 +2384,25 @@ void UMLApp::slotDeleteSelectedWidget()
 }
 
 /**
- * Deletes the current diagram.
- * @param tab   Widget's tab to close
+ * Deletes the current diagram. Called from menu action.
  */
-void UMLApp::slotDeleteDiagram(QWidget* tab)
+void UMLApp::slotDeleteDiagram()
 {
-    if (tab == NULL) {  // called from menu action
- // [PORT]
-        m_doc->removeDiagram( currentView()->umlScene()->getID() );
-    }
-    else {  // clicked on close button
+    // [PORT]
+    m_doc->removeDiagram( currentView()->umlScene()->getID() );
+}
+
+/**
+ * Close the current diagram. Clicked on tab close button.
+ */
+void UMLApp::slotCloseDiagram(QWidget* tab)
+{
+    if (tab) {
         UMLView* view = (UMLView*)tab;
         if (view != currentView()) {
             setCurrentView(view);
         }
-        m_doc->removeDiagram( view->umlScene()->getID() );
+        m_tabWidget->removeTab(m_tabWidget->indexOf(view));
     }
 }
 
@@ -2574,11 +2581,14 @@ void UMLApp::setCurrentView(UMLView* view)
 
     Settings::OptionState optionState = Settings::getOptionState();
     if (optionState.generalState.tabdiagrams) {
-        if ( m_tabWidget->indexOf(view) < 0 ) {
+        int tabIndex = m_tabWidget->indexOf(view);
+        if (tabIndex < 0) {
             m_tabWidget->addTab(view, view->umlScene()->name());
-            m_tabWidget->setTabIcon(m_tabWidget->indexOf(view), Icon_Utils::iconSet(view->umlScene()->type()));
+            m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(view->umlScene()->type()));
+            m_tabWidget->setTabToolTip(tabIndex, view->umlScene()->name());
+            m_tabWidget->setTabWhatsThis(tabIndex, view->umlScene()->name());
         }
-        m_tabWidget->setCurrentIndex(m_tabWidget->indexOf(view));
+        m_tabWidget->setCurrentIndex(tabIndex);
     }
     else {
         if (m_viewStack->indexOf(view) < 0) {

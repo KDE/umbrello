@@ -239,7 +239,8 @@ public slots:
     void slotShowGridToggled(bool gridOn);
     void slotSelectAll();
     void slotDeleteSelectedWidget();
-    void slotDeleteDiagram(QWidget* tab = NULL);
+    void slotDeleteDiagram();
+    void slotCloseDiagram(QWidget* tab);
 
     void slotSetZoom(QAction* action);
     void slotZoomSliderMoved(int value);
