@@ -938,7 +938,6 @@ QRect UMLView::getDiagramRect()
     startx = starty = INT_MAX;
     endx = endy = 0;
 
-
     foreach(UMLWidget* obj, m_WidgetList) {
         if (! obj->isVisible())
             continue;
@@ -1335,16 +1334,19 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
     }//end foreach
 }
 
-void  UMLView::getDiagram(const QRect &rect, QPixmap & diagram)
+void  UMLView::getDiagram(const QRect &rect, QPixmap &diagram)
 {
-    QPixmap pixmap(rect.x() + rect.width(), rect.y() + rect.height());
+    const int width  = rect.x() + rect.width();
+    const int height = rect.y() + rect.height();
+    QPixmap pixmap(width, height);
     QPainter painter(&pixmap);
+    painter.fillRect(0, 0, width, height, Qt::white);
     getDiagram(canvas()->rect(), painter);
     QPainter output(&diagram);
     output.drawPixmap(QPoint(0, 0), pixmap, rect);
 }
 
-void  UMLView::getDiagram(const QRect &area, QPainter & painter)
+void  UMLView::getDiagram(const QRect &area, QPainter &painter)
 {
     //TODO unselecting and selecting later doesn't work now as the selection is
     //cleared in UMLViewImageExporter. Check if the anything else than the
@@ -1376,8 +1378,6 @@ void  UMLView::getDiagram(const QRect &area, QPainter & painter)
     foreach(AssociationWidget* association , selectedAssociationsList) {
         association->setSelected(true);
     }
-
-    return;
 }
 
 UMLViewImageExporter* UMLView::getImageExporter()
@@ -3125,6 +3125,15 @@ void UMLView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("linewidth", m_Options.uiState.lineWidth);
     viewElement.setAttribute("usefillcolor", m_Options.uiState.useFillColor);
     viewElement.setAttribute("font", m_Options.uiState.font.toString());
+    QString backgroundColor = m_Options.uiState.backgroundColor.name();
+    QString gridDotColor    = m_Options.uiState.gridDotColor.name();
+    UMLViewCanvas* canvs = dynamic_cast<UMLViewCanvas*>(canvas());
+    if (canvs) {
+        backgroundColor = canvs->backgroundColor().name();
+        gridDotColor    = canvs->gridDotColor().name();
+    }
+    viewElement.setAttribute("backgroundcolor", backgroundColor);
+    viewElement.setAttribute("griddotcolor",    gridDotColor);
     //optionstate classstate
     viewElement.setAttribute("showattsig", m_Options.classState.showAttSig);
     viewElement.setAttribute("showatts", m_Options.classState.showAtts);
@@ -3209,6 +3218,8 @@ bool UMLView::loadFromXMI(QDomElement & qElement)
     QString linecolor = qElement.attribute("linecolor", "");
     QString linewidth = qElement.attribute("linewidth", "");
     QString usefillcolor = qElement.attribute("usefillcolor", "0");
+    QString backgroundColor = qElement.attribute("backgroundcolor", "");
+    QString gridDotColor = qElement.attribute("griddotcolor", "");
     m_Options.uiState.useFillColor = (bool)usefillcolor.toInt();
     //optionstate classstate
     QString temp = qElement.attribute("showattsig", "0");
@@ -3299,6 +3310,17 @@ bool UMLView::loadFromXMI(QDomElement & qElement)
         m_Options.uiState.lineColor = QColor(linecolor);
     if (!linewidth.isEmpty())
         m_Options.uiState.lineWidth = linewidth.toInt();
+    if (!backgroundColor.isEmpty())
+        m_Options.uiState.backgroundColor = QColor(backgroundColor);
+    if (!gridDotColor.isEmpty())
+        m_Options.uiState.gridDotColor = QColor(gridDotColor);
+    if (!backgroundColor.isEmpty() & !gridDotColor.isEmpty()) {
+        UMLViewCanvas* canvs = dynamic_cast<UMLViewCanvas*>(canvas());
+        if (canvs) {
+            uDebug() << "Set background color to [" << backgroundColor << "] and grid dot color to [" << gridDotColor << "]";
+            canvs->setColors(QColor(backgroundColor), QColor(gridDotColor));
+        }
+    }
     m_nLocalID = STR2ID(localid);
 
     QDomNode node = qElement.firstChild();

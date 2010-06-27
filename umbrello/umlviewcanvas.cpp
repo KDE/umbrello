@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2007                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -19,18 +19,46 @@
 #include "umlview.h"
 
 
-UMLViewCanvas::UMLViewCanvas( UMLView * pView ) : Q3Canvas( pView ) {
+/**
+ * Constructor
+ */
+UMLViewCanvas::UMLViewCanvas(UMLView * pView) : Q3Canvas(pView)
+{
     m_pView = pView;
+    setColors(QColor(195, 195, 195), Qt::gray);
 }
 
-UMLViewCanvas::~UMLViewCanvas() {}
+/**
+ * Deconstructor
+ */
+UMLViewCanvas::~UMLViewCanvas()
+{
+}
 
-void UMLViewCanvas::drawBackground( QPainter & painter, const QRect & clip ) {
-    Q3Canvas::drawBackground( painter, clip );
-    if( m_pView -> getShowSnapGrid() ) {
-        painter.setPen( Qt::gray );
-        int gridX = m_pView -> getSnapX();
-        int gridY = m_pView -> getSnapY();
+/**
+ * Overrides default method.
+ */
+void UMLViewCanvas::setColors(const QColor& backColor, const QColor& gridColor)
+{
+    setBackgroundColor(backColor);
+    m_gridColor = gridColor;
+}
+
+QColor UMLViewCanvas::gridDotColor() const
+{
+    return m_gridColor;
+}
+
+/**
+ * Sets the color of the background and the grid dots.
+ */
+void UMLViewCanvas::drawBackground(QPainter & painter, const QRect & clip)
+{
+//?    Q3Canvas::drawBackground( painter, clip );
+    if( m_pView->getShowSnapGrid() ) {
+        painter.setPen( m_gridColor );
+        int gridX = m_pView->getSnapX();
+        int gridY = m_pView->getSnapY();
         int numX = width() / gridX;
         int numY = height() / gridY;
         for( int x = 0; x <= numX; x++ )

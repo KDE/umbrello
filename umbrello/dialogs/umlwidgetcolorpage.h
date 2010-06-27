@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,19 +31,9 @@ class UMLWidgetColorPage : public QWidget
     Q_OBJECT
 public:
 
-    /**
-     *   Constructor - Observe a UMLWidget
-     */
     UMLWidgetColorPage( QWidget * pParent, UMLWidget * pWidget );
-
-    /**
-     *   Constructor - Observe an OptionState structure
-     */
     UMLWidgetColorPage( QWidget * pParent, Settings::OptionState *options );
 
-    /**
-     *   destructor
-     */
     virtual ~UMLWidgetColorPage();
 
     void updateUMLWidget();
@@ -51,24 +41,25 @@ public:
 public slots:
 
     void slotLineButtonClicked();
-
     void slotFillButtonClicked();
+    void slotBackgroundButtonClicked();
+    void slotGridDotButtonClicked();
 
 protected:
 
-    /**
-     *   The widget to set the color for.
-     */
-    UMLWidget * m_pUMLWidget;
+    UMLWidget * m_pUMLWidget;  ///< the widget to set the color for
 
-    Settings::OptionState *m_options;
+    Settings::OptionState * m_options;
 
     //GUI widgets
     QGroupBox * m_pColorGB;
     QLabel * m_pLineColorL, * m_pFillColorL;
+    QLabel * m_BackgroundColorL, * m_GridDotColorL;
     QCheckBox * m_pUseFillColorCB;
     QPushButton * m_pLineDefaultB, * m_pFillDefaultB;
+    QPushButton * m_BackgroundDefaultB, * m_GridDotDefaultB;
     KColorButton * m_pLineColorB, * m_pFillColorB;
+    KColorButton * m_BackgroundColorB, * m_GridDotColorB;
 
 private:
     void init();

@@ -122,6 +122,16 @@
          <whatsthis>The Font to be used</whatsthis>
          <default code="true">KGlobalSettings::generalFont()</default>
        </entry>
+       <entry name="backgroundColor" type="Color">
+         <label>Background Color</label>
+         <whatsthis>The Color of the diagram background</whatsthis>
+         <default>white</default>
+       </entry>
+       <entry name="gridDotColor" type="Color">
+         <label>Grid Dot Color</label>
+         <whatsthis>The Color of the grid dots</whatsthis>
+         <default>gray</default>
+       </entry>
    </group>
    <group name ="Class Options">
        <entry name="showVisibility" type="Bool">
