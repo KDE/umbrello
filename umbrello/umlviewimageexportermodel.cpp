@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -178,7 +178,7 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
     // contains all the error messages returned by exportView calls
     QStringList errors;
 
-    UMLViewList views = app->getDocument()->getViewIterator();
+    UMLViewList views = app->document()->getViewIterator();
     foreach (UMLView *view , views ) {
         KUrl url = directory;
         url.addPath(getDiagramFileName(view, imageType, useFolders));

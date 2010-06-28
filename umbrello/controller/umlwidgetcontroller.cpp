@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -111,7 +111,7 @@ void UMLWidgetController::mousePressEvent(QMouseEvent *me)
     //they aren't going to be used
     saveWidgetValues(me);
 
-    m_oldStatusBarMsg = UMLApp::app()->getStatusBarMsg();
+    m_oldStatusBarMsg = UMLApp::app()->statusBarMsg();
 
     if (me->modifiers() == Qt::ShiftModifier || me->modifiers() == Qt::ControlModifier) {
         m_shiftPressed = true;
@@ -196,7 +196,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
     }
 
     if (!m_moved) {
-        UMLApp::app()->getDocument()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel move."));
+        UMLApp::app()->document()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel move."));
 
         m_moved = true;
         //Maybe needed by AssociationWidget
@@ -218,7 +218,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
     }
 
     /* Commands
-        UMLDoc* doc = UMLApp::app()->getDocument();
+        UMLDoc* doc = UMLApp::app()->document();
         doc->executeCommand(new CmdMoveWidget(this,diffX,diffY));*/
 
     // moveWidget(diffX,diffY);
@@ -244,7 +244,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
 
     foreach(UMLWidget* widget , m_selectedWidgetsList) {
 
-        //UMLDoc* m_doc = UMLApp::app()->getDocument();
+        //UMLDoc* m_doc = UMLApp::app()->document();
         //CmdMoveWidgetBy* cmd = new CmdMoveWidgetBy(widget,diffX,diffY);
         //m_doc->executeCommand(cmd);
         //m_doc->executeCommand(new CmdMoveWidgetBy(widget,diffX,diffY));
@@ -336,7 +336,7 @@ void UMLWidgetController::mouseReleaseEvent(QMouseEvent *me)
                     m_widget->umlDoc()->setModified(true);
                 }
 
-                UMLApp::app()->getDocument()->writeToStatusBar(m_oldStatusBarMsg);
+                UMLApp::app()->document()->writeToStatusBar(m_oldStatusBarMsg);
             }
 
             if (m_inResizeArea) {
@@ -664,7 +664,7 @@ void UMLWidgetController::updateSelectionBounds(int diffX, int diffY)
  */
 void UMLWidgetController::resize(QMouseEvent *me)
 {
-    UMLApp::app()->getDocument()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel resize."));
+    UMLApp::app()->document()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel resize."));
 
     m_resized = true;
 

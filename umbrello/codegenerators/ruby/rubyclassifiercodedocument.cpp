@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -49,7 +49,7 @@ RubyClassifierCodeDocument::~RubyClassifierCodeDocument ( )
 // Make it easier on ourselves
 RubyCodeGenerationPolicy * RubyClassifierCodeDocument::getRubyPolicy()
 {
-    CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
+    CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     RubyCodeGenerationPolicy * policy = dynamic_cast<RubyCodeGenerationPolicy*>(pe);
     return policy;
 }
@@ -85,7 +85,7 @@ QString RubyClassifierCodeDocument::getPath ( )
 
 QString RubyClassifierCodeDocument::getRubyClassName (const QString &name)
 {
-    CodeGenerator *g = UMLApp::app()->getGenerator();
+    CodeGenerator *g = UMLApp::app()->generator();
     return Codegen_Utils::capitalizeFirstLetter(g->cleanName(name));
 }
 
@@ -235,7 +235,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode ( QDomElement & roo
                                         if( name == "codeoperation" ) {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
-                                            UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
+                                            UMLObject * obj = UMLApp::app()->document()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
                                                 CodeOperation * block = new RubyCodeOperation(this, op);
@@ -326,7 +326,7 @@ void RubyClassifierCodeDocument::updateContent( )
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
-    RubyCodeGenerator * gen = dynamic_cast<RubyCodeGenerator*>(UMLApp::app()->getGenerator());
+    RubyCodeGenerator * gen = dynamic_cast<RubyCodeGenerator*>(UMLApp::app()->generator());
 
     // first, set the global flag on whether or not to show classfield info
     // This depends on whether or not we have attribute/association classes
@@ -370,7 +370,7 @@ void RubyClassifierCodeDocument::updateContent( )
         UMLOperationList list = c->getOpList();
         hasOperationMethods = ! list.isEmpty();
     }
-    CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *pol = UMLApp::app()->commonPolicy();
     QString endLine = pol->getNewLineEndingChars(); // a shortcut..so we don't have to call this all the time
 
     //

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,7 @@ void DCodeClassFieldDeclarationBlock::updateContent( )
 {
     CodeClassField * cf = getParentClassField();
     DCodeClassField * jcf = dynamic_cast<DCodeClassField*>(cf);
-    CodeGenerationPolicy * commonpolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy * commonpolicy = UMLApp::app()->commonPolicy();
 
     Uml::Visibility::Value scopePolicy = commonpolicy->getAssociationFieldScope();
 

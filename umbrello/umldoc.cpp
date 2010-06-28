@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2009                                                *
+ *  copyright (C) 2002-2010                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -166,7 +166,7 @@ void UMLDoc::addView(UMLView *view)
     f->addView(view);
 
     UMLApp * pApp = UMLApp::app();
-    if ( pApp->getListView() ) {
+    if ( pApp->listView() ) {
         connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view, SLOT(slotObjectRemoved(UMLObject *)));
     }
     
@@ -193,7 +193,7 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
         uError() << "UMLDoc::removeView(UMLView *view) called with view = 0";
         return;
     }
-    if ( UMLApp::app()->getListView() ) {
+    if ( UMLApp::app()->listView() ) {
         disconnect(this, SIGNAL(sigObjectRemoved(UMLObject *)),
                    view->umlScene(), SLOT(slotObjectRemoved(UMLObject *)));
     }
@@ -206,7 +206,7 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
         return;
     }
     f->removeView(view);
-    UMLView *currentView = UMLApp::app()->getCurrentView();
+    UMLView *currentView = UMLApp::app()->currentView();
     if (currentView == view) {
         UMLApp::app()->setCurrentView(NULL);
         UMLViewList viewList;
@@ -309,12 +309,12 @@ void UMLDoc::closeDocument()
     m_bClosing = true;
     UMLApp::app()->setGenerator(Uml::pl_Reserved);  // delete the codegen
     m_Doc = "";
-    DocWindow* dw = UMLApp::app()->getDocWindow();
+    DocWindow* dw = UMLApp::app()->docWindow();
     if (dw) {
         dw->newDocumentation();
     }
 
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     if (listView) {
         listView->init();
         // store old setting - for restore of last setting
@@ -361,6 +361,7 @@ void UMLDoc::closeDocument()
  */
 bool UMLDoc::newDocument()
 {
+    uDebug() << "*******************************";
     closeDocument();
     UMLApp::app()->setCurrentView(NULL);
     m_doc_url.setFileName(i18n("Untitled"));
@@ -709,7 +710,7 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
  */
 void UMLDoc::setupSignals()
 {
-    WorkToolBar *tb = UMLApp::app()->getWorkToolBar();
+    WorkToolBar *tb = UMLApp::app()->workToolBar();
     connect(this, SIGNAL(sigDiagramChanged(Uml::Diagram_Type)), tb, SLOT(slotCheckToolBar(Uml::Diagram_Type)));
     //new signals below
     return;
@@ -925,7 +926,7 @@ void UMLDoc::slotRemoveUMLObject(UMLObject* object)
  */
 bool UMLDoc::isUnique(const QString &name)
 {
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
     UMLListViewItem *parentItem = 0;
 
@@ -1387,7 +1388,7 @@ void UMLDoc::changeCurrentView(Uml::IDType id)
  */
 void UMLDoc::removeDiagram(Uml::IDType id)
 {
-    UMLApp::app()->getDocWindow()->updateDocumentation(true);
+    UMLApp::app()->docWindow()->updateDocumentation(true);
     UMLView* umlview = findView(id);
     if (!umlview) {
         uError() << "Request to remove diagram " << ID2STR(id) << ": Diagram not found!";
@@ -1415,7 +1416,7 @@ void UMLDoc::removeDiagram(Uml::IDType id)
  */
 UMLFolder *UMLDoc::currentRoot()
 {
-    UMLView *currentView = UMLApp::app()->getCurrentView();
+    UMLView *currentView = UMLApp::app()->currentView();
     if (currentView == NULL) {
         if (m_pCurrentRoot) {
             return m_pCurrentRoot;
@@ -1451,7 +1452,7 @@ void UMLDoc::setCurrentRoot(Uml::Model_Type rootType)
  */
 void UMLDoc::removeUMLObject(UMLObject* umlobject)
 {
-    UMLApp::app()->getDocWindow()->updateDocumentation(true);
+    UMLApp::app()->docWindow()->updateDocumentation(true);
     Object_Type type = umlobject->getBaseType();
 
     umlobject->setUMLStereotype(NULL);  // triggers possible cleanup of UMLStereotype
@@ -1665,7 +1666,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
 
     QDomElement docElement = doc.createElement( "docsettings" );
     Uml::IDType viewID = Uml::id_None;
-    UMLView *currentView = UMLApp::app()->getCurrentView();
+    UMLView *currentView = UMLApp::app()->currentView();
     if (currentView) {
         viewID = currentView->getID();
     }
@@ -1675,10 +1676,10 @@ void UMLDoc::saveToXMI(QIODevice& file)
     extensions.appendChild( docElement );
 
     //  save listview
-    UMLApp::app()->getListView()->saveToXMI(doc, extensions);
+    UMLApp::app()->listView()->saveToXMI(doc, extensions);
 
     // save code generator
-    CodeGenerator *codegen = UMLApp::app()->getGenerator();
+    CodeGenerator *codegen = UMLApp::app()->generator();
     if (codegen) {
         QDomElement codeGenElement = doc.createElement( "codegeneration" );
         codegen->saveToXMI( doc, codeGenElement );
@@ -1868,7 +1869,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
                     return false;
                 }
                 m_Name = element.attribute( "name", i18n("UML Model") );
-                UMLListView *lv = UMLApp::app()->getListView();
+                UMLListView *lv = UMLApp::app()->listView();
                 lv->setColumnText(0, m_Name);
                 seen_UMLObjects = true;
             } else if (tagEq(tag, "Package") ||
@@ -1920,8 +1921,8 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
 #endif
     resolveTypes();
     // set a default code generator if no <XMI.extensions><codegeneration> tag seen
-    if (UMLApp::app()->getGenerator() == NULL) {
-        UMLApp::app()->setGenerator(UMLApp::app()->getDefaultLanguage());
+    if (UMLApp::app()->generator() == NULL) {
+        UMLApp::app()->setGenerator(UMLApp::app()->defaultLanguage());
     }
     emit sigWriteToStatusBar( i18n("Setting up the document...") );
     qApp->processEvents();  // give UI events a chance
@@ -2133,7 +2134,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
 
         m_nViewID = STR2ID(viewID);
         UniqueID::set(STR2ID(uniqueid));
-        UMLApp::app()->getDocWindow()->newDocumentation();
+        UMLApp::app()->docWindow()->newDocumentation();
 
     } else if (tag == "diagrams" || tag == "UISModelElement") {
         // For backward compatibility only:
@@ -2156,7 +2157,7 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
         //FIXME: Need to resolveTypes() before loading listview,
         //       else listview items are duplicated.
         resolveTypes();
-        if ( !UMLApp::app()->getListView()->loadFromXMI( element ) ) {
+        if ( !UMLApp::app()->listView()->loadFromXMI( element ) ) {
             uWarning() << "failed load on listview";
         }
 
@@ -2172,8 +2173,8 @@ void UMLDoc::loadExtensionsFromXMI(QDomNode& node)
             cgnode = cgnode.nextSibling();
             cgelement = cgnode.toElement();
         }
-        if (UMLApp::app()->getGenerator() == NULL) {
-            UMLApp::app()->setGenerator(UMLApp::app()->getDefaultLanguage());
+        if (UMLApp::app()->generator() == NULL) {
+            UMLApp::app()->setGenerator(UMLApp::app()->defaultLanguage());
         }
     }
 }
@@ -2744,7 +2745,7 @@ void UMLDoc::signalDiagramRenamed(UMLView* view )
  */
 void UMLDoc::addDefaultDatatypes()
 {
-    CodeGenerator *cg = UMLApp::app()->getGenerator();
+    CodeGenerator *cg = UMLApp::app()->generator();
     if (cg == NULL) {
         uDebug() << "CodeGenerator is still NULL";
         return;
@@ -2767,7 +2768,7 @@ void UMLDoc::createDatatype(const QString &name)
     if (!umlobject) {
         Object_Factory::createUMLObject(ot_Datatype, name, m_datatypeRoot);
     }
-    UMLApp::app()->getListView()->closeDatatypesFolder();
+    UMLApp::app()->listView()->closeDatatypesFolder();
 }
 
 /**
@@ -2827,7 +2828,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
     }//end switch
 
     // uDebug() << "create popup for ListView_Type " << type;
-    m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->getMainViewWidget(), type, 0);
+    m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->mainViewWidget(), type, 0);
     m_pTabPopupMenu->popup(point);
     connect(m_pTabPopupMenu, SIGNAL(triggered(QAction*)), view, SLOT(slotMenuSelection(QAction*)));
 }
@@ -2854,7 +2855,7 @@ ListPopupMenu::Menu_Type UMLDoc::getPopupMenuSelection(QAction* action)
  */
 void UMLDoc::addDefaultStereotypes()
 {
-    CodeGenerator *gen = UMLApp::app()->getGenerator();
+    CodeGenerator *gen = UMLApp::app()->generator();
     if (gen) {
         gen->createDefaultStereotypes();
     }

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -52,7 +52,7 @@ FloatingTextWidget::FloatingTextWidget(UMLView * view, Uml::Text_Role role,
     init();
     m_Text = text;
     m_textRole = role;
-    if ( ! UMLApp::app()->getDocument()->loading() ) {
+    if ( ! UMLApp::app()->document()->loading() ) {
         updateComponentSize();
         setZ( 10 );//make sure always on top.
         update();
@@ -247,7 +247,7 @@ void FloatingTextWidget::changeName(const QString& newText)
     }
     else {
         setText( newText );
-        UMLApp::app()->getDocument()->setModified(true);
+        UMLApp::app()->document()->setModified(true);
     }
 
     setVisible( true );

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -277,7 +277,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
  */
 void treeViewAddViews(const UMLViewList& viewList)
 {
-    UMLListView* tree = UMLApp::app()->getListView();
+    UMLListView* tree = UMLApp::app()->listView();
     foreach (UMLView* v,  viewList) {
         if (tree->findItem(v->umlScene()->getID()) != NULL) {
             continue;
@@ -293,7 +293,7 @@ void treeViewAddViews(const UMLViewList& viewList)
  */
 void treeViewChangeIcon(UMLObject* object, Icon_Utils::Icon_Type to)
 {
-    UMLListView* tree = UMLApp::app()->getListView();
+    UMLListView* tree = UMLApp::app()->listView();
     tree->changeIconOf(object, to);
 }
 
@@ -303,7 +303,7 @@ void treeViewChangeIcon(UMLObject* object, Icon_Utils::Icon_Type to)
  */
 void treeViewSetCurrentItem(UMLObject* object)
 {
-    UMLListView* tree = UMLApp::app()->getListView();
+    UMLListView* tree = UMLApp::app()->listView();
     UMLListViewItem* item = tree->findUMLObject(object);
     tree->setCurrentItem(item);
 }
@@ -315,7 +315,7 @@ void treeViewSetCurrentItem(UMLObject* object)
  */
 void treeViewMoveObjectTo(UMLObject* container, UMLObject* object)
 {
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *newParent = listView->findUMLObject(container);
     listView->moveObject(object->getID(),
                    Model_Utils::convert_OT_LVT(object),
@@ -328,7 +328,7 @@ void treeViewMoveObjectTo(UMLObject* container, UMLObject* object)
  */
 UMLObject* treeViewGetCurrentObject()
 {
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *current = static_cast<UMLListViewItem*>(listView->currentItem());
     return current->getUMLObject();
 }
@@ -340,7 +340,7 @@ UMLObject* treeViewGetCurrentObject()
  */
 UMLPackage* treeViewGetPackageFromCurrent()
 {
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *parentItem = (UMLListViewItem*)listView->currentItem();
     if (parentItem) {
         Uml::ListView_Type lvt = parentItem->getType();
@@ -361,7 +361,7 @@ UMLPackage* treeViewGetPackageFromCurrent()
  */
 QString treeViewBuildDiagramName(Uml::IDType id)
 {
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem* listViewItem = listView->findItem(id);
 
     if (listViewItem) {
@@ -433,7 +433,7 @@ QString uniqObjectName(Uml::Object_Type type, UMLPackage *parentPkg, QString pre
             uWarning() << "unknown object type in umldoc::uniqObjectName()";
         }
     }
-    UMLDoc *doc = UMLApp::app()->getDocument();
+    UMLDoc *doc = UMLApp::app()->document();
     QString name = currentName;
     for (int number = 1; !doc->isUnique(name, parentPkg); ++number)  {
         name = currentName + '_' + QString::number(number);
@@ -474,7 +474,7 @@ bool isCommonXMIAttribute( const QString &tag )
  */
 bool isCommonDataType(QString type)
 {
-    CodeGenerator *gen = UMLApp::app()->getGenerator();
+    CodeGenerator *gen = UMLApp::app()->generator();
     if (gen == NULL)
         return false;
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
@@ -556,7 +556,7 @@ Uml::Model_Type guessContainer(UMLObject *o)
         case Uml::ot_Association:
             {
                 UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
-                UMLDoc *umldoc = UMLApp::app()->getDocument();
+                UMLDoc *umldoc = UMLApp::app()->document();
                 for (int r = Uml::A; r <= Uml::B; ++r) {
                     UMLObject *roleObj = assoc->getObject((Uml::Role_Type)r);
                     if (roleObj == NULL) {
@@ -624,7 +624,7 @@ int stringToDirection(QString input, Uml::Parameter_Direction & result)
  */
 Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningScope)
 {
-    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLDoc *pDoc = UMLApp::app()->document();
 
     t = t.trimmed();
     if (t.isEmpty())
@@ -665,7 +665,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope,
                             Uml::Visibility *vis /* = 0 */)
 {
-    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLDoc *pDoc = UMLApp::app()->document();
 
     a = a.simplified();
     if (a.isEmpty())
@@ -739,7 +739,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
  */
 Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope)
 {
-    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLDoc *pDoc = UMLApp::app()->document();
 
     m = m.simplified();
     if (m.isEmpty())
@@ -1251,7 +1251,7 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o)
 
     case Uml::ot_Folder:
         {
-            UMLDoc *umldoc = UMLApp::app()->getDocument();
+            UMLDoc *umldoc = UMLApp::app()->document();
             UMLFolder *f = static_cast<UMLFolder*>(o);
             do {
                 const Uml::Model_Type mt = umldoc->rootFolderType(f);

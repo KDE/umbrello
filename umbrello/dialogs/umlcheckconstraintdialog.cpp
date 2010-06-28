@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2008                                                *
+ *  copyright (C) 2003-2010                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -34,7 +34,7 @@ UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckCons
     showButtonSeparator( true );
 
     m_pCheckConstraint = pCheckConstraint;
-    m_doc = UMLApp::app()->getDocument();
+    m_doc = UMLApp::app()->document();
 
     setupDialog();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));

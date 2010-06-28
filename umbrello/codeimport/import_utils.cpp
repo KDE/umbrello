@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2008                                               *
+ *   copyright (C) 2005-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -164,9 +164,9 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                            const QString& stereotype)
 {
     QString name = inName;
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
-    const Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
+    const Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
     if (parentPkg == NULL) {
         // uDebug() << "Import_Utils::createUMLObject(" << name
         //     << "): parentPkg is NULL, assuming Logical View" << endl;
@@ -332,7 +332,7 @@ UMLObject* insertAttribute(UMLClassifier *owner,
                            bool isStatic /* =false */)
 {
     Uml::Object_Type ot = owner->getBaseType();
-    Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
+    Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
     if (! (ot == Uml::ot_Class || (ot == Uml::ot_Interface && pl == Uml::pl_Java))) {
         uDebug() << "insertAttribute: Don not know what to do with "
                  << owner->getName() << " (object type " << ot << ")";
@@ -350,7 +350,7 @@ UMLObject* insertAttribute(UMLClassifier *owner,
         attr->setDoc(strippedComment);
     }
 
-    UMLApp::app()->getDocument()->setModified(true);
+    UMLApp::app()->document()->setModified(true);
     return attr;
 }
 
@@ -511,7 +511,7 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
         association = Uml::at_Realization;
     }
     UMLAssociation *assoc = new UMLAssociation(association, child, parent);
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     assoc->setUMLPackage(umldoc->getRootFolder(Uml::mt_Logical));
     umldoc->addAssociation(assoc);
 }
@@ -557,7 +557,7 @@ void addIncludePath(const QString& path)
  */
 bool isDatatype(const QString& name, UMLPackage *parentPkg)
 {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     UMLObject * o = umldoc->findUMLObject(name, Uml::ot_Datatype, parentPkg);
     return (o!=NULL);
 }

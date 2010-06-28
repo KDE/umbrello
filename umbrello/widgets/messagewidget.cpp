@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -613,7 +613,7 @@ void MessageWidget::setMessageText(FloatingTextWidget *ft)
 void MessageWidget::setText(FloatingTextWidget *ft, const QString &newText)
 {
     ft->setText(newText);
-    UMLApp::app()->getDocument()->setModified(true);
+    UMLApp::app()->document()->setModified(true);
 }
 
 void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
@@ -700,7 +700,7 @@ void MessageWidget::calculateDimensions()
     } else {
         uWarning() << "Unknown message type";
     }
-    if (! UMLApp::app()->getDocument()->loading()) {
+    if (! UMLApp::app()->document()->loading()) {
         adjustAssocs( getX(), getY() );  // adjust assoc lines
     }
 }

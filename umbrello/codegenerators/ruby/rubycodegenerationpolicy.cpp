@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -26,7 +26,7 @@
  */
 RubyCodeGenerationPolicy::RubyCodeGenerationPolicy()
 {
-    m_commonPolicy = UMLApp::app()->getCommonPolicy();
+    m_commonPolicy = UMLApp::app()->commonPolicy();
     init();
 }
 

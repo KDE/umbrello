@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,7 @@ namespace Uml
     // Create the UMLObject
     void CmdCreateUMLObject::redo()
     {
-        UMLDoc *doc = UMLApp::app()->getDocument();
+        UMLDoc *doc = UMLApp::app()->document();
 
 	// This object was removed from it's package when it was deleted
         // so add it back to it's package ( if it belonged to one )
@@ -54,7 +54,7 @@ namespace Uml
     // Suppress the UMLObject
     void CmdCreateUMLObject::undo()
     {
-        UMLDoc *doc = UMLApp::app()->getDocument();
+        UMLDoc *doc = UMLApp::app()->document();
         doc->removeUMLObject(m_obj);
     }
 

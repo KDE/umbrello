@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -74,13 +74,13 @@ UMLView* WidgetBase::umlScene() const
 }
 
 /**
- * This is shortcut method for UMLApp::app()->getDocument().
+ * This is shortcut method for UMLApp::app()->document().
  *
  * @return Pointer to the UMLDoc object.
  */
 UMLDoc* WidgetBase::umlDoc() const
 {
-    return UMLApp::app()->getDocument();
+    return UMLApp::app()->document();
 }
 
 UMLObject* WidgetBase::umlObject() const

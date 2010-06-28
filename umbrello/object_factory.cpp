@@ -161,7 +161,7 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
                            UMLPackage *parentPkg /* = NULL */,
                            bool solicitNewName /* = true */)
 {
-    UMLDoc *doc = UMLApp::app()->getDocument();
+    UMLDoc *doc = UMLApp::app()->document();
     if (parentPkg == NULL) {
         if (type == Uml::ot_Datatype) {
             parentPkg = doc->getDatatypeFolder();
@@ -195,7 +195,7 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
                                i18n("Invalid Name"));
             continue;
         }
-        CodeGenerator *codegen = UMLApp::app()->getGenerator();
+        CodeGenerator *codegen = UMLApp::app()->generator();
         if (codegen != NULL && codegen->isReservedKeyword(name)) {
             KMessageBox::error(0, i18n("This is a reserved keyword for the language of the configured code generator."),
                                i18n("Reserved Keyword"));
@@ -315,7 +315,7 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
         pObject = new UMLClassifier();
     } else if (Uml::tagEq(xmiTag, "Package")) {
         if (!stereoID.isEmpty()) {
-            UMLDoc *doc = UMLApp::app()->getDocument();
+            UMLDoc *doc = UMLApp::app()->document();
             UMLObject *stereo = doc->findStereotypeById(STR2ID(stereoID));
             if (stereo && stereo->getName() == "folder")
                 pObject = new UMLFolder();

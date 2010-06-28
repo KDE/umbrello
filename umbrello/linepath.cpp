@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -201,7 +201,7 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point )
     int count = m_LineList.count();
     if( count == 0 )
         return false;
-    const bool bLoading = UMLApp::app()->getDocument()->loading();
+    const bool bLoading = UMLApp::app()->document()->loading();
 
     if( count == 1 || pointIndex == 1) {
         Q3CanvasLine * first = m_LineList.first();

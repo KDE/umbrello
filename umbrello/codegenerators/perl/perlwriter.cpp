@@ -358,7 +358,7 @@ void PerlWriter::writeClass(UMLClassifier *c)
   // parts here
   // actual solution: shameful ".pm" hack in codegenerator
 
-  CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
+  CodeGenerationPolicy *pol = UMLApp::app()->commonPolicy();
   QString curDir = pol->getOutputDirectory().absolutePath();
   if (fileName.contains("::")) {
     // create new directories for each level

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -45,7 +45,7 @@ void EnumWidget::init()
         // For completeness only. Not supposed to happen.
         m_bShowPackage = false;
     }
-    if (! UMLApp::app()->getDocument()->loading())
+    if (! UMLApp::app()->document()->loading())
         updateComponentSize();
 }
 
@@ -180,7 +180,7 @@ void EnumWidget::slotMenuSelection(QAction* action)
             updateComponentSize();
             update();
              */
-            UMLApp::app()->getDocument()->setModified();
+            UMLApp::app()->document()->setModified();
         }
         return;
     }

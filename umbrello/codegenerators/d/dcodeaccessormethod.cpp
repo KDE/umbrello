@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -73,7 +73,7 @@ void DCodeAccessorMethod::updateContent( )
             int maxOccurs = dfield->maximumListOccurances();
             QString fieldType = dfield->getTypeName();
             QString indent = getIndentation();
-            QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+            QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
             if(maxOccurs > 0)
                 text += "if ("+fieldName+".size() < "+ QString::number(maxOccurs)+") {"+endLine+indent;
             text += fieldName+".add(value);";
@@ -94,7 +94,7 @@ void DCodeAccessorMethod::updateContent( )
         {
             int minOccurs = dfield->minimumListOccurances();
             QString fieldType = dfield->getTypeName();
-            QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+            QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
             QString indent = getIndentation();
 
             if(minOccurs > 0)
@@ -121,7 +121,7 @@ void DCodeAccessorMethod::updateContent( )
 void DCodeAccessorMethod::updateMethodDeclaration()
 {
     DCodeClassField * dfield = dynamic_cast<DCodeClassField*>(getParentClassField());
-    CodeGenerationPolicy *commonpolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *commonpolicy = UMLApp::app()->commonPolicy();
 
     // gather defs
     Uml::Visibility::Value scopePolicy = commonpolicy->getAttributeAccessorScope();
@@ -131,7 +131,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
     QString objectType = dfield->getListObjectType();
     if(objectType.isEmpty())
         objectType = fieldName;
-    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+    QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
     // set scope of this accessor appropriately..if its an attribute,
     // we need to be more sophisticated

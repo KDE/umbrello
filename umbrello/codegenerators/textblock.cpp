@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -171,7 +171,7 @@ int TextBlock::getIndentationLevel() const
  */
 QString TextBlock::getNewLineEndingChars()
 {
-    CodeGenerationPolicy* policy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy* policy = UMLApp::app()->commonPolicy();
     return policy->getNewLineEndingChars();
 }
 
@@ -181,7 +181,7 @@ QString TextBlock::getNewLineEndingChars()
  */
 QString TextBlock::getIndentation()
 {
-    CodeGenerationPolicy* policy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy* policy = UMLApp::app()->commonPolicy();
     return policy->getIndentation();
 }
 
@@ -322,7 +322,7 @@ void TextBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockEle
 {
     Q_UNUSED(doc);
 
-    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+    QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
     blockElement.setAttribute("tag",getTag());
 
@@ -357,7 +357,7 @@ void TextBlock::setAttributesFromObject(TextBlock * obj)
  */
 void TextBlock::setAttributesFromNode(QDomElement & root)
 {
-    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+    QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
     setIndentationLevel(root.attribute("indentLevel", "0").toInt());
     setTag(root.attribute("tag", ""));
@@ -405,7 +405,7 @@ QString TextBlock::toString() const
     // simple output method
     if (m_writeOutText && !m_text.isEmpty())
     {
-        QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+        QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
         return formatMultiLineText(m_text, getIndentationString(), endLine);
     } else
         return QString();

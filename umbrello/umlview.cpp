@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -111,7 +111,7 @@ using namespace Uml;
 
 
 // constructor
-UMLView::UMLView(UMLFolder *parentFolder) : Q3CanvasView(UMLApp::app()->getMainViewWidget())
+UMLView::UMLView(UMLFolder *parentFolder) : Q3CanvasView(UMLApp::app()->mainViewWidget())
 {
     // Initialize loaded/saved data
     m_nID = Uml::id_None;
@@ -173,7 +173,7 @@ UMLView::UMLView(UMLFolder *parentFolder) : Q3CanvasView(UMLApp::app()->getMainV
     // needs a pointer to this object.
     m_pToolBarStateFactory = new ToolBarStateFactory();
     m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
-    m_pDoc = UMLApp::app()->getDocument();
+    m_pDoc = UMLApp::app()->document();
     m_pFolder = parentFolder;
 }
 
@@ -433,15 +433,15 @@ void UMLView::showEvent(QShowEvent* /*se*/)
 # endif
 
     UMLApp* theApp = UMLApp::app();
-    WorkToolBar* tb = theApp->getWorkToolBar();
+    WorkToolBar* tb = theApp->workToolBar();
     connect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
     connect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
     connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)),
             this, SLOT(slotObjectCreated(UMLObject *)));
     connect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
-            UMLApp::app()->getDocWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
+            UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
     connect(this, SIGNAL(sigWidgetRemoved(UMLWidget*)),
-            UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
+            UMLApp::app()->docWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
     resetToolbar();
 
 }
@@ -449,14 +449,14 @@ void UMLView::showEvent(QShowEvent* /*se*/)
 void UMLView::hideEvent(QHideEvent* /*he*/)
 {
     UMLApp* theApp = UMLApp::app();
-    WorkToolBar* tb = theApp->getWorkToolBar();
+    WorkToolBar* tb = theApp->workToolBar();
     disconnect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
     disconnect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
     disconnect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
     disconnect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
-               UMLApp::app()->getDocWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
+               UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
     disconnect(this, SIGNAL(sigWidgetRemoved(UMLWidget*)),
-               UMLApp::app()->getDocWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
+               UMLApp::app()->docWindow(), SLOT(slotWidgetRemoved(UMLWidget*)));
 
 # ifdef MANUAL_CONTROL_DOUBLE_BUFFERING
     //uWarning() << "Hide Event for " << getName();
@@ -1204,7 +1204,7 @@ bool UMLView::isSavedInSeparateFile()
         return false;
     }
     const QString msgPrefix("UMLView::isSavedInSeparateFile(" + getName() + "): ");
-    UMLListView *listView = UMLApp::app()->getListView();
+    UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *lvItem = listView->findItem(m_nID);
     if (lvItem == NULL) {
         uError() << msgPrefix << "listView->findUMLObject(this) returns false";
@@ -1236,7 +1236,7 @@ void UMLView::contentsMousePressEvent(QMouseEvent* ome)
     //When should diagram documentation be shown? When clicking on an empty
     //space in the diagram with arrow tool?
     if (!m_bChildDisplayedDoc) {
-        UMLApp::app() -> getDocWindow() -> showDocumentation(this, true);
+        UMLApp::app()->docWindow()->showDocumentation(this, true);
     }
     m_bChildDisplayedDoc = false;
 }
@@ -1877,7 +1877,7 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a)
     if (a->associationType() == at_Containment) {
         UMLObject *objToBeMoved = a->getWidget(B)->umlObject();
         if (objToBeMoved != NULL) {
-            UMLListView *lv = UMLApp::app()->getListView();
+            UMLListView *lv = UMLApp::app()->listView();
             lv->moveObject(objToBeMoved->getID(),
                            Model_Utils::convert_OT_LVT(objToBeMoved),
                            lv->theLogicalView());
@@ -1975,25 +1975,25 @@ void UMLView::removeAllWidgets()
 
 void UMLView::showDocumentation(UMLObject * object, bool overwrite)
 {
-    UMLApp::app() -> getDocWindow() -> showDocumentation(object, overwrite);
+    UMLApp::app()->docWindow()->showDocumentation(object, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
 void UMLView::showDocumentation(UMLWidget * widget, bool overwrite)
 {
-    UMLApp::app() -> getDocWindow() -> showDocumentation(widget, overwrite);
+    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
 void UMLView::showDocumentation(AssociationWidget * widget, bool overwrite)
 {
-    UMLApp::app() -> getDocWindow() -> showDocumentation(widget, overwrite);
+    UMLApp::app()->docWindow()->showDocumentation(widget, overwrite);
     m_bChildDisplayedDoc = true;
 }
 
 void UMLView::updateDocumentation(bool clear)
 {
-    UMLApp::app() -> getDocWindow() -> updateDocumentation(clear);
+    UMLApp::app()->docWindow()->updateDocumentation(clear);
 }
 
 void UMLView::updateContainment(UMLCanvasObject *self)
@@ -3586,7 +3586,7 @@ bool UMLView::loadUISDiagram(QDomElement & qElement)
             }
             m_pDoc->setMainViewID(m_nID);
             m_Type = Uml::dt_Class;
-            UMLListView *lv = UMLApp::app()->getListView();
+            UMLListView *lv = UMLApp::app()->listView();
             ulvi = new UMLListViewItem(lv->theLogicalView(), getName(),
                                        Uml::lvt_Class_Diagram, m_nID);
         } else if (tag == "uisDiagramPresentation") {

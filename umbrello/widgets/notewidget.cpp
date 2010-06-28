@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -75,7 +75,7 @@ NoteWidget::~NoteWidget()
 
 void NoteWidget::setDiagramLink(Uml::IDType viewID)
 {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     UMLView *view = umldoc->findView(viewID);
     if (view == NULL) {
         uError() << "no view found for viewID " << ID2STR(viewID);
@@ -197,7 +197,7 @@ QSize NoteWidget::calculateSize()
 void NoteWidget::slotMenuSelection(QAction* action)
 {
     NoteDialog * dlg = 0;
-    UMLDoc *doc = UMLApp::app()->getDocument();
+    UMLDoc *doc = UMLApp::app()->document();
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -81,7 +81,7 @@ void NoteWidgetController::doMouseDoubleClick(QMouseEvent* me)
         QAction* action = m_noteWidget->m_pMenu->getAction(ListPopupMenu::mt_Rename);
         m_noteWidget->slotMenuSelection(action);
     } else {
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        UMLDoc *umldoc = UMLApp::app()->document();
         umldoc->changeCurrentView(m_noteWidget->m_DiagramLink);
     }
 }

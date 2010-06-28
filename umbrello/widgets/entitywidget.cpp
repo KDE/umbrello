@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -45,7 +45,7 @@ void EntityWidget::init()
         //check to see if correct
         //const Settings::OptionState& ops = m_pView->getOptionState();
     }
-    if (! UMLApp::app()->getDocument()->loading())
+    if (! UMLApp::app()->document()->loading())
         updateComponentSize();
 }
 
@@ -191,7 +191,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_EntityAttribute:
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
                                               Uml::ot_EntityAttribute) )  {
-            UMLApp::app()->getDocument()->setModified();
+            UMLApp::app()->document()->setModified();
         }
         break;
 
@@ -199,7 +199,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_UniqueConstraint:
         if ( UMLObject* obj = Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
                                                Uml::ot_UniqueConstraint) ) {
-            UMLApp::app()->getDocument()->setModified();
+            UMLApp::app()->document()->setModified();
 
             if ( sel == ListPopupMenu::mt_PrimaryKeyConstraint ) {
                 UMLUniqueConstraint* uc = static_cast<UMLUniqueConstraint*>(obj);
@@ -211,7 +211,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_ForeignKeyConstraint:
          if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
                                                Uml::ot_ForeignKeyConstraint) ) {
-             UMLApp::app()->getDocument()->setModified();
+             UMLApp::app()->document()->setModified();
 
         }
         break;
@@ -219,7 +219,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_CheckConstraint:
          if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
                                                Uml::ot_CheckConstraint) ) {
-             UMLApp::app()->getDocument()->setModified();
+             UMLApp::app()->document()->setModified();
 
         }
         break;

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #include "classifier.h"
@@ -275,7 +275,7 @@ UMLOperation* UMLClassifier::createOperation(
         return NULL;
     }
 
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     umldoc->signalUMLObjectCreated(op);
     return op;
 }
@@ -405,7 +405,7 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
 
     addTemplate(newTemplate);
 
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     umldoc->signalUMLObjectCreated(newTemplate);
     return newTemplate;
 }
@@ -781,7 +781,7 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
 
     addAttribute(newAttribute);
 
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     umldoc->signalUMLObjectCreated(newAttribute);
     return newAttribute;
 }

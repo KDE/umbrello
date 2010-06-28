@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -278,7 +278,7 @@ QString CodeDocument::cleanName ( const QString &name )
 void CodeDocument::updateHeader ()
 {
     //try to find a heading file (license, coments, etc) then extract its text
-    QString headingText = UMLApp::app()->getCommonPolicy()->getHeadingFile(getFileExtension());
+    QString headingText = UMLApp::app()->commonPolicy()->getHeadingFile(getFileExtension());
 
     headingText.replace(QRegExp("%filename%"),getFileName()+getFileExtension());
     headingText.replace(QRegExp("%filepath%"),getPath());
@@ -288,7 +288,7 @@ void CodeDocument::updateHeader ()
     getHeader()->setText(headingText);
 
     // update the write out status of the header
-    if (UMLApp::app()->getCommonPolicy()->getIncludeHeadings())
+    if (UMLApp::app()->commonPolicy()->getIncludeHeadings())
         getHeader()->setWriteOutText(true);
     else
         getHeader()->setWriteOutText(false);
@@ -390,7 +390,7 @@ void CodeDocument::setAttributesFromNode ( QDomElement & root)
     setFileExtension(root.attribute("fileExt",""));
     QString pkgStr = root.attribute("package","");
     if (!pkgStr.isEmpty() && pkgStr != "-1") {
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        UMLDoc *umldoc = UMLApp::app()->document();
         if (pkgStr.contains( QRegExp("\\D") )) {
             // suspecting pre-1.5.3 file format where the package name was
             // saved instead of the package ID.

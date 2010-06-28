@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -3652,7 +3652,7 @@ void AssociationWidget::init (UMLView *view)
     // Initialize local members.
     // These are only used if we don't have a UMLAssociation attached.
     m_AssocType = Uml::at_Association;
-    m_umldoc = UMLApp::app()->getDocument();
+    m_umldoc = UMLApp::app()->document();
     m_LinePath.setAssociation( this );
 
     connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));

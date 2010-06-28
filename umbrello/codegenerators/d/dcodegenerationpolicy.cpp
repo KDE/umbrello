@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2009                                               *
+ *   copyright (C) 2008-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,7 @@ DCodeGenerationPolicy::DCodeGenerationPolicy(CodeGenerationPolicy *defaults)
 DCodeGenerationPolicy::DCodeGenerationPolicy()
   //      : CodeGenerationPolicy()
 {
-    m_commonPolicy = UMLApp::app()->getCommonPolicy();
+    m_commonPolicy = UMLApp::app()->commonPolicy();
     init();
 }
 

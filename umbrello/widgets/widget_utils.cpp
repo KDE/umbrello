@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -52,7 +52,7 @@ UMLWidget* findWidget(Uml::IDType id,
 Q3CanvasRectangle *decoratePoint(const QPoint& p)
 {
     const int SIZE = 4;
-    UMLView *currentView = UMLApp::app()->getCurrentView();
+    UMLView *currentView = UMLApp::app()->currentView();
     Q3CanvasRectangle *rect;
     rect = new Q3CanvasRectangle(p.x() - SIZE / 2,
                                  p.y() - SIZE / 2,

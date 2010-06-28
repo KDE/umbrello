@@ -280,7 +280,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pInstanceLE = new KLineEdit(this);
     m_pInstanceLE->setText(o->instanceName());
     m_pNameLayout->addWidget(m_pInstanceLE, 1, 1);
-    UMLView *view = UMLApp::app()->getCurrentView();
+    UMLView *view = UMLApp::app()->currentView();
 
     m_pDrawActorCB = new QCheckBox( i18n( "Draw as actor" ) , this );
     m_pDrawActorCB->setChecked( o->drawAsActor() );

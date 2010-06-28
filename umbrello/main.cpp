@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -146,7 +146,7 @@ void exportAllViews(KCmdLineArgs *args, const QStringList &exportOpt)
     if (directoryOpt.size() > 0) {
         directory = KCmdLineArgs::makeURL(directoryOpt.last().toLocal8Bit());
     } else {
-        directory = KUrl(UMLApp::app()->getDocument()->url().directory());
+        directory = KUrl(UMLApp::app()->document()->url().directory());
     }
 
     bool useFolders = args->isSet("use-folders");

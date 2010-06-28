@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -72,7 +72,7 @@ void JavaCodeAccessorMethod::updateContent( )
             int maxOccurs = javafield->maximumListOccurances();
             QString fieldType = javafield->getTypeName();
             QString indent = getIndentation();
-            QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+            QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
             if(maxOccurs > 0)
                 text += "if ("+fieldName+".size() < "+ QString::number(maxOccurs)+") {"+endLine+indent;
             text += fieldName+".add(value);";
@@ -93,7 +93,7 @@ void JavaCodeAccessorMethod::updateContent( )
         {
             int minOccurs = javafield->minimumListOccurances();
             QString fieldType = javafield->getTypeName();
-            QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+            QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
             QString indent = getIndentation();
 
             if(minOccurs > 0)
@@ -120,7 +120,7 @@ void JavaCodeAccessorMethod::updateContent( )
 void JavaCodeAccessorMethod::updateMethodDeclaration()
 {
     JavaCodeClassField * javafield = dynamic_cast<JavaCodeClassField*>(getParentClassField());
-    CodeGenerationPolicy *commonpolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *commonpolicy = UMLApp::app()->commonPolicy();
 
     // gather defs
     Uml::Visibility::Value scopePolicy = commonpolicy->getAttributeAccessorScope();
@@ -130,7 +130,7 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
     QString objectType = javafield->getListObjectType();
     if(objectType.isEmpty())
         objectType = fieldName;
-    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+    QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
     // set scope of this accessor appropriately..if its an attribute,
     // we need to be more sophisticated

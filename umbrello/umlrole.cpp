@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -212,7 +212,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 bool UMLRole::load( QDomElement & element )
 {
-    UMLDoc * doc = UMLApp::app()->getDocument();
+    UMLDoc * doc = UMLApp::app()->document();
     QString type = element.attribute("type", "");
     if (!type.isEmpty()) {
         if (!m_SecondaryId.isEmpty())

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -342,7 +342,7 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
         for ( QStringList::Iterator it = paramsList.begin(); it != paramsList.end(); ++it ) {
             QString param = *it;
             if (!param.isEmpty()) {
-                UMLDoc *pDoc = UMLApp::app()->getDocument();
+                UMLDoc *pDoc = UMLApp::app()->document();
                 UMLObject* obj = pDoc->findUMLObject(param);
                 if (obj == NULL ) {
                     obj = pDoc->findUMLObject(param.remove(QChar(' ')));
@@ -369,7 +369,7 @@ UMLClassifierList UMLAttribute::getTemplateParams()
     QString type = getType()->getName();
     QString templateParam;
     // Handle C++/D/Java template/generic parameters
-    const Uml::Programming_Language pl = UMLApp::app()->getActiveLanguage();
+    const Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
     if (pl == Uml::pl_Cpp || pl == Uml::pl_Java || pl == Uml::pl_D) {
         int start = type.indexOf(QChar('<'));
         if (start >= 0 ) {

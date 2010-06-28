@@ -217,7 +217,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
         cs << str << m_endl;
     }
 
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     UMLFolder *logicalView = umldoc->getRootFolder(Uml::mt_Logical);
 
     // write generic includes

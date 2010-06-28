@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,7 @@
 UMLViewImageExporter::UMLViewImageExporter(UMLView* view)
 {
     m_view = view;
-    m_imageMimeType = UMLApp::app()->getImageMimeType();
+    m_imageMimeType = UMLApp::app()->imageMimeType();
 }
 
 /**
@@ -68,13 +68,13 @@ void UMLViewImageExporter::exportView()
     UMLApp* app = UMLApp::app();
 
     // export the view
-    app->getDocument()->writeToStatusBar(i18n("Exporting view..."));
+    app->document()->writeToStatusBar(i18n("Exporting view..."));
     QString error = UMLViewImageExporterModel().exportView(m_view,
                             UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType), m_imageURL);
     if (!error.isNull()) {
         KMessageBox::error(app, i18n("An error happened when exporting the image:\n") + error);
     }
-    app->getDocument()->writeToStatusBar(i18nc("reset status bar", "Ready."));
+    app->document()->writeToStatusBar(i18nc("reset status bar", "Ready."));
 }
 
 /**
@@ -169,7 +169,7 @@ void UMLViewImageExporter::prepareFileDialog(KFileDialog *fileDialog)
 
     // set a sensible default filename
     if (m_imageURL.isEmpty()) {
-        KUrl docURL = UMLApp::app()->getDocument()->url();
+        KUrl docURL = UMLApp::app()->document()->url();
         KUrl directory = docURL;
         directory.setPath(docURL.directory());
 

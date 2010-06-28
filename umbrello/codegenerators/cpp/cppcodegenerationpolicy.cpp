@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,7 +53,7 @@ void CPPCodeGenerationPolicy::setAccessorsArePublic ( bool var )
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.publicAccessors = var;
     // @todo we should probably use an own signal for this
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
@@ -72,7 +72,7 @@ bool CPPCodeGenerationPolicy::getAccessorsArePublic()
 void CPPCodeGenerationPolicy::setAccessorsAreInline(bool var)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.inlineAccessors = var;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
@@ -91,7 +91,7 @@ bool CPPCodeGenerationPolicy::getAccessorsAreInline( )
 void CPPCodeGenerationPolicy::setOperationsAreInline(bool var)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.inlineOps = var;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
@@ -110,7 +110,7 @@ bool CPPCodeGenerationPolicy::getOperationsAreInline()
 void CPPCodeGenerationPolicy::setDestructorsAreVirtual(bool var)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.virtualDestructors = var;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
@@ -129,7 +129,7 @@ bool CPPCodeGenerationPolicy::getDestructorsAreVirtual()
 void CPPCodeGenerationPolicy::setPackageIsNamespace(bool var)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.packageIsNamespace = var;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
@@ -148,7 +148,7 @@ bool CPPCodeGenerationPolicy::getPackageIsNamespace()
 void CPPCodeGenerationPolicy::setAutoGenerateAccessors(bool var)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.autoGenAccessors = var;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
@@ -183,31 +183,31 @@ QString CPPCodeGenerationPolicy::getVectorClassNameInclude()
 void CPPCodeGenerationPolicy::setStringClassName(const QString &value)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.stringClassName = value;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 void CPPCodeGenerationPolicy::setStringClassNameInclude(const QString &value)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.stringClassNameInclude = value;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 void CPPCodeGenerationPolicy::setVectorClassName(const QString &value)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorClassName = value;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 void CPPCodeGenerationPolicy::setVectorClassNameInclude(const QString &value)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorClassNameInclude = value;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 void CPPCodeGenerationPolicy::setDocToolTag(const QString &value)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.docToolTag = value;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 QString CPPCodeGenerationPolicy::getDocToolTag()
@@ -240,7 +240,7 @@ bool CPPCodeGenerationPolicy::vectorIncludeIsGlobal()
 void CPPCodeGenerationPolicy::setStringIncludeIsGlobal(bool value)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.stringIncludeIsGlobal = value;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
@@ -250,7 +250,7 @@ void CPPCodeGenerationPolicy::setStringIncludeIsGlobal(bool value)
 void CPPCodeGenerationPolicy::setVectorIncludeIsGlobal(bool value)
 {
     Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal = value;
-    UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+    UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 QString CPPCodeGenerationPolicy::getVectorMethodAppend(const QString & variableName, const QString & itemClassName)
@@ -336,7 +336,7 @@ void CPPCodeGenerationPolicy::setDefaults ( CPPCodeGenerationPolicy * cppclone, 
     blockSignals(false); // "as you were citizen"
 
     if(emitUpdateSignal)
-        UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+        UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**
@@ -369,7 +369,7 @@ void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     blockSignals(false); // "as you were citizen"
 
     if(emitUpdateSignal)
-        UMLApp::app()->getCommonPolicy()->emitModifiedCodeContentSig();
+        UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 /**

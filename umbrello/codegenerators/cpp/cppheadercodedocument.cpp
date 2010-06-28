@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -165,7 +165,7 @@ void CPPHeaderCodeDocument::loadChildTextBlocksFromNode ( QDomElement & root)
                                         if( name == "codeoperation" ) {
                                             // find the code operation by id
                                             QString id = element.attribute("parent_id","-1");
-                                            UMLObject * obj = UMLApp::app()->getDocument()->findObjectById(STR2ID(id));
+                                            UMLObject * obj = UMLApp::app()->document()->findObjectById(STR2ID(id));
                                             UMLOperation * op = dynamic_cast<UMLOperation*>(obj);
                                             if(op) {
                                                 CodeOperation * block = new CPPHeaderCodeOperation(this, op);
@@ -351,7 +351,7 @@ void CPPHeaderCodeDocument::updateContent( )
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
-    CodeGenPolicyExt *pe = UMLApp::app()->getPolicyExt();
+    CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
 
     // first, set the global flag on whether or not to show classfield info
@@ -394,8 +394,8 @@ void CPPHeaderCodeDocument::updateContent( )
     bool isEnumeration = false;
     bool isInterface = parentIsInterface();
     bool hasclassFields = hasClassFields();
-    bool forcedoc = UMLApp::app()->getCommonPolicy()->getCodeVerboseDocumentComments();
-    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+    bool forcedoc = UMLApp::app()->commonPolicy()->getCodeVerboseDocumentComments();
+    QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
     UMLClassifierList superclasses = c->findSuperClassConcepts();
 
@@ -495,7 +495,7 @@ void CPPHeaderCodeDocument::updateContent( )
     // Enum types for include
     if (!isInterface) {
         QString enumStatement;
-        QString indent = UMLApp::app()->getCommonPolicy()->getIndentation();
+        QString indent = UMLApp::app()->commonPolicy()->getIndentation();
         UMLEnum* e = dynamic_cast<UMLEnum*>(c);
         if (e) {
             enumStatement.append(indent + "enum " + cppClassName + " {" + endLine);
@@ -646,7 +646,7 @@ void CPPHeaderCodeDocument::updateContent( )
 
     // METHODS sub-section : constructor methods
     //
-    CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *pol = UMLApp::app()->commonPolicy();
 
     // setup/get/create the constructor codeblocks
 

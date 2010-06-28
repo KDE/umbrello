@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,7 +53,7 @@ void RubyClassDeclarationBlock::updateContent ( )
 {
     RubyClassifierCodeDocument *parentDoc = dynamic_cast<RubyClassifierCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
-    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     QString endLine = p->getNewLineEndingChars();
     bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
     QString RubyClassName = parentDoc->getRubyClassName(c->getName());

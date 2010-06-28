@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -41,7 +41,7 @@ void PackageWidget::init()
         m_bShowStereotype = ops.classState.showStereoType;
     }
     //maybe loading and this may not be set.
-    if (m_pObject && !UMLApp::app()->getDocument()->loading())
+    if (m_pObject && !UMLApp::app()->document()->loading())
         updateComponentSize();
 }
 

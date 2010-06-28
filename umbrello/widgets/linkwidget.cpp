@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -38,7 +38,7 @@ QString LinkWidget::getOperationText(UMLView *view /* = NULL */) {
     if (op == NULL)
         return getCustomOpText();
     if (view == NULL)
-        view = UMLApp::app()->getCurrentView();
+        view = UMLApp::app()->currentView();
     Uml::Signature_Type sigType;
     if (view && view->getShowOpSig())
         sigType = Uml::st_SigNoVis;

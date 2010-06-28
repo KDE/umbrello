@@ -235,7 +235,7 @@ void UMLFolder::removeAllViews()
         // from a view, it also causes any UMLAssociations that lack parent
         // association widgets (but once had them) to remove themselves from
         // this document.
-        UMLApp::app()->getDocument()->removeView(v, false);
+        UMLApp::app()->document()->removeView(v, false);
     }
 
     // m_diagrams.clear()
@@ -302,7 +302,7 @@ void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement)
  */
 void UMLFolder::save(QDomDocument& qDoc, QDomElement& qElement)
 {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     QString elementName("UML:Package");
     const Uml::Model_Type mt = umldoc->rootFolderType(this);
     if (mt != Uml::N_MODELTYPES)
@@ -325,7 +325,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     }
     // See if we can create the external file.
     // If not then internalize the folder.
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     QString fileName = umldoc->url().directory() + '/' + m_folderFile;
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
@@ -373,7 +373,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams)
 {
     const Settings::OptionState optionState = Settings::getOptionState();
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     bool totalSuccess = true;
     for (QDomElement diagram = diagrams.toElement(); !diagram.isNull();
          diagrams = diagrams.nextSibling(), diagram = diagrams.toElement()) {
@@ -448,7 +448,7 @@ bool UMLFolder::loadFolderFile(const QString& path)
  */
 bool UMLFolder::load(QDomElement& element)
 {
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     bool totalSuccess = true;
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {

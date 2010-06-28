@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -105,7 +105,7 @@ void UMLTemplateDialog::insertTypesSorted(const QString& type)
     // "class" is the nominal type of template parameter
     types << "class";
     // add the active data types to combo box
-    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList namesList( pDoc->getConcepts() );
     foreach (UMLClassifier* obj, namesList) {
         types << obj->getName();
@@ -133,7 +133,7 @@ void UMLTemplateDialog::insertTypesSorted(const QString& type)
 bool UMLTemplateDialog::apply()
 {
     QString typeName = m_pTypeCB->currentText();
-    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList namesList( pDoc->getConcepts() );
     foreach (UMLClassifier* obj, namesList) {
         if (typeName == obj->getName()) {

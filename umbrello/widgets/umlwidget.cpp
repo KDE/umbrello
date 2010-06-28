@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -249,7 +249,7 @@ void UMLWidget::init()
     m_bIgnoreSnapToGrid = false;
     m_bIgnoreSnapComponentSizeToGrid = false;
     m_pMenu = 0;
-    m_pDoc = UMLApp::app()->getDocument();
+    m_pDoc = UMLApp::app()->document();
     m_nPosX = 0;
     connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(m_pView, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
@@ -365,15 +365,15 @@ void UMLWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Cut:
         m_pView -> setStartedCut();
-        UMLApp::app() -> slotEditCut();
+        UMLApp::app()->slotEditCut();
         break;
 
     case ListPopupMenu::mt_Copy:
-        UMLApp::app() -> slotEditCopy();
+        UMLApp::app()->slotEditCopy();
         break;
 
     case ListPopupMenu::mt_Paste:
-        UMLApp::app() -> slotEditPaste();
+        UMLApp::app()->slotEditPaste();
         break;
 
     case ListPopupMenu::mt_Refactoring:
@@ -641,7 +641,7 @@ void UMLWidget::showProperties()
 {
     // will already be selected so make sure docWindow updates the doc
     // back it the widget
-    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
 

@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra <luis@delaparra.org>                                 *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -102,8 +102,8 @@ void CodeGenStatusPage::generateCode()
     ui_pushButtonGenerate->setEnabled(false);
     setCommitPage(true);  //:TODO: disable back and cancel button ?
 
-    CodeGenerator* codeGenerator = UMLApp::app()->getGenerator();
-    UMLDoc* doc = UMLApp::app()->getDocument();
+    CodeGenerator* codeGenerator = UMLApp::app()->generator();
+    UMLDoc* doc = UMLApp::app()->document();
 
     if (codeGenerator) {
         connect( codeGenerator, SIGNAL(codeGenerated(UMLClassifier*, bool)),

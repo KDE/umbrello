@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -61,10 +61,10 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
 {
     CPPHeaderCodeDocument *parentDoc = dynamic_cast<CPPHeaderCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
-    QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+    QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
     bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
     QString CPPHeaderClassName = CodeGenerator::cleanName(c->getName());
-    bool forceDoc = UMLApp::app()->getCommonPolicy()->getCodeVerboseDocumentComments();
+    bool forceDoc = UMLApp::app()->commonPolicy()->getCodeVerboseDocumentComments();
 
     // COMMENT
 

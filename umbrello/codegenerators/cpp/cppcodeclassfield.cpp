@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -59,7 +59,7 @@ QString CPPCodeClassField::getFieldName()
 
 QString CPPCodeClassField::getListFieldClassName ()
 {
-    CodeGenPolicyExt * p = UMLApp::app()->getPolicyExt();
+    CodeGenPolicyExt * p = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy *policy = dynamic_cast<CPPCodeGenerationPolicy*>(p);
     return policy->getVectorClassName();
 }

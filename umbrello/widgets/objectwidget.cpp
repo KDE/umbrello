@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -102,7 +102,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
                 updateComponentSize();
                 moveEvent( 0 );
                 update();
-                UMLApp::app()->getDocument()->setModified(true);
+                UMLApp::app()->document()->setModified(true);
             }
             delete validator;
             break;
@@ -223,12 +223,12 @@ void ObjectWidget::cleanup()
 
 void ObjectWidget::showProperties()
 {
-    DocWindow *docwindow = UMLApp::app()->getDocWindow();
+    DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
     QPointer<ClassPropDlg> dlg = new ClassPropDlg((QWidget*)UMLApp::app(), this);
     if (dlg->exec()) {
         docwindow->showDocumentation(this, true);
-        UMLApp::app()->getDocument()->setModified(true);
+        UMLApp::app()->document()->setModified(true);
     }
     dlg->close();
     delete dlg;

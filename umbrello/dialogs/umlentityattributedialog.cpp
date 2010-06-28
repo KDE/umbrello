@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2008                                                *
+ *  copyright (C) 2002-2010                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -215,7 +215,7 @@ bool UMLEntityAttributeDialog::apply()
     }
 
     QString typeName = m_pTypeCB->currentText();
-    UMLDoc *pDoc = UMLApp::app()->getDocument();
+    UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList dataTypes = pDoc->getDatatypes();
     foreach (UMLClassifier* dat, dataTypes ) {
         if (typeName == dat->getName()) {
@@ -265,7 +265,7 @@ void UMLEntityAttributeDialog::insertTypesSorted(const QString& type)
 {
     QStringList types;
     // add the data types
-    UMLDoc * pDoc = UMLApp::app()->getDocument();
+    UMLDoc * pDoc = UMLApp::app()->document();
     UMLClassifierList dataTypes = pDoc->getDatatypes();
     if (dataTypes.count() == 0) {
         // Switch to SQL as the active language if no datatypes are set.

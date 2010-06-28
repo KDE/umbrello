@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002       Luis De la Parra Blum <luis@delaparra.org>   *
                               Brian Thomas <thomas@mail630.gsfc.nasa.gov>  *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -200,7 +200,7 @@ CodeDocument * newClassifierCodeDocument (UMLClassifier * c)
         return NULL;
     }
     ClassifierCodeDocument *retval = NULL;
-    switch (UMLApp::app()->getActiveLanguage()) {
+    switch (UMLApp::app()->activeLanguage()) {
         case Uml::pl_Cpp:
             retval = new CPPSourceCodeDocument(c);
             break;
@@ -224,7 +224,7 @@ CodeDocument * newClassifierCodeDocument (UMLClassifier * c)
 CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op)
 {
     CodeOperation *retval = NULL;
-    switch (UMLApp::app()->getActiveLanguage()) {
+    switch (UMLApp::app()->activeLanguage()) {
         case Uml::pl_Cpp:
             {
                 CPPHeaderCodeDocument *hcd = dynamic_cast<CPPHeaderCodeDocument*>(ccd);
@@ -267,7 +267,7 @@ CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op)
 CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at)
 {
     CodeClassField *retval = NULL;
-    switch (UMLApp::app()->getActiveLanguage()) {
+    switch (UMLApp::app()->activeLanguage()) {
         case Uml::pl_Cpp:
             retval = new CPPCodeClassField(ccd, at);
             break;
@@ -290,7 +290,7 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at
 CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLRole *role)
 {
     CodeClassField *retval = NULL;
-    switch (UMLApp::app()->getActiveLanguage()) {
+    switch (UMLApp::app()->activeLanguage()) {
         case Uml::pl_Cpp:
             retval = new CPPCodeClassField(ccd, role);
             break;
@@ -315,7 +315,7 @@ CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
                                            CodeAccessorMethod::AccessorType type)
 {
     CodeAccessorMethod *retval = NULL;
-    switch (UMLApp::app()->getActiveLanguage()) {
+    switch (UMLApp::app()->activeLanguage()) {
         case Uml::pl_Cpp:
             {
                 CPPHeaderCodeDocument *hcd = dynamic_cast<CPPHeaderCodeDocument*>(ccd);
@@ -364,7 +364,7 @@ CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (ClassifierCodeDocument
                                                           CodeClassField * cf)
 {
     CodeClassFieldDeclarationBlock *retval = NULL;
-    switch (UMLApp::app()->getActiveLanguage()) {
+    switch (UMLApp::app()->activeLanguage()) {
         case Uml::pl_Cpp:
             {
                 CPPHeaderCodeDocument *hcd = dynamic_cast<CPPHeaderCodeDocument*>(cd);
@@ -401,7 +401,7 @@ CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (ClassifierCodeDocument
 
 CodeComment * newCodeComment (CodeDocument *cd)
 {
-    switch (UMLApp::app()->getActiveLanguage()) {
+    switch (UMLApp::app()->activeLanguage()) {
         case Uml::pl_Cpp:
             if (dynamic_cast<CPPHeaderCodeDocument*>(cd) ||
                 dynamic_cast<CPPSourceCodeDocument*>(cd)) {

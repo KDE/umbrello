@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -79,10 +79,10 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc) : QWidget(par
     select->addWidget(m_pSelectLW);
     m_pSelectLW->setEnabled(false);
     m_pSelectLW->setSelectionMode(QAbstractItemView::MultiSelection);
-    m_pSelectLW->addItem(UMLApp::app()->getCurrentView()->getName());
+    m_pSelectLW->addItem(UMLApp::app()->currentView()->getName());
     m_pSelectLW->setCurrentRow(0);
     m_nIdList.clear();
-    m_nIdList.append(UMLApp::app()->getCurrentView()->getID());
+    m_nIdList.append(UMLApp::app()->currentView()->getID());
 
     m_ViewType = Uml::dt_Class;
     connect(m_pAllRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
@@ -192,9 +192,9 @@ void DiagramPrintPage::slotClicked()
         m_pTypeCB->setEnabled(false);
         m_pSelectLW->setEnabled(false);
         m_pSelectLW->clear();
-        m_pSelectLW->addItem(UMLApp::app()->getCurrentView()->getName());
+        m_pSelectLW->addItem(UMLApp::app()->currentView()->getName());
         m_pSelectLW->setCurrentRow(0);
-        m_nIdList.append(UMLApp::app()->getCurrentView()->getID());
+        m_nIdList.append(UMLApp::app()->currentView()->getID());
     }
 
     if (m_pAllRB->isChecked()) {

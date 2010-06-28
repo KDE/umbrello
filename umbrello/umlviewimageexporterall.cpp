@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,7 +33,7 @@
  */
 UMLViewImageExporterAll::UMLViewImageExporterAll()
 {
-    m_dialog = new ExportAllViewsDialog(0, "exportAllViewsDialog", false, 0, UMLApp::app()->getImageMimeType());
+    m_dialog = new ExportAllViewsDialog(0, "exportAllViewsDialog", false, 0, UMLApp::app()->imageMimeType());
 }
 
 /**
@@ -59,7 +59,7 @@ UMLViewImageExporterAll::~UMLViewImageExporterAll()
 void UMLViewImageExporterAll::exportAllViews()
 {
     UMLApp* app = UMLApp::app();
-    UMLDoc* umlDoc = app->getDocument();
+    UMLDoc* umlDoc = app->document();
 
     // default url can't be set when creating the action because the
     // document wasn't loaded

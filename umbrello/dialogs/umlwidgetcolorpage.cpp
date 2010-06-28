@@ -40,7 +40,7 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) :
     m_pUseFillColorCB->setChecked( pWidget->getUseFillColour() );
 
     if (!m_pUMLWidget) {  //  when we are on the diagram
-        UMLView * view = UMLApp::app()->getCurrentView();
+        UMLView * view = UMLApp::app()->currentView();
         if (view) {
             UMLViewCanvas* canvas = dynamic_cast<UMLViewCanvas*>(view->canvas());
             if (canvas) {
@@ -196,7 +196,7 @@ void UMLWidgetColorPage::updateUMLWidget()
     }
 
     if (!m_pUMLWidget) {  // when we are on the diagram
-        UMLView * view = UMLApp::app()->getCurrentView();
+        UMLView * view = UMLApp::app()->currentView();
         if (view) {
             UMLViewCanvas* canvas = dynamic_cast<UMLViewCanvas*>(view->canvas());
             if (canvas) {

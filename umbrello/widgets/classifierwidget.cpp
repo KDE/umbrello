@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -270,7 +270,7 @@ void ClassifierWidget::setShowAttSigs(bool _status)
         m_ShowAttSigs = Uml::st_ShowSig;
     else
         m_ShowAttSigs = Uml::st_SigNoVis;
-    if (UMLApp::app()->getDocument()->loading())
+    if (UMLApp::app()->document()->loading())
         return;
     updateComponentSize();
     update();
@@ -429,7 +429,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
             if (Object_Factory::createChildObject(classifier(), ot)) {
                 updateComponentSize();
                 update();
-                UMLApp::app()->getDocument()->setModified();
+                UMLApp::app()->document()->setModified();
             }
             break;
         }

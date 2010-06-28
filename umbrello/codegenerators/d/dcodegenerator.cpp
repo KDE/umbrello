@@ -76,7 +76,7 @@ CodeViewerDialog * DCodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDo
  */
 DCodeGenerationPolicy * DCodeGenerator::getDPolicy()
 {
-    return dynamic_cast<DCodeGenerationPolicy*>(UMLApp::app()->getPolicyExt());
+    return dynamic_cast<DCodeGenerationPolicy*>(UMLApp::app()->policyExt());
 }
 
 /**

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -193,7 +193,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         message->setTextPosition();
         m_pUMLView->getWidgetList().append(ft);
 
-        UMLApp::app()->getDocument()->setModified();
+        UMLApp::app()->document()->setModified();
     }
 
     else if (!m_firstObject && msgType == Uml::sequence_message_found && xclick == 0 && yclick == 0) {
@@ -239,7 +239,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         message->setTextPosition();
         m_pUMLView->getWidgetList().append(ft);
 
-        UMLApp::app()->getDocument()->setModified();
+        UMLApp::app()->document()->setModified();
     }
     else {
         m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
@@ -294,7 +294,7 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
     message->setTextPosition();
     m_pUMLView->getWidgetList().append(ft);
 
-    UMLApp::app()->getDocument()->setModified();
+    UMLApp::app()->document()->setModified();
 }
 
 /**

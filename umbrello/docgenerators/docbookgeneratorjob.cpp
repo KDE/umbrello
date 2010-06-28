@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -41,7 +41,7 @@ DocbookGeneratorJob::DocbookGeneratorJob(QObject* parent):
 void DocbookGeneratorJob::run()
 {
     UMLApp* app = UMLApp::app();
-    UMLDoc* umlDoc = app->getDocument();
+    UMLDoc* umlDoc = app->document();
 
     //write the XMI model in an in-memory char* string
     QString xmi;

@@ -52,7 +52,7 @@
  * Constructor for a code generator.
  */
 CodeGenerator::CodeGenerator()
-  : QObject(UMLApp::app()->getDocument())
+  : QObject(UMLApp::app()->document())
 {
     initFields();
 }
@@ -63,7 +63,7 @@ CodeGenerator::CodeGenerator()
  * @param element   an element from an XMI document
  */
 CodeGenerator::CodeGenerator(QDomElement & element)
-  : QObject(UMLApp::app()->getDocument())
+  : QObject(UMLApp::app()->document())
 {
     initFields();
     loadFromXMI(element);  // hmm. cannot call this here.. it is 'pure' virtual
@@ -474,7 +474,7 @@ CodeDocument * CodeGenerator::newCodeDocument()
  */
 QString CodeGenerator::getHeadingFile(const QString &file)
 {
-    return UMLApp::app()->getCommonPolicy()->getHeadingFile(file);
+    return UMLApp::app()->commonPolicy()->getHeadingFile(file);
 }
 
 /**
@@ -494,7 +494,7 @@ QString CodeGenerator::getHeadingFile(const QString &file)
  */
 QString CodeGenerator::overwritableName(const QString& name, const QString &extension)
 {
-    CodeGenerationPolicy *pol = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *pol = UMLApp::app()->commonPolicy();
     QDir outputDirectory = pol->getOutputDirectory();
     QString filename = name + extension;
 
@@ -581,7 +581,7 @@ bool CodeGenerator::openFile(QFile & file, const QString &fileName)
         return false;
     }
     else {
-        QDir outputDirectory = UMLApp::app()->getCommonPolicy()->getOutputDirectory();
+        QDir outputDirectory = UMLApp::app()->commonPolicy()->getOutputDirectory();
         file.setFileName(outputDirectory.absoluteFilePath(fileName));
         if(!file.open(QIODevice::WriteOnly)) {
             KMessageBox::sorry(0,i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.fileName()),i18n("Cannot Open File"));
@@ -633,7 +633,7 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
 
     // if a path name exists check the existence of the path directory
     if (!path.isEmpty()) {
-        QDir outputDirectory = UMLApp::app()->getCommonPolicy()->getOutputDirectory();
+        QDir outputDirectory = UMLApp::app()->commonPolicy()->getOutputDirectory();
         QDir pathDir(outputDirectory.absolutePath() + path);
 
         // does our complete output directory exist yet? if not, try to create it
@@ -761,7 +761,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
  */
 QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix, int lineWidth)
 {
-    const QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+    const QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
     QString output;
     QStringList lines = text.split(endLine);
     for (QStringList::ConstIterator lit = lines.constBegin(); lit != lines.constEnd(); ++lit) {
@@ -792,7 +792,7 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
  */
 QString CodeGenerator::formatSourceCode(const QString& code, const QString& indentation)
 {
-    const QString endLine = UMLApp::app()->getCommonPolicy()->getNewLineEndingChars();
+    const QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
     QString output;
     if (! code.isEmpty()) {
         QStringList lines = code.split(endLine);
@@ -805,7 +805,7 @@ QString CodeGenerator::formatSourceCode(const QString& code, const QString& inde
 
 void CodeGenerator::initFields()
 {
-    m_document = UMLApp::app()->getDocument();
+    m_document = UMLApp::app()->document();
     m_applyToAllRemaining = true;
     lastIDIndex = 0;
 
@@ -827,7 +827,7 @@ void CodeGenerator::connect_newcodegen_slots()
             this, SLOT(checkAddUMLObject(UMLObject*)));
     connect(m_document, SIGNAL(sigObjectRemoved(UMLObject*)),
             this, SLOT(checkRemoveUMLObject(UMLObject*)));
-    CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     connect(commonPolicy, SIGNAL(modifiedCodeContent()),
             this, SLOT(syncCodeToDocument()));
 }
@@ -838,22 +838,22 @@ void CodeGenerator::connect_newcodegen_slots()
 
 void CodeGenerator::setForceDoc(bool f)
 {
-    UMLApp::app()->getCommonPolicy()->setCodeVerboseDocumentComments(f);
+    UMLApp::app()->commonPolicy()->setCodeVerboseDocumentComments(f);
 }
 
 bool CodeGenerator::forceDoc() const
 {
-    return UMLApp::app()->getCommonPolicy()->getCodeVerboseDocumentComments();
+    return UMLApp::app()->commonPolicy()->getCodeVerboseDocumentComments();
 }
 
 void CodeGenerator::setForceSections(bool f)
 {
-    UMLApp::app()->getCommonPolicy()->setCodeVerboseSectionComments(f);
+    UMLApp::app()->commonPolicy()->setCodeVerboseSectionComments(f);
 }
 
 bool CodeGenerator::forceSections() const
 {
-    return UMLApp::app()->getCommonPolicy()->getCodeVerboseSectionComments();
+    return UMLApp::app()->commonPolicy()->getCodeVerboseSectionComments();
 }
 
 /**

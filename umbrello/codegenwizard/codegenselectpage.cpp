@@ -56,7 +56,7 @@ CodeGenSelectPage::~CodeGenSelectPage()
  */
 void CodeGenSelectPage::setClassifierList(UMLClassifierList *classList)
 {
-    UMLDoc* doc = UMLApp::app()->getDocument();
+    UMLDoc* doc = UMLApp::app()->document();
 
     UMLClassifierList cList;
 

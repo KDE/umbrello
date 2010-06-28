@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -72,7 +72,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType, UMLWidget * 
     }
     if( !bValid ) {
         // Special case: Subsystem realizes interface in component diagram
-        UMLView *view = UMLApp::app()->getCurrentView();
+        UMLView *view = UMLApp::app()->currentView();
         if (view && view->getType() == dt_Component && widgetType == wt_Package &&
             (assocType == at_Generalization || assocType == at_Realization))
             bValid = true;

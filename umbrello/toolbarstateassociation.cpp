@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -233,7 +233,7 @@ void ToolBarStateAssociation::setSecondWidget()
         AssociationWidget *temp = new AssociationWidget(m_pUMLView, widgetA, type, widgetB);
         addAssociationInViewAndDoc(temp);
         if (type == at_Containment) {
-            UMLListView *lv = UMLApp::app()->getListView();
+            UMLListView *lv = UMLApp::app()->listView();
             UMLObject *newContainer = widgetA->umlObject();
             UMLObject *objToBeMoved = widgetB->umlObject();
             if (newContainer && objToBeMoved) {
@@ -243,7 +243,7 @@ void ToolBarStateAssociation::setSecondWidget()
                                newLVParent);
             }
         }
-        UMLApp::app()->getDocument()->setModified();
+        UMLApp::app()->document()->setModified();
     } else {
         //TODO improve error feedback: tell the user what are the valid type of associations for
         //the second widget using the first widget
@@ -307,9 +307,9 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
             return;
         }
         Uml::Model_Type m = Model_Utils::convert_DT_MT(m_pUMLView->getType());
-        UMLDoc *umldoc = UMLApp::app()->getDocument();
+        UMLDoc *umldoc = UMLApp::app()->document();
         umla->setUMLPackage(umldoc->getRootFolder(m));
-        UMLApp::app()->getDocument()->addAssociation(umla);
+        UMLApp::app()->document()->addAssociation(umla);
     } else {
         uError() << "cannot addAssocInViewAndDoc(), deleting";
         delete assoc;

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,7 +47,7 @@ QString DCodeDocumentation::toString ( ) const
         bool useDoubleDashOutput = true;
 
         // need to figure out output type from d policy
-        CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
+        CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
         if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
             useDoubleDashOutput = false;
 
@@ -72,7 +72,7 @@ QString DCodeDocumentation::toString ( ) const
 
 QString DCodeDocumentation::getNewEditorLine ( int amount )
 {
-    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return getIndentationString(amount) + " * ";
     else
@@ -81,7 +81,7 @@ QString DCodeDocumentation::getNewEditorLine ( int amount )
 
 int DCodeDocumentation::firstEditableLine()
 {
-    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return 1;
     return 0;
@@ -89,7 +89,7 @@ int DCodeDocumentation::firstEditableLine()
 
 int DCodeDocumentation::lastEditableLine()
 {
-    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
         return -1; // very last line is NOT editable
@@ -103,7 +103,7 @@ int DCodeDocumentation::lastEditableLine()
 QString DCodeDocumentation::unformatText ( const QString & text , const QString & indent)
 {
     QString mytext = TextBlock::unformatText(text, indent);
-    CodeGenerationPolicy * p = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     // remove leading or trailing comment stuff
     mytext.remove(QRegExp('^'+indent));
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)

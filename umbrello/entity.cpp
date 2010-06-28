@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -138,7 +138,7 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*= QString()*/, UM
 
     addEntityAttribute(newAttribute);
 
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     umldoc->signalUMLObjectCreated(newAttribute);
     return newAttribute;
 }
@@ -191,7 +191,7 @@ UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name )
 
     addConstraint(newUniqueConstraint);
 
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     umldoc->signalUMLObjectCreated(newUniqueConstraint);
     emitModified();
     return newUniqueConstraint;
@@ -240,7 +240,7 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
 
     addConstraint(newForeignKeyConstraint);
 
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     umldoc->signalUMLObjectCreated(newForeignKeyConstraint);
     emitModified();
     return newForeignKeyConstraint;
@@ -289,7 +289,7 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name )
 
     addConstraint(newCheckConstraint);
 
-    UMLDoc *umldoc = UMLApp::app()->getDocument();
+    UMLDoc *umldoc = UMLApp::app()->document();
     umldoc->signalUMLObjectCreated(newCheckConstraint);
     emitModified();
     return newCheckConstraint;

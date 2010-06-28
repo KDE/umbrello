@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -398,7 +398,7 @@ void ToolBarState::mouseMoveEmpty()
 void ToolBarState::changeTool()
 {
     if (m_pMouseEvent->buttons() == Qt::RightButton) {
-        UMLApp::app()->getWorkToolBar()->setDefaultTool();
+        UMLApp::app()->workToolBar()->setDefaultTool();
     }
 }
 

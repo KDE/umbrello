@@ -93,7 +93,7 @@ QString AdaWriter::className(UMLClassifier *c, bool inOwnScope)
     QString retval;
     QString className = cleanName(c->getName());
     UMLPackage *umlPkg = c->getUMLPackage();
-    if (umlPkg == UMLApp::app()->getDocument()->getRootFolder(Uml::mt_Logical)) {
+    if (umlPkg == UMLApp::app()->document()->getRootFolder(Uml::mt_Logical)) {
         if (! inOwnScope)
             retval = className + '.';
         retval.append("Object");
@@ -118,7 +118,7 @@ QString AdaWriter::packageName(UMLPackage *p)
     QString className = cleanName(p->getName());
     QString retval;
 
-    if (umlPkg == UMLApp::app()->getDocument()->getRootFolder(Uml::mt_Logical))
+    if (umlPkg == UMLApp::app()->document()->getRootFolder(Uml::mt_Logical))
         umlPkg = NULL;
 
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(p);

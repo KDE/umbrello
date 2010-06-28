@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -52,7 +52,7 @@ void JavaClassDeclarationBlock::updateContent ( )
 {
     JavaClassifierCodeDocument *parentDoc = dynamic_cast<JavaClassifierCodeDocument*>(getParentDocument());
     UMLClassifier *c = parentDoc->getParentClassifier();
-    CodeGenerationPolicy *commonPolicy = UMLApp::app()->getCommonPolicy();
+    CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     QString endLine = commonPolicy->getNewLineEndingChars();
     bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
     QString JavaClassName = parentDoc->getJavaClassName(c->getName());
@@ -63,7 +63,7 @@ void JavaClassDeclarationBlock::updateContent ( )
     else
         getComment()->setText("Class "+JavaClassName+endLine+c->getDoc());
 
-    bool forceDoc = UMLApp::app()->getCommonPolicy()->getCodeVerboseDocumentComments();
+    bool forceDoc = UMLApp::app()->commonPolicy()->getCodeVerboseDocumentComments();
     if (forceDoc || !c->getDoc().isEmpty())
         getComment()->setWriteOutText(true);
     else
