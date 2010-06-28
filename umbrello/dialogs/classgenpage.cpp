@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -131,7 +131,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         m_pPackageCB->setEditable(true);
         m_pNameLayout->addWidget(m_pPackageCB, 2, 1);
 
-        UMLPackageList packageList = m_pUmldoc->getPackages();
+        UMLPackageList packageList = m_pUmldoc->packages();
         QStringList packages;
         foreach( UMLPackage* package, packageList ) {
             packages << package->getName();
@@ -142,7 +142,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
         // if parent package == NULL
         // or if the parent package is the Logical View folder
-        if ( parentPackage == NULL || parentPackage== static_cast<UMLPackage*>(m_pUmldoc->getRootFolder(Uml::mt_Logical)))
+        if ( parentPackage == NULL || parentPackage== static_cast<UMLPackage*>(m_pUmldoc->rootFolder(Uml::mt_Logical)))
             m_pPackageCB->setEditText( QString() );
         else
             m_pPackageCB->setEditText(parentPackage->getName());
@@ -381,7 +381,7 @@ void ClassGenPage::insertStereotypesSorted(const QString& type)
 {
     QStringList types;
     types << "";  // an empty stereotype is the default
-    foreach (UMLStereotype* ust, m_pUmldoc->getStereotypes()) {
+    foreach (UMLStereotype* ust, m_pUmldoc->stereotypes()) {
         types << ust->getName();
     }
     // add the given parameter
@@ -426,7 +426,7 @@ void ClassGenPage::updateObject()
                     newPackage = Import_Utils::createUMLObject(Uml::ot_Package, packageName);
                 }
             } else {
-                newPackage = m_pUmldoc->getRootFolder( Uml::mt_Logical );
+                newPackage = m_pUmldoc->rootFolder( Uml::mt_Logical );
             }
 
             // adjust list view items

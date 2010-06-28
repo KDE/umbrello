@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2009                                                *
+ *  copyright (C) 2006-2010                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -164,12 +164,12 @@ UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
     UMLDoc *doc = UMLApp::app()->document();
     if (parentPkg == NULL) {
         if (type == Uml::ot_Datatype) {
-            parentPkg = doc->getDatatypeFolder();
+            parentPkg = doc->datatypeFolder();
         } else {
             Uml::Model_Type mt = Model_Utils::convert_OT_MT(type);
             uDebug() << "Object_Factory::createUMLObject(" << n << "): "
                 << "parentPkg is not set, assuming Model_Type " << mt;
-            parentPkg = doc->getRootFolder(mt);
+            parentPkg = doc->rootFolder(mt);
         }
     }
     if (!n.isEmpty()) {

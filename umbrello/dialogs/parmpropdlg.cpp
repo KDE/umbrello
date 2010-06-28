@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -189,7 +189,7 @@ void ParmPropDlg::insertTypesSorted(const QString& type)
         }
     }
     // now add the Concepts
-    UMLClassifierList namesList( m_pUmldoc->getConcepts() );
+    UMLClassifierList namesList( m_pUmldoc->concepts() );
     foreach(UMLClassifier* obj, namesList ) {
         types << obj->getFullyQualifiedName();
     }
@@ -219,7 +219,7 @@ void ParmPropDlg::insertStereotypesSorted(const QString& type)
 {
     QStringList types;
     types << ""; // an empty stereotype is the default
-    foreach (UMLStereotype* currentSt, m_pUmldoc->getStereotypes() ) {
+    foreach (UMLStereotype* currentSt, m_pUmldoc->stereotypes() ) {
         types << currentSt->getName();
     }
     // add the given parameter
@@ -305,7 +305,7 @@ void ParmPropDlg::slotOk()
                 return;
             }
         }
-        UMLClassifierList namesList( m_pUmldoc->getConcepts() );
+        UMLClassifierList namesList( m_pUmldoc->concepts() );
         bool matchFound = false;
 
         foreach (UMLClassifier* obj, namesList) {

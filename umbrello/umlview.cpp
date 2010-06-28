@@ -1436,7 +1436,7 @@ void UMLView::activate()
         if (obj->isActivated())
             continue;
 
-        obj->activate(m_pDoc->getChangeLog());
+        obj->activate(m_pDoc->changeLog());
         obj->setVisible(true);
 
     }//end foreach
@@ -1520,7 +1520,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             << ") because it is already there";
         return false;
     }
-    IDChangeLog * log = m_pDoc -> getChangeLog();
+    IDChangeLog * log = m_pDoc->changeLog();
     if (isPasteOperation && (!log || !m_pIDChangesLog)) {
         uError() << " Cant addWidget to view in paste op because a log is not open";
         return false;
@@ -1580,7 +1580,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             uDebug() << "addWidget: Can not find UMLObject for id " << ID2STR(newID);
             return false;
         }
-        pWidget -> setUMLObject(pObject);
+        pWidget->setUMLObject(pObject);
         //make sure it doesn't already exist.
         if (findWidget(newID)) {
             uDebug() << "Not adding (id=" << ID2STR(pWidget->id())
@@ -1614,12 +1614,12 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             uDebug() << "pMessage is NULL";
             return false;
         }
-        ObjectWidget *objWidgetA = pMessage -> getWidget(A);
-        ObjectWidget *objWidgetB = pMessage -> getWidget(B);
+        ObjectWidget *objWidgetA = pMessage->getWidget(A);
+        ObjectWidget *objWidgetB = pMessage->getWidget(B);
         Uml::IDType waID = objWidgetA->localID();
         Uml::IDType wbID = objWidgetB->localID();
-        Uml::IDType newWAID = m_pIDChangesLog ->findNewID(waID);
-        Uml::IDType newWBID = m_pIDChangesLog ->findNewID(wbID);
+        Uml::IDType newWAID = m_pIDChangesLog->findNewID(waID);
+        Uml::IDType newWBID = m_pIDChangesLog->findNewID(wbID);
         if (newWAID == Uml::id_None || newWBID == Uml::id_None) {
             uDebug() << "Error with ids : " << ID2STR(newWAID)
                 << " " << ID2STR(newWBID);
@@ -1627,8 +1627,8 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         }
         // Assumption here is that the A/B objectwidgets and the textwidget
         // are pristine in the sense that we may freely change their local IDs.
-        objWidgetA -> setLocalID(newWAID);
-        objWidgetB -> setLocalID(newWBID);
+        objWidgetA->setLocalID(newWAID);
+        objWidgetB->setLocalID(newWBID);
         FloatingTextWidget *ft = pMessage->floatingTextWidget();
         if (ft == NULL)
             uDebug() << "FloatingTextWidget of Message is NULL";
@@ -1651,13 +1651,13 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         Uml::IDType nNewLocalID = getLocalID();
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
-        pObjectWidget -> setLocalID(nNewLocalID);
+        pObjectWidget->setLocalID(nNewLocalID);
         UMLObject *pObject = m_pDoc->findObjectById(pWidget->id());
         if (!pObject) {
             uDebug() << "Cannot find UMLObject";
             return false;
         }
-        pWidget -> setUMLObject(pObject);
+        pWidget->setUMLObject(pObject);
         m_WidgetList.append(pWidget);
     }
     break;
@@ -1676,8 +1676,8 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         Uml::IDType nNewLocalID = getLocalID();
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
-        pObjectWidget -> setLocalID(nNewLocalID);
-        UMLObject *pObject = m_pDoc -> findObjectById(newID);
+        pObjectWidget->setLocalID(nNewLocalID);
+        UMLObject *pObject = m_pDoc->findObjectById(newID);
         if (!pObject) {
             uDebug() << "Cannot find UMLObject";
             return false;
@@ -1704,7 +1704,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
         pObjectWidget -> setLocalID(nNewLocalID);
-        UMLObject *pObject = m_pDoc -> findObjectById(newID);
+        UMLObject *pObject = m_pDoc->findObjectById(newID);
         if (!pObject) {
             uDebug() << "Cannot find UMLObject";
             return false;
@@ -1733,7 +1733,7 @@ bool UMLView::addAssociation(AssociationWidget* pAssoc , bool isPasteOperation)
     const Association_Type type = pAssoc->associationType();
 
     if (isPasteOperation) {
-        IDChangeLog * log = m_pDoc -> getChangeLog();
+        IDChangeLog * log = m_pDoc->changeLog();
 
         if (!log)
             return false;
@@ -2590,7 +2590,7 @@ void UMLView::slotMenuSelection(QAction* action)
     if (m_pMenu != NULL) {  // popup from this class
         sel = m_pMenu->getMenuType(action);
     } else { // popup from umldoc
-        sel = m_pDoc->getPopupMenuSelection(action);
+        sel = m_pDoc->popupMenuSelection(action);
     }
     switch (sel) {
     case ListPopupMenu::mt_Undo:

@@ -308,7 +308,7 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
         }
         Uml::Model_Type m = Model_Utils::convert_DT_MT(m_pUMLView->getType());
         UMLDoc *umldoc = UMLApp::app()->document();
-        umla->setUMLPackage(umldoc->getRootFolder(m));
+        umla->setUMLPackage(umldoc->rootFolder(m));
         UMLApp::app()->document()->addAssociation(umla);
     } else {
         uError() << "cannot addAssocInViewAndDoc(), deleting";

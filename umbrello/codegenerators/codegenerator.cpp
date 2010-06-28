@@ -268,7 +268,7 @@ void CodeGenerator::saveToXMI(QDomDocument & doc, QDomElement & root)
     docElement.setAttribute("language",langType);
 
     if (dynamic_cast<SimpleCodeGenerator*>(this)) {
-        UMLClassifierList concepts = m_document->getClassesAndInterfaces();
+        UMLClassifierList concepts = m_document->classesAndInterfaces();
         foreach (UMLClassifier *c, concepts) {
             UMLOperationList operations = c->getOpList();
             foreach (UMLOperation *op, operations) {
@@ -315,7 +315,7 @@ void CodeGenerator::initFromParentDocument()
 {
     // Walk through the document converting classifiers into
     // classifier code documents as needed (e.g only if doesn't exist)
-    UMLClassifierList concepts = m_document->getClassesAndInterfaces();
+    UMLClassifierList concepts = m_document->classesAndInterfaces();
     foreach (UMLClassifier *c , concepts) {
         // Doesn't exist? Then build one.
         CodeDocument * codeDoc = findCodeDocumentByClassifier(c);

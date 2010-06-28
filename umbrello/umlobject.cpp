@@ -206,7 +206,7 @@ QString UMLObject::getFullyQualifiedName(const QString& separator,
         if (!includeRoot) {
             UMLDoc *umldoc = UMLApp::app()->document();
             if (umldoc->rootFolderType(m_pUMLPackage) != Uml::N_MODELTYPES ||
-                    m_pUMLPackage == umldoc->getDatatypeFolder())
+                    m_pUMLPackage == umldoc->datatypeFolder())
                 skipPackage = true;
         }
         if (!skipPackage) {
@@ -696,7 +696,7 @@ bool UMLObject::resolveRef()
         }
         if (m_SecondaryFallback.isEmpty()) {
             uDebug() << "object with xmi.id=" << m_SecondaryId << " not found, setting to undef";
-            UMLFolder *datatypes = pDoc->getDatatypeFolder();
+            UMLFolder *datatypes = pDoc->datatypeFolder();
             m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Datatype, "undef", datatypes, false);
             return true;
         }
@@ -796,7 +796,7 @@ QDomElement UMLObject::save(const QString &tag, QDomDocument & qDoc)
         if (m_pUMLPackage)
             nmSpc = m_pUMLPackage->getID();
         else
-            nmSpc = UMLApp::app()->document()->getModelID();
+            nmSpc = UMLApp::app()->document()->modelID();
         qElement.setAttribute("namespace", ID2STR(nmSpc));
     }
     if (! m_Doc.isEmpty())

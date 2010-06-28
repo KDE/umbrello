@@ -443,7 +443,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
         return false;
     }
 
-    idchanges = doc->getChangeLog();
+    idchanges = doc->changeLog();
     if(!idchanges) {
         return false;
     }
@@ -487,7 +487,7 @@ bool UMLClipboard::pasteClip3(const QMimeData* data)
 {
     UMLDoc *doc = UMLApp::app()->document();
     UMLListViewItemList itemdatalist;
-    IDChangeLog* idchanges = doc->getChangeLog();
+    IDChangeLog* idchanges = doc->changeLog();
 
     if(!idchanges) {
         return false;
@@ -542,7 +542,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
         }
     }
 
-    idchanges = doc->getChangeLog();
+    idchanges = doc->changeLog();
     if(!idchanges) {
         return false;
     }
@@ -643,7 +643,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
     }
 
     doc->setModified(true);
-    idchanges = doc->getChangeLog();
+    idchanges = doc->changeLog();
     // Assume success if at least one child object could be pasted
     if (objects.count())
         result = false;

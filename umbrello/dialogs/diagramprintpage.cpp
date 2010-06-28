@@ -182,7 +182,7 @@ bool DiagramPrintPage::isSelected(int index)
  */
 void DiagramPrintPage::slotClicked()
 {
-    UMLViewList list = m_pDoc->getViewIterator();
+    UMLViewList list = m_pDoc->viewIterator();
     QString type;
 
     // clear list with diagrams to print
@@ -239,7 +239,7 @@ void DiagramPrintPage::slotClicked()
  */
 void DiagramPrintPage::slotActivated(int index)
 {
-    UMLViewList list = m_pDoc->getViewIterator();
+    UMLViewList list = m_pDoc->viewIterator();
 
     // combo box entries start from 0 index
     // valid diagram_type enum values start from 1

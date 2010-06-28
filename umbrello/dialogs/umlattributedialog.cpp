@@ -248,7 +248,7 @@ void UMLAttributeDialog::slotOk()
 void UMLAttributeDialog::insertTypesSorted( const QString& type )
 {
     UMLDoc * uDoc = UMLApp::app()->document();
-    UMLClassifierList namesList( uDoc->getConcepts() );
+    UMLClassifierList namesList( uDoc->concepts() );
     QStringList types;
     foreach (UMLClassifier* obj, namesList) {
          types << obj->getFullyQualifiedName();

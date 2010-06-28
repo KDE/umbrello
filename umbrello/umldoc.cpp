@@ -38,9 +38,9 @@
 #include "umllistviewitem.h"
 #include "umlview.h"
 #include "entityconstraint.h"
-#include "clipboard/idchangelog.h"
-#include "dialogs/classpropdlg.h"
-#include "codegenerators/codegenfactory.h"
+#include "idchangelog.h"
+#include "classpropdlg.h"
+#include "codegenfactory.h"
 #include "listpopupmenu.h"
 #include "cmds.h"
 #include "diagramprintpage.h"
@@ -1059,7 +1059,7 @@ UMLAssociation * UMLDoc::findAssociation(Uml::Association_Type assocType,
         const UMLObject *roleBObj,
         bool *swap)
 {
-    UMLAssociationList assocs = getAssociations();
+    UMLAssociationList assocs = associations();
     UMLAssociation *ret = NULL;
     foreach ( UMLAssociation* a , assocs ) {
         if (a->getAssocType() != assocType) {
@@ -1113,7 +1113,7 @@ void UMLDoc::addAssociation(UMLAssociation *assoc)
     // First, check that this association has not already been added.
     // This may happen when loading old XMI files where all the association
     // information was taken from the <UML:AssocWidget> tag.
-    UMLAssociationList assocs = getAssociations();
+    UMLAssociationList assocs = associations();
     foreach (UMLAssociation* a,  assocs ) {
         // check if its already been added (shouldn't be the case right now
         // as UMLAssociations only belong to one associationwidget at a time)
@@ -1270,10 +1270,10 @@ void UMLDoc::renameDiagram(Uml::IDType id)
 {
     bool ok = false;
 
-    UMLView *temp =  findView(id);
-    Diagram_Type type = temp->getType();
+    UMLView *view =  findView(id);
+    Diagram_Type type = view->getType();
 
-    QString oldName= temp->getName();
+    QString oldName= view->getName();
     while (true) {
         QString name = KInputDialog::getText(i18nc("renaming diagram", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
 
@@ -1284,8 +1284,7 @@ void UMLDoc::renameDiagram(Uml::IDType id)
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
         }
         else if (!findView(type, name)) {
-            temp->setName(name);
-
+            view->setName(name);
             emit sigDiagramRenamed(id);
             setModified(true);
             break;
@@ -1533,7 +1532,7 @@ void UMLDoc::setName(const QString& name)
 /**
  * Return the name of this model.
  */
-QString UMLDoc::getName() const
+QString UMLDoc::name() const
 {
     return m_Name;
 }
@@ -1542,7 +1541,7 @@ QString UMLDoc::getName() const
  * Return the m_modelID (currently this a fixed value:
  * Umbrello supports only a single document.)
  */
-Uml::IDType UMLDoc::getModelID() const
+Uml::IDType UMLDoc::modelID() const
 {
     return m_modelID;
 }
@@ -1699,7 +1698,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
  *
  * @param file   The file to be checked.
  */
-short UMLDoc::getEncoding(QIODevice & file)
+short UMLDoc::encoding(QIODevice & file)
 {
     QTextStream stream( &file );
     stream.setCodec("UTF-8");
@@ -1783,7 +1782,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     // to ensure backward compatibility we have to ensure to load the old files
     // with non Unicode encoding
     if (encode == ENC_UNKNOWN) {
-        if ((encode = getEncoding(file)) == ENC_UNKNOWN) {
+        if ((encode = encoding(file)) == ENC_UNKNOWN) {
             return false;
         }
         file.reset();
@@ -2253,7 +2252,7 @@ void UMLDoc::removeAllViews()
  *
  * @return List of UMLPackages.
  */
-UMLPackageList UMLDoc::getPackages(bool includeNested /* = true */)
+UMLPackageList UMLDoc::packages(bool includeNested /* = true */)
 {
     UMLPackageList packageList;
     m_root[mt_Logical]->appendPackages(packageList, includeNested);
@@ -2265,7 +2264,7 @@ UMLPackageList UMLDoc::getPackages(bool includeNested /* = true */)
  *
  * @return  Pointer to the predefined folder for datatypes.
  */
-UMLFolder * UMLDoc::getDatatypeFolder() const
+UMLFolder * UMLDoc::datatypeFolder() const
 {
     return m_datatypeRoot;
 }
@@ -2277,7 +2276,7 @@ UMLFolder * UMLDoc::getDatatypeFolder() const
  *                        nested packages (default: true.)
  * @return  List of UML concepts.
  */
-UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */)
+UMLClassifierList UMLDoc::concepts(bool includeNested /* =true */)
 {
     UMLClassifierList conceptList;
     m_root[mt_Logical]->appendClassifiers(conceptList, includeNested);
@@ -2291,7 +2290,7 @@ UMLClassifierList UMLDoc::getConcepts(bool includeNested /* =true */)
  *                        nested packages (default: true.)
  * @return  List of UML classes.
  */
-UMLClassifierList UMLDoc::getClasses(bool includeNested /* =true */)
+UMLClassifierList UMLDoc::classes(bool includeNested /* =true */)
 {
     UMLClassifierList conceptList;
     m_root[mt_Logical]->appendClasses(conceptList, includeNested);
@@ -2305,7 +2304,7 @@ UMLClassifierList UMLDoc::getClasses(bool includeNested /* =true */)
  *                        nested packages (default: true.)
  * @return  List of UML concepts.
  */
-UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */)
+UMLClassifierList UMLDoc::classesAndInterfaces(bool includeNested /* =true */)
 {
     UMLClassifierList conceptList;
     m_root[mt_Logical]->appendClassesAndInterfaces(conceptList, includeNested);
@@ -2319,7 +2318,7 @@ UMLClassifierList UMLDoc::getClassesAndInterfaces(bool includeNested /* =true */
  *                        nested packages (default: true.)
  * @return  List of UML Entities.
  */
-UMLEntityList UMLDoc::getEntities( bool includeNested /* =true */ )
+UMLEntityList UMLDoc::entities( bool includeNested /* =true */ )
 {
     UMLEntityList entityList;
     m_root[mt_EntityRelationship]->appendEntities(entityList, includeNested);
@@ -2333,7 +2332,7 @@ UMLEntityList UMLDoc::getEntities( bool includeNested /* =true */ )
  *                        nested packages (default: true.)
  * @return  List of UML interfaces.
  */
-UMLClassifierList UMLDoc::getInterfaces(bool includeNested /* =true */)
+UMLClassifierList UMLDoc::interfaces(bool includeNested /* =true */)
 {
     UMLClassifierList interfaceList;
     m_root[mt_Logical]->appendInterfaces(interfaceList, includeNested);
@@ -2345,7 +2344,7 @@ UMLClassifierList UMLDoc::getInterfaces(bool includeNested /* =true */)
  *
  * @return  List of datatypes.
  */
-UMLClassifierList UMLDoc::getDatatypes()
+UMLClassifierList UMLDoc::datatypes()
 {
     UMLObjectList objects = m_datatypeRoot->containedObjects();
     UMLClassifierList datatypeList;
@@ -2362,7 +2361,7 @@ UMLClassifierList UMLDoc::getDatatypes()
  *
  * @return  List of UML associations.
  */
-UMLAssociationList UMLDoc::getAssociations()
+UMLAssociationList UMLDoc::associations()
 {
     UMLAssociationList associationList;
     for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
@@ -2406,7 +2405,7 @@ void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
  *
  * @return  List of UML views.
  */
-UMLViewList UMLDoc::getViewIterator()
+UMLViewList UMLDoc::viewIterator()
 {
     UMLViewList accumulator;
     for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
@@ -2490,7 +2489,7 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
 /**
  * Return the predefined root folder of the given type.
  */
-UMLFolder *UMLDoc::getRootFolder(Uml::Model_Type mt)
+UMLFolder *UMLDoc::rootFolder(Uml::Model_Type mt)
 {
     if (mt < Uml::mt_Logical || mt >= Uml::N_MODELTYPES) {
         uError() << "illegal input value " << mt;
@@ -2521,7 +2520,7 @@ Uml::Model_Type UMLDoc::rootFolderType(UMLObject *obj)
  *
  * @return  Pointer to the IDChangeLog object.
  */
-IDChangeLog* UMLDoc::getChangeLog()
+IDChangeLog* UMLDoc::changeLog()
 {
     return m_pChangeLog;
 }
@@ -2571,7 +2570,7 @@ Uml::IDType UMLDoc::assignNewID(Uml::IDType oldID)
  *
  * @return  The documentation text of this UMLDoc.
  */
-QString UMLDoc::getDocumentation() const
+QString UMLDoc::documentation() const
 {
     return m_Doc;
 }
@@ -2653,7 +2652,7 @@ void UMLDoc::settingsChanged(Settings::OptionState optionState)
 /**
  * Returns the version of the old UML files.
  */
-int UMLDoc::getFileVersion() const
+int UMLDoc::fileVersion() const
 {
     return m_version;
 }
@@ -2726,7 +2725,7 @@ void UMLDoc::slotAutoSave()
 /**
  * Signal a view/diagram has been renamed.
  */
-void UMLDoc::signalDiagramRenamed(UMLView* view )
+void UMLDoc::signalDiagramRenamed(UMLView* view)
 {
     if (view) {
         Settings::OptionState optionState = Settings::getOptionState();
@@ -2736,7 +2735,7 @@ void UMLDoc::signalDiagramRenamed(UMLView* view )
         emit sigDiagramRenamed( view -> getID() );
     }
     else {
-        uError() << "Cannot signal diagram renamed - view is null!";
+      uError() << "Cannot signal diagram renamed - view is null!";
     }
 }
 
@@ -2839,13 +2838,13 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
  * @param action  the selected action
  * @return the selected menu type
  */
-ListPopupMenu::Menu_Type UMLDoc::getPopupMenuSelection(QAction* action)
+ListPopupMenu::Menu_Type UMLDoc::popupMenuSelection(QAction* action)
 {
-    if (m_pTabPopupMenu == NULL) {
-        return ListPopupMenu::mt_Undefined;
+    if (m_pTabPopupMenu) {
+        return m_pTabPopupMenu->getMenuType(action);
     }
     else {
-        return m_pTabPopupMenu->getMenuType(action);
+        return ListPopupMenu::mt_Undefined;
     }
 }
 
@@ -2866,7 +2865,7 @@ void UMLDoc::addDefaultStereotypes()
  *
  * @return  List of UML stereotypes.
  */
-const UMLStereotypeList& UMLDoc::getStereotypes()
+const UMLStereotypeList& UMLDoc::stereotypes() const
 {
     return m_stereoList;
 }

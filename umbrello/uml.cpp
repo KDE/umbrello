@@ -1627,7 +1627,7 @@ void UMLApp::slotApplyPrefs()
         if (stackBrowsing != tabBrowsing) {
             // Diagram Representation Modified
             UMLView* currentView;
-            UMLViewList views = m_doc->getViewIterator();
+            UMLViewList views = m_doc->viewIterator();
 
             if (tabBrowsing) {
                 currentView = static_cast<UMLView*>(m_viewStack->currentWidget());
@@ -2223,7 +2223,7 @@ void UMLApp::slotUpdateViews()
 
     menu->clear();
 
-    UMLViewList views = m_doc->getViewIterator();
+    UMLViewList views = m_doc->viewIterator();
     foreach (UMLView *view , views ) {
         menu->addAction(view->getName(), view, SLOT(slotShowView()));
         view->fileLoaded();
@@ -2633,7 +2633,7 @@ void UMLApp::slotChangeTabLeft()
         m_tabWidget->setCurrentIndex( m_tabWidget->currentIndex() - 1 );
         return;
     }
-    UMLViewList views = m_doc->getViewIterator();
+    UMLViewList views = m_doc->viewIterator();
     UMLView *currView = m_view;
     int viewIndex = 0;
     if ((viewIndex = views.indexOf(currView)) < 0) {
@@ -2663,10 +2663,10 @@ void UMLApp::slotChangeTabRight()
         m_tabWidget->setCurrentIndex( m_tabWidget->currentIndex() + 1 );
         return;
     }
-    UMLViewList views = m_doc->getViewIterator();
+    UMLViewList views = m_doc->viewIterator();
     UMLView *currView = m_view;
     int viewIndex = 0;
-    if (( viewIndex = views.indexOf(currView) ) < 0) {
+    if ((viewIndex = views.indexOf(currView)) < 0) {
         uError() << "currView not found in viewlist";
         return;
     }

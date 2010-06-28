@@ -126,7 +126,7 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
     setResizeMode(LastColumn);
     header()->setClickEnabled(true);
     //add columns and initial items
-    addColumn(m_doc->getName());
+    addColumn(m_doc->name());
 
 #ifdef WANT_LVTOOLTIP
     /* In KDE-3.3, we cannot use K3ListView's builtin mechanism for
@@ -500,7 +500,7 @@ void UMLListView::popupMenuSel(QAction* action)
         bool ok = false;
         QString name = KInputDialog::getText(i18n("Enter Model Name"),
                                              i18n("Enter the new name of the model:"),
-                                             m_doc->getName(), &ok, UMLApp::app());
+                                             m_doc->name(), &ok, UMLApp::app());
         if (ok) {
             setColumnText(0, name);
             m_doc->setName(name);
@@ -1231,7 +1231,7 @@ void UMLListView::init()
 
         for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
             Uml::Model_Type mt = (Uml::Model_Type)i;
-            UMLFolder *sysFolder = m_doc->getRootFolder(mt);
+            UMLFolder *sysFolder = m_doc->rootFolder(mt);
             Uml::ListView_Type lvt = Model_Utils::convert_MT_LVT(mt);
             m_lv[i] = new UMLListViewItem(m_rv, sysFolder->getLocalName(), lvt, sysFolder);
         }
@@ -1239,7 +1239,7 @@ void UMLListView::init()
         for (int i = 0; i < Uml::N_MODELTYPES; ++i)
             deleteChildrenOf(m_lv[i]);
     }
-    UMLFolder *datatypeFolder = m_doc->getDatatypeFolder();
+    UMLFolder *datatypeFolder = m_doc->datatypeFolder();
     m_datatypeFolder = new UMLListViewItem(m_lv[Uml::mt_Logical], datatypeFolder->getLocalName(),
                                            Uml::lvt_Datatype_Folder, datatypeFolder);
     m_rv->setOpen(true);
@@ -2736,7 +2736,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             // If the IDChangeLog finds new IDs this means we are in
             // copy/paste and need to adjust the child listitems to the
             // new UMLCLassifierListItems.
-            IDChangeLog *idchanges = m_doc->getChangeLog();
+            IDChangeLog *idchanges = m_doc->changeLog();
             if (idchanges) {
                 Uml::IDType newID = idchanges->findNewID(nID);
                 if (newID != Uml::id_None) {
@@ -2771,7 +2771,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         } else if (Model_Utils::typeIsRootView(lvType)) {
             // Predefined folders did not have their ID set.
             const Uml::Model_Type mt = Model_Utils::convert_LVT_MT(lvType);
-            nID = m_doc->getRootFolder(mt)->getID();
+            nID = m_doc->rootFolder(mt)->getID();
         } else if (Model_Utils::typeIsFolder(lvType)) {
             // Pre-1.2 format: Folders did not have their ID set.
             // Pull a new ID now.
