@@ -113,7 +113,6 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 {
     Q_UNUSED(name);
     //setup list view
-    setBackgroundColor(Qt::white);
     setAcceptDrops(true);
     setDropVisualizer(false);
     setItemsMovable(true);
