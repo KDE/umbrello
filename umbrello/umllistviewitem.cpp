@@ -917,7 +917,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
             itemElement.setAttribute("label", m_Label);
     } else if (m_pObject->getBaseType() == Uml::ot_Folder) {
         extFolder = static_cast<UMLFolder*>(m_pObject);
-        if (!extFolder->getFolderFile().isEmpty()) {
+        if (!extFolder->folderFile().isEmpty()) {
             itemElement.setAttribute("open", "0");
             qElement.appendChild(itemElement);
             return;

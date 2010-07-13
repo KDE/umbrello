@@ -35,9 +35,12 @@
  *                if this argument is left away.
  */
 UMLFolder::UMLFolder(const QString & name, Uml::IDType id)
-        : UMLPackage(name, id)
+  : UMLPackage(name, id)
 {
-    init();
+    m_BaseType = Uml::ot_Folder;
+    // Porting to QList. No autodelete supported. TODO: check if all elements of m_diagrams are properly disposed
+    //m_diagrams.setAutoDelete(true);
+    UMLObject::setStereotype("folder");
 }
 
 /**
@@ -45,21 +48,8 @@ UMLFolder::UMLFolder(const QString & name, Uml::IDType id)
  */
 UMLFolder::~UMLFolder()
 {
-    // TODO : check if safe
-    while ( !m_diagrams.isEmpty() ) {
-        delete m_diagrams.takeFirst();
-    }
-}
-
-/**
- * Initializes key variables of the class.
- */
-void UMLFolder::init()
-{
-    m_BaseType = Uml::ot_Folder;
-    // Porting to QList. No autodelete supported. TODO: check if all elements of m_diagrams are properly disposed
-    //m_diagrams.setAutoDelete(true);
-    UMLObject::setStereotype("folder");
+    qDeleteAll(m_diagrams);
+    m_diagrams.clear();
 }
 
 /**
@@ -87,7 +77,7 @@ void UMLFolder::setLocalName(const QString& localName)
  * Return the localized name of this folder.
  * Only useful for the predefined root folders.
  */
-QString UMLFolder::getLocalName()
+QString UMLFolder::localName() const
 {
     return m_localName;
 }
@@ -126,8 +116,9 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
             }
         }
     }
-    foreach (UMLView* v, m_diagrams )
+    foreach (UMLView* v, m_diagrams) {
         viewList.append(v);
+    }
 }
 
 /**
@@ -169,7 +160,7 @@ UMLView *UMLFolder::findView(Uml::IDType id)
         }
     }
 
-    UMLView* v = NULL;
+    UMLView* v = 0;
     foreach (UMLObject* o, m_objects ) {
         if (o->getBaseType() != Uml::ot_Folder) {
             continue;
@@ -198,7 +189,7 @@ UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool s
         }
     }
 
-    UMLView* v = NULL;
+    UMLView* v = 0;
     if (searchAllScopes) {
         foreach (UMLObject* o, m_objects  ) {
             if (o->getBaseType() != Uml::ot_Folder) {
@@ -246,10 +237,8 @@ void UMLFolder::removeAllViews()
         UMLApp::app()->document()->removeView(v, false);
     }
 
-    // m_diagrams.clear()
-    while ( !m_diagrams.empty() ) {
-        delete m_diagrams.takeFirst();
-    }
+    qDeleteAll(m_diagrams);
+    m_diagrams.clear();
 }
 
 /**
@@ -263,7 +252,7 @@ void UMLFolder::setFolderFile(const QString& fileName)
 /**
  * Get the folder file name for a separate submodel.
  */
-QString UMLFolder::getFolderFile()
+QString UMLFolder::folderFile() const
 {
     return m_folderFile;
 }
@@ -276,7 +265,7 @@ QString UMLFolder::getFolderFile()
 void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement ownedElement = qDoc.createElement("UML:Namespace.ownedElement");
-    UMLObject *obj = NULL;
+    UMLObject *obj = 0;
     // Save contained objects if any.
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         obj = oit.next();
@@ -511,7 +500,7 @@ bool UMLFolder::load(QDomElement& element)
                 continue;
             }
         }
-        UMLObject *pObject = NULL;
+        UMLObject *pObject = 0;
         // Avoid duplicate creation of forward declared object
         QString idStr = tempElement.attribute("xmi.id", "");
         if (!idStr.isEmpty()) {
@@ -521,7 +510,7 @@ bool UMLFolder::load(QDomElement& element)
                 uDebug() << "object " << idStr << "already exists";
             }
         }
-        if (pObject == NULL) {
+        if (pObject == 0) {
             QString stereoID = tempElement.attribute("stereotype", "");
             pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
             if (!pObject) {
