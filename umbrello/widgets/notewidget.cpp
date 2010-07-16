@@ -32,8 +32,8 @@ NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
 {
     init();
     m_NoteType = noteType;
-    setSize(100,80);
-    setZ( 20 ); //make sure always on top.
+    setSize(100, 80);
+    setZ(20); //make sure always on top.
 }
 
 void NoteWidget::init()
@@ -116,6 +116,9 @@ QString NoteWidget::documentation() const
 void NoteWidget::setDocumentation(const QString &newText)
 {
     m_Text = newText;
+    QSize size = calculateSize();
+    setSize(size.width(), size.height());
+    //uDebug() << "new size [" << size.width() << ", " << size.height() << "]";
 }
 
 void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
@@ -123,7 +126,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
     int margin = 10;
     int w = width()-1;
 
-    int h= height()-1;
+    int h = height()-1;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     QPolygon poly(6);
@@ -169,27 +172,37 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
 
 QSize NoteWidget::calculateSize()
 {
-    int width = 50, height = 50;
+    int width = 50;
+    int height = 50;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
-    //const int fontHeight  = fm.lineSpacing();
     const int textWidth = fm.width(m_Text);
-    if (m_NoteType == PreCondition)
-    {
+    if (m_NoteType == PreCondition) {
         const int widthtemp = fm.width("<< precondition >>");
                 width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
-    else if (m_NoteType == PostCondition)
-    {
+    else if (m_NoteType == PostCondition) {
         const int widthtemp = fm.width("<< postcondition >>");
-                width = textWidth > widthtemp ? textWidth : widthtemp;
+        width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
-    else if (m_NoteType == Transformation)
-    {
+    else if (m_NoteType == Transformation) {
         const int widthtemp = fm.width("<< transformation >>");
-                width = textWidth > widthtemp ? textWidth : widthtemp;
+        width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
+    }
+    else {
+        if (!m_Text.isEmpty()) {
+            QSize textSize = fm.size(Qt::TextExpandTabs, m_Text);
+            int textWidth = textSize.width() + 45;
+            if (width < textWidth) {
+                width = textWidth;
+            }
+            int textHeight = textSize.height() + 10;
+            if (height < textHeight) {
+                height = textHeight;
+            }
+        }
     }
     return QSize(width, height);
 }
