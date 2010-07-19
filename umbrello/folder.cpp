@@ -38,8 +38,6 @@ UMLFolder::UMLFolder(const QString & name, Uml::IDType id)
   : UMLPackage(name, id)
 {
     m_BaseType = Uml::ot_Folder;
-    // Porting to QList. No autodelete supported. TODO: check if all elements of m_diagrams are properly disposed
-    //m_diagrams.setAutoDelete(true);
     UMLObject::setStereotype("folder");
 }
 
@@ -95,7 +93,6 @@ void UMLFolder::addView(UMLView *view)
  */
 void UMLFolder::removeView(UMLView *view)
 {
-    // m_diagrams is set to autodelete!
     m_diagrams.removeAll(view);
     delete view;
 }
