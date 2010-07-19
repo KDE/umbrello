@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,15 +34,12 @@ class UMLFolder : public UMLPackage
     Q_OBJECT
 public:
     explicit UMLFolder(const QString & name = QString(), Uml::IDType id = Uml::id_None);
-
     virtual ~UMLFolder();
-
-    virtual void init();
 
     virtual UMLObject* clone() const;
 
     void setLocalName(const QString& localName);
-    QString getLocalName();
+    QString localName() const;
 
     void addView(UMLView *view);
 
@@ -60,7 +57,7 @@ public:
     void removeAllViews();
 
     void setFolderFile(const QString& fileName);
-    QString getFolderFile();
+    QString folderFile() const;
 
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 

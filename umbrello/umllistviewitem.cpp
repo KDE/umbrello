@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,11 +14,13 @@
 // system includes
 #include <cstdlib>
 
-// qt/kde includes
+// qt includes
 #include <QtCore/QTextStream>
 #include <QtCore/QFile>
-#include <QtGui/QDrag>
 #include <QtCore/QRegExp>
+#include <QtGui/QDrag>
+
+// kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
@@ -158,10 +160,8 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
     default:
         setIcon(Icon_Utils::it_Diagram);
     }
-    /*
-        Constructor also used by folder so just make sure we don't need to
-        to set pixmap to folder.  doesn't hurt diagrams.
-    */
+    //  Constructor also used by folder so just make sure we don't need to
+    //  to set pixmap to folder.  doesn't hurt diagrams.
     updateFolder();
     setText(name);
     setRenameEnabled(0, true);
@@ -884,7 +884,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
             itemElement.setAttribute("label", m_Label);
     } else if (m_pObject->getBaseType() == Uml::ot_Folder) {
         extFolder = static_cast<UMLFolder*>(m_pObject);
-        if (!extFolder->getFolderFile().isEmpty()) {
+        if (!extFolder->folderFile().isEmpty()) {
             itemElement.setAttribute("open", "0");
             qElement.appendChild(itemElement);
             return;

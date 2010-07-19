@@ -811,7 +811,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     QString name = object->getName();
     if (type == Uml::ot_Folder) {
         UMLFolder *f = static_cast<UMLFolder*>(object);
-        QString folderFile = f->getFolderFile();
+        QString folderFile = f->folderFile();
         if (!folderFile.isEmpty())
             name.append(" (" + folderFile + ')');
     }
@@ -820,7 +820,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
         UMLClassifier *c = static_cast<UMLClassifier*>(object);
         UMLClassifierListItemList cListItems = c->getFilteredList(Uml::ot_UMLObject);
         foreach(UMLClassifierListItem *cli, cListItems)
-        childObjectAdded(cli, c);
+            childObjectAdded(cli, c);
     }
     if (m_doc->loading())
         return;
@@ -1232,14 +1232,15 @@ void UMLListView::init()
             Uml::Model_Type mt = (Uml::Model_Type)i;
             UMLFolder *sysFolder = m_doc->rootFolder(mt);
             Uml::ListView_Type lvt = Model_Utils::convert_MT_LVT(mt);
-            m_lv[i] = new UMLListViewItem(m_rv, sysFolder->getLocalName(), lvt, sysFolder);
+            m_lv[i] = new UMLListViewItem(m_rv, sysFolder->localName(), lvt, sysFolder);
         }
     } else {
         for (int i = 0; i < Uml::N_MODELTYPES; ++i)
             deleteChildrenOf(m_lv[i]);
     }
     UMLFolder *datatypeFolder = m_doc->datatypeFolder();
-    m_datatypeFolder = new UMLListViewItem(m_lv[Uml::mt_Logical], datatypeFolder->getLocalName(),
+    if (!m_datatypeFolder)
+        m_datatypeFolder = new UMLListViewItem(m_lv[Uml::mt_Logical], datatypeFolder->localName(),
                                            Uml::lvt_Datatype_Folder, datatypeFolder);
     m_rv->setOpen(true);
     for (int i = 0; i < Uml::N_MODELTYPES; ++i)

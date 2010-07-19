@@ -1223,7 +1223,7 @@ bool UMLView::isSavedInSeparateFile()
         uError() << msgPrefix << "parent model object is not a UMLFolder (?)";
         return false;
     }
-    QString folderFile = modelFolder->getFolderFile();
+    QString folderFile = modelFolder->folderFile();
     return !folderFile.isEmpty();
 }
 

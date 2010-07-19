@@ -884,7 +884,7 @@ void ListPopupMenu::insertSubmodelAction()
         uError() << o->getName() << " is not a Folder";
         return;
     }
-    QString submodelFile = f->getFolderFile();
+    QString submodelFile = f->folderFile();
     if (submodelFile.isEmpty()) {
         insert(mt_Externalize_Folder);
     }
