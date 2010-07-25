@@ -55,11 +55,6 @@ void NoteWidgetController::mouseMoveEvent(QMouseEvent *me)
 void NoteWidgetController::mouseReleaseEvent(QMouseEvent *me)
 {
     UMLWidgetController::mouseReleaseEvent(me);
-    //TODO why is it needed? drawText is already called in draw,
-    //and draw is (well, I think that is) called when the canvas rectangle is resized
-    if (m_resized) {
-        m_noteWidget->drawText();
-    }
 }
 
 /**

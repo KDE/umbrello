@@ -32,7 +32,6 @@ NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
 {
     init();
     m_NoteType = noteType;
-    setSize(100, 80);
     setZ(20); //make sure always on top.
 }
 
@@ -83,7 +82,6 @@ void NoteWidget::setDiagramLink(Uml::IDType viewID)
     }
     QString linkText("Diagram: " + view->getName());
     setDocumentation(linkText);
-    update();
     m_DiagramLink = viewID;
 }
 
@@ -91,7 +89,6 @@ Uml::IDType NoteWidget::getDiagramLink() const
 {
     return m_DiagramLink;
 }
-
 
 void NoteWidget::setFont(QFont font)
 {
@@ -116,16 +113,13 @@ QString NoteWidget::documentation() const
 void NoteWidget::setDocumentation(const QString &newText)
 {
     m_Text = newText;
-    QSize size = calculateSize();
-    setSize(size.width(), size.height());
-    //uDebug() << "new size [" << size.width() << ", " << size.height() << "]";
+    update();
 }
 
 void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
-    int margin = 10;
+    const int margin = 10;
     int w = width()-1;
-
     int h = height()-1;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
@@ -149,18 +143,17 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.setPen(Qt::black);
     switch(m_NoteType) {
     case NoteWidget::PreCondition :
-        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< precondition >>");
+        p.drawText(offsetX, offsetY + margin, w, fontHeight, Qt::AlignCenter, "<< precondition >>");
         break;
-
     case NoteWidget::PostCondition :
-        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
+        p.drawText(offsetX, offsetY + margin, w, fontHeight, Qt::AlignCenter, "<< postcondition >>");
         break;
-
     case NoteWidget::Transformation :
-        p.drawText(offsetX, offsetY + margin ,w, fontHeight, Qt::AlignCenter, "<< transformation >>");
+        p.drawText(offsetX, offsetY + margin, w, fontHeight, Qt::AlignCenter, "<< transformation >>");
         break;
-        case NoteWidget::Normal :
-    default :  break;
+    case NoteWidget::Normal :
+    default :
+        break;
     }
 
     if(m_bSelected) {
@@ -172,13 +165,13 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
 
 QSize NoteWidget::calculateSize()
 {
-    int width = 50;
-    int height = 50;
+    int width = 60;
+    int height = 30;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int textWidth = fm.width(m_Text);
     if (m_NoteType == PreCondition) {
         const int widthtemp = fm.width("<< precondition >>");
-                width = textWidth > widthtemp ? textWidth : widthtemp;
+        width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
     else if (m_NoteType == PostCondition) {
@@ -192,17 +185,7 @@ QSize NoteWidget::calculateSize()
         width += 10;
     }
     else {
-        if (!m_Text.isEmpty()) {
-            QSize textSize = fm.size(Qt::TextExpandTabs, m_Text);
-            int textWidth = textSize.width() + 45;
-            if (width < textWidth) {
-                width = textWidth;
-            }
-            int textHeight = textSize.height() + 10;
-            if (height < textHeight) {
-                height = textHeight;
-            }
-        }
+        // do nothing, keep width and height unchanged for resizing
     }
     return QSize(width, height);
 }
@@ -214,11 +197,11 @@ void NoteWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
-        m_pView -> updateDocumentation( false );
+        m_pView->updateDocumentation( false );
         dlg = new NoteDialog( m_pView, this );
-        if( dlg -> exec() ) {
-            m_pView -> showDocumentation( this, true );
-            doc -> setModified(true);
+        if( dlg->exec() ) {
+            m_pView->showDocumentation( this, true );
+            doc->setModified(true);
             update();
         }
         delete dlg;
@@ -230,97 +213,71 @@ void NoteWidget::slotMenuSelection(QAction* action)
     }
 }
 
-void NoteWidget::drawText(QPainter * p /*=NULL*/, int offsetX /*=0*/, int offsetY /*=0*/)
+/**
+ * Implemented without word wrap.
+ */
+void NoteWidget::drawText(QPainter * p, int offsetX, int offsetY)
 {
-    if (p == NULL)
+    if (p == NULL) {
         return;
-    /*
-    Implement word wrap for text as follows:
-    wrap at width on whole words.
-    if word is wider than width then clip word
-    if reach height exit and don't print anymore
-    start new line on \n character
-    */
-    p->setPen( Qt::black );
+    }
+
+    QString text = documentation();
+    if (text.length() == 0) {
+        return;
+    }
+
+    p->setPen(Qt::black);
     QFont font = UMLWidget::font();
-    p->setFont( font );
+    p->setFont(font);
+
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    QString text = documentation();
-    if( text.length() == 0 )
-        return;
-    QString word = "";
-    QString fullLine = "";
-    QString testCombineLine = "";
-    const int margin = fm.width( "W" );
+    const int margin      = fm.width("W");
+    const QSize textSize  = fm.size(Qt::TextExpandTabs, text);
+
+    const int width = this->width() - margin * 2;
+    const int height = this->height() - fontHeight;
     int textY = fontHeight / 2;
     int textX = margin;
-    const int width = this -> width() - margin * 2;
-    const int height = this -> height() - fontHeight;
-    QChar returnChar('\n');
-    QChar c;
 
-    if( text.length() == 0 )
-        return;
-
-    for (int i = 0; i <= text.length(); ++i) {
-        if (i < text.length()) {
-            c = text[i];
-        } else {
-            // all chars of text have been handled already ->
-            // perform this last run to spool current content of "word"
-            c = returnChar;
-        }
-        if (c == returnChar || c.isSpace()) {
-            // new word delimiter found -> it is time to decide on word wrap
-            testCombineLine = fullLine + ' ' + word;
-            int textWidth = fm.width( testCombineLine );
-            if (textX + textWidth > width) {
-                // combination of "fullLine" and "word" doesn't fit into one line ->
-                // print "fullLine" in current line, update write position to next line
-                // and decide then on following actions
+    if ((textSize.width() < width) && (textSize.height() < height)) {
+        // the entire text is small enough - draw it
+        p->drawText(offsetX + textX, offsetY + textY,
+                    textSize.width(), textSize.height(),
+                    Qt::AlignLeft, text);
+    }
+    else {
+        // not all text can be drawn
+        QStringList lines = text.split(QChar('\n'));
+        foreach(QString line, lines) {
+            int lineWidth = fm.width(line);
+            if (lineWidth < width) {
+                // line is small enough - draw it
                 p->drawText(offsetX + textX, offsetY + textY,
-                            textWidth, fontHeight, Qt::AlignLeft, fullLine );
-                fullLine = word;
-                word = "";
-                // update write position
-                textX = margin;
-                textY += fontHeight;
-                if (textY > height)
-                    return;
-                // in case of c==newline ->
-                // print "word" and set write position one additional line lower
-                if (c == returnChar) {
-                    // print "word" - which is now "fullLine" and set to next line
-                    p->drawText(offsetX + textX, offsetY + textY,
-                                textWidth, fontHeight, Qt::AlignLeft, fullLine);
-                    fullLine = "";
-                    textX = margin;
-                    textY += fontHeight;
-                    if( textY > height ) return;
+                            textSize.width(), fontHeight,
+                            Qt::AlignLeft, line);
+            }
+            else {
+                // draw a smaller line
+                for(int len = line.length(); len > 0; --len) {
+                    QString smallerLine = line.left(len);
+                    int smallerLineWidth = fm.width(smallerLine);
+                    if (smallerLineWidth < width) {
+                        // line is small enough - draw it
+                        p->drawText(offsetX + textX, offsetY + textY,
+                                    width, fontHeight,
+                                    Qt::AlignLeft, smallerLine);
+                    }
                 }
             }
-            else if ( c == returnChar ) {
-                // newline found and combination of "fullLine" and "word" fits
-                // in one line
-                p->drawText(offsetX + textX, offsetY + textY,
-                            textWidth, fontHeight, Qt::AlignLeft, testCombineLine);
-                fullLine = word = "";
-                textX = margin;
-                textY += fontHeight;
-                if (textY > height)
-                    return;
-            } else {
-                // word delimiter found, and combination of "fullLine", space and "word" fits into one line
-                fullLine = testCombineLine;
-                word = "";
+            textY += fontHeight;
+            if (textY > height) {
+                // skip the next lines - size is not enough
+                break;
             }
-        } else {
-            // no word delimiter found --> add current char to "word"
-            if (c != '\0')
-                word += c;
         }
-    }//end for
+    }
 }
 
 void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
