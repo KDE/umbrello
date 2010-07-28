@@ -185,7 +185,9 @@ QSize NoteWidget::calculateSize()
         width += 10;
     }
     else {
-        // do nothing, keep width and height unchanged for resizing
+        // keep width and height unchanged
+        width = getWidth();
+        height = getHeight();
     }
     return QSize(width, height);
 }
