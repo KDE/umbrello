@@ -155,14 +155,14 @@ UMLView::UMLView(UMLFolder *parentFolder) : Q3CanvasView(UMLApp::app()->mainView
     // diagrams.
     // Instead: set the updatePeriod to 20 on Show event,
     //          and switch update back off on Hide event
-    canvas() -> setUpdatePeriod(-1);
+    canvas()->setUpdatePeriod(-1);
     resizeContents(defaultCanvasSize, defaultCanvasSize);
-    canvas() -> resize(defaultCanvasSize, defaultCanvasSize);
+    canvas()->resize(defaultCanvasSize, defaultCanvasSize);
     setAcceptDrops(true);
-    viewport() -> setAcceptDrops(true);
+    viewport()->setAcceptDrops(true);
     setDragAutoScroll(false);
 
-    viewport() -> setMouseTracking(false);
+    viewport()->setMouseTracking(false);
 
     //setup signals
     connect(this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
@@ -313,7 +313,7 @@ void UMLView::print(QPrinter *pPrinter, QPainter & pPainter)
             pPainter.drawText(0, height + 4, width, fontHeight, Qt::AlignLeft, string);
 
             if (pageX + 1 < numPagesX || pageY + 1 < numPagesY) {
-                pPrinter -> newPage();
+                pPrinter->newPage();
                 page++;
             }
         }
@@ -694,7 +694,7 @@ void UMLView::dropEvent(QDropEvent *e)
 
     slotObjectCreated(o);
 
-    m_pDoc -> setModified(true);
+    m_pDoc->setModified(true);
 }
 
 ObjectWidget * UMLView::onWidgetLine(const QPoint &point)
@@ -757,11 +757,11 @@ void UMLView::checkMessages(ObjectWidget * w)
 
     MessageWidgetListIt it(m_MessageList);
     foreach(MessageWidget *obj , m_MessageList) {
-        if (! obj -> contains(w))
+        if (! obj->contains(w))
             continue;
         //make sure message doesn't have any associations
         removeAssociations(obj);
-        obj -> cleanup();
+        obj->cleanup();
         //make sure not in selected list
         m_SelectedList.removeAll(obj);
         m_MessageList.removeAll(obj);
@@ -814,7 +814,7 @@ UMLWidget * UMLView::findWidget(Uml::IDType id)
 AssociationWidget * UMLView::findAssocWidget(Uml::IDType id)
 {
     foreach(AssociationWidget* obj , m_AssociationList) {
-        UMLAssociation* umlassoc = obj -> getAssociation();
+        UMLAssociation* umlassoc = obj->getAssociation();
         if (umlassoc && umlassoc->getID() == id) {
             return obj;
         }
@@ -868,7 +868,7 @@ void UMLView::removeWidget(UMLWidget * o)
     if (getType() == dt_Sequence && t == wt_Object)
         checkMessages(static_cast<ObjectWidget*>(o));
 
-    o -> cleanup();
+    o->cleanup();
     m_SelectedList.removeAll(o);
     disconnect(this, SIGNAL(sigRemovePopupMenu()), o, SLOT(slotRemovePopupMenu()));
     disconnect(this, SIGNAL(sigClearAllSelected()), o, SLOT(slotClearAllSelected()));
@@ -912,7 +912,7 @@ void UMLView::setLineColor(const QColor &color)
 {
     m_Options.uiState.lineColor = color;
     emit sigColorChanged(getID());
-    canvas() -> setAllChanged();
+    canvas()->setAllChanged();
 }
 
 uint UMLView::getLineWidth() const
@@ -924,7 +924,7 @@ void UMLView::setLineWidth(uint width)
 {
     m_Options.uiState.lineWidth = width;
     emit sigLineWidthChanged(getID());
-    canvas() -> setAllChanged();
+    canvas()->setAllChanged();
 }
 
 void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome)
@@ -1018,7 +1018,7 @@ void UMLView::clearSelected()
 {
     m_SelectedList.clear();
     emit sigClearAllSelected();
-    //m_pDoc -> enableCutCopy(false);
+    //m_pDoc->enableCutCopy(false);
 }
 
 //TODO Only used in UMLApp::handleCursorKeyReleaseEvent
@@ -1033,14 +1033,14 @@ void UMLView::moveSelectedBy(int dX, int dY)
 void UMLView::selectionUseFillColor(bool useFC)
 {
     foreach(UMLWidget* temp, m_SelectedList) {
-        temp -> setUseFillColour(useFC);
+        temp->setUseFillColour(useFC);
     }
 }
 
 void UMLView::selectionSetFont(const QFont &font)
 {
     foreach(UMLWidget* temp, m_SelectedList) {
-        temp -> setFont(font);
+        temp->setFont(font);
     }
 }
 
@@ -1078,8 +1078,8 @@ void UMLView::selectionSetFillColor(const QColor &color)
     UMLApp::app()->beginMacro("Change Fill Color");
 
     foreach(UMLWidget* temp ,  m_SelectedList) {
-        temp -> setFillColour(color);
-        temp -> setUsesDiagramFillColour(false);
+        temp->setFillColour(color);
+        temp->setUsesDiagramFillColour(false);
     }
     UMLApp::app()->endMacro();
 }
@@ -1097,39 +1097,39 @@ void UMLView::selectionToggleShow(int sel)
             // for both
         case ListPopupMenu::mt_Show_Attributes_Selection:
             if (type == wt_Class)
-                cw -> toggleShowAtts();
+                cw->toggleShowAtts();
             break;
         case ListPopupMenu::mt_Show_Operations_Selection:
             if (cw)
-                cw -> toggleShowOps();
+                cw->toggleShowOps();
             break;
         case ListPopupMenu::mt_Visibility_Selection:
             if (cw)
-                cw -> toggleShowVisibility();
+                cw->toggleShowVisibility();
             break;
         case ListPopupMenu::mt_DrawAsCircle_Selection:
             if (type == wt_Interface)
-                cw -> toggleDrawAsCircle();
+                cw->toggleDrawAsCircle();
             break;
         case ListPopupMenu::mt_Show_Operation_Signature_Selection:
             if (cw)
-                cw -> toggleShowOpSigs();
+                cw->toggleShowOpSigs();
             break;
         case ListPopupMenu::mt_Show_Attribute_Signature_Selection:
             if (type == wt_Class)
-                cw -> toggleShowAttSigs();
+                cw->toggleShowAttSigs();
             break;
         case ListPopupMenu::mt_Show_Packages_Selection:
             if (cw)
-                cw -> toggleShowPackage();
+                cw->toggleShowPackage();
             break;
         case ListPopupMenu::mt_Show_Stereotypes_Selection:
             if (type == wt_Class)
-                cw -> toggleShowStereotype();
+                cw->toggleShowStereotype();
             break;
         case ListPopupMenu::mt_Show_Public_Only_Selection:
             if (cw)
-                cw -> toggleShowPublicOnly();
+                cw->toggleShowPublicOnly();
             break;
         default:
             break;
@@ -1151,7 +1151,7 @@ void UMLView::deleteSelection()
             //m_SelectedList.remove(); // remove advances the iterator to the next position,
             //m_SelectedList.prev();      // let's allow for statement do the advancing
             m_SelectedList.removeAt(m_SelectedList.indexOf(temp));
-            temp -> hide();
+            temp->hide();
 
         } else {
             removeWidget(temp);
@@ -1245,7 +1245,7 @@ void UMLView::makeSelected(UMLWidget * uw)
 {
     if (uw == NULL)
         return;
-    uw -> setSelected(true);
+    uw->setSelected(true);
     m_SelectedList.removeAll(uw);  // make sure not in there
     m_SelectedList.append(uw);
 }
@@ -1254,7 +1254,7 @@ void UMLView::selectWidgetsOfAssoc(AssociationWidget * a)
 {
     if (!a)
         return;
-    a -> setSelected(true);
+    a->setSelected(true);
     //select the two widgets
     makeSelected(a->getWidget(A));
     makeSelected(a->getWidget(B));
@@ -1315,10 +1315,10 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
             }
         } else if (temp->baseType() == wt_Message) {
             MessageWidget *mw = static_cast<MessageWidget*>(temp);
-            makeSelected(mw -> getWidget(A));
-            makeSelected(mw -> getWidget(B));
+            makeSelected(mw->getWidget(A));
+            makeSelected(mw->getWidget(B));
         }
-        if (temp -> isVisible()) {
+        if (temp->isVisible()) {
             makeSelected(temp);
         }
     }
@@ -1327,8 +1327,8 @@ void UMLView::selectWidgets(int px, int py, int qx, int qy)
     //now do the same for the messagewidgets
 
     foreach(MessageWidget*w , m_MessageList) {
-        if (w -> getWidget(A) -> getSelected() &&
-                w -> getWidget(B) -> getSelected()) {
+        if (w->getWidget(A)->getSelected() &&
+                w->getWidget(B)->getSelected()) {
             makeSelected(w);
         }//end if
     }//end foreach
@@ -1495,7 +1495,7 @@ AssociationWidgetList UMLView::getSelectedAssocs()
     AssociationWidgetList assocWidgetList;
 
     foreach(AssociationWidget* assocwidget, m_AssociationList) {
-        if (assocwidget -> getSelected())
+        if (assocwidget->getSelected())
             assocWidgetList.append(assocwidget);
     }
     return assocWidgetList;
@@ -1574,8 +1574,8 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
                 return false;
             newID = id; //don't stop paste
         } else
-            pWidget -> setID(newID);
-        UMLObject * pObject = m_pDoc -> findObjectById(newID);
+            pWidget->setID(newID);
+        UMLObject * pObject = m_pDoc->findObjectById(newID);
         if (!pObject) {
             uDebug() << "addWidget: Can not find UMLObject for id " << ID2STR(newID);
             return false;
@@ -1672,7 +1672,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         if (newID == Uml::id_None) {
             return false;
         }
-        pObjectWidget -> setID(newID);
+        pObjectWidget->setID(newID);
         Uml::IDType nNewLocalID = getLocalID();
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
@@ -1682,7 +1682,7 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
             uDebug() << "Cannot find UMLObject";
             return false;
         }
-        pWidget -> setUMLObject(pObject);
+        pWidget->setUMLObject(pObject);
         m_WidgetList.append(pWidget);
     }
     break;
@@ -1699,17 +1699,17 @@ bool UMLView::addWidget(UMLWidget * pWidget , bool isPasteOperation)
         if (newID == Uml::id_None) {
             return false;
         }
-        pObjectWidget -> setID(newID);
+        pObjectWidget->setID(newID);
         Uml::IDType nNewLocalID = getLocalID();
         Uml::IDType nOldLocalID = pObjectWidget->localID();
         m_pIDChangesLog->addIDChange(nOldLocalID, nNewLocalID);
-        pObjectWidget -> setLocalID(nNewLocalID);
+        pObjectWidget->setLocalID(nNewLocalID);
         UMLObject *pObject = m_pDoc->findObjectById(newID);
         if (!pObject) {
             uDebug() << "Cannot find UMLObject";
             return false;
         }
-        pWidget -> setUMLObject(pObject);
+        pWidget->setUMLObject(pObject);
         m_WidgetList.append(pWidget);
     }
     break;
@@ -2811,7 +2811,7 @@ void UMLView::slotCutSuccessful()
 
 void UMLView::slotShowView()
 {
-    m_pDoc -> changeCurrentView(getID());
+    m_pDoc->changeCurrentView(getID());
 }
 
 QPoint UMLView::getPastePoint()
@@ -2882,8 +2882,8 @@ void UMLView::setClassWidgetOptions(ClassOptionsPage * page)
     foreach(UMLWidget* pWidget , m_WidgetList) {
         Uml::Widget_Type wt = pWidget->baseType();
         if (wt == Uml::wt_Class || wt == Uml::wt_Interface) {
-            page -> setWidget(static_cast<ClassifierWidget *>(pWidget));
-            page -> updateUMLWidget();
+            page->setWidget(static_cast<ClassifierWidget *>(pWidget));
+            page->updateUMLWidget();
         }
     }
 }
@@ -2893,16 +2893,16 @@ void UMLView::checkSelections()
     UMLWidget * pWA = 0, * pWB = 0;
     //check messages
     foreach(UMLWidget *pTemp , m_SelectedList) {
-        if (pTemp->baseType() == wt_Message && pTemp -> getSelected()) {
+        if (pTemp->baseType() == wt_Message && pTemp->getSelected()) {
             MessageWidget * pMessage = static_cast<MessageWidget *>(pTemp);
-            pWA = pMessage -> getWidget(A);
-            pWB = pMessage -> getWidget(B);
-            if (!pWA -> getSelected()) {
-                pWA -> setSelectedFlag(true);
+            pWA = pMessage->getWidget(A);
+            pWB = pMessage->getWidget(B);
+            if (!pWA->getSelected()) {
+                pWA->setSelectedFlag(true);
                 m_SelectedList.append(pWA);
             }
-            if (!pWB -> getSelected()) {
-                pWB -> setSelectedFlag(true);
+            if (!pWB->getSelected()) {
+                pWB->setSelectedFlag(true);
                 m_SelectedList.append(pWB);
             }
         }//end if
@@ -2910,15 +2910,15 @@ void UMLView::checkSelections()
     //check Associations
 
     foreach(AssociationWidget *pAssoc , m_AssociationList) {
-        if (pAssoc -> getSelected()) {
-            pWA = pAssoc -> getWidget(A);
-            pWB = pAssoc -> getWidget(B);
-            if (!pWA -> getSelected()) {
-                pWA -> setSelectedFlag(true);
+        if (pAssoc->getSelected()) {
+            pWA = pAssoc->getWidget(A);
+            pWB = pAssoc->getWidget(B);
+            if (!pWA->getSelected()) {
+                pWA->setSelectedFlag(true);
                 m_SelectedList.append(pWA);
             }
-            if (!pWB -> getSelected()) {
-                pWB -> setSelectedFlag(true);
+            if (!pWB->getSelected()) {
+                pWB->setSelectedFlag(true);
                 m_SelectedList.append(pWB);
             }
         }//end if
@@ -3171,7 +3171,7 @@ void UMLView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     //now save the message widgets
     QDomElement messageElement = qDoc.createElement("messages");
     foreach(UMLWidget* widget , m_MessageList) {
-        widget -> saveToXMI(qDoc, messageElement);
+        widget->saveToXMI(qDoc, messageElement);
     }
     viewElement.appendChild(messageElement);
     //now save the associations
@@ -3191,7 +3191,7 @@ void UMLView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         AssociationWidgetListIt a_it(m_AssociationList);
         AssociationWidget * assoc = 0;
         foreach(assoc , m_AssociationList) {
-            assoc -> saveToXMI(qDoc, assocElement);
+            assoc->saveToXMI(qDoc, assocElement);
         }
     }
     viewElement.appendChild(assocElement);
@@ -3407,7 +3407,7 @@ bool UMLView::loadMessagesFromXMI(QDomElement & qElement)
                 tag == "UML:MessageWidget") {   // for bkwd compatibility
             message = new MessageWidget(this, sequence_message_asynchronous,
                                         Uml::id_Reserved);
-            if (!message -> loadFromXMI(messageElement)) {
+            if (!message->loadFromXMI(messageElement)) {
                 delete message;
                 return false;
             }

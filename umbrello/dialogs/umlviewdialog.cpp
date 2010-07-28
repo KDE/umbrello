@@ -39,7 +39,7 @@ UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView )
     setFaceType( KPageDialog::List );
     showButtonSeparator( true );
     m_pView = pView;
-    m_options = m_pView -> getOptionState();
+    m_options = m_pView->getOptionState();
     setupPages();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
@@ -106,7 +106,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
  */
 void UMLViewDialog::setupClassPage()
 {
-    if ( m_pView -> getType() != Uml::dt_Class ) {
+    if ( m_pView->getType() != Uml::dt_Class ) {
         return;
     }
     QFrame * newPage = new QFrame();
@@ -205,7 +205,7 @@ void UMLViewDialog::checkName()
 {
     QString name = m_diagramProperties->ui_diagramName-> text();
     UMLDoc * pDoc = UMLApp::app()->document();
-    UMLView * pView = pDoc -> findView( m_pView -> getType(), name );
+    UMLView * pView = pDoc->findView( m_pView->getType(), name );
     if ( name.length() == 0 ) {
         KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
                            i18n("Invalid Name"), false);

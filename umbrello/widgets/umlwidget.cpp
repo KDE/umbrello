@@ -30,19 +30,19 @@
 #include "umlclassifierlistitemlist.h"
 #include "listpopupmenu.h"
 #include "associationwidget.h"
-#include "dialogs/settingsdlg.h"
+#include "settingsdlg.h"
 #include "codedocument.h"
 #include "floatingtextwidget.h"
 #include "docwindow.h"
-#include "dialogs/classpropdlg.h"
-#include "clipboard/idchangelog.h"
+#include "classpropdlg.h"
+#include "idchangelog.h"
 #include "cmds.h"
 
 using namespace Uml;
 
 UMLWidget::UMLWidget(UMLView * view, UMLObject * o, UMLWidgetController *widgetController /* = 0*/)
-        : WidgetBase(view), Q3CanvasRectangle(view->canvas()),
-        m_pMenu(0), m_menuIsEmbedded(false)
+  : WidgetBase(view), Q3CanvasRectangle(view->canvas()),
+    m_pMenu(0), m_menuIsEmbedded(false)
 {
     if (widgetController) {
         m_widgetController = widgetController;
@@ -58,8 +58,8 @@ UMLWidget::UMLWidget(UMLView * view, UMLObject * o, UMLWidgetController *widgetC
 }
 
 UMLWidget::UMLWidget(UMLView * view, Uml::IDType id /* = Uml::id_None */, UMLWidgetController *widgetController /* = 0*/)
-        : WidgetBase(view), Q3CanvasRectangle(view->canvas()),
-        m_pMenu(0)
+  : WidgetBase(view), Q3CanvasRectangle(view->canvas()),
+    m_pMenu(0)
 {
     if (widgetController) {
         m_widgetController = widgetController;
