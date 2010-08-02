@@ -35,30 +35,6 @@ NoteWidgetController::~NoteWidgetController()
 
 /**
  * Overridden from UMLWidgetController.
- * Handles a mouse move event.
- * Executes base code
- *
- * @param me The QMouseEvent event.
- */
-void NoteWidgetController::mouseMoveEvent(QMouseEvent *me)
-{
-    UMLWidgetController::mouseMoveEvent(me);
-}
-
-/**
- * Overridden from UMLWidgetController.
- * Handles a mouse release event.
- * Executes base code and then draws the text in the note.
- *
- * @param me The QMouseEvent event.
- */
-void NoteWidgetController::mouseReleaseEvent(QMouseEvent *me)
-{
-    UMLWidgetController::mouseReleaseEvent(me);
-}
-
-/**
- * Overridden from UMLWidgetController.
  * Executes the action for double click in the widget.
  * Shows the dialog to change the text of the note.
  *

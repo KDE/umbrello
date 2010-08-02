@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,9 +31,6 @@ public:
 
     NoteWidgetController(NoteWidget* noteWidget);
     virtual ~NoteWidgetController();
-
-    virtual void mouseMoveEvent(QMouseEvent* me);
-    virtual void mouseReleaseEvent(QMouseEvent * me);
 
 protected:
 

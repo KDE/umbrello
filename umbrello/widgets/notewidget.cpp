@@ -20,7 +20,7 @@
 #include <kinputdialog.h>
 // app includes
 #include "notewidgetcontroller.h"
-#include "dialogs/notedialog.h"
+#include "notedialog.h"
 #include "umldoc.h"
 #include "umlview.h"
 #include "uml.h"
@@ -186,8 +186,6 @@ QSize NoteWidget::calculateSize()
     }
     else {
         // keep width and height unchanged
-        width = getWidth();
-        height = getHeight();
     }
     return QSize(width, height);
 }

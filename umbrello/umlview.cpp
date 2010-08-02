@@ -465,7 +465,7 @@ void UMLView::hideEvent(QHideEvent* /*he*/)
     // can cause a very high CPU load if more than 100diagrams
     // are inside a project - and this without any need
     // => switch the update off for hidden diagrams
-    canvas()-> setUpdatePeriod(-1);
+    canvas()->setUpdatePeriod(-1);
 # endif
 }
 
