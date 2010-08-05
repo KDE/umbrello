@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -145,29 +145,14 @@ public slots:
     void slotMenuSelection(QAction* action);
 
 protected:
-    // Data loaded/saved
-    Uml::IDType m_DiagramLink;
+    Uml::IDType m_DiagramLink;  ///< Data loaded/saved.
+    NoteType    m_NoteType;     ///< Type of note.
+    QString     l_Type;         ///< Label to see the note's type.
 
-     /**
-     * Type of note.
-     */
-    NoteType m_NoteType;
-
-    /**
-     * Label to see the note's type
-     */
-    QString l_Type;
-
-    /**
-     * Draws the text.  Auxiliary to draw().
-     */
     void drawText(QPainter * p = NULL, int offsetX = 0, int offsetY = 0);
-private:
-    /**
-     * Initializes key variables for the class.
-     */
-    void init();
+    void drawTextWordWrap(QPainter * p = NULL, int offsetX = 0, int offsetY = 0);
 
+private:
     QString m_Text;
 };
 

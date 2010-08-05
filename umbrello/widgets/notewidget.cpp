@@ -30,15 +30,10 @@
 NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
   : UMLWidget(view, id, new NoteWidgetController(this))
 {
-    init();
-    m_NoteType = noteType;
-    setZ(20); //make sure always on top.
-}
-
-void NoteWidget::init()
-{
     UMLWidget::setBaseType(Uml::wt_Note);
     m_DiagramLink = Uml::id_None;
+    m_NoteType = noteType;
+    setZ(20); //make sure always on top.
 }
 
 NoteWidget::NoteType NoteWidget::getNoteType() const
@@ -156,11 +151,12 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
         break;
     }
 
-    if(m_bSelected) {
+    if (m_bSelected) {
         drawSelected(&p, offsetX, offsetY);
     }
 
-    drawText(&p, offsetX, offsetY);
+//    drawText(&p, offsetX, offsetY);
+    drawTextWordWrap(&p, offsetX, offsetY);
 }
 
 QSize NoteWidget::calculateSize()
@@ -214,11 +210,12 @@ void NoteWidget::slotMenuSelection(QAction* action)
 }
 
 /**
+ * Draws the text. Auxiliary to draw().
  * Implemented without word wrap.
  */
 void NoteWidget::drawText(QPainter * p, int offsetX, int offsetY)
 {
-    if (p == NULL) {
+    if (p == 0) {
         return;
     }
 
@@ -278,6 +275,100 @@ void NoteWidget::drawText(QPainter * p, int offsetX, int offsetY)
             }
         }
     }
+}
+
+/**
+ * Draws the text. Auxiliary to draw().
+ * Implemented with word wrap.
+ */
+void NoteWidget::drawTextWordWrap(QPainter * p, int offsetX, int offsetY)
+{
+    if (p == 0) {
+        return;
+    }
+    QString text = documentation();
+    if (text.length() == 0) {
+        return;
+    }
+    // Implement word wrap for text as follows:
+    // wrap at width on whole words.
+    // if word is wider than width then clip word
+    // if reach height exit and don't print anymore
+    // start new line on \n character
+    p->setPen( Qt::black );
+    QFont font = UMLWidget::font();
+    p->setFont( font );
+    const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
+    const int fontHeight  = fm.lineSpacing();
+    QString word = "";
+    QString fullLine = "";
+    QString testCombineLine = "";
+    const int margin = fm.width( "W" );
+    int textY = fontHeight / 2;
+    int textX = margin;
+    const int width = this -> width() - margin * 2;
+    const int height = this -> height() - fontHeight;
+    QChar returnChar('\n');
+    QChar c;
+
+    for (int i = 0; i <= text.length(); ++i) {
+        if (i < text.length()) {
+            c = text[i];
+        } else {
+            // all chars of text have been handled already ->
+            // perform this last run to spool current content of "word"
+            c = returnChar;
+        }
+        if (c == returnChar || c.isSpace()) {
+            // new word delimiter found -> it is time to decide on word wrap
+            testCombineLine = fullLine + ' ' + word;
+            int textWidth = fm.width( testCombineLine );
+            if (textX + textWidth > width) {
+                // combination of "fullLine" and "word" doesn't fit into one line ->
+                // print "fullLine" in current line, update write position to next line
+                // and decide then on following actions
+                p->drawText(offsetX + textX, offsetY + textY,
+                            textWidth, fontHeight, Qt::AlignLeft, fullLine );
+                fullLine = word;
+                word = "";
+                // update write position
+                textX = margin;
+                textY += fontHeight;
+                if (textY > height)
+                    return;
+                // in case of c==newline ->
+                // print "word" and set write position one additional line lower
+                if (c == returnChar) {
+                    // print "word" - which is now "fullLine" and set to next line
+                    p->drawText(offsetX + textX, offsetY + textY,
+                                textWidth, fontHeight, Qt::AlignLeft, fullLine);
+                    fullLine = "";
+                    textX = margin;
+                    textY += fontHeight;
+                    if( textY > height ) return;
+                }
+            }
+            else if (c == returnChar) {
+                // newline found and combination of "fullLine" and "word" fits
+                // in one line
+                p->drawText(offsetX + textX, offsetY + textY,
+                            textWidth, fontHeight, Qt::AlignLeft, testCombineLine);
+                fullLine = word = "";
+                textX = margin;
+                textY += fontHeight;
+                if (textY > height)
+                    return;
+            } else {
+                // word delimiter found, and combination of "fullLine", space and "word" fits into one line
+                fullLine = testCombineLine;
+                word = "";
+            }
+        } else {
+            // no word delimiter found --> add current char to "word"
+            if (c != '\0')
+                word += c;
+        }
+    }//end for
 }
 
 void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
