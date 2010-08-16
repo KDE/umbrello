@@ -1636,8 +1636,7 @@ void UMLApp::slotApplyPrefs()
 
                 foreach (UMLView *view, views) {
                     m_viewStack->removeWidget(view);
-                    m_tabWidget->addTab(view, view->getName());
-                    int tabIndex = m_tabWidget->indexOf(view);
+                    int tabIndex = m_tabWidget->addTab(view, view->getName());
                     m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(view->getType()));
                     m_tabWidget->setTabToolTip(tabIndex, view->getName());
                 }
@@ -2381,6 +2380,7 @@ void UMLApp::slotCloseDiagram(QWidget* tab)
             setCurrentView(view);
         }
         m_tabWidget->removeTab(m_tabWidget->indexOf(view));
+        view->setIsOpen(false);
     }
 }
 
@@ -2560,8 +2560,8 @@ void UMLApp::setCurrentView(UMLView* view)
     Settings::OptionState optionState = Settings::getOptionState();
     if (optionState.generalState.tabdiagrams) {
         int tabIndex = m_tabWidget->indexOf(view);
-        if (tabIndex < 0) {
-            m_tabWidget->addTab(view, view->getName());
+        if ((tabIndex < 0) && (view->isOpen())) {
+            tabIndex = m_tabWidget->addTab(view, view->getName());
             m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(view->getType()));
             m_tabWidget->setTabToolTip(tabIndex, view->getName());
         }
@@ -2580,6 +2580,7 @@ void UMLApp::setCurrentView(UMLView* view)
     if (lvitem) {
         m_listView->setCurrentItem(lvitem);
     }
+    uDebug() << "name=" << view->getName() << ", isOpen=" << view->isOpen();
 }
 
 /**

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -354,6 +354,9 @@ public:
     MessageWidgetList& getMessageList() {
         return m_MessageList;
     }
+
+    bool isOpen() const;
+    void setIsOpen(bool isOpen);
 
     // End of accessors and methods that only deal with loaded/saved data
     ////////////////////////////////////////////////////////////////////////
@@ -1030,6 +1033,11 @@ protected:
      * Determines whether to show the snap grid.  The default will be on if the grid is on.
      */
     bool m_bShowSnapGrid;
+
+    /**
+     * Determines whether the view is shown to the user, i.e. opened in a tab.
+     */
+    bool m_isOpen;
 
     /**
      * The zoom level in percent, default 100

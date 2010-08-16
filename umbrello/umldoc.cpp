@@ -361,7 +361,6 @@ void UMLDoc::closeDocument()
  */
 bool UMLDoc::newDocument()
 {
-    uDebug() << "*******************************";
     closeDocument();
     UMLApp::app()->setCurrentView(NULL);
     m_doc_url.setFileName(i18n("Untitled"));
@@ -410,9 +409,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     // changed to true to block recording of changes in redo-buffer
     m_bLoading = true;
     QString tmpfile;
-    KIO::NetAccess::download( url, tmpfile
-                              , UMLApp::app()
-                            );
+    KIO::NetAccess::download(url, tmpfile, UMLApp::app());
     QFile file( tmpfile );
     if ( !file.exists() ) {
         KMessageBox::error(0, i18n("The file %1 does not exist.", url.pathOrUrl()), i18n("Load Error"));
@@ -1370,14 +1367,18 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
 void UMLDoc::changeCurrentView(Uml::IDType id)
 {
     UMLApp* pApp = UMLApp::app();
-    UMLView* w = findView(id);
-    if (w) {
-        pApp->setCurrentView(w);
-        emit sigDiagramChanged(w->getType());
+    UMLView* view = findView(id);
+    if (view) {
+        view->setIsOpen(true);
+        pApp->setCurrentView(view);
+        emit sigDiagramChanged(view->getType());
         pApp->setDiagramMenuItemsState( true );
         setModified(true);
+        emit sigCurrentViewChanged();
     }
-    emit sigCurrentViewChanged();
+    else {
+        uWarning() << "New current view was not found!";
+    }
 }
 
 /**

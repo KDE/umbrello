@@ -120,6 +120,7 @@ UMLView::UMLView(UMLFolder *parentFolder) : Q3CanvasView(UMLApp::app()->mainView
     m_bUseSnapToGrid = false;
     m_bUseSnapComponentSizeToGrid = false;
     m_bShowSnapGrid = false;
+    m_isOpen = true;
     m_nSnapX = 10;
     m_nSnapY = 10;
     m_nZoom = 100;
@@ -1952,7 +1953,6 @@ void UMLView::removeAllAssociations()
     }
 }
 
-
 void UMLView::removeAllWidgets()
 {
     // Remove widgets.
@@ -3004,6 +3004,16 @@ void UMLView::setShowOpSig(bool bShowOpSig)
     m_Options.classState.showOpSig = bShowOpSig;
 }
 
+bool UMLView::isOpen() const
+{
+    return m_isOpen;
+}
+
+void UMLView::setIsOpen(bool isOpen)
+{
+    m_isOpen = isOpen;
+}
+
 /**
  * Sets the zoom of the diagram.
  */
@@ -3154,6 +3164,7 @@ void UMLView::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("zoom", m_nZoom);
     viewElement.setAttribute("canvasheight", m_nCanvasHeight);
     viewElement.setAttribute("canvaswidth", m_nCanvasWidth);
+    viewElement.setAttribute("isopen", isOpen());
 
     //now save all the widgets
     QDomElement widgetElement = qDoc.createElement("widgets");
@@ -3264,6 +3275,9 @@ bool UMLView::loadFromXMI(QDomElement & qElement)
 
     QString width = qElement.attribute("canvaswidth", QString("%1").arg(UMLView::defaultCanvasSize));
     m_nCanvasWidth = width.toInt();
+
+    QString isOpen = qElement.attribute("isopen", "1");
+    m_isOpen = (bool)isOpen.toInt();
 
     int nType = type.toInt();
     if (nType == -1 || nType >= 400) {
