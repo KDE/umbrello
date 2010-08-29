@@ -1047,7 +1047,7 @@ void UMLView::selectionSetFont(const QFont &font)
 
 void UMLView::selectionSetLineColor(const QColor &color)
 {
-    UMLApp::app()->beginMacro("Change Line Color");
+    UMLApp::app()->beginMacro(i18n("Change Line Color"));
     UMLWidget * temp = 0;
     foreach(temp ,  m_SelectedList) {
         temp->setLineColor(color);
@@ -1076,7 +1076,7 @@ void UMLView::selectionSetLineWidth(uint width)
 
 void UMLView::selectionSetFillColor(const QColor &color)
 {
-    UMLApp::app()->beginMacro("Change Fill Color");
+    UMLApp::app()->beginMacro(i18n("Change Fill Color"));
 
     foreach(UMLWidget* temp ,  m_SelectedList) {
         temp->setFillColour(color);

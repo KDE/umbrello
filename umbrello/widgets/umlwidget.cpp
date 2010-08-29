@@ -10,14 +10,16 @@
 
 // own header file
 #include "umlwidget.h"
-// system includes
+// qt includes
 #include <QtCore/QPointer>
 #include <QtGui/QPainter>
 #include <QtGui/QColor>
 #include <QtGui/QMouseEvent>
+// kde includes
 #include <kdebug.h>
 #include <kcolordialog.h>
 #include <kfontdialog.h>
+#include <klocale.h>
 #include <kmessagebox.h>
 // local includes
 #include "umlwidgetcontroller.h"
@@ -231,7 +233,7 @@ void UMLWidget::init()
         m_Font       = optionState.uiState.font;
         m_bShowStereotype = optionState.classState.showStereoType;
     } else {
-        uError() << "SERIOUS PROBLEM - m_pView is NULL" << endl;
+        uError() << "SERIOUS PROBLEM - m_pView is NULL";
         m_bUseFillColour = false;
         m_bUsesDiagramFillColour = false;
         m_bUsesDiagramUseFillColour = false;
@@ -288,11 +290,11 @@ void UMLWidget::slotMenuSelection(QAction* action)
                 wt == wt_Component || wt == wt_Artifact ||
                 wt == wt_Node || wt == wt_Enum || wt == wt_Entity ||
                 (wt == wt_Class && m_pView->getType() == dt_Class)) {
-            UMLApp::app()->beginMacro("Change Properties");
+            UMLApp::app()->beginMacro(i18n("Change Properties"));
             showProperties();
             UMLApp::app()->endMacro();
         } else if (wt == wt_Object) {
-            UMLApp::app()->beginMacro("Change Properties");
+            UMLApp::app()->beginMacro(i18n("Change Properties"));
             m_pObject->showProperties();
             UMLApp::app()->endMacro();
         } else {
@@ -402,7 +404,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     }
 
     default:
-        uDebug() << "Menu_Type " << sel << " not implemented" << endl;
+        uDebug() << "Menu_Type " << sel << " not implemented";
     }
 }
 
@@ -512,7 +514,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     if (widgetHasUMLObject(m_Type) && m_pObject == NULL) {
         m_pObject = m_pDoc->findObjectById(m_nId);
         if (m_pObject == NULL) {
-            uError() << "cannot find UMLObject with id=" << ID2STR(m_nId) << endl;
+            uError() << "cannot find UMLObject with id=" << ID2STR(m_nId);
             return false;
         }
     }
@@ -764,7 +766,7 @@ void UMLWidget::setSelected(bool _select)
     const QPoint pos(getX(), getY());
     UMLWidget *bkgnd = m_pView->getWidgetAt(pos);
     if (bkgnd && bkgnd != this && _select) {
-        uDebug() << "setting Z to " << bkgnd->getZ() + 1 << ", SelectState: " << _select << endl;
+        uDebug() << "setting Z to " << bkgnd->getZ() + 1 << ", SelectState: " << _select;
         setZ(bkgnd->getZ() + 1);
     } else {
         setZ(m_origZ);
