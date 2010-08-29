@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -95,7 +95,7 @@ QString CodeClassField::getTypeName ( )
         if(fieldIsSingleValue()) {
             return getUMLObjectName(role->getObject());
         } else {
-            return role->getName();
+            return role->name();
         }
     }
 }
@@ -140,7 +140,7 @@ CodeClassFieldDialog * CodeClassField::getDialog ( )
 // methods like this _shouldn't_ be needed IF we properly did things thruought the code.
 QString CodeClassField::getUMLObjectName(UMLObject *obj)
 {
-    return (obj!=0)?obj->getName():QString("NULL");
+    return (obj!=0)?obj->name():QString("NULL");
 }
 
 /**
@@ -511,7 +511,7 @@ void CodeClassField::updateContent()
     UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
     Uml::Changeability_Type changeType = role->getChangeability();
     bool isSingleValue = fieldIsSingleValue();
-    bool isEmptyRole = role->getName().isEmpty() ? true : false;
+    bool isEmptyRole = role->name().isEmpty() ? true : false;
 
     Q_FOREACH( CodeAccessorMethod *method, m_methodVector )
     {

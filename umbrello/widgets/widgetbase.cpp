@@ -96,9 +96,9 @@ void WidgetBase::setUMLObject(UMLObject * o)
 void WidgetBase::setID(Uml::IDType id)
 {
     if (m_pObject) {
-        if (m_pObject->getID() != Uml::id_None)
-            uWarning() << "changing old UMLObject " << ID2STR(m_pObject->getID())
-                << " to " << ID2STR(id) << endl;
+        if (m_pObject->id() != Uml::id_None)
+            uWarning() << "changing old UMLObject " << ID2STR(m_pObject->id())
+                << " to " << ID2STR(id);
         m_pObject->setID(id);
     }
     m_nId = id;
@@ -107,14 +107,14 @@ void WidgetBase::setID(Uml::IDType id)
 Uml::IDType WidgetBase::id() const
 {
     if (m_pObject)
-        return m_pObject->getID();
+        return m_pObject->id();
     return m_nId;
 }
 
 QString WidgetBase::documentation() const
 {
     if (m_pObject)
-        return m_pObject->getDoc();
+        return m_pObject->doc();
     return m_Doc;
 }
 

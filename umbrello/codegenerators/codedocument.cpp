@@ -122,7 +122,7 @@ QString CodeDocument::getPath ( )
 QString CodeDocument::getPackage ( ) const
 {
     if (m_package)
-        return m_package->getName();
+        return m_package->name();
     return QString();
 }
 
@@ -363,7 +363,7 @@ void CodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomElement & docEl
     docElement.setAttribute("fileExt", getFileExtension());
     Uml::IDType pkgId = Uml::id_None;
     if (m_package)
-        pkgId = m_package->getID();
+        pkgId = m_package->id();
     docElement.setAttribute("package", ID2STR(pkgId));
     docElement.setAttribute("writeOutCode", getWriteOutCode() ? "true" : "false");
     docElement.setAttribute("id", getID());

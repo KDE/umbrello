@@ -477,7 +477,7 @@ bool JavaImport::parseStmt()
     }
     QString name = advance();
     QString nextToken;
-    if (typeName == m_klass->getName() && name == "(") {
+    if (typeName == m_klass->name() && name == "(") {
         // Constructor.
         nextToken = name;
         name = typeName;
@@ -505,7 +505,7 @@ bool JavaImport::parseStmt()
             UMLObject *obj = resolveClass(typeName);
             if (obj) {
                 // by prepending the package, unwanted placeholder types will not get created
-                typeName = obj->getFullyQualifiedName(".");
+                typeName = obj->fullyQualifiedName(".");
             }
             /* UMLAttribute *att = */ Import_Utils::addMethodParameter(op, typeName, parName);
             if (advance() != ",")
@@ -516,7 +516,7 @@ bool JavaImport::parseStmt()
         UMLObject *obj = resolveClass(typeName);
         if (obj) {
             // using the fully qualified name means that a placeholder type will not be created.
-            typeName = obj->getFullyQualifiedName(".");
+            typeName = obj->fullyQualifiedName(".");
         }
         Import_Utils::insertMethod(m_klass, op, m_currentAccess, typeName,
                                    m_isStatic, m_isAbstract, false /*isFriend*/,

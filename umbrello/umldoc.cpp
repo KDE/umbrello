@@ -756,7 +756,7 @@ UMLObject* UMLDoc::findObjectById(Uml::IDType id)
 {
     UMLObject *o = NULL;
     for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
-        if (id == m_root[i]->getID()) {
+        if (id == m_root[i]->id()) {
             return m_root[i];
         }
         o = m_root[i]->findObjectById(id);
@@ -776,7 +776,7 @@ UMLObject* UMLDoc::findObjectById(Uml::IDType id)
 UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id)
 {
     foreach (UMLStereotype *s , m_stereoList ) {
-        if (s->getID() == id)
+        if (s->id() == id)
             return s;
     }
     return NULL;
@@ -810,7 +810,7 @@ UMLObject* UMLDoc::findUMLObject(const QString &name,
             return o;
         }
         if ((type == ot_UMLObject || type == ot_Folder) &&
-             name == m_root[i]->getName()) {
+             name == m_root[i]->name()) {
             return m_root[i];
         }
     }
@@ -852,17 +852,17 @@ UMLClassifier* UMLDoc::findUMLClassifier(const QString &name)
  */
 bool UMLDoc::addUMLObject(UMLObject* object)
 {
-    Object_Type ot = object->getBaseType();
+    Object_Type ot = object->baseType();
     if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral
             || ot == ot_EntityAttribute || ot == ot_Template || ot == ot_Stereotype) {
-        uDebug() << object->getName() << ": not adding type " << ot;
+        uDebug() << object->name() << ": not adding type " << ot;
         return false;
     }
-    UMLPackage *pkg = object->getUMLPackage();
+    UMLPackage *pkg = object->umlPackage();
     if (pkg == NULL) {
         pkg = currentRoot();
-        uDebug() << object->getName() << ": no parent package set, assuming "
-                 << pkg->getName();
+        uDebug() << object->name() << ": no parent package set, assuming "
+                 << pkg->name();
         object->setUMLPackage( pkg );
     }
 
@@ -907,9 +907,9 @@ void UMLDoc::writeToStatusBar(const QString &text)
 void UMLDoc::slotRemoveUMLObject(UMLObject* object)
 {
     //m_objectList.remove(object);
-    UMLPackage *pkg = object->getUMLPackage();
+    UMLPackage *pkg = object->umlPackage();
     if (pkg == NULL) {
-        uError() << object->getName() << ": parent package is not set !";
+        uError() << object->name() << ": parent package is not set !";
         return;
     }
     pkg->removeObject(object);
@@ -991,7 +991,7 @@ bool UMLDoc::isUnique(const QString &name, UMLPackage *package)
 UMLStereotype* UMLDoc::findStereotype(const QString &name)
 {
     foreach (UMLStereotype *s, m_stereoList ) {
-        if (s->getName() == name) {
+        if (s->name() == name) {
             return s;
         }
     }
@@ -1027,9 +1027,9 @@ void UMLDoc::removeAssociation (UMLAssociation * assoc, bool doSetModified /*=tr
     }
 
     // Remove the UMLAssociation from m_objectList.
-    UMLPackage *pkg = assoc->getUMLPackage();
+    UMLPackage *pkg = assoc->umlPackage();
     if (pkg == NULL) {
-        uError() << assoc->getName() << ": parent package is not set !";
+        uError() << assoc->name() << ": parent package is not set !";
         return;
     }
     pkg->removeObject(assoc);
@@ -1123,9 +1123,9 @@ void UMLDoc::addAssociation(UMLAssociation *assoc)
     // If we get here it's really a new association.
 
     // Add the UMLAssociation at the owning UMLPackage.
-    UMLPackage *pkg = assoc->getUMLPackage();
+    UMLPackage *pkg = assoc->umlPackage();
     if (pkg == NULL) {
-        uError() << assoc->getName() << ": parent package is not set !";
+        uError() << assoc->name() << ": parent package is not set !";
         return;
     }
     pkg->addObject(assoc);
@@ -1301,7 +1301,7 @@ void UMLDoc::renameDiagram(Uml::IDType id)
 void UMLDoc::renameUMLObject(UMLObject *o)
 {
     bool ok = false;
-    QString oldName= o->getName();
+    QString oldName= o->name();
     while (true) {
         QString name = KInputDialog::getText(i18nc("renaming uml object", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
         if (!ok)  {
@@ -1335,7 +1335,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
         return;
     }
 
-    QString oldName= o->getName();
+    QString oldName= o->name();
     while (true) {
         QString name = KInputDialog::getText(i18nc("renaming child uml object", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
         if (!ok) {
@@ -1346,7 +1346,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
         }
         else {
             if (p->findChildObject(name) == NULL
-                    || ((o->getBaseType() == Uml::ot_Operation) && KMessageBox::warningYesNo(0,
+                    || ((o->baseType() == Uml::ot_Operation) && KMessageBox::warningYesNo(0,
                             i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
                             i18n( "Name Not Unique"),KGuiItem(i18n("Use Name")),KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes) ) {
                 UMLApp::app()->executeCommand(new CmdRenameUMLObject(o,name));
@@ -1425,8 +1425,8 @@ UMLFolder *UMLDoc::currentRoot()
         return NULL;
     }
     UMLFolder *f = currentView->getFolder();
-    while (f->getUMLPackage()) {
-        f = static_cast<UMLFolder*>(f->getUMLPackage());
+    while (f->umlPackage()) {
+        f = static_cast<UMLFolder*>(f->umlPackage());
     }
     return f;
 }
@@ -1453,7 +1453,7 @@ void UMLDoc::setCurrentRoot(Uml::Model_Type rootType)
 void UMLDoc::removeUMLObject(UMLObject* umlobject)
 {
     UMLApp::app()->docWindow()->updateDocumentation(true);
-    Object_Type type = umlobject->getBaseType();
+    Object_Type type = umlobject->baseType();
 
     umlobject->setUMLStereotype(NULL);  // triggers possible cleanup of UMLStereotype
     if (dynamic_cast<UMLClassifierListItem*>(umlobject))  {
@@ -1478,7 +1478,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject)
             UMLClassifier* pClass = dynamic_cast<UMLClassifier*>(parent);
             if (pClass == NULL)  {
                 uError() << "parent of umlobject has unexpected type "
-                         << parent->getBaseType();
+                         << parent->baseType();
                 return;
             }
             if (type == ot_Attribute) {
@@ -1494,11 +1494,11 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject)
             UMLAssociation *a = (UMLAssociation *)umlobject;
             removeAssociation(a, false);  // don't call setModified here, it's done below
         } else {
-            UMLPackage* pkg = umlobject->getUMLPackage();
+            UMLPackage* pkg = umlobject->umlPackage();
             if (pkg) {
                 pkg->removeObject(umlobject);
             } else {
-                uError() << umlobject->getName() << ": parent package is not set !";
+                uError() << umlobject->name() << ": parent package is not set !";
             }
         }
         emit sigObjectRemoved(umlobject);
@@ -1644,7 +1644,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
     // As a workaround, we use a string list to memorize which stereotype has been saved.
     QStringList stereoNames;
     foreach (UMLStereotype *s , m_stereoList ) {
-        QString stName = s->getName();
+        QString stName = s->name();
         if (!stereoNames.contains(stName)) {
             s->saveToXMI(doc, ownedNS);
             stereoNames.append(stName);
@@ -2017,7 +2017,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             bool foundUmbrelloRootFolder = false;
             QString name = tempElement.attribute("name");
             for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
-                if (name == m_root[i]->getName()) {
+                if (name == m_root[i]->name()) {
                     m_pCurrentRoot = m_root[i];
                     m_root[i]->loadFromXMI(tempElement);
                     foundUmbrelloRootFolder = true;
@@ -2064,7 +2064,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             // soft error.
             continue;
         }
-        Uml::Object_Type ot = pObject->getBaseType();
+        Uml::Object_Type ot = pObject->baseType();
         // Set the parent root folder.
         UMLPackage *pkg = NULL;
         if (ot == Uml::ot_Datatype) {
@@ -2081,18 +2081,18 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             delete pObject;
             return false;
         }
-        pkg = pObject->getUMLPackage();
+        pkg = pObject->umlPackage();
         if (ot == ot_Stereotype) {
             UMLStereotype *s = static_cast<UMLStereotype*>(pObject);
-            UMLStereotype *exist = findStereotype(pObject->getName());
+            UMLStereotype *exist = findStereotype(pObject->name());
             if (exist) {
-                if (exist->getID() == pObject->getID()) {
+                if (exist->id() == pObject->id()) {
                     delete pObject;
                 } else {
-                    uDebug() << "Stereotype " << pObject->getName()
-                             << "(id=" << ID2STR(pObject->getID())
+                    uDebug() << "Stereotype " << pObject->name()
+                             << "(id=" << ID2STR(pObject->id())
                              << ") already exists with id="
-                             << ID2STR(exist->getID());
+                             << ID2STR(exist->id());
                     addStereotype(s);
                 }
             } else {
@@ -2350,7 +2350,7 @@ UMLClassifierList UMLDoc::datatypes()
     UMLObjectList objects = m_datatypeRoot->containedObjects();
     UMLClassifierList datatypeList;
     foreach (UMLObject *obj , objects) {
-        if (obj->getBaseType() == ot_Datatype) {
+        if (obj->baseType() == ot_Datatype) {
             datatypeList.append(static_cast<UMLClassifier*>(obj));
         }
     }
@@ -2455,29 +2455,29 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
         uDebug() << "no obj || Changelog";
         return false;
     }
-    Uml::IDType result = assignNewID(obj->getID());
+    Uml::IDType result = assignNewID(obj->id());
     obj->setID(result);
 
     //If it is a CONCEPT then change the ids of all its operations and attributes
-    if (obj->getBaseType() == ot_Class ) {
+    if (obj->baseType() == ot_Class ) {
         UMLClassifier *c = static_cast<UMLClassifier*>(obj);
         UMLClassifierListItemList attributes = c->getFilteredList(ot_Attribute);
         foreach (UMLObject* listItem ,  attributes ) {
-            result = assignNewID(listItem->getID());
+            result = assignNewID(listItem->id());
             listItem->setID(result);
         }
 
         UMLClassifierListItemList templates = c->getFilteredList(ot_Template);
         foreach (UMLObject* listItem , templates ) {
-            result = assignNewID(listItem->getID());
+            result = assignNewID(listItem->id());
             listItem->setID(result);
         }
     }
 
-    if (obj->getBaseType() == ot_Interface || obj->getBaseType() == ot_Class ) {
+    if (obj->baseType() == ot_Interface || obj->baseType() == ot_Class ) {
         UMLOperationList operations(((UMLClassifier*)obj)->getOpList());
         foreach (UMLObject* listItem , operations) {
-            result = assignNewID(listItem->getID());
+            result = assignNewID(listItem->id());
             listItem->setID(result);
         }
     }

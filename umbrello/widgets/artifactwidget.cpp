@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +13,6 @@
 
 // qt/kde includes
 #include <QtGui/QPainter>
-#include <q3pointarray.h>
 #include <kdebug.h>
 
 // app includes
@@ -48,7 +47,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
     font.setBold(true);
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const int fontHeight  = fm.lineSpacing();
-    QString stereotype = m_pObject->getStereotype();
+    QString stereotype = m_pObject->stereotype();
 
     p.drawRect(offsetX, offsetY, w, h);
 
@@ -57,7 +56,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
 
     if (!stereotype.isEmpty()) {
         p.drawText(offsetX + ARTIFACT_MARGIN, offsetY + (h/2) - fontHeight,
-                   w, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
+                   w, fontHeight, Qt::AlignCenter, m_pObject->stereotype(true));
     }
 
     int lines;
@@ -218,7 +217,7 @@ QSize ArtifactWidget::calculateIconSize()
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    int width = fm.width( m_pObject->getName() );
+    int width = fm.width( m_pObject->name() );
 
     width = width<50 ? 50 : width;
 
@@ -232,11 +231,11 @@ QSize ArtifactWidget::calculateNormalSize()
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    int width = fm.width( m_pObject->getName() );
+    int width = fm.width( m_pObject->name() );
 
     int tempWidth = 0;
-    if(!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width( m_pObject->getStereotype(true) );
+    if(!m_pObject->stereotype().isEmpty()) {
+        tempWidth = fm.width( m_pObject->stereotype(true) );
     }
     width = tempWidth>width ? tempWidth : width;
     width += ARTIFACT_MARGIN * 2;

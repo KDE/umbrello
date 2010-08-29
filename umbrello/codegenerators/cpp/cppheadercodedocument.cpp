@@ -294,7 +294,7 @@ bool CPPHeaderCodeDocument::addCodeOperation (CodeOperation * op )
         uDebug() << "CodeOperation is null!";
         return false;;
     }
-    Uml::Visibility scope = op->getParentOperation()->getVisibility();
+    Uml::Visibility scope = op->getParentOperation()->visibility();
     if(!op->getParentOperation()->isLifeOperation())
     {
         switch (scope) {
@@ -404,8 +404,8 @@ void CPPHeaderCodeDocument::updateContent( )
     //
 
     // Write the hash define stuff to prevent multiple parsing/inclusion of header
-    QString cppClassName = CodeGenerator::cleanName(c->getName());
-    QString hashDefine = CodeGenerator::cleanName(c->getName().toUpper().simplified());
+    QString cppClassName = CodeGenerator::cleanName(c->name());
+    QString hashDefine = CodeGenerator::cleanName(c->name().toUpper().simplified());
     QString defText = "#ifndef "+hashDefine + "_H"+ endLine + "#define "+ hashDefine + "_H";
     addOrUpdateTaggedCodeBlockWithComments("hashDefBlock", defText, "", 0, false);
 
@@ -434,10 +434,10 @@ void CPPHeaderCodeDocument::updateContent( )
 
     CodeGenerator::findObjectsRelated(c,includes);
     foreach(UMLPackage* con, includes ) {
-        if (con->getBaseType() != Uml::ot_Datatype && !packageMap.contains(con)) {
-            packageMap.insert(con,con->getPackage());
+        if (con->baseType() != Uml::ot_Datatype && !packageMap.contains(con)) {
+            packageMap.insert(con,con->package());
             if(con != getParentClassifier())
-                includeStatement.append("#include \""+CodeGenerator::cleanName(con->getName().toLower())+".h\""+endLine);
+                includeStatement.append("#include \""+CodeGenerator::cleanName(con->name().toLower())+".h\""+endLine);
         }
     }
     // now, add/update the includes codeblock
@@ -450,8 +450,8 @@ void CPPHeaderCodeDocument::updateContent( )
     // Using
     QString usingStatement;
     foreach(UMLClassifier* classifier, superclasses ) {
-        if(classifier->getPackage()!=c->getPackage() && !classifier->getPackage().isEmpty()) {
-            usingStatement.append("using "+CodeGenerator::cleanName(c->getPackage())+"::"+cleanName(c->getName())+';'+endLine);
+        if(classifier->package()!=c->package() && !classifier->package().isEmpty()) {
+            usingStatement.append("using "+CodeGenerator::cleanName(c->package())+"::"+cleanName(c->name())+';'+endLine);
         }
     }
     CodeBlockWithComments * usingBlock = addOrUpdateTaggedCodeBlockWithComments("using", usingStatement, "", 0, false);
@@ -465,7 +465,7 @@ void CPPHeaderCodeDocument::updateContent( )
     // that will prevent the class declaration from being written. Instead, we
     // check if "hasNamspace" is true or not, and then indent the remaining code
     // appropriately as well as set the start/end text of this namespace block.
-    if (c->getUMLPackage() && policy->getPackageIsNamespace())
+    if (c->umlPackage() && policy->getPackageIsNamespace())
         hasNamespace = true;
     else
         hasNamespace = false;
@@ -473,11 +473,11 @@ void CPPHeaderCodeDocument::updateContent( )
     // set start/end text of namespace block
     m_namespaceBlock = getHierarchicalCodeBlock("namespace", "Namespace", 0);
     if(hasNamespace) {
-        UMLPackageList pkgList = c->getPackages();
+        UMLPackageList pkgList = c->packages();
         QString pkgs;
         UMLPackage *pkg;
         foreach (pkg, pkgList ) {
-            pkgs += "namespace " + CodeGenerator::cleanName(pkg->getName()) + " { ";
+            pkgs += "namespace " + CodeGenerator::cleanName(pkg->name()) + " { ";
         }
         m_namespaceBlock->setStartText(pkgs);
         QString closingBraces;
@@ -505,7 +505,7 @@ void CPPHeaderCodeDocument::updateContent( )
             for (UMLClassifierListItemListIt elit( ell ) ; elit.hasNext() ; ) {
                 UMLClassifierListItem* el = elit.next();
                 enumStatement.append(indent+indent);
-                enumStatement.append(CodeGenerator::cleanName(el->getName()));
+                enumStatement.append(CodeGenerator::cleanName(el->name()));
                 if ( elit.hasNext() ) {
                     el=elit.next();
                     enumStatement.append(", "+endLine);

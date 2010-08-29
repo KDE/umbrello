@@ -55,16 +55,16 @@ void JavaClassDeclarationBlock::updateContent ( )
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     QString endLine = commonPolicy->getNewLineEndingChars();
     bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
-    QString JavaClassName = parentDoc->getJavaClassName(c->getName());
+    QString JavaClassName = parentDoc->getJavaClassName(c->name());
 
     // COMMENT
     if (isInterface)
-        getComment()->setText("Interface "+JavaClassName+endLine+c->getDoc());
+        getComment()->setText("Interface "+JavaClassName+endLine+c->doc());
     else
-        getComment()->setText("Class "+JavaClassName+endLine+c->getDoc());
+        getComment()->setText("Class "+JavaClassName+endLine+c->doc());
 
     bool forceDoc = UMLApp::app()->commonPolicy()->getCodeVerboseDocumentComments();
-    if (forceDoc || !c->getDoc().isEmpty())
+    if (forceDoc || !c->doc().isEmpty())
         getComment()->setWriteOutText(true);
     else
         getComment()->setWriteOutText(false);
@@ -72,10 +72,10 @@ void JavaClassDeclarationBlock::updateContent ( )
     // Now set START/ENDING Text
     QString startText = "";
     // In Java, we need declare abstract only on classes
-    if (c->getAbstract() && !isInterface)
+    if (c->isAbstract() && !isInterface)
         startText.append("abstract ");
 
-    if (c->getVisibility() != Uml::Visibility::Public) {
+    if (c->visibility() != Uml::Visibility::Public) {
         // We should probably emit a warning in here .. java doesn't like to allow
         // private/protected classes. The best we can do (I believe)
         // is to let these declarations default to "package visibility"
@@ -104,7 +104,7 @@ void JavaClassDeclarationBlock::updateContent ( )
     if (nrof_superclasses >0)
         startText.append(" extends ");
     foreach (UMLClassifier* concept, superclasses ) {
-        startText.append(parentDoc->cleanName(concept->getName()));
+        startText.append(parentDoc->cleanName(concept->name()));
         if(i != (nrof_superclasses-1))
             startText.append(", ");
         i++;
@@ -121,7 +121,7 @@ void JavaClassDeclarationBlock::updateContent ( )
             startText.append(" implements ");
     }
     foreach (UMLClassifier* concept, superinterfaces ) {
-        startText.append(parentDoc->cleanName(concept->getName()));
+        startText.append(parentDoc->cleanName(concept->name()));
         if(i != (nrof_superinterfaces-1))
             startText.append(", ");
         i++;

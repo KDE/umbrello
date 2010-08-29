@@ -255,7 +255,7 @@ bool AdaImport::parseStmt()
                 assoc->setUMLPackage(umldoc->rootFolder(Uml::mt_Logical));
                 assoc->setStereotype("bind");
                 // Work around missing display of stereotype in AssociationWidget:
-                assoc->setName(assoc->getStereotype(true));
+                assoc->setName(assoc->stereotype(true));
                 umldoc->addAssociation(assoc);
                 skipStmt();
             } else {
@@ -284,13 +284,13 @@ bool AdaImport::parseStmt()
         if (type == NULL) {
             type = Import_Utils::createUMLObject(Uml::ot_Datatype, base, m_scope[m_scopeIndex]);
         }
-        UMLObject *subtype = Import_Utils::createUMLObject(type->getBaseType(), name,
+        UMLObject *subtype = Import_Utils::createUMLObject(type->baseType(), name,
                                                            m_scope[m_scopeIndex], m_comment);
         UMLAssociation *assoc = new UMLAssociation(Uml::at_Dependency, subtype, type);
         assoc->setUMLPackage(umldoc->rootFolder(Uml::mt_Logical));
         assoc->setStereotype("subtype");
         // Work around missing display of stereotype in AssociationWidget:
-        assoc->setName(assoc->getStereotype(true));
+        assoc->setName(assoc->stereotype(true));
         umldoc->addAssociation(assoc);
         skipStmt();
         return true;
@@ -394,7 +394,7 @@ bool AdaImport::parseStmt()
             } else {
                 base.remove("Standard.", Qt::CaseInsensitive);
                 UMLObject *known = umldoc->findUMLObject(base, Uml::ot_UMLObject, m_scope[m_scopeIndex]);
-                t = (known ? known->getBaseType() : Uml::ot_Datatype);
+                t = (known ? known->baseType() : Uml::ot_Datatype);
             }
             UMLObject *ns = Import_Utils::createUMLObject(t, base, NULL);
             UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
@@ -438,7 +438,7 @@ bool AdaImport::parseStmt()
             m_klass = NULL;
         } else if (m_scopeIndex) {
             if (advance() != ";") {
-                QString scopeName = m_scope[m_scopeIndex]->getFullyQualifiedName();
+                QString scopeName = m_scope[m_scopeIndex]->fullyQualifiedName();
                 if (scopeName.toLower() != m_source[m_srcIndex].toLower())
                     uError() << "end: expecting " << scopeName << ", found "
                               << m_source[m_srcIndex];
@@ -513,9 +513,9 @@ bool AdaImport::parseStmt()
             if (op == NULL) {
                 // In Ada, the first parameter indicates the class.
                 UMLObject *type = Import_Utils::createUMLObject(Uml::ot_Class, typeName, m_scope[m_scopeIndex]);
-                Uml::Object_Type t = type->getBaseType();
+                Uml::Object_Type t = type->baseType();
                 if ((t != Uml::ot_Interface &&
-                     (t != Uml::ot_Class || type->getStereotype() == "record")) ||
+                     (t != Uml::ot_Class || type->stereotype() == "record")) ||
                     !m_classesDefinedInThisScope.contains(type)) {
                     // Not an instance bound method - we cannot represent it.
                     skipStmt(")");

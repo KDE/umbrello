@@ -87,7 +87,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
     //else, determine the "natural" file name
     QString name;
     // Get the package name
-    QString package = concept->getPackage(".");
+    QString package = concept->package(".");
 
     // Replace all white spaces with blanks
     package = package.simplified();
@@ -100,12 +100,12 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
 
     // if package is given add this as a directory to the file name
     if (!package.isEmpty() && m_createDirHierarchyForPackages) {
-        name = package + '.' + concept->getName();
+        name = package + '.' + concept->name();
         name.replace(QRegExp("\\."),"/");
         package.replace(QRegExp("\\."), "/");
         package = '/' + package;
     } else {
-        name = concept->getFullyQualifiedName("-");
+        name = concept->fullyQualifiedName("-");
     }
 
     if (! UMLApp::app()->activeLanguageIsCaseSensitive()) {
@@ -246,7 +246,7 @@ bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c)
 {
     UMLOperationList opl(c->getOpList());
     foreach (UMLOperation* op, opl ) {
-        if(op->getAbstract())
+        if(op->isAbstract())
             return true;
     }
     return false;
@@ -272,7 +272,7 @@ void SimpleCodeGenerator::writeCodeToFile()
     m_fileMap.clear(); // need to do this, else just keep getting same directory to write to.
     UMLClassifierList concepts = m_doc->classesAndInterfaces();
     foreach (UMLClassifier* c, concepts ) {
-        if (! Model_Utils::isCommonDataType(c->getName()))
+        if (! Model_Utils::isCommonDataType(c->name()))
             this->writeClass(c); // call the writer for each class.
     }
 }

@@ -215,7 +215,7 @@ bool AssocRules::allowAssociation( Uml::Association_Type assocType,
             }
         }
         if (widgetB->baseType() == wt_Class) {
-            return widgetB->umlObject()->getAbstract();
+            return widgetB->umlObject()->isAbstract();
         } else if (widgetB->baseType() == wt_Interface ||
                    widgetB->baseType() == wt_Package) {
             return true;

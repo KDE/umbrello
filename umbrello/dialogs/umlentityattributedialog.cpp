@@ -82,7 +82,7 @@ void UMLEntityAttributeDialog::setupDialog()
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
                                     m_pNameL, i18nc("name of entity attribute", "&Name:"),
-                                    m_pNameLE, m_pEntityAttribute->getName() );
+                                    m_pNameLE, m_pEntityAttribute->name() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
                                     m_pInitialL, i18n("&Default value:"),
@@ -90,7 +90,7 @@ void UMLEntityAttributeDialog::setupDialog()
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
                                     m_pStereoTypeL, i18n("Stereotype name:"),
-                                    m_pStereoTypeLE, m_pEntityAttribute->getStereotype() );
+                                    m_pStereoTypeLE, m_pEntityAttribute->stereotype() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 4,
                                     m_pValuesL, i18n("Length/Values:"),
@@ -181,7 +181,7 @@ bool UMLEntityAttributeDialog::apply()
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid entity attribute name."),
                            i18n("Entity Attribute Name Invalid"), false);
-        m_pNameLE->setText( m_pEntityAttribute->getName() );
+        m_pNameLE->setText( m_pEntityAttribute->name() );
         return false;
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pEntityAttribute->parent() );
@@ -189,7 +189,7 @@ bool UMLEntityAttributeDialog::apply()
     if (o && o != m_pEntityAttribute) {
         KMessageBox::error(this, i18n("The entity attribute name you have chosen is already being used in this operation."),
                            i18n("Entity Attribute Name Not Unique"), false);
-        m_pNameLE->setText( m_pEntityAttribute->getName() );
+        m_pNameLE->setText( m_pEntityAttribute->name() );
         return false;
     }
     m_pEntityAttribute->setName(name);
@@ -218,7 +218,7 @@ bool UMLEntityAttributeDialog::apply()
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList dataTypes = pDoc->datatypes();
     foreach (UMLClassifier* dat, dataTypes ) {
-        if (typeName == dat->getName()) {
+        if (typeName == dat->name()) {
             m_pEntityAttribute->setType(dat);
             return true;
         }
@@ -275,7 +275,7 @@ void UMLEntityAttributeDialog::insertTypesSorted(const QString& type)
         dataTypes = pDoc->datatypes();
     }
     foreach (UMLClassifier* dat, dataTypes ) {
-        types << dat->getName();
+        types << dat->name();
     }
     // add the given parameter
     if ( !types.contains(type) ) {

@@ -109,7 +109,7 @@ void CPPSourceCodeDocument::updateContent( )
     // INCLUDE CODEBLOCK
     QString includeStatement;
     // Include own header file
-    QString myOwnName( getParentClassifier()->getName() );
+    QString myOwnName( getParentClassifier()->name() );
     includeStatement.append("#include \""+CodeGenerator::cleanName(myOwnName.toLower())+".h\""+endLine);
     CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments("includes", includeStatement, QString(), 0, false);
     iblock->setWriteOutText(true);

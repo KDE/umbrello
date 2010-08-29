@@ -136,7 +136,7 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
         objectType = fieldName;
     QString endLine = p->getNewLineEndingChars();
 
-    QString description = getParentObject()->getDoc();
+    QString description = getParentObject()->doc();
     description.remove(QRegExp("m_[npb](?=[A-Z])"));
     description.remove("m_");
     description.replace(QRegExp("[\\n\\r]+[\\t ]*"), endLine);

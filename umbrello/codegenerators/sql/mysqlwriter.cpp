@@ -137,9 +137,9 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttribute
     printIndex( sql, m_pEntity, indexList );
 
     // now alter the table and this column to add the auto increment
-    sql<<"ALTER TABLE "<<cleanName( m_pEntity->getName() )
-       <<" CHANGE "<<cleanName( autoIncrementEntAtt->getName() )
-       <<" "<<cleanName( autoIncrementEntAtt->getName() )
+    sql<<"ALTER TABLE "<<cleanName( m_pEntity->name() )
+       <<" CHANGE "<<cleanName( autoIncrementEntAtt->name() )
+       <<" "<<cleanName( autoIncrementEntAtt->name() )
        <<" "<<cleanName( autoIncrementEntAtt->getTypeName() )
        <<" "<<cleanName( autoIncrementEntAtt->getAttributes() )
        <<" "<<" NOT NULL AUTO_INCREMENT ;";

@@ -72,10 +72,10 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY)
 
     int lines = 1;
     if (m_pObject) {
-        QString stereotype = m_pObject->getStereotype();
+        QString stereotype = m_pObject->stereotype();
         if (!stereotype.isEmpty()) {
             p.drawText(offsetX, bodyOffsetY + (bodyHeight/2) - fontHeight,
-                       bodyWidth, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
+                       bodyWidth, fontHeight, Qt::AlignCenter, m_pObject->stereotype(true));
             lines = 2;
         }
     }
@@ -109,7 +109,7 @@ QSize NodeWidget::calculateSize()
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    QString name = m_pObject->getName();
+    QString name = m_pObject->name();
     if ( UMLWidget::isInstance() ) {
         name = UMLWidget::instanceName() + " : " + name;
     }
@@ -117,8 +117,8 @@ QSize NodeWidget::calculateSize()
     int width = fm.width(name);
 
     int tempWidth = 0;
-    if (!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width(m_pObject->getStereotype(true));
+    if (!m_pObject->stereotype().isEmpty()) {
+        tempWidth = fm.width(m_pObject->stereotype(true));
     }
     if (tempWidth > width)
         width = tempWidth;

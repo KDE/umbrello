@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,8 +16,8 @@
 #include "entityattribute.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "dialogs/umlattributedialog.h"
-#include "dialogs/umluniqueconstraintdialog.h"
+#include "umlattributedialog.h"
+#include "umluniqueconstraintdialog.h"
 #include "object_factory.h"
 
 // kde includes
@@ -42,7 +42,7 @@ UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent, const QString& name,
  * @param parent    The parent of this UMLUniqueConstraint.
  */
 UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent)
-    : UMLEntityConstraint( parent )
+  : UMLEntityConstraint( parent )
 {
     init();
 }
@@ -116,7 +116,7 @@ QString UMLUniqueConstraint::toString(Uml::Signature_Type sig )
      QString s;
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
-        s = getName() + ':';
+        s = name() + ':';
 
         if ( static_cast<UMLEntity*>( parent() )->isPrimaryKey( this ) ) {
            s += "Primary Key (";
@@ -130,7 +130,7 @@ QString UMLUniqueConstraint::toString(Uml::Signature_Type sig )
                first = false;
             } else
                 s += ',';
-            s += att->getName();
+            s += att->name();
         }
         s +=  ')' ;
     }
@@ -142,7 +142,7 @@ QString UMLUniqueConstraint::getFullyQualifiedName(const QString& separator,
                                                    bool includeRoot) const
 {
     Q_UNUSED(separator); Q_UNUSED(includeRoot);
-    return this->getName();
+    return this->name();
 }
 
 /**
@@ -247,7 +247,7 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if ( hasEntityAttribute( attr ) ) {
-        uDebug() << "Unique Constraint already contains" << attr->getName();
+        uDebug() << "Unique Constraint already contains" << attr->name();
         return false;
 
     }
@@ -256,10 +256,10 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
         return false;
     }
 
-    if ( owningParent->findChildObjectById( attr->getID() ) == NULL ) {
+    if ( owningParent->findChildObjectById( attr->id() ) == NULL ) {
         uError()
-            << " parent " << owningParent->getName()
-            << " does not contain attribute " << attr->getName();
+            << " parent " << owningParent->name()
+            << " does not contain attribute " << attr->name();
         return false;
     }
 

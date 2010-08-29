@@ -949,7 +949,7 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::B]->localID()) );
     UMLOperation *pOperation = getOperation();
     if (pOperation)
-        messageElement.setAttribute( "operation", ID2STR(pOperation->getID()) );
+        messageElement.setAttribute( "operation", ID2STR(pOperation->id()) );
     else
         messageElement.setAttribute( "operation", m_CustomOp );
     messageElement.setAttribute( "seqnum", m_SequenceNumber );

@@ -53,10 +53,10 @@
 #include "assocrules.h"
 #include "umlrole.h"
 #include "umlviewcanvas.h"
-#include "dialogs/classoptionspage.h"
-#include "dialogs/umlviewdialog.h"
-#include "clipboard/idchangelog.h"
-#include "clipboard/umldragdata.h"
+#include "classoptionspage.h"
+#include "umlviewdialog.h"
+#include "idchangelog.h"
+#include "umldragdata.h"
 #include "widget_factory.h"
 #include "floatingtextwidget.h"
 #include "classifierwidget.h"
@@ -502,7 +502,7 @@ void UMLView::slotObjectCreated(UMLObject* o)
     m_bCreateObject = false;
     m_WidgetList.append(newWidget);
 
-    switch (o->getBaseType()) {
+    switch (o->baseType()) {
     case ot_Actor:
     case ot_UseCase:
     case ot_Class:
@@ -523,7 +523,7 @@ void UMLView::slotObjectCreated(UMLObject* o)
             if (w != newWidget) {
                 createAutoAttributeAssociations(w);
 
-                if (o->getBaseType() == ot_Entity)
+                if (o->baseType() == ot_Entity)
                     createAutoConstraintAssociations(w);
             }
         }
@@ -537,7 +537,7 @@ void UMLView::slotObjectCreated(UMLObject* o)
 void UMLView::slotObjectRemoved(UMLObject * o)
 {
     m_bPaste = false;
-    Uml::IDType id = o->getID();
+    Uml::IDType id = o->id();
 
     foreach(UMLWidget* obj, m_WidgetList) {
         if (obj->id() != id)
@@ -585,7 +585,7 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
     //make sure dragging item onto correct diagram
     // concept - class,seq,coll diagram
     // actor,usecase - usecase diagram
-    Object_Type ot = temp->getBaseType();
+    Object_Type ot = temp->baseType();
     bool bAccept = true;
     switch (diagramType) {
     case dt_UseCase:
@@ -620,7 +620,7 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
                  ot != ot_Node)
             bAccept = false;
         else if (ot == ot_Package &&
-                 temp->getStereotype() != "subsystem")
+                 temp->stereotype() != "subsystem")
             bAccept = false;
         break;
     case dt_Component:
@@ -631,7 +631,7 @@ void UMLView::dragEnterEvent(QDragEnterEvent *e)
                  ot != ot_Artifact &&
                  ot != ot_Class))
             bAccept = false;
-        if (ot == ot_Class && !temp->getAbstract())
+        if (ot == ot_Class && !temp->isAbstract())
             bAccept = false;
         break;
     case dt_EntityRelationship:
@@ -816,7 +816,7 @@ AssociationWidget * UMLView::findAssocWidget(Uml::IDType id)
 {
     foreach(AssociationWidget* obj , m_AssociationList) {
         UMLAssociation* umlassoc = obj->getAssociation();
-        if (umlassoc && umlassoc->getID() == id) {
+        if (umlassoc && umlassoc->id() == id) {
             return obj;
         }
     }
@@ -1879,7 +1879,7 @@ void UMLView::removeAssocInViewAndDoc(AssociationWidget* a)
         UMLObject *objToBeMoved = a->getWidget(B)->umlObject();
         if (objToBeMoved != NULL) {
             UMLListView *lv = UMLApp::app()->listView();
-            lv->moveObject(objToBeMoved->getID(),
+            lv->moveObject(objToBeMoved->id(),
                            Model_Utils::convert_OT_LVT(objToBeMoved),
                            lv->theLogicalView());
             // UMLListView::moveObject() will delete the containment
@@ -2003,7 +2003,7 @@ void UMLView::updateContainment(UMLCanvasObject *self)
     // See if the object has a widget representation in this view.
     // While we're at it, also see if the new parent has a widget here.
     UMLWidget *selfWidget = NULL, *newParentWidget = NULL;
-    UMLPackage *newParent = self->getUMLPackage();
+    UMLPackage *newParent = self->umlPackage();
     foreach(UMLWidget* w, m_WidgetList) {
         UMLObject *o = w->umlObject();
         if (o == self)
@@ -2087,34 +2087,34 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
         return;
     const UMLAssociationList& umlAssocs = umlObj->getAssociations();
 
-    Uml::IDType myID = umlObj->getID();
+    Uml::IDType myID = umlObj->id();
     foreach(UMLAssociation* assoc , umlAssocs) {
         UMLCanvasObject *other = NULL;
         UMLObject *roleAObj = assoc->getObject(A);
         if (roleAObj == NULL) {
             uDebug() << "roleA object is NULL at UMLAssoc "
-                << ID2STR(assoc->getID());
+                << ID2STR(assoc->id());
             continue;
         }
         UMLObject *roleBObj = assoc->getObject(B);
         if (roleBObj == NULL) {
             uDebug() << "roleB object is NULL at UMLAssoc "
-                << ID2STR(assoc->getID());
+                << ID2STR(assoc->id());
             continue;
         }
-        if (roleAObj->getID() == myID) {
+        if (roleAObj->id() == myID) {
             other = static_cast<UMLCanvasObject*>(roleBObj);
-        } else if (roleBObj->getID() == myID) {
+        } else if (roleBObj->id() == myID) {
             other = static_cast<UMLCanvasObject*>(roleAObj);
         } else {
             uDebug() << "Can not find own object "
                 << ID2STR(myID) << " in UMLAssoc "
-                << ID2STR(assoc->getID());
+                << ID2STR(assoc->id());
             continue;
         }
         // Now that we have determined the "other" UMLObject, seek it in
         // this view's UMLWidgets.
-        Uml::IDType otherID = other->getID();
+        Uml::IDType otherID = other->id();
 
         bool breakFlag = false;
         UMLWidget* pOtherWidget = 0;
@@ -2129,7 +2129,7 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
         // Both objects are represented in this view:
         // Assign widget roles as indicated by the UMLAssociation.
         UMLWidget *widgetA, *widgetB;
-        if (myID == roleAObj->getID()) {
+        if (myID == roleAObj->id()) {
             widgetA = widget;
             widgetB = pOtherWidget;
         } else {
@@ -2171,14 +2171,14 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
     }
 
     // if this object is capable of containing nested objects then
-    Uml::Object_Type t = umlObj->getBaseType();
+    Uml::Object_Type t = umlObj->baseType();
     if (t == ot_Package || t == ot_Class || t == ot_Interface || t == ot_Component) {
         // for each of the object's containedObjects
         UMLPackage *umlPkg = static_cast<UMLPackage*>(umlObj);
         UMLObjectList lst = umlPkg->containedObjects();
         foreach(UMLObject* obj,  lst) {
             // if the containedObject has a widget representation on this view then
-            Uml::IDType id = obj->getID();
+            Uml::IDType id = obj->id();
             foreach(UMLWidget *w , m_WidgetList) {
                 if (w->id() != id)
                     continue;
@@ -2196,11 +2196,11 @@ void UMLView::createAutoAssociations(UMLWidget * widget)
         }
     }
     // if the UMLCanvasObject has a parentPackage then
-    UMLPackage *parent = umlObj->getUMLPackage();
+    UMLPackage *parent = umlObj->umlPackage();
     if (parent == NULL)
         return;
     // if the parentPackage has a widget representation on this view then
-    Uml::IDType pkgID = parent->getID();
+    Uml::IDType pkgID = parent->id();
 
     bool breakFlag = false;
     UMLWidget* pWidget = 0;
@@ -2255,16 +2255,16 @@ void UMLView::createAutoAttributeAssociations(UMLWidget *widget)
     if (tmpUmlObj == NULL)
         return;
     // if the underlying model object is really a UMLClassifier then
-    if (tmpUmlObj->getBaseType() == Uml::ot_Datatype) {
+    if (tmpUmlObj->baseType() == Uml::ot_Datatype) {
         UMLClassifier *dt = static_cast<UMLClassifier*>(tmpUmlObj);
         while (dt->originType() != NULL) {
             tmpUmlObj = dt->originType();
-            if (tmpUmlObj->getBaseType() != Uml::ot_Datatype)
+            if (tmpUmlObj->baseType() != Uml::ot_Datatype)
                 break;
             dt = static_cast<UMLClassifier*>(tmpUmlObj);
         }
     }
-    if (tmpUmlObj->getBaseType() != Uml::ot_Class)
+    if (tmpUmlObj->baseType() != Uml::ot_Class)
         return;
     UMLClassifier * klass = static_cast<UMLClassifier*>(tmpUmlObj);
     // for each of the UMLClassifier's UMLAttributes
@@ -2293,42 +2293,42 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
         return;
     }
     Uml::Association_Type assocType = Uml::at_Composition;
-    UMLWidget *w = findWidget(type->getID());
+    UMLWidget *w = findWidget(type->id());
     AssociationWidget *aw = NULL;
     // if the attribute type has a widget representation on this view
     if (w) {
-        aw = findAssocWidget(widget, w, attr->getName());
+        aw = findAssocWidget(widget, w, attr->name());
         if (aw == NULL &&
                 // if the current diagram type permits compositions
                 AssocRules::allowAssociation(assocType, widget, w, false)) {
             // Create a composition AssocWidget, or, if the attribute type is
             // stereotyped <<CORBAInterface>>, create a UniAssociation widget.
-            if (type->getStereotype() == "CORBAInterface")
+            if (type->stereotype() == "CORBAInterface")
                 assocType = at_UniAssociation;
             AssociationWidget *a = new AssociationWidget(this, widget, assocType, w, attr);
             a->calculateEndingPoints();
-            a->setVisibility(attr->getVisibility(), B);
+            a->setVisibility(attr->visibility(), B);
             /*
             if (assocType == at_Aggregation || assocType == at_UniAssociation)
             a->setMulti("0..1", B);
             */
-            a->setRoleName(attr->getName(), B);
+            a->setRoleName(attr->name(), B);
             a->setActivated(true);
             if (! addAssociation(a))
                 delete a;
         }
     }
     // if the attribute type is a Datatype then
-    if (type->getBaseType() == ot_Datatype) {
+    if (type->baseType() == ot_Datatype) {
         UMLClassifier *dt = static_cast<UMLClassifier*>(type);
         // if the Datatype is a reference (pointer) type
         if (dt->isReference()) {
             //Uml::Association_Type assocType = Uml::at_Composition;
             UMLClassifier *c = dt->originType();
-            UMLWidget *w = c ? findWidget(c->getID()) : 0;
+            UMLWidget *w = c ? findWidget(c->id()) : 0;
             // if the referenced type has a widget representation on this view
             if (w) {
-                aw = findAssocWidget(widget, w, attr->getName());
+                aw = findAssocWidget(widget, w, attr->name());
                 if (aw == NULL &&
                         // if the current diagram type permits aggregations
                         AssocRules::allowAssociation(at_Aggregation, widget, w, false)) {
@@ -2337,10 +2337,10 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
                     AssociationWidget *a = new AssociationWidget
                     (this, widget, at_Aggregation, w, attr);
                     a->calculateEndingPoints();
-                    a->setVisibility(attr->getVisibility(), B);
+                    a->setVisibility(attr->visibility(), B);
                     //a->setChangeability(true, B);
                     a->setMulti("0..1", B);
-                    a->setRoleName(attr->getName(), B);
+                    a->setRoleName(attr->name(), B);
                     a->setActivated(true);
                     if (! addAssociation(a))
                         delete a;
@@ -2375,7 +2375,7 @@ void UMLView::createAutoConstraintAssociations(UMLWidget *widget)
         return;
     // finished checking whether this widget has a UMLCanvas Object
 
-    if (tmpUmlObj->getBaseType() != Uml::ot_Entity)
+    if (tmpUmlObj->baseType() != Uml::ot_Entity)
         return;
     UMLEntity *entity = static_cast<UMLEntity*>(tmpUmlObj);
 
@@ -2406,11 +2406,11 @@ void UMLView::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKe
     }
 
     Uml::Association_Type assocType = Uml::at_Relationship;
-    UMLWidget *w = findWidget(refEntity->getID());
+    UMLWidget *w = findWidget(refEntity->id());
     AssociationWidget *aw = NULL;
 
     if (w) {
-        aw = findAssocWidget(widget, w, fkConstraint->getName());
+        aw = findAssocWidget(widget, w, fkConstraint->name());
         if (aw == NULL &&
                 // if the current diagram type permits relationships
                 AssocRules::allowAssociation(assocType, widget, w, false)) {
@@ -2421,7 +2421,7 @@ void UMLView::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignKe
             a->setUMLObject(fkConstraint);
             a->calculateEndingPoints();
             //a->setVisibility(attr->getVisibility(), B);
-            a->setRoleName(fkConstraint->getName(), B);
+            a->setRoleName(fkConstraint->name(), B);
             a->setActivated(true);
             if (! addAssociation(a))
                 delete a;
@@ -3523,7 +3523,7 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement)
         if (o == NULL) {
             uError() << "Cannot find object for id " << idStr;
         } else {
-            Uml::Object_Type ot = o->getBaseType();
+            Uml::Object_Type ot = o->baseType();
             uDebug() << "Create widget for model object of type " << ot;
             UMLWidget *widget = NULL;
             switch (ot) {
@@ -3539,8 +3539,8 @@ bool UMLView::loadUisDiagramPresentation(QDomElement & qElement)
                     uError() << "intern err 1";
                     return false;
                 }
-                UMLWidget *wA = findWidget(objA->getID());
-                UMLWidget *wB = findWidget(objB->getID());
+                UMLWidget *wA = findWidget(objA->id());
+                UMLWidget *wB = findWidget(objB->id());
                 if (wA != NULL && wB != NULL) {
                     AssociationWidget *aw =
                         new AssociationWidget(this, wA, at, wB, umla);

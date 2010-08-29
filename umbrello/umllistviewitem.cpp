@@ -60,7 +60,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
     m_Type = t;
     m_pObject = o;
     if (o)
-        m_nId = o->getID();
+        m_nId = o->id();
     setIcon(Icon_Utils::it_Home);
     setText(name);
     setRenameEnabled(0, false);
@@ -112,7 +112,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
         if (umlchild)
             parent->addClassifierListItem(umlchild, this);
         updateObject();
-        m_nId = o->getID();
+        m_nId = o->id();
     }
     setRenameEnabled(0, !Model_Utils::typeIsRootView(t));
     setText(name);
@@ -215,7 +215,7 @@ void UMLListViewItem::deleteChildItem(UMLClassifierListItem *child)
 {
     UMLListViewItem *childItem = findChildObject(child);
     if (childItem == NULL) {
-        uError() << child->getName() << ": child listview item not found";
+        uError() << child->name() << ": child listview item not found";
         return;
     }
     m_comap.remove(child);
@@ -230,7 +230,7 @@ void UMLListViewItem::deleteChildItem(UMLClassifierListItem *child)
 Uml::IDType UMLListViewItem::getID() const
 {
     if (m_pObject)
-        return m_pObject->getID();
+        return m_pObject->id();
     return m_nId;
 }
 
@@ -244,7 +244,7 @@ Uml::IDType UMLListViewItem::getID() const
 void UMLListViewItem::setID(Uml::IDType id)
 {
     if (m_pObject) {
-        Uml::IDType oid = m_pObject->getID();
+        Uml::IDType oid = m_pObject->id();
         if (id != Uml::id_None && oid != id)
             uDebug() << "new id " << ID2STR(id) << " does not agree with object id "
                 << ID2STR(oid);
@@ -298,9 +298,9 @@ void UMLListViewItem::updateObject()
     if (m_pObject == NULL)
         return;
 
-    Uml::Visibility scope = m_pObject->getVisibility();
-    Uml::Object_Type ot = m_pObject->getBaseType();
-    QString modelObjText = m_pObject->getName();
+    Uml::Visibility scope = m_pObject->visibility();
+    Uml::Object_Type ot = m_pObject->baseType();
+    QString modelObjText = m_pObject->name();
     if (Model_Utils::isClassifierListitem(ot)) {
         UMLClassifierListItem *pNarrowed = static_cast<UMLClassifierListItem*>(m_pObject);
         modelObjText = pNarrowed->toString(Uml::st_SigNoVis);
@@ -310,7 +310,7 @@ void UMLListViewItem::updateObject()
     Icon_Utils::Icon_Type icon = Icon_Utils::it_Home;
     switch (ot) {
     case Uml::ot_Package:
-        if (m_pObject->getStereotype() == "subsystem")
+        if (m_pObject->stereotype() == "subsystem")
             icon = Icon_Utils::it_Subsystem;
         else
             icon = Icon_Utils::it_Package;
@@ -752,7 +752,7 @@ int UMLListViewItem::compare(Q3ListViewItem *other, int col, bool ascending) con
 #endif
         return retval;
     }
-    UMLClassifierListItemList items = ourParent->getFilteredList(thisUmlItem->getBaseType());
+    UMLClassifierListItemList items = ourParent->getFilteredList(thisUmlItem->baseType());
     int myIndex = items.indexOf(thisUmlItem);
     int otherIndex = items.indexOf(otherUmlItem);
     if (myIndex < 0) {
@@ -874,7 +874,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
             uError() << m_Label << ": m_pObject is NULL";
         if (m_Type != Uml::lvt_View)
             itemElement.setAttribute("label", m_Label);
-    } else if (m_pObject->getID() == Uml::id_None) {
+    } else if (m_pObject->id() == Uml::id_None) {
         if (m_Label.isEmpty()) {
             uDebug() << "Skipping empty item";
             return;
@@ -882,7 +882,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         uDebug() << "saving local label " << m_Label << " because umlobject ID is not set";
         if (m_Type != Uml::lvt_View)
             itemElement.setAttribute("label", m_Label);
-    } else if (m_pObject->getBaseType() == Uml::ot_Folder) {
+    } else if (m_pObject->baseType() == Uml::ot_Folder) {
         extFolder = static_cast<UMLFolder*>(m_pObject);
         if (!extFolder->folderFile().isEmpty()) {
             itemElement.setAttribute("open", "0");

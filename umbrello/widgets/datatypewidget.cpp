@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -63,9 +63,9 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY)
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY,
                w - DATATYPE_MARGIN* 2,fontHeight,
-               Qt::AlignCenter, m_pObject->getStereotype(true));
+               Qt::AlignCenter, m_pObject->stereotype(true));
 
-    font.setItalic( m_pObject->getAbstract() );
+    font.setItalic( m_pObject->isAbstract() );
     p.setFont(font);
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY + fontHeight,
                w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
@@ -93,8 +93,8 @@ QSize DatatypeWidget::calculateSize()
     //now set the width of the concept
     //set width to name to start with
     //set width to name to start with
-    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getFullyQualifiedName()).width();
-    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
+    width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->fullyQualifiedName()).width();
+    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->stereotype(true)).width();
 
     width = w > width?w:width;
 

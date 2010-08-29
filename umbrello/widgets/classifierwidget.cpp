@@ -307,7 +307,7 @@ int ClassifierWidget::displayedMembers(Uml::Object_Type ot)
     int count = 0;
     UMLClassifierListItemList list = classifier()->getFilteredList(ot);
     foreach (UMLClassifierListItem *m , list ) {
-      if (!(m_bShowPublicOnly && m->getVisibility() != Uml::Visibility::Public))
+      if (!(m_bShowPublicOnly && m->visibility() != Uml::Visibility::Public))
             count++;
     }
     return count;
@@ -335,11 +335,11 @@ QSize ClassifierWidget::calculateSize()
     int width = 0, height = 0;
 
     // consider stereotype
-    if (m_bShowStereotype && !m_pObject->getStereotype().isEmpty()) {
+    if (m_bShowStereotype && !m_pObject->stereotype().isEmpty()) {
         height += fontHeight;
         // ... width
         const QFontMetrics &bfm = UMLWidget::getFontMetrics(UMLWidget::FT_BOLD);
-        const int stereoWidth = bfm.size(0,m_pObject->getStereotype(true)).width();
+        const int stereoWidth = bfm.size(0,m_pObject->stereotype(true)).width();
         if (stereoWidth > width)
             width = stereoWidth;
     }
@@ -349,10 +349,10 @@ QSize ClassifierWidget::calculateSize()
     // ... width
     QString displayedName;
     if (m_bShowPackage)
-        displayedName = m_pObject->getFullyQualifiedName();
+        displayedName = m_pObject->fullyQualifiedName();
     else
-        displayedName = m_pObject->getName();
-    const UMLWidget::FontType nft = (m_pObject->getAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
+        displayedName = m_pObject->name();
+    const UMLWidget::FontType nft = (m_pObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
     //const int nameWidth = getFontMetrics(nft).boundingRect(displayName).width();
     const int nameWidth = UMLWidget::getFontMetrics(nft).size(0,displayedName).width();
     if (nameWidth > width)
@@ -367,7 +367,7 @@ QSize ClassifierWidget::calculateSize()
         // calculate width of the attributes
         UMLClassifierListItemList list = classifier()->getFilteredList(Uml::ot_Attribute);
         foreach (UMLClassifierListItem *a , list ) {
-            if (m_bShowPublicOnly && a->getVisibility() != Uml::Visibility::Public)
+            if (m_bShowPublicOnly && a->visibility() != Uml::Visibility::Public)
                 continue;
             const int attWidth = fm.size(0,a->toString(m_ShowAttSigs)).width();
             if (attWidth > width)
@@ -384,11 +384,11 @@ QSize ClassifierWidget::calculateSize()
         // ... width
         UMLOperationList list(classifier()->getOpList());
         foreach (UMLOperation* op ,  list) {
-                  if (m_bShowPublicOnly && op->getVisibility() != Uml::Visibility::Public)
+                  if (m_bShowPublicOnly && op->visibility() != Uml::Visibility::Public)
                 continue;
             const QString displayedOp = op->toString(m_ShowOpSigs);
             UMLWidget::FontType oft;
-            oft = (op->getAbstract() ? UMLWidget::FT_ITALIC : UMLWidget::FT_NORMAL);
+            oft = (op->isAbstract() ? UMLWidget::FT_ITALIC : UMLWidget::FT_NORMAL);
             const int w = UMLWidget::getFontMetrics(oft).size(0,displayedOp).width();
             if (w > width)
                 width = w;
@@ -609,7 +609,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
 
     // draw stereotype
     font.setBold(true);
-    QString stereo = m_pObject->getStereotype();
+    QString stereo = m_pObject->stereotype();
     /* if no stereotype is given we don't want to show the empty << >> */
     const bool showStereotype = (m_bShowStereotype && !stereo.isEmpty());
     const bool showNameOnly = (!m_bShowOperations && !m_bShowAttributes && !showStereotype);
@@ -618,7 +618,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
         nameHeight = h;
     } else if (showStereotype) {
         p.setFont(font);
-        stereo = m_pObject->getStereotype(true);
+        stereo = m_pObject->stereotype(true);
         p.drawText(textX, m_bodyOffsetY, textWidth, fontHeight, Qt::AlignCenter, stereo);
         m_bodyOffsetY += fontHeight;
     }
@@ -626,11 +626,11 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
     // draw name
     QString name;
     if (m_bShowPackage) {
-        name = m_pObject->getFullyQualifiedName();
+        name = m_pObject->fullyQualifiedName();
     } else {
         name = this->name();
     }
-    font.setItalic( m_pObject->getAbstract() );
+    font.setItalic( m_pObject->isAbstract() );
     p.setFont(font);
     p.drawText(textX, m_bodyOffsetY, textWidth, nameHeight, Qt::AlignCenter, name);
     if (!showNameOnly) {
@@ -679,7 +679,7 @@ void ClassifierWidget::drawAsCircle(QPainter& p, int offsetX, int offsetY)
     const int fontHeight  = fm.lineSpacing();
     QString name;
     if ( m_bShowPackage ) {
-        name = m_pObject->getFullyQualifiedName();
+        name = m_pObject->fullyQualifiedName();
     } else {
         name = this->name();
     }
@@ -706,9 +706,9 @@ QSize ClassifierWidget::calculateAsCircleSize()
     int width = CIRCLE_SIZE;
     QString displayedName;
     if (m_bShowPackage) {
-        displayedName = m_pObject->getFullyQualifiedName();
+        displayedName = m_pObject->fullyQualifiedName();
     } else {
-        displayedName = m_pObject->getName();
+        displayedName = m_pObject->name();
     }
     const int nameWidth = fm.size(0,displayedName).width();
     if (nameWidth > width)
@@ -725,11 +725,11 @@ void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signa
     f.setBold(false);
     UMLClassifierListItemList list = classifier()->getFilteredList(ot);
     foreach (UMLClassifierListItem *obj , list ) {
-          if (m_bShowPublicOnly && obj->getVisibility() != Uml::Visibility::Public)
+          if (m_bShowPublicOnly && obj->visibility() != Uml::Visibility::Public)
             continue;
         QString text = obj->toString(sigType);
-        f.setItalic( obj->getAbstract() );
-        f.setUnderline( obj->getStatic() );
+        f.setItalic( obj->isAbstract() );
+        f.setUnderline( obj->isStatic() );
         p.setFont( f );
         QFontMetrics fontMetrics(f);
         p.drawText(x, y, fontMetrics.size(0,text).width(), fontHeight, Qt::AlignVCenter, text);
@@ -814,7 +814,7 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         conceptElement.setAttribute("showattributes", m_bShowAttributes);
         conceptElement.setAttribute("showattsigs", m_ShowAttSigs);
     }
-    if (umlc->isInterface() || umlc->getAbstract())
+    if (umlc->isInterface() || umlc->isAbstract())
         conceptElement.setAttribute("drawascircle", m_bDrawAsCircle);
     qElement.appendChild( conceptElement );
 }

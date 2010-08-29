@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003  Brian Thomas  <brian.thomas@gsfc.nasa.gov>        *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -43,7 +43,7 @@
 #include "codemethodblock.h"
 #include "classifiercodedocument.h"
 #include "ownedhierarchicalcodeblock.h"
-#include "codegenerators/codegenfactory.h"
+#include "codegenfactory.h"
 
 #include "codeviewerdialog.h"
 #include "classpropdlg.h"
@@ -428,10 +428,10 @@ void CodeEditor::appendText (CodeClassFieldDeclarationBlock * db )
     if (parentObj)
     {
         if (db->getParentClassField()->parentIsAttribute()) {
-            componentName = m_parentDocName + "::attribute_field(" + parentObj->getName() + ')';
+            componentName = m_parentDocName + "::attribute_field(" + parentObj->name() + ')';
         } else {
             UMLRole * role = dynamic_cast<UMLRole*>(parentObj);
-            componentName = m_parentDocName + "::association_field(" + role->getName() + ')';
+            componentName = m_parentDocName + "::association_field(" + role->name() + ')';
         }
         bgcolor = getState().umlObjectColor;
     }
@@ -481,18 +481,18 @@ void CodeEditor::appendText (CodeMethodBlock * mb)
     {
         parentObj = op->getParentOperation();
         if (((UMLOperation*)parentObj)->isConstructorOperation())
-            componentName = m_parentDocName + "::operation("+ parentObj->getName()+") constructor method";
+            componentName = m_parentDocName + "::operation("+ parentObj->name()+") constructor method";
         else
-            componentName = m_parentDocName + "::operation("+ parentObj->getName()+") method";
+            componentName = m_parentDocName + "::operation("+ parentObj->name()+") method";
     }
     if (accessor)
     {
         parentObj = accessor->getParentObject();
         if (accessor->getParentClassField()->parentIsAttribute()) {
-            componentName = m_parentDocName + "::attribute_field(" + parentObj->getName() + ") accessor method";
+            componentName = m_parentDocName + "::attribute_field(" + parentObj->name() + ") accessor method";
         } else {
             UMLRole * role = dynamic_cast<UMLRole*>(parentObj);
-            componentName = m_parentDocName + "::association_field(" + role->getName() + ") accessor method";
+            componentName = m_parentDocName + "::association_field(" + role->name() + ") accessor method";
         }
     }
 
@@ -542,9 +542,9 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
                 typeStr = "Interface";
             else
                 typeStr = "Class";
-            componentName = m_parentDocName + "::" + typeStr + '(' + parentObj->getName() + ')';
+            componentName = m_parentDocName + "::" + typeStr + '(' + parentObj->name() + ')';
         } else {
-            componentName = m_parentDocName + "::UNKNOWN(" + parentObj->getName() + ')';
+            componentName = m_parentDocName + "::UNKNOWN(" + parentObj->name() + ')';
         }
 
         paperColor = getState().umlObjectColor;
@@ -853,7 +853,7 @@ void CodeEditor::init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc )
     // set name of parent doc
     ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(m_parentDoc);
     if (cdoc)
-        m_parentDocName = cdoc->getParentClassifier()->getName();
+        m_parentDocName = cdoc->getParentClassifier()->name();
     else
         m_parentDocName = "";
 

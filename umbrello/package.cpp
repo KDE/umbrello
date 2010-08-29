@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -89,9 +89,9 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
         UMLCanvasObject *c = dynamic_cast<UMLCanvasObject*>(o);
         if (c == NULL)
             continue;
-        if (AId == c->getID() || (BId == c->getID())) {
+        if (AId == c->id() || (BId == c->id())) {
             if (c->hasAssociation(assoc))
-                uDebug() << c->getName() << " already has association id=" << ID2STR(assoc->getID());
+                uDebug() << c->name() << " already has association id=" << ID2STR(assoc->id());
             else
                c->addAssociationEnd(assoc);
         }
@@ -134,31 +134,31 @@ bool UMLPackage::addObject(UMLObject *pObject)
         return false;
     }
     if (m_objects.indexOf(pObject) != -1) {
-        uDebug() << pObject->getName() << " is already there";
+        uDebug() << pObject->name() << " is already there";
         return false;
     }
-    if (pObject->getBaseType() == Uml::ot_Association) {
+    if (pObject->baseType() == Uml::ot_Association) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(pObject);
         // Adding the UMLAssociation at the participating concepts is done
         // again later (in UMLAssociation::resolveRef()) if they are not yet
         // known right here.
         if (assoc->getObject(Uml::A) && assoc->getObject(Uml::B)) {
-            UMLPackage *pkg = pObject->getUMLPackage();
+            UMLPackage *pkg = pObject->umlPackage();
             if (pkg != this) {
                uError() << "UMLPackage " << m_Name << " addObject: "
-                        << "assoc's UMLPackage is " << pkg->getName();
+                        << "assoc's UMLPackage is " << pkg->name();
             }
             addAssocToConcepts(assoc);
         }
     } else {
 
-      QString name = pObject->getName();
+      QString name = pObject->name();
       QString oldName = name;
       while ( findObject( name ) != NULL  ) {
-         name = Model_Utils::uniqObjectName(pObject->getBaseType(),this);
+         name = Model_Utils::uniqObjectName(pObject->baseType(),this);
          bool ok = true;
          name = KInputDialog::getText(i18nc("object name", "Name"),
-                                      i18n("An object with the name %1\nalready exists in the package %2.\nPlease enter a new name:", name, this->getName()),
+                                      i18n("An object with the name %1\nalready exists in the package %2.\nPlease enter a new name:", name, this->name()),
                                       name, &ok, (QWidget*)UMLApp::app());
          if (!ok) {
             name = oldName;
@@ -186,14 +186,14 @@ bool UMLPackage::addObject(UMLObject *pObject)
  */
 void UMLPackage::removeObject(UMLObject *pObject)
 {
-    if (pObject->getBaseType() == Uml::ot_Association) {
+    if (pObject->baseType() == Uml::ot_Association) {
         UMLObject *o = const_cast<UMLObject*>(pObject);
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         removeAssocFromConcepts(assoc);
     }
     if (m_objects.indexOf(pObject) == -1)
         uDebug() << m_Name << " removeObject: object with id="
-                 << ID2STR(pObject->getID()) << "not found.";
+                 << ID2STR(pObject->id()) << "not found.";
     else
         m_objects.removeAll(pObject);
 }
@@ -238,9 +238,9 @@ UMLObject * UMLPackage::findObject(const QString &name)
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
         if (caseSensitive) {
-            if (obj->getName() == name)
+            if (obj->name() == name)
                 return obj;
-        } else if (obj->getName().toLower() == name.toLower()) {
+        } else if (obj->name().toLower() == name.toLower()) {
             return obj;
         }
     }
@@ -270,7 +270,7 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested )
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->getBaseType();
+        Object_Type ot = o->baseType();
         if (ot == ot_Package) {
             packages.append((UMLPackage *)o);
             if (includeNested) {
@@ -294,7 +294,7 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->getBaseType();
+        Object_Type ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface ||
                 ot == ot_Datatype || ot == ot_Enum || ot == ot_Entity) {
             classifiers.append((UMLClassifier *)o);
@@ -318,7 +318,7 @@ void UMLPackage::appendClasses(UMLClassifierList& classes,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->getBaseType();
+        Object_Type ot = o->baseType();
         if (ot == ot_Class) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             classes.append(c);
@@ -342,7 +342,7 @@ void UMLPackage::appendEntities( UMLEntityList& entities,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->getBaseType();
+        Object_Type ot = o->baseType();
         if (ot == ot_Entity) {
             UMLEntity *c = static_cast<UMLEntity*>(o);
             entities.append(c);
@@ -366,7 +366,7 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->getBaseType();
+        Object_Type ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             classifiers.append(c);
@@ -390,7 +390,7 @@ void UMLPackage::appendInterfaces( UMLClassifierList& interfaces,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->getBaseType();
+        Object_Type ot = o->baseType();
         if (ot == ot_Interface) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             interfaces.append(c);
@@ -415,7 +415,7 @@ bool UMLPackage::resolveRef()
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
         if (! obj->resolveRef()) {
-            Uml::Object_Type ot = obj->getBaseType();
+            Uml::Object_Type ot = obj->baseType();
             if (ot != Uml::ot_Package && ot != Uml::ot_Folder)
                 m_objects.removeAll(obj);
             overallSuccess = false;

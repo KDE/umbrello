@@ -133,7 +133,7 @@ QSize ObjectWidget::calculateSize()
     int width, height;
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
     const int fontHeight  = fm.lineSpacing();
-    const QString t = m_InstanceName + " : " + m_pObject->getName();
+    const QString t = m_InstanceName + " : " + m_pObject->name();
     const int textWidth = fm.width(t);
     if ( m_bDrawAsActor ) {
         width = textWidth > A_WIDTH?textWidth:A_WIDTH;
@@ -249,7 +249,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
     const int w = width();
     const int h = height();
 
-    const QString t = m_InstanceName + " : " + m_pObject -> getName();
+    const QString t = m_InstanceName + " : " + m_pObject->name();
     int multiInstOfst = 0;
     if ( m_bMultipleInstance ) {
         p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
@@ -290,7 +290,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY)
                middleX + A_WIDTH / 2, offsetY + thirdH + thirdH / 2);//arms
     //draw text
     p.setPen(QPen(Qt::black));
-    QString t = m_InstanceName + " : " + m_pObject -> getName();
+    QString t = m_InstanceName + " : " + m_pObject->name();
     p.drawText(offsetX + A_MARGIN, offsetY + textStartY,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, t);
 }

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -44,12 +44,12 @@ QString JavaCodeClassField::getFieldName()
     if (parentIsAttribute())
     {
         UMLAttribute * at = (UMLAttribute*) getParentObject();
-        return cleanName(at->getName());
+        return cleanName(at->name());
     }
     else
     {
         UMLRole * role = (UMLRole*) getParentObject();
-        QString roleName = role->getName();
+        QString roleName = role->name();
         if(fieldIsSingleValue()) {
             return roleName.replace(0, 1, roleName.left(1).toLower());
         } else {

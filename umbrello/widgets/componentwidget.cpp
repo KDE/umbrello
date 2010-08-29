@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -71,7 +71,7 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const int fontHeight = fm.lineSpacing();
     QString nameStr = name();
-    const QString stereotype = m_pObject->getStereotype();
+    const QString stereotype = m_pObject->stereotype();
 
     p.drawRect(offsetX + 2*COMPONENT_MARGIN, offsetY, w - 2*COMPONENT_MARGIN, h);
     p.drawRect(offsetX, offsetY + h/2 - fontHeight/2 - fontHeight, COMPONENT_MARGIN*4, fontHeight);
@@ -85,7 +85,7 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
     if (!stereotype.isEmpty()) {
         p.drawText(offsetX + (COMPONENT_MARGIN*4), offsetY + (h/2) - fontHeight,
                    w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter,
-                   m_pObject->getStereotype(true));
+                   m_pObject->stereotype(true));
         lines = 2;
     }
 
@@ -116,7 +116,7 @@ QSize ComponentWidget::calculateSize()
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight = fm.lineSpacing();
 
-    QString name = m_pObject->getName();
+    QString name = m_pObject->name();
     if ( UMLWidget::isInstance() ) {
         name = UMLWidget::instanceName() + " : " + name;
     }
@@ -124,8 +124,8 @@ QSize ComponentWidget::calculateSize()
     int width = fm.width(name);
 
     int stereoWidth = 0;
-    if (!m_pObject->getStereotype().isEmpty()) {
-        stereoWidth = fm.width(m_pObject->getStereotype(true));
+    if (!m_pObject->stereotype().isEmpty()) {
+        stereoWidth = fm.width(m_pObject->stereotype(true));
     }
     if (stereoWidth > width)
         width = stereoWidth;

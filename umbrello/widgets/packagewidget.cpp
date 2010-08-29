@@ -67,7 +67,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY)
     const int fontHeight  = fm.lineSpacing();
 
     p.drawRect(offsetX, offsetY, 50, fontHeight);
-    if (m_pObject->getStereotype() == "subsystem") {
+    if (m_pObject->stereotype() == "subsystem") {
         const int fHalf = fontHeight / 2;
         const int symY = offsetY + fHalf;
         const int symX = offsetX + 38;
@@ -83,10 +83,10 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY)
 
     int lines = 1;
     if (m_pObject != NULL) {
-        QString stereotype = m_pObject->getStereotype();
+        QString stereotype = m_pObject->stereotype();
         if (!stereotype.isEmpty()) {
             p.drawText(offsetX, offsetY + fontHeight + PACKAGE_MARGIN,
-                       w, fontHeight, Qt::AlignCenter, m_pObject->getStereotype(true));
+                       w, fontHeight, Qt::AlignCenter, m_pObject->stereotype(true));
             lines = 2;
         }
     }
@@ -110,11 +110,11 @@ QSize PackageWidget::calculateSize()
 
     int lines = 1;
 
-    int width = fm.width( m_pObject->getName() );
+    int width = fm.width( m_pObject->name() );
 
     int tempWidth = 0;
-    if (!m_pObject->getStereotype().isEmpty()) {
-        tempWidth = fm.width(m_pObject->getStereotype(true));
+    if (!m_pObject->stereotype().isEmpty()) {
+        tempWidth = fm.width(m_pObject->stereotype(true));
         lines = 2;
     }
     if (tempWidth > width)

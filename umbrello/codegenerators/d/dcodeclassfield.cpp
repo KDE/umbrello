@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008                                                    *
+ *   copyright (C) 2008-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -37,7 +37,7 @@ DCodeClassField::DCodeClassField (ClassifierCodeDocument * parentDoc, UMLAttribu
 {
 }
 
-DCodeClassField::~DCodeClassField ( )
+DCodeClassField::~DCodeClassField()
 {
 }
 
@@ -46,12 +46,12 @@ QString DCodeClassField::getFieldName()
     if (parentIsAttribute())
     {
         UMLAttribute * at = (UMLAttribute*) getParentObject();
-        return cleanName(at->getName());
+        return cleanName(at->name());
     }
     else
     {
         UMLRole * role = (UMLRole*) getParentObject();
-        QString roleName = role->getName();
+        QString roleName = role->name();
         roleName = roleName.replace(0, 1, roleName[0].toLower());
 
         if(fieldIsSingleValue()) {
@@ -88,7 +88,7 @@ QString DCodeClassField::getInitialValue()
 
 }
 
-QString DCodeClassField::getTypeName ( )
+QString DCodeClassField::getTypeName()
 {
     return DCodeGenerator::fixTypeName(CodeClassField::getTypeName());
 }

@@ -80,7 +80,7 @@ void UMLCheckConstraintDialog::setupDialog()
     m_pCheckConditionTE->setText(m_pCheckConstraint->getCheckCondition());
 
     // set text of label
-    m_pNameLE->setText( m_pCheckConstraint->getName() );
+    m_pNameLE->setText( m_pCheckConstraint->name() );
 }
 
 /**

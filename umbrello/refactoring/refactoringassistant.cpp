@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Luis De la Parra <lparrab@gmx.net>                 *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -81,7 +81,7 @@ void RefactoringAssistant::refactor(UMLClassifier *obj)
     if (! m_umlObject) {
         return;
     }
-    uDebug() << "called for " << m_umlObject->getName();
+    uDebug() << "called for " << m_umlObject->name();
 
     addClassifier(obj, 0, true, true, true);
     QTreeWidgetItem *item = topLevelItem(0);
@@ -123,7 +123,7 @@ QTreeWidgetItem* RefactoringAssistant::findListViewItem(const UMLObject *obj)
             return it.key();
         }
     }
-    uWarning() << "Object id " << ID2STR(obj->getID()) << "does not have an item in the tree";
+    uWarning() << "Object id " << ID2STR(obj->id()) << "does not have an item in the tree";
     return 0;
 }
 
@@ -148,8 +148,8 @@ void RefactoringAssistant::itemExecuted(QTreeWidgetItem *item, int column)
  */
 void RefactoringAssistant::setVisibilityIcon(QTreeWidgetItem *item , const UMLObject *obj)
 {
-    Uml::Object_Type t = obj->getBaseType();
-    switch (obj->getVisibility()) {
+    Uml::Object_Type t = obj->baseType();
+    switch (obj->visibility()) {
     case Uml::Visibility::Public:
         if (t == Uml::ot_Operation) {
             item->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method));
@@ -201,7 +201,7 @@ void RefactoringAssistant::objectModified(const UMLObject *obj)
     if (!item) {
         return;
     }
-    item->setText(0, obj->getName());
+    item->setText(0, obj->name());
     if (typeid(*obj) == typeid(UMLOperation) ||
             typeid(*obj) == typeid(UMLAttribute)) {
         setVisibilityIcon(item, obj);
@@ -215,10 +215,10 @@ void RefactoringAssistant::objectModified(const UMLObject *obj)
 void RefactoringAssistant::operationAdded(UMLClassifierListItem *listItem)
 {
     UMLOperation *op = static_cast<UMLOperation*>(listItem);
-    uDebug() << "operation = " << op->getName();  //:TODO:
+    uDebug() << "operation = " << op->name();  //:TODO:
     UMLClassifier *parent = dynamic_cast<UMLClassifier*>(op->parent());
     if (!parent) {
-        uWarning() << op->getName() << " - Parent of operation is not a classifier!";
+        uWarning() << op->name() << " - Parent of operation is not a classifier!";
         return;
     }
     QTreeWidgetItem *item = findListViewItem(parent);
@@ -228,11 +228,11 @@ void RefactoringAssistant::operationAdded(UMLClassifierListItem *listItem)
     for (int i = 0; i < item->childCount(); ++i) {
         QTreeWidgetItem *folder = item->child(i);
         if (folder->text(1) == "operations") {
-            item = new QTreeWidgetItem(folder, QStringList(op->getName()));
+            item = new QTreeWidgetItem(folder, QStringList(op->name()));
             m_umlObjectMap[item] = op;
             connect(op, SIGNAL(modified()), this, SLOT(objectModified()));
             setVisibilityIcon(item, op);
-            uDebug() << "operation = " << op->getName() << " added!";  //:TODO:
+            uDebug() << "operation = " << op->name() << " added!";  //:TODO:
             break;
         }
     }
@@ -261,10 +261,10 @@ void RefactoringAssistant::operationRemoved(UMLClassifierListItem *listItem)
 void RefactoringAssistant::attributeAdded(UMLClassifierListItem *listItem)
 {
     UMLAttribute *att = static_cast<UMLAttribute*>(listItem);
-    uDebug() << "attribute = " << att->getName();  //:TODO:
+    uDebug() << "attribute = " << att->name();  //:TODO:
     UMLClassifier *parent = dynamic_cast<UMLClassifier*>(att->parent());
     if (!parent) {
-        uWarning() << att->getName() << " - Parent of attribute is not a classifier!";
+        uWarning() << att->name() << " - Parent of attribute is not a classifier!";
         return;
     }
     QTreeWidgetItem *item = findListViewItem(parent);
@@ -275,11 +275,11 @@ void RefactoringAssistant::attributeAdded(UMLClassifierListItem *listItem)
     for (int i = 0; i < item->childCount(); ++i) {
         QTreeWidgetItem *folder = item->child(i);
         if (folder->text(1) == "attributes") {
-            item = new QTreeWidgetItem(folder, QStringList(att->getName()));
+            item = new QTreeWidgetItem(folder, QStringList(att->name()));
             m_umlObjectMap[item] = att;
             connect(att, SIGNAL(modified()), this, SLOT(objectModified()));
             setVisibilityIcon(item, att);
-            uDebug() << "attribute = " << att->getName() << " added!";  //:TODO:
+            uDebug() << "attribute = " << att->name() << " added!";  //:TODO:
             break;
         }
     }
@@ -292,7 +292,7 @@ void RefactoringAssistant::attributeAdded(UMLClassifierListItem *listItem)
 void RefactoringAssistant::attributeRemoved(UMLClassifierListItem *listItem)
 {
     UMLAttribute *att = static_cast<UMLAttribute*>(listItem);
-    uDebug() << "attribute = " << att->getName();  //:TODO:
+    uDebug() << "attribute = " << att->name();  //:TODO:
     QTreeWidgetItem *item = findListViewItem(att);
     if (!item) {
         uWarning() << "Attribute is not in tree!";
@@ -301,7 +301,7 @@ void RefactoringAssistant::attributeRemoved(UMLClassifierListItem *listItem)
     disconnect(att, SIGNAL(modified()), this, SLOT(objectModified()));
     m_umlObjectMap.remove(item);
     delete item;
-    uDebug() << "attribute = " << att->getName() << " deleted!";  //:TODO:
+    uDebug() << "attribute = " << att->name() << " deleted!";  //:TODO:
 }
 
 /**
@@ -325,7 +325,7 @@ void RefactoringAssistant::editProperties()
 void RefactoringAssistant::editProperties(UMLObject *obj)
 {
     KDialog *dia(0);
-    Uml::Object_Type t = obj->getBaseType();
+    Uml::Object_Type t = obj->baseType();
     if (t == Uml::ot_Class || t == Uml::ot_Interface) {
         dia = new ClassPropDlg(this, obj, true);
     }
@@ -366,7 +366,7 @@ void RefactoringAssistant::deleteItem()
  */
 void RefactoringAssistant::deleteItem(QTreeWidgetItem *item, UMLObject *obj)
 {
-    Uml::Object_Type t = obj->getBaseType();
+    Uml::Object_Type t = obj->baseType();
     if (t == Uml::ot_Class || t == Uml::ot_Interface) {
         uDebug() << "Delete class or interface - not yet implemented!";  //:TODO:
     }
@@ -432,7 +432,7 @@ void RefactoringAssistant::showContextMenu(const QPoint& p)
     m_menu->clear();
     UMLObject *obj = findUMLObject(item);
     if (obj) { // Menu for UMLObjects
-        Uml::Object_Type t = obj->getBaseType();
+        Uml::Object_Type t = obj->baseType();
         if (t == Uml::ot_Class) {
             m_menu->addAction(createAction(i18n("Add Base Class"), SLOT(addBaseClassifier()), Icon_Utils::it_Generalisation));
             m_menu->addAction(createAction(i18n("Add Derived Class"), SLOT(addDerivedClassifier()), Icon_Utils::it_Uniassociation));
@@ -485,7 +485,7 @@ void RefactoringAssistant::addBaseClassifier()
     }
 
     //classes have classes and interfaces interfaces as super/derived classifiers
-    Uml::Object_Type t = obj->getBaseType();
+    Uml::Object_Type t = obj->baseType();
     UMLClassifier *super = static_cast<UMLClassifier*>(Object_Factory::createUMLObject(t));
     if (!super) {
         return;
@@ -502,7 +502,7 @@ void RefactoringAssistant::addBaseClassifier()
             return;
         }
         if (baseFolder->text(0) == i18n("Base Classifiers")) {
-            item = new QTreeWidgetItem(baseFolder, QStringList(super->getName()));
+            item = new QTreeWidgetItem(baseFolder, QStringList(super->name()));
             item->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Generalisation));
             item->setExpanded(true);
             m_umlObjectMap[item] = super;
@@ -530,7 +530,7 @@ void RefactoringAssistant::addDerivedClassifier()
     }
 
     //classes have classes and interfaces have interfaces as super/derived classifiers
-    Uml::Object_Type t = obj->getBaseType();
+    Uml::Object_Type t = obj->baseType();
     UMLClassifier *derived = static_cast<UMLClassifier*>(Object_Factory::createUMLObject(t));
     if (!derived) {
         return;
@@ -547,7 +547,7 @@ void RefactoringAssistant::addDerivedClassifier()
             return;
         }
         if (derivedFolder->text(0) == i18n("Derived Classifiers")) {
-            item = new QTreeWidgetItem(derivedFolder, QStringList(derived->getName()));
+            item = new QTreeWidgetItem(derivedFolder, QStringList(derived->name()));
             item->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Uniassociation));
             item->setExpanded(true);
             m_umlObjectMap[item] = derived;
@@ -635,13 +635,13 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
         uWarning() << "No classifier given - do nothing!";
         return;
     }
-    uDebug() << classifier->getName() << " added.";
+    uDebug() << classifier->name() << " added.";
     QTreeWidgetItem *classifierItem, *item;
     if (parent) {
         classifierItem = parent;
     }
     else {
-        classifierItem = new QTreeWidgetItem(this, QStringList(classifier->getName()));
+        classifierItem = new QTreeWidgetItem(this, QStringList(classifier->name()));
         m_umlObjectMap[classifierItem] = classifier;
     }
 
@@ -685,7 +685,7 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
         superFolder->setExpanded(true);
         UMLClassifierList super = classifier->findSuperClassConcepts();
         foreach(UMLClassifier* cl, super) {
-            item = new QTreeWidgetItem(superFolder, QStringList(cl->getName()));
+            item = new QTreeWidgetItem(superFolder, QStringList(cl->name()));
             item->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Generalisation));
             item->setExpanded(true);
             m_umlObjectMap[item] = cl;
@@ -700,7 +700,7 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
         derivedFolder->setExpanded(true);
         UMLClassifierList derived = classifier->findSubClassConcepts();
         foreach(UMLClassifier* d, derived) {
-            item = new QTreeWidgetItem(derivedFolder, QStringList(d->getName()));
+            item = new QTreeWidgetItem(derivedFolder, QStringList(d->name()));
             item->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Uniassociation));
             item->setExpanded(true);
             m_umlObjectMap[item] = d;
@@ -786,7 +786,7 @@ uDebug() << "acceptProposedAction";  //:TODO:fischer
         return;
     }
     QTreeWidgetItem* parentItem = afterme->parent();
-    Uml::Object_Type t = movingObject->getBaseType();
+    Uml::Object_Type t = movingObject->baseType();
     newClassifier = dynamic_cast<UMLClassifier*>(findUMLObject(parentItem));
     if (!newClassifier) {
         if ((parentItem->text(1) == "operations" && t == Uml::ot_Operation)
@@ -801,8 +801,8 @@ uDebug() << "acceptProposedAction";  //:TODO:fischer
     if (t == Uml::ot_Operation) {
         uDebug() << "Moving operation";
         UMLOperation *op = static_cast<UMLOperation*>(movingObject);
-        if (newClassifier->checkOperationSignature(op->getName(), op->getParmList())) {
-            QString msg = i18n("An operation with that signature already exists in %1.\n", newClassifier->getName())
+        if (newClassifier->checkOperationSignature(op->name(), op->getParmList())) {
+            QString msg = i18n("An operation with that signature already exists in %1.\n", newClassifier->name())
                           +
                           i18n("Choose a different name or parameter list.");
             KMessageBox::error(this, msg, i18n("Operation Name Invalid"), false);
@@ -817,13 +817,13 @@ uDebug() << "acceptProposedAction";  //:TODO:fischer
 
         newClassifier->addOperation(newOp);
         m_doc->signalUMLObjectCreated(newOp);  //:TODO: really?
-uDebug() << "oldClassifier=" << oldClassifier->getName() << " / newClassifier=" << newClassifier->getName();  //:TODO:fischer
+uDebug() << "oldClassifier=" << oldClassifier->name() << " / newClassifier=" << newClassifier->name();  //:TODO:fischer
     }
     else if (t == Uml::ot_Attribute) {
         uDebug() << "Moving attribute";
         UMLAttribute *att = static_cast<UMLAttribute*>(movingObject);
         if (newClassifier->getAttributeList().contains(att)) {
-            QString msg = i18n("An attribute with that name already exists in %1.\n", newClassifier->getName())
+            QString msg = i18n("An attribute with that name already exists in %1.\n", newClassifier->name())
                           +
                           i18n("Choose a different name.");
             KMessageBox::error(this, msg, i18n("Attribute Name Invalid"), false);
@@ -838,7 +838,7 @@ uDebug() << "oldClassifier=" << oldClassifier->getName() << " / newClassifier=" 
 
         newClassifier->addAttribute(newAtt);
         m_doc->signalUMLObjectCreated(newAtt);  //:TODO: really?
-uDebug() << "oldClassifier=" << oldClassifier->getName() << " / newClassifier=" << newClassifier->getName();  //:TODO:fischer
+uDebug() << "oldClassifier=" << oldClassifier->name() << " / newClassifier=" << newClassifier->name();  //:TODO:fischer
     }
 //    emit moved();
     refactor(m_umlObject);  //:TODO:fischer

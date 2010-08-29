@@ -96,7 +96,7 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
     ClassifierCodeDocument * classDoc = dynamic_cast<ClassifierCodeDocument*>(codeDoc);
     if (classDoc) {
         UMLClassifier *c = classDoc->getParentClassifier();
-        id = ID2STR(c->getID()); // this is supposed to be unique already..
+        id = ID2STR(c->id()); // this is supposed to be unique already..
     }
     else {
         QString prefix = "doc";
@@ -244,7 +244,7 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
         uDebug() << "found UMLObject for id:" << idStr;
         QString value = codeDocElement.attribute("value", "");
 
-        Uml::Object_Type t = obj->getBaseType();
+        Uml::Object_Type t = obj->baseType();
         if (t == Uml::ot_Operation) {
             UMLOperation *op = static_cast<UMLOperation*>(obj);
             op->setSourceCode(value);
@@ -278,7 +278,7 @@ void CodeGenerator::saveToXMI(QDomDocument & doc, QDomElement & root)
                     continue;
                 }
                 QDomElement codeElement = doc.createElement("sourcecode");
-                codeElement.setAttribute("id", ID2STR(op->getID()));
+                codeElement.setAttribute("id", ID2STR(op->id()));
                 codeElement.setAttribute("value", code);
                 docElement.appendChild( codeElement );
             }
@@ -374,7 +374,7 @@ void CodeGenerator::checkRemoveUMLObject(UMLObject * obj)
 
 CodeDocument * CodeGenerator::findCodeDocumentByClassifier(UMLClassifier * classifier)
 {
-    return findCodeDocumentByID(ID2STR(classifier->getID()));
+    return findCodeDocumentByID(ID2STR(classifier->id()));
 }
 
 /**
@@ -703,12 +703,12 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
             {
                 UMLObject *objA = a->getObject(Uml::A);
                 UMLObject *objB = a->getObject(Uml::B);
-                if (objA == c && objB->getBaseType() != Uml::ot_Datatype) {
+                if (objA == c && objB->baseType() != Uml::ot_Datatype) {
                     temp = static_cast<UMLPackage*>(objB);
                 }
             }
             break;
-        default: /* all others.. like for state diagrams..we currently don't use */
+        default: // all others.. like for state diagrams..we currently don't use
             break;
         }
 
@@ -724,14 +724,14 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         temp = 0;
         //check return value
         temp = (UMLClassifier*) op->getType();
-        if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp)) {
+        if (temp && temp->baseType() != Uml::ot_Datatype && !cList.count(temp)) {
             cList.append(temp);
         }
         //check parameters
         UMLAttributeList atl = op->getParmList();
         foreach(UMLAttribute *at , atl) {
             temp = (UMLClassifier*)at->getType();
-            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp)) {
+            if (temp && temp->baseType() != Uml::ot_Datatype && !cList.count(temp)) {
                 cList.append(temp);
             }
         }
@@ -743,7 +743,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         foreach (UMLAttribute *at , atl ) {
             temp=0;
             temp = (UMLClassifier*) at->getType();
-            if (temp && temp->getBaseType() != Uml::ot_Datatype && !cList.count(temp)) {
+            if (temp && temp->baseType() != Uml::ot_Datatype && !cList.count(temp)) {
                 cList.append(temp);
             }
         }

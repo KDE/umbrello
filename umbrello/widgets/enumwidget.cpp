@@ -68,7 +68,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
     const int fontHeight  = fm.lineSpacing();
     QString name;
     if ( m_bShowPackage ) {
-        name = m_pObject->getFullyQualifiedName();
+        name = m_pObject->fullyQualifiedName();
     } else {
         name = this->name();
     }
@@ -81,9 +81,9 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
     p.setFont(font);
     p.drawText(offsetX + ENUM_MARGIN, offsetY,
                w - ENUM_MARGIN * 2,fontHeight,
-               Qt::AlignCenter, m_pObject->getStereotype(true));
+               Qt::AlignCenter, m_pObject->stereotype(true));
 
-    font.setItalic( m_pObject -> getAbstract() );
+    font.setItalic( m_pObject->isAbstract() );
     p.setFont(font);
     p.drawText(offsetX + ENUM_MARGIN, offsetY + fontHeight,
                w - ENUM_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
@@ -102,7 +102,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
     UMLClassifierListItem* enumLiteral = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
     foreach (enumLiteral , list ) {
-        QString text = enumLiteral->getName();
+        QString text = enumLiteral->name();
         p.setPen( QPen(Qt::black) );
         p.drawText(offsetX + ENUM_MARGIN, offsetY + y,
                    fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
@@ -147,11 +147,11 @@ QSize EnumWidget::calculateSize()
     //now set the width of the concept
     //set width to name to start with
     if (m_bShowPackage)  {
-        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->getFullyQualifiedName()).width();
+        width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->fullyQualifiedName()).width();
     } else {
         width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(name()).width();
     }
-    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
+    int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->stereotype(true)).width();
 
 
     width = w > width?w:width;
@@ -160,7 +160,7 @@ QSize EnumWidget::calculateSize()
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
     UMLClassifierListItem* listItem = 0;
     foreach (listItem , list ) {
-        int w = fm.width( listItem->getName() );
+        int w = fm.width( listItem->name() );
         width = w > width?w:width;
     }
 

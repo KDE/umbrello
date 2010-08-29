@@ -26,8 +26,8 @@
 #include "codegenerationwizard.h"  //:TODO: circular reference
 #include "codegenerator.h"
 #include "codegenerationpolicypage.h"
-#include "codegenerators/codegenfactory.h"
-#include "codegenerators/codegenpolicyext.h"
+#include "codegenfactory.h"
+#include "codegenpolicyext.h"
 #include "defaultcodegenpolicypage.h"
 #include "model_utils.h"
 #include "uml.h"
@@ -140,7 +140,7 @@ bool CodeGenStatusPage::isComplete() const
  */
 void CodeGenStatusPage::classGenerated(UMLClassifier* concept, bool generated)
 {
-    QList<QTableWidgetItem*> items = ui_tableWidgetStatus->findItems( concept->getFullyQualifiedName(), Qt::MatchFixedString );
+    QList<QTableWidgetItem*> items = ui_tableWidgetStatus->findItems( concept->fullyQualifiedName(), Qt::MatchFixedString );
     if (items.count() > 0) {
         QTableWidgetItem* item = items.at(0);
         if ( !item ) {

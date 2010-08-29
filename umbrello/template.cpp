@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,27 +17,32 @@
 // app includes
 #include "uml.h"
 #include "umldoc.h"
-#include "dialogs/umltemplatedialog.h"
+#include "umltemplatedialog.h"
 
 UMLTemplate::UMLTemplate(UMLObject *parent, const QString& name,
                          Uml::IDType id, const QString& type)
-        : UMLClassifierListItem( parent, name, id ) {
+        : UMLClassifierListItem( parent, name, id )
+{
     setTypeName( type );
     m_BaseType = Uml::ot_Template;
 }
 
 UMLTemplate::UMLTemplate(UMLObject *parent)
-        : UMLClassifierListItem( parent ) {
+        : UMLClassifierListItem( parent )
+{
     m_BaseType = Uml::ot_Template;
 }
 
-UMLTemplate::~UMLTemplate() {}
+UMLTemplate::~UMLTemplate()
+{
+}
 
-QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/) {
-    if (m_pSecondary == NULL || m_pSecondary->getName() == "class") {
-        return getName();
+QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/)
+{
+    if (m_pSecondary == NULL || m_pSecondary->name() == "class") {
+        return name();
     } else {
-        return getName() + " : " + m_pSecondary->getName();
+        return name() + " : " + m_pSecondary->name();
     }
 }
 
@@ -54,10 +58,11 @@ QString UMLTemplate::getTypeName() const
 {
     if (m_pSecondary == NULL)
         return "class";
-    return m_pSecondary->getName();
+    return m_pSecondary->name();
 }
 
-bool UMLTemplate::operator==(const UMLTemplate &rhs) {
+bool UMLTemplate::operator==(const UMLTemplate &rhs)
+{
     if (this == &rhs) {
         return true;
     }
@@ -94,18 +99,20 @@ UMLObject* UMLTemplate::clone() const
 /**
  * Writes the <UML:TemplateParameter> XMI element.
  */
-void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void UMLTemplate::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     //FIXME: uml13.dtd compliance
     QDomElement attributeElement = UMLObject::save("UML:TemplateParameter", qDoc);
     if (m_pSecondary)
-        attributeElement.setAttribute("type", ID2STR(m_pSecondary->getID()));
+        attributeElement.setAttribute("type", ID2STR(m_pSecondary->id()));
     qElement.appendChild(attributeElement);
 }
 
 /**
  * Loads the <UML:TemplateParameter> XMI element.
  */
-bool UMLTemplate::load(QDomElement& element) {
+bool UMLTemplate::load(QDomElement& element)
+{
     m_SecondaryId = element.attribute("type", "");
     return true;
 }
@@ -115,7 +122,8 @@ bool UMLTemplate::load(QDomElement& element) {
  *
  * @return  Success status.
  */
-bool UMLTemplate::showPropertiesDialog(QWidget* parent) {
+bool UMLTemplate::showPropertiesDialog(QWidget* parent)
+{
     UMLTemplateDialog dialog(parent, this);
     return dialog.exec();
 }

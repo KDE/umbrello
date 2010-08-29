@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2007                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -63,11 +63,12 @@
 
 namespace Widget_Factory {
 
-UMLWidget *createWidget(UMLView *view, UMLObject *o) {
+UMLWidget *createWidget(UMLView *view, UMLObject *o)
+{
     QPoint pos = view->getPos();
     int y = pos.y();
     Uml::Diagram_Type diagramType = view->getType();
-    Uml::Object_Type type = o->getBaseType();
+    Uml::Object_Type type = o->baseType();
     UMLWidget *newWidget = NULL;
     switch (type) {
     case Uml::ot_Actor:
@@ -153,7 +154,8 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o) {
     return newWidget;
 }
 
-bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id) {
+bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id)
+{
     if (o == NULL) {
         uDebug() << "Widget_Factory::validateObjType: creating new object of type "
                  << expected << endl;
@@ -162,21 +164,22 @@ bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id) {
         if (o == NULL)
             return false;
         o->setID(id);
-        UMLPackage *parentPkg = o->getUMLPackage();
+        UMLPackage *parentPkg = o->umlPackage();
         parentPkg->addObject(o);
         return true;
     }
-    Uml::Object_Type actual = o->getBaseType();
+    Uml::Object_Type actual = o->baseType();
     if (actual == expected)
         return true;
-    uError() << "validateObjType(" << o->getName()
+    uError() << "validateObjType(" << o->name()
         << "): expected type " << expected << ", actual type "
         << actual << endl;
     return false;
 }
 
 UMLWidget* makeWidgetFromXMI(const QString& tag,
-                             const QString& idStr, UMLView *view) {
+                             const QString& idStr, UMLView *view)
+{
     UMLWidget *widget = NULL;
 
         // Loading of widgets which do NOT represent any UMLObject,

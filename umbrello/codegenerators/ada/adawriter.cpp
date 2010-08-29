@@ -63,7 +63,7 @@ Uml::Programming_Language AdaWriter::language() const
  */
 bool AdaWriter::isOOClass(UMLClassifier *c)
 {
-    Uml::Object_Type ot = c->getBaseType();
+    Uml::Object_Type ot = c->baseType();
     if (ot == Uml::ot_Interface)
         return true;
     if (ot == Uml::ot_Enum)
@@ -72,7 +72,7 @@ bool AdaWriter::isOOClass(UMLClassifier *c)
         uDebug() << "unknown object type " << ot;
         return false;
     }
-    QString stype = c->getStereotype();
+    QString stype = c->stereotype();
     if (stype == "CORBAConstant" || stype == "CORBATypedef" ||
             stype == "CORBAStruct" || stype == "CORBAUnion")
         return false;
@@ -91,15 +91,15 @@ QString AdaWriter::className(UMLClassifier *c, bool inOwnScope)
     // enclosing package then the class name acts as the Ada package
     // name.
     QString retval;
-    QString className = cleanName(c->getName());
-    UMLPackage *umlPkg = c->getUMLPackage();
+    QString className = cleanName(c->name());
+    UMLPackage *umlPkg = c->umlPackage();
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::mt_Logical)) {
         if (! inOwnScope)
             retval = className + '.';
         retval.append("Object");
     } else {
         if (! inOwnScope)
-            retval = umlPkg->getFullyQualifiedName(".") + '.';
+            retval = umlPkg->fullyQualifiedName(".") + '.';
         retval.append(className);
     }
     return retval;
@@ -114,8 +114,8 @@ QString AdaWriter::packageName(UMLPackage *p)
     // the class name is the type name; if the class does not have an
     // enclosing package then the class name acts as the Ada package
     // name.
-    UMLPackage *umlPkg = p->getUMLPackage();
-    QString className = cleanName(p->getName());
+    UMLPackage *umlPkg = p->umlPackage();
+    QString className = cleanName(p->name());
     QString retval;
 
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::mt_Logical))
@@ -127,7 +127,7 @@ QString AdaWriter::packageName(UMLPackage *p)
         if (c == NULL || !isOOClass(c))
             retval.append(defaultPackageSuffix);
     } else {
-        retval = umlPkg->getFullyQualifiedName(".");
+        retval = umlPkg->fullyQualifiedName(".");
     }
     return retval;
 }
@@ -155,9 +155,9 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
     hasNonUnityMultiplicity &= !multi.contains(QRegExp("^1 *\\.\\. *1$"));
     roleName = cleanName(a->getRoleName(Uml::B));
     if (roleName.isEmpty())
-        roleName = cleanName(a->getName());
+        roleName = cleanName(a->name());
     if (roleName.isEmpty()) {
-        QString artificialName = cleanName(assocEnd->getName());
+        QString artificialName = cleanName(assocEnd->name());
         if (hasNonUnityMultiplicity) {
             roleName = artificialName;
             roleName.append("_Vector");
@@ -185,7 +185,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     }
 
     const bool isClass = !c->isInterface();
-    QString classname = cleanName(c->getName());
+    QString classname = cleanName(c->name());
     QString fileName = packageName(c).toLower();
     fileName.replace('.', '-');
 
@@ -219,7 +219,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     findObjectsRelated(c, imports);
     if (imports.count()) {
         foreach (UMLPackage* con, imports ) {
-            if (con->getBaseType() != Uml::ot_Datatype)
+            if (con->baseType() != Uml::ot_Datatype)
                 ada << "with " << packageName(con) << "; " << m_endl;
         }
         ada << m_endl;
@@ -231,7 +231,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         ada << indent() << "generic" << m_endl;
         m_indentLevel++;
         foreach (UMLTemplate* t, template_params ) {
-            QString formalName = t->getName();
+            QString formalName = t->name();
             QString typeName = t->getTypeName();
             if (typeName == "class") {
                 ada << indent() << "type " << formalName << " is tagged private;"
@@ -244,7 +244,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
                     ada << indent() << "type " << formalName << " is new " << typeName
                     << " with private;  -- CHECK: codegen error"
                     << m_endl;
-                } else if (typeObj->getBaseType() == Uml::ot_Datatype) {
+                } else if (typeObj->baseType() == Uml::ot_Datatype) {
                     ada << indent() << formalName << " : " << typeName << ";"
                     << m_endl;
                 } else {
@@ -260,14 +260,14 @@ void AdaWriter::writeClass(UMLClassifier *c)
     QString pkg = packageName(c);
     ada << indent() << "package " << pkg << " is" << m_endl << m_endl;
     m_indentLevel++;
-    if (c->getBaseType() == Uml::ot_Enum) {
+    if (c->baseType() == Uml::ot_Enum) {
         UMLEnum *ue = static_cast<UMLEnum*>(c);
         UMLClassifierListItemList litList = ue->getFilteredList(Uml::ot_EnumLiteral);
         uint i = 0;
         ada << indent() << "type " << classname << " is (" << m_endl;
         m_indentLevel++;
         foreach (UMLClassifierListItem* lit, litList ) {
-            QString enumLiteral = cleanName(lit->getName());
+            QString enumLiteral = cleanName(lit->name());
             ada << indent() << enumLiteral;
             if (++i < ( uint )litList.count())
                 ada << "," << m_endl;
@@ -279,7 +279,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         return;
     }
     if (! isOOClass(c)) {
-        QString stype = c->getStereotype();
+        QString stype = c->stereotype();
         if (stype == "CORBAConstant") {
             ada << indent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else if(stype == "CORBAStruct") {
@@ -288,7 +288,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
                 ada << indent() << "type " << classname << " is record" << m_endl;
                 m_indentLevel++;
                 foreach (UMLAttribute* at,  atl ) {
-                    QString name = cleanName(at->getName());
+                    QString name = cleanName(at->name());
                     QString typeName = at->getTypeName();
                     ada << indent() << name << " : " << typeName;
                     QString initialVal = at->getInitialValue();
@@ -312,10 +312,10 @@ void AdaWriter::writeClass(UMLClassifier *c)
     }
 
     // Write class Documentation if non-empty or if force option set.
-    if (forceDoc() || !c->getDoc().isEmpty()) {
+    if (forceDoc() || !c->doc().isEmpty()) {
         ada << "--" << m_endl;
         ada << "-- class " << classname << endl;
-        ada << formatDoc(c->getDoc(), "-- ");
+        ada << formatDoc(c->doc(), "-- ");
         ada << m_endl;
     }
 
@@ -323,7 +323,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
 
     const QString name = className(c);
     ada << indent() << "type " << name << " is ";
-    if (c->getAbstract())
+    if (c->isAbstract())
         ada << "abstract ";
     if (superclasses.isEmpty()) {
         ada << "tagged ";
@@ -345,20 +345,20 @@ void AdaWriter::writeClass(UMLClassifier *c)
         atl = c->getAttributeList();
 
         foreach (UMLAttribute* at, atl ) {
-            if (at->getVisibility() == Uml::Visibility::Public)
+            if (at->visibility() == Uml::Visibility::Public)
                 atpub.append(at);
         }
         if (forceSections() || atpub.count())
             ada << indent() << "-- Accessors for public attributes:" << m_endl << m_endl;
 
         foreach (UMLAttribute* at, atpub ) {
-            QString member = cleanName(at->getName());
+            QString member = cleanName(at->name());
             ada << indent() << "procedure Set_" << member << " (";
-            if (! at->getStatic())
+            if (! at->isStatic())
                 ada << "Self : access " << name << "; ";
             ada << "To : " << at->getTypeName() << ");" << m_endl;
             ada << indent() << "function  Get_" << member;
-            if (! at->getStatic())
+            if (! at->isStatic())
                 ada << " (Self : access " << name << ")";
             ada << " return " << at->getTypeName() << ";" << m_endl
             << m_endl;
@@ -369,7 +369,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     UMLOperationList opl(c->getOpList());
     UMLOperationList oppub;
     foreach (UMLOperation* op, opl ) {
-        if (op->getVisibility() == Uml::Visibility::Public)
+        if (op->visibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
@@ -387,7 +387,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     UMLAssociationList compositions = c->getCompositions();
 
     ada << indent() << "type " << name << " is ";
-    if (c->getAbstract())
+    if (c->isAbstract())
         ada << "abstract ";
     if (superclasses.isEmpty()) {
         ada << "tagged ";
@@ -425,9 +425,9 @@ void AdaWriter::writeClass(UMLClassifier *c)
     if (isClass && (forceSections() || atl.count())) {
         ada << indent() << "-- Attributes:" << m_endl;
         foreach (UMLAttribute* at, atl ) {
-            if (at->getStatic())
+            if (at->isStatic())
                 continue;
-            ada << indent() << cleanName(at->getName()) << " : "
+            ada << indent() << cleanName(at->name()) << " : "
             << at->getTypeName();
             if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty())
                 ada << " := " << at->getInitialValue();
@@ -442,16 +442,16 @@ void AdaWriter::writeClass(UMLClassifier *c)
     if (haveAttrs) {
         bool seen_static_attr = false;
         foreach (UMLAttribute* at, atl ) {
-            if (! at->getStatic())
+            if (! at->isStatic())
                 continue;
             if (! seen_static_attr) {
                 ada << indent() << "-- Static attributes:" << m_endl;
                 seen_static_attr = true;
             }
             ada << indent();
-            if (at->getVisibility() == Uml::Visibility::Private)
+            if (at->visibility() == Uml::Visibility::Private)
                 ada << "-- Private:  ";
-            ada << cleanName(at->getName()) << " : " << at->getTypeName();
+            ada << cleanName(at->name()) << " : " << at->getTypeName();
             if (at && ! at->getInitialValue().isEmpty() && ! at->getInitialValue().toLatin1().isEmpty() )
                 ada << " := " << at->getInitialValue();
             ada << ";" << m_endl;
@@ -462,7 +462,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     // Generate protected operations.
     UMLOperationList opprot;
     foreach (UMLOperation* op,  opl ) {
-        if (op->getVisibility() == Uml::Visibility::Protected)
+        if (op->visibility() == Uml::Visibility::Protected)
             opprot.append(op);
     }
     if (forceSections() || opprot.count())
@@ -479,7 +479,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     // into the package body.
     UMLOperationList oppriv;
     foreach (UMLOperation* op, opl ) {
-        const Uml::Visibility::Value vis = op->getVisibility();
+        const Uml::Visibility::Value vis = op->visibility();
         if (vis == Uml::Visibility::Private ||
             vis == Uml::Visibility::Implementation)
         oppriv.append(op);
@@ -515,11 +515,11 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
         ada << "procedure ";
     else
         ada << "function ";
-    ada << cleanName(op->getName()) << " ";
-    if (! (op->getStatic() && atl.count() == 0))
+    ada << cleanName(op->name()) << " ";
+    if (! (op->isStatic() && atl.count() == 0))
         ada << "(";
-    UMLClassifier *parentClassifier = static_cast<UMLClassifier*>(op->getUMLPackage());
-    if (! op->getStatic()) {
+    UMLClassifier *parentClassifier = static_cast<UMLClassifier*>(op->umlPackage());
+    if (! op->isStatic()) {
         ada << "Self : access " << className(parentClassifier);
         if (atl.count())
             ada << ";" << m_endl;
@@ -531,7 +531,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
             ada << indent();
             if (is_comment)
                 ada << "-- ";
-            ada << cleanName(at->getName()) << " : ";
+            ada << cleanName(at->name()) << " : ";
             Uml::Parameter_Direction pk = at->getParmKind();
             if (pk == Uml::pd_Out)
                 ada << "out ";
@@ -547,11 +547,11 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
         }
         m_indentLevel--;
     }
-    if (! (op->getStatic() && atl.count() == 0))
+    if (! (op->isStatic() && atl.count() == 0))
         ada << ")";
     if (! use_procedure)
         ada << " return " << rettype;
-    if (op->getAbstract())
+    if (op->isAbstract())
         ada << " is abstract";
     ada << ";" << m_endl << m_endl;
 }

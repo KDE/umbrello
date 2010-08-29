@@ -100,7 +100,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     QString methodName; // "get"+cppdoc->capitalizeFirstLetter(fieldName);
     QString methodParams = QChar(' '); // "get"+cppdoc->capitalizeFirstLetter(fieldName);
     QString headerText;
-    QString className = CodeGenerator::cleanName(c->getName());
+    QString className = CodeGenerator::cleanName(c->name());
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
     switch(getType()) {
@@ -108,36 +108,36 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
         methodName = "add_"+fieldType;
         methodReturnType = "void";
         methodParams = objectType+" value ";
-        headerText = "Add a "+fieldName+" object to the "+fieldName+"List"+endLine+getParentObject()->getDoc()+endLine+tag+"return void";
+        headerText = "Add a "+fieldName+" object to the "+fieldName+"List"+endLine+getParentObject()->doc()+endLine+tag+"return void";
         break;
     case CodeAccessorMethod::REMOVE:
         methodName = "remove_"+fieldType;
         methodParams = objectType+" value ";
         methodReturnType = "void";
-        headerText = "Remove a "+fieldName+" object from the "+fieldName+"List"+endLine+getParentObject()->getDoc()+endLine+tag+"return void";
+        headerText = "Remove a "+fieldName+" object from the "+fieldName+"List"+endLine+getParentObject()->doc()+endLine+tag+"return void";
         break;
     case CodeAccessorMethod::LIST:
         methodName = "get_"+fieldType+"_list";
         methodReturnType = vectorClassName;
-        headerText = "Get the "+fieldName+"List"+endLine+getParentObject()->getDoc()+endLine+tag+"return "+vectorClassName+"with list of objects";
+        headerText = "Get the "+fieldName+"List"+endLine+getParentObject()->doc()+endLine+tag+"return "+vectorClassName+"with list of objects";
         break;
     case CodeAccessorMethod::SET:
         methodName = "set_"+fieldName;
         methodParams = fieldType+" value ";
         methodReturnType = "void";
-        headerText = "Set the value of "+fieldName+endLine+getParentObject()->getDoc()+endLine+tag+"param value the value of "+fieldName;
+        headerText = "Set the value of "+fieldName+endLine+getParentObject()->doc()+endLine+tag+"param value the value of "+fieldName;
         break;
     case CodeAccessorMethod::GET:
     default:
         methodName = "get_"+fieldName;
         methodReturnType = fieldType;
-        headerText = "Get the value of "+fieldName+endLine+getParentObject()->getDoc()+endLine+tag+"return the value of "+fieldName;
+        headerText = "Get the value of "+fieldName+endLine+getParentObject()->doc()+endLine+tag+"return the value of "+fieldName;
         break;
     }
 
     // set header
     CPPCodeDocumentation * header = new CPPCodeDocumentation(doc);
-    if(!getParentObject()->getDoc().isEmpty())
+    if(!getParentObject()->doc().isEmpty())
         header->setText(headerText);
     setComment(header);
 

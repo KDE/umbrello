@@ -65,7 +65,7 @@ void UMLClassifierListItem::copyInto(UMLObject *lhs) const
 QString UMLClassifierListItem::toString(Uml::Signature_Type sig)
 {
     Q_UNUSED(sig);
-    return getName();
+    return name();
 }
 
 /**
@@ -87,10 +87,10 @@ QString UMLClassifierListItem::getTypeName() const
 {
     if (m_pSecondary == NULL)
         return m_SecondaryId;
-    const UMLPackage *typePkg = m_pSecondary->getUMLPackage();
+    const UMLPackage *typePkg = m_pSecondary->umlPackage();
     if (typePkg != NULL && typePkg != m_pUMLPackage)
-        return m_pSecondary->getFullyQualifiedName();
-    return m_pSecondary->getName();
+        return m_pSecondary->fullyQualifiedName();
+    return m_pSecondary->name();
 }
 
 /**

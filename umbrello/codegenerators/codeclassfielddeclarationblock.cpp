@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -141,7 +141,7 @@ void CodeClassFieldDeclarationBlock::syncToParent ()
         UMLRole * parent = dynamic_cast<UMLRole*>(getParentObject());
         if (parent == NULL)
             return;
-        if (parent->getName().isEmpty())
+        if (parent->name().isEmpty())
         {
             getComment()->setWriteOutText(false);
             setWriteOutText(false);

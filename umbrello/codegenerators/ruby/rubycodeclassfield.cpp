@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2008                                               *
+ *   copyright (C) 2006-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,12 +47,12 @@ QString RubyCodeClassField::getFieldName()
     if (parentIsAttribute())
     {
         UMLAttribute * at = (UMLAttribute*) getParentObject();
-        return cleanName(at->getName());
+        return cleanName(at->name());
     }
     else
     {
         UMLRole * role = (UMLRole*) getParentObject();
-        QString roleName = role->getName();
+        QString roleName = role->name();
         if(fieldIsSingleValue()) {
             return roleName.replace(0, 1, roleName.left(1).toLower());
         } else {

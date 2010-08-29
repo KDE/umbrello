@@ -17,7 +17,7 @@
 #include "umlobject.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "dialogs/umlforeignkeyconstraintdialog.h"
+#include "umlforeignkeyconstraintdialog.h"
 #include "object_factory.h"
 
 // kde includes
@@ -125,7 +125,7 @@ QString UMLForeignKeyConstraint::toString(Uml::Signature_Type sig )
     QString s;
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
-        s = getName() + ':';
+        s = name() + ':';
         s += " Foreign Key (";
         QList<UMLEntityAttribute*> keys = m_AttributeMap.keys();
         bool first = true;
@@ -134,7 +134,7 @@ QString UMLForeignKeyConstraint::toString(Uml::Signature_Type sig )
                 first = false;
             } else
                 s += ',';
-            s += key->getName();
+            s += key->name();
         }
         s += ')';
     }
@@ -149,7 +149,7 @@ void UMLForeignKeyConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qEle
 {
     QDomElement foreignKeyConstraintElement = UMLObject::save( "UML:ForeignKeyConstraint", qDoc );
 
-    foreignKeyConstraintElement.setAttribute( "referencedEntity", ID2STR( m_ReferencedEntity->getID() ) );
+    foreignKeyConstraintElement.setAttribute( "referencedEntity", ID2STR( m_ReferencedEntity->id() ) );
 
     int updateAction = (int)m_UpdateAction;
     int deleteAction = (int)m_DeleteAction;
@@ -160,8 +160,8 @@ void UMLForeignKeyConstraint::saveToXMI( QDomDocument & qDoc, QDomElement & qEle
     QMap<UMLEntityAttribute*, UMLEntityAttribute*>::iterator i;
     for (i = m_AttributeMap.begin(); i!= m_AttributeMap.end() ; ++i) {
         QDomElement mapElement = qDoc.createElement( "AttributeMap" );
-        mapElement.setAttribute( "key", ID2STR((i.key())->getID()) );
-        mapElement.setAttribute( "value", ID2STR((i.value())->getID()) );
+        mapElement.setAttribute( "key", ID2STR((i.key())->id()) );
+        mapElement.setAttribute( "value", ID2STR((i.value())->id()) );
         foreignKeyConstraintElement.appendChild( mapElement );
     }
 
@@ -197,17 +197,17 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
         return false;
     }
 
-    if ( owningParent->findChildObjectById( pAttr->getID() ) == NULL ) {
-        uError() << " parent " << owningParent->getName()
-                 << " does not contain attribute " << pAttr->getName();
+    if ( owningParent->findChildObjectById( pAttr->id() ) == NULL ) {
+        uError() << " parent " << owningParent->name()
+                 << " does not contain attribute " << pAttr->name();
         return false;
     }
 
     //check for sanity of rAttr ( referenced entity attribute )
     if ( m_ReferencedEntity != NULL ) {
-       if ( m_ReferencedEntity->findChildObjectById( rAttr->getID() ) == NULL ) {
-        uError() << " parent " << m_ReferencedEntity->getName()
-                 << " does not contain attribute " << rAttr->getName();
+       if ( m_ReferencedEntity->findChildObjectById( rAttr->id() ) == NULL ) {
+        uError() << " parent " << m_ReferencedEntity->name()
+                 << " does not contain attribute " << rAttr->name();
         return false;
        }
     } else {
@@ -230,8 +230,8 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
 
      QMap<UMLEntityAttribute*, UMLEntityAttribute*>::iterator i;
      for (i = m_AttributeMap.begin(); i != m_AttributeMap.end(); ++i)
-         uDebug()<<i.key()->getName()<<" "<<i.key()->getBaseType()
-                 <<" "<<i.value()->getName()<<" "<<i.value()->getBaseType()<<endl;
+         uDebug() << i.key()->name() << " " << i.key()->baseType()
+                 << " " << i.value()->name() << " " << i.value()->baseType();
 
      return true;
 }

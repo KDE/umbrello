@@ -53,7 +53,7 @@ UMLWidget::UMLWidget(UMLView * view, UMLObject * o, UMLWidgetController *widgetC
     m_pObject = o;
     if (m_pObject) {
         connect(m_pObject, SIGNAL(modified()), this, SLOT(updateWidget()));
-        m_nId = m_pObject->getID();
+        m_nId = m_pObject->id();
     }
 }
 
@@ -831,7 +831,7 @@ void UMLWidget::setName(const QString &strName)
 QString UMLWidget::name() const
 {
     if (m_pObject)
-        return m_pObject->getName();
+        return m_pObject->name();
     return m_Text;
 }
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,7 +33,7 @@
 #include "umlrole.h"
 #include "umlattributelist.h"
 #include "umloperationlist.h"
-#include "codegenerators/codegenfactory.h"
+#include "codegenfactory.h"
 
 
 ClassifierCodeDocument::ClassifierCodeDocument ( UMLClassifier * parent )
@@ -390,7 +390,7 @@ void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list ,
  */
 bool ClassifierCodeDocument::parentIsClass()
 {
-    return (m_parentclassifier->getBaseType() == Uml::ot_Class);
+    return (m_parentclassifier->baseType() == Uml::ot_Class);
 }
 
 /**
@@ -398,7 +398,7 @@ bool ClassifierCodeDocument::parentIsClass()
  */
 bool ClassifierCodeDocument::parentIsInterface()
 {
-    return (m_parentclassifier->getBaseType() == Uml::ot_Interface);
+    return (m_parentclassifier->baseType() == Uml::ot_Interface);
 }
 
 /**
@@ -445,13 +445,13 @@ void ClassifierCodeDocument::init (UMLClassifier * c )
 //
 void ClassifierCodeDocument::syncNamesToParent( )
 {
-    QString fileName = CodeGenerator::cleanName(getParentClassifier()->getName());
+    QString fileName = CodeGenerator::cleanName(getParentClassifier()->name());
     if (!UMLApp::app()->activeLanguageIsCaseSensitive()) {
         // @todo let the user decide about mixed case file names (codegen setup menu)
         fileName = fileName.toLower();
     }
     setFileName(fileName);
-    setPackage(m_parentclassifier->getUMLPackage());
+    setPackage(m_parentclassifier->umlPackage());
 }
 
 void ClassifierCodeDocument::synchronize( )
@@ -541,7 +541,7 @@ void ClassifierCodeDocument::updateAssociationClassFields ( UMLAssociationList &
 
 void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool syncToParentIfAdded)
 {
-    Uml::IDType cid = getParentClassifier()->getID(); // so we know who 'we' are
+    Uml::IDType cid = getParentClassifier()->id(); // so we know who 'we' are
     bool printRoleA = false, printRoleB = false, shouldSync = false;
     // it may seem counter intuitive, but you want to insert the role of the
     // *other* class into *this* class.
@@ -720,7 +720,7 @@ void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomEleme
     CodeDocument::setAttributesOnNode(doc, docElement);
 
     // cache local attributes/fields
-    docElement.setAttribute("parent_class", ID2STR(getParentClassifier()->getID()));
+    docElement.setAttribute("parent_class", ID2STR(getParentClassifier()->id()));
 
     // (code) class fields
     // which we will store in its own separate child node block

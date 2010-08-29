@@ -260,7 +260,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             o = origType;
         }
     } else if (parentPkg && !bPutAtGlobalScope) {
-        UMLPackage *existingPkg = o->getUMLPackage();
+        UMLPackage *existingPkg = o->umlPackage();
         if (existingPkg != umldoc->datatypeFolder()) {
             if (existingPkg)
                 existingPkg->removeObject(o);
@@ -292,7 +292,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
     QStringList::ConstIterator end(params.end());
     for (QStringList::ConstIterator it(params.begin()); it != end; ++it) {
         UMLObject *p = umldoc->findUMLObject(*it, Uml::ot_UMLObject, parentPkg);
-        if (p == NULL || p->getBaseType() == Uml::ot_Datatype)
+        if (p == NULL || p->baseType() == Uml::ot_Datatype)
             continue;
         const Uml::Association_Type at = Uml::at_Dependency;
         UMLAssociation *assoc = umldoc->findAssociation(at, gRelatedClassifier, p);
@@ -331,11 +331,11 @@ UMLObject* insertAttribute(UMLClassifier *owner,
                            const QString& comment /* ="" */,
                            bool isStatic /* =false */)
 {
-    Uml::Object_Type ot = owner->getBaseType();
+    Uml::Object_Type ot = owner->baseType();
     Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
     if (! (ot == Uml::ot_Class || (ot == Uml::ot_Interface && pl == Uml::pl_Java))) {
         uDebug() << "insertAttribute: Don not know what to do with "
-                 << owner->getName() << " (object type " << ot << ")";
+                 << owner->name() << " (object type " << ot << ")";
         return NULL;
     }
     UMLObject *o = owner->findChildObject(name, Uml::ot_Attribute);
@@ -403,7 +403,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
     op->setVisibility(scope);
     if (!type.isEmpty()     // return type may be missing (constructor/destructor)
         && type != "void") {
-        if (type == klass->getName()) {
+        if (type == klass->name()) {
             op->setType(klass);
         } else {
             UMLObject *typeObj = klass->findTemplate(type);
@@ -434,7 +434,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
     }
 
     UMLAttributeList params = op->getParmList();
-    UMLOperation *exist = klass->checkOperationSignature(op->getName(), params);
+    UMLOperation *exist = klass->checkOperationSignature(op->name(), params);
     if (exist) {
         // copy contents to existing operation
         exist->setVisibility(scope);
@@ -445,11 +445,11 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
         UMLAttributeList exParams = exist->getParmList();
         for (UMLAttributeListIt it(params), exIt( exParams ) ; it.hasNext() ;) {
             UMLAttribute *param = it.next() , *exParam = exIt.next();
-            exParam->setName(param->getName());
-            exParam->setVisibility(param->getVisibility());
-            exParam->setStatic(param->getStatic());
-            exParam->setAbstract(param->getAbstract());
-            exParam->setDoc(param->getDoc());
+            exParam->setName(param->name());
+            exParam->setVisibility(param->visibility());
+            exParam->setStatic(param->isStatic());
+            exParam->setAbstract(param->isAbstract());
+            exParam->setDoc(param->doc());
             exParam->setInitialValue(param->getInitialValue());
             exParam->setParmKind(param->getParmKind());
         }

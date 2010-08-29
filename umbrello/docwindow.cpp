@@ -83,7 +83,7 @@ void DocWindow::showDocumentation( UMLObject * object, bool overwrite )
         return;
     }
     m_pUMLObject = object;
-    m_pDocTE->setText( m_pUMLObject->getDoc() );
+    m_pDocTE->setText( m_pUMLObject->doc() );
 }
 
 /**
@@ -106,7 +106,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLObject->getDoc() )
+        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLObject->doc() )
         {
             mark_modified = true;
         }

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -115,7 +115,7 @@ void XMLElementCodeBlock::updateContent ( )
         if(at->getInitialValue().isEmpty())
             uWarning()<<" XMLElementCodeBlock : cant print out attribute that lacks an initial value";
         else {
-            startText.append(" " +at->getName()+"=\"");
+            startText.append(" " +at->name()+"=\"");
             startText.append(at->getInitialValue()+"\"");
         }
     }

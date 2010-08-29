@@ -16,7 +16,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "uniqueid.h"
-#include "clipboard/idchangelog.h"
+#include "idchangelog.h"
 
 // kde includes
 #include <kdebug.h>
@@ -101,7 +101,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
     //when creating enum literal via list view
     while (ok && !goodName && name.isNull()) {
         ok = newEnumLiteral->showPropertiesDialog( UMLApp::app() );
-        QString name = newEnumLiteral->getName();
+        QString name = newEnumLiteral->name();
 
         if(name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
@@ -153,7 +153,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::IDType id)
  */
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
 {
-    QString name = (QString)literal->getName();
+    QString name = (QString)literal->name();
     if (findChildObject(name) == NULL) {
         literal->setParent(this);
         m_List.append(literal);
@@ -162,7 +162,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
         connect(literal,SIGNAL(modified()),this,SIGNAL(modified()));
         return true;
     } else if (Log) {
-        Log->removeChangeByNewID( literal->getID() );
+        Log->removeChangeByNewID( literal->id() );
         delete literal;
     }
     return false;
@@ -179,7 +179,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
  */
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
 {
-    QString name = (QString)literal->getName();
+    QString name = (QString)literal->name();
     if (findChildObject(name) == NULL) {
         literal->setParent(this);
         if ( position >= 0 && position <= (int)m_List.count() )  {

@@ -4,14 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 //own header
 #include "checkconstraint.h"
 
-#include "dialogs/umlcheckconstraintdialog.h"
+#include "umlcheckconstraintdialog.h"
 
 // qt/kde includes
 #include <kdebug.h>
@@ -82,7 +82,7 @@ QString UMLCheckConstraint::toString(Uml::Signature_Type sig )
     QString s;
 
     if (sig == Uml::st_ShowSig || sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
-        s = getName() ;
+        s = name() ;
     }
 
     return s;
@@ -92,7 +92,7 @@ QString UMLCheckConstraint::getFullyQualifiedName(const QString& separator,
                                                   bool includeRoot ) const
 {
     Q_UNUSED(separator); Q_UNUSED(includeRoot);
-    return this->getName();
+    return this->name();
 }
 
 /**

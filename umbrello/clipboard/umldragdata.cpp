@@ -336,9 +336,9 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
             if(!doc->assignNewIDs(pObject)) {
                 return false;
             }
-            Uml::Object_Type type = pObject->getBaseType();
-            QString newName = Model_Utils::uniqObjectName(type, pObject->getUMLPackage(),
-                                                                pObject->getName());
+            Uml::Object_Type type = pObject->baseType();
+            QString newName = Model_Utils::uniqObjectName(type, pObject->umlPackage(),
+                                                                pObject->name());
             pObject->setName(newName);
             /****************************************************************/
         }
@@ -431,7 +431,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
         if (parent == NULL)
             return false;
         UMLObject *po = parent->getUMLObject();
-        if (po == NULL || po->getBaseType() != Uml::ot_Folder) {
+        if (po == NULL || po->baseType() != Uml::ot_Folder) {
             uError() << "Bad parent for view.";
             return false;
         }

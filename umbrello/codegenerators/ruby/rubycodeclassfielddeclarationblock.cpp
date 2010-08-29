@@ -40,12 +40,12 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
     Uml::Visibility::Value scopePolicy = p->getAssociationFieldScope();
 
     // Set the comment
-    QString notes = getParentObject()->getDoc();
+    QString notes = getParentObject()->doc();
     getComment()->setText(notes);
 
     // Set the body
-    QString staticValue = getParentObject()->getStatic() ? "static " : "";
-    QString scopeStr = Uml::Visibility::toString(getParentObject()->getVisibility());
+    QString staticValue = getParentObject()->isStatic() ? "static " : "";
+    QString scopeStr = Uml::Visibility::toString(getParentObject()->visibility());
 
     // IF this is from an association, then scope taken as appropriate to policy
     if(!rcf->parentIsAttribute())
@@ -76,7 +76,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
     else if (!cf->parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
-        if (role->getObject()->getBaseType() == Uml::ot_Interface)
+        if (role->getObject()->baseType() == Uml::ot_Interface)
         {
             // do nothing.. can't instanciate an interface
         } else {

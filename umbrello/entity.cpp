@@ -21,7 +21,7 @@
 #include "uniqueid.h"
 #include "umlentityattributelist.h"
 #include "umlentityconstraintlist.h"
-#include "clipboard/idchangelog.h"
+#include "idchangelog.h"
 #include "umlentityattributedialog.h"
 #include "umluniqueconstraintdialog.h"
 #include "umlforeignkeyconstraintdialog.h"
@@ -119,7 +119,7 @@ UMLAttribute* UMLEntity::createAttribute(const QString &name /*= QString()*/, UM
     while (button == KDialog::Accepted && !goodName && name.isNull()) {
         QPointer<UMLEntityAttributeDialog> dialog = new UMLEntityAttributeDialog(0, newAttribute);
         button = dialog->exec();
-        QString name = newAttribute->getName();
+        QString name = newAttribute->name();
 
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
@@ -172,7 +172,7 @@ UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name )
     while (button == KDialog::Accepted && !goodName && name.isNull()) {
         QPointer<UMLUniqueConstraintDialog> dialog = new UMLUniqueConstraintDialog(0, newUniqueConstraint);
         button = dialog->exec();
-        QString name = newUniqueConstraint->getName();
+        QString name = newUniqueConstraint->name();
 
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
@@ -222,7 +222,7 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
     while (button == KDialog::Accepted && !goodName && name.isNull()) {
         QPointer<UMLForeignKeyConstraintDialog> dialog = new UMLForeignKeyConstraintDialog(0, newForeignKeyConstraint);
         button = dialog->exec();
-        QString name = newForeignKeyConstraint->getName();
+        QString name = newForeignKeyConstraint->name();
 
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
@@ -271,7 +271,7 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name )
     while (button == KDialog::Accepted && !goodName && name.isNull()) {
         QPointer<UMLCheckConstraintDialog> dialog = new UMLCheckConstraintDialog(0, newCheckConstraint);
         button = dialog->exec();
-        QString name = newCheckConstraint->getName();
+        QString name = newCheckConstraint->name();
 
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
@@ -321,7 +321,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::IDType id)
  */
 bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* = 0*/)
 {
-    QString name = (QString)att->getName();
+    QString name = (QString)att->name();
     if (findChildObject(name) == NULL) {
         att->setParent(this);
         m_List.append(att);
@@ -330,7 +330,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* 
         connect(att, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
     } else if (log) {
-        log->removeChangeByNewID( att->getID() );
+        log->removeChangeByNewID( att->id() );
         delete att;
     }
     return false;
@@ -347,7 +347,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* 
  */
 bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, int position)
 {
-    QString name = (QString)att->getName();
+    QString name = (QString)att->name();
     if (findChildObject(name) == NULL) {
         att->setParent(this);
         if ( position >= 0 && position <= (int)m_List.count() )  {
@@ -413,7 +413,7 @@ bool UMLEntity::resolveRef()
         UMLObject* obj = oit.next();
         if (obj->resolveRef()) {
             UMLClassifierListItem *cli = static_cast<UMLClassifierListItem*>(obj);
-            switch (cli->getBaseType() ) {
+            switch (cli->baseType() ) {
                 case Uml::ot_EntityAttribute:
                     emit entityAttributeAdded(cli);
                     break;
@@ -517,13 +517,13 @@ bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr)
 
     if ( static_cast<UMLEntity*>( uconstr->parent() ) != this ) {
 
-        uDebug() << "Parent of " << uconstr->getName()
+        uDebug() << "Parent of " << uconstr->name()
                  << " does not match with current entity";
         return false;
     }
 
     // check if this constraint already exists as a unique constraint for this entity
-    UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>( findChildObjectById( uconstr->getID() ) );
+    UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>( findChildObjectById( uconstr->id() ) );
     if ( uuc == NULL ) {
         addConstraint( uconstr );
         uuc = uconstr;
@@ -572,8 +572,8 @@ bool UMLEntity::hasPrimaryKey() const
  */
 bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
 {
-    if ( findChildObjectById( constr->getID() ) != NULL ) {
-        uDebug() << "Constraint with id " << ID2STR(constr->getID())
+    if ( findChildObjectById( constr->id() ) != NULL ) {
+        uDebug() << "Constraint with id " << ID2STR(constr->id())
                  << " already exists ";
         return false;
     }
@@ -595,8 +595,8 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
  */
 bool UMLEntity::removeConstraint(UMLEntityConstraint* constr)
 {
-     if ( findChildObjectById( constr->getID() ) == NULL ) {
-        uDebug() << "Constraint with id " << ID2STR(constr->getID())
+     if ( findChildObjectById( constr->id() ) == NULL ) {
+        uDebug() << "Constraint with id " << ID2STR(constr->id())
                  << " does not exist ";
         return false;
     }
@@ -691,7 +691,7 @@ UMLEntityAttributeList UMLEntity::getEntityAttributes() const
     UMLEntityAttributeList entityAttributeList;
     for (UMLObjectListIt lit(m_List); lit.hasNext(); ) {
         UMLObject *listItem = lit.next();
-        if (listItem->getBaseType() == Uml::ot_EntityAttribute) {
+        if (listItem->baseType() == Uml::ot_EntityAttribute) {
             entityAttributeList.append(static_cast<UMLEntityAttribute*>(listItem));
         }
     }

@@ -106,7 +106,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
 {
     if (includeNested) {
         foreach (UMLObject* o, m_objects ) {
-            if (o->getBaseType() == Uml::ot_Folder) {
+            if (o->baseType() == Uml::ot_Folder) {
                 UMLFolder *f = static_cast<UMLFolder*>(o);
                 f->appendViews(viewList);
             }
@@ -125,7 +125,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
 void UMLFolder::activateViews()
 {
     foreach (UMLObject* o, m_objects ) {
-        if (o->getBaseType() == Uml::ot_Folder) {
+        if (o->baseType() == Uml::ot_Folder) {
             UMLFolder *f = static_cast<UMLFolder*>(o);
             f->activateViews();
         }
@@ -158,7 +158,7 @@ UMLView *UMLFolder::findView(Uml::IDType id)
 
     UMLView* v = 0;
     foreach (UMLObject* o, m_objects ) {
-        if (o->getBaseType() != Uml::ot_Folder) {
+        if (o->baseType() != Uml::ot_Folder) {
             continue;
         }
         UMLFolder *f = static_cast<UMLFolder*>(o);
@@ -188,7 +188,7 @@ UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool s
     UMLView* v = 0;
     if (searchAllScopes) {
         foreach (UMLObject* o, m_objects  ) {
-            if (o->getBaseType() != Uml::ot_Folder) {
+            if (o->baseType() != Uml::ot_Folder) {
                 continue;
             }
             UMLFolder *f = static_cast<UMLFolder*>(o);
@@ -218,7 +218,7 @@ void UMLFolder::setViewOptions(const Settings::OptionState& optionState)
 void UMLFolder::removeAllViews()
 {
     foreach (UMLObject* o, m_objects) {
-        if (o->getBaseType() != Uml::ot_Folder)
+        if (o->baseType() != Uml::ot_Folder)
             continue;
         UMLFolder *f = static_cast<UMLFolder*>(o);
         f->removeAllViews();
@@ -349,8 +349,8 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     folderRoot.setAttribute("name", m_Name);
     folderRoot.setAttribute("filename", m_folderFile);
     folderRoot.setAttribute("mainModel", umldoc->url().fileName());
-    folderRoot.setAttribute("parentId", ID2STR(m_pUMLPackage->getID()));
-    folderRoot.setAttribute("parent", m_pUMLPackage->getFullyQualifiedName("::", true));
+    folderRoot.setAttribute("parentId", ID2STR(m_pUMLPackage->id()));
+    folderRoot.setAttribute("parent", m_pUMLPackage->fullyQualifiedName("::", true));
     saveContents(folderDoc, folderRoot);
     folderDoc.appendChild(folderRoot);
     QTextStream stream(&file);

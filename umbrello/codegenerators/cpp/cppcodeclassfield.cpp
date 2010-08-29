@@ -43,12 +43,12 @@ QString CPPCodeClassField::getFieldName()
     if (parentIsAttribute())
     {
         UMLAttribute * at = (UMLAttribute*) getParentObject();
-        return cleanName(at->getName());
+        return cleanName(at->name());
     }
     else
     {
         UMLRole * role = (UMLRole*) getParentObject();
-        QString roleName = role->getName();
+        QString roleName = role->name();
         if(fieldIsSingleValue()) {
             return roleName.replace(0, 1, roleName.left(1).toLower());
         } else {

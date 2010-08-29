@@ -75,11 +75,11 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY)
     font.setBold(true);
     p.setFont(font);
     int y = 0;
-    if ( !m_pObject->getStereotype().isEmpty() ) {
+    if ( !m_pObject->stereotype().isEmpty() ) {
         p.drawText(offsetX + ENTITY_MARGIN, offsetY,
                    w - ENTITY_MARGIN * 2,fontHeight,
-                   Qt::AlignCenter, m_pObject->getStereotype(true));
-        font.setItalic( m_pObject -> getAbstract() );
+                   Qt::AlignCenter, m_pObject->stereotype(true));
+        font.setItalic( m_pObject->isAbstract() );
         p.setFont(font);
         p.drawText(offsetX + ENTITY_MARGIN, offsetY + fontHeight,
                    w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
@@ -88,7 +88,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY)
         p.setFont(font);
         y = fontHeight * 2;
     } else {
-        font.setItalic( m_pObject -> getAbstract() );
+        font.setItalic( m_pObject->isAbstract() );
         p.setFont(font);
         p.drawText(offsetX + ENTITY_MARGIN, offsetY,
                    w - ENTITY_MARGIN * 2, fontHeight, Qt::AlignCenter, name);
@@ -108,7 +108,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY)
     UMLClassifierListItem* entityattribute = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
     foreach (entityattribute , list ) {
-        QString text = entityattribute->getName();
+        QString text = entityattribute->name();
         p.setPen( QPen(Qt::black) );
         UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>( entityattribute );
         if( casted && casted->getIndexType() == Uml::Primary )
@@ -144,7 +144,7 @@ QSize EntityWidget::calculateSize()
     const int fontHeight = fm.lineSpacing();
 
     int lines = 1;//always have one line - for name
-    if ( !m_pObject->getStereotype().isEmpty() ) {
+    if ( !m_pObject->stereotype().isEmpty() ) {
         lines++;
     }
 
@@ -166,7 +166,7 @@ QSize EntityWidget::calculateSize()
     // investigate UMLWidget::getFontMetrics()
     width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(' ' + name() + ' ').width();
 
-    const int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->getStereotype(true)).width();
+    const int w = getFontMetrics(FT_BOLD).boundingRect(m_pObject->stereotype(true)).width();
 
     width = w > width?w:width;
 
@@ -174,7 +174,7 @@ QSize EntityWidget::calculateSize()
     UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
     UMLClassifierListItem* listItem = 0;
     foreach (listItem , list ) {
-        int w = fm.width( listItem->getName() );
+        int w = fm.width( listItem->name() );
         width = w > width?w:width;
     }
 

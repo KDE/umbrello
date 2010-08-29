@@ -92,7 +92,7 @@ void CodeOperation::loadFromXMI ( QDomElement & root )
  */
 QString CodeOperation::findTag (UMLOperation * op)
 {
-    return QString("operation_" + ID2STR(op->getID()));
+    return QString("operation_" + ID2STR(op->id()));
 }
 
 /**

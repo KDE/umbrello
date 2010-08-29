@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,7 +17,7 @@
 #include "umlcanvasobject.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "dialogs/umlentityattributedialog.h"
+#include "umlentityattributedialog.h"
 #include "object_factory.h"
 
 /**
@@ -174,12 +174,12 @@ QString UMLEntityAttribute::toString(Uml::Signature_Type sig)
     }
 
     if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
-        QString string = s + getName() + " : " + getTypeName();
+        QString string = s + name() + " : " + getTypeName();
         if(m_InitialValue.length() > 0)
             string += " = " + m_InitialValue;
         return string;
     } else
-        return s + getName();
+        return s + name();
 }
 
 /**
@@ -240,7 +240,7 @@ void UMLEntityAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
         uDebug() << m_Name << ": m_pSecondary is NULL, using local name " << m_SecondaryId;
         entityattributeElement.setAttribute( "type", m_SecondaryId );
     } else {
-        entityattributeElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
+        entityattributeElement.setAttribute( "type", ID2STR(m_pSecondary->id()) );
     }
     entityattributeElement.setAttribute( "initialValue", m_InitialValue );
     entityattributeElement.setAttribute( "dbindex_type", m_indexType );

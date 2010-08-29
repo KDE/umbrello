@@ -317,7 +317,7 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
         if (!stereoID.isEmpty()) {
             UMLDoc *doc = UMLApp::app()->document();
             UMLObject *stereo = doc->findStereotypeById(STR2ID(stereoID));
-            if (stereo && stereo->getName() == "folder")
+            if (stereo && stereo->name() == "folder")
                 pObject = new UMLFolder();
         }
         if (pObject == NULL)

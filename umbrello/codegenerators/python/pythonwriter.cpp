@@ -180,7 +180,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
         return;
     }
 
-    QString classname = cleanName(c->getName());
+    QString classname = cleanName(c->name());
 
     UMLClassifierList superclasses = c->getSuperClasses();
     UMLAssociationList aggregations = c->getAggregations();
@@ -223,15 +223,15 @@ void PythonWriter::writeClass(UMLClassifier *c)
     }
 
     // generate import statement for superclasses and take packages into account
-    str = cleanName(c->getName());
-    QString pkg = cleanName(c->getPackage());
+    str = cleanName(c->name());
+    QString pkg = cleanName(c->package());
     if (!pkg.isEmpty())
         str.prepend(pkg + '.');
     QStringList includesList  = QStringList(str); //save imported classes
     int i = superclasses.count();
     foreach (UMLClassifier *classifier ,  superclasses ) {
-        str = cleanName(classifier->getName());
-        pkg = cleanName(classifier->getPackage());
+        str = cleanName(classifier->name());
+        pkg = cleanName(classifier->package());
         if (!pkg.isEmpty())
             str.prepend(pkg + '.');
         includesList.append(str);
@@ -262,15 +262,15 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
     foreach (UMLClassifier *obj , superclasses ) {
 
-        h << cleanName(obj->getName()) << (i>1?", ":"");
+        h << cleanName(obj->name()) << (i>1?", ":"");
         i--;
     }
 
     h<<(superclasses.count() > 0 ? ")":"")<<":"<<m_endl<<m_endl;
 
-    if (forceDoc() || !c->getDoc().isEmpty()) {
+    if (forceDoc() || !c->doc().isEmpty()) {
         h << m_indentation << "\"\"\"" << m_endl;
-        h << formatDoc(c->getDoc(), m_indentation + ' ') << m_endl;
+        h << formatDoc(c->doc(), m_indentation + ' ') << m_endl;
         h << m_indentation << ":version:" << m_endl;
         h << m_indentation << ":author:" << m_endl;
         h << m_indentation << "\"\"\"" << m_endl << m_endl;
@@ -303,9 +303,9 @@ void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py)
         return;
     py << m_indentation << "\"\"\" ATTRIBUTES" << m_endl << m_endl;
     foreach (UMLAttribute *at , atList ) {
-        py << formatDoc(at->getDoc(), m_indentation + ' ') << m_endl;
-        Uml::Visibility vis = at->getVisibility();
-        py << m_indentation << cleanName(at->getName()) << "  ("
+        py << formatDoc(at->doc(), m_indentation + ' ') << m_endl;
+        Uml::Visibility vis = at->visibility();
+        py << m_indentation << cleanName(at->name()) << "  ("
             << vis.toString() << ")" << m_endl << m_endl ;
     } // end for
     py << m_indentation << "\"\"\"" << m_endl << m_endl;
@@ -319,7 +319,7 @@ void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h)
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
     foreach(UMLOperation *op , opl ) {
-        switch(op->getVisibility()) {
+        switch(op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
             break;
@@ -334,7 +334,7 @@ void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h)
         }
     }
 
-    QString classname(cleanName(c->getName()));
+    QString classname(cleanName(c->name()));
 
     //write operations to file
     if(forceSections() || !oppub.isEmpty()) {
@@ -375,15 +375,15 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
     foreach (UMLOperation* op  ,  opList ) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
-        bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
+        bool writeDoc = forceDoc() || !op->doc().isEmpty();
         foreach (UMLAttribute* at , atl )
-            writeDoc |= !at->getDoc().isEmpty();
+            writeDoc |= !at->doc().isEmpty();
 
-        h << m_indentation << "def "<< sAccess + cleanName(op->getName()) << "(self";
+        h << m_indentation << "def "<< sAccess + cleanName(op->name()) << "(self";
 
         int j=0;
         foreach (UMLAttribute* at , atl ) {
-            h << ", " << cleanName(at->getName())
+            h << ", " << cleanName(at->name())
             << (!(at->getInitialValue().isEmpty()) ?
                 (QString(" = ")+at->getInitialValue()) :
                 QString(""));
@@ -395,14 +395,14 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
         if ( writeDoc )  //write method documentation
         {
             h << m_indentation << m_indentation << "\"\"\"" << m_endl;
-            h << formatDoc(op->getDoc(), m_indentation + m_indentation + ' ') << m_endl;
+            h << formatDoc(op->doc(), m_indentation + m_indentation + ' ') << m_endl;
 
             foreach (UMLAttribute* at , atl )  //write parameter documentation
             {
-                if(forceDoc() || !at->getDoc().isEmpty()) {
+                if(forceDoc() || !at->doc().isEmpty()) {
                     h<<m_indentation<<m_indentation<<"@param "<<at->getTypeName()<<
-                    " " << cleanName(at->getName());
-                    h<<" : "<<at->getDoc()<<m_endl;
+                    " " << cleanName(at->name());
+                    h<<" : "<<at->doc()<<m_endl;
                 }
             }//end for : write parameter documentation
             h << m_indentation << m_indentation << "@return " + op->getTypeName() << " :" << m_endl;

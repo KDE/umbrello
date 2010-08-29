@@ -93,7 +93,7 @@ void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeL
 
         QString sequenceName;
         // we keep the sequence name as entityName + '_' + entityAttributeName
-        sequenceName = m_pEntity->getName() + '_' + ea->getName();
+        sequenceName = m_pEntity->name() + '_' + ea->name();
 
         // we assume the sequence count starts with 1 and interval is 1 too
         // change the values when we start supporting different start values and
@@ -105,15 +105,15 @@ void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeL
         sql<<m_endl;
 
         // alter the table column ( set not null )
-        sql<<"ALTER TABLE "<<cleanName( m_pEntity->getName() )
-           <<" ALTER COLUMN "<<cleanName( ea->getName() )
+        sql<<"ALTER TABLE "<<cleanName( m_pEntity->name() )
+           <<" ALTER COLUMN "<<cleanName( ea->name() )
            <<" SET NOT NULL ";
 
         sql<<m_endl;
 
         // alter the table column
-        sql<<"ALTER TABLE "<<cleanName( m_pEntity->getName() )
-           <<" ALTER COLUMN "<<cleanName( ea->getName() )
+        sql<<"ALTER TABLE "<<cleanName( m_pEntity->name() )
+           <<" ALTER COLUMN "<<cleanName( ea->name() )
            <<" SET DEFAULT nextval('"<<cleanName( sequenceName )
            <<"');";
 

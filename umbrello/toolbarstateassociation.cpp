@@ -238,7 +238,7 @@ void ToolBarStateAssociation::setSecondWidget()
             UMLObject *objToBeMoved = widgetB->umlObject();
             if (newContainer && objToBeMoved) {
                 UMLListViewItem *newLVParent = lv->findUMLObject(newContainer);
-                lv->moveObject(objToBeMoved->getID(),
+                lv->moveObject(objToBeMoved->id(),
                                Model_Utils::convert_OT_LVT(objToBeMoved),
                                newLVParent);
             }

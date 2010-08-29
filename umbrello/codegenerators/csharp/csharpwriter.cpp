@@ -151,7 +151,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
         return;
     }
 
-    QString classname = cleanName(c->getName());
+    QString classname = cleanName(c->name());
     //find an appropriate name for our file
     QString fileName = findFileName(c, ".cs");
     if (fileName.isEmpty()) {
@@ -190,7 +190,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
 
     //write includes and namespace
 
-    UMLPackage *container = c->getUMLPackage();
+    UMLPackage *container = c->umlPackage();
     if (container == logicalView)
         container = NULL;
 
@@ -203,9 +203,9 @@ void CSharpWriter::writeClass(UMLClassifier *c)
         foreach ( UMLPackage* p , includes ) {
             UMLClassifier *cl = dynamic_cast<UMLClassifier*>(p);
             if (cl)
-                p = cl->getUMLPackage();
+                p = cl->umlPackage();
             if (p != logicalView && m_seenIncludes.indexOf(p) == -1 && p != container) {
-                cs << "using " << p->getFullyQualifiedName(".") << ";" << m_endl;
+                cs << "using " << p->fullyQualifiedName(".") << ";" << m_endl;
                 m_seenIncludes.append(p);
             }
         }
@@ -215,16 +215,16 @@ void CSharpWriter::writeClass(UMLClassifier *c)
     m_container_indent = "";
 
     if (container) {
-        cs << "namespace " << container->getFullyQualifiedName(".") << m_endl;
+        cs << "namespace " << container->fullyQualifiedName(".") << m_endl;
         cs << "{" << m_endl << m_endl;
         m_container_indent = m_indentation;
         m_seenIncludes.append(container);
     }
 
     //Write class Documentation if there is somthing or if force option
-    if (forceDoc() || !c->getDoc().isEmpty()) {
+    if (forceDoc() || !c->doc().isEmpty()) {
         cs << m_container_indent << "/// <summary>" << m_endl;
-        cs << formatDoc(c->getDoc(), m_container_indent + "/// " );
+        cs << formatDoc(c->doc(), m_container_indent + "/// " );
         cs << m_container_indent << "/// </summary>" << m_endl ;
     }
 
@@ -242,7 +242,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
         cs << "interface " << classname;
     } else {
         //check if class is abstract and / or has abstract methods
-        if (c->getAbstract() || c->hasAbstractOps())
+        if (c->isAbstract() || c->hasAbstractOps())
             cs << "abstract ";
 
         cs << "class " << classname << (superclasses.count() > 0 ? " : ":"");
@@ -255,7 +255,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
                     if (supers > 0) {
                         cs << " // AND ";
                     }
-                    cs << cleanName(obj->getName());
+                    cs << cleanName(obj->name());
                     supers++;
                 }
             }
@@ -271,7 +271,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
                 UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::B);
                 if(real != c) {
                     // write list of realizations
-                    cs << ", " << real->getName();
+                    cs << ", " << real->name();
                 }
 
             }
@@ -306,7 +306,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
 
     if (container) {
         cs << "}  // end of namespace "
-            << container->getFullyQualifiedName(".") << m_endl << m_endl;
+            << container->fullyQualifiedName(".") << m_endl << m_endl;
     }
 
     //close files and notfiy we are done
@@ -333,7 +333,7 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
     foreach (UMLOperation* op,  opl ) {
-        switch (op->getVisibility()) {
+        switch (op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
             break;
@@ -379,7 +379,7 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
     // write superclasses abstract methods
     UMLClassifierList superclasses = c->getSuperClasses();
 
-    if (!isInterface && !c->getAbstract() && !c->hasAbstractOps()
+    if (!isInterface && !c->isAbstract() && !c->hasAbstractOps()
             && superclasses.count() > 0) {
         writeOverridesRecursive(&superclasses, cs);
     }
@@ -401,13 +401,13 @@ void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTex
             // collect abstract ops
             UMLOperationList opl(obj->getOpList());
             foreach (UMLOperation* op, opl ) {
-                if (op->getAbstract()) {
+                if (op->isAbstract()) {
                     opabstract.append(op);
                 }
             }
 
             // write abstract implementations
-            cs << m_endl << m_container_indent << m_indentation << "#region " << obj->getName() << " members" << m_endl << m_endl;
+            cs << m_endl << m_container_indent << m_indentation << "#region " << obj->name() << " members" << m_endl << m_endl;
             writeOperations(opabstract,cs,false,true,true);
             cs << m_container_indent << m_indentation << "#endregion" << m_endl << m_endl;
 
@@ -444,7 +444,7 @@ void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAs
         UMLOperationList opreal = real->getOpList();
 
         // write realizations
-        cs << m_endl << m_container_indent << m_indentation << "#region " << real->getName() << " members" << m_endl << m_endl;
+        cs << m_endl << m_container_indent << m_indentation << "#region " << real->name() << " members" << m_endl << m_endl;
         writeOperations(opreal,cs,false,false,true);
         cs << m_container_indent << m_indentation << "#endregion" << m_endl << m_endl;
 
@@ -473,25 +473,25 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         UMLAttributeList atl = op->getParmList();
 
         //write method doc if we have doc || if at least one of the params has doc
-        bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
+        bool writeDoc = forceDoc() || !op->doc().isEmpty();
 
         foreach ( UMLAttribute* at, atl ) {
-            writeDoc |= !at->getDoc().isEmpty();
+            writeDoc |= !at->doc().isEmpty();
         }
 
         //write method documentation
         if (writeDoc && !isOverride)
         {
             cs << m_container_indent << m_indentation << "/// <summary>" << m_endl;
-            cs << formatDoc(op->getDoc(), m_container_indent + m_indentation + "/// ");
+            cs << formatDoc(op->doc(), m_container_indent + m_indentation + "/// ");
             cs << m_container_indent << m_indentation << "/// </summary>" << m_endl;
 
             //write parameter documentation
             foreach ( UMLAttribute* at, atl ) {
-                if (forceDoc() || !at->getDoc().isEmpty()) {
-                    cs << m_container_indent << m_indentation << "/// <param name=\"" << cleanName(at->getName()) << "\">";
+                if (forceDoc() || !at->doc().isEmpty()) {
+                    cs << m_container_indent << m_indentation << "/// <param name=\"" << cleanName(at->name()) << "\">";
                     //removing newlines from parameter doc
-                    cs << formatDoc(at->getDoc(), "").replace('\n', ' ').remove('\r').remove(QRegExp(" $"));
+                    cs << formatDoc(at->doc(), "").replace('\n', ' ').remove('\r').remove(QRegExp(" $"));
                     cs << "</param>" << m_endl;
                 }
             }
@@ -509,14 +509,14 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         cs << m_container_indent << m_indentation;
         if (!isInterface) {
             if (!isOverride) {
-                if (op->getAbstract()) cs << "abstract ";
-                cs << op->getVisibility().toString() << " ";
-                if (op->getStatic()) cs << "static ";
+                if (op->isAbstract()) cs << "abstract ";
+                cs << op->visibility().toString() << " ";
+                if (op->isStatic()) cs << "static ";
             }
             else {
                 // method overriding an abstract parent
-                cs << op->getVisibility().toString() << " override ";
-                if (op->getStatic()) cs << "static ";
+                cs << op->visibility().toString() << " override ";
+                if (op->isStatic()) cs << "static ";
             }
         }
 
@@ -531,14 +531,14 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         }
 
         // method name
-        cs << cleanName(op->getName()) << "(";
+        cs << cleanName(op->name()) << "(";
 
         // method parameters
         int i= atl.count();
         int j=0;
         for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext(); ++j) {
             UMLAttribute* at = atlIt.next();
-            cs << makeLocalTypeName(at) << " " << cleanName(at->getName());
+            cs << makeLocalTypeName(at) << " " << cleanName(at->name());
 
             // no initial values in C#
             //<< (!(at->getInitialValue().isEmpty()) ?
@@ -549,7 +549,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
         cs << ")";
 
         //FIXME: how to control generation of error stub?
-        if (!isInterface && (!op->getAbstract() || isOverride)) {
+        if (!isInterface && (!op->isAbstract() || isOverride)) {
             cs << m_endl << m_container_indent << m_indentation << "{" << m_endl;
             // write source code of operation else throw not implemented exception
             QString sourceCode = op->getSourceCode();
@@ -586,7 +586,7 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
     foreach ( UMLAttribute* at, atl ) {
         if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
-        switch (at->getVisibility()) {
+        switch (at->visibility()) {
           case Uml::Visibility::Public:
             atpub.append(at);
             break;
@@ -634,11 +634,11 @@ void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
     foreach (UMLAttribute* at, atList ) {
 
         bool asProperty = true;
-        if (at->getVisibility() == Uml::Visibility::Private) {
+        if (at->visibility() == Uml::Visibility::Private) {
             asProperty = false;
         }
-        writeAttribute(at->getDoc(), at->getVisibility(), at->getStatic(),
-            makeLocalTypeName(at), at->getName(), at->getInitialValue(), asProperty, cs);
+        writeAttribute(at->doc(), at->visibility(), at->isStatic(),
+            makeLocalTypeName(at), at->name(), at->getInitialValue(), asProperty, cs);
 
         cs << m_endl;
     } // end for
@@ -664,7 +664,7 @@ void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UML
         }
         // Take name and documentaton from Role, take type name from the referenced object
         QString roleName = cleanName(a->getRoleName(Uml::B));
-        QString typeName = cleanName(o->getName());
+        QString typeName = cleanName(o->name());
         if (roleName.isEmpty()) {
             roleName = QString("UnnamedRoleB_%1").arg(m_unnamedRoles++);
         }
@@ -752,9 +752,9 @@ void CSharpWriter::writeAttribute(const QString& doc,
  */
 QString CSharpWriter::makeLocalTypeName(UMLClassifierListItem *cl)
 {
-    UMLPackage *p = cl->getType()->getUMLPackage();
+    UMLPackage *p = cl->getType()->umlPackage();
     if (m_seenIncludes.indexOf(p) != -1) {
-        return cl->getType()->getName();
+        return cl->getType()->name();
     }
     else {
         return cl->getTypeName();
