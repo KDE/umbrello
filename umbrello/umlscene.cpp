@@ -1258,7 +1258,7 @@ void UMLScene::selectionSetFont(const QFont &font)
  */
 void UMLScene::selectionSetLineColor(const QColor &color)
 {
-    UMLApp::app()->beginMacro("Change Line Color");
+    UMLApp::app()->beginMacro(i18n("Change Line Color"));
     foreach(UMLWidget *temp ,  selectedWidgets()) {
         temp->setLineColor(color);
         // [PORT] temp->setUsesDiagramLineColour(false);
@@ -1292,7 +1292,7 @@ void UMLScene::selectionSetLineWidth(uint width)
  */
 void UMLScene::selectionSetFillColor(const QColor &color)
 {
-    UMLApp::app()->beginMacro("Change Fill Color");
+    UMLApp::app()->beginMacro(i18n("Change Fill Color"));
 
     foreach(UMLWidget* temp ,  selectedWidgets()) {
         temp->setFillColour(color);
