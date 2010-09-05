@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -43,7 +43,7 @@ void CategoryWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o,
     }
 
     QFont fnt = font();
-    fnt.setItalic( umlObject()->getAbstract() );
+    fnt.setItalic( umlObject()->isAbstract() );
 
     painter->setPen(QPen(lineColor(), lineWidth()));
     painter->setBrush(brush());

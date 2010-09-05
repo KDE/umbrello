@@ -139,20 +139,20 @@ void EnumWidget::updateTextItemGroups()
         grp->setTextItemCount(totalTextItems);
 
         TextItem *stereo = grp->textItemAt(EnumWidget::StereoTypeItemIndex);
-        stereo->setText(classifier->getStereotype(true));
+        stereo->setText(classifier->stereotype(true));
         stereo->setBold(true);
 
         TextItem *nameItem = grp->textItemAt(EnumWidget::NameItemIndex);
         nameItem->setText(m_showPackage ?
-                          classifier->getFullyQualifiedName() :
+                          classifier->fullyQualifiedName() :
                           name());
         nameItem->setBold(true);
-        nameItem->setItalic(classifier->getAbstract());
+        nameItem->setItalic(classifier->isAbstract());
 
         int index = EnumWidget::EnumLiteralStartIndex;
         foreach(UMLClassifierListItem* enumLiteral, list) {
             TextItem *literal = grp->textItemAt(index);
-            literal->setText(enumLiteral->getName());
+            literal->setText(enumLiteral->name());
             ++index;
         }
     }

@@ -55,7 +55,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // setup name
     QString name;
-    Uml::Object_Type t = o->getBaseType();
+    Uml::Object_Type t = o->baseType();
     switch (t) {
     case Uml::ot_Class:
         name = i18n("Class &name:");
@@ -117,7 +117,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pStereoTypeCB = new KComboBox(true, this);
     m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
-    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), o->getStereotype() );
+    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), o->stereotype() );
     m_pStereoTypeL->setBuddy(m_pStereoTypeCB);
 
     if (t == Uml::ot_Interface || t == Uml::ot_Datatype || t == Uml::ot_Enum) {
@@ -135,18 +135,18 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         UMLPackageList packageList = m_pUmldoc->packages();
         QStringList packages;
         foreach( UMLPackage* package, packageList ) {
-            packages << package->getName();
+            packages << package->name();
         }
         packages.sort();
         m_pPackageCB->insertItems(-1, packages);
-        UMLPackage* parentPackage = o->getUMLPackage();
+        UMLPackage* parentPackage = o->umlPackage();
 
         // if parent package == NULL
         // or if the parent package is the Logical View folder
         if ( parentPackage == NULL || parentPackage== static_cast<UMLPackage*>(m_pUmldoc->rootFolder(Uml::mt_Logical)))
             m_pPackageCB->setEditText( QString() );
         else
-            m_pPackageCB->setEditText(parentPackage->getName());
+            m_pPackageCB->setEditText(parentPackage->name());
     }
 
     if (t == Uml::ot_Class || t == Uml::ot_UseCase ) {
@@ -157,7 +157,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
             abstractCaption = i18n("A&bstract use case");
         }
         m_pAbstractCB = new QCheckBox( abstractCaption, this );
-        m_pAbstractCB->setChecked( o->getAbstract() );
+        m_pAbstractCB->setChecked( o->isAbstract() );
         m_pNameLayout->addWidget( m_pAbstractCB, 3, 0 );
     }
 
@@ -230,9 +230,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     topLayout->addWidget(m_pDocGB);
 
     // setup fields
-    m_pClassNameLE->setText(o->getName());
-    m_pDoc->setText(o->getDoc());
-    Uml::Visibility s = o->getVisibility();
+    m_pClassNameLE->setText(o->name());
+    m_pDoc->setText(o->doc());
+    Uml::Visibility s = o->visibility();
     if (s == Uml::Visibility::Public)
         m_pPublicRB->setChecked(true);
     else if (s == Uml::Visibility::Private)
@@ -245,7 +245,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     // manage stereotypes
     m_pStereoTypeCB->setDuplicatesEnabled(false);  // only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
-    insertStereotypesSorted(m_pObject->getStereotype());
+    insertStereotypesSorted(m_pObject->stereotype());
 
     m_pDoc->setLineWrapMode(QTextEdit::WidgetWidth);
 }
@@ -350,7 +350,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
     m_pStereoTypeCB = new KComboBox(true, this);
     m_pNameLayout->addWidget(m_pStereoTypeCB, 1, 1);
 
-    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), widget->umlObject()->getStereotype() );
+    m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), widget->umlObject()->stereotype() );
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
 
     m_pInstanceL = new QLabel(this);
@@ -383,7 +383,7 @@ void ClassGenPage::insertStereotypesSorted(const QString& type)
     QStringList types;
     types << "";  // an empty stereotype is the default
     foreach (UMLStereotype* ust, m_pUmldoc->stereotypes()) {
-        types << ust->getName();
+        types << ust->name();
     }
     // add the given parameter
     if ( !types.contains(type) ) {
@@ -417,7 +417,7 @@ void ClassGenPage::updateObject()
             m_pObject->setStereotype(m_pStereoTypeCB->currentText());
         }
 
-        Uml::Object_Type t = m_pObject->getBaseType();
+        Uml::Object_Type t = m_pObject->baseType();
         if (t == Uml::ot_Class || t == Uml::ot_Interface) {
             QString packageName = m_pPackageCB->currentText().trimmed();
             UMLObject* newPackage = NULL;
@@ -443,7 +443,7 @@ void ClassGenPage::updateObject()
         if (o && m_pObject != o) {
              KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
                                 i18n("Name is Not Unique"), false);
-             m_pClassNameLE->setText( m_pObject->getName() );
+             m_pClassNameLE->setText( m_pObject->name() );
         } else {
              m_pObject->setName(name);
         }
@@ -459,11 +459,11 @@ void ClassGenPage::updateObject()
             s = Uml::Visibility::Implementation;
         m_pObject->setVisibility(s);
 
-        if (m_pObject->getBaseType() == Uml::ot_Component) {
+        if (m_pObject->baseType() == Uml::ot_Component) {
             (static_cast<UMLComponent*>(m_pObject))->setExecutable( m_pExecutableCB->isChecked() );
         }
 
-        if (m_pObject->getBaseType() == Uml::ot_Artifact) {
+        if (m_pObject->baseType() == Uml::ot_Artifact) {
             UMLArtifact::Draw_Type drawAsType;
             if ( m_pFileRB->isChecked() ) {
                 drawAsType = UMLArtifact::file;

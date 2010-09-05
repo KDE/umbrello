@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,8 +21,8 @@ namespace Uml
     CmdSetVisibility::CmdSetVisibility(UMLObject * obj, Uml::Visibility visibility)
       : m_visibility(visibility), m_umlObject(obj)
     {
-        setText(i18n("Change visibility : ") + obj->getName());
-        m_oldVisibility = obj->getVisibility();
+        setText(i18n("Change visibility : ") + obj->name());
+        m_oldVisibility = obj->visibility();
     }
 
     CmdSetVisibility::~CmdSetVisibility()
@@ -31,12 +31,12 @@ namespace Uml
 
     void CmdSetVisibility::redo()
     {
-        m_umlObject->setVisibilitycmd(m_visibility);
+        m_umlObject->setVisibilityCmd(m_visibility);
     }
 
     void CmdSetVisibility::undo()
     {
-        m_umlObject->setVisibilitycmd(m_oldVisibility);
+        m_umlObject->setVisibilityCmd(m_oldVisibility);
     }
 
 }

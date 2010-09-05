@@ -76,11 +76,11 @@ void UMLTemplateDialog::setupDialog()
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
                                     m_pNameL, i18nc("template name", "&Name:"),
-                                    m_pNameLE, m_pTemplate->getName() );
+                                    m_pNameLE, m_pTemplate->name() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
                                     m_pStereoTypeL, i18n("&Stereotype name:"),
-                                    m_pStereoTypeLE, m_pTemplate->getStereotype() );
+                                    m_pStereoTypeLE, m_pTemplate->stereotype() );
 
     mainLayout->addWidget(m_pValuesGB);
 
@@ -108,7 +108,7 @@ void UMLTemplateDialog::insertTypesSorted(const QString& type)
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList namesList( pDoc->concepts() );
     foreach (UMLClassifier* obj, namesList) {
-        types << obj->getName();
+        types << obj->name();
     }
     // add the given parameter
     if ( !types.contains(type) ) {
@@ -136,7 +136,7 @@ bool UMLTemplateDialog::apply()
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList namesList( pDoc->concepts() );
     foreach (UMLClassifier* obj, namesList) {
-        if (typeName == obj->getName()) {
+        if (typeName == obj->name()) {
             m_pTemplate->setType(obj);
         }
     }
@@ -148,7 +148,7 @@ bool UMLTemplateDialog::apply()
     if( name.length() == 0 ) {
         KMessageBox::error(this, i18n("You have entered an invalid template name."),
                            i18n("Template Name Invalid"), false);
-        m_pNameLE->setText( m_pTemplate->getName() );
+        m_pNameLE->setText( m_pTemplate->name() );
         return false;
     }
 
@@ -158,7 +158,7 @@ bool UMLTemplateDialog::apply()
         if (o && o != m_pTemplate) {
             KMessageBox::error(this, i18n("The template parameter name you have chosen is already being used in this operation."),
                                i18n("Template Name Not Unique"), false);
-            m_pNameLE->setText( m_pTemplate->getName() );
+            m_pNameLE->setText( m_pTemplate->name() );
             return false;
         }
     }

@@ -102,11 +102,11 @@ void UMLOperation::moveParmLeft(UMLAttribute * a)
         uDebug() << "called on NULL attribute";
         return;
     }
-    uDebug() << "called for " << a->getName();
+    uDebug() << "called for " << a->name();
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
     if ( (idx=m_List.indexOf( a )) == -1 ) {
-        uDebug() << "Error move parm left " << a->getName();
+        uDebug() << "Error move parm left " << a->name();
         return;
     }
     if ( idx == 0 )
@@ -126,11 +126,11 @@ void UMLOperation::moveParmRight(UMLAttribute * a)
         uDebug() << "called on NULL attribute";
         return;
     }
-    uDebug() << "called for " << a->getName();
+    uDebug() << "called for " << a->name();
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     int idx;
     if ( (idx=m_List.indexOf( a )) == -1 ) {
-        uDebug() << "Error move parm right " << a->getName();
+        uDebug() << "Error move parm right " << a->name();
         return;
     }
     int count = m_List.count();
@@ -154,10 +154,10 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
         uDebug() << "called on NULL attribute";
         return;
     }
-    uDebug() << "called for " << a->getName();
+    uDebug() << "called for " << a->name();
     disconnect(a,SIGNAL(modified()),this,SIGNAL(modified()));
     if(!m_List.removeAll(a))
-        uDebug() << "Error removing parm " << a->getName();
+        uDebug() << "Error removing parm " << a->name();
 
     if (emitModifiedSignal)
         emit modified();
@@ -183,7 +183,7 @@ UMLAttribute* UMLOperation::findParm(const QString &name)
 {
     UMLAttribute * obj=0;
     foreach (obj , m_List ) {
-        if (obj->getName() == name)
+        if (obj->name() == name)
             return obj;
     }
     return 0;
@@ -202,7 +202,7 @@ QString UMLOperation::toString(Uml::Signature_Type sig)
     if (sig == Uml::st_ShowSig || sig == Uml::st_NoSig)
           s = m_Vis.toString(true) + ' ';
 
-    s += getName();
+    s += name();
     Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
     bool parameterlessOpNeedsParentheses = (pl != Uml::pl_Pascal && pl != Uml::pl_Ada);
 
@@ -229,11 +229,11 @@ QString UMLOperation::toString(Uml::Signature_Type sig)
     QString returnType;
     UMLClassifier *retType = UMLClassifierListItem::getType();
     if (retType) {
-        UMLPackage *retVisibility = retType->getUMLPackage();
-        if (retVisibility != ownParent && retVisibility != ownParent->getUMLPackage())
-            returnType = retType->getFullyQualifiedName();
+        UMLPackage *retVisibility = retType->umlPackage();
+        if (retVisibility != ownParent && retVisibility != ownParent->umlPackage())
+            returnType = retType->fullyQualifiedName();
         else
-            returnType = retType->getName();
+            returnType = retType->name();
     }
     if (returnType.length() > 0 && returnType != "void") {
         s.append(" : ");
@@ -353,12 +353,12 @@ bool UMLOperation::isConstructorOperation()
     // if an operation has the stereotype constructor
     // return true
     QString strConstructor ("constructor");
-    if (getStereotype() == strConstructor)
+    if (stereotype() == strConstructor)
         return true;
 
     UMLClassifier * c = static_cast<UMLClassifier*>(this->parent());
-    QString cName = c->getName();
-    QString opName = getName();
+    QString cName = c->name();
+    QString opName = name();
     // It's a constructor operation if the operation name
     // matches that of the parent classifier.
     return (cName == opName);
@@ -371,12 +371,12 @@ bool UMLOperation::isConstructorOperation()
  */
 bool UMLOperation::isDestructorOperation()
 {
-    if (getStereotype() == "destructor")
+    if (stereotype() == "destructor")
         return true;
     UMLClassifier * c = static_cast<UMLClassifier*>(this->parent());
 
-    QString cName = c->getName();
-    QString opName = getName();
+    QString cName = c->name();
+    QString opName = name();
     // Special support for C++ syntax:
     // It's a destructor operation if the operation name begins
     // with "~" followed by the name of the parent classifier.
@@ -456,7 +456,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
             m_returnId = UniqueID::gen();
         }
         retElement.setAttribute( "xmi.id", ID2STR(m_returnId) );
-        retElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
+        retElement.setAttribute( "type", ID2STR(m_pSecondary->id()) );
         retElement.setAttribute( "kind", "return" );
         featureElement.appendChild( retElement );
     } else {
@@ -468,7 +468,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         QDomElement attElement = pAtt->UMLObject::save("UML:Parameter", qDoc);
         UMLClassifier *attrType = pAtt->getType();
         if (attrType) {
-            attElement.setAttribute( "type", ID2STR(attrType->getID()) );
+            attElement.setAttribute( "type", ID2STR(attrType->id()) );
         } else {
             attElement.setAttribute( "type", pAtt->getTypeName() );
         }

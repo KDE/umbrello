@@ -158,29 +158,29 @@ void JavaCodeAccessorMethod::updateMethodDeclaration()
         methodName = "add" + Codegen_Utils::capitalizeFirstLetter(fieldType);
         methodReturnType = "void";
         methodParams = objectType+" value ";
-        headerText = "Add an object of type "+objectType+" to the List "+fieldName+endLine+getParentObject()->getDoc()+endLine+"@return void";
+        headerText = "Add an object of type "+objectType+" to the List "+fieldName+endLine+getParentObject()->doc()+endLine+"@return void";
         break;
     case CodeAccessorMethod::GET:
         methodName = "get" + Codegen_Utils::capitalizeFirstLetter(fieldName);
         methodReturnType = fieldType;
-        headerText = "Get the value of "+fieldName+endLine+getParentObject()->getDoc()+endLine+"@return the value of "+fieldName;
+        headerText = "Get the value of "+fieldName+endLine+getParentObject()->doc()+endLine+"@return the value of "+fieldName;
         break;
     case CodeAccessorMethod::LIST:
         methodName = "get" + Codegen_Utils::capitalizeFirstLetter(fieldType)+"List";
         methodReturnType = "List";
-        headerText = "Get the list of "+fieldName+endLine+getParentObject()->getDoc()+endLine+"@return List of "+fieldName;
+        headerText = "Get the list of "+fieldName+endLine+getParentObject()->doc()+endLine+"@return List of "+fieldName;
         break;
     case CodeAccessorMethod::REMOVE:
         methodName = "remove" + Codegen_Utils::capitalizeFirstLetter(fieldType);
         methodReturnType = "void";
         methodParams = objectType+" value ";
-        headerText = "Remove an object of type "+objectType+" from the List "+fieldName+endLine+getParentObject()->getDoc();
+        headerText = "Remove an object of type "+objectType+" from the List "+fieldName+endLine+getParentObject()->doc();
         break;
     case CodeAccessorMethod::SET:
         methodName = "set" + Codegen_Utils::capitalizeFirstLetter(fieldName);
         methodReturnType = "void";
         methodParams = fieldType + " value ";
-        headerText = "Set the value of "+fieldName+endLine+getParentObject()->getDoc()+endLine;
+        headerText = "Set the value of "+fieldName+endLine+getParentObject()->doc()+endLine;
         break;
     default:
         // do nothing..no idea what this is

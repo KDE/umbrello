@@ -80,7 +80,7 @@ void UMLAttributeDialog::setupDialog()
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 1,
                                     m_pNameL, i18nc("attribute name", "&Name:"),
-                                    m_pNameLE, m_pAttribute->getName() );
+                                    m_pNameLE, m_pAttribute->name() );
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 2,
                                     m_pInitialL, i18n("&Initial value:"),
@@ -88,10 +88,10 @@ void UMLAttributeDialog::setupDialog()
 
     Dialog_Utils::makeLabeledEditField( m_pValuesGB, valuesLayout, 3,
                                     m_pStereoTypeL, i18n("Stereotype name:"),
-                                    m_pStereoTypeLE, m_pAttribute->getStereotype() );
+                                    m_pStereoTypeLE, m_pAttribute->stereotype() );
 
     m_pStaticCB = new QCheckBox( i18n("Classifier &scope (\"static\")"), m_pValuesGB );
-    m_pStaticCB->setChecked( m_pAttribute->getStatic() );
+    m_pStaticCB->setChecked( m_pAttribute->isStatic() );
     valuesLayout->addWidget(m_pStaticCB, 4, 0);
 
     mainLayout->addWidget(m_pValuesGB);
@@ -114,7 +114,7 @@ void UMLAttributeDialog::setupDialog()
 
     mainLayout->addWidget(m_pScopeGB);
 
-    switch (m_pAttribute->getVisibility()) {
+    switch (m_pAttribute->visibility()) {
     case Uml::Visibility::Public:
         m_pPublicRB->setChecked( true );
         break;
@@ -159,7 +159,7 @@ bool UMLAttributeDialog::apply()
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid attribute name."),
                            i18n("Attribute Name Invalid"), false);
-        m_pNameLE->setText( m_pAttribute->getName() );
+        m_pNameLE->setText( m_pAttribute->name() );
         return false;
     }
     UMLClassifier * pConcept = dynamic_cast<UMLClassifier *>( m_pAttribute->parent() );
@@ -167,7 +167,7 @@ bool UMLAttributeDialog::apply()
     if (o && o != m_pAttribute) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
                            i18n("Attribute Name Not Unique"), false);
-        m_pNameLE->setText( m_pAttribute->getName() );
+        m_pNameLE->setText( m_pAttribute->name() );
         return false;
     }
     m_pAttribute->setName(name);
@@ -251,7 +251,7 @@ void UMLAttributeDialog::insertTypesSorted( const QString& type )
     UMLClassifierList namesList( uDoc->concepts() );
     QStringList types;
     foreach (UMLClassifier* obj, namesList) {
-         types << obj->getFullyQualifiedName();
+         types << obj->fullyQualifiedName();
     }
     if ( !types.contains(type) ) {
         types << type;

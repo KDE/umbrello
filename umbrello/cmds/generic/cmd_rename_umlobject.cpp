@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,7 +23,7 @@ namespace Uml
       : m_obj(o), m_name(name)
     {
         setText(i18n("Rename object"));
-        m_oldname = o->getName();
+        m_oldname = o->name();
     }
 
     CmdRenameUMLObject::~CmdRenameUMLObject()
@@ -32,12 +32,12 @@ namespace Uml
 
     void CmdRenameUMLObject::redo()
     {
-        m_obj->setNamecmd(m_name);
+        m_obj->setNameCmd(m_name);
     }
 
     void CmdRenameUMLObject::undo()
     {
-        m_obj->setNamecmd(m_oldname);
+        m_obj->setNameCmd(m_oldname);
     }
 
 }

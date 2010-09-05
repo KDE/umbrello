@@ -139,16 +139,16 @@ QString UMLAssociation::toString() const
     QString string;
     if(m_pRole[A])
     {
-        string += m_pRole[A]->getObject()->getName();
+        string += m_pRole[A]->getObject()->name();
         string += ':';
-        string += m_pRole[A]->getName();
+        string += m_pRole[A]->name();
     }
     string += ':' + toString(m_AssocType) + ':';
     if(m_pRole[B])
     {
-        string += m_pRole[B]->getObject( )->getName();
+        string += m_pRole[B]->getObject( )->name();
         string += ':';
-        string += m_pRole[B]->getName();
+        string += m_pRole[B]->name();
     }
     return string;
 }
@@ -266,7 +266,7 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 bool UMLAssociation::load( QDomElement & element )
 {
-    if (getID() == Uml::id_None)
+    if (id() == Uml::id_None)
         return false; // old style XMI file. No real info in this association.
 
     UMLDoc * doc = UMLApp::app()->document();
@@ -295,7 +295,7 @@ bool UMLAssociation::load( QDomElement & element )
             } else {
                 m_pRole[role]->setObject(obj[r]);
                 if (m_pUMLPackage == NULL) {
-                    Uml::Model_Type mt = Model_Utils::convert_OT_MT(obj[r]->getBaseType());
+                    Uml::Model_Type mt = Model_Utils::convert_OT_MT(obj[r]->baseType());
                     m_pUMLPackage = doc->rootFolder(mt);
                     uDebug() << "assoctype " << m_AssocType
                         << ": setting model type " << mt;
@@ -326,7 +326,7 @@ bool UMLAssociation::load( QDomElement & element )
                 }
                 if (idStr.isEmpty()) {
                     uError() << "type " << m_AssocType
-                        << ", id " << ID2STR(getID()) << ": "
+                        << ", id " << ID2STR(id()) << ": "
                         << "xmi id not given for " << tag;
                     continue;
                 }
@@ -398,7 +398,7 @@ bool UMLAssociation::load( QDomElement & element )
             return false;
 
         if (m_pUMLPackage == NULL) {
-            Uml::Model_Type mt = Model_Utils::convert_OT_MT(getObject(B)->getBaseType());
+            Uml::Model_Type mt = Model_Utils::convert_OT_MT(getObject(B)->baseType());
             m_pUMLPackage = doc->rootFolder(mt);
             uDebug() << "setting model type " << mt;
         }
@@ -461,7 +461,7 @@ bool UMLAssociation::load( QDomElement & element )
     } else {
         int assocTypeNum = assocTypeStr.toInt();
         if (assocTypeNum < (int)atypeFirst || assocTypeNum > (int)atypeLast) {
-            uWarning() << "bad assoctype of UML:Association " << ID2STR(getID());
+            uWarning() << "bad assoctype of UML:Association " << ID2STR(id());
             return false;
         }
         assocType = (Uml::Association_Type)assocTypeNum;
@@ -544,7 +544,7 @@ Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) const
     UMLRole *roleObj = m_pRole[role];
     UMLObject *o = roleObj->getObject();
     if (o == NULL) {
-        QString auxID = roleObj->getSecondaryId();
+        QString auxID = roleObj->secondaryId();
         if (auxID.isEmpty()) {
             uError() << "role " << role << ": getObject returns NULL";
             return Uml::id_None;
@@ -553,7 +553,7 @@ Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) const
             return STR2ID(auxID);
         }
     }
-    return o->getID();
+    return o->id();
 }
 
 /**
@@ -563,7 +563,7 @@ Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) const
  */
 Uml::IDType UMLAssociation::getRoleId(Role_Type role) const
 {
-    return m_pRole[role]->getID();
+    return m_pRole[role]->id();
 }
 
 /**
@@ -580,7 +580,7 @@ Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) co
  */
 Uml::Visibility UMLAssociation::getVisibility(Uml::Role_Type role) const
 {
-    return m_pRole[role]->getVisibility();
+    return m_pRole[role]->visibility();
 }
 
 /**
@@ -598,7 +598,7 @@ QString UMLAssociation::getMulti(Uml::Role_Type role) const
  */
 QString UMLAssociation::getRoleName(Uml::Role_Type role) const
 {
-    return m_pRole[role]->getName();
+    return m_pRole[role]->name();
 }
 
 /**
@@ -607,7 +607,7 @@ QString UMLAssociation::getRoleName(Uml::Role_Type role) const
  */
 QString UMLAssociation::getRoleDoc(Uml::Role_Type role) const
 {
-    return m_pRole[role]->getDoc();
+    return m_pRole[role]->doc();
 }
 
 /**
@@ -745,11 +745,11 @@ QString UMLAssociation::toString(Uml::Changeability_Type type)
 bool UMLAssociation::isRealization(UMLObject* objA, UMLObject* objB) const
 {
     bool aIsInterface = false;
-    if (objA && (objA->getBaseType() == Uml::ot_Interface)) {
+    if (objA && (objA->baseType() == Uml::ot_Interface)) {
         aIsInterface = true;
     }
     bool bIsInterface = false;
-    if (objB && (objB->getBaseType() == Uml::ot_Interface)) {
+    if (objB && (objB->baseType() == Uml::ot_Interface)) {
         bIsInterface = true;
     }
     return (m_AssocType == Uml::at_Generalization) &&

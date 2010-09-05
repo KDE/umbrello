@@ -407,7 +407,7 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
         conceptElement.setAttribute("showattsigs", m_attributeSignatureType);
     }
 
-    if (umlc->isInterface() || umlc->getAbstract()) {
+    if (umlc->isInterface() || umlc->isAbstract()) {
         conceptElement.setAttribute("drawascircle", visualProperty(DrawAsCircle));
     }
     qElement.appendChild(conceptElement);
@@ -646,21 +646,21 @@ void ClassifierWidget::updateTextItemGroups()
     // Setup Stereo text item.
     TextItem *stereoItem = headerGroup->textItemAt(StereotypeItemIndex);
     stereoItem->setBold(true);
-    stereoItem->setText(umlC->getStereotype(true));
+    stereoItem->setText(umlC->stereotype(true));
 
     bool v = !shouldDrawAsCircle()
         && visualProperty(ShowStereotype)
-        && !(umlC->getStereotype(false).isEmpty());
+        && !(umlC->stereotype(false).isEmpty());
     stereoItem->setExplicitVisibility(v);
 
     // name item is always visible.
     TextItem *nameItem = headerGroup->textItemAt(NameItemIndex);
     nameItem->setBold(true);
-    nameItem->setItalic(umlC->getAbstract());
+    nameItem->setItalic(umlC->isAbstract());
     nameItem->setUnderline(shouldDrawAsCircle());
     QString nameText = name();
     if (visualProperty(ShowPackage) == true) {
-        nameText = umlC->getFullyQualifiedName();
+        nameText = umlC->fullyQualifiedName();
     }
 
     bool showNameOnly = (!visualProperty(ShowAttributes) && !visualProperty(ShowOperations)
@@ -676,13 +676,13 @@ void ClassifierWidget::updateTextItemGroups()
         UMLClassifierListItem *obj = attribList[i];
 
         TextItem *item = attribOpGroup->textItemAt(attribStartIndex + i);
-        item->setItalic(obj->getAbstract());
-        item->setUnderline(obj->getStatic());
+        item->setItalic(obj->isAbstract());
+        item->setUnderline(obj->isStatic());
         item->setText(obj->toString(m_attributeSignatureType));
 
         bool v = !shouldDrawAsCircle()
             && ( !visualProperty(ShowPublicOnly)
-                 || obj->getVisibility() == Uml::Visibility::Public)
+                 || obj->visibility() == Uml::Visibility::Public)
             && visualProperty(ShowAttributes) == true;
 
         item->setExplicitVisibility(v);
@@ -720,13 +720,13 @@ void ClassifierWidget::updateTextItemGroups()
         UMLClassifierListItem *obj = opList[i];
 
         TextItem *item = attribOpGroup->textItemAt(opStartIndex + i);
-        item->setItalic(obj->getAbstract());
-        item->setUnderline(obj->getStatic());
+        item->setItalic(obj->isAbstract());
+        item->setUnderline(obj->isStatic());
         item->setText(obj->toString(m_operationSignatureType));
 
         bool v = !shouldDrawAsCircle()
             && ( !visualProperty(ShowPublicOnly)
-                 || obj->getVisibility() == Uml::Visibility::Public)
+                 || obj->visibility() == Uml::Visibility::Public)
             && visualProperty(ShowOperations);
 
         item->setExplicitVisibility(v);

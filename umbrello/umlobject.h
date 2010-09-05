@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -55,43 +55,43 @@ public:
     virtual UMLObject* clone() const = 0;
 
     virtual void setBaseType(Uml::Object_Type ot);
-    Uml::Object_Type getBaseType() const;
+    Uml::Object_Type baseType() const;
 
     virtual void setID(Uml::IDType NewID);
-    virtual Uml::IDType getID() const;
+    virtual Uml::IDType id() const;
 
     void setDoc(const QString &d);
-    QString getDoc() const;
+    QString doc() const;
 
     void setVisibility(Uml::Visibility s);
-    void setVisibilitycmd(Uml::Visibility s);
-    Uml::Visibility getVisibility() const;
+    void setVisibilityCmd(Uml::Visibility s);
+    Uml::Visibility visibility() const;
 
     void setStereotype(const QString &_name);
-    void setStereotypecmd(const QString &_name);
-    QString getStereotype(bool includeAdornments = false) const;
+    void setStereotypeCmd(const QString &_name);
+    QString stereotype(bool includeAdornments = false) const;
 
     void setUMLStereotype(UMLStereotype *stereo);
-    const UMLStereotype * getUMLStereotype();
+    const UMLStereotype * umlStereotype();
 
     void setPackage(const QString &_name);
-    QString getPackage(const QString& separator = QString(),
-                       bool includeRoot = false);
+    QString package(const QString& separator = QString(),
+                    bool includeRoot = false);
 
     void setUMLPackage(UMLPackage* pPkg);
-    UMLPackage* getUMLPackage();
+    UMLPackage* umlPackage();
 
-    UMLPackageList getPackages(bool includeRoot = false) const;
+    UMLPackageList packages(bool includeRoot = false) const;
 
     virtual void setName(const QString &strName);
-    void setNamecmd(const QString &strName) ;
-    QString getName() const;
+    void setNameCmd(const QString &strName) ;
+    QString name() const;
 
-    virtual QString getFullyQualifiedName(const QString& separator = QString(),
-                                          bool includeRoot = false) const;
+    virtual QString fullyQualifiedName(const QString& separator = QString(),
+                                       bool includeRoot = false) const;
 
     void setAbstract(bool bAbstract);
-    bool getAbstract() const;
+    bool isAbstract() const;
 
     void setInPaste(bool bInPaste = true);
 
@@ -105,15 +105,15 @@ public:
     bool loadStereotype(QDomElement & element);
 
     void setStatic(bool bStatic);
-    bool getStatic() const;
+    bool isStatic() const;
 
     virtual bool acceptAssociationType(Uml::Association_Type);
 
     void setSecondaryId(const QString& id);
-    QString getSecondaryId() const;
+    QString secondaryId() const;
 
     void setSecondaryFallback(const QString& id);
-    QString getSecondaryFallback() const;
+    QString secondaryFallback() const;
 
     QDomElement save( const QString &tag, QDomDocument & qDoc );
 

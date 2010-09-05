@@ -54,17 +54,17 @@ void DClassDeclarationBlock::updateContent ( )
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     QString endLine = commonPolicy->getNewLineEndingChars();
     bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
-    QString DClassName = parentDoc->getDClassName(c->getName());
+    QString DClassName = parentDoc->getDClassName(c->name());
 
     // COMMENT
 
     getComment()->setText(
         (isInterface ? "Interface " : "Class ") +
-        DClassName + endLine + c->getDoc());
+        DClassName + endLine + c->doc());
 
     bool forceDoc = commonPolicy->getCodeVerboseDocumentComments();
 
-    getComment()->setWriteOutText( forceDoc || !c->getDoc().isEmpty() );
+    getComment()->setWriteOutText( forceDoc || !c->doc().isEmpty() );
 
     /*
      * Class declaration
@@ -76,7 +76,7 @@ void DClassDeclarationBlock::updateContent ( )
     QString startText = "";
 
     // (a) visibility modifier
-    switch(c->getVisibility()) {
+    switch(c->visibility()) {
         case Uml::Visibility::Private: startText += "private "; break;
         default: break;
     }
@@ -85,7 +85,7 @@ void DClassDeclarationBlock::updateContent ( )
     if (isInterface) {
         startText += "interface ";
     } else {
-        if (c->getAbstract()) {
+        if (c->isAbstract()) {
             startText += "abstract ";
         }
 
@@ -107,7 +107,7 @@ void DClassDeclarationBlock::updateContent ( )
 
     // (e) base classes
     foreach (UMLClassifier* concept, superclasses ) {
-        startText += parentDoc->cleanName(concept->getName());
+        startText += parentDoc->cleanName(concept->name());
 
         count--;
 
@@ -116,7 +116,7 @@ void DClassDeclarationBlock::updateContent ( )
 
     // (f) interfaces
     foreach (UMLClassifier* concept, superinterfaces ) {
-        startText += parentDoc->cleanName(concept->getName());
+        startText += parentDoc->cleanName(concept->name());
 
         count--;
 

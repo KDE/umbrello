@@ -81,10 +81,10 @@ UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList)
 {
     for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
-        if (obj->getID() == id)
+        if (obj->id() == id)
             return obj;
         UMLObject *o;
-        Uml::Object_Type t = obj->getBaseType();
+        Uml::Object_Type t = obj->baseType();
         switch (t) {
         case Uml::ot_Folder:
         case Uml::ot_Package:
@@ -108,10 +108,10 @@ UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList)
             {
                 UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
                 UMLRole *rA = assoc->getUMLRole(Uml::A);
-                if (rA->getID() == id)
+                if (rA->id() == id)
                     return rA;
                 UMLRole *rB = assoc->getUMLRole(Uml::B);
-                if (rB->getID() == id)
+                if (rB->id() == id)
                     return rB;
             }
             break;
@@ -171,22 +171,22 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
         }
         pkg = dynamic_cast<UMLPackage*>(currentObj);
         if (pkg == NULL)
-            pkg = currentObj->getUMLPackage();
+            pkg = currentObj->umlPackage();
         // Remember packages that we've seen - for avoiding cycles.
         UMLPackageList seenPkgs;
-        for (; pkg; pkg = currentObj->getUMLPackage()) {
+        for (; pkg; pkg = currentObj->umlPackage()) {
             if (nameWithoutFirstPrefix.isEmpty()) {
                 if (caseSensitive) {
-                    if (pkg->getName() == name)
+                    if (pkg->name() == name)
                         return pkg;
-                } else if (pkg->getName().toLower() == name.toLower()) {
+                } else if (pkg->name().toLower() == name.toLower()) {
                     return pkg;
                 }
             }
             if (seenPkgs.indexOf(pkg) != -1) {
                 uError() << "findUMLObject(" << name << "): "
                     << "breaking out of cycle involving "
-                    << pkg->getName();
+                    << pkg->name();
                 break;
             }
             seenPkgs.append(pkg);
@@ -194,12 +194,12 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             for (UMLObjectListIt oit(objectsInCurrentScope); oit.hasNext(); ) {
                 UMLObject *obj = oit.next();
                 if (caseSensitive) {
-                    if (obj->getName() != name)
+                    if (obj->name() != name)
                         continue;
-                } else if (obj->getName().toLower() != name.toLower()) {
+                } else if (obj->name().toLower() != name.toLower()) {
                     continue;
                 }
-                Uml::Object_Type foundType = obj->getBaseType();
+                Uml::Object_Type foundType = obj->baseType();
                 if (nameWithoutFirstPrefix.isEmpty()) {
                     if (type != Uml::ot_UMLObject && type != foundType) {
                         uDebug() << "findUMLObject: type mismatch for "
@@ -240,12 +240,12 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
     for (UMLObjectListIt oit(inList); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
         if (caseSensitive) {
-            if (obj->getName() != name)
+            if (obj->name() != name)
                 continue;
-        } else if (obj->getName().toLower() != name.toLower()) {
+        } else if (obj->name().toLower() != name.toLower()) {
             continue;
         }
-        Uml::Object_Type foundType = obj->getBaseType();
+        Uml::Object_Type foundType = obj->baseType();
         if (nameWithoutFirstPrefix.isEmpty()) {
             if (type != Uml::ot_UMLObject && type != foundType) {
                 uDebug() << "findUMLObject: type mismatch for "
@@ -318,7 +318,7 @@ void treeViewMoveObjectTo(UMLObject* container, UMLObject* object)
 {
     UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *newParent = listView->findUMLObject(container);
-    listView->moveObject(object->getID(),
+    listView->moveObject(object->id(),
                    Model_Utils::convert_OT_LVT(object),
                    newParent);
 }
@@ -519,8 +519,8 @@ bool isClassifierListitem(Uml::Object_Type type)
  */
 Uml::Model_Type guessContainer(UMLObject *o)
 {
-    Uml::Object_Type ot = o->getBaseType();
-    if (ot == Uml::ot_Package && o->getStereotype() == "subsystem")
+    Uml::Object_Type ot = o->baseType();
+    if (ot == Uml::ot_Package && o->stereotype() == "subsystem")
         return Uml::mt_Component;
     Uml::Model_Type mt = Uml::N_MODELTYPES;
     switch (ot) {
@@ -564,10 +564,10 @@ Uml::Model_Type guessContainer(UMLObject *o)
                         // Ouch! we have been called while types are not yet resolved
                         return Uml::N_MODELTYPES;
                     }
-                    UMLPackage *pkg = roleObj->getUMLPackage();
+                    UMLPackage *pkg = roleObj->umlPackage();
                     if (pkg) {
-                        while (pkg->getUMLPackage()) {  // wind back to root
-                            pkg = pkg->getUMLPackage();
+                        while (pkg->umlPackage()) {  // wind back to root
+                            pkg = pkg->umlPackage();
                         }
                         const Uml::Model_Type m = umldoc->rootFolderType(pkg);
                         if (m != Uml::N_MODELTYPES)
@@ -1231,7 +1231,7 @@ Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt)
  */
 Uml::ListView_Type convert_OT_LVT(UMLObject *o)
 {
-    Uml::Object_Type ot = o->getBaseType();
+    Uml::Object_Type ot = o->baseType();
     Uml::ListView_Type type =  Uml::lvt_Unknown;
     switch(ot) {
     case Uml::ot_UseCase:
@@ -1278,8 +1278,8 @@ Uml::ListView_Type convert_OT_LVT(UMLObject *o)
                     }
                     return type;
                 }
-            } while ((f = static_cast<UMLFolder*>(f->getUMLPackage())) != NULL);
-            uError() << "convert_OT_LVT(" << o->getName()
+            } while ((f = static_cast<UMLFolder*>(f->umlPackage())) != NULL);
+            uError() << "convert_OT_LVT(" << o->name()
                 << "): internal error - object is not properly nested in folder";
         }
         break;

@@ -142,7 +142,7 @@ void UMLUniqueConstraintDialog::setupDialog()
     }
 
     // set text of label
-    m_pNameLE->setText( m_pUniqueConstraint->getName() );
+    m_pNameLE->setText( m_pUniqueConstraint->name() );
 
     // select firstItem
     if ( m_pAttributeListLW->count() != 0 ) {
@@ -240,7 +240,7 @@ bool UMLUniqueConstraintDialog::apply()
     if ( name.length() == 0 ) {
         KMessageBox::error(this, i18n("You have entered an invalid constraint name."),
                            i18n("Constraint Name Invalid"), false);
-        m_pNameLE->setText( m_pUniqueConstraint->getName() );
+        m_pNameLE->setText( m_pUniqueConstraint->name() );
         return false;
     }
 

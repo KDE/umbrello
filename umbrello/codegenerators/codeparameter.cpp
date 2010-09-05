@@ -20,7 +20,7 @@
 #include "umlobject.h"
 #include "umlrole.h"
 #include "uml.h"
-#include "codegenerators/codegenfactory.h"
+#include "codegenfactory.h"
 
 // kde includes
 #include <kdebug.h>
@@ -44,7 +44,7 @@ CodeParameter::~CodeParameter ( )
  */
 bool CodeParameter::getAbstract ( )
 {
-    return m_parentObject->getAbstract();
+    return m_parentObject->isAbstract();
 }
 
 /**
@@ -54,7 +54,7 @@ bool CodeParameter::getAbstract ( )
  */
 bool CodeParameter::getStatic ( )
 {
-    return m_parentObject->getStatic();
+    return m_parentObject->isStatic();
 }
 
 /**
@@ -64,7 +64,7 @@ bool CodeParameter::getStatic ( )
  */
 QString CodeParameter::getName ( ) const
 {
-    return m_parentObject->getName();
+    return m_parentObject->name();
 }
 
 /**
@@ -86,7 +86,7 @@ QString CodeParameter::getTypeName ( )
  */
 Uml::Visibility CodeParameter::getVisibility ( ) const
 {
-    return m_parentObject->getVisibility();
+    return m_parentObject->visibility();
 }
 
 /**
@@ -151,9 +151,9 @@ QString CodeParameter::getID ()
         // cant use Role "ID" as that is used to distinquish if its
         // role "A" or "B"
         UMLAssociation *assoc = role->getParentAssociation();
-        return ID2STR(assoc->getID());
+        return ID2STR(assoc->id());
     } else
-        return ID2STR(m_parentObject->getID());
+        return ID2STR(m_parentObject->id());
 
 }
 
@@ -265,7 +265,7 @@ void CodeParameter::setAttributesFromNode ( QDomElement & root)
  */
 void CodeParameter::syncToParent( )
 {
-    getComment()->setText(getParentObject()->getDoc());
+    getComment()->setText(getParentObject()->doc());
 
     updateContent();
 }
@@ -278,7 +278,7 @@ void CodeParameter::initFields ( ClassifierCodeDocument * doc, UMLObject * obj)
     m_initialValue.clear();
 
     m_comment = CodeGenFactory::newCodeComment(m_parentDocument);
-    m_comment->setText(getParentObject()->getDoc());
+    m_comment->setText(getParentObject()->doc());
 
     connect(m_parentObject,SIGNAL(modified()),this,SLOT(syncToParent()));
 }

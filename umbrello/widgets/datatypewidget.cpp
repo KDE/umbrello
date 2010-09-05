@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -78,12 +78,12 @@ void DatatypeWidget::updateTextItemGroups()
         grp->setTextItemCount(DatatypeWidget::TextItemCount);
 
         TextItem *stereo = grp->textItemAt(DatatypeWidget::StereoTypeItemIndex);
-        stereo->setText(umlObject()->getStereotype(true));
+        stereo->setText(umlObject()->stereotype(true));
         stereo->setBold(true);
 
         TextItem *nameItem = grp->textItemAt(DatatypeWidget::NameItemIndex);
         nameItem->setText(name());
-        nameItem->setItalic(umlObject()->getAbstract());
+        nameItem->setItalic(umlObject()->isAbstract());
     }
 
     UMLWidget::updateTextItemGroups();

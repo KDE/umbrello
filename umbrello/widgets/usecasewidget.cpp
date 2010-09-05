@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,7 +32,7 @@ UseCaseWidget::UseCaseWidget(UMLUseCase *o) : UMLWidget(o)
 }
 
 /**
- *  destructor
+ *  Destructor.
  */
 UseCaseWidget::~UseCaseWidget()
 {
@@ -71,7 +71,7 @@ void UseCaseWidget::updateTextItemGroups()
 
         TextItem *nameItem = grp->textItemAt(UseCaseWidget::NameItemIndex);
         nameItem->setText(name());
-        nameItem->setItalic(umlObject()->getAbstract());
+        nameItem->setItalic(umlObject()->isAbstract());
     }
     UMLWidget::updateTextItemGroups();
 }

@@ -4,13 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "umlwidgetcolorpage.h"
 
 #include "optionstate.h"
+#include "uml.h"
 #include "umlview.h"
 #include "umlwidget.h"
 
@@ -25,6 +26,9 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QGridLayout>
 
+/**
+ *   Constructor - Observe a UMLWidget.
+ */
 UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) : QWidget( pParent )
 {
     m_pUMLWidget = pWidget;
@@ -33,8 +37,22 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget *pParent, UMLWidget *pWidget ) :
     m_pLineColorB->setColor( pWidget->lineColor() );
     m_pFillColorB->setColor( pWidget->getFillColor() );
     m_pUseFillColorCB->setChecked( pWidget->getUseFillColour() );
+
+    if (!m_pUMLWidget) {  //  when we are on the diagram
+        UMLView * view = UMLApp::app()->currentView();
+        if (view) {
+//:TODO:            UMLViewCanvas* canvas = dynamic_cast<UMLViewCanvas*>(view->canvas());
+//:TODO:            if (canvas) {
+//:TODO:                m_BackgroundColorB->setColor(canvas->backgroundColor());
+//:TODO:                m_GridDotColorB->setColor(canvas->gridDotColor());
+//:TODO:            }
+        }
+    }
 }
 
+/**
+ *   Constructor - Observe an OptionState structure.
+ */
 UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, Settings::OptionState *options ) : QWidget( pParent )
 {
     m_options = options;
@@ -43,6 +61,8 @@ UMLWidgetColorPage::UMLWidgetColorPage( QWidget * pParent, Settings::OptionState
     m_pLineColorB->setColor( m_options->uiState.lineColor );
     m_pFillColorB->setColor( m_options->uiState.fillColor );
     m_pUseFillColorCB->setChecked( m_options->uiState.useFillColor );
+    m_BackgroundColorB->setColor( m_options->uiState.backgroundColor );
+    m_GridDotColorB->setColor( m_options->uiState.gridDotColor );
 }
 
 void UMLWidgetColorPage::init()
@@ -85,8 +105,37 @@ void UMLWidgetColorPage::init()
     //connect button signals up
     connect( m_pLineDefaultB, SIGNAL( clicked() ), this, SLOT( slotLineButtonClicked() )) ;
     connect( m_pFillDefaultB, SIGNAL( clicked() ), this, SLOT( slotFillButtonClicked() ) );
+
+    if (!m_pUMLWidget) {  //  when we are on the diagram
+        m_BackgroundColorL = new QLabel( i18nc("background color", "&Background:"), m_pColorGB );
+        colorLayout->addWidget( m_BackgroundColorL, 3, 0 );
+
+        m_BackgroundColorB = new KColorButton( m_pColorGB );
+        colorLayout->addWidget( m_BackgroundColorB, 3, 1 );
+        m_BackgroundColorL->setBuddy(m_BackgroundColorB);
+
+        m_BackgroundDefaultB = new QPushButton( i18nc("default background color button", "De&fault"), m_pColorGB) ;
+        colorLayout->addWidget( m_BackgroundDefaultB, 3, 2 );
+
+        m_GridDotColorL = new QLabel( i18nc("grid dot color", "&Grid dot:"), m_pColorGB );
+        colorLayout->addWidget( m_GridDotColorL, 4, 0 );
+
+        m_GridDotColorB = new KColorButton( m_pColorGB );
+        colorLayout->addWidget( m_GridDotColorB, 4, 1 );
+        m_GridDotColorL->setBuddy(m_GridDotColorB);
+
+        m_GridDotDefaultB = new QPushButton( i18nc("default grid dot color button", "Def&ault"), m_pColorGB) ;
+        colorLayout->addWidget( m_GridDotDefaultB, 4, 2 );
+
+        //connect button signals up
+        connect( m_BackgroundDefaultB, SIGNAL( clicked() ), this, SLOT( slotBackgroundButtonClicked() ) );
+        connect( m_GridDotDefaultB,    SIGNAL( clicked() ), this, SLOT( slotGridDotButtonClicked() ) );
+    }
 }
 
+/**
+ *   Destructor.
+ */
 UMLWidgetColorPage::~UMLWidgetColorPage()
 {
 }
@@ -97,7 +146,6 @@ UMLWidgetColorPage::~UMLWidgetColorPage()
  */
 void UMLWidgetColorPage::slotLineButtonClicked()
 {
-    //  UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget->parent() );
     m_pLineColorB->setColor( Settings::getOptionState().uiState.lineColor );
 }
 
@@ -107,8 +155,25 @@ void UMLWidgetColorPage::slotLineButtonClicked()
  */
 void UMLWidgetColorPage::slotFillButtonClicked()
 {
-    //  UMLView * pView = dynamic_cast<UMLView *>( m_pUMLWidget->parent() );
     m_pFillColorB->setColor( Settings::getOptionState().uiState.fillColor );
+}
+
+/**
+ *   Sets the default fill color when default fill button
+ *   clicked.
+ */
+void UMLWidgetColorPage::slotBackgroundButtonClicked()
+{
+    m_BackgroundColorB->setColor( Settings::getOptionState().uiState.backgroundColor );
+}
+
+/**
+ *   Sets the default fill color when default fill button
+ *   clicked.
+ */
+void UMLWidgetColorPage::slotGridDotButtonClicked()
+{
+    m_GridDotColorB->setColor( Settings::getOptionState().uiState.gridDotColor );
 }
 
 /**
@@ -116,17 +181,27 @@ void UMLWidgetColorPage::slotFillButtonClicked()
  */
 void UMLWidgetColorPage::updateUMLWidget()
 {
-    if(m_pUMLWidget)
-    {
+    if (m_pUMLWidget) {
         m_pUMLWidget->setUseFillColour( m_pUseFillColorCB->isChecked() );
         m_pUMLWidget->setLineColor( m_pLineColorB->color() );
         m_pUMLWidget->setFillColour( m_pFillColorB->color() );
     }
-    else if(m_options)
-    {
+    else if (m_options) {
         m_options->uiState.useFillColor = m_pUseFillColorCB->isChecked();
         m_options->uiState.lineColor = m_pLineColorB->color();
         m_options->uiState.fillColor = m_pFillColorB->color();
+        m_options->uiState.backgroundColor = m_BackgroundColorB->color();
+        m_options->uiState.gridDotColor = m_GridDotColorB->color();
+    }
+
+    if (!m_pUMLWidget) {  // when we are on the diagram
+        UMLView * view = UMLApp::app()->currentView();
+        if (view) {
+//:TODO:            UMLViewCanvas* canvas = dynamic_cast<UMLViewCanvas*>(view->canvas());
+//:TODO:            if (canvas) {
+//:TODO:                canvas->setColors(m_BackgroundColorB->color(), m_GridDotColorB->color());
+//:TODO:            }
+        }
     }
 }
 

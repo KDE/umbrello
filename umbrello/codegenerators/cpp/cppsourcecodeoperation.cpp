@@ -55,13 +55,13 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     bool isInlineMethod = policy->getOperationsAreInline( );
 
     // first, the comment on the operation
-    QString comment = o->getDoc();
+    QString comment = o->doc();
     getComment()->setText(comment);
 
     QString returnType = o->getTypeName();
-    QString methodName = o->getName();
+    QString methodName = o->name();
     QString paramStr;
-    QString className = CodeGenerator::cleanName(c->getName());
+    QString className = CodeGenerator::cleanName(c->name());
 
     // assemble parameters
     UMLAttributeList list = getParentOperation()->getParmList();
@@ -69,7 +69,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     int paramNum = 0;
     foreach (UMLAttribute* parm, list ) {
         QString rType = parm->getTypeName();
-        QString paramName = parm->getName();
+        QString paramName = parm->name();
         paramStr += rType + ' ' + paramName;
         paramNum++;
 
@@ -89,7 +89,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 
     // if a property has a friend stereotype, the operation should
     // not be a class name
-    if (o->getStereotype() != "friend")
+    if (o->stereotype() != "friend")
         startText += className + "::";
     startText += methodName + " (" + paramStr + ')';
     if (o->getConst())
@@ -100,7 +100,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
 
     // Only write this out if it is a child of an interface OR is abstract.
     // and it is not inline
-    if (isInterface || o->getAbstract() || isInlineMethod)
+    if (isInterface || o->isAbstract() || isInlineMethod)
     {
         setWriteOutText(false);
     } else {

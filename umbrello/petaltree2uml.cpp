@@ -15,7 +15,7 @@
 #include <kdebug.h>
 // app includes
 #include "petalnode.h"
-#include "codeimport/import_utils.h"
+#include "import_utils.h"
 #include "package.h"
 #include "classifier.h"
 #include "attribute.h"
@@ -239,7 +239,7 @@ public:
     void insertAtParent(const PetalNode *node, UMLObject *item) {
         UMLOperation *op = static_cast<UMLOperation*>(item);
         ParametersReader parmReader(op);
-        parmReader.read(node, m_classifier->getName());
+        parmReader.read(node, m_classifier->name());
         m_classifier->addOperation(op);
     }
 protected:
@@ -387,16 +387,16 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
         }
         // insert attributes
         AttributesReader attReader(c);
-        attReader.read(node, c->getName());
+        attReader.read(node, c->name());
         // insert operations
         OperationsReader opReader(c);
-        opReader.read(node, c->getName());
+        opReader.read(node, c->name());
         // insert generalizations
         SuperclassesReader superReader(c);
-        superReader.read(node, c->getName());
+        superReader.read(node, c->name());
         // insert realizations
         RealizationsReader realReader(c);
-        realReader.read(node, c->getName());
+        realReader.read(node, c->name());
 
     } else if (objType == "Association") {
         PetalNode *roles = node->findAttribute("roles").node;

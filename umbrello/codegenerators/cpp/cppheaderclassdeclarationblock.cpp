@@ -63,13 +63,13 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
     UMLClassifier *c = parentDoc->getParentClassifier();
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
     bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
-    QString CPPHeaderClassName = CodeGenerator::cleanName(c->getName());
+    QString CPPHeaderClassName = CodeGenerator::cleanName(c->name());
     bool forceDoc = UMLApp::app()->commonPolicy()->getCodeVerboseDocumentComments();
 
     // COMMENT
 
     //check if class is abstract.. it should have abstract methods
-    if(!isInterface && c->getAbstract() && !c->hasAbstractOps())
+    if(!isInterface && c->isAbstract() && !c->hasAbstractOps())
     {
         getComment()->setText("******************************* Abstract Class ****************************"+endLine
                               +CPPHeaderClassName+" does not have any pure virtual methods, but its author"+endLine
@@ -78,12 +78,12 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
                               +"*****************************************************************************");
     } else {
         if(isInterface)
-            getComment()->setText("Interface "+CPPHeaderClassName+endLine+c->getDoc());
+            getComment()->setText("Interface "+CPPHeaderClassName+endLine+c->doc());
         else
-            getComment()->setText("Class "+CPPHeaderClassName+endLine+c->getDoc());
+            getComment()->setText("Class "+CPPHeaderClassName+endLine+c->doc());
     }
 
-    if(forceDoc || !c->getDoc().isEmpty())
+    if(forceDoc || !c->doc().isEmpty())
         getComment()->setWriteOutText(true);
     else
         getComment()->setWriteOutText(false);
@@ -113,8 +113,8 @@ void CPPHeaderClassDeclarationBlock::updateContent ( )
     if(nrof_superclasses >0)
         startText.append(" : ");
     foreach (UMLClassifier* concept, superclasses ) {
-        startText.append(concept->getVisibility().toString() + ' ' +
-        CodeGenerator::cleanName(concept->getName()));
+        startText.append(concept->visibility().toString() + ' ' +
+        CodeGenerator::cleanName(concept->name()));
         if(i != (nrof_superclasses-1))
             startText.append(", ");
         i++;

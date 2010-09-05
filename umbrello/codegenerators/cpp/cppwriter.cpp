@@ -104,9 +104,9 @@ void CppWriter::writeClass(UMLClassifier *c)
         return;
     }
 
-    className_ = cleanName(c->getName());
+    className_ = cleanName(c->name());
 
-    if (c->getVisibility() != Uml::Visibility::Implementation) {
+    if (c->visibility() != Uml::Visibility::Implementation) {
         if( !openFile(fileh, fileName_)) {
             emit codeGenerated(c, false);
             return;
@@ -119,7 +119,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     // Determine whether the implementation file is required.
     // (It is not required if the class is an enumeration.)
     bool need_impl = true;
-    if (c->getBaseType() == Uml::ot_Enum) {
+    if (c->baseType() == Uml::ot_Enum) {
         need_impl = false;
     }
     if (need_impl) {
@@ -175,13 +175,13 @@ void CppWriter::writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility 
 
     // associations
     writeAssociationMethods(c->getSpecificAssocs(Uml::at_Association), permitScope,
-                            true, INLINE_ASSOCIATION_METHODS, true, c->getID(), stream);
+                            true, INLINE_ASSOCIATION_METHODS, true, c->id(), stream);
     writeAssociationMethods(c->getUniAssociationToBeImplemented(), permitScope,
-                            true, INLINE_ASSOCIATION_METHODS, true, c->getID(), stream);
+                            true, INLINE_ASSOCIATION_METHODS, true, c->id(), stream);
     writeAssociationMethods(c->getAggregations(), permitScope,
-                            true,  INLINE_ASSOCIATION_METHODS, true, c->getID(), stream);
+                            true,  INLINE_ASSOCIATION_METHODS, true, c->id(), stream);
     writeAssociationMethods(c->getCompositions(), permitScope,
-                            true, INLINE_ASSOCIATION_METHODS, false, c->getID(), stream);
+                            true, INLINE_ASSOCIATION_METHODS, false, c->id(), stream);
 
     writeBlankLine(stream);
 }
@@ -197,10 +197,10 @@ void CppWriter::writeHeaderFieldDecl(UMLClassifier *c, Uml::Visibility permitSco
     writeAttributeDecls(c, permitScope, false, stream);
 
     // associations
-    writeAssociationDecls(c->getSpecificAssocs(Uml::at_Association), permitScope, c->getID(), stream);
-    writeAssociationDecls(c->getUniAssociationToBeImplemented(), permitScope, c->getID(), stream);
-    writeAssociationDecls(c->getAggregations(), permitScope, c->getID(), stream);
-    writeAssociationDecls(c->getCompositions(), permitScope, c->getID(), stream);
+    writeAssociationDecls(c->getSpecificAssocs(Uml::at_Association), permitScope, c->id(), stream);
+    writeAssociationDecls(c->getUniAssociationToBeImplemented(), permitScope, c->id(), stream);
+    writeAssociationDecls(c->getAggregations(), permitScope, c->id(), stream);
+    writeAssociationDecls(c->getCompositions(), permitScope, c->id(), stream);
 }
 
 /**
@@ -230,7 +230,7 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
     cpp << "#include \"" << className_ << ".h\"" << m_endl;
     writeBlankLine(cpp);
 
-    if (c->getVisibility() == Uml::Visibility::Implementation) {
+    if (c->visibility() == Uml::Visibility::Implementation) {
         writeClassDecl(c, cpp);
     }
 
@@ -276,33 +276,33 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
 
     // public
     writeAssociationMethods(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Public, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getUniAssociationToBeImplemented(), Uml::Visibility::Public, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getAggregations(), Uml::Visibility::Public, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getCompositions(), Uml::Visibility::Public, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
 
     // protected
     writeAssociationMethods(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Protected, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getUniAssociationToBeImplemented(), Uml::Visibility::Protected, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getAggregations(), Uml::Visibility::Protected, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getCompositions(), Uml::Visibility::Protected, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
 
     // private
     writeAssociationMethods(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Private, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getUniAssociationToBeImplemented(), Uml::Visibility::Private, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getAggregations(), Uml::Visibility::Private, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getCompositions(), Uml::Visibility::Private, false,
-                            !INLINE_ASSOCIATION_METHODS, true, c->getID(), cpp);
+                            !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeBlankLine(cpp);
 
     // Other operation methods -- all other operations are now written
@@ -352,35 +352,35 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     if (c->hasAssociations())
     {
         // write all includes we need to include other classes, that arent us.
-        printAssociationIncludeDecl (c->getSpecificAssocs(Uml::at_Association), c->getID(), cpp);
-        printAssociationIncludeDecl (c->getUniAssociationToBeImplemented(), c->getID(), cpp);
-        printAssociationIncludeDecl (c->getAggregations(), c->getID(), cpp);
-        printAssociationIncludeDecl (c->getCompositions(), c->getID(), cpp);
+        printAssociationIncludeDecl (c->getSpecificAssocs(Uml::at_Association), c->id(), cpp);
+        printAssociationIncludeDecl (c->getUniAssociationToBeImplemented(), c->id(), cpp);
+        printAssociationIncludeDecl (c->getAggregations(), c->id(), cpp);
+        printAssociationIncludeDecl (c->getCompositions(), c->id(), cpp);
 
         writeBlankLine(cpp);
     }
 
     foreach (UMLClassifier* classifier, superclasses ) {
-        if (classifier->getPackage()!=c->getPackage() && !classifier->getPackage().isEmpty()) {
-            cpp << "using " << cleanName(classifier->getPackage()) << "::" << cleanName(classifier->getName()) << ";" << m_endl;
+        if (classifier->package()!=c->package() && !classifier->package().isEmpty()) {
+            cpp << "using " << cleanName(classifier->package()) << "::" << cleanName(classifier->name()) << ";" << m_endl;
         }
     }
 
-    if (!c->getPackage().isEmpty() && policyExt()->getPackageIsNamespace())
-        cpp << m_endl << "namespace " << cleanName(c->getPackage()) << " {" << m_endl << m_endl;
+    if (!c->package().isEmpty() && policyExt()->getPackageIsNamespace())
+        cpp << m_endl << "namespace " << cleanName(c->package()) << " {" << m_endl << m_endl;
 
     //Write class Documentation if there is somthing or if force option
-    if (forceDoc() || !c->getDoc().isEmpty()) {
+    if (forceDoc() || !c->doc().isEmpty()) {
         cpp << m_endl << "/**" << m_endl;
         cpp << "  * class " << className_ << m_endl;
-        cpp << formatDoc(c->getDoc(),"  * ");
+        cpp << formatDoc(c->doc(),"  * ");
         cpp << "  */";
         writeBlankLine(cpp);
         writeBlankLine(cpp);
     }
 
     //check if class is abstract and / or has abstract methods
-    if ((c->getAbstract() || c->isInterface())
+    if ((c->isAbstract() || c->isInterface())
             && !hasAbstractOps(c))
         cpp << "/******************************* Abstract Class ****************************" << m_endl
         << className_ << " does not have any pure virtual methods, but its author" << m_endl
@@ -388,19 +388,19 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         << "  Inherit from it instead and create only objects from the derived classes" << m_endl
         << "*****************************************************************************/" << m_endl << m_endl;
 
-    if (c->getBaseType() == Uml::ot_Enum) {
+    if (c->baseType() == Uml::ot_Enum) {
         UMLClassifierListItemList litList = c->getFilteredList(Uml::ot_EnumLiteral);
         uint i = 0;
         cpp << "enum " << className_ << " {" << m_endl;
         foreach (UMLClassifierListItem* lit, litList ) {
-            QString enumLiteral = cleanName(lit->getName());
+            QString enumLiteral = cleanName(lit->name());
             cpp << indent() << enumLiteral;
             if (++i < ( uint )litList.count())
                 cpp << ",";
             cpp << m_endl;
         }
         cpp << m_endl << "};" << m_endl;  // end of class header
-        if (!c->getPackage().isEmpty() && policyExt()->getPackageIsNamespace())
+        if (!c->package().isEmpty() && policyExt()->getPackageIsNamespace())
             cpp << "}  // end of package namespace" << m_endl;
         return;
     }
@@ -411,7 +411,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         cpp << "template<";
         for (UMLTemplateListIt tlit( template_params ); tlit.hasNext(); ) {
             UMLTemplate* t = tlit.next();
-            QString formalName = t->getName();
+            QString formalName = t->name();
             QString typeName = t->getTypeName();
             cpp << typeName << " " << formalName;
             if ( tlit.hasNext() ) {
@@ -429,9 +429,9 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     uint i = 0;
     foreach (UMLClassifier* superClass, c->getSuperClasses()) {
         i++;
-        if (superClass->getAbstract() || superClass->isInterface())
+        if (superClass->isAbstract() || superClass->isInterface())
             cpp << "virtual ";
-        cpp << "public " << cleanName(superClass->getName());
+        cpp << "public " << cleanName(superClass->name());
         if (i < numOfSuperClasses)
             cpp << ", ";
     }
@@ -470,7 +470,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     cpp << m_endl << "};" << m_endl;
 
     // end of class namespace, if any
-    if(!c->getPackage().isEmpty() && policyExt()->getPackageIsNamespace())
+    if(!c->package().isEmpty() && policyExt()->getPackageIsNamespace())
         cpp << "}; // end of package namespace" << m_endl;
 
 }
@@ -511,7 +511,7 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility visibilit
         foreach (UMLAttribute* at, list ) {
 
             //                  bool noPriorDocExists = documentation.isEmpty();
-            documentation = at->getDoc();
+            documentation = at->doc();
 
             // add a line for code clarity IF PRIOR attrib has comment on it
             // OR this line has documentation
@@ -522,7 +522,7 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility visibilit
 
             QString varName = getAttributeVariableName(at);
 
-            QString staticValue = at->getStatic() ? "static " : "";
+            QString staticValue = at->isStatic() ? "static " : "";
             QString typeName = fixTypeName(at->getTypeName());
             if(!documentation.isEmpty())
                 writeComment(documentation, indent(), stream);
@@ -586,7 +586,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
 
     foreach (UMLAttribute* at, attribs ) {
         QString varName = getAttributeVariableName(at);
-        QString methodBaseName = cleanName(at->getName());
+        QString methodBaseName = cleanName(at->name());
 
         // force capitalizing the field name, this is silly,
         // from what I can tell, this IS the default behavior for
@@ -595,8 +595,8 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
         methodBaseName.replace(0,1,methodBaseName.at(0).toUpper());
 
         writeSingleAttributeAccessorMethods(at->getTypeName(), varName,
-                                            methodBaseName, at->getDoc(), Uml::chg_Changeable, isHeaderMethod,
-                                            at->getStatic(), writeMethodBody, stream);
+                                            methodBaseName, at->doc(), Uml::chg_Changeable, isHeaderMethod,
+                                            at->isStatic(), writeMethodBody, stream);
     }
 }
 
@@ -663,8 +663,8 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visi
                 printRoleA = true;
 
             // First: we insert documentaion for association IF it has either role AND some documentation (!)
-            if ((printRoleA || printRoleB) && !(a->getDoc().isEmpty()))
-                writeComment(a->getDoc(), indent(), h);
+            if ((printRoleA || printRoleB) && !(a->doc().isEmpty()))
+                writeComment(a->doc(), indent(), h);
 
             // print RoleB decl
             if (printRoleB && a->getVisibility(Uml::B) == permitScope)
@@ -1110,7 +1110,7 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
     foreach (UMLOperation* op, inputlist ) {
-        if (op->getVisibility() == permitScope) {
+        if (op->visibility() == permitScope) {
             oplist.append(op);
         }
     }
@@ -1158,7 +1158,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         }
 
         QString str;
-        if (op->getAbstract() || c->isInterface()) {
+        if (op->isAbstract() || c->isInterface()) {
             if (isHeaderMethod) {
                 // declare abstract method as 'virtual'
                 str += "virtual ";
@@ -1166,7 +1166,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         }
 
         // static declaration for header file
-        if (isHeaderMethod && op->getStatic())
+        if (isHeaderMethod && op->isStatic())
             str += "static ";
 
         // returntype of method
@@ -1175,21 +1175,21 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         if (!isHeaderMethod)
             str += className_ + "::";
 
-        str += cleanName(op->getName()) + " (";
+        str += cleanName(op->name()) + " (";
 
         // generate parameters
         uint j = 0;
         for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext() ; ++j) {
             UMLAttribute* at = atlIt.next();
             QString typeName = fixTypeName(at->getTypeName());
-            QString atName = cleanName(at->getName());
+            QString atName = cleanName(at->name());
             str += typeName + ' ' + atName;
             const QString initVal = at->getInitialValue();
             if (! initVal.isEmpty())
                 str += " = " + initVal;
             if (j < ( uint )( atl.count() - 1 ))
                 str += ", ";
-            doc += policyExt()->getDocToolTag() + "param  " + atName + ' ' + at->getDoc() + m_endl;
+            doc += policyExt()->getDocToolTag() + "param  " + atName + ' ' + at->doc() + m_endl;
         }
         doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
         str += " )";
@@ -1214,7 +1214,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         }
 
         // write it out
-        writeDocumentation("", op->getDoc(), doc, cpp);
+        writeDocumentation("", op->doc(), doc, cpp);
         cpp << indent() << str << m_endl;
         writeBlankLine(cpp);
     }
@@ -1247,9 +1247,9 @@ void CppWriter::printAssociationIncludeDecl(UMLAssociationList list, Uml::IDType
         // how to declare some associations.
         if (current) {
             if( !isFirstClass && !a->getRoleName(Uml::A).isEmpty() && !a->getRoleName(Uml::B).isEmpty())
-                stream << "class " << current->getName() << ";" << m_endl; // special case: use forward declaration
+                stream << "class " << current->name() << ";" << m_endl; // special case: use forward declaration
             else
-                stream << "#include \"" << current->getName() << ".h\"" << m_endl; // just the include statement
+                stream << "#include \"" << current->name() << ".h\"" << m_endl; // just the include statement
         }
     }
 }
@@ -1277,7 +1277,7 @@ QString CppWriter::fixInitialStringDeclValue(const QString &value, const QString
  */
 QString CppWriter::umlObjectName(UMLObject *obj)
 {
-    return(obj!=0)?obj->getName():QString("NULL");
+    return(obj!=0)?obj->name():QString("NULL");
 }
 
 /**
@@ -1309,7 +1309,7 @@ void CppWriter::printTextAsSeparateLinesWithIndent(const QString &text, const QS
  */
 QString CppWriter::getAttributeVariableName(UMLAttribute *at)
 {
-    QString fieldName = cleanName(at->getName());
+    QString fieldName = cleanName(at->name());
     return fieldName;
 }
 

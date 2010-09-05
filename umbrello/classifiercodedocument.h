@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,14 +14,12 @@
  *      Date   : Thu Jun 19 2003
  */
 
-
-
 #ifndef CLASSIFIERCODEDOCUMENT_H
 #define CLASSIFIERCODEDOCUMENT_H
 
-#include <QMap>
-#include <QList>
-#include <QString>
+#include <QtCore/QMap>
+#include <QtCore/QList>
+#include <QtCore/QString>
 
 #include "classifier.h"
 #include "codeaccessormethod.h"

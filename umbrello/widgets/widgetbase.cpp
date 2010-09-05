@@ -184,7 +184,7 @@ void WidgetBase::setUMLObject(UMLObject *obj, bool notifyAsSlot)
 Uml::IDType WidgetBase::id() const
 {
     if(m_umlObject) {
-        return m_umlObject->getID();
+        return m_umlObject->id();
     }
     return m_widgetInterfaceData->id;
 }
@@ -207,8 +207,8 @@ void WidgetBase::setID(Uml::IDType id)
     }
 
     if(m_umlObject) {
-        if(m_umlObject->getID() != Uml::id_None) {
-            uWarning() << "changing old UMLObject " << ID2STR(m_umlObject->getID())
+        if(m_umlObject->id() != Uml::id_None) {
+            uWarning() << "changing old UMLObject " << ID2STR(m_umlObject->id())
                        << " to " << ID2STR(id);
         }
 
@@ -261,7 +261,7 @@ UMLDoc* WidgetBase::umlDoc() const
 QString WidgetBase::documentation() const
 {
     if(m_umlObject) {
-        return m_umlObject->getDoc();
+        return m_umlObject->doc();
     }
     return m_widgetInterfaceData->documentation;
 }
@@ -300,7 +300,7 @@ void WidgetBase::setDocumentation(const QString& doc)
 QString WidgetBase::name() const
 {
     if(m_umlObject) {
-        return m_umlObject->getName();
+        return m_umlObject->name();
     }
     return m_widgetInterfaceData->name;
 }

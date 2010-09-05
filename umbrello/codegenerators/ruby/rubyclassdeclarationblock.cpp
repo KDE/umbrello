@@ -56,11 +56,11 @@ void RubyClassDeclarationBlock::updateContent ( )
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     QString endLine = p->getNewLineEndingChars();
     bool isInterface = parentDoc->parentIsInterface(); // a little shortcut
-    QString RubyClassName = parentDoc->getRubyClassName(c->getName());
+    QString RubyClassName = parentDoc->getRubyClassName(c->name());
     bool forceDoc = p->getCodeVerboseDocumentComments();
 
     // COMMENT
-    QString comment = c->getDoc();
+    QString comment = c->doc();
     comment.remove("@ref ");
     comment.replace("@see", "_See_");
     comment.replace("@short", "_Summary_");
@@ -71,7 +71,7 @@ void RubyClassDeclarationBlock::updateContent ( )
     else
         getComment()->setText("Class " + RubyClassName + endLine + comment);
 
-    if (forceDoc || !c->getDoc().isEmpty())
+    if (forceDoc || !c->doc().isEmpty())
         getComment()->setWriteOutText(true);
     else
         getComment()->setWriteOutText(false);
@@ -94,18 +94,18 @@ void RubyClassDeclarationBlock::updateContent ( )
     int i = 0;
     foreach (UMLClassifier* concept, superclasses ) {
         if (i == 0) {
-            startText.append(QString(" < ") + RubyCodeGenerator::cppToRubyType(concept->getName()) + endLine);
+            startText.append(QString(" < ") + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
         } else {
             // After the first superclass name in the list, assume the classes
             // are ruby modules that can be mixed in,
-            startText.append("include " + RubyCodeGenerator::cppToRubyType(concept->getName()) + endLine);
+            startText.append("include " + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
         }
         i++;
     }
 
     // Write out the interfaces we 'implement'. Are these modules to be mixed in, in Ruby?
     foreach (UMLClassifier* concept, superinterfaces ) {
-        startText.append(QString("include ") + RubyCodeGenerator::cppToRubyType(concept->getName()) + endLine);
+        startText.append(QString("include ") + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
     }
 
     // Set the header and end text for the hier.codeblock

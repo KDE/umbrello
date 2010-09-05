@@ -55,9 +55,9 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
     QString type, text, name, initialValue;
     if (attr) {
         type = attr->getTypeName();
-        name = attr->getName();
+        name = attr->name();
         initialValue = attr->getInitialValue();
-        text = attr->getDoc();
+        text = attr->doc();
     }
     int margin = fontMetrics().height();
     setMinimumSize(300, 400);
@@ -147,7 +147,7 @@ ParmPropDlg::ParmPropDlg(QWidget * parent, UMLDoc * doc, UMLAttribute * attr)
     m_pStereoTypeCB->setDuplicatesEnabled(false); //only allow one of each type in box
     m_pStereoTypeCB->setCompletionMode( KGlobalSettings::CompletionPopup );
     if (m_pAtt) {
-        insertStereotypesSorted(m_pAtt->getStereotype());
+        insertStereotypesSorted(m_pAtt->stereotype());
     }
 
     // set tab order
@@ -180,18 +180,18 @@ void ParmPropDlg::insertTypesSorted(const QString& type)
     // add template parameters
     UMLClassifier *pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
     if (pConcept == NULL) {
-        uError() << "ParmPropDlg: grandparent of " << m_pAtt->getName()
+        uError() << "ParmPropDlg: grandparent of " << m_pAtt->name()
                  << " is not a UMLClassifier";
     } else {
         UMLTemplateList tmplParams( pConcept->getTemplateList() );
         foreach( UMLTemplate* t, tmplParams ) {
-            types << t->getName();
+            types << t->name();
         }
     }
     // now add the Concepts
     UMLClassifierList namesList( m_pUmldoc->concepts() );
     foreach(UMLClassifier* obj, namesList ) {
-        types << obj->getFullyQualifiedName();
+        types << obj->fullyQualifiedName();
     }
     // add the given parameter
     if ( !types.contains(type) ) {
@@ -220,7 +220,7 @@ void ParmPropDlg::insertStereotypesSorted(const QString& type)
     QStringList types;
     types << ""; // an empty stereotype is the default
     foreach (UMLStereotype* currentSt, m_pUmldoc->stereotypes() ) {
-        types << currentSt->getName();
+        types << currentSt->name();
     }
     // add the given parameter
     if ( !types.contains(type) ) {
@@ -297,7 +297,7 @@ void ParmPropDlg::slotOk()
         QString typeName = m_pTypeCB->currentText();
         UMLClassifier * pConcept = dynamic_cast<UMLClassifier*>( m_pAtt->parent()->parent() );
         if (pConcept == NULL) {
-            uError() << "grandparent of " << m_pAtt->getName() << " is not a UMLClassifier";
+            uError() << "grandparent of " << m_pAtt->name() << " is not a UMLClassifier";
         } else {
             UMLTemplate *tmplParam = pConcept->findTemplate(typeName);
             if (tmplParam) {
@@ -309,7 +309,7 @@ void ParmPropDlg::slotOk()
         bool matchFound = false;
 
         foreach (UMLClassifier* obj, namesList) {
-            if (obj->getFullyQualifiedName() == typeName) {
+            if (obj->fullyQualifiedName() == typeName) {
                 m_pAtt->setType(obj);
                 matchFound = true;
                 break;

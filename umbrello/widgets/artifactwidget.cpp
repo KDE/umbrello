@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -146,8 +146,8 @@ void ArtifactWidget::updateTextItemGroups()
         grp->setTextItemCount(ArtifactWidget::TextItemCount);
 
         TextItem *stereoItem = grp->textItemAt(ArtifactWidget::StereotypeItemIndex);
-        stereoItem->setText(artifact->getStereotype(true));
-        bool hideStereo = artifact->getStereotype(false).isEmpty()
+        stereoItem->setText(artifact->stereotype(true));
+        bool hideStereo = artifact->stereotype(false).isEmpty()
             || artifact->getDrawAsType() != UMLArtifact::defaultDraw ;
         stereoItem->setExplicitVisibility(!hideStereo);
 

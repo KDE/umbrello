@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,7 +36,7 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
     CPPCodeClassField * hcppcf = dynamic_cast<CPPCodeClassField*>(cf);
 
     // Set the comment
-    QString notes = umlparent->getDoc();
+    QString notes = umlparent->doc();
     getComment()->setText(notes);
     if (notes.isEmpty())
         getComment()->setWriteOutText(false);
@@ -44,7 +44,7 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent( )
         getComment()->setWriteOutText(true);
 
     // Set the body
-    QString staticValue = umlparent->getStatic() ? "static " : "";
+    QString staticValue = umlparent->isStatic() ? "static " : "";
     QString typeName = hcppcf->getTypeName();
     QString fieldName = hcppcf->getFieldName();
 

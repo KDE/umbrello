@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -102,9 +102,9 @@ bool UMLEnumLiteral::load(QDomElement& element)
 bool UMLEnumLiteral::showPropertiesDialog(QWidget* parent)
 {
     bool ok;
-    QString name = KInputDialog::getText(i18nc("enum name", "Name"), i18n("Enter name:"), getName(), &ok, parent);
-    if ( ok && !name.isEmpty() )  {
-        setName(name);
+    QString enumName = KInputDialog::getText(i18nc("enum name", "Name"), i18n("Enter name:"), name(), &ok, parent);
+    if ( ok && !enumName.isEmpty() )  {
+        setName(enumName);
         return true;
     } else {
         return false;

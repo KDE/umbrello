@@ -98,20 +98,20 @@ void EntityWidget::updateTextItemGroups()
         grp->setTextItemCount(totalTextItems);
 
         TextItem *stereo = grp->textItemAt(EntityWidget::StereotypeItemIndex);
-        stereo->setText(classifier->getStereotype(true));
+        stereo->setText(classifier->stereotype(true));
         stereo->setBold(true);
-        bool hideStereo = classifier->getStereotype(false).isEmpty();
+        bool hideStereo = classifier->stereotype(false).isEmpty();
         stereo->setExplicitVisibility(!hideStereo);
 
         TextItem *nameItem = grp->textItemAt(EntityWidget::NameItemIndex);
         nameItem->setText(name());
         nameItem->setBold(true);
-        nameItem->setItalic(classifier->getAbstract());
+        nameItem->setItalic(classifier->isAbstract());
 
         int index = EntityWidget::EntityItemStartIndex;
         foreach(UMLClassifierListItem* entityItem, list) {
             TextItem *literal = grp->textItemAt(index);
-            literal->setText(entityItem->getName());
+            literal->setText(entityItem->name());
             UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>(entityItem);
             if( casted && casted->getIndexType() == Uml::Primary ) {
                 literal->setUnderline(true);

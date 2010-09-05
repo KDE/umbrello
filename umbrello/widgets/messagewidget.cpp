@@ -164,7 +164,7 @@ UMLClassifier *MessageWidget::operationOwner()
 UMLOperation *MessageWidget::operation()
 {
     if (umlObject()) {
-        if (umlObject()->getBaseType() == Uml::ot_Operation) {
+        if (umlObject()->baseType() == Uml::ot_Operation) {
             return static_cast<UMLOperation*>(umlObject());
         }
         uDebug() << "umlObject() is not null and is not an operation";
@@ -562,7 +562,7 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     messageElement.setAttribute( "widgetbid", ID2STR(m_objectWidgets[Uml::B]->localID()) );
     UMLOperation *pOperation = operation();
     if (pOperation)
-        messageElement.setAttribute( "operation", ID2STR(pOperation->getID()) );
+        messageElement.setAttribute( "operation", ID2STR(pOperation->id()) );
     else
         messageElement.setAttribute( "operation", m_customOperation );
     messageElement.setAttribute( "seqnum", m_sequenceNumber );

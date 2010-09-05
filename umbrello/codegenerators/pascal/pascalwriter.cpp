@@ -50,7 +50,7 @@ Uml::Programming_Language PascalWriter::language() const
 
 bool PascalWriter::isOOClass(UMLClassifier *c)
 {
-    Uml::Object_Type ot = c->getBaseType();
+    Uml::Object_Type ot = c->baseType();
     if (ot == Uml::ot_Interface)
         return true;
     if (ot == Uml::ot_Enum)
@@ -59,7 +59,7 @@ bool PascalWriter::isOOClass(UMLClassifier *c)
         uDebug() << "unknown object type " << ot;
         return false;
     }
-    QString stype = c->getStereotype();
+    QString stype = c->stereotype();
     if (stype == "CORBAConstant" || stype == "CORBATypedef" ||
             stype == "CORBAStruct" || stype == "CORBAUnion")
         return false;
@@ -70,8 +70,8 @@ bool PascalWriter::isOOClass(UMLClassifier *c)
 
 QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
 {
-    UMLPackage *umlPkg = p->getUMLPackage();
-    QString className = cleanName(p->getName());
+    UMLPackage *umlPkg = p->umlPackage();
+    QString className = cleanName(p->name());
     QString retval;
 
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::mt_Logical))
@@ -83,7 +83,7 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
         if (c == NULL || !isOOClass(c))
             retval.append(defaultPackageSuffix);
     } else {
-        retval = umlPkg->getFullyQualifiedName(".");
+        retval = umlPkg->fullyQualifiedName(".");
         if (isOOClass(c)) {
             retval.append(".");
             retval.append(className);
@@ -118,7 +118,7 @@ void PascalWriter::computeAssocTypeAndRole
     UMLClassifier* c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
     if (c == NULL)
         return;
-    typeName = cleanName(c->getName());
+    typeName = cleanName(c->name());
     if (! a->getMulti(Uml::A).isEmpty())
         typeName.append("_Array_Access");
 }
@@ -131,7 +131,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     }
 
     const bool isClass = !c->isInterface();
-    QString classname = cleanName(c->getName());
+    QString classname = cleanName(c->name());
     QString fileName = qualifiedName(c).toLower();
     fileName.replace('.', '-');
 
@@ -170,7 +170,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
         pas << "uses" << m_endl;
         bool first = true;
         foreach (UMLPackage* con, imports ) {
-            if (con->getBaseType() != Uml::ot_Datatype) {
+            if (con->baseType() != Uml::ot_Datatype) {
                 if (first)
                     first = false;
                 else
@@ -183,14 +183,14 @@ void PascalWriter::writeClass(UMLClassifier *c)
 
     pas << "type" << m_endl;
     m_indentLevel++;
-    if (c->getBaseType() == Uml::ot_Enum) {
+    if (c->baseType() == Uml::ot_Enum) {
         UMLEnum *ue = static_cast<UMLEnum*>(c);
         UMLClassifierListItemList litList = ue->getFilteredList(Uml::ot_EnumLiteral);
         uint i = 0;
         pas << indent() << classname << " = (" << m_endl;
         m_indentLevel++;
         foreach (UMLClassifierListItem *lit , litList ) {
-            QString enumLiteral = cleanName(lit->getName());
+            QString enumLiteral = cleanName(lit->name());
             pas << indent() << enumLiteral;
             if (++i < ( uint )litList.count())
                 pas << "," << m_endl;
@@ -203,7 +203,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     }
     UMLAttributeList atl = c->getAttributeList();
     if (! isOOClass(c)) {
-        QString stype = c->getStereotype();
+        QString stype = c->stereotype();
         if (stype == "CORBAConstant") {
             pas << indent() << "// " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else if(stype == "CORBAStruct") {
@@ -212,7 +212,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
                 pas << indent() << classname << " = record" << m_endl;
                 m_indentLevel++;
                 foreach (UMLAttribute* at , atl ) {
-                    QString name = cleanName(at->getName());
+                    QString name = cleanName(at->name());
                     QString typeName = at->getTypeName();
                     pas << indent() << name << " : " << typeName;
                     QString initialVal = at->getInitialValue();
@@ -236,10 +236,10 @@ void PascalWriter::writeClass(UMLClassifier *c)
     }
 
     // Write class Documentation if non-empty or if force option set.
-    if (forceDoc() || !c->getDoc().isEmpty()) {
+    if (forceDoc() || !c->doc().isEmpty()) {
         pas << "//" << m_endl;
         pas << "// class " << classname << endl;
-        pas << formatDoc(c->getDoc(), "// ");
+        pas << formatDoc(c->doc(), "// ");
         pas << m_endl;
     }
 
@@ -260,7 +260,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
         foreach ( UMLAttribute* at  , atpub ) {
             // if (at->getStatic())
             //     continue;
-            pas << indent() << cleanName(at->getName()) << " : "
+            pas << indent() << cleanName(at->name()) << " : "
                 << at->getTypeName();
             if (at && !at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
@@ -274,7 +274,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     UMLOperationList oppub;
 
     foreach (UMLOperation* op , opl ) {
-         if (op->getVisibility() == Uml::Visibility::Public)
+         if (op->visibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
@@ -289,7 +289,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
         foreach (UMLAttribute*  at , atprot ) {
             // if (at->getStatic())
             //     continue;
-            pas << indent() << cleanName(at->getName()) << " : "
+            pas << indent() << cleanName(at->name()) << " : "
                 << at->getTypeName();
             if (at && !at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
@@ -305,7 +305,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
         foreach (UMLAttribute* at , atpriv ) {
             // if (at->getStatic())
             //     continue;
-            pas << indent() << cleanName(at->getName()) << " : "
+            pas << indent() << cleanName(at->name()) << " : "
                 << at->getTypeName();
             if (at && !at->getInitialValue().isEmpty())
                 pas << " := " << at->getInitialValue();
@@ -325,8 +325,8 @@ void PascalWriter::writeClass(UMLClassifier *c)
 
 void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_comment)
 {
-    if (op->getStatic()) {
-        pas << "// TODO: generate status method " << op->getName() << m_endl;
+    if (op->isStatic()) {
+        pas << "// TODO: generate status method " << op->name() << m_endl;
         return;
     }
     UMLAttributeList atl = op->getParmList();
@@ -340,7 +340,7 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
         pas << "procedure ";
     else
         pas << "function ";
-    pas << cleanName(op->getName()) << " ";
+    pas << cleanName(op->name()) << " ";
     if (atl.count()) {
         pas << "(" << m_endl;
         uint i = 0;
@@ -349,7 +349,7 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
             pas << indent();
             if (is_comment)
                 pas << "// ";
-            pas << cleanName(at->getName()) << " : ";
+            pas << cleanName(at->name()) << " : ";
             Uml::Parameter_Direction pk = at->getParmKind();
             if (pk != Uml::pd_In)
                 pas << "var ";

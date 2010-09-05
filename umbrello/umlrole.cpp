@@ -92,7 +92,7 @@ void UMLRole::setObject (UMLObject *obj)
     // for the time being. -b.t.
     if (obj && dynamic_cast<UMLRole*>(obj)) {
         uError() << "UMLRole(" << ID2STR(m_nId) << ") cannot setObject() to another UMLRole("
-            << ID2STR(obj->getID()) << ")";
+            << ID2STR(obj->id()) << ")";
         return;
     }
 
@@ -155,7 +155,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement roleElement = UMLObject::save("UML:AssociationEnd", qDoc);
     if (m_pSecondary)
-        roleElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
+        roleElement.setAttribute( "type", ID2STR(m_pSecondary->id()) );
     else
         uError() << "id " << ID2STR(m_nId) << ": m_pSecondary is NULL";
     if (!m_Multi.isEmpty())
@@ -190,7 +190,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         }
     }
 
-    roleElement.setAttribute("visibility", getVisibility().toString(false));
+    roleElement.setAttribute("visibility", visibility().toString(false));
 
     switch (m_Changeability) {
     case Uml::chg_Frozen:

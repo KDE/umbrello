@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,7 +35,9 @@ NodeWidget::NodeWidget(UMLNode *n )
     setZValue(1);
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 NodeWidget::~NodeWidget()
 {
 }
@@ -92,9 +94,9 @@ void NodeWidget::updateTextItemGroups()
         UMLNode *node = static_cast<UMLNode*>(umlObject());
 
         TextItem *stereo = grp->textItemAt(NodeWidget::StereoItemIndex);
-        stereo->setText(node->getStereotype(true));
+        stereo->setText(node->stereotype(true));
         stereo->setBold(true);
-        stereo->setExplicitVisibility(!node->getStereotype(false).isEmpty());
+        stereo->setExplicitVisibility(!node->stereotype(false).isEmpty());
 
         TextItem *nameItem = grp->textItemAt(NodeWidget::NameItemIndex);
         QString nameText = name();

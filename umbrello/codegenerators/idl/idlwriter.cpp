@@ -38,7 +38,7 @@ IDLWriter::~IDLWriter()
 
 bool IDLWriter::isOOClass(UMLClassifier *c)
 {
-    QString stype = c->getStereotype();
+    QString stype = c->stereotype();
     if (stype == "CORBAConstant" || stype == "CORBAEnum" ||
             stype == "CORBAStruct" || stype == "CORBAUnion" ||
             stype == "CORBASequence" || stype == "CORBAArray" ||
@@ -68,7 +68,7 @@ void IDLWriter::computeAssocTypeAndRole
     bool IAmRoleA = true;
     UMLObject *other = a->getObject(Uml::B);
     Uml::Association_Type at = a->getAssocType();
-    if (c->getName() == other->getName()) {
+    if (c->name() == other->name()) {
         if (at == Uml::at_Aggregation || at == Uml::at_Composition ||
                 at == Uml::at_UniAssociation) {
             // Assuming unidirectional association, and we are
@@ -82,7 +82,7 @@ void IDLWriter::computeAssocTypeAndRole
         other = a->getObject(Uml::A);
     }
     // Construct the type name:
-    typeName = cleanName(other->getName());
+    typeName = cleanName(other->name());
     QString multiplicity;
     if (IAmRoleA)
         multiplicity = a->getMulti(Uml::B);
@@ -96,7 +96,7 @@ void IDLWriter::computeAssocTypeAndRole
     else
         roleName = a->getRoleName(Uml::A);
     if (roleName.isEmpty()) {
-        roleName = a->getName();
+        roleName = a->name();
         if (roleName.isEmpty()) {
             roleName = "m_" + typeName;
         }
@@ -111,7 +111,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     }
 
     const bool isClass = !c->isInterface();
-    QString classname = cleanName(c->getName());
+    QString classname = cleanName(c->name());
 
     //find an appropriate name for our file
     QString fileName = findFileName(c, ".idl");
@@ -143,7 +143,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     findObjectsRelated(c, includes);
     if (includes.count()) {
         foreach (UMLPackage* conc, includes ) {
-            if (conc->getBaseType() == Uml::ot_Datatype)
+            if (conc->baseType() == Uml::ot_Datatype)
                 continue;
             QString incName = findFileName(conc, ".idl");
             if (!incName.isEmpty())
@@ -154,28 +154,28 @@ void IDLWriter::writeClass(UMLClassifier *c)
 
     // Generate the module declaration(s) for the package(s) in which
     // we are embedded.
-    UMLPackageList pkgList = c->getPackages();
+    UMLPackageList pkgList = c->packages();
 
     foreach ( UMLPackage* pkg,  pkgList ) {
-        idl << indent() << "module " << pkg->getName() << " {" << m_endl << m_endl;
+        idl << indent() << "module " << pkg->name() << " {" << m_endl << m_endl;
         m_indentLevel++;
     }
 
     // Write class Documentation if non-empty or if force option set.
-    if (forceDoc() || !c->getDoc().isEmpty()) {
+    if (forceDoc() || !c->doc().isEmpty()) {
         idl << "//" << m_endl;
         idl << "// class " << classname << m_endl;
-        idl << formatDoc(c->getDoc(), "// ");
+        idl << formatDoc(c->doc(), "// ");
         idl << m_endl;
     }
 
-    if (c->getBaseType() == Uml::ot_Enum) {
+    if (c->baseType() == Uml::ot_Enum) {
         UMLClassifierListItemList litList = c->getFilteredList(Uml::ot_EnumLiteral);
         uint i = 0;
         idl << indent() << "enum " << classname << " {" << m_endl;
         m_indentLevel++;
         foreach (UMLClassifierListItem *lit , litList ) {
-            QString enumLiteral = cleanName(lit->getName());
+            QString enumLiteral = cleanName(lit->name());
             idl << indent() << enumLiteral;
             if (++i < ( uint )litList.count())
                 idl << ",";
@@ -191,15 +191,15 @@ void IDLWriter::writeClass(UMLClassifier *c)
         return;
     }
     if (! isOOClass(c)) {
-        QString stype = c->getStereotype();
+        QString stype = c->stereotype();
         if (stype == "CORBAConstant") {
             uError() << "The stereotype " << stype << " cannot be applied to "
-            << c->getName() << ", but only to attributes.";
+            << c->name() << ", but only to attributes.";
             return;
         }
         if (!isClass) {
             uError() << "The stereotype " << stype
-            << " cannot be applied to " << c->getName()
+            << " cannot be applied to " << c->name()
             << ", but only to classes.";
             return;
         }
@@ -210,7 +210,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             m_indentLevel++;
             uint i = 0;
             foreach (UMLAttribute* at , atl ) {
-                QString enumLiteral = cleanName(at->getName());
+                QString enumLiteral = cleanName(at->name());
                 idl << indent() << enumLiteral;
                 if (++i < ( uint )atl.count())
                     idl << ",";
@@ -224,7 +224,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             idl << indent() << "struct " << classname << " {" << m_endl;
             m_indentLevel++;
             foreach (UMLAttribute* at , atl ) {
-                QString name = cleanName(at->getName());
+                QString name = cleanName(at->name());
                 idl << indent() << at->getTypeName() << " " << name << ";" << m_endl;
                 // Initial value not possible in IDL.
             }
@@ -249,13 +249,13 @@ void IDLWriter::writeClass(UMLClassifier *c)
             m_indentLevel--;
             idl << indent() << "};" << m_endl << m_endl;
         } else if (stype == "CORBAUnion") {
-            idl << indent() << "// " << stype << " " << c->getName()
+            idl << indent() << "// " << stype << " " << c->name()
             << " is Not Yet Implemented" << m_endl << m_endl;
         } else if (stype == "CORBATypedef") {
             UMLClassifierList superclasses = c->getSuperClasses();
             UMLClassifier* firstParent = superclasses.first();
-            idl << indent() << "typedef " << firstParent->getName() << " "
-            << c->getName() << ";" << m_endl << m_endl;
+            idl << indent() << "typedef " << firstParent->name() << " "
+            << c->name() << ";" << m_endl << m_endl;
         } else {
             idl << indent() << "// " << stype << ": Unknown stereotype" << m_endl << m_endl;
         }
@@ -268,21 +268,21 @@ void IDLWriter::writeClass(UMLClassifier *c)
     }
 
     idl << indent();
-    if (c->getAbstract())
+    if (c->isAbstract())
         idl << "abstract ";
-    bool isValuetype = (c->getStereotype() == "CORBAValue");
+    bool isValuetype = (c->stereotype() == "CORBAValue");
     if (isValuetype)
         idl << "valuetype ";
     else
         idl << "interface ";
-    idl << c->getName();
+    idl << c->name();
     UMLClassifierList superclasses = c->getSuperClasses();
     if (! superclasses.isEmpty()) {
         idl << " : ";
         int count = superclasses.count();
         foreach( UMLClassifier* parent, superclasses ) {
             count--;
-            idl << parent->getFullyQualifiedName("::");
+            idl << parent->fullyQualifiedName("::");
             if (count)
                 idl << ", ";
         }
@@ -305,8 +305,8 @@ void IDLWriter::writeClass(UMLClassifier *c)
             didComment = true;
         }
         UMLClassifier* other = (UMLClassifier*)a->getObject(Uml::A);
-        QString bareName = cleanName(other->getName());
-        idl << indent() << "typedef sequence<" << other->getFullyQualifiedName("::")
+        QString bareName = cleanName(other->name());
+        idl << indent() << "typedef sequence<" << other->fullyQualifiedName("::")
         << "> " << bareName << "Vector;" << m_endl << m_endl;
     }
 
@@ -316,8 +316,8 @@ void IDLWriter::writeClass(UMLClassifier *c)
         if (forceSections() || atl.count()) {
             idl << indent() << "// Attributes:" << m_endl << m_endl;
             foreach (UMLAttribute *at , atl ) {
-                QString attName = cleanName(at->getName());
-                Uml::Visibility scope = at->getVisibility();
+                QString attName = cleanName(at->name());
+                Uml::Visibility scope = at->visibility();
                 idl << indent();
                 if (isValuetype) {
                     if (scope == Uml::Visibility::Public)
@@ -344,7 +344,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     UMLOperationList oppub;
 
     foreach (UMLOperation* op , opl ) {
-          if (op->getVisibility() == Uml::Visibility::Public)
+          if (op->visibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count()) {
@@ -397,7 +397,7 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
     idl << indent();
     if (is_comment)
         idl << "// ";
-    idl << rettype << " " << cleanName(op->getName()) << " (";
+    idl << rettype << " " << cleanName(op->name()) << " (";
     if (atl.count()) {
         idl << m_endl;
         m_indentLevel++;
@@ -413,7 +413,7 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
                 idl << "inout ";
             else
                 idl << "in ";
-            idl << at->getTypeName() << " " << cleanName(at->getName());
+            idl << at->getTypeName() << " " << cleanName(at->name());
             if (++i < ( uint )atl.count())
                 idl << "," << m_endl;
         }

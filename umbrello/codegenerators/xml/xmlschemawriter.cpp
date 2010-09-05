@@ -72,8 +72,8 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     QTextStream XMLschema(&file);
 
     // set package namespace tag appropriately
-    if(!c->getPackage().isEmpty())
-        packageNamespaceTag = c->getPackage();
+    if(!c->package().isEmpty())
+        packageNamespaceTag = c->package();
 
     // START WRITING
 
@@ -158,10 +158,10 @@ void XMLSchemaWriter::writeClassifier (UMLClassifier *c, QTextStream &XMLschema)
     XMLschema<<m_endl;
 
     // write documentation for class, if any, first
-    if(forceDoc() || !c->getDoc().isEmpty())
-        writeComment(c->getDoc(),XMLschema);
+    if(forceDoc() || !c->doc().isEmpty())
+        writeComment(c->doc(),XMLschema);
 
-    if(c->getAbstract() || c->isInterface() )
+    if(c->isAbstract() || c->isInterface() )
         writeAbstractClassifier(c,XMLschema); // if it is an interface or abstract class
     else
         writeConcreteClassifier(c,XMLschema);
@@ -175,7 +175,7 @@ UMLAttributeList XMLSchemaWriter::findAttributes (UMLClassifier *c)
     if (!c->isInterface()) {
         UMLAttributeList atl = c->getAttributeList();
         foreach(UMLAttribute *at ,  atl ) {
-            switch(at->getVisibility())
+            switch(at->visibility())
             {
               case Uml::Visibility::Public:
               case Uml::Visibility::Protected:
@@ -313,9 +313,9 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
             // Child Elements (from most associations)
             //
             bool didFirstOne = false;
-            didFirstOne = writeAssociationDecls(associations, true, didFirstOne, c->getID(), XMLschema);
-            didFirstOne = writeAssociationDecls(aggregations, false, didFirstOne, c->getID(), XMLschema);
-            didFirstOne = writeAssociationDecls(compositions, false, didFirstOne, c->getID(), XMLschema);
+            didFirstOne = writeAssociationDecls(associations, true, didFirstOne, c->id(), XMLschema);
+            didFirstOne = writeAssociationDecls(aggregations, false, didFirstOne, c->id(), XMLschema);
+            didFirstOne = writeAssociationDecls(compositions, false, didFirstOne, c->id(), XMLschema);
 
             if (didFirstOne) {
                 m_indentLevel--;
@@ -392,7 +392,7 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
     UMLClassifierList superclasses = c->findSuperClassConcepts(); // list of what inherits from us
     foreach (UMLClassifier *classifier , superclasses )
     {
-        if(classifier->getAbstract())
+        if(classifier->isAbstract())
         {
             // only classes have attributes..
             if (!classifier->isInterface()) {
@@ -449,16 +449,16 @@ void XMLSchemaWriter::writeAttributeDecls(UMLAttributeList &attribs, QTextStream
 
 void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &XMLschema )
 {
-    QString documentation = attrib->getDoc();
+    QString documentation = attrib->doc();
     QString typeName = fixTypeName(attrib->getTypeName());
-    bool isStatic = attrib->getStatic();
+    bool isStatic = attrib->isStatic();
     QString initialValue = fixInitialStringDeclValue(attrib->getInitialValue(), typeName);
 
     if(!documentation.isEmpty())
         writeComment(documentation, XMLschema);
 
     XMLschema<<indent()<<"<"<<makeSchemaTag("attribute")
-    <<" name=\""<<cleanName(attrib->getName())<<"\""
+    <<" name=\""<<cleanName(attrib->name())<<"\""
     <<" type=\""<<typeName<<"\"";
 
     // default value?
@@ -547,8 +547,8 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
 
             // First: we insert documentaion for association IF it has either role
             // AND some documentation (!)
-            if ((printRoleA || printRoleB) && !(a->getDoc().isEmpty()))
-                writeComment(a->getDoc(), XMLschema);
+            if ((printRoleA || printRoleB) && !(a->doc().isEmpty()))
+                writeComment(a->doc(), XMLschema);
 
             // opening for sequence
             if(!didFirstOne && (printRoleA || printRoleB))
@@ -595,7 +595,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
 
 UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UMLAssociationList associations)
 {
-    Uml::IDType id = c->getID();
+    Uml::IDType id = c->id();
     UMLObjectList list;
     foreach (UMLAssociation *a , associations )
     {
@@ -616,11 +616,11 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
 
 void XMLSchemaWriter::writeAssociationRoleDecl( UMLClassifier *c, const QString &multi, QTextStream &XMLschema)
 {
-    bool isAbstract = c->getAbstract();
+    bool isAbstract = c->isAbstract();
     bool isInterface = c->isInterface();
 
     QString elementName = getElementName(c);
-    QString doc = c->getDoc();
+    QString doc = c->doc();
 
     if (!doc.isEmpty())
         writeComment(doc, XMLschema);
@@ -729,7 +729,7 @@ QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, const QString 
 
 QString XMLSchemaWriter::getElementName(UMLClassifier *c)
 {
-    return cleanName(c->getName());
+    return cleanName(c->name());
 }
 
 QString XMLSchemaWriter::getElementTypeName(UMLClassifier *c)

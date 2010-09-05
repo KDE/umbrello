@@ -120,7 +120,7 @@ void RubyClassifierCodeDocument::init ( )
 // of the document
 bool RubyClassifierCodeDocument::addCodeOperation (CodeOperation * op )
 {
-    Uml::Visibility scope = op->getParentOperation()->getVisibility();
+    Uml::Visibility scope = op->getParentOperation()->visibility();
     if(!op->getParentOperation()->isConstructorOperation())
     {
         switch (scope) {

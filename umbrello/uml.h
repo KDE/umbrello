@@ -148,8 +148,6 @@ public:
     void beginMacro(const QString & text);
     void endMacro();
 
-    void generateAllCode();
-
     void setActiveLanguage(Uml::Programming_Language pl);
     Uml::Programming_Language activeLanguage() const;
     Uml::Programming_Language defaultLanguage();
@@ -241,6 +239,7 @@ public slots:
     void slotDeleteSelectedWidget();
     void slotDeleteDiagram();
     void slotCloseDiagram(QWidget* tab);
+    void slotGenerateAllCode();
 
     void slotSetZoom(QAction* action);
     void slotZoomSliderMoved(int value);

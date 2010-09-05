@@ -371,19 +371,19 @@ void JavaClassifierCodeDocument::updateContent( )
         // NO (default) datatypes in the import statement.. use defined
         // ones whould be possible, but no idea how to do that...at least for now.
         // Dynamic casting is slow..not an optimal way to do this.
-        if (!packageMap.contains(con) && con->getBaseType() != Uml::ot_Datatype)
+        if (!packageMap.contains(con) && con->baseType() != Uml::ot_Datatype)
         {
-            packageMap.insert(con, con->getPackage());
+            packageMap.insert(con, con->package());
 
             // now, we DON'T need to import classes that are already in our own package
             // (that is, IF a package is specified). Otherwise, we should have a declaration.
-            if (con->getPackage() != c->getPackage() ||
-                    (c->getPackage().isEmpty() && con->getPackage().isEmpty()))
+            if (con->package() != c->package() ||
+                    (c->package().isEmpty() && con->package().isEmpty()))
             {
                 importStatement.append(endLine+"import ");
-                if(!con->getPackage().isEmpty())
-                    importStatement.append(con->getPackage()+'.');
-                importStatement.append(CodeGenerator::cleanName(con->getName())+';');
+                if(!con->package().isEmpty())
+                    importStatement.append(con->package()+'.');
+                importStatement.append(CodeGenerator::cleanName(con->name())+';');
             }
         }
     }
@@ -501,7 +501,7 @@ void JavaClassifierCodeDocument::updateContent( )
         constComment->setWriteOutText(true);
 
     // add/get the empty constructor
-    QString JavaClassName = getJavaClassName(c->getName());
+    QString JavaClassName = getJavaClassName(c->name());
     QString emptyConstStatement = "public "+JavaClassName+" ( ) { }";
     CodeBlockWithComments * emptyConstBlock =
         constBlock->addOrUpdateTaggedCodeBlockWithComments("emptyconstructor", emptyConstStatement, "Empty Constructor", 1, false);

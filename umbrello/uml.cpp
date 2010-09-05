@@ -270,7 +270,7 @@ void UMLApp::initActions()
 
     QAction* genAll = actionCollection()->addAction("generate_all");
     genAll->setText(i18n("&Generate All Code"));
-    connect(genAll, SIGNAL( triggered( bool ) ), this, SLOT( generateAllCode() ));
+    connect(genAll, SIGNAL( triggered( bool ) ), this, SLOT( slotGenerateAllCode() ));
 
     setProgLangAction(Uml::pl_ActionScript, "ActionScript",    "setLang_actionscript");
     setProgLangAction(Uml::pl_Ada,          "Ada",             "setLang_ada");
@@ -810,6 +810,8 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setTextColor( optionState.uiState.textColor );
     UmbrelloSettings::setShowDocWindow(  m_documentationDock->isVisible() );
     UmbrelloSettings::setUiFont(  optionState.uiState.font );
+//:TODO:    UmbrelloSettings::setBackgroundColor( optionState.uiState.backgroundColor );
+//:TODO:    UmbrelloSettings::setGridDotColor( optionState.uiState.gridDotColor );
 
     UmbrelloSettings::setShowVisibility(  optionState.classState.showVisibility );
     UmbrelloSettings::setShowAtts( optionState.classState.showAtts);
@@ -1782,6 +1784,8 @@ void UMLApp::readOptionState()
     optionState.uiState.lineWidth =  UmbrelloSettings::lineWidth();
     optionState.uiState.textColor = UmbrelloSettings::textColor();
     optionState.uiState.font =  UmbrelloSettings::uiFont();
+//:TODO:    optionState.uiState.backgroundColor = UmbrelloSettings::backgroundColor();
+//:TODO:    optionState.uiState.gridDotColor = UmbrelloSettings::gridDotColor();
 
     optionState.classState.showVisibility =  UmbrelloSettings::showVisibility();
     optionState.classState.showAtts =  UmbrelloSettings::showAtts();
@@ -1976,7 +1980,7 @@ bool UMLApp::isSimpleCodeGeneratorActive()
 /**
  * Generate code for all classes.
  */
-void UMLApp::generateAllCode()
+void UMLApp::slotGenerateAllCode()
 {
     if (m_codegen) {
         m_codegen->writeCodeToFile();
@@ -2394,6 +2398,7 @@ void UMLApp::slotDeleteDiagram()
 
 /**
  * Close the current diagram. Clicked on tab close button.
+ * @param tab   Widget's tab to close
  */
 void UMLApp::slotCloseDiagram(QWidget* tab)
 {

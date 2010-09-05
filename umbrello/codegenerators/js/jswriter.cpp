@@ -38,8 +38,8 @@ void JSWriter::writeClass(UMLClassifier *c)
         return;
     }
 
-    QString classname = cleanName(c->getName());
-    QString fileName = c->getName().toLower();
+    QString classname = cleanName(c->name());
+    QString fileName = c->name().toLower();
 
     //find an appropriate name for our file
     fileName = findFileName(c,".js");
@@ -84,16 +84,16 @@ void JSWriter::writeClass(UMLClassifier *c)
     js << m_endl;
 
     //Write class Documentation if there is somthing or if force option
-    if (forceDoc() || !c->getDoc().isEmpty())
+    if (forceDoc() || !c->doc().isEmpty())
     {
         js << m_endl << "/**" << m_endl;
         js << "  * class " << classname << m_endl;
-        js << formatDoc(c->getDoc(),"  * ");
+        js << formatDoc(c->doc(),"  * ");
         js << "  */" << m_endl << m_endl;
     }
 
     //check if class is abstract and / or has abstract methods
-    if (c->getAbstract() && !hasAbstractOps(c))
+    if (c->isAbstract() && !hasAbstractOps(c))
         js << "/******************************* Abstract Class ****************************" << m_endl << "  "
         << classname << " does not have any pure virtual methods, but its author" << m_endl
         << "  defined it as an abstract class, so you should not use it directly." << m_endl
@@ -108,7 +108,7 @@ void JSWriter::writeClass(UMLClassifier *c)
 
     UMLClassifierList superclasses = c->getSuperClasses();
     foreach (UMLClassifier *obj , superclasses ) {
-        js << classname << ".prototype = new " << cleanName(obj->getName()) << " ();" << m_endl;
+        js << classname << ".prototype = new " << cleanName(obj->name()) << " ();" << m_endl;
     }
 
     js << m_endl;
@@ -124,19 +124,19 @@ void JSWriter::writeClass(UMLClassifier *c)
         js << classname << ".prototype._init = function ()" << m_endl;
         js << "{" << m_endl;
         foreach (UMLAttribute *at, atl ) {
-            if (forceDoc() || !at->getDoc().isEmpty())
+            if (forceDoc() || !at->doc().isEmpty())
             {
                 js << m_indentation << "/**" << m_endl
-                << formatDoc(at->getDoc(), m_indentation + " * ")
+                << formatDoc(at->doc(), m_indentation + " * ")
                 << m_indentation << " */" << m_endl;
             }
             if (!at->getInitialValue().isEmpty())
             {
-                js << m_indentation << "this.m_" << cleanName(at->getName()) << " = " << at->getInitialValue() << ";" << m_endl;
+                js << m_indentation << "this.m_" << cleanName(at->name()) << " = " << at->getInitialValue() << ";" << m_endl;
             }
             else
             {
-                js << m_indentation << "this.m_" << cleanName(at->getName()) << " = \"\";" << m_endl;
+                js << m_indentation << "this.m_" << cleanName(at->name()) << " = \"\";" << m_endl;
             }
         }
     }
@@ -180,17 +180,17 @@ void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
 {
     foreach (UMLAssociation *a , assocList ) {
         // association side
-        Uml::Role_Type role = (a->getObject(Uml::A)->getName() == classname ? Uml::B : Uml::A);
+        Uml::Role_Type role = (a->getObject(Uml::A)->name() == classname ? Uml::B : Uml::A);
 
         QString roleName(cleanName(a->getRoleName(role)));
 
         if (!roleName.isEmpty()) {
 
             // association doc
-            if (forceDoc() || !a->getDoc().isEmpty())
+            if (forceDoc() || !a->doc().isEmpty())
             {
                 js << m_indentation << "/**" << m_endl
-                   << formatDoc(a->getDoc(), m_indentation + " * ")
+                   << formatDoc(a->doc(), m_indentation + " * ")
                    << m_indentation << " */" << m_endl;
             }
 
@@ -206,7 +206,7 @@ void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
             int nMulti = a->getMulti(role).toInt(&okCvt,10);
             bool isNotMulti = a->getMulti(role).isEmpty() || (okCvt && nMulti == 1);
 
-            QString typeName(cleanName(a->getObject(role)->getName()));
+            QString typeName(cleanName(a->getObject(role)->name()));
 
             if (isNotMulti)
                 js << m_indentation << "this.m_" << roleName << " = new " << typeName << "();" << m_endl;
@@ -224,31 +224,31 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
     {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
-        bool writeDoc = forceDoc() || !op->getDoc().isEmpty();
+        bool writeDoc = forceDoc() || !op->doc().isEmpty();
         foreach (UMLAttribute* at , atl )
-            writeDoc |= !at->getDoc().isEmpty();
+            writeDoc |= !at->doc().isEmpty();
 
         if( writeDoc )  //write method documentation
         {
-            js << "/**" << m_endl << formatDoc(op->getDoc()," * ");
+            js << "/**" << m_endl << formatDoc(op->doc()," * ");
 
             foreach (UMLAttribute* at , atl )  //write parameter documentation
             {
-                if(forceDoc() || !at->getDoc().isEmpty())
+                if(forceDoc() || !at->doc().isEmpty())
                 {
-                    js << " * @param " + cleanName(at->getName())<<m_endl;
-                    js << formatDoc(at->getDoc(),"    *      ");
+                    js << " * @param " + cleanName(at->name())<<m_endl;
+                    js << formatDoc(at->doc(),"    *      ");
                 }
             }//end for : write parameter documentation
             js << " */" << m_endl;
         }//end if : write method documentation
 
-        js << classname << ".prototype." << cleanName(op->getName()) << " = function " << "(";
+        js << classname << ".prototype." << cleanName(op->name()) << " = function " << "(";
 
         int i = atl.count();
         int j=0;
         foreach (UMLAttribute* at , atl ) {
-            js << cleanName(at->getName())
+            js << cleanName(at->name())
             << (!(at->getInitialValue().isEmpty()) ? (QString(" = ")+at->getInitialValue()) : QString(""))
             << ((j < i-1)?", ":"");
             j++;

@@ -25,7 +25,7 @@ namespace Uml
     CmdCreateUMLObject::CmdCreateUMLObject(UMLObject* o)
       : m_obj(o)
     {
-        setText(i18n("Create uml object :") + o->getFullyQualifiedName());
+        setText(i18n("Create uml object :") + o->fullyQualifiedName());
     }
 
     CmdCreateUMLObject::~CmdCreateUMLObject()
@@ -37,9 +37,9 @@ namespace Uml
     {
         UMLDoc *doc = UMLApp::app()->document();
 
-	// This object was removed from it's package when it was deleted
+        // This object was removed from it's package when it was deleted
         // so add it back to it's package ( if it belonged to one )
-        UMLPackage *pkg = m_obj->getUMLPackage();
+        UMLPackage *pkg = m_obj->umlPackage();
         if (pkg == NULL) {
           // object does not belong to any package
 

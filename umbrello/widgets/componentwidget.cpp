@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -45,7 +45,7 @@ ComponentWidget::~ComponentWidget()
  */
 void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    if (!umlObject() || umlObject()->getBaseType() != Uml::ot_Component) {
+    if (!umlObject() || umlObject()->baseType() != Uml::ot_Component) {
         uError() << "Does not contain valid UMLComponent object";
         return;
     }
@@ -96,9 +96,9 @@ void ComponentWidget::updateTextItemGroups()
 
     if(umlObject()) {
         TextItem *stereo = grp->textItemAt(StereoItemIndex);
-        stereo->setText(umlObject()->getStereotype(true));
+        stereo->setText(umlObject()->stereotype(true));
         stereo->setBold(true);
-        stereo->setExplicitVisibility(umlObject()->getStereotype(false).isEmpty() == false);
+        stereo->setExplicitVisibility(umlObject()->stereotype(false).isEmpty() == false);
 
         TextItem *nameItem = grp->textItemAt(NameItemIndex);
         nameItem->setBold(true);

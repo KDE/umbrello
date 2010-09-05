@@ -80,7 +80,7 @@ void CodeGenSelectPage::setClassifierList(UMLClassifierList *classList)
     }
 
     foreach (UMLClassifier* c, cList) {
-        new QListWidgetItem(c->getFullyQualifiedName(), ui_listSelected);
+        new QListWidgetItem(c->fullyQualifiedName(), ui_listSelected);
     }
 }
 

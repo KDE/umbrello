@@ -18,7 +18,7 @@
 #include "umlobject.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "dialogs/umlattributedialog.h"
+#include "umlattributedialog.h"
 #include "object_factory.h"
 
 UMLAttribute::UMLAttribute( UMLObject *parent,
@@ -123,25 +123,25 @@ QString UMLAttribute::toString(Uml::Signature_Type sig)
     if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
         // Determine whether the type name needs to be scoped.
         UMLObject *owningObject = static_cast<UMLObject*>(parent());
-        if (owningObject->getBaseType() == Uml::ot_Operation) {
+        if (owningObject->baseType() == Uml::ot_Operation) {
             // The immediate parent() is the UMLOperation but we want
             // the UMLClassifier:
             owningObject = static_cast<UMLObject*>(owningObject->parent());
         }
         UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
         if (ownParent == NULL) {
-            uError() << "parent " << owningObject->getName()
+            uError() << "parent " << owningObject->name()
                 << " is not a UMLClassifier";
             return QString();
         }
         QString typeName;
         UMLClassifier *type = UMLClassifierListItem::getType();
         if (type) {
-            UMLPackage *typeScope = type->getUMLPackage();
-            if (typeScope != ownParent && typeScope != ownParent->getUMLPackage())
-                typeName = type->getFullyQualifiedName();
+            UMLPackage *typeScope = type->umlPackage();
+            if (typeScope != ownParent && typeScope != ownParent->umlPackage())
+                typeName = type->fullyQualifiedName();
             else
-                typeName = type->getName();
+                typeName = type->name();
         }
         // The default direction, "in", is not mentioned.
         // Perhaps we should include a pd_Unspecified in
@@ -151,12 +151,12 @@ QString UMLAttribute::toString(Uml::Signature_Type sig)
         else if (m_ParmKind == Uml::pd_Out)
             s += "out ";
         // Construct the attribute text.
-        QString string = s + getName() + " : " + typeName;
+        QString string = s + name() + " : " + typeName;
         if(m_InitialValue.length() > 0)
             string += " = " + m_InitialValue;
         return string;
     }
-    return s + getName();
+    return s + name();
 }
 
 /**
@@ -167,22 +167,22 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
 {
     UMLOperation *op = NULL;
     UMLObject *owningObject = static_cast<UMLObject*>(parent());
-    if (owningObject->getBaseType() == Uml::ot_Operation) {
+    if (owningObject->baseType() == Uml::ot_Operation) {
         op = static_cast<UMLOperation*>(owningObject);
         owningObject = static_cast<UMLObject*>(owningObject->parent());
     }
     UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
     if (ownParent == NULL) {
-        uError() << m_Name << ": parent " << owningObject->getName()
+        uError() << m_Name << ": parent " << owningObject->name()
             << " is not a UMLClassifier";
         return QString();
     }
     QString tempSeparator = separator;
     if (tempSeparator.isEmpty())
         tempSeparator = UMLApp::app()->activeLanguageScopeSeparator();
-    QString fqn = ownParent->getFullyQualifiedName(tempSeparator, includeRoot);
+    QString fqn = ownParent->fullyQualifiedName(tempSeparator, includeRoot);
     if (op)
-        fqn.append(tempSeparator + op->getName());
+        fqn.append(tempSeparator + op->name());
     fqn.append(tempSeparator + m_Name);
     return fqn;
 }
@@ -242,7 +242,7 @@ void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         uDebug() << m_Name << ": m_pSecondary is NULL, m_SecondaryId is '"
             << m_SecondaryId << "'";
     } else {
-        attributeElement.setAttribute( "type", ID2STR(m_pSecondary->getID()) );
+        attributeElement.setAttribute( "type", ID2STR(m_pSecondary->id()) );
     }
     if (! m_InitialValue.isEmpty())
         attributeElement.setAttribute( "initialValue", m_InitialValue );
@@ -366,7 +366,7 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
 UMLClassifierList UMLAttribute::getTemplateParams()
 {
     UMLClassifierList templateParamList;
-    QString type = getType()->getName();
+    QString type = getType()->name();
     QString templateParam;
     // Handle C++/D/Java template/generic parameters
     const Uml::Programming_Language pl = UMLApp::app()->activeLanguage();

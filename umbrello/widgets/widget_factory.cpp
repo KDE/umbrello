@@ -71,7 +71,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     QPointF pos = scene->pos();
     qreal y = pos.y();
     Uml::Diagram_Type diagramType = scene->type();
-    Uml::Object_Type type = o->getBaseType();
+    Uml::Object_Type type = o->baseType();
     UMLWidget *newWidget = NULL;
     switch (type) {
     case Uml::ot_Actor:
@@ -166,14 +166,14 @@ bool validateObjType(Uml::Object_Type expected, UMLObject* &o, Uml::IDType id)
         if (o == NULL)
             return false;
         o->setID(id);
-        UMLPackage *parentPkg = o->getUMLPackage();
+        UMLPackage *parentPkg = o->umlPackage();
         parentPkg->addObject(o);
         return true;
     }
-    Uml::Object_Type actual = o->getBaseType();
+    Uml::Object_Type actual = o->baseType();
     if (actual == expected)
         return true;
-    uError() << "validateObjType(" << o->getName()
+    uError() << "validateObjType(" << o->name()
         << "): expected type " << expected << ", actual type "
         << actual;
     return false;

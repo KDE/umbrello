@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,7 +31,9 @@ PackageWidget::PackageWidget(UMLPackage *o) :
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 PackageWidget::~PackageWidget()
 {
 }
@@ -57,7 +59,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
 
     painter->drawRect(m_topTextRect);
     painter->drawRect(m_packageRect);
-    if (umlObject()->getStereotype() == "subsystem") {
+    if (umlObject()->stereotype() == "subsystem") {
         const qreal fHalf = m_topTextRect.height() / 2;
         const qreal symY = fHalf;
         const qreal symX = 38;
@@ -100,9 +102,9 @@ void PackageWidget::updateTextItemGroups()
         grp->setTextItemCount(PackageWidget::TextItemCount);
 
         TextItem *stereo = grp->textItemAt(PackageWidget::StereoTypeItemIndex);
-        stereo->setText(umlObject()->getStereotype(true));
+        stereo->setText(umlObject()->stereotype(true));
         stereo->setBold(true);
-        stereo->setExplicitVisibility(umlObject()->getStereotype().isEmpty() == false);
+        stereo->setExplicitVisibility(umlObject()->stereotype().isEmpty() == false);
 
         TextItem *nameItem = grp->textItemAt(PackageWidget::NameItemIndex);
         nameItem->setText(name());

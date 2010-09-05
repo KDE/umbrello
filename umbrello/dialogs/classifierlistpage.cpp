@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2009                                                *
+ *  copyright (C) 2003-2010                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -351,7 +351,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
 
     if (listItem) {
         //now update screen
-        m_pDocTE->setText( listItem->getDoc() );
+        m_pDocTE->setText( listItem->doc() );
         if (m_itemType == ot_Operation) {
             m_pCodeTE->setText( dynamic_cast<UMLOperation*>(listItem)->getSourceCode() );
         }
@@ -560,7 +560,7 @@ void ClassifierListPage::slotTopClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index;
+    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
     addClassifier(currentAtt, 0);
     printItemList("itemList after change: ");
     slotActivateItem(item);
@@ -595,7 +595,7 @@ void ClassifierListPage::slotUpClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, true, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index;
+    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
     if (index == -1)
         index = 0;
     addClassifier(currentAtt, index);
@@ -631,7 +631,7 @@ void ClassifierListPage::slotDownClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index;
+    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
     if (index != -1)
         index++;   // because we want to go _after_ the following peer item
     addClassifier(currentAtt, index);
@@ -667,7 +667,7 @@ void ClassifierListPage::slotBottomClicked()
     //     Reason: getItemList() returns only a subset of all entries
     //     in UMLClassifier::m_List.
     takeItem(currentAtt, false, index);  // now we index the UMLClassifier::m_List
-    uDebug() << currentAtt->getName() << ": peer index in UMLCanvasItem::m_List is " << index;
+    uDebug() << currentAtt->name() << ": peer index in UMLCanvasItem::m_List is " << index;
     addClassifier(currentAtt, getItemList().count());
     printItemList("itemList after change: ");
     slotActivateItem(item);
@@ -833,19 +833,19 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
         return false;
     qApp->processEvents();
     peerIndex = -1;
-    const Uml::Object_Type seekType = listItem->getBaseType();
+    const Uml::Object_Type seekType = listItem->baseType();
     UMLObjectList listItems = m_pClassifier->subordinates();
     for (int i = 0; i < listItems.count(); ++i) {
         UMLObject *o = listItems.at(i);
         if (seekPeerBefore) {
             if (i >= wasAtIndex)
                 break;
-            if (o->getBaseType() == seekType)
+            if (o->baseType() == seekType)
                 peerIndex = i;
         } else {    // seekPeerAfter
             if (i < wasAtIndex)
                 continue;
-            if (o->getBaseType() == seekType) {
+            if (o->baseType() == seekType) {
                 peerIndex = i;
                 break;
             }

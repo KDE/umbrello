@@ -1,5 +1,4 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -93,9 +92,9 @@ void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
  */
 bool UMLStereotype::showPropertiesDialog(QWidget* parent) {
     bool ok;
-    QString name = KInputDialog::getText(i18n("Stereotype"), i18n("Enter name:"), getName(),&ok, parent);
+    QString stereoTypeName = KInputDialog::getText(i18n("Stereotype"), i18n("Enter name:"), name(), &ok, parent);
     if (ok) {
-        setName(name);
+        setName(stereoTypeName);
     }
     return ok;
 }

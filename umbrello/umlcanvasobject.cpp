@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -63,7 +63,7 @@ UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type asso
     for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
         o = oit.next();
         uIgnoreZeroPointer(o);
-        if (o->getBaseType() != Uml::ot_Association)
+        if (o->baseType() != Uml::ot_Association)
             continue;
         UMLAssociation *a = static_cast<UMLAssociation*>(o);
         if (a->getAssocType() == assocType)
@@ -132,7 +132,7 @@ void UMLCanvasObject::removeAllAssociationEnds()
     for (int i = 0; i < m_List.count(); i++) {
         UMLObject *o = m_List.at(i);
         uIgnoreZeroPointer(o);
-        if (o->getBaseType() != Uml::ot_Association) {
+        if (o->baseType() != Uml::ot_Association) {
             continue;
         }
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
@@ -143,14 +143,14 @@ void UMLCanvasObject::removeAllAssociationEnds()
         if (roleAObj) {
             roleAObj->removeAssociationEnd(assoc);
         } else if (objA)
-            uDebug() << m_Name << ": objA " << objA->getName() << " is not a UMLCanvasObject";
+            uDebug() << m_Name << ": objA " << objA->name() << " is not a UMLCanvasObject";
         else
             uDebug() << m_Name << "): objA is NULL";
         UMLCanvasObject *roleBObj = dynamic_cast<UMLCanvasObject*>(objB);
         if (roleBObj) {
             roleBObj->removeAssociationEnd(assoc);
         } else if (objB)
-            uDebug() << m_Name << "): objB " << objB->getName() << " is not a UMLCanvasObject";
+            uDebug() << m_Name << "): objB " << objB->name() << " is not a UMLCanvasObject";
         else
             uDebug() << m_Name << "): objB is NULL";
     }
@@ -242,12 +242,12 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, Uml::Object_Type 
     for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
-        if (t != Uml::ot_UMLObject && obj->getBaseType() != t)
+        if (t != Uml::ot_UMLObject && obj->baseType() != t)
             continue;
         if (caseSensitive) {
-            if (obj->getName() == n)
+            if (obj->name() == n)
                 return obj;
-        } else if (obj->getName().toLower() == n.toLower()) {
+        } else if (obj->name().toLower() == n.toLower()) {
             return obj;
         }
     }
@@ -268,7 +268,7 @@ UMLObject* UMLCanvasObject::findChildObjectById(Uml::IDType id, bool considerAnc
     for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
         o = oit.next();
         uIgnoreZeroPointer(o);
-        if (o->getID() == id)
+        if (o->id() == id)
             return o;
     }
     return 0;
@@ -321,7 +321,7 @@ int UMLCanvasObject::associations()
     for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
-        if (obj->getBaseType() == Uml::ot_Association)
+        if (obj->baseType() == Uml::ot_Association)
             count++;
     }
     return count;
@@ -339,7 +339,7 @@ UMLAssociationList UMLCanvasObject::getAssociations()
     for (UMLObjectListIt oit(m_List); oit.hasNext() ; ) {
         o = oit.next();
         uIgnoreZeroPointer(o);
-        if (o->getBaseType() != Uml::ot_Association)
+        if (o->baseType() != Uml::ot_Association)
             continue;
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         assocs.append(assoc);
@@ -362,7 +362,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses()
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::at_Generalization &&
              a->getAssocType() != Uml::at_Realization) ||
-                a->getObjectId(Uml::A) != getID() )
+                a->getObjectId(Uml::A) != id() )
             continue;
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
         if (c)
@@ -389,7 +389,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses()
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::at_Generalization &&
              a->getAssocType() != Uml::at_Realization) ||
-                a->getObjectId(Uml::B) != getID() )
+                a->getObjectId(Uml::B) != id() )
             continue;
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
         if (c)

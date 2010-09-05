@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,11 +32,11 @@ void UMLRoleProperties::constructWidget()
     // Use Parent Role to set starting Properties
 
     // Rolename
-    ui_pRoleLE->setText(m_pRole->getName());
+    ui_pRoleLE->setText(m_pRole->name());
     // Multiplicity
     ui_pMultiLE->setText(m_pRole->getMultiplicity());
     // Visibility
-    switch (m_pRole->getVisibility()) {
+    switch (m_pRole->visibility()) {
     case Uml::Visibility::Public:
         ui_pPublicRB->setChecked( true );
         break;
@@ -66,7 +66,7 @@ void UMLRoleProperties::constructWidget()
     }
 
     // Documentation
-    ui_pDocTE->setText(m_pRole-> getDoc());
+    ui_pDocTE->setText(m_pRole->doc());
     //ui_pDocTE->setWordWrap(QMultiLineEdit::WidgetWidth);
 }
 

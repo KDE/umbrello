@@ -173,7 +173,7 @@ QString CodeMethodBlock::toString ( ) const
 
 void CodeMethodBlock::syncToParent ( )
 {
-    getComment()->setText(getParentObject()->getDoc());
+    getComment()->setText(getParentObject()->doc());
 
     updateMethodDeclaration();
 

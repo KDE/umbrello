@@ -137,8 +137,8 @@ void UMLForeignKeyConstraintDialog::slotDeletePair()
     m_ColumnWidgets.referencedColumnCB->addItem((pair.second)->toString(Uml::st_SigNoVis));
 
     foreach(const EntityAttributePair& p, m_pAttributeMapList) {
-        uDebug() << (p.first)->getName() << " " << (p.first)->getBaseType() << " "
-                 << (p.second)->getName() << " " << (p.second)->getBaseType();
+        uDebug() << (p.first)->name() << " " << (p.first)->baseType() << " "
+                 << (p.second)->name() << " " << (p.second)->baseType();
     }
 
     slotResetWidgetState();
@@ -234,7 +234,7 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     actionLayout->addWidget(m_GeneralWidgets.deleteActionCB , 1, 1);
 
     // set the name
-    m_GeneralWidgets.nameT->setText(m_pForeignKeyConstraint->getName());
+    m_GeneralWidgets.nameT->setText(m_pForeignKeyConstraint->name());
 
     // fill up the combo boxes
 
@@ -242,14 +242,14 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     UMLEntityList entList = m_doc->entities();
 
     foreach(UMLEntity* ent, entList) {
-        m_GeneralWidgets.referencedEntityCB->addItem(ent->getName());
+        m_GeneralWidgets.referencedEntityCB->addItem(ent->name());
     }
 
     UMLEntity* referencedEntity = m_pForeignKeyConstraint->getReferencedEntity();
 
     int index;
     if (referencedEntity != NULL) {
-        index = m_GeneralWidgets.referencedEntityCB->findText(referencedEntity->getName());
+        index = m_GeneralWidgets.referencedEntityCB->findText(referencedEntity->name());
         if (index != -1)
             m_GeneralWidgets.referencedEntityCB->setCurrentIndex(index);
     }

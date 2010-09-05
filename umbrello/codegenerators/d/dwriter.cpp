@@ -50,8 +50,8 @@ Uml::Programming_Language DWriter::language() const
 // FIXME: doesn't work yet
 void DWriter::writeModuleDecl(UMLClassifier *c, QTextStream &d)
 {
-    if (!c->getPackage().isEmpty())
-        d << "module " << c->getPackage() << ";" << m_endl;
+    if (!c->package().isEmpty())
+        d << "module " << c->package() << ";" << m_endl;
 
     writeBlankLine(d);
 }
@@ -77,11 +77,11 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
     UMLPackageList imports;
     findObjectsRelated(c, imports);
     foreach (UMLPackage* con, imports  ) {
-        if (con->getBaseType() == Uml::ot_Datatype)
+        if (con->baseType() == Uml::ot_Datatype)
             continue;
-        QString pkg = con->getPackage();
-        if (!pkg.isEmpty() && pkg != c->getPackage())
-            d << "import " << pkg << "." << cleanName(con->getName()) << ";"
+        QString pkg = con->package();
+        if (!pkg.isEmpty() && pkg != c->package())
+            d << "import " << pkg << "." << cleanName(con->name()) << ";"
             << m_endl;
     }
 
@@ -97,7 +97,7 @@ void DWriter::writeClass(UMLClassifier *c)
 
     isInterface = c->isInterface();
 
-    QString fileName = cleanName(c->getName().toLower());
+    QString fileName = cleanName(c->name().toLower());
 
     //find an appropriate name for our file
     fileName = findFileName(c, ".d");
@@ -150,22 +150,22 @@ void DWriter::writeClass(UMLClassifier *c)
     if (!isInterface) {
         UMLAttributeList atl = c->getAttributeList();
         foreach (UMLAttribute* at, atl ) {
-            switch(at->getVisibility())
+            switch(at->visibility())
             {
                 case Uml::Visibility::Public:
-                    if(at->getStatic())
+                    if(at->isStatic())
                         final_atpub.append(at);
                     else
                         atpub.append(at);
                     break;
                 case Uml::Visibility::Protected:
-                    if(at->getStatic())
+                    if(at->isStatic())
                         final_atprot.append(at);
                     else
                         atprot.append(at);
                     break;
                 case Uml::Visibility::Private:
-                    if(at->getStatic())
+                    if(at->isStatic())
                         final_atpriv.append(at);
                     else
                         atpriv.append(at);
@@ -215,10 +215,10 @@ void DWriter::writeClass(UMLClassifier *c)
     writeAttributeDecls(final_atpub, final_atprot, final_atpriv, d);
     writeAttributeDecls(atpub, atprot, atpriv, d);
 
-    writeAssociationDecls(associations, c->getID(), d);
-    writeAssociationDecls(uniAssociations, c->getID(), d);
-    writeAssociationDecls(aggregations, c->getID(), d);
-    writeAssociationDecls(compositions, c->getID(), d);
+    writeAssociationDecls(associations, c->id(), d);
+    writeAssociationDecls(uniAssociations, c->id(), d);
+    writeAssociationDecls(aggregations, c->id(), d);
+    writeAssociationDecls(compositions, c->id(), d);
 
     //FIXME: find constructors and write them here
 
@@ -276,8 +276,8 @@ void DWriter::writeClass(UMLClassifier *c)
 void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
 {
     // class documentation
-    if (!c->getDoc().isEmpty()) {
-        writeDocumentation("", c->getDoc(), "", "", d);
+    if (!c->doc().isEmpty()) {
+        writeDocumentation("", c->doc(), "", "", d);
     }
 
     /*
@@ -288,7 +288,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
      */
 
     // (a) visibility modifier
-    switch(c->getVisibility()) {
+    switch(c->visibility()) {
         case Uml::Visibility::Private: d << "private "; break;
         default: break;
     }
@@ -298,7 +298,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
     if (isInterface) {
         d << "interface ";
     } else {
-        if (c->getAbstract()) {
+        if (c->isAbstract()) {
             d << "abstract ";
         }
 
@@ -306,7 +306,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
     }
 
     // (c) class name
-    QString classname = cleanName(c->getName()); // our class name
+    QString classname = cleanName(c->name()); // our class name
     d << classname;
 
     // (d) template parameters
@@ -323,7 +323,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
                 d << " ";
             }
 
-            d << t->getName();
+            d << t->name();
 
             if (tlit.hasNext()) {
                 t = tlit.next();
@@ -347,7 +347,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
 
         // (f) base classes
         foreach (UMLClassifier* concept, superclasses ) {
-            d << cleanName(concept->getName());
+            d << cleanName(concept->name());
 
             count--;
 
@@ -356,7 +356,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
 
         // (g) interfaces
         foreach (UMLClassifier* concept, superinterfaces ) {
-            d << cleanName(concept->getName());
+            d << cleanName(concept->name());
 
             count--;
 
@@ -378,14 +378,14 @@ void DWriter::writeAttributeDecl(Uml::Visibility visibility, UMLAttributeList &a
 
     foreach (UMLAttribute* at, atlist ) {
         // documentation
-        if (!at->getDoc().isEmpty()) {
-            writeComment(at->getDoc(), m_indentation, d, true);
+        if (!at->doc().isEmpty()) {
+            writeComment(at->doc(), m_indentation, d, true);
         }
 
         d << m_indentation;
 
         // static attribute?
-        if (at->getStatic()) d << "static ";
+        if (at->isStatic()) d << "static ";
 
         // method return type
         d << fixTypeName(at->getTypeName()) << " ";
@@ -397,7 +397,7 @@ void DWriter::writeAttributeDecl(Uml::Visibility visibility, UMLAttributeList &a
         if (hasAccessorMethods) {
             d << "m_";
         }
-        d << cleanName(at->getName());
+        d << cleanName(at->name());
 
         // initial value
         QString initVal = fixInitialStringDeclValue(at->getInitialValue(), at->getTypeName());
@@ -422,10 +422,10 @@ void DWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility vis
     writeProtectionMod(visibility, d);
 
     foreach (UMLAttribute* at, atpub ) {
-        QString fieldName = cleanName(at->getName());
+        QString fieldName = cleanName(at->name());
         writeSingleAttributeAccessorMethods(
-            at->getTypeName(), "m_" + fieldName, fieldName, at->getDoc(),
-            visibility, Uml::chg_Changeable, at->getStatic(), d);
+            at->getTypeName(), "m_" + fieldName, fieldName, at->doc(),
+            visibility, Uml::chg_Changeable, at->isStatic(), d);
     }
 }
 
@@ -494,8 +494,8 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::IDType
                 printRoleA = true;
 
             // First: we insert documentaion for association IF it has either role AND some documentation (!)
-            if ((printRoleA || printRoleB) && !(a->getDoc().isEmpty()))
-                writeComment(a->getDoc(), m_indentation, d);
+            if ((printRoleA || printRoleB) && !(a->doc().isEmpty()))
+                writeComment(a->doc(), m_indentation, d);
 
             // print RoleB decl
             if (printRoleB)
@@ -558,7 +558,7 @@ void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClass
         foreach (UMLAssociation *a , associations ) {
             // insert the methods to access the role of the other
             // class in the code of this one
-            if (a->getObjectId(Uml::A) == thisClass->getID()) {
+            if (a->getObjectId(Uml::A) == thisClass->id()) {
                 // only write out IF there is a rolename given
                 if (!a->getRoleName(Uml::B).isEmpty()) {
                     QString fieldClassName = getUMLObjectName(a->getObject(Uml::B));
@@ -570,7 +570,7 @@ void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClass
                 }
             }
 
-            if (a->getObjectId(Uml::B) == thisClass->getID()) {
+            if (a->getObjectId(Uml::B) == thisClass->id()) {
                 // only write out IF there is a rolename given
                 if (!a->getRoleName(Uml::A).isEmpty()) {
                     QString fieldClassName = getUMLObjectName(a->getObject(Uml::A));
@@ -695,7 +695,7 @@ void DWriter::writeConstructor(UMLClassifier *c, QTextStream &d)
     }
 
     // write the first constructor
-    QString className = cleanName(c->getName());
+    QString className = cleanName(c->name());
     d << m_indentation << "public this("<<") { }";
 }
 
@@ -754,7 +754,7 @@ bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2)
         return false;
     if (op1 == op2)
         return true;
-    if (op1->getName() != op2->getName())
+    if (op1->name() != op2->name())
         return false;
     UMLAttributeList atl1 = op1->getParmList();
     UMLAttributeList atl2 = op2->getParmList();
@@ -824,7 +824,7 @@ void DWriter::writeOperations(UMLClassifier *c, QTextStream &d)
         getInterfacesOperationsToBeImplemented(c, opl);
     }
     foreach (UMLOperation* op, opl ) {
-        switch(op->getVisibility()) {
+        switch(op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
             break;
@@ -886,10 +886,10 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
         }
 
         str = ""; // reset for next method
-        if (op->getAbstract() && !isInterface) str += "abstract ";
-        if (op->getStatic()) str += "static ";
+        if (op->isAbstract() && !isInterface) str += "abstract ";
+        if (op->isStatic()) str += "static ";
 
-        str += methodReturnType + ' ' + cleanName(op->getName()) + '(';
+        str += methodReturnType + ' ' + cleanName(op->name()) + '(';
 
         atl = op->getParmList();
         int i = atl.count();
@@ -897,19 +897,19 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
         for (UMLAttributeListIt atlIt( atl ); atlIt.hasNext();  ++j) {
             UMLAttribute* at = atlIt.next();
             QString typeName = fixTypeName(at->getTypeName());
-            QString atName = cleanName(at->getName());
+            QString atName = cleanName(at->name());
             str += typeName + ' ' + atName +
                    (!(at->getInitialValue().isEmpty()) ?
                     (QString(" = ")+at->getInitialValue()) :
                     QString(""))
                    + ((j < i-1)?", ":"");
-            doc += "@param " + atName+' '+at->getDoc() + m_endl;
+            doc += "@param " + atName+' '+at->doc() + m_endl;
         }
         doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
         str+= ')';
 
         // method only gets a body IF it is not abstract
-        if (op->getAbstract() || isInterface)
+        if (op->isAbstract() || isInterface)
             str += ';'; // terminate now
         else {
             str += startline + '{' + m_endl;
@@ -924,7 +924,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
         }
 
         // write it out
-        writeDocumentation("", op->getDoc(), doc, m_indentation, d);
+        writeDocumentation("", op->doc(), doc, m_indentation, d);
         d << m_indentation << str << m_endl << m_endl;
     }
 }
@@ -945,7 +945,7 @@ QString DWriter::fixInitialStringDeclValue(const QString& val, const QString& ty
 // methods like this _shouldn't_ be needed IF we properly did things thruought the code.
 QString DWriter::getUMLObjectName(UMLObject *obj)
 {
-    return(obj!=0)?obj->getName():QString("NULL");
+    return(obj!=0)?obj->name():QString("NULL");
 }
 
 QString DWriter::deCapitaliseFirstLetter(const QString& str)

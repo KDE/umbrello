@@ -40,12 +40,12 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
     Uml::Visibility::Value scopePolicy = commonpolicy->getAssociationFieldScope();
 
     // Set the comment
-    QString notes = getParentObject()->getDoc();
+    QString notes = getParentObject()->doc();
     getComment()->setText(notes);
 
     // Set the body
-    QString staticValue = getParentObject()->getStatic() ? "static " : "";
-    QString scopeStr = getParentObject()->getVisibility().toString();
+    QString staticValue = getParentObject()->isStatic() ? "static " : "";
+    QString scopeStr = getParentObject()->visibility().toString();
 
     // IF this is from an association, then scope taken as appropriate to policy
     if(!jcf->parentIsAttribute())
@@ -76,7 +76,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent( )
     else if (!cf->parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
-        if (role->getObject()->getBaseType() == Uml::ot_Interface)
+        if (role->getObject()->baseType() == Uml::ot_Interface)
         {
             // do nothing.. can't instanciate an interface
         } else {
