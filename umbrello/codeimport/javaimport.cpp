@@ -562,7 +562,7 @@ bool JavaImport::parseStmt()
                 name += nextToken;  // add possible array dimensions to `name'
             }
             nextToken = advance();
-            if (nextToken == QString()) {
+            if (nextToken.isEmpty()) {
                 break;
             }
         }
