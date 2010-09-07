@@ -465,7 +465,8 @@ bool JavaImport::parseStmt()
     // of an operation.) Up next is the name of the attribute
     // or operation.
     if (! keyword.contains( QRegExp("^\\w") )) {
-        uError() << "importJava: ignoring " << keyword;
+        uError() << "importJava: ignoring " << keyword <<
+            " at " << m_srcIndex << ", " << m_source.count() << " in " << m_klass->name();
         return false;
     }
     QString typeName = m_source[m_srcIndex];
@@ -561,7 +562,7 @@ bool JavaImport::parseStmt()
                 name += nextToken;  // add possible array dimensions to `name'
             }
             nextToken = advance();
-            if (nextToken == QString()) {
+            if (nextToken.isEmpty()) {
                 break;
             }
         }
@@ -586,8 +587,14 @@ bool JavaImport::parseStmt()
     }
     // reset visibility to default
     m_currentAccess = m_defaultCurrentAccess;
-    if (m_source[m_srcIndex] != ";") {
-        uError() << "importJava: ignoring trailing items at " << name;
+    if (m_srcIndex < m_source.count()) {
+        if (m_source[m_srcIndex] != ";") {
+            uError() << "importJava: ignoring trailing items at " << name;
+            skipStmt();
+        }
+    }
+    else {
+        uError() << "index out of range: ignoring statement " << name;
         skipStmt();
     }
     return true;
