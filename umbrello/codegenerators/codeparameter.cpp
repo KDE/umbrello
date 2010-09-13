@@ -150,7 +150,7 @@ QString CodeParameter::getID ()
     {
         // cant use Role "ID" as that is used to distinquish if its
         // role "A" or "B"
-        UMLAssociation *assoc = role->getParentAssociation();
+        UMLAssociation *assoc = role->parentAssociation();
         return ID2STR(assoc->id());
     } else
         return ID2STR(m_parentObject->id());
@@ -171,7 +171,7 @@ void CodeParameter::setAttributesOnNode ( QDomDocument & doc, QDomElement & bloc
     // (change would break the XMI format..save for big version change )
     UMLRole * role = dynamic_cast<UMLRole*>(m_parentObject);
     if(role)
-        blockElement.setAttribute("role_id", role->getRole());
+        blockElement.setAttribute("role_id", role->role());
     else
         blockElement.setAttribute("role_id","-1");
 

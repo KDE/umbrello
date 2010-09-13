@@ -76,7 +76,7 @@ void DCodeClassFieldDeclarationBlock::updateContent( )
     else if (!cf->parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
-        if (role->getObject()->baseType() == Uml::ot_Interface)
+        if (role->object()->baseType() == Uml::ot_Interface)
         {
             // do nothing.. can't instanciate an interface
         } else {

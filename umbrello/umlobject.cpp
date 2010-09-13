@@ -224,7 +224,7 @@ QString UMLObject::fullyQualifiedName(const QString& separator,
 /**
  * Overloaded '==' operator
  */
-bool UMLObject::operator==(const UMLObject & rhs)
+bool UMLObject::operator==(const UMLObject & rhs) const
 {
     if (this == &rhs)
         return true;

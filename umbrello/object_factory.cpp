@@ -158,7 +158,7 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
  *                        The default is to ask for the new name.
  */
 UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
-                           UMLPackage *parentPkg /* = NULL */,
+                           UMLPackage *parentPkg /* = 0 */,
                            bool solicitNewName /* = true */)
 {
     UMLDoc *doc = UMLApp::app()->document();

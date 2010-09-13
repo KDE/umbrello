@@ -139,14 +139,14 @@ QString UMLAssociation::toString() const
     QString string;
     if(m_pRole[A])
     {
-        string += m_pRole[A]->getObject()->name();
+        string += m_pRole[A]->object()->name();
         string += ':';
         string += m_pRole[A]->name();
     }
     string += ':' + toString(m_AssocType) + ':';
     if(m_pRole[B])
     {
-        string += m_pRole[B]->getObject( )->name();
+        string += m_pRole[B]->object( )->name();
         string += ':';
         string += m_pRole[B]->name();
     }
@@ -197,8 +197,8 @@ bool UMLAssociation::resolveRef()
     bool successA = getUMLRole(A)->resolveRef();
     bool successB = getUMLRole(B)->resolveRef();
     if (successA && successB) {
-        UMLObject *objA = getUMLRole(A)->getObject();
-        UMLObject *objB = getUMLRole(B)->getObject();
+        UMLObject *objA = getUMLRole(A)->object();
+        UMLObject *objB = getUMLRole(B)->object();
         // Check if need to change the assoc type to Realization
         if (isRealization(objA, objB)) {
             m_AssocType = Uml::at_Realization;
@@ -531,7 +531,7 @@ UMLObject* UMLAssociation::getObject(Uml::Role_Type role) const
 {
     if (m_pRole[role] == NULL)
         return NULL;
-    return m_pRole[role]->getObject();
+    return m_pRole[role]->object();
 }
 
 /**
@@ -542,7 +542,7 @@ UMLObject* UMLAssociation::getObject(Uml::Role_Type role) const
 Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) const
 {
     UMLRole *roleObj = m_pRole[role];
-    UMLObject *o = roleObj->getObject();
+    UMLObject *o = roleObj->object();
     if (o == NULL) {
         QString auxID = roleObj->secondaryId();
         if (auxID.isEmpty()) {
@@ -571,7 +571,7 @@ Uml::IDType UMLAssociation::getRoleId(Role_Type role) const
  */
 Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) const
 {
-    return m_pRole[role]->getChangeability();
+    return m_pRole[role]->changeability();
 }
 
 /**
@@ -589,7 +589,7 @@ Uml::Visibility UMLAssociation::getVisibility(Uml::Role_Type role) const
  */
 QString UMLAssociation::getMulti(Uml::Role_Type role) const
 {
-    return m_pRole[role]->getMultiplicity();
+    return m_pRole[role]->multiplicity();
 }
 
 /**

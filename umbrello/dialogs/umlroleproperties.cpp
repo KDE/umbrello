@@ -34,7 +34,7 @@ void UMLRoleProperties::constructWidget()
     // Rolename
     ui_pRoleLE->setText(m_pRole->name());
     // Multiplicity
-    ui_pMultiLE->setText(m_pRole->getMultiplicity());
+    ui_pMultiLE->setText(m_pRole->multiplicity());
     // Visibility
     switch (m_pRole->visibility()) {
     case Uml::Visibility::Public:
@@ -53,7 +53,7 @@ void UMLRoleProperties::constructWidget()
         break;
     }
     // Changeability
-    switch (m_pRole->getChangeability()) {
+    switch (m_pRole->changeability()) {
     case Uml::chg_Changeable:
         ui_pChangeableRB->setChecked( true );
         break;

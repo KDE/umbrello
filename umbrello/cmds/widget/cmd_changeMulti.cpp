@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -24,7 +24,7 @@ namespace Uml
       : m_umlRole(role), m_newMulti(multi)
     {
         setText(i18n("Change Multiplicity"));
-        m_oldMulti = m_umlRole->getMultiplicity();
+        m_oldMulti = m_umlRole->multiplicity();
     }
 
     void CmdChangeMulti::undo()

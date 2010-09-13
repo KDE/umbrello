@@ -12,7 +12,7 @@
 #include "umlviewimageexportermodel.h"
 
 // system includes
-#include <math.h>
+#include <cmath>
 
 // include files for Qt
 #include <QtGui/QApplication>

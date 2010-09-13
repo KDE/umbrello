@@ -139,14 +139,12 @@ kde4_add_ui_files(  libcodegenerator_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/java/javacodegenerationformbase.ui
 )
 
-
 set(libdocgenerator_SRCS
     docgenerators/docbookgenerator.cpp
     docgenerators/docbookgeneratorjob.cpp
     docgenerators/xhtmlgenerator.cpp
     docgenerators/docbook2xhtmlgeneratorjob.cpp
 )
-
 
 set(libdialogs_SRCS
     dialogs/activitydialog.cpp
@@ -200,11 +198,9 @@ kde4_add_ui_files(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/diagrampropertiespage.ui
 )
 
-
 set(librefactoring_SRCS
     refactoring/refactoringassistant.cpp
 )
-
 
 set(libcodegenwizard_SRCS
     codegenwizard/codegenselectpage.cpp
@@ -218,6 +214,7 @@ kde4_add_ui_files(  libcodegenwizard_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenoptionspage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenstatuspage.ui
 )
+
 set(libcodeimport_SRCS
     codeimport/adaimport.cpp
     codeimport/classimport.cpp

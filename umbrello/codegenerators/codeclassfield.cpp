@@ -68,7 +68,7 @@ void CodeClassField::setParentUMLObject (UMLObject * obj)
 {
     UMLRole *role = dynamic_cast<UMLRole*>(obj);
     if(role) {
-        UMLAssociation * parentAssoc = role->getParentAssociation();
+        UMLAssociation * parentAssoc = role->parentAssociation();
         Uml::Association_Type atype = parentAssoc->getAssocType();
         m_parentIsAttribute = false;
 
@@ -93,7 +93,7 @@ QString CodeClassField::getTypeName ( )
     } else {
         UMLRole * role = (UMLRole*) getParentObject();
         if(fieldIsSingleValue()) {
-            return getUMLObjectName(role->getObject());
+            return getUMLObjectName(role->object());
         } else {
             return role->name();
         }
@@ -107,7 +107,7 @@ QString CodeClassField::getListObjectType()
     if (!parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
-        return getUMLObjectName(role->getObject());
+        return getUMLObjectName(role->object());
     }
     return QString();
 }
@@ -320,7 +320,7 @@ int CodeClassField::minimumListOccurances( )
     if (!parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
-        QString multi = role->getMultiplicity();
+        QString multi = role->multiplicity();
         // ush. IF we had a multiplicty object, this would be much easier.
         if(!multi.isEmpty())
         {
@@ -344,7 +344,7 @@ int CodeClassField::maximumListOccurances( )
     if (!parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
-        QString multi = role->getMultiplicity();
+        QString multi = role->multiplicity();
         // ush. IF we had a multiplicty object, this would be much easier.
         if(!multi.isEmpty())
         {
@@ -426,7 +426,7 @@ CodeAccessorMethod * CodeClassField::findMethodByType ( CodeAccessorMethod::Acce
             UMLRole * role = dynamic_cast<UMLRole*>(m->getParentObject());
             if(!role)
                 uError()<<"    FindMethodByType()  cant create role for method type:"<<m->getType()<<endl;
-            if( role && m->getType() == type && role->getRole() == role_id)
+            if( role && m->getType() == type && role->role() == role_id)
                 return m;
         }
 
@@ -509,7 +509,7 @@ void CodeClassField::updateContent()
         return;
     }
     UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
-    Uml::Changeability_Type changeType = role->getChangeability();
+    Uml::Changeability_Type changeType = role->changeability();
     bool isSingleValue = fieldIsSingleValue();
     bool isEmptyRole = role->name().isEmpty() ? true : false;
 
@@ -605,7 +605,7 @@ bool CodeClassField::fieldIsSingleValue ( )
     if(!role)
         return true; // it is really an attribute
 
-    QString multi = role->getMultiplicity();
+    QString multi = role->multiplicity();
 
     if(multi.isEmpty() || multi.contains(QRegExp("^(0|1)$"))
             || multi.contains(QRegExp("^0\\.\\.1$")))
