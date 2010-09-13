@@ -71,7 +71,7 @@ void OwnedHierarchicalCodeBlock::setAttributesOnNode (QDomDocument & doc, QDomEl
     UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
     if(role) {
         // see comment on role_id at OwnedCodeBlock::setAttributesOnNode()
-        elem.setAttribute("role_id", (role->getRole() == Uml::A));
+        elem.setAttribute("role_id", (role->role() == Uml::A));
     }
     /* else
             elem.setAttribute("role_id","-1");

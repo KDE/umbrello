@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,44 +21,28 @@ class UMLAssociation;
  * @author Brian Thomas <brian.thomas@gsfc.nasa.gov>
  * @see UMLObject
  */
-class UMLRole : public UMLObject {
+class UMLRole : public UMLObject
+{
     Q_OBJECT
 public:
 
-    /**
-     * Sets up an association.
-     *
-     * @param parent    The parent (association) of this UMLRole.
-     * @param parentUMLObject The Parent UML Object of this UMLRole
-     * @param role  The Uml::Role_Type of this UMLRole
-     */
-    UMLRole (UMLAssociation * parent, UMLObject * parentUMLObject, Uml::Role_Type role);
-
-    /**
-     * Overloaded '==' operator
-     */
-    bool operator==(const UMLRole & rhs);
-
-    /**
-     * Standard deconstructor.
-     */
+    UMLRole(UMLAssociation * parent, UMLObject * parentUMLObject, Uml::Role_Type role);
     virtual ~UMLRole();
 
-    UMLObject* getObject();
-
-    Uml::Changeability_Type getChangeability() const;
-
-    QString getMultiplicity() const;
+    bool operator==(const UMLRole & rhs) const;
 
     void setObject(UMLObject *obj);
+    UMLObject* object() const;
 
-    void setChangeability (Uml::Changeability_Type value);
+    void setChangeability(Uml::Changeability_Type value);
+    Uml::Changeability_Type changeability() const;
 
-    void setMultiplicity ( const QString &multi );
+    void setMultiplicity(const QString &multi);
+    QString multiplicity() const;
 
-    UMLAssociation * getParentAssociation ();
+    UMLAssociation * parentAssociation() const;
 
-    Uml::Role_Type getRole();
+    Uml::Role_Type role() const;
 
     UMLObject* clone() const { return NULL; }
 
@@ -71,11 +54,9 @@ protected:
 
 private:
 
-    void init (UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type r);
-
-    UMLAssociation * m_pAssoc;
-    Uml::Role_Type m_role;
-    QString m_Multi;
+    UMLAssociation *        m_pAssoc;
+    Uml::Role_Type          m_role;
+    QString                 m_Multi;
     Uml::Changeability_Type m_Changeability;
 };
 

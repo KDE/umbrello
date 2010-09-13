@@ -129,7 +129,7 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields()
         if((*it)->getClassFieldType() != CodeClassField::Attribute)
         {
             UMLRole * role = dynamic_cast<UMLRole*>((*it)->getParentObject());
-            QString multi = role->getMultiplicity();
+            QString multi = role->multiplicity();
             if (
                 multi.contains(QRegExp("[23456789\\*]")) ||
                 multi.contains(QRegExp("1\\d"))
@@ -628,7 +628,7 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
         } else { // association(role)-based
             const Uml::Role_Type r = (Uml::Role_Type)role_id;
             UMLRole * role = dynamic_cast<UMLRole *>(cf->getParentObject());
-            if(role && STR2ID(cf->getID()) == id && role->getRole() == r)
+            if(role && STR2ID(cf->getID()) == id && role->role() == r)
                 return cf;
         }
     }

@@ -21,18 +21,39 @@
 #include "uml.h"
 
 
-// constructor
+/**
+ * Sets up an association.
+ *
+ * @param parent    The parent (association) of this UMLRole.
+ * @param parentUMLObject The Parent UML Object of this UMLRole
+ * @param role  The Uml::Role_Type of this UMLRole
+ */
 UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type role)
-        : UMLObject(const_cast<UMLAssociation*>(parent))
+  : UMLObject(const_cast<UMLAssociation*>(parent)),
+    m_pAssoc(parent),
+    m_role(role),
+    m_Multi(QString()),
+    m_Changeability(Uml::chg_Changeable)
 {
-    init(parent, parentObj, role);
+    m_BaseType = Uml::ot_Role;
+    m_Name = QString();
+    m_pSecondary = parentObj;
+
+    // connect this up to parent
+    connect(this, SIGNAL(modified()), parent, SIGNAL(modified()));
 }
 
+/**
+ * Standard destructor.
+ */
 UMLRole::~UMLRole()
 {
 }
 
-bool UMLRole::operator==(const UMLRole &rhs)
+/**
+ * Overloaded '==' operator.
+ */
+bool UMLRole::operator==(const UMLRole &rhs) const
 {
     if (this == &rhs) {
         return true;
@@ -44,7 +65,7 @@ bool UMLRole::operator==(const UMLRole &rhs)
            );
 }
 
-UMLAssociation * UMLRole::getParentAssociation ()
+UMLAssociation * UMLRole::parentAssociation() const
 {
     return m_pAssoc;
 }
@@ -53,7 +74,7 @@ UMLAssociation * UMLRole::getParentAssociation ()
  * Returns the UMLObject assigned to the role.
  * @return  Pointer to the UMLObject in role.
  */
-UMLObject* UMLRole::getObject()
+UMLObject* UMLRole::object() const
 {
     return m_pSecondary;
 }
@@ -63,7 +84,7 @@ UMLObject* UMLRole::getObject()
  *
  * @return  Changeability_Type of role.
  */
-Uml::Changeability_Type UMLRole::getChangeability() const
+Uml::Changeability_Type UMLRole::changeability() const
 {
     return m_Changeability;
 }
@@ -73,7 +94,7 @@ Uml::Changeability_Type UMLRole::getChangeability() const
  *
  * @return  The multiplicity assigned to the role.
  */
-QString UMLRole::getMultiplicity() const
+QString UMLRole::multiplicity() const
 {
     return m_Multi;
 }
@@ -81,9 +102,9 @@ QString UMLRole::getMultiplicity() const
 /**
  * Sets the UMLObject playing the role in the association.
  *
- * @param obj               Pointer to the UMLObject of role.
+ * @param obj   Pointer to the UMLObject of role.
  */
-void UMLRole::setObject (UMLObject *obj)
+void UMLRole::setObject(UMLObject *obj)
 {
     // because we will get the id of this role from the parent
     // object, we CANT allow UMLRoles to take other UMLRoles as
@@ -103,9 +124,9 @@ void UMLRole::setObject (UMLObject *obj)
 /**
  * Sets the changeability of the role.
  *
- * @param value     Changeability_Type of role changeability.
+ * @param value   Changeability_Type of role changeability.
  */
-void UMLRole::setChangeability (Uml::Changeability_Type value)
+void UMLRole::setChangeability(Uml::Changeability_Type value)
 {
     m_Changeability = value;
     UMLObject::emitModified();
@@ -114,9 +135,9 @@ void UMLRole::setChangeability (Uml::Changeability_Type value)
 /**
  * Sets the multiplicity of the role.
  *
- * @param multi             The multiplicity of role.
+ * @param multi   The multiplicity of role.
  */
-void UMLRole::setMultiplicity ( const QString &multi )
+void UMLRole::setMultiplicity(const QString &multi)
 {
     m_Multi = multi;
     UMLObject::emitModified();
@@ -128,24 +149,9 @@ void UMLRole::setMultiplicity ( const QString &multi )
  * umlrole objects in the XMI for 'self' associations where both roles
  * will point to the same underlying UMLObject.
  */
-Uml::Role_Type UMLRole::getRole()
+Uml::Role_Type UMLRole::role() const
 {
     return m_role;
-}
-
-/** do some initialization at construction time */
-void UMLRole::init(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type r)
-{
-    m_BaseType = Uml::ot_Role;
-    m_role = r;
-    m_pAssoc = parent;
-    m_pSecondary = parentObj;
-    m_Multi = "";
-    m_Name = "";
-    m_Changeability = Uml::chg_Changeable;
-
-    // connect this up to parent
-    connect(this,SIGNAL(modified()),parent,SIGNAL(modified()));
 }
 
 /**
