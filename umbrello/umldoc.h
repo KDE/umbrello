@@ -185,8 +185,6 @@ public:
 
     void settingsChanged(Settings::OptionState optionState);
 
-    int fileVersion() const;
-
     QString uniqViewName(const Uml::Diagram_Type type);
 
     bool loading() const;
@@ -257,11 +255,6 @@ private:
      * Used for autosave
      */
     QTimer * m_pAutoSaveTimer;
-
-    /**
-     * Stores the version of old UML files.
-     */
-    int m_version;
 
     /**
      * Auxiliary to <docsettings> processing

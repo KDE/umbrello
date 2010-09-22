@@ -109,14 +109,18 @@ const int UMLView::defaultCanvasSize = 1300;
 
 using namespace Uml;
 
-
-// constructor
-UMLView::UMLView(UMLFolder *parentFolder) : Q3CanvasView(UMLApp::app()->mainViewWidget())
+/**
+ * Constructor
+ */
+UMLView::UMLView(UMLFolder *parentFolder)
+  : Q3CanvasView(UMLApp::app()->mainViewWidget()),
+    m_nLocalID(Uml::id_None),
+    m_nID(Uml::id_None),
+    m_Type(dt_Undefined),
+    m_Name(QString()),
+    m_Documentation(QString())
 {
     // Initialize loaded/saved data
-    m_nID = Uml::id_None;
-    m_Documentation = "";
-    m_Type = dt_Undefined;
     m_bUseSnapToGrid = false;
     m_bUseSnapComponentSizeToGrid = false;
     m_bShowSnapGrid = false;
@@ -178,6 +182,9 @@ UMLView::UMLView(UMLFolder *parentFolder) : Q3CanvasView(UMLApp::app()->mainView
     m_pFolder = parentFolder;
 }
 
+/**
+ * Destructor
+ */
 UMLView::~UMLView()
 {
     delete m_pImageExporter;

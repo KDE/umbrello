@@ -68,14 +68,7 @@ class UMLView : public Q3CanvasView
 public:
     friend class UMLViewImageExporterModel;
 
-    /**
-     * Constructor
-     */
     UMLView(UMLFolder *parentFolder);
-
-    /**
-     * Destructor
-     */
     virtual ~UMLView();
 
     /**
@@ -955,11 +948,8 @@ protected:
     // Methods and members related to loading/saving
 
     bool loadWidgetsFromXMI( QDomElement & qElement );
-
     bool loadMessagesFromXMI( QDomElement & qElement );
-
     bool loadAssociationsFromXMI( QDomElement & qElement );
-
     bool loadUisDiagramPresentation(QDomElement & qElement);
 
     /**

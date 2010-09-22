@@ -1145,7 +1145,7 @@ void UMLListView::changeIconOf(UMLObject *o, Icon_Utils::Icon_Type to)
 UMLListViewItem* UMLListView::findView(UMLView* v)
 {
     if (!v) {
-        uWarning() << "returning 0 from UMLListView::findView()";
+        uWarning() << "returning 0";
         return 0;
     }
     UMLListViewItem* item;
