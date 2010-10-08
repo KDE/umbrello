@@ -20,7 +20,7 @@
 #ifndef PREPROCESSLEXER_H
 #define PREPROCESSLEXER_H
 
-#include <QChar>
+#include <QtCore/QChar>
 
 namespace boost { namespace spirit { namespace impl {
   bool isalnum_( QChar const& c);
@@ -165,192 +165,200 @@ enum Type {
     Token_xor_eq
 };
 
-class Token {
+class Token
+{
 public:
-  Token();
-  Token( int type, CharIterator start, CharIterator end);
+    Token();
+    Token( int type, CharIterator start, CharIterator end);
 
-  Token& operator=( Token const& p);
+    Token& operator=( Token const& p);
 
-  operator int () const {return m_type;}
+    operator int () const {return m_type;}
 
-  bool isNull() const {return m_type == Token_eof || m_text.isEmpty();}
+    bool isNull() const {return m_type == Token_eof || m_text.isEmpty();}
 
-  int type() const {return m_type;}
+    int type() const {return m_type;}
 
-  Position const& getStartPosition() const {return m_start;}
-  Position const& getEndPosition() const {return m_end;}
-  unsigned int length() const {return m_text.length();}
+    Position const& getStartPosition() const {return m_start;}
+    Position const& getEndPosition() const {return m_end;}
+    unsigned int length() const {return m_text.length();}
 
-  QString const& text() const {return m_text;}
+    QString const& text() const {return m_text;}
 private:
-  int m_type;
-  Position m_start, m_end;
-  QString m_text;
+    int m_type;
+    Position m_start;
+    Position m_end;
+    QString m_text;
 };
 
 class PreprocessLexer
 {
 public:
-  typedef rule<scanner<CharIterator, CharPolicies> > CharRule;
+    typedef rule<scanner<CharIterator, CharPolicies> > CharRule;
 
-  PreprocessLexer( Driver* driver );
-  ~PreprocessLexer();
+    PreprocessLexer( Driver* driver );
+    ~PreprocessLexer();
 
-  void addSkipWord( const QString& word, SkipType skipType = SkipWord,
-		    const QString& str = QString() );
-  void preprocess();
-  void setSource( const QString& source, PositionFilename const& p_filename);
-  void setRecordComments( bool record );
-  QString const& preprocessedString() const {return m_preprocessedString;}
+    void addSkipWord( const QString& word, SkipType skipType = SkipWord,
+                      const QString& str = QString() );
+    void preprocess();
+    void setSource( const QString& source, PositionFilename const& p_filename);
+    void setRecordComments( bool record );
+    QString const& preprocessedString() const {return m_preprocessedString;}
 private:
-  static int toInt( const Token& token );
+    static int toInt( const Token& token );
 
-  void addDependence( std::pair<QString, int> const& p_wordAndScope) const {
-    m_driver->addDependence( m_driver->currentFileName(),
-			     Dependence( p_wordAndScope.first,
-					 p_wordAndScope.second));
-  }
-  Position currentPosition() const
-  {return m_source.get_currentPosition();}
-  void nextLine();
-  void nextToken( Token& token);
-  void output( CharIterator p_first, CharIterator p_last);
-  void skip( int l, int r );
-  bool recordComments() const;
-  void reset();
-
-  // preprocessor (based on an article of Al Stevens on Dr.Dobb's journal)
-  bool macroDefined();
-  QString readArgument();
-
-  int macroPrimary();
-  int macroMultiplyDivide();
-  int macroAddSubtract();
-  int macroRelational();
-  int macroEquality();
-  int macroBoolAnd();
-  int macroBoolXor();
-  int macroBoolOr();
-  int macroLogicalAnd();
-  int macroLogicalOr();
-  int macroExpression();
-
-  void handleDirective( const QString& directive );
-  void processDefine();
-  void processUndef();
-
-private:
-  static SkipRule m_SkipRule;
-
-  LexerData* m_data;
-  Driver* m_driver;
-  QString m_preprocessedString;
-  class Source {
-  public:
-    Source() {}
-
-    Token createToken( int type, CharIterator start, CharIterator end) const;
-    Token createToken( int type, CharIterator start) const {
-      return createToken( type, start, m_ptr);
-    }
-    QChar currentChar() const {
-      return m_ptr != m_endPtr ? *m_ptr : QChar::null;
-    }
-    bool eof() const {return m_ptr == m_endPtr;}
-    int length() const {return std::distance(m_ptr, m_endPtr);}
-    void nextChar() {
-      QChar l_current = *m_ptr++;
-    }
-    template <typename _RuleT>
-    parse_info<CharIterator> parse( _RuleT const& p_rule) {
-      parse_info<CharIterator> l_return =
-	CharParser::parse( m_ptr, m_endPtr, p_rule, m_SkipRule);
-      if( l_return.hit)
-	m_ptr = l_return.stop;
-      return l_return;
-    }
-    void reset() {
-      m_source.clear();
-      m_ptr = CharIterator();
-    }
-    void set_source( const QString& source,
-		     PositionFilename const& p_filename) {
-      m_source = source;
-      m_ptr = CharIterator( m_source.data(),
-			    m_source.data() + m_source.length(),
-			    Position( p_filename));
-    }
-    QString substrFrom( CharIterator start) const
-    {return QString( &*start, &*m_ptr - &*start);}
-    /* getters */
-    Position get_currentPosition() const {return m_ptr.get_position();}
-    CharIterator get_ptr() const {return m_ptr;}
-    QString const& get_source() const {return m_source;}
-    /* setters */
-    void set_currentPosition( Position const& p) {m_ptr.set_position( p);}
-  private:
-    QString m_source;
-    CharIterator m_ptr;
-    const CharIterator m_endPtr;
-  };
-  Source m_source;
-  bool m_recordComments;
-  QMap< QString, QPair<SkipType, QString> > m_words;
-
-  bool m_skipWordsEnabled;
-
-  /** Manages skipping. */
-  class Preprocessor {
-  public:
-    void decrement() {
-      m_skipping.pop_back();
-      m_trueTest.pop_back();
-    }
-    bool empty() const {return m_skipping.empty();}
-    bool inSkip() const {return (!empty() && m_skipping.back());}
-    void processElse()
-    {m_skipping.back() = previousInSkip() || m_trueTest.back();}
-    void processElif( bool p_test) {
-      if( m_trueTest.back())
-	m_skipping.back() = true;
-      else {
-	/// @todo implement the correct semantic for elif!!
-	m_trueTest.back() = p_test;
-	m_skipping.back() = previousInSkip() || !p_test;
-      }
-    }
-    void processIf( bool p_test) {
-      if( increment()) {
-	m_trueTest.back() = p_test;
-	m_skipping.back() = inSkip() ? true : !m_trueTest.back();
-      }
+    void addDependence( std::pair<QString, int> const& p_wordAndScope) const {
+        m_driver->addDependence(m_driver->currentFileName(),
+                                Dependence( p_wordAndScope.first,
+                                p_wordAndScope.second));
     }
 
+    Position currentPosition() const {return m_source.get_currentPosition();}
+    void nextLine();
+    void nextToken( Token& token);
+    void output( CharIterator p_first, CharIterator p_last);
+    void skip( int l, int r );
+    bool recordComments() const;
     void reset();
-  private:
-    bool increment() {
-      bool l_return = false;
-      if( empty())
-	l_return = true;
-      else
-	l_return = !m_skipping.back();
-      m_skipping.push_back( !l_return);
-      m_trueTest.push_back( false);
-      return l_return;
-    }
-    bool previousInSkip() const
-    {return ((m_skipping.size() > 1) && *(++m_skipping.rbegin()));}
 
-    std::vector<bool> m_skipping;
-    std::vector<bool> m_trueTest;
-  };
-  Preprocessor m_preprocessor;
-  bool m_preprocessorEnabled;
-  bool m_inPreproc;
+    // preprocessor (based on an article of Al Stevens on Dr.Dobb's journal)
+    bool macroDefined();
+    QString readArgument();
+
+    int macroPrimary();
+    int macroMultiplyDivide();
+    int macroAddSubtract();
+    int macroRelational();
+    int macroEquality();
+    int macroBoolAnd();
+    int macroBoolXor();
+    int macroBoolOr();
+    int macroLogicalAnd();
+    int macroLogicalOr();
+    int macroExpression();
+
+    void handleDirective( const QString& directive );
+    void processDefine();
+    void processUndef();
+
 private:
-  PreprocessLexer( const PreprocessLexer& source );
-  void operator = ( const PreprocessLexer& source );
+    static SkipRule m_SkipRule;
+
+    LexerData* m_data;
+    Driver* m_driver;
+    QString m_preprocessedString;
+
+    class Source
+    {
+    public:
+        Source() {}
+
+        Token createToken( int type, CharIterator start, CharIterator end) const;
+        Token createToken( int type, CharIterator start) const {
+            return createToken(type, start, m_ptr);
+        }
+        QChar currentChar() const {
+            return m_ptr != m_endPtr ? *m_ptr : QChar::null;
+        }
+        bool eof() const {return m_ptr == m_endPtr;}
+        int length() const {return std::distance(m_ptr, m_endPtr);}
+        void nextChar() {
+            QChar l_current = *m_ptr++;
+        }
+        template <typename _RuleT>
+        parse_info<CharIterator> parse( _RuleT const& p_rule) {
+            parse_info<CharIterator> l_return =
+                CharParser::parse( m_ptr, m_endPtr, p_rule, m_SkipRule);
+            if (l_return.hit)
+                m_ptr = l_return.stop;
+            return l_return;
+        }
+        void reset() {
+            m_source.clear();
+            m_ptr = CharIterator();
+        }
+        void set_source(const QString& source,
+                        PositionFilename const& p_filename) {
+            m_source = source;
+            m_ptr = CharIterator(m_source.data(),
+                                 m_source.data() + m_source.length(),
+                                 Position( p_filename));
+        }
+        QString substrFrom( CharIterator start) const {
+            return QString( &*start, &*m_ptr - &*start);
+        }
+        // getters
+        Position get_currentPosition() const {return m_ptr.get_position();}
+        CharIterator get_ptr() const {return m_ptr;}
+        QString const& get_source() const {return m_source;}
+        // setters
+        void set_currentPosition( Position const& p) {m_ptr.set_position( p);}
+    private:
+        QString m_source;
+        CharIterator m_ptr;
+        const CharIterator m_endPtr;
+    };
+
+    Source m_source;
+    bool m_recordComments;
+    QMap< QString, QPair<SkipType, QString> > m_words;
+
+    bool m_skipWordsEnabled;
+
+    /** Manages skipping. */
+    class Preprocessor
+    {
+    public:
+        void decrement() {
+            m_skipping.pop_back();
+            m_trueTest.pop_back();
+        }
+        bool empty() const {return m_skipping.empty();}
+        bool inSkip() const {return (!empty() && m_skipping.back());}
+        void processElse() {m_skipping.back() = previousInSkip() || m_trueTest.back();}
+        void processElif( bool p_test) {
+            if (m_trueTest.back())
+                m_skipping.back() = true;
+            else {
+                /// @todo implement the correct semantic for elif!!
+                m_trueTest.back() = p_test;
+                m_skipping.back() = previousInSkip() || !p_test;
+            }
+        }
+        void processIf( bool p_test) {
+            if (increment()) {
+                m_trueTest.back() = p_test;
+                m_skipping.back() = inSkip() ? true : !m_trueTest.back();
+            }
+        }
+
+        void reset();
+    private:
+        bool increment() {
+            bool l_return = false;
+            if (empty())
+                l_return = true;
+            else
+                l_return = !m_skipping.back();
+            m_skipping.push_back( !l_return);
+            m_trueTest.push_back( false);
+            return l_return;
+        }
+        bool previousInSkip() const {
+            return ((m_skipping.size() > 1) && *(++m_skipping.rbegin()));}
+
+        std::vector<bool> m_skipping;
+        std::vector<bool> m_trueTest;
+    };
+
+    Preprocessor m_preprocessor;
+    bool m_preprocessorEnabled;
+    bool m_inPreproc;
+
+private:
+    PreprocessLexer( const PreprocessLexer& source );
+    void operator = ( const PreprocessLexer& source );
 };
 
 inline bool PreprocessLexer::recordComments() const

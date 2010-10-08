@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2009                                               *
+ *   copyright (C) 2005-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -65,9 +65,6 @@ private:
     QString typeOfDeclaration( TypeSpecifierAST* typeSpec, DeclaratorAST* declarator );
     QStringList scopeOfName( NameAST* id, const QStringList& scope );
     QStringList scopeOfDeclarator( DeclaratorAST* d, const QStringList& scope );
-    /**
-     * Flush template parameters pending in m_templateParams to the klass.
-     */
     void flushTemplateParams(UMLClassifier *klass);
 
 private:

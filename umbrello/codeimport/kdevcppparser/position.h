@@ -46,8 +46,9 @@ workaround for the following msvc error
 typedef boost::spirit::file_position Position;
 typedef std::string PositionFilename;
 
-inline PositionFilename QString2PositionFilename( QString const& p) {
-  return (char const*)p.toAscii();
+inline PositionFilename QString2PositionFilename( QString const& p)
+{
+    return (char const*)p.toAscii();
 }
 
 #else
@@ -56,19 +57,22 @@ inline PositionFilename QString2PositionFilename( QString const& p) {
 typedef boost::spirit::file_position_base<std::basic_string<QChar> > Position;
 typedef std::basic_string<QChar> PositionFilename;
 
-inline PositionFilename QString2PositionFilename( QString const& p) {
-  return p.data();
+inline PositionFilename QString2PositionFilename( QString const& p)
+{
+    return p.data();
 }
 
 #endif
 
-inline bool operator<( Position const& p1, Position const& p2) {
-  assert( p1.file == p2.file);
-  return( (p1.line < p2.line)
-	  || ( (p1.line == p2.line) && (p1.column < p2.column)));
+inline bool operator<( Position const& p1, Position const& p2)
+{
+    assert( p1.file == p2.file);
+    return( (p1.line < p2.line) || ( (p1.line == p2.line) && (p1.column < p2.column)));
 }
 
 inline bool operator>=( Position const& p1, Position const& p2)
-{return !(p1 < p2);}
+{
+    return !(p1 < p2);
+}
 
 #endif

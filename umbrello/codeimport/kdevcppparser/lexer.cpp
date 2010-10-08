@@ -35,28 +35,15 @@
 
 #include "assignFunctor.hpp"
 
-namespace boost
-{
-namespace spirit {
-namespace impl {
-bool isalnum_(QChar const& c)
-{
-    return isalnum_(c.toAscii());
-}
-bool isalpha_(QChar const& c)
-{
-    return isalpha_(c.toAscii());
-}
-bool isblank_(QChar const& c)
-{
-    return isblank_(c.toAscii());
-}
-bool isdigit_(QChar const& c)
-{
-    return isdigit_(c.toAscii());
-}
-}
-}
+namespace boost {
+    namespace spirit {
+        namespace impl {
+            bool isalnum_(QChar const& c) { return isalnum_(c.toAscii()); }
+            bool isalpha_(QChar const& c) { return isalpha_(c.toAscii()); }
+            bool isblank_(QChar const& c) { return isblank_(c.toAscii()); }
+            bool isdigit_(QChar const& c) { return isdigit_(c.toAscii()); }
+        }
+    }
 }
 
 template <class _Tp>
@@ -82,9 +69,7 @@ SkipRule Lexer::m_SkipRule = nothing_p;
 class KDevTread: public QThread
 {
 public:
-    static void yield() {
-        msleep(0);
-    }
+    static void yield() { msleep(0); }
 };
 
 inline void qthread_yield()

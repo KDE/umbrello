@@ -17,7 +17,7 @@
     Boston, MA 02110-1301, USA.
 */
 
-#include "lexer.h"
+#include "preprocesslexer.h"  //was lexer.h
 #include "lookup.h"
 #include "keywords.lut.h"
 
@@ -66,9 +66,7 @@ SkipRule PreprocessLexer::m_SkipRule = nothing_p;
 class KDevTread: public QThread
 {
 public:
-    static void yield() {
-        msleep(0);
-    }
+    static void yield() { msleep(0); }
 };
 
 inline void qthread_yield()
@@ -100,8 +98,7 @@ struct constructQString_impl {
     }
 };
 
-const function<constructQString_impl> constructQString =
-    constructQString_impl();
+const function<constructQString_impl> constructQString = constructQString_impl();
 
 struct identifier :
             grammar<identifier, result_closure<QString>::context_t> {
@@ -406,7 +403,7 @@ void PreprocessLexer::nextToken(Token& tk)
                    [boost::bind(&PreprocessLexer::output, this, _1, _2)]);
     QChar ch = m_source.currentChar();
     if (ch.isNull() || ch.isSpace()) {
-        /* skip */
+        // skip
     } else if (m_source.parse
                (
                    if_p(var(m_recordComments))
@@ -546,7 +543,7 @@ void PreprocessLexer::nextToken(Token& tk)
 #endif
                     m_preprocessedString += QString(" ") + (*pos).second + QString(" ");
                 }
-            } else if (/*qt_rx.exactMatch(ide) ||*/
+            } else if (//qt_rx.exactMatch(ide) ||
                 ide.endsWith(QLatin1String("EXPORT")) ||
                 (ide.startsWith(QLatin1String("Q_EXPORT")) && ide != "Q_EXPORT_INTERFACE") ||
                 ide.startsWith(QLatin1String("QM_EXPORT")) ||
