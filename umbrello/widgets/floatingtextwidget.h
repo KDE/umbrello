@@ -12,11 +12,10 @@
 #define FLOATINGTEXTWIDGET_H
 
 #include "umlwidget.h"
-#include "linkwidget.h"
-
-class UMLView;
 
 class FloatingTextWidgetController;
+class LinkWidget;
+class UMLView;
 
 /**
  * @short Displays a line of text or an operation.
@@ -51,7 +50,7 @@ public:
     static const int restrictPositionMax = 3000;
 
     explicit FloatingTextWidget(UMLView * view, Uml::Text_Role role = Uml::tr_Floating,
-                       const QString& text = "", Uml::IDType id = Uml::id_None);
+                                const QString& text = "", Uml::IDType id = Uml::id_None);
     virtual ~FloatingTextWidget();
 
     QString text() const;
@@ -65,55 +64,18 @@ public:
     QString postText() const;
     void setPostText(const QString &t);
 
-    /**
-     * Set the sequence number to display.
-     *
-     * @param sn The sequence number to display.
-     */
-    void setSeqNum(const QString &sn);
+//    void setSeqNum(const QString &sn);
+//    QString getSeqNum() const;
 
-    /**
-     * Return the sequence number.
-     *
-     * @return The sequence number.
-     */
-    QString getSeqNum() const;
-
-    /**
-     * Set the operation to display.
-     *
-     * @param op The operation to display.
-     */
-    void setOperation(const QString &op);
-
-    /**
-     * Return the operation that is displayed.
-     *
-     * @return The operation that is displayed.
-     *
-    QString getOperation() const;
-     */
+//    void setOperation(const QString &op);
+//    QString getOperation() const;
 
     QString displayText() const;
 
-    /**
-     * Displays a dialog box to change the text.
-     */
     void showChangeTextDialog();
 
-    /**
-     * Set the LinkWidget that this FloatingTextWidget is related to.
-     *
-     * @param l The related LinkWidget.
-     */
     void setLink(LinkWidget * l);
-
-    /**
-     * Returns the LinkWidget this floating text is related to.
-     *
-     * @return The LinkWidget this floating text is related to.
-     */
-    LinkWidget * link();
+    LinkWidget * link() const;
 
     /**
      * Returns whether this is a line of text.
@@ -125,106 +87,37 @@ public:
         return true;
     }
 
-    /**
-     * Activate the FloatingTextWidget after the saved data has been loaded
-     *
-     * @param ChangeLog Pointer to the IDChangeLog.
-     * @return  true for success
-     */
     bool activate( IDChangeLog* ChangeLog = 0 );
 
-    /**
-     * Sets the role type of this FloatingTextWidget.
-     *
-     * @param role  The Text_Role of this FloatingTextWidget.
-     */
     void setRole(Uml::Text_Role role);
-
-    /**
-     * Return the role of the text widget
-     *
-     * @return The Text_Role of this FloatingTextWidget.
-     */
     Uml::Text_Role textRole() const;
 
-    /**
-     * For a text to be valid it must be non-empty, i.e. have a length
-     * larger that zero, and have at least one non whitespace character.
-     *
-     * @param text The string to analyze.
-     * @return True if the given text is valid.
-     */
     static bool isTextValid(const QString &text);
 
-    /**
-     * Overrides default method
-     */
     void draw(QPainter & p, int offsetX, int offsetY);
 
-    /**
-     * Handle the ListPopupMenu::mt_Rename case of the slotMenuSelection.
-     * Given an own method because it requires rather lengthy code.
-     */
     void handleRename();
 
-    /**
-     * Change Name
-     */
     void changeName(const QString& newText);
 
-    /**
-     * Shows an operation dialog box.
-     */
     void showOperationDialog();
-
-    /**
-     * Show the properties for a FloatingTextWidget.
-     * Depending on the role of the floating text wiget, the options dialog
-     * for the floating text widget, the rename dialog for floating text or
-     * the options dialog for the link widget are shown.
-     */
     void showProperties();
 
-    /**
-     * Creates the "floatingtext" XMI element.
-     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
-
-    /**
-     * Loads the "floatingtext" XMI element.
-     */
     bool loadFromXMI( QDomElement & qElement );
 
 public slots:
-    /**
-     * Called when a menu selection has been made.
-     *
-     * @param action  The action that has been selected.
-     */
     void slotMenuSelection(QAction* action);
 
-    /**
-     * Sets the text for this label if it is acting as a sequence
-     * diagram message or a collaboration diagram message.
-     */
     void setMessageText();
 
 protected:
-    /**
-     * Overrides method from UMLWidget.
-     */
     QSize calculateSize();
 
 private:
-    /**
-     * Initializes key variables of the class.
-     */
     void init();
 
-    /**
-     * Override default method
-     */
-    void resizeEvent(QResizeEvent* /*re*/);
+    void resizeEvent(QResizeEvent* re);
 
     /// The association or message widget we may be linked to.
     LinkWidget * m_linkWidget;

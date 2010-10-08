@@ -28,13 +28,14 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "classifier.h"
+#include "linkwidget.h"
 #include "listpopupmenu.h"
 #include "operation.h"
 #include "model_utils.h"
 #include "object_factory.h"
 #include "messagewidget.h"
-#include "dialogs/assocpropdlg.h"
-#include "dialogs/selectopdlg.h"
+#include "assocpropdlg.h"
+#include "selectopdlg.h"
 #include "cmds.h"
 
 /**
@@ -59,6 +60,9 @@ FloatingTextWidget::FloatingTextWidget(UMLView * view, Uml::Text_Role role,
     }
 }
 
+/**
+ * Initializes key variables of the class.
+ */
 void FloatingTextWidget::init()
 {
     // initialize loaded/saved (i.e. persistent) data
@@ -79,6 +83,9 @@ FloatingTextWidget::~FloatingTextWidget()
 {
 }
 
+/**
+ * Overrides default method
+ */
 void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     int w = width();
@@ -91,11 +98,17 @@ void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Override default method
+ */
 void FloatingTextWidget::resizeEvent(QResizeEvent * re)
 {
     Q_UNUSED(re);
 }
 
+/**
+ * Overrides method from UMLWidget.
+ */
 QSize FloatingTextWidget::calculateSize()
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -104,6 +117,11 @@ QSize FloatingTextWidget::calculateSize()
     return QSize(w + 8, h + 4);  // give a small margin
 }
 
+/**
+ * Called when a menu selection has been made.
+ *
+ * @param action  The action that has been selected.
+ */
 void FloatingTextWidget::slotMenuSelection(QAction* action)
 {
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
@@ -173,7 +191,10 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
     }//end switch
 }
 
-/// Handles renaming based on the text role of this widget.
+/**
+ * Handle the ListPopupMenu::mt_Rename case of the slotMenuSelection.
+ * Given an own method because it requires rather lengthy code.
+ */
 void FloatingTextWidget::handleRename()
 {
     QRegExpValidator v(QRegExp(".*"), 0);
@@ -202,7 +223,9 @@ void FloatingTextWidget::handleRename()
     UMLApp::app()->executeCommand(new Uml::CmdHandleRename(this,newText));
 }
 
-/// Changes the text of linked widget.
+/**
+ * Change Name
+ */
 void FloatingTextWidget::changeName(const QString& newText)
 {
     if (m_linkWidget && !isTextValid(newText)) {
@@ -281,8 +304,13 @@ void FloatingTextWidget::setText(const QString &t)
             m_Text = seqNum.append(": ").append( op );
         } else
             m_Text = t;
-    } else
+    } else {
         m_Text = t;
+    }
+
+    QSize s = calculateSize();
+    setSize(s.width(), s.height());
+
     updateComponentSize();
     update();
 }
@@ -309,21 +337,27 @@ void FloatingTextWidget::setPostText(const QString &t)
     update();
 }
 
+/**
+ * Displays a dialog box to change the text.
+ */
 void FloatingTextWidget::showChangeTextDialog()
 {
     bool ok = false;
     QString newText = KInputDialog::getText(i18n("Change Text"), i18n("Enter new text:"), text(), &ok, m_pView);
 
-    if(ok && newText != text() && isTextValid(newText)) {
+    if (ok && newText != text() && isTextValid(newText)) {
         setText( newText );
         setVisible( ( text().length() > 0 ) );
         updateComponentSize();
         update();
     }
-    if(!isTextValid(newText))
+    if (!isTextValid(newText))
         hide();
 }
 
+/**
+ * Shows an operation dialog box.
+ */
 void FloatingTextWidget::showOperationDialog()
 {
     if (m_linkWidget == NULL) {
@@ -436,6 +470,12 @@ QString FloatingTextWidget::displayText() const
     return displayText;
 }
 
+/**
+ * Activate the FloatingTextWidget after the saved data has been loaded
+ *
+ * @param ChangeLog Pointer to the IDChangeLog.
+ * @return  true for success
+ */
 bool FloatingTextWidget::activate( IDChangeLog* ChangeLog /*= 0 */)
 {
     if (! UMLWidget::activate(ChangeLog))
@@ -444,26 +484,53 @@ bool FloatingTextWidget::activate( IDChangeLog* ChangeLog /*= 0 */)
     return true;
 }
 
+/**
+ * Set the LinkWidget that this FloatingTextWidget is related to.
+ *
+ * @param l The related LinkWidget.
+ */
 void FloatingTextWidget::setLink(LinkWidget * l)
 {
     m_linkWidget = l;
 }
 
-LinkWidget * FloatingTextWidget::link()
+/**
+ * Returns the LinkWidget this floating text is related to.
+ *
+ * @return The LinkWidget this floating text is related to.
+ */
+LinkWidget * FloatingTextWidget::link() const
 {
     return m_linkWidget;
 }
 
+/**
+ * Sets the role type of this FloatingTextWidget.
+ *
+ * @param role  The Text_Role of this FloatingTextWidget.
+ */
 void FloatingTextWidget::setRole(Uml::Text_Role role)
 {
     m_textRole = role;
 }
 
+/**
+ * Return the role of the text widget
+ *
+ * @return The Text_Role of this FloatingTextWidget.
+ */
 Uml::Text_Role FloatingTextWidget::textRole() const
 {
     return m_textRole;
 }
 
+/**
+ * For a text to be valid it must be non-empty, i.e. have a length
+ * larger that zero, and have at least one non whitespace character.
+ *
+ * @param text The string to analyze.
+ * @return True if the given text is valid.
+ */
 bool FloatingTextWidget::isTextValid( const QString &text )
 {
     int length = text.length();
@@ -475,6 +542,12 @@ bool FloatingTextWidget::isTextValid( const QString &text )
     return false;
 }
 
+/**
+ * Show the properties for a FloatingTextWidget.
+ * Depending on the role of the floating text wiget, the options dialog
+ * for the floating text widget, the rename dialog for floating text or
+ * the options dialog for the link widget are shown.
+ */
 void FloatingTextWidget::showProperties()
 {
     if (m_textRole == Uml::tr_Coll_Message || m_textRole == Uml::tr_Coll_Message_Self ||
@@ -488,6 +561,9 @@ void FloatingTextWidget::showProperties()
     }
 }
 
+/**
+ * Creates the "floatingtext" XMI element.
+ */
 void FloatingTextWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement textElement = qDoc.createElement( "floatingtext" );
@@ -505,6 +581,9 @@ void FloatingTextWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
     qElement.appendChild( textElement );
 }
 
+/**
+ * Loads the "floatingtext" XMI element.
+ */
 bool FloatingTextWidget::loadFromXMI( QDomElement & qElement )
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
@@ -534,6 +613,9 @@ void FloatingTextWidget::setMessageText()
 {
     if (m_linkWidget) {
         m_linkWidget->setMessageText(this);
+        QSize s = calculateSize();
+        setSize(s.width(), s.height());
+
     }
     setVisible(!text().isEmpty());
 }
