@@ -41,7 +41,7 @@ public:
     explicit AUTO_PTR(_Tp* __p = 0)  _THROW0() : _M_ptr(__p) {}
 
     template <class _Tp1> AUTO_PTR(AUTO_PTR<_Tp1>& __a)  _THROW0()
-	: _M_ptr(__a.release()) {}
+      : _M_ptr(__a.release()) {}
 
     AUTO_PTR(AUTO_PTR& __a)  _THROW0() : _M_ptr(__a.release()) {}
 
@@ -206,7 +206,7 @@ public:
 
     DECLARE_ALLOC( AST )
 
-    public:
+public:
     AST();
     virtual ~AST();
 
@@ -216,11 +216,11 @@ public:
     AST* parent() { return m_parent; }
     void setParent( AST* parent );
 
-  void setStartPosition( Position const& p );
-  Position const& getStartPosition() const;
+    void setStartPosition( Position const& p );
+    Position const& getStartPosition() const;
 
-  void setEndPosition( Position const& p );
-  Position const& getEndPosition() const;
+    void setEndPosition( Position const& p );
+    Position const& getEndPosition() const;
 
 #ifndef CPPPARSER_NO_CHILDREN
     QList<AST*> children() { return m_children; }
@@ -229,17 +229,17 @@ public:
 #endif
 
     virtual inline QString text() const
-  { return m_slice; }
+    { return m_slice; }
 
     QString comment() const
     { return m_comment; }
 
-  inline void setSlice( const QString& slice )
+    inline void setSlice( const QString& slice )
     { m_slice = slice; }
 
     inline void setSlice( const QString &text, int position, int length )
     {
-    m_slice = text.mid( position, length );
+        m_slice = text.mid( position, length );
     }
 
     inline void setText(const QString &text)
@@ -251,8 +251,8 @@ public:
 private:
     int m_nodeType;
     AST* m_parent;
-  Position m_startPosition, m_endPosition;
-  QString m_slice;
+    Position m_startPosition, m_endPosition;
+    QString m_slice;
 #ifndef CPPPARSER_NO_CHILDREN
     QList<AST*> m_children;
 #endif
@@ -635,7 +635,6 @@ private:
     ElaboratedTypeSpecifierAST( const ElaboratedTypeSpecifierAST& source );
     void operator = ( const ElaboratedTypeSpecifierAST& source );
 };
-
 
 class LinkageBodyAST: public AST
 {

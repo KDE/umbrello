@@ -21,7 +21,7 @@
 
 #include <kdebug.h>
 
-#include <QList>
+#include <QtCore/QList>
 
 TreeParser::TreeParser()
 {

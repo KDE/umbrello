@@ -48,30 +48,30 @@ public:
 public:
     Problem() {}
     Problem( const Problem& source )
-    : m_text( source.m_text ), m_position( source.m_position ),
-      m_level( source.m_level ) {}
-  Problem( const QString& text, Position const& position,
-           int level = Level_Error )
-    : m_text( text ), m_position( position ), m_level(level) {}
+      : m_text( source.m_text ), m_position( source.m_position ),
+        m_level( source.m_level ) {}
+    Problem( const QString& text, Position const& position,
+             int level = Level_Error )
+      : m_text( text ), m_position( position ), m_level(level) {}
 
     Problem& operator = ( const Problem& source )
     {
-    if( this != &source) {
-        m_text = source.m_text;
-        m_position = source.m_position;
-        m_level = source.m_level;
-    }
+        if (this != &source) {
+            m_text = source.m_text;
+            m_position = source.m_position;
+            m_level = source.m_level;
+        }
         return( *this );
     }
 
     bool operator == ( const Problem& p ) const
     {
-    return ((m_text == p.m_text) && (m_position == p.m_position)
-            && (m_level == p.m_level));
+        return ((m_text == p.m_text) && (m_position == p.m_position)
+                && (m_level == p.m_level));
     }
 
     QString text() const { return m_text; }
-  Position const& position() const { return m_position; }
+    Position const& position() const { return m_position; }
     int level() const { return m_level; }
 
 private:
@@ -91,58 +91,57 @@ typedef QPair<QString, int> Dependence;
 class Macro
 {
 public:
-  typedef QString Argument;
-  typedef std::list<Argument> ArgumentList;
+    typedef QString Argument;
+    typedef std::list<Argument> ArgumentList;
 
-  Macro() {}
-  Macro( const QString &n) : m_name( n) {}
-  Macro( const QString &n, const QString &b ) : m_name( n ), m_body( b ) {}
+    Macro() {}
+    Macro( const QString &n) : m_name( n) {}
+    Macro( const QString &n, const QString &b ) : m_name( n ), m_body( b ) {}
 
-  Macro( const Macro& source )
-    : m_name( source.m_name),
-      m_fileName( source.m_fileName ),
-      m_body( source.m_body ),
-      m_arguments( source.m_arguments) {}
+    Macro( const Macro& source )
+      : m_name( source.m_name),
+        m_fileName( source.m_fileName ),
+        m_body( source.m_body ),
+        m_arguments( source.m_arguments) {}
 
-  Macro& operator = ( const Macro& source )
-  {
-    m_name = source.m_name;
-    m_body = source.m_body;
-    m_fileName = source.m_fileName;
-    m_arguments = source.m_arguments;
-    return *this;
-  }
+    Macro& operator = ( const Macro& source )
+    {
+        m_name = source.m_name;
+        m_body = source.m_body;
+        m_fileName = source.m_fileName;
+        m_arguments = source.m_arguments;
+        return *this;
+    }
 
-  bool operator == ( const Macro& source ) const
-  {
-    return
-      m_name == source.m_name &&
-      m_fileName == source.m_fileName &&
-      m_body == source.m_body &&
-      m_arguments == source.m_arguments;
-  }
+    bool operator == ( const Macro& source ) const
+    {
+        return
+          m_name == source.m_name &&
+          m_fileName == source.m_fileName &&
+          m_body == source.m_body &&
+          m_arguments == source.m_arguments;
+    }
 
-  QString const& name() const {return m_name;}
-  void setName( const QString& name ) { m_name = name; }
+    QString const& name() const {return m_name;}
+    void setName( const QString& name ) { m_name = name; }
 
-  QString fileName() const { return m_fileName; }
-  void setFileName( const QString& fileName ) { m_fileName = fileName; }
+    QString fileName() const { return m_fileName; }
+    void setFileName( const QString& fileName ) { m_fileName = fileName; }
 
-  QString body() const { return m_body; }
-  void setBody( const QString& body ) { m_body = body; }
+    QString body() const { return m_body; }
+    void setBody( const QString& body ) { m_body = body; }
 
-  bool hasArguments() const { return !m_arguments.empty();}
-  ArgumentList const& arguments() const {return m_arguments;}
+    bool hasArguments() const { return !m_arguments.empty();}
+    ArgumentList const& arguments() const {return m_arguments;}
 
-  void clearArgumentList() {m_arguments.clear();}
-  void push_back( Argument const& argument)
-  {m_arguments.push_back( argument);}
+    void clearArgumentList() {m_arguments.clear();}
+    void push_back( Argument const& argument) {m_arguments.push_back( argument);}
 
 private:
-  QString m_name;
-  QString m_fileName;
-  QString m_body;
-  ArgumentList m_arguments;
+    QString m_name;
+    QString m_fileName;
+    QString m_body;
+    ArgumentList m_arguments;
 };
 
 class SourceProvider
@@ -185,11 +184,9 @@ private:
     MacroMap macros() const {return m_macroManager.macros();}
 public:
     QList<Problem> problems( const QString& fileName ) const;
-    bool hasMacro( const QString& name ) const
-    {return m_macroManager.hasMacro( name);}
+    bool hasMacro( const QString& name ) const {return m_macroManager.hasMacro( name);}
     Macro& macro( const QString& name) {return m_macroManager.macro( name);}
-    virtual void removeMacro( const QString& macroName )
-    {m_macroManager.removeMacro( macroName);}
+    virtual void removeMacro( const QString& macroName ) {m_macroManager.removeMacro( macroName);}
     QStringList includePaths() const { return m_includePaths; }
     virtual void addIncludePath( const QString &path );
 
@@ -210,19 +207,22 @@ private:
     QString findIncludeFile( const Dependence& dep ) const;
 
 private:
-  class MacroManager {
-  public:
-    void addMacro( const Macro& macro);
-    bool hasMacro( const QString& name) const
-    {return (m_macros.find( name) != m_macros.end());}
-    Macro& macro( const QString& name) {return m_macros[ name];}
-    MacroMap const& macros() const;
-    void removeAllMacrosInFile( const QString& fileName);
-    void removeMacro( const QString& macroName);
-    void reset();
-  private:
-    MacroMap m_macros;
-  };
+
+    class MacroManager
+    {
+    public:
+        void addMacro( const Macro& macro);
+        bool hasMacro( const QString& name) const
+        {return (m_macros.find( name) != m_macros.end());}
+        Macro& macro( const QString& name) {return m_macros[ name];}
+        MacroMap const& macros() const;
+        void removeAllMacrosInFile( const QString& fileName);
+        void removeMacro( const QString& macroName);
+        void reset();
+    private:
+        MacroMap m_macros;
+    };
+
     QString m_currentFileName;
     QMap< QString, QMap<QString, Dependence> > m_dependences;
     MacroManager m_macroManager;

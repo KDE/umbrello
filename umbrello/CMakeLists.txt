@@ -254,7 +254,6 @@ else (WIN32 AND NOT MSVC)
         codeimport/kdevcppparser/parser.cpp
         codeimport/kdevcppparser/preprocesslexer.cpp
         codeimport/kdevcppparser/tree_parser.cpp
-        codeimport/kdevcppparser/urlutil.cpp
         codeimport/kdevcppparser/ast_utils.cpp
         codeimport/kdevcppparser/cpptree2uml.cpp
     )

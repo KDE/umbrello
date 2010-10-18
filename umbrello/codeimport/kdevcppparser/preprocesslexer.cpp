@@ -17,7 +17,7 @@
     Boston, MA 02110-1301, USA.
 */
 
-#include "lexer.h"
+#include "preprocesslexer.h"  //was lexer.h
 #include "lookup.h"
 #include "keywords.lut.h"
 
@@ -30,8 +30,8 @@
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
-#include <boost/spirit/dynamic/if.hpp>
-#include <boost/spirit/phoenix/functions.hpp>
+#include <boost/spirit/include/classic_if.hpp>
+#include <boost/spirit/include/phoenix1_functions.hpp>
 
 #include "assignFunctor.hpp"
 
@@ -50,7 +50,7 @@ struct tilde : public std::unary_function<_Tp, _Tp> {
     }
 };
 
-using namespace boost::spirit;
+using namespace boost::spirit::classic;
 using phoenix::arg1;
 using phoenix::arg2;
 using phoenix::arg3;
@@ -66,9 +66,7 @@ SkipRule PreprocessLexer::m_SkipRule = nothing_p;
 class KDevTread: public QThread
 {
 public:
-    static void yield() {
-        msleep(0);
-    }
+    static void yield() { msleep(0); }
 };
 
 inline void qthread_yield()
@@ -100,8 +98,7 @@ struct constructQString_impl {
     }
 };
 
-const function<constructQString_impl> constructQString =
-    constructQString_impl();
+const function<constructQString_impl> constructQString = constructQString_impl();
 
 struct identifier :
             grammar<identifier, result_closure<QString>::context_t> {
@@ -200,7 +197,7 @@ struct numberLiteral :
 typedef std::pair<QString, int> Dependency;
 
 struct DependencyClosure
-            : boost::spirit::closure<DependencyClosure, QString, int> {
+            : boost::spirit::classic::closure<DependencyClosure, QString, int> {
     member1 m_word;
     member2 m_scope;
 };
@@ -406,7 +403,7 @@ void PreprocessLexer::nextToken(Token& tk)
                    [boost::bind(&PreprocessLexer::output, this, _1, _2)]);
     QChar ch = m_source.currentChar();
     if (ch.isNull() || ch.isSpace()) {
-        /* skip */
+        // skip
     } else if (m_source.parse
                (
                    if_p(var(m_recordComments))
@@ -546,7 +543,7 @@ void PreprocessLexer::nextToken(Token& tk)
 #endif
                     m_preprocessedString += QString(" ") + (*pos).second + QString(" ");
                 }
-            } else if (/*qt_rx.exactMatch(ide) ||*/
+            } else if (//qt_rx.exactMatch(ide) ||
                 ide.endsWith(QLatin1String("EXPORT")) ||
                 (ide.startsWith(QLatin1String("Q_EXPORT")) && ide != "Q_EXPORT_INTERFACE") ||
                 ide.startsWith(QLatin1String("QM_EXPORT")) ||
@@ -717,7 +714,7 @@ struct push_back_c_impl {
     }
 };
 
-function<push_back_c_impl> const push_back_c = push_back_c_impl();
+phoenix::function<push_back_c_impl> const push_back_c = push_back_c_impl();
 
 struct macroDefinition :
             grammar<macroDefinition, result_closure<Macro>::context_t> {
