@@ -25,12 +25,12 @@
 #include <QChar>
 
 
-namespace boost { namespace spirit { namespace impl {
+namespace boost { namespace spirit { namespace classic { namespace impl {
   bool isalnum_( QChar const& c);
   bool isalpha_( QChar const& c);
   bool isblank_( QChar const& c);
   bool isdigit_( QChar const& c);
-}}}
+}}}}
 */
 
 #include "driver.h"
@@ -44,12 +44,12 @@ namespace boost { namespace spirit { namespace impl {
 
 #include "skip_rule.hpp"
 
-using boost::spirit::parse_info;
-using boost::spirit::rule;
-using boost::spirit::scanner;
-using boost::spirit::ext::skip_rule_parser;
+using boost::spirit::classic::parse_info;
+using boost::spirit::classic::rule;
+using boost::spirit::classic::scanner;
+using boost::spirit::classic::ext::skip_rule_parser;
 
-typedef boost::spirit::position_iterator<QChar const*> CharIterator;
+typedef boost::spirit::classic::position_iterator<QChar const*> CharIterator;
 typedef rule<scanner<CharIterator> > SkipRule;
 typedef skip_rule_parser<SkipRule, CharIterator> CharParser;
 typedef scanner<CharIterator> CharScanner;

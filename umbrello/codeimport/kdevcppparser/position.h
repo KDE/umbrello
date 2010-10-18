@@ -38,31 +38,17 @@ workaround for the following msvc error
 
 #include <limits.h>
 #include <boost/version.hpp>
-#include <boost/spirit.hpp>
+#include <boost/spirit/include/classic.hpp>
 #include <QString>
+#include <QChar>
 
-#if BOOST_VERSION < 103400
-
-typedef boost::spirit::file_position Position;
-typedef std::string PositionFilename;
-
-inline PositionFilename QString2PositionFilename( QString const& p)
-{
-    return (char const*)p.toAscii();
-}
-
-#else
-# include <QChar>
-
-typedef boost::spirit::file_position_base<std::basic_string<QChar> > Position;
+typedef boost::spirit::classic::file_position_base<std::basic_string<QChar> > Position;
 typedef std::basic_string<QChar> PositionFilename;
 
 inline PositionFilename QString2PositionFilename( QString const& p)
 {
     return p.data();
 }
-
-#endif
 
 inline bool operator<( Position const& p1, Position const& p2)
 {

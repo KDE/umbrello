@@ -30,8 +30,8 @@
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
-#include <boost/spirit/dynamic/if.hpp>
-#include <boost/spirit/phoenix/functions.hpp>
+#include <boost/spirit/include/classic_if.hpp>
+#include <boost/spirit/include/phoenix1_functions.hpp>
 
 #include "assignFunctor.hpp"
 
@@ -50,7 +50,7 @@ struct tilde : public std::unary_function<_Tp, _Tp> {
     }
 };
 
-using namespace boost::spirit;
+using namespace boost::spirit::classic;
 using phoenix::arg1;
 using phoenix::arg2;
 using phoenix::arg3;
@@ -197,7 +197,7 @@ struct numberLiteral :
 typedef std::pair<QString, int> Dependency;
 
 struct DependencyClosure
-            : boost::spirit::closure<DependencyClosure, QString, int> {
+            : boost::spirit::classic::closure<DependencyClosure, QString, int> {
     member1 m_word;
     member2 m_scope;
 };

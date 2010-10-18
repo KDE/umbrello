@@ -1,13 +1,14 @@
 #ifndef SKIP_RULE_H
 #define SKIP_RULE_H
 
-#include <boost/spirit.hpp>
+#include <boost/spirit/include/classic.hpp>
 
 /** This header should (hopefully) be part of a future release of
     boost::spirit */
 
 namespace boost {
 namespace spirit {
+namespace classic {
 namespace ext {
 
 template < typename RuleT, typename BaseT = iteration_policy >
@@ -91,6 +92,7 @@ struct skip_rule_parser {
 };
 
 }  // end namespace ext
+}  // end namespace classic
 }  // end namespace spirit
 }  // end namespace boost
 

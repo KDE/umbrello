@@ -30,18 +30,20 @@
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
-#include <boost/spirit/dynamic/if.hpp>
-#include <boost/spirit/phoenix/functions.hpp>
+#include <boost/spirit/include/classic_if.hpp>
+#include <boost/spirit/include/phoenix1_functions.hpp>
 
 #include "assignFunctor.hpp"
 
 namespace boost {
     namespace spirit {
-        namespace impl {
-            bool isalnum_(QChar const& c) { return isalnum_(c.toAscii()); }
-            bool isalpha_(QChar const& c) { return isalpha_(c.toAscii()); }
-            bool isblank_(QChar const& c) { return isblank_(c.toAscii()); }
-            bool isdigit_(QChar const& c) { return isdigit_(c.toAscii()); }
+        namespace classic {
+            namespace impl {
+                bool isalnum_(QChar const& c) { return isalnum_(c.toAscii()); }
+                bool isalpha_(QChar const& c) { return isalpha_(c.toAscii()); }
+                bool isblank_(QChar const& c) { return isblank_(c.toAscii()); }
+                bool isdigit_(QChar const& c) { return isdigit_(c.toAscii()); }
+            }
         }
     }
 }
@@ -53,7 +55,7 @@ struct tilde : public std::unary_function<_Tp, _Tp> {
     }
 };
 
-using namespace boost::spirit;
+using namespace boost::spirit::classic;
 using phoenix::arg1;
 using phoenix::arg2;
 using phoenix::arg3;
@@ -201,7 +203,7 @@ struct numberLiteral :
 typedef std::pair<QString, int> Dependency;
 
 struct DependencyClosure
-            : boost::spirit::closure<DependencyClosure, QString, int> {
+            : boost::spirit::classic::closure<DependencyClosure, QString, int> {
     member1 m_word;
     member2 m_scope;
 };
