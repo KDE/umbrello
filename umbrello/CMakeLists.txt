@@ -437,7 +437,7 @@ install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-install( FILES umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES
     umbrelloui.rc
     docgenerators/xmi2docbook.xsl
