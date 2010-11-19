@@ -405,7 +405,6 @@ void UMLApp::initActions()
     viewShowGrid = actionCollection()->add<KToggleAction>("view_show_grid");
     viewShowGrid->setText(i18n("S&how Grid"));
     connect(viewShowGrid, SIGNAL( triggered( bool ) ), this, SLOT( slotCurrentViewToggleShowGrid() ));
-    viewShowGrid->setCheckedState(KGuiItem(i18n("&Hide Grid")));
 
     deleteDiagram = actionCollection()->addAction( "view_delete" );
     deleteDiagram->setIcon( Icon_Utils::SmallIcon(Icon_Utils::it_Delete) );
