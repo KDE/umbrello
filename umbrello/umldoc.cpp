@@ -2070,8 +2070,13 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             pkg = m_datatypeRoot;
         } else {
             Uml::Model_Type guess = Model_Utils::guessContainer(pObject);
-            if (guess != Uml::N_MODELTYPES)
+            if (guess != Uml::N_MODELTYPES) {
                 pkg = m_root[guess];
+            }
+            else {
+                uError() << "Guess is Uml::N_MODELTYPES - package not set correctly!";
+                pkg = m_root[Uml::mt_Logical];
+            }
         }
         pObject->setUMLPackage(pkg);
 
@@ -2099,7 +2104,13 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             }
             continue;
         }
-        pkg->addObject(pObject);
+        if (pkg) {
+            pkg->addObject(pObject);
+        }
+        else {
+            uError() << "Package is NULL for " << pObject->name();
+            return false;
+        }
 
         /* FIXME see comment at loadUMLObjectsFromXMI
         emit sigSetStatusbarProgress( ++m_count );

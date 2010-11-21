@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2001      Gustavo Madrigal gmadrigal@nextphere.com      *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,11 +17,10 @@
 // forward declarations
 class UMLObject;
 
-//typedef QPtrList<UMLObject> UMLObjectList;
 typedef QListIterator<UMLObject*> UMLObjectListIt;
 
 /**
- * This sub-class adds copyInto and clone to the QPtrList<UMLObject>
+ * This sub-class adds copyInto and clone to the QList<UMLObject*>
  * base class.
  */
 class UMLObjectList : public QList<UMLObject*>
@@ -31,7 +30,7 @@ public:
     UMLObjectList();
     virtual ~UMLObjectList();
 
-    virtual void copyInto (UMLObjectList *rhs) const;
+    virtual void copyInto(UMLObjectList *rhs) const;
 
     virtual UMLObjectList* clone() const;
 };
