@@ -150,8 +150,8 @@ bool UMLPackage::addObject(UMLObject *pObject)
             }
             addAssocToConcepts(assoc);
         }
-    } else {
-
+    }
+    else {
       QString name = pObject->name();
       QString oldName = name;
       while ( findObject( name ) != NULL  ) {

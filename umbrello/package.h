@@ -56,13 +56,13 @@ public:
     void appendPackages(UMLPackageList& packages, bool includeNested = true);
     void appendClassifiers( UMLClassifierList& classifiers,
                             bool includeNested = true );
-    void appendClasses( UMLClassifierList& classes, bool includeNested = true );
+    void appendClasses(UMLClassifierList& classes, bool includeNested = true);
     void appendClassesAndInterfaces(UMLClassifierList& classifiers,
                                     bool includeNested = true);
     void appendEntities(UMLEntityList& entities,
                         bool includeNested = true);
     void appendInterfaces(UMLClassifierList& interfaces,
-                          bool includeNested = true );
+                          bool includeNested = true);
 
     virtual bool resolveRef();
 
