@@ -42,7 +42,7 @@ public:
     UMLAttribute(UMLObject *parent, const QString& name,
                  Uml::IDType id = Uml::id_None,
                  Uml::Visibility s = Uml::Visibility::Private,
-                 UMLObject *type = 0, const QString& iv = 0);
+                 UMLObject *type = 0, const QString& iv = QString());
 
     /**
      * Sets up an attribute.
