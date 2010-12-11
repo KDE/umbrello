@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,7 +29,7 @@ public:
     UMLEntityAttribute(UMLObject* parent, const QString& name,
                        Uml::IDType id = Uml::id_None,
                        Uml::Visibility s = Uml::Visibility::Private,
-                       UMLObject *type = 0, const QString& iv = 0);
+                       UMLObject *type = 0, const QString& iv = QString());
     UMLEntityAttribute(UMLObject* parent);
     virtual ~UMLEntityAttribute();
 
