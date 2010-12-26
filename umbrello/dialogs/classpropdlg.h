@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2010                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -43,79 +42,36 @@ class ClassPropDlg : public KPageDialog
 {
     Q_OBJECT
 public:
-
-    /**
-     *  Sets up a ClassPropDlg.
-     *
-     *  @param parent    The parent of the ClassPropDlg
-     *  @param c         The UMLObject to display properties of.
-     *  @param assoc     Determines whether to display associations
-     */
     ClassPropDlg(QWidget *parent, UMLObject *c, bool assoc = false);
-
-    /**
-     *  Sets up a ClassPropDlg.
-     *
-     *  @param  parent  The parent of the ClassPropDlg
-     *  @param  o       The ObjectWidget to display properties of.
-     */
     ClassPropDlg(QWidget *parent, ObjectWidget * o);
-
-    /**
-     *  Sets up a ClassPropDlg.
-     *
-     *  @param  parent  The parent of the ClassPropDlg
-     *  @param  o       The UMLWidget to display properties of.
-     */
     ClassPropDlg(QWidget *parent, UMLWidget * o);
 
-
-    /**
-     *  Standard deconstructor.
-     */
     ~ClassPropDlg();
 
     enum Page{page_gen = 0, page_att, page_op, page_entatt, page_constraint , page_template,
               page_assoc, page_options, page_color, page_font};
 
 protected slots:
-
     void slotOk();
-
     void slotApply();
 
 protected:
-
     void setupPages(bool assoc = false);
-
     void setupGeneralPage();
-
     void setupColorPage();
-
     void setupDisplayPage();
-
     void setupAttributesPage();
-
     void setupOperationsPage();
-
     void setupTemplatesPage();
-
     void setupEnumLiteralsPage();
-
     void setupEntityAttributesPage();
-
     void setupEntityConstraintsPage();
-
     void setupContentsPage();
-
     void setupAssociationsPage();
-
     void setupInstancePages();
-
     void setupFontPage();
 
 private:
-
     KFontChooser*        m_pChooser;
     ClassGenPage*        m_pGenPage;
     ClassifierListPage*  m_pAttPage;
@@ -142,7 +98,6 @@ private:
     Page_Type m_Type;
 
 private:
-
     void init();
 
     QFrame* createPage(const QString& name, const QString& header, Icon_Utils::Icon_Type icon);

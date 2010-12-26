@@ -209,6 +209,7 @@ void UMLApp::setProgLangAction(Uml::Programming_Language pl, const QString& name
 /**
  * Initializes the KActions and the status bar of the application 
  * and calls setupGUI().
+ * Note: Check also the file umbrelloui.rc and add actions there too.
  */
 void UMLApp::initActions()
 {
@@ -1860,7 +1861,7 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
                 Settings::OptionState& optionState = Settings::getOptionState();
                 CodeViewerDialog * dialog = currentGen->getCodeViewerDialog(this,cdoc,optionState.codeViewerState);
                 dialog->exec();
-                optionState.codeViewerState = dialog->getState();
+                optionState.codeViewerState = dialog->state();
                 delete dialog;
                 dialog = NULL;
             } else {

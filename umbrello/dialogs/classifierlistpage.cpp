@@ -11,6 +11,7 @@
 #include "classifierlistpage.h"
 
 #include "classifierlistitem.h"
+#include "codetextedit.h"
 #include "umldoc.h"
 #include "classifier.h"
 #include "enum.h"
@@ -221,7 +222,7 @@ void ClassifierListPage::setupDocumentationGroup(int margin)
     docLayout->setMargin(margin);
     if (m_itemType == ot_Operation) {
         m_pDocTE = new KTextEdit();
-        m_pCodeTE = new KTextEdit();
+        m_pCodeTE = new CodeTextEdit();
         KTabWidget* tabWidget = new KTabWidget();
         tabWidget->addTab(m_pDocTE, i18n("Comment"));
         tabWidget->addTab(m_pCodeTE, i18n("Source Code"));
@@ -265,7 +266,7 @@ void ClassifierListPage::enableWidgets(bool state)
     if ( !state ) {
         m_pDocTE->setText( "" );
         if (m_itemType == ot_Operation) {
-            m_pCodeTE->setText( "" );
+            m_pCodeTE->setPlainText( "" );
         }
         m_pTopArrowB->setEnabled( false );
         m_pUpArrowB->setEnabled( false );
@@ -353,7 +354,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
         //now update screen
         m_pDocTE->setText( listItem->doc() );
         if (m_itemType == ot_Operation) {
-            m_pCodeTE->setText( dynamic_cast<UMLOperation*>(listItem)->getSourceCode() );
+            m_pCodeTE->setPlainText( dynamic_cast<UMLOperation*>(listItem)->getSourceCode() );
         }
         enableWidgets(true);
         m_pOldListItem = listItem;

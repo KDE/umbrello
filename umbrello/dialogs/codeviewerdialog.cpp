@@ -52,10 +52,10 @@ void CodeViewerDialog::initGUI ( const char * name)
         setObjectName( "CodeViewerDialog" );
     }
 
-    setFont( getState().font );
+    setFont( state().font );
 
-    m_highlightCheckBox->setChecked( getState().blocksAreHighlighted );
-    m_showHiddenCodeCB->setChecked ( getState().showHiddenBlocks );
+    m_highlightCheckBox->setChecked( state().blocksAreHighlighted );
+    m_showHiddenCodeCB->setChecked ( state().showHiddenBlocks );
 
     int margin = fontMetrics().height();
     CodeViewerDialogBase::gridLayout->setMargin(margin);
@@ -79,7 +79,7 @@ void CodeViewerDialog::addCodeDocument( CodeDocument * doc)
 /**
  * Return the code viewer state.
  */
-Settings::CodeViewerState CodeViewerDialog::getState()
+Settings::CodeViewerState CodeViewerDialog::state()
 {
     return m_state;
 }

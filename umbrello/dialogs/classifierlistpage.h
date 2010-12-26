@@ -18,6 +18,7 @@
 //qt  includes
 #include <QtGui/QWidget>
 
+class CodeTextEdit;
 class ListPopupMenu;
 class UMLObject;
 class UMLClassifier;
@@ -73,18 +74,18 @@ private:
 
     void printItemList(const QString &prologue);
 
-    QGroupBox* m_pDocGB;
-    QGroupBox* m_pItemListGB;
-    KTextEdit* m_pDocTE;
-    KTextEdit* m_pCodeTE;
-    QListWidget* m_pItemListLB;
+    QGroupBox*     m_pDocGB;
+    QGroupBox*     m_pItemListGB;
+    KTextEdit*     m_pDocTE;
+    CodeTextEdit*  m_pCodeTE;
+    QListWidget*   m_pItemListLB;
 
-    QToolButton* m_pTopArrowB;
-    QToolButton* m_pUpArrowB;
-    QToolButton* m_pDownArrowB;
-    QToolButton* m_pBottomArrowB;
+    QToolButton*   m_pTopArrowB;
+    QToolButton*   m_pUpArrowB;
+    QToolButton*   m_pDownArrowB;
+    QToolButton*   m_pBottomArrowB;
 
-    UMLDoc* m_pDoc;
+    UMLDoc*        m_pDoc;
     ListPopupMenu* m_pMenu;
     UMLClassifierListItem* m_pOldListItem;
 
