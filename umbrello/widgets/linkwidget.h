@@ -24,7 +24,7 @@ class UMLScene;
 /**
  * This is an interface realized by AssociationWidget and MessageWidget.
  * The design of this interface was driven by the requirements of
- * class FloatingTextWidget.  As the architecture of Umbrello evolves (for
+ * class FloatingTextWidget. As the architecture of Umbrello evolves (for
  * example, if the class FloatingTextWidget is redesigned), it can be
  * cleaned up.
  *
@@ -42,7 +42,7 @@ public:
      * Abstract operation implemented by inheriting classes.
      * Motivated by FloatingTextWidget::slotMenuSelection(mt_Operation)
      *
-     * @param font              Font to be set.
+     * @param font   Font to be set.
      */
     virtual void lwSetFont(QFont font) = 0;
 
@@ -68,7 +68,7 @@ public:
      */
     virtual void setCustomOpText(const QString &opText) = 0;
 
-    QString operationText(UMLScene *scene = NULL);
+    QString operationText(UMLScene *scene = 0);
 
     virtual void resetTextPositions();
 

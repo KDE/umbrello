@@ -1649,11 +1649,9 @@ void UMLApp::slotApplyPrefs()
                 foreach (UMLView *view, views) {
                     UMLScene *scene = view->umlScene();
                     m_viewStack->removeWidget(view);
-                    m_tabWidget->addTab(view, scene->name());
-                    int tabIndex = m_tabWidget->indexOf(view);
+                    int tabIndex = m_tabWidget->addTab(view, scene->name());
                     m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(scene->type()));
                     m_tabWidget->setTabToolTip(tabIndex, scene->name());
-                    m_tabWidget->setTabWhatsThis(tabIndex, scene->name());
                 }
                 m_layout->addWidget(m_tabWidget);
                 m_tabWidget->show();
@@ -2587,11 +2585,10 @@ void UMLApp::setCurrentView(UMLView* view)
     Settings::OptionState optionState = Settings::getOptionState();
     if (optionState.generalState.tabdiagrams) {
         int tabIndex = m_tabWidget->indexOf(view);
-        if (tabIndex < 0) {
-            m_tabWidget->addTab(view, view->umlScene()->name());
+        if ((tabIndex < 0) && (view->umlScene()->isOpen())) {
+            tabIndex = m_tabWidget->addTab(view, view->umlScene()->name());
             m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(view->umlScene()->type()));
             m_tabWidget->setTabToolTip(tabIndex, view->umlScene()->name());
-            m_tabWidget->setTabWhatsThis(tabIndex, view->umlScene()->name());
         }
         m_tabWidget->setCurrentIndex(tabIndex);
     }
@@ -2608,6 +2605,7 @@ void UMLApp::setCurrentView(UMLView* view)
     if (lvitem) {
         m_listView->setCurrentItem(lvitem);
     }
+    uDebug() << "name=" << view->umlScene()->name() << ", isOpen=" << view->umlScene()->isOpen();
 }
 
 /**

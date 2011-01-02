@@ -112,6 +112,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
     m_bUseSnapToGrid = false;
     m_bUseSnapComponentSizeToGrid = false;
     m_bShowSnapGrid = false;
+    m_isOpen = true;
     m_nSnapX = 10;
     m_nSnapY = 10;
     m_nCollaborationId = 0;
@@ -148,6 +149,9 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
     m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
     m_pDoc = UMLApp::app()->document();
     m_pFolder = parentFolder;
+
+    setBackgroundBrush(QColor(195, 195, 195));
+    m_gridColor = Qt::gray;
 }
 
 /**
@@ -270,6 +274,16 @@ void UMLScene::setPos(const QPointF &pos)
     m_Pos = pos;
 }
 
+QColor UMLScene::gridDotColor() const
+{
+    return m_gridColor;
+}
+
+void UMLScene::setGridDotColor(const QColor &gridColor)
+{
+    m_gridColor = gridColor;
+}
+
 /**
  * Return whether we are currently creating an object.
  */
@@ -284,6 +298,16 @@ bool UMLScene::getCreateObject() const
 void UMLScene::setCreateObject(bool bCreate)
 {
     m_bCreateObject = bCreate;
+}
+
+bool UMLScene::isOpen() const
+{
+    return m_isOpen;
+}
+
+void UMLScene::setIsOpen(bool isOpen)
+{
+    m_isOpen = isOpen;
 }
 
 /**
@@ -711,7 +735,6 @@ void UMLScene::dragMoveEvent(QGraphicsSceneDragDropEvent* e)
 {
     e->accept();
 }
-
 
 /**
  * Override standard method.
@@ -1215,10 +1238,9 @@ void UMLScene::clearSelected()
     clearSelection();
 }
 
-//TODO Only used in UMLApp::handleCursorKeyReleaseEvent
-
 /**
  * Move all the selected widgets by a relative X and Y offset.
+ * TODO: Only used in UMLApp::handleCursorKeyReleaseEvent
  *
  * @param dX The distance to move horizontally.
  * @param dY The distance to move vertically.
@@ -1727,7 +1749,7 @@ AssociationWidgetList UMLScene::getSelectedAssocs()
  * Adds a widget to the view from the given data.
  * Use this method when pasting.
  */
-bool UMLScene::addWidget(UMLWidget * pWidget , bool isPasteOperation)
+bool UMLScene::addWidget(UMLWidget * pWidget, bool isPasteOperation)
 {
     if (!pWidget) {
         return false;
@@ -3693,7 +3715,9 @@ void UMLScene::updateComponentSizes()
  */
 void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
 {
+    Q_UNUSED(painter);
     foreach(UMLWidget *obj , m_WidgetList) {
+        Q_UNUSED(obj);  //:TODO:
         //[PORT]
         //obj->forceUpdateFontMetrics(painter);
     }
@@ -3734,8 +3758,9 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("snapy", m_nSnapY);
     viewElement.setAttribute("canvasheight", height());
     viewElement.setAttribute("canvaswidth", width());
-    //now save all the widgets
+    viewElement.setAttribute("isopen", isOpen());
 
+    //now save all the widgets
     QDomElement widgetElement = qDoc.createElement("widgets");
     foreach(UMLWidget *widget , m_WidgetList) {
         // Having an exception is bad I know, but gotta work with
@@ -3841,6 +3866,9 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString width = qElement.attribute("canvaswidth", QString("%1").arg(DEFAULT_CANVAS_SIZE));
     qreal canvasWidth = width.toDouble();
     setSceneRect(0, 0, canvasWidth, canvasHeight);
+
+    QString isOpen = qElement.attribute("isopen", "1");
+    m_isOpen = (bool)isOpen.toInt();
 
     int nType = type.toInt();
     if (nType == -1 || nType >= 400) {

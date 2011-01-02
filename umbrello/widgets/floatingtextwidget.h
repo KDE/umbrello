@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,14 +12,14 @@
 #define FLOATINGTEXTWIDGET_H
 
 #include "umlwidget.h"
-#include "linkwidget.h"
 
+class LinkWidget;
 class UMLScene;
 
 /**
  * @short Displays a line of text or an operation.
  *
- * This is a multipurpose class.  In its simplest form it will display a
+ * This is a multipurpose class. In its simplest form it will display a
  * line of text.
  * It can also be setup to be the text for an operation with regard to the
  * @ref MessageWidget on the sequence diagram.
@@ -41,7 +41,8 @@ class FloatingTextWidget : public UMLWidget
     Q_OBJECT
 public:
 
-    /** sometimes the x/y values get numbers of <0 and >10000 - which
+    /** TODO:
+        sometimes the x/y values get numbers of <0 and >10000 - which
         is probably due to a bug somewhere in calculating the
         position.  ->workaround till problem is found: define min and
         max limits => if x or y is outside of interval, the position
@@ -70,16 +71,10 @@ public:
     void showOperationDialog();
     virtual void showPropertiesDialog();
 
-    /// @return The LinkWidget this floating text is related to.
-    LinkWidget* link() const {
-        return m_linkWidget;
-    }
+    LinkWidget* link() const;
     void setLink(LinkWidget * l);
 
-    /// @return The Text_Role of this FloatingTextWidget.
-    Uml::Text_Role textRole() const {
-        return m_textRole;
-    }
+    Uml::Text_Role textRole() const;
     void setTextRole(Uml::Text_Role role);
 
     void handleRename();
@@ -116,12 +111,11 @@ private:
     QString m_text;
     /// Prepended text (such as for scope of association Role or method)
     QString m_preText;
-
     /// Ending text (such as bracket on changability notation for association Role)
     QString m_postText;
-
     /// The role the text widget will enact.
     Uml::Text_Role m_textRole;
+
 };
 
 #endif

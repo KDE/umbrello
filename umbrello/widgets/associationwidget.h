@@ -22,6 +22,7 @@ class ClassifierWidget;
 class FloatingTextWidget;
 class UMLAssociation;
 class UMLAttribute;
+class UMLClassifierListItem;
 class UMLWidget;
 
 struct WidgetRole
@@ -33,9 +34,9 @@ struct WidgetRole
     UMLWidget *umlWidget;
 
     // The following are used only in case of absence of UMLObject
-    Uml::Visibility visibility;
+    Uml::Visibility         visibility;
     Uml::Changeability_Type changeability;
-    QString roleDocumentation;
+    QString                 roleDocumentation;
 
     WidgetRole();
     ~WidgetRole();
@@ -81,6 +82,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual void calculateNameTextSegment();
 
         //---------- End LinkWidget Interface methods implemementation.
+
         UMLAssociation* association() const;
         UMLAttribute* attribute() const;
 
@@ -138,7 +140,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget*);
 
         bool loadFromXMI(QDomElement& element, const UMLWidgetList &list,
-                const MessageWidgetList* messages);
+                         const MessageWidgetList* messages);
         virtual bool loadFromXMI(QDomElement& element);
         virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
@@ -147,6 +149,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 
     protected Q_SLOTS:
         virtual void slotUMLObjectDataChanged();
+        virtual void slotClassifierListItemRemoved(UMLClassifierListItem* classifierItem);
 
     protected:
         virtual void updateGeometry();
@@ -168,8 +171,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 
     private:
         void init();
-        void setFloatingText(Uml::Text_Role tr, const QString& text,
-                FloatingTextWidget* &ft);
+        void setFloatingText(Uml::Text_Role tr, const QString& text, FloatingTextWidget* ft);
         QPointF calculateTextPosition(Uml::Text_Role tr);
         void setTextPosition(Uml::Text_Role tr);
         void updateNameWidgetRole();
@@ -187,4 +189,3 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 };
 
 #endif
-

@@ -252,8 +252,10 @@ void UMLListViewItem::setVisible(bool state)
  */
 Uml::IDType UMLListViewItem::getID() const
 {
-    if (m_pObject)
+    if (m_pObject) {
+        uDebug() << "name=" << m_pObject->name();  //:TODO:
         return m_pObject->id();
+    }
     return m_nId;
 }
 

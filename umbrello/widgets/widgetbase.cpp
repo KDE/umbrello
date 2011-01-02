@@ -100,7 +100,8 @@ struct WidgetInterfaceData
  * @note The widget's visual properties are best to be set by the
  *       Widget_Factory::createWidget method.
  */
-WidgetBase::WidgetBase(UMLObject *object) :
+WidgetBase::WidgetBase(UMLObject *object)
+  : QGraphicsObject(),
     m_umlObject(object),
     m_lineColor(awesomeLineColor()),
     m_lineWidth(0),
@@ -837,8 +838,8 @@ void WidgetBase::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     }
 
     const QPointF pos = scenePos();
-    qElement.setAttribute("x", pos.x());
-    qElement.setAttribute("y", pos.y());
+    qElement.setAttribute("x", qRound(pos.x()));
+    qElement.setAttribute("y", qRound(pos.y()));
 }
 
 /**

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,6 +16,7 @@
 #include "associationspacemanager.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "classifierlistitem.h"
 #include "classifierwidget.h"
 #include "assocpropdlg.h"
 #include "entity.h"
@@ -32,19 +33,28 @@
 #include <klocale.h>
 #include <kcolordialog.h>
 
-#include <QPointer>
-#include <QRegExpValidator>
+#include <QtCore/QPointer>
+#include <QtGui/QRegExpValidator>
 
 #include <cmath>
 
+/**
+ * Default constructor for WidgetRole.
+ */
 WidgetRole::WidgetRole()
+  : multiplicityWidget(0),
+    changeabilityWidget(0),
+    roleWidget(0),
+    umlWidget(0),
+    visibility(Uml::Visibility::Public),
+    changeability(Uml::chg_Changeable),
+    roleDocumentation(QString())
 {
-    multiplicityWidget = changeabilityWidget = roleWidget = 0;
-    umlWidget = 0;
-    visibility = Uml::Visibility::Public;
-    changeability = Uml::chg_Changeable;
 }
 
+/**
+ * Destructor for WidgetRole.
+ */
 WidgetRole::~WidgetRole()
 {
     // 1) FloatingTextWidgets are deleted by ~QGraphicsItem as
@@ -53,6 +63,11 @@ WidgetRole::~WidgetRole()
     //    WidgetRole and hence not deleted either.
 }
 
+/**
+ * Initialisation of floating widgets.
+ * @param role     the role A or B
+ * @param parent   the parent association widget
+ */
 void WidgetRole::initFloatingWidgets(Uml::Role_Type role, AssociationWidget *parent)
 {
     Uml::Text_Role textRole = (role == Uml::A ? Uml::tr_MultiA : Uml::tr_MultiB);
@@ -70,31 +85,38 @@ void WidgetRole::initFloatingWidgets(Uml::Role_Type role, AssociationWidget *par
     roleWidget = new FloatingTextWidget(textRole);
     roleWidget->setLink(parent);
 
-    // TODO: Activation of floating text widgets
+    //TODO: Activation of floating text widgets
 }
 
-
-AssociationWidget::AssociationWidget() : WidgetBase(0)
+/**
+ * Default constructor.
+ */
+AssociationWidget::AssociationWidget()
+  : WidgetBase(0)
 {
     init();
 }
 
+/**
+ * Constructor.
+ */
 AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type type,
-        UMLWidget *widgetB, UMLObject *umlObj) :
-    WidgetBase(0) // Set UMLObject in body
+                                     UMLWidget *widgetB, UMLObject *umlObj)
+  : WidgetBase(0) // Set UMLObject in body
 {
     init();
     const bool doNotNotifyAsSlot = false;
     if (umlObj) {
         setUMLObject(umlObj, doNotNotifyAsSlot);
-    } else if (UMLAssociation::assocTypeHasUMLRepresentation(type)) {
+    }
+    else if (UMLAssociation::assocTypeHasUMLRepresentation(type)) {
         UMLObject *objectA = widgetA->umlObject();
         UMLObject *objectB = widgetB->umlObject();
 
         if (objectA && objectB) {
              bool swap = false;
 
-             // THis isnt correct. We could very easily have more than one
+             // This is not correct. We could very easily have more than one
              // of the same type of association between the same two objects.
              // Just create the association. This search should have been
              // done BEFORE creation of the widget, if it mattered to the code.
@@ -124,7 +146,7 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
     setWidgets(widgetA, widgetB);
     setAssociationType(type);
 
-    // TODO: Probably move this calculation to slotInit.
+    //TODO: Probably move this calculation to slotInit.
     m_associationLine->calculateInitialEndPoints();
     m_associationLine->reconstructSymbols();
 
@@ -134,6 +156,9 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
     updateNameWidgetRole();
 }
 
+/**
+ * Destructor.
+ */
 AssociationWidget::~AssociationWidget()
 {
     delete m_associationLine;
@@ -196,6 +221,11 @@ void AssociationWidget::setUMLObject(UMLObject *obj, bool notifyAsSlot)
     WidgetBase::setUMLObject(obj, notifyAsSlot);
 }
 
+void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* classifierItem)
+{
+    uDebug() << "TODO - " << classifierItem->name();
+}
+
 void AssociationWidget::lwSetFont(QFont font)
 {
     WidgetBase::setFont(font);
@@ -212,7 +242,6 @@ UMLClassifier *AssociationWidget::operationOwner()
     }
     return c;
 }
-
 
 UMLOperation *AssociationWidget::operation()
 {
@@ -413,12 +442,11 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textW
             uError() << "unexpected Text_Role " << tr;
             return;
     }
-    /* Constraint:
-       The midpoint between p0 and p1 is taken to be the center of a circle
-       with radius D/2 where D is the distance between p0 and p1.
-       The text center needs to be within this circle else it is constrained
-       to the nearest point on the circle.
-     */
+    // Constraint:
+    // The midpoint between p0 and p1 is taken to be the center of a circle
+    // with radius D/2 where D is the distance between p0 and p1.
+    // The text center needs to be within this circle else it is constrained
+    // to the nearest point on the circle.
     const QPointF mid = (p0 + p1) / 2.0;
     const qreal radius = QLineF(p0, mid).length();
 
@@ -935,7 +963,7 @@ bool AssociationWidget::activate()
     // of both widgetForRole(Uml::A) and widgetForRole(Uml::B).
     setWidgets(widgetForRole(Uml::A), widgetForRole(Uml::B));
 
-    // TODO: Check whether this comment should be removed.
+    //TODO: Check whether this comment should be removed.
     m_associationLine->calculateEndPoints();
 
     if (AssocRules::allowRole(type)) {
@@ -1123,8 +1151,8 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
 
     setAssociationType(aType);
 
-    // TODO: Check if its needed anymore
 #if 0
+//TODO: Check if its needed anymore
     QString indexa = qElement.attribute("indexa", "0");
     QString indexb = qElement.attribute("indexb", "0");
     QString totalcounta = qElement.attribute("totalcounta", "0");
@@ -1144,8 +1172,8 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
             m_associationClass->setClassAssociationWidget(this);
             // Preparation of the assoc class line is done in activate()
             QString aclsegindex = qElement.attribute("aclsegindex", "0");
-            //TODO: Fix after implementing segment support for classifier line.
 #if 0
+//TODO: Fix after implementing segment support for classifier line.
             m_nLinePathSegmentIndex = aclsegindex.toInt();
 #endif
         } else {
@@ -1162,8 +1190,8 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
             if (m_associationLine->loadFromXMI(element) == false) {
                 return false;
             } else {
-                //TODO: Check whether following can be removed.
 #if 0
+//TODO: Check whether following can be removed.
                 // set up 'old' corner from first point in line
                 // as IF this ISNT done, then the subsequent call to
                 // widgetMoved will inadvertantly think we have made a
@@ -1198,6 +1226,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
             // Changes from TRUNK(before soc branch merge) version:
             // We use ft directly as there is no point in fetching the same pointer
             // by calling specific multiplicityWidget like methods.
+            uDebug() << "oldStyleLoad = " << oldStyleLoad;
             if (ft) {
                 switch(role) {
                     case Uml::tr_MultiA:
@@ -1238,8 +1267,8 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
 
                     default:
                         uDebug() << "unexpected FloatingTextWidget (textrole " << role << ")";
-                        //TODO: Investigate this delete. Firstly, is this reachable ?
 #if 0
+//TODO: Investigate this delete. Firstly, is this reachable ?
                         delete ft;
 #endif
                         break;
@@ -1287,8 +1316,8 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     }
     assocElement.setAttribute("widgetaid", ID2STR(widgetIDForRole(Uml::A)));
     assocElement.setAttribute("widgetbid", ID2STR(widgetIDForRole(Uml::B)));
-    //TODO: Port
 #if 0
+//TODO: Port
     assocElement.setAttribute("indexa", m_role[A].m_nIndex);
     assocElement.setAttribute("indexb", m_role[B].m_nIndex);
     assocElement.setAttribute("totalcounta", m_role[A].m_nTotalCount);
@@ -1296,19 +1325,19 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 #endif
     m_associationLine->saveToXMI(qDoc, assocElement);
 
-    if(m_nameWidget->hasValidText()) {
+    if (m_nameWidget->hasValidText()) {
         m_nameWidget->saveToXMI(qDoc, assocElement);
     }
 
-    if(multiplicityWidget(Uml::A)->hasValidText()) {
+    if (multiplicityWidget(Uml::A)->hasValidText()) {
         multiplicityWidget(Uml::A)->saveToXMI(qDoc, assocElement);
     }
 
-    if(multiplicityWidget(Uml::B)->hasValidText()) {
+    if (multiplicityWidget(Uml::B)->hasValidText()) {
         multiplicityWidget(Uml::B)->saveToXMI(qDoc, assocElement);
     }
 
-    if(roleWidget(Uml::A)->hasValidText()) {
+    if (roleWidget(Uml::A)->hasValidText()) {
         roleWidget(Uml::A)->saveToXMI(qDoc, assocElement);
     }
 
@@ -1327,8 +1356,8 @@ void AssociationWidget::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
     if (m_associationClass) {
         QString acid = ID2STR(m_associationClass->id());
         assocElement.setAttribute("assocclass", acid);
-        //TODO: port
 #if 0
+//TODO: port
         assocElement.setAttribute("aclsegindex", m_nLinePathSegmentIndex);
 #endif
     }
@@ -1379,8 +1408,8 @@ void AssociationWidget::slotMenuSelection(QAction *action)
             break;
 
         case ListPopupMenu::mt_Delete:
-            //TODO:
 #if 0
+//TODO:
             if (m_pAssocClassLineSel0)
                 removeAssocClassLine();
             else if (getAssociation())
@@ -1452,23 +1481,23 @@ void AssociationWidget::slotMenuSelection(QAction *action)
             break;
 
         case ListPopupMenu::mt_Cut:
-            // TODO:
 #if 0
+// TODO:
             m_pView->setStartedCut();
             UMLApp::app()->slotEditCut();
 #endif
             break;
 
         case ListPopupMenu::mt_Copy:
-            // TODO:
 #if 0
+// TODO:
             UMLApp::app()->slotEditCopy();
 #endif
             break;
 
         case ListPopupMenu::mt_Paste:
-            // TODO:
 #if 0
+// TODO:
             UMLApp::app()->slotEditPaste();
 #endif
             break;
@@ -1714,7 +1743,7 @@ void AssociationWidget::init()
     setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
 }
 
-void AssociationWidget::setFloatingText(Uml::Text_Role tr, const QString& text, FloatingTextWidget* &ft)
+void AssociationWidget::setFloatingText(Uml::Text_Role tr, const QString& text, FloatingTextWidget* ft)
 {
     if (! FloatingTextWidget::isTextValid(text)) {
         // FloatingTextWidgets are no longer deleted/reconstructed to make it easier.
@@ -1723,11 +1752,8 @@ void AssociationWidget::setFloatingText(Uml::Text_Role tr, const QString& text, 
         return;
     }
 
-    bool wasHidden = !(ft->isVisible());
     ft->setText(text);
-    if (wasHidden) {
-        setTextPosition(tr);
-    }
+    setTextPosition(tr);
 }
 
 QPointF AssociationWidget::calculateTextPosition(Uml::Text_Role role)
@@ -1817,6 +1843,7 @@ QPointF AssociationWidget::calculateTextPosition(Uml::Text_Role role)
         constrainTextPos(x, y, textW, textH, role);
     }
     p = QPointF( x, y );
+    uDebug() << "set to [" << p.x() << ", " << p.y() << "].";  //:TODO:
     return p;
 }
 
@@ -1833,12 +1860,13 @@ void AssociationWidget::setTextPosition(Uml::Text_Role tr)
     }
     QPointF pos = calculateTextPosition(tr);
     if ( (pos.x() < 0.0 || pos.x() > FloatingTextWidget::restrictPositionMax) ||
-            (pos.y() < 0 || pos.y() > FloatingTextWidget::restrictPositionMax) ) {
+            (pos.y() < 0.0 || pos.y() > FloatingTextWidget::restrictPositionMax) ) {
         uDebug() << "(x=" << pos.x() << " , y=" << pos.y() << ") "
             << "- was blocked because at least one value is out of bounds: ["
             << "0 ... " << FloatingTextWidget::restrictPositionMax << "]";
         return;
     }
+    uDebug() << "set to [" << pos.x() << ", " << pos.y() << "].";  //:TODO:
     ft->setPos(pos);
 }
 

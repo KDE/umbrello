@@ -178,10 +178,7 @@ protected:
     TextItemGroup* textItemGroupAt(int index) const;
     virtual void updateTextItemGroups();
 
-    /**
-     * List of TextItemGroup , which manages various texts for this
-     * widget.
-     */
+    /// List of TextItemGroup, which manages various texts for this widget.
     QList<TextItemGroup*> m_textItemGroups;
 
 public Q_SLOTS:

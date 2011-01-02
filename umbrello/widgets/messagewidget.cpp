@@ -256,7 +256,7 @@ UMLClassifier * MessageWidget::seqNumAndOp(QString& seqNum, QString& op)
 }
 
 /**
- * Overrides operation from LinkWidget.  Required by
+ * Overrides operation from LinkWidget. Required by
  * FloatingTextWidget.
  *
  * @param seqNum   The new sequence number string to set.
@@ -281,6 +281,8 @@ void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
 void MessageWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
                                      Uml::Text_Role tr)
 {
+    Q_UNUSED(textX); Q_UNUSED(textY);  //:TODO:
+    Q_UNUSED(textWidth); Q_UNUSED(textHeight); Q_UNUSED(tr);
     // textX = constrainedX(textX, textWidth, tr);
     // // Constrain Y.
     // const qreal minTextY = getMinY();
@@ -895,6 +897,7 @@ void MessageWidget::drawLost(QPainter *painter)
 
 void MessageWidget::drawCreation(QPainter *painter)
 {
+    Q_UNUSED(painter);  //:TODO:
     // qreal x1 = m_objectWidgets[Uml::A]->x();
     // qreal x2 = m_objectWidgets[Uml::B]->x();
     // qreal w = width() - 1;

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,6 +17,7 @@
 #include "cmds.h"
 #include "assocpropdlg.h"
 #include "selectopdlg.h"
+#include "linkwidget.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
 #include "model_utils.h"
@@ -45,9 +46,9 @@ const qreal FloatingTextWidget::restrictPositionMax = 3000;
 /**
  * Constructs a FloatingTextWidget instance.
  *
- * @param role The role this FloatingTextWidget will take up.
- * @param text The main text to display.
- * @param id The ID to assign (-1 will prompt a new ID.)
+ * @param role the role this FloatingTextWidget will take up
+ * @param text the main text to display
+ * @param id   the ID to assign (-1 will prompt a new ID)
  */
 FloatingTextWidget::FloatingTextWidget(Uml::Text_Role role,
                                        Uml::IDType id)
@@ -64,11 +65,17 @@ FloatingTextWidget::FloatingTextWidget(Uml::Text_Role role,
     setZValue(10); //make sure always on top.
 }
 
+/**
+ * Destructor.
+ */
 FloatingTextWidget::~FloatingTextWidget()
 {
 }
 
-/// @return Main body text to display
+/**
+ * Return the text.
+ * @return main body text to display
+ */
 QString FloatingTextWidget::text() const
 {
     // test to make sure not just the ":" between the seq number and
@@ -78,10 +85,11 @@ QString FloatingTextWidget::text() const
     // using pre-, post- text instead of storing in the main body of
     // the text -b.t.
     QString n = m_text;
-    if(m_textRole == Uml::tr_Seq_Message || m_textRole == Uml::tr_Seq_Message_Self ||
-            m_textRole == Uml::tr_Coll_Message || m_textRole == Uml::tr_Coll_Message_Self) {
-        if(n.length() <= 1 || n == ": ")
+    if (m_textRole == Uml::tr_Seq_Message  || m_textRole == Uml::tr_Seq_Message_Self ||
+        m_textRole == Uml::tr_Coll_Message || m_textRole == Uml::tr_Coll_Message_Self) {
+        if (n.length() <= 1 || n == ": ") {
             return QString();
+        }
     }
     return n;
 }
@@ -113,13 +121,14 @@ void FloatingTextWidget::setText(const QString &t)
     }
 
     m_text = text;
-    bool makeVisible = FloatingTextWidget::isTextValid(m_text);
+    bool makeVisible = isTextValid(m_text);
     // Hide/Show this widget if its <Empty>/<Non Empty>
     setVisible(makeVisible);
     if (makeVisible) {
         updateTextItemGroups();
         if (!wasVisible && m_linkWidget && umlScene()) {
-            qreal x = 3000, y = 3000;
+            qreal x = 3000;
+            qreal y = 3000;
             m_linkWidget->constrainTextPos(x, y, width(), height(), textRole());
             setPos(QPointF(x, y));
         }
@@ -287,14 +296,37 @@ void FloatingTextWidget::setLink(LinkWidget *link)
     updateTextItemGroups();
 }
 
-/// Sets the role of this FloatingTextWidget to \a role.
+/**
+ * Return the link widget.
+ * @return the LinkWidget this floating text is related to
+ */
+LinkWidget* FloatingTextWidget::link() const
+{
+    return m_linkWidget;
+}
+
+/**
+ * Sets the role of this FloatingTextWidget to \a role.
+ * @param role   the new role
+ */
 void FloatingTextWidget::setTextRole(Uml::Text_Role role)
 {
     m_textRole = role;
     updateTextItemGroups();
 }
 
-/// Handles renaming based on the text role of this widget.
+/**
+ * Return the text role of this FloatingTextWidget.
+ * @return the Text_Role of this FloatingTextWidget
+ */
+Uml::Text_Role FloatingTextWidget::textRole() const
+{
+    return m_textRole;
+}
+
+/**
+ * Handles renaming based on the text role of this widget.
+ */
 void FloatingTextWidget::handleRename()
 {
     QRegExpValidator v(QRegExp(".*"), 0);
@@ -325,7 +357,10 @@ void FloatingTextWidget::handleRename()
     UMLApp::app()->executeCommand(new Uml::CmdHandleRename(this, newText));
 }
 
-/// Changes the text of linked widget.
+/**
+ * Changes the text of linked widget.
+ * @param newText   the new text
+ */
 void FloatingTextWidget::changeName(const QString& newText)
 {
     if (m_linkWidget && !isTextValid(newText)) {
@@ -389,7 +424,7 @@ bool FloatingTextWidget::hasValidText() const
 
 /**
  * For a text to be valid it must be non-empty, i.e. have a length
- * larger that zero, and have at least one non whitespace character.
+ * larger than zero, and have at least one non whitespace character.
  *
  * @param text The string to analyze.
  * @return True if the given text is valid.
@@ -439,8 +474,8 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
     // CAVEAT: The caller should not interpret the false return value
     //  as an indication of failure since previous umbrello versions
     //  saved lots of these empty FloatingTexts.
-    bool isDummy = (m_preText.isEmpty() && m_postText.isEmpty());
-    return !isDummy;
+    bool usefullWidget = !(m_text.isEmpty() && m_preText.isEmpty() && m_postText.isEmpty());
+    return usefullWidget;
 }
 
 /**
@@ -489,6 +524,10 @@ void FloatingTextWidget::updateTextItemGroups()
     UMLWidget::updateTextItemGroups();
 }
 
+/**
+ * Reimplemented from UMLWidget::itemChange to notify custom items that some part of
+ * the item's state changes.
+ */
 QVariant FloatingTextWidget::itemChange(GraphicsItemChange change, const QVariant& newValue)
 {
     UMLScene *scene = umlScene();
@@ -526,6 +565,9 @@ QVariant FloatingTextWidget::attributeChange(WidgetAttributeChange change, const
     return UMLWidget::attributeChange(change, oldValue);
 }
 
+/**
+ * Event handler for context menu event.
+ */
 void FloatingTextWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(m_linkWidget);

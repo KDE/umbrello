@@ -27,7 +27,8 @@ class UMLClassifier;
  * @author Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLClassifierListItem : public UMLObject {
+class UMLClassifierListItem : public UMLObject
+{
     Q_OBJECT
 public:
 

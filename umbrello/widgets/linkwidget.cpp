@@ -41,8 +41,14 @@ UMLClassifier *LinkWidget::operationOwner()
     return static_cast<UMLClassifier*>(op->parent());
 }
 
-// [PORT] May be make the param scene instead of view.
-QString LinkWidget::operationText(UMLScene *scene /* = NULL */)
+/**
+ * Return the operation text.
+ * When no scene parameter is given, the scene of the current view
+ * is taken instead.
+ * @param scene   the given scene
+ * @return the operation text
+ */
+QString LinkWidget::operationText(UMLScene *scene)
 {
     UMLOperation *op = operation();
     if (op == NULL)

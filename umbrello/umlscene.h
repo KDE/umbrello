@@ -61,13 +61,13 @@ public:
 
     UMLFolder* folder() const; 
     void setFolder(UMLFolder *folder);
- 
+
     QString documentation() const;
     void setDocumentation(const QString &doc);
- 
+
     QString name() const;
     void setName(const QString &name);
- 
+
     Uml::Diagram_Type type() const;
     void setType(Uml::Diagram_Type type);
 
@@ -77,9 +77,12 @@ public:
     QPointF pos() const;
     void setPos(const QPointF &pos);
 
+    QColor gridDotColor() const;
+    void setGridDotColor(const QColor &gridColor);
+
     QColor fillColor() const;
     void setFillColor(const QColor &color);
- 
+
     /**
      * Returns the default brush for diagram widgets.
      */
@@ -96,7 +99,7 @@ public:
 
     QColor textColor() const;
     void setTextColor(const QColor& color);
- 
+
     bool getSnapToGrid() const;
     void setSnapToGrid(bool bSnap);
 
@@ -129,6 +132,9 @@ public:
     AssociationWidgetList& associationList();
     UMLWidgetList& widgetList();
     MessageWidgetList& messageList();
+
+    bool isOpen() const;
+    void setIsOpen(bool isOpen);
 
     // End of accessors and methods that only deal with loaded/saved data
     ////////////////////////////////////////////////////////////////////////
@@ -332,6 +338,7 @@ protected:
     bool m_bUseSnapToGrid;  ///< Flag to use snap to grid. The default is off.
     bool m_bUseSnapComponentSizeToGrid;  ///< Flag to use snap to grid for component size. The default is off.
     bool m_bShowSnapGrid;  ///< Flag to show the snap grid. The default will be on if the grid is on.
+    bool m_isOpen;
 
     // End of methods and members related to loading/saving
     ////////////////////////////////////////////////////////////////////////
@@ -394,6 +401,7 @@ private:
     QPointF m_PastePoint;           ///< The offset at which to paste the clipboard.
     UMLDoc* m_pDoc;                 ///< Pointer to the UMLDoc.
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
+    QColor    m_gridColor;          ///< Color for the grid dots.
 
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
