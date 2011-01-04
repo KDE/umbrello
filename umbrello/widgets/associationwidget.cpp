@@ -150,7 +150,6 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
     m_associationLine->calculateInitialEndPoints();
     m_associationLine->reconstructSymbols();
 
-
     Q_ASSERT(widgetA->umlScene() == widgetB->umlScene());
 
     updateNameWidgetRole();
@@ -265,6 +264,7 @@ void AssociationWidget::setCustomOpText(const QString &opText)
 
 void AssociationWidget::resetTextPositions()
 {
+    uDebug() << "called";
     if (m_widgetRole[Uml::A].multiplicityWidget) {
         setTextPosition( Uml::tr_MultiA );
     }
@@ -575,7 +575,6 @@ bool AssociationWidget::isEqual(AssociationWidget *other) const
     // That is the reason why collaboration messages have strange initial names like
     // "m29997" or similar.
     return (name() == other->name());
-
 }
 
 FloatingTextWidget* AssociationWidget::multiplicityWidget(Uml::Role_Type role) const
@@ -892,7 +891,6 @@ QString AssociationWidget::toString() const
     QString string;
     static const QChar colon(':');
 
-
     if (widgetForRole(Uml::A)) {
         string = widgetForRole(Uml::A)->name();
     }
@@ -1001,6 +999,19 @@ bool AssociationWidget::activate()
 
     // Prepare the association class line if needed.
     m_associationLine->calculateAssociationClassLine();
+
+    // Set the text positions only if one label has zero position
+    //:TODO: Remove this, when improved initialisation is done.
+    const QPointF zeroPos = QPointF(0.0, 0.0);
+    if ((m_widgetRole[Uml::A].multiplicityWidget->pos()  == zeroPos) ||
+        (m_widgetRole[Uml::B].multiplicityWidget->pos()  == zeroPos) ||
+        (m_widgetRole[Uml::A].changeabilityWidget->pos() == zeroPos) ||
+        (m_widgetRole[Uml::B].changeabilityWidget->pos() == zeroPos) ||
+        (m_nameWidget->pos()                             == zeroPos) ||
+        (m_widgetRole[Uml::A].roleWidget->pos()          == zeroPos) ||
+        (m_widgetRole[Uml::B].roleWidget->pos()          == zeroPos)) {
+        resetTextPositions();
+    }
 
     return WidgetBase::activate();
 }
