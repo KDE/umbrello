@@ -38,6 +38,13 @@
 #include <QtGui/QHBoxLayout>
 
 
+/**
+ *  Sets up a ClassPropDlg.
+ *
+ *  @param parent    The parent of the ClassPropDlg
+ *  @param c         The UMLObject to display properties of.
+ *  @param assoc     Determines whether to display associations
+ */
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, bool assoc)
         : KPageDialog(parent)
 {
@@ -52,6 +59,12 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, bool assoc)
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
+/**
+ *  Sets up a ClassPropDlg.
+ *
+ *  @param  parent  The parent of the ClassPropDlg
+ *  @param  o       The ObjectWidget to display properties of.
+ */
 ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
         : KPageDialog(parent)
 {
@@ -70,6 +83,12 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
+/**
+ *  Sets up a ClassPropDlg.
+ *
+ *  @param  parent  The parent of the ClassPropDlg
+ *  @param  o       The UMLWidget to display properties of.
+ */
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget *w)
         : KPageDialog(parent)
 {
@@ -124,6 +143,9 @@ void ClassPropDlg::init()
     m_pDoc = UMLApp::app()->document();
 }
 
+/**
+ *  Standard destructor.
+ */
 ClassPropDlg::~ClassPropDlg()
 {
 }
@@ -383,6 +405,5 @@ void ClassPropDlg::setupFontPage()
     m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
     m_pChooser->setFont( m_pWidget->font() );
 }
-
 
 #include "classpropdlg.moc"

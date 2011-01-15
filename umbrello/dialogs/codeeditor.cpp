@@ -90,7 +90,7 @@ void CodeEditor::clearText()
 
 Settings::CodeViewerState CodeEditor::getState()
 {
-    return m_parentDlg->getState();
+    return m_parentDlg->state();
 }
 
 QLabel * CodeEditor::getComponentLabel()

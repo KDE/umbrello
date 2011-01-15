@@ -1,12 +1,22 @@
 add_subdirectory( pics )
 add_subdirectory( headings )
 
-add_definitions (-DQT3_SUPPORT_WARNINGS)
+add_definitions(-DQT3_SUPPORT_WARNINGS)
+
+# Some definitions for experimental code or debugging
+#add_definitions(-DWANT_LVTOOLTIP)                # umllistiew
+#add_definitions(-DXMI_FLAT_PACKAGES)             # umlobject
+#add_definitions(-DDEBUG_LVITEM_INSERTION_ORDER)  # umllistviewitem
+#add_definitions(-DTRY_BUGFIX_120682)             # model_utils
+#add_definitions(-DQ_CC_MSVC)                     # preprocesslexer
+#add_definitions(-DDEBUG_PRINTING)                # umlview
+#add_definitions(-DVERBOSE_DEBUGGING)             # listpopupmenu, association, petaltree2uml,
+                                                  # umlobject, umldoc, classifierlistpage
 
 # Some Boost require exceptions
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 
-include_directories (
+include_directories(
   ${LIBXML2_INCLUDE_DIR}
   ${LIBXSLT_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
@@ -163,6 +173,8 @@ set(libdialogs_SRCS
     dialogs/codegenerationpolicypage.cpp
     dialogs/codeviewerdialog.cpp
     dialogs/codevieweroptionspage.cpp
+    dialogs/codetextedit.cpp
+    dialogs/codetexthighlighter.cpp
     dialogs/defaultcodegenpolicypage.cpp
     dialogs/diagramprintpage.cpp
     dialogs/dialog_utils.cpp
