@@ -227,10 +227,8 @@ private:
     bool m_usesDiagramFont:1;
     bool m_usesDiagramTextColor:1;
 
-    /**
-     * Disable the copy constructor and assignment operator.
-     */
-    DISABLE_COPY(WidgetBase);
+    // Disable the copy constructor and assignment operator.
+    Q_DISABLE_COPY(WidgetBase);
 
 
 public:

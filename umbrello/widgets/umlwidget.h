@@ -215,7 +215,7 @@ private:
     QGraphicsSceneMouseEvent *m_mouseMoveEventStore;
 
     // Disable copy constructor and operator=
-    DISABLE_COPY(UMLWidget);
+    Q_DISABLE_COPY(UMLWidget);
 };
 
 #endif

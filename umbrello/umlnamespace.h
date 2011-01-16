@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -346,10 +346,6 @@ namespace Uml
 #define uDebug()   kDebug(8060)
 #define uError()   kError(8060)
 #define uWarning() kWarning(8060)
-
-#define DISABLE_COPY(Class)                     \
-    Class(const Class &);                       \
-    Class &operator=(const Class &);
 
 #define uIgnoreZeroPointer(a) if (!a) { uDebug() << "zero pointer detected" << __FILE__ << __LINE__; continue; }
 
