@@ -1,8 +1,10 @@
+cmake_minimum_required(VERSION 2.8)
 project(umbrello)
 
+set(KDE4_BUILD_TESTS ON)  # for unit tests
 
 # search packages used by KDE
-set(QT_MIN_VERSION "4.6.0")
+set(QT_MIN_VERSION "4.7.0")
 find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
@@ -24,7 +26,12 @@ find_package(Boost REQUIRED)
 add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS} -DQT3_SUPPORT)
 include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${KDE4_INCLUDES} )
 
-kde4_no_enable_final( umbrello )
+kde4_no_enable_final(umbrello)
 
 add_subdirectory(umbrello)
 
+# do we build the unit tests
+IF(KDE4_BUILD_TESTS)
+  ENABLE_TESTING()
+  add_subdirectory(unittests)  # for unit tests
+ENDIF(KDE4_BUILD_TESTS)

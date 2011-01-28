@@ -365,6 +365,7 @@ set(libumbrello_SRCS
     association.cpp
     assocrules.cpp
     attribute.cpp
+    basictypes.cpp
     category.cpp
     checkconstraint.cpp
     classifier.cpp
