@@ -1,3 +1,23 @@
+/*
+    Copyright 2011  Andi Fischer  <andi.fischer@hispeed.ch>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+    published by the Free Software Foundation; either version 2 of
+    the License or (at your option) version 3 or any later version
+    accepted by the membership of KDE e.V. (or its successor approved
+    by the membership of KDE e.V.), which shall act as a proxy 
+    defined in Section 14 of version 3 of the license.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include <QtTest>
 #include <QtCore>
 
@@ -12,7 +32,13 @@ private slots:
     void test_ModelType_forLoop();
     void test_Visibility_toString();
     void test_Visibility_fromString();
+    void test_DiagramType_toString();
+    void test_DiagramType_fromString();
+    void test_DiagramType_forLoop();
+    void test_SignatureType_toString_fromString();
 };
+
+//-----------------------------------------------------------------------------
 
 void TEST_basictypes::test_ModelType_toString()
 {
@@ -68,6 +94,8 @@ void TEST_basictypes::test_ModelType_forLoop()
     QVERIFY(list[4] == Uml::ModelType::EntityRelationship);
 }
 
+//-----------------------------------------------------------------------------
+
 void TEST_basictypes::test_Visibility_toString()
 {
     Uml::Visibility visibilityDefault;
@@ -108,6 +136,94 @@ void TEST_basictypes::test_Visibility_fromString()
     QVERIFY(visibility == Uml::Visibility::Private);
     visibility = Uml::Visibility::fromString("anything else");
     QVERIFY(visibility == Uml::Visibility::Public);
+}
+
+//-----------------------------------------------------------------------------
+
+void TEST_basictypes::test_DiagramType_toString()
+{
+    Uml::DiagramType diagramDefault;
+    QCOMPARE(diagramDefault.toString(), QString("Undefined"));
+    Uml::DiagramType diagram0(Uml::DiagramType::Undefined);
+    QCOMPARE(diagram0.toString(), QString("Undefined"));
+    Uml::DiagramType diagram1(Uml::DiagramType::Class);
+    QCOMPARE(diagram1.toString(), QString("Class"));
+    Uml::DiagramType diagram2(Uml::DiagramType::UseCase);
+    QCOMPARE(diagram2.toString(), QString("UseCase"));
+    Uml::DiagramType diagram3(Uml::DiagramType::Sequence);
+    QCOMPARE(diagram3.toString(), QString("Sequence"));
+    Uml::DiagramType diagram4(Uml::DiagramType::Collaboration);
+    QCOMPARE(diagram4.toString(), QString("Collaboration"));
+    Uml::DiagramType diagram5(Uml::DiagramType::State);
+    QCOMPARE(diagram5.toString(), QString("State"));
+    Uml::DiagramType diagram6(Uml::DiagramType::Activity);
+    QCOMPARE(diagram6.toString(), QString("Activity"));
+    Uml::DiagramType diagram7(Uml::DiagramType::Component);
+    QCOMPARE(diagram7.toString(), QString("Component"));
+    Uml::DiagramType diagram8(Uml::DiagramType::Deployment);
+    QCOMPARE(diagram8.toString(), QString("Deployment"));
+    Uml::DiagramType diagram9(Uml::DiagramType::EntityRelationship);
+    QCOMPARE(diagram9.toString(), QString("EntityRelationship"));
+}
+
+void TEST_basictypes::test_DiagramType_fromString()
+{
+    Uml::DiagramType diagram;
+    diagram = Uml::DiagramType::fromString("Undefined");
+    QVERIFY(diagram == Uml::DiagramType::Undefined);
+    diagram = Uml::DiagramType::fromString("Class");
+    QVERIFY(diagram == Uml::DiagramType::Class);
+    diagram = Uml::DiagramType::fromString("UseCase");
+    QVERIFY(diagram == Uml::DiagramType::UseCase);
+    diagram = Uml::DiagramType::fromString("Sequence");
+    QVERIFY(diagram == Uml::DiagramType::Sequence);
+    diagram = Uml::DiagramType::fromString("Collaboration");
+    QVERIFY(diagram == Uml::DiagramType::Collaboration);
+    diagram = Uml::DiagramType::fromString("State");
+    QVERIFY(diagram == Uml::DiagramType::State);
+    diagram = Uml::DiagramType::fromString("Activity");
+    QVERIFY(diagram == Uml::DiagramType::Activity);
+    diagram = Uml::DiagramType::fromString("Component");
+    QVERIFY(diagram == Uml::DiagramType::Component);
+    diagram = Uml::DiagramType::fromString("Deployment");
+    QVERIFY(diagram == Uml::DiagramType::Deployment);
+    diagram = Uml::DiagramType::fromString("EntityRelationship");
+    QVERIFY(diagram == Uml::DiagramType::EntityRelationship);
+}
+
+void TEST_basictypes::test_DiagramType_forLoop()
+{
+    Uml::DiagramType list[Uml::DiagramType::N_DIAGRAMTYPES];
+    for (int i = 0; i < Uml::DiagramType::N_DIAGRAMTYPES; ++i) {
+        list[i] = Uml::DiagramType(Uml::DiagramType::Value(i));
+    }
+    for (int i = 0; i < Uml::DiagramType::N_DIAGRAMTYPES; ++i) {
+        QVERIFY(list[i] == Uml::DiagramType::Value(i));
+    }
+    QVERIFY(list[0] == Uml::DiagramType::Undefined);
+    QVERIFY(list[1] == Uml::DiagramType::Class);
+    QVERIFY(list[2] == Uml::DiagramType::UseCase);
+    QVERIFY(list[3] == Uml::DiagramType::Sequence);
+    QVERIFY(list[4] == Uml::DiagramType::Collaboration);
+    QVERIFY(list[5] == Uml::DiagramType::State);
+    QVERIFY(list[6] == Uml::DiagramType::Activity);
+    QVERIFY(list[7] == Uml::DiagramType::Component);
+    QVERIFY(list[8] == Uml::DiagramType::Deployment);
+    QVERIFY(list[9] == Uml::DiagramType::EntityRelationship);
+}
+
+//-----------------------------------------------------------------------------
+
+void TEST_basictypes::test_SignatureType_toString_fromString()
+{
+    QVERIFY(Uml::SignatureType::NoSig ==
+            Uml::SignatureType::fromString(Uml::SignatureType::toString(Uml::SignatureType::NoSig)));
+/*
+    Uml::SignatureType signatDefault;
+    QCOMPARE(signatDefault.toString(), QString("NoSig"));
+    Uml::SignatureType signat0(Uml::SignatureType::NoSig);
+    QCOMPARE(signat0.toString(), QString("NoSig"));
+*/
 }
 
 QTEST_MAIN(TEST_basictypes)
