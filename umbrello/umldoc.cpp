@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2010                                                *
+ *  copyright (C) 2002-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -31,8 +31,6 @@
 #include "classifierlistitem.h"
 #include "object_factory.h"
 #include "import_rose.h"
-#include "model_utils.h"
-#include "widget_utils.h"
 #include "uml.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
@@ -44,10 +42,13 @@
 #include "listpopupmenu.h"
 #include "cmds.h"
 #include "diagramprintpage.h"
+// utils
+#include "debug_utils.h"
+#include "model_utils.h"
+#include "widget_utils.h"
 
 // kde includes
 #include <kdeversion.h>
-#include <kdebug.h>
 #include <kio/job.h>
 #include <kio/netaccess.h>
 #include <klocale.h>
@@ -98,6 +99,7 @@ UMLDoc::UMLDoc()
     m_pCurrentRoot(0),
     m_bClosing(false)
 {
+    Tracer::instance()->registerClass(metaObject()->className());
 }
 
 /**
@@ -1367,7 +1369,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
  */
 void UMLDoc::changeCurrentView(Uml::IDType id)
 {
-    uDebug() << "id=" << ID2STR(id);
+    DEBUG(DBG_SRC) << "id=" << ID2STR(id);
     UMLApp* pApp = UMLApp::app();
     UMLView* view = findView(id);
     if (view) {

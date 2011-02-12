@@ -13,7 +13,6 @@
 
 #include <string>
 #include <QtCore/QString>
-#include <kdebug.h>
 
 /**
  * @author Paul Hensgen
@@ -342,23 +341,6 @@ namespace Uml
 # define STR2ID(id)  qPrintable(id)
 # define ID2STR(id)  QString(id.c_str())
 
-// convenience macros for console output to the Umbrello area
-#define uDebug()   kDebug(8060)
-#define uError()   kError(8060)
-#define uWarning() kWarning(8060)
-
-#define DISABLE_COPY(Class)                     \
-    Class(const Class &);                       \
-    Class &operator=(const Class &);
-
-#define uIgnoreZeroPointer(a) if (!a) { uDebug() << "zero pointer detected" << __FILE__ << __LINE__; continue; }
-
-/**
- * In a Q_OBJECT class define any enum as Q_ENUMS.
- * With the above the following macro returns the name of a given enum.
- * This can be used in debug output.
- * TODO: convert it to a function.
- */
-#define ENUM_NAME(o,e,v) (o::staticMetaObject.enumerator(o::staticMetaObject.indexOfEnumerator(#e)).valueToKey((v)))
+#include "debug_utils.h"
 
 #endif

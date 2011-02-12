@@ -19,6 +19,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 include_directories(
   ${LIBXML2_INCLUDE_DIR}
   ${LIBXSLT_INCLUDE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/debug/
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
   ${CMAKE_CURRENT_SOURCE_DIR}/clipboard/
   ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/
@@ -42,8 +43,14 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/xml/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/
   ${CMAKE_CURRENT_SOURCE_DIR}/controller/
+  ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/
+  ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
   ${CMAKE_CURRENT_SOURCE_DIR}/widgets/
   ${Boost_INCLUDE_DIR}
+)
+
+set(libdebug_SRCS
+    debug/debug_utils.cpp
 )
 
 set(libcodegenerator_SRCS
@@ -428,6 +435,7 @@ kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 set (umbrello_SRCS
     ${umbrello_SRCS}
     ${libcontroller_SRCS}
+    ${libdebug_SRCS}
     ${libdialogs_SRCS}
     ${librefactoring_SRCS}
     ${libcodegenwizard_SRCS}

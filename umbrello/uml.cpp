@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,6 +34,7 @@
 #include "widget_utils.h"
 #include "icon_utils.h"
 #include "model_utils.h"
+#include "debug_utils.h"
 // dialogs
 #include "classwizard.h"
 #include "codegenerationwizard.h"
@@ -42,13 +43,13 @@
 #include "importprojectdlg.h"
 #include "settingsdlg.h"
 #include "classimport.h"
-#include "refactoring/refactoringassistant.h"
+#include "refactoringassistant.h"
 // clipboard
 #include "umlclipboard.h"
 #include "umldragdata.h"
 // docgenerators
-#include "docgenerators/docbookgenerator.h"
-#include "docgenerators/xhtmlgenerator.h"
+#include "docbookgenerator.h"
+#include "xhtmlgenerator.h"
 
 // kde includes
 #include <kaction.h>
@@ -58,7 +59,6 @@
 #include <krecentfilesaction.h>
 #include <kconfig.h>
 #include <kcursor.h>
-#include <kdebug.h>
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kmenubar.h>
@@ -145,6 +145,8 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     initView();
     initClip();
     readOptions();
+
+    Tracer::instance()->registerClass(metaObject()->className());
 
     //get a reference to the Code->Active Language and to the Diagram->Zoom menu
     m_langSelect = findMenu(QString("active_lang_menu") );
@@ -2435,6 +2437,13 @@ void UMLApp::keyPressEvent(QKeyEvent *e)
         e->accept();
         break;
 
+    case Qt::Key_D:
+        if (e->modifiers() & Qt::ControlModifier) {  // Ctrl + D
+            DEBUG(DBG_SRC) << "Ctrl + D is pressed. Show debug config dialog...";
+            Tracer::instance()->show();
+        }
+        break;
+
     default:
         e->ignore();
     }
@@ -2555,7 +2564,7 @@ void UMLApp::setCurrentView(UMLView* view)
 {
     m_view = view;
     if (view == NULL) {
-        uDebug() << "view is NULL";
+        DEBUG(DBG_SRC) << "view is NULL";
         docWindow()->newDocumentation();
         return;
     }
@@ -2583,7 +2592,9 @@ void UMLApp::setCurrentView(UMLView* view)
     if (lvitem) {
         m_listView->setCurrentItem(lvitem);
     }
-    uDebug() << "name=" << view->getName() << ", isOpen=" << view->isOpen() << ", id=" << ID2STR(view->getID());
+    DEBUG(DBG_SRC) << "name=" << view->getName()
+                   << ", isOpen=" << view->isOpen()
+                   << ", id=" << ID2STR(view->getID());
 }
 
 /**
@@ -2819,7 +2830,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
 {
     if (cmd != NULL) {
         m_pUndoStack->push(cmd);
-        uDebug() << cmd->text() << " [" << m_pUndoStack->count() << "]";
+        DEBUG(DBG_SRC) << cmd->text() << " [" << m_pUndoStack->count() << "]";
     }
 
     UMLApp::app()->enableUndo(true);
