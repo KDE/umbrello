@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "pinwidget.h"
 
 // app includes
+#include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "listpopupmenu.h"
 #include "uml.h"
@@ -39,7 +40,7 @@ const qreal PinWidget::Size = 10;
 PinWidget::PinWidget(UMLWidget* owner, Uml::IDType id ):
     UMLWidget(0)
 {
-    m_baseType = Uml::wt_Pin;
+    m_baseType = WidgetBase::wt_Pin;
 
     setID(id);
 

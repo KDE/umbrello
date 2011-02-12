@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 
 #include "umldoc.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "enum.h"
 #include "classifierlistitem.h"
 #include "umlclassifierlistitemlist.h"
@@ -19,9 +20,7 @@
 #include "association.h"
 #include "attribute.h"
 #include "operation.h"
-#include "umlnamespace.h"
 
-#include <kdebug.h>
 #include <kmessagebox.h>
 
 #include <QtCore/QFile>
@@ -50,27 +49,30 @@ bool IDLWriter::isOOClass(UMLClassifier *c)
     return true;
 }
 
-bool IDLWriter::assocTypeIsMappableToAttribute(Uml::Association_Type at)
+bool IDLWriter::assocTypeIsMappableToAttribute(Uml::AssociationType at)
 {
-    return (at == Uml::at_Aggregation || at == Uml::at_Association ||
-            at == Uml::at_Composition || at == Uml::at_UniAssociation);
+    return (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Association ||
+            at == Uml::AssociationType::Composition || at == Uml::AssociationType::UniAssociation);
 }
 
-Uml::Programming_Language IDLWriter::language() const
+/**
+ * Returns "IDL".
+ */
+Uml::ProgrammingLanguage IDLWriter::language() const
 {
-    return Uml::pl_IDL;
+    return Uml::ProgrammingLanguage::IDL;
 }
 
-void IDLWriter::computeAssocTypeAndRole
-(UMLAssociation *a, UMLClassifier *c, QString& typeName, QString& roleName)
+void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
+                                        QString& typeName, QString& roleName)
 {
     // Determine which is the "remote" end of the association:
     bool IAmRoleA = true;
     UMLObject *other = a->getObject(Uml::B);
-    Uml::Association_Type at = a->getAssocType();
+    Uml::AssociationType at = a->getAssocType();
     if (c->name() == other->name()) {
-        if (at == Uml::at_Aggregation || at == Uml::at_Composition ||
-                at == Uml::at_UniAssociation) {
+        if (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Composition ||
+            at == Uml::AssociationType::UniAssociation) {
             // Assuming unidirectional association, and we are
             // at the "wrong" side.
             // Returning roleName = QString() tells caller to
@@ -103,6 +105,10 @@ void IDLWriter::computeAssocTypeAndRole
     }
 }
 
+/**
+ * Call this method to generate IDL code for a UMLClassifier.
+ * @param c the class to generate code for
+ */
 void IDLWriter::writeClass(UMLClassifier *c) 
 {
     if (!c) {
@@ -143,7 +149,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     findObjectsRelated(c, includes);
     if (includes.count()) {
         foreach (UMLPackage* conc, includes ) {
-            if (conc->baseType() == Uml::ot_Datatype)
+            if (conc->baseType() == UMLObject::ot_Datatype)
                 continue;
             QString incName = findFileName(conc, ".idl");
             if (!incName.isEmpty())
@@ -169,8 +175,8 @@ void IDLWriter::writeClass(UMLClassifier *c)
         idl << m_endl;
     }
 
-    if (c->baseType() == Uml::ot_Enum) {
-        UMLClassifierListItemList litList = c->getFilteredList(Uml::ot_EnumLiteral);
+    if (c->baseType() == UMLObject::ot_Enum) {
+        UMLClassifierListItemList litList = c->getFilteredList(UMLObject::ot_EnumLiteral);
         uint i = 0;
         idl << indent() << "enum " << classname << " {" << m_endl;
         m_indentLevel++;
@@ -357,14 +363,14 @@ void IDLWriter::writeClass(UMLClassifier *c)
     if (forceSections() || !assocs.isEmpty()) {
         idl << indent() << "// Associations:" << m_endl << m_endl;
         foreach ( UMLAssociation* a , assocs ) {
-            Uml::Association_Type at = a->getAssocType();
+            Uml::AssociationType at = a->getAssocType();
             if (! assocTypeIsMappableToAttribute(at))
                 continue;
             QString typeName, roleName;
             computeAssocTypeAndRole(a, c, typeName, roleName);
             if (roleName.isEmpty())  // presumably because we are at the "wrong" end
                 continue;
-            idl << indent() << "// " << UMLAssociation::toString(at) << m_endl;
+            idl << indent() << "// " << Uml::AssociationType::toString(at) << m_endl;
             idl << indent();
             if (isValuetype)
                 idl << "public ";
@@ -387,6 +393,11 @@ void IDLWriter::writeClass(UMLClassifier *c)
     emit codeGenerated(c, true);
 }
 
+/**
+ * Write one operation.
+ * @param op the class for which we are generating code
+ * @param idl the stream associated with the output file
+ */
 void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comment)
 {
     UMLAttributeList atl = op->getParmList();
@@ -439,6 +450,9 @@ QStringList IDLWriter::defaultDatatypes()
     return l;
 }
 
+/**
+ * Get list of reserved keywords.
+ */
 QStringList IDLWriter::reservedKeywords() const 
 {
     static QStringList keywords;
@@ -481,5 +495,3 @@ QStringList IDLWriter::reservedKeywords() const
 
     return keywords;
 }
-
-

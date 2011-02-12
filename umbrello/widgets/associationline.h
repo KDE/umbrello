@@ -1,18 +1,15 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ASSOCIATIONLINE_H
 #define ASSOCIATIONLINE_H
-
-#include "umlnamespace.h"
 
 #include <QtGui/QBrush>
 #include <QtGui/QGraphicsItem>
@@ -107,11 +104,11 @@ class Symbol : public QGraphicsItem
  * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssociationLine
+class AssociationLine : public QGraphicsItem
 {
     public:
         AssociationLine(AssociationWidget *assoc);
-        ~AssociationLine();
+        virtual ~AssociationLine();
 
         QPointF point(int index) const;
         void setPoint(int index, const QPointF& point);
@@ -140,10 +137,10 @@ class AssociationLine
         QPen pen() const;
         void updatePenSettings();
 
+        virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+
         QRectF boundingRect() const;
         QPainterPath shape() const;
-
-        void paint(QPainter *painter, const QStyleOptionGraphicsItem *opt);
 
         // Convenience functions which takes care of various
         // states. The user of this class, just has to call these
@@ -169,6 +166,9 @@ class AssociationLine
 
         void reconstructSymbols();
 
+    protected:
+        virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
     private:
         void setStartSymbol(Symbol::SymbolType symbolType);
         void setEndSymbol(Symbol::SymbolType symbolType);
@@ -188,7 +188,7 @@ class AssociationLine
         int m_activePointIndex;
         /**
          * Index of active segment index.
-         * @note m_activePointIndex and m_activePointIndex can't be
+         * @note m_activePointIndex and m_activeSegmentIndex can't be
          *       active at same time!
          */
         int m_activeSegmentIndex;

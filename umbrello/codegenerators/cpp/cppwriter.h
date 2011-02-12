@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003       Brian Thomas                                 *
  *                            <brian.thomas@gsfc.nasa.gov>                 *
- *   copyright (C) 2004-2010  Umbrello UML Modeller Authors                *
+ *   copyright (C) 2004-2011  Umbrello UML Modeller Authors                *
  *                            <uml-devel@uml.sf.net>                       *
  ***************************************************************************/
 
@@ -40,7 +40,7 @@ public:
 
     virtual void writeClass(UMLClassifier *c);
 
-    virtual Uml::Programming_Language language() const;
+    virtual Uml::ProgrammingLanguage language() const;
 
     QStringList defaultDatatypes();
 

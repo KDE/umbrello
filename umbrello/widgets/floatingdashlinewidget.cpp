@@ -4,13 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 // own header
 #include "floatingdashlinewidget.h"
 
 //app includes
+#include "debug_utils.h"
 #include "listpopupmenu.h"
 #include "umlscene.h"
 #include "textitem.h"
@@ -34,14 +35,16 @@ FloatingDashLineWidget::FloatingDashLineWidget(QGraphicsItem *parent, Uml::IDTyp
       m_yMin(0),
       m_yMax(1000)
 {
-    m_baseType = Uml::wt_FloatingDashLine;
+    m_baseType = WidgetBase::wt_FloatingDashLine;
     setID(id);
     setResizable(false);
     setParentItem(parent);
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 FloatingDashLineWidget::~FloatingDashLineWidget()
 {
 }
@@ -71,14 +74,18 @@ void FloatingDashLineWidget::paint(QPainter *painter, const QStyleOptionGraphics
     }
 }
 
-/// Sets minimum y. @ref yMin
+/**
+ * Sets minimum y. @ref yMin.
+ */
 void FloatingDashLineWidget::setYMin(qreal y)
 {
     m_yMin = y;
     ensureConstraintRequirement();
 }
 
-/// Sets maximum y. @ref yMax
+/**
+ * Sets maximum y. @ref yMax.
+ */
 void FloatingDashLineWidget::setYMax(qreal y)
 {
     m_yMax = y;

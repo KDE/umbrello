@@ -4,15 +4,17 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef LISTPOPUPMENU_H
 #define LISTPOPUPMENU_H
 
-#include "umlnamespace.h"
-#include "icon_utils.h"
+#include "basictypes.h"
+#include "widgetbase.h"
+#include "umllistviewitem.h"
+#include "umlobject.h"
 
 #include <kmenu.h>
 // #include <kaction.h>
@@ -20,10 +22,8 @@
 #include <QtCore/QHash>
 
 class UMLView;
-class WidgetBase;
 class ClassifierWidget;
 class UMLCategory;
-class UMLObject;
 
 /**
  * A popup menu that depending on what type it is set to will
@@ -216,13 +216,13 @@ public:
 
     explicit ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
     explicit ListPopupMenu(QWidget* parent, Menu_Type type, WidgetBase *widget);
-    ListPopupMenu(QWidget* parent, Uml::ListView_Type type, UMLObject* object);
+    ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
     ListPopupMenu(QWidget* parent, WidgetBase* object, bool multi = false, bool unique = false);
 
     ~ListPopupMenu();
 
-    static Uml::Object_Type convert_MT_OT(Menu_Type mt);
-    static Uml::Diagram_Type convert_MT_DT(Menu_Type mt);
+    static UMLObject::Object_Type convert_MT_OT(Menu_Type mt);
+    static Uml::DiagramType convert_MT_DT(Menu_Type mt);
 
     static ListPopupMenu* menuFromAction(QAction *action);
 
@@ -246,7 +246,7 @@ private:
     void insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable = false);
 
     void insertStdItems(bool insertLeadingSeparator = true,
-                        Uml::Widget_Type type = Uml::wt_UMLWidget);
+                        WidgetBase::Widget_Type type = WidgetBase::wt_UMLWidget);
     void insertContainerItems(bool folderAndDiagrams);
     void insertAssocItem(const QString &label, Menu_Type mt);
     void insertSubmodelAction();

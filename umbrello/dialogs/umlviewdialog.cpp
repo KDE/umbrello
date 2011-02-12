@@ -4,31 +4,30 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "umlviewdialog.h"
 
-// qt includes
-#include <QtGui/QFrame>
-#include <QtGui/QHBoxLayout>
+// local includes
+#include "debug_utils.h"
+#include "icon_utils.h"
+#include "umlscene.h"
+#include "umlview.h"
+#include "umldoc.h"
+#include "uml.h"
 
 // kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kfontdialog.h>
-#include <kdebug.h>
 #include <kvbox.h>
 
-// local includes
-#include "umlscene.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
-#include "icon_utils.h"
-
+// qt includes
+#include <QtGui/QFrame>
+#include <QtGui/QHBoxLayout>
 
 UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLScene * pScene )
     : KPageDialog(pParent)
@@ -107,7 +106,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
  */
 void UMLViewDialog::setupClassPage()
 {
-    if ( m_pScene->type() != Uml::dt_Class ) {
+    if ( m_pScene->type() != Uml::DiagramType::Class ) {
         return;
     }
     QFrame * newPage = new QFrame();
@@ -185,7 +184,7 @@ void UMLViewDialog::applyPage( KPageWidgetItem *item )
     }
     else if ( item == m_pageDisplayItem )
     {
-        if ( m_pScene->type() != Uml::dt_Class ) {
+        if ( m_pScene->type() != Uml::DiagramType::Class ) {
             return;
         }
         m_pOptionsPage->updateUMLWidget();

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002      Vincent Decorges  <vincent.decorges@eivd.ch>  *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,12 +14,11 @@
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"
 #include "umlattributelist.h"
-#include "umlnamespace.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -420,9 +419,9 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
     }//end for
 }
 
-Uml::Programming_Language PythonWriter::language() const
+Uml::ProgrammingLanguage PythonWriter::language() const
 {
-    return Uml::pl_Python;
+    return Uml::ProgrammingLanguage::Python;
 }
 
 QStringList PythonWriter::defaultDatatypes()

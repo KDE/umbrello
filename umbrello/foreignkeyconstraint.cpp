@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "foreignkeyconstraint.h"
 
 // app includes
+#include "debug_utils.h"
 #include "entity.h"
 #include "entityattribute.h"
 #include "umlobject.h"
@@ -19,9 +20,6 @@
 #include "uml.h"
 #include "umlforeignkeyconstraintdialog.h"
 #include "object_factory.h"
-
-// kde includes
-#include <kdebug.h>
 
 /**
  * Sets up a constraint.
@@ -52,7 +50,7 @@ UMLForeignKeyConstraint::UMLForeignKeyConstraint(UMLObject *parent)
 void UMLForeignKeyConstraint::init()
 {
     // initialise attributes
-     m_BaseType = Uml::ot_ForeignKeyConstraint;
+     m_BaseType = UMLObject::ot_ForeignKeyConstraint;
 
      // should be NULL actually
      // self referencing assigned to protect default behaviour
@@ -120,11 +118,11 @@ UMLObject* UMLForeignKeyConstraint::clone() const
  * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLForeignKeyConstraint::toString(Uml::Signature_Type sig )
+QString UMLForeignKeyConstraint::toString(Uml::SignatureType sig)
 {
     QString s;
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
+    if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         s = name() + ':';
         s += " Foreign Key (";
         QList<UMLEntityAttribute*> keys = m_AttributeMap.keys();
@@ -294,7 +292,7 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (Uml::tagEq(tag, "AttributeMap")) {
+        if (UMLDoc::tagEq(tag, "AttributeMap")) {
 
             Uml::IDType keyId = STR2ID(tempElement.attribute("key", ""));
             Uml::IDType valueId = STR2ID(tempElement.attribute("value", ""));

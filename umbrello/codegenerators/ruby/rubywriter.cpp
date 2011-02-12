@@ -6,27 +6,26 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "rubywriter.h"
 
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QRegExp>
-
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"
 #include "umlattributelist.h"
-#include "umlnamespace.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+#include <QtCore/QRegExp>
 
 RubyWriter::RubyWriter()
 {
@@ -378,9 +377,9 @@ void RubyWriter::writeSingleAttributeAccessorMethods(
     return;
 }
 
-Uml::Programming_Language RubyWriter::language() const
+Uml::ProgrammingLanguage RubyWriter::language() const
 {
-    return Uml::pl_Ruby;
+    return Uml::ProgrammingLanguage::Ruby;
 }
 
 QStringList RubyWriter::reservedKeywords() const

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -19,6 +19,7 @@
 #include <ktextedit.h>
 
 //my class includes
+#include "association.h"
 #include "umlobject.h"
 #include "objectwidget.h"
 #include "umldoc.h"
@@ -39,18 +40,7 @@ class AssocGenPage : public QWidget
     Q_OBJECT
 public:
 
-    /**
-     *  Sets up the AssocGenPage.
-     *
-     *  @param  d       The UMLDoc which controls controls object creation.
-     *  @param  parent  The parent to the AssocGenPage.
-     *  @param  a       The AssociationWidget to display the properties of.
-     */
     AssocGenPage(UMLDoc *d, QWidget *parent, AssociationWidget *a);
-
-    /**
-     *  Standard deconstructor.
-     */
     ~AssocGenPage();
 
     void updateObject();
@@ -61,7 +51,7 @@ private:
 
     /* Choices for the QComboBox, and we store ints and strings
        so we can translate both ways */
-    QList<Uml::Association_Type> m_AssocTypes;
+    QList<Uml::AssociationType> m_AssocTypes;
     QStringList m_AssocTypeStrings;
     KTextEdit * m_pDoc;
 

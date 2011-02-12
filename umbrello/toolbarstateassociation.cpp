@@ -4,23 +4,19 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "toolbarstateassociation.h"
 
-// kde includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-
 // app includes
 #include "assocrules.h"
 #include "association.h"
 #include "associationwidget.h"
 #include "classifierwidget.h"
+#include "debug_utils.h"
 #include "folder.h"
 #include "model_utils.h"
 #include "uml.h"
@@ -29,10 +25,12 @@
 #include "umldoc.h"
 #include "umlwidget.h"
 
+// kde includes
+#include <klocale.h>
+#include <kmessagebox.h>
+
 // qt includes
 #include <QtGui/QGraphicsSceneMouseEvent>
-
-using namespace Uml;
 
 /**
  * Creates a new ToolBarStateAssociation.
@@ -116,7 +114,7 @@ void ToolBarStateAssociation::slotWidgetRemoved(UMLWidget* widget)
 void ToolBarStateAssociation::mouseReleaseAssociation()
 {
     if (m_pMouseEvent->button() != Qt::LeftButton ||
-            !m_firstWidget || m_firstWidget->baseType() != Uml::wt_Class) {
+            !m_firstWidget || m_firstWidget->baseType() != WidgetBase::wt_Class) {
         cleanAssociation();
         return;
     }
@@ -143,7 +141,7 @@ void ToolBarStateAssociation::mouseReleaseWidget()
     //be called by a Sequence message Association. Here's the check for that,
     //although I don't know why it is needed, but it seems that it's not needed,
     //as the old code worked fine without it...
-    if (getAssociationType() == at_Seq_Message) {
+    if (getAssociationType() == Uml::AssociationType::Seq_Message) {
         return;
     }
 
@@ -173,7 +171,7 @@ void ToolBarStateAssociation::mouseReleaseEmpty()
 void ToolBarStateAssociation::setFirstWidget()
 {
     UMLWidget* widget = getCurrentWidget();
-    Association_Type type = getAssociationType();
+    Uml::AssociationType type = getAssociationType();
 
     if (!AssocRules::allowAssociation(type, widget)) {
         //TODO improve error feedback: tell the user what are the valid type of associations for
@@ -210,18 +208,18 @@ void ToolBarStateAssociation::setFirstWidget()
  */
 void ToolBarStateAssociation::setSecondWidget()
 {
-    Association_Type type = getAssociationType();
+    Uml::AssociationType type = getAssociationType();
     UMLWidget* widgetA = m_firstWidget;
     UMLWidget* widgetB = getCurrentWidget();
-    Widget_Type at = widgetA->baseType();
+    WidgetBase::Widget_Type at = widgetA->baseType();
     bool valid = true;
-    if (type == at_Generalization) {
+    if (type == Uml::AssociationType::Generalization) {
         type = AssocRules::isGeneralisationOrRealisation(widgetA, widgetB);
     }
     if (widgetA == widgetB) {
         valid = AssocRules::allowSelf(type, at);
-        if (valid && type == at_Association) {
-            type = at_Association_Self;
+        if (valid && type == Uml::AssociationType::Association) {
+            type = Uml::AssociationType::Association_Self;
         }
     } else {
         valid = AssocRules::allowAssociation(type, widgetA, widgetB);
@@ -229,7 +227,7 @@ void ToolBarStateAssociation::setSecondWidget()
     if (valid) {
         AssociationWidget *temp = new AssociationWidget(widgetA, type, widgetB);
         addAssociationInViewAndDoc(temp);
-        if (type == at_Containment) {
+        if (type == Uml::AssociationType::Containment) {
             UMLObject *newContainer = widgetA->umlObject();
             UMLObject *objToBeMoved = widgetB->umlObject();
             if (newContainer && objToBeMoved) {
@@ -251,32 +249,32 @@ void ToolBarStateAssociation::setSecondWidget()
  *
  * @return The association type of this tool.
  */
-Association_Type ToolBarStateAssociation::getAssociationType()
+Uml::AssociationType ToolBarStateAssociation::getAssociationType()
 {
-    Association_Type at;
+    Uml::AssociationType at;
 
     switch(getButton()) {
-        case WorkToolBar::tbb_Anchor:                   at = at_Anchor;            break;
-        case WorkToolBar::tbb_Association:              at = at_Association;       break;
-        case WorkToolBar::tbb_UniAssociation:           at = at_UniAssociation;    break;
-        case WorkToolBar::tbb_Generalization:           at = at_Generalization;    break;
-        case WorkToolBar::tbb_Composition:              at = at_Composition;       break;
-        case WorkToolBar::tbb_Aggregation:              at = at_Aggregation;       break;
-        case WorkToolBar::tbb_Relationship:             at = at_Relationship;      break;
-        case WorkToolBar::tbb_Dependency:               at = at_Dependency;        break;
-        case WorkToolBar::tbb_Containment:              at = at_Containment;       break;
+        case WorkToolBar::tbb_Anchor:                   at = Uml::AssociationType::Anchor;            break;
+        case WorkToolBar::tbb_Association:              at = Uml::AssociationType::Association;       break;
+        case WorkToolBar::tbb_UniAssociation:           at = Uml::AssociationType::UniAssociation;    break;
+        case WorkToolBar::tbb_Generalization:           at = Uml::AssociationType::Generalization;    break;
+        case WorkToolBar::tbb_Composition:              at = Uml::AssociationType::Composition;       break;
+        case WorkToolBar::tbb_Aggregation:              at = Uml::AssociationType::Aggregation;       break;
+        case WorkToolBar::tbb_Relationship:             at = Uml::AssociationType::Relationship;      break;
+        case WorkToolBar::tbb_Dependency:               at = Uml::AssociationType::Dependency;        break;
+        case WorkToolBar::tbb_Containment:              at = Uml::AssociationType::Containment;       break;
         case WorkToolBar::tbb_Seq_Message_Synchronous:
         case WorkToolBar::tbb_Seq_Combined_Fragment:
         case WorkToolBar::tbb_Seq_Precondition:
-        case WorkToolBar::tbb_Seq_Message_Asynchronous: at = at_Seq_Message;       break;
-        case WorkToolBar::tbb_Coll_Message:             at = at_Coll_Message;      break;
-        case WorkToolBar::tbb_State_Transition:         at = at_State;             break;
-        case WorkToolBar::tbb_Activity_Transition:      at = at_Activity;          break;
-        case WorkToolBar::tbb_Exception:                at = at_Exception;         break;
-        case WorkToolBar::tbb_Category2Parent:          at = at_Category2Parent;   break;
-        case WorkToolBar::tbb_Child2Category:           at = at_Child2Category;    break;
+        case WorkToolBar::tbb_Seq_Message_Asynchronous: at = Uml::AssociationType::Seq_Message;       break;
+        case WorkToolBar::tbb_Coll_Message:             at = Uml::AssociationType::Coll_Message;      break;
+        case WorkToolBar::tbb_State_Transition:         at = Uml::AssociationType::State;             break;
+        case WorkToolBar::tbb_Activity_Transition:      at = Uml::AssociationType::Activity;          break;
+        case WorkToolBar::tbb_Exception:                at = Uml::AssociationType::Exception;         break;
+        case WorkToolBar::tbb_Category2Parent:          at = Uml::AssociationType::Category2Parent;   break;
+        case WorkToolBar::tbb_Child2Category:           at = Uml::AssociationType::Child2Category;    break;
 
-        default:                                        at = at_Unknown;           break;
+        default:                                        at = Uml::AssociationType::Unknown;           break;
     }
 
     return at;
@@ -299,7 +297,7 @@ void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
             // association without model representation in UMLDoc
             return;
         }
-        Uml::Model_Type m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
+        Uml::ModelType m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
         UMLDoc *umldoc = UMLApp::app()->document();
         umla->setUMLPackage(umldoc->rootFolder(m));
         umldoc->addAssociation(umla);

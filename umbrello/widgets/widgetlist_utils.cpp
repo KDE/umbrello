@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2009-2009                                               *
+ *   copyright (C) 2009-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "widgetlist_utils.h"
 
 // app includes
+#include "debug_utils.h"
 #include "umlwidget.h"
 
 // qt/kde includes

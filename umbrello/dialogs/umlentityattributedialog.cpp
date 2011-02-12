@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2010                                                *
+ *  copyright (C) 2002-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -141,16 +141,16 @@ void UMLEntityAttributeDialog::setupDialog()
     scopeLayout->addWidget(m_pPrivateRB);
 
     mainLayout->addWidget(m_pScopeGB);
-    Uml::DBIndex_Type scope = m_pEntityAttribute->getIndexType();
+    UMLEntityAttribute::DBIndex_Type scope = m_pEntityAttribute->indexType();
 
     /*
-    if ( scope == Uml::Primary )
+    if ( scope == UMLEntityAttribute::Primary )
         m_pPublicRB->setChecked( true );
-    else if( scope == Uml::Unique )
+    else if( scope == UMLEntityAttribute::Unique )
         m_pProtectedRB->setChecked( true );
     else */
 
-    if ( scope == Uml::Index )
+    if ( scope == UMLEntityAttribute::Index )
         m_pPrivateRB->setChecked( true );
     else {
         m_pNoneRB->setChecked(true);
@@ -202,16 +202,16 @@ bool UMLEntityAttributeDialog::apply()
 
     /*
     if ( m_pPublicRB->isChecked() ) {
-        m_pEntityAttribute->setIndexType(Uml::Primary);
+        m_pEntityAttribute->setIndexType(UMLEntityAttribute::Primary);
     } else if ( m_pProtectedRB->isChecked() ) {
-        m_pEntityAttribute->setIndexType(Uml::Unique);
+        m_pEntityAttribute->setIndexType(UMLEntityAttribute::Unique);
     } else
     */
 
     if ( m_pPrivateRB->isChecked() ) {
-        m_pEntityAttribute->setIndexType(Uml::Index);
+        m_pEntityAttribute->setIndexType(UMLEntityAttribute::Index);
     } else {
-        m_pEntityAttribute->setIndexType(Uml::None);
+        m_pEntityAttribute->setIndexType(UMLEntityAttribute::None);
     }
 
     QString typeName = m_pTypeCB->currentText();
@@ -228,8 +228,8 @@ bool UMLEntityAttributeDialog::apply()
     if (classifier == NULL) {
         // If it's obviously a pointer type (C++) then create a datatype.
         // Else we don't know what it is so as a compromise create a class.
-        Uml::Object_Type ot = (typeName.contains('*') ? Uml::ot_Datatype
-                               : Uml::ot_Class);
+        UMLObject::Object_Type ot =
+            (typeName.contains('*') ? UMLObject::ot_Datatype : UMLObject::ot_Class);
         obj = Object_Factory::createUMLObject(ot, typeName);
         if (obj == NULL)
             return false;
@@ -269,7 +269,7 @@ void UMLEntityAttributeDialog::insertTypesSorted(const QString& type)
     UMLClassifierList dataTypes = pDoc->datatypes();
     if (dataTypes.count() == 0) {
         // Switch to SQL as the active language if no datatypes are set.
-        UMLApp::app()->setActiveLanguage(Uml::pl_SQL);
+        UMLApp::app()->setActiveLanguage(Uml::ProgrammingLanguage::SQL);
         pDoc->addDefaultDatatypes();
         qApp->processEvents();
         dataTypes = pDoc->datatypes();

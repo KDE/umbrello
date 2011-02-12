@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -36,7 +36,7 @@ UMLNode::~UMLNode()
  */
 void UMLNode::init()
 {
-    m_BaseType = Uml::ot_Node;
+    m_BaseType = UMLObject::ot_Node;
 }
 
 /**

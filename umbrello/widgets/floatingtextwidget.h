@@ -11,6 +11,7 @@
 #ifndef FLOATINGTEXTWIDGET_H
 #define FLOATINGTEXTWIDGET_H
 
+#include "basictypes.h"
 #include "umlwidget.h"
 
 class LinkWidget;

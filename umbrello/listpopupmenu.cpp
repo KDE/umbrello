@@ -4,19 +4,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "listpopupmenu.h"
 
-// qt/kde includes
-#include <klocale.h>
-#include <kdebug.h>
-#include <kactioncollection.h>
-
 // app includes
+#include "debug_utils.h"
 #include "widgetbase.h"
 #include "umldoc.h"
 #include "classifierwidget.h"
@@ -37,6 +33,10 @@
 #include "objectwidget.h"
 #include "category.h"
 #include "umlscene.h"
+
+// kde includes
+#include <klocale.h>
+#include <kactioncollection.h>
 
 const bool CHECKABLE = true;
 
@@ -79,7 +79,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Menu_Type type, WidgetBase *widget
  * @param type     The type of menu to display.
  * @param object   The UMLObject of the ListViewItem
  */
-ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject* object)
+ListPopupMenu::ListPopupMenu(QWidget *parent, UMLListViewItem::ListViewType type, UMLObject* object)
   : KMenu(parent)
 {
     m_TriggerObject.m_Object = object;
@@ -87,180 +87,181 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, Uml::ListView_Type type, UMLObject
     Menu_Type mt = mt_Undefined;
     switch(type)
     {
-    case Uml::lvt_Logical_View:
+    case UMLListViewItem::lvt_Logical_View:
         mt = mt_Logical_View;
         break;
 
-    case Uml::lvt_UseCase_View:
+    case UMLListViewItem::lvt_UseCase_View:
         mt = mt_UseCase_View;
         break;
 
-    case Uml::lvt_Component_View:
+    case UMLListViewItem::lvt_Component_View:
         mt = mt_Component_View;
         break;
 
-    case Uml::lvt_EntityRelationship_Model:
+    case UMLListViewItem::lvt_EntityRelationship_Model:
         mt = mt_EntityRelationship_Model;
         break;
 
-    case Uml::lvt_Deployment_View:
+    case UMLListViewItem::lvt_Deployment_View:
         mt = mt_Deployment_View;
         break;
 
-    case Uml::lvt_Logical_Folder:
+    case UMLListViewItem::lvt_Logical_Folder:
         mt = mt_Logical_Folder;
         break;
 
-    case Uml::lvt_UseCase_Folder:
+    case UMLListViewItem::lvt_UseCase_Folder:
         mt = mt_UseCase_Folder;
         break;
 
-    case Uml::lvt_Component_Folder:
+    case UMLListViewItem::lvt_Component_Folder:
         mt = mt_Component_Folder;
         break;
 
-    case Uml::lvt_Deployment_Folder:
+    case UMLListViewItem::lvt_Deployment_Folder:
         mt = mt_Deployment_Folder;
         break;
 
-    case Uml::lvt_EntityRelationship_Folder:
+    case UMLListViewItem::lvt_EntityRelationship_Folder:
         mt = mt_EntityRelationship_Folder;
         break;
 
-    case Uml::lvt_UseCase_Diagram:
+    case UMLListViewItem::lvt_UseCase_Diagram:
         mt = mt_UseCase_Diagram;
         break;
 
-    case Uml::lvt_Class_Diagram:
+    case UMLListViewItem::lvt_Class_Diagram:
         mt = mt_Class_Diagram;
         break;
 
-    case Uml::lvt_Collaboration_Diagram:
+    case UMLListViewItem::lvt_Collaboration_Diagram:
         mt = mt_Collaboration_Diagram;
         break;
 
-    case Uml::lvt_Sequence_Diagram:
+    case UMLListViewItem::lvt_Sequence_Diagram:
         mt = mt_Sequence_Diagram;
         break;
 
-    case Uml::lvt_State_Diagram:
+    case UMLListViewItem::lvt_State_Diagram:
         mt = mt_State_Diagram;
         break;
 
-    case Uml::lvt_Activity_Diagram:
+    case UMLListViewItem::lvt_Activity_Diagram:
         mt = mt_Activity_Diagram;
         break;
 
-    case Uml::lvt_Component_Diagram:
+    case UMLListViewItem::lvt_Component_Diagram:
         mt = mt_Component_Diagram;
         break;
 
-    case Uml::lvt_Deployment_Diagram:
+    case UMLListViewItem::lvt_Deployment_Diagram:
         mt = mt_Deployment_Diagram;
         break;
 
-    case Uml::lvt_EntityRelationship_Diagram:
+    case UMLListViewItem::lvt_EntityRelationship_Diagram:
         mt = mt_EntityRelationship_Diagram;
         break;
 
-    case Uml::lvt_Actor:
+    case UMLListViewItem::lvt_Actor:
         mt = mt_Actor;
         break;
 
-    case Uml::lvt_UseCase:
+    case UMLListViewItem::lvt_UseCase:
         mt = mt_UseCase;
         break;
 
-    case Uml::lvt_Class:
+    case UMLListViewItem::lvt_Class:
         mt = mt_Class;
         break;
 
-    case Uml::lvt_Package:
+    case UMLListViewItem::lvt_Package:
         mt = mt_Package;
         break;
 
-    case Uml::lvt_Subsystem:
+    case UMLListViewItem::lvt_Subsystem:
         mt = mt_Subsystem;
         break;
 
-    case Uml::lvt_Component:
+    case UMLListViewItem::lvt_Component:
         mt = mt_Component;
         break;
 
-    case Uml::lvt_Node:
+    case UMLListViewItem::lvt_Node:
         mt = mt_Node;
         break;
 
-    case Uml::lvt_Artifact:
+    case UMLListViewItem::lvt_Artifact:
         mt = mt_Artifact;
         break;
 
-    case Uml::lvt_Interface:
+    case UMLListViewItem::lvt_Interface:
         mt = mt_Interface;
         break;
 
-    case Uml::lvt_Enum:
+    case UMLListViewItem::lvt_Enum:
         mt = mt_Enum;
         break;
 
-    case Uml::lvt_EnumLiteral:
+    case UMLListViewItem::lvt_EnumLiteral:
         mt = mt_EnumLiteral;
         break;
 
-    case Uml::lvt_Datatype:
+    case UMLListViewItem::lvt_Datatype:
         mt = mt_Datatype;
         break;
 
-    case Uml::lvt_Datatype_Folder:
+    case UMLListViewItem::lvt_Datatype_Folder:
         // let it mt_Undefined
         break;
 
-    case Uml::lvt_Attribute:
+    case UMLListViewItem::lvt_Attribute:
         mt = mt_Attribute;
         break;
 
-    case Uml::lvt_Operation:
+    case UMLListViewItem::lvt_Operation:
         mt = mt_Operation;
         break;
 
-    case Uml::lvt_Template:
+    case UMLListViewItem::lvt_Template:
         mt = mt_Template;
         break;
 
-    case Uml::lvt_Category:
+    case UMLListViewItem::lvt_Category:
         mt = mt_Category;
         break;
 
-    case Uml::lvt_Entity:
+    case UMLListViewItem::lvt_Entity:
         mt = mt_Entity;
         break;
 
-    case Uml::lvt_EntityAttribute:
+    case UMLListViewItem::lvt_EntityAttribute:
         mt = mt_EntityAttribute;
         break;
 
-    case Uml::lvt_UniqueConstraint:
+    case UMLListViewItem::lvt_UniqueConstraint:
         mt = mt_UniqueConstraint;
         break;
 
-    case Uml::lvt_PrimaryKeyConstraint:
+    case UMLListViewItem::lvt_PrimaryKeyConstraint:
         mt = mt_PrimaryKeyConstraint;
         break;
 
-    case Uml::lvt_ForeignKeyConstraint:
+    case UMLListViewItem::lvt_ForeignKeyConstraint:
         mt = mt_ForeignKeyConstraint;
         break;
 
-    case Uml::lvt_CheckConstraint:
+    case UMLListViewItem::lvt_CheckConstraint:
         mt = mt_CheckConstraint;
         break;
 
-    case Uml::lvt_Model:
+    case UMLListViewItem::lvt_Model:
         mt = mt_Model;
         break;
 
     default:
-        uWarning() << "unhandled ListView_Type " << type;
+        uWarning() << "unhandled ListViewType "
+                   << type;  //:TODO: QLatin1String(ENUM_NAME(UMLListViewItem, ListViewType, type));
         break;
     }
     setupMenu(mt);
@@ -286,13 +287,13 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     //make menu for logical view
     if (!object)
         return;
-    Uml::Widget_Type type = object->baseType();
+    WidgetBase::Widget_Type type = object->baseType();
     // uDebug() << "ListPopupMenu created with multi=" << multi << " , unique="
     //          << unique << " for Widget_Type=" << type;
 
     if (multi) {
         ClassifierWidget *c = NULL;
-        if (unique && (type == Uml::wt_Class || type == Uml::wt_Interface)) {
+        if (unique && (type == WidgetBase::wt_Class || type == WidgetBase::wt_Interface)) {
             c = static_cast<ClassifierWidget *>( object );
             makeMultiClassifierPopup(c);
         }
@@ -308,11 +309,11 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         // add this here and not above with the other stuff of the interface
         // user might expect it at this position of the context menu
         if (unique) {
-            if (type == Uml::wt_Interface) {
+            if (type == WidgetBase::wt_Interface) {
                 insert(mt_DrawAsCircle_Selection, i18n("Draw as Circle"), CHECKABLE);
                 setActionChecked(mt_DrawAsCircle_Selection, c->visualProperty(ClassifierWidget::DrawAsCircle));
                 insert(mt_ChangeToClass_Selection, i18n("Change into Class"));
-            } else if (type == Uml::wt_Class) {
+            } else if (type == WidgetBase::wt_Class) {
                 UMLClassifier *umlc = c->classifier();
                 if (umlc->isAbstract() && umlc->attributes() == 0)
                     insert(mt_ChangeToInterface_Selection, i18n("Change into Interface"));
@@ -323,8 +324,8 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
     }
 
     switch (type) {
-    case Uml::wt_Actor:
-    case Uml::wt_UseCase:
+    case WidgetBase::wt_Actor:
+    case WidgetBase::wt_UseCase:
         insertSubMenuColor(object->getUseFillColour());
         insertStdItems(true, type);
         insert(mt_Rename);
@@ -332,7 +333,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         insert(mt_Properties);
         break;
 
-    case Uml::wt_Category:
+    case WidgetBase::wt_Category:
        {
          KMenu* m = makeCategoryTypeMenu(
                         static_cast<UMLCategory*>(object->umlObject()));
@@ -344,12 +345,12 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
          insert(mt_Change_Font);
          break;
        }
-    case Uml::wt_Class:
-    case Uml::wt_Interface:
+    case WidgetBase::wt_Class:
+    case WidgetBase::wt_Interface:
         makeClassifierPopup(static_cast<ClassifierWidget*>(object));
         break;
 
-    case Uml::wt_Enum:
+    case WidgetBase::wt_Enum:
         insertSubMenuNew(mt_Enum);
         insertSubMenuColor(object->getUseFillColour());
         insertStdItems(true, type);
@@ -358,7 +359,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         insert(mt_Properties);
         break;
 
-    case Uml::wt_Entity:
+    case WidgetBase::wt_Entity:
         insertSubMenuNew(mt_Entity);
         insertSubMenuColor(object->getUseFillColour());
         insertStdItems(true, type);
@@ -367,11 +368,11 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         insert(mt_Properties);
         break;
 
-    case Uml::wt_Datatype:
-    case Uml::wt_Package:
-    case Uml::wt_Component:
-    case Uml::wt_Node:
-    case Uml::wt_Artifact:
+    case WidgetBase::wt_Datatype:
+    case WidgetBase::wt_Package:
+    case WidgetBase::wt_Component:
+    case WidgetBase::wt_Node:
+    case WidgetBase::wt_Artifact:
         insertSubMenuColor(object->getUseFillColour());
         insertStdItems(false, type);
         insert(mt_Rename);
@@ -379,12 +380,12 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         insert(mt_Properties);
         break;
 
-    case Uml::wt_Object:
+    case WidgetBase::wt_Object:
         {
             //Used for sequence diagram and collaboration diagram widgets
             insertSubMenuColor( object->getUseFillColour() );
             // [PORT]
-            if( object->umlScene() && object->umlScene()->type() == Uml::dt_Sequence ) {
+            if( object->umlScene() && object->umlScene()->type() == Uml::DiagramType::Sequence ) {
                 addSeparator();
                 Menu_Type tabUp = mt_Up;
                 insert(mt_Up, Icon_Utils::SmallIcon(Icon_Utils::it_Arrow_Up), i18n("Move Up"));
@@ -401,14 +402,14 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         }
         break;
 
-    case Uml::wt_Message:
+    case WidgetBase::wt_Message:
         insertStdItems(false, type);
         //insert(mt_Change_Font);
         //insert(mt_Operation, Icon_Utils::SmallIcon(Icon_Utils::it_Operation_New), i18n("New Operation..."));
         //insert(mt_Select_Operation, i18n("Select Operation..."));
         break;
 
-    case Uml::wt_Note:
+    case WidgetBase::wt_Note:
         insertSubMenuColor(object->getUseFillColour());
         addSeparator();
         insert(mt_Cut);
@@ -421,12 +422,12 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         insert(mt_Change_Font);
         break;
 
-    case Uml::wt_Box:
+    case WidgetBase::wt_Box:
         insertStdItems(false, type);
         insert(mt_Line_Color);
         break;
 
-    case Uml::wt_State:
+    case WidgetBase::wt_State:
         {
             StateWidget* pState = static_cast< StateWidget *>( object );
             if (pState->stateType() == StateWidget::Normal) {
@@ -442,7 +443,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         }
         break;
 
-    case Uml::wt_ForkJoin:
+    case WidgetBase::wt_ForkJoin:
         {
             ForkJoinWidget *pForkJoin = static_cast<ForkJoinWidget*>(object);
             if (pForkJoin->orientation() == Qt::Vertical) {
@@ -456,7 +457,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         }
         break;
 
-    case Uml::wt_Activity:
+    case WidgetBase::wt_Activity:
         {
             ActivityWidget* pActivity = static_cast<ActivityWidget *>(object);
             if( pActivity->activityType() == ActivityWidget::Normal
@@ -475,7 +476,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         }
         break;
 
-    case Uml::wt_ObjectNode:
+    case WidgetBase::wt_ObjectNode:
         {
             ObjectNodeWidget* objWidget = static_cast<ObjectNodeWidget *>(object);
             if (objWidget->objectNodeType() == ObjectNodeWidget::Buffer
@@ -494,10 +495,10 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         }
         break;
 
-    case Uml::wt_Pin:
-    case Uml::wt_Signal:
-    case Uml::wt_FloatingDashLine:
-    case Uml::wt_Precondition:
+    case WidgetBase::wt_Pin:
+    case WidgetBase::wt_Signal:
+    case WidgetBase::wt_FloatingDashLine:
+    case WidgetBase::wt_Precondition:
         insertSubMenuColor(object->getUseFillColour());
         addSeparator();
         insert(mt_Cut);
@@ -510,7 +511,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         insert(mt_Change_Font);
         break;
 
-    case Uml::wt_CombinedFragment:
+    case WidgetBase::wt_CombinedFragment:
         // for alternative and parallel combined fragments
         if ((static_cast<CombinedFragmentWidget*>(object))->combinedFragmentType() == CombinedFragmentWidget::Alt ||
             (static_cast<CombinedFragmentWidget*>(object))->combinedFragmentType() == CombinedFragmentWidget::Par) {
@@ -529,7 +530,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
         insert(mt_Change_Font);
         break;
 
-    case Uml::wt_Text:
+    case WidgetBase::wt_Text:
         switch( (static_cast<FloatingTextWidget*>(object))->textRole() ) {
         case Uml::tr_MultiB:
             insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
@@ -824,7 +825,7 @@ void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QString & text,
  *                  included.
  */
 void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
-                                   Uml::Widget_Type type /* = wt_UMLWidget */)
+                                   WidgetBase::Widget_Type type /* = wt_UMLWidget */)
 {
     if (insertLeadingSeparator)
         addSeparator();
@@ -832,7 +833,7 @@ void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
     insert(mt_Copy);
     insert(mt_Paste);
     addSeparator();
-    if (type == Uml::wt_UMLWidget)
+    if (type == WidgetBase::wt_UMLWidget)
         insert(mt_Rename);
     else if (Model_Utils::isCloneable(type))
         insert(mt_Clone);
@@ -921,12 +922,12 @@ void ListPopupMenu::insertSubmodelAction()
  */
 void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
 {
-    Uml::Widget_Type type = c->baseType();
+    WidgetBase::Widget_Type type = c->baseType();
     ClassifierWidget *cls = NULL;
 
     KMenu* show = new KMenu(i18n("Show"), this);
     show->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Show));
-    if (type == Uml::wt_Class) {
+    if (type == WidgetBase::wt_Class) {
         cls = static_cast<ClassifierWidget*>(c);
         insert(mt_Show_Attributes_Selection, show, i18n("Attributes"), CHECKABLE);
         setActionChecked(mt_Show_Attributes_Selection, cls->visualProperty(ClassifierWidget::ShowAttributes));
@@ -938,18 +939,18 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
     insert(mt_Visibility_Selection, show, i18n("Visibility"), CHECKABLE);
     setActionChecked(mt_Visibility_Selection, c->visualProperty(ClassifierWidget::ShowVisibility));
     insert(mt_Show_Operation_Signature_Selection, show, i18n("Operation Signature"), CHECKABLE);
-    bool sig = (c->operationSignatureType() == Uml::st_SigNoVis ||
-                c->operationSignatureType() == Uml::st_ShowSig);
+    bool sig = (c->operationSignatureType() == Uml::SignatureType::SigNoVis ||
+                c->operationSignatureType() == Uml::SignatureType::ShowSig);
     setActionChecked(mt_Show_Operation_Signature_Selection, sig);
-    if (type == Uml::wt_Class) {
+    if (type == WidgetBase::wt_Class) {
         insert(mt_Show_Attribute_Signature_Selection, show, i18n("Attribute Signature"), CHECKABLE);
-        sig = (cls->attributeSignatureType() == Uml::st_SigNoVis ||
-               cls->attributeSignatureType() == Uml::st_ShowSig);
+        sig = (cls->attributeSignatureType() == Uml::SignatureType::SigNoVis ||
+               cls->attributeSignatureType() == Uml::SignatureType::ShowSig);
         setActionChecked(mt_Show_Attribute_Signature_Selection, sig);
     }
     insert(mt_Show_Packages_Selection, show, i18n("Package"), CHECKABLE);
     setActionChecked(mt_Show_Packages_Selection, c->visualProperty(ClassifierWidget::ShowPackage));
-    if (type == Uml::wt_Class) {
+    if (type == WidgetBase::wt_Class) {
         insert(mt_Show_Stereotypes_Selection, show, i18n("Stereotype"), CHECKABLE);
         setActionChecked(mt_Show_Stereotypes_Selection, cls->visualProperty(ClassifierWidget::ShowStereotype));
     }
@@ -961,10 +962,10 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
  */
 void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 {
-    Uml::Widget_Type type = c->baseType();
+    WidgetBase::Widget_Type type = c->baseType();
     KMenu* menu = new KMenu(i18nc("new classifier menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
-    if (type == Uml::wt_Class)
+    if (type == WidgetBase::wt_Class)
         insert(mt_Attribute, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Attribute), i18n("Attribute..."));
     insert(mt_Operation, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method), i18n("Operation..."));
     insert(mt_Template, menu, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n( "Template..." ));
@@ -976,7 +977,7 @@ void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
     insertStdItems(true, type);
     insert(mt_Rename);
     insert(mt_Change_Font);
-    if (type == Uml::wt_Interface) {
+    if (type == WidgetBase::wt_Interface) {
         insert(mt_DrawAsCircle, i18n("Draw as Circle"), CHECKABLE);
         setActionChecked(mt_DrawAsCircle, c->visualProperty(ClassifierWidget::DrawAsCircle));
         insert(mt_ChangeToClass, i18n("Change into Class"));
@@ -1008,37 +1009,37 @@ void ListPopupMenu::insertSubMenuColor(bool fc)
 /**
  * Utility: Convert a Menu_Type value to a Diagram_Type value.
  */
-Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt)
+Uml::DiagramType ListPopupMenu::convert_MT_DT(Menu_Type mt)
 {
-    Uml::Diagram_Type type =  Uml::dt_Undefined;
+    Uml::DiagramType type = Uml::DiagramType::Undefined;
 
     switch (mt) {
     case mt_UseCase_Diagram:
-        type = Uml::dt_UseCase;
+        type = Uml::DiagramType::UseCase;
         break;
     case mt_Class_Diagram:
-        type = Uml::dt_Class;
+        type = Uml::DiagramType::Class;
         break;
     case mt_Sequence_Diagram:
-        type = Uml::dt_Sequence;
+        type = Uml::DiagramType::Sequence;
         break;
     case mt_Collaboration_Diagram:
-        type = Uml::dt_Collaboration;
+        type = Uml::DiagramType::Collaboration;
         break;
     case mt_State_Diagram:
-        type = Uml::dt_State;
+        type = Uml::DiagramType::State;
         break;
     case mt_Activity_Diagram:
-        type = Uml::dt_Activity;
+        type = Uml::DiagramType::Activity;
         break;
     case mt_Component_Diagram:
-        type = Uml::dt_Component;
+        type = Uml::DiagramType::Component;
         break;
     case mt_Deployment_Diagram:
-        type = Uml::dt_Deployment;
+        type = Uml::DiagramType::Deployment;
         break;
     case mt_EntityRelationship_Diagram:
-        type = Uml::dt_EntityRelationship;
+        type = Uml::DiagramType::EntityRelationship;
         break;
     default:
         break;
@@ -1049,37 +1050,37 @@ Uml::Diagram_Type ListPopupMenu::convert_MT_DT(Menu_Type mt)
 /**
  * Utility: Convert a Menu_Type value to an Object_Type value.
  */
-Uml::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt)
+UMLObject::Object_Type ListPopupMenu::convert_MT_OT(Menu_Type mt)
 {
-    Uml::Object_Type type =  Uml::ot_UMLObject;
+    UMLObject::Object_Type type =  UMLObject::ot_UMLObject;
 
     switch (mt) {
     case mt_UseCase:
-        type = Uml::ot_UseCase;
+        type = UMLObject::ot_UseCase;
         break;
     case mt_Actor:
-        type = Uml::ot_Actor;
+        type = UMLObject::ot_Actor;
         break;
     case mt_Class:
-        type = Uml::ot_Class;
+        type = UMLObject::ot_Class;
         break;
     case mt_Attribute:
-        type = Uml::ot_Attribute;
+        type = UMLObject::ot_Attribute;
         break;
     case mt_Template:
-        type = Uml::ot_Template;
+        type = UMLObject::ot_Template;
         break;
     case mt_EnumLiteral:
-        type = Uml::ot_EnumLiteral;
+        type = UMLObject::ot_EnumLiteral;
         break;
     case mt_EntityAttribute:
-        type = Uml::ot_EntityAttribute;
+        type = UMLObject::ot_EntityAttribute;
         break;
     case mt_Operation:
-        type = Uml::ot_Operation;
+        type = UMLObject::ot_Operation;
         break;
     case mt_Category:
-        type = Uml::ot_Category;
+        type = UMLObject::ot_Category;
         break;
     default:
         break;

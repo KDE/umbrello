@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2006                                               *
+ *   copyright (C) 2005-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,6 +12,7 @@
 #include "forkjoinwidget.h"
 
 //app includes
+#include "debug_utils.h"
 #include "listpopupmenu.h"
 
 
@@ -25,17 +25,21 @@ ForkJoinWidget::ForkJoinWidget(Qt::Orientation o, Uml::IDType id)
     : BoxWidget(id),
       m_orientation(o)
 {
-    m_baseType = Uml::wt_ForkJoin;
+    m_baseType = WidgetBase::wt_ForkJoin;
     setMargin(0);
     setBrush(QBrush(Qt::black));
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 ForkJoinWidget::~ForkJoinWidget()
 {
 }
 
-/// Sets the orientation of this widget to \a o
+/**
+ * Sets the orientation of this widget to \a o.
+ */
 void ForkJoinWidget::setOrientation(Qt::Orientation o)
 {
     m_orientation = o;

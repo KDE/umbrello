@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,10 +21,6 @@
 // own header
 #include "dclassifiercodedocument.h"
 
-// qt/kde includes
-#include <kdebug.h>
-#include <QtCore/QRegExp>
-
 // local includes
 #include "dcodegenerator.h"
 #include "dcodecomment.h"
@@ -33,7 +29,11 @@
 #include "codegen_utils.h"
 #include "classifier.h"
 #include "codegenerationpolicy.h"
+#include "debug_utils.h"
 #include "uml.h"
+
+// qt includes
+#include <QtCore/QRegExp>
 
 DClassifierCodeDocument::DClassifierCodeDocument ( UMLClassifier * concept )
         : ClassifierCodeDocument (concept)
@@ -365,7 +365,7 @@ void DClassifierCodeDocument::updateContent( )
         // NO (default) datatypes in the import statement.. use defined
         // ones whould be possible, but no idea how to do that...at least for now.
         // Dynamic casting is slow..not an optimal way to do this.
-        if (!packageMap.contains(con) && con->baseType() != Uml::ot_Datatype)
+        if (!packageMap.contains(con) && con->baseType() != UMLObject::ot_Datatype)
         {
             packageMap.insert(con, con->package());
 

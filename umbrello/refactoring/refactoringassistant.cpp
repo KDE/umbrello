@@ -5,25 +5,25 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Luis De la Parra <lparrab@gmx.net>                 *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "refactoringassistant.h"
 
 #include "attribute.h"
+#include "basictypes.h"
 #include "classifier.h"
 #include "classpropdlg.h"
+#include "debug_utils.h"
 #include "object_factory.h"
 #include "operation.h"
 #include "umlattributedialog.h"
 #include "umldoc.h"
-#include "umlnamespace.h"
 #include "umloperationdialog.h"
 
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
 
 #include <QtGui/QApplication>
 #include <QtGui/QMenu>
@@ -148,10 +148,10 @@ void RefactoringAssistant::itemExecuted(QTreeWidgetItem *item, int column)
  */
 void RefactoringAssistant::setVisibilityIcon(QTreeWidgetItem *item , const UMLObject *obj)
 {
-    Uml::Object_Type t = obj->baseType();
+    UMLObject::Object_Type t = obj->baseType();
     switch (obj->visibility()) {
     case Uml::Visibility::Public:
-        if (t == Uml::ot_Operation) {
+        if (t == UMLObject::ot_Operation) {
             item->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Public_Method));
         }
         else {
@@ -159,7 +159,7 @@ void RefactoringAssistant::setVisibilityIcon(QTreeWidgetItem *item , const UMLOb
         }
         break;
     case Uml::Visibility::Protected:
-        if (t == Uml::ot_Operation) {
+        if (t == UMLObject::ot_Operation) {
             item->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Protected_Method));
         }
         else {
@@ -167,7 +167,7 @@ void RefactoringAssistant::setVisibilityIcon(QTreeWidgetItem *item , const UMLOb
         }
         break;
     case Uml::Visibility::Private:
-        if (t == Uml::ot_Operation) {
+        if (t == UMLObject::ot_Operation) {
             item->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Private_Method));
         }
         else {
@@ -175,7 +175,7 @@ void RefactoringAssistant::setVisibilityIcon(QTreeWidgetItem *item , const UMLOb
         }
         break;
     case Uml::Visibility::Implementation:
-        if (t == Uml::ot_Operation) {
+        if (t == UMLObject::ot_Operation) {
             item->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Implementation_Method));
         }
         else {
@@ -325,14 +325,14 @@ void RefactoringAssistant::editProperties()
 void RefactoringAssistant::editProperties(UMLObject *obj)
 {
     KDialog *dia(0);
-    Uml::Object_Type t = obj->baseType();
-    if (t == Uml::ot_Class || t == Uml::ot_Interface) {
+    UMLObject::Object_Type t = obj->baseType();
+    if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
         dia = new ClassPropDlg(this, obj, true);
     }
-    else if (t == Uml::ot_Operation) {
+    else if (t == UMLObject::ot_Operation) {
         dia = new UMLOperationDialog(this, static_cast<UMLOperation*>(obj));
     }
-    else if (t == Uml::ot_Attribute) {
+    else if (t == UMLObject::ot_Attribute) {
         dia = new UMLAttributeDialog(this, static_cast<UMLAttribute*>(obj));
     }
     else {
@@ -366,11 +366,11 @@ void RefactoringAssistant::deleteItem()
  */
 void RefactoringAssistant::deleteItem(QTreeWidgetItem *item, UMLObject *obj)
 {
-    Uml::Object_Type t = obj->baseType();
-    if (t == Uml::ot_Class || t == Uml::ot_Interface) {
+    UMLObject::Object_Type t = obj->baseType();
+    if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
         uDebug() << "Delete class or interface - not yet implemented!";  //:TODO:
     }
-    else if (t == Uml::ot_Operation) {
+    else if (t == UMLObject::ot_Operation) {
         QTreeWidgetItem *opNode = item->parent();
         if (opNode) {
             QTreeWidgetItem *parent = opNode->parent();
@@ -383,7 +383,7 @@ void RefactoringAssistant::deleteItem(QTreeWidgetItem *item, UMLObject *obj)
             c->removeOperation(op);
         }
     }
-    else if (t == Uml::ot_Attribute) {
+    else if (t == UMLObject::ot_Attribute) {
         QTreeWidgetItem *attrNode = item->parent();
         if (attrNode) {
             QTreeWidgetItem *parent = attrNode->parent();
@@ -432,15 +432,15 @@ void RefactoringAssistant::showContextMenu(const QPoint& p)
     m_menu->clear();
     UMLObject *obj = findUMLObject(item);
     if (obj) { // Menu for UMLObjects
-        Uml::Object_Type t = obj->baseType();
-        if (t == Uml::ot_Class) {
+        UMLObject::Object_Type t = obj->baseType();
+        if (t == UMLObject::ot_Class) {
             m_menu->addAction(createAction(i18n("Add Base Class"), SLOT(addBaseClassifier()), Icon_Utils::it_Generalisation));
             m_menu->addAction(createAction(i18n("Add Derived Class"), SLOT(addDerivedClassifier()), Icon_Utils::it_Uniassociation));
             // m_menu->addAction(createAction(i18n("Add Interface Implementation"), SLOT(addInterfaceImplementation()), Icon_Utils::it_Implementation));
             m_menu->addAction(createAction(i18n("Add Operation"), SLOT(createOperation()), Icon_Utils::it_Public_Method));
             m_menu->addAction(createAction(i18n("Add Attribute"), SLOT(createAttribute()), Icon_Utils::it_Public_Attribute));
         }
-        else if (t == Uml::ot_Interface) {
+        else if (t == UMLObject::ot_Interface) {
             m_menu->addAction(createAction(i18n("Add Base Interface"), SLOT(addSuperClassifier()), Icon_Utils::it_Generalisation));
             m_menu->addAction(createAction(i18n("Add Derived Interface"), SLOT(addDerivedClassifier()), Icon_Utils::it_Uniassociation));
             m_menu->addAction(createAction(i18n("Add Operation"), SLOT(createOperation()), Icon_Utils::it_Public_Method));
@@ -485,12 +485,12 @@ void RefactoringAssistant::addBaseClassifier()
     }
 
     //classes have classes and interfaces interfaces as super/derived classifiers
-    Uml::Object_Type t = obj->baseType();
+    UMLObject::Object_Type t = obj->baseType();
     UMLClassifier *super = static_cast<UMLClassifier*>(Object_Factory::createUMLObject(t));
     if (!super) {
         return;
     }
-    m_doc->createUMLAssociation(obj, super, Uml::at_Generalization);
+    m_doc->createUMLAssociation(obj, super, Uml::AssociationType::Generalization);
 
     //////////////////////   Manually add the classifier to the assitant - would be nicer to do it with
     /////////////////////    a signal, like operations and attributes
@@ -530,12 +530,12 @@ void RefactoringAssistant::addDerivedClassifier()
     }
 
     //classes have classes and interfaces have interfaces as super/derived classifiers
-    Uml::Object_Type t = obj->baseType();
+    UMLObject::Object_Type t = obj->baseType();
     UMLClassifier *derived = static_cast<UMLClassifier*>(Object_Factory::createUMLObject(t));
     if (!derived) {
         return;
     }
-    m_doc->createUMLAssociation(derived, obj, Uml::at_Generalization);
+    m_doc->createUMLAssociation(derived, obj, Uml::AssociationType::Generalization);
 
     //////////////////////   Manually add the classifier to the assitant - would be nicer to do it with
     /////////////////////    a signal, like operations and attributes
@@ -569,11 +569,11 @@ void RefactoringAssistant::addInterfaceImplementation()
     //  UMLObject *obj = findUMLObject( item );
     //  if( !dynamic_cast<UMLClassifier*>(obj) )
     //          return;
-    //  UMLObject *n = Object_Factory::createUMLObject( Uml::ot_Interface) );
+    //  UMLObject *n = Object_Factory::createUMLObject( UMLObject::ot_Interface) );
     //  if (!n) {
     //      return;
     //  }
-    //  m_doc->createUMLAssociation( n, obj, Uml::at_Realization );
+    //  m_doc->createUMLAssociation( n, obj, UMLObject::at_Realization );
     //  //refresh, add classifier to assistant
 }
 
@@ -786,11 +786,11 @@ uDebug() << "acceptProposedAction";  //:TODO:fischer
         return;
     }
     QTreeWidgetItem* parentItem = afterme->parent();
-    Uml::Object_Type t = movingObject->baseType();
+    UMLObject::Object_Type t = movingObject->baseType();
     newClassifier = dynamic_cast<UMLClassifier*>(findUMLObject(parentItem));
     if (!newClassifier) {
-        if ((parentItem->text(1) == "operations" && t == Uml::ot_Operation)
-                || (parentItem->text(1) == "attributes" && t == Uml::ot_Attribute)) {
+        if ((parentItem->text(1) == "operations" && t == UMLObject::ot_Operation)
+                || (parentItem->text(1) == "attributes" && t == UMLObject::ot_Attribute)) {
             newClassifier = dynamic_cast<UMLClassifier*>(findUMLObject(parentItem->parent()));
         }
         if (!newClassifier) {
@@ -798,7 +798,7 @@ uDebug() << "acceptProposedAction";  //:TODO:fischer
             return;
         }
     }
-    if (t == Uml::ot_Operation) {
+    if (t == UMLObject::ot_Operation) {
         uDebug() << "Moving operation";
         UMLOperation *op = static_cast<UMLOperation*>(movingObject);
         if (newClassifier->checkOperationSignature(op->name(), op->getParmList())) {
@@ -819,7 +819,7 @@ uDebug() << "acceptProposedAction";  //:TODO:fischer
         m_doc->signalUMLObjectCreated(newOp);  //:TODO: really?
 uDebug() << "oldClassifier=" << oldClassifier->name() << " / newClassifier=" << newClassifier->name();  //:TODO:fischer
     }
-    else if (t == Uml::ot_Attribute) {
+    else if (t == UMLObject::ot_Attribute) {
         uDebug() << "Moving attribute";
         UMLAttribute *att = static_cast<UMLAttribute*>(movingObject);
         if (newClassifier->getAttributeList().contains(att)) {

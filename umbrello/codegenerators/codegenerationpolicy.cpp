@@ -5,30 +5,30 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "codegenerationpolicy.h"
 
+// app includes
+#include "codegenerationpolicypage.h"
+#include "debug_utils.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umbrellosettings.h"
+
+// kde includes
+#include <kconfig.h>
+#include <kdeversion.h>
+#include <kstandarddirs.h>
+
 // qt includes
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
 #include <QtCore/QTextStream>
 #include <QtCore/QDateTime>
-
-// kde includes
-#include <kconfig.h>
-#include <kdeversion.h>
-#include <kdebug.h>
-#include <kstandarddirs.h>
-
-// app includes
-#include "uml.h"
-#include "umldoc.h"
-#include "codegenerationpolicypage.h"
-#include "umbrellosettings.h"
 
 using namespace std;
 

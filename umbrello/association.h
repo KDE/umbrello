@@ -4,17 +4,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef ASSOCIATION_H
 #define ASSOCIATION_H
 
-#include <qdom.h>
-
-#include "umlnamespace.h"
+#include "basictypes.h"
 #include "umlobject.h"
+
+#include <QtXml/QDomElement>
+#include <QtXml/QDomDocument>
 
 class UMLRole;
 
@@ -32,10 +33,10 @@ class UMLAssociation : public UMLObject
 {
     Q_OBJECT
     friend class AssociationWidget;
-public:
 
-    UMLAssociation(Uml::Association_Type type, UMLObject *roleA, UMLObject *roleB);
-    UMLAssociation(Uml::Association_Type type = Uml::at_Unknown);
+public:
+    UMLAssociation(Uml::AssociationType type, UMLObject *roleA, UMLObject *roleB);
+    UMLAssociation(Uml::AssociationType type = Uml::AssociationType::Unknown);
 
     virtual ~UMLAssociation();
 
@@ -43,17 +44,14 @@ public:
 
     QString toString() const;
 
-    static QString toString(Uml::Association_Type atype);
     static QString toString(Uml::Changeability_Type type);
-
-    static bool assocTypeHasUMLRepresentation(Uml::Association_Type atype);
 
     UMLRole * getUMLRole(Uml::Role_Type role) const;
     Uml::IDType getObjectId(Uml::Role_Type role) const;
     Uml::IDType getRoleId(Uml::Role_Type role) const;
 
-    void setAssocType(Uml::Association_Type assocType);
-    Uml::Association_Type getAssocType() const;
+    void setAssocType(Uml::AssociationType assocType);
+    Uml::AssociationType getAssocType() const;
 
     void setObject(UMLObject *obj, Uml::Role_Type role);
     UMLObject* getObject(Uml::Role_Type role) const;
@@ -89,21 +87,10 @@ protected:
     // keep track of number of parent widgets
     int nrof_parent_widgets;
 
-    void init(Uml::Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj);
-
-    /* If the type Uml::Association_Type is changed then also the following
-       must be changed accordingly:
-       atypeFirst, atypeLast, assocTypeStr[], toAssocType(), toString().
-       The ordering within assocTypeStr must match the enumeration
-       order of Uml::Association_Type.
-     */
-    static const Uml::Association_Type atypeFirst;
-    static const Uml::Association_Type atypeLast;
-    static const unsigned int nAssocTypes;
-    static const QString assocTypeStr[];
+    void init(Uml::AssociationType type, UMLObject *roleAObj, UMLObject *roleBObj);
 
     UMLRole *              m_pRole[2];
-    Uml::Association_Type  m_AssocType;
+    Uml::AssociationType   m_AssocType;
     QString                m_Name;
     bool                   m_bOldLoadMode;
 

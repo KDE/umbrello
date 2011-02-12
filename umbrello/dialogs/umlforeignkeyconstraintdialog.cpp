@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2010                                                *
+ *  copyright (C) 2003-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -13,6 +13,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "classifierlistitem.h"
+#include "debug_utils.h"
 #include "dialog_utils.h"
 #include "entityattribute.h"
 #include "enumliteral.h"
@@ -28,7 +29,6 @@
 #include "uniqueconstraint.h"
 #include "icon_utils.h"
 
-#include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
 #include <kvbox.h>
@@ -100,8 +100,8 @@ void UMLForeignKeyConstraintDialog::slotAddPair()
     // update mapping view
 
     QTreeWidgetItem* mapping = new QTreeWidgetItem(m_ColumnWidgets.mappingTW);
-    mapping->setText(0, localColumn->toString(Uml::st_SigNoVis));
-    mapping->setText(1, referencedColumn->toString(Uml::st_SigNoVis));
+    mapping->setText(0, localColumn->toString(Uml::SignatureType::SigNoVis));
+    mapping->setText(1, referencedColumn->toString(Uml::SignatureType::SigNoVis));
 
     m_ColumnWidgets.mappingTW->addTopLevelItem(mapping);
 
@@ -133,8 +133,8 @@ void UMLForeignKeyConstraintDialog::slotDeletePair()
 
     // add them to the view ( combo boxes )
     uDebug() << (pair.first) << (pair.second);
-    m_ColumnWidgets.localColumnCB->addItem((pair.first)->toString(Uml::st_SigNoVis));
-    m_ColumnWidgets.referencedColumnCB->addItem((pair.second)->toString(Uml::st_SigNoVis));
+    m_ColumnWidgets.localColumnCB->addItem((pair.first)->toString(Uml::SignatureType::SigNoVis));
+    m_ColumnWidgets.referencedColumnCB->addItem((pair.second)->toString(Uml::SignatureType::SigNoVis));
 
     foreach(const EntityAttributePair& p, m_pAttributeMapList) {
         uDebug() << (p.first)->name() << " " << (p.first)->baseType() << " "
@@ -152,7 +152,7 @@ bool UMLForeignKeyConstraintDialog::apply()
 {
     // set the Referenced Entity
     QString entityName = m_GeneralWidgets.referencedEntityCB->currentText();
-    UMLObject* uo = m_doc->findUMLObject(entityName , Uml::ot_Entity);
+    UMLObject* uo = m_doc->findUMLObject(entityName , UMLObject::ot_Entity);
 
     UMLEntity* ue = static_cast<UMLEntity*>(uo);
 
@@ -344,8 +344,8 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
 
         // add to view
         QTreeWidgetItem* mapping = new QTreeWidgetItem(m_ColumnWidgets.mappingTW);
-        mapping->setText(0, localColumn->toString(Uml::st_SigNoVis));
-        mapping->setText(1, referencedColumn->toString(Uml::st_SigNoVis));
+        mapping->setText(0, localColumn->toString(Uml::SignatureType::SigNoVis));
+        mapping->setText(1, referencedColumn->toString(Uml::SignatureType::SigNoVis));
 
         m_ColumnWidgets.mappingTW->insertTopLevelItem(0, mapping);
     }
@@ -404,15 +404,15 @@ void UMLForeignKeyConstraintDialog::refillReferencedAttributeCB()
     // fill the combo boxes
 
     UMLObject* uo = m_doc->findUMLObject(m_GeneralWidgets.referencedEntityCB->currentText(),
-                                         Uml::ot_Entity);
+                                         UMLObject::ot_Entity);
 
     UMLEntity* ue = static_cast<UMLEntity*>(uo);
 
     if (ue) {
-        UMLClassifierListItemList ual = ue->getFilteredList(Uml::ot_EntityAttribute);
+        UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
         foreach(UMLClassifierListItem* att, ual) {
             m_pReferencedAttributeList.append(static_cast<UMLEntityAttribute*>(att));
-            m_ColumnWidgets.referencedColumnCB->addItem(att->toString(Uml::st_SigNoVis));
+            m_ColumnWidgets.referencedColumnCB->addItem(att->toString(Uml::SignatureType::SigNoVis));
         }
     }
 }
@@ -425,10 +425,10 @@ void UMLForeignKeyConstraintDialog::refillLocalAttributeCB()
     UMLEntity* ue = static_cast<UMLEntity*>(m_pForeignKeyConstraint->parent());
 
     if (ue) {
-        UMLClassifierListItemList ual = ue->getFilteredList(Uml::ot_EntityAttribute);
+        UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
         foreach(UMLClassifierListItem* att, ual) {
             m_pLocalAttributeList.append(static_cast<UMLEntityAttribute*>(att));
-            m_ColumnWidgets.localColumnCB->addItem(att->toString(Uml::st_SigNoVis));
+            m_ColumnWidgets.localColumnCB->addItem(att->toString(Uml::SignatureType::SigNoVis));
         }
     }
 }

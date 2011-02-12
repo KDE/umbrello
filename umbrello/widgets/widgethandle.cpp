@@ -18,13 +18,13 @@
  ***************************************************************************/
 
 #include "widgethandle.h"
+
+#include "debug_utils.h"
 #include "umlwidget.h"
 
 #include <QtGui/QPainter>
 #include <QtGui/QGraphicsSceneMouseEvent>
 #include <QtGui/QCursor>
-
-#include <kdebug.h>
 
 /**
  * @class WidgetHandle

@@ -13,9 +13,10 @@
 
 // local includes
 #include "association.h"
+#include "assocpropdlg.h"
 #include "classifier.h"
 #include "cmds.h"
-#include "assocpropdlg.h"
+#include "debug_utils.h"
 #include "selectopdlg.h"
 #include "linkwidget.h"
 #include "listpopupmenu.h"
@@ -54,7 +55,7 @@ FloatingTextWidget::FloatingTextWidget(Uml::Text_Role role,
                                        Uml::IDType id)
   : UMLWidget(0)
 {
-    m_baseType = Uml::wt_Text;
+    m_baseType = WidgetBase::wt_Text;
     setID(id);
     m_linkWidget = 0;
     setResizable(false);
@@ -566,7 +567,7 @@ QVariant FloatingTextWidget::attributeChange(WidgetAttributeChange change, const
 }
 
 /**
- * Event handler for context menu event.
+ * Event handler for context menu events.
  */
 void FloatingTextWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
@@ -654,7 +655,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
                     m_linkWidget->setCustomOpText(opText);
                 return;
             }
-            UMLClassifierListItem* umlObj = Object_Factory::createChildObject(c, Uml::ot_Operation);
+            UMLClassifierListItem* umlObj = Object_Factory::createChildObject(c, UMLObject::ot_Operation);
             if (umlObj) {
                 UMLOperation* newOperation = static_cast<UMLOperation*>(umlObj);
                 m_linkWidget->setOperation(newOperation);

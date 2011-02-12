@@ -4,26 +4,26 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "worktoolbar.h"
 
-// qt include files
-#include <QtGui/QAction>
-#include <QtGui/QToolButton>
-
-// kde include files
-#include <kdebug.h>
-#include <klocale.h>
-
 // application specific includes
+#include "debug_utils.h"
+#include "icon_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
-#include "icon_utils.h"
+
+// kde include files
+#include <klocale.h>
+
+// qt include files
+#include <QtGui/QAction>
+#include <QtGui/QToolButton>
 
 /**
  * Creates a work tool bar.
@@ -35,20 +35,20 @@ WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
 {
     m_CurrentButtonID = tbb_Undefined;
     loadPixmaps();
-    m_Type = Uml::dt_Class; /* first time in just want it to load arrow,
-                           needs anything but dt_Undefined  */
+    m_Type = Uml::DiagramType::Class; // first time in just want it to load arrow,
+                                      // needs anything but Uml::DiagramType::Undefined
     setOrientation(Qt::Vertical);
 //     setVerticalStretchable( true );
     // initialize old tool map, everything starts with select tool (arrow)
-    m_map.insert(Uml::dt_UseCase, tbb_Arrow);
-    m_map.insert(Uml::dt_Collaboration, tbb_Arrow);
-    m_map.insert(Uml::dt_Class, tbb_Arrow);
-    m_map.insert(Uml::dt_Sequence, tbb_Arrow);
-    m_map.insert(Uml::dt_State, tbb_Arrow);
-    m_map.insert(Uml::dt_Activity, tbb_Arrow);
-    m_map.insert(Uml::dt_Undefined, tbb_Arrow);
+    m_map.insert(Uml::DiagramType::UseCase, tbb_Arrow);
+    m_map.insert(Uml::DiagramType::Collaboration, tbb_Arrow);
+    m_map.insert(Uml::DiagramType::Class, tbb_Arrow);
+    m_map.insert(Uml::DiagramType::Sequence, tbb_Arrow);
+    m_map.insert(Uml::DiagramType::State, tbb_Arrow);
+    m_map.insert(Uml::DiagramType::Activity, tbb_Arrow);
+    m_map.insert(Uml::DiagramType::Undefined, tbb_Arrow);
 
-    slotCheckToolBar(Uml::dt_Undefined);
+    slotCheckToolBar(Uml::DiagramType::Undefined);
 }
 
 /**
@@ -78,21 +78,21 @@ QAction* WorkToolBar::insertHotBtn(ToolBar_Buttons tbb)
 void WorkToolBar::insertBasicAssociations()
 {
     insertHotBtn(tbb_Association);
-    if (m_Type == Uml::dt_Class || m_Type == Uml::dt_UseCase) {
+    if (m_Type == Uml::DiagramType::Class || m_Type == Uml::DiagramType::UseCase) {
         insertHotBtn(tbb_UniAssociation);
     }
     insertHotBtn(tbb_Dependency);
     insertHotBtn(tbb_Generalization);
 }
 
-void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt)
+void WorkToolBar::slotCheckToolBar(Uml::DiagramType dt)
 {
     if (dt == m_Type)
         return;
     clear();
     m_Type = dt;
 
-    if (m_Type == Uml::dt_Undefined)
+    if (m_Type == Uml::DiagramType::Undefined)
         return;
 
     // insert note, anchor and lines of text on all diagrams
@@ -107,13 +107,13 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt)
 
     // insert diagram specific tools
     switch (m_Type) {
-    case Uml::dt_UseCase:
+    case Uml::DiagramType::UseCase:
         insertHotBtn(tbb_Actor);
         insertHotBtn(tbb_UseCase);
         insertBasicAssociations();
         break;
 
-    case Uml::dt_Class:
+    case Uml::DiagramType::Class:
         insertHotBtn(tbb_Class);
         insertHotBtn(tbb_Interface);
         insertHotBtn(tbb_Datatype);
@@ -125,7 +125,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt)
         insertHotBtn(tbb_Containment);
         break;
 
-    case Uml::dt_Sequence:
+    case Uml::DiagramType::Sequence:
         insertHotBtn(tbb_Object);
         insertHotBtn(tbb_Seq_Message_Synchronous);
         insertHotBtn(tbb_Seq_Message_Asynchronous);
@@ -135,12 +135,12 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt)
         insertHotBtn(tbb_Seq_Precondition);
         break;
 
-    case Uml::dt_Collaboration:
+    case Uml::DiagramType::Collaboration:
         insertHotBtn(tbb_Object);
         insertHotBtn(tbb_Coll_Message);
         break;
 
-    case Uml::dt_State:
+    case Uml::DiagramType::State:
         insertHotBtn(tbb_Initial_State);
         insertHotBtn(tbb_State);
         insertHotBtn(tbb_End_State);
@@ -154,7 +154,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt)
         //insertHotBtn(tbb_Andline);            //NotYetImplemented
         break;
 
-    case Uml::dt_Activity:
+    case Uml::DiagramType::Activity:
         insertHotBtn(tbb_Initial_Activity);
         insertHotBtn(tbb_Activity);
         insertHotBtn(tbb_End_Activity);
@@ -172,14 +172,14 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt)
         insertHotBtn(tbb_Object_Node);
         break;
 
-    case Uml::dt_Component:
+    case Uml::DiagramType::Component:
         insertHotBtn(tbb_Interface);
         insertHotBtn(tbb_Component);
         insertHotBtn(tbb_Artifact);
         insertBasicAssociations();
         break;
 
-    case Uml::dt_Deployment:
+    case Uml::DiagramType::Deployment:
         insertHotBtn(tbb_Object);
         insertHotBtn(tbb_Interface);
         insertHotBtn(tbb_Component);
@@ -187,7 +187,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt)
         insertBasicAssociations();
         break;
 
-    case Uml::dt_EntityRelationship:
+    case Uml::DiagramType::EntityRelationship:
         insertHotBtn(tbb_Entity);
         insertHotBtn(tbb_Category);
         insertHotBtn(tbb_Relationship);
@@ -196,7 +196,7 @@ void WorkToolBar::slotCheckToolBar(Uml::Diagram_Type dt)
         break;
 
     default:
-        uWarning() << "slotCheckToolBar() on unknown diagram type:" << m_Type;
+        uWarning() << "slotCheckToolBar() on unknown diagram type:" << m_Type.toString();
         break;
     }
 }

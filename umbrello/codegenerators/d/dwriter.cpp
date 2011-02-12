@@ -5,33 +5,34 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-/***************************************************************************
+/*
     This is the "old" code generator that does not support code editing
     in the Modeller but uses significantly less file space because the
     source code is not replicated in the XMI file.
- ***************************************************************************/
+*/
 
 // own header
 #include "dwriter.h"
+
+// app includes
+#include "association.h"
+#include "attribute.h"
+#include "classifier.h"
+#include "codegen_utils.h"
+#include "debug_utils.h"
+#include "operation.h"
+#include "template.h"
+#include "umldoc.h"
+#include "umltemplatelist.h"
+
 // qt includes
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QRegExp>
-// kde includes
-#include <kdebug.h>
-// app includes
-#include "umldoc.h"
-#include "classifier.h"
-#include "operation.h"
-#include "attribute.h"
-#include "association.h"
-#include "template.h"
-#include "umltemplatelist.h"
-#include "codegen_utils.h"
 
 DWriter::DWriter()
 {
@@ -42,9 +43,9 @@ DWriter::~DWriter()
 {
 }
 
-Uml::Programming_Language DWriter::language() const
+Uml::ProgrammingLanguage DWriter::language() const
 {
-    return Uml::pl_D;
+    return Uml::ProgrammingLanguage::D;
 }
 
 // FIXME: doesn't work yet
@@ -59,7 +60,7 @@ void DWriter::writeModuleDecl(UMLClassifier *c, QTextStream &d)
 void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
 {
     // another preparation, determine what we have
-    UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
+    UMLAssociationList associations = c->getSpecificAssocs(Uml::AssociationType::Association); // BAD! only way to get "general" associations.
     UMLAssociationList uniAssociations = c->getUniAssociationToBeImplemented();
 
     UMLAssociationList aggregations = c->getAggregations();
@@ -77,7 +78,7 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
     UMLPackageList imports;
     findObjectsRelated(c, imports);
     foreach (UMLPackage* con, imports  ) {
-        if (con->baseType() == Uml::ot_Datatype)
+        if (con->baseType() == UMLObject::ot_Datatype)
             continue;
         QString pkg = con->package();
         if (!pkg.isEmpty() && pkg != c->package())
@@ -189,7 +190,7 @@ void DWriter::writeClass(UMLClassifier *c)
     }
 
     // another preparation, determine what we have
-    UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
+    UMLAssociationList associations = c->getSpecificAssocs(Uml::AssociationType::Association); // BAD! only way to get "general" associations.
     UMLAssociationList uniAssociations = c->getUniAssociationToBeImplemented();
 
     UMLAssociationList aggregations = c->getAggregations();

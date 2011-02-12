@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,13 +12,13 @@
 #include "objectnodedialog.h"
 
 // local includes
+#include "debug_utils.h"
 #include "umlview.h"
 #include "dialog_utils.h"
 #include "icon_utils.h"
 #include "objectnodewidget.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <ktextedit.h>

@@ -35,6 +35,7 @@ private slots:
     void test_DiagramType_toString();
     void test_DiagramType_fromString();
     void test_DiagramType_forLoop();
+    void test_AssociationType_toString_fromString();
     void test_SignatureType_toString_fromString();
 };
 
@@ -214,16 +215,28 @@ void TEST_basictypes::test_DiagramType_forLoop()
 
 //-----------------------------------------------------------------------------
 
+void TEST_basictypes::test_AssociationType_toString_fromString()
+{
+    for (int i = Uml::AssociationType::Generalization; i < Uml::AssociationType::Relationship; ++i) {
+        Uml::AssociationType at = Uml::AssociationType::fromString(
+                                      Uml::AssociationType::toString(
+                                          Uml::AssociationType::Value(i)));
+        QVERIFY(Uml::AssociationType::Value(i) == at);
+    }
+}
+
+//-----------------------------------------------------------------------------
+
 void TEST_basictypes::test_SignatureType_toString_fromString()
 {
     QVERIFY(Uml::SignatureType::NoSig ==
             Uml::SignatureType::fromString(Uml::SignatureType::toString(Uml::SignatureType::NoSig)));
-/*
-    Uml::SignatureType signatDefault;
-    QCOMPARE(signatDefault.toString(), QString("NoSig"));
-    Uml::SignatureType signat0(Uml::SignatureType::NoSig);
-    QCOMPARE(signat0.toString(), QString("NoSig"));
-*/
+    QVERIFY(Uml::SignatureType::ShowSig ==
+            Uml::SignatureType::fromString(Uml::SignatureType::toString(Uml::SignatureType::ShowSig)));
+    QVERIFY(Uml::SignatureType::SigNoVis ==
+            Uml::SignatureType::fromString(Uml::SignatureType::toString(Uml::SignatureType::SigNoVis)));
+    QVERIFY(Uml::SignatureType::NoSigNoVis ==
+            Uml::SignatureType::fromString(Uml::SignatureType::toString(Uml::SignatureType::NoSigNoVis)));
 }
 
 QTEST_MAIN(TEST_basictypes)

@@ -5,33 +5,17 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003  Brian Thomas  <brian.thomas@gsfc.nasa.gov>        *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "codeeditor.h"
 
-// qt includes
-#include <QtGui/QMouseEvent>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QKeySequence>
-#include <QtGui/QMenu>
-#include <QtGui/QColor>
-#include <QtGui/QLabel>
-#include <QtGui/QBrush>
-#include <QtGui/QLayout>
-#include <QtCore/QPointer>
-#include <QtCore/QRegExp>
-
-// kde includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kaction.h>
-
 // local includes
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "umldoc.h"
 #include "umlrole.h"
 
@@ -50,6 +34,22 @@
 #include "umlattributedialog.h"
 #include "umlroledialog.h"
 #include "umloperationdialog.h"
+
+// kde includes
+#include <klocale.h>
+#include <kaction.h>
+
+// qt includes
+#include <QtGui/QMouseEvent>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QKeySequence>
+#include <QtGui/QMenu>
+#include <QtGui/QColor>
+#include <QtGui/QLabel>
+#include <QtGui/QBrush>
+#include <QtGui/QLayout>
+#include <QtCore/QPointer>
+#include <QtCore/QRegExp>
 
 CodeEditor::CodeEditor (const QString & text, const QString & context, CodeViewerDialog * parent,
     const char * name, CodeDocument * doc)

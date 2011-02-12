@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,6 +14,7 @@
 // app includes
 #include "classifier.h"
 #include "classifierlistitem.h"
+#include "debug_utils.h"
 #include "enum.h"
 #include "enumliteral.h"
 #include "listpopupmenu.h"
@@ -39,11 +40,13 @@ EnumWidget::EnumWidget(UMLObject* o) :
     UMLWidget(o),
     m_showPackage(false)
 {
-    m_baseType = Uml::wt_Enum;
+    m_baseType = WidgetBase::wt_Enum;
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 EnumWidget::~EnumWidget()
 {
 }
@@ -72,7 +75,9 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
     painter->drawLine(m_nameLine);
 }
 
-/// Loads from an "enumwidget" XMI element.
+/**
+ * Loads from an "enumwidget" XMI element.
+ */
 bool EnumWidget::loadFromXMI( QDomElement & qElement )
 {
     if( !UMLWidget::loadFromXMI(qElement) ) {
@@ -83,7 +88,9 @@ bool EnumWidget::loadFromXMI( QDomElement & qElement )
     return true;
 }
 
-/// Saves to the "enumwidget" XMI element.
+/**
+ * Saves to the "enumwidget" XMI element.
+ */
 void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
 {
     QDomElement conceptElement = qDoc.createElement("enumwidget");
@@ -104,7 +111,7 @@ void EnumWidget::slotMenuSelection(QAction *action)
 
     if (sel == ListPopupMenu::mt_EnumLiteral) {
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),
-                                              Uml::ot_EnumLiteral) )  {
+                                              UMLObject::ot_EnumLiteral) )  {
             UMLApp::app()->document()->setModified();
         }
         return;
@@ -132,7 +139,7 @@ void EnumWidget::updateTextItemGroups()
 {
     if(umlObject()) {
         UMLClassifier *classifier = static_cast<UMLClassifier*>(umlObject());
-        UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
+        UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
         int totalTextItems = list.size() + 2; // +2 because stereo text + name text.
 
         TextItemGroup *grp = textItemGroupAt(GroupIndex);

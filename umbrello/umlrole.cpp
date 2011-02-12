@@ -4,21 +4,21 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "umlrole.h"
 
-// qt/kde includes
-#include <kdebug.h>
-#include <QtCore/QRegExp>
-
 // local includes
 #include "association.h"
+#include "debug_utils.h"
 #include "umldoc.h"
 #include "uml.h"
+
+// qt includes
+#include <QtCore/QRegExp>
 
 
 /**
@@ -35,7 +35,7 @@ UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type 
     m_Multi(QString()),
     m_Changeability(Uml::chg_Changeable)
 {
-    m_BaseType = Uml::ot_Role;
+    m_BaseType = UMLObject::ot_Role;
     m_Name = QString();
     m_pSecondary = parentObj;
 
@@ -169,17 +169,17 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if (m_role == Uml::A) {  // role aggregation based on parent type
         // role A
         switch (m_pAssoc->getAssocType()) {
-        case Uml::at_Composition:
+        case Uml::AssociationType::Composition:
             roleElement.setAttribute("aggregation", "composite");
             break;
-        case Uml::at_Aggregation:
+        case Uml::AssociationType::Aggregation:
             roleElement.setAttribute("aggregation", "aggregate");
             break;
         default:
             roleElement.setAttribute("aggregation", "none");
             break;
         }
-        if (m_pAssoc->getAssocType() == Uml::at_UniAssociation) {
+        if (m_pAssoc->getAssocType() == Uml::AssociationType::UniAssociation) {
             // Normally the isNavigable attribute is "true".
             // We set it to false on role A to indicate that
             // role B gets an explicit arrowhead.
@@ -191,7 +191,7 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         roleElement.setAttribute("aggregation", "none");
         roleElement.setAttribute("isNavigable", "true");
         //FIXME obviously this isn't standard XMI
-        if (m_pAssoc->getAssocType() == Uml::at_Relationship) {
+        if (m_pAssoc->getAssocType() == Uml::AssociationType::Relationship) {
             roleElement.setAttribute("relationship", "true");
         }
     }
@@ -232,9 +232,9 @@ bool UMLRole::load( QDomElement & element )
             continue;
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (Uml::tagEq(tag, "name")) {
+        if (UMLDoc::tagEq(tag, "name")) {
             m_Name = tempElement.text();
-        } else if (Uml::tagEq(tag, "AssociationEnd.multiplicity")) {
+        } else if (UMLDoc::tagEq(tag, "AssociationEnd.multiplicity")) {
             /**
              * There are different ways in which the multiplicity might be given:
              *  - direct value in the <AssociationEnd.multiplicity> tag,
@@ -250,21 +250,21 @@ bool UMLRole::load( QDomElement & element )
             }
             tempElement = n.toElement();
             tag = tempElement.tagName();
-            if (!Uml::tagEq(tag, "Multiplicity")) {
+            if (!UMLDoc::tagEq(tag, "Multiplicity")) {
                 m_Multi = tempElement.text().trimmed();
                 continue;
             }
             n = tempElement.firstChild();
             tempElement = n.toElement();
             tag = tempElement.tagName();
-            if (!Uml::tagEq(tag, "Multiplicity.range")) {
+            if (!UMLDoc::tagEq(tag, "Multiplicity.range")) {
                 m_Multi = tempElement.text().trimmed();
                 continue;
             }
             n = tempElement.firstChild();
             tempElement = n.toElement();
             tag = tempElement.tagName();
-            if (!Uml::tagEq(tag, "MultiplicityRange")) {
+            if (!UMLDoc::tagEq(tag, "MultiplicityRange")) {
                 m_Multi = tempElement.text().trimmed();
                 continue;
             }
@@ -283,9 +283,9 @@ bool UMLRole::load( QDomElement & element )
             while (!n.isNull()) {
                 tempElement = n.toElement();
                 tag = tempElement.tagName();
-                if (Uml::tagEq(tag, "MultiplicityRange.lower")) {
+                if (UMLDoc::tagEq(tag, "MultiplicityRange.lower")) {
                     m_Multi = tempElement.text();
-                } else if (Uml::tagEq(tag, "MultiplicityRange.upper")) {
+                } else if (UMLDoc::tagEq(tag, "MultiplicityRange.upper")) {
                     multiUpper = tempElement.text();
                 }
                 n = n.nextSibling();
@@ -296,8 +296,8 @@ bool UMLRole::load( QDomElement & element )
                 m_Multi.append(multiUpper);
             }
         } else if (m_SecondaryId.isEmpty() &&
-                   (Uml::tagEq(tag, "type") ||
-                    Uml::tagEq(tag, "participant"))) {
+                   (UMLDoc::tagEq(tag, "type") ||
+                    UMLDoc::tagEq(tag, "participant"))) {
             m_SecondaryId = tempElement.attribute("xmi.id", "");
             if (m_SecondaryId.isEmpty())
                 m_SecondaryId = tempElement.attribute("xmi.idref", "");
@@ -342,10 +342,10 @@ bool UMLRole::load( QDomElement & element )
     // The role end with the aggregation unequal to "none" wins.
     QString aggregation = element.attribute("aggregation", "none");
     if (aggregation == "composite")
-        m_pAssoc->setAssocType(Uml::at_Composition);
+        m_pAssoc->setAssocType(Uml::AssociationType::Composition);
     else if (aggregation == "shared"       // UML1.3
           || aggregation == "aggregate")   // UML1.4
-        m_pAssoc->setAssocType(Uml::at_Aggregation);
+        m_pAssoc->setAssocType(Uml::AssociationType::Aggregation);
 
     if (!element.hasAttribute("isNavigable")) {
         /* Backward compatibility mode: In Umbrello version 1.3.x the
@@ -366,15 +366,15 @@ bool UMLRole::load( QDomElement & element )
              allows us to support at_Association and at_UniAssociation. "
          */
         if (element.attribute("isNavigable") == "true")
-            m_pAssoc->setAssocType(Uml::at_UniAssociation);
+            m_pAssoc->setAssocType(Uml::AssociationType::UniAssociation);
     } else if (element.attribute("isNavigable") == "false") {
-        m_pAssoc->setAssocType(Uml::at_UniAssociation);
+        m_pAssoc->setAssocType(Uml::AssociationType::UniAssociation);
     }
 
     //FIXME not standard XMI
     if (element.hasAttribute("relationship")) {
         if (element.attribute("relationship") == "true") {
-            m_pAssoc->setAssocType(Uml::at_Relationship);
+            m_pAssoc->setAssocType(Uml::AssociationType::Relationship);
         }
     }
 

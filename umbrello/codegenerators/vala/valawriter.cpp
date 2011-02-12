@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2009-2010                                               *
+ *   copyright (C) 2009-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,13 +17,11 @@
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "folder.h"
 #include "operation.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlnamespace.h"
-
-#include <kdebug.h>
 
 #include <QtCore/QRegExp>
 #include <QtCore/QTextStream>
@@ -218,7 +216,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
     }
 
     UMLDoc *umldoc = UMLApp::app()->document();
-    UMLFolder *logicalView = umldoc->rootFolder(Uml::mt_Logical);
+    UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
 
     // write generic includes
     //cs << "using GLib;" << m_endl;
@@ -833,9 +831,9 @@ QString ValaWriter::makeLocalTypeName(UMLClassifierListItem *cl)
  * Returns "Vala".
  * @return programming language id
  */
-Uml::Programming_Language ValaWriter::language() const
+Uml::ProgrammingLanguage ValaWriter::language() const
 {
-    return Uml::pl_Vala;
+    return Uml::ProgrammingLanguage::Vala;
 }
 
 /**

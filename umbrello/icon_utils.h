@@ -20,7 +20,7 @@
 #ifndef ICON_UTILS_H
 #define ICON_UTILS_H
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 
 #include <kicon.h>
 
@@ -225,7 +225,7 @@ namespace Icon_Utils {
 
     QString toString(Icon_Type type);
 
-    KIcon iconSet(Uml::Diagram_Type dt);
+    KIcon iconSet(Uml::DiagramType dt);
 
 }  // namespace
 

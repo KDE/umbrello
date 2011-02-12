@@ -4,14 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UML_H
 #define UML_H
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 
 #include <kxmlguiwindow.h>
 #include <kurl.h>
@@ -107,7 +107,7 @@ public:
     bool isSimpleCodeGeneratorActive();
 
     void setGenerator(CodeGenerator* gen, bool giveWarning = true);
-    CodeGenerator* setGenerator(Uml::Programming_Language pl);
+    CodeGenerator* setGenerator(Uml::ProgrammingLanguage pl);
     CodeGenerator* generator() const;
 
     CodeGenerator* createGenerator();
@@ -148,9 +148,9 @@ public:
     void beginMacro(const QString & text);
     void endMacro();
 
-    void setActiveLanguage(Uml::Programming_Language pl);
-    Uml::Programming_Language activeLanguage() const;
-    Uml::Programming_Language defaultLanguage();
+    void setActiveLanguage(Uml::ProgrammingLanguage pl);
+    Uml::ProgrammingLanguage activeLanguage() const;
+    Uml::ProgrammingLanguage defaultLanguage();
 
     bool activeLanguageIsCaseSensitive();
 
@@ -181,7 +181,7 @@ protected:
 
     CodeGenerationPolicy * m_commoncodegenpolicy;
 
-    void updateLangSelectMenu(Uml::Programming_Language activeLanguage);
+    void updateLangSelectMenu(Uml::ProgrammingLanguage activeLanguage);
 
 public slots:
     void slotExecGenerationWizard();
@@ -290,7 +290,7 @@ private:
 
     void resetStatusMsg();
 
-    void setProgLangAction(Uml::Programming_Language pl, const QString& name, const QString& action);
+    void setProgLangAction(Uml::ProgrammingLanguage pl, const QString& name, const QString& action);
 
     static bool canDecode(const QMimeData* mimeSource);
 
@@ -304,7 +304,7 @@ private:
     QMenu* m_langSelect;  ///< For selecting the active language.
     QMenu* m_zoomSelect;  ///< Popup menu for zoom selection.
 
-    Uml::Programming_Language m_activeLanguage;  ///< Active language.
+    Uml::ProgrammingLanguage  m_activeLanguage;  ///< Active language.
     CodeGenerator*            m_codegen;         ///< Active code generator.
     CodeGenPolicyExt*         m_policyext;       ///< Active policy extension.
     // Only used for new code generators ({Cpp,Java,Ruby,D}CodeGenerator).
@@ -358,7 +358,7 @@ private:
     QAction* zoom100Action;
     KPlayerPopupSliderAction* zoomAction;
 
-    QAction* m_langAct[Uml::pl_Reserved];
+    QAction* m_langAct[Uml::ProgrammingLanguage::Reserved];
     KAction* deleteSelectedWidget;
     KAction* deleteDiagram;
 

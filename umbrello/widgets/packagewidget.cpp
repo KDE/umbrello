@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,7 +27,7 @@
 PackageWidget::PackageWidget(UMLPackage *o) :
     UMLWidget(o)
 {
-    m_baseType = Uml::wt_Package;
+    m_baseType = WidgetBase::wt_Package;
     createTextItemGroup();
 }
 

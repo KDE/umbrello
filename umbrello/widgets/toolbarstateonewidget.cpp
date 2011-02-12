@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,12 +34,22 @@
 
 using namespace Uml;
 
-ToolBarStateOneWidget::ToolBarStateOneWidget(UMLScene *umlScene) : ToolBarStatePool(umlScene)
+/**
+ * Creates a new ToolBarStateOneWidget.
+ *
+ * @param umlView The UMLView to use.
+ */
+ToolBarStateOneWidget::ToolBarStateOneWidget(UMLScene *umlScene)
+  : ToolBarStatePool(umlScene),
+    m_firstObject(0),
+    m_umlScene(umlScene),
+    m_isObjectWidgetLine(false)
 {
-    m_umlScene = umlScene;
-    m_firstObject = 0;
 }
 
+/**
+ * Destroys this ToolBarStateOneWidget.
+ */
 ToolBarStateOneWidget::~ToolBarStateOneWidget()
 {
 }
@@ -119,23 +129,23 @@ void ToolBarStateOneWidget::setCurrentElement()
  */
 void ToolBarStateOneWidget::mouseReleaseWidget()
 {
-    Uml::Widget_Type widgetType = getWidgetType();
+    WidgetBase::Widget_Type type = widgetType();
 
-    if (widgetType == Uml::wt_Precondition) {
+    if (type == WidgetBase::wt_Precondition) {
         m_firstObject = 0;
     }
-    if (widgetType == Uml::wt_Pin) {
+    if (type == WidgetBase::wt_Pin) {
         m_firstObject = 0;
     }
 
     if (m_pMouseEvent->button() != Qt::LeftButton ||(
-                getCurrentWidget()->baseType() != Uml::wt_Object &&
-                getCurrentWidget()->baseType() != Uml::wt_Activity &&
-                getCurrentWidget()->baseType() != Uml::wt_Region)) {
+                getCurrentWidget()->baseType() != WidgetBase::wt_Object &&
+                getCurrentWidget()->baseType() != WidgetBase::wt_Activity &&
+                getCurrentWidget()->baseType() != WidgetBase::wt_Region)) {
         return;
     }
 
-    if (!m_firstObject && widgetType == Uml::wt_Pin) {
+    if (!m_firstObject && type == WidgetBase::wt_Pin) {
         setWidget(getCurrentWidget());
         return ;
     }
@@ -170,9 +180,9 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
 {
     m_firstObject = firstObject;
 
-    UMLWidget * umlwidget = NULL;
+    UMLWidget * umlwidget = 0;
     //m_pUMLScene->viewport()->setMouseTracking(true);
-    if (getWidgetType() == Uml::wt_Precondition) {
+    if (widgetType() == WidgetBase::wt_Precondition) {
         umlwidget = new PreconditionWidget(static_cast<ObjectWidget*>(m_firstObject));
         Q_ASSERT (umlwidget->umlScene() == m_pUMLScene);
 
@@ -180,12 +190,12 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
             // Create the widget. Some setup functions can remove the widget.
     }
 
-    if (getWidgetType() == Uml::wt_Pin) {
+    if (widgetType() == WidgetBase::wt_Pin) {
         umlwidget = new PinWidget(m_firstObject);
             // Create the widget. Some setup functions can remove the widget.
     }
 
-    if (umlwidget != NULL) {
+    if (umlwidget) {
         m_pUMLScene->setupNewWidget(umlwidget);
 
     }
@@ -197,18 +207,18 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
  *
  * @return The widget type of this tool.
  */
-Uml::Widget_Type ToolBarStateOneWidget::getWidgetType()
+WidgetBase::Widget_Type ToolBarStateOneWidget::widgetType()
 {
     if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
-        return Uml::wt_Precondition;
+        return WidgetBase::wt_Precondition;
     }
 
     if (getButton() == WorkToolBar::tbb_Pin) {
-        return Uml::wt_Pin;
+        return WidgetBase::wt_Pin;
     }
     // Shouldn't happen
     Q_ASSERT(0);
-    return Uml::wt_Pin;
+    return WidgetBase::wt_Pin;
 }
 
 #include "toolbarstateonewidget.moc"

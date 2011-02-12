@@ -19,8 +19,6 @@
 
 #include "textitem.h"
 
-#include "umlnamespace.h"
-
 #include <QtGui/QGraphicsSceneContextMenuEvent>
 #include <QtGui/QPainter>
 #include <QtGui/QStyleOptionGraphicsItem>

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -24,7 +24,7 @@ UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent,
                                const QString& name, Uml::IDType id)
   : UMLClassifierListItem(parent, name, id)
 {
-    m_BaseType = Uml::ot_EnumLiteral;
+    m_BaseType = UMLObject::ot_EnumLiteral;
 }
 
 /**
@@ -34,7 +34,7 @@ UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent,
 UMLEnumLiteral::UMLEnumLiteral(UMLObject *parent)
   : UMLClassifierListItem(parent)
 {
-    m_BaseType = Uml::ot_EnumLiteral;
+    m_BaseType = UMLObject::ot_EnumLiteral;
 }
 
 /**

@@ -4,14 +4,16 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2010                                                *
+ *  copyright (C) 2003-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 #include "classifierlistpage.h"
 
+#include "basictypes.h"
 #include "classifierlistitem.h"
 #include "codetextedit.h"
+#include "debug_utils.h"
 #include "umldoc.h"
 #include "classifier.h"
 #include "enum.h"
@@ -24,7 +26,6 @@
 #include "entityattribute.h"
 #include "object_factory.h"
 
-#include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
 #include <ktabwidget.h>
@@ -38,8 +39,6 @@
 #include <QtGui/QToolButton>
 #include <QtGui/QVBoxLayout>
 
-using namespace Uml;
-
 /**
  *  Sets up the ClassifierListPage.
  *  @param parent      The parent to the ClassAttPage.
@@ -48,7 +47,7 @@ using namespace Uml;
  *  @param type        The type of listItem this handles
  */
 ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifier,
-                                       UMLDoc* doc, Uml::Object_Type type)
+                                       UMLDoc* doc, UMLObject::Object_Type type)
   : QWidget(parent)
 {
     m_itemType = type;
@@ -112,27 +111,27 @@ void ClassifierListPage::setupListGroup(int margin)
     QString newItemType;
 
     switch (m_itemType) {
-    case ot_Attribute:
+    case UMLObject::ot_Attribute:
         typeName = i18n("Attributes");
         newItemType = i18n("N&ew Attribute...");
         break;
-    case ot_Operation:
+    case UMLObject::ot_Operation:
         typeName = i18n("Operations");
         newItemType = i18n("N&ew Operation...");
         break;
-    case ot_Template:
+    case UMLObject::ot_Template:
         typeName = i18n("Templates");
         newItemType = i18n("N&ew Template...");
         break;
-    case ot_EnumLiteral:
+    case UMLObject::ot_EnumLiteral:
         typeName = i18n("Enum Literals");
         newItemType = i18n("N&ew Enum Literal...");
         break;
-    case ot_EntityAttribute:
+    case UMLObject::ot_EntityAttribute:
         typeName = i18n("Entity Attributes");
         newItemType = i18n("N&ew Entity Attribute...");
         break;
-    case ot_EntityConstraint:
+    case UMLObject::ot_EntityConstraint:
         typeName = i18n( "Constraints" );
         newItemType = i18n( "N&ew Constraint..." );
         break;
@@ -220,7 +219,7 @@ void ClassifierListPage::setupDocumentationGroup(int margin)
     QVBoxLayout* docLayout = new QVBoxLayout(m_pDocGB);
     docLayout->setSpacing(10);
     docLayout->setMargin(margin);
-    if (m_itemType == ot_Operation) {
+    if (m_itemType == UMLObject::ot_Operation) {
         m_pDocTE = new KTextEdit();
         m_pCodeTE = new CodeTextEdit();
         KTabWidget* tabWidget = new KTabWidget();
@@ -247,8 +246,8 @@ void ClassifierListPage::reloadItemListBox()
     // add each item in the list to the ListBox and connect each item modified signal
     // to the ListItemModified slot in this class
     foreach (UMLClassifierListItem* listItem, itemList ) {
-        m_pItemListLB->addItem(listItem->toString(Uml::st_SigNoVis));
-        connect( listItem, SIGNAL(modified()),this,SLOT(slotListItemModified()) );
+        m_pItemListLB->addItem(listItem->toString(Uml::SignatureType::SigNoVis));
+        connect( listItem, SIGNAL(modified()), this, SLOT(slotListItemModified()) );
     }
 }
 
@@ -259,13 +258,13 @@ void ClassifierListPage::reloadItemListBox()
 void ClassifierListPage::enableWidgets(bool state)
 {
     m_pDocTE->setEnabled( state );
-    if (m_itemType == ot_Operation) {
+    if (m_itemType == UMLObject::ot_Operation) {
         m_pCodeTE->setEnabled( state );
     }
     //if disabled clear contents
     if ( !state ) {
         m_pDocTE->setText( "" );
-        if (m_itemType == ot_Operation) {
+        if (m_itemType == UMLObject::ot_Operation) {
             m_pCodeTE->setPlainText( "" );
         }
         m_pTopArrowB->setEnabled( false );
@@ -318,7 +317,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
     //save old highlighted item first
     if (m_pOldListItem) {
         m_pOldListItem->setDoc( m_pDocTE->toPlainText() );
-        if (m_itemType == ot_Operation) {
+        if (m_itemType == UMLObject::ot_Operation) {
             UMLOperation* op = dynamic_cast<UMLOperation*>(m_pOldListItem);
             op->setSourceCode( m_pCodeTE->toPlainText() );
         }
@@ -353,7 +352,7 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
     if (listItem) {
         //now update screen
         m_pDocTE->setText( listItem->doc() );
-        if (m_itemType == ot_Operation) {
+        if (m_itemType == UMLObject::ot_Operation) {
             m_pCodeTE->setPlainText( dynamic_cast<UMLOperation*>(listItem)->getSourceCode() );
         }
         enableWidgets(true);
@@ -382,7 +381,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object)
         return;
     }
 
-    QString itemStr = listItem->toString(Uml::st_SigNoVis);
+    QString itemStr = listItem->toString(Uml::SignatureType::SigNoVis);
     // already in list?
     QList<QListWidgetItem*> foundItems = m_pItemListLB->findItems(itemStr, Qt::MatchExactly);
     int index = -1;
@@ -412,7 +411,7 @@ void ClassifierListPage::slotListItemModified()
     UMLClassifierListItem* object = dynamic_cast<UMLClassifierListItem*>(sender());
     if (object) {
         QListWidgetItem* item = m_pItemListLB->currentItem();
-        item->setText(object->toString(Uml::st_SigNoVis));
+        item->setText(object->toString(Uml::SignatureType::SigNoVis));
         m_pItemListLB->setCurrentItem(item);
         m_bSigWaiting = false;
     }
@@ -435,29 +434,29 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
 {
     ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
     if (m_pItemListLB->itemAt(pos)) { //pressed on a list item
-        if (m_itemType == ot_Attribute) {
+        if (m_itemType == UMLObject::ot_Attribute) {
             type = ListPopupMenu::mt_Attribute_Selected;
-        } else if (m_itemType == ot_Operation) {
+        } else if (m_itemType == UMLObject::ot_Operation) {
             type = ListPopupMenu::mt_Operation_Selected;
-        } else if (m_itemType == ot_Template) {
+        } else if (m_itemType == UMLObject::ot_Template) {
             type = ListPopupMenu::mt_Template_Selected;
-        } else if (m_itemType == ot_EnumLiteral) {
+        } else if (m_itemType == UMLObject::ot_EnumLiteral) {
             type = ListPopupMenu::mt_EnumLiteral_Selected;
-        } else if (m_itemType == ot_EntityAttribute) {
+        } else if (m_itemType == UMLObject::ot_EntityAttribute) {
             type = ListPopupMenu::mt_EntityAttribute_Selected;
         } else {
             uWarning() << "unknown type in ClassifierListPage";
         }
     } else { //pressed into fresh air
-        if (m_itemType == ot_Attribute) {
+        if (m_itemType == UMLObject::ot_Attribute) {
             type = ListPopupMenu::mt_New_Attribute;
-        } else if (m_itemType == ot_Operation) {
+        } else if (m_itemType == UMLObject::ot_Operation) {
             type = ListPopupMenu::mt_New_Operation;
-        } else if (m_itemType == ot_Template) {
+        } else if (m_itemType == UMLObject::ot_Template) {
             type = ListPopupMenu::mt_New_Template;
-        } else if (m_itemType == ot_EnumLiteral) {
+        } else if (m_itemType == UMLObject::ot_EnumLiteral) {
             type = ListPopupMenu::mt_New_EnumLiteral;
-        } else if (m_itemType == ot_EntityAttribute) {
+        } else if (m_itemType == UMLObject::ot_EntityAttribute) {
             type = ListPopupMenu::mt_New_EntityAttribute;
         } else {
             uWarning() << "unknown type in ClassifierListPage";
@@ -691,7 +690,7 @@ void ClassifierListPage::slotDoubleClick( QListWidgetItem* item )
 
     m_bSigWaiting = true;
     if ( listItem->showPropertiesDialog(this) ) {
-        m_pItemListLB->item(m_pItemListLB->row(item))->setText(listItem->toString(Uml::st_SigNoVis));
+        m_pItemListLB->item(m_pItemListLB->row(item))->setText(listItem->toString(Uml::SignatureType::SigNoVis));
     }
 }
 
@@ -754,7 +753,7 @@ void ClassifierListPage::saveCurrentItemDocumentation()
     UMLClassifierListItem* selectedItem = getItemList().at( currentItemIndex );
     if (selectedItem) {
         selectedItem->setDoc( m_pDocTE->toPlainText() );
-        if (m_itemType == ot_Operation) {
+        if (m_itemType == UMLObject::ot_Operation) {
             dynamic_cast<UMLOperation*>(selectedItem)->setSourceCode( m_pCodeTE->toPlainText() );
         }
     }
@@ -778,26 +777,26 @@ UMLClassifierListItemList ClassifierListPage::getItemList()
 bool ClassifierListPage::addClassifier(UMLClassifierListItem* listitem, int position)
 {
     switch (m_itemType) {
-    case ot_Attribute: {
+    case UMLObject::ot_Attribute: {
             UMLAttribute *att = dynamic_cast<UMLAttribute*>(listitem);
             return m_pClassifier->addAttribute(att, NULL, position);
         }
-    case ot_Operation: {
+    case UMLObject::ot_Operation: {
             UMLOperation *op = dynamic_cast<UMLOperation*>(listitem);
             return m_pClassifier->addOperation(op, position);
         }
-    case ot_Template: {
+    case UMLObject::ot_Template: {
             UMLTemplate* t = dynamic_cast<UMLTemplate*>(listitem);
             return m_pClassifier->addTemplate(t, position);
         }
-    case ot_EnumLiteral: {
+    case UMLObject::ot_EnumLiteral: {
             UMLEnum* c = dynamic_cast<UMLEnum*>(m_pClassifier);
             if (c) {
                 return c->addEnumLiteral(dynamic_cast<UMLEnumLiteral*>(listitem), position);
             }
             break;
         }
-    case ot_EntityAttribute: {
+    case UMLObject::ot_EntityAttribute: {
             UMLEntity* c = dynamic_cast<UMLEntity*>(m_pClassifier);
             if (c) {
                 return c->addEntityAttribute(dynamic_cast<UMLEntityAttribute*>(listitem), position);
@@ -834,7 +833,7 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
         return false;
     qApp->processEvents();
     peerIndex = -1;
-    const Uml::Object_Type seekType = listItem->baseType();
+    const UMLObject::Object_Type seekType = listItem->baseType();
     UMLObjectList listItems = m_pClassifier->subordinates();
     for (int i = 0; i < listItems.count(); ++i) {
         UMLObject *o = listItems.at(i);

@@ -20,9 +20,8 @@ include_directories(
   ${LIBXML2_INCLUDE_DIR}
   ${LIBXSLT_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/
-  ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
   ${CMAKE_CURRENT_SOURCE_DIR}/clipboard/
-  ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmds
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/ada/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/as/
@@ -42,9 +41,18 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/vala/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/xml/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/
+  ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/
   ${CMAKE_CURRENT_SOURCE_DIR}/controller/
+  ${CMAKE_CURRENT_SOURCE_DIR}/debug/
+  ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
+  ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/
+  ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
   ${CMAKE_CURRENT_SOURCE_DIR}/widgets/
   ${Boost_INCLUDE_DIR}
+)
+
+set(libdebug_SRCS
+    debug/debug_utils.cpp
 )
 
 set(libcodegenerator_SRCS
@@ -308,7 +316,7 @@ set(libcmds_SRCS
     cmds/widget/cmd_changeMulti.cpp
 )
 
-set (libwidgets_SRCS
+set(libwidgets_SRCS
     widgets/activitywidget.cpp
     widgets/actorwidget.cpp
     widgets/artifactwidget.cpp
@@ -349,7 +357,7 @@ set (libwidgets_SRCS
     widgets/widgetlist_utils.cpp
 )
 
-set (libcontroller_SRCS
+set(libcontroller_SRCS
 #    controller/floatingtextwidgetcontroller.cpp
 #    controller/messagewidgetcontroller.cpp
 #    controller/notewidgetcontroller.cpp
@@ -398,7 +406,6 @@ set(libumbrello_SRCS
     petaltree2uml.cpp
     stereotype.cpp
     template.cpp
-    test.cpp
     textitem.cpp
     textitemgroup.cpp
     toolbarstate.cpp
@@ -417,7 +424,6 @@ set(libumbrello_SRCS
     umlentityconstraintlist.cpp
     umllistview.cpp
     umllistviewitem.cpp
-    umlnamespace.cpp
     umlobject.cpp
     umlobjectlist.cpp
     umlrole.cpp
@@ -434,9 +440,10 @@ set(libumbrello_SRCS
 
 kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 
-set (umbrello_SRCS
+set(umbrello_SRCS
     ${umbrello_SRCS}
     ${libcontroller_SRCS}
+    ${libdebug_SRCS}
     ${libdialogs_SRCS}
     ${librefactoring_SRCS}
     ${libcodegenwizard_SRCS}
@@ -456,7 +463,7 @@ kde4_add_executable(umbrello-soc ${umbrello_SRCS})
 target_link_libraries(umbrello-soc  ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} )
 install(TARGETS umbrello-soc ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
-########### install files ###############
+########### install files #############
 
 install( FILES umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES
@@ -468,4 +475,3 @@ install( FILES
     DESTINATION ${DATA_INSTALL_DIR}/umbrello )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )
-

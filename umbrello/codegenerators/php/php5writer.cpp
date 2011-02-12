@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002      Heiko Nardmann  <h.nardmann@secunet.de>       *
  *                           Thorsten Kunz   <tk AT bytecrash DOT net>     *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,11 +15,9 @@
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"
-#include "umlnamespace.h"
-
-#include <kdebug.h>
 
 #include <QtCore/QRegExp>
 #include <QtCore/QTextStream>
@@ -3390,9 +3388,9 @@ void Php5Writer::writeAttributes(UMLAttributeList &atList, QTextStream &php)
     return;
 }
 
-Uml::Programming_Language Php5Writer::language() const
+Uml::ProgrammingLanguage Php5Writer::language() const
 {
-    return Uml::pl_PHP5;
+    return Uml::ProgrammingLanguage::PHP5;
 }
 
 QStringList Php5Writer::reservedKeywords() const

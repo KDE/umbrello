@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,6 +31,7 @@
 #include "cppheadercodeoperation.h"
 #include "cppheaderclassdeclarationblock.h"
 #include "cppheadercodeclassfielddeclarationblock.h"
+#include "debug_utils.h"
 #include "umlpackagelist.h"
 #include "package.h"
 #include "umlclassifierlistitemlist.h"
@@ -38,8 +39,7 @@
 #include "enum.h"
 #include "uml.h"
 
-// qt/kde includes
-#include <kdebug.h>
+// qt includes
 #include <QtCore/QRegExp>
 
 CPPHeaderCodeDocument::CPPHeaderCodeDocument ( UMLClassifier * concept )
@@ -434,7 +434,7 @@ void CPPHeaderCodeDocument::updateContent( )
 
     CodeGenerator::findObjectsRelated(c,includes);
     foreach(UMLPackage* con, includes ) {
-        if (con->baseType() != Uml::ot_Datatype && !packageMap.contains(con)) {
+        if (con->baseType() != UMLObject::ot_Datatype && !packageMap.contains(con)) {
             packageMap.insert(con,con->package());
             if(con != getParentClassifier())
                 includeStatement.append("#include \""+CodeGenerator::cleanName(con->name().toLower())+".h\""+endLine);
@@ -501,7 +501,7 @@ void CPPHeaderCodeDocument::updateContent( )
             enumStatement.append(indent + "enum " + cppClassName + " {" + endLine);
 
             // populate
-            UMLClassifierListItemList ell = e->getFilteredList(Uml::ot_EnumLiteral);
+            UMLClassifierListItemList ell = e->getFilteredList(UMLObject::ot_EnumLiteral);
             for (UMLClassifierListItemListIt elit( ell ) ; elit.hasNext() ; ) {
                 UMLClassifierListItem* el = elit.next();
                 enumStatement.append(indent+indent);

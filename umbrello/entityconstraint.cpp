@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,7 +30,7 @@ UMLEntityConstraint::UMLEntityConstraint(UMLObject *parent,
     const QString& name, Uml::IDType id )
   : UMLClassifierListItem( parent, name, id )
 {
-    m_BaseType = Uml::ot_EntityConstraint;
+    m_BaseType = UMLObject::ot_EntityConstraint;
 }
 
 /**
@@ -40,7 +40,7 @@ UMLEntityConstraint::UMLEntityConstraint(UMLObject *parent,
 UMLEntityConstraint::UMLEntityConstraint(UMLObject *parent)
   : UMLClassifierListItem( parent )
 {
-    m_BaseType = Uml::ot_EntityConstraint;
+    m_BaseType = UMLObject::ot_EntityConstraint;
 }
 
 /**

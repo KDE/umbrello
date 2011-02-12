@@ -4,19 +4,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "classifierwidget.h"
 
-// qt/kde includes
-
 // app includes
 #include "associationline.h"
 #include "associationwidget.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "expanderbox.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
@@ -68,7 +67,7 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
     m_dummyAttributeItem = m_dummyOperationItem = 0;
     m_lineItem2Index = InvalidIndex;
 
-    m_baseType = Uml::wt_Class;
+    m_baseType = WidgetBase::wt_Class;
     // TODO: The following properties should be set using the
     //       OptionState rather than direct defaults.
 
@@ -76,13 +75,13 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
     // properties are not set.
     m_visualProperties = ShowOperations | ShowVisibility | ShowAttributes;
 
-    m_attributeSignatureType = Uml::st_ShowSig;
-    m_operationSignatureType = Uml::st_ShowSig;
+    m_attributeSignatureType = Uml::SignatureType::ShowSig;
+    m_operationSignatureType = Uml::SignatureType::ShowSig;
 
     // Check if this widget is representing an interface and set
     // properties corresponding to that if it is.
     if (c && c->isInterface()) {
-        m_baseType = Uml::wt_Interface;
+        m_baseType = WidgetBase::wt_Interface;
         m_visualProperties = ShowOperations | ShowVisibility | ShowStereotype;
         setShowStereotype(true);
     }
@@ -130,13 +129,13 @@ void ClassifierWidget::setVisualProperties(VisualProperties properties)
 bool ClassifierWidget::visualProperty(VisualProperty property) const
 {
     if (property == ShowAttributeSignature) {
-        return (m_attributeSignatureType == Uml::st_ShowSig
-                || m_attributeSignatureType == Uml::st_SigNoVis);
+        return (m_attributeSignatureType == Uml::SignatureType::ShowSig
+                || m_attributeSignatureType == Uml::SignatureType::SigNoVis);
     }
 
     else if(property == ShowOperationSignature) {
-        return (m_operationSignatureType == Uml::st_ShowSig
-                || m_operationSignatureType == Uml::st_SigNoVis);
+        return (m_operationSignatureType == Uml::SignatureType::ShowSig
+                || m_operationSignatureType == Uml::SignatureType::SigNoVis);
     }
 
     return m_visualProperties.testFlag(property);
@@ -159,11 +158,11 @@ void ClassifierWidget::setVisualProperty(VisualProperty property, bool enable)
     if (property == ShowAttributeSignature) {
         if (!enable) {
             m_attributeSignatureType = visualProperty(ShowVisibility) ?
-                Uml::st_NoSig : Uml::st_NoSigNoVis;
+                Uml::SignatureType::NoSig : Uml::SignatureType::NoSigNoVis;
         }
         else {
             m_attributeSignatureType = visualProperty(ShowVisibility) ?
-                Uml::st_ShowSig : Uml::st_SigNoVis;
+                Uml::SignatureType::ShowSig : Uml::SignatureType::SigNoVis;
         }
         updateTextItemGroups();
     }
@@ -171,11 +170,11 @@ void ClassifierWidget::setVisualProperty(VisualProperty property, bool enable)
     else if (property == ShowOperationSignature) {
         if (!enable) {
             m_operationSignatureType = visualProperty(ShowVisibility) ?
-                Uml::st_NoSig : Uml::st_NoSigNoVis;
+                Uml::SignatureType::NoSig : Uml::SignatureType::NoSigNoVis;
         }
         else {
             m_operationSignatureType = visualProperty(ShowVisibility) ?
-                Uml::st_ShowSig : Uml::st_SigNoVis;
+                Uml::SignatureType::ShowSig : Uml::SignatureType::SigNoVis;
         }
         updateTextItemGroups();
     }
@@ -221,12 +220,12 @@ void ClassifierWidget::toggleVisualProperty(VisualProperty property)
 {
     bool oppositeStatus;
     if (property == ShowOperationSignature) {
-        oppositeStatus = !(m_operationSignatureType == Uml::st_ShowSig
-                           || m_operationSignatureType == Uml::st_SigNoVis);
+        oppositeStatus = !(m_operationSignatureType == Uml::SignatureType::ShowSig
+                           || m_operationSignatureType == Uml::SignatureType::SigNoVis);
     }
     else if (property == ShowAttributeSignature) {
-        oppositeStatus = !(m_attributeSignatureType == Uml::st_ShowSig
-                           || m_attributeSignatureType == Uml::st_SigNoVis);
+        oppositeStatus = !(m_attributeSignatureType == Uml::SignatureType::ShowSig
+                           || m_attributeSignatureType == Uml::SignatureType::SigNoVis);
     }
     else {
         oppositeStatus = !visualProperty(property);
@@ -242,13 +241,13 @@ void ClassifierWidget::toggleVisualProperty(VisualProperty property)
  */
 bool ClassifierWidget::shouldDrawAsCircle() const
 {
-    return baseType() == Uml::wt_Interface && visualProperty(DrawAsCircle) == true;
+    return baseType() == WidgetBase::wt_Interface && visualProperty(DrawAsCircle) == true;
 }
 
 /**
  * Set's the attribute signature type to \a sigType.
  */
-void ClassifierWidget::setAttributeSignature(Uml::Signature_Type sigType)
+void ClassifierWidget::setAttributeSignature(Uml::SignatureType sigType)
 {
     m_attributeSignatureType = sigType;
     updateSignatureTypes();
@@ -257,7 +256,7 @@ void ClassifierWidget::setAttributeSignature(Uml::Signature_Type sigType)
 /**
  * Set's the operation signature type to \a sigType.
  */
-void ClassifierWidget::setOperationSignature(Uml::Signature_Type sigType)
+void ClassifierWidget::setOperationSignature(Uml::SignatureType sigType)
 {
     m_operationSignatureType = sigType;
     updateSignatureTypes();
@@ -270,8 +269,8 @@ void ClassifierWidget::setOperationSignature(Uml::Signature_Type sigType)
  */
 void ClassifierWidget::changeToClass()
 {
-    m_baseType = Uml::wt_Class;
-    classifier()->setBaseType(Uml::ot_Class);
+    m_baseType = WidgetBase::wt_Class;
+    classifier()->setBaseType(UMLObject::ot_Class);
 
     bool showAtts = true;
     bool showStereotype = false;
@@ -294,8 +293,8 @@ void ClassifierWidget::changeToClass()
  */
 void ClassifierWidget::changeToInterface()
 {
-    m_baseType = Uml::wt_Interface;
-    classifier()->setBaseType(Uml::ot_Interface);
+    m_baseType = WidgetBase::wt_Interface;
+    classifier()->setBaseType(UMLObject::ot_Interface);
 
     setVisualProperty(ShowAttributes, false);
     setVisualProperty(ShowStereotype, true);
@@ -357,7 +356,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     }
 
     // Determine str
-    QString defaultSigType = QString::number(Uml::st_NoSig);
+    QString defaultSigType = QString::number(Uml::SignatureType::NoSig);
 
     QString showatts = qElement.attribute( "showattributes", "0" );
     QString showops = qElement.attribute( "showoperations", "1" );
@@ -375,8 +374,8 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     setVisualProperty(ShowVisibility, (bool)showscope.toInt());
     setVisualProperty(DrawAsCircle, (bool)drawascircle.toInt());
 
-    setAttributeSignature((Uml::Signature_Type)showattsigs.toInt());
-    setOperationSignature((Uml::Signature_Type)showopsigs.toInt());
+    setAttributeSignature(Uml::SignatureType::Value(showattsigs.toInt()));
+    setOperationSignature(Uml::SignatureType::Value(showopsigs.toInt()));
 
     return true;
 }
@@ -623,8 +622,8 @@ void ClassifierWidget::updateTextItemGroups()
     templateGroup->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
     UMLClassifier *umlC = classifier();
-    UMLClassifierListItemList attribList = umlC->getFilteredList(Uml::ot_Attribute);
-    UMLClassifierListItemList opList = umlC->getFilteredList(Uml::ot_Operation);
+    UMLClassifierListItemList attribList = umlC->getFilteredList(UMLObject::ot_Attribute);
+    UMLClassifierListItemList opList = umlC->getFilteredList(UMLObject::ot_Operation);
 
     // Set up template group and template text items.
     UMLTemplateList tlist = umlC->getTemplateList();
@@ -756,31 +755,31 @@ void ClassifierWidget::updateSignatureTypes()
     //turn on scope
     if (visualProperty(ShowVisibility)) {
         // Take care of operation first
-        if (m_operationSignatureType == Uml::st_NoSigNoVis) {
-            m_operationSignatureType = Uml::st_NoSig;
-        } else if (m_operationSignatureType == Uml::st_SigNoVis) {
-            m_operationSignatureType = Uml::st_ShowSig;
+        if (m_operationSignatureType == Uml::SignatureType::NoSigNoVis) {
+            m_operationSignatureType = Uml::SignatureType::NoSig;
+        } else if (m_operationSignatureType == Uml::SignatureType::SigNoVis) {
+            m_operationSignatureType = Uml::SignatureType::ShowSig;
         }
         // Now take care of attributes
-        if (m_attributeSignatureType == Uml::st_NoSigNoVis)
-            m_attributeSignatureType = Uml::st_NoSig;
-        else if (m_attributeSignatureType == Uml::st_SigNoVis)
-            m_attributeSignatureType = Uml::st_ShowSig;
+        if (m_attributeSignatureType == Uml::SignatureType::NoSigNoVis)
+            m_attributeSignatureType = Uml::SignatureType::NoSig;
+        else if (m_attributeSignatureType == Uml::SignatureType::SigNoVis)
+            m_attributeSignatureType = Uml::SignatureType::ShowSig;
 
     }
     //turn off scope
     else {
         // Take care of operations first
-        if (m_operationSignatureType == Uml::st_ShowSig) {
-            m_operationSignatureType = Uml::st_SigNoVis;
-        } else if (m_operationSignatureType == Uml::st_NoSig) {
-            m_operationSignatureType = Uml::st_NoSigNoVis;
+        if (m_operationSignatureType == Uml::SignatureType::ShowSig) {
+            m_operationSignatureType = Uml::SignatureType::SigNoVis;
+        } else if (m_operationSignatureType == Uml::SignatureType::NoSig) {
+            m_operationSignatureType = Uml::SignatureType::NoSigNoVis;
         }
         // Now take care of attributes.
-        if (m_attributeSignatureType == Uml::st_ShowSig)
-            m_attributeSignatureType = Uml::st_SigNoVis;
-        else if(m_attributeSignatureType == Uml::st_NoSig)
-            m_attributeSignatureType = Uml::st_NoSigNoVis;
+        if (m_attributeSignatureType == Uml::SignatureType::ShowSig)
+            m_attributeSignatureType = Uml::SignatureType::SigNoVis;
+        else if(m_attributeSignatureType == Uml::SignatureType::NoSig)
+            m_attributeSignatureType = Uml::SignatureType::NoSigNoVis;
     }
 
     updateTextItemGroups();
@@ -799,7 +798,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Operation:
     case ListPopupMenu::mt_Template:
     {
-        Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(sel);
+        UMLObject::Object_Type ot = ListPopupMenu::convert_MT_OT(sel);
         if (Object_Factory::createChildObject(classifier(), ot)) {
             UMLApp::app()->document()->setModified();
         }

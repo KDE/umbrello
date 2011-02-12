@@ -4,14 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef CLASSIFIERWIDGET_H
 #define CLASSIFIERWIDGET_H
 
-#include "associationwidgetlist.h"
+#include "basictypes.h"
 #include "umlwidget.h"
 
 class AssociationWidget;
@@ -71,17 +71,17 @@ public:
 
     bool shouldDrawAsCircle() const;
 
-    /// @return The Uml::Signature_Type value for the attributes.
-    Uml::Signature_Type attributeSignatureType() const {
+    /// @return The Uml::SignatureType value for the attributes.
+    Uml::SignatureType attributeSignatureType() const {
         return m_attributeSignatureType;
     }
-    void setAttributeSignature(Uml::Signature_Type sig);
+    void setAttributeSignature(Uml::SignatureType sig);
 
-    /// @return The Uml::Signature_Type value for the operations.
-    Uml::Signature_Type operationSignatureType() const {
+    /// @return The Uml::SignatureType value for the operations.
+    Uml::SignatureType operationSignatureType() const {
         return m_operationSignatureType;
     }
-    void setOperationSignature(Uml::Signature_Type sig);
+    void setOperationSignature(Uml::SignatureType sig);
 
     void changeToClass();
     void changeToInterface();
@@ -115,8 +115,8 @@ private:
     void calculateClassifierDrawing();
 
     VisualProperties m_visualProperties;
-    Uml::Signature_Type m_attributeSignatureType; ///< Loaded/saved item.
-    Uml::Signature_Type m_operationSignatureType;  ///< Loaded/saved item.
+    Uml::SignatureType m_attributeSignatureType; ///< Loaded/saved item.
+    Uml::SignatureType m_operationSignatureType;  ///< Loaded/saved item.
 
     /**
      * Size of circle when interface is rendered as such

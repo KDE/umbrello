@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef CLASSIFIER_H
@@ -108,7 +108,7 @@ public:
 
     int takeItem(UMLClassifierListItem* item);
 
-    virtual UMLClassifierListItemList getFilteredList(Uml::Object_Type ot) const;
+    virtual UMLClassifierListItemList getFilteredList(UMLObject::Object_Type ot) const;
 
     virtual bool resolveRef();
 
@@ -123,40 +123,30 @@ public:
 
     UMLClassifierList findSubClassConcepts(ClassifierType type = ALL);
 
-    virtual bool acceptAssociationType(Uml::Association_Type);
+    virtual bool acceptAssociationType(Uml::AssociationType);
 
     void setClassAssoc(UMLAssociation *assoc);
-
     UMLAssociation *getClassAssoc() const;
 
-    void setBaseType(Uml::Object_Type ot);
+    void setBaseType(UMLObject::Object_Type ot);
 
     bool isInterface() const;
 
     bool isDatatype() const;
 
     void setOriginType(UMLClassifier *origType);
-
     UMLClassifier * originType() const;
 
     void setIsReference(bool isRef = true);
-
     bool isReference() const;
 
     bool hasAbstractOps();
-
     bool hasAssociations();
-
     bool hasAttributes();
-
     bool hasStaticAttributes();
-
     bool hasMethods();
-
     bool hasAccessorMethods();
-
     bool hasOperationMethods();
-
     bool hasVectorFields();
 
     /**

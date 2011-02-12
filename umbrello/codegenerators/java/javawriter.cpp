@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>          *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,21 +18,22 @@
 
 // own header
 #include "javawriter.h"
-// qt includes
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QRegExp>
-// kde includes
-#include <kdebug.h>
+
 // app includes
 #include "codegen_utils.h"
-#include "umldoc.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "attribute.h"
 #include "association.h"
 #include "template.h"
+#include "umldoc.h"
 #include "umltemplatelist.h"
+
+// qt includes
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+#include <QtCore/QRegExp>
 
 JavaWriter::JavaWriter()
 {
@@ -43,9 +44,9 @@ JavaWriter::~JavaWriter()
 {
 }
 
-Uml::Programming_Language JavaWriter::language() const
+Uml::ProgrammingLanguage JavaWriter::language() const
 {
-    return Uml::pl_Java;
+    return Uml::ProgrammingLanguage::Java;
 }
 
 void JavaWriter::writeClass(UMLClassifier *c)
@@ -111,7 +112,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     }
 
     // another preparation, determine what we have
-    UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
+    UMLAssociationList associations = c->getSpecificAssocs(Uml::AssociationType::Association); // BAD! only way to get "general" associations.
     UMLAssociationList uniAssociations = c->getUniAssociationToBeImplemented();
 
     UMLAssociationList aggregations = c->getAggregations();
@@ -155,7 +156,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     UMLPackageList imports;
     findObjectsRelated(c,imports);
     foreach (UMLPackage* con,  imports ) {
-        if (con->baseType() == Uml::ot_Datatype)
+        if (con->baseType() == UMLObject::ot_Datatype)
             continue;
         QString pkg = con->package();
         if (!pkg.isEmpty() && pkg != c->package())

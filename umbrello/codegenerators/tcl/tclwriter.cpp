@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2005      Rene Meyer <rene.meyer@sturmit.de>            *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,15 +17,13 @@
 #include "classifier.h"
 #include "classifierlistitem.h"
 #include "codegen_utils.h"
+#include "debug_utils.h"
 #include "model_utils.h"
 #include "operation.h"
 #include "template.h"
 #include "umltemplatelist.h"
 #include "umlclassifierlistitemlist.h"
 #include "umldoc.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 #include <QtCore/QFile>
@@ -84,9 +82,9 @@ TclWriter::~TclWriter()
 {
 }
 
-Uml::Programming_Language TclWriter::language() const
+Uml::ProgrammingLanguage TclWriter::language() const
 {
-    return Uml::pl_Tcl;
+    return Uml::ProgrammingLanguage::Tcl;
 }
 
 void TclWriter::writeClass(UMLClassifier * c)
@@ -126,7 +124,7 @@ void TclWriter::writeClass(UMLClassifier * c)
     // (It is not required if the class is an enumeration.)
     bool need_impl = true;
     if (!c->isInterface()) {
-        if (c->baseType() == Uml::ot_Enum)
+        if (c->baseType() == UMLObject::ot_Enum)
             need_impl = false;
     }
     if (need_impl) {
@@ -178,7 +176,7 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     }
     // write all "source" we need to include other classes, that arent us.
     if (c->hasAssociations()) {
-        writeAssociationIncl(c->getSpecificAssocs(Uml::at_Association), c->id(),
+        writeAssociationIncl(c->getSpecificAssocs(Uml::AssociationType::Association), c->id(),
                              "Associations");
         writeAssociationIncl(c->getAggregations(), c->id(),
                              "Aggregations");
@@ -197,9 +195,9 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     // check on enum classes
     if (!c->isInterface()) {
         // use tcl-list for enum's
-        if (c->baseType() == Uml::ot_Enum) {
+        if (c->baseType() == UMLObject::ot_Enum) {
             UMLClassifierListItemList litList =
-                c->getFilteredList(Uml::ot_EnumLiteral);
+                c->getFilteredList(UMLObject::ot_EnumLiteral);
             writeCode("set enum_" + className_ + " [list\\");
             m_indentLevel++;
             foreach (UMLClassifierListItem * lit , litList ) {
@@ -259,7 +257,7 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     writeAttributeDecl(c, Uml::Visibility::Public, true);      // write static attributes first
     writeAttributeDecl(c, Uml::Visibility::Public, false);
     // associations
-    writeAssociationDecl(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Public, c->id(),
+    writeAssociationDecl(c->getSpecificAssocs(Uml::AssociationType::Association), Uml::Visibility::Public, c->id(),
                          "Associations");
     writeAssociationDecl(c->getAggregations(), Uml::Visibility::Public, c->id(),
                          "Aggregations");
@@ -274,7 +272,7 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     writeAttributeDecl(c, Uml::Visibility::Protected, true);   // write static attributes first
     writeAttributeDecl(c, Uml::Visibility::Protected, false);
     // associations
-    writeAssociationDecl(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Protected,
+    writeAssociationDecl(c->getSpecificAssocs(Uml::AssociationType::Association), Uml::Visibility::Protected,
                          c->id(), "Association");
     writeAssociationDecl(c->getAggregations(), Uml::Visibility::Protected,
                          c->id(), "Aggregation");
@@ -289,7 +287,7 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     writeAttributeDecl(c, Uml::Visibility::Private, true);     // write static attributes first
     writeAttributeDecl(c, Uml::Visibility::Private, false);
     // associations
-    writeAssociationDecl(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Private,
+    writeAssociationDecl(c->getSpecificAssocs(Uml::AssociationType::Association), Uml::Visibility::Private,
                          c->id(), "Associations");
     writeAssociationDecl(c->getAggregations(), Uml::Visibility::Private, c->id(),
                          "Aggregations");
@@ -335,7 +333,7 @@ void TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
     // Public attributes have in tcl a configbody method
     writeAttributeSource(c);
     // Association access functions
-    writeAssociationSource(c->getSpecificAssocs(Uml::at_Association), c->id());
+    writeAssociationSource(c->getSpecificAssocs(Uml::AssociationType::Association), c->id());
     writeAssociationSource(c->getAggregations(), c->id());
     writeAssociationSource(c->getCompositions(), c->id());
     // Procedures and methods

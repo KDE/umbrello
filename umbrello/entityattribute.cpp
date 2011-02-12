@@ -4,21 +4,23 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "entityattribute.h"
-// qt/kde includes
-#include <kdebug.h>
-#include <QtCore/QRegExp>
+
 // app includes
+#include "debug_utils.h"
 #include "umlcanvasobject.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "umlentityattributedialog.h"
 #include "object_factory.h"
+
+// qt includes
+#include <QtCore/QRegExp>
 
 /**
  * Sets up an entityattribute.
@@ -36,7 +38,7 @@ UMLEntityAttribute::UMLEntityAttribute( UMLObject *parent, const QString& name,
 {
     init();
     if (m_pSecondary) {
-        m_pSecondary->setBaseType(Uml::ot_Entity);
+        m_pSecondary->setBaseType(UMLObject::ot_Entity);
     }
 }
 
@@ -63,8 +65,8 @@ UMLEntityAttribute::~UMLEntityAttribute()
  */
 void UMLEntityAttribute::init()
 {
-    m_BaseType = Uml::ot_EntityAttribute;
-    m_indexType = Uml::None;
+    m_BaseType = UMLObject::ot_EntityAttribute;
+    m_indexType = UMLEntityAttribute::None;
     m_autoIncrement = false;
     m_null = false;
 }
@@ -127,7 +129,7 @@ void UMLEntityAttribute::setAutoIncrement(const bool autoIncrement)
  * Returns the UMLEntityAttribute's index type property.
  * @return  The value of the UMLEntityAttribute's index type property.
  */
-Uml::DBIndex_Type UMLEntityAttribute::getIndexType() const
+UMLEntityAttribute::DBIndex_Type UMLEntityAttribute::indexType() const
 {
     return m_indexType;
 }
@@ -136,7 +138,7 @@ Uml::DBIndex_Type UMLEntityAttribute::getIndexType() const
  * Sets the initial value of the UMLEntityAttribute's index type property.
  * @param indexType  The initial value of the UMLEntityAttribute's index type property.
  */
-void UMLEntityAttribute::setIndexType(const Uml::DBIndex_Type indexType)
+void UMLEntityAttribute::setIndexType(const UMLEntityAttribute::DBIndex_Type indexType)
 {
     m_indexType = indexType;
 }
@@ -164,16 +166,16 @@ void UMLEntityAttribute::setNull(const bool nullIn)
  * @param sig   If true will show the entityattribute type and initial value.
  * @return  Returns a string representation of the UMLEntityAttribute.
  */
-QString UMLEntityAttribute::toString(Uml::Signature_Type sig)
+QString UMLEntityAttribute::toString(Uml::SignatureType sig)
 {
     QString s;
     //FIXME
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
+    if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::NoSig) {
         s=m_Vis.toString(true) + ' ';
     }
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
+    if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         QString string = s + name() + " : " + getTypeName();
         if(m_InitialValue.length() > 0)
             string += " = " + m_InitialValue;
@@ -259,7 +261,7 @@ bool UMLEntityAttribute::load( QDomElement & element )
     if (! UMLAttribute::load(element))
         return false;
     int indexType = element.attribute( "dbindex_type", "1100" ).toInt();
-    m_indexType = ( Uml::DBIndex_Type )indexType;
+    m_indexType = ( UMLEntityAttribute::DBIndex_Type )indexType;
     m_values = element.attribute( "values", "" );
     m_attributes = element.attribute( "attributes", "" );
     m_autoIncrement = ( bool )element.attribute( "auto_increment", "" ).toInt();
@@ -277,4 +279,3 @@ bool UMLEntityAttribute::showPropertiesDialog(QWidget* parent)
 }
 
 #include "entityattribute.moc"
-

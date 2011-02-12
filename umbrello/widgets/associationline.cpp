@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,6 +14,8 @@
 #include "associationspacemanager.h"
 #include "associationwidget.h"
 #include "classifierwidget.h"
+#include "debug_utils.h"
+#include "umlobject.h"
 #include "umlwidget.h"
 
 // qt includes
@@ -130,7 +132,6 @@ void Symbol::setupSymbolTable()
     }
 
 }
-
 
 /**
  * Constructs a Symbol with current symbol being \a symbol and
@@ -276,9 +277,13 @@ const qreal AssociationLine::SelfAssociationMinimumHeight = 30;
 /**
  * Constructs a AssociationLine item with its parent being \a parent.
  */
-AssociationLine::AssociationLine(AssociationWidget *assoc) : m_associationWidget(assoc)
+AssociationLine::AssociationLine(AssociationWidget *assoc)
+  : QGraphicsItem(),
+    m_associationWidget(assoc)
 {
     Q_ASSERT(assoc);
+    setFlag(QGraphicsLineItem::ItemIsSelectable);
+    // initialisation
     m_activePointIndex = m_activeSegmentIndex = -1;
     m_startSymbol = m_endSymbol = m_subsetSymbol = 0;
     m_associationClassLine = 0;
@@ -290,14 +295,24 @@ AssociationLine::AssociationLine(AssociationWidget *assoc) : m_associationWidget
     tracker->setZValue(100);
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 AssociationLine::~AssociationLine()
 {
 }
 
-/// @return The point at given index.
+/**
+ * Returns the point with a given index.
+ * @return point at given index
+ */
 QPointF AssociationLine::point(int index) const
 {
+    if ((index < 0) | (index > m_points.size() - 1)) {
+        uError() << "Index " << index << " out of range [0.." << m_points.size() - 1 << "].";
+        //:TODO: Q_ASSERT(index >= 0 && index < m_points.size() - 1);
+        return QPointF(0.0, 0.0);
+    }
     return m_points.at(index);
 }
 
@@ -616,9 +631,13 @@ QPainterPath AssociationLine::shape() const
     return m_shape;
 }
 
-/// Draws the AssociationLine and also takes care of highlighting active point or line.
-void AssociationLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt)
+/**
+ * Reimplemented from QGraphicsItem::paint.
+ * Draws the AssociationLine and also takes care of highlighting active point or line.
+ */
+void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+    Q_UNUSED(widget);
     QPen _pen = pen();
     const QColor orig = _pen.color().lighter();
     QColor invertedColor(orig.green(), orig.blue(), orig.red());
@@ -652,7 +671,7 @@ void AssociationLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
     painter->drawPolyline(m_points.constData(), m_points.size());
 
-    if (opt->state & QStyle::State_Selected) {
+    if (option->state & QStyle::State_Selected) {
         QRectF ellipse(0, 0, SelectedPointDiameter, SelectedPointDiameter);
         painter->setBrush(_pen.color());
         painter->setPen(Qt::NoPen);
@@ -683,6 +702,15 @@ void AssociationLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     m_points[sz - 1] = savedEnd;
 }
 
+/**
+ * Event handler to process context menu events.
+ */
+void AssociationLine::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    uDebug() << "Show the context menu of the association widget.";  //:TODO:
+    m_associationWidget->contextMenuEvent(event);
+}
+
 /// Determines the active point or segment, the latter being given more priority.
 void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -696,7 +724,8 @@ void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
         m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : segmentIndex(event->pos());
     }
     else {
-        m_activePointIndex = m_activeSegmentIndex = -1;
+        m_activePointIndex   = -1;
+        m_activeSegmentIndex = -1;
     }
 }
 
@@ -710,7 +739,8 @@ void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         QPointF delta = event->scenePos() - event->lastScenePos();
         setPoint(m_activeSegmentIndex, m_points[m_activeSegmentIndex] + delta);
         setPoint(m_activeSegmentIndex + 1, m_points[m_activeSegmentIndex + 1] + delta);
-    } else {
+    }
+    else {
         return;
     }
     calculateEndPoints();
@@ -720,7 +750,8 @@ void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void AssociationLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
-        m_activeSegmentIndex = m_activePointIndex = -1;
+        m_activeSegmentIndex = -1;
+        m_activePointIndex   = -1;
     }
 }
 
@@ -794,7 +825,8 @@ void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 void AssociationLine::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     Q_UNUSED(event);
-    m_activePointIndex = m_activeSegmentIndex = -1;
+    m_activePointIndex   = -1;
+    m_activeSegmentIndex = -1;
     m_associationWidget->update();
 }
 
@@ -841,9 +873,9 @@ static Uml::Region intersectedRegion(const QRectF& rect,
     QMap<Uml::Region, QLineF> rectLines;
 
     // Do the mapping.
-    rectLines[Uml::reg_West] = QLineF(rect.topLeft(), rect.bottomLeft());
+    rectLines[Uml::reg_West]  = QLineF(rect.topLeft(), rect.bottomLeft());
     rectLines[Uml::reg_North] = QLineF(rect.topLeft(), rect.topRight());
-    rectLines[Uml::reg_East] = QLineF(rect.topRight(), rect.bottomRight());
+    rectLines[Uml::reg_East]  = QLineF(rect.topRight(), rect.bottomRight());
     rectLines[Uml::reg_South] = QLineF(rect.bottomLeft(), rect.bottomRight());
 
     // This holds whether a given rect edge(represented by QLineF
@@ -1105,56 +1137,56 @@ bool AssociationLine::onAssociationClassLine(const QPointF& pos) const
 void AssociationLine::reconstructSymbols()
 {
     switch( m_associationWidget->associationType() ) {
-        case Uml::at_State:
-        case Uml::at_Activity:
-        case Uml::at_Exception:
-        case Uml::at_UniAssociation:
-        case Uml::at_Dependency:
+        case Uml::AssociationType::State:
+        case Uml::AssociationType::Activity:
+        case Uml::AssociationType::Exception:
+        case Uml::AssociationType::UniAssociation:
+        case Uml::AssociationType::Dependency:
             setStartSymbol(Symbol::None);
             setEndSymbol(Symbol::OpenArrow);
             removeSubsetSymbol();
             removeCollaborationLine();
             break;
 
-        case Uml::at_Relationship:
+        case Uml::AssociationType::Relationship:
             setStartSymbol(Symbol::None);
             setEndSymbol(Symbol::CrowFeet);
             removeSubsetSymbol();
             removeCollaborationLine();
             break;
 
-        case Uml::at_Generalization:
-        case Uml::at_Realization:
+        case Uml::AssociationType::Generalization:
+        case Uml::AssociationType::Realization:
             setStartSymbol(Symbol::None);
             setEndSymbol(Symbol::ClosedArrow);
             removeSubsetSymbol();
             removeCollaborationLine();
             break;
 
-        case Uml::at_Composition:
-        case Uml::at_Aggregation:
+        case Uml::AssociationType::Composition:
+        case Uml::AssociationType::Aggregation:
             setStartSymbol(Symbol::Diamond);
             setEndSymbol(Symbol::None);
             removeSubsetSymbol();
             removeCollaborationLine();
             break;
 
-        case Uml::at_Containment:
+        case Uml::AssociationType::Containment:
             setStartSymbol(Symbol::Circle);
             setEndSymbol(Symbol::None);
             removeSubsetSymbol();
             removeCollaborationLine();
             break;
 
-        case Uml::at_Child2Category:
+        case Uml::AssociationType::Child2Category:
             setStartSymbol(Symbol::None);
             setEndSymbol(Symbol::None);
             createSubsetSymbol();
             removeCollaborationLine();
             break;
 
-        case Uml::at_Coll_Message:
-        case Uml::at_Coll_Message_Self:
+        case Uml::AssociationType::Coll_Message:
+        case Uml::AssociationType::Coll_Message_Self:
             setStartSymbol(Symbol::None);
             setEndSymbol(Symbol::None);
             removeSubsetSymbol();
@@ -1315,4 +1347,3 @@ void AssociationLine::alignSymbols()
         m_collaborationLineHead->alignTo(actualLine);
     }
 }
-

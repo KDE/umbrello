@@ -4,12 +4,25 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "selectopdlg.h"
+
+// local includes
+#include "attribute.h"
+#include "debug_utils.h"
+#include "operation.h"
+#include "umlclassifierlistitemlist.h"
+#include "umlview.h"
+#include "dialog_utils.h"
+
+// kde includes
+#include <klineedit.h>
+#include <kcombobox.h>
+#include <klocale.h>
 
 // qt includes
 #include <QtGui/QVBoxLayout>
@@ -17,19 +30,6 @@
 #include <QtGui/QLabel>
 #include <QtGui/QRadioButton>
 #include <QtGui/QGroupBox>
-
-// kde includes
-#include <klineedit.h>
-#include <kcombobox.h>
-#include <klocale.h>
-#include <kdebug.h>
-
-// local includes
-#include "attribute.h"
-#include "operation.h"
-#include "umlclassifierlistitemlist.h"
-#include "umlview.h"
-#include "dialog_utils.h"
 
 SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
         : KDialog( parent)
@@ -75,7 +75,7 @@ SelectOpDlg::SelectOpDlg(UMLView * parent, UMLClassifier * c)
 
     UMLOperationList list = c->getOpList(true);
     foreach (UMLOperation* obj, list ) {
-        insertOperation( obj->toString(Uml::st_SigNoVis), list.count() );
+        insertOperation( obj->toString(Uml::SignatureType::SigNoVis), list.count() );
     }
 
     m_nOpCount = c->operations();

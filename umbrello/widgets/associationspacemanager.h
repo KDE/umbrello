@@ -20,9 +20,12 @@
 #ifndef ASSOCIATIONSPACEMANAGER_H
 #define ASSOCIATIONSPACEMANAGER_H
 
-#include "umlnamespace.h"
-#include <QObject>
-#include <QPointF>
+#include "basictypes.h"
+
+#include <QtCore/QObject>
+#include <QtCore/QMap>
+#include <QtCore/QPointF>
+#include <QtCore/QSet>
 
 class AssociationWidget;
 class UMLWidget;
@@ -41,7 +44,8 @@ struct RegionPair
     const Uml::Region& operator[](Uml::Role_Type role) const;
 
 private:
-    Uml::Region first, second;
+    Uml::Region first;
+    Uml::Region second;
 };
 
 /**
@@ -57,7 +61,7 @@ private:
  */
 class AssociationSpaceManager : public QObject
 {
-Q_OBJECT;
+    Q_OBJECT;
 public:
     AssociationSpaceManager(UMLWidget *widget);
 
@@ -85,8 +89,9 @@ private:
         QPointF& operator[](Uml::Role_Type role);
         const QPointF& operator[](Uml::Role_Type role) const;
 
-        private:
-        QPointF first, second;
+    private:
+        QPointF first;
+        QPointF second;
     };
 
     /**
@@ -115,4 +120,3 @@ private:
 };
 
 #endif
-

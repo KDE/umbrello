@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,6 +13,7 @@
 
 //app includes
 #include "classifier.h"
+#include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "listpopupmenu.h"
 #include "objectwidget.h"
@@ -104,7 +105,7 @@ MessageWidget::MessageWidget(ObjectWidget* a, const QPointF& clickedPos,
  */
 void MessageWidget::init()
 {
-    m_baseType = Uml::wt_Message;
+    m_baseType = WidgetBase::wt_Message;
 //:DEPRECATED:    setIgnoreSnapToGrid(true);
 //:DEPRECATED:    setIgnoreSnapComponentSizeToGrid(true);
     m_objectWidgets[Uml::A] = m_objectWidgets[Uml::B] = 0;
@@ -164,7 +165,7 @@ UMLClassifier *MessageWidget::operationOwner()
 UMLOperation *MessageWidget::operation()
 {
     if (umlObject()) {
-        if (umlObject()->baseType() == Uml::ot_Operation) {
+        if (umlObject()->baseType() == UMLObject::ot_Operation) {
             return static_cast<UMLOperation*>(umlObject());
         }
         uDebug() << "umlObject() is not null and is not an operation";
@@ -246,7 +247,7 @@ UMLClassifier * MessageWidget::seqNumAndOp(QString& seqNum, QString& op)
     seqNum = m_sequenceNumber;
     UMLOperation *pOperation = operation();
     if (pOperation) {
-        op = pOperation->toString(Uml::st_SigNoVis);
+        op = pOperation->toString(Uml::SignatureType::SigNoVis);
     } else {
         op = m_customOperation;
     }

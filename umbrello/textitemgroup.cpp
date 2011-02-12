@@ -18,8 +18,9 @@
  ***************************************************************************/
 
 #include "textitemgroup.h"
+
+#include "debug_utils.h"
 #include "textitem.h"
-#include "umlnamespace.h" // for uDebug
 
 #include <QtGui/QGraphicsScene>
 

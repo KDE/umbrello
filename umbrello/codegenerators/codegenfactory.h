@@ -4,14 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef CODEGENFACTORY_H
 #define CODEGENFACTORY_H
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 #include "codeaccessormethod.h"
 
 // fwd decls
@@ -36,27 +36,27 @@ class UMLRole;
  */
 namespace CodeGenFactory {
 
-    CodeGenerator* createObject(Uml::Programming_Language pl);
+    CodeGenerator* createObject(Uml::ProgrammingLanguage pl);
 
 
     CodeOperation *newCodeOperation(ClassifierCodeDocument *cd, UMLOperation * op);
 
-    CodeClassField * newCodeClassField (ClassifierCodeDocument *cd, UMLAttribute * at);
+    CodeClassField *newCodeClassField(ClassifierCodeDocument *cd, UMLAttribute * at);
 
-    CodeClassField * newCodeClassField(ClassifierCodeDocument *cd, UMLRole *role);
+    CodeClassField *newCodeClassField(ClassifierCodeDocument *cd, UMLRole *role);
 
-    CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *cd,
-                                               CodeClassField *cf,
-                                               CodeAccessorMethod::AccessorType type);
+    CodeAccessorMethod *newCodeAccessorMethod(ClassifierCodeDocument *cd,
+                                              CodeClassField *cf,
+                                              CodeAccessorMethod::AccessorType type);
 
-    CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (ClassifierCodeDocument *cd,
-                                                              CodeClassField * cf);
+    CodeClassFieldDeclarationBlock *newDeclarationCodeBlock(ClassifierCodeDocument *cd,
+                                                            CodeClassField * cf);
 
-    CodeComment * newCodeComment (CodeDocument *cd);
+    CodeComment *newCodeComment(CodeDocument *cd);
 
-    CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
+    CodeDocument *newClassifierCodeDocument(UMLClassifier *classifier);
 
-    CodeGenPolicyExt* newCodeGenPolicyExt(Uml::Programming_Language pl);
+    CodeGenPolicyExt* newCodeGenPolicyExt(Uml::ProgrammingLanguage pl);
 }
 
 #endif //CODEGENFACTORY_H

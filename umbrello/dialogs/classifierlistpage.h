@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,15 +12,14 @@
 #define CLASSIFIERLISTPAGE_H
 
 //app includes
-#include "umlnamespace.h"
 #include "umlclassifierlistitemlist.h"
+#include "umlobject.h"
 
 //qt  includes
 #include <QtGui/QWidget>
 
 class CodeTextEdit;
 class ListPopupMenu;
-class UMLObject;
 class UMLClassifier;
 class UMLDoc;
 class KTextEdit;
@@ -45,7 +44,8 @@ class ClassifierListPage : public QWidget
     Q_OBJECT
 public:
 
-    ClassifierListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type);
+    ClassifierListPage(QWidget* parent,
+                       UMLClassifier* classifier, UMLDoc* doc, UMLObject::Object_Type type);
     virtual ~ClassifierListPage();
 
     void updateObject();
@@ -95,7 +95,7 @@ protected:
 
     void hideArrowButtons(bool hide);
 
-    Uml::Object_Type m_itemType;
+    UMLObject::Object_Type m_itemType;
     UMLClassifier* m_pClassifier;
     UMLClassifierListItem* m_pLastObjectCreated;
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,9 +12,10 @@
 #define UMLDOC_H
 
 // app includes
+#include "basictypes.h"
 #include "listpopupmenu.h"
-#include "umlnamespace.h"
 #include "optionstate.h"
+#include "umlobject.h"
 #include "umlobjectlist.h"
 #include "umlassociationlist.h"
 #include "umlclassifierlist.h"
@@ -95,16 +96,16 @@ public:
 
     UMLStereotype* findOrCreateStereotype(const QString &name);
 
-    UMLAssociation* createUMLAssociation(UMLObject *a, UMLObject *b, Uml::Association_Type type);
+    UMLAssociation* createUMLAssociation(UMLObject *a, UMLObject *b, Uml::AssociationType type);
 
     void addAssociation(UMLAssociation *assoc);
     void removeAssociation(UMLAssociation *assoc, bool doSetModified = true);
-    UMLAssociation * findAssociation(Uml::Association_Type assocType,
+    UMLAssociation * findAssociation(Uml::AssociationType assocType,
                                      const UMLObject *roleAObj,
                                      const UMLObject *roleBObj,
                                      bool *swap = 0);
 
-    UMLView* createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName = true);
+    UMLView* createDiagram(UMLFolder *folder, Uml::DiagramType type, bool askForName = true);
     void removeDiagram(Uml::IDType id);
     void renameDiagram(Uml::IDType id);
 
@@ -115,23 +116,25 @@ public:
     UMLObject* findObjectById(Uml::IDType id);
 
     UMLObject* findUMLObject(const QString &name,
-                             Uml::Object_Type type = Uml::ot_UMLObject,
+                             UMLObject::Object_Type type = UMLObject::ot_UMLObject,
                              UMLObject *currentObj = 0);
 
     //:TODO: UMLObject* findObjectByAuxId(const QString &idStr);
 
-    UMLClassifier * findUMLClassifier (const QString &name);
+    UMLClassifier * findUMLClassifier(const QString &name);
 
     UMLStereotype * findStereotype(const QString &name);
 
     UMLView * findView(Uml::IDType id);
-    UMLView * findView(Uml::Diagram_Type type, const QString &name,
+    UMLView * findView(Uml::DiagramType type, const QString &name,
                        bool searchAllScopes = false);
 
     void setName(const QString& name);
     QString name() const;
 
     Uml::IDType modelID() const;
+
+    static bool tagEq (const QString& tag, const QString& pattern);
 
     virtual void saveToXMI(QIODevice& file);
 
@@ -167,11 +170,11 @@ public:
     bool addUMLObject(UMLObject * object);
     bool addUMLView(UMLView * pView );
 
-    UMLFolder *rootFolder(Uml::Model_Type mt);
-    Uml::Model_Type rootFolderType(UMLObject *obj);
+    UMLFolder *rootFolder(Uml::ModelType mt);
+    Uml::ModelType rootFolderType(UMLObject *obj);
 
     UMLFolder *currentRoot();
-    void setCurrentRoot(Uml::Model_Type rootType);
+    void setCurrentRoot(Uml::ModelType rootType);
 
     virtual IDChangeLog* changeLog();
 
@@ -185,7 +188,7 @@ public:
 
     void settingsChanged(Settings::OptionState optionState);
 
-    QString uniqViewName(const Uml::Diagram_Type type);
+    QString uniqueViewName(const Uml::DiagramType type);
 
     bool loading() const;
     void setLoading(bool state = true);
@@ -209,11 +212,12 @@ public:
 
 private:
     void initSaveTimer();
+    void createDatatypeFolder();
 
     /**
      * Array of predefined root folders.
      */
-    UMLFolder *m_root[Uml::N_MODELTYPES];
+    UMLFolder *m_root[Uml::ModelType::N_MODELTYPES];
 
     /**
      * Predefined root folder for datatypes, contained in
@@ -293,7 +297,7 @@ signals:
     void sigDiagramCreated(Uml::IDType id);
     void sigDiagramRemoved(Uml::IDType id);
     void sigDiagramRenamed(Uml::IDType t);
-    void sigDiagramChanged(Uml::Diagram_Type);
+    void sigDiagramChanged(Uml::DiagramType);
 
     void sigObjectCreated(UMLObject *);
     void sigObjectRemoved(UMLObject *);

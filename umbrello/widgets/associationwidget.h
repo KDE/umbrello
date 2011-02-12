@@ -4,15 +4,16 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2009-2010                                               *
+ *   copyright (C) 2009-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#ifndef NEWASSOCIATIONWIDGET_H
-#define NEWASSOCIATIONWIDGET_H
+#ifndef ASSOCIATIONWIDGET_H
+#define ASSOCIATIONWIDGET_H
 
 #include "linkwidget.h"
 #include "messagewidgetlist.h"
+#include "umlobject.h"
 #include "umlwidgetlist.h"
 #include "widgetbase.h"
 
@@ -49,7 +50,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
     Q_OBJECT
     public:
         AssociationWidget();
-        AssociationWidget(UMLWidget *widgetA, Uml::Association_Type type,
+        AssociationWidget(UMLWidget *widgetA, Uml::AssociationType type,
                 UMLWidget *widgetB, UMLObject *obj = 0);
         virtual ~AssociationWidget();
 
@@ -125,8 +126,8 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 
         Uml::IDType widgetIDForRole(Uml::Role_Type role) const;
 
-        Uml::Association_Type associationType() const;
-        void setAssociationType(Uml::Association_Type type);
+        Uml::AssociationType associationType() const;
+        void setAssociationType(Uml::AssociationType type);
 
         bool isCollaboration() const;
 
@@ -137,7 +138,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual bool activate();
         virtual QRectF boundingRect() const;
         virtual QPainterPath shape() const;
-        virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget*);
+        virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
         bool loadFromXMI(QDomElement& element, const UMLWidgetList &list,
                          const MessageWidgetList* messages);
@@ -184,7 +185,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         FloatingTextWidget *m_nameWidget;
         int m_nameSegmentIndex;
 
-        Uml::Association_Type m_associationType;
+        Uml::AssociationType m_associationType;
         bool m_slotUMLObjectDataChangedFirstCall;
 };
 

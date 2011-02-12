@@ -12,13 +12,14 @@
 
 #include "association.h"
 #include "associationline.h"
+#include "assocpropdlg.h"
 #include "assocrules.h"
 #include "associationspacemanager.h"
 #include "attribute.h"
 #include "classifier.h"
 #include "classifierlistitem.h"
 #include "classifierwidget.h"
-#include "assocpropdlg.h"
+#include "debug_utils.h"
 #include "entity.h"
 #include "floatingtextwidget.h"
 #include "objectwidget.h"
@@ -100,7 +101,7 @@ AssociationWidget::AssociationWidget()
 /**
  * Constructor.
  */
-AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type type,
+AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::AssociationType type,
                                      UMLWidget *widgetB, UMLObject *umlObj)
   : WidgetBase(0) // Set UMLObject in body
 {
@@ -109,7 +110,7 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
     if (umlObj) {
         setUMLObject(umlObj, doNotNotifyAsSlot);
     }
-    else if (UMLAssociation::assocTypeHasUMLRepresentation(type)) {
+    else if (Uml::AssociationType::hasUMLRepresentation(type)) {
         UMLObject *objectA = widgetA->umlObject();
         UMLObject *objectB = widgetB->umlObject();
 
@@ -125,7 +126,7 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::Association_Type t
              UMLAssociation * myAssoc = umlDoc()->findAssociation(type,
                     objectA, objectB, &swap);
              if (myAssoc) {
-                 if (type == Uml::at_Generalization) {
+                 if (type == Uml::AssociationType::Generalization) {
                      uDebug() << "Ignoring second construction of same generalization";
                  } else {
                      uDebug() << "Constructing a similar or exact same assoc " <<
@@ -178,8 +179,8 @@ void AssociationWidget::setUMLObject(UMLObject *obj, bool notifyAsSlot)
         return;
     }
 
-    const Uml::Object_Type ot = obj->baseType();
-    if (ot == Uml::ot_Association) {
+    const UMLObject::Object_Type ot = obj->baseType();
+    if (ot == UMLObject::ot_Association) {
 
         UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
         if (assoc->nrof_parent_widgets < 0) {
@@ -187,11 +188,11 @@ void AssociationWidget::setUMLObject(UMLObject *obj, bool notifyAsSlot)
         }
         assoc->nrof_parent_widgets++;
 
-    } else if (ot == Uml::ot_Operation) {
+    } else if (ot == UMLObject::ot_Operation) {
 
         // Nothing special to do.
 
-    } else if (ot == Uml::ot_Attribute) {
+    } else if (ot == UMLObject::ot_Attribute) {
 
         UMLClassifier *klass = static_cast<UMLClassifier*>(obj->parent());
         connect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
@@ -199,13 +200,13 @@ void AssociationWidget::setUMLObject(UMLObject *obj, bool notifyAsSlot)
         // attributeChanged is emitted along with modified signal. So its not
         // necessary to handle attributeChanged signal.
 
-    } else if (ot == Uml::ot_EntityAttribute) {
+    } else if (ot == UMLObject::ot_EntityAttribute) {
 
         UMLEntity *ent = static_cast<UMLEntity*>(obj->parent());
         connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
                 this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
 
-    } else if (ot == Uml::ot_ForeignKeyConstraint) {
+    } else if (ot == UMLObject::ot_ForeignKeyConstraint) {
 
         UMLEntity *ent = static_cast<UMLEntity*>(obj->parent());
         connect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
@@ -512,7 +513,7 @@ void AssociationWidget::calculateNameTextSegment()
 
 UMLAssociation* AssociationWidget::association() const
 {
-    if (!umlObject() || umlObject()->baseType() != Uml::ot_Association) {
+    if (!umlObject() || umlObject()->baseType() != UMLObject::ot_Association) {
         return 0;
     }
     return static_cast<UMLAssociation*>(umlObject());
@@ -523,8 +524,8 @@ UMLAttribute* AssociationWidget::attribute() const
     if (!umlObject()) {
         return 0;
     }
-    Uml::Object_Type ot = umlObject()->baseType();
-    if (ot != Uml::ot_Attribute && ot != Uml::ot_EntityAttribute) {
+    UMLObject::Object_Type ot = umlObject()->baseType();
+    if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute) {
         return 0;
     }
     return static_cast<UMLAttribute*>(umlObject());
@@ -554,7 +555,8 @@ bool AssociationWidget::isEqual(AssociationWidget *other) const
     if (aWid->id() != oaWid->id() || bWid->id() != obWid->id())
         return false;
 
-    if (aWid->baseType() == Uml::wt_Object && oaWid->baseType() == Uml::wt_Object) {
+    if (aWid->baseType() == WidgetBase::wt_Object &&
+        oaWid->baseType() == WidgetBase::wt_Object) {
         ObjectWidget *a = static_cast<ObjectWidget*>(aWid);
         ObjectWidget *oa = static_cast<ObjectWidget*>(oaWid);
         if (a->localID() != oa->localID()) {
@@ -562,7 +564,8 @@ bool AssociationWidget::isEqual(AssociationWidget *other) const
         }
     }
 
-    if (bWid->baseType() == Uml::wt_Object && obWid->baseType() == Uml::wt_Object) {
+    if (bWid->baseType() == WidgetBase::wt_Object &&
+        obWid->baseType() == WidgetBase::wt_Object) {
         ObjectWidget *b = static_cast<ObjectWidget*>(bWid);
         ObjectWidget *ob = static_cast<ObjectWidget*>(obWid);
         if (b->localID() != ob->localID()) {
@@ -824,7 +827,7 @@ Uml::IDType AssociationWidget::widgetIDForRole(Uml::Role_Type role) const
 {
     UMLWidget *widget = widgetForRole(role);
     if (widget) {
-        if (widget->baseType() == Uml::wt_Object) {
+        if (widget->baseType() == WidgetBase::wt_Object) {
             return static_cast<ObjectWidget*>(widget)->localID();
         }
         return widget->id();
@@ -839,19 +842,19 @@ Uml::IDType AssociationWidget::widgetIDForRole(Uml::Role_Type role) const
     return Uml::id_None;
 }
 
-Uml::Association_Type AssociationWidget::associationType() const
+Uml::AssociationType AssociationWidget::associationType() const
 {
-    if (!umlObject() || umlObject()->baseType() != Uml::ot_Association) {
+    if (!umlObject() || umlObject()->baseType() != UMLObject::ot_Association) {
         return m_associationType;
     }
 
     return static_cast<UMLAssociation*>(umlObject())->getAssocType();
 }
 
-void AssociationWidget::setAssociationType(Uml::Association_Type type)
+void AssociationWidget::setAssociationType(Uml::AssociationType type)
 {
     m_associationType = type;
-    if (umlObject() && umlObject()->baseType() == Uml::ot_Association) {
+    if (umlObject() && umlObject()->baseType() == UMLObject::ot_Association) {
         static_cast<UMLAssociation*>(umlObject())->setAssocType(type);
     }
 
@@ -882,8 +885,8 @@ void AssociationWidget::setAssociationType(Uml::Association_Type type)
 
 bool AssociationWidget::isCollaboration() const
 {
-    Uml::Association_Type at = associationType();
-    return (at == Uml::at_Coll_Message || at == Uml::at_Coll_Message_Self);
+    Uml::AssociationType at = associationType();
+    return (at == Uml::AssociationType::Coll_Message || at == Uml::AssociationType::Coll_Message_Self);
 }
 
 QString AssociationWidget::toString() const
@@ -900,7 +903,7 @@ QString AssociationWidget::toString() const
         string += m_widgetRole[Uml::A].roleWidget->text();
     }
     string.append(colon);
-    string.append( UMLAssociation::toString(associationType()));
+    string.append(associationType().toStringI18n());
     string.append(colon);
 
     if (widgetForRole(Uml::B)) {
@@ -933,7 +936,7 @@ bool AssociationWidget::activate()
     }
 
     bool hasUMLRepresentation =
-        UMLAssociation::assocTypeHasUMLRepresentation(associationType());
+        Uml::AssociationType::hasUMLRepresentation(associationType());
     if (!umlObject() && hasUMLRepresentation) {
         UMLObject *myObj = umlDoc()->findObjectById(id());
         if (!myObj) {
@@ -945,7 +948,7 @@ bool AssociationWidget::activate()
         }
     }
 
-    Uml::Association_Type type = associationType();
+    Uml::AssociationType type = associationType();
     if (!widgetForRole(Uml::A)) {
         setWidgetForRole(umlScene()->findWidget(widgetIDForRole(Uml::A)), Uml::A);
     }
@@ -973,7 +976,7 @@ bool AssociationWidget::activate()
             Uml::Visibility vis = visibility((Uml::Role_Type)r);
             robj.roleWidget->setPreText(vis.toString(true));
 
-            if (umlScene()->type() == Uml::dt_Collaboration) {
+            if (umlScene()->type() == Uml::DiagramType::Collaboration) {
                 robj.roleWidget->setUMLObject(robj.umlWidget->umlObject());
             }
             robj.roleWidget->activate();
@@ -1026,9 +1029,9 @@ QPainterPath AssociationWidget::shape() const
     return m_associationLine->shape();
 }
 
-void AssociationWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem* opt, QWidget *)
+void AssociationWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    m_associationLine->paint(painter, opt);
+    m_associationLine->paint(painter, option, widget);
 }
 
 bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &widgets,
@@ -1056,7 +1059,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
     setWidgets(pWidgetA, pWidgetB);
 
     QString type = qElement.attribute("type", "-1");
-    Uml::Association_Type aType = (Uml::Association_Type) type.toInt();
+    Uml::AssociationType aType = Uml::AssociationType(Uml::AssociationType::Value(type.toInt()));
 
     UMLObject *object = umlObject();
     QString id = qElement.attribute("xmi.id", "-1");
@@ -1069,7 +1072,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
         // Create the UMLAssociation if both roles are UML objects;
         // else load the info locally.
 
-        if (UMLAssociation::assocTypeHasUMLRepresentation(aType)) {
+        if (Uml::AssociationType::hasUMLRepresentation(aType)) {
             // lack of an association in our widget AND presence of
             // both uml objects for each role clearly identifies this
             // as reading in an old-school file. Note it as such, and
@@ -1080,7 +1083,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
             UMLObject* umlRoleB = pWidgetB->umlObject();
             if (!object && umlRoleA && umlRoleB) {
                 oldStyleLoad = true; // flag for further special config below
-                if (aType == Uml::at_Aggregation || aType == Uml::at_Composition) {
+                if (aType == Uml::AssociationType::Aggregation || aType == Uml::AssociationType::Composition) {
                     uWarning()
                         << " Old Style save file? swapping roles on association widget"
                         <<(void*)this;
@@ -1140,7 +1143,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
     } else {
 
         // we should disconnect any prior association (can this happen??)
-        if (object && object->baseType() == Uml::ot_Association) {
+        if (object && object->baseType() == UMLObject::ot_Association) {
             UMLAssociation *umla = association();
             umla->disconnect(this);
             umla->nrof_parent_widgets--;
@@ -1152,9 +1155,9 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
         setID(STR2ID(id));
         UMLObject *myObj = umlDoc()->findObjectById(this->id());
         if (myObj) {
-            const Uml::Object_Type ot = myObj->baseType();
+            const UMLObject::Object_Type ot = myObj->baseType();
             setUMLObject(myObj);
-            if (ot == Uml::ot_Association) {
+            if (ot == UMLObject::ot_Association) {
                 aType = static_cast<UMLAssociation*>(myObj)->getAssocType();
             }
         }
@@ -1381,7 +1384,7 @@ void AssociationWidget::slotMenuSelection(QAction *action)
     QString oldText, newText;
     QFont font;
     QRegExpValidator v(QRegExp(".*"), 0);
-    Uml::Association_Type atype = associationType();
+    Uml::AssociationType atype = associationType();
     Uml::Role_Type r = Uml::B;
     UMLScene *scene = umlScene();
     UMLView *view = scene ? scene->activeView() : 0;
@@ -1392,6 +1395,7 @@ void AssociationWidget::slotMenuSelection(QAction *action)
         return;
     }
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+    uDebug() << "menu selection = " << sel;
 
     //if it's a collaboration message we now just use the code in floatingtextwidget
     //this means there's some redundant code below but that's better than duplicated code
@@ -1403,7 +1407,7 @@ void AssociationWidget::slotMenuSelection(QAction *action)
 
     switch(sel) {
         case ListPopupMenu::mt_Properties:
-            if(atype == Uml::at_Seq_Message || atype == Uml::at_Seq_Message_Self) {
+            if(atype == Uml::AssociationType::Seq_Message || atype == Uml::AssociationType::Seq_Message_Self) {
                 // show op dlg for seq. diagram here
                 // don't worry about here, I don't think it can get here as
                 // line is widget on seq. diagram
@@ -1519,6 +1523,7 @@ void AssociationWidget::slotMenuSelection(QAction *action)
 
         default:
             uDebug() << "Menu_Type " << sel << " not implemented";
+            break;
     }//end switch
 }
 
@@ -1535,16 +1540,16 @@ void AssociationWidget::slotUMLObjectDataChanged()
         WidgetBase::slotUMLObjectDataChanged();
         return;
     }
-    const Uml::Object_Type ot = obj->baseType();
-    if (ot == Uml::ot_Operation) {
+    const UMLObject::Object_Type ot = obj->baseType();
+    if (ot == UMLObject::ot_Operation) {
         if (m_nameWidget) {
             m_nameWidget->setMessageText();
         }
-    } else if (ot == Uml::ot_Attribute) {
+    } else if (ot == UMLObject::ot_Attribute) {
         UMLAttribute *attr = static_cast<UMLAttribute*>(obj);
         setVisibility(attr->visibility(), Uml::B);
         setRoleName(attr->name(), Uml::B);
-    } else if (ot == Uml::ot_Association) {
+    } else if (ot == UMLObject::ot_Association) {
         WidgetRole &a = m_widgetRole[Uml::A];
         WidgetRole &b = m_widgetRole[Uml::B];
 
@@ -1640,13 +1645,16 @@ void AssociationWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     m_associationLine->hoverLeaveEvent(event);
 }
 
+/**
+ * Event handler for context menu events.
+ */
 void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     event->accept();
 
-    Uml::Association_Type type = associationType();
-    ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
-    if (type == Uml::at_Anchor ||
+    Uml::AssociationType type = associationType();
+    ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Association_Selected;
+    if (type == Uml::AssociationType::Anchor ||
             m_associationLine->onAssociationClassLine(event->pos())) {
         menuType = ListPopupMenu::mt_Anchor;
     } else if (isCollaboration()) {
@@ -1655,8 +1663,6 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         menuType = ListPopupMenu::mt_AttributeAssociation;
     } else if (AssocRules::allowRole(type)) {
         menuType = ListPopupMenu::mt_FullAssociation;
-    } else {
-        menuType = ListPopupMenu::mt_Association_Selected;
     }
 
     UMLScene *scene = umlScene();
@@ -1672,6 +1678,7 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         }
     }
     setSelected(true);
+    uDebug() << "menue type = " << menuType;
     QPointer<ListPopupMenu> menu = new ListPopupMenu(parent, menuType, this);
     QAction *triggered = menu->exec(event->screenPos());
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
@@ -1702,8 +1709,8 @@ void AssociationWidget::umlObjectChanged(UMLObject *old)
         return;
     }
 
-    const Uml::Object_Type ot = old->baseType();
-    if (ot == Uml::ot_Association) {
+    const UMLObject::Object_Type ot = old->baseType();
+    if (ot == UMLObject::ot_Association) {
 
         UMLAssociation *oldAssoc = static_cast<UMLAssociation*>(old);
         oldAssoc->nrof_parent_widgets--;
@@ -1712,19 +1719,19 @@ void AssociationWidget::umlObjectChanged(UMLObject *old)
             // TODO: Delete oldAssoc or not ? Depends on cut/copy implementation
         }
 
-    } else if (ot == Uml::ot_Attribute) {
+    } else if (ot == UMLObject::ot_Attribute) {
 
         UMLClassifier *klass = static_cast<UMLClassifier*>(old->parent());
         disconnect(klass, SIGNAL(attributeRemoved(UMLClassifierListItem*)),
                 this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
 
-    } else if (ot == Uml::ot_EntityAttribute) {
+    } else if (ot == UMLObject::ot_EntityAttribute) {
 
         UMLEntity *ent = static_cast<UMLEntity*>(old->parent());
         disconnect(ent, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
                 this, SLOT(slotClassifierListItemRemoved(UMLClassifierListItem*)));
 
-    } else if (ot == Uml::ot_ForeignKeyConstraint) {
+    } else if (ot == UMLObject::ot_ForeignKeyConstraint) {
 
         UMLEntity *ent = static_cast<UMLEntity*>(old->parent());
         disconnect(ent, SIGNAL(entityConstraintRemoved(UMLClassifierListItem*)),
@@ -1739,8 +1746,8 @@ void AssociationWidget::umlObjectChanged(UMLObject *old)
 
 void AssociationWidget::init()
 {
-    m_baseType = Uml::wt_Association;
-    m_associationType = Uml::at_Association;
+    m_baseType = WidgetBase::wt_Association;
+    m_associationType = Uml::AssociationType::Association;
     m_associationClass = 0;
     m_associationLine = new AssociationLine(this);
     m_slotUMLObjectDataChangedFirstCall = true;
@@ -1886,13 +1893,13 @@ void AssociationWidget::updateNameWidgetRole()
     Uml::Text_Role textRole = Uml::tr_Name;
     UMLScene *scene = umlScene();
     if (scene) {
-        if (scene->type() == Uml::dt_Collaboration) {
+        if (scene->type() == Uml::DiagramType::Collaboration) {
             if (isSelf()) {
                 textRole = Uml::tr_Coll_Message;
             } else {
                 textRole = Uml::tr_Coll_Message;
             }
-        } else if (scene->type() == Uml::dt_Sequence) {
+        } else if (scene->type() == Uml::DiagramType::Sequence) {
             if (isSelf()) {
                 textRole = Uml::tr_Seq_Message_Self;
             } else {

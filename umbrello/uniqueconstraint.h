@@ -4,16 +4,16 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UNIQUECONSTRAINT_H
 #define UNIQUECONSTRAINT_H
 
-#include "entityconstraint.h"
+#include "basictypes.h"
 #include "classifierlistitem.h"
-#include "umlnamespace.h"
+#include "entityconstraint.h"
 #include "umlclassifierlist.h"
 #include "umlentityattributelist.h"
 
@@ -40,7 +40,7 @@ public:
 
     virtual UMLObject* clone() const;
 
-    QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
+    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
 
     QString getFullyQualifiedName(const QString& separator = QString(),
                                   bool includeRoot = false) const;

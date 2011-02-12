@@ -4,19 +4,19 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef CONSTRAINTLISTPAGE_H
 #define CONSTRAINTLISTPAGE_H
 
-//qt  includes
-#include <QtGui/QWidget>
-
 //app includes
 #include "umlclassifierlistitemlist.h"
 #include "classifierlistpage.h"
+
+//qt  includes
+#include <QtGui/QWidget>
 
 class KAction;
 class KMenu;
@@ -33,7 +33,8 @@ class ConstraintListPage : public ClassifierListPage
     Q_OBJECT
 public:
 
-    ConstraintListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type);
+    ConstraintListPage(QWidget* parent, UMLClassifier* classifier,
+                       UMLDoc* doc, UMLObject::Object_Type type);
     virtual ~ConstraintListPage();
 
 private:
@@ -54,7 +55,7 @@ private slots:
 
 protected:
 
-    bool greaterThan(Uml::Object_Type ct1,Uml::Object_Type ct2);
+    bool greaterThan(UMLObject::Object_Type ct1, UMLObject::Object_Type ct2);
 
     KMenu* buttonMenu;
 

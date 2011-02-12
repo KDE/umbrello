@@ -19,6 +19,8 @@
 
 #include "basictypes.h"
 
+#include "debug_utils.h"
+
 #include <klocale.h>
 
 #include <QtCore/QRegExp>
@@ -35,16 +37,16 @@ QString ModelType::toString(Value item)
 {
     switch (item) {
         case UseCase:
-            return "UseCase";
+            return QString("UseCase");
         case Component:
-            return "Component";
+            return QString("Component");
         case Deployment:
-            return "Deployment";
+            return QString("Deployment");
         case EntityRelationship:
-            return "EntityRelationship";
+            return QString("EntityRelationship");
         case Logical:
         default:
-            return "Logical";
+            return QString("Logical");
     }
 }
 
@@ -115,14 +117,14 @@ QString Visibility::toString(Value item, bool mnemonic)
 {
     switch (item) {
         case Protected:
-            return (mnemonic ? "#" : "protected");
+            return (mnemonic ? QString("#") : QString("protected"));
         case Private:
-            return (mnemonic ? "-" : "private");
+            return (mnemonic ? QString("-") : QString("private"));
         case Implementation:
-            return (mnemonic ? "~" : "implementation");
+            return (mnemonic ? QString("~") : QString("implementation"));
         case Public:
         default:
-            return (mnemonic ? "+" : "public");
+            return (mnemonic ? QString("+") : QString("public"));
     }
 }
 
@@ -196,25 +198,25 @@ QString DiagramType::toString(Value item)
 {
     switch (item) {
         case Undefined:
-            return "Undefined";
+            return QString("Undefined");
         case Class:
-            return "Class";
+            return QString("Class");
         case UseCase:
-            return "UseCase";
+            return QString("UseCase");
         case Sequence:
-            return "Sequence";
+            return QString("Sequence");
         case Collaboration:
-            return "Collaboration";
+            return QString("Collaboration");
         case State:
-            return "State";
+            return QString("State");
         case Activity:
-            return "Activity";
+            return QString("Activity");
         case Component:
-            return "Component";
+            return QString("Component");
         case Deployment:
-            return "Deployment";
+            return QString("Deployment");
         case EntityRelationship:
-            return "EntityRelationship";
+            return QString("EntityRelationship");
         case N_DIAGRAMTYPES:   // must remain last
             return QString("N_DIAGRAMTYPES");
         default:
@@ -223,7 +225,7 @@ QString DiagramType::toString(Value item)
 }
 
 /**
- * Return string corresponding to Uml::DiagramType
+ * Return string corresponding to DiagramType
  */
 QString DiagramType::toStringI18n() const
 {
@@ -252,34 +254,34 @@ QString DiagramType::toStringI18n() const
 }
 
 /**
- * Convert a string item into Model representation.
+ * Convert a string item into DiagramType representation.
  * @param item   item to convert
- * @return Model object
+ * @return DiagramType object
  */
 DiagramType DiagramType::fromString(const QString& item)
 {
     if (item == "Undefined")
-        return DiagramType(Undefined);
+        return Undefined;
     else if (item == "Class")
-        return DiagramType(Class);
+        return Class;
     else if (item == "UseCase")
-        return DiagramType(UseCase);
+        return UseCase;
     else if (item == "Sequence")
-        return DiagramType(Sequence);
+        return Sequence;
     else if (item == "Collaboration")
-        return DiagramType(Collaboration);
+        return Collaboration;
     else if (item == "State")
-        return DiagramType(State);
+        return State;
     else if (item == "Activity")
-        return DiagramType(Activity);
+        return Activity;
     else if (item == "Component")
-        return DiagramType(Component);
+        return Component;
     else if (item == "Deployment")
-        return DiagramType(Deployment);
+        return Deployment;
     else if (item == "EntityRelationship")
-        return DiagramType(EntityRelationship);
+        return EntityRelationship;
     else
-        return DiagramType(Undefined);
+        return Undefined;
 }
 
 /**
@@ -319,51 +321,268 @@ DiagramType::operator DiagramType::Value() const
 //-----------------------------------------------------------------------------
 
 /**
+ * Convert AssociationType item into QString representation.
+ * @param item   item to convert
+ * @return QString representation of AssociationType
+ */
+QString AssociationType::toString(Value item)
+{
+    switch (item) {
+        case Generalization:
+            return QString("Generalization");
+        case Aggregation:
+            return QString("Aggregation");
+        case Dependency:
+            return QString("Dependency");
+        case Association:
+            return QString("Association");
+        case Association_Self:
+            return QString("Association_Self");
+        case Coll_Message:
+            return QString("Coll_Message");
+        case Seq_Message:
+            return QString("Seq_Message");
+        case Coll_Message_Self:
+            return QString("Coll_Message_Self");
+        case Seq_Message_Self:
+            return QString("Seq_Message_Self");
+        case Containment:
+            return QString("Containment");
+        case Composition:
+          return QString("Composition");
+        case Realization:
+          return QString("Realization");
+        case UniAssociation:
+          return QString("UniAssociation");
+        case Anchor:
+          return QString("Anchor");
+        case State:
+          return QString("State");
+        case Activity:
+          return QString("Activity");
+        case Exception:
+          return QString("Exception");
+        case Category2Parent:
+          return QString("Category2Parent");
+        case Child2Category:
+          return QString("Child2Category");
+        case Relationship:
+          return QString("Relationship");
+        case Unknown:
+            return QString("Unknown");
+        default:
+            return QString("? AssociationType ?");
+    }
+}
+
+/**
+ * Converts a AssociationType to its string representation.
+ * @return  the string representation of the AssociationType
+ */
+QString AssociationType::toStringI18n() const
+{
+    switch (m_value) {
+      case Generalization:
+          return i18n("Generalization");
+      case Aggregation:
+          return i18n("Aggregation");
+      case Dependency:
+          return i18n("Dependency");
+      case Association:
+          return i18n("Association");
+      case Association_Self:
+          return i18n("Self Association");
+      case Coll_Message:
+          return i18n("Collaboration Message");
+      case Seq_Message:
+          return i18n("Sequence Message");
+      case Coll_Message_Self:
+          return i18n("Collaboration Self Message");
+      case Seq_Message_Self:
+          return i18n("Sequence Self Message");
+      case Containment:
+          return i18n("Containment");
+      case Composition:
+          return i18n("Composition");
+      case Realization:
+          return i18n("Realization");
+      case UniAssociation:
+          return i18n("Uni Association");
+      case Anchor:
+          return i18n("Anchor");
+      case State:
+          return i18n("State Transition");
+      case Activity:
+          return i18n("Activity");
+      case Exception:
+          return i18n("Exception");
+      case Category2Parent:
+          return i18n("Category to Parent");
+      case Child2Category:
+          return i18n("Child to Category");
+      case Relationship:
+          return i18n("Relationship");
+      case Unknown:
+          return i18n("Unknown");
+      default:
+          return i18n("? AssociationType ?");
+      };
+}
+
+/**
+ * Convert a string item into AssociationType representation.
+ * @param item   item to convert
+ * @return AssociationType object
+ */
+AssociationType AssociationType::fromString(const QString& item)
+{
+    if (item == "Generalization")
+        return Generalization;
+    else if (item == "Aggregation")
+        return Aggregation;
+    else if (item == "Dependency")
+        return Dependency;
+    else if (item == "Association")
+        return Association;
+    else if (item == "Association_Self")
+        return Association_Self;
+    else if (item == "Coll_Message")
+        return Coll_Message;
+    else if (item == "Seq_Message")
+        return Seq_Message;
+    else if (item == "Coll_Message_Self")
+        return Coll_Message_Self;
+    else if (item == "Seq_Message_Self")
+        return Seq_Message_Self;
+    else if (item == "Containment")
+        return Containment;
+    else if (item == "Composition")
+        return Composition;
+    else if (item == "Realization")
+        return Realization;
+    else if (item == "UniAssociation")
+        return UniAssociation;
+    else if (item == "Anchor")
+        return Anchor;
+    else if (item == "State")
+        return State;
+    else if (item == "Activity")
+        return Activity;
+    else if (item == "Exception")
+        return Exception;
+    else if (item == "Category2Parent")
+        return Category2Parent;
+    else if (item == "Child2Category")
+        return Child2Category;
+    else if (item == "Relationship")
+        return Relationship;
+    else
+        return Unknown;
+}
+
+/**
+ * Constructor.
+ */
+AssociationType::AssociationType()
+  : m_value(Unknown)
+{
+}
+
+/**
+ * Constructor.
+ * @param item   value to set
+ */
+AssociationType::AssociationType(Value item)
+  : m_value(item)
+{
+}
+
+/**
+ * Convert AssociationType value into QString representation.
+ * @return QString representation of the AssociationType
+ */
+QString AssociationType::toString() const
+{
+    return toString(m_value);
+}
+
+/**
+ * 
+ */
+AssociationType::operator AssociationType::Value() const
+{
+    return m_value;
+}
+
+/**
+ * Returns true if the given AssociationType has a representation as a
+ * UMLAssociation.
+ * @param item   the AssociationType enum value to check
+ * @return  boolean value
+ */
+bool AssociationType::hasUMLRepresentation(Value item)
+{
+    return (item == Generalization   ||
+            item == Realization      ||
+            item == Association      ||
+            item == Association_Self ||
+            item == UniAssociation   ||
+            item == Aggregation      ||
+            item == Relationship     ||
+            item == Composition      ||
+            item == Dependency       ||
+            item == Category2Parent  ||
+            item == Child2Category);
+}
+
+//-----------------------------------------------------------------------------
+
+/**
  * Return string corresponding to the given ProgrammingLanguage.
  */
 QString ProgrammingLanguage::toString(Value item)
 {
     switch (item) {
         case ActionScript:
-            return "ActionScript";
+            return QString("ActionScript");
         case Ada:
-            return "Ada";
+            return QString("Ada");
         case Cpp:
-            return "C++";
+            return QString("C++");
         case CSharp:
-            return "C#";
+            return QString("C#");
         case D:
-            return "D";
+            return QString("D");
         case IDL:
-            return "IDL";
+            return QString("IDL");
         case Java:
-            return "Java";
+            return QString("Java");
         case JavaScript:
-            return "JavaScript";
+            return QString("JavaScript");
         case MySQL:
-             return "MySQL";
+             return QString("MySQL");
         case Pascal:
-            return "Pascal";
+            return QString("Pascal");
         case Perl:
-            return "Perl";
+            return QString("Perl");
         case PHP:
-            return "PHP";
+            return QString("PHP");
         case PHP5:
-            return "PHP5";
+            return QString("PHP5");
         case PostgreSQL:
-            return "PostgreSQL";
+            return QString("PostgreSQL");
         case Python:
-            return "Python";
+            return QString("Python");
         case Ruby:
-            return "Ruby";
+            return QString("Ruby");
         case SQL:
-            return "SQL";
+            return QString("SQL");
         case Tcl:
-            return "Tcl";
+            return QString("Tcl");
         case Vala:
-            return "Vala";
+            return QString("Vala");
         case XMLSchema:
-            return "XMLSchema";
+            return QString("XMLSchema");
         default:
             break;
     }
@@ -448,6 +667,78 @@ QString ProgrammingLanguage::toString() const
  * 
  */
 ProgrammingLanguage::operator ProgrammingLanguage::Value() const
+{
+    return m_value;
+}
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Return string corresponding to the given SignatureType.
+ */
+QString SignatureType::toString(Value item)
+{
+    switch (item) {
+        case NoSig:
+            return QString("NoSig");
+        case ShowSig:
+            return QString("ShowSig");
+        case SigNoVis:
+            return QString("SigNoVis");
+        case NoSigNoVis:
+            return QString("NoSigNoVis");
+        default:
+            break;
+    }
+    return QString();
+}
+
+/**
+ * Return SignatureType corresponding to the given string.
+ */
+SignatureType SignatureType::fromString(const QString& item)
+{
+    if (item == "NoSig")
+        return SignatureType(NoSig);
+    if (item == "ShowSig")
+        return SignatureType(ShowSig);
+    if (item == "SigNoVis")
+        return SignatureType(SigNoVis);
+    if (item == "NoSigNoVis")
+        return SignatureType(NoSigNoVis);
+    return SignatureType(NoSig);
+}
+
+/**
+ * Constructor.
+ */
+SignatureType::SignatureType()
+  : m_value(NoSig)
+{
+}
+
+/**
+ * Constructor.
+ * @param item   value to set
+ */
+SignatureType::SignatureType(Value item)
+  : m_value(item)
+{
+}
+
+/**
+ * Convert SignatureType value into QString representation.
+ * @return QString representation of the SignatureType
+ */
+QString SignatureType::toString() const
+{
+    return toString(m_value);
+}
+
+/**
+ * 
+ */
+SignatureType::operator SignatureType::Value() const
 {
     return m_value;
 }

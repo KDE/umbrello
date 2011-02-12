@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Alexander Blum <blum@kewbee.de>               *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,10 +14,9 @@
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"
-
-#include <kdebug.h>
 
 #include <QtCore/QRegExp>
 #include <QtCore/QTextStream>
@@ -774,9 +773,9 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
  * Returns "ActionScript".
  * @return   the programming language identifier
  */
-Uml::Programming_Language ASWriter::language() const
+Uml::ProgrammingLanguage ASWriter::language() const
 {
-    return Uml::pl_ActionScript;
+    return Uml::ProgrammingLanguage::ActionScript;
 }
 
 /**

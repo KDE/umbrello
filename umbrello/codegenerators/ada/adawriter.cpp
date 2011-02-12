@@ -5,12 +5,13 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2002    Oliver Kellogg <okellogg@users.sourceforge.net> *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "adawriter.h"
 
+#include "debug_utils.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "classifier.h"
@@ -23,9 +24,7 @@
 #include "attribute.h"
 #include "operation.h"
 #include "template.h"
-#include "umlnamespace.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -39,6 +38,7 @@ const QString AdaWriter::defaultPackageSuffix = "_Holder";
  * Basic Constructor
  */
 AdaWriter::AdaWriter()
+ : SimpleCodeGenerator()
 {
 }
 
@@ -53,9 +53,9 @@ AdaWriter::~AdaWriter()
  * Returns "Ada".
  * @return   the programming language identifier
  */
-Uml::Programming_Language AdaWriter::language() const
+Uml::ProgrammingLanguage AdaWriter::language() const
 {
-    return Uml::pl_Ada;
+    return Uml::ProgrammingLanguage::Ada;
 }
 
 /**
@@ -63,12 +63,12 @@ Uml::Programming_Language AdaWriter::language() const
  */
 bool AdaWriter::isOOClass(UMLClassifier *c)
 {
-    Uml::Object_Type ot = c->baseType();
-    if (ot == Uml::ot_Interface)
+    UMLObject::Object_Type ot = c->baseType();
+    if (ot == UMLObject::ot_Interface)
         return true;
-    if (ot == Uml::ot_Enum)
+    if (ot == UMLObject::ot_Enum)
         return false;
-    if (ot != Uml::ot_Class) {
+    if (ot != UMLObject::ot_Class) {
         uDebug() << "unknown object type " << ot;
         return false;
     }
@@ -93,7 +93,7 @@ QString AdaWriter::className(UMLClassifier *c, bool inOwnScope)
     QString retval;
     QString className = cleanName(c->name());
     UMLPackage *umlPkg = c->umlPackage();
-    if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::mt_Logical)) {
+    if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical)) {
         if (! inOwnScope)
             retval = className + '.';
         retval.append("Object");
@@ -118,7 +118,7 @@ QString AdaWriter::packageName(UMLPackage *p)
     QString className = cleanName(p->name());
     QString retval;
 
-    if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::mt_Logical))
+    if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
         umlPkg = NULL;
 
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(p);
@@ -147,8 +147,8 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
     UMLClassifier* assocEnd = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
     if (assocEnd == NULL)
         return;
-    const Uml::Association_Type assocType = a->getAssocType();
-    if (assocType != Uml::at_Aggregation && assocType != Uml::at_Composition)
+    const Uml::AssociationType assocType = a->getAssocType();
+    if (assocType != Uml::AssociationType::Aggregation && assocType != Uml::AssociationType::Composition)
         return;
     const QString multi = a->getMulti(Uml::B);
     bool hasNonUnityMultiplicity = (!multi.isEmpty() && multi != "1");
@@ -169,7 +169,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
     typeName = className(assocEnd, (assocEnd == c));
     if (hasNonUnityMultiplicity)
         typeName.append("_Array_Ptr");
-    else if (assocType == Uml::at_Aggregation)
+    else if (assocType == Uml::AssociationType::Aggregation)
         typeName.append("_Ptr");
 }
 
@@ -219,7 +219,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     findObjectsRelated(c, imports);
     if (imports.count()) {
         foreach (UMLPackage* con, imports ) {
-            if (con->baseType() != Uml::ot_Datatype)
+            if (con->baseType() != UMLObject::ot_Datatype)
                 ada << "with " << packageName(con) << "; " << m_endl;
         }
         ada << m_endl;
@@ -244,7 +244,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
                     ada << indent() << "type " << formalName << " is new " << typeName
                     << " with private;  -- CHECK: codegen error"
                     << m_endl;
-                } else if (typeObj->baseType() == Uml::ot_Datatype) {
+                } else if (typeObj->baseType() == UMLObject::ot_Datatype) {
                     ada << indent() << formalName << " : " << typeName << ";"
                     << m_endl;
                 } else {
@@ -260,9 +260,9 @@ void AdaWriter::writeClass(UMLClassifier *c)
     QString pkg = packageName(c);
     ada << indent() << "package " << pkg << " is" << m_endl << m_endl;
     m_indentLevel++;
-    if (c->baseType() == Uml::ot_Enum) {
+    if (c->baseType() == UMLObject::ot_Enum) {
         UMLEnum *ue = static_cast<UMLEnum*>(c);
-        UMLClassifierListItemList litList = ue->getFilteredList(Uml::ot_EnumLiteral);
+        UMLClassifierListItemList litList = ue->getFilteredList(UMLObject::ot_EnumLiteral);
         uint i = 0;
         ada << indent() << "type " << classname << " is (" << m_endl;
         m_indentLevel++;

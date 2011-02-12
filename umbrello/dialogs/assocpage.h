@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -35,20 +35,9 @@ class QListWidget;
 class AssocPage : public QWidget
 {
     Q_OBJECT
+
 public:
-
-    /**
-     *  Constructs an instance of AssocPage.
-     *
-     *  @param  parent  The parent of the page
-     *  @param  v       The view the UMLObject being represented.
-     *  @param  o       The UMLObject being represented
-     */
     AssocPage(QWidget *parent, UMLScene * scene, UMLObject * o);
-
-    /**
-     *  Standard deconstructor.
-     */
     ~AssocPage();
 
 private:

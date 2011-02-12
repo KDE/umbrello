@@ -23,6 +23,7 @@
 #include "associationspacemanager.h"
 #include "associationwidget.h"
 #include "classpropdlg.h"
+#include "debug_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "textitemgroup.h"
@@ -391,7 +392,7 @@ void UMLWidget::setResizable(bool resizable)
  */
 void UMLWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
-    uDebug() << "widget " << name();
+    uDebug() << "widget = " << name() << " / type = " << baseTypeStr();
     WidgetBase::contextMenuEvent(event);
 }
 

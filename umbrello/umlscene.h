@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,9 +12,10 @@
 #define UMLSCENE_H
 
 // local includes
-#include "umlnamespace.h"
+#include "basictypes.h"
 #include "optionstate.h"
 #include "umlobjectlist.h"
+#include "umlobject.h"
 #include "umlwidgetlist.h"
 #include "associationwidgetlist.h"
 #include "messagewidgetlist.h"
@@ -68,8 +69,8 @@ public:
     QString name() const;
     void setName(const QString &name);
 
-    Uml::Diagram_Type type() const;
-    void setType(Uml::Diagram_Type type);
+    Uml::DiagramType type() const;
+    void setType(Uml::DiagramType type);
 
     Uml::IDType getID() const;
     void setID(Uml::IDType id);
@@ -147,7 +148,7 @@ public:
 
     AssociationWidget* findAssocWidget(Uml::IDType id);
 
-    AssociationWidget* findAssocWidget(Uml::Association_Type at,
+    AssociationWidget* findAssocWidget(Uml::AssociationType at,
                                        UMLWidget *pWidgetA, UMLWidget *pWidgetB);
 
     AssociationWidget* findAssocWidget(UMLWidget *pWidgetA,
@@ -323,7 +324,7 @@ protected:
     Uml::IDType m_nLocalID;
 
     Uml::IDType m_nID;                ///< The ID of the view. Allocated by @ref UMLDoc.
-    Uml::Diagram_Type m_Type;         ///< The type of diagram to represent.
+    Uml::DiagramType m_Type;          ///< The type of diagram to represent.
     QString m_Name;                   ///< The name of the diagram.
     QString m_Documentation;          ///< The documentation of the diagram.
     Settings::OptionState m_Options;  ///< Options used by view.
@@ -338,7 +339,7 @@ protected:
     bool m_bUseSnapToGrid;  ///< Flag to use snap to grid. The default is off.
     bool m_bUseSnapComponentSizeToGrid;  ///< Flag to use snap to grid for component size. The default is off.
     bool m_bShowSnapGrid;  ///< Flag to show the snap grid. The default will be on if the grid is on.
-    bool m_isOpen;
+    bool m_isOpen;  ///< Flag is set to true when diagram is open, i.e. shown to the user.
 
     // End of methods and members related to loading/saving
     ////////////////////////////////////////////////////////////////////////
@@ -429,8 +430,6 @@ public slots:
     void alignHorizontalMiddle();
     void alignVerticalDistribute();
     void alignHorizontalDistribute();
-
-    void test();
 
 signals:
     void sigResetToolBar();

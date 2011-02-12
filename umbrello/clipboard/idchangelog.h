@@ -4,16 +4,16 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef IDCHANGELOG_H
 #define IDCHANGELOG_H
 
-#include <QtCore/QVector>
+#include "basictypes.h"
 
-#include "umlnamespace.h"
+#include <QtCore/QVector>
 
 /**
  * This class contains all the ID translations done for each
@@ -28,7 +28,6 @@ class IDChangeLog
 public:
 
     IDChangeLog();
-
     IDChangeLog(const IDChangeLog& Other);
 
     ~IDChangeLog();
@@ -42,7 +41,6 @@ public:
     IDChangeLog& operator+=(const IDChangeLog& Other);
 
     Uml::IDType findNewID(Uml::IDType OldID);
-
     Uml::IDType findOldID(Uml::IDType NewID);
 
     void removeChangeByNewID( Uml::IDType OldID);

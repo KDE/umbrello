@@ -5,18 +5,17 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>          *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "xmlschemawriter.h"
 
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"
-#include "umlnamespace.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -41,9 +40,9 @@ XMLSchemaWriter::~XMLSchemaWriter()
 /**
  * returns "XMLSchema"
  */
-Uml::Programming_Language XMLSchemaWriter::language() const
+Uml::ProgrammingLanguage XMLSchemaWriter::language() const
 {
-    return Uml::pl_XMLSchema;
+    return Uml::ProgrammingLanguage::XMLSchema;
 }
 
 // main method for invoking..
@@ -362,7 +361,7 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &XM
     UMLAssociationList aggregations = c->getAggregations();
     UMLAssociationList compositions = c->getCompositions();
     // BAD! only way to get "general" associations.
-    UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association);
+    UMLAssociationList associations = c->getSpecificAssocs(Uml::AssociationType::Association);
 
     // write the main declaration
     writeComplexTypeClassifierDecl(c, associations, aggregations, compositions, superclasses, XMLschema);
@@ -409,7 +408,7 @@ bool XMLSchemaWriter::determineIfHasChildNodes( UMLClassifier *c)
 {
     UMLObjectList aggList = findChildObjsInAssociations (c, c->getAggregations());
     UMLObjectList compList = findChildObjsInAssociations (c, c->getCompositions());
-    UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
+    UMLAssociationList associations = c->getSpecificAssocs(Uml::AssociationType::Association); // BAD! only way to get "general" associations.
     UMLObjectList assocList = findChildObjsInAssociations (c, associations);
     return aggList.count() > 0 || compList.count() > 0 || assocList.count() > 0;
 }

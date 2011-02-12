@@ -4,15 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2009                                                *
+ *  copyright (C) 2005-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 // own header
 #include "cppimport.h"
-// qt/kde includes
-#include <QtCore/QMap>
-#include <kdebug.h>
 
 // must be located here for win32 msvc (see kdevcppparser/position.h)
 #include "kdevcppparser/lexer.h"
@@ -20,6 +17,7 @@
 #include "kdevcppparser/cpptree2uml.h"
 
 // app includes
+#include "debug_utils.h"
 #include "import_utils.h"
 #include "umlobject.h"
 #include "docwindow.h"
@@ -30,6 +28,9 @@
 #include "attribute.h"
 #include "template.h"
 #include "association.h"
+
+// qt includes
+#include <QtCore/QMap>
 
 // static members
 CppDriver * CppImport::ms_driver;

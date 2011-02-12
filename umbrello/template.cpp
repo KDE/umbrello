@@ -4,17 +4,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "template.h"
 
-// qt/kde includes
-#include <kdebug.h>
-
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umltemplatedialog.h"
@@ -24,21 +22,22 @@ UMLTemplate::UMLTemplate(UMLObject *parent, const QString& name,
         : UMLClassifierListItem( parent, name, id )
 {
     setTypeName( type );
-    m_BaseType = Uml::ot_Template;
+    m_BaseType = UMLObject::ot_Template;
 }
 
 UMLTemplate::UMLTemplate(UMLObject *parent)
         : UMLClassifierListItem( parent )
 {
-    m_BaseType = Uml::ot_Template;
+    m_BaseType = UMLObject::ot_Template;
 }
 
 UMLTemplate::~UMLTemplate()
 {
 }
 
-QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/)
+QString UMLTemplate::toString(Uml::SignatureType sig)
 {
+    Q_UNUSED(sig);
     if (m_pSecondary == NULL || m_pSecondary->name() == "class") {
         return name();
     } else {

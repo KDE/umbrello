@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "toolbarstatemessages.h"
 
 // local includes
+#include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
@@ -21,7 +22,6 @@
 #include "umlscene.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -145,7 +145,7 @@ void ToolBarStateMessages::mouseReleaseWidget()
     //TODO When an association between UMLObjects of invalid types is made, an error message
     //is shown. Shouldn't also a message be used here?
     if (m_pMouseEvent->button() != Qt::LeftButton ||
-                getCurrentWidget()->baseType() != Uml::wt_Object) {
+                getCurrentWidget()->baseType() != WidgetBase::wt_Object) {
         cleanMessage();
         return;
     }

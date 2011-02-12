@@ -20,6 +20,7 @@
 #include "associationspacemanager.h"
 #include "associationline.h"
 #include "associationwidget.h"
+#include "debug_utils.h"
 #include "umlwidget.h"
 
 RegionPair::RegionPair(Uml::Region f, Uml::Region s) : first(f), second(s)

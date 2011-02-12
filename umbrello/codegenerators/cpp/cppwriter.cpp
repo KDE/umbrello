@@ -6,30 +6,32 @@
  *                                                                         *
  *   copyright (C) 2003       Brian Thomas                                 *
  *                            <brian.thomas@gsfc.nasa.gov>                 *
- *   copyright (C) 2004-2010  Umbrello UML Modeller Authors                *
+ *   copyright (C) 2004-2011  Umbrello UML Modeller Authors                *
  *                            <uml-devel@uml.sf.net>                       *
  ***************************************************************************/
 
 // own header
 #include "cppwriter.h"
-// qt/kde includes
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QRegExp>
-#include <kdebug.h>
+
 // app includes
-#include "codegen_utils.h"
-#include "uml.h"
-#include "umldoc.h"
 #include "association.h"
 #include "classifier.h"
+#include "codegen_utils.h"
+#include "debug_utils.h"
+#include "model_utils.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "operation.h"
 #include "template.h"
 #include "umltemplatelist.h"
 #include "umlclassifierlistitemlist.h"
 #include "classifierlistitem.h"
-#include "model_utils.h"
 #include "codegenerationpolicy.h"
+
+// qt includes
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+#include <QtCore/QRegExp>
 
 // 3-14-2003: this code developed from the javawriter with parts of the
 // original cppwriter by Luis De la Parra Blum
@@ -71,9 +73,9 @@ CppWriter::~CppWriter()
  * Returns "C++".
  * @return   the programming language identifier
  */
-Uml::Programming_Language CppWriter::language() const
+Uml::ProgrammingLanguage CppWriter::language() const
 {
-    return Uml::pl_Cpp;
+    return Uml::ProgrammingLanguage::Cpp;
 }
 
 /**
@@ -119,7 +121,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     // Determine whether the implementation file is required.
     // (It is not required if the class is an enumeration.)
     bool need_impl = true;
-    if (c->baseType() == Uml::ot_Enum) {
+    if (c->baseType() == UMLObject::ot_Enum) {
         need_impl = false;
     }
     if (need_impl) {
@@ -174,7 +176,7 @@ void CppWriter::writeHeaderAccessorMethodDecl(UMLClassifier *c, Uml::Visibility 
     writeHeaderAttributeAccessorMethods(c, permitScope, false, stream);
 
     // associations
-    writeAssociationMethods(c->getSpecificAssocs(Uml::at_Association), permitScope,
+    writeAssociationMethods(c->getSpecificAssocs(Uml::AssociationType::Association), permitScope,
                             true, INLINE_ASSOCIATION_METHODS, true, c->id(), stream);
     writeAssociationMethods(c->getUniAssociationToBeImplemented(), permitScope,
                             true, INLINE_ASSOCIATION_METHODS, true, c->id(), stream);
@@ -197,7 +199,7 @@ void CppWriter::writeHeaderFieldDecl(UMLClassifier *c, Uml::Visibility permitSco
     writeAttributeDecls(c, permitScope, false, stream);
 
     // associations
-    writeAssociationDecls(c->getSpecificAssocs(Uml::at_Association), permitScope, c->id(), stream);
+    writeAssociationDecls(c->getSpecificAssocs(Uml::AssociationType::Association), permitScope, c->id(), stream);
     writeAssociationDecls(c->getUniAssociationToBeImplemented(), permitScope, c->id(), stream);
     writeAssociationDecls(c->getAggregations(), permitScope, c->id(), stream);
     writeAssociationDecls(c->getCompositions(), permitScope, c->id(), stream);
@@ -275,7 +277,7 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
     // accessor methods for associations
 
     // public
-    writeAssociationMethods(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Public, false,
+    writeAssociationMethods(c->getSpecificAssocs(Uml::AssociationType::Association), Uml::Visibility::Public, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getUniAssociationToBeImplemented(), Uml::Visibility::Public, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
@@ -285,7 +287,7 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
                             !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
 
     // protected
-    writeAssociationMethods(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Protected, false,
+    writeAssociationMethods(c->getSpecificAssocs(Uml::AssociationType::Association), Uml::Visibility::Protected, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getUniAssociationToBeImplemented(), Uml::Visibility::Protected, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
@@ -295,7 +297,7 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
                             !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
 
     // private
-    writeAssociationMethods(c->getSpecificAssocs(Uml::at_Association), Uml::Visibility::Private, false,
+    writeAssociationMethods(c->getSpecificAssocs(Uml::AssociationType::Association), Uml::Visibility::Private, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
     writeAssociationMethods(c->getUniAssociationToBeImplemented(), Uml::Visibility::Private, false,
                             !INLINE_ASSOCIATION_METHODS, true, c->id(), cpp);
@@ -352,7 +354,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     if (c->hasAssociations())
     {
         // write all includes we need to include other classes, that arent us.
-        printAssociationIncludeDecl (c->getSpecificAssocs(Uml::at_Association), c->id(), cpp);
+        printAssociationIncludeDecl (c->getSpecificAssocs(Uml::AssociationType::Association), c->id(), cpp);
         printAssociationIncludeDecl (c->getUniAssociationToBeImplemented(), c->id(), cpp);
         printAssociationIncludeDecl (c->getAggregations(), c->id(), cpp);
         printAssociationIncludeDecl (c->getCompositions(), c->id(), cpp);
@@ -388,8 +390,8 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         << "  Inherit from it instead and create only objects from the derived classes" << m_endl
         << "*****************************************************************************/" << m_endl << m_endl;
 
-    if (c->baseType() == Uml::ot_Enum) {
-        UMLClassifierListItemList litList = c->getFilteredList(Uml::ot_EnumLiteral);
+    if (c->baseType() == UMLObject::ot_Enum) {
+        UMLClassifierListItemList litList = c->getFilteredList(UMLObject::ot_EnumLiteral);
         uint i = 0;
         cpp << "enum " << className_ << " {" << m_endl;
         foreach (UMLClassifierListItem* lit, litList ) {

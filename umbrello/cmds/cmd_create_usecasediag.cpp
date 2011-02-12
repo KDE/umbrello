@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,8 +32,8 @@ namespace Uml
 
     void CmdCreateUseCaseDiag::redo()
     {
-        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::mt_UseCase);
-        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_UseCase);
+        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::ModelType::UseCase);
+        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::DiagramType::UseCase);
     }
 
     void CmdCreateUseCaseDiag::undo()

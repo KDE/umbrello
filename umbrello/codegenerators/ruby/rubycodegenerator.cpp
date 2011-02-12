@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -54,9 +54,9 @@ RubyCodeGenerator::~RubyCodeGenerator ( )
  * Return our language.
  * @return language identifier
  */
-Uml::Programming_Language RubyCodeGenerator::language() const
+Uml::ProgrammingLanguage RubyCodeGenerator::language() const
 {
-    return Uml::pl_Ruby;
+    return Uml::ProgrammingLanguage::Ruby;
 }
 
 /**

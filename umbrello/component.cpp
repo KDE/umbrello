@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,11 +12,12 @@
 #include "component.h"
 // app includes
 #include "association.h"
+#include "debug_utils.h"
 #include "object_factory.h"
 #include "model_utils.h"
 #include "clipboard/idchangelog.h"
+#include "umldoc.h"
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 
 /**
@@ -28,7 +29,7 @@ UMLComponent::UMLComponent(const QString & name, Uml::IDType id)
   : UMLPackage(name, id),
     m_executable(false)
 {
-    m_BaseType = Uml::ot_Component;
+    m_BaseType = UMLObject::ot_Component;
 }
 
 /**
@@ -84,8 +85,8 @@ bool UMLComponent::load(QDomElement& element)
         QString type = tempElement.tagName();
         if (Model_Utils::isCommonXMIAttribute(type))
             continue;
-        if (Uml::tagEq(type, "Namespace.ownedElement") ||
-                Uml::tagEq(type, "Namespace.contents")) {
+        if (UMLDoc::tagEq(type, "Namespace.ownedElement") ||
+                UMLDoc::tagEq(type, "Namespace.contents")) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore these tags are not further interpreted.

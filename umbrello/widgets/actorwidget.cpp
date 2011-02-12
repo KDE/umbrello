@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@ const QSizeF ActorWidget::MinimumSize = QSizeF(20, 40);
  */
 ActorWidget::ActorWidget(UMLActor *a) : UMLWidget(a)
 {
-    m_baseType = Uml::wt_Actor;
+    m_baseType = WidgetBase::wt_Actor;
     createTextItemGroup();
     textItemGroupAt(0)->setMargin(0);
     setMargin(0);

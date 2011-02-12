@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,7 +27,7 @@
  */
 UseCaseWidget::UseCaseWidget(UMLUseCase *o) : UMLWidget(o)
 {
-    m_baseType = Uml::wt_UseCase;
+    m_baseType = WidgetBase::wt_UseCase;
     createTextItemGroup();
 }
 

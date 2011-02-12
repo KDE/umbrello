@@ -4,22 +4,22 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef WIDGET_UTILS_H
 #define WIDGET_UTILS_H
 
+#include "basictypes.h"
+#include "umlwidgetlist.h"
+#include "messagewidgetlist.h"
+
 #include <QtCore/QPoint>
 #include <QtXml/QDomDocument>
 #include <QtGui/QBrush>
 #include <QtGui/QPen>
 #include <QtGui/QFont>
-
-#include "umlnamespace.h"
-#include "umlwidgetlist.h"
-#include "messagewidgetlist.h"
 
 // forward declarations
 class QGraphicsRectItem;

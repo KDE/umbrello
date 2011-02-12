@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003       Alexander Blum  <blum@kewbee.de>             *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,10 +14,9 @@
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"
-
-#include <kdebug.h>
 
 #include <QtCore/QRegExp>
 #include <QtCore/QTextStream>
@@ -266,9 +265,9 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
     }//end for
 }
 
-Uml::Programming_Language JSWriter::language() const
+Uml::ProgrammingLanguage JSWriter::language() const
 {
-    return Uml::pl_JavaScript;
+    return Uml::ProgrammingLanguage::JavaScript;
 }
 
 QStringList JSWriter::reservedKeywords() const

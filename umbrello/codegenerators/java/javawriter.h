@@ -6,11 +6,10 @@
 
     Copyright (C) 2003       Brian Thomas
                              <brian.thomas@gsfc.nasa.gov>
-              (C) 2004-2010  Umbrello UML Modeller Authors
+              (C) 2004-2011  Umbrello UML Modeller Authors
                              <uml-devel@uml.sf.net>
 
  ***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -58,7 +57,7 @@ public:
      * Returns "Java".
      * @return   the programming language identifier
      */
-    virtual Uml::Programming_Language language() const;
+    virtual Uml::ProgrammingLanguage language() const;
 
     /**
      * Overrides method from class CodeGenerator.

@@ -4,18 +4,24 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 //own header
 #include "checkconstraint.h"
 
+// app includes
+#include "debug_utils.h"
 #include "umlcheckconstraintdialog.h"
 
-// qt/kde includes
-#include <kdebug.h>
-
+/**
+ * Sets up a constraint.
+ *
+ * @param parent    The parent of this UMLCheckConstraint.
+ * @param name      The name of this UMLCheckConstraint.
+ * @param id        The unique id given to this UMLCheckConstraint.
+ */
 UMLCheckConstraint::UMLCheckConstraint(UMLObject *parent,
                           const QString& name, Uml::IDType id)
     : UMLEntityConstraint(parent, name, id)
@@ -23,12 +29,20 @@ UMLCheckConstraint::UMLCheckConstraint(UMLObject *parent,
     init();
 }
 
+/**
+ * Sets up a constraint.
+ *
+ * @param parent    The parent of this UMLCheckConstraint.
+ */
 UMLCheckConstraint::UMLCheckConstraint(UMLObject *parent)
     : UMLEntityConstraint( parent ) 
 {
     init();
 }
 
+/**
+ * Overloaded '==' operator.
+ */
 bool UMLCheckConstraint::operator==(const UMLCheckConstraint &rhs)
 {
     if ( this == &rhs )
@@ -40,6 +54,9 @@ bool UMLCheckConstraint::operator==(const UMLCheckConstraint &rhs)
     return true;
 }
 
+/**
+ * Destructor.
+ */
 UMLCheckConstraint::~UMLCheckConstraint()
 {
 }
@@ -73,15 +90,14 @@ UMLObject* UMLCheckConstraint::clone() const
 /**
  * Returns a string representation of the UMLCheckConstraint.
  *
- * @param sig               If true will show the attribute type and
- *                  initial value.
+ * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLCheckConstraint::toString(Uml::Signature_Type sig )
+QString UMLCheckConstraint::toString(Uml::SignatureType sig)
 {
     QString s;
 
-    if (sig == Uml::st_ShowSig || sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
+    if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         s = name() ;
     }
 
@@ -133,16 +149,13 @@ bool UMLCheckConstraint::load( QDomElement & element )
     return true;
 }
 
-
 /**
  * Initialises Check Constraint
  */
 void UMLCheckConstraint::init() 
 {
-    m_BaseType = Uml::ot_CheckConstraint;
+    m_BaseType = UMLObject::ot_CheckConstraint;
     m_CheckCondition.clear();
 }
 
 #include "checkconstraint.moc"
-
-

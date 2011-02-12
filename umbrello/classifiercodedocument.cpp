@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,14 +16,10 @@
 // own header
 #include "classifiercodedocument.h"
 
-// qt/kde includes
-#include <QtCore/QList>
-#include <QtCore/QRegExp>
-#include <kdebug.h>
-
 // local includes
 #include "association.h"
 #include "attribute.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "classifierlistitem.h"
 #include "classifier.h"
@@ -35,13 +31,22 @@
 #include "umloperationlist.h"
 #include "codegenfactory.h"
 
+// qt includes
+#include <QtCore/QList>
+#include <QtCore/QRegExp>
 
-ClassifierCodeDocument::ClassifierCodeDocument ( UMLClassifier * parent )
+/**
+ * Empty Constructor.
+ */
+ClassifierCodeDocument::ClassifierCodeDocument(UMLClassifier * parent)
 {
     init (parent);
 }
 
-ClassifierCodeDocument::~ClassifierCodeDocument ( )
+/**
+ * Empty Destructor.
+ */
+ClassifierCodeDocument::~ClassifierCodeDocument()
 {
     qDeleteAll(m_classfieldVector);
     m_classfieldVector.clear();
@@ -50,7 +55,7 @@ ClassifierCodeDocument::~ClassifierCodeDocument ( )
 /**
  * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType)
+CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField::ClassFieldType cfType)
 {
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
@@ -66,7 +71,7 @@ CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassFiel
 /**
  * Get a list of codeclassifier objects held by this classifiercodedocument that meet the passed criteria.
  */
-CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic)
+CodeClassFieldList ClassifierCodeDocument::getSpecificClassFields(CodeClassField::ClassFieldType cfType, bool isStatic)
 {
     CodeClassFieldList list;
     CodeClassFieldList::ConstIterator it = m_classfieldVector.constBegin();
@@ -170,13 +175,9 @@ bool ClassifierCodeDocument::hasAttributeClassFields()
 
 /**
  * Add a CodeClassField object to the m_classfieldVector List
+ * We DON'T add methods of the code classfield here because we need to allow
+ * the codegenerator writer the liberty to organize their document as they desire.
  * @return boolean true if successful in adding
- */
-// We DON'T add methods of the code classfield here because we need to allow
-// the codegenerator writer the liberty to organize their document as they desire.
-
-/**
- * Add a CodeClassField object to the m_classfieldVector List
  */
 bool ClassifierCodeDocument::addCodeClassField ( CodeClassField * add_object )
 {
@@ -191,10 +192,9 @@ bool ClassifierCodeDocument::addCodeClassField ( CodeClassField * add_object )
     return false;
 }
 
-// this is a slot..should only be called from a signal
-
 /**
  * Synchronize this document to the attributes/associations of the parent classifier.
+ * This is a slot..should only be called from a signal.
  */
 void ClassifierCodeDocument::addAttributeClassField (UMLClassifierListItem *obj, bool syncToParentIfAdded)
 {
@@ -265,6 +265,7 @@ UMLClassifier * ClassifierCodeDocument::getParentClassifier ( )
 }
 
 /**
+ * Get a list of codeoperation objects held by this classifiercodedocument.
  * @return      QList<CodeOperation>
  */
 QList<CodeOperation*> ClassifierCodeDocument::getCodeOperations ( )
@@ -311,7 +312,7 @@ void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
 }
 
 /**
- * @param       op
+ * @param   op
  */
 void ClassifierCodeDocument::removeOperation (UMLClassifierListItem * op )
 {
@@ -332,6 +333,9 @@ void ClassifierCodeDocument::removeOperation (UMLClassifierListItem * op )
 // Other methods
 //
 
+/**
+ * A utility method that allows user to easily add classfield methods to this document.
+ */
 void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list )
 {
     CodeClassFieldList::Iterator it = list.begin();
@@ -343,19 +347,20 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list )
         Q_FOREACH( CodeAccessorMethod *method, list )
         {
             /*
-                                QString tag = method->getTag();
-                                if(tag.isEmpty())
-                                {
-                                        tag = getUniqueTag();
-                                        method->setTag(tag);
-                                }
+                QString tag = method->getTag();
+                if(tag.isEmpty()) {
+                        tag = getUniqueTag();
+                        method->setTag(tag);
+                }
             */
             addTextBlock(method); // wont add if already exists in document, will add a tag if missing;
         }
     }
 }
 
-// add declaration blocks for the passed classfields
+/**
+ * Add declaration blocks for the passed classfields.
+ */
 void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list ,
         CodeGenObjectWithTextBlocks * parent )
 {
@@ -367,18 +372,18 @@ void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list ,
         CodeClassFieldDeclarationBlock * declBlock = field->getDeclarationCodeBlock();
 
         /*
-                        // if it has a tag, check
-                        if(!declBlock->getTag().isEmpty())
-                        {
-                                // In C++, because we may shift the declaration to a different parent
-                                // block for a change in scope, we need to track down any pre-existing
-                                // location, and remove FIRST before adding to new parent
-                                CodeGenObjectWithTextBlocks * oldParent = findParentObjectForTaggedTextBlock (declBlock->getTag());
-                                if(oldParent) {
-                                        if(oldParent != parent)
-                                                oldParent->removeTextBlock(declBlock);
-                                }
-                        }
+              // if it has a tag, check
+              if(!declBlock->getTag().isEmpty())
+              {
+                      // In C++, because we may shift the declaration to a different parent
+                      // block for a change in scope, we need to track down any pre-existing
+                      // location, and remove FIRST before adding to new parent
+                      CodeGenObjectWithTextBlocks * oldParent = findParentObjectForTaggedTextBlock (declBlock->getTag());
+                      if(oldParent) {
+                              if(oldParent != parent)
+                                      oldParent->removeTextBlock(declBlock);
+                      }
+              }
         */
 
         parent->addTextBlock(declBlock); // wont add it IF its already present. Will give it a tag if missing
@@ -390,7 +395,7 @@ void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list ,
  */
 bool ClassifierCodeDocument::parentIsClass()
 {
-    return (m_parentclassifier->baseType() == Uml::ot_Class);
+    return (m_parentclassifier->baseType() == UMLObject::ot_Class);
 }
 
 /**
@@ -398,7 +403,7 @@ bool ClassifierCodeDocument::parentIsClass()
  */
 bool ClassifierCodeDocument::parentIsInterface()
 {
-    return (m_parentclassifier->baseType() == Uml::ot_Interface);
+    return (m_parentclassifier->baseType() == UMLObject::ot_Interface);
 }
 
 /**
@@ -428,22 +433,23 @@ void ClassifierCodeDocument::init (UMLClassifier * c )
 
 }
 
-// IF the classifier object is modified, this will get called.
-// @todo we cannot make this virtual as long as the
-//       ClassifierCodeDocument constructor calls it because that gives
-//       a call-before-construction error.
-// Example of the problem: CPPSourceCodeDocument reimplementing syncNamesToParent()
-//  CPPCodeGenerator::initFromParentDocument()
-//    CodeDocument * codeDoc = new CPPSourceCodeDocument(c);
-//      CPPSourceCodeDocument::CPPSourceCodeDocument(UMLClassifier * concept)
-//       : ClassifierCodeDocument(concept)
-//        ClassifierCodeDocument::ClassifierCodeDocument(concept)
-//         init(concept);
-//          syncNamesToParent();
-//            dispatches to CPPSourceCodeDocument::syncNamesToParent()
-//            but that object is not yet constructed.
-//
-void ClassifierCodeDocument::syncNamesToParent( )
+/**
+ * IF the classifier object is modified, this will get called.
+ * @todo we cannot make this virtual as long as the
+ *       ClassifierCodeDocument constructor calls it because that gives
+ *       a call-before-construction error.
+ * Example of the problem: CPPSourceCodeDocument reimplementing syncNamesToParent()
+ *  CPPCodeGenerator::initFromParentDocument()
+ *    CodeDocument * codeDoc = new CPPSourceCodeDocument(c);
+ *      CPPSourceCodeDocument::CPPSourceCodeDocument(UMLClassifier * concept)
+ *       : ClassifierCodeDocument(concept)
+ *        ClassifierCodeDocument::ClassifierCodeDocument(concept)
+ *         init(concept);
+ *          syncNamesToParent();
+ *            dispatches to CPPSourceCodeDocument::syncNamesToParent()
+ *            but that object is not yet constructed.
+ */
+void ClassifierCodeDocument::syncNamesToParent()
 {
     QString fileName = CodeGenerator::cleanName(getParentClassifier()->name());
     if (!UMLApp::app()->activeLanguageIsCaseSensitive()) {
@@ -454,7 +460,10 @@ void ClassifierCodeDocument::syncNamesToParent( )
     setPackage(m_parentclassifier->umlPackage());
 }
 
-void ClassifierCodeDocument::synchronize( )
+/**
+ * Cause this classifier code document to synchronize to current policy.
+ */
+void ClassifierCodeDocument::synchronize()
 {
     updateHeader(); // doing this insures time/date stamp is at the time of this call
     syncNamesToParent();
@@ -464,7 +473,10 @@ void ClassifierCodeDocument::synchronize( )
 
 }
 
-void ClassifierCodeDocument::syncClassFields( )
+/**
+ * Force synchronization of child classfields to their parent objects.
+ */
+void ClassifierCodeDocument::syncClassFields()
 {
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
@@ -472,7 +484,10 @@ void ClassifierCodeDocument::syncClassFields( )
         (*it)->synchronize();
 }
 
-void ClassifierCodeDocument::updateOperations( )
+/**
+ * Update code operations in this document using the parent classifier.
+ */
+void ClassifierCodeDocument::updateOperations()
 {
     UMLOperationList opList(getParentClassifier()->getOpList());
     foreach (UMLOperation *op , opList ) {
@@ -499,7 +514,7 @@ void ClassifierCodeDocument::updateOperations( )
     }
 }
 
-void ClassifierCodeDocument::syncToParent( )
+void ClassifierCodeDocument::syncToParent()
 {
     synchronize();
 }
@@ -508,7 +523,7 @@ void ClassifierCodeDocument::syncToParent( )
  * Add codeclassfields to this classifiercodedocument. If a codeclassfield
  * already exists, it is not added.
  */
-void ClassifierCodeDocument::initCodeClassFields ( )
+void ClassifierCodeDocument::initCodeClassFields()
 {
     UMLClassifier * c = getParentClassifier();
     // first, do the code classifields that arise from attributes
@@ -522,10 +537,10 @@ void ClassifierCodeDocument::initCodeClassFields ( )
     }
 
     // now, do the code classifields that arise from associations
-    UMLAssociationList ap = c->getSpecificAssocs(Uml::at_Association);
+    UMLAssociationList ap = c->getSpecificAssocs(Uml::AssociationType::Association);
     UMLAssociationList ag = c->getAggregations();
     UMLAssociationList ac = c->getCompositions();
-    UMLAssociationList selfAssoc = c->getSpecificAssocs(Uml::at_Association_Self);
+    UMLAssociationList selfAssoc = c->getSpecificAssocs(Uml::AssociationType::Association_Self);
 
     updateAssociationClassFields(ap);
     updateAssociationClassFields(ag);
@@ -533,9 +548,13 @@ void ClassifierCodeDocument::initCodeClassFields ( )
     updateAssociationClassFields(selfAssoc);
 }
 
+/**
+ * Using the passed list, update our inventory of CodeClassFields which are
+ * based on UMLRoles (e.g. derived from associations with other classifiers).
+ */
 void ClassifierCodeDocument::updateAssociationClassFields ( UMLAssociationList &assocList )
 {
-    foreach(UMLAssociation * a , assocList )
+    foreach(UMLAssociation * a , assocList)
         addAssociationClassField(a, false); // syncToParent later
 }
 
@@ -554,7 +573,6 @@ void ClassifierCodeDocument::addAssociationClassField (UMLAssociation * a, bool 
     // grab RoleB decl
     if (printRoleB)
     {
-
         UMLRole * role = a->getUMLRole(Uml::B);
         if(!m_classFieldMap.contains((UMLObject*)role))
         {
@@ -635,8 +653,8 @@ ClassifierCodeDocument::findCodeClassFieldFromParentID (Uml::IDType id,
 
     // shouldn't happen..
     uError() << "Failed to find codeclassfield for parent uml id:"
-    << ID2STR(id) << " (role id:" << role_id
-    << ") Do you have a corrupt classifier code document?";
+             << ID2STR(id) << " (role id:" << role_id
+             << ") Do you have a corrupt classifier code document?";
 
     return (CodeClassField*) NULL; // not found
 }
@@ -732,6 +750,10 @@ void ClassifierCodeDocument::setAttributesOnNode ( QDomDocument & doc, QDomEleme
     docElement.appendChild( fieldsElement);
 }
 
+/**
+ * Find a specific textblock held by any code class field in this document
+ * by its tag.
+ */
 TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QString &tag)
 {
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();

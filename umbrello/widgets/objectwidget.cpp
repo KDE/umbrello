@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,6 +13,7 @@
 
 // local includes
 #include "classpropdlg.h"
+#include "debug_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "preconditionwidget.h"
@@ -51,7 +52,7 @@ const qreal ObjectWidget::SequenceLineMargin = 20;
 ObjectWidget::ObjectWidget(UMLObject *object, const Uml::IDType& lid)
         : UMLWidget(object)
 {
-    m_baseType = Uml::wt_Object;
+    m_baseType = WidgetBase::wt_Object;
     m_localID = lid;
     m_multipleInstance = false;
     m_drawAsActor = false;
@@ -88,7 +89,7 @@ void ObjectWidget::setLocalID(const Uml::IDType& id)
 void ObjectWidget::setMultipleInstance(bool multiple)
 {
     // make sure only calling this in relation to an object on a collab. diagram
-    if (umlScene() && umlScene()->type() != Uml::dt_Collaboration) {
+    if (umlScene() && umlScene()->type() != Uml::DiagramType::Collaboration) {
         return;
     }
     m_multipleInstance = multiple;
@@ -533,7 +534,7 @@ QVariant ObjectWidget::itemChange(GraphicsItemChange change, const QVariant& val
     UMLScene *uScene = umlScene();
 
     if (change == ItemPositionChange) {
-        if (uScene && uScene->type() == Uml::dt_Sequence && uScene->isMouseMovingItems()) {
+        if (uScene && uScene->type() == Uml::DiagramType::Sequence && uScene->isMouseMovingItems()) {
             QPointF newPoint = value.toPointF();
             newPoint.setY(y()); // set old y, so no vertical movement
             return newPoint;
@@ -547,7 +548,7 @@ QVariant ObjectWidget::itemChange(GraphicsItemChange change, const QVariant& val
     else if (change == ItemSceneHasChanged) {
         // Create/delete Sequential line based on the type of diagram.
         if (uScene) {
-            if (uScene->type() == Uml::dt_Sequence) {
+            if (uScene->type() == Uml::DiagramType::Sequence) {
                 if (!m_sequentialLine) {
                     m_sequentialLine = new SeqLineWidget(this);
                     m_sequentialLine->setLength(255);

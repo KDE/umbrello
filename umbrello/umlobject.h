@@ -4,21 +4,21 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLOBJECT_H
 #define UMLOBJECT_H
 
+#include "basictypes.h"
+#include "umlpackagelist.h"
+
 //qt includes
 #include <QtCore/QObject>
 #include <QtCore/QString>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
-
-#include "umlnamespace.h"
-#include "umlpackagelist.h"
 
 class UMLStereotype;
 
@@ -41,11 +41,42 @@ class UMLStereotype;
 class UMLObject : public QObject
 {
     Q_OBJECT
-public:
+    Q_ENUMS(Object_Type)
 
-    explicit UMLObject(UMLObject * parent, const QString &name, Uml::IDType id = Uml::id_None);
-    explicit UMLObject(UMLObject * parent);
-    explicit UMLObject(const QString &name = QString() , Uml::IDType id = Uml::id_None);
+public:
+    enum Object_Type
+    {
+        ot_UMLObject  = 100,
+        ot_Actor,
+        ot_UseCase,
+        ot_Package,
+        ot_Interface,
+        ot_Datatype,
+        ot_Enum,
+        ot_Class,
+        ot_Association,
+        ot_Attribute,
+        ot_Operation,
+        ot_EnumLiteral,
+        ot_Template,
+        ot_Component,
+        ot_Artifact,
+        ot_Node,
+        ot_Stereotype,
+        ot_Role,
+        ot_Entity,
+        ot_EntityAttribute,
+        ot_Folder,
+        ot_EntityConstraint,
+        ot_UniqueConstraint,
+        ot_ForeignKeyConstraint,
+        ot_CheckConstraint,
+        ot_Category
+    };
+
+    explicit UMLObject(UMLObject* parent, const QString& name, Uml::IDType id = Uml::id_None);
+    explicit UMLObject(UMLObject* parent);
+    explicit UMLObject(const QString& name = QString(), Uml::IDType id = Uml::id_None);
     virtual ~UMLObject();
 
     bool operator==(const UMLObject & rhs ) const;
@@ -54,8 +85,8 @@ public:
 
     virtual UMLObject* clone() const = 0;
 
-    virtual void setBaseType(Uml::Object_Type ot);
-    Uml::Object_Type baseType() const;
+    virtual void setBaseType(Object_Type ot);
+    Object_Type baseType() const;
 
     virtual void setID(Uml::IDType NewID);
     virtual Uml::IDType id() const;
@@ -107,7 +138,7 @@ public:
     void setStatic(bool bStatic);
     bool isStatic() const;
 
-    virtual bool acceptAssociationType(Uml::Association_Type);
+    virtual bool acceptAssociationType(Uml::AssociationType);  //:TODO: check if this is realy needed here
 
     void setSecondaryId(const QString& id);
     QString secondaryId() const;
@@ -138,7 +169,7 @@ protected:
     UMLPackage*      m_pUMLPackage;  ///< The package the object belongs to if applicable.
     UMLStereotype*   m_pStereotype;  ///< The stereotype of the object if applicable.
     QString          m_Name;         ///< The objects name.
-    Uml::Object_Type m_BaseType;     ///< The objects type.
+    Object_Type      m_BaseType;     ///< The objects type.
     Uml::Visibility  m_Vis;          ///< The objects visibility.
     bool             m_bAbstract;    ///< The state of whether the object is abstract or not.
     bool             m_bStatic;      ///< Flag for instance scope.

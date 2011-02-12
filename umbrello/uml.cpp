@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -31,9 +31,9 @@
 #include "codegenpolicyext.h"
 #include "simplecodegenerator.h"
 // utils
+#include "debug_utils.h"
 #include "widget_utils.h"
 #include "icon_utils.h"
-#include "model_utils.h"
 // dialogs
 #include "classwizard.h"
 #include "codegenerationwizard.h"
@@ -59,7 +59,6 @@
 #include <krecentfilesaction.h>
 #include <kconfig.h>
 #include <kcursor.h>
-#include <kdebug.h>
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kmenubar.h>
@@ -107,7 +106,7 @@ QMenu* UMLApp::findMenu(const QString& name)
     if (widget) {
         return dynamic_cast<QMenu*>(widget);
     }
-    uDebug() << "factory()->container(" << name << ") returns NULL";
+    DEBUG(DBG_SRC) << "factory()->container(" << name << ") returns NULL";
     return NULL;
 }
 
@@ -129,7 +128,7 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     m_policyext  = 0;
     m_commoncodegenpolicy = 0;
     m_xhtmlGenerator = 0;
-    m_activeLanguage = Uml::pl_Reserved;
+    m_activeLanguage = Uml::ProgrammingLanguage::Reserved;
     m_pUndoStack = new KUndoStack(this);
     m_doc = new UMLDoc();
     m_doc->init();
@@ -146,6 +145,8 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     initView();
     initClip();
     readOptions();
+
+    DEBUG_REGISTER(DBG_SRC);
 
     //get a reference to the Code->Active Language and to the Diagram->Zoom menu
     m_langSelect = findMenu(QString("active_lang_menu") );
@@ -199,7 +200,7 @@ UMLApp* UMLApp::app()
 /**
  * Helper method to setup the programming language action.
  */
-void UMLApp::setProgLangAction(Uml::Programming_Language pl, const QString& name, const QString& action)
+void UMLApp::setProgLangAction(Uml::ProgrammingLanguage pl, const QString& name, const QString& action)
 {
     m_langAct[pl] = actionCollection()->addAction(action);
     m_langAct[pl]->setText(name);
@@ -273,47 +274,47 @@ void UMLApp::initActions()
     genAll->setText(i18n("&Generate All Code"));
     connect(genAll, SIGNAL( triggered( bool ) ), this, SLOT( slotGenerateAllCode() ));
 
-    setProgLangAction(Uml::pl_ActionScript, "ActionScript",    "setLang_actionscript");
-    setProgLangAction(Uml::pl_Ada,          "Ada",             "setLang_ada");
-    setProgLangAction(Uml::pl_Cpp,          "C++",             "setLang_cpp");
-    setProgLangAction(Uml::pl_CSharp,       "C#",              "setLang_csharp");
-    setProgLangAction(Uml::pl_D,            "D",               "setLang_d");
-    setProgLangAction(Uml::pl_IDL,          "IDL",             "setLang_idl");
-    setProgLangAction(Uml::pl_Java,         "Java",            "setLang_java");
-    setProgLangAction(Uml::pl_JavaScript,   "JavaScript",      "setLang_javascript");
-    setProgLangAction(Uml::pl_MySQL,        "MySQL (SQL)",     "setLang_mysql");
-    setProgLangAction(Uml::pl_Pascal,       "Pascal",          "setLang_pascal");
-    setProgLangAction(Uml::pl_Perl,         "Perl",            "setLang_perl");
-    setProgLangAction(Uml::pl_PHP,          "PHP",             "setLang_php");
-    setProgLangAction(Uml::pl_PHP5,         "PHP5",            "setLang_php5");
-    setProgLangAction(Uml::pl_PostgreSQL,   "PostgreSQL(SQL)", "setLang_postgresql");
-    setProgLangAction(Uml::pl_Python,       "Python",          "setLang_python");
-    setProgLangAction(Uml::pl_Ruby,         "Ruby",            "setLang_ruby");
-    setProgLangAction(Uml::pl_SQL,          "SQL",             "setLang_sql");
-    setProgLangAction(Uml::pl_Tcl,          "Tcl",             "setLang_tcl");
-    setProgLangAction(Uml::pl_Vala,         "Vala",            "setLang_vala");
-    setProgLangAction(Uml::pl_XMLSchema,    "XMLSchema",       "setLang_xmlschema");
+    setProgLangAction(Uml::ProgrammingLanguage::ActionScript, "ActionScript",    "setLang_actionscript");
+    setProgLangAction(Uml::ProgrammingLanguage::Ada,          "Ada",             "setLang_ada");
+    setProgLangAction(Uml::ProgrammingLanguage::Cpp,          "C++",             "setLang_cpp");
+    setProgLangAction(Uml::ProgrammingLanguage::CSharp,       "C#",              "setLang_csharp");
+    setProgLangAction(Uml::ProgrammingLanguage::D,            "D",               "setLang_d");
+    setProgLangAction(Uml::ProgrammingLanguage::IDL,          "IDL",             "setLang_idl");
+    setProgLangAction(Uml::ProgrammingLanguage::Java,         "Java",            "setLang_java");
+    setProgLangAction(Uml::ProgrammingLanguage::JavaScript,   "JavaScript",      "setLang_javascript");
+    setProgLangAction(Uml::ProgrammingLanguage::MySQL,        "MySQL (SQL)",     "setLang_mysql");
+    setProgLangAction(Uml::ProgrammingLanguage::Pascal,       "Pascal",          "setLang_pascal");
+    setProgLangAction(Uml::ProgrammingLanguage::Perl,         "Perl",            "setLang_perl");
+    setProgLangAction(Uml::ProgrammingLanguage::PHP,          "PHP",             "setLang_php");
+    setProgLangAction(Uml::ProgrammingLanguage::PHP5,         "PHP5",            "setLang_php5");
+    setProgLangAction(Uml::ProgrammingLanguage::PostgreSQL,   "PostgreSQL(SQL)", "setLang_postgresql");
+    setProgLangAction(Uml::ProgrammingLanguage::Python,       "Python",          "setLang_python");
+    setProgLangAction(Uml::ProgrammingLanguage::Ruby,         "Ruby",            "setLang_ruby");
+    setProgLangAction(Uml::ProgrammingLanguage::SQL,          "SQL",             "setLang_sql");
+    setProgLangAction(Uml::ProgrammingLanguage::Tcl,          "Tcl",             "setLang_tcl");
+    setProgLangAction(Uml::ProgrammingLanguage::Vala,         "Vala",            "setLang_vala");
+    setProgLangAction(Uml::ProgrammingLanguage::XMLSchema,    "XMLSchema",       "setLang_xmlschema");
 
-    connect(m_langAct[Uml::pl_ActionScript], SIGNAL(triggered()), this, SLOT(setLang_actionscript()));
-    connect(m_langAct[Uml::pl_Ada],          SIGNAL(triggered()), this, SLOT(setLang_ada()));
-    connect(m_langAct[Uml::pl_Cpp],          SIGNAL(triggered()), this, SLOT(setLang_cpp()));
-    connect(m_langAct[Uml::pl_CSharp],       SIGNAL(triggered()), this, SLOT(setLang_csharp()));
-    connect(m_langAct[Uml::pl_D],            SIGNAL(triggered()), this, SLOT(setLang_d()));
-    connect(m_langAct[Uml::pl_IDL],          SIGNAL(triggered()), this, SLOT(setLang_idl()));
-    connect(m_langAct[Uml::pl_Java],         SIGNAL(triggered()), this, SLOT(setLang_java()));
-    connect(m_langAct[Uml::pl_JavaScript],   SIGNAL(triggered()), this, SLOT(setLang_javascript()));
-    connect(m_langAct[Uml::pl_MySQL],        SIGNAL(triggered()), this, SLOT(setLang_mysql()));
-    connect(m_langAct[Uml::pl_Pascal],       SIGNAL(triggered()), this, SLOT(setLang_pascal()));
-    connect(m_langAct[Uml::pl_Perl],         SIGNAL(triggered()), this, SLOT(setLang_perl()));
-    connect(m_langAct[Uml::pl_PHP],          SIGNAL(triggered()), this, SLOT(setLang_php()));
-    connect(m_langAct[Uml::pl_PHP5],         SIGNAL(triggered()), this, SLOT(setLang_php5()));
-    connect(m_langAct[Uml::pl_PostgreSQL],   SIGNAL(triggered()), this, SLOT(setLang_postgresql()));
-    connect(m_langAct[Uml::pl_Python],       SIGNAL(triggered()), this, SLOT(setLang_python()));
-    connect(m_langAct[Uml::pl_Ruby],         SIGNAL(triggered()), this, SLOT(setLang_ruby()));
-    connect(m_langAct[Uml::pl_SQL],          SIGNAL(triggered()), this, SLOT(setLang_sql()));
-    connect(m_langAct[Uml::pl_Tcl],          SIGNAL(triggered()), this, SLOT(setLang_tcl()));
-    connect(m_langAct[Uml::pl_Vala],         SIGNAL(triggered()), this, SLOT(setLang_vala()));
-    connect(m_langAct[Uml::pl_XMLSchema],    SIGNAL(triggered()), this, SLOT(setLang_xmlschema()));
+    connect(m_langAct[Uml::ProgrammingLanguage::ActionScript], SIGNAL(triggered()), this, SLOT(setLang_actionscript()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Ada],          SIGNAL(triggered()), this, SLOT(setLang_ada()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Cpp],          SIGNAL(triggered()), this, SLOT(setLang_cpp()));
+    connect(m_langAct[Uml::ProgrammingLanguage::CSharp],       SIGNAL(triggered()), this, SLOT(setLang_csharp()));
+    connect(m_langAct[Uml::ProgrammingLanguage::D],            SIGNAL(triggered()), this, SLOT(setLang_d()));
+    connect(m_langAct[Uml::ProgrammingLanguage::IDL],          SIGNAL(triggered()), this, SLOT(setLang_idl()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Java],         SIGNAL(triggered()), this, SLOT(setLang_java()));
+    connect(m_langAct[Uml::ProgrammingLanguage::JavaScript],   SIGNAL(triggered()), this, SLOT(setLang_javascript()));
+    connect(m_langAct[Uml::ProgrammingLanguage::MySQL],        SIGNAL(triggered()), this, SLOT(setLang_mysql()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Pascal],       SIGNAL(triggered()), this, SLOT(setLang_pascal()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Perl],         SIGNAL(triggered()), this, SLOT(setLang_perl()));
+    connect(m_langAct[Uml::ProgrammingLanguage::PHP],          SIGNAL(triggered()), this, SLOT(setLang_php()));
+    connect(m_langAct[Uml::ProgrammingLanguage::PHP5],         SIGNAL(triggered()), this, SLOT(setLang_php5()));
+    connect(m_langAct[Uml::ProgrammingLanguage::PostgreSQL],   SIGNAL(triggered()), this, SLOT(setLang_postgresql()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Python],       SIGNAL(triggered()), this, SLOT(setLang_python()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Ruby],         SIGNAL(triggered()), this, SLOT(setLang_ruby()));
+    connect(m_langAct[Uml::ProgrammingLanguage::SQL],          SIGNAL(triggered()), this, SLOT(setLang_sql()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Tcl],          SIGNAL(triggered()), this, SLOT(setLang_tcl()));
+    connect(m_langAct[Uml::ProgrammingLanguage::Vala],         SIGNAL(triggered()), this, SLOT(setLang_vala()));
+    connect(m_langAct[Uml::ProgrammingLanguage::XMLSchema],    SIGNAL(triggered()), this, SLOT(setLang_xmlschema()));
 
     fileNew->setToolTip(i18n("Creates a new document"));
     fileOpen->setToolTip(i18n("Opens an existing document"));
@@ -903,7 +904,7 @@ void UMLApp::readOptions()
  */
 void UMLApp::saveProperties(KConfigGroup & cfg)
 {
-    uDebug() << "******************* commented out - UNUSED?";
+    DEBUG(DBG_SRC) << "******************* commented out - UNUSED?";
     Q_UNUSED(cfg);
 /*
     if (m_doc->url().fileName() != i18n("Untitled") && !m_doc->isModified()) {
@@ -930,7 +931,7 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
  */
 void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWindowSettings(const KConfigGroup& config, bool force = false)
 {
-    uDebug() << "******************* commented out - UNUSED?";
+    DEBUG(DBG_SRC) << "******************* commented out - UNUSED?";
     Q_UNUSED(cfg);
 /*
     QString filename = cfg.readPathEntry("filename", QString());
@@ -1596,7 +1597,7 @@ void UMLApp::slotClipDataChanged()
  */
 void UMLApp::slotCopyChanged()
 {
-    if (m_listView->getSelectedCount() || (currentView() && currentView()->umlScene()->getSelectCount())) {
+    if (m_listView->selectedItemsCount() || (currentView() && currentView()->umlScene()->getSelectCount())) {
         editCopy->setEnabled(true);
         editCut->setEnabled(true);
     }
@@ -1634,7 +1635,7 @@ void UMLApp::slotApplyPrefs()
         Settings::OptionState& optionState = Settings::getOptionState();
         bool stackBrowsing = (m_layout->indexOf(m_tabWidget) != -1);
         bool tabBrowsing = optionState.generalState.tabdiagrams;
-        uDebug() << "stackBrowsing=" << stackBrowsing << " / tabBrowsing=" << tabBrowsing;
+        DEBUG(DBG_SRC) << "stackBrowsing=" << stackBrowsing << " / tabBrowsing=" << tabBrowsing;
 
         if (stackBrowsing != tabBrowsing) {
             // Diagram Representation Modified
@@ -1673,7 +1674,7 @@ void UMLApp::slotApplyPrefs()
 
         m_doc->settingsChanged( optionState );
         const QString plStr = m_dlg->getCodeGenerationLanguage();
-        Uml::Programming_Language pl = Model_Utils::stringToProgLang(plStr);
+        Uml::ProgrammingLanguage pl = Uml::ProgrammingLanguage::fromString(plStr);
         setGenerator(pl);
     }
 }
@@ -1919,9 +1920,9 @@ CodeGenPolicyExt *UMLApp::policyExt() const
  * the newly created generator. It is the caller's responsibility
  * to load XMI into the newly created generator.
  */
-CodeGenerator *UMLApp::setGenerator(Uml::Programming_Language pl)
+CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage pl)
 {
-    if (pl == Uml::pl_Reserved) {
+    if (pl == Uml::ProgrammingLanguage::Reserved) {
         if (m_codegen) {
             delete m_codegen;
             m_codegen = NULL;
@@ -2000,102 +2001,102 @@ void UMLApp::slotExecGenerationWizard()
  */
 void UMLApp::setLang_actionscript()
 {
-    setActiveLanguage(Uml::pl_ActionScript);
+    setActiveLanguage(Uml::ProgrammingLanguage::ActionScript);
 }
 
 void UMLApp::setLang_ada()
 {
-    setActiveLanguage(Uml::pl_Ada);
+    setActiveLanguage(Uml::ProgrammingLanguage::Ada);
 }
 
 void UMLApp::setLang_cpp()
 {
-    setActiveLanguage(Uml::pl_Cpp);
+    setActiveLanguage(Uml::ProgrammingLanguage::Cpp);
 }
 
 void UMLApp::setLang_csharp()
 {
-    setActiveLanguage(Uml::pl_CSharp);
+    setActiveLanguage(Uml::ProgrammingLanguage::CSharp);
 }
 
 void UMLApp::setLang_d()
 {
-    setActiveLanguage(Uml::pl_D);
+    setActiveLanguage(Uml::ProgrammingLanguage::D);
 }
 
 void UMLApp::setLang_idl()
 {
-    setActiveLanguage(Uml::pl_IDL);
+    setActiveLanguage(Uml::ProgrammingLanguage::IDL);
 }
 
 void UMLApp::setLang_java()
 {
-    setActiveLanguage(Uml::pl_Java);
+    setActiveLanguage(Uml::ProgrammingLanguage::Java);
 }
 
 void UMLApp::setLang_javascript()
 {
-    setActiveLanguage(Uml::pl_JavaScript);
+    setActiveLanguage(Uml::ProgrammingLanguage::JavaScript);
 }
 
 void UMLApp::setLang_mysql()
 {
-    setActiveLanguage(Uml::pl_MySQL);
+    setActiveLanguage(Uml::ProgrammingLanguage::MySQL);
 }
 
 void UMLApp::setLang_pascal()
 {
-    setActiveLanguage(Uml::pl_Pascal);
+    setActiveLanguage(Uml::ProgrammingLanguage::Pascal);
 }
 
 void UMLApp::setLang_perl()
 {
-    setActiveLanguage(Uml::pl_Perl);
+    setActiveLanguage(Uml::ProgrammingLanguage::Perl);
 }
 
 void UMLApp::setLang_php()
 {
-    setActiveLanguage(Uml::pl_PHP);
+    setActiveLanguage(Uml::ProgrammingLanguage::PHP);
 }
 
 void UMLApp::setLang_php5()
 {
-    setActiveLanguage(Uml::pl_PHP5);
+    setActiveLanguage(Uml::ProgrammingLanguage::PHP5);
 }
 
 void UMLApp::setLang_postgresql()
 {
-    setActiveLanguage(Uml::pl_PostgreSQL);
+    setActiveLanguage(Uml::ProgrammingLanguage::PostgreSQL);
 }
 
 void UMLApp::setLang_python()
 {
-    setActiveLanguage(Uml::pl_Python);
+    setActiveLanguage(Uml::ProgrammingLanguage::Python);
 }
 
 void UMLApp::setLang_ruby()
 {
-    setActiveLanguage(Uml::pl_Ruby);
+    setActiveLanguage(Uml::ProgrammingLanguage::Ruby);
 }
 
 void UMLApp::setLang_sql()
 {
-    setActiveLanguage(Uml::pl_SQL);
+    setActiveLanguage(Uml::ProgrammingLanguage::SQL);
 }
 
 void UMLApp::setLang_tcl()
 {
-    setActiveLanguage(Uml::pl_Tcl);
+    setActiveLanguage(Uml::ProgrammingLanguage::Tcl);
 }
 
 void UMLApp::setLang_vala()
 {
-    setActiveLanguage(Uml::pl_Vala);
+    setActiveLanguage(Uml::ProgrammingLanguage::Vala);
 }
 
 void UMLApp::setLang_xmlschema()
 {
-    setActiveLanguage(Uml::pl_XMLSchema);
+    setActiveLanguage(Uml::ProgrammingLanguage::XMLSchema);
 }
 
 /**
@@ -2103,16 +2104,16 @@ void UMLApp::setLang_xmlschema()
  *
  * @param pl    The name of the language to set
  */
-void UMLApp::setActiveLanguage(Uml::Programming_Language pl)
+void UMLApp::setActiveLanguage(Uml::ProgrammingLanguage pl)
 {
-    updateLangSelectMenu(pl);
+    //updateLangSelectMenu(pl);  //:TODO:checkit - is already called in setGenerator
     setGenerator(pl);
 }
 
 /**
  * Get the language for import and code generation.
  */
-Uml::Programming_Language UMLApp::activeLanguage() const
+Uml::ProgrammingLanguage UMLApp::activeLanguage() const
 {
     return m_activeLanguage;
 }
@@ -2122,11 +2123,11 @@ Uml::Programming_Language UMLApp::activeLanguage() const
  */
 bool UMLApp::activeLanguageIsCaseSensitive()
 {
-    return (m_activeLanguage != Uml::pl_Pascal &&
-            m_activeLanguage != Uml::pl_Ada &&
-            m_activeLanguage != Uml::pl_SQL &&
-            m_activeLanguage != Uml::pl_MySQL &&
-            m_activeLanguage != Uml::pl_PostgreSQL);
+    return (m_activeLanguage != Uml::ProgrammingLanguage::Pascal &&
+            m_activeLanguage != Uml::ProgrammingLanguage::Ada &&
+            m_activeLanguage != Uml::ProgrammingLanguage::SQL &&
+            m_activeLanguage != Uml::ProgrammingLanguage::MySQL &&
+            m_activeLanguage != Uml::ProgrammingLanguage::PostgreSQL);
 }
 
 /**
@@ -2134,14 +2135,14 @@ bool UMLApp::activeLanguageIsCaseSensitive()
  */
 QString UMLApp::activeLanguageScopeSeparator()
 {
-    Uml::Programming_Language pl = activeLanguage();
-    if (pl == Uml::pl_Ada ||
-        pl == Uml::pl_CSharp ||
-        pl == Uml::pl_Pascal ||
-        pl == Uml::pl_Java ||
-        pl == Uml::pl_JavaScript ||
-        pl == Uml::pl_Vala ||
-        pl == Uml::pl_Python)  // CHECK: more?
+    Uml::ProgrammingLanguage pl = activeLanguage();
+    if (pl == Uml::ProgrammingLanguage::Ada ||
+        pl == Uml::ProgrammingLanguage::CSharp ||
+        pl == Uml::ProgrammingLanguage::Pascal ||
+        pl == Uml::ProgrammingLanguage::Java ||
+        pl == Uml::ProgrammingLanguage::JavaScript ||
+        pl == Uml::ProgrammingLanguage::Vala ||
+        pl == Uml::ProgrammingLanguage::Python)  // CHECK: more?
         return ".";
     return "::";
 }
@@ -2280,16 +2281,16 @@ void UMLApp::slotImportClasses()
     // because the user might decide to choose a language different from
     // the active language (by using the "All Files" option).
     QString preselectedExtension;
-    const Uml::Programming_Language pl = m_codegen->language();
-    if (pl == Uml::pl_IDL) {
+    const Uml::ProgrammingLanguage pl = m_codegen->language();
+    if (pl == Uml::ProgrammingLanguage::IDL) {
         preselectedExtension = i18n("*.idl|IDL Files (*.idl)");
-    } else if (pl == Uml::pl_Python) {
+    } else if (pl == Uml::ProgrammingLanguage::Python) {
         preselectedExtension = i18n("*.py|Python Files (*.py *.pyw)");
-    } else if (pl == Uml::pl_Java) {
+    } else if (pl == Uml::ProgrammingLanguage::Java) {
         preselectedExtension = i18n("*.java|Java Files (*.java)");
-    } else if (pl == Uml::pl_Pascal) {
+    } else if (pl == Uml::ProgrammingLanguage::Pascal) {
         preselectedExtension = i18n("*.pas|Pascal Files (*.pas)");
-    } else if (pl == Uml::pl_Ada) {
+    } else if (pl == Uml::ProgrammingLanguage::Ada) {
         preselectedExtension = i18n("*.ads *.ada|Ada Files (*.ads *.ada)");
     } else {
         preselectedExtension = i18n("*.h *.hh *.hpp *.hxx *.H|Header Files (*.h *.hh *.hpp *.hxx *.H)");
@@ -2406,15 +2407,16 @@ void UMLApp::slotCloseDiagram(QWidget* tab)
             setCurrentView(view);
         }
         m_tabWidget->removeTab(m_tabWidget->indexOf(view));
+        view->umlScene()->setIsOpen(false);
     }
 }
 
 /**
  * Return the default code generation language as configured by KConfig.
- * If the activeLanguage is not found in the KConfig then use Uml::pl_Cpp
+ * If the activeLanguage is not found in the KConfig then use Uml::ProgrammingLanguage::Cpp
  * as the default.
  */
-Uml::Programming_Language UMLApp::defaultLanguage()
+Uml::ProgrammingLanguage UMLApp::defaultLanguage()
 {
     Settings::OptionState& optionState = Settings::getOptionState();
     return optionState.generalState.defaultLanguage;
@@ -2429,7 +2431,7 @@ void UMLApp::initGenerator()
         delete m_codegen;
         m_codegen = NULL;
     }
-    Uml::Programming_Language defLanguage = defaultLanguage();
+    Uml::ProgrammingLanguage defLanguage = defaultLanguage();
     setActiveLanguage(defLanguage);
 }
 
@@ -2439,10 +2441,10 @@ void UMLApp::initGenerator()
  * not one of the registered languages it tries to fall back
  * to Cpp
  */
-void UMLApp::updateLangSelectMenu(Uml::Programming_Language activeLanguage)
+void UMLApp::updateLangSelectMenu(Uml::ProgrammingLanguage activeLanguage)
 {
     //m_langSelect->clear();
-    for (int i = 0; i < Uml::pl_Reserved; ++i) {
+    for (int i = 0; i < Uml::ProgrammingLanguage::Reserved; ++i) {
         m_langAct[i]->setChecked(i == activeLanguage);
     }
 }
@@ -2456,6 +2458,13 @@ void UMLApp::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Shift:
         //m_toolsbar->setOldTool();
         e->accept();
+        break;
+
+    case Qt::Key_D:
+        if (e->modifiers() & Qt::ControlModifier) {  // Ctrl + D
+            DEBUG(DBG_SRC) << "Ctrl + D is pressed. Show debug config dialog...";
+            DEBUG_SHOW_FILTER();
+        }
         break;
 
     default:
@@ -2578,7 +2587,8 @@ void UMLApp::setCurrentView(UMLView* view)
 {
     m_view = view;
     if (view == NULL) {
-        uDebug() << "view is NULL";
+        DEBUG(DBG_SRC) << "view is NULL";
+        docWindow()->newDocumentation();
         return;
     }
 
@@ -2605,7 +2615,7 @@ void UMLApp::setCurrentView(UMLView* view)
     if (lvitem) {
         m_listView->setCurrentItem(lvitem);
     }
-    uDebug() << "name=" << view->umlScene()->name() << ", isOpen=" << view->umlScene()->isOpen();
+    DEBUG(DBG_SRC) << "name=" << view->umlScene()->name() << ", isOpen=" << view->umlScene()->isOpen();
 }
 
 /**
@@ -2654,7 +2664,7 @@ void UMLApp::slotTabChanged(QWidget* tab)
  */
 void UMLApp::slotChangeTabLeft()
 {
-    //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     if (m_tabWidget) {
         m_tabWidget->setCurrentIndex( m_tabWidget->currentIndex() - 1 );
         return;
@@ -2684,7 +2694,7 @@ void UMLApp::slotChangeTabLeft()
  */
 void UMLApp::slotChangeTabRight()
 {
-    //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     if (m_tabWidget) {
         m_tabWidget->setCurrentIndex( m_tabWidget->currentIndex() + 1 );
         return;
@@ -2716,7 +2726,7 @@ static void showTabTexts(KTabWidget* tabWidget)
     for (int i = 0; i < tabWidget->count(); ++i) {
         out += " <" + tabWidget->tabText(i) + '>';
     }
-    uDebug() << out;
+    DEBUG(DBG_SRC) << out;
 }
 */
 
@@ -2725,7 +2735,7 @@ static void showTabTexts(KTabWidget* tabWidget)
  */
 void UMLApp::slotMoveTabLeft()
 {
-    //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     //showTabTexts(m_tabWidget);
     int from = m_tabWidget->currentIndex();
     int to   = -1;
@@ -2743,7 +2753,7 @@ void UMLApp::slotMoveTabLeft()
  */
 void UMLApp::slotMoveTabRight()
 {
-    //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     //showTabTexts(m_tabWidget);
     int from = m_tabWidget->currentIndex();
     int to   = -1;
@@ -2803,7 +2813,7 @@ void UMLApp::clearUndoStack()
  */
 void UMLApp::undo()
 {
-    uDebug() << m_pUndoStack->undoText() << " [" << m_pUndoStack->count() << "]";
+    DEBUG(DBG_SRC) << m_pUndoStack->undoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->undo();
 
     if (m_pUndoStack->canUndo()) {
@@ -2821,7 +2831,7 @@ void UMLApp::undo()
  */
 void UMLApp::redo()
 {
-    uDebug() << m_pUndoStack->redoText() << " [" << m_pUndoStack->count() << "]";
+    DEBUG(DBG_SRC) << m_pUndoStack->redoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->redo();
 
     if (m_pUndoStack->canRedo()) {
@@ -2841,7 +2851,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
 {
     if (cmd != NULL) {
         m_pUndoStack->push(cmd);
-        uDebug() << cmd->text() << " [" << m_pUndoStack->count() << "]";
+        DEBUG(DBG_SRC) << cmd->text() << " [" << m_pUndoStack->count() << "]";
     }
 
     UMLApp::app()->enableUndo(true);

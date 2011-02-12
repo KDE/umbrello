@@ -42,109 +42,74 @@ class ClassifierCodeDocument : public CodeDocument
 public:
 
     // Constructors/Destructors
-    //
 
+    ClassifierCodeDocument(UMLClassifier * parent);
+    virtual ~ClassifierCodeDocument();
 
-    /**
-     * Empty Constructor
-     */
-    ClassifierCodeDocument ( UMLClassifier * parent );
+    bool addCodeClassField(CodeClassField * add_object);
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~ClassifierCodeDocument ( );
+    bool removeCodeClassField(CodeClassField * remove_object);
 
-    bool addCodeClassField ( CodeClassField * add_object );
-
-    bool removeCodeClassField ( CodeClassField * remove_object );
-
-    CodeClassFieldList * getCodeClassFieldList ( );
+    CodeClassFieldList* getCodeClassFieldList();
 
     // some Utility methods
 
     bool parentIsInterface();
-
     bool parentIsClass();
 
     bool hasAssociationClassFields();
     bool hasAttributeClassFields();
-
     bool hasObjectVectorClassFields();
-
     bool hasClassFields();
 
-    /**
-     * Get a list of codeoperation objects held by this classifiercodedocument.
-     * @return      QList<CodeOperation>
-     */
-    QList<CodeOperation*> getCodeOperations ();
+    QList<CodeOperation*> getCodeOperations();
 
-    CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType);
-
-    CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic);
-
-    CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, Uml::Visibility::Value visibility);
-
-    CodeClassFieldList getSpecificClassFields (CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Visibility visibility);
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType);
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType, bool isStatic);
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType, Uml::Visibility::Value visibility);
+    CodeClassFieldList getSpecificClassFields(CodeClassField::ClassFieldType cfType, bool isStatic, Uml::Visibility visibility);
 
     CodeClassField * findCodeClassFieldFromParentID (Uml::IDType id, int role_id = -1);
 
-    UMLClassifier * getParentClassifier ( );
+    UMLClassifier * getParentClassifier();
 
-    // a utility method that allows user to easily add classfield methods to this document
-    void addCodeClassFieldMethods(CodeClassFieldList &list );
+    void addCodeClassFieldMethods(CodeClassFieldList &list);
 
-    virtual void initCodeClassFields ( );
+    virtual void initCodeClassFields();
 
-    // cause this classifier code document to synchronize to current policy
     virtual void synchronize();
 
     /** Will add the code operation in the correct place in the document.
      *  @return bool which is true IF the code operation was added successfully
      */
-    virtual bool addCodeOperation (CodeOperation *opBlock) = 0;
+    virtual bool addCodeOperation(CodeOperation *opBlock) = 0;
 
-    virtual void updateContent( ) = 0;
+    virtual void updateContent() = 0;
 
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
-
-    virtual void loadFromXMI ( QDomElement & root );
+    virtual void saveToXMI(QDomDocument &doc, QDomElement &root);
+    virtual void loadFromXMI(QDomElement &root);
 
 protected:
 
-    void loadClassFieldsFromXMI( QDomElement & childElem);
+    void loadClassFieldsFromXMI(QDomElement &childElem);
 
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode(QDomDocument &doc, QDomElement &blockElement);
+    virtual void setAttributesFromNode(QDomElement &element);
 
-    virtual void setAttributesFromNode ( QDomElement & element);
+    TextBlock * findCodeClassFieldTextBlockByTag(const QString &tag);
 
-    // find a specific textblock held by any code class field in this document
-    // by its tag
-    TextBlock * findCodeClassFieldTextBlockByTag (const QString &tag);
+    void declareClassFields(CodeClassFieldList &list , CodeGenObjectWithTextBlocks *parent);
 
-    // add the declaration text blocks for various classfields
-    void declareClassFields (CodeClassFieldList & list , CodeGenObjectWithTextBlocks * parent);
-
-    // force synchronization of child classfields to their parent objects
-    void syncClassFields( );
-
-    // IF the classifier object is modified, this will get called.
-    // @fixme We cannot make this virtual because the ClassifierCodeDocument
-    //        constructor calls it.
-    void syncNamesToParent( );
+    void syncClassFields();
+    void syncNamesToParent();
 
 private:
 
     CodeClassFieldList m_classfieldVector;
     UMLClassifier* m_parentclassifier;
 
-    // using the passed list, update our inventory of CodeClassFields which are
-    // based on UMLRoles (e.g. derived from associations with other classifiers).
-    void updateAssociationClassFields ( UMLAssociationList &assocList );
-
-    // update code operations in this document using the parent classifier
-    void updateOperations( );
+    void updateAssociationClassFields(UMLAssociationList &assocList);
+    void updateOperations();
 
     /**
      * Maps CodeClassFields to UMLObjects. Used to prevent re-adding a class
@@ -152,17 +117,17 @@ private:
      */
     QMap<UMLObject *,CodeClassField *> m_classFieldMap;
 
-    void init ( UMLClassifier * classifier );
+    void init(UMLClassifier *classifier);
 
 public slots:
 
     void addAttributeClassField(UMLClassifierListItem *at, bool syncToParentIfAdded = true);
-    void addAssociationClassField (UMLAssociation * assoc, bool syncToParentIfAdded = true);
+    void addAssociationClassField(UMLAssociation *assoc, bool syncToParentIfAdded = true);
     void removeAttributeClassField(UMLClassifierListItem *at);
     void removeAssociationClassField(UMLAssociation *assoc);
-    void addOperation (UMLClassifierListItem * obj);
-    void removeOperation (UMLClassifierListItem * obj);
-    void syncToParent( );
+    void addOperation(UMLClassifierListItem *obj);
+    void removeOperation(UMLClassifierListItem *obj);
+    void syncToParent();
 
 };
 

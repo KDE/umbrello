@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "uniqueconstraint.h"
 
 // app includes
+#include "debug_utils.h"
 #include "entity.h"
 #include "entityattribute.h"
 #include "umldoc.h"
@@ -19,9 +20,6 @@
 #include "umlattributedialog.h"
 #include "umluniqueconstraintdialog.h"
 #include "object_factory.h"
-
-// kde includes
-#include <kdebug.h>
 
 /**
  * Sets up a constraint.
@@ -111,11 +109,11 @@ UMLObject* UMLUniqueConstraint::clone() const
  * @param sig  If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLUniqueConstraint::toString(Uml::Signature_Type sig )
+QString UMLUniqueConstraint::toString(Uml::SignatureType sig)
 {
      QString s;
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
+    if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         s = name() + ':';
 
         if ( static_cast<UMLEntity*>( parent() )->isPrimaryKey( this ) ) {
@@ -195,7 +193,7 @@ bool UMLUniqueConstraint::load( QDomElement & element )
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (Uml::tagEq(tag, "EntityAttribute")) {
+        if (UMLDoc::tagEq(tag, "EntityAttribute")) {
 
             QString attName = tempElement.attribute("name","" );
             UMLObject* obj = parentEnt->findChildObject( attName );
@@ -314,7 +312,7 @@ UMLEntityAttributeList UMLUniqueConstraint::getEntityAttributeList() const
 
 void UMLUniqueConstraint::init()
 {
-    m_BaseType = Uml::ot_UniqueConstraint;
+    m_BaseType = UMLObject::ot_UniqueConstraint;
 }
 
 /**

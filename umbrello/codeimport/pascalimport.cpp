@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,15 +14,13 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
 #include "operation.h"
 #include "package.h"
 #include "uml.h"
 #include "umldoc.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 #include <QtCore/QRegExp>
@@ -155,7 +153,7 @@ bool PascalImport::parseStmt()
     }
     if (keyword == "unit") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package, name,
+        UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package, name,
                                                       m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
         skipStmt();
@@ -323,7 +321,7 @@ bool PascalImport::parseStmt()
         keyword = advance().toLower();
         if (keyword == "(") {
             // enum type
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,
+            UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                             name, m_scope[m_scopeIndex], m_comment);
             UMLEnum *enumType = static_cast<UMLEnum*>(ns);
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != ")") {
@@ -351,7 +349,7 @@ bool PascalImport::parseStmt()
             return true;
         }
         if (keyword == "class" || keyword == "interface") {
-            Uml::Object_Type t = (keyword == "class" ? Uml::ot_Class : Uml::ot_Interface);
+            UMLObject::Object_Type t = (keyword == "class" ? UMLObject::ot_Class : UMLObject::ot_Interface);
             UMLObject *ns = Import_Utils::createUMLObject(t, name,
                                                           m_scope[m_scopeIndex], m_comment);
             UMLClassifier *klass = static_cast<UMLClassifier*>(ns);
@@ -361,7 +359,7 @@ bool PascalImport::parseStmt()
                 advance();
                 do {
                     QString base = advance();
-                    UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class, base, NULL);
+                    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, base, NULL);
                     UMLClassifier *parent = static_cast<UMLClassifier*>(ns);
                     m_comment.clear();
                     Import_Utils::createGeneralization(klass, parent);
@@ -386,14 +384,14 @@ bool PascalImport::parseStmt()
             return true;
         }
         if (keyword == "record") {
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class, name,
+            UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, name,
                                                           m_scope[m_scopeIndex], m_comment);
             ns->setStereotype("record");
             m_klass = static_cast<UMLClassifier*>(ns);
             return true;
         }
         if (keyword == "function" || keyword == "procedure") {
-            /*UMLObject *ns =*/ Import_Utils::createUMLObject(Uml::ot_Datatype, name,
+            /*UMLObject *ns =*/ Import_Utils::createUMLObject(UMLObject::ot_Datatype, name,
                                                           m_scope[m_scopeIndex], m_comment);
             if (m_source[m_srcIndex + 1] == "(")
                 skipToClosing('(');

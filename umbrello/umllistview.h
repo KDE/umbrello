@@ -4,22 +4,24 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLLISTVIEW_H
 #define UMLLISTVIEW_H
 
+#include "basictypes.h"
+#include "umllistviewitem.h"
+#include "umllistviewitemlist.h"
+#include "icon_utils.h"
+#include "umlobject.h"
+
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 #include <QtGui/QTreeWidget>
 #include <QtGui/QTreeWidgetItem>
 #include <QtGui/QTreeWidget>
-
-#include "umlnamespace.h"
-#include "umllistviewitemlist.h"
-#include "icon_utils.h"
 
 class QEvent;
 class QMouseEvent;
@@ -30,9 +32,7 @@ class IDChangeLog;
 class ListPopupMenu;
 class UMLClassifier;
 class UMLDoc;
-class UMLListViewItem;
 class UMLView;
-class UMLObject;
 class UMLClassifierListItem;
 class UMLDragData;
 
@@ -62,8 +62,10 @@ public:
     void setView(UMLView* view);
 
     void setTitle(int column, const QString &text);
-    int getSelectedItems(UMLListViewItemList &ItemList);
-    int getSelectedItemsRoot(UMLListViewItemList &ItemList);
+
+    UMLListViewItemList selectedItems();
+    UMLListViewItemList selectedItemsRoot();
+    int selectedItemsCount();
 
     void startUpdate();
     void endUpdate(); 
@@ -73,32 +75,30 @@ public:
     UMLListViewItem* createItem(UMLListViewItem& Data, IDChangeLog& IDChanges,
                                 UMLListViewItem* parent = 0);
 
-    UMLListViewItem* findFolderForDiagram(Uml::Diagram_Type dt);
+    UMLListViewItem* findFolderForDiagram(Uml::DiagramType dt);
 
     UMLListViewItem* determineParentItem(UMLObject* object) const;
-    UMLListViewItem* determineParentItem(Uml::ListView_Type lvt) const;
+    UMLListViewItem* determineParentItem(UMLListViewItem::ListViewType lvt) const;
 
-    static bool mayHaveChildItems(Uml::Object_Type type);
-
-    int getSelectedCount();
+    static bool mayHaveChildItems(UMLObject::Object_Type type);
 
     UMLDoc * document() const;
 
-    void addNewItem(UMLListViewItem * parent, Uml::ListView_Type type);
+    void addNewItem(UMLListViewItem * parent, UMLListViewItem::ListViewType type);
 
     UMLListViewItem * findUMLObject(const UMLObject *p) const;
     UMLListViewItem * findView(UMLView *v);
     UMLListViewItem * findItem(Uml::IDType id);
 
-    UMLListViewItem *rootView(Uml::ListView_Type type);
+    UMLListViewItem *rootView(UMLListViewItem::ListViewType type);
 
     void changeIconOf(UMLObject *o, Icon_Utils::Icon_Type to);
 
-    UMLObject *createUMLObject(UMLListViewItem * item, Uml::Object_Type type);
-    bool createChildUMLObject(UMLListViewItem * item, Uml::Object_Type type);
-    UMLView* createDiagram(UMLListViewItem * item, Uml::Diagram_Type type);
+    UMLObject *createUMLObject(UMLListViewItem * item, UMLObject::Object_Type type);
+    bool createChildUMLObject(UMLListViewItem * item, UMLObject::Object_Type type);
+    UMLView* createDiagram(UMLListViewItem * item, Uml::DiagramType type);
 
-    QString getUniqueDiagramName(Uml::Diagram_Type type);
+    QString uniqueDiagramName(Uml::DiagramType type);
 
     bool isUnique(UMLListViewItem * item, const QString &name);
 
@@ -111,7 +111,7 @@ public:
     void setStartedCopy(bool startedCopy);
     bool startedCopy() const;
 
-    UMLListViewItem * moveObject(Uml::IDType srcId, Uml::ListView_Type srcType,
+    UMLListViewItem * moveObject(Uml::IDType srcId, UMLListViewItem::ListViewType srcType,
                                  UMLListViewItem *newParent);
 
     bool itemRenamed(UMLListViewItem* item , int col);
@@ -119,13 +119,13 @@ public:
     void closeDatatypesFolder();
 
     UMLListViewItem *theRootView() { return m_rv; }
-    UMLListViewItem *theLogicalView() { return m_lv[Uml::mt_Logical]; }
-    UMLListViewItem *theUseCaseView() { return m_lv[Uml::mt_UseCase]; }
-    UMLListViewItem *theComponentView() { return m_lv[Uml::mt_Component]; }
-    UMLListViewItem *theDeploymentView() { return m_lv[Uml::mt_Deployment]; }
+    UMLListViewItem *theLogicalView() { return m_lv[Uml::ModelType::Logical]; }
+    UMLListViewItem *theUseCaseView() { return m_lv[Uml::ModelType::UseCase]; }
+    UMLListViewItem *theComponentView() { return m_lv[Uml::ModelType::Component]; }
+    UMLListViewItem *theDeploymentView() { return m_lv[Uml::ModelType::Deployment]; }
     UMLListViewItem *theDatatypeFolder() { return m_datatypeFolder; }
 
-    Uml::ListView_Type rootViewType(UMLListViewItem *item);
+    UMLListViewItem::ListViewType rootViewType(UMLListViewItem *item);
 
     void saveToXMI(QDomDocument & qDoc, QDomElement & qElement);
     bool loadFromXMI(QDomElement & element);
@@ -133,10 +133,10 @@ public:
 
 protected:
 
-    UMLListViewItem* m_rv;                     // root view (home)
-    UMLListViewItem* m_lv[Uml::N_MODELTYPES];  // predefined list view roots
+    UMLListViewItem* m_rv;                            // root view (home)
+    UMLListViewItem* m_lv[Uml::ModelType::N_MODELTYPES];  // predefined list view roots
     UMLListViewItem* m_datatypeFolder;
-    ListPopupMenu*   m_pMenu;
+    ListPopupMenu*   m_menu;
     UMLDoc*          m_doc;
     bool             m_bStartedCut;
     bool             m_bStartedCopy;
@@ -165,7 +165,7 @@ protected:
 
     UMLListViewItem * findUMLObjectInFolder(UMLListViewItem *folder, UMLObject *obj);
 
-    static bool isExpandable(Uml::ListView_Type lvt);
+    static bool isExpandable(UMLListViewItem::ListViewType lvt);
 
     void deleteChildrenOf(UMLListViewItem *parent);
 
@@ -209,7 +209,7 @@ protected slots:
 private:
 
     UMLListViewItem* recursiveSearchForView(UMLListViewItem* folder,
-                                            Uml::ListView_Type type, Uml::IDType id);
+                                            UMLListViewItem::ListViewType type, Uml::IDType id);
 
     void setBackgroundColor(const QColor & color);
 

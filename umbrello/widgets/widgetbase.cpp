@@ -20,6 +20,7 @@
 #include "widgetbase.h"
 
 #include "classifier.h"
+#include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "listpopupmenu.h"
 #include "umlwidget.h"
@@ -225,9 +226,17 @@ void WidgetBase::setID(Uml::IDType id)
 /**
  * @return The type used for rtti.
  */
-Uml::Widget_Type WidgetBase::baseType() const
+WidgetBase::Widget_Type WidgetBase::baseType() const
 {
     return m_baseType;
+}
+
+/**
+ * @return The type used for rtti as string.
+ */
+QLatin1String WidgetBase::baseTypeStr() const
+{
+    return QLatin1String(ENUM_NAME(WidgetBase, Widget_Type, m_baseType));
 }
 
 /**
@@ -845,21 +854,21 @@ void WidgetBase::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 /**
  * @return Whether the widget type has an associated UMLObject
  */
-bool WidgetBase::widgetHasUMLObject(Uml::Widget_Type type)
+bool WidgetBase::widgetHasUMLObject(Widget_Type type)
 {
     switch(type)
     {
-    case Uml::wt_Actor:
-    case Uml::wt_UseCase:
-    case Uml::wt_Class:
-    case Uml::wt_Interface:
-    case Uml::wt_Enum:
-    case Uml::wt_Datatype:
-    case Uml::wt_Package:
-    case Uml::wt_Component:
-    case Uml::wt_Node:
-    case Uml::wt_Artifact:
-    case Uml::wt_Object:
+    case WidgetBase::wt_Actor:
+    case WidgetBase::wt_UseCase:
+    case WidgetBase::wt_Class:
+    case WidgetBase::wt_Interface:
+    case WidgetBase::wt_Enum:
+    case WidgetBase::wt_Datatype:
+    case WidgetBase::wt_Package:
+    case WidgetBase::wt_Component:
+    case WidgetBase::wt_Node:
+    case WidgetBase::wt_Artifact:
+    case WidgetBase::wt_Object:
         return true;
     default:
         return false;
@@ -882,7 +891,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     QColor newColour;
     WidgetBase* widget = 0; // use for select the first object properties (fill, line color)
 
-    const Uml::Widget_Type wt = m_baseType; // short hand name
+    const Widget_Type wt = m_baseType; // short hand name
 
     ListPopupMenu *menu = ListPopupMenu::menuFromAction(trigger);
     if (!menu) {
@@ -901,15 +910,16 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     //    break;
 
     case ListPopupMenu::mt_Properties:
-        if (wt == Uml::wt_Actor || wt == Uml::wt_UseCase ||
-            wt == Uml::wt_Package || wt == Uml::wt_Interface || wt == Uml::wt_Datatype ||
-            wt == Uml::wt_Component || wt == Uml::wt_Artifact ||
-            wt == Uml::wt_Node || wt == Uml::wt_Enum || wt == Uml::wt_Entity ||
-            (wt == Uml::wt_Class && umlScene()->type() == Uml::dt_Class)) {
+        if (wt == WidgetBase::wt_Actor     || wt == WidgetBase::wt_UseCase   ||
+            wt == WidgetBase::wt_Package   || wt == WidgetBase::wt_Interface ||
+            wt == WidgetBase::wt_Datatype  || wt == WidgetBase::wt_Node      ||
+            wt == WidgetBase::wt_Component || wt == WidgetBase::wt_Artifact  ||
+            wt == WidgetBase::wt_Enum      || wt == WidgetBase::wt_Entity    ||
+            (wt == WidgetBase::wt_Class && umlScene()->type() == Uml::DiagramType::Class)) {
 
             showPropertiesDialog();
 
-        } else if (wt == Uml::wt_Object) {
+        } else if (wt == WidgetBase::wt_Object) {
             m_umlObject->showProperties();
         } else {
             uWarning() << "making properties dialog for unknown widget type";

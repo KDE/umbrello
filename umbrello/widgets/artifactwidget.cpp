@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,6 +13,7 @@
 
 // app includes
 #include "artifact.h"
+#include "debug_utils.h"
 #include "textitem.h"
 #include "textitemgroup.h"
 #include "widget_utils.h"
@@ -29,13 +30,15 @@ const QSizeF ArtifactWidget::MinimumIconSize(50, 50);
  */
 ArtifactWidget::ArtifactWidget(UMLArtifact *a) : UMLWidget(a)
 {
-    m_baseType = Uml::wt_Artifact;
+    m_baseType = WidgetBase::wt_Artifact;
     m_cachedTextHeight = 0; // Initialize on first call of sizeHasChanged.
 
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 ArtifactWidget::~ArtifactWidget()
 {
 }

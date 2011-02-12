@@ -4,15 +4,12 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007-2009                                               *
+ *   copyright (C) 2007-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "importprojectdlg.h"
-
-// local includes
-#include "model_utils.h"
 
 // kde includes
 #include <kmessagebox.h>
@@ -21,12 +18,12 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegExp>
 
-const QString ImportProjectDlg::ADA    = Model_Utils::progLangToString(Uml::pl_Ada);
-const QString ImportProjectDlg::CPP    = Model_Utils::progLangToString(Uml::pl_Cpp);
-const QString ImportProjectDlg::IDL    = Model_Utils::progLangToString(Uml::pl_IDL);
-const QString ImportProjectDlg::JAVA   = Model_Utils::progLangToString(Uml::pl_Java);
-const QString ImportProjectDlg::PASCAL = Model_Utils::progLangToString(Uml::pl_Pascal);
-const QString ImportProjectDlg::PYTHON = Model_Utils::progLangToString(Uml::pl_Python);
+const QString ImportProjectDlg::ADA    = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Ada);
+const QString ImportProjectDlg::CPP    = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Cpp);
+const QString ImportProjectDlg::IDL    = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::IDL);
+const QString ImportProjectDlg::JAVA   = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Java);
+const QString ImportProjectDlg::PASCAL = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Pascal);
+const QString ImportProjectDlg::PYTHON = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Python);
 
 /**
  * Constructor for ImportProjectDlg.
@@ -41,7 +38,7 @@ const QString ImportProjectDlg::PYTHON = Model_Utils::progLangToString(Uml::pl_P
  *
  * @see KDialog::KDialog
  */
-ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::Programming_Language pl,
+ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::ProgrammingLanguage pl,
                                    QWidget* parent, const char* name, bool modal, Qt::WindowFlags fl)
   : KDialog(parent, fl),
     m_fileList(list)
@@ -62,15 +59,15 @@ ImportProjectDlg::ImportProjectDlg(QStringList* list, const  Uml::Programming_La
     m_language->addItems(languages);
 
     QString selectedLanguage = ImportProjectDlg::CPP;
-    if (pl == Uml::pl_IDL) {
+    if (pl == Uml::ProgrammingLanguage::IDL) {
         selectedLanguage = ImportProjectDlg::IDL;
-    } else if (pl == Uml::pl_Python) {
+    } else if (pl == Uml::ProgrammingLanguage::Python) {
         selectedLanguage = ImportProjectDlg::PYTHON;
-    } else if (pl == Uml::pl_Java) {
+    } else if (pl == Uml::ProgrammingLanguage::Java) {
         selectedLanguage = ImportProjectDlg::JAVA;
-    } else if (pl == Uml::pl_Pascal) {
+    } else if (pl == Uml::ProgrammingLanguage::Pascal) {
         selectedLanguage = ImportProjectDlg::PASCAL;
-    } else if (pl == Uml::pl_Ada) {
+    } else if (pl == Uml::ProgrammingLanguage::Ada) {
         selectedLanguage = ImportProjectDlg::ADA;
     }
 

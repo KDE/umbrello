@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -101,7 +101,7 @@ QWizardPage* ClassWizard::createAttributesPage()
     m_AttributesPage->setTitle(i18n("Class Attributes"));
     m_AttributesPage->setSubTitle(i18n("Add attributes to the new class."));
 
-    m_pAttPage = new ClassifierListPage(this, m_pClass, m_pDoc, Uml::ot_Attribute);
+    m_pAttPage = new ClassifierListPage(this, m_pClass, m_pDoc, UMLObject::ot_Attribute);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_pAttPage);
@@ -119,7 +119,7 @@ QWizardPage* ClassWizard::createOperationsPage()
     m_OperationsPage->setTitle(i18n("Class Operations"));
     m_OperationsPage->setSubTitle(i18n("Add operations to the new class."));
 
-    m_pOpPage = new ClassifierListPage(this, m_pClass, m_pDoc, Uml::ot_Operation);
+    m_pOpPage = new ClassifierListPage(this, m_pClass, m_pDoc, UMLObject::ot_Operation);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_pOpPage);

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,6 +13,7 @@
 #include "codegenerator.h"
 
 // app includes
+#include "debug_utils.h"
 #include "overwritedialogue.h"
 #include "codeviewerdialog.h"
 #include "simplecodegenerator.h"
@@ -28,10 +29,8 @@
 #include "umlobject.h"
 #include "umlattributelist.h"
 #include "umloperationlist.h"
-#include "model_utils.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdialog.h>
@@ -199,7 +198,7 @@ void CodeGenerator::loadFromXMI(QDomElement & qElement)
     // look for our particular child element
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
-    QString langType = Model_Utils::progLangToString( language() );
+    QString langType = Uml::ProgrammingLanguage::toString( language() );
 
     if (qElement.tagName() != "codegenerator"
             || qElement.attribute("language", "UNKNOWN") != langType) {
@@ -244,8 +243,8 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
         uDebug() << "found UMLObject for id:" << idStr;
         QString value = codeDocElement.attribute("value", "");
 
-        Uml::Object_Type t = obj->baseType();
-        if (t == Uml::ot_Operation) {
+        UMLObject::Object_Type t = obj->baseType();
+        if (t == UMLObject::ot_Operation) {
             UMLOperation *op = static_cast<UMLOperation*>(obj);
             op->setSourceCode(value);
         }
@@ -263,7 +262,7 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
  */
 void CodeGenerator::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
-    QString langType = Model_Utils::progLangToString( language() );
+    QString langType = Uml::ProgrammingLanguage::toString( language() );
     QDomElement docElement = doc.createElement( "codegenerator" );
     docElement.setAttribute("language",langType);
 
@@ -372,6 +371,12 @@ void CodeGenerator::checkRemoveUMLObject(UMLObject * obj)
     }
 }
 
+/**
+ * Find a code document by the given classifier.
+ * NOTE: FIX, this should be 'protected' or we could have problems with CPP code generator
+ * @return      CodeDocument
+ * @param       classifier
+ */
 CodeDocument * CodeGenerator::findCodeDocumentByClassifier(UMLClassifier * classifier)
 {
     return findCodeDocumentByID(ID2STR(classifier->id()));
@@ -677,8 +682,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
     foreach (UMLAssociation *a , associations) {
         temp = 0;
         switch (a->getAssocType()) {
-        case Uml::at_Generalization:
-        case Uml::at_Realization:
+        case Uml::AssociationType::Generalization:
+        case Uml::AssociationType::Realization:
             // only the "b" end is seen by the "a" end, not other way around
             {
                 UMLObject *objB = a->getObject(Uml::B);
@@ -687,8 +692,8 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
                 }
             }
             break;
-        case Uml::at_Dependency:
-        case Uml::at_UniAssociation:
+        case Uml::AssociationType::Dependency:
+        case Uml::AssociationType::UniAssociation:
             {
                 UMLObject *objA = a->getObject(Uml::A);
                 UMLObject *objB = a->getObject(Uml::B);
@@ -697,13 +702,13 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
                 }
             }
             break;
-        case Uml::at_Aggregation:
-        case Uml::at_Composition:
-        case Uml::at_Association:
+        case Uml::AssociationType::Aggregation:
+        case Uml::AssociationType::Composition:
+        case Uml::AssociationType::Association:
             {
                 UMLObject *objA = a->getObject(Uml::A);
                 UMLObject *objB = a->getObject(Uml::B);
-                if (objA == c && objB->baseType() != Uml::ot_Datatype) {
+                if (objA == c && objB->baseType() != UMLObject::ot_Datatype) {
                     temp = static_cast<UMLPackage*>(objB);
                 }
             }
@@ -724,14 +729,14 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         temp = 0;
         //check return value
         temp = (UMLClassifier*) op->getType();
-        if (temp && temp->baseType() != Uml::ot_Datatype && !cList.count(temp)) {
+        if (temp && temp->baseType() != UMLObject::ot_Datatype && !cList.count(temp)) {
             cList.append(temp);
         }
         //check parameters
         UMLAttributeList atl = op->getParmList();
         foreach(UMLAttribute *at , atl) {
             temp = (UMLClassifier*)at->getType();
-            if (temp && temp->baseType() != Uml::ot_Datatype && !cList.count(temp)) {
+            if (temp && temp->baseType() != UMLObject::ot_Datatype && !cList.count(temp)) {
                 cList.append(temp);
             }
         }
@@ -743,7 +748,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         foreach (UMLAttribute *at , atl ) {
             temp=0;
             temp = (UMLClassifier*) at->getType();
-            if (temp && temp->baseType() != Uml::ot_Datatype && !cList.count(temp)) {
+            if (temp && temp->baseType() != UMLObject::ot_Datatype && !cList.count(temp)) {
                 cList.append(temp);
             }
         }

@@ -5,27 +5,27 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "dcodeclassfield.h"
 
-// qt/kde includes
-#include <QtCore/QRegExp>
-#include <kdebug.h>
-
 // local includes
 #include "attribute.h"
 #include "dcodecomment.h"
 #include "dcodegenerator.h"
+#include "debug_utils.h"
 #include "umlobject.h"
 #include "umlrole.h"
 #include "uml.h"
 
 // #include "dcodeaccessormethod.h"
 #include "dclassifiercodedocument.h"
+
+// qt includes
+#include <QtCore/QRegExp>
 
 DCodeClassField::DCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role)
         : CodeClassField(parentDoc, role)

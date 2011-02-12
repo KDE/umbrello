@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +13,7 @@
 
 #include <QtGui/QFont>
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 
 // forward declarations
 class UMLClassifier;
@@ -32,7 +32,8 @@ class UMLScene;
  * @author      Oliver Kellogg <okellogg@users.sourceforge.net>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class LinkWidget {
+class LinkWidget
+{
 public:
     LinkWidget();
     virtual ~LinkWidget();

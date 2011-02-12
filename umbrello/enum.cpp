@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "enum.h"
 
 // app includes
+#include "debug_utils.h"
 #include "enumliteral.h"
 #include "umldoc.h"
 #include "uml.h"
@@ -19,7 +20,6 @@
 #include "idchangelog.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -74,7 +74,7 @@ UMLObject* UMLEnum::clone() const
  */
 void UMLEnum::init()
 {
-    m_BaseType = Uml::ot_Enum;
+    m_BaseType = UMLObject::ot_Enum;
     setStereotype( "enum" );
 }
 
@@ -87,7 +87,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
     Uml::IDType id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
-        currentName = uniqChildName(Uml::ot_EnumLiteral);
+        currentName = uniqChildName(UMLObject::ot_EnumLiteral);
     } else {
         currentName = name;
     }
@@ -240,7 +240,7 @@ void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement enumElement = UMLObject::save("UML:Enumeration", qDoc);
     // save enum literals
-    UMLClassifierListItemList enumLiterals = getFilteredList(Uml::ot_EnumLiteral);
+    UMLClassifierListItemList enumLiterals = getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (UMLClassifierListItem* pEnumLiteral , enumLiterals ) {
         pEnumLiteral->saveToXMI(qDoc, enumElement);
     }
@@ -260,8 +260,8 @@ bool UMLEnum::load(QDomElement& element)
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (Uml::tagEq(tag, "EnumerationLiteral") ||
-                Uml::tagEq(tag, "EnumLiteral")) {   // for backward compatibility
+        if (UMLDoc::tagEq(tag, "EnumerationLiteral") ||
+                UMLDoc::tagEq(tag, "EnumLiteral")) {   // for backward compatibility
             UMLEnumLiteral* pEnumLiteral = new UMLEnumLiteral(this);
             if( !pEnumLiteral->loadFromXMI(tempElement) ) {
                 return false;
@@ -288,7 +288,7 @@ bool UMLEnum::load(QDomElement& element)
 UMLClassifierListItem* UMLEnum::makeChildObject(const QString& xmiTag)
 {
     UMLClassifierListItem* pObject = NULL;
-    if (Uml::tagEq(xmiTag, "EnumerationLiteral") || Uml::tagEq( xmiTag, "EnumLiteral")) {
+    if (UMLDoc::tagEq(xmiTag, "EnumerationLiteral") || UMLDoc::tagEq( xmiTag, "EnumLiteral")) {
         pObject = new UMLEnumLiteral(this);
     }
     return pObject;

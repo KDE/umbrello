@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Nikolaus Gradwohl  <guru@local-guru.net>      *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,73 +34,23 @@ public:
     SQLWriter();
     virtual ~SQLWriter();
 
-    /**
-     * Call this method to generate sql code for a UMLClassifier.
-     * @param c the class to generate code for
-     */
     virtual void writeClass(UMLClassifier *c);
 
-    /**
-     * Returns "SQL".
-     */
-    virtual Uml::Programming_Language language() const;
+    virtual Uml::ProgrammingLanguage language() const;
 
-    /**
-     * Reimplement method from CodeGenerator.
-     */
     virtual QStringList defaultDatatypes();
 
-    /**
-     * Get list of reserved keywords.
-     */
     virtual QStringList reservedKeywords() const;
 
 protected:
 
     UMLEntity* m_pEntity;
 
-    /**
-     * Prints out attributes as columns in the table.
-     * @param sql the stream we should print to
-     * @param entityAttributeList the attributes to be printed
-     */
     virtual void printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList);
-
-    /**
-     * Prints out unique constraints (including primary key ) as "ALTER TABLE" statements.
-     * @param sql the stream we should print to
-     * @param constrList the unique constraints to be printed
-     */
     virtual void printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList);
-
-    /**
-     * Prints out foreign key constraints as "ALTER TABLE" statements.
-     * @param sql the stream we should print to
-     * @param constrList the foreignkey constraints to be printed
-     */
     virtual void printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList);
-
-    /**
-     * Prints out Check Constraints as "ALTER TABLE" statements.
-     * @param sql The stream we should print to
-     * @param constrList The checkConstraints to be printed
-     */
     virtual void printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList);
-
-    /**
-     * Prints out Indexes as "CREATE INDEX " statements.
-     * @param sql The Stream we should print to
-     * @param ent The Entity's attributes on which we want to create an Index
-     * @param entAttList The list of entityattributes to create an index upon
-     */
     virtual void printIndex(QTextStream& sql, UMLEntity* ent, UMLEntityAttributeList entAttList);
-
-    /**
-     * Handles AutoIncrements.
-     * The derived classes provide the actual body.
-     * @param sql The Stream we should print to
-     * @param entAttList The List of Entity Attributes that we want to auto increment
-     */
     virtual void printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList );
 };
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,8 +33,8 @@
 class UMLCanvasObject : public UMLObject
 {
     Q_OBJECT
-public:
 
+public:
     explicit UMLCanvasObject(const QString & name = QString(), Uml::IDType id = Uml::id_None);
     virtual ~UMLCanvasObject();
 
@@ -57,10 +57,9 @@ public:
 
     UMLAssociationList getAssociations();
 
-    UMLAssociationList getSpecificAssocs(Uml::Association_Type assocType);
+    UMLAssociationList getSpecificAssocs(Uml::AssociationType assocType);
 
     UMLClassifierList getSuperClasses();
-
     UMLClassifierList getSubClasses();
 
     virtual UMLAssociationList getRealizations();
@@ -69,10 +68,11 @@ public:
     UMLAssociationList getCompositions();
     UMLAssociationList getRelationships();
 
-    virtual UMLObject *findChildObject(const QString &n, Uml::Object_Type t = Uml::ot_UMLObject);
+    virtual UMLObject *findChildObject(const QString &n,
+                                       UMLObject::Object_Type t = UMLObject::ot_UMLObject);
     virtual UMLObject *findChildObjectById(Uml::IDType id, bool considerAncestors = false);
 
-    virtual QString uniqChildName(const Uml::Object_Type type,
+    virtual QString uniqChildName(const UMLObject::Object_Type type,
                                   const QString &prefix = QString());
 
     virtual void removeAllChildObjects();

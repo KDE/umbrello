@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "folder.h"
 
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
@@ -21,7 +22,6 @@
 #include "umlscene.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -37,7 +37,7 @@
 UMLFolder::UMLFolder(const QString & name, Uml::IDType id)
   : UMLPackage(name, id)
 {
-    m_BaseType = Uml::ot_Folder;
+    m_BaseType = UMLObject::ot_Folder;
     UMLObject::setStereotype("folder");
 }
 
@@ -107,7 +107,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
 {
     if (includeNested) {
         foreach (UMLObject* o, m_objects ) {
-            if (o->baseType() == Uml::ot_Folder) {
+            if (o->baseType() == UMLObject::ot_Folder) {
                 UMLFolder *f = static_cast<UMLFolder*>(o);
                 f->appendViews(viewList);
             }
@@ -126,7 +126,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
 void UMLFolder::activateViews()
 {
     foreach (UMLObject* o, m_objects ) {
-        if (o->baseType() == Uml::ot_Folder) {
+        if (o->baseType() == UMLObject::ot_Folder) {
             UMLFolder *f = static_cast<UMLFolder*>(o);
             f->activateViews();
         }
@@ -159,7 +159,7 @@ UMLView *UMLFolder::findView(Uml::IDType id)
 
     UMLView* v = 0;
     foreach (UMLObject* o, m_objects ) {
-        if (o->baseType() != Uml::ot_Folder) {
+        if (o->baseType() != UMLObject::ot_Folder) {
             continue;
         }
         UMLFolder *f = static_cast<UMLFolder*>(o);
@@ -178,7 +178,7 @@ UMLView *UMLFolder::findView(Uml::IDType id)
  * @param searchAllScopes   Search in all subfolders (default: true.)
  * @return  Pointer to the view found, or NULL if not found.
  */
-UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool searchAllScopes)
+UMLView *UMLFolder::findView(Uml::DiagramType type, const QString &name, bool searchAllScopes)
 {
     foreach (UMLView* v, m_diagrams ) {
         if (v->umlScene()->type() == type && v->umlScene()->name() == name) {
@@ -189,7 +189,7 @@ UMLView *UMLFolder::findView(Uml::Diagram_Type type, const QString &name, bool s
     UMLView* v = 0;
     if (searchAllScopes) {
         foreach (UMLObject* o, m_objects  ) {
-            if (o->baseType() != Uml::ot_Folder) {
+            if (o->baseType() != UMLObject::ot_Folder) {
                 continue;
             }
             UMLFolder *f = static_cast<UMLFolder*>(o);
@@ -219,7 +219,7 @@ void UMLFolder::setViewOptions(const Settings::OptionState& optionState)
 void UMLFolder::removeAllViews()
 {
     foreach (UMLObject* o, m_objects) {
-        if (o->baseType() != Uml::ot_Folder)
+        if (o->baseType() != UMLObject::ot_Folder)
             continue;
         UMLFolder *f = static_cast<UMLFolder*>(o);
         f->removeAllViews();
@@ -231,6 +231,7 @@ void UMLFolder::removeAllViews()
         // from a view, it also causes any UMLAssociations that lack parent
         // association widgets (but once had them) to remove themselves from
         // this document.
+        uDebug() << "removing " << v->umlScene()->name();  //:TODO:
         UMLApp::app()->document()->removeView(v, false);
     }
 
@@ -298,8 +299,8 @@ void UMLFolder::save(QDomDocument& qDoc, QDomElement& qElement)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     QString elementName("UML:Package");
-    const Uml::Model_Type mt = umldoc->rootFolderType(this);
-    if (mt != Uml::N_MODELTYPES)
+    const Uml::ModelType mt = umldoc->rootFolderType(this);
+    if (mt != Uml::ModelType::N_MODELTYPES)
         elementName = "UML:Model";
     QDomElement folderElement = UMLObject::save(elementName, qDoc);
     saveContents(qDoc, folderElement);
@@ -452,8 +453,8 @@ bool UMLFolder::load(QDomElement& element)
         QString type = tempElement.tagName();
         if (Model_Utils::isCommonXMIAttribute(type))
             continue;
-        if (Uml::tagEq(type, "Namespace.ownedElement") ||
-                Uml::tagEq(type, "Namespace.contents")) {
+        if (UMLDoc::tagEq(type, "Namespace.ownedElement") ||
+                UMLDoc::tagEq(type, "Namespace.contents")) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore these tags are not further interpreted.
@@ -487,8 +488,8 @@ bool UMLFolder::load(QDomElement& element)
         }
         // Do not re-create the predefined Datatypes folder in the Logical View,
         // it already exists.
-        UMLFolder *logicalView = umldoc->rootFolder(Uml::mt_Logical);
-        if (this == logicalView && Uml::tagEq(type, "Package")) {
+        UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
+        if (this == logicalView && UMLDoc::tagEq(type, "Package")) {
             QString thisName = tempElement.attribute("name", "");
             if (thisName == "Datatypes") {
                 UMLFolder *datatypeFolder = umldoc->datatypeFolder();

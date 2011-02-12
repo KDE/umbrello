@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,17 +13,15 @@
 #include "codeclassfield.h"
 
 // app includes
+#include "attribute.h"
 #include "association.h"
 #include "classifiercodedocument.h"
 #include "codegenerator.h"
 #include "codegenerators/codegenfactory.h"
-#include "attribute.h"
+#include "debug_utils.h"
 #include "umlobject.h"
 #include "umlrole.h"
 #include "uml.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 #include <QtCore/QRegExp>
@@ -69,14 +67,14 @@ void CodeClassField::setParentUMLObject (UMLObject * obj)
     UMLRole *role = dynamic_cast<UMLRole*>(obj);
     if(role) {
         UMLAssociation * parentAssoc = role->parentAssociation();
-        Uml::Association_Type atype = parentAssoc->getAssocType();
+        Uml::AssociationType atype = parentAssoc->getAssocType();
         m_parentIsAttribute = false;
 
-        if ( atype == Uml::at_Association || atype == Uml::at_Association_Self)
+        if ( atype == Uml::AssociationType::Association || atype == Uml::AssociationType::Association_Self)
             m_classFieldType = PlainAssociation; // Plain == Self + untyped associations
-        else if (atype == Uml::at_Aggregation)
+        else if (atype == Uml::AssociationType::Aggregation)
             m_classFieldType = Aggregation;
-        else if (atype == Uml::at_Composition)
+        else if (atype == Uml::AssociationType::Composition)
             m_classFieldType = Composition;
     } else {
         m_classFieldType = Attribute;

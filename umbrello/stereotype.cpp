@@ -4,47 +4,63 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "stereotype.h"
 
-// qt/kde includes
-#include <klocale.h>
-#include <kdebug.h>
-#include <kinputdialog.h>
-
 // local includes
+#include "debug_utils.h"
 #include "umldoc.h"
 #include "uml.h"
+
+// kde includes
+#include <klocale.h>
+#include <kinputdialog.h>
+
 
 /**
  * Sets up a stereotype.
  *
- * @param name              The name of this UMLStereotype.
- * @param id                The unique id given to this UMLStereotype.
+ * @param name   The name of this UMLStereotype.
+ * @param id     The unique id given to this UMLStereotype.
  */
 UMLStereotype::UMLStereotype(const QString &name, Uml::IDType id /* = Uml::id_None */)
-        : UMLObject( name, id ) {
-    m_BaseType = Uml::ot_Stereotype;
+  : UMLObject( name, id )
+{
+    m_BaseType = UMLObject::ot_Stereotype;
     UMLStereotype * existing = UMLApp::app()->document()->findStereotype(name);
     if (existing) {
         uError() << "UMLStereotype constructor: " << name << " already exists"
-                  << kBacktrace(25) << endl;
+                  << kBacktrace(25);
     }
     m_refCount = 0;
 }
 
-UMLStereotype::UMLStereotype() : UMLObject() {
-    m_BaseType = Uml::ot_Stereotype;
+/**
+ * Sets up a stereotype.
+ */
+UMLStereotype::UMLStereotype()
+  : UMLObject()
+{
+    m_BaseType = UMLObject::ot_Stereotype;
     m_refCount = 0;
 }
 
-UMLStereotype::~UMLStereotype() {}
+/**
+ * Destructor.
+ */
+UMLStereotype::~UMLStereotype()
+{
+}
 
-bool UMLStereotype::operator==( const UMLStereotype &rhs) {
+/**
+ * Overloaded '==' operator.
+ */
+bool UMLStereotype::operator==( const UMLStereotype &rhs)
+{
     if (this == &rhs) {
         return true;
     }
@@ -76,11 +92,11 @@ UMLObject* UMLStereotype::clone() const
     return clone;
 }
 
-
 /**
  * Saves to the <UML:StereoType> XMI element.
  */
-void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
+void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
+{
     //FIXME: uml13.dtd compliance
     QDomElement stereotypeElement = UMLObject::save("UML:Stereotype", qDoc);
     qElement.appendChild( stereotypeElement );
@@ -90,7 +106,8 @@ void UMLStereotype::saveToXMI(QDomDocument& qDoc, QDomElement& qElement) {
  * Display the properties configuration dialog for the stereotype
  * (just a line edit).
  */
-bool UMLStereotype::showPropertiesDialog(QWidget* parent) {
+bool UMLStereotype::showPropertiesDialog(QWidget* parent)
+{
     bool ok;
     QString stereoTypeName = KInputDialog::getText(i18n("Stereotype"), i18n("Enter name:"), name(), &ok, parent);
     if (ok) {
@@ -102,21 +119,24 @@ bool UMLStereotype::showPropertiesDialog(QWidget* parent) {
 /**
  * Increments the reference count for this stereotype.
  */
-void UMLStereotype::incrRefCount() {
+void UMLStereotype::incrRefCount()
+{
     m_refCount++;
 }
 
 /**
  * Decrements the reference count for this stereotype.
  */
-void UMLStereotype::decrRefCount() {
+void UMLStereotype::decrRefCount()
+{
     m_refCount--;
 }
 
 /**
  * Returns the reference count for this stereotype.
  */
-int UMLStereotype::refCount() const {
+int UMLStereotype::refCount() const
+{
     return m_refCount;
 }
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "umloperationdialog.h"
 
 //app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "operation.h"
@@ -29,7 +30,6 @@
 //kde includes
 #include <klineedit.h>
 #include <kcombobox.h>
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdialogbuttonbox.h>
@@ -191,7 +191,7 @@ void UMLOperationDialog::setupDialog()
     // fill in parm list box
     UMLAttributeList list = m_operation->getParmList();
     foreach (UMLAttribute* pAtt, list ) {
-        m_pParmsLW->addItem( pAtt->toString( Uml::st_SigNoVis ) );
+        m_pParmsLW->addItem( pAtt->toString( Uml::SignatureType::SigNoVis ) );
     }
 
     // set scope
@@ -299,7 +299,7 @@ void UMLOperationDialog::slotNewParameter()
         if ( !pAtt ) {
             newAttribute->setID( UniqueID::gen() );
             m_operation->addParm( newAttribute );
-            m_pParmsLW->addItem( newAttribute->toString( Uml::st_SigNoVis ) );
+            m_pParmsLW->addItem( newAttribute->toString( Uml::SignatureType::SigNoVis ) );
             m_doc->setModified( true );
         } else {
             KMessageBox::sorry(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
@@ -359,7 +359,7 @@ void UMLOperationDialog::slotParameterProperties()
         }
 
         QListWidgetItem* item = m_pParmsLW->currentItem();
-        item->setText( pOldAtt->toString(Uml::st_SigNoVis) );
+        item->setText( pOldAtt->toString(Uml::SignatureType::SigNoVis) );
         m_doc->setModified( true );
     }
     delete tempAttribute;
@@ -524,7 +524,7 @@ void UMLOperationDialog::insertTypesSorted( const QString& type )
     // add template parameters
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(m_operation->parent());
     if (classifier) {
-        UMLClassifierListItemList tmplParams( classifier->getFilteredList(Uml::ot_Template) );
+        UMLClassifierListItemList tmplParams( classifier->getFilteredList(UMLOperation::ot_Template) );
         foreach (UMLClassifierListItem* li, tmplParams ) {
             types << li->name();
         }

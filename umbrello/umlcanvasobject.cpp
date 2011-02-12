@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "umlcanvasobject.h"
 
 // local includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "classifier.h"
@@ -23,7 +24,6 @@
 #include "idchangelog.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 
 /**
@@ -33,7 +33,7 @@
  * @param id     The unique id of the Concept.
  */
 UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
-        : UMLObject(name, id)
+  : UMLObject(name, id)
 {
 }
 
@@ -56,14 +56,14 @@ UMLCanvasObject::~UMLCanvasObject()
  * @param assocType   The Association_Type to match.
  * @return   The list of associations that match assocType.
  */
-UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::Association_Type assocType)
+UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType assocType)
 {
     UMLAssociationList list;
     UMLObject *o = NULL;
     for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
         o = oit.next();
         uIgnoreZeroPointer(o);
-        if (o->baseType() != Uml::ot_Association)
+        if (o->baseType() != UMLObject::ot_Association)
             continue;
         UMLAssociation *a = static_cast<UMLAssociation*>(o);
         if (a->getAssocType() == assocType)
@@ -132,7 +132,7 @@ void UMLCanvasObject::removeAllAssociationEnds()
     for (int i = 0; i < m_List.count(); i++) {
         UMLObject *o = m_List.at(i);
         uIgnoreZeroPointer(o);
-        if (o->baseType() != Uml::ot_Association) {
+        if (o->baseType() != UMLObject::ot_Association) {
             continue;
         }
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
@@ -180,38 +180,38 @@ void UMLCanvasObject::removeAllChildObjects()
  *                  internally based on the object type.
  * @return  Unique name string for the Object_Type given.
  */
-QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
+QString UMLCanvasObject::uniqChildName( const UMLObject::Object_Type type,
                                         const QString &prefix /* = QString() */ )
 {
     QString currentName;
     currentName = prefix;
     if (currentName.isEmpty()) {
         switch (type) {
-            case Uml::ot_Association:
+            case UMLObject::ot_Association:
                 currentName = i18n("new_association");
                 break;
-            case Uml::ot_Attribute:
+            case UMLObject::ot_Attribute:
                 currentName = i18n("new_attribute");
                 break;
-            case Uml::ot_Template:
+            case UMLObject::ot_Template:
                 currentName = i18n("new_template");
                 break;
-            case Uml::ot_Operation:
+            case UMLObject::ot_Operation:
                 currentName = i18n("new_operation");
                 break;
-            case Uml::ot_EnumLiteral:
+            case UMLObject::ot_EnumLiteral:
                 currentName = i18n("new_literal");
                 break;
-            case Uml::ot_EntityAttribute:
+            case UMLObject::ot_EntityAttribute:
                 currentName = i18n("new_field");
                 break;
-            case Uml::ot_UniqueConstraint:
+            case UMLObject::ot_UniqueConstraint:
                 currentName = i18n( "new_unique_constraint" );
                 break;
-            case Uml::ot_ForeignKeyConstraint:
+            case UMLObject::ot_ForeignKeyConstraint:
                 currentName = i18n( "new_fkey_constraint" );
                 break;
-            case Uml::ot_CheckConstraint:
+            case UMLObject::ot_CheckConstraint:
                 currentName = i18n( "new_check_constraint" );
                 break;
             default:
@@ -235,14 +235,14 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
  *                  any object type will match.
  * @return  Pointer to the object found; NULL if none found.
  */
-UMLObject * UMLCanvasObject::findChildObject(const QString &n, Uml::Object_Type t)
+UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object_Type t)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     UMLObject *obj = NULL;
     for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
-        if (t != Uml::ot_UMLObject && obj->baseType() != t)
+        if (t != UMLObject::ot_UMLObject && obj->baseType() != t)
             continue;
         if (caseSensitive) {
             if (obj->name() == n)
@@ -321,7 +321,7 @@ int UMLCanvasObject::associations()
     for (UMLObjectListIt oit(m_List); oit.hasNext(); ) {
         obj = oit.next();
         uIgnoreZeroPointer(obj);
-        if (obj->baseType() == Uml::ot_Association)
+        if (obj->baseType() == UMLObject::ot_Association)
             count++;
     }
     return count;
@@ -339,7 +339,7 @@ UMLAssociationList UMLCanvasObject::getAssociations()
     for (UMLObjectListIt oit(m_List); oit.hasNext() ; ) {
         o = oit.next();
         uIgnoreZeroPointer(o);
-        if (o->baseType() != Uml::ot_Association)
+        if (o->baseType() != UMLObject::ot_Association)
             continue;
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         assocs.append(assoc);
@@ -360,8 +360,8 @@ UMLClassifierList UMLCanvasObject::getSuperClasses()
     UMLAssociationList assocs = getAssociations();
     foreach (UMLAssociation* a , assocs ) {
         uIgnoreZeroPointer(a);
-        if ((a->getAssocType() != Uml::at_Generalization &&
-             a->getAssocType() != Uml::at_Realization) ||
+        if ((a->getAssocType() != Uml::AssociationType::Generalization &&
+             a->getAssocType() != Uml::AssociationType::Realization) ||
                 a->getObjectId(Uml::A) != id() )
             continue;
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::B));
@@ -387,8 +387,8 @@ UMLClassifierList UMLCanvasObject::getSubClasses()
     UMLAssociationList assocs = getAssociations();
     foreach (UMLAssociation* a , assocs ) {
         uIgnoreZeroPointer(a);
-        if ((a->getAssocType() != Uml::at_Generalization &&
-             a->getAssocType() != Uml::at_Realization) ||
+        if ((a->getAssocType() != Uml::AssociationType::Generalization &&
+             a->getAssocType() != Uml::AssociationType::Realization) ||
                 a->getObjectId(Uml::B) != id() )
             continue;
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(a->getObject(Uml::A));
@@ -408,7 +408,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses()
  */
 UMLAssociationList UMLCanvasObject::getRealizations()
 {
-    return getSpecificAssocs(Uml::at_Realization);
+    return getSpecificAssocs(Uml::AssociationType::Realization);
 }
 
 /**
@@ -418,7 +418,7 @@ UMLAssociationList UMLCanvasObject::getRealizations()
  */
 UMLAssociationList UMLCanvasObject::getAggregations()
 {
-    return getSpecificAssocs(Uml::at_Aggregation);
+    return getSpecificAssocs(Uml::AssociationType::Aggregation);
 }
 
 /**
@@ -428,7 +428,7 @@ UMLAssociationList UMLCanvasObject::getAggregations()
  */
 UMLAssociationList UMLCanvasObject::getCompositions()
 {
-    return getSpecificAssocs(Uml::at_Composition);
+    return getSpecificAssocs(Uml::AssociationType::Composition);
 }
 
 /**
@@ -438,7 +438,7 @@ UMLAssociationList UMLCanvasObject::getCompositions()
  */
 UMLAssociationList UMLCanvasObject::getRelationships()
 {
-    return getSpecificAssocs(Uml::at_Relationship);
+    return getSpecificAssocs(Uml::AssociationType::Relationship);
 }
 
 /**
@@ -459,4 +459,3 @@ bool UMLCanvasObject::resolveRef()
 }
 
 #include "umlcanvasobject.moc"
-

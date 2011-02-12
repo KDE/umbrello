@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,16 +12,16 @@
 #include "statewidget.h"
 
 // app includes
-#include "statedialog.h"
+#include "debug_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
+#include "statedialog.h"
 #include "textitem.h"
 #include "textitemgroup.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
-#include "model_utils.h"  // for ENUM_NAME only
 
 // qt includes
 #include <QtCore/QPointer>
@@ -40,7 +40,7 @@ const QSizeF StateWidget::MinimumEllipseSize(30, 10);
 StateWidget::StateWidget(StateType stateType, Uml::IDType id)
     : UMLWidget(0)
 {
-    m_baseType = Uml::wt_State;
+    m_baseType = WidgetBase::wt_State;
     m_stateType = stateType;
     setID(id);
     createTextItemGroup();

@@ -20,7 +20,7 @@
 #ifndef WIDGETBASE_H
 #define WIDGETBASE_H
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 
 #include <QtCore/QObject>
 
@@ -59,7 +59,42 @@ class WidgetBase : public QGraphicsObject
     Q_PROPERTY(QBrush brush READ brush WRITE setBrush)
     Q_PROPERTY(QFont font READ font WRITE setFont)
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
+    Q_ENUMS(Widget_Type)
+
 public:
+    enum Widget_Type
+    {
+        wt_UMLWidget = 300,         // does not have UMLObject representation
+        wt_Actor,                   // has UMLObject representation
+        wt_UseCase,                 // has UMLObject representation
+        wt_Class,                   // has UMLObject representation
+        wt_Interface,               // has UMLObject representation
+        wt_Datatype,                // has UMLObject representation
+        wt_Enum,                    // has UMLObject representation
+        wt_Entity,                  // has UMLObject representation
+        wt_Package,                 // has UMLObject representation
+        wt_Object,                  // has UMLObject representation
+        wt_Note,                    // does not have UMLObject representation
+        wt_Box,                     // does not have UMLObject representation
+        wt_Message,                 // does not have UMLObject representation
+        wt_Text,                    // does not have UMLObject representation
+        wt_State,                   // does not have UMLObject representation
+        wt_Activity,                // does not have UMLObject representation
+        wt_Component,               // has UMLObject representation
+        wt_Artifact,                // has UMLObject representation
+        wt_Node,                    // has UMLObject representation
+        wt_Association,             // has UMLObject representation
+        wt_ForkJoin,                // does not have UMLObject representation
+        wt_Precondition,            // does not have UMLObject representation
+        wt_CombinedFragment,        // does not have UMLObject representation
+        wt_FloatingDashLine,        // does not have UMLObject representation
+        wt_Signal,                  // does not have UMLObject representation
+        wt_Pin,
+        wt_ObjectNode,
+        wt_Region,
+        wt_Category                 // has UMLObject representation
+    };
+
     /**
      * This enumeration is used by WidgetBase::attributeChange() to
      * identify which attribute has changed.
@@ -101,7 +136,8 @@ public:
     Uml::IDType id() const;
     void setID(Uml::IDType id);
 
-    Uml::Widget_Type baseType() const;
+    Widget_Type baseType() const;
+    QLatin1String baseTypeStr() const;
 
     UMLScene* umlScene() const;
     UMLDoc* umlDoc() const;
@@ -159,7 +195,7 @@ public:
     virtual bool loadFromXMI(QDomElement &qElement);
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
-    static bool widgetHasUMLObject(Uml::Widget_Type type);
+    static bool widgetHasUMLObject(Widget_Type type);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction *trigger);
@@ -195,7 +231,7 @@ protected:
      */
     QVariantMap m_loadData;
     // Property that will be saved.
-    Uml::Widget_Type m_baseType;
+    Widget_Type m_baseType;
 
 private:
     UMLObject *m_umlObject;
@@ -229,7 +265,6 @@ private:
 
     // Disable the copy constructor and assignment operator.
     Q_DISABLE_COPY(WidgetBase);
-
 
 public:
 

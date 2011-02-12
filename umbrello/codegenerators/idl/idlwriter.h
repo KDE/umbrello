@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003                                                    *
  *   Oliver Kellogg <okellogg@users.sourceforge.net>                       *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,6 +14,7 @@
 #define IDLWRITER_H
 
 #include "simplecodegenerator.h"
+#include "umlobject.h"
 
 class UMLAssociation;
 class UMLOperation;
@@ -32,31 +33,16 @@ public:
     IDLWriter ();
     virtual ~IDLWriter ();
 
-    /**
-     * Call this method to generate IDL code for a UMLClassifier.
-     * @param c the class to generate code for
-     */
     virtual void writeClass (UMLClassifier *c);
 
-    /**
-     * Returns "IDL".
-     */
-    virtual Uml::Programming_Language language() const;
+    virtual Uml::ProgrammingLanguage language() const;
 
     QStringList defaultDatatypes();
 
-    /**
-     * Get list of reserved keywords.
-     */
     virtual QStringList reservedKeywords() const;
 
 private:
 
-    /**
-     * Write one operation.
-     * @param op the class for which we are generating code
-     * @param idl the stream associated with the output file
-     */
     void writeOperation(UMLOperation* op, QTextStream& idl, bool is_comment = false);
 
     void computeAssocTypeAndRole(UMLAssociation* a, UMLClassifier *c,
@@ -64,7 +50,7 @@ private:
 
     static bool isOOClass(UMLClassifier* c);
 
-    static bool assocTypeIsMappableToAttribute(Uml::Association_Type at);
+    static bool assocTypeIsMappableToAttribute(Uml::AssociationType at);
 
 };
 

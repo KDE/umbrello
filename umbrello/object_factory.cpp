@@ -4,23 +4,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2010                                                *
+ *  copyright (C) 2006-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 // own header
 #include "object_factory.h"
 
-// qt/kde includes
-#include <QtCore/QRegExp>
-#include <QtCore/QStringList>
-#include <QtGui/QApplication>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kdebug.h>
-#include <kinputdialog.h>
-
 // app includes
+#include "debug_utils.h"
 #include "umlobject.h"
 #include "umlpackagelist.h"
 #include "package.h"
@@ -47,6 +39,16 @@
 #include "model_utils.h"
 #include "uniqueid.h"
 #include "cmds.h"
+
+// kde includes
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kinputdialog.h>
+
+// qt includes
+#include <QtCore/QRegExp>
+#include <QtCore/QStringList>
+#include <QtGui/QApplication>
 
 namespace Object_Factory {
 
@@ -75,7 +77,7 @@ bool assignUniqueIdOnCreation()
     return (g_predefinedId == Uml::id_None);
 }
 
-UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
+UMLObject* createNewUMLObject(UMLObject::Object_Type type, const QString &name,
                               UMLPackage *parentPkg)
 {
     if (parentPkg == NULL) {
@@ -84,49 +86,49 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
     }
     UMLObject *o = NULL;
     switch (type) {
-        case Uml::ot_Actor:
+        case UMLObject::ot_Actor:
             o = new UMLActor(name, g_predefinedId);
             break;
-        case Uml::ot_UseCase:
+        case UMLObject::ot_UseCase:
             o = new UMLUseCase(name, g_predefinedId);
             break;
-        case Uml::ot_Class:
+        case UMLObject::ot_Class:
             o = new UMLClassifier(name, g_predefinedId);
             break;
-        case Uml::ot_Package:
+        case UMLObject::ot_Package:
             o = new UMLPackage(name, g_predefinedId);
             break;
-        case Uml::ot_Component:
+        case UMLObject::ot_Component:
             o = new UMLComponent(name, g_predefinedId);
             break;
-        case Uml::ot_Node:
+        case UMLObject::ot_Node:
             o = new UMLNode(name, g_predefinedId);
             break;
-        case Uml::ot_Artifact:
+        case UMLObject::ot_Artifact:
             o = new UMLArtifact(name, g_predefinedId);
             break;
-        case Uml::ot_Interface: {
+        case UMLObject::ot_Interface: {
             UMLClassifier *c = new UMLClassifier(name, g_predefinedId);
-            c->setBaseType(Uml::ot_Interface);
+            c->setBaseType(UMLObject::ot_Interface);
             o = c;
             break;
         }
-        case Uml::ot_Datatype: {
+        case UMLObject::ot_Datatype: {
             UMLClassifier *c = new UMLClassifier(name, g_predefinedId);
-            c->setBaseType(Uml::ot_Datatype);
+            c->setBaseType(UMLObject::ot_Datatype);
             o = c;
             break;
         }
-        case Uml::ot_Enum:
+        case UMLObject::ot_Enum:
             o = new UMLEnum(name, g_predefinedId);
             break;
-        case Uml::ot_Entity:
+        case UMLObject::ot_Entity:
             o = new UMLEntity(name, g_predefinedId);
             break;
-        case Uml::ot_Folder:
+        case UMLObject::ot_Folder:
             o = new UMLFolder(name, g_predefinedId);
             break;
-        case Uml::ot_Category:
+        case UMLObject::ot_Category:
             o = new UMLCategory(name, g_predefinedId);
             break;
         default:
@@ -157,16 +159,16 @@ UMLObject* createNewUMLObject(Uml::Object_Type type, const QString &name,
  *                        then the existing object is returned.
  *                        The default is to ask for the new name.
  */
-UMLObject* createUMLObject(Uml::Object_Type type, const QString &n,
+UMLObject* createUMLObject(UMLObject::Object_Type type, const QString &n,
                            UMLPackage *parentPkg /* = 0 */,
                            bool solicitNewName /* = true */)
 {
     UMLDoc *doc = UMLApp::app()->document();
     if (parentPkg == NULL) {
-        if (type == Uml::ot_Datatype) {
+        if (type == UMLObject::ot_Datatype) {
             parentPkg = doc->datatypeFolder();
         } else {
-            Uml::Model_Type mt = Model_Utils::convert_OT_MT(type);
+            Uml::ModelType mt = Model_Utils::convert_OT_MT(type);
             uDebug() << "Object_Factory::createUMLObject(" << n << "): "
                 << "parentPkg is not set, assuming Model_Type " << mt;
             parentPkg = doc->rootFolder(mt);
@@ -236,57 +238,57 @@ UMLOperation *createOperation(UMLClassifier *parent, const QString& name)
  * @param type      The type to create
  * @return      Pointer to the UMLClassifierListItem created
  */
-UMLClassifierListItem* createChildObject(UMLClassifier* parent, Uml::Object_Type type)
+UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Object_Type type)
 {
     UMLObject* returnObject = NULL;
     switch (type) {
-    case Uml::ot_Attribute: {
+    case UMLObject::ot_Attribute: {
         UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
             if (c && !c->isInterface())
                 returnObject = c->createAttribute();
             break;
         }
-    case Uml::ot_EntityAttribute: {
+    case UMLObject::ot_EntityAttribute: {
          UMLEntity *e = dynamic_cast<UMLEntity*>( parent );
          if ( e ) {
              returnObject = e->createAttribute();
          }
          break;
         }
-    case Uml::ot_Operation: {
+    case UMLObject::ot_Operation: {
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
             if (c)
                 returnObject = c->createOperation();
             break;
         }
-    case Uml::ot_Template: {
+    case UMLObject::ot_Template: {
             UMLClassifier *c = dynamic_cast<UMLClassifier*>(parent);
             if (c)
                 returnObject = c->createTemplate();
             break;
         }
-    case Uml::ot_EnumLiteral: {
+    case UMLObject::ot_EnumLiteral: {
             UMLEnum* umlenum = dynamic_cast<UMLEnum*>(parent);
             if (umlenum) {
                 returnObject = umlenum->createEnumLiteral();
             }
             break;
         }
-    case Uml::ot_UniqueConstraint: {
+    case UMLObject::ot_UniqueConstraint: {
             UMLEntity* umlentity = dynamic_cast<UMLEntity*>( parent );
             if ( umlentity ) {
                 returnObject = umlentity->createUniqueConstraint();
             }
             break;
         }
-    case Uml::ot_ForeignKeyConstraint: {
+    case UMLObject::ot_ForeignKeyConstraint: {
             UMLEntity* umlentity = dynamic_cast<UMLEntity*>( parent );
             if ( umlentity ) {
                 returnObject = umlentity->createForeignKeyConstraint();
             }
             break;
         }
-    case Uml::ot_CheckConstraint: {
+    case UMLObject::ot_CheckConstraint: {
             UMLEntity* umlentity = dynamic_cast<UMLEntity*>( parent );
             if ( umlentity ) {
                 returnObject = umlentity->createCheckConstraint();
@@ -307,13 +309,13 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
                              const QString& stereoID /* = QString() */)
 {
     UMLObject* pObject = 0;
-    if (Uml::tagEq(xmiTag, "UseCase")) {
+    if (UMLDoc::tagEq(xmiTag, "UseCase")) {
         pObject = new UMLUseCase();
-    } else if (Uml::tagEq(xmiTag, "Actor")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Actor")) {
         pObject = new UMLActor();
-    } else if (Uml::tagEq(xmiTag, "Class")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Class")) {
         pObject = new UMLClassifier();
-    } else if (Uml::tagEq(xmiTag, "Package")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Package")) {
         if (!stereoID.isEmpty()) {
             UMLDoc *doc = UMLApp::app()->document();
             UMLObject *stereo = doc->findStereotypeById(STR2ID(stereoID));
@@ -322,44 +324,44 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
         }
         if (pObject == NULL)
             pObject = new UMLPackage();
-    } else if (Uml::tagEq(xmiTag, "Component")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Component")) {
         pObject = new UMLComponent();
-    } else if (Uml::tagEq(xmiTag, "Node")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Node")) {
         pObject = new UMLNode();
-    } else if (Uml::tagEq(xmiTag, "Artifact")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Artifact")) {
         pObject = new UMLArtifact();
-    } else if (Uml::tagEq(xmiTag, "Interface")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Interface")) {
         UMLClassifier *c = new UMLClassifier();
-        c->setBaseType(Uml::ot_Interface);
+        c->setBaseType(UMLObject::ot_Interface);
         pObject = c;
-    } else if (Uml::tagEq(xmiTag, "DataType") || Uml::tagEq(xmiTag, "Primitive")
-               || Uml::tagEq(xmiTag, "Datatype")) {   // for bkwd compat.
+    } else if (UMLDoc::tagEq(xmiTag, "DataType") || UMLDoc::tagEq(xmiTag, "Primitive")
+               || UMLDoc::tagEq(xmiTag, "Datatype")) {   // for bkwd compat.
         UMLClassifier *c = new UMLClassifier();
-        c->setBaseType(Uml::ot_Datatype);
+        c->setBaseType(UMLObject::ot_Datatype);
         pObject = c;
-    } else if (Uml::tagEq(xmiTag, "Enumeration") ||
-               Uml::tagEq(xmiTag, "Enum")) {   // for bkwd compat.
+    } else if (UMLDoc::tagEq(xmiTag, "Enumeration") ||
+               UMLDoc::tagEq(xmiTag, "Enum")) {   // for bkwd compat.
         pObject = new UMLEnum();
-    } else if (Uml::tagEq(xmiTag, "Entity")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Entity")) {
         pObject = new UMLEntity();
-    } else if (Uml::tagEq(xmiTag, "Category")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Category")) {
         pObject = new UMLCategory();
-    } else if (Uml::tagEq(xmiTag, "Stereotype")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Stereotype")) {
         pObject = new UMLStereotype();
-    } else if (Uml::tagEq(xmiTag, "Association") ||
-               Uml::tagEq(xmiTag, "AssociationClass")) {
+    } else if (UMLDoc::tagEq(xmiTag, "Association") ||
+               UMLDoc::tagEq(xmiTag, "AssociationClass")) {
         pObject = new UMLAssociation();
-    } else if (Uml::tagEq(xmiTag, "Generalization")) {
-        pObject = new UMLAssociation(Uml::at_Generalization);
-    } else if (Uml::tagEq(xmiTag, "Realization") ||
-               Uml::tagEq(xmiTag, "Abstraction")) {
-        pObject = new UMLAssociation(Uml::at_Realization);
-    } else if (Uml::tagEq(xmiTag, "Dependency")) {
-        pObject = new UMLAssociation(Uml::at_Dependency);
-    } else if (Uml::tagEq(xmiTag, "Child2Category")) {
-        pObject = new UMLAssociation(Uml::at_Child2Category);
-    } else if (Uml::tagEq(xmiTag, "Category2Parent")) {
-        pObject = new UMLAssociation(Uml::at_Category2Parent);
+    } else if (UMLDoc::tagEq(xmiTag, "Generalization")) {
+        pObject = new UMLAssociation(Uml::AssociationType::Generalization);
+    } else if (UMLDoc::tagEq(xmiTag, "Realization") ||
+               UMLDoc::tagEq(xmiTag, "Abstraction")) {
+        pObject = new UMLAssociation(Uml::AssociationType::Realization);
+    } else if (UMLDoc::tagEq(xmiTag, "Dependency")) {
+        pObject = new UMLAssociation(Uml::AssociationType::Dependency);
+    } else if (UMLDoc::tagEq(xmiTag, "Child2Category")) {
+        pObject = new UMLAssociation(Uml::AssociationType::Child2Category);
+    } else if (UMLDoc::tagEq(xmiTag, "Category2Parent")) {
+        pObject = new UMLAssociation(Uml::AssociationType::Category2Parent);
     }
 
     return pObject;

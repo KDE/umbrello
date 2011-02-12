@@ -4,11 +4,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "docbookgeneratorjob.h"
+
+#include "debug_utils.h"
+#include "uml.h"
+#include "umldoc.h"
 
 #include <libxml/xmlmemory.h>
 #include <libxml/debugXML.h>
@@ -21,15 +25,11 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
-#include <QtCore/QTextOStream>
-
 #include <ktemporaryfile.h>
 #include <kstandarddirs.h>
 #include <klocale.h>
-#include <kdebug.h>
 
-#include "uml.h"
-#include "umldoc.h"
+#include <QtCore/QTextOStream>
 
 extern int xmlLoadExtDtdDefaultValue;
 

@@ -4,21 +4,23 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef MODEL_UTILS_H
 #define MODEL_UTILS_H
 
-#include <QtCore/QString>
-#include <QtCore/QLinkedList>
-
-#include "umlnamespace.h"
+#include "basictypes.h"
+#include "umllistviewitem.h"
 #include "umlobjectlist.h"
 #include "umlviewlist.h"
 #include "foreignkeyconstraint.h"
 #include "icon_utils.h"
+#include "widgetbase.h"
+
+#include <QtCore/QString>
+#include <QtCore/QLinkedList>
 
 // forward declarations
 class UMLClassifier;
@@ -32,14 +34,14 @@ class UMLEntity;
  */
 namespace Model_Utils {
 
-bool isCloneable(Uml::Widget_Type type);
+bool isCloneable(WidgetBase::Widget_Type type);
 
 UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList);
 
 UMLObject* findUMLObject( const UMLObjectList& inList,
                           const QString& name,
-                          Uml::Object_Type type = Uml::ot_UMLObject,
-                          UMLObject *currentObj = NULL);
+                          UMLObject::Object_Type type = UMLObject::ot_UMLObject,
+                          UMLObject *currentObj = 0);
 
 void treeViewAddViews(const UMLViewList& viewList);
 void treeViewChangeIcon(UMLObject* object, Icon_Utils::Icon_Type to);
@@ -49,40 +51,35 @@ UMLObject*  treeViewGetCurrentObject();
 UMLPackage* treeViewGetPackageFromCurrent();
 QString treeViewBuildDiagramName(Uml::IDType id);
 
-QString uniqObjectName(Uml::Object_Type type,
+QString uniqObjectName(UMLObject::Object_Type type,
                        UMLPackage *parentPkg,
                        QString prefix = QString());
 
 bool isCommonXMIAttribute(const QString &tag);
 bool isCommonDataType(QString type);
-bool isClassifierListitem(Uml::Object_Type ot);
+bool isClassifierListitem(UMLObject::Object_Type ot);
 
-bool typeIsCanvasWidget(Uml::ListView_Type type);
-bool typeIsRootView(Uml::ListView_Type type);
-bool typeIsFolder(Uml::ListView_Type type);
-bool typeIsContainer(Uml::ListView_Type type);
-bool typeIsDiagram(Uml::ListView_Type type);
-bool typeIsClassifierList(Uml::ListView_Type type);
-bool typeIsClassifier(Uml::ListView_Type type);
+bool typeIsCanvasWidget(UMLListViewItem::ListViewType type);
+bool typeIsRootView(UMLListViewItem::ListViewType type);
+bool typeIsFolder(UMLListViewItem::ListViewType type);
+bool typeIsContainer(UMLListViewItem::ListViewType type);
+bool typeIsDiagram(UMLListViewItem::ListViewType type);
+bool typeIsClassifierList(UMLListViewItem::ListViewType type);
+bool typeIsClassifier(UMLListViewItem::ListViewType type);
 
-Uml::Model_Type convert_DT_MT(Uml::Diagram_Type dt);
-Uml::ListView_Type convert_MT_LVT(Uml::Model_Type mt);
-Uml::Model_Type convert_LVT_MT(Uml::ListView_Type lvt);
-Uml::ListView_Type convert_DT_LVT(Uml::Diagram_Type dt);
-Uml::Object_Type convert_LVT_OT(Uml::ListView_Type lvt);
-Uml::ListView_Type convert_OT_LVT(UMLObject *o);
-Icon_Utils::Icon_Type convert_LVT_IT(Uml::ListView_Type lvt);
-Uml::Diagram_Type convert_LVT_DT(Uml::ListView_Type lvt);
-Uml::Model_Type convert_OT_MT(Uml::Object_Type ot);
+Uml::ModelType convert_DT_MT(Uml::DiagramType dt);
+UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType mt);
+Uml::ModelType convert_LVT_MT(UMLListViewItem::ListViewType lvt);
+UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType dt);
+UMLObject::Object_Type convert_LVT_OT(UMLListViewItem::ListViewType lvt);
+UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o);
+Icon_Utils::Icon_Type convert_LVT_IT(UMLListViewItem::ListViewType lvt);
+Uml::DiagramType convert_LVT_DT(UMLListViewItem::ListViewType lvt);
+Uml::ModelType convert_OT_MT(UMLObject::Object_Type ot);
 
-Uml::Model_Type guessContainer(UMLObject *o);  // deprecated !
+Uml::ModelType guessContainer(UMLObject *o);  // deprecated !
 
 int stringToDirection(QString input, Uml::Parameter_Direction & result);
-
-QString progLangToString(Uml::Programming_Language pl);
-Uml::Programming_Language stringToProgLang(QString str);
-
-QString diagramTypeToString(Uml::Diagram_Type dt);
 
 enum Parse_Status {  ///< Return type of parseOperation().
     PS_OK, PS_Empty, PS_Malformed_Arg, PS_Unknown_ArgType,

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,6 +14,7 @@
 // app includes
 #include "classifier.h"
 #include "classifierlistitem.h"
+#include "debug_utils.h"
 #include "entity.h"
 #include "entityattribute.h"
 #include "foreignkeyconstraint.h"
@@ -37,11 +38,13 @@
 EntityWidget::EntityWidget(UMLObject* o) :
     UMLWidget(o)
 {
-    m_baseType = Uml::wt_Entity;
+    m_baseType = WidgetBase::wt_Entity;
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 EntityWidget::~EntityWidget()
 {
 }
@@ -91,7 +94,7 @@ void EntityWidget::updateTextItemGroups()
 {
     if(umlObject()) {
         UMLClassifier *classifier = static_cast<UMLClassifier*>(umlObject());
-        UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
+        UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
         int totalTextItems = list.size() + 2; // +2 because stereo text + name text.
 
         TextItemGroup *grp = textItemGroupAt(GroupIndex);
@@ -113,7 +116,7 @@ void EntityWidget::updateTextItemGroups()
             TextItem *literal = grp->textItemAt(index);
             literal->setText(entityItem->name());
             UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>(entityItem);
-            if( casted && casted->getIndexType() == Uml::Primary ) {
+            if( casted && casted->indexType() == UMLEntityAttribute::Primary ) {
                 literal->setUnderline(true);
             }
             ++index;
@@ -165,7 +168,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_EntityAttribute:
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),
-                                              Uml::ot_EntityAttribute) )  {
+                                              UMLObject::ot_EntityAttribute) )  {
             UMLApp::app()->document()->setModified();
         }
         break;
@@ -173,7 +176,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_PrimaryKeyConstraint:
     case ListPopupMenu::mt_UniqueConstraint:
         if ( UMLObject* obj = Object_Factory::createChildObject(static_cast<UMLEntity*>(umlObject()),
-                                               Uml::ot_UniqueConstraint) ) {
+                                               UMLObject::ot_UniqueConstraint) ) {
             UMLApp::app()->document()->setModified();
 
             if ( sel == ListPopupMenu::mt_PrimaryKeyConstraint ) {
@@ -185,7 +188,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_ForeignKeyConstraint:
          if (Object_Factory::createChildObject(static_cast<UMLEntity*>(umlObject()),
-                                               Uml::ot_ForeignKeyConstraint) ) {
+                                               UMLObject::ot_ForeignKeyConstraint) ) {
              UMLApp::app()->document()->setModified();
 
         }
@@ -193,7 +196,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_CheckConstraint:
          if (Object_Factory::createChildObject(static_cast<UMLEntity*>(umlObject()),
-                                               Uml::ot_CheckConstraint) ) {
+                                               UMLObject::ot_CheckConstraint) ) {
              UMLApp::app()->document()->setModified();
 
         }

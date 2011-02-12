@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "signalwidget.h"
 
 // app includes
+#include "debug_utils.h"
 #include "listpopupmenu.h"
 #include "textitem.h"
 #include "textitemgroup.h"
@@ -35,7 +36,7 @@ const QSizeF SignalWidget::MinimumSize(50, 50);
 SignalWidget::SignalWidget(SignalType signalType, Uml::IDType id)
     : UMLWidget(0)
 {
-    m_baseType = Uml::wt_Signal;
+    m_baseType = WidgetBase::wt_Signal;
     m_signalType = signalType;
     setID(id);
     createTextItemGroup();

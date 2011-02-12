@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "combinedfragmentwidget.h"
 
 // app includes
+#include "debug_utils.h"
 #include "dialog_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
@@ -38,7 +39,7 @@
 CombinedFragmentWidget::CombinedFragmentWidget(CombinedFragmentType combinedfragmentType, Uml::IDType id )
   : UMLWidget(0)
 {
-    m_baseType = Uml::wt_CombinedFragment;
+    m_baseType = WidgetBase::wt_CombinedFragment;
     m_combinedFragmentType = combinedfragmentType;
 
     setID(id);
@@ -50,7 +51,9 @@ CombinedFragmentWidget::CombinedFragmentWidget(CombinedFragmentType combinedfrag
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 CombinedFragmentWidget::~CombinedFragmentWidget()
 {
     // Dashlines are deleted by ~QGraphicsItem() as they are children
@@ -140,7 +143,6 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget,
                                                   const QString& dialogPrompt,
                                                   const QString& /*defaultName*/)
 {
-
     bool pressedOK = false;
     const QStringList list = QStringList() << "Reference" << "Option"
                                            << "Break" << "Loop"
@@ -184,7 +186,6 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget,
         targetWidget = 0;
     }
 }
-
 
 bool CombinedFragmentWidget::activate()
 {

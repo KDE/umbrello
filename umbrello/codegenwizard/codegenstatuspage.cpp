@@ -6,21 +6,12 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra <luis@delaparra.org>                                 *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "codegenstatuspage.h"
-
-//qt includes
-#include <QtGui/QListWidget>
-
-//kde includes
-#include <knuminput.h>
-#include <kfiledialog.h>
-#include <klocale.h>
-#include <kdebug.h>
 
 // app includes
 #include "codegenerationwizard.h"  //:TODO: circular reference
@@ -28,11 +19,19 @@
 #include "codegenerationpolicypage.h"
 #include "codegenfactory.h"
 #include "codegenpolicyext.h"
+#include "debug_utils.h"
 #include "defaultcodegenpolicypage.h"
 #include "model_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 
+//kde includes
+#include <knuminput.h>
+#include <kfiledialog.h>
+#include <klocale.h>
+
+//qt includes
+#include <QtGui/QListWidget>
 
 /**
  * Constructor.

@@ -4,14 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2008                                               *
+ *   copyright (C) 2005-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef IMPORT_UTILS_H
 #define IMPORT_UTILS_H
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 #include "umlattributelist.h"
 
 #include <QtCore/QStringList>
@@ -29,7 +29,7 @@ class UMLEnum;
  */
 namespace Import_Utils {
 
-    UMLObject* createUMLObject(Uml::Object_Type type,
+    UMLObject* createUMLObject(UMLObject::Object_Type type,
                                const QString& name,
                                UMLPackage *parentPkg = NULL,
                                const QString& comment = QString(),

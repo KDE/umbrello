@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,18 +20,22 @@
 BoxWidget::BoxWidget(Uml::IDType id)
     : UMLWidget(0)
 {
-    m_baseType = Uml::wt_Box;
+    m_baseType = WidgetBase::wt_Box;
     setID(id);
     setMinimumSize(QSizeF(20, 20));
     setZValue(-10);
 }
 
-/// destructor
+/**
+ * Destructor.
+ */
 BoxWidget::~BoxWidget()
 {
 }
 
-/// Draws a rectangle.
+/**
+ * Draws a rectangle.
+ */
 void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *)
 {
     Q_UNUSED(o);

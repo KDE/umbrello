@@ -21,7 +21,7 @@
 #define BASICTYPES_H
 
 #include <QtCore/QString>
-#include <cstring>
+#include <string>
 
 /**
  * @author Andi Fischer
@@ -30,7 +30,10 @@
 namespace Uml
 {
 
-    class ModelType
+  /**
+   * 
+   */
+  class ModelType
     {
     public:
         enum Value {
@@ -51,6 +54,9 @@ namespace Uml
         Value m_value;
     };
 
+    /**
+     * 
+     */
     class Visibility
     {
     public:
@@ -103,13 +109,67 @@ namespace Uml
         Value m_value;
     };
 
-/*
-    enum Signature_Type
+    /**
+     * Association types.
+     */
+    class AssociationType
     {
-        st_NoSig  =  600,
-        st_ShowSig,
-        st_SigNoVis,
-        st_NoSigNoVis
+    public:
+        enum Value {
+            Generalization  =  500,
+            Aggregation,
+            Dependency,
+            Association,
+            Association_Self,
+            Coll_Message,
+            Seq_Message,
+            Coll_Message_Self,
+            Seq_Message_Self,
+            Containment,
+            Composition,
+            Realization,
+            UniAssociation,
+            Anchor,
+            State,
+            Activity,
+            Exception,
+            Category2Parent,
+            Child2Category,
+            Relationship,
+            Unknown  =  - 1
+        };
+        AssociationType();
+        AssociationType(Value item);
+        static QString toString(Value item);
+        static AssociationType fromString(const QString& item);
+        QString toString() const;
+        QString toStringI18n() const;
+        operator Value() const;
+        static bool hasUMLRepresentation(Value item);
+    private:
+        Value m_value;
+    };
+
+    /**
+     * Signature types.
+     */
+    class SignatureType
+    {
+    public:
+        enum Value {
+            NoSig  =  600,
+            ShowSig,
+            SigNoVis,
+            NoSigNoVis
+        };
+        SignatureType();
+        SignatureType(Value item);
+        static QString toString(Value item);
+        static SignatureType fromString(const QString& item);
+        QString toString() const;
+        operator Value() const;
+    private:
+      Value m_value;
     };
 
     enum Text_Role
@@ -145,11 +205,11 @@ namespace Uml
         sequence_message_lost,
         sequence_message_found
     };
-*/
+
     /**
      * Constants used for indexing the roles of associations.
      */
-//    enum Role_Type { A, B };
+    enum Role_Type { A, B };
 
     /**
      * Direction of operation parameters:
@@ -158,7 +218,7 @@ namespace Uml
      *   inout = operation both reads and writes the parameter
      * The numeric values of this enum are not currently saved to file.
      */
-//    enum Parameter_Direction { pd_In, pd_InOut, pd_Out };
+    enum Parameter_Direction { pd_In, pd_InOut, pd_Out };
 
     /**
      * Supported programming languages.
@@ -203,7 +263,7 @@ namespace Uml
      * Enumeration used for stating where a line is on a widget.
      * @note Do not change this ordering, as we use these values in for loop.
      */
-/*    enum Region {
+    enum Region {
         reg_Error = 0,
         reg_West,
         reg_North,
@@ -214,24 +274,27 @@ namespace Uml
         reg_SouthEast,
         reg_SouthWest
     };
-*/
-/*    enum Corner {
+
+    enum Corner {
         corner_TopLeft = 0x1,
         corner_TopRight = 0x2,
         corner_BottomRight = 0x4,
         corner_BottomLeft = 0x8
     };
     Q_DECLARE_FLAGS(Corners, Corner)
-*/
+
     /**
      * The data type used for unique IDs.
      */
 //    class IDType
 //    {
-//    typedef std::string IDType;
+    typedef std::string IDType;
 
-//    const IDType id_None     = "-1";   ///< special value for uninitialized ID
-//    const IDType id_Reserved = "0";    ///< special value for illegal ID
+    const IDType id_None     = "-1";   ///< special value for uninitialized ID
+    const IDType id_Reserved = "0";    ///< special value for illegal ID
+
+# define STR2ID(id)  qPrintable(id)
+# define ID2STR(id)  QString(id.c_str())
 //    }
 
 }  // end namespace Uml

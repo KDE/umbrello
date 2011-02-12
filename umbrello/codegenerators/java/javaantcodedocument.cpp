@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,15 +13,13 @@
 #include "javaantcodedocument.h"
 
 // local includes
+#include "debug_utils.h"
 #include "javacodegenerator.h"
 #include "xmlcodecomment.h"
 #include "xmlelementcodeblock.h"
 #include "codegenfactory.h"
 #include "umldoc.h"
 #include "uml.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 #include <QtCore/QRegExp>

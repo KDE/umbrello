@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2010                                               *
+ *   copyright (C) 2005-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,23 +12,23 @@
 #include "import_utils.h"
 
 // app includes
+#include "association.h"
+#include "attribute.h"
+#include "classifier.h"
+#include "debug_utils.h"
+#include "folder.h"
+#include "enum.h"
+#include "model_utils.h"
+#include "object_factory.h"
+#include "operation.h"
+#include "package.h"
+#include "template.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"
-#include "package.h"
-#include "folder.h"
-#include "enum.h"
-#include "classifier.h"
-#include "operation.h"
-#include "attribute.h"
-#include "template.h"
-#include "association.h"
-#include "object_factory.h"
-#include "model_utils.h"
 
 // kde includes
 #include <kmessagebox.h>
-#include <kdebug.h>
 #include <klocale.h>
 
 // qt includes
@@ -146,7 +146,7 @@ QString formatComment(const QString &comment)
 }
 
 /*
-UMLObject* findUMLObject(QString name, Uml::Object_Type type)
+UMLObject* findUMLObject(QString name, UMLObject::Object_Type type)
 {
     // Why an extra wrapper? See comment at addMethodParameter()
     UMLObject * o = umldoc->findUMLObject(name, type);
@@ -157,7 +157,7 @@ UMLObject* findUMLObject(QString name, Uml::Object_Type type)
 /**
  * Find or create a document object.
  */
-UMLObject *createUMLObject(Uml::Object_Type type,
+UMLObject *createUMLObject(UMLObject::Object_Type type,
                            const QString& inName,
                            UMLPackage *parentPkg,
                            const QString& comment,
@@ -165,11 +165,11 @@ UMLObject *createUMLObject(Uml::Object_Type type,
 {
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->document();
-    UMLFolder *logicalView = umldoc->rootFolder(Uml::mt_Logical);
-    const Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
+    UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
+    const Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
     if (parentPkg == NULL) {
         // uDebug() << "Import_Utils::createUMLObject(" << name
-        //     << "): parentPkg is NULL, assuming Logical View" << endl;
+        //     << "): parentPkg is NULL, assuming Logical View";
         parentPkg = logicalView;
     }
     UMLObject * o = umldoc->findUMLObject(name, type, parentPkg);
@@ -184,7 +184,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         const bool isRef = typeName.contains('&');
         typeName.remove(QRegExp("[^\\w:\\. ].*$"));
         typeName = typeName.simplified();
-        UMLObject *origType = umldoc->findUMLObject(typeName, Uml::ot_UMLObject, parentPkg);
+        UMLObject *origType = umldoc->findUMLObject(typeName, UMLObject::ot_UMLObject, parentPkg);
         if (origType == NULL) {
             // Still not found. Create the stripped down type.
             if (bPutAtGlobalScope)
@@ -202,13 +202,13 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 while ( components.count() ) {
                     QString scopeName = components.front();
                     components.pop_front();
-                    o = umldoc->findUMLObject(scopeName, Uml::ot_UMLObject, parentPkg);
+                    o = umldoc->findUMLObject(scopeName, UMLObject::ot_UMLObject, parentPkg);
                     if (o) {
                         parentPkg = static_cast<UMLPackage*>(o);
                         continue;
                     }
                     int wantNamespace = KMessageBox::Yes;
-                    if (pl == Uml::pl_Cpp) {
+                    if (pl == Uml::ProgrammingLanguage::Cpp) {
                         /* We know std and Qt are namespaces */
                         if (scopeName != "std" && scopeName != "Qt") {
                             wantNamespace = KMessageBox::questionYesNo(NULL,
@@ -217,7 +217,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                                         KGuiItem(i18nc("namespace scope", "Namespace")), KGuiItem(i18nc("class scope", "Class")));
                         }
                     }
-                    Uml::Object_Type ot = (wantNamespace == KMessageBox::Yes ? Uml::ot_Package : Uml::ot_Class);
+                    UMLObject::Object_Type ot = (wantNamespace == KMessageBox::Yes ? UMLObject::ot_Package : UMLObject::ot_Class);
                     o = Object_Factory::createUMLObject(ot, scopeName, parentPkg);
                     parentPkg = static_cast<UMLPackage*>(o);
                     Model_Utils::treeViewSetCurrentItem(o);
@@ -225,9 +225,9 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 // All scope qualified datatypes live in the global scope.
                 bPutAtGlobalScope = true;
             }
-            Uml::Object_Type t = type;
-            if (type == Uml::ot_UMLObject || isAdorned)
-                t = Uml::ot_Class;
+            UMLObject::Object_Type t = type;
+            if (type == UMLObject::ot_UMLObject || isAdorned)
+                t = UMLObject::ot_Class;
             origType = Object_Factory::createUMLObject(t, typeName, parentPkg, false);
             bNewUMLObjectWasCreated = true;
             bPutAtGlobalScope = false;
@@ -236,7 +236,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
             // Create the full given type (including adornments.)
             if (isConst)
                 name.prepend("const ");
-            o = Object_Factory::createUMLObject(Uml::ot_Datatype, name,
+            o = Object_Factory::createUMLObject(UMLObject::ot_Datatype, name,
                                                 umldoc->datatypeFolder(),
                                                 false); //solicitNewName
             UMLClassifier *dt = static_cast<UMLClassifier*>(o);
@@ -250,7 +250,7 @@ UMLObject *createUMLObject(Uml::Object_Type type,
                 dt->setIsReference();
             /*
             if (isPointer) {
-                UMLObject *pointerDecl = Object_Factory::createUMLObject(Uml::ot_Datatype, type);
+                UMLObject *pointerDecl = Object_Factory::createUMLObject(UMLObject::ot_Datatype, type);
                 UMLClassifier *dt = static_cast<UMLClassifier*>(pointerDecl);
                 dt->setOriginType(classifier);
                 dt->setIsReference();
@@ -291,15 +291,15 @@ UMLObject *createUMLObject(Uml::Object_Type type,
         return o;
     QStringList::ConstIterator end(params.end());
     for (QStringList::ConstIterator it(params.begin()); it != end; ++it) {
-        UMLObject *p = umldoc->findUMLObject(*it, Uml::ot_UMLObject, parentPkg);
-        if (p == NULL || p->baseType() == Uml::ot_Datatype)
+        UMLObject *p = umldoc->findUMLObject(*it, UMLObject::ot_UMLObject, parentPkg);
+        if (p == NULL || p->baseType() == UMLObject::ot_Datatype)
             continue;
-        const Uml::Association_Type at = Uml::at_Dependency;
+        const Uml::AssociationType at = Uml::AssociationType::Dependency;
         UMLAssociation *assoc = umldoc->findAssociation(at, gRelatedClassifier, p);
         if (assoc)
             continue;
         assoc = new UMLAssociation(at, gRelatedClassifier, p);
-        assoc->setUMLPackage(umldoc->rootFolder(Uml::mt_Logical));
+        assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
         umldoc->addAssociation(assoc);
     }
     return o;
@@ -331,14 +331,15 @@ UMLObject* insertAttribute(UMLClassifier *owner,
                            const QString& comment /* ="" */,
                            bool isStatic /* =false */)
 {
-    Uml::Object_Type ot = owner->baseType();
-    Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
-    if (! (ot == Uml::ot_Class || (ot == Uml::ot_Interface && pl == Uml::pl_Java))) {
+    UMLObject::Object_Type ot = owner->baseType();
+    Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
+    if (! (ot == UMLObject::ot_Class ||
+           (ot == UMLObject::ot_Interface && pl == Uml::ProgrammingLanguage::Java))) {
         uDebug() << "insertAttribute: Don not know what to do with "
                  << owner->name() << " (object type " << ot << ")";
         return NULL;
     }
-    UMLObject *o = owner->findChildObject(name, Uml::ot_Attribute);
+    UMLObject *o = owner->findChildObject(name, UMLObject::ot_Attribute);
     if (o) {
         return o;
     }
@@ -367,7 +368,7 @@ UMLObject* insertAttribute(UMLClassifier *owner, Uml::Visibility scope,
     if (attrType == NULL) {
         bPutAtGlobalScope = true;
         gRelatedClassifier = owner;
-        attrType = createUMLObject(Uml::ot_UMLObject, type, owner);
+        attrType = createUMLObject(UMLObject::ot_UMLObject, type, owner);
         gRelatedClassifier = NULL;
         bPutAtGlobalScope = false;
     }
@@ -410,7 +411,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
             if (typeObj == NULL) {
                 bPutAtGlobalScope = true;
                 gRelatedClassifier = klass;
-                typeObj = createUMLObject(Uml::ot_UMLObject, type, klass);
+                typeObj = createUMLObject(UMLObject::ot_UMLObject, type, klass);
                 gRelatedClassifier = NULL;
                 bPutAtGlobalScope = false;
                 op->setType(typeObj);
@@ -475,7 +476,7 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
     if (typeObj == NULL) {
         bPutAtGlobalScope = true;
         gRelatedClassifier = owner;
-        typeObj = createUMLObject(Uml::ot_UMLObject, type, owner);
+        typeObj = createUMLObject(UMLObject::ot_UMLObject, type, owner);
         gRelatedClassifier = NULL;
         bPutAtGlobalScope = false;
     }
@@ -501,18 +502,18 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
 {
     // if the child is an interface, so is the parent.
     if (child->isInterface())
-        parent->setBaseType(Uml::ot_Interface);
-    Uml::Association_Type association = Uml::at_Generalization;
+        parent->setBaseType(UMLObject::ot_Interface);
+    Uml::AssociationType association = Uml::AssociationType::Generalization;
 
     if (parent->isInterface() && !child->isInterface()) {
         // if the parent is an interface, but the child is not, then
         // this is really realization.
         //
-        association = Uml::at_Realization;
+        association = Uml::AssociationType::Realization;
     }
     UMLAssociation *assoc = new UMLAssociation(association, child, parent);
     UMLDoc *umldoc = UMLApp::app()->document();
-    assoc->setUMLPackage(umldoc->rootFolder(Uml::mt_Logical));
+    assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
     umldoc->addAssociation(assoc);
 }
 
@@ -522,7 +523,7 @@ void createGeneralization(UMLClassifier *child, UMLClassifier *parent)
  */
 void createGeneralization(UMLClassifier *child, const QString &parentName)
 {
-    UMLObject *parentObj = createUMLObject( Uml::ot_Class, parentName );
+    UMLObject *parentObj = createUMLObject( UMLObject::ot_Class, parentName );
     UMLClassifier *parent = static_cast<UMLClassifier*>(parentObj);
     createGeneralization(child, parent);
 }
@@ -558,7 +559,7 @@ void addIncludePath(const QString& path)
 bool isDatatype(const QString& name, UMLPackage *parentPkg)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
-    UMLObject * o = umldoc->findUMLObject(name, Uml::ot_Datatype, parentPkg);
+    UMLObject * o = umldoc->findUMLObject(name, UMLObject::ot_Datatype, parentPkg);
     return (o!=NULL);
 }
 

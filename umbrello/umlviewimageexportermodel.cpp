@@ -4,15 +4,25 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "umlviewimageexportermodel.h"
 
-// system includes
-#include <cmath>
+// application specific includes
+#include "debug_utils.h"
+#include "model_utils.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlscene.h"
+#include "umlview.h"
+
+// kde include files
+#include <klocale.h>
+#include <ktemporaryfile.h>
+#include <kio/netaccess.h>
 
 // include files for Qt
 #include <QtGui/QApplication>
@@ -26,18 +36,8 @@
 #include <QtCore/QRegExp>
 #include <QtSvg/QSvgGenerator>
 
-// kde include files
-#include <kdebug.h>
-#include <klocale.h>
-#include <ktemporaryfile.h>
-#include <kio/netaccess.h>
-
-// application specific includes
-#include "model_utils.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "umlscene.h"
-#include "umlview.h"
+// system includes
+#include <cmath>
 
 static QStringList supportedImageTypesList;
 static QStringList supportedMimeTypesList;

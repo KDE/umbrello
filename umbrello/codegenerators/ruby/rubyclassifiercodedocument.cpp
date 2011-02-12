@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,15 +23,13 @@
 // local includes
 #include "codegen_utils.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "rubycodegenerator.h"
 #include "rubycodecomment.h"
 #include "rubyclassdeclarationblock.h"
 #include "rubycodeclassfielddeclarationblock.h"
 #include "rubycodeoperation.h"
 #include "uml.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 #include <QtCore/QRegExp>

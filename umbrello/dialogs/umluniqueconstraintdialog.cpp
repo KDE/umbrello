@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2010                                                *
+ *  copyright (C) 2003-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 #include "umluniqueconstraintdialog.h"
@@ -12,6 +12,7 @@
 #include "attribute.h"
 #include "classifierlistitem.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "entity.h"
 #include "entityattribute.h"
 #include "enumliteral.h"
@@ -24,7 +25,6 @@
 #include "umldoc.h"
 
 #include <kcombobox.h>
-#include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klineedit.h>
 #include <klocale.h>
@@ -120,10 +120,10 @@ void UMLUniqueConstraintDialog::setupDialog()
     UMLEntity* ue = static_cast<UMLEntity*>( m_pUniqueConstraint->parent() );
     uDebug() << ue;
     if ( ue ) {
-       UMLClassifierListItemList ual = ue->getFilteredList(Uml::ot_EntityAttribute);
+       UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
        foreach( UMLClassifierListItem* att, ual ) {
            m_pEntityAttributeList.append( static_cast<UMLEntityAttribute*>( att ) );
-           m_pAttributeCB->addItem( att->toString( Uml::st_SigNoVis ) );
+           m_pAttributeCB->addItem( att->toString( Uml::SignatureType::SigNoVis ) );
        }
     }
 
@@ -134,7 +134,7 @@ void UMLUniqueConstraintDialog::setupDialog()
         // add to local cache
         m_pConstraintAttributeList.append( att );
         // add to list box
-        m_pAttributeListLW->addItem( att->toString( Uml::st_SigNoVis ) );
+        m_pAttributeListLW->addItem( att->toString( Uml::SignatureType::SigNoVis ) );
 
         int index = m_pEntityAttributeList.indexOf( att );
         m_pEntityAttributeList.removeAt( index );
@@ -180,7 +180,7 @@ void UMLUniqueConstraintDialog::slotAddAttribute()
 
     // add to list box
     int count = m_pAttributeListLW->count();
-    m_pAttributeListLW->insertItem( count, entAtt->toString( Uml::st_SigNoVis ) );
+    m_pAttributeListLW->insertItem( count, entAtt->toString( Uml::SignatureType::SigNoVis ) );
 
     slotResetWidgetState();
 }
@@ -208,7 +208,7 @@ void UMLUniqueConstraintDialog::slotDeleteAttribute()
     m_pEntityAttributeList.append( entAtt );
     // add to combo box
     int count = m_pAttributeCB->count();
-    m_pAttributeCB->insertItem( count, entAtt->toString(Uml::st_SigNoVis ) );
+    m_pAttributeCB->insertItem( count, entAtt->toString(Uml::SignatureType::SigNoVis ) );
 
     slotResetWidgetState();
 }

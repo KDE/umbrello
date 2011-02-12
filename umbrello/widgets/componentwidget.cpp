@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,6 +13,7 @@
 
 // app includes
 #include "component.h"
+#include "debug_utils.h"
 #include "textitem.h"
 #include "textitemgroup.h"
 
@@ -27,7 +28,7 @@
 ComponentWidget::ComponentWidget(UMLComponent *c)
     : UMLWidget(c)
 {
-    m_baseType = Uml::wt_Component;
+    m_baseType = WidgetBase::wt_Component;
     setMargin(10); // override default of 5 for other widgets.
     createTextItemGroup();
 }
@@ -45,7 +46,7 @@ ComponentWidget::~ComponentWidget()
  */
 void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    if (!umlObject() || umlObject()->baseType() != Uml::ot_Component) {
+    if (!umlObject() || umlObject()->baseType() != UMLObject::ot_Component) {
         uError() << "Does not contain valid UMLComponent object";
         return;
     }

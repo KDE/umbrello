@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -53,9 +53,9 @@ CPPCodeGenerator::~CPPCodeGenerator ( )
  * Returns language identifier. In this case "Cpp".
  * @return language identifier
  */
-Uml::Programming_Language CPPCodeGenerator::language() const
+Uml::ProgrammingLanguage CPPCodeGenerator::language() const
 {
-    return Uml::pl_Cpp;
+    return Uml::ProgrammingLanguage::Cpp;
 }
 
 /**

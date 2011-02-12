@@ -4,12 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2009                                                *
+ *  copyright (C) 2003-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 #include "constraintlistpage.h"
+
 #include "attribute.h"
+#include "debug_utils.h"
 #include "classifierlistitem.h"
 #include "classifier.h"
 #include "enum.h"
@@ -23,7 +25,6 @@
 #include "uniqueconstraint.h"
 
 #include <kaction.h>
-#include <kdebug.h>
 #include <kdialogbuttonbox.h>
 #include <klocale.h>
 #include <kmenu.h>
@@ -41,7 +42,8 @@
  *  @param doc The UMLDoc document
  *  @param type The object type
  */
-ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifier, UMLDoc* doc, Uml::Object_Type type)
+ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifier,
+                                       UMLDoc* doc, UMLObject::Object_Type type)
   : ClassifierListPage( parent, classifier, doc, type )
 {
     setupActions();
@@ -68,30 +70,34 @@ ConstraintListPage::~ConstraintListPage()
 void ConstraintListPage::setupActions()
 {
     newUniqueConstraintAction = new KAction( i18n( "Unique Constraint..." ), this );
-    connect( newUniqueConstraintAction, SIGNAL( triggered( bool ) ), this , SLOT( slotNewUniqueConstraint() ) );
+    connect( newUniqueConstraintAction, SIGNAL( triggered( bool ) ),
+             this, SLOT( slotNewUniqueConstraint() ) );
 
     newPrimaryKeyConstraintAction = new KAction( i18n( "Primary Key Constraint..." ), this );
-    connect( newPrimaryKeyConstraintAction, SIGNAL( triggered( bool ) ), this ,  SLOT( slotNewPrimaryKeyConstraint() ) );
+    connect( newPrimaryKeyConstraintAction, SIGNAL( triggered( bool ) ),
+             this, SLOT( slotNewPrimaryKeyConstraint() ) );
 
     newForeignKeyConstraintAction = new KAction( i18n( "Foreign Key Constraint..." ), this );
-    connect( newForeignKeyConstraintAction, SIGNAL( triggered( bool ) ), this ,  SLOT( slotNewForeignKeyConstraint() ) );
+    connect( newForeignKeyConstraintAction, SIGNAL( triggered( bool ) ),
+             this, SLOT( slotNewForeignKeyConstraint() ) );
 
     newCheckConstraintAction = new KAction( i18n( "Check Constraint..." ), this );
-    connect( newCheckConstraintAction, SIGNAL( triggered( bool ) ), this ,  SLOT( slotNewCheckConstraint() ) );
+    connect( newCheckConstraintAction, SIGNAL( triggered( bool ) ),
+             this, SLOT( slotNewCheckConstraint() ) );
 }
 
 void ConstraintListPage::slotNewUniqueConstraint()
 {
-    m_itemType = Uml::ot_UniqueConstraint;
+    m_itemType = UMLObject::ot_UniqueConstraint;
     ClassifierListPage::slotNewListItem();
 
     // shift back
-    m_itemType = Uml::ot_EntityConstraint;
+    m_itemType = UMLObject::ot_EntityConstraint;
 }
 
 void ConstraintListPage::slotNewPrimaryKeyConstraint()
 {
-    m_itemType = Uml::ot_UniqueConstraint;
+    m_itemType = UMLObject::ot_UniqueConstraint;
     ClassifierListPage::slotNewListItem();
 
     // set the last object created as Primary Key
@@ -105,30 +111,30 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint()
     if ( m_pLastObjectCreated!=NULL ) {
         m_bSigWaiting = true;
         ent->setAsPrimaryKey( static_cast<UMLUniqueConstraint*>(m_pLastObjectCreated ) );
-        m_itemType = Uml::ot_EntityConstraint;
+        m_itemType = UMLObject::ot_EntityConstraint;
         reloadItemListBox();
     }
 
     // shift back
-    m_itemType = Uml::ot_EntityConstraint;
+    m_itemType = UMLObject::ot_EntityConstraint;
 }
 
 void ConstraintListPage::slotNewForeignKeyConstraint()
 {
-    m_itemType = Uml::ot_ForeignKeyConstraint;
+    m_itemType = UMLObject::ot_ForeignKeyConstraint;
     ClassifierListPage::slotNewListItem();
 
     // shift back
-    m_itemType = Uml::ot_EntityConstraint;
+    m_itemType = UMLObject::ot_EntityConstraint;
 }
 
 void ConstraintListPage::slotNewCheckConstraint()
 {
-    m_itemType = Uml::ot_CheckConstraint;
+    m_itemType = UMLObject::ot_CheckConstraint;
     ClassifierListPage::slotNewListItem();
 
     // shift back
-    m_itemType = Uml::ot_EntityConstraint;
+    m_itemType = UMLObject::ot_EntityConstraint;
 }
 
 // /**
@@ -141,9 +147,9 @@ void ConstraintListPage::slotNewCheckConstraint()
 // {
 //     // we want to show all Unique Constraints first , followed by ForeignKey Constraints
 //     UMLClassifierListItemList ucList, fkcList,  ccList;
-//     ucList =  m_pClassifier->getFilteredList(Uml::ot_UniqueConstraint);
-//     fkcList = m_pClassifier->getFilteredList(Uml::ot_ForeignKeyConstraint);
-//     ccList =  m_pClassifier->getFilteredList(Uml::ot_CheckConstraint);
+//     ucList =  m_pClassifier->getFilteredList(UMLObject::ot_UniqueConstraint);
+//     fkcList = m_pClassifier->getFilteredList(UMLObject::ot_ForeignKeyConstraint);
+//     ccList =  m_pClassifier->getFilteredList(UMLObject::ot_CheckConstraint);
 // 
 //     int ucCount,  fkcCount, ccCount;
 //     ucCount = ucList.count();
@@ -152,15 +158,15 @@ void ConstraintListPage::slotNewCheckConstraint()
 // 
 //     int index = 0;
 // 
-//     if ( greaterThan( Uml::ot_UniqueConstraint, ot ) ) {
+//     if ( greaterThan( UMLObject::ot_UniqueConstraint, ot ) ) {
 //         index += ucCount;
 //     }
 // 
-//     if ( greaterThan( Uml::ot_ForeignKeyConstraint, ot ) ) {
+//     if ( greaterThan( UMLObject::ot_ForeignKeyConstraint, ot ) ) {
 //         index += fkcCount;
 //     }
 // 
-//     if ( greaterThan( Uml::ot_CheckConstraint, ot ) ) {
+//     if ( greaterThan( UMLObject::ot_CheckConstraint, ot ) ) {
 //         index += ccCount;
 //     }
 // 
@@ -178,20 +184,20 @@ void ConstraintListPage::slotNewCheckConstraint()
 // {
 //     int actualIndex = ClassifierListPage::relativeIndexOf( item );
 // 
-//     int ucCount = m_pClassifier->getFilteredList( Uml::ot_UniqueConstraint ).count();
-//     int fkcCount = m_pClassifier->getFilteredList( Uml::ot_ForeignKeyConstraint ).count();
-//     //int ccCount = m_pClassifier->getFilteredList( Uml::ot_CheckConstraint ).count();
+//     int ucCount = m_pClassifier->getFilteredList( UMLObject::ot_UniqueConstraint ).count();
+//     int fkcCount = m_pClassifier->getFilteredList( UMLObject::ot_ForeignKeyConstraint ).count();
+//     //int ccCount = m_pClassifier->getFilteredList( UMLObject::ot_CheckConstraint ).count();
 // 
-//     //if ( m_itemType == Uml::ot_EntityConstraint )
+//     //if ( m_itemType == UMLObject::ot_EntityConstraint )
 //     //    return actualIndex;
 // 
 //     int newIndex = actualIndex;
 // 
-//     if ( !greaterThan( m_itemType, Uml::ot_UniqueConstraint ) ) {
+//     if ( !greaterThan( m_itemType, UMLObject::ot_UniqueConstraint ) ) {
 //         newIndex -= ucCount;
 //     }
 // 
-//     if ( !greaterThan( m_itemType, Uml::ot_ForeignKeyConstraint ) ) {
+//     if ( !greaterThan( m_itemType, UMLObject::ot_ForeignKeyConstraint ) ) {
 //         newIndex -= fkcCount;
 //     }
 // 
@@ -205,23 +211,23 @@ void ConstraintListPage::slotNewCheckConstraint()
  * @param ct2 Constraint Type 2
  * @return true if ct1 is to be shown above ct2 else false
  */
-bool ConstraintListPage::greaterThan(Uml::Object_Type ct1,Uml::Object_Type ct2)
+bool ConstraintListPage::greaterThan(UMLObject::Object_Type ct1, UMLObject::Object_Type ct2)
 {
     // define ordering
     switch( ct1 ) {
-       case Uml::ot_EntityConstraint:
-       case Uml::ot_UniqueConstraint:
+       case UMLObject::ot_EntityConstraint:
+       case UMLObject::ot_UniqueConstraint:
            // Unique Constraint greater than all others
             return true;
             break;
-       case Uml:: ot_ForeignKeyConstraint:
-           if ( ct2 != Uml::ot_UniqueConstraint )
+       case UMLObject::ot_ForeignKeyConstraint:
+           if ( ct2 != UMLObject::ot_UniqueConstraint )
              return true;
            else
                return false;
            break;
-       case Uml::ot_CheckConstraint:
-           if ( ct2 != Uml::ot_CheckConstraint )
+       case UMLObject::ot_CheckConstraint:
+           if ( ct2 != UMLObject::ot_CheckConstraint )
                return false;
            else
                return true;
