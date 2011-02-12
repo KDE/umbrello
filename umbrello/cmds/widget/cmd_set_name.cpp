@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,8 +20,9 @@ namespace Uml
 {
 
     CmdSetName::CmdSetName(UMLObject * obj, const QString& name)
-      : m_umlObject(obj), m_name (name)
+      : m_umlObject(obj), m_name(name)
     {
+        setText(i18n("Set name : %1 to %2", obj->name(), name));
         m_oldname = obj->name();
     }
 

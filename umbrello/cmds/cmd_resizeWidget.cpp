@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,8 +22,8 @@ namespace Uml
     CmdResizeWidget::CmdResizeWidget(UMLWidgetController* wc)
       : m_widgetCtrl(wc), m_already(false)
     {
-        setText(i18n("Resizing Widget."));
         UMLWidget * w = wc->getWidget();
+        setText(i18n("Resize widget : %1", w->name()));
         m_w = w->width();
         m_h = w->height();
         m_oldH = wc->getOldH();
