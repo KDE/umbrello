@@ -23,7 +23,7 @@ namespace Uml
     CmdCreateClassDiag::CmdCreateClassDiag(UMLDoc* doc, const QString& name)
       : m_pUMLDoc(doc), m_pUMLView(0), m_Name(name)
     {
-        setText(i18n("Create class diagram"));
+        setText(i18n("Create class diagram : %1", name));
     }
 
     CmdCreateClassDiag::~CmdCreateClassDiag()

@@ -23,7 +23,7 @@ namespace Uml
     CmdCreateComponentDiag::CmdCreateComponentDiag(UMLDoc* doc, const QString& name)
       : m_pUMLDoc(doc), m_pUMLView(0), m_Name(name)
     {
-        setText(i18n("Create component diagram"));
+        setText(i18n("Create component diagram : %1", name));
     }
 
     CmdCreateComponentDiag::~CmdCreateComponentDiag()

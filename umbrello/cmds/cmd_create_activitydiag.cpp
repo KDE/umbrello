@@ -23,7 +23,7 @@ namespace Uml
     CmdCreateActivityDiag::CmdCreateActivityDiag(UMLDoc* doc, const QString& name)
       : m_pUMLDoc(doc), m_pUMLView(0), m_Name(name)
     {
-        setText(i18n("Create activity diagram"));
+        setText(i18n("Create activity diagram : %1", name));
     }
 
     CmdCreateActivityDiag::~CmdCreateActivityDiag()

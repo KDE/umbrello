@@ -23,7 +23,7 @@ namespace Uml
     CmdCreateDeployDiag::CmdCreateDeployDiag(UMLDoc* doc, const QString& name)
       : m_pUMLDoc(doc), m_pUMLView(0), m_Name(name)
     {
-        setText(i18n("Create deployment diagram"));
+        setText(i18n("Create deployment diagram : %1", name));
     }
 
     CmdCreateDeployDiag::~CmdCreateDeployDiag()

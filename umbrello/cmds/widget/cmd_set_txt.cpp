@@ -23,6 +23,7 @@ namespace Uml
     CmdSetTxt::CmdSetTxt(FloatingTextWidget* ftw, const QString& txt)
       : m_ftw(ftw), m_newstring(txt)
     {
+        setText(i18n("Set text : %1 to %2", ftw->name(), txt));
         m_oldstring = ftw->text();
         uDebug() << "oldstring: "<< m_oldstring << ", newstring: "<< m_newstring;
     }

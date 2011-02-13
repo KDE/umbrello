@@ -23,7 +23,7 @@ namespace Uml
     CmdCreateSeqDiag::CmdCreateSeqDiag(UMLDoc* doc, const QString& name)   
       : m_pUMLDoc(doc), m_pUMLView(0), m_Name(name)
     {
-        setText(i18n("Create sequence diagram"));
+        setText(i18n("Create sequence diagram : %1", name));
     }
 
     CmdCreateSeqDiag::~CmdCreateSeqDiag()

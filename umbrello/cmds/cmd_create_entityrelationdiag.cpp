@@ -23,7 +23,7 @@ namespace Uml
     CmdCreateEntityRelationDiag::CmdCreateEntityRelationDiag(UMLDoc* doc, const QString& name)
       : m_pUMLDoc(doc), m_pUMLView(0), m_Name(name)
     {
-        setText(i18n("Create entity relationship diagram"));
+        setText(i18n("Create entity relationship diagram : %1", name));
     }
 
     CmdCreateEntityRelationDiag::~CmdCreateEntityRelationDiag()

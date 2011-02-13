@@ -23,7 +23,7 @@ namespace Uml
     CmdCreateCollaborationDiag::CmdCreateCollaborationDiag(UMLDoc* doc, const QString& name)
       : m_pUMLDoc(doc), m_pUMLView(0), m_Name(name)
     {
-        setText(i18n("Create collaboration diagram"));
+        setText(i18n("Create collaboration diagram : %1", name));
     }
 
     CmdCreateCollaborationDiag::~CmdCreateCollaborationDiag()
