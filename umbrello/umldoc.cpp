@@ -99,7 +99,7 @@ UMLDoc::UMLDoc()
     m_pCurrentRoot(0),
     m_bClosing(false)
 {
-    Tracer::instance()->registerClass(metaObject()->className());
+    DEBUG_REGISTER(DBG_SRC);
 }
 
 /**
@@ -858,14 +858,14 @@ bool UMLDoc::addUMLObject(UMLObject* object)
     Object_Type ot = object->baseType();
     if (ot == ot_Attribute || ot == ot_Operation || ot == ot_EnumLiteral
             || ot == ot_EntityAttribute || ot == ot_Template || ot == ot_Stereotype) {
-        uDebug() << object->name() << ": not adding type " << ot;
+        DEBUG(DBG_SRC) << object->name() << ": not adding type " << ot;
         return false;
     }
     UMLPackage *pkg = object->umlPackage();
     if (pkg == 0) {
         pkg = currentRoot();
-        uDebug() << object->name() << ": no parent package set, assuming "
-                 << pkg->name();
+        DEBUG(DBG_SRC) << object->name() << ": no parent package set, assuming "
+                       << pkg->name();
         object->setUMLPackage( pkg );
     }
 
@@ -1118,7 +1118,7 @@ void UMLDoc::addAssociation(UMLAssociation *assoc)
         // check if its already been added (shouldn't be the case right now
         // as UMLAssociations only belong to one associationwidget at a time)
         if (a == assoc) {
-            uDebug() << "duplicate addition attempted";
+            DEBUG(DBG_SRC) << "duplicate addition attempted";
             return;
         }
     }
@@ -1334,7 +1334,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
     bool ok = false;
     UMLClassifier* p = dynamic_cast<UMLClassifier *>(o->parent());
     if (!p) {
-        uDebug() << "Can not create object, no parent found.";
+        DEBUG(DBG_SRC) << "Can not create object, no parent found.";
         return;
     }
 
@@ -1833,7 +1833,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         }
         QDomElement element = node.toElement();
         if (element.isNull()) {
-            uDebug() << "loadFromXMI: skip empty elem";
+            DEBUG(DBG_SRC) << "loadFromXMI: skip empty elem";
             continue;
         }
         bool recognized = false;
@@ -1855,7 +1855,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         }
         if (outerTag != "XMI.content" ) {
             if (!recognized) {
-                uDebug() << "skipping <" << outerTag << ">";
+                DEBUG(DBG_SRC) << "skipping <" << outerTag << ">";
             }
             continue;
         }
@@ -1894,7 +1894,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
                 // This tag is produced here, i.e. outside of <UML:Model>,
                 // by the Unisys.JCR.1 Rose-to-XMI tool.
                 if (! seen_UMLObjects) {
-                    uDebug() << "skipping TaggedValue because not seen_UMLObjects";
+                    DEBUG(DBG_SRC) << "skipping TaggedValue because not seen_UMLObjects";
                     continue;
                 }
                 tag = element.attribute("tag", "");
@@ -1903,14 +1903,14 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
                 }
                 QString modelElement = element.attribute("modelElement", "");
                 if (modelElement.isEmpty()) {
-                    uDebug() << "skipping TaggedValue(documentation) because "
-                             << "modelElement.isEmpty()";
+                    DEBUG(DBG_SRC) << "skipping TaggedValue(documentation) because "
+                                   << "modelElement.isEmpty()";
                     continue;
                 }
                 UMLObject *o = findObjectById(STR2ID(modelElement));
                 if (o == 0) {
-                    uDebug() << "TaggedValue(documentation): cannot find object"
-                             << " for modelElement " << modelElement;
+                    DEBUG(DBG_SRC) << "TaggedValue(documentation): cannot find object"
+                                   << " for modelElement " << modelElement;
                     continue;
                 }
                 QString value = element.attribute("value", "");
@@ -1924,7 +1924,7 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         }
     }
 #ifdef VERBOSE_DEBUGGING
-    uDebug() << "m_objectList.count() is " << m_objectList.count();
+    DEBUG(DBG_SRC) << "m_objectList.count() is " << m_objectList.count();
 #endif
     resolveTypes();
     // set a default code generator if no <XMI.extensions><codegeneration> tag seen
@@ -1964,8 +1964,8 @@ void UMLDoc::resolveTypes()
     for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
        UMLFolder *obj = m_root[i];
 #ifdef VERBOSE_DEBUGGING
-        uDebug() << "UMLDoc: invoking resolveRef() for " << obj->getName()
-            << " (id=" << ID2STR(obj->getID()) << ")";
+        DEBUG(DBG_SRC) << "UMLDoc: invoking resolveRef() for " << obj->getName()
+                       << " (id=" << ID2STR(obj->getID()) << ")";
 #endif
         obj->resolveRef();
     }
@@ -2055,8 +2055,8 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         if (! tempElement.hasAttribute("xmi.id")) {
             QString idref = tempElement.attribute("xmi.idref", "");
             if (! idref.isEmpty()) {
-                uDebug() << "resolution of xmi.idref " << idref
-                         << " is not yet implemented";
+                DEBUG(DBG_SRC) << "resolution of xmi.idref " << idref
+                               << " is not yet implemented";
             } else {
                 uError() << "Cannot load " << type
                          << " because xmi.id is missing";
@@ -2101,10 +2101,10 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
                 if (exist->id() == pObject->id()) {
                     delete pObject;
                 } else {
-                    uDebug() << "Stereotype " << pObject->name()
-                             << "(id=" << ID2STR(pObject->id())
-                             << ") already exists with id="
-                             << ID2STR(exist->id());
+                    DEBUG(DBG_SRC) << "Stereotype " << pObject->name()
+                                   << "(id=" << ID2STR(pObject->id())
+                                   << ") already exists with id="
+                                   << ID2STR(exist->id());
                     addStereotype(s);
                 }
             } else {
@@ -2470,7 +2470,7 @@ bool UMLDoc::isModified()
 bool UMLDoc::assignNewIDs(UMLObject* obj)
 {
     if (!obj || !m_pChangeLog) {
-        uDebug() << "no obj || Changelog";
+        DEBUG(DBG_SRC) << "no obj || Changelog";
         return false;
     }
     Uml::IDType result = assignNewID(obj->id());
@@ -2757,7 +2757,7 @@ void UMLDoc::addDefaultDatatypes()
 {
     CodeGenerator *cg = UMLApp::app()->generator();
     if (cg == 0) {
-        uDebug() << "CodeGenerator is still NULL";
+        DEBUG(DBG_SRC) << "CodeGenerator is still NULL";
         return;
     }
     QStringList entries = cg->defaultDatatypes();
@@ -2837,7 +2837,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
         return;
     }//end switch
 
-    // uDebug() << "create popup for ListView_Type " << type;
+    // DEBUG(DBG_SRC) << "create popup for ListView_Type " << type;
     m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->mainViewWidget(), type, 0);
     m_pTabPopupMenu->popup(point);
     connect(m_pTabPopupMenu, SIGNAL(triggered(QAction*)), view, SLOT(slotMenuSelection(QAction*)));

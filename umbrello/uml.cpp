@@ -106,7 +106,7 @@ QMenu* UMLApp::findMenu(const QString& name)
     if (widget) {
         return dynamic_cast<QMenu*>(widget);
     }
-    uDebug() << "factory()->container(" << name << ") returns NULL";
+    DEBUG(DBG_SRC) << "factory()->container(" << name << ") returns NULL";
     return NULL;
 }
 
@@ -146,7 +146,7 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     initClip();
     readOptions();
 
-    Tracer::instance()->registerClass(metaObject()->className());
+    DEBUG_REGISTER(DBG_SRC);
 
     //get a reference to the Code->Active Language and to the Diagram->Zoom menu
     m_langSelect = findMenu(QString("active_lang_menu") );
@@ -904,7 +904,7 @@ void UMLApp::readOptions()
  */
 void UMLApp::saveProperties(KConfigGroup & cfg)
 {
-    uDebug() << "******************* commented out - UNUSED?";
+    DEBUG(DBG_SRC) << "******************* commented out - UNUSED?";
     Q_UNUSED(cfg);
 /*
     if (m_doc->url().fileName() != i18n("Untitled") && !m_doc->isModified()) {
@@ -931,7 +931,7 @@ void UMLApp::saveProperties(KConfigGroup & cfg)
  */
 void UMLApp::readProperties(const KConfigGroup & cfg)     //:TODO: applyMainWindowSettings(const KConfigGroup& config, bool force = false)
 {
-    uDebug() << "******************* commented out - UNUSED?";
+    DEBUG(DBG_SRC) << "******************* commented out - UNUSED?";
     Q_UNUSED(cfg);
 /*
     QString filename = cfg.readPathEntry("filename", QString());
@@ -1625,7 +1625,7 @@ void UMLApp::slotApplyPrefs()
         Settings::OptionState& optionState = Settings::getOptionState();
         bool stackBrowsing = (m_layout->indexOf(m_tabWidget) != -1);
         bool tabBrowsing = optionState.generalState.tabdiagrams;
-        uDebug() << "stackBrowsing=" << stackBrowsing << " / tabBrowsing=" << tabBrowsing;
+        DEBUG(DBG_SRC) << "stackBrowsing=" << stackBrowsing << " / tabBrowsing=" << tabBrowsing;
 
         if (stackBrowsing != tabBrowsing) {
             // Diagram Representation Modified
@@ -2440,7 +2440,7 @@ void UMLApp::keyPressEvent(QKeyEvent *e)
     case Qt::Key_D:
         if (e->modifiers() & Qt::ControlModifier) {  // Ctrl + D
             DEBUG(DBG_SRC) << "Ctrl + D is pressed. Show debug config dialog...";
-            Tracer::instance()->show();
+            DEBUG_SHOW_FILTER();
         }
         break;
 
@@ -2643,7 +2643,7 @@ void UMLApp::slotTabChanged(QWidget* tab)
  */
 void UMLApp::slotChangeTabLeft()
 {
-    //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     if (m_tabWidget) {
         m_tabWidget->setCurrentIndex( m_tabWidget->currentIndex() - 1 );
         return;
@@ -2673,7 +2673,7 @@ void UMLApp::slotChangeTabLeft()
  */
 void UMLApp::slotChangeTabRight()
 {
-    //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     if (m_tabWidget) {
         m_tabWidget->setCurrentIndex( m_tabWidget->currentIndex() + 1 );
         return;
@@ -2705,7 +2705,7 @@ static void showTabTexts(KTabWidget* tabWidget)
     for (int i = 0; i < tabWidget->count(); ++i) {
         out += " <" + tabWidget->tabText(i) + '>';
     }
-    uDebug() << out;
+    DEBUG(DBG_SRC) << out;
 }
 */
 
@@ -2714,7 +2714,7 @@ static void showTabTexts(KTabWidget* tabWidget)
  */
 void UMLApp::slotMoveTabLeft()
 {
-    //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     //showTabTexts(m_tabWidget);
     int from = m_tabWidget->currentIndex();
     int to   = -1;
@@ -2732,7 +2732,7 @@ void UMLApp::slotMoveTabLeft()
  */
 void UMLApp::slotMoveTabRight()
 {
-    //uDebug() << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
+    //DEBUG(DBG_SRC) << "currentIndex = " << m_tabWidget->currentIndex() << " of " << m_tabWidget->count();
     //showTabTexts(m_tabWidget);
     int from = m_tabWidget->currentIndex();
     int to   = -1;
@@ -2792,7 +2792,7 @@ void UMLApp::clearUndoStack()
  */
 void UMLApp::undo()
 {
-    uDebug() << m_pUndoStack->undoText() << " [" << m_pUndoStack->count() << "]";
+    DEBUG(DBG_SRC) << m_pUndoStack->undoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->undo();
 
     if (m_pUndoStack->canUndo()) {
@@ -2810,7 +2810,7 @@ void UMLApp::undo()
  */
 void UMLApp::redo()
 {
-    uDebug() << m_pUndoStack->redoText() << " [" << m_pUndoStack->count() << "]";
+    DEBUG(DBG_SRC) << m_pUndoStack->redoText() << " [" << m_pUndoStack->count() << "]";
     m_pUndoStack->redo();
 
     if (m_pUndoStack->canRedo()) {
