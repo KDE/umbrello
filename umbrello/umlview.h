@@ -4,14 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLVIEW_H
 #define UMLVIEW_H
 
-#include <QGraphicsView>
+#include <QtGui/QGraphicsView>
 
 class QHideEvent;
 class QCloseEvent;
@@ -33,42 +33,32 @@ class UMLView : public QGraphicsView
 {
     Q_OBJECT
 public:
-
-    /**
-     * Constructor
-     */
     UMLView(UMLFolder *f );
-
-    /**
-     * Destructor
-     */
     virtual ~UMLView();
 
-    int getZoom() const {
-        return m_nZoom;
-    }
-
+    int zoom() const { return m_nZoom; }
     void setZoom(int zoom);
-
     int currentZoom();
 
     void hideEvent(QHideEvent *he);
-
     void showEvent(QShowEvent *se);
 
     UMLScene* umlScene() const;
 
 protected:
+    void closeEvent(QCloseEvent * e);
 
-    /**
-     * The zoom level in percent, default 100
-     */
-    int m_nZoom;
+    void setCenter(const QPointF& centerPoint);
+    QPointF center();
 
-    void closeEvent ( QCloseEvent * e );
+    virtual void wheelEvent(QWheelEvent* event);
+    virtual void resizeEvent(QResizeEvent* event);
+
+    QPointF m_currentCenterPoint;  ///< holds the current centerpoint for the view, used for panning and zooming
+    QPoint  m_lastPanPoint;        ///< from panning the view
+    int     m_nZoom;               ///< zoom level in percent, default 100
 
 public slots:
-
     void zoomIn();
     void zoomOut();
     void show();

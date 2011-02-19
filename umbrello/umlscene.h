@@ -196,9 +196,8 @@ public:
 
     void activate();
 
-    AssociationWidgetList getSelectedAssocs();
-
-    bool getSelectedWidgets(UMLWidgetList& WidgetList, bool filterText = true);
+    AssociationWidgetList selectedAssocs();
+    UMLWidgetList selectedWidgetsExt(bool filterText = true);
 
     void activateAfterLoad(bool bUseLog = false);
 

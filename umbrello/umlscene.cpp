@@ -1200,8 +1200,8 @@ void UMLScene::setSelected(UMLWidget * w, QGraphicsSceneMouseEvent * me)
     // ourselves as this is done by QGraphicsScene
     w->setSelected(true);
 
-    /* selection changed, we have to make sure the copy and paste items
-     * are correctly enabled/disabled */
+    // selection changed, we have to make sure the copy and paste items
+    // are correctly enabled/disabled
     UMLApp::app()->slotCopyChanged();
 }
 
@@ -1291,7 +1291,7 @@ void UMLScene::selectionSetLineColor(const QColor &color)
         temp->setLineColor(color);
         // [PORT] temp->setUsesDiagramLineColour(false);
     }
-    AssociationWidgetList assoclist = getSelectedAssocs();
+    AssociationWidgetList assoclist = selectedAssocs();
     foreach(AssociationWidget *aw , assoclist) {
         aw->setLineColor(color);
         // [PORT] aw->setUsesDiagramLineColour(false);
@@ -1308,7 +1308,7 @@ void UMLScene::selectionSetLineWidth(uint width)
         temp->setLineWidth(width);
         // [PORT] temp->setUsesDiagramLineWidth(false);
     }
-    AssociationWidgetList assoclist = getSelectedAssocs();
+    AssociationWidgetList assoclist = selectedAssocs();
     foreach(AssociationWidget *aw , assoclist) {
         aw->setLineWidth(width);
         // [PORT] aw->setUsesDiagramLineWidth(false);
@@ -1582,7 +1582,7 @@ void  UMLScene::getDiagram(const QRectF &area, QPainter & painter)
     foreach(UMLWidget* widget , selected) {
         widget->setSelected(false);
     }
-    AssociationWidgetList selectedAssociationsList = getSelectedAssocs();
+    AssociationWidgetList selectedAssociationsList = selectedAssocs();
 
     foreach(AssociationWidget* association , selectedAssociationsList) {
         association->setSelected(false);
@@ -1722,24 +1722,26 @@ int UMLScene::getSelectCount(bool filterText) const
     return counter;
 }
 
-bool UMLScene::getSelectedWidgets(UMLWidgetList &WidgetList, bool filterText /*= true*/)
+UMLWidgetList UMLScene::selectedWidgetsExt(bool filterText /*= true*/)
 {
-    foreach(UMLWidget* temp, selectedWidgets()) {
-        if (filterText && temp->baseType() == WidgetBase::wt_Text) {
-            const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
+    UMLWidgetList widgetList;
+
+    foreach(UMLWidget* widgt, selectedWidgets()) {
+        if (filterText && widgt->baseType() == WidgetBase::wt_Text) {
+            const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(widgt);
             if (ft->textRole() == tr_Floating)
-                WidgetList.append(temp);
+                widgetList.append(widgt);
         } else {
-            WidgetList.append(temp);
+            widgetList.append(widgt);
         }
     }
-    return true;
+    return widgetList;
 }
 
 /**
  * Returns a list with all the selected associations from the diagram
  */
-AssociationWidgetList UMLScene::getSelectedAssocs()
+AssociationWidgetList UMLScene::selectedAssocs()
 {
     AssociationWidgetList assocWidgetList;
 
@@ -4216,8 +4218,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
  */
 void UMLScene::alignLeft()
 {
-    UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 
@@ -4236,8 +4237,7 @@ void UMLScene::alignLeft()
  */
 void UMLScene::alignRight()
 {
-    UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
     qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
@@ -4255,8 +4255,7 @@ void UMLScene::alignRight()
  */
 void UMLScene::alignTop()
 {
-    UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 
@@ -4275,8 +4274,7 @@ void UMLScene::alignTop()
  */
 void UMLScene::alignBottom()
 {
-    UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
     qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
@@ -4294,8 +4292,7 @@ void UMLScene::alignBottom()
  */
 void UMLScene::alignVerticalMiddle()
 {
-    UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 
@@ -4316,8 +4313,7 @@ void UMLScene::alignVerticalMiddle()
  */
 void UMLScene::alignHorizontalMiddle()
 {
-    UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 
@@ -4338,8 +4334,7 @@ void UMLScene::alignHorizontalMiddle()
  */
 void UMLScene::alignVerticalDistribute()
 {
-    UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 
@@ -4371,8 +4366,7 @@ void UMLScene::alignVerticalDistribute()
  */
 void UMLScene::alignHorizontalDistribute()
 {
-    UMLWidgetList widgetList;
-    getSelectedWidgets(widgetList);
+    UMLWidgetList widgetList = selectedWidgetsExt();
     if (widgetList.isEmpty())
         return;
 
