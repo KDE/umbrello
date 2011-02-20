@@ -2524,7 +2524,7 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
 /**
  * Return the predefined root folder of the given type.
  */
-UMLFolder *UMLDoc::rootFolder(ModelType::ModelType mt)
+UMLFolder *UMLDoc::rootFolder(Uml::ModelType mt)
 {
     if (mt < ModelType::Logical || mt >= ModelType::N_MODELTYPES) {
         uError() << "illegal input value " << mt;
