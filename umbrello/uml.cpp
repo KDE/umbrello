@@ -2175,7 +2175,7 @@ void UMLApp::slotCurrentViewToggleShowGrid()
  // [PORT]
     currentView()->umlScene()->toggleShowGrid();
  // [PORT]
-    viewShowGrid->setChecked( currentView()->umlScene()->getShowSnapGrid() );
+    viewShowGrid->setChecked( currentView()->umlScene()->isSnapGridVisible() );
 }
 
 /**
@@ -2222,7 +2222,7 @@ void UMLApp::setDiagramMenuItemsState(bool bState)
  // [PORT]
         viewSnapToGrid->setChecked( currentView()->umlScene()->getSnapToGrid() );
  // [PORT]
-        viewShowGrid->setChecked( currentView()->umlScene()->getShowSnapGrid() );
+        viewShowGrid->setChecked( currentView()->umlScene()->isSnapGridVisible() );
     }
 }
 

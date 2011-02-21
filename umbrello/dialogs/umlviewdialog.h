@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef UMLVIEWDIALOG_H
@@ -16,72 +16,55 @@
 #include <kpagedialog.h>
 
 // app includes
-#include "classoptionspage.h"
-#include "umlwidgetcolorpage.h"
 #include "optionstate.h"
 #include "ui_diagrampropertiespage.h"
 
+class ClassOptionsPage;
+class UMLScene;
 class UMLView;
+class UMLWidgetColorPage;
 class KFontChooser;
 
 /**
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLScene;
 
 class DiagramPropertiesPage : public QWidget, public Ui::DiagramPropertiesPage
 {
 public:
-    DiagramPropertiesPage( QWidget *parent ) : QWidget( parent ) {
-        setupUi( this );
-  }
+    DiagramPropertiesPage(QWidget *parent) : QWidget(parent) { setupUi(this); }
 };
-
 
 class UMLViewDialog : public KPageDialog
 {
     Q_OBJECT
 public:
-
-    /**
-     * Constructor
-     */
-    UMLViewDialog( QWidget * pParent, UMLScene * pScene );
-
-    /**
-     * Deconstructor
-     */
+    UMLViewDialog(QWidget * pParent, UMLScene * pScene);
     ~UMLViewDialog();
 
 protected:
-
     void setupPages();
 
     void setupDiagramPropertiesPage();
-
     void setupClassPage();
-
     void setupColorPage();
-
     void setupFontPage();
 
     void applyPage( KPageWidgetItem* );
 
     void checkName();
 
-    /**
-     *   The scene to represent.
-     */
-    UMLScene * m_pScene;
-
-    Settings::OptionState m_options;
-
-    KFontChooser * m_pChooser;
-    DiagramPropertiesPage * m_diagramProperties;
-    ClassOptionsPage * m_pOptionsPage;
-    UMLWidgetColorPage * m_pColorPage;
-    KPageWidgetItem *m_pageColorItem, *m_pageFontItem, *m_pageDisplayItem, *m_pageGeneralItem;
+    UMLScene*              m_pScene;  ///< the scene to represent
+    Settings::OptionState  m_options;
+    KFontChooser*          m_pChooser;
+    DiagramPropertiesPage* m_diagramProperties;
+    ClassOptionsPage*      m_pOptionsPage;
+    UMLWidgetColorPage*    m_pColorPage;
+    KPageWidgetItem*       m_pageColorItem;
+    KPageWidgetItem*       m_pageFontItem;
+    KPageWidgetItem*       m_pageDisplayItem;
+    KPageWidgetItem*       m_pageGeneralItem;
 
 public slots:
     void slotOk();

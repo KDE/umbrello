@@ -394,7 +394,7 @@ bool UMLAssociation::load( QDomElement & element )
         const int arraySize = sizeof(assocTypeString)/sizeof(QString);
         uDebug() << "AssociationType string array size = " << arraySize;
 
-        unsigned index;
+        int index;
         for (index = 0; index < arraySize; ++index)
             if (assocTypeStr == assocTypeString[index])
                 break;

@@ -12,13 +12,13 @@
 #define UMLSCENE_H
 
 // local includes
+#include "associationwidgetlist.h"
 #include "basictypes.h"
+#include "messagewidgetlist.h"
 #include "optionstate.h"
 #include "umlobjectlist.h"
 #include "umlobject.h"
 #include "umlwidgetlist.h"
-#include "associationwidgetlist.h"
-#include "messagewidgetlist.h"
 
 // Qt includes
 #include <QtGui/QGraphicsScene>
@@ -29,6 +29,7 @@ class QAction;
 class QPrinter;
 class ClassOptionsPage;
 class IDChangeLog;
+class LayoutGrid;
 class ListPopupMenu;
 class FloatingTextWidget;
 class ObjectWidget;
@@ -108,15 +109,14 @@ public:
     void setSnapComponentSizeToGrid(bool bSnap);
 
     int getSnapX() const;
-    void setSnapX(int x);
     int getSnapY() const;
-    void setSnapY(int y);
+    void setSnapSpacing(int x, int y);
 
     qreal snappedX(qreal x);
     qreal snappedY(qreal y);
 
-    bool getShowSnapGrid() const;
-    void setShowSnapGrid(bool bShow);
+    bool isSnapGridVisible() const;
+    void setSnapGridVisible(bool bShow);
 
     bool getUseFillColor() const;
     void setUseFillColor(bool ufc);
@@ -332,12 +332,8 @@ protected:
     UMLWidgetList m_WidgetList;       ///< All the UMLWidgets on the diagram.
     AssociationWidgetList m_AssociationList;  ///< All the AssociationWidgets on the diagram.
 
-    int m_nSnapX;  ///< The snap to grid x size.
-    int m_nSnapY;  ///< The snap to grid y size.
-
     bool m_bUseSnapToGrid;  ///< Flag to use snap to grid. The default is off.
     bool m_bUseSnapComponentSizeToGrid;  ///< Flag to use snap to grid for component size. The default is off.
-    bool m_bShowSnapGrid;  ///< Flag to show the snap grid. The default will be on if the grid is on.
     bool m_isOpen;  ///< Flag is set to true when diagram is open, i.e. shown to the user.
 
     // End of methods and members related to loading/saving
@@ -401,7 +397,7 @@ private:
     QPointF m_PastePoint;           ///< The offset at which to paste the clipboard.
     UMLDoc* m_pDoc;                 ///< Pointer to the UMLDoc.
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
-    QColor    m_gridColor;          ///< Color for the grid dots.
+    LayoutGrid*  m_layoutGrid;      ///< layout grid in the background
 
     void createAutoAttributeAssociation(UMLClassifier *type,
                                         UMLAttribute *attr,
@@ -420,6 +416,7 @@ public slots:
     void slotActivate();
     void slotCutSuccessful();
     void slotShowView();
+    void slotSceneRectChanged(const QRectF& rect);
 
     void alignLeft();
     void alignRight();

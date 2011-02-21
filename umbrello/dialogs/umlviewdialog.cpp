@@ -12,12 +12,14 @@
 #include "umlviewdialog.h"
 
 // local includes
+#include "classoptionspage.h"
 #include "debug_utils.h"
 #include "icon_utils.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
+#include "umlwidgetcolorpage.h"
 
 // kde includes
 #include <klocale.h>
@@ -29,8 +31,11 @@
 #include <QtGui/QFrame>
 #include <QtGui/QHBoxLayout>
 
-UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLScene * pScene )
-    : KPageDialog(pParent)
+/**
+ * Constructor.
+ */
+UMLViewDialog::UMLViewDialog(QWidget * pParent, UMLScene * pScene)
+  : KPageDialog(pParent)
 {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
@@ -45,6 +50,9 @@ UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLScene * pScene )
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
+/**
+ * Destructor.
+ */
 UMLViewDialog::~UMLViewDialog()
 {
 }
@@ -91,7 +99,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
     m_diagramProperties->ui_zoom->setValue(m_pScene->activeView()->currentZoom());
     m_diagramProperties->ui_showOpSigs->setChecked( m_pScene->getShowOpSig() );
 
-    m_diagramProperties->ui_checkBoxShowGrid->setChecked(m_pScene->getShowSnapGrid());
+    m_diagramProperties->ui_checkBoxShowGrid->setChecked(m_pScene->isSnapGridVisible());
     m_diagramProperties->ui_snapToGrid->setChecked(m_pScene->getSnapToGrid());
     m_diagramProperties->ui_snapComponentSizeToGrid->setChecked(m_pScene->getSnapComponentSizeToGrid());
 
@@ -137,7 +145,7 @@ void UMLViewDialog::setupColorPage()
 }
 
 /**
- *   Sets up font page.
+ * Sets up font page.
  */
 void UMLViewDialog::setupFontPage()
 {
@@ -154,7 +162,7 @@ void UMLViewDialog::setupFontPage()
 /**
  * Applies the properties of the given page.
  */
-void UMLViewDialog::applyPage( KPageWidgetItem *item )
+void UMLViewDialog::applyPage(KPageWidgetItem *item)
 {
     if ( item == m_pageGeneralItem )
     {
@@ -162,12 +170,12 @@ void UMLViewDialog::applyPage( KPageWidgetItem *item )
         // [PORT]
         // m_pScene->setZoom( m_diagramProperties->ui_zoom->value() );
         m_pScene->setDocumentation( m_diagramProperties->ui_documentation->toPlainText() );
-        m_pScene->setSnapX( m_diagramProperties->ui_gridSpaceX->value() );
-        m_pScene->setSnapY( m_diagramProperties->ui_gridSpaceY->value() );
+        m_pScene->setSnapSpacing( m_diagramProperties->ui_gridSpaceX->value(),
+                                  m_diagramProperties->ui_gridSpaceY->value() );
         m_pScene->setLineWidth( m_diagramProperties->ui_lineWidth->value() );
         m_pScene->setSnapToGrid( m_diagramProperties->ui_snapToGrid->isChecked() );
         m_pScene->setSnapComponentSizeToGrid( m_diagramProperties->ui_snapComponentSizeToGrid->isChecked() );
-        m_pScene->setShowSnapGrid( m_diagramProperties->ui_checkBoxShowGrid->isChecked() );
+        m_pScene->setSnapGridVisible( m_diagramProperties->ui_checkBoxShowGrid->isChecked() );
         m_pScene->setShowOpSig( m_diagramProperties->ui_showOpSigs->isChecked() );
     }
     else if ( item == m_pageColorItem )
@@ -176,6 +184,9 @@ void UMLViewDialog::applyPage( KPageWidgetItem *item )
         m_pScene->setUseFillColor( m_options.uiState.useFillColor );
         m_pScene->setLineColor( m_options.uiState.lineColor );
         m_pScene->setFillColor( m_options.uiState.fillColor );
+        //:TODO:
+        // m_pScene->setGridDotColor(...);
+        // gridCrossColor, gridTextColor, gridTextFont, gridTextIsVisible
     }
     else if ( item == m_pageFontItem )
     {
@@ -212,19 +223,20 @@ void UMLViewDialog::checkName()
         return;
     }
 
-    UMLDoc* doc = UMLApp::app()->document();
-    UMLView* view = doc->findView( m_pScene->type(), newName);
-    if (view) {
-        KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
-                           i18n("Name Not Unique"), false);
-        m_diagramProperties->ui_diagramName->setText( m_pScene->name() );
-    }
-    else {
-        // uDebug() << "Cannot find view with name " << newName;
-        m_pScene->setName( newName );
-        doc->signalDiagramRenamed(m_pScene->activeView());
+    if (newName != m_pScene->name()) {
+        UMLDoc* doc = UMLApp::app()->document();
+        UMLView* view = doc->findView( m_pScene->type(), newName);
+        if (view) {
+            KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
+                              i18n("Name Not Unique"), false);
+            m_diagramProperties->ui_diagramName->setText( m_pScene->name() );
+        }
+        else {
+            // uDebug() << "Cannot find view with name " << newName;
+            m_pScene->setName( newName );
+            doc->signalDiagramRenamed(m_pScene->activeView());
+        }
     }
 }
-
 
 #include "umlviewdialog.moc"

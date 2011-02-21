@@ -23,14 +23,11 @@
 #include "boxwidget.h"
 #include "classifier.h"
 #include "classifierwidget.h"
-#include "debug_utils.h"
-#include "idchangelog.h"
-#include "umldragdata.h"
+#include "classoptionspage.h"
 #include "cmds.h"
 #include "componentwidget.h"
 #include "datatypewidget.h"
-#include "classoptionspage.h"
-#include "umlviewdialog.h"
+#include "debug_utils.h"
 #include "docwindow.h"
 #include "entity.h"
 #include "entitywidget.h"
@@ -39,6 +36,8 @@
 #include "folder.h"
 #include "foreignkeyconstraint.h"
 #include "forkjoinwidget.h"
+#include "idchangelog.h"
+#include "layoutgrid.h"
 #include "listpopupmenu.h"
 #include "messagewidget.h"
 #include "model_utils.h"
@@ -56,6 +55,7 @@
 #include "toolbarstatefactory.h"
 #include "umldoc.h"
 #include "uml.h"
+#include "umldragdata.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "umllistviewitemlist.h"
@@ -63,6 +63,7 @@
 #include "umlobjectlist.h"
 #include "umlrole.h"
 #include "umlview.h"
+#include "umlviewdialog.h"
 #include "umlviewimageexporter.h"
 #include "umlwidget.h"
 #include "uniqueid.h"
@@ -108,10 +109,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
     m_Type = DiagramType::Undefined;
     m_bUseSnapToGrid = false;
     m_bUseSnapComponentSizeToGrid = false;
-    m_bShowSnapGrid = false;
     m_isOpen = true;
-    m_nSnapX = 10;
-    m_nSnapY = 10;
     m_nCollaborationId = 0;
 
     m_isMouseMovingItems = false;
@@ -141,6 +139,7 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
     connect(this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()),
             this, SLOT(slotCutSuccessful()));
+    connect(this, SIGNAL(sceneRectChanged(const QRectF&)), this, SLOT(slotSceneRectChanged(const QRectF&)));
 
     // Create the ToolBarState factory. This class is not a singleton, because it
     // needs a pointer to this object.
@@ -149,8 +148,10 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
     m_pDoc = UMLApp::app()->document();
     m_pFolder = parentFolder;
 
+    // settings for background
     setBackgroundBrush(QColor(195, 195, 195));
-    m_gridColor = Qt::gray;
+    m_layoutGrid = new LayoutGrid();
+    addItem(m_layoutGrid);
 }
 
 /**
@@ -292,12 +293,12 @@ void UMLScene::setPos(const QPointF &pos)
 
 QColor UMLScene::gridDotColor() const
 {
-    return m_gridColor;
+    return m_layoutGrid->gridDotColor();
 }
 
 void UMLScene::setGridDotColor(const QColor &gridColor)
 {
-    m_gridColor = gridColor;
+    m_layoutGrid->setGridDotColor(gridColor);
 }
 
 /**
@@ -1589,14 +1590,14 @@ void  UMLScene::getDiagram(const QRectF &area, QPainter & painter)
     }
 
     // we don't want to get the grid
-    bool showSnapGrid = getShowSnapGrid();
-    setShowSnapGrid(false);
+    bool showSnapGrid = isSnapGridVisible();
+    setSnapGridVisible(false);
 
     // TODO: Check if this render method is identical to cavnas()->drawArea()
     // [PORT]
     render(&painter, QRectF(), area, Qt::KeepAspectRatio);
 
-    setShowSnapGrid(showSnapGrid);
+    setSnapGridVisible(showSnapGrid);
 
     //select again
     foreach(UMLWidget* widget , selected) {
@@ -3322,16 +3323,7 @@ void UMLScene::setStartedCut()
  */
 int UMLScene::getSnapX() const
 {
-    return m_nSnapX;
-}
-
-/**
- * Sets the x grid size.
- */
-void UMLScene::setSnapX(int x)
-{
-    m_nSnapX = x;
-    update();
+    return m_layoutGrid->gridSpacingX();
 }
 
 /**
@@ -3339,16 +3331,15 @@ void UMLScene::setSnapX(int x)
  */
 int UMLScene::getSnapY() const
 {
-    return m_nSnapY;
+    return m_layoutGrid->gridSpacingY();
 }
 
 /**
- * Sets the y grid size.
+ * Sets the grid size in x and y.
  */
-void UMLScene::setSnapY(int y)
+void UMLScene::setSnapSpacing(int x, int y)
 {
-    m_nSnapY = y;
-    update();
+    m_layoutGrid->setGridSpacing(x, y);
 }
 
 /**
@@ -3542,18 +3533,17 @@ void UMLScene::setIsMouseMovingItems(bool status)
 void UMLScene::drawBackground(QPainter *p, const QRectF &rect)
 {
     QGraphicsScene::drawBackground(p, rect);
-    if(!getShowSnapGrid()) {
-        return;
-    }
-    //TODO : Optimize by drawing only contents within rect.
-    p->setPen(Qt::gray);
-    int gridX = getSnapX();
-    int gridY = getSnapY();
-    int numX = width() / gridX;
-    int numY = height() / gridY;
-    for( int x = 0; x <= numX; x++ )
-        for( int y = 0; y < numY; y++ )
-            p->drawPoint( x * gridX, y * gridY );
+}
+
+/**
+ * Slot for signale sceneRectChanged.
+ * Optimize the drawing of the layout grid.
+ * TODO: Is not working yet!
+ */
+void UMLScene::slotSceneRectChanged(const QRectF& rect)
+{
+    DEBUG(DBG_SRC) << "to rect: " << rect.toRect(); 
+    m_layoutGrid->setGridRect(rect.toRect());
 }
 
 /**
@@ -3590,12 +3580,12 @@ void UMLScene::toggleSnapComponentSizeToGrid()
 }
 
 /**
- *  Changes show grid boolean.
+ * Changes show grid boolean.
  * Called from menus.
  */
 void UMLScene::toggleShowGrid()
 {
-    setShowSnapGrid(!getShowSnapGrid());
+    setSnapGridVisible(!isSnapGridVisible());
 }
 
 /**
@@ -3636,19 +3626,18 @@ void UMLScene::setSnapComponentSizeToGrid(bool bSnap)
 /**
  *  Returns whether to show snap grid or not.
  */
-bool UMLScene::getShowSnapGrid() const
+bool UMLScene::isSnapGridVisible() const
 {
-    return m_bShowSnapGrid;
+    return m_layoutGrid->isVisible();
 }
 
 /**
  * Sets whether to show snap grid.
  */
-void UMLScene::setShowSnapGrid(bool bShow)
+void UMLScene::setSnapGridVisible(bool bShow)
 {
-    m_bShowSnapGrid = bShow;
-    update();
-    emit sigShowGridToggled(getShowSnapGrid());
+    m_layoutGrid->setVisible(bShow);
+    emit sigShowGridToggled(bShow);
 }
 
 /**
@@ -3761,11 +3750,11 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("showstereotype", m_Options.classState.showStereoType);
     //misc
     viewElement.setAttribute("localid", ID2STR(m_nLocalID));
-    viewElement.setAttribute("showgrid", m_bShowSnapGrid);
+    viewElement.setAttribute("showgrid", m_layoutGrid->isVisible());
     viewElement.setAttribute("snapgrid", m_bUseSnapToGrid);
     viewElement.setAttribute("snapcsgrid", m_bUseSnapComponentSizeToGrid);
-    viewElement.setAttribute("snapx", m_nSnapX);
-    viewElement.setAttribute("snapy", m_nSnapY);
+    viewElement.setAttribute("snapx", m_layoutGrid->gridSpacingX());
+    viewElement.setAttribute("snapy", m_layoutGrid->gridSpacingY());
     viewElement.setAttribute("canvasheight", height());
     viewElement.setAttribute("canvaswidth", width());
     viewElement.setAttribute("isopen", isOpen());
@@ -3857,7 +3846,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     m_Options.classState.showStereoType = (bool)temp.toInt();
     //misc
     QString showgrid = qElement.attribute("showgrid", "0");
-    m_bShowSnapGrid = (bool)showgrid.toInt();
+    m_layoutGrid->setVisible((bool)showgrid.toInt());
 
     QString snapgrid = qElement.attribute("snapgrid", "0");
     m_bUseSnapToGrid = (bool)snapgrid.toInt();
@@ -3866,10 +3855,8 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     m_bUseSnapComponentSizeToGrid = (bool)snapcsgrid.toInt();
 
     QString snapx = qElement.attribute("snapx", "10");
-    m_nSnapX = snapx.toInt();
-
     QString snapy = qElement.attribute("snapy", "10");
-    m_nSnapY = snapy.toInt();
+    m_layoutGrid->setGridSpacing(snapx.toInt(), snapy.toInt());
 
     QString height = qElement.attribute("canvasheight", QString("%1").arg(DEFAULT_CANVAS_SIZE));
     qreal canvasHeight = height.toDouble();
@@ -3877,7 +3864,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString width = qElement.attribute("canvaswidth", QString("%1").arg(DEFAULT_CANVAS_SIZE));
     qreal canvasWidth = width.toDouble();
     setSceneRect(0, 0, canvasWidth, canvasHeight);
-    
+
     QString isOpen = qElement.attribute("isopen", "1");
     m_isOpen = (bool)isOpen.toInt();
 
