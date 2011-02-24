@@ -1396,7 +1396,7 @@ void UMLScene::deleteSelection()
 
     foreach(UMLWidget* temp ,  selectedWidgets()) {
         if (temp->baseType() == WidgetBase::wt_Text &&
-            ((FloatingTextWidget *)temp)->textRole() != tr_Floating) {
+            ((FloatingTextWidget *)temp)->textRole() != TextRole::Floating) {
             temp->hide();
 
         } else {
@@ -1701,7 +1701,7 @@ void UMLScene::activate()
  * Return the amount of widgets selected.
  *
  * @param filterText  When true, do NOT count floating text widgets that
- *                    belong to other widgets (i.e. only count tr_Floating.)
+ *                    belong to other widgets (i.e. only count TextRole::Floating.)
  *                    Default: Count all widgets.
  * @return  Number of widgets selected.
  */
@@ -1714,7 +1714,7 @@ int UMLScene::getSelectCount(bool filterText) const
     foreach(temp, selectedWidgets()) {
         if (temp->baseType() == WidgetBase::wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
-            if (ft->textRole() == tr_Floating)
+            if (ft->textRole() == TextRole::Floating)
                 counter++;
         } else {
             counter++;
@@ -1730,7 +1730,7 @@ UMLWidgetList UMLScene::selectedWidgetsExt(bool filterText /*= true*/)
     foreach(UMLWidget* widgt, selectedWidgets()) {
         if (filterText && widgt->baseType() == WidgetBase::wt_Text) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(widgt);
-            if (ft->textRole() == tr_Floating)
+            if (ft->textRole() == TextRole::Floating)
                 widgetList.append(widgt);
         } else {
             widgetList.append(widgt);
@@ -2272,7 +2272,7 @@ void UMLScene::removeAllWidgets()
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
         if (!(temp->baseType() == WidgetBase::wt_Text &&
-              ((FloatingTextWidget *)temp)->textRole() != tr_Floating)) {
+              ((FloatingTextWidget *)temp)->textRole() != TextRole::Floating)) {
             removeWidget(temp);
         }
     }

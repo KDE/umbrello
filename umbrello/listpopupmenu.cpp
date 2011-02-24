@@ -532,38 +532,38 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, WidgetBase * object,
 
     case WidgetBase::wt_Text:
         switch( (static_cast<FloatingTextWidget*>(object))->textRole() ) {
-        case Uml::tr_MultiB:
+        case Uml::TextRole::MultiB:
             insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiB);
             break;
-        case Uml::tr_MultiA:
+        case Uml::TextRole::MultiA:
             insertAssocItem(i18n("Change Multiplicity..."), mt_Rename_MultiA);
             break;
-        case Uml::tr_Name:
+        case Uml::TextRole::Name:
             insertAssocItem(i18n("Change Name"), mt_Rename_Name);
             break;
-        case Uml::tr_RoleAName:
+        case Uml::TextRole::RoleAName:
             insertAssocItem(i18n("Change Role A Name..."), mt_Rename_RoleAName);
             break;
-        case Uml::tr_RoleBName:
+        case Uml::TextRole::RoleBName:
             insertAssocItem(i18n("Change Role B Name..."), mt_Rename_RoleBName);
             break;
-        case Uml::tr_ChangeA:
-        case Uml::tr_ChangeB:
+        case Uml::TextRole::ChangeA:
+        case Uml::TextRole::ChangeB:
             insert(mt_Change_Font);
             insert(mt_Reset_Label_Positions);
             insert(mt_Properties);
             break;
 
-        case Uml::tr_Coll_Message_Self:
-        case Uml::tr_Coll_Message:
-        case Uml::tr_Seq_Message_Self:
-        case Uml::tr_Seq_Message:
+        case Uml::TextRole::Coll_Message_Self:
+        case Uml::TextRole::Coll_Message:
+        case Uml::TextRole::Seq_Message_Self:
+        case Uml::TextRole::Seq_Message:
             insert(mt_Change_Font);
             insert(mt_Operation, Icon_Utils::SmallIcon(Icon_Utils::it_Operation_New), i18n("New Operation..."));
             insert(mt_Select_Operation, i18n("Select Operation..."));
             break;
 
-        case Uml::tr_Floating:
+        case Uml::TextRole::Floating:
         default:
             insertStdItems(false, type);
             insert(mt_Rename, i18n("Change Text..."));

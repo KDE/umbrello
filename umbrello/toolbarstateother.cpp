@@ -141,7 +141,7 @@ bool ToolBarStateOther::newWidget()
             break;
 
         case WorkToolBar::tbb_Text:
-            umlWidget = new FloatingTextWidget(tr_Floating);
+            umlWidget = new FloatingTextWidget(TextRole::Floating);
             break;
 
         // Activity buttons

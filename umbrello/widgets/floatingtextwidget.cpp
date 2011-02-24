@@ -51,7 +51,7 @@ const qreal FloatingTextWidget::restrictPositionMax = 3000;
  * @param text the main text to display
  * @param id   the ID to assign (-1 will prompt a new ID)
  */
-FloatingTextWidget::FloatingTextWidget(Uml::Text_Role role,
+FloatingTextWidget::FloatingTextWidget(Uml::TextRole role,
                                        Uml::IDType id)
   : UMLWidget(0)
 {
@@ -86,8 +86,8 @@ QString FloatingTextWidget::text() const
     // using pre-, post- text instead of storing in the main body of
     // the text -b.t.
     QString n = m_text;
-    if (m_textRole == Uml::tr_Seq_Message  || m_textRole == Uml::tr_Seq_Message_Self ||
-        m_textRole == Uml::tr_Coll_Message || m_textRole == Uml::tr_Coll_Message_Self) {
+    if (m_textRole == Uml::TextRole::Seq_Message  || m_textRole == Uml::TextRole::Seq_Message_Self ||
+        m_textRole == Uml::TextRole::Coll_Message || m_textRole == Uml::TextRole::Coll_Message_Self) {
         if (n.length() <= 1 || n == ": ") {
             return QString();
         }
@@ -104,7 +104,7 @@ void FloatingTextWidget::setText(const QString &t)
 {
     bool wasVisible = isVisible();
     QString text;
-    if (m_textRole == Uml::tr_Seq_Message || m_textRole == Uml::tr_Seq_Message_Self) {
+    if (m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self) {
         QString seqNum, op;
         m_linkWidget->seqNumAndOp(seqNum, op);
         if (!seqNum.isEmpty() || !op.isEmpty()) {
@@ -257,10 +257,10 @@ void FloatingTextWidget::showOperationDialog()
  */
 void FloatingTextWidget::showPropertiesDialog()
 {
-    if (m_textRole == Uml::tr_Coll_Message || m_textRole == Uml::tr_Coll_Message_Self ||
-            m_textRole == Uml::tr_Seq_Message || m_textRole == Uml::tr_Seq_Message_Self) {
+    if (m_textRole == Uml::TextRole::Coll_Message || m_textRole == Uml::TextRole::Coll_Message_Self ||
+            m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self) {
         showOperationDialog();
-    } else if (m_textRole == Uml::tr_Floating) {
+    } else if (m_textRole == Uml::TextRole::Floating) {
         // double clicking on a text line opens the dialog to change the text
         handleRename();
     } else if (m_linkWidget) {
@@ -310,7 +310,7 @@ LinkWidget* FloatingTextWidget::link() const
  * Sets the role of this FloatingTextWidget to \a role.
  * @param role   the new role
  */
-void FloatingTextWidget::setTextRole(Uml::Text_Role role)
+void FloatingTextWidget::setTextRole(Uml::TextRole role)
 {
     m_textRole = role;
     updateTextItemGroups();
@@ -318,9 +318,9 @@ void FloatingTextWidget::setTextRole(Uml::Text_Role role)
 
 /**
  * Return the text role of this FloatingTextWidget.
- * @return the Text_Role of this FloatingTextWidget
+ * @return the TextRole of this FloatingTextWidget
  */
-Uml::Text_Role FloatingTextWidget::textRole() const
+Uml::TextRole FloatingTextWidget::textRole() const
 {
     return m_textRole;
 }
@@ -332,18 +332,18 @@ void FloatingTextWidget::handleRename()
 {
     QRegExpValidator v(QRegExp(".*"), 0);
     QString t;
-    if(m_textRole == Uml::tr_RoleAName || m_textRole == Uml::tr_RoleBName) {
+    if(m_textRole == Uml::TextRole::RoleAName || m_textRole == Uml::TextRole::RoleBName) {
         t = i18n("Enter role name:");
-    } else if (m_textRole == Uml::tr_MultiA || m_textRole == Uml::tr_MultiB) {
+    } else if (m_textRole == Uml::TextRole::MultiA || m_textRole == Uml::TextRole::MultiB) {
         t = i18n("Enter multiplicity:");
         /*
         // NO! shouldn't be allowed
-        } else if(m_textRole == Uml::tr_ChangeA || m_textRole == Uml::tr_ChangeB) {
+        } else if(m_textRole == Uml::TextRole::ChangeA || m_textRole == Uml::TextRole::ChangeB) {
         t = i18n("Enter changeability");
         */
-    } else if (m_textRole == Uml::tr_Name) {
+    } else if (m_textRole == Uml::TextRole::Name) {
         t = i18n("Enter association name:");
-    } else if (m_textRole == Uml::tr_Floating) {
+    } else if (m_textRole == Uml::TextRole::Floating) {
         t = i18n("Enter new text:");
     } else {
         t = i18n("ERROR");
@@ -368,22 +368,22 @@ void FloatingTextWidget::changeName(const QString& newText)
         AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(m_linkWidget);
         if (assoc) {
             switch (m_textRole) {
-              case Uml::tr_MultiA:
+              case Uml::TextRole::MultiA:
                 assoc->setMultiplicity(QString(), Uml::A);
                 break;
-              case Uml::tr_MultiB:
+              case Uml::TextRole::MultiB:
                 assoc->setMultiplicity(QString(), Uml::B);
                 break;
-              case Uml::tr_RoleAName:
+              case Uml::TextRole::RoleAName:
                 assoc->setRoleName(QString(), Uml::A);
                 break;
-              case Uml::tr_RoleBName:
+              case Uml::TextRole::RoleBName:
                 assoc->setRoleName(QString(), Uml::B);
                 break;
-              case Uml::tr_ChangeA:
+              case Uml::TextRole::ChangeA:
                 assoc->setChangeability(Uml::chg_Changeable, Uml::A);
                 break;
-              case Uml::tr_ChangeB:
+              case Uml::TextRole::ChangeB:
                 assoc->setChangeability(Uml::chg_Changeable, Uml::B);
                 break;
               default:
@@ -400,7 +400,7 @@ void FloatingTextWidget::changeName(const QString& newText)
         return;
     }
 
-    if (m_linkWidget && m_textRole != Uml::tr_Seq_Message && m_textRole != Uml::tr_Seq_Message_Self) {
+    if (m_linkWidget && m_textRole != Uml::TextRole::Seq_Message && m_textRole != Uml::TextRole::Seq_Message_Self) {
         m_linkWidget->setText(this, newText);
     }
     else {
@@ -464,7 +464,7 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
 
     QString role = qElement.attribute("role", "");
     if(!role.isEmpty())
-        m_textRole = (Uml::Text_Role)role.toInt();
+        m_textRole = Uml::TextRole::Value(role.toInt());
 
     m_preText = qElement.attribute("pretext", "");
     m_postText = qElement.attribute("posttext", "");
@@ -578,9 +578,9 @@ void FloatingTextWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
 
     if (assoc) {
-        if (textRole() == Uml::tr_MultiA) {
+        if (textRole() == Uml::TextRole::MultiA) {
             menuType = ListPopupMenu::mt_MultiA;
-        } else if (textRole() == Uml::tr_MultiB) {
+        } else if (textRole() == Uml::TextRole::MultiB) {
             menuType = ListPopupMenu::mt_MultiB;
         }
     }
@@ -675,7 +675,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
         {
             QFont fnt = font();
             if(KFontDialog::getFont(fnt, false, umlScene()->activeView())) {
-                if(m_textRole == Uml::tr_Floating || m_textRole == Uml::tr_Seq_Message) {
+                if(m_textRole == Uml::TextRole::Floating || m_textRole == Uml::TextRole::Seq_Message) {
                     setFont(fnt);
                 } else if (m_linkWidget) {
                     m_linkWidget->lwSetFont(fnt);

@@ -745,5 +745,113 @@ SignatureType::operator SignatureType::Value() const
 
 //-----------------------------------------------------------------------------
 
+/**
+ * Return string corresponding to the given TextRole.
+ */
+QString TextRole::toString(Value item)
+{
+    switch (item) {
+        case Floating:
+            return QString("Floating");
+        case MultiA:
+            return QString("MultiA");
+        case MultiB:
+            return QString("MultiB");
+        case Name:
+            return QString("Name");
+        case Seq_Message:
+            return QString("Seq_Message");
+        case Seq_Message_Self:
+            return QString("Seq_Message_Self");
+        case Coll_Message:
+            return QString("Coll_Message");
+        case Coll_Message_Self:
+            return QString("Coll_Message_Self");
+        case State:
+            return QString("State");
+        case RoleAName:
+            return QString("RoleAName");
+        case RoleBName:
+            return QString("RoleBName");
+        case ChangeA:
+            return QString("ChangeA");
+        case ChangeB:
+            return QString("ChangeB");
+        default:
+            break;
+    }
+    return QString("? TextRole ?");
+}
+
+/**
+ * Return TextRole corresponding to the given string.
+ */
+TextRole TextRole::fromString(const QString& item)
+{
+    if (item == "Floating")
+        return TextRole(Floating);
+    if (item == "MultiA")
+        return TextRole(MultiA);
+    if (item == "MultiB")
+        return TextRole(MultiB);
+    if (item == "Name")
+        return TextRole(Name);
+    if (item == "Seq_Message")
+        return TextRole(Seq_Message);
+    if (item == "Seq_Message_Self")
+        return TextRole(Seq_Message_Self);
+    if (item == "Coll_Message")
+        return TextRole(Coll_Message);
+    if (item == "Coll_Message_Self")
+        return TextRole(Coll_Message_Self);
+    if (item == "State")
+        return TextRole(State);
+    if (item == "RoleAName")
+        return TextRole(RoleAName);
+    if (item == "RoleBName")
+        return TextRole(RoleBName);
+    if (item == "ChangeA")
+        return TextRole(ChangeA);
+    if (item == "ChangeB")
+        return TextRole(ChangeB);
+    return TextRole(Floating);
+}
+
+/**
+ * Constructor.
+ */
+TextRole::TextRole()
+  : m_value(Floating)
+{
+}
+
+/**
+ * Constructor.
+ * @param item   value to set
+ */
+TextRole::TextRole(Value item)
+  : m_value(item)
+{
+}
+
+/**
+ * Convert TextRole value into QString representation.
+ * @return QString representation of the TextRole
+ */
+QString TextRole::toString() const
+{
+    return toString(m_value);
+}
+
+/**
+ * 
+ */
+TextRole::operator TextRole::Value() const
+{
+    return m_value;
+}
+
+//-----------------------------------------------------------------------------
+
 
 }  // end namespace Uml

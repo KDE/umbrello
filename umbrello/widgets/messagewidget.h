@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -76,7 +76,7 @@ public:
     virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
     virtual void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
-                                  Uml::Text_Role tr);
+                                  Uml::TextRole tr);
 
     //---------- End LinkWidget Interface methods implemementation.
 
@@ -134,7 +134,7 @@ private:
     static const qreal ArrowHeight;
     static const qreal SelfLoopBoxWidth;
 
-    qreal constrainedX(qreal textX, qreal textWidth, Uml::Text_Role tr) const;
+    qreal constrainedX(qreal textX, qreal textWidth, Uml::TextRole tr) const;
 
     void updateResizability();
 

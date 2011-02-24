@@ -78,7 +78,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
         virtual void constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
-                Uml::Text_Role tr);
+                Uml::TextRole tr);
 
         virtual void calculateNameTextSegment();
 
@@ -112,7 +112,7 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         bool associates(UMLWidget *a, UMLWidget *b) const;
         bool containsWidget(UMLWidget *widget) const;
 
-        FloatingTextWidget* textWidgetByRole(Uml::Text_Role tr) const;
+        FloatingTextWidget* textWidgetByRole(Uml::TextRole tr) const;
 
         Uml::Role_Type roleForWidget(UMLWidget *widget) const;
         bool isSelf() const;
@@ -172,9 +172,9 @@ class AssociationWidget : public WidgetBase, public LinkWidget
 
     private:
         void init();
-        void setFloatingText(Uml::Text_Role tr, const QString& text, FloatingTextWidget* ft);
-        QPointF calculateTextPosition(Uml::Text_Role tr);
-        void setTextPosition(Uml::Text_Role tr);
+        void setFloatingText(Uml::TextRole tr, const QString& text, FloatingTextWidget* ft);
+        QPointF calculateTextPosition(Uml::TextRole tr);
+        void setTextPosition(Uml::TextRole tr);
         void updateNameWidgetRole();
 
         friend class AssociationLine;

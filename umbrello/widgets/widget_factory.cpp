@@ -196,7 +196,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == "boxwidget") {
         widget = new BoxWidget(Uml::id_Reserved);
     } else if (tag == "floatingtext" || tag == "UML:FloatingTextWidget") {
-        widget = new FloatingTextWidget(Uml::tr_Floating, Uml::id_Reserved);
+        widget = new FloatingTextWidget(Uml::TextRole::Floating, Uml::id_Reserved);
     } else if (tag == "activitywidget" || tag == "UML:ActivityWidget") {
         widget = new ActivityWidget(ActivityWidget::Initial, Uml::id_Reserved);
     } else if (tag == "messagewidget") {

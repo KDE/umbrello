@@ -101,7 +101,7 @@ public:
      */
     virtual void constrainTextPos(qreal &textX, qreal &textY,
                                   qreal textWidth, qreal textHeight,
-                                  Uml::Text_Role tr) = 0;
+                                  Uml::TextRole tr) = 0;
 
     virtual void calculateNameTextSegment();
 

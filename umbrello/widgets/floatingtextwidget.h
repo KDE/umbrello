@@ -53,7 +53,7 @@ public:
     static const qreal restrictPositionMax;
 
 
-    explicit FloatingTextWidget(Uml::Text_Role role = Uml::tr_Floating,
+    explicit FloatingTextWidget(Uml::TextRole role = Uml::TextRole::Floating,
             Uml::IDType id = Uml::id_None);
     virtual ~FloatingTextWidget();
 
@@ -75,8 +75,8 @@ public:
     LinkWidget* link() const;
     void setLink(LinkWidget * l);
 
-    Uml::Text_Role textRole() const;
-    void setTextRole(Uml::Text_Role role);
+    Uml::TextRole textRole() const;
+    void setTextRole(Uml::TextRole role);
 
     void handleRename();
     void changeName(const QString& newText);
@@ -115,7 +115,7 @@ private:
     /// Ending text (such as bracket on changability notation for association Role)
     QString m_postText;
     /// The role the text widget will enact.
-    Uml::Text_Role m_textRole;
+    Uml::TextRole m_textRole;
 
 };
 

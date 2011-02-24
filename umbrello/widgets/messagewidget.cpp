@@ -110,7 +110,7 @@ void MessageWidget::init()
 //:DEPRECATED:    setIgnoreSnapComponentSizeToGrid(true);
     m_objectWidgets[Uml::A] = m_objectWidgets[Uml::B] = 0;
 
-    Uml::Text_Role tr = Uml::tr_Seq_Message;
+    Uml::TextRole tr = Uml::TextRole::Seq_Message;
     m_floatingTextWidget = new FloatingTextWidget(tr);
     m_floatingTextWidget->setFont(font());
     m_floatingTextWidget->setLink(this);
@@ -277,10 +277,10 @@ void MessageWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
  * @param textY        Candidate Y value (may be modified by the constraint.)
  * @param textWidth    Width of the text.
  * @param textHeight   Height of the text.
- * @param tr           Uml::Text_Role of the text.
+ * @param tr           Uml::TextRole of the text.
  */
 void MessageWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth, qreal textHeight,
-                                     Uml::Text_Role tr)
+                                     Uml::TextRole tr)
 {
     Q_UNUSED(textX); Q_UNUSED(textY);  //:TODO:
     Q_UNUSED(textWidth); Q_UNUSED(textHeight); Q_UNUSED(tr);
@@ -533,9 +533,9 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     m_widgetBId = STR2ID(widgetbid);
     m_textId = STR2ID(textid);
 
-    Uml::Text_Role tr = Uml::tr_Seq_Message;
+    Uml::TextRole tr = Uml::TextRole::Seq_Message;
     if (m_widgetAId == m_widgetBId)
-        tr = Uml::tr_Seq_Message_Self;
+        tr = Uml::TextRole::Seq_Message_Self;
 
     //now load child elements
     QDomNode node = qElement.firstChild();
@@ -710,11 +710,11 @@ void MessageWidget::setLinkAndTextPos()
  * Returns the textX arg with constraints applied.  Auxiliary to
  * setTextPosition() and constrainTextPos().
  */
-qreal MessageWidget::constrainedX(qreal textX, qreal textWidth, Uml::Text_Role tr) const
+qreal MessageWidget::constrainedX(qreal textX, qreal textWidth, Uml::TextRole tr) const
 {
     qreal result = textX;
     const qreal minTextX = x() + 5;
-    if (textX < minTextX || tr == Uml::tr_Seq_Message_Self) {
+    if (textX < minTextX || tr == Uml::TextRole::Seq_Message_Self) {
         result = minTextX;
     } else {
         ObjectWidget *objectAtRight = NULL;
@@ -974,7 +974,7 @@ void MessageWidget::slotDelayedInit()
     }
 
     if (objA == objB) {
-        m_floatingTextWidget->setTextRole(Uml::tr_Seq_Message_Self);
+        m_floatingTextWidget->setTextRole(Uml::TextRole::Seq_Message_Self);
     }
     setLinkAndTextPos();
 

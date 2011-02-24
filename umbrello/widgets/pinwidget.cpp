@@ -130,7 +130,7 @@ bool PinWidget::loadFromXMI( QDomElement & qElement )
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_nameFloatingTextWiget = new FloatingTextWidget( Uml::tr_Floating, textId );
+            m_nameFloatingTextWiget = new FloatingTextWidget( Uml::TextRole::Floating, textId );
             m_nameFloatingTextWiget->setText(name());
             // Set it as parent so that it moves with moving of PinWidget.
             m_nameFloatingTextWiget->setParentItem(this);
@@ -226,7 +226,7 @@ QVariant PinWidget::attributeChange(WidgetAttributeChange change, const QVariant
         }
         else {
             if (!m_nameFloatingTextWiget) {
-                m_nameFloatingTextWiget = new FloatingTextWidget(Uml::tr_Floating);
+                m_nameFloatingTextWiget = new FloatingTextWidget(Uml::TextRole::Floating);
                 m_nameFloatingTextWiget->setParentItem(this);
             }
             m_nameFloatingTextWiget->setText(name());

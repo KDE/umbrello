@@ -169,24 +169,38 @@ namespace Uml
         QString toString() const;
         operator Value() const;
     private:
-      Value m_value;
+        Value m_value;
     };
 
-    enum Text_Role
+    /**
+     * TextRole types.
+     */
+    class TextRole
     {
-        tr_Floating  =  700,   //text widget on diagrams
-        tr_MultiA,             //Text for Multiple A
-        tr_MultiB,             //Text for Multiple B
-        tr_Name,               //middle text on most associations
-        tr_Seq_Message,        //message on seq diagram between two objects
-        tr_Seq_Message_Self,   //message to self on seq diagram - feature not implemented yet
-        tr_Coll_Message,       //message between two objects on a collab diagram
-        tr_Coll_Message_Self,  //message to object self on collab diagram
-        tr_State,
-        tr_RoleAName,          //RoleA text on associations
-        tr_RoleBName,          //RoleB text on associations
-        tr_ChangeA,            //Changeability A text on associations
-        tr_ChangeB             //Changeability B text on associations
+    public:
+        enum Value {
+            Floating  =  700,   //text widget on diagrams
+            MultiA,             //Text for Multiple A
+            MultiB,             //Text for Multiple B
+            Name,               //middle text on most associations
+            Seq_Message,        //message on seq diagram between two objects
+            Seq_Message_Self,   //message to self on seq diagram - feature not implemented yet
+            Coll_Message,       //message between two objects on a collab diagram
+            Coll_Message_Self,  //message to object self on collab diagram
+            State,
+            RoleAName,          //RoleA text on associations
+            RoleBName,          //RoleB text on associations
+            ChangeA,            //Changeability A text on associations
+            ChangeB             //Changeability B text on associations
+        };
+        TextRole();
+        TextRole(Value item);
+        static QString toString(Value item);
+        static TextRole fromString(const QString& item);
+        QString toString() const;
+        operator Value() const;
+    private:
+        Value m_value;
     };
 
     enum Changeability_Type
