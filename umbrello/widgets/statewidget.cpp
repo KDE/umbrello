@@ -23,12 +23,12 @@
 #include "umlscene.h"
 #include "umlview.h"
 
-// qt includes
-#include <QtCore/QPointer>
-
 // kde includes
 #include <klocale.h>
 #include <kinputdialog.h>
+
+// qt includes
+#include <QtCore/QPointer>
 
 const QSizeF StateWidget::MinimumEllipseSize(30, 10);
 
@@ -50,6 +50,8 @@ StateWidget::StateWidget(StateType stateType, Uml::IDType id)
     switch (m_stateType) {
     case StateWidget::Normal:
         {
+            const QSizeF sz = QSizeF(90, 60);
+            setSize(sz);
         }
         break;
     case StateWidget::Initial:
@@ -132,7 +134,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
     switch (m_stateType) {
     case StateWidget::Normal:
         {
-            painter->drawRoundRect(rect(), 50, 50);
+            painter->drawRoundedRect(rect(), 15, 15);
             painter->drawLines(m_separatorLines);
         }
         break;

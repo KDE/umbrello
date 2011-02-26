@@ -429,14 +429,14 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*,
     else {
         // The elements not to be drawn will have null dimension and
         // hence it effectively is not drawn. (automatic ;) )
-        painter->drawRoundedRect(m_classifierRect, 5, 5);
+        painter->drawRoundedRect(m_classifierRect, 2, 2);
         painter->drawLines(m_classifierLines, 2);
 
         painter->setPen(QPen(Qt::NoPen));
         painter->setBrush(awesomeHeaderBrush());
         Uml::Corners corners(Uml::corner_TopLeft | Uml::corner_TopRight);
         Widget_Utils::drawRoundedRect(painter, textItemGroupAt(HeaderGroupIndex)->groupGeometry(),
-                5, 5, corners);
+                2, 2, corners);
 
         pen.setStyle(Qt::DotLine);
         painter->setPen(pen);
