@@ -672,7 +672,7 @@ void ListPopupMenu::insert(Menu_Type m)
         m_actions[m] = addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Export_Picture), i18n("Export as Picture..."));
         break;
     default:
-        uWarning() << "called on unimplemented Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, m));
+        uWarning() << "called on unimplemented Menu_Type " << toString(m);
         break;
     }
 }
@@ -750,7 +750,7 @@ void ListPopupMenu::insert(const Menu_Type m, KMenu* menu)
         m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::it_Text), i18n("Text Line..." ));
         break;
     default:
-        uWarning() << "called on unimplemented Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, m));
+        uWarning() << "called on unimplemented Menu_Type " << toString(m);
         break;
     }
 }
@@ -1818,7 +1818,7 @@ void ListPopupMenu::setActionChecked(Menu_Type idx, bool value)
         action->setChecked(value);
 #ifdef VERBOSE_DEBUGGING
     else
-        uWarning() << "called on unknown Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, idx));
+        uWarning() << "called on unknown Menu_Type " << toString(idx);
 #endif
 }
 
@@ -1835,7 +1835,7 @@ void ListPopupMenu::setActionEnabled(Menu_Type idx, bool value)
         action->setEnabled(value);
 #ifdef VERBOSE_DEBUGGING
     else
-        uWarning() << "called on unknown Menu_Type " << QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, idx));
+        uWarning() << "called on unknown Menu_Type " << toString(idx);
 #endif
 }
 
@@ -1855,3 +1855,7 @@ void ListPopupMenu::setupActionsData()
 
 }
 
+QString ListPopupMenu::toString(Menu_Type menu)
+{
+    return QLatin1String(ENUM_NAME(ListPopupMenu, Menu_Type, menu));
+}

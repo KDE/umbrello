@@ -214,6 +214,8 @@ public:
         mt_Undefined  =  - 1
     };
 
+    static QString toString(Menu_Type menu);
+
     explicit ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
     explicit ListPopupMenu(QWidget* parent, Menu_Type type, WidgetBase *widget);
     ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
