@@ -171,13 +171,6 @@ private:
     /// Whether the message is synchronous or asynchronous
     Uml::Sequence_Message_Type m_sequenceMessageType;
 
-    /**
-     * The following variables are used by loadFromXMI() as an intermediate
-     * store. activate() resolves the IDs, i.e. after activate() the variables
-     * m_objectWidgets[] and m_floatingTextWidget can be used.
-     */
-    Uml::IDType m_widgetAId, m_widgetBId, m_textId;
-
 public Q_SLOTS:
     void slotMenuSelection(QAction* action);
 

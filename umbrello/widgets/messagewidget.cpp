@@ -72,6 +72,8 @@ MessageWidget::MessageWidget(Uml::Sequence_Message_Type seqMsgType,
 {
     init();
     setID(id);
+    m_objectWidgets[Uml::A] = new ObjectWidget(0);
+    m_objectWidgets[Uml::B] = new ObjectWidget(0);
     m_sequenceMessageType = seqMsgType;
 }
 
@@ -108,7 +110,8 @@ void MessageWidget::init()
     m_baseType = WidgetBase::wt_Message;
 //:DEPRECATED:    setIgnoreSnapToGrid(true);
 //:DEPRECATED:    setIgnoreSnapComponentSizeToGrid(true);
-    m_objectWidgets[Uml::A] = m_objectWidgets[Uml::B] = 0;
+    m_objectWidgets[Uml::A] = 0;
+    m_objectWidgets[Uml::B] = 0;
 
     Uml::TextRole tr = Uml::TextRole::Seq_Message;
     m_floatingTextWidget = new FloatingTextWidget(tr);
@@ -339,7 +342,8 @@ void MessageWidget::setFloatingTextWidget(FloatingTextWidget * f)
  */
 bool MessageWidget::hasObjectWidget(ObjectWidget * w) const
 {
-    return m_objectWidgets[Uml::A] == w || m_objectWidgets[Uml::B] == w;
+    return (m_objectWidgets[Uml::A] == w ||
+            m_objectWidgets[Uml::B] == w);
 }
 
 /**
@@ -366,7 +370,7 @@ void MessageWidget::handleObjectMove(ObjectWidget *wid)
 {
     if (!hasObjectWidget(wid)) {
         uError() << "ObjectWidget " << (void*)wid
-                 << "doesn't belong to this MessageWidget";
+                 << " doesn't belong to this MessageWidget";
         return;
     }
 
@@ -437,23 +441,23 @@ void MessageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
     switch (m_sequenceMessageType) {
     case Uml::sequence_message_asynchronous:
         drawAsynchronous(painter);
-	break;
+    break;
 
     case Uml::sequence_message_synchronous:
         drawSynchronous(painter);
-	break;
+    break;
 
     case Uml::sequence_message_creation:
         drawCreation(painter);
-	break;
+    break;
 
     case Uml::sequence_message_lost:
         drawLost(painter);
-	break;
+    break;
 
     case Uml::sequence_message_found:
         drawFound(painter);
-	break;
+    break;
     }
 }
 
@@ -529,12 +533,12 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
         m_clickedPoint.setY(qElement.attribute( "yclicked", "-1" ).toDouble());
     }
 
-    m_widgetAId = STR2ID(widgetaid);
-    m_widgetBId = STR2ID(widgetbid);
-    m_textId = STR2ID(textid);
+    Uml::IDType widgetAId = STR2ID(widgetaid);
+    Uml::IDType widgetBId = STR2ID(widgetbid);
+    Uml::IDType textId    = STR2ID(textid);
 
     Uml::TextRole tr = Uml::TextRole::Seq_Message;
-    if (m_widgetAId == m_widgetBId)
+    if (widgetAId == widgetBId)
         tr = Uml::TextRole::Seq_Message_Self;
 
     //now load child elements
@@ -543,7 +547,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_floatingTextWidget = new FloatingTextWidget( tr, m_textId );
+            m_floatingTextWidget = new FloatingTextWidget( tr, textId );
             m_floatingTextWidget->setText(operationText(umlScene()));
             if( ! m_floatingTextWidget->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
@@ -551,7 +555,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
                 m_floatingTextWidget = NULL;
             }
         } else {
-            uError() << "unknown tag " << tag << endl;
+            uError() << "unknown tag " << tag;
         }
     }
     return true;
