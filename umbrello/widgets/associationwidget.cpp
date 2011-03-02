@@ -127,9 +127,9 @@ AssociationWidget::AssociationWidget(UMLWidget *widgetA, Uml::AssociationType ty
                     objectA, objectB, &swap);
              if (myAssoc) {
                  if (type == Uml::AssociationType::Generalization) {
-                     uDebug() << "Ignoring second construction of same generalization";
+                     DEBUG(DBG_SRC) << "Ignoring second construction of same generalization";
                  } else {
-                     uDebug() << "Constructing a similar or exact same assoc " <<
+                     DEBUG(DBG_SRC) << "Constructing a similar or exact same assoc " <<
                          "as an already existing assoc (swap=" << swap << ")";
                      // now, just create a new association anyways
                      myAssoc = 0;
@@ -223,7 +223,7 @@ void AssociationWidget::setUMLObject(UMLObject *obj, bool notifyAsSlot)
 
 void AssociationWidget::slotClassifierListItemRemoved(UMLClassifierListItem* classifierItem)
 {
-    uDebug() << "TODO - " << classifierItem->name();
+    DEBUG(DBG_SRC) << "TODO - " << classifierItem->name();
 }
 
 void AssociationWidget::lwSetFont(QFont font)
@@ -265,7 +265,7 @@ void AssociationWidget::setCustomOpText(const QString &opText)
 
 void AssociationWidget::resetTextPositions()
 {
-    uDebug() << "called";
+    DEBUG(DBG_SRC) << "called";
     if (m_widgetRole[Uml::A].multiplicityWidget) {
         setTextPosition( Uml::TextRole::MultiA );
     }
@@ -595,7 +595,7 @@ QString AssociationWidget::multiplicity(Uml::Role_Type role) const
 
 void AssociationWidget::setMultiplicity(const QString& text, Uml::Role_Type role)
 {
-    uDebug() << "Called with " << text << "AB"[role] << " role";
+    DEBUG(DBG_SRC) << "Called with " << text << "AB"[role] << " role";
     // If uml association object exists, then set its multiplicity which
     // will eventually signal this particular widget of text change and
     // this widget will react to that change.
@@ -800,8 +800,8 @@ UMLWidget* AssociationWidget::widgetForRole(Uml::Role_Type role) const
 void AssociationWidget::setWidgetForRole(UMLWidget *widget, Uml::Role_Type role)
 {
     if (m_widgetRole[role].umlWidget && widget != m_widgetRole[role].umlWidget) {
-        uDebug() << "Was holding" << (widget ? ID2STR(widget->id()) : "null")
-            << "in its " << (role == Uml::A ? "A" : "B")  << "role end";
+        DEBUG(DBG_SRC) << "Was holding" << (widget ? ID2STR(widget->id()) : "null")
+            << "in its " << (role == Uml::A ? "A" : "B")  << " role end";
     }
     m_widgetRole[role].umlWidget = widget;
 }
@@ -1240,7 +1240,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
             // Changes from TRUNK(before soc branch merge) version:
             // We use ft directly as there is no point in fetching the same pointer
             // by calling specific multiplicityWidget like methods.
-            uDebug() << "oldStyleLoad = " << oldStyleLoad;
+            DEBUG(DBG_SRC) << "oldStyleLoad = " << oldStyleLoad;
             if (ft) {
                 switch(role) {
                     case Uml::TextRole::MultiA:
@@ -1280,7 +1280,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
                         break;
 
                     default:
-                        uDebug() << "unexpected FloatingTextWidget (textrole " << role.toString() << ")";
+                        DEBUG(DBG_SRC) << "unexpected FloatingTextWidget (textrole " << role.toString() << ")";
 #if 0
 //TODO: Investigate this delete. Firstly, is this reachable ?
                         delete ft;
@@ -1300,7 +1300,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& element)
 {
     UMLScene *scene = umlScene();
     if (!scene) {
-        uDebug() << "This isn't on UMLScene yet, so can neither fetch"
+        DEBUG(DBG_SRC) << "This isn't on UMLScene yet, so can neither fetch"
             "messages nor widgets on umlscene";
     }
     const UMLWidgetList& widgetList = scene->widgetList();
@@ -1395,7 +1395,7 @@ void AssociationWidget::slotMenuSelection(QAction *action)
         return;
     }
     ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
-    uDebug() << "menu selection = " << sel;
+    DEBUG(DBG_SRC) << "menu selection = " << ListPopupMenu::toString(sel);
 
     //if it's a collaboration message we now just use the code in floatingtextwidget
     //this means there's some redundant code below but that's better than duplicated code
@@ -1412,7 +1412,7 @@ void AssociationWidget::slotMenuSelection(QAction *action)
                 // don't worry about here, I don't think it can get here as
                 // line is widget on seq. diagram
                 // here just in case - remove later after testing
-                uDebug() << "mt_Properties: assoctype is " << atype;
+                DEBUG(DBG_SRC) << "mt_Properties: assoctype is " << atype.toString();
             } else {  //standard assoc dialog
                 UMLScene *scene = umlScene();
                 if (scene) {
@@ -1422,17 +1422,17 @@ void AssociationWidget::slotMenuSelection(QAction *action)
             }
             break;
 
+#if 0  //TODO:
         case ListPopupMenu::mt_Delete:
-#if 0
-//TODO:
+
             if (m_pAssocClassLineSel0)
                 removeAssocClassLine();
             else if (getAssociation())
                 m_pView->removeAssocInViewAndDoc(this);
             else
                 m_pView->removeAssoc(this);
-#endif
             break;
+#endif
 
         case ListPopupMenu::mt_Rename_MultiA:
             r = Uml::A;   // fall through
@@ -1495,36 +1495,33 @@ void AssociationWidget::slotMenuSelection(QAction *action)
             }
             break;
 
+#if 0  // TODO:
         case ListPopupMenu::mt_Cut:
-#if 0
-// TODO:
             m_pView->setStartedCut();
             UMLApp::app()->slotEditCut();
-#endif
             break;
+#endif
 
+#if 0  // TODO:
         case ListPopupMenu::mt_Copy:
-#if 0
-// TODO:
             UMLApp::app()->slotEditCopy();
-#endif
             break;
+#endif
 
+#if 0  // TODO:
         case ListPopupMenu::mt_Paste:
-#if 0
-// TODO:
             UMLApp::app()->slotEditPaste();
-#endif
             break;
+#endif
 
         case ListPopupMenu::mt_Reset_Label_Positions:
             resetTextPositions();
             break;
 
         default:
-            uDebug() << "Menu_Type " << sel << " not implemented";
+            DEBUG(DBG_SRC) << "Menu_Type " << ListPopupMenu::toString(sel) << " not implemented";
             break;
-    }//end switch
+    } //end switch
 }
 
 /**
@@ -1627,6 +1624,7 @@ void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
+    DEBUG(DBG_SRC) << "at " << event->pos();
     m_associationLine->mouseDoubleClickEvent(event);
 }
 
@@ -1646,16 +1644,14 @@ void AssociationWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 }
 
 /**
- * Event handler for context menu events.
+ * Event handler for context menu events, called from the line segments.
  */
-void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void AssociationWidget::contextMenu(const QPointF& pos, Qt::KeyboardModifiers modifiers, const QPoint& screenPos)
 {
-    event->accept();
-
     Uml::AssociationType type = associationType();
     ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Association_Selected;
     if (type == Uml::AssociationType::Anchor ||
-            m_associationLine->onAssociationClassLine(event->pos())) {
+            m_associationLine->onAssociationClassLine(pos)) {
         menuType = ListPopupMenu::mt_Anchor;
     } else if (isCollaboration()) {
         menuType = ListPopupMenu::mt_Collaboration_Message;
@@ -1673,14 +1669,14 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
     if (!isSelected() && scene && !scene->selectedItems().isEmpty()) {
         Qt::KeyboardModifiers forSelection = (Qt::ControlModifier | Qt::ShiftModifier);
-        if ((event->modifiers() & forSelection) == 0) {
+        if ((modifiers & forSelection) == 0) {
             scene->clearSelection();
         }
     }
     setSelected(true);
-    uDebug() << "menue type = " << menuType;
+    DEBUG(DBG_SRC) << "menue type = " << ListPopupMenu::toString(menuType);
     QPointer<ListPopupMenu> menu = new ListPopupMenu(parent, menuType, this);
-    QAction *triggered = menu->exec(event->screenPos());
+    QAction *triggered = menu->exec(screenPos);
     ListPopupMenu *parentMenu = ListPopupMenu::menuFromAction(triggered);
 
     if (!parentMenu) {
@@ -1759,6 +1755,8 @@ void AssociationWidget::init()
     m_widgetRole[Uml::A].initFloatingWidgets(Uml::A, this);
     m_widgetRole[Uml::B].initFloatingWidgets(Uml::B, this);
     setFlags(ItemIsMovable | ItemIsSelectable | ItemIsFocusable);
+
+    DEBUG_REGISTER(DBG_SRC);
 }
 
 void AssociationWidget::setFloatingText(Uml::TextRole tr, const QString& text, FloatingTextWidget* ft)
@@ -1861,7 +1859,7 @@ QPointF AssociationWidget::calculateTextPosition(Uml::TextRole role)
         constrainTextPos(x, y, textW, textH, role);
     }
     p = QPointF( x, y );
-    uDebug() << "set to [" << p.x() << ", " << p.y() << "].";  //:TODO:
+    DEBUG(DBG_SRC) << "set to [" << p.x() << ", " << p.y() << "].";  //:TODO:
     return p;
 }
 
@@ -1879,12 +1877,12 @@ void AssociationWidget::setTextPosition(Uml::TextRole tr)
     QPointF pos = calculateTextPosition(tr);
     if ( (pos.x() < 0.0 || pos.x() > FloatingTextWidget::restrictPositionMax) ||
             (pos.y() < 0.0 || pos.y() > FloatingTextWidget::restrictPositionMax) ) {
-        uDebug() << "(x=" << pos.x() << " , y=" << pos.y() << ") "
+        DEBUG(DBG_SRC) << "(x=" << pos.x() << " , y=" << pos.y() << ") "
             << "- was blocked because at least one value is out of bounds: ["
             << "0 ... " << FloatingTextWidget::restrictPositionMax << "]";
         return;
     }
-    uDebug() << "set to [" << pos.x() << ", " << pos.y() << "].";  //:TODO:
+    DEBUG(DBG_SRC) << "set to [" << pos.x() << ", " << pos.y() << "].";  //:TODO:
     ft->setPos(pos);
 }
 

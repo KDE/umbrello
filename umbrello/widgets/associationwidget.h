@@ -145,6 +145,8 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual bool loadFromXMI(QDomElement& element);
         virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
+        virtual void contextMenu(const QPointF& pos, Qt::KeyboardModifiers modifiers, const QPoint& screenPos);
+
     public Q_SLOTS:
         virtual void slotMenuSelection(QAction *trigger);
 
@@ -165,8 +167,6 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
         virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
         virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-
-        virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
         virtual void umlObjectChanged(UMLObject *old);
 

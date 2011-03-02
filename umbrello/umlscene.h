@@ -407,6 +407,8 @@ private:
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
 
+    bool isWidgetOrAssociation(const QPointF& atPos);
+
 public slots:
     void slotToolBarChanged(int c);
     void slotObjectCreated(UMLObject * o);

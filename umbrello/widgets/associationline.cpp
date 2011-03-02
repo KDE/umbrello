@@ -28,6 +28,8 @@
 #include <QtXml/QDomNode>
 #include <QtXml/QDomNodeList>
 
+#define DBG_ASS "AssociationLine"
+
 Symbol::SymbolProperty Symbol::symbolTable[Count] =
 {
     {
@@ -57,7 +59,9 @@ Symbol::SymbolProperty Symbol::symbolTable[Count] =
 
 };
 
-/// @internal A convenience method to setup shapes of all symbols.
+/**
+ * @internal A convenience method to setup shapes of all symbols.
+ */
 void Symbol::setupSymbolTable()
 {
     SymbolProperty &openArrow = symbolTable[OpenArrow];
@@ -146,18 +150,24 @@ Symbol::Symbol(SymbolType symbolType, QGraphicsItem *parent) :
     setSymbolType(symbolType);
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 Symbol::~Symbol()
 {
 }
 
-/// @return The current symbol being represented.
+/**
+ * @return The current symbol being represented.
+ */
 Symbol::SymbolType Symbol::symbolType() const
 {
     return m_symbolType;
 }
 
-/// Sets the current symbol type to \a symbol and updates the geometry.
+/**
+ * Sets the current symbol type to \a symbol and updates the geometry.
+ */
 void Symbol::setSymbolType(SymbolType symbolType)
 {
     if (m_firstTime) {
@@ -174,15 +184,16 @@ void Symbol::setSymbolType(SymbolType symbolType)
  * Draws the current symbol using the QPainterPath stored for the current
  * symbol.
  */
-void Symbol::paint(QPainter *painter, const QStyleOptionGraphicsItem*,
-        QWidget *)
+void Symbol::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget *)
 {
     painter->setPen(m_pen);
     painter->setBrush(m_brush);
     painter->drawPath(Symbol::symbolTable[m_symbolType].shape);
 }
 
-/// @return The bound rectangle for this based on current symbol.
+/**
+ * @return The bound rectangle for this based on current symbol.
+ */
 QRectF Symbol::boundingRect() const
 {
     const qreal adj = .5 * m_pen.widthF();
@@ -190,7 +201,9 @@ QRectF Symbol::boundingRect() const
         adjusted(-adj, -adj, adj, adj);
 }
 
-/// @return The path for this based on current symbol.
+/**
+ * @return The path for this based on current symbol.
+ */
 QPainterPath Symbol::shape() const
 {
     QPainterPath path;
@@ -221,7 +234,9 @@ void Symbol::alignTo(const QLineF& to)
     moveBy(delta.x(), delta.y());
 }
 
-/// @return The axis line for this item based on current symbol.
+/**
+ * @return The axis line for this item based on current symbol.
+ */
 QLineF Symbol::axisLine() const
 {
     return Symbol::symbolTable[m_symbolType].axisLine;
@@ -241,26 +256,34 @@ SymbolEndPoints Symbol::symbolEndPoints() const
     return Symbol::symbolTable[m_symbolType].endPoints;
 }
 
-/// @return The pen used to draw symbol.
+/**
+ * @return The pen used to draw symbol.
+ */
 QPen Symbol::pen() const
 {
     return m_pen;
 }
 
-/// Sets the pen used to draw the symbol
+/**
+ * Sets the pen used to draw the symbol.
+ */
 void Symbol::setPen(const QPen& pen)
 {
     prepareGeometryChange();
     m_pen = pen;
 }
 
-/// @return The brush used to fill symbol.
+/**
+ * @return The brush used to fill symbol.
+ */
 QBrush Symbol::brush() const
 {
     return m_brush;
 }
 
-/// Sets the brush used to fill symbol.
+/**
+ * Sets the brush used to fill symbol.
+ */
 void Symbol::setBrush(const QBrush &brush)
 {
     m_brush = brush;
@@ -278,7 +301,7 @@ const qreal AssociationLine::SelfAssociationMinimumHeight = 30;
  * Constructs a AssociationLine item with its parent being \a parent.
  */
 AssociationLine::AssociationLine(AssociationWidget *assoc)
-  : QGraphicsItem(),
+  : QGraphicsObject(),
     m_associationWidget(assoc)
 {
     Q_ASSERT(assoc);
@@ -293,6 +316,8 @@ AssociationLine::AssociationLine(AssociationWidget *assoc)
     tracker = new QGraphicsLineItem;
     tracker->setPen(QPen(Qt::darkBlue, 1));
     tracker->setZValue(100);
+
+    DEBUG_REGISTER(DBG_ASS);
 }
 
 /**
@@ -330,13 +355,17 @@ void AssociationLine::setPoint(int index, const QPointF& point)
     calculateBoundingRect();
 }
 
-/// Shortcut for point(0)
+/**
+ * Shortcut for point(0).
+ */
 QPointF AssociationLine::startPoint() const
 {
     return m_points.at(0);
 }
 
-/// Shortcut for point(count()-1)
+/**
+ * Shortcut for point(count()-1).
+ */
 QPointF AssociationLine::endPoint() const
 {
     return m_points.at(m_points.size()-1);
@@ -464,7 +493,7 @@ int AssociationLine::segmentIndex(const QPointF& point, qreal delta) const
 }
 
 /**
- * retval True If point at \a index is start or end.
+ * Retval True If point at \a index is start or end.
  */
 bool AssociationLine::isEndPointIndex(int index) const
 {
@@ -475,7 +504,7 @@ bool AssociationLine::isEndPointIndex(int index) const
 }
 
 /**
- * retval True If segment at \a index is start or end.
+ * Retval True If segment at \a index is start or end.
  */
 bool AssociationLine::isEndSegmentIndex(int index) const
 {
@@ -619,13 +648,17 @@ void AssociationLine::updatePenSettings()
     calculateBoundingRect();
 }
 
-/// @return The bounding rectangle for the AssociationLine.
+/**
+ * @return The bounding rectangle for the AssociationLine.
+ */
 QRectF AssociationLine::boundingRect() const
 {
     return m_boundingRect;
 }
 
-/// @return The shape of the AssociationLine.
+/**
+ * @return The shape of the AssociationLine.
+ */
 QPainterPath AssociationLine::shape() const
 {
     return m_shape;
@@ -703,17 +736,11 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 }
 
 /**
- * Event handler to process context menu events.
+ * Determines the active point or segment, the latter being given more priority.
  */
-void AssociationLine::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
-{
-    uDebug() << "Show the context menu of the association widget.";  //:TODO:
-    m_associationWidget->contextMenuEvent(event);
-}
-
-/// Determines the active point or segment, the latter being given more priority.
 void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    DEBUG(DBG_ASS) << "at " << event->pos();
     if (event->buttons() & Qt::LeftButton) {
         m_activePointIndex = closestPointIndex(event->pos());
         if (m_activePointIndex != -1 && isEndPointIndex(m_activePointIndex)) {
@@ -723,13 +750,19 @@ void AssociationLine::mousePressEvent(QGraphicsSceneMouseEvent *event)
         // calculate only if active point index is -1
         m_activeSegmentIndex = (m_activePointIndex != -1) ? -1 : segmentIndex(event->pos());
     }
+    else if (event->buttons() & Qt::RightButton) {
+        DEBUG(DBG_ASS) << "context menu of association widget at " << event->pos();
+        m_associationWidget->contextMenu(event->pos(), event->modifiers(), event->screenPos());
+    }
     else {
         m_activePointIndex   = -1;
         m_activeSegmentIndex = -1;
     }
 }
 
-/// Moves the point or line if active.
+/**
+ * Moves the point or line if active.
+ */
 void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if (m_activePointIndex != -1) {
@@ -746,7 +779,9 @@ void AssociationLine::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     calculateEndPoints();
 }
 
-/// Reset active indices and also push undo command.
+/**
+ * Reset active indices and also push undo command.
+ */
 void AssociationLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
@@ -755,9 +790,13 @@ void AssociationLine::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-/// Inserts a new point at double click position.
+/**
+ * Inserts a new point at double click position.
+ */
 void AssociationLine::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
+    DEBUG(DBG_ASS) << "at " << event->pos();
+    event->accept();
     int index = closestPointIndex(event->pos());
     // First check if double click was on a non end point.
     if (index != -1 && !isEndPointIndex(index)) {
@@ -781,6 +820,7 @@ void AssociationLine::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
  */
 void AssociationLine::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
+    DEBUG(DBG_ASS) << "at " << event->pos();
     int oldPointIndex = m_activePointIndex;
     int oldSegmentIndex = m_activeSegmentIndex;
 
@@ -821,10 +861,13 @@ void AssociationLine::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
     }
 }
 
-/// Reset active indicies and updates.
+/**
+ * Reset active indicies and updates.
+ */
 void AssociationLine::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
-    Q_UNUSED(event);
+    DEBUG(DBG_ASS) << "at " << event->pos();
+    //Q_UNUSED(event);
     m_activePointIndex   = -1;
     m_activeSegmentIndex = -1;
     m_associationWidget->update();
@@ -1256,7 +1299,9 @@ void AssociationLine::createSubsetSymbol()
     m_subsetSymbol->setPen(pen());
 }
 
-/// Removes the subset symbol if it existed by deleting appropriate items.
+/**
+ * Removes the subset symbol if it existed by deleting appropriate items.
+ */
 void AssociationLine::removeSubsetSymbol()
 {
     delete m_subsetSymbol;
@@ -1281,7 +1326,9 @@ void AssociationLine::createCollaborationLine()
     m_collaborationLineHead->setPen(p);
 }
 
-/// Removes collaboration line by deleting the head and line item.
+/**
+ * Removes collaboration line by deleting the head and line item.
+ */
 void AssociationLine::removeCollaborationLine()
 {
     delete m_collaborationLineItem;
@@ -1316,8 +1363,8 @@ void AssociationLine::alignSymbols()
 
     if (m_subsetSymbol) {
         QLineF segment(m_points.at(0), (m_points.at(0) + m_points.at(1)) * .5);
-        uDebug() << "points: " << m_points.at(0) << m_points.at(1);
-        uDebug() << "segment: " << segment;
+        DEBUG(DBG_ASS) << "points: " << m_points.at(0) << m_points.at(1);
+        DEBUG(DBG_ASS) << "segment: " << segment;
         m_subsetSymbol->alignTo(segment);
     }
 

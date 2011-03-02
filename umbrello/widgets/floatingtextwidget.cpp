@@ -53,13 +53,16 @@ const qreal FloatingTextWidget::restrictPositionMax = 3000;
  */
 FloatingTextWidget::FloatingTextWidget(Uml::TextRole role,
                                        Uml::IDType id)
-  : UMLWidget(0)
+  : UMLWidget(0),
+    m_linkWidget(0),
+    m_text(QString()),
+    m_preText(QString()),
+    m_postText(QString()),
+    m_textRole(role)
 {
     m_baseType = WidgetBase::wt_Text;
     setID(id);
-    m_linkWidget = 0;
     setResizable(false);
-    m_textRole = role;
     // no margin
     setMargin(0);
     createTextItemGroup(); // Create a group to store text.
@@ -105,16 +108,21 @@ void FloatingTextWidget::setText(const QString &t)
     bool wasVisible = isVisible();
     QString text;
     if (m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self) {
-        QString seqNum, op;
-        m_linkWidget->seqNumAndOp(seqNum, op);
-        if (!seqNum.isEmpty() || !op.isEmpty()) {
-            if (umlScene() && ! umlScene()->getShowOpSig()) {
-                op.replace(QRegExp("\\(.*\\)"), "()");
+        if (m_linkWidget) {
+            QString seqNum, op;
+            m_linkWidget->seqNumAndOp(seqNum, op);
+            if (!seqNum.isEmpty() || !op.isEmpty()) {
+                if (umlScene() && ! umlScene()->getShowOpSig()) {
+                    op.replace(QRegExp("\\(.*\\)"), "()");
+                }
+                text = seqNum.append(": ").append(op);
             }
-            text = seqNum.append(": ").append(op);
+            else {
+                text = t;
+            }
         }
         else {
-            text = t;
+            uError() << "m_linkWidget is NULL!";
         }
     }
     else {
@@ -642,7 +650,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Operation:
         {
             if (m_linkWidget == 0) {
-                uDebug() << "mt_Operation: " << "m_linkWidget is NULL";
+                uDebug() << "mt_Operation: " << "m_linkWidget is NULL!";
                 return;
             }
             UMLClassifier* c = m_linkWidget->operationOwner();

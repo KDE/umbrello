@@ -1153,6 +1153,33 @@ void UMLScene::setTextColor(const QColor& color)
 }
 
 /**
+ * Check if at the given point is a widget or an association widget.
+ * This is rather an ugly hack, because of the usage of metaobject.
+ * @param atPos   the mouse position on the scene
+ * @return true if there is a widget or an association line
+ */
+bool UMLScene::isWidgetOrAssociation(const QPointF& atPos)
+{
+    UMLWidget* widget = widgetAt(atPos);
+    if (widget) {
+        return true;
+    }
+
+    QGraphicsItem* item = itemAt(atPos, QTransform());
+    if (item) {
+        QGraphicsObject* gObject = item->toGraphicsObject();
+        if (gObject) {
+            const QMetaObject* mObject = gObject->metaObject();
+            if (mObject) {
+                DEBUG(DBG_SRC) << "QGraphicsItem of class " << mObject->className();
+                return (QString("AssociationWidget") == QString(mObject->className()));
+            }
+        }
+    }
+    return false;
+}
+
+/**
  * Override standard method.
  * Calls the same method in the current tool bar state.
  */
@@ -1160,11 +1187,11 @@ void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseDoubleClick(ome);
 
-    UMLWidget* widget = widgetAt(ome->scenePos());
-    if (widget) {
+    if (isWidgetOrAssociation(ome->scenePos())) {
         ome->ignore();
     }
     else {
+        // show properties dialog of the scene
         if (showPropDialog() == true) {
             m_pDoc->setModified();
         }
@@ -2936,6 +2963,9 @@ void UMLScene::setPaste(bool paste)
     m_bPaste = paste;
 }
 
+/**
+ * Event handler for context menu events.
+ */
 void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
     UMLWidget* widget = widgetAt(event->scenePos());
@@ -3997,6 +4027,7 @@ bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
     QDomElement messageElement = node.toElement();
     while (!messageElement.isNull()) {
         QString tag = messageElement.tagName();
+        DEBUG(DBG_SRC) << "tag = " << tag;
         if (tag == "messagewidget" ||
             tag == "UML:MessageWidget") {   // for bkwd compatibility
             message = new MessageWidget(sequence_message_asynchronous,

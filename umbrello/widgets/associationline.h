@@ -12,7 +12,7 @@
 #define ASSOCIATIONLINE_H
 
 #include <QtGui/QBrush>
-#include <QtGui/QGraphicsItem>
+#include <QtGui/QGraphicsObject>
 #include <QtGui/QPen>
 
 // Forward declarations
@@ -104,7 +104,7 @@ class Symbol : public QGraphicsItem
  * @author Gopala Krishna
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssociationLine : public QGraphicsItem
+class AssociationLine : public QGraphicsObject
 {
     public:
         AssociationLine(AssociationWidget *assoc);
@@ -165,9 +165,6 @@ class AssociationLine : public QGraphicsItem
         bool onAssociationClassLine(const QPointF& pos) const;
 
         void reconstructSymbols();
-
-    protected:
-        virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
     private:
         void setStartSymbol(Symbol::SymbolType symbolType);
