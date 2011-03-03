@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,8 +13,6 @@
 
 // kde includes
 #include <klocale.h>
-#include <kmessagebox.h>
-#include <kdebug.h>
 
 UMLRoleProperties::UMLRoleProperties ( QWidget *parent, UMLRole *role)
         : UMLRolePropertiesBase (parent)
@@ -54,10 +52,10 @@ void UMLRoleProperties::constructWidget()
     }
     // Changeability
     switch (m_pRole->changeability()) {
-    case Uml::chg_Changeable:
+    case Uml::Changeability::Changeable:
         ui_pChangeableRB->setChecked( true );
         break;
-    case Uml::chg_Frozen:
+    case Uml::Changeability::Frozen:
         ui_pFrozenRB->setChecked( true );
         break;
     default:
@@ -99,11 +97,11 @@ void UMLRoleProperties::updateObject()
             m_pRole->setVisibility(Uml::Visibility::Implementation);
 
         if (ui_pFrozenRB->isChecked())
-            m_pRole->setChangeability(Uml::chg_Frozen);
+            m_pRole->setChangeability(Uml::Changeability::Frozen);
         else if (ui_pAddOnlyRB->isChecked())
-            m_pRole->setChangeability(Uml::chg_AddOnly);
+            m_pRole->setChangeability(Uml::Changeability::AddOnly);
         else
-            m_pRole->setChangeability(Uml::chg_Changeable);
+            m_pRole->setChangeability(Uml::Changeability::Changeable);
 
         m_pRole->setDoc(ui_pDocTE->text());
 

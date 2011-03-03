@@ -272,7 +272,7 @@ void UMLListViewItem::setID(Uml::IDType id)
         if (id != Uml::id_None && oid != id) {
             uDebug() << "new id " << ID2STR(id) << " does not agree with object id "
                 << ID2STR(oid);
-	}
+        }
     }
     m_id = id;
 }

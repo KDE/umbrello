@@ -168,7 +168,7 @@ private:
      * role.
      */
     void writeAssociationRoleMethod(QString fieldClassName, QString roleName, QString multi,
-                                    QString description, Uml::Visibility visib, Uml::Changeability_Type change,
+                                    QString description, Uml::Visibility visib, Uml::Changeability change,
                                     QTextStream &java);
 
     /**
@@ -176,7 +176,7 @@ private:
      */
     void writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility visibility, Uml::Changeability_Type change,
+            Uml::Visibility visibility, Uml::Changeability change,
             bool isFinal, QTextStream &java);
 
     /**
@@ -184,7 +184,7 @@ private:
      */
     void writeVectorAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility visibility, Uml::Changeability_Type change,
+            Uml::Visibility visibility, Uml::Changeability change,
             QTextStream &java);
 
     /**

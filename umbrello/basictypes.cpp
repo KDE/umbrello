@@ -853,5 +853,74 @@ TextRole::operator TextRole::Value() const
 
 //-----------------------------------------------------------------------------
 
+/**
+ * Convert Changeability_Type value into QString representation.
+ * @param type   The Changeability enum value to convert.
+ */
+QString Changeability::toString(Value item)
+{
+    switch (item) {
+        case Changeability::Frozen:
+            return QString("frozen");
+        case Changeability::AddOnly:
+            return QString("addOnly");
+        case Changeability::Changeable:
+            return QString("changeable");
+        default:
+            break;
+    }
+    return QString("? Changeability ?");
+}
+
+/**
+ * Return Changeability corresponding to the given string.
+ */
+Changeability Changeability::fromString(const QString& item)
+{
+    if (item == "frozen")
+        return Changeability(Frozen);
+    if (item == "addOnly")
+        return Changeability(AddOnly);
+    if (item == "changeable")
+        return Changeability(Changeable);
+    return Changeability(Changeable);
+}
+
+/**
+ * Constructor.
+ */
+Changeability::Changeability()
+  : m_value(Changeable)
+{
+}
+
+/**
+ * Constructor.
+ * @param item   value to set
+ */
+Changeability::Changeability(Value item)
+  : m_value(item)
+{
+}
+
+/**
+ * Convert Changeability value into QString representation.
+ * @return QString representation of the Changeability
+ */
+QString Changeability::toString() const
+{
+    return toString(m_value);
+}
+
+/**
+ * 
+ */
+Changeability::operator Changeability::Value() const
+{
+    return m_value;
+}
+
+//-----------------------------------------------------------------------------
+
 
 }  // end namespace Uml

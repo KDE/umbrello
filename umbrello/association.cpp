@@ -460,9 +460,9 @@ bool UMLAssociation::load( QDomElement & element )
     QString changeabilityA = element.attribute( "changeabilitya", "0");
     QString changeabilityB = element.attribute( "changeabilityb", "0");
     if (changeabilityA.toInt() > 0)
-        setChangeability ( (Uml::Changeability_Type) changeabilityA.toInt(), A);
+        setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityA.toInt())), A);
     if (changeabilityB.toInt() > 0)
-        setChangeability ( (Uml::Changeability_Type) changeabilityB.toInt(), B);
+        setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityB.toInt())), B);
 
     return true;
 }
@@ -513,7 +513,7 @@ Uml::IDType UMLAssociation::getRoleId(Role_Type role) const
 /**
  * Returns the changeability.
  */
-Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) const
+Uml::Changeability UMLAssociation::changeability(Uml::Role_Type role) const
 {
     return m_pRole[role]->changeability();
 }
@@ -623,7 +623,7 @@ void UMLAssociation::setVisibility(Uml::Visibility value, Uml::Role_Type role)
  * @param value     Changeability_Type of the given role.
  * @param role      The Uml::Role_Type to which the changeability is being set
  */
-void UMLAssociation::setChangeability(Uml::Changeability_Type value, Uml::Role_Type role)
+void UMLAssociation::setChangeability(Uml::Changeability value, Uml::Role_Type role)
 {
     m_pRole[role]->setChangeability(value);
 }
@@ -657,26 +657,6 @@ void UMLAssociation::setRoleName(const QString &roleName, Uml::Role_Type role)
 void UMLAssociation::setRoleDoc(const QString &doc, Uml::Role_Type role)
 {
     m_pRole[role]->setDoc(doc);
-}
-
-/**
- * Convert Changeability_Type value into QString representation.
- * @param type   The Changeability_Type enum value to convert.
- */
-QString UMLAssociation::toString(Uml::Changeability_Type type)
-{
-    switch (type) {
-    case Uml::chg_Frozen:
-        return "frozen";
-        break;
-    case Uml::chg_AddOnly:
-        return "addOnly";
-        break;
-    case Uml::chg_Changeable:
-    default:
-        return "changeable";
-        break;
-    }
 }
 
 /**

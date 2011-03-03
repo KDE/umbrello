@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -34,8 +34,8 @@ public:
     void setObject(UMLObject *obj);
     UMLObject* object() const;
 
-    void setChangeability(Uml::Changeability_Type value);
-    Uml::Changeability_Type changeability() const;
+    void setChangeability(Uml::Changeability value);
+    Uml::Changeability changeability() const;
 
     void setMultiplicity(const QString &multi);
     QString multiplicity() const;
@@ -57,7 +57,7 @@ private:
     UMLAssociation *        m_pAssoc;
     Uml::Role_Type          m_role;
     QString                 m_Multi;
-    Uml::Changeability_Type m_Changeability;
+    Uml::Changeability      m_Changeability;
 };
 
 #endif

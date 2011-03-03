@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -160,10 +160,10 @@ void AssocRolePage::constructWidget()
     changeALayout->addWidget(m_AddOnlyARB);
 
     switch (m_pAssociationWidget->changeability(Uml::A)) {
-    case Uml::chg_Changeable:
+    case Uml::Changeability::Changeable:
         m_ChangeableARB->setChecked( true );
         break;
-    case Uml::chg_Frozen:
+    case Uml::Changeability::Frozen:
         m_FrozenARB->setChecked( true );
         break;
     default:
@@ -237,10 +237,10 @@ void AssocRolePage::constructWidget()
     changeBLayout->addWidget(m_AddOnlyBRB);
 
     switch (m_pAssociationWidget->changeability(Uml::B)) {
-    case Uml::chg_Changeable:
+    case Uml::Changeability::Changeable:
         m_ChangeableBRB->setChecked( true );
         break;
-    case Uml::chg_Frozen:
+    case Uml::Changeability::Frozen:
         m_FrozenBRB->setChecked( true );
         break;
     default:
@@ -314,18 +314,18 @@ void AssocRolePage::updateObject()
               m_pAssociationWidget->setVisibility(Uml::Visibility::Implementation, Uml::B);
 
         if (m_FrozenARB->isChecked())
-            m_pAssociationWidget->setChangeability(Uml::chg_Frozen, Uml::A);
+            m_pAssociationWidget->setChangeability(Uml::Changeability::Frozen, Uml::A);
         else if (m_AddOnlyARB->isChecked())
-            m_pAssociationWidget->setChangeability(Uml::chg_AddOnly, Uml::A);
+            m_pAssociationWidget->setChangeability(Uml::Changeability::AddOnly, Uml::A);
         else
-            m_pAssociationWidget->setChangeability(Uml::chg_Changeable, Uml::A);
+            m_pAssociationWidget->setChangeability(Uml::Changeability::Changeable, Uml::A);
 
         if (m_FrozenBRB->isChecked())
-            m_pAssociationWidget->setChangeability(Uml::chg_Frozen, Uml::B);
+            m_pAssociationWidget->setChangeability(Uml::Changeability::Frozen, Uml::B);
         else if (m_AddOnlyBRB->isChecked())
-            m_pAssociationWidget->setChangeability(Uml::chg_AddOnly, Uml::B);
+            m_pAssociationWidget->setChangeability(Uml::Changeability::AddOnly, Uml::B);
         else
-            m_pAssociationWidget->setChangeability(Uml::chg_Changeable, Uml::B);
+            m_pAssociationWidget->setChangeability(Uml::Changeability::Changeable, Uml::B);
 
         m_pAssociationWidget->setRoleDocumentation(m_pDocA->toPlainText(), Uml::A);
         m_pAssociationWidget->setRoleDocumentation(m_pDocB->toPlainText(), Uml::B);

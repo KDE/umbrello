@@ -48,7 +48,7 @@ WidgetRole::WidgetRole()
     roleWidget(0),
     umlWidget(0),
     visibility(Uml::Visibility::Public),
-    changeability(Uml::chg_Changeable),
+    changeability(Uml::Changeability::Changeable),
     roleDocumentation(QString())
 {
 }
@@ -643,21 +643,21 @@ FloatingTextWidget* AssociationWidget::changeabilityWidget(Uml::Role_Type role) 
     return m_widgetRole[role].changeabilityWidget;
 }
 
-Uml::Changeability_Type AssociationWidget::changeability(Uml::Role_Type role) const
+Uml::Changeability AssociationWidget::changeability(Uml::Role_Type role) const
 {
     if (!association()) {
         return m_widgetRole[role].changeability;
     }
-    return association()->getChangeability(role);
+    return association()->changeability(role);
 }
 
-void AssociationWidget::setChangeability(Uml::Changeability_Type c, Uml::Role_Type role)
+void AssociationWidget::setChangeability(Uml::Changeability c, Uml::Role_Type role)
 {
     m_widgetRole[role].changeability = c;
     if (association()) {
         association()->setChangeability(c, role);
     } else {
-        m_widgetRole[role].changeabilityWidget->setText(UMLAssociation::toString(c));
+        m_widgetRole[role].changeabilityWidget->setText(c.toString());
     }
 }
 
@@ -1132,12 +1132,12 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
         // Changeability defaults to "Changeable" if it cant set it here..
         QString changeabilityA = qElement.attribute("changeabilityA", "0");
         if (changeabilityA.toInt() > 0) {
-            setChangeability((Uml::Changeability_Type)changeabilityA.toInt(), Uml::A);
+            setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityA.toInt())), Uml::A);
         }
 
         QString changeabilityB = qElement.attribute("changeabilityB", "0");
         if (changeabilityB.toInt() > 0) {
-            setChangeability((Uml::Changeability_Type)changeabilityB.toInt(), Uml::B);
+            setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityB.toInt())), Uml::B);
         }
 
     } else {
@@ -1560,8 +1560,8 @@ void AssociationWidget::slotUMLObjectDataChanged()
         b.roleWidget->setText(roleName(Uml::B));
 
         if (!m_slotUMLObjectDataChangedFirstCall) {
-            a.changeabilityWidget->setText(UMLAssociation::toString(changeability(Uml::A)));
-            b.changeabilityWidget->setText(UMLAssociation::toString(changeability(Uml::B)));
+            a.changeabilityWidget->setText(changeability(Uml::A).toString());
+            b.changeabilityWidget->setText(changeability(Uml::B).toString());
         } else {
             a.changeabilityWidget->setText("");
             b.changeabilityWidget->setText("");

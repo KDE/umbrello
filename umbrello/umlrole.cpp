@@ -33,7 +33,7 @@ UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type 
     m_pAssoc(parent),
     m_role(role),
     m_Multi(QString()),
-    m_Changeability(Uml::chg_Changeable)
+    m_Changeability(Uml::Changeability::Changeable)
 {
     m_BaseType = UMLObject::ot_Role;
     m_Name = QString();
@@ -82,9 +82,9 @@ UMLObject* UMLRole::object() const
 /**
  * Returns the Changeablity of the role.
  *
- * @return  Changeability_Type of role.
+ * @return  Changeability of role.
  */
-Uml::Changeability_Type UMLRole::changeability() const
+Uml::Changeability UMLRole::changeability() const
 {
     return m_Changeability;
 }
@@ -126,7 +126,7 @@ void UMLRole::setObject(UMLObject *obj)
  *
  * @param value   Changeability_Type of role changeability.
  */
-void UMLRole::setChangeability(Uml::Changeability_Type value)
+void UMLRole::setChangeability(Uml::Changeability value)
 {
     m_Changeability = value;
     UMLObject::emitModified();
@@ -143,7 +143,8 @@ void UMLRole::setMultiplicity(const QString &multi)
     UMLObject::emitModified();
 }
 
-/** get the 'id' of the role (NOT the parent object). This could be
+/**
+ * Get the 'id' of the role (NOT the parent object). This could be
  * either Uml::A or Uml::B. Yes, it would be better if we
  * could get along without this, but we need it to distinguish saved
  * umlrole objects in the XMI for 'self' associations where both roles
@@ -199,15 +200,15 @@ void UMLRole::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     roleElement.setAttribute("visibility", visibility().toString(false));
 
     switch (m_Changeability) {
-    case Uml::chg_Frozen:
-        roleElement.setAttribute("changeability", "frozen");
-        break;
-    case Uml::chg_AddOnly:
-        roleElement.setAttribute("changeability", "addOnly");
-        break;
-    case Uml::chg_Changeable:
-        roleElement.setAttribute("changeability", "changeable");
-        break;
+        case Uml::Changeability::Frozen:
+            roleElement.setAttribute("changeability", "frozen");
+            break;
+        case Uml::Changeability::AddOnly:
+            roleElement.setAttribute("changeability", "addOnly");
+            break;
+        case Uml::Changeability::Changeable:
+            roleElement.setAttribute("changeability", "changeable");
+            break;
     }
     qElement.appendChild( roleElement );
 }
@@ -348,23 +349,21 @@ bool UMLRole::load( QDomElement & element )
         m_pAssoc->setAssocType(Uml::AssociationType::Aggregation);
 
     if (!element.hasAttribute("isNavigable")) {
-        /* Backward compatibility mode: In Umbrello version 1.3.x the
-           logic for saving the isNavigable flag was wrong.
-           May happen on loading role A.
-         */
+        // Backward compatibility mode: In Umbrello version 1.3.x the
+        // logic for saving the isNavigable flag was wrong.
+        // May happen on loading role A.
         m_pAssoc->setOldLoadMode(true);
     } else if (m_pAssoc->getOldLoadMode() == true) {
-        /* Here is the original logic:
-           " Role B:
-             If isNavigable is not given, we make no change to the
-             association type.
-             If isNavigable is given, and is "true", then we assume that
-             the association's other end (role A) is not navigable, and
-             therefore we change the association type to UniAssociation.
-             The case that isNavigable is given as "false" is ignored.
-             Combined with the association type logic for role A, this
-             allows us to support at_Association and at_UniAssociation. "
-         */
+        // Here is the original logic:
+        // "Role B:
+        //  If isNavigable is not given, we make no change to the
+        //  association type.
+        //  If isNavigable is given, and is "true", then we assume that
+        //  the association's other end (role A) is not navigable, and
+        //  therefore we change the association type to UniAssociation.
+        //  The case that isNavigable is given as "false" is ignored.
+        //  Combined with the association type logic for role A, this
+        //  allows us to support at_Association and at_UniAssociation."
         if (element.attribute("isNavigable") == "true")
             m_pAssoc->setAssocType(Uml::AssociationType::UniAssociation);
     } else if (element.attribute("isNavigable") == "false") {
@@ -382,14 +381,14 @@ bool UMLRole::load( QDomElement & element )
         m_Multi = element.attribute("multiplicity", "");
 
     // Changeability defaults to Changeable if it cant set it here..
-    m_Changeability = Uml::chg_Changeable;
+    m_Changeability = Uml::Changeability::Changeable;
     QString changeability = element.attribute("changeability", "");
     if (changeability.isEmpty())
         element.attribute("changeable", "");  // for backward compatibility
     if (changeability == "frozen")
-        m_Changeability = Uml::chg_Frozen;
+        m_Changeability = Uml::Changeability::Frozen;
     else if (changeability == "addOnly")
-        m_Changeability = Uml::chg_AddOnly;
+        m_Changeability = Uml::Changeability::AddOnly;
 
     // finished config, now unblock
     blockSignals(false);

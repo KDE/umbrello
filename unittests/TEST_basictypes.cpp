@@ -37,6 +37,8 @@ private slots:
     void test_DiagramType_forLoop();
     void test_AssociationType_toString_fromString();
     void test_SignatureType_toString_fromString();
+    void test_TextRole_toString_fromString();
+    void test_Changeability_toString_fromString();
 };
 
 //-----------------------------------------------------------------------------
@@ -238,6 +240,31 @@ void TEST_basictypes::test_SignatureType_toString_fromString()
     QVERIFY(Uml::SignatureType::NoSigNoVis ==
             Uml::SignatureType::fromString(Uml::SignatureType::toString(Uml::SignatureType::NoSigNoVis)));
 }
+//-----------------------------------------------------------------------------
+
+void TEST_basictypes::test_TextRole_toString_fromString()
+{
+    for (int i = Uml::TextRole::Floating; i < Uml::TextRole::ChangeB; ++i) {
+        Uml::TextRole at = Uml::TextRole::fromString(
+                                      Uml::TextRole::toString(
+                                          Uml::TextRole::Value(i)));
+        QVERIFY(Uml::TextRole::Value(i) == at);
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void TEST_basictypes::test_Changeability_toString_fromString()
+{
+    for (int i = 900; i < 903; ++i) {
+        Uml::Changeability at = Uml::Changeability::fromString(
+                                      Uml::Changeability::toString(
+                                          Uml::Changeability::Value(i)));
+        QVERIFY(Uml::Changeability::Value(i) == at);
+    }
+}
+
+//-----------------------------------------------------------------------------
 
 QTEST_MAIN(TEST_basictypes)
 #include "test_basictypes.moc"

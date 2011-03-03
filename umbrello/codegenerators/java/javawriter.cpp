@@ -400,7 +400,7 @@ void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility 
                                             cleanName(at->name()),
                                             fieldName,
                                             at->doc(),
-                                            visibility, Uml::chg_Changeable, at->isStatic(), java);
+                                            visibility, Uml::Changeability::Changeable, at->isStatic(), java);
     }
 }
 
@@ -545,7 +545,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
                                                a->getRoleName(Uml::B),
                                                a->getMulti(Uml::B), a->getRoleDoc(Uml::B),
                                                a->getVisibility(Uml::B),
-                                               a->getChangeability(Uml::B), java);
+                                               a->changeability(Uml::B), java);
                 }
             }
 
@@ -558,7 +558,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
                                                a->getMulti(Uml::A),
                                                a->getRoleDoc(Uml::A),
                                                a->getVisibility(Uml::A),
-                                               a->getChangeability(Uml::A),
+                                               a->changeability(Uml::A),
                                                java);
                 }
             }
@@ -568,7 +568,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
 }
 
 void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleName, QString multi,
-        QString description, Uml::Visibility visib, Uml::Changeability_Type change,
+        QString description, Uml::Visibility visib, Uml::Changeability change,
         QTextStream &java)
 {
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
@@ -587,7 +587,7 @@ void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString rol
 
 void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility visibility, Uml::Changeability_Type changeType,
+        Uml::Visibility visibility, Uml::Changeability changeType,
         QTextStream &java)
 {
     fieldClassName = fixTypeName(fieldClassName);
@@ -595,7 +595,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QS
     QString strVis = visibility.toString();
 
     // ONLY IF changeability is NOT Frozen
-    if (changeType != Uml::chg_Frozen)
+    if (changeType != Uml::Changeability::Frozen)
     {
         writeDocumentation("Add a "+fieldName+" object to the "+fieldVarName+" List",description,"",m_indentation,java);
         java<<startline<<strVis<<" void add"<<fieldName<<" ( "<<fieldClassName<<" new_object ) {";
@@ -604,7 +604,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QS
     }
 
     // ONLY IF changeability is Changeable
-    if (changeType == Uml::chg_Changeable)
+    if (changeType == Uml::Changeability::Changeable)
     {
         writeDocumentation("Remove a "+fieldName+" object from "+fieldVarName+" List",description,"",m_indentation,java);
         java<<startline<<strVis<<" void remove"<<fieldName<<" ( "<<fieldClassName<<" new_object )";
@@ -623,7 +623,7 @@ void JavaWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QS
 
 void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility visibility, Uml::Changeability_Type change,
+        Uml::Visibility visibility, Uml::Changeability change,
         bool isFinal, QTextStream &java)
 {
     QString strVis = visibility.toString();
@@ -631,7 +631,7 @@ void JavaWriter::writeSingleAttributeAccessorMethods(QString fieldClassName, QSt
     fieldName = Codegen_Utils::capitalizeFirstLetter(fieldName);
 
     // set method
-    if (change == Uml::chg_Changeable && !isFinal) {
+    if (change == Uml::Changeability::Changeable && !isFinal) {
         writeDocumentation("Set the value of "+fieldVarName,description,"@param newVar the new value of "+fieldVarName,m_indentation,java);
         java<<startline<<strVis<<" void set"<<fieldName<<" ( "<<fieldClassName<<" newVar ) {";
         java<<startline<<m_indentation<<fieldVarName<<" = newVar;";

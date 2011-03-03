@@ -44,8 +44,6 @@ public:
 
     QString toString() const;
 
-    static QString toString(Uml::Changeability_Type type);
-
     UMLRole * getUMLRole(Uml::Role_Type role) const;
     Uml::IDType getObjectId(Uml::Role_Type role) const;
     Uml::IDType getRoleId(Uml::Role_Type role) const;
@@ -59,8 +57,8 @@ public:
     void setVisibility(Uml::Visibility value, Uml::Role_Type role);
     Uml::Visibility getVisibility(Uml::Role_Type role) const;
 
-    void setChangeability(Uml::Changeability_Type value, Uml::Role_Type role);
-    Uml::Changeability_Type getChangeability(Uml::Role_Type role) const;
+    void setChangeability(Uml::Changeability value, Uml::Role_Type role);
+    Uml::Changeability changeability(Uml::Role_Type role) const;
 
     void setMulti(const QString &multi, Uml::Role_Type role);
     QString getMulti(Uml::Role_Type role) const;

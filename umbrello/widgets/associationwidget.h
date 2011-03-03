@@ -36,7 +36,7 @@ struct WidgetRole
 
     // The following are used only in case of absence of UMLObject
     Uml::Visibility         visibility;
-    Uml::Changeability_Type changeability;
+    Uml::Changeability      changeability;
     QString                 roleDocumentation;
 
     WidgetRole();
@@ -97,8 +97,8 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         void setVisibility(Uml::Visibility v, Uml::Role_Type role);
 
         FloatingTextWidget* changeabilityWidget(Uml::Role_Type role) const;
-        Uml::Changeability_Type changeability(Uml::Role_Type role) const;
-        void setChangeability(Uml::Changeability_Type c, Uml::Role_Type role);
+        Uml::Changeability changeability(Uml::Role_Type role) const;
+        void setChangeability(Uml::Changeability c, Uml::Role_Type role);
 
         FloatingTextWidget* nameWidget() const;
 

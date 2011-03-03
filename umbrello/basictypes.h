@@ -203,13 +203,30 @@ namespace Uml
         Value m_value;
     };
 
-    enum Changeability_Type
+    /**
+     * Changeability types.
+     */
+    class Changeability
     {
-        chg_Changeable = 900,
-        chg_Frozen,
-        chg_AddOnly
+    public:
+        enum Value {
+            Changeable = 900,
+            Frozen,
+            AddOnly
+        };
+        Changeability();
+        Changeability(Value item);
+        static QString toString(Value item);
+        static Changeability fromString(const QString& item);
+        QString toString() const;
+        operator Value() const;
+    private:
+        Value m_value;
     };
 
+    /**
+     * 
+     */
     enum Sequence_Message_Type
     {
         //This is saved out to the file so only add new entries at the end
@@ -289,6 +306,9 @@ namespace Uml
         reg_SouthWest
     };
 
+    /**
+     * 
+     */
     enum Corner {
         corner_TopLeft = 0x1,
         corner_TopRight = 0x2,

@@ -597,7 +597,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
         methodBaseName.replace(0,1,methodBaseName.at(0).toUpper());
 
         writeSingleAttributeAccessorMethods(at->getTypeName(), varName,
-                                            methodBaseName, at->doc(), Uml::chg_Changeable, isHeaderMethod,
+                                            methodBaseName, at->doc(), Uml::Changeability::Changeable, isHeaderMethod,
                                             at->isStatic(), writeMethodBody, stream);
     }
 }
@@ -770,7 +770,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
                                                writeMethodBody,
                                                a->getRoleName(Uml::B),
                                                a->getMulti(Uml::B), a->getRoleDoc(Uml::B),
-                                               a->getChangeability(Uml::B), stream);
+                                               a->changeability(Uml::B), stream);
                 }
             }
 
@@ -785,7 +785,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
                                                a->getRoleName(Uml::A),
                                                a->getMulti(Uml::A),
                                                a->getRoleDoc(Uml::A),
-                                               a->getChangeability(Uml::A),
+                                               a->changeability(Uml::A),
                                                stream);
                 }
             }
@@ -803,7 +803,7 @@ void CppWriter::writeAssociationRoleMethod (const QString &fieldClassName,
         bool isHeaderMethod,
         bool writeMethodBody,
         const QString &roleName, const QString &multi,
-        const QString &description, Uml::Changeability_Type change,
+        const QString &description, Uml::Changeability change,
         QTextStream &stream)
 {
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$")))
@@ -826,7 +826,7 @@ void CppWriter::writeAssociationRoleMethod (const QString &fieldClassName,
 void CppWriter::writeVectorAttributeAccessorMethods (
         const QString &fieldClassName, const QString &fieldVarName,
         const QString &fieldName, const QString &description,
-        Uml::Changeability_Type changeType,
+        Uml::Changeability changeType,
         bool isHeaderMethod,
         bool writeMethodBody,
         QTextStream &stream)
@@ -836,7 +836,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
     QString indnt = indent();
 
     // ONLY IF changeability is NOT Frozen
-    if (changeType != Uml::chg_Frozen)
+    if (changeType != Uml::Changeability::Frozen)
     {
         writeDocumentation("Add a " + fldName + " object to the " + fieldVarName + " List",description,"",stream);
         stream << indnt << "void ";
@@ -858,7 +858,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
     }
 
     // ONLY IF changeability is Changeable
-    if (changeType == Uml::chg_Changeable)
+    if (changeType == Uml::Changeability::Changeable)
     {
         writeDocumentation("Remove a " + fldName + " object from " + fieldVarName + " List",
                            description, "", stream);
@@ -908,7 +908,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
 void CppWriter::writeSingleAttributeAccessorMethods(
         const QString& fieldClassName, const QString& fieldVarName,
         const QString& fieldName, const QString &description,
-        Uml::Changeability_Type change,
+        Uml::Changeability change,
         bool isHeaderMethod,
         bool isStatic,
         bool writeMethodBody,
@@ -923,7 +923,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
     QString indnt = indent();
 
     // set method
-    if (change == Uml::chg_Changeable && !isStatic) {
+    if (change == Uml::Changeability::Changeable && !isStatic) {
         writeDocumentation("Set the value of " + fieldVarName,description,policyExt()->getDocToolTag() + "param new_var the new value of " + fieldVarName,stream);
         stream << indnt << "void ";
         if(!isHeaderMethod)
