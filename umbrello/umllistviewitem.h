@@ -143,16 +143,11 @@ public:
     bool loadFromXMI(QDomElement& qElement);
 
     void setOpen(bool state);
-        
+
 protected:
-    void init(UMLListView * parent = 0);
+    void init();
 
     void cancelRenameWithMsg();
-
-    /**
-     * This list view all the instance of this class are displayed on.
-     */
-    static UMLListView * s_pListView;
 
     /**
      * Auxiliary map of child UMLLisViewItems keyed by UMLClassifierListItem.

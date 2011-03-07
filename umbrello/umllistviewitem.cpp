@@ -43,7 +43,7 @@
 // system includes
 #include <cstdlib>
 
-UMLListView* UMLListViewItem::s_pListView = 0;
+#define DBG_LVI "UMLListViewItem"
 
 /**
  * Sets up an instance.
@@ -57,7 +57,10 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
                                  ListViewType t, UMLObject* o)
   : QTreeWidgetItem(parent)
 {
-    init(parent);
+    init();
+    if (parent == 0) {
+        DEBUG(DBG_LVI) << "UMLListViewItem constructor called with a null listview parent";
+    }
     m_type = t;
     m_object = o;
     if (o) {
@@ -75,9 +78,10 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
 UMLListViewItem::UMLListViewItem(UMLListView * parent)
   : QTreeWidgetItem(parent)
 {
-    init(parent);
-    if (parent == 0)
-        uDebug() << "UMLListViewItem constructor called with a 0 listview parent";
+    init();
+    if (parent == 0) {
+        DEBUG(DBG_LVI) << "UMLListViewItem constructor called with a null listview parent";
+    }
 }
 
 /**
@@ -180,16 +184,13 @@ UMLListViewItem::~UMLListViewItem()
 /**
  * Initializes key variables of the class.
  */
-void UMLListViewItem::init(UMLListView * parent)
+void UMLListViewItem::init()
 {
     m_type = lvt_Unknown;
     m_bCreating = false;
     m_object = 0;
     m_id = Uml::id_None;
-    if (s_pListView == 0 && parent != 0) {
-        uDebug() << "s_pListView still 0, setting it now ";
-        s_pListView = parent;
-    }
+    DEBUG_REGISTER(DBG_LVI);
 }
 
 /**
@@ -253,7 +254,7 @@ void UMLListViewItem::setVisible(bool state)
 Uml::IDType UMLListViewItem::getID() const
 {
     if (m_object) {
-        uDebug() << "name=" << m_object->name();  //:TODO:
+        DEBUG(DBG_LVI) << "name=" << m_object->name();  //:TODO:
         return m_object->id();
     }
     return m_id;
@@ -270,7 +271,7 @@ void UMLListViewItem::setID(Uml::IDType id)
     if (m_object) {
         Uml::IDType oid = m_object->id();
         if (id != Uml::id_None && oid != id) {
-            uDebug() << "new id " << ID2STR(id) << " does not agree with object id "
+            DEBUG(DBG_LVI) << "new id " << ID2STR(id) << " does not agree with object id "
                 << ID2STR(oid);
         }
     }
@@ -303,12 +304,13 @@ UMLObject * UMLListViewItem::umlObject() const
  */
 bool UMLListViewItem::isOwnParent(Uml::IDType listViewItemID)
 {
-    QTreeWidgetItem *lvi = (QTreeWidgetItem*)s_pListView->findItem(listViewItemID);
+    UMLListView* listView = static_cast<UMLListView*>(treeWidget());
+    QTreeWidgetItem *lvi = static_cast<QTreeWidgetItem*>(listView->findItem(listViewItemID));
     if (lvi == 0) {
         uError() << "ListView->findItem(" << ID2STR(listViewItemID) << ") returns 0";
         return true;
     }
-    for (QTreeWidgetItem *self = (QTreeWidgetItem*)this; self; self = self->parent()) {
+    for (QTreeWidgetItem *self = static_cast<QTreeWidgetItem*>(this); self; self = self->parent()) {
         if (lvi == self)
             return true;
     }
@@ -425,10 +427,11 @@ void UMLListViewItem::setIcon(Icon_Utils::Icon_Type iconType)
 
 void UMLListViewItem::startRename(int col)
 {
-    uDebug() << "column=" << col << ", text=" << text(col);
+    DEBUG(DBG_LVI) << "column=" << col << ", text=" << text(col);
     m_oldText = text(col);  // keep the old text
     if (m_bCreating) {
-        s_pListView->cancelRename(this);
+        UMLListView* listView = static_cast<UMLListView*>(treeWidget());
+        listView->cancelRename(this);
     }
 }
 
@@ -438,12 +441,13 @@ void UMLListViewItem::startRename(int col)
  */
 void UMLListViewItem::okRename(int col)
 {
-    uDebug() << "column=" << col << ", text=" << text(col);
-    UMLDoc* doc = s_pListView->document();
+    DEBUG(DBG_LVI) << "column=" << col << ", text=" << text(col);
+    UMLListView* listView = static_cast<UMLListView*>(treeWidget());
+    UMLDoc* doc = listView->document();
     if (m_bCreating) {
         m_bCreating = false;
-        if (s_pListView->itemRenamed(this, col)) {
-//:TODO:            s_pListView->ensureItemVisible(this);
+        if (listView->itemRenamed(this, col)) {
+//:TODO:            listView->ensureItemVisible(this);
             doc->setModified(true);
         } else {
             delete this;
@@ -666,7 +670,7 @@ void UMLListViewItem::okRename(int col)
  */
 void UMLListViewItem::cancelRenameWithMsg()
 {
-    uDebug() << "column=" << ":TODO:col" << ", text=" << text(0);
+    DEBUG(DBG_LVI) << "column=" << ":TODO:col" << ", text=" << text(0);
     KMessageBox::error(0,
                        i18n("The name you entered was invalid.\nRenaming process has been canceled."),
                        i18n("Name Not Valid"));
@@ -678,10 +682,11 @@ void UMLListViewItem::cancelRenameWithMsg()
  */
 void UMLListViewItem::cancelRename(int col)
 {
-    uDebug() << "column=" << col << ", text=" << text(col);
+    DEBUG(DBG_LVI) << "column=" << col << ", text=" << text(col);
     Q_UNUSED(col);
     if (m_bCreating) {
-        s_pListView->cancelRename(this);
+        UMLListView* listView = static_cast<UMLListView*>(treeWidget());
+        listView->cancelRename(this);
     }
 }
 
@@ -712,14 +717,14 @@ int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) co
     if (m_object == 0) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        uDebug() << dbgPfx << retval << " because (m_object==0)";
+        DEBUG(DBG_LVI) << dbgPfx << retval << " because (m_object==0)";
 #endif
         return retval;
     }
     if (otherObj == 0) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        uDebug() << dbgPfx << retval << " because (otherObj==0)";
+        DEBUG(DBG_LVI) << dbgPfx << retval << " because (otherObj==0)";
 #endif
         return retval;
     }
@@ -728,21 +733,21 @@ int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) co
     if (ourParent == 0) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        uDebug() << dbgPfx << retval << " because (ourParent==0)";
+        DEBUG(DBG_LVI) << dbgPfx << retval << " because (ourParent==0)";
 #endif
         return retval;
     }
     if (otherParent == 0) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        uDebug() << dbgPfx << retval << " because (otherParent==0)";
+        DEBUG(DBG_LVI) << dbgPfx << retval << " because (otherParent==0)";
 #endif
         return retval;
     }
     if (ourParent != otherParent) {
         retval = (subItem ? 0 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        uDebug() << dbgPfx << retval << " because (ourParent != otherParent)";
+        DEBUG(DBG_LVI) << dbgPfx << retval << " because (ourParent != otherParent)";
 #endif
         return retval;
     }
@@ -751,14 +756,14 @@ int UMLListViewItem::compare(QTreeWidgetItem *other, int col, bool ascending) co
     if (thisUmlItem == 0) {
         retval = (subItem ? 1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        uDebug() << dbgPfx << retval << " because (thisUmlItem==0)";
+        DEBUG(DBG_LVI) << dbgPfx << retval << " because (thisUmlItem==0)";
 #endif
         return retval;
     }
     if (otherUmlItem == 0) {
         retval = (subItem ? -1 : alphaOrder);
 #ifdef DEBUG_LVITEM_INSERTION_ORDER
-        uDebug() << dbgPfx << retval << " because (otherUmlItem==0)";
+        DEBUG(DBG_LVI) << dbgPfx << retval << " because (otherUmlItem==0)";
 #endif
         return retval;
     }
@@ -865,7 +870,7 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     QDomElement itemElement = qDoc.createElement("listitem");
     Uml::IDType id = getID();
     QString idStr = ID2STR(id);
-    //uDebug() << "id = " << idStr << ", type = " << m_type;
+    //DEBUG(DBG_LVI) << "id = " << idStr << ", type = " << m_type;
     if (id != Uml::id_None)
         itemElement.setAttribute("id", idStr);
     itemElement.setAttribute("type", m_type);
@@ -877,10 +882,10 @@ void UMLListViewItem::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
             itemElement.setAttribute("label", text(0));
     } else if (m_object->id() == Uml::id_None) {
         if (text(0).isEmpty()) {
-            uDebug() << "Skipping empty item";
+            DEBUG(DBG_LVI) << "Skipping empty item";
             return;
         }
-        uDebug() << "saving local label " << text(0) << " because umlobject ID is not set";
+        DEBUG(DBG_LVI) << "saving local label " << text(0) << " because umlobject ID is not set";
         if (m_type != lvt_View)
             itemElement.setAttribute("label", text(0));
     } else if (m_object->baseType() == UMLObject::ot_Folder) {
@@ -917,8 +922,10 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
     }
 
     m_id = STR2ID(id);
-    if (m_id != Uml::id_None)
-        m_object = s_pListView->document()->findObjectById(m_id);
+    if (m_id != Uml::id_None) {
+        UMLListView* listView = static_cast<UMLListView*>(treeWidget());
+        m_object = listView->document()->findObjectById(m_id);
+    }
     m_type = (ListViewType)(type.toInt());
     if (m_object)
         updateObject();
