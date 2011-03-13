@@ -313,9 +313,9 @@ AssociationLine::AssociationLine(AssociationWidget *assoc)
     m_collaborationLineHead = 0;
     m_collaborationLineItem = 0;
     // This tracker is only for debugging and testing purpose.
-    tracker = new QGraphicsLineItem;
-    tracker->setPen(QPen(Qt::darkBlue, 1));
-    tracker->setZValue(100);
+    m_tracker = new QGraphicsLineItem;
+    m_tracker->setPen(QPen(Qt::darkBlue, 1));
+    m_tracker->setZValue(100);
 
     DEBUG_REGISTER(DBG_ASS);
 }

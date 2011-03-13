@@ -211,7 +211,7 @@ class AssociationLine : public QGraphicsObject
         QPainterPath m_shape;
         /// The line used to represent Association class.
         QGraphicsLineItem *m_associationClassLine;
-        QGraphicsLineItem *tracker;
+        QGraphicsLineItem *m_tracker;
 
         /// The default delta for fuzzy recognition of points closer to point.
         static const qreal Delta;
