@@ -348,7 +348,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
                                               "version=\"1.0\" encoding=\"UTF-8\"");
     folderDoc.appendChild(xmlHeading);
     folderRoot = folderDoc.createElement("external_file");
-    folderRoot.setAttribute("name", m_Name);
+    folderRoot.setAttribute("name", name());
     folderRoot.setAttribute("filename", m_folderFile);
     folderRoot.setAttribute("mainModel", umldoc->url().fileName());
     folderRoot.setAttribute("parentId", ID2STR(m_pUMLPackage->id()));
@@ -460,7 +460,7 @@ bool UMLFolder::load(QDomElement& element)
             // Therefore these tags are not further interpreted.
             if (! load(tempElement)) {
                 uDebug() << "An error happened while loading the " << type
-                    << " of the " << m_Name;
+                    << " of the " << name();
                 totalSuccess = false;
             }
             continue;
@@ -480,7 +480,7 @@ bool UMLFolder::load(QDomElement& element)
                     if (loadFolderFile(path))
                         m_folderFile = fileName;
                 } else {
-                    uDebug() << m_Name << ": ignoring XMI.extension " << xtag;
+                    uDebug() << name() << ": ignoring XMI.extension " << xtag;
                     continue;
                 }
             }

@@ -148,6 +148,8 @@ public:
 
     QDomElement save( const QString &tag, QDomDocument & qDoc );
 
+    friend QDebug operator<< (QDebug out, const UMLObject& obj);
+
 public slots:
 
     void emitModified();
@@ -164,52 +166,30 @@ protected:
 
     virtual bool load( QDomElement& element );
 
-    Uml::IDType      m_nId;          ///< The object's id.
-    QString          m_Doc;          ///< The object's documentation. 
-    UMLPackage*      m_pUMLPackage;  ///< The package the object belongs to if applicable.
-    UMLStereotype*   m_pStereotype;  ///< The stereotype of the object if applicable.
-    QString          m_Name;         ///< The objects name.
-    Object_Type      m_BaseType;     ///< The objects type.
-    Uml::Visibility  m_Vis;          ///< The objects visibility.
-    bool             m_bAbstract;    ///< The state of whether the object is abstract or not.
-    bool             m_bStatic;      ///< Flag for instance scope.
-    bool             m_bInPaste;     ///< Caller sets this true when in paste operation.
-    bool  m_bCreationWasSignalled;   ///< Auxiliary to maybeSignalObjectCreated().
-
-    /**
-     * Pointer to an associated object.
-     * Only a few of the classes inheriting from UMLObject use this.
-     * However, it needs to be here because of inheritance graph
-     * disjunctness.
-     */
-    UMLObject* m_pSecondary;
-
-    /**
-     * xmi.id of the secondary object for intermediate use during
-     * loading.  The secondary ID is resolved to the m_pSecondary
-     * in the course of resolveRef() at the end of loading.
-     */
-    QString m_SecondaryId;
-
-    /**
-     * Last-chance backup for when m_SecondaryId is not found.
-     * Used by Rose import: MDL files specify both a "quidu"
-     * (which corresponds to m_SecondaryId) and the human readable
-     * fully qualified target name of a reference.
-     * In case the quidu is not found, the human readable name is
-     * used which we store in m_SecondaryFallback.
-     */
-    QString m_SecondaryFallback;
+    Uml::IDType      m_nId;          ///< object's id
+    QString          m_Doc;          ///< object's documentation 
+    UMLPackage*      m_pUMLPackage;  ///< package the object belongs to if applicable
+    UMLStereotype*   m_pStereotype;  ///< stereotype of the object if applicable
+    QString          m_name;         ///< objects name
+    Object_Type      m_BaseType;     ///< objects type
+    Uml::Visibility  m_Vis;          ///< objects visibility
+    bool             m_bAbstract;    ///< state of whether the object is abstract or not
+    bool             m_bStatic;      ///< flag for instance scope
+    bool             m_bInPaste;     ///< caller sets this true when in paste operation
+    bool  m_bCreationWasSignalled;   ///< auxiliary to maybeSignalObjectCreated()
+    UMLObject*       m_pSecondary;   ///< pointer to an associated object
+                                     ///< Only a few of the classes inheriting from UMLObject use this.
+                                     ///< However, it needs to be here because of inheritance graph
+                                     ///< disjunctness.
+    QString          m_SecondaryId;  ///< xmi.id of the secondary object for intermediate use during
+                                     ///< loading. The secondary ID is resolved to the m_pSecondary
+                                     ///< in the course of resolveRef() at the end of loading.
+    QString     m_SecondaryFallback; ///< Last-chance backup for when m_SecondaryId is not found.
+                                     ///< Used by Rose import: MDL files specify both a "quidu"
+                                     ///< (which corresponds to m_SecondaryId) and the human readable
+                                     ///< fully qualified target name of a reference.
+                                     ///< In case the quidu is not found, the human readable name is
+                                     ///< used which we store in m_SecondaryFallback.
 };
-
-#ifndef QT_NO_DEBUG_STREAM
-
-/**
- * Print UML Object to kdgstream, so it can be used like
- *   kdWarn() << "This object shouldn't be here:" << illegalObject << endl;
- */
-QDebug operator<< (QDebug s, const UMLObject& a);
-
-#endif
 
 #endif

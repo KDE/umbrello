@@ -491,7 +491,7 @@ bool UMLEntity::load(QDomElement& element)
 
             addConstraint( pCheckConstraint );
         } else if (tag == "stereotype") {
-            uDebug() << m_Name << ": losing old-format stereotype.";
+            uDebug() << name() << ": losing old-format stereotype.";
         } else {
             uWarning() << "unknown child type in UMLEntity::load";
         }

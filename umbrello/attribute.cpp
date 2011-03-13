@@ -74,7 +74,7 @@ UMLAttribute::~UMLAttribute()
  */
 void UMLAttribute::setName(const QString &name)
 {
-    m_Name = name;
+    m_name = name;
     emit attributeChanged();
     UMLObject::emitModified();
 }
@@ -190,7 +190,7 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
     }
     UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
     if (ownParent == NULL) {
-        uError() << m_Name << ": parent " << owningObject->name()
+        uError() << name() << ": parent " << owningObject->name()
             << " is not a UMLClassifier";
         return QString();
     }
@@ -200,7 +200,7 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
     QString fqn = ownParent->fullyQualifiedName(tempSeparator, includeRoot);
     if (op)
         fqn.append(tempSeparator + op->name());
-    fqn.append(tempSeparator + m_Name);
+    fqn.append(tempSeparator + name());
     return fqn;
 }
 
@@ -259,7 +259,7 @@ void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement attributeElement = UMLObject::save("UML:Attribute", qDoc);
     if (m_pSecondary == NULL) {
-        uDebug() << m_Name << ": m_pSecondary is NULL, m_SecondaryId is '"
+        uDebug() << name() << ": m_pSecondary is NULL, m_SecondaryId is '"
             << m_SecondaryId << "'";
     } else {
         attributeElement.setAttribute( "type", ID2STR(m_pSecondary->id()) );
@@ -308,7 +308,7 @@ bool UMLAttribute::load( QDomElement & element )
             break;
         }
         if (m_SecondaryId.isEmpty()) {
-            uDebug() << m_Name << ": " << "cannot find type.";
+            uDebug() << name() << ": " << "cannot find type.";
         }
     }
     m_InitialValue = element.attribute( "initialValue", "" );

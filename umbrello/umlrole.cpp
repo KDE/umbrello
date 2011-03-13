@@ -36,7 +36,7 @@ UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type 
     m_Changeability(Uml::Changeability::Changeable)
 {
     m_BaseType = UMLObject::ot_Role;
-    m_Name = QString();
+    m_name = QString();
     m_pSecondary = parentObj;
 
     // connect this up to parent
@@ -61,7 +61,7 @@ bool UMLRole::operator==(const UMLRole &rhs) const
     return ( UMLObject::operator==( rhs ) &&
              m_Changeability == rhs.m_Changeability &&
              m_Multi == rhs.m_Multi &&
-             m_Name == rhs.m_Name
+             m_name == rhs.m_name
            );
 }
 
@@ -234,7 +234,7 @@ bool UMLRole::load( QDomElement & element )
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
         if (UMLDoc::tagEq(tag, "name")) {
-            m_Name = tempElement.text();
+            m_name = tempElement.text();
         } else if (UMLDoc::tagEq(tag, "AssociationEnd.multiplicity")) {
             /**
              * There are different ways in which the multiplicity might be given:
@@ -312,9 +312,9 @@ bool UMLRole::load( QDomElement & element )
         }
     }
     if (!m_Multi.isEmpty())
-        uDebug() << m_Name << ": m_Multi is " << m_Multi;
+        uDebug() << name() << ": m_Multi is " << m_Multi;
     if (m_SecondaryId.isEmpty()) {
-        uError() << m_Name << ": type not given or illegal";
+        uError() << name() << ": type not given or illegal";
         return false;
     }
     UMLObject * obj;

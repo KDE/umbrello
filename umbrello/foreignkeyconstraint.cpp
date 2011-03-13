@@ -191,7 +191,7 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
     }
     // check for sanity of pAttr ( parent entity attribute )
     if (owningParent == NULL) {
-        uError() << m_Name << ": parent is not a UMLEntity";
+        uError() << name() << ": parent is not a UMLEntity";
         return false;
     }
 

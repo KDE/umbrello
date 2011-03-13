@@ -145,7 +145,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
         if (assoc->getObject(Uml::A) && assoc->getObject(Uml::B)) {
             UMLPackage *pkg = pObject->umlPackage();
             if (pkg != this) {
-               uError() << "UMLPackage " << m_Name << " addObject: "
+               uError() << "UMLPackage " << name() << " addObject: "
                         << "assoc's UMLPackage is " << pkg->name();
             }
             addAssocToConcepts(assoc);
@@ -192,7 +192,7 @@ void UMLPackage::removeObject(UMLObject *pObject)
         removeAssocFromConcepts(assoc);
     }
     if (m_objects.indexOf(pObject) == -1)
-        uDebug() << m_Name << " removeObject: object with id="
+        uDebug() << name() << " removeObject: object with id="
                  << ID2STR(pObject->id()) << "not found.";
     else
         m_objects.removeAll(pObject);

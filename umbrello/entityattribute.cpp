@@ -239,7 +239,7 @@ void UMLEntityAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement 
 {
     QDomElement entityattributeElement = UMLObject::save("UML:EntityAttribute", qDoc);
     if (m_pSecondary == NULL) {
-        uDebug() << m_Name << ": m_pSecondary is NULL, using local name " << m_SecondaryId;
+        uDebug() << name() << ": m_pSecondary is NULL, using local name " << m_SecondaryId;
         entityattributeElement.setAttribute( "type", m_SecondaryId );
     } else {
         entityattributeElement.setAttribute( "type", ID2STR(m_pSecondary->id()) );

@@ -268,7 +268,7 @@ bool UMLEnum::load(QDomElement& element)
             }
             m_List.append(pEnumLiteral);
         } else if (tag == "stereotype") {
-            uDebug() << m_Name << ": losing old-format stereotype.";
+            uDebug() << name() << ": losing old-format stereotype.";
         } else {
             uWarning() << "unknown child type in UMLEnum::load";
         }

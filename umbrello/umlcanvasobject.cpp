@@ -143,16 +143,16 @@ void UMLCanvasObject::removeAllAssociationEnds()
         if (roleAObj) {
             roleAObj->removeAssociationEnd(assoc);
         } else if (objA)
-            uDebug() << m_Name << ": objA " << objA->name() << " is not a UMLCanvasObject";
+            uDebug() << name() << ": objA " << objA->name() << " is not a UMLCanvasObject";
         else
-            uDebug() << m_Name << "): objA is NULL";
+            uDebug() << name() << "): objA is NULL";
         UMLCanvasObject *roleBObj = dynamic_cast<UMLCanvasObject*>(objB);
         if (roleBObj) {
             roleBObj->removeAssociationEnd(assoc);
         } else if (objB)
-            uDebug() << m_Name << "): objB " << objB->name() << " is not a UMLCanvasObject";
+            uDebug() << name() << "): objB " << objB->name() << " is not a UMLCanvasObject";
         else
-            uDebug() << m_Name << "): objB is NULL";
+            uDebug() << name() << "): objB is NULL";
     }
 }
 
@@ -368,7 +368,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses()
         if (c)
             list.append(c);
         else
-            uDebug() << m_Name << ": generalization's other end is not a "
+            uDebug() << name() << ": generalization's other end is not a "
                 << "UMLClassifier (id= " << ID2STR(a->getObjectId(Uml::B)) << ")";
     }
     return list;

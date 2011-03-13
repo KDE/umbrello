@@ -250,7 +250,7 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
 
     }
     if (owningParent == NULL) {
-        uError() << m_Name << ": parent is not a UMLEntity";
+        uError() << name() << ": parent is not a UMLEntity";
         return false;
     }
 
@@ -278,7 +278,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if (owningParent == NULL) {
-        uError() << m_Name << ": parent is not a UMLEntity";
+        uError() << name() << ": parent is not a UMLEntity";
         return false;
     }
 

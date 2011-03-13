@@ -453,7 +453,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement("UML:Parameter");
         if (m_returnId == Uml::id_None) {
-            uDebug() << m_Name << ": m_returnId is not set, setting it now.";
+            uDebug() << name() << ": m_returnId is not set, setting it now.";
             m_returnId = UniqueID::gen();
         }
         retElement.setAttribute( "xmi.id", ID2STR(m_returnId) );
@@ -561,7 +561,7 @@ bool UMLOperation::load( QDomElement & element )
                         break;
                     }
                     if (m_SecondaryId.isEmpty()) {
-                        uError() << m_Name << ": cannot find return type.";
+                        uError() << name() << ": cannot find return type.";
                     }
                 }
                 // Use deferred xmi.id resolution.
