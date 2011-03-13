@@ -59,9 +59,9 @@ Tracer::~Tracer()
  */
 void Tracer::registerClass(const QString& name, const QString& folder)
 {
-    uDebug() << name << " / folder = " << folder;
     QList<QTreeWidgetItem*> items = findItems(name, Qt::MatchFixedString);
     if (items.empty()) {
+        uDebug() << name << " / folder = " << folder;
         QTreeWidgetItem* item = new QTreeWidgetItem(QStringList(name));
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
         item->setCheckState(0, Qt::Checked);
