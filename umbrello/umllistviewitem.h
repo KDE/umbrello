@@ -37,8 +37,6 @@ typedef QTreeWidgetItemIterator UMLListViewItemIterator;
  */
 class UMLListViewItem : public QTreeWidgetItem
 {
-    Q_ENUMS(ListViewType)
-
 public:
     enum ListViewType
     {
@@ -92,6 +90,8 @@ public:
         lvt_Unknown = -1
     };
 
+    static QString toString(ListViewType type);
+
     UMLListViewItem(UMLListView * parent, const QString &name, ListViewType t, UMLObject* o = 0);
     UMLListViewItem(UMLListView * parent);
     UMLListViewItem(UMLListViewItem * parent);
@@ -143,6 +143,8 @@ public:
     bool loadFromXMI(QDomElement& qElement);
 
     void setOpen(bool state);
+
+    friend QDebug operator<< (QDebug out, const UMLListViewItem& item);
 
 protected:
     void init();

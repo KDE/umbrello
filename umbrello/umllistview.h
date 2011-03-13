@@ -51,7 +51,7 @@ class UMLListView : public QTreeWidget
     Q_OBJECT
 public:
 
-    UMLListView(QWidget *parent,const char *name);
+    UMLListView(QWidget *parent = 0);
     ~UMLListView();
 
     void setDocument(UMLDoc * doc);
@@ -114,7 +114,7 @@ public:
     UMLListViewItem * moveObject(Uml::IDType srcId, UMLListViewItem::ListViewType srcType,
                                  UMLListViewItem *newParent);
 
-    bool itemRenamed(UMLListViewItem* item , int col);
+    bool itemRenamed(UMLListViewItem* item, int col);
 
     void closeDatatypesFolder();
 
@@ -131,21 +131,9 @@ public:
     bool loadFromXMI(QDomElement & element);
     bool loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & element);
 
+    friend QDebug operator<< (QDebug out, const UMLListView& view);
+
 protected:
-
-    UMLListViewItem* m_rv;                            // root view (home)
-    UMLListViewItem* m_lv[Uml::ModelType::N_MODELTYPES];  // predefined list view roots
-    UMLListViewItem* m_datatypeFolder;
-    ListPopupMenu*   m_menu;
-    UMLDoc*          m_doc;
-    bool             m_bStartedCut;
-    bool             m_bStartedCopy;
-    bool             m_bIgnoreCancelRename;
-
-    /**
-     * Used when creating an attribute or an operation to stop it adding a second listViewItem.
-     */
-    bool m_bCreatingChildObject;
 
     bool event(QEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
@@ -176,7 +164,6 @@ protected:
     void addAtContainer(UMLListViewItem *item, UMLListViewItem *parent);
 
 public slots:
-
     void slotDiagramCreated(Uml::IDType id);
     void slotDiagramRenamed(Uml::IDType id);
     void slotDiagramRemoved(Uml::IDType id);
@@ -213,6 +200,15 @@ private:
 
     void setBackgroundColor(const QColor & color);
 
+    UMLListViewItem* m_rv;         ///< root view (home)
+    UMLListViewItem* m_lv[Uml::ModelType::N_MODELTYPES];  ///< predefined list view roots
+    UMLListViewItem* m_datatypeFolder;
+    ListPopupMenu*   m_menu;
+    UMLDoc*          m_doc;
+    bool             m_bStartedCut;
+    bool             m_bStartedCopy;
+    bool             m_bIgnoreCancelRename;
+    bool m_bCreatingChildObject;  ///< when creating an attribute or an operation to stop it adding a second listViewItem
     QPoint m_dragStartPosition;
     UMLListViewItem* m_editItem;
 };

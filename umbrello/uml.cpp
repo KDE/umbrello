@@ -695,7 +695,7 @@ void UMLApp::initView()
     m_listDock = new QDockWidget( i18n("&Tree View"), this );
     m_listDock->setObjectName("TreeViewDock");
     addDockWidget(Qt::LeftDockWidgetArea, m_listDock);
-    m_listView = new UMLListView(m_listDock, "LISTVIEW");
+    m_listView = new UMLListView(m_listDock);
     //m_listView->setSorting(-1);
     m_listView->setDocument(m_doc);
     m_listView->init();

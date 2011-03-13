@@ -425,9 +425,12 @@ void UMLListViewItem::setIcon(Icon_Utils::Icon_Type iconType)
     QTreeWidgetItem::setIcon(0, QIcon(p));
 }
 
+/**
+ * Start the rename process.
+ */
 void UMLListViewItem::startRename(int col)
 {
-    DEBUG(DBG_LVI) << "column=" << col << ", text=" << text(col);
+    DEBUG(DBG_LVI) << this << " - column=" << col << ", text=" << text(col);
     m_oldText = text(col);  // keep the old text
     if (m_bCreating) {
         UMLListView* listView = static_cast<UMLListView*>(treeWidget());
@@ -441,7 +444,7 @@ void UMLListViewItem::startRename(int col)
  */
 void UMLListViewItem::okRename(int col)
 {
-    DEBUG(DBG_LVI) << "column=" << col << ", text=" << text(col);
+    DEBUG(DBG_LVI) << this << " - column=" << col << ", text=" << text(col);
     UMLListView* listView = static_cast<UMLListView*>(treeWidget());
     UMLDoc* doc = listView->document();
     if (m_bCreating) {
@@ -670,7 +673,7 @@ void UMLListViewItem::okRename(int col)
  */
 void UMLListViewItem::cancelRenameWithMsg()
 {
-    DEBUG(DBG_LVI) << "column=" << ":TODO:col" << ", text=" << text(0);
+    DEBUG(DBG_LVI) << this << " - column=" << ":TODO:col" << ", text=" << text(0);
     KMessageBox::error(0,
                        i18n("The name you entered was invalid.\nRenaming process has been canceled."),
                        i18n("Name Not Valid"));
@@ -682,7 +685,7 @@ void UMLListViewItem::cancelRenameWithMsg()
  */
 void UMLListViewItem::cancelRename(int col)
 {
-    DEBUG(DBG_LVI) << "column=" << col << ", text=" << text(col);
+    DEBUG(DBG_LVI) << this << " - column=" << col << ", text=" << text(col);
     Q_UNUSED(col);
     if (m_bCreating) {
         UMLListView* listView = static_cast<UMLListView*>(treeWidget());
@@ -857,7 +860,7 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::IDType id)
         UMLListViewItem *inner = childItem->findItem(id);
         if (inner) {
             return inner;
-	}
+        }
     }
     return 0;
 }
@@ -936,4 +939,114 @@ bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
 UMLListViewItem* UMLListViewItem::childItem(int i)
 {
     return static_cast<UMLListViewItem *>(child(i));
+}
+
+QString UMLListViewItem::toString(ListViewType type)
+{
+    switch (type) {
+        case lvt_View:
+            return "lvt_View";
+        case lvt_Logical_View:
+            return "lvt_Logical_View";
+        case lvt_UseCase_View:
+            return "lvt_UseCase_View";
+        case lvt_Logical_Folder:
+            return "lvt_Logical_Folder";
+        case lvt_UseCase_Folder:
+            return "lvt_UseCase_Folder";
+        case lvt_UseCase_Diagram:
+            return "lvt_UseCase_Diagram";
+        case lvt_Collaboration_Diagram:
+            return "lvt_Collaboration_Diagram";
+        case lvt_Class_Diagram:
+            return "lvt_Class_Diagram";
+        case lvt_State_Diagram:
+            return "lvt_State_Diagram";
+        case lvt_Activity_Diagram:
+            return "lvt_Activity_Diagram";
+        case lvt_Sequence_Diagram:
+            return "lvt_Sequence_Diagram";
+        case lvt_Actor:
+            return "lvt_Actor";
+        case lvt_UseCase:
+            return "lvt_UseCase";
+        case lvt_Class:
+            return "lvt_Class";
+        case lvt_Attribute:
+            return "lvt_Attribute";
+        case lvt_Operation:
+            return "lvt_Operation";
+        case lvt_Template:
+            return "lvt_Template";
+        case lvt_Interface:
+            return "lvt_Interface";
+        case lvt_Package:
+            return "lvt_Package";
+        case lvt_Component_Diagram:
+            return "lvt_Component_Diagram";
+        case lvt_Component_Folder:
+            return "lvt_Component_Folder";
+        case lvt_Component_View:
+            return "lvt_Component_View";
+        case lvt_Component:
+            return "lvt_Component";
+        case lvt_Diagrams:
+            return "lvt_Diagrams";
+        case lvt_Artifact:
+            return "lvt_Artifact";
+        case lvt_Deployment_Diagram:
+            return "lvt_Deployment_Diagram";
+        case lvt_Deployment_Folder:
+            return "lvt_Deployment_Folder";
+        case lvt_Deployment_View:
+            return "lvt_Deployment_View";
+        case lvt_Node:
+            return "lvt_Node";
+        case lvt_Datatype:
+            return "lvt_Datatype";
+        case lvt_Datatype_Folder:
+            return "lvt_Datatype_Folder";
+        case lvt_Enum:
+            return "lvt_Enum";
+        case lvt_Entity:
+            return "lvt_Entity";
+        case lvt_EntityAttribute:
+            return "lvt_EntityAttribute";
+        case lvt_EntityRelationship_Diagram:
+            return "lvt_EntityRelationship_Diagram";
+        case lvt_EntityRelationship_Folder:
+            return "lvt_EntityRelationship_Folder";
+        case lvt_EntityRelationship_Model:
+            return "lvt_EntityRelationship_Model";
+        case lvt_Subsystem:
+            return "lvt_Subsystem";
+        case lvt_Model:
+            return "lvt_Model";
+        case lvt_EnumLiteral:
+            return "lvt_EnumLiteral";
+        case lvt_UniqueConstraint:
+            return "lvt_UniqueConstraint";
+        case lvt_PrimaryKeyConstraint:
+            return "lvt_PrimaryKeyConstraint";
+        case lvt_ForeignKeyConstraint:
+            return "lvt_ForeignKeyConstraint";
+        case lvt_CheckConstraint:
+            return "lvt_CheckConstraint";
+        case lvt_Category:
+            return "lvt_Category";
+        case lvt_Unknown:
+            return "lvt_Unknown";
+        default:
+            return "? ListViewType ?";
+    }
+}
+
+/**
+ * Overloading operator for debugging output.
+ */
+QDebug operator<<(QDebug out, const UMLListViewItem& item)
+{
+    out << item.text(0) << ", type=" << item.type()
+        << ", id=" << ID2STR(item.getID()) << ", children=" << item.childCount();
+    return out;
 }
