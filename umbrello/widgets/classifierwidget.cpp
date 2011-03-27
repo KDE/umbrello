@@ -50,8 +50,8 @@ const int ClassifierWidget::InvalidIndex = 99999;
  * @param c The UMLObject to represent.
  */
 ClassifierWidget::ClassifierWidget(UMLClassifier *c)
-    : UMLWidget(c),
-      m_classAssociationWidget(0)
+  : UMLWidget(c),
+    m_classAssociationWidget(0)
 {
     createTextItemGroup(); // For header (name, stereotype..)
     createTextItemGroup(); // For attributes and operations.
@@ -62,6 +62,11 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
 
     m_operationExpanderBox = new ExpanderBox(false, this);
     connect(m_operationExpanderBox, SIGNAL(expansionToggled(bool)), this, SLOT(slotShowOperations(bool)));
+
+    m_attributeExpanderBox->setVisible(false);
+    m_operationExpanderBox->setVisible(false);
+
+    setAcceptHoverEvents(true);  // to show and hide the expander box handlers
 
     // Null initially
     m_dummyAttributeItem = m_dummyOperationItem = 0;
@@ -85,6 +90,8 @@ ClassifierWidget::ClassifierWidget(UMLClassifier *c)
         m_visualProperties = ShowOperations | ShowVisibility | ShowStereotype;
         setShowStereotype(true);
     }
+
+    DEBUG_REGISTER(DBG_SRC);
 }
 
 /**
@@ -98,7 +105,9 @@ ClassifierWidget::~ClassifierWidget()
     }
 }
 
-/// @return the UMLClassifier which this ClassifierWidget represents.
+/**
+ * @return the UMLClassifier which this ClassifierWidget represents.
+ */
 UMLClassifier *ClassifierWidget::classifier() const
 {
     return static_cast<UMLClassifier*>(umlObject());
@@ -231,7 +240,7 @@ void ClassifierWidget::toggleVisualProperty(VisualProperty property)
         oppositeStatus = !visualProperty(property);
     }
 
-    uDebug() << "VisualProperty:" << property << "to opposite status " << oppositeStatus;
+    DEBUG(DBG_SRC) << "VisualProperty: " << property << " to opposite status " << oppositeStatus;
     setVisualProperty(property, oppositeStatus);
 }
 
@@ -419,16 +428,18 @@ void ClassifierWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
 void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget *)
 {
     QPen pen(lineColor(), lineWidth());
-    painter->setPen(pen);
-    painter->setBrush(brush());
 
     if (shouldDrawAsCircle()) {
+        painter->setPen(pen);
+        painter->setBrush(brush());
         // m_classifierRect represents circle geometry when shouldDrawAsCircle is true.
         painter->drawEllipse(m_classifierRect);
     }
     else {
         // The elements not to be drawn will have null dimension and
         // hence it effectively is not drawn. (automatic ;) )
+        painter->setPen(pen);
+        painter->setBrush(brush());
         painter->drawRoundedRect(m_classifierRect, 2, 2);
         painter->drawLines(m_classifierLines, 2);
 
@@ -436,7 +447,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem*,
         painter->setBrush(awesomeHeaderBrush());
         Uml::Corners corners(Uml::corner_TopLeft | Uml::corner_TopRight);
         Widget_Utils::drawRoundedRect(painter, textItemGroupAt(HeaderGroupIndex)->groupGeometry(),
-                2, 2, corners);
+                                      2, 2, corners);
 
         pen.setStyle(Qt::DotLine);
         painter->setPen(pen);
@@ -488,7 +499,7 @@ void ClassifierWidget::updateGeometry()
 
     }
     setMinimumSize(totalMinSize, sizeHintOption);
-    setSize(totalMinSize);  //:fischer:
+    setSize(totalMinSize);
     UMLWidget::updateGeometry();
 }
 
@@ -578,26 +589,25 @@ void ClassifierWidget::calculateClassifierDrawing()
         attribOpGroup->setGroupGeometry(attribOpGeometry);
 
         const int cnt = attribOpGroup->textItemCount();
-        qreal expanderDistance = 4;
+        qreal expanderDistance = -11;
         bool showNameOnly = (!visualProperty(ShowAttributes) && !visualProperty(ShowOperations)
                 && !visualProperty(ShowStereotype) && !shouldDrawAsCircle());
         if (!showNameOnly && !shouldDrawAsCircle()) {
             qreal y = textItemGroupAt(HeaderGroupIndex)->groupGeometry().bottom();
             m_classifierLines[0].setLine(m_classifierRect.left(), y, m_classifierRect.right(), y);
             qreal expanderX = rect().left() -
-                m_attributeExpanderBox->rect().width() -
-                expanderDistance;
+                m_attributeExpanderBox->rect().width() - expanderDistance;
             m_attributeExpanderBox->setPos(expanderX, y);
         }
         if (cnt > m_lineItem2Index) {
             TextItem *item = attribOpGroup->textItemAt(m_lineItem2Index);
             qreal y = item->mapToParent(item->boundingRect().bottomLeft()).y();
             m_classifierLines[1].setLine(m_classifierRect.left(), y, m_classifierRect.right(), y);
-            qreal expanderX = rect().left() - m_operationExpanderBox->rect().width() -
-                expanderDistance;
+            qreal expanderX = rect().left() -
+                m_operationExpanderBox->rect().width() - expanderDistance;
             m_operationExpanderBox->setPos(expanderX, y);
         }
-        if (InvalidIndex == m_lineItem2Index) {  // attributes and operations invisible   //:fischer:
+        if (InvalidIndex == m_lineItem2Index) {  // attributes and operations invisible
             QPointF pos = m_attributeExpanderBox->pos();
             m_operationExpanderBox->setPos(pos.x(), pos.y() + 12);
         }
@@ -606,7 +616,7 @@ void ClassifierWidget::calculateClassifierDrawing()
 
 /**
  * Reimplemented from UMLWidget::updateTextItemGroups to
- * calculate the Text strings , their properties and also hide/show
+ * calculate the Text strings, their properties and also hide/show
  * them based on the current state.
  */
 void ClassifierWidget::updateTextItemGroups()
@@ -692,7 +702,6 @@ void ClassifierWidget::updateTextItemGroups()
 
     // Update expander box to reflect current state and also visibility
     m_attributeExpanderBox->setExpanded(visualProperty(ShowAttributes));
-    m_attributeExpanderBox->setVisible(!visualProperty(DrawAsCircle) && !umlC->isInterface());
 
     const QString dummyText;
     // Setup line and dummies.
@@ -734,7 +743,6 @@ void ClassifierWidget::updateTextItemGroups()
         }
     }
     m_operationExpanderBox->setExpanded(visualProperty(ShowOperations));
-    m_operationExpanderBox->setVisible(!visualProperty(DrawAsCircle));
 
     if (!showNameOnly) {
         if (!shouldDrawAsCircle() && (visibleOperations == 0 || !visualProperty(ShowOperations))) {
@@ -865,13 +873,17 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
     }
 }
 
-/// Slot to show/hide attributes based on \a state.
+/**
+ * Slot to show/hide attributes based on \a state.
+ */
 void ClassifierWidget::slotShowAttributes(bool state)
 {
     setVisualProperty(ShowAttributes, state);
 }
 
-/// Slot to show/hide operations based on \a state.
+/**
+ * Slot to show/hide operations based on \a state.
+ */
 void ClassifierWidget::slotShowOperations(bool state)
 {
     setVisualProperty(ShowOperations, state);
@@ -895,4 +907,34 @@ void ClassifierWidget::invalidateDummies()
 
     m_lineItem2Index = InvalidIndex;
     m_classifierLines[0] = m_classifierLines[1] = QLineF();
+}
+
+/**
+ * Event handler for hover enter events.
+ */
+void ClassifierWidget::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
+{
+    Q_UNUSED(event);
+    if (!visualProperty(DrawAsCircle)) {
+        UMLClassifier* umlC = classifier();
+        if (umlC && !umlC->isInterface()) {
+            m_attributeExpanderBox->setVisible(true);
+        }
+        m_operationExpanderBox->setVisible(true);
+    }
+}
+
+/**
+ * Event handler for hover leave events.
+ */
+void ClassifierWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
+{
+    Q_UNUSED(event);
+    if (!visualProperty(DrawAsCircle)) {
+        UMLClassifier* umlC = classifier();
+        if (umlC && !umlC->isInterface()) {
+            m_attributeExpanderBox->setVisible(false);
+        }
+        m_operationExpanderBox->setVisible(false);
+    }
 }

@@ -170,7 +170,6 @@ protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
     TextItemGroup* createTextItemGroup();
