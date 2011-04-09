@@ -101,41 +101,38 @@ using namespace Uml;
  * Constructor.
  */
 UMLScene::UMLScene(UMLFolder *parentFolder)
-  : QGraphicsScene(0, 0, DEFAULT_CANVAS_SIZE, DEFAULT_CANVAS_SIZE)
+  : QGraphicsScene(0, 0, DEFAULT_CANVAS_SIZE, DEFAULT_CANVAS_SIZE),
+    m_nLocalID(Uml::id_None),
+    m_nID(Uml::id_None),
+    m_Type(DiagramType::Undefined),
+    m_Name(QString()),
+    m_Documentation(QString()),
+    m_Options(Settings::optionState()),
+    m_bUseSnapToGrid(false),
+    m_bUseSnapComponentSizeToGrid(false),
+    m_isOpen(true),
+    m_isMouseMovingItems(false),
+    m_nCollaborationId(0),
+    m_bCreateObject(false),
+    m_bDrawSelectedOnly(false),
+    m_bPaste(false),
+    m_pMenu(0),
+    m_bStartedCut(false),
+    m_pFolder(parentFolder),
+    m_bChildDisplayedDoc(false),
+    m_pIDChangesLog(0),
+    m_isActivated(false),
+    m_bPopupShowing(false)
 {
-    // Initialize loaded/saved data
-    m_nID = Uml::id_None;
-    m_Documentation = "";
-    m_Type = DiagramType::Undefined;
-    m_bUseSnapToGrid = false;
-    m_bUseSnapComponentSizeToGrid = false;
-    m_isOpen = true;
-    m_nCollaborationId = 0;
-
-    m_isMouseMovingItems = false;
-
-    // Initialize other data
     //m_AssociationList.setAutoDelete(true);
     //m_WidgetList.setAutoDelete(true);
     //m_MessageList.setAutoDelete(true);
-
-    //Setup up booleans
-    m_bChildDisplayedDoc = false;
-    m_bPaste = false;
-    m_isActivated = false;
-    m_bCreateObject = false;
-    m_bDrawSelectedOnly = false;
-    m_bPopupShowing = false;
-    m_bStartedCut = false;
-    //clear pointers
-    m_pIDChangesLog = 0;
-    m_pMenu = 0;
 
     m_pImageExporter = new UMLViewImageExporter(this);
 
     DEBUG_REGISTER(DBG_SRC);
 
-    //setup signals
+    // setup signals
     connect(this, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()),
             this, SLOT(slotCutSuccessful()));
@@ -146,7 +143,6 @@ UMLScene::UMLScene(UMLFolder *parentFolder)
     m_pToolBarStateFactory = new ToolBarStateFactory();
     m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
     m_pDoc = UMLApp::app()->document();
-    m_pFolder = parentFolder;
 
     // settings for background
     setBackgroundBrush(QColor(195, 195, 195));
@@ -3762,22 +3758,8 @@ void UMLScene::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     viewElement.setAttribute("name", name());
     viewElement.setAttribute("type", type());
     viewElement.setAttribute("documentation", documentation());
-    //optionstate uistate
-    viewElement.setAttribute("fillcolor", m_Options.uiState.fillColor.name());
-    viewElement.setAttribute("linecolor", m_Options.uiState.lineColor.name());
-    viewElement.setAttribute("linewidth", m_Options.uiState.lineWidth);
-    viewElement.setAttribute("usefillcolor", m_Options.uiState.useFillColor);
-    viewElement.setAttribute("font", m_Options.uiState.font.toString());
-    //optionstate classstate
-    viewElement.setAttribute("showattsig", m_Options.classState.showAttSig);
-    viewElement.setAttribute("showatts", m_Options.classState.showAtts);
-    viewElement.setAttribute("showopsig", m_Options.classState.showOpSig);
-    viewElement.setAttribute("showops", m_Options.classState.showOps);
-    viewElement.setAttribute("showpackage", m_Options.classState.showPackage);
-    viewElement.setAttribute("showattribassocs", m_Options.classState.showAttribAssocs);
-    viewElement.setAttribute("showpubliconly", m_Options.classState.showPublicOnly);
-    viewElement.setAttribute("showscope", m_Options.classState.showVisibility);
-    viewElement.setAttribute("showstereotype", m_Options.classState.showStereoType);
+    // option state
+    Settings::saveToXMI(viewElement, m_Options);
     //misc
     viewElement.setAttribute("localid", ID2STR(m_nLocalID));
     viewElement.setAttribute("showgrid", m_layoutGrid->isVisible());
@@ -3846,34 +3828,8 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString type = qElement.attribute("type", "0");
     m_Documentation = qElement.attribute("documentation", "");
     QString localid = qElement.attribute("localid", "0");
-    //optionstate uistate
-    QString font = qElement.attribute("font", "");
-    if (!font.isEmpty()) {
-        m_Options.uiState.font.fromString(font);
-        m_Options.uiState.font.setUnderline(false);
-    }
-    QString fillcolor = qElement.attribute("fillcolor", "");
-    QString linecolor = qElement.attribute("linecolor", "");
-    QString linewidth = qElement.attribute("linewidth", "");
-    QString usefillcolor = qElement.attribute("usefillcolor", "0");
-    m_Options.uiState.useFillColor = (bool)usefillcolor.toInt();
-    //optionstate classstate
-    QString temp = qElement.attribute("showattsig", "0");
-    m_Options.classState.showAttSig = (bool)temp.toInt();
-    temp = qElement.attribute("showatts", "0");
-    m_Options.classState.showAtts = (bool)temp.toInt();
-    temp = qElement.attribute("showopsig", "0");
-    m_Options.classState.showOpSig = (bool)temp.toInt();
-    temp = qElement.attribute("showops", "0");
-    m_Options.classState.showOps = (bool)temp.toInt();
-    temp = qElement.attribute("showpackage", "0");
-    m_Options.classState.showPackage = (bool)temp.toInt();
-    temp = qElement.attribute("showattribassocs", "0");
-    m_Options.classState.showAttribAssocs = (bool)temp.toInt();
-    temp = qElement.attribute("showscope", "0");
-    m_Options.classState.showVisibility = (bool)temp.toInt();
-    temp = qElement.attribute("showstereotype", "0");
-    m_Options.classState.showStereoType = (bool)temp.toInt();
+    // option state
+    Settings::loadFromXMI(qElement, m_Options);
     //misc
     QString showgrid = qElement.attribute("showgrid", "0");
     m_layoutGrid->setVisible((bool)showgrid.toInt());
@@ -3937,12 +3893,6 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     } else {
         m_Type = Uml::DiagramType::Value(nType);
     }
-    if (!fillcolor.isEmpty())
-        m_Options.uiState.fillColor = QColor(fillcolor);
-    if (!linecolor.isEmpty())
-        m_Options.uiState.lineColor = QColor(linecolor);
-    if (!linewidth.isEmpty())
-        m_Options.uiState.lineWidth = linewidth.toInt();
     m_nLocalID = STR2ID(localid);
 
     QDomNode node = qElement.firstChild();

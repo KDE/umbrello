@@ -15,6 +15,8 @@
 #include "codeviewerstate.h"
 #include "codegenerationpolicy.h"
 
+#include <QtXml/QDomElement>
+
 namespace Settings {
 
 enum Page
@@ -134,6 +136,8 @@ struct OptionState {
 
 OptionState& optionState();
 void setOptionState(const OptionState& optstate);
+void saveToXMI(QDomElement& element, const OptionState& optstate);
+bool loadFromXMI(QDomElement& element, OptionState& optstate);
 
 }  // namespace Settings
 

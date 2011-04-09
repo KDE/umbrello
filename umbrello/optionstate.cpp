@@ -9,6 +9,7 @@
  ***************************************************************************/
 
 #include "optionstate.h"
+
 #include <kglobal.h>
 
 namespace Settings {
@@ -29,6 +30,66 @@ namespace Settings {
     void setOptionState(const OptionState& optstate)
     {
         *opState = optstate;
+    }
+
+    void saveToXMI(QDomElement& element, const OptionState& optstate)
+    {
+        // uistate
+        element.setAttribute("fillcolor",    optstate.uiState.fillColor.name());
+        element.setAttribute("linecolor",    optstate.uiState.lineColor.name());
+        element.setAttribute("linewidth",    optstate.uiState.lineWidth);
+        element.setAttribute("usefillcolor", optstate.uiState.useFillColor);
+        element.setAttribute("font",         optstate.uiState.font.toString());
+        // classstate
+        element.setAttribute("showattsig",       optstate.classState.showAttSig);
+        element.setAttribute("showatts",         optstate.classState.showAtts);
+        element.setAttribute("showopsig",        optstate.classState.showOpSig);
+        element.setAttribute("showops",          optstate.classState.showOps);
+        element.setAttribute("showpackage",      optstate.classState.showPackage);
+        element.setAttribute("showattribassocs", optstate.classState.showAttribAssocs);
+        element.setAttribute("showpubliconly",   optstate.classState.showPublicOnly);
+        element.setAttribute("showscope",        optstate.classState.showVisibility);
+        element.setAttribute("showstereotype",   optstate.classState.showStereoType);
+    }
+
+    bool loadFromXMI(QDomElement& element, OptionState& optstate)
+    {
+        // uistate
+        QString font = element.attribute("font", "");
+        if (!font.isEmpty()) {
+            optstate.uiState.font.fromString(font);
+            optstate.uiState.font.setUnderline(false);
+        }
+        QString fillcolor = element.attribute("fillcolor", "");
+        if (!fillcolor.isEmpty())
+            optstate.uiState.fillColor = QColor(fillcolor);
+        QString linecolor = element.attribute("linecolor", "");
+        if (!linecolor.isEmpty())
+            optstate.uiState.lineColor = QColor(linecolor);
+        QString linewidth = element.attribute("linewidth", "");
+        if (!linewidth.isEmpty())
+            optstate.uiState.lineWidth = linewidth.toInt();
+        QString usefillcolor = element.attribute("usefillcolor", "0");
+        optstate.uiState.useFillColor = (bool)usefillcolor.toInt();
+        // classstate
+        QString temp = element.attribute("showattsig", "0");
+        optstate.classState.showAttSig = (bool)temp.toInt();
+        temp = element.attribute("showatts", "0");
+        optstate.classState.showAtts = (bool)temp.toInt();
+        temp = element.attribute("showopsig", "0");
+        optstate.classState.showOpSig = (bool)temp.toInt();
+        temp = element.attribute("showops", "0");
+        optstate.classState.showOps = (bool)temp.toInt();
+        temp = element.attribute("showpackage", "0");
+        optstate.classState.showPackage = (bool)temp.toInt();
+        temp = element.attribute("showattribassocs", "0");
+        optstate.classState.showAttribAssocs = (bool)temp.toInt();
+        temp = element.attribute("showscope", "0");
+        optstate.classState.showVisibility = (bool)temp.toInt();
+        temp = element.attribute("showstereotype", "0");
+        optstate.classState.showStereoType = (bool)temp.toInt();
+
+        return true;
     }
 
 }  // namespace Settings
