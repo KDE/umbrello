@@ -9,6 +9,7 @@ add_definitions(-DQT3_SUPPORT_WARNINGS)
 #add_definitions(-DDEBUG_LVITEM_INSERTION_ORDER)  # umllistviewitem
 #add_definitions(-DTRY_BUGFIX_120682)             # model_utils
 #add_definitions(-DQ_CC_MSVC)                     # preprocesslexer
+#add_definitions(-DDEBUG_CPPTREE2UML)             # cpptree2uml
 #add_definitions(-DDEBUG_PRINTING)                # umlview
 #add_definitions(-DVERBOSE_DEBUGGING)             # listpopupmenu, association, petaltree2uml,
                                                   # umlobject, umldoc, classifierlistpage
@@ -42,6 +43,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/xml/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/
   ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/
+  ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/
   ${CMAKE_CURRENT_SOURCE_DIR}/controller/
   ${CMAKE_CURRENT_SOURCE_DIR}/debug/
   ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
@@ -234,6 +236,20 @@ kde4_add_ui_files(  libcodegenwizard_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenselectpage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenoptionspage.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenstatuspage.ui
+)
+
+set(libcodeimpwizard_SRCS
+    codeimpwizard/codeimpselectpage.cpp
+    codeimpwizard/codeimpstatuspage.cpp
+    codeimpwizard/codeimpthread.cpp
+    codeimpwizard/codeimportingwizard.cpp
+    codeimpwizard/treeitem.cpp
+    codeimpwizard/treemodel.cpp
+)
+
+kde4_add_ui_files(  libcodeimpwizard_SRCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/codeimpselectpage.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/codeimpstatuspage.ui
 )
 
 set(libcodeimport_SRCS
@@ -448,6 +464,7 @@ set(umbrello_SRCS
     ${libdialogs_SRCS}
     ${librefactoring_SRCS}
     ${libcodegenwizard_SRCS}
+    ${libcodeimpwizard_SRCS}
     ${libclassparser_SRCS}
     ${libclipboard_SRCS}
     ${libkdevcppparser_SRCS}
