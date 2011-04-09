@@ -186,6 +186,8 @@ protected:
 public slots:
     void slotExecGenerationWizard();
 
+    void importingWizard();
+
     void slotFileNew();
     void slotFileOpen();
     void slotFileOpenRecent(const KUrl& url);

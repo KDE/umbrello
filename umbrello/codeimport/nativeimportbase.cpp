@@ -28,14 +28,14 @@
  * @param singleLineCommentIntro  "//" for IDL and Java, "--" for Ada
  */
 NativeImportBase::NativeImportBase(const QString &singleLineCommentIntro)
+  : m_singleLineCommentIntro(singleLineCommentIntro),
+    m_srcIndex(0),
+    m_scopeIndex(0),  // index 0 is reserved for global scope
+    m_klass(0),
+    m_currentAccess(Uml::Visibility::Public),
+    m_inComment(false),
+    m_isAbstract(false)
 {
-    m_singleLineCommentIntro = singleLineCommentIntro;
-    m_srcIndex = 0;
-    m_scopeIndex = 0;  // index 0 is reserved for global scope
-    m_klass = NULL;
-    m_currentAccess = Uml::Visibility::Public;
-    m_isAbstract = false;
-    m_inComment = false;
 }
 
 /**
@@ -140,7 +140,8 @@ bool NativeImportBase::skipToClosing(QChar opener)
 QString NativeImportBase::advance()
 {
     while (m_srcIndex < m_source.count() - 1) {
-        if (m_source[++m_srcIndex].startsWith(m_singleLineCommentIntro))
+        m_srcIndex++;
+        if (m_source[m_srcIndex].startsWith(m_singleLineCommentIntro))
             m_comment += m_source[m_srcIndex];
         else
             break;
