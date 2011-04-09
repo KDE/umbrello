@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -51,7 +51,7 @@ CPPCodeGenerationPolicy::~CPPCodeGenerationPolicy()
  */
 void CPPCodeGenerationPolicy::setAccessorsArePublic ( bool var )
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.publicAccessors = var;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.publicAccessors = var;
     // @todo we should probably use an own signal for this
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
@@ -62,7 +62,7 @@ void CPPCodeGenerationPolicy::setAccessorsArePublic ( bool var )
  */
 bool CPPCodeGenerationPolicy::getAccessorsArePublic()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.publicAccessors;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.publicAccessors;
 }
 
 /**
@@ -71,7 +71,7 @@ bool CPPCodeGenerationPolicy::getAccessorsArePublic()
  */
 void CPPCodeGenerationPolicy::setAccessorsAreInline(bool var)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.inlineAccessors = var;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.inlineAccessors = var;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
@@ -81,7 +81,7 @@ void CPPCodeGenerationPolicy::setAccessorsAreInline(bool var)
  */
 bool CPPCodeGenerationPolicy::getAccessorsAreInline( )
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.inlineAccessors;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.inlineAccessors;
 }
 
 /**
@@ -90,7 +90,7 @@ bool CPPCodeGenerationPolicy::getAccessorsAreInline( )
  */
 void CPPCodeGenerationPolicy::setOperationsAreInline(bool var)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.inlineOps = var;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.inlineOps = var;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
@@ -100,7 +100,7 @@ void CPPCodeGenerationPolicy::setOperationsAreInline(bool var)
  */
 bool CPPCodeGenerationPolicy::getOperationsAreInline()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.inlineOps;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.inlineOps;
 }
 
 /**
@@ -109,7 +109,7 @@ bool CPPCodeGenerationPolicy::getOperationsAreInline()
  */
 void CPPCodeGenerationPolicy::setDestructorsAreVirtual(bool var)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.virtualDestructors = var;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.virtualDestructors = var;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
@@ -119,7 +119,7 @@ void CPPCodeGenerationPolicy::setDestructorsAreVirtual(bool var)
  */
 bool CPPCodeGenerationPolicy::getDestructorsAreVirtual()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.virtualDestructors;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.virtualDestructors;
 }
 
 /**
@@ -128,7 +128,7 @@ bool CPPCodeGenerationPolicy::getDestructorsAreVirtual()
  */
 void CPPCodeGenerationPolicy::setPackageIsNamespace(bool var)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.packageIsNamespace = var;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.packageIsNamespace = var;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
@@ -138,7 +138,7 @@ void CPPCodeGenerationPolicy::setPackageIsNamespace(bool var)
  */
 bool CPPCodeGenerationPolicy::getPackageIsNamespace()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.packageIsNamespace;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.packageIsNamespace;
 }
 
 /**
@@ -147,7 +147,7 @@ bool CPPCodeGenerationPolicy::getPackageIsNamespace()
  */
 void CPPCodeGenerationPolicy::setAutoGenerateAccessors(bool var)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.autoGenAccessors = var;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.autoGenAccessors = var;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
@@ -157,62 +157,62 @@ void CPPCodeGenerationPolicy::setAutoGenerateAccessors(bool var)
  */
 bool CPPCodeGenerationPolicy::getAutoGenerateAccessors()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.autoGenAccessors;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.autoGenAccessors;
 }
 
 QString CPPCodeGenerationPolicy::getStringClassName()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.stringClassName;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.stringClassName;
 }
 
 QString CPPCodeGenerationPolicy::getStringClassNameInclude()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.stringClassNameInclude;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.stringClassNameInclude;
 }
 
 QString CPPCodeGenerationPolicy::getVectorClassName()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorClassName;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName;
 }
 
 QString CPPCodeGenerationPolicy::getVectorClassNameInclude()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorClassNameInclude;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassNameInclude;
 }
 
 void CPPCodeGenerationPolicy::setStringClassName(const QString &value)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.stringClassName = value;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.stringClassName = value;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 void CPPCodeGenerationPolicy::setStringClassNameInclude(const QString &value)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.stringClassNameInclude = value;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.stringClassNameInclude = value;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 void CPPCodeGenerationPolicy::setVectorClassName(const QString &value)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorClassName = value;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName = value;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 void CPPCodeGenerationPolicy::setVectorClassNameInclude(const QString &value)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorClassNameInclude = value;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassNameInclude = value;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 void CPPCodeGenerationPolicy::setDocToolTag(const QString &value)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.docToolTag = value;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.docToolTag = value;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
 QString CPPCodeGenerationPolicy::getDocToolTag()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.docToolTag;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.docToolTag;
 }
 
 /**
@@ -221,7 +221,7 @@ QString CPPCodeGenerationPolicy::getDocToolTag()
  */
 bool CPPCodeGenerationPolicy::stringIncludeIsGlobal()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.stringIncludeIsGlobal;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.stringIncludeIsGlobal;
 }
 
 /**
@@ -230,7 +230,7 @@ bool CPPCodeGenerationPolicy::stringIncludeIsGlobal()
  */
 bool CPPCodeGenerationPolicy::vectorIncludeIsGlobal()
 {
-    return Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal;
+    return Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal;
 }
 
 /**
@@ -239,7 +239,7 @@ bool CPPCodeGenerationPolicy::vectorIncludeIsGlobal()
  */
 void CPPCodeGenerationPolicy::setStringIncludeIsGlobal(bool value)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.stringIncludeIsGlobal = value;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.stringIncludeIsGlobal = value;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
@@ -249,7 +249,7 @@ void CPPCodeGenerationPolicy::setStringIncludeIsGlobal(bool value)
  */
 void CPPCodeGenerationPolicy::setVectorIncludeIsGlobal(bool value)
 {
-    Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal = value;
+    Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorIncludeIsGlobal = value;
     UMLApp::app()->commonPolicy()->emitModifiedCodeContentSig();
 }
 
@@ -258,7 +258,7 @@ QString CPPCodeGenerationPolicy::getVectorMethodAppend(const QString & variableN
     QString value = m_vectorMethodAppendBase;
     if(!variableName.isEmpty())
         value.replace(QRegExp("%VARNAME%"),variableName);
-    value.replace(QRegExp("%VECTORTYPENAME%"), Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
+    value.replace(QRegExp("%VECTORTYPENAME%"), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
         value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
     return value;
@@ -269,7 +269,7 @@ QString CPPCodeGenerationPolicy::getVectorMethodRemove(const QString & variableN
     QString value = m_vectorMethodRemoveBase;
     if(!variableName.isEmpty())
         value.replace(QRegExp("%VARNAME%"),variableName);
-    value.replace(QRegExp("%VECTORTYPENAME%"), Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
+    value.replace(QRegExp("%VECTORTYPENAME%"), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
         value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
     return value;
@@ -280,7 +280,7 @@ QString CPPCodeGenerationPolicy::getVectorMethodInit(const QString & variableNam
     QString value = m_vectorMethodInitBase;
     if(!variableName.isEmpty())
         value.replace(QRegExp("%VARNAME%"),variableName);
-    value.replace(QRegExp("%VECTORTYPENAME%"), Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
+    value.replace(QRegExp("%VECTORTYPENAME%"), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
         value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
     return value;
@@ -298,7 +298,7 @@ QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableNam
     QString value = m_objectMethodInitBase;
     if(!variableName.isEmpty())
         value.replace(QRegExp("%VARNAME%"),variableName);
-    value.replace(QRegExp("%VECTORTYPENAME%"), Settings::getOptionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
+    value.replace(QRegExp("%VECTORTYPENAME%"), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
         value.replace(QRegExp("%ITEMCLASS%"),itemClassName);
     return value;
@@ -395,7 +395,7 @@ void CPPCodeGenerationPolicy::init()
     m_vectorMethodInitBase = DEFAULT_VECTOR_METHOD_INIT;
     m_objectMethodInitBase = DEFAULT_OBJECT_METHOD_INIT;
 
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     setAutoGenerateAccessors( optionState.codeGenerationState.cppCodeGenerationState.autoGenAccessors);
 
     setAccessorsAreInline(optionState.codeGenerationState.cppCodeGenerationState.inlineAccessors);

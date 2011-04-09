@@ -97,7 +97,7 @@ namespace CodeGenFactory
 CodeGenerator* createObject(Uml::ProgrammingLanguage pl)
 {
     CodeGenerator* obj = 0;
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     switch (pl) {
         case Uml::ProgrammingLanguage::Ada:
             obj = new AdaWriter();
@@ -193,7 +193,7 @@ CodeGenerator* createObject(Uml::ProgrammingLanguage pl)
 
 CodeDocument * newClassifierCodeDocument(UMLClassifier * c)
 {
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     if (!optionState.generalState.newcodegen) {
         return NULL;
     }
@@ -432,7 +432,7 @@ CodeComment * newCodeComment(CodeDocument *cd)
 
 CodeGenPolicyExt* newCodeGenPolicyExt(Uml::ProgrammingLanguage pl)
 {
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
 
     if ( pl == Uml::ProgrammingLanguage::Cpp ) {
         return new CPPCodeGenerationPolicy();

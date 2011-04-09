@@ -69,7 +69,7 @@ CodeGenerationPolicy::~CodeGenerationPolicy()
  */
 void CodeGenerationPolicy::setOverwritePolicy ( OverwritePolicy new_var )
 {
-    Settings::getOptionState().codeGenerationState.overwritePolicy = new_var;
+    Settings::optionState().codeGenerationState.overwritePolicy = new_var;
 }
 
 /**
@@ -80,7 +80,7 @@ void CodeGenerationPolicy::setOverwritePolicy ( OverwritePolicy new_var )
  */
 CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::getOverwritePolicy ( ) const
 {
-    return Settings::getOptionState().codeGenerationState.overwritePolicy;
+    return Settings::optionState().codeGenerationState.overwritePolicy;
 }
 
 /**
@@ -89,7 +89,7 @@ CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::getOverwritePolicy (
  */
 void CodeGenerationPolicy::setCommentStyle ( CommentStyle new_var )
 {
-    Settings::getOptionState().codeGenerationState.commentStyle = new_var;
+    Settings::optionState().codeGenerationState.commentStyle = new_var;
     emit modifiedCodeContent();
 }
 
@@ -99,7 +99,7 @@ void CodeGenerationPolicy::setCommentStyle ( CommentStyle new_var )
  */
 CodeGenerationPolicy::CommentStyle CodeGenerationPolicy::getCommentStyle()
 {
-    return Settings::getOptionState().codeGenerationState.commentStyle;
+    return Settings::optionState().codeGenerationState.commentStyle;
 }
 
 /**
@@ -110,7 +110,7 @@ CodeGenerationPolicy::CommentStyle CodeGenerationPolicy::getCommentStyle()
  */
 void CodeGenerationPolicy::setCodeVerboseSectionComments ( bool new_var )
 {
-    Settings::getOptionState().codeGenerationState.forceSections = new_var;
+    Settings::optionState().codeGenerationState.forceSections = new_var;
     emit modifiedCodeContent();
 }
 
@@ -122,7 +122,7 @@ void CodeGenerationPolicy::setCodeVerboseSectionComments ( bool new_var )
  */
 bool CodeGenerationPolicy::getCodeVerboseSectionComments ( ) const
 {
-    return Settings::getOptionState().codeGenerationState.forceSections;
+    return Settings::optionState().codeGenerationState.forceSections;
 }
 
 /**
@@ -134,7 +134,7 @@ bool CodeGenerationPolicy::getCodeVerboseSectionComments ( ) const
  */
 void CodeGenerationPolicy::setCodeVerboseDocumentComments ( bool new_var )
 {
-    Settings::getOptionState().codeGenerationState.forceDoc = new_var;
+    Settings::optionState().codeGenerationState.forceDoc = new_var;
     emit modifiedCodeContent();
 }
 
@@ -147,7 +147,7 @@ void CodeGenerationPolicy::setCodeVerboseDocumentComments ( bool new_var )
  */
 bool CodeGenerationPolicy::getCodeVerboseDocumentComments ( ) const
 {
-    return Settings::getOptionState().codeGenerationState.forceDoc;
+    return Settings::optionState().codeGenerationState.forceDoc;
 }
 
 /**
@@ -157,7 +157,7 @@ bool CodeGenerationPolicy::getCodeVerboseDocumentComments ( ) const
  */
 void CodeGenerationPolicy::setHeadingFileDir ( const QString & path)
 {
-    Settings::getOptionState().codeGenerationState.headingsDirectory.setPath(path);
+    Settings::optionState().codeGenerationState.headingsDirectory.setPath(path);
 }
 
 /**
@@ -167,7 +167,7 @@ void CodeGenerationPolicy::setHeadingFileDir ( const QString & path)
  */
 QString CodeGenerationPolicy::getHeadingFileDir ( ) const
 {
-    return Settings::getOptionState().codeGenerationState.headingsDirectory.absolutePath();
+    return Settings::optionState().codeGenerationState.headingsDirectory.absolutePath();
 }
 
 /**
@@ -176,7 +176,7 @@ QString CodeGenerationPolicy::getHeadingFileDir ( ) const
  */
 void CodeGenerationPolicy::setIncludeHeadings ( bool new_var )
 {
-    Settings::getOptionState().codeGenerationState.includeHeadings = new_var;
+    Settings::optionState().codeGenerationState.includeHeadings = new_var;
     emit modifiedCodeContent();
 }
 
@@ -186,7 +186,7 @@ void CodeGenerationPolicy::setIncludeHeadings ( bool new_var )
  */
 bool CodeGenerationPolicy::getIncludeHeadings ( ) const
 {
-    return Settings::getOptionState().codeGenerationState.includeHeadings;
+    return Settings::optionState().codeGenerationState.includeHeadings;
 }
 
 /**
@@ -196,7 +196,7 @@ bool CodeGenerationPolicy::getIncludeHeadings ( ) const
  */
 void CodeGenerationPolicy::setOutputDirectory ( QDir new_var )
 {
-    Settings::getOptionState().codeGenerationState.outputDirectory = new_var;
+    Settings::optionState().codeGenerationState.outputDirectory = new_var;
 }
 
 /**
@@ -206,7 +206,7 @@ void CodeGenerationPolicy::setOutputDirectory ( QDir new_var )
  */
 QDir CodeGenerationPolicy::getOutputDirectory ( )
 {
-    return Settings::getOptionState().codeGenerationState.outputDirectory;
+    return Settings::optionState().codeGenerationState.outputDirectory;
 }
 
 /**
@@ -216,8 +216,8 @@ QDir CodeGenerationPolicy::getOutputDirectory ( )
  */
 void CodeGenerationPolicy::setLineEndingType ( NewLineType type)
 {
-    Settings::getOptionState().codeGenerationState.lineEndingType = type;
-    switch (Settings::getOptionState().codeGenerationState.lineEndingType) {
+    Settings::optionState().codeGenerationState.lineEndingType = type;
+    switch (Settings::optionState().codeGenerationState.lineEndingType) {
     case MAC:
         m_lineEndingChars = QString("\r\n");
         break;
@@ -239,7 +239,7 @@ void CodeGenerationPolicy::setLineEndingType ( NewLineType type)
  */
 CodeGenerationPolicy::NewLineType CodeGenerationPolicy::getLineEndingType ( )
 {
-    return Settings::getOptionState().codeGenerationState.lineEndingType;
+    return Settings::optionState().codeGenerationState.lineEndingType;
 }
 
 /**
@@ -258,7 +258,7 @@ QString CodeGenerationPolicy::getNewLineEndingChars ( ) const
  */
 void CodeGenerationPolicy::setIndentationType ( IndentationType new_var )
 {
-    Settings::getOptionState().codeGenerationState.indentationType = new_var;
+    Settings::optionState().codeGenerationState.indentationType = new_var;
     calculateIndentation();
     emit modifiedCodeContent();
 }
@@ -268,7 +268,7 @@ void CodeGenerationPolicy::setIndentationType ( IndentationType new_var )
  */
 CodeGenerationPolicy::IndentationType CodeGenerationPolicy::getIndentationType ( )
 {
-    return Settings::getOptionState().codeGenerationState.indentationType;
+    return Settings::optionState().codeGenerationState.indentationType;
 }
 
 /**
@@ -279,7 +279,7 @@ void CodeGenerationPolicy::setIndentationAmount ( int amount )
 {
     if (amount > -1)
     {
-        Settings::getOptionState().codeGenerationState.indentationAmount = amount;
+        Settings::optionState().codeGenerationState.indentationAmount = amount;
         calculateIndentation();
         emit modifiedCodeContent();
     }
@@ -290,7 +290,7 @@ void CodeGenerationPolicy::setIndentationAmount ( int amount )
  */
 int CodeGenerationPolicy::getIndentationAmount ( )
 {
-    return Settings::getOptionState().codeGenerationState.indentationAmount;
+    return Settings::optionState().codeGenerationState.indentationAmount;
 }
 
 /**
@@ -309,7 +309,7 @@ void CodeGenerationPolicy::calculateIndentation ( )
 {
     QString indent;
     m_indentation.clear();
-    switch (Settings::getOptionState().codeGenerationState.indentationType) {
+    switch (Settings::optionState().codeGenerationState.indentationType) {
     case NONE:
         break;
     case TAB:
@@ -321,11 +321,11 @@ void CodeGenerationPolicy::calculateIndentation ( )
         break;
     }
 
-    if (Settings::getOptionState().codeGenerationState.indentationAmount > 999) {  //:TODO: fix this - no initialization
-         uDebug() << "too big indentation amount = " << Settings::getOptionState().codeGenerationState.indentationAmount;
+    if (Settings::optionState().codeGenerationState.indentationAmount > 999) {  //:TODO: fix this - no initialization
+         uDebug() << "too big indentation amount = " << Settings::optionState().codeGenerationState.indentationAmount;
     }
     else {
-        for (int i = 0; i < Settings::getOptionState().codeGenerationState.indentationAmount; ++i) {
+        for (int i = 0; i < Settings::optionState().codeGenerationState.indentationAmount; ++i) {
             m_indentation += indent;
         }
     }
@@ -337,7 +337,7 @@ void CodeGenerationPolicy::calculateIndentation ( )
  */
 void CodeGenerationPolicy::setModifyPolicy ( ModifyNamePolicy new_var )
 {
-    Settings::getOptionState().codeGenerationState.modnamePolicy = new_var;
+    Settings::optionState().codeGenerationState.modnamePolicy = new_var;
 }
 
 /**
@@ -346,7 +346,7 @@ void CodeGenerationPolicy::setModifyPolicy ( ModifyNamePolicy new_var )
  */
 CodeGenerationPolicy::ModifyNamePolicy CodeGenerationPolicy::getModifyPolicy ( ) const
 {
-    return Settings::getOptionState().codeGenerationState.modnamePolicy;
+    return Settings::optionState().codeGenerationState.modnamePolicy;
 }
 
 /**
@@ -355,7 +355,7 @@ CodeGenerationPolicy::ModifyNamePolicy CodeGenerationPolicy::getModifyPolicy ( )
  */
 void CodeGenerationPolicy::setAutoGenerateConstructors( bool var )
 {
-    Settings::getOptionState().codeGenerationState.autoGenEmptyConstructors = var;
+    Settings::optionState().codeGenerationState.autoGenEmptyConstructors = var;
     emit modifiedCodeContent();
 }
 
@@ -365,7 +365,7 @@ void CodeGenerationPolicy::setAutoGenerateConstructors( bool var )
  */
 bool CodeGenerationPolicy::getAutoGenerateConstructors( )
 {
-    return Settings::getOptionState().codeGenerationState.autoGenEmptyConstructors;
+    return Settings::optionState().codeGenerationState.autoGenEmptyConstructors;
 }
 
 /**
@@ -374,7 +374,7 @@ bool CodeGenerationPolicy::getAutoGenerateConstructors( )
  */
 void CodeGenerationPolicy::setAttributeAccessorScope(Uml::Visibility::Value var)
 {
-    Settings::getOptionState().codeGenerationState.defaultAttributeAccessorScope = var;
+    Settings::optionState().codeGenerationState.defaultAttributeAccessorScope = var;
     emit modifiedCodeContent();
 }
 
@@ -384,7 +384,7 @@ void CodeGenerationPolicy::setAttributeAccessorScope(Uml::Visibility::Value var)
  */
 Uml::Visibility::Value CodeGenerationPolicy::getAttributeAccessorScope()
 {
-    return Settings::getOptionState().codeGenerationState.defaultAttributeAccessorScope;
+    return Settings::optionState().codeGenerationState.defaultAttributeAccessorScope;
 }
 
 /**
@@ -393,7 +393,7 @@ Uml::Visibility::Value CodeGenerationPolicy::getAttributeAccessorScope()
  */
 void CodeGenerationPolicy::setAssociationFieldScope(Uml::Visibility::Value var)
 {
-    Settings::getOptionState().codeGenerationState.defaultAssocFieldScope = var;
+    Settings::optionState().codeGenerationState.defaultAssocFieldScope = var;
     emit modifiedCodeContent();
 }
 
@@ -403,7 +403,7 @@ void CodeGenerationPolicy::setAssociationFieldScope(Uml::Visibility::Value var)
  */
 Uml::Visibility::Value CodeGenerationPolicy::getAssociationFieldScope()
 {
-    return Settings::getOptionState().codeGenerationState.defaultAssocFieldScope;
+    return Settings::optionState().codeGenerationState.defaultAssocFieldScope;
 }
 
 /**
@@ -550,7 +550,7 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
     // heading.[extension]. If there is no such file, we try to
     // get any file with the same extension
     QString filename;
-    QDir headingFiles = Settings::getOptionState().codeGenerationState.headingsDirectory;
+    QDir headingFiles = Settings::optionState().codeGenerationState.headingsDirectory;
     if (str.startsWith('.')) {
         if (QFile::exists(headingFiles.absoluteFilePath("heading"+str)))
             filename = headingFiles.absoluteFilePath("heading"+str);

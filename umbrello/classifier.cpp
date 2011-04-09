@@ -801,7 +801,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /*
         if (obj->baseType() == UMLObject::ot_Attribute && obj->name() == name)
             return static_cast<UMLAttribute*>(obj);
     }
-    Uml::Visibility scope = Settings::getOptionState().classState.defaultAttributeScope;
+    Uml::Visibility scope = Settings::optionState().classState.defaultAttributeScope;
     UMLAttribute *a = new UMLAttribute(this, name, id, scope);
     m_List.append(a);
     emit attributeAdded(a);

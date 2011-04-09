@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -43,7 +43,7 @@ RubyCodeGenerationPolicy::~RubyCodeGenerationPolicy()
  */
 void RubyCodeGenerationPolicy::setAutoGenerateAttribAccessors(bool var)
 {
-    Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors = var;
+    Settings::optionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
@@ -53,7 +53,7 @@ void RubyCodeGenerationPolicy::setAutoGenerateAttribAccessors(bool var)
  */
 void RubyCodeGenerationPolicy::setAutoGenerateAssocAccessors(bool var)
 {
-    Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors = var;
+    Settings::optionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
@@ -63,7 +63,7 @@ void RubyCodeGenerationPolicy::setAutoGenerateAssocAccessors(bool var)
  */
 bool RubyCodeGenerationPolicy::getAutoGenerateAttribAccessors()
 {
-    return Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors;
+    return Settings::optionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors;
 }
 
 /**
@@ -72,7 +72,7 @@ bool RubyCodeGenerationPolicy::getAutoGenerateAttribAccessors()
  */
 bool RubyCodeGenerationPolicy::getAutoGenerateAssocAccessors()
 {
-    return Settings::getOptionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors;
+    return Settings::optionState().codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors;
 }
 
 /**
@@ -147,7 +147,7 @@ void RubyCodeGenerationPolicy::init()
 {
     blockSignals(true);
 
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     setAutoGenerateAttribAccessors( optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAttributeAccessors);
     setAutoGenerateAssocAccessors( optionState.codeGenerationState.rubyCodeGenerationState.autoGenerateAssocAccessors);
 

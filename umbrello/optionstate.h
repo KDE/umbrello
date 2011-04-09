@@ -35,7 +35,7 @@ struct GeneralState {
     bool angularlines;
     bool footerPrinting;
     bool autosave;
-    int time;        //old autosave time, kept for compatibility
+    int time;        ///< old autosave time, kept for compatibility
     int autosavetime;
     QString autosavesuffix;  ///< Text input field for suffix of autosave
     bool loadlast;
@@ -45,12 +45,12 @@ struct GeneralState {
 };
 
 struct UIState {
-    bool useFillColor;
+    bool   useFillColor;
     QColor fillColor;
     QColor lineColor;
     uint   lineWidth;
     QColor textColor;
-    QFont font;
+    QFont  font;
     QColor backgroundColor;
     QColor gridDotColor;
 };
@@ -69,9 +69,7 @@ struct ClassState {
     Uml::Visibility defaultOperationScope;
 };
 
-
-
-struct CodeGenerationState{
+struct CodeGenerationState {
     bool autoGenEmptyConstructors;
     CodeGenerationPolicy::CommentStyle commentStyle;
     Uml::Visibility::Value defaultAssocFieldScope;
@@ -86,7 +84,6 @@ struct CodeGenerationState{
     CodeGenerationPolicy::ModifyNamePolicy modnamePolicy;
     QDir outputDirectory;
     CodeGenerationPolicy::OverwritePolicy overwritePolicy;
-
 
     struct CPPCodeGenerationState {
         bool autoGenAccessors;
@@ -125,19 +122,17 @@ struct CodeGenerationState{
     DCodeGenerationState dCodeGenerationState;
     JavaCodeGenerationState javaCodeGenerationState;
     RubyCodeGenerationState rubyCodeGenerationState;
-
 };
 
 struct OptionState {
-    GeneralState generalState;
-    UIState uiState;
-    ClassState classState;
-    CodeViewerState codeViewerState;
+    GeneralState        generalState;
+    UIState             uiState;
+    ClassState          classState;
+    CodeViewerState     codeViewerState;
     CodeGenerationState codeGenerationState;
-
 };
 
-OptionState& getOptionState();
+OptionState& optionState();
 void setOptionState(const OptionState& optstate);
 
 }  // namespace Settings

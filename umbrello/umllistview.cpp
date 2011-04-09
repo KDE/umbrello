@@ -2648,7 +2648,7 @@ UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::DiagramType typ
     view->umlScene()->setType(type);
     view->umlScene()->setID(UniqueID::gen());
     m_doc->addView(view);
-    view->umlScene()->setOptionState(Settings::getOptionState());
+    view->umlScene()->setOptionState(Settings::optionState());
     item->setID(view->umlScene()->getID());
     item->setText(0, name);
     view->umlScene()->activate();

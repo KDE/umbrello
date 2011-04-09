@@ -889,7 +889,7 @@ void ListPopupMenu::insertAssocItem(const QString &label, Menu_Type mt)
  */
 void ListPopupMenu::insertSubmodelAction()
 {
-    const Settings::OptionState& ostat = Settings::getOptionState();
+    const Settings::OptionState& ostat = Settings::optionState();
     if (ostat.generalState.tabdiagrams) {
         // Umbrello currently does not support External Folders
         // in combination with Tabbed Diagrams.

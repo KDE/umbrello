@@ -181,7 +181,7 @@ bool UMLAttributeDialog::apply()
     }
     m_pAttribute->setVisibility(scope);
     // Set the scope as the default in the option state
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     optionState.classState.defaultAttributeScope = scope;
     Settings::setOptionState(optionState);
 

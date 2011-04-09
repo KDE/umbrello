@@ -137,7 +137,7 @@ void UMLFolder::activateViews()
     }
     // Make sure we have a treeview item for each diagram.
     // It may happen that we are missing them after switching off tabbed widgets.
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     if (optionState.generalState.tabdiagrams) {
         return;
     }
@@ -367,7 +367,7 @@ void UMLFolder::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
  */
 bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams)
 {
-    const Settings::OptionState optionState = Settings::getOptionState();
+    const Settings::OptionState optionState = Settings::optionState();
     UMLDoc *umldoc = UMLApp::app()->document();
     bool totalSuccess = true;
     for (QDomElement diagram = diagrams.toElement(); !diagram.isNull();
