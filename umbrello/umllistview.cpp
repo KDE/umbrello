@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2010                                                *
+ *  copyright (C) 2002-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -2545,7 +2545,7 @@ UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::Diagram_Type ty
     view->setType(type);
     view->setID(UniqueID::gen());
     m_doc->addView(view);
-    view->setOptionState(Settings::getOptionState());
+    view->setOptionState(Settings::optionState());
     item->setID(view->getID());
     item->setText(name);
     view->activate();

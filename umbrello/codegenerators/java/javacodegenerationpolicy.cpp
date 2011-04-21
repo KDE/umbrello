@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -54,7 +54,7 @@ JavaCodeGenerationPolicy::~JavaCodeGenerationPolicy()
  */
 void JavaCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
 {
-    Settings::getOptionState().codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors = var;
+    Settings::optionState().codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
@@ -64,7 +64,7 @@ void JavaCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
  */
 void JavaCodeGenerationPolicy::setAutoGenerateAssocAccessors(bool var)
 {
-    Settings::getOptionState().codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors = var;
+    Settings::optionState().codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
@@ -74,7 +74,7 @@ void JavaCodeGenerationPolicy::setAutoGenerateAssocAccessors(bool var)
  */
 bool JavaCodeGenerationPolicy::getAutoGenerateAttribAccessors()
 {
-    return Settings::getOptionState().codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors;
+    return Settings::optionState().codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors;
 }
 
 /**
@@ -83,7 +83,7 @@ bool JavaCodeGenerationPolicy::getAutoGenerateAttribAccessors()
  */
 bool JavaCodeGenerationPolicy::getAutoGenerateAssocAccessors()
 {
-    return Settings::getOptionState().codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors;
+    return Settings::optionState().codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors;
 }
 
 /**
@@ -163,7 +163,7 @@ void JavaCodeGenerationPolicy::init()
 {
     blockSignals( true );
 
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     setAutoGenerateAttribAccessors(optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAttributeAccessors);
     setAutoGenerateAssocAccessors(optionState.codeGenerationState.javaCodeGenerationState.autoGenerateAssocAccessors);
 

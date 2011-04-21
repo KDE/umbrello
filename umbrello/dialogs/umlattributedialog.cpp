@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -181,7 +181,7 @@ bool UMLAttributeDialog::apply()
     }
     m_pAttribute->setVisibility(scope);
     // Set the scope as the default in the option state
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     optionState.classState.defaultAttributeScope = scope;
     Settings::setOptionState(optionState);
 

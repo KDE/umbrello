@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002       Luis De la Parra Blum <luis@delaparra.org>   *
                               Brian Thomas <thomas@mail630.gsfc.nasa.gov>  *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -99,7 +99,7 @@ namespace CodeGenFactory
 CodeGenerator* createObject(Uml::Programming_Language pl)
 {
     CodeGenerator* obj = 0;
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     switch (pl) {
         case Uml::pl_Ada:
             obj = new AdaWriter();
@@ -195,7 +195,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)
 
 CodeDocument * newClassifierCodeDocument (UMLClassifier * c)
 {
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     if (!optionState.generalState.newcodegen) {
         return NULL;
     }
@@ -434,7 +434,7 @@ CodeComment * newCodeComment (CodeDocument *cd)
 
 CodeGenPolicyExt* newCodeGenPolicyExt(Uml::Programming_Language pl)
 {
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
 
     if ( pl == Uml::pl_Cpp ) {
         return new CPPCodeGenerationPolicy();

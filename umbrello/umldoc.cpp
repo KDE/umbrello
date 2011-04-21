@@ -368,7 +368,7 @@ bool UMLDoc::newDocument()
     UMLApp::app()->setCurrentView(0);
     m_doc_url.setFileName(i18n("Untitled"));
     //see if we need to start with a new diagram
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     Uml::Diagram_Type dt = optionState.generalState.diagram;
     Uml::Model_Type mt = Model_Utils::convert_DT_MT(dt);
     if (mt == Uml::N_MODELTYPES) {  // don't allow no diagram
@@ -1243,7 +1243,7 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::Diagram_Type type, bool a
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
         } else if (!findView(type, name)) {
             UMLView* view = new UMLView(folder);
-            view->setOptionState( Settings::getOptionState() );
+            view->setOptionState( Settings::optionState() );
             view->setName( name );
             view->setType( type );
             view->setID( UniqueID::gen() );
@@ -2214,7 +2214,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
     if ( element.isNull() ) {
         return true;  //return ok as it means there is no umlobjects
     }
-    const Settings::OptionState state = Settings::getOptionState();
+    const Settings::OptionState state = Settings::optionState();
     UMLView * pView = 0;
     int count = 0;
     while ( !element.isNull() ) {
@@ -2634,7 +2634,7 @@ bool UMLDoc::addUMLView(UMLView * pView )
 
     pView->activateAfterLoad( true );
     pView->endPartialWidgetPaste();
-    pView->setOptionState( Settings::getOptionState() );
+    pView->setOptionState( Settings::optionState() );
     addView(pView);
     setModified(true);
     return true;
@@ -2679,7 +2679,7 @@ void UMLDoc::initSaveTimer()
         delete m_pAutoSaveTimer;
         m_pAutoSaveTimer = 0;
     }
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     if ( optionState.generalState.autosave ) {
         m_pAutoSaveTimer = new QTimer(this);
         connect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );
@@ -2711,7 +2711,7 @@ void UMLDoc::slotAutoSave()
         QString orgFileName = m_doc_url.fileName();
         // don't overwrite manually saved file with autosave content
         QString fileName = tempUrl.fileName();
-        Settings::OptionState optionState = Settings::getOptionState();
+        Settings::OptionState optionState = Settings::optionState();
         fileName.replace( ".xmi", optionState.generalState.autosavesuffix );
         tempUrl.setFileName( fileName );
         // End Achim Spangler
@@ -2739,7 +2739,7 @@ void UMLDoc::slotAutoSave()
 void UMLDoc::signalDiagramRenamed(UMLView* view)
 {
     if (view) {
-        Settings::OptionState optionState = Settings::getOptionState();
+        Settings::OptionState optionState = Settings::optionState();
         if (optionState.generalState.tabdiagrams) {
             UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(view), view->getName() );
         }

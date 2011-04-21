@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -52,7 +52,7 @@ DCodeGenerationPolicy::~DCodeGenerationPolicy()
  */
 void DCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
 {
-    Settings::getOptionState().codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors = var;
+    Settings::optionState().codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
@@ -62,7 +62,7 @@ void DCodeGenerationPolicy::setAutoGenerateAttribAccessors( bool var )
  */
 void DCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var )
 {
-    Settings::getOptionState().codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors = var;
+    Settings::optionState().codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors = var;
     m_commonPolicy->emitModifiedCodeContentSig();
 }
 
@@ -72,7 +72,7 @@ void DCodeGenerationPolicy::setAutoGenerateAssocAccessors( bool var )
  */
 bool DCodeGenerationPolicy::getAutoGenerateAttribAccessors()
 {
-    return Settings::getOptionState().codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors;
+    return Settings::optionState().codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors;
 }
 
 /**
@@ -81,7 +81,7 @@ bool DCodeGenerationPolicy::getAutoGenerateAttribAccessors()
  */
 bool DCodeGenerationPolicy::getAutoGenerateAssocAccessors()
 {
-    return Settings::getOptionState().codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors;
+    return Settings::optionState().codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors;
 }
 
 /**
@@ -167,7 +167,7 @@ void DCodeGenerationPolicy::init()
 {
     blockSignals( true );
 
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     setAutoGenerateAttribAccessors( optionState.codeGenerationState.dCodeGenerationState.autoGenerateAttributeAccessors);
     setAutoGenerateAssocAccessors( optionState.codeGenerationState.dCodeGenerationState.autoGenerateAssocAccessors);
 

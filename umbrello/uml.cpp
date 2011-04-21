@@ -676,7 +676,7 @@ void UMLApp::initView()
 
     m_layout = new QVBoxLayout;
     m_layout->setMargin(0);
-    if (Settings::getOptionState().generalState.tabdiagrams) {
+    if (Settings::optionState().generalState.tabdiagrams) {
         // Tabbed Diagram Representation
         m_layout->addWidget(m_tabWidget);
         m_viewStack->hide();
@@ -779,7 +779,7 @@ void UMLApp::saveOptions()
 
     UmbrelloSettings::setGeometry( size() );
 
-    Settings::OptionState& optionState = Settings::getOptionState();
+    Settings::OptionState& optionState = Settings::optionState();
 
     UmbrelloSettings::setUndo( optionState.generalState.undo );
     UmbrelloSettings::setTabdiagrams( optionState.generalState.tabdiagrams );
@@ -1602,7 +1602,7 @@ void UMLApp::slotCopyChanged()
  */
 void UMLApp::slotPrefs()
 {
-       Settings::OptionState& optionState = Settings::getOptionState();
+       Settings::OptionState& optionState = Settings::optionState();
 
        m_dlg = new SettingsDlg(this, &optionState);
        connect(m_dlg, SIGNAL( applyClicked() ), this, SLOT( slotApplyPrefs() ) );
@@ -1622,7 +1622,7 @@ void UMLApp::slotApplyPrefs()
 {
     if (m_dlg) {
         // we need this to sync both values
-        Settings::OptionState& optionState = Settings::getOptionState();
+        Settings::OptionState& optionState = Settings::optionState();
         bool stackBrowsing = (m_layout->indexOf(m_tabWidget) != -1);
         bool tabBrowsing = optionState.generalState.tabdiagrams;
         DEBUG(DBG_SRC) << "stackBrowsing=" << stackBrowsing << " / tabBrowsing=" << tabBrowsing;
@@ -1738,7 +1738,7 @@ bool UMLApp::editCutCopy( bool bFromView )
  */
 void UMLApp::readOptionState()
 {
-    Settings::OptionState& optionState = Settings::getOptionState();
+    Settings::OptionState& optionState = Settings::optionState();
 
     UmbrelloSettings::self()->readConfig();
     optionState.generalState.undo = UmbrelloSettings::undo();
@@ -1846,7 +1846,7 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
             CodeDocument *cdoc = currentGen->findCodeDocumentByClassifier(classifier);
 
             if (cdoc) {
-                Settings::OptionState& optionState = Settings::getOptionState();
+                Settings::OptionState& optionState = Settings::optionState();
                 CodeViewerDialog * dialog = currentGen->getCodeViewerDialog(this,cdoc,optionState.codeViewerState);
                 dialog->exec();
                 optionState.codeViewerState = dialog->state();
@@ -2395,7 +2395,7 @@ void UMLApp::slotCloseDiagram(QWidget* tab)
  */
 Uml::Programming_Language UMLApp::defaultLanguage()
 {
-    Settings::OptionState& optionState = Settings::getOptionState();
+    Settings::OptionState& optionState = Settings::optionState();
     return optionState.generalState.defaultLanguage;
 }
 
@@ -2545,7 +2545,7 @@ void UMLApp::newDocument()
  */
 QWidget* UMLApp::mainViewWidget()
 {
-    Settings::OptionState& optionState = Settings::getOptionState();
+    Settings::OptionState& optionState = Settings::optionState();
     if ( optionState.generalState.tabdiagrams ) {
         return m_tabWidget;
     }
@@ -2569,7 +2569,7 @@ void UMLApp::setCurrentView(UMLView* view)
         return;
     }
 
-    Settings::OptionState optionState = Settings::getOptionState();
+    Settings::OptionState optionState = Settings::optionState();
     if (optionState.generalState.tabdiagrams) {
         int tabIndex = m_tabWidget->indexOf(view);
         if ((tabIndex < 0) && view->isOpen()) {

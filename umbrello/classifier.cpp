@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #include "classifier.h"
@@ -801,7 +801,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::IDType id /*
         if (obj->baseType() == Uml::ot_Attribute && obj->name() == name)
             return static_cast<UMLAttribute*>(obj);
     }
-    Uml::Visibility scope = Settings::getOptionState().classState.defaultAttributeScope;
+    Uml::Visibility scope = Settings::optionState().classState.defaultAttributeScope;
     UMLAttribute *a = new UMLAttribute(this, name, id, scope);
     m_List.append(a);
     emit attributeAdded(a);
