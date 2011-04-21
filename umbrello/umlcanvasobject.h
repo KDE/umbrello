@@ -38,7 +38,7 @@ public:
     explicit UMLCanvasObject(const QString & name = QString(), Uml::IDType id = Uml::id_None);
     virtual ~UMLCanvasObject();
 
-    bool operator==(const UMLCanvasObject& rhs);
+    bool operator==(const UMLCanvasObject& rhs) const;
 
     virtual void copyInto(UMLObject *lhs) const;
 

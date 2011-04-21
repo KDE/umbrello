@@ -230,9 +230,9 @@ QString UMLCanvasObject::uniqChildName( const UMLObject::Object_Type type,
 /**
  * Find a child object with the given name.
  *
- * @param n         The name of the object to find.
- * @param t         The type to find (optional.) If not given then
- *                  any object type will match.
+ * @param n  The name of the object to find.
+ * @param t  The type to find (optional.) If not given then
+ *           any object type will match.
  * @return  Pointer to the object found; NULL if none found.
  */
 UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object_Type t)
@@ -277,7 +277,7 @@ UMLObject* UMLCanvasObject::findChildObjectById(Uml::IDType id, bool considerAnc
 /**
  *  Overloaded '==' operator
  */
-bool UMLCanvasObject::operator==(const UMLCanvasObject& rhs)
+bool UMLCanvasObject::operator==(const UMLCanvasObject& rhs) const
 {
     if (this == &rhs) {
         return true;

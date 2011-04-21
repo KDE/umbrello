@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,7 +29,7 @@ public:
                    const QString& name, Uml::IDType id = Uml::id_None);
     UMLEnumLiteral(UMLObject* parent);
 
-    bool operator==(const UMLEnumLiteral &rhs);
+    bool operator==(const UMLEnumLiteral &rhs) const;
 
     virtual void copyInto(UMLObject *lhs) const;
 

@@ -36,7 +36,7 @@ UMLRole::UMLRole(UMLAssociation * parent, UMLObject * parentObj, Uml::Role_Type 
     m_Changeability(Uml::Changeability::Changeable)
 {
     m_BaseType = UMLObject::ot_Role;
-    m_name = QString();
+    m_name.clear();
     m_pSecondary = parentObj;
 
     // connect this up to parent

@@ -282,7 +282,7 @@ QString UMLOperation::getUniqueParameterName()
 /**
  * Overloaded '==' operator.
  */
-bool UMLOperation::operator==(const  UMLOperation & rhs )
+bool UMLOperation::operator==(const UMLOperation & rhs) const
 {
     if ( this == &rhs )
         return true;

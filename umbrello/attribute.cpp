@@ -207,7 +207,7 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
 /**
  * Overloaded '==' operator
  */
-bool UMLAttribute::operator==(const UMLAttribute &rhs)
+bool UMLAttribute::operator==(const UMLAttribute &rhs) const
 {
     if( this == &rhs )
         return true;

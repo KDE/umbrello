@@ -187,7 +187,7 @@ QString UMLEntityAttribute::toString(Uml::SignatureType sig)
 /**
  * Overloaded '==' operator
  */
-bool UMLEntityAttribute::operator==(const UMLEntityAttribute &rhs)
+bool UMLEntityAttribute::operator==(const UMLEntityAttribute &rhs) const
 {
     if( this == &rhs )
         return true;

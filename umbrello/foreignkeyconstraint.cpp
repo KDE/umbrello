@@ -66,7 +66,7 @@ void UMLForeignKeyConstraint::init()
 /**
  * Overloaded '==' operator
  */
-bool UMLForeignKeyConstraint::operator==( const UMLForeignKeyConstraint &rhs)
+bool UMLForeignKeyConstraint::operator==( const UMLForeignKeyConstraint &rhs) const
 {
     if( this == &rhs )
         return true;

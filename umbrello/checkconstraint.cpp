@@ -43,7 +43,7 @@ UMLCheckConstraint::UMLCheckConstraint(UMLObject *parent)
 /**
  * Overloaded '==' operator.
  */
-bool UMLCheckConstraint::operator==(const UMLCheckConstraint &rhs)
+bool UMLCheckConstraint::operator==(const UMLCheckConstraint &rhs) const
 {
     if ( this == &rhs )
         return true;

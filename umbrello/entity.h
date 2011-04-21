@@ -38,7 +38,7 @@ public:
     explicit UMLEntity(const QString& name = QString(), Uml::IDType id = Uml::id_None);
     virtual ~UMLEntity();
 
-    bool operator==(const UMLEntity& rhs);
+    bool operator==(const UMLEntity& rhs) const;
 
     virtual void copyInto(UMLObject *lhs) const;
 

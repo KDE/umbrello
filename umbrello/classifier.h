@@ -48,7 +48,7 @@ public:
     explicit UMLClassifier(const QString & name = QString(), Uml::IDType id = Uml::id_None);
     virtual ~UMLClassifier();
 
-    bool operator==(const UMLClassifier & rhs );
+    bool operator==(const UMLClassifier & rhs) const;
 
     virtual void copyInto(UMLObject *lhs) const;
 

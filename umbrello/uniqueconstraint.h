@@ -34,7 +34,7 @@ public:
     UMLUniqueConstraint(UMLObject *parent);
     virtual ~UMLUniqueConstraint();
 
-    bool operator==(const UMLUniqueConstraint &rhs);
+    bool operator==(const UMLUniqueConstraint &rhs) const;
 
     virtual void copyInto(UMLObject *lhs) const;
 

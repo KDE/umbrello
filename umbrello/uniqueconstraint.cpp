@@ -48,7 +48,7 @@ UMLUniqueConstraint::UMLUniqueConstraint(UMLObject *parent)
 /**
  * Overloaded '==' operator
  */
-bool UMLUniqueConstraint::operator==(const  UMLUniqueConstraint &rhs)
+bool UMLUniqueConstraint::operator==(const  UMLUniqueConstraint &rhs) const
 {
     if( this == &rhs )
         return true;

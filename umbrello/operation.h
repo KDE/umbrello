@@ -34,7 +34,7 @@ public:
 
     virtual ~UMLOperation();
 
-    bool operator==( const UMLOperation & rhs );
+    bool operator==( const UMLOperation & rhs ) const;
 
     virtual void copyInto(UMLObject *lhs) const;
 

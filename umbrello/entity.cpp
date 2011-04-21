@@ -58,7 +58,7 @@ UMLEntity::~UMLEntity()
 /**
  * Overloaded '==' operator.
  */
-bool UMLEntity::operator==(const UMLEntity& rhs )
+bool UMLEntity::operator==(const UMLEntity& rhs) const
 {
     return UMLClassifier::operator==(rhs);
 }

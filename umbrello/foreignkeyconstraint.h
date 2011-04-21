@@ -49,7 +49,7 @@ public:
                             Uml::IDType id = Uml::id_None );
     UMLForeignKeyConstraint(UMLObject *parent);
 
-    bool operator==( const UMLForeignKeyConstraint &rhs);
+    bool operator==( const UMLForeignKeyConstraint &rhs) const;
 
     virtual ~UMLForeignKeyConstraint();
 

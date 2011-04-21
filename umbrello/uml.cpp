@@ -43,13 +43,13 @@
 #include "importprojectdlg.h"
 #include "settingsdlg.h"
 #include "classimport.h"
-#include "refactoring/refactoringassistant.h"
+#include "refactoringassistant.h"
 // clipboard
 #include "umlclipboard.h"
 #include "umldragdata.h"
 // docgenerators
-#include "docgenerators/docbookgenerator.h"
-#include "docgenerators/xhtmlgenerator.h"
+#include "docbookgenerator.h"
+#include "xhtmlgenerator.h"
 #include "umlscene.h"
 
 // kde includes

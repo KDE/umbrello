@@ -33,7 +33,7 @@ public:
 
     UMLEntityConstraint(UMLObject *parent);
 
-    bool operator==( const UMLEntityConstraint &rhs);
+    bool operator==( const UMLEntityConstraint &rhs) const;
 
     virtual ~UMLEntityConstraint();
 

@@ -35,7 +35,7 @@ public:
                  UMLObject *type = 0, const QString& iv = QString());
     UMLAttribute(UMLObject *parent);
 
-    bool operator==(const UMLAttribute &rhs);
+    bool operator==(const UMLAttribute &rhs) const;
 
     virtual ~UMLAttribute();
 

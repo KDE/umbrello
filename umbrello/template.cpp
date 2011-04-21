@@ -60,7 +60,7 @@ QString UMLTemplate::getTypeName() const
     return m_pSecondary->name();
 }
 
-bool UMLTemplate::operator==(const UMLTemplate &rhs)
+bool UMLTemplate::operator==(const UMLTemplate &rhs) const
 {
     if (this == &rhs) {
         return true;

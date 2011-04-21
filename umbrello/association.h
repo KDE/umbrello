@@ -40,7 +40,7 @@ public:
 
     virtual ~UMLAssociation();
 
-    bool operator==(const UMLAssociation &rhs);
+    bool operator==(const UMLAssociation &rhs) const;
 
     QString toString() const;
 

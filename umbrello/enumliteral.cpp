@@ -11,7 +11,6 @@
 #include "enumliteral.h"
 
 #include <kinputdialog.h>
-#include <kdebug.h>
 #include <klocale.h>
 
 /**
@@ -47,7 +46,7 @@ UMLEnumLiteral::~UMLEnumLiteral()
 /**
  * Overloaded '==' operator
  */
-bool UMLEnumLiteral::operator==(const UMLEnumLiteral& rhs)
+bool UMLEnumLiteral::operator==(const UMLEnumLiteral& rhs) const
 {
     if ( this == &rhs )  {
         return true;
@@ -110,4 +109,3 @@ bool UMLEnumLiteral::showPropertiesDialog(QWidget* parent)
         return false;
     }
 }
-

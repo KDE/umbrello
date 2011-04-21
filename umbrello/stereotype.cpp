@@ -59,7 +59,7 @@ UMLStereotype::~UMLStereotype()
 /**
  * Overloaded '==' operator.
  */
-bool UMLStereotype::operator==( const UMLStereotype &rhs)
+bool UMLStereotype::operator==( const UMLStereotype &rhs) const
 {
     if (this == &rhs) {
         return true;

@@ -31,7 +31,7 @@ public:
                        Uml::IDType id = Uml::id_None );
     UMLCheckConstraint(UMLObject *parent);
 
-    bool operator==(const UMLCheckConstraint &rhs);
+    bool operator==(const UMLCheckConstraint &rhs) const;
 
     virtual ~UMLCheckConstraint();
 

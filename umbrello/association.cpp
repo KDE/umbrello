@@ -82,7 +82,7 @@ UMLAssociation::~UMLAssociation( )
 /**
  * Overloaded '==' operator
  */
-bool UMLAssociation::operator==(const UMLAssociation &rhs)
+bool UMLAssociation::operator==(const UMLAssociation &rhs) const
 {
     if (this == &rhs) {
         return true;

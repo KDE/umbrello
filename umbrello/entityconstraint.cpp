@@ -16,8 +16,7 @@
 #include "umldoc.h"
 #include "uml.h"
 
-// qt/kde includes
-#include <kdebug.h>
+// qt includes
 #include <QtCore/QRegExp>
 
 /**
@@ -46,7 +45,7 @@ UMLEntityConstraint::UMLEntityConstraint(UMLObject *parent)
 /**
  * Overloaded '==' operator
  */
-bool UMLEntityConstraint::operator==( const UMLEntityConstraint &rhs)
+bool UMLEntityConstraint::operator==( const UMLEntityConstraint &rhs) const
 {
     if( this == &rhs )
         return true;

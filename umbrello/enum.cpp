@@ -44,7 +44,7 @@ UMLEnum::~UMLEnum()
 /**
  * Overloaded '==' operator.
  */
-bool UMLEnum::operator==(const UMLEnum & rhs )
+bool UMLEnum::operator==(const UMLEnum & rhs) const
 {
     return UMLClassifier::operator==(rhs);
 }
