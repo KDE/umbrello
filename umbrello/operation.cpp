@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,7 +17,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "uniqueid.h"
-#include "dialogs/umloperationdialog.h"
+#include "umloperationdialog.h"
 #include "codegenerator.h"
 #include "codedocument.h"
 #include "codeblock.h"
@@ -94,7 +94,7 @@ void UMLOperation::setType(UMLObject* type)
 /**
  * Move a parameter one position to the left.
  *
- * @param a         the parameter to move
+ * @param a   the parameter to move
  */
 void UMLOperation::moveParmLeft(UMLAttribute * a)
 {
@@ -118,7 +118,7 @@ void UMLOperation::moveParmLeft(UMLAttribute * a)
 /**
  * Move a parameter one position to the right.
  *
- * @param a         the parameter to move
+ * @param a   the parameter to move
  */
 void UMLOperation::moveParmRight(UMLAttribute * a)
 {
@@ -281,7 +281,7 @@ QString UMLOperation::getUniqueParameterName()
 /**
  * Overloaded '==' operator.
  */
-bool UMLOperation::operator==(const  UMLOperation & rhs )
+bool UMLOperation::operator==(const UMLOperation & rhs) const
 {
     if ( this == &rhs )
         return true;

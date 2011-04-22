@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -44,7 +44,7 @@ UMLEnum::~UMLEnum()
 /**
  * Overloaded '==' operator.
  */
-bool UMLEnum::operator==(const UMLEnum & rhs )
+bool UMLEnum::operator==(const UMLEnum & rhs) const
 {
     return UMLClassifier::operator==(rhs);
 }

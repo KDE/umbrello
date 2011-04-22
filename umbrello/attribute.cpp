@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -21,6 +21,16 @@
 #include "umlattributedialog.h"
 #include "object_factory.h"
 
+/**
+ * Sets up an attribute.
+ *
+ * @param parent    The parent of this UMLAttribute.
+ * @param name      The name of this UMLAttribute.
+ * @param id        The unique id given to this UMLAttribute.
+ * @param s         The visibility of the UMLAttribute.
+ * @param type      The type of this UMLAttribute.
+ * @param iv        The initial value of the attribute.
+ */
 UMLAttribute::UMLAttribute( UMLObject *parent,
                             const QString& name, Uml::IDType id,
                             Uml::Visibility s,
@@ -39,6 +49,11 @@ UMLAttribute::UMLAttribute( UMLObject *parent,
     m_pSecondary = type;
 }
 
+/**
+ * Sets up an attribute.
+ *
+ * @param parent    The parent of this UMLAttribute.
+ */
 UMLAttribute::UMLAttribute(UMLObject *parent) : UMLClassifierListItem(parent)
 {
     m_BaseType = Uml::ot_Attribute;
@@ -46,6 +61,9 @@ UMLAttribute::UMLAttribute(UMLObject *parent) : UMLClassifierListItem(parent)
     m_ParmKind = Uml::pd_In;
 }
 
+/**
+ * Destructor.
+ */
 UMLAttribute::~UMLAttribute()
 {
 }
@@ -85,7 +103,7 @@ QString UMLAttribute::getInitialValue() const
 /**
  * Sets the initial value of the UMLAttribute.
  *
- * @param iv                The initial value of the UMLAttribute.
+ * @param iv   The initial value of the UMLAttribute.
  */
 void UMLAttribute::setInitialValue(const QString &iv) 
 {
@@ -108,8 +126,7 @@ Uml::Parameter_Direction UMLAttribute::getParmKind () const
 /**
  * Returns a string representation of the UMLAttribute.
  *
- * @param sig               If true will show the attribute type and
- *                  initial value.
+ * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
 QString UMLAttribute::toString(Uml::Signature_Type sig)
@@ -152,7 +169,7 @@ QString UMLAttribute::toString(Uml::Signature_Type sig)
             s += "out ";
         // Construct the attribute text.
         QString string = s + name() + " : " + typeName;
-        if(m_InitialValue.length() > 0)
+        if (m_InitialValue.length() > 0)
             string += " = " + m_InitialValue;
         return string;
     }
@@ -187,7 +204,10 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
     return fqn;
 }
 
-bool UMLAttribute::operator==(const UMLAttribute &rhs)
+/**
+ * Overloaded '==' operator
+ */
+bool UMLAttribute::operator==(const UMLAttribute &rhs) const
 {
     if( this == &rhs )
         return true;
@@ -382,6 +402,5 @@ UMLClassifierList UMLAttribute::getTemplateParams()
     }
     return templateParamList;
 }
-
 
 #include "attribute.moc"

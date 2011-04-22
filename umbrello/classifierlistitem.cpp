@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -22,10 +22,21 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-
+/**
+ * Constructor.
+ *
+ * @param parent   The parent to this operation.
+ *          At first sight it would appear that the type of the
+ *          parent should be UMLClassifier. However, the class
+ *          UMLAttribute is also used for the parameters of
+ *          operations, and in this case the UMLOperation is the
+ *          parent.
+ * @param name    The name of the operation.
+ * @param id      The id of the operation.
+ */
 UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent,
                                              const QString& name, Uml::IDType id)
-        : UMLObject(parent, name, id)
+  : UMLObject(parent, name, id)
 {
     UMLObject *parentObj = const_cast<UMLObject*>(parent);
     UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
@@ -33,8 +44,18 @@ UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent,
         UMLObject::setUMLPackage(pc);
 }
 
+/**
+ * Constructor.
+ *
+ * @param parent    The parent to this operation.
+ *          At first sight it would appear that the type of the
+ *          parent should be UMLClassifier. However, the class
+ *          UMLAttribute is also used for the parameters of
+ *          operations, and in this case the UMLOperation is the
+ *          parent.
+ */
 UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent)
-        : UMLObject(parent)
+  : UMLObject(parent)
 {
     UMLObject *parentObj = const_cast<UMLObject*>(parent);
     UMLClassifier *pc = dynamic_cast<UMLClassifier*>(parentObj);
@@ -42,6 +63,9 @@ UMLClassifierListItem::UMLClassifierListItem(UMLObject *parent)
         UMLObject::setUMLPackage(pc);
 }
 
+/**
+ * Destructor.  Empty.
+ */
 UMLClassifierListItem::~UMLClassifierListItem()
 {
 }
@@ -59,7 +83,7 @@ void UMLClassifierListItem::copyInto(UMLObject *lhs) const
 /**
  * Returns a string representation of the list item.
  *
- * @param sig               What type of operation string to show.
+ * @param sig   What type of operation string to show.
  * @return  The string representation of the operation.
  */
 QString UMLClassifierListItem::toString(Uml::Signature_Type sig)
@@ -132,6 +156,5 @@ void UMLClassifierListItem::setTypeName(const QString &type)
     }
     UMLObject::emitModified();
 }
-
 
 #include "classifierlistitem.moc"

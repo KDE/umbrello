@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,6 +32,7 @@ class UMLAssociation : public UMLObject
 {
     Q_OBJECT
     friend class AssociationWidget;
+
 public:
 
     UMLAssociation(Uml::Association_Type type, UMLObject *roleA, UMLObject *roleB);
@@ -39,7 +40,7 @@ public:
 
     virtual ~UMLAssociation();
 
-    bool operator==(const UMLAssociation &rhs);
+    bool operator==(const UMLAssociation &rhs) const;
 
     QString toString() const;
 

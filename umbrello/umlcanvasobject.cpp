@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,7 +33,7 @@
  * @param id     The unique id of the Concept.
  */
 UMLCanvasObject::UMLCanvasObject(const QString & name, Uml::IDType id)
-        : UMLObject(name, id)
+  : UMLObject(name, id)
 {
 }
 
@@ -230,9 +230,9 @@ QString UMLCanvasObject::uniqChildName( const Uml::Object_Type type,
 /**
  * Find a child object with the given name.
  *
- * @param n         The name of the object to find.
- * @param t         The type to find (optional.) If not given then
- *                  any object type will match.
+ * @param n  The name of the object to find.
+ * @param t  The type to find (optional.) If not given then
+ *           any object type will match.
  * @return  Pointer to the object found; NULL if none found.
  */
 UMLObject * UMLCanvasObject::findChildObject(const QString &n, Uml::Object_Type t)
@@ -277,7 +277,7 @@ UMLObject* UMLCanvasObject::findChildObjectById(Uml::IDType id, bool considerAnc
 /**
  *  Overloaded '==' operator
  */
-bool UMLCanvasObject::operator==(const UMLCanvasObject& rhs)
+bool UMLCanvasObject::operator==(const UMLCanvasObject& rhs) const
 {
     if (this == &rhs) {
         return true;
@@ -459,4 +459,3 @@ bool UMLCanvasObject::resolveRef()
 }
 
 #include "umlcanvasobject.moc"
-

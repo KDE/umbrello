@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,36 +29,14 @@ class UMLAttribute : public UMLClassifierListItem
     Q_OBJECT
 public:
 
-    /**
-     * Sets up an attribute.
-     *
-     * @param parent    The parent of this UMLAttribute.
-     * @param name      The name of this UMLAttribute.
-     * @param id        The unique id given to this UMLAttribute.
-     * @param s         The visibility of the UMLAttribute.
-     * @param type      The type of this UMLAttribute.
-     * @param iv        The initial value of the attribute.
-     */
     UMLAttribute(UMLObject *parent, const QString& name,
                  Uml::IDType id = Uml::id_None,
                  Uml::Visibility s = Uml::Visibility::Private,
                  UMLObject *type = 0, const QString& iv = QString());
-
-    /**
-     * Sets up an attribute.
-     *
-     * @param parent    The parent of this UMLAttribute.
-     */
     UMLAttribute(UMLObject *parent);
 
-    /**
-     * Overloaded '==' operator
-     */
-    bool operator==(const UMLAttribute &rhs);
+    bool operator==(const UMLAttribute &rhs) const;
 
-    /**
-     * destructor.
-     */
     virtual ~UMLAttribute();
 
     virtual void copyInto(UMLObject *lhs) const;

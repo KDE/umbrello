@@ -632,7 +632,7 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
 /**
  * Overloaded '==' operator.
  */
-bool UMLClassifier::operator==(const UMLClassifier & rhs )
+bool UMLClassifier::operator==(const UMLClassifier & rhs) const
 {
   /*
     if ( m_List.count() != rhs.m_List.count() ) {

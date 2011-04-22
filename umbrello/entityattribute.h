@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -33,7 +33,7 @@ public:
     UMLEntityAttribute(UMLObject* parent);
     virtual ~UMLEntityAttribute();
 
-    bool operator==(const UMLEntityAttribute& rhs);
+    bool operator==(const UMLEntityAttribute& rhs) const;
 
     virtual void copyInto(UMLObject *lhs) const;
 

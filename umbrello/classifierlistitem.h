@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2006                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,50 +26,22 @@ class UMLClassifier;
  * @author Jonathan Riddell
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLClassifierListItem : public UMLObject {
+class UMLClassifierListItem : public UMLObject
+{
     Q_OBJECT
 public:
 
-    /**
-     * Constructor.  Empty.
-     *
-     * @param parent    The parent to this operation.
-     *          At first sight it would appear that the type of the
-     *          parent should be UMLClassifier. However, the class
-     *          UMLAttribute is also used for the parameters of
-     *          operations, and in this case the UMLOperation is the
-     *          parent.
-     * @param name              The name of the operation.
-     * @param id                The id of the operation.
-     */
     UMLClassifierListItem(UMLObject *parent,
                           const QString& name,
                           Uml::IDType id = Uml::id_None);
-
-    /**
-     * Constructor.  Empty.
-     *
-     * @param parent    The parent to this operation.
-     *          At first sight it would appear that the type of the
-     *          parent should be UMLClassifier. However, the class
-     *          UMLAttribute is also used for the parameters of
-     *          operations, and in this case the UMLOperation is the
-     *          parent.
-     */
     UMLClassifierListItem(UMLObject *parent);
-
-    /**
-     * Destructor.  Empty.
-     */
     virtual ~UMLClassifierListItem();
 
+    virtual void setType(UMLObject *type);
     UMLClassifier * getType() const;
 
-    virtual QString getTypeName() const;
-
     void setTypeName( const QString &type );
-
-    virtual void setType(UMLObject *type);
+    virtual QString getTypeName() const;
 
     virtual QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
 
