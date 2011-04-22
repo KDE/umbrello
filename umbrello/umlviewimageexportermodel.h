@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -56,6 +56,9 @@ private:
     bool exportViewToEps(UMLScene* scene, const QString &fileName, bool isEPS) const;
 
     bool fixEPS(const QString &fileName, const QRect& rect) const;
+
+    static QStringList s_supportedImageTypesList;
+    static QStringList s_supportedMimeTypesList;
 
 };
 
