@@ -14,12 +14,13 @@
 #include "codegenfactory.h"
 
 // app includes
+#include "attribute.h"
 #include "codegenerator.h"
-#include "umldoc.h"
-#include "uml.h"
+#include "debug_utils.h"
 #include "optionstate.h"
 #include "operation.h"
-#include "attribute.h"
+#include "uml.h"
+#include "umldoc.h"
 #include "umlrole.h"
 
 #include "adawriter.h"
@@ -89,9 +90,6 @@
 #include "dcodegenerationpolicy.h"
 #include "javacodegenerationpolicy.h"
 #include "rubycodegenerationpolicy.h"
-
-// kde includes
-#include <kdebug.h>
 
 namespace CodeGenFactory
 {
@@ -193,7 +191,7 @@ CodeGenerator* createObject(Uml::Programming_Language pl)
     return obj;
 }
 
-CodeDocument * newClassifierCodeDocument (UMLClassifier * c)
+CodeDocument * newClassifierCodeDocument(UMLClassifier * c)
 {
     Settings::OptionState optionState = Settings::optionState();
     if (!optionState.generalState.newcodegen) {
@@ -360,8 +358,8 @@ CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
     return retval;
 }
 
-CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (ClassifierCodeDocument *cd,
-                                                          CodeClassField * cf)
+CodeClassFieldDeclarationBlock * newDeclarationCodeBlock(ClassifierCodeDocument *cd,
+                                                         CodeClassField * cf)
 {
     CodeClassFieldDeclarationBlock *retval = NULL;
     switch (UMLApp::app()->activeLanguage()) {
@@ -399,7 +397,7 @@ CodeClassFieldDeclarationBlock * newDeclarationCodeBlock (ClassifierCodeDocument
     return retval;
 }
 
-CodeComment * newCodeComment (CodeDocument *cd)
+CodeComment * newCodeComment(CodeDocument *cd)
 {
     switch (UMLApp::app()->activeLanguage()) {
         case Uml::pl_Cpp:

@@ -12,14 +12,14 @@
 #include "classifierlistitem.h"
 
 // local includes
+#include "debug_utils.h"
 #include "classifier.h"
 #include "model_utils.h"
 #include "object_factory.h"
 #include "uml.h"
 #include "umldoc.h"
 
-// qt/kde includes
-#include <kdebug.h>
+// kde includes
 #include <klocale.h>
 
 /**

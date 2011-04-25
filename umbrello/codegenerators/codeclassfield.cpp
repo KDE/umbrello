@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,17 +13,15 @@
 #include "codeclassfield.h"
 
 // app includes
+#include "attribute.h"
 #include "association.h"
 #include "classifiercodedocument.h"
 #include "codegenerator.h"
 #include "codegenerators/codegenfactory.h"
-#include "attribute.h"
+#include "debug_utils.h"
 #include "umlobject.h"
 #include "umlrole.h"
 #include "uml.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 #include <QtCore/QRegExp>

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "umlobject.h"
 
 // app includes
+#include "debug_utils.h"
 #include "uniqueid.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -28,7 +29,7 @@
 #include "cmds.h"
 
 // kde includes
-#include <kdebug.h>
+#include <klocale.h>
 
 // qt includes
 #include <QtCore/QPointer>
@@ -43,16 +44,14 @@ using namespace Uml;
  * @param id       The ID of the object (optional.) If omitted
  *                 then a new ID will be assigned internally.
  */
-UMLObject::UMLObject(UMLObject * parent, const QString &name, Uml::IDType id)
-        : QObject(parent)
+UMLObject::UMLObject(UMLObject* parent, const QString& name, Uml::IDType id)
+  : QObject(parent),
+    m_nId(id),
+    m_Name(name)
 {
-    setObjectName("UMLObject");
     init();
     if (id == Uml::id_None)
         m_nId = UniqueID::gen();
-    else
-        m_nId = id;
-    m_Name = name;
 }
 
 /**
@@ -61,15 +60,14 @@ UMLObject::UMLObject(UMLObject * parent, const QString &name, Uml::IDType id)
  * @param id       The ID of the object (optional.) If omitted
  *                 then a new ID will be assigned internally.
  */
-UMLObject::UMLObject(const QString &name, Uml::IDType id)
-        :  QObject(UMLApp::app()->document())
+UMLObject::UMLObject(const QString& name, Uml::IDType id)
+  : QObject(UMLApp::app()->document()),
+    m_nId(id),
+    m_Name(name)
 {
     init();
     if (id == Uml::id_None)
         m_nId = UniqueID::gen();
-    else
-        m_nId = id;
-    m_Name = name;
 }
 
 /**
@@ -77,7 +75,9 @@ UMLObject::UMLObject(const QString &name, Uml::IDType id)
  * @param   parent   The parent of the object.
  */
 UMLObject::UMLObject(UMLObject * parent)
-        : QObject(parent)
+  : QObject(parent),
+    m_nId(Uml::id_None),
+    m_Name(QString())
 {
     init();
 }
@@ -94,10 +94,9 @@ UMLObject::~UMLObject()
  */
 void UMLObject::init()
 {
-    m_BaseType = Uml::ot_UMLObject;
-    m_nId = Uml::id_None;
+    setObjectName("UMLObject");
+    m_BaseType = ot_UMLObject;
     m_pUMLPackage = 0;
-    m_Name.clear();
     m_Vis = Uml::Visibility::Public;
     m_pStereotype = 0;
     m_Doc.clear();
@@ -146,8 +145,9 @@ bool UMLObject::showProperties(int page, bool assoc)
  * is not valid and will not be created.  The default accepts
  * nothing (returns false)
  */
-bool UMLObject::acceptAssociationType(Uml::Association_Type)
+bool UMLObject::acceptAssociationType(Uml::Association_Type type)
 {
+    Q_UNUSED(type);
     // A UMLObject accepts nothing. This should be reimplemented by the subclasses
     return false;
 }
@@ -1042,10 +1042,14 @@ bool UMLObject::loadFromXMI(QDomElement & element)
     return load(element);
 }
 
-QDebug operator<< (QDebug s, const UMLObject& a)
+/**
+ * Print UML Object to debug output stream, so it can be used like
+ *   uDebug() << "This object shouldn't be here: " << illegalObject;
+ */
+QDebug operator<<(QDebug out, const UMLObject& obj)
 {
-    s << a.name();
-    return s;
+    out << obj.name();
+    return out;
 }
 
 #include "umlobject.moc"

@@ -12,23 +12,23 @@
 // own header
 #include "codegenerationpolicy.h"
 
+// app includes
+#include "codegenerationpolicypage.h"
+#include "debug_utils.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umbrellosettings.h"
+
+// kde includes
+#include <kconfig.h>
+#include <kdeversion.h>
+#include <kstandarddirs.h>
+
 // qt includes
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
 #include <QtCore/QTextStream>
 #include <QtCore/QDateTime>
-
-// kde includes
-#include <kconfig.h>
-#include <kdeversion.h>
-#include <kdebug.h>
-#include <kstandarddirs.h>
-
-// app includes
-#include "uml.h"
-#include "umldoc.h"
-#include "codegenerationpolicypage.h"
-#include "umbrellosettings.h"
 
 using namespace std;
 

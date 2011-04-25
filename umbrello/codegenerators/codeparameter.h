@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -57,18 +57,17 @@ public:
 
     void setComment ( CodeComment * comment );
 
-    CodeComment * getComment ( );
+    CodeComment * getComment();
 
     // the id of this parameter is the same as the parent UMLObject id.
-    QString getID ();
+    QString getID();
 
     virtual void updateContent() = 0;
 
 protected:
 
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
-
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesFromNode(QDomElement & element);
 
 private:
 
@@ -79,11 +78,11 @@ private:
     // The initial value of this code parameter
     QString m_initialValue;
 
-    void initFields ( ClassifierCodeDocument * doc, UMLObject * obj);
+    void initFields(ClassifierCodeDocument * doc, UMLObject * obj);
 
 public slots:
 
-    void syncToParent ();
+    void syncToParent();
 
 };
 

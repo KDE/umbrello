@@ -12,6 +12,7 @@
 #include "entity.h"
 
 // app includes
+#include "debug_utils.h"
 #include "entityattribute.h"
 #include "uniqueconstraint.h"
 #include "foreignkeyconstraint.h"
@@ -28,7 +29,6 @@
 #include "umlcheckconstraintdialog.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 

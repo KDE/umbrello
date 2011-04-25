@@ -12,6 +12,7 @@
 #include "association.h"
 
 // app includes
+#include "debug_utils.h"
 #include "classifier.h"
 #include "folder.h"
 #include "uml.h"
@@ -22,7 +23,6 @@
 #include "cmds.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 
 // qt includes

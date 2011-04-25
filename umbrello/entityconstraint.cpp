@@ -16,8 +16,7 @@
 #include "umldoc.h"
 #include "uml.h"
 
-// qt/kde includes
-#include <kdebug.h>
+// qt includes
 #include <QtCore/QRegExp>
 
 /**

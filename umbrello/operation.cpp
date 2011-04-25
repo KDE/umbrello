@@ -14,6 +14,7 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "uniqueid.h"
@@ -23,7 +24,6 @@
 #include "codeblock.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 
 // qt includes

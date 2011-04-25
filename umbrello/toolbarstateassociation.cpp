@@ -4,23 +4,19 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "toolbarstateassociation.h"
 
-// kde includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-
 // app includes
 #include "assocrules.h"
 #include "association.h"
 #include "associationwidget.h"
 #include "classifierwidget.h"
+#include "debug_utils.h"
 #include "folder.h"
 #include "model_utils.h"
 #include "uml.h"
@@ -29,6 +25,13 @@
 #include "umllistview.h"
 #include "umldoc.h"
 #include "umlwidget.h"
+
+// kde includes
+#include <klocale.h>
+#include <kmessagebox.h>
+
+// qt includes
+#include <QtGui/QGraphicsSceneMouseEvent>
 
 using namespace Uml;
 
@@ -59,7 +62,6 @@ ToolBarStateAssociation::~ToolBarStateAssociation()
 void ToolBarStateAssociation::init()
 {
     ToolBarStatePool::init();
-
     cleanAssociation();
 }
 
@@ -70,7 +72,6 @@ void ToolBarStateAssociation::init()
 void ToolBarStateAssociation::cleanBeforeChange()
 {
     ToolBarStatePool::cleanBeforeChange();
-
     cleanAssociation();
 }
 

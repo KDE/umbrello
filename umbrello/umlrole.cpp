@@ -11,14 +11,14 @@
 // own header
 #include "umlrole.h"
 
-// qt/kde includes
-#include <kdebug.h>
-#include <QtCore/QRegExp>
-
 // local includes
 #include "association.h"
+#include "debug_utils.h"
 #include "umldoc.h"
 #include "uml.h"
+
+// qt includes
+#include <QtCore/QRegExp>
 
 
 /**
@@ -143,7 +143,8 @@ void UMLRole::setMultiplicity(const QString &multi)
     UMLObject::emitModified();
 }
 
-/** get the 'id' of the role (NOT the parent object). This could be
+/**
+ * Get the 'id' of the role (NOT the parent object). This could be
  * either Uml::A or Uml::B. Yes, it would be better if we
  * could get along without this, but we need it to distinguish saved
  * umlrole objects in the XMI for 'self' associations where both roles
@@ -311,9 +312,9 @@ bool UMLRole::load( QDomElement & element )
         }
     }
     if (!m_Multi.isEmpty())
-        uDebug() << m_Name << ": m_Multi is " << m_Multi;
+        uDebug() << name() << ": m_Multi is " << m_Multi;
     if (m_SecondaryId.isEmpty()) {
-        uError() << m_Name << ": type not given or illegal";
+        uError() << name() << ": type not given or illegal";
         return false;
     }
     UMLObject * obj;
@@ -348,23 +349,21 @@ bool UMLRole::load( QDomElement & element )
         m_pAssoc->setAssocType(Uml::at_Aggregation);
 
     if (!element.hasAttribute("isNavigable")) {
-        /* Backward compatibility mode: In Umbrello version 1.3.x the
-           logic for saving the isNavigable flag was wrong.
-           May happen on loading role A.
-         */
+        // Backward compatibility mode: In Umbrello version 1.3.x the
+        // logic for saving the isNavigable flag was wrong.
+        // May happen on loading role A.
         m_pAssoc->setOldLoadMode(true);
     } else if (m_pAssoc->getOldLoadMode() == true) {
-        /* Here is the original logic:
-           " Role B:
-             If isNavigable is not given, we make no change to the
-             association type.
-             If isNavigable is given, and is "true", then we assume that
-             the association's other end (role A) is not navigable, and
-             therefore we change the association type to UniAssociation.
-             The case that isNavigable is given as "false" is ignored.
-             Combined with the association type logic for role A, this
-             allows us to support at_Association and at_UniAssociation. "
-         */
+        // Here is the original logic:
+        // "Role B:
+        //  If isNavigable is not given, we make no change to the
+        //  association type.
+        //  If isNavigable is given, and is "true", then we assume that
+        //  the association's other end (role A) is not navigable, and
+        //  therefore we change the association type to UniAssociation.
+        //  The case that isNavigable is given as "false" is ignored.
+        //  Combined with the association type logic for role A, this
+        //  allows us to support at_Association and at_UniAssociation."
         if (element.attribute("isNavigable") == "true")
             m_pAssoc->setAssocType(Uml::at_UniAssociation);
     } else if (element.attribute("isNavigable") == "false") {

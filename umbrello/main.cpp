@@ -4,12 +4,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-#include <unistd.h>
-#include <stdio.h>
+// app includes
+#include "debug_utils.h"
+#include "uml.h"
+#include "version.h"
+#include "umldoc.h"
+#include "cmdlineexportallviewsevent.h"
+#include "umlviewimageexportermodel.h"
+#include "umbrellosettings.h"
 
 // kde includes
 #include <kaboutdata.h>
@@ -18,16 +24,10 @@
 #include <kconfig.h>
 #include <klocale.h>
 #include <ktip.h>
-#include <kdebug.h>
 #include <kwindowsystem.h>
 
-// app includes
-#include "uml.h"
-#include "version.h"
-#include "umldoc.h"
-#include "cmdlineexportallviewsevent.h"
-#include "umlviewimageexportermodel.h"
-#include "umbrellosettings.h"
+#include <unistd.h>
+#include <stdio.h>
 
 /**
  * Description for this application

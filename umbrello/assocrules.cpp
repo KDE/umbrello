@@ -4,19 +4,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "assocrules.h"
 
-// qt/kde includes
-#include <kdebug.h>
-#include <typeinfo>
-#include <kmessagebox.h>
-
 // local includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umlview.h"
 #include "umlwidget.h"
@@ -27,6 +23,10 @@
 #include "activitywidget.h"
 #include "signalwidget.h"
 #include "forkjoinwidget.h"
+
+// kde includes
+#include <typeinfo>
+#include <kmessagebox.h>
 
 using namespace Uml;
 
@@ -48,7 +48,7 @@ AssocRules::~AssocRules()
  * Returns whether an association is going to be allowed for the given
  * values. This method is used to test if you can start an association.
  */
-bool allowAssociation( Association_Type assocType, const std::type_info &type )
+bool allowAssociation( Uml::Association_Type assocType, const std::type_info &type )
 {
     Q_UNUSED(assocType); Q_UNUSED(type);
     return false;

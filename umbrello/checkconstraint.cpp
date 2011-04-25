@@ -11,6 +11,8 @@
 //own header
 #include "checkconstraint.h"
 
+// app includes
+#include "debug_utils.h"
 #include "umlcheckconstraintdialog.h"
 
 /**

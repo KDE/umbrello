@@ -12,6 +12,7 @@
 #include "uniqueconstraint.h"
 
 // app includes
+#include "debug_utils.h"
 #include "entity.h"
 #include "entityattribute.h"
 #include "umldoc.h"
@@ -19,9 +20,6 @@
 #include "umlattributedialog.h"
 #include "umluniqueconstraintdialog.h"
 #include "object_factory.h"
-
-// kde includes
-#include <kdebug.h>
 
 /**
  * Sets up a constraint.
@@ -252,7 +250,7 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
 
     }
     if (owningParent == NULL) {
-        uError() << m_Name << ": parent is not a UMLEntity";
+        uError() << name() << ": parent is not a UMLEntity";
         return false;
     }
 
@@ -280,7 +278,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
     UMLEntity *owningParent = dynamic_cast<UMLEntity*>(parent());
 
     if (owningParent == NULL) {
-        uError() << m_Name << ": parent is not a UMLEntity";
+        uError() << name() << ": parent is not a UMLEntity";
         return false;
     }
 

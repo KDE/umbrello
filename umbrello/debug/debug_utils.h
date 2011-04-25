@@ -63,6 +63,7 @@ private:
 
 #define DBG_SRC  QString(metaObject()->className())
 #define DEBUG_REGISTER(src) Tracer::instance()->registerClass(src);
+#define DEBUG_REGISTER_DISABLED(src) Tracer::instance()->registerClass(src); Tracer::instance()->disable(src);
 #define DEBUG_SHOW_FILTER() Tracer::instance()->show()
 #define DEBUG(src)  if (Tracer::instance()->isEnabled(src)) uDebug()
 

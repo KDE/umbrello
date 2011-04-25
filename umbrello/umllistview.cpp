@@ -151,7 +151,7 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
 }
 
 /**
- *  Standard destructor.
+ * Standard destructor.
  */
 UMLListView::~UMLListView()
 {
@@ -253,6 +253,10 @@ void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me)
     this->K3ListView::contentsMouseReleaseEvent(me);
 }
 
+/**
+ * Handler for key press events.
+ * @param ke   the key event
+ */
 void UMLListView::keyPressEvent(QKeyEvent *ke)
 {
     UMLView *view = UMLApp::app()->currentView();
@@ -260,7 +264,8 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
         // Widgets have been selected in the diagram area,
         // assume they handle the keypress.
         ke->accept();                 // munge and do nothing
-    } else {
+    }
+    else {
         const int k = ke->key();
         if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
             // delete every selected item
@@ -277,6 +282,7 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
 
 /**
  * Called when a right mouse button menu has an item selected.
+ * @param action   the selected action
  */
 void UMLListView::popupMenuSel(QAction* action)
 {

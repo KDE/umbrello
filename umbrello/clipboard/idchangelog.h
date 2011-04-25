@@ -28,7 +28,6 @@ class IDChangeLog
 public:
 
     IDChangeLog();
-
     IDChangeLog(const IDChangeLog& Other);
 
     ~IDChangeLog();
@@ -42,7 +41,6 @@ public:
     IDChangeLog& operator+=(const IDChangeLog& Other);
 
     Uml::IDType findNewID(Uml::IDType OldID);
-
     Uml::IDType findOldID(Uml::IDType NewID);
 
     void removeChangeByNewID( Uml::IDType OldID);

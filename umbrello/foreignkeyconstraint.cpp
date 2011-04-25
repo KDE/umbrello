@@ -12,6 +12,7 @@
 #include "foreignkeyconstraint.h"
 
 // app includes
+#include "debug_utils.h"
 #include "entity.h"
 #include "entityattribute.h"
 #include "umlobject.h"
@@ -19,9 +20,6 @@
 #include "uml.h"
 #include "umlforeignkeyconstraintdialog.h"
 #include "object_factory.h"
-
-// kde includes
-#include <kdebug.h>
 
 /**
  * Sets up a constraint.

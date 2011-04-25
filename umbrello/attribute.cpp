@@ -10,9 +10,9 @@
 
 // own header
 #include "attribute.h"
-// qt/kde includes
-#include <kdebug.h>
+
 // app includes
+#include "debug_utils.h"
 #include "classifier.h"
 #include "operation.h"
 #include "umlobject.h"

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2010                                               *
+ *   copyright (C) 2005-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,6 +15,7 @@
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "enum.h"
 #include "folder.h"
 #include "import_utils.h"
@@ -22,9 +23,6 @@
 #include "package.h"
 #include "uml.h"
 #include "umldoc.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 #include <QtCore/QRegExp>

@@ -4,22 +4,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "umldragdata.h"
 
-// qt includes
-#include <QtCore/QTextStream>
-#include <QtXml/QDomDocument>
-#include <QtGui/QPixmap>
-
-// kde includes
-#include <kdebug.h>
-
 // local includes
+#include "debug_utils.h"
 #include "idchangelog.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -33,6 +26,11 @@
 #include "associationwidget.h"
 #include "object_factory.h"
 #include "model_utils.h"
+
+// qt includes
+#include <QtCore/QTextStream>
+#include <QtXml/QDomDocument>
+#include <QtGui/QPixmap>
 
 /**
  *  Constructor.

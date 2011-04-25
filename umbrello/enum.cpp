@@ -12,6 +12,7 @@
 #include "enum.h"
 
 // app includes
+#include "debug_utils.h"
 #include "enumliteral.h"
 #include "umldoc.h"
 #include "uml.h"
@@ -19,7 +20,6 @@
 #include "idchangelog.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 

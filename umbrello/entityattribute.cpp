@@ -10,15 +10,17 @@
 
 // own header
 #include "entityattribute.h"
-// qt/kde includes
-#include <kdebug.h>
-#include <QtCore/QRegExp>
+
 // app includes
+#include "debug_utils.h"
 #include "umlcanvasobject.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "umlentityattributedialog.h"
 #include "object_factory.h"
+
+// qt includes
+#include <QtCore/QRegExp>
 
 /**
  * Sets up an entityattribute.

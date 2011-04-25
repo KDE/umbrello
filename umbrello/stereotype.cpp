@@ -11,14 +11,15 @@
 // own header
 #include "stereotype.h"
 
-// qt/kde includes
-#include <klocale.h>
-#include <kdebug.h>
-#include <kinputdialog.h>
-
 // local includes
+#include "debug_utils.h"
 #include "umldoc.h"
 #include "uml.h"
+
+// kde includes
+#include <klocale.h>
+#include <kinputdialog.h>
+
 
 /**
  * Sets up a stereotype.

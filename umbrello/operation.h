@@ -78,7 +78,7 @@ protected:
 
 private:
     Uml::IDType      m_returnId;  ///< Holds the xmi.id of the <UML:Parameter kind="return">
-    UMLAttributeList m_List;      /// Parameter list
+    UMLAttributeList m_List;      ///< Parameter list
     bool             m_bConst;    ///< Holds the isQuery attribute of the <UML:Operation>
     QString          m_Code;      ///< Holds the entered source code
 };

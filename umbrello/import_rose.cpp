@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,9 +12,12 @@
 #include "import_rose.h"
 
 // app includes
+#include "debug_utils.h"
 #include "petalnode.h"
 #include "petaltree2uml.h"
-#include "umlnamespace.h"  // only for uDebug()/uError()
+
+// kde includes
+#include <klocale.h>
 
 // qt includes
 #include <QtCore/QString>
@@ -22,8 +25,6 @@
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
 #include <QtGui/QMessageBox>
-#include <klocale.h>
-#include <kdebug.h>
 
 namespace Import_Rose {
 

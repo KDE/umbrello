@@ -4,22 +4,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "umlclipboard.h"
 
-// qt/kde includes
-#include <QtGui/QPixmap>
-#include <QtCore/QMimeData>
-
-#include <kdebug.h>
-#include <kmessagebox.h>
-#include <klocale.h>
-
 // local includes
+#include "debug_utils.h"
 #include "umldragdata.h"
 #include "idchangelog.h"
 #include "associationwidget.h"
@@ -32,6 +25,7 @@
 #include "template.h"
 #include "enumliteral.h"
 #include "entityattribute.h"
+#include "model_utils.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
@@ -39,7 +33,14 @@
 #include "umlview.h"
 #include "umlwidget.h"
 #include "uml.h"
-#include "model_utils.h"
+
+// kde includes
+#include <kmessagebox.h>
+#include <klocale.h>
+
+// qt includes
+#include <QtGui/QPixmap>
+#include <QtCore/QMimeData>
 
 /**
  * Constructor.
@@ -100,7 +101,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         //if we are copying a diagram or part of a diagram, select the items
         //on the ListView that correspond to a UseCase, Actor or Concept
         //in the Diagram
-        if(m_type == clip2) {
+        if (m_type == clip2) {
             //Fill the member lists with all the object and stuff to be copied
             //to the clipboard
             selectedItems.clear();
@@ -123,7 +124,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
             return 0;
         }
     }
-    int i =0;
+    int i = 0;
     switch(m_type) {
     case clip1:
         data = new UMLDragData(m_ObjectList);
@@ -135,7 +136,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         data = new UMLDragData(m_ItemList);
         break;
     case clip4:
-        if(png) {
+        if (png) {
             UMLView *view = UMLApp::app()->currentView();
             data = new UMLDragData(m_ObjectList, m_WidgetList,
                                m_AssociationList, *png, view->getType());
@@ -329,7 +330,7 @@ bool UMLClipboard::insertItemChildren(UMLListViewItem * item, UMLListViewItemLis
             }
             // If the child is selected, remove it from the list of selected items
             // otherwise it will be inserted twice in m_ObjectList.
-            if(child->isSelected()) {
+            if (child->isSelected()) {
                 selectedItems.removeAll(child);
             }
             insertItemChildren(child, selectedItems);

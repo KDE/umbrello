@@ -12,6 +12,7 @@
 #include "umlcanvasobject.h"
 
 // local includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "classifier.h"
@@ -23,7 +24,6 @@
 #include "idchangelog.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 
 /**

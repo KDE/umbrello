@@ -11,10 +11,8 @@
 // own header
 #include "template.h"
 
-// qt/kde includes
-#include <kdebug.h>
-
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umltemplatedialog.h"

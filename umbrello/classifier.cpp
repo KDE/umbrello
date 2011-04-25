@@ -9,13 +9,9 @@
  ***************************************************************************/
 #include "classifier.h"
 
-// kde includes
-#include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-
 // app includes
 #include "association.h"
+#include "debug_utils.h"
 #include "umlassociationlist.h"
 #include "operation.h"
 #include "attribute.h"
@@ -36,6 +32,10 @@
 #include "umltemplatedialog.h"
 #include "optionstate.h"
 #include "icon_utils.h"
+
+// kde includes
+#include <klocale.h>
+#include <kmessagebox.h>
 
 // qt includes
 #include <QtCore/QPointer>

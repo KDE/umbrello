@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -43,9 +43,9 @@ class UMLObject : public QObject
     Q_OBJECT
 public:
 
-    explicit UMLObject(UMLObject * parent, const QString &name, Uml::IDType id = Uml::id_None);
-    explicit UMLObject(UMLObject * parent);
-    explicit UMLObject(const QString &name = QString() , Uml::IDType id = Uml::id_None);
+    explicit UMLObject(UMLObject* parent, const QString& name, Uml::IDType id = Uml::id_None);
+    explicit UMLObject(UMLObject* parent);
+    explicit UMLObject(const QString& name = QString(), Uml::IDType id = Uml::id_None);
     virtual ~UMLObject();
 
     bool operator==(const UMLObject & rhs ) const;
@@ -107,7 +107,7 @@ public:
     void setStatic(bool bStatic);
     bool isStatic() const;
 
-    virtual bool acceptAssociationType(Uml::Association_Type);
+    virtual bool acceptAssociationType(Uml::Association_Type);  //:TODO: check if this is realy needed here
 
     void setSecondaryId(const QString& id);
     QString secondaryId() const;
@@ -116,6 +116,8 @@ public:
     QString secondaryFallback() const;
 
     QDomElement save( const QString &tag, QDomDocument & qDoc );
+
+    friend QDebug operator<< (QDebug out, const UMLObject& obj);
 
 public slots:
 
@@ -170,15 +172,5 @@ protected:
      */
     QString m_SecondaryFallback;
 };
-
-#ifndef QT_NO_DEBUG_STREAM
-
-/**
- * Print UML Object to kdgstream, so it can be used like
- *   kdWarn() << "This object shouldn't be here:" << illegalObject << endl;
- */
-QDebug operator<< (QDebug s, const UMLObject& a);
-
-#endif
 
 #endif
