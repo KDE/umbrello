@@ -356,7 +356,7 @@ void SettingsDlg::setupFontPage()
     pageFont->setHeader( i18n("Font Settings") );
     pageFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageFont );
-    m_FontWidgets.chooser = new KFontChooser( page,  false, QStringList(), false);
+    m_FontWidgets.chooser = new KFontChooser( page,  KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_FontWidgets.chooser->setFont( m_pOptionState->uiState.font );
 }
 

@@ -359,7 +359,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font:
     case ListPopupMenu::mt_Change_Font_Selection: {
         QFont font = UMLWidget::font();
-        if (KFontDialog::getFont(font, false, m_pView)) {
+        if (KFontDialog::getFont(font, KFontChooser::NoDisplayFlags, m_pView)) {
             UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_pDoc, m_pView, font));
         }
     }

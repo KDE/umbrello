@@ -441,7 +441,7 @@ void ClassGenPage::updateObject()
         UMLObject *o = m_pUmldoc->findUMLObject(name);
         if (o && m_pObject != o) {
              KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
-                                i18n("Name is Not Unique"), false);
+                                i18n("Name is Not Unique"), 0);
              m_pClassNameLE->setText( m_pObject->name() );
         } else {
              m_pObject->setName(name);
@@ -492,7 +492,7 @@ void ClassGenPage::updateObject()
         UMLObject * old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
-                               i18n("Name is Not Unique"), false);
+                               i18n("Name is Not Unique"), 0);
         } else {
             o->setName(name);
         }
@@ -505,7 +505,7 @@ void ClassGenPage::updateObject()
         UMLObject* old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
             KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
-                               i18n("Name is Not Unique"), false);
+                               i18n("Name is Not Unique"), 0);
         } else {
             o->setName(name);
         }

@@ -147,7 +147,7 @@ void UMLViewDialog::setupFontPage()
     m_pageFontItem->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage(m_pageFontItem);
 
-    m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
+    m_pChooser = new KFontChooser( (QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_pChooser->setFont( m_pView->getOptionState().uiState.font );
 }
 
@@ -208,13 +208,13 @@ void UMLViewDialog::checkName()
     UMLView * pView = pDoc->findView( m_pView->getType(), name );
     if ( name.length() == 0 ) {
         KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
-                           i18n("Invalid Name"), false);
+                           i18n("Invalid Name"), 0);
         m_diagramProperties->ui_diagramName->setText( m_pView->getName() );
         return;
     }
     if ( pView && pView != m_pView ) {
         KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
-                           i18n("Name Not Unique"), false);
+                           i18n("Name Not Unique"), 0);
         m_diagramProperties->ui_diagramName->setText( m_pView->getName() );
         return;
     }

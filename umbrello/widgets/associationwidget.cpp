@@ -2744,13 +2744,13 @@ void AssociationWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Change_Font:
         font = getFont();
-        if( KFontDialog::getFont( font, false, m_pView ) )
+        if( KFontDialog::getFont( font, KFontChooser::NoDisplayFlags, m_pView ) )
             lwSetFont(font);
         break;
 
     case ListPopupMenu::mt_Change_Font_Selection:
         font = getFont();
-        if( KFontDialog::getFont( font, false, m_pView ) ) {
+        if( KFontDialog::getFont( font, KFontChooser::NoDisplayFlags, m_pView ) ) {
             m_pView->selectionSetFont( font );
             m_umldoc->setModified(true);
         }

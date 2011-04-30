@@ -224,7 +224,7 @@ void ActivityDialog::setupFontPage()
     pageItemFont->setHeader( i18n("Font Settings") );
     pageItemFont->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_Font) );
     addPage( pageItemFont );
-    m_pChooser = new KFontChooser( (QWidget*)page, false, QStringList(), false);
+    m_pChooser = new KFontChooser( (QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
     m_pChooser->setFont( m_pActivityWidget->font() );
 }
 
