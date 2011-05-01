@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -186,7 +186,7 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget & Other)
     return *this;
 }
 
-bool AssociationWidget::operator==(const AssociationWidget & Other)
+bool AssociationWidget::operator==(const AssociationWidget & Other) const
 {
     if( this == &Other )
         return true;
@@ -236,7 +236,7 @@ bool AssociationWidget::operator==(const AssociationWidget & Other)
     return (getName() == Other.getName());
 }
 
-bool AssociationWidget::operator!=(AssociationWidget & Other)
+bool AssociationWidget::operator!=(AssociationWidget & Other) const
 {
     return !(*this == Other);
 }
