@@ -262,7 +262,7 @@ bool ParmPropDlg::validate()
     // currently only validates whether the name is not null.
     if ( getName().trimmed().length() == 0 ) {
             KMessageBox::error(this, i18n("You have entered an invalid parameter name."),
-                               i18n("Parameter Name Invalid"), false);
+                               i18n("Parameter Name Invalid"), 0);
             return false;
     }
     return true;

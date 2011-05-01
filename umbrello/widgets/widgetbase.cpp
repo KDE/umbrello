@@ -982,7 +982,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     case ListPopupMenu::mt_Change_Font:
     case ListPopupMenu::mt_Change_Font_Selection: {
         QFont newFont = font();
-        if (KFontDialog::getFont(newFont, false, 0) == KFontDialog::Accepted) {
+        if (KFontDialog::getFont(newFont, KFontChooser::NoDisplayFlags, 0) == KFontDialog::Accepted) {
             setFont(newFont);
             //UMLApp::app()->executeCommand(new CmdChangeFontSelection(m_pDoc, m_pView, font));
         }

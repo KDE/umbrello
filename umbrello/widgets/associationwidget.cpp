@@ -1470,14 +1470,14 @@ void AssociationWidget::slotMenuSelection(QAction *action)
 
         case ListPopupMenu::mt_Change_Font:
             font = this->font();
-            if (KFontDialog::getFont(font, false, view)) {
+            if (KFontDialog::getFont(font, KFontChooser::NoDisplayFlags, view)) {
                 lwSetFont(font);
             }
             break;
 
         case ListPopupMenu::mt_Change_Font_Selection:
             font = this->font();
-            if (KFontDialog::getFont(font, false, view)) {
+            if (KFontDialog::getFont(font, KFontChooser::NoDisplayFlags, view)) {
                 if (scene) {
                     scene->selectionSetFont(font);
                 }

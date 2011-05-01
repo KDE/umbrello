@@ -682,7 +682,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Change_Font:
         {
             QFont fnt = font();
-            if(KFontDialog::getFont(fnt, false, umlScene()->activeView())) {
+            if(KFontDialog::getFont(fnt, KFontChooser::NoDisplayFlags, umlScene()->activeView())) {
                 if(m_textRole == Uml::TextRole::Floating || m_textRole == Uml::TextRole::Seq_Message) {
                     setFont(fnt);
                 } else if (m_linkWidget) {
