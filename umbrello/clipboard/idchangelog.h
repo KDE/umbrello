@@ -34,7 +34,7 @@ public:
 
     IDChangeLog& operator=(const IDChangeLog& Other);
 
-    bool operator==(const IDChangeLog& Other);
+    bool operator==(const IDChangeLog& Other) const;
 
     void addIDChange(Uml::IDType OldID, Uml::IDType NewID);
 

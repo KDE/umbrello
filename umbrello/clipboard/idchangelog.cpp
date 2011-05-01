@@ -4,13 +4,11 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "idchangelog.h"
-
-#include <kdebug.h>
 
 /**
  * Constructor.
@@ -50,7 +48,7 @@ IDChangeLog& IDChangeLog::operator=(const IDChangeLog& Other)
 /**
  * Overloaded '==' operator.
  */
-bool IDChangeLog::operator==(const IDChangeLog& Other)
+bool IDChangeLog::operator==(const IDChangeLog& Other) const
 {
     Q_UNUSED(Other);
     /*It needs to be Implemented*/
