@@ -52,5 +52,5 @@ cursor-exception.png cursor-object_node.png
 cursor-PrePostCondition.png PrePostCondition.png
 DESTINATION ${DATA_INSTALL_DIR}/umbrello/pics )
 
-kde4_install_icons( ${ICON_INSTALL_DIR} )
+kde4_install_icons(${DATA_INSTALL_DIR}/umbrello/icons)
 
