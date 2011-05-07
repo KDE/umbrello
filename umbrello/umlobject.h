@@ -107,7 +107,7 @@ public:
     void setStatic(bool bStatic);
     bool isStatic() const;
 
-    virtual bool acceptAssociationType(Uml::Association_Type);  //:TODO: check if this is realy needed here
+    virtual bool acceptAssociationType(Uml::Association_Type);  //:TODO: check if this is really needed here
 
     void setSecondaryId(const QString& id);
     QString secondaryId() const;
