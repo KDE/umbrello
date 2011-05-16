@@ -69,10 +69,10 @@ QStringList PostgreSQLWriter::defaultDatatypes()
     l.append( "real" );
     l.append( "serial" );
     l.append( "smallint" );
-    l.append( "time without timezone" );
-    l.append( "time with timezone" );
-    l.append( "timestamp without timezone" );
-    l.append( "time with timezone" );
+    l.append( "time without time zone" );
+    l.append( "time with time zone" );
+    l.append( "timestamp without time zone" );
+    l.append( "time with time zone" );
 
     return l;
 }
