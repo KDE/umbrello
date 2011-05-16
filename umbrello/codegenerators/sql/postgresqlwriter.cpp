@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2010                                                *
+ *  copyright (C) 2002-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -69,10 +69,10 @@ QStringList PostgreSQLWriter::defaultDatatypes()
     l.append( "real" );
     l.append( "serial" );
     l.append( "smallint" );
-    l.append( "time without timezone" );
-    l.append( "time with timezone" );
-    l.append( "timestamp without timezone" );
-    l.append( "time with timezone" );
+    l.append( "time without time zone" );
+    l.append( "time with time zone" );
+    l.append( "timestamp without time zone" );
+    l.append( "time with time zone" );
 
     return l;
 }
