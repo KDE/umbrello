@@ -28,7 +28,7 @@
 #include <QtGui/QPixmap>
 
 /**
- * This class is a gateway to KIconLoaderfor for handling all the
+ * This class is a gateway to KIconLoader for for handling all the
  * used icons in umbrello. Identification is done with an enum and
  * then a translation to the icon name.
  * @author  Andreas Fischer
