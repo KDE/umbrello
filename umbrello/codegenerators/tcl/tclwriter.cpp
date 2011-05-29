@@ -409,7 +409,7 @@ void TclWriter::writeUse(UMLClassifier * c)
         myNs = "";
     }
     // if different package
-    if (("::"+myNs) != mNamespace) {
+    if (QString("::"+myNs) != mNamespace) {
         if (c->package().isEmpty()) {
             writeCode("source " + findFileName(c, ".tcl"));
             writeCode("namespace import ::" + cleanName(c->name()));
