@@ -18,12 +18,12 @@
 #include "worktoolbar.h"
 #include "umlviewimageexporter.h"
 #include "umlviewimageexporterall.h"
-#include "kplayerslideraction.h"
 #include "docwindow.h"
 #include "optionstate.h"
 #include "cmdlineexportallviewsevent.h"
 #include "cmds.h"
 #include "umbrellosettings.h"
+#include "statusbartoolbutton.h"
 // code generation
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"
@@ -64,7 +64,6 @@
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include <kstatusbar.h>
 #include <ktip.h>
 #include <ktabwidget.h>
 #include <kactionmenu.h>
@@ -73,6 +72,7 @@
 #include <kapplication.h>
 #include <kdeprintdialog.h>
 #include <kundostack.h>
+#include <kstatusbar.h>
 
 // qt includes
 #include <QtCore/QPointer>
@@ -89,6 +89,8 @@
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
 #include <QtGui/QUndoView>
+#include <QtGui/QPushButton>
+#include <QtGui/QLabel>
 
 /** Static pointer, holding the last created instance. */
 UMLApp* UMLApp::s_instance;
@@ -439,11 +441,6 @@ void UMLApp::initActions()
     viewExportImage->setEnabled(false);
     viewProperties->setEnabled(false);
 
-    zoomAction = new KPlayerPopupSliderAction(this, SLOT(slotZoomSliderMoved(int)), this);
-    zoomAction->setText(i18n("&Zoom Slider"));
-    zoomAction->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Zoom_Slider));
-    zoomAction->setShortcuts(KShortcut(Qt::Key_F9));
-    actionCollection()->addAction("popup_zoom", zoomAction);
     zoom100Action = actionCollection()->addAction("zoom100");
     zoom100Action->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Zoom_100));
     zoom100Action->setText(i18n("Z&oom to 100%"));
@@ -535,14 +532,13 @@ void UMLApp::initActions()
 }
 
 /**
- * Connected to by the KPlayerSliderAction zoomAction, a value of between 300
+ * Connected to by the  zoomAction, a value of between 300
  * and 2200 is scaled to zoom to between 9% and 525%.
- * The min and max values of the slider are hard coded in KPlayerSliderAction for now.
+ * The min and max values of the slider are hard coded in the statusbar slider.
  */
 void UMLApp::slotZoomSliderMoved(int value)
 {
-    int zoom = (int)(value*0.01);
-    currentView()->setZoom(zoom*zoom);
+    setZoom(value);
 }
 
 /**
@@ -554,6 +550,22 @@ void UMLApp::slotZoom100()
 }
 
 /**
+ * Decrease the zoom factor of the current diagram.
+ */
+void UMLApp::slotZoomOut()
+{
+    setZoom(currentView()->getZoom()-5);
+}
+
+/**
+ * Increase the zoom factor of the current diagram.
+ */
+void UMLApp::slotZoomIn()
+{
+    setZoom(currentView()->getZoom()+5);
+}
+
+/**
  * Set the zoom factor of the current diagram.
  *
  * @param zoom  Zoom factor in percentage.
@@ -561,6 +573,8 @@ void UMLApp::slotZoom100()
 void UMLApp::setZoom(int zoom)
 {
     currentView()->setZoom(zoom);
+    qDebug() << "Set zoom value:" << " " << zoom;
+    m_pZoomSlider->setValue(zoom);
 }
 
 /**
@@ -572,7 +586,7 @@ void UMLApp::slotSetZoom(QAction* action)
 {
     QVariant var = action->data();
     if (var.canConvert<int>()) {
-        currentView()->setZoom(var.toInt());
+        setZoom(var.toInt());
     }
 }
 
@@ -632,8 +646,58 @@ void UMLApp::setupZoomMenu()
  */
 void UMLApp::initStatusBar()
 {
-    statusBar()->insertPermanentItem( i18nc("init status bar", "Ready"), 1 );
-    connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));
+    connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));   
+    
+    m_statusBarMessage = new QLabel(i18nc("init status bar", "Ready"));
+    statusBar()->addWidget(m_statusBarMessage);
+    
+    QWidget* defaultZoomWdg = new QWidget(this);
+    QHBoxLayout* zoomLayout = new QHBoxLayout(defaultZoomWdg);
+    zoomLayout->setContentsMargins(0,0,0,0);
+    zoomLayout->setSpacing(0);
+    zoomLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
+    
+    
+    m_pZoomFitSBTB = new StatusBarToolButton(this);
+    m_pZoomFitSBTB->setText("Fit");
+    m_pZoomFitSBTB->setGroupPosition(StatusBarToolButton::GroupLeft);
+    zoomLayout->addWidget(m_pZoomFitSBTB);
+    m_pZoomFitSBTB->setContentsMargins(0,0,0,0);
+    m_pZoomFitSBTB->setDisabled(true);
+    
+    m_pZoomFullSBTB = new StatusBarToolButton(this);
+    m_pZoomFullSBTB->setText("100%");
+    m_pZoomFullSBTB->setGroupPosition(StatusBarToolButton::GroupRight);
+    m_pZoomFullSBTB->setContentsMargins(0,0,0,0);
+    zoomLayout->addWidget(m_pZoomFullSBTB);
+    connect(m_pZoomFullSBTB, SIGNAL( clicked() ), this, SLOT( slotZoom100() ));
+    
+    statusBar()->addPermanentWidget(defaultZoomWdg);
+    
+    m_pZoomOutPB = new QPushButton(this);
+    m_pZoomOutPB->setIcon(KIcon("zoom-out"));
+    m_pZoomOutPB->setFlat(true);
+    m_pZoomOutPB->setMaximumSize(30,30);
+    statusBar()->addPermanentWidget(m_pZoomOutPB);
+    connect(m_pZoomOutPB, SIGNAL( clicked() ), this, SLOT( slotZoomOut() ));
+    
+    m_pZoomSlider = new QSlider(Qt::Horizontal, this);
+    m_pZoomSlider->setMaximumSize(100,50);
+    m_pZoomSlider->setMinimum (20);
+    m_pZoomSlider->setMaximum (480);
+    //m_pZoomSlider->setPageStep (1000);
+    m_pZoomSlider->setValue (100);
+    m_pZoomSlider->setContentsMargins(0,0,0,0);
+    connect(m_pZoomSlider, SIGNAL( valueChanged( int ) ), this, SLOT( slotZoomSliderMoved(int) ));
+    
+    statusBar()->addPermanentWidget(m_pZoomSlider);
+    
+    m_pZoomInPB = new QPushButton(this);
+    m_pZoomInPB->setIcon(KIcon("zoom-in"));
+    m_pZoomInPB->setFlat(true);
+    m_pZoomInPB->setMaximumSize(30,30);
+    statusBar()->addPermanentWidget(m_pZoomInPB);
+    connect(m_pZoomInPB, SIGNAL( clicked() ), this, SLOT( slotZoomIn() ));
 }
 
 /**
@@ -1308,7 +1372,7 @@ void UMLApp::slotEditPaste()
 void UMLApp::slotStatusMsg(const QString &text)
 {
     // change status message permanently
-    statusBar()->changeItem( text, 1 );
+    m_statusBarMessage->setText(text);
 }
 
 /**
@@ -1316,7 +1380,7 @@ void UMLApp::slotStatusMsg(const QString &text)
  */
 void UMLApp::resetStatusMsg()
 {
-    statusBar()->changeItem( i18nc("reset status bar", "Ready."), 1 );
+    m_statusBarMessage->setText( i18nc("reset status bar", "Ready."));
 }
 
 /**
@@ -2775,7 +2839,7 @@ KTabWidget* UMLApp::tabWidget()
  */
 QString UMLApp::statusBarMsg()
 {
-    return statusBar()->itemText(1);
+    return m_statusBarMessage->text();
 }
 
 /**

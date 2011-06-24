@@ -349,6 +349,7 @@ set (libwidgets_SRCS
     widgets/widget_factory.cpp
     widgets/widget_utils.cpp
     widgets/widgetbase.cpp
+    widgets/statusbartoolbutton.cpp
 )
 
 set (libcontroller_SRCS
@@ -385,7 +386,6 @@ set(libumbrello_SRCS
     foreignkeyconstraint.cpp
     icon_utils.cpp
     import_rose.cpp
-    kplayerslideraction.cpp
     linepath.cpp
     listpopupmenu.cpp
     main.cpp
