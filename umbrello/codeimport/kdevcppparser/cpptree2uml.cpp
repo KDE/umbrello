@@ -6,7 +6,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,6 +14,7 @@
 #include "cpptree2uml.h"
 
 // app includes
+#include "debug_utils.h"
 #include "ast_utils.h"
 #include "import_utils.h"
 // FIXME: The sole reason for the next 2 includes is parseTypedef().
@@ -21,9 +22,6 @@
 #include "classifier.h"
 // FIXME The next include is motivated by template params
 #include "template.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 #include <QtCore/QFileInfo>
@@ -81,9 +79,9 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
 #ifdef DEBUG_CPPTREE2UML
     uDebug() << nsName;
 #endif
-    UMLObject * o = Import_Utils::createUMLObject( Uml::ot_Package, nsName,
-                                                 m_currentNamespace[m_nsCnt],
-                                                 ast->comment());
+    UMLObject * o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName,
+                                                  m_currentNamespace[m_nsCnt],
+                                                  ast->comment());
     UMLPackage *ns = (UMLPackage *)o;
     m_currentScope.push_back( nsName );
     if (++m_nsCnt > STACKSIZE) {
@@ -137,19 +135,19 @@ void CppTree2Uml::parseTypedef( TypedefAST* ast )
 
             if (type.contains('*') || isDatatype) {
                 UMLObject *inner =
-                Import_Utils::createUMLObject( Uml::ot_Class, typeId,
-                                             m_currentNamespace[m_nsCnt] );
+                Import_Utils::createUMLObject( UMLObject::ot_Class, typeId,
+                                               m_currentNamespace[m_nsCnt] );
                 UMLObject *typedefObj =
-                Import_Utils::createUMLObject( Uml::ot_Datatype, id,
-                                             m_currentNamespace[m_nsCnt] );
+                Import_Utils::createUMLObject( UMLObject::ot_Datatype, id,
+                                               m_currentNamespace[m_nsCnt] );
                 UMLClassifier *dt = static_cast<UMLClassifier*>(typedefObj);
                 dt->setIsReference();
                 dt->setOriginType(static_cast<UMLClassifier*>(inner));
             } else {
-                Import_Utils::createUMLObject( Uml::ot_Class, id,
-                                             m_currentNamespace[m_nsCnt],
-                                             "" /* doc */,
-                                             "typedef" /* stereotype */);
+                Import_Utils::createUMLObject( UMLObject::ot_Class, id,
+                                               m_currentNamespace[m_nsCnt],
+                                               "" /* doc */,
+                                               "typedef" /* stereotype */);
             }
         }
 
@@ -185,13 +183,13 @@ void CppTree2Uml::parseTemplateDeclaration( TemplateDeclarationAST* ast )
                 continue;
             }
             QString typeName = typeSpec->name()->text();
-            UMLObject *t = Import_Utils::createUMLObject( Uml::ot_UMLObject, typeName,
-                                                        m_currentNamespace[m_nsCnt] );
+            UMLObject *t = Import_Utils::createUMLObject( UMLObject::ot_UMLObject, typeName,
+                                                          m_currentNamespace[m_nsCnt] );
             DeclaratorAST* declNode = valueNode->declarator();
             NameAST* nameNode = declNode->declaratorId();
             if (nameNode == NULL) {
                 uError() << "CppTree2Uml::parseTemplateDeclaration(value):"
-                          << " nameNode is NULL";
+                         << " nameNode is NULL";
                 continue;
             }
             QString paramName = nameNode->unqualifiedName()->text();
@@ -320,9 +318,9 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
         className = "anon_" + QString::number(m_anon);
         m_anon++;
     }
-    UMLObject * o = Import_Utils::createUMLObject( Uml::ot_Class, className,
-                                                 m_currentNamespace[m_nsCnt],
-                                                 ast->comment() );
+    UMLObject * o = Import_Utils::createUMLObject( UMLObject::ot_Class, className,
+                                                   m_currentNamespace[m_nsCnt],
+                                                   ast->comment() );
     UMLClassifier *klass = static_cast<UMLClassifier*>(o);
     flushTemplateParams(klass);
     if ( ast->baseClause() )
@@ -360,9 +358,9 @@ void CppTree2Uml::parseEnumSpecifier( EnumSpecifierAST* ast )
     QString typeName = nameNode->unqualifiedName()->text().trimmed();
     if (typeName.isEmpty())
         return;  // skip constants
-    UMLObject *o = Import_Utils::createUMLObject( Uml::ot_Enum, typeName,
-                                                m_currentNamespace[m_nsCnt],
-                                                ast->comment() );
+    UMLObject *o = Import_Utils::createUMLObject( UMLObject::ot_Enum, typeName,
+                                                  m_currentNamespace[m_nsCnt],
+                                                  ast->comment() );
 
     QList<EnumeratorAST*> l = ast->enumeratorList();
     for( int i = 0; i < l.size(); ++i ) {
@@ -380,7 +378,8 @@ void CppTree2Uml::parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* type
     QString text = typeSpec->text();
     uDebug() << "text is " << text;
     text.remove(QRegExp("^class\\s+"));
-    UMLObject *o = Import_Utils::createUMLObject(Uml::ot_Class, text, m_currentNamespace[m_nsCnt]);
+    UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Class, text,
+                                                 m_currentNamespace[m_nsCnt]);
     flushTemplateParams( static_cast<UMLClassifier*>(o) );
 }
 

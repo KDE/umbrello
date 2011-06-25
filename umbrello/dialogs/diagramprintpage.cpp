@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,16 +12,16 @@
 #include "diagramprintpage.h"
 
 // local includes
+#include "basictypes.h"
+#include "debug_utils.h"
+#include "model_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
 #include "umlviewlist.h"
-#include "umlnamespace.h"
-#include "model_utils.h"
 
 // kde includes
 #include <kcombobox.h>
-#include <kdebug.h>
 #include <klocale.h>
 
 // qt includes
@@ -36,7 +36,9 @@
  *  @param parent The parent to the page.
  *  @param doc    The @ref UMLDoc class instance being used.
  */
-DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc) : QWidget(parent), m_pDoc(doc)
+DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc)
+  : QWidget(parent),
+    m_pDoc(doc)
 {
     int margin = fontMetrics().height();
     setWindowTitle(i18n("&Diagrams"));
@@ -79,12 +81,12 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc) : QWidget(par
     select->addWidget(m_pSelectLW);
     m_pSelectLW->setEnabled(false);
     m_pSelectLW->setSelectionMode(QAbstractItemView::MultiSelection);
-    m_pSelectLW->addItem(UMLApp::app()->currentView()->getName());
+    m_pSelectLW->addItem(UMLApp::app()->currentView()->name());
     m_pSelectLW->setCurrentRow(0);
     m_nIdList.clear();
     m_nIdList.append(UMLApp::app()->currentView()->getID());
 
-    m_ViewType = Uml::dt_Class;
+    m_ViewType = Uml::DiagramType(Uml::DiagramType::Class);
     connect(m_pAllRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
     connect(m_pCurrentRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
     connect(m_pSelectRB, SIGNAL(clicked()), this, SLOT(slotClicked()));
@@ -93,10 +95,11 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc) : QWidget(par
     connect(m_pTypeCB, SIGNAL(activated(int)), this, SLOT(slotActivated(int)));
 
     QStringList types;
-    // diagramNo 1 is Uml::dt_Class
-    // digaramNo 9 is Uml::dt_EntityRelationship
-    for (int diagramNo = 1; diagramNo < Uml::N_DIAGRAMTYPES; ++diagramNo) {
-        types << Model_Utils::diagramTypeToString( ( Uml::Diagram_Type )diagramNo ) ;
+    // diagramNo 1 is Uml::DiagramType::Class
+    // digaramNo 9 is Uml::DiagramType::EntityRelationship
+    for (int diagramNo = 1; diagramNo < Uml::DiagramType::N_DIAGRAMTYPES; ++diagramNo) {
+        Uml::DiagramType dt = Uml::DiagramType(Uml::DiagramType::Value(diagramNo));
+        types << dt.toString();
     }
 
     m_pTypeCB->insertItems(0, types);
@@ -192,7 +195,7 @@ void DiagramPrintPage::slotClicked()
         m_pTypeCB->setEnabled(false);
         m_pSelectLW->setEnabled(false);
         m_pSelectLW->clear();
-        m_pSelectLW->addItem(UMLApp::app()->currentView()->getName());
+        m_pSelectLW->addItem(UMLApp::app()->currentView()->name());
         m_pSelectLW->setCurrentRow(0);
         m_nIdList.append(UMLApp::app()->currentView()->getID());
     }
@@ -202,7 +205,7 @@ void DiagramPrintPage::slotClicked()
         m_pSelectLW->setEnabled(false);
         m_pSelectLW->clear();
         foreach ( UMLView * view , list ) {
-            m_pSelectLW->addItem(view->getName());
+            m_pSelectLW->addItem(view->name());
             m_nIdList.append(view->getID());
         }
         m_pSelectLW->selectAll();
@@ -213,7 +216,7 @@ void DiagramPrintPage::slotClicked()
         m_pSelectLW->setEnabled(true);
         m_pSelectLW->clear();
         foreach ( UMLView * view , list) {
-            m_pSelectLW->addItem(view->getName());
+            m_pSelectLW->addItem(view->name());
             m_nIdList.append(view->getID());
         }
     }
@@ -223,8 +226,8 @@ void DiagramPrintPage::slotClicked()
         m_pSelectLW->setEnabled(true);
         m_pSelectLW->clear();
         foreach ( UMLView * view , list) {
-            if(view->getType() == m_ViewType) {
-                m_pSelectLW->addItem(view->getName());
+            if(view->type() == m_ViewType) {
+                m_pSelectLW->addItem(view->name());
                 m_nIdList.append(view->getID());
             }
         }
@@ -243,14 +246,14 @@ void DiagramPrintPage::slotActivated(int index)
 
     // combo box entries start from 0 index
     // valid diagram_type enum values start from 1
-    m_ViewType = ( Uml::Diagram_Type )( index + 1 );
+    m_ViewType = Uml::DiagramType(Uml::DiagramType::Value(index + 1));
 
     m_pSelectLW->clear();
 
     m_nIdList.clear();
     foreach (UMLView * view , list) {
-        if (view->getType() == m_ViewType) {
-            m_pSelectLW->addItem(view->getName());
+        if (view->type() == m_ViewType) {
+            m_pSelectLW->addItem(view->name());
             m_nIdList.append(view->getID());
         }
     }

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -20,12 +20,10 @@
 #include <q3canvas.h>
 #include <QtGui/QPainter>
 
-// kde includes
-#include <kdebug.h>
-
 // application includes
 #include "associationwidget.h"
 #include "activitywidget.h"
+#include "debug_utils.h"
 #include "widget_utils.h"
 #include "umlview.h"
 #include "umldoc.h"
@@ -100,7 +98,7 @@ void LinePath::setAssociation(AssociationWidget * association)
     m_pAssociation = association;
     createHeadLines();
     createSubsetSymbol();
-    if( getAssocType() == Uml::at_Coll_Message )
+    if( getAssocType() == Uml::AssociationType::Coll_Message )
         setupParallelLine();
     UMLView * view =  (UMLView *)m_pAssociation -> parent();
     connect( view, SIGNAL( sigColorChanged( Uml::IDType ) ), this, SLOT( slotLineColorChanged( Uml::IDType ) ) );
@@ -373,7 +371,7 @@ void LinePath::setSelected( bool select )
 /**
  * Sets the Association type.
  */
-void LinePath::setAssocType( Uml::Association_Type type )
+void LinePath::setAssocType( Uml::AssociationType type )
 {
     QList<Q3CanvasLine*>::Iterator it = m_LineList.begin();
     QList<Q3CanvasLine*>::Iterator end = m_LineList.end();
@@ -384,7 +382,7 @@ void LinePath::setAssocType( Uml::Association_Type type )
     delete m_pClearPoly;
     m_pClearPoly = 0;
 
-    if( type == Uml::at_Coll_Message ) {
+    if( type == Uml::AssociationType::Coll_Message ) {
         setupParallelLine();
     }
     else {
@@ -399,7 +397,7 @@ void LinePath::setAssocType( Uml::Association_Type type )
  */
 void LinePath::update()
 {
-    if (getAssocType() == Uml::at_Coll_Message) {
+    if (getAssocType() == Uml::AssociationType::Coll_Message) {
         if (m_bParallelLineCreated) {
             calculateParallelLine();
             updateParallelLine();
@@ -455,11 +453,11 @@ void LinePath::setLineColor( const QColor &color )
         line->setPen( QPen( color, linewidth ) );
     }
 
-    if (getAssocType() == Uml::at_Aggregation) {
+    if (getAssocType() == Uml::AssociationType::Aggregation) {
         if (m_pClearPoly) {
             m_pClearPoly->setBrush( QBrush( Qt::white ) );
         }
-        else if( getAssocType() == Uml::at_Composition ) {
+        else if( getAssocType() == Uml::AssociationType::Composition ) {
             if (m_pClearPoly) {
                 m_pClearPoly->setBrush( QBrush( color ) );
             }
@@ -574,8 +572,8 @@ void LinePath::setupSelected()
  */
 QPen LinePath::getPen()
 {
-    Uml::Association_Type type = getAssocType();
-    if( type == Uml::at_Dependency || type == Uml::at_Realization || type == Uml::at_Anchor )
+    Uml::AssociationType type = getAssocType();
+    if( type == Uml::AssociationType::Dependency || type == Uml::AssociationType::Realization || type == Uml::AssociationType::Anchor )
         return QPen( getLineColor(), getLineWidth(), Qt::DashLine );
     return QPen( getLineColor(), getLineWidth() );
 }
@@ -589,9 +587,9 @@ void LinePath::calculateHead()
     QPoint farPoint;
     int halfLength = 10;
     double arrowAngle = 0.2618;   // 0.5 * atan(sqrt(3.0) / 3.0) = 0.2618
-    Uml::Association_Type at = getAssocType();
-    bool diamond = (at == Uml::at_Aggregation || at == Uml::at_Composition);
-    if (diamond || at == Uml::at_Containment) {
+    Uml::AssociationType at = getAssocType();
+    bool diamond = (at == Uml::AssociationType::Aggregation || at == Uml::AssociationType::Composition);
+    if (diamond || at == Uml::AssociationType::Containment) {
         farPoint = getPoint(1);
         m_EgdePoint = getPoint(0);
         if (diamond) {
@@ -652,8 +650,8 @@ void LinePath::calculateHead()
 
     m_PointArray.setPoint(0, m_EgdePoint);
     m_PointArray.setPoint(1, m_ArrowPointA);
-    if( getAssocType() == Uml::at_Realization ||
-            getAssocType() == Uml::at_Generalization ) {
+    if( getAssocType() == Uml::AssociationType::Realization ||
+            getAssocType() == Uml::AssociationType::Generalization ) {
         m_PointArray.setPoint( 2, m_ArrowPointB );
         m_PointArray.setPoint( 3, m_EgdePoint );
     } else {
@@ -675,11 +673,11 @@ void LinePath::updateHead()
     Q3CanvasLine * line = 0;
 
     switch( getAssocType() ) {
-    case Uml::at_State:
-    case Uml::at_Activity:
-    case Uml::at_Exception:
-    case Uml::at_UniAssociation:
-    case Uml::at_Dependency:
+    case Uml::AssociationType::State:
+    case Uml::AssociationType::Activity:
+    case Uml::AssociationType::Exception:
+    case Uml::AssociationType::UniAssociation:
+    case Uml::AssociationType::Dependency:
         if( count < 2)
             return;
 
@@ -690,7 +688,7 @@ void LinePath::updateHead()
         line -> setPoints( m_EgdePoint.x(), m_EgdePoint.y(), m_ArrowPointB.x(), m_ArrowPointB.y() );
         break;
 
-    case Uml::at_Relationship:
+    case Uml::AssociationType::Relationship:
         if (count < 2) {
             return;
         }
@@ -710,8 +708,8 @@ void LinePath::updateHead()
                              m_PointArray[0].x()+xoffset, m_PointArray[0].y()+yoffset );
         }
 
-    case Uml::at_Generalization:
-    case Uml::at_Realization:
+    case Uml::AssociationType::Generalization:
+    case Uml::AssociationType::Realization:
         if( count < 3)
             return;
         line = m_HeadList.at( 0 );
@@ -725,8 +723,8 @@ void LinePath::updateHead()
         m_pClearPoly -> setPoints( m_PointArray );
         break;
 
-    case Uml::at_Composition:
-    case Uml::at_Aggregation:
+    case Uml::AssociationType::Composition:
+    case Uml::AssociationType::Aggregation:
         if( count < 4)
             return;
         line = m_HeadList.at( 0 );
@@ -743,7 +741,7 @@ void LinePath::updateHead()
         m_pClearPoly -> setPoints( m_PointArray );
         break;
 
-    case Uml::at_Containment:
+    case Uml::AssociationType::Containment:
         if (count < 1)
             return;
         line = m_HeadList.at( 0 );
@@ -784,17 +782,17 @@ void LinePath::createHeadLines()
     m_HeadList.clear();
     Q3Canvas * canvas = getScene();
     switch( getAssocType() ) {
-    case Uml::at_Activity:
-    case Uml::at_Exception:
-    case Uml::at_State:
-    case Uml::at_Dependency:
-    case Uml::at_UniAssociation:
-    case Uml::at_Relationship:
+    case Uml::AssociationType::Activity:
+    case Uml::AssociationType::Exception:
+    case Uml::AssociationType::State:
+    case Uml::AssociationType::Dependency:
+    case Uml::AssociationType::UniAssociation:
+    case Uml::AssociationType::Relationship:
         growList(m_HeadList, 2);
         break;
 
-    case Uml::at_Generalization:
-    case Uml::at_Realization:
+    case Uml::AssociationType::Generalization:
+    case Uml::AssociationType::Realization:
         growList(m_HeadList, 3);
         m_pClearPoly = new Q3CanvasPolygon( canvas );
         m_pClearPoly -> setVisible( true );
@@ -802,19 +800,19 @@ void LinePath::createHeadLines()
         m_pClearPoly -> setZ( -1 );
         break;
 
-    case Uml::at_Composition:
-    case Uml::at_Aggregation:
+    case Uml::AssociationType::Composition:
+    case Uml::AssociationType::Aggregation:
         growList(m_HeadList, 4);
         m_pClearPoly = new Q3CanvasPolygon( canvas );
         m_pClearPoly -> setVisible( true );
-        if( getAssocType() == Uml::at_Aggregation )
+        if( getAssocType() == Uml::AssociationType::Aggregation )
             m_pClearPoly->setBrush( QBrush( Qt::white ) );
         else
             m_pClearPoly -> setBrush( QBrush( getLineColor() ) );
         m_pClearPoly -> setZ( -1 );
         break;
 
-    case Uml::at_Containment:
+    case Uml::AssociationType::Containment:
         growList(m_HeadList, 1);
         if (!m_pCircle) {
             m_pCircle = new Circle( canvas, 6 );
@@ -969,16 +967,16 @@ Q3Canvas * LinePath::getScene()
 
 /**
  * Returns the Association type.
- * Returns Uml::at_Association if association hasn't been set.
+ * Returns Uml::AssociationType::Association if association hasn't been set.
  *
  * This class doesn't hold this information but is a wrapper
  * method to stop calls to undefined variable like m_pAssociation.
  */
-Uml::Association_Type LinePath::getAssocType() const 
+Uml::AssociationType LinePath::getAssocType() const 
 {
     if( m_pAssociation )
         return m_pAssociation->associationType();
-    return Uml::at_Association;
+    return Uml::AssociationType::Association;
 }
 
 /**
@@ -1179,7 +1177,7 @@ void LinePath::createSubsetSymbol()
     }
 
     switch( getAssocType() ) {
-       case Uml::at_Child2Category:
+       case Uml::AssociationType::Child2Category:
            m_pSubsetSymbol = new SubsetSymbol(getScene());
            m_pSubsetSymbol->setPen( QPen( getLineColor(), getLineWidth() ) );
            updateSubsetSymbol();

@@ -24,7 +24,6 @@
 #include <QMouseEvent>
 
 // kde includes
-#include <kdebug.h>
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -34,6 +33,7 @@
 // app includes
 #include "actor.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "package.h"
 #include "folder.h"
 #include "component.h"
@@ -92,7 +92,7 @@ protected:
         if (item == 0)
             return;
         UMLObject *obj = item->getUMLObject();
-        if (obj == 0 || obj->getBaseType() != Uml::ot_Operation)
+        if (obj == 0 || obj->getBaseType() != UMLObject::ot_Operation)
             return;
         UMLOperation *op = static_cast<UMLOperation*>(obj);
         QString text = op->toString(Uml::st_ShowSig);
@@ -106,12 +106,18 @@ protected:
  * Constructs the tree view.
  *
  * @param parent   The parent to this.
- * @param name     The internal name for this class.
  */
-UMLListView::UMLListView(QWidget *parent, const char *name)
-  : K3ListView(parent), m_pMenu(0), m_doc(UMLApp::app()->document())
+UMLListView::UMLListView(QWidget *parent)
+  : K3ListView(parent),
+    m_rv(0),
+    m_datatypeFolder(0),
+    m_menu(0),
+    m_doc(UMLApp::app()->document()),
+    m_bStartedCut(false),
+    m_bStartedCopy(false),
+    m_bIgnoreCancelRename(true),
+    m_bCreatingChildObject(false)
 {
-    Q_UNUSED(name);
     //setup list view
     setAcceptDrops(true);
     setDropVisualizer(false);
@@ -135,14 +141,8 @@ UMLListView::UMLListView(QWidget *parent, const char *name)
      */
     (void) new LVToolTip(viewport());
 #endif
-    m_pMenu = 0;
-    m_bStartedCut = m_bStartedCopy = false;
-    m_bIgnoreCancelRename = true;
-    m_bCreatingChildObject = false;
-    m_rv = 0;
-    for (int i = 0; i < Uml::N_MODELTYPES; ++i)
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
         m_lv[i] = 0;
-    m_datatypeFolder = 0;
     //setup slots/signals
     connect(this, SIGNAL(collapsed(Q3ListViewItem *)),
             this, SLOT(slotCollapsed(Q3ListViewItem *)));
@@ -163,15 +163,15 @@ bool UMLListView::eventFilter(QObject *o, QEvent *e)
         return Q3ListView::eventFilter(o, e);
     QMouseEvent *me = static_cast<QMouseEvent*>(e);
     if (me->button() == Qt::RightButton) {
-        if (m_pMenu) {
-            m_pMenu->hide();
-            disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
-            delete m_pMenu;
+        if (m_menu) {
+            m_menu->hide();
+            disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
+            delete m_menu;
         }
         UMLListViewItem * temp = (UMLListViewItem*)currentItem();
-        m_pMenu = new ListPopupMenu(this, Uml::lvt_Model, temp->getUMLObject());
-        m_pMenu->popup(me->globalPos());
-        connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
+        m_menu = new ListPopupMenu(this, UMLListViewItem::lvt_Model, temp->umlObject());
+        m_menu->popup(me->globalPos());
+        connect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
         return true;
     }
     return Q3ListView::eventFilter(o, e);
@@ -197,7 +197,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me)
     }
 
     if (button == Qt::LeftButton) {
-        UMLObject *o = item->getUMLObject();
+        UMLObject *o = item->umlObject();
         if (o)
             UMLApp::app()->docWindow()->showDocumentation(o, false);
         else
@@ -206,16 +206,16 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me)
         m_dragStartPosition = me->pos();
     }
     if (button == Qt::RightButton) {
-        if (m_pMenu != 0) {
-            m_pMenu->hide();
-            disconnect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
-            delete m_pMenu;
-            m_pMenu = 0;
+        if (m_menu != 0) {
+            m_menu->hide();
+            disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
+            delete m_menu;
+            m_menu = 0;
         }
-        const Uml::ListView_Type type = item->getType();
-        m_pMenu = new ListPopupMenu(this, type, item->getUMLObject());
-        m_pMenu->popup(me->globalPos());
-        connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
+        const UMLListViewItem::ListViewType type = item->type();
+        m_menu = new ListPopupMenu(this, type, item->umlObject());
+        m_menu->popup(me->globalPos());
+        connect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(popupMenuSel(QAction*)));
     }//end if right button
 
     K3ListView::contentsMousePressEvent(me);
@@ -242,7 +242,7 @@ void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me)
     }
     const QPoint pt = this->Q3ScrollView::contentsToViewport(me->pos());
     UMLListViewItem *item = dynamic_cast<UMLListViewItem*>(itemAt(pt));
-    if (item == 0 || !Model_Utils::typeIsDiagram(item->getType())) {
+    if (item == 0 || !Model_Utils::typeIsDiagram(item->type())) {
         this->K3ListView::contentsMouseReleaseEvent(me);
         return;
     }
@@ -269,10 +269,9 @@ void UMLListView::keyPressEvent(QKeyEvent *ke)
         const int k = ke->key();
         if (k == Qt::Key_Delete || k == Qt::Key_Backspace) {
             // delete every selected item
-            UMLListViewItemList selecteditems;
-            getSelectedItemsRoot(selecteditems);
-            foreach(UMLListViewItem *item , selecteditems) {
-                deleteItem(dynamic_cast<UMLListViewItem*>(item));
+            UMLListViewItemList itemsSelected = selectedItemsRoot();
+            foreach(UMLListViewItem *item, itemsSelected) {
+                deleteItem(item);
             }
         } else {
             Q3ListView::keyPressEvent(ke); // let parent handle it
@@ -291,117 +290,117 @@ void UMLListView::popupMenuSel(QAction* action)
         uDebug() << "popupMenuSel invoked without currently selectedItem";
         return;
     }
-    UMLObject * object = temp->getUMLObject();
-    Uml::ListView_Type lvt = temp->getType();
-    Uml::Object_Type umlType = Uml::ot_UMLObject;
-    ListPopupMenu::Menu_Type menuType = m_pMenu->getMenuType(action);
+    UMLObject * object = temp->umlObject();
+    UMLListViewItem::ListViewType lvt = temp->type();
+    UMLObject::Object_Type umlType = UMLObject::ot_UMLObject;
+    ListPopupMenu::Menu_Type menuType = m_menu->getMenuType(action);
     QString name;
 
     switch (menuType) {
     case ListPopupMenu::mt_Class:
-        addNewItem(temp, Uml::lvt_Class);
+        addNewItem(temp, UMLListViewItem::lvt_Class);
         break;
 
     case ListPopupMenu::mt_Package:
-        addNewItem(temp, Uml::lvt_Package);
+        addNewItem(temp, UMLListViewItem::lvt_Package);
         break;
 
     case ListPopupMenu::mt_Subsystem:
-        addNewItem(temp, Uml::lvt_Subsystem);
+        addNewItem(temp, UMLListViewItem::lvt_Subsystem);
         break;
 
     case ListPopupMenu::mt_Component:
-        addNewItem(temp, Uml::lvt_Component);
+        addNewItem(temp, UMLListViewItem::lvt_Component);
         break;
 
     case ListPopupMenu::mt_Node:
-        addNewItem(temp, Uml::lvt_Node);
+        addNewItem(temp, UMLListViewItem::lvt_Node);
         break;
 
     case ListPopupMenu::mt_Artifact:
-        addNewItem(temp, Uml::lvt_Artifact);
+        addNewItem(temp, UMLListViewItem::lvt_Artifact);
         break;
 
     case ListPopupMenu::mt_Interface:
-        addNewItem(temp, Uml::lvt_Interface);
+        addNewItem(temp, UMLListViewItem::lvt_Interface);
         break;
 
     case ListPopupMenu::mt_Enum:
-        addNewItem(temp, Uml::lvt_Enum);
+        addNewItem(temp, UMLListViewItem::lvt_Enum);
         break;
 
     case ListPopupMenu::mt_EnumLiteral:
-        addNewItem(temp, Uml::lvt_EnumLiteral);
+        addNewItem(temp, UMLListViewItem::lvt_EnumLiteral);
         break;
 
     case ListPopupMenu::mt_Template:
-        addNewItem(temp, Uml::lvt_Template);
+        addNewItem(temp, UMLListViewItem::lvt_Template);
         break;
 
     case ListPopupMenu::mt_Entity:
-        addNewItem(temp, Uml::lvt_Entity);
+        addNewItem(temp, UMLListViewItem::lvt_Entity);
         break;
 
     case ListPopupMenu::mt_Category:
-        addNewItem(temp, Uml::lvt_Category);
+        addNewItem(temp, UMLListViewItem::lvt_Category);
         break;
 
     case ListPopupMenu::mt_DisjointSpecialisation: {
-        UMLCategory* catObj = static_cast<UMLCategory*>(temp->getUMLObject());
+        UMLCategory* catObj = static_cast<UMLCategory*>(temp->umlObject());
         catObj->setType(UMLCategory::ct_Disjoint_Specialisation);
         break;
     }
 
     case ListPopupMenu::mt_OverlappingSpecialisation: {
-        UMLCategory* catObj = static_cast<UMLCategory*>(temp->getUMLObject());
+        UMLCategory* catObj = static_cast<UMLCategory*>(temp->umlObject());
         catObj->setType(UMLCategory::ct_Overlapping_Specialisation);
         break;
     }
 
     case ListPopupMenu::mt_Union: {
-        UMLCategory* catObj = static_cast<UMLCategory*>(temp->getUMLObject());
+        UMLCategory* catObj = static_cast<UMLCategory*>(temp->umlObject());
         catObj->setType(UMLCategory::ct_Union);
         break;
     }
 
     case ListPopupMenu::mt_Datatype:
-        addNewItem(temp, Uml::lvt_Datatype);
+        addNewItem(temp, UMLListViewItem::lvt_Datatype);
         break;
 
     case ListPopupMenu::mt_Actor:
-        addNewItem(temp, Uml::lvt_Actor);
+        addNewItem(temp, UMLListViewItem::lvt_Actor);
         break;
 
     case ListPopupMenu::mt_UseCase:
-        addNewItem(temp, Uml::lvt_UseCase);
+        addNewItem(temp, UMLListViewItem::lvt_UseCase);
         break;
 
     case ListPopupMenu::mt_Attribute:
-        addNewItem(temp, Uml::lvt_Attribute);
+        addNewItem(temp, UMLListViewItem::lvt_Attribute);
         break;
 
     case ListPopupMenu::mt_EntityAttribute:
-        addNewItem(temp, Uml::lvt_EntityAttribute);
+        addNewItem(temp, UMLListViewItem::lvt_EntityAttribute);
         break;
 
     case ListPopupMenu::mt_Operation:
-        addNewItem(temp, Uml::lvt_Operation);
+        addNewItem(temp, UMLListViewItem::lvt_Operation);
         break;
 
     case ListPopupMenu::mt_UniqueConstraint:
-        addNewItem(temp, Uml::lvt_UniqueConstraint);
+        addNewItem(temp, UMLListViewItem::lvt_UniqueConstraint);
         break;
 
     case ListPopupMenu::mt_PrimaryKeyConstraint:
-        addNewItem(temp, Uml::lvt_PrimaryKeyConstraint);
+        addNewItem(temp, UMLListViewItem::lvt_PrimaryKeyConstraint);
         break;
 
     case ListPopupMenu::mt_ForeignKeyConstraint:
-        addNewItem(temp, Uml::lvt_ForeignKeyConstraint);
+        addNewItem(temp, UMLListViewItem::lvt_ForeignKeyConstraint);
         break;
 
     case ListPopupMenu::mt_CheckConstraint:
-        addNewItem(temp, Uml::lvt_CheckConstraint);
+        addNewItem(temp, UMLListViewItem::lvt_CheckConstraint);
         break;
 
     case ListPopupMenu::mt_Import_Classes:
@@ -426,7 +425,7 @@ void UMLListView::popupMenuSel(QAction* action)
 
     case ListPopupMenu::mt_Externalize_Folder: {
         UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
-        UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->getUMLObject());
+        UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->umlObject());
         if (modelFolder == 0) {
             uError() << "modelFolder is 0";
             return;
@@ -488,7 +487,7 @@ void UMLListView::popupMenuSel(QAction* action)
 
     case ListPopupMenu::mt_Internalize_Folder: {
         UMLListViewItem *current = static_cast<UMLListViewItem*>(currentItem());
-        UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->getUMLObject());
+        UMLFolder *modelFolder = dynamic_cast<UMLFolder*>(current->umlObject());
         if (modelFolder == 0) {
             uError() << "modelFolder is 0";
             return;
@@ -542,48 +541,48 @@ void UMLListView::popupMenuSel(QAction* action)
 
         if (Model_Utils::typeIsCanvasWidget(lvt)) {
             object->showProperties(ClassPropDlg::page_gen);
-        } else if (umlType == Uml::ot_EnumLiteral) {
+        } else if (umlType == UMLObject::ot_EnumLiteral) {
             // Show the Enum Literal Dialog
             UMLEnumLiteral* selectedEnumLiteral = static_cast<UMLEnumLiteral*>(object);
             selectedEnumLiteral->showPropertiesDialog(this);
 
-        } else if (umlType == Uml::ot_Attribute) {
+        } else if (umlType == UMLObject::ot_Attribute) {
             // show the attribute dialog
             UMLAttribute* selectedAttribute = static_cast<UMLAttribute*>(object);
             QPointer<UMLAttributeDialog> dialog = new UMLAttributeDialog(this, selectedAttribute);
             dialog->exec();
             delete dialog;
-        } else if (umlType == Uml::ot_EntityAttribute) {
+        } else if (umlType == UMLObject::ot_EntityAttribute) {
             // show the attribute dialog
             UMLEntityAttribute* selectedAttribute = static_cast<UMLEntityAttribute*>(object);
             QPointer<UMLEntityAttributeDialog> dialog = new UMLEntityAttributeDialog(this, selectedAttribute);
             dialog->exec();
             delete dialog;
-        } else if (umlType == Uml::ot_Operation) {
+        } else if (umlType == UMLObject::ot_Operation) {
             // show the operation dialog
             UMLOperation* selectedOperation = static_cast<UMLOperation*>(object);
             QPointer<UMLOperationDialog> dialog = new UMLOperationDialog(this, selectedOperation);
             dialog->exec();
             delete dialog;
-        } else if (umlType == Uml::ot_Template) {
+        } else if (umlType == UMLObject::ot_Template) {
             // show the template dialog
             UMLTemplate* selectedTemplate = static_cast<UMLTemplate*>(object);
             QPointer<UMLTemplateDialog> dialog = new UMLTemplateDialog(this, selectedTemplate);
             dialog->exec();
             delete dialog;
-        } else if (umlType == Uml::ot_UniqueConstraint) {
+        } else if (umlType == UMLObject::ot_UniqueConstraint) {
             // show the Unique Constraint dialog
             UMLUniqueConstraint* selectedUniqueConstraint = static_cast<UMLUniqueConstraint*>(object);
             QPointer<UMLUniqueConstraintDialog> dialog = new UMLUniqueConstraintDialog(this, selectedUniqueConstraint);
             dialog->exec();
             delete dialog;
-        } else if (umlType == Uml::ot_ForeignKeyConstraint) {
+        } else if (umlType == UMLObject::ot_ForeignKeyConstraint) {
             // show the Unique Constraint dialog
             UMLForeignKeyConstraint* selectedForeignKeyConstraint = static_cast<UMLForeignKeyConstraint*>(object);
             QPointer<UMLForeignKeyConstraintDialog> dialog = new UMLForeignKeyConstraintDialog(this, selectedForeignKeyConstraint);
             dialog->exec();
             delete dialog;
-        } else if (umlType == Uml::ot_CheckConstraint) {
+        } else if (umlType == UMLObject::ot_CheckConstraint) {
             // show the Check Constraint dialog
             UMLCheckConstraint* selectedCheckConstraint = static_cast<UMLCheckConstraint*>(object);
             QPointer<UMLCheckConstraintDialog> dialog = new UMLCheckConstraintDialog(this, selectedCheckConstraint);
@@ -596,23 +595,23 @@ void UMLListView::popupMenuSel(QAction* action)
         break;
 
     case ListPopupMenu::mt_Logical_Folder:
-        addNewItem(temp, Uml::lvt_Logical_Folder);
+        addNewItem(temp, UMLListViewItem::lvt_Logical_Folder);
         break;
 
     case ListPopupMenu::mt_UseCase_Folder:
-        addNewItem(temp, Uml::lvt_UseCase_Folder);
+        addNewItem(temp, UMLListViewItem::lvt_UseCase_Folder);
         break;
 
     case ListPopupMenu::mt_Component_Folder:
-        addNewItem(temp, Uml::lvt_Component_Folder);
+        addNewItem(temp, UMLListViewItem::lvt_Component_Folder);
         break;
 
     case ListPopupMenu::mt_Deployment_Folder:
-        addNewItem(temp, Uml::lvt_Deployment_Folder);
+        addNewItem(temp, UMLListViewItem::lvt_Deployment_Folder);
         break;
 
     case ListPopupMenu::mt_EntityRelationship_Folder:
-        addNewItem(temp, Uml::lvt_EntityRelationship_Folder);
+        addNewItem(temp, UMLListViewItem::lvt_EntityRelationship_Folder);
         break;
 
     case ListPopupMenu::mt_Cut:
@@ -632,8 +631,8 @@ void UMLListView::popupMenuSel(QAction* action)
         break;
 
     default: {
-        Uml::Diagram_Type dt = ListPopupMenu::convert_MT_DT(menuType);
-        if (dt == Uml::dt_Undefined) {
+        Uml::DiagramType dt = ListPopupMenu::convert_MT_DT(menuType);
+        if (dt == Uml::DiagramType::Undefined) {
             uWarning() << "unknown type" << menuType;
         } else {
             UMLFolder *f = dynamic_cast<UMLFolder*>(object);
@@ -660,28 +659,28 @@ void UMLListView::popupMenuSel(QAction* action)
  *             Diagram_Type is returned.
  * @return  Pointer to the parent UMLListViewItem for the diagram.
  */
-UMLListViewItem *UMLListView::findFolderForDiagram(Uml::Diagram_Type dt)
+UMLListViewItem *UMLListView::findFolderForDiagram(Uml::DiagramType dt)
 {
     UMLListViewItem *p = static_cast<UMLListViewItem*>(currentItem());
-    if (p && Model_Utils::typeIsFolder(p->getType())
-            && !Model_Utils::typeIsRootView(p->getType())) {
+    if (p && Model_Utils::typeIsFolder(p->type())
+            && !Model_Utils::typeIsRootView(p->type())) {
         return p;
     }
     switch (dt) {
-    case Uml::dt_UseCase:
-        p = m_lv[Uml::mt_UseCase];
+    case Uml::DiagramType::UseCase:
+        p = m_lv[Uml::ModelType::UseCase];
         break;
-    case Uml::dt_Component:
-        p = m_lv[Uml::mt_Component];
+    case Uml::DiagramType::Component:
+        p = m_lv[Uml::ModelType::Component];
         break;
-    case Uml::dt_Deployment:
-        p = m_lv[Uml::mt_Deployment];
+    case Uml::DiagramType::Deployment:
+        p = m_lv[Uml::ModelType::Deployment];
         break;
-    case Uml::dt_EntityRelationship:
-        p = m_lv[Uml::mt_EntityRelationship];
+    case Uml::DiagramType::EntityRelationship:
+        p = m_lv[Uml::ModelType::EntityRelationship];
         break;
     default:
-        p = m_lv[Uml::mt_Logical];
+        p = m_lv[Uml::ModelType::Logical];
         break;
     }
     return p;
@@ -698,9 +697,9 @@ void UMLListView::slotDiagramCreated(Uml::IDType id)
     UMLView *v = m_doc->findView(id);
     if (!v)
         return;
-    const Uml::Diagram_Type dt = v->getType();
+    const Uml::DiagramType dt = v->type();
     UMLListViewItem * temp = 0, *p = findFolderForDiagram(dt);
-    temp = new UMLListViewItem(p, v->getName(), Model_Utils::convert_DT_LVT(dt), id);
+    temp = new UMLListViewItem(p, v->name(), Model_Utils::convert_DT_LVT(dt), id);
     setSelected(temp, true);
     UMLApp::app()->docWindow()->showDocumentation(v , false);
 }
@@ -716,26 +715,26 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
 {
     UMLListViewItem* parentItem = 0;
     UMLListViewItem* current = (UMLListViewItem*) currentItem();
-    Uml::ListView_Type lvt = Uml::lvt_Unknown;
+    UMLListViewItem::ListViewType lvt = UMLListViewItem::lvt_Unknown;
     if (current)
-        lvt = current->getType();
-    Uml::Object_Type t = object->baseType();
+        lvt = current->type();
+    UMLObject::Object_Type t = object->baseType();
 
     switch (t) {
-    case Uml::ot_Attribute:
-    case Uml::ot_Operation:
-    case Uml::ot_Template:
-    case Uml::ot_EnumLiteral:
-    case Uml::ot_EntityAttribute:
-    case Uml::ot_UniqueConstraint:
-    case Uml::ot_ForeignKeyConstraint:
-    case Uml::ot_CheckConstraint:
+    case UMLObject::ot_Attribute:
+    case UMLObject::ot_Operation:
+    case UMLObject::ot_Template:
+    case UMLObject::ot_EnumLiteral:
+    case UMLObject::ot_EntityAttribute:
+    case UMLObject::ot_UniqueConstraint:
+    case UMLObject::ot_ForeignKeyConstraint:
+    case UMLObject::ot_CheckConstraint:
         //this will be handled by childObjectAdded
         return 0;
         break;
-    case Uml::ot_Association:
-    case Uml::ot_Role:
-    case Uml::ot_Stereotype:
+    case UMLObject::ot_Association:
+    case UMLObject::ot_Role:
+    case UMLObject::ot_Stereotype:
         return 0;  // currently no representation in list view
         break;
     default: {
@@ -746,16 +745,16 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
                 uError() << "could not find parent package " << pkg->name();
             else
                 parentItem = pkgItem;
-        } else if ((lvt == Uml::lvt_UseCase_Folder &&
-                    (t == Uml::ot_Actor || t == Uml::ot_UseCase))
-                   || (lvt == Uml::lvt_Component_Folder && t == Uml::ot_Component)
-                   || (lvt == Uml::lvt_Deployment_Folder && t == Uml::ot_Node)
-                   || (lvt == Uml::lvt_EntityRelationship_Folder && t == Uml::ot_Entity)) {
+        } else if ((lvt == UMLListViewItem::lvt_UseCase_Folder &&
+                    (t == UMLObject::ot_Actor || t == UMLObject::ot_UseCase))
+                   || (lvt == UMLListViewItem::lvt_Component_Folder && t == UMLObject::ot_Component)
+                   || (lvt == UMLListViewItem::lvt_Deployment_Folder && t == UMLObject::ot_Node)
+                   || (lvt == UMLListViewItem::lvt_EntityRelationship_Folder && t == UMLObject::ot_Entity)) {
             parentItem = current;
-        } else if (t == Uml::ot_Datatype) {
+        } else if (t == UMLObject::ot_Datatype) {
             parentItem = m_datatypeFolder;
         } else {
-            Uml::Model_Type guess = Model_Utils::guessContainer(object);
+            Uml::ModelType guess = Model_Utils::guessContainer(object);
             parentItem = m_lv[guess];
         }
     }
@@ -769,14 +768,14 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
  * A "child item" is anything that qualifies as a UMLClassifierListItem,
  * e.g. operations and attributes of classifiers.
  */
-bool UMLListView::mayHaveChildItems(Uml::Object_Type type)
+bool UMLListView::mayHaveChildItems(UMLObject::Object_Type type)
 {
     bool retval = false;
     switch (type) {
-    case Uml::ot_Class:
-    case Uml::ot_Interface:
-    case Uml::ot_Enum:
-    case Uml::ot_Entity:  // CHECK: more?
+    case UMLObject::ot_Class:
+    case UMLObject::ot_Interface:
+    case UMLObject::ot_Enum:
+    case UMLObject::ot_Entity:  // CHECK: more?
         retval = true;
         break;
     default:
@@ -800,22 +799,22 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     UMLListViewItem* newItem = findUMLObject(object);
 
     if (newItem) {
-        uDebug() << newItem->getType();
+        uDebug() << newItem->type();
         uDebug() << object->name() << ", id= " << ID2STR(object->id())
             << ": item already exists.";
-        Icon_Utils::Icon_Type icon = Model_Utils::convert_LVT_IT(newItem->getType());
+        Icon_Utils::Icon_Type icon = Model_Utils::convert_LVT_IT(newItem->type());
         newItem->setIcon(icon);
         return;
     }
     UMLListViewItem* parentItem = determineParentItem(object);
     if (parentItem == 0)
         return;
-    Uml::Object_Type type = object->baseType();
+    UMLObject::Object_Type type = object->baseType();
 
     connectNewObjectsSlots(object);
-    const Uml::ListView_Type lvt = Model_Utils::convert_OT_LVT(object);
+    const UMLListViewItem::ListViewType lvt = Model_Utils::convert_OT_LVT(object);
     QString name = object->name();
-    if (type == Uml::ot_Folder) {
+    if (type == UMLObject::ot_Folder) {
         UMLFolder *f = static_cast<UMLFolder*>(object);
         QString folderFile = f->folderFile();
         if (!folderFile.isEmpty())
@@ -824,7 +823,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     newItem = new UMLListViewItem(parentItem, name, lvt, object);
     if (mayHaveChildItems(type)) {
         UMLClassifier *c = static_cast<UMLClassifier*>(object);
-        UMLClassifierListItemList cListItems = c->getFilteredList(Uml::ot_UMLObject);
+        UMLClassifierListItemList cListItems = c->getFilteredList(UMLObject::ot_UMLObject);
         foreach(UMLClassifierListItem *cli, cListItems)
             childObjectAdded(cli, c);
     }
@@ -842,10 +841,10 @@ void UMLListView::slotObjectCreated(UMLObject* object)
  */
 void UMLListView::connectNewObjectsSlots(UMLObject* object)
 {
-    Uml::Object_Type type = object->baseType();
+    UMLObject::Object_Type type = object->baseType();
     switch (type) {
-    case Uml::ot_Class:
-    case Uml::ot_Interface: {
+    case UMLObject::ot_Class:
+    case UMLObject::ot_Interface: {
         UMLClassifier *c = static_cast<UMLClassifier*>(object);
         connect(c, SIGNAL(attributeAdded(UMLClassifierListItem*)),
                 this, SLOT(childObjectAdded(UMLClassifierListItem*)));
@@ -862,7 +861,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
         connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
     }
     break;
-    case Uml::ot_Enum: {
+    case UMLObject::ot_Enum: {
         UMLEnum *e = static_cast<UMLEnum*>(object);
         connect(e, SIGNAL(enumLiteralAdded(UMLClassifierListItem*)),
                 this, SLOT(childObjectAdded(UMLClassifierListItem*)));
@@ -871,7 +870,7 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
     }
     connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
     break;
-    case Uml::ot_Entity: {
+    case UMLObject::ot_Entity: {
         UMLEntity *ent = static_cast<UMLEntity*>(object);
         connect(ent, SIGNAL(entityAttributeAdded(UMLClassifierListItem*)),
                 this, SLOT(childObjectAdded(UMLClassifierListItem*)));
@@ -884,28 +883,28 @@ void UMLListView::connectNewObjectsSlots(UMLObject* object)
     }
     connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
     break;
-    case Uml::ot_Datatype:
-    case Uml::ot_Attribute:
-    case Uml::ot_Operation:
-    case Uml::ot_Template:
-    case Uml::ot_EnumLiteral:
-    case Uml::ot_EntityAttribute:
-    case Uml::ot_UniqueConstraint:
-    case Uml::ot_ForeignKeyConstraint:
-    case Uml::ot_CheckConstraint:
-    case Uml::ot_Package:
-    case Uml::ot_Actor:
-    case Uml::ot_UseCase:
-    case Uml::ot_Component:
-    case Uml::ot_Artifact:
-    case Uml::ot_Node:
-    case Uml::ot_Folder:
-    case Uml::ot_Category:
+    case UMLObject::ot_Datatype:
+    case UMLObject::ot_Attribute:
+    case UMLObject::ot_Operation:
+    case UMLObject::ot_Template:
+    case UMLObject::ot_EnumLiteral:
+    case UMLObject::ot_EntityAttribute:
+    case UMLObject::ot_UniqueConstraint:
+    case UMLObject::ot_ForeignKeyConstraint:
+    case UMLObject::ot_CheckConstraint:
+    case UMLObject::ot_Package:
+    case UMLObject::ot_Actor:
+    case UMLObject::ot_UseCase:
+    case UMLObject::ot_Component:
+    case UMLObject::ot_Artifact:
+    case UMLObject::ot_Node:
+    case UMLObject::ot_Folder:
+    case UMLObject::ot_Category:
         connect(object, SIGNAL(modified()), this, SLOT(slotObjectChanged()));
         break;
-    case Uml::ot_UMLObject:
-    case Uml::ot_Association:
-    case Uml::ot_Stereotype:
+    case UMLObject::ot_UMLObject:
+    case UMLObject::ot_Association:
+    case UMLObject::ot_Stereotype:
         break;
     default:
         uWarning() << "unknown type in connectNewObjectsSlots";
@@ -949,21 +948,21 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* 
 {
     if (m_bCreatingChildObject)
         return;
-    const QString text = child->toString(Uml::st_SigNoVis);
+    const QString text = child->toString(Uml::SignatureType::SigNoVis);
     UMLListViewItem *childItem = 0;
     UMLListViewItem *parentItem = findUMLObject(parent);
     if (parentItem == 0) {
         uDebug() << child->name() << ": parent " << parent->name()
         << " does not yet exist, creating it now.";
-        const Uml::ListView_Type lvt = Model_Utils::convert_OT_LVT(parent);
-        parentItem = new UMLListViewItem(m_lv[Uml::mt_Logical], parent->name(), lvt, parent);
+        const UMLListViewItem::ListViewType lvt = Model_Utils::convert_OT_LVT(parent);
+        parentItem = new UMLListViewItem(m_lv[Uml::ModelType::Logical], parent->name(), lvt, parent);
     } else {
         childItem = parentItem->findChildObject(child);
     }
     if (childItem) {
         childItem->setText(text);
     } else {
-        const Uml::ListView_Type lvt = Model_Utils::convert_OT_LVT(child);
+        const UMLListViewItem::ListViewType lvt = Model_Utils::convert_OT_LVT(child);
         childItem = new UMLListViewItem(parentItem, text, lvt, child);
         if (! m_doc->loading()) {
             ensureItemVisible(childItem);
@@ -1001,7 +1000,7 @@ void UMLListView::slotDiagramRenamed(Uml::IDType id)
         uError() << "UMLDoc::findView(" << ID2STR(id) << ") returns 0";
         return;
     }
-    temp->setText(v->getName());
+    temp->setText(v->name());
 }
 
 /**
@@ -1052,12 +1051,11 @@ void UMLListView::slotDiagramRemoved(Uml::IDType id)
 
 UMLDragData* UMLListView::getDragData()
 {
-    UMLListViewItemList selecteditems;
-    getSelectedItems(selecteditems);
+    UMLListViewItemList selecteditems = selectedItems();
 
     UMLListViewItemList  list;
     foreach(UMLListViewItem* item, selecteditems) {
-        Uml::ListView_Type type = item->getType();
+        UMLListViewItem::ListViewType type = item->type();
         if (!Model_Utils::typeIsCanvasWidget(type) && !Model_Utils::typeIsDiagram(type)
                 && !Model_Utils::typeIsClassifierList(type)) {
             return 0;
@@ -1080,29 +1078,29 @@ UMLListViewItem * UMLListView::findUMLObjectInFolder(UMLListViewItem* folder, UM
 {
     UMLListViewItem *item = static_cast<UMLListViewItem *>(folder->firstChild());
     while (item) {
-        switch (item->getType()) {
-        case Uml::lvt_Actor :
-        case Uml::lvt_UseCase :
-        case Uml::lvt_Class :
-        case Uml::lvt_Package :
-        case Uml::lvt_Subsystem :
-        case Uml::lvt_Component :
-        case Uml::lvt_Node :
-        case Uml::lvt_Artifact :
-        case Uml::lvt_Interface :
-        case Uml::lvt_Datatype :
-        case Uml::lvt_Enum :
-        case Uml::lvt_Entity :
-        case Uml::lvt_Category:
-            if (item->getUMLObject() == obj)
+        switch (item->type()) {
+        case UMLListViewItem::lvt_Actor :
+        case UMLListViewItem::lvt_UseCase :
+        case UMLListViewItem::lvt_Class :
+        case UMLListViewItem::lvt_Package :
+        case UMLListViewItem::lvt_Subsystem :
+        case UMLListViewItem::lvt_Component :
+        case UMLListViewItem::lvt_Node :
+        case UMLListViewItem::lvt_Artifact :
+        case UMLListViewItem::lvt_Interface :
+        case UMLListViewItem::lvt_Datatype :
+        case UMLListViewItem::lvt_Enum :
+        case UMLListViewItem::lvt_Entity :
+        case UMLListViewItem::lvt_Category:
+            if (item->umlObject() == obj)
                 return item;
             break;
-        case Uml::lvt_Logical_Folder :
-        case Uml::lvt_UseCase_Folder :
-        case Uml::lvt_Component_Folder :
-        case Uml::lvt_Deployment_Folder :
-        case Uml::lvt_EntityRelationship_Folder :
-        case Uml::lvt_Datatype_Folder : {
+        case UMLListViewItem::lvt_Logical_Folder :
+        case UMLListViewItem::lvt_UseCase_Folder :
+        case UMLListViewItem::lvt_Component_Folder :
+        case UMLListViewItem::lvt_Deployment_Folder :
+        case UMLListViewItem::lvt_EntityRelationship_Folder :
+        case UMLListViewItem::lvt_Datatype_Folder : {
             UMLListViewItem *temp = findUMLObjectInFolder(item, obj);
             if (temp)
                 return temp;
@@ -1155,19 +1153,19 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
         return 0;
     }
     UMLListViewItem* item;
-    Uml::Diagram_Type dType = v->getType();
-    Uml::ListView_Type type = Model_Utils::convert_DT_LVT(dType);
+    Uml::DiagramType dType = v->type();
+    UMLListViewItem::ListViewType type = Model_Utils::convert_DT_LVT(dType);
     Uml::IDType id = v->getID();
-    if (dType == Uml::dt_UseCase) {
-        item = m_lv[Uml::mt_UseCase];
-    } else if (dType == Uml::dt_Component) {
-        item = m_lv[Uml::mt_Component];
-    } else if (dType == Uml::dt_Deployment) {
-        item = m_lv[Uml::mt_Deployment];
-    } else if (dType == Uml::dt_EntityRelationship) {
-        item = m_lv[Uml::mt_EntityRelationship];
+    if (dType == Uml::DiagramType::UseCase) {
+        item = m_lv[Uml::ModelType::UseCase];
+    } else if (dType == Uml::DiagramType::Component) {
+        item = m_lv[Uml::ModelType::Component];
+    } else if (dType == Uml::DiagramType::Deployment) {
+        item = m_lv[Uml::ModelType::Deployment];
+    } else if (dType == Uml::DiagramType::EntityRelationship) {
+        item = m_lv[Uml::ModelType::EntityRelationship];
     } else {
-        item = m_lv[Uml::mt_Logical];
+        item = m_lv[Uml::ModelType::Logical];
     }
 
     UMLListViewItem* searchStartItem = (UMLListViewItem *)item->firstChild();
@@ -1185,17 +1183,17 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
  * Used by findView().
  */
 UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewItem,
-        Uml::ListView_Type type, Uml::IDType id)
+        UMLListViewItem::ListViewType type, Uml::IDType id)
 {
     while (listViewItem) {
-        if (Model_Utils::typeIsFolder(listViewItem->getType())) {
+        if (Model_Utils::typeIsFolder(listViewItem->type())) {
             UMLListViewItem* child = (UMLListViewItem *)listViewItem->firstChild();
             UMLListViewItem* resultListViewItem = recursiveSearchForView(child, type, id);
             if (resultListViewItem) {
                 return resultListViewItem;
             }
         } else {
-            if (listViewItem->getType() == type && listViewItem->getID() == id) {
+            if (listViewItem->type() == type && listViewItem->getID() == id) {
                 return listViewItem;
             }
         }
@@ -1231,31 +1229,31 @@ UMLListViewItem* UMLListView::findItem(Uml::IDType id)
 void UMLListView::init()
 {
     if (m_rv == 0) {
-        m_rv =  new UMLListViewItem(this, i18n("Views"), Uml::lvt_View);
+        m_rv =  new UMLListViewItem(this, i18n("Views"), UMLListViewItem::lvt_View);
         m_rv->setID("Views");
 
-        for (int i = 0; i < Uml::N_MODELTYPES; ++i) {
-            Uml::Model_Type mt = (Uml::Model_Type)i;
+        for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
+            Uml::ModelType mt = Uml::ModelType::Value(i);
             UMLFolder *sysFolder = m_doc->rootFolder(mt);
-            Uml::ListView_Type lvt = Model_Utils::convert_MT_LVT(mt);
+            UMLListViewItem::ListViewType lvt = Model_Utils::convert_MT_LVT(mt);
             m_lv[i] = new UMLListViewItem(m_rv, sysFolder->localName(), lvt, sysFolder);
         }
     } else {
-        for (int i = 0; i < Uml::N_MODELTYPES; ++i)
+        for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
             deleteChildrenOf(m_lv[i]);
     }
     UMLFolder *datatypeFolder = m_doc->datatypeFolder();
     if (!m_datatypeFolder)
-        m_datatypeFolder = new UMLListViewItem(m_lv[Uml::mt_Logical], datatypeFolder->localName(),
-                                           Uml::lvt_Datatype_Folder, datatypeFolder);
+        m_datatypeFolder = new UMLListViewItem(m_lv[Uml::ModelType::Logical], datatypeFolder->localName(),
+                                           UMLListViewItem::lvt_Datatype_Folder, datatypeFolder);
     m_rv->setOpen(true);
-    for (int i = 0; i < Uml::N_MODELTYPES; ++i)
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i)
         m_lv[i]->setOpen(true);
     m_datatypeFolder->setOpen(false);
 
     //setup misc.
-    delete m_pMenu;
-    m_pMenu = 0;
+    delete m_menu;
+    m_menu = 0;
     m_bStartedCut = m_bStartedCopy = false;
     m_bIgnoreCancelRename = true;
     m_bCreatingChildObject = false;
@@ -1281,7 +1279,7 @@ void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me)
     if (!item || me->button() != Qt::LeftButton)
         return;
     //see if on view
-    Uml::ListView_Type lvType = item->getType();
+    UMLListViewItem::ListViewType lvType = item->type();
     if (Model_Utils::typeIsDiagram(lvType)) {
         UMLView * pView = m_doc->findView(item->getID());
         if (!pView)
@@ -1293,31 +1291,31 @@ void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me)
         return;
     }
     //else see if an object
-    UMLObject * object = item->getUMLObject();
+    UMLObject * object = item->umlObject();
     //continue only if we are on a UMLObject
     if (!object)
         return;
 
 
-    Uml::Object_Type type = object->baseType();
+    UMLObject::Object_Type type = object->baseType();
     int page = ClassPropDlg::page_gen;
     if (Model_Utils::isClassifierListitem(type))
         object = (UMLObject *)object->parent();
     //set what page to show
     switch (type) {
 
-    case Uml::ot_Attribute:
+    case UMLObject::ot_Attribute:
         page = ClassPropDlg::page_att;
         break;
-    case Uml::ot_Operation:
+    case UMLObject::ot_Operation:
         page = ClassPropDlg::page_op;
         break;
-    case Uml::ot_EntityAttribute:
+    case UMLObject::ot_EntityAttribute:
         page = ClassPropDlg::page_entatt;
         break;
-    case Uml::ot_UniqueConstraint:
-    case Uml::ot_ForeignKeyConstraint:
-    case Uml::ot_CheckConstraint:
+    case UMLObject::ot_UniqueConstraint:
+    case UMLObject::ot_ForeignKeyConstraint:
+    case UMLObject::ot_CheckConstraint:
         page = ClassPropDlg::page_constraint;
         break;
     default:
@@ -1349,118 +1347,118 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
 
     UMLDragData::LvTypeAndID_It it(list);
     UMLDragData::LvTypeAndID * data = 0;
-    Uml::ListView_Type dstType = item->getType();
+    UMLListViewItem::ListViewType dstType = item->type();
     bool accept = true;
     while (accept && it.hasNext()) {
         data = it.next();
-        Uml::ListView_Type srcType = data->type;
+        UMLListViewItem::ListViewType srcType = data->type;
         switch (srcType) {
-        case Uml::lvt_Class:
-        case Uml::lvt_Package:
-        case Uml::lvt_Interface:
-        case Uml::lvt_Enum:
-            if (dstType == Uml::lvt_Logical_View ||
-                    dstType == Uml::lvt_Class ||
-                    dstType == Uml::lvt_Package) {
+        case UMLListViewItem::lvt_Class:
+        case UMLListViewItem::lvt_Package:
+        case UMLListViewItem::lvt_Interface:
+        case UMLListViewItem::lvt_Enum:
+            if (dstType == UMLListViewItem::lvt_Logical_View ||
+                    dstType == UMLListViewItem::lvt_Class ||
+                    dstType == UMLListViewItem::lvt_Package) {
                 accept = !item->isOwnParent(data->id);
             } else {
-                accept = (dstType == Uml::lvt_Logical_Folder);
+                accept = (dstType == UMLListViewItem::lvt_Logical_Folder);
             }
             break;
-        case Uml::lvt_Attribute:
-            if (dstType == Uml::lvt_Class) {
+        case UMLListViewItem::lvt_Attribute:
+            if (dstType == UMLListViewItem::lvt_Class) {
                 accept = !item->isOwnParent(data->id);
             }
             break;
-        case Uml::lvt_EntityAttribute:
-            if (dstType == Uml::lvt_Entity) {
+        case UMLListViewItem::lvt_EntityAttribute:
+            if (dstType == UMLListViewItem::lvt_Entity) {
                 accept = !item->isOwnParent(data->id);
             }
             break;
-        case Uml::lvt_Operation:
-            if (dstType == Uml::lvt_Class ||
-                    dstType == Uml::lvt_Interface) {
+        case UMLListViewItem::lvt_Operation:
+            if (dstType == UMLListViewItem::lvt_Class ||
+                    dstType == UMLListViewItem::lvt_Interface) {
                 accept = !item->isOwnParent(data->id);
             }
             break;
-        case Uml::lvt_Datatype:
-            accept = (dstType == Uml::lvt_Logical_Folder ||
-                      dstType == Uml::lvt_Datatype_Folder ||
-                      dstType == Uml::lvt_Class ||
-                      dstType == Uml::lvt_Interface ||
-                      dstType == Uml::lvt_Package);
+        case UMLListViewItem::lvt_Datatype:
+            accept = (dstType == UMLListViewItem::lvt_Logical_Folder ||
+                      dstType == UMLListViewItem::lvt_Datatype_Folder ||
+                      dstType == UMLListViewItem::lvt_Class ||
+                      dstType == UMLListViewItem::lvt_Interface ||
+                      dstType == UMLListViewItem::lvt_Package);
             break;
-        case Uml::lvt_Class_Diagram:
-        case Uml::lvt_Collaboration_Diagram:
-        case Uml::lvt_State_Diagram:
-        case Uml::lvt_Activity_Diagram:
-        case Uml::lvt_Sequence_Diagram:
-            accept = (dstType == Uml::lvt_Logical_Folder ||
-                      dstType == Uml::lvt_Logical_View);
+        case UMLListViewItem::lvt_Class_Diagram:
+        case UMLListViewItem::lvt_Collaboration_Diagram:
+        case UMLListViewItem::lvt_State_Diagram:
+        case UMLListViewItem::lvt_Activity_Diagram:
+        case UMLListViewItem::lvt_Sequence_Diagram:
+            accept = (dstType == UMLListViewItem::lvt_Logical_Folder ||
+                      dstType == UMLListViewItem::lvt_Logical_View);
             break;
-        case Uml::lvt_Logical_Folder:
-            if (dstType == Uml::lvt_Logical_Folder) {
-                accept = !item->isOwnParent(data->id);
-            } else {
-                accept = (dstType == Uml::lvt_Logical_View);
-            }
-            break;
-        case Uml::lvt_UseCase_Folder:
-            if (dstType == Uml::lvt_UseCase_Folder) {
+        case UMLListViewItem::lvt_Logical_Folder:
+            if (dstType == UMLListViewItem::lvt_Logical_Folder) {
                 accept = !item->isOwnParent(data->id);
             } else {
-                accept = (dstType == Uml::lvt_UseCase_View);
+                accept = (dstType == UMLListViewItem::lvt_Logical_View);
             }
             break;
-        case Uml::lvt_Component_Folder:
-            if (dstType == Uml::lvt_Component_Folder) {
+        case UMLListViewItem::lvt_UseCase_Folder:
+            if (dstType == UMLListViewItem::lvt_UseCase_Folder) {
                 accept = !item->isOwnParent(data->id);
             } else {
-                accept = (dstType == Uml::lvt_Component_View);
+                accept = (dstType == UMLListViewItem::lvt_UseCase_View);
             }
             break;
-        case Uml::lvt_Deployment_Folder:
-            if (dstType == Uml::lvt_Deployment_Folder) {
+        case UMLListViewItem::lvt_Component_Folder:
+            if (dstType == UMLListViewItem::lvt_Component_Folder) {
                 accept = !item->isOwnParent(data->id);
             } else {
-                accept = (dstType == Uml::lvt_Deployment_View);
+                accept = (dstType == UMLListViewItem::lvt_Component_View);
             }
             break;
-        case Uml::lvt_EntityRelationship_Folder:
-            if (dstType == Uml::lvt_EntityRelationship_Folder) {
+        case UMLListViewItem::lvt_Deployment_Folder:
+            if (dstType == UMLListViewItem::lvt_Deployment_Folder) {
                 accept = !item->isOwnParent(data->id);
             } else {
-                accept = (dstType == Uml::lvt_EntityRelationship_Model);
+                accept = (dstType == UMLListViewItem::lvt_Deployment_View);
             }
             break;
-        case Uml::lvt_Actor:
-        case Uml::lvt_UseCase:
-        case Uml::lvt_UseCase_Diagram:
-            accept = (dstType == Uml::lvt_UseCase_Folder ||
-                      dstType == Uml::lvt_UseCase_View);
+        case UMLListViewItem::lvt_EntityRelationship_Folder:
+            if (dstType == UMLListViewItem::lvt_EntityRelationship_Folder) {
+                accept = !item->isOwnParent(data->id);
+            } else {
+                accept = (dstType == UMLListViewItem::lvt_EntityRelationship_Model);
+            }
             break;
-        case Uml::lvt_Subsystem:
-            accept = (dstType == Uml::lvt_Component_Folder ||
-                      dstType == Uml::lvt_Subsystem);
+        case UMLListViewItem::lvt_Actor:
+        case UMLListViewItem::lvt_UseCase:
+        case UMLListViewItem::lvt_UseCase_Diagram:
+            accept = (dstType == UMLListViewItem::lvt_UseCase_Folder ||
+                      dstType == UMLListViewItem::lvt_UseCase_View);
             break;
-        case Uml::lvt_Component:
-            accept = (dstType == Uml::lvt_Component_Folder ||
-                      dstType == Uml::lvt_Component ||
-                      dstType == Uml::lvt_Subsystem);
+        case UMLListViewItem::lvt_Subsystem:
+            accept = (dstType == UMLListViewItem::lvt_Component_Folder ||
+                      dstType == UMLListViewItem::lvt_Subsystem);
             break;
-        case Uml::lvt_Artifact:
-        case Uml::lvt_Component_Diagram:
-            accept = (dstType == Uml::lvt_Component_Folder ||
-                      dstType == Uml::lvt_Component_View);
+        case UMLListViewItem::lvt_Component:
+            accept = (dstType == UMLListViewItem::lvt_Component_Folder ||
+                      dstType == UMLListViewItem::lvt_Component ||
+                      dstType == UMLListViewItem::lvt_Subsystem);
             break;
-        case Uml::lvt_Node:
-        case Uml::lvt_Deployment_Diagram:
-            accept = (dstType == Uml::lvt_Deployment_Folder);
+        case UMLListViewItem::lvt_Artifact:
+        case UMLListViewItem::lvt_Component_Diagram:
+            accept = (dstType == UMLListViewItem::lvt_Component_Folder ||
+                      dstType == UMLListViewItem::lvt_Component_View);
             break;
-        case Uml::lvt_Entity:
-        case Uml::lvt_EntityRelationship_Diagram:
-        case Uml::lvt_Category:
-            accept = (dstType == Uml::lvt_EntityRelationship_Folder);
+        case UMLListViewItem::lvt_Node:
+        case UMLListViewItem::lvt_Deployment_Diagram:
+            accept = (dstType == UMLListViewItem::lvt_Deployment_Folder);
+            break;
+        case UMLListViewItem::lvt_Entity:
+        case UMLListViewItem::lvt_EntityRelationship_Diagram:
+        case UMLListViewItem::lvt_Category:
+            accept = (dstType == UMLListViewItem::lvt_EntityRelationship_Folder);
             break;
         default:
             accept = false;
@@ -1479,10 +1477,10 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
  */
 void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
 {
-    UMLCanvasObject *o = static_cast<UMLCanvasObject*>(item->getUMLObject());
+    UMLCanvasObject *o = static_cast<UMLCanvasObject*>(item->umlObject());
     if (o == 0) {
         uDebug() << item->getText() << ": item's UMLObject is 0";
-    } else if (Model_Utils::typeIsContainer(parent->getType())) {
+    } else if (Model_Utils::typeIsContainer(parent->type())) {
         /**** TBC: Do this here?
                    If yes then remove that logic at the callers
                    and rename this method to moveAtContainer()
@@ -1490,11 +1488,11 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
         if (oldPkg)
             oldPkg->removeObject(o);
          *********/
-        UMLPackage *pkg = static_cast<UMLPackage*>(parent->getUMLObject());
+        UMLPackage *pkg = static_cast<UMLPackage*>(parent->umlObject());
         o->setUMLPackage(pkg);
         pkg->addObject(o);
     } else {
-        uError() << item->getText() << ": parent type is " << parent->getType();
+        uError() << item->getText() << ": parent type is " << parent->type();
     }
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView)
@@ -1506,7 +1504,7 @@ void UMLListView::addAtContainer(UMLListViewItem *item, UMLListViewItem *parent)
  * other listview parent item.
  * Also takes care of the corresponding move in the model.
  */
-UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type srcType,
+UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, UMLListViewItem::ListViewType srcType,
         UMLListViewItem *newParent)
 {
     if (newParent == 0)
@@ -1519,7 +1517,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
     // Remove the source object at the old parent package.
     UMLObject *srcObj = m_doc->findObjectById(srcId);
     if (srcObj) {
-        newParentObj = newParent->getUMLObject();
+        newParentObj = newParent->umlObject();
         if (srcObj == newParentObj) {
             uError() << srcObj->name() << ": Cannot move onto self";
             return 0;
@@ -1534,18 +1532,18 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
         }
     }
 
-    Uml::ListView_Type newParentType = newParent->getType();
+    UMLListViewItem::ListViewType newParentType = newParent->type();
     uDebug() << "newParentType is " << newParentType;
     UMLListViewItem *newItem = 0;
 
     //make sure trying to place in correct location
     switch (srcType) {
-    case Uml::lvt_UseCase_Folder:
-    case Uml::lvt_Actor:
-    case Uml::lvt_UseCase:
-    case Uml::lvt_UseCase_Diagram:
-        if (newParentType == Uml::lvt_UseCase_Folder ||
-                newParentType == Uml::lvt_UseCase_View) {
+    case UMLListViewItem::lvt_UseCase_Folder:
+    case UMLListViewItem::lvt_Actor:
+    case UMLListViewItem::lvt_UseCase:
+    case UMLListViewItem::lvt_UseCase_Diagram:
+        if (newParentType == UMLListViewItem::lvt_UseCase_Folder ||
+                newParentType == UMLListViewItem::lvt_UseCase_View) {
             newItem = move->deepCopy(newParent);
             if (m_doc->loading())         // deletion is not safe while loading
                 move->setVisible(false);  // (the <listview> XMI may be corrupted)
@@ -1554,11 +1552,11 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             addAtContainer(newItem, newParent);
         }
         break;
-    case Uml::lvt_Component_Folder:
-    case Uml::lvt_Artifact:
-    case Uml::lvt_Component_Diagram:
-        if (newParentType == Uml::lvt_Component_Folder ||
-                newParentType == Uml::lvt_Component_View) {
+    case UMLListViewItem::lvt_Component_Folder:
+    case UMLListViewItem::lvt_Artifact:
+    case UMLListViewItem::lvt_Component_Diagram:
+        if (newParentType == UMLListViewItem::lvt_Component_Folder ||
+                newParentType == UMLListViewItem::lvt_Component_View) {
             newItem = move->deepCopy(newParent);
             if (m_doc->loading())         // deletion is not safe while loading
                 move->setVisible(false);  // (the <listview> XMI may be corrupted)
@@ -1567,10 +1565,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             addAtContainer(newItem, newParent);
         }
         break;
-    case Uml::lvt_Subsystem:
-        if (newParentType == Uml::lvt_Component_Folder ||
-                newParentType == Uml::lvt_Component_View ||
-                newParentType == Uml::lvt_Subsystem) {
+    case UMLListViewItem::lvt_Subsystem:
+        if (newParentType == UMLListViewItem::lvt_Component_Folder ||
+                newParentType == UMLListViewItem::lvt_Component_View ||
+                newParentType == UMLListViewItem::lvt_Subsystem) {
             newItem = move->deepCopy(newParent);
             if (m_doc->loading())         // deletion is not safe while loading
                 move->setVisible(false);  // (the <listview> XMI may be corrupted)
@@ -1579,11 +1577,11 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             addAtContainer(newItem, newParent);
         }
         break;
-    case Uml::lvt_Component:
-        if (newParentType == Uml::lvt_Component_Folder ||
-                newParentType == Uml::lvt_Component_View ||
-                newParentType == Uml::lvt_Component ||
-                newParentType == Uml::lvt_Subsystem) {
+    case UMLListViewItem::lvt_Component:
+        if (newParentType == UMLListViewItem::lvt_Component_Folder ||
+                newParentType == UMLListViewItem::lvt_Component_View ||
+                newParentType == UMLListViewItem::lvt_Component ||
+                newParentType == UMLListViewItem::lvt_Subsystem) {
             newItem = move->deepCopy(newParent);
             if (m_doc->loading())         // deletion is not safe while loading
                 move->setVisible(false);  // (the <listview> XMI may be corrupted)
@@ -1592,11 +1590,11 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             addAtContainer(newItem, newParent);
         }
         break;
-    case Uml::lvt_Deployment_Folder:
-    case Uml::lvt_Node:
-    case Uml::lvt_Deployment_Diagram:
-        if (newParentType == Uml::lvt_Deployment_Folder ||
-                newParentType == Uml::lvt_Deployment_View) {
+    case UMLListViewItem::lvt_Deployment_Folder:
+    case UMLListViewItem::lvt_Node:
+    case UMLListViewItem::lvt_Deployment_Diagram:
+        if (newParentType == UMLListViewItem::lvt_Deployment_Folder ||
+                newParentType == UMLListViewItem::lvt_Deployment_View) {
             newItem = move->deepCopy(newParent);
             if (m_doc->loading())         // deletion is not safe while loading
                 move->setVisible(false);  // (the <listview> XMI may be corrupted)
@@ -1605,12 +1603,12 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             addAtContainer(newItem, newParent);
         }
         break;
-    case Uml::lvt_EntityRelationship_Folder:
-    case Uml::lvt_Entity:
-    case Uml::lvt_Category:
-    case Uml::lvt_EntityRelationship_Diagram:
-        if (newParentType == Uml::lvt_EntityRelationship_Folder ||
-                newParentType == Uml::lvt_EntityRelationship_Model) {
+    case UMLListViewItem::lvt_EntityRelationship_Folder:
+    case UMLListViewItem::lvt_Entity:
+    case UMLListViewItem::lvt_Category:
+    case UMLListViewItem::lvt_EntityRelationship_Diagram:
+        if (newParentType == UMLListViewItem::lvt_EntityRelationship_Folder ||
+                newParentType == UMLListViewItem::lvt_EntityRelationship_Model) {
             newItem = move->deepCopy(newParent);
             if (m_doc->loading())         // deletion is not safe while loading
                 move->setVisible(false);  // (the <listview> XMI may be corrupted)
@@ -1619,14 +1617,14 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             addAtContainer(newItem, newParent);
         }
         break;
-    case Uml::lvt_Collaboration_Diagram:
-    case Uml::lvt_Class_Diagram:
-    case Uml::lvt_State_Diagram:
-    case Uml::lvt_Activity_Diagram:
-    case Uml::lvt_Sequence_Diagram:
-    case Uml::lvt_Logical_Folder:
-        if (newParentType == Uml::lvt_Logical_Folder ||
-                newParentType == Uml::lvt_Logical_View) {
+    case UMLListViewItem::lvt_Collaboration_Diagram:
+    case UMLListViewItem::lvt_Class_Diagram:
+    case UMLListViewItem::lvt_State_Diagram:
+    case UMLListViewItem::lvt_Activity_Diagram:
+    case UMLListViewItem::lvt_Sequence_Diagram:
+    case UMLListViewItem::lvt_Logical_Folder:
+        if (newParentType == UMLListViewItem::lvt_Logical_Folder ||
+                newParentType == UMLListViewItem::lvt_Logical_View) {
             newItem = move->deepCopy(newParent);
             if (m_doc->loading())         // deletion is not safe while loading
                 move->setVisible(false);  // (the <listview> XMI may be corrupted)
@@ -1635,23 +1633,23 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
             addAtContainer(newItem, newParent);
         }
         break;
-    case Uml::lvt_Class:
-    case Uml::lvt_Package:
-    case Uml::lvt_Interface:
-    case Uml::lvt_Enum:
-    case Uml::lvt_Datatype:
-        if (newParentType == Uml::lvt_Logical_Folder ||
-                newParentType == Uml::lvt_Datatype_Folder ||
-                newParentType == Uml::lvt_Logical_View ||
-                newParentType == Uml::lvt_Class ||
-                newParentType == Uml::lvt_Interface ||
-                newParentType == Uml::lvt_Package) {
+    case UMLListViewItem::lvt_Class:
+    case UMLListViewItem::lvt_Package:
+    case UMLListViewItem::lvt_Interface:
+    case UMLListViewItem::lvt_Enum:
+    case UMLListViewItem::lvt_Datatype:
+        if (newParentType == UMLListViewItem::lvt_Logical_Folder ||
+                newParentType == UMLListViewItem::lvt_Datatype_Folder ||
+                newParentType == UMLListViewItem::lvt_Logical_View ||
+                newParentType == UMLListViewItem::lvt_Class ||
+                newParentType == UMLListViewItem::lvt_Interface ||
+                newParentType == UMLListViewItem::lvt_Package) {
             newItem = move->deepCopy(newParent);
             if (m_doc->loading())         // deletion is not safe while loading
                 move->setVisible(false);  // (the <listview> XMI may be corrupted)
             else
                 delete move;
-            UMLCanvasObject *o = static_cast<UMLCanvasObject*>(newItem->getUMLObject());
+            UMLCanvasObject *o = static_cast<UMLCanvasObject*>(newItem->umlObject());
             if (o == 0) {
                 uDebug() << "moveObject: newItem's UMLObject is 0";
             } else if (newParentObj == 0) {
@@ -1666,10 +1664,10 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
                 currentView->updateContainment(o);
         }
         break;
-    case Uml::lvt_Attribute:
-    case Uml::lvt_Operation:
-        if (newParentType == Uml::lvt_Class ||
-                newParentType == Uml::lvt_Interface) {
+    case UMLListViewItem::lvt_Attribute:
+    case UMLListViewItem::lvt_Operation:
+        if (newParentType == UMLListViewItem::lvt_Class ||
+                newParentType == UMLListViewItem::lvt_Interface) {
             // update list view
 
             newItem = move->deepCopy(newParent);
@@ -1682,7 +1680,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::IDType srcId, Uml::ListView_Type 
 
             UMLClassifier *oldParentClassifier = dynamic_cast<UMLClassifier*>(srcObj->parent());
             UMLClassifier *newParentClassifier = dynamic_cast<UMLClassifier*>(newParentObj);
-            if (srcType == Uml::lvt_Attribute) {
+            if (srcType == UMLListViewItem::lvt_Attribute) {
                 UMLAttribute *att = dynamic_cast<UMLAttribute*>(srcObj);
                 // We can't use the existing 'att' directly
                 // because its parent is fixed to the old classifier
@@ -1786,32 +1784,32 @@ void UMLListView::slotDropped(QDropEvent* de, Q3ListViewItem* parent, Q3ListView
 /**
  * Get selected items.
  *
- * @param ItemList   List of UMLListViewItems returned.
- * @return           The number of selected items.
+ * @return   the list of selected items
  */
-int UMLListView::getSelectedItems(UMLListViewItemList &ItemList)
+UMLListViewItemList UMLListView::selectedItems()
 {
+    UMLListViewItemList itemList;
     Q3ListViewItemIterator it(this);
     // iterate through all items of the list view
     for (; it.current(); ++it) {
         if (it.current()->isSelected()) {
             UMLListViewItem *item = (UMLListViewItem*)it.current();
-            ItemList.append(item);
+            itemList.append(item);
         }
     }
-    uDebug() << "selItems = " << ItemList.count();
+    uDebug() << "selected items = " << itemList.count();
 
-    return (int)ItemList.count();
+    return itemList;
 }
 
 /**
  * Get selected items, but only root elements selected (without children).
  *
- * @param ItemList   List of UMLListViewItems returned.
- * @return           The number of selected items.
+ * @return   the list of selected items
  */
-int UMLListView::getSelectedItemsRoot(UMLListViewItemList &ItemList)
+UMLListViewItemList UMLListView::selectedItemsRoot()
 {
+    UMLListViewItemList itemList;
     Q3ListViewItemIterator it(this);
 
     // iterate through all items of the list view
@@ -1822,13 +1820,13 @@ int UMLListView::getSelectedItemsRoot(UMLListViewItemList &ItemList)
             // since we can't select a child and its grandfather without its parent
             // we would be able to delete each item individually, without an invalid iterator
             if (item && item->parent() && item->parent()->isSelected() == false) {
-                ItemList.append(item);
+                itemList.append(item);
             }
         }
     }
-    uDebug() << "selItems = " << ItemList.count();
+    uDebug() << "selected items = " << itemList.count();
 
-    return (int)ItemList.count();
+    return itemList;
 }
 
 /**
@@ -1841,21 +1839,21 @@ UMLListViewItem* UMLListView::createDiagramItem(UMLView *view)
     if (!view) {
         return 0;
     }
-    Uml::ListView_Type lvt = Model_Utils::convert_DT_LVT(view->getType());
+    UMLListViewItem::ListViewType lvt = Model_Utils::convert_DT_LVT(view->type());
     UMLListViewItem *parent = 0;
-    UMLFolder *f = view->getFolder();
+    UMLFolder *f = view->folder();
     if (f) {
         parent = findUMLObject(f);
         if (parent == 0)
-            uError() << view->getName() << ": findUMLObject(" << f->name() << ") returns 0";
+            uError() << view->name() << ": findUMLObject(" << f->name() << ") returns 0";
     } else {
-        uDebug() << view->getName() << ": no parent folder set, using predefined folder";
+        uDebug() << view->name() << ": no parent folder set, using predefined folder";
     }
     if (parent == 0) {
         parent = determineParentItem(lvt);
-        lvt = Model_Utils::convert_DT_LVT(view->getType());
+        lvt = Model_Utils::convert_DT_LVT(view->type());
     }
-    UMLListViewItem *item = new UMLListViewItem(parent, view->getName(), lvt, view->getID());
+    UMLListViewItem *item = new UMLListViewItem(parent, view->name(), lvt, view->getID());
     return item;
 }
 
@@ -1870,7 +1868,7 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
 {
     UMLObject* pObject = 0;
     UMLListViewItem* item = 0;
-    Uml::ListView_Type lvt = Data.getType();
+    UMLListViewItem::ListViewType lvt = Data.type();
     if (!parent) {
         parent = determineParentItem(lvt);
         if (!parent)
@@ -1878,24 +1876,24 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
     }
 
     switch (lvt) {
-    case Uml::lvt_Actor:
-    case Uml::lvt_UseCase:
-    case Uml::lvt_Class:
-    case Uml::lvt_Package:
-    case Uml::lvt_Subsystem:
-    case Uml::lvt_Component:
-    case Uml::lvt_Node:
-    case Uml::lvt_Artifact:
-    case Uml::lvt_Interface:
-    case Uml::lvt_Datatype:
-    case Uml::lvt_Enum:
-    case Uml::lvt_Entity:
-    case Uml::lvt_Category:
-    case Uml::lvt_Logical_Folder:
-    case Uml::lvt_UseCase_Folder:
-    case Uml::lvt_Component_Folder:
-    case Uml::lvt_Deployment_Folder:
-    case Uml::lvt_EntityRelationship_Folder:
+    case UMLListViewItem::lvt_Actor:
+    case UMLListViewItem::lvt_UseCase:
+    case UMLListViewItem::lvt_Class:
+    case UMLListViewItem::lvt_Package:
+    case UMLListViewItem::lvt_Subsystem:
+    case UMLListViewItem::lvt_Component:
+    case UMLListViewItem::lvt_Node:
+    case UMLListViewItem::lvt_Artifact:
+    case UMLListViewItem::lvt_Interface:
+    case UMLListViewItem::lvt_Datatype:
+    case UMLListViewItem::lvt_Enum:
+    case UMLListViewItem::lvt_Entity:
+    case UMLListViewItem::lvt_Category:
+    case UMLListViewItem::lvt_Logical_Folder:
+    case UMLListViewItem::lvt_UseCase_Folder:
+    case UMLListViewItem::lvt_Component_Folder:
+    case UMLListViewItem::lvt_Deployment_Folder:
+    case UMLListViewItem::lvt_EntityRelationship_Folder:
         /***
         int newID = IDChanges.findNewID(Data.getID());
         //if there is no ListViewItem associated with the new ID,
@@ -1907,19 +1905,19 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         pObject = m_doc->findObjectById(Data.getID());
         item = new UMLListViewItem(parent, Data.getText(), lvt, pObject);
         break;
-    case Uml::lvt_Datatype_Folder:
+    case UMLListViewItem::lvt_Datatype_Folder:
         item = new UMLListViewItem(parent, Data.getText(), lvt);
         break;
-    case Uml::lvt_Attribute:
-    case Uml::lvt_EntityAttribute:
-    case Uml::lvt_Operation:
-    case Uml::lvt_Template:
-    case Uml::lvt_EnumLiteral:
-    case Uml::lvt_UniqueConstraint:
-    case Uml::lvt_PrimaryKeyConstraint:
-    case Uml::lvt_ForeignKeyConstraint:
-    case Uml::lvt_CheckConstraint: {
-        UMLClassifier *pClass =  static_cast<UMLClassifier*>(parent->getUMLObject());
+    case UMLListViewItem::lvt_Attribute:
+    case UMLListViewItem::lvt_EntityAttribute:
+    case UMLListViewItem::lvt_Operation:
+    case UMLListViewItem::lvt_Template:
+    case UMLListViewItem::lvt_EnumLiteral:
+    case UMLListViewItem::lvt_UniqueConstraint:
+    case UMLListViewItem::lvt_PrimaryKeyConstraint:
+    case UMLListViewItem::lvt_ForeignKeyConstraint:
+    case UMLListViewItem::lvt_CheckConstraint: {
+        UMLClassifier *pClass =  static_cast<UMLClassifier*>(parent->umlObject());
         Uml::IDType newID = IDChanges.findNewID(Data.getID());
         pObject = pClass->findChildObjectById(newID);
         if (pObject) {
@@ -1929,22 +1927,22 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         }
         break;
     }
-    case Uml::lvt_UseCase_Diagram:
-    case Uml::lvt_Sequence_Diagram:
-    case Uml::lvt_Collaboration_Diagram:
-    case Uml::lvt_Class_Diagram:
-    case Uml::lvt_State_Diagram:
-    case Uml::lvt_Activity_Diagram:
-    case Uml::lvt_Component_Diagram:
-    case Uml::lvt_Deployment_Diagram:
-    case Uml::lvt_EntityRelationship_Diagram: {
+    case UMLListViewItem::lvt_UseCase_Diagram:
+    case UMLListViewItem::lvt_Sequence_Diagram:
+    case UMLListViewItem::lvt_Collaboration_Diagram:
+    case UMLListViewItem::lvt_Class_Diagram:
+    case UMLListViewItem::lvt_State_Diagram:
+    case UMLListViewItem::lvt_Activity_Diagram:
+    case UMLListViewItem::lvt_Component_Diagram:
+    case UMLListViewItem::lvt_Deployment_Diagram:
+    case UMLListViewItem::lvt_EntityRelationship_Diagram: {
         Uml::IDType newID = IDChanges.findNewID(Data.getID());
         UMLView* v = m_doc->findView(newID);
         if (v == 0) {
             return 0;
         }
-        const Uml::ListView_Type lvt = Model_Utils::convert_DT_LVT(v->getType());
-        item = new UMLListViewItem(parent, v->getName(), lvt, newID);
+        const UMLListViewItem::ListViewType lvt = Model_Utils::convert_DT_LVT(v->type());
+        item = new UMLListViewItem(parent, v->name(), lvt, newID);
     }
     break;
     default:
@@ -1961,36 +1959,36 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
  * @param lvt   The ListView_Type for which to lookup the parent.
  * @return  Pointer to the parent UMLListViewItem chosen.
  */
-UMLListViewItem* UMLListView::determineParentItem(Uml::ListView_Type lvt) const
+UMLListViewItem* UMLListView::determineParentItem(UMLListViewItem::ListViewType lvt) const
 {
     UMLListViewItem* parent = 0;
     switch (lvt) {
-    case Uml::lvt_Datatype:
+    case UMLListViewItem::lvt_Datatype:
         parent = m_datatypeFolder;
         break;
-    case Uml::lvt_Actor:
-    case Uml::lvt_UseCase:
-    case Uml::lvt_UseCase_Folder:
-    case Uml::lvt_UseCase_Diagram:
-        parent = m_lv[Uml::mt_UseCase];
+    case UMLListViewItem::lvt_Actor:
+    case UMLListViewItem::lvt_UseCase:
+    case UMLListViewItem::lvt_UseCase_Folder:
+    case UMLListViewItem::lvt_UseCase_Diagram:
+        parent = m_lv[Uml::ModelType::UseCase];
         break;
-    case Uml::lvt_Component_Diagram:
-    case Uml::lvt_Component:
-    case Uml::lvt_Artifact:
-        parent = m_lv[Uml::mt_Component];
+    case UMLListViewItem::lvt_Component_Diagram:
+    case UMLListViewItem::lvt_Component:
+    case UMLListViewItem::lvt_Artifact:
+        parent = m_lv[Uml::ModelType::Component];
         break;
-    case Uml::lvt_Deployment_Diagram:
-    case Uml::lvt_Node:
-        parent = m_lv[Uml::mt_Deployment];
+    case UMLListViewItem::lvt_Deployment_Diagram:
+    case UMLListViewItem::lvt_Node:
+        parent = m_lv[Uml::ModelType::Deployment];
         break;
-    case Uml::lvt_EntityRelationship_Diagram:
-    case Uml::lvt_Entity:
-    case Uml::lvt_Category:
-        parent = m_lv[Uml::mt_EntityRelationship];
+    case UMLListViewItem::lvt_EntityRelationship_Diagram:
+    case UMLListViewItem::lvt_Entity:
+    case UMLListViewItem::lvt_Category:
+        parent = m_lv[Uml::ModelType::EntityRelationship];
         break;
     default:
         if (Model_Utils::typeIsDiagram(lvt) || !Model_Utils::typeIsClassifierList(lvt))
-            parent = m_lv[Uml::mt_Logical];
+            parent = m_lv[Uml::ModelType::Logical];
         break;
     }
     return parent;
@@ -1999,7 +1997,7 @@ UMLListViewItem* UMLListView::determineParentItem(Uml::ListView_Type lvt) const
 /**
  *  Return the amount of items selected.
  */
-int UMLListView::getSelectedCount()
+int UMLListView::selectedItemsCount()
 {
     Q3ListViewItemIterator it(this);
     int count = 0;
@@ -2016,7 +2014,7 @@ int UMLListView::getSelectedCount()
 /**
  * Returns the document pointer. Called by the UMLListViewItem class.
  */
-UMLDoc * UMLListView::getDocument() const
+UMLDoc * UMLListView::document() const
 {
     return m_doc;
 }
@@ -2040,39 +2038,39 @@ void UMLListView::focusOutEvent(QFocusEvent * fe)
  * Deployment, EntityRelationship.) Returns the ListView_Type
  * of the matching root view; if no match then continues the
  * search using the item's parent, then grandparent, and so forth.
- * Returns Uml::lvt_Unknown if no match at all is found.
+ * Returns UMLListViewItem::lvt_Unknown if no match at all is found.
  */
-Uml::ListView_Type UMLListView::rootViewType(UMLListViewItem *item)
+UMLListViewItem::ListViewType UMLListView::rootViewType(UMLListViewItem *item)
 {
     if (item == m_rv)
-        return Uml::lvt_View;
-    if (item == m_lv[Uml::mt_Logical])
-        return Uml::lvt_Logical_View;
-    if (item == m_lv[Uml::mt_UseCase])
-        return Uml::lvt_UseCase_View;
-    if (item == m_lv[Uml::mt_Component])
-        return Uml::lvt_Component_View;
-    if (item == m_lv[Uml::mt_Deployment])
-        return Uml::lvt_Deployment_View;
-    if (item == m_lv[Uml::mt_EntityRelationship])
-        return Uml::lvt_EntityRelationship_Model;
+        return UMLListViewItem::lvt_View;
+    if (item == m_lv[Uml::ModelType::Logical])
+        return UMLListViewItem::lvt_Logical_View;
+    if (item == m_lv[Uml::ModelType::UseCase])
+        return UMLListViewItem::lvt_UseCase_View;
+    if (item == m_lv[Uml::ModelType::Component])
+        return UMLListViewItem::lvt_Component_View;
+    if (item == m_lv[Uml::ModelType::Deployment])
+        return UMLListViewItem::lvt_Deployment_View;
+    if (item == m_lv[Uml::ModelType::EntityRelationship])
+        return UMLListViewItem::lvt_EntityRelationship_Model;
     UMLListViewItem *parent = dynamic_cast<UMLListViewItem*>(item->parent());
     if (parent)
         return rootViewType(parent);
-    return Uml::lvt_Unknown;
+    return UMLListViewItem::lvt_Unknown;
 }
 
 /**
  * Return true if the given list view type can be expanded/collapsed.
  */
-bool UMLListView::isExpandable(Uml::ListView_Type lvt)
+bool UMLListView::isExpandable(UMLListViewItem::ListViewType lvt)
 {
     if (Model_Utils::typeIsRootView(lvt) || Model_Utils::typeIsFolder(lvt))
         return true;
     switch (lvt) {
-    case Uml::lvt_Package:
-    case Uml::lvt_Component:
-    case Uml::lvt_Subsystem:
+    case UMLListViewItem::lvt_Package:
+    case UMLListViewItem::lvt_Component:
+    case UMLListViewItem::lvt_Subsystem:
         return true;
         break;
     default:
@@ -2087,7 +2085,7 @@ bool UMLListView::isExpandable(Uml::ListView_Type lvt)
 void UMLListView::slotExpanded(Q3ListViewItem * item)
 {
     UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
-    if (isExpandable(myItem->getType()))
+    if (isExpandable(myItem->type()))
         myItem->updateFolder();
 }
 
@@ -2097,7 +2095,7 @@ void UMLListView::slotExpanded(Q3ListViewItem * item)
 void UMLListView::slotCollapsed(Q3ListViewItem * item)
 {
     UMLListViewItem * myItem = static_cast<UMLListViewItem*>(item);
-    if (isExpandable(myItem->getType()))
+    if (isExpandable(myItem->type()))
         myItem->updateFolder();
 }
 
@@ -2108,7 +2106,7 @@ void UMLListView::slotCollapsed(Q3ListViewItem * item)
 void UMLListView::slotCutSuccessful()
 {
     if (m_bStartedCut) {
-        popupMenuSel(m_pMenu->getAction(ListPopupMenu::mt_Delete));
+        popupMenuSel(m_menu->getAction(ListPopupMenu::mt_Delete));
         //deletion code here
         m_bStartedCut = false;
     }
@@ -2119,9 +2117,9 @@ void UMLListView::slotCutSuccessful()
  * Method will take care of signalling anyone needed on creation of new item.
  * e.g. UMLDoc if an UMLObject is created.
  */
-void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type type)
+void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListViewType type)
 {
-    if (type == Uml::lvt_Datatype) {
+    if (type == UMLListViewItem::lvt_Datatype) {
         parentItem = m_datatypeFolder;
     }
 
@@ -2132,17 +2130,17 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type typ
 
     QString name;
     if (Model_Utils::typeIsDiagram(type)) {
-        Uml::Diagram_Type dt = Model_Utils::convert_LVT_DT(type);
-        name = getUniqueDiagramName(dt);
+        Uml::DiagramType dt = Model_Utils::convert_LVT_DT(type);
+        name = uniqueDiagramName(dt);
         newItem = new UMLListViewItem(parentItem, name, type, Uml::id_None);
     } else {
-        Uml::Object_Type ot = Model_Utils::convert_LVT_OT(type);
-        if (ot == Uml::ot_UMLObject) {
+        UMLObject::Object_Type ot = Model_Utils::convert_LVT_OT(type);
+        if (ot == UMLObject::ot_UMLObject) {
             uDebug() << "no UMLObject for listview type " << type;
             return;
         }
         UMLPackage *parentPkg =
-            dynamic_cast<UMLPackage*>(parentItem->getUMLObject());
+            dynamic_cast<UMLPackage*>(parentItem->umlObject());
         if (parentPkg == 0) {
             uError() << "type " << type << ": parentPkg is 0";
             return;
@@ -2167,7 +2165,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, Uml::ListView_Type typ
 /**
  * Called for informing the list view that an item was renamed.
  */
-bool UMLListView::itemRenamed(Q3ListViewItem * item , int col)
+bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
 {
     Q_UNUSED(col);
     //if true the item was cancel before this message
@@ -2176,7 +2174,7 @@ bool UMLListView::itemRenamed(Q3ListViewItem * item , int col)
     }
     m_bIgnoreCancelRename = true;
     UMLListViewItem * renamedItem = static_cast< UMLListViewItem *>(item) ;
-    Uml::ListView_Type type = renamedItem->getType();
+    UMLListViewItem::ListViewType type = renamedItem->type();
     QString newText = renamedItem->text(0);
     renamedItem->setCreating(false);
 
@@ -2191,7 +2189,7 @@ bool UMLListView::itemRenamed(Q3ListViewItem * item , int col)
 
     if (!isUnique(renamedItem, newText)) {
         //if operation ask if ok not to be unique i.e overloading
-        if (type == Uml::lvt_Operation) {
+        if (type == UMLListViewItem::lvt_Operation) {
             if (KMessageBox::warningYesNo(
                         0,
                         i18n("The name you entered was not unique.\nIs this what you wanted?"),
@@ -2208,53 +2206,53 @@ bool UMLListView::itemRenamed(Q3ListViewItem * item , int col)
     }
 
     switch (type) {
-    case Uml::lvt_Actor:
-    case Uml::lvt_Class:
-    case Uml::lvt_Package:
-    case Uml::lvt_Logical_Folder:
-    case Uml::lvt_UseCase_Folder:
-    case Uml::lvt_Component_Folder:
-    case Uml::lvt_Deployment_Folder:
-    case Uml::lvt_EntityRelationship_Folder:
-    case Uml::lvt_Subsystem:
-    case Uml::lvt_Component:
-    case Uml::lvt_Node:
-    case Uml::lvt_Artifact:
-    case Uml::lvt_Interface:
-    case Uml::lvt_Datatype:
-    case Uml::lvt_Enum:
-    case Uml::lvt_Entity:
-    case Uml::lvt_UseCase:
-    case Uml::lvt_Category: {
-        Uml::Object_Type ot = Model_Utils::convert_LVT_OT(type);
+    case UMLListViewItem::lvt_Actor:
+    case UMLListViewItem::lvt_Class:
+    case UMLListViewItem::lvt_Package:
+    case UMLListViewItem::lvt_Logical_Folder:
+    case UMLListViewItem::lvt_UseCase_Folder:
+    case UMLListViewItem::lvt_Component_Folder:
+    case UMLListViewItem::lvt_Deployment_Folder:
+    case UMLListViewItem::lvt_EntityRelationship_Folder:
+    case UMLListViewItem::lvt_Subsystem:
+    case UMLListViewItem::lvt_Component:
+    case UMLListViewItem::lvt_Node:
+    case UMLListViewItem::lvt_Artifact:
+    case UMLListViewItem::lvt_Interface:
+    case UMLListViewItem::lvt_Datatype:
+    case UMLListViewItem::lvt_Enum:
+    case UMLListViewItem::lvt_Entity:
+    case UMLListViewItem::lvt_UseCase:
+    case UMLListViewItem::lvt_Category: {
+        UMLObject::Object_Type ot = Model_Utils::convert_LVT_OT(type);
         if (! ot) {
             uError() << "internal error";
             return false;
         }
         UMLObject *o = createUMLObject(renamedItem, ot);
-        if (type == Uml::lvt_Subsystem)
+        if (type == UMLListViewItem::lvt_Subsystem)
             o->setStereotype("subsystem");
         else if (Model_Utils::typeIsFolder(type))
             o->setStereotype("folder");
     }
     break;
 
-    case Uml::lvt_Attribute:
-    case Uml::lvt_EntityAttribute:
-    case Uml::lvt_Operation:
-    case Uml::lvt_Template:
-    case Uml::lvt_EnumLiteral:
-    case Uml::lvt_UniqueConstraint:
-    case Uml::lvt_ForeignKeyConstraint:
-    case Uml::lvt_CheckConstraint:
+    case UMLListViewItem::lvt_Attribute:
+    case UMLListViewItem::lvt_EntityAttribute:
+    case UMLListViewItem::lvt_Operation:
+    case UMLListViewItem::lvt_Template:
+    case UMLListViewItem::lvt_EnumLiteral:
+    case UMLListViewItem::lvt_UniqueConstraint:
+    case UMLListViewItem::lvt_ForeignKeyConstraint:
+    case UMLListViewItem::lvt_CheckConstraint:
 
         return createChildUMLObject(renamedItem, Model_Utils::convert_LVT_OT(type));
         break;
 
-    case Uml::lvt_PrimaryKeyConstraint: {
+    case UMLListViewItem::lvt_PrimaryKeyConstraint: {
 
         bool result = createChildUMLObject(renamedItem, Model_Utils::convert_LVT_OT(type));
-        UMLObject* obj = renamedItem->getUMLObject();
+        UMLObject* obj = renamedItem->umlObject();
         UMLUniqueConstraint* uuc = static_cast<UMLUniqueConstraint*>(obj);
         UMLEntity* ent = static_cast<UMLEntity*>(uuc->parent());
         if (ent)
@@ -2264,40 +2262,40 @@ bool UMLListView::itemRenamed(Q3ListViewItem * item , int col)
     }
     break;
 
-    case Uml::lvt_Class_Diagram:
-        createDiagram(renamedItem, Uml::dt_Class);
+    case UMLListViewItem::lvt_Class_Diagram:
+        createDiagram(renamedItem, Uml::DiagramType::Class);
         break;
 
-    case Uml::lvt_UseCase_Diagram:
-        createDiagram(renamedItem, Uml::dt_UseCase);
+    case UMLListViewItem::lvt_UseCase_Diagram:
+        createDiagram(renamedItem, Uml::DiagramType::UseCase);
         break;
 
-    case Uml::lvt_Sequence_Diagram:
-        createDiagram(renamedItem, Uml::dt_Sequence);
+    case UMLListViewItem::lvt_Sequence_Diagram:
+        createDiagram(renamedItem, Uml::DiagramType::Sequence);
         break;
 
-    case Uml::lvt_Collaboration_Diagram:
-        createDiagram(renamedItem, Uml::dt_Collaboration);
+    case UMLListViewItem::lvt_Collaboration_Diagram:
+        createDiagram(renamedItem, Uml::DiagramType::Collaboration);
         break;
 
-    case Uml::lvt_State_Diagram:
-        createDiagram(renamedItem, Uml::dt_State);
+    case UMLListViewItem::lvt_State_Diagram:
+        createDiagram(renamedItem, Uml::DiagramType::State);
         break;
 
-    case Uml::lvt_Activity_Diagram:
-        createDiagram(renamedItem, Uml::dt_Activity);
+    case UMLListViewItem::lvt_Activity_Diagram:
+        createDiagram(renamedItem, Uml::DiagramType::Activity);
         break;
 
-    case Uml::lvt_Component_Diagram:
-        createDiagram(renamedItem, Uml::dt_Component);
+    case UMLListViewItem::lvt_Component_Diagram:
+        createDiagram(renamedItem, Uml::DiagramType::Component);
         break;
 
-    case Uml::lvt_Deployment_Diagram:
-        createDiagram(renamedItem, Uml::dt_Deployment);
+    case UMLListViewItem::lvt_Deployment_Diagram:
+        createDiagram(renamedItem, Uml::DiagramType::Deployment);
         break;
 
-    case Uml::lvt_EntityRelationship_Diagram:
-        createDiagram(renamedItem, Uml::dt_EntityRelationship);
+    case UMLListViewItem::lvt_EntityRelationship_Diagram:
+        createDiagram(renamedItem, Uml::DiagramType::EntityRelationship);
         break;
 
     default:
@@ -2309,66 +2307,66 @@ bool UMLListView::itemRenamed(Q3ListViewItem * item , int col)
 /**
  * Creates a UMLObject out of the given list view item.
  */
-UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, Uml::Object_Type type)
+UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, UMLObject::Object_Type type)
 {
     QString name = item->text(0);
     UMLObject * object = 0;
     switch (type) {
-    case Uml::ot_UseCase:
+    case UMLObject::ot_UseCase:
         object = new UMLUseCase(name);
         break;
 
-    case Uml::ot_Actor:
+    case UMLObject::ot_Actor:
         object = new UMLActor(name);
         break;
 
-    case Uml::ot_Class:
+    case UMLObject::ot_Class:
         object = new UMLClassifier(name);
         break;
 
-    case Uml::ot_Package:
+    case UMLObject::ot_Package:
         object = new UMLPackage(name);
         break;
 
-    case Uml::ot_Folder:
+    case UMLObject::ot_Folder:
         object = new UMLFolder(name);
         break;
 
-    case Uml::ot_Component:
+    case UMLObject::ot_Component:
         object = new UMLComponent(name);
         break;
 
-    case Uml::ot_Node:
+    case UMLObject::ot_Node:
         object = new UMLNode(name);
         break;
 
-    case Uml::ot_Artifact:
+    case UMLObject::ot_Artifact:
         object = new UMLArtifact(name);
         break;
 
-    case Uml::ot_Interface: {
+    case UMLObject::ot_Interface: {
         UMLClassifier *c = new UMLClassifier(name);
-        c->setBaseType(Uml::ot_Interface);
+        c->setBaseType(UMLObject::ot_Interface);
         object = c;
     }
     break;
 
-    case Uml::ot_Datatype: {
+    case UMLObject::ot_Datatype: {
         UMLClassifier *c = new UMLClassifier(name);
-        c->setBaseType(Uml::ot_Datatype);
+        c->setBaseType(UMLObject::ot_Datatype);
         object = c;
     }
     break;
 
-    case Uml::ot_Enum:
+    case UMLObject::ot_Enum:
         object = new UMLEnum(name);
         break;
 
-    case Uml::ot_Entity:
+    case UMLObject::ot_Entity:
         object = new UMLEntity(name);
         break;
 
-    case Uml::ot_Category:
+    case UMLObject::ot_Category:
         object = new UMLCategory(name);
         break;
 
@@ -2378,13 +2376,13 @@ UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, Uml::Object_Type
     }
 
     UMLListViewItem * parentItem = static_cast<UMLListViewItem *>(item->parent());
-    const Uml::ListView_Type lvt = parentItem->getType();
+    const UMLListViewItem::ListViewType lvt = parentItem->type();
     if (! Model_Utils::typeIsContainer(lvt)) {
         uError() << object->name() << ": parentItem (" << lvt << " is not a container";
         delete object;
         return 0;
     }
-    UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->getUMLObject());
+    UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->umlObject());
     object->setUMLPackage(pkg);
     pkg->addObject(object);
     connectNewObjectsSlots(object);
@@ -2396,11 +2394,11 @@ UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, Uml::Object_Type
 /**
  * Creates a child UMLObject out of the given list view item.
  */
-bool UMLListView::createChildUMLObject(UMLListViewItem * item, Uml::Object_Type type)
+bool UMLListView::createChildUMLObject(UMLListViewItem * item, UMLObject::Object_Type type)
 {
     m_bCreatingChildObject = true;
     QString text = item->text(0);
-    UMLObject* parent = static_cast<UMLListViewItem *>(item->parent())->getUMLObject();
+    UMLObject* parent = static_cast<UMLListViewItem *>(item->parent())->umlObject();
     if (!parent) {
         uError() << "parent UMLObject is 0";
         m_bCreatingChildObject = false;
@@ -2408,13 +2406,13 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, Uml::Object_Type 
     }
 
     UMLObject* newObject = 0;
-    if (type == Uml::ot_EnumLiteral) {
+    if (type == UMLObject::ot_EnumLiteral) {
         UMLEnum *owningEnum = static_cast<UMLEnum*>(parent);
         newObject = owningEnum->createEnumLiteral(text);
 
         UMLEnumLiteral* enumLiteral = static_cast<UMLEnumLiteral*>(newObject);
-        text = enumLiteral->toString(Uml::st_SigNoVis);
-    } else if (type == Uml::ot_Template)  {
+        text = enumLiteral->toString(Uml::SignatureType::SigNoVis);
+    } else if (type == UMLObject::ot_Template)  {
         UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
         Model_Utils::NameAndType nt;
         Model_Utils::Parse_Status st = Model_Utils::parseTemplate(text, nt, owningClassifier);
@@ -2428,8 +2426,8 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, Uml::Object_Type 
         newObject = owningClassifier->createTemplate(nt.m_name);
         UMLTemplate *tmplParm = static_cast<UMLTemplate*>(newObject);
         tmplParm->setType(nt.m_type);
-        text = tmplParm->toString(Uml::st_SigNoVis);
-    } else if (type == Uml::ot_Attribute || type == Uml::ot_EntityAttribute)  {
+        text = tmplParm->toString(Uml::SignatureType::SigNoVis);
+    } else if (type == UMLObject::ot_Attribute || type == UMLObject::ot_EntityAttribute)  {
         UMLClassifier *owningClass = static_cast<UMLClassifier*>(parent);
         Model_Utils::NameAndType nt;
         Uml::Visibility vis;
@@ -2445,8 +2443,8 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, Uml::Object_Type 
         newObject = owningClass->createAttribute(nt.m_name, nt.m_type, vis, nt.m_initialValue);
         UMLAttribute *att = static_cast<UMLAttribute*>(newObject);
         att->setParmKind(nt.m_direction);
-        text = att->toString(Uml::st_SigNoVis);
-    } else if (type == Uml::ot_Operation) {
+        text = att->toString(Uml::SignatureType::SigNoVis);
+    } else if (type == UMLObject::ot_Operation) {
         UMLClassifier *owningClassifier = static_cast<UMLClassifier*>(parent);
         Model_Utils::OpDescriptor od;
         Model_Utils::Parse_Status st = Model_Utils::parseOperation(text, od, owningClassifier);
@@ -2472,9 +2470,9 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, Uml::Object_Type 
         if (od.m_pReturnType) {
             op->setType(od.m_pReturnType);
         }
-        text = op->toString(Uml::st_SigNoVis);
-    } else if (type == Uml::ot_UniqueConstraint || type == Uml::ot_ForeignKeyConstraint
-               || type == Uml::ot_CheckConstraint) {
+        text = op->toString(Uml::SignatureType::SigNoVis);
+    } else if (type == UMLObject::ot_UniqueConstraint || type == UMLObject::ot_ForeignKeyConstraint
+               || type == UMLObject::ot_CheckConstraint) {
 
         UMLEntity *owningEntity = static_cast<UMLEntity*>(parent);
 
@@ -2489,13 +2487,13 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, Uml::Object_Type 
         }
 
         switch (type) {
-        case Uml::ot_UniqueConstraint:
+        case UMLObject::ot_UniqueConstraint:
             newObject = owningEntity->createUniqueConstraint(name);
             break;
-        case Uml::ot_ForeignKeyConstraint:
+        case UMLObject::ot_ForeignKeyConstraint:
             newObject = owningEntity->createForeignKeyConstraint(name);
             break;
-        case Uml::ot_CheckConstraint:
+        case UMLObject::ot_CheckConstraint:
             newObject = owningEntity->createCheckConstraint(name);
             break;
         default:
@@ -2504,7 +2502,7 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, Uml::Object_Type 
 
         UMLEntityConstraint* uec = static_cast<UMLEntityConstraint*>(newObject);
 
-        text = uec->toString(Uml::st_SigNoVis);
+        text = uec->toString(Uml::SignatureType::SigNoVis);
     } else  {
         uError() << "called for type " << type << " (ignored)";
         m_bCreatingChildObject = false;
@@ -2531,7 +2529,7 @@ bool UMLListView::createChildUMLObject(UMLListViewItem * item, Uml::Object_Type 
 /**
  * Creates a diagram out of the given list view item.
  */
-UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::Diagram_Type type)
+UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::DiagramType type)
 {
     QString name = item->text(0);
     UMLView * view = m_doc->findView(type, name);
@@ -2540,7 +2538,7 @@ UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::Diagram_Type ty
         return view;
     }
     UMLListViewItem *parentItem = static_cast<UMLListViewItem*>(item->parent());
-    UMLFolder *parentFolder = dynamic_cast<UMLFolder*>(parentItem->getUMLObject());
+    UMLFolder *parentFolder = dynamic_cast<UMLFolder*>(parentItem->umlObject());
     if (parentFolder == 0) {
         uError() << name << ": parent UMLObject is not a UMLFolder";
         delete item;
@@ -2563,9 +2561,9 @@ UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::Diagram_Type ty
 /**
  * Returns a unique name for a diagram.
  */
-QString UMLListView::getUniqueDiagramName(Uml::Diagram_Type type)
+QString UMLListView::uniqueDiagramName(Uml::DiagramType type)
 {
-    return m_doc->uniqViewName(type);
+    return m_doc->uniqueViewName(type);
 }
 
 /**
@@ -2574,69 +2572,69 @@ QString UMLListView::getUniqueDiagramName(Uml::Diagram_Type type)
 bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
 {
     UMLListViewItem * parentItem = static_cast<UMLListViewItem *>(item->parent());
-    Uml::ListView_Type type = item->getType();
+    UMLListViewItem::ListViewType type = item->type();
     switch (type) {
-    case Uml::lvt_Class_Diagram:
-        return !m_doc->findView(Uml::dt_Class, name);
+    case UMLListViewItem::lvt_Class_Diagram:
+        return !m_doc->findView(Uml::DiagramType::Class, name);
         break;
 
-    case Uml::lvt_Sequence_Diagram:
-        return !m_doc->findView(Uml::dt_Sequence, name);
+    case UMLListViewItem::lvt_Sequence_Diagram:
+        return !m_doc->findView(Uml::DiagramType::Sequence, name);
         break;
 
-    case Uml::lvt_UseCase_Diagram:
-        return !m_doc->findView(Uml::dt_UseCase, name);
+    case UMLListViewItem::lvt_UseCase_Diagram:
+        return !m_doc->findView(Uml::DiagramType::UseCase, name);
         break;
 
-    case Uml::lvt_Collaboration_Diagram:
-        return !m_doc->findView(Uml::dt_Collaboration, name);
+    case UMLListViewItem::lvt_Collaboration_Diagram:
+        return !m_doc->findView(Uml::DiagramType::Collaboration, name);
         break;
 
-    case Uml::lvt_State_Diagram:
-        return !m_doc->findView(Uml::dt_State, name);
+    case UMLListViewItem::lvt_State_Diagram:
+        return !m_doc->findView(Uml::DiagramType::State, name);
         break;
 
-    case Uml::lvt_Activity_Diagram:
-        return !m_doc->findView(Uml::dt_Activity, name);
+    case UMLListViewItem::lvt_Activity_Diagram:
+        return !m_doc->findView(Uml::DiagramType::Activity, name);
         break;
 
-    case Uml::lvt_Component_Diagram:
-        return !m_doc->findView(Uml::dt_Component, name);
+    case UMLListViewItem::lvt_Component_Diagram:
+        return !m_doc->findView(Uml::DiagramType::Component, name);
         break;
 
-    case Uml::lvt_Deployment_Diagram:
-        return !m_doc->findView(Uml::dt_Deployment, name);
+    case UMLListViewItem::lvt_Deployment_Diagram:
+        return !m_doc->findView(Uml::DiagramType::Deployment, name);
         break;
 
-    case Uml::lvt_EntityRelationship_Diagram:
-        return !m_doc->findView(Uml::dt_EntityRelationship, name);
+    case UMLListViewItem::lvt_EntityRelationship_Diagram:
+        return !m_doc->findView(Uml::DiagramType::EntityRelationship, name);
         break;
 
-    case Uml::lvt_Actor:
-    case Uml::lvt_UseCase:
-    case Uml::lvt_Node:
-    case Uml::lvt_Artifact:
-    case Uml::lvt_Category:
+    case UMLListViewItem::lvt_Actor:
+    case UMLListViewItem::lvt_UseCase:
+    case UMLListViewItem::lvt_Node:
+    case UMLListViewItem::lvt_Artifact:
+    case UMLListViewItem::lvt_Category:
         return !m_doc->findUMLObject(name, Model_Utils::convert_LVT_OT(type));
         break;
 
-    case Uml::lvt_Class:
-    case Uml::lvt_Package:
-    case Uml::lvt_Interface:
-    case Uml::lvt_Datatype:
-    case Uml::lvt_Enum:
-    case Uml::lvt_Entity:
-    case Uml::lvt_Component:
-    case Uml::lvt_Subsystem:
-    case Uml::lvt_Logical_Folder:
-    case Uml::lvt_UseCase_Folder:
-    case Uml::lvt_Component_Folder:
-    case Uml::lvt_Deployment_Folder:
-    case Uml::lvt_EntityRelationship_Folder: {
-        Uml::ListView_Type lvt = parentItem->getType();
+    case UMLListViewItem::lvt_Class:
+    case UMLListViewItem::lvt_Package:
+    case UMLListViewItem::lvt_Interface:
+    case UMLListViewItem::lvt_Datatype:
+    case UMLListViewItem::lvt_Enum:
+    case UMLListViewItem::lvt_Entity:
+    case UMLListViewItem::lvt_Component:
+    case UMLListViewItem::lvt_Subsystem:
+    case UMLListViewItem::lvt_Logical_Folder:
+    case UMLListViewItem::lvt_UseCase_Folder:
+    case UMLListViewItem::lvt_Component_Folder:
+    case UMLListViewItem::lvt_Deployment_Folder:
+    case UMLListViewItem::lvt_EntityRelationship_Folder: {
+        UMLListViewItem::ListViewType lvt = parentItem->type();
         if (!Model_Utils::typeIsContainer(lvt))
             return (m_doc->findUMLObject(name) == 0);
-        UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->getUMLObject());
+        UMLPackage *pkg = static_cast<UMLPackage*>(parentItem->umlObject());
         if (pkg == 0) {
             uError() << "internal error - "
             << "parent listviewitem is package but has no UMLObject";
@@ -2646,16 +2644,16 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
         break;
     }
 
-    case Uml::lvt_Template:
-    case Uml::lvt_Attribute:
-    case Uml::lvt_EntityAttribute:
-    case Uml::lvt_Operation:
-    case Uml::lvt_EnumLiteral:
-    case Uml::lvt_UniqueConstraint:
-    case Uml::lvt_PrimaryKeyConstraint:
-    case Uml::lvt_ForeignKeyConstraint:
-    case Uml::lvt_CheckConstraint: {
-        UMLClassifier *parent = static_cast<UMLClassifier*>(parentItem->getUMLObject());
+    case UMLListViewItem::lvt_Template:
+    case UMLListViewItem::lvt_Attribute:
+    case UMLListViewItem::lvt_EntityAttribute:
+    case UMLListViewItem::lvt_Operation:
+    case UMLListViewItem::lvt_EnumLiteral:
+    case UMLListViewItem::lvt_UniqueConstraint:
+    case UMLListViewItem::lvt_PrimaryKeyConstraint:
+    case UMLListViewItem::lvt_ForeignKeyConstraint:
+    case UMLListViewItem::lvt_CheckConstraint: {
+        UMLClassifier *parent = static_cast<UMLClassifier*>(parentItem->umlObject());
         return (parent->findChildObject(name) == 0);
         break;
     }
@@ -2669,7 +2667,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
 /**
  * Cancel rename event has occurred for the given item.
  */
-void UMLListView::cancelRename(Q3ListViewItem * item)
+void UMLListView::cancelRename(UMLListViewItem * item)
 {
     if (!m_bIgnoreCancelRename) {
         delete item;
@@ -2700,8 +2698,8 @@ bool UMLListView::loadFromXMI(QDomElement & element)
             QString type = domElement.attribute("type", "-1");
             if (type == "-1")
                 return false;
-            Uml::ListView_Type lvType = (Uml::ListView_Type)type.toInt();
-            if (lvType == Uml::lvt_View) {
+            UMLListViewItem::ListViewType lvType = (UMLListViewItem::ListViewType)type.toInt();
+            if (lvType == UMLListViewItem::lvt_View) {
                 if (!loadChildrenFromXMI(m_rv, domElement))
                     return false;
             } else
@@ -2730,7 +2728,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         QString open = domElement.attribute("open", "1");
         if (type == "-1")
             return false;
-        Uml::ListView_Type lvType = (Uml::ListView_Type)type.toInt();
+        UMLListViewItem::ListViewType lvType = (UMLListViewItem::ListViewType)type.toInt();
         bool bOpen = (bool)open.toInt();
         Uml::IDType nID = STR2ID(id);
         UMLObject * pObject = 0;
@@ -2759,7 +2757,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                     label = pObject->name();
             } else if (Model_Utils::typeIsFolder(lvType)) {
                 // Synthesize the UMLFolder here
-                UMLObject *umlParent = parent->getUMLObject();
+                UMLObject *umlParent = parent->umlObject();
                 UMLPackage *parentPkg = dynamic_cast<UMLPackage*>(umlParent);
                 if (parentPkg == 0) {
                     uError() << "umlParent(" << umlParent << ") is not a UMLPackage";
@@ -2776,7 +2774,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
             }
         } else if (Model_Utils::typeIsRootView(lvType)) {
             // Predefined folders did not have their ID set.
-            const Uml::Model_Type mt = Model_Utils::convert_LVT_MT(lvType);
+            const Uml::ModelType mt = Model_Utils::convert_LVT_MT(lvType);
             nID = m_doc->rootFolder(mt)->id();
         } else if (Model_Utils::typeIsFolder(lvType)) {
             // Pre-1.2 format: Folders did not have their ID set.
@@ -2789,31 +2787,31 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         }
 
         switch (lvType) {
-        case Uml::lvt_Actor:
-        case Uml::lvt_UseCase:
-        case Uml::lvt_Class:
-        case Uml::lvt_Interface:
-        case Uml::lvt_Datatype:
-        case Uml::lvt_Enum:
-        case Uml::lvt_Entity:
-        case Uml::lvt_Package:
-        case Uml::lvt_Subsystem:
-        case Uml::lvt_Component:
-        case Uml::lvt_Node:
-        case Uml::lvt_Artifact:
-        case Uml::lvt_Logical_Folder:
-        case Uml::lvt_UseCase_Folder:
-        case Uml::lvt_Component_Folder:
-        case Uml::lvt_Deployment_Folder:
-        case Uml::lvt_EntityRelationship_Folder:
-        case Uml::lvt_Category:
+        case UMLListViewItem::lvt_Actor:
+        case UMLListViewItem::lvt_UseCase:
+        case UMLListViewItem::lvt_Class:
+        case UMLListViewItem::lvt_Interface:
+        case UMLListViewItem::lvt_Datatype:
+        case UMLListViewItem::lvt_Enum:
+        case UMLListViewItem::lvt_Entity:
+        case UMLListViewItem::lvt_Package:
+        case UMLListViewItem::lvt_Subsystem:
+        case UMLListViewItem::lvt_Component:
+        case UMLListViewItem::lvt_Node:
+        case UMLListViewItem::lvt_Artifact:
+        case UMLListViewItem::lvt_Logical_Folder:
+        case UMLListViewItem::lvt_UseCase_Folder:
+        case UMLListViewItem::lvt_Component_Folder:
+        case UMLListViewItem::lvt_Deployment_Folder:
+        case UMLListViewItem::lvt_EntityRelationship_Folder:
+        case UMLListViewItem::lvt_Category:
             item = findItem(nID);
             if (item == 0) {
                 uError() << "INTERNAL ERROR: "
                 << "findItem(id " << ID2STR(nID) << ") returns 0";
                 /*
                 if (pObject && pObject->getUMLPackage() &&
-                        parent->getType() != Uml::lvt_Package) {
+                        parent->getType() != UMLListViewItem::lvt_Package) {
                     // Pre-1.2 file format:
                     // Objects were not nested in their packages.
                     // Synthesize the nesting here.
@@ -2823,7 +2821,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                         uDebug() << "synthesizing ListViewItem for package "
                             << ID2STR(umlpkg->getID());
                         pkgItem = new UMLListViewItem(parent, umlpkg->getName(),
-                                                      Uml::lvt_Package, umlpkg);
+                                                      UMLListViewItem::lvt_Package, umlpkg);
                         pkgItem->setOpen(true);
                     }
                     item = new UMLListViewItem(pkgItem, label, lvType, pObject);
@@ -2847,7 +2845,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 uDebug() << item->getText() << " parent "
                 << parent->getText() << " (" << parent << ") != "
                 << itmParent->getText() << " (" << itmParent << ")";
-                if (item == m_datatypeFolder && itmParent == m_lv[Uml::mt_Logical]) {
+                if (item == m_datatypeFolder && itmParent == m_lv[Uml::ModelType::Logical]) {
                     uDebug() << "Reparenting the Datatypes folder is prohibited";
                 } else {
                     UMLListViewItem *newItem = moveObject(nID, lvType, parent);
@@ -2860,20 +2858,20 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 }
             }
             break;
-        case Uml::lvt_Attribute:
-        case Uml::lvt_EntityAttribute:
-        case Uml::lvt_Template:
-        case Uml::lvt_Operation:
-        case Uml::lvt_EnumLiteral:
-        case Uml::lvt_UniqueConstraint:
-        case Uml::lvt_PrimaryKeyConstraint:
-        case Uml::lvt_ForeignKeyConstraint:
-        case Uml::lvt_CheckConstraint:
+        case UMLListViewItem::lvt_Attribute:
+        case UMLListViewItem::lvt_EntityAttribute:
+        case UMLListViewItem::lvt_Template:
+        case UMLListViewItem::lvt_Operation:
+        case UMLListViewItem::lvt_EnumLiteral:
+        case UMLListViewItem::lvt_UniqueConstraint:
+        case UMLListViewItem::lvt_PrimaryKeyConstraint:
+        case UMLListViewItem::lvt_ForeignKeyConstraint:
+        case UMLListViewItem::lvt_CheckConstraint:
             item = findItem(nID);
             if (item == 0) {
                 uDebug() << "item " << ID2STR(nID) << " (of type "
                 << lvType << ") does not yet exist...";
-                UMLObject* umlObject = parent->getUMLObject();
+                UMLObject* umlObject = parent->umlObject();
                 if (!umlObject) {
                     uDebug() << "And also the parent->getUMLObject() does not exist";
                     return false;
@@ -2898,23 +2896,23 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 }
             }
             break;
-        case Uml::lvt_Logical_View:
-            item = m_lv[Uml::mt_Logical];
+        case UMLListViewItem::lvt_Logical_View:
+            item = m_lv[Uml::ModelType::Logical];
             break;
-        case Uml::lvt_Datatype_Folder:
+        case UMLListViewItem::lvt_Datatype_Folder:
             item = m_datatypeFolder;
             break;
-        case Uml::lvt_UseCase_View:
-            item = m_lv[Uml::mt_UseCase];
+        case UMLListViewItem::lvt_UseCase_View:
+            item = m_lv[Uml::ModelType::UseCase];
             break;
-        case Uml::lvt_Component_View:
-            item = m_lv[Uml::mt_Component];
+        case UMLListViewItem::lvt_Component_View:
+            item = m_lv[Uml::ModelType::Component];
             break;
-        case Uml::lvt_Deployment_View:
-            item = m_lv[Uml::mt_Deployment];
+        case UMLListViewItem::lvt_Deployment_View:
+            item = m_lv[Uml::ModelType::Deployment];
             break;
-        case Uml::lvt_EntityRelationship_Model:
-            item = m_lv[Uml::mt_EntityRelationship];
+        case UMLListViewItem::lvt_EntityRelationship_Model:
+            item = m_lv[Uml::ModelType::EntityRelationship];
             break;
         default:
             if (Model_Utils::typeIsDiagram(lvType)) {
@@ -2995,29 +2993,29 @@ bool UMLListView::startedCopy() const
  * Returns the corresponding view if the listview type is one of the root views,
  * Root/Logical/UseCase/Component/Deployment/EntityRelation View.
  */
-UMLListViewItem *UMLListView::rootView(Uml::ListView_Type type)
+UMLListViewItem *UMLListView::rootView(UMLListViewItem::ListViewType type)
 {
     UMLListViewItem *theView = 0;
     switch (type) {
-    case Uml::lvt_View:
+    case UMLListViewItem::lvt_View:
         theView = m_rv;
         break;
-    case Uml::lvt_Logical_View:
-        theView = m_lv[Uml::mt_Logical];
+    case UMLListViewItem::lvt_Logical_View:
+        theView = m_lv[Uml::ModelType::Logical];
         break;
-    case Uml::lvt_UseCase_View:
-        theView = m_lv[Uml::mt_UseCase];
+    case UMLListViewItem::lvt_UseCase_View:
+        theView = m_lv[Uml::ModelType::UseCase];
         break;
-    case Uml::lvt_Component_View:
-        theView = m_lv[Uml::mt_Component];
+    case UMLListViewItem::lvt_Component_View:
+        theView = m_lv[Uml::ModelType::Component];
         break;
-    case Uml::lvt_Deployment_View:
-        theView = m_lv[Uml::mt_Deployment];
+    case UMLListViewItem::lvt_Deployment_View:
+        theView = m_lv[Uml::ModelType::Deployment];
         break;
-    case Uml::lvt_EntityRelationship_Model:
-        theView = m_lv[Uml::mt_EntityRelationship];
+    case UMLListViewItem::lvt_EntityRelationship_Model:
+        theView = m_lv[Uml::ModelType::EntityRelationship];
         break;
-    case Uml::lvt_Datatype_Folder:   // @todo fix asymmetric naming
+    case UMLListViewItem::lvt_Datatype_Folder:   // @todo fix asymmetric naming
         theView = m_datatypeFolder;
         break;
     default:
@@ -3029,12 +3027,12 @@ UMLListViewItem *UMLListView::rootView(Uml::ListView_Type type)
 /**
  * Deletes all child-items of @p parent.
  */
-void UMLListView::deleteChildrenOf(Q3ListViewItem* parent)
+void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
 {
     if (!parent) {
         return;
     }
-    if (parent == m_lv[Uml::mt_Logical])
+    if (parent == m_lv[Uml::ModelType::Logical])
         m_datatypeFolder = 0;
     while (parent->firstChild()) {
         delete parent->firstChild();
@@ -3055,8 +3053,8 @@ bool UMLListView::deleteItem(UMLListViewItem *temp)
 {
     if (!temp)
         return false;
-    UMLObject *object = temp->getUMLObject();
-    Uml::ListView_Type lvt = temp->getType();
+    UMLObject *object = temp->umlObject();
+    UMLListViewItem::ListViewType lvt = temp->type();
     if (Model_Utils::typeIsDiagram(lvt)) {
         m_doc->removeDiagram(temp->getID());
     } else if (temp == m_datatypeFolder) {

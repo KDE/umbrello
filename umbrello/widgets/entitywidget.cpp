@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,9 +13,9 @@
 
 // qt/kde includes
 #include <QtGui/QPainter>
-#include <kdebug.h>
 
 // app includes
+#include "debug_utils.h"
 #include "entity.h"
 #include "entityattribute.h"
 #include "uniqueconstraint.h"
@@ -37,7 +37,7 @@ EntityWidget::EntityWidget(UMLView* view, UMLObject* o)
 
 void EntityWidget::init()
 {
-    UMLWidget::setBaseType(Uml::wt_Entity);
+    UMLWidget::setBaseType(WidgetBase::wt_Entity);
     setSize(100, 30);
 
     //set defaults from m_pView
@@ -57,7 +57,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if(UMLWidget::getUseFillColour())
-        p.setBrush(UMLWidget::getFillColour());
+        p.setBrush(UMLWidget::getFillColor());
     else
         p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
 
@@ -106,12 +106,12 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY)
     QFontMetrics fontMetrics(font);
     UMLClassifier *classifier = (UMLClassifier*)m_pObject;
     UMLClassifierListItem* entityattribute = 0;
-    UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
+    UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
     foreach (entityattribute , list ) {
         QString text = entityattribute->name();
         p.setPen( QPen(Qt::black) );
         UMLEntityAttribute* casted = dynamic_cast<UMLEntityAttribute*>( entityattribute );
-        if( casted && casted->getIndexType() == Uml::Primary )
+        if( casted && casted->indexType() == UMLEntityAttribute::Primary )
         {
             font.setUnderline( true );
             p.setFont( font );
@@ -171,7 +171,7 @@ QSize EntityWidget::calculateSize()
     width = w > width?w:width;
 
     UMLClassifier* classifier = (UMLClassifier*)m_pObject;
-    UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EntityAttribute);
+    UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
     UMLClassifierListItem* listItem = 0;
     foreach (listItem , list ) {
         int w = fm.width( listItem->name() );
@@ -190,7 +190,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
     switch(sel) {
     case ListPopupMenu::mt_EntityAttribute:
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
-                                              Uml::ot_EntityAttribute) )  {
+                                              UMLObject::ot_EntityAttribute) )  {
             UMLApp::app()->document()->setModified();
         }
         break;
@@ -198,7 +198,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_PrimaryKeyConstraint:
     case ListPopupMenu::mt_UniqueConstraint:
         if ( UMLObject* obj = Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
-                                               Uml::ot_UniqueConstraint) ) {
+                                               UMLObject::ot_UniqueConstraint) ) {
             UMLApp::app()->document()->setModified();
 
             if ( sel == ListPopupMenu::mt_PrimaryKeyConstraint ) {
@@ -210,7 +210,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_ForeignKeyConstraint:
          if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
-                                               Uml::ot_ForeignKeyConstraint) ) {
+                                               UMLObject::ot_ForeignKeyConstraint) ) {
              UMLApp::app()->document()->setModified();
 
         }
@@ -218,7 +218,7 @@ void EntityWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_CheckConstraint:
          if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
-                                               Uml::ot_CheckConstraint) ) {
+                                               UMLObject::ot_CheckConstraint) ) {
              UMLApp::app()->document()->setModified();
 
         }

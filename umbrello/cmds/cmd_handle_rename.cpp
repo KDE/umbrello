@@ -14,7 +14,6 @@
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 
 namespace Uml
 {

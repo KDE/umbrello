@@ -4,24 +4,26 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header file
 #include "categorywidget.h"
+
 // system includes
 #include <QtGui/QPainter>
-#include <kdebug.h>
+
 // local includes
 #include "category.h"
+#include "debug_utils.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
 
 CategoryWidget::CategoryWidget(UMLView * view, UMLCategory *o)
   : UMLWidget(view, o)
 {
-    UMLWidget::setBaseType(Uml::wt_Category);
+    UMLWidget::setBaseType(WidgetBase::wt_Category);
     //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
     //                  Instead, it is done afterwards by UMLWidget::activate()
 }
@@ -34,7 +36,7 @@ void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColour() );
+        p.setBrush( UMLWidget::getFillColor() );
     QFont font = UMLWidget::font();
     font.setUnderline(false);
     font.setBold(false);

@@ -9,6 +9,7 @@ add_definitions(-DQT3_SUPPORT_WARNINGS)
 #add_definitions(-DDEBUG_LVITEM_INSERTION_ORDER)  # umllistviewitem
 #add_definitions(-DTRY_BUGFIX_120682)             # model_utils
 #add_definitions(-DQ_CC_MSVC)                     # preprocesslexer
+#add_definitions(-DDEBUG_CPPTREE2UML)             # cpptree2uml
 #add_definitions(-DDEBUG_PRINTING)                # umlview
 #add_definitions(-DVERBOSE_DEBUGGING)             # listpopupmenu, association, petaltree2uml,
                                                   # umlobject, umldoc, classifierlistpage
@@ -19,10 +20,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 include_directories(
   ${LIBXML2_INCLUDE_DIR}
   ${LIBXSLT_INCLUDE_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/debug/
-  ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
+  ${CMAKE_CURRENT_SOURCE_DIR}/
   ${CMAKE_CURRENT_SOURCE_DIR}/clipboard/
-  ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmds
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/ada/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/as/
@@ -42,7 +42,11 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/vala/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/xml/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/
+  ${CMAKE_CURRENT_SOURCE_DIR}/codeimport/
+  ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/
   ${CMAKE_CURRENT_SOURCE_DIR}/controller/
+  ${CMAKE_CURRENT_SOURCE_DIR}/debug/
+  ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/
   ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
   ${CMAKE_CURRENT_SOURCE_DIR}/widgets/
@@ -314,7 +318,7 @@ set(libcmds_SRCS
     cmds/widget/cmd_changeMulti.cpp
 )
 
-set (libwidgets_SRCS
+set(libwidgets_SRCS
     widgets/activitywidget.cpp
     widgets/actorwidget.cpp
     widgets/artifactwidget.cpp
@@ -368,6 +372,7 @@ set(libumbrello_SRCS
     association.cpp
     assocrules.cpp
     attribute.cpp
+    basictypes.cpp
     category.cpp
     checkconstraint.cpp
     classifier.cpp
@@ -415,7 +420,6 @@ set(libumbrello_SRCS
     umlentityconstraintlist.cpp
     umllistview.cpp
     umllistviewitem.cpp
-    umlnamespace.cpp
     umlobject.cpp
     umlobjectlist.cpp
     umlrole.cpp
@@ -432,7 +436,7 @@ set(libumbrello_SRCS
 
 kde4_add_kcfg_files(umbrello_SRCS umbrellosettings.kcfgc)
 
-set (umbrello_SRCS
+set(umbrello_SRCS
     ${umbrello_SRCS}
     ${libcontroller_SRCS}
     ${libdebug_SRCS}
@@ -455,7 +459,7 @@ kde4_add_executable(umbrello ${umbrello_SRCS})
 target_link_libraries(umbrello  ${KDE4_KFILE_LIBS} ${KDE4_KDE3SUPPORT_LIBS} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBUUID} )
 install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
-########### install files ###############
+########### install files #############
 
 install( PROGRAMS umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES

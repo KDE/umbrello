@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2009                                               *
+ *   copyright (C) 2005-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,8 +15,8 @@
 #include <qdom.h>
 //kde includes
 #include <kcursor.h>
-#include <kdebug.h>
 //app includes
+#include "debug_utils.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
 
@@ -38,7 +38,7 @@ ForkJoinWidget::ForkJoinWidget(UMLView * view, bool drawVertical, Uml::IDType id
  */
 void ForkJoinWidget::init()
 {
-    WidgetBase::setBaseType( Uml::wt_ForkJoin );
+    WidgetBase::setBaseType(WidgetBase::wt_ForkJoin);
     UMLWidget::updateComponentSize();
 }
 

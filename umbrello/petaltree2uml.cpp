@@ -78,11 +78,11 @@ QString quidu(const PetalNode *node)
  * If the given name consists only of letters, digits, underscores, and
  * scope separators, then return Uml::ot_Class, else return Uml::ot_Datatype.
  */
-Uml::Object_Type typeToCreate(const QString& name)
+UMLObject::Object_Type typeToCreate(const QString& name)
 {
     QString n = name;
     n.remove(QRegExp("^.*::"));  // don't consider the scope prefix, it may contain spaces
-    Uml::Object_Type t = (n.contains(QRegExp("\\W")) ? Uml::ot_Datatype : Uml::ot_Class);
+    UMLObject::Object_Type t = (n.contains(QRegExp("\\W")) ? UMLObject::ot_Datatype : UMLObject::ot_Class);
     return t;
 }
 
@@ -257,7 +257,7 @@ public:
     }
     virtual ~SuperclassesReader() {}
     UMLObject *createListItem() {
-        return new UMLAssociation(Uml::at_Generalization);
+        return new UMLAssociation(Uml::AssociationType::Generalization);
     }
     /**
      * Override parent implementation: The secondary data is not for the
@@ -291,7 +291,7 @@ public:
     }
     virtual ~RealizationsReader() {}
     UMLObject *createListItem() {
-        return new UMLAssociation(Uml::at_Realization);
+        return new UMLAssociation(Uml::AssociationType::Realization);
     }
     /**
      * Override parent implementation: The secondary data is not for the
@@ -361,7 +361,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
     Uml::IDType id = quid(node);
 
     if (objType == "Class_Category") {
-        UMLObject *o = Import_Utils::createUMLObject(Uml::ot_Package, name, parentPkg);
+        UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Package, name, parentPkg);
         o->setID(id);
         PetalNode *logical_models = node->findAttribute("logical_models").node;
         if (logical_models) {
@@ -376,14 +376,14 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
         }
 
     } else if (objType == "Class") {
-        UMLObject *o = Import_Utils::createUMLObject(Uml::ot_Class, name, parentPkg);
+        UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Class, name, parentPkg);
         o->setID(id);
         UMLClassifier *c = static_cast<UMLClassifier*>(o);
         // set stereotype
         QString stereotype = clean(node->findAttribute("stereotype").string);
         if (!stereotype.isEmpty()) {
             if (stereotype.toLower() == "interface")
-                c->setBaseType(Uml::ot_Interface);
+                c->setBaseType(UMLObject::ot_Interface);
             else
                 c->setStereotype(stereotype);
         }
@@ -406,7 +406,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
             uError() << "umbrellify: cannot find roles of Association";
             return false;
         }
-        UMLAssociation *assoc = new UMLAssociation(Uml::at_UniAssociation);
+        UMLAssociation *assoc = new UMLAssociation(Uml::AssociationType::UniAssociation);
         PetalNode::NameValueList roleList = roles->attributes();
         for (uint i = 0; i <= 1; ++i) {
             PetalNode *roleNode = roleList[i].second.node;
@@ -447,15 +447,15 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
             }
             QString is_navigable = clean(roleNode->findAttribute("is_navigable").string);
             if (is_navigable == "FALSE") {
-                assoc->setAssocType(Uml::at_Association);
+                assoc->setAssociationType(Uml::AssociationType::Association);
             }
             QString is_aggregate = clean(roleNode->findAttribute("is_aggregate").string);
             if (is_aggregate == "TRUE") {
-                assoc->setAssocType(Uml::at_Aggregation);
+                assoc->setAssociationType(Uml::AssociationType::Aggregation);
             }
             QString containment = clean(roleNode->findAttribute("Containment").string);
             if (containment == "By Value") {
-                assoc->setAssocType(Uml::at_Composition);
+                assoc->setAssociationType(Uml::AssociationType::Composition);
             }
             QString doc = roleNode->findAttribute("documentation").string;
             if (! doc.isEmpty())
@@ -470,25 +470,25 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
     return true;
 }
 
-Uml::ListView_Type folderType(UMLListViewItem *parent)
+UMLListViewItem::ListViewType folderType(UMLListViewItem *parent)
 {
-    Uml::ListView_Type type = Uml::lvt_Unknown;
-    switch (parent->getType()) {
-        case Uml::lvt_Logical_View:
-        case Uml::lvt_Logical_Folder:
-            type = Uml::lvt_Logical_Folder;
+    UMLListViewItem::ListViewType type = UMLListViewItem::lvt_Unknown;
+    switch (parent->type()) {
+        case UMLListViewItem::lvt_Logical_View:
+        case UMLListViewItem::lvt_Logical_Folder:
+            type = UMLListViewItem::lvt_Logical_Folder;
             break;
-        case Uml::lvt_UseCase_View:
-        case Uml::lvt_UseCase_Folder:
-            type = Uml::lvt_UseCase_Folder;
+        case UMLListViewItem::lvt_UseCase_View:
+        case UMLListViewItem::lvt_UseCase_Folder:
+            type = UMLListViewItem::lvt_UseCase_Folder;
             break;
-        case Uml::lvt_Component_View:
-        case Uml::lvt_Component_Folder:
-            type = Uml::lvt_Component_Folder;
+        case UMLListViewItem::lvt_Component_View:
+        case UMLListViewItem::lvt_Component_Folder:
+            type = UMLListViewItem::lvt_Component_Folder;
             break;
-        case Uml::lvt_Deployment_View:
-        case Uml::lvt_Deployment_Folder:
-            type = Uml::lvt_Deployment_Folder;
+        case UMLListViewItem::lvt_Deployment_View:
+        case UMLListViewItem::lvt_Deployment_Folder:
+            type = UMLListViewItem::lvt_Deployment_Folder;
             break;
         default:
             break;
@@ -518,13 +518,13 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
     UMLListViewItem *item = NULL;
 
     if (objType == "Class_Category") {
-        Uml::ListView_Type lvType = folderType(parent);
+        UMLListViewItem::ListViewType lvType = folderType(parent);
         item = new UMLListViewItem( parent, name, lvType, id );
     } else if (objType == "Class") {
         QString stereotype = clean(node->findAttribute("stereotype").string);
         if (stereotype == "Actor") {
             UMLActor *act = new UMLActor(name, id);
-            item = new UMLListViewItem(parent, name, Uml::lvt_Actor, act);
+            item = new UMLListViewItem(parent, name, UMLListViewItem::lvt_Actor, act);
             obj = act;
         } else {
             uDebug() << "umbrellify(" << name << "): handling of Class stereotype "
@@ -532,16 +532,16 @@ bool umbrellify(PetalNode *node, const QString& modelsName, UMLListViewItem *par
         }
     } else if (objType == "UseCase") {
         UMLUseCase *uc = new UMLUseCase(name, id);
-        item = new UMLListViewItem(parent, name, Uml::lvt_UseCase, uc);
+        item = new UMLListViewItem(parent, name, UMLListViewItem::lvt_UseCase, uc);
         obj = uc;
     } else if (objType == "SubSystem") {
         UMLComponent *comp = new UMLComponent(name, id);
-        item = new UMLListViewItem(parent, name, Uml::lvt_Component, comp);
+        item = new UMLListViewItem(parent, name, UMLListViewItem::lvt_Component, comp);
         obj = comp;
     } else if (objType == "Processor" || objType == "Device") {
         UMLNode *un = new UMLNode(name, id);
         un->setStereotype(objType.toLower());
-        item = new UMLListViewItem(parent, name, Uml::lvt_Node, un);
+        item = new UMLListViewItem(parent, name, UMLListViewItem::lvt_Node, un);
         obj = un;
     } else {
         uDebug() << "umbrellify: object type " << objType
@@ -624,7 +624,7 @@ bool petalTree2Uml(PetalNode *root)
         return false;
     }
     UMLDoc *umldoc = UMLApp::app()->document();
-    umldoc->setCurrentRoot(Uml::mt_Logical);
+    umldoc->setCurrentRoot(Uml::ModelType::Logical);
     Import_Utils::assignUniqueIdOnCreation(false);
     PetalNode::NameValueList atts = logical_models->attributes();
     for (int i = 0; i < atts.count(); ++i) {
@@ -635,19 +635,19 @@ bool petalTree2Uml(PetalNode *root)
     UMLListView *lv = UMLApp::app()->listView();
 
     //*************************** import Use Case View ********************************
-    umldoc->setCurrentRoot(Uml::mt_UseCase);
+    umldoc->setCurrentRoot(Uml::ModelType::UseCase);
     importView(root, "root_usecase_package", "logical_models", lv->theUseCaseView());
 
     //*************************** import Component View *******************************
-    umldoc->setCurrentRoot(Uml::mt_Component);
+    umldoc->setCurrentRoot(Uml::ModelType::Component);
     importView(root, "root_subsystem", "physical_models", lv->theComponentView());
 
     //*************************** import Deployment View ******************************
-    umldoc->setCurrentRoot(Uml::mt_Deployment);
+    umldoc->setCurrentRoot(Uml::ModelType::Deployment);
     importView(root, "process_structure", "ProcsNDevs", lv->theDeploymentView());
 
     //***************************       wrap up        ********************************
-    umldoc->setCurrentRoot(Uml::mt_Logical);
+    umldoc->setCurrentRoot(Uml::ModelType::Logical);
     Import_Utils::assignUniqueIdOnCreation(true);
     umldoc->resolveTypes();
     return true;

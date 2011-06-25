@@ -50,7 +50,7 @@ UMLForeignKeyConstraint::UMLForeignKeyConstraint(UMLObject *parent)
 void UMLForeignKeyConstraint::init()
 {
     // initialise attributes
-     m_BaseType = Uml::ot_ForeignKeyConstraint;
+     m_BaseType = UMLObject::ot_ForeignKeyConstraint;
 
      // should be NULL actually
      // self referencing assigned to protect default behaviour
@@ -118,11 +118,11 @@ UMLObject* UMLForeignKeyConstraint::clone() const
  * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLForeignKeyConstraint::toString(Uml::Signature_Type sig )
+QString UMLForeignKeyConstraint::toString(Uml::SignatureType sig)
 {
     QString s;
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
+    if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         s = name() + ':';
         s += " Foreign Key (";
         QList<UMLEntityAttribute*> keys = m_AttributeMap.keys();
@@ -191,7 +191,7 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
     }
     // check for sanity of pAttr ( parent entity attribute )
     if (owningParent == NULL) {
-        uError() << m_Name << ": parent is not a UMLEntity";
+        uError() << name() << ": parent is not a UMLEntity";
         return false;
     }
 
@@ -292,7 +292,7 @@ bool UMLForeignKeyConstraint::load( QDomElement & element )
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (Uml::tagEq(tag, "AttributeMap")) {
+        if (UMLDoc::tagEq(tag, "AttributeMap")) {
 
             Uml::IDType keyId = STR2ID(tempElement.attribute("key", ""));
             Uml::IDType valueId = STR2ID(tempElement.attribute("value", ""));

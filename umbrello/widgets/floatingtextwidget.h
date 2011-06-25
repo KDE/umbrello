@@ -4,13 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef FLOATINGTEXTWIDGET_H
 #define FLOATINGTEXTWIDGET_H
 
+#include "basictypes.h"
 #include "umlwidget.h"
 
 class FloatingTextWidgetController;
@@ -20,7 +21,7 @@ class UMLView;
 /**
  * @short Displays a line of text or an operation.
  *
- * This is a multipurpose class.  In its simplest form it will display a
+ * This is a multipurpose class. In its simplest form it will display a
  * line of text.
  * It can also be setup to be the text for an operation with regard to the
  * @ref MessageWidget on the sequence diagram.
@@ -40,7 +41,8 @@ class FloatingTextWidget : public UMLWidget
 public:
     friend class FloatingTextWidgetController;
 
-    /** sometimes the x/y values get numbers of <0 and >10000 - which
+    /** TODO:
+        sometimes the x/y values get numbers of <0 and >10000 - which
         is probably due to a bug somewhere in calculating the
         position.  ->workaround till problem is found: define min and
         max limits => if x or y is outside of interval, the position
@@ -49,7 +51,7 @@ public:
     static const int restrictPositionMin = 0;
     static const int restrictPositionMax = 3000;
 
-    explicit FloatingTextWidget(UMLView * view, Uml::Text_Role role = Uml::tr_Floating,
+    explicit FloatingTextWidget(UMLView * view, Uml::TextRole role = Uml::TextRole::Floating,
                                 const QString& text = "", Uml::IDType id = Uml::id_None);
     virtual ~FloatingTextWidget();
 
@@ -89,8 +91,8 @@ public:
 
     bool activate( IDChangeLog* ChangeLog = 0 );
 
-    void setRole(Uml::Text_Role role);
-    Uml::Text_Role textRole() const;
+    void setRole(Uml::TextRole role);
+    Uml::TextRole textRole() const;
 
     static bool isTextValid(const QString &text);
 
@@ -126,13 +128,12 @@ private:
 
     /// Prepended text (such as for scope of association Role or method)
     QString m_preText;
-
     /// Ending text (such as bracket on changability notation for association Role)
     QString m_postText;
-
     /// The role the text widget will enact.
-    Uml::Text_Role m_textRole;
+    Uml::TextRole m_textRole;
 
 };
 
 #endif
+

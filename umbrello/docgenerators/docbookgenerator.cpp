@@ -5,13 +5,18 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2006      Gael de Chalendar (aka Kleag) kleag@free.fr   *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "docbookgenerator.h"
 
-#include <kdebug.h>
+#include "debug_utils.h"
+#include "docbookgeneratorjob.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlviewimageexportermodel.h"
+
 #include <klocale.h>
 #include <ktemporaryfile.h>
 #include <kmessagebox.h>
@@ -23,12 +28,6 @@
 #include <QtCore/QFile>
 #include <QtCore/QRegExp>
 #include <QtCore/QTextStream>
-
-#include "docbookgeneratorjob.h"
-
-#include "uml.h"
-#include "umldoc.h"
-#include "umlviewimageexportermodel.h"
 
 /**
  * Constructor.

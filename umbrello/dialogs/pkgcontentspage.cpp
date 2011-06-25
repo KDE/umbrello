@@ -4,19 +4,19 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "pkgcontentspage.h"
 
 #include "classpropdlg.h"
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobjectlist.h"
 
 #include <klocale.h>
-#include <kdebug.h>
 
 #include <QtCore/QPointer>
 #include <QtGui/QLayout>

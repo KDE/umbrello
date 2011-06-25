@@ -71,7 +71,7 @@ UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems, QWidget* dragSou
  */
 UMLDragData::UMLDragData(UMLObjectList& objects,
                  UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
-                 QPixmap& pngImage, Uml::Diagram_Type dType, QWidget* dragSource /* = 0 */)
+                 QPixmap& pngImage, Uml::DiagramType dType, QWidget* dragSource /* = 0 */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip4(objects, widgets, associationDatas, pngImage, dType);
@@ -193,7 +193,7 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
  * its respective ListView Items
  */
 void UMLDragData::setUMLDataClip4(UMLObjectList& objects, UMLWidgetList& widgets, AssociationWidgetList& associations,
-                              QPixmap& pngImage, Uml::Diagram_Type dType )
+                              QPixmap& pngImage, Uml::DiagramType dType )
 {
     QDomDocument domDoc;
     QDomElement xmiclip = domDoc.createElement("xmiclip");
@@ -334,7 +334,7 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
             if(!doc->assignNewIDs(pObject)) {
                 return false;
             }
-            Uml::Object_Type type = pObject->baseType();
+            UMLObject::Object_Type type = pObject->baseType();
             QString newName = Model_Utils::uniqObjectName(type, pObject->umlPackage(),
                                                                 pObject->name());
             pObject->setName(newName);
@@ -424,12 +424,12 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
     UMLListView *listView = UMLApp::app()->listView();
     while ( !diagramElement.isNull() ) {
         QString type = diagramElement.attribute("type", "0");
-        Uml::Diagram_Type dt = (Uml::Diagram_Type)type.toInt();
+        Uml::DiagramType dt = Uml::DiagramType(Uml::DiagramType::Value(type.toInt()));
         UMLListViewItem *parent = listView->findFolderForDiagram(dt);
         if (parent == NULL)
             return false;
-        UMLObject *po = parent->getUMLObject();
-        if (po == NULL || po->baseType() != Uml::ot_Folder) {
+        UMLObject *po = parent->umlObject();
+        if (po == NULL || po->baseType() != UMLObject::ot_Folder) {
             uError() << "Bad parent for view.";
             return false;
         }
@@ -522,7 +522,7 @@ bool UMLDragData::getClip3TypeAndID(const QMimeData* mimeData,
             return false;
         }
         LvTypeAndID * pData = new LvTypeAndID;
-        pData->type = (Uml::ListView_Type)(typeStr.toInt());
+        pData->type = (UMLListViewItem::ListViewType)(typeStr.toInt());
         pData->id = STR2ID(idStr);
         typeAndIdList.append(pData);
         listItems = listItems.nextSibling();
@@ -575,14 +575,14 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
         return false;
     }
     while ( !listItemElement.isNull() ) {
-        // Get the ListView_Type beforehand so that we can construct an
+        // Get the ListViewType beforehand so that we can construct an
         // UMLListViewItem instance.
         QString type = listItemElement.attribute( "type", "-1" );
         if (type == "-1") {
             uDebug() << "Type not found.";
             continue;
         }
-        Uml::ListView_Type t = (Uml::ListView_Type)(type.toInt());
+        UMLListViewItem::ListViewType t = (UMLListViewItem::ListViewType)(type.toInt());
         UMLListViewItem* parent = parentListView->determineParentItem(t);
         UMLListViewItem* itemData = new UMLListViewItem(parent);
         if ( itemData->loadFromXMI(listItemElement) )
@@ -604,7 +604,7 @@ bool UMLDragData::decodeClip3(const QMimeData* mimeData, UMLListViewItemList& um
  */
 bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                           UMLWidgetList& widgets,
-                          AssociationWidgetList& associations, Uml::Diagram_Type & dType)
+                          AssociationWidgetList& associations, Uml::DiagramType & dType)
 {
     if ( !mimeData->hasFormat("application/x-uml-clip4") ) {
         return false;
@@ -633,7 +633,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
         return false;
     }
 
-    dType = (Uml::Diagram_Type)(root.attribute("diagramtype", "0").toInt());
+    dType = Uml::DiagramType(Uml::DiagramType::Value(root.attribute("diagramtype", "0").toInt()));
 
     //UMLObjects
     QDomNode objectsNode = xmiClipNode.firstChild();

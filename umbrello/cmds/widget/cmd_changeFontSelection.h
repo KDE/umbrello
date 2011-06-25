@@ -23,6 +23,7 @@ namespace Uml
     {
         public:
             CmdChangeFontSelection(UMLDoc* doc, UMLView* view, QFont fon);
+
             void undo();
             void redo();
 

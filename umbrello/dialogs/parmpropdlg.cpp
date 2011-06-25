@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,6 +13,7 @@
 
 // local includes
 #include "classifier.h"
+#include "debug_utils.h"
 #include "umltemplatelist.h"
 #include "template.h"
 #include "umldoc.h"
@@ -22,7 +23,6 @@
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kmessagebox.h>
 
 // qt includes
@@ -321,7 +321,7 @@ void ParmPropDlg::slotOk()
             // create a datatype or a class. For now, we create a class.
             uDebug() << "" << typeName << " not found."
                 << " Creating a new class for the type.";
-            UMLObject *newObj = Object_Factory::createUMLObject(Uml::ot_Class, typeName);
+            UMLObject *newObj = Object_Factory::createUMLObject(UMLObject::ot_Class, typeName);
             m_pAtt->setType(newObj);
         }
 

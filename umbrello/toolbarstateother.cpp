@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,13 +12,13 @@
 #include "toolbarstateother.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 #include <kinputdialog.h>
 
 // app includes
 #include "activitywidget.h"
 #include "boxwidget.h"
+#include "debug_utils.h"
 #include "dialog_utils.h"
 #include "regionwidget.h"
 #include "floatingtextwidget.h"
@@ -36,6 +36,8 @@
 #include "objectnodewidget.h"
 #include "pinwidget.h"
 #include "model_utils.h"  // for ENUM_NAMES only
+
+#include <QtGui/QMouseEvent>
 
 using namespace Uml;
 
@@ -92,26 +94,26 @@ void ToolBarStateOther::mouseReleaseEmpty()
  * Returns the object type of this tool.
  * @return The object type of this tool.
  */
-Uml::Object_Type ToolBarStateOther::getObjectType()
+UMLObject::Object_Type ToolBarStateOther::getObjectType()
 {
-    Object_Type ot;
+    UMLObject::Object_Type ot;
 
     switch(getButton()) {
-        case WorkToolBar::tbb_Actor:        ot = ot_Actor;          break;
-        case WorkToolBar::tbb_UseCase:      ot = ot_UseCase;        break;
-        case WorkToolBar::tbb_Class:        ot = ot_Class;          break;
-        case WorkToolBar::tbb_Object:       ot = ot_Class;          break;  // Object is a class.
-        case WorkToolBar::tbb_Package:      ot = ot_Package;        break;
-        case WorkToolBar::tbb_Component:    ot = ot_Component;      break;
-        case WorkToolBar::tbb_Node:         ot = ot_Node;           break;
-        case WorkToolBar::tbb_Artifact:     ot = ot_Artifact;       break;
-        case WorkToolBar::tbb_Interface:    ot = ot_Interface;      break;
-        case WorkToolBar::tbb_Enum:         ot = ot_Enum;           break;
-        case WorkToolBar::tbb_Entity:       ot = ot_Entity;         break;
-        case WorkToolBar::tbb_Datatype:     ot = ot_Datatype;       break;
-        case WorkToolBar::tbb_Category:     ot = ot_Category;       break;
+        case WorkToolBar::tbb_Actor:        ot = UMLObject::ot_Actor;          break;
+        case WorkToolBar::tbb_UseCase:      ot = UMLObject::ot_UseCase;        break;
+        case WorkToolBar::tbb_Class:        ot = UMLObject::ot_Class;          break;
+        case WorkToolBar::tbb_Object:       ot = UMLObject::ot_Class;          break;  // Object is a class.
+        case WorkToolBar::tbb_Package:      ot = UMLObject::ot_Package;        break;
+        case WorkToolBar::tbb_Component:    ot = UMLObject::ot_Component;      break;
+        case WorkToolBar::tbb_Node:         ot = UMLObject::ot_Node;           break;
+        case WorkToolBar::tbb_Artifact:     ot = UMLObject::ot_Artifact;       break;
+        case WorkToolBar::tbb_Interface:    ot = UMLObject::ot_Interface;      break;
+        case WorkToolBar::tbb_Enum:         ot = UMLObject::ot_Enum;           break;
+        case WorkToolBar::tbb_Entity:       ot = UMLObject::ot_Entity;         break;
+        case WorkToolBar::tbb_Datatype:     ot = UMLObject::ot_Datatype;       break;
+        case WorkToolBar::tbb_Category:     ot = UMLObject::ot_Category;       break;
 
-        default:                            ot = ot_UMLObject;      break;
+        default:                            ot = UMLObject::ot_UMLObject;      break;
     }
 
     return ot;
@@ -141,7 +143,7 @@ bool ToolBarStateOther::newWidget()
             break;
 
         case WorkToolBar::tbb_Text:
-            umlWidget = new FloatingTextWidget(m_pUMLView, tr_Floating, "");
+            umlWidget = new FloatingTextWidget(m_pUMLView, Uml::TextRole::Floating, "");
             break;
 
         // Activity buttons

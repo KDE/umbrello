@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,9 +13,9 @@
 
 // qt/kde includes
 #include <QtGui/QPainter>
-#include <kdebug.h>
 
 // app includes
+#include "debug_utils.h"
 #include "enum.h"
 #include "enumliteral.h"
 #include "classifier.h"
@@ -27,19 +27,20 @@
 #include "listpopupmenu.h"
 #include "object_factory.h"
 
-EnumWidget::EnumWidget(UMLView* view, UMLObject* o) : UMLWidget(view, o)
+EnumWidget::EnumWidget(UMLView* view, UMLObject* o)
+  : UMLWidget(view, o)
 {
     init();
 }
 
 void EnumWidget::init()
 {
-    UMLWidget::setBaseType(Uml::wt_Enum);
+    UMLWidget::setBaseType(WidgetBase::wt_Enum);
     setSize(100, 30);
     //set defaults from m_pView
     if (m_pView) {
         //check to see if correct
-        const Settings::OptionState& ops = m_pView->getOptionState();
+        const Settings::OptionState& ops = m_pView->optionState();
         m_bShowPackage = ops.classState.showPackage;
     } else {
         // For completeness only. Not supposed to happen.
@@ -57,7 +58,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if(UMLWidget::getUseFillColour())
-        p.setBrush(UMLWidget::getFillColour());
+        p.setBrush(UMLWidget::getFillColor());
     else
         p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
 
@@ -100,7 +101,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
     QFontMetrics fontMetrics(font);
     UMLClassifier *classifier = (UMLClassifier*)m_pObject;
     UMLClassifierListItem* enumLiteral = 0;
-    UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
+    UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (enumLiteral , list ) {
         QString text = enumLiteral->name();
         p.setPen( QPen(Qt::black) );
@@ -157,7 +158,7 @@ QSize EnumWidget::calculateSize()
     width = w > width?w:width;
 
     UMLClassifier *classifier = (UMLClassifier*)m_pObject;
-    UMLClassifierListItemList list = classifier->getFilteredList(Uml::ot_EnumLiteral);
+    UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     UMLClassifierListItem* listItem = 0;
     foreach (listItem , list ) {
         int w = fm.width( listItem->name() );
@@ -175,7 +176,7 @@ void EnumWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
     if (sel == ListPopupMenu::mt_EnumLiteral) {
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
-                                              Uml::ot_EnumLiteral) )  {
+                                              UMLObject::ot_EnumLiteral) )  {
             /* I don't know why it works without these calls:
             updateComponentSize();
             update();

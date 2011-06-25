@@ -42,7 +42,7 @@ private:
 
     bool getParametersFromUser();
 
-    bool prepareExportView();
+    bool prepareExport();
     void prepareFileDialog(KFileDialog *fileDialog);
 
 };

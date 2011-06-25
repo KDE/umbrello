@@ -4,15 +4,17 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef LISTPOPUPMENU_H
 #define LISTPOPUPMENU_H
 
-#include "umlnamespace.h"
-#include "icon_utils.h"
+#include "basictypes.h"
+#include "widgetbase.h"
+#include "umllistviewitem.h"
+#include "umlobject.h"
 
 #include <kmenu.h>
 // #include <kaction.h>
@@ -20,11 +22,9 @@
 #include <QtCore/QHash>
 
 class UMLView;
-class WidgetBase;
-class UMLWidget;
 class ClassifierWidget;
 class UMLCategory;
-class UMLObject;
+class UMLWidget;
 
 /**
  * A popup menu that depending on what type it is set to will
@@ -215,14 +215,16 @@ public:
         mt_Undefined  =  - 1
     };
 
+    static QString toString(Menu_Type menu);
+
     explicit ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
-    ListPopupMenu(QWidget* parent, Uml::ListView_Type type, UMLObject* object);
+    ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
     ListPopupMenu(QWidget* parent, UMLWidget* object, bool multi = false, bool unique = false);
 
     ~ListPopupMenu();
 
-    static Uml::Object_Type convert_MT_OT(Menu_Type mt);
-    static Uml::Diagram_Type convert_MT_DT(Menu_Type mt);
+    static UMLObject::Object_Type convert_MT_OT(Menu_Type mt);
+    static Uml::DiagramType convert_MT_DT(Menu_Type mt);
 
 //    KAction* getAction(Menu_Type idx);
     QAction* getAction(Menu_Type idx);
@@ -244,7 +246,7 @@ private:
     void insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable = false);
 
     void insertStdItems(bool insertLeadingSeparator = true,
-                        Uml::Widget_Type type = Uml::wt_UMLWidget);
+                        WidgetBase::Widget_Type type = WidgetBase::wt_UMLWidget);
     void insertContainerItems(bool folderAndDiagrams);
     void insertAssocItem(const QString &label, Menu_Type mt);
     void insertSubmodelAction();
@@ -260,6 +262,7 @@ private:
     void setupMenu(Menu_Type type);
 
     void setActionChecked(Menu_Type idx, bool value);
+    void setupActionsData();
 
     union TriggerObject {  ///< The List Popup Menu is triggered either by right clicking on the View, a ListViewItem (Object), or a widget.
         UMLView* m_View;
@@ -280,5 +283,8 @@ private:
     QHash<Menu_Type, QAction*> m_actions;
 
 };
+
+/// Need this for ability to store ListPopupMenu* in a QVariant
+Q_DECLARE_METATYPE(ListPopupMenu*)
 
 #endif

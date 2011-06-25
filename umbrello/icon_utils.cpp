@@ -19,9 +19,11 @@
 */
 #include "icon_utils.h"
 
+#include "basictypes.h"
+#include "debug_utils.h"
+
 #include <kiconloader.h>
 #include <kicon.h>
-#include <kdebug.h>
 
 
 namespace Icon_Utils {
@@ -92,30 +94,30 @@ QCursor Cursor(Icon_Type type)
  * @param dt   the diagram type
  * @return     the wanted icon
  */
-KIcon iconSet(Uml::Diagram_Type dt)
+KIcon iconSet(Uml::DiagramType dt)
 {
     switch (dt) {
-    case Uml::dt_UseCase:
-        return DesktopIcon(it_Diagram_Usecase);
-    case Uml::dt_Collaboration:
-        return DesktopIcon(it_Diagram_Collaboration);
-    case Uml::dt_Class:
-        return DesktopIcon(it_Diagram_Class);
-    case Uml::dt_Sequence:
-        return DesktopIcon(it_Diagram_Sequence);
-    case Uml::dt_State:
-        return DesktopIcon(it_Diagram_State);
-    case Uml::dt_Activity:
-        return DesktopIcon(it_Diagram_Activity);
-    case Uml::dt_Component:
-        return DesktopIcon(it_Diagram_Component);
-    case Uml::dt_Deployment:
-        return DesktopIcon(it_Diagram_Deployment);
-    case Uml::dt_EntityRelationship:
-        return DesktopIcon(it_Diagram_EntityRelationship);
-    default:
-        uDebug() << "Widget_Utils::iconSet: unknown diagram type " << dt;
-        return KIcon();
+        case Uml::DiagramType::UseCase:
+            return DesktopIcon(it_Diagram_Usecase);
+        case Uml::DiagramType::Collaboration:
+            return DesktopIcon(it_Diagram_Collaboration);
+        case Uml::DiagramType::Class:
+            return DesktopIcon(it_Diagram_Class);
+        case Uml::DiagramType::Sequence:
+            return DesktopIcon(it_Diagram_Sequence);
+        case Uml::DiagramType::State:
+            return DesktopIcon(it_Diagram_State);
+        case Uml::DiagramType::Activity:
+            return DesktopIcon(it_Diagram_Activity);
+        case Uml::DiagramType::Component:
+            return DesktopIcon(it_Diagram_Component);
+        case Uml::DiagramType::Deployment:
+            return DesktopIcon(it_Diagram_Deployment);
+        case Uml::DiagramType::EntityRelationship:
+            return DesktopIcon(it_Diagram_EntityRelationship);
+        default:
+            uDebug() << "Widget_Utils::iconSet: unknown diagram type " << dt.toString();
+            return KIcon();
     }
 }
 

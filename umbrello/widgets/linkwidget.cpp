@@ -1,18 +1,16 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "linkwidget.h"
-// qt/kde includes
-#include <kdebug.h>
+
 // app includes
 #include "umlview.h"
 #include "umlobject.h"
@@ -20,42 +18,68 @@
 #include "operation.h"
 #include "uml.h"
 
-LinkWidget::LinkWidget() {
+LinkWidget::LinkWidget()
+{
 }
 
-LinkWidget::~LinkWidget() {
+LinkWidget::~LinkWidget()
+{
 }
 
-UMLClassifier *LinkWidget::getOperationOwner() {
-    UMLOperation *op = getOperation();
+/**
+ * Motivated by FloatingTextWidget::slotMenuSelection(mt_Operation)
+ */
+UMLClassifier *LinkWidget::operationOwner()
+{
+    UMLOperation *op = operation();
     if (op == NULL)
         return NULL;
     return static_cast<UMLClassifier*>(op->parent());
 }
 
-QString LinkWidget::getOperationText(UMLView *view /* = NULL */) {
-    UMLOperation *op = getOperation();
+/**
+ * Return the operation text.
+ * When no view parameter is given, the current view
+ * is taken instead.
+ * @param view   the given view
+ * @return the operation text
+ */
+QString LinkWidget::operationText(UMLView *view)
+{
+    UMLOperation *op = operation();
     if (op == NULL)
-        return getCustomOpText();
+        return customOpText();
     if (view == NULL)
         view = UMLApp::app()->currentView();
-    Uml::Signature_Type sigType;
+    Uml::SignatureType sigType;
     if (view && view->getShowOpSig())
-        sigType = Uml::st_SigNoVis;
+        sigType = Uml::SignatureType::SigNoVis;
     else
-        sigType = Uml::st_NoSigNoVis;
+        sigType = Uml::SignatureType::NoSigNoVis;
     QString opText = op->toString(sigType);
     return opText;
 }
 
-void LinkWidget::resetTextPositions() {
+/**
+ * Motivated by FloatingTextWidget::slotMenuSelection(mt_Reset_Label_Positions)
+ * Only applies to AssociationWidget.
+ */
+void LinkWidget::resetTextPositions()
+{
 }
 
-bool LinkWidget::showDialog() {
-    return true;
+/**
+ * Motivated by FloatingTextWidget::mouseDoubleClickEvent()
+ * Only applies to AssociationWidget.
+ */
+void LinkWidget::showPropertiesDialog()
+{
 }
 
-void LinkWidget::calculateNameTextSegment() {
+/**
+ * Motivated by FloatingTextWidget::setLink().
+ * Only applies to AssociationWidget.
+ */
+void LinkWidget::calculateNameTextSegment()
+{
 }
-
-

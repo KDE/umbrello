@@ -4,14 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef DIAGRAMPRINTPAGE_H
 #define DIAGRAMPRINTPAGE_H
 
-#include "umldoc.h"
+#include "basictypes.h"
 #include "umlview.h"
 
 #include <QtCore/QList>
@@ -20,6 +20,7 @@ class QListWidget;
 class QRadioButton;
 class QGroupBox;
 class KComboBox;
+class UMLDoc;
 
 /**
  * This is a page on the print dialog to select what diagram(s)
@@ -36,7 +37,6 @@ class DiagramPrintPage : public QWidget
 {
     Q_OBJECT
 public:
-
     DiagramPrintPage(QWidget * parent, UMLDoc *doc);
     ~DiagramPrintPage();
 
@@ -58,14 +58,13 @@ private:
     KComboBox * m_pTypeCB;
 
     UMLDoc * m_pDoc;
-    Uml::Diagram_Type m_ViewType;
+    Uml::DiagramType m_ViewType;
 
     QList<Uml::IDType> m_nIdList;  //< list containing the IDs of diagrams to print
 
     enum FilterType{Current = 0, All, Select, Type};
 
 public slots:
-
     void slotClicked();
     void slotActivated(int index);
 };

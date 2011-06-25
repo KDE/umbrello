@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2007-2009                                               *
+ *   copyright (C) 2007-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +13,7 @@
 
 // application specific includes
 #include "ui_importprojectdlgbase.h"
-#include "umlnamespace.h"
+#include "basictypes.h"
 
 /**
  * Dialog for collecting the "Import project" params and searching the files that match the params.
@@ -25,7 +25,7 @@ class ImportProjectDlg : public KDialog, private Ui::ImportProjectDlgBase
 {
   Q_OBJECT
 public:
-    ImportProjectDlg(QStringList* list, const  Uml::Programming_Language pl,
+    ImportProjectDlg(QStringList* list, const  Uml::ProgrammingLanguage pl,
                      QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WindowFlags fl = 0);
     virtual ~ImportProjectDlg();
 

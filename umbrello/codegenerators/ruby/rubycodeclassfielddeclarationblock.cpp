@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -76,7 +76,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent( )
     else if (!cf->parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
-        if (role->object()->baseType() == Uml::ot_Interface)
+        if (role->object()->baseType() == UMLObject::ot_Interface)
         {
             // do nothing.. can't instanciate an interface
         } else {

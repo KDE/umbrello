@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2008                                               *
+ *   copyright (C) 2005-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,6 +14,7 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
 #include "operation.h"
@@ -21,9 +22,6 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlpackagelist.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 // #include <QtCore/QProcess>  //should use this instead of popen()
@@ -166,7 +164,7 @@ bool IDLImport::parseStmt()
     const int srcLength = m_source.count();
     if (keyword == "module") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
+        UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                         name, m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
         m_scope[m_scopeIndex]->setStereotype("CORBAModule");
@@ -178,7 +176,7 @@ bool IDLImport::parseStmt()
     }
     if (keyword == "interface") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+        UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setStereotype("CORBAInterface");
@@ -203,7 +201,7 @@ bool IDLImport::parseStmt()
     }
     if (keyword == "struct" || keyword == "exception") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+        UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
         if (keyword == "struct")
@@ -224,7 +222,7 @@ bool IDLImport::parseStmt()
     }
     if (keyword == "enum") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,
+        UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, m_scope[m_scopeIndex], m_comment);
         UMLEnum *enumType = static_cast<UMLEnum*>(ns);
         m_srcIndex++;  // skip name
@@ -238,7 +236,7 @@ bool IDLImport::parseStmt()
     }
     if (keyword == "typedef") {
         const QString& newType = advance();
-        Import_Utils::createUMLObject(Uml::ot_Class, newType, m_scope[m_scopeIndex],
+        Import_Utils::createUMLObject(UMLObject::ot_Class, newType, m_scope[m_scopeIndex],
                                      m_comment, "CORBATypedef" /* stereotype */);
         // @todo How do we convey the existingType ?
         skipStmt();
@@ -257,7 +255,7 @@ bool IDLImport::parseStmt()
     }
     if (keyword == "valuetype") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
+        UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setAbstract(m_isAbstract);

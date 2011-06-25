@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,10 +13,10 @@
 
 // qt/kde includes
 #include <QtGui/QPainter>
-#include <kdebug.h>
 
 // app includes
 #include "component.h"
+#include "debug_utils.h"
 #include "umlview.h"
 
 ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c)
@@ -27,13 +27,13 @@ ComponentWidget::ComponentWidget(UMLView * view, UMLComponent *c)
 
 void ComponentWidget::init()
 {
-    UMLWidget::setBaseType(Uml::wt_Component);
+    UMLWidget::setBaseType(WidgetBase::wt_Component);
     setSize(100, 30);
     m_pMenu = 0;
     //set defaults from m_pView
     if (m_pView) {
         //check to see if correct
-        const Settings::OptionState& ops = m_pView->getOptionState();
+        const Settings::OptionState& ops = m_pView->optionState();
         m_bShowStereotype = ops.classState.showStereoType;
     }
     //maybe loading and this may not be set.
@@ -59,7 +59,7 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
         p.setPen(thickerPen);
     }
     if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+        p.setBrush( UMLWidget::getFillColor() );
     } else {
         p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
     }

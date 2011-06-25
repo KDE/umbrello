@@ -4,18 +4,18 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "widgetbase.h"
 
-#include <kdebug.h>
+#include "debug_utils.h"
+#include "optionstate.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
 #include "umlobject.h"
-#include "optionstate.h"
 
 /**
  * Creates a WidgetBase object.
@@ -27,7 +27,10 @@ WidgetBase::WidgetBase(UMLView *view) : QObject(view)
     init(view);
 }
 
-void WidgetBase::init(UMLView *view, Uml::Widget_Type type /* = Uml::wt_UMLWidget */)
+/**
+ * Initialize members.
+ */
+void WidgetBase::init(UMLView *view, Widget_Type type /* = Uml::wt_UMLWidget */)
 {
     m_pView = view;
     m_Type = type;
@@ -35,7 +38,7 @@ void WidgetBase::init(UMLView *view, Uml::Widget_Type type /* = Uml::wt_UMLWidge
     if (m_pView) {
         m_bUsesDiagramLineColour = true;
         m_bUsesDiagramLineWidth  = true;
-        const Settings::OptionState& optionState = m_pView->getOptionState();
+        const Settings::OptionState& optionState = m_pView->optionState();
         m_LineColour = optionState.uiState.lineColor;
         m_LineWidth  = optionState.uiState.lineWidth;
     } else {
@@ -54,14 +57,28 @@ WidgetBase::~WidgetBase()
 {
 }
 
-void WidgetBase::setBaseType( Uml::Widget_Type type )
+/**
+ * Set property m_Type.
+ */
+void WidgetBase::setBaseType(WidgetBase::Widget_Type type)
 {
     m_Type = type;
 }
 
-Uml::Widget_Type WidgetBase::baseType() const
+/**
+ * Read property of m_Type.
+ */
+WidgetBase::Widget_Type WidgetBase::baseType() const
 {
     return m_Type;
+}
+
+/**
+ * @return The type used for rtti as string.
+ */
+QLatin1String WidgetBase::baseTypeStr() const
+{
+    return QLatin1String(ENUM_NAME(WidgetBase, Widget_Type, m_Type));
 }
 
 /**
@@ -83,16 +100,29 @@ UMLDoc* WidgetBase::umlDoc() const
     return UMLApp::app()->document();
 }
 
+/**
+ * Returns the @ref UMLObject set to represent.
+ *
+ * @return the UMLObject to represent.
+ */
 UMLObject* WidgetBase::umlObject() const
 {
     return m_pObject;
 }
 
+/**
+ * Sets the @ref UMLObject to represent.
+ *
+ * @param o The object to represent.
+ */
 void WidgetBase::setUMLObject(UMLObject * o)
 {
     m_pObject = o;
 }
 
+/**
+ * Write property of m_nId.
+ */
 void WidgetBase::setID(Uml::IDType id)
 {
     if (m_pObject) {
@@ -104,6 +134,9 @@ void WidgetBase::setID(Uml::IDType id)
     m_nId = id;
 }
 
+/**
+ * Read property of m_nId.
+ */
 Uml::IDType WidgetBase::id() const
 {
     if (m_pObject)
@@ -111,6 +144,11 @@ Uml::IDType WidgetBase::id() const
     return m_nId;
 }
 
+/**
+ * Used by some child classes to get documentation.
+ *
+ * @return  The documentation from the UMLObject (if m_pObject is set.)
+ */
 QString WidgetBase::documentation() const
 {
     if (m_pObject)
@@ -118,6 +156,12 @@ QString WidgetBase::documentation() const
     return m_Doc;
 }
 
+/**
+ * Used by some child classes to set documentation.
+ *
+ * @param doc   The documentation to be set in the UMLObject
+ *              (if m_pObject is set.)
+ */
 void WidgetBase::setDocumentation( const QString &doc )
 {
     if (m_pObject)
@@ -126,16 +170,73 @@ void WidgetBase::setDocumentation( const QString &doc )
         m_Doc = doc;
 }
 
+/**
+ * Read property of m_LineColour.
+ */
+QColor WidgetBase::lineColor() const
+{
+    return m_LineColour;
+}
+
+/**
+ * Sets the line colour
+ *
+ * @param colour the new line colour
+ */
 void WidgetBase::setLineColor(const QColor &colour)
 {
     m_LineColour = colour;
     m_bUsesDiagramLineColour = false;
 }
 
+/**
+ * Read property of m_LineWidth.
+ */
+uint WidgetBase::lineWidth() const
+{
+    return m_LineWidth;
+}
+
+/**
+ * Sets the line width
+ *
+ * @param width the new line width
+ */
 void WidgetBase::setLineWidth(uint width)
 {
     m_LineWidth = width;
     m_bUsesDiagramLineWidth = false;
+}
+
+/**
+ * Returns m_bUsesDiagramLineColour
+ */
+bool WidgetBase::usesDiagramLineColour() const
+{
+    return m_bUsesDiagramLineColour;
+}
+
+/**
+ * Sets m_bUsesDiagramLineColour
+ */
+void WidgetBase::setUsesDiagramLineColour(bool usesDiagramLineColour)
+{
+    m_bUsesDiagramLineColour = usesDiagramLineColour;
+}
+
+/**
+ * Returns m_bUsesDiagramLineWidth
+ */
+bool WidgetBase::usesDiagramLineWidth() const {
+    return m_bUsesDiagramLineWidth;
+}
+
+/**
+ * Sets m_bUsesDiagramLineWidth
+ */
+void WidgetBase::setUsesDiagramLineWidth(bool usesDiagramLineWidth)
+{
+    m_bUsesDiagramLineWidth = usesDiagramLineWidth;
 }
 
 void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement )
@@ -164,7 +265,7 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
     if (lineColor != "none") {
         setLineColor( QColor(lineColor) );
         m_bUsesDiagramLineColour = false;
-    } else if (m_Type != Uml::wt_Box && m_pView != NULL) {
+    } else if (m_Type != WidgetBase::wt_Box && m_pView != NULL) {
         setLineColor( m_pView->getLineColor() );
         m_bUsesDiagramLineColour = true;
     }

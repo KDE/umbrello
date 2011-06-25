@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,10 +18,9 @@
 #include "uml.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 
-RubyCodeGenerationPolicyPage::RubyCodeGenerationPolicyPage( QWidget *parent, const char *name, RubyCodeGenerationPolicy * policy )
+RubyCodeGenerationPolicyPage::RubyCodeGenerationPolicyPage(QWidget *parent, const char *name, RubyCodeGenerationPolicy * policy)
   : CodeGenerationPolicyPage(parent, name, policy)
 {
     CodeGenerationPolicy *common = UMLApp::app()->commonPolicy();

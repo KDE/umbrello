@@ -51,7 +51,7 @@ public:
 
     UMLAttribute * findParm(const QString &name);
 
-    QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
+    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
 
     void addParm(UMLAttribute *parameter, int position = -1);
 

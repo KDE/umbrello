@@ -79,7 +79,7 @@ UMLObject* UMLPackage::clone() const
  */
 void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
 {
-    if (! UMLAssociation::assocTypeHasUMLRepresentation(assoc->getAssocType()) )
+    if (! AssociationType::hasUMLRepresentation(assoc->getAssocType()) )
         return;
     Uml::IDType AId = assoc->getObjectId(Uml::A);
     Uml::IDType BId = assoc->getObjectId(Uml::B);
@@ -137,7 +137,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
         uDebug() << pObject->name() << " is already there";
         return false;
     }
-    if (pObject->baseType() == Uml::ot_Association) {
+    if (pObject->baseType() == UMLObject::ot_Association) {
         UMLAssociation *assoc = static_cast<UMLAssociation*>(pObject);
         // Adding the UMLAssociation at the participating concepts is done
         // again later (in UMLAssociation::resolveRef()) if they are not yet
@@ -145,7 +145,7 @@ bool UMLPackage::addObject(UMLObject *pObject)
         if (assoc->getObject(Uml::A) && assoc->getObject(Uml::B)) {
             UMLPackage *pkg = pObject->umlPackage();
             if (pkg != this) {
-               uError() << "UMLPackage " << m_Name << " addObject: "
+               uError() << "UMLPackage " << name() << " addObject: "
                         << "assoc's UMLPackage is " << pkg->name();
             }
             addAssocToConcepts(assoc);
@@ -186,13 +186,13 @@ bool UMLPackage::addObject(UMLObject *pObject)
  */
 void UMLPackage::removeObject(UMLObject *pObject)
 {
-    if (pObject->baseType() == Uml::ot_Association) {
+    if (pObject->baseType() == UMLObject::ot_Association) {
         UMLObject *o = const_cast<UMLObject*>(pObject);
         UMLAssociation *assoc = static_cast<UMLAssociation*>(o);
         removeAssocFromConcepts(assoc);
     }
     if (m_objects.indexOf(pObject) == -1)
-        uDebug() << m_Name << " removeObject: object with id="
+        uDebug() << name() << " removeObject: object with id="
                  << ID2STR(pObject->id()) << "not found.";
     else
         m_objects.removeAll(pObject);
@@ -415,8 +415,8 @@ bool UMLPackage::resolveRef()
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
         if (! obj->resolveRef()) {
-            Uml::Object_Type ot = obj->baseType();
-            if (ot != Uml::ot_Package && ot != Uml::ot_Folder)
+            UMLObject::Object_Type ot = obj->baseType();
+            if (ot != UMLObject::ot_Package && ot != UMLObject::ot_Folder)
                 m_objects.removeAll(obj);
             overallSuccess = false;
         }
@@ -461,8 +461,8 @@ bool UMLPackage::load(QDomElement& element)
         QString type = tempElement.tagName();
         if (Model_Utils::isCommonXMIAttribute(type))
             continue;
-        if (tagEq(type, "Namespace.ownedElement") ||
-                tagEq(type, "Namespace.contents")) {
+        if (UMLDoc::tagEq(type, "Namespace.ownedElement") ||
+                UMLDoc::tagEq(type, "Namespace.contents")) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore these tags are not further interpreted.

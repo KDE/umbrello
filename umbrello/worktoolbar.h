@@ -4,19 +4,20 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef WORKTOOLBAR_H
 #define WORKTOOLBAR_H
 
+#include "basictypes.h"
+
+#include <ktoolbar.h>
+
 #include <QtCore/QMap>
 #include <QtGui/QPixmap>
 #include <QtGui/QCursor>
-#include <ktoolbar.h>
-
-#include "umlnamespace.h"
 
 class QMainWindow;
 class QAction;
@@ -118,7 +119,7 @@ public:
 
 private:
 
-    typedef QMap<Uml::Diagram_Type, ToolBar_Buttons> OldToolMap;
+    typedef QMap<Uml::DiagramType, ToolBar_Buttons> OldToolMap;
 
     /**
      * This inner class holds label, symbol, and cursor of a tool button.
@@ -138,11 +139,11 @@ private:
     typedef QMap<ToolBar_Buttons, ToolButton> ToolButtonMap;
     typedef QMap<ToolBar_Buttons, QAction*> ActionsMap;
 
-    ToolBar_Buttons     m_CurrentButtonID;
-    OldToolMap          m_map;
-    Uml::Diagram_Type   m_Type;
-    ToolButtonMap       m_ToolButtons;
-    ActionsMap          m_actions;
+    ToolBar_Buttons      m_CurrentButtonID;
+    OldToolMap           m_map;
+    Uml::DiagramType     m_Type;
+    ToolButtonMap        m_ToolButtons;
+    ActionsMap           m_actions;
 
     void loadPixmaps();
 
@@ -156,7 +157,7 @@ signals:
     void sigButtonChanged(int);
 
 public slots:
-    void slotCheckToolBar(Uml::Diagram_Type dt);
+    void slotCheckToolBar(Uml::DiagramType dt);
     void buttonChanged(int b);
     void slotResetToolBar();
 

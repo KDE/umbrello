@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2009                                                *
+ *  copyright (C) 2005-2010                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -26,9 +26,10 @@ public:
     ClassImport() {}
     virtual ~ClassImport() {}
 
-    void importFiles(const QStringList &files);
+    void importFiles(const QStringList &fileNames);
+    void importFile(const QString& fileName);
 
-    static ClassImport *createImporterByFileExt(const QString &filename);
+    static ClassImport *createImporterByFileExt(const QString &fileName);
 
 protected:
 
@@ -44,9 +45,9 @@ protected:
      * Import a single file.
      * To be implemented by inheriting classes.
      *
-     * @param filename  The file to import.
+     * @param fileName  The file to import.
      */
-    virtual void parseFile(const QString& filename) = 0;
+    virtual void parseFile(const QString& fileName) = 0;
 
 };
 

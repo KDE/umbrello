@@ -28,7 +28,6 @@
 #include <kconfig.h>
 #include <klocale.h>
 #include <ktip.h>
-#include <kdebug.h>
 #include <kwin.h>
 
 #include "version.h"
@@ -85,4 +84,3 @@ int main(int argc, char *argv[])
   }
   return(0);
 }
-

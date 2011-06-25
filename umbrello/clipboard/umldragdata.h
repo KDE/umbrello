@@ -4,22 +4,23 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef UMLDRAGDATA_H
 #define UMLDRAGDATA_H
 
-#include <QtCore/QList>
-#include <QtCore/QMimeData>
-
 #include "associationwidgetlist.h"
+#include "basictypes.h"
+#include "umllistviewitem.h"
 #include "umllistviewitemlist.h"
 #include "umlobjectlist.h"
 #include "umlviewlist.h"
 #include "umlwidgetlist.h"
-#include "umlnamespace.h"
+
+#include <QtCore/QList>
+#include <QtCore/QMimeData>
 
 class UMLListView;
 class UMLClassifier;
@@ -45,7 +46,7 @@ public:
     explicit UMLDragData(UMLListViewItemList& UMLListViewItems, QWidget* dragSource = 0);
 
     UMLDragData(UMLObjectList& Objects, UMLWidgetList& Widgets, AssociationWidgetList& Associations,
-            QPixmap& PngImage, Uml::Diagram_Type dType, QWidget* dragSource = 0);
+            QPixmap& PngImage, Uml::DiagramType dType, QWidget* dragSource = 0);
 
     UMLDragData(UMLObjectList& Objects, int, QWidget* dragSource = 0);
 
@@ -64,7 +65,7 @@ public:
                             const UMLListView* parentListView=0);
 
     struct LvTypeAndID {
-        Uml::ListView_Type type;
+        UMLListViewItem::ListViewType type;
         Uml::IDType id;
     };
     typedef QList<LvTypeAndID*> LvTypeAndID_List;
@@ -76,7 +77,7 @@ public:
     static bool decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
                             UMLWidgetList& widgets,
                             AssociationWidgetList& associations,
-                            Uml::Diagram_Type & dType);
+                            Uml::DiagramType & dType);
 
     static bool decodeClip5(const QMimeData* mimeData, UMLObjectList& objects,
                             UMLClassifier *newParent);
@@ -95,7 +96,7 @@ public:
     void setUMLDataClip4(UMLObjectList& Objects,
                          UMLWidgetList& WidgetDatas,
                          AssociationWidgetList& Associations, QPixmap& PngImage,
-                         Uml::Diagram_Type dType);
+                         Uml::DiagramType dType);
 
     void setUMLDataClip5(UMLObjectList& Objects);
 

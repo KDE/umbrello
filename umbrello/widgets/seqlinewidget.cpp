@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,10 +13,9 @@
 
 //kde includes
 #include <kcursor.h>
-#include <kdebug.h>
 
 //qt includes
-#include <qpainter.h>
+#include <QtGui/QPainter>
 
 //app includes
 #include "umlview.h"
@@ -26,7 +25,9 @@
 // class members
 int const SeqLineWidget::m_nMouseDownEpsilonX = 20;
 
-SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : Q3CanvasLine( pView -> canvas() ) {
+SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject )
+  : Q3CanvasLine( pView -> canvas() )
+{
     m_pView = pView;
     m_pObject = pObject;
     setPen( QPen( m_pObject->lineColor(), 0, Qt::DashLine ) );
@@ -37,9 +38,12 @@ SeqLineWidget::SeqLineWidget( UMLView * pView, ObjectWidget * pObject ) : Q3Canv
     setupDestructionBox();
 }
 
-SeqLineWidget::~SeqLineWidget() {}
+SeqLineWidget::~SeqLineWidget()
+{
+}
 
-int SeqLineWidget::onWidget( const QPoint & p ) {
+int SeqLineWidget::onWidget( const QPoint & p )
+{
     int nOnWidget = 0;
     QPoint sp = startPoint();
     QPoint ep = endPoint();
@@ -53,7 +57,8 @@ int SeqLineWidget::onWidget( const QPoint & p ) {
     return nOnWidget;
 }
 
-int SeqLineWidget::onDestructionBox ( const QPoint & p ) {
+int SeqLineWidget::onDestructionBox ( const QPoint & p )
+{
     int nOnDestructionBox = 0;
     int x = m_pObject->getX() + m_pObject->getWidth() / 2;
     int y = m_pObject->getY() + m_pObject->getHeight() + m_nLengthY;
@@ -70,19 +75,21 @@ int SeqLineWidget::onDestructionBox ( const QPoint & p ) {
     return nOnDestructionBox;
 }
 
-
-void SeqLineWidget::cleanup() {
+void SeqLineWidget::cleanup()
+{
     cleanupDestructionBox();
 }
 
-void SeqLineWidget::setStartPoint( int startX, int startY ) {
+void SeqLineWidget::setStartPoint( int startX, int startY )
+{
     int endX = startX;
     int endY = startY + m_nLengthY;
     Q3CanvasLine::setPoints( startX, startY, endX, endY );
     moveDestructionBox();
 }
 
-void SeqLineWidget::cleanupDestructionBox() {
+void SeqLineWidget::cleanupDestructionBox()
+{
     if ( m_DestructionBox.line1 ) {
         delete m_DestructionBox.line1;
         m_DestructionBox.line1 = 0;
@@ -91,7 +98,8 @@ void SeqLineWidget::cleanupDestructionBox() {
     }
 }
 
-void SeqLineWidget::setupDestructionBox() {
+void SeqLineWidget::setupDestructionBox()
+{
     cleanupDestructionBox();
     if( !m_pObject->showDestruction() ) {
         return;
@@ -115,7 +123,8 @@ void SeqLineWidget::setupDestructionBox() {
     m_DestructionBox.line2->setZ( 3 );
 }
 
-void SeqLineWidget::moveDestructionBox() {
+void SeqLineWidget::moveDestructionBox()
+{
     if( !m_DestructionBox.line1 ) {
         return;
     }
@@ -128,7 +137,8 @@ void SeqLineWidget::moveDestructionBox() {
     m_DestructionBox.setLine2Points(rect);
 }
 
-void SeqLineWidget::setEndOfLine(int yPosition) {
+void SeqLineWidget::setEndOfLine(int yPosition)
+{
     QPoint sp = startPoint();
     int newY = yPosition;
     m_nLengthY = yPosition - m_pObject->getY() - m_pObject->getHeight();
@@ -142,4 +152,3 @@ void SeqLineWidget::setEndOfLine(int yPosition) {
     moveDestructionBox();
     m_pView->resizeCanvasToItems();
 }
-

@@ -67,14 +67,14 @@ void CodeClassField::setParentUMLObject (UMLObject * obj)
     UMLRole *role = dynamic_cast<UMLRole*>(obj);
     if(role) {
         UMLAssociation * parentAssoc = role->parentAssociation();
-        Uml::Association_Type atype = parentAssoc->getAssocType();
+        Uml::AssociationType atype = parentAssoc->getAssocType();
         m_parentIsAttribute = false;
 
-        if ( atype == Uml::at_Association || atype == Uml::at_Association_Self)
+        if ( atype == Uml::AssociationType::Association || atype == Uml::AssociationType::Association_Self)
             m_classFieldType = PlainAssociation; // Plain == Self + untyped associations
-        else if (atype == Uml::at_Aggregation)
+        else if (atype == Uml::AssociationType::Aggregation)
             m_classFieldType = Aggregation;
-        else if (atype == Uml::at_Composition)
+        else if (atype == Uml::AssociationType::Composition)
             m_classFieldType = Composition;
     } else {
         m_classFieldType = Attribute;
@@ -507,7 +507,7 @@ void CodeClassField::updateContent()
         return;
     }
     UMLRole * role = dynamic_cast<UMLRole*>(getParentObject());
-    Uml::Changeability_Type changeType = role->changeability();
+    Uml::Changeability changeType = role->changeability();
     bool isSingleValue = fieldIsSingleValue();
     bool isEmptyRole = role->name().isEmpty() ? true : false;
 
@@ -536,7 +536,7 @@ void CodeClassField::updateContent()
             switch(type) {
             case CodeAccessorMethod::SET:
                 // SET method true ONLY IF changeability is NOT Frozen
-                if (changeType != Uml::chg_Frozen)
+                if (changeType != Uml::Changeability::Frozen)
                     method->setWriteOutText(true);
                 else
                     method->setWriteOutText(false);
@@ -562,14 +562,14 @@ void CodeClassField::updateContent()
                 break;
             case CodeAccessorMethod::ADD:
                 // ADD method true ONLY IF changeability is NOT Frozen
-                if (changeType != Uml::chg_Frozen)
+                if (changeType != Uml::Changeability::Frozen)
                     method->setWriteOutText(true);
                 else
                     method->setWriteOutText(false);
                 break;
             case CodeAccessorMethod::REMOVE:
                 // Remove methods ONLY IF changeability is Changeable
-                if (changeType == Uml::chg_Changeable)
+                if (changeType == Uml::Changeability::Changeable)
                     method->setWriteOutText(true);
                 else
                     method->setWriteOutText(false);

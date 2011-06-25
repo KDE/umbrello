@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,14 +13,12 @@
 
 #include "umlwidget.h"
 #include "linkwidget.h"
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QMoveEvent>
-#include <QResizeEvent>
 
 // forward declarations
 class FloatingTextWidget;
 class ObjectWidget;
+class QMoveEvent;
+class QResizeEvent;
 class UMLOperation;
 class MessageWidgetController;
 
@@ -170,7 +168,7 @@ public:
      * Implements operation from LinkWidget.
      * Motivated by FloatingTextWidget.
      */
-    UMLOperation *getOperation();
+    UMLOperation *operation();
 
     /**
      * Implements operation from LinkWidget.
@@ -182,7 +180,7 @@ public:
      * Overrides operation from LinkWidget.
      * Required by FloatingTextWidget.
      */
-    QString getCustomOpText();
+    QString customOpText();
 
     /**
      * Overrides operation from LinkWidget.
@@ -220,10 +218,10 @@ public:
      * Overrides operation from LinkWidget.
      * Required by FloatingTextWidget.
      *
-     * @param seqNum    Return this MessageWidget's sequence number string.
-     * @param op                Return this MessageWidget's operation string.
+     * @param seqNum   Return this MessageWidget's sequence number string.
+     * @param op       Return this MessageWidget's operation string.
      */
-    UMLClassifier * getSeqNumAndOp(QString& seqNum, QString& op);
+    UMLClassifier * seqNumAndOp(QString& seqNum, QString& op);
 
     /**
      * Calculate the geometry of the widget.
@@ -320,7 +318,7 @@ public:
      * @param tr                Uml::Text_Role of the text.
      */
     void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
-                          Uml::Text_Role tr);
+                          Uml::TextRole tr);
 
     /**
      * Used to cleanup any other widget it may need to delete.
@@ -400,7 +398,7 @@ protected:
      * Returns the textX arg with constraints applied.
      * Auxiliary to setTextPosition() and constrainTextPos().
      */
-    int constrainX(int textX, int textWidth, Uml::Text_Role tr);
+    int constrainX(int textX, int textWidth, Uml::TextRole tr);
 
     /**
      * Draw an arrow pointing in the given direction.

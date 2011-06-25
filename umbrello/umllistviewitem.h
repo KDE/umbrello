@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,9 +13,10 @@
 
 #include <q3listview.h>
 #include <QtCore/QMap>
-#include <qdom.h>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomElement>
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 #include "icon_utils.h"
 
 // forward declarations
@@ -35,22 +36,75 @@ class UMLClassifierListItem;
 class UMLListViewItem : public Q3ListViewItem
 {
 public:
+    enum ListViewType
+    {
+        //the values in this enum are saved out to the file
+        //for file compatibility, only add new values to the end
+        lvt_View  =  800,
+        lvt_Logical_View,
+        lvt_UseCase_View,
+        lvt_Logical_Folder,
+        lvt_UseCase_Folder,
+        lvt_UseCase_Diagram,
+        lvt_Collaboration_Diagram,
+        lvt_Class_Diagram,
+        lvt_State_Diagram,
+        lvt_Activity_Diagram,
+        lvt_Sequence_Diagram,
+        lvt_Actor,
+        lvt_UseCase,
+        lvt_Class,
+        lvt_Attribute,
+        lvt_Operation,
+        lvt_Template,
+        lvt_Interface,
+        lvt_Package,
+        lvt_Component_Diagram,
+        lvt_Component_Folder,
+        lvt_Component_View,
+        lvt_Component,
+        lvt_Diagrams,  // currently unused
+        lvt_Artifact,
+        lvt_Deployment_Diagram,
+        lvt_Deployment_Folder,
+        lvt_Deployment_View,
+        lvt_Node,
+        lvt_Datatype,
+        lvt_Datatype_Folder,
+        lvt_Enum,
+        lvt_Entity,
+        lvt_EntityAttribute,
+        lvt_EntityRelationship_Diagram,
+        lvt_EntityRelationship_Folder,
+        lvt_EntityRelationship_Model,
+        lvt_Subsystem,
+        lvt_Model,
+        lvt_EnumLiteral,
+        lvt_UniqueConstraint,
+        lvt_PrimaryKeyConstraint,
+        lvt_ForeignKeyConstraint,
+        lvt_CheckConstraint,
+        lvt_Category,
+        lvt_Unknown = -1
+    };
 
-    UMLListViewItem(UMLListView * parent, const QString &name, Uml::ListView_Type t, UMLObject*o=0);
+    static QString toString(ListViewType type);
+
+    UMLListViewItem(UMLListView * parent, const QString &name, ListViewType t, UMLObject* o = 0);
     UMLListViewItem(UMLListView * parent);
     UMLListViewItem(UMLListViewItem * parent);
-    UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t, UMLObject*o=0);
-    UMLListViewItem(UMLListViewItem * parent, const QString &name, Uml::ListView_Type t, Uml::IDType id);
+    UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, UMLObject* o = 0);
+    UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, Uml::IDType id);
 
     ~UMLListViewItem();
 
-    Uml::ListView_Type getType() const;
+    ListViewType type() const;
 
     void setID(Uml::IDType id);
     Uml::IDType getID() const;
 
     void setUMLObject(UMLObject * obj);
-    UMLObject * getUMLObject() const;
+    UMLObject * umlObject() const;
 
     bool isOwnParent(Uml::IDType listViewItemID);
 
@@ -63,7 +117,7 @@ public:
     void setText(const QString &text );
     QString getText() const;
 
-    void setCreating( bool creating );
+    void setCreating(bool creating);
 
     void setIcon(Icon_Utils::Icon_Type iconType);
 
@@ -99,11 +153,6 @@ protected:
     static UMLListView * s_pListView;
 
     /**
-     * Flag used to set the state of creating.
-     */
-    bool m_bCreating;
-
-    /**
      * Auxiliary map of child UMLLisViewItems keyed by UMLClassifierListItem.
      * Used by findChildObject() for efficiency instead of looping using
      * firstChild()/nextSibling() because the latter incur enforceItemVisible()
@@ -111,12 +160,13 @@ protected:
      */
     typedef QMap<UMLClassifierListItem*, UMLListViewItem*> ChildObjectMap;
 
-    Uml::ListView_Type m_Type;
-    Uml::IDType m_nId;
-    int m_nChildren;
-    UMLObject * m_pObject;
-    QString m_Label;
-    ChildObjectMap m_comap;
+    bool               m_bCreating;  ///< flag to set the state of creating
+    ListViewType       m_type;
+    Uml::IDType        m_id;
+    int                m_nChildren;
+    UMLObject *        m_object;
+    QString            m_label;
+    ChildObjectMap     m_comap;
 
 };
 

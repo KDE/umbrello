@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,12 +12,10 @@
 #include "floatingtextwidgetcontroller.h"
 
 // app includes
+#include "basictypes.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
-
-// kde includes
-#include <kdebug.h>
 
 /**
  * Constructor for FloatingTextWidgetController.
@@ -94,10 +92,10 @@ bool FloatingTextWidgetController::isInResizeArea(QMouseEvent* me)
  */
 void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY)
 {
-    if (m_floatingTextWidget->textRole() == Uml::tr_Seq_Message_Self)
+    if (m_floatingTextWidget->textRole() == Uml::TextRole::Seq_Message_Self)
         return;
 
-    if (m_floatingTextWidget->textRole() == Uml::tr_Seq_Message
+    if (m_floatingTextWidget->textRole() == Uml::TextRole::Seq_Message
                     && ((MessageWidget*)m_floatingTextWidget->link())->getSelected()) {
         return;
     }
@@ -134,7 +132,7 @@ void FloatingTextWidgetController::moveWidgetBy(int diffX, int diffY)
 
     if (m_floatingTextWidget->link()) {
         m_floatingTextWidget->link()->calculateNameTextSegment();
-        if (m_floatingTextWidget->textRole() == Uml::tr_Seq_Message) {
+        if (m_floatingTextWidget->textRole() == Uml::TextRole::Seq_Message) {
             MessageWidget* messageWidget = (MessageWidget*)m_floatingTextWidget->link();
             messageWidget->setY(newY + m_floatingTextWidget->getHeight());
 

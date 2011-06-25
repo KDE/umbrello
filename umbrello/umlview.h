@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,14 +15,7 @@
 #include <kurl.h>
 #include <qdom.h>
 #include <q3canvas.h>
-//Added by qt3to4:
-#include <QPixmap>
-#include <QHideEvent>
-#include <QCloseEvent>
-#include <QDropEvent>
-#include <QShowEvent>
-#include <QDragEnterEvent>
-#include <QMouseEvent>
+#include <QtGui/QPixmap>
 
 //local includes
 #include "umlobjectlist.h"
@@ -35,9 +28,11 @@
 // forward declarations
 class ClassOptionsPage;
 class IDChangeLog;
-class ListPopupMenu;
 class FloatingTextWidget;
+class ListPopupMenu;
 class ObjectWidget;
+class ToolBarState;
+class ToolBarStateFactory;
 class UMLFolder;
 class UMLApp;
 class UMLDoc;
@@ -48,9 +43,13 @@ class UMLViewImageExporter;
 class UMLForeignKeyConstraint;
 class UMLEntity;
 
+class QCloseEvent;
+class QDragEnterEvent;
+class QDropEvent;
+class QHideEvent;
+class QMouseEvent;
 class QPrinter;
-class ToolBarState;
-class ToolBarStateFactory;
+class QShowEvent;
 
 /**
  * UMLView instances represent diagrams.
@@ -86,7 +85,7 @@ public:
     /**
      * Return the UMLFolder in which this diagram lives.
      */
-    UMLFolder *getFolder() {
+    UMLFolder *folder() {
         return m_pFolder;
     }
 
@@ -114,7 +113,7 @@ public:
     /**
      * Return the name of the diagram.
      */
-    QString getName() const;
+    QString name() const;
 
     /**
      * Set the name of the diagram.
@@ -124,14 +123,14 @@ public:
     /**
      * Returns the type of the diagram.
      */
-    Uml::Diagram_Type getType() const {
+    Uml::DiagramType type() const {
         return m_Type;
     }
 
     /**
      * Set the type of diagram.
      */
-    void setType( Uml::Diagram_Type type ) {
+    void setType( Uml::DiagramType type ) {
         m_Type = type;
     }
 
@@ -316,7 +315,7 @@ public:
     /**
      * Returns the options being used.
      */
-    const Settings::OptionState& getOptionState() const {
+    const Settings::OptionState& optionState() const {
         return m_Options;
     }
 
@@ -407,7 +406,7 @@ public:
      *
      * @return Returns the widget found, returns 0 if no widget found.
      */
-    AssociationWidget * findAssocWidget(Uml::Association_Type at,
+    AssociationWidget * findAssocWidget(Uml::AssociationType at,
                                         UMLWidget *pWidgetA, UMLWidget *pWidgetB);
 
     /**
@@ -575,7 +574,7 @@ public:
     /**
      * Returns a List of all the UMLObjects(Use Cases, Concepts and Actors) in the View
      */
-    UMLObjectList getUMLObjects();
+    UMLObjectList umlObjects();
 
     /**
      * Activate all the objects and associations after a load from the clipboard
@@ -902,7 +901,7 @@ public:
      * Returns NULL if the point is not inside any widget.
      * Does not use or modify the m_pOnWidget member.
      */
-    UMLWidget *getWidgetAt(const QPoint& p);
+    UMLWidget *widgetAt(const QPoint& p);
 
     /**
      * Initialize and announce a newly created widget.
@@ -966,7 +965,7 @@ protected:
     /**
      * The type of diagram to represent.
      */
-    Uml::Diagram_Type m_Type;
+    Uml::DiagramType m_Type;
 
     /**
      * The name of the diagram.
@@ -1050,7 +1049,7 @@ protected:
     /**
      * Override standard method.
      */
-    void closeEvent ( QCloseEvent * e );
+    void closeEvent(QCloseEvent * e);
 
     /**
      * Override standard method.

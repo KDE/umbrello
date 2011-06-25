@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,10 +13,10 @@
 
 // qt/kde includes
 #include <QtGui/QPainter>
-#include <kdebug.h>
 
 // app includes
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "classifierlistitem.h"
 #include "umlview.h"
@@ -35,7 +35,7 @@ DatatypeWidget::~DatatypeWidget()
 
 void DatatypeWidget::init()
 {
-    UMLWidget::setBaseType(Uml::wt_Datatype);
+    UMLWidget::setBaseType(WidgetBase::wt_Datatype);
     setSize(100, 30);
     m_pMenu = 0;
 }
@@ -44,7 +44,7 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if (UMLWidget::getUseFillColour())  {
-        p.setBrush(UMLWidget::getFillColour());
+        p.setBrush(UMLWidget::getFillColor());
     } else {
         p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
     }

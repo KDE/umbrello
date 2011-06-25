@@ -4,22 +4,23 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header file
 #include "usecasewidget.h"
+
 // system includes
 #include <QtGui/QPainter>
-#include <kdebug.h>
 // local includes
 #include "usecase.h"
 #include "umlview.h"
 
-UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o) : UMLWidget(view, o)
+UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o)
+  : UMLWidget(view, o)
 {
-    UMLWidget::setBaseType(Uml::wt_UseCase);
+    UMLWidget::setBaseType(WidgetBase::wt_UseCase);
     //updateComponentSize();  Doing this during loadFromXMI() gives futile updates.
     //                  Instead, it is done afterwards by UMLWidget::activate()
 }
@@ -32,7 +33,7 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColour() );
+        p.setBrush( UMLWidget::getFillColor() );
     QFont font = UMLWidget::font();
     font.setUnderline(false);
     font.setBold(false);
@@ -73,4 +74,3 @@ void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     UMLWidget::saveToXMI( qDoc, usecaseElement );
     qElement.appendChild( usecaseElement );
 }
-

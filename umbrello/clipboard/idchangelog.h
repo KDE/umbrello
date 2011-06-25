@@ -11,9 +11,9 @@
 #ifndef IDCHANGELOG_H
 #define IDCHANGELOG_H
 
-#include <QtCore/QVector>
+#include "basictypes.h"
 
-#include "umlnamespace.h"
+#include <QtCore/QVector>
 
 /**
  * This class contains all the ID translations done for each

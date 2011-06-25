@@ -94,18 +94,18 @@
 namespace CodeGenFactory
 {
 
-CodeGenerator* createObject(Uml::Programming_Language pl)
+CodeGenerator* createObject(Uml::ProgrammingLanguage pl)
 {
     CodeGenerator* obj = 0;
     Settings::OptionState optionState = Settings::optionState();
     switch (pl) {
-        case Uml::pl_Ada:
+        case Uml::ProgrammingLanguage::Ada:
             obj = new AdaWriter();
             break;
-        case Uml::pl_ActionScript:
+        case Uml::ProgrammingLanguage::ActionScript:
             obj = new ASWriter();
             break;
-        case Uml::pl_Cpp:
+        case Uml::ProgrammingLanguage::Cpp:
             if (optionState.generalState.newcodegen) {
                 obj = new CPPCodeGenerator();
                 obj->connect_newcodegen_slots();
@@ -113,10 +113,10 @@ CodeGenerator* createObject(Uml::Programming_Language pl)
                 obj = new CppWriter();
             }
             break;
-        case Uml::pl_CSharp:
+        case Uml::ProgrammingLanguage::CSharp:
             obj = new CSharpWriter();
             break;
-        case Uml::pl_D:
+        case Uml::ProgrammingLanguage::D:
             if (optionState.generalState.newcodegen) {
                 obj = new DCodeGenerator();
                 obj->connect_newcodegen_slots();
@@ -124,10 +124,10 @@ CodeGenerator* createObject(Uml::Programming_Language pl)
                 obj = new DWriter();
             }
             break;
-        case Uml::pl_IDL:
+        case Uml::ProgrammingLanguage::IDL:
             obj = new IDLWriter();
             break;
-        case Uml::pl_Java:
+        case Uml::ProgrammingLanguage::Java:
             if (optionState.generalState.newcodegen) {
                 obj = new JavaCodeGenerator();
                 obj->connect_newcodegen_slots();
@@ -135,31 +135,31 @@ CodeGenerator* createObject(Uml::Programming_Language pl)
                 obj = new JavaWriter();
             }
             break;
-        case Uml::pl_JavaScript:
+        case Uml::ProgrammingLanguage::JavaScript:
             obj = new JSWriter();
             break;
-        case Uml::pl_MySQL:
+        case Uml::ProgrammingLanguage::MySQL:
             obj = new MySQLWriter();
             break;
-        case Uml::pl_PHP:
+        case Uml::ProgrammingLanguage::PHP:
             obj = new PhpWriter();
             break;
-        case Uml::pl_PHP5:
+        case Uml::ProgrammingLanguage::PHP5:
             obj = new Php5Writer();
             break;
-        case Uml::pl_Pascal:
+        case Uml::ProgrammingLanguage::Pascal:
             obj = new PascalWriter();
             break;
-        case Uml::pl_Perl:
+        case Uml::ProgrammingLanguage::Perl:
             obj = new PerlWriter();
             break;
-        case Uml::pl_PostgreSQL:
+        case Uml::ProgrammingLanguage::PostgreSQL:
             obj = new PostgreSQLWriter();
             break;
-        case Uml::pl_Python:
+        case Uml::ProgrammingLanguage::Python:
             obj = new PythonWriter();
             break;
-        case Uml::pl_Ruby:
+        case Uml::ProgrammingLanguage::Ruby:
             if (optionState.generalState.newcodegen) {
                 obj = new RubyCodeGenerator();
                 obj->connect_newcodegen_slots();
@@ -167,16 +167,16 @@ CodeGenerator* createObject(Uml::Programming_Language pl)
                 obj = new RubyWriter();
             }
             break;
-        case Uml::pl_SQL:
+        case Uml::ProgrammingLanguage::SQL:
             obj = new SQLWriter();
             break;
-        case Uml::pl_Tcl:
+        case Uml::ProgrammingLanguage::Tcl:
             obj = new TclWriter();
             break;
-        case Uml::pl_Vala:
+        case Uml::ProgrammingLanguage::Vala:
             obj = new ValaWriter();
             break;
-        case Uml::pl_XMLSchema:
+        case Uml::ProgrammingLanguage::XMLSchema:
             obj = new XMLSchemaWriter();
             break;
         default:
@@ -199,16 +199,16 @@ CodeDocument * newClassifierCodeDocument(UMLClassifier * c)
     }
     ClassifierCodeDocument *retval = NULL;
     switch (UMLApp::app()->activeLanguage()) {
-        case Uml::pl_Cpp:
+        case Uml::ProgrammingLanguage::Cpp:
             retval = new CPPSourceCodeDocument(c);
             break;
-        case Uml::pl_D:
+        case Uml::ProgrammingLanguage::D:
             retval = new DClassifierCodeDocument(c);
             break;
-        case Uml::pl_Java:
+        case Uml::ProgrammingLanguage::Java:
             retval = new JavaClassifierCodeDocument(c);
             break;
-        case Uml::pl_Ruby:
+        case Uml::ProgrammingLanguage::Ruby:
             retval = new RubyClassifierCodeDocument(c);
             break;
         default:
@@ -223,7 +223,7 @@ CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op)
 {
     CodeOperation *retval = NULL;
     switch (UMLApp::app()->activeLanguage()) {
-        case Uml::pl_Cpp:
+        case Uml::ProgrammingLanguage::Cpp:
             {
                 CPPHeaderCodeDocument *hcd = dynamic_cast<CPPHeaderCodeDocument*>(ccd);
                 if (hcd) {
@@ -241,17 +241,17 @@ CodeOperation *newCodeOperation(ClassifierCodeDocument *ccd, UMLOperation * op)
                 }
             }
             break;
-        case Uml::pl_D:
+        case Uml::ProgrammingLanguage::D:
             retval = new DCodeOperation(dynamic_cast<DClassifierCodeDocument*>(ccd), op);
             retval->updateMethodDeclaration();
             retval->updateContent();
             break;
-        case Uml::pl_Java:
+        case Uml::ProgrammingLanguage::Java:
             retval = new JavaCodeOperation(dynamic_cast<JavaClassifierCodeDocument*>(ccd), op);
             retval->updateMethodDeclaration();
             retval->updateContent();
             break;
-        case Uml::pl_Ruby:
+        case Uml::ProgrammingLanguage::Ruby:
             retval = new RubyCodeOperation(dynamic_cast<RubyClassifierCodeDocument*>(ccd), op);
             retval->updateMethodDeclaration();
             retval->updateContent();
@@ -266,16 +266,16 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLAttribute *at
 {
     CodeClassField *retval = NULL;
     switch (UMLApp::app()->activeLanguage()) {
-        case Uml::pl_Cpp:
+        case Uml::ProgrammingLanguage::Cpp:
             retval = new CPPCodeClassField(ccd, at);
             break;
-        case Uml::pl_D:
+        case Uml::ProgrammingLanguage::D:
             retval = new DCodeClassField(ccd, at);
             break;
-        case Uml::pl_Java:
+        case Uml::ProgrammingLanguage::Java:
             retval = new JavaCodeClassField(ccd, at);
             break;
-        case Uml::pl_Ruby:
+        case Uml::ProgrammingLanguage::Ruby:
             retval = new RubyCodeClassField(ccd, at);
             break;
         default:
@@ -289,16 +289,16 @@ CodeClassField * newCodeClassField(ClassifierCodeDocument *ccd, UMLRole *role)
 {
     CodeClassField *retval = NULL;
     switch (UMLApp::app()->activeLanguage()) {
-        case Uml::pl_Cpp:
+        case Uml::ProgrammingLanguage::Cpp:
             retval = new CPPCodeClassField(ccd, role);
             break;
-        case Uml::pl_D:
+        case Uml::ProgrammingLanguage::D:
             retval = new DCodeClassField(ccd, role);
             break;
-        case Uml::pl_Java:
+        case Uml::ProgrammingLanguage::Java:
             retval = new JavaCodeClassField(ccd, role);
             break;
-        case Uml::pl_Ruby:
+        case Uml::ProgrammingLanguage::Ruby:
             retval = new RubyCodeClassField(ccd, role);
             break;
         default:
@@ -314,7 +314,7 @@ CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
 {
     CodeAccessorMethod *retval = NULL;
     switch (UMLApp::app()->activeLanguage()) {
-        case Uml::pl_Cpp:
+        case Uml::ProgrammingLanguage::Cpp:
             {
                 CPPHeaderCodeDocument *hcd = dynamic_cast<CPPHeaderCodeDocument*>(ccd);
                 if (hcd) {
@@ -328,7 +328,7 @@ CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
                 }
             }
             break;
-        case Uml::pl_D:
+        case Uml::ProgrammingLanguage::D:
             {
                 DCodeAccessorMethod *jcam = new DCodeAccessorMethod(cf, type);
                 jcam->update();
@@ -336,7 +336,7 @@ CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
                 retval->setOverallIndentationLevel(1);
             }
             break;
-        case Uml::pl_Java:
+        case Uml::ProgrammingLanguage::Java:
             {
                 JavaCodeAccessorMethod *jcam = new JavaCodeAccessorMethod(cf, type);
                 jcam->update();
@@ -344,7 +344,7 @@ CodeAccessorMethod * newCodeAccessorMethod(ClassifierCodeDocument *ccd,
                 retval->setOverallIndentationLevel(1);
             }
             break;
-        case Uml::pl_Ruby:
+        case Uml::ProgrammingLanguage::Ruby:
             {
                 RubyCodeAccessorMethod *rcam = new RubyCodeAccessorMethod(cf, type);
                 rcam->update();
@@ -363,7 +363,7 @@ CodeClassFieldDeclarationBlock * newDeclarationCodeBlock(ClassifierCodeDocument 
 {
     CodeClassFieldDeclarationBlock *retval = NULL;
     switch (UMLApp::app()->activeLanguage()) {
-        case Uml::pl_Cpp:
+        case Uml::ProgrammingLanguage::Cpp:
             {
                 CPPHeaderCodeDocument *hcd = dynamic_cast<CPPHeaderCodeDocument*>(cd);
                 if (hcd) {
@@ -379,15 +379,15 @@ CodeClassFieldDeclarationBlock * newDeclarationCodeBlock(ClassifierCodeDocument 
                 }
             }
             break;
-        case Uml::pl_D:
+        case Uml::ProgrammingLanguage::D:
             retval = new DCodeClassFieldDeclarationBlock(cf);
             retval->updateContent();
             break;
-        case Uml::pl_Java:
+        case Uml::ProgrammingLanguage::Java:
             retval = new JavaCodeClassFieldDeclarationBlock(cf);
             retval->updateContent();
             break;
-        case Uml::pl_Ruby:
+        case Uml::ProgrammingLanguage::Ruby:
             retval = new RubyCodeClassFieldDeclarationBlock(cf);
             retval->updateContent();
             break;
@@ -400,23 +400,23 @@ CodeClassFieldDeclarationBlock * newDeclarationCodeBlock(ClassifierCodeDocument 
 CodeComment * newCodeComment(CodeDocument *cd)
 {
     switch (UMLApp::app()->activeLanguage()) {
-        case Uml::pl_Cpp:
+        case Uml::ProgrammingLanguage::Cpp:
             if (dynamic_cast<CPPHeaderCodeDocument*>(cd) ||
                 dynamic_cast<CPPSourceCodeDocument*>(cd)) {
                 return new CPPCodeDocumentation(cd);
             }
             break;
-        case Uml::pl_D:
+        case Uml::ProgrammingLanguage::D:
             if (dynamic_cast<DClassifierCodeDocument*>(cd)) {
                 return new DCodeComment(cd);
             }
             break;
-        case Uml::pl_Java:
+        case Uml::ProgrammingLanguage::Java:
             if (dynamic_cast<JavaClassifierCodeDocument*>(cd)) {
                 return new JavaCodeComment(cd);
             }
             break;
-        case Uml::pl_Ruby:
+        case Uml::ProgrammingLanguage::Ruby:
             if (dynamic_cast<RubyClassifierCodeDocument*>(cd)) {
                 return new RubyCodeComment(cd);
             }
@@ -430,23 +430,23 @@ CodeComment * newCodeComment(CodeDocument *cd)
     return new CodeComment(cd);
 }
 
-CodeGenPolicyExt* newCodeGenPolicyExt(Uml::Programming_Language pl)
+CodeGenPolicyExt* newCodeGenPolicyExt(Uml::ProgrammingLanguage pl)
 {
     Settings::OptionState optionState = Settings::optionState();
 
-    if ( pl == Uml::pl_Cpp ) {
+    if ( pl == Uml::ProgrammingLanguage::Cpp ) {
         return new CPPCodeGenerationPolicy();
     }
 
     if ( optionState.generalState.newcodegen ) {
        switch( pl ) {
-          case Uml::pl_Java:
+          case Uml::ProgrammingLanguage::Java:
               return new JavaCodeGenerationPolicy();
               break;
-          case Uml::pl_D:
+          case Uml::ProgrammingLanguage::D:
               return new DCodeGenerationPolicy();
               break;
-          case Uml::pl_Ruby:
+          case Uml::ProgrammingLanguage::Ruby:
               return new RubyCodeGenerationPolicy();
               break;
           default:

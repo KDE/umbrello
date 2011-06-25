@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,16 +18,16 @@
 #include <QResizeEvent>
 #include <QtGui/QPainter>
 //kde includes
-#include <kdebug.h>
 #include <kcursor.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 
 //app includes
+#include "classifier.h"
+#include "debug_utils.h"
 #include "messagewidgetcontroller.h"
 #include "floatingtextwidget.h"
 #include "objectwidget.h"
-#include "classifier.h"
 #include "operation.h"
 #include "umlview.h"
 #include "umldoc.h"
@@ -91,7 +91,7 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, int xclick, int yc
 
 void MessageWidget::init()
 {
-    UMLWidget::setBaseType(Uml::wt_Message);
+    UMLWidget::setBaseType(WidgetBase::wt_Message);
     m_bIgnoreSnapToGrid = true;
     m_bIgnoreSnapComponentSizeToGrid = true;
     m_pOw[Uml::A] = m_pOw[Uml::B] = NULL;
@@ -412,11 +412,11 @@ void MessageWidget::setTextPosition()
     m_pFText->setY( ftY );
 }
 
-int MessageWidget::constrainX(int textX, int textWidth, Uml::Text_Role tr)
+int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole tr)
 {
     int result = textX;
     const int minTextX = getX() + 5;
-    if (textX < minTextX || tr == Uml::tr_Seq_Message_Self) {
+    if (textX < minTextX || tr == Uml::TextRole::Seq_Message_Self) {
         result = minTextX;
     } else {
         ObjectWidget *objectAtRight = NULL;
@@ -435,7 +435,7 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::Text_Role tr)
 }
 
 void MessageWidget::constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
-                                     Uml::Text_Role tr)
+                                     Uml::TextRole tr)
 {
     textX = constrainX(textX, textWidth, tr);
     // Constrain Y.
@@ -574,9 +574,9 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     }
 
     if( !m_pFText ) {
-        Uml::Text_Role tr = Uml::tr_Seq_Message;
+        Uml::TextRole tr = Uml::TextRole::Seq_Message;
         if (m_pOw[Uml::A] == m_pOw[Uml::B])
-            tr = Uml::tr_Seq_Message_Self;
+            tr = Uml::TextRole::Seq_Message_Self;
         m_pFText = new FloatingTextWidget( m_pView, tr, "" );
         m_pFText->setFont(UMLWidget::font());
     }
@@ -605,7 +605,7 @@ void MessageWidget::setMessageText(FloatingTextWidget *ft)
 {
     if (ft == NULL)
         return;
-    QString displayText = m_SequenceNumber + ": " + getOperationText(m_pView);
+    QString displayText = m_SequenceNumber + ": " + operationText(m_pView);
     ft->setText(displayText);
     setTextPosition();
 }
@@ -646,7 +646,7 @@ UMLClassifier *MessageWidget::getOperationOwner()
     return c;
 }
 
-UMLOperation *MessageWidget::getOperation()
+UMLOperation *MessageWidget::operation()
 {
     return static_cast<UMLOperation*>(m_pObject);
 }
@@ -660,7 +660,7 @@ void MessageWidget::setOperation(UMLOperation *op)
         connect(m_pObject, SIGNAL(modified()), m_pFText, SLOT(setMessageText()));
 }
 
-QString MessageWidget::getCustomOpText()
+QString MessageWidget::customOpText()
 {
     return m_CustomOp;
 }
@@ -671,12 +671,12 @@ void MessageWidget::setCustomOpText(const QString &opText)
     m_pFText->setMessageText();
 }
 
-UMLClassifier * MessageWidget::getSeqNumAndOp(QString& seqNum, QString& op)
+UMLClassifier * MessageWidget::seqNumAndOp(QString& seqNum, QString& op)
 {
     seqNum = m_SequenceNumber;
-    UMLOperation *pOperation = getOperation();
+    UMLOperation *pOperation = operation();
     if (pOperation != NULL) {
-        op = pOperation->toString(Uml::st_SigNoVis);
+        op = pOperation->toString(Uml::SignatureType::SigNoVis);
     } else {
         op = m_CustomOp;
     }
@@ -947,7 +947,7 @@ void MessageWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     UMLWidget::saveToXMI( qDoc, messageElement );
     messageElement.setAttribute( "widgetaid", ID2STR(m_pOw[Uml::A]->localID()) );
     messageElement.setAttribute( "widgetbid", ID2STR(m_pOw[Uml::B]->localID()) );
-    UMLOperation *pOperation = getOperation();
+    UMLOperation *pOperation = operation();
     if (pOperation)
         messageElement.setAttribute( "operation", ID2STR(pOperation->id()) );
     else
@@ -989,9 +989,9 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     m_widgetBId = STR2ID(widgetbid);
     m_textId = STR2ID(textid);
 
-    Uml::Text_Role tr = Uml::tr_Seq_Message;
+    Uml::TextRole tr = Uml::TextRole::Seq_Message;
     if (m_widgetAId == m_widgetBId)
-        tr = Uml::tr_Seq_Message_Self;
+        tr = Uml::TextRole::Seq_Message_Self;
 
     //now load child elements
     QDomNode node = qElement.firstChild();
@@ -999,7 +999,7 @@ bool MessageWidget::loadFromXMI(QDomElement& qElement)
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pFText = new FloatingTextWidget( m_pView, tr, getOperationText(m_pView), m_textId );
+            m_pFText = new FloatingTextWidget( m_pView, tr, operationText(m_pView), m_textId );
             if( ! m_pFText->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pFText;

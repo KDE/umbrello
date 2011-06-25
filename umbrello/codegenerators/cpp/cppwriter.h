@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2003       Brian Thomas                                 *
  *                            <brian.thomas@gsfc.nasa.gov>                 *
- *   copyright (C) 2004-2010  Umbrello UML Modeller Authors                *
+ *   copyright (C) 2004-2011  Umbrello UML Modeller Authors                *
  *                            <uml-devel@uml.sf.net>                       *
  ***************************************************************************/
 
@@ -40,7 +40,7 @@ public:
 
     virtual void writeClass(UMLClassifier *c);
 
-    virtual Uml::Programming_Language language() const;
+    virtual Uml::ProgrammingLanguage language() const;
 
     QStringList defaultDatatypes();
 
@@ -98,20 +98,20 @@ private:
 
     void writeAssociationRoleMethod(const QString &fieldClassName, bool isHeaderMethod, bool writeMethodBody,
                                     const QString &roleName, const QString &multi,
-                                    const QString &description, Uml::Changeability_Type change,
+                                    const QString &description, Uml::Changeability change,
                                     QTextStream &stream);
 
     void writeSingleAttributeAccessorMethods(
             const QString &fieldClassName, const QString &Name,
             const QString &fieldName, const QString &description,
-            Uml::Changeability_Type change,
+            Uml::Changeability change,
             bool isHeaderMethod,
             bool isStatic, bool writeMethodBody, QTextStream &cpp);
 
     void writeVectorAttributeAccessorMethods(
             const QString &fieldClassName, const QString &fieldVarName,
             const QString &fieldName, const QString &description,
-            Uml::Changeability_Type change,
+            Uml::Changeability change,
             bool isHeaderMethod,
             bool writeMethodBody,
             QTextStream &stream);

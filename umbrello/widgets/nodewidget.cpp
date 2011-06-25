@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,9 +14,9 @@
 // qt/kde includes
 #include <QtGui/QPainter>
 #include <QtGui/QPolygon>
-#include <kdebug.h>
 
 // app includes
+#include "debug_utils.h"
 #include "node.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -25,7 +25,7 @@
 NodeWidget::NodeWidget(UMLView * view, UMLNode *n )
   : UMLWidget(view, n)
 {
-    UMLWidget::setBaseType(Uml::wt_Node);
+    UMLWidget::setBaseType(WidgetBase::wt_Node);
     setZ(m_origZ = 1);  // above box but below UMLWidget because may embed widgets
     setSize(100, 30);
     if (n && !UMLApp::app()->document()->loading())
@@ -40,7 +40,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+        p.setBrush( UMLWidget::getFillColor() );
     } else {
         p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
     }

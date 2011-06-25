@@ -6,21 +6,12 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra <luis@delaparra.org>                                 *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "codegenoptionspage.h"
-
-// qt includes
-
-// kde includes
-#include <knuminput.h>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
-#include <klocale.h>
-#include <kdebug.h>
 
 // app includes
 #include "codegenerator.h"
@@ -28,8 +19,15 @@
 #include "codegenerators/codegenfactory.h"
 #include "codegenerators/codegenpolicyext.h"
 #include "defaultcodegenpolicypage.h"
-#include "model_utils.h"
 #include "uml.h"
+
+// kde includes
+#include <knuminput.h>
+#include <kfiledialog.h>
+#include <kmessagebox.h>
+#include <klocale.h>
+
+// qt includes
 
 
 /**
@@ -87,8 +85,8 @@ CodeGenOptionsPage::~CodeGenOptionsPage()
 void CodeGenOptionsPage::setupActiveLanguageBox()
 {
     int indexCounter = 0;
-    while (indexCounter < Uml::pl_Reserved) {
-        QString language = Model_Utils::progLangToString((Uml::Programming_Language) indexCounter);
+    while (indexCounter < Uml::ProgrammingLanguage::Reserved) {
+        QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Value(indexCounter));
         ui_SelectLanguageBox->insertItem(indexCounter, language);
         indexCounter++;
     }
@@ -185,7 +183,7 @@ void CodeGenOptionsPage::updateCodeGenerationPolicyTab()
         m_pCodePolicyPage = 0;
     }
 
-    Uml::Programming_Language pl = (Uml::Programming_Language) ui_SelectLanguageBox->currentIndex();
+    Uml::ProgrammingLanguage pl = Uml::ProgrammingLanguage::Value(ui_SelectLanguageBox->currentIndex());
     CodeGenPolicyExt *policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
 
     if (policyExt) {
@@ -307,7 +305,7 @@ void CodeGenOptionsPage::activeLanguageChanged(int id)
 void CodeGenOptionsPage::changeLanguage()
 {
     QString plStr = getLanguage();
-    Uml::Programming_Language pl = Model_Utils::stringToProgLang(plStr);
+    Uml::ProgrammingLanguage pl = Uml::ProgrammingLanguage::fromString(plStr);
     UMLApp::app()->setActiveLanguage(pl);
     /* @todo is this needed? if yes adapt to new scheme
      m_CodeGenOptionsPage->setCodeGenerator(m_doc->getCurrentCodeGenerator());
@@ -342,6 +340,5 @@ QString CodeGenOptionsPage::getLanguage()
 {
     return ui_SelectLanguageBox->currentText();
 }
-
 
 #include "codegenoptionspage.moc"

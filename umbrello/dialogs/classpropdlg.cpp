@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -30,7 +30,6 @@
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kvbox.h>
 
 // qt includes
@@ -46,7 +45,7 @@
  *  @param assoc     Determines whether to display associations
  */
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, bool assoc)
-        : KPageDialog(parent)
+  : KPageDialog(parent)
 {
     init();
     m_pWidget = 0;
@@ -66,7 +65,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, bool assoc)
  *  @param  o       The ObjectWidget to display properties of.
  */
 ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
-        : KPageDialog(parent)
+  : KPageDialog(parent)
 {
     init();
     m_pWidget = o;
@@ -90,31 +89,32 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
  *  @param  o       The UMLWidget to display properties of.
  */
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget *w)
-        : KPageDialog(parent)
+  : KPageDialog(parent)
 {
     init();
     m_pWidget = w;
     m_Type = pt_Widget;
     m_pObject = w->umlObject();
 
-    if (w->baseType() == Uml::wt_Class
-            || w->baseType() == Uml::wt_Interface
-            || w->baseType() == Uml::wt_Package) {
+    if (w->baseType() == WidgetBase::wt_Class
+            || w->baseType() == WidgetBase::wt_Interface
+            || w->baseType() == WidgetBase::wt_Package) {
         setupPages(true);
-    } else if (w->baseType() == Uml::wt_Component) {
+    } else if (w->baseType() == WidgetBase::wt_Component) {
         if ( w->isInstance() ) {
             setupInstancePages();
         } else {
             setupPages();
         }
-    } else if (w->baseType() == Uml::wt_Node) {
+    } else if (w->baseType() == WidgetBase::wt_Node) {
         setupInstancePages();
     } else {
         setupPages();
     }
 
     // now setup the options page for classes
-    if (w->baseType() == Uml::wt_Class || w->baseType() == Uml::wt_Interface) {
+    if (w->baseType() == WidgetBase::wt_Class ||
+        w->baseType() == WidgetBase::wt_Interface) {
         setupDisplayPage();
     }
     setupColorPage();
@@ -203,25 +203,25 @@ void ClassPropDlg::setupPages(bool assoc)
 {
     setupGeneralPage();
 
-    Uml::Object_Type ot = m_pObject->baseType();
+    UMLObject::Object_Type ot = m_pObject->baseType();
     // add extra pages for class
-    if (ot == Uml::ot_Class ) {
+    if (ot == UMLObject::ot_Class ) {
         setupAttributesPage();
     }
-    if (ot == Uml::ot_Class || ot == Uml::ot_Interface) {
+    if (ot == UMLObject::ot_Class || ot == UMLObject::ot_Interface) {
         setupOperationsPage();
     }
-    if (ot == Uml::ot_Class || ot == Uml::ot_Interface) {
+    if (ot == UMLObject::ot_Class || ot == UMLObject::ot_Interface) {
         setupTemplatesPage();
     }
-    if (ot == Uml::ot_Enum) {
+    if (ot == UMLObject::ot_Enum) {
         setupEnumLiteralsPage();
     }
-    if (ot == Uml::ot_Entity) {
+    if (ot == UMLObject::ot_Entity) {
         setupEntityAttributesPage();
         setupEntityConstraintsPage();
     }
-    if (ot == Uml::ot_Package ) {
+    if (ot == UMLObject::ot_Package ) {
         setupContentsPage();
     }
     if (assoc) {
@@ -286,7 +286,7 @@ void ClassPropDlg::setupAttributesPage()
 {
     QFrame* page = createPage( i18n("Attributes"), i18n("Attribute Settings"),
                                Icon_Utils::it_Properties_Attributes );
-    m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Attribute);
+    m_pAttPage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, UMLObject::ot_Attribute);
     QHBoxLayout * attLayout = new QHBoxLayout(page);
     attLayout->addWidget(m_pAttPage);
 }
@@ -298,7 +298,7 @@ void ClassPropDlg::setupOperationsPage()
 {
     QFrame* page = createPage( i18n("Operations"), i18n("Operation Settings"),
                                Icon_Utils::it_Properties_Operations );
-    m_pOpsPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_Operation);
+    m_pOpsPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, UMLObject::ot_Operation);
     QHBoxLayout* pOpsLayout = new QHBoxLayout(page);
     pOpsLayout->addWidget(m_pOpsPage);
 }
@@ -310,7 +310,7 @@ void ClassPropDlg::setupTemplatesPage()
 {
     QFrame* page = createPage( i18n("Templates"), i18n("Templates Settings"),
                                Icon_Utils::it_Properties_Templates );
-    m_pTemplatePage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, Uml::ot_Template);
+    m_pTemplatePage = new ClassifierListPage(page, (UMLClassifier *)m_pObject, m_pDoc, UMLObject::ot_Template);
     QHBoxLayout* templatesLayout = new QHBoxLayout(page);
     templatesLayout->addWidget(m_pTemplatePage);
 }
@@ -322,7 +322,7 @@ void ClassPropDlg::setupEnumLiteralsPage()
 {
     QFrame* page = createPage( i18n("Enum Literals"), i18n("Enum Literals Settings"),
                                Icon_Utils::it_Properties_EnumLiterals );
-    m_pEnumLiteralPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EnumLiteral);
+    m_pEnumLiteralPage = new ClassifierListPage(page, (UMLClassifier*)m_pObject, m_pDoc, UMLObject::ot_EnumLiteral);
     QHBoxLayout* enumLiteralsLayout = new QHBoxLayout(page);
     enumLiteralsLayout->addWidget(m_pEnumLiteralPage);
 }
@@ -334,7 +334,7 @@ void ClassPropDlg::setupEntityAttributesPage()
 {
     QFrame* page = createPage( i18n("Entity Attributes"), i18n("Entity Attributes Settings"),
                                Icon_Utils::it_Properties_EntityAttributes );
-    m_pEntityAttributePage = new ClassifierListPage(page, (UMLEntity*)m_pObject, m_pDoc, Uml::ot_EntityAttribute);
+    m_pEntityAttributePage = new ClassifierListPage(page, (UMLEntity*)m_pObject, m_pDoc, UMLObject::ot_EntityAttribute);
     QHBoxLayout* entityAttributesLayout = new QHBoxLayout(page);
     entityAttributesLayout->addWidget(m_pEntityAttributePage);
 }
@@ -346,7 +346,7 @@ void ClassPropDlg::setupEntityConstraintsPage()
 {
     QFrame* page = createPage( i18n("Entity Constraints"), i18n("Entity Constraints Settings"),
                                Icon_Utils::it_Properties_EntityConstraints );
-    m_pEntityConstraintPage = new ConstraintListPage(page, (UMLClassifier*)m_pObject, m_pDoc, Uml::ot_EntityConstraint );
+    m_pEntityConstraintPage = new ConstraintListPage(page, (UMLClassifier*)m_pObject, m_pDoc, UMLObject::ot_EntityConstraint );
     QHBoxLayout* entityConstraintsLayout = new QHBoxLayout(page);
     entityConstraintsLayout->addWidget(m_pEntityConstraintPage);
 }

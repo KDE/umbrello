@@ -6,29 +6,29 @@
  *                                                                         *
  *   copyright (C) 2003                                                    *
  *   Brian Thomas <brian.thomas@gsfc.nasa.gov>                             *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "codeviewerdialog.h"
 
-// qt/kde includes
-#include <QtCore/QString>
-#include <QtGui/QTabWidget>
-#include <kdebug.h>
-#include <klocale.h>
-
 // local includes
-#include "uml.h"
 #include "codedocument.h"
 #include "classifiercodedocument.h"
 #include "codeeditor.h"
+#include "debug_utils.h"
+#include "uml.h"
+
+// qt/kde includes
+#include <klocale.h>
+#include <QtCore/QString>
+#include <QtGui/QTabWidget>
 
 CodeViewerDialog::CodeViewerDialog ( QWidget* parent, CodeDocument * doc,
                                      Settings::CodeViewerState state,
                                      const char* name, bool modal, Qt::WFlags fl )
-        : KDialog ( parent, fl ), m_state(state)
+        : KDialog (parent, fl), m_state(state)
 {
     setObjectName(name);
     uDebug() << "setObjectName(" << name << ")";
@@ -103,8 +103,8 @@ bool CodeViewerDialog::close()
  */
 void CodeViewerDialog::languageChange()
 {
-    Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
-    setWindowTitle( i18n( "Code Viewer - " ) + QString(pl) );
+    Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
+    setWindowTitle( tr2i18n( "Code Viewer - " ) + pl.toString() );
 }
 
 #include "codeviewerdialog.moc"

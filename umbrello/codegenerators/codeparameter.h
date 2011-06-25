@@ -12,7 +12,7 @@
 #ifndef CODEPARAMETER_H
 #define CODEPARAMETER_H
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 #include "codecomment.h"
 
 class ClassifierCodeDocument;

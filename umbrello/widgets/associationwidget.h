@@ -17,13 +17,11 @@
 #include "messagewidgetlist.h"
 #include "associationwidgetlist.h"
 #include "linepath.h"
-//Added by qt3to4:
-#include <QPixmap>
+
 #include <QMouseEvent>
 #include <QMoveEvent>
 
 class ListPopupMenu;
-class QPixmap;
 class Q3CanvasLine;
 class ClassifierWidget;
 class UMLDoc;
@@ -52,7 +50,8 @@ class UMLOperation;
  * @short This class represents an association inside a diagram.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class AssociationWidget : public WidgetBase, public LinkWidget {
+class AssociationWidget : public WidgetBase, public LinkWidget
+{
     Q_OBJECT
 public:
     /**
@@ -82,7 +81,7 @@ public:
      * @param umlobject Pointer to the underlying UMLObject (if applicable.)
      */
     AssociationWidget(UMLView *view, UMLWidget* WidgetA,
-                      Uml::Association_Type Type, UMLWidget* WidgetB,
+                      Uml::AssociationType Type, UMLWidget* WidgetB,
                       UMLObject *umlobject = NULL);
 
     /**
@@ -128,13 +127,6 @@ public:
     FloatingTextWidget* getMultiWidget(Uml::Role_Type role);
 
     /**
-     * Return the given role's multiplicity text.
-     *
-     * @return  Text of the given role's multiplicity widget.
-     */
-    QString getMulti(Uml::Role_Type role) const;
-
-    /**
      * Read property of FloatingTextWidget* m_pName.
      *
      * @return  Pointer to the FloatingTextWidget name widget.
@@ -160,51 +152,25 @@ public:
      *
      * @return  Pointer to the text role's FloatingTextWidget widget.
      */
-    FloatingTextWidget* getTextWidgetByRole(Uml::Text_Role tr);
+    FloatingTextWidget* getTextWidgetByRole(Uml::TextRole tr);
 
-    /**
-     * Return the given role's FloatingTextWidget widget text.
-     *
-     * @return  The name set at the FloatingTextWidget.
-     */
-    QString getRoleName(Uml::Role_Type role) const;
-
-    /**
-     * Returns the given role's documentation.
-     */
-    QString getRoleDoc(Uml::Role_Type role) const;
+    QString roleName(Uml::Role_Type role) const;
+    QString roleDocumentation(Uml::Role_Type role) const;
 
     /**
      * Sets the text in the FloatingTextWidget widget representing the Name
      * of this association.
      */
-    void setName (const QString &strRole);
+    void setName(const QString &strRole);
 
-    /**
-     * Sets the text in the FloatingTextWidget representing the multiplicity
-     * at the given side of the association.
-     */
-    void setMulti(const QString &strMulti, Uml::Role_Type role);
+    QString multiplicity(Uml::Role_Type role) const;
+    void setMultiplicity(const QString &strMulti, Uml::Role_Type role);
 
-    /**
-     * Gets the visibility on the given role of the association.
-     */
-    Uml::Visibility getVisibility (Uml::Role_Type role) const;
+    Uml::Visibility visibility(Uml::Role_Type role) const;
+    void setVisibility(Uml::Visibility visibility, Uml::Role_Type role );
 
-    /**
-     * Sets the visibility on the given role of the association.
-     */
-    void setVisibility (Uml::Visibility visibility, Uml::Role_Type role );
-
-    /**
-     * Gets the changeability on the given end of the association.
-     */
-    Uml::Changeability_Type getChangeability(Uml::Role_Type role) const;
-
-    /**
-     * Sets the changeability on the given end of the association.
-     */
-    void setChangeability (Uml::Changeability_Type value, Uml::Role_Type role);
+    Uml::Changeability changeability(Uml::Role_Type role) const;
+    void setChangeability (Uml::Changeability value, Uml::Role_Type role);
 
     /**
      * Gets the ID of the given role widget.
@@ -216,7 +182,7 @@ public:
      *
      * @return  Pointer to the role's UMLWidget.
      */
-    UMLWidget* getWidget(Uml::Role_Type role) const;
+    UMLWidget* widgetForRole(Uml::Role_Type role) const;
 
     /**
      * Sets the associated widgets.
@@ -225,7 +191,7 @@ public:
      * @param assocType The Association_Type for this association.
      * @param widgetB   Pointer the role B widget for the association.
      */
-    bool setWidgets( UMLWidget* widgetA, Uml::Association_Type assocType, UMLWidget* widgetB);
+    bool setWidgets(UMLWidget* widgetA, Uml::AssociationType assocType, UMLWidget* widgetB);
 
     /**
      * Returns true if this association associates widgetA to widgetB,
@@ -235,7 +201,7 @@ public:
      * @param widgetB   Pointer the role B widget to check.
      * @return  True if widgetA and widgetB are associated.
      */
-    bool checkAssoc(UMLWidget * widgetA, UMLWidget *widgetB);
+    bool checkAssoc(UMLWidget *widgetA, UMLWidget *widgetB);
 
     /**
      * Returns true if the Widget is either at the starting or ending side
@@ -255,14 +221,14 @@ public:
      *
      * @return  This AssociationWidget's Association_Type.
      */
-    Uml::Association_Type associationType() const;
+    Uml::AssociationType associationType() const;
 
     /**
      * Sets the association's type.
      *
-     * @param type              The Association_Type to set.
+     * @param type   The Association_Type to set.
      */
-    void setAssocType(Uml::Association_Type type);
+    void setAssociationType(Uml::AssociationType type);
 
     /**
      * Returns a QString object representing this AssociationWidget.
@@ -318,13 +284,11 @@ public:
      */
     void widgetMoved(UMLWidget* widget, int x, int y);
 
-
     /**
      * Adjusts the points of the association exception.
      * Method called when a widget was moved by widgetMoved(widget,x,y)
      */
     void updatePointsException ();
-
 
     /**
      * Auxiliary method for widgetMoved():
@@ -425,7 +389,7 @@ public:
      * Return the first font found being used by any child widget. (They
      * could be different fonts, so this is a slightly misleading method.)
      */
-    QFont getFont () const;
+    QFont font() const;
 
     /**
      * Overrides the method from WidgetBase.
@@ -455,10 +419,7 @@ public:
      */
     void setRoleName(const QString &strRole, Uml::Role_Type role);
 
-    /**
-     * Set the documentation on the given role.
-     */
-    void setRoleDoc(const QString &doc, Uml::Role_Type role);
+    void setRoleDocumentation(const QString &doc, Uml::Role_Type role);
 
     /**
      * Overrides operation from LinkWidget.
@@ -467,35 +428,17 @@ public:
      */
     UMLClassifier *getOperationOwner();
 
-    /**
-     * Implements operation from LinkWidget.
-     * Motivated by FloatingTextWidget.
-     */
-    UMLOperation *getOperation();
-
-    /**
-     * Implements operation from LinkWidget.
-     * Motivated by FloatingTextWidget.
-     */
+    UMLOperation *operation();
     void setOperation(UMLOperation *op);
 
-    /**
-     * Overrides operation from LinkWidget.
-     * Required by FloatingTextWidget.
-     */
-    QString getCustomOpText();
-
-    /**
-     * Overrides operation from LinkWidget.
-     * Required by FloatingTextWidget.
-     */
+    QString customOpText();
     void setCustomOpText(const QString &opText);
 
     /**
      * Overrides operation from LinkWidget.
      * Required by FloatingTextWidget.
      *
-     * @param ft        The text widget which to update.
+     * @param ft   The text widget which to update.
      */
     void setMessageText(FloatingTextWidget *ft);
 
@@ -539,14 +482,9 @@ public:
      * @param tr          Uml::Text_Role of the text.
      */
     void constrainTextPos(int &textX, int &textY, int textWidth, int textHeight,
-                          Uml::Text_Role tr);
+                          Uml::TextRole tr);
 
-    /**
-     * Shows the association properties dialog and updates the
-     * corresponding texts if its execution is successful.
-     * Returns true for success.
-     */
-    bool showDialog();
+    void showPropertiesDialog();
 
     /**
      * Sets the Association line index for the given role.
@@ -578,7 +516,7 @@ public:
      * Required by FloatingTextWidget.
      *
      * @param seqNum    The new sequence number string to set.
-     * @param op                The new operation string to set.
+     * @param op        The new operation string to set.
      */
     void setSeqNumAndOp(const QString &seqNum, const QString &op);
 
@@ -587,9 +525,9 @@ public:
      * Required by FloatingTextWidget.
      *
      * @param seqNum    Return this AssociationWidget's sequence number string.
-     * @param op                Return this AssociationWidget's operation string.
+     * @param op        Return this AssociationWidget's operation string.
      */
-    UMLClassifier * getSeqNumAndOp(QString& seqNum, QString& op);
+    UMLClassifier * seqNumAndOp(QString& seqNum, QString& op);
 
     /**
      * Calculates and sets the first and last point in the association's
@@ -712,7 +650,7 @@ private:
      * This function calculates which role should be set for the m_pName
      * FloatingTextWidget.
      */
-    Uml::Text_Role CalculateNameType(Uml::Text_Role defaultRoleType);
+    Uml::TextRole CalculateNameType(Uml::TextRole defaultRoleType);
 
     /**
      * Returns true if point (PosX, PosY) is close enough to any of the
@@ -768,7 +706,7 @@ private:
      * that widget is playing.
      * Returns the point at which to put the widget.
      */
-    QPoint calculateTextPosition(Uml::Text_Role role);
+    QPoint calculateTextPosition(Uml::TextRole role);
 
     /**
      * Puts the text widget with the given role at the given position.
@@ -776,13 +714,13 @@ private:
      * I.e. the line segment it is on has moved and it should move the same
      * amount as the line.
      */
-    void setTextPosition(Uml::Text_Role role);
+    void setTextPosition(Uml::TextRole role);
 
     /**
      * Moves the text widget with the given role by the difference between
      * the two points.
      */
-    void setTextPositionRelatively(Uml::Text_Role role, const QPoint &oldPosition);
+    void setTextPositionRelatively(Uml::TextRole role, const QPoint &oldPosition);
 
     /**
      * Returns the Region the widget to line intersection is for the given
@@ -856,7 +794,7 @@ private:
 
         // The following items are only used if m_pObject is not set.
         Uml::Visibility m_Visibility;
-        Uml::Changeability_Type m_Changeability;
+        Uml::Changeability m_Changeability;
         QString m_RoleDoc;
 
     } m_role[2];
@@ -874,7 +812,7 @@ private:
      * @param ft    Reference to the pointer to FloatingTextWidget to change or create.
      *              On creation/deletion, the pointer value will be changed.
      */
-    void setFloatingText(Uml::Text_Role tr, const QString &text, FloatingTextWidget* &ft);
+    void setFloatingText(Uml::TextRole tr, const QString &text, FloatingTextWidget* &ft);
 
     /**
      * Called to tell the association that another association has added
@@ -1008,7 +946,7 @@ private:
     LinePath m_LinePath;
 
     // The following items are only used if m_pObject is not set.
-    Uml::Association_Type m_AssocType;
+    Uml::AssociationType m_AssocType;
 
 public slots:
     /**

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -61,7 +61,7 @@ UMLViewImageExporter::~UMLViewImageExporter()
  */
 void UMLViewImageExporter::exportView()
 {
-    if (!prepareExportView()) {
+    if (!prepareExport()) {
         return;
     }
 
@@ -79,7 +79,7 @@ void UMLViewImageExporter::exportView()
 
 /**
  * Shows a save file dialog to the user to get the parameters used
- * to export the view.
+ * to export the scene.
  * If the selected file already exists, an overwrite confirmation
  * dialog is shown. If the user doesn't want to overwrite the file,
  * the save dialog is shown again.
@@ -87,7 +87,7 @@ void UMLViewImageExporter::exportView()
  * @return True if the user wants to save the image,
  *         false if the operation is cancelled.
  */
-bool UMLViewImageExporter::prepareExportView()
+bool UMLViewImageExporter::prepareExport()
 {
     bool exportPrepared = false;
 
@@ -174,7 +174,7 @@ void UMLViewImageExporter::prepareFileDialog(KFileDialog *fileDialog)
         directory.setPath(docURL.directory());
 
         fileDialog->setUrl(directory);
-        fileDialog->setSelection(m_view->getName() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+        fileDialog->setSelection(m_view->name() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
         fileDialog->setUrl(m_imageURL);
         fileDialog->setSelection(m_imageURL.fileName());

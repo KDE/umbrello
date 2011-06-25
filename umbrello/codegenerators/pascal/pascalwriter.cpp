@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,6 +14,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "classifierlistitem.h"
+#include "debug_utils.h"
 #include "enum.h"
 #include "folder.h"
 #include "operation.h"
@@ -21,10 +22,8 @@
 #include "uml.h"
 #include "umlclassifierlistitemlist.h"
 #include "umldoc.h"
-#include "umlnamespace.h"
 #include "umltemplatelist.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -35,6 +34,7 @@
 const QString PascalWriter::defaultPackageSuffix = "_Holder";
 
 PascalWriter::PascalWriter()
+ : SimpleCodeGenerator()
 {
 }
 
@@ -42,20 +42,20 @@ PascalWriter::~PascalWriter()
 {
 }
 
-Uml::Programming_Language PascalWriter::language() const
+Uml::ProgrammingLanguage PascalWriter::language() const
 {
-    return Uml::pl_Pascal;
+    return Uml::ProgrammingLanguage::Pascal;
 }
 
 
 bool PascalWriter::isOOClass(UMLClassifier *c)
 {
-    Uml::Object_Type ot = c->baseType();
-    if (ot == Uml::ot_Interface)
+    UMLObject::Object_Type ot = c->baseType();
+    if (ot == UMLObject::ot_Interface)
         return true;
-    if (ot == Uml::ot_Enum)
+    if (ot == UMLObject::ot_Enum)
         return false;
-    if (ot != Uml::ot_Class) {
+    if (ot != UMLObject::ot_Class) {
         uDebug() << "unknown object type " << ot;
         return false;
     }
@@ -74,7 +74,7 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
     QString className = cleanName(p->name());
     QString retval;
 
-    if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::mt_Logical))
+    if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
         umlPkg = NULL;
 
     UMLClassifier *c = dynamic_cast<UMLClassifier*>(p);
@@ -170,7 +170,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
         pas << "uses" << m_endl;
         bool first = true;
         foreach (UMLPackage* con, imports ) {
-            if (con->baseType() != Uml::ot_Datatype) {
+            if (con->baseType() != UMLObject::ot_Datatype) {
                 if (first)
                     first = false;
                 else
@@ -183,9 +183,9 @@ void PascalWriter::writeClass(UMLClassifier *c)
 
     pas << "type" << m_endl;
     m_indentLevel++;
-    if (c->baseType() == Uml::ot_Enum) {
+    if (c->baseType() == UMLObject::ot_Enum) {
         UMLEnum *ue = static_cast<UMLEnum*>(c);
-        UMLClassifierListItemList litList = ue->getFilteredList(Uml::ot_EnumLiteral);
+        UMLClassifierListItemList litList = ue->getFilteredList(UMLObject::ot_EnumLiteral);
         uint i = 0;
         pas << indent() << classname << " = (" << m_endl;
         m_indentLevel++;

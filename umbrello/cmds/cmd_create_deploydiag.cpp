@@ -31,8 +31,8 @@ namespace Uml
 
     void CmdCreateDeployDiag::redo()
     {
-        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::mt_Deployment);
-        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_Deployment);
+        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::ModelType::Deployment);
+        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::DiagramType::Deployment);
     }
 
     void CmdCreateDeployDiag::undo()

@@ -16,12 +16,12 @@
 #include <QtGui/QColor>
 #include <QtGui/QMouseEvent>
 // kde includes
-#include <kdebug.h>
 #include <kcolordialog.h>
 #include <kfontdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 // local includes
+#include "debug_utils.h"
 #include "umlwidgetcontroller.h"
 #include "umlobject.h"
 #include "classifier.h"
@@ -187,10 +187,10 @@ void UMLWidget::updateWidget()
     updateComponentSize();
     adjustAssocs(getX(), getY());   //adjust assoc lines.
     switch (m_Type) {
-    case Uml::wt_Class:
+    case WidgetBase::wt_Class:
         m_pView->createAutoAttributeAssociations(this);
         break;
-    case Uml::wt_Entity:
+    case WidgetBase::wt_Entity:
         m_pView->createAutoConstraintAssociations(this);
         break;
     default:
@@ -228,7 +228,7 @@ void UMLWidget::init()
         m_bUseFillColour = true;
         m_bUsesDiagramFillColour = true;
         m_bUsesDiagramUseFillColour = true;
-        const Settings::OptionState& optionState = m_pView->getOptionState();
+        const Settings::OptionState& optionState = m_pView->optionState();
         m_FillColour = optionState.uiState.fillColor;
         m_Font       = optionState.uiState.font;
         m_bShowStereotype = optionState.classState.showStereoType;
@@ -268,7 +268,7 @@ void UMLWidget::init()
 void UMLWidget::slotMenuSelection(QAction* action)
 {
     QColor newColour;
-    const Uml::Widget_Type wt = m_Type;
+    const WidgetBase::Widget_Type wt = m_Type;
     UMLWidget* widget = 0; // use for select the first object properties (fill, line color)
 
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
@@ -285,11 +285,11 @@ void UMLWidget::slotMenuSelection(QAction* action)
 
         //UMLWidgetController::doMouseDoubleClick relies on this implementation
     case ListPopupMenu::mt_Properties:
-        if (wt == wt_Actor || wt == wt_UseCase ||
-                wt == wt_Package || wt == wt_Interface || wt == wt_Datatype ||
-                wt == wt_Component || wt == wt_Artifact ||
-                wt == wt_Node || wt == wt_Enum || wt == wt_Entity ||
-                (wt == wt_Class && m_pView->getType() == dt_Class)) {
+        if (wt == WidgetBase::wt_Actor || wt == WidgetBase::wt_UseCase ||
+                wt == WidgetBase::wt_Package || wt == WidgetBase::wt_Interface || wt == WidgetBase::wt_Datatype ||
+                wt == WidgetBase::wt_Component || wt == WidgetBase::wt_Artifact ||
+                wt == WidgetBase::wt_Node || wt == WidgetBase::wt_Enum || wt == WidgetBase::wt_Entity ||
+                (wt == WidgetBase::wt_Class && m_pView->type() == Uml::DiagramType::Class)) {
             UMLApp::app()->beginMacro(i18n("Change Properties"));
             showProperties();
             UMLApp::app()->endMacro();
@@ -318,7 +318,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Fill_Color:
         widget = m_pView->getFirstMultiSelectedWidget();
         if (widget) {
-            newColour = widget->getFillColour();
+            newColour = widget->getFillColor();
         }
         if (KColorDialog::getColor(newColour)) {
             m_pView->selectionSetFillColor(newColour);
@@ -481,7 +481,7 @@ void UMLWidget::setFillColourcmd(const QColor &colour)
     update();
 }
 
-QColor UMLWidget::getFillColor()
+QColor UMLWidget::getFillColor() const
 {
     return  m_FillColour;
 }
@@ -529,22 +529,22 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
         int y = point.y() + getY();
         x = x < 0 ? 0 : x;
         y = y < 0 ? 0 : y;
-        if (m_pView->getType() == dt_Sequence) {
+        if (m_pView->type() == Uml::DiagramType::Sequence) {
             switch (baseType()) {
-            case wt_Object:
-            case wt_Precondition :
+            case WidgetBase::wt_Object:
+            case WidgetBase::wt_Precondition :
                 setY(getY());
                 setX(x);
                 break;
 
-            case wt_Message:
+            case WidgetBase::wt_Message:
                 setY(getY());
                 setX(x);
                 break;
 
-            case wt_Text:
+            case WidgetBase::wt_Text:
                 ft = static_cast<FloatingTextWidget *>(this);
-                if (ft->textRole() == tr_Seq_Message) {
+                if (ft->textRole() == Uml::TextRole::Seq_Message) {
                     setX(x);
                     setY(getY());
                 } else {
@@ -742,7 +742,7 @@ void UMLWidget::drawShape(QPainter &p)
 
 void UMLWidget::setSelected(bool _select)
 {
-    const Uml::Widget_Type wt = m_Type;
+    const WidgetBase::Widget_Type wt = m_Type;
     if (_select) {
         if (m_pView->getSelectCount() == 0) {
             if (widgetHasUMLObject(wt)) {
@@ -764,7 +764,7 @@ void UMLWidget::setSelected(bool _select)
     m_bSelected = _select;
 
     const QPoint pos(getX(), getY());
-    UMLWidget *bkgnd = m_pView->getWidgetAt(pos);
+    UMLWidget *bkgnd = m_pView->widgetAt(pos);
     if (bkgnd && bkgnd != this && _select) {
         uDebug() << "setting Z to " << bkgnd->getZ() + 1 << ", SelectState: " << _select;
         setZ(bkgnd->getZ() + 1);
@@ -847,19 +847,19 @@ void UMLWidget::slotSnapToGrid()
     setY(getY());
 }
 
-bool UMLWidget::widgetHasUMLObject(Uml::Widget_Type type)
+bool UMLWidget::widgetHasUMLObject(WidgetBase::Widget_Type type)
 {
-    if (type == wt_Actor ||
-            type == wt_UseCase ||
-            type == wt_Class ||
-            type == wt_Interface ||
-            type == wt_Enum ||
-            type == wt_Datatype ||
-            type == wt_Package ||
-            type == wt_Component ||
-            type == wt_Node ||
-            type == wt_Artifact ||
-            type == wt_Object) {
+    if (type == WidgetBase::wt_Actor         ||
+            type == WidgetBase::wt_UseCase   ||
+            type == WidgetBase::wt_Class     ||
+            type == WidgetBase::wt_Interface ||
+            type == WidgetBase::wt_Enum      ||
+            type == WidgetBase::wt_Datatype  ||
+            type == WidgetBase::wt_Package   ||
+            type == WidgetBase::wt_Component ||
+            type == WidgetBase::wt_Node      ||
+            type == WidgetBase::wt_Artifact  ||
+            type == WidgetBase::wt_Object) {
         return true;
     } else {
         return false;

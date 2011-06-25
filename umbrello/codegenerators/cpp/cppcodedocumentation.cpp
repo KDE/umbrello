@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,25 +18,22 @@
 #include "codegenerationpolicy.h"
 #include "uml.h"
 
-// kde includes
-#include <kdebug.h>
-
 // qt includes
 #include <QtCore/QRegExp>
 
-CPPCodeDocumentation::CPPCodeDocumentation ( CodeDocument * doc, const QString & text )
-        : CodeComment (doc, text)
+CPPCodeDocumentation::CPPCodeDocumentation(CodeDocument * doc, const QString & text)
+  : CodeComment(doc, text)
 {
 }
 
-CPPCodeDocumentation::~CPPCodeDocumentation ( )
+CPPCodeDocumentation::~CPPCodeDocumentation()
 {
 }
 
 /**
  * Save the XMI representation of this object
  */
-void CPPCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void CPPCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement( "cppcodedocumentation" );
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
@@ -45,9 +42,9 @@ void CPPCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root )
 }
 
 /**
- * @return      QString
+ * @return   QString
  */
-QString CPPCodeDocumentation::toString ( ) const
+QString CPPCodeDocumentation::toString() const
 {
     QString output = "";
 
@@ -78,7 +75,7 @@ QString CPPCodeDocumentation::toString ( ) const
     return output;
 }
 
-QString CPPCodeDocumentation::getNewEditorLine ( int amount )
+QString CPPCodeDocumentation::getNewEditorLine(int amount)
 {
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
@@ -108,7 +105,7 @@ int CPPCodeDocumentation::lastEditableLine()
 /** UnFormat a long text string. Typically, this means removing
  *  the indentaion (linePrefix) and/or newline chars from each line.
  */
-QString CPPCodeDocumentation::unformatText ( const QString & text , const QString & indent)
+QString CPPCodeDocumentation::unformatText(const QString & text , const QString & indent)
 {
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
@@ -124,5 +121,3 @@ QString CPPCodeDocumentation::unformatText ( const QString & text , const QStrin
 
     return mytext;
 }
-
-

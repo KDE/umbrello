@@ -93,11 +93,11 @@ UMLObject* UMLCheckConstraint::clone() const
  * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLCheckConstraint::toString(Uml::Signature_Type sig )
+QString UMLCheckConstraint::toString(Uml::SignatureType sig)
 {
     QString s;
 
-    if (sig == Uml::st_ShowSig || sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
+    if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         s = name() ;
     }
 
@@ -154,7 +154,7 @@ bool UMLCheckConstraint::load( QDomElement & element )
  */
 void UMLCheckConstraint::init() 
 {
-    m_BaseType = Uml::ot_CheckConstraint;
+    m_BaseType = UMLObject::ot_CheckConstraint;
     m_CheckCondition.clear();
 }
 

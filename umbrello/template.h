@@ -59,7 +59,7 @@ public:
      */
     virtual ~UMLTemplate();
 
-    QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
+    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
 
     virtual QString getTypeName() const;
 

@@ -15,7 +15,7 @@
 #include <q3canvas.h>
 #include <QtGui/QFont>
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 #include "widgetbase.h"
 #include "associationwidgetlist.h"
 #include "optionstate.h"
@@ -144,16 +144,9 @@ public:
     void setFillColourcmd(const QColor &colour);
 
     /**
-     * get fill color attribute.
+     * Read property m_FillColour.
      */
-    QColor getFillColor();
-
-    /**
-     * Read property of QColor m_FillColour.
-     */
-    QColor getFillColour() const {
-        return m_FillColour;
-    }
+    QColor getFillColor() const;
 
     /**
      * Calls the method with the same name in UMLWidgetController.
@@ -499,7 +492,7 @@ public:
     /**
      * Returns whether the widget type has an associated UMLObject
      */
-    static bool widgetHasUMLObject(Uml::Widget_Type type);
+    static bool widgetHasUMLObject(WidgetBase::Widget_Type type);
 
     /**
      * Update the size of this widget.

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,10 +13,10 @@
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "docwindow.h"
@@ -51,7 +51,7 @@ PreconditionWidget::~PreconditionWidget()
 
 void PreconditionWidget::init()
 {
-    UMLWidget::setBaseType(Uml::wt_Precondition);
+    UMLWidget::setBaseType(WidgetBase::wt_Precondition);
     m_bIgnoreSnapToGrid = true;
     m_bIgnoreSnapComponentSizeToGrid = true;
     m_bResizable =  true ;
@@ -80,7 +80,7 @@ void PreconditionWidget::draw(QPainter & p, int /*offsetX*/, int offsetY)
     setY(y);
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+        p.setBrush( UMLWidget::getFillColor() );
     }
     {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -47,7 +47,7 @@ public:
 
     CodeDocument * newClassifierCodeDocument (UMLClassifier * classifier);
 
-    Uml::Programming_Language language() const;
+    Uml::ProgrammingLanguage language() const;
 
     virtual QStringList defaultDatatypes();
 

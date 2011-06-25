@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,25 +17,22 @@
 #include "javaclassifiercodedocument.h"
 #include "uml.h"
 
-// kde includes
-#include <kdebug.h>
-
 // qt includes
 #include <QtCore/QRegExp>
 
-JavaCodeDocumentation::JavaCodeDocumentation ( JavaClassifierCodeDocument * doc, const QString & text )
-        : CodeComment(doc, text)
+JavaCodeDocumentation::JavaCodeDocumentation(JavaClassifierCodeDocument * doc, const QString & text)
+  : CodeComment(doc, text)
 {
 }
 
-JavaCodeDocumentation::~JavaCodeDocumentation ( )
+JavaCodeDocumentation::~JavaCodeDocumentation()
 {
 }
 
 /**
  * Save the XMI representation of this object
  */
-void JavaCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void JavaCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement( "javacodedocumentation" );
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
@@ -46,7 +43,7 @@ void JavaCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root )
 /**
  * @return      QString
  */
-QString JavaCodeDocumentation::toString ( ) const
+QString JavaCodeDocumentation::toString() const
 {
     QString output;
 
@@ -77,7 +74,7 @@ QString JavaCodeDocumentation::toString ( ) const
     return output;
 }
 
-QString JavaCodeDocumentation::getNewEditorLine ( int amount )
+QString JavaCodeDocumentation::getNewEditorLine(int amount)
 {
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
@@ -107,7 +104,7 @@ int JavaCodeDocumentation::lastEditableLine()
 /** UnFormat a long text string. Typically, this means removing
  *  the indentaion (linePrefix) and/or newline chars from each line.
  */
-QString JavaCodeDocumentation::unformatText ( const QString & text , const QString & indent)
+QString JavaCodeDocumentation::unformatText(const QString & text , const QString & indent)
 {
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();

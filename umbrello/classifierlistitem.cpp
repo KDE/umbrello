@@ -86,7 +86,7 @@ void UMLClassifierListItem::copyInto(UMLObject *lhs) const
  * @param sig   What type of operation string to show.
  * @return  The string representation of the operation.
  */
-QString UMLClassifierListItem::toString(Uml::Signature_Type sig)
+QString UMLClassifierListItem::toString(Uml::SignatureType sig)
 {
     Q_UNUSED(sig);
     return name();
@@ -148,7 +148,7 @@ void UMLClassifierListItem::setTypeName(const QString &type)
     if (m_pSecondary == NULL) {
         // Make data type for easily identified cases
         if (Model_Utils::isCommonDataType(type) || type.contains('*')) {
-            m_pSecondary = Object_Factory::createUMLObject(Uml::ot_Datatype, type);
+            m_pSecondary = Object_Factory::createUMLObject(UMLObject::ot_Datatype, type);
             uDebug() << "created datatype for " << type;
         } else {
             m_SecondaryId = type;

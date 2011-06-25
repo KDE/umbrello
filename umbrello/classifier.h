@@ -108,7 +108,7 @@ public:
 
     int takeItem(UMLClassifierListItem* item);
 
-    virtual UMLClassifierListItemList getFilteredList(Uml::Object_Type ot) const;
+    virtual UMLClassifierListItemList getFilteredList(UMLObject::Object_Type ot) const;
 
     virtual bool resolveRef();
 
@@ -123,12 +123,12 @@ public:
 
     UMLClassifierList findSubClassConcepts(ClassifierType type = ALL);
 
-    virtual bool acceptAssociationType(Uml::Association_Type);
+    virtual bool acceptAssociationType(Uml::AssociationType);
 
     void setClassAssoc(UMLAssociation *assoc);
     UMLAssociation *getClassAssoc() const;
 
-    void setBaseType(Uml::Object_Type ot);
+    void setBaseType(UMLObject::Object_Type ot);
 
     bool isInterface() const;
 

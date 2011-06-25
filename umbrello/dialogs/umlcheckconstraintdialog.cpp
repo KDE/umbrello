@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2003-2010                                                *
+ *  copyright (C) 2003-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -16,7 +16,6 @@
 #include <QtGui/QLabel>
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 #include <ktextedit.h>
 #include <klineedit.h>
@@ -25,7 +24,8 @@
 #include "umldoc.h"
 #include "checkconstraint.h"
 
-UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckConstraint* pCheckConstraint) : KDialog(parent)
+UMLCheckConstraintDialog::UMLCheckConstraintDialog(QWidget* parent, UMLCheckConstraint* pCheckConstraint)
+  : KDialog(parent)
 {
     setCaption( i18n("Check Constraint Properties") );
     setButtons( Help | Ok | Cancel );
@@ -107,4 +107,3 @@ bool UMLCheckConstraintDialog::apply()
 }
 
 #include "umlcheckconstraintdialog.moc"
-

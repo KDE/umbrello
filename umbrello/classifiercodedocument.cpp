@@ -395,7 +395,7 @@ void ClassifierCodeDocument::declareClassFields (CodeClassFieldList & list ,
  */
 bool ClassifierCodeDocument::parentIsClass()
 {
-    return (m_parentclassifier->baseType() == Uml::ot_Class);
+    return (m_parentclassifier->baseType() == UMLObject::ot_Class);
 }
 
 /**
@@ -403,7 +403,7 @@ bool ClassifierCodeDocument::parentIsClass()
  */
 bool ClassifierCodeDocument::parentIsInterface()
 {
-    return (m_parentclassifier->baseType() == Uml::ot_Interface);
+    return (m_parentclassifier->baseType() == UMLObject::ot_Interface);
 }
 
 /**
@@ -537,10 +537,10 @@ void ClassifierCodeDocument::initCodeClassFields()
     }
 
     // now, do the code classifields that arise from associations
-    UMLAssociationList ap = c->getSpecificAssocs(Uml::at_Association);
+    UMLAssociationList ap = c->getSpecificAssocs(Uml::AssociationType::Association);
     UMLAssociationList ag = c->getAggregations();
     UMLAssociationList ac = c->getCompositions();
-    UMLAssociationList selfAssoc = c->getSpecificAssocs(Uml::at_Association_Self);
+    UMLAssociationList selfAssoc = c->getSpecificAssocs(Uml::AssociationType::Association_Self);
 
     updateAssociationClassFields(ap);
     updateAssociationClassFields(ag);

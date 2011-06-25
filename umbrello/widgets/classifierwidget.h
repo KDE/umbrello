@@ -4,13 +4,15 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef CLASSIFIERWIDGET_H
 #define CLASSIFIERWIDGET_H
 
+#include "basictypes.h"
+#include "umlobject.h"
 #include "umlwidget.h"
 
 class QPainter;
@@ -103,12 +105,12 @@ public:
      *
      * @return  Status of showing operation signatures.
      */
-    Uml::Signature_Type operationSignatureType() const;
+    Uml::SignatureType operationSignatureType() const;
 
     /**
      * Set the status of whether to show Operation signature
      *
-     * @param _show             True if operation signatures shall be shown.
+     * @param _show   True if operation signatures shall be shown.
      */
     void setShowOpSigs(bool _show);
 
@@ -141,7 +143,7 @@ public:
      *
      * @param sig       Type of signature to display for an operation.
      */
-    void setOpSignature(Uml::Signature_Type sig);
+    void setOpSignature(Uml::SignatureType sig);
 
     /**
      * Return the number of displayed attributes.
@@ -175,7 +177,7 @@ public:
      *
      * @return  Status of how attribute signatures are shown.
      */
-    Uml::Signature_Type attributeSignatureType() {
+    Uml::SignatureType attributeSignatureType() {
         return m_ShowAttSigs;
     }
 
@@ -207,7 +209,7 @@ public:
      *
      * @param sig       Type of signature to display for an attribute.
      */
-    void setAttSignature(Uml::Signature_Type sig);
+    void setAttSignature(Uml::SignatureType sig);
 
     /**
      * Returns whether to draw as circle.
@@ -341,20 +343,20 @@ protected:
      * Return the number of displayed members of the given Object_Type.
      * Takes into consideration m_bShowPublicOnly but not other settings,
      */
-    int displayedMembers(Uml::Object_Type ot);
+    int displayedMembers(UMLObject::Object_Type ot);
 
     /**
      * Auxiliary method for draw() of child classes:
      * Draw the attributes or operations.
      *
-     * @param p         QPainter to paint to.
-     * @param ot                Object type to draw, either ot_Attribute or ot_Operation.
-     * @param sigType   Governs details of the member display.
-     * @param x         X coordinate at which to draw the texts.
-     * @param y         Y coordinate at which text drawing commences.
-     * @param fontHeight        The font height.
+     * @param p          QPainter to paint to.
+     * @param ot         Object type to draw, either ot_Attribute or ot_Operation.
+     * @param sigType    Governs details of the member display.
+     * @param x          X coordinate at which to draw the texts.
+     * @param y          Y coordinate at which text drawing commences.
+     * @param fontHeight The font height.
      */
-    void drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
+    void drawMembers(QPainter & p, UMLObject::Object_Type ot, Uml::SignatureType sigType,
                      int x, int y, int fontHeight);
 
     bool m_bShowOperations;            ///< Loaded/saved item.
@@ -363,8 +365,8 @@ protected:
     bool m_bShowPackage;               ///< Loaded/saved item.
     bool m_bShowAttributes;            ///< Loaded/saved item.
     bool m_bDrawAsCircle;              ///< Loaded/saved item.
-    Uml::Signature_Type m_ShowAttSigs; ///< Loaded/saved item.
-    Uml::Signature_Type m_ShowOpSigs;  ///< Loaded/saved item.
+    Uml::SignatureType m_ShowAttSigs;  ///< Loaded/saved item.
+    Uml::SignatureType m_ShowOpSigs;   ///< Loaded/saved item.
 
     /**
      * Text width margin

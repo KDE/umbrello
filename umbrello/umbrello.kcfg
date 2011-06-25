@@ -4,7 +4,7 @@
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   <include>kglobalsettings.h</include>
-  <include>umlnamespace.h</include> 
+  <include>basictypes.h</include> 
   <include>codegenerationpolicy.h</include>
   <include>codegenerators/cpp/cppcodegenerationpolicy.h</include>
   <kcfgfile name="umbrellorc"/>
@@ -76,14 +76,14 @@
        <entry name="diagram" type="Enum">
          <label>Diagram To Load at Startup</label>
          <whatsthis>The Diagram to load at startup</whatsthis>
-         <choices name="Uml::Diagram_Type"></choices>
-         <default>Uml::dt_Class</default>
+         <choices name="Uml::DiagramType::Value"></choices>
+         <default>Uml::DiagramType::Class</default>
        </entry>
        <entry name="defaultLanguage" type="Enum">
          <label>Default Language at Startup</label>
          <whatsthis>The Language that Umbrello should start with by default</whatsthis>
-         <choices name="Uml::Programming_Language"></choices>
-         <default>Uml::pl_Cpp</default>
+         <choices name="Uml::ProgrammingLanguage::Value"></choices>
+         <default>Uml::ProgrammingLanguage::Cpp</default>
        </entry>
        <entry name="lastFile" type="String">
          <label></label>

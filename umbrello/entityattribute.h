@@ -12,7 +12,7 @@
 #define ENTITYATTRIBUTE_H
 
 #include "attribute.h"
-#include "umlnamespace.h"
+#include "basictypes.h"
 
 /**
  * This class is used to set up information for an entityattribute.  This is a database field
@@ -25,7 +25,16 @@
 class UMLEntityAttribute : public UMLAttribute
 {
     Q_OBJECT
+    Q_ENUMS(DBIndex_Type)
 public:
+    enum DBIndex_Type
+    {
+        None  =  1100,
+        Primary,
+        Index,
+        Unique
+    };
+
     UMLEntityAttribute(UMLObject* parent, const QString& name,
                        Uml::IDType id = Uml::id_None,
                        Uml::Visibility s = Uml::Visibility::Private,
@@ -42,8 +51,8 @@ public:
     void setAttributes(const QString& attributes);
     QString getAttributes() const;
 
-    void setIndexType(const Uml::DBIndex_Type indexType);
-    Uml::DBIndex_Type getIndexType() const;
+    void setIndexType(const DBIndex_Type indexType);
+    DBIndex_Type indexType() const;
 
     void setValues(const QString& values);
     QString getValues() const;
@@ -54,7 +63,7 @@ public:
     void setNull(const bool null);
     bool getNull() const;
 
-    QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
+    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
 
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
@@ -66,12 +75,11 @@ protected:
     bool load(QDomElement& element);
 
 private:
-    Uml::DBIndex_Type m_indexType;
-    QString           m_values;
-    QString           m_attributes;
-    bool              m_autoIncrement;
-    bool              m_null;
+    DBIndex_Type   m_indexType;
+    QString        m_values;
+    QString        m_attributes;
+    bool           m_autoIncrement;
+    bool           m_null;
 };
 
 #endif
-

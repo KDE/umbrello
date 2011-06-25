@@ -109,11 +109,11 @@ UMLObject* UMLUniqueConstraint::clone() const
  * @param sig  If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLUniqueConstraint::toString(Uml::Signature_Type sig )
+QString UMLUniqueConstraint::toString(Uml::SignatureType sig)
 {
      QString s;
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
+    if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         s = name() + ':';
 
         if ( static_cast<UMLEntity*>( parent() )->isPrimaryKey( this ) ) {
@@ -193,7 +193,7 @@ bool UMLUniqueConstraint::load( QDomElement & element )
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (Uml::tagEq(tag, "EntityAttribute")) {
+        if (UMLDoc::tagEq(tag, "EntityAttribute")) {
 
             QString attName = tempElement.attribute("name","" );
             UMLObject* obj = parentEnt->findChildObject( attName );
@@ -312,7 +312,7 @@ UMLEntityAttributeList UMLUniqueConstraint::getEntityAttributeList() const
 
 void UMLUniqueConstraint::init()
 {
-    m_BaseType = Uml::ot_UniqueConstraint;
+    m_BaseType = UMLObject::ot_UniqueConstraint;
 }
 
 /**

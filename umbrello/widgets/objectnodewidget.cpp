@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,7 +17,6 @@
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 #include <kdialog.h>
 #include <kcombobox.h>
@@ -25,18 +24,19 @@
 #include <cmath>
 
 // app includes
+#include "debug_utils.h"
 #include "dialog_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "docwindow.h"
 #include "umlview.h"
 #include "listpopupmenu.h"
-#include "dialogs/objectnodedialog.h"
+#include "objectnodedialog.h"
 
 ObjectNodeWidget::ObjectNodeWidget(UMLView * view, ObjectNodeType objectNodeType, Uml::IDType id )
   : UMLWidget(view, id)
 {
-    UMLWidget::setBaseType( Uml::wt_ObjectNode );
+    UMLWidget::setBaseType( WidgetBase::wt_ObjectNode );
     setObjectNodeType( objectNodeType );
     setState("");
     updateComponentSize();
@@ -58,7 +58,7 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY)
     setPenFromSettings(p);
 
     if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+        p.setBrush( UMLWidget::getFillColor() );
     }
 
     p.drawRect(offsetX, offsetY, w, h);

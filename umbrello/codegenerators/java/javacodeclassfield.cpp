@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,6 +14,7 @@
 
 // local includes
 #include "attribute.h"
+#include "debug_utils.h"
 #include "javacodecomment.h"
 #include "javacodegenerator.h"
 // #include "javacodeaccessormethod.h"
@@ -21,9 +22,6 @@
 #include "umlobject.h"
 #include "umlrole.h"
 #include "uml.h"
-
-// kde includes
-#include <kdebug.h>
 
 JavaCodeClassField::JavaCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role)
         : CodeClassField(parentDoc, role)

@@ -11,8 +11,8 @@
 #ifndef ENTITYCONSTRAINT_H
 #define ENTITYCONSTRAINT_H
 
+#include "basictypes.h"
 #include "classifierlistitem.h"
-#include "umlnamespace.h"
 #include "umlclassifierlist.h"
 
 /**

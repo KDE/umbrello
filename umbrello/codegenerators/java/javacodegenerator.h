@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -50,7 +50,7 @@ public:
 
     CodeDocument * newClassifierCodeDocument(UMLClassifier * classifier);
 
-    Uml::Programming_Language language() const;
+    Uml::ProgrammingLanguage language() const;
 
     virtual QStringList defaultDatatypes();
 

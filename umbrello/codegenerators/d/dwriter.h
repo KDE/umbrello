@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -55,7 +55,7 @@ public:
      * Returns "D".
      * @return   the programming language identifier
      */
-    virtual Uml::Programming_Language language() const;
+    virtual Uml::ProgrammingLanguage language() const;
 
     /**
      * Return the default datatypes.
@@ -194,7 +194,7 @@ private:
      * role.
      */
     void writeAssociationRoleMethod(QString fieldClassName, QString roleName, QString multi,
-                                    QString description, Uml::Visibility visib, Uml::Changeability_Type change,
+                                    QString description, Uml::Visibility visib, Uml::Changeability change,
                                     QTextStream &d);
 
     /**
@@ -202,7 +202,7 @@ private:
      */
     void writeSingleAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility visibility, Uml::Changeability_Type change,
+            Uml::Visibility visibility, Uml::Changeability change,
             bool isFinal, QTextStream &d);
 
     /**
@@ -210,7 +210,7 @@ private:
      */
     void writeVectorAttributeAccessorMethods(QString fieldClassName, QString fieldVarName,
             QString fieldName, QString description,
-            Uml::Visibility visibility, Uml::Changeability_Type change,
+            Uml::Visibility visibility, Uml::Changeability change,
             QTextStream &d);
 
     /**

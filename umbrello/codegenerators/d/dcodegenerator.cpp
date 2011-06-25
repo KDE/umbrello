@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,7 +16,6 @@
 #include <QtCore/QRegExp>
 
 #include <kconfig.h>
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -54,9 +53,9 @@ DCodeGenerator::~DCodeGenerator()
  * Return our language.
  * @return language identifier
  */
-Uml::Programming_Language DCodeGenerator::language() const
+Uml::ProgrammingLanguage DCodeGenerator::language() const
 {
-    return Uml::pl_D;
+    return Uml::ProgrammingLanguage::D;
 }
 
 /**

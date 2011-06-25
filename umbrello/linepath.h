@@ -4,14 +4,14 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef LINEPATH_H
 #define LINEPATH_H
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
@@ -69,7 +69,7 @@ public:
 
     int onLinePath( const QPoint &position );
 
-    void setAssocType( Uml::Association_Type type );
+    void setAssocType( Uml::AssociationType type );
 
     void update();
 
@@ -139,7 +139,7 @@ protected:
 
     Q3Canvas * getScene();
 
-    Uml::Association_Type getAssocType() const;
+    Uml::AssociationType getAssocType() const;
 
     QColor getLineColor();
     uint getLineWidth();

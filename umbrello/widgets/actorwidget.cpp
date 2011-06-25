@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,21 +18,33 @@
 #include "actor.h"
 #include "umlview.h"
 
-
-ActorWidget::ActorWidget(UMLView * view, UMLActor *a) : UMLWidget(view, a)
+/**
+ * Constructs an ActorWidget.
+ *
+ * @param view   The parent of this ActorWidget.
+ * @param o      The Actor class this ActorWidget will display.
+ */
+ActorWidget::ActorWidget(UMLView * view, UMLActor *a)
+  : UMLWidget(view, a)
 {
-    UMLWidget::setBaseType( Uml::wt_Actor );
+    setBaseType(WidgetBase::wt_Actor);
 }
 
+/**
+ * Destructor.
+ */
 ActorWidget::~ActorWidget()
 {
 }
 
+/**
+ * Overrides the standard paint event.
+ */
 void ActorWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
     if( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColour() );
+        p.setBrush( UMLWidget::getFillColor() );
     const int w = width();
     const int h = height();
     p.setFont( UMLWidget::font() );
@@ -64,6 +76,9 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Overrides method from UMLWidget.
+ */
 QSize ActorWidget::calculateSize() 
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
@@ -75,10 +90,13 @@ QSize ActorWidget::calculateSize()
     return QSize(width, height);
 }
 
+/**
+ * Saves the widget to the "actorwidget" XMI element.
+ * Note: For loading from XMI, the inherited parent method is used.
+ */
 void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement actorElement = qDoc.createElement( "actorwidget" );
     UMLWidget::saveToXMI( qDoc, actorElement );
     qElement.appendChild( actorElement );
 }
-

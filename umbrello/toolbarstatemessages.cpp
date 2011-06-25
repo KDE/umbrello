@@ -24,6 +24,9 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
+// qt includes
+#include <QtGui/QMouseEvent>
+
 /**
  * Creates a new ToolBarStateMessages.
  *
@@ -119,7 +122,7 @@ void ToolBarStateMessages::setCurrentElement()
     //However, the applied patch doesn't seem to be necessary no more, so it was removed
     //The widgets weren't got from UMLView, but from a method in this class similarto the
     //one in UMLView but containing special code to handle the zoom
-    UMLWidget *widget = m_pUMLView->getWidgetAt(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLView->widgetAt(m_pMouseEvent->pos());
     if (widget) {
         setCurrentWidget(widget);
         return;
@@ -142,7 +145,7 @@ void ToolBarStateMessages::mouseReleaseWidget()
     //TODO When an association between UMLObjects of invalid types is made, an error message
     //is shown. Shouldn't also a message be used here?
     if (m_pMouseEvent->button() != Qt::LeftButton ||
-                getCurrentWidget()->baseType() != Uml::wt_Object) {
+                getCurrentWidget()->baseType() != WidgetBase::wt_Object) {
         cleanMessage();
         return;
     }
@@ -205,8 +208,9 @@ void ToolBarStateMessages::mouseReleaseEmpty()
 
         m_pUMLView->viewport()->setMouseTracking(true);
     }
-    else
+    else {
         cleanMessage();
+    }
 }
 
 /**

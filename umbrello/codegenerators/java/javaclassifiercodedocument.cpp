@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,10 +29,8 @@
 #include "codegen_utils.h"
 #include "classifier.h"
 #include "codegenerationpolicy.h"
+#include "debug_utils.h"
 #include "uml.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 #include <QtCore/QRegExp>
@@ -371,7 +369,7 @@ void JavaClassifierCodeDocument::updateContent( )
         // NO (default) datatypes in the import statement.. use defined
         // ones whould be possible, but no idea how to do that...at least for now.
         // Dynamic casting is slow..not an optimal way to do this.
-        if (!packageMap.contains(con) && con->baseType() != Uml::ot_Datatype)
+        if (!packageMap.contains(con) && con->baseType() != UMLObject::ot_Datatype)
         {
             packageMap.insert(con, con->package());
 

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,15 +12,15 @@
 #include "regionwidget.h"
 
 // qt includes
-#include <qevent.h>
-#include <QPolygon>
+#include <QtCore/QEvent>
+#include <QtGui/QPolygon>
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "docwindow.h"
@@ -31,7 +30,7 @@
 
 RegionWidget::RegionWidget(UMLView * view, Uml::IDType id)
         : UMLWidget(view, id) {
-     UMLWidget::setBaseType( Uml::wt_Region );
+     UMLWidget::setBaseType( WidgetBase::wt_Region );
     updateComponentSize();
 }
 

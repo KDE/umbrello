@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,7 +23,6 @@
 #include "uml.h"
 
 // kde includes
-#include <kdebug.h>
 #include <kconfig.h>
 
 // qt includes
@@ -34,7 +33,7 @@ const bool CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE = false;
 /**
  * Basic Constructor.
  */
-CPPCodeGenerator::CPPCodeGenerator ()
+CPPCodeGenerator::CPPCodeGenerator()
 {
     initAttributes();
 }
@@ -42,7 +41,7 @@ CPPCodeGenerator::CPPCodeGenerator ()
 /**
  * Destructor.
  */
-CPPCodeGenerator::~CPPCodeGenerator ( )
+CPPCodeGenerator::~CPPCodeGenerator()
 {
     // destroy all separately owned codedocuments (e.g. header docs)
     qDeleteAll(m_headercodedocumentVector);
@@ -53,9 +52,9 @@ CPPCodeGenerator::~CPPCodeGenerator ( )
  * Returns language identifier. In this case "Cpp".
  * @return language identifier
  */
-Uml::Programming_Language CPPCodeGenerator::language() const
+Uml::ProgrammingLanguage CPPCodeGenerator::language() const
 {
-    return Uml::pl_Cpp;
+    return Uml::ProgrammingLanguage::Cpp;
 }
 
 /**
@@ -75,7 +74,7 @@ void CPPCodeGenerator::setCreateProjectMakefile(bool buildIt)
  * Get the value of m_createMakefile
  * @return the value of m_createMakefile
  */
-bool CPPCodeGenerator::getCreateProjectMakefile ( )
+bool CPPCodeGenerator::getCreateProjectMakefile()
 {
     return m_createMakefile;
 }
@@ -85,7 +84,7 @@ bool CPPCodeGenerator::getCreateProjectMakefile ( )
  * @param doc   the header code document
  * @return      success status
  */
-bool CPPCodeGenerator::addHeaderCodeDocument ( CPPHeaderCodeDocument * doc )
+bool CPPCodeGenerator::addHeaderCodeDocument(CPPHeaderCodeDocument * doc)
 {
     QString tag = doc->getID();
 
@@ -107,7 +106,7 @@ bool CPPCodeGenerator::addHeaderCodeDocument ( CPPHeaderCodeDocument * doc )
 /**
  * Remove a header CodeDocument object from m_headercodedocumentVector List
  */
-bool CPPCodeGenerator::removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove_object )
+bool CPPCodeGenerator::removeHeaderCodeDocument(CPPHeaderCodeDocument * remove_object)
 {
     QString tag = remove_object->getID();
     if (!(tag.isEmpty()))
@@ -128,7 +127,7 @@ bool CPPCodeGenerator::removeHeaderCodeDocument ( CPPHeaderCodeDocument * remove
  * @param state    the code viewer state
  * @return         the code viewer dialog object
  */
-CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog (QWidget* parent, CodeDocument *doc,
+CodeViewerDialog * CPPCodeGenerator::getCodeViewerDialog(QWidget* parent, CodeDocument *doc,
         Settings::CodeViewerState state)
 {
     ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(doc);
@@ -176,7 +175,7 @@ QString CPPCodeGenerator::fixTypeName(const QString &name)
  * @param doc    the document
  * @param root   the root element
  */
-void CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void CPPCodeGenerator::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
     QDomElement docElement = doc.createElement( "codegenerator" );
     docElement.setAttribute("language", "C++");
@@ -201,7 +200,7 @@ void CPPCodeGenerator::saveToXMI ( QDomDocument & doc, QDomElement & root )
  * or removed as is apppropriate.
  * Need to override parent method because we have header documents to consider too.
  */
-void CPPCodeGenerator::syncCodeToDocument ( )
+void CPPCodeGenerator::syncCodeToDocument()
 {
     const CodeDocumentList * docList = getCodeDocumentList();
     CodeDocumentList::ConstIterator it  = docList->begin();
@@ -219,7 +218,7 @@ void CPPCodeGenerator::syncCodeToDocument ( )
 /**
  * Write out all code documents to file as appropriate.
  */
-void CPPCodeGenerator::writeCodeToFile ( )
+void CPPCodeGenerator::writeCodeToFile()
 {
     // write all source documents (incl. Makefile)
     writeListedCodeDocsToFile(getCodeDocumentList());
@@ -235,7 +234,7 @@ void CPPCodeGenerator::writeCodeToFile ( )
  * overridden because we need to be able to generate code for
  * both the header and source documents
  */
-void CPPCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts)
+void CPPCodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
 {
     CodeDocumentList docs;
 
@@ -256,7 +255,7 @@ void CPPCodeGenerator::writeCodeToFile ( UMLClassifierList & concepts)
  * @param classifier   UML classifier
  * @return             CPPHeaderCodeDocument object
  */
-CPPHeaderCodeDocument * CPPCodeGenerator::findHeaderCodeDocumentByClassifier (UMLClassifier * classifier )
+CPPHeaderCodeDocument * CPPCodeGenerator::findHeaderCodeDocumentByClassifier(UMLClassifier * classifier)
 {
     CodeDocument * doc = findCodeDocumentByID("cppheader"+ID2STR(classifier->id()));
     return dynamic_cast<CPPHeaderCodeDocument*>(doc);
@@ -267,7 +266,7 @@ CPPHeaderCodeDocument * CPPCodeGenerator::findHeaderCodeDocumentByClassifier (UM
  * @param classifier   the classifier for which the CodeDocument is to be created
  * @return             created ClassifierCodeDocument object
  */
-CodeDocument * CPPCodeGenerator::newClassifierCodeDocument (UMLClassifier * classifier)
+CodeDocument * CPPCodeGenerator::newClassifierCodeDocument(UMLClassifier * classifier)
 {
     ClassifierCodeDocument *doc = new CPPSourceCodeDocument(classifier);
     doc->initCodeClassFields();
@@ -279,7 +278,7 @@ CodeDocument * CPPCodeGenerator::newClassifierCodeDocument (UMLClassifier * clas
  * @param classifier   the classifier for which the CodeDocument is to be created
  * @return             created CPPHeaderCodeDocument object
  */
-CPPHeaderCodeDocument * CPPCodeGenerator::newHeaderClassifierCodeDocument (UMLClassifier * classifier)
+CPPHeaderCodeDocument * CPPCodeGenerator::newHeaderClassifierCodeDocument(UMLClassifier * classifier)
 {
     CPPHeaderCodeDocument *doc = new CPPHeaderCodeDocument(classifier);
     doc->initCodeClassFields();
@@ -290,7 +289,7 @@ CPPHeaderCodeDocument * CPPCodeGenerator::newHeaderClassifierCodeDocument (UMLCl
  * Create a new CPPMakefileCodeDocument.
  * @return  CPPMakefileCodeDocument object
  */
-CPPMakefileCodeDocument * CPPCodeGenerator::newMakefileCodeDocument ( )
+CPPMakefileCodeDocument * CPPCodeGenerator::newMakefileCodeDocument()
 {
     return new CPPMakefileCodeDocument();
 }
@@ -299,7 +298,7 @@ CPPMakefileCodeDocument * CPPCodeGenerator::newMakefileCodeDocument ( )
  * Overloaded so that we may have both source and header documents for each
  * classifier.
  */
-void CPPCodeGenerator::initFromParentDocument( )
+void CPPCodeGenerator::initFromParentDocument()
 {
     // Walk through the document converting classifiers into
     // classifier code documents as needed (e.g only if doesn't exist)
@@ -333,7 +332,7 @@ void CPPCodeGenerator::initFromParentDocument( )
  * Need to worry about adding both source, and header documents for each classifier.
  * @param obj   the UML object 
  */
-void CPPCodeGenerator::checkAddUMLObject (UMLObject * obj)
+void CPPCodeGenerator::checkAddUMLObject(UMLObject * obj)
 {
     if (!obj)
         return;
@@ -360,7 +359,7 @@ void CPPCodeGenerator::checkAddUMLObject (UMLObject * obj)
  * Need to worry about removing both source, and header documents for each classifier.
  * @param obj   the UML object 
  */
-void CPPCodeGenerator::checkRemoveUMLObject (UMLObject * obj)
+void CPPCodeGenerator::checkRemoveUMLObject(UMLObject * obj)
 {
     if (!obj)
         return;
@@ -383,7 +382,7 @@ void CPPCodeGenerator::checkRemoveUMLObject (UMLObject * obj)
 /**
  * Init all attributes.
  */
-void CPPCodeGenerator::initAttributes ( )
+void CPPCodeGenerator::initAttributes()
 {
     m_createMakefile = false;
 
@@ -414,7 +413,7 @@ QStringList CPPCodeGenerator::reservedKeywords() const
 /**
  * Add the default stereotypes for c++ (constructor, int etc)
  */
-void CPPCodeGenerator::createDefaultStereotypes ()
+void CPPCodeGenerator::createDefaultStereotypes()
 {
     Codegen_Utils::createCppStereotypes();
 }

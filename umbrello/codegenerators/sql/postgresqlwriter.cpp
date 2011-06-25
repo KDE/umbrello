@@ -13,10 +13,10 @@
 #include "entity.h"
 #include "umlentityattributelist.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 
 #include <QtCore/QList>
+#include <QtCore/QTextStream>
 
 PostgreSQLWriter::PostgreSQLWriter()
 {
@@ -29,9 +29,9 @@ PostgreSQLWriter::~PostgreSQLWriter()
 /**
  * Returns "PostgreSQL".
  */
-Uml::Programming_Language PostgreSQLWriter::language() const
+Uml::ProgrammingLanguage PostgreSQLWriter::language() const
 {
-    return Uml::pl_PostgreSQL;
+    return Uml::ProgrammingLanguage::PostgreSQL;
 }
 
 /**

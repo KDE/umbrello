@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -40,38 +39,17 @@ class UMLActor;
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
 
-class ActorWidget : public UMLWidget {
+class ActorWidget : public UMLWidget
+{
 public:
-
-    /**
-     * Constructs an ActorWidget.
-     *
-     * @param view      The parent of this ActorWidget.
-     * @param o         The Actor class this ActorWidget will display.
-     */
     ActorWidget(UMLView * view, UMLActor *o);
-
-
-    /**
-     * destructor
-     */
     virtual ~ActorWidget();
 
-    /**
-     * Overrides the standard paint event.
-     */
     void draw(QPainter & p, int offsetX, int offsetY);
 
-    /**
-     * Saves the widget to the "actorwidget" XMI element.
-     * Note: For loading from XMI, the inherited parent method is used.
-     */
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-    /**
-     * Overrides method from UMLWidget.
-     */
     QSize calculateSize();
 };
 

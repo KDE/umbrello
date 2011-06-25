@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,6 +14,7 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
 #include "operation.h"
@@ -21,9 +22,6 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlpackagelist.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 #include <QtCore/QStringList>
@@ -211,8 +209,8 @@ bool PythonImport::parseStmt()
     const QString& keyword = m_source[m_srcIndex];
     if (keyword == "class") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
-                        name, m_scope[m_scopeIndex], m_comment);
+        UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, name,
+                                                      m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
         m_comment.clear();
         if (advance() == "(") {

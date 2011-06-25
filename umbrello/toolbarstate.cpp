@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -146,7 +146,7 @@ void ToolBarState::mouseDoubleClick(QMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
-    UMLWidget* currentWidget = m_pUMLView->getWidgetAt(m_pMouseEvent->pos());
+    UMLWidget* currentWidget = m_pUMLView->widgetAt(m_pMouseEvent->pos());
     AssociationWidget* currentAssociation = getAssociationAt(m_pMouseEvent->pos());
     if (currentWidget) {
         setCurrentWidget(currentWidget);
@@ -283,7 +283,7 @@ void ToolBarState::setCurrentElement()
     }
 
     // Check widgets.
-    UMLWidget *widget = m_pUMLView->getWidgetAt(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLView->widgetAt(m_pMouseEvent->pos());
     if (widget) {
         setCurrentWidget(widget);
         return;
@@ -517,7 +517,7 @@ FloatingDashLineWidget* ToolBarState::getFloatingLineAt(const QPoint& pos)
     FloatingDashLineWidget* floatingline = 0;
 
     foreach ( UMLWidget* widget, m_pUMLView->getWidgetList() ) {
-        if (widget->baseType() == Uml::wt_FloatingDashLine){
+        if (widget->baseType() == WidgetBase::wt_FloatingDashLine){
             if (dynamic_cast<FloatingDashLineWidget*>(widget)->onLine(pos)) {
                 floatingline = dynamic_cast<FloatingDashLineWidget*>(widget);
             }

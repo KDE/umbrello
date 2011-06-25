@@ -31,8 +31,8 @@ namespace Uml
 
     void CmdCreateClassDiag::redo()
     {
-        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::mt_Logical);
-        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_Class);
+        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::ModelType::Logical);
+        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::DiagramType::Class);
     }
 
     void CmdCreateClassDiag::undo()

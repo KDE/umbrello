@@ -74,7 +74,7 @@ UMLObject* UMLEnum::clone() const
  */
 void UMLEnum::init()
 {
-    m_BaseType = Uml::ot_Enum;
+    m_BaseType = UMLObject::ot_Enum;
     setStereotype( "enum" );
 }
 
@@ -87,7 +87,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
     Uml::IDType id = UniqueID::gen();
     QString currentName;
     if (name.isNull())  {
-        currentName = uniqChildName(Uml::ot_EnumLiteral);
+        currentName = uniqChildName(UMLObject::ot_EnumLiteral);
     } else {
         currentName = name;
     }
@@ -240,7 +240,7 @@ void UMLEnum::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement enumElement = UMLObject::save("UML:Enumeration", qDoc);
     // save enum literals
-    UMLClassifierListItemList enumLiterals = getFilteredList(Uml::ot_EnumLiteral);
+    UMLClassifierListItemList enumLiterals = getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (UMLClassifierListItem* pEnumLiteral , enumLiterals ) {
         pEnumLiteral->saveToXMI(qDoc, enumElement);
     }
@@ -260,15 +260,15 @@ bool UMLEnum::load(QDomElement& element)
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (Uml::tagEq(tag, "EnumerationLiteral") ||
-                Uml::tagEq(tag, "EnumLiteral")) {   // for backward compatibility
+        if (UMLDoc::tagEq(tag, "EnumerationLiteral") ||
+                UMLDoc::tagEq(tag, "EnumLiteral")) {   // for backward compatibility
             UMLEnumLiteral* pEnumLiteral = new UMLEnumLiteral(this);
             if( !pEnumLiteral->loadFromXMI(tempElement) ) {
                 return false;
             }
             m_List.append(pEnumLiteral);
         } else if (tag == "stereotype") {
-            uDebug() << m_Name << ": losing old-format stereotype.";
+            uDebug() << name() << ": losing old-format stereotype.";
         } else {
             uWarning() << "unknown child type in UMLEnum::load";
         }
@@ -288,7 +288,7 @@ bool UMLEnum::load(QDomElement& element)
 UMLClassifierListItem* UMLEnum::makeChildObject(const QString& xmiTag)
 {
     UMLClassifierListItem* pObject = NULL;
-    if (Uml::tagEq(xmiTag, "EnumerationLiteral") || Uml::tagEq( xmiTag, "EnumLiteral")) {
+    if (UMLDoc::tagEq(xmiTag, "EnumerationLiteral") || UMLDoc::tagEq( xmiTag, "EnumLiteral")) {
         pObject = new UMLEnumLiteral(this);
     }
     return pObject;

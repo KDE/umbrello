@@ -38,7 +38,7 @@ UMLAttribute::UMLAttribute( UMLObject *parent,
         : UMLClassifierListItem(parent, name, id)
 {
     m_InitialValue = iv;
-    m_BaseType = Uml::ot_Attribute;
+    m_BaseType = UMLObject::ot_Attribute;
     m_Vis = s;
     m_ParmKind = Uml::pd_In;
     /* CHECK: Do we need this:
@@ -56,7 +56,7 @@ UMLAttribute::UMLAttribute( UMLObject *parent,
  */
 UMLAttribute::UMLAttribute(UMLObject *parent) : UMLClassifierListItem(parent)
 {
-    m_BaseType = Uml::ot_Attribute;
+    m_BaseType = UMLObject::ot_Attribute;
     m_Vis = Uml::Visibility::Private;
     m_ParmKind = Uml::pd_In;
 }
@@ -74,7 +74,7 @@ UMLAttribute::~UMLAttribute()
  */
 void UMLAttribute::setName(const QString &name)
 {
-    m_Name = name;
+    m_name = name;
     emit attributeChanged();
     UMLObject::emitModified();
 }
@@ -129,18 +129,18 @@ Uml::Parameter_Direction UMLAttribute::getParmKind () const
  * @param sig   If true will show the attribute type and initial value.
  * @return  Returns a string representation of the UMLAttribute.
  */
-QString UMLAttribute::toString(Uml::Signature_Type sig)
+QString UMLAttribute::toString(Uml::SignatureType sig)
 {
     QString s;
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_NoSig) {
+    if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::NoSig) {
         s = m_Vis.toString(true) + ' ';
     }
 
-    if(sig == Uml::st_ShowSig || sig == Uml::st_SigNoVis) {
+    if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::SigNoVis) {
         // Determine whether the type name needs to be scoped.
         UMLObject *owningObject = static_cast<UMLObject*>(parent());
-        if (owningObject->baseType() == Uml::ot_Operation) {
+        if (owningObject->baseType() == UMLObject::ot_Operation) {
             // The immediate parent() is the UMLOperation but we want
             // the UMLClassifier:
             owningObject = static_cast<UMLObject*>(owningObject->parent());
@@ -184,13 +184,13 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
 {
     UMLOperation *op = NULL;
     UMLObject *owningObject = static_cast<UMLObject*>(parent());
-    if (owningObject->baseType() == Uml::ot_Operation) {
+    if (owningObject->baseType() == UMLObject::ot_Operation) {
         op = static_cast<UMLOperation*>(owningObject);
         owningObject = static_cast<UMLObject*>(owningObject->parent());
     }
     UMLClassifier *ownParent = dynamic_cast<UMLClassifier*>(owningObject);
     if (ownParent == NULL) {
-        uError() << m_Name << ": parent " << owningObject->name()
+        uError() << name() << ": parent " << owningObject->name()
             << " is not a UMLClassifier";
         return QString();
     }
@@ -200,7 +200,7 @@ QString UMLAttribute::getFullyQualifiedName( const QString& separator,
     QString fqn = ownParent->fullyQualifiedName(tempSeparator, includeRoot);
     if (op)
         fqn.append(tempSeparator + op->name());
-    fqn.append(tempSeparator + m_Name);
+    fqn.append(tempSeparator + name());
     return fqn;
 }
 
@@ -259,7 +259,7 @@ void UMLAttribute::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement attributeElement = UMLObject::save("UML:Attribute", qDoc);
     if (m_pSecondary == NULL) {
-        uDebug() << m_Name << ": m_pSecondary is NULL, m_SecondaryId is '"
+        uDebug() << name() << ": m_pSecondary is NULL, m_SecondaryId is '"
             << m_SecondaryId << "'";
     } else {
         attributeElement.setAttribute( "type", ID2STR(m_pSecondary->id()) );
@@ -291,7 +291,7 @@ bool UMLAttribute::load( QDomElement & element )
             }
             QDomElement tempElement = node.toElement();
             QString tag = tempElement.tagName();
-            if (!Uml::tagEq(tag, "type")) {
+            if (!UMLDoc::tagEq(tag, "type")) {
                 node = node.nextSibling();
                 continue;
             }
@@ -308,7 +308,7 @@ bool UMLAttribute::load( QDomElement & element )
             break;
         }
         if (m_SecondaryId.isEmpty()) {
-            uDebug() << m_Name << ": " << "cannot find type.";
+            uDebug() << name() << ": " << "cannot find type.";
         }
     }
     m_InitialValue = element.attribute( "initialValue", "" );
@@ -389,8 +389,9 @@ UMLClassifierList UMLAttribute::getTemplateParams()
     QString type = getType()->name();
     QString templateParam;
     // Handle C++/D/Java template/generic parameters
-    const Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
-    if (pl == Uml::pl_Cpp || pl == Uml::pl_Java || pl == Uml::pl_D) {
+    const Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
+    if (pl == Uml::ProgrammingLanguage::Cpp  ||
+        pl == Uml::ProgrammingLanguage::Java || pl == Uml::ProgrammingLanguage::D) {
         int start = type.indexOf(QChar('<'));
         if (start >= 0 ) {
             int end = type.lastIndexOf(QChar('>'));

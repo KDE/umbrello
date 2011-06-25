@@ -26,7 +26,7 @@ UMLCategory::~UMLCategory() {}
  * Initializes key variables of the class.
  */
 void UMLCategory::init() {
-    m_BaseType = Uml::ot_Category;
+    m_BaseType = UMLObject::ot_Category;
     m_CategoryType = ct_Disjoint_Specialisation;
 }
 

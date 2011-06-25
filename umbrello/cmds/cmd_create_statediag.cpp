@@ -31,8 +31,8 @@ namespace Uml
 
     void CmdCreateStateDiag::redo()
     {
-        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::mt_Logical);
-        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_State);
+        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::ModelType::Logical);
+        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::DiagramType::State);
     }
 
     void CmdCreateStateDiag::undo()

@@ -26,7 +26,7 @@ UMLActor::~UMLActor() {}
  * Initializes key variables of the class.
  */
 void UMLActor::init() {
-    m_BaseType = Uml::ot_Actor;
+    m_BaseType = UMLObject::ot_Actor;
 }
 
 /**

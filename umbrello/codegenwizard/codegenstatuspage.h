@@ -6,25 +6,25 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra  <luis@delaparra.org>                                *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 #ifndef CODEGENSTATUSPAGE_H
 #define CODEGENSTATUSPAGE_H
 
-// qt includes
-#include <QtGui/QWizardPage>
-#include <QtGui/QSpacerItem>
-#include <QtGui/QHBoxLayout>
+// app includes
+#include "ui_codegenstatuspage.h"
+#include "basictypes.h"
+#include "classifier.h"
+#include "codegenerationpolicy.h"
 
 // kde includes
 #include <kled.h>
 
-// app includes
-#include "ui_codegenstatuspage.h"
-#include "codegenerationpolicy.h"
-#include "classifier.h"
-#include "umlnamespace.h"
+// qt includes
+#include <QtGui/QWizardPage>
+#include <QtGui/QSpacerItem>
+#include <QtGui/QHBoxLayout>
 
 
 /**

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,10 +13,10 @@
 
 // qt/kde includes
 #include <QtGui/QPainter>
-#include <kdebug.h>
 
 // app includes
 #include "artifact.h"
+#include "debug_utils.h"
 #include "umlview.h"
 
 
@@ -31,7 +31,7 @@ ArtifactWidget::ArtifactWidget(UMLView *view, UMLArtifact *a)
 
 void ArtifactWidget::init()
 {
-    UMLWidget::setBaseType( Uml::wt_Artifact );
+    UMLWidget::setBaseType( WidgetBase::wt_Artifact );
     m_pMenu = 0;
 }
 
@@ -186,7 +186,7 @@ void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+        p.setBrush( UMLWidget::getFillColor() );
     } else {
         p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
     }

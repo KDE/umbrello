@@ -11,8 +11,8 @@
 #ifndef CHECKCONSTRAINT_H
 #define CHECKCONSTRAINT_H
 
+#include "basictypes.h"
 #include "entityconstraint.h"
-#include "umlnamespace.h"
 
 /**
  * This class is used to set up information for a unique entity constraint.
@@ -39,7 +39,7 @@ public:
 
     virtual UMLObject* clone() const;
 
-    QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
+    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
 
     QString getFullyQualifiedName(const QString& separator = QString(),
                                   bool includeRoot = false) const;

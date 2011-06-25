@@ -31,8 +31,8 @@ namespace Uml
 
     void CmdCreateComponentDiag::redo()
     {
-        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::mt_Component);
-        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_Component);
+        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::ModelType::Component);
+        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::DiagramType::Component);
     }
 
     void CmdCreateComponentDiag::undo()

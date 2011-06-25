@@ -57,7 +57,7 @@ public:
 
     UMLAssociationList getAssociations();
 
-    UMLAssociationList getSpecificAssocs(Uml::Association_Type assocType);
+    UMLAssociationList getSpecificAssocs(Uml::AssociationType assocType);
 
     UMLClassifierList getSuperClasses();
     UMLClassifierList getSubClasses();
@@ -68,10 +68,11 @@ public:
     UMLAssociationList getCompositions();
     UMLAssociationList getRelationships();
 
-    virtual UMLObject *findChildObject(const QString &n, Uml::Object_Type t = Uml::ot_UMLObject);
+    virtual UMLObject *findChildObject(const QString &n,
+                                       UMLObject::Object_Type t = UMLObject::ot_UMLObject);
     virtual UMLObject *findChildObjectById(Uml::IDType id, bool considerAncestors = false);
 
-    virtual QString uniqChildName(const Uml::Object_Type type,
+    virtual QString uniqChildName(const UMLObject::Object_Type type,
                                   const QString &prefix = QString());
 
     virtual void removeAllChildObjects();

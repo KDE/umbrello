@@ -27,7 +27,6 @@
 #include <kcompletion.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
 
 // qt includes
 #include <QtGui/QGroupBox>
@@ -199,17 +198,18 @@ bool UMLAttributeDialog::apply()
     UMLObject *obj = pDoc->findUMLObject(typeName);
     UMLClassifier *classifier = dynamic_cast<UMLClassifier*>(obj);
     if (classifier == NULL) {
-        Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
-        if (pl == Uml::pl_Cpp || pl == Uml::pl_Java) {
+        Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
+        if (pl == Uml::ProgrammingLanguage::Cpp || pl == Uml::ProgrammingLanguage::Java) {
             // Import_Utils::createUMLObject works better for C++ namespace
             // and java package than Object_Factory::createUMLObject
             Import_Utils::setRelatedClassifier(pConcept);
-            obj = Import_Utils::createUMLObject(Uml::ot_UMLObject, typeName);
+            obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
             Import_Utils::setRelatedClassifier(NULL);
         } else {
             // If it's obviously a pointer type (C++) then create a datatype.
             // Else we don't know what it is so as a compromise create a class.
-            Uml::Object_Type ot = (typeName.contains('*') ? Uml::ot_Datatype : Uml::ot_Class);
+            UMLObject::Object_Type ot =
+                (typeName.contains('*') ? UMLObject::ot_Datatype : UMLObject::ot_Class);
             obj = Object_Factory::createUMLObject(ot, typeName);
         }
         if (obj == NULL)

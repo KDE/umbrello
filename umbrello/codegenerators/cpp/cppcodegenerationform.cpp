@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,7 +13,6 @@
 
 // kde includes
 #include <kfiledialog.h>
-#include <kdebug.h>
 #include <klocale.h>
 #include <kcombobox.h>
 #include <kmessagebox.h>
@@ -28,8 +27,8 @@
  * @param parent   the parent of this widget
  * @param name     the object name
  */
-CPPCodeGenerationForm::CPPCodeGenerationForm( QWidget *parent, const char *name )
-        : QWidget (parent)
+CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
+  : QWidget(parent)
 {
     setObjectName(name);
     setupUi(this);
@@ -66,7 +65,7 @@ CPPCodeGenerationForm::CPPCodeGenerationForm( QWidget *parent, const char *name 
     m_optionDocToolTag =
         new QListWidgetItem(tr2i18n("Use '\\' as documentation tag instead of '@'"), ui_generalOptionsListWidget);
     m_optionDocToolTag->setFlags(flags);
-    
+
     connect(ui_generalOptionsListWidget,
             SIGNAL(itemClicked(QListWidgetItem *)), this,
             SLOT(generalOptionsListWidgetClicked(QListWidgetItem *)));

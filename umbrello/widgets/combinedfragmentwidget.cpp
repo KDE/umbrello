@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,10 +17,10 @@
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "docwindow.h"
@@ -31,7 +31,7 @@
 CombinedFragmentWidget::CombinedFragmentWidget(UMLView * view, CombinedFragmentType combinedfragmentType, Uml::IDType id )
   : UMLWidget(view, id)
 {
-    UMLWidget::setBaseType( Uml::wt_CombinedFragment );
+    UMLWidget::setBaseType( WidgetBase::wt_CombinedFragment );
     setCombinedFragmentType( combinedfragmentType );
     updateComponentSize();
 }
@@ -54,7 +54,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY)
 
     if ( m_CombinedFragment == Ref ) {
         if ( UMLWidget::getUseFillColour() ) {
-            p.setBrush( UMLWidget::getFillColour() );
+            p.setBrush( UMLWidget::getFillColor() );
         }
     }
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);

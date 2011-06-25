@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      David Hugh-Jones  <hughjonesd@yahoo.co.uk>    *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,8 +17,6 @@
 #include "operation.h"
 #include "umldoc.h"
 #include "uml.h"
-
-#include <kdebug.h>
 
 #include <QtCore/QRegExp>
 #include <QtCore/QString>
@@ -292,7 +290,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   QString SV = QChar('$');
   QString HV = QChar('%');
   foreach (UMLPackage* conc, includes ) {
-    if (conc->baseType() == Uml::ot_Datatype)
+    if (conc->baseType() == UMLObject::ot_Datatype)
         continue;
     QString neatName = cleanName(conc->name());
     if (neatName != AV && neatName != SV && neatName != HV) {
@@ -492,9 +490,9 @@ void PerlWriter::writeClass(UMLClassifier *c)
   emit codeGenerated(c, true);
 }
 
-Uml::Programming_Language PerlWriter::language() const
+Uml::ProgrammingLanguage PerlWriter::language() const
 {
-    return Uml::pl_Perl;
+    return Uml::ProgrammingLanguage::Perl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

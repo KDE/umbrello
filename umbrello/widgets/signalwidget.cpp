@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,17 +12,17 @@
 #include "signalwidget.h"
 
 // qt includes
-#include <QEvent>
-#include <QPolygon>
+#include <QtCore/QEvent>
+#include <QtGui/QPolygon>
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 
 // app includes
+#include "basictypes.h"
+#include "debug_utils.h"
 #include "uml.h"
-#include "umlnamespace.h"
 #include "umldoc.h"
 #include "uniqueid.h"
 #include "docwindow.h"
@@ -37,12 +37,12 @@
 SignalWidget::SignalWidget(UMLView * view, SignalType signalType, Uml::IDType id)
   : UMLWidget(view, id)
 {
-    UMLWidget::setBaseType(Uml::wt_Signal);
+    UMLWidget::setBaseType(WidgetBase::wt_Signal);
     m_SignalType = signalType;
     updateComponentSize();
     m_pName = NULL;
     if (signalType == SignalWidget::Time) {
-        m_pName = new FloatingTextWidget(view,Uml::tr_Floating,"");
+        m_pName = new FloatingTextWidget(view, Uml::TextRole::Floating,"");
         view->setupNewWidget(m_pName);
         m_pName->setX(0);
         m_pName->setY(0);
@@ -63,7 +63,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
     {
     case Send :
         if(UMLWidget::getUseFillColour())
-            p.setBrush(UMLWidget::getFillColour());
+            p.setBrush(UMLWidget::getFillColor());
         {
 
             a.setPoints( 5, offsetX           ,offsetY,
@@ -88,7 +88,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
         break;
     case Accept :
         if(UMLWidget::getUseFillColour())
-            p.setBrush(UMLWidget::getFillColour());
+            p.setBrush(UMLWidget::getFillColor());
         {
             a.setPoints( 5, offsetX ,      offsetY,
                             offsetX + w/3, (h/2)+offsetY,
@@ -113,7 +113,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
         break;
     case Time :
         if(UMLWidget::getUseFillColour())
-            p.setBrush(UMLWidget::getFillColour());
+            p.setBrush(UMLWidget::getFillColor());
         {
             a.setPoints( 4, offsetX ,    offsetY,
                             offsetX + w, offsetY+h,
@@ -147,7 +147,6 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
     if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
-
 
 void SignalWidget::setX(int newX)
 {
@@ -224,7 +223,6 @@ void SignalWidget::slotMenuSelection(QAction* action)
     }
 }
 
-
 void SignalWidget::showProperties()
 {
 }
@@ -286,7 +284,7 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( m_pView,Uml::tr_Floating,m_Text, textId );
+            m_pName = new FloatingTextWidget( m_pView, Uml::TextRole::Floating, m_Text, textId );
             if( ! m_pName->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
@@ -300,4 +298,3 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
 }
 
 #include "signalwidget.moc"
-

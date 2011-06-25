@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -76,7 +76,7 @@ void DCodeClassFieldDeclarationBlock::updateContent( )
     else if (!cf->parentIsAttribute())
     {
         UMLRole * role = dynamic_cast<UMLRole*>(cf->getParentObject());
-        if (role->object()->baseType() == Uml::ot_Interface)
+        if (role->object()->baseType() == UMLObject::ot_Interface)
         {
             // do nothing.. can't instanciate an interface
         } else {

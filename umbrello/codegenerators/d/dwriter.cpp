@@ -5,33 +5,34 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
-/***************************************************************************
+/*
     This is the "old" code generator that does not support code editing
     in the Modeller but uses significantly less file space because the
     source code is not replicated in the XMI file.
- ***************************************************************************/
+*/
 
 // own header
 #include "dwriter.h"
+
+// app includes
+#include "association.h"
+#include "attribute.h"
+#include "classifier.h"
+#include "codegen_utils.h"
+#include "debug_utils.h"
+#include "operation.h"
+#include "template.h"
+#include "umldoc.h"
+#include "umltemplatelist.h"
+
 // qt includes
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtCore/QRegExp>
-// kde includes
-#include <kdebug.h>
-// app includes
-#include "umldoc.h"
-#include "classifier.h"
-#include "operation.h"
-#include "attribute.h"
-#include "association.h"
-#include "template.h"
-#include "umltemplatelist.h"
-#include "codegen_utils.h"
 
 DWriter::DWriter()
 {
@@ -42,9 +43,9 @@ DWriter::~DWriter()
 {
 }
 
-Uml::Programming_Language DWriter::language() const
+Uml::ProgrammingLanguage DWriter::language() const
 {
-    return Uml::pl_D;
+    return Uml::ProgrammingLanguage::D;
 }
 
 // FIXME: doesn't work yet
@@ -59,7 +60,7 @@ void DWriter::writeModuleDecl(UMLClassifier *c, QTextStream &d)
 void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
 {
     // another preparation, determine what we have
-    UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
+    UMLAssociationList associations = c->getSpecificAssocs(Uml::AssociationType::Association); // BAD! only way to get "general" associations.
     UMLAssociationList uniAssociations = c->getUniAssociationToBeImplemented();
 
     UMLAssociationList aggregations = c->getAggregations();
@@ -77,7 +78,7 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
     UMLPackageList imports;
     findObjectsRelated(c, imports);
     foreach (UMLPackage* con, imports  ) {
-        if (con->baseType() == Uml::ot_Datatype)
+        if (con->baseType() == UMLObject::ot_Datatype)
             continue;
         QString pkg = con->package();
         if (!pkg.isEmpty() && pkg != c->package())
@@ -189,7 +190,7 @@ void DWriter::writeClass(UMLClassifier *c)
     }
 
     // another preparation, determine what we have
-    UMLAssociationList associations = c->getSpecificAssocs(Uml::at_Association); // BAD! only way to get "general" associations.
+    UMLAssociationList associations = c->getSpecificAssocs(Uml::AssociationType::Association); // BAD! only way to get "general" associations.
     UMLAssociationList uniAssociations = c->getUniAssociationToBeImplemented();
 
     UMLAssociationList aggregations = c->getAggregations();
@@ -425,7 +426,7 @@ void DWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility vis
         QString fieldName = cleanName(at->name());
         writeSingleAttributeAccessorMethods(
             at->getTypeName(), "m_" + fieldName, fieldName, at->doc(),
-            visibility, Uml::chg_Changeable, at->isStatic(), d);
+            visibility, Uml::Changeability::Changeable, at->isStatic(), d);
     }
 }
 
@@ -566,7 +567,7 @@ void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClass
                                                a->getRoleName(Uml::B),
                                                a->getMulti(Uml::B), a->getRoleDoc(Uml::B),
                                                a->getVisibility(Uml::B),
-                                               a->getChangeability(Uml::B), d);
+                                               a->changeability(Uml::B), d);
                 }
             }
 
@@ -578,7 +579,7 @@ void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClass
                                                a->getMulti(Uml::A),
                                                a->getRoleDoc(Uml::A),
                                                a->getVisibility(Uml::A),
-                                               a->getChangeability(Uml::A),
+                                               a->changeability(Uml::A),
                                                d);
                 }
             }
@@ -587,7 +588,7 @@ void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClass
 }
 
 void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleName, QString multi,
-        QString description, Uml::Visibility visib, Uml::Changeability_Type change,
+        QString description, Uml::Visibility visib, Uml::Changeability change,
         QTextStream &d)
 {
     if (multi.isEmpty() || multi.contains(QRegExp("^[01]$"))) {
@@ -605,7 +606,7 @@ void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleNa
 
 void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QString fieldVarName,
         QString fieldName, QString description,
-        Uml::Visibility visibility, Uml::Changeability_Type changeType,
+        Uml::Visibility visibility, Uml::Changeability changeType,
         QTextStream &d)
 {
     Q_UNUSED(visibility);
@@ -614,7 +615,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     QString fieldNameUC = Codegen_Utils::capitalizeFirstLetter(fieldNameUP);
 
     // ONLY IF changeability is NOT Frozen
-    if (changeType != Uml::chg_Frozen) {
+    if (changeType != Uml::Changeability::Frozen) {
         writeDocumentation("Adds a " + fieldNameUP + " to the list of " +
                            fieldName + '.', description, "", m_indentation, d);
 
@@ -625,7 +626,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
     }
 
     // ONLY IF changeability is Changeable
-    if (changeType == Uml::chg_Changeable) {
+    if (changeType == Uml::Changeability::Changeable) {
         writeDocumentation("Removes a " + fieldNameUP + " from the list of " +
                            fieldName + '.', description, "", m_indentation, d);
 
@@ -655,14 +656,14 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
 
 void DWriter::writeSingleAttributeAccessorMethods(QString fieldClassName,
      QString fieldVarName, QString fieldName, QString description, Uml::Visibility /*visibility*/,
-     Uml::Changeability_Type change, bool isFinal, QTextStream &d) {
+     Uml::Changeability change, bool isFinal, QTextStream &d) {
 
     fieldClassName = fixTypeName(fieldClassName);
     QString fieldNameUC = Codegen_Utils::capitalizeFirstLetter(fieldName);
     if (fieldName.left(2) == "m_") fieldName = fieldName.right(fieldName.count()-2);
 
     // set method
-    if (change == Uml::chg_Changeable && !isFinal) {
+    if (change == Uml::Changeability::Changeable && !isFinal) {
         writeDocumentation("Sets the value of " + fieldName + '.', description,
                            "@param new" + fieldNameUC + " The new value of " + fieldName + '.',
                            m_indentation, d);

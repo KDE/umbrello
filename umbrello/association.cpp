@@ -30,42 +30,14 @@
 
 using namespace Uml;
 
-// static members
-const Uml::Association_Type UMLAssociation::atypeFirst = Uml::at_Generalization;
-const Uml::Association_Type UMLAssociation::atypeLast = Uml::at_Relationship;
-const unsigned UMLAssociation::nAssocTypes = (unsigned)atypeLast - (unsigned)atypeFirst + 1;
-const QString UMLAssociation::assocTypeStr[UMLAssociation::nAssocTypes] = {
-            // Elements must be listed in the same order as in the Uml::Association_Type.
-            i18n("Generalization"),             // at_Generalization
-            i18n("Aggregation"),                // at_Aggregation
-            i18n("Dependency"),                 // at_Dependency
-            i18n("Association"),                // at_Association
-            i18n("Self Association"),           // at_Association_Self
-            i18n("Collaboration Message"),      // at_Coll_Message
-            i18n("Sequence Message"),           // at_Seq_Message
-            i18n("Collaboration Self Message"), // at_Coll_Message_Self
-            i18n("Sequence Self Message"),      // at_Seq_Message_Self
-            i18n("Containment"),                // at_Containment
-            i18n("Composition"),                // at_Composition
-            i18n("Realization"),                // at_Realization
-            i18n("Uni Association"),            // at_UniAssociation
-            i18n("Anchor"),                     // at_Anchor
-            i18n("State Transition"),           // at_State
-            i18n("Activity"),                   // at_Activity
-            i18n("Exception"),                  // at_Activity
-            i18n("Category to Parent"),         // at_Category2Parent
-            i18n("Child to Category"),          // at_Child2Category
-            i18n("Relationship" )               // at_Relationship
-        };
-
 /**
  * Sets up an association.
  * A new unique ID is assigned internally.
- * @param type    The Uml::Association_Type to construct.
+ * @param type    The AssociationType to construct.
  * @param roleA   Pointer to the UMLObject in role A.
  * @param roleB   Pointer to the UMLObject in role B.
  */
-UMLAssociation::UMLAssociation( Uml::Association_Type type,
+UMLAssociation::UMLAssociation( Uml::AssociationType type,
                                 UMLObject * roleA, UMLObject * roleB )
   : UMLObject("")
 {
@@ -79,10 +51,10 @@ UMLAssociation::UMLAssociation( Uml::Association_Type type,
  * Constructs an association - for loading only.
  * This constructor should not normally be used as it constructs
  * an incomplete association (i.e. the role objects are missing.)
- * @param type   The Uml::Association_Type to construct.
- *               Default: Uml::at_Unknown.
+ * @param type   The AssociationType to construct.
+ *               Default: Unknown.
  */
-UMLAssociation::UMLAssociation( Uml::Association_Type type)
+UMLAssociation::UMLAssociation( Uml::AssociationType type)
   : UMLObject("", Uml::id_Reserved)
 {
     init(type, NULL, NULL);
@@ -126,7 +98,7 @@ bool UMLAssociation::operator==(const UMLAssociation &rhs) const
  * Returns the Association_Type of the UMLAssociation.
  * @return  The Association_Type of the UMLAssociation.
  */
-Uml::Association_Type UMLAssociation::getAssocType() const
+Uml::AssociationType UMLAssociation::getAssocType() const
 {
     return m_AssocType;
 }
@@ -143,7 +115,7 @@ QString UMLAssociation::toString() const
         string += ':';
         string += m_pRole[A]->name();
     }
-    string += ':' + toString(m_AssocType) + ':';
+    string += ':' + m_AssocType.toStringI18n() + ':';
     if(m_pRole[B])
     {
         string += m_pRole[B]->object( )->name();
@@ -151,38 +123,6 @@ QString UMLAssociation::toString() const
         string += m_pRole[B]->name();
     }
     return string;
-}
-
-/**
- * Converts a Uml::Association_Type to its string representation.
- *
- * @param atype   The Association_Type enum value to convert.
- * @return  The string representation of the Association_Type.
- */
-QString UMLAssociation::toString (Uml::Association_Type atype)
-{
-    if (atype < atypeFirst || atype > atypeLast)
-        return QString();
-    return assocTypeStr[(unsigned)atype - (unsigned)atypeFirst];
-}
-
-/**
- * Returns true if the given Association_Type has a representation as a
- * UMLAssociation.
- */
-bool UMLAssociation::assocTypeHasUMLRepresentation(Uml::Association_Type atype)
-{
-    return (atype == Uml::at_Generalization ||
-            atype == Uml::at_Realization ||
-            atype == Uml::at_Association ||
-            atype == Uml::at_Association_Self ||
-            atype == Uml::at_UniAssociation ||
-            atype == Uml::at_Aggregation ||
-            atype == Uml::at_Relationship ||
-            atype == Uml::at_Composition ||
-            atype == Uml::at_Dependency ||
-            atype == Uml::at_Category2Parent ||
-            atype == Uml::at_Child2Category);
 }
 
 /**
@@ -201,7 +141,7 @@ bool UMLAssociation::resolveRef()
         UMLObject *objB = getUMLRole(B)->object();
         // Check if need to change the assoc type to Realization
         if (isRealization(objA, objB)) {
-            m_AssocType = Uml::at_Realization;
+            m_AssocType = Uml::AssociationType::Realization;
         }
         m_pUMLPackage->addAssocToConcepts(this);
         return true;
@@ -215,7 +155,7 @@ bool UMLAssociation::resolveRef()
  */
 void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
-    if (m_AssocType == Uml::at_Generalization) {
+    if (m_AssocType == Uml::AssociationType::Generalization) {
         QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
         assocElement.setAttribute( "discriminator", "" );
         assocElement.setAttribute( "child", ID2STR(getObjectId(A)) );
@@ -223,28 +163,28 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
         qElement.appendChild( assocElement );
         return;
     }
-    if (m_AssocType == Uml::at_Realization) {
+    if (m_AssocType == Uml::AssociationType::Realization) {
         QDomElement assocElement = UMLObject::save("UML:Abstraction", qDoc);
         assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
         assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
         qElement.appendChild( assocElement );
         return;
     }
-    if (m_AssocType == Uml::at_Dependency) {
+    if (m_AssocType == Uml::AssociationType::Dependency) {
         QDomElement assocElement = UMLObject::save("UML:Dependency", qDoc);
         assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
         assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
         qElement.appendChild( assocElement );
         return;
     }
-    if (m_AssocType == Uml::at_Child2Category ) {
+    if (m_AssocType == Uml::AssociationType::Child2Category ) {
         QDomElement assocElement = UMLObject::save("UML:Child2Category", qDoc);
         assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
         assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
         qElement.appendChild( assocElement );
         return;
     }
-    if (m_AssocType == Uml::at_Category2Parent ) {
+    if (m_AssocType == Uml::AssociationType::Category2Parent ) {
         QDomElement assocElement = UMLObject::save("UML:Category2Parent", qDoc);
         assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
         assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
@@ -271,14 +211,14 @@ bool UMLAssociation::load( QDomElement & element )
 
     UMLDoc * doc = UMLApp::app()->document();
     UMLObject * obj[2] = { NULL, NULL };
-    if (m_AssocType == Uml::at_Generalization ||
-        m_AssocType == Uml::at_Realization    ||
-        m_AssocType == Uml::at_Dependency     ||
-        m_AssocType == Uml::at_Child2Category ||
-        m_AssocType == Uml::at_Category2Parent
+    if (m_AssocType == Uml::AssociationType::Generalization ||
+        m_AssocType == Uml::AssociationType::Realization    ||
+        m_AssocType == Uml::AssociationType::Dependency     ||
+        m_AssocType == Uml::AssociationType::Child2Category ||
+        m_AssocType == Uml::AssociationType::Category2Parent
         ) {
         for (unsigned r = Uml::A; r <= Uml::B; ++r) {
-            const QString fetch = (m_AssocType == Uml::at_Generalization ?
+            const QString fetch = (m_AssocType == Uml::AssociationType::Generalization ?
                                    r == Uml::A ? "child" : "parent"
                        : r == Uml::A ? "client" : "supplier");
             QString roleIdStr = element.attribute(fetch, "");
@@ -295,7 +235,7 @@ bool UMLAssociation::load( QDomElement & element )
             } else {
                 m_pRole[role]->setObject(obj[r]);
                 if (m_pUMLPackage == NULL) {
-                    Uml::Model_Type mt = Model_Utils::convert_OT_MT(obj[r]->baseType());
+                    Uml::ModelType mt = Model_Utils::convert_OT_MT(obj[r]->baseType());
                     m_pUMLPackage = doc->rootFolder(mt);
                     uDebug() << "assoctype " << m_AssocType
                         << ": setting model type " << mt;
@@ -332,7 +272,7 @@ bool UMLAssociation::load( QDomElement & element )
                 }
                 // Since we know for sure that we're dealing with a non
                 // umbrello file, use deferred resolution unconditionally.
-                if (tagEq(tag, "child") || tagEq(tag, "subtype") || tagEq(tag, "client")) {
+                if (UMLDoc::tagEq(tag, "child") || UMLDoc::tagEq(tag, "subtype") || UMLDoc::tagEq(tag, "client")) {
                     getUMLRole(A)->setSecondaryId(idStr);
                 } else {
                     getUMLRole(B)->setSecondaryId(idStr);
@@ -342,7 +282,7 @@ bool UMLAssociation::load( QDomElement & element )
 
         // it is a realization if either endpoint is an interface
         if (isRealization(obj[A], obj[B])) {
-            m_AssocType = Uml::at_Realization;
+            m_AssocType = Uml::AssociationType::Realization;
         }
         return true;
     }
@@ -356,9 +296,9 @@ bool UMLAssociation::load( QDomElement & element )
         QString tag = tempElement.tagName();
         if (Model_Utils::isCommonXMIAttribute(tag))
             continue;
-        if (!tagEq(tag, "Association.connection") &&
-                !tagEq(tag, "Namespace.ownedElement") &&
-                !tagEq(tag, "Namespace.contents")) {
+        if (!UMLDoc::tagEq(tag, "Association.connection") &&
+                !UMLDoc::tagEq(tag, "Namespace.ownedElement") &&
+                !UMLDoc::tagEq(tag, "Namespace.contents")) {
             uWarning() << "unknown child node " << tag;
             continue;
         }
@@ -372,8 +312,8 @@ bool UMLAssociation::load( QDomElement & element )
             return false;
         }
         tag = tempElement.tagName();
-        if (!tagEq(tag, "AssociationEndRole") &&
-                !tagEq(tag, "AssociationEnd")) {
+        if (!UMLDoc::tagEq(tag, "AssociationEndRole") &&
+                !UMLDoc::tagEq(tag, "AssociationEnd")) {
             uWarning() << "unknown child (A) tag " << tag;
             return false;
         }
@@ -389,8 +329,8 @@ bool UMLAssociation::load( QDomElement & element )
             return false;
         }
         tag = tempElement.tagName();
-        if (!tagEq(tag, "AssociationEndRole") &&
-                !tagEq(tag, "AssociationEnd")) {
+        if (!UMLDoc::tagEq(tag, "AssociationEndRole") &&
+                !UMLDoc::tagEq(tag, "AssociationEnd")) {
             uWarning() << "unknown child (B) tag " << tag;
             return false;
         }
@@ -398,7 +338,7 @@ bool UMLAssociation::load( QDomElement & element )
             return false;
 
         if (m_pUMLPackage == NULL) {
-            Uml::Model_Type mt = Model_Utils::convert_OT_MT(getObject(B)->baseType());
+            Uml::ModelType mt = Model_Utils::convert_OT_MT(getObject(B)->baseType());
             m_pUMLPackage = doc->rootFolder(mt);
             uDebug() << "setting model type " << mt;
         }
@@ -413,12 +353,12 @@ bool UMLAssociation::load( QDomElement & element )
         // is not complete, so we need to finish the analysis here.
 
         // find self-associations
-        if (m_AssocType == Uml::at_Association && getObjectId(A) == getObjectId(B))
-            m_AssocType = Uml::at_Association_Self;
+        if (m_AssocType == Uml::AssociationType::Association && getObjectId(A) == getObjectId(B))
+            m_AssocType = Uml::AssociationType::Association_Self;
 
         // fall-back default type
-        if (m_AssocType == Uml::at_Unknown) {
-            m_AssocType = Uml::at_Association;
+        if (m_AssocType == Uml::AssociationType::Unknown) {
+            m_AssocType = Uml::AssociationType::Association;
         }
 
         return true;
@@ -426,51 +366,55 @@ bool UMLAssociation::load( QDomElement & element )
 
     // From here on it's old-style stuff.
     QString assocTypeStr = element.attribute( "assoctype", "-1" );
-    Uml::Association_Type assocType = Uml::at_Unknown;
+    Uml::AssociationType assocType = Uml::AssociationType::Unknown;
     if (assocTypeStr[0] >= 'a' && assocTypeStr[0] <= 'z') {
         // In an earlier version, the natural assoctype names were saved.
-        const QString assocTypeString[nAssocTypes] = {
-                    "generalization",   // at_Generalization
-                    "aggregation",      // at_Aggregation
-                    "dependency",       // at_Dependency
-                    "association",      // at_Association
-                    "associationself",  // at_Association_Self
-                    "collmessage",      // at_Coll_Message
-                    "seqmessage",       // at_Seq_Message
-                    "collmessageself",  // at_Coll_Message_Self
-                    "seqmessageself",   // at_Seq_Message_Self
-                    "implementation",   // at_Implementation
-                    "composition",      // at_Composition
-                    "realization",      // at_Realization
-                    "uniassociation",   // at_UniAssociation
-                    "anchor",           // at_Anchor
-                    "state",            // at_State
-                    "activity",         // at_Activity
-                    "exception",        // at_Exception
-                    "category2parent"   // at_Category2Parent
-                    "child2category"    // at_Child2Category
-                    "relationship"      // at_Relationship
+        const QString assocTypeString[] = {
+                    "generalization",   // Uml::AssociationType::Generalization
+                    "aggregation",      // Uml::AssociationType::Aggregation
+                    "dependency",       // Uml::AssociationType::Dependency
+                    "association",      // Uml::AssociationType::Association
+                    "associationself",  // Uml::AssociationType::Association_Self
+                    "collmessage",      // Uml::AssociationType::Coll_Message
+                    "seqmessage",       // Uml::AssociationType::Seq_Message
+                    "collmessageself",  // Uml::AssociationType::Coll_Message_Self
+                    "seqmessageself",   // Uml::AssociationType::Seq_Message_Self
+                    "implementation",   // Uml::AssociationType::Implementation
+                    "composition",      // Uml::AssociationType::Composition
+                    "realization",      // Uml::AssociationType::Realization
+                    "uniassociation",   // Uml::AssociationType::UniAssociation
+                    "anchor",           // Uml::AssociationType::Anchor
+                    "state",            // Uml::AssociationType::State
+                    "activity",         // Uml::AssociationType::Activity
+                    "exception",        // Uml::AssociationType::Exception
+                    "category2parent"   // Uml::AssociationType::Category2Parent
+                    "child2category"    // Uml::AssociationType::Child2Category
+                    "relationship"      // Uml::AssociationType::Relationship
         };
+        const int arraySize = sizeof(assocTypeString)/sizeof(QString);
+        uDebug() << "AssociationType string array size = " << arraySize;
 
-        unsigned index;
-        for (index = 0; index < nAssocTypes; ++index)
+        int index;
+        for (index = 0; index < arraySize; ++index)
             if (assocTypeStr == assocTypeString[index])
                 break;
-        if (index < nAssocTypes)
-            assocType = (Uml::Association_Type)index;
+        if (index < arraySize)
+            assocType = Uml::AssociationType::Value(index);
     } else {
         int assocTypeNum = assocTypeStr.toInt();
-        if (assocTypeNum < (int)atypeFirst || assocTypeNum > (int)atypeLast) {
-            uWarning() << "bad assoctype of UML:Association " << ID2STR(id());
+        if (assocTypeNum < (int)Uml::AssociationType::Generalization ||   // first enum
+            assocTypeNum > (int)Uml::AssociationType::Relationship) {     // last enum
+            uWarning() << "bad assoctype of UML:AssociationType " << ID2STR(id());
             return false;
         }
-        assocType = (Uml::Association_Type)assocTypeNum;
+        assocType = Uml::AssociationType::Value(assocTypeNum);
     }
-    setAssocType( assocType );
+    setAssociationType( assocType );
 
     Uml::IDType roleAObjID = STR2ID(element.attribute( "rolea", "-1" ));
     Uml::IDType roleBObjID = STR2ID(element.attribute( "roleb", "-1" ));
-    if (assocType == at_Aggregation || assocType == at_Composition) {
+    if (assocType == Uml::AssociationType::Aggregation ||
+        assocType == Uml::AssociationType::Composition) {
         // Flip roles to compensate for changed diamond logic in LinePath.
         // For further explanations see AssociationWidget::loadFromXMI.
         Uml::IDType tmp = roleAObjID;
@@ -516,9 +460,9 @@ bool UMLAssociation::load( QDomElement & element )
     QString changeabilityA = element.attribute( "changeabilitya", "0");
     QString changeabilityB = element.attribute( "changeabilityb", "0");
     if (changeabilityA.toInt() > 0)
-        setChangeability ( (Uml::Changeability_Type) changeabilityA.toInt(), A);
+        setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityA.toInt())), A);
     if (changeabilityB.toInt() > 0)
-        setChangeability ( (Uml::Changeability_Type) changeabilityB.toInt(), B);
+        setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityB.toInt())), B);
 
     return true;
 }
@@ -569,7 +513,7 @@ Uml::IDType UMLAssociation::getRoleId(Role_Type role) const
 /**
  * Returns the changeability.
  */
-Uml::Changeability_Type UMLAssociation::getChangeability(Uml::Role_Type role) const
+Uml::Changeability UMLAssociation::changeability(Uml::Role_Type role) const
 {
     return m_pRole[role]->changeability();
 }
@@ -640,10 +584,10 @@ bool UMLAssociation::getOldLoadMode() const
  * Sets the assocType of the UMLAssociation.
  * @param assocType The Association_Type of the UMLAssociation.
  */
-void UMLAssociation::setAssocType(Uml::Association_Type assocType)
+void UMLAssociation::setAssociationType(Uml::AssociationType assocType)
 {
     m_AssocType = assocType;
-    if (m_AssocType == at_UniAssociation)
+    if (m_AssocType == Uml::AssociationType::UniAssociation)
     {
         // In this case we need to auto-set the multiplicity/rolenames
         // of the roles
@@ -679,7 +623,7 @@ void UMLAssociation::setVisibility(Uml::Visibility value, Uml::Role_Type role)
  * @param value     Changeability_Type of the given role.
  * @param role      The Uml::Role_Type to which the changeability is being set
  */
-void UMLAssociation::setChangeability(Uml::Changeability_Type value, Uml::Role_Type role)
+void UMLAssociation::setChangeability(Uml::Changeability value, Uml::Role_Type role)
 {
     m_pRole[role]->setChangeability(value);
 }
@@ -716,26 +660,6 @@ void UMLAssociation::setRoleDoc(const QString &doc, Uml::Role_Type role)
 }
 
 /**
- * Convert Changeability_Type value into QString representation.
- * @param type   The Changeability_Type enum value to convert.
- */
-QString UMLAssociation::toString(Uml::Changeability_Type type)
-{
-    switch (type) {
-    case Uml::chg_Frozen:
-        return "frozen";
-        break;
-    case Uml::chg_AddOnly:
-        return "addOnly";
-        break;
-    case Uml::chg_Changeable:
-    default:
-        return "changeable";
-        break;
-    }
-}
-
-/**
  * When the association type is "Generalization" and at least one of the
  * given objects an interface, then it is a "Realization".
  * @param objA   UML object as role A
@@ -745,14 +669,14 @@ QString UMLAssociation::toString(Uml::Changeability_Type type)
 bool UMLAssociation::isRealization(UMLObject* objA, UMLObject* objB) const
 {
     bool aIsInterface = false;
-    if (objA && (objA->baseType() == Uml::ot_Interface)) {
+    if (objA && (objA->baseType() == UMLObject::ot_Interface)) {
         aIsInterface = true;
     }
     bool bIsInterface = false;
-    if (objB && (objB->baseType() == Uml::ot_Interface)) {
+    if (objB && (objB->baseType() == UMLObject::ot_Interface)) {
         bIsInterface = true;
     }
-    return (m_AssocType == Uml::at_Generalization) &&
+    return (m_AssocType == Uml::AssociationType::Generalization) &&
            (aIsInterface || bIsInterface);
 }
 
@@ -762,7 +686,7 @@ bool UMLAssociation::isRealization(UMLObject* objA, UMLObject* objB) const
  * @param roleAObj  Pointer to the role A UMLObject.
  * @param roleBObj  Pointer to the role B UMLObject.
  */
-void UMLAssociation::init(Uml::Association_Type type, UMLObject *roleAObj, UMLObject *roleBObj)
+void UMLAssociation::init(Uml::AssociationType type, UMLObject *roleAObj, UMLObject *roleBObj)
 {
     m_AssocType = type;
     m_BaseType = ot_Association;

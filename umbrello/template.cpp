@@ -22,21 +22,22 @@ UMLTemplate::UMLTemplate(UMLObject *parent, const QString& name,
         : UMLClassifierListItem( parent, name, id )
 {
     setTypeName( type );
-    m_BaseType = Uml::ot_Template;
+    m_BaseType = UMLObject::ot_Template;
 }
 
 UMLTemplate::UMLTemplate(UMLObject *parent)
         : UMLClassifierListItem( parent )
 {
-    m_BaseType = Uml::ot_Template;
+    m_BaseType = UMLObject::ot_Template;
 }
 
 UMLTemplate::~UMLTemplate()
 {
 }
 
-QString UMLTemplate::toString(Uml::Signature_Type /*sig = st_NoSig*/)
+QString UMLTemplate::toString(Uml::SignatureType sig)
 {
+    Q_UNUSED(sig);
     if (m_pSecondary == NULL || m_pSecondary->name() == "class") {
         return name();
     } else {

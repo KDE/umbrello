@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,23 +14,23 @@
 #include <QtGui/QPainter>
 #include <QtGui/QFrame>
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 #include <kcolordialog.h>
 #include <kinputdialog.h>
 // app includes
+#include "debug_utils.h"
+#include "dialog_utils.h"
+#include "listpopupmenu.h"
 #include "notewidgetcontroller.h"
 #include "notedialog.h"
 #include "umldoc.h"
 #include "umlview.h"
 #include "uml.h"
-#include "listpopupmenu.h"
-#include "dialog_utils.h"
 
 NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
   : UMLWidget(view, id, new NoteWidgetController(this))
 {
-    UMLWidget::setBaseType(Uml::wt_Note);
+    UMLWidget::setBaseType(WidgetBase::wt_Note);
     m_DiagramLink = Uml::id_None;
     m_NoteType = noteType;
     setZ(20); //make sure always on top.
@@ -75,7 +75,7 @@ void NoteWidget::setDiagramLink(Uml::IDType viewID)
         uError() << "no view found for viewID " << ID2STR(viewID);
         return;
     }
-    QString linkText("Diagram: " + view->getName());
+    QString linkText("Diagram: " + view->name());
     setDocumentation(linkText);
     m_DiagramLink = viewID;
 }
@@ -128,7 +128,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
 
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {
-        QBrush brush( UMLWidget::getFillColour() );
+        QBrush brush( UMLWidget::getFillColor() );
         p.setBrush(brush);
         p.drawPolygon(poly);
     } else

@@ -4,33 +4,37 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "umlviewdialog.h"
 
-// qt includes
-#include <QtGui/QFrame>
-#include <QtGui/QHBoxLayout>
+// local includes
+#include "classoptionspage.h"
+#include "debug_utils.h"
+#include "icon_utils.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "umlview.h"
+#include "umlwidgetcolorpage.h"
 
 // kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kfontdialog.h>
-#include <kdebug.h>
 #include <kvbox.h>
 
-// local includes
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
-#include "icon_utils.h"
+// qt includes
+#include <QtGui/QFrame>
+#include <QtGui/QHBoxLayout>
 
-
-UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView )
-    : KPageDialog(pParent)
+/**
+ * Constructor.
+ */
+UMLViewDialog::UMLViewDialog(QWidget * pParent, UMLView * pView)
+  : KPageDialog(pParent)
 {
     setCaption( i18n("Properties") );
     setButtons( Ok | Apply | Cancel | Help );
@@ -39,12 +43,15 @@ UMLViewDialog::UMLViewDialog( QWidget * pParent, UMLView * pView )
     setFaceType( KPageDialog::List );
     showButtonSeparator( true );
     m_pView = pView;
-    m_options = m_pView->getOptionState();
+    m_options = m_pView->optionState();
     setupPages();
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
+/**
+ * Destructor.
+ */
 UMLViewDialog::~UMLViewDialog()
 {
 }
@@ -87,7 +94,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
 
     m_diagramProperties = new DiagramPropertiesPage(page);
 
-    m_diagramProperties->ui_diagramName->setText( m_pView->getName() );
+    m_diagramProperties->ui_diagramName->setText( m_pView->name() );
     m_diagramProperties->ui_zoom->setValue(m_pView->currentZoom());
     m_diagramProperties->ui_showOpSigs->setChecked( m_pView->getShowOpSig() );
 
@@ -106,7 +113,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
  */
 void UMLViewDialog::setupClassPage()
 {
-    if ( m_pView->getType() != Uml::dt_Class ) {
+    if ( m_pView->type() != Uml::DiagramType::Class ) {
         return;
     }
     QFrame * newPage = new QFrame();
@@ -137,7 +144,7 @@ void UMLViewDialog::setupColorPage()
 }
 
 /**
- *   Sets up font page.
+ * Sets up font page.
  */
 void UMLViewDialog::setupFontPage()
 {
@@ -148,13 +155,13 @@ void UMLViewDialog::setupFontPage()
     addPage(m_pageFontItem);
 
     m_pChooser = new KFontChooser( (QWidget*)page, KFontChooser::NoDisplayFlags, QStringList(), 0);
-    m_pChooser->setFont( m_pView->getOptionState().uiState.font );
+    m_pChooser->setFont( m_pView->optionState().uiState.font );
 }
 
 /**
  * Applies the properties of the given page.
  */
-void UMLViewDialog::applyPage( KPageWidgetItem *item )
+void UMLViewDialog::applyPage(KPageWidgetItem *item)
 {
     if ( item == m_pageGeneralItem )
     {
@@ -183,7 +190,7 @@ void UMLViewDialog::applyPage( KPageWidgetItem *item )
     }
     else if ( item == m_pageDisplayItem )
     {
-        if ( m_pView->getType() != Uml::dt_Class ) {
+        if ( m_pView->type() != Uml::DiagramType::Class ) {
             return;
         }
         m_pOptionsPage->updateUMLWidget();
@@ -205,22 +212,21 @@ void UMLViewDialog::checkName()
 {
     QString name = m_diagramProperties->ui_diagramName-> text();
     UMLDoc * pDoc = UMLApp::app()->document();
-    UMLView * pView = pDoc->findView( m_pView->getType(), name );
+    UMLView * pView = pDoc->findView( m_pView->type(), name );
     if ( name.length() == 0 ) {
         KMessageBox::sorry(this, i18n("The name you have entered is invalid."),
                            i18n("Invalid Name"), 0);
-        m_diagramProperties->ui_diagramName->setText( m_pView->getName() );
+        m_diagramProperties->ui_diagramName->setText( m_pView->name() );
         return;
     }
     if ( pView && pView != m_pView ) {
         KMessageBox::sorry(this, i18n("The name you have entered is not unique."),
                            i18n("Name Not Unique"), 0);
-        m_diagramProperties->ui_diagramName->setText( m_pView->getName() );
+        m_diagramProperties->ui_diagramName->setText( m_pView->name() );
         return;
     }
     m_pView->setName( name );
     pDoc->signalDiagramRenamed(m_pView);
 }
-
 
 #include "umlviewdialog.moc"

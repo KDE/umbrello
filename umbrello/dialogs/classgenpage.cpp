@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,6 +12,7 @@
 #include "classgenpage.h"
 
 // app includes
+#include "debug_utils.h"
 #include "umlobject.h"
 #include "objectwidget.h"
 #include "uml.h"
@@ -28,7 +29,6 @@
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kmessagebox.h>
 #include <kcombobox.h>
 #include <klineedit.h>
@@ -54,39 +54,39 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // setup name
     QString name;
-    Uml::Object_Type t = o->baseType();
+    UMLObject::Object_Type t = o->baseType();
     switch (t) {
-    case Uml::ot_Class:
+    case UMLObject::ot_Class:
         name = i18n("Class &name:");
         break;
-    case Uml::ot_Actor:
+    case UMLObject::ot_Actor:
         name = i18n("Actor &name:");
         break;
-    case  Uml::ot_Package:
+    case  UMLObject::ot_Package:
         name = i18n("Package &name:");
         break;
-    case  Uml::ot_UseCase:
+    case  UMLObject::ot_UseCase:
         name = i18n("Use case &name:");
         break;
-    case  Uml::ot_Interface:
+    case  UMLObject::ot_Interface:
         name = i18n("Interface &name:");
         break;
-    case  Uml::ot_Component:
+    case  UMLObject::ot_Component:
         name = i18n("Component &name:");
         break;
-    case  Uml::ot_Node:
+    case  UMLObject::ot_Node:
         name = i18n("Node &name:");
         break;
-    case  Uml::ot_Artifact:
+    case  UMLObject::ot_Artifact:
         name = i18n("Artifact &name:");
         break;
-    case  Uml::ot_Enum:
+    case  UMLObject::ot_Enum:
         name = i18n("Enum &name:");
         break;
-    case  Uml::ot_Datatype:
+    case  UMLObject::ot_Datatype:
         name = i18n("Datatype &name:");
         break;
-    case  Uml::ot_Entity:
+    case  UMLObject::ot_Entity:
         name = i18n("Entity &name:");
         break;
     default:
@@ -119,11 +119,11 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
     m_pStereoTypeCB->setItemText( m_pStereoTypeCB->currentIndex(), o->stereotype() );
     m_pStereoTypeL->setBuddy(m_pStereoTypeCB);
 
-    if (t == Uml::ot_Interface || t == Uml::ot_Datatype || t == Uml::ot_Enum) {
+    if (t == UMLObject::ot_Interface || t == UMLObject::ot_Datatype || t == UMLObject::ot_Enum) {
         m_pStereoTypeCB->setEditable(false);
     }
 
-    if (t == Uml::ot_Class || t == Uml::ot_Interface) {
+    if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
         m_pPackageL = new QLabel(i18n("Package name:"), this);
         m_pNameLayout->addWidget(m_pPackageL, 2, 0);
 
@@ -142,15 +142,16 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
         // if parent package == NULL
         // or if the parent package is the Logical View folder
-        if ( parentPackage == NULL || parentPackage== static_cast<UMLPackage*>(m_pUmldoc->rootFolder(Uml::mt_Logical)))
+        if ( parentPackage == NULL ||
+             parentPackage == static_cast<UMLPackage*>(m_pUmldoc->rootFolder(Uml::ModelType::Logical)))
             m_pPackageCB->setEditText( QString() );
         else
             m_pPackageCB->setEditText(parentPackage->name());
     }
 
-    if (t == Uml::ot_Class || t == Uml::ot_UseCase ) {
+    if (t == UMLObject::ot_Class || t == UMLObject::ot_UseCase ) {
         QString abstractCaption;
-        if ( t == Uml::ot_Class  ) {
+        if ( t == UMLObject::ot_Class  ) {
             abstractCaption = i18n("A&bstract class");
         } else {
             abstractCaption = i18n("A&bstract use case");
@@ -160,13 +161,13 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
         m_pNameLayout->addWidget( m_pAbstractCB, 3, 0 );
     }
 
-    if (t == Uml::ot_Component) {
+    if (t == UMLObject::ot_Component) {
         m_pExecutableCB = new QCheckBox(i18nc("component is executable", "&Executable"), this);
         m_pExecutableCB->setChecked( (static_cast<UMLComponent*>(o))->getExecutable() );
         m_pNameLayout->addWidget( m_pExecutableCB, 3, 0 );
     }
 
-    if (t == Uml::ot_Artifact) {
+    if (t == UMLObject::ot_Artifact) {
         // setup artifact draw as
         m_pDrawAsGB = new QGroupBox(i18n("Draw As"), this);
         QHBoxLayout* drawAsLayout = new QHBoxLayout(m_pDrawAsGB);
@@ -286,7 +287,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pDrawActorCB->setChecked( o->drawAsActor() );
     m_pNameLayout->addWidget( m_pDrawActorCB, 2, 0 );
 
-    if (view->getType() == Uml::dt_Collaboration) {
+    if (view->type() == Uml::DiagramType::Collaboration) {
         m_pMultiCB = new QCheckBox(i18n("Multiple instance"), this);
         m_pMultiCB->setChecked(o->multipleInstance());
         m_pNameLayout->addWidget(m_pMultiCB, 2,1);
@@ -330,9 +331,9 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
     m_pNameLayout->setSpacing(6);
     topLayout->addLayout(m_pNameLayout, 3, 2);
     m_pNameL = new QLabel(this);
-    if (widget->baseType() == Uml::wt_Component) {
+    if (widget->baseType() == WidgetBase::wt_Component) {
         m_pNameL->setText(i18n("Component name:"));
-    } else if (widget->baseType() == Uml::wt_Node) {
+    } else if (widget->baseType() == WidgetBase::wt_Node) {
         m_pNameL->setText(i18n("Node name:"));
     } else {
         uWarning() << "ClassGenPage called on unknown widget type";
@@ -416,17 +417,17 @@ void ClassGenPage::updateObject()
             m_pObject->setStereotype(m_pStereoTypeCB->currentText());
         }
 
-        Uml::Object_Type t = m_pObject->baseType();
-        if (t == Uml::ot_Class || t == Uml::ot_Interface) {
+        UMLObject::Object_Type t = m_pObject->baseType();
+        if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
             QString packageName = m_pPackageCB->currentText().trimmed();
             UMLObject* newPackage = NULL;
 
             if ( !packageName.isEmpty()) {
-                if ( ( newPackage = m_pUmldoc->findUMLObject(packageName, Uml::ot_Package) ) == NULL ) {
-                    newPackage = Import_Utils::createUMLObject(Uml::ot_Package, packageName);
+                if ( ( newPackage = m_pUmldoc->findUMLObject(packageName, UMLObject::ot_Package) ) == NULL ) {
+                    newPackage = Import_Utils::createUMLObject(UMLObject::ot_Package, packageName);
                 }
             } else {
-                newPackage = m_pUmldoc->rootFolder( Uml::mt_Logical );
+                newPackage = m_pUmldoc->rootFolder( Uml::ModelType::Logical );
             }
 
             // adjust list view items
@@ -458,11 +459,11 @@ void ClassGenPage::updateObject()
             s = Uml::Visibility::Implementation;
         m_pObject->setVisibility(s);
 
-        if (m_pObject->baseType() == Uml::ot_Component) {
+        if (m_pObject->baseType() == UMLObject::ot_Component) {
             (static_cast<UMLComponent*>(m_pObject))->setExecutable( m_pExecutableCB->isChecked() );
         }
 
-        if (m_pObject->baseType() == Uml::ot_Artifact) {
+        if (m_pObject->baseType() == UMLObject::ot_Artifact) {
             UMLArtifact::Draw_Type drawAsType;
             if ( m_pFileRB->isChecked() ) {
                 drawAsType = UMLArtifact::file;

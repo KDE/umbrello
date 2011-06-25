@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,10 +16,10 @@
 #include <QtGui/QPainter>
 #include <QtGui/QValidator>
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 
 // local includes
+#include "debug_utils.h"
 #include "objectwidgetcontroller.h"
 #include "seqlinewidget.h"
 #include "umlview.h"
@@ -28,7 +28,7 @@
 #include "umlobject.h"
 #include "listpopupmenu.h"
 #include "docwindow.h"
-#include "dialogs/classpropdlg.h"
+#include "classpropdlg.h"
 
 /**
  * The number of pixels margin between the lowest message
@@ -49,13 +49,13 @@ ObjectWidget::ObjectWidget(UMLView * view, UMLObject *o, Uml::IDType lid)
 
 void ObjectWidget::init()
 {
-    UMLWidget::setBaseType(Uml::wt_Object);
+    UMLWidget::setBaseType(WidgetBase::wt_Object);
     m_nLocalID = Uml::id_None;
     m_InstanceName = "";
     m_bMultipleInstance = false;
     m_bDrawAsActor = false;
     m_bShowDestruction = false;
-    if( m_pView != NULL && m_pView -> getType() == Uml::dt_Sequence ) {
+    if( m_pView != NULL && m_pView->type() == Uml::DiagramType::Sequence ) {
         m_pLine = new SeqLineWidget( m_pView, this );
 
         //Sets specific widget controller for sequence diagrams
@@ -161,7 +161,7 @@ void ObjectWidget::setDrawAsActor( bool drawAsActor )
 void ObjectWidget::setMultipleInstance(bool multiple)
 {
     //make sure only calling this in relation to an object on a collab. diagram
-    if(m_pView -> getType() != Uml::dt_Collaboration)
+    if(m_pView->type() != Uml::DiagramType::Collaboration)
         return;
     m_bMultipleInstance = multiple;
     updateComponentSize();
@@ -243,7 +243,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
 
     setPenFromSettings(p);
     if(UMLWidget::getUseFillColour())
-        p.setBrush(UMLWidget::getFillColour());
+        p.setBrush(UMLWidget::getFillColor());
     else
         p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
     const int w = width();
@@ -271,7 +271,7 @@ void ObjectWidget::drawActor(QPainter & p, int offsetX, int offsetY)
 
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColour() );
+        p.setBrush( UMLWidget::getFillColor() );
     const int w = width();
     const int textStartY = A_HEIGHT + A_MARGIN;
     const int fontHeight  = fm.lineSpacing();

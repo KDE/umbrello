@@ -4,20 +4,28 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2008                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "assocpage.h"
 
 #include "assocpropdlg.h"
+#include "debug_utils.h"
+#include "umlview.h"
 
 #include <klocale.h>
-#include <kdebug.h>
 
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QGroupBox>
 
+/**
+ *  Constructs an instance of AssocPage.
+ *
+ *  @param  parent  The parent of the page
+ *  @param  v       The view the UMLObject being represented.
+ *  @param  o       The UMLObject being represented
+ */
 AssocPage::AssocPage(QWidget *parent, UMLView * v, UMLObject * o) : QWidget(parent)
 {
     m_pObject = o;
@@ -47,6 +55,9 @@ AssocPage::AssocPage(QWidget *parent, UMLView * v, UMLObject * o) : QWidget(pare
             this, SLOT(slotRightButtonPressed(const QPoint &)));
 }
 
+/**
+ *  Standard deconstructor.
+ */
 AssocPage::~AssocPage()
 {
     disconnect(m_pAssocLW, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
@@ -67,9 +78,8 @@ void AssocPage::slotDoubleClick(QListWidgetItem * item)
     }
 
     AssociationWidget * a = m_List.at(row);
-    if (a->showDialog()) {
-        fillListBox();
-    }
+    a->showPropertiesDialog();
+    fillListBox();
 }
 
 /**
@@ -82,7 +92,7 @@ void AssocPage::fillListBox()
     m_pView->getWidgetAssocs(m_pObject, m_List);
     int i = 0;
     foreach( AssociationWidget* assocwidget, m_List ) {
-        if( assocwidget->associationType() != Uml::at_Anchor) {
+        if( assocwidget->associationType() != Uml::AssociationType::Anchor) {
             m_pAssocLW->insertItem(i, assocwidget->toString());
             i++;
         }

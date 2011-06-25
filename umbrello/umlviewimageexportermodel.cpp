@@ -27,12 +27,12 @@
 #include <QtSvg/QSvgGenerator>
 
 // kde include files
-#include <kdebug.h>
 #include <klocale.h>
 #include <ktemporaryfile.h>
 #include <kio/netaccess.h>
 
 // application specific includes
+#include "debug_utils.h"
 #include "model_utils.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -185,7 +185,7 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
 
         QString returnString = exportView(view, imageType, url);
         if (!returnString.isNull()) {
-            errors.append(view->getName() + ": " + returnString);
+            errors.append(view->name() + ": " + returnString);
         }
     }
 
@@ -261,7 +261,7 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QStri
         return Model_Utils::treeViewBuildDiagramName(view->getID());
     }
     else {
-        return view->getName() + '.' + imageType.toLower();
+        return view->name() + '.' + imageType.toLower();
     }
 }
 

@@ -80,7 +80,7 @@ public:
 
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    UMLClassifierListItemList getFilteredList(Uml::Object_Type ot) const;
+    UMLClassifierListItemList getFilteredList(UMLObject::Object_Type ot) const;
 
     UMLEntityAttributeList getEntityAttributes() const;
 

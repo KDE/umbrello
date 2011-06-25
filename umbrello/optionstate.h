@@ -11,8 +11,7 @@
 #ifndef OPTIONSTATE_H
 #define OPTIONSTATE_H
 
-
-#include "umlnamespace.h"
+#include "basictypes.h"
 #include "codeviewerstate.h"
 #include "codegenerationpolicy.h"
 
@@ -42,8 +41,8 @@ struct GeneralState {
     int autosavetime;
     QString autosavesuffix;  ///< Text input field for suffix of autosave
     bool loadlast;
-    Uml::Diagram_Type diagram;
-    Uml::Programming_Language defaultLanguage;
+    Uml::DiagramType::Value diagram;
+    Uml::ProgrammingLanguage::Value defaultLanguage;
     QString lastFile;
 };
 

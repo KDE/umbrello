@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,7 +16,6 @@
 
 //kde includes
 #include <klocale.h>
-#include <kdebug.h>
 
 // app includes
 #include "folder.h"
@@ -24,7 +23,6 @@
 #include "uml.h"
 #include "classifier.h"
 #include "entity.h"
-
 
 /**
  * Constructor. 
@@ -62,19 +60,19 @@ void CodeGenSelectPage::setClassifierList(UMLClassifierList *classList)
 
     if (classList == NULL) {
         UMLFolder* currRoot = doc->currentRoot();
-        Uml::Model_Type type = doc->rootFolderType(currRoot);
+        Uml::ModelType type = doc->rootFolderType(currRoot);
 
         switch (type) {
-           case Uml::mt_Logical:
-               cList = doc->classesAndInterfaces();
-               break;
-           case Uml::mt_EntityRelationship:
-               foreach (UMLEntity* ent, doc->entities()) {
-                   cList.append(ent);
-               }
-               break;
+            case Uml::ModelType::Logical:
+                cList = doc->classesAndInterfaces();
+                break;
+            case Uml::ModelType::EntityRelationship:
+                foreach (UMLEntity* ent, doc->entities()) {
+                    cList.append(ent);
+                }
+                break;
            default:
-               break;
+                break;
         }
         classList = &cList;
     }
@@ -147,6 +145,5 @@ void CodeGenSelectPage::moveSelectedItems(QListWidget* fromList, QListWidget* to
         fromList->takeItem(fromList->row(item));
     }
 }
-
 
 #include "codegenselectpage.moc"

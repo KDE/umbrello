@@ -20,7 +20,7 @@
 #ifndef ICON_UTILS_H
 #define ICON_UTILS_H
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 
 #include <kicon.h>
 
@@ -28,7 +28,7 @@
 #include <QtGui/QPixmap>
 
 /**
- * This class is a gateway to KIconLoaderfor for handling all the
+ * This class is a gateway to KIconLoader for for handling all the
  * used icons in umbrello. Identification is done with an enum and
  * then a translation to the icon name.
  * @author  Andreas Fischer
@@ -225,7 +225,7 @@ namespace Icon_Utils {
 
     QString toString(Icon_Type type);
 
-    KIcon iconSet(Uml::Diagram_Type dt);
+    KIcon iconSet(Uml::DiagramType dt);
 
 }  // namespace
 

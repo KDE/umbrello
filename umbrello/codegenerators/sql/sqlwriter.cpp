@@ -5,26 +5,25 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Nikolaus Gradwohl  <guru@local-guru.net>      *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "sqlwriter.h"
 
-#include "classifier.h"
-#include "operation.h"
-#include "umlnamespace.h"
 #include "association.h"
 #include "attribute.h"
-#include "entity.h"
-#include "model_utils.h"
-#include "uniqueconstraint.h"
-#include "foreignkeyconstraint.h"
 #include "checkconstraint.h"
+#include "classifier.h"
+#include "debug_utils.h"
+#include "entity.h"
+#include "foreignkeyconstraint.h"
+#include "model_utils.h"
+#include "operation.h"
+#include "uniqueconstraint.h"
 #include "umlentityattributelist.h"
 #include "umlclassifierlistitemlist.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -182,6 +181,10 @@ SQLWriter::~SQLWriter()
 {
 }
 
+/**
+ * Call this method to generate sql code for a UMLClassifier.
+ * @param c the class to generate code for
+ */
 void SQLWriter::writeClass(UMLClassifier *c)
 {
     UMLEntity* e = static_cast<UMLEntity*>(c);
@@ -247,21 +250,21 @@ void SQLWriter::writeClass(UMLClassifier *c)
 
 
     // write all unique constraint ( including primary key )
-    UMLClassifierListItemList constrList = m_pEntity->getFilteredList(Uml::ot_UniqueConstraint);
+    UMLClassifierListItemList constrList = m_pEntity->getFilteredList(UMLObject::ot_UniqueConstraint);
     printUniqueConstraints(sql, constrList);
 
 
     // write all foreign key constraints
-    constrList = m_pEntity->getFilteredList(Uml::ot_ForeignKeyConstraint);
+    constrList = m_pEntity->getFilteredList(UMLObject::ot_ForeignKeyConstraint);
     printForeignKeyConstraints(sql, constrList);
 
     // write all check constraints
-    constrList = m_pEntity->getFilteredList(Uml::ot_CheckConstraint);
+    constrList = m_pEntity->getFilteredList(UMLObject::ot_CheckConstraint);
     printCheckConstraints(sql,constrList);
 
     // write all other indexes
     foreach( UMLEntityAttribute* ea, entAttList ) {
-        if ( ea->getIndexType() != Uml::Index )
+        if ( ea->indexType() != UMLEntityAttribute::Index )
             continue;
         UMLEntityAttributeList tempList;
         tempList.append( ea );
@@ -295,11 +298,17 @@ void SQLWriter::writeClass(UMLClassifier *c)
     emit codeGenerated(m_pEntity, true);
 }
 
-Uml::Programming_Language SQLWriter::language() const
+/**
+ * Returns "SQL".
+ */
+Uml::ProgrammingLanguage SQLWriter::language() const
 {
-    return Uml::pl_SQL;
+    return Uml::ProgrammingLanguage::SQL;
 }
 
+/**
+ * Reimplement method from CodeGenerator.
+ */
 QStringList SQLWriter::defaultDatatypes()
 {
     QStringList l;
@@ -330,6 +339,9 @@ QStringList SQLWriter::defaultDatatypes()
     return l;
 }
 
+/**
+ * Get list of reserved keywords.
+ */
 QStringList SQLWriter::reservedKeywords() const
 {
     static QStringList keywords;
@@ -343,6 +355,11 @@ QStringList SQLWriter::reservedKeywords() const
     return keywords;
 }
 
+/**
+ * Prints out attributes as columns in the table.
+ * @param sql the stream we should print to
+ * @param entityAttributeList the attributes to be printed
+ */
 void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList entityAttributeList )
 {
     QString attrDoc = "";
@@ -395,10 +412,13 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
         // now get documentation/comment of current attribute
         attrDoc = at->doc();
     }
-
-    return;
 }
 
+/**
+ * Prints out unique constraints (including primary key ) as "ALTER TABLE" statements.
+ * @param sql the stream we should print to
+ * @param constrList the unique constraints to be printed
+ */
 void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
    foreach( UMLClassifierListItem* cli, constrList ) {
@@ -438,6 +458,11 @@ void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemLi
 
 }
 
+/**
+ * Prints out foreign key constraints as "ALTER TABLE" statements.
+ * @param sql the stream we should print to
+ * @param constrList the foreignkey constraints to be printed
+ */
 void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
    foreach( UMLClassifierListItem* cli, constrList ) {
@@ -508,6 +533,12 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
 
 }
 
+/**
+ * Prints out Indexes as "CREATE INDEX " statements.
+ * @param sql The Stream we should print to
+ * @param ent The Entity's attributes on which we want to create an Index
+ * @param entAttList The list of entityattributes to create an index upon
+ */
 void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent , UMLEntityAttributeList entAttList)
 {
     sql<<m_endl;
@@ -539,12 +570,23 @@ void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent , UMLEntityAttribute
     sql<<m_endl;
 }
 
+/**
+ * Handles AutoIncrements.
+ * The derived classes provide the actual body.
+ * @param sql The Stream we should print to
+ * @param entAttList The List of Entity Attributes that we want to auto increment
+ */
 void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList entAttList )
 {
     Q_UNUSED(sql); Q_UNUSED(entAttList);
     // defer to derived classes
 }
 
+/**
+ * Prints out Check Constraints as "ALTER TABLE" statements.
+ * @param sql The stream we should print to
+ * @param constrList The checkConstraints to be printed
+ */
 void SQLWriter::printCheckConstraints(QTextStream& sql,UMLClassifierListItemList constrList)
 {
     foreach( UMLClassifierListItem* cli, constrList ) {

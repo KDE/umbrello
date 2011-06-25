@@ -12,17 +12,17 @@
 #ifndef CODEGENERATOR_H
 #define CODEGENERATOR_H
 
-#include <QtCore/QHash>
-#include <QtCore/QList>
-#include <QtCore/QDir>
-
+#include "basictypes.h"
 #include "codegenpolicyext.h"
 #include "codegenerationpolicy.h"
 #include "umlpackagelist.h"
 #include "umlclassifierlist.h"
 #include "codedocumentlist.h"
 #include "codeviewerstate.h"
-#include "umlnamespace.h"
+
+#include <QtCore/QHash>
+#include <QtCore/QList>
+#include <QtCore/QDir>
 
 class UMLDoc;
 class UMLObject;
@@ -143,15 +143,8 @@ public:
     /**
      * Return the unique language enum that identifies this type of code generator.
      */
-    virtual Uml::Programming_Language language() const = 0;
+    virtual Uml::ProgrammingLanguage language() const = 0;
 
-    /**
-     * Find a code document by the given classifier.
-     * @return      CodeDocument
-     * @param       classifier
-     */
-    //FIX
-    // NOTE: this should be 'protected' or we could have problems with CPP code generator
     CodeDocument * findCodeDocumentByClassifier(UMLClassifier * classifier);
 
     virtual QStringList defaultDatatypes();

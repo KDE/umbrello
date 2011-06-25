@@ -12,8 +12,8 @@
 #define FOREIGNKEYCONSTRAINT_H
 
 // appl includes
+#include "basictypes.h"
 #include "entityconstraint.h"
-#include "umlnamespace.h"
 
 // qt includes
 #include <QtCore/QMap>
@@ -57,7 +57,7 @@ public:
 
     virtual UMLObject* clone() const;
 
-    QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
+    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
 
     void setReferencedEntity(UMLEntity* ent);
     UMLEntity* getReferencedEntity() const;

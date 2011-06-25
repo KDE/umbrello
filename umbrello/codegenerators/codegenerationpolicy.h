@@ -12,10 +12,10 @@
 #ifndef CODEGENERATIONPOLICY_H
 #define CODEGENERATIONPOLICY_H
 
+#include "basictypes.h"
+
 #include <QtCore/QObject>
 #include <QtCore/QDir>
-
-#include "umlnamespace.h"
 
 class QWidget;
 class CodeGenerationPolicyPage;
@@ -77,10 +77,10 @@ public:
 
     QString getNewLineEndingChars ( ) const;
 
-    void  setIndentationType ( IndentationType type );
+    void setIndentationType ( IndentationType type );
     IndentationType getIndentationType ( );
 
-    void  setIndentationAmount ( int amount );
+    void setIndentationAmount ( int amount );
     int getIndentationAmount ( );
 
     QString getIndentation ( ) const;

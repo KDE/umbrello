@@ -4,17 +4,17 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #ifndef WIDGETBASE_H
 #define WIDGETBASE_H
 
-#include "umlnamespace.h"
+#include "basictypes.h"
 
 #include <QtCore/QObject>
-#include <qcolor.h>
+#include <QtGui/QColor>
 #include <QtXml/QDomDocument>
 
 // forward declarations
@@ -30,137 +30,83 @@ class UMLObject;
 class WidgetBase : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(Widget_Type)
+
 public:
+    enum Widget_Type
+    {
+        wt_UMLWidget = 300,         // does not have UMLObject representation
+        wt_Actor,                   // has UMLObject representation
+        wt_UseCase,                 // has UMLObject representation
+        wt_Class,                   // has UMLObject representation
+        wt_Interface,               // has UMLObject representation
+        wt_Datatype,                // has UMLObject representation
+        wt_Enum,                    // has UMLObject representation
+        wt_Entity,                  // has UMLObject representation
+        wt_Package,                 // has UMLObject representation
+        wt_Object,                  // has UMLObject representation
+        wt_Note,                    // does not have UMLObject representation
+        wt_Box,                     // does not have UMLObject representation
+        wt_Message,                 // does not have UMLObject representation
+        wt_Text,                    // does not have UMLObject representation
+        wt_State,                   // does not have UMLObject representation
+        wt_Activity,                // does not have UMLObject representation
+        wt_Component,               // has UMLObject representation
+        wt_Artifact,                // has UMLObject representation
+        wt_Node,                    // has UMLObject representation
+        wt_Association,             // has UMLObject representation
+        wt_ForkJoin,                // does not have UMLObject representation
+        wt_Precondition,            // does not have UMLObject representation
+        wt_CombinedFragment,        // does not have UMLObject representation
+        wt_FloatingDashLine,        // does not have UMLObject representation
+        wt_Signal,                  // does not have UMLObject representation
+        wt_Pin,
+        wt_ObjectNode,
+        wt_Region,
+        wt_Category                 // has UMLObject representation
+    };
 
     explicit WidgetBase(UMLView * view);
     virtual ~WidgetBase();
 
-    /**
-     * Write property of m_Type.
-     */
-    void setBaseType(Uml::Widget_Type type);
-
-    /**
-     * Read property of m_Type.
-     */
-    Uml::Widget_Type baseType() const;
-
-    /**
-     * Returns the @ref UMLObject set to represent.
-     *
-     * @return the UMLObject to represent.
-     */
     UMLObject* umlObject() const;
+    virtual void setUMLObject(UMLObject * o);
+
+    Uml::IDType id() const;
+    void setID(Uml::IDType id);
+
+    Widget_Type baseType() const;
+    void setBaseType(Widget_Type type);
+    QLatin1String baseTypeStr() const;
 
     UMLView* umlScene() const;
     UMLDoc* umlDoc() const;
 
-    /**
-     * Sets the @ref UMLObject to represent.
-     *
-     * @param o The object to represent.
-     */
-    virtual void setUMLObject(UMLObject * o);
+    QString documentation() const;
+    void setDocumentation(const QString &doc);
 
-    /**
-     * Used by some child classes to get documentation.
-     *
-     * @return  The documentation from the UMLObject (if m_pObject is set.)
-     */
-    virtual QString documentation() const;
+    QColor lineColor() const;
+    void setLineColor(const QColor &colour);
 
-    /**
-     * Used by some child classes to set documentation.
-     *
-     * @param doc       The documentation to be set in the UMLObject
-     *          (if m_pObject is set.)
-     */
-    virtual void setDocumentation( const QString &doc );
+    uint lineWidth() const;
+    void setLineWidth(uint width);
 
-    /**
-     * Sets the line colour
-     *
-     * @param colour the new line colour
-     */
-    virtual void setLineColor(const QColor &colour);
+    bool usesDiagramLineColour() const;
+    void setUsesDiagramLineColour(bool usesDiagramLineColour);
 
-    /**
-     * Sets the line width
-     *
-     * @param width the new line width
-     */
-    virtual void setLineWidth(uint width);
-
-    /**
-     * Read property of m_LineColour.
-     */
-    QColor lineColor() const {
-        return m_LineColour;
-    }
-
-    /**
-     * Read property of m_LineWidth.
-     */
-    uint lineWidth() const {
-        return m_LineWidth;
-    }
-
-    /**
-     * Returns m_bUsesDiagramLineColour
-     */
-    bool getUsesDiagramLineColour() const {
-        return m_bUsesDiagramLineColour;
-    }
-
-    /**
-     * Returns m_bUsesDiagramLineWidth
-     */
-    bool getUsesDiagramLineWidth() const {
-        return m_bUsesDiagramLineWidth;
-    }
-
-    /**
-     * Sets m_bUsesDiagramLineColour
-     */
-    void setUsesDiagramLineColour(bool usesDiagramLineColour) {
-        m_bUsesDiagramLineColour = usesDiagramLineColour;
-    }
-
-    /**
-     * Sets m_bUsesDiagramLineWidth
-     */
-    void setUsesDiagramLineWidth(bool usesDiagramLineWidth) {
-        m_bUsesDiagramLineWidth = usesDiagramLineWidth;
-    }
-
-    /**
-    * Write property of m_nId.
-    */
-    void setID( Uml::IDType id );
-
-    /**
-    * Read property of m_nId.
-    */
-    Uml::IDType id() const;
-
-    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    bool usesDiagramLineWidth() const;
+    void setUsesDiagramLineWidth(bool usesDiagramLineWidth);
 
     virtual bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-    /**
-     * Initialize members.
-     */
-    void init(UMLView *view, Uml::Widget_Type type = Uml::wt_UMLWidget);
+    void init(UMLView *view, Widget_Type type = wt_UMLWidget);
 
-    /**
-     * Type of widget.
-     */
-    Uml::Widget_Type m_Type;
-
-    UMLView   *m_pView;
-    UMLObject *m_pObject;
-    QString m_Doc;  ///< Only used if m_pObject is not set.
+    Widget_Type m_Type;  ///< Type of widget.
+    UMLView    *m_pView;
+    UMLObject  *m_pObject;
+    QString     m_Doc;   ///< Only used if m_pObject is not set.
 
     /**
      * This ID is only used when the widget does not have a

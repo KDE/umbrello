@@ -31,8 +31,8 @@ namespace Uml
 
     void CmdCreateEntityRelationDiag::redo()
     {
-        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::mt_EntityRelationship);
-        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_EntityRelationship);
+        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::ModelType::EntityRelationship);
+        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::DiagramType::EntityRelationship);
     }
 
     void CmdCreateEntityRelationDiag::undo()

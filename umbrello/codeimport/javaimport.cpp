@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,6 +14,7 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
+#include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
 #include "operation.h"
@@ -21,9 +22,6 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlpackagelist.h"
-
-// kde includes
-#include <kdebug.h>
 
 // qt includes
 #include <QtCore/QFile>
@@ -138,7 +136,7 @@ void JavaImport::spawnImport(const QString& file )
 UMLObject* JavaImport::findObject(const QString& name, UMLPackage *parentPkg)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
-    UMLObject * o = umldoc->findUMLObject(name, Uml::ot_UMLObject , parentPkg);
+    UMLObject * o = umldoc->findUMLObject(name, UMLObject::ot_UMLObject , parentPkg);
     return o;
 }
 
@@ -178,7 +176,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
         if ( isArray ) {
             // we have imported the type. For arrays we want to return
             // the array type
-            return Import_Utils::createUMLObject(Uml::ot_Class, className, m_scope[m_scopeIndex]);
+            return Import_Utils::createUMLObject(UMLObject::ot_Class, className, m_scope[m_scopeIndex]);
         }
         return findObject(baseClassName, m_scope[m_scopeIndex]);
     }
@@ -216,7 +214,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
 
                 for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
                     QString name = (*it);
-                    UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
+                    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                                                                   name, parent);
                     current = static_cast<UMLPackage*>(ns);
                     parent = current;
@@ -224,7 +222,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
                 if ( isArray ) {
                     // we have imported the type. For arrays we want to return
                     // the array type
-                    return Import_Utils::createUMLObject(Uml::ot_Class, className, current);
+                    return Import_Utils::createUMLObject(UMLObject::ot_Class, className, current);
                 }
                 // now that we have the right package, the class should be findable
                 return findObject(baseClassName, current);
@@ -275,7 +273,7 @@ bool JavaImport::parseStmt()
         const QStringList names = qualifiedName.split('.');
         for (QStringList::ConstIterator it = names.begin(); it != names.end(); ++it) {
             QString name = (*it);
-            UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Package,
+            UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                             name, m_scope[m_scopeIndex], m_comment);
             m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
         }
@@ -287,7 +285,7 @@ bool JavaImport::parseStmt()
     }
     if (keyword == "class" || keyword == "interface") {
         const QString& name = advance();
-        const Uml::Object_Type t = (keyword == "class" ? Uml::ot_Class : Uml::ot_Interface);
+        const UMLObject::Object_Type t = (keyword == "class" ? UMLObject::ot_Class : UMLObject::ot_Interface);
         UMLObject *ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setAbstract(m_isAbstract);
@@ -296,7 +294,7 @@ bool JavaImport::parseStmt()
         // The UMLObject found by createUMLObject might originally have been created as a
         // placeholder with a type of class but if is really an interface, then we need to
         // change it.
-        Uml::Object_Type ot = (keyword == "interface" ? Uml::ot_Interface : Uml::ot_Class);
+        UMLObject::Object_Type ot = (keyword == "interface" ? UMLObject::ot_Interface : UMLObject::ot_Class);
         m_klass->setBaseType(ot);
         m_isAbstract = m_isStatic = false;
         // if no modifier is specified in an interface, then it means public
@@ -372,7 +370,7 @@ bool JavaImport::parseStmt()
     }
     if (keyword == "enum") {
         const QString& name = advance();
-        UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Enum,
+        UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, m_scope[m_scopeIndex], m_comment);
         UMLEnum *enumType = static_cast<UMLEnum*>(ns);
         skipStmt("{");

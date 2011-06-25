@@ -31,8 +31,8 @@ namespace Uml
 
     void CmdCreateSeqDiag::redo()
     {
-        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::mt_Logical);
-        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::dt_Sequence);
+        UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::ModelType::Logical);
+        m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::DiagramType::Sequence);
     }
 
     void CmdCreateSeqDiag::undo()

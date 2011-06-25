@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2010                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,22 +17,22 @@
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "docwindow.h"
 #include "umlwidget.h"
 #include "umlview.h"
-#include "dialogs/statedialog.h"
+#include "statedialog.h"
 #include "listpopupmenu.h"
 
 StateWidget::StateWidget(UMLView * view, StateType stateType, Uml::IDType id)
   : UMLWidget(view, id)
 {
-    UMLWidget::setBaseType(Uml::wt_State);
+    UMLWidget::setBaseType(WidgetBase::wt_State);
     m_StateType = stateType;
     m_Text = "State";
     updateComponentSize();
@@ -51,7 +51,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY)
     {
     case Normal :
         if(UMLWidget::getUseFillColour())
-            p.setBrush(UMLWidget::getFillColour());
+            p.setBrush(UMLWidget::getFillColor());
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();

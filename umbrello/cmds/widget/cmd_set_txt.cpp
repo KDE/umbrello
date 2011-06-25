@@ -11,11 +11,11 @@
 #include "cmd_set_txt.h"
 
 // app includes
+#include "debug_utils.h"
 #include "floatingtextwidget.h"
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 
 namespace Uml
 {

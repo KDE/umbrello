@@ -30,7 +30,7 @@
 UMLStereotype::UMLStereotype(const QString &name, Uml::IDType id /* = Uml::id_None */)
   : UMLObject( name, id )
 {
-    m_BaseType = Uml::ot_Stereotype;
+    m_BaseType = UMLObject::ot_Stereotype;
     UMLStereotype * existing = UMLApp::app()->document()->findStereotype(name);
     if (existing) {
         uError() << "UMLStereotype constructor: " << name << " already exists"
@@ -45,7 +45,7 @@ UMLStereotype::UMLStereotype(const QString &name, Uml::IDType id /* = Uml::id_No
 UMLStereotype::UMLStereotype()
   : UMLObject()
 {
-    m_BaseType = Uml::ot_Stereotype;
+    m_BaseType = UMLObject::ot_Stereotype;
     m_refCount = 0;
 }
 

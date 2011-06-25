@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,9 +12,9 @@
 #include "classifierwidget.h"
 // qt/kde includes
 #include <QtGui/QPainter>
-#include <kdebug.h>
 // app includes
 #include "classifier.h"
+#include "debug_utils.h"
 #include "operation.h"
 #include "template.h"
 #include "associationwidget.h"
@@ -29,7 +29,7 @@ ClassifierWidget::ClassifierWidget(UMLView * view, UMLClassifier *c)
 {
     init();
     if (c != NULL && c->isInterface()) {
-        WidgetBase::setBaseType(Uml::wt_Interface);
+        WidgetBase::setBaseType(WidgetBase::wt_Interface);
         m_bShowStereotype = true;
         m_bShowAttributes = false;
         updateSigs();
@@ -47,27 +47,27 @@ const int ClassifierWidget::CIRCLE_SIZE = 30;
 
 void ClassifierWidget::init()
 {
-    WidgetBase::setBaseType(Uml::wt_Class);
+    WidgetBase::setBaseType(WidgetBase::wt_Class);
 
-    const Settings::OptionState& ops = m_pView->getOptionState();
+    const Settings::OptionState& ops = m_pView->optionState();
     m_bShowAccess = ops.classState.showVisibility;
     m_bShowOperations = ops.classState.showOps;
     m_bShowPublicOnly = ops.classState.showPublicOnly;
     m_bShowPackage = ops.classState.showPackage;
-    m_ShowAttSigs = Uml::st_ShowSig;
+    m_ShowAttSigs = Uml::SignatureType::ShowSig;
     /* setShowOpSigs( ops.classState.showOpSig );
       Cannot do that because we get "pure virtual method called". Open code:
      */
     if( !ops.classState.showOpSig ) {
         if (m_bShowAccess)
-            m_ShowOpSigs = Uml::st_NoSig;
+            m_ShowOpSigs = Uml::SignatureType::NoSig;
         else
-            m_ShowOpSigs = Uml::st_NoSigNoVis;
+            m_ShowOpSigs = Uml::SignatureType::NoSigNoVis;
 
     } else if (m_bShowAccess)
-        m_ShowOpSigs = Uml::st_ShowSig;
+        m_ShowOpSigs = Uml::SignatureType::ShowSig;
     else
-        m_ShowOpSigs = Uml::st_SigNoVis;
+        m_ShowOpSigs = Uml::SignatureType::SigNoVis;
 
     m_bShowAttributes = ops.classState.showAtts;
     m_bShowStereotype = ops.classState.showStereoType;
@@ -80,28 +80,28 @@ void ClassifierWidget::updateSigs()
 {
     //turn on scope
     if (m_bShowAccess) {
-        if (m_ShowOpSigs == Uml::st_NoSigNoVis) {
-            m_ShowOpSigs = Uml::st_NoSig;
-        } else if (m_ShowOpSigs == Uml::st_SigNoVis) {
-            m_ShowOpSigs = Uml::st_ShowSig;
+        if (m_ShowOpSigs == Uml::SignatureType::NoSigNoVis) {
+            m_ShowOpSigs = Uml::SignatureType::NoSig;
+        } else if (m_ShowOpSigs == Uml::SignatureType::SigNoVis) {
+            m_ShowOpSigs = Uml::SignatureType::ShowSig;
         }
     } else { //turn off scope
-        if (m_ShowOpSigs == Uml::st_ShowSig) {
-            m_ShowOpSigs = Uml::st_SigNoVis;
-        } else if (m_ShowOpSigs == Uml::st_NoSig) {
-            m_ShowOpSigs = Uml::st_NoSigNoVis;
+        if (m_ShowOpSigs == Uml::SignatureType::ShowSig) {
+            m_ShowOpSigs = Uml::SignatureType::SigNoVis;
+        } else if (m_ShowOpSigs == Uml::SignatureType::NoSig) {
+            m_ShowOpSigs = Uml::SignatureType::NoSigNoVis;
         }
     }
     if (m_bShowAccess) {
-        if (m_ShowAttSigs == Uml::st_NoSigNoVis)
-            m_ShowAttSigs = Uml::st_NoSig;
-        else if (m_ShowAttSigs == Uml::st_SigNoVis)
-            m_ShowAttSigs = Uml::st_ShowSig;
+        if (m_ShowAttSigs == Uml::SignatureType::NoSigNoVis)
+            m_ShowAttSigs = Uml::SignatureType::NoSig;
+        else if (m_ShowAttSigs == Uml::SignatureType::SigNoVis)
+            m_ShowAttSigs = Uml::SignatureType::ShowSig;
     } else {
-        if (m_ShowAttSigs == Uml::st_ShowSig)
-            m_ShowAttSigs = Uml::st_SigNoVis;
-        else if(m_ShowAttSigs == Uml::st_NoSig)
-            m_ShowAttSigs = Uml::st_NoSigNoVis;
+        if (m_ShowAttSigs == Uml::SignatureType::ShowSig)
+            m_ShowAttSigs = Uml::SignatureType::SigNoVis;
+        else if(m_ShowAttSigs == Uml::SignatureType::NoSig)
+            m_ShowAttSigs = Uml::SignatureType::NoSigNoVis;
     }
     updateComponentSize();
     update();
@@ -176,7 +176,7 @@ void ClassifierWidget::toggleShowVisibility()
     update();
 }
 
-Uml::Signature_Type ClassifierWidget::operationSignatureType() const
+Uml::SignatureType ClassifierWidget::operationSignatureType() const
 {
     return m_ShowOpSigs;
 }
@@ -185,29 +185,29 @@ void ClassifierWidget::setShowOpSigs(bool _status)
 {
     if( !_status ) {
         if (m_bShowAccess)
-            m_ShowOpSigs = Uml::st_NoSig;
+            m_ShowOpSigs = Uml::SignatureType::NoSig;
         else
-            m_ShowOpSigs = Uml::st_NoSigNoVis;
+            m_ShowOpSigs = Uml::SignatureType::NoSigNoVis;
     } else if (m_bShowAccess)
-        m_ShowOpSigs = Uml::st_ShowSig;
+        m_ShowOpSigs = Uml::SignatureType::ShowSig;
     else
-        m_ShowOpSigs = Uml::st_SigNoVis;
+        m_ShowOpSigs = Uml::SignatureType::SigNoVis;
     updateComponentSize();
     update();
 }
 
 void ClassifierWidget::toggleShowOpSigs()
 {
-    if (m_ShowOpSigs == Uml::st_ShowSig || m_ShowOpSigs == Uml::st_SigNoVis) {
+    if (m_ShowOpSigs == Uml::SignatureType::ShowSig || m_ShowOpSigs == Uml::SignatureType::SigNoVis) {
         if (m_bShowAccess) {
-            m_ShowOpSigs = Uml::st_NoSig;
+            m_ShowOpSigs = Uml::SignatureType::NoSig;
         } else {
-            m_ShowOpSigs = Uml::st_NoSigNoVis;
+            m_ShowOpSigs = Uml::SignatureType::NoSigNoVis;
         }
     } else if (m_bShowAccess) {
-        m_ShowOpSigs = Uml::st_ShowSig;
+        m_ShowOpSigs = Uml::SignatureType::ShowSig;
     } else {
-        m_ShowOpSigs = Uml::st_SigNoVis;
+        m_ShowOpSigs = Uml::SignatureType::SigNoVis;
     }
     updateComponentSize();
     update();
@@ -233,7 +233,7 @@ void ClassifierWidget::toggleShowPackage()
     update();
 }
 
-void ClassifierWidget::setOpSignature(Uml::Signature_Type sig)
+void ClassifierWidget::setOpSignature(Uml::SignatureType sig)
 {
     m_ShowOpSigs = sig;
     updateSigs();
@@ -250,7 +250,7 @@ void ClassifierWidget::setShowAtts(bool _show)
     update();
 }
 
-void ClassifierWidget::setAttSignature(Uml::Signature_Type sig)
+void ClassifierWidget::setAttSignature(Uml::SignatureType sig)
 {
     m_ShowAttSigs = sig;
     updateSigs();
@@ -262,14 +262,14 @@ void ClassifierWidget::setShowAttSigs(bool _status)
 {
     if( !_status ) {
         if (m_bShowAccess)
-            m_ShowAttSigs = Uml::st_NoSig;
+            m_ShowAttSigs = Uml::SignatureType::NoSig;
         else
-            m_ShowAttSigs = Uml::st_NoSigNoVis;
+            m_ShowAttSigs = Uml::SignatureType::NoSigNoVis;
     }
     else if (m_bShowAccess)
-        m_ShowAttSigs = Uml::st_ShowSig;
+        m_ShowAttSigs = Uml::SignatureType::ShowSig;
     else
-        m_ShowAttSigs = Uml::st_SigNoVis;
+        m_ShowAttSigs = Uml::SignatureType::SigNoVis;
     if (UMLApp::app()->document()->loading())
         return;
     updateComponentSize();
@@ -286,23 +286,23 @@ void ClassifierWidget::toggleShowAtts()
 
 void ClassifierWidget::toggleShowAttSigs()
 {
-    if (m_ShowAttSigs == Uml::st_ShowSig ||
-            m_ShowAttSigs == Uml::st_SigNoVis) {
+    if (m_ShowAttSigs == Uml::SignatureType::ShowSig ||
+            m_ShowAttSigs == Uml::SignatureType::SigNoVis) {
         if (m_bShowAccess) {
-            m_ShowAttSigs = Uml::st_NoSig;
+            m_ShowAttSigs = Uml::SignatureType::NoSig;
         } else {
-            m_ShowAttSigs = Uml::st_NoSigNoVis;
+            m_ShowAttSigs = Uml::SignatureType::NoSigNoVis;
         }
     } else if (m_bShowAccess) {
-        m_ShowAttSigs = Uml::st_ShowSig;
+        m_ShowAttSigs = Uml::SignatureType::ShowSig;
     } else {
-        m_ShowAttSigs = Uml::st_SigNoVis;
+        m_ShowAttSigs = Uml::SignatureType::SigNoVis;
     }
     updateComponentSize();
     update();
 }
 
-int ClassifierWidget::displayedMembers(Uml::Object_Type ot)
+int ClassifierWidget::displayedMembers(UMLObject::Object_Type ot)
 {
     int count = 0;
     UMLClassifierListItemList list = classifier()->getFilteredList(ot);
@@ -317,7 +317,7 @@ int ClassifierWidget::displayedOperations()
 {
     if (!m_bShowOperations)
         return 0;
-    return displayedMembers(Uml::ot_Operation);
+    return displayedMembers(UMLObject::ot_Operation);
 }
 
 QSize ClassifierWidget::calculateSize()
@@ -365,7 +365,7 @@ QSize ClassifierWidget::calculateSize()
     } else {
         height += fontHeight * numAtts;
         // calculate width of the attributes
-        UMLClassifierListItemList list = classifier()->getFilteredList(Uml::ot_Attribute);
+        UMLClassifierListItemList list = classifier()->getFilteredList(UMLObject::ot_Attribute);
         foreach (UMLClassifierListItem *a , list ) {
             if (m_bShowPublicOnly && a->visibility() != Uml::Visibility::Public)
                 continue;
@@ -425,7 +425,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Operation:
     case ListPopupMenu::mt_Template:
         {
-            Uml::Object_Type ot = ListPopupMenu::convert_MT_OT(sel);
+            UMLObject::Object_Type ot = ListPopupMenu::convert_MT_OT(sel);
             if (Object_Factory::createChildObject(classifier(), ot)) {
                 updateComponentSize();
                 update();
@@ -527,7 +527,7 @@ int ClassifierWidget::displayedAttributes()
 {
     if (!m_bShowAttributes)
         return 0;
-    return displayedMembers(Uml::ot_Attribute);
+    return displayedMembers(UMLObject::ot_Attribute);
 }
 
 void ClassifierWidget::setClassAssocWidget(AssociationWidget *assocwidget)
@@ -553,7 +553,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )
-        p.setBrush( UMLWidget::getFillColour() );
+        p.setBrush( UMLWidget::getFillColor() );
     else
         p.setBrush( m_pView->viewport()->palette().color(QPalette::Background) );
 
@@ -646,7 +646,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
     // draw attributes
     const int numAtts = displayedAttributes();
     if (m_bShowAttributes) {
-        drawMembers(p, Uml::ot_Attribute, m_ShowAttSigs, textX,
+        drawMembers(p, UMLObject::ot_Attribute, m_ShowAttSigs, textX,
                     m_bodyOffsetY, fontHeight);
     }
 
@@ -663,7 +663,7 @@ void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
 
     // draw operations
     if (m_bShowOperations) {
-        drawMembers(p, Uml::ot_Operation, m_ShowOpSigs, textX,
+        drawMembers(p, UMLObject::ot_Operation, m_ShowOpSigs, textX,
                     m_bodyOffsetY, fontHeight);
     }
 
@@ -718,7 +718,7 @@ QSize ClassifierWidget::calculateAsCircleSize()
     return QSize(width, height);
 }
 
-void ClassifierWidget::drawMembers(QPainter & p, Uml::Object_Type ot, Uml::Signature_Type sigType,
+void ClassifierWidget::drawMembers(QPainter & p, UMLObject::Object_Type ot, Uml::SignatureType sigType,
                                    int x, int y, int fontHeight)
 {
     QFont f = UMLWidget::font();
@@ -762,10 +762,10 @@ void ClassifierWidget::toggleDrawAsCircle()
 
 void ClassifierWidget::changeToClass()
 {
-    WidgetBase::setBaseType(Uml::wt_Class);
-    classifier()->setBaseType(Uml::ot_Class);
+    WidgetBase::setBaseType(WidgetBase::wt_Class);
+    classifier()->setBaseType(UMLObject::ot_Class);
 
-    const Settings::OptionState& ops = m_pView->getOptionState();
+    const Settings::OptionState& ops = m_pView->optionState();
     m_bShowAttributes = ops.classState.showAtts;
     m_bShowStereotype = ops.classState.showStereoType;
 
@@ -775,8 +775,8 @@ void ClassifierWidget::changeToClass()
 
 void ClassifierWidget::changeToInterface()
 {
-    WidgetBase::setBaseType(Uml::wt_Interface);
-    classifier()->setBaseType(Uml::ot_Interface);
+    WidgetBase::setBaseType(WidgetBase::wt_Interface);
+    classifier()->setBaseType(UMLObject::ot_Interface);
 
     m_bShowAttributes = false;
     m_bShowStereotype = true;
@@ -835,8 +835,8 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     m_bShowAttributes = (bool)showatts.toInt();
     m_bShowOperations = (bool)showops.toInt();
     m_bShowPublicOnly = (bool)showpubliconly.toInt();
-    m_ShowAttSigs = (Uml::Signature_Type)showattsigs.toInt();
-    m_ShowOpSigs = (Uml::Signature_Type)showopsigs.toInt();
+    m_ShowAttSigs = Uml::SignatureType::Value(showattsigs.toInt());
+    m_ShowOpSigs = Uml::SignatureType::Value(showopsigs.toInt());
     m_bShowPackage = (bool)showpackage.toInt();
     m_bShowAccess = (bool)showscope.toInt();
     m_bDrawAsCircle = (bool)drawascircle.toInt();

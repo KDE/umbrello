@@ -4,31 +4,29 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2002-2008                                                *
+ *  copyright (C) 2002-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
 // own header
 #include "settingsdlg.h"
 
-// qt includes
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QGridLayout>
-
-// kde includes
-#include <kvbox.h>
-#include <kdebug.h>
-#include <klocale.h>
-#include <kfiledialog.h>
-
 // app includes
 #include "codegenoptionspage.h"
 #include "codevieweroptionspage.h"
 #include "dialog_utils.h"
-#include "model_utils.h"
+#include "debug_utils.h"
 #include "icon_utils.h"
 
+// kde includes
+#include <kvbox.h>
+#include <klocale.h>
+#include <kfiledialog.h>
+
+// qt includes
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QGridLayout>
 
 SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
         : KPageDialog( parent)
@@ -198,10 +196,11 @@ void SettingsDlg::setupGeneralPage()
     startupLayout->addWidget( m_GeneralWidgets.diagramKB, 1, 1 );
 
     // start at 1 because we don't allow No Diagram any more
-    // diagramNo 1 is Uml::dt_Class
-    // digaramNo 9 is Uml::dt_EntityRelationship
-    for (int diagramNo=1; diagramNo < 10; ++diagramNo) {
-        insertDiagram( Model_Utils::diagramTypeToString( ( Uml::Diagram_Type )diagramNo ), /*index*/ diagramNo - 1  );
+    // diagramNo 1 is Uml::DiagramType::Class
+    // digaramNo 9 is Uml::DiagramType::EntityRelationship
+    for (int diagramNo = 1; diagramNo < 10; ++diagramNo) {
+        Uml::DiagramType dt = Uml::DiagramType(Uml::DiagramType::Value(diagramNo));
+        insertDiagram( dt.toString(), diagramNo - 1  );
     }
 
     m_GeneralWidgets.diagramKB->setCurrentIndex( (int)m_pOptionState->generalState.diagram-1 );
@@ -215,8 +214,8 @@ void SettingsDlg::setupGeneralPage()
     startupLayout->addWidget( m_GeneralWidgets.languageKB, 2, 1 );
 
     int indexCounter = 0;
-    while (indexCounter < Uml::pl_Reserved) {
-        QString language = Model_Utils::progLangToString((Uml::Programming_Language) indexCounter);
+    while (indexCounter < Uml::ProgrammingLanguage::Reserved) {
+        QString language = Uml::ProgrammingLanguage::toString(Uml::ProgrammingLanguage::Value(indexCounter));
         m_GeneralWidgets.languageKB->insertItem(indexCounter, language);
         indexCounter++;
     }
@@ -390,7 +389,7 @@ void SettingsDlg::slotDefault()
         m_GeneralWidgets.timeISB->setEnabled( true );
         m_GeneralWidgets.loadlastCB->setChecked( true );
         m_GeneralWidgets.diagramKB->setCurrentIndex( 0 );
-        m_GeneralWidgets.languageKB->setCurrentIndex( ( int )Model_Utils::stringToProgLang( "C++" ) );
+        m_GeneralWidgets.languageKB->setCurrentIndex( Uml::ProgrammingLanguage::Cpp );
     }
     else if ( current == pageFont )
     {
@@ -435,8 +434,8 @@ void SettingsDlg::applyPage( KPageWidgetItem*item )
         // retrieve Suffix setting from dialog entry
         m_pOptionState->generalState.autosavesuffix = m_GeneralWidgets.autosaveSuffixT->text();
         m_pOptionState->generalState.loadlast = m_GeneralWidgets.loadlastCB->isChecked();
-        m_pOptionState->generalState.diagram  = (Uml::Diagram_Type)(m_GeneralWidgets.diagramKB->currentIndex() + 1);
-        m_pOptionState->generalState.defaultLanguage = ( Uml::Programming_Language )( m_GeneralWidgets.languageKB->currentIndex()  );
+        m_pOptionState->generalState.diagram  = Uml::DiagramType::Value(m_GeneralWidgets.diagramKB->currentIndex() + 1);
+        m_pOptionState->generalState.defaultLanguage = Uml::ProgrammingLanguage::Value( m_GeneralWidgets.languageKB->currentIndex());
     }
     else if ( item == pageFont )
     {

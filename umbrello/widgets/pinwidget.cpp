@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,14 +12,14 @@
 #include "pinwidget.h"
 
 // qt includes
-#include <qpainter.h>
+#include <QtGui/QPainter>
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kinputdialog.h>
 
 // app includes
+#include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "docwindow.h"
@@ -32,8 +32,9 @@
 #include <QMouseEvent>
 #include <QPolygon>
 
-PinWidget::PinWidget(UMLView * view, UMLWidget* a, Uml::IDType id ): UMLWidget(view, id){
-
+PinWidget::PinWidget(UMLView * view, UMLWidget* a, Uml::IDType id)
+  : UMLWidget(view, id)
+{
     init();
     m_pOw = a;
     int y = getY();
@@ -41,17 +42,20 @@ PinWidget::PinWidget(UMLView * view, UMLWidget* a, Uml::IDType id ): UMLWidget(v
     y = y < getMinY() ? getMinY() : y;
     m_nY = y;
 
-    m_pName = new FloatingTextWidget(view,Uml::tr_Floating,"");
+    m_pName = new FloatingTextWidget(view, Uml::TextRole::Floating, "");
     view->setupNewWidget(m_pName);
     m_pName->setX(0);
     m_pName->setY(0);
     this->activate();
 }
 
-PinWidget::~PinWidget() {}
+PinWidget::~PinWidget()
+{
+}
 
-void PinWidget::init() {
-    UMLWidget::setBaseType(Uml::wt_Pin);
+void PinWidget::init()
+{
+    UMLWidget::setBaseType(WidgetBase::wt_Pin);
     m_bIgnoreSnapToGrid = true;
     m_bIgnoreSnapComponentSizeToGrid = true;
     m_bResizable =  false ;
@@ -60,7 +64,8 @@ void PinWidget::init() {
     setVisible(true);
 }
 
-void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
+void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
+{
     int w = 10;
     int h = 10;
     int width_Activity = m_pOw->getWidth();
@@ -126,10 +131,9 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
 //         y = m_pOw[Uml::A]->getEndLineY() - h;
 //     }
 
-
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {
-        p.setBrush( UMLWidget::getFillColour() );
+        p.setBrush( UMLWidget::getFillColor() );
     }
     p.drawRect(x,y,w, h);
     //make sure it's always above the other
@@ -141,18 +145,21 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY) {
          drawSelected(&p, offsetX, offsetY);
 }
 
-QSize PinWidget::calculateSize() {
+QSize PinWidget::calculateSize()
+{
     setSize(10,10);
     return QSize(10,10);
 }
 
-void PinWidget::setName(const QString &strName) {
+void PinWidget::setName(const QString &strName)
+{
     m_Text = strName;
     updateComponentSize();
     m_pName->setText(m_Text);
 }
 
-int PinWidget::getMinY() {
+int PinWidget::getMinY()
+{
     if (!m_pOw) {
         return 0;
     }
@@ -160,7 +167,8 @@ int PinWidget::getMinY() {
     return heightA;
 }
 
-void PinWidget::mouseMoveEvent(QMouseEvent* me) {
+void PinWidget::mouseMoveEvent(QMouseEvent* me)
+{
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - getX();
     int diffY = m_oldY - getY();
@@ -170,7 +178,8 @@ void PinWidget::mouseMoveEvent(QMouseEvent* me) {
     }
 }
 
-void PinWidget::slotMenuSelection(QAction* action) {
+void PinWidget::slotMenuSelection(QAction* action)
+{
     bool ok = false;
     QString name = m_Text;
 
@@ -187,8 +196,8 @@ void PinWidget::slotMenuSelection(QAction* action) {
     }
 }
 
-
-void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
+void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
     QDomElement PinElement = qDoc.createElement( "pinwidget" );
     PinElement.setAttribute( "widgetaid", ID2STR(m_pOw->id()) );
     UMLWidget::saveToXMI( qDoc, PinElement );
@@ -200,7 +209,8 @@ void PinWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement ) {
 }
 
 
-bool PinWidget::loadFromXMI( QDomElement & qElement ) {
+bool PinWidget::loadFromXMI( QDomElement & qElement )
+{
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     QString widgetaid = qElement.attribute( "widgetaid", "-1" );
@@ -236,20 +246,18 @@ bool PinWidget::loadFromXMI( QDomElement & qElement ) {
     if ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "floatingtext") {
-            m_pName = new FloatingTextWidget( m_pView,Uml::tr_Floating,m_Text, textId );
+            m_pName = new FloatingTextWidget( m_pView, Uml::TextRole::Floating, m_Text, textId );
             if( ! m_pName->loadFromXMI(element) ) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
                 m_pName = NULL;
             }
         } else {
-            uError() << "unknown tag " << tag << endl;
+            uError() << "unknown tag " << tag;
         }
     }
 
     return true;
 }
 
-
 #include "pinwidget.moc"
-

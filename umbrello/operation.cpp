@@ -51,7 +51,7 @@ UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
         m_returnId = Uml::id_None;
     m_pSecondary = rt;
     m_Vis = s;
-    m_BaseType = Uml::ot_Operation;
+    m_BaseType = UMLObject::ot_Operation;
     m_bConst = false;
     m_Code.clear();
 }
@@ -67,7 +67,7 @@ UMLOperation::UMLOperation(UMLClassifier *parent, const QString& name,
 UMLOperation::UMLOperation(UMLClassifier * parent)
   : UMLClassifierListItem (parent)
 {
-    m_BaseType = Uml::ot_Operation;
+    m_BaseType = UMLObject::ot_Operation;
     m_bConst = false;
     m_Code.clear();
 }
@@ -195,18 +195,19 @@ UMLAttribute* UMLOperation::findParm(const QString &name)
  * @param sig       what type of operation string to show
  * @return          the string representation of the operation
  */
-QString UMLOperation::toString(Uml::Signature_Type sig)
+QString UMLOperation::toString(Uml::SignatureType sig)
 {
     QString s;
 
-    if (sig == Uml::st_ShowSig || sig == Uml::st_NoSig)
+    if (sig == Uml::SignatureType::ShowSig || sig == Uml::SignatureType::NoSig)
           s = m_Vis.toString(true) + ' ';
 
     s += name();
-    Uml::Programming_Language pl = UMLApp::app()->activeLanguage();
-    bool parameterlessOpNeedsParentheses = (pl != Uml::pl_Pascal && pl != Uml::pl_Ada);
+    Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
+    bool parameterlessOpNeedsParentheses =
+        (pl != Uml::ProgrammingLanguage::Pascal && pl != Uml::ProgrammingLanguage::Ada);
 
-    if (sig == Uml::st_NoSig || sig == Uml::st_NoSigNoVis) {
+    if (sig == Uml::SignatureType::NoSig || sig == Uml::SignatureType::NoSigNoVis) {
         if (parameterlessOpNeedsParentheses)
             s.append("()");
         return s;
@@ -217,7 +218,7 @@ QString UMLOperation::toString(Uml::Signature_Type sig)
         int i = 0;
         foreach (UMLAttribute *param , m_List ) {
             i++;
-            s.append(param->toString(Uml::st_SigNoVis));
+            s.append(param->toString(Uml::SignatureType::SigNoVis));
             if (i < last)
                 s.append(", ");
         }
@@ -452,7 +453,7 @@ void UMLOperation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if (m_pSecondary) {
         QDomElement retElement = qDoc.createElement("UML:Parameter");
         if (m_returnId == Uml::id_None) {
-            uDebug() << m_Name << ": m_returnId is not set, setting it now.";
+            uDebug() << name() << ": m_returnId is not set, setting it now.";
             m_returnId = UniqueID::gen();
         }
         retElement.setAttribute( "xmi.id", ID2STR(m_returnId) );
@@ -507,10 +508,10 @@ bool UMLOperation::load( QDomElement & element )
     QDomElement attElement = node.toElement();
     while ( !attElement.isNull() ) {
         QString tag = attElement.tagName();
-        if (Uml::tagEq(tag, "BehavioralFeature.parameter")) {
+        if (UMLDoc::tagEq(tag, "BehavioralFeature.parameter")) {
             if (! load(attElement))
                 return false;
-        } else if (Uml::tagEq(tag, "Parameter")) {
+        } else if (UMLDoc::tagEq(tag, "Parameter")) {
             QString kind = attElement.attribute("kind", "");
             if (kind.isEmpty()) {
                 // Perhaps the kind is stored in a child node:
@@ -519,7 +520,7 @@ bool UMLOperation::load( QDomElement & element )
                         continue;
                     QDomElement tempElement = n.toElement();
                     QString tag = tempElement.tagName();
-                    if (!Uml::tagEq(tag, "kind"))
+                    if (!UMLDoc::tagEq(tag, "kind"))
                         continue;
                     kind = tempElement.attribute( "xmi.value", "" );
                     break;
@@ -543,7 +544,7 @@ bool UMLOperation::load( QDomElement & element )
                         }
                         QDomElement tempElement = node.toElement();
                         QString tag = tempElement.tagName();
-                        if (!Uml::tagEq(tag, "type")) {
+                        if (!UMLDoc::tagEq(tag, "type")) {
                             node = node.nextSibling();
                             continue;
                         }
@@ -560,7 +561,7 @@ bool UMLOperation::load( QDomElement & element )
                         break;
                     }
                     if (m_SecondaryId.isEmpty()) {
-                        uError() << m_Name << ": cannot find return type.";
+                        uError() << name() << ": cannot find return type.";
                     }
                 }
                 // Use deferred xmi.id resolution.

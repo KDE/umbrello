@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2003-2010                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,10 +27,10 @@
 #include "cppcodedocumentation.h"
 #include "cppcodeclassfield.h"
 #include "cppsourcecodeclassfielddeclarationblock.h"
+#include "debug_utils.h"
 #include "uml.h"
 
-// qt/kde includes
-#include <kdebug.h>
+// qt includes
 #include <QtCore/QRegExp>
 
 CPPSourceCodeDocument::CPPSourceCodeDocument ( UMLClassifier * concept )

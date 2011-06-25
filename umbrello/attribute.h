@@ -11,8 +11,8 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
+#include "basictypes.h"
 #include "classifierlistitem.h"
-#include "umlnamespace.h"
 #include "umlclassifierlist.h"
 
 /**
@@ -51,7 +51,7 @@ public:
 
     void setInitialValue( const QString &iv );
 
-    QString toString(Uml::Signature_Type sig = Uml::st_NoSig);
+    QString toString(Uml::SignatureType sig = Uml::SignatureType::NoSig);
 
     QString getFullyQualifiedName( const QString& separator = QString(),
                                   bool includeRoot = false) const;
