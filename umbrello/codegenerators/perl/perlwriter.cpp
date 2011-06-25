@@ -18,8 +18,6 @@
 #include "umldoc.h"
 #include "uml.h"
 
-#include <kdebug.h>
-
 #include <QtCore/QRegExp>
 #include <QtCore/QString>
 #include <QtCore/QDir>

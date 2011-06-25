@@ -27,7 +27,6 @@
 #include "uml.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 

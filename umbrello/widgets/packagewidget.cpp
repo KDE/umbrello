@@ -13,7 +13,6 @@
 
 // qt/kde includes
 #include <QtGui/QPainter>
-#include <kdebug.h>
 
 // app includes
 #include "package.h"

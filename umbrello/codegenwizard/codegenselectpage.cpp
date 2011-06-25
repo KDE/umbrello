@@ -16,7 +16,6 @@
 
 //kde includes
 #include <klocale.h>
-#include <kdebug.h>
 
 // app includes
 #include "folder.h"
@@ -24,7 +23,6 @@
 #include "uml.h"
 #include "classifier.h"
 #include "entity.h"
-
 
 /**
  * Constructor. 
@@ -147,6 +145,5 @@ void CodeGenSelectPage::moveSelectedItems(QListWidget* fromList, QListWidget* to
         fromList->takeItem(fromList->row(item));
     }
 }
-
 
 #include "codegenselectpage.moc"

@@ -343,10 +343,10 @@ bool UMLRole::load( QDomElement & element )
     // The role end with the aggregation unequal to "none" wins.
     QString aggregation = element.attribute("aggregation", "none");
     if (aggregation == "composite")
-        m_pAssoc->setAssocType(Uml::AssociationType::Composition);
+        m_pAssoc->setAssociationType(Uml::AssociationType::Composition);
     else if (aggregation == "shared"       // UML1.3
           || aggregation == "aggregate")   // UML1.4
-        m_pAssoc->setAssocType(Uml::AssociationType::Aggregation);
+        m_pAssoc->setAssociationType(Uml::AssociationType::Aggregation);
 
     if (!element.hasAttribute("isNavigable")) {
         // Backward compatibility mode: In Umbrello version 1.3.x the
@@ -365,15 +365,15 @@ bool UMLRole::load( QDomElement & element )
         //  Combined with the association type logic for role A, this
         //  allows us to support at_Association and at_UniAssociation."
         if (element.attribute("isNavigable") == "true")
-            m_pAssoc->setAssocType(Uml::AssociationType::UniAssociation);
+            m_pAssoc->setAssociationType(Uml::AssociationType::UniAssociation);
     } else if (element.attribute("isNavigable") == "false") {
-        m_pAssoc->setAssocType(Uml::AssociationType::UniAssociation);
+        m_pAssoc->setAssociationType(Uml::AssociationType::UniAssociation);
     }
 
     //FIXME not standard XMI
     if (element.hasAttribute("relationship")) {
         if (element.attribute("relationship") == "true") {
-            m_pAssoc->setAssocType(Uml::AssociationType::Relationship);
+            m_pAssoc->setAssociationType(Uml::AssociationType::Relationship);
         }
     }
 

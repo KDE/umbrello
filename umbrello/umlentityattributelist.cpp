@@ -1,35 +1,38 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2004-2006                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 #include "umlentityattributelist.h"
+
 #include "entityattribute.h"
-#include <kdebug.h>
+
 #include <klocale.h>
 
 UMLEntityAttributeList::UMLEntityAttributeList()
-{}
-
+{
+}
 
 UMLEntityAttributeList::UMLEntityAttributeList(const UMLEntityAttributeList& other)
-    : QList<UMLEntityAttribute*>( other )
-{}
+  : QList<UMLEntityAttribute*>( other )
+{
+}
 
 UMLEntityAttributeList::~UMLEntityAttributeList()
-{}
+{
+}
 
 /**
  * Copy the internal presentation of this object into the new
  * object.
  */
-void UMLEntityAttributeList::copyInto(UMLEntityAttributeList* rhs) const {
+void UMLEntityAttributeList::copyInto(UMLEntityAttributeList* rhs) const
+{
     // Don't copy yourself.
     if (rhs == this) return;
 
@@ -46,14 +49,12 @@ void UMLEntityAttributeList::copyInto(UMLEntityAttributeList* rhs) const {
     delete tmp;
 }
 
-
 /**
  * Make a clone of this object.
  */
-UMLEntityAttributeList* UMLEntityAttributeList::clone() const {
+UMLEntityAttributeList* UMLEntityAttributeList::clone() const
+{
     UMLEntityAttributeList *clone = new UMLEntityAttributeList();
     copyInto(clone);
     return clone;
 }
-
-

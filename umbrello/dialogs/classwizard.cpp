@@ -23,7 +23,6 @@
 #include "umlclassifierlistitemlist.h"
 
 // kde includes
-#include <kdebug.h>
 #include <khelpmenu.h>
 #include <klocale.h>
 

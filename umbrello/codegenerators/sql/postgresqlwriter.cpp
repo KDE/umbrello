@@ -13,10 +13,10 @@
 #include "entity.h"
 #include "umlentityattributelist.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 
 #include <QtCore/QList>
+#include <QtCore/QTextStream>
 
 PostgreSQLWriter::PostgreSQLWriter()
 {

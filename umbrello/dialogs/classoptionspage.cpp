@@ -17,7 +17,6 @@
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 
 // qt includes
 #include <QtGui/QCheckBox>
@@ -26,7 +25,7 @@
 #include <QtGui/QGroupBox>
 
 ClassOptionsPage::ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget)
-        : QWidget( pParent )
+  : QWidget(pParent)
 {
     init();
     //Widget_Type type = pWidget->baseType();
@@ -34,7 +33,8 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget)
     setupPage();
 }
 
-ClassOptionsPage::ClassOptionsPage(QWidget* pParent, Settings::OptionState *options) : QWidget( pParent )
+ClassOptionsPage::ClassOptionsPage(QWidget* pParent, Settings::OptionState *options)
+  : QWidget(pParent)
 {
     init();
     m_options = options;

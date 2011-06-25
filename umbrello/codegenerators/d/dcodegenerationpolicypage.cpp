@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2007 Jari-Matti Mäkelä <jmjm@iki.fi>                    *
- *   copyright (C) 2008-2010                                               *
+ *   copyright (C) 2008-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,7 +16,6 @@
 #include "uml.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 
 DCodeGenerationPolicyPage::DCodeGenerationPolicyPage( QWidget *parent, const char *name, DCodeGenerationPolicy * policy )
@@ -71,6 +70,5 @@ void DCodeGenerationPolicyPage::apply()
     // now send out modified code content signal
     commonPolicy->emitModifiedCodeContentSig();
 }
-
 
 #include "dcodegenerationpolicypage.moc"

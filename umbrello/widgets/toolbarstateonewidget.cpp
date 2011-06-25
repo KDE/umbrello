@@ -11,9 +11,6 @@
 // own header
 #include "toolbarstateonewidget.h"
 
-// kde includes
-#include <kdebug.h>
-
 // local includes
 #include "floatingtextwidget.h"
 #include "pinwidget.h"

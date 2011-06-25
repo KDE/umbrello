@@ -15,7 +15,6 @@
 #include <QtGui/QListWidgetItem>
 
 #include "umlobject.h"
-#include "umlview.h"
 #include "associationwidgetlist.h"
 #include "associationwidget.h"
 #include "listpopupmenu.h"

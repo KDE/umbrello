@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2006-2009                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -17,13 +17,11 @@
 
 // kde includes
 #include <kcursor.h>
-#include <kdebug.h>
 #include <klocale.h>
 
 // app includes
 #include "umlwidget.h"
 #include "umlwidgetlist.h"
-#include "umlnamespace.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
@@ -325,10 +323,10 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
                 if (m_moved) {
 
                     /* Commands */
-                    UMLApp::app()->executeCommand(new CmdMoveWidget(this));
+                    UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(this));
 
                 } else {
-                    UMLApp::app()->executeCommand(new CmdResizeWidget(this));
+                    UMLApp::app()->executeCommand(new Uml::CmdResizeWidget(this));
                     m_resized = false;
                 }
 
@@ -370,7 +368,7 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
     //TODO Copied from old code. Does it really work as intended?
     UMLWidget *bkgnd = m_widget->umlScene()->getWidgetAt(me->pos());
     if (bkgnd) {
-        //uDebug() << "setting Z to " << bkgnd->getZ() + 1 << endl;
+        //uDebug() << "setting Z to " << bkgnd->getZ() + 1;
         m_widget->setZ(bkgnd->getZ() + 1);
     } else {
         m_widget->setZ(0);

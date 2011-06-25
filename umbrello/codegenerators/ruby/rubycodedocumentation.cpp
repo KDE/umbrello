@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2005                                                    *
  *   Richard Dale  <Richard_Dale@tipitina.demon.co.uk>                     *
- *   copyright (C) 2006-2010                                               *
+ *   copyright (C) 2006-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -18,22 +18,19 @@
 #include "rubycodegenerationpolicy.h"
 #include "uml.h"
 
-// kde includes
-#include <kdebug.h>
-
 // qt includes
 #include <QtCore/QRegExp>
 
-RubyCodeDocumentation::RubyCodeDocumentation ( RubyClassifierCodeDocument * doc, const QString & text )
-        : CodeComment ((CodeDocument*) doc, text)
+RubyCodeDocumentation::RubyCodeDocumentation(RubyClassifierCodeDocument * doc, const QString & text)
+  : CodeComment((CodeDocument*) doc, text)
 {
 }
 
-RubyCodeDocumentation::~RubyCodeDocumentation ( )
+RubyCodeDocumentation::~RubyCodeDocumentation()
 {
 }
 
-void RubyCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void RubyCodeDocumentation::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
     QDomElement blockElement = doc.createElement( "rubycodedocumentation" );
     setAttributesOnNode(doc, blockElement); // as we added no additional fields to this class we may
@@ -41,7 +38,7 @@ void RubyCodeDocumentation::saveToXMI ( QDomDocument & doc, QDomElement & root )
     root.appendChild( blockElement );
 }
 
-QString RubyCodeDocumentation::toString ( ) const
+QString RubyCodeDocumentation::toString() const
 {
     QString output = "";
 
@@ -72,7 +69,7 @@ QString RubyCodeDocumentation::toString ( ) const
     return output;
 }
 
-QString RubyCodeDocumentation::getNewEditorLine ( int amount )
+QString RubyCodeDocumentation::getNewEditorLine(int amount)
 {
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
@@ -99,7 +96,7 @@ int RubyCodeDocumentation::lastEditableLine()
     return 0;
 }
 
-QString RubyCodeDocumentation::unformatText ( const QString & text , const QString & indent)
+QString RubyCodeDocumentation::unformatText(const QString & text, const QString & indent)
 {
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -12,7 +12,6 @@
 #include "umlroledialog.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 
 // app includes
@@ -20,7 +19,7 @@
 #include "umlroleproperties.h"
 
 UMLRoleDialog::UMLRoleDialog( QWidget * parent, UMLRole * pRole )
-        : KDialog( parent)
+  : KDialog( parent)
 {
     setCaption( i18n("Role Properties") );
     setButtons( Help | Ok | Cancel );

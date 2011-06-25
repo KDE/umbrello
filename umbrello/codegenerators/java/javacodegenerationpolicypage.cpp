@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,10 +16,9 @@
 #include "uml.h"
 
 // kde includes
-#include <kdebug.h>
 #include <klocale.h>
 
-JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage( QWidget *parent, const char *name, JavaCodeGenerationPolicy * policy )
+JavaCodeGenerationPolicyPage::JavaCodeGenerationPolicyPage(QWidget *parent, const char *name, JavaCodeGenerationPolicy * policy)
   : CodeGenerationPolicyPage(parent, name, policy)
 {
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
@@ -71,6 +70,5 @@ void JavaCodeGenerationPolicyPage::apply()
     // now send out modified code content signal
     commonPolicy->emitModifiedCodeContentSig();
 }
-
 
 #include "javacodegenerationpolicypage.moc"

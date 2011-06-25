@@ -17,7 +17,6 @@
 // kde includes
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
 
 // qt includes
 #include <QtGui/QLayout>
@@ -257,8 +256,8 @@ void AssocRolePage::constructWidget()
     m_pDocA = new KTextEdit(docAGB);
     docALayout->addWidget(m_pDocA);
     m_pDocA-> setText(m_pAssociationWidget->roleDocumentation(Uml::A));
-    // m_pDocA-> setText("<<not implemented yet>>");
-    // m_pDocA-> setEnabled(false);
+    // m_pDocA->setText("<<not implemented yet>>");
+    // m_pDocA->setEnabled(false);
     m_pDocA->setLineWrapMode(QTextEdit::WidgetWidth);
 
     // Document B
@@ -267,7 +266,7 @@ void AssocRolePage::constructWidget()
     m_pDocB = new KTextEdit(docBGB);
     docBLayout->addWidget(m_pDocB);
     m_pDocB->setText(m_pAssociationWidget->roleDocumentation(Uml::B));
-    // m_pDocB-> setEnabled(false);
+    // m_pDocB->setEnabled(false);
     m_pDocB->setLineWrapMode(QTextEdit::WidgetWidth);
 
     // add group boxes to main layout

@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,19 +12,23 @@
 #include "overwritedialogue.h"
 
 // qt/kde includes
-#include <QVBoxLayout>
-#include <qcheckbox.h>
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QCheckBox>
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
+
 #include <klocale.h>
-#include <kdebug.h>
 
 
+/**
+ * Constructor sets up the dialog, adding checkbox and label.
+ */
 OverwriteDialogue::OverwriteDialogue(
         const QString& fileName,
         const QString& outputDirectory,
         bool applyToAllRemaining, QWidget* parent)
-    :KDialog(parent) {
+  : KDialog(parent)
+{
     setCaption( i18n("Destination File Already Exists") );
     setButtons( Help | Ok | Cancel );
     setDefaultButton( Yes );
@@ -54,35 +57,43 @@ OverwriteDialogue::OverwriteDialogue(
     connect(this,SIGNAL(cancelClicked()),this,SLOT(slotCancel()));
 }
 
-OverwriteDialogue::~OverwriteDialogue() {
+/**
+ * Destructor.
+ */
+OverwriteDialogue::~OverwriteDialogue()
+{
 }
 
 /**
  * Overrides standard operation to call QDialog::done(Yes).
- *  This is a kludge, see note in class description.
+ * This is a kludge, see note in class description.
  */
-void OverwriteDialogue::slotOk() {
+void OverwriteDialogue::slotOk()
+{
     done(Yes);
 }
 
 /**
  * Overrides standard operation to call QDialog::done(No).
  */
-void OverwriteDialogue::slotApply() {
+void OverwriteDialogue::slotApply()
+{
     done(No);
 }
 
 /**
  * Overrides standard operation to call QDialog::done(Cancel).
  */
-void OverwriteDialogue::slotCancel() {
+void OverwriteDialogue::slotCancel()
+{
     done(Cancel);
 }
 
 /**
  * @return the value of the Apply To All Remaining Files checkbox
  */
-bool OverwriteDialogue::applyToAllRemaining() {
+bool OverwriteDialogue::applyToAllRemaining()
+{
     return m_applyToAllRemaining->isChecked();
 }
 

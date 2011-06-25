@@ -19,7 +19,6 @@
 #include "optionstate.h"
 
 // kde includes
-#include <kdebug.h>
 #include <kconfig.h>
 
 // qt includes
@@ -49,7 +48,7 @@ CPPCodeGenerationPolicy::~CPPCodeGenerationPolicy()
  * Set the value of publicAccessors
  * @param var the new value
  */
-void CPPCodeGenerationPolicy::setAccessorsArePublic ( bool var )
+void CPPCodeGenerationPolicy::setAccessorsArePublic(bool var)
 {
     Settings::optionState().codeGenerationState.cppCodeGenerationState.publicAccessors = var;
     // @todo we should probably use an own signal for this
@@ -79,7 +78,7 @@ void CPPCodeGenerationPolicy::setAccessorsAreInline(bool var)
  * Get the value of m_inlineAccessors.
  * @return the boolean value of m_inlineAccessors
  */
-bool CPPCodeGenerationPolicy::getAccessorsAreInline( )
+bool CPPCodeGenerationPolicy::getAccessorsAreInline()
 {
     return Settings::optionState().codeGenerationState.cppCodeGenerationState.inlineAccessors;
 }
@@ -309,7 +308,7 @@ QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableNam
  * @param cppclone           code generation policy object for cloning
  * @param emitUpdateSignal   flag whether to emit update signal
  */
-void CPPCodeGenerationPolicy::setDefaults ( CPPCodeGenerationPolicy * cppclone, bool emitUpdateSignal )
+void CPPCodeGenerationPolicy::setDefaults(CPPCodeGenerationPolicy * cppclone, bool emitUpdateSignal)
 {
     blockSignals(true); // we need to do this because otherwise most of these
     // settors below will each send the modifiedCodeContent() signal
@@ -378,9 +377,9 @@ void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
  * @param name     the name of the page
  * @return dialog object
  */
-CodeGenerationPolicyPage * CPPCodeGenerationPolicy::createPage ( QWidget *parent, const char *name )
+CodeGenerationPolicyPage * CPPCodeGenerationPolicy::createPage(QWidget *parent, const char *name)
 {
-    return new CPPCodeGenerationPolicyPage ( parent, name, this );
+    return new CPPCodeGenerationPolicyPage(parent, name, this);
 }
 
 /**

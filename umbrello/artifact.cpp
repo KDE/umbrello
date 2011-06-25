@@ -12,7 +12,6 @@
 #include "association.h"
 #include "clipboard/idchangelog.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 
 /**

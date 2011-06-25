@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 #include "node.h"
-#include <kdebug.h>
+
 #include <klocale.h>
 
 /**
@@ -19,7 +19,7 @@
  * @param id     The unique id of the Concept.
  */
 UMLNode::UMLNode(const QString & name, Uml::IDType id)
-        : UMLCanvasObject(name, id)
+  : UMLCanvasObject(name, id)
 {
     init();
 }

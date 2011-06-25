@@ -5,15 +5,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
 // own header
 #include "cppheadercodeaccessormethod.h"
-
-// qt/kde includes
-#include <kdebug.h>
 
 // local includes
 #include "attribute.h"
@@ -27,8 +24,8 @@
 #include "umlrole.h"
 #include "uml.h"
 
-CPPHeaderCodeAccessorMethod::CPPHeaderCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type)
-        : CodeAccessorMethod ( field )
+CPPHeaderCodeAccessorMethod::CPPHeaderCodeAccessorMethod(CodeClassField * field, CodeAccessorMethod::AccessorType type)
+  : CodeAccessorMethod(field)
 {
     setType(type);
 }
@@ -39,12 +36,12 @@ void CPPHeaderCodeAccessorMethod::update()
     updateContent();
 }
 
-CPPHeaderCodeAccessorMethod::~CPPHeaderCodeAccessorMethod ( )
+CPPHeaderCodeAccessorMethod::~CPPHeaderCodeAccessorMethod()
 {
 }
 
 // we basically want to update the body of this method
-void CPPHeaderCodeAccessorMethod::updateContent( )
+void CPPHeaderCodeAccessorMethod::updateContent()
 {
     CodeClassField * parentField = getParentClassField();
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);

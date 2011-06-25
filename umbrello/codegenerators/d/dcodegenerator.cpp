@@ -16,7 +16,6 @@
 #include <QtCore/QRegExp>
 
 #include <kconfig.h>
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 

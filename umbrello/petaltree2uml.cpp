@@ -447,15 +447,15 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg = NULL)
             }
             QString is_navigable = clean(roleNode->findAttribute("is_navigable").string);
             if (is_navigable == "FALSE") {
-                assoc->setAssocType(Uml::AssociationType::Association);
+                assoc->setAssociationType(Uml::AssociationType::Association);
             }
             QString is_aggregate = clean(roleNode->findAttribute("is_aggregate").string);
             if (is_aggregate == "TRUE") {
-                assoc->setAssocType(Uml::AssociationType::Aggregation);
+                assoc->setAssociationType(Uml::AssociationType::Aggregation);
             }
             QString containment = clean(roleNode->findAttribute("Containment").string);
             if (containment == "By Value") {
-                assoc->setAssocType(Uml::AssociationType::Composition);
+                assoc->setAssociationType(Uml::AssociationType::Composition);
             }
             QString doc = roleNode->findAttribute("documentation").string;
             if (! doc.isEmpty())

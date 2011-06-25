@@ -6,7 +6,7 @@
  *                                                                         *
  *   copyright (C) 2002                                                    *
  *   Luis De la Parra <luis@delaparra.org>                                 *
- *   copyright (C) 2003-2008                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,13 +14,13 @@
 #include "codevieweroptionspage.h"
 
 // qt/kde includes
-#include <kdebug.h>
 #include <kfontdialog.h>
 #include <kcolorbutton.h>
 
 
 CodeViewerOptionsPage::CodeViewerOptionsPage( Settings::CodeViewerState options, QWidget *parent, const char *name )
-        :QWidget(parent), m_options(options)
+  : QWidget(parent),
+    m_options(options)
 {
     setObjectName(name);
     setupUi(this);

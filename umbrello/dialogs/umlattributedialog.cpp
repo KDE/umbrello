@@ -27,7 +27,6 @@
 #include <kcompletion.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
 
 // qt includes
 #include <QtGui/QGroupBox>

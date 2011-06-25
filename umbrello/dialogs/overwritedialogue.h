@@ -1,11 +1,10 @@
 /***************************************************************************
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -27,20 +26,14 @@ class QCheckBox;
  * @author Jonathan Riddell <jr@jriddell.org>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class OverwriteDialogue: public KDialog {
+class OverwriteDialogue: public KDialog
+{
     Q_OBJECT
 
 public:
 
-    /**
-     * constructor sets up the dialog, adding checkbox and label
-     */
     OverwriteDialogue(const QString& fileName, const QString& outputDirectory,
                       bool applyToAllRemaining, QWidget* parent=0);
-
-    /**
-     * destrictor doesn't do anything
-     */
     ~OverwriteDialogue();
 
     bool applyToAllRemaining();

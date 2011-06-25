@@ -55,6 +55,7 @@ public:
     ~UMLListView();
 
     void setDocument(UMLDoc * doc);
+    UMLDoc * document() const;
 
     void init();
     void clean();
@@ -81,8 +82,6 @@ public:
     UMLListViewItem* determineParentItem(UMLListViewItem::ListViewType lvt) const;
 
     static bool mayHaveChildItems(UMLObject::Object_Type type);
-
-    UMLDoc * document() const;
 
     void addNewItem(UMLListViewItem * parent, UMLListViewItem::ListViewType type);
 

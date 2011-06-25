@@ -107,8 +107,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLObject->doc() )
-        {
+        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLObject->doc() ) {
             mark_modified = true;
         }
         m_pUMLObject->setDoc( m_pDocTE->toPlainText() );
@@ -118,8 +117,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
         // [PORT] Use UMLScene here
-        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLView->umlScene()->documentation() )
-        {
+        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLView->umlScene()->documentation() ) {
             mark_modified = true;
         }
 
@@ -129,8 +127,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLWidget->documentation() )
-        {
+        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLWidget->documentation() ) {
             mark_modified = true;
         }
 
@@ -139,8 +136,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pAssocWidget->documentation() )
-        {
+        if ( startup == false && m_pDocTE->toPlainText() != m_pAssocWidget->documentation() ) {
             mark_modified = true;
         }
 
@@ -149,8 +145,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLDoc->documentation() )
-        {
+        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLDoc->documentation() ) {
             mark_modified = true;
         }
 
@@ -158,8 +153,9 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
     }
 
     // now do the setModified call
-    if (mark_modified == true)
+    if (mark_modified) {
         m_pUMLDoc->setModified( true );
+    }
 
     // we should show the documentation of the whole project
     if( clear ) {
@@ -180,8 +176,9 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite )
 {
     if( view == m_pUMLView && !overwrite )
         return;
-    if( view != m_pUMLView )
+    if( view != m_pUMLView ) {
         updateDocumentation( true );
+    }
     m_Showing = st_UMLView;
     if( !view ) {
         m_pDocTE->setText( m_pUMLDoc->documentation() );

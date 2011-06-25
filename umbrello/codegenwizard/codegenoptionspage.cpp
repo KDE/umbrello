@@ -26,7 +26,6 @@
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 #include <klocale.h>
-#include <kdebug.h>
 
 // qt includes
 
@@ -341,6 +340,5 @@ QString CodeGenOptionsPage::getLanguage()
 {
     return ui_SelectLanguageBox->currentText();
 }
-
 
 #include "codegenoptionspage.moc"

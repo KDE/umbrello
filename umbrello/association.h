@@ -48,7 +48,7 @@ public:
     Uml::IDType getObjectId(Uml::Role_Type role) const;
     Uml::IDType getRoleId(Uml::Role_Type role) const;
 
-    void setAssocType(Uml::AssociationType assocType);
+    void setAssociationType(Uml::AssociationType assocType);
     Uml::AssociationType getAssocType() const;
 
     void setObject(UMLObject *obj, Uml::Role_Type role);

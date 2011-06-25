@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      kiriuja  <kplayer-dev@en-directo.net>         *
- *   copyright (C) 2003-2009                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -15,8 +15,9 @@
 
 #include "kplayerslideraction.h"
 
+#include "debug_utils.h"
+
 #include <ktoolbar.h>
-#include <kdebug.h>
 
 #include <QtGui/QKeyEvent>
 #include <QtGui/QDesktopWidget>

@@ -409,7 +409,7 @@ bool UMLAssociation::load( QDomElement & element )
         }
         assocType = Uml::AssociationType::Value(assocTypeNum);
     }
-    setAssocType( assocType );
+    setAssociationType( assocType );
 
     Uml::IDType roleAObjID = STR2ID(element.attribute( "rolea", "-1" ));
     Uml::IDType roleBObjID = STR2ID(element.attribute( "roleb", "-1" ));
@@ -584,7 +584,7 @@ bool UMLAssociation::getOldLoadMode() const
  * Sets the assocType of the UMLAssociation.
  * @param assocType The Association_Type of the UMLAssociation.
  */
-void UMLAssociation::setAssocType(Uml::AssociationType assocType)
+void UMLAssociation::setAssociationType(Uml::AssociationType assocType)
 {
     m_AssocType = assocType;
     if (m_AssocType == Uml::AssociationType::UniAssociation)

@@ -20,7 +20,6 @@
 
 // kde includes
 #include <kconfig.h>
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -31,7 +30,7 @@
  * Constructor.
  * @param elem DOM element
  */
-RubyCodeGenerator::RubyCodeGenerator(QDomElement & elem )
+RubyCodeGenerator::RubyCodeGenerator(QDomElement & elem)
   : CodeGenerator(elem)
 {
 }
@@ -46,7 +45,7 @@ RubyCodeGenerator::RubyCodeGenerator()
 /**
  * Destructor.
  */
-RubyCodeGenerator::~RubyCodeGenerator ( )
+RubyCodeGenerator::~RubyCodeGenerator()
 {
 }
 
@@ -63,7 +62,7 @@ Uml::ProgrammingLanguage RubyCodeGenerator::language() const
  * Get the editing dialog for this code document.
  * @return code viewer dialog object
  */
-CodeViewerDialog * RubyCodeGenerator::getCodeViewerDialog ( QWidget* parent, CodeDocument *doc,
+CodeViewerDialog * RubyCodeGenerator::getCodeViewerDialog(QWidget* parent, CodeDocument *doc,
         Settings::CodeViewerState state)
 {
     CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
@@ -150,7 +149,7 @@ QString RubyCodeGenerator::cppToRubyName(const QString &cppName)
  * @param classifier the UML classifier
  * @return a new classifier code document
  */
-CodeDocument * RubyCodeGenerator::newClassifierCodeDocument ( UMLClassifier * classifier)
+CodeDocument * RubyCodeGenerator::newClassifierCodeDocument(UMLClassifier * classifier)
 {
     RubyClassifierCodeDocument * doc = new RubyClassifierCodeDocument(classifier);
     doc->initCodeClassFields();
@@ -221,4 +220,3 @@ QStringList RubyCodeGenerator::reservedKeywords() const
 }
 
 #include "rubycodegenerator.moc"
-

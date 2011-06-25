@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,11 +23,8 @@
 #include "umlrole.h"
 #include "uml.h"
 
-// kde includes
-#include <kdebug.h>
-
-CPPSourceCodeAccessorMethod::CPPSourceCodeAccessorMethod ( CodeClassField * field, CodeAccessorMethod::AccessorType type)
-        : CodeAccessorMethod ( field )
+CPPSourceCodeAccessorMethod::CPPSourceCodeAccessorMethod(CodeClassField * field, CodeAccessorMethod::AccessorType type)
+  : CodeAccessorMethod(field)
 {
     setType(type);
     setEndMethodText("}");
@@ -39,10 +36,12 @@ void CPPSourceCodeAccessorMethod::update()
     updateContent();
 }
 
-CPPSourceCodeAccessorMethod::~CPPSourceCodeAccessorMethod ( ) { }
+CPPSourceCodeAccessorMethod::~CPPSourceCodeAccessorMethod()
+{
+}
 
 // we basically want to update the body of this method
-void CPPSourceCodeAccessorMethod::updateContent( )
+void CPPSourceCodeAccessorMethod::updateContent()
 {
     CodeClassField * parentField = getParentClassField();
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);

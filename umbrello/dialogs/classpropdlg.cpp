@@ -30,7 +30,6 @@
 
 // kde includes
 #include <klocale.h>
-#include <kdebug.h>
 #include <kvbox.h>
 
 // qt includes
@@ -46,7 +45,7 @@
  *  @param assoc     Determines whether to display associations
  */
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, bool assoc)
-        : KPageDialog(parent)
+  : KPageDialog(parent)
 {
     init();
     m_pWidget = 0;
@@ -66,7 +65,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, UMLObject * c, bool assoc)
  *  @param  o       The ObjectWidget to display properties of.
  */
 ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
-        : KPageDialog(parent)
+  : KPageDialog(parent)
 {
     init();
     m_pWidget = o;
@@ -90,7 +89,7 @@ ClassPropDlg::ClassPropDlg(QWidget *parent, ObjectWidget *o)
  *  @param  o       The UMLWidget to display properties of.
  */
 ClassPropDlg::ClassPropDlg(QWidget *parent, UMLWidget *w)
-        : KPageDialog(parent)
+  : KPageDialog(parent)
 {
     init();
     m_pWidget = w;

@@ -329,11 +329,15 @@ void AssociationWidget::setText(FloatingTextWidget *ft, const QString &text)
     }
 }
 
+/**
+ * Shows the association properties dialog and updates the
+ * corresponding texts if its execution is successful.
+ */
 void AssociationWidget::showPropertiesDialog()
 {
     UMLView *view = umlScene() ? umlScene()->activeView() : 0;
 
-    QPointer<AssocPropDlg> dlg = new AssocPropDlg(view, this );
+    QPointer<AssocPropDlg> dlg = new AssocPropDlg(view, this);
     if (dlg->exec()) {
         //rules built into these functions to stop updating incorrect values
         setName(name());
@@ -855,7 +859,7 @@ void AssociationWidget::setAssociationType(Uml::AssociationType type)
 {
     m_associationType = type;
     if (umlObject() && umlObject()->baseType() == UMLObject::ot_Association) {
-        static_cast<UMLAssociation*>(umlObject())->setAssocType(type);
+        static_cast<UMLAssociation*>(umlObject())->setAssociationType(type);
     }
 
     WidgetRole &a = m_widgetRole[Uml::A];
