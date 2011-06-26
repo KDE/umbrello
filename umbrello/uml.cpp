@@ -572,7 +572,6 @@ void UMLApp::slotZoomIn()
 void UMLApp::setZoom(int zoom)
 {
     currentView()->setZoom(zoom);
-    qDebug() << "Set zoom value:" << " " << zoom;
     m_pZoomSlider->setValue(zoom);
 }
 

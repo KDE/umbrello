@@ -153,7 +153,7 @@ UMLView::UMLView(UMLFolder *parentFolder)
     m_pImageExporter = new UMLViewImageExporter(this);
 
     //setup graphical items
-    setCanvas(new UMLViewCanvas(this));
+    setCanvas(new UMLViewCanvas(this,m_Options));
     // don't set the quite frequent update rate for each
     // diagram, as that causes also an update of invisible
     // diagrams, which can cost high CPU load for many

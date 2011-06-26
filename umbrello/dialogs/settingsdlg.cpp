@@ -18,15 +18,10 @@
 #include "debug_utils.h"
 #include "icon_utils.h"
 
-// kde includes
-#include <kvbox.h>
-#include <klocale.h>
-#include <kfiledialog.h>
+//TODO don't do that, but it's better than hardcoded in the functions body
+#define FILL_COLOR QColor(255, 255, 192) 
+#define LINK_COLOR Qt::red
 
-// qt includes
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QGridLayout>
 
 SettingsDlg::SettingsDlg( QWidget * parent, Settings::OptionState *state )
         : KPageDialog( parent)
@@ -58,7 +53,9 @@ SettingsDlg::~SettingsDlg()
 void SettingsDlg::setupUIPage()
 {
     //setup UI page
-    KVBox * page = new KVBox();
+    QWidget * page = new QWidget();
+    QVBoxLayout* uiPageLayout = new QVBoxLayout(page);
+    
     pageUserInterface = new KPageWidgetItem( page,i18n("User Interface"));
     pageUserInterface->setHeader( i18n("User Interface Settings") );
     pageUserInterface->setIcon( Icon_Utils::DesktopIcon(Icon_Utils::it_Properties_UserInterface) );
@@ -68,46 +65,74 @@ void SettingsDlg::setupUIPage()
     QGridLayout * colorLayout = new QGridLayout( m_UiWidgets.colorGB );
     colorLayout->setSpacing( spacingHint() );
     colorLayout->setMargin( fontMetrics().height() );
+    uiPageLayout->addWidget(m_UiWidgets.colorGB);
+    
+    uiPageLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
-    m_UiWidgets.lineColorL = new QLabel( i18n("Line color:"), m_UiWidgets.colorGB );
-    colorLayout->addWidget( m_UiWidgets.lineColorL, 0, 0 );
+    m_UiWidgets.lineColorCB = new QCheckBox( i18n("Custom line color:"), m_UiWidgets.colorGB );
+    colorLayout->addWidget( m_UiWidgets.lineColorCB, 0, 0 );
 
     m_UiWidgets.lineColorB = new KColorButton( m_pOptionState->uiState.lineColor ,m_UiWidgets.colorGB);
     //m_UiWidgets.lineColorB->setObjectName( m_UiWidgets.colorGB );
     colorLayout->addWidget( m_UiWidgets.lineColorB, 0, 1 );
+    
 
-    m_UiWidgets.lineDefaultB = new QPushButton( i18n("D&efault Color"), m_UiWidgets.colorGB );
-    colorLayout->addWidget( m_UiWidgets.lineDefaultB, 0, 2 );
+//     m_UiWidgets.lineDefaultB = new QPushButton( i18n("D&efault Color"), m_UiWidgets.colorGB );
+//     colorLayout->addWidget( m_UiWidgets.lineDefaultB, 0, 2 );
 
-    m_UiWidgets.fillColorL = new QLabel( i18n("Fill color:"), m_UiWidgets.colorGB );
-    colorLayout->addWidget( m_UiWidgets.fillColorL, 1, 0 );
+    m_UiWidgets.fillColorCB = new QCheckBox( i18n("Custom fill color:"), m_UiWidgets.colorGB );
+    colorLayout->addWidget( m_UiWidgets.fillColorCB, 1, 0 );
+    
 
     m_UiWidgets.fillColorB = new KColorButton( m_pOptionState->uiState.fillColor,m_UiWidgets.colorGB  );
-    //m_UiWidgets.fillColorB->setObjectName( m_UiWidgets.colorGB );
     colorLayout->addWidget( m_UiWidgets.fillColorB, 1, 1 );
+    
+    m_UiWidgets.gridColorB = new KColorButton( m_pOptionState->uiState.gridDotColor,m_UiWidgets.colorGB  );
+    colorLayout->addWidget(m_UiWidgets.gridColorB , 0, 3 );
+    
+    m_UiWidgets.gridColorCB = new QCheckBox( i18n("Custom grid color:"), m_UiWidgets.colorGB );
+    colorLayout->addWidget(m_UiWidgets.gridColorCB , 0, 2 );
+    
+    m_UiWidgets.bgColorCB = new QCheckBox( i18n("Custom background color:"), m_UiWidgets.colorGB );
+    colorLayout->addWidget(m_UiWidgets.bgColorCB , 1, 2 );
+    
+    
+    m_UiWidgets.bgColorB = new KColorButton( m_pOptionState->uiState.backgroundColor,m_UiWidgets.colorGB  );
+    colorLayout->addWidget(m_UiWidgets.bgColorB , 1, 3 );
 
-    m_UiWidgets.fillDefaultB = new QPushButton( i18n("De&fault Color"), m_UiWidgets.colorGB );
-    colorLayout->addWidget( m_UiWidgets.fillDefaultB, 1, 2 );
+    m_UiWidgets.lineWidthCB = new QCheckBox( i18n("Custom line width:"), m_UiWidgets.colorGB );
+    colorLayout->addWidget( m_UiWidgets.lineWidthCB, 2, 0 );
 
-    m_UiWidgets.lineWidthL = new QLabel( i18n("Line width:"), m_UiWidgets.colorGB );
-    colorLayout->addWidget( m_UiWidgets.lineWidthL, 2, 0 );
-
-    // Low-Limit: 0, High-Limit: 10, Step: 1, Initial-Val: m_pOptionState->uiState.lineWidth
-    // Number-Base: 10 ( decimal ), Parent: m_UiWidgets.colorGB
     m_UiWidgets.lineWidthB = new KIntSpinBox( 0, 10, 1, m_pOptionState->uiState.lineWidth, m_UiWidgets.colorGB );
     colorLayout->addWidget( m_UiWidgets.lineWidthB, 2, 1 );
-
-    m_UiWidgets.lineWidthDefaultB = new QPushButton( i18n("D&efault Width"), m_UiWidgets.colorGB );
-    colorLayout->addWidget( m_UiWidgets.lineWidthDefaultB, 2, 2 );
-
+    
     m_UiWidgets.useFillColorCB = new QCheckBox( i18n("&Use fill color"), m_UiWidgets.colorGB );
-    colorLayout->setRowStretch( 3, 2 );
-    colorLayout->addWidget( m_UiWidgets.useFillColorCB, 3, 0 );
+    //colorLayout->setRowStretch( 3, 2 );
+    colorLayout->addWidget( m_UiWidgets.useFillColorCB,3,0);
     m_UiWidgets.useFillColorCB->setChecked( m_pOptionState->uiState.useFillColor );
 
     //connect button signals up
-    connect( m_UiWidgets.lineDefaultB, SIGNAL(clicked()), this, SLOT(slotLineBClicked()) );
-    connect( m_UiWidgets.fillDefaultB, SIGNAL(clicked()), this, SLOT(slotFillBClicked()) );
+    connect( m_UiWidgets.lineColorCB, SIGNAL(toggled(bool)), this, SLOT(slotLineCBChecked(bool)) );
+    connect( m_UiWidgets.fillColorCB, SIGNAL(toggled(bool)), this, SLOT(slotFillCBChecked(bool)) );
+    connect( m_UiWidgets.gridColorCB, SIGNAL(toggled(bool)), this, SLOT(slotGridCBChecked(bool)) );
+    connect( m_UiWidgets.bgColorCB, SIGNAL(toggled(bool)), this, SLOT(slotBgCBChecked(bool)) );
+    
+    //TODO Once the new canvas is complete, so something better, it does not worth it for now
+    if (m_UiWidgets.fillColorB->color() == FILL_COLOR) {
+        m_UiWidgets.fillColorCB->setChecked(false);
+        m_UiWidgets.fillColorB->setDisabled(true);
+    }
+    else {
+        m_UiWidgets.fillColorCB->setChecked(true);
+    }
+    
+    if (m_UiWidgets.lineColorB->color() == LINK_COLOR) {
+        m_UiWidgets.lineColorCB->setChecked(false);
+        m_UiWidgets.lineColorB->setDisabled(true);
+    }
+    else {
+        m_UiWidgets.lineColorCB->setChecked(true);
+    }
 }
 
 void SettingsDlg::setupGeneralPage()
@@ -398,8 +423,8 @@ void SettingsDlg::slotDefault()
     else if ( current == pageUserInterface )
     {
         m_UiWidgets.useFillColorCB->setChecked( true );
-        m_UiWidgets.fillColorB->setColor( QColor( 255, 255, 192 ) );
-        m_UiWidgets.lineColorB->setColor( Qt::red );
+        m_UiWidgets.fillColorB->setColor( FILL_COLOR );
+        m_UiWidgets.lineColorB->setColor( LINK_COLOR );
         m_UiWidgets.lineWidthB->setValue( 0 );
     }
     else if ( current == pageClass )
@@ -447,6 +472,8 @@ void SettingsDlg::applyPage( KPageWidgetItem*item )
         m_pOptionState->uiState.fillColor = m_UiWidgets.fillColorB->color();
         m_pOptionState->uiState.lineColor = m_UiWidgets.lineColorB->color();
         m_pOptionState->uiState.lineWidth = m_UiWidgets.lineWidthB->value();
+        m_pOptionState->uiState.backgroundColor = m_UiWidgets.bgColorB->color();
+        m_pOptionState->uiState.gridDotColor = m_UiWidgets.gridColorB->color();
     }
     else if ( item == pageClass )
     {
@@ -471,14 +498,50 @@ void SettingsDlg::applyPage( KPageWidgetItem*item )
     }
 }
 
-void SettingsDlg::slotLineBClicked()
+void SettingsDlg::slotLineCBChecked(bool value)
 {
-    m_UiWidgets.lineColorB->setColor( Qt::red );
+    if (value == false) {
+        m_UiWidgets.lineColorB->setColor( LINK_COLOR );
+        m_UiWidgets.lineColorB->setDisabled(true);
+    }
+    else {
+        m_UiWidgets.lineColorB->setDisabled(false);
+    }
 }
 
-void SettingsDlg::slotFillBClicked()
+void SettingsDlg::slotFillCBChecked(bool value)
 {
-    m_UiWidgets.fillColorB->setColor( QColor(255, 255, 192) );
+    if (value == false) {
+        m_UiWidgets.fillColorB->setColor( FILL_COLOR );
+        m_UiWidgets.fillColorB->setDisabled(true);
+    }
+    else {
+        m_UiWidgets.fillColorB->setDisabled(false);
+    }
+}
+
+void SettingsDlg::slotGridCBChecked(bool value)
+{
+    if (value == false) {
+        QPalette palette;
+        m_UiWidgets.gridColorB->setColor( palette.alternateBase() );
+        m_UiWidgets.gridColorB->setDisabled(true);
+    }
+    else {
+        m_UiWidgets.gridColorB->setDisabled(false);
+    }
+}
+
+void SettingsDlg::slotBgCBChecked(bool value)
+{
+    if (value == false) {
+        QPalette palette;
+        m_UiWidgets.bgColorB->setColor( palette.base() );
+        m_UiWidgets.bgColorB->setDisabled(true);
+    }
+    else {
+        m_UiWidgets.bgColorB->setDisabled(false);
+    }
 }
 
 void SettingsDlg::slotAutosaveCBClicked()

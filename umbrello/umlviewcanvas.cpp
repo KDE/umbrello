@@ -16,15 +16,18 @@
 
 // app includes
 #include "umlview.h"
-
+#include <QPalette>
 
 /**
  * Constructor
  */
-UMLViewCanvas::UMLViewCanvas(UMLView * pView) : Q3Canvas(pView)
+UMLViewCanvas::UMLViewCanvas(UMLView * pView,const Settings::OptionState& option) : Q3Canvas(pView)
 {
     m_pView = pView;
-    setColors(QColor(195, 195, 195), Qt::gray);
+    
+    QPalette palette;
+    setColors(palette.base(), option.uiState.gridDotColor);
+    //setColors(option.uiState.backgroundColor, option.uiState.gridDotColor); //TODO Somehow, it does not work, it should
 }
 
 /**

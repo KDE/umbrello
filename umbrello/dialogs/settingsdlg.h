@@ -61,16 +61,16 @@ private:
     struct UIWidgets {
         QGroupBox * colorGB;
 
-        QLabel * lineColorL;
-        QLabel * fillColorL;
-        QLabel * lineWidthL;
-
-        QPushButton * lineDefaultB;
-        QPushButton * fillDefaultB;
-        QPushButton * lineWidthDefaultB;
+        QCheckBox * lineColorCB;
+        QCheckBox * fillColorCB;
+        QCheckBox * lineWidthCB;
+        QCheckBox * gridColorCB;
+        QCheckBox * bgColorCB;
 
         KColorButton * lineColorB;
         KColorButton * fillColorB;
+        KColorButton * gridColorB;
+        KColorButton * bgColorB;
         KIntSpinBox  * lineWidthB;
 
         QCheckBox * useFillColorCB;
@@ -158,8 +158,10 @@ private slots:
     void slotApply();
     void slotOk();
     void slotDefault();
-    void slotLineBClicked();
-    void slotFillBClicked();
+    void slotLineCBChecked(bool value);
+    void slotFillCBChecked(bool value);
+    void slotGridCBChecked(bool value);
+    void slotBgCBChecked(bool value);
     void slotAutosaveCBClicked();
 };
 

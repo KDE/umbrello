@@ -12,6 +12,7 @@
 #define UMLVIEWCANVAS_H
 
 #include <q3canvas.h>
+#include "optionstate.h"
 
 /**
  *@author Paul Hensgen
@@ -22,7 +23,7 @@ class UMLView;
 class UMLViewCanvas : public Q3Canvas
 {
 public:
-    UMLViewCanvas(UMLView * pView);
+    UMLViewCanvas(UMLView * pView,const Settings::OptionState& option);
     virtual ~UMLViewCanvas();
 
     void setColors(const QColor& backColor, const QColor& gridColor);
