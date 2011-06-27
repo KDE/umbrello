@@ -28,7 +28,7 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget)
   : QWidget(pParent)
 {
     init();
-    //Widget_Type type = pWidget->baseType();
+    //WidgetType type = pWidget->baseType();
     m_pWidget = pWidget;
     setupPage();
 }
@@ -101,7 +101,7 @@ void ClassOptionsPage::setupPage()
     m_pShowPackageCB->setChecked(m_pWidget->visualProperty(ClassifierWidget::ShowPackage));
     visibilityLayout->addWidget(m_pShowPackageCB, 1, 1);
 
-    WidgetBase::Widget_Type type = m_pWidget->baseType();
+    WidgetBase::WidgetType type = m_pWidget->baseType();
 
     if (type == WidgetBase::wt_Class) {
         m_pShowAttsCB = new QCheckBox(i18n("Att&ributes"), m_pVisibilityGB);
@@ -208,7 +208,7 @@ void ClassOptionsPage::updateWidget()
     m_pWidget->setVisualProperty( ClassifierWidget::ShowVisibility, m_pShowVisibilityCB->isChecked() );
     m_pWidget->setVisualProperty( ClassifierWidget::ShowOperations, m_pShowOpsCB->isChecked() );
     m_pWidget->setVisualProperty( ClassifierWidget::ShowOperationSignature, m_pShowOpSigCB->isChecked() );
-    WidgetBase::Widget_Type type = m_pWidget->baseType();
+    WidgetBase::WidgetType type = m_pWidget->baseType();
     if (type == WidgetBase::wt_Class) {
         m_pWidget->setVisualProperty( ClassifierWidget::ShowStereotype, m_pShowStereotypeCB->isChecked() );
         m_pWidget->setVisualProperty( ClassifierWidget::ShowAttributes, m_pShowAttsCB->isChecked() );

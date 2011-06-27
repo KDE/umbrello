@@ -505,7 +505,7 @@ void UMLWidgetController::constrainMovementForAllWidgets(qreal &diffX, qreal &di
  *
  * Default behaviour is show the properties dialog for the widget using
  * m_widget->slotMenuSelection(ListPopupMenu::mt_Properties);
- * If the widget doesn't have a property dialog (from the Widget_Type enum, those that
+ * If the widget doesn't have a property dialog (from the WidgetType enum, those that
  * don't have an UMLObject representation) there's no need to override
  * the method, it simply does nothing.
  *

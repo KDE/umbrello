@@ -226,7 +226,7 @@ void WidgetBase::setID(Uml::IDType id)
 /**
  * @return The type used for rtti.
  */
-WidgetBase::Widget_Type WidgetBase::baseType() const
+WidgetBase::WidgetType WidgetBase::baseType() const
 {
     return m_baseType;
 }
@@ -236,7 +236,7 @@ WidgetBase::Widget_Type WidgetBase::baseType() const
  */
 QLatin1String WidgetBase::baseTypeStr() const
 {
-    return QLatin1String(ENUM_NAME(WidgetBase, Widget_Type, m_baseType));
+    return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, m_baseType));
 }
 
 /**
@@ -854,7 +854,7 @@ void WidgetBase::saveToXMI(QDomDocument &qDoc, QDomElement &qElement)
 /**
  * @return Whether the widget type has an associated UMLObject
  */
-bool WidgetBase::widgetHasUMLObject(Widget_Type type)
+bool WidgetBase::widgetHasUMLObject(WidgetType type)
 {
     switch(type)
     {
@@ -891,7 +891,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     QColor newColour;
     WidgetBase* widget = 0; // use for select the first object properties (fill, line color)
 
-    const Widget_Type wt = m_baseType; // short hand name
+    const WidgetType wt = m_baseType; // short hand name
 
     ListPopupMenu *menu = ListPopupMenu::menuFromAction(trigger);
     if (!menu) {

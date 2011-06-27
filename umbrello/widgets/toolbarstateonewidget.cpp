@@ -126,7 +126,7 @@ void ToolBarStateOneWidget::setCurrentElement()
  */
 void ToolBarStateOneWidget::mouseReleaseWidget()
 {
-    WidgetBase::Widget_Type type = widgetType();
+    WidgetBase::WidgetType type = widgetType();
 
     if (type == WidgetBase::wt_Precondition) {
         m_firstObject = 0;
@@ -204,7 +204,7 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
  *
  * @return The widget type of this tool.
  */
-WidgetBase::Widget_Type ToolBarStateOneWidget::widgetType()
+WidgetBase::WidgetType ToolBarStateOneWidget::widgetType()
 {
     if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
         return WidgetBase::wt_Precondition;

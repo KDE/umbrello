@@ -34,7 +34,7 @@ class UMLEntity;
  */
 namespace Model_Utils {
 
-bool isCloneable(WidgetBase::Widget_Type type);
+bool isCloneable(WidgetBase::WidgetType type);
 
 UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList);
 

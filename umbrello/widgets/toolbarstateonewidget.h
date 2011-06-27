@@ -54,7 +54,7 @@ protected:
 
     void setWidget(UMLWidget* firstObject);
 
-    WidgetBase::Widget_Type widgetType();
+    WidgetBase::WidgetType widgetType();
 
     UMLWidget* m_firstObject;  ///< The first object in the message.
 

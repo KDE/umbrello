@@ -59,10 +59,10 @@ class WidgetBase : public QGraphicsObject
     Q_PROPERTY(QBrush brush READ brush WRITE setBrush)
     Q_PROPERTY(QFont font READ font WRITE setFont)
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
-    Q_ENUMS(Widget_Type)
+    Q_ENUMS(WidgetType)
 
 public:
-    enum Widget_Type
+    enum WidgetType
     {
         wt_UMLWidget = 300,         // does not have UMLObject representation
         wt_Actor,                   // has UMLObject representation
@@ -136,7 +136,7 @@ public:
     Uml::IDType id() const;
     void setID(Uml::IDType id);
 
-    Widget_Type baseType() const;
+    WidgetType baseType() const;
     QLatin1String baseTypeStr() const;
 
     UMLScene* umlScene() const;
@@ -195,7 +195,7 @@ public:
     virtual bool loadFromXMI(QDomElement &qElement);
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
-    static bool widgetHasUMLObject(Widget_Type type);
+    static bool widgetHasUMLObject(WidgetType type);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction *trigger);
@@ -231,7 +231,7 @@ protected:
      */
     QVariantMap m_loadData;
     // Property that will be saved.
-    Widget_Type m_baseType;
+    WidgetType m_baseType;
 
 private:
     UMLObject *m_umlObject;

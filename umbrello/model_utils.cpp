@@ -46,10 +46,10 @@ namespace Model_Utils {
 /**
  * Determines whether the given widget type is cloneable.
  *
- * @param type  The input Widget_Type.
+ * @param type  The input WidgetType.
  * @return      True if the given type is cloneable.
  */
-bool isCloneable(WidgetBase::Widget_Type type)
+bool isCloneable(WidgetBase::WidgetType type)
 {
     switch (type) {
     case WidgetBase::wt_Actor:
