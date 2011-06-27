@@ -526,7 +526,7 @@ void SettingsDlg::slotGridCBChecked(bool value)
 {
     if (value == false) {
         QPalette palette;
-        m_UiWidgets.gridColorB->setColor( palette.alternateBase() );
+        m_UiWidgets.gridColorB->setColor( palette.alternateBase().color() );
         m_UiWidgets.gridColorB->setDisabled(true);
     }
     else {
@@ -538,7 +538,7 @@ void SettingsDlg::slotBgCBChecked(bool value)
 {
     if (value == false) {
         QPalette palette;
-        m_UiWidgets.bgColorB->setColor( palette.base() );
+        m_UiWidgets.bgColorB->setColor( palette.base().color() );
         m_UiWidgets.bgColorB->setDisabled(true);
     }
     else {

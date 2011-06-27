@@ -11,12 +11,12 @@
 // own header
 #include "umlviewcanvas.h"
 
-// qt/kde includes
-#include <qpainter.h>
-
 // app includes
 #include "umlview.h"
-#include <QPalette>
+
+// qt/kde includes
+#include <QtGui/QPainter>
+#include <QtGui/QPalette>
 
 /**
  * Constructor
@@ -24,14 +24,14 @@
 UMLViewCanvas::UMLViewCanvas(UMLView * pView,const Settings::OptionState& option) : Q3Canvas(pView)
 {
     m_pView = pView;
-    
+
     QPalette palette;
-    setColors(palette.base(), option.uiState.gridDotColor);
+    setColors(palette.base().color(), option.uiState.gridDotColor);
     //setColors(option.uiState.backgroundColor, option.uiState.gridDotColor); //TODO Somehow, it does not work, it should
 }
 
 /**
- * Deconstructor
+ * Destructor.
  */
 UMLViewCanvas::~UMLViewCanvas()
 {
@@ -69,4 +69,3 @@ void UMLViewCanvas::drawBackground(QPainter & painter, const QRect & clip)
                 painter.drawPoint( x * gridX, y * gridY );
     }
 }
-
