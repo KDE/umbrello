@@ -79,8 +79,6 @@
 // Update this version when changing the XMI file format
 #define XMI_FILE_VERSION "1.5.8"
 
-using namespace Uml;
-
 /**
  * Constructor for the fileclass of the application.
  */
@@ -148,7 +146,7 @@ void UMLDoc::createDatatypeFolder()
     m_datatypeRoot->setLocalName(i18n("Datatypes"));
     m_datatypeRoot->setUMLPackage(m_root[Uml::ModelType::Logical]);
     Q_ASSERT(m_root[ModelType::Logical]);
-    m_root[ModelType::Logical]->addObject(m_datatypeRoot);
+    m_root[Uml::ModelType::Logical]->addObject(m_datatypeRoot);
 }
 
 /**
@@ -1332,7 +1330,7 @@ void UMLDoc::renameUMLObject(UMLObject *o)
             KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
         }
         else if (isUnique(name)) {
-            UMLApp::app()->executeCommand(new CmdRenameUMLObject(o,name));
+            UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(o,name));
             setModified(true);
             break;
         } else {
@@ -1370,7 +1368,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
                     || ((o->baseType() == UMLObject::ot_Operation) && KMessageBox::warningYesNo(0,
                             i18n( "The name you entered was not unique.\nIs this what you wanted?" ),
                             i18n( "Name Not Unique"),KGuiItem(i18n("Use Name")),KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes) ) {
-                UMLApp::app()->executeCommand(new CmdRenameUMLObject(o,name));
+                UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(o,name));
                 setModified(true);
                 break;
             } else {
