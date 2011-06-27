@@ -246,7 +246,7 @@ private:
     void insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable = false);
 
     void insertStdItems(bool insertLeadingSeparator = true,
-                        WidgetBase::Widget_Type type = WidgetBase::wt_UMLWidget);
+                        WidgetBase::WidgetType type = WidgetBase::wt_UMLWidget);
     void insertContainerItems(bool folderAndDiagrams);
     void insertAssocItem(const QString &label, Menu_Type mt);
     void insertSubmodelAction();

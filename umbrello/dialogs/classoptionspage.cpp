@@ -29,7 +29,7 @@ ClassOptionsPage::ClassOptionsPage(QWidget* pParent, ClassifierWidget* pWidget)
   : QWidget(pParent)
 {
     init();
-    //Widget_Type type = pWidget->baseType();
+    //WidgetType type = pWidget->baseType();
     m_pWidget = pWidget;
     setupPage();
 }
@@ -102,7 +102,7 @@ void ClassOptionsPage::setupPage()
     m_pShowPackageCB->setChecked(m_pWidget->getShowPackage());
     visibilityLayout->addWidget(m_pShowPackageCB, 1, 1);
 
-    WidgetBase::Widget_Type type = m_pWidget->baseType();
+    WidgetBase::WidgetType type = m_pWidget->baseType();
 
     if (type == WidgetBase::wt_Class) {
         m_pShowAttsCB = new QCheckBox(i18n("Att&ributes"), m_pVisibilityGB);
@@ -209,7 +209,7 @@ void ClassOptionsPage::updateWidget()
     m_pWidget->setShowVisibility( m_pShowVisibilityCB->isChecked() );
     m_pWidget->setShowOps( m_pShowOpsCB->isChecked() );
     m_pWidget->setShowOpSigs( m_pShowOpSigCB->isChecked() );
-    WidgetBase::Widget_Type type = m_pWidget->baseType();
+    WidgetBase::WidgetType type = m_pWidget->baseType();
     if (type == WidgetBase::wt_Class) {
         m_pWidget->setShowStereotype( m_pShowStereotypeCB->isChecked() );
         m_pWidget->setShowAtts( m_pShowAttsCB->isChecked() );

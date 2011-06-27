@@ -215,7 +215,7 @@ void ToolBarStateAssociation::setSecondWidget()
     Uml::AssociationType type = getAssociationType();
     UMLWidget* widgetA = m_firstWidget;
     UMLWidget* widgetB = getCurrentWidget();
-    WidgetBase::Widget_Type at = widgetA->baseType();
+    WidgetBase::WidgetType at = widgetA->baseType();
     bool valid = true;
     if (type == Uml::AssociationType::Generalization) {
         type = AssocRules::isGeneralisationOrRealisation(widgetA, widgetB);

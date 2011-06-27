@@ -117,7 +117,7 @@ protected:
      *
      * @return The widget type of this tool.
      */
-    WidgetBase::Widget_Type getWidgetType();
+    WidgetBase::WidgetType getWidgetType();
 
 
     /**

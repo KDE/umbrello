@@ -492,7 +492,7 @@ public:
     /**
      * Returns whether the widget type has an associated UMLObject
      */
-    static bool widgetHasUMLObject(WidgetBase::Widget_Type type);
+    static bool widgetHasUMLObject(WidgetBase::WidgetType type);
 
     /**
      * Update the size of this widget.

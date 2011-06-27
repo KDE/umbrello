@@ -30,7 +30,7 @@ WidgetBase::WidgetBase(UMLView *view) : QObject(view)
 /**
  * Initialize members.
  */
-void WidgetBase::init(UMLView *view, Widget_Type type /* = Uml::wt_UMLWidget */)
+void WidgetBase::init(UMLView *view, WidgetType type /* = wt_UMLWidget */)
 {
     m_pView = view;
     m_Type = type;
@@ -60,7 +60,7 @@ WidgetBase::~WidgetBase()
 /**
  * Set property m_Type.
  */
-void WidgetBase::setBaseType(WidgetBase::Widget_Type type)
+void WidgetBase::setBaseType(WidgetBase::WidgetType type)
 {
     m_Type = type;
 }
@@ -68,7 +68,7 @@ void WidgetBase::setBaseType(WidgetBase::Widget_Type type)
 /**
  * Read property of m_Type.
  */
-WidgetBase::Widget_Type WidgetBase::baseType() const
+WidgetBase::WidgetType WidgetBase::baseType() const
 {
     return m_Type;
 }
@@ -78,7 +78,7 @@ WidgetBase::Widget_Type WidgetBase::baseType() const
  */
 QLatin1String WidgetBase::baseTypeStr() const
 {
-    return QLatin1String(ENUM_NAME(WidgetBase, Widget_Type, m_Type));
+    return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, m_Type));
 }
 
 /**

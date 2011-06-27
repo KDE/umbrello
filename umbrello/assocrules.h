@@ -40,9 +40,9 @@ public:
 
     static bool allowRole( Uml::AssociationType assocType );
 
-    static bool allowMultiplicity( Uml::AssociationType assocType, WidgetBase::Widget_Type widgetType );
+    static bool allowMultiplicity( Uml::AssociationType assocType, WidgetBase::WidgetType widgetType );
 
-    static bool allowSelf( Uml::AssociationType assocType, WidgetBase::Widget_Type widgetType );
+    static bool allowSelf( Uml::AssociationType assocType, WidgetBase::WidgetType widgetType );
 
     static Uml::AssociationType isGeneralisationOrRealisation(UMLWidget* widgetA, UMLWidget* widgetB);
 
@@ -50,8 +50,8 @@ private:
 
     struct Assoc_Rule {  ///< Structure to help determine association rules.
         Uml::AssociationType assoc_type;   ///< association type
-        WidgetBase::Widget_Type widgetA_type;    ///< type of role A widget
-        WidgetBase::Widget_Type widgetB_type;    ///< type of role B widget
+        WidgetBase::WidgetType widgetA_type;    ///< type of role A widget
+        WidgetBase::WidgetType widgetB_type;    ///< type of role B widget
         bool role;                         ///< role text
         bool multiplicity;                 ///< multipliciy text on association
         bool directional;                  ///< can have an association of same type going between widget each way

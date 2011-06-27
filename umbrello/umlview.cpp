@@ -872,7 +872,7 @@ void UMLView::removeWidget(UMLWidget * o)
 
     removeAssociations(o);
 
-    WidgetBase::Widget_Type t = o->baseType();
+    WidgetBase::WidgetType t = o->baseType();
     if (type() == Uml::DiagramType::Sequence && t == WidgetBase::wt_Object)
         checkMessages(static_cast<ObjectWidget*>(o));
 
@@ -1096,7 +1096,7 @@ void UMLView::selectionToggleShow(int sel)
 {
     // loop through all selected items
     foreach(UMLWidget *temp , m_SelectedList) {
-        WidgetBase::Widget_Type type = temp->baseType();
+        WidgetBase::WidgetType type = temp->baseType();
         ClassifierWidget *cw = dynamic_cast<ClassifierWidget*>(temp);
 
         // toggle the show setting sel
@@ -1514,7 +1514,7 @@ bool UMLView::addWidget(UMLWidget * pWidget, bool isPasteOperation)
     if (!pWidget) {
         return false;
     }
-    WidgetBase::Widget_Type type = pWidget->baseType();
+    WidgetBase::WidgetType type = pWidget->baseType();
     if (isPasteOperation) {
         if (type == WidgetBase::wt_Message)
             m_MessageList.append(static_cast<MessageWidget*>(pWidget));
@@ -2887,7 +2887,7 @@ void UMLView::setFont(QFont font, bool changeAllWidgets /* = false */)
 void UMLView::setClassWidgetOptions(ClassOptionsPage * page)
 {
     foreach(UMLWidget* pWidget , m_WidgetList) {
-        WidgetBase::Widget_Type wt = pWidget->baseType();
+        WidgetBase::WidgetType wt = pWidget->baseType();
         if (wt == WidgetBase::wt_Class || wt == WidgetBase::wt_Interface) {
             page->setWidget(static_cast<ClassifierWidget *>(pWidget));
             page->updateUMLWidget();
@@ -2940,7 +2940,7 @@ bool UMLView::checkUniqueSelection()
 
     // get the first item and its base type
     UMLWidget * pTemp = (UMLWidget *) m_SelectedList.first();
-    WidgetBase::Widget_Type tmpType = pTemp->baseType();
+    WidgetBase::WidgetType tmpType = pTemp->baseType();
 
     // check all selected items, if they have the same BaseType
     foreach(pTemp , m_SelectedList) {

@@ -84,7 +84,7 @@ void ToolBarStateOneWidget::setCurrentElement()
 
 void ToolBarStateOneWidget::mouseReleaseWidget()
 {
-    WidgetBase::Widget_Type widgetType = getWidgetType();
+    WidgetBase::WidgetType widgetType = getWidgetType();
 
     if (widgetType == WidgetBase::wt_Precondition) {
         m_firstObject = 0;
@@ -144,7 +144,7 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
 }
 
 
-WidgetBase::Widget_Type ToolBarStateOneWidget::getWidgetType()
+WidgetBase::WidgetType ToolBarStateOneWidget::getWidgetType()
 {
     if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
         return WidgetBase::wt_Precondition;

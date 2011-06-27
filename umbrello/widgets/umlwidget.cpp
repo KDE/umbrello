@@ -268,7 +268,7 @@ void UMLWidget::init()
 void UMLWidget::slotMenuSelection(QAction* action)
 {
     QColor newColour;
-    const WidgetBase::Widget_Type wt = m_Type;
+    const WidgetBase::WidgetType wt = m_Type;
     UMLWidget* widget = 0; // use for select the first object properties (fill, line color)
 
     ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
@@ -742,7 +742,7 @@ void UMLWidget::drawShape(QPainter &p)
 
 void UMLWidget::setSelected(bool _select)
 {
-    const WidgetBase::Widget_Type wt = m_Type;
+    const WidgetBase::WidgetType wt = m_Type;
     if (_select) {
         if (m_pView->getSelectCount() == 0) {
             if (widgetHasUMLObject(wt)) {
@@ -847,7 +847,7 @@ void UMLWidget::slotSnapToGrid()
     setY(getY());
 }
 
-bool UMLWidget::widgetHasUMLObject(WidgetBase::Widget_Type type)
+bool UMLWidget::widgetHasUMLObject(WidgetBase::WidgetType type)
 {
     if (type == WidgetBase::wt_Actor         ||
             type == WidgetBase::wt_UseCase   ||

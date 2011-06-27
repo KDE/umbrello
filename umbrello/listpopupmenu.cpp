@@ -266,9 +266,9 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
     //make menu for logical view
     if (!object)
         return;
-    UMLWidget::Widget_Type type = object->baseType();
+    UMLWidget::WidgetType type = object->baseType();
     // uDebug() << "ListPopupMenu created with multi=" << multi << " , unique="
-    //          << unique << " for Widget_Type=" << type;
+    //          << unique << " for WidgetType=" << type;
 
     if (multi) {
         ClassifierWidget *c = NULL;
@@ -549,7 +549,7 @@ ListPopupMenu::ListPopupMenu(QWidget * parent, UMLWidget * object,
         }
         break;
     default:
-        uWarning() << "unhandled Widget_Type " << type;
+        uWarning() << "unhandled WidgetType " << type;
         break;
     }//end switch
 
@@ -796,12 +796,12 @@ void ListPopupMenu::insert(const Menu_Type m, KMenu* menu, const QString & text,
  *
  * @param insertLeadingSeparator   Set this true if the group shall
  *                                 start with a separator.
- * @param type      The Widget_Type for which to insert the menu items.
+ * @param type      The WidgetType for which to insert the menu items.
  *                  If no argument is supplied then a Rename item will be
  *                  included.
  */
 void ListPopupMenu::insertStdItems(bool insertLeadingSeparator /* = true */,
-                                   WidgetBase::Widget_Type type /* = wt_UMLWidget */)
+                                   WidgetBase::WidgetType type /* = wt_UMLWidget */)
 {
     if (insertLeadingSeparator)
         addSeparator();
@@ -898,7 +898,7 @@ void ListPopupMenu::insertSubmodelAction()
  */
 void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
 {
-    WidgetBase::Widget_Type type = c->baseType();
+    WidgetBase::WidgetType type = c->baseType();
     ClassifierWidget *cls = NULL;
 
     KMenu* show = new KMenu(i18n("Show"), this);
@@ -938,7 +938,7 @@ void ListPopupMenu::makeMultiClassifierPopup(ClassifierWidget *c)
  */
 void ListPopupMenu::makeClassifierPopup(ClassifierWidget *c)
 {
-    WidgetBase::Widget_Type type = c->baseType();
+    WidgetBase::WidgetType type = c->baseType();
     KMenu* menu = new KMenu(i18nc("new classifier menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     if (type == WidgetBase::wt_Class)

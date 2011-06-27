@@ -30,10 +30,10 @@ class UMLObject;
 class WidgetBase : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(Widget_Type)
+    Q_ENUMS(WidgetType)
 
 public:
-    enum Widget_Type
+    enum WidgetType
     {
         wt_UMLWidget = 300,         // does not have UMLObject representation
         wt_Actor,                   // has UMLObject representation
@@ -75,8 +75,8 @@ public:
     Uml::IDType id() const;
     void setID(Uml::IDType id);
 
-    Widget_Type baseType() const;
-    void setBaseType(Widget_Type type);
+    WidgetType baseType() const;
+    void setBaseType(WidgetType type);
     QLatin1String baseTypeStr() const;
 
     UMLView* umlScene() const;
@@ -101,9 +101,9 @@ public:
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
-    void init(UMLView *view, Widget_Type type = wt_UMLWidget);
+    void init(UMLView *view, WidgetType type = wt_UMLWidget);
 
-    Widget_Type m_Type;  ///< Type of widget.
+    WidgetType  m_Type;  ///< Type of widget.
     UMLView    *m_pView;
     UMLObject  *m_pObject;
     QString     m_Doc;   ///< Only used if m_pObject is not set.
