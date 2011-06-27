@@ -31,8 +31,8 @@ class WorkToolBar;
 class SettingsDlg;
 class UMLViewImageExporterAll;
 class RefactoringAssistant;
-class KPlayerPopupSliderAction;
 class XhtmlGenerator;
+class StatusBarToolButton;
 
 // KDE forward declarations
 class KActionMenu;
@@ -55,6 +55,9 @@ class QMenu;
 class QMimeData;
 class QUndoCommand;
 class QUndoView;
+class QPushButton;
+class QLabel;
+class QSlider;
 
 /**
  * The base class for UML application windows. It sets up the main
@@ -246,6 +249,8 @@ public slots:
     void slotSetZoom(QAction* action);
     void slotZoomSliderMoved(int value);
     void slotZoom100();
+    void slotZoomOut();
+    void slotZoomIn();
 
     void setupZoomMenu();
 
@@ -358,7 +363,6 @@ private:
     QAction* viewProperties;
 
     QAction* zoom100Action;
-    KPlayerPopupSliderAction* zoomAction;
 
     QAction* m_langAct[Uml::ProgrammingLanguage::Reserved];
     KAction* deleteSelectedWidget;
@@ -396,6 +400,16 @@ private:
     SettingsDlg* m_dlg;  ///< The global UML settings dialog.
 
     UMLViewImageExporterAll* m_imageExporterAll;  ///< Used to export all the views.
+    
+    /**
+     * Statusbar items
+     */
+    QPushButton* m_pZoomOutPB;
+    QPushButton* m_pZoomInPB;
+    StatusBarToolButton* m_pZoomFitSBTB;
+    StatusBarToolButton* m_pZoomFullSBTB;
+    QSlider* m_pZoomSlider;
+    QLabel* m_statusBarMessage;
 
     /**
      * The running XHTML documentation generator. Null when no generation is running.

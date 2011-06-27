@@ -81,7 +81,5 @@
   </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar" fullWidth="true" newline="true">
-  <Action name="popup_zoom"/>
-  <Action name="zoom100"/>
 </ToolBar>
 </kpartgui>

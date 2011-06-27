@@ -225,6 +225,7 @@ void UMLView::wheelEvent(QWheelEvent* event)
     setCenter(newCenter);
 
     DEBUG(DBG_SRC) << "currentZoom=" << currentZoom();
+    UMLApp::app()->slotZoomSliderMoved(currentZoom());
 }
 
 /**

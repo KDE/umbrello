@@ -372,6 +372,7 @@ set(libwidgets_SRCS
     widgets/widgetbase.cpp
     widgets/widgethandle.cpp
     widgets/widgetlist_utils.cpp
+    widgets/statusbartoolbutton.cpp
 )
 
 set(libcontroller_SRCS
@@ -410,7 +411,6 @@ set(libumbrello_SRCS
     foreignkeyconstraint.cpp
     icon_utils.cpp
     import_rose.cpp
-    kplayerslideraction.cpp
     listpopupmenu.cpp
     main.cpp
     model_utils.cpp
@@ -493,3 +493,4 @@ install( FILES
     DESTINATION ${DATA_INSTALL_DIR}/umbrello )
 
 kde4_install_icons( ${ICON_INSTALL_DIR} )
+
