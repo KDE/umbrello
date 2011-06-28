@@ -84,7 +84,7 @@ void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY)
 
 void ObjectWidget::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename_Object:
         {

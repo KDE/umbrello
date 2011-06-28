@@ -2531,7 +2531,7 @@ void UMLView::copyAsImage(QPixmap*& pix)
 void UMLView::setMenu()
 {
     slotRemovePopupMenu();
-    ListPopupMenu::Menu_Type menu = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::MenuType menu = ListPopupMenu::mt_Undefined;
     switch (type()) {
     case Uml::DiagramType::Class:
         menu = ListPopupMenu::mt_On_Class_Diagram;
@@ -2575,7 +2575,7 @@ void UMLView::setMenu()
         break;
     }//end switch
     if (menu != ListPopupMenu::mt_Undefined) {
-        // uDebug() << "create popup for Menu_Type " << menu;
+        // uDebug() << "create popup for MenuType " << ListPopupMenu::toString(menu);
         m_pMenu = new ListPopupMenu(this, menu, this);
         connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         m_pMenu->popup(mapToGlobal(contentsToViewport(worldMatrix().map(m_Pos))));
@@ -2593,7 +2593,7 @@ void UMLView::slotRemovePopupMenu()
 
 void UMLView::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::Menu_Type sel = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::MenuType sel = ListPopupMenu::mt_Undefined;
     if (m_pMenu != NULL) {  // popup from this class
         sel = m_pMenu->getMenuType(action);
     } else { // popup from umldoc
@@ -2803,7 +2803,7 @@ void UMLView::slotMenuSelection(QAction* action)
     break;
 
     default:
-        uWarning() << "unknown ListPopupMenu::Menu_Type " << sel;
+        uWarning() << "unknown ListPopupMenu::MenuType " << ListPopupMenu::toString(sel);
         break;
     }
 }

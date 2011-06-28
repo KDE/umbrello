@@ -320,7 +320,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
 {
     bool ok = false;
     QString name = m_Text;
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch (sel) {
           // for alternative or parallel combined fragments
     case ListPopupMenu::mt_AddInteractionOperand:

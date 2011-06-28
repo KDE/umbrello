@@ -258,7 +258,7 @@ void ActivityWidget::slotMenuSelection(QAction* action)
     bool ok = false;
     QString name = m_Text;
 
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
         name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Text, &ok );

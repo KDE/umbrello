@@ -271,7 +271,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
     const WidgetBase::WidgetType wt = m_Type;
     UMLWidget* widget = 0; // use for select the first object properties (fill, line color)
 
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch (sel) {
     case ListPopupMenu::mt_Rename:
         m_pDoc->renameUMLObject(m_pObject);
@@ -404,11 +404,13 @@ void UMLWidget::slotMenuSelection(QAction* action)
     }
 
     default:
-        uDebug() << "Menu_Type " << sel << " not implemented";
+        uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
     }
 }
 
-void UMLWidget::slotWidgetMoved(Uml::IDType /*id*/) {}
+void UMLWidget::slotWidgetMoved(Uml::IDType /*id*/)
+{
+}
 
 void UMLWidget::slotColorChanged(Uml::IDType viewID)
 {

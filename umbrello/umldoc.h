@@ -208,7 +208,7 @@ public:
 
     void resolveTypes();
 
-    ListPopupMenu::Menu_Type popupMenuSelection(QAction* action);
+    ListPopupMenu::MenuType popupMenuSelection(QAction* action);
 
 private:
     void initSaveTimer();

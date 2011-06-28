@@ -169,7 +169,7 @@ void StateWidget::slotMenuSelection(QAction* action)
     bool ok = false;
     QString nameNew = name();
 
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
         nameNew = KInputDialog::getText( i18n("Enter State Name"), i18n("Enter the name of the new state:"), name(), &ok );

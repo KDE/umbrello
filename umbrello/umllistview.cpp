@@ -293,7 +293,7 @@ void UMLListView::popupMenuSel(QAction* action)
     UMLObject * object = temp->umlObject();
     UMLListViewItem::ListViewType lvt = temp->type();
     UMLObject::Object_Type umlType = UMLObject::ot_UMLObject;
-    ListPopupMenu::Menu_Type menuType = m_menu->getMenuType(action);
+    ListPopupMenu::MenuType menuType = m_menu->getMenuType(action);
     QString name;
 
     switch (menuType) {
@@ -637,7 +637,7 @@ void UMLListView::popupMenuSel(QAction* action)
         } else {
             UMLFolder *f = dynamic_cast<UMLFolder*>(object);
             if (f == 0)
-                uError() << "menuType=" << menuType
+                uError() << "menuType=" << ListPopupMenu::toString(menuType)
                 << ": current item's UMLObject is not a UMLFolder";
             else
                 m_doc->createDiagram(f, dt);

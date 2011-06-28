@@ -125,14 +125,14 @@ QSize FloatingTextWidget::calculateSize()
  */
 void FloatingTextWidget::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Properties:
         showProperties();
         break;
 
     case ListPopupMenu::mt_Delete:
-        m_pView -> removeWidget(this);
+        m_pView->removeWidget(this);
         break;
 
     case ListPopupMenu::mt_New_Operation: // needed by AssociationWidget

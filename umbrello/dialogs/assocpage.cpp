@@ -123,7 +123,7 @@ void AssocPage::slotPopupMenuSel(QAction* action)
         return;
     }
     AssociationWidget * a = m_List.at(currentItemIndex);
-    ListPopupMenu::Menu_Type id = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType id = m_pMenu->getMenuType(action);
     switch (id) {
     case ListPopupMenu::mt_Delete:
         m_pView->removeAssocInViewAndDoc(a);
@@ -132,7 +132,7 @@ void AssocPage::slotPopupMenuSel(QAction* action)
 
     case ListPopupMenu::mt_Line_Color:
         //:TODO:
-        uDebug() << "Menu_Type mt_Line_Color not yet implemented!";
+        uDebug() << "MenuType mt_Line_Color not yet implemented!";
         break;
 
     case ListPopupMenu::mt_Properties:
@@ -140,7 +140,7 @@ void AssocPage::slotPopupMenuSel(QAction* action)
         break;
 
     default:
-        uDebug() << "Menu_Type " << id << " not implemented";
+        uDebug() << "MenuType " << ListPopupMenu::toString(id) << " not implemented";
     }
 }
 

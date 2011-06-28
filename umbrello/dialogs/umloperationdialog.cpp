@@ -240,7 +240,7 @@ void UMLOperationDialog::slotNameChanged( const QString &_text )
 
 void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
 {
-    ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::MenuType type = ListPopupMenu::mt_Undefined;
     QListWidgetItem* item = m_pParmsLW->itemAt(p);
     if (item) // pressed on an item
     {
@@ -274,7 +274,7 @@ void UMLOperationDialog::slotParmDoubleClick(QListWidgetItem *item)
 
 void UMLOperationDialog::slotParmPopupMenuSel(QAction* action)
 {
-    ListPopupMenu::Menu_Type id = m_menu->getMenuType(action);
+    ListPopupMenu::MenuType id = m_menu->getMenuType(action);
     if( id == ListPopupMenu::mt_Rename || id == ListPopupMenu::mt_Properties ) {
         slotParameterProperties();
     } else if( id == ListPopupMenu::mt_New_Parameter ) {

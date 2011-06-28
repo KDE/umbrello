@@ -173,7 +173,7 @@ QSize EnumWidget::calculateSize()
 
 void EnumWidget::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     if (sel == ListPopupMenu::mt_EnumLiteral) {
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
                                               UMLObject::ot_EnumLiteral) )  {

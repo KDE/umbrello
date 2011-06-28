@@ -186,7 +186,7 @@ QSize EntityWidget::calculateSize()
 
 void EntityWidget::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_EntityAttribute:
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),

@@ -432,7 +432,7 @@ void ClassifierListPage::deleteMenu()
 
 void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
 {
-    ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::MenuType type = ListPopupMenu::mt_Undefined;
     if (m_pItemListLB->itemAt(pos)) { //pressed on a list item
         if (m_itemType == UMLObject::ot_Attribute) {
             type = ListPopupMenu::mt_Attribute_Selected;
@@ -474,7 +474,7 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
  */
 void ClassifierListPage::slotPopupMenuSel(QAction* action)
 {
-    ListPopupMenu::Menu_Type id = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType id = m_pMenu->getMenuType(action);
     switch (id) {
     case ListPopupMenu::mt_New_Attribute:
     case ListPopupMenu::mt_New_Operation:
@@ -508,7 +508,7 @@ void ClassifierListPage::slotPopupMenuSel(QAction* action)
         break;
 
     default:
-        uDebug() << "Menu_Type " << id << " not implemented";
+        uDebug() << "MenuType " << ListPopupMenu::toString(id) << " not implemented";
     }
 }
 

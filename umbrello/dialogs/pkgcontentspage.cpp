@@ -121,7 +121,7 @@ void PkgContentsPage::slotShowContextMenu(const QPoint &p)
 
 void PkgContentsPage::slotPopupMenuSel(QAction* action)
 {
-    ListPopupMenu::Menu_Type id = m_menu->getMenuType(action);
+    ListPopupMenu::MenuType id = m_menu->getMenuType(action);
     switch(id) {
     case ListPopupMenu::mt_Delete:
         {
@@ -139,9 +139,8 @@ void PkgContentsPage::slotPopupMenuSel(QAction* action)
         break;
 
     default:
-        uDebug() << "Menu_Type " << id << " not implemented";
+        uDebug() << "MenuType " << ListPopupMenu::toString(id) << " not implemented";
     }
 }
-
 
 #include "pkgcontentspage.moc"

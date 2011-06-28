@@ -97,7 +97,7 @@ void CategoryWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 void CategoryWidget::slotMenuSelection(QAction* action)
 {
     UMLCategory* catObj = static_cast<UMLCategory*>(m_pObject);
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch(sel) {
       case ListPopupMenu::mt_DisjointSpecialisation:
           catObj->setType(UMLCategory::ct_Disjoint_Specialisation);

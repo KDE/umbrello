@@ -2566,7 +2566,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
     //work out the type of menu we want
     //work out if the association allows rolenames, multiplicity, etc
     //also must be within a certain distance to be a multiplicity menu
-    ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Undefined;
     const int DISTANCE = 40;//must be within this many pixels for it to be a multi menu
     const QPoint lpStart = m_LinePath.getPoint(0);
     const QPoint lpEnd = m_LinePath.getPoint(m_LinePath.count() - 1);
@@ -2654,7 +2654,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
     QRegExpValidator v(QRegExp(".*"), 0);
     Uml::AssociationType atype = associationType();
     Uml::Role_Type r = Uml::B;
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
 
     //if it's a collaboration message we now just use the code in floatingtextwidget
     //this means there's some redundant code below but that's better than duplicated code
@@ -2790,7 +2790,7 @@ void AssociationWidget::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "Menu_Type " << sel << " not implemented";
+        uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
     }//end switch
 }
 

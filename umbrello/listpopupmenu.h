@@ -37,10 +37,10 @@ class UMLWidget;
 class ListPopupMenu : public KMenu
 {
     Q_OBJECT
-    Q_ENUMS(Menu_Type)
+    Q_ENUMS(MenuType)
 public:
 
-    enum Menu_Type  ///< This type hosts all possible menu types.
+    enum MenuType  ///< This type hosts all possible menu types.
     {
         mt_Model,
         mt_Logical_View,
@@ -215,53 +215,53 @@ public:
         mt_Undefined  =  - 1
     };
 
-    static QString toString(Menu_Type menu);
+    static QString toString(MenuType menu);
 
-    explicit ListPopupMenu(QWidget* parent, Menu_Type type = mt_Undefined, UMLView* view = 0);
+    explicit ListPopupMenu(QWidget* parent, MenuType type = mt_Undefined, UMLView* view = 0);
     ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
     ListPopupMenu(QWidget* parent, UMLWidget* object, bool multi = false, bool unique = false);
 
     ~ListPopupMenu();
 
-    static UMLObject::Object_Type convert_MT_OT(Menu_Type mt);
-    static Uml::DiagramType convert_MT_DT(Menu_Type mt);
+    static UMLObject::Object_Type convert_MT_OT(MenuType mt);
+    static Uml::DiagramType convert_MT_DT(MenuType mt);
 
-//    KAction* getAction(Menu_Type idx);
-    QAction* getAction(Menu_Type idx);
+//    KAction* getAction(MenuType idx);
+    QAction* getAction(MenuType idx);
 
-    void setActionEnabled(Menu_Type idx, bool value);
+    void setActionEnabled(MenuType idx, bool value);
 
-//    Menu_Type getMenuType(KAction* action);
-    Menu_Type getMenuType(QAction* action);
+//    MenuType getMenuType(KAction* action);
+    MenuType getMenuType(QAction* action);
 
     WidgetBase *ownerWidget() const;
 
 private:
 
-    void insert(Menu_Type m);
-    void insert(const Menu_Type m, KMenu* menu);
-    void insert(const Menu_Type m, const QIcon & icon, const QString & text);
-    void insert(const Menu_Type m, const QString & text, const bool checkable = false);
-    void insert(const Menu_Type m, KMenu* menu, const QIcon & icon, const QString & text);
-    void insert(const Menu_Type m, KMenu* menu, const QString & text, const bool checkable = false);
+    void insert(MenuType m);
+    void insert(const MenuType m, KMenu* menu);
+    void insert(const MenuType m, const QIcon & icon, const QString & text);
+    void insert(const MenuType m, const QString & text, const bool checkable = false);
+    void insert(const MenuType m, KMenu* menu, const QIcon & icon, const QString & text);
+    void insert(const MenuType m, KMenu* menu, const QString & text, const bool checkable = false);
 
     void insertStdItems(bool insertLeadingSeparator = true,
                         WidgetBase::WidgetType type = WidgetBase::wt_UMLWidget);
     void insertContainerItems(bool folderAndDiagrams);
-    void insertAssocItem(const QString &label, Menu_Type mt);
+    void insertAssocItem(const QString &label, MenuType mt);
     void insertSubmodelAction();
 
     void makeMultiClassifierPopup(ClassifierWidget *c);
     void makeClassifierPopup(ClassifierWidget *c);
     KMenu* makeCategoryTypeMenu(UMLCategory* category);
 
-    void insertSubMenuNew(Menu_Type type);
+    void insertSubMenuNew(MenuType type);
     void insertSubMenuColor(bool fc);
 
     void setupDiagramMenu(UMLView* view);
-    void setupMenu(Menu_Type type);
+    void setupMenu(MenuType type);
 
-    void setActionChecked(Menu_Type idx, bool value);
+    void setActionChecked(MenuType idx, bool value);
     void setupActionsData();
 
     union TriggerObject {  ///< The List Popup Menu is triggered either by right clicking on the View, a ListViewItem (Object), or a widget.
@@ -279,8 +279,8 @@ private:
     TriggerObject m_TriggerObject;
     TriggerObjectType m_TriggerObjectType;
 
-//    QHash<Menu_Type, KAction*> m_actions;
-    QHash<Menu_Type, QAction*> m_actions;
+//    QHash<MenuType, KAction*> m_actions;
+    QHash<MenuType, QAction*> m_actions;
 
 };
 

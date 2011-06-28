@@ -190,7 +190,7 @@ void NoteWidget::slotMenuSelection(QAction* action)
 {
     NoteDialog * dlg = 0;
     UMLDoc *doc = UMLApp::app()->document();
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Rename:
         m_pView->updateDocumentation( false );
