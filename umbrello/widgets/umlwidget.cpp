@@ -663,7 +663,7 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         return;
     }
 
-    ListPopupMenu::Menu_Type sel = menu->getMenuType(trigger);
+    ListPopupMenu::MenuType sel = menu->getMenuType(trigger);
     switch (sel) {
     case ListPopupMenu::mt_Delete:
         umlScene()->removeWidget(this);

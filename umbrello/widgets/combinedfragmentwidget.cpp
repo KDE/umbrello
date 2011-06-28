@@ -277,7 +277,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
         uError() << "Action's data field does not contain ListPopupMenu pointer";
         return;
     }
-    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+    ListPopupMenu::MenuType sel = menu->getMenuType(action);
 
     if (sel == ListPopupMenu::mt_AddInteractionOperand) {
         FloatingDashLineWidget *flwd = new FloatingDashLineWidget(this);

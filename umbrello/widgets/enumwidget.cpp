@@ -107,7 +107,7 @@ void EnumWidget::slotMenuSelection(QAction *action)
         uError() << "Action's data field does not contain ListPopupMenu pointer";
         return;
     }
-    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+    ListPopupMenu::MenuType sel = menu->getMenuType(action);
 
     if (sel == ListPopupMenu::mt_EnumLiteral) {
         if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(umlObject()),

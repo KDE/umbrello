@@ -240,7 +240,7 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
         uError() << "Action's data field does not contain ListPopupMenu pointer";
         return;
     }
-    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+    ListPopupMenu::MenuType sel = menu->getMenuType(action);
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
         text = KInputDialog::getText( i18n("Enter Precondition Name"),

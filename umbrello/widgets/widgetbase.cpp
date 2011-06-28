@@ -899,7 +899,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
         return;
     }
 
-    ListPopupMenu::Menu_Type sel = menu->getMenuType(trigger);
+    ListPopupMenu::MenuType sel = menu->getMenuType(trigger);
     switch (sel) {
     case ListPopupMenu::mt_Rename:
         umlDoc()->renameUMLObject(umlObject());
@@ -1028,7 +1028,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
     }
 
     default:
-        uDebug() << "Menu_Type " << sel << " not implemented";
+        uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
         break;
     }
 }

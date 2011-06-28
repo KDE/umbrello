@@ -2868,7 +2868,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
  * @param action  the selected action
  * @return the selected menu type
  */
-ListPopupMenu::Menu_Type UMLDoc::popupMenuSelection(QAction* action)
+ListPopupMenu::MenuType UMLDoc::popupMenuSelection(QAction* action)
 {
     if (m_pTabPopupMenu) {
         return m_pTabPopupMenu->getMenuType(action);

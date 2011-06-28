@@ -341,7 +341,7 @@ void UMLListView::popupMenuSel(QAction* action)
     }
     UMLListViewItem::ListViewType lvt = currItem->type();
     UMLObject::Object_Type umlType = UMLObject::ot_UMLObject;
-    ListPopupMenu::Menu_Type menuType = m_menu->getMenuType(action);
+    ListPopupMenu::MenuType menuType = m_menu->getMenuType(action);
     QString name;
 
     switch (menuType) {

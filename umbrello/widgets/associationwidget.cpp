@@ -1398,7 +1398,7 @@ void AssociationWidget::slotMenuSelection(QAction *action)
         uError() << "Action's data field does not contain ListPopupMenu pointer";
         return;
     }
-    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+    ListPopupMenu::MenuType sel = menu->getMenuType(action);
     DEBUG(DBG_SRC) << "menu selection = " << ListPopupMenu::toString(sel);
 
     //if it's a collaboration message we now just use the code in floatingtextwidget
@@ -1523,7 +1523,7 @@ void AssociationWidget::slotMenuSelection(QAction *action)
             break;
 
         default:
-            DEBUG(DBG_SRC) << "Menu_Type " << ListPopupMenu::toString(sel) << " not implemented";
+            DEBUG(DBG_SRC) << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
             break;
     } //end switch
 }
@@ -1653,7 +1653,7 @@ void AssociationWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 void AssociationWidget::contextMenu(const QPointF& pos, Qt::KeyboardModifiers modifiers, const QPoint& screenPos)
 {
     Uml::AssociationType type = associationType();
-    ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Association_Selected;
+    ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Association_Selected;
     if (type == Uml::AssociationType::Anchor ||
             m_associationLine->onAssociationClassLine(pos)) {
         menuType = ListPopupMenu::mt_Anchor;

@@ -583,7 +583,7 @@ void FloatingTextWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
     UMLScene *scene = umlScene();
     UMLView *view = scene ? scene->activeView() : 0;
-    ListPopupMenu::Menu_Type menuType = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::MenuType menuType = ListPopupMenu::mt_Undefined;
 
     if (assoc) {
         if (textRole() == Uml::TextRole::MultiA) {
@@ -636,7 +636,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
         uError() << "Action's data field does not contain ListPopupMenu pointer";
         return;
     }
-    ListPopupMenu::Menu_Type sel = menu->getMenuType(action);
+    ListPopupMenu::MenuType sel = menu->getMenuType(action);
 
     switch(sel) {
     case ListPopupMenu::mt_Properties:

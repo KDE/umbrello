@@ -150,7 +150,7 @@ void ActivityPage::updateActivities()
  */
 void ActivityPage::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::Menu_Type sel = m_pMenu->getMenuType(action);
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_New_Activity:
         slotNewActivity();
@@ -165,7 +165,7 @@ void ActivityPage::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uDebug() << "Menu_Type " << sel << " not implemented";
+        uDebug() << "MenuType " << ListPopupMenu::toString(sel) << " not implemented";
     }
 }
 
@@ -206,7 +206,7 @@ void ActivityPage::slotRename()
 
 void ActivityPage::slotRightButtonPressed(const QPoint & p)
 {
-    ListPopupMenu::Menu_Type type = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::MenuType type = ListPopupMenu::mt_Undefined;
     QListWidgetItem* item = m_pActivityLW->itemAt(p);
     if ( item ) { //pressed on an item
         type = ListPopupMenu::mt_Activity_Selected;

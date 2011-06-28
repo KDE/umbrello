@@ -2985,7 +2985,7 @@ void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 void UMLScene::setMenu(const QPoint& pos)
 {
     slotRemovePopupMenu();
-    ListPopupMenu::Menu_Type menu = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::MenuType menu = ListPopupMenu::mt_Undefined;
     switch (type()) {
     case DiagramType::Class:
         menu = ListPopupMenu::mt_On_Class_Diagram;
@@ -3029,7 +3029,7 @@ void UMLScene::setMenu(const QPoint& pos)
         break;
     }//end switch
     if (menu != ListPopupMenu::mt_Undefined) {
-        // DEBUG(DBG_SRC) << "create popup for Menu_Type " << menu;
+        // DEBUG(DBG_SRC) << "create popup for MenuType " << ListPopupMenu::toString(menu);
         m_pMenu = new ListPopupMenu(activeView(), menu, activeView());
         connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
 
@@ -3057,7 +3057,7 @@ void UMLScene::slotRemovePopupMenu()
  */
 void UMLScene::slotMenuSelection(QAction* action)
 {
-    ListPopupMenu::Menu_Type sel = ListPopupMenu::mt_Undefined;
+    ListPopupMenu::MenuType sel = ListPopupMenu::mt_Undefined;
     if (m_pMenu) {  // popup from this class
         sel = m_pMenu->getMenuType(action);
     } else { // popup from umldoc
@@ -3288,7 +3288,7 @@ void UMLScene::slotMenuSelection(QAction* action)
         break;
 
     default:
-        uWarning() << "unknown ListPopupMenu::Menu_Type " << sel;
+        uWarning() << "unknown ListPopupMenu::MenuType " << ListPopupMenu::toString(sel);
         break;
     }
 }
