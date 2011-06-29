@@ -223,7 +223,7 @@ public:
 
     ~ListPopupMenu();
 
-    static UMLObject::Object_Type convert_MT_OT(MenuType mt);
+    static UMLObject::ObjectType convert_MT_OT(MenuType mt);
     static Uml::DiagramType convert_MT_DT(MenuType mt);
 
 //    KAction* getAction(MenuType idx);

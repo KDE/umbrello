@@ -292,7 +292,7 @@ void UMLListView::popupMenuSel(QAction* action)
     }
     UMLObject * object = temp->umlObject();
     UMLListViewItem::ListViewType lvt = temp->type();
-    UMLObject::Object_Type umlType = UMLObject::ot_UMLObject;
+    UMLObject::ObjectType umlType = UMLObject::ot_UMLObject;
     ListPopupMenu::MenuType menuType = m_menu->getMenuType(action);
     QString name;
 
@@ -718,7 +718,7 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
     UMLListViewItem::ListViewType lvt = UMLListViewItem::lvt_Unknown;
     if (current)
         lvt = current->type();
-    UMLObject::Object_Type t = object->baseType();
+    UMLObject::ObjectType t = object->baseType();
 
     switch (t) {
     case UMLObject::ot_Attribute:
@@ -764,11 +764,11 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
 }
 
 /**
- * Return true if the given Object_Type permits child items.
+ * Return true if the given ObjectType permits child items.
  * A "child item" is anything that qualifies as a UMLClassifierListItem,
  * e.g. operations and attributes of classifiers.
  */
-bool UMLListView::mayHaveChildItems(UMLObject::Object_Type type)
+bool UMLListView::mayHaveChildItems(UMLObject::ObjectType type)
 {
     bool retval = false;
     switch (type) {
@@ -809,7 +809,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     UMLListViewItem* parentItem = determineParentItem(object);
     if (parentItem == 0)
         return;
-    UMLObject::Object_Type type = object->baseType();
+    UMLObject::ObjectType type = object->baseType();
 
     connectNewObjectsSlots(object);
     const UMLListViewItem::ListViewType lvt = Model_Utils::convert_OT_LVT(object);
@@ -841,7 +841,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
  */
 void UMLListView::connectNewObjectsSlots(UMLObject* object)
 {
-    UMLObject::Object_Type type = object->baseType();
+    UMLObject::ObjectType type = object->baseType();
     switch (type) {
     case UMLObject::ot_Class:
     case UMLObject::ot_Interface: {
@@ -1297,7 +1297,7 @@ void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me)
         return;
 
 
-    UMLObject::Object_Type type = object->baseType();
+    UMLObject::ObjectType type = object->baseType();
     int page = ClassPropDlg::page_gen;
     if (Model_Utils::isClassifierListitem(type))
         object = (UMLObject *)object->parent();
@@ -2134,7 +2134,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         name = uniqueDiagramName(dt);
         newItem = new UMLListViewItem(parentItem, name, type, Uml::id_None);
     } else {
-        UMLObject::Object_Type ot = Model_Utils::convert_LVT_OT(type);
+        UMLObject::ObjectType ot = Model_Utils::convert_LVT_OT(type);
         if (ot == UMLObject::ot_UMLObject) {
             uDebug() << "no UMLObject for listview type " << type;
             return;
@@ -2224,7 +2224,7 @@ bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
     case UMLListViewItem::lvt_Entity:
     case UMLListViewItem::lvt_UseCase:
     case UMLListViewItem::lvt_Category: {
-        UMLObject::Object_Type ot = Model_Utils::convert_LVT_OT(type);
+        UMLObject::ObjectType ot = Model_Utils::convert_LVT_OT(type);
         if (! ot) {
             uError() << "internal error";
             return false;
@@ -2307,7 +2307,7 @@ bool UMLListView::itemRenamed(UMLListViewItem * item, int col)
 /**
  * Creates a UMLObject out of the given list view item.
  */
-UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, UMLObject::Object_Type type)
+UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, UMLObject::ObjectType type)
 {
     QString name = item->text(0);
     UMLObject * object = 0;
@@ -2394,7 +2394,7 @@ UMLObject *UMLListView::createUMLObject(UMLListViewItem * item, UMLObject::Objec
 /**
  * Creates a child UMLObject out of the given list view item.
  */
-bool UMLListView::createChildUMLObject(UMLListViewItem * item, UMLObject::Object_Type type)
+bool UMLListView::createChildUMLObject(UMLListViewItem * item, UMLObject::ObjectType type)
 {
     m_bCreatingChildObject = true;
     QString text = item->text(0);

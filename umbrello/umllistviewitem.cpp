@@ -299,7 +299,7 @@ void UMLListViewItem::updateObject()
         return;
 
     Uml::Visibility scope = m_object->visibility();
-    UMLObject::Object_Type ot = m_object->baseType();
+    UMLObject::ObjectType ot = m_object->baseType();
     QString modelObjText = m_object->name();
     if (Model_Utils::isClassifierListitem(ot)) {
         UMLClassifierListItem *pNarrowed = static_cast<UMLClassifierListItem*>(m_object);

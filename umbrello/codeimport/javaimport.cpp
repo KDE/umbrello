@@ -285,7 +285,7 @@ bool JavaImport::parseStmt()
     }
     if (keyword == "class" || keyword == "interface") {
         const QString& name = advance();
-        const UMLObject::Object_Type t = (keyword == "class" ? UMLObject::ot_Class : UMLObject::ot_Interface);
+        const UMLObject::ObjectType t = (keyword == "class" ? UMLObject::ot_Class : UMLObject::ot_Interface);
         UMLObject *ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setAbstract(m_isAbstract);
@@ -294,7 +294,7 @@ bool JavaImport::parseStmt()
         // The UMLObject found by createUMLObject might originally have been created as a
         // placeholder with a type of class but if is really an interface, then we need to
         // change it.
-        UMLObject::Object_Type ot = (keyword == "interface" ? UMLObject::ot_Interface : UMLObject::ot_Class);
+        UMLObject::ObjectType ot = (keyword == "interface" ? UMLObject::ot_Interface : UMLObject::ot_Class);
         m_klass->setBaseType(ot);
         m_isAbstract = m_isStatic = false;
         // if no modifier is specified in an interface, then it means public

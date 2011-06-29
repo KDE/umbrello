@@ -340,10 +340,10 @@ protected:
     void updateSigs();
 
     /**
-     * Return the number of displayed members of the given Object_Type.
+     * Return the number of displayed members of the given ObjectType.
      * Takes into consideration m_bShowPublicOnly but not other settings,
      */
-    int displayedMembers(UMLObject::Object_Type ot);
+    int displayedMembers(UMLObject::ObjectType ot);
 
     /**
      * Auxiliary method for draw() of child classes:
@@ -356,7 +356,7 @@ protected:
      * @param y          Y coordinate at which text drawing commences.
      * @param fontHeight The font height.
      */
-    void drawMembers(QPainter & p, UMLObject::Object_Type ot, Uml::SignatureType sigType,
+    void drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::SignatureType sigType,
                      int x, int y, int fontHeight);
 
     bool m_bShowOperations;            ///< Loaded/saved item.

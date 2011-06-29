@@ -116,7 +116,7 @@ public:
     UMLObject* findObjectById(Uml::IDType id);
 
     UMLObject* findUMLObject(const QString &name,
-                             UMLObject::Object_Type type = UMLObject::ot_UMLObject,
+                             UMLObject::ObjectType type = UMLObject::ot_UMLObject,
                              UMLObject *currentObj = 0);
 
     //:TODO: UMLObject* findObjectByAuxId(const QString &idStr);

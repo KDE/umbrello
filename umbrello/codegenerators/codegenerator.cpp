@@ -243,13 +243,13 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
         uDebug() << "found UMLObject for id:" << idStr;
         QString value = codeDocElement.attribute("value", "");
 
-        UMLObject::Object_Type t = obj->baseType();
+        UMLObject::ObjectType t = obj->baseType();
         if (t == UMLObject::ot_Operation) {
             UMLOperation *op = static_cast<UMLOperation*>(obj);
             op->setSourceCode(value);
         }
         else {
-            uError() << "sourcecode id " << idStr << " has unexpected type " << t;
+            uError() << "sourcecode id " << idStr << " has unexpected type " << UMLObject::toString(t);
         }
     }
     else {

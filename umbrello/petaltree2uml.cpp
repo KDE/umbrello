@@ -78,11 +78,11 @@ QString quidu(const PetalNode *node)
  * If the given name consists only of letters, digits, underscores, and
  * scope separators, then return Uml::ot_Class, else return Uml::ot_Datatype.
  */
-UMLObject::Object_Type typeToCreate(const QString& name)
+UMLObject::ObjectType typeToCreate(const QString& name)
 {
     QString n = name;
     n.remove(QRegExp("^.*::"));  // don't consider the scope prefix, it may contain spaces
-    UMLObject::Object_Type t = (n.contains(QRegExp("\\W")) ? UMLObject::ot_Datatype : UMLObject::ot_Class);
+    UMLObject::ObjectType t = (n.contains(QRegExp("\\W")) ? UMLObject::ot_Datatype : UMLObject::ot_Class);
     return t;
 }
 

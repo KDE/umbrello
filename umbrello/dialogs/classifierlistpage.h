@@ -45,7 +45,7 @@ class ClassifierListPage : public QWidget
 public:
 
     ClassifierListPage(QWidget* parent,
-                       UMLClassifier* classifier, UMLDoc* doc, UMLObject::Object_Type type);
+                       UMLClassifier* classifier, UMLDoc* doc, UMLObject::ObjectType type);
     virtual ~ClassifierListPage();
 
     void updateObject();
@@ -95,7 +95,7 @@ protected:
 
     void hideArrowButtons(bool hide);
 
-    UMLObject::Object_Type m_itemType;
+    UMLObject::ObjectType m_itemType;
     UMLClassifier* m_pClassifier;
     UMLClassifierListItem* m_pLastObjectCreated;
 

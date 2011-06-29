@@ -146,7 +146,7 @@ QString formatComment(const QString &comment)
 }
 
 /*
-UMLObject* findUMLObject(QString name, UMLObject::Object_Type type)
+UMLObject* findUMLObject(QString name, UMLObject::ObjectType type)
 {
     // Why an extra wrapper? See comment at addMethodParameter()
     UMLObject * o = umldoc->findUMLObject(name, type);
@@ -157,7 +157,7 @@ UMLObject* findUMLObject(QString name, UMLObject::Object_Type type)
 /**
  * Find or create a document object.
  */
-UMLObject *createUMLObject(UMLObject::Object_Type type,
+UMLObject *createUMLObject(UMLObject::ObjectType type,
                            const QString& inName,
                            UMLPackage *parentPkg,
                            const QString& comment,
@@ -217,7 +217,7 @@ UMLObject *createUMLObject(UMLObject::Object_Type type,
                                         KGuiItem(i18nc("namespace scope", "Namespace")), KGuiItem(i18nc("class scope", "Class")));
                         }
                     }
-                    UMLObject::Object_Type ot = (wantNamespace == KMessageBox::Yes ? UMLObject::ot_Package : UMLObject::ot_Class);
+                    UMLObject::ObjectType ot = (wantNamespace == KMessageBox::Yes ? UMLObject::ot_Package : UMLObject::ot_Class);
                     o = Object_Factory::createUMLObject(ot, scopeName, parentPkg);
                     parentPkg = static_cast<UMLPackage*>(o);
                     Model_Utils::treeViewSetCurrentItem(o);
@@ -225,7 +225,7 @@ UMLObject *createUMLObject(UMLObject::Object_Type type,
                 // All scope qualified datatypes live in the global scope.
                 bPutAtGlobalScope = true;
             }
-            UMLObject::Object_Type t = type;
+            UMLObject::ObjectType t = type;
             if (type == UMLObject::ot_UMLObject || isAdorned)
                 t = UMLObject::ot_Class;
             origType = Object_Factory::createUMLObject(t, typeName, parentPkg, false);
@@ -331,12 +331,12 @@ UMLObject* insertAttribute(UMLClassifier *owner,
                            const QString& comment /* ="" */,
                            bool isStatic /* =false */)
 {
-    UMLObject::Object_Type ot = owner->baseType();
+    UMLObject::ObjectType ot = owner->baseType();
     Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
     if (! (ot == UMLObject::ot_Class ||
            (ot == UMLObject::ot_Interface && pl == Uml::ProgrammingLanguage::Java))) {
         uDebug() << "insertAttribute: Don not know what to do with "
-                 << owner->name() << " (object type " << ot << ")";
+                 << owner->name() << " (object type " << UMLObject::toString(ot) << ")";
         return NULL;
     }
     UMLObject *o = owner->findChildObject(name, UMLObject::ot_Attribute);

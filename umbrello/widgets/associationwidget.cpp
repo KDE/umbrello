@@ -252,7 +252,7 @@ UMLAttribute * AssociationWidget::getAttribute () const
 {
     if (m_pObject == NULL)
         return NULL;
-    UMLObject::Object_Type ot = m_pObject->baseType();
+    UMLObject::ObjectType ot = m_pObject->baseType();
     if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute)
         return NULL;
     return static_cast<UMLAttribute*>(m_pObject);
@@ -554,7 +554,7 @@ void AssociationWidget::setVisibility(Uml::Visibility value, Uml::Role_Type role
         return;
     if (m_pObject) {
         // update our model object
-        const UMLObject::Object_Type ot = m_pObject->baseType();
+        const UMLObject::ObjectType ot = m_pObject->baseType();
         if (ot == UMLObject::ot_Association)
             getAssociation()->setVisibility(value, role);
         else if (ot == UMLObject::ot_Attribute)
@@ -692,7 +692,7 @@ bool AssociationWidget::activate()
             uError() << "cannot find UMLObject " << ID2STR(m_nId);
             return false;
         } else {
-            const UMLObject::Object_Type ot = myObj->baseType();
+            const UMLObject::ObjectType ot = myObj->baseType();
             if (ot == UMLObject::ot_Association) {
                 UMLAssociation * myAssoc = static_cast<UMLAssociation*>(myObj);
                 setUMLAssociation(myAssoc);
@@ -3557,7 +3557,7 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
     UMLClassifier *klass = NULL;
     UMLAttribute *attr = NULL;
     UMLEntity *ent = NULL;
-    const UMLObject::Object_Type ot = obj->baseType();
+    const UMLObject::ObjectType ot = obj->baseType();
     switch (ot) {
         case UMLObject::ot_Association:
             setUMLAssociation(dynamic_cast<UMLAssociation*>(obj));
@@ -4012,7 +4012,7 @@ bool AssociationWidget::loadFromXMI( QDomElement & qElement,
         m_nId = STR2ID(id);
         UMLObject *myObj = m_umldoc->findObjectById(m_nId);
         if (myObj) {
-            const UMLObject::Object_Type ot = myObj->baseType();
+            const UMLObject::ObjectType ot = myObj->baseType();
             if (ot != UMLObject::ot_Association) {
                 setUMLObject(myObj);
             } else {

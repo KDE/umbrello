@@ -83,7 +83,7 @@ UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList)
         if (obj->id() == id)
             return obj;
         UMLObject *o;
-        UMLObject::Object_Type t = obj->baseType();
+        UMLObject::ObjectType t = obj->baseType();
         switch (t) {
         case UMLObject::ot_Folder:
         case UMLObject::ot_Package:
@@ -126,7 +126,7 @@ UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList)
  *
  * @param inList        List in which to seek the object.
  * @param name          Name of the object to find.
- * @param type          Object_Type of the object to find (optional.)
+ * @param type          ObjectType of the object to find (optional.)
  *                      When the given type is ot_UMLObject the type is
  *                      disregarded, i.e. the given name is the only
  *                      search criterion.
@@ -137,7 +137,7 @@ UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList)
  */
 UMLObject* findUMLObject(const UMLObjectList& inList,
                          const QString& inName,
-                         UMLObject::Object_Type type /* = ot_UMLObject */,
+                         UMLObject::ObjectType type /* = ot_UMLObject */,
                          UMLObject *currentObj /* = NULL */)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
@@ -198,13 +198,13 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                 } else if (obj->name().toLower() != name.toLower()) {
                     continue;
                 }
-                UMLObject::Object_Type foundType = obj->baseType();
+                UMLObject::ObjectType foundType = obj->baseType();
                 if (nameWithoutFirstPrefix.isEmpty()) {
                     if (type != UMLObject::ot_UMLObject && type != foundType) {
                         uDebug() << "findUMLObject: type mismatch for "
                             << name << " (seeking type: "
-                            << type << ", found type: "
-                            << foundType << ")";
+                            << UMLObject::toString(type) << ", found type: "
+                            << UMLObject::toString(foundType) << ")";
                         // Class, Interface, and Datatype are all Classifiers
                         // and are considered equivalent.
                         // The caller must be prepared to handle possible mismatches.
@@ -244,13 +244,13 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
         } else if (obj->name().toLower() != name.toLower()) {
             continue;
         }
-        UMLObject::Object_Type foundType = obj->baseType();
+        UMLObject::ObjectType foundType = obj->baseType();
         if (nameWithoutFirstPrefix.isEmpty()) {
             if (type != UMLObject::ot_UMLObject && type != foundType) {
                 uDebug() << "findUMLObject: type mismatch for "
                     << name << " (seeking type: "
-                    << type << ", found type: "
-                    << foundType << ")";
+                    << UMLObject::toString(type) << ", found type: "
+                    << UMLObject::toString(foundType) << ")";
                 continue;
             }
             return obj;
@@ -396,7 +396,7 @@ QString treeViewBuildDiagramName(Uml::IDType id)
  *                  If no prefix is given then a type related
  *                  prefix will be chosen internally.
  */
-QString uniqObjectName(UMLObject::Object_Type type, UMLPackage *parentPkg, QString prefix)
+QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QString prefix)
 {
     QString currentName = prefix;
     if (currentName.isEmpty()) {
@@ -494,7 +494,7 @@ bool isCommonDataType(QString type)
 /**
  * Return true if the given object type is a classifier list item type.
  */
-bool isClassifierListitem(UMLObject::Object_Type type)
+bool isClassifierListitem(UMLObject::ObjectType type)
 {
     if (type == UMLObject::ot_Attribute ||
         type == UMLObject::ot_Operation ||
@@ -518,7 +518,7 @@ bool isClassifierListitem(UMLObject::Object_Type type)
  */
 Uml::ModelType guessContainer(UMLObject *o)
 {
-    UMLObject::Object_Type ot = o->baseType();
+    UMLObject::ObjectType ot = o->baseType();
     if (ot == UMLObject::ot_Package && o->stereotype() == "subsystem")
         return Uml::ModelType::Component;
     Uml::ModelType mt = Uml::ModelType::N_MODELTYPES;
@@ -1122,7 +1122,7 @@ UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType dt)
  *
  * @param o  Pointer to the UMLObject whose type shall be converted
  *           to the equivalent ListViewType.  We cannot just
- *           pass in a UMLObject::Object_Type because a UMLFolder is mapped
+ *           pass in a UMLObject::ObjectType because a UMLFolder is mapped
  *           to different ListViewType values, depending on its
  *           location in one of the predefined modelviews (Logical/
  *           UseCase/etc.)
@@ -1130,7 +1130,7 @@ UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType dt)
  */
 UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
 {
-    UMLObject::Object_Type ot = o->baseType();
+    UMLObject::ObjectType ot = o->baseType();
     UMLListViewItem::ListViewType type =  UMLListViewItem::lvt_Unknown;
     switch(ot) {
     case UMLObject::ot_UseCase:
@@ -1263,12 +1263,12 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
  * Converts a list view type enum to the equivalent object type.
  *
  * @param lvt   The ListViewType to convert.
- * @return  The converted Object_Type if the listview type
- *          has a UMLObject::Object_Type representation, else 0.
+ * @return  The converted ObjectType if the listview type
+ *          has a UMLObject::ObjectType representation, else 0.
  */
-UMLObject::Object_Type convert_LVT_OT(UMLListViewItem::ListViewType lvt)
+UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt)
 {
-    UMLObject::Object_Type ot = (UMLObject::Object_Type)0;
+    UMLObject::ObjectType ot = (UMLObject::ObjectType)0;
     switch (lvt) {
     case UMLListViewItem::lvt_UseCase:
         ot = UMLObject::ot_UseCase;
@@ -1542,9 +1542,9 @@ Uml::DiagramType convert_LVT_DT(UMLListViewItem::ListViewType lvt)
 }
 
 /**
- * Return the Model_Type which corresponds to the given Object_Type.
+ * Return the Model_Type which corresponds to the given ObjectType.
  */
-Uml::ModelType convert_OT_MT(UMLObject::Object_Type ot)
+Uml::ModelType convert_OT_MT(UMLObject::ObjectType ot)
 {
     Uml::ModelType mt = Uml::ModelType::N_MODELTYPES;
     switch (ot) {

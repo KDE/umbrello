@@ -94,9 +94,9 @@ void ToolBarStateOther::mouseReleaseEmpty()
  * Returns the object type of this tool.
  * @return The object type of this tool.
  */
-UMLObject::Object_Type ToolBarStateOther::getObjectType()
+UMLObject::ObjectType ToolBarStateOther::getObjectType()
 {
-    UMLObject::Object_Type ot;
+    UMLObject::ObjectType ot;
 
     switch(getButton()) {
         case WorkToolBar::tbb_Actor:        ot = UMLObject::ot_Actor;          break;

@@ -43,7 +43,7 @@
  *  @param type The object type
  */
 ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifier,
-                                       UMLDoc* doc, UMLObject::Object_Type type)
+                                       UMLDoc* doc, UMLObject::ObjectType type)
   : ClassifierListPage( parent, classifier, doc, type )
 {
     setupActions();
@@ -143,7 +143,7 @@ void ConstraintListPage::slotNewCheckConstraint()
 //  * @param ot The Object Type to be added
 //  * @return The index
 //  */
-// int ConstraintListPage::calculateNewIndex(Uml::Object_Type ot)
+// int ConstraintListPage::calculateNewIndex(Uml::ObjectType ot)
 // {
 //     // we want to show all Unique Constraints first , followed by ForeignKey Constraints
 //     UMLClassifierListItemList ucList, fkcList,  ccList;
@@ -211,7 +211,7 @@ void ConstraintListPage::slotNewCheckConstraint()
  * @param ct2 Constraint Type 2
  * @return true if ct1 is to be shown above ct2 else false
  */
-bool ConstraintListPage::greaterThan(UMLObject::Object_Type ct1, UMLObject::Object_Type ct2)
+bool ConstraintListPage::greaterThan(UMLObject::ObjectType ct1, UMLObject::ObjectType ct2)
 {
     // define ordering
     switch( ct1 ) {

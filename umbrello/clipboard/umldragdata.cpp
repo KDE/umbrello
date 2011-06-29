@@ -334,7 +334,7 @@ bool UMLDragData::decodeClip1(const QMimeData* mimeData, UMLObjectList& objects)
             if(!doc->assignNewIDs(pObject)) {
                 return false;
             }
-            UMLObject::Object_Type type = pObject->baseType();
+            UMLObject::ObjectType type = pObject->baseType();
             QString newName = Model_Utils::uniqObjectName(type, pObject->umlPackage(),
                                                                 pObject->name());
             pObject->setName(newName);

@@ -36,7 +36,7 @@ private:
 
     virtual void mouseReleaseEmpty();
 
-    UMLObject::Object_Type getObjectType();
+    UMLObject::ObjectType getObjectType();
 
     bool newWidget();
 

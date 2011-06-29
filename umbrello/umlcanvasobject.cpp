@@ -178,9 +178,9 @@ void UMLCanvasObject::removeAllChildObjects()
  * @param prefix    Optional prefix to use for the name.
  *                  If not given then uniqChildName() will choose the prefix
  *                  internally based on the object type.
- * @return  Unique name string for the Object_Type given.
+ * @return  Unique name string for the ObjectType given.
  */
-QString UMLCanvasObject::uniqChildName( const UMLObject::Object_Type type,
+QString UMLCanvasObject::uniqChildName( const UMLObject::ObjectType type,
                                         const QString &prefix /* = QString() */ )
 {
     QString currentName;
@@ -235,7 +235,7 @@ QString UMLCanvasObject::uniqChildName( const UMLObject::Object_Type type,
  *           any object type will match.
  * @return  Pointer to the object found; NULL if none found.
  */
-UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object_Type t)
+UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::ObjectType t)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     UMLObject *obj = NULL;

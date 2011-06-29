@@ -270,7 +270,7 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested )
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->baseType();
+        ObjectType ot = o->baseType();
         if (ot == ot_Package) {
             packages.append((UMLPackage *)o);
             if (includeNested) {
@@ -294,7 +294,7 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->baseType();
+        ObjectType ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface ||
                 ot == ot_Datatype || ot == ot_Enum || ot == ot_Entity) {
             classifiers.append((UMLClassifier *)o);
@@ -318,7 +318,7 @@ void UMLPackage::appendClasses(UMLClassifierList& classes,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->baseType();
+        ObjectType ot = o->baseType();
         if (ot == ot_Class) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             classes.append(c);
@@ -342,7 +342,7 @@ void UMLPackage::appendEntities( UMLEntityList& entities,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->baseType();
+        ObjectType ot = o->baseType();
         if (ot == ot_Entity) {
             UMLEntity *c = static_cast<UMLEntity*>(o);
             entities.append(c);
@@ -366,7 +366,7 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->baseType();
+        ObjectType ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             classifiers.append(c);
@@ -390,7 +390,7 @@ void UMLPackage::appendInterfaces( UMLClassifierList& interfaces,
 {
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *o = oit.next();
-        Object_Type ot = o->baseType();
+        ObjectType ot = o->baseType();
         if (ot == ot_Interface) {
             UMLClassifier *c = static_cast<UMLClassifier*>(o);
             interfaces.append(c);
@@ -415,7 +415,7 @@ bool UMLPackage::resolveRef()
     for (UMLObjectListIt oit(m_objects); oit.hasNext(); ) {
         UMLObject *obj = oit.next();
         if (! obj->resolveRef()) {
-            UMLObject::Object_Type ot = obj->baseType();
+            UMLObject::ObjectType ot = obj->baseType();
             if (ot != UMLObject::ot_Package && ot != UMLObject::ot_Folder)
                 m_objects.removeAll(obj);
             overallSuccess = false;

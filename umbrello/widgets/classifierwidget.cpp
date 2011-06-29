@@ -302,7 +302,7 @@ void ClassifierWidget::toggleShowAttSigs()
     update();
 }
 
-int ClassifierWidget::displayedMembers(UMLObject::Object_Type ot)
+int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot)
 {
     int count = 0;
     UMLClassifierListItemList list = classifier()->getFilteredList(ot);
@@ -425,7 +425,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Operation:
     case ListPopupMenu::mt_Template:
         {
-            UMLObject::Object_Type ot = ListPopupMenu::convert_MT_OT(sel);
+            UMLObject::ObjectType ot = ListPopupMenu::convert_MT_OT(sel);
             if (Object_Factory::createChildObject(classifier(), ot)) {
                 updateComponentSize();
                 update();
@@ -718,7 +718,7 @@ QSize ClassifierWidget::calculateAsCircleSize()
     return QSize(width, height);
 }
 
-void ClassifierWidget::drawMembers(QPainter & p, UMLObject::Object_Type ot, Uml::SignatureType sigType,
+void ClassifierWidget::drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::SignatureType sigType,
                                    int x, int y, int fontHeight)
 {
     QFont f = UMLWidget::font();

@@ -792,7 +792,7 @@ UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id)
  * Used to find a @ref UMLObject by its type and name.
  *
  * @param name         The name of the @ref UMLObject to find.
- * @param type         Object_Type of the object to find (optional.)
+ * @param type         ObjectType of the object to find (optional.)
  *                     When the given type is ot_UMLObject the type is
  *                     disregarded, i.e. the given name is the only
  *                     search criterion.
@@ -802,7 +802,7 @@ UMLStereotype * UMLDoc::findStereotypeById(Uml::IDType id)
  * @return  Pointer to the UMLObject found, or NULL if not found.
  */
 UMLObject* UMLDoc::findUMLObject(const QString &name,
-                                 UMLObject::Object_Type type /* = ot_UMLObject */,
+                                 UMLObject::ObjectType type /* = ot_UMLObject */,
                                  UMLObject *currentObj /* = 0 */)
 {
     UMLObject *o = m_datatypeRoot->findObject(name);
@@ -858,7 +858,7 @@ UMLClassifier* UMLDoc::findUMLClassifier(const QString &name)
  */
 bool UMLDoc::addUMLObject(UMLObject* object)
 {
-    UMLObject::Object_Type ot = object->baseType();
+    UMLObject::ObjectType ot = object->baseType();
     if (ot == UMLObject::ot_Attribute || ot == UMLObject::ot_Operation || ot == UMLObject::ot_EnumLiteral
             || ot == UMLObject::ot_EntityAttribute || ot == UMLObject::ot_Template || ot == UMLObject::ot_Stereotype) {
         DEBUG(DBG_SRC) << object->name() << ": not adding type " << ot;
@@ -1463,7 +1463,7 @@ void UMLDoc::setCurrentRoot(Uml::ModelType rootType)
 void UMLDoc::removeUMLObject(UMLObject* umlobject)
 {
     UMLApp::app()->docWindow()->updateDocumentation(true);
-    UMLObject::Object_Type type = umlobject->baseType();
+    UMLObject::ObjectType type = umlobject->baseType();
 
     umlobject->setUMLStereotype(0);  // triggers possible cleanup of UMLStereotype
     if (dynamic_cast<UMLClassifierListItem*>(umlobject))  {
@@ -2074,7 +2074,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             // soft error.
             continue;
         }
-        UMLObject::Object_Type ot = pObject->baseType();
+        UMLObject::ObjectType ot = pObject->baseType();
         // Set the parent root folder.
         UMLPackage *pkg = 0;
         if (ot == UMLObject::ot_Datatype) {

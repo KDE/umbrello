@@ -108,7 +108,7 @@ public:
 
     int takeItem(UMLClassifierListItem* item);
 
-    virtual UMLClassifierListItemList getFilteredList(UMLObject::Object_Type ot) const;
+    virtual UMLClassifierListItemList getFilteredList(UMLObject::ObjectType ot) const;
 
     virtual bool resolveRef();
 
@@ -128,7 +128,7 @@ public:
     void setClassAssoc(UMLAssociation *assoc);
     UMLAssociation *getClassAssoc() const;
 
-    void setBaseType(UMLObject::Object_Type ot);
+    void setBaseType(UMLObject::ObjectType ot);
 
     bool isInterface() const;
 

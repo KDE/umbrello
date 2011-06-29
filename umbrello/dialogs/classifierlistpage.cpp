@@ -47,7 +47,7 @@
  *  @param type        The type of listItem this handles
  */
 ClassifierListPage::ClassifierListPage(QWidget* parent, UMLClassifier* classifier,
-                                       UMLDoc* doc, UMLObject::Object_Type type)
+                                       UMLDoc* doc, UMLObject::ObjectType type)
   : QWidget(parent)
 {
     m_itemType = type;
@@ -833,7 +833,7 @@ bool ClassifierListPage::takeItem(UMLClassifierListItem* listItem,
         return false;
     qApp->processEvents();
     peerIndex = -1;
-    const UMLObject::Object_Type seekType = listItem->baseType();
+    const UMLObject::ObjectType seekType = listItem->baseType();
     UMLObjectList listItems = m_pClassifier->subordinates();
     for (int i = 0; i < listItems.count(); ++i) {
         UMLObject *o = listItems.at(i);

@@ -639,7 +639,7 @@ void UMLEntity::slotEntityAttributeRemoved(UMLClassifierListItem* cli)
 /**
  * Reimplementation of getFilteredList to support ot=UMLObject::ot_EntityConstraint.
  */
-UMLClassifierListItemList UMLEntity::getFilteredList(UMLObject::Object_Type ot) const
+UMLClassifierListItemList UMLEntity::getFilteredList(UMLObject::ObjectType ot) const
 {
     if ( ot == UMLObject::ot_EntityConstraint ) {
         UMLClassifierListItemList ucList,fcList,ccList, rcList;

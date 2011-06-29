@@ -77,7 +77,7 @@ bool assignUniqueIdOnCreation()
     return (g_predefinedId == Uml::id_None);
 }
 
-UMLObject* createNewUMLObject(UMLObject::Object_Type type, const QString &name,
+UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
                               UMLPackage *parentPkg)
 {
     if (parentPkg == NULL) {
@@ -159,7 +159,7 @@ UMLObject* createNewUMLObject(UMLObject::Object_Type type, const QString &name,
  *                        then the existing object is returned.
  *                        The default is to ask for the new name.
  */
-UMLObject* createUMLObject(UMLObject::Object_Type type, const QString &n,
+UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
                            UMLPackage *parentPkg /* = 0 */,
                            bool solicitNewName /* = true */)
 {
@@ -238,7 +238,7 @@ UMLOperation *createOperation(UMLClassifier *parent, const QString& name)
  * @param type      The type to create
  * @return      Pointer to the UMLClassifierListItem created
  */
-UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Object_Type type)
+UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::ObjectType type)
 {
     UMLObject* returnObject = NULL;
     switch (type) {

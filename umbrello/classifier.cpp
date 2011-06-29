@@ -68,7 +68,7 @@ UMLClassifier::~UMLClassifier()
  * exact type of this classifier: class, interface, or datatype.
  * @param ot   the base type to set
  */
-void UMLClassifier::setBaseType(UMLObject::Object_Type ot)
+void UMLClassifier::setBaseType(UMLObject::ObjectType ot)
 {
     m_BaseType = ot;
     Icon_Utils::Icon_Type newIcon;
@@ -985,7 +985,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited)
  * @param ot   the requested object type
  * @return     The list of true operations for the Concept.
  */
-UMLClassifierListItemList UMLClassifier::getFilteredList(UMLObject::Object_Type ot) const
+UMLClassifierListItemList UMLClassifier::getFilteredList(UMLObject::ObjectType ot) const
 {
     UMLClassifierListItemList resultList;
     foreach (UMLObject* o, m_List) {

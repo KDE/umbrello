@@ -227,7 +227,7 @@ bool UMLEntityAttributeDialog::apply()
     if (classifier == NULL) {
         // If it's obviously a pointer type (C++) then create a datatype.
         // Else we don't know what it is so as a compromise create a class.
-        UMLObject::Object_Type ot =
+        UMLObject::ObjectType ot =
             (typeName.contains('*') ? UMLObject::ot_Datatype : UMLObject::ot_Class);
         obj = Object_Factory::createUMLObject(ot, typeName);
         if (obj == NULL)

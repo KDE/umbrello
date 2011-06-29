@@ -40,7 +40,7 @@ UMLObject* findObjectInList(Uml::IDType id, const UMLObjectList& inList);
 
 UMLObject* findUMLObject( const UMLObjectList& inList,
                           const QString& name,
-                          UMLObject::Object_Type type = UMLObject::ot_UMLObject,
+                          UMLObject::ObjectType type = UMLObject::ot_UMLObject,
                           UMLObject *currentObj = 0);
 
 void treeViewAddViews(const UMLViewList& viewList);
@@ -51,13 +51,13 @@ UMLObject*  treeViewGetCurrentObject();
 UMLPackage* treeViewGetPackageFromCurrent();
 QString treeViewBuildDiagramName(Uml::IDType id);
 
-QString uniqObjectName(UMLObject::Object_Type type,
+QString uniqObjectName(UMLObject::ObjectType type,
                        UMLPackage *parentPkg,
                        QString prefix = QString());
 
 bool isCommonXMIAttribute(const QString &tag);
 bool isCommonDataType(QString type);
-bool isClassifierListitem(UMLObject::Object_Type ot);
+bool isClassifierListitem(UMLObject::ObjectType ot);
 
 bool typeIsCanvasWidget(UMLListViewItem::ListViewType type);
 bool typeIsRootView(UMLListViewItem::ListViewType type);
@@ -71,11 +71,11 @@ Uml::ModelType convert_DT_MT(Uml::DiagramType dt);
 UMLListViewItem::ListViewType convert_MT_LVT(Uml::ModelType mt);
 Uml::ModelType convert_LVT_MT(UMLListViewItem::ListViewType lvt);
 UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType dt);
-UMLObject::Object_Type convert_LVT_OT(UMLListViewItem::ListViewType lvt);
+UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt);
 UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o);
 Icon_Utils::Icon_Type convert_LVT_IT(UMLListViewItem::ListViewType lvt);
 Uml::DiagramType convert_LVT_DT(UMLListViewItem::ListViewType lvt);
-Uml::ModelType convert_OT_MT(UMLObject::Object_Type ot);
+Uml::ModelType convert_OT_MT(UMLObject::ObjectType ot);
 
 Uml::ModelType guessContainer(UMLObject *o);  // deprecated !
 
