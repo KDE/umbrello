@@ -143,7 +143,7 @@ void UMLDoc::createDatatypeFolder()
     m_datatypeRoot = new UMLFolder("Datatypes", "Datatypes");
     m_datatypeRoot->setLocalName(i18n("Datatypes"));
     m_datatypeRoot->setUMLPackage(m_root[Uml::ModelType::Logical]);
-    Q_ASSERT(m_root[ModelType::Logical]);
+    Q_ASSERT(m_root[Uml::ModelType::Logical]);
     m_root[Uml::ModelType::Logical]->addObject(m_datatypeRoot);
 }
 
