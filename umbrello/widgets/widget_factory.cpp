@@ -69,7 +69,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     QPointF pos = scene->pos();
     qreal y = pos.y();
     Uml::DiagramType diagramType = scene->type();
-    UMLObject::Object_Type type = o->baseType();
+    UMLObject::ObjectType type = o->baseType();
     UMLWidget *newWidget = NULL;
     switch (type) {
     case UMLObject::ot_Actor:
@@ -154,7 +154,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     return newWidget;
 }
 
-bool validateObjType(UMLObject::Object_Type expected, UMLObject* &o, Uml::IDType id)
+bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::IDType id)
 {
     if (o == NULL) {
         uDebug() << "Widget_Factory::validateObjType: creating new object of type "
@@ -168,12 +168,12 @@ bool validateObjType(UMLObject::Object_Type expected, UMLObject* &o, Uml::IDType
         parentPkg->addObject(o);
         return true;
     }
-    UMLObject::Object_Type actual = o->baseType();
+    UMLObject::ObjectType actual = o->baseType();
     if (actual == expected)
         return true;
     uError() << "validateObjType(" << o->name()
-        << "): expected type " << expected << ", actual type "
-        << actual;
+        << "): expected type " << UMLObject::toString(expected) << ", actual type "
+        << UMLObject::toString(actual);
     return false;
 }
 

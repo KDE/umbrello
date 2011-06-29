@@ -353,7 +353,7 @@ bool AdaImport::parseStmt()
             next == "record" ||
             (next == "null" &&
              m_source[m_srcIndex+1] == "record")) {
-            UMLObject::Object_Type t = (next == "interface" ? UMLObject::ot_Interface : UMLObject::ot_Class);
+            UMLObject::ObjectType t = (next == "interface" ? UMLObject::ot_Interface : UMLObject::ot_Class);
             UMLObject *ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
             if (t == UMLObject::ot_Interface) {
                 while ((next = advance()) == "and") {
@@ -386,7 +386,7 @@ bool AdaImport::parseStmt()
                 baseInterfaces.append(expand(advance()));
             }
             const bool isExtension = (next == "with");
-            UMLObject::Object_Type t;
+            UMLObject::ObjectType t;
             if (isExtension || m_isAbstract) {
                 t = UMLObject::ot_Class;
             } else {
@@ -511,7 +511,7 @@ bool AdaImport::parseStmt()
             if (op == NULL) {
                 // In Ada, the first parameter indicates the class.
                 UMLObject *type = Import_Utils::createUMLObject(UMLObject::ot_Class, typeName, m_scope[m_scopeIndex]);
-                UMLObject::Object_Type t = type->baseType();
+                UMLObject::ObjectType t = type->baseType();
                 if ((t != UMLObject::ot_Interface &&
                      (t != UMLObject::ot_Class || type->stereotype() == "record")) ||
                     !m_classesDefinedInThisScope.contains(type)) {

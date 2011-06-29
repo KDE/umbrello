@@ -55,7 +55,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
     // setup name
     QString name;
-    UMLObject::Object_Type t = o->baseType();
+    UMLObject::ObjectType t = o->baseType();
     switch (t) {
     case UMLObject::ot_Class:
         name = i18n("Class &name:");
@@ -418,7 +418,7 @@ void ClassGenPage::updateObject()
             m_pObject->setStereotype(m_pStereoTypeCB->currentText());
         }
 
-        UMLObject::Object_Type t = m_pObject->baseType();
+        UMLObject::ObjectType t = m_pObject->baseType();
         if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
             QString packageName = m_pPackageCB->currentText().trimmed();
             UMLObject* newPackage = NULL;

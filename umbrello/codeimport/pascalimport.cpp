@@ -349,7 +349,7 @@ bool PascalImport::parseStmt()
             return true;
         }
         if (keyword == "class" || keyword == "interface") {
-            UMLObject::Object_Type t = (keyword == "class" ? UMLObject::ot_Class : UMLObject::ot_Interface);
+            UMLObject::ObjectType t = (keyword == "class" ? UMLObject::ot_Class : UMLObject::ot_Interface);
             UMLObject *ns = Import_Utils::createUMLObject(t, name,
                                                           m_scope[m_scopeIndex], m_comment);
             UMLClassifier *klass = static_cast<UMLClassifier*>(ns);

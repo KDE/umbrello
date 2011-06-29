@@ -148,7 +148,7 @@ void RefactoringAssistant::itemExecuted(QTreeWidgetItem *item, int column)
  */
 void RefactoringAssistant::setVisibilityIcon(QTreeWidgetItem *item , const UMLObject *obj)
 {
-    UMLObject::Object_Type t = obj->baseType();
+    UMLObject::ObjectType t = obj->baseType();
     switch (obj->visibility()) {
     case Uml::Visibility::Public:
         if (t == UMLObject::ot_Operation) {
@@ -325,7 +325,7 @@ void RefactoringAssistant::editProperties()
 void RefactoringAssistant::editProperties(UMLObject *obj)
 {
     KDialog *dia(0);
-    UMLObject::Object_Type t = obj->baseType();
+    UMLObject::ObjectType t = obj->baseType();
     if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
         dia = new ClassPropDlg(this, obj, true);
     }
@@ -366,7 +366,7 @@ void RefactoringAssistant::deleteItem()
  */
 void RefactoringAssistant::deleteItem(QTreeWidgetItem *item, UMLObject *obj)
 {
-    UMLObject::Object_Type t = obj->baseType();
+    UMLObject::ObjectType t = obj->baseType();
     if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
         uDebug() << "Delete class or interface - not yet implemented!";  //:TODO:
     }
@@ -432,7 +432,7 @@ void RefactoringAssistant::showContextMenu(const QPoint& p)
     m_menu->clear();
     UMLObject *obj = findUMLObject(item);
     if (obj) { // Menu for UMLObjects
-        UMLObject::Object_Type t = obj->baseType();
+        UMLObject::ObjectType t = obj->baseType();
         if (t == UMLObject::ot_Class) {
             m_menu->addAction(createAction(i18n("Add Base Class"), SLOT(addBaseClassifier()), Icon_Utils::it_Generalisation));
             m_menu->addAction(createAction(i18n("Add Derived Class"), SLOT(addDerivedClassifier()), Icon_Utils::it_Uniassociation));
@@ -485,7 +485,7 @@ void RefactoringAssistant::addBaseClassifier()
     }
 
     //classes have classes and interfaces interfaces as super/derived classifiers
-    UMLObject::Object_Type t = obj->baseType();
+    UMLObject::ObjectType t = obj->baseType();
     UMLClassifier *super = static_cast<UMLClassifier*>(Object_Factory::createUMLObject(t));
     if (!super) {
         return;
@@ -530,7 +530,7 @@ void RefactoringAssistant::addDerivedClassifier()
     }
 
     //classes have classes and interfaces have interfaces as super/derived classifiers
-    UMLObject::Object_Type t = obj->baseType();
+    UMLObject::ObjectType t = obj->baseType();
     UMLClassifier *derived = static_cast<UMLClassifier*>(Object_Factory::createUMLObject(t));
     if (!derived) {
         return;
@@ -786,7 +786,7 @@ uDebug() << "acceptProposedAction";  //:TODO:fischer
         return;
     }
     QTreeWidgetItem* parentItem = afterme->parent();
-    UMLObject::Object_Type t = movingObject->baseType();
+    UMLObject::ObjectType t = movingObject->baseType();
     newClassifier = dynamic_cast<UMLClassifier*>(findUMLObject(parentItem));
     if (!newClassifier) {
         if ((parentItem->text(1) == "operations" && t == UMLObject::ot_Operation)

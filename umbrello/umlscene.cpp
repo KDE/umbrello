@@ -668,7 +668,7 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
     //make sure dragging item onto correct diagram
     // concept - class,seq,coll diagram
     // actor,usecase - usecase diagram
-    UMLObject::Object_Type ot = temp->baseType();
+    UMLObject::ObjectType ot = temp->baseType();
     bool bAccept = true;
     switch (diagramType) {
     case DiagramType::UseCase:
@@ -2526,7 +2526,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     }
 
     // if this object is capable of containing nested objects then
-    UMLObject::Object_Type t = umlObj->baseType();
+    UMLObject::ObjectType t = umlObj->baseType();
     if (t == UMLObject::ot_Package || t == UMLObject::ot_Class ||
         t == UMLObject::ot_Interface || t == UMLObject::ot_Component) {
         // for each of the object's containedObjects
@@ -4089,8 +4089,8 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
         if (o == NULL) {
             uError() << "Cannot find object for id " << idStr;
         } else {
-            UMLObject::Object_Type ot = o->baseType();
-            DEBUG(DBG_SRC) << "Create widget for model object of type " << ot;
+            UMLObject::ObjectType ot = o->baseType();
+            DEBUG(DBG_SRC) << "Create widget for model object of type " << UMLObject::toString(ot);
             UMLWidget *widget = NULL;
             switch (ot) {
             case UMLObject::ot_Class:

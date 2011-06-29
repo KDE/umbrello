@@ -41,10 +41,10 @@ class UMLStereotype;
 class UMLObject : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(Object_Type)
+    Q_ENUMS(ObjectType)
 
 public:
-    enum Object_Type
+    enum ObjectType
     {
         ot_UMLObject  = 100,
         ot_Actor,
@@ -74,6 +74,8 @@ public:
         ot_Category
     };
 
+    static QString toString(ObjectType ot);
+
     explicit UMLObject(UMLObject* parent, const QString& name, Uml::IDType id = Uml::id_None);
     explicit UMLObject(UMLObject* parent);
     explicit UMLObject(const QString& name = QString(), Uml::IDType id = Uml::id_None);
@@ -85,8 +87,8 @@ public:
 
     virtual UMLObject* clone() const = 0;
 
-    virtual void setBaseType(Object_Type ot);
-    Object_Type baseType() const;
+    virtual void setBaseType(ObjectType ot);
+    ObjectType baseType() const;
 
     virtual void setID(Uml::IDType NewID);
     virtual Uml::IDType id() const;
@@ -171,7 +173,7 @@ protected:
     UMLPackage*      m_pUMLPackage;  ///< package the object belongs to if applicable
     UMLStereotype*   m_pStereotype;  ///< stereotype of the object if applicable
     QString          m_name;         ///< objects name
-    Object_Type      m_BaseType;     ///< objects type
+    ObjectType       m_BaseType;     ///< objects type
     Uml::Visibility  m_Vis;          ///< objects visibility
     bool             m_bAbstract;    ///< state of whether the object is abstract or not
     bool             m_bStatic;      ///< flag for instance scope

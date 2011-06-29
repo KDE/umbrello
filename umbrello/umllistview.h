@@ -81,7 +81,7 @@ public:
     UMLListViewItem* determineParentItem(UMLObject* object) const;
     UMLListViewItem* determineParentItem(UMLListViewItem::ListViewType lvt) const;
 
-    static bool mayHaveChildItems(UMLObject::Object_Type type);
+    static bool mayHaveChildItems(UMLObject::ObjectType type);
 
     void addNewItem(UMLListViewItem * parent, UMLListViewItem::ListViewType type);
 
@@ -93,8 +93,8 @@ public:
 
     void changeIconOf(UMLObject *o, Icon_Utils::Icon_Type to);
 
-    UMLObject *createUMLObject(UMLListViewItem * item, UMLObject::Object_Type type);
-    bool createChildUMLObject(UMLListViewItem * item, UMLObject::Object_Type type);
+    UMLObject *createUMLObject(UMLListViewItem * item, UMLObject::ObjectType type);
+    bool createChildUMLObject(UMLListViewItem * item, UMLObject::ObjectType type);
     UMLView* createDiagram(UMLListViewItem * item, Uml::DiagramType type);
 
     QString uniqueDiagramName(Uml::DiagramType type);

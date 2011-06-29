@@ -1047,11 +1047,11 @@ Uml::DiagramType ListPopupMenu::convert_MT_DT(MenuType mt)
 }
 
 /**
- * Utility: Convert a MenuType value to an Object_Type value.
+ * Utility: Convert a MenuType value to an ObjectType value.
  */
-UMLObject::Object_Type ListPopupMenu::convert_MT_OT(MenuType mt)
+UMLObject::ObjectType ListPopupMenu::convert_MT_OT(MenuType mt)
 {
-    UMLObject::Object_Type type =  UMLObject::ot_UMLObject;
+    UMLObject::ObjectType type =  UMLObject::ot_UMLObject;
 
     switch (mt) {
     case mt_UseCase:

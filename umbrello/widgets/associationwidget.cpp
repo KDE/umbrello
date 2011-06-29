@@ -179,7 +179,7 @@ void AssociationWidget::setUMLObject(UMLObject *obj, bool notifyAsSlot)
         return;
     }
 
-    const UMLObject::Object_Type ot = obj->baseType();
+    const UMLObject::ObjectType ot = obj->baseType();
     if (ot == UMLObject::ot_Association) {
 
         UMLAssociation *assoc = static_cast<UMLAssociation*>(obj);
@@ -528,7 +528,7 @@ UMLAttribute* AssociationWidget::attribute() const
     if (!umlObject()) {
         return 0;
     }
-    UMLObject::Object_Type ot = umlObject()->baseType();
+    UMLObject::ObjectType ot = umlObject()->baseType();
     if (ot != UMLObject::ot_Attribute && ot != UMLObject::ot_EntityAttribute) {
         return 0;
     }
@@ -1159,7 +1159,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement, const UMLWidgetList &
         setID(STR2ID(id));
         UMLObject *myObj = umlDoc()->findObjectById(this->id());
         if (myObj) {
-            const UMLObject::Object_Type ot = myObj->baseType();
+            const UMLObject::ObjectType ot = myObj->baseType();
             setUMLObject(myObj);
             if (ot == UMLObject::ot_Association) {
                 aType = static_cast<UMLAssociation*>(myObj)->getAssocType();
@@ -1541,7 +1541,7 @@ void AssociationWidget::slotUMLObjectDataChanged()
         WidgetBase::slotUMLObjectDataChanged();
         return;
     }
-    const UMLObject::Object_Type ot = obj->baseType();
+    const UMLObject::ObjectType ot = obj->baseType();
     if (ot == UMLObject::ot_Operation) {
         if (m_nameWidget) {
             m_nameWidget->setMessageText();
@@ -1709,7 +1709,7 @@ void AssociationWidget::umlObjectChanged(UMLObject *old)
         return;
     }
 
-    const UMLObject::Object_Type ot = old->baseType();
+    const UMLObject::ObjectType ot = old->baseType();
     if (ot == UMLObject::ot_Association) {
 
         UMLAssociation *oldAssoc = static_cast<UMLAssociation*>(old);

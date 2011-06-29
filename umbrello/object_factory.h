@@ -24,12 +24,12 @@ class UMLOperation;
 
 namespace Object_Factory {
 
-UMLObject* createUMLObject(UMLObject::Object_Type type,
+UMLObject* createUMLObject(UMLObject::ObjectType type,
                            const QString &n = QString(),
                            UMLPackage *parentPkg = 0,
                            bool solicitNewName = true);
 
-UMLClassifierListItem* createChildObject(UMLClassifier *parent, UMLObject::Object_Type type);
+UMLClassifierListItem* createChildObject(UMLClassifier *parent, UMLObject::ObjectType type);
 
 UMLAttribute *createAttribute(UMLObject *parent, const QString& name,
                               UMLObject *type = 0);

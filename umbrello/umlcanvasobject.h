@@ -69,10 +69,10 @@ public:
     UMLAssociationList getRelationships();
 
     virtual UMLObject *findChildObject(const QString &n,
-                                       UMLObject::Object_Type t = UMLObject::ot_UMLObject);
+                                       UMLObject::ObjectType t = UMLObject::ot_UMLObject);
     virtual UMLObject *findChildObjectById(Uml::IDType id, bool considerAncestors = false);
 
-    virtual QString uniqChildName(const UMLObject::Object_Type type,
+    virtual QString uniqChildName(const UMLObject::ObjectType type,
                                   const QString &prefix = QString());
 
     virtual void removeAllChildObjects();

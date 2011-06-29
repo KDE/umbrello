@@ -806,7 +806,7 @@ void ClassifierWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Operation:
     case ListPopupMenu::mt_Template:
     {
-        UMLObject::Object_Type ot = ListPopupMenu::convert_MT_OT(sel);
+        UMLObject::ObjectType ot = ListPopupMenu::convert_MT_OT(sel);
         if (Object_Factory::createChildObject(classifier(), ot)) {
             UMLApp::app()->document()->setModified();
         }

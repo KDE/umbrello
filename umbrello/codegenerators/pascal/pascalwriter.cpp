@@ -50,13 +50,13 @@ Uml::ProgrammingLanguage PascalWriter::language() const
 
 bool PascalWriter::isOOClass(UMLClassifier *c)
 {
-    UMLObject::Object_Type ot = c->baseType();
+    UMLObject::ObjectType ot = c->baseType();
     if (ot == UMLObject::ot_Interface)
         return true;
     if (ot == UMLObject::ot_Enum)
         return false;
     if (ot != UMLObject::ot_Class) {
-        uDebug() << "unknown object type " << ot;
+        uDebug() << "unknown object type " << UMLObject::toString(ot);
         return false;
     }
     QString stype = c->stereotype();

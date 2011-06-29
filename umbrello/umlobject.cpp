@@ -373,7 +373,7 @@ void UMLObject::setDoc(const QString &d)
  *
  * @return  Returns the type of the object.
  */
-UMLObject::Object_Type UMLObject::baseType() const
+UMLObject::ObjectType UMLObject::baseType() const
 {
     return m_BaseType;
 }
@@ -381,9 +381,9 @@ UMLObject::Object_Type UMLObject::baseType() const
 /**
  * Set the type of the object.
  *
- * @param ot The Uml::Object_Type to set.
+ * @param ot The ObjectType to set.
  */
-void UMLObject::setBaseType(Object_Type ot)
+void UMLObject::setBaseType(ObjectType ot)
 {
     m_BaseType = ot;
 }
@@ -506,7 +506,7 @@ void UMLObject::setPackage(const QString &_name)
             uDebug() << "creating UMLPackage " << _name << " for " << m_name;
             pkgObj = Import_Utils::createUMLObject(ot_Package, _name);
         } else {
-            const Object_Type ot = pkgObj->baseType();
+            const ObjectType ot = pkgObj->baseType();
             if (ot != ot_Package && ot != ot_Folder && ot != ot_Component) {
                 uError() << m_name << ": " << "existing " << _name << " is not a container";
                 // This should not happen - if it does, there may be further problems.
@@ -747,7 +747,7 @@ bool UMLObject::resolveRef()
     // typedefs of ref types.
     bool isReferenceType = (m_SecondaryId.contains('*') ||
                             m_SecondaryId.contains('&'));
-    Object_Type ot = ot_Class;
+    ObjectType ot = ot_Class;
     if (isReferenceType) {
         ot = ot_Datatype;
     } else {
@@ -1040,6 +1040,17 @@ bool UMLObject::loadFromXMI(QDomElement & element)
         }
     }
     return load(element);
+}
+
+/**
+ * Helper function for debug output.
+ * Returns the given enum value as string.
+ * @param ot   ObjectType of which a string representation is wanted
+ * @return   the ObjectType as string
+ */
+QString UMLObject::toString(ObjectType ot)
+{
+    return QLatin1String(ENUM_NAME(UMLObject, ObjectType, ot));
 }
 
 /**

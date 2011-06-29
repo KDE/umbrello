@@ -34,7 +34,7 @@ class ConstraintListPage : public ClassifierListPage
 public:
 
     ConstraintListPage(QWidget* parent, UMLClassifier* classifier,
-                       UMLDoc* doc, UMLObject::Object_Type type);
+                       UMLDoc* doc, UMLObject::ObjectType type);
     virtual ~ConstraintListPage();
 
 private:
@@ -55,7 +55,7 @@ private slots:
 
 protected:
 
-    bool greaterThan(UMLObject::Object_Type ct1, UMLObject::Object_Type ct2);
+    bool greaterThan(UMLObject::ObjectType ct1, UMLObject::ObjectType ct2);
 
     KMenu* buttonMenu;
 
