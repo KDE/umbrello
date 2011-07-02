@@ -30,29 +30,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
  * ( button1 | button2 )
  */
-class StatusBarToolButton : public QToolButton {
-	Q_OBJECT
+class StatusBarToolButton : public QToolButton
+{
+    Q_OBJECT
 public:
-	enum GroupPosition {
-		NotGrouped = 0,
-		GroupLeft = 1,
-		GroupRight = 2,
-		GroupCenter = 3
-	};
+    enum GroupPosition {
+        NotGrouped = 0,
+        GroupLeft = 1,
+        GroupRight = 2,
+        GroupCenter = 3
+    };
 
-	StatusBarToolButton(QWidget* parent=0);
+    StatusBarToolButton(QWidget* parent=0);
 
-	virtual QSize minimumSizeHint() const;
+    virtual QSize minimumSizeHint() const;
+    virtual QSize sizeHint() const;
 
-	virtual QSize sizeHint() const;
-
-	void setGroupPosition(StatusBarToolButton::GroupPosition groupPosition);
+    void setGroupPosition(StatusBarToolButton::GroupPosition groupPosition);
 
 protected:
-	virtual void paintEvent(QPaintEvent* event);
+    virtual void paintEvent(QPaintEvent* event);
 
 private:
-	GroupPosition mGroupPosition;
+    GroupPosition mGroupPosition;
 };
 
 #endif /* STATUSBARTOOLBUTTON_H */

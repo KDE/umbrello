@@ -974,13 +974,13 @@ QRect UMLView::getDiagramRect()
         }
     }
 
-    /* now we need another look at the associations, because they are no
-     * UMLWidgets */
+    // now we need another look at the associations,
+    // because they are no UMLWidgets
 
     QRect rect;
 
     foreach(AssociationWidget* assoc_obj, m_AssociationList) {
-        /* get the rectangle around all segments of the assoc */
+        // get the rectangle around all segments of the assoc
         rect = assoc_obj->getAssocLineRectangle();
 
         if (startx >= rect.x())
@@ -1001,6 +1001,8 @@ QRect UMLView::getDiagramRect()
        endy += 20;
     */
 
+//:TODO:    uDebug() << "x=" << startx << ", y=" << starty
+//:TODO:             << ", width=" << endx - startx << ", height=" << endy - starty;
     return QRect(startx, starty,  endx - startx, endy - starty);
 }
 

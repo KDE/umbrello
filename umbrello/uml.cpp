@@ -91,6 +91,8 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QLabel>
 
+#include <cmath>
+
 /** Static pointer, holding the last created instance. */
 UMLApp* UMLApp::s_instance;
 
@@ -541,6 +543,29 @@ void UMLApp::slotZoomSliderMoved(int value)
 }
 
 /**
+ * Set zoom to fit the view.
+ */
+void UMLApp::slotZoomFit()
+{
+    currentView()->setZoom(100);  // bring it first to the original values
+    DEBUG(DBG_SRC) << "canvas width=" << currentView()->getCanvasWidth()
+                   << ", height=" << currentView()->getCanvasHeight();
+    DEBUG(DBG_SRC) << "visible width=" << currentView()->visibleWidth()
+                   << ", height=" << currentView()->visibleHeight();
+    int scaleW = ceil(100.0 * currentView()->visibleWidth() / currentView()->getCanvasWidth());
+    int scaleH = ceil(100.0 * currentView()->visibleHeight() / currentView()->getCanvasHeight());
+    DEBUG(DBG_SRC) << "scale width: " << scaleW << ", height: " << scaleH;
+    int scale = 100;
+    if (scaleW < scaleH) {
+        scale = scaleW;
+    }
+    else {
+        scale = scaleH;
+    }
+    setZoom(scale);
+}
+
+/**
  * Set zoom to 100%.
  */
 void UMLApp::slotZoom100()
@@ -573,6 +598,7 @@ void UMLApp::setZoom(int zoom)
 {
     currentView()->setZoom(zoom);
     m_pZoomSlider->setValue(zoom);
+    m_zoomValueLbl->setText(QString::number(zoom) + '%');
 }
 
 /**
@@ -645,40 +671,44 @@ void UMLApp::setupZoomMenu()
 void UMLApp::initStatusBar()
 {
     connect(m_doc, SIGNAL( sigWriteToStatusBar(const QString &) ), this, SLOT( slotStatusMsg(const QString &) ));   
-    
+
     m_statusBarMessage = new QLabel(i18nc("init status bar", "Ready"));
     statusBar()->addWidget(m_statusBarMessage);
-    
+
     QWidget* defaultZoomWdg = new QWidget(this);
     QHBoxLayout* zoomLayout = new QHBoxLayout(defaultZoomWdg);
     zoomLayout->setContentsMargins(0,0,0,0);
     zoomLayout->setSpacing(0);
     zoomLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
-    
-    
+
+    m_zoomValueLbl = new QLabel("100%");
+    m_zoomValueLbl->setMargin(10);
+    zoomLayout->addWidget(m_zoomValueLbl);
+
     m_pZoomFitSBTB = new StatusBarToolButton(this);
     m_pZoomFitSBTB->setText("Fit");
     m_pZoomFitSBTB->setGroupPosition(StatusBarToolButton::GroupLeft);
     zoomLayout->addWidget(m_pZoomFitSBTB);
     m_pZoomFitSBTB->setContentsMargins(0,0,0,0);
-    m_pZoomFitSBTB->setDisabled(true);
-    
+    //m_pZoomFitSBTB->setDisabled(true);
+    connect(m_pZoomFitSBTB, SIGNAL( clicked() ), this, SLOT( slotZoomFit() ));
+
     m_pZoomFullSBTB = new StatusBarToolButton(this);
     m_pZoomFullSBTB->setText("100%");
     m_pZoomFullSBTB->setGroupPosition(StatusBarToolButton::GroupRight);
     m_pZoomFullSBTB->setContentsMargins(0,0,0,0);
     zoomLayout->addWidget(m_pZoomFullSBTB);
     connect(m_pZoomFullSBTB, SIGNAL( clicked() ), this, SLOT( slotZoom100() ));
-    
+
     statusBar()->addPermanentWidget(defaultZoomWdg);
-    
+
     m_pZoomOutPB = new QPushButton(this);
     m_pZoomOutPB->setIcon(KIcon("zoom-out"));
     m_pZoomOutPB->setFlat(true);
     m_pZoomOutPB->setMaximumSize(30,30);
     statusBar()->addPermanentWidget(m_pZoomOutPB);
     connect(m_pZoomOutPB, SIGNAL( clicked() ), this, SLOT( slotZoomOut() ));
-    
+
     m_pZoomSlider = new QSlider(Qt::Horizontal, this);
     m_pZoomSlider->setMaximumSize(100,50);
     m_pZoomSlider->setMinimum (20);
@@ -687,9 +717,9 @@ void UMLApp::initStatusBar()
     m_pZoomSlider->setValue (100);
     m_pZoomSlider->setContentsMargins(0,0,0,0);
     connect(m_pZoomSlider, SIGNAL( valueChanged( int ) ), this, SLOT( slotZoomSliderMoved(int) ));
-    
+
     statusBar()->addPermanentWidget(m_pZoomSlider);
-    
+
     m_pZoomInPB = new QPushButton(this);
     m_pZoomInPB->setIcon(KIcon("zoom-in"));
     m_pZoomInPB->setFlat(true);

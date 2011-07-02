@@ -246,6 +246,7 @@ public slots:
 
     void slotSetZoom(QAction* action);
     void slotZoomSliderMoved(int value);
+    void slotZoomFit();
     void slotZoom100();
     void slotZoomOut();
     void slotZoomIn();
@@ -398,10 +399,11 @@ private:
     SettingsDlg* m_dlg;  ///< The global UML settings dialog.
 
     UMLViewImageExporterAll* m_imageExporterAll;  ///< Used to export all the views.
-    
+
     /**
      * Statusbar items
      */
+    QLabel*      m_zoomValueLbl;
     QPushButton* m_pZoomOutPB;
     QPushButton* m_pZoomInPB;
     StatusBarToolButton* m_pZoomFitSBTB;
