@@ -38,6 +38,8 @@
 #include "umldoc.h"
 #include "umlview.h"
 
+#define DBG_IEM "UMLViewImageExporterModel"
+
 QStringList UMLViewImageExporterModel::s_supportedImageTypesList;
 QStringList UMLViewImageExporterModel::s_supportedMimeTypesList;
 
@@ -140,6 +142,7 @@ QString UMLViewImageExporterModel::mimeTypeToImageType(const QString& mimeType)
  */
 UMLViewImageExporterModel::UMLViewImageExporterModel()
 {
+    DEBUG_REGISTER(DBG_IEM);
 }
 
 /**
@@ -454,17 +457,18 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fi
 {
     bool exportSuccessful;
     QRect rect = view->getDiagramRect();
+    DEBUG(DBG_IEM) << rect;
 
     QSvgGenerator generator;
     generator.setFileName(fileName);
     generator.setSize(rect.size());
+    generator.setViewBox(QRect(0, 0, rect.width(), rect.height()));
     QPainter painter(&generator);
 
     // make sure the widget sizes will be according to the
     // actually used printer font, important for getDiagramRect()
     // and the actual painting
     view->forceUpdateWidgetFontMetrics(&painter);
-
 
     painter.translate(-rect.x(),-rect.y());
     view->getDiagram(rect, painter);
@@ -476,7 +480,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fi
     // next painting will most probably be to a different device (i.e. the screen)
     view->forceUpdateWidgetFontMetrics(0);
 
-    uDebug() << "saving to file " << fileName << " successful=" << exportSuccessful;
+    DEBUG(DBG_IEM) << "saving to file " << fileName << " successful=" << exportSuccessful;
     return exportSuccessful;
 }
 
@@ -498,6 +502,6 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLView* view, const QString 
     view->getDiagram(rect, diagram);
     exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
 
-    uDebug() << "saving to file " << fileName << " , imageType=" << imageType << " successful=" << exportSuccessful;
+    DEBUG(DBG_IEM) << "saving to file " << fileName << " , imageType=" << imageType << " successful=" << exportSuccessful;
     return exportSuccessful;
 }
