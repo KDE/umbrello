@@ -807,7 +807,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
         DEBUG(DBG_SRC) << newItem->type();
         DEBUG(DBG_SRC) << object->name() << ", id= " << ID2STR(object->id())
                        << ": item already exists.";
-        Icon_Utils::Icon_Type icon = Model_Utils::convert_LVT_IT(newItem->type());
+        Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(newItem->type());
         newItem->setIcon(icon);
         return;
     }
@@ -1139,7 +1139,7 @@ UMLListViewItem * UMLListView::findUMLObject(const UMLObject *p) const
 /**
  * Changes the icon for the given UMLObject to the given icon.
  */
-void UMLListView::changeIconOf(UMLObject *o, Icon_Utils::Icon_Type to)
+void UMLListView::changeIconOf(UMLObject *o, Icon_Utils::IconType to)
 {
     UMLListViewItem *item = findUMLObject(o);
     if (item)
@@ -2131,7 +2131,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
     UMLListViewItem * newItem = 0;
     parentItem->setOpen(true);
 
-    Icon_Utils::Icon_Type icon = Model_Utils::convert_LVT_IT(type);
+    Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(type);
 
     QString name;
     if (Model_Utils::typeIsDiagram(type)) {

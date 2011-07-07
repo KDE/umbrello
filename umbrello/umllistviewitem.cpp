@@ -307,7 +307,7 @@ void UMLListViewItem::updateObject()
     }
     setText(modelObjText);
 
-    Icon_Utils::Icon_Type icon = Icon_Utils::it_Home;
+    Icon_Utils::IconType icon = Icon_Utils::it_Home;
     switch (ot) {
     case UMLObject::ot_Package:
         if (m_object->stereotype() == "subsystem")
@@ -363,10 +363,10 @@ void UMLListViewItem::updateObject()
  */
 void UMLListViewItem::updateFolder()
 {
-    Icon_Utils::Icon_Type icon = Model_Utils::convert_LVT_IT(m_type);
+    Icon_Utils::IconType icon = Model_Utils::convert_LVT_IT(m_type);
     if (icon) {
         if (Model_Utils::typeIsFolder(m_type))
-            icon = (Icon_Utils::Icon_Type)((int)icon + (int)isOpen());
+            icon = (Icon_Utils::IconType)((int)icon + (int)isOpen());
         setIcon(icon);
     }
 }
@@ -415,9 +415,9 @@ void UMLListViewItem::setCreating( bool creating )
 }
 
 /**
- * Set the pixmap corresponding to the given Icon_Type.
+ * Set the pixmap corresponding to the given IconType.
  */
-void UMLListViewItem::setIcon(Icon_Utils::Icon_Type iconType)
+void UMLListViewItem::setIcon(Icon_Utils::IconType iconType)
 {
     setPixmap(0, Icon_Utils::SmallIcon(iconType));
 }

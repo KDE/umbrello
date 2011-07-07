@@ -71,7 +71,7 @@ UMLClassifier::~UMLClassifier()
 void UMLClassifier::setBaseType(UMLObject::ObjectType ot)
 {
     m_BaseType = ot;
-    Icon_Utils::Icon_Type newIcon;
+    Icon_Utils::IconType newIcon;
     switch (ot) {
         case ot_Interface:
             UMLObject::setStereotype("interface");

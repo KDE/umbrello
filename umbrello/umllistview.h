@@ -86,7 +86,7 @@ public:
 
     UMLListViewItem *rootView(UMLListViewItem::ListViewType type);
 
-    void changeIconOf(UMLObject *o, Icon_Utils::Icon_Type to);
+    void changeIconOf(UMLObject *o, Icon_Utils::IconType to);
 
     UMLObject *createUMLObject(UMLListViewItem * item, UMLObject::ObjectType type);
     bool createChildUMLObject(UMLListViewItem * item, UMLObject::ObjectType type);

@@ -291,7 +291,7 @@ void treeViewAddViews(const UMLViewList& viewList)
  * @param object   the object in the treeViewAddViews
  * @param to       the new icon type for the given object
  */
-void treeViewChangeIcon(UMLObject* object, Icon_Utils::Icon_Type to)
+void treeViewChangeIcon(UMLObject* object, Icon_Utils::IconType to)
 {
     UMLListView* tree = UMLApp::app()->listView();
     tree->changeIconOf(object, to);
@@ -1364,15 +1364,15 @@ UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt)
 }
 
 /**
- * Return the Icon_Type which corresponds to the given listview type.
+ * Return the IconType which corresponds to the given listview type.
  *
  * @param lvt  ListViewType to convert.
- * @return  The Icon_Utils::Icon_Type corresponding to the lvt.
- *          Returns it_Home in case no mapping to Uml::Icon_Type exists.
+ * @return  The Icon_Utils::IconType corresponding to the lvt.
+ *          Returns it_Home in case no mapping to IconType exists.
  */
-Icon_Utils::Icon_Type convert_LVT_IT(UMLListViewItem::ListViewType lvt)
+Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt)
 {
-    Icon_Utils::Icon_Type icon = Icon_Utils::it_Home;
+    Icon_Utils::IconType icon = Icon_Utils::it_Home;
     switch (lvt) {
         case UMLListViewItem::lvt_UseCase_View:
         case UMLListViewItem::lvt_UseCase_Folder:

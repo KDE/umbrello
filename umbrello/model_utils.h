@@ -44,7 +44,7 @@ UMLObject* findUMLObject( const UMLObjectList& inList,
                           UMLObject *currentObj = 0);
 
 void treeViewAddViews(const UMLViewList& viewList);
-void treeViewChangeIcon(UMLObject* object, Icon_Utils::Icon_Type to);
+void treeViewChangeIcon(UMLObject* object, Icon_Utils::IconType to);
 void treeViewSetCurrentItem(UMLObject* object);
 void treeViewMoveObjectTo(UMLObject* container, UMLObject* object);
 UMLObject*  treeViewGetCurrentObject();
@@ -73,7 +73,7 @@ Uml::ModelType convert_LVT_MT(UMLListViewItem::ListViewType lvt);
 UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType dt);
 UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt);
 UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o);
-Icon_Utils::Icon_Type convert_LVT_IT(UMLListViewItem::ListViewType lvt);
+Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt);
 Uml::DiagramType convert_LVT_DT(UMLListViewItem::ListViewType lvt);
 Uml::ModelType convert_OT_MT(UMLObject::ObjectType ot);
 

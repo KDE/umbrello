@@ -35,7 +35,7 @@
  */
 namespace Icon_Utils {
 
-    enum Icon_Type
+    enum IconType
     {
         it_Home = 0,
         it_Arrow,
@@ -214,16 +214,16 @@ namespace Icon_Utils {
         N_ICONTYPES    // must remain last
     };
 
-    QPixmap SmallIcon(Icon_Type type);
-    QPixmap BarIcon(Icon_Type type);
-    QPixmap MainBarIcon(Icon_Type type);
-    QPixmap UserIcon(Icon_Type type);
+    QPixmap SmallIcon(IconType type);
+    QPixmap BarIcon(IconType type);
+    QPixmap MainBarIcon(IconType type);
+    QPixmap UserIcon(IconType type);
 
-    KIcon DesktopIcon(Icon_Type type);
+    KIcon DesktopIcon(IconType type);
 
-    QCursor Cursor(Icon_Type type);
+    QCursor Cursor(IconType type);
 
-    QString toString(Icon_Type type);
+    QString toString(IconType type);
 
     KIcon iconSet(Uml::DiagramType dt);
 
