@@ -119,7 +119,7 @@ public:
 
     void setCreating(bool creating);
 
-    void setIcon(Icon_Utils::Icon_Type iconType);
+    void setIcon(Icon_Utils::IconType iconType);
 
     void startRename(int col);
     void cancelRename(int col);

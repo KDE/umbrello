@@ -408,7 +408,7 @@ void RefactoringAssistant::deleteItem(QTreeWidgetItem *item, UMLObject *obj)
  * @param icon     the shown icon
  * @return         the created action
  */
-QAction* RefactoringAssistant::createAction(const QString& text, const char * method, const Icon_Utils::Icon_Type icon)
+QAction* RefactoringAssistant::createAction(const QString& text, const char * method, const Icon_Utils::IconType icon)
 {
     QAction* action = new QAction(this);
     action->setText(text);

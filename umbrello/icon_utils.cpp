@@ -33,7 +33,7 @@ namespace Icon_Utils {
  * @param type   the identification of the icon
  * @return       the wanted pixmap
  */
-QPixmap SmallIcon(Icon_Type type)
+QPixmap SmallIcon(IconType type)
 {
     return SmallIcon(toString(type));
 }
@@ -43,7 +43,7 @@ QPixmap SmallIcon(Icon_Type type)
  * @param type   the identification of the icon
  * @return       the wanted pixmap
  */
-QPixmap BarIcon(Icon_Type type)
+QPixmap BarIcon(IconType type)
 {
     return BarIcon(toString(type));
 }
@@ -53,7 +53,7 @@ QPixmap BarIcon(Icon_Type type)
  * @param type   the identification of the icon
  * @return       the wanted pixmap
  */
-QPixmap MainBarIcon(Icon_Type type)
+QPixmap MainBarIcon(IconType type)
 {
     return MainBarIcon(toString(type));
 }
@@ -63,7 +63,7 @@ QPixmap MainBarIcon(Icon_Type type)
  * @param type   the identification of the icon
  * @return       the wanted pixmap
  */
-QPixmap UserIcon(Icon_Type type)
+QPixmap UserIcon(IconType type)
 {
     return UserIcon(toString(type));
 }
@@ -73,7 +73,7 @@ QPixmap UserIcon(Icon_Type type)
  * @param type   the identification of the icon
  * @return       the wanted icon
  */
-KIcon DesktopIcon(Icon_Type type)
+KIcon DesktopIcon(IconType type)
 {
     return KIcon(DesktopIcon(toString(type)));
 }
@@ -84,7 +84,7 @@ KIcon DesktopIcon(Icon_Type type)
  * @param type   the identification of the icon
  * @return       the wanted cursor
  */
-QCursor Cursor(Icon_Type type)
+QCursor Cursor(IconType type)
 {
     return QCursor(UserIcon("cursor-" + toString(type)), 9, 9);
 }
@@ -126,7 +126,7 @@ KIcon iconSet(Uml::DiagramType dt)
  * @param type   the identification of the icon
  * @return       the string representation of the type
  */
-QString toString(Icon_Type type)
+QString toString(IconType type)
 {
     switch (type) {
         case it_Home:

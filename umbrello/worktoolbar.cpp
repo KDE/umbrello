@@ -293,7 +293,7 @@ void WorkToolBar::loadPixmaps()
     const struct ButtonInfo {
         const ToolBar_Buttons tbb;
         const QString btnName;
-        const Icon_Utils::Icon_Type icon;
+        const Icon_Utils::IconType icon;
         const char *slotName;
     } buttonInfo[] = {
 

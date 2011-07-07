@@ -231,7 +231,7 @@ void ClassPropDlg::setupPages(bool assoc)
     }
 }
 
-QFrame* ClassPropDlg::createPage(const QString& name, const QString& header, Icon_Utils::Icon_Type icon)
+QFrame* ClassPropDlg::createPage(const QString& name, const QString& header, Icon_Utils::IconType icon)
 {
     QFrame* page = new QFrame();
     KPageWidgetItem *pageItem = new KPageWidgetItem( page, name );

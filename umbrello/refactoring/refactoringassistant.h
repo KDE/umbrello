@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Luis De la Parra <lparrab@gmx.net>                 *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -86,7 +86,7 @@ private slots:
 
 private:
 
-    QAction* createAction(const QString& text, const char * method, const Icon_Utils::Icon_Type icon = Icon_Utils::N_ICONTYPES);
+    QAction* createAction(const QString& text, const char * method, const Icon_Utils::IconType icon = Icon_Utils::N_ICONTYPES);
 
 };
 
