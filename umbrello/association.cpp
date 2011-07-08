@@ -95,8 +95,8 @@ bool UMLAssociation::operator==(const UMLAssociation &rhs) const
 }
 
 /**
- * Returns the Association_Type of the UMLAssociation.
- * @return  The Association_Type of the UMLAssociation.
+ * Returns the AssociationType of the UMLAssociation.
+ * @return  The AssociationType of the UMLAssociation.
  */
 Uml::AssociationType UMLAssociation::getAssocType() const
 {
@@ -582,7 +582,7 @@ bool UMLAssociation::getOldLoadMode() const
 
 /**
  * Sets the assocType of the UMLAssociation.
- * @param assocType The Association_Type of the UMLAssociation.
+ * @param assocType The AssociationType of the UMLAssociation.
  */
 void UMLAssociation::setAssociationType(Uml::AssociationType assocType)
 {
@@ -682,7 +682,7 @@ bool UMLAssociation::isRealization(UMLObject* objA, UMLObject* objB) const
 
 /**
  * Common initializations at construction time.
- * @param type      The Association_Type to represent.
+ * @param type      The AssociationType to represent.
  * @param roleAObj  Pointer to the role A UMLObject.
  * @param roleBObj  Pointer to the role B UMLObject.
  */

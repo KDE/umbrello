@@ -2336,7 +2336,7 @@ void UMLView::createAutoAttributeAssociation(UMLClassifier *type, UMLAttribute *
         UMLClassifier *dt = static_cast<UMLClassifier*>(type);
         // if the Datatype is a reference (pointer) type
         if (dt->isReference()) {
-            //Uml::Association_Type assocType = Uml::AssociationType::Composition;
+            //Uml::AssociationType assocType = Uml::AssociationType::Composition;
             UMLClassifier *c = dt->originType();
             UMLWidget *w = c ? findWidget(c->id()) : 0;
             // if the referenced type has a widget representation on this view

@@ -76,7 +76,7 @@ public:
      *
      * @param view      The parent view of this widget.
      * @param WidgetA   Pointer to the role A widget for the association.
-     * @param Type      The Association_Type for this association.
+     * @param Type      The AssociationType for this association.
      * @param WidgetB   Pointer to the role B widget for the association.
      * @param umlobject Pointer to the underlying UMLObject (if applicable.)
      */
@@ -188,7 +188,7 @@ public:
      * Sets the associated widgets.
      *
      * @param widgetA   Pointer the role A widget for the association.
-     * @param assocType The Association_Type for this association.
+     * @param assocType The AssociationType for this association.
      * @param widgetB   Pointer the role B widget for the association.
      */
     bool setWidgets(UMLWidget* widgetA, Uml::AssociationType assocType, UMLWidget* widgetB);
@@ -219,14 +219,14 @@ public:
     /**
      * Gets the association's type.
      *
-     * @return  This AssociationWidget's Association_Type.
+     * @return  This AssociationWidget's AssociationType.
      */
     Uml::AssociationType associationType() const;
 
     /**
      * Sets the association's type.
      *
-     * @param type   The Association_Type to set.
+     * @param type   The AssociationType to set.
      */
     void setAssociationType(Uml::AssociationType type);
 

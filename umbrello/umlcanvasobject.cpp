@@ -53,7 +53,7 @@ UMLCanvasObject::~UMLCanvasObject()
 /**
  * Return the subset of m_List that matches the given type.
  *
- * @param assocType   The Association_Type to match.
+ * @param assocType   The AssociationType to match.
  * @return   The list of associations that match assocType.
  */
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType assocType)

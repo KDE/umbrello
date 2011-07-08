@@ -400,7 +400,7 @@ public:
     /**
      * Finds an association widget with the given type and widgets.
      *
-     * @param at  The Association_Type of the widget to find.
+     * @param at  The AssociationType of the widget to find.
      * @param pWidgetA Pointer to the UMLWidget of role A.
      * @param pWidgetB Pointer to the UMLWidget of role B.
      *
