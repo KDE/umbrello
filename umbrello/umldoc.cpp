@@ -48,7 +48,6 @@
 #include "widget_utils.h"
 
 // kde includes
-#include <kdeversion.h>
 #include <kio/job.h>
 #include <kio/netaccess.h>
 #include <klocale.h>
