@@ -11,21 +11,17 @@
 #ifndef UMBRELLO_VERSION_H
 #define UMBRELLO_VERSION_H
 
-//#include "revision.h"
+#include "revision.h"
 
 #include <kdeversion.h>
 
 inline QByteArray umbrelloVersion()
 {
-//    return QString("%1.%2.%3-r%4")
-//        .arg(KDE::versionMajor()-2)
-//        .arg(KDE::versionMinor())
-//        .arg(KDE::versionRelease())
-//        .arg(REVISION).toLatin1();
-    return QString("%1.%2.%3")
+    return QString("%1.%2.%3-r%4")
         .arg(KDE::versionMajor()-2)
         .arg(KDE::versionMinor())
-        .arg(KDE::versionRelease()).toLatin1();
+        .arg(KDE::versionRelease())
+        .arg(REVISION).toLatin1();
 }
 
 #endif

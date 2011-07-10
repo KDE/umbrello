@@ -3,19 +3,25 @@ add_subdirectory( headings )
 
 add_definitions(-DQT3_SUPPORT_WARNINGS)
 
-# Get subversion revision number
-# find_package(Subversion)
-# if(Subversion_FOUND)
-#     # extract working copy information for SOURCE_DIR into MY_XXX variables
-#     Subversion_WC_INFO(${CMAKE_CURRENT_SOURCE_DIR} MY)
-#     set(SUBVERSION_REVISION ${MY_WC_REVISION})
-#     MESSAGE(STATUS "\n-- SVN Revision: ${MY_WC_REVISION}\n")
-#     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/revision.h.in ${CMAKE_CURRENT_BINARY_DIR}/revision.temp)
-#     execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#                     ${CMAKE_CURRENT_BINARY_DIR}/revision.temp ${CMAKE_CURRENT_BINARY_DIR}/revision.h
-#                     COMMAND touch ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
-#     file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/revision.temp)
-# endif(Subversion_FOUND)
+#### get subversion revision number ###
+
+find_package(Subversion)
+if(Subversion_FOUND)
+    # extract working copy information for SOURCE_DIR into MY_XXX variables
+    Subversion_WC_INFO(${CMAKE_CURRENT_SOURCE_DIR} MY)
+    set(SUBVERSION_REVISION ${MY_WC_REVISION})
+    MESSAGE(STATUS "\n-- SVN Revision: ${MY_WC_REVISION}\n")
+else(Subversion_FOUND)
+    set(SUBVERSION_REVISION 0)
+    MESSAGE(STATUS"\n-- SVN Revision: 0 - no package Subversion available!\n")
+endif(Subversion_FOUND)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/revision.h.in ${CMAKE_CURRENT_BINARY_DIR}/revision.temp)
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CMAKE_CURRENT_BINARY_DIR}/revision.temp ${CMAKE_CURRENT_BINARY_DIR}/revision.h
+                COMMAND touch ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/revision.temp)
+
+########### set variables #############
 
 # Some definitions for experimental code or debugging
 #add_definitions(-DWANT_LVTOOLTIP)                # umllistiew
