@@ -682,7 +682,7 @@ void UMLApp::initStatusBar()
     zoomLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
     m_zoomValueLbl = new QLabel("100%");
-    m_zoomValueLbl->setMargin(10);
+    m_zoomValueLbl->setContentsMargins(10, 0, 10, 0);
     zoomLayout->addWidget(m_zoomValueLbl);
 
     m_pZoomFitSBTB = new StatusBarToolButton(this);
