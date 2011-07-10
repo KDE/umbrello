@@ -17,11 +17,15 @@
 
 inline QByteArray umbrelloVersion()
 {
-    return QString("%1.%2.%3-r%4")
+    QString versionStr = QString("%1.%2.%3")
         .arg(KDE::versionMajor()-2)
         .arg(KDE::versionMinor())
-        .arg(KDE::versionRelease())
-        .arg(REVISION).toLatin1();
+        .arg(KDE::versionRelease());
+    QString revisionStr = QString("-r%1").arg(REVISION);
+    if (revisionStr != "-r0") {
+        versionStr.append(revisionStr);
+    }
+    return versionStr.toLatin1();
 }
 
 #endif
