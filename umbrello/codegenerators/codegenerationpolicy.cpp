@@ -21,7 +21,6 @@
 
 // kde includes
 #include <kconfig.h>
-#include <kdeversion.h>
 #include <kstandarddirs.h>
 
 // qt includes
