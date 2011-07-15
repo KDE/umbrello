@@ -18,10 +18,11 @@
 */
 
 #include "lexer.h"
+
+#include "debug_utils.h"
 #include "lookup.h"
 #include "keywords.lut.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 
 #include <QtCore/QRegExp>
@@ -66,7 +67,7 @@ using phoenix::var;
 SkipRule Lexer::m_SkipRule = nothing_p;
 
 #if defined( KDEVELOP_BGPARSER )
-#include <qthread.h>
+#include <QThread>
 
 class KDevTread: public QThread
 {

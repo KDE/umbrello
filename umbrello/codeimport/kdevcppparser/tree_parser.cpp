@@ -19,7 +19,7 @@
 
 #include "tree_parser.h"
 
-#include <kdebug.h>
+#include "debug_utils.h"
 
 #include <QtCore/QList>
 
