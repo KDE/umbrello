@@ -18,10 +18,11 @@
 */
 
 #include "preprocesslexer.h"  //was lexer.h
+
 #include "lookup.h"
 #include "keywords.lut.h"
+#include "debug_utils.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 
 #include <QtCore/QRegExp>
@@ -423,7 +424,6 @@ void PreprocessLexer::nextToken(Token& tk)
         int k = Lookup::find(&keyword, ide);
         if (m_preprocessorEnabled && m_driver->hasMacro(ide) &&
                 (k == -1 || !m_driver->macro(ide).body().isEmpty())) {
-
 
             bool preproc = m_preprocessorEnabled;
             m_preprocessorEnabled = false;

@@ -18,8 +18,10 @@
 */
 
 #include "ast.h"
+
+#include "debug_utils.h"
+
 #include <QtCore/QStringList>
-#include <kdebug.h>
 
 QString nodeTypeToString( int type )
 {
@@ -211,7 +213,7 @@ QString NameAST::text() const
     for( int i = 0; i < m_classOrNamespaceNameList.size(); ++i ) {
         str += m_classOrNamespaceNameList.at(i)->text() + "::";
     }
-    
+
     if( m_unqualifiedName.get() )
         str += m_unqualifiedName->text();
 

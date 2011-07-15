@@ -23,13 +23,13 @@
 
 #include "lookup.h"
 
-#include <kdebug.h>
+#include "debug_utils.h"
 
 const HashEntry* Lookup::findEntry( const struct HashTable *table,
                               const QChar *c, unsigned int len )
 {
   if (table->type != 2) {
-    kDebug() << "KJS: Unknown hash table version";
+    uDebug() << "KJS: Unknown hash table version";
     return 0;
   }
   char *ascii = new char[len+1];
@@ -66,13 +66,13 @@ const HashEntry* Lookup::findEntry( const struct HashTable *table,
 }
 
 const HashEntry* Lookup::findEntry( const struct HashTable *table,
-				    const QString &s )
+                                    const QString &s )
 {
     return findEntry( table, s.unicode(), s.length() );
 }
 
 int Lookup::find(const struct HashTable *table,
-		 const QChar *c, unsigned int len)
+         const QChar *c, unsigned int len)
 {
   const HashEntry *entry = findEntry( table, c, len );
   if (entry)

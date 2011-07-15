@@ -18,10 +18,10 @@
 */
 
 #include "driver.h"
+
 #include "lexer.h"
 #include "parser.h"
-
-#include <kdebug.h>
+#include "debug_utils.h"
 
 #include <stdlib.h>
 

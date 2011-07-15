@@ -22,13 +22,13 @@
 #include "driver.h"
 #include "lexer.h"
 #include "errors.h"
+#include "debug_utils.h"
 
 // qt support
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
 // kde support
-#include <kdebug.h>
 #include <klocale.h>
 
 bool Parser::advance(int tk, char const* descr)

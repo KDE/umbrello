@@ -10,13 +10,14 @@
  ***************************************************************************/
 
 #include "ast_utils.h"
+
 #include "ast.h"
+#include "debug_utils.h"
 
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
 
 #include <klocale.h>
-#include <kdebug.h>
 
 AST* findNodeAt( AST* node, Position const& position )
 {
@@ -154,4 +155,3 @@ QString declaratorToString( DeclaratorAST* declarator, const QString& scope, boo
 
    return text.replace( QRegExp(" :: "), "::" ).simplified();
 }
-
