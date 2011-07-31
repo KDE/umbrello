@@ -17,6 +17,7 @@
 #include <QtCore/QStringList>
 
 // fwd decls
+class CodeImpThread;
 class UMLClassifier;
 class UMLOperation;
 class UMLPackage;
@@ -24,7 +25,7 @@ class UMLPackage;
 class CppTree2Uml: public TreeParser
 {
 public:
-    CppTree2Uml( const QString& fileName);
+    CppTree2Uml( const QString& fileName, CodeImpThread* thread = 0);
     virtual ~CppTree2Uml();
 
     //FileDom file() { return m_file; }
@@ -86,6 +87,7 @@ private:
     UMLClassifier* m_currentClass[STACKSIZE+1];  ///< stack
     int m_nsCnt;  ///< stack top for m_currentNamespace
     int m_clsCnt;  ///< stack top for m_currentClass
+    CodeImpThread* m_thread;
 
 private:
     CppTree2Uml( const CppTree2Uml& source );

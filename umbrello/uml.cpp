@@ -37,6 +37,7 @@
 // dialogs
 #include "classwizard.h"
 #include "codegenerationwizard.h"
+#include "codeimportingwizard.h"
 #include "codeviewerdialog.h"
 #include "diagramprintpage.h"
 #include "importprojectdlg.h"
@@ -259,14 +260,19 @@ void UMLApp::initActions()
 
     QAction* preferences = KStandardAction::preferences(this,  SLOT( slotPrefs() ), actionCollection());
 
+    QAction* impWizard = actionCollection()->addAction("importing_wizard");
+    impWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Class));
+    impWizard->setText(i18n("NEW Code &Importing Wizard..."));
+    connect(impWizard, SIGNAL( triggered( bool ) ), this, SLOT( slotImportingWizard() ));
+
     QAction* importClasses = actionCollection()->addAction("import_class");
     importClasses->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Class));
-    importClasses->setText(i18n("&Import Classes..."));
+    importClasses->setText(i18n("OLD &Import Classes..."));
     connect(importClasses, SIGNAL( triggered( bool ) ), this, SLOT( slotImportClasses() ));
 
     QAction* importProject = actionCollection()->addAction("import_project");
     importProject->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Project));
-    importProject->setText(i18n("Import &Project..."));
+    importProject->setText(i18n("OLD Import &Project..."));
     connect(importProject, SIGNAL( triggered( bool ) ), this, SLOT( slotImportProject() ));
 
     QAction* genWizard = actionCollection()->addAction("generation_wizard");
@@ -2345,6 +2351,7 @@ void UMLApp::importFiles(QStringList* fileList)
 
 /**
  * Import classes menu selection.
+ * TODO: Will be deleted.
  */
 void UMLApp::slotImportClasses()
 {
@@ -2375,6 +2382,7 @@ void UMLApp::slotImportClasses()
 
 /**
  * Import project menu selection.
+ * TODO: Will be deleted.
  */
 void UMLApp::slotImportProject()
 {
@@ -2385,6 +2393,16 @@ void UMLApp::slotImportProject()
         importFiles(&listFile);
     }
     delete importDlg;
+}
+
+/**
+ * Runs the code importing wizard.
+ */
+void UMLApp::slotImportingWizard()
+{
+    QPointer<CodeImportingWizard> wizard = new CodeImportingWizard();
+    wizard->exec();
+    delete wizard;
 }
 
 /**

@@ -21,7 +21,7 @@
 class PythonImport : public NativeImportBase
 {
 public:
-    PythonImport();
+    PythonImport(CodeImpThread* thread = 0);
     virtual ~PythonImport();
 
 protected:

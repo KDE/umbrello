@@ -268,6 +268,18 @@ kde4_add_ui_files(  libcodegenwizard_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenwizard/codegenstatuspage.ui
 )
 
+set(libcodeimpwizard_SRCS
+    codeimpwizard/codeimpselectpage.cpp
+    codeimpwizard/codeimpstatuspage.cpp
+    codeimpwizard/codeimpthread.cpp
+    codeimpwizard/codeimportingwizard.cpp
+)
+
+kde4_add_ui_files(  libcodeimpwizard_SRCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/codeimpselectpage.ui
+    ${CMAKE_CURRENT_SOURCE_DIR}/codeimpwizard/codeimpstatuspage.ui
+)
+
 set(libcodeimport_SRCS
     codeimport/adaimport.cpp
     codeimport/classimport.cpp
@@ -473,6 +485,7 @@ set(umbrello_SRCS
     ${libdialogs_SRCS}
     ${librefactoring_SRCS}
     ${libcodegenwizard_SRCS}
+    ${libcodeimpwizard_SRCS}
     ${libclassparser_SRCS}
     ${libclipboard_SRCS}
     ${libkdevcppparser_SRCS}

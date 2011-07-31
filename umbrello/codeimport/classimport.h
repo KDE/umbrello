@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2005-2010                                                *
+ *  copyright (C) 2005-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -12,6 +12,8 @@
 #define CLASSIMPORT_H
 
 #include <QtCore/QStringList>
+
+class CodeImpThread;
 
 /**
  * Interfaces classparser library to uml models
@@ -23,13 +25,13 @@
 class ClassImport
 {
 public:
-    ClassImport() {}
+    ClassImport(CodeImpThread* thread = 0) : m_thread(thread) {}
     virtual ~ClassImport() {}
 
-    void importFiles(const QStringList &fileNames);
+    void importFiles(const QStringList& fileNames);
     void importFile(const QString& fileName);
 
-    static ClassImport *createImporterByFileExt(const QString &fileName);
+    static ClassImport *createImporterByFileExt(const QString &fileName, CodeImpThread* thread = 0);
 
 protected:
 
@@ -48,6 +50,8 @@ protected:
      * @param fileName  The file to import.
      */
     virtual void parseFile(const QString& fileName) = 0;
+
+    CodeImpThread* m_thread;  ///< thread in which the work of importing is done
 
 };
 

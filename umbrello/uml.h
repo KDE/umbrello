@@ -188,6 +188,7 @@ protected:
 
 public slots:
     void slotExecGenerationWizard();
+    void slotImportingWizard();
 
     void slotFileNew();
     void slotFileOpen();

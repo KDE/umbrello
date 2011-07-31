@@ -245,7 +245,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                 dt->setOriginType(c);
             else
                 uError() << "createUMLObject(" << name << "): "
-                << "origType " << typeName << " is not a UMLClassifier";
+                    << "origType " << typeName << " is not a UMLClassifier";
             if (isRef || isPointer)
                 dt->setIsReference();
             /*
