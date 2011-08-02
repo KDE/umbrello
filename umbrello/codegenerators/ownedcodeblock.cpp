@@ -22,6 +22,9 @@
 #include "uml.h"
 #include "textblock.h"
 
+/**
+ * Constructor
+ */
 OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent )
     : QObject ( parent )
 {
@@ -29,6 +32,9 @@ OwnedCodeBlock::OwnedCodeBlock ( UMLObject * parent )
     initFields(parent);
 }
 
+/**
+ * Empty Destructor
+ */
 OwnedCodeBlock::~OwnedCodeBlock ( )
 {
     /*
