@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -23,19 +23,12 @@ class UMLObject;
  * Describes any codeblock which is 'owned' by a UMLobject of some sort and should
  * be in sync with that parent.
  */
-class OwnedCodeBlock : virtual public QObject
+class OwnedCodeBlock : public QObject
 {
     Q_OBJECT
 public:
 
-    /**
-     * Constructor
-     */
     OwnedCodeBlock ( UMLObject * parent );
-
-    /**
-     * Empty Destructor
-     */
     virtual ~OwnedCodeBlock ( );
 
     UMLObject * getParentObject ( );
@@ -47,9 +40,7 @@ protected:
     virtual void release ();
 
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
-
     virtual void setAttributesFromNode ( QDomElement & element);
-
     virtual void setAttributesFromObject (TextBlock * obj);
 
 private:
