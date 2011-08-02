@@ -15,6 +15,14 @@
 #include "umlviewlist.h"
 #include "optionstate.h"
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class Diagram;
+  class UMLView;
+  class UMLScene;
+}
+
 /**
  * This class manages the UMLObjects and UMLViews of a Folder.
  * This class inherits from UMLPackage which contains most
@@ -42,7 +50,14 @@ public:
     QString localName() const;
 
     void addView(UMLView *view);
-
+    
+#ifdef SOC2011
+    void addView(QGV::UMLView *view);
+    void removeView(QGV::UMLView *view);
+    void appendViews(UMLViewList_new& viewList, bool includeNested = true);
+    QGV::UMLView *find_View(QGV::Uml::IDType id);
+    QGV::UMLView* find_View(QGV::Uml::Diagram_Type type, const QString &name, bool searchAllScopes = true);
+#endif
     void removeView(UMLView *view);
 
     void appendViews(UMLViewList& viewList, bool includeNested = true);
@@ -83,6 +98,9 @@ private:
      */
     QString m_folderFile;
     UMLViewList m_diagrams;
+#ifdef SOC2011
+    UMLViewList_new m_diagrams_new;
+#endif
 };
 
 #endif

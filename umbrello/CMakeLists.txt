@@ -80,11 +80,26 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/docgenerators/
   ${CMAKE_CURRENT_SOURCE_DIR}/refactoring/
   ${CMAKE_CURRENT_SOURCE_DIR}/widgets/
+  ${CMAKE_CURRENT_SOURCE_DIR}/soc-umbrello-2011/
   ${Boost_INCLUDE_DIR}
 )
 
 set(libdebug_SRCS
     debug/debug_utils.cpp
+)
+
+set(libsocumbrello2011_SRCS
+    soc-umbrello-2011/umlview.cpp
+    soc-umbrello-2011/umlscene.cpp
+    soc-umbrello-2011/diagram.cpp
+    soc-umbrello-2011/print.cpp
+    soc-umbrello-2011/layoutgrid.cpp
+    soc-umbrello-2011/widgetbase.cpp
+    soc-umbrello-2011/umlwidget.cpp
+    soc-umbrello-2011/boxwidget.cpp
+    soc-umbrello-2011/objectwidget.cpp
+    soc-umbrello-2011/entitywidget.cpp
+    soc-umbrello-2011/umlnamespace.cpp
 )
 
 set(libcodegenerator_SRCS
@@ -482,6 +497,7 @@ set(umbrello_SRCS
     ${libcmds_SRCS}
     ${libwidgets_SRCS}
     ${libumbrello_SRCS}
+    ${libsocumbrello2011_SRCS}
 )
 
 kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/hi*-app-umbrello.png")

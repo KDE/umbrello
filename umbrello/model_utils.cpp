@@ -40,6 +40,10 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QStringList>
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+#include "soc-umbrello-2011/diagram.h"
+
 namespace Model_Utils {
 
 /**
@@ -285,6 +289,20 @@ void treeViewAddViews(const UMLViewList& viewList)
         tree->createDiagramItem(v);
     }
 }
+
+#ifdef SOC2011
+void treeViewAddViews(const UMLViewList_new& viewList)
+{
+    UMLListView* tree = UMLApp::app()->listView();
+    foreach (QGV::UMLView* v,  viewList) {
+        if (tree->findItem(v->diagram()->id()) != NULL) {
+            continue;
+        }
+        tree->createDiagramItem(v);
+    }
+}
+
+#endif
 
 /**
  * Change an icon of an object in the tree view.

@@ -22,6 +22,25 @@
 //#include "umlview.h"
 #include <QList>
 
+//new canvas
+#include "soc-umbrello-2011/diagram.h"
+#include "soc-umbrello-2011/umlscene.h"
+#include "soc-umbrello-2011/umlview.h"
+
+//new canvas
+#define SOC2011 1
+
+namespace QGV {
+  class Diagram;
+  class UMLView;
+  class UMLScene;
+}
+
+#ifdef SOC2011
+  typedef QList<QGV::UMLView*> UMLViewList_new;
+  typedef QListIterator<QGV::UMLView*> UMLViewListIt_new;
+#endif
+  
 class UMLView;
 
 typedef QList<UMLView*> UMLViewList;

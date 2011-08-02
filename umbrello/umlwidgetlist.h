@@ -14,6 +14,18 @@
 
 #include <QtCore/QList>
 
+#define SOC2011 1
+#include "soc-umbrello-2011/umlwidget.h"
+namespace QGV 
+{
+  class UMLWidget;
+}
+
+#ifdef SOC2011
+typedef QList<QGV::UMLWidget*> UMLWidgetList_new;
+typedef QListIterator<QGV::UMLWidget*> UMLWidgetListIt_new;
+#endif
+
 class UMLWidget;
 
 typedef QList<UMLWidget*> UMLWidgetList;

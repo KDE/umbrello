@@ -27,6 +27,13 @@ class UMLClassifier;
 class UMLPackage;
 class UMLEntity;
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;  
+}
+
+
 /**
  * General purpose model utilities.
  * @author Oliver Kellogg
@@ -44,6 +51,11 @@ UMLObject* findUMLObject( const UMLObjectList& inList,
                           UMLObject *currentObj = 0);
 
 void treeViewAddViews(const UMLViewList& viewList);
+
+#ifdef SOC2011
+  void treeViewAddViews(const UMLViewList_new& viewList);
+#endif
+
 void treeViewChangeIcon(UMLObject* object, Icon_Utils::IconType to);
 void treeViewSetCurrentItem(UMLObject* object);
 void treeViewMoveObjectTo(UMLObject* container, UMLObject* object);

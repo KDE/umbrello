@@ -578,9 +578,9 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type)
 
     foreach (UMLAssociation *a , rlist ) {
         uIgnoreZeroPointer(a);
-        if (a->getObjectId(A) != myID)
+        if (a->getObjectId(Uml::A) != myID)
         {
-            UMLObject* obj = a->getObject(A);
+            UMLObject* obj = a->getObject(Uml::A);
             UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
             if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
                             || (concept->isInterface() && type == INTERFACE))
@@ -615,9 +615,9 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type)
     }
 
     foreach (UMLAssociation *a , rlist ) {
-        if (a->getObjectId(A) == myID)
+        if (a->getObjectId(Uml::A) == myID)
         {
-            UMLObject* obj = a->getObject(B);
+            UMLObject* obj = a->getObject(Uml::B);
             UMLClassifier *concept = dynamic_cast<UMLClassifier*>(obj);
             if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
                             || (concept->isInterface() && type == INTERFACE))

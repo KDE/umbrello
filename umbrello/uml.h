@@ -77,6 +77,15 @@ class QSlider;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
+
+//new canvas
+#define SOC2011 1
+
+namespace QGV{
+  class UMLView;
+  class Diagram;
+}
+
 class UMLApp : public KXmlGuiWindow
 {
     Q_OBJECT
@@ -160,6 +169,12 @@ public:
     QString activeLanguageScopeSeparator();
 
     KConfig* config();
+    
+//new canvas
+#ifdef SOC2011
+    void setCurrentView(QGV::UMLView* view);
+    QGV::UMLView* current_View() const;
+#endif
 
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
@@ -287,6 +302,14 @@ private slots:
     void setLang_xmlschema();
 
 private:
+  
+#ifdef SOC2011
+    UMLView *m_viewtemp;
+    QStackedWidget* m_viewStack_new;
+    KTabWidget *m_tabWidget_new;
+    QGV::UMLView *m_view_new;
+#endif
+    
     static UMLApp* s_instance;  ///< The last created instance of this class.
 
     QMenu* findMenu(const QString &name);

@@ -74,6 +74,11 @@
 #include <QtXml/QDomElement>
 #include <QtXml/QDomDocument>
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+#include "soc-umbrello-2011/umlscene.h"
+#include "soc-umbrello-2011/diagram.h"
+
 // Update this version when changing the XMI file format
 #define XMI_FILE_VERSION "1.5.8"
 
@@ -189,6 +194,44 @@ void UMLDoc::addView(UMLView *view)
     pApp->slotUpdateViews();
 }
 
+#ifdef SOC2011
+void UMLDoc::addView(QGV::UMLView *view)
+{
+
+    if (view == 0) {
+        uError() << "addView(QGV::UMLView *view) is NULL";
+        return;
+    }
+    UMLFolder *f = view->folder();    
+    
+    
+    if (f == 0) {
+        uError() << "view folder is not set";
+        return;
+    }
+    
+    UMLApp * pApp = UMLApp::app();
+    
+    f->addView(view);
+    
+    
+    if ( pApp->listView() ) {
+        connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view, SLOT(slotObjectRemoved(UMLObject *)));
+    }
+    
+    pApp->setCurrentView(view);
+    if ( !m_bLoading ) {
+        view->show();
+        emit sigDiagramChanged(view->diagram()->typeDiagram());
+    }
+
+    pApp->setDiagramMenuItemsState(true);
+    pApp->slotUpdateViews();
+    
+}
+#endif
+
+
 /**
  * Removes a view from the list of currently connected views.
  *
@@ -238,6 +281,53 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
         }
     }
 }
+
+#ifdef SOC2011
+void UMLDoc::removeView(QGV::UMLView *view , bool enforceCurrentView )
+{
+    if (!view) {
+        uError() << "UMLDoc::removeView(UMLView *view) called with view = 0";
+        return;
+    }
+    if ( UMLApp::app()->listView() ) {
+        disconnect(this, SIGNAL(sigObjectRemoved(UMLObject *)),
+                   view->scene(), SLOT(slotObjectRemoved(UMLObject *)));
+    }
+    view->hide();
+    //remove all widgets before deleting view
+    //view->removeAllWidgets();
+    UMLFolder *f = view->folder();
+    if (f == 0) {
+        uError() << view->diagram()->name() << ": view->getFolder() returns NULL";
+        return;
+    }
+    //f->removeView(view);
+    QGV::UMLView *currentView = UMLApp::app()->current_View();
+    if (currentView == view) {
+        UMLApp::app()->setCurrentView((QGV::UMLView*)0);
+        UMLViewList_new viewList;
+        m_root[mt_Logical]->appendViews(viewList);
+        QGV::UMLView* firstView = 0;
+        if ( !viewList.isEmpty() ) {
+            firstView =  viewList.first();
+        }
+
+        if (!firstView && enforceCurrentView) {  //create a diagram
+            create_Diagram(m_root[mt_Logical], dt_Class, false);
+            qApp->processEvents();
+            m_root[mt_Logical]->appendViews(viewList);
+            firstView = viewList.first();
+        }
+
+        if ( firstView ) {
+            changeCurrentView(firstView->diagram()->id());
+            UMLApp::app()->setDiagramMenuItemsState(true);
+        }
+        
+    }
+}
+#endif
+
 
 /**
  * Sets the URL of the document.
@@ -367,7 +457,10 @@ void UMLDoc::closeDocument()
 bool UMLDoc::newDocument()
 {
     closeDocument();
-    UMLApp::app()->setCurrentView(0);
+    UMLApp::app()->setCurrentView((UMLView*)0);
+#ifdef SOC2011
+    UMLApp::app()->setCurrentView((QGV::UMLView*)0);
+#endif
     m_doc_url.setFileName(i18n("Untitled"));
     //see if we need to start with a new diagram
     Settings::OptionState optionState = Settings::optionState();
@@ -378,7 +471,9 @@ bool UMLDoc::newDocument()
         mt = Uml::ModelType::Logical;
     }
     createDiagram(m_root[mt], dt, false);
-
+#ifdef SOC2011
+    create_Diagram(m_root[mt], dt, false);
+#endif
     UMLApp::app()->initGenerator();
 
     setModified(false);
@@ -736,6 +831,21 @@ UMLView * UMLDoc::findView(Uml::IDType id)
     return v;
 }
 
+#ifdef SOC2011
+QGV::UMLView * UMLDoc::find_View(QGV::Uml::IDType id)
+{
+    QGV::UMLView *v = 0;
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
+        v = m_root[i]->find_View(id);
+        if (v) {
+            break;
+        }
+    }
+    return v;
+}
+#endif
+
+
 /**
  * Finds a view (diagram) by the type and name given.
  *
@@ -750,6 +860,16 @@ UMLView * UMLDoc::findView(Uml::DiagramType type, const QString &name,
     Uml::ModelType mt = Model_Utils::convert_DT_MT(type);
     return m_root[mt]->findView(type, name, searchAllScopes);
 }
+
+#ifdef SOC2011
+QGV::UMLView * UMLDoc::find_View(QGV::Uml::Diagram_Type type, const QString &name,
+                           bool searchAllScopes /* =false */)
+{
+    Uml::ModelType mt = Model_Utils::convert_DT_MT(type);
+    return m_root[mt]->find_View(type, name, searchAllScopes);
+}
+#endif
+
 
 /**
  * Used to find a reference to a @ref UMLObject by its ID.
@@ -1188,6 +1308,15 @@ QString UMLDoc::uniqueViewName(const Uml::DiagramType type)
         name = dname + '_' + QString::number(number);
     }
     return name;
+#ifdef SOC2011
+    QString name_new = dname;
+    for (int number = 0; find_View(type, name_new, true); ++number) {
+        name_new = dname + '_' + QString::number(number);
+    }
+   
+    return name_new;
+#endif 
+
 }
 
 /**
@@ -1262,6 +1391,48 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType type, bool as
     return 0;
 }
 
+#ifdef SOC2011
+QGV::UMLView* UMLDoc::create_Diagram(UMLFolder *folder, QGV::Uml::Diagram_Type type, bool askForName /*= true */)
+{
+    bool ok = true;
+    QString name,
+    dname = uniqueViewName(type);
+
+    while (true) {
+        if (askForName)  {
+            name = KInputDialog::getText(i18nc("diagram name", "Name"), i18n("Enter name:"), dname, &ok, (QWidget*)UMLApp::app());
+        } else {
+            name = dname;
+        }
+        if (!ok)  {
+            break;
+        }
+        if (name.length() == 0)  {
+            KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
+        } else if (!find_View(type, name)) {
+	  
+	    
+            QGV::UMLView* view = new QGV::UMLView(folder);
+            view->scene()->setOptions( Settings::optionState() );
+            view->diagram()->setName(name);
+            view->diagram()->setTypeDiagram(type);
+            view->diagram()->setId(m_viewtemp->getID());
+            addView(view);
+            emit sigDiagramCreated(m_viewtemp->getID());
+            setModified(true);
+            UMLApp::app()->enablePrint(true);
+            changeCurrentView(UMLApp::app()->currentView()->getID());
+            return view;
+        } else {
+            KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
+        }
+    }//end while
+    return 0;
+}
+
+#endif
+
+
 /**
  * Used to rename a document. This method takes care of everything.
  * You just need to give the ID of the diagram to the method.
@@ -1291,11 +1462,26 @@ void UMLDoc::renameDiagram(Uml::IDType id)
             setModified(true);
             break;
         }
+#ifdef SOC2011
+        else if (!find_View(type_new, name)) {
+            view_new->diagram()->setName(name);
+            emit sigDiagramRenamed(id);
+            setModified(true);
+            break;
+        }
+#endif
         else {
             KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
         }
     }
 }
+
+#ifdef SOC2011
+    QGV::UMLView *view_new =  find_View(id);
+    Diagram_Type type_new = view_new->diagram()->typeDiagram();
+
+    QString oldName_new = view_new->diagram()->name();
+#endif
 
 /**
  * Used to rename a @ref UMLObject.  The @ref UMLObject is to be an
@@ -1388,6 +1574,27 @@ void UMLDoc::changeCurrentView(Uml::IDType id)
     else {
         uWarning() << "New current view was not found with id=" << ID2STR(id) << "!";
     }
+#ifdef SOC2011
+    DEBUG(DBG_SRC) << "id=" << ID2STR(id);
+    UMLApp* pApp_new = UMLApp::app();
+    QGV::UMLView* view_new = find_View(id);
+    if (view_new) {
+        //view_new->setIsOpen(true);
+        pApp_new->setCurrentView(view_new);
+        emit sigDiagramChanged(view_new->diagram()->typeDiagram());
+        pApp_new->setDiagramMenuItemsState( true );
+        setModified(true);
+        emit sigCurrentViewChanged();
+//:TODO: when clicking on a tab, documentation of diagram is not upated in docwindow
+//:TODO: following line should fix it, but crashes the application :-(
+//:TODO:        pApp->docWindow()->showDocumentation(view);
+    }
+    else {
+        uWarning() << "New current view was not found with id=" << ID2STR(id) << "!";
+    }
+
+#endif
+
 }
 
 /**
@@ -1416,6 +1623,28 @@ void UMLDoc::removeDiagram(Uml::IDType id)
         */ //FIXME sort out all the KActions for when there's no diagram
         //also remove the buttons from the WorkToolBar, then get rid of infowidget
     }
+    
+#ifdef SOC2011
+    QGV::UMLView* umlview_new = find_View(id);
+    if (!umlview_new) {
+        uError() << "Request to remove diagram " << ID2STR(id) << ": Diagram not found!";
+        return;
+    }
+    if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to delete diagram %1?",
+                                                   umlview_new->diagram()->name()), i18n("Delete Diagram"),
+                                           KGuiItem( i18n("&Delete"), "edit-delete")) == KMessageBox::Continue) {
+        removeView(umlview_new);
+        emit sigDiagramRemoved(id);
+        setModified(true);
+        /* if (infoWidget->isVisible()) {
+               emit sigDiagramChanged(dt_Undefined);
+               UMLApp::app()->enablePrint(false);
+           }
+        */ //FIXME sort out all the KActions for when there's no diagram
+        //also remove the buttons from the WorkToolBar, then get rid of infowidget
+    }
+#endif
+
 }
 
 /**
@@ -1438,7 +1667,25 @@ UMLFolder *UMLDoc::currentRoot()
         f = static_cast<UMLFolder*>(f->umlPackage());
     }
     return f;
+#ifdef SOC2011
+    QGV::UMLView *currentView_new = UMLApp::app()->current_View();
+    if (currentView_new == 0) {
+        if (m_pCurrentRoot) {
+            return m_pCurrentRoot;
+        }
+        uError() << "m_pCurrentRoot is NULL";
+        return 0;
+    }
+    UMLFolder *f_new = currentView_new->folder();
+    while (f_new->umlPackage()) {
+        f_new = static_cast<UMLFolder*>(f_new->umlPackage());
+    }
+    return f_new;
+#endif
+
 }
+
+
 
 /**
  * Set the current root folder.
@@ -1947,6 +2194,20 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
         createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, false);
         m_pCurrentRoot = m_root[Uml::ModelType::Logical];
     }
+
+#ifdef SOC2011
+    QGV::UMLView *viewToBeSet_new = 0;
+    if (m_nViewID != Uml::id_None) {
+        viewToBeSet_new = find_View( m_nViewID );
+    }
+    if (viewToBeSet_new) {
+        changeCurrentView( m_nViewID );
+    } else {
+        create_Diagram(m_root[mt_Logical], Uml::DiagramType::Class, false);
+        m_pCurrentRoot = m_root[mt_Logical];
+    }
+#endif
+
     emit sigResetStatusbarProgress();
     return true;
 }
@@ -2219,11 +2480,18 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
     }
     const Settings::OptionState state = Settings::optionState();
     UMLView * pView = 0;
+#ifdef SOC2011
+    QGV::UMLView * pView_new = 0;
+#endif
     int count = 0;
     while ( !element.isNull() ) {
         QString tag = element.tagName();
         if (tag == "diagram" || tag == "UISDiagram") {
             pView = new UMLView(0);
+#ifdef SOC2011
+    pView_new = new QGV::UMLView(0);
+#endif
+	    
             // IMPORTANT: Set OptionState of new UMLView _BEFORE_
             // reading the corresponding diagram:
             // + allow using per-diagram color and line-width settings
@@ -2240,6 +2508,27 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
                 delete pView;
                 return false;
             }
+#ifdef SOC2011
+            pView_new->scene()->setOptions( state );
+            bool success_new = false;
+            if (tag == "UISDiagram") {
+                //TODO: success = pView_new->loadUISDiagram(element);
+            } else {
+                 //TODO: success = pView_new->loadFromXMI(element);
+            }
+            if (!success_new) {
+                uWarning() << "failed load on viewdata loadfromXMI";
+                delete pView_new;
+                return false;
+            }
+            Uml::Model_Type mt_new = Model_Utils::convert_DT_MT(pView_new->diagram()->typeDiagram());
+            pView_new->setFolder(m_root[mt_new]);
+            pView_new->hide();
+            addView( pView_new );
+            emit sigSetStatusbarProgress( ++count );
+            qApp->processEvents();
+#endif
+
             // Put diagram in default predefined folder.
             // @todo pass in the parent folder - it might be a user defined one.
             Uml::ModelType mt = Model_Utils::convert_DT_MT(pView->type());
@@ -2264,7 +2553,10 @@ void UMLDoc::removeAllViews()
         m_root[i]->removeAllViews();
     }
 
-    UMLApp::app()->setCurrentView(0);
+    UMLApp::app()->setCurrentView((UMLView*)0);
+#ifdef SOC2011
+    UMLApp::app()->setCurrentView((QGV::UMLView*)0);
+#endif
     emit sigDiagramChanged(Uml::DiagramType::Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);
 }
@@ -2404,6 +2696,9 @@ UMLAssociationList UMLDoc::associations()
 void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
 {
     UMLView * printView = 0;
+#ifdef SOC2011
+    QGV::UMLView * printView_new = 0;
+#endif
     int count = selectPage->printUmlCount();
     QPainter painter(pPrinter);
     for (int i = 0; i < count; ++i) {
@@ -2418,6 +2713,14 @@ void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
             printView->umlScene()->print(pPrinter, painter);
         }
         printView = 0;
+#ifdef SOC2011
+        printView_new = find_View(id);
+
+        if (printView_new) {
+            //TODO: printView_new->umlScene()->print(pPrinter, painter);
+        }
+        printView_new = 0;
+#endif
     }
     painter.end();
 }
@@ -2435,6 +2738,19 @@ UMLViewList UMLDoc::viewIterator()
     }
     return accumulator;
 }
+
+#ifdef SOC2011
+UMLViewList_new UMLDoc::view_Iterator()
+{
+    UMLViewList_new accumulator;
+    for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
+        m_root[i]->appendViews(accumulator, true);
+	qDebug() << "append new view";
+    }
+    return accumulator;
+}
+#endif
+
 
 /**
  * Sets the modified flag for the document after a modifying
@@ -2643,6 +2959,36 @@ bool UMLDoc::addUMLView(UMLView * pView )
     return true;
 }
 
+#ifdef SOC2011
+bool UMLDoc::addUMLView(QGV::UMLView * pView )
+{
+    if (!pView || !m_pChangeLog) {
+        return false;
+    }
+
+    int i = 0;
+    QString viewName = (QString)pView->diagram()->name();
+    QString name = viewName;
+    while ( find_View(pView->diagram()->typeDiagram(), name) != 0) {
+        name = viewName + '_' + QString::number(++i);
+    }
+    if (i) { //If name was modified
+        pView->diagram()->setName(name);
+    }
+    qDebug() << "nome do diagrama:" << name;
+    Uml::IDType result = assignNewID(pView->diagram()->id());
+    pView->diagram()->setId(m_viewtemp->getID());
+
+// TODO:    pView->activateAfterLoad( true );
+//     pView->endPartialWidgetPaste();
+    pView->scene()->setOptions( Settings::optionState() );
+    addView(pView);
+    setModified(true);
+    return true;
+}
+#endif
+
+
 /**
  * Activate all the diagrams/views after loading so all their
  * widgets keep their IDs.
@@ -2753,6 +3099,23 @@ void UMLDoc::signalDiagramRenamed(UMLView* view)
     }
 }
 
+#ifdef SOC2011
+void UMLDoc::signalDiagramRenamed(QGV::UMLView* view)
+{
+    if (view) {
+        Settings::OptionState optionState = Settings::optionState();
+        if (optionState.generalState.tabdiagrams) {
+            UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(m_viewtemp), view->diagram()->name() );
+        }
+        emit sigDiagramRenamed(m_viewtemp->getID());
+    }
+    else {
+      uError() << "Cannot signal diagram renamed - view is NULL!";
+    }
+}
+#endif
+
+
 /**
  * Calls the active code generator to create its default datatypes.
  */
@@ -2792,6 +3155,9 @@ void UMLDoc::createDatatype(const QString &name)
 void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
 {
     UMLView* view = (UMLView*) umlview;
+#ifdef SOC2011
+    QGV::UMLView* view_new = (QGV::UMLView*)umlview;
+#endif
     if (m_pTabPopupMenu != 0) {
         m_pTabPopupMenu->hide();
         delete m_pTabPopupMenu;
@@ -2840,11 +3206,61 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
         uWarning() << "unknown diagram type " << view->type();
         return;
     }//end switch
+#ifdef SOC2011
+    switch ( view->type() ) {
+    case dt_Class:
+        type = lvt_Class_Diagram;
+        break;
+
+    case dt_UseCase:
+        type = lvt_UseCase_Diagram;
+        break;
+
+    case dt_Sequence:
+        type = lvt_Sequence_Diagram;
+        break;
+
+    case dt_Collaboration:
+        type = lvt_Collaboration_Diagram;
+        break;
+
+    case dt_State:
+        type = lvt_State_Diagram;
+        break;
+
+    case dt_Activity:
+        type = lvt_Activity_Diagram;
+        break;
+
+    case dt_Component:
+        type = lvt_Component_Diagram;
+        break;
+
+    case dt_Deployment:
+        type = lvt_Deployment_Diagram;
+        break;
+
+    case dt_EntityRelationship:
+        type = lvt_EntityRelationship_Diagram;
+        break;
+
+    default:
+        uWarning() << "unknown NEW diagram type " << view->type();
+        return;
+    }//end switch
+
+#endif
 
     // DEBUG(DBG_SRC) << "create popup for ListView_Type " << type;
     m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->mainViewWidget(), type, 0);
     m_pTabPopupMenu->popup(point);
     connect(m_pTabPopupMenu, SIGNAL(triggered(QAction*)), view, SLOT(slotMenuSelection(QAction*)));
+
+#ifdef SOC2011
+    m_pTabPopupMenu_new = new ListPopupMenu(UMLApp::app()->mainViewWidget(), type, 0);
+    m_pTabPopupMenu_new->popup(point);
+    connect(m_pTabPopupMenu_new, SIGNAL(triggered(QAction*)), view_new, SLOT(slotMenuSelection(QAction*)));
+#endif  
 }
 
 /**

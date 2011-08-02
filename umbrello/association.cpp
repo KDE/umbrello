@@ -65,17 +65,17 @@ UMLAssociation::UMLAssociation( Uml::AssociationType type)
  */
 UMLAssociation::~UMLAssociation( )
 {
-    if (m_pRole[A] == NULL) {
+    if (m_pRole[Uml::A] == NULL) {
         uError() << "UMLAssociation destructor: m_pRole[A] is NULL already";
     } else {
-        delete m_pRole[A];
-        m_pRole[A] = NULL;
+        delete m_pRole[Uml::A];
+        m_pRole[Uml::A] = NULL;
     }
-    if (m_pRole[B] == NULL) {
+    if (m_pRole[Uml::B] == NULL) {
         uError() << "UMLAssociation destructor: m_pRole[B] is NULL already";
     } else {
-        delete m_pRole[B];
-        m_pRole[B] = NULL;
+        delete m_pRole[Uml::B];
+        m_pRole[Uml::B] = NULL;
     }
 }
 
@@ -90,8 +90,8 @@ bool UMLAssociation::operator==(const UMLAssociation &rhs) const
     return ( UMLObject::operator== ( rhs ) &&
              m_AssocType == rhs.m_AssocType &&
              m_Name == rhs.m_Name &&
-             m_pRole[A] == rhs.m_pRole[A] &&
-             m_pRole[B] == rhs.m_pRole[B] );
+             m_pRole[Uml::A] == rhs.m_pRole[Uml::A] &&
+             m_pRole[Uml::B] == rhs.m_pRole[Uml::B] );
 }
 
 /**
@@ -109,18 +109,18 @@ Uml::AssociationType UMLAssociation::getAssocType() const
 QString UMLAssociation::toString() const
 {
     QString string;
-    if(m_pRole[A])
+    if(m_pRole[Uml::A])
     {
-        string += m_pRole[A]->object()->name();
+        string += m_pRole[Uml::A]->object()->name();
         string += ':';
-        string += m_pRole[A]->name();
+        string += m_pRole[Uml::A]->name();
     }
     string += ':' + m_AssocType.toStringI18n() + ':';
-    if(m_pRole[B])
+    if(m_pRole[Uml::B])
     {
-        string += m_pRole[B]->object( )->name();
+        string += m_pRole[Uml::B]->object( )->name();
         string += ':';
-        string += m_pRole[B]->name();
+        string += m_pRole[Uml::B]->name();
     }
     return string;
 }
@@ -134,11 +134,11 @@ QString UMLAssociation::toString() const
  */
 bool UMLAssociation::resolveRef()
 {
-    bool successA = getUMLRole(A)->resolveRef();
-    bool successB = getUMLRole(B)->resolveRef();
+    bool successA = getUMLRole(Uml::A)->resolveRef();
+    bool successB = getUMLRole(Uml::B)->resolveRef();
     if (successA && successB) {
-        UMLObject *objA = getUMLRole(A)->object();
-        UMLObject *objB = getUMLRole(B)->object();
+        UMLObject *objA = getUMLRole(Uml::A)->object();
+        UMLObject *objB = getUMLRole(Uml::B)->object();
         // Check if need to change the assoc type to Realization
         if (isRealization(objA, objB)) {
             m_AssocType = Uml::AssociationType::Realization;
@@ -158,44 +158,44 @@ void UMLAssociation::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     if (m_AssocType == Uml::AssociationType::Generalization) {
         QDomElement assocElement = UMLObject::save("UML:Generalization", qDoc);
         assocElement.setAttribute( "discriminator", "" );
-        assocElement.setAttribute( "child", ID2STR(getObjectId(A)) );
-        assocElement.setAttribute( "parent", ID2STR(getObjectId(B)) );
+        assocElement.setAttribute( "child", ID2STR(getObjectId(Uml::A)) );
+        assocElement.setAttribute( "parent", ID2STR(getObjectId(Uml::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Realization) {
         QDomElement assocElement = UMLObject::save("UML:Abstraction", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
+        assocElement.setAttribute( "client", ID2STR(getObjectId(Uml::A)) );
+        assocElement.setAttribute( "supplier", ID2STR(getObjectId(Uml::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Dependency) {
         QDomElement assocElement = UMLObject::save("UML:Dependency", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
+        assocElement.setAttribute( "client", ID2STR(getObjectId(Uml::A)) );
+        assocElement.setAttribute( "supplier", ID2STR(getObjectId(Uml::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Child2Category ) {
         QDomElement assocElement = UMLObject::save("UML:Child2Category", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
+        assocElement.setAttribute( "client", ID2STR(getObjectId(Uml::A)) );
+        assocElement.setAttribute( "supplier", ID2STR(getObjectId(Uml::B)) );
         qElement.appendChild( assocElement );
         return;
     }
     if (m_AssocType == Uml::AssociationType::Category2Parent ) {
         QDomElement assocElement = UMLObject::save("UML:Category2Parent", qDoc);
-        assocElement.setAttribute( "client", ID2STR(getObjectId(A)) );
-        assocElement.setAttribute( "supplier", ID2STR(getObjectId(B)) );
+        assocElement.setAttribute( "client", ID2STR(getObjectId(Uml::A)) );
+        assocElement.setAttribute( "supplier", ID2STR(getObjectId(Uml::B)) );
         qElement.appendChild( assocElement );
         return;
     }
 
     QDomElement associationElement = UMLObject::save("UML:Association", qDoc);
     QDomElement connElement = qDoc.createElement("UML:Association.connection");
-    getUMLRole(A)->saveToXMI (qDoc, connElement);
-    getUMLRole(B)->saveToXMI (qDoc, connElement);
+    getUMLRole(Uml::A)->saveToXMI (qDoc, connElement);
+    getUMLRole(Uml::B)->saveToXMI (qDoc, connElement);
     associationElement.appendChild (connElement);
     qElement.appendChild( associationElement );
 }
@@ -242,7 +242,7 @@ bool UMLAssociation::load( QDomElement & element )
                 }
             }
         }
-        if (obj[A] == NULL || obj[B] == NULL) {
+        if (obj[Uml::A] == NULL || obj[Uml::B] == NULL) {
             for (QDomNode node = element.firstChild(); !node.isNull();
                     node = node.nextSibling()) {
                 if (node.isComment())
@@ -273,15 +273,15 @@ bool UMLAssociation::load( QDomElement & element )
                 // Since we know for sure that we're dealing with a non
                 // umbrello file, use deferred resolution unconditionally.
                 if (UMLDoc::tagEq(tag, "child") || UMLDoc::tagEq(tag, "subtype") || UMLDoc::tagEq(tag, "client")) {
-                    getUMLRole(A)->setSecondaryId(idStr);
+                    getUMLRole(Uml::A)->setSecondaryId(idStr);
                 } else {
-                    getUMLRole(B)->setSecondaryId(idStr);
+                    getUMLRole(Uml::B)->setSecondaryId(idStr);
                 }
             }
         }
 
         // it is a realization if either endpoint is an interface
-        if (isRealization(obj[A], obj[B])) {
+        if (isRealization(obj[Uml::A], obj[Uml::B])) {
             m_AssocType = Uml::AssociationType::Realization;
         }
         return true;
@@ -317,7 +317,7 @@ bool UMLAssociation::load( QDomElement & element )
             uWarning() << "unknown child (A) tag " << tag;
             return false;
         }
-        if (! getUMLRole(A)->loadFromXMI(tempElement))
+        if (! getUMLRole(Uml::A)->loadFromXMI(tempElement))
             return false;
         // Load role B.
         node = node.nextSibling();
@@ -334,11 +334,11 @@ bool UMLAssociation::load( QDomElement & element )
             uWarning() << "unknown child (B) tag " << tag;
             return false;
         }
-        if (! getUMLRole(B)->loadFromXMI(tempElement))
+        if (! getUMLRole(Uml::B)->loadFromXMI(tempElement))
             return false;
 
         if (m_pUMLPackage == NULL) {
-            Uml::ModelType mt = Model_Utils::convert_OT_MT(getObject(B)->baseType());
+            Uml::ModelType mt = Model_Utils::convert_OT_MT(getObject(Uml::B)->baseType());
             m_pUMLPackage = doc->rootFolder(mt);
             uDebug() << "setting model type " << mt;
         }
@@ -353,7 +353,7 @@ bool UMLAssociation::load( QDomElement & element )
         // is not complete, so we need to finish the analysis here.
 
         // find self-associations
-        if (m_AssocType == Uml::AssociationType::Association && getObjectId(A) == getObjectId(B))
+        if (m_AssocType == Uml::AssociationType::Association && getObjectId(Uml::A) == getObjectId(Uml::B))
             m_AssocType = Uml::AssociationType::Association_Self;
 
         // fall-back default type
@@ -426,23 +426,23 @@ bool UMLAssociation::load( QDomElement & element )
     UMLObject * objB = doc->findObjectById(roleBObjID);
 
     if(objA)
-        getUMLRole(A)->setObject(objA);
+        getUMLRole(Uml::A)->setObject(objA);
     else
         return false;
 
     if(objB)
-        getUMLRole(B)->setObject(objB);
+        getUMLRole(Uml::B)->setObject(objB);
     else
         return false;
 
-    setMulti(element.attribute( "multia", "" ), A);
-    setMulti(element.attribute( "multib", "" ), B);
+    setMulti(element.attribute( "multia", "" ), Uml::A);
+    setMulti(element.attribute( "multib", "" ), Uml::B);
 
-    setRoleName(element.attribute( "namea", "" ), A);
-    setRoleName(element.attribute( "nameb", "" ), B);
+    setRoleName(element.attribute( "namea", "" ), Uml::A);
+    setRoleName(element.attribute( "nameb", "" ), Uml::B);
 
-    setRoleDoc(element.attribute( "doca", "" ), A);
-    setRoleDoc(element.attribute( "docb", "" ), B);
+    setRoleDoc(element.attribute( "doca", "" ), Uml::A);
+    setRoleDoc(element.attribute( "docb", "" ), Uml::B);
 
     // Visibility defaults to Public if it cant set it here..
     QString visibilityA = element.attribute( "visibilitya", "0");
@@ -450,19 +450,19 @@ bool UMLAssociation::load( QDomElement & element )
     int vis = visibilityA.toInt();
     if (vis >= 200)  // bkwd compat.
         vis -= 200;
-    setVisibility((Uml::Visibility::Value)vis, A);
+    setVisibility((Uml::Visibility::Value)vis, Uml::A);
     vis = visibilityB.toInt();
     if (vis >= 200)  // bkwd compat.
         vis -= 200;
-    setVisibility((Uml::Visibility::Value)vis, B);
+    setVisibility((Uml::Visibility::Value)vis, Uml::B);
 
     // Changeability defaults to Changeable if it cant set it here..
     QString changeabilityA = element.attribute( "changeabilitya", "0");
     QString changeabilityB = element.attribute( "changeabilityb", "0");
     if (changeabilityA.toInt() > 0)
-        setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityA.toInt())), A);
+        setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityA.toInt())), Uml::A);
     if (changeabilityB.toInt() > 0)
-        setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityB.toInt())), B);
+        setChangeability(Uml::Changeability(Uml::Changeability::Value(changeabilityB.toInt())), Uml::B);
 
     return true;
 }
@@ -505,7 +505,7 @@ Uml::IDType UMLAssociation::getObjectId(Uml::Role_Type role) const
  * CURRENTLY UNUSED.
  * @return  ID of the UMLObject of the given role.
  */
-Uml::IDType UMLAssociation::getRoleId(Role_Type role) const
+Uml::IDType UMLAssociation::getRoleId(Uml::Role_Type role) const
 {
     return m_pRole[role]->id();
 }

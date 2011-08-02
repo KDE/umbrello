@@ -44,6 +44,15 @@ class UMLPackage;
 class UMLFolder;
 class DiagramPrintPage;
 
+//new canvas
+#define SOC2011 1
+
+namespace QGV {
+  class UMLView;
+  class UMLScene;
+  class Diagram;
+}
+
 /**
  * UMLDoc provides a document object for a document-view model.
  *
@@ -72,6 +81,12 @@ public:
 
     void addView(UMLView *view);
     void removeView(UMLView *view , bool enforceOneView = true );
+    
+#ifdef SOC2011
+void addView(QGV::UMLView *view);
+void removeView(QGV::UMLView *view , bool enforceOneView = true );
+#endif
+
     void setMainViewID(Uml::IDType viewID);
     void changeCurrentView(Uml::IDType id);
     void activateAllViews();
@@ -106,6 +121,11 @@ public:
                                      bool *swap = 0);
 
     UMLView* createDiagram(UMLFolder *folder, Uml::DiagramType type, bool askForName = true);
+
+#ifdef SOC2011
+    QGV::UMLView* create_Diagram(UMLFolder *folder, QGV::Uml::Diagram_Type type, bool askForName /*= true */);
+#endif
+    
     void removeDiagram(Uml::IDType id);
     void renameDiagram(Uml::IDType id);
 
@@ -128,6 +148,12 @@ public:
     UMLView * findView(Uml::IDType id);
     UMLView * findView(Uml::DiagramType type, const QString &name,
                        bool searchAllScopes = false);
+    
+#ifdef SOC2011
+    QGV::UMLView * find_View(QGV::Uml::IDType id);
+    QGV::UMLView * find_View(QGV::Uml::Diagram_Type type, const QString &name,
+                       bool searchAllScopes = false);    
+#endif
 
     void setName(const QString& name);
     QString name() const;
@@ -149,6 +175,11 @@ public:
     bool loadDiagramsFromXMI(QDomNode & node);
 
     void signalDiagramRenamed(UMLView * view);
+    
+#ifdef SOC2011
+    void signalDiagramRenamed(QGV::UMLView* view);
+#endif
+    
     void signalUMLObjectCreated(UMLObject * o);
 
     UMLClassifierList concepts(bool includeNested = true);
@@ -164,11 +195,19 @@ public:
     void print(QPrinter * pPrinter, DiagramPrintPage * selectPage);
 
     UMLViewList viewIterator();
+    
+#ifdef SOC2011
+    UMLViewList_new view_Iterator();
+#endif
 
     bool assignNewIDs(UMLObject* obj);
 
     bool addUMLObject(UMLObject * object);
     bool addUMLView(UMLView * pView );
+    
+#ifdef SOC2011
+    bool addUMLView(QGV::UMLView * pView );
+#endif
 
     UMLFolder *rootFolder(Uml::ModelType mt);
     Uml::ModelType rootFolderType(UMLObject *obj);
@@ -211,6 +250,12 @@ public:
     ListPopupMenu::MenuType popupMenuSelection(QAction* action);
 
 private:
+  
+#ifdef SOC2011
+    //new canvas
+    UMLView *m_viewtemp;
+#endif
+    
     void initSaveTimer();
     void createDatatypeFolder();
 
@@ -224,6 +269,11 @@ private:
      * m_root[Uml::mt_Logical]
      */
     UMLFolder *m_datatypeRoot;
+    
+#ifdef SOC2011
+    UMLFolder *m_root_new[Uml::ModelType::N_MODELTYPES];
+    UMLFolder *m_datatypeRoot_new;
+#endif
 
     /**
      * The UMLDoc is the sole owner of all stereotypes.
@@ -275,6 +325,10 @@ private:
      * plugs into umlview::slotMenuSelection()
      */
     ListPopupMenu* m_pTabPopupMenu;
+    
+#ifdef SOC2011
+    ListPopupMenu* m_pTabPopupMenu_new;
+#endif
 
     /**
      * Auxiliary variable for currentRoot():

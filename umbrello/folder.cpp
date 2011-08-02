@@ -27,6 +27,11 @@
 // qt includes
 #include <QtCore/QFile>
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+#include "soc-umbrello-2011/diagram.h"
+#include "soc-umbrello-2011/umlscene.h"
+
 /**
  * Sets up a Folder.
  * @param name    The name of the Folder.
@@ -47,6 +52,10 @@ UMLFolder::~UMLFolder()
 {
     qDeleteAll(m_diagrams);
     m_diagrams.clear();
+#ifdef SOC2011
+    qDeleteAll(m_diagrams_new);
+    m_diagrams_new.clear();
+#endif
 }
 
 /**
@@ -96,6 +105,15 @@ void UMLFolder::removeView(UMLView *view)
     delete view;
 }
 
+#ifdef SOC2011
+void UMLFolder::removeView(QGV::UMLView *view)
+{
+    m_diagrams_new.removeAll(view);
+    delete view;
+}
+#endif
+
+
 /**
  * Append the views in this folder to the given diagram list.
  * @param viewList       The UMLViewList to which to append the diagrams.
@@ -117,6 +135,25 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
     }
 }
 
+#ifdef SOC2011
+void UMLFolder::appendViews(UMLViewList_new& viewList, bool includeNested)
+{
+    if (includeNested) {
+        foreach (UMLObject* o, m_objects ) {
+            if (o->baseType() == UMLObject::ot_Folder) {
+                UMLFolder *f = static_cast<UMLFolder*>(o);
+                f->appendViews(viewList);
+		qDebug() << "adiciona novo view";
+            }
+        }
+    }
+    foreach (QGV::UMLView* v, m_diagrams_new) {
+        viewList.append(v);
+	qDebug() << "adiciona novo diagram";
+    }
+}
+#endif
+
 /**
  * Acivate the views in this folder.
  * "Activation": Some widgets require adjustments after loading from file,
@@ -134,6 +171,13 @@ void UMLFolder::activateViews()
     foreach (UMLView* v, m_diagrams) {
         v->activateAfterLoad();
     }
+    
+#ifdef SOC2011
+    foreach (QGV::UMLView* v, m_diagrams_new) {
+        //v->activateAfterLoad();
+    }
+#endif
+
     // Make sure we have a treeview item for each diagram.
     // It may happen that we are missing them after switching off tabbed widgets.
     Settings::OptionState optionState = Settings::optionState();
@@ -141,6 +185,9 @@ void UMLFolder::activateViews()
         return;
     }
     Model_Utils::treeViewAddViews(m_diagrams);
+#ifdef SOC2011
+    Model_Utils::treeViewAddViews(m_diagrams_new);
+#endif
 }
 
 /**
@@ -169,6 +216,33 @@ UMLView *UMLFolder::findView(Uml::IDType id)
     }
     return v;
 }
+
+#ifdef SOC2011
+QGV::UMLView *UMLFolder::find_View(QGV::Uml::IDType id)
+{
+   
+    foreach (QGV::UMLView* v, m_diagrams_new ) {
+        if (v->diagram()->id() == id) {
+            return v;
+        }
+    }
+
+    QGV::UMLView* v = 0;
+    foreach (UMLObject* o, m_objects ) {
+        if (o->baseType() != UMLObject::ot_Folder) {
+            continue;
+        }
+        UMLFolder *f = static_cast<UMLFolder*>(o);
+        v = f->find_View(id);
+        if (v) {
+            break;
+        }
+    }
+    return v;
+}
+
+#endif
+
 
 /**
  * Seek a view by the type and name given.
@@ -201,6 +275,34 @@ UMLView *UMLFolder::findView(Uml::DiagramType type, const QString &name, bool se
     return v;
 }
 
+#ifdef SOC2011
+QGV::UMLView *UMLFolder::find_View(QGV::Uml::Diagram_Type type, const QString &name, bool searchAllScopes)
+{
+    foreach (QGV::UMLView* v, m_diagrams_new ) {
+        if (v->diagram()->typeDiagram() == type && v->diagram()->name() == name) {
+            return v;
+        }
+    }
+
+    QGV::UMLView* v = 0;
+    if (searchAllScopes) {
+        foreach (UMLObject* o, m_objects  ) {
+            if (o->baseType() != UMLObject::ot_Folder) {
+                continue;
+            }
+            UMLFolder *f = static_cast<UMLFolder*>(o);
+            v = f->find_View(type, name, searchAllScopes);
+            if (v) {
+                break;
+            }
+        }
+    }
+    return v;
+}
+
+#endif
+
+
 /**
  * Set the options for the views in this folder.
  */
@@ -210,6 +312,11 @@ void UMLFolder::setViewOptions(const Settings::OptionState& optionState)
     foreach (UMLView* v, m_diagrams ) {
         v->umlScene()->setOptionState(optionState);
     }
+#ifdef SOC2011
+    foreach (QGV::UMLView* v, m_diagrams_new ) {
+        v->scene()->setOptions(optionState);
+    }
+#endif
 }
 
 /**
@@ -235,6 +342,21 @@ void UMLFolder::removeAllViews()
 
     qDeleteAll(m_diagrams);
     m_diagrams.clear();
+    
+#ifdef SOC2011
+    foreach (QGV::UMLView* v, m_diagrams_new ) {
+        // TODO ------------------ check this code - bad: calling back to UMLDoc::removeView()
+        //v->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
+        // from a view, it also causes any UMLAssociations that lack parent
+        // association widgets (but once had them) to remove themselves from
+        // this document.
+        UMLApp::app()->document()->removeView(v, false);
+    }
+
+    qDeleteAll(m_diagrams_new);
+    m_diagrams_new.clear();
+#endif
+
 }
 
 /**
@@ -384,6 +506,17 @@ bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams)
             delete pView;
             totalSuccess = false;
         }
+#ifdef SOC2011
+	QGV::UMLView *pView_new = new QGV::UMLView(this);
+	pView_new->scene()->setOptions(optionState);
+	if( /*pView_new->loadFromXMI(diagram) */ true ){
+	  umldoc->addView(pView_new);
+	}else{
+	  pView_new->deleteLater();
+	  totalSuccess = false;
+	}
+#endif
+
     }
     return totalSuccess;
 }

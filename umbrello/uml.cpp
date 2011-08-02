@@ -93,6 +93,11 @@
 
 #include <cmath>
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+#include "soc-umbrello-2011/umlscene.h"
+#include "soc-umbrello-2011/diagram.h"
+
 /** Static pointer, holding the last created instance. */
 UMLApp* UMLApp::s_instance;
 
@@ -129,6 +134,9 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     m_copyTimer  = 0;
     m_codegen    = 0;
     m_policyext  = 0;
+#ifdef SOC2011
+    m_view_new = 0;
+#endif
     m_commoncodegenpolicy = 0;
     m_xhtmlGenerator = 0;
     m_activeLanguage = Uml::ProgrammingLanguage::Reserved;
@@ -540,6 +548,10 @@ void UMLApp::initActions()
 void UMLApp::slotZoomSliderMoved(int value)
 {
     setZoom(value);
+#ifdef SOC2011
+    int zoom = (int)(value*0.01);
+    current_View()->setZoom(zoom*zoom);
+#endif
 }
 
 /**
@@ -599,6 +611,9 @@ void UMLApp::setZoom(int zoom)
     currentView()->setZoom(zoom);
     m_pZoomSlider->setValue(zoom);
     m_zoomValueLbl->setText(QString::number(zoom) + '%');
+#ifdef SOC2011
+    current_View()->setZoom(zoom);
+#endif
 }
 
 /**
@@ -611,6 +626,9 @@ void UMLApp::slotSetZoom(QAction* action)
     QVariant var = action->data();
     if (var.canConvert<int>()) {
         setZoom(var.toInt());
+#ifdef SOC2011
+	current_View()->setZoom(var.toInt());
+#endif
     }
 }
 
@@ -662,6 +680,36 @@ void UMLApp::setupZoomMenu()
         m_zoomSelect->addSeparator();
         m_zoomSelect->addAction(createZoomAction(currentZoom, currentZoom));
     }
+    
+#ifdef SOC2011
+    int currentZoom_new = current_View()->currentZoom();
+
+    m_zoomSelect->addAction(createZoomAction(33, currentZoom_new));
+    m_zoomSelect->addAction(createZoomAction(50, currentZoom_new));
+    m_zoomSelect->addAction(createZoomAction(75, currentZoom_new));
+    m_zoomSelect->addAction(createZoomAction(100, currentZoom_new));
+    m_zoomSelect->addAction(createZoomAction(150, currentZoom_new));
+    m_zoomSelect->addAction(createZoomAction(200, currentZoom_new));
+    m_zoomSelect->addAction(createZoomAction(300, currentZoom_new));
+
+    // if currentZoom is not a "standard zoom" (because of zoom in / zoom out step
+    // we add it for information
+    switch (currentZoom_new) {
+    case 33:
+    case 50:
+    case 75:
+    case 100:
+    case 150:
+    case 200:
+    case 300:
+        break;
+    default:
+        m_zoomSelect->addSeparator();
+        m_zoomSelect->addAction(createZoomAction(currentZoom_new, currentZoom_new));
+    }
+
+#endif
+
 }
 
 /**
@@ -736,6 +784,9 @@ void UMLApp::initView()
 {
     setCaption(m_doc->url().fileName(),false);
     m_view = NULL;
+#ifdef SOC2011
+    m_view_new = NULL;
+#endif
     m_toolsbar = new WorkToolBar(this);
     m_toolsbar->setWindowTitle(i18n("Diagram Toolbar"));
     addToolBar(Qt::TopToolBarArea, m_toolsbar);
@@ -747,6 +798,11 @@ void UMLApp::initView()
 
     // Prepare Stacked Diagram Representation
     m_viewStack = new QStackedWidget(this);
+    
+#ifdef SOC2011
+    m_viewStack_new = new QStackedWidget();
+    m_viewStack_new->show();
+#endif
 
     // Prepare Tabbed Diagram Representation
     m_tabWidget = new KTabWidget(this);
@@ -754,6 +810,13 @@ void UMLApp::initView()
     m_tabWidget->setTabsClosable(true);
     connect(m_tabWidget, SIGNAL(closeRequest(QWidget*)), SLOT(slotCloseDiagram(QWidget*)));
 
+#ifdef SOC2011
+    m_tabWidget_new = new KTabWidget();
+    m_tabWidget_new->setAutomaticResizeTabs(true);
+    m_tabWidget_new->setTabsClosable(true);
+    connect(m_tabWidget_new, SIGNAL(closeRequest(QWidget*)), SLOT(slotCloseDiagram(QWidget*)));
+#endif
+    
     m_newSessionButton = new QToolButton(m_tabWidget);
     m_newSessionButton->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Tab_New));
     m_newSessionButton->adjustSize();
@@ -765,18 +828,31 @@ void UMLApp::initView()
     connect(m_tabWidget, SIGNAL(contextMenu(QWidget*,const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,const QPoint&)));
     m_tabWidget->setCornerWidget( m_newSessionButton, Qt::TopLeftCorner );
     m_newSessionButton->installEventFilter(this);
-
+    
+#ifdef SOC2011  
+    connect(m_tabWidget_new, SIGNAL(currentChanged(QWidget*)), SLOT(slotTabChanged(QWidget*)));
+    connect(m_tabWidget_new, SIGNAL(contextMenu(QWidget*,const QPoint&)), m_doc, SLOT(slotDiagramPopupMenu(QWidget*,const QPoint&)));
+#endif  
+    
     m_layout = new QVBoxLayout;
     m_layout->setMargin(0);
     if (Settings::optionState().generalState.tabdiagrams) {
         // Tabbed Diagram Representation
         m_layout->addWidget(m_tabWidget);
         m_viewStack->hide();
+#ifdef SOC2011
+	m_layout->addWidget(m_tabWidget_new);
+	m_viewStack_new->hide();
+#endif 
     }
     else {
         // Stacked Diagram Representation
         m_layout->addWidget(m_viewStack);
         m_tabWidget->hide();
+#ifdef SOC2011
+	m_layout->addWidget(m_viewStack_new);
+        m_tabWidget_new->hide();
+#endif
     }
 
     QWidget *widget = new QWidget;
@@ -854,6 +930,7 @@ UMLListView* UMLApp::listView() const
 {
     return m_listView;
 }
+
 
 /**
  * Save general Options like all bar positions and status
@@ -1357,6 +1434,15 @@ void UMLApp::slotEditCut()
         slotDeleteSelectedWidget();
         m_doc->setModified(true);
     }
+#ifdef SOC2011
+    bool fromview_new = (current_View() && current_View()->diagram()->selectCount(true));
+    if ( editCutCopy(fromview_new) ) {
+        emit sigCutSuccessful();
+        slotDeleteSelectedWidget();
+        m_doc->setModified(true);
+    }
+#endif
+
     resetStatusMsg();
 }
 
@@ -1370,6 +1456,12 @@ void UMLApp::slotEditCopy()
     editCutCopy( fromview );
     resetStatusMsg();
     m_doc->setModified( true );
+#ifdef SOC2011
+    bool  fromview_new = (current_View() && current_View()->diagram()->selectCount(true));
+    editCutCopy( fromview_new );
+    resetStatusMsg();
+    m_doc->setModified(true);
+#endif
 }
 
 /**
@@ -1687,6 +1779,17 @@ void UMLApp::slotCopyChanged()
         editCopy->setEnabled(false);
         editCut->setEnabled(false);
     }
+#ifdef SOC2011
+    if (m_listView->selectedItemsCount() || (current_View() && current_View()->diagram()->selectCount(true))) {
+        editCopy->setEnabled(true);
+        editCut->setEnabled(true);
+    }
+    else {
+        editCopy->setEnabled(false);
+        editCut->setEnabled(false);
+    }
+#endif
+
 }
 
 /**
@@ -1717,6 +1820,9 @@ void UMLApp::slotApplyPrefs()
         Settings::OptionState& optionState = Settings::optionState();
         bool stackBrowsing = (m_layout->indexOf(m_tabWidget) != -1);
         bool tabBrowsing = optionState.generalState.tabdiagrams;
+#ifdef SOC2011
+	bool stackBrowsing_new = (m_layout->indexOf(m_tabWidget_new) != -1);
+#endif
         DEBUG(DBG_SRC) << "stackBrowsing=" << stackBrowsing << " / tabBrowsing=" << tabBrowsing;
 
         if (stackBrowsing != tabBrowsing) {
@@ -1752,6 +1858,51 @@ void UMLApp::slotApplyPrefs()
             }
             setCurrentView(currentView);
         }
+
+#ifdef SOC2011
+        if (stackBrowsing_new != tabBrowsing) {
+            // Diagram Representation Modified
+            QGV::UMLView* currentView_new;   
+
+	    
+            UMLViewList_new views_new = m_doc->view_Iterator();
+
+            if (tabBrowsing) {
+                currentView_new = static_cast<QGV::UMLView*>(m_viewStack_new->currentWidget());
+
+
+                m_layout->removeWidget(m_viewStack_new);
+                m_viewStack_new->hide();
+
+                foreach (QGV::UMLView *view_new, views_new) {
+                    m_viewStack_new->removeWidget(view_new);
+                    int tabIndex_new = m_tabWidget_new->addTab(view_new, view_new->diagram()->name());
+                    m_tabWidget_new->setTabIcon(tabIndex_new, Icon_Utils::iconSet(view_new->diagram()->typeDiagram()));
+                    m_tabWidget_new->setTabToolTip(tabIndex_new, view_new->diagram()->name());
+                }
+                m_layout->addWidget(m_tabWidget_new);
+                m_tabWidget_new->show();
+		
+
+            }
+            else {  // stackBrowsing
+                currentView_new = static_cast<QGV::UMLView*>(m_tabWidget_new->currentWidget());
+                m_layout->removeWidget(m_tabWidget_new);
+                m_tabWidget_new->hide();
+
+                foreach (QGV::UMLView *view_new, views_new) {
+                    m_tabWidget_new->removeTab(m_tabWidget_new->indexOf(view_new));
+                    m_viewStack_new->addWidget(view_new);
+                }
+                m_layout->addWidget(m_viewStack_new);
+                m_viewStack_new->show();
+
+
+            }
+            setCurrentView(currentView_new);
+        }
+        
+#endif
 
         m_doc->settingsChanged( optionState );
         const QString plStr = m_dlg->getCodeGenerationLanguage();
@@ -2323,6 +2474,12 @@ void UMLApp::slotUpdateViews()
         menu->addAction(view->name(), view, SLOT(slotShowView()));
         view->fileLoaded();
     }
+#ifdef SOC2011
+    UMLViewList_new views_new = m_doc->view_Iterator();
+    foreach (QGV::UMLView *view_new , views_new) {
+        menu->addAction(view_new->diagram()->name(), view_new, SLOT(slotShowView()));
+    }
+#endif
 }
 
 /**
@@ -2417,6 +2574,16 @@ void UMLApp::slotCurrentViewChanged()
         connect(view, SIGNAL( sigSnapToGridToggled(bool) ),
                 this, SLOT( slotSnapToGridToggled(bool) ) );
     }
+#ifdef SOC2011
+    QGV::UMLView *view_new = current_View();
+    if (view_new) {
+        connect(view_new->scene(), SIGNAL( sigShowGridToggled(bool) ),
+                this, SLOT( slotShowGridToggled(bool) ) );
+        connect(view_new->scene(), SIGNAL( sigSnapToGridToggled(bool) ),
+                this, SLOT( slotSnapToGridToggled(bool) ) );
+    }
+#endif
+
 }
 
 /**
@@ -2462,6 +2629,9 @@ void UMLApp::slotDeleteSelectedWidget()
 void UMLApp::slotDeleteDiagram()
 {
     m_doc->removeDiagram( currentView()->getID() );
+#ifdef SOC2011
+    m_doc->removeDiagram( current_View()->diagram()->id() );
+#endif
 }
 
 /**
@@ -2478,6 +2648,15 @@ void UMLApp::slotCloseDiagram(QWidget* tab)
         m_tabWidget->removeTab(m_tabWidget->indexOf(view));
         view->setIsOpen(false);
     }
+#ifdef SOC2011
+	QGV::UMLView* view_new = qobject_cast<QGV::UMLView*>(tab);
+        if (view_new){
+	  if (view_new != current_View()) {
+            setCurrentView(view_new);
+	  }
+	  m_tabWidget_new->removeTab(m_tabWidget_new->indexOf(view_new));
+	}
+#endif
 }
 
 /**
@@ -2644,6 +2823,15 @@ QWidget* UMLApp::mainViewWidget()
     else {
         return m_viewStack;
     }
+#ifdef SOC2011
+    if ( optionState.generalState.tabdiagrams ) {
+        return m_tabWidget_new;
+    }
+    else {
+        return m_viewStack_new;
+    }
+#endif
+
 }
 
 /**
@@ -2689,6 +2877,48 @@ void UMLApp::setCurrentView(UMLView* view)
                    << ", id=" << ID2STR(view->getID());
 }
 
+#ifdef SOC2011
+void UMLApp::setCurrentView(QGV::UMLView* view)
+{
+    qDebug() << "Entrou no metodo correto";
+    m_view_new = view;
+    if (view == NULL) {
+	qDebug() << "Mas retornou.";
+        docWindow()->newDocumentation();
+        return;
+    }
+
+    Settings::OptionState optionState = Settings::optionState();
+    if (optionState.generalState.tabdiagrams) {
+	qDebug() << "Vai adicionar o bixo na tab";
+        int tabIndex = m_tabWidget_new->indexOf(view);
+        if ((tabIndex < 0) /*&& view->isOpen()*/) {
+	    qDebug() << "adicionou tab.";
+            tabIndex = m_tabWidget_new->addTab(view, view->diagram()->name());
+            m_tabWidget_new->setTabIcon(tabIndex, Icon_Utils::iconSet((Uml::DiagramType)view->diagram()->typeDiagram()));
+            m_tabWidget_new->setTabToolTip(tabIndex, view->diagram()->name());
+        }
+        //m_tabWidget_new->setCurrentIndex(tabIndex);
+    }
+    else {
+        if (m_viewStack_new->indexOf(view) < 0) {
+            m_viewStack_new->addWidget(view);
+        }
+        m_viewStack_new->setCurrentWidget(view);
+        view->show();
+    }
+    qApp->processEvents();
+    slotStatusMsg(view->diagram()->name());
+    
+     UMLListViewItem* lvitem_new = m_listView->findView(view);
+     if (lvitem_new) {
+         m_listView->setCurrentItem(lvitem_new);
+     }
+}
+
+#endif
+
+
 /**
  * Get the current view.
  * This may return a null pointer (when no view was previously
@@ -2698,6 +2928,16 @@ UMLView* UMLApp::currentView() const
 {
     return m_view;
 }
+
+#ifdef SOC2011
+QGV::UMLView* UMLApp::current_View() const
+{
+    if(m_view == NULL)
+      return;
+	
+    return m_view_new; 
+}
+#endif
 
 /**
  * Sets the default mime type for all diagrams that are exported as images.
@@ -2728,6 +2968,13 @@ void UMLApp::slotTabChanged(QWidget* tab)
     if (view) {
         m_doc->changeCurrentView( view->getID() );
     }
+#ifdef SOC2011
+    if(QGV::UMLView* view_new = qobject_cast<QGV::UMLView*>(tab)){
+      if (view_new) {
+	  m_doc->changeCurrentView(m_viewtemp->getID());
+      }
+    }
+#endif
 }
 
 /**
@@ -2758,6 +3005,32 @@ void UMLApp::slotChangeTabLeft()
     else {
         setCurrentView(views.last());
     }
+#ifdef SOC2011
+    if (m_tabWidget_new) {
+        m_tabWidget_new->setCurrentIndex( m_tabWidget_new->currentIndex() - 1 );
+        return;
+    }
+    UMLViewList_new views_new = m_doc->view_Iterator();
+    QGV::UMLView *currView_new = m_view_new;
+    int viewIndex_new = 0;
+    if ((viewIndex_new = views_new.indexOf(currView_new)) < 0) {
+        uError() << "currView not found in viewlist";
+        return;
+    }
+    QGV::UMLView* prevView_new = NULL;
+    if ( viewIndex_new != 0 ) {
+        prevView_new = views_new.begin()[viewIndex_new -1 ];
+    }
+
+    if ((currView_new = prevView_new) != NULL) {
+        setCurrentView(currView_new);
+    }
+    else {
+        setCurrentView(views_new.last());
+    }
+
+#endif
+
 }
 
 /**
@@ -2835,6 +3108,17 @@ void UMLApp::slotMoveTabRight()
         to = 0;
     }
     m_tabWidget->moveTab(from, to);
+#ifdef SOC2011
+    int from_new = m_tabWidget_new->currentIndex();
+    int to_new  = -1;
+    if (from_new < m_tabWidget_new->count() - 1) {
+        to_new = from_new + 1;
+    }
+    else {
+        to_new = 0;
+    }
+    m_tabWidget_new->moveTab(from_new, to_new);
+#endif
 }
 
 /**
