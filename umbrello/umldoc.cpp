@@ -260,7 +260,7 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
     f->removeView(view);
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView == view) {
-        UMLApp::app()->setCurrentView(0);
+        UMLApp::app()->setCurrentView((UMLView*)0);
         UMLViewList viewList;
         m_root[Uml::ModelType::Logical]->appendViews(viewList);
         UMLView* firstView = 0;
@@ -1392,7 +1392,7 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType type, bool as
 }
 
 #ifdef SOC2011
-QGV::UMLView* UMLDoc::create_Diagram(UMLFolder *folder, QGV::Uml::Diagram_Type type, bool askForName /*= true */)
+QGV::UMLView* UMLDoc::create_Diagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName /*= true */)
 {
     bool ok = true;
     QString name,
@@ -3206,50 +3206,6 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
         uWarning() << "unknown diagram type " << view->type();
         return;
     }//end switch
-#ifdef SOC2011
-    switch ( view->type() ) {
-    case dt_Class:
-        type = lvt_Class_Diagram;
-        break;
-
-    case dt_UseCase:
-        type = lvt_UseCase_Diagram;
-        break;
-
-    case dt_Sequence:
-        type = lvt_Sequence_Diagram;
-        break;
-
-    case dt_Collaboration:
-        type = lvt_Collaboration_Diagram;
-        break;
-
-    case dt_State:
-        type = lvt_State_Diagram;
-        break;
-
-    case dt_Activity:
-        type = lvt_Activity_Diagram;
-        break;
-
-    case dt_Component:
-        type = lvt_Component_Diagram;
-        break;
-
-    case dt_Deployment:
-        type = lvt_Deployment_Diagram;
-        break;
-
-    case dt_EntityRelationship:
-        type = lvt_EntityRelationship_Diagram;
-        break;
-
-    default:
-        uWarning() << "unknown NEW diagram type " << view->type();
-        return;
-    }//end switch
-
-#endif
 
     // DEBUG(DBG_SRC) << "create popup for ListView_Type " << type;
     m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->mainViewWidget(), type, 0);

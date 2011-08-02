@@ -123,7 +123,7 @@ void removeView(QGV::UMLView *view , bool enforceOneView = true );
     UMLView* createDiagram(UMLFolder *folder, Uml::DiagramType type, bool askForName = true);
 
 #ifdef SOC2011
-    QGV::UMLView* create_Diagram(UMLFolder *folder, QGV::Uml::Diagram_Type type, bool askForName /*= true */);
+    QGV::UMLView* create_Diagram(UMLFolder *folder, Uml::DiagramType type, bool askForName /*= true */);
 #endif
     
     void removeDiagram(Uml::IDType id);
@@ -352,7 +352,9 @@ signals:
     void sigDiagramRemoved(Uml::IDType id);
     void sigDiagramRenamed(Uml::IDType t);
     void sigDiagramChanged(Uml::DiagramType);
-
+#ifdef SOC2011
+    void sigDiagramChanged(QGV::Uml::Diagram_Type);
+#endif
     void sigObjectCreated(UMLObject *);
     void sigObjectRemoved(UMLObject *);
 

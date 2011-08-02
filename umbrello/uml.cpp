@@ -1877,7 +1877,7 @@ void UMLApp::slotApplyPrefs()
                 foreach (QGV::UMLView *view_new, views_new) {
                     m_viewStack_new->removeWidget(view_new);
                     int tabIndex_new = m_tabWidget_new->addTab(view_new, view_new->diagram()->name());
-                    m_tabWidget_new->setTabIcon(tabIndex_new, Icon_Utils::iconSet(view_new->diagram()->typeDiagram()));
+                    m_tabWidget_new->setTabIcon(tabIndex_new, Icon_Utils::iconSet(currentView->type()));
                     m_tabWidget_new->setTabToolTip(tabIndex_new, view_new->diagram()->name());
                 }
                 m_layout->addWidget(m_tabWidget_new);

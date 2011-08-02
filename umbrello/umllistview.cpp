@@ -72,6 +72,10 @@
 #include "umlforeignkeyconstraintdialog.h"
 #include "umlcheckconstraintdialog.h"
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+#include "soc-umbrello-2011/diagram.h"
+
 #ifdef WANT_LVTOOLTIP
 class LVToolTip : public QToolTip
 {
@@ -1183,6 +1187,41 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
     return foundItem;
 }
 
+#ifdef SOC2011
+UMLListViewItem* UMLListView::findView(QGV::UMLView* v)
+{
+    if (!v) {
+        uWarning() << "returning 0";
+        return 0;
+    }
+    UMLListViewItem* item;
+    Uml::DiagramType dType = v->diagram()->typeDiagram();
+    UMLListViewItem::ListViewType type = Model_Utils::convert_DT_LVT(dType);
+    Uml::IDType id = v->diagram()->id();
+    if (dType == Uml::DiagramType::UseCase) {
+        item = m_lv[Uml::ModelType::UseCase];
+    } else if (dType == Uml::DiagramType::Component) {
+        item = m_lv[Uml::ModelType::Component];
+    } else if (dType == Uml::DiagramType::Deployment) {
+        item = m_lv[Uml::ModelType::Deployment];
+    } else if (dType == Uml::DiagramType::EntityRelationship) {
+        item = m_lv[Uml::ModelType::EntityRelationship];
+    } else {
+        item = m_lv[Uml::ModelType::Logical];
+    }
+
+    UMLListViewItem* searchStartItem = (UMLListViewItem *)item->findChildObject();
+
+    UMLListViewItem* foundItem = recursiveSearchForView(searchStartItem, type, id);
+
+    if (!foundItem) {
+        uWarning() << "returning 0 at UMLListView::findView";
+    }
+    return foundItem;
+}
+
+#endif
+
 /**
  * Searches the tree for a diagram (view).
  * Used by findView().
@@ -1277,6 +1316,17 @@ void UMLListView::setView(UMLView * view)
     if (temp)
         setSelected(temp, true);
 }
+
+#ifdef SOC2011
+void UMLListView::setView(QGV::UMLView * view)
+{
+    if (!view)
+        return;
+    UMLListViewItem * temp = findView(view);
+    if (temp)
+        setSelected(temp, true);
+}
+#endif
 
 void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me)
 {

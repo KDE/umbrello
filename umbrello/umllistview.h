@@ -37,6 +37,12 @@ class UMLView;
 class UMLClassifierListItem;
 class UMLDragData;
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
 /**
  * This is one of the main classes used in this program.
  * Information is displayed here in a tree view. No objects are created
@@ -61,12 +67,19 @@ public:
     void init();
 
     void setView(UMLView* view);
+#ifdef SOC2011
+    void setView(QGV::UMLView* view);
+#endif
 
     UMLListViewItemList selectedItems();
     UMLListViewItemList selectedItemsRoot();
     int selectedItemsCount();
 
     UMLListViewItem* createDiagramItem(UMLView *view);
+    
+#ifdef SOC2011
+    UMLListViewItem* createDiagramItem(QGV::UMLView *view);
+#endif
 
     UMLListViewItem* createItem(UMLListViewItem& Data, IDChangeLog& IDChanges,
                                 UMLListViewItem* parent = 0);
@@ -82,6 +95,9 @@ public:
 
     UMLListViewItem * findUMLObject(const UMLObject *p) const;
     UMLListViewItem * findView(UMLView *v);
+#ifdef SOC2011
+    UMLListViewItem * findView(QGV::UMLView *v);
+#endif
     UMLListViewItem * findItem(Uml::IDType id);
 
     UMLListViewItem *rootView(UMLListViewItem::ListViewType type);
