@@ -114,11 +114,10 @@ void CodeImpStatusPage::importCode()
 
     UMLDoc* doc = UMLApp::app()->document();
 
-    ui_textEditLogger->setHtml(i18n("<b>Code import of %1 files:</b>", m_files.size()));
+    ui_textEditLogger->setHtml(i18n("<b>Code import of %1 files:</b><br>", m_files.size()));
 
     foreach (const QFileInfo& file, m_files) {
         messageToLog(file.fileName(), i18n("importing file ..."));
-uDebug() << "****** preparing task for " << file.fileName();
         CodeImpThread* worker = new CodeImpThread(file);
         connect(worker, SIGNAL(messageToWiz(QString,QString)), this, SLOT(updateStatus(QString,QString)));
         connect(worker, SIGNAL(messageToLog(QString,QString)), this, SLOT(messageToLog(QString,QString)));
@@ -136,7 +135,7 @@ uDebug() << "****** task done for " << file.fileName();
             delete classImporter;
         }
 #endif
-        messageToLog(file.fileName(), i18n("importing file ... DONE"));
+        messageToLog(file.fileName(), i18n("importing file ... DONE<br>"));
         updateStatus(file.fileName(), i18n("Import Done"));
     }
     doc->setLoading(false);
@@ -184,9 +183,14 @@ bool CodeImpStatusPage::isComplete() const
  */
 void CodeImpStatusPage::messageToLog(const QString& file, const QString& text)
 {
-    uDebug() << file << ">> " << text;
     QString oldText = ui_textEditLogger->toHtml();
-    QString newText = "\n<b>" + file + ":</b> " + text;
+    QString newText('\n');
+    if (file.isEmpty()) {
+        newText.append("    " + text);
+    }
+    else {
+        newText.append("<b>" + file + ":</b> " + text);
+    }
     oldText.append(newText);
     ui_textEditLogger->setHtml(oldText);
 }

@@ -51,6 +51,9 @@ protected:
      */
     virtual void parseFile(const QString& fileName) = 0;
 
+    void log(const QString& file, const QString& text);
+    void log(const QString& text);
+
     CodeImpThread* m_thread;  ///< thread in which the work of importing is done
 
 };

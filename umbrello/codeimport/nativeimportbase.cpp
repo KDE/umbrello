@@ -357,7 +357,7 @@ void NativeImportBase::parseFile(const QString& filename)
         return;
     m_parsedFiles.append(nameWithoutPath);
     QString fname = filename;
-    const QString msgPrefix = "NativeImportBase::parseFile(" + filename + "): ";
+    const QString msgPrefix = filename + ": ";
     if (filename.contains('/')) {
         QString path = filename;
         path.remove( QRegExp("/[^/]+$") );
@@ -393,12 +393,7 @@ void NativeImportBase::parseFile(const QString& filename)
         uError() << msgPrefix << "cannot open file";
         return;
     }
-    if (m_thread) {
-        m_thread->emitMessageToLog(nameWithoutPath, "parsing...");
-    }
-    else {
-        uDebug() << msgPrefix << "parsing.";
-    }
+    log("parsing...");
     // Scan the input file into the QStringList m_source.
     m_source.clear();
     m_srcIndex = 0;
@@ -426,12 +421,7 @@ void NativeImportBase::parseFile(const QString& filename)
            skipStmt();
         m_comment.clear();
     }
-    if (m_thread) {
-        m_thread->emitMessageToLog(nameWithoutPath, "...end of parse");
-    }
-    else {
-        uDebug() << msgPrefix << "...end of parse";
-    }
+    log("...end of parse");
 }
 
 /**
@@ -441,4 +431,3 @@ void NativeImportBase::initialize()
 {
     m_parsedFiles.clear();
 }
-

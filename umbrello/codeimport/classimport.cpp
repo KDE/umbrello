@@ -16,6 +16,7 @@
 #include <klocale.h>
 
 // app includes
+#include "debug_utils.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "idlimport.h"
@@ -41,7 +42,7 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
     else if (fileName.contains(QRegExp("\\.pyw?$")))
         classImporter = new PythonImport(thread);
     else if (fileName.endsWith(QLatin1String(".java")))
-        classImporter = new JavaImport();
+        classImporter = new JavaImport(thread);
     else if (fileName.contains(QRegExp("\\.ad[sba]$")))
         classImporter = new AdaImport();
     else if (fileName.endsWith(QLatin1String(".pas")))
@@ -82,4 +83,28 @@ void ClassImport::importFile(const QString& fileName)
 {
     initialize();
     parseFile(fileName);
+}
+
+/**
+ * Write info to a logger or to the debug output.
+ * @param file   the name of the parsed file
+ * @param text   the text to write
+ */
+void ClassImport::log(const QString& file, const QString& text)
+{
+    if (m_thread) {
+        m_thread->emitMessageToLog(file, text);
+    }
+    else {
+        uDebug() << file << " - " << text;
+    }
+}
+
+/**
+ * Write info to a logger or to the debug output.
+ * @param text   the text to write
+ */
+void ClassImport::log(const QString& text)
+{
+    log("", text);
 }

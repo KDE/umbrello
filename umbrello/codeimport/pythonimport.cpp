@@ -224,9 +224,7 @@ bool PythonImport::parseStmt()
         if (m_source[m_srcIndex] != "{") {
             skipStmt("{");
         }
-        if (m_thread) {
-            m_thread->emitMessageToLog("", "class " + name);
-        }
+        log("class " + name);
         return true;
     }
     if (keyword == "def") {
@@ -253,9 +251,7 @@ bool PythonImport::parseStmt()
                                    false /*isStatic*/, false /*isAbstract*/, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         op->setSourceCode(skipBody());
-        if (m_thread) {
-            m_thread->emitMessageToLog("", "def " + name);
-        }
+        log("def " + name);
 
         return true;
     }

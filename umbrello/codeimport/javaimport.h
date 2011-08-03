@@ -24,7 +24,7 @@ class UMLObject;
 class JavaImport : public NativeImportBase
 {
 public:
-    JavaImport();
+    JavaImport(CodeImpThread* thread = 0);
     virtual ~JavaImport();
 
 protected:

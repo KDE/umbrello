@@ -1,5 +1,5 @@
  ============================
-| Application Test Procedure |  (last updated: 2011-07-30 by Andi Fischer)
+| Application Test Procedure |  (last updated: 2011-07-31 by Andi Fischer)
  ============================
 
 ===============================================================================
@@ -341,6 +341,16 @@ COI07 - Code import IDL:                                         OK[ ]   NOK[ ]
 -------------------------------------------------------------------------------
 COI08 - Code import Java:                                        OK[ ]   NOK[ ]
 -------------------------------------------------------------------------------
+Testprocedure:
+  1) Download a java project, e.g. LAoE
+     information at http://www.oli4.ch/laoe/home.html
+     source code at http://sourceforge.net/projects/laoe/
+  2) Import all or only some single files.
+Testresult:
+  1) The code is parsed and imported as expected.
+  2) All classes are found.
+  3) All methods are found with the right parameters.
+  4) All attributes are found.
 
 -------------------------------------------------------------------------------
 COI09 - Code import JavaScript:                                  OK[ ]   NOK[ ]
@@ -373,6 +383,16 @@ COI15 - Code import PostgreSQL:                                  OK[ ]   NOK[ ]
 -------------------------------------------------------------------------------
 COI16 - Code import Python:                                      OK[ ]   NOK[ ]
 -------------------------------------------------------------------------------
+Testprocedure:
+  1) Download a python project, e.g. eric5
+     information at http://eric-ide.python-projects.org/
+     source code at http://sourceforge.net/projects/eric-ide/files/eric5/stable/
+  2) Import all or only some single files.
+Testresult:
+  1) The code is parsed and imported as expected.
+  2) All classes are found.
+  3) All methods are found with the right parameters.
+  4) All attributes are found.
 
 -------------------------------------------------------------------------------
 COI17 - Code import Ruby:                                        OK[ ]   NOK[ ]
