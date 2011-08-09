@@ -23,6 +23,10 @@
 #include "umlview.h"
 #include "umlwidget.h"
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+
+
 /**
  * Destroys this ToolBarState.
  * Frees m_pMouseEvent.
@@ -243,6 +247,23 @@ ToolBarState::ToolBarState(UMLView *umlView)
     m_pMouseEvent = NULL;
     init();
 }
+
+#ifdef SOC2011
+ToolBarState::ToolBarState(QGV::UMLView *umlView)
+  : QObject(umlView), m_pUMLView_new(umlView)
+{
+    m_pMouseEvent = NULL;
+    m_pUMLView_new->viewport()->setMouseTracking(false);
+    m_pMouseEvent = 0;
+    m_currentWidget = 0;
+    m_currentAssociation = 0;
+
+//     connect(m_pUMLView_new, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
+//             this, SLOT(slotAssociationRemoved(AssociationWidget*)));
+//     connect(m_pUMLView_new, SIGNAL(sigWidgetRemoved(UMLWidget*)),
+//             this, SLOT(slotWidgetRemoved(UMLWidget*)));
+}
+#endif
 
 /**
  * Sets the current association or widget.

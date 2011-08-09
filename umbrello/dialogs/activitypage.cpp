@@ -220,7 +220,7 @@ void ActivityPage::slotRightButtonPressed(const QPoint & p)
         delete m_pMenu;
         m_pMenu = 0;
     }
-    m_pMenu = new ListPopupMenu(this, type);
+    m_pMenu = new ListPopupMenu(this, type, (UMLView*)0);
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
     m_pMenu->exec(m_pActivityLW->mapToGlobal(p));
 }

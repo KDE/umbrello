@@ -20,6 +20,11 @@
 
 class UMLView;
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
 
 /**
  * The ToolBarStateFactory keeps track of all the toolbar states. For the first
@@ -40,6 +45,10 @@ public:
     virtual ~ToolBarStateFactory();
 
     ToolBarState* getState(const WorkToolBar::ToolBar_Buttons &toolbarButton, UMLView* umlView);
+    
+#ifdef SOC2011
+    ToolBarState* state(const WorkToolBar::ToolBar_Buttons &toolbarButton, QGV::UMLView* umlView);
+#endif
 
 protected:
     int getKey(const WorkToolBar::ToolBar_Buttons &toolbarButton) const;

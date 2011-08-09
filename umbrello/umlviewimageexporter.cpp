@@ -29,6 +29,9 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+
 /**
  * Constructor for UMLViewImageExporter.
  */
@@ -37,6 +40,14 @@ UMLViewImageExporter::UMLViewImageExporter(UMLView* view)
     m_view = view;
     m_imageMimeType = UMLApp::app()->imageMimeType();
 }
+
+#ifdef SOC2011
+UMLViewImageExporter::UMLViewImageExporter(QGV::UMLView* view)
+{
+    m_view_new = view;
+    m_imageMimeType_new = UMLApp::app()->imageMimeType();
+}
+#endif
 
 /**
  * Destructor for UMLViewImageExporter

@@ -14,6 +14,12 @@
 #include "toolbarstate.h"
 #include "worktoolbar.h"
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
 /**
  * Base class for tools that can use the same state but with different button.
  * This class only adds support to specify the button currently in use for a
@@ -32,7 +38,9 @@ public:
 protected:
 
     ToolBarStatePool(UMLView *umlView);
-
+#ifdef SOC2011
+    ToolBarStatePool(QGV::UMLView *umlView);
+#endif
 private:
 
     WorkToolBar::ToolBar_Buttons m_ToolBarButton;  ///< The current button of the tool.

@@ -14,6 +14,12 @@
 #include "toolbarstatepool.h"
 #include "umlobject.h"
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
 /**
  * Other tool creates almost all the objects (except associations and messages).
  * Objects are created when left button is released, no matter if it was
@@ -28,6 +34,9 @@ class ToolBarStateOther : public ToolBarStatePool
 public:
 
     ToolBarStateOther(UMLView *umlView);
+#ifdef SOC2011
+    ToolBarStateOther(QGV::UMLView *umlView);
+#endif
     virtual ~ToolBarStateOther();
 
 private:

@@ -26,6 +26,12 @@ class UMLListView;
 class UMLClassifier;
 class QPixmap;
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
 /**
  * This class provides encoding and decoding for the uml data that will be used
  * in a drag and drop operation or in a copy or paste operation.
@@ -59,6 +65,11 @@ public:
     static bool decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
                             UMLListViewItemList& umlListViewItems,
                             UMLViewList& diagrams);
+#ifdef SOC2011
+    static bool decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
+                            UMLListViewItemList& umlListViewItems,
+                            UMLViewList_new& diagrams);
+#endif
 
     static bool decodeClip3(const QMimeData* mimeData,
                             UMLListViewItemList& umlListViewItems,

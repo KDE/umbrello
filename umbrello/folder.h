@@ -55,8 +55,8 @@ public:
     void addView(QGV::UMLView *view);
     void removeView(QGV::UMLView *view);
     void appendViews(UMLViewList_new& viewList, bool includeNested = true);
-    QGV::UMLView *find_View(QGV::Uml::IDType id);
-    QGV::UMLView* find_View(QGV::Uml::Diagram_Type type, const QString &name, bool searchAllScopes = true);
+    QGV::UMLView *find_View(Uml::IDType id);
+    QGV::UMLView* find_View(Uml::DiagramType type, const QString &name, bool searchAllScopes = true);
 #endif
     void removeView(UMLView *view);
 

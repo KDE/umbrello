@@ -23,6 +23,9 @@
 #include <QDropEvent>
 #include <QMouseEvent>
 
+#include <Q3ListViewItem>
+
+
 // kde includes
 #include <kfiledialog.h>
 #include <klocale.h>
@@ -1210,7 +1213,8 @@ UMLListViewItem* UMLListView::findView(QGV::UMLView* v)
         item = m_lv[Uml::ModelType::Logical];
     }
 
-    UMLListViewItem* searchStartItem = (UMLListViewItem *)item->findChildObject();
+    //TODO
+    UMLListViewItem* searchStartItem = (UMLListViewItem *)item->firstChild();
 
     UMLListViewItem* foundItem = recursiveSearchForView(searchStartItem, type, id);
 

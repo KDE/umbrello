@@ -306,16 +306,16 @@ void UMLDoc::removeView(QGV::UMLView *view , bool enforceCurrentView )
     if (currentView == view) {
         UMLApp::app()->setCurrentView((QGV::UMLView*)0);
         UMLViewList_new viewList;
-        m_root[mt_Logical]->appendViews(viewList);
+        m_root[Uml::ModelType::Logical]->appendViews(viewList);
         QGV::UMLView* firstView = 0;
         if ( !viewList.isEmpty() ) {
             firstView =  viewList.first();
         }
 
         if (!firstView && enforceCurrentView) {  //create a diagram
-            create_Diagram(m_root[mt_Logical], dt_Class, false);
+            create_Diagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, false);
             qApp->processEvents();
-            m_root[mt_Logical]->appendViews(viewList);
+            m_root[Uml::ModelType::Logical]->appendViews(viewList);
             firstView = viewList.first();
         }
 
@@ -832,7 +832,7 @@ UMLView * UMLDoc::findView(Uml::IDType id)
 }
 
 #ifdef SOC2011
-QGV::UMLView * UMLDoc::find_View(QGV::Uml::IDType id)
+QGV::UMLView * UMLDoc::find_View(Uml::IDType id)
 {
     QGV::UMLView *v = 0;
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
@@ -862,7 +862,7 @@ UMLView * UMLDoc::findView(Uml::DiagramType type, const QString &name,
 }
 
 #ifdef SOC2011
-QGV::UMLView * UMLDoc::find_View(QGV::Uml::Diagram_Type type, const QString &name,
+QGV::UMLView * UMLDoc::find_View(Uml::DiagramType type, const QString &name,
                            bool searchAllScopes /* =false */)
 {
     Uml::ModelType mt = Model_Utils::convert_DT_MT(type);
@@ -1392,7 +1392,7 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType type, bool as
 }
 
 #ifdef SOC2011
-QGV::UMLView* UMLDoc::create_Diagram(UMLFolder *folder, Uml::Diagram_Type type, bool askForName /*= true */)
+QGV::UMLView* UMLDoc::create_Diagram(UMLFolder *folder, Uml::DiagramType type, bool askForName /*= true */)
 {
     bool ok = true;
     QString name,
@@ -1444,6 +1444,9 @@ void UMLDoc::renameDiagram(Uml::IDType id)
     bool ok = false;
 
     UMLView *view =  findView(id);
+#ifdef SOC2011
+    QGV::UMLView *view_new =  find_View(id);
+#endif
     Uml::DiagramType type = view->type();
 
     QString oldName= view->name();
@@ -1463,7 +1466,7 @@ void UMLDoc::renameDiagram(Uml::IDType id)
             break;
         }
 #ifdef SOC2011
-        else if (!find_View(type_new, name)) {
+        else if (!find_View(type, name)) {
             view_new->diagram()->setName(name);
             emit sigDiagramRenamed(id);
             setModified(true);
@@ -1476,12 +1479,7 @@ void UMLDoc::renameDiagram(Uml::IDType id)
     }
 }
 
-#ifdef SOC2011
-    QGV::UMLView *view_new =  find_View(id);
-    Diagram_Type type_new = view_new->diagram()->typeDiagram();
 
-    QString oldName_new = view_new->diagram()->name();
-#endif
 
 /**
  * Used to rename a @ref UMLObject.  The @ref UMLObject is to be an
@@ -2203,8 +2201,8 @@ bool UMLDoc::loadFromXMI( QIODevice & file, short encode )
     if (viewToBeSet_new) {
         changeCurrentView( m_nViewID );
     } else {
-        create_Diagram(m_root[mt_Logical], Uml::DiagramType::Class, false);
-        m_pCurrentRoot = m_root[mt_Logical];
+        create_Diagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, false);
+        m_pCurrentRoot = m_root[Uml::ModelType::Logical];
     }
 #endif
 
@@ -2521,7 +2519,7 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
                 delete pView_new;
                 return false;
             }
-            Uml::Model_Type mt_new = Model_Utils::convert_DT_MT(pView_new->diagram()->typeDiagram());
+            Uml::ModelType mt_new = Model_Utils::convert_DT_MT(pView_new->diagram()->typeDiagram());
             pView_new->setFolder(m_root[mt_new]);
             pView_new->hide();
             addView( pView_new );

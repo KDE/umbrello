@@ -18,6 +18,12 @@ class Q3CanvasLine;
 class QMouseEvent;
 class ObjectWidget;
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
 /**
  * Messages tool to create messages between objects in sequence diagrams.
  * With messages tool, two objects are selected clicking with left button on
@@ -53,6 +59,9 @@ class ToolBarStateMessages : public ToolBarStatePool
 public:
 
     ToolBarStateMessages(UMLView *umlView);
+#ifdef SOC2011
+    ToolBarStateMessages(QGV::UMLView *umlView);
+#endif
     virtual ~ToolBarStateMessages();
 
     virtual void init();

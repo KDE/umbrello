@@ -1877,7 +1877,7 @@ void UMLApp::slotApplyPrefs()
                 foreach (QGV::UMLView *view_new, views_new) {
                     m_viewStack_new->removeWidget(view_new);
                     int tabIndex_new = m_tabWidget_new->addTab(view_new, view_new->diagram()->name());
-                    m_tabWidget_new->setTabIcon(tabIndex_new, Icon_Utils::iconSet(currentView->type()));
+                    m_tabWidget_new->setTabIcon(tabIndex_new, Icon_Utils::iconSet(UMLApp::app()->currentView()->type()));
                     m_tabWidget_new->setTabToolTip(tabIndex_new, view_new->diagram()->name());
                 }
                 m_layout->addWidget(m_tabWidget_new);
@@ -2932,10 +2932,7 @@ UMLView* UMLApp::currentView() const
 #ifdef SOC2011
 QGV::UMLView* UMLApp::current_View() const
 {
-    if(m_view == NULL)
-      return;
-	
-    return m_view_new; 
+  return m_view_new; 
 }
 #endif
 

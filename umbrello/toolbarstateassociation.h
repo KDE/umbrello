@@ -16,6 +16,12 @@
 
 class Q3CanvasLine;
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
 /**
  * Association tool to create associations between widgets.
  * With association tool, two widgets are selected clicking with left button on
@@ -41,6 +47,9 @@ class ToolBarStateAssociation : public ToolBarStatePool
 public:
 
     ToolBarStateAssociation(UMLView *umlView);
+#ifdef SOC2011
+    ToolBarStateAssociation(QGV::UMLView *umlView);
+#endif
     virtual ~ToolBarStateAssociation();
 
     virtual void init();

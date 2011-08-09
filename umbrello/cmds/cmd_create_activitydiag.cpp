@@ -16,6 +16,8 @@
 
 #include <klocale.h>
 
+#include "soc-umbrello-2011/umlview.h"
+
 namespace Uml
 {
 
@@ -33,6 +35,10 @@ namespace Uml
     {
         UMLFolder* temp = m_pUMLDoc->rootFolder(Uml::ModelType::Logical);
         m_pUMLView = m_pUMLDoc->createDiagram(temp, Uml::DiagramType::Activity);
+#ifdef SOC2011
+	m_pUMLView_new = m_pUMLDoc->create_Diagram(temp, Uml::DiagramType::Activity, true);
+#endif
+	 
     }
 
     void CmdCreateActivityDiag::undo()
@@ -40,6 +46,11 @@ namespace Uml
         if (m_pUMLView) {
             m_pUMLDoc->removeDiagram(m_pUMLView->getID());
         }
+#ifdef SOC2011
+        if (m_pUMLView_new) {
+            m_pUMLDoc->removeDiagram(m_pUMLView_new->diagram()->id());
+        }
+#endif
     }
 
 }

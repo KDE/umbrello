@@ -463,7 +463,7 @@ void ClassifierListPage::slotRightButtonPressed(const QPoint& pos)
         }
     }
     deleteMenu();
-    m_pMenu = new ListPopupMenu(this, type);
+    m_pMenu = new ListPopupMenu(this, type, (UMLView*)0);
 
     m_pMenu->popup(mapToGlobal(pos) + QPoint(0, 40));
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));

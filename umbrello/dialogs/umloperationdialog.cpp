@@ -255,7 +255,7 @@ void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
         delete m_menu;
         m_menu = 0;
     }
-    m_menu = new ListPopupMenu(this, type);
+    m_menu = new ListPopupMenu(this, type, (UMLView*)0);
     connect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotParmPopupMenuSel(QAction*)));
     m_menu->exec(m_pParmsLW->mapToGlobal(p));
 }
@@ -266,7 +266,7 @@ void UMLOperationDialog::slotParmDoubleClick(QListWidgetItem *item)
         return;
     }
     if (!m_menu) {  // this happens, when there was no right click in the list widget
-        m_menu = new ListPopupMenu(this, ListPopupMenu::mt_Parameter_Selected);
+        m_menu = new ListPopupMenu(this, ListPopupMenu::mt_Parameter_Selected, (UMLView*)0);
     }
     QAction* action = m_menu->getAction(ListPopupMenu::mt_Properties);
     slotParmPopupMenuSel(action);

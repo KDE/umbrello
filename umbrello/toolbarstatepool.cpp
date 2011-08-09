@@ -11,6 +11,10 @@
 // own header
 #include "toolbarstatepool.h"
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+#include "soc-umbrello-2011/umlscene.h"
+
 /**
  * Destroys this ToolBarStatePool.
  */
@@ -56,5 +60,14 @@ ToolBarStatePool::ToolBarStatePool(UMLView *umlView)
 {
     m_ToolBarButton = WorkToolBar::tbb_Arrow;
 }
+
+#ifdef SOC2011
+ToolBarStatePool::ToolBarStatePool(QGV::UMLView *umlView)
+  : ToolBarState(umlView)
+{
+    m_ToolBarButton = WorkToolBar::tbb_Arrow;
+}
+
+#endif
 
 #include "toolbarstatepool.moc"

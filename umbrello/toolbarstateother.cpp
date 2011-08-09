@@ -39,6 +39,9 @@
 
 #include <QtGui/QMouseEvent>
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+
 using namespace Uml;
 
 /**
@@ -49,6 +52,13 @@ ToolBarStateOther::ToolBarStateOther(UMLView *umlView)
   : ToolBarStatePool(umlView)
 {
 }
+
+#ifdef SOC2011
+ToolBarStateOther::ToolBarStateOther(QGV::UMLView *umlView)
+  : ToolBarStatePool(umlView)
+{
+}
+#endif
 
 /**
  * Destroys this ToolBarStateOther.

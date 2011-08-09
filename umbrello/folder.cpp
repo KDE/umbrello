@@ -218,7 +218,7 @@ UMLView *UMLFolder::findView(Uml::IDType id)
 }
 
 #ifdef SOC2011
-QGV::UMLView *UMLFolder::find_View(QGV::Uml::IDType id)
+QGV::UMLView *UMLFolder::find_View(Uml::IDType id)
 {
    
     foreach (QGV::UMLView* v, m_diagrams_new ) {
@@ -276,7 +276,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType type, const QString &name, bool se
 }
 
 #ifdef SOC2011
-QGV::UMLView *UMLFolder::find_View(QGV::Uml::Diagram_Type type, const QString &name, bool searchAllScopes)
+QGV::UMLView *UMLFolder::find_View(Uml::DiagramType type, const QString &name, bool searchAllScopes)
 {
     foreach (QGV::UMLView* v, m_diagrams_new ) {
         if (v->diagram()->typeDiagram() == type && v->diagram()->name() == name) {

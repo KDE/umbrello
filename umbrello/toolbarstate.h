@@ -23,6 +23,11 @@ class FloatingDashLineWidget;
 class UMLView;
 class UMLWidget;
 
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
 /**
  * Base class for toolbar states.
  * All toolbar states inherit directly or indirectly from this class. Toolbar
@@ -91,6 +96,10 @@ public slots:
 protected:
 
     ToolBarState(UMLView *umlView);
+    
+#ifdef SOC2011
+    ToolBarState(QGV::UMLView *umlView);
+#endif
 
     virtual void setCurrentElement();
 
@@ -122,6 +131,10 @@ protected:
     FloatingDashLineWidget* getFloatingLineAt(const QPoint& pos);
 
     UMLView* m_pUMLView;  ///< The UMLView.
+
+#ifdef SOC2011
+    QGV::UMLView* m_pUMLView_new;
+#endif
 
     /**
      * The mouse event currently in use.

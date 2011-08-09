@@ -113,7 +113,7 @@ void PkgContentsPage::slotShowContextMenu(const QPoint &p)
             delete m_menu;
             m_menu = 0;
         }
-        m_menu = new ListPopupMenu(this, ListPopupMenu::mt_Association_Selected);
+        m_menu = new ListPopupMenu(this, ListPopupMenu::mt_Association_Selected, (UMLView*)0);
         connect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
         m_menu->exec(mapToGlobal(p) + QPoint(0, 20));
     }

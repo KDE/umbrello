@@ -41,6 +41,17 @@ ToolBarStateMessages::ToolBarStateMessages(UMLView *umlView)
     yclick = 0;
 }
 
+#ifdef SOC2011
+ToolBarStateMessages::ToolBarStateMessages(QGV::UMLView *umlView)
+  : ToolBarStatePool(umlView)
+{
+    m_firstObject = 0;
+    m_messageLine = 0;
+    xclick = 0;
+    yclick = 0;
+}
+#endif
+
 /**
  * Destroys this ToolBarStateMessages.
  */

@@ -150,8 +150,8 @@ void removeView(QGV::UMLView *view , bool enforceOneView = true );
                        bool searchAllScopes = false);
     
 #ifdef SOC2011
-    QGV::UMLView * find_View(QGV::Uml::IDType id);
-    QGV::UMLView * find_View(QGV::Uml::Diagram_Type type, const QString &name,
+    QGV::UMLView * find_View(Uml::IDType id);
+    QGV::UMLView * find_View(Uml::DiagramType type, const QString &name,
                        bool searchAllScopes = false);    
 #endif
 
@@ -254,6 +254,7 @@ private:
 #ifdef SOC2011
     //new canvas
     UMLView *m_viewtemp;
+    QGV::UMLView *m_view_new;
 #endif
     
     void initSaveTimer();
@@ -323,6 +324,7 @@ private:
     /**
      * the context menu on the tabs,
      * plugs into umlview::slotMenuSelection()
+     * 
      */
     ListPopupMenu* m_pTabPopupMenu;
     
@@ -352,9 +354,6 @@ signals:
     void sigDiagramRemoved(Uml::IDType id);
     void sigDiagramRenamed(Uml::IDType t);
     void sigDiagramChanged(Uml::DiagramType);
-#ifdef SOC2011
-    void sigDiagramChanged(QGV::Uml::Diagram_Type);
-#endif
     void sigObjectCreated(UMLObject *);
     void sigObjectRemoved(UMLObject *);
 

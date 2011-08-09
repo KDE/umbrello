@@ -19,6 +19,9 @@
 
 #include "umlview.h"
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+
 ToolBarStateFactory::ToolBarStateFactory()
 {
     for (int i = 0; i < NR_OF_TOOLBAR_STATES; ++i)
@@ -62,6 +65,35 @@ ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &
 
     return m_states[key];
 }
+
+#ifdef SOC2011
+ToolBarState* ToolBarStateFactory::state(const WorkToolBar::ToolBar_Buttons &toolbarButton, QGV::UMLView *umlView)
+{
+    int key = getKey(toolbarButton);
+
+    if (m_states[key] == 0)
+    {
+        switch (key)
+        {
+            // When you add a new state, make sure you also increase the
+            // NR_OF_TOOLBAR_STATES
+        case 0: m_states[0] = new ToolBarStateOther(umlView); break;
+        case 1: m_states[1] = new ToolBarStateAssociation(umlView); break;
+        case 2: m_states[2] = new ToolBarStateMessages(umlView); break;
+
+            // This case has no pool.
+        case 3: m_states[3] = new ToolBarStateArrow(umlView); break;
+        case 4: m_states[4] = new ToolBarStateOneWidget(umlView); break;
+        }
+    }
+
+    // Make explicit the selected button. This is only necessary for states with a pool.
+    if (key != 3) ((ToolBarStatePool *) m_states[key])->setButton(toolbarButton);
+
+    return m_states[key];
+}
+
+#endif
 
 
 int ToolBarStateFactory::getKey(const WorkToolBar::ToolBar_Buttons &toolbarButton) const

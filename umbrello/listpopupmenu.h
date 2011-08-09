@@ -26,6 +26,12 @@ class ClassifierWidget;
 class UMLCategory;
 class UMLWidget;
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
 /**
  * A popup menu that depending on what type it is set to will
  * display a different menu.
@@ -218,6 +224,10 @@ public:
     static QString toString(MenuType menu);
 
     explicit ListPopupMenu(QWidget* parent, MenuType type = mt_Undefined, UMLView* view = 0);
+
+#ifdef SOC2011
+     ListPopupMenu(QWidget* parent, MenuType type = mt_Undefined, QGV::UMLView* view = 0);
+#endif
     ListPopupMenu(QWidget* parent, UMLListViewItem::ListViewType type, UMLObject* object);
     ListPopupMenu(QWidget* parent, UMLWidget* object, bool multi = false, bool unique = false);
 
@@ -266,6 +276,9 @@ private:
 
     union TriggerObject {  ///< The List Popup Menu is triggered either by right clicking on the View, a ListViewItem (Object), or a widget.
         UMLView* m_View;
+#ifdef SOC2011
+	QGV::UMLView* m_View_new;
+#endif
         UMLObject* m_Object;
         UMLWidget* m_Widget;
     };

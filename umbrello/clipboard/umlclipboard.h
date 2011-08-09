@@ -21,6 +21,12 @@
 class IDChangeLog;
 class QMimeData;
 
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+  class UMLScene;
+}
+
 /**
  * This class manages the uml's interaction with the KDE
  * Clipboard. It makes possible to copy stuff from one uml
@@ -70,6 +76,9 @@ private:
     UMLWidgetList m_WidgetList;
     AssociationWidgetList m_AssociationList;
     UMLViewList m_ViewList;
+#ifdef SOC2011
+    UMLViewList_new m_ViewList_new;
+#endif
     UMLCopyType m_type; ///< Type of copy operation to perform.
 
 private:

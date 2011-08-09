@@ -32,6 +32,10 @@
 
 #include <QtGui/QMouseEvent>
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+#include "soc-umbrello-2011/umlscene.h"
+
 using namespace Uml;
 
 ToolBarStateOneWidget::ToolBarStateOneWidget(UMLView *umlView)
@@ -40,6 +44,17 @@ ToolBarStateOneWidget::ToolBarStateOneWidget(UMLView *umlView)
     m_umlView = umlView;
     m_firstObject = 0;
 }
+
+#ifdef SOC2011
+
+ToolBarStateOneWidget::ToolBarStateOneWidget(QGV::UMLView *umlView)
+  : ToolBarStatePool(umlView)
+{
+    m_umlView_new = umlView;
+    m_firstObject = 0;
+}
+
+#endif
 
 ToolBarStateOneWidget::~ToolBarStateOneWidget()
 {

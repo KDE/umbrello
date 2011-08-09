@@ -58,6 +58,13 @@
 #include "categorywidget.h"
 #include "cmds.h"
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+#include "soc-umbrello-2011/umlscene.h"
+#include "soc-umbrello-2011/diagram.h"
+#include "soc-umbrello-2011/objectwidget.h"
+#include "soc-umbrello-2011/umlwidget.h"
+
 namespace Widget_Factory {
 
 UMLWidget *createWidget(UMLView *view, UMLObject *o)
@@ -150,6 +157,100 @@ UMLWidget *createWidget(UMLView *view, UMLObject *o)
 
     return newWidget;
 }
+
+#ifdef SOC2011
+QGV::UMLWidget *create_Widget(QGV::UMLView *view, UMLObject *o)
+{
+    QPointF pos = view->pos();
+    qreal y = pos.y();
+    Uml::DiagramType diagramType = view->type();
+    UMLObject::ObjectType type = o->baseType();
+    QGV::UMLWidget *newWidget = NULL;
+    switch (type) {
+//     case UMLObject::ot_Actor:
+//         if (diagramType == Uml::DiagramType::Sequence) {
+//             QGV::ObjectWidget *ow = new QGV::ObjectWidget(view, o, view->diagram()->localId());
+// //             ow->setDrawAsActor(true);
+// //             y = ow->topMargin();
+//             newWidget = ow;
+//         } else
+//             newWidget = new ActorWidget(view, static_cast<UMLActor*>(o));
+//         break;
+/*    case UMLObject::ot_UseCase:
+        newWidget = new UseCaseWidget(view, static_cast<UMLUseCase*>(o));
+        break;
+    case UMLObject::ot_Package:
+        newWidget = new PackageWidget(view, static_cast<UMLPackage*>(o));
+        break;
+    case UMLObject::ot_Component:
+        newWidget = new ComponentWidget(view, static_cast<UMLComponent*>(o));
+        if (diagramType == Uml::DiagramType::Deployment) {
+            newWidget->setIsInstance(true);
+        }
+        break;
+    case UMLObject::ot_Node:
+        newWidget = new NodeWidget(view, static_cast<UMLNode*>(o));
+        break;
+    case UMLObject::ot_Artifact:
+        newWidget = new ArtifactWidget(view, static_cast<UMLArtifact*>(o));
+        break;
+    case UMLObject::ot_Datatype:
+        newWidget = new DatatypeWidget(view, static_cast<UMLClassifier*>(o));
+        break;
+    case UMLObject::ot_Enum:
+        newWidget = new EnumWidget(view, static_cast<UMLEnum*>(o));
+        break;
+    case UMLObject::ot_Entity:
+        newWidget = new EntityWidget(view, static_cast<UMLEntity*>(o));
+        break;
+    case UMLObject::ot_Interface:
+        if (diagramType == Uml::DiagramType::Sequence || diagramType == Uml::DiagramType::Collaboration) {
+            ObjectWidget *ow = new ObjectWidget(view, o, view->getLocalID() );
+            if (diagramType == Uml::DiagramType::Sequence) {
+                y = ow->topMargin();
+            }
+            newWidget = ow;
+        } else {
+            UMLClassifier *c = static_cast<UMLClassifier*>(o);
+            ClassifierWidget* interfaceWidget = new ClassifierWidget(view, c);
+            if (diagramType == Uml::DiagramType::Component || diagramType == Uml::DiagramType::Deployment) {
+                interfaceWidget->setDrawAsCircle(true);
+            }
+            newWidget = interfaceWidget;
+        }
+        break;
+    case UMLObject::ot_Class:
+        //see if we really want an object widget or class widget
+        if (diagramType == Uml::DiagramType::Class || diagramType == Uml::DiagramType::Component) {
+            UMLClassifier *c = static_cast<UMLClassifier*>(o);
+            ClassifierWidget *cw = new ClassifierWidget(view, c);
+            if (diagramType == Uml::DiagramType::Component)
+                cw->setDrawAsCircle(true);
+            newWidget = cw;
+        } else {
+            ObjectWidget *ow = new ObjectWidget(view, o, view->getLocalID() );
+            if (diagramType == Uml::DiagramType::Sequence) {
+                y = ow->topMargin();
+            }
+            newWidget = ow;
+        }
+        break;
+    case UMLObject::ot_Category:
+        newWidget = new CategoryWidget(view, static_cast<UMLCategory*>(o));
+        break;*/
+    default:
+        uWarning() << "trying to create an invalid widget";
+    }
+
+    if (newWidget) {
+        newWidget->setX( pos.x() );
+        newWidget->setY( pos.y() );
+    }
+
+    return newWidget;
+}
+
+#endif
 
 bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::IDType id)
 {

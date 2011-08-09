@@ -99,7 +99,6 @@ set(libsocumbrello2011_SRCS
     soc-umbrello-2011/boxwidget.cpp
     soc-umbrello-2011/objectwidget.cpp
     soc-umbrello-2011/entitywidget.cpp
-    soc-umbrello-2011/umlnamespace.cpp
 )
 
 set(libcodegenerator_SRCS

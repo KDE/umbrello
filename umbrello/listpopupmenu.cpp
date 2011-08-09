@@ -39,6 +39,9 @@
 
 const bool CHECKABLE = true;
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+
 /**
  * Constructs the popup menu for a UMLView (diagram).
  *
@@ -53,6 +56,16 @@ ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, UMLView * view)
     m_TriggerObjectType = tot_View;
     setupMenu(type);
 }
+
+#ifdef SOC2011
+ListPopupMenu::ListPopupMenu(QWidget *parent, MenuType type, QGV::UMLView * view)
+  : KMenu(parent)
+{
+    m_TriggerObject.m_View_new = view;
+    m_TriggerObjectType = tot_View;
+    setupMenu(type);
+}
+#endif
 
 /**
  * Constructs the popup menu for a tree list view item.

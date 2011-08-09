@@ -18,6 +18,12 @@ class ObjectWidget;
 class QMouseEvent;
 class UMLWidget;
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
 /**
  * Sequence tool to create components linked with one object in sequence diagram
  * like precondition.
@@ -35,6 +41,10 @@ public:
      * @param umlView The UMLView to use.
      */
     ToolBarStateOneWidget(UMLView *umlView);
+    
+#ifdef SOC2011
+    ToolBarStateOneWidget(QGV::UMLView *umlView);
+#endif
 
     /**
      * Destroys this ToolBarStateOneWidget.
@@ -126,6 +136,9 @@ protected:
     UMLWidget* m_firstObject;
 
     UMLView * m_umlView;
+#ifdef SOC2011
+    QGV::UMLView * m_umlView_new;
+#endif
     /**
      * If there is a current widget, it is true if the press event happened on
      * the line of an object, or false if it happened on a normal UMLWidget.

@@ -17,6 +17,12 @@
 class UMLView;
 class KFileDialog;
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
 /**
  * Exports the view as an image.
  * This class takes care of asking the user the needed parameters and
@@ -27,6 +33,9 @@ class UMLViewImageExporter
 public:
 
     UMLViewImageExporter(UMLView* view);
+#ifdef SOC2011
+    UMLViewImageExporter(QGV::UMLView* view);
+#endif
     virtual ~UMLViewImageExporter();
 
     void exportView();
@@ -39,6 +48,11 @@ private:
     UMLView* m_view;           ///< The view to export.
     KUrl     m_imageURL;       ///< The URL used to save the image.
     QString  m_imageMimeType;  ///< The mime type used to save the image.
+    
+#ifdef SOC2011
+    QGV::UMLView* m_view_new;  
+    QString  m_imageMimeType_new;
+#endif
 
     bool getParametersFromUser();
 

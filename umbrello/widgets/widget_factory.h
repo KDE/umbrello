@@ -19,6 +19,15 @@ class UMLView;
 class UMLObject;
 class UMLWidget;
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+  class Diagram;
+  class ObjectWidget;
+  class UMLWidget;
+}
+
 /**
  * Widget factory methods.
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
@@ -29,6 +38,10 @@ namespace Widget_Factory {
      * Create a UMLWidget in the given view and representing the given document object.
      */
     UMLWidget *createWidget(UMLView *view, UMLObject *docObj);
+    
+#ifdef SOC2011
+    QGV::UMLWidget *create_Widget(QGV::UMLView *view, UMLObject *docObj);
+#endif
 
     /**
      * Create a UMLWidget according to the given XMI tag.

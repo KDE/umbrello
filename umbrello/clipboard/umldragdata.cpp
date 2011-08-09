@@ -32,6 +32,9 @@
 #include <QtXml/QDomDocument>
 #include <QtGui/QPixmap>
 
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+
 /**
  *  Constructor.
  */
@@ -465,6 +468,120 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
     }
     return true;
 }
+
+#ifdef SOC2011
+bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
+                          UMLListViewItemList& umlListViewItems, UMLViewList_new& diagrams)
+{
+    if ( !mimeData->hasFormat("application/x-uml-clip2") ) {
+        return false;
+    }
+    QByteArray payload = mimeData->data("application/x-uml-clip2");
+    if ( !payload.size() ) {
+        return false;
+    }
+    QString xmiClip = QString::fromUtf8(payload);
+
+    QString error;
+    int line;
+    QDomDocument domDoc;
+    if( !domDoc.setContent(xmiClip, false, &error, &line) ) {
+        uWarning() << "Can not set content:" << error << " Line:" << line;
+        return false;
+    }
+    QDomNode xmiClipNode = domDoc.firstChild();
+    QDomElement root = xmiClipNode.toElement();
+    if ( root.isNull() ) {
+        return false;
+    }
+    //  make sure it is an XMI clip
+    if ( root.tagName() != "xmiclip" ) {
+        return false;
+    }
+
+    //UMLObjects
+    QDomNode objectsNode = xmiClipNode.firstChild();
+    QDomNode objectElement = objectsNode.firstChild();
+    QDomElement element = objectElement.toElement();
+    if ( element.isNull() ) {
+        return false;//return ok as it means there is no umlobjects
+    }
+    UMLObject* pObject = 0;
+    while ( !element.isNull() ) {
+        pObject = 0;
+        QString type = element.tagName();
+        if (type != "UML:Association") {
+            pObject = Object_Factory::makeObjectFromXMI(type);
+
+            if( !pObject ) {
+                uWarning() << "Given wrong type of umlobject to create:" << type;
+                return false;
+            }
+            if( !pObject->loadFromXMI(element) ) {
+                uWarning() << "Failed to load object from XMI.";
+                return false;
+            }
+            objects.append(pObject);
+        }
+        objectElement = objectElement.nextSibling();
+        element = objectElement.toElement();
+    }
+
+    //UMLViews (diagrams)
+    QDomNode umlviewsNode = objectsNode.nextSibling();
+    QDomNode diagramNode = umlviewsNode.firstChild();
+    QDomElement diagramElement = diagramNode.toElement();
+    if ( diagramElement.isNull() ) {
+        uWarning() << "No diagrams in XMI clip.";
+        return false;
+    }
+    UMLListView *listView = UMLApp::app()->listView();
+    while ( !diagramElement.isNull() ) {
+        QString type = diagramElement.attribute("type", "0");
+        Uml::DiagramType dt = Uml::DiagramType(Uml::DiagramType::Value(type.toInt()));
+        UMLListViewItem *parent = listView->findFolderForDiagram(dt);
+        if (parent == NULL)
+            return false;
+        UMLObject *po = parent->umlObject();
+        if (po == NULL || po->baseType() != UMLObject::ot_Folder) {
+            uError() << "Bad parent for view.";
+            return false;
+        }
+        UMLFolder *f = static_cast<UMLFolder*>(po);
+        QGV::UMLView* view = new QGV::UMLView(f);
+        //view->loadFromXMI(diagramElement);
+        diagrams.append(view);
+        diagramNode = diagramNode.nextSibling();
+        diagramElement = diagramNode.toElement();
+    }
+
+    //listviewitems
+    QDomNode listItemNode = umlviewsNode.nextSibling();
+    QDomNode listItems = listItemNode.firstChild();
+    QDomElement listItemElement = listItems.toElement();
+    if ( listItemElement.isNull() ) {
+        uWarning() << "No listitems in XMI clip.";
+        return false;
+    }
+    UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
+    while ( !listItemElement.isNull() ) {
+        UMLListViewItem* itemData;
+        if (currentItem)
+            itemData = new UMLListViewItem( currentItem );
+        else
+            itemData = new UMLListViewItem( listView );
+        if ( itemData->loadFromXMI(listItemElement) )
+            umlListViewItems.append(itemData);
+        else
+            delete itemData;
+        listItems = listItems.nextSibling();
+        listItemElement = listItems.toElement();
+    }
+    return true;
+}
+
+
+#endif
 
 /**
  * Return just the LvTypeAndID of a Clip3.

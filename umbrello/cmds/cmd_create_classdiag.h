@@ -13,6 +13,13 @@
 
 #include <QtGui/QUndoCommand>
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
+
 class UMLDoc;
 class UMLView;
 
@@ -30,6 +37,9 @@ namespace Uml
         private:
             UMLDoc*     m_pUMLDoc;
             UMLView*    m_pUMLView;
+#ifdef SOC2011
+	    QGV::UMLView* m_pUMLView_new;;
+#endif
             QString     m_Name;
     };
 }

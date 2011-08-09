@@ -19,6 +19,12 @@
 class UMLView;
 class Q3CanvasLine;
 
+//new canvas
+#define SOC2011 1
+namespace QGV {
+  class UMLView;
+}
+
 /**
  * Arrow tool for select, move and resize widgets and associations.
  * Arrow tool delegates the event handling in the widgets and associations. When
@@ -34,6 +40,10 @@ class ToolBarStateArrow : public ToolBarState
 public:
 
     ToolBarStateArrow(UMLView *umlView);
+    
+#ifdef SOC2011
+    ToolBarStateArrow(QGV::UMLView *umlView);
+#endif
     virtual ~ToolBarStateArrow();
 
     virtual void init();

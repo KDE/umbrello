@@ -32,6 +32,10 @@
 
 // qt includes
 #include <QtGui/QGraphicsSceneMouseEvent>
+    
+//new canvas
+#include "soc-umbrello-2011/umlview.h"
+#include "soc-umbrello-2011/umlscene.h"
 
 /**
  * Creates a new ToolBarStateAssociation.
@@ -45,6 +49,15 @@ ToolBarStateAssociation::ToolBarStateAssociation(UMLView *umlView)
     m_associationLine = 0;
 }
 
+
+#ifdef SOC2011
+ToolBarStateAssociation::ToolBarStateAssociation(QGV::UMLView *umlView)
+  : ToolBarStatePool(umlView)
+{
+    m_firstWidget = 0;
+    m_associationLine = 0;
+}
+#endif
 /**
  * Destroys this ToolBarStateAssociation.
  * Deletes the association line.

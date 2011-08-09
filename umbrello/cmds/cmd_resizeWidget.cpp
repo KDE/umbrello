@@ -12,7 +12,7 @@
 
 // app includes
 #include "umlwidgetcontroller.h"
-#include "umlwidget.h"
+#include "widgets/umlwidget.h"
 
 #include <klocale.h>
 

@@ -111,7 +111,7 @@ void AssocPage::slotRightButtonPressed(const QPoint &p)
         delete m_pMenu;
         m_pMenu = 0;
     }
-    m_pMenu = new ListPopupMenu(this, ListPopupMenu::mt_Association_Selected);
+    m_pMenu = new ListPopupMenu(this, ListPopupMenu::mt_Association_Selected, (UMLView*)0);
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotPopupMenuSel(QAction*)));
     m_pMenu->exec(m_pAssocLW->mapToGlobal(p));
 }

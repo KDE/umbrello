@@ -2596,7 +2596,7 @@ void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
         else
             menuType = ListPopupMenu::mt_Association_Selected;
     }
-    m_pMenu = new ListPopupMenu(m_pView, menuType);
+    m_pMenu = new ListPopupMenu(m_pView, menuType, (UMLView*)0);
     m_pMenu->popup(me->globalPos());
     connect(m_pMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
     if (isCollaboration()) 

@@ -11,7 +11,7 @@
 #ifndef UMLLISTVIEWITEM_H
 #define UMLLISTVIEWITEM_H
 
-#include <q3listview.h>
+#include <Qt3Support/Q3ListViewItem>
 #include <QtCore/QMap>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
@@ -139,6 +139,7 @@ public:
 
     void saveToXMI( QDomDocument& qDoc, QDomElement& qElement);
     bool loadFromXMI(QDomElement& qElement);
+    //void firstChild();
 
 protected:
     void init(UMLListView * parent = 0);
