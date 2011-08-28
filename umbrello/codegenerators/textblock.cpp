@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,7 +14,6 @@
 
 // local includes
 #include "codedocument.h"
-#include "codegenerator.h"
 #include "codegenerationpolicy.h"
 #include "uml.h"
 
@@ -25,21 +24,21 @@
 /**
  * Constructor.
  */
-TextBlock::TextBlock ( CodeDocument * parent, const QString & text )
+TextBlock::TextBlock(CodeDocument * parent, const QString & text)
+  : m_text(QString()),
+    m_tag(QString()),
+    m_canDelete(true),
+    m_writeOutText(true),
+    m_indentationLevel(0),
+    m_parentDocument(parent)
 {
-    m_canDelete = true;
-    m_writeOutText = true;
-    m_parentDocument = parent;
-    m_text = "";
-    m_tag = "";
-    m_indentationLevel = 0;
     setText(text);
 }
 
 /**
  * Destructor.
  */
-TextBlock::~TextBlock ()
+TextBlock::~TextBlock()
 {
 }
 
@@ -77,7 +76,7 @@ CodeDocument * TextBlock::getParentDocument() const
  * The actual text of this code block.
  * @param text   the new value of m_text
  */
-void TextBlock::setText ( const QString & text )
+void TextBlock::setText(const QString & text)
 {
     m_text = text;
 }
@@ -86,7 +85,7 @@ void TextBlock::setText ( const QString & text )
  * Add text to this object.
  * @param text   the text to add
  */
-void TextBlock::appendText ( const QString & text )
+void TextBlock::appendText(const QString & text)
 {
     m_text = m_text + text;
 }
@@ -118,7 +117,7 @@ QString TextBlock::getTag() const
  * to which it belongs.
  * @param value   the new value for the tag
  */
-void TextBlock::setTag ( const QString & value )
+void TextBlock::setTag(const QString & value)
 {
     m_tag = value;
 }
@@ -128,7 +127,7 @@ void TextBlock::setTag ( const QString & value )
  * Whether or not to include the text of this TextBlock into a file.
  * @param write   the new value of m_writeOutText
  */
-void TextBlock::setWriteOutText ( bool write )
+void TextBlock::setWriteOutText(bool write)
 {
     m_writeOutText = write;
 }
@@ -149,7 +148,7 @@ bool TextBlock::getWriteOutText() const
  * codedocument codegeneration policy.
  * @param level   the new value for the indentation level
  */
-void TextBlock::setIndentationLevel ( int level )
+void TextBlock::setIndentationLevel(int level)
 {
     m_indentationLevel = level;
 }
@@ -190,7 +189,7 @@ QString TextBlock::getIndentation()
  * @param level   the level of interest
  * @return        the indentation string
  */
-QString TextBlock::getIndentationString ( int level ) const
+QString TextBlock::getIndentationString(int level) const
 {
     if (!level) {
         level = m_indentationLevel;
@@ -204,7 +203,7 @@ QString TextBlock::getIndentationString ( int level ) const
 }
 
 /**
- * Ush. These are terrifically bad and must one day go away.
+ * TODO: Ush. These are terrifically bad and must one day go away.
  * Both methods indicate the range of lines in this textblock
  * which may be edited by the codeeditor (assuming that any are
  * actually editable). The default case is no lines are editable.
@@ -237,7 +236,7 @@ int TextBlock::lastEditableLine()
  * @param amount   the number of indent steps to use
  * @return         the new line
  */
-QString TextBlock::getNewEditorLine ( int amount )
+QString TextBlock::getNewEditorLine(int amount)
 {
     return getIndentationString(amount);
 }
@@ -250,16 +249,18 @@ QString TextBlock::getNewEditorLine ( int amount )
  * @param indent   the indentation
  * @return         the unformatted text
  */
-QString TextBlock::unformatText ( const QString & text, const QString & indent )
+QString TextBlock::unformatText(const QString & text, const QString & indent)
 {
     QString output = text;
     QString myIndent = indent;
-    if (myIndent.isEmpty())
+    if (myIndent.isEmpty()) {
         myIndent = getIndentationString();
+    }
 
-    if (!output.isEmpty())
+    if (!output.isEmpty()) {
         // remove indenation from this text block.
         output.remove(QRegExp('^' + myIndent));
+    }
 
     return output;
 }
@@ -267,7 +268,8 @@ QString TextBlock::unformatText ( const QString & text, const QString & indent )
 /**
  * Causes the text block to release all of its connections
  * and any other text blocks that it 'owns'.
- * needed to be called prior to deletion of the textblock.
+ * Needed to be called prior to deletion of the textblock.
+ * TODO: Does nothing.
  */
 void TextBlock::release()
 {
@@ -282,22 +284,20 @@ void TextBlock::release()
  * @param lastLineHasBreak   control to add a break string to the last line
  * @return                   the new formatted text
  */
-QString TextBlock::formatMultiLineText ( const QString & work, const QString & linePrefix,
-        const QString & breakStr, bool addBreak, bool lastLineHasBreak )
+QString TextBlock::formatMultiLineText(const QString & work, const QString & linePrefix,
+        const QString & breakStr, bool addBreak, bool lastLineHasBreak)
 {
     QString output;
     QString text = work;
     QString endLine = getNewLineEndingChars();
     int matches = text.indexOf(QRegExp(breakStr));
-    if (matches >= 0)
-    {
+    if (matches >= 0) {
         // check that last part of string matches, if not, then
         // we have to tack on extra match
         if (!text.contains(QRegExp(breakStr + "\\$")))
             matches++;
 
-        for (int i=0; i < matches; ++i)
-        {
+        for (int i=0; i < matches; ++i) {
             QString line = text.section(QRegExp(breakStr),i,i);
             output += linePrefix + line;
             if ((i != matches-1) || lastLineHasBreak)
@@ -318,7 +318,7 @@ QString TextBlock::formatMultiLineText ( const QString & work, const QString & l
  * @param doc            the xmi document
  * @param blockElement   the xmi element holding the attributes
  */
-void TextBlock::setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement)
+void TextBlock::setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement)
 {
     Q_UNUSED(doc);
 
@@ -403,12 +403,13 @@ QString TextBlock::decodeText(const QString & text, const QString & endLine)
 QString TextBlock::toString() const
 {
     // simple output method
-    if (m_writeOutText && !m_text.isEmpty())
-    {
+    if (m_writeOutText && !m_text.isEmpty()) {
         QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
         return formatMultiLineText(m_text, getIndentationString(), endLine);
-    } else
+    }
+    else {
         return QString();
+    }
 }
 
 /**
@@ -424,4 +425,3 @@ QTextStream& operator<<(QTextStream& os, const TextBlock& obj)
        << ", text=" << obj.getText();
     return os;
 }
-

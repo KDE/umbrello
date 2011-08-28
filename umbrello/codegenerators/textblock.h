@@ -27,35 +27,35 @@ class TextBlock
     friend class ClassifierCodeDocument;
 public:
 
-    explicit TextBlock ( CodeDocument * parent, const QString & text = "");
-    virtual ~TextBlock ( );
+    explicit TextBlock(CodeDocument * parent, const QString & text = "");
+    virtual ~TextBlock();
 
-    void setText ( const QString & text );
+    void setText(const QString & text);
     QString getText() const;
-    void appendText ( const QString & text );
+    void appendText(const QString & text);
 
-    void setTag( const QString & value );
+    void setTag(const QString & value);
     QString getTag() const;
 
     CodeDocument * getParentDocument() const;
 
-    void setWriteOutText( bool write );
+    void setWriteOutText(bool write);
     bool getWriteOutText() const;
 
-    void setIndentationLevel( int level );
+    void setIndentationLevel(int level);
     int getIndentationLevel() const;
 
-    QString getIndentationString ( int level = 0) const;
+    QString getIndentationString(int level = 0) const;
 
     static QString getIndentation();
 
     static QString getNewLineEndingChars();
 
-    static QString formatMultiLineText ( const QString & work, const QString & linePrefix,
+    static QString formatMultiLineText(const QString & work, const QString & linePrefix,
                                   const QString & breakStr,
                                   bool addBreak = true, bool lastLineHasBreak = true);
 
-    virtual QString unformatText ( const QString & text, const QString & indent = "");
+    virtual QString unformatText(const QString & text, const QString & indent = "");
 
     virtual QString toString() const;
 
@@ -67,19 +67,19 @@ public:
      * @param doc    the xmi document
      * @param root   the starting point to append
      */
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root ) = 0;
+    virtual void saveToXMI(QDomDocument & doc, QDomElement & root) = 0;
 
     /**
      * Load params from the appropriate XMI element node.
      * @param root   the starting point in the xmi document to load from
      */
-    virtual void loadFromXMI ( QDomElement & root ) = 0;
+    virtual void loadFromXMI(QDomElement & root) = 0;
 
     bool canDelete() const;
 
-    virtual void setAttributesFromObject (TextBlock * obj);
+    virtual void setAttributesFromObject(TextBlock * obj);
 
-    virtual QString getNewEditorLine( int amount = 0 );
+    virtual QString getNewEditorLine(int amount = 0);
 
     virtual int firstEditableLine();
     virtual int lastEditableLine();
@@ -88,10 +88,10 @@ protected:
 
     void setCanDelete(bool canDelete);
 
-    virtual void release ();
+    virtual void release();
 
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
-    virtual void setAttributesFromNode ( QDomElement & root);
+    virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesFromNode(QDomElement & root);
 
     friend QTextStream& operator<<(QTextStream& os, const TextBlock& obj);
 

@@ -21,7 +21,7 @@
     </widget>
    </item>
    <item row="1" column="0" >
-    <widget class="Q3GroupBox" name="colorGroupBox" >
+    <widget class="QGroupBox" name="colorGroupBox" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
        <horstretch>0</horstretch>
@@ -290,12 +290,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>Q3GroupBox</class>
-   <extends>QGroupBox</extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>KColorButton</class>
    <extends>QPushButton</extends>
