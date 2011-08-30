@@ -214,7 +214,7 @@ void CodeImpStatusPage::updateStatus(const QString& file, const QString& text)
             QTableWidgetItem* status = ui_tableWidgetStatus->item(row, 1);
             CodeImport::LedStatus* led =
                 (CodeImport::LedStatus*)ui_tableWidgetStatus->cellWidget(row, 2);
-            if (text == QString()) {
+            if (text.isEmpty()) {
                 status->setText( i18n("Not Imported") );
                 led->setColor(Qt::red);
                 led->setOn(true);

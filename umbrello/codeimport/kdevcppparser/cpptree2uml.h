@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2005-2010                                               *
+ *   copyright (C) 2005-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -25,7 +25,7 @@ class UMLPackage;
 class CppTree2Uml: public TreeParser
 {
 public:
-    CppTree2Uml( const QString& fileName, CodeImpThread* thread = 0);
+    explicit CppTree2Uml( const QString& fileName, CodeImpThread* thread = 0);
     virtual ~CppTree2Uml();
 
     //FileDom file() { return m_file; }

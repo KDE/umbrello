@@ -37,7 +37,7 @@ class CodeImpThread : public QObject //QThread
 {
     Q_OBJECT
 public:
-    CodeImpThread(QFileInfo file, QObject* parent = 0);
+    explicit CodeImpThread(QFileInfo file, QObject* parent = 0);
     virtual ~CodeImpThread();
 
     virtual void run();

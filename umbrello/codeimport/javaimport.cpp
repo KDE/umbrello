@@ -275,7 +275,7 @@ bool JavaImport::parseStmt()
         const QStringList names = qualifiedName.split('.');
         for (QStringList::ConstIterator it = names.begin(); it != names.end(); ++it) {
             QString name = (*it);
-            log(keyword + " " + name);
+            log(keyword + ' ' + name);
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                             name, m_scope[m_scopeIndex], m_comment);
             m_scope[++m_scopeIndex] = static_cast<UMLPackage*>(ns);
@@ -289,7 +289,7 @@ bool JavaImport::parseStmt()
     if (keyword == "class" || keyword == "interface") {
         const QString& name = advance();
         const UMLObject::ObjectType t = (keyword == "class" ? UMLObject::ot_Class : UMLObject::ot_Interface);
-        log(keyword + " " + name);
+        log(keyword + ' ' + name);
         UMLObject *ns = Import_Utils::createUMLObject(t, name, m_scope[m_scopeIndex], m_comment);
         m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setAbstract(m_isAbstract);
@@ -374,7 +374,7 @@ bool JavaImport::parseStmt()
     }
     if (keyword == "enum") {
         const QString& name = advance();
-        log(keyword + " " + name);
+        log(keyword + ' ' + name);
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, m_scope[m_scopeIndex], m_comment);
         UMLEnum *enumType = static_cast<UMLEnum*>(ns);
