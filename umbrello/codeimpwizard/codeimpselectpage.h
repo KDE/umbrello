@@ -1,5 +1,5 @@
 /*
-    Copyright 2010  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+    Copyright 2011  Andi Fischer  <andi.fischer@hispeed.ch>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -21,6 +21,7 @@
 #define CODEIMPSELECTPAGE_H
 
 // qt includes
+#include <QtCore/QFileInfo>
 #include <QtGui/QWizardPage>
 
 // app includes
@@ -28,7 +29,7 @@
 
 /**
  * This class is used in the code importing wizard.
- *
+ * It represents the first page where files are selected for importing.
  * @author Andi Fischer
  */
 class CodeImpSelectPage : public QWizardPage, private Ui::CodeImpSelectPage
@@ -39,52 +40,40 @@ public:
     ~CodeImpSelectPage();
 
     QString language();
-    void apply();
-    bool save();
     bool validatePage();
 
     QList<QFileInfo> selectedFiles();
 
 private:
-    void files(const QString& path, QStringList& filters);
     bool matchFilter(const QFileInfo& path);
-    void setSelectionCounter();
 
     QList<QFileInfo> m_fileList;
-    QRegExp          m_fileExtensionPattern;
-
-    static const QString ADA;
-    static const QString CPP;
-    static const QString IDL;
-    static const QString JAVA;
-    static const QString PASCAL;
-    static const QString PYTHON;
+    QStringList      m_fileExtensions;
 
     static QString s_recentPath;
 
     void setupLanguageBox();
-    void setupURLRequester();
     void setupTreeView();
+    void setupFileExtEdit();
+    void setupToolTips();
 
 protected slots:
     void languageChanged(int id);
-//    void browseClicked();
     void treeClicked(const QModelIndex& index);
 
 private slots:
-    void urlSelected(const KUrl& url);
-    void urlTextChanged(const QString& text);
-    void urlReturnPressed();
     void changeLanguage();
     void subdirStateChanged(int state);
+    void fileExtChanged();
     void selectAll();
     void deselectAll();
+    void updateSelectionCounter();
 
 signals:
     void applyClicked();
     void languageChanged();
     void syncCodeDocumentsToParent();
-
+    void selectionChanged();
 };
 
 #endif

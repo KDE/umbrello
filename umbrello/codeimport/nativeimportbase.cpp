@@ -12,6 +12,7 @@
 #include "nativeimportbase.h"
 
 // app includes
+#include "codeimpthread.h"
 #include "debug_utils.h"
 #include "import_utils.h"
 
@@ -26,9 +27,11 @@
 /**
  * Constructor
  * @param singleLineCommentIntro  "//" for IDL and Java, "--" for Ada
+ * @param thread                  thread in which the code import runs
  */
-NativeImportBase::NativeImportBase(const QString &singleLineCommentIntro)
-  : m_singleLineCommentIntro(singleLineCommentIntro),
+NativeImportBase::NativeImportBase(const QString &singleLineCommentIntro, CodeImpThread* thread)
+  : ClassImport(thread),
+    m_singleLineCommentIntro(singleLineCommentIntro),
     m_srcIndex(0),
     m_scopeIndex(0),  // index 0 is reserved for global scope
     m_klass(0),
@@ -354,7 +357,7 @@ void NativeImportBase::parseFile(const QString& filename)
         return;
     m_parsedFiles.append(nameWithoutPath);
     QString fname = filename;
-    const QString msgPrefix = "NativeImportBase::parseFile(" + filename + "): ";
+    const QString msgPrefix = filename + ": ";
     if (filename.contains('/')) {
         QString path = filename;
         path.remove( QRegExp("/[^/]+$") );
@@ -390,7 +393,7 @@ void NativeImportBase::parseFile(const QString& filename)
         uError() << msgPrefix << "cannot open file";
         return;
     }
-    uDebug() << msgPrefix << "parsing.";
+    log("parsing...");
     // Scan the input file into the QStringList m_source.
     m_source.clear();
     m_srcIndex = 0;
@@ -418,7 +421,7 @@ void NativeImportBase::parseFile(const QString& filename)
            skipStmt();
         m_comment.clear();
     }
-    uDebug() << msgPrefix << "end of parse.";
+    log("...end of parse");
 }
 
 /**
@@ -428,4 +431,3 @@ void NativeImportBase::initialize()
 {
     m_parsedFiles.clear();
 }
-

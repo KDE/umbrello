@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2008                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -16,7 +16,6 @@
 #include <QtCore/QMap>
 #include <QtCore/QString>
 
-#include "codegenerationpolicy.h"
 #include "codegenobjectwithtextblocks.h"
 #include "hierarchicalcodeblock.h"
 
@@ -54,7 +53,6 @@ public:
     QString getID ( ) const;
 
     void setWriteOutCode ( bool new_var );
-
     bool getWriteOutCode ( );
 
     void setHeader ( CodeComment * comment );
@@ -116,9 +114,6 @@ private:
                          // and any codeblocks, etc that it owns.
 
     CodeComment * m_header;
-
-    // TextBlockList m_textblockVector;
-    // QMap<QString, TextBlock *> m_textBlockTagMap;
 
     // for recording all of the textblocks held by child hierarchical codeblocks
     QMap<QString, TextBlock *> m_childTextBlockTagMap;

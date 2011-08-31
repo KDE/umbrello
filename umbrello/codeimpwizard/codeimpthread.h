@@ -1,5 +1,5 @@
 /*
-    Copyright 2010  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+    Copyright 2011  Andi Fischer  <andi.fischer@hispeed.ch>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -21,41 +21,43 @@
 #define CODEIMPTHREAD_H
 
 #include <QtCore/QFileInfo>
-#include <QtGui/QMessageBox>
 #include <QtCore/QMutex>
 #include <QtCore/QThread>
 #include <QtCore/QWaitCondition>
+#include <QtGui/QMessageBox>
 
 class ClassImport;
 
 /**
- *
+ * Thread class that does the code import work for one file.
+ * TODO: For a start it is only a QObject and is used to signals messages.
  * @author Andi Fischer
- * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class CodeImpThread : public QThread
+class CodeImpThread : public QObject //QThread
 {
     Q_OBJECT
 public:
-    CodeImpThread(QList<QFileInfo> files, QObject* parent = 0);
+    explicit CodeImpThread(QFileInfo file, QObject* parent = 0);
     virtual ~CodeImpThread();
 
     virtual void run();
 
     int emitAskQuestion(const QString& question);
+    void emitMessageToLog(const QString& file, const QString& text);
 
 signals:
     void askQuestion(const QString& question, QMessageBox::StandardButton* answer);
-    void messageToWiz(const QFileInfo& file, const QString& text);
+    void messageToWiz(const QString& file, const QString& text);
+    void messageToLog(const QString& file, const QString& text);
     void messageToApp(const QString& text);
 
 private slots:
     void questionAsked(const QString& question, QMessageBox::StandardButton* answer);
 
 private:
-    QList<QFileInfo>  m_files;
-    QWaitCondition    m_waitCondition;
-    QMutex            m_mutex;
+    QFileInfo         m_file;
+    //QWaitCondition    m_waitCondition;
+    //QMutex            m_mutex;
     ClassImport*      m_importer;
 };
 

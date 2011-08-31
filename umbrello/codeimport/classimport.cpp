@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *  copyright (C) 2006-2010                                                *
+ *  copyright (C) 2006-2011                                                *
  *  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                   *
  ***************************************************************************/
 
@@ -16,6 +16,7 @@
 #include <klocale.h>
 
 // app includes
+#include "debug_utils.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "idlimport.h"
@@ -26,32 +27,33 @@
 #ifndef DISABLE_CPP_IMPORT
 #include "cppimport.h"
 #endif
+#include "codeimpthread.h"
 
 /**
  * Factory method.
  * @param fileName  name of imported file
  * @return the class import object
  */
-ClassImport *ClassImport::createImporterByFileExt(const QString &fileName)
+ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeImpThread* thread)
 {
     ClassImport *classImporter;
     if (fileName.endsWith(QLatin1String(".idl")))
         classImporter = new IDLImport();
     else if (fileName.contains(QRegExp("\\.pyw?$")))
-        classImporter = new PythonImport();
+        classImporter = new PythonImport(thread);
     else if (fileName.endsWith(QLatin1String(".java")))
-        classImporter = new JavaImport();
+        classImporter = new JavaImport(thread);
     else if (fileName.contains(QRegExp("\\.ad[sba]$")))
         classImporter = new AdaImport();
     else if (fileName.endsWith(QLatin1String(".pas")))
         classImporter = new PascalImport();
 #ifndef DISABLE_CPP_IMPORT
     else
-        classImporter = new CppImport();  // the default.
+        classImporter = new CppImport(thread);  // the default.
 #else
     else 
         classImporter = 0;
-#endif        
+#endif
     return classImporter;
 }
 
@@ -59,7 +61,7 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName)
  * Import files.  :TODO: can be deleted
  * @param fileNames  List of files to import.
  */
-void ClassImport::importFiles(const QStringList &fileNames)
+void ClassImport::importFiles(const QStringList& fileNames)
 {
     initialize();
     UMLDoc *umldoc = UMLApp::app()->document();
@@ -81,4 +83,28 @@ void ClassImport::importFile(const QString& fileName)
 {
     initialize();
     parseFile(fileName);
+}
+
+/**
+ * Write info to a logger or to the debug output.
+ * @param file   the name of the parsed file
+ * @param text   the text to write
+ */
+void ClassImport::log(const QString& file, const QString& text)
+{
+    if (m_thread) {
+        m_thread->emitMessageToLog(file, text);
+    }
+    else {
+        uDebug() << file << " - " << text;
+    }
+}
+
+/**
+ * Write info to a logger or to the debug output.
+ * @param text   the text to write
+ */
+void ClassImport::log(const QString& text)
+{
+    log("", text);
 }

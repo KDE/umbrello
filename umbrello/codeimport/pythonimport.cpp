@@ -14,6 +14,7 @@
 // app includes
 #include "attribute.h"
 #include "classifier.h"
+#include "codeimpthread.h"
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -24,14 +25,13 @@
 #include "umlpackagelist.h"
 
 // qt includes
-#include <QtCore/QStringList>
 #include <QtCore/QRegExp>
 
 /**
  * Constructor.
  */
-PythonImport::PythonImport()
-  : NativeImportBase("#")
+PythonImport::PythonImport(CodeImpThread* thread)
+  : NativeImportBase("#", thread)
 {
     setMultiLineComment("\"\"\"", "\"\"\"");
     initVars();
@@ -224,6 +224,7 @@ bool PythonImport::parseStmt()
         if (m_source[m_srcIndex] != "{") {
             skipStmt("{");
         }
+        log("class " + name);
         return true;
     }
     if (keyword == "def") {
@@ -250,6 +251,8 @@ bool PythonImport::parseStmt()
                                    false /*isStatic*/, false /*isAbstract*/, false /*isFriend*/,
                                    false /*isConstructor*/, m_comment);
         op->setSourceCode(skipBody());
+        log("def " + name);
+
         return true;
     }
     if (keyword == "}") {
@@ -261,5 +264,3 @@ bool PythonImport::parseStmt()
     }
     return false;  // @todo parsing of attributes
 }
-
-

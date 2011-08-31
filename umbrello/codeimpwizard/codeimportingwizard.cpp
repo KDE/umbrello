@@ -1,5 +1,5 @@
 /*
-    Copyright 2010  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+    Copyright 2011  Andi Fischer  <andi.fischer@hispeed.ch>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -27,6 +27,7 @@
 #include "uml.h"
 
 // kde includes
+#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -34,6 +35,9 @@
 #include <QtCore/QFileInfo>
 #include <QtGui/QWizardPage>
 
+/**
+ * Constant value for the fixed size of the wizard pages.
+ */
 const QSize CodeImportingWizard::c_pageSize = QSize(520, 530);
 
 /**

@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003 Brian Thomas  <brian.thomas@gsfc.nasa.gov>         *
- *   copyright (C) 2004-2010                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -14,17 +14,10 @@
 
 #include <QtCore/QString>
 #include <QtCore/QList>
-#include <QtGui/QLabel>
-//#include <QtGui/QPlainTextEdit>
-#include <q3textedit.h>
-#include <q3popupmenu.h>
-
-#include <kmenu.h>
+#include <QtGui/QTextEdit>
 
 #include "codeviewerstate.h"
 #include "textblocklist.h"
-
-class UMLObject;
 
 class CodeViewerDialog;
 class CodeComment;
@@ -33,14 +26,17 @@ class CodeClassFieldDeclarationBlock;
 class CodeMethodBlock;
 class CodeBlockWithComments;
 class HierarchicalCodeBlock;
+class KMenu;
+class QLabel;
 class TextBlock;
-
+class UMLObject;
 
 class ParaInfo
 {
 public:
     int start; // this is a relative offset from the beginning of the tblock
-    int size;
+    int size;         ///< number of characters
+    int end;          ///< end line number
     QColor fgcolor;
     QColor bgcolor;
     bool isEditable;
@@ -53,73 +49,54 @@ class TextBlockInfo
 {
 public:
     QList<ParaInfo*> m_paraList;
-    UMLObject * m_parent;
-    QString displayName;
+    UMLObject *      m_parent;
+    QString          m_displayName;
     bool isClickable;
     bool isCodeAccessorMethod;
 
     TextBlockInfo () { m_parent = 0; isClickable = false; isCodeAccessorMethod = false; }
     void setParent(UMLObject *p = 0) { m_parent = p; }
-    UMLObject * getParent() { return m_parent; }
+    UMLObject * parent() { return m_parent; }
+    void setDisplayName(const QString& name) { m_displayName = name; }
+    QString displayName() { return m_displayName; }
 };
 
 
-class CodeEditor : public Q3TextEdit
+class CodeEditor : public QTextEdit
 {
     Q_OBJECT
 public:
+    explicit CodeEditor(const QString & text, CodeViewerDialog * parent = 0, CodeDocument * doc = 0);
+    explicit CodeEditor(CodeViewerDialog * parent = 0, CodeDocument * doc = 0);
+    ~CodeEditor();
 
-    explicit CodeEditor ( const QString & text, const QString & context = QString(),
-                          CodeViewerDialog * parent = 0, const char * name = 0, CodeDocument * doc = 0);
-    explicit CodeEditor ( CodeViewerDialog * parent, const char* name = 0, CodeDocument * doc = 0);
-    ~CodeEditor ();
-
-    // return code viewer state
-    Settings::CodeViewerState getState( );
+    Settings::CodeViewerState state();
 
 protected:
-
     bool close ();
 
-    // various methods for appending various types of text blocks in the editor.
-    void appendText (TextBlock * tblock);
-    void appendText (HierarchicalCodeBlock * hblock);
-    void appendText (CodeClassFieldDeclarationBlock * db);
-    void appendText (TextBlockList * items);
-    void appendText (CodeMethodBlock * mb);
-    void appendText (CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName = "");
-    void appendText (CodeBlockWithComments * cb );
+    void appendText(TextBlock * tblock);
+    void appendText(HierarchicalCodeBlock * hblock);
+    void appendText(CodeClassFieldDeclarationBlock * db);
+    void appendText(TextBlockList * items);
+    void appendText(CodeMethodBlock * mb);
+    void appendText(CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName = "");
+    void appendText(CodeBlockWithComments * cb);
 
-    // Rebuild our view of the document. Happens whenever we change
-    // some field/aspect of an underlying UML object used to create
-    // the view.
-    // If connections are right, then the UMLObject will send out the modified()
-    // signal which will trigger a call to re-generate the appropriate code within
-    // the code document. Our burden is to appropriately prepare the tool: we clear
-    // out ALL the textblocks in the QTextEdit widget and then re-show them
-    // after the dialog disappears
-    void rebuildView( int startCursorPos );
+    void rebuildView(int startCursorPos);
 
-    // override the QT event so we can do appropriate things
-    void contentsMouseMoveEvent ( QMouseEvent * e );
+    void contextMenuEvent(QContextMenuEvent * event);
+    void contentsMouseMoveEvent(QMouseEvent * e);
+    void keyPressEvent(QKeyEvent * e);
+    void mouseDoubleClickEvent(QMouseEvent * e);
 
-    // implemented so we may capture certain key presses, namely backspace
-    // and 'return' events.
-    void keyPressEvent ( QKeyEvent * e );
-
-    // (re) load the parent code document into the editor
     void loadFromDocument();
 
-    // specialized popup menu for our tool
-    Q3PopupMenu * createPopupMenuAt(const QPoint & pos);
     KMenu * createPopup();
 
-//    virtual void mousePressEvent(QMouseEvent * event);
-
 private:
-
-    QString m_parentDocName;
-    CodeDocument * m_parentDoc;
+    QString            m_parentDocName;
+    CodeDocument *     m_parentDoc;
     CodeViewerDialog * m_parentDlg;
 
     int m_lastPara;
@@ -137,59 +114,53 @@ private:
     QMap<TextBlock*, TextBlockInfo*> m_tbInfoMap;
     TextBlockList m_textBlockList;
 
-    // main insert routine. Will append if startline is not supplied.
-    void insertText (const QString & text, TextBlock * parent, bool isEditable = false,
+    void insertText(const QString & text, TextBlock * parent, bool isEditable = false,
                  const QColor & fgcolor = QColor("black"), const QColor & bgcolor = QColor("white"),
                  UMLObject * umlobj = 0, const QString & displayName = "", int startLine = -1);
 
     void editTextBlock(TextBlock * tBlock, int para);
     void clearText();
-    QLabel * getComponentLabel();
-    bool paraIsNotSingleLine (int para);
-    void expandSelectedParagraph( int where );
-    void contractSelectedParagraph( int where );
-    void updateTextBlockFromText (TextBlock * block);
+    QLabel * componentLabel();
+    bool paraIsNotSingleLine(int para);
+    void expandSelectedParagraph(int where);
+    void contractSelectedParagraph(int where);
+    void updateTextBlockFromText(TextBlock * block);
 
-    void initText ( CodeDocument * doc );
-    void init ( CodeViewerDialog * parentDlg, CodeDocument * parentDoc );
+    void initText(CodeDocument * doc);
+    void init(CodeViewerDialog * parentDlg, CodeDocument * parentDoc);
 
     void changeTextBlockHighlighting(TextBlock * tb, bool selected);
-    bool isParaEditable (int para);
+    void setParagraphBackgroundColor(int position, const QColor& color);
+    bool isParaEditable(int para);
     bool textBlockIsClickable(UMLObject * obj);
 
-    // return whether or not the passed string is empty or
-    // contains nothing but whitespace
-    static bool stringIsBlank( const QString &str );
+    TextBlock* findTextBlockAt(int characterPos);
+
+    void clicked(int para, int pos);
+
+    static bool isNonBlank(const QString &str);
 
 public slots:
-
-    void insertParagraph ( const QString & text, int para );
-    void removeParagraph ( int para );
+    void insertParagraph(const QString & text, int para);
+    void removeParagraph(int para);
     void changeHighlighting(int signal);
-    void changeShowHidden (int signal);
+    void changeShowHidden(int signal);
     void slotRedrawText();
 
 protected slots:
-
-    void clicked(int para, int pos );
-    void doubleClicked(int para, int pos );
-    void cursorPositionChanged(int para, int pos );
-    void slotCopyTextBlock ( );
-    void slotCutTextBlock ( );
-    void slotPasteTextBlock ( );
+    void slotCursorPositionChanged();
+    void slotCopyTextBlock();
+    void slotCutTextBlock();
+    void slotPasteTextBlock();
     void slotChangeSelectedBlockView();
     void slotChangeSelectedBlockCommentView();
     void slotInsertCodeBlockAfterSelected();
     void slotInsertCodeBlockBeforeSelected();
 
 signals:
-
-    /*
-        void sigNewLinePressed ();
-        void sigBackspacePressed ();
-    */
+    // void sigNewLinePressed();
+    // void sigBackspacePressed();
 
 };
-
 
 #endif // CODEEDITOR_H

@@ -1,5 +1,5 @@
 /*
-    Copyright 2010  Umbrello UML Modeller Authors <uml-devel@uml.sf.net>
+    Copyright 2011  Andi Fischer  <andi.fischer@hispeed.ch>
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -22,9 +22,10 @@
 
 // app includes
 #include "ui_codeimpstatuspage.h"
+#include "classifier.h"
 
-// kde includes
-//#include <kled.h>
+//kde includes
+#include <kled.h>
 
 // qt includes
 #include <QtGui/QWizardPage>
@@ -33,6 +34,10 @@
 #include <QtCore/QFileInfo>
 
 /**
+ * This class is used in the code importing wizard.
+ * It represents the second page where files are listed and imported by parsing.
+ * The status of the work and a log of actions is shown.
+ * TODO: Make the LedStatus class more private.
  * @author Andi Fischer
  */
 class CodeImpStatusPage : public QWizardPage, private Ui::CodeImpStatusPage
@@ -47,34 +52,40 @@ public:
 private:
     QList<QFileInfo> m_files;
     bool             m_workDone;
-      
+
 protected slots:
     void importCode();
     void importStop();
-    void fileImported(const QFileInfo& file, const QString& text);
+    void updateStatus(const QString& file, const QString& text);
+    void messageToLog(const QString& file, const QString& text);
     void messageToApp(const QString& text);
     void populateStatusList();
-
+    void loggerClear();
+    void loggerExport();
 };
 
-//class LedStatus : public QWidget
-//{
-//        Q_OBJECT
-//    public:
-//        LedStatus(int width, int height) {
-//            setFixedSize(width, height);
-//            QHBoxLayout* layout = new QHBoxLayout();
-//            layout->addItem(new QSpacerItem(20, 20));
-//            m_led = new KLed(QColor(124, 252, 0), KLed::Off, KLed::Sunken, KLed::Circular);
-//            layout->addWidget(m_led);
-//            layout->addItem(new QSpacerItem(20, 20));
-//            setLayout(layout);
-//        };
-//        ~LedStatus() {};
-//        void setColor(const QColor& color) { m_led->setColor(color); };
-//        void setOn(bool isOn) { isOn ? m_led->setState(KLed::On) : m_led->setState(KLed::Off); };
-//    private:
-//        KLed *m_led;
-//};
+namespace CodeImport {
+
+    class LedStatus : public QWidget
+    {
+        Q_OBJECT
+    public:
+        LedStatus(int width, int height) : QWidget() {
+            setFixedSize(width, height);
+            QHBoxLayout* layout = new QHBoxLayout();
+            layout->addItem(new QSpacerItem(20, 20));
+            m_led = new KLed(QColor(124, 252, 0), KLed::Off, KLed::Sunken, KLed::Circular);
+            layout->addWidget(m_led);
+            layout->addItem(new QSpacerItem(20, 20));
+            setLayout(layout);
+        }
+        ~LedStatus() {}
+        void setColor(const QColor& color) { m_led->setColor(color); }
+        void setOn(bool isOn) { isOn ? m_led->setState(KLed::On) : m_led->setState(KLed::Off); }
+    private:
+        KLed* m_led;
+};
+
+}  // namespace
 
 #endif

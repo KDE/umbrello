@@ -15,7 +15,7 @@
      <item>
       <layout class="QGridLayout" >
        <item row="0" column="1" >
-        <widget class="QCheckBox" name="m_showHiddenCodeCB" >
+        <widget class="QCheckBox" name="ui_showHiddenCodeCB" >
          <property name="text" >
           <string>Show hidden blocks</string>
          </property>
@@ -41,7 +41,7 @@
         </widget>
        </item>
        <item row="0" column="0" >
-        <widget class="QCheckBox" name="m_highlightCheckBox" >
+        <widget class="QCheckBox" name="ui_highlightCheckBox" >
          <property name="text" >
           <string>Show block type</string>
          </property>
@@ -53,7 +53,7 @@
       </layout>
      </item>
      <item>
-      <widget class="KTabWidget" name="m_tabWidget" />
+      <widget class="KTabWidget" name="ui_tabWidget" />
      </item>
     </layout>
    </item>

@@ -88,7 +88,7 @@ UMLDoc::UMLDoc()
     m_modelID("m1"),
     m_count(0),
     m_modified(false),
-    m_doc_url(),
+    m_doc_url(KUrl()),
     m_pChangeLog(0),
     m_bLoading(false),
     m_Doc(QString()),

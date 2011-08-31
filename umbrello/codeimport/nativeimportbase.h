@@ -44,7 +44,7 @@ class UMLClassifier;
 class NativeImportBase : public ClassImport
 {
 public:
-    NativeImportBase(const QString &singleLineCommentIntro);
+    explicit NativeImportBase(const QString &singleLineCommentIntro, CodeImpThread* thread = 0);
     virtual ~NativeImportBase();
 
 protected:

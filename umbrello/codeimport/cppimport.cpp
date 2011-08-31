@@ -49,7 +49,8 @@ public:
 /**
  * Constructor.
  */
-CppImport::CppImport()
+CppImport::CppImport(CodeImpThread* thread)
+  : ClassImport(thread)
 {
     ms_driver = new CppDriver();
 }
@@ -95,7 +96,7 @@ void CppImport::feedTheModel(const QString& fileName)
         uError() << fileName << " not found";
         return;
     }
-    CppTree2Uml modelFeeder( fileName );
+    CppTree2Uml modelFeeder(fileName, m_thread);
     modelFeeder.parseTranslationUnit( ast );
 }
 
@@ -134,4 +135,3 @@ void CppImport::parseFile(const QString& fileName)
     ms_driver->parseFile( fileName );
     feedTheModel(fileName);
 }
-

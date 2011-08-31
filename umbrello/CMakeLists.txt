@@ -243,8 +243,6 @@ set(libcodeimpwizard_SRCS
     codeimpwizard/codeimpstatuspage.cpp
     codeimpwizard/codeimpthread.cpp
     codeimpwizard/codeimportingwizard.cpp
-    codeimpwizard/treeitem.cpp
-    codeimpwizard/treemodel.cpp
 )
 
 kde4_add_ui_files(  libcodeimpwizard_SRCS
@@ -483,7 +481,7 @@ install(TARGETS umbrello-soc ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############
 
-install( FILES umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS umbrello.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES
     umbrelloui.rc
     docgenerators/xmi2docbook.xsl

@@ -93,6 +93,8 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QLabel>
 
+#include <cmath>
+
 /** Static pointer, holding the last created instance. */
 UMLApp* UMLApp::s_instance;
 
@@ -262,7 +264,7 @@ void UMLApp::initActions()
     QAction* impWizard = actionCollection()->addAction("importing_wizard");
     impWizard->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Class));
     impWizard->setText(i18n("NEW Code &Importing Wizard..."));
-    connect(impWizard, SIGNAL( triggered( bool ) ), this, SLOT( importingWizard() ));
+    connect(impWizard, SIGNAL( triggered( bool ) ), this, SLOT( slotImportingWizard() ));
 
     QAction* importClasses = actionCollection()->addAction("import_class");
     importClasses->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Import_Class));
@@ -548,6 +550,30 @@ void UMLApp::slotZoomSliderMoved(int value)
 }
 
 /**
+ * Set zoom to fit the view.
+ */
+void UMLApp::slotZoomFit()
+{
+    currentView()->setZoom(100);  // bring it first to the original values
+    DEBUG(DBG_SRC) << "viewport width=" << currentView()->viewport()->width()
+                   << ", height=" << currentView()->viewport()->height();
+    DEBUG(DBG_SRC) << "scene width=" << currentView()->umlScene()->width()
+                   << ", height=" << currentView()->umlScene()->height();
+    int scaleW = ceil(100.0 * currentView()->viewport()->width() / currentView()->umlScene()->width());
+    int scaleH = ceil(100.0 * currentView()->viewport()->height() / currentView()->umlScene()->height());
+    DEBUG(DBG_SRC) << "scale width: " << scaleW << ", height: " << scaleH;
+    int scale = 100;
+    if (scaleW < scaleH) {
+        scale = scaleW;
+    }
+    else {
+        scale = scaleH;
+    }
+    setZoom(scale);
+    currentView()->centerOn(currentView()->viewport()->width()/2.0, currentView()->viewport()->height()/2.0);
+}
+
+/**
  * Set zoom to 100%.
  */
 void UMLApp::slotZoom100()
@@ -580,6 +606,7 @@ void UMLApp::setZoom(int zoom)
 {
     currentView()->setZoom(zoom);
     m_pZoomSlider->setValue(zoom);
+    m_zoomValueLbl->setText(QString::number(zoom) + '%');
 }
 
 /**
@@ -662,12 +689,17 @@ void UMLApp::initStatusBar()
     zoomLayout->setSpacing(0);
     zoomLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
+    m_zoomValueLbl = new QLabel("100%");
+    m_zoomValueLbl->setContentsMargins(10, 0, 10, 0);
+    zoomLayout->addWidget(m_zoomValueLbl);
+
     m_pZoomFitSBTB = new StatusBarToolButton(this);
     m_pZoomFitSBTB->setText("Fit");
     m_pZoomFitSBTB->setGroupPosition(StatusBarToolButton::GroupLeft);
     zoomLayout->addWidget(m_pZoomFitSBTB);
     m_pZoomFitSBTB->setContentsMargins(0,0,0,0);
-    m_pZoomFitSBTB->setDisabled(true);
+    //m_pZoomFitSBTB->setDisabled(true);
+    connect(m_pZoomFitSBTB, SIGNAL( clicked() ), this, SLOT( slotZoomFit() ));
 
     m_pZoomFullSBTB = new StatusBarToolButton(this);
     m_pZoomFullSBTB->setText("100%");
@@ -2341,6 +2373,7 @@ void UMLApp::importFiles(QStringList* fileList)
 
 /**
  * Import classes menu selection.
+ * TODO: Will be deleted.
  */
 void UMLApp::slotImportClasses()
 {
@@ -2371,6 +2404,7 @@ void UMLApp::slotImportClasses()
 
 /**
  * Import project menu selection.
+ * TODO: Will be deleted.
  */
 void UMLApp::slotImportProject()
 {
@@ -2386,7 +2420,7 @@ void UMLApp::slotImportProject()
 /**
  * Runs the code importing wizard.
  */
-void UMLApp::importingWizard()
+void UMLApp::slotImportingWizard()
 {
     QPointer<CodeImportingWizard> wizard = new CodeImportingWizard();
     wizard->exec();

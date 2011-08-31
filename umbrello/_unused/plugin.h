@@ -95,31 +95,63 @@ public:
     /** Destroy a plugin.*/
     virtual ~Plugin();
 
+    /** Return the instance name of the plugin */
     QByteArray instanceName() const;
 
+    /** Return the configuration record for the plugin */
     KConfig *config();
 
+    /** Return the category descriptor string */
     virtual QString category();
 
+    /**
+     * Unload the plugin. This method actually only decrements
+     * the reference count. When the refcount is 0, the object
+     * calls shutdown and deletes itself.
+     */
     void unload();
 
 protected:
-
     /** Construct a plugin */
     Plugin(QObject *parent, const char *name, const QStringList &args);
 
+    /** Can be reimplemented to define plugin specific startup behavior */
     virtual bool onInit();
 
+    /** Can be reimplemented to define plugin specific shutdown behavior */
     virtual bool onShutdown();
 
 private:
-
+    /**
+     * This method is called by the loader to initialize and configure the
+     * plugin. During initialization, any configured plugins are loaded.
+     * Before loading plugins, onInit is called to perform plugin specific
+     * initialization. This allows dependencies in the plugin chain.
+     *
+     * @return True on success, false on failure.
+     */
     bool init();
 
+    /**
+     * This method is called by the loader to shutdown the plugin. During
+     * shutdown, any configured plugins are unloaded this occurs before
+     * plugin specific shutdown so as to reduce dependency errors.
+     *
+     * @return True on success, false on failure.
+     */
     bool shutdown();
 
+    /**
+     * The configure method is called by init to parse the configuration
+     * file and load any plugins. Note that the libraries loaded depends
+     * on the GUI state of the application. If the application is type
+     * Qt::Tty, then we don't use the "loadGUI" action.
+     *
+     * @return True on success, false on failure.
+     */
     virtual bool configure();
 
+    /** Add to the reference count */
     void ref();
 
 protected:

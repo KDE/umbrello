@@ -16,6 +16,7 @@
 // app includes
 #include "debug_utils.h"
 #include "ast_utils.h"
+#include "codeimpthread.h"
 #include "import_utils.h"
 // FIXME: The sole reason for the next 2 includes is parseTypedef().
 // Make capsule methods in ClassImport, and remove these includes.
@@ -29,8 +30,8 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QList>
 
-CppTree2Uml::CppTree2Uml( const QString& fileName)
-    : m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 )
+CppTree2Uml::CppTree2Uml(const QString& fileName, CodeImpThread* thread)
+    : m_anon( 0 ), m_nsCnt( 0 ), m_clsCnt( 0 ), m_thread( thread )
 {
     QDir dir(fileName);
     m_fileName = dir.canonicalPath();
@@ -75,10 +76,10 @@ void CppTree2Uml::parseNamespace( NamespaceAST* ast )
     } else {
         nsName = ast->namespaceName()->text();
     }
-
-#ifdef DEBUG_CPPTREE2UML
     uDebug() << nsName;
-#endif
+    if (m_thread) {
+        m_thread->emitMessageToLog("", "namespace " + nsName);
+    }
     UMLObject * o = Import_Utils::createUMLObject(UMLObject::ot_Package, nsName,
                                                   m_currentNamespace[m_nsCnt],
                                                   ast->comment());
@@ -259,6 +260,10 @@ void CppTree2Uml::parseFunctionDefinition( FunctionDefinitionAST* ast )
     }
 
     QString id = d->declaratorId()->unqualifiedName()->text().trimmed();
+    if (m_thread) {
+        m_thread->emitMessageToLog("", "method " + id);
+    }
+    uDebug() << id;
 
     UMLClassifier *c = m_currentClass[m_clsCnt];
     if (c == NULL) {
@@ -309,6 +314,9 @@ void CppTree2Uml::parseClassSpecifier( ClassSpecifierAST* ast )
         className = ast->name()->unqualifiedName()->text().trimmed();
     }
     uDebug() << "name=" << className;
+    if (m_thread) {
+        m_thread->emitMessageToLog("", "class " + className);
+    }
     if( !scopeOfName( ast->name(), QStringList() ).isEmpty() ){
         uDebug() << "skip private class declarations";
         return;
@@ -376,10 +384,24 @@ void CppTree2Uml::parseElaboratedTypeSpecifier( ElaboratedTypeSpecifierAST* type
     ///              - Using typeSpec->text() is probably not good, decode
     ///                the kind() instead.
     QString text = typeSpec->text();
-    uDebug() << "text is " << text;
+    uDebug() << "forward declaration of " << text;
+    if (m_thread) {
+        m_thread->emitMessageToLog("", "forward declaration of " + text);
+    }
     text.remove(QRegExp("^class\\s+"));
-    UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Class, text,
-                                                 m_currentNamespace[m_nsCnt]);
+#if 0
+    if (m_thread) {  //:TODO: for testing only
+        int answer;
+        m_thread->emitAskQuestion("Soll CppTree2Uml::parseElaboratedTypeSpecifier ausgeführt werden?");
+        uDebug() << "Antwort: " << answer;
+    }
+#endif
+    UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Class, text, m_currentNamespace[m_nsCnt]);
+#if 0
+    if (m_thread) {  //:TODO: for testing only
+        m_thread->emitAskQuestion("Soll nach CppTree2Uml::parseElaboratedTypeSpecifier weiter gemacht werden?");
+    }
+#endif
     flushTemplateParams( static_cast<UMLClassifier*>(o) );
 }
 
@@ -591,4 +613,3 @@ void CppTree2Uml::flushTemplateParams(UMLClassifier *klass)
         m_templateParams.clear();
     }
 }
-
