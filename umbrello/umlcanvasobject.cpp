@@ -215,7 +215,7 @@ QString UMLCanvasObject::uniqChildName( const UMLObject::ObjectType type,
                 currentName = i18n( "new_check_constraint" );
                 break;
             default:
-                uWarning() << "uniqChildName() called for unknown child type " << type;
+                uWarning() << "uniqChildName() called for unknown child type " << UMLObject::toString(type);
                 return "ERROR_in_UMLCanvasObject_uniqChildName";
         }
     }

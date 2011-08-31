@@ -187,7 +187,7 @@ public:
     /**
      * Returns the zoom of the diagram.
      */
-    int getZoom() const {
+    int zoom() const {
         return m_nZoom;
     }
 

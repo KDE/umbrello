@@ -1846,7 +1846,7 @@ void UMLView::activateAfterLoad(bool bUseLog)
         endPartialWidgetPaste();
     }
     resizeCanvasToItems();
-    setZoom(getZoom());
+    setZoom(zoom());
     m_bActivated = true;
 }
 
@@ -3070,7 +3070,7 @@ void UMLView::zoomOut()
 
 void UMLView::fileLoaded()
 {
-    setZoom(getZoom());
+    setZoom(zoom());
     resizeCanvasToItems();
 }
 

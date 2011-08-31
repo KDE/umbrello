@@ -12,6 +12,7 @@
 #include "umldoc.h"
 
 // app includes
+#include "debug_utils.h"
 #include "uniqueid.h"
 #include "associationwidget.h"
 #include "association.h"
@@ -31,6 +32,8 @@
 #include "classifierlistitem.h"
 #include "object_factory.h"
 #include "import_rose.h"
+#include "model_utils.h"
+#include "widget_utils.h"
 #include "uml.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
@@ -42,10 +45,6 @@
 #include "listpopupmenu.h"
 #include "cmds.h"
 #include "diagramprintpage.h"
-// utils
-#include "debug_utils.h"
-#include "model_utils.h"
-#include "widget_utils.h"
 
 // kde includes
 #include <kio/job.h>

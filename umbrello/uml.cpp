@@ -584,7 +584,7 @@ void UMLApp::slotZoom100()
  */
 void UMLApp::slotZoomOut()
 {
-    setZoom(currentView()->getZoom()-5);
+    setZoom(currentView()->zoom()-5);
 }
 
 /**
@@ -592,7 +592,7 @@ void UMLApp::slotZoomOut()
  */
 void UMLApp::slotZoomIn()
 {
-    setZoom(currentView()->getZoom()+5);
+    setZoom(currentView()->zoom()+5);
 }
 
 /**
