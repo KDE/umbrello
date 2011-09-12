@@ -123,7 +123,7 @@ public:
 
     void startRename(int col);
     void cancelRename(int col);
-    void okRename(int col);    
+    void okRename(int col);
 
     void addClassifierListItem(UMLClassifierListItem *child, UMLListViewItem *childItem);
 

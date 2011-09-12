@@ -911,8 +911,8 @@ void UMLApp::saveOptions()
     UmbrelloSettings::setTextColor( optionState.uiState.textColor );
     UmbrelloSettings::setShowDocWindow(  m_documentationDock->isVisible() );
     UmbrelloSettings::setUiFont(  optionState.uiState.font );
-//:TODO:    UmbrelloSettings::setBackgroundColor( optionState.uiState.backgroundColor );
-//:TODO:    UmbrelloSettings::setGridDotColor( optionState.uiState.gridDotColor );
+    UmbrelloSettings::setBackgroundColor( optionState.uiState.backgroundColor );
+    UmbrelloSettings::setGridDotColor( optionState.uiState.gridDotColor );
 
     UmbrelloSettings::setShowVisibility(  optionState.classState.showVisibility );
     UmbrelloSettings::setShowAtts( optionState.classState.showAtts);
@@ -1883,8 +1883,8 @@ void UMLApp::readOptionState()
     optionState.uiState.lineWidth =  UmbrelloSettings::lineWidth();
     optionState.uiState.textColor = UmbrelloSettings::textColor();
     optionState.uiState.font =  UmbrelloSettings::uiFont();
-//:TODO:    optionState.uiState.backgroundColor = UmbrelloSettings::backgroundColor();
-//:TODO:    optionState.uiState.gridDotColor = UmbrelloSettings::gridDotColor();
+    optionState.uiState.backgroundColor = UmbrelloSettings::backgroundColor();
+    optionState.uiState.gridDotColor = UmbrelloSettings::gridDotColor();
 
     optionState.classState.showVisibility =  UmbrelloSettings::showVisibility();
     optionState.classState.showAtts =  UmbrelloSettings::showAtts();

@@ -230,6 +230,12 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
 
     // Get the UMLListViewItem at the point where the mouse pointer was pressed
     UMLListViewItem * item = static_cast<UMLListViewItem*>(itemAt(me->pos()));
+    if (item) {
+        DEBUG(DBG_SRC) << UMLListViewItem::toString(item->type());
+    }
+    else {
+        DEBUG(DBG_SRC) << "item is NULL";
+    }
 
     const Qt::ButtonState button = me->button();
 
@@ -247,6 +253,7 @@ void UMLListView::mousePressEvent(QMouseEvent *me)
 
         m_dragStartPosition = me->pos();
     }
+
     if (button == Qt::RightButton) {
         if (m_menu != 0) {
             m_menu->hide();
@@ -1331,14 +1338,14 @@ void UMLListView::init()
 void UMLListView::clean()
 {
     DEBUG(DBG_SRC) << "BEGIN";
-    disconnect(this,SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemChanged(QTreeWidgetItem *, int)));
-    disconnect(this,SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
+    disconnect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemChanged(QTreeWidgetItem *, int)));
+    disconnect(this, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
     clearSelection();
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         deleteChildrenOf(m_lv[i]);
     }
-    connect(this,SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemChanged(QTreeWidgetItem *, int)));
-    connect(this,SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
+    connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemChanged(QTreeWidgetItem *, int)));
+    connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
     DEBUG(DBG_SRC) << "END";
 //:TODO:    DEBUG(DBG_SRC) << *this;  //:TODO:DEL
 }
@@ -3174,6 +3181,7 @@ UMLListViewItem *UMLListView::rootView(UMLListViewItem::ListViewType type)
 
 /**
  * Deletes all child-items of @p parent.
+ * Do it in reverse order, because of the index.
  */
 void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
 {
@@ -3181,7 +3189,7 @@ void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
         return;
     }
     DEBUG(DBG_SRC) << parent->text(0) << ":";  //:TODO:
-    for (int i = 0; i < parent->childCount(); ++i) {
+    for (int i = parent->childCount() - 1; i >= 0; --i) {
         UMLListViewItem* child = static_cast<UMLListViewItem*>(parent->child(i));
         // if child has children, then delete them first
         if (child->childCount() > 0) {

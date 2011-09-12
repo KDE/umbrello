@@ -132,7 +132,7 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         }
 
         m_pUMLWidget->setDocumentation( m_pDocTE->toPlainText() );
-    } else if( m_pAssocWidget ) {
+    } else if ( m_pAssocWidget ) {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point

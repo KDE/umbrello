@@ -295,6 +295,8 @@ QColor UMLScene::gridDotColor() const
 void UMLScene::setGridDotColor(const QColor &gridColor)
 {
     m_layoutGrid->setGridDotColor(gridColor);
+    m_layoutGrid->setGridCrossColor(gridColor);
+    m_layoutGrid->setTextColor(gridColor);
 }
 
 /**
