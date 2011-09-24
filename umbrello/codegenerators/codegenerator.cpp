@@ -38,8 +38,9 @@
 
 // qt includes
 #include <QtCore/QDateTime>
-#include <QtCore/QRegExp>
 #include <QtCore/QDir>
+#include <QtCore/QPointer>
+#include <QtCore/QRegExp>
 #include <QtCore/QTextStream>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
@@ -508,16 +509,17 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
     }
 
     int suffix;
-    OverwriteDialogue overwriteDialog( name, outputDirectory.absolutePath(),
-                                         m_applyToAllRemaining, kapp->activeWindow() );
+    QPointer<OverwriteDialogue> overwriteDialog =
+        new OverwriteDialogue(name, outputDirectory.absolutePath(),
+                              m_applyToAllRemaining, kapp->activeWindow());
     switch (pol->getOverwritePolicy()) {  //if it exists, check the OverwritePolicy we should use
     case CodeGenerationPolicy::Ok:              //ok to overwrite file
         filename = name + extension;
         break;
     case CodeGenerationPolicy::Ask:            //ask if we can overwrite
-        switch(overwriteDialog.exec()) {
+        switch(overwriteDialog->exec()) {
         case KDialog::Yes:  //overwrite file
-            if ( overwriteDialog.applyToAllRemaining() ) {
+            if ( overwriteDialog->applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Ok);
                 filename = name + extension;
             }
@@ -533,7 +535,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
                     break;
                 suffix++;
             }
-            if ( overwriteDialog.applyToAllRemaining() ) {
+            if ( overwriteDialog->applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Never);
             }
             else {
@@ -541,12 +543,13 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
             }
             break;
         case KDialog::Cancel: //don't output anything
-            if ( overwriteDialog.applyToAllRemaining() ) {
+            if ( overwriteDialog->applyToAllRemaining() ) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             }
             else {
                 m_applyToAllRemaining = false;
             }
+            delete overwriteDialog;
             return QString();
             break;
         }
@@ -563,10 +566,12 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
         }
         break;
     case CodeGenerationPolicy::Cancel: //don't output anything
+        delete overwriteDialog;
         return QString();
         break;
     }
 
+    delete overwriteDialog;
     return filename;
 }
 
