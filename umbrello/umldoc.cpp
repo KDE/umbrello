@@ -175,6 +175,7 @@ void UMLDoc::addView(UMLView *view)
         uError() << "view folder is not set";
         return;
     }
+    DEBUG(DBG_SRC) << "to folder " << *f;
     f->addView(view);
 
     UMLApp * pApp = UMLApp::app();
@@ -199,7 +200,7 @@ void UMLDoc::addView(UMLView *view)
  * @param enforceOneView   switch to determine if we have a current view or not.
  *                         most of the time, we DO want this, except when exiting the program.
  */
-void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
+void UMLDoc::removeView(UMLView *view , bool enforceCurrentView)
 {
     if (!view) {
         uError() << "UMLDoc::removeView(UMLView *view) called with view = 0";
@@ -240,7 +241,6 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
         }
 
         if ( firstView ) {
-            DEBUG(DBG_SRC) << "changing current view";  //:TODO:
             changeCurrentView( firstView->umlScene()->getID() );
             UMLApp::app()->setDiagramMenuItemsState(true);
         }

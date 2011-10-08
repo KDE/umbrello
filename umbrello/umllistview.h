@@ -130,7 +130,7 @@ public:
     bool loadFromXMI(QDomElement & element);
     bool loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & element);
 
-    friend QDebug operator<< (QDebug out, const UMLListView& view);
+    friend QDebug operator<<(QDebug out, const UMLListView& view);
 
 protected:
 

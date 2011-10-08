@@ -62,6 +62,8 @@ public:
 
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
+    friend QDebug operator<<(QDebug out, const UMLFolder& item);
+
 protected:
     void saveContents(QDomDocument& qDoc, QDomElement& qElement);
 

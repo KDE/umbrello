@@ -120,8 +120,8 @@ UMLListView::UMLListView(QWidget *parent)
     connect(this, SIGNAL(itemCollapsed(QTreeWidgetItem *)), this, SLOT(slotCollapsed(QTreeWidgetItem *)));
     connect(this, SIGNAL(itemExpanded(QTreeWidgetItem *)), this, SLOT(slotExpanded(QTreeWidgetItem *)));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()), this, SLOT(slotCutSuccessful()));
-    connect(this,SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemChanged(QTreeWidgetItem *, int)));
-    connect(this,SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
+    connect(this, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemChanged(QTreeWidgetItem *, int)));
+    connect(this, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
 }
 
 /**
@@ -146,8 +146,8 @@ void UMLListView::setTitle(int column, const QString &text)
  */
 void UMLListView::slotItemChanged(QTreeWidgetItem * item, int column)
 {
-    DEBUG(DBG_SRC) << item->text(column);  //:TODO:
     if (m_editItem) {
+        DEBUG(DBG_SRC) << item->text(column);
         endRename(static_cast<UMLListViewItem*>(item));
     }
 }
@@ -159,7 +159,7 @@ void UMLListView::slotItemSelectionChanged()
 {
     UMLListViewItem* currItem = static_cast<UMLListViewItem*>(currentItem());
     if (currItem && currItem->isSelected()) {
-        DEBUG(DBG_SRC) << currItem->text(0);  //:TODO:
+        DEBUG(DBG_SRC) << currItem->text(0);
         if (m_editItem) {
             if (m_editItem == currItem) {
                 // clicked on the item which is just edited
@@ -705,7 +705,7 @@ void UMLListView::popupMenuSel(QAction* action)
                 UMLFolder* f = dynamic_cast<UMLFolder*>(object);
                 if (f == 0) {
                     uError() << "menuType=" << menuType
-                            << ": current item's UMLObject is not a UMLFolder";
+                             << ": current item's UMLObject is not a UMLFolder";
                 }
                 else {
                     m_doc->createDiagram(f, dt);
@@ -1239,12 +1239,12 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
     } else {
         item = m_lv[Uml::ModelType::Logical];
     }
-    for (int i=0; i < item->childCount(); i++) {
-        UMLListViewItem* foundItem = recursiveSearchForView(item->childItem(i), type, id);
-        if (foundItem)
-            return foundItem;
+    UMLListViewItem* foundItem = recursiveSearchForView(item, type, id);
+    if (foundItem) {
+        return foundItem;
     }
     uWarning() << "returning 0";
+    DEBUG(DBG_SRC) << "but was looking for " << *item;
     return 0;
 }
 
@@ -1256,22 +1256,36 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
 UMLListViewItem* UMLListView::recursiveSearchForView(UMLListViewItem* listViewItem,
         UMLListViewItem::ListViewType type, Uml::IDType id)
 {
-    if (!listViewItem)
-        return 0;
-    // 
-    //if (listViewItem->type() == type && listViewItem->getID() == id)
-    //    return listViewItem;
-
-    if (Model_Utils::typeIsFolder(listViewItem->type())) {
-        for (int i=0; i < listViewItem->childCount(); i++) {
-            UMLListViewItem* child = listViewItem->childItem(i);
-            UMLListViewItem* resultListViewItem = recursiveSearchForView(child, type, id);
-            if (resultListViewItem)
-                return resultListViewItem;
+    while (listViewItem) {
+        //DEBUG(DBG_SRC) << *listViewItem;
+        if (Model_Utils::typeIsFolder(listViewItem->type())) {
+            for (int i=0; i < listViewItem->childCount(); i++) {
+                UMLListViewItem* child = listViewItem->childItem(i);
+                UMLListViewItem* resultListViewItem = recursiveSearchForView(child, type, id);
+                if (resultListViewItem) {
+                    return resultListViewItem;
+                }
+            }
+        } else {
+            if (listViewItem->type() == type && listViewItem->getID() == id) {
+                return listViewItem;
+            }
         }
-    } else {
-        if (listViewItem->type() == type && listViewItem->getID() == id)
-            return listViewItem;
+        // next sibling
+        QTreeWidgetItem* parent = listViewItem->parent();
+        if (parent) {
+            int index = parent->indexOfChild(listViewItem);
+            index++;
+            if (index < parent->childCount()) {
+                listViewItem = static_cast<UMLListViewItem*>(parent->child(index));
+            }
+            else {
+                break;
+            }
+        }
+        else {
+            break;
+        }
     }
     return 0;
 }
@@ -1425,7 +1439,9 @@ void UMLListView::mouseDoubleClickEvent(QMouseEvent * me)
 }
 
 /**
- *
+ * Event handler for accepting drag request.
+ * @param event   the drop event
+ * @return success state
  */
 bool UMLListView::acceptDrag(QDropEvent* event) const
 {
@@ -2106,7 +2122,8 @@ UMLDoc * UMLListView::document() const
 }
 
 /**
- *
+ * Event handler for lost focus.
+ * @param fe   the focus event
  */
 void UMLListView::focusOutEvent(QFocusEvent * fe)
 {
@@ -2204,7 +2221,7 @@ void UMLListView::slotCutSuccessful()
 }
 
 /**
- *
+ * TODO: still in use?
  */
 void UMLListView::startUpdate()
 {
@@ -2212,7 +2229,7 @@ void UMLListView::startUpdate()
 }
 
 /**
- *
+ * TODO: still in use?
  */
 void UMLListView::endUpdate()
 {
@@ -2771,12 +2788,13 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name)
 }
 
 /**
- *
+ * Renaming of an item has started.
+ * @param item   the item which will be renamed
  */
 void UMLListView::startRename(UMLListViewItem* item)
 {
     if (item) {
-        DEBUG(DBG_SRC) << item->text(0);  //:TODO:
+        DEBUG(DBG_SRC) << item->text(0);
         if (m_editItem) {
             cancelRename(m_editItem);
         }
@@ -2796,7 +2814,7 @@ void UMLListView::startRename(UMLListViewItem* item)
 void UMLListView::cancelRename(UMLListViewItem* item)
 {
     if (item) {
-        DEBUG(DBG_SRC) << item->text(0);  //:TODO:
+        DEBUG(DBG_SRC) << item->text(0);
         // delete pointer first to lock slotItemChanged
         m_editItem = 0;
         closePersistentEditor(item, 0);
@@ -2810,12 +2828,13 @@ void UMLListView::cancelRename(UMLListViewItem* item)
 }
 
 /**
- *
+ * Renaming of an item has ended.
+ * @param item   the item which was renamed or not
  */
 void UMLListView::endRename(UMLListViewItem* item)
 {
     if (item) {
-        DEBUG(DBG_SRC) << item->text(0);  //:TODO:
+        DEBUG(DBG_SRC) << item->text(0);
         // delete pointer first to lock slotItemChanged
         m_editItem = 0;
         closePersistentEditor(item, 0);
@@ -3188,7 +3207,7 @@ void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
     if (!parent) {
         return;
     }
-    DEBUG(DBG_SRC) << parent->text(0) << ":";  //:TODO:
+    DEBUG(DBG_SRC) << parent->text(0) << ":";
     for (int i = parent->childCount() - 1; i >= 0; --i) {
         UMLListViewItem* child = static_cast<UMLListViewItem*>(parent->child(i));
         // if child has children, then delete them first
@@ -3199,7 +3218,7 @@ void UMLListView::deleteChildrenOf(UMLListViewItem* parent)
         if (child == m_datatypeFolder) {
             continue;
         }
-        DEBUG(DBG_SRC) << "removing " << child->text(0);  //:TODO:
+        DEBUG(DBG_SRC) << "removing " << child->text(0);
         parent->removeChild(child);
         delete child;
     }
@@ -3334,7 +3353,7 @@ QDebug operator<<(QDebug out, const UMLListView& view)
     else {
         out << "<null>";
     }
-    return out;
+    return out.space();
 }
 
 #include "umllistview.moc"

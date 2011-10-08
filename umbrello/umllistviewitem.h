@@ -144,7 +144,7 @@ public:
 
     void setOpen(bool state);
 
-    friend QDebug operator<< (QDebug out, const UMLListViewItem& item);
+    friend QDebug operator<<(QDebug out, const UMLListViewItem& item);
 
 protected:
     void init();
