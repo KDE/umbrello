@@ -519,9 +519,9 @@ TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag ( const QString &tag 
     return NULL;
 }
 
-QTextStream& operator<<(QTextStream& os, const CodeDocument& obj)
+QDebug operator<<(QDebug os, const CodeDocument& obj)
 {
-    os << "CodeDocument: id=" << obj.getID()
+    os.nospace() << "CodeDocument: id=" << obj.getID()
        << " , file=" << obj.getFileName();  //:TODO: add all attributes
-    return os;
+    return os.space();
 }

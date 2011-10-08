@@ -12,6 +12,7 @@
 #include "codeblock.h"
 
 #include "codedocument.h"
+#include "debug_utils.h"
 
 #include <QtCore/QTextStream>
 
@@ -133,9 +134,9 @@ QString CodeBlock::enumToString(const ContentType& val)
     }
 }
 
-QTextStream& operator<<(QTextStream& str, const CodeBlock& obj)
+QDebug operator<<(QDebug str, const CodeBlock& obj)
 {
-    str << "CodeBlock: " << CodeBlock::enumToString(obj.contentType())
+    str.nospace() << "CodeBlock: " << CodeBlock::enumToString(obj.contentType())
         << ", ..." << static_cast<TextBlock*>(const_cast<CodeBlock*>(&obj));
-    return str;
+    return str.space();
 }

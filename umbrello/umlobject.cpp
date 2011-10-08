@@ -1059,8 +1059,9 @@ QString UMLObject::toString(ObjectType ot)
  */
 QDebug operator<<(QDebug out, const UMLObject& obj)
 {
-    out << obj.name();
-    return out;
+    out.nospace() << "UMLObject: name= " << obj.name()
+        << ", type= " << UMLObject::toString(obj.m_BaseType);
+    return out.space();
 }
 
 #include "umlobject.moc"

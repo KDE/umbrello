@@ -524,4 +524,15 @@ bool UMLFolder::load(QDomElement& element)
     return totalSuccess;
 }
 
+/**
+ * Overloading operator for debugging output.
+ */
+QDebug operator<<(QDebug out, const UMLFolder& item)
+{
+    out.nospace() << "UMLFolder: localName=" << item.m_localName
+        << ", folderFile=" << item.m_folderFile
+        << ", diagrams=" << item.m_diagrams.count();
+    return out.space();
+}
+
 #include "folder.moc"
