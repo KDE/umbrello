@@ -5,7 +5,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
- *   copyright (C) 2004-2009                                               *
+ *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -84,6 +84,8 @@ public:
     virtual int firstEditableLine();
     virtual int lastEditableLine();
 
+    friend QDebug operator<<(QDebug os, const TextBlock& obj);
+
 protected:
 
     void setCanDelete(bool canDelete);
@@ -92,8 +94,6 @@ protected:
 
     virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement);
     virtual void setAttributesFromNode(QDomElement & root);
-
-    friend QTextStream& operator<<(QTextStream& os, const TextBlock& obj);
 
 private:
 
@@ -105,7 +105,5 @@ private:
     CodeDocument * m_parentDocument;
 
 };
-
-QTextStream& operator<<(QTextStream& os, const TextBlock& obj);
 
 #endif // TEXTBLOCK_H

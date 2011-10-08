@@ -15,6 +15,7 @@
 // local includes
 #include "codedocument.h"
 #include "codegenerationpolicy.h"
+#include "debug_utils.h"
 #include "uml.h"
 
 // qt includes
@@ -415,13 +416,13 @@ QString TextBlock::toString() const
 /**
  * Operator '<<' for TextBlock.
  */
-QTextStream& operator<<(QTextStream& os, const TextBlock& obj)
+QDebug operator<<(QDebug os, const TextBlock& obj)
 {
-    os << "TextBlock: tag=" << obj.getTag()
+    os.nospace() << "TextBlock: tag=" << obj.getTag()
        << ", writeOutText=" << (obj.getWriteOutText() ? "true" : "false")
        << ", canDelete=" << (obj.canDelete() ? "true" : "false")
        << ", indentationLevel=" << obj.getIndentationLevel()
        << ", parentDocument id=" << (obj.getParentDocument() ? obj.getParentDocument()->getID() : "null")
        << ", text=" << obj.getText();
-    return os;
+    return os.space();
 }

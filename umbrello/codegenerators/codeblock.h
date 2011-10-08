@@ -42,12 +42,12 @@ public:
 
     virtual void setAttributesFromObject(TextBlock * obj);
 
+    friend QDebug operator<<(QDebug str, const CodeBlock& obj);
+
 protected:
 
     virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement);
     virtual void setAttributesFromNode(QDomElement & element);
-
-    friend QTextStream& operator<<(QTextStream& str, const CodeBlock& obj);
 
 private:
 
@@ -56,7 +56,5 @@ private:
     ContentType m_contentType;
 
 };
-
-QTextStream& operator<<(QTextStream& str, const CodeBlock& obj);
 
 #endif // CODEBLOCK_H

@@ -79,6 +79,8 @@ public:
 
     virtual void updateContent();
 
+    friend QDebug operator<<(QDebug os, const CodeDocument& obj);
+
 protected:
 
     virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
@@ -99,8 +101,6 @@ protected:
 
     virtual TextBlock * findCodeClassFieldTextBlockByTag( const QString &tag );
 
-    friend QTextStream& operator<<(QTextStream& os, const CodeDocument& obj);
-
 private:
 
     int m_lastTagIndex;
@@ -119,7 +119,5 @@ private:
     QMap<QString, TextBlock *> m_childTextBlockTagMap;
 
 };
-
-QTextStream& operator<<(QTextStream& os, const CodeDocument& obj);
 
 #endif // CODEDOCUMENT_H
