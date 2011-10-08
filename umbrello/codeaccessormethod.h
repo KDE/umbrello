@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003      thomas                                        *
+ *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
  *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
@@ -31,56 +31,44 @@ public:
     // "LIST" is to retrive the entire list of items in a  multiple-valued field
     enum AccessorType {GET=0, SET, ADD, REMOVE, LIST};
 
-    /**
-     * Constructors
-     */
-    CodeAccessorMethod ( CodeClassField * field );
+    CodeAccessorMethod(CodeClassField * field);
+    virtual ~CodeAccessorMethod();
 
-    /**
-     * Empty Destructor
-     */
-    virtual ~CodeAccessorMethod ( );
+    CodeClassField * getParentClassField();
 
-    CodeClassField * getParentClassField ( );
+    AccessorType getType();
 
-    AccessorType getType( );
+    void setType(AccessorType type);
 
-    void setType ( AccessorType type);
-
-    /**
-     * Utility method to get the value of the parent object of the parent classifield.
-     */
     // virtual UMLObject * getParentObject();
 
     bool parentIsAttribute();
 
     virtual void updateContent() = 0;
 
-    virtual void saveToXMI ( QDomDocument & doc, QDomElement & root );
+    virtual void saveToXMI(QDomDocument & doc, QDomElement & root);
+    virtual void loadFromXMI(QDomElement & root);
 
-    virtual void loadFromXMI ( QDomElement & root );
-
-    virtual void setAttributesFromObject (TextBlock * obj);
+    virtual void setAttributesFromObject(TextBlock * obj);
 
 protected:
 
-    virtual void release ();
+    virtual void release();
 
-    virtual void setAttributesOnNode ( QDomDocument & doc, QDomElement & blockElement);
+    virtual void setAttributesOnNode(QDomDocument & doc, QDomElement & blockElement);
 
-    virtual void setAttributesFromNode ( QDomElement & element);
+    virtual void setAttributesFromNode(QDomElement & element);
 
     virtual void updateMethodDeclaration() = 0;
 
-    // a method so the parent code classfield can force code block to release
-    void forceRelease ();
+    void forceRelease();
 
 private:
 
     CodeClassField * m_parentclassfield;
     AccessorType m_accessorType;
 
-    void initFields(CodeClassField * parentCF );
+    void initFields(CodeClassField * parentCF);
 
 };
 

@@ -4,7 +4,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003      thomas                                        *
+ *   copyright (C) 2003      Brian Thomas <thomas@mail630.gsfc.nasa.gov>   *
  *   copyright (C) 2004-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
@@ -15,19 +15,21 @@
 // qt/kde includes
 
 // local includes
-#include "classifiercodedocument.h"
 #include "codeclassfield.h"
-#include "attribute.h"
-#include "umlobject.h"
-#include "umlrole.h"
 
-CodeAccessorMethod::CodeAccessorMethod ( CodeClassField * parentCF )
+/**
+ * Constructors
+ */
+CodeAccessorMethod::CodeAccessorMethod(CodeClassField * parentCF)
   : CodeMethodBlock ( parentCF->getParentDocument(), parentCF->getParentObject() )
 {
     initFields(parentCF);
 }
 
-CodeAccessorMethod::~CodeAccessorMethod ( )
+/**
+ * Empty Destructor
+ */
+CodeAccessorMethod::~CodeAccessorMethod()
 {
 }
 
@@ -35,12 +37,12 @@ CodeAccessorMethod::~CodeAccessorMethod ( )
  * Get the value of m_parentclassfield
  * @return the value of m_parentclassfield
  */
-CodeClassField * CodeAccessorMethod::getParentClassField ( )
+CodeClassField * CodeAccessorMethod::getParentClassField()
 {
     return m_parentclassfield;
 }
 
-bool CodeAccessorMethod::parentIsAttribute( )
+bool CodeAccessorMethod::parentIsAttribute()
 {
     return getParentClassField()->parentIsAttribute();
 }
@@ -50,7 +52,7 @@ bool CodeAccessorMethod::parentIsAttribute( )
  * @return the value of the parent of the parent classfield
  */
 /*
-UMLObject * CodeAccessorMethod::getParentObject ( )
+UMLObject * CodeAccessorMethod::getParentObject()
 {
     return getParentClassField()->getParentObject();
 }
@@ -59,7 +61,7 @@ UMLObject * CodeAccessorMethod::getParentObject ( )
 /**
  * Return the type of accessor method this is.
  */
-CodeAccessorMethod::AccessorType CodeAccessorMethod::getType( )
+CodeAccessorMethod::AccessorType CodeAccessorMethod::getType()
 {
     return m_accessorType;
 }
@@ -67,32 +69,37 @@ CodeAccessorMethod::AccessorType CodeAccessorMethod::getType( )
 /**
  * Set the type of accessor method this is.
  */
-void CodeAccessorMethod::setType ( CodeAccessorMethod::AccessorType atype)
+void CodeAccessorMethod::setType(CodeAccessorMethod::AccessorType atype)
 {
     m_accessorType = atype;
 }
 
-// this type of textblock is special
-// we DON'T release it when resetTextBlocks is
-// called because we re-use it over and over
-// until the codeclassfield is released.
-void CodeAccessorMethod::release ()
+/**
+ * This type of textblock is special
+ * we DON'T release it when resetTextBlocks is
+ * called because we re-use it over and over
+ * until the codeclassfield is released.
+ */
+void CodeAccessorMethod::release()
 {
     // do nothing
 }
 
-// ok, a method so the parent can force it to release
-void CodeAccessorMethod::forceRelease ()
+/**
+ * A method so the parent code classfield can force code block to release.
+ */
+void CodeAccessorMethod::forceRelease()
 {
-    if(m_parentclassfield)
+    if (m_parentclassfield) {
         m_parentclassfield->disconnect(this);
+    }
     CodeMethodBlock::release();
 }
 
 /**
  * Load params from the appropriate XMI element node.
  */
-void CodeAccessorMethod::loadFromXMI ( QDomElement & root )
+void CodeAccessorMethod::loadFromXMI(QDomElement & root)
 {
     setAttributesFromNode(root);
 }
@@ -100,7 +107,7 @@ void CodeAccessorMethod::loadFromXMI ( QDomElement & root )
 /**
  * Save the XMI representation of this object.
  */
-void CodeAccessorMethod::saveToXMI ( QDomDocument & doc, QDomElement & root )
+void CodeAccessorMethod::saveToXMI(QDomDocument & doc, QDomElement & root)
 {
     QDomElement docElement = doc.createElement( "codeaccessormethod" );
 
@@ -113,7 +120,7 @@ void CodeAccessorMethod::saveToXMI ( QDomDocument & doc, QDomElement & root )
  * Set attributes of the node that represents this class
  * in the XMI document.
  */
-void CodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement & elem)
+void CodeAccessorMethod::setAttributesOnNode(QDomDocument & doc, QDomElement & elem)
 {
     // set super-class attributes
     CodeMethodBlock::setAttributesOnNode(doc, elem);
@@ -127,7 +134,7 @@ void CodeAccessorMethod::setAttributesOnNode ( QDomDocument & doc, QDomElement &
  * Set the class attributes of this object from
  * the passed element node.
  */
-void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root)
+void CodeAccessorMethod::setAttributesFromNode(QDomElement & root)
 {
     // set attributes from the XMI
     CodeMethodBlock::setAttributesFromNode(root); // superclass load
@@ -143,18 +150,18 @@ void CodeAccessorMethod::setAttributesFromNode ( QDomElement & root)
         QString id = root.attribute("classfield_id","-1");
         CodeClassField * newCF = 0;
         ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
-        if(cdoc)
+        if (cdoc)
                 newCF = cdoc->findCodeClassFieldFromParentID (STR2ID(id));
 
         m_parentclassfield->disconnect(this); // always disconnect
-        if(newCF)
+        if (newCF)
                 initFields(newCF);
         else
                 uError()<<"ERROR: code accessor method cant load parent codeclassfield, corrupt file?"<<endl;
 
     */
     // now load/set other local attributes
-    setType((AccessorType) root.attribute("accessType","0").toInt());
+    setType((AccessorType)root.attribute("accessType","0").toInt());
 }
 
 /**
@@ -165,8 +172,7 @@ void CodeAccessorMethod::setAttributesFromObject(TextBlock * obj)
     CodeMethodBlock::setAttributesFromObject(obj);
 
     CodeAccessorMethod * mb = dynamic_cast<CodeAccessorMethod*>(obj);
-    if(mb)
-    {
+    if (mb) {
         m_parentclassfield->disconnect(this); // always disconnect
 
         initFields(mb->getParentClassField());
@@ -175,7 +181,7 @@ void CodeAccessorMethod::setAttributesFromObject(TextBlock * obj)
     }
 }
 
-void CodeAccessorMethod::initFields(CodeClassField * parentClassField )
+void CodeAccessorMethod::initFields(CodeClassField * parentClassField)
 {
     m_parentclassfield = parentClassField;
     m_accessorType = GET;
