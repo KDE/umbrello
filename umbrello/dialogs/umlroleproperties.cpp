@@ -103,7 +103,7 @@ void UMLRoleProperties::updateObject()
         else
             m_pRole->setChangeability(Uml::Changeability::Changeable);
 
-        m_pRole->setDoc(ui_pDocTE->text());
+        m_pRole->setDoc(ui_pDocTE->toPlainText());
 
         m_pRole->blockSignals(false);
 
