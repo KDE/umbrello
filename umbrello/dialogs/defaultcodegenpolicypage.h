@@ -1,4 +1,3 @@
-
 /****************************************************************************
 ** Form interface generated from reading ui file 'Defaultcodegenpolicypage.ui'
 **
@@ -11,35 +10,20 @@
 #ifndef DEFAULTCODEGENPOLICYPAGE_H
 #define DEFAULTCODEGENPOLICYPAGE_H
 
-#include <qvariant.h>
-#include <qwidget.h>
-//Added by qt3to4:
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
 #include "codegenerationpolicypage.h"
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
 class QLabel;
+class QWidget;
 
 class DefaultCodeGenPolicyPage : public CodeGenerationPolicyPage
 {
     Q_OBJECT
-
 public:
-
-    explicit DefaultCodeGenPolicyPage( QWidget* parent = 0, const char* name = 0, CodeGenPolicyExt * policy =0);
-
+    explicit DefaultCodeGenPolicyPage(QWidget* parent = 0, const char* name = 0, CodeGenPolicyExt * policy =0);
     ~DefaultCodeGenPolicyPage();
 
-    QLabel* textLabel;
-
-protected:
-
-protected slots:
+private:
+    QLabel* m_textLabel;
 
 };
 

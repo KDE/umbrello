@@ -160,11 +160,6 @@
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
-  <customwidget>
-   <class>Q3TextEdit</class>
-   <extends>Q3Frame</extends>
-   <header>q3textedit.h</header>
-  </customwidget>
  </customwidgets>
  <resources/>
  <connections/>
