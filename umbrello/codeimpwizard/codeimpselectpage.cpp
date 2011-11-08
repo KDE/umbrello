@@ -63,8 +63,6 @@ CodeImpSelectPage::CodeImpSelectPage(QWidget *parent)
     connect(ui_selectAllButton, SIGNAL(clicked()), this, SLOT(selectAll()));
     connect(ui_deselectAllButton, SIGNAL(clicked()), this, SLOT(deselectAll()));
 
-    connect(this, SIGNAL(selectionChanged()), this, SLOT(updateSelectionCounter()));
-
     setupToolTips();
 }
 
@@ -148,9 +146,9 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
 {
     bool found = false;
     QString filename = path.fileName();
-    foreach (const QString &extension, m_fileExtensions) {
-        filename.remove('*');
-        if (filename.contains(extension)) {
+    foreach (QString extension, m_fileExtensions) {
+        extension.remove('*');
+        if (filename.endsWith(extension)) {
             found = true;
             break;
         }
@@ -236,29 +234,34 @@ void CodeImpSelectPage::treeClicked(const QModelIndex& index)
         QFileInfo fileInfo = indexModel->fileInfo(index);
         if (fileInfo.isDir()) {
             int rows = indexModel->rowCount(index);
-            uDebug() << "item has children = " << rows;
+            uDebug() << "item has directory and has children = " << rows;
             QItemSelectionModel* selectionModel = ui_treeView->selectionModel();
             for(int row = 0; row < rows; ++row) {
                 QModelIndex childIndex = indexModel->index(row, 0, index);
                 if (selectionModel->isSelected(index)) {
-                    selectionModel->select(childIndex, QItemSelectionModel::Select);            
+                    // uDebug() << "select all children";
+                    QFileInfo childInfo = indexModel->fileInfo(childIndex);
+                    if (matchFilter(childInfo)) {
+                        selectionModel->select(childIndex, QItemSelectionModel::Select);
+                    }
+                    else {
+                        selectionModel->select(childIndex, QItemSelectionModel::Deselect);
+                    }
                 }
                 else {
-                    selectionModel->select(childIndex, QItemSelectionModel::Deselect);            
+                    // uDebug() << "deselect all children";
+                    selectionModel->select(childIndex, QItemSelectionModel::Deselect);
                 }
             }
             // keep the latest clicked directory
             s_recentPath = fileInfo.filePath();
         }
+        updateSelectionCounter();
+        emit selectionChanged();
     }
     else {
         uWarning() << "Index not valid!";
     }
-    emit selectionChanged();
-
-    // if is directory then select all children
-    //:TODO: disconnect clicked signal / select children / count children / connect clicked signal
-    // update label
 }
 
 /**
@@ -348,33 +351,18 @@ QList<QFileInfo> CodeImpSelectPage::selectedFiles()
 {
     QList<QFileInfo> fileList;
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
-#if 0
-    //:TODO: Remove the following - it is not used.
-    QModelIndexList indexList = ui_treeView->selectionModel()->selectedRows();
-    foreach(QModelIndex index, indexList) {
-        QMap<int, QVariant> map = model->itemData(index);
-        QString fileName = map.value(0).toString();
-        foreach(const QFileInfo& fileInfo, m_fileList) {
-            if (fileInfo.fileName() == fileName) {
-                fileList.append(fileInfo);
-            }
-        }
-    }
-    return fileList;
-#else
     QModelIndexList list = ui_treeView->selectionModel()->selectedIndexes();
     int row = -1;
     foreach (QModelIndex idx, list) {
         if (idx.row() != row && idx.column() == 0) {
             QFileInfo fileInfo = model->fileInfo(idx);
-            if (fileInfo.isFile()) {
+            if (fileInfo.isFile() && matchFilter(fileInfo)) {
                 fileList.append(fileInfo);
             }
             row = idx.row();
         }
     }
     return fileList;
-#endif
 }
 
 /**
@@ -422,40 +410,8 @@ void CodeImpSelectPage::deselectAll()
  */
 void CodeImpSelectPage::updateSelectionCounter()
 {
-    QModelIndexList list = ui_treeView->selectionModel()->selectedRows();
-    ui_filesNumLabel->setText(QString::number(list.size()));
+    QList<QFileInfo> files = selectedFiles();
+    ui_filesNumLabel->setText(QString::number(files.size()));
 }
-
-/**
- * Assumes that path and rootPath use the same dir separator and the same letter case.
- * :TODO: Remove the following - it is not used.
- */
-/*void CodeImpSelectPage::populatePath(const QString& path, const QString& rootPath)
-{
-    QStringList parts = path.split(QDir::separator());
-
-    QString currPath;
-    foreach (const QString& part, parts) {
-        if (!currPath.isEmpty()) {
-            currPath += QDir::separator();
-        }
-        currPath += part;
-
-        // no need to populate dirs outside of our area of interest
-        if (!currPath.startsWith(rootPath)) {
-            continue;
-        }
-
-        if (QFileInfo(currPath).isDir()) {
-            QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
-            QModelIndex idx = model->index(currPath);
-            if (idx.isValid()) {
-                while (model->canFetchMore(idx)) {
-                    model->fetchMore(idx);
-                }
-            }
-        }
-    }
-}*/
 
 #include "codeimpselectpage.moc"
