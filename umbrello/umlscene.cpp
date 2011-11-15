@@ -287,11 +287,19 @@ void UMLScene::setPos(const QPointF &pos)
     m_Pos = pos;
 }
 
+/**
+ * Get the color of the grid dots.
+ * @return the color of the dots
+ */
 QColor UMLScene::gridDotColor() const
 {
     return m_layoutGrid->gridDotColor();
 }
 
+/**
+ * Set the color of the grid dots.
+ * @param gridColor   the color of the dots
+ */
 void UMLScene::setGridDotColor(const QColor &gridColor)
 {
     m_layoutGrid->setGridDotColor(gridColor);
@@ -561,6 +569,10 @@ void UMLScene::slotToolBarChanged(int c)
     m_bPaste = false;
 }
 
+/**
+ * Slot called when an object is created.
+ * @param o   created UML object
+ */
 void UMLScene::slotObjectCreated(UMLObject* o)
 {
     m_bPaste = false;
@@ -616,6 +628,10 @@ void UMLScene::slotObjectCreated(UMLObject* o)
     resizeCanvasToItems();
 }
 
+/**
+ * Slot called when an object is removed.
+ * @param o   removed UML object
+ */
 void UMLScene::slotObjectRemoved(UMLObject * o)
 {
     m_bPaste = false;
@@ -1074,19 +1090,18 @@ void UMLScene::setUseFillColor(bool ufc)
 }
 
 /**
- * Returns the fill color to use.
+ * Returns the default brush for diagram widgets.
  */
-QColor UMLScene::fillColor() const
+QBrush UMLScene::brush() const
 {
-    return m_Options.uiState.fillColor;
+    return QBrush(m_Options.uiState.fillColor);
 }
 
 /**
- * Set the background color.
- *
+ * Defines the color or pattern that is used for filling shapes.
  * @param color  The color to use.
  */
-void UMLScene::setFillColor(const QColor &color)
+void UMLScene::setBrush(const QColor &color)
 {
     m_Options.uiState.fillColor = color;
     emit sigColorChanged(getID());

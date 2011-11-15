@@ -381,8 +381,6 @@ void AssociationWidget::setSeqNumAndOp(const QString &seqNum, const QString &op)
     setMultiplicity(seqNum, Uml::A);
 }
 
-QGraphicsEllipseItem *eellipse = 0;
-QGraphicsLineItem *lline = 0;
 void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textWidth,
         qreal textHeight, Uml::TextRole tr)
 {
@@ -462,10 +460,8 @@ void AssociationWidget::constrainTextPos(qreal &textX, qreal &textY, qreal textW
         projected = line.p2();
     }
 
-    if (!eellipse) {
-        eellipse = new QGraphicsEllipseItem(this);
-        lline = new QGraphicsLineItem(this);
-    }
+    QGraphicsEllipseItem* eellipse = new QGraphicsEllipseItem(this);
+    QGraphicsLineItem* lline = new QGraphicsLineItem(this);
     QGraphicsScene *s = umlScene();
     if (eellipse->scene() != s && s) {
         s->addItem(eellipse);

@@ -82,16 +82,8 @@ public:
     QColor gridDotColor() const;
     void setGridDotColor(const QColor &gridColor);
 
-    QColor fillColor() const;
-    void setFillColor(const QColor &color);
-
-    /**
-     * Returns the default brush for diagram widgets.
-     */
-    QBrush brush() const {
-        // TODO: Remove fillColor()
-        return fillColor();
-    }
+    void setBrush(const QColor &color);
+    QBrush brush() const;
 
     QColor lineColor() const;
     void setLineColor(const QColor &color);
