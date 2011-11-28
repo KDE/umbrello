@@ -90,15 +90,15 @@ void ClassifierListPage::setupPage()
     m_pOldListItem = 0;
 
     connect(m_pItemListLB, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT(slotActivateItem(QListWidgetItem*)));
-    connect(m_pItemListLB, SIGNAL(itemDoubleClicked( QListWidgetItem*)), this, SLOT(slotDoubleClick(QListWidgetItem*)));
-    connect(m_pItemListLB, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(slotRightButtonPressed(const QPoint&)));
+    connect(m_pItemListLB, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotDoubleClick(QListWidgetItem*)));
+    connect(m_pItemListLB, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotRightButtonPressed(QPoint)));
 
     connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotListItemCreated(UMLObject*)));
 
-    connect(m_pTopArrowB, SIGNAL( clicked() ), this, SLOT( slotTopClicked() ) );
-    connect(m_pUpArrowB, SIGNAL( clicked() ), this, SLOT( slotUpClicked() ) );
-    connect(m_pDownArrowB, SIGNAL( clicked() ), this, SLOT( slotDownClicked() ) );
-    connect(m_pBottomArrowB, SIGNAL( clicked() ), this, SLOT( slotBottomClicked() ) );
+    connect(m_pTopArrowB, SIGNAL(clicked()), this, SLOT(slotTopClicked()));
+    connect(m_pUpArrowB, SIGNAL(clicked()), this, SLOT(slotUpClicked()));
+    connect(m_pDownArrowB, SIGNAL(clicked()), this, SLOT(slotDownClicked()));
+    connect(m_pBottomArrowB, SIGNAL(clicked()), this, SLOT(slotBottomClicked()));
 }
 
 /**
@@ -399,7 +399,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object)
     if (index > -1) {
         m_pItemListLB->setCurrentItem(m_pItemListLB->item(index));
         slotActivateItem(m_pItemListLB->item(index));
-        connect( object, SIGNAL( modified() ), this, SLOT( slotListItemModified() ) );
+        connect(object, SIGNAL(modified()), this, SLOT(slotListItemModified()));
     }
 }
 

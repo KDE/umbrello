@@ -149,9 +149,9 @@ UMLListView::UMLListView(QWidget *parent)
     DEBUG_REGISTER(DBG_SRC);
 
     //setup slots/signals
-    connect(this, SIGNAL(collapsed(Q3ListViewItem *)),
-            this, SLOT(slotCollapsed(Q3ListViewItem *)));
-    connect(this, SIGNAL(expanded(Q3ListViewItem *)), this, SLOT(slotExpanded(Q3ListViewItem *)));
+    connect(this, SIGNAL(collapsed(Q3ListViewItem*)),
+            this, SLOT(slotCollapsed(Q3ListViewItem*)));
+    connect(this, SIGNAL(expanded(Q3ListViewItem*)), this, SLOT(slotExpanded(Q3ListViewItem*)));
     connect(UMLApp::app(), SIGNAL(sigCutSuccessful()), this, SLOT(slotCutSuccessful()));
 }
 
@@ -1024,8 +1024,8 @@ void UMLListView::setDocument(UMLDoc *doc)
     connect(m_doc, SIGNAL(sigDiagramCreated(Uml::IDType)), this, SLOT(slotDiagramCreated(Uml::IDType)));
     connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::IDType)), this, SLOT(slotDiagramRemoved(Uml::IDType)));
     connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::IDType)), this, SLOT(slotDiagramRenamed(Uml::IDType)));
-    connect(m_doc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
-    connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject *)), this, SLOT(slotObjectRemoved(UMLObject *)));
+    connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)),   this, SLOT(slotObjectCreated(UMLObject*)));
+    connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject*)),   this, SLOT(slotObjectRemoved(UMLObject*)));
 }
 
 /**

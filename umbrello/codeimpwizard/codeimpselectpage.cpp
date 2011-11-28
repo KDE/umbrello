@@ -33,7 +33,7 @@
 /**
  * Keep the last clicked directory for setting it the next time.
  */
-QString CodeImpSelectPage::s_recentPath = QString();
+QString CodeImpSelectPage::s_recentPath = "";
 
 /**
  * Constructor.
@@ -54,7 +54,7 @@ CodeImpSelectPage::CodeImpSelectPage(QWidget *parent)
     connect(this, SIGNAL(languageChanged()), this, SLOT(changeLanguage()));
 
     setupTreeView();
-    connect(ui_treeView, SIGNAL(clicked(const QModelIndex&)), this, SLOT(treeClicked(const QModelIndex&)));
+    connect(ui_treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(treeClicked(QModelIndex)));
 
     setupFileExtEdit();
     connect(ui_fileExtLineEdit, SIGNAL(editingFinished()), this, SLOT(fileExtChanged()));
@@ -241,11 +241,16 @@ void CodeImpSelectPage::treeClicked(const QModelIndex& index)
                 if (selectionModel->isSelected(index)) {
                     // uDebug() << "select all children";
                     QFileInfo childInfo = indexModel->fileInfo(childIndex);
-                    if (matchFilter(childInfo)) {
-                        selectionModel->select(childIndex, QItemSelectionModel::Select);
+                    if (childInfo.isDir() && ui_subdirCheckBox->isChecked()) {
+                        treeClicked(childIndex);
                     }
                     else {
-                        selectionModel->select(childIndex, QItemSelectionModel::Deselect);
+                        if (matchFilter(childInfo)) {
+                            selectionModel->select(childIndex, QItemSelectionModel::Select);
+                        }
+                        else {
+                            selectionModel->select(childIndex, QItemSelectionModel::Deselect);
+                        }
                     }
                 }
                 else {

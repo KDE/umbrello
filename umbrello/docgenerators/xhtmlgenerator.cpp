@@ -107,9 +107,9 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
 
         m_umlDoc->writeToStatusBar( i18n( "Generating XHTML..." ) );
         m_d2xg  = new Docbook2XhtmlGeneratorJob( url, this );
-        connect(m_d2xg, SIGNAL( xhtmlGenerated( const QString& ) ),
-                this, SLOT(slotHtmlGenerated(const QString&) ) );
-        connect(m_d2xg, SIGNAL( finished() ), this, SLOT( threadFinished() ) );
+        connect(m_d2xg, SIGNAL(xhtmlGenerated(QString)),
+                this, SLOT(slotHtmlGenerated(QString)));
+        connect(m_d2xg, SIGNAL(finished()), this, SLOT(threadFinished()));
         uDebug() << "Threading";
         m_d2xg->start();
     }

@@ -446,8 +446,8 @@ void UMLView::showEvent(QShowEvent* /*se*/)
     WorkToolBar* tb = theApp->workToolBar();
     connect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
     connect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
-    connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)),
-            this, SLOT(slotObjectCreated(UMLObject *)));
+    connect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject*)),
+            this, SLOT(slotObjectCreated(UMLObject*)));
     connect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
             UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
     connect(this, SIGNAL(sigWidgetRemoved(UMLWidget*)),
@@ -462,7 +462,7 @@ void UMLView::hideEvent(QHideEvent* /*he*/)
     WorkToolBar* tb = theApp->workToolBar();
     disconnect(tb, SIGNAL(sigButtonChanged(int)), this, SLOT(slotToolBarChanged(int)));
     disconnect(this, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
-    disconnect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject *)), this, SLOT(slotObjectCreated(UMLObject *)));
+    disconnect(m_pDoc, SIGNAL(sigObjectCreated(UMLObject*)), this, SLOT(slotObjectCreated(UMLObject*)));
     disconnect(this, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
                UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
     disconnect(this, SIGNAL(sigWidgetRemoved(UMLWidget*)),

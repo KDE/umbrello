@@ -53,8 +53,8 @@ RefactoringAssistant::RefactoringAssistant(UMLDoc *doc, UMLClassifier *obj, QWid
 
     connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
             this, SLOT(itemExecuted(QTreeWidgetItem*, int)));
-    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)),
-            this, SLOT(showContextMenu(const QPoint&)));
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(showContextMenu(QPoint)));
 
     resize(300, 400);
     refactor(obj);

@@ -175,7 +175,7 @@ void UMLDoc::addView(UMLView *view)
 
     UMLApp * pApp = UMLApp::app();
     if ( pApp->listView() ) {
-        connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view, SLOT(slotObjectRemoved(UMLObject *)));
+        connect(this, SIGNAL(sigObjectRemoved(UMLObject*)), view, SLOT(slotObjectRemoved(UMLObject*)));
     }
 
     pApp->setCurrentView(view);
@@ -202,8 +202,8 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
         return;
     }
     if ( UMLApp::app()->listView() ) {
-        disconnect(this, SIGNAL(sigObjectRemoved(UMLObject *)),
-                   view->umlScene(), SLOT(slotObjectRemoved(UMLObject *)));
+        disconnect(this, SIGNAL(sigObjectRemoved(UMLObject*)),
+                   view->umlScene(), SLOT(slotObjectRemoved(UMLObject*)));
     }
     view->hide();
     //remove all widgets before deleting view
@@ -2677,14 +2677,14 @@ void UMLDoc::initSaveTimer()
 {
     if ( m_pAutoSaveTimer ) {
         m_pAutoSaveTimer->stop();
-        disconnect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );
+        disconnect(m_pAutoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
         delete m_pAutoSaveTimer;
         m_pAutoSaveTimer = 0;
     }
     Settings::OptionState optionState = Settings::optionState();
     if ( optionState.generalState.autosave ) {
         m_pAutoSaveTimer = new QTimer(this);
-        connect( m_pAutoSaveTimer, SIGNAL( timeout() ), this, SLOT( slotAutoSave() ) );
+        connect( m_pAutoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
         m_pAutoSaveTimer->setSingleShot( false );
         m_pAutoSaveTimer->start( optionState.generalState.autosavetime * 60000 );
     }

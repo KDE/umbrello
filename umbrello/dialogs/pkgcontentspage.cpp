@@ -53,8 +53,8 @@ PkgContentsPage::PkgContentsPage(QWidget *parent, UMLPackage *pkg)
 
     connect(m_contentLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
             this, SLOT(slotDoubleClick(QListWidgetItem*)));
-    connect(m_contentLW, SIGNAL(customContextMenuRequested(const QPoint&)),
-            this, SLOT(slotShowContextMenu(const QPoint&)));
+    connect(m_contentLW, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(slotShowContextMenu(QPoint)));
 }
 
 /**
@@ -64,8 +64,8 @@ PkgContentsPage::~PkgContentsPage()
 {
     disconnect(m_contentLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
                this, SLOT(slotDoubleClick(QListWidgetItem*)));
-    disconnect(m_contentLW, SIGNAL(customContextMenuRequested(const QPoint&)),
-               this, SLOT(slotShowContextMenu(const QPoint&)));
+    disconnect(m_contentLW, SIGNAL(customContextMenuRequested(QPoint)),
+               this, SLOT(slotShowContextMenu(QPoint)));
 }
 
 void PkgContentsPage::slotDoubleClick(QListWidgetItem *item)

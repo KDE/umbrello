@@ -104,8 +104,8 @@ void UMLWidgetColorPage::init()
     colorLayout->addWidget( m_pUseFillColorCB, 2, 0 );
 
     //connect button signals up
-    connect( m_pLineDefaultB, SIGNAL( clicked() ), this, SLOT( slotLineButtonClicked() )) ;
-    connect( m_pFillDefaultB, SIGNAL( clicked() ), this, SLOT( slotFillButtonClicked() ) );
+    connect(m_pLineDefaultB, SIGNAL(clicked()), this, SLOT(slotLineButtonClicked())) ;
+    connect(m_pFillDefaultB, SIGNAL(clicked()), this, SLOT(slotFillButtonClicked()));
 
     if (!m_pUMLWidget) {  //  when we are on the diagram
         m_BackgroundColorL = new QLabel( i18nc("background color", "&Background:"), m_pColorGB );
@@ -129,8 +129,8 @@ void UMLWidgetColorPage::init()
         colorLayout->addWidget( m_GridDotDefaultB, 4, 2 );
 
         //connect button signals up
-        connect( m_BackgroundDefaultB, SIGNAL( clicked() ), this, SLOT( slotBackgroundButtonClicked() ) );
-        connect( m_GridDotDefaultB,    SIGNAL( clicked() ), this, SLOT( slotGridDotButtonClicked() ) );
+        connect(m_BackgroundDefaultB, SIGNAL(clicked()), this, SLOT(slotBackgroundButtonClicked()));
+        connect(m_GridDotDefaultB,    SIGNAL(clicked()), this, SLOT(slotGridDotButtonClicked()));
     }
 }
 

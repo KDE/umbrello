@@ -3662,7 +3662,7 @@ void AssociationWidget::init (UMLView *view)
     m_LinePath.setAssociation( this );
 
     connect(m_pView, SIGNAL(sigRemovePopupMenu()), this, SLOT(slotRemovePopupMenu()));
-    connect(m_pView, SIGNAL( sigClearAllSelected() ), this, SLOT( slotClearAllSelected() ) );
+    connect(m_pView, SIGNAL(sigClearAllSelected()), this, SLOT(slotClearAllSelected()));
 }
 
 /**

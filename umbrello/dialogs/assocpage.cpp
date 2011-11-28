@@ -49,10 +49,10 @@ AssocPage::AssocPage(QWidget *parent, UMLView * v, UMLObject * o) : QWidget(pare
     fillListBox();
     m_pMenu = 0;
 
-    connect(m_pAssocLW, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
-            this, SLOT(slotDoubleClick(QListWidgetItem *)));
-    connect(m_pAssocLW, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(slotRightButtonPressed(const QPoint &)));
+    connect(m_pAssocLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+            this, SLOT(slotDoubleClick(QListWidgetItem*)));
+    connect(m_pAssocLW, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(slotRightButtonPressed(QPoint)));
 }
 
 /**
@@ -60,10 +60,10 @@ AssocPage::AssocPage(QWidget *parent, UMLView * v, UMLObject * o) : QWidget(pare
  */
 AssocPage::~AssocPage()
 {
-    disconnect(m_pAssocLW, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
-               this, SLOT(slotDoubleClick(QListWidgetItem *)));
-    disconnect(m_pAssocLW, SIGNAL(customContextMenuRequested(const QPoint &)),
-               this, SLOT(slotRightButtonPressed(const QPoint &)));
+    disconnect(m_pAssocLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+               this, SLOT(slotDoubleClick(QListWidgetItem*)));
+    disconnect(m_pAssocLW, SIGNAL(customContextMenuRequested(QPoint)),
+               this, SLOT(slotRightButtonPressed(QPoint)));
 }
 
 void AssocPage::slotDoubleClick(QListWidgetItem * item)
