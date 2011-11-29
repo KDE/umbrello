@@ -33,6 +33,7 @@ class UMLViewImageExporterAll;
 class RefactoringAssistant;
 class XhtmlGenerator;
 class StatusBarToolButton;
+class DiagramPrintPage;
 
 // KDE forward declarations
 class KActionMenu;
@@ -196,6 +197,7 @@ public slots:
     void slotFileSave();
     bool slotFileSaveAs();
     void slotFileClose();
+    bool slotPrintSettings();
     void slotPrintPreview();
     void slotPrintPreviewPaintRequested(QPrinter *printer);
     void slotFilePrint();
@@ -414,7 +416,6 @@ private:
     StatusBarToolButton* m_pZoomFullSBTB;
     QSlider* m_pZoomSlider;
     QLabel* m_statusBarMessage;
-    QPrinter *m_printer;
     /**
      * The running XHTML documentation generator. Null when no generation is running.
      */
@@ -423,6 +424,9 @@ private:
     KUndoStack* m_pUndoStack;  ///< UndoStack used to store actions, to provide Undo/Redo feature.
 
     bool m_hasBegunMacro;  ///< Macro creation flag.
+
+    DiagramPrintPage *m_printSettings; ///< printer diagram settings
+    QPrinter *m_printer;               ///< print instance
 
 signals:
     void sigCutSuccessful();
