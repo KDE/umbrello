@@ -88,6 +88,7 @@
 #include <QtGui/QStackedWidget>
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
+#include <QtGui/QPrintPreviewDialog>
 #include <QtGui/QUndoView>
 #include <QtGui/QPushButton>
 #include <QtGui/QLabel>
@@ -225,6 +226,7 @@ void UMLApp::initActions()
     QAction* fileSaveAs = KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
     QAction* fileClose = KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
     filePrint = KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
+    printPreview = KStandardAction::printPreview(this, SLOT(slotPrintPreview()), actionCollection());
     QAction* fileQuit = KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
 
     editUndo = m_pUndoStack->createUndoAction(actionCollection());
@@ -332,6 +334,7 @@ void UMLApp::initActions()
     fileSaveAs->setToolTip(i18n("Saves the document as..."));
     fileClose->setToolTip(i18n("Closes the document"));
     filePrint->setToolTip(i18n("Prints out the document"));
+    printPreview->setToolTip(i18n("Print Preview of the document"));
     fileQuit->setToolTip(i18n("Quits the application"));
     fileExportDocbook->setToolTip(i18n("Exports the model to the docbook format"));
     fileExportXhtml->setToolTip(i18n("Exports the model to the XHTML format"));
@@ -1261,6 +1264,31 @@ void UMLApp::slotFileClose()
 }
 
 /**
+ * Print preview
+ */
+void UMLApp::slotPrintPreview()
+{
+    QPrinter printer;
+    printer.setFullPage(true);
+
+    slotStatusMsg(i18n("Print Preview..."));
+
+    QPrintPreviewDialog *preview = new QPrintPreviewDialog(&printer,this);
+    connect(preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(slotPrintPreviewPaintRequested(QPrinter *)));
+    preview->exec();
+}
+
+/**
+ * Print preview painting slot
+ */
+void UMLApp::slotPrintPreviewPaintRequested(QPrinter *printer)
+{
+    DiagramPrintPage * selectPage = new DiagramPrintPage(0, m_doc);
+    m_doc->print(printer, selectPage);
+    delete selectPage;
+}
+
+/**
  * Print the current file.
  */
 void UMLApp::slotFilePrint()
@@ -1604,6 +1632,7 @@ void UMLApp::setModified(bool modified)
 void UMLApp::enablePrint(bool enable)
 {
     filePrint->setEnabled(enable);
+    printPreview->setEnabled(enable);
 }
 
 /**
