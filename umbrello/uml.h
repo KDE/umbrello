@@ -414,7 +414,7 @@ private:
     StatusBarToolButton* m_pZoomFullSBTB;
     QSlider* m_pZoomSlider;
     QLabel* m_statusBarMessage;
-
+    QPrinter *m_printer;
     /**
      * The running XHTML documentation generator. Null when no generation is running.
      */
