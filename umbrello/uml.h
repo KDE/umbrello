@@ -192,6 +192,8 @@ public slots:
     void slotFileSave();
     bool slotFileSaveAs();
     void slotFileClose();
+    void slotPrintPreview();
+    void slotPrintPreviewPaintRequested(QPrinter *printer);
     void slotFilePrint();
     void slotFileQuit();
     void slotFileExportDocbook();
@@ -340,6 +342,7 @@ private:
 
     // KAction pointers to enable/disable actions
     KRecentFilesAction* fileOpenRecent;
+    QAction* printPreview;
     QAction* filePrint;
     QAction* editCut;
     QAction* editCopy;
