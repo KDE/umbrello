@@ -134,6 +134,8 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     m_doc = new UMLDoc();
     m_doc->init();
     m_hasBegunMacro = false;
+    m_printer = new QPrinter;
+    m_printer->setFullPage(true);
 
     readOptionState();
     initActions();
@@ -188,6 +190,7 @@ UMLApp::~UMLApp()
     delete m_copyTimer;
     delete m_refactoringAssist;
     delete m_pUndoStack;
+    delete m_printer;
 }
 
 /**
@@ -1170,12 +1173,9 @@ void UMLApp::slotFileClose()
  */
 void UMLApp::slotPrintPreview()
 {
-    QPrinter printer;
-    printer.setFullPage(true);
-
     slotStatusMsg(i18n("Print Preview..."));
 
-    QPrintPreviewDialog *preview = new QPrintPreviewDialog(&printer,this);
+    QPrintPreviewDialog *preview = new QPrintPreviewDialog(m_printer,this);
     connect(preview, SIGNAL(paintRequested(QPrinter *)), this, SLOT(slotPrintPreviewPaintRequested(QPrinter *)));
     preview->exec();
 }
@@ -1202,11 +1202,11 @@ void UMLApp::slotFilePrint()
 
     DiagramPrintPage * selectPage = new DiagramPrintPage(0, m_doc);
     QPrintDialog *printDialog =
-                  KdePrint::createPrintDialog(&printer, QList<QWidget*>() << selectPage, this);
+                  KdePrint::createPrintDialog(m_printer, QList<QWidget*>() << selectPage, this);
     printDialog->setWindowTitle(i18n("Print %1", m_doc->url().prettyUrl()));
 
     if (printDialog->exec()) {
-        m_doc->print(&printer, selectPage);
+        m_doc->print(m_printer, selectPage);
     }
     delete printDialog;
     resetStatusMsg();

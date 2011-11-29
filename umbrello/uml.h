@@ -407,6 +407,8 @@ private:
 
     bool m_hasBegunMacro;  ///< Macro creation flag.
 
+    QPrinter *m_printer;   ///< qprinter instance
+
 signals:
     void sigCutSuccessful();
 
