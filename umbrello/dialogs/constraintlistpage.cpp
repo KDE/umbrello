@@ -70,20 +70,20 @@ ConstraintListPage::~ConstraintListPage()
 void ConstraintListPage::setupActions()
 {
     newUniqueConstraintAction = new KAction( i18n( "Unique Constraint..." ), this );
-    connect( newUniqueConstraintAction, SIGNAL( triggered( bool ) ),
-             this, SLOT( slotNewUniqueConstraint() ) );
+    connect( newUniqueConstraintAction, SIGNAL(triggered(bool)),
+             this, SLOT(slotNewUniqueConstraint()));
 
     newPrimaryKeyConstraintAction = new KAction( i18n( "Primary Key Constraint..." ), this );
-    connect( newPrimaryKeyConstraintAction, SIGNAL( triggered( bool ) ),
-             this, SLOT( slotNewPrimaryKeyConstraint() ) );
+    connect( newPrimaryKeyConstraintAction, SIGNAL(triggered(bool)),
+             this, SLOT(slotNewPrimaryKeyConstraint()));
 
     newForeignKeyConstraintAction = new KAction( i18n( "Foreign Key Constraint..." ), this );
-    connect( newForeignKeyConstraintAction, SIGNAL( triggered( bool ) ),
-             this, SLOT( slotNewForeignKeyConstraint() ) );
+    connect( newForeignKeyConstraintAction, SIGNAL(triggered(bool)),
+             this, SLOT(slotNewForeignKeyConstraint()));
 
     newCheckConstraintAction = new KAction( i18n( "Check Constraint..." ), this );
-    connect( newCheckConstraintAction, SIGNAL( triggered( bool ) ),
-             this, SLOT( slotNewCheckConstraint() ) );
+    connect( newCheckConstraintAction, SIGNAL(triggered(bool)),
+             this, SLOT(slotNewCheckConstraint()));
 }
 
 void ConstraintListPage::slotNewUniqueConstraint()

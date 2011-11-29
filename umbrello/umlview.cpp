@@ -253,8 +253,8 @@ void UMLView::showEvent(QShowEvent* /*se*/)
     UMLScene *us = umlScene();
     connect(tb, SIGNAL(sigButtonChanged(int)), us, SLOT(slotToolBarChanged(int)));
     connect(us, SIGNAL(sigResetToolBar()), tb, SLOT(slotResetToolBar()));
-    connect(doc, SIGNAL(sigObjectCreated(UMLObject *)),
-            us, SLOT(slotObjectCreated(UMLObject *)));
+    connect(doc, SIGNAL(sigObjectCreated(UMLObject*)),
+            us, SLOT(slotObjectCreated(UMLObject*)));
     connect(us, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
             UMLApp::app()->docWindow(), SLOT(slotAssociationRemoved(AssociationWidget*)));
     connect(us, SIGNAL(sigWidgetRemoved(UMLWidget*)),

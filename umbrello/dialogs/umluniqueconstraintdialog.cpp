@@ -151,7 +151,7 @@ void UMLUniqueConstraintDialog::setupDialog()
 
     slotResetWidgetState();
 
-    connect( m_pAttributeListLW, SIGNAL( itemClicked( QListWidgetItem* ) ), this, SLOT( slotResetWidgetState() ) );
+    connect( m_pAttributeListLW, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotResetWidgetState()));
 }
 
 /**

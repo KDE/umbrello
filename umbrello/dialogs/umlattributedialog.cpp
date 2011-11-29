@@ -137,7 +137,7 @@ void UMLAttributeDialog::setupDialog()
     insertTypesSorted(m_pAttribute->getTypeName());
 
     m_pNameLE->setFocus();
-    connect( m_pNameLE, SIGNAL( textChanged ( const QString & ) ), SLOT( slotNameChanged( const QString & ) ) );
+    connect( m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
     slotNameChanged(m_pNameLE->text() );
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));

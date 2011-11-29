@@ -311,7 +311,7 @@ ClassGenPage::ClassGenPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
     m_pDoc->setText(o->documentation());
     docLayout->addWidget(m_pDoc);
     if (m_pMultiCB) {
-        connect( m_pDrawActorCB, SIGNAL( toggled( bool ) ), this, SLOT( slotActorToggled( bool ) ) );
+        connect( m_pDrawActorCB, SIGNAL(toggled(bool)), this, SLOT(slotActorToggled(bool)));
     }
 }
 

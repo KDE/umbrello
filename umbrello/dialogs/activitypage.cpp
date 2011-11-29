@@ -118,14 +118,14 @@ void ActivityPage::setupPage()
     }
 
     //now setup the signals
-    connect(m_pActivityLW, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(slotClicked(QListWidgetItem *)));
-    connect(m_pActivityLW, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(slotRightButtonPressed(const QPoint &)));
+    connect(m_pActivityLW, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotClicked(QListWidgetItem*)));
+    connect(m_pActivityLW, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(slotRightButtonPressed(QPoint)));
 
-    connect(m_pTopArrowB, SIGNAL( clicked() ), this, SLOT( slotTopClicked() ) );
-    connect(m_pUpArrowB, SIGNAL( clicked() ), this, SLOT( slotUpClicked() ) );
-    connect(m_pDownArrowB, SIGNAL( clicked() ), this, SLOT( slotDownClicked() ) );
-    connect(m_pBottomArrowB, SIGNAL( clicked() ), this, SLOT( slotBottomClicked() ) );
+    connect(m_pTopArrowB, SIGNAL(clicked()), this, SLOT(slotTopClicked()));
+    connect(m_pUpArrowB, SIGNAL(clicked()), this, SLOT(slotUpClicked()));
+    connect(m_pDownArrowB, SIGNAL(clicked()), this, SLOT(slotDownClicked()));
+    connect(m_pBottomArrowB, SIGNAL(clicked()), this, SLOT(slotBottomClicked()));
 
     connect(m_pActivityLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotDoubleClicked(QListWidgetItem*)));
 

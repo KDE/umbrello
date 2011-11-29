@@ -72,8 +72,8 @@ void CodeViewerDialog::addCodeDocument(CodeDocument * doc)
     uDebug() << "name=" << name << " / ext=" << ext;
     ui_tabWidget->addTab(page, (name + (ext.isEmpty() ? "" : ext)));
 
-    connect( ui_highlightCheckBox, SIGNAL( stateChanged(int) ), page, SLOT( changeHighlighting(int) ) );
-    connect( ui_showHiddenCodeCB, SIGNAL( stateChanged(int) ), page, SLOT( changeShowHidden(int) ) );
+    connect( ui_highlightCheckBox, SIGNAL(stateChanged(int)), page, SLOT(changeHighlighting(int)));
+    connect( ui_showHiddenCodeCB, SIGNAL(stateChanged(int)), page, SLOT(changeShowHidden(int)));
 }
 
 /**

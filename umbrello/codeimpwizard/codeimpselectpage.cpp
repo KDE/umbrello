@@ -54,7 +54,7 @@ CodeImpSelectPage::CodeImpSelectPage(QWidget *parent)
     connect(this, SIGNAL(languageChanged()), this, SLOT(changeLanguage()));
 
     setupTreeView();
-    connect(ui_treeView, SIGNAL(clicked(const QModelIndex&)), this, SLOT(treeClicked(const QModelIndex&)));
+    connect(ui_treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(treeClicked(QModelIndex)));
 
     setupFileExtEdit();
     connect(ui_fileExtLineEdit, SIGNAL(editingFinished()), this, SLOT(fileExtChanged()));

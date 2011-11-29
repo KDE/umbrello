@@ -67,8 +67,8 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
     m_optionDocToolTag->setFlags(flags);
 
     connect(ui_generalOptionsListWidget,
-            SIGNAL(itemClicked(QListWidgetItem *)), this,
-            SLOT(generalOptionsListWidgetClicked(QListWidgetItem *)));
+            SIGNAL(itemClicked(QListWidgetItem*)), this,
+            SLOT(generalOptionsListWidgetClicked(QListWidgetItem*)));
 }
 
 /**

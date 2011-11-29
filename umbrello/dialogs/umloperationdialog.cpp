@@ -218,18 +218,18 @@ void UMLOperationDialog::setupDialog()
     insertStereotypesSorted(m_operation->stereotype());
 
     // setup parm list box signals
-    connect(m_pUpButton, SIGNAL( clicked() ), this, SLOT( slotParameterUp() ) );
-    connect(m_pDownButton, SIGNAL( clicked() ), this, SLOT( slotParameterDown() ) );
+    connect(m_pUpButton, SIGNAL(clicked()), this, SLOT(slotParameterUp()));
+    connect(m_pDownButton, SIGNAL(clicked()), this, SLOT(slotParameterDown()));
 
     connect(m_pParmsLW, SIGNAL(itemClicked(QListWidgetItem*)),
             this, SLOT(slotParamsBoxClicked(QListWidgetItem*)));
-    connect(m_pParmsLW, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(slotParmRightButtonPressed(const QPoint &)));
-    connect(m_pParmsLW, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
-            this, SLOT(slotParmDoubleClick(QListWidgetItem *)));
+    connect(m_pParmsLW, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(slotParmRightButtonPressed(QPoint)));
+    connect(m_pParmsLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+            this, SLOT(slotParmDoubleClick(QListWidgetItem*)));
 
     m_pNameLE->setFocus();
-    connect( m_pNameLE, SIGNAL( textChanged ( const QString & ) ), SLOT( slotNameChanged( const QString & ) ) );
+    connect( m_pNameLE, SIGNAL(textChanged(QString)), SLOT(slotNameChanged(QString)));
     slotNameChanged( m_pNameLE->text() );
 }
 

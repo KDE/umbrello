@@ -43,8 +43,8 @@ UMLEntity::UMLEntity(const QString& name, Uml::IDType id)
     m_PrimaryKey(0)
 {
     m_BaseType = UMLObject::ot_Entity;
-    connect( this,  SIGNAL( entityAttributeRemoved( UMLClassifierListItem* ) ),
-             this, SLOT( slotEntityAttributeRemoved( UMLClassifierListItem* ) ) );
+    connect(this, SIGNAL(entityAttributeRemoved(UMLClassifierListItem*)),
+            this, SLOT(slotEntityAttributeRemoved(UMLClassifierListItem*)));
 }
 
 /**
