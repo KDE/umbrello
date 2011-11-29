@@ -367,11 +367,11 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     QFontMetrics fm = pPainter.fontMetrics(); // use the painter font metrics, not the screen fm!
     int fontHeight  = fm.lineSpacing();
     // fetch printer margins individual for all four page sides, as at least top and bottom are not the same
-    uint left, right, top, bottom;
+    int left, right, top, bottom;
     QRect paper = pPrinter->paperRect();
     QRect page  = pPrinter->pageRect();
-    top = paper.top() - page.top();
-    left = paper.left() - page.left();
+    top = page.top() - paper.top();
+    left = page.left() - paper.left();
     bottom = paper.bottom() - page.bottom();
     right = paper.right() - page.right();
     DEBUG(DBG_SRC) << "margin: top=" << QString().setNum(top) << " left=" << QString().setNum(left)
