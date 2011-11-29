@@ -33,6 +33,7 @@ class UMLViewImageExporterAll;
 class RefactoringAssistant;
 class KPlayerPopupSliderAction;
 class XhtmlGenerator;
+class DiagramPrintPage;
 
 // KDE forward declarations
 class KActionMenu;
@@ -192,6 +193,7 @@ public slots:
     void slotFileSave();
     bool slotFileSaveAs();
     void slotFileClose();
+    bool slotPrintSettings();
     void slotPrintPreview();
     void slotPrintPreviewPaintRequested(QPrinter *printer);
     void slotFilePrint();
@@ -407,7 +409,8 @@ private:
 
     bool m_hasBegunMacro;  ///< Macro creation flag.
 
-    QPrinter *m_printer;   ///< qprinter instance
+    DiagramPrintPage *m_printSettings; ///< printer diagram settings
+    QPrinter *m_printer;               ///< print instance
 
 signals:
     void sigCutSuccessful();
