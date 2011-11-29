@@ -393,7 +393,7 @@ void NativeImportBase::parseFile(const QString& filename)
         uError() << msgPrefix << "cannot open file";
         return;
     }
-    log("parsing...");
+    log(nameWithoutPath, "parsing...");
     // Scan the input file into the QStringList m_source.
     m_source.clear();
     m_srcIndex = 0;
@@ -421,7 +421,7 @@ void NativeImportBase::parseFile(const QString& filename)
            skipStmt();
         m_comment.clear();
     }
-    log("...end of parse");
+    log(nameWithoutPath, "...end of parse");
 }
 
 /**

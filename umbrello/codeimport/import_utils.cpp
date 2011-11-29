@@ -166,7 +166,6 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
-    const Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
     if (parentPkg == NULL) {
         // uDebug() << "Import_Utils::createUMLObject(" << name
         //     << "): parentPkg is NULL, assuming Logical View";
@@ -208,8 +207,9 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                         continue;
                     }
                     int wantNamespace = KMessageBox::Yes;
+                    const Uml::ProgrammingLanguage pl = UMLApp::app()->activeLanguage();
                     if (pl == Uml::ProgrammingLanguage::Cpp) {
-                        /* We know std and Qt are namespaces */
+                        // We know std and Qt are namespaces.
                         if (scopeName != "std" && scopeName != "Qt") {
                             wantNamespace = KMessageBox::questionYesNo(NULL,
                                         i18n("Is the scope %1 a namespace or a class?", scopeName),
@@ -301,6 +301,9 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         assoc = new UMLAssociation(at, gRelatedClassifier, p);
         assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
         umldoc->addAssociation(assoc);
+    }
+    if (o == NULL) {
+        uError() << "is NULL!";
     }
     return o;
 }
