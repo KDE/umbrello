@@ -239,7 +239,7 @@ void UMLView::print(QPrinter *pPrinter, QPainter & pPainter)
     QFontMetrics fm = pPainter.fontMetrics(); // use the painter font metrics, not the screen fm!
     int fontHeight  = fm.lineSpacing();
     // fetch printer margins individual for all four page sides, as at least top and bottom are not the same
-    uint left, right, top, bottom;
+    int left, right, top, bottom;
     QRect paper = pPrinter->paperRect();
     QRect page  = pPrinter->pageRect();
     top = page.top() - paper.top();
