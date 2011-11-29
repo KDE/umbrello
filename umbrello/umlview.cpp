@@ -240,8 +240,8 @@ void UMLView::print(QPrinter *pPrinter, QPainter & pPainter)
     uint left, right, top, bottom;
     QRect paper = pPrinter->paperRect();
     QRect page  = pPrinter->pageRect();
-    top = paper.top() - page.top();
-    left = paper.left() - page.left();
+    top = page.top() - paper.top();
+    left = page.left() - paper.left();
     bottom = paper.bottom() - page.bottom();
     right = paper.right() - page.right();
     uDebug() << "margin: top=" << QString().setNum(top) << " left=" << QString().setNum(left)
