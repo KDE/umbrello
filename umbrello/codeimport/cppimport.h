@@ -31,7 +31,7 @@ protected:
 
     void initialize();
 
-    void parseFile(const QString& fileName);
+    bool parseFile(const QString& fileName);
 
 private:
 

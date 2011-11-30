@@ -49,7 +49,7 @@ protected:
      *
      * @param fileName  The file to import.
      */
-    virtual void parseFile(const QString& fileName) = 0;
+    virtual bool parseFile(const QString& fileName) = 0;
 
     void log(const QString& file, const QString& text);
     void log(const QString& text);

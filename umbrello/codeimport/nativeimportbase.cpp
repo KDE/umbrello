@@ -348,13 +348,14 @@ void NativeImportBase::initVars()
  * The default implementation should be feasible for languages that
  * don't depend on an external preprocessor.
  * @param filename  The file to import.
+ * @return state of parsing - false means errors 
  */
-void NativeImportBase::parseFile(const QString& filename)
+bool NativeImportBase::parseFile(const QString& filename)
 {
     QString nameWithoutPath = filename;
     nameWithoutPath.remove(QRegExp("^.*/"));
     if (m_parsedFiles.contains(nameWithoutPath))
-        return;
+        return true;
     m_parsedFiles.append(nameWithoutPath);
     QString fname = filename;
     const QString msgPrefix = filename + ": ";
@@ -367,7 +368,7 @@ void NativeImportBase::parseFile(const QString& filename)
     if (! QFile::exists(filename)) {
         if (filename.startsWith('/')) {
             uError() << msgPrefix << "cannot find file";
-            return;
+            return false;
         }
         bool found = false;
         const QStringList includePaths = Import_Utils::includePathList();
@@ -385,13 +386,13 @@ void NativeImportBase::parseFile(const QString& filename)
         }
         if (! found) {
             uError() << msgPrefix << "cannot find file";
-            return;
+            return false;
         }
     }
     QFile file(fname);
     if (! file.open(QIODevice::ReadOnly)) {
         uError() << msgPrefix << "cannot open file";
-        return;
+        return false;
     }
     log("parsing...");
     // Scan the input file into the QStringList m_source.
@@ -422,6 +423,7 @@ void NativeImportBase::parseFile(const QString& filename)
         m_comment.clear();
     }
     log("...end of parse");
+    return true;
 }
 
 /**

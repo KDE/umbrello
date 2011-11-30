@@ -103,7 +103,7 @@ void IDLImport::fillSource(const QString& word)
  * Reimplement operation from NativeImportBase.
  * Need to do this because we use the external C preprocessor.
  */
-void IDLImport::parseFile(const QString& filename)
+bool IDLImport::parseFile(const QString& filename)
 {
     if (filename.contains('/')) {
         QString path = filename;
@@ -128,12 +128,12 @@ void IDLImport::parseFile(const QString& filename)
     p.start(executable, arguments);
     if (!p.waitForStarted()) {
         uError() << "could not run preprocessor";
-        return;
+        return false;
     }
 
     if (!p.waitForFinished()) {
         uError() << "could not run preprocessor";
-        return;
+        return false;
     }
 
     QByteArray out = p.readAllStandardOutput();
@@ -161,6 +161,7 @@ void IDLImport::parseFile(const QString& filename)
         m_currentAccess = Uml::Visibility::Public;
         m_comment.clear();
     }
+    return true;
 }
 
 /**

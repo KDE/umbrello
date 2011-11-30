@@ -25,7 +25,7 @@ public:
 
     bool parseStmt();
 
-    void parseFile(const QString& file);
+    bool parseFile(const QString& file);
 
     bool preprocess(QString& line);
 
