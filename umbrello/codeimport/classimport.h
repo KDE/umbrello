@@ -25,11 +25,18 @@ class CodeImpThread;
 class ClassImport
 {
 public:
-    ClassImport(CodeImpThread* thread = 0) : m_thread(thread) {}
+    ClassImport(CodeImpThread* thread = 0) : m_thread(thread), m_enabled(true) {}
     virtual ~ClassImport() {}
 
     void importFiles(const QStringList& fileNames);
     void importFile(const QString& fileName);
+
+    /**
+     * Return state of the importer. It may be disabled because of 
+     * missing dependencies for example. 
+     * @return false - disabled, true - enabled
+    */
+    bool enabled() { return m_enabled; }
 
     static ClassImport *createImporterByFileExt(const QString &fileName, CodeImpThread* thread = 0);
 
@@ -55,7 +62,7 @@ protected:
     void log(const QString& text);
 
     CodeImpThread* m_thread;  ///< thread in which the work of importing is done
-
+    bool m_enabled;           ///< state of importer
 };
 
 #endif

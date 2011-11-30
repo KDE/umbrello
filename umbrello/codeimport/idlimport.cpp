@@ -23,6 +23,9 @@
 #include "umldoc.h"
 #include "umlpackagelist.h"
 
+// kde includes
+#include <KStandardDirs>
+
 // qt includes
 #include <QtCore/QProcess>
 #include <QtCore/QStringList>
@@ -30,10 +33,48 @@
 
 #include <stdio.h>
 
+QString IDLImport::m_preProcessor;
+QStringList IDLImport::m_preProcessorArguments;
+bool IDLImport::m_preProcessorChecked = false;
+
 IDLImport::IDLImport() : NativeImportBase("//")
 {
     m_isOneway = m_isReadonly = m_isAttribute = false;
     setMultiLineComment("/*", "*/");
+
+    // we do not want to find the executable on each imported file
+    if (m_preProcessorChecked) {
+        m_enabled = !m_preProcessor.isEmpty();
+        return; 
+    }
+
+    QStringList arguments;
+    QString executable = KStandardDirs::findExe("cpp");
+    if (!executable.isEmpty()) {
+        arguments << "-C";   // -C means "preserve comments"
+    }
+#ifdef Q_WS_WIN
+    else {
+        executable = KStandardDirs::findExe("cl");
+        if (executable.isEmpty()) {
+	        QString path = qgetenv("VS100COMNTOOLS");
+            if (!path.isEmpty())
+                executable = KStandardDirs::findExe("cl", path + "/../../VC/bin");
+        }
+        if (!executable.isEmpty()) {
+            arguments << "-E";   // -E means "preprocess to stdout"
+        }
+    }
+#endif
+    if (!executable.isEmpty()) {
+        m_preProcessor = executable;
+        m_preProcessorArguments = arguments;
+    }
+    else {
+        uError() << "Cannot find any of the supported preprocessors (gcc, Microsoft Visual Studio 2010)";
+        m_enabled = false;
+    }
+    m_preProcessorChecked = true;
 }
 
 IDLImport::~IDLImport()
@@ -113,9 +154,11 @@ bool IDLImport::parseFile(const QString& filename)
     }
     const QStringList includePaths = Import_Utils::includePathList();
 
-    QString executable = "cpp";
-    QStringList arguments;
-    arguments << "-C";   // -C means "preserve comments"
+    if (m_preProcessor.isEmpty()) { 
+        uError() << "no preprocessor installed, could not import file";
+        return false;
+    }
+    QStringList arguments(m_preProcessorArguments);
 
     QProcess p(UMLApp::app());
     for (QStringList::ConstIterator pathIt = includePaths.begin();
@@ -124,8 +167,8 @@ bool IDLImport::parseFile(const QString& filename)
         arguments << "-I" + path;
     }
     arguments << filename;
-    uDebug() << "importIDL: " << executable << arguments;
-    p.start(executable, arguments);
+    uDebug() << "importIDL: " << m_preProcessor << arguments;
+    p.start(m_preProcessor, arguments);
     if (!p.waitForStarted()) {
         uError() << "could not run preprocessor";
         return false;
