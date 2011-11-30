@@ -64,6 +64,8 @@ CodeImpSelectPage::CodeImpSelectPage(QWidget *parent)
     connect(ui_deselectAllButton, SIGNAL(clicked()), this, SLOT(deselectAll()));
 
     setupToolTips();
+    // update file extensions
+    changeLanguage();
 }
 
 /**
