@@ -180,13 +180,14 @@ bool IDLImport::parseStmt()
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                         name, m_scope[m_scopeIndex], m_comment);
-        m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+        m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setStereotype("CORBAInterface");
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
         m_comment.clear();
         if (advance() == ";")   // forward declaration
             return true;
+        m_scope[++m_scopeIndex] = m_klass;
         if (m_source[m_srcIndex] == ":") {
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != "{") {
                 const QString& baseName = m_source[m_srcIndex];
@@ -259,11 +260,12 @@ bool IDLImport::parseStmt()
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(Uml::ot_Class,
                         name, m_scope[m_scopeIndex], m_comment);
-        m_scope[++m_scopeIndex] = m_klass = static_cast<UMLClassifier*>(ns);
+        m_klass = static_cast<UMLClassifier*>(ns);
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
         if (advance() == ";")   // forward declaration
             return true;
+        m_scope[++m_scopeIndex] = m_klass;
         if (m_source[m_srcIndex] == ":") {
             if (advance() == "truncatable")
                 m_srcIndex++;
