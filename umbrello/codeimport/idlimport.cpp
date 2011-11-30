@@ -24,7 +24,7 @@
 #include "umlpackagelist.h"
 
 // qt includes
-// #include <QtCore/QProcess>  //should use this instead of popen()
+#include <QtCore/QProcess>
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
 
@@ -112,30 +112,39 @@ void IDLImport::parseFile(const QString& filename)
         Import_Utils::addIncludePath(path);
     }
     const QStringList includePaths = Import_Utils::includePathList();
-    //QProcess command("cpp", UMLAp::app());
-    QString command("cpp -C");   // -C means "preserve comments"
+
+    QString executable = "cpp";
+    QStringList arguments;
+    arguments << "-C";   // -C means "preserve comments"
+
+    QProcess p(UMLApp::app());
     for (QStringList::ConstIterator pathIt = includePaths.begin();
             pathIt != includePaths.end(); ++pathIt) {
         QString path = (*pathIt);
-        //command.addArgument(" -I" + path);
-        command += " -I" + path;
+        arguments << "-I" + path;
     }
-    command += ' ' + filename;
-    uDebug() << "importIDL: " << command;
-    FILE *fp = popen(qPrintable(command), "r");
-    if (fp == NULL) {
-        uError() << "cannot popen(" << command << ")";
+    arguments << filename;
+    uDebug() << "importIDL: " << executable << arguments;
+    p.start(executable, arguments);
+    if (!p.waitForStarted()) {
+        uError() << "could not run preprocessor";
         return;
     }
+
+    if (!p.waitForFinished()) {
+        uError() << "could not run preprocessor";
+        return;
+    }
+
+    QByteArray out = p.readAllStandardOutput();
+    QTextStream data(out);
+
     // Scan the input file into the QStringList m_source.
     m_source.clear();
-    char buf[256];
-    while (fgets(buf, sizeof(buf), fp) != NULL) {
-        int len = strlen(buf);
-        if (buf[len - 1] == '\n')
-            buf[--len] = '\0';
-        NativeImportBase::scan( QString(buf) );
+    while (!data.atEnd()) {
+        NativeImportBase::scan(data.readLine());
     }
+
     // Parse the QStringList m_source.
     m_scopeIndex = 0;
     m_scope[0] = NULL;
@@ -152,7 +161,6 @@ void IDLImport::parseFile(const QString& filename)
         m_currentAccess = Uml::Visibility::Public;
         m_comment.clear();
     }
-    pclose(fp);
 }
 
 /**
