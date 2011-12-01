@@ -126,6 +126,9 @@ QString formatComment(const QString &comment)
         else
             lines.pop_front();  // nothing interesting on this line
     }
+    if (! lines.count())
+        return QString();
+
     QString& last = lines.last();
     int endpos = last.indexOf("*/");
     if (endpos != -1) {
