@@ -30,7 +30,7 @@
 /**
  * Constructor.
  */
-PascalImport::PascalImport() : NativeImportBase("//")
+PascalImport::PascalImport(CodeImpThread* thread) : NativeImportBase("//", thread)
 {
     setMultiLineComment("(*", "*)");
     setMultiLineAltComment("{", "}");

@@ -20,7 +20,7 @@
  */
 class IDLImport : public NativeImportBase {
 public:
-    IDLImport();
+    IDLImport(CodeImpThread* thread = 0);
     virtual ~IDLImport();
 
     bool parseStmt();
@@ -33,7 +33,7 @@ public:
 
 protected:
     QString joinTypename();
-    bool m_isOneway, m_isReadonly, m_isAttribute;
+    bool m_isOneway, m_isReadonly, m_isAttribute, m_isLocal;
     static QString m_preProcessor;
     static QStringList m_preProcessorArguments;
     static bool m_preProcessorChecked;

@@ -21,7 +21,7 @@
 class PascalImport : public NativeImportBase
 {
 public:
-    PascalImport();
+    PascalImport(CodeImpThread* thread = 0);
     virtual ~PascalImport();
 
 protected:

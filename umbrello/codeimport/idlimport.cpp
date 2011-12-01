@@ -37,7 +37,7 @@ QString IDLImport::m_preProcessor;
 QStringList IDLImport::m_preProcessorArguments;
 bool IDLImport::m_preProcessorChecked = false;
 
-IDLImport::IDLImport() : NativeImportBase("//")
+IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase("//", thread)
 {
     m_isOneway = m_isReadonly = m_isAttribute = false;
     setMultiLineComment("/*", "*/");
