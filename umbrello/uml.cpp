@@ -1636,7 +1636,7 @@ void UMLApp::setModified(bool modified)
 }
 
 /**
- * Set whether to allow printing.
+ * Set whether to allow Redo.
  * It will enable/disable the menu/toolbar options.
  *
  * @param enable    Set whether to allow printing.
@@ -1648,7 +1648,7 @@ void UMLApp::enablePrint(bool enable)
 }
 
 /**
- * Set whether to allow printing.
+ * Set whether to allow Undo.
  * It will enable/disable the menu/toolbar options.
  *
  * @param enable    Set whether to allow printing.
