@@ -142,6 +142,7 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     m_printSettings = 0;
     m_printer = new QPrinter;
     m_printer->setFullPage(true);
+    m_dlg = NULL;
 
     readOptionState();
     initActions();
@@ -3040,4 +3041,4 @@ KConfig* UMLApp::config()
     return m_config.data();
 }
 
-#include "uml.moc"
+//#include "uml.moc"
