@@ -187,12 +187,14 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
         int i = 0;
         for (; i < pCount; ++i) {
             Model_Utils::NameAndType_ListIt nt(params.begin() + i);
-            UMLClassifier *c = dynamic_cast<UMLClassifier*>((*nt).m_type);
+            UMLClassifier *type = dynamic_cast<UMLClassifier*>((*nt).m_type);
             UMLClassifier *testType = testParams.at(i)->getType();
-            if (c == NULL) {  //template parameter
+            if (type == NULL && testType == NULL) { //no parameter type
+                continue;
+            } else if (type == NULL) {  //template parameter
                 if (testType->name() != "class")
                     break;
-            } else if (c != testType)
+            } else if (type != testType)
                 break;
         }
         if (i == pCount)
