@@ -78,7 +78,7 @@ void IDLImport::fillSource(const QString& word)
         QChar c = word[i];
         if (c.isLetterOrNumber() || c == '_') {
             lexeme += c;
-        } else if (c == ':' && word[i + 1] == ':') {
+        } else if (c == ':' && i < len-1 && word[i + 1] == ':') {
             // compress scoped name into lexeme
             lexeme += "::";
             i++;
