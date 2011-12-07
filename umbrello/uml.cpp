@@ -141,6 +141,7 @@ UMLApp::UMLApp(QWidget* parent) : KXmlGuiWindow(parent)
     m_hasBegunMacro = false;
     m_printer = new QPrinter;
     m_printer->setFullPage(true);
+    m_dlg = NULL;
 
     readOptionState();
     initActions();
