@@ -596,7 +596,11 @@ void UMLListView::popupMenuSel(QAction* action)
         } else {
             uWarning() << "calling properties on unknown type";
         }
-        temp->cancelRename(0);
+        // Bug 268469: Changing the package of a class deletes the old widget.
+        // By reloading the current item we are sure to not use a destroyed object
+        temp = (UMLListViewItem*)currentItem();
+        if (temp)
+            temp->cancelRename(0);
         break;
 
     case ListPopupMenu::mt_Logical_Folder:
