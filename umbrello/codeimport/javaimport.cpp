@@ -189,6 +189,11 @@ UMLObject* JavaImport::resolveClass (const QString& className)
     QStringList package = m_currentPackage.split( '.' );
     int dirsInPackageCount = package.size();
 
+    // in case the path does not fit into the package hierachy 
+    // we cannot check the imports 
+    if (dirsInPackageCount >= file.size())
+        return NULL; 
+
     for (int count=0; count < dirsInPackageCount; ++count ) {
         // pop off one by one the directories, until only the source root remains
         //
@@ -238,7 +243,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
  * Keep track of the current file being parsed and reset the list of imports.
  * @param filename   the name of the file being parsed
  */
-void JavaImport::parseFile(const QString& filename)
+bool JavaImport::parseFile(const QString& filename)
 {
     m_currentFileName = filename;
     m_imports.clear();
@@ -258,6 +263,7 @@ void JavaImport::parseFile(const QString& filename)
         s_filesAlreadyParsed.clear();
         s_parseDepth = 0;
     }
+    return true;
 }
 
 /**

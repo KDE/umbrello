@@ -39,13 +39,13 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
 {
     ClassImport *classImporter;
     if (fileName.endsWith(QLatin1String(".idl")))
-        classImporter = new IDLImport();
+        classImporter = new IDLImport(thread);
     else if (fileName.contains(QRegExp("\\.pyw?$")))
         classImporter = new PythonImport(thread);
     else if (fileName.endsWith(QLatin1String(".java")))
         classImporter = new JavaImport(thread);
     else if (fileName.contains(QRegExp("\\.ad[sba]$")))
-        classImporter = new AdaImport();
+        classImporter = new AdaImport(thread);
     else if (fileName.endsWith(QLatin1String(".pas")))
         classImporter = new PascalImport();
     else if (fileName.endsWith(QLatin1String(".cs")))

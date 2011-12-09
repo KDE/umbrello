@@ -25,7 +25,7 @@
 class AdaImport : public NativeImportBase
 {
 public:
-    AdaImport();
+    AdaImport(CodeImpThread* thread = 0);
     virtual ~AdaImport();
 
 protected:

@@ -34,7 +34,7 @@ protected:
 
     void fillSource(const QString& word);
 
-    void parseFile(const QString& filename);
+    bool parseFile(const QString& filename);
 
     UMLObject* resolveClass (const QString& className);
 

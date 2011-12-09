@@ -23,17 +23,58 @@
 #include "umldoc.h"
 #include "umlpackagelist.h"
 
+// kde includes
+#include <KStandardDirs>
+
 // qt includes
-// #include <QtCore/QProcess>  //should use this instead of popen()
+#include <QtCore/QProcess>
 #include <QtCore/QStringList>
 #include <QtCore/QRegExp>
 
 #include <stdio.h>
 
-IDLImport::IDLImport() : NativeImportBase("//")
+QString IDLImport::m_preProcessor;
+QStringList IDLImport::m_preProcessorArguments;
+bool IDLImport::m_preProcessorChecked = false;
+
+IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase("//", thread)
 {
     m_isOneway = m_isReadonly = m_isAttribute = false;
     setMultiLineComment("/*", "*/");
+
+    // we do not want to find the executable on each imported file
+    if (m_preProcessorChecked) {
+        m_enabled = !m_preProcessor.isEmpty();
+        return; 
+    }
+
+    QStringList arguments;
+    QString executable = KStandardDirs::findExe("cpp");
+    if (!executable.isEmpty()) {
+        arguments << "-C";   // -C means "preserve comments"
+    }
+#ifdef Q_WS_WIN
+    else {
+        executable = KStandardDirs::findExe("cl");
+        if (executable.isEmpty()) {
+	        QString path = qgetenv("VS100COMNTOOLS");
+            if (!path.isEmpty())
+                executable = KStandardDirs::findExe("cl", path + "/../../VC/bin");
+        }
+        if (!executable.isEmpty()) {
+            arguments << "-E";   // -E means "preprocess to stdout"
+        }
+    }
+#endif
+    if (!executable.isEmpty()) {
+        m_preProcessor = executable;
+        m_preProcessorArguments = arguments;
+    }
+    else {
+        uError() << "Cannot find any of the supported preprocessors (gcc, Microsoft Visual Studio 2010)";
+        m_enabled = false;
+    }
+    m_preProcessorChecked = true;
 }
 
 IDLImport::~IDLImport()
@@ -103,7 +144,7 @@ void IDLImport::fillSource(const QString& word)
  * Reimplement operation from NativeImportBase.
  * Need to do this because we use the external C preprocessor.
  */
-void IDLImport::parseFile(const QString& filename)
+bool IDLImport::parseFile(const QString& filename)
 {
     if (filename.contains('/')) {
         QString path = filename;
@@ -112,30 +153,41 @@ void IDLImport::parseFile(const QString& filename)
         Import_Utils::addIncludePath(path);
     }
     const QStringList includePaths = Import_Utils::includePathList();
-    //QProcess command("cpp", UMLAp::app());
-    QString command("cpp -C");   // -C means "preserve comments"
+
+    if (m_preProcessor.isEmpty()) { 
+        uError() << "no preprocessor installed, could not import file";
+        return false;
+    }
+    QStringList arguments(m_preProcessorArguments);
+
+    QProcess p(UMLApp::app());
     for (QStringList::ConstIterator pathIt = includePaths.begin();
             pathIt != includePaths.end(); ++pathIt) {
         QString path = (*pathIt);
-        //command.addArgument(" -I" + path);
-        command += " -I" + path;
+        arguments << "-I" + path;
     }
-    command += ' ' + filename;
-    uDebug() << "importIDL: " << command;
-    FILE *fp = popen(qPrintable(command), "r");
-    if (fp == NULL) {
-        uError() << "cannot popen(" << command << ")";
-        return;
+    arguments << filename;
+    uDebug() << "importIDL: " << m_preProcessor << arguments;
+    p.start(m_preProcessor, arguments);
+    if (!p.waitForStarted()) {
+        uError() << "could not run preprocessor";
+        return false;
     }
+
+    if (!p.waitForFinished()) {
+        uError() << "could not run preprocessor";
+        return false;
+    }
+
+    QByteArray out = p.readAllStandardOutput();
+    QTextStream data(out);
+
     // Scan the input file into the QStringList m_source.
     m_source.clear();
-    char buf[256];
-    while (fgets(buf, sizeof(buf), fp) != NULL) {
-        int len = strlen(buf);
-        if (buf[len - 1] == '\n')
-            buf[--len] = '\0';
-        NativeImportBase::scan( QString(buf) );
+    while (!data.atEnd()) {
+        NativeImportBase::scan(data.readLine());
     }
+
     // Parse the QStringList m_source.
     m_scopeIndex = 0;
     m_scope[0] = NULL;
@@ -152,7 +204,7 @@ void IDLImport::parseFile(const QString& filename)
         m_currentAccess = Uml::Visibility::Public;
         m_comment.clear();
     }
-    pclose(fp);
+    return true;
 }
 
 /**

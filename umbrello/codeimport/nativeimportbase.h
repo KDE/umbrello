@@ -53,7 +53,7 @@ protected:
     void setMultiLineComment(const QString &intro, const QString &end);
     void setMultiLineAltComment(const QString &intro, const QString &end);
 
-    virtual void parseFile(const QString& filename);
+    virtual bool parseFile(const QString& filename);
 
     virtual void initVars();
 
@@ -120,3 +120,4 @@ protected:
 };
 
 #endif
+

@@ -32,8 +32,8 @@
 /**
  * Constructor.
  */
-AdaImport::AdaImport()
-  : NativeImportBase("--")
+AdaImport::AdaImport(CodeImpThread* thread)
+  : NativeImportBase("--", thread)
 {
     initVars();
 }

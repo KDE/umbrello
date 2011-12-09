@@ -229,7 +229,7 @@ UMLObject* CSharpImport::resolveClass(const QString& className)
  * Keep track of the current file being parsed and reset the list of imports.
  * @param filename   the name of the file being parsed
  */
-void CSharpImport::parseFile(const QString& filename)
+bool CSharpImport::parseFile(const QString& filename)
 {
     uDebug() << filename;
     m_currentFileName = filename;
@@ -250,6 +250,7 @@ void CSharpImport::parseFile(const QString& filename)
         s_filesAlreadyParsed.clear();
         s_parseDepth = 0;
     }
+    return true;
 }
 
 /**

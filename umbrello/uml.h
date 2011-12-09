@@ -33,6 +33,8 @@ class UMLViewImageExporterAll;
 class RefactoringAssistant;
 class XhtmlGenerator;
 class StatusBarToolButton;
+class DiagramPrintPage;
+class QPrinter;
 
 // KDE forward declarations
 class KActionMenu;
@@ -196,6 +198,7 @@ public slots:
     void slotFileSave();
     bool slotFileSaveAs();
     void slotFileClose();
+    bool slotPrintSettings();
     void slotPrintPreview();
     void slotPrintPreviewPaintRequested(QPrinter *printer);
     void slotFilePrint();
@@ -414,6 +417,7 @@ private:
     StatusBarToolButton* m_pZoomFullSBTB;
     QSlider* m_pZoomSlider;
     QLabel* m_statusBarMessage;
+    DiagramPrintPage *m_printSettings;
     QPrinter *m_printer;
     /**
      * The running XHTML documentation generator. Null when no generation is running.

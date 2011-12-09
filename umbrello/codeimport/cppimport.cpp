@@ -128,10 +128,11 @@ void CppImport::initialize()
  * Import a single file.
  * @param fileName  The file to import.
  */
-void CppImport::parseFile(const QString& fileName) 
+bool CppImport::parseFile(const QString& fileName) 
 {
     if (ms_seenFiles.indexOf(fileName) != -1)
-        return;
+        return true;
     ms_driver->parseFile( fileName );
     feedTheModel(fileName);
+    return true;
 }
