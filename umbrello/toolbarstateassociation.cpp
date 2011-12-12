@@ -21,10 +21,10 @@
 #include "model_utils.h"
 #include "uml.h"
 #include "umlobject.h"
-#include "umlview.h"
-#include "umllistview.h"
+#include "umlscene.h"
 #include "umldoc.h"
 #include "umlwidget.h"
+#include "umllistview.h"
 
 // kde includes
 #include <klocale.h>
@@ -36,10 +36,10 @@
 /**
  * Creates a new ToolBarStateAssociation.
  *
- * @param umlView The UMLView to use.
+ * @param umlScene The UMLScene to use.
  */
-ToolBarStateAssociation::ToolBarStateAssociation(UMLView *umlView)
-  : ToolBarStatePool(umlView)
+ToolBarStateAssociation::ToolBarStateAssociation(UMLScene *umlScene)
+  : ToolBarStatePool(umlScene)
 {
     m_firstWidget = 0;
     m_associationLine = 0;
@@ -185,17 +185,17 @@ void ToolBarStateAssociation::setFirstWidget()
     pos.setX(widget->getX() + (widget->getWidth() / 2));
     pos.setY(widget->getY() + (widget->getHeight() / 2));
     //TODO why is this needed?
-    m_pUMLView->setPos(pos);
+    m_pUMLScene->setPos(pos);
 
     m_firstWidget = widget;
 
-    m_associationLine = new Q3CanvasLine(m_pUMLView->canvas());
+    m_associationLine = new Q3CanvasLine(m_pUMLScene->canvas());
     m_associationLine->setPoints(pos.x(), pos.y(), pos.x(), pos.y());
-    m_associationLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
+    m_associationLine->setPen(QPen(m_pUMLScene->getLineColor(), m_pUMLScene->getLineWidth(), Qt::DashLine));
 
     m_associationLine->setVisible(true);
 
-    m_pUMLView->viewport()->setMouseTracking(true);
+    m_pUMLScene->viewport()->setMouseTracking(true);
 }
 
 /**
@@ -229,7 +229,7 @@ void ToolBarStateAssociation::setSecondWidget()
         valid = AssocRules::allowAssociation(type, widgetA, widgetB);
     }
     if (valid) {
-        AssociationWidget *temp = new AssociationWidget(m_pUMLView, widgetA, type, widgetB);
+        AssociationWidget *temp = new AssociationWidget(m_pUMLScene, widgetA, type, widgetB);
         addAssociationInViewAndDoc(temp);
         if (type == Uml::AssociationType::Containment) {
             UMLListView *lv = UMLApp::app()->listView();
@@ -298,14 +298,14 @@ Uml::AssociationType ToolBarStateAssociation::getAssociationType()
 void ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* assoc)
 {
     // append in view
-    if (m_pUMLView->addAssociation(assoc, false)) {
+    if (m_pUMLScene->addAssociation(assoc, false)) {
         // if view went ok, then append in document
         UMLAssociation *umla = assoc->getAssociation();
         if (umla == NULL) {
             // association without model representation in UMLDoc
             return;
         }
-        Uml::ModelType m = Model_Utils::convert_DT_MT(m_pUMLView->type());
+        Uml::ModelType m = Model_Utils::convert_DT_MT(m_pUMLScene->type());
         UMLDoc *umldoc = UMLApp::app()->document();
         umla->setUMLPackage(umldoc->rootFolder(m));
         UMLApp::app()->document()->addAssociation(umla);

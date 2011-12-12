@@ -50,6 +50,7 @@
 // docgenerators
 #include "docbookgenerator.h"
 #include "xhtmlgenerator.h"
+#include "umlscene.h"
 
 // kde includes
 #include <kaction.h>
@@ -1434,7 +1435,7 @@ void UMLApp::slotEditCut()
 void UMLApp::slotEditCopy()
 {
     slotStatusMsg(i18n("Copying selection to clipboard..."));
-    bool  fromview = (currentView() && currentView()->getSelectCount());
+    bool  fromview = (currentView() && currentView()->umlScene()->getSelectCount());
     editCutCopy( fromview );
     resetStatusMsg();
     m_doc->setModified( true );
@@ -1556,7 +1557,7 @@ void UMLApp::slotEntityRelationshipDiagram()
  */
 void UMLApp::slotAlignLeft()
 {
-    currentView()->alignLeft();
+    currentView()->umlScene()->alignLeft();
 }
 
 /**
@@ -1564,7 +1565,7 @@ void UMLApp::slotAlignLeft()
  */
 void UMLApp::slotAlignRight()
 {
-    currentView()->alignLeft();
+    currentView()->umlScene()->alignLeft();
 }
 
 /**
@@ -1572,7 +1573,7 @@ void UMLApp::slotAlignRight()
  */
 void UMLApp::slotAlignTop()
 {
-    currentView()->alignTop();
+    currentView()->umlScene()->alignTop();
 }
 
 /**
@@ -1580,7 +1581,7 @@ void UMLApp::slotAlignTop()
  */
 void UMLApp::slotAlignBottom()
 {
-    currentView()->alignBottom();
+    currentView()->umlScene()->alignBottom();
 }
 
 /**
@@ -1588,7 +1589,7 @@ void UMLApp::slotAlignBottom()
  */
 void UMLApp::slotAlignVerticalMiddle()
 {
-    currentView()->alignVerticalMiddle();
+    currentView()->umlScene()->alignVerticalMiddle();
 }
 
 /**
@@ -1596,7 +1597,7 @@ void UMLApp::slotAlignVerticalMiddle()
  */
 void UMLApp::slotAlignHorizontalMiddle()
 {
-    currentView()->alignHorizontalMiddle();
+    currentView()->umlScene()->alignHorizontalMiddle();
 }
 
 /**
@@ -1604,7 +1605,7 @@ void UMLApp::slotAlignHorizontalMiddle()
  */
 void UMLApp::slotAlignVerticalDistribute()
 {
-    currentView()->alignVerticalDistribute();
+    currentView()->umlScene()->alignVerticalDistribute();
 }
 
 /**
@@ -1612,7 +1613,7 @@ void UMLApp::slotAlignVerticalDistribute()
  */
 void UMLApp::slotAlignHorizontalDistribute()
 {
-    currentView()->alignHorizontalDistribute();
+    currentView()->umlScene()->alignHorizontalDistribute();
 }
 
 /**
@@ -1748,7 +1749,7 @@ void UMLApp::slotClipDataChanged()
  */
 void UMLApp::slotCopyChanged()
 {
-    if (m_listView->selectedItemsCount() || (currentView() && currentView()->getSelectCount())) {
+    if (m_listView->selectedItemsCount() || (currentView() && currentView()->umlScene()->getSelectCount())) {
         editCopy->setEnabled(true);
         editCut->setEnabled(true);
     }
@@ -1799,10 +1800,11 @@ void UMLApp::slotApplyPrefs()
                 m_viewStack->hide();
 
                 foreach (UMLView *view, views) {
+                    UMLScene *scene = view->umlScene();
                     m_viewStack->removeWidget(view);
-                    int tabIndex = m_tabWidget->addTab(view, view->name());
-                    m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(view->type()));
-                    m_tabWidget->setTabToolTip(tabIndex, view->name());
+                    int tabIndex = m_tabWidget->addTab(view, scene->name());
+                    m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(scene->type()));
+                    m_tabWidget->setTabToolTip(tabIndex, scene->name());
                 }
                 m_layout->addWidget(m_tabWidget);
                 m_tabWidget->show();
@@ -2302,7 +2304,7 @@ QString UMLApp::activeLanguageScopeSeparator()
  */
 void UMLApp::slotCurrentViewClearDiagram()
 {
-    currentView()->clearDiagram();
+    currentView()->umlScene()->clearDiagram();
 }
 
 /**
@@ -2310,8 +2312,8 @@ void UMLApp::slotCurrentViewClearDiagram()
  */
 void UMLApp::slotCurrentViewToggleSnapToGrid()
 {
-    currentView()->toggleSnapToGrid();
-    viewSnapToGrid->setChecked( currentView()->getSnapToGrid() );
+    currentView()->umlScene()->toggleSnapToGrid();
+    viewSnapToGrid->setChecked( currentView()->umlScene()->getSnapToGrid() );
 }
 
 /**
@@ -2319,8 +2321,8 @@ void UMLApp::slotCurrentViewToggleSnapToGrid()
  */
 void UMLApp::slotCurrentViewToggleShowGrid()
 {
-    currentView()->toggleShowGrid();
-    viewShowGrid->setChecked( currentView()->getShowSnapGrid() );
+    currentView()->umlScene()->toggleShowGrid();
+    viewShowGrid->setChecked( currentView()->umlScene()->getShowSnapGrid() );
 }
 
 /**
@@ -2328,7 +2330,7 @@ void UMLApp::slotCurrentViewToggleShowGrid()
  */
 void UMLApp::slotCurrentViewExportImage()
 {
-    currentView()->getImageExporter()->exportView();
+    currentView()->umlScene()->getImageExporter()->exportView();
 }
 
 /**
@@ -2344,7 +2346,7 @@ void UMLApp::slotAllViewsExportImage()
  */
 void UMLApp::slotCurrentViewProperties()
 {
-    currentView()->showPropDialog();
+    currentView()->umlScene()->showPropDialog();
 }
 
 /**
@@ -2362,8 +2364,8 @@ void UMLApp::setDiagramMenuItemsState(bool bState)
     viewProperties->setEnabled( bState );
     filePrint->setEnabled( bState );
     if ( currentView() ) {
-        viewSnapToGrid->setChecked( currentView()->getSnapToGrid() );
-        viewShowGrid->setChecked( currentView()->getShowSnapGrid() );
+        viewSnapToGrid->setChecked( currentView()->umlScene()->getSnapToGrid() );
+        viewShowGrid->setChecked( currentView()->umlScene()->getShowSnapGrid() );
     }
 }
 
@@ -2389,8 +2391,8 @@ void UMLApp::slotUpdateViews()
 
     UMLViewList views = m_doc->viewIterator();
     foreach (UMLView *view , views ) {
-        menu->addAction(view->name(), view, SLOT(slotShowView()));
-        view->fileLoaded();
+        menu->addAction(view->umlScene()->name(), view->umlScene(), SLOT(slotShowView()));
+        view->umlScene()->fileLoaded();
     }
 }
 
@@ -2493,9 +2495,9 @@ void UMLApp::slotCurrentViewChanged()
 {
     UMLView *view = currentView();
     if (view) {
-        connect(view, SIGNAL(sigShowGridToggled(bool)),
+        connect(view->umlScene(), SIGNAL(sigShowGridToggled(bool)),
                 this, SLOT(slotShowGridToggled(bool)));
-        connect(view, SIGNAL(sigSnapToGridToggled(bool)),
+        connect(view->umlScene(), SIGNAL(sigSnapToGridToggled(bool)),
                 this, SLOT(slotSnapToGridToggled(bool)));
     }
 }
@@ -2521,7 +2523,7 @@ void UMLApp::slotShowGridToggled(bool gridOn)
  */
 void UMLApp::slotSelectAll()
 {
-    currentView()->selectAll();
+    currentView()->umlScene()->selectAll();
 }
 
 /**
@@ -2530,7 +2532,7 @@ void UMLApp::slotSelectAll()
 void UMLApp::slotDeleteSelectedWidget()
 {
     if ( currentView() ) {
-        currentView()->deleteSelection();
+        currentView()->umlScene()->deleteSelection();
     } 
     else {
         uWarning() << " trying to delete widgets when there is no current view (see bug 59774)";
@@ -2542,7 +2544,7 @@ void UMLApp::slotDeleteSelectedWidget()
  */
 void UMLApp::slotDeleteDiagram()
 {
-    m_doc->removeDiagram( currentView()->getID() );
+    m_doc->removeDiagram( currentView()->umlScene()->getID() );
 }
 
 /**
@@ -2557,7 +2559,7 @@ void UMLApp::slotCloseDiagram(QWidget* tab)
             setCurrentView(view);
         }
         m_tabWidget->removeTab(m_tabWidget->indexOf(view));
-        view->setIsOpen(false);
+        view->umlScene()->setIsOpen(false);
     }
 }
 
@@ -2643,7 +2645,7 @@ void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e)
 {
     // in case we have selected something in the diagram, move it by one pixel
     // to the direction pointed by the cursor key
-    if (m_view == NULL || !m_view->getSelectCount() || e->modifiers() != Qt::AltModifier) {
+    if (m_view == NULL || !m_view->umlScene()->getSelectCount() || e->modifiers() != Qt::AltModifier) {
         e->ignore();
         return;
     }
@@ -2666,7 +2668,7 @@ void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e)
         e->ignore();
         return;
     }
-    m_view->moveSelectedBy(dx, dy);
+    m_view->umlScene()->moveSelectedBy(dx, dy);
 
     // notify about modification only at the first key release of possible sequence of auto repeat key releases,
     // this reduces the slow down caused by setModified() and makes the cursor moving of widgets smoother
@@ -2745,10 +2747,10 @@ void UMLApp::setCurrentView(UMLView* view)
     Settings::OptionState optionState = Settings::optionState();
     if (optionState.generalState.tabdiagrams) {
         int tabIndex = m_tabWidget->indexOf(view);
-        if ((tabIndex < 0) && view->isOpen()) {
-            tabIndex = m_tabWidget->addTab(view, view->name());
-            m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(view->type()));
-            m_tabWidget->setTabToolTip(tabIndex, view->name());
+        if ((tabIndex < 0) && (view->umlScene()->isOpen())) {
+            tabIndex = m_tabWidget->addTab(view, view->umlScene()->name());
+            m_tabWidget->setTabIcon(tabIndex, Icon_Utils::iconSet(view->umlScene()->type()));
+            m_tabWidget->setTabToolTip(tabIndex, view->umlScene()->name());
         }
         m_tabWidget->setCurrentIndex(tabIndex);
     }
@@ -2760,14 +2762,14 @@ void UMLApp::setCurrentView(UMLView* view)
         view->show();
     }
     qApp->processEvents();
-    slotStatusMsg(view->name());
+    slotStatusMsg(view->umlScene()->name());
     UMLListViewItem* lvitem = m_listView->findView(view);
     if (lvitem) {
         m_listView->setCurrentItem(lvitem);
     }
-    DEBUG(DBG_SRC) << "name=" << view->name()
-                   << ", isOpen=" << view->isOpen()
-                   << ", id=" << ID2STR(view->getID());
+    DEBUG(DBG_SRC) << "name=" << view->umlScene()->name()
+                   << ", isOpen=" << view->umlScene()->isOpen()
+                   << ", id=" << ID2STR(view->umlScene()->getID());
 }
 
 /**
@@ -2807,7 +2809,7 @@ void UMLApp::slotTabChanged(QWidget* tab)
 {
     UMLView* view = ( UMLView* )tab;
     if (view) {
-        m_doc->changeCurrentView( view->getID() );
+        m_doc->changeCurrentView( view->umlScene()->getID() );
     }
 }
 

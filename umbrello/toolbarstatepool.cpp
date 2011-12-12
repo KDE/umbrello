@@ -49,10 +49,10 @@ WorkToolBar::ToolBar_Buttons ToolBarStatePool::getButton() const
  * Protected to avoid classes other than derived to create objects of this
  * class.
  *
- * @param umlView The UMLView to use.
+ * @param umlScene The UMLScene to use.
  */
-ToolBarStatePool::ToolBarStatePool(UMLView *umlView)
-  : ToolBarState(umlView)
+ToolBarStatePool::ToolBarStatePool(UMLScene *umlScene)
+  : ToolBarState(umlScene)
 {
     m_ToolBarButton = WorkToolBar::tbb_Arrow;
 }

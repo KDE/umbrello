@@ -57,6 +57,7 @@
 #include "umllistviewitemlist.h"
 #include "umllistviewitem.h"
 #include "umlview.h"
+#include "umlscene.h"
 #include "umlviewimageexporter.h"
 #include "usecase.h"
 #include "model_utils.h"
@@ -186,7 +187,7 @@ void UMLListView::contentsMousePressEvent(QMouseEvent *me)
 {
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView)
-        currentView->clearSelected();
+        currentView->umlScene()->clearSelected();
     if (me->modifiers() != Qt::ShiftModifier)
         clearSelection();
 
@@ -265,7 +266,7 @@ void UMLListView::contentsMouseReleaseEvent(QMouseEvent *me)
 void UMLListView::keyPressEvent(QKeyEvent *ke)
 {
     UMLView *view = UMLApp::app()->currentView();
-    if (view && view->getSelectCount()) {
+    if (view && view->umlScene()->getSelectCount()) {
         // Widgets have been selected in the diagram area,
         // assume they handle the keypress.
         ke->accept();                 // munge and do nothing
@@ -535,7 +536,7 @@ void UMLListView::popupMenuSel(QAction* action)
                 return;
             }
             UMLApp::app()->docWindow()->updateDocumentation(false);
-            pView->showPropDialog();
+            pView->umlScene()->showPropDialog();
             UMLApp::app()->docWindow()->showDocumentation(pView, true);
             temp->cancelRename(0);
             return;
@@ -706,9 +707,9 @@ void UMLListView::slotDiagramCreated(Uml::IDType id)
     UMLView *v = m_doc->findView(id);
     if (!v)
         return;
-    const Uml::DiagramType dt = v->type();
+    const Uml::DiagramType dt = v->umlScene()->type();
     UMLListViewItem * temp = 0, *p = findFolderForDiagram(dt);
-    temp = new UMLListViewItem(p, v->name(), Model_Utils::convert_DT_LVT(dt), id);
+    temp = new UMLListViewItem(p, v->umlScene()->name(), Model_Utils::convert_DT_LVT(dt), id);
     setSelected(temp, true);
     UMLApp::app()->docWindow()->showDocumentation(v , false);
 }
@@ -1162,9 +1163,9 @@ UMLListViewItem* UMLListView::findView(UMLView* v)
         return 0;
     }
     UMLListViewItem* item;
-    Uml::DiagramType dType = v->type();
+    Uml::DiagramType dType = v->umlScene()->type();
     UMLListViewItem::ListViewType type = Model_Utils::convert_DT_LVT(dType);
-    Uml::IDType id = v->getID();
+    Uml::IDType id = v->umlScene()->getID();
     if (dType == Uml::DiagramType::UseCase) {
         item = m_lv[Uml::ModelType::UseCase];
     } else if (dType == Uml::DiagramType::Component) {
@@ -1294,7 +1295,7 @@ void UMLListView::contentsMouseDoubleClickEvent(QMouseEvent * me)
         if (!pView)
             return;
         UMLApp::app()->docWindow()->updateDocumentation(false);
-        pView->showPropDialog();
+        pView->umlScene()->showPropDialog();
         UMLApp::app()->docWindow()->showDocumentation(pView, true);
         item->cancelRename(0);
         return;
@@ -1848,21 +1849,21 @@ UMLListViewItem* UMLListView::createDiagramItem(UMLView *view)
     if (!view) {
         return 0;
     }
-    UMLListViewItem::ListViewType lvt = Model_Utils::convert_DT_LVT(view->type());
+    UMLListViewItem::ListViewType lvt = Model_Utils::convert_DT_LVT(view->umlScene()->type());
     UMLListViewItem *parent = 0;
-    UMLFolder *f = view->folder();
+    UMLFolder *f = view->umlScene()->folder();
     if (f) {
         parent = findUMLObject(f);
         if (parent == 0)
-            uError() << view->name() << ": findUMLObject(" << f->name() << ") returns 0";
+            uError() << view->umlScene()->name() << ": findUMLObject(" << f->name() << ") returns 0";
     } else {
-        DEBUG(DBG_SRC) << view->name() << ": no parent folder set, using predefined folder";
+        DEBUG(DBG_SRC) << view->umlScene()->name() << ": no parent folder set, using predefined folder";
     }
     if (parent == 0) {
         parent = determineParentItem(lvt);
-        lvt = Model_Utils::convert_DT_LVT(view->type());
+        lvt = Model_Utils::convert_DT_LVT(view->umlScene()->type());
     }
-    UMLListViewItem *item = new UMLListViewItem(parent, view->name(), lvt, view->getID());
+    UMLListViewItem *item = new UMLListViewItem(parent, view->umlScene()->name(), lvt, view->umlScene()->getID());
     return item;
 }
 
@@ -1950,8 +1951,8 @@ UMLListViewItem* UMLListView::createItem(UMLListViewItem& Data, IDChangeLog& IDC
         if (v == 0) {
             return 0;
         }
-        const UMLListViewItem::ListViewType lvt = Model_Utils::convert_DT_LVT(v->type());
-        item = new UMLListViewItem(parent, v->name(), lvt, newID);
+        const UMLListViewItem::ListViewType lvt = Model_Utils::convert_DT_LVT(v->umlScene()->type());
+        item = new UMLListViewItem(parent, v->umlScene()->name(), lvt, newID);
     }
     break;
     default:
@@ -2554,15 +2555,15 @@ UMLView* UMLListView::createDiagram(UMLListViewItem * item, Uml::DiagramType typ
         return 0;
     }
     view = new UMLView(parentFolder);
-    view->setName(name);
-    view->setType(type);
-    view->setID(UniqueID::gen());
+    view->umlScene()->setName(name);
+    view->umlScene()->setType(type);
+    view->umlScene()->setID(UniqueID::gen());
     m_doc->addView(view);
-    view->setOptionState(Settings::optionState());
-    item->setID(view->getID());
-    item->setText(name);
-    view->activate();
-    m_doc->changeCurrentView(view->getID());
+    view->umlScene()->setOptionState(Settings::optionState());
+    item->setID(view->umlScene()->getID());
+    item->setText(0, name);
+    view->umlScene()->activate();
+    m_doc->changeCurrentView(view->umlScene()->getID());
 
     return view;
 }

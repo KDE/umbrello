@@ -45,6 +45,8 @@
 #include "listpopupmenu.h"
 #include "cmds.h"
 #include "diagramprintpage.h"
+#include "umlscene.h"
+#include "worktoolbar.h"
 
 // kde includes
 #include <kio/job.h>
@@ -166,7 +168,7 @@ void UMLDoc::addView(UMLView *view)
         uError() << "argument is NULL";
         return;
     }
-    UMLFolder *f = view->folder();
+    UMLFolder *f = view->umlScene()->folder();
     if (f == 0) {
         uError() << "view folder is not set";
         return;
@@ -175,13 +177,13 @@ void UMLDoc::addView(UMLView *view)
 
     UMLApp * pApp = UMLApp::app();
     if ( pApp->listView() ) {
-        connect(this, SIGNAL(sigObjectRemoved(UMLObject*)), view, SLOT(slotObjectRemoved(UMLObject*)));
+        connect(this, SIGNAL(sigObjectRemoved(UMLObject *)), view->umlScene(), SLOT(slotObjectRemoved(UMLObject *)));
     }
 
     pApp->setCurrentView(view);
     if ( !m_bLoading ) {
         view->show();
-        emit sigDiagramChanged(view->type());
+        emit sigDiagramChanged(view->umlScene()->type());
     }
 
     pApp->setDiagramMenuItemsState(true);
@@ -207,10 +209,10 @@ void UMLDoc::removeView(UMLView *view , bool enforceCurrentView )
     }
     view->hide();
     //remove all widgets before deleting view
-    view->removeAllWidgets();
-    UMLFolder *f = view->folder();
+    view->umlScene()->removeAllWidgets();
+    UMLFolder *f = view->umlScene()->folder();
     if (f == 0) {
-        uError() << view->name() << ": view->folder() returns NULL";
+        uError() << view->umlScene()->name() << ": view->getFolder() returns NULL";
         return;
     }
     f->removeView(view);
@@ -1244,15 +1246,15 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType type, bool as
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
         } else if (!findView(type, name)) {
             UMLView* view = new UMLView(folder);
-            view->setOptionState( Settings::optionState() );
-            view->setName( name );
-            view->setType( type );
-            view->setID( UniqueID::gen() );
+            view->umlScene()->setOptionState( Settings::optionState() );
+            view->umlScene()->setName( name );
+            view->umlScene()->setType( type );
+            view->umlScene()->setID( UniqueID::gen() );
             addView(view);
-            emit sigDiagramCreated( view->getID() );
+            emit sigDiagramCreated( view->umlScene()->getID() );
             setModified(true);
             UMLApp::app()->enablePrint(true);
-            changeCurrentView( view->getID() );
+            changeCurrentView( view->umlScene()->getID() );
             return view;
         } else {
             KMessageBox::error(0, i18n("A diagram is already using that name."), i18n("Not a Unique Name"));
@@ -1272,9 +1274,9 @@ void UMLDoc::renameDiagram(Uml::IDType id)
     bool ok = false;
 
     UMLView *view =  findView(id);
-    Uml::DiagramType type = view->type();
+    Uml::DiagramType type = view->umlScene()->type();
 
-    QString oldName= view->name();
+    QString oldName= view->umlScene()->name();
     while (true) {
         QString name = KInputDialog::getText(i18nc("renaming diagram", "Name"), i18n("Enter name:"), oldName, &ok, (QWidget*)UMLApp::app());
 
@@ -1285,7 +1287,7 @@ void UMLDoc::renameDiagram(Uml::IDType id)
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
         }
         else if (!findView(type, name)) {
-            view->setName(name);
+            view->umlScene()->setName(name);
             emit sigDiagramRenamed(id);
             setModified(true);
             break;
@@ -1374,9 +1376,9 @@ void UMLDoc::changeCurrentView(Uml::IDType id)
     UMLApp* pApp = UMLApp::app();
     UMLView* view = findView(id);
     if (view) {
-        view->setIsOpen(true);
+        view->umlScene()->setIsOpen(true);
         pApp->setCurrentView(view);
-        emit sigDiagramChanged(view->type());
+        emit sigDiagramChanged(view->umlScene()->type());
         pApp->setDiagramMenuItemsState( true );
         setModified(true);
         emit sigCurrentViewChanged();
@@ -1432,7 +1434,7 @@ UMLFolder *UMLDoc::currentRoot()
         uError() << "m_pCurrentRoot is NULL";
         return 0;
     }
-    UMLFolder *f = currentView->folder();
+    UMLFolder *f = currentView->umlScene()->folder();
     while (f->umlPackage()) {
         f = static_cast<UMLFolder*>(f->umlPackage());
     }
@@ -1676,7 +1678,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
     Uml::IDType viewID = Uml::id_None;
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView) {
-        viewID = currentView->getID();
+        viewID = currentView->umlScene()->getID();
     }
     docElement.setAttribute( "viewid", ID2STR(viewID) );
     docElement.setAttribute( "documentation", m_Doc );
@@ -2227,12 +2229,12 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
             // reading the corresponding diagram:
             // + allow using per-diagram color and line-width settings
             // + avoid crashes due to uninitialized values for lineWidth
-            pView->setOptionState( state );
+            pView->umlScene()->setOptionState( state );
             bool success = false;
             if (tag == "UISDiagram") {
-                success = pView->loadUISDiagram(element);
+                success = pView->umlScene()->loadUISDiagram(element);
             } else {
-                success = pView->loadFromXMI(element);
+                success = pView->umlScene()->loadFromXMI(element);
             }
             if (!success) {
                 uWarning() << "failed load on viewdata loadfromXMI";
@@ -2241,8 +2243,8 @@ bool UMLDoc::loadDiagramsFromXMI( QDomNode & node )
             }
             // Put diagram in default predefined folder.
             // @todo pass in the parent folder - it might be a user defined one.
-            Uml::ModelType mt = Model_Utils::convert_DT_MT(pView->type());
-            pView->setFolder(m_root[mt]);
+            Uml::ModelType mt = Model_Utils::convert_DT_MT(pView->umlScene()->type());
+            pView->umlScene()->setFolder(m_root[mt]);
             pView->hide();
             addView( pView );
             emit sigSetStatusbarProgress( ++count );
@@ -2623,20 +2625,20 @@ bool UMLDoc::addUMLView(UMLView * pView )
     }
 
     int i = 0;
-    QString viewName = (QString)pView->name();
+    QString viewName = pView->umlScene()->name();
     QString name = viewName;
-    while (findView(pView->type(), name) != 0) {
+    while ( findView(pView->umlScene()->type(), name) != 0) {
         name = viewName + '_' + QString::number(++i);
     }
     if (i) { //If name was modified
-        pView->setName(name);
+        pView->umlScene()->setName(name);
     }
-    Uml::IDType result = assignNewID(pView->getID());
-    pView->setID(result);
+    Uml::IDType result = assignNewID(pView->umlScene()->getID());
+    pView->umlScene()->setID(result);
 
-    pView->activateAfterLoad( true );
-    pView->endPartialWidgetPaste();
-    pView->setOptionState( Settings::optionState() );
+    pView->umlScene()->activateAfterLoad( true );
+    pView->umlScene()->endPartialWidgetPaste();
+    pView->umlScene()->setOptionState( Settings::optionState() );
     addView(pView);
     setModified(true);
     return true;
@@ -2743,9 +2745,9 @@ void UMLDoc::signalDiagramRenamed(UMLView* view)
     if (view) {
         Settings::OptionState optionState = Settings::optionState();
         if (optionState.generalState.tabdiagrams) {
-            UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(view), view->name() );
+            UMLApp::app()->tabWidget()->setTabText( UMLApp::app()->tabWidget()->indexOf(view), view->umlScene()->name() );
         }
-        emit sigDiagramRenamed( view->getID() );
+        emit sigDiagramRenamed( view->umlScene()->getID() );
     }
     else {
       uError() << "Cannot signal diagram renamed - view is NULL!";
@@ -2798,7 +2800,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
     }
 
     UMLListViewItem::ListViewType type = UMLListViewItem::lvt_Unknown;
-    switch ( view->type() ) {
+    switch ( view->umlScene()->type() ) {
     case Uml::DiagramType::Class:
         type = UMLListViewItem::lvt_Class_Diagram;
         break;
@@ -2843,7 +2845,7 @@ void UMLDoc::slotDiagramPopupMenu(QWidget* umlview, const QPoint& point)
     // DEBUG(DBG_SRC) << "create popup for ListView_Type " << type;
     m_pTabPopupMenu = new ListPopupMenu(UMLApp::app()->mainViewWidget(), type, 0);
     m_pTabPopupMenu->popup(point);
-    connect(m_pTabPopupMenu, SIGNAL(triggered(QAction*)), view, SLOT(slotMenuSelection(QAction*)));
+    connect(m_pTabPopupMenu, SIGNAL(triggered(QAction*)), view->umlScene(), SLOT(slotMenuSelection(QAction*)));
 }
 
 /**

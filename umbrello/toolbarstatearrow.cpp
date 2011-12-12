@@ -17,16 +17,16 @@
 // app includes
 #include "associationwidget.h"
 #include "uml.h"
-#include "umlview.h"
+#include "umlscene.h"
 #include "umlwidget.h"
 
 /**
  * Creates a new ToolBarStateArrow.
  *
- * @param umlView The UMLView to use.
+ * @param umlScene The UMLScene to use.
  */
-ToolBarStateArrow::ToolBarStateArrow(UMLView *umlView)
-  : ToolBarState(umlView)
+ToolBarStateArrow::ToolBarStateArrow(UMLScene *umlScene)
+  : ToolBarState(umlScene)
 {
     init();
 }
@@ -87,7 +87,7 @@ void ToolBarStateArrow::mousePressEmpty()
         m_startPosition = m_pMouseEvent->pos();
 
         for (int i = 0; i < 4; i++) {
-            Q3CanvasLine* line = new Q3CanvasLine(m_pUMLView->canvas());
+            Q3CanvasLine* line = new Q3CanvasLine(m_pUMLScene->canvas());
             line->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(),
                             m_pMouseEvent->x(), m_pMouseEvent->y());
             line->setPen(QPen(QColor("grey"), 0, Qt::DotLine));
@@ -128,7 +128,7 @@ void ToolBarStateArrow::mouseReleaseEmpty()
             delete m_selectionRect.takeFirst();
         m_selectionRect.clear();
     } else if (m_pMouseEvent->button() == Qt::RightButton) {
-        m_pUMLView->setMenu();
+        m_pUMLScene->setMenu();
     }
 }
 
@@ -197,7 +197,7 @@ void ToolBarStateArrow::mouseMoveEmpty()
         line->setPoints(m_startPosition.x(), m_pMouseEvent->y(),
                         m_startPosition.x(), m_startPosition.y());
 
-        m_pUMLView->selectWidgets(m_startPosition.x(), m_startPosition.y(),
+        m_pUMLScene->selectWidgets(m_startPosition.x(), m_startPosition.y(),
                                   m_pMouseEvent->x(), m_pMouseEvent->y());
     }
 }

@@ -15,7 +15,7 @@
 #include <QtCore/QRect>
 
 // forward declarations
-class UMLView;
+class UMLScene;
 class KUrl;
 
 /**
@@ -42,18 +42,18 @@ public:
     virtual ~UMLViewImageExporterModel();
 
     QStringList exportAllViews(const QString &imageType, const KUrl &directory, bool useFolders) const;
-    QString exportView(UMLView* view, const QString &imageType, const KUrl &url) const;
+    QString exportView(UMLScene* scene, const QString &imageType, const KUrl &url) const;
 
 private:
 
-    QString getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders = false) const;
+    QString getDiagramFileName(UMLScene* scene, const QString &imageType, bool useFolders = false) const;
 
     bool prepareDirectory(const KUrl &url) const;
 
-    bool exportViewTo(UMLView* view, const QString &imageType, const QString &fileName) const;
-    bool exportViewToSvg(UMLView* view, const QString &fileName) const;
-    bool exportViewToPixmap(UMLView* view, const QString &imageType, const QString &fileName) const;
-    bool exportViewToEps(UMLView* view, const QString &fileName, bool isEPS) const;
+    bool exportViewTo(UMLScene* scene, const QString &imageType, const QString &fileName) const;
+    bool exportViewToSvg(UMLScene* scene, const QString &fileName) const;
+    bool exportViewToPixmap(UMLScene* scene, const QString &imageType, const QString &fileName) const;
+    bool exportViewToEps(UMLScene* scene, const QString &fileName, bool isEPS) const;
 
     bool fixEPS(const QString &fileName, const QRect& rect) const;
 

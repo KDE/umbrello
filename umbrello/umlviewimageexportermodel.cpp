@@ -37,6 +37,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "umlscene.h"
 
 #define DBG_IEM "UMLViewImageExporterModel"
 
@@ -184,11 +185,12 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
     UMLViewList views = app->document()->viewIterator();
     foreach (UMLView *view , views ) {
         KUrl url = directory;
-        url.addPath(getDiagramFileName(view, imageType, useFolders));
+        url.addPath(getDiagramFileName(view->umlScene(), imageType, useFolders));
 
-        QString returnString = exportView(view, imageType, url);
+        QString returnString = exportView(view->umlScene(), imageType, url);
         if (!returnString.isNull()) {
-            errors.append(view->name() + ": " + returnString);
+            // [PORT]
+            errors.append(view->umlScene()->name() + ": " + returnString);
         }
     }
 
@@ -210,8 +212,12 @@ QStringList UMLViewImageExporterModel::exportAllViews(const QString &imageType, 
  * @return The message error if some problem occurred when exporting, or
  *         QString() if all went fine.
  */
-QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imageType, const KUrl &url) const
+QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &imageType, const KUrl &url) const
 {
+    if (!scene) {
+        return i18n("Empty scene");
+    }
+
     // create the needed directories
     if (!prepareDirectory(url)) {
         return i18n("Can not create directory: %1", url.directory());
@@ -229,14 +235,13 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
         fileName = tmpFile.fileName();
     }
 
-    // check that the diagram isn't empty
-    QRect rect = view->getDiagramRect();
+    QRectF rect = scene->getDiagramRect();
     if (rect.isEmpty()) {
         return i18n("Can not save an empty diagram");
     }
 
     // exporting the view to the file
-    if (!exportViewTo(view, imageType, fileName)) {
+    if (!exportViewTo(scene, imageType, fileName)) {
         return i18n("A problem occurred while saving diagram in %1", fileName);
     }
 
@@ -252,19 +257,25 @@ QString UMLViewImageExporterModel::exportView(UMLView* view, const QString &imag
 
 /**
  * Returns the diagram file name.
- * @param view         the diagram
+ * @param scene        the diagram
  * @param imageType    the image type as file name extension
  * @param useFolders   flag whether to add folder to the file name
  * @return the file name with extension
  */
-QString UMLViewImageExporterModel::getDiagramFileName(UMLView *view, const QString &imageType, bool useFolders /* = false */) const
+QString UMLViewImageExporterModel::getDiagramFileName(UMLScene* scene, const QString &imageType, bool useFolders /* = false */) const
 {
+    if (scene) {
     if (useFolders) {
         qApp->processEvents();  //:TODO: still needed ???
-        return Model_Utils::treeViewBuildDiagramName(view->getID());
+            return Model_Utils::treeViewBuildDiagramName(scene->getID());
     }
     else {
-        return view->name() + '.' + imageType.toLower();
+            return scene->name() + '.' + imageType.toLower();;
+        }
+    }
+    else {
+        uWarning() << "Scene is null!";
+        return QString();
     }
 }
 
@@ -299,30 +310,35 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
 }
 
 /**
- * Exports the view to the file 'fileName' as the specified type.
+ * Exports the scene to the file 'fileName' as the specified type.
  *
- * @param view The view to export.
- * @param imageType The type of the image the view will be exported to.
+ * @param scene     The scene to export.
+ * @param imageType The type of the image the scene will be exported to.
  * @param fileName The name of the file where the image will be saved.
  * @return True if the operation was successful,
  *         false if a problem occurred while exporting.
  */
-bool UMLViewImageExporterModel::exportViewTo(UMLView* view, const QString &imageType, const QString &fileName) const
+bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &imageType, const QString &fileName) const
 {
+    if (!scene) {
+        uWarning() << "Scene is null!";
+        return false;
+    }
+
     // remove 'blue squares' from exported picture.
-    view->clearSelected();
+    scene->clearSelected();
 
     QString imageMimeType = UMLViewImageExporterModel::imageTypeToMimeType(imageType);
     if (imageMimeType == "image/x-eps") {
-        if (!exportViewToEps(view, fileName, true)) {
+        if (!exportViewToEps(scene, fileName, true)) {
             return false;
         }
     } else if (imageMimeType == "image/svg+xml") {
-        if (!exportViewToSvg(view, fileName)) {
+        if (!exportViewToSvg(scene, fileName)) {
             return false;
         }
     } else {
-        if (!exportViewToPixmap(view, imageType, fileName)) {
+        if (!exportViewToPixmap(scene, imageType, fileName)) {
             return false;
         }
     }
@@ -333,15 +349,20 @@ bool UMLViewImageExporterModel::exportViewTo(UMLView* view, const QString &image
 /**
  * Exports the view to the file 'fileName' as EPS.
  *
- * @param view The view to export.
+ * @param scene    The scene to export.
  * @param fileName The name of the file where the image will be saved.
  * @param isEPS The file is an eps file and needs adjusting
  *              of the eps bounding box values.
  * @return True if the operation was successful,
  *         false if a problem occurred while exporting.
  */
-bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fileName, bool isEPS) const
+bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &fileName, bool isEPS) const
 {
+    if (!scene) {
+        uWarning() << "Scene is null!";
+        return false;
+    }
+
     bool exportSuccessful = true;
 
     // print the image to a normal postscript file,
@@ -369,11 +390,11 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
     // make sure the widget sizes will be according to the
     // actually used printer font, important for getDiagramRect()
     // and the actual painting
-    view->forceUpdateWidgetFontMetrics(painter);
+    scene->forceUpdateWidgetFontMetrics(painter);
 
-    QRect rect = view->getDiagramRect();
+    QRect rect = scene->getDiagramRect();
     painter->translate(-rect.x(), -rect.y());
-    view->getDiagram(rect, *painter);
+    scene->getDiagram(rect, *painter);
 
     int resolution = printer->resolution();
 
@@ -387,7 +408,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLView* view, const QString &fi
         exportSuccessful = fixEPS(fileName, rect);
     }
     // next painting will most probably be to a different device (i.e. the screen)
-    view->forceUpdateWidgetFontMetrics(0);
+    scene->forceUpdateWidgetFontMetrics(0);
 
     return exportSuccessful;
 }
@@ -448,16 +469,20 @@ bool UMLViewImageExporterModel::fixEPS(const QString &fileName, const QRect& rec
 /**
  * Exports the view to the file 'fileName' as SVG.
  *
- * @param view The view to export.
+ * @param scene    The scene to export.
  * @param fileName The name of the file where the image will be saved.
  * @return True if the operation was successful,
  *         false if a problem occurred while exporting.
  */
-bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fileName) const
+bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &fileName) const
 {
+    if (!scene) {
+        uWarning() << "Scene is null!";
+        return false;
+    }
+
     bool exportSuccessful;
-    QRect rect = view->getDiagramRect();
-    DEBUG(DBG_IEM) << rect;
+    QRect rect = scene->getDiagramRect();
 
     QSvgGenerator generator;
     generator.setFileName(fileName);
@@ -468,17 +493,17 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fi
     // make sure the widget sizes will be according to the
     // actually used printer font, important for getDiagramRect()
     // and the actual painting
-    view->forceUpdateWidgetFontMetrics(&painter);
+    scene->forceUpdateWidgetFontMetrics(&painter);
 
     painter.translate(-rect.x(),-rect.y());
-    view->getDiagram(rect, painter);
+    scene->getDiagram(rect, painter);
     painter.end();
 
     //FIXME: Determine the status of svg generation.
     exportSuccessful = true;
 
     // next painting will most probably be to a different device (i.e. the screen)
-    view->forceUpdateWidgetFontMetrics(0);
+    scene->forceUpdateWidgetFontMetrics(0);
 
     DEBUG(DBG_IEM) << "saving to file " << fileName << " successful=" << exportSuccessful;
     return exportSuccessful;
@@ -488,18 +513,23 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLView* view, const QString &fi
  * Exports the view to the file 'fileName' as a pixmap of the specified type.
  * The valid types are those supported by QPixmap save method.
  *
- * @param view The view to export.
+ * @param scene     The scene to export.
  * @param imageType The type of the image the view will be exported to.
  * @param fileName The name of the file where the image will be saved.
  * @return True if the operation was successful,
  *         false if a problem occurred while exporting.
  */
-bool UMLViewImageExporterModel::exportViewToPixmap(UMLView* view, const QString &imageType, const QString &fileName) const
+bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QString &imageType, const QString &fileName) const
 {
+    if (!scene) {
+        uWarning() << "Scene is null!";
+        return false;
+    }
+
     bool exportSuccessful;
-    QRect rect = view->getDiagramRect();
+    QRect rect = scene->getDiagramRect();
     QPixmap diagram(rect.width(), rect.height());
-    view->getDiagram(rect, diagram);
+    scene->getDiagram(rect, diagram);
     exportSuccessful = diagram.save(fileName, qPrintable(imageType.toUpper()));
 
     DEBUG(DBG_IEM) << "saving to file " << fileName << " , imageType=" << imageType << " successful=" << exportSuccessful;

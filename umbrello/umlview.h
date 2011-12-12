@@ -50,6 +50,7 @@ class QHideEvent;
 class QMouseEvent;
 class QPrinter;
 class QShowEvent;
+class UMLScene;
 
 /**
  * UMLView instances represent diagrams.
@@ -76,8 +77,8 @@ public:
      * TODO: Check if we should pass an UMLScene instead of an UMLView
      *       at places where we see "view->umlScene()->doSomething()".
      */
-    UMLView* umlScene() {
-        return this;
+    UMLScene* umlScene() {
+        return m_scene;
     }
 
     // Accessors and other methods dealing with loaded/saved data
@@ -1154,6 +1155,10 @@ protected:
     bool m_bStartedCut;
 
 private:
+    /**
+     * The folder in which this UMLView is contained
+     */
+    UMLScene *m_scene;
     /**
      * The folder in which this UMLView is contained
      */

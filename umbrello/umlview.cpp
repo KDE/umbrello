@@ -131,6 +131,7 @@ UMLView::UMLView(UMLFolder *parentFolder)
     m_nCanvasWidth = UMLView::defaultCanvasSize;
     m_nCanvasHeight = UMLView::defaultCanvasSize;
     m_nCollaborationId = 0;
+    m_scene = reinterpret_cast<UMLScene*>(this);
 
     // Initialize other data
     //m_AssociationList.setAutoDelete( true );
@@ -150,7 +151,7 @@ UMLView::UMLView(UMLFolder *parentFolder)
     m_pIDChangesLog = 0;
     m_pMenu = 0;
 
-    m_pImageExporter = new UMLViewImageExporter(this);
+    m_pImageExporter = new UMLViewImageExporter(m_scene);
 
     //setup graphical items
     setCanvas(new UMLViewCanvas(this,m_Options));
@@ -177,7 +178,7 @@ UMLView::UMLView(UMLFolder *parentFolder)
     // Create the ToolBarState factory. This class is not a singleton, because it
     // needs a pointer to this object.
     m_pToolBarStateFactory = new ToolBarStateFactory();
-    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, this);
+    m_pToolBarState = m_pToolBarStateFactory->getState(WorkToolBar::tbb_Arrow, m_scene);
     m_pDoc = UMLApp::app()->document();
     m_pFolder = parentFolder;
 
@@ -424,7 +425,7 @@ void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome)
 void UMLView::slotToolBarChanged(int c)
 {
     m_pToolBarState->cleanBeforeChange();
-    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c, this);
+    m_pToolBarState = m_pToolBarStateFactory->getState((WorkToolBar::ToolBar_Buttons)c, m_scene);
     m_pToolBarState->init();
 
     m_bPaste = false;

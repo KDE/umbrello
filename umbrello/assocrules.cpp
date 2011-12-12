@@ -23,6 +23,7 @@
 #include "activitywidget.h"
 #include "signalwidget.h"
 #include "forkjoinwidget.h"
+#include "umlscene.h"
 
 // kde includes
 #include <typeinfo>
@@ -71,7 +72,7 @@ bool AssocRules::allowAssociation( Uml::AssociationType assocType, UMLWidget * w
     if( !bValid ) {
         // Special case: Subsystem realizes interface in component diagram
         UMLView *view = UMLApp::app()->currentView();
-        if (view && view->type() == Uml::DiagramType::Component &&
+        if (view && view->umlScene()->type() == Uml::DiagramType::Component &&
             widgetType == WidgetBase::wt_Package &&
             (assocType == Uml::AssociationType::Generalization || assocType == Uml::AssociationType::Realization))
             bValid = true;

@@ -24,6 +24,7 @@
 #include "umlobject.h"
 #include "umlview.h"
 #include "umlwidget.h"
+#include "umlscene.h"
 
 /**
  * Constructor.
@@ -115,11 +116,11 @@ void DocWindow::updateDocumentation( bool clear, bool startup )
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
         // modified is set, we get another undo/redo backup point
-        if ( (startup == false) && (m_pDocTE->toPlainText() != m_pUMLView->getDoc()) ) {
+        if ( startup == false && m_pDocTE->toPlainText() != m_pUMLView->umlScene()->getDoc() ) {
             mark_modified = true;
         }
 
-        m_pUMLView->setDoc( m_pDocTE->toPlainText() );
+        m_pUMLView->umlScene()->setDoc( m_pDocTE->toPlainText() );
     } else if ( m_pUMLWidget ) {
         // the file is marked modified, if the documentation differs
         // we don't do this on startup/load of a xmi file, because every time
@@ -183,7 +184,7 @@ void DocWindow::showDocumentation( UMLView * view, bool overwrite )
         return;
     }
     m_pUMLView = view;
-    m_pDocTE->setText( m_pUMLView->getDoc() );
+    m_pDocTE->setText( m_pUMLView->umlScene()->getDoc() );
 }
 
 /**

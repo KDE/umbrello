@@ -40,7 +40,7 @@ class ToolBarStateAssociation : public ToolBarStatePool
     Q_OBJECT
 public:
 
-    ToolBarStateAssociation(UMLView *umlView);
+    ToolBarStateAssociation(UMLScene *umlScene);
     virtual ~ToolBarStateAssociation();
 
     virtual void init();

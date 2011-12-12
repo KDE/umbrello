@@ -15,7 +15,7 @@
 #include "umlviewimageexportermodel.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "umlview.h"
+#include "umlscene.h"
 
 //kde include files
 #include <klocale.h>
@@ -32,9 +32,9 @@
 /**
  * Constructor for UMLViewImageExporter.
  */
-UMLViewImageExporter::UMLViewImageExporter(UMLView* view)
+UMLViewImageExporter::UMLViewImageExporter(UMLScene* scene)
 {
-    m_view = view;
+    m_scene = scene;
     m_imageMimeType = UMLApp::app()->imageMimeType();
 }
 
@@ -69,7 +69,7 @@ void UMLViewImageExporter::exportView()
 
     // export the view
     app->document()->writeToStatusBar(i18n("Exporting view..."));
-    QString error = UMLViewImageExporterModel().exportView(m_view,
+    QString error = UMLViewImageExporterModel().exportView(m_scene,
                             UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType), m_imageURL);
     if (!error.isNull()) {
         KMessageBox::error(app, i18n("An error happened when exporting the image:\n") + error);
@@ -125,7 +125,7 @@ bool UMLViewImageExporter::getParametersFromUser()
 
     // configure & show the file dialog
     KUrl url;
-    QPointer<KFileDialog> dialog = new KFileDialog(url, QString(), m_view);
+    QPointer<KFileDialog> dialog = new KFileDialog(url, QString(), UMLApp::app());
     prepareFileDialog(dialog);
     dialog->exec();
 
@@ -133,7 +133,7 @@ bool UMLViewImageExporter::getParametersFromUser()
         success = false;
     }
     else {
-        m_view->clearSelected();   // Thanks to Peter Soetens for the idea
+        m_scene->clearSelected();   // Thanks to Peter Soetens for the idea
 
         // update image url and mime type
         m_imageMimeType = dialog->currentMimeFilter();
@@ -174,7 +174,7 @@ void UMLViewImageExporter::prepareFileDialog(KFileDialog *fileDialog)
         directory.setPath(docURL.directory());
 
         fileDialog->setUrl(directory);
-        fileDialog->setSelection(m_view->name() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
+        fileDialog->setSelection(m_scene->name() + '.' + UMLViewImageExporterModel::mimeTypeToImageType(m_imageMimeType));
     } else {
         fileDialog->setUrl(m_imageURL);
         fileDialog->setSelection(m_imageURL.fileName());

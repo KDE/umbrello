@@ -14,19 +14,19 @@
 #include <QtCore/QString>
 #include <kurl.h>
 
-class UMLView;
+class UMLScene;
 class KFileDialog;
 
 /**
- * Exports the view as an image.
+ * Exports the scene as an image.
  * This class takes care of asking the user the needed parameters and
- * then exports the view.
+ * then exports the scene.
  */
 class UMLViewImageExporter
 {
 public:
 
-    UMLViewImageExporter(UMLView* view);
+    UMLViewImageExporter(UMLScene* scene);
     virtual ~UMLViewImageExporter();
 
     void exportView();
@@ -36,7 +36,7 @@ public:
 
 private:
 
-    UMLView* m_view;           ///< The view to export.
+    UMLScene* m_scene;          ///< The scene to export.
     KUrl     m_imageURL;       ///< The URL used to save the image.
     QString  m_imageMimeType;  ///< The mime type used to save the image.
 

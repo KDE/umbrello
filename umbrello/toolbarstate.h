@@ -20,7 +20,7 @@ class QMouseEvent;
 class AssociationWidget;
 class MessageWidget;
 class FloatingDashLineWidget;
-class UMLView;
+class UMLScene;
 class UMLWidget;
 
 /**
@@ -90,7 +90,7 @@ public slots:
 
 protected:
 
-    ToolBarState(UMLView *umlView);
+    ToolBarState(UMLScene *umlScene);
 
     virtual void setCurrentElement();
 
@@ -121,12 +121,12 @@ protected:
     MessageWidget* getMessageAt(const QPoint& pos);
     FloatingDashLineWidget* getFloatingLineAt(const QPoint& pos);
 
-    UMLView* m_pUMLView;  ///< The UMLView.
+    UMLScene* m_pUMLScene;  ///< The UMLScene.
 
     /**
      * The mouse event currently in use.
      * This event is the equivalent of the received event after transforming it
-     * using the inverse world matrix in the UMLView.
+     * using the inverse world matrix in the UMLScene.
      */
     QMouseEvent* m_pMouseEvent;
 

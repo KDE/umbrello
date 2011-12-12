@@ -52,7 +52,7 @@ class ToolBarStateMessages : public ToolBarStatePool
     Q_OBJECT
 public:
 
-    ToolBarStateMessages(UMLView *umlView);
+    ToolBarStateMessages(UMLScene *umlScene);
     virtual ~ToolBarStateMessages();
 
     virtual void init();

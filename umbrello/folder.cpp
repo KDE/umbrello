@@ -19,6 +19,7 @@
 #include "optionstate.h"
 #include "object_factory.h"
 #include "model_utils.h"
+#include "umlscene.h"
 
 // kde includes
 #include <klocale.h>
@@ -132,7 +133,7 @@ void UMLFolder::activateViews()
     }
 
     foreach (UMLView* v, m_diagrams) {
-        v->activateAfterLoad();
+        v->umlScene()->activateAfterLoad();
     }
     // Make sure we have a treeview item for each diagram.
     // It may happen that we are missing them after switching off tabbed widgets.
@@ -151,7 +152,7 @@ void UMLFolder::activateViews()
 UMLView *UMLFolder::findView(Uml::IDType id)
 {
     foreach (UMLView* v, m_diagrams ) {
-        if (v->getID() == id) {
+        if (v->umlScene()->getID() == id) {
             return v;
         }
     }
@@ -180,7 +181,7 @@ UMLView *UMLFolder::findView(Uml::IDType id)
 UMLView *UMLFolder::findView(Uml::DiagramType type, const QString &name, bool searchAllScopes)
 {
     foreach (UMLView* v, m_diagrams) {
-        if (v->type() == type && v->name() == name) {
+        if (v->umlScene()->type() == type && v->umlScene()->name() == name) {
             return v;
         }
     }
@@ -226,7 +227,7 @@ void UMLFolder::removeAllViews()
 
     foreach (UMLView* v, m_diagrams ) {
         // TODO ------------------ check this code - bad: calling back to UMLDoc::removeView()
-        v->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
+        v->umlScene()->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
         // from a view, it also causes any UMLAssociations that lack parent
         // association widgets (but once had them) to remove themselves from
         // this document.
@@ -278,7 +279,7 @@ void UMLFolder::saveContents(QDomDocument& qDoc, QDomElement& qElement)
         QDomElement diagramsElement = qDoc.createElement("diagrams");
 
         foreach (UMLView* pView, m_diagrams ) {
-            pView->saveToXMI(qDoc, diagramsElement);
+            pView->umlScene()->saveToXMI(qDoc, diagramsElement);
         }
         QDomElement extension = qDoc.createElement("XMI.extension");
         extension.setAttribute("xmi.extender", "umbrello");
@@ -376,8 +377,8 @@ bool UMLFolder::loadDiagramsFromXMI(QDomNode& diagrams)
             continue;
         }
         UMLView * pView = new UMLView(this);
-        pView->setOptionState(optionState);
-        if (pView->loadFromXMI(diagram)) {
+        pView->umlScene()->setOptionState(optionState);
+        if (pView->umlScene()->loadFromXMI(diagram)) {
             pView->hide();
             umldoc->addView(pView);
         } else {

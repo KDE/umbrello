@@ -27,7 +27,7 @@ class ToolBarStateOther : public ToolBarStatePool
     Q_OBJECT
 public:
 
-    ToolBarStateOther(UMLView *umlView);
+    ToolBarStateOther(UMLScene *umlScene);
     virtual ~ToolBarStateOther();
 
 private:

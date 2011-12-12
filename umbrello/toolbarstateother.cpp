@@ -35,6 +35,7 @@
 #include "objectwidget.h"
 #include "objectnodewidget.h"
 #include "pinwidget.h"
+#include "umlscene.h"
 #include "model_utils.h"  // for ENUM_NAMES only
 
 #include <QtGui/QMouseEvent>
@@ -45,8 +46,8 @@ using namespace Uml;
  * Creates a new ToolBarStateOther.
  * @param umlView The UMLView to use.
  */
-ToolBarStateOther::ToolBarStateOther(UMLView *umlView)
-  : ToolBarStatePool(umlView)
+ToolBarStateOther::ToolBarStateOther(UMLScene *umlScene)
+  : ToolBarStatePool(umlScene)
 {
 }
 
@@ -82,11 +83,11 @@ void ToolBarStateOther::mouseReleaseEmpty()
         if (!newWidget()) {
             // Is UMLObject?
 
-            m_pUMLView->setCreateObject(true);
+            m_pUMLScene->setCreateObject(true);
             Object_Factory::createUMLObject(getObjectType());
         }
 
-        m_pUMLView->resizeCanvasToItems();
+        m_pUMLScene->resizeCanvasToItems();
     }
 }
 
@@ -135,81 +136,81 @@ bool ToolBarStateOther::newWidget()
 
     switch (getButton()) {
         case WorkToolBar::tbb_Note:
-            umlWidget = new NoteWidget(m_pUMLView, NoteWidget::Normal);
+            umlWidget = new NoteWidget(m_pUMLScene, NoteWidget::Normal);
             break;
 
         case WorkToolBar::tbb_Box:
-            umlWidget = new BoxWidget(m_pUMLView);
+            umlWidget = new BoxWidget(m_pUMLScene);
             break;
 
         case WorkToolBar::tbb_Text:
-            umlWidget = new FloatingTextWidget(m_pUMLView, Uml::TextRole::Floating, "");
+            umlWidget = new FloatingTextWidget(m_pUMLScene, Uml::TextRole::Floating, "");
             break;
 
         // Activity buttons
         case WorkToolBar::tbb_Initial_Activity:
-            umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Initial);
+            umlWidget = new ActivityWidget(m_pUMLScene, ActivityWidget::Initial);
             break;
 
         case WorkToolBar::tbb_Activity:
-            umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Normal);
+            umlWidget = new ActivityWidget(m_pUMLScene, ActivityWidget::Normal);
             break;
 
         case WorkToolBar::tbb_End_Activity:
-            umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::End);
+            umlWidget = new ActivityWidget(m_pUMLScene, ActivityWidget::End);
             break;
 
         case WorkToolBar::tbb_Final_Activity:
-            umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Final);
+            umlWidget = new ActivityWidget(m_pUMLScene, ActivityWidget::Final);
             break;
 
         case WorkToolBar::tbb_Branch:
-            umlWidget = new ActivityWidget(m_pUMLView, ActivityWidget::Branch);
+            umlWidget = new ActivityWidget(m_pUMLScene, ActivityWidget::Branch);
             break;
 
         case WorkToolBar::tbb_Fork:
         case WorkToolBar::tbb_StateFork:
-            umlWidget = new ForkJoinWidget(m_pUMLView);
+            umlWidget = new ForkJoinWidget(m_pUMLScene);
             break;
 
         case WorkToolBar::tbb_Initial_State:
-            umlWidget = new StateWidget(m_pUMLView, StateWidget::Initial);
+            umlWidget = new StateWidget(m_pUMLScene, StateWidget::Initial);
             break;
 
         case WorkToolBar::tbb_State:
-            umlWidget = new StateWidget(m_pUMLView, StateWidget::Normal);
+            umlWidget = new StateWidget(m_pUMLScene, StateWidget::Normal);
             break;
 
         case WorkToolBar::tbb_End_State:
-            umlWidget = new StateWidget(m_pUMLView, StateWidget::End);
+            umlWidget = new StateWidget(m_pUMLScene, StateWidget::End);
             break;
 
         case WorkToolBar::tbb_Send_Signal:
-            umlWidget = new SignalWidget(m_pUMLView, SignalWidget::Send);
+            umlWidget = new SignalWidget(m_pUMLScene, SignalWidget::Send);
             break;
 
         case WorkToolBar::tbb_Accept_Signal:
-            umlWidget = new SignalWidget(m_pUMLView, SignalWidget::Accept);
+            umlWidget = new SignalWidget(m_pUMLScene, SignalWidget::Accept);
             break;
 
         case WorkToolBar::tbb_Accept_Time_Event:
-            umlWidget = new SignalWidget(m_pUMLView, SignalWidget::Time);
+            umlWidget = new SignalWidget(m_pUMLScene, SignalWidget::Time);
             break;
 
         case WorkToolBar::tbb_Region:
-            umlWidget = new RegionWidget(m_pUMLView);
+            umlWidget = new RegionWidget(m_pUMLScene);
             break;
 
         case WorkToolBar::tbb_Seq_Combined_Fragment:
-            umlWidget = new CombinedFragmentWidget(m_pUMLView);
+            umlWidget = new CombinedFragmentWidget(m_pUMLScene);
             break;
 
         case WorkToolBar::tbb_Object_Node:
-            umlWidget = new ObjectNodeWidget(m_pUMLView, ObjectNodeWidget::Data);
+            umlWidget = new ObjectNodeWidget(m_pUMLScene, ObjectNodeWidget::Data);
             break;
 
         case WorkToolBar::tbb_PrePostCondition:
-            umlWidget = new NoteWidget(m_pUMLView, NoteWidget::Normal);
+            umlWidget = new NoteWidget(m_pUMLScene, NoteWidget::Normal);
             break;
 
         default:
@@ -283,7 +284,7 @@ bool ToolBarStateOther::newWidget()
 
     // Create the widget. Some setup functions can remove the widget.
     if (umlWidget != 0) {
-        m_pUMLView->setupNewWidget(umlWidget);
+        m_pUMLScene->setupNewWidget(umlWidget);
     }
 
     return true;

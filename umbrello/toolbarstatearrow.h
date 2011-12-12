@@ -33,7 +33,7 @@ class ToolBarStateArrow : public ToolBarState
     Q_OBJECT
 public:
 
-    ToolBarStateArrow(UMLView *umlView);
+    ToolBarStateArrow(UMLScene *umlScene);
     virtual ~ToolBarStateArrow();
 
     virtual void init();

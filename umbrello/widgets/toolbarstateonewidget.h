@@ -34,7 +34,7 @@ public:
      *
      * @param umlView The UMLView to use.
      */
-    ToolBarStateOneWidget(UMLView *umlView);
+    ToolBarStateOneWidget(UMLScene *umlScene);
 
     /**
      * Destroys this ToolBarStateOneWidget.
@@ -125,7 +125,7 @@ protected:
      */
     UMLWidget* m_firstObject;
 
-    UMLView * m_umlView;
+    UMLScene * m_pUMLScene;
     /**
      * If there is a current widget, it is true if the press event happened on
      * the line of an object, or false if it happened on a normal UMLWidget.

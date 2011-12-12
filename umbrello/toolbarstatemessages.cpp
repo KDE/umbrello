@@ -19,6 +19,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlview.h"
+#include "umlscene.h"
 
 // kde includes
 #include <klocale.h>
@@ -30,10 +31,10 @@
 /**
  * Creates a new ToolBarStateMessages.
  *
- * @param umlView The UMLView to use.
+ * @param umlScene The UMLScene to use.
  */
-ToolBarStateMessages::ToolBarStateMessages(UMLView *umlView)
-  : ToolBarStatePool(umlView)
+ToolBarStateMessages::ToolBarStateMessages(UMLScene *umlScene)
+  : ToolBarStatePool(umlScene)
 {
     m_firstObject = 0;
     m_messageLine = 0;
@@ -111,7 +112,7 @@ void ToolBarStateMessages::setCurrentElement()
 {
     m_isObjectWidgetLine = false;
 
-    ObjectWidget* objectWidgetLine = m_pUMLView->onWidgetLine(m_pMouseEvent->pos());
+    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->pos());
     if (objectWidgetLine) {
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
@@ -122,7 +123,7 @@ void ToolBarStateMessages::setCurrentElement()
     //However, the applied patch doesn't seem to be necessary no more, so it was removed
     //The widgets weren't got from UMLView, but from a method in this class similarto the
     //one in UMLView but containing special code to handle the zoom
-    UMLWidget *widget = m_pUMLView->widgetAt(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->pos());
     if (widget) {
         setCurrentWidget(widget);
         return;
@@ -179,10 +180,10 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         xclick = m_pMouseEvent->x();
         yclick = m_pMouseEvent->y();
 
-        MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,xclick, yclick, msgType);
+        MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,xclick, yclick, msgType);
 
         cleanMessage();
-        m_pUMLView->getMessageList().append(message);
+        m_pUMLScene->getMessageList().append(message);
         xclick = 0;
         yclick = 0;
 
@@ -191,7 +192,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         //Shouldn't it cancel also the whole creation?
         ft->showOperationDialog();
         message->setTextPosition();
-        m_pUMLView->getWidgetList().append(ft);
+        m_pUMLScene->getWidgetList().append(ft);
 
         UMLApp::app()->document()->setModified();
     }
@@ -200,13 +201,13 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         xclick = m_pMouseEvent->x();
         yclick = m_pMouseEvent->y();
 
-        m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
+        m_messageLine = new Q3CanvasLine(m_pUMLScene->canvas());
         m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
-        m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
+        m_messageLine->setPen(QPen(m_pUMLScene->getLineColor(), m_pUMLScene->getLineWidth(), Qt::DashLine));
 
         m_messageLine->setVisible(true);
 
-        m_pUMLView->viewport()->setMouseTracking(true);
+        m_pUMLScene->viewport()->setMouseTracking(true);
     }
     else {
         cleanMessage();
@@ -226,9 +227,9 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
     Uml::Sequence_Message_Type msgType = getMessageType();
 
     if (msgType ==  Uml::sequence_message_found && xclick!=0 && yclick!=0) {
-        MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,xclick, yclick, msgType);
+        MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,xclick, yclick, msgType);
         cleanMessage();
-        m_pUMLView->getMessageList().append(message);
+        m_pUMLScene->getMessageList().append(message);
 
         xclick = 0;
         yclick = 0;
@@ -238,18 +239,18 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         //Shouldn't it cancel also the whole creation?
         ft->showOperationDialog();
         message->setTextPosition();
-        m_pUMLView->getWidgetList().append(ft);
+        m_pUMLScene->getWidgetList().append(ft);
 
         UMLApp::app()->document()->setModified();
     }
     else {
-        m_messageLine = new Q3CanvasLine(m_pUMLView->canvas());
+        m_messageLine = new Q3CanvasLine(m_pUMLScene->canvas());
         m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
-        m_messageLine->setPen(QPen(m_pUMLView->getLineColor(), m_pUMLView->getLineWidth(), Qt::DashLine));
+        m_messageLine->setPen(QPen(m_pUMLScene->getLineColor(), m_pUMLScene->getLineWidth(), Qt::DashLine));
 
         m_messageLine->setVisible(true);
 
-        m_pUMLView->viewport()->setMouseTracking(true);
+        m_pUMLScene->viewport()->setMouseTracking(true);
     }
 }
 
@@ -281,19 +282,19 @@ void ToolBarStateMessages::setSecondWidget(ObjectWidget* secondObject, MessageTy
         y = m_messageLine->startPoint().y();
     }
 
-    MessageWidget* message = new MessageWidget(m_pUMLView, m_firstObject,
+    MessageWidget* message = new MessageWidget(m_pUMLScene, m_firstObject,
                                                secondObject, y, msgType);
 
     cleanMessage();
 
-    m_pUMLView->getMessageList().append(message);
+    m_pUMLScene->getMessageList().append(message);
 
     FloatingTextWidget *ft = message->floatingTextWidget();
     //TODO cancel doesn't cancel the creation of the message, only cancels setting an operation.
     //Shouldn't it cancel also the whole creation?
     ft->showOperationDialog();
     message->setTextPosition();
-    m_pUMLView->getWidgetList().append(ft);
+    m_pUMLScene->getWidgetList().append(ft);
 
     UMLApp::app()->document()->setModified();
 }

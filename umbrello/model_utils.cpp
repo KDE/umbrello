@@ -30,6 +30,7 @@
 #include "uml.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
+#include "umlscene.h"
 #include "umlview.h"
 #include "codegenerator.h"
 

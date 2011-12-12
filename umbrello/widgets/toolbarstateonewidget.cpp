@@ -21,6 +21,7 @@
 #include "objectwidget.h"
 #include "activitywidget.h"
 #include "regionwidget.h"
+#include "umlscene.h"
 #include "umlwidget.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -34,10 +35,10 @@
 
 using namespace Uml;
 
-ToolBarStateOneWidget::ToolBarStateOneWidget(UMLView *umlView)
-  : ToolBarStatePool(umlView)
+ToolBarStateOneWidget::ToolBarStateOneWidget(UMLScene *umlScene)
+  : ToolBarStatePool(umlScene)
 {
-    m_umlView = umlView;
+    m_pUMLScene = umlScene;
     m_firstObject = 0;
 }
 
@@ -68,14 +69,14 @@ void ToolBarStateOneWidget::slotWidgetRemoved(UMLWidget* widget)
 void ToolBarStateOneWidget::setCurrentElement()
 {
     m_isObjectWidgetLine = false;
-    ObjectWidget* objectWidgetLine = m_pUMLView->onWidgetLine(m_pMouseEvent->pos());
+    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->pos());
     if (objectWidgetLine) {
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
         return;
     }
 
-    UMLWidget *widget = m_pUMLView->widgetAt(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->pos());
     if (widget) {
         setCurrentWidget(widget);
         return;
@@ -126,19 +127,19 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
     UMLWidget * umlwidget = NULL;
     //m_pUMLView->viewport()->setMouseTracking(true);
     if (getWidgetType() == WidgetBase::wt_Precondition) {
-        umlwidget = new PreconditionWidget(m_pUMLView, static_cast<ObjectWidget*>(m_firstObject));
+        umlwidget = new PreconditionWidget(m_pUMLScene, static_cast<ObjectWidget*>(m_firstObject));
 
         Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
             // Create the widget. Some setup functions can remove the widget.
     }
 
     if (getWidgetType() == WidgetBase::wt_Pin) {
-        umlwidget = new PinWidget(m_pUMLView, m_firstObject);
+        umlwidget = new PinWidget(m_pUMLScene, m_firstObject);
             // Create the widget. Some setup functions can remove the widget.
     }
 
     if (umlwidget != NULL) {
-            m_pUMLView->setupNewWidget(umlwidget);
+            m_pUMLScene->setupNewWidget(umlwidget);
     }
 
 }
