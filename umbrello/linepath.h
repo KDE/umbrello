@@ -12,11 +12,12 @@
 #define LINEPATH_H
 
 #include "basictypes.h"
+#include "umlscene.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QPoint>
-#include <q3canvas.h>
+#include <UMLViewCanvas.h>
 
 /* how many pixels a user could click around a point */
 #define POINT_DELTA 5
@@ -28,8 +29,8 @@ class QDomElement;
 class QPainter;
 
 // typedefs
-typedef QList<Q3CanvasLine*> LineList;
-typedef QList<Q3CanvasRectangle*> RectList;
+typedef QList<UMLSceneLine*> LineList;
+typedef QList<UMLSceneRectangle*> RectList;
 
 /**
  * @author Paul Hensgen
@@ -103,10 +104,10 @@ protected:
      * We can't use QCanvasEllipse directly for this because it doesn't
      * use the pen, i.e. QCanvasEllipse only draws filled ellipses.
      */
-    class Circle : public Q3CanvasEllipse
+    class Circle : public UMLSceneEllipse
     {
     public:
-        explicit Circle(Q3Canvas * canvas, int radius = 0);
+        explicit Circle(UMLViewCanvas * canvas, int radius = 0);
         void setRadius(int radius);
         int getRadius() const;
         void setX(int x);
@@ -118,10 +119,10 @@ protected:
     /**
      * Draw the subset Symbol
      */
-    class SubsetSymbol : public Q3CanvasEllipse
+    class SubsetSymbol : public UMLSceneEllipse
     {
     public:
-        explicit SubsetSymbol(Q3Canvas* canvas);
+        explicit SubsetSymbol(UMLViewCanvas* canvas);
 
         /**
          * Sets the Inclination of the Subset Symbol w.r.t horizontal x axis
@@ -137,7 +138,7 @@ protected:
         int inclination;
     };
 
-    Q3Canvas * getScene();
+    UMLViewCanvas * getScene();
 
     Uml::AssociationType getAssocType() const;
 
@@ -177,7 +178,7 @@ protected:
      */
     QPoint m_ArrowPointA, m_ArrowPointB, m_MidPoint, m_EgdePoint;
 
-    Q3CanvasPolygon* m_pClearPoly;  ///< A polygon object to blank out any lines we don't want to see.
+    UMLScenePolygon* m_pClearPoly;  ///< A polygon object to blank out any lines we don't want to see.
     Circle*       m_pCircle;        ///< The transparent circle required by containment associations.
     SubsetSymbol* m_pSubsetSymbol;  ///< The subset notation required by Child to Category associations.
     QPolygon      m_ParallelLines;  ///< Contains the calculated points for the parallel line on a collaboration message to use.

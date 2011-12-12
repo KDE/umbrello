@@ -11,11 +11,12 @@
 #ifndef TOOLBARSTATE_H
 #define TOOLBARSTATE_H
 
+#include "umlscene.h"
+
 #include <QtCore/QEvent>
 #include <QtCore/QObject>
 #include <QtCore/QPoint>
 
-class QMouseEvent;
 
 class AssociationWidget;
 class MessageWidget;
@@ -78,10 +79,10 @@ public:
 
     virtual void cleanBeforeChange();
 
-    virtual void mousePress(QMouseEvent *ome);
-    virtual void mouseRelease(QMouseEvent* ome);
-    virtual void mouseDoubleClick(QMouseEvent* ome);
-    virtual void mouseMove(QMouseEvent* ome);
+    virtual void mousePress(UMLSceneMouseEvent *ome);
+    virtual void mouseRelease(UMLSceneMouseEvent* ome);
+    virtual void mouseDoubleClick(UMLSceneMouseEvent* ome);
+    virtual void mouseMove(UMLSceneMouseEvent* ome);
 
 public slots:
 
@@ -115,7 +116,7 @@ protected:
     virtual AssociationWidget* getCurrentAssociation() const;
     virtual void setCurrentAssociation(AssociationWidget* currentAssociation);
 
-    void setMouseEvent(QMouseEvent* ome, const QEvent::Type &type);
+    void setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &type);
 
     AssociationWidget* getAssociationAt(const QPoint& pos);
     MessageWidget* getMessageAt(const QPoint& pos);
@@ -128,7 +129,7 @@ protected:
      * This event is the equivalent of the received event after transforming it
      * using the inverse world matrix in the UMLScene.
      */
-    QMouseEvent* m_pMouseEvent;
+    UMLSceneMouseEvent* m_pMouseEvent;
 
 private:
 

@@ -12,12 +12,9 @@
 #define TOOLBARSTATEARROW_H
 
 #include "toolbarstate.h"
+#include "umlscene.h"
 
 #include <QtCore/QList>
-#include <QtCore/QPoint>
-
-class UMLView;
-class Q3CanvasLine;
 
 /**
  * Arrow tool for select, move and resize widgets and associations.
@@ -59,7 +56,7 @@ protected:
     /**
      * The selection rectangle that contains the four lines of its borders.
      */
-    QList<Q3CanvasLine *> m_selectionRect;
+    QList<UMLSceneLine *> m_selectionRect;
 
     /**
      * The start position of the selection rectangle.

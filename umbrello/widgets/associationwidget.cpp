@@ -17,7 +17,6 @@
 
 // qt includes
 #include <QtCore/QPointer>
-#include <q3canvas.h>
 #include <QtGui/QRegExpValidator>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QMoveEvent>
@@ -2431,7 +2430,7 @@ void AssociationWidget::removeAssocClassLine()
 void AssociationWidget::createAssocClassLine()
 {
     if (m_pAssocClassLine == NULL)
-        m_pAssocClassLine = new Q3CanvasLine(m_pView->canvas());
+        m_pAssocClassLine = new UMLSceneLine(m_pView->canvas());
     computeAssocClassLine();
     QPen pen(lineColor(), lineWidth(), Qt::DashLine);
     m_pAssocClassLine->setPen(pen);
@@ -3438,9 +3437,9 @@ bool AssociationWidget::onAssocClassLine(const QPoint &point)
 {
     if (m_pAssocClassLine == NULL)
         return false;
-    Q3CanvasItemList list = m_pView->canvas()->collisions(point);
-    Q3CanvasItemList::iterator end(list.end());
-    for (Q3CanvasItemList::iterator item_it(list.begin()); item_it != end; ++item_it) {
+    UMLSceneItemList list = m_pView->canvas()->collisions(point);
+    UMLSceneItemList::iterator end(list.end());
+    for (UMLSceneItemList::iterator item_it(list.begin()); item_it != end; ++item_it) {
         if (*item_it == m_pAssocClassLine)
             return true;
     }

@@ -22,7 +22,6 @@
 #include <QMoveEvent>
 
 class ListPopupMenu;
-class Q3CanvasLine;
 class ClassifierWidget;
 class UMLDoc;
 class UMLView;
@@ -934,9 +933,9 @@ private:
     QPoint m_oldRoleBPoint;
 
     int         m_nLinePathSegmentIndex; ///< anchor for m_pAssocClassLine
-    Q3CanvasLine *m_pAssocClassLine;  ///< used for connecting assoc. class
+    UMLSceneLine *m_pAssocClassLine;  ///< used for connecting assoc. class
     /// selection adornment for the endpoints of the assoc. class connecting line
-    Q3CanvasRectangle *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
+    UMLSceneRectangle *m_pAssocClassLineSel0, *m_pAssocClassLineSel1;
 
     ClassifierWidget *m_pAssocClassWidget;  ///< used if we have an assoc. class
 

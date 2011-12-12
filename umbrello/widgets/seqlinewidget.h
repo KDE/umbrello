@@ -12,7 +12,7 @@
 #ifndef SEQLINEWIDGET_H
 #define SEQLINEWIDGET_H
 
-#include <q3canvas.h>
+#include "umlscene.h"
 
 class UMLView;
 class ObjectWidget;
@@ -22,7 +22,7 @@ class ObjectWidget;
  * @author Paul Hensgen
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class SeqLineWidget : public Q3CanvasLine {
+class SeqLineWidget : public UMLSceneLine {
 public:
     /**
      * Constructor.
@@ -118,8 +118,8 @@ protected:
 
     /// The destruction box.
     struct DestructionBox {
-        Q3CanvasLine * line1;
-        Q3CanvasLine * line2;
+        UMLSceneLine * line1;
+        UMLSceneLine * line2;
         void setLine1Points(QRect rect) {
             line1->setPoints( rect.x(), rect.y(),
                               rect.x() + rect.width(), rect.y() + rect.height() );

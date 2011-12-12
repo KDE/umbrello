@@ -16,9 +16,7 @@
 #include "basictypes.h"
 #include "umlwidgetlist.h"
 #include "messagewidgetlist.h"
-
-// forward declarations
-class Q3CanvasRectangle;
+#include "umlscene.h"
 
 /**
  * General purpose widget utilities.
@@ -44,7 +42,7 @@ UMLWidget* findWidget(Uml::IDType id,
  * @param p   the base point
  * @return    the decoration point
  */
-Q3CanvasRectangle *decoratePoint(const QPoint& p);
+UMLSceneRectangle *decoratePoint(const QPoint& p);
 
 }
 

@@ -11,9 +11,6 @@
 // own header
 #include "toolbarstatearrow.h"
 
-// qt includes
-#include <QtGui/QMouseEvent>
-
 // app includes
 #include "associationwidget.h"
 #include "uml.h"
@@ -87,7 +84,7 @@ void ToolBarStateArrow::mousePressEmpty()
         m_startPosition = m_pMouseEvent->pos();
 
         for (int i = 0; i < 4; i++) {
-            Q3CanvasLine* line = new Q3CanvasLine(m_pUMLScene->canvas());
+            UMLSceneLine* line = new UMLSceneLine(m_pUMLScene->canvas());
             line->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(),
                             m_pMouseEvent->x(), m_pMouseEvent->y());
             line->setPen(QPen(QColor("grey"), 0, Qt::DotLine));
@@ -181,7 +178,7 @@ void ToolBarStateArrow::mouseMoveWidget()
 void ToolBarStateArrow::mouseMoveEmpty()
 {
     if (m_selectionRect.count() == 4) {
-        Q3CanvasLine* line = m_selectionRect.at(0);
+        UMLSceneLine* line = m_selectionRect.at(0);
         line->setPoints(m_startPosition.x(), m_startPosition.y(),
                         m_pMouseEvent->x(), m_startPosition.y());
 

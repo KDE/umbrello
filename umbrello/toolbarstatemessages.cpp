@@ -25,9 +25,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-// qt includes
-#include <QtGui/QMouseEvent>
-
 /**
  * Creates a new ToolBarStateMessages.
  *
@@ -201,7 +198,7 @@ void ToolBarStateMessages::mouseReleaseEmpty()
         xclick = m_pMouseEvent->x();
         yclick = m_pMouseEvent->y();
 
-        m_messageLine = new Q3CanvasLine(m_pUMLScene->canvas());
+        m_messageLine = new UMLSceneLine(m_pUMLScene->canvas());
         m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
         m_messageLine->setPen(QPen(m_pUMLScene->getLineColor(), m_pUMLScene->getLineWidth(), Qt::DashLine));
 
@@ -244,7 +241,7 @@ void ToolBarStateMessages::setFirstWidget(ObjectWidget* firstObject)
         UMLApp::app()->document()->setModified();
     }
     else {
-        m_messageLine = new Q3CanvasLine(m_pUMLScene->canvas());
+        m_messageLine = new UMLSceneLine(m_pUMLScene->canvas());
         m_messageLine->setPoints(m_pMouseEvent->x(), m_pMouseEvent->y(), m_pMouseEvent->x(), m_pMouseEvent->y());
         m_messageLine->setPen(QPen(m_pUMLScene->getLineColor(), m_pUMLScene->getLineWidth(), Qt::DashLine));
 

@@ -11,8 +11,9 @@
 #ifndef UMLVIEWCANVAS_H
 #define UMLVIEWCANVAS_H
 
-#include <q3canvas.h>
 #include "optionstate.h"
+#include <q3canvas.h>
+
 
 /**
  *@author Paul Hensgen

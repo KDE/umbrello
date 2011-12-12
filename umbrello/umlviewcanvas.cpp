@@ -57,7 +57,7 @@ QColor UMLViewCanvas::gridDotColor() const
 void UMLViewCanvas::drawBackground(QPainter & painter, const QRect & clip)
 {
     Q_UNUSED(clip);
-//?    Q3Canvas::drawBackground( painter, clip );
+//?    UMLViewCanvas::drawBackground( painter, clip );
     if( m_pView->getShowSnapGrid() ) {
         painter.setPen( m_gridColor );
         int gridX = m_pView->getSnapX();

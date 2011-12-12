@@ -12,13 +12,13 @@
 #define UMLWIDGET_H
 
 #include <QtCore/QDateTime>
-#include <q3canvas.h>
 #include <QtGui/QFont>
 
 #include "basictypes.h"
 #include "widgetbase.h"
 #include "associationwidgetlist.h"
 #include "optionstate.h"
+#include "umlscene.h"
 
 class UMLWidgetController;
 
@@ -39,7 +39,7 @@ class QFontMetrics;
  * @author  Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class UMLWidget : public WidgetBase, public Q3CanvasRectangle
+class UMLWidget : public WidgetBase, public UMLSceneRectangle
 {
     Q_OBJECT
 public:
@@ -278,35 +278,35 @@ public:
      * Gets the x-coordinate.
      */
     int getX() const {
-        return (int)Q3CanvasItem::x();
+        return (int)UMLSceneItem::x();
     }
 
     /**
      * Gets the y-coordinate.
      */
     int getY() const {
-        return (int)Q3CanvasItem::y();
+        return (int)UMLSceneItem::y();
     }
 
     /**
      * Gets the z-coordinate.
      */
     int getZ() const {
-        return (int)Q3CanvasItem::z();
+        return (int)UMLSceneItem::z();
     }
 
     /**
      * Returns the height of widget.
      */
     int getHeight() const {
-        return Q3CanvasRectangle::height();
+        return UMLSceneRectangle::height();
     }
 
     /**
      * Returns the width of the widget.
      */
     int getWidth() const {
-        return Q3CanvasRectangle::width();
+        return UMLSceneRectangle::width();
     }
 
     /**

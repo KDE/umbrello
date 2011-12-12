@@ -12,7 +12,6 @@
 #include "widget_utils.h"
 
 // qt includes
-#include <q3canvas.h>
 #include <QtGui/QBrush>
 #include <QtGui/QPen>
 
@@ -50,12 +49,12 @@ UMLWidget* findWidget(Uml::IDType id,
     return NULL;
 }
 
-Q3CanvasRectangle *decoratePoint(const QPoint& p)
+UMLSceneRectangle *decoratePoint(const QPoint& p)
 {
     const int SIZE = 4;
     UMLView *currentView = UMLApp::app()->currentView();
-    Q3CanvasRectangle *rect;
-    rect = new Q3CanvasRectangle(p.x() - SIZE / 2,
+    UMLSceneRectangle *rect;
+    rect = new UMLSceneRectangle(p.x() - SIZE / 2,
                                  p.y() - SIZE / 2,
                                  SIZE, SIZE, currentView->canvas());
     rect->setBrush( QBrush(Qt::blue) );

@@ -14,8 +14,6 @@
 #include "basictypes.h"
 #include "toolbarstatepool.h"
 
-class Q3CanvasLine;
-
 /**
  * Association tool to create associations between widgets.
  * With association tool, two widgets are selected clicking with left button on
@@ -79,7 +77,7 @@ private:
      * The association line shown while the first widget is selected and the
      * second one wasn't selected yet.
      */
-    Q3CanvasLine* m_associationLine;
+    UMLSceneLine* m_associationLine;
 
 };
 

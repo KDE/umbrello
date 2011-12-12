@@ -12,6 +12,9 @@
 
 #include "UMLView.h"
 
+#include <QMouseEvent>
+#include <QKeyEvent>
+
 /**
  * UMLScene instances represent diagrams.
  * The UMLScene class inherits from UMLView yet and 
@@ -22,5 +25,21 @@ class UMLScene : public UMLView
 public:
     UMLScene(UMLFolder *parentFolder) : UMLView(parentFolder) {}
 };
+
+/// uml related types - makes it easier to switch to QGraphicsScene types
+// event types
+typedef QMouseEvent UMLSceneMouseEvent;
+typedef QKeyEvent UMLSceneKeyEvent;
+typedef QKeyEvent UMLSceneKeyEvent;
+typedef QHoverEvent UMLSceneHoverEvent;
+typedef QContextMenuEvent UMLSceneContextMenuEvent;
+//typedef QDragDropEvent UMLSceneDragDropEvent;
+
+typedef Q3CanvasLine UMLSceneLine;
+typedef Q3CanvasRectangle UMLSceneRectangle;
+typedef Q3CanvasItem UMLSceneItem;
+typedef Q3CanvasPolygon UMLScenePolygon;
+typedef Q3CanvasEllipse UMLSceneEllipse;
+typedef Q3CanvasItemList UMLSceneItemList;
 
 #endif

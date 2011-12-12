@@ -43,7 +43,7 @@
 using namespace Uml;
 
 UMLWidget::UMLWidget(UMLView * view, UMLObject * o, UMLWidgetController *widgetController /* = 0*/)
-  : WidgetBase(view), Q3CanvasRectangle(view->canvas()),
+  : WidgetBase(view), UMLSceneRectangle(view->canvas()),
     m_pMenu(0), m_menuIsEmbedded(false)
 {
     if (widgetController) {
@@ -60,7 +60,7 @@ UMLWidget::UMLWidget(UMLView * view, UMLObject * o, UMLWidgetController *widgetC
 }
 
 UMLWidget::UMLWidget(UMLView * view, Uml::IDType id /* = Uml::id_None */, UMLWidgetController *widgetController /* = 0*/)
-  : WidgetBase(view), Q3CanvasRectangle(view->canvas()),
+  : WidgetBase(view), UMLSceneRectangle(view->canvas()),
     m_pMenu(0)
 {
     if (widgetController) {
@@ -95,7 +95,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     setY(other.getY());
     m_Assocs = other.m_Assocs;
     m_Font = other.m_Font;
-    Q3CanvasRectangle::setSize(other.width(), other.height());
+    UMLSceneRectangle::setSize(other.width(), other.height());
     m_bUsesDiagramFillColour = other.m_bUsesDiagramFillColour;
     m_bUsesDiagramLineColour = other.m_bUsesDiagramLineColour;
     m_bUsesDiagramLineWidth  = other.m_bUsesDiagramLineWidth;
@@ -805,7 +805,7 @@ void UMLWidget::setX(int x)
     if (!m_bIgnoreSnapToGrid) {
         x = m_pView->snappedX(x);
     }
-    Q3CanvasItem::setX(x);
+    UMLSceneItem::setX(x);
 }
 
 void UMLWidget::setY(int y)
@@ -813,13 +813,13 @@ void UMLWidget::setY(int y)
     if (!m_bIgnoreSnapToGrid) {
         y = m_pView->snappedX(y);
     }
-    Q3CanvasItem::setY(y);
+    UMLSceneItem::setY(y);
 }
 
 void UMLWidget::setZ(int z)
 {
     m_origZ = getZ();
-    Q3CanvasItem::setZ(z);
+    UMLSceneItem::setZ(z);
 }
 
 void UMLWidget::setName(const QString &strName)
@@ -893,7 +893,7 @@ void UMLWidget::setSize(int width, int height)
             height = (numY + 1) * m_pView->getSnapY();
     }
 
-    Q3CanvasRectangle::setSize(width, height);
+    UMLSceneRectangle::setSize(width, height);
 }
 
 void UMLWidget::updateComponentSize()

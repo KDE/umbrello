@@ -17,7 +17,6 @@
 
 // qt includes
 #include <QtXml/QDomDocument>
-#include <q3canvas.h>
 #include <QtGui/QPainter>
 
 // application includes
@@ -29,29 +28,29 @@
 #include "umldoc.h"
 #include "uml.h"
 
-LinePath::Circle::Circle(Q3Canvas * canvas, int radius /* = 0 */)
-        : Q3CanvasEllipse(radius * 2, radius * 2, canvas)
+LinePath::Circle::Circle(UMLViewCanvas * canvas, int radius /* = 0 */)
+        : UMLSceneEllipse(radius * 2, radius * 2, canvas)
 {
 }
 
 void LinePath::Circle::setX(int x)
 {
-    Q3CanvasItem::setX( (double) x );
+    UMLSceneItem::setX( (double) x );
 }
 
 void LinePath::Circle::setY(int y)
 {
-    Q3CanvasItem::setY( (double) y );
+    UMLSceneItem::setY( (double) y );
 }
 
 void LinePath::Circle::setRadius(int radius)
 {
-    Q3CanvasEllipse::setSize(radius * 2, radius * 2);
+    UMLSceneEllipse::setSize(radius * 2, radius * 2);
 }
 
 int LinePath::Circle::getRadius() const
 {
-    return (Q3CanvasEllipse::height() / 2);
+    return (UMLSceneEllipse::height() / 2);
 }
 
 void LinePath::Circle::drawShape(QPainter& p)
@@ -115,10 +114,10 @@ QPoint LinePath::getPoint( int pointIndex ) const
         return QPoint( -1, -1 );
 
     if( pointIndex == count ) {
-        Q3CanvasLine * line = m_LineList.last();
+        UMLSceneLine * line = m_LineList.last();
         return line -> endPoint();
     }
-    Q3CanvasLine * line = m_LineList.at( pointIndex );
+    UMLSceneLine * line = m_LineList.at( pointIndex );
     return line -> startPoint();
 }
 
@@ -136,7 +135,7 @@ bool LinePath::setPoint( int pointIndex, const QPoint &point )
     }
 
     if( pointIndex == count) {
-        Q3CanvasLine * line = m_LineList.last();
+        UMLSceneLine * line = m_LineList.last();
         QPoint p = line -> startPoint();
         line -> setPoints( p.x(), p.y(), point.x(), point.y() );
         moveSelected( pointIndex );
@@ -144,14 +143,14 @@ bool LinePath::setPoint( int pointIndex, const QPoint &point )
         return true;
     }
     if( pointIndex == 0 ) {
-        Q3CanvasLine * line = m_LineList.first();
+        UMLSceneLine * line = m_LineList.first();
         QPoint p = line -> endPoint();
         line -> setPoints( point.x(), point.y(), p.x(), p.y() );
         moveSelected( pointIndex );
         update();
         return true;
     }
-    Q3CanvasLine * line = m_LineList.at( pointIndex  );
+    UMLSceneLine * line = m_LineList.at( pointIndex  );
     QPoint p = line -> endPoint();
     line -> setPoints( point.x(), point.y(), p.x(), p.y() );
     line = m_LineList.at( pointIndex - 1 );
@@ -173,7 +172,7 @@ bool LinePath::isPoint( int pointIndex, const QPoint &point, unsigned short delt
     if ( pointIndex >= count )
         return false;
 
-    Q3CanvasLine * line = m_LineList.at( pointIndex );
+    UMLSceneLine * line = m_LineList.at( pointIndex );
 
     /* check if the given point is the start or end point of the line */
     if ( (
@@ -202,11 +201,11 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point )
     const bool bLoading = UMLApp::app()->document()->loading();
 
     if( count == 1 || pointIndex == 1) {
-        Q3CanvasLine * first = m_LineList.first();
+        UMLSceneLine * first = m_LineList.first();
         QPoint sp = first -> startPoint();
         QPoint ep = first -> endPoint();
         first -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
-        Q3CanvasLine * line = new Q3CanvasLine( getScene() );
+        UMLSceneLine * line = new UMLSceneLine( getScene() );
         line -> setZ( -2 );
         line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
         line -> setPen( getPen() );
@@ -217,11 +216,11 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point )
         return true;
     }
     if( count + 1 == pointIndex ) {
-        Q3CanvasLine * before = m_LineList.last();
+        UMLSceneLine * before = m_LineList.last();
         QPoint sp = before -> startPoint();
         QPoint ep = before -> endPoint();
         before -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
-        Q3CanvasLine * line = new Q3CanvasLine( getScene() );
+        UMLSceneLine * line = new UMLSceneLine( getScene() );
         line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
         line -> setZ( -2 );
         line -> setPen( getPen() );
@@ -231,11 +230,11 @@ bool LinePath::insertPoint( int pointIndex, const QPoint &point )
             setupSelected();
         return true;
     }
-    Q3CanvasLine * before = m_LineList.at( pointIndex - 1 );
+    UMLSceneLine * before = m_LineList.at( pointIndex - 1 );
     QPoint sp = before -> startPoint();
     QPoint ep = before -> endPoint();
     before -> setPoints( sp.x(), sp.y(), point.x(), point.y() );
-    Q3CanvasLine * line = new Q3CanvasLine(getScene() );
+    UMLSceneLine * line = new UMLSceneLine(getScene() );
     line -> setPoints( point.x(), point.y(), ep.x(), ep.y() );
     line -> setZ( -2 );
     line -> setPen( getPen() );
@@ -259,7 +258,7 @@ bool LinePath::removePoint( int pointIndex, const QPoint &point, unsigned short 
 
     /* we don't know if the user clicked on the start- or endpoint of a
      * line segment */
-    Q3CanvasLine * current_line = m_LineList.at( pointIndex );
+    UMLSceneLine * current_line = m_LineList.at( pointIndex );
     if (abs( current_line -> endPoint().x() - point.x() ) <= delta
             &&
             abs( current_line -> endPoint().y() - point.y() ) <= delta)
@@ -271,7 +270,7 @@ bool LinePath::removePoint( int pointIndex, const QPoint &point, unsigned short 
 
         /* the next segment will get the starting point from the current one,
          * which is going to be removed */
-        Q3CanvasLine * next_line = m_LineList.at( pointIndex + 1 );
+        UMLSceneLine * next_line = m_LineList.at( pointIndex + 1 );
         QPoint startPoint = current_line -> startPoint();
         QPoint endPoint = next_line -> endPoint();
         next_line -> setPoints(startPoint.x(), startPoint.y(),
@@ -289,7 +288,7 @@ bool LinePath::removePoint( int pointIndex, const QPoint &point, unsigned short 
 
             /* the previous segment will get the end point from the current one,
              * which is going to be removed */
-            Q3CanvasLine * previous_line = m_LineList.at( pointIndex - 1 );
+            UMLSceneLine * previous_line = m_LineList.at( pointIndex - 1 );
             QPoint startPoint = previous_line -> startPoint();
             QPoint endPoint = current_line -> endPoint();
             previous_line -> setPoints(startPoint.x(), startPoint.y(),
@@ -313,7 +312,7 @@ bool LinePath::setStartEndPoints( const QPoint &start, const QPoint &end )
 {
     int count = m_LineList.count();
     if( count == 0 ) {
-        Q3CanvasLine * line = new Q3CanvasLine(getScene() );
+        UMLSceneLine * line = new UMLSceneLine(getScene() );
         line -> setPoints( start.x(), start.y(),end.x(),end.y() );
         line -> setZ( -2 );
         line -> setPen( getPen() );
@@ -343,12 +342,12 @@ int LinePath::count() const
  */
 int LinePath::onLinePath( const QPoint &position )
 {
-    Q3CanvasItemList list = getScene()->collisions( position );
+    UMLSceneItemList list = getScene()->collisions( position );
     int index = -1;
 
-    Q3CanvasItemList::iterator end(list.end());
-    for(Q3CanvasItemList::iterator item_it(list.begin()); item_it != end; ++item_it ) {
-        if( ( index = m_LineList.indexOf( (Q3CanvasLine*)*item_it ) ) != -1 )
+    UMLSceneItemList::iterator end(list.end());
+    for(UMLSceneItemList::iterator item_it(list.begin()); item_it != end; ++item_it ) {
+        if( ( index = m_LineList.indexOf( (UMLSceneLine*)*item_it ) ) != -1 )
             break;
     }//end for
     return index;
@@ -373,8 +372,8 @@ void LinePath::setSelected( bool select )
  */
 void LinePath::setAssocType( Uml::AssociationType type )
 {
-    QList<Q3CanvasLine*>::Iterator it = m_LineList.begin();
-    QList<Q3CanvasLine*>::Iterator end = m_LineList.end();
+    QList<UMLSceneLine*>::Iterator it = m_LineList.begin();
+    QList<UMLSceneLine*>::Iterator end = m_LineList.end();
 
     for( ; it != end; ++it )
         (*it) -> setPen( getPen() );
@@ -436,7 +435,7 @@ void LinePath::slotLineColorChanged( Uml::IDType viewID )
 void LinePath::setLineColor( const QColor &color )
 {
     uint linewidth = 0;
-    Q3CanvasLine * line = 0;
+    UMLSceneLine * line = 0;
 
     Q_FOREACH( line, m_LineList ) {
         linewidth = line->pen().width();
@@ -490,7 +489,7 @@ void LinePath::slotLineWidthChanged( Uml::IDType viewID )
 void LinePath::setLineWidth( uint width )
 {
     QColor linecolor;
-    Q3CanvasLine * line = 0;
+    UMLSceneLine * line = 0;
 
     Q_FOREACH( line, m_LineList ) {
         linecolor = line->pen().color();
@@ -526,8 +525,8 @@ void LinePath::moveSelected( int pointIndex )
     }
     if( (int)m_RectList.count() + 1 != lineCount )
         setupSelected();
-    Q3CanvasRectangle * rect = 0;
-    Q3CanvasLine * line = 0;
+    UMLSceneRectangle * rect = 0;
+    UMLSceneLine * line = 0;
     if( pointIndex == lineCount || lineCount == 1) {
         line = m_LineList.last();
         QPoint p = line -> endPoint();
@@ -552,17 +551,17 @@ void LinePath::setupSelected()
 {
     qDeleteAll( m_RectList.begin(), m_RectList.end() );
     m_RectList.clear();
-    Q3CanvasLine * line = 0;
+    UMLSceneLine * line = 0;
 
     Q_FOREACH( line, m_LineList ) {
         QPoint sp = line -> startPoint();
-        Q3CanvasRectangle *rect = Widget_Utils::decoratePoint(sp);
+        UMLSceneRectangle *rect = Widget_Utils::decoratePoint(sp);
         m_RectList.append( rect );
     }
     //special case for last point
     line = m_LineList.last();
     QPoint p = line -> endPoint();
-    Q3CanvasRectangle *rect = Widget_Utils::decoratePoint(p);
+    UMLSceneRectangle *rect = Widget_Utils::decoratePoint(p);
     m_RectList.append( rect );
     update();
 }
@@ -670,7 +669,7 @@ void LinePath::calculateHead()
 void LinePath::updateHead()
 {
     int count = m_HeadList.count();
-    Q3CanvasLine * line = 0;
+    UMLSceneLine * line = 0;
 
     switch( getAssocType() ) {
     case Uml::AssociationType::State:
@@ -765,7 +764,7 @@ void LinePath::growList(LineList &list, int by)
 {
     QPen pen( getLineColor(), getLineWidth() );
     for (int i = 0; i < by; i++) {
-        Q3CanvasLine * line = new Q3CanvasLine( getScene() );
+        UMLSceneLine * line = new UMLSceneLine( getScene() );
         line -> setZ( 0 );
         line -> setPen( pen );
         line -> setVisible( true );
@@ -780,7 +779,7 @@ void LinePath::createHeadLines()
 {
     qDeleteAll( m_HeadList.begin(), m_HeadList.end() );
     m_HeadList.clear();
-    Q3Canvas * canvas = getScene();
+    UMLViewCanvas * canvas = getScene();
     switch( getAssocType() ) {
     case Uml::AssociationType::Activity:
     case Uml::AssociationType::Exception:
@@ -794,7 +793,7 @@ void LinePath::createHeadLines()
     case Uml::AssociationType::Generalization:
     case Uml::AssociationType::Realization:
         growList(m_HeadList, 3);
-        m_pClearPoly = new Q3CanvasPolygon( canvas );
+        m_pClearPoly = new UMLScenePolygon( canvas );
         m_pClearPoly -> setVisible( true );
         m_pClearPoly -> setBrush( QBrush( Qt::white ) );
         m_pClearPoly -> setZ( -1 );
@@ -803,7 +802,7 @@ void LinePath::createHeadLines()
     case Uml::AssociationType::Composition:
     case Uml::AssociationType::Aggregation:
         growList(m_HeadList, 4);
-        m_pClearPoly = new Q3CanvasPolygon( canvas );
+        m_pClearPoly = new UMLScenePolygon( canvas );
         m_pClearPoly -> setVisible( true );
         if( getAssocType() == Uml::AssociationType::Aggregation )
             m_pClearPoly->setBrush( QBrush( Qt::white ) );
@@ -897,7 +896,7 @@ void LinePath::updateParallelLine()
 {
     if( !m_bParallelLineCreated )
         return;
-    Q3CanvasLine * line = 0;
+    UMLSceneLine * line = 0;
     QPoint common = m_ParallelLines.at( 0 );
     QPoint p = m_ParallelLines.at( 1 );
     line = m_ParallelList.at( 0 );
@@ -957,12 +956,12 @@ LinePath & LinePath::operator=( const LinePath & rhs )
  * This class doesn't hold this information but is a wrapper
  * method to stop calls to undefined variable like m_pAssociation.
  */
-Q3Canvas * LinePath::getScene()
+UMLViewCanvas * LinePath::getScene()
 {
     if( !m_pAssociation )
         return 0;
     const UMLView * view =  m_pAssociation->umlScene();
-    return view->canvas();
+    return static_cast<UMLViewCanvas *>(view->canvas());
 }
 
 /**
@@ -1157,11 +1156,11 @@ void LinePath::activate()
     int count = m_LineList.count();
     if (count == 0)
         return;
-    Q3Canvas * canvas = getScene();
+    UMLViewCanvas * canvas = getScene();
     if (canvas == NULL)
         return;
     for (int i = 0; i < count ; i++) {
-        Q3CanvasLine *line = m_LineList.at(i);
+        UMLSceneLine *line = m_LineList.at(i);
         line -> setCanvas( canvas );
         line -> setPen( getPen() );
     }
@@ -1198,7 +1197,7 @@ void LinePath::updateSubsetSymbol()
     if ( m_LineList.count() < 1 ) {
         return;
     }
-    Q3CanvasLine* firstLine = m_LineList.first();
+    UMLSceneLine* firstLine = m_LineList.first();
     QPoint startPoint = firstLine->startPoint();
     QPoint endPoint = firstLine->endPoint();
     QPoint centrePoint;
@@ -1232,8 +1231,8 @@ void LinePath::updateSubsetSymbol()
     }
 }
 
-LinePath::SubsetSymbol::SubsetSymbol(Q3Canvas* canvas)
-    : Q3CanvasEllipse(canvas) {
+LinePath::SubsetSymbol::SubsetSymbol(UMLViewCanvas* canvas)
+    : UMLSceneEllipse(canvas) {
     inclination = 0;
 }
 
