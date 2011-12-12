@@ -14,7 +14,7 @@
 // system includes
 #include <kurl.h>
 #include <qdom.h>
-#include <UMLViewCanvas.h>
+#include <umlviewcanvas.h>
 #include <QtGui/QPixmap>
 
 //local includes

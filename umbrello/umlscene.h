@@ -10,7 +10,7 @@
 #ifndef UMLSCENE_H
 #define UMLSCENE_H
 
-#include "UMLView.h"
+#include "umlview.h"
 
 #include <QMouseEvent>
 #include <QKeyEvent>
