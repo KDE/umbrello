@@ -87,9 +87,9 @@ UMLWidgetController::~UMLWidgetController()
  * it's marked to be deselected when releasing the button (provided it wasn't
  * moved or resized).
  *
- * @param me The QGraphicsSceneMouseEvent event.
+ * @param me The UMLSceneMouseEvent event.
  */
-void UMLWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
+void UMLWidgetController::mousePressEvent(UMLSceneMouseEvent *me)
 {
     // If there is a button pressed already ignore other press events
     if (m_leftButtonDown || m_middleButtonDown || m_rightButtonDown) {
@@ -182,9 +182,9 @@ void UMLWidgetController::mousePressEvent(QGraphicsSceneMouseEvent *me)
  * not updated always to be easy on the CPU). Finally, the canvas is resized,
  * and selection bounds updated.
  *
- * @param me The QGraphicsSceneMouseEvent event.
+ * @param me The UMLSceneMouseEvent event.
  */
-void UMLWidgetController::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
+void UMLWidgetController::mouseMoveEvent(UMLSceneMouseEvent* me)
 {
     if (!m_leftButtonDown)
         return;
@@ -300,9 +300,9 @@ void UMLWidgetController::widgetMoved()
  * event at the same position than the cursor was when pressed. Another left
  * button release is also sent.
  *
- * @param me The QGraphicsSceneMouseEvent event.
+ * @param me The UMLSceneMouseEvent event.
  */
-void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
+void UMLWidgetController::mouseReleaseEvent(UMLSceneMouseEvent *me)
 {
     if (me->button() != Qt::LeftButton && me->button() != Qt::RightButton) {
         if (m_middleButtonDown) {
@@ -353,11 +353,11 @@ void UMLWidgetController::mouseReleaseEvent(QGraphicsSceneMouseEvent *me)
             //Cancel move/edit
             // [PORT] The below code needs a proper port.
 #if 0
-            QGraphicsSceneMouseEvent move(QGraphicsSceneMouseEvent::MouseMove,
+            UMLSceneMouseEvent move(UMLSceneMouseEvent::MouseMove,
                              QPointF(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
                              Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             mouseMoveEvent(&move);
-            QGraphicsSceneMouseEvent release(QGraphicsSceneMouseEvent::MouseButtonRelease,
+            UMLSceneMouseEvent release(UMLSceneMouseEvent::MouseButtonRelease,
                                 QPointF(m_oldX + m_pressOffsetX, m_oldY + m_pressOffsetY),
                                 Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
             mouseReleaseEvent(&release);
@@ -387,9 +387,9 @@ UMLWidget* UMLWidgetController::getWidget()
  * doMouseDoubleClick.
  * @see doMouseDoubleClick
  *
- * @param me The QGraphicsSceneMouseEvent event.
+ * @param me The UMLSceneMouseEvent event.
  */
-void UMLWidgetController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me)
+void UMLWidgetController::mouseDoubleClickEvent(UMLSceneMouseEvent *me)
 {
     if (me->button() != Qt::LeftButton) {
         return;
@@ -408,7 +408,7 @@ void UMLWidgetController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *me)
  * @param me The QMouseEVent to check.
  * @return true if the mouse is in resize area, false otherwise.
  */
-bool UMLWidgetController::isInResizeArea(QGraphicsSceneMouseEvent *me)
+bool UMLWidgetController::isInResizeArea(UMLSceneMouseEvent *me)
 {
     const qreal m = 10;
 
@@ -509,9 +509,9 @@ void UMLWidgetController::constrainMovementForAllWidgets(qreal &diffX, qreal &di
  * don't have an UMLObject representation) there's no need to override
  * the method, it simply does nothing.
  *
- * @param me The QGraphicsSceneMouseEvent which triggered the double click event.
+ * @param me The UMLSceneMouseEvent which triggered the double click event.
  */
-void UMLWidgetController::doMouseDoubleClick(QGraphicsSceneMouseEvent *)
+void UMLWidgetController::doMouseDoubleClick(UMLSceneMouseEvent *)
 {
     if (!m_widget || !m_widget->m_pMenu)
         return;
@@ -533,9 +533,9 @@ void UMLWidgetController::resetSelection()
 /**
  * Selects the widget and clears the other selected widgets, if any.
  *
- * @param me The QGraphicsSceneMouseEvent which made the selection.
+ * @param me The UMLSceneMouseEvent which made the selection.
  */
-void UMLWidgetController::selectSingle(QGraphicsSceneMouseEvent *me)
+void UMLWidgetController::selectSingle(UMLSceneMouseEvent *me)
 {
     m_widget->umlScene()->clearSelected();
 
@@ -547,9 +547,9 @@ void UMLWidgetController::selectSingle(QGraphicsSceneMouseEvent *me)
 /**
  * Selects the widget and adds it to the list of selected widgets.
  *
- * @param me The QGraphicsSceneMouseEvent which made the selection.
+ * @param me The UMLSceneMouseEvent which made the selection.
  */
-void UMLWidgetController::selectMultiple(QGraphicsSceneMouseEvent *me)
+void UMLWidgetController::selectMultiple(UMLSceneMouseEvent *me)
 {
     m_widget->umlScene()->setSelected(m_widget, me);
     //scene->setSelected also sets the widgets local status to selected.
@@ -559,9 +559,9 @@ void UMLWidgetController::selectMultiple(QGraphicsSceneMouseEvent *me)
 /**
  * Deselects the widget and removes it from the list of selected widgets.
  *
- * @param me The QGraphicsSceneMouseEvent which made the selection.
+ * @param me The UMLSceneMouseEvent which made the selection.
  */
-void UMLWidgetController::deselect(QGraphicsSceneMouseEvent *me)
+void UMLWidgetController::deselect(UMLSceneMouseEvent *me)
 {
     // [PORT] Strange, only flag is unselected while it is still in
     // selected list. It is hard to reflect this behavior in
@@ -585,9 +585,9 @@ void UMLWidgetController::deselect(QGraphicsSceneMouseEvent *me)
  * resize begins. However, parent method (that is, this method) must be
  * called in the overridden method.
  *
- * @param me The QGraphicsSceneMouseEvent to get the offset from.
+ * @param me The UMLSceneMouseEvent to get the offset from.
  */
-void UMLWidgetController::saveWidgetValues(QGraphicsSceneMouseEvent *me)
+void UMLWidgetController::saveWidgetValues(UMLSceneMouseEvent *me)
 {
     m_pressOffsetX = me->scenePos().x() - m_widget->getX();
     m_pressOffsetY = me->scenePos().y() - m_widget->getY();
@@ -667,9 +667,9 @@ void UMLWidgetController::updateSelectionBounds(qreal diffX, qreal diffY)
  * in resize area when pressed.
  * Resizing can be constrained to an specific axis using control and shift buttons.
  *
- * @param me The QGraphicsSceneMouseEvent to get the values from.
+ * @param me The UMLSceneMouseEvent to get the values from.
  */
-void UMLWidgetController::resize(QGraphicsSceneMouseEvent *me)
+void UMLWidgetController::resize(UMLSceneMouseEvent *me)
 {
     UMLApp::app()->getDocument()->writeToStatusBar(i18n("Hold shift or ctrl to move in X axis. Hold shift and control to move in Y axis. Right button click to cancel resize."));
 
@@ -807,10 +807,10 @@ qreal UMLWidgetController::getBiggestY(const UMLWidgetList &widgetList)
  * m_widget->get{X,Y}(), the previous position m_old{X,Y}, and the
  * mouse press offset m_pressOffset{X,Y}.
  *
- * @param me The QGraphicsSceneMouseEvent for which to get the adjusted position.
+ * @param me The UMLSceneMouseEvent for which to get the adjusted position.
  * @return A QPointF with the adjusted position.
  */
-QPointF UMLWidgetController::getPosition(QGraphicsSceneMouseEvent* me)
+QPointF UMLWidgetController::getPosition(UMLSceneMouseEvent* me)
 {
     /*
     uDebug() << "me->x=" << me->x()
@@ -856,10 +856,10 @@ QPointF UMLWidgetController::getPosition(QGraphicsSceneMouseEvent* me)
  * Returns a QPointF with the new X and Y position difference of the mouse event
  * respect to the position of the widget.
  *
- * @param me The QGraphicsSceneMouseEvent to get the position to compare.
+ * @param me The UMLSceneMouseEvent to get the position to compare.
  * @return A QPointF with the position difference.
  */
-QPointF UMLWidgetController::getPositionDifference(QGraphicsSceneMouseEvent* me)
+QPointF UMLWidgetController::getPositionDifference(UMLSceneMouseEvent* me)
 {
     QPointF newPoint = getPosition(me);
     const qreal diffX = newPoint.x() - m_widget->getX();
@@ -870,9 +870,9 @@ QPointF UMLWidgetController::getPositionDifference(QGraphicsSceneMouseEvent* me)
 /**
  * Shows the widget popup menu where the mouse event points to.
  *
- * @param me The QGraphicsSceneMouseEvent which triggered the showing.
+ * @param me The UMLSceneMouseEvent which triggered the showing.
  */
-void UMLWidgetController::showPopupMenu(QGraphicsSceneMouseEvent *me)
+void UMLWidgetController::showPopupMenu(UMLSceneMouseEvent *me)
 {
     //TODO why this condition?
     if (m_widget->m_pMenu) {

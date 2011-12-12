@@ -87,7 +87,7 @@
 #include <QtGui/QPainter>
 #include <QtGui/QPrinter>
 #include <QtGui/QPixmap>
-#include <QtGui/QGraphicsSceneMouseEvent>
+
 
 // system includes
 #include <cmath>  // for ceil
@@ -551,7 +551,7 @@ void UMLScene::setupNewWidget(UMLWidget *w)
  * Overrides the standard operation.
  * Calls the same method in the current tool bar state.
  */
-void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
+void UMLScene::mouseReleaseEvent(UMLSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseRelease(ome);
 }
@@ -648,7 +648,7 @@ void UMLScene::slotObjectRemoved(UMLObject * o)
 /**
  * Override standard method.
  */
-void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
+void UMLScene::dragEnterEvent(UMLSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
@@ -752,7 +752,7 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
 /**
  * Override standard method.
  */
-void UMLScene::dragMoveEvent(QGraphicsSceneDragDropEvent* e)
+void UMLScene::dragMoveEvent(UMLSceneDragDropEvent* e)
 {
     e->accept();
 }
@@ -760,7 +760,7 @@ void UMLScene::dragMoveEvent(QGraphicsSceneDragDropEvent* e)
 /**
  * Override standard method.
  */
-void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
+void UMLScene::dropEvent(UMLSceneDragDropEvent *e)
 {
     UMLDragData::LvTypeAndID_List tidList;
     if (!UMLDragData::getClip3TypeAndID(e->mimeData(), tidList)) {
@@ -928,7 +928,7 @@ bool UMLScene::widgetOnDiagram(Uml::IDType id)
  * Overrides the standard operation.
  * Calls the same method in the current tool bar state.
  */
-void UMLScene::mouseMoveEvent(QGraphicsSceneMouseEvent* ome)
+void UMLScene::mouseMoveEvent(UMLSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseMove(ome);
 }
@@ -1196,7 +1196,7 @@ bool UMLScene::isWidgetOrAssociation(const QPointF& atPos)
  * Override standard method.
  * Calls the same method in the current tool bar state.
  */
-void UMLScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* ome)
+void UMLScene::mouseDoubleClickEvent(UMLSceneMouseEvent* ome)
 {
     m_pToolBarState->mouseDoubleClick(ome);
 
@@ -1228,7 +1228,7 @@ QRectF UMLScene::diagramRect()
  * @param w The widget to set to selected.
  * @param me The mouse event containing the information about the selection.
  */
-void UMLScene::setSelected(UMLWidget * w, QGraphicsSceneMouseEvent * me)
+void UMLScene::setSelected(UMLWidget * w, UMLSceneMouseEvent * me)
 {
     Q_UNUSED(me);
     int count = selectedItems().count();
@@ -1531,7 +1531,7 @@ bool UMLScene::isSavedInSeparateFile()
  * Override standard method.
  * Calls the same method in the current tool bar state.
  */
-void UMLScene::mousePressEvent(QGraphicsSceneMouseEvent* ome)
+void UMLScene::mousePressEvent(UMLSceneMouseEvent* ome)
 {
     m_pToolBarState->mousePress(ome);
 
@@ -2979,7 +2979,7 @@ void UMLScene::setPaste(bool paste)
 /**
  * Event handler for context menu events.
  */
-void UMLScene::contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
+void UMLScene::contextMenuEvent(UMLSceneContextMenuEvent * event)
 {
     UMLWidget* widget = widgetAt(event->scenePos());
     if (widget) {
@@ -3533,7 +3533,7 @@ bool UMLScene::checkUniqueSelection()
     return true; // selected items are unique
 }
 
-void UMLScene::callBaseMouseMethod(QGraphicsSceneMouseEvent *event)
+void UMLScene::callBaseMouseMethod(UMLSceneMouseEvent *event)
 {
     switch(event->type())
     {

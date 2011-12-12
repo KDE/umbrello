@@ -12,7 +12,7 @@
 #include "toolbarstatearrow.h"
 
 // qt includes
-#include <QtGui/QGraphicsSceneMouseEvent>
+
 
 // app includes
 #include "umlscene.h"
@@ -27,22 +27,22 @@ ToolBarStateArrow::ToolBarStateArrow(UMLScene *umlScene)
 {
 }
 
-void ToolBarStateArrow::mousePress(QGraphicsSceneMouseEvent *ome)
+void ToolBarStateArrow::mousePress(UMLSceneMouseEvent *ome)
 {
     m_pUMLScene->callBaseMouseMethod(ome);
 }
 
-void ToolBarStateArrow::mouseMove(QGraphicsSceneMouseEvent *ome)
+void ToolBarStateArrow::mouseMove(UMLSceneMouseEvent *ome)
 {
     m_pUMLScene->callBaseMouseMethod(ome);
 }
 
-void ToolBarStateArrow::mouseRelease(QGraphicsSceneMouseEvent *ome)
+void ToolBarStateArrow::mouseRelease(UMLSceneMouseEvent *ome)
 {
     m_pUMLScene->callBaseMouseMethod(ome);
 }
 
-void ToolBarStateArrow::mouseDoubleClick(QGraphicsSceneMouseEvent *ome)
+void ToolBarStateArrow::mouseDoubleClick(UMLSceneMouseEvent *ome)
 {
     m_pUMLScene->callBaseMouseMethod(ome);
 }

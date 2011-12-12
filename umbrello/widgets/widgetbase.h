@@ -21,6 +21,7 @@
 #define WIDGETBASE_H
 
 #include "basictypes.h"
+#include "umlscene.h"
 
 #include <QtCore/QObject>
 
@@ -204,7 +205,7 @@ protected Q_SLOTS:
     virtual void slotUMLObjectDataChanged();
 
 protected:
-    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    virtual void contextMenuEvent(UMLSceneContextMenuEvent *event);
     virtual void setupContextMenuActions(ListPopupMenu &menu);
 
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);

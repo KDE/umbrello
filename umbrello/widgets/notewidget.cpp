@@ -302,7 +302,7 @@ void NoteWidget::slotMenuSelection(QAction* action)
     }
 }
 
-void NoteWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void NoteWidget::mouseDoubleClickEvent(UMLSceneMouseEvent *event)
 {
     Q_UNUSED(event);
     umlScene()->updateDocumentation(false);

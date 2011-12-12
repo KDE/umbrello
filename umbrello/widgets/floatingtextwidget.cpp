@@ -577,7 +577,7 @@ QVariant FloatingTextWidget::attributeChange(WidgetAttributeChange change, const
 /**
  * Event handler for context menu events.
  */
-void FloatingTextWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void FloatingTextWidget::contextMenuEvent(UMLSceneContextMenuEvent *event)
 {
     AssociationWidget *assoc = dynamic_cast<AssociationWidget*>(m_linkWidget);
 

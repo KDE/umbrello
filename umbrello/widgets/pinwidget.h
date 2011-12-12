@@ -44,7 +44,7 @@ protected:
     virtual void updateGeometry();
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mouseMoveEvent(UMLSceneMouseEvent *event);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

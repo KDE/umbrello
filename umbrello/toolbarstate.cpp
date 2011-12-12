@@ -13,7 +13,7 @@
 
 // qt includes
 #include <qwmatrix.h> // need for inverseWorldMatrix.map
-#include <QtGui/QGraphicsSceneMouseEvent>
+
 
 // app includes
 #include "associationwidget.h"
@@ -74,7 +74,7 @@ void ToolBarState::cleanBeforeChange()
  * @param ome The received event.
  * @see setCurrentElement()
  */
-void ToolBarState::mousePress(QGraphicsSceneMouseEvent* ome)
+void ToolBarState::mousePress(UMLSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonPress);
 
@@ -104,7 +104,7 @@ void ToolBarState::mousePress(QGraphicsSceneMouseEvent* ome)
  *
  * @param ome The received event.
  */
-void ToolBarState::mouseRelease(QGraphicsSceneMouseEvent* ome)
+void ToolBarState::mouseRelease(UMLSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonRelease);
 
@@ -135,7 +135,7 @@ void ToolBarState::mouseRelease(QGraphicsSceneMouseEvent* ome)
  *
  * @param ome The received event.
  */
-void ToolBarState::mouseDoubleClick(QGraphicsSceneMouseEvent* ome)
+void ToolBarState::mouseDoubleClick(UMLSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseButtonDblClick);
 
@@ -167,7 +167,7 @@ void ToolBarState::mouseDoubleClick(QGraphicsSceneMouseEvent* ome)
  *
  * @param ome The received event.
  */
-void ToolBarState::mouseMove(QGraphicsSceneMouseEvent* ome)
+void ToolBarState::mouseMove(UMLSceneMouseEvent* ome)
 {
     setMouseEvent(ome, QEvent::MouseMove);
 
@@ -456,13 +456,13 @@ void ToolBarState::setCurrentAssociation(AssociationWidget* currentAssociation)
  * @param ome The mouse event to transform.
  * @param type The type of the event.
  */
-void ToolBarState::setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Type &type)
+void ToolBarState::setMouseEvent(UMLSceneMouseEvent* ome, const QEvent::Type &type)
 {
     delete m_pMouseEvent;
 
     // [PORT] Check if scenePos works like view->inverseWorldMatrix().map()
     // Using copy constructor here.
-    m_pMouseEvent = new QGraphicsSceneMouseEvent(type);
+    m_pMouseEvent = new UMLSceneMouseEvent(type);
     m_pMouseEvent->setPos(ome->pos());
     m_pMouseEvent->setScenePos(ome->scenePos());
     m_pMouseEvent->setScreenPos(ome->screenPos());

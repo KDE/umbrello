@@ -73,7 +73,7 @@ void ToolBarStateOneWidget::cleanBeforeChange()
  * It executes the base method and then updates the position of the
  * message line, if any.
  */
-void ToolBarStateOneWidget::mouseMove(QGraphicsSceneMouseEvent* ome)
+void ToolBarStateOneWidget::mouseMove(UMLSceneMouseEvent* ome)
 {
     ToolBarStatePool::mouseMove(ome);
 }

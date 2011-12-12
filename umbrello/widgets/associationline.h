@@ -11,6 +11,8 @@
 #ifndef ASSOCIATIONLINE_H
 #define ASSOCIATIONLINE_H
 
+#include "umlscene.h"
+
 #include <QtGui/QBrush>
 #include <QtGui/QGraphicsObject>
 #include <QtGui/QPen>
@@ -146,14 +148,14 @@ class AssociationLine : public QGraphicsObject
         // states. The user of this class, just has to call these
         // correspoding methods from its events.
 
-        void mousePressEvent(QGraphicsSceneMouseEvent *event);
-        void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-        void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-        void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+        void mousePressEvent(UMLSceneMouseEvent *event);
+        void mouseMoveEvent(UMLSceneMouseEvent *event);
+        void mouseReleaseEvent(UMLSceneMouseEvent *event);
+        void mouseDoubleClickEvent(UMLSceneMouseEvent *event);
 
-        void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-        void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
-        void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+        void hoverEnterEvent(UMLSceneHoverEvent *event);
+        void hoverMoveEvent(UMLSceneHoverEvent *event);
+        void hoverLeaveEvent(UMLSceneHoverEvent *event);
 
         void calculateBoundingRect();
 

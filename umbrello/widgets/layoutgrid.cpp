@@ -22,7 +22,7 @@
 #include "debug_utils.h"
 
 #include <QtGui/QGraphicsScene>
-#include <QtGui/QGraphicsSceneMouseEvent>
+
 #include <QtGui/QPainter>
 #include <QtCore/QTextStream>
 
@@ -190,7 +190,7 @@ void LayoutGrid::setTextVisible(bool visible)
     m_isTextVisible = visible;
 }
 
-void LayoutGrid::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void LayoutGrid::mousePressEvent(UMLSceneMouseEvent *event)
 {
     QPoint pos = event->pos().toPoint();
     DEBUG("LayoutGrid") << "at position: " << pos;
@@ -204,7 +204,7 @@ void LayoutGrid::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-void LayoutGrid::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void LayoutGrid::mouseReleaseEvent(UMLSceneMouseEvent *event)
 {
     Q_UNUSED(event);
     if (m_coordLabel->isVisible()) {

@@ -158,17 +158,17 @@ public:
     virtual bool loadFromXMI(QDomElement &qElement);
     virtual void saveToXMI(QDomDocument &qDoc, QDomElement &qElement);
 
-    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent * event);
+    virtual void contextMenuEvent(UMLSceneContextMenuEvent * event);
 
 protected:
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
     virtual void updateGeometry();
     virtual void setResizable(bool resizable);
 
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mousePressEvent(UMLSceneMouseEvent *event);
+    virtual void mouseMoveEvent(UMLSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(UMLSceneMouseEvent *event);
+    virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *event);
 
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
@@ -211,7 +211,7 @@ private:
     /// Widget handle for this widget (for resizing)
     WidgetHandle *m_widgetHandle;
 
-    QGraphicsSceneMouseEvent *m_mouseMoveEventStore;
+    UMLSceneMouseEvent *m_mouseMoveEventStore;
 
     // Disable copy constructor and operator=
     Q_DISABLE_COPY(UMLWidget);

@@ -20,6 +20,8 @@
 #ifndef LAYOUTGRID_H
 #define LAYOUTGRID_H
 
+#include "umlscene.h"
+
 #include <QtGui/QColor>
 #include <QtGui/QFont>
 #include <QtGui/QGraphicsItem>
@@ -64,8 +66,8 @@ public:
     void setTextVisible(bool visible);
 
 protected:
-     void mousePressEvent(QGraphicsSceneMouseEvent *event);
-     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+     void mousePressEvent(UMLSceneMouseEvent *event);
+     void mouseReleaseEvent(UMLSceneMouseEvent *event);
 
 private:
     int                 m_gridSpacingX;

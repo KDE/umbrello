@@ -37,10 +37,10 @@ public:
 
     // We just forward events back to UMLScene, which handles the
     // conversion of scene events to widget events as well as selection.
-    void mousePress(QGraphicsSceneMouseEvent *ome);
-    void mouseMove(QGraphicsSceneMouseEvent *ome);
-    void mouseRelease(QGraphicsSceneMouseEvent *ome);
-    void mouseDoubleClick(QGraphicsSceneMouseEvent *ome);
+    void mousePress(UMLSceneMouseEvent *ome);
+    void mouseMove(UMLSceneMouseEvent *ome);
+    void mouseRelease(UMLSceneMouseEvent *ome);
+    void mouseDoubleClick(UMLSceneMouseEvent *ome);
 };
 
 #endif //TOOLBARSTATEARROW_H

@@ -20,6 +20,7 @@
 #ifndef EXPANDERBOX_H
 #define EXPANDERBOX_H
 
+#include "umlscene.h"
 #include <QtCore/QObject>
 
 #include <QtGui/QBrush>
@@ -80,9 +81,9 @@ signals:
     void expansionToggled(bool currentState);
 
 protected:
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mousePressEvent(UMLSceneMouseEvent *event);
+    virtual void mouseMoveEvent(UMLSceneMouseEvent *event);
+    virtual void mouseReleaseEvent(UMLSceneMouseEvent *event);
 
 private:
     static const qreal Size;

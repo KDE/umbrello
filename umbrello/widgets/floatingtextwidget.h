@@ -96,7 +96,7 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant& newValue);
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    virtual void contextMenuEvent(UMLSceneContextMenuEvent *event);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);

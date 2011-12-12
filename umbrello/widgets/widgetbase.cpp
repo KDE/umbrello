@@ -34,7 +34,6 @@
 #include <kfontdialog.h>
 #include <kcolordialog.h>
 
-#include <QGraphicsSceneContextMenuEvent>
 #include <QPointer>
 #include <QTimer>
 
@@ -1049,7 +1048,7 @@ void WidgetBase::slotUMLObjectDataChanged()
 /**
  * Reimplemented to show appropriate context menu.
  */
-void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void WidgetBase::contextMenuEvent(UMLSceneContextMenuEvent *event)
 {
     event->accept();
 

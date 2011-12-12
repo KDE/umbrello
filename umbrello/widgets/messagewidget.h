@@ -15,7 +15,6 @@
 #include "linkwidget.h"
 #include "idchangelog.h"
 
-#include <QGraphicsSceneMouseEvent>
 #include <QMoveEvent>
 #include <QResizeEvent>
 

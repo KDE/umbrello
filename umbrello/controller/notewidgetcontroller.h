@@ -32,12 +32,12 @@ public:
     NoteWidgetController(NoteWidget* noteWidget);
     virtual ~NoteWidgetController();
 
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* me);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* me);
+    virtual void mouseMoveEvent(UMLSceneMouseEvent* me);
+    virtual void mouseReleaseEvent(UMLSceneMouseEvent* me);
 
 protected:
 
-    virtual void doMouseDoubleClick(QGraphicsSceneMouseEvent* me);
+    virtual void doMouseDoubleClick(UMLSceneMouseEvent* me);
 
 private:
 

@@ -23,7 +23,7 @@
 #include "umlwidget.h"
 
 #include <QtGui/QPainter>
-#include <QtGui/QGraphicsSceneMouseEvent>
+
 #include <QtGui/QCursor>
 
 /**
@@ -143,7 +143,7 @@ void WidgetHandle::paint(QPainter *p, const QStyleOptionGraphicsItem* opt,
  *
  * @see WidgetHandle::isActive()
  */
-void WidgetHandle::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void WidgetHandle::mousePressEvent(UMLSceneMouseEvent *event)
 {
     if(!isActive() || !m_widget->isResizable() || event->button() != Qt::LeftButton) {
         m_pressedHandle = rh_None;
@@ -163,7 +163,7 @@ void WidgetHandle::mousePressEvent(QGraphicsSceneMouseEvent *event)
 /**
  * @copydoc WidgetHandle::mousePressEvent
  */
-void WidgetHandle::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void WidgetHandle::mouseMoveEvent(UMLSceneMouseEvent *event)
 {
     // Should not happen
     if(m_pressedHandle == rh_None) {
@@ -286,7 +286,7 @@ void WidgetHandle::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 /**
  * @copydoc WidgetHandle::mousePressEvent
  */
-void WidgetHandle::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void WidgetHandle::mouseReleaseEvent(UMLSceneMouseEvent *event)
 {
     Q_UNUSED(event);
     // reset the pressed handle
@@ -299,7 +299,7 @@ void WidgetHandle::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
  *
  * @see WidgetHandle::handleCursorChange
  */
-void WidgetHandle::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+void WidgetHandle::hoverEnterEvent(UMLSceneHoverEvent *event)
 {
     handleCursorChange(event);
 }
@@ -307,7 +307,7 @@ void WidgetHandle::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 /**
  * @copydoc WidgetHandle::hoverEnterEvent
  */
-void WidgetHandle::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+void WidgetHandle::hoverMoveEvent(UMLSceneHoverEvent *event)
 {
     handleCursorChange(event);
 }
@@ -315,7 +315,7 @@ void WidgetHandle::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 /**
  * @copydoc WidgetHandle::hoverEnterEvent
  */
-void WidgetHandle::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+void WidgetHandle::hoverLeaveEvent(UMLSceneHoverEvent *event)
 {
     handleCursorChange(event);
 }
@@ -400,12 +400,12 @@ void WidgetHandle::calcResizeHandles()
 
 /**
  * Sets a proper cursor for this WidgetHandle item based on
- * QGraphicsSceneHoverEvent parameter.
+ * UMLSceneHoverEvent parameter.
  *
  * @note The cursor set is Qt::ArrowCursor if either this handle is
  *       not active or the associated widget is not resizable.
  */
-void WidgetHandle::handleCursorChange(QGraphicsSceneHoverEvent *event)
+void WidgetHandle::handleCursorChange(UMLSceneHoverEvent *event)
 {
     if(!isActive() || !m_widget->isResizable()) {
         setCursor(QCursor(Qt::ArrowCursor));

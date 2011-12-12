@@ -20,11 +20,10 @@
 #ifndef TEXTITEM_H
 #define TEXTITEM_H
 
-#include <QtGui/QGraphicsTextItem>
+#include "umlscene.h"
+
 #include <QtGui/QBrush>
 #include <QtGui/QFont>
-
-class QGraphicsSceneContextMenuEvent;
 
 class TextItem : public QGraphicsTextItem
 {
@@ -87,9 +86,9 @@ public:
     void updateVisibility();
 
 protected:
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    void hoverEnterEvent(UMLSceneHoverEvent *event);
+    void hoverLeaveEvent(UMLSceneHoverEvent *event);
+    void contextMenuEvent(UMLSceneContextMenuEvent *event);
 
 private:
     QBrush m_hoverBrush;

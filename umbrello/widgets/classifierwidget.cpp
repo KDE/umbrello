@@ -912,7 +912,7 @@ void ClassifierWidget::invalidateDummies()
 /**
  * Event handler for hover enter events.
  */
-void ClassifierWidget::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
+void ClassifierWidget::hoverEnterEvent(UMLSceneHoverEvent * event)
 {
     Q_UNUSED(event);
     if (!visualProperty(DrawAsCircle)) {
@@ -927,7 +927,7 @@ void ClassifierWidget::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
 /**
  * Event handler for hover leave events.
  */
-void ClassifierWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
+void ClassifierWidget::hoverLeaveEvent(UMLSceneHoverEvent * event)
 {
     Q_UNUSED(event);
     if (!visualProperty(DrawAsCircle)) {

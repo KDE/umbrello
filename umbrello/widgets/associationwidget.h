@@ -159,14 +159,14 @@ class AssociationWidget : public WidgetBase, public LinkWidget
         virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
         virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-        virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
-        virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-        virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-        virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+        virtual void mousePressEvent(UMLSceneMouseEvent *event);
+        virtual void mouseMoveEvent(UMLSceneMouseEvent *event);
+        virtual void mouseReleaseEvent(UMLSceneMouseEvent *event);
+        virtual void mouseDoubleClickEvent(UMLSceneMouseEvent *event);
 
-        virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-        virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
-        virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+        virtual void hoverEnterEvent(UMLSceneHoverEvent *event);
+        virtual void hoverMoveEvent(UMLSceneHoverEvent *event);
+        virtual void hoverLeaveEvent(UMLSceneHoverEvent *event);
 
         virtual void umlObjectChanged(UMLObject *old);
 

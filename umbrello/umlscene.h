@@ -22,6 +22,17 @@
 
 // Qt includes
 #include <QtGui/QGraphicsScene>
+#include <QtGui/QGraphicsSceneMouseEvent>
+//#include <QtGui/QGraphicsSceneKeyEvent>
+#include <QtGui/QGraphicsSceneDragDropEvent>
+#include <QtGui/QGraphicsSceneContextMenuEvent>
+#include <QtGui/QGraphicsSceneHoverEvent>
+
+#include <QtGui/QGraphicsLineItem>
+#include <QtGui/QGraphicsRectItem>
+#include <QtGui/QGraphicsPolygonItem>
+#include <QtGui/QGraphicsEllipseItem>
+
 #include <QtXml/QDomDocument>
 
 // forward declarations
@@ -45,6 +56,26 @@ class UMLViewImageExporter;
 class UMLForeignKeyConstraint;
 class UMLEntity;
 class UMLView;
+
+
+/// uml related types - makes it easier to switch to QGraphicsScene types
+// base types
+typedef QPointF UMLScenePoint;
+typedef QRectF UMLSceneRect;
+typedef qreal UMLSceneValue;
+// event types
+typedef QGraphicsSceneMouseEvent UMLSceneMouseEvent;
+//typedef QGraphicsSceneKeyEvent UMLSceneKeyEvent;
+typedef QGraphicsSceneHoverEvent UMLSceneHoverEvent;
+typedef QGraphicsSceneContextMenuEvent UMLSceneContextMenuEvent;
+typedef QGraphicsSceneDragDropEvent UMLSceneDragDropEvent;
+
+typedef QGraphicsLineItem UMLSceneLine;
+typedef QGraphicsRectItem UMLSceneRectangle;
+//typedef QGraphicsSceneItem UMLSceneItem;
+typedef QGraphicsPolygonItem UMLScenePolygon;
+typedef QGraphicsEllipseItem UMLSceneEllipse;
+//typedef QGraphicsSceneItemList UMLSceneItemList;
 
 /**
  * UMLScene instances represent diagrams.
@@ -148,7 +179,7 @@ public:
 
     void removeWidget(UMLWidget *o);
 
-    void setSelected(UMLWidget *w, QGraphicsSceneMouseEvent *me);
+    void setSelected(UMLWidget *w, UMLSceneMouseEvent *me);
 
     UMLWidgetList selectedWidgets() const;
 
@@ -290,13 +321,13 @@ public:
 
     int generateCollaborationId();
 
-    void callBaseMouseMethod(QGraphicsSceneMouseEvent *event);
+    void callBaseMouseMethod(UMLSceneMouseEvent *event);
 
     bool isMouseMovingItems() const;
     void setIsMouseMovingItems(bool b);
 
 protected:
-    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent * event);
+    virtual void contextMenuEvent(UMLSceneContextMenuEvent * event);
 
     void drawBackground(QPainter *p, const QRectF& rect);
 
@@ -331,16 +362,16 @@ protected:
     // End of methods and members related to loading/saving
     ////////////////////////////////////////////////////////////////////////
 
-    void dragEnterEvent(QGraphicsSceneDragDropEvent *enterEvent);
-    void dragMoveEvent(QGraphicsSceneDragDropEvent *moveEvent);
-    void dropEvent(QGraphicsSceneDragDropEvent *dropEvent);
+    void dragEnterEvent(UMLSceneDragDropEvent *enterEvent);
+    void dragMoveEvent(UMLSceneDragDropEvent *moveEvent);
+    void dropEvent(UMLSceneDragDropEvent *dropEvent);
 
     QRectF diagramRect();
 
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* mouseEvent);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* mouseEvent);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* mouseEvent);
-    void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent);
+    void mouseReleaseEvent(UMLSceneMouseEvent* mouseEvent);
+    void mouseMoveEvent(UMLSceneMouseEvent* mouseEvent);
+    void mouseDoubleClickEvent(UMLSceneMouseEvent* mouseEvent);
+    void mousePressEvent(UMLSceneMouseEvent* mouseEvent);
 
     /**
      * This variable is set/reset by items which would call

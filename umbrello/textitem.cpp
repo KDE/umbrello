@@ -19,7 +19,6 @@
 
 #include "textitem.h"
 
-#include <QtGui/QGraphicsSceneContextMenuEvent>
 #include <QtGui/QPainter>
 #include <QtGui/QStyleOptionGraphicsItem>
 #include <QtGui/QTextDocument>
@@ -275,17 +274,17 @@ void TextItem::updateVisibility()
     setVisible(actual);
 }
 
-void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent *)
+void TextItem::hoverEnterEvent(UMLSceneHoverEvent *)
 {
     update();
 }
 
-void TextItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
+void TextItem::hoverLeaveEvent(UMLSceneHoverEvent *)
 {
     update();
 }
 
-void TextItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void TextItem::contextMenuEvent(UMLSceneContextMenuEvent *event)
 {
     event->ignore();
 }

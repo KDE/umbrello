@@ -1606,39 +1606,39 @@ QVariant AssociationWidget::attributeChange(WidgetAttributeChange change, const 
     return WidgetBase::attributeChange(change, oldValue);
 }
 
-void AssociationWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void AssociationWidget::mousePressEvent(UMLSceneMouseEvent *event)
 {
     setSelected(true);
     m_associationLine->mousePressEvent(event);
 }
 
-void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void AssociationWidget::mouseMoveEvent(UMLSceneMouseEvent *event)
 {
     m_associationLine->mouseMoveEvent(event);
 }
 
-void AssociationWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void AssociationWidget::mouseReleaseEvent(UMLSceneMouseEvent *event)
 {
     m_associationLine->mouseReleaseEvent(event);
 }
 
-void AssociationWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void AssociationWidget::mouseDoubleClickEvent(UMLSceneMouseEvent *event)
 {
     DEBUG(DBG_SRC) << "at " << event->pos();
     m_associationLine->mouseDoubleClickEvent(event);
 }
 
-void AssociationWidget::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+void AssociationWidget::hoverEnterEvent(UMLSceneHoverEvent *event)
 {
     m_associationLine->hoverEnterEvent(event);
 }
 
-void AssociationWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+void AssociationWidget::hoverMoveEvent(UMLSceneHoverEvent *event)
 {
     m_associationLine->hoverMoveEvent(event);
 }
 
-void AssociationWidget::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+void AssociationWidget::hoverLeaveEvent(UMLSceneHoverEvent *event)
 {
     m_associationLine->hoverLeaveEvent(event);
 }
