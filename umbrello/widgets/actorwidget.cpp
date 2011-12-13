@@ -1,4 +1,5 @@
 /***************************************************************************
+ *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -16,9 +17,6 @@
 #include "textitemgroup.h"
 #include "textitem.h"
 
-// qt includes
-#include <QtGui/QPainter>
-
 const QSizeF ActorWidget::MinimumSize = QSizeF(20, 40);
 
 /**
@@ -34,7 +32,9 @@ ActorWidget::ActorWidget(UMLActor *a) : UMLWidget(a)
     setMargin(0);
 }
 
-/// Destructor
+/**
+ * Destructor.
+ */
 ActorWidget::~ActorWidget()
 {
 }
@@ -50,7 +50,11 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
     painter->drawPath(m_actorPath);
 }
 
-/// Saves the widget to the "actorwidget" XMI element.
+/**
+ * Saves the widget to the "actorwidget" XMI element.
+ * Note: For loading from XMI, the inherited parent method is used.
+ */
+
 void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement actorElement = qDoc.createElement( "actorwidget" );

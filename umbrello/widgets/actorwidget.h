@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -32,13 +32,11 @@ class UMLActor;
 class ActorWidget : public UMLWidget
 {
 public:
-
     ActorWidget(UMLActor *o);
     virtual ~ActorWidget();
 
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
 
-    //Note: For loading from XMI, the inherited parent method is used.
     virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
