@@ -11,11 +11,6 @@
 // own header
 #include "boxwidget.h"
 
-// qt/kde includes
-#include <QtCore/QEvent>
-
-#include "debug_utils.h"
-
 BoxWidget::BoxWidget(UMLView * view, Uml::IDType id)
   : UMLWidget(view, id)
 {
@@ -46,4 +41,3 @@ void BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
     UMLWidget::saveToXMI(qDoc, boxElement);
     qElement.appendChild(boxElement);
 }
-
