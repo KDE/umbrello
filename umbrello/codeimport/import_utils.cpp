@@ -212,7 +212,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                     }
                     int wantNamespace = KMessageBox::Yes;
                     if (pl == Uml::ProgrammingLanguage::Cpp) {
-                        /* We know std and Qt are namespaces */
+                        // We know std and Qt are namespaces.
                         if (scopeName != "std" && scopeName != "Qt") {
                             wantNamespace = KMessageBox::questionYesNo(NULL,
                                         i18n("Is the scope %1 a namespace or a class?", scopeName),
