@@ -29,19 +29,20 @@ class UMLView;
  */
 class EntityWidget : public UMLWidget
 {
+    Q_OBJECT
 public:
-    EntityWidget(UMLView* view, UMLObject* o);
-    ~EntityWidget();
+    explicit EntityWidget(UMLView* view, UMLObject* o);
+    virtual ~EntityWidget();
 
     void init();
 
-    void draw(QPainter& p, int offsetX, int offsetY);
+    virtual void draw(QPainter& p, int offsetX, int offsetY);
 
-    bool loadFromXMI(QDomElement& qElement);
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    // UMLWidget::loadFromXMI is used to load this widget.
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-public slots:
-    void slotMenuSelection(QAction* action);
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
 protected:
     QSize calculateSize();

@@ -40,7 +40,7 @@ EntityWidget::EntityWidget(UMLView* view, UMLObject* o)
 }
 
 /**
- * Standard deconstructor.
+ * Destructor.
  */
 EntityWidget::~EntityWidget()
 {
@@ -142,17 +142,6 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY)
 }
 
 /**
- * Loads from an "entitywidget" XMI element.
- */
-bool EntityWidget::loadFromXMI( QDomElement & qElement )
-{
-    if ( !UMLWidget::loadFromXMI(qElement) ) {
-        return false;
-    }
-    return true;
-}
-
-/**
  * Saves to the "entitywidget" XMI element.
  */
 void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
@@ -163,8 +152,8 @@ void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
 }
 
 /**
- * Will be called when a menu selection has been made from the
- * popup menu.
+ * Will be called when a menu selection has been made from the popup
+ * menu.
  *
  * @param action       The action that has been selected.
  */
