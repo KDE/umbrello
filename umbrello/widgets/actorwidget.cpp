@@ -79,6 +79,11 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY)
  * Note: For loading from XMI, the inherited parent method is used.
  */
 void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement actorElement = qDoc.createElement( "actorwidget" );
+    UMLWidget::saveToXMI( qDoc, actorElement );
+    qElement.appendChild( actorElement );
+}
 
 /**
  * Overrides method from UMLWidget.
@@ -95,8 +100,3 @@ QSize ActorWidget::calculateSize()
 }
 
 
-{
-    QDomElement actorElement = qDoc.createElement( "actorwidget" );
-    UMLWidget::saveToXMI( qDoc, actorElement );
-    qElement.appendChild( actorElement );
-}
