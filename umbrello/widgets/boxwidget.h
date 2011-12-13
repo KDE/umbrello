@@ -30,27 +30,10 @@
 class BoxWidget : public UMLWidget
 {
 public:
-    /**
-     * Constructs a BoxWidget.
-     *
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
     explicit BoxWidget(Uml::IDType id = Uml::id_None);
-
-    /**
-     * destructor
-     */
     virtual ~BoxWidget();
 
-    /**
-     * Draws a rectangle.
-     */
     virtual void paint(QPainter *p, const QStyleOptionGraphicsItem *item, QWidget *w);
-
-    /**
-     * Saves the widget to the "boxwidget" XMI element.
-     * Note: For loading from XMI, the inherited parent method is used.
-     */
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 };
 
