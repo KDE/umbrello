@@ -11,28 +11,41 @@
 // own header
 #include "enumwidget.h"
 
-// qt/kde includes
-#include <QtGui/QPainter>
-
 // app includes
+#include "classifier.h"
+#include "classifierlistitem.h"
 #include "debug_utils.h"
 #include "enum.h"
 #include "enumliteral.h"
-#include "classifier.h"
-#include "umlclassifierlistitemlist.h"
-#include "classifierlistitem.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
+#include "uml.h"
+#include "umlclassifierlistitemlist.h"
+#include "umlview.h"
+#include "umldoc.h"
 
+/**
+ * Constructs an instance of EnumWidget.
+ *
+ * @param view      The parent of this EnumWidget.
+ * @param o         The UMLObject this will be representing.
+ */
 EnumWidget::EnumWidget(UMLView* view, UMLObject* o)
   : UMLWidget(view, o)
 {
     init();
 }
 
+/**
+ * Destructor.
+ */
+EnumWidget::~EnumWidget()
+{
+}
+
+/**
+ * Initializes key variables of the class.
+ */
 void EnumWidget::init()
 {
     UMLWidget::setBaseType(WidgetBase::wt_Enum);
@@ -50,10 +63,41 @@ void EnumWidget::init()
         updateComponentSize();
 }
 
-EnumWidget::~EnumWidget()
+/**
+ * Returns the status of whether to show Package.
+ *
+ * @return  True if package is shown.
+ */
+bool EnumWidget::getShowPackage() const
 {
+    return m_bShowPackage;
 }
 
+/**
+ * Set the status of whether to show Package.
+ *
+ * @param _status             True if package shall be shown.
+ */
+void EnumWidget::setShowPackage(bool _status)
+{
+    m_bShowPackage = _status;
+    updateComponentSize();
+    update();
+}
+
+/**
+ * Toggles the status of whether to show package.
+ */
+void EnumWidget::toggleShowPackage()
+{
+    m_bShowPackage = !m_bShowPackage;
+    updateComponentSize();
+    update();
+}
+
+/**
+ * Draws the enum as a rectangle with a box underneith with a list of literals
+ */
 void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
@@ -115,6 +159,59 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
     }
 }
 
+/**
+ * Loads from an "enumwidget" XMI element.
+ */
+bool EnumWidget::loadFromXMI( QDomElement & qElement )
+{
+    if ( !UMLWidget::loadFromXMI(qElement) ) {
+        return false;
+    }
+    QString showpackage = qElement.attribute("showpackage", "0");
+
+    m_bShowPackage = (bool)showpackage.toInt();
+
+    return true;
+}
+
+/**
+ * Saves to the "enumwidget" XMI element.
+ */
+void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
+{
+    QDomElement conceptElement = qDoc.createElement("enumwidget");
+    UMLWidget::saveToXMI(qDoc, conceptElement);
+
+    conceptElement.setAttribute("showpackage", m_bShowPackage);
+    qElement.appendChild(conceptElement);
+}
+
+/**
+ * Will be called when a menu selection has been made from the
+ * popup menu.
+ *
+ * @param action       The action that has been selected.
+ */
+void EnumWidget::slotMenuSelection(QAction* action)
+{
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    if (sel == ListPopupMenu::mt_EnumLiteral) {
+        if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
+                                              UMLObject::ot_EnumLiteral) )  {
+            /* I don't know why it works without these calls:
+            updateComponentSize();
+            update();
+             */
+            UMLApp::app()->document()->setModified();
+        }
+        return;
+    }
+    UMLWidget::slotMenuSelection(action);
+}
+
+/**
+ * Overrides method from UMLWidget.
+ */
 QSize EnumWidget::calculateSize()
 {
     if (!m_pObject) {
@@ -170,61 +267,3 @@ QSize EnumWidget::calculateSize()
 
     return QSize(width, height);
 }
-
-void EnumWidget::slotMenuSelection(QAction* action)
-{
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
-    if (sel == ListPopupMenu::mt_EnumLiteral) {
-        if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
-                                              UMLObject::ot_EnumLiteral) )  {
-            /* I don't know why it works without these calls:
-            updateComponentSize();
-            update();
-             */
-            UMLApp::app()->document()->setModified();
-        }
-        return;
-    }
-    UMLWidget::slotMenuSelection(action);
-}
-
-void EnumWidget::setShowPackage(bool _status)
-{
-    m_bShowPackage = _status;
-    updateComponentSize();
-    update();
-}
-
-bool EnumWidget::getShowPackage() const
-{
-    return m_bShowPackage;
-}
-
-void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
-{
-    QDomElement conceptElement = qDoc.createElement("enumwidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
-
-    conceptElement.setAttribute("showpackage", m_bShowPackage);
-    qElement.appendChild(conceptElement);
-}
-
-bool EnumWidget::loadFromXMI( QDomElement & qElement )
-{
-    if ( !UMLWidget::loadFromXMI(qElement) ) {
-        return false;
-    }
-    QString showpackage = qElement.attribute("showpackage", "0");
-
-    m_bShowPackage = (bool)showpackage.toInt();
-
-    return true;
-}
-
-void EnumWidget::toggleShowPackage()
-{
-    m_bShowPackage = !m_bShowPackage;
-    updateComponentSize();
-    update();
-}
-

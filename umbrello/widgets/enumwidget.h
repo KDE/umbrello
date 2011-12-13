@@ -12,6 +12,7 @@
 #ifndef ENUMWIDGET_H
 #define ENUMWIDGET_H
 
+
 #include "umlwidget.h"
 
 class UMLView;
@@ -29,77 +30,31 @@ class UMLView;
  */
 class EnumWidget : public UMLWidget {
 public:
-
-    /**
-     * Constructs an EnumWidget.
-     *
-     * @param view              The parent of this EnumWidget.
-     * @param o         The UMLObject this will be representing.
-     */
     EnumWidget(UMLView* view, UMLObject* o);
-
-    /**
-     * Standard deconstructor.
-     */
     ~EnumWidget();
 
-    /**
-     * Initializes key variables of the class.
-     */
     void init();
 
-    /**
-     * Returns the status of whether to show Package.
-     *
-     * @return  True if package is shown.
-     */
+    // TODO: is this a generic pattern and should be moved to a base class ? 
     bool getShowPackage() const;
-
-    /**
-     * Toggles the status of whether to show package.
-     */
+    void setShowPackage(bool _status);
     void toggleShowPackage();
 
-    /**
-     * Set the status of whether to show Package.
-     *
-     * @param _status             True if package shall be shown.
-     */
-    void setShowPackage(bool _status);
-
-    /**
-     * Draws the enum as a rectangle with a box underneith with a list of literals
-     */
     void draw(QPainter& p, int offsetX, int offsetY);
 
-    /**
-     * Saves to the "enumwidget" XMI element.
-     */
+    bool loadFromXMI(QDomElement& qElement);
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    /**
-     * Loads from an "enumwidget" XMI element.
-     */
-    bool loadFromXMI(QDomElement& qElement);
+public slots:
+    void slotMenuSelection(QAction* action);
 
 protected:
-    /**
-     * Overrides method from UMLWidget.
-     */
     QSize calculateSize();
 
     bool m_bShowPackage;
 
 private:
 
-public slots:
-    /**
-     * Will be called when a menu selection has been made from the
-     * popup menu.
-     *
-     * @param action       The action that has been selected.
-     */
-    void slotMenuSelection(QAction* action);
 };
 
 #endif
