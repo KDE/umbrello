@@ -1,4 +1,5 @@
 /***************************************************************************
+ *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -11,30 +12,43 @@
 // own header
 #include "entitywidget.h"
 
-// qt/kde includes
-#include <QtGui/QPainter>
-
 // app includes
+#include "classifier.h"
+#include "classifierlistitem.h"
 #include "debug_utils.h"
 #include "entity.h"
 #include "entityattribute.h"
-#include "uniqueconstraint.h"
 #include "foreignkeyconstraint.h"
-#include "classifier.h"
-#include "umlclassifierlistitemlist.h"
-#include "classifierlistitem.h"
-#include "umlview.h"
-#include "umldoc.h"
-#include "uml.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
+#include "uml.h"
+#include "umlclassifierlistitemlist.h"
+#include "umldoc.h"
+#include "umlview.h"
+#include "uniqueconstraint.h"
 
+/**
+ * Constructs an EntityWidget.
+ *
+ * @param view              The parent of this EntityWidget.
+ * @param o         The UMLObject this will be representing.
+ */
 EntityWidget::EntityWidget(UMLView* view, UMLObject* o)
   : UMLWidget(view, o)
 {
     init();
 }
 
+/**
+ * Standard deconstructor.
+ */
+EntityWidget::~EntityWidget()
+{
+}
+
+/**
+ * Initializes key variables of the class.
+ */
 void EntityWidget::init()
 {
     UMLWidget::setBaseType(WidgetBase::wt_Entity);
@@ -49,10 +63,9 @@ void EntityWidget::init()
         updateComponentSize();
 }
 
-EntityWidget::~EntityWidget()
-{
-}
-
+/**
+ * Draws the entity as a rectangle with a box underneith with a list of literals
+ */
 void EntityWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
@@ -128,6 +141,81 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY)
     }
 }
 
+/**
+ * Loads from an "entitywidget" XMI element.
+ */
+bool EntityWidget::loadFromXMI( QDomElement & qElement )
+{
+    if ( !UMLWidget::loadFromXMI(qElement) ) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Saves to the "entitywidget" XMI element.
+ */
+void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
+{
+    QDomElement conceptElement = qDoc.createElement("entitywidget");
+    UMLWidget::saveToXMI(qDoc, conceptElement);
+    qElement.appendChild(conceptElement);
+}
+
+/**
+ * Will be called when a menu selection has been made from the
+ * popup menu.
+ *
+ * @param action       The action that has been selected.
+ */
+void EntityWidget::slotMenuSelection(QAction* action)
+{
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    switch(sel) {
+    case ListPopupMenu::mt_EntityAttribute:
+        if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
+                                              UMLObject::ot_EntityAttribute) )  {
+            UMLApp::app()->document()->setModified();
+        }
+        break;
+
+    case ListPopupMenu::mt_PrimaryKeyConstraint:
+    case ListPopupMenu::mt_UniqueConstraint:
+        if ( UMLObject* obj = Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
+                                               UMLObject::ot_UniqueConstraint) ) {
+            UMLApp::app()->document()->setModified();
+
+            if ( sel == ListPopupMenu::mt_PrimaryKeyConstraint ) {
+                UMLUniqueConstraint* uc = static_cast<UMLUniqueConstraint*>(obj);
+                static_cast<UMLEntity*>(m_pObject)->setAsPrimaryKey(uc);
+            }
+        }
+        break;
+
+    case ListPopupMenu::mt_ForeignKeyConstraint:
+         if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
+                                               UMLObject::ot_ForeignKeyConstraint) ) {
+             UMLApp::app()->document()->setModified();
+
+        }
+        break;
+
+    case ListPopupMenu::mt_CheckConstraint:
+         if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
+                                               UMLObject::ot_CheckConstraint) ) {
+             UMLApp::app()->document()->setModified();
+
+        }
+        break;
+
+    default:
+        UMLWidget::slotMenuSelection(action);
+    }
+}
+
+/**
+ * Overrides method from UMLWidget.
+ */
 QSize EntityWidget::calculateSize()
 {
     if (!m_pObject) {
@@ -183,65 +271,3 @@ QSize EntityWidget::calculateSize()
 
     return QSize(width, height);
 }
-
-void EntityWidget::slotMenuSelection(QAction* action)
-{
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
-    switch(sel) {
-    case ListPopupMenu::mt_EntityAttribute:
-        if (Object_Factory::createChildObject(static_cast<UMLClassifier*>(m_pObject),
-                                              UMLObject::ot_EntityAttribute) )  {
-            UMLApp::app()->document()->setModified();
-        }
-        break;
-
-    case ListPopupMenu::mt_PrimaryKeyConstraint:
-    case ListPopupMenu::mt_UniqueConstraint:
-        if ( UMLObject* obj = Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
-                                               UMLObject::ot_UniqueConstraint) ) {
-            UMLApp::app()->document()->setModified();
-
-            if ( sel == ListPopupMenu::mt_PrimaryKeyConstraint ) {
-                UMLUniqueConstraint* uc = static_cast<UMLUniqueConstraint*>(obj);
-                static_cast<UMLEntity*>(m_pObject)->setAsPrimaryKey(uc);
-            }
-        }
-        break;
-
-    case ListPopupMenu::mt_ForeignKeyConstraint:
-         if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
-                                               UMLObject::ot_ForeignKeyConstraint) ) {
-             UMLApp::app()->document()->setModified();
-
-        }
-        break;
-
-    case ListPopupMenu::mt_CheckConstraint:
-         if (Object_Factory::createChildObject(static_cast<UMLEntity*>(m_pObject),
-                                               UMLObject::ot_CheckConstraint) ) {
-             UMLApp::app()->document()->setModified();
-
-        }
-        break;
-
-    default:
-        UMLWidget::slotMenuSelection(action);
-    }
-
-}
-
-void EntityWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
-{
-    QDomElement conceptElement = qDoc.createElement("entitywidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
-}
-
-bool EntityWidget::loadFromXMI( QDomElement & qElement )
-{
-    if ( !UMLWidget::loadFromXMI(qElement) ) {
-        return false;
-    }
-    return true;
-}
-
