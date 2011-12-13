@@ -128,7 +128,7 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
     switch(sel) {
     case ListPopupMenu::mt_Properties:
-        showProperties();
+        showPropertiesDialog();
         break;
 
     case ListPopupMenu::mt_Delete:
@@ -549,7 +549,7 @@ bool FloatingTextWidget::isTextValid( const QString &text )
  * for the floating text widget, the rename dialog for floating text or
  * the options dialog for the link widget are shown.
  */
-void FloatingTextWidget::showProperties()
+void FloatingTextWidget::showPropertiesDialog()
 {
     if (m_textRole == Uml::TextRole::Coll_Message || m_textRole == Uml::TextRole::Coll_Message_Self ||
             m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self) {

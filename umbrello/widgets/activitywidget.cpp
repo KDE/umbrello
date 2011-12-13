@@ -143,7 +143,7 @@ void ActivityWidget::setPostconditionText(const QString& aPostText)
 /**
  * Show a properties dialog for an ActivityWidget.
  */
-void ActivityWidget::showProperties()
+void ActivityWidget::showPropertiesDialog()
 {
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
@@ -376,7 +376,7 @@ void ActivityWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Properties:
-        showProperties();
+        showPropertiesDialog();
         break;
 
     default:

@@ -178,7 +178,7 @@ void StateWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Properties:
-        showProperties();
+        showPropertiesDialog();
         break;
 
     case ListPopupMenu::mt_New_Activity:
@@ -227,7 +227,7 @@ bool StateWidget::renameActivity( const QString &activity, const QString &newNam
     return true;
 }
 
-void StateWidget::showProperties()
+void StateWidget::showPropertiesDialog()
 {
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);

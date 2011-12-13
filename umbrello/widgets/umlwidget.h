@@ -424,7 +424,7 @@ public:
     /**
      * Show a properties dialog for a UMLWidget.
      */
-    virtual void showProperties();
+    virtual void showPropertiesDialog();
 
     /**
      * Returns true if the Activate method has been called for this instance

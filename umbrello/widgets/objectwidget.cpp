@@ -108,7 +108,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
             break;
         }
     case ListPopupMenu::mt_Properties:
-        showProperties();
+        showPropertiesDialog();
         updateComponentSize();
         moveEvent( 0 );
         update();
@@ -221,7 +221,7 @@ void ObjectWidget::cleanup()
     }
 }
 
-void ObjectWidget::showProperties()
+void ObjectWidget::showPropertiesDialog()
 {
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);

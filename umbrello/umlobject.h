@@ -128,7 +128,7 @@ public:
 
     void setInPaste(bool bInPaste = true);
 
-    virtual bool showProperties(int page = 0, bool assoc = false);
+    virtual bool showPropertiesDialog(int page = 0, bool assoc = false);
 
     virtual bool resolveRef();
 

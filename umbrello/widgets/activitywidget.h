@@ -64,12 +64,12 @@ public:
     QString postconditionText();
     void setPostconditionText(const QString&);
 
-    void showProperties();
+    virtual void showPropertiesDialog();
 
-    void draw(QPainter & p, int offsetX, int offsetY);
+    virtual void draw(QPainter & p, int offsetX, int offsetY);
 
-    bool loadFromXMI( QDomElement & qElement );
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
     void constrain(int& width, int& height);
 

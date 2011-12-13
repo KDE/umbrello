@@ -116,7 +116,7 @@ void UMLObject::init()
  * @param assoc   Whether to show association page.
  * @return        True if we modified the object.
  */
-bool UMLObject::showProperties(int page, bool assoc)
+bool UMLObject::showPropertiesDialog(int page, bool assoc)
 {
     Q_UNUSED(page);
     DocWindow *docwindow = UMLApp::app()->docWindow();

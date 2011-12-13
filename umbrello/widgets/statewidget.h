@@ -116,7 +116,7 @@ public:
     /**
      * Show a properties dialog for a StateWidget.
      */
-    void showProperties();
+    void showPropertiesDialog();
 
     /**
      * Returns true if the given toolbar button represents a State.

@@ -291,11 +291,11 @@ void UMLWidget::slotMenuSelection(QAction* action)
                 wt == WidgetBase::wt_Node || wt == WidgetBase::wt_Enum || wt == WidgetBase::wt_Entity ||
                 (wt == WidgetBase::wt_Class && m_pView->type() == Uml::DiagramType::Class)) {
             UMLApp::app()->beginMacro(i18n("Change Properties"));
-            showProperties();
+            showPropertiesDialog();
             UMLApp::app()->endMacro();
         } else if (wt == wt_Object) {
             UMLApp::app()->beginMacro(i18n("Change Properties"));
-            m_pObject->showProperties();
+            m_pObject->showPropertiesDialog();
             UMLApp::app()->endMacro();
         } else {
             uWarning() << "making properties dialog for unknown widget type";
@@ -641,7 +641,7 @@ void UMLWidget::adjustUnselectedAssocs(int x, int y)
     }
 }
 
-void UMLWidget::showProperties()
+void UMLWidget::showPropertiesDialog()
 {
     // will already be selected so make sure docWindow updates the doc
     // back it the widget

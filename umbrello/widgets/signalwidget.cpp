@@ -223,7 +223,7 @@ void SignalWidget::slotMenuSelection(QAction* action)
     }
 }
 
-void SignalWidget::showProperties()
+void SignalWidget::showPropertiesDialog()
 {
 }
 

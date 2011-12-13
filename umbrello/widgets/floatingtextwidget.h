@@ -103,7 +103,7 @@ public:
     void changeName(const QString& newText);
 
     void showOperationDialog();
-    void showProperties();
+    void showPropertiesDialog();
 
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
     bool loadFromXMI( QDomElement & qElement );

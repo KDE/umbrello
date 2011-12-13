@@ -88,7 +88,7 @@ public:
      * Show a properties dialog for a SignalWidget.
      *
      */
-    virtual void  showProperties();
+    virtual void  showPropertiesDialog();
 
 
     /**

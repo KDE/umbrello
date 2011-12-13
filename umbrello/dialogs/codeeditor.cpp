@@ -176,7 +176,7 @@ void CodeEditor::editTextBlock(TextBlock * tBlock, int para)
                     delete dlg;
                 }
                 else if ( (dynamic_cast<UMLClassifier*>(obj)) ) {
-                    if (obj->showProperties()) {
+                    if (obj->showPropertiesDialog()) {
                         rebuildView(para);
                     }
                 }

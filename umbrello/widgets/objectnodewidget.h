@@ -89,7 +89,7 @@ public:
      * Show a properties dialog for an ObjectNodeWidget.
      *
      */
-    virtual void showProperties();
+    virtual void showPropertiesDialog();
 
 
     /**

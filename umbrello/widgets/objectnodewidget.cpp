@@ -203,7 +203,7 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Properties:
-        showProperties();
+        showPropertiesDialog();
         break;
 
     default:
@@ -211,7 +211,7 @@ void ObjectNodeWidget::slotMenuSelection(QAction* action)
     }
 }
 
-void ObjectNodeWidget::showProperties()
+void ObjectNodeWidget::showPropertiesDialog()
 {
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
