@@ -11,6 +11,12 @@
 // own header
 #include "boxwidget.h"
 
+/**
+ * Constructs a BoxWidget.
+ *
+ * @param view              The parent to this widget.
+ * @param id                The ID to assign (-1 will prompt a new ID.)
+ */
 BoxWidget::BoxWidget(UMLView * view, Uml::IDType id)
   : UMLWidget(view, id)
 {
@@ -21,10 +27,16 @@ BoxWidget::BoxWidget(UMLView * view, Uml::IDType id)
     setZ(m_origZ = 0);
 }
 
+/**
+ * destructor
+ */
 BoxWidget::~BoxWidget()
 {
 }
 
+/**
+ * Draws a rectangle.
+ */
 void BoxWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
@@ -35,6 +47,10 @@ void BoxWidget::draw(QPainter& p, int offsetX, int offsetY)
     }
 }
 
+/**
+ * Saves the widget to the "boxwidget" XMI element.
+ * Note: For loading from XMI, the inherited parent method is used.
+ */
 void BoxWidget::saveToXMI(QDomDocument& qDoc, QDomElement& qElement)
 {
     QDomElement boxElement = qDoc.createElement("boxwidget");
