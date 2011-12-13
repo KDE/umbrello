@@ -1,4 +1,5 @@
 /***************************************************************************
+ *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -10,9 +11,6 @@
 
 // own header file
 #include "actorwidget.h"
-
-// system includes
-#include <QtGui/QPainter>
 
 // local includes
 #include "actor.h"
@@ -77,6 +75,12 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY)
 }
 
 /**
+ * Saves the widget to the "actorwidget" XMI element.
+ * Note: For loading from XMI, the inherited parent method is used.
+ */
+void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+
+/**
  * Overrides method from UMLWidget.
  */
 QSize ActorWidget::calculateSize() 
@@ -90,11 +94,7 @@ QSize ActorWidget::calculateSize()
     return QSize(width, height);
 }
 
-/**
- * Saves the widget to the "actorwidget" XMI element.
- * Note: For loading from XMI, the inherited parent method is used.
- */
-void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+
 {
     QDomElement actorElement = qDoc.createElement( "actorwidget" );
     UMLWidget::saveToXMI( qDoc, actorElement );
