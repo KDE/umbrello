@@ -47,23 +47,6 @@ EntityWidget::~EntityWidget()
 }
 
 /**
- * Initializes key variables of the class.
- */
-void EntityWidget::init()
-{
-    UMLWidget::setBaseType(WidgetBase::wt_Entity);
-    setSize(100, 30);
-
-    //set defaults from m_pView
-    if (m_pView) {
-        //check to see if correct
-        //const Settings::OptionState& ops = m_pView->getOptionState();
-    }
-    if (! UMLApp::app()->document()->loading())
-        updateComponentSize();
-}
-
-/**
  * Draws the entity as a rectangle with a box underneith with a list of literals
  */
 void EntityWidget::draw(QPainter& p, int offsetX, int offsetY)
@@ -259,4 +242,21 @@ QSize EntityWidget::calculateSize()
     width += ENTITY_MARGIN * 2;
 
     return QSize(width, height);
+}
+
+/**
+ * Initializes key variables of the class.
+ */
+void EntityWidget::init()
+{
+    UMLWidget::setBaseType(WidgetBase::wt_Entity);
+    setSize(100, 30);
+
+    //set defaults from m_pView
+    if (m_pView) {
+        //check to see if correct
+        //const Settings::OptionState& ops = m_pView->getOptionState();
+    }
+    if (! UMLApp::app()->document()->loading())
+        updateComponentSize();
 }

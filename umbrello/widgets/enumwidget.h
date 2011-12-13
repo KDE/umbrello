@@ -33,8 +33,6 @@ public:
     EnumWidget(UMLView* view, UMLObject* o);
     ~EnumWidget();
 
-    void init();
-
     // TODO: is this a generic pattern and should be moved to a base class ? 
     bool getShowPackage() const;
     void setShowPackage(bool _status);
@@ -54,6 +52,7 @@ protected:
     bool m_bShowPackage;
 
 private:
+    void init();
 
 };
 

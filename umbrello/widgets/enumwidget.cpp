@@ -44,26 +44,6 @@ EnumWidget::~EnumWidget()
 }
 
 /**
- * Initializes key variables of the class.
- */
-void EnumWidget::init()
-{
-    UMLWidget::setBaseType(WidgetBase::wt_Enum);
-    setSize(100, 30);
-    //set defaults from m_pView
-    if (m_pView) {
-        //check to see if correct
-        const Settings::OptionState& ops = m_pView->optionState();
-        m_bShowPackage = ops.classState.showPackage;
-    } else {
-        // For completeness only. Not supposed to happen.
-        m_bShowPackage = false;
-    }
-    if (! UMLApp::app()->document()->loading())
-        updateComponentSize();
-}
-
-/**
  * Returns the status of whether to show Package.
  *
  * @return  True if package is shown.
@@ -266,4 +246,24 @@ QSize EnumWidget::calculateSize()
     width += ENUM_MARGIN * 2;
 
     return QSize(width, height);
+}
+
+/**
+ * Initializes key variables of the class.
+ */
+void EnumWidget::init()
+{
+    UMLWidget::setBaseType(WidgetBase::wt_Enum);
+    setSize(100, 30);
+    //set defaults from m_pView
+    if (m_pView) {
+        //check to see if correct
+        const Settings::OptionState& ops = m_pView->optionState();
+        m_bShowPackage = ops.classState.showPackage;
+    } else {
+        // For completeness only. Not supposed to happen.
+        m_bShowPackage = false;
+    }
+    if (! UMLApp::app()->document()->loading())
+        updateComponentSize();
 }

@@ -34,7 +34,6 @@ public:
     explicit EntityWidget(UMLView* view, UMLObject* o);
     virtual ~EntityWidget();
 
-    void init();
 
     virtual void draw(QPainter& p, int offsetX, int offsetY);
 
@@ -46,6 +45,9 @@ public Q_SLOTS:
 
 protected:
     QSize calculateSize();
+
+private:
+    void init();
 
 };
 
