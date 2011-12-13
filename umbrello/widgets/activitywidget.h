@@ -1,10 +1,11 @@
 /***************************************************************************
+ *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -48,91 +49,34 @@ public:
         Param
     };
 
-    /**
-     * Creates a Activity widget.
-     *
-     * @param view              The parent of the widget.
-     * @param activityType      The type of activity.
-     * @param id                The ID to assign (-1 will prompt a new ID.)
-     */
     explicit ActivityWidget( UMLView * view, ActivityType activityType = Normal, Uml::IDType id = Uml::id_None );
-
-    /**
-     *  destructor
-     */
     virtual ~ActivityWidget();
 
-    /**
-     * Overrides the standard paint event.
-     */
-    void draw(QPainter & p, int offsetX, int offsetY);
-
-    /**
-     * Overrides Method from UMLWidget.
-     */
-    void constrain(int& width, int& height);
-
-    /**
-     * Returns the type of activity.
-     */
     ActivityType activityType() const;
-
-    /**
-     * Sets the type of activity.
-     */
     void setActivityType( ActivityType activityType );
 
-    /**
-     * Show a properties dialog for an ActivityWidget.
-     */
-    void showProperties();
-
-    /**
-     * Determines whether a toolbar button represents an Activity.
-     * CHECK: currently unused - can this be removed?
-     *
-     * @param tbb               The toolbar button enum input value.
-     * @param resultType        The ActivityType corresponding to tbb.
-     *                  This is only set if tbb is an Activity.
-     * @return  True if tbb represents an Activity.
-     */
     static bool isActivity( WorkToolBar::ToolBar_Buttons tbb,
                             ActivityType& resultType );
 
-    /**
-     * Saves the widget to the "activitywidget" XMI element.
-     */
+    QString preconditionText();
+    void setPreconditionText(const QString&);
+
+    QString postconditionText();
+    void setPostconditionText(const QString&);
+
+    void showProperties();
+
+    void draw(QPainter & p, int offsetX, int offsetY);
+
+    bool loadFromXMI( QDomElement & qElement );
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    /**
-     * Loads the widget from the "activitywidget" XMI element.
-     */
-    bool loadFromXMI( QDomElement & qElement );
+    void constrain(int& width, int& height);
 
-    /**
-     * This method set the name of the preText attribute
-     */
-     void setPreconditionText(const QString&);
-
-    /**
-     * This method get the name of the preText attribute
-     */
-     QString preconditionText();
-
-     /**
-     * This method set the name of the postText attribute
-     */
-     void setPostconditionText(const QString&);
-
-   /**
-     * This method get the name of the postText attribute
-     */
-     QString postconditionText();
+public Q_SLOTS:
+    void slotMenuSelection(QAction* action);
 
 protected:
-    /**
-     * Overrides method from UMLWidget
-     */
     QSize calculateSize();
 
     /**
@@ -146,12 +90,6 @@ protected:
      */
     bool m_NormalActivityType;
 
-public slots:
-
-    /**
-     * Captures any popup menu signals for menus it created.
-     */
-    void slotMenuSelection(QAction* action);
 };
 
 #endif

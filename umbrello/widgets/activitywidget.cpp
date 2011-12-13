@@ -21,13 +21,20 @@
 #include <kinputdialog.h>
 
 // app includes
+#include "dialogs/activitydialog.h"
+#include "docwindow.h"
+#include "listpopupmenu.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "docwindow.h"
 #include "umlview.h"
-#include "listpopupmenu.h"
-#include "dialogs/activitydialog.h"
 
+/**
+ * Creates a Activity widget.
+ *
+ * @param view              The parent of the widget.
+ * @param activityType      The type of activity.
+ * @param id                The ID to assign (-1 will prompt a new ID.)
+ */
 ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::IDType id )
   : UMLWidget(view, id)
 {
@@ -36,10 +43,122 @@ ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::I
     updateComponentSize();
 }
 
+/**
+ *  destructor
+ */
 ActivityWidget::~ActivityWidget()
 {
 }
 
+/**
+ * Returns the type of activity.
+ */
+ActivityWidget::ActivityType ActivityWidget::activityType() const
+{
+    return m_ActivityType;
+}
+
+/**
+ * Sets the type of activity.
+ */
+void ActivityWidget::setActivityType( ActivityType activityType )
+{
+    m_ActivityType = activityType;
+    updateComponentSize();
+    UMLWidget::m_bResizable = true;
+}
+
+/**
+ * Determines whether a toolbar button represents an Activity.
+ * CHECK: currently unused - can this be removed?
+ *
+ * @param tbb               The toolbar button enum input value.
+ * @param resultType        The ActivityType corresponding to tbb.
+ *                  This is only set if tbb is an Activity.
+ * @return  True if tbb represents an Activity.
+ */
+bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
+                                ActivityType& resultType)
+{
+    bool status = true;
+    switch (tbb) {
+    case WorkToolBar::tbb_Initial_Activity:
+        resultType = Initial;
+        break;
+    case WorkToolBar::tbb_Activity:
+        resultType = Normal;
+        break;
+    case WorkToolBar::tbb_End_Activity:
+        resultType = End;
+        break;
+    case WorkToolBar::tbb_Final_Activity:
+        resultType = Final;
+        break;
+    case WorkToolBar::tbb_Branch:
+        resultType = Branch;
+        break;
+    default:
+        status = false;
+        break;
+    }
+    return status;
+}
+
+/**
+ * This method get the name of the preText attribute
+ */
+QString ActivityWidget::preconditionText()
+{
+    return preText;
+}
+
+/**
+ * This method set the name of the preText attribute
+ */
+void ActivityWidget::setPreconditionText(const QString& aPreText)
+{
+    preText=aPreText;
+    updateComponentSize();
+    adjustAssocs( getX(), getY() );
+}
+
+/**
+ * This method get the name of the postText attribute
+ */
+QString ActivityWidget::postconditionText()
+{
+    return postText;
+}
+
+ /**
+ * This method set the name of the postText attribute
+ */
+void ActivityWidget::setPostconditionText(const QString& aPostText)
+{
+    postText=aPostText;
+    updateComponentSize();
+    adjustAssocs( getX(), getY() );
+}
+
+/**
+ * Show a properties dialog for an ActivityWidget.
+ */
+void ActivityWidget::showProperties()
+{
+    DocWindow *docwindow = UMLApp::app()->docWindow();
+    docwindow->updateDocumentation(false);
+
+    QPointer<ActivityDialog> dialog = new ActivityDialog(m_pView, this);
+    if (dialog->exec() && dialog->getChangesMade()) {
+        docwindow->showDocumentation(this, true);
+        UMLApp::app()->document()->setModified(true);
+    }
+    delete dialog;
+}
+
+/**
+ * Overrides the standard paint event.
+ */
 void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     int w = width();
@@ -171,6 +290,42 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Loads the widget from the "activitywidget" XMI element.
+ */
+bool ActivityWidget::loadFromXMI( QDomElement & qElement )
+{
+    if( !UMLWidget::loadFromXMI( qElement ) )
+        return false;
+    m_Text = qElement.attribute( "activityname", "" );
+    m_Doc = qElement.attribute( "documentation", "" );
+    preText = qElement.attribute( "precondition", "" );
+    postText = qElement.attribute( "postcondition", "" );
+
+    QString type = qElement.attribute( "activitytype", "1" );
+    setActivityType( (ActivityType)type.toInt() );
+
+    return true;
+}
+
+/**
+ * Saves the widget to the "activitywidget" XMI element.
+ */
+void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement activityElement = qDoc.createElement( "activitywidget" );
+    UMLWidget::saveToXMI( qDoc, activityElement );
+    activityElement.setAttribute( "activityname", m_Text );
+    activityElement.setAttribute( "documentation", m_Doc );
+    activityElement.setAttribute( "precondition", preText );
+    activityElement.setAttribute( "postcondition", postText );
+    activityElement.setAttribute( "activitytype", m_ActivityType );
+    qElement.appendChild( activityElement );
+}
+
+/**
+ * Overrides Method from UMLWidget.
+ */
 void ActivityWidget::constrain(int& width, int& height)
 {
     if (m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param) {
@@ -204,6 +359,34 @@ void ActivityWidget::constrain(int& width, int& height)
     }
 }
 
+/**
+ * Captures any popup menu signals for menus it created.
+ */
+void ActivityWidget::slotMenuSelection(QAction* action)
+{
+    bool ok = false;
+    QString name = m_Text;
+
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    switch( sel ) {
+    case ListPopupMenu::mt_Rename:
+        name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Text, &ok );
+        if( ok && name.length() > 0 )
+            m_Text = name;
+        break;
+
+    case ListPopupMenu::mt_Properties:
+        showProperties();
+        break;
+
+    default:
+        UMLWidget::slotMenuSelection(action);
+    }
+}
+
+/**
+ * Overrides method from UMLWidget
+ */
 QSize ActivityWidget::calculateSize()
 {
     int width, height;
@@ -239,131 +422,6 @@ QSize ActivityWidget::calculateSize()
         width = height = 20;
     }
     return QSize(width, height);
-}
-
-ActivityWidget::ActivityType ActivityWidget::activityType() const
-{
-    return m_ActivityType;
-}
-
-void ActivityWidget::setActivityType( ActivityType activityType )
-{
-    m_ActivityType = activityType;
-    updateComponentSize();
-    UMLWidget::m_bResizable = true;
-}
-
-void ActivityWidget::slotMenuSelection(QAction* action)
-{
-    bool ok = false;
-    QString name = m_Text;
-
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
-    switch( sel ) {
-    case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Text, &ok );
-        if( ok && name.length() > 0 )
-            m_Text = name;
-        break;
-
-    case ListPopupMenu::mt_Properties:
-        showProperties();
-        break;
-
-    default:
-        UMLWidget::slotMenuSelection(action);
-    }
-}
-
-void ActivityWidget::showProperties()
-{
-    DocWindow *docwindow = UMLApp::app()->docWindow();
-    docwindow->updateDocumentation(false);
-
-    QPointer<ActivityDialog> dialog = new ActivityDialog(m_pView, this);
-    if (dialog->exec() && dialog->getChangesMade()) {
-        docwindow->showDocumentation(this, true);
-        UMLApp::app()->document()->setModified(true);
-    }
-    delete dialog;
-}
-
-bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
-                                ActivityType& resultType)
-{
-    bool status = true;
-    switch (tbb) {
-    case WorkToolBar::tbb_Initial_Activity:
-        resultType = Initial;
-        break;
-    case WorkToolBar::tbb_Activity:
-        resultType = Normal;
-        break;
-    case WorkToolBar::tbb_End_Activity:
-        resultType = End;
-        break;
-    case WorkToolBar::tbb_Final_Activity:
-        resultType = Final;
-        break;
-    case WorkToolBar::tbb_Branch:
-        resultType = Branch;
-        break;
-    default:
-        status = false;
-        break;
-    }
-    return status;
-}
-
-void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    QDomElement activityElement = qDoc.createElement( "activitywidget" );
-    UMLWidget::saveToXMI( qDoc, activityElement );
-    activityElement.setAttribute( "activityname", m_Text );
-    activityElement.setAttribute( "documentation", m_Doc );
-    activityElement.setAttribute( "precondition", preText );
-    activityElement.setAttribute( "postcondition", postText );
-    activityElement.setAttribute( "activitytype", m_ActivityType );
-    qElement.appendChild( activityElement );
-}
-
-bool ActivityWidget::loadFromXMI( QDomElement & qElement )
-{
-    if( !UMLWidget::loadFromXMI( qElement ) )
-        return false;
-    m_Text = qElement.attribute( "activityname", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
-    preText = qElement.attribute( "precondition", "" );
-    postText = qElement.attribute( "postcondition", "" );
-
-    QString type = qElement.attribute( "activitytype", "1" );
-    setActivityType( (ActivityType)type.toInt() );
-
-    return true;
-}
-
-void ActivityWidget::setPreconditionText(const QString& aPreText)
-{
-    preText=aPreText;
-    updateComponentSize();
-    adjustAssocs( getX(), getY() );
-}
-
-QString ActivityWidget::preconditionText()
-{
-    return preText;
-}
-
-void ActivityWidget::setPostconditionText(const QString& aPostText)
-{
-    postText=aPostText;
-    updateComponentSize();
-    adjustAssocs( getX(), getY() );
-}
-
-QString ActivityWidget::postconditionText()
-{
-    return postText;
 }
 
 #include "activitywidget.moc"
