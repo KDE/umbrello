@@ -16,30 +16,36 @@
 
 // app includes
 #include "classifier.h"
+#include "classifierlistitem.h"
 #include "debug_utils.h"
 #include "operation.h"
-#include "classifierlistitem.h"
-#include "umlview.h"
 #include "umldoc.h"
+#include "umlview.h"
 
 #define CIRCLE_SIZE 30
 
+
+/**
+ * Constructs an DatatypeWidget.
+ *
+ * @param view              The parent of this DatatypeWidget.
+ * @param d         The UMLClassifier this will be representing.
+ */
 DatatypeWidget::DatatypeWidget(UMLView* view, UMLClassifier *d) : UMLWidget(view, d)
 {
     init();
 }
 
+/**
+ * Standard deconstructor.
+ */
 DatatypeWidget::~DatatypeWidget()
 {
 }
 
-void DatatypeWidget::init()
-{
-    UMLWidget::setBaseType(WidgetBase::wt_Datatype);
-    setSize(100, 30);
-    m_pMenu = 0;
-}
-
+/**
+ * Overrides standard method.
+ */
 void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
@@ -75,6 +81,27 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY)
     }
 }
 
+/**
+ * Loads from a "datatypewidget" XMI element.
+ */
+bool DatatypeWidget::loadFromXMI( QDomElement & qElement )
+{
+    return UMLWidget::loadFromXMI(qElement);
+}
+
+/**
+ * Saves to the "datatypewidget" XMI element.
+ */
+void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement conceptElement = qDoc.createElement("datatypewidget");
+    UMLWidget::saveToXMI(qDoc, conceptElement);
+    qElement.appendChild(conceptElement);
+}
+
+/**
+ * Overrides method from UMLWidget.
+ */
 QSize DatatypeWidget::calculateSize()
 {
     if (!m_pObject)  {
@@ -104,15 +131,12 @@ QSize DatatypeWidget::calculateSize()
     return QSize(width, height);
 }
 
-void DatatypeWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+/**
+ * Initializes key variables of the class.
+ */
+void DatatypeWidget::init()
 {
-    QDomElement conceptElement = qDoc.createElement("datatypewidget");
-    UMLWidget::saveToXMI(qDoc, conceptElement);
-    qElement.appendChild(conceptElement);
+    UMLWidget::setBaseType(WidgetBase::wt_Datatype);
+    setSize(100, 30);
+    m_pMenu = 0;
 }
-
-bool DatatypeWidget::loadFromXMI( QDomElement & qElement )
-{
-    return UMLWidget::loadFromXMI(qElement);
-}
-

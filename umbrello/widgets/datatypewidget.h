@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2003-2007                                               *
+ *   copyright (C) 2003-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -29,45 +29,20 @@ class UMLClassifier;
  */
 class DatatypeWidget : public UMLWidget {
 public:
-
-    /**
-     * Constructs an DatatypeWidget.
-     *
-     * @param view              The parent of this DatatypeWidget.
-     * @param d         The UMLClassifier this will be representing.
-     */
     DatatypeWidget(UMLView* view, UMLClassifier *d);
-
-    /**
-     * Standard deconstructor.
-     */
     virtual ~DatatypeWidget();
 
-    /**
-     * Overrides standard method.
-     */
     void draw(QPainter& p, int offsetX, int offsetY);
 
-    /**
-     * Saves to the "datatypewidget" XMI element.
-     */
+    bool loadFromXMI(QDomElement& qElement);
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-    /**
-     * Loads from a "datatypewidget" XMI element.
-     */
-    bool loadFromXMI(QDomElement& qElement);
+public Q_SLOTS:
 
 protected:
-    /**
-     * Overrides method from UMLWidget.
-     */
     QSize calculateSize();
 
 private:
-    /**
-     * Initializes key variables of the class.
-     */
     void init();
 
     /**
@@ -75,7 +50,6 @@ private:
      */
     ListPopupMenu* m_pMenu;
 
-public slots:
 };
 
 #endif
