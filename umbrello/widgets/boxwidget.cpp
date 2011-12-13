@@ -26,9 +26,7 @@ BoxWidget::BoxWidget(Uml::IDType id)
 }
 
 /**
- * Constructs a BoxWidget.
- *
- * @param id                The ID to assign (-1 will prompt a new ID.)
+ * destructor
  */
 BoxWidget::~BoxWidget()
 {
