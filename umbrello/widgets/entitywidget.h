@@ -36,13 +36,14 @@ public:
     // UMLWidget::loadFromXMI is used to load this widget.
     virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
+
 protected:
     virtual void updateGeometry();
     virtual void updateTextItemGroups();
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
 
-public Q_SLOTS:
-    virtual void slotMenuSelection(QAction* action);
 
 private:
 

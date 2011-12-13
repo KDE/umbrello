@@ -28,9 +28,6 @@
 #include "umldoc.h"
 #include "uniqueconstraint.h"
 
-// qt includes
-#include <QtGui/QPainter>
-
 /**
  * Constructs an EntityWidget.
  *
