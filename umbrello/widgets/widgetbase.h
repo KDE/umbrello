@@ -15,6 +15,7 @@
 
 #include <QtCore/QObject>
 #include <QtGui/QColor>
+#include <QtGui/QPainter>
 #include <QtXml/QDomDocument>
 
 // forward declarations

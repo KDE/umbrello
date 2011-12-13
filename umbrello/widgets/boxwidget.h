@@ -11,14 +11,8 @@
 #ifndef BOXWIDGET_H
 #define BOXWIDGET_H
 
-//qt includes
-#include <QtGui/QPainter>
-
 //app includes
 #include "umlwidget.h"
-
-// fwd decl.
-class UMLView;
 
 /**
  * Displays a rectangular box.
@@ -33,7 +27,6 @@ class UMLView;
 class BoxWidget : public UMLWidget
 {
 public:
-
     /**
      * Constructs a BoxWidget.
      *
@@ -50,13 +43,13 @@ public:
     /**
      * Draws a rectangle.
      */
-    void draw(QPainter & p, int offsetX, int offsetY);
+    virtual void draw(QPainter & p, int offsetX, int offsetY);
 
     /**
      * Saves the widget to the "boxwidget" XMI element.
      * Note: For loading from XMI, the inherited parent method is used.
      */
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 };
 
 #endif
