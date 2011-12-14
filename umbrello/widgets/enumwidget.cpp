@@ -21,8 +21,9 @@
 #include "object_factory.h"
 #include "uml.h"
 #include "umlclassifierlistitemlist.h"
-#include "umlview.h"
 #include "umldoc.h"
+#include "umlscene.h"
+
 
 /**
  * Constructs an instance of EnumWidget.
@@ -31,7 +32,8 @@
  * @param o         The UMLObject this will be representing.
  */
 EnumWidget::EnumWidget(UMLView* view, UMLObject* o)
-  : UMLWidget(view, o)
+  : UMLWidget(view, o),
+	m_showPackage(false)
 {
     init();
 }
@@ -48,7 +50,7 @@ EnumWidget::~EnumWidget()
  *
  * @return  True if package is shown.
  */
-bool EnumWidget::getShowPackage() const
+bool EnumWidget::showPackage() const
 {
     return m_showPackage;
 }
@@ -77,6 +79,7 @@ void EnumWidget::toggleShowPackage()
 
 /**
  * Draws the enum as a rectangle with a box underneith with a list of literals
+ * Reimplemented from UMLWidget::paint
  */
 void EnumWidget::paint(QPainter& p, int offsetX, int offsetY)
 {

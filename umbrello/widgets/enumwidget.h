@@ -28,23 +28,24 @@ class UMLView;
  * @see UMLWidget
  * Bugs and comments to uml-devel@lists.sf.net or http://bugs.kde.org
  */
-class EnumWidget : public UMLWidget {
+class EnumWidget : public UMLWidget
+{
+    Q_OBJECT
 public:
-    EnumWidget(UMLView* view, UMLObject* o);
-    ~EnumWidget();
+    explicit EnumWidget(UMLView* view, UMLObject* o);
+    virtual ~EnumWidget();
 
-    // TODO: is this a generic pattern and should be moved to a base class ? 
-    bool getShowPackage() const;
+    bool showPackage() const;
     void setShowPackage(bool _status);
     void toggleShowPackage();
 
-    void paint(QPainter& p, int offsetX, int offsetY);
+    virtual void paint(QPainter& p, int offsetX, int offsetY);
 
-    bool loadFromXMI(QDomElement& qElement);
-    void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
+    virtual bool loadFromXMI(QDomElement& qElement);
+    virtual void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);
 
-public slots:
-    void slotMenuSelection(QAction* action);
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
 protected:
     QSize calculateSize();
