@@ -11,29 +11,35 @@
 // own header
 #include "signalwidget.h"
 
-// qt includes
-#include <QtCore/QEvent>
-#include <QtGui/QPolygon>
+// app includes
+#include "basictypes.h"
+#include "debug_utils.h"
+#include "docwindow.h"
+#include "floatingtextwidget.h"
+#include "linkwidget.h"
+#include "listpopupmenu.h"
+#include "uml.h"
+#include "umldoc.h"
+#include "uniqueid.h"
+#include "umlview.h"
+#include "umlwidget.h"
 
 // kde includes
 #include <klocale.h>
 #include <kinputdialog.h>
 
-// app includes
-#include "basictypes.h"
-#include "debug_utils.h"
-#include "uml.h"
-#include "umldoc.h"
-#include "uniqueid.h"
-#include "docwindow.h"
-#include "umlwidget.h"
-#include "umlview.h"
-#include "floatingtextwidget.h"
-#include "linkwidget.h"
+// qt includes
+#include <QtCore/QEvent>
+#include <QtGui/QPolygon>
 
-// #include "dialogs/signaldialog.h"
-#include "listpopupmenu.h"
 
+/**
+ * Creates a Signal widget.
+ *
+ * @param view              The parent of the widget.
+ * @param signalType        The type of Signal.
+ * @param id                The ID to assign (-1 will prompt a new ID.)
+ */
 SignalWidget::SignalWidget(UMLView * view, SignalType signalType, Uml::IDType id)
   : UMLWidget(view, id)
 {
@@ -49,10 +55,16 @@ SignalWidget::SignalWidget(UMLView * view, SignalType signalType, Uml::IDType id
     }
 }
 
+/**
+ * destructor
+ */
 SignalWidget::~SignalWidget()
 {
 }
 
+/**
+ * Overrides the standard paint event.
+ */
 void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
@@ -144,43 +156,31 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
         uWarning() << "Unknown signal type:" << m_SignalType;
         break;
     }
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Overrides the UMLWidget method.
+ */
 void SignalWidget::setX(int newX)
 {
     m_oldX = getX();
     UMLWidget::setX(newX);
 }
 
+/**
+ * Overrides the UMLWidget method.
+ */
 void SignalWidget::setY(int newY)
 {
     m_oldY = getY();
     UMLWidget::setY(newY);
 }
 
-QSize SignalWidget::calculateSize()
-{
-        int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
-        const QFontMetrics &fm = getFontMetrics(FT_BOLD);
-        const int fontHeight  = fm.lineSpacing();
-        int textWidth = fm.width(getName());
-
-        if (m_SignalType == Accept)
-             textWidth = int((float)textWidth * 1.3f);
-        height  = fontHeight;
-        if (m_SignalType != Time)
-        {
-              width   = textWidth > SIGNAL_WIDTH?textWidth:SIGNAL_WIDTH;
-              height  = height > SIGNAL_HEIGHT?height:SIGNAL_HEIGHT;
-        }
-        width  += SIGNAL_MARGIN * 2;
-        height += SIGNAL_MARGIN * 2;
-
-    return QSize(width, height);
-}
-
+/**
+ * Sets the name of the signal.
+ */
 void SignalWidget::setName(const QString &strName)
 {
     m_Text = strName;
@@ -190,43 +190,40 @@ void SignalWidget::setName(const QString &strName)
     }
 }
 
+/**
+ * Returns the name of the Signal.
+ */
 QString SignalWidget::getName() const
 {
     return m_Text;
 }
 
+/**
+ * Returns the type of Signal.
+ */
 SignalWidget::SignalType SignalWidget::getSignalType() const
 {
     return m_SignalType;
 }
 
+/**
+ * Sets the type of Signal.
+ */
 void SignalWidget::setSignalType( SignalType signalType )
 {
     m_SignalType = signalType;
 }
 
-void SignalWidget::slotMenuSelection(QAction* action)
-{
-    bool ok = false;
-    QString name = m_Text;
-
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
-    switch( sel ) {
-    case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter signal name"), i18n("Enter the signal name :"), m_Text, &ok );
-        if( ok && name.length() > 0 )
-            setName(name);
-        break;
-
-    default:
-        UMLWidget::slotMenuSelection(action);
-    }
-}
-
+/**
+ * Show a properties dialog for a UMLWidget.
+ */
 void SignalWidget::showPropertiesDialog()
 {
 }
 
+/**
+ * Overrides mouseMoveEvent.
+ */
 void SignalWidget::mouseMoveEvent(QMouseEvent* me)
 {
     UMLWidget::mouseMoveEvent(me);
@@ -238,20 +235,9 @@ void SignalWidget::mouseMoveEvent(QMouseEvent* me)
     }
 }
 
-void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    QDomElement signalElement = qDoc.createElement( "signalwidget" );
-    UMLWidget::saveToXMI( qDoc, signalElement );
-    signalElement.setAttribute( "signalname", m_Text );
-    signalElement.setAttribute( "documentation", m_Doc );
-    signalElement.setAttribute( "signaltype", m_SignalType );
-    if (m_pName && !m_pName->text().isEmpty()) {
-        signalElement.setAttribute( "textid", ID2STR(m_pName->id()) );
-        m_pName -> saveToXMI( qDoc, signalElement );
-    }
-    qElement.appendChild( signalElement );
-}
-
+/**
+ * Loads a "signalwidget" XMI element.
+ */
 bool SignalWidget::loadFromXMI( QDomElement & qElement )
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
@@ -295,6 +281,69 @@ bool SignalWidget::loadFromXMI( QDomElement & qElement )
         }
     }
    return true;
+}
+
+/**
+ * Creates the "signalwidget" XMI element.
+ */
+void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement signalElement = qDoc.createElement( "signalwidget" );
+    UMLWidget::saveToXMI( qDoc, signalElement );
+    signalElement.setAttribute( "signalname", m_Text );
+    signalElement.setAttribute( "documentation", m_Doc );
+    signalElement.setAttribute( "signaltype", m_SignalType );
+    if (m_pName && !m_pName->text().isEmpty()) {
+        signalElement.setAttribute( "textid", ID2STR(m_pName->id()) );
+        m_pName -> saveToXMI( qDoc, signalElement );
+    }
+    qElement.appendChild( signalElement );
+}
+
+/**
+ * Show a properties dialog for a SignalWidget.
+ *
+ */
+void SignalWidget::slotMenuSelection(QAction* action)
+{
+    bool ok = false;
+    QString name = m_Text;
+
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    switch( sel ) {
+    case ListPopupMenu::mt_Rename:
+        name = KInputDialog::getText( i18n("Enter signal name"), i18n("Enter the signal name :"), m_Text, &ok );
+        if( ok && name.length() > 0 )
+            setName(name);
+        break;
+
+    default:
+        UMLWidget::slotMenuSelection(action);
+    }
+}
+
+/**
+ * Overrides method from UMLWidget
+ */
+QSize SignalWidget::calculateSize()
+{
+        int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
+        const QFontMetrics &fm = getFontMetrics(FT_BOLD);
+        const int fontHeight  = fm.lineSpacing();
+        int textWidth = fm.width(getName());
+
+        if (m_SignalType == Accept)
+             textWidth = int((float)textWidth * 1.3f);
+        height  = fontHeight;
+        if (m_SignalType != Time)
+        {
+              width   = textWidth > SIGNAL_WIDTH?textWidth:SIGNAL_WIDTH;
+              height  = height > SIGNAL_HEIGHT?height:SIGNAL_HEIGHT;
+        }
+        width  += SIGNAL_MARGIN * 2;
+        height += SIGNAL_MARGIN * 2;
+
+    return QSize(width, height);
 }
 
 #include "signalwidget.moc"
