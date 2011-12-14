@@ -22,9 +22,13 @@ class UMLUseCase;
 
 
 /**
- * This class is the graphical version of a UMLUseCase.  A UseCaseWidget is created
- * by a @ref UMLView.  An UseCaseWidget belongs to only one @ref UMLView instance.
- * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
+ * This class is the graphical version of a UMLUseCase. The
+ * UseCaseWidget class inherits from the @ref UMLWidget class
+ * which adds most of the functionality to this class.
+ 
+ * A UseCaseWidget is created  by a @ref UMLView.  An UseCaseWidget belongs to only one 
+ * @ref UMLView instance. When the @ref UMLView  instance that this class belongs to, 
+ * it will be automatically deleted.
  *
  * If the @ref UMLUseCase class that this UseCaseWidget is displaying is deleted, the @ref UMLView will
  * make sure that this instance is also deleted.
@@ -42,10 +46,11 @@ public:
     UseCaseWidget(UMLView * view, UMLUseCase *o);
     virtual ~UseCaseWidget();
 
-    void draw(QPainter & p, int offsetX, int offsetY);
+    virtual void draw(QPainter & p, int offsetX, int offsetY);
 
-    // For loading we can use the loadFromXMI() inherited from UMLWidget.
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    // For loading we can use the loadFromXMI() inherited from
+    // UMLWidget.
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
 protected:
     QSize calculateSize();

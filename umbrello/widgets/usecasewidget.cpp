@@ -11,7 +11,7 @@
 // own header file
 #include "usecasewidget.h"
 
-// local includes
+// app includes
 #include "usecase.h"
 #include "umlview.h"
 
