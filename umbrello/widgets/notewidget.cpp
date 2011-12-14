@@ -27,6 +27,14 @@
 #include "umlview.h"
 #include "uml.h"
 
+/**
+ * Constructs a NoteWidget.
+ *
+ * @param view              The parent to this widget.
+ * @param noteType          The NoteWidget::NoteType of this NoteWidget
+ * @param id                The unique id of the widget.
+ *                  The default (-1) will prompt a new ID.
+ */
 NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
   : UMLWidget(view, id, new NoteWidgetController(this))
 {
@@ -36,81 +44,16 @@ NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
     setZ(20); //make sure always on top.
 }
 
-NoteWidget::NoteType NoteWidget::getNoteType() const
-{
-    return m_NoteType;
-}
-
-NoteWidget::NoteType NoteWidget::getNoteType(const QString& noteType) const
-{
-    if (noteType == "Precondition")
-        return NoteWidget::PreCondition;
-    else if (noteType == "Postcondition")
-        return NoteWidget::PostCondition;
-    else if (noteType == "Transformation")
-        return NoteWidget::Transformation;
-    else
-        return NoteWidget::Normal;
-}
-
-void NoteWidget::setNoteType( NoteType noteType )
-{
-    m_NoteType = noteType;
-}
-
-void NoteWidget::setNoteType( const QString& noteType )
-{
-    setNoteType(getNoteType(noteType));
-}
-
+/**
+ * destructor
+ */
 NoteWidget::~NoteWidget()
 {
 }
 
-void NoteWidget::setDiagramLink(Uml::IDType viewID)
-{
-    UMLDoc *umldoc = UMLApp::app()->document();
-    UMLView *view = umldoc->findView(viewID);
-    if (view == NULL) {
-        uError() << "no view found for viewID " << ID2STR(viewID);
-        return;
-    }
-    QString linkText("Diagram: " + view->name());
-    setDocumentation(linkText);
-    m_DiagramLink = viewID;
-}
-
-Uml::IDType NoteWidget::getDiagramLink() const
-{
-    return m_DiagramLink;
-}
-
-void NoteWidget::setFont(QFont font)
-{
-    UMLWidget::setFont(font);
-}
-
-void NoteWidget::setX( int x )
-{
-    UMLWidget::setX(x);
-}
-
-void NoteWidget::setY( int y )
-{
-    UMLWidget::setY(y);
-}
-
-QString NoteWidget::documentation() const
-{
-    return m_Text;
-}
-
-void NoteWidget::setDocumentation(const QString &newText)
-{
-    m_Text = newText;
-    update();
-}
-
+/**
+ * Override default method.
+ */
 void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     const int margin = 10;
@@ -159,6 +102,201 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
     drawTextWordWrap(&p, offsetX, offsetY);
 }
 
+/**
+ * Returns the type of note.
+ */
+NoteWidget::NoteType NoteWidget::getNoteType() const
+{
+    return m_NoteType;
+}
+
+/**
+ * Returns the type of note.
+ */
+NoteWidget::NoteType NoteWidget::getNoteType(const QString& noteType) const
+{
+    if (noteType == "Precondition")
+        return NoteWidget::PreCondition;
+    else if (noteType == "Postcondition")
+        return NoteWidget::PostCondition;
+    else if (noteType == "Transformation")
+        return NoteWidget::Transformation;
+    else
+        return NoteWidget::Normal;
+}
+
+/**
+ * Sets the type of note.
+ */
+void NoteWidget::setNoteType( NoteType noteType )
+{
+    m_NoteType = noteType;
+}
+
+/**
+ * Sets the type of note.
+ */
+void NoteWidget::setNoteType( const QString& noteType )
+{
+    setNoteType(getNoteType(noteType));
+}
+
+/**
+ * Override method from UMLWidget.
+ */
+void NoteWidget::setFont(QFont font)
+{
+    UMLWidget::setFont(font);
+}
+
+/**
+ * Override method from UMLWidget.
+ */
+void NoteWidget::setX( int x )
+{
+    UMLWidget::setX(x);
+}
+
+/**
+ * Override method from UMLWidget.
+ */
+void NoteWidget::setY( int y )
+{
+    UMLWidget::setY(y);
+}
+
+/**
+ * Returns the text in the box.
+ *
+ * @return  The text in the box.
+ */
+QString NoteWidget::documentation() const
+{
+    return m_Text;
+}
+
+/**
+ * Sets the note documentation.
+ *
+ * @param newText   The text to set the documentation to.
+ */
+void NoteWidget::setDocumentation(const QString &newText)
+{
+    m_Text = newText;
+    update();
+}
+
+/**
+ * Return the ID of the diagram hyperlinked to this note.
+ *
+ * @return  ID of an UMLView, or Uml::id_None if no
+ *          hyperlink is set.
+ */
+Uml::IDType NoteWidget::getDiagramLink() const
+{
+    return m_DiagramLink;
+}
+
+/**
+ * Set the ID of the diagram hyperlinked to this note.
+ * To switch off the hyperlink, set this to Uml::id_None.
+ *
+ * @param viewID    ID of an UMLView.
+ */
+void NoteWidget::setDiagramLink(Uml::IDType viewID)
+{
+    UMLDoc *umldoc = UMLApp::app()->document();
+    UMLView *view = umldoc->findView(viewID);
+    if (view == NULL) {
+        uError() << "no view found for viewID " << ID2STR(viewID);
+        return;
+    }
+    QString linkText("Diagram: " + view->name());
+    setDocumentation(linkText);
+    m_DiagramLink = viewID;
+}
+
+/**
+* Display a dialogBox to allow the user to choose the note's type
+*/
+void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
+{
+    bool pressedOK = false;
+    const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
+    QString type = KInputDialog::getItem (i18n("Note Type"), i18n("Select the Note Type"), list, 0, false, &pressedOK, UMLApp::app());
+
+    if (pressedOK) {
+        dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);
+    } else {
+        targetWidget->cleanup();
+        delete targetWidget;
+        targetWidget = NULL;
+    }
+}
+
+/**
+ * Loads a "notewidget" XMI element.
+ */
+bool NoteWidget::loadFromXMI( QDomElement & qElement )
+{
+    if( !UMLWidget::loadFromXMI( qElement ) )
+        return false;
+    setZ( 20 ); //make sure always on top.
+    setDocumentation( qElement.attribute("text", "") );
+    QString diagramlink = qElement.attribute("diagramlink", "");
+    if (!diagramlink.isEmpty())
+        m_DiagramLink = STR2ID(diagramlink);
+    QString type = qElement.attribute("noteType", "");
+    setNoteType( (NoteType)type.toInt() );
+    return true;
+}
+
+/**
+ * Saves to the "notewidget" XMI element.
+ */
+void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement noteElement = qDoc.createElement( "notewidget" );
+    UMLWidget::saveToXMI( qDoc, noteElement );
+    noteElement.setAttribute( "text", documentation() );
+    if (m_DiagramLink != Uml::id_None)
+        noteElement.setAttribute( "diagramlink", ID2STR(m_DiagramLink) );
+    noteElement.setAttribute( "noteType", m_NoteType);
+    qElement.appendChild( noteElement );
+}
+
+/**
+ * Will be called when a menu selection has been made from the popup
+ * menu.
+ *
+ * @param action       The action that has been selected.
+ */
+void NoteWidget::slotMenuSelection(QAction* action)
+{
+    NoteDialog * dlg = 0;
+    UMLDoc *doc = UMLApp::app()->document();
+    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+    switch(sel) {
+    case ListPopupMenu::mt_Rename:
+        m_pView->updateDocumentation( false );
+        dlg = new NoteDialog( m_pView, this );
+        if( dlg->exec() ) {
+            m_pView->showDocumentation( this, true );
+            doc->setModified(true);
+            update();
+        }
+        delete dlg;
+        break;
+
+    default:
+        UMLWidget::slotMenuSelection(action);
+        break;
+    }
+}
+
+/**
+ * Overrides method from UMLWidget.
+ */
 QSize NoteWidget::calculateSize()
 {
     int width = 60;
@@ -184,29 +322,6 @@ QSize NoteWidget::calculateSize()
         // keep width and height unchanged
     }
     return QSize(width, height);
-}
-
-void NoteWidget::slotMenuSelection(QAction* action)
-{
-    NoteDialog * dlg = 0;
-    UMLDoc *doc = UMLApp::app()->document();
-    ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
-    switch(sel) {
-    case ListPopupMenu::mt_Rename:
-        m_pView->updateDocumentation( false );
-        dlg = new NoteDialog( m_pView, this );
-        if( dlg->exec() ) {
-            m_pView->showDocumentation( this, true );
-            doc->setModified(true);
-            update();
-        }
-        delete dlg;
-        break;
-
-    default:
-        UMLWidget::slotMenuSelection(action);
-        break;
-    }
 }
 
 /**
@@ -369,46 +484,6 @@ void NoteWidget::drawTextWordWrap(QPainter * p, int offsetX, int offsetY)
                 word += c;
         }
     }//end for
-}
-
-void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
-{
-    bool pressedOK = false;
-    const QStringList list = QStringList() << "Precondition" << "Postcondition" << "Transformation";
-    QString type = KInputDialog::getItem (i18n("Note Type"), i18n("Select the Note Type"), list, 0, false, &pressedOK, UMLApp::app());
-
-    if (pressedOK) {
-        dynamic_cast<NoteWidget*>(targetWidget)->setNoteType(type);
-    } else {
-        targetWidget->cleanup();
-        delete targetWidget;
-        targetWidget = NULL;
-    }
-}
-
-void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    QDomElement noteElement = qDoc.createElement( "notewidget" );
-    UMLWidget::saveToXMI( qDoc, noteElement );
-    noteElement.setAttribute( "text", documentation() );
-    if (m_DiagramLink != Uml::id_None)
-        noteElement.setAttribute( "diagramlink", ID2STR(m_DiagramLink) );
-    noteElement.setAttribute( "noteType", m_NoteType);
-    qElement.appendChild( noteElement );
-}
-
-bool NoteWidget::loadFromXMI( QDomElement & qElement )
-{
-    if( !UMLWidget::loadFromXMI( qElement ) )
-        return false;
-    setZ( 20 ); //make sure always on top.
-    setDocumentation( qElement.attribute("text", "") );
-    QString diagramlink = qElement.attribute("diagramlink", "");
-    if (!diagramlink.isEmpty())
-        m_DiagramLink = STR2ID(diagramlink);
-    QString type = qElement.attribute("noteType", "");
-    setNoteType( (NoteType)type.toInt() );
-    return true;
 }
 
 #include "notewidget.moc"
