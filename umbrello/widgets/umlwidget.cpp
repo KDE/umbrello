@@ -739,6 +739,7 @@ void UMLWidget::setPenFromSettings(QPainter & p)
 
 void UMLWidget::drawShape(QPainter &p)
 {
+    // FIXME: rename to paint(), which is used by QGraphicsScene
     draw(p, getX(), getY());
 }
 
