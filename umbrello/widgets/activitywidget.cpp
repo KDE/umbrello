@@ -1,4 +1,5 @@
 /***************************************************************************
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -11,22 +12,19 @@
 // own header
 #include "activitywidget.h"
 
-// qt includes
-#include <QtCore/QPointer>
-#include <QtGui/QPainter>
-#include <QtGui/QPolygon>
-
-// kde includes
-#include <klocale.h>
-#include <kinputdialog.h>
-
 // app includes
-#include "dialogs/activitydialog.h"
+#include "activitydialog.h"
+#include "debug_utils.h"
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "uml.h"
 #include "umldoc.h"
+#include "umlscene.h"
 #include "umlview.h"
+
+// kde includes
+#include <klocale.h>
+#include <kinputdialog.h>
 
 /**
  * Creates a Activity widget.
@@ -36,10 +34,10 @@
  * @param id                The ID to assign (-1 will prompt a new ID.)
  */
 ActivityWidget::ActivityWidget(UMLView * view, ActivityType activityType, Uml::IDType id )
-  : UMLWidget(view, id)
+  : UMLWidget(view, id),
+    m_activityType(activityType)
 {
     UMLWidget::setBaseType( WidgetBase::wt_Activity );
-    setActivityType( activityType );
     updateComponentSize();
 }
 
@@ -55,7 +53,7 @@ ActivityWidget::~ActivityWidget()
  */
 ActivityWidget::ActivityType ActivityWidget::activityType() const
 {
-    return m_ActivityType;
+    return m_activityType;
 }
 
 /**
@@ -63,7 +61,7 @@ ActivityWidget::ActivityType ActivityWidget::activityType() const
  */
 void ActivityWidget::setActivityType( ActivityType activityType )
 {
-    m_ActivityType = activityType;
+    m_activityType = activityType;
     updateComponentSize();
     UMLWidget::m_resizable = true;
 }
@@ -109,7 +107,7 @@ bool ActivityWidget::isActivity(WorkToolBar::ToolBar_Buttons tbb,
  */
 QString ActivityWidget::preconditionText()
 {
-    return preText;
+    return m_preconditionText;
 }
 
 /**
@@ -117,7 +115,7 @@ QString ActivityWidget::preconditionText()
  */
 void ActivityWidget::setPreconditionText(const QString& aPreText)
 {
-    preText=aPreText;
+    m_preconditionText = aPreText;
     updateComponentSize();
     adjustAssocs( getX(), getY() );
 }
@@ -127,7 +125,7 @@ void ActivityWidget::setPreconditionText(const QString& aPreText)
  */
 QString ActivityWidget::postconditionText()
 {
-    return postText;
+    return m_postconditionText ;
 }
 
  /**
@@ -135,20 +133,21 @@ QString ActivityWidget::postconditionText()
  */
 void ActivityWidget::setPostconditionText(const QString& aPostText)
 {
-    postText=aPostText;
+    m_postconditionText = aPostText;
     updateComponentSize();
     adjustAssocs( getX(), getY() );
 }
 
 /**
- * Show a properties dialog for an ActivityWidget.
+ * Reimplemented from UMLWidget::showPropertiesDialog to show a
+ * properties dialog for an ActivityWidget.
  */
 void ActivityWidget::showPropertiesDialog()
 {
     DocWindow *docwindow = UMLApp::app()->docWindow();
     docwindow->updateDocumentation(false);
 
-    QPointer<ActivityDialog> dialog = new ActivityDialog(m_pView, this);
+    QPointer<ActivityDialog> dialog = new ActivityDialog(umlScene(), this);
     if (dialog->exec() && dialog->getChangesMade()) {
         docwindow->showDocumentation(this, true);
         UMLApp::app()->document()->setModified(true);
@@ -169,9 +168,8 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
     float y;
     QPen pen = p.pen();
 
-    switch ( m_ActivityType )
+    switch ( m_activityType )
     {
-
     case Normal :
         UMLWidget::setPenFromSettings(p);
         if ( UMLWidget::getUseFillColour() ) {
@@ -284,7 +282,6 @@ void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
         }
 
         break;
-
     }
     if(m_selected)
         drawSelected(&p, offsetX, offsetY);
@@ -297,10 +294,10 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement )
 {
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
-    m_Text = qElement.attribute( "activityname", "" );
-    m_Doc = qElement.attribute( "documentation", "" );
-    preText = qElement.attribute( "precondition", "" );
-    postText = qElement.attribute( "postcondition", "" );
+    setName(qElement.attribute( "activityname", "" ));
+    setDocumentation(qElement.attribute( "documentation", "" ));
+    setPreconditionText(qElement.attribute( "precondition", "" ));
+    setPostconditionText(qElement.attribute( "postcondition", "" ));
 
     QString type = qElement.attribute( "activitytype", "1" );
     setActivityType( (ActivityType)type.toInt() );
@@ -315,11 +312,11 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement activityElement = qDoc.createElement( "activitywidget" );
     UMLWidget::saveToXMI( qDoc, activityElement );
-    activityElement.setAttribute( "activityname", m_Text );
-    activityElement.setAttribute( "documentation", m_Doc );
-    activityElement.setAttribute( "precondition", preText );
-    activityElement.setAttribute( "postcondition", postText );
-    activityElement.setAttribute( "activitytype", m_ActivityType );
+    activityElement.setAttribute( "activityname", name() );
+    activityElement.setAttribute( "documentation", documentation() );
+    activityElement.setAttribute( "precondition", preconditionText() );
+    activityElement.setAttribute( "postcondition", postconditionText() );
+    activityElement.setAttribute( "activitytype", m_activityType );
     qElement.appendChild( activityElement );
 }
 
@@ -328,7 +325,7 @@ void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
  */
 void ActivityWidget::constrain(int& width, int& height)
 {
-    if (m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param) {
+    if (m_activityType == Normal || m_activityType == Invok || m_activityType == Param) {
         QSize minSize = calculateSize();
         if (width < minSize.width())
             width = minSize.width();
@@ -340,7 +337,7 @@ void ActivityWidget::constrain(int& width, int& height)
         width = height;
     else if (height > width)
         height = width;
-    if (m_ActivityType == Branch) {
+    if (m_activityType == Branch) {
         if (width < 20) {
             width = 20;
             height = 20;
@@ -365,14 +362,16 @@ void ActivityWidget::constrain(int& width, int& height)
 void ActivityWidget::slotMenuSelection(QAction* action)
 {
     bool ok = false;
-    QString name = m_Text;
+    QString n = name();
 
     ListPopupMenu::MenuType sel = m_pMenu->getMenuType(action);
+
     switch( sel ) {
     case ListPopupMenu::mt_Rename:
-        name = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), m_Text, &ok );
-        if( ok && name.length() > 0 )
-            m_Text = name;
+        n = KInputDialog::getText( i18n("Enter Activity Name"), i18n("Enter the name of the new activity:"), n, &ok );
+        if( ok && !n.isEmpty()) {
+            setName(n);
+        }
         break;
 
     case ListPopupMenu::mt_Properties:
@@ -390,7 +389,7 @@ void ActivityWidget::slotMenuSelection(QAction* action)
 QSize ActivityWidget::calculateSize()
 {
     int width, height;
-    if ( m_ActivityType == Normal || m_ActivityType == Invok || m_ActivityType == Param ) {
+    if ( m_activityType == Normal || m_activityType == Invok || m_activityType == Param ) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
 
@@ -401,9 +400,9 @@ QSize ActivityWidget::calculateSize()
 
         textWidth = textWidth > ACTIVITY_WIDTH ? textWidth : ACTIVITY_WIDTH;
 
-        if (m_ActivityType == Invok) {
+        if (m_activityType == Invok) {
              height += 40;
-        } else if (m_ActivityType == Param) {
+        } else if (m_activityType == Param) {
             QString maxSize;
 
             maxSize = name().length() > postconditionText().length() ? name() : postconditionText();
@@ -425,4 +424,3 @@ QSize ActivityWidget::calculateSize()
 }
 
 #include "activitywidget.moc"
-

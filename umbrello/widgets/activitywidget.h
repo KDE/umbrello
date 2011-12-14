@@ -35,8 +35,6 @@ class ActivityWidget : public UMLWidget
 {
     Q_OBJECT
 
-    QString preText;
-    QString postText;
 public:
     enum ActivityType
     {
@@ -74,15 +72,11 @@ public:
     void constrain(int& width, int& height);
 
 public Q_SLOTS:
-    void slotMenuSelection(QAction* action);
+    virtual void slotMenuSelection(QAction* action);
 
 protected:
     QSize calculateSize();
-
-    /**
-     * Type of activity.
-     */
-    ActivityType m_ActivityType;
+    ActivityType m_activityType; ///< Type of activity.
 
     /**
      * Type of normal activity (Invok or not).
@@ -90,6 +84,8 @@ protected:
      */
     bool m_NormalActivityType;
 
+    QString m_preconditionText;
+    QString m_postconditionText;
 };
 
 #endif
