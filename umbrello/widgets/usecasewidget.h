@@ -1,10 +1,11 @@
 /***************************************************************************
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2009                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
  ***************************************************************************/
 
@@ -13,11 +14,12 @@
 
 #include "umlwidget.h"
 
+class UMLUseCase;
+
 #define UC_MARGIN 5
 #define UC_WIDTH 60
 #define UC_HEIGHT 30
 
-class UMLUseCase;
 
 /**
  * This class is the graphical version of a UMLUseCase.  A UseCaseWidget is created
@@ -37,35 +39,15 @@ class UMLUseCase;
 class UseCaseWidget : public UMLWidget
 {
 public:
-
-    /**
-     *  Creates a UseCase widget.
-     *  @param  view   The parent of the widget.
-     *  @param  o      The UMLObject to represent.
-     */
     UseCaseWidget(UMLView * view, UMLUseCase *o);
-
-    /**
-     * Destructor.
-     */
     virtual ~UseCaseWidget();
 
-    /**
-     * Overrides the standard paint event.
-     */
     void draw(QPainter & p, int offsetX, int offsetY);
 
-    /**
-     * Saves this UseCase to file.
-     */
+    // For loading we can use the loadFromXMI() inherited from UMLWidget.
     void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-    // For loading we can use the loadFromXMI() inherited from UMLWidget.
-
 protected:
-    /**
-     * Overrides method from UMLWidget
-     */
     QSize calculateSize();
 };
 

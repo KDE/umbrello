@@ -11,12 +11,15 @@
 // own header file
 #include "usecasewidget.h"
 
-// system includes
-#include <QtGui/QPainter>
 // local includes
 #include "usecase.h"
 #include "umlview.h"
 
+/**
+ *  Creates a UseCase widget.
+ *  @param  view   The parent of the widget.
+ *  @param  o      The UMLObject to represent.
+ */
 UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o)
   : UMLWidget(view, o)
 {
@@ -25,10 +28,16 @@ UseCaseWidget::UseCaseWidget(UMLView * view, UMLUseCase *o)
     //                  Instead, it is done afterwards by UMLWidget::activate()
 }
 
+/**
+ * Destructor.
+ */
 UseCaseWidget::~UseCaseWidget()
 {
 }
 
+/**
+ * Overrides the standard paint event.
+ */
 void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
@@ -54,6 +63,19 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY)
         drawSelected(&p, offsetX, offsetY);
 }
 
+/**
+ * Saves this UseCase to file.
+ */
+void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
+{
+    QDomElement usecaseElement = qDoc.createElement( "usecasewidget" );
+    UMLWidget::saveToXMI( qDoc, usecaseElement );
+    qElement.appendChild( usecaseElement );
+}
+
+/**
+ * Overrides method from UMLWidget
+ */
 QSize UseCaseWidget::calculateSize()
 {
     const UMLWidget::FontType ft = ( m_pObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD );
@@ -66,11 +88,4 @@ QSize UseCaseWidget::calculateSize()
     width += UC_MARGIN * 2;
 
     return QSize(width, height);
-}
-
-void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
-{
-    QDomElement usecaseElement = qDoc.createElement( "usecasewidget" );
-    UMLWidget::saveToXMI( qDoc, usecaseElement );
-    qElement.appendChild( usecaseElement );
 }
