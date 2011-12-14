@@ -43,7 +43,7 @@ SignalWidget::SignalWidget(SignalType signalType, Uml::IDType id)
 }
 
 /**
- * Destructor.
+ * destructor
  */
 SignalWidget::~SignalWidget()
 {

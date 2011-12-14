@@ -18,9 +18,6 @@
 #include "textitemgroup.h"
 #include "widget_utils.h"
 
-// qt includes
-#include <QtGui/QPainter>
-
 const QSizeF ArtifactWidget::MinimumIconSize(50, 50);
 
 /**

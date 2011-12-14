@@ -17,8 +17,6 @@
 #include "umlview.h"
 #include "usecase.h"
 
-// qt includes
-#include <QtGui/QPainter>
 
 /**
  *  Creates a UseCase widget.
@@ -32,12 +30,15 @@ UseCaseWidget::UseCaseWidget(UMLUseCase *o) : UMLWidget(o)
 }
 
 /**
- *  Destructor.
+ * Destructor.
  */
 UseCaseWidget::~UseCaseWidget()
 {
 }
 
+/**
+ * Overrides the standard paint event.
+ */
 void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setPen(QPen(lineColor(), lineWidth()));
@@ -47,7 +48,7 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
 }
 
 /**
- *   Saves this UseCase to file.
+ * Saves this UseCase to file.
  */
 void UseCaseWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
