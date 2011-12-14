@@ -24,7 +24,8 @@ const QSizeF ActorWidget::MinimumSize = QSizeF(20, 40);
  *
  * @param o The Actor class this ActorWidget will display.
  */
-ActorWidget::ActorWidget(UMLActor *a) : UMLWidget(a)
+ActorWidget::ActorWidget(UMLActor *a) 
+  : UMLWidget(a)
 {
     m_baseType = WidgetBase::wt_Actor;
     createTextItemGroup();
@@ -54,7 +55,6 @@ void ActorWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWi
  * Saves the widget to the "actorwidget" XMI element.
  * Note: For loading from XMI, the inherited parent method is used.
  */
-
 void ActorWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement actorElement = qDoc.createElement( "actorwidget" );

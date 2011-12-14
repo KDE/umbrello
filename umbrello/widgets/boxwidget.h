@@ -15,11 +15,9 @@
 #include "umlwidget.h"
 
 /**
- * @class BoxWidget
- *
- * Displays a rectangular box.  These widgets are diagram specific.
- * They will still need a unique id from the @ref UMLDoc class for
- * deletion and other purposes.
+ * Displays a rectangular box.
+ * These widgets are diagram specific.  They will still need a unique id
+ * from the @ref UMLDoc class for deletion and other purposes.
  *
  * @short Displays a box.
  * @author Jonathan Riddell

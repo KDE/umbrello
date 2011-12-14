@@ -25,7 +25,8 @@ const QSizeF ArtifactWidget::MinimumIconSize(50, 50);
  *
  * @param a The Artifact this widget will be representing.
  */
-ArtifactWidget::ArtifactWidget(UMLArtifact *a) : UMLWidget(a)
+ArtifactWidget::ArtifactWidget(UMLArtifact *a)
+  : UMLWidget(a)
 {
     m_baseType = WidgetBase::wt_Artifact;
     m_cachedTextHeight = 0; // Initialize on first call of sizeHasChanged.
@@ -187,7 +188,9 @@ void ArtifactWidget::drawAsLibrary(QPainter *painter)
     //FIXME this should have gears on it
 }
 
-/// draw as a database table icon
+/**
+ * draw as a database table icon
+ */
 void ArtifactWidget::drawAsTable(QPainter *painter)
 {
     QRectF iconRect = rect();
@@ -220,7 +223,9 @@ void ArtifactWidget::drawAsTable(QPainter *painter)
     painter->drawLine(hLines[1]);
 }
 
-/// draw as a box
+/**
+ * draw as a box
+ */
 void ArtifactWidget::drawAsNormal(QPainter *painter)
 {
     painter->drawRect(rect());
