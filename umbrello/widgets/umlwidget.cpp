@@ -295,7 +295,7 @@ void UMLWidget::slotMenuSelection(QAction* action)
             UMLApp::app()->endMacro();
         } else if (wt == wt_Object) {
             UMLApp::app()->beginMacro(i18n("Change Properties"));
-            m_pObject->showPropertiesDialog();
+            m_pObject->showPropertiesPagedDialog();
             UMLApp::app()->endMacro();
         } else {
             uWarning() << "making properties dialog for unknown widget type";

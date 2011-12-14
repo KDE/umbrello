@@ -128,7 +128,8 @@ public:
 
     void setInPaste(bool bInPaste = true);
 
-    virtual bool showPropertiesDialog(int page = 0, bool assoc = false);
+    // FIXME: merge with showPropertiesDialog()
+    virtual bool showPropertiesPagedDialog(int page = 0, bool assoc = false);
 
     virtual bool resolveRef();
 
