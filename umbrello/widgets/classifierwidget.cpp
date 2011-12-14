@@ -73,6 +73,14 @@ void ClassifierWidget::init()
     m_showStereotype = ops.classState.showStereoType;
     m_drawAsCircle = false;
     m_pAssocWidget = NULL;
+
+    /*
+       force calculation of the widget size to avoid too small widgets
+       Q: could this not be handled in UMLWidget for all widgets ?
+    */
+    QSize size = calculateSize();
+    setSize(size.width(), size.height());
+
     setShowAttSigs( ops.classState.showAttSig );
 }
 
@@ -353,7 +361,6 @@ QSize ClassifierWidget::calculateSize()
     else
         displayedName = m_pObject->name();
     const UMLWidget::FontType nft = (m_pObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
-    //const int nameWidth = getFontMetrics(nft).boundingRect(displayName).width();
     const int nameWidth = UMLWidget::getFontMetrics(nft).size(0,displayedName).width();
     if (nameWidth > width)
         width = nameWidth;

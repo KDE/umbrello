@@ -966,7 +966,6 @@ void UMLWidget::setDefaultFontMetrics(UMLWidget::FontType fontType, QPainter &pa
     setFontMetrics(fontType, painter.fontMetrics());
 }
 
-//FIXME this is probably the source of problems with widgets not being wide enough
 QFontMetrics &UMLWidget::getFontMetrics(UMLWidget::FontType fontType)
 {
     if (m_pFontMetrics[fontType] == 0) {
