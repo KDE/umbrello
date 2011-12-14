@@ -92,8 +92,8 @@ MessageWidget::MessageWidget(UMLView * view, ObjectWidget* a, int xclick, int yc
 void MessageWidget::init()
 {
     UMLWidget::setBaseType(WidgetBase::wt_Message);
-    m_bIgnoreSnapToGrid = true;
-    m_bIgnoreSnapComponentSizeToGrid = true;
+    m_ignoreSnapToGrid = true;
+    m_ignoreSnapComponentSizeToGrid = true;
     m_pOw[Uml::A] = m_pOw[Uml::B] = NULL;
     m_pFText = NULL;
     m_nY = 0;
@@ -108,9 +108,9 @@ void MessageWidget::updateResizability()
 {
     if (m_sequenceMessageType == Uml::sequence_message_synchronous ||
         m_pOw[Uml::A] == m_pOw[Uml::B])
-        UMLWidget::m_bResizable = true;
+        UMLWidget::m_resizable = true;
     else
-        UMLWidget::m_bResizable = false;
+        UMLWidget::m_resizable = false;
 }
 
 void MessageWidget::draw(QPainter& p, int offsetX, int offsetY)
@@ -219,7 +219,7 @@ void MessageWidget::drawSynchronous(QPainter& p, int offsetX, int offsetY)
         drawArrow(p, offsetX + 18, offsetY + h - 3, w - 18, Qt::RightArrow, true); // return arrow
     }
 
-    if(m_bSelected) {
+    if(m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
@@ -264,7 +264,7 @@ void MessageWidget::drawAsynchronous(QPainter& p, int offsetX, int offsetY)
         drawArrow(p, offsetX, offsetY + 4, w, Qt::LeftArrow);
     }
 
-    if (m_bSelected)
+    if (m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 
@@ -294,7 +294,7 @@ void MessageWidget::drawCreation(QPainter& p, int offsetX, int offsetY)
         drawArrow(p, offsetX, lineY, w, Qt::LeftArrow);
     }
 
-    if (m_bSelected)
+    if (m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 
@@ -333,7 +333,7 @@ void MessageWidget::drawLost(QPainter& p, int offsetX, int offsetY)
         drawArrow(p, offsetX + h, offsetY, w - h, Qt::LeftArrow);
     }
 
-    if (m_bSelected)
+    if (m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 
@@ -369,7 +369,7 @@ void MessageWidget::drawFound(QPainter& p, int offsetX, int offsetY)
         drawArrow(p, x2, offsetY, w, Qt::RightArrow);
     }
 
-    if (m_bSelected)
+    if (m_selected)
             drawSelected(&p, offsetX, offsetY);
 
 }
@@ -873,13 +873,13 @@ void MessageWidget::setSelected(bool _select)
     UMLWidget::setSelected( _select );
     if( !m_pFText || m_pFText->displayText().isEmpty())
         return;
-    if( m_bSelected && m_pFText -> getSelected() )
+    if( m_selected && m_pFText -> getSelected() )
         return;
-    if( !m_bSelected && !m_pFText -> getSelected() )
+    if( !m_selected && !m_pFText -> getSelected() )
         return;
 
     m_pView -> setSelected( m_pFText, 0 );
-    m_pFText -> setSelected( m_bSelected );
+    m_pFText -> setSelected( m_selected );
 }
 
 int MessageWidget::getMinY()

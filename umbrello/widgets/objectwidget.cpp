@@ -52,9 +52,9 @@ void ObjectWidget::init()
     UMLWidget::setBaseType(WidgetBase::wt_Object);
     m_nLocalID = Uml::id_None;
     m_InstanceName = "";
-    m_bMultipleInstance = false;
-    m_bDrawAsActor = false;
-    m_bShowDestruction = false;
+    m_multipleInstance = false;
+    m_drawAsActor = false;
+    m_showDestruction = false;
     if( m_pView != NULL && m_pView->type() == Uml::DiagramType::Sequence ) {
         m_pLine = new SeqLineWidget( m_pView, this );
 
@@ -72,13 +72,13 @@ ObjectWidget::~ObjectWidget()
 
 void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY)
 {
-    if ( m_bDrawAsActor )
+    if ( m_drawAsActor )
         drawActor( p, offsetX, offsetY );
     else
         drawObject( p, offsetX, offsetY );
 
     setPenFromSettings(p);
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 
@@ -135,7 +135,7 @@ QSize ObjectWidget::calculateSize()
     const int fontHeight  = fm.lineSpacing();
     const QString t = m_InstanceName + " : " + m_pObject->name();
     const int textWidth = fm.width(t);
-    if ( m_bDrawAsActor ) {
+    if ( m_drawAsActor ) {
         width = textWidth > A_WIDTH?textWidth:A_WIDTH;
         height = A_HEIGHT + fontHeight + A_MARGIN;
         width += A_MARGIN * 2;
@@ -143,7 +143,7 @@ QSize ObjectWidget::calculateSize()
         width = textWidth > O_WIDTH?textWidth:O_WIDTH;
         height = fontHeight + O_MARGIN * 2;
         width += O_MARGIN * 2;
-        if (m_bMultipleInstance) {
+        if (m_multipleInstance) {
             width += 10;
             height += 10;
         }
@@ -154,7 +154,7 @@ QSize ObjectWidget::calculateSize()
 
 void ObjectWidget::setDrawAsActor( bool drawAsActor )
 {
-    m_bDrawAsActor = drawAsActor;
+    m_drawAsActor = drawAsActor;
     updateComponentSize();
 }
 
@@ -163,7 +163,7 @@ void ObjectWidget::setMultipleInstance(bool multiple)
     //make sure only calling this in relation to an object on a collab. diagram
     if(m_pView->type() != Uml::DiagramType::Collaboration)
         return;
-    m_bMultipleInstance = multiple;
+    m_multipleInstance = multiple;
     updateComponentSize();
     update();
 }
@@ -172,7 +172,7 @@ bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/)
 {
     if (! UMLWidget::activate(ChangeLog))
         return false;
-    if (m_bShowDestruction && m_pLine)
+    if (m_showDestruction && m_pLine)
         m_pLine->setupDestructionBox();
     moveEvent(0);
     return true;
@@ -251,7 +251,7 @@ void ObjectWidget::drawObject(QPainter & p, int offsetX, int offsetY)
 
     const QString t = m_InstanceName + " : " + m_pObject->name();
     int multiInstOfst = 0;
-    if ( m_bMultipleInstance ) {
+    if ( m_multipleInstance ) {
         p.drawRect(offsetX + 10, offsetY + 10, w - 10, h - 10);
         p.drawRect(offsetX + 5, offsetY + 5, w - 10, h - 10);
         multiInstOfst = 10;
@@ -326,7 +326,7 @@ bool ObjectWidget::canTabUp()
 
 void ObjectWidget::setShowDestruction( bool bShow )
 {
-    m_bShowDestruction = bShow;
+    m_showDestruction = bShow;
     if( m_pLine )
         m_pLine -> setupDestructionBox();
 }
@@ -341,7 +341,7 @@ int ObjectWidget::getEndLineY()
     int y = this -> getY() + getHeight();
     if( m_pLine)
         y += m_pLine -> getLineLength();
-    if ( m_bShowDestruction )
+    if ( m_showDestruction )
         y += 10;
     return y;
 }
@@ -397,10 +397,10 @@ void ObjectWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     QDomElement objectElement = qDoc.createElement( "objectwidget" );
     UMLWidget::saveToXMI( qDoc, objectElement );
     objectElement.setAttribute( "instancename", m_InstanceName );
-    objectElement.setAttribute( "drawasactor", m_bDrawAsActor );
-    objectElement.setAttribute( "multipleinstance", m_bMultipleInstance );
+    objectElement.setAttribute( "drawasactor", m_drawAsActor );
+    objectElement.setAttribute( "multipleinstance", m_multipleInstance );
     objectElement.setAttribute( "localid", ID2STR(m_nLocalID) );
-    objectElement.setAttribute( "decon", m_bShowDestruction );
+    objectElement.setAttribute( "decon", m_showDestruction );
     qElement.appendChild( objectElement );
 }
 
@@ -414,10 +414,10 @@ bool ObjectWidget::loadFromXMI( QDomElement & qElement )
     QString localid = qElement.attribute( "localid", "0" );
     QString decon = qElement.attribute( "decon", "0" );
 
-    m_bDrawAsActor = (bool)draw.toInt();
-    m_bMultipleInstance = (bool)multi.toInt();
+    m_drawAsActor = (bool)draw.toInt();
+    m_multipleInstance = (bool)multi.toInt();
     m_nLocalID = STR2ID(localid);
-    m_bShowDestruction = (bool)decon.toInt();
+    m_showDestruction = (bool)decon.toInt();
     return true;
 }
 

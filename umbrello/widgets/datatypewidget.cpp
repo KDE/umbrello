@@ -76,7 +76,7 @@ void DatatypeWidget::draw(QPainter& p, int offsetX, int offsetY)
     p.drawText(offsetX + DATATYPE_MARGIN, offsetY + fontHeight,
                w - DATATYPE_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
 
-    if (m_bSelected) {
+    if (m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }

@@ -162,7 +162,7 @@ public:
      * @return  True if attributes are shown.
      */
     bool getShowAtts() const {
-        return m_bShowAttributes;
+        return m_showAttributes;
     }
 
     /**
@@ -335,13 +335,13 @@ protected:
     QSize calculateAsCircleSize();
 
     /**
-     * Updates m_ShowOpSigs to match m_bShowVisibility.
+     * Updates m_ShowOpSigs to match m_showVisibility.
      */
     void updateSigs();
 
     /**
      * Return the number of displayed members of the given ObjectType.
-     * Takes into consideration m_bShowPublicOnly but not other settings,
+     * Takes into consideration m_showPublicOnly but not other settings,
      */
     int displayedMembers(UMLObject::ObjectType ot);
 
@@ -359,12 +359,12 @@ protected:
     void drawMembers(QPainter & p, UMLObject::ObjectType ot, Uml::SignatureType sigType,
                      int x, int y, int fontHeight);
 
-    bool m_bShowOperations;            ///< Loaded/saved item.
-    bool m_bShowPublicOnly;            ///< Loaded/saved item.
-    bool m_bShowAccess;                ///< Loaded/saved item.
-    bool m_bShowPackage;               ///< Loaded/saved item.
-    bool m_bShowAttributes;            ///< Loaded/saved item.
-    bool m_bDrawAsCircle;              ///< Loaded/saved item.
+    bool m_showOperations;            ///< Loaded/saved item.
+    bool m_showPublicOnly;            ///< Loaded/saved item.
+    bool m_showAccess;                ///< Loaded/saved item.
+    bool m_showPackage;               ///< Loaded/saved item.
+    bool m_showAttributes;            ///< Loaded/saved item.
+    bool m_drawAsCircle;              ///< Loaded/saved item.
     Uml::SignatureType m_ShowAttSigs;  ///< Loaded/saved item.
     Uml::SignatureType m_ShowOpSigs;   ///< Loaded/saved item.
 

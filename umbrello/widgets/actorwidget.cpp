@@ -70,7 +70,7 @@ void ActorWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.setPen(QPen(Qt::black));
     p.drawText(offsetX + A_MARGIN, offsetY + h - fontHeight,
                w - A_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 

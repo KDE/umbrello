@@ -108,10 +108,10 @@ public:
     void setUseFillColour(bool fc);
 
     /**
-     * Read property of bool m_bUseFillColour.
+     * Read property of bool m_useFillColour.
      */
     bool getUseFillColour() const {
-        return m_bUseFillColour;
+        return m_useFillColour;
     }
 
     /**
@@ -179,11 +179,11 @@ public:
      * @return Returns the state of whether the widget is selected.
      */
     bool getSelected() const {
-        return m_bSelected;
+        return m_selected;
     }
 
     void setSelectedFlag(bool _select) {
-        m_bSelected = _select;
+        m_selected = _select;
     }
 
     /**
@@ -246,7 +246,7 @@ public:
      * @return The moving state.
      */
     bool getStartMove() {
-        return m_bStartMove;
+        return m_startMove;
     }
 
     /**
@@ -317,12 +317,12 @@ public:
     void setSize(int width,int height);
 
     /**
-     * Set m_bIgnoreSnapToGrid.
+     * Set m_ignoreSnapToGrid.
      */
     void setIgnoreSnapToGrid(bool to);
 
     /**
-     * Return the value of m_bIgnoreSnapToGrid.
+     * Return the value of m_ignoreSnapToGrid.
      */
     bool getIgnoreSnapToGrid() const;
 
@@ -352,45 +352,45 @@ public:
     }
 
     /**
-     * Returns m_bUsesDiagramFillColour
+     * Returns m_usesDiagramFillColour
      */
     bool getUsesDiagramFillColour() const {
-        return m_bUsesDiagramFillColour;
+        return m_usesDiagramFillColour;
     }
 
     /**
-     * Returns m_bUsesDiagramUseFillColour
+     * Returns m_usesDiagramUseFillColour
      */
     bool getUsesDiagramUseFillColour() const {
-        return m_bUsesDiagramUseFillColour;
+        return m_usesDiagramUseFillColour;
     }
 
     /**
-     * Sets m_bUsesDiagramFillColour
+     * Sets m_usesDiagramFillColour
      */
     void setUsesDiagramFillColour(bool usesDiagramFillColour) {
-        m_bUsesDiagramFillColour = usesDiagramFillColour;
+        m_usesDiagramFillColour = usesDiagramFillColour;
     }
 
     /**
-     * Sets m_bUsesDiagramUseFillColour
+     * Sets m_usesDiagramUseFillColour
      */
     void setUsesDiagramUseFillColour(bool usesDiagramUseFillColour) {
-        m_bUsesDiagramUseFillColour = usesDiagramUseFillColour;
+        m_usesDiagramUseFillColour = usesDiagramUseFillColour;
     }
 
     /**
-     * Write property of bool m_bIsInstance
+     * Write property of bool m_isInstance
      */
     void setIsInstance(bool isInstance) {
-        m_bIsInstance = isInstance;
+        m_isInstance = isInstance;
     }
 
     /**
-     * Read property of bool m_bIsInstance
+     * Read property of bool m_isInstance
      */
     bool isInstance() const {
-        return m_bIsInstance;
+        return m_isInstance;
     }
 
     /**
@@ -477,7 +477,7 @@ public:
     void adjustUnselectedAssocs(int x, int y);
 
     /**
-     * Set the m_bActivated flag of a widget but does not perform the Activate method
+     * Set the m_activated flag of a widget but does not perform the Activate method
      *
      * @param Active Status of activation is to be set.
      */
@@ -602,14 +602,14 @@ protected:
     /**
      * This flag indicates if the UMLWidget uses the Diagram FillColour
      */
-    bool m_bUseFillColour;
+    bool m_useFillColour;
 
     /**
      *  true by default, false if the colours have
      *  been explicitly set for this widget
      */
-    bool m_bUsesDiagramFillColour;
-    bool m_bUsesDiagramUseFillColour;
+    bool m_usesDiagramFillColour;
+    bool m_usesDiagramUseFillColour;
 
     /**
      * Color of the background of the widget
@@ -636,7 +636,7 @@ protected:
     /**
      * Holds whether this widget is a component instance (i.e. on a deployment diagram)
      */
-    bool m_bIsInstance;
+    bool m_isInstance;
 
     /**
      * The instance name (used if on a deployment diagram)
@@ -646,31 +646,31 @@ protected:
     /**
      * Should the stereotype be displayed
      */
-    bool m_bShowStereotype;
+    bool m_showStereotype;
 
     ///////////////// End of Data Loaded/Saved //////////////////////////
 
-    bool m_bSelected, m_bStartMove;
+    bool m_selected, m_startMove;
 
     int            m_nPosX;
     int            m_origZ;
     ListPopupMenu *m_pMenu;
     bool           m_menuIsEmbedded;
     UMLDoc        *m_pDoc;  ///< shortcut for UMLApp::app()->getDocument()
-    bool           m_bResizable;
+    bool           m_resizable;
     QFontMetrics  *m_pFontMetrics[FT_INVALID];
 
     /**
      * It is true if the Activate Function has been called for this
      * class instance
      */
-    bool m_bActivated;
+    bool m_activated;
 
     /**
      * Change Widget Behaviour
      */
-    bool m_bIgnoreSnapToGrid;
-    bool m_bIgnoreSnapComponentSizeToGrid;
+    bool m_ignoreSnapToGrid;
+    bool m_ignoreSnapComponentSizeToGrid;
 
     /**
      * Controller for user interaction events.

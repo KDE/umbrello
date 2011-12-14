@@ -416,7 +416,7 @@ protected:
     static void drawSolidArrowhead(QPainter& p, int x, int y, Qt::ArrowType direction);
 
     /**
-     * Update the UMLWidget::m_bResizable flag according to the
+     * Update the UMLWidget::m_resizable flag according to the
      * charactersitics of this message.
      */
     void updateResizability();

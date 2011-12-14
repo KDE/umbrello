@@ -110,7 +110,7 @@ void StateWidget::draw(QPainter & p, int offsetX, int offsetY)
         uWarning() << "Unknown state type:" << m_StateType;
         break;
     }
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 

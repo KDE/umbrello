@@ -36,15 +36,15 @@ void WidgetBase::init(UMLView *view, WidgetType type /* = wt_UMLWidget */)
     m_Type = type;
     m_pObject = NULL;
     if (m_pView) {
-        m_bUsesDiagramLineColour = true;
-        m_bUsesDiagramLineWidth  = true;
+        m_usesDiagramLineColour = true;
+        m_usesDiagramLineWidth  = true;
         const Settings::OptionState& optionState = m_pView->optionState();
         m_LineColour = optionState.uiState.lineColor;
         m_LineWidth  = optionState.uiState.lineWidth;
     } else {
         uError() << "WidgetBase constructor: SERIOUS PROBLEM - m_pView is NULL";
-        m_bUsesDiagramLineColour = false;
-        m_bUsesDiagramLineWidth  = false;
+        m_usesDiagramLineColour = false;
+        m_usesDiagramLineWidth  = false;
         m_LineColour = QColor("black");
         m_LineWidth = 0; // initialize with 0 to have valid start condition
     }
@@ -186,7 +186,7 @@ QColor WidgetBase::lineColor() const
 void WidgetBase::setLineColor(const QColor &colour)
 {
     m_LineColour = colour;
-    m_bUsesDiagramLineColour = false;
+    m_usesDiagramLineColour = false;
 }
 
 /**
@@ -205,48 +205,48 @@ uint WidgetBase::lineWidth() const
 void WidgetBase::setLineWidth(uint width)
 {
     m_LineWidth = width;
-    m_bUsesDiagramLineWidth = false;
+    m_usesDiagramLineWidth = false;
 }
 
 /**
- * Returns m_bUsesDiagramLineColour
+ * Returns m_usesDiagramLineColour
  */
 bool WidgetBase::usesDiagramLineColour() const
 {
-    return m_bUsesDiagramLineColour;
+    return m_usesDiagramLineColour;
 }
 
 /**
- * Sets m_bUsesDiagramLineColour
+ * Sets m_usesDiagramLineColour
  */
 void WidgetBase::setUsesDiagramLineColour(bool usesDiagramLineColour)
 {
-    m_bUsesDiagramLineColour = usesDiagramLineColour;
+    m_usesDiagramLineColour = usesDiagramLineColour;
 }
 
 /**
- * Returns m_bUsesDiagramLineWidth
+ * Returns m_usesDiagramLineWidth
  */
 bool WidgetBase::usesDiagramLineWidth() const {
-    return m_bUsesDiagramLineWidth;
+    return m_usesDiagramLineWidth;
 }
 
 /**
- * Sets m_bUsesDiagramLineWidth
+ * Sets m_usesDiagramLineWidth
  */
 void WidgetBase::setUsesDiagramLineWidth(bool usesDiagramLineWidth)
 {
-    m_bUsesDiagramLineWidth = usesDiagramLineWidth;
+    m_usesDiagramLineWidth = usesDiagramLineWidth;
 }
 
 void WidgetBase::saveToXMI( QDomDocument & /*qDoc*/, QDomElement & qElement )
 {
-    if (m_bUsesDiagramLineColour) {
+    if (m_usesDiagramLineColour) {
         qElement.setAttribute( "linecolor", "none" );
     } else {
         qElement.setAttribute( "linecolor", m_LineColour.name() );
     }
-    if (m_bUsesDiagramLineWidth) {
+    if (m_usesDiagramLineWidth) {
         qElement.setAttribute( "linewidth", "none" );
     } else {
         qElement.setAttribute( "linewidth", m_LineWidth );
@@ -264,17 +264,17 @@ bool WidgetBase::loadFromXMI( QDomElement & qElement )
     QString lineWidth = qElement.attribute( "linewidth", "none" );
     if (lineColor != "none") {
         setLineColor( QColor(lineColor) );
-        m_bUsesDiagramLineColour = false;
+        m_usesDiagramLineColour = false;
     } else if (m_Type != WidgetBase::wt_Box && m_pView != NULL) {
         setLineColor( m_pView->getLineColor() );
-        m_bUsesDiagramLineColour = true;
+        m_usesDiagramLineColour = true;
     }
     if (lineWidth != "none") {
         setLineWidth( lineWidth.toInt() );
-        m_bUsesDiagramLineWidth = false;
+        m_usesDiagramLineWidth = false;
     } else if ( m_pView ) {
         setLineWidth( m_pView->getLineWidth() );
-        m_bUsesDiagramLineWidth = true;
+        m_usesDiagramLineWidth = true;
     }
     return true;
 }

@@ -176,7 +176,7 @@ void ArtifactWidget::drawAsFile(QPainter& p, int offsetX, int offsetY)
     p.drawText(offsetX, offsetY + h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
-    if(m_bSelected) {
+    if(m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
@@ -213,7 +213,7 @@ void ArtifactWidget::drawAsLibrary(QPainter& p, int offsetX, int offsetY)
     p.drawText(offsetX, offsetY + h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
-    if(m_bSelected) {
+    if(m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
@@ -252,7 +252,7 @@ void ArtifactWidget::drawAsTable(QPainter& p, int offsetX, int offsetY)
     p.drawText(offsetX, offsetY + h - fontHeight,
                w, fontHeight, Qt::AlignCenter, name());
 
-    if(m_bSelected) {
+    if(m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
@@ -295,7 +295,7 @@ void ArtifactWidget::drawAsNormal(QPainter& p, int offsetX, int offsetY)
                    w, fontHeight, Qt::AlignCenter, name());
     }
 
-    if(m_bSelected) {
+    if(m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }

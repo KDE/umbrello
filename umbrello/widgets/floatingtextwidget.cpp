@@ -74,7 +74,7 @@ void FloatingTextWidget::init()
     m_Type = WidgetBase::wt_Text;
     // initialize non-saved (i.e. volatile) data
     m_linkWidget = NULL;
-    UMLWidget::m_bResizable = false;
+    UMLWidget::m_resizable = false;
 }
 
 /**
@@ -95,7 +95,7 @@ void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY)
     QColor textColor(50, 50, 50);
     p.setPen(textColor);
     p.drawText( offsetX, offsetY,w,h, Qt::AlignCenter, displayText() );
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 

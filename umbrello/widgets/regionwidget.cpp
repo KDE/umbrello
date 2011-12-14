@@ -50,7 +50,7 @@ void RegionWidget::draw(QPainter & p, int offsetX, int offsetY)
         p.drawRoundRect(offsetX, offsetY, w, h, (h * 60) / w, 60);
 
     }
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 

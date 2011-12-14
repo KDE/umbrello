@@ -27,7 +27,7 @@ FloatingDashLineWidget::FloatingDashLineWidget(UMLView * view, Uml::IDType id)
   : UMLWidget(view, id)
 {
     UMLWidget::setBaseType(WidgetBase::wt_FloatingDashLine);
-    m_bResizable = false;
+    m_resizable = false;
     m_Text = "";
     updateComponentSize();
 }
@@ -47,7 +47,7 @@ void FloatingDashLineWidget::draw(QPainter & p, int /*offsetX*/, int /*offsetY*/
                Qt::AlignLeft, '[' + m_Text + ']');
     p.setPen(QPen(UMLWidget::lineColor(), 0, Qt::DashLine));
     p.drawLine(getX(), getY(), getX() + getWidth(), getY());
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, getX(), getY());
 }
 

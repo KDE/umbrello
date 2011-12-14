@@ -52,9 +52,9 @@ PreconditionWidget::~PreconditionWidget()
 void PreconditionWidget::init()
 {
     UMLWidget::setBaseType(WidgetBase::wt_Precondition);
-    m_bIgnoreSnapToGrid = true;
-    m_bIgnoreSnapComponentSizeToGrid = true;
-    m_bResizable =  true ;
+    m_ignoreSnapToGrid = true;
+    m_ignoreSnapComponentSizeToGrid = true;
+    m_resizable =  true ;
     m_pOw = NULL;
     m_nY = 0;
     setVisible(true);
@@ -94,7 +94,7 @@ void PreconditionWidget::draw(QPainter & p, int /*offsetX*/, int offsetY)
         p.drawText(x + PRECONDITION_MARGIN, y + textStartY,
                        w - PRECONDITION_MARGIN * 2, fontHeight, Qt::AlignCenter, precondition_value);
     }
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, x, y);
 }
 

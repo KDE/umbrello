@@ -49,7 +49,7 @@ public slots:
 protected:
     QSize calculateSize();
 
-    bool m_bShowPackage;
+    bool m_showPackage;
 
 private:
     void init();

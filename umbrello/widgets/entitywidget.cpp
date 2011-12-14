@@ -119,7 +119,7 @@ void EntityWidget::draw(QPainter& p, int offsetX, int offsetY)
         y+=fontHeight;
     }
 
-    if (m_bSelected) {
+    if (m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }

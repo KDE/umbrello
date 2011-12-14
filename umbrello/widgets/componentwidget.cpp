@@ -34,7 +34,7 @@ void ComponentWidget::init()
     if (m_pView) {
         //check to see if correct
         const Settings::OptionState& ops = m_pView->optionState();
-        m_bShowStereotype = ops.classState.showStereoType;
+        m_showStereotype = ops.classState.showStereoType;
     }
     //maybe loading and this may not be set.
     if (m_pObject) {
@@ -103,7 +103,7 @@ void ComponentWidget::draw(QPainter & p, int offsetX, int offsetY)
                    w - (COMPONENT_MARGIN*4), fontHeight, Qt::AlignCenter, nameStr );
     }
 
-    if(m_bSelected) {
+    if(m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }

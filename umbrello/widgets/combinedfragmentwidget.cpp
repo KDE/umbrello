@@ -158,7 +158,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.drawLine(offsetX + line_width, offsetY + 20, offsetX + line_width + 10, offsetY + 10);
     p.drawLine(offsetX + line_width + 10, offsetY + 10, offsetX + line_width + 10, offsetY);
 
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 
@@ -189,7 +189,7 @@ CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::combinedFra
 void CombinedFragmentWidget::setCombinedFragmentType( CombinedFragmentType combinedfragmentType )
 {
     m_CombinedFragment = combinedfragmentType;
-    UMLWidget::m_bResizable =  true ; //(m_CombinedFragment == Normal);
+    UMLWidget::m_resizable =  true ; //(m_CombinedFragment == Normal);
     // creates a dash line if the combined fragment type is alternative or parallel
     if(m_CombinedFragment == Alt  && m_dashLines.isEmpty())
     {

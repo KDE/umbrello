@@ -175,11 +175,11 @@ AssociationWidget& AssociationWidget::operator=(const AssociationWidget & Other)
         lhs.m_WidgetRegion = rhs.m_WidgetRegion;
     }
 
-    m_bActivated = Other.m_bActivated;
+    m_activated = Other.m_activated;
     m_unNameLineSegment = Other.m_unNameLineSegment;
     m_pMenu = Other.m_pMenu;
     setUMLAssociation(Other.getAssociation());
-    m_bSelected = Other.m_bSelected;
+    m_selected = Other.m_selected;
     m_nMovingPoint = Other.m_nMovingPoint;
 
     return *this;
@@ -703,7 +703,7 @@ bool AssociationWidget::activate()
         }
     }
 
-    if (m_bActivated)
+    if (m_activated)
         return true;
 
     Uml::AssociationType type = associationType();
@@ -789,7 +789,7 @@ bool AssociationWidget::activate()
         createAssocClassLine();
     }
 
-    m_bActivated = true;
+    m_activated = true;
     return true;
 }
 
@@ -1377,16 +1377,16 @@ void AssociationWidget::doUpdates(int otherX, int otherY, Uml::Role_Type role)
     updateAssociations( regionCount, region, role );
 }
 
-/** Read property of bool m_bActivated. */
+/** Read property of bool m_activated. */
 bool AssociationWidget::isActivated()
 {
-    return m_bActivated;
+    return m_activated;
 }
 
-/** Set the m_bActivated flag of a widget but does not perform the Activate method */
+/** Set the m_activated flag of a widget but does not perform the Activate method */
 void AssociationWidget::setActivated(bool active /*=true*/)
 {
-    m_bActivated = active;
+    m_activated = active;
 }
 
 /**
@@ -2524,14 +2524,14 @@ void AssociationWidget::mousePressEvent(QMouseEvent * me)
     QPoint mep = me->pos();
     // See if `mep' is on the connecting line to the association class
     if (onAssocClassLine(mep)) {
-        m_bSelected = true;
+        m_selected = true;
         selectAssocClassLine();
         return;
     }
     // See if the user has clicked on a point to start moving the line segment
     // from that point
     checkPoints(mep);
-    setSelected( !m_bSelected );
+    setSelected( !m_selected );
 }
 
 void AssociationWidget::mouseReleaseEvent(QMouseEvent * me)
@@ -3394,7 +3394,7 @@ void AssociationWidget::updateRegionLineCount(int index, int totalCount,
 
 void AssociationWidget::setSelected(bool _select /* = true */)
 {
-    m_bSelected = _select;
+    m_selected = _select;
     if( m_pName)
         m_pName->setSelected( _select );
     if( m_role[A].m_pRole )
@@ -3644,10 +3644,10 @@ void AssociationWidget::init (UMLView *view)
     m_role[A].m_Changeability = Uml::Changeability::Changeable;
     m_role[B].m_Changeability = Uml::Changeability::Changeable;
     m_positions_len = 0;
-    m_bActivated = false;
+    m_activated = false;
     m_unNameLineSegment = 0;
     m_pMenu = 0;
-    m_bSelected = false;
+    m_selected = false;
     m_nMovingPoint = -1;
     m_nLinePathSegmentIndex = -1;
     m_pAssocClassWidget = NULL;

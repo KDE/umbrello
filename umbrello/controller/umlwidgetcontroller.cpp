@@ -196,7 +196,7 @@ void UMLWidgetController::mouseMoveEvent(QMouseEvent* me)
 
         m_moved = true;
         //Maybe needed by AssociationWidget
-        m_widget->m_bStartMove = true;
+        m_widget->m_startMove = true;
 
         setSelectionBounds();
     }
@@ -273,7 +273,7 @@ void UMLWidgetController::widgetMoved()
         widget->adjustAssocs(widget->getX(), widget->getY());
     }
 
-    m_widget->m_bStartMove = false;
+    m_widget->m_startMove = false;
 }
 
 /**
@@ -406,7 +406,7 @@ bool UMLWidgetController::isInResizeArea(QMouseEvent *me)
 {
     const int m = 10;
 
-    if (m_widget->m_bResizable &&
+    if (m_widget->m_resizable &&
             me->x() >= (m_widget->getX() + m_widget->width() - m) &&
             me->y() >= (m_widget->getY() + m_widget->height() - m)) {
         m_widget->m_pView->setCursor(getResizeCursor());
@@ -544,8 +544,8 @@ void UMLWidgetController::selectSingle(QMouseEvent *me)
  */
 void UMLWidgetController::selectMultiple(QMouseEvent *me)
 {
-    m_widget->m_bSelected = true;
-    m_widget->setSelected(m_widget->m_bSelected);
+    m_widget->m_selected = true;
+    m_widget->setSelected(m_widget->m_selected);
     m_widget->m_pView->setSelected(m_widget, me);
 
     m_wasSelected = true;
@@ -558,8 +558,8 @@ void UMLWidgetController::selectMultiple(QMouseEvent *me)
  */
 void UMLWidgetController::deselect(QMouseEvent *me)
 {
-    m_widget->m_bSelected = false;
-    m_widget->setSelected(m_widget->m_bSelected);
+    m_widget->m_selected = false;
+    m_widget->setSelected(m_widget->m_selected);
     m_widget->m_pView->setSelected(m_widget, me);
     //m_wasSelected is false implicitly, no need to set it again
 }

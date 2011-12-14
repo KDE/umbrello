@@ -65,7 +65,7 @@ void ActivityWidget::setActivityType( ActivityType activityType )
 {
     m_ActivityType = activityType;
     updateComponentSize();
-    UMLWidget::m_bResizable = true;
+    UMLWidget::m_resizable = true;
 }
 
 /**
@@ -286,7 +286,7 @@ void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY)
         break;
 
     }
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 

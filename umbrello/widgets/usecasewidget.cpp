@@ -59,7 +59,7 @@ void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.setPen(Qt::black);
     p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, w - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, name());
     setPenFromSettings(p);
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 

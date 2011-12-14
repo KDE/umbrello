@@ -156,7 +156,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
         uWarning() << "Unknown signal type:" << m_signalType;
         break;
     }
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 

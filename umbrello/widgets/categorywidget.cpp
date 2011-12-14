@@ -73,7 +73,7 @@ void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY)
 
     p.drawText(offsetX + UC_MARGIN, offsetY + textStartY, r - UC_MARGIN * 2, fontHeight, Qt::AlignCenter, letterType );
     UMLWidget::setPenFromSettings(p);
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 }
 

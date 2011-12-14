@@ -131,7 +131,7 @@ protected:
      * been explicitly set for this widget.
      * These are saved to XMI.
      */
-    bool m_bUsesDiagramLineColour, m_bUsesDiagramLineWidth;
+    bool m_usesDiagramLineColour, m_usesDiagramLineWidth;
 
 };
 

@@ -88,7 +88,7 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
         return *this;
 
     // assign members loaded/saved
-    m_bUseFillColour = other.m_bUseFillColour;
+    m_useFillColour = other.m_useFillColour;
     m_nId = other.m_nId;
     m_Type = other.m_Type;
     setX(other.getX());
@@ -96,29 +96,29 @@ UMLWidget& UMLWidget::operator=(const UMLWidget & other)
     m_Assocs = other.m_Assocs;
     m_Font = other.m_Font;
     UMLSceneRectangle::setSize(other.width(), other.height());
-    m_bUsesDiagramFillColour = other.m_bUsesDiagramFillColour;
-    m_bUsesDiagramLineColour = other.m_bUsesDiagramLineColour;
-    m_bUsesDiagramLineWidth  = other.m_bUsesDiagramLineWidth;
-    m_bUsesDiagramUseFillColour = other.m_bUsesDiagramUseFillColour;
+    m_usesDiagramFillColour = other.m_usesDiagramFillColour;
+    m_usesDiagramLineColour = other.m_usesDiagramLineColour;
+    m_usesDiagramLineWidth  = other.m_usesDiagramLineWidth;
+    m_usesDiagramUseFillColour = other.m_usesDiagramUseFillColour;
     m_LineColour = other.m_LineColour;
     m_LineWidth  = other.m_LineWidth;
     m_FillColour = other.m_FillColour;
-    m_bIsInstance = other.m_bIsInstance;
+    m_isInstance = other.m_isInstance;
     m_instanceName = other.m_instanceName;
 
     // assign volatile (non-saved) members
-    m_bSelected = other.m_bSelected;
-    m_bStartMove = other.m_bStartMove;
+    m_selected = other.m_selected;
+    m_startMove = other.m_startMove;
     m_nPosX = other.m_nPosX;
     m_pObject = other.m_pObject;
     m_pView = other.m_pView;
     m_pMenu = other.m_pMenu;
-    m_bResizable = other.m_bResizable;
+    m_resizable = other.m_resizable;
     for (unsigned i = 0; i < FT_INVALID; ++i)
         m_pFontMetrics[i] = other.m_pFontMetrics[i];
-    m_bActivated = other.m_bActivated;
-    m_bIgnoreSnapToGrid = other.m_bIgnoreSnapToGrid;
-    m_bIgnoreSnapComponentSizeToGrid = other.m_bIgnoreSnapComponentSizeToGrid;
+    m_activated = other.m_activated;
+    m_ignoreSnapToGrid = other.m_ignoreSnapToGrid;
+    m_ignoreSnapComponentSizeToGrid = other.m_ignoreSnapComponentSizeToGrid;
     return *this;
 }
 
@@ -159,7 +159,7 @@ bool UMLWidget::operator==(const UMLWidget& other) const
     // NOTE:  In the comparison tests we are going to do, we don't need these values.
     // They will actually stop things functioning correctly so if you change these, be aware of that.
     /*
-    if(m_bUseFillColour != other.m_bUseFillColour)
+    if(m_useFillColour != other.m_useFillColour)
         return false;
     if(m_nId != other.m_nId)
         return false;
@@ -223,33 +223,33 @@ void UMLWidget::mouseReleaseEvent(QMouseEvent *me)
 void UMLWidget::init()
 {
     m_nId = Uml::id_None;
-    m_bIsInstance = false;
+    m_isInstance = false;
     if (m_pView) {
-        m_bUseFillColour = true;
-        m_bUsesDiagramFillColour = true;
-        m_bUsesDiagramUseFillColour = true;
+        m_useFillColour = true;
+        m_usesDiagramFillColour = true;
+        m_usesDiagramUseFillColour = true;
         const Settings::OptionState& optionState = m_pView->optionState();
         m_FillColour = optionState.uiState.fillColor;
         m_Font       = optionState.uiState.font;
-        m_bShowStereotype = optionState.classState.showStereoType;
+        m_showStereotype = optionState.classState.showStereoType;
     } else {
         uError() << "SERIOUS PROBLEM - m_pView is NULL";
-        m_bUseFillColour = false;
-        m_bUsesDiagramFillColour = false;
-        m_bUsesDiagramUseFillColour = false;
-        m_bShowStereotype = false;
+        m_useFillColour = false;
+        m_usesDiagramFillColour = false;
+        m_usesDiagramUseFillColour = false;
+        m_showStereotype = false;
     }
 
     for (int i = 0; i < (int)FT_INVALID; ++i)
         m_pFontMetrics[(UMLWidget::FontType)i] = 0;
 
-    m_bResizable = true;
+    m_resizable = true;
 
-    m_bSelected = false;
-    m_bStartMove = false;
-    m_bActivated = false;
-    m_bIgnoreSnapToGrid = false;
-    m_bIgnoreSnapComponentSizeToGrid = false;
+    m_selected = false;
+    m_startMove = false;
+    m_activated = false;
+    m_ignoreSnapToGrid = false;
+    m_ignoreSnapComponentSizeToGrid = false;
     m_pMenu = 0;
     m_pDoc = UMLApp::app()->document();
     m_nPosX = 0;
@@ -327,9 +327,9 @@ void UMLWidget::slotMenuSelection(QAction* action)
         break;
 
     case ListPopupMenu::mt_Use_Fill_Color:
-        m_bUseFillColour = !m_bUseFillColour;
-        m_bUsesDiagramUseFillColour = false;
-        m_pView->selectionUseFillColor(m_bUseFillColour);
+        m_useFillColour = !m_useFillColour;
+        m_usesDiagramUseFillColour = false;
+        m_pView->selectionUseFillColor(m_useFillColour);
         break;
     case ListPopupMenu::mt_Show_Attributes_Selection:
     case ListPopupMenu::mt_Show_Operations_Selection:
@@ -418,14 +418,14 @@ void UMLWidget::slotColorChanged(Uml::IDType viewID)
     if (m_pView->getID() != viewID) {
         return;
     }
-    if (m_bUsesDiagramFillColour) {
+    if (m_usesDiagramFillColour) {
         m_FillColour = m_pView->getFillColor();
     }
-    if (m_bUsesDiagramLineColour) {
+    if (m_usesDiagramLineColour) {
         m_LineColour = m_pView->getLineColor();
     }
-    if (m_bUsesDiagramUseFillColour) {
-        m_bUseFillColour = m_pView->getUseFillColor();
+    if (m_usesDiagramUseFillColour) {
+        m_useFillColour = m_pView->getUseFillColor();
     }
     update();
 }
@@ -436,7 +436,7 @@ void UMLWidget::slotLineWidthChanged(Uml::IDType viewID)
     if (m_pView->getID() != viewID) {
         return;
     }
-    if (m_bUsesDiagramLineWidth) {
+    if (m_usesDiagramLineWidth) {
         m_LineWidth = m_pView->getLineWidth();
     }
     update();
@@ -449,8 +449,8 @@ void UMLWidget::mouseDoubleClickEvent(QMouseEvent * me)
 
 void UMLWidget::setUseFillColour(bool fc)
 {
-    m_bUseFillColour = fc;
-    m_bUsesDiagramUseFillColour = false;
+    m_useFillColour = fc;
+    m_usesDiagramUseFillColour = false;
     update();
 }
 
@@ -479,7 +479,7 @@ void UMLWidget::setFillColour(const QColor &colour)
 void UMLWidget::setFillColourcmd(const QColor &colour)
 {
     m_FillColour = colour;
-    m_bUsesDiagramFillColour = false;
+    m_usesDiagramFillColour = false;
     update();
 }
 
@@ -499,7 +499,7 @@ void UMLWidget::drawSelected(QPainter * p, int offsetX, int offsetY)
     p->fillRect(offsetX + w - s, offsetY, s, s, brush);
 
     // Draw the resize anchor in the lower right corner.
-    if (m_bResizable) {
+    if (m_resizable) {
         brush.setColor(Qt::red);
         const int right = offsetX + w;
         const int bottom = offsetY + h;
@@ -522,7 +522,7 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     }
     setFont(m_Font);
     setSize(getWidth(), getHeight());
-    m_bActivated = true;
+    m_activated = true;
     updateComponentSize();
     if (m_pView->getPaste()) {
         FloatingTextWidget * ft = 0;
@@ -575,15 +575,15 @@ bool UMLWidget::activate(IDChangeLog* /*ChangeLog  = 0 */)
     return true;
 }
 
-/** Read property of bool m_bActivated. */
+/** Read property of bool m_activated. */
 bool UMLWidget::isActivated()
 {
-    return m_bActivated;
+    return m_activated;
 }
 
 void UMLWidget::setActivated(bool Active /*=true*/)
 {
-    m_bActivated = Active;
+    m_activated = Active;
 }
 
 void UMLWidget::addAssoc(AssociationWidget* pAssoc)
@@ -675,7 +675,7 @@ ListPopupMenu*  UMLWidget::setupPopupMenu(ListPopupMenu* menu)
     //so take that into account for popup menu.
 
     // determine multi state
-    bool multi = (m_bSelected && count > 1);
+    bool multi = (m_selected && count > 1);
 
     // if multiple selected items have the same type
     bool unique = false;
@@ -760,10 +760,10 @@ void UMLWidget::setSelected(bool _select)
         /* if (wt != wt_Text && wt != wt_Box) {
             setZ(m_origZ);
         } */
-        if (m_bSelected)
+        if (m_selected)
             m_pView->updateDocumentation(true);
     }
-    m_bSelected = _select;
+    m_selected = _select;
 
     const QPoint pos(getX(), getY());
     UMLWidget *bkgnd = m_pView->widgetAt(pos);
@@ -802,7 +802,7 @@ void UMLWidget::setView(UMLView * v)
 
 void UMLWidget::setX(int x)
 {
-    if (!m_bIgnoreSnapToGrid) {
+    if (!m_ignoreSnapToGrid) {
         x = m_pView->snappedX(x);
     }
     UMLSceneItem::setX(x);
@@ -810,7 +810,7 @@ void UMLWidget::setX(int x)
 
 void UMLWidget::setY(int y)
 {
-    if (!m_bIgnoreSnapToGrid) {
+    if (!m_ignoreSnapToGrid) {
         y = m_pView->snappedX(y);
     }
     UMLSceneItem::setY(y);
@@ -870,18 +870,18 @@ bool UMLWidget::widgetHasUMLObject(WidgetBase::WidgetType type)
 
 void UMLWidget::setIgnoreSnapToGrid(bool to)
 {
-    m_bIgnoreSnapToGrid = to;
+    m_ignoreSnapToGrid = to;
 }
 
 bool UMLWidget::getIgnoreSnapToGrid() const
 {
-    return m_bIgnoreSnapToGrid;
+    return m_ignoreSnapToGrid;
 }
 
 void UMLWidget::setSize(int width, int height)
 {
     // snap to the next larger size that is a multiple of the grid
-    if (!m_bIgnoreSnapComponentSizeToGrid
+    if (!m_ignoreSnapComponentSizeToGrid
             && m_pView->getSnapComponentSizeToGrid()) {
         // integer divisions
         int numX = width / m_pView->getSnapX();
@@ -1014,14 +1014,14 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
 
 void UMLWidget::setShowStereotype(bool _status)
 {
-    m_bShowStereotype = _status;
+    m_showStereotype = _status;
     updateComponentSize();
     update();
 }
 
 bool UMLWidget::getShowStereotype() const
 {
-    return m_bShowStereotype;
+    return m_showStereotype;
 }
 
 void UMLWidget::moveEvent(QMoveEvent* /*me*/)
@@ -1037,24 +1037,24 @@ void UMLWidget::saveToXMI(QDomDocument & qDoc, QDomElement & qElement)
     WidgetBase::saveToXMI(qDoc, qElement);
     qElement.setAttribute("xmi.id", ID2STR(id()));
     qElement.setAttribute("font", m_Font.toString());
-    qElement.setAttribute("usefillcolor", m_bUseFillColour);
+    qElement.setAttribute("usefillcolor", m_useFillColour);
     qElement.setAttribute("x", getX());
     qElement.setAttribute("y", getY());
     qElement.setAttribute("width", getWidth());
     qElement.setAttribute("height", getHeight());
     // for consistency the following attributes now use american spelling for "color"
-    qElement.setAttribute("usesdiagramfillcolor", m_bUsesDiagramFillColour);
-    qElement.setAttribute("usesdiagramusefillcolor", m_bUsesDiagramUseFillColour);
-    if (m_bUsesDiagramFillColour) {
+    qElement.setAttribute("usesdiagramfillcolor", m_usesDiagramFillColour);
+    qElement.setAttribute("usesdiagramusefillcolor", m_usesDiagramUseFillColour);
+    if (m_usesDiagramFillColour) {
         qElement.setAttribute("fillcolor", "none");
     } else {
         qElement.setAttribute("fillcolor", m_FillColour.name());
     }
-    qElement.setAttribute("isinstance", m_bIsInstance);
+    qElement.setAttribute("isinstance", m_isInstance);
     if (!m_instanceName.isEmpty())
         qElement.setAttribute("instancename", m_instanceName);
-    if (m_bShowStereotype)
-        qElement.setAttribute("showstereotype", m_bShowStereotype);
+    if (m_showStereotype)
+        qElement.setAttribute("showstereotype", m_showStereotype);
 }
 
 bool UMLWidget::loadFromXMI(QDomElement & qElement)
@@ -1090,9 +1090,9 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
         << " for widget with xmi.id " << ID2STR(m_nId) << endl;
         //setFont( m_Font );
     }
-    m_bUseFillColour = (bool)usefillcolor.toInt();
-    m_bUsesDiagramFillColour = (bool)usesDiagramFillColour.toInt();
-    m_bUsesDiagramUseFillColour = (bool)usesDiagramUseFillColour.toInt();
+    m_useFillColour = (bool)usefillcolor.toInt();
+    m_usesDiagramFillColour = (bool)usesDiagramFillColour.toInt();
+    m_usesDiagramUseFillColour = (bool)usesDiagramUseFillColour.toInt();
     setSize(w.toInt(), h.toInt());
     setX(x.toInt());
     setY(y.toInt());
@@ -1100,10 +1100,10 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
         m_FillColour = QColor(fillColour);
     }
     QString isinstance = qElement.attribute("isinstance", "0");
-    m_bIsInstance = (bool)isinstance.toInt();
+    m_isInstance = (bool)isinstance.toInt();
     m_instanceName = qElement.attribute("instancename", "");
     QString showstereo = qElement.attribute("showstereotype", "0");
-    m_bShowStereotype = (bool)showstereo.toInt();
+    m_showStereotype = (bool)showstereo.toInt();
     return true;
 }
 

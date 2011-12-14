@@ -56,9 +56,9 @@ PinWidget::~PinWidget()
 void PinWidget::init()
 {
     UMLWidget::setBaseType(WidgetBase::wt_Pin);
-    m_bIgnoreSnapToGrid = true;
-    m_bIgnoreSnapComponentSizeToGrid = true;
-    m_bResizable =  false ;
+    m_ignoreSnapToGrid = true;
+    m_ignoreSnapComponentSizeToGrid = true;
+    m_resizable =  false ;
     m_pOw = NULL;
     m_nY = 0;
     setVisible(true);
@@ -141,7 +141,7 @@ void PinWidget::draw(QPainter & p, int offsetX, int offsetY)
     setPenFromSettings(p);
     m_pName->setVisible(( m_pName->text().length() > 0 ));
     m_pName->updateComponentSize();
-    if(m_bSelected)
+    if(m_selected)
          drawSelected(&p, offsetX, offsetY);
 }
 

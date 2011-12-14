@@ -103,7 +103,7 @@ void ObjectNodeWidget::draw(QPainter & p, int offsetX, int offsetY)
     }
     setPenFromSettings(p);
 
-    if(m_bSelected)
+    if(m_selected)
         drawSelected(&p, offsetX, offsetY);
 
 }
@@ -170,7 +170,7 @@ ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType(const QString&
 void ObjectNodeWidget::setObjectNodeType( ObjectNodeType objectNodeType )
 {
     m_ObjectNodeType = objectNodeType;
-    UMLWidget::m_bResizable = true;
+    UMLWidget::m_resizable = true;
 }
 
 void ObjectNodeWidget::setObjectNodeType( const QString& type )

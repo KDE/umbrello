@@ -94,7 +94,7 @@ void NodeWidget::draw(QPainter & p, int offsetX, int offsetY)
                    bodyWidth, fontHeight, Qt::AlignCenter, nameStr);
     }
 
-    if(m_bSelected) {
+    if(m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }

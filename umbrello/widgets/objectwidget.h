@@ -100,7 +100,7 @@ public:
      * @return  True if object is representing a multi-object.
      */
     bool multipleInstance() const {
-        return m_bMultipleInstance;
+        return m_multipleInstance;
     }
 
     /**
@@ -150,7 +150,7 @@ public:
      * @return  True if widget is drawn as an actor.
      */
     bool drawAsActor() const {
-        return m_bDrawAsActor;
+        return m_drawAsActor;
     }
 
     /**
@@ -173,7 +173,7 @@ public:
      * @return  True if destruction on sequence line is shown.
      */
     bool showDestruction() const {
-        return m_bShowDestruction;
+        return m_showDestruction;
     }
 
     /**
@@ -309,19 +309,19 @@ protected:
      * Determines whether to draw an object as a multiple object
      * instance.
      */
-    bool m_bMultipleInstance;
+    bool m_multipleInstance;
 
     /**
      * Determines whether the object should be drawn as an Actor or
      * an Object.
      */
-    bool m_bDrawAsActor;
+    bool m_drawAsActor;
 
     /**
      * Determines whether to show object destruction on sequence
      * diagram line.
      */
-    bool m_bShowDestruction;
+    bool m_showDestruction;
 
 private:
     /**

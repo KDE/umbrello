@@ -68,7 +68,7 @@ void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY)
 {
     p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::black ));
 
-    if (m_bSelected) {
+    if (m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }

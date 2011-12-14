@@ -38,7 +38,7 @@ void PackageWidget::init()
     if (m_pView) {
         //check to see if correct
         const Settings::OptionState& ops = m_pView->optionState();
-        m_bShowStereotype = ops.classState.showStereoType;
+        m_showStereotype = ops.classState.showStereoType;
     }
     //maybe loading and this may not be set.
     if (m_pObject && !UMLApp::app()->document()->loading())
@@ -94,7 +94,7 @@ void PackageWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.drawText(offsetX, offsetY + (fontHeight*lines) + PACKAGE_MARGIN,
                w, fontHeight, Qt::AlignCenter, name() );
 
-    if(m_bSelected) {
+    if(m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }

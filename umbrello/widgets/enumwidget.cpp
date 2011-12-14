@@ -50,7 +50,7 @@ EnumWidget::~EnumWidget()
  */
 bool EnumWidget::getShowPackage() const
 {
-    return m_bShowPackage;
+    return m_showPackage;
 }
 
 /**
@@ -60,7 +60,7 @@ bool EnumWidget::getShowPackage() const
  */
 void EnumWidget::setShowPackage(bool _status)
 {
-    m_bShowPackage = _status;
+    m_showPackage = _status;
     updateComponentSize();
     update();
 }
@@ -70,7 +70,7 @@ void EnumWidget::setShowPackage(bool _status)
  */
 void EnumWidget::toggleShowPackage()
 {
-    m_bShowPackage = !m_bShowPackage;
+    m_showPackage = !m_showPackage;
     updateComponentSize();
     update();
 }
@@ -92,7 +92,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
     QString name;
-    if ( m_bShowPackage ) {
+    if ( m_showPackage ) {
         name = m_pObject->fullyQualifiedName();
     } else {
         name = this->name();
@@ -134,7 +134,7 @@ void EnumWidget::draw(QPainter& p, int offsetX, int offsetY)
         y+=fontHeight;
     }
 
-    if (m_bSelected) {
+    if (m_selected) {
         drawSelected(&p, offsetX, offsetY);
     }
 }
@@ -149,7 +149,7 @@ bool EnumWidget::loadFromXMI( QDomElement & qElement )
     }
     QString showpackage = qElement.attribute("showpackage", "0");
 
-    m_bShowPackage = (bool)showpackage.toInt();
+    m_showPackage = (bool)showpackage.toInt();
 
     return true;
 }
@@ -162,7 +162,7 @@ void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
     QDomElement conceptElement = qDoc.createElement("enumwidget");
     UMLWidget::saveToXMI(qDoc, conceptElement);
 
-    conceptElement.setAttribute("showpackage", m_bShowPackage);
+    conceptElement.setAttribute("showpackage", m_showPackage);
     qElement.appendChild(conceptElement);
 }
 
@@ -224,7 +224,7 @@ QSize EnumWidget::calculateSize()
 
     //now set the width of the concept
     //set width to name to start with
-    if (m_bShowPackage)  {
+    if (m_showPackage)  {
         width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_pObject->fullyQualifiedName()).width();
     } else {
         width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(name()).width();
@@ -259,10 +259,10 @@ void EnumWidget::init()
     if (m_pView) {
         //check to see if correct
         const Settings::OptionState& ops = m_pView->optionState();
-        m_bShowPackage = ops.classState.showPackage;
+        m_showPackage = ops.classState.showPackage;
     } else {
         // For completeness only. Not supposed to happen.
-        m_bShowPackage = false;
+        m_showPackage = false;
     }
     if (! UMLApp::app()->document()->loading())
         updateComponentSize();

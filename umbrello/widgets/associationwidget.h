@@ -237,14 +237,14 @@ public:
     QString toString();
 
     /**
-     * Read property of bool m_bActivated.
+     * Read property of bool m_activated.
      *
      * @return  True if this AssociationWidget has been activated.
      */
     bool isActivated();
 
     /**
-     * Set the m_bActivated flag of a widget but does not perform the
+     * Set the m_activated flag of a widget but does not perform the
      * activate method.
      *
      * @param active    The flag status to set.
@@ -264,7 +264,7 @@ public:
      * @return  Returns the state of whether the widget is selected.
      */
     bool getSelected() const {
-        return m_bSelected;
+        return m_selected;
     }
 
     /**
@@ -882,7 +882,7 @@ private:
      * Flag which is true if the activate method has been called for this
      * class instance.
      */
-    bool m_bActivated;
+    bool m_activated;
 
     /**
      * When the association has a Role Floating Text this text should move
@@ -894,7 +894,7 @@ private:
     uint                m_unNameLineSegment;
     UMLDoc * m_umldoc;  ///< just a shorthand for UMLApp::app()->getDocument()
     ListPopupMenu       *m_pMenu;
-    bool                m_bSelected;
+    bool                m_selected;
     int                 m_nMovingPoint;
 
     /**
