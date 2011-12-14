@@ -74,14 +74,6 @@ void ClassifierWidget::init()
     m_drawAsCircle = false;
     m_pAssocWidget = NULL;
 
-    /*
-       force calculation of the widget size to avoid too small widgets
-       -> merge with related part in ClassifierWidget
-       Q: could this not be handled in UMLWidget for all widgets ?
-    */
-    QSize size = calculateSize();
-    setSize(size.width(), size.height());
-
     setShowAttSigs( ops.classState.showAttSig );
 }
 

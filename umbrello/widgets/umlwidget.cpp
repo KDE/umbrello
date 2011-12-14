@@ -900,9 +900,8 @@ void UMLWidget::updateComponentSize()
 {
     if (m_pDoc->loading())
         return;
-    const int w = getWidth();
-    const int h = getHeight();
-    setSize(w, h);
+    QSize size = calculateSize();
+    setSize(size.width(), size.height());
     adjustAssocs(getX(), getY());    // adjust assoc lines
 }
 
