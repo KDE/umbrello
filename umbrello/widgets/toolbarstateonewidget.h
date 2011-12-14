@@ -15,10 +15,6 @@
 #include "toolbarstatepool.h"
 #include "widgetbase.h"
 
-class ObjectWidget;
-class QMouseEvent;
-class UMLWidget;
-
 /**
  * Sequence tool to create components linked with one object in sequence diagram
  * like precondition.
@@ -30,15 +26,15 @@ class ToolBarStateOneWidget : public ToolBarStatePool
     Q_OBJECT
 public:
     ToolBarStateOneWidget(UMLScene *umlScene);
-
     virtual ~ToolBarStateOneWidget();
 
     virtual void cleanBeforeChange();
 
-    virtual void mouseMove(QMouseEvent* ome);
+	// FIXME: obsolate
+    virtual void mouseMove(UMLSceneMouseEvent* ome);
 
 public Q_SLOTS:
-    virtual void slotWidgetRemoved(UMLWidget* widget);  
+    virtual void slotWidgetRemoved(UMLWidget* widget);
 
 protected:
     virtual void setCurrentElement();
@@ -47,21 +43,18 @@ protected:
     virtual void mouseReleaseEmpty();
 
     void setWidget(UMLWidget* firstObject);
-    WidgetBase::WidgetType getWidgetType();
+    WidgetBase::WidgetType widgetType();
 
-    /**
-     * The first object in the message.
-     */
-    UMLWidget* m_firstObject;
+    UMLWidget* m_firstObject;  ///< The first object in the message.
+
     /**
      * If there is a current widget, it is true if the press event happened on
      * the line of an object, or false if it happened on a normal UMLWidget.
      */
     bool m_isObjectWidgetLine;
 
-private: 
+private:
     virtual void init();
-       
 };
 
 #endif //TOOLBARSTATEONEWIDGET_H

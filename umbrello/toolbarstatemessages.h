@@ -57,7 +57,7 @@ public:
 
     virtual void cleanBeforeChange();
 
-    virtual void mouseMove(QMouseEvent* ome);
+    virtual void mouseMove(UMLSceneMouseEvent* ome);
 
 public slots:
 

@@ -30,9 +30,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-// qt includes
-#include <QtGui/QGraphicsSceneMouseEvent>
-
 /**
  * Creates a new ToolBarStateAssociation.
  *
@@ -78,7 +75,7 @@ void ToolBarStateAssociation::cleanBeforeChange()
  * It executes the base method and then updates the position of the
  * association line, if any.
  */
-void ToolBarStateAssociation::mouseMove(QMouseEvent* ome)
+void ToolBarStateAssociation::mouseMove(UMLSceneMouseEvent* ome)
 {
     ToolBarStatePool::mouseMove(ome);
 

@@ -419,7 +419,7 @@ void UMLView::setupNewWidget(UMLWidget *w)
 
 void UMLView::contentsMouseReleaseEvent(QMouseEvent* ome)
 {
-    m_pToolBarState->mouseRelease(ome);
+    m_pToolBarState->mouseRelease(static_cast<UMLSceneMouseEvent*>(ome));
 }
 
 void UMLView::slotToolBarChanged(int c)
@@ -798,7 +798,7 @@ bool UMLView::widgetOnDiagram(Uml::IDType id)
 
 void UMLView::contentsMouseMoveEvent(QMouseEvent* ome)
 {
-    m_pToolBarState->mouseMove(ome);
+    m_pToolBarState->mouseMove(static_cast<UMLSceneMouseEvent*>(ome));
 }
 
 // search both our UMLWidget AND MessageWidget lists
@@ -940,7 +940,7 @@ void UMLView::setLineWidth(uint width)
 
 void UMLView::contentsMouseDoubleClickEvent(QMouseEvent* ome)
 {
-    m_pToolBarState->mouseDoubleClick(ome);
+    m_pToolBarState->mouseDoubleClick(static_cast<UMLSceneMouseEvent*>(ome));
 }
 
 QRect UMLView::getDiagramRect()
@@ -1240,7 +1240,7 @@ bool UMLView::isSavedInSeparateFile()
 
 void UMLView::contentsMousePressEvent(QMouseEvent* ome)
 {
-    m_pToolBarState->mousePress(ome);
+    m_pToolBarState->mousePress(static_cast<UMLSceneMouseEvent*>(ome));
     //TODO should be managed by widgets when are selected. Right now also has some
     //problems, such as clicking on a widget, and clicking to move that widget shows
     //documentation of the diagram instead of keeping the widget documentation.

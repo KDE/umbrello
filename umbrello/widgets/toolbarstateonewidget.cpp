@@ -14,18 +14,16 @@
 
 // app includes
 #include "activitywidget.h"
-#include "debug_utils.h"
 #include "dialog_utils.h"
 #include "floatingtextwidget.h"
-#include "pinwidget.h"
-#include "preconditionwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
+#include "pinwidget.h"
+#include "preconditionwidget.h"
 #include "regionwidget.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"
-#include "umlview.h"
 #include "umlwidget.h"
 
 // kde includes
@@ -40,10 +38,10 @@ using namespace Uml;
  * @param umlView The UMLView to use.
  */
 ToolBarStateOneWidget::ToolBarStateOneWidget(UMLScene *umlScene)
-  : ToolBarStatePool(umlScene)
+  : ToolBarStatePool(umlScene),
+    m_firstObject(0),
+    m_isObjectWidgetLine(false)
 {
-    m_pUMLScene = umlScene;
-    m_firstObject = 0;
 }
 
 /**
@@ -67,7 +65,7 @@ void ToolBarStateOneWidget::cleanBeforeChange()
  * It executes the base method and then updates the position of the
  * message line, if any.
  */
-void ToolBarStateOneWidget::mouseMove(QMouseEvent* ome)
+void ToolBarStateOneWidget::mouseMove(UMLSceneMouseEvent* ome)
 {
     ToolBarStatePool::mouseMove(ome);
 }
@@ -93,14 +91,14 @@ void ToolBarStateOneWidget::slotWidgetRemoved(UMLWidget* widget)
 void ToolBarStateOneWidget::setCurrentElement()
 {
     m_isObjectWidgetLine = false;
-    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->pos());
+    ObjectWidget* objectWidgetLine = m_pUMLScene->onWidgetLine(m_pMouseEvent->scenePos());
     if (objectWidgetLine) {
         setCurrentWidget(objectWidgetLine);
         m_isObjectWidgetLine = true;
         return;
     }
 
-    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->pos());
+    UMLWidget *widget = m_pUMLScene->widgetAt(m_pMouseEvent->scenePos());
     if (widget) {
         setCurrentWidget(widget);
         return;
@@ -120,12 +118,12 @@ void ToolBarStateOneWidget::setCurrentElement()
  */
 void ToolBarStateOneWidget::mouseReleaseWidget()
 {
-    WidgetBase::WidgetType widgetType = getWidgetType();
+    WidgetBase::WidgetType type = widgetType();
 
-    if (widgetType == WidgetBase::wt_Precondition) {
+    if (type == WidgetBase::wt_Precondition) {
         m_firstObject = 0;
     }
-    if (widgetType == WidgetBase::wt_Pin) {
+    if (type == WidgetBase::wt_Pin) {
         m_firstObject = 0;
     }
 
@@ -136,7 +134,7 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
         return;
     }
 
-    if (!m_firstObject && widgetType == WidgetBase::wt_Pin) {
+    if (!m_firstObject && type == WidgetBase::wt_Pin) {
         setWidget(getCurrentWidget());
         return ;
     }
@@ -171,22 +169,22 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
 {
     m_firstObject = firstObject;
 
-    UMLWidget * umlwidget = NULL;
-    //m_pUMLView->viewport()->setMouseTracking(true);
-    if (getWidgetType() == WidgetBase::wt_Precondition) {
+    UMLWidget * umlwidget = 0;
+    //m_pUMLScene->viewport()->setMouseTracking(true);
+    if (widgetType() == WidgetBase::wt_Precondition) {
         umlwidget = new PreconditionWidget(m_pUMLScene, static_cast<ObjectWidget*>(m_firstObject));
 
         Dialog_Utils::askNameForWidget(umlwidget, i18n("Enter Precondition Name"), i18n("Enter the precondition"), i18n("new precondition"));
             // Create the widget. Some setup functions can remove the widget.
     }
 
-    if (getWidgetType() == WidgetBase::wt_Pin) {
+    if (widgetType() == WidgetBase::wt_Pin) {
         umlwidget = new PinWidget(m_pUMLScene, m_firstObject);
             // Create the widget. Some setup functions can remove the widget.
     }
 
-    if (umlwidget != NULL) {
-            m_pUMLScene->setupNewWidget(umlwidget);
+    if (umlwidget) {
+        m_pUMLScene->setupNewWidget(umlwidget);
     }
 
 }
@@ -196,7 +194,7 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
  *
  * @return The widget type of this tool.
  */
-WidgetBase::WidgetType ToolBarStateOneWidget::getWidgetType()
+WidgetBase::WidgetType ToolBarStateOneWidget::widgetType()
 {
     if (getButton() == WorkToolBar::tbb_Seq_Precondition) {
         return WidgetBase::wt_Precondition;

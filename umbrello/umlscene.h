@@ -27,8 +27,9 @@ public:
 };
 
 /// uml related types - makes it easier to switch to QGraphicsScene types
+// base types
+typedef QPoint UMLScenePoint;
 // event types
-typedef QMouseEvent UMLSceneMouseEvent;
 typedef QKeyEvent UMLSceneKeyEvent;
 typedef QKeyEvent UMLSceneKeyEvent;
 typedef QHoverEvent UMLSceneHoverEvent;
@@ -41,5 +42,19 @@ typedef Q3CanvasItem UMLSceneItem;
 typedef Q3CanvasPolygon UMLScenePolygon;
 typedef Q3CanvasEllipse UMLSceneEllipse;
 typedef Q3CanvasItemList UMLSceneItemList;
+
+/**
+  qt3 migration wrapper for QMouseEvent
+*/ 
+class  UMLSceneMouseEvent : public QMouseEvent 
+{
+public:
+    UMLSceneMouseEvent(Type type, const QPoint & position, Qt::MouseButton button, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers) 
+     : QMouseEvent(type, position, button, buttons, modifiers)
+    {
+    }
+
+    UMLScenePoint scenePos() { return pos(); }
+};
 
 #endif
