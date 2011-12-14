@@ -76,6 +76,7 @@ void ClassifierWidget::init()
 
     /*
        force calculation of the widget size to avoid too small widgets
+       -> merge with related part in ClassifierWidget
        Q: could this not be handled in UMLWidget for all widgets ?
     */
     QSize size = calculateSize();
