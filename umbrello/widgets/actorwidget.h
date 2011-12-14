@@ -30,8 +30,8 @@ class UMLActor;
  * If the UMLActor class that this ActorWidget is displaying is deleted, the
  * @ref UMLView will make sure that this instance is also deleted.
  *
- * The ActorWidget class inherits from the @ref UMLWidget class which adds most
- * of the functionality to this class.
+ * The ActorWidget class inherits from the @ref UMLWidget class
+ * which adds most of the functionality to this class.
  *
  * @short A graphical version of a UML Actor.
  * @author Paul Hensgen <phensgen@techie.com>
