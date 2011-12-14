@@ -5,7 +5,7 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
- *   copyright (C) 2002-2006                                               *
+ *   copyright (C) 2002-2011                                               *
  *   Umbrello UML Modeller Authors <uml-devel@uml.sf.net>                  *
 ***************************************************************************/
 
@@ -21,7 +21,12 @@
 #define SIGNAL_WIDTH 45
 #define SIGNAL_HEIGHT 15
 
-class SignalWidget : public UMLWidget {
+/**
+ * Represents a Send signal, Accept signal or Time event on an
+ * Activity diagram.
+ */
+class SignalWidget : public UMLWidget
+{
     Q_OBJECT
 public:
     /// Enumeration that codes the different types of signal.
@@ -46,24 +51,18 @@ public:
     SignalType getSignalType() const;
     void setSignalType( SignalType signalType );
 
-
     virtual void  showPropertiesDialog();
 
     void mouseMoveEvent(QMouseEvent *me);
 
-    bool loadFromXMI( QDomElement & qElement );
-    void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
+    virtual bool loadFromXMI( QDomElement & qElement );
+    virtual void saveToXMI( QDomDocument & qDoc, QDomElement & qElement );
 
-public Q_SLOTS:    
-    void slotMenuSelection(QAction* action);
+public Q_SLOTS:
+    virtual void slotMenuSelection(QAction* action);
 
 protected:
     QSize calculateSize();
-
-    /**
-     * Type of signal.
-     */
-    SignalType m_SignalType;
 
     /**
      * Save the value of the widget to know how to move the floatingtext
@@ -78,6 +77,7 @@ protected:
      */
     FloatingTextWidget* m_pName;
 
+    SignalType m_signalType; ///< Type of signal
 };
 
 #endif

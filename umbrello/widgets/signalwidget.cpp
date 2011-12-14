@@ -44,7 +44,7 @@ SignalWidget::SignalWidget(UMLView * view, SignalType signalType, Uml::IDType id
   : UMLWidget(view, id)
 {
     UMLWidget::setBaseType(WidgetBase::wt_Signal);
-    m_SignalType = signalType;
+    m_signalType = signalType;
     updateComponentSize();
     m_pName = NULL;
     if (signalType == SignalWidget::Time) {
@@ -71,7 +71,7 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
     const int w = width();
     const int h = height();
     QPolygon a;
-    switch (m_SignalType)
+    switch (m_signalType)
     {
     case Send :
         if(UMLWidget::getUseFillColour())
@@ -153,10 +153,10 @@ void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
 
         break;
     default:
-        uWarning() << "Unknown signal type:" << m_SignalType;
+        uWarning() << "Unknown signal type:" << m_signalType;
         break;
     }
-    if(m_selected)
+    if(m_bSelected)
         drawSelected(&p, offsetX, offsetY);
 }
 
@@ -203,7 +203,7 @@ QString SignalWidget::getName() const
  */
 SignalWidget::SignalType SignalWidget::getSignalType() const
 {
-    return m_SignalType;
+    return m_signalType;
 }
 
 /**
@@ -211,7 +211,7 @@ SignalWidget::SignalType SignalWidget::getSignalType() const
  */
 void SignalWidget::setSignalType( SignalType signalType )
 {
-    m_SignalType = signalType;
+    m_signalType = signalType;
 }
 
 /**
@@ -292,7 +292,7 @@ void SignalWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     UMLWidget::saveToXMI( qDoc, signalElement );
     signalElement.setAttribute( "signalname", m_Text );
     signalElement.setAttribute( "documentation", m_Doc );
-    signalElement.setAttribute( "signaltype", m_SignalType );
+    signalElement.setAttribute( "signaltype", m_signalType );
     if (m_pName && !m_pName->text().isEmpty()) {
         signalElement.setAttribute( "textid", ID2STR(m_pName->id()) );
         m_pName -> saveToXMI( qDoc, signalElement );
@@ -332,10 +332,10 @@ QSize SignalWidget::calculateSize()
         const int fontHeight  = fm.lineSpacing();
         int textWidth = fm.width(getName());
 
-        if (m_SignalType == Accept)
+        if (m_signalType == Accept)
              textWidth = int((float)textWidth * 1.3f);
         height  = fontHeight;
-        if (m_SignalType != Time)
+        if (m_signalType != Time)
         {
               width   = textWidth > SIGNAL_WIDTH?textWidth:SIGNAL_WIDTH;
               height  = height > SIGNAL_HEIGHT?height:SIGNAL_HEIGHT;
