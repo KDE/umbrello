@@ -53,8 +53,6 @@ protected:
      * The first object in the message.
      */
     UMLWidget* m_firstObject;
-
-    UMLScene * m_pUMLScene;
     /**
      * If there is a current widget, it is true if the press event happened on
      * the line of an object, or false if it happened on a normal UMLWidget.
