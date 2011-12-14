@@ -81,9 +81,9 @@ protected:
     void drawText(QPainter * p = NULL, int offsetX = 0, int offsetY = 0);
     void drawTextWordWrap(QPainter * p = NULL, int offsetX = 0, int offsetY = 0);
 
-    Uml::IDType m_DiagramLink;  ///< Data loaded/saved.
-    NoteType    m_NoteType;     ///< Type of note.
-    QString     l_Type;         ///< Label to see the note's type.
+    Uml::IDType m_diagramLink;  ///< Data loaded/saved.
+    NoteType    m_noteType;     ///< Type of note.
+    QString     m_type;         ///< Label to see the note's type.
 
 
 private:

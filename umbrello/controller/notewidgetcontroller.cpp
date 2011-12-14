@@ -44,7 +44,7 @@ void NoteWidgetController::doMouseDoubleClick(QMouseEvent* me)
 {
     Q_UNUSED(me);
     //TODO Copied from old code. What it does?
-    if (m_noteWidget->m_DiagramLink == Uml::id_None) {
+    if (m_noteWidget->m_diagramLink == Uml::id_None) {
         // setup popup menu if not already created.
         if ( !m_noteWidget->m_pMenu )
             m_noteWidget->setupPopupMenu();
@@ -53,6 +53,6 @@ void NoteWidgetController::doMouseDoubleClick(QMouseEvent* me)
         m_noteWidget->slotMenuSelection(action);
     } else {
         UMLDoc *umldoc = UMLApp::app()->document();
-        umldoc->changeCurrentView(m_noteWidget->m_DiagramLink);
+        umldoc->changeCurrentView(m_noteWidget->m_diagramLink);
     }
 }

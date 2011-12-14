@@ -39,8 +39,8 @@ NoteWidget::NoteWidget(UMLView * view, NoteType noteType , Uml::IDType id)
   : UMLWidget(view, id, new NoteWidgetController(this))
 {
     UMLWidget::setBaseType(WidgetBase::wt_Note);
-    m_DiagramLink = Uml::id_None;
-    m_NoteType = noteType;
+    m_diagramLink = Uml::id_None;
+    m_noteType = noteType;
     setZ(20); //make sure always on top.
 }
 
@@ -79,7 +79,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
     p.drawLine(offsetX + w - margin, offsetY, offsetX + w - margin, offsetY + margin);
     p.drawLine(offsetX + w - margin, offsetY + margin, offsetX + w, offsetY + margin);
     p.setPen(Qt::black);
-    switch(m_NoteType) {
+    switch(m_noteType) {
     case NoteWidget::PreCondition :
         p.drawText(offsetX, offsetY + margin, w, fontHeight, Qt::AlignCenter, "<< precondition >>");
         break;
@@ -107,7 +107,7 @@ void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
  */
 NoteWidget::NoteType NoteWidget::getNoteType() const
 {
-    return m_NoteType;
+    return m_noteType;
 }
 
 /**
@@ -130,7 +130,7 @@ NoteWidget::NoteType NoteWidget::getNoteType(const QString& noteType) const
  */
 void NoteWidget::setNoteType( NoteType noteType )
 {
-    m_NoteType = noteType;
+    m_noteType = noteType;
 }
 
 /**
@@ -194,7 +194,7 @@ void NoteWidget::setDocumentation(const QString &newText)
  */
 Uml::IDType NoteWidget::getDiagramLink() const
 {
-    return m_DiagramLink;
+    return m_diagramLink;
 }
 
 /**
@@ -213,7 +213,7 @@ void NoteWidget::setDiagramLink(Uml::IDType viewID)
     }
     QString linkText("Diagram: " + view->name());
     setDocumentation(linkText);
-    m_DiagramLink = viewID;
+    m_diagramLink = viewID;
 }
 
 /**
@@ -245,7 +245,7 @@ bool NoteWidget::loadFromXMI( QDomElement & qElement )
     setDocumentation( qElement.attribute("text", "") );
     QString diagramlink = qElement.attribute("diagramlink", "");
     if (!diagramlink.isEmpty())
-        m_DiagramLink = STR2ID(diagramlink);
+        m_diagramLink = STR2ID(diagramlink);
     QString type = qElement.attribute("noteType", "");
     setNoteType( (NoteType)type.toInt() );
     return true;
@@ -259,9 +259,9 @@ void NoteWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
     QDomElement noteElement = qDoc.createElement( "notewidget" );
     UMLWidget::saveToXMI( qDoc, noteElement );
     noteElement.setAttribute( "text", documentation() );
-    if (m_DiagramLink != Uml::id_None)
-        noteElement.setAttribute( "diagramlink", ID2STR(m_DiagramLink) );
-    noteElement.setAttribute( "noteType", m_NoteType);
+    if (m_diagramLink != Uml::id_None)
+        noteElement.setAttribute( "diagramlink", ID2STR(m_diagramLink) );
+    noteElement.setAttribute( "noteType", m_noteType);
     qElement.appendChild( noteElement );
 }
 
@@ -303,17 +303,17 @@ QSize NoteWidget::calculateSize()
     int height = 30;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int textWidth = fm.width(m_Text);
-    if (m_NoteType == PreCondition) {
+    if (m_noteType == PreCondition) {
         const int widthtemp = fm.width("<< precondition >>");
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
-    else if (m_NoteType == PostCondition) {
+    else if (m_noteType == PostCondition) {
         const int widthtemp = fm.width("<< postcondition >>");
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
     }
-    else if (m_NoteType == Transformation) {
+    else if (m_noteType == Transformation) {
         const int widthtemp = fm.width("<< transformation >>");
         width = textWidth > widthtemp ? textWidth : widthtemp;
         width += 10;
