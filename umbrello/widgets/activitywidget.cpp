@@ -1,4 +1,5 @@
 /***************************************************************************
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -29,11 +30,6 @@
 #include <klocale.h>
 #include <kinputdialog.h>
 
-// qt includes
-#include <QtGui/QPainter>
-#include <QtGui/QPolygonF>
-
-
 /**
  * Creates a Activity widget.
  *
@@ -49,26 +45,34 @@ ActivityWidget::ActivityWidget(ActivityType activityType, Uml::IDType id)
     createTextItemGroup();
 }
 
-/// Destructor
+/**
+ *  destructor
+ */
 ActivityWidget::~ActivityWidget()
 {
 }
 
-/// Sets the type of activity
+/**
+ * Sets the type of activity.
+ */
 void ActivityWidget::setActivityType( ActivityType activityType )
 {
     m_activityType = activityType;
     updateTextItemGroups();
 }
 
-/// Sets the precondition text for this widget
+/**
+ * This method set the name of the preText attribute
+ */
 void ActivityWidget::setPreconditionText(const QString& aPreText)
 {
     m_preconditionText = aPreText;
     updateTextItemGroups();
 }
 
-/// Sets the post condition text for this widget.
+ /**
+ * This method set the name of the postText attribute
+ */
 void ActivityWidget::setPostconditionText(const QString& aPostText)
 {
     m_postconditionText = aPostText;
@@ -76,7 +80,7 @@ void ActivityWidget::setPostconditionText(const QString& aPostText)
 }
 
 /**
- * Reimplemented fron UMLWidget::showPropertiesDialog to show a
+ * Reimplemented from UMLWidget::showPropertiesDialog to show a
  * properties dialog for an ActivityWidget.
  */
 void ActivityWidget::showPropertiesDialog()
@@ -92,6 +96,9 @@ void ActivityWidget::showPropertiesDialog()
     delete dialog;
 }
 
+/**
+ * Overrides the standard paint event.
+ */
 void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidget *)
 {
     QRectF r = rect();
@@ -102,7 +109,8 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidge
     p->setPen(QPen(lineColor(), lineWidth()));
     p->setBrush(brush());
 
-    switch(m_activityType) {
+    switch(m_activityType) 
+    {
     case Normal:
         p->drawRoundRect(r, (h * 60) / w, 60);
         break;
@@ -160,8 +168,11 @@ void ActivityWidget::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWidge
     }
 }
 
-/// Loads the widget from the "activitywidget" XMI element.
-bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
+/**
+ * Loads the widget from the "activitywidget" XMI element.
+ */
+bool ActivityWidget::loadFromXMI( QDomElement & qElement ) 
+{
     if( !UMLWidget::loadFromXMI( qElement ) )
         return false;
     setName(qElement.attribute( "activityname", "" ));
@@ -175,7 +186,9 @@ bool ActivityWidget::loadFromXMI( QDomElement & qElement ) {
     return true;
 }
 
-/// Saves the widget to the "activitywidget" XMI element.
+/**
+ * Saves the widget to the "activitywidget" XMI element.
+ */
 void ActivityWidget::saveToXMI( QDomDocument & qDoc, QDomElement & qElement )
 {
     QDomElement activityElement = qDoc.createElement( "activitywidget" );

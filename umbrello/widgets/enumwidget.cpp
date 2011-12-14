@@ -28,10 +28,6 @@
 #include "umlscene.h"
 #include "widget_utils.h"
 
-// qt/kde includes
-#include <QtGui/QPainter>
-#include <QtGui/QStyleOptionGraphicsItem>
-
 /**
  * Constructs an instance of EnumWidget.
  * @param o The NewUMLObject this will be representing.
@@ -54,16 +50,17 @@ EnumWidget::~EnumWidget()
 /**
  * Set whether to show package or not.
  *
- * @param b True to show package, false to hide.
+ * @param _status             True if package shall be shown.
  */
-void EnumWidget::setShowPackage(bool b)
+void EnumWidget::setShowPackage(bool _status)
 {
-    m_showPackage = b;
+    m_showPackage = _status;
     updateTextItemGroups();
 }
 
 /**
- * Reimplemented from UMLWidget::paint to draw enum widget.
+ * Draws the enum as a rectangle with a box underneith with a list of literals
+ * Reimplemented from UMLWidget::paint
  */
 void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
@@ -100,6 +97,12 @@ void EnumWidget::saveToXMI( QDomDocument& qDoc, QDomElement& qElement )
     qElement.appendChild(conceptElement);
 }
 
+/**
+ * Will be called when a menu selection has been made from the
+ * popup menu.
+ *
+ * @param action       The action that has been selected.
+ */
 void EnumWidget::slotMenuSelection(QAction *action)
 {
     ListPopupMenu *menu = ListPopupMenu::menuFromAction(action);
@@ -116,7 +119,6 @@ void EnumWidget::slotMenuSelection(QAction *action)
         }
         return;
     }
-
     UMLWidget::slotMenuSelection(action);
 }
 

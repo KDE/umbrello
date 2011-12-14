@@ -62,6 +62,8 @@ protected:
     virtual void updateTextItemGroups();
     virtual QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldVal);
 
+    bool m_showPackage;
+
 private:
     enum {
         GroupIndex = 0
@@ -72,7 +74,6 @@ private:
         EnumLiteralStartIndex
     };
 
-    bool m_showPackage;
     QLineF m_nameLine;
 };
 

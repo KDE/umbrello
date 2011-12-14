@@ -15,8 +15,6 @@
 #include "umlwidget.h"
 
 /**
- * @class ActivityWidget
- *
  * This class is the graphical version of a UML Activity.  A ActivityWidget is created
  * by a @ref UMLView.  An ActivityWidget belongs to only one @ref UMLView instance.
  * When the @ref UMLView instance that this class belongs to, it will be automatically deleted.
@@ -85,11 +83,7 @@ protected:
     QVariant attributeChange(WidgetAttributeChange change, const QVariant& oldValue);
     void updateTextItemGroups();
 
-    /**
-     * Type of activity.
-     */
-    ActivityType m_activityType;
-
+    ActivityType m_activityType; ///< Type of activity.
 
     /**
      * Type of normal activity (Invok or not).
