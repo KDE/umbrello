@@ -32,7 +32,7 @@ CategoryWidget::~CategoryWidget()
 {
 }
 
-void CategoryWidget::draw(QPainter & p, int offsetX, int offsetY)
+void CategoryWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )

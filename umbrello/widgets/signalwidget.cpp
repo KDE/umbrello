@@ -65,7 +65,7 @@ SignalWidget::~SignalWidget()
 /**
  * Overrides the standard paint event.
  */
-void SignalWidget::draw(QPainter & p, int offsetX, int offsetY)
+void SignalWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     const int w = width();

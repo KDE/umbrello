@@ -66,7 +66,7 @@ public:
     /**
      * Overrides the standard paint event.
      */
-    void draw(QPainter & p, int offsetX, int offsetY);
+    void paint(QPainter & p, int offsetX, int offsetY);
 
     /**
      * Sets the name of the State.

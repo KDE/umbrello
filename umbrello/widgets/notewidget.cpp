@@ -54,7 +54,7 @@ NoteWidget::~NoteWidget()
 /**
  * Override default method.
  */
-void NoteWidget::draw(QPainter & p, int offsetX, int offsetY)
+void NoteWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     const int margin = 10;
     int w = width()-1;

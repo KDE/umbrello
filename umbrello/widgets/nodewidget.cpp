@@ -36,7 +36,7 @@ NodeWidget::~NodeWidget()
 {
 }
 
-void NodeWidget::draw(QPainter & p, int offsetX, int offsetY)
+void NodeWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {

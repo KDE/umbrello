@@ -46,7 +46,7 @@ public:
     /**
      * Overrides standard method.
      */
-    void draw(QPainter& p, int offsetX, int offsetY);
+    void paint(QPainter& p, int offsetX, int offsetY);
 
     /**
      * Saves to the "packagewidget" XMI element.

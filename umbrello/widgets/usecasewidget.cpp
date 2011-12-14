@@ -38,7 +38,7 @@ UseCaseWidget::~UseCaseWidget()
 /**
  * Overrides the standard paint event.
  */
-void UseCaseWidget::draw(QPainter & p, int offsetX, int offsetY)
+void UseCaseWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )

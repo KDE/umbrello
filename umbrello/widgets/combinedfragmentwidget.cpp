@@ -43,7 +43,7 @@ CombinedFragmentWidget::~CombinedFragmentWidget()
     }
 }
 
-void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY)
+void CombinedFragmentWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     int w = width();
     int h = height();
@@ -121,7 +121,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY)
                 p.drawText(offsetX + COMBINED_FRAGMENT_MARGIN, offsetY ,
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "alt");
                 // dash lines
-                m_dashLines.first()->draw(p,getX(),getY());
+                m_dashLines.first()->paint(p,getX(),getY());
                 for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                     (*it)->setX(getX());
                     old_Y = (*it)->getYMin();
@@ -138,7 +138,7 @@ void CombinedFragmentWidget::draw(QPainter & p, int offsetX, int offsetY)
             w - COMBINED_FRAGMENT_MARGIN * 2, fontHeight, Qt::AlignLeft, "parallel");
                 // dash lines
                 if (m_dashLines.size() != 0) {
-                    m_dashLines.first()->draw(p,getX(),getY());
+                    m_dashLines.first()->paint(p,getX(),getY());
                     for(QList<FloatingDashLineWidget*>::iterator it=m_dashLines.begin() ; it!=m_dashLines.end() ; ++it) {
                         (*it)->setX(getX());
                         old_Y = (*it)->getYMin();

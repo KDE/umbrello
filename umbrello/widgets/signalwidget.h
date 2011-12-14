@@ -40,7 +40,7 @@ public:
     explicit SignalWidget( UMLView * view, SignalType signalType = Send, Uml::IDType id = Uml::id_None );
     virtual ~SignalWidget();
 
-    void draw(QPainter & p, int offsetX, int offsetY);
+    void paint(QPainter & p, int offsetX, int offsetY);
 
     void setX(int newX);
     void setY(int newY);

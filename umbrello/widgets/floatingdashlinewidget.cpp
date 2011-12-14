@@ -36,7 +36,7 @@ FloatingDashLineWidget::~FloatingDashLineWidget()
 {
 }
 
-void FloatingDashLineWidget::draw(QPainter & p, int /*offsetX*/, int /*offsetY*/)
+void FloatingDashLineWidget::paint(QPainter & p, int /*offsetX*/, int /*offsetY*/)
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();

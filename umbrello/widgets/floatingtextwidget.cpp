@@ -87,7 +87,7 @@ FloatingTextWidget::~FloatingTextWidget()
 /**
  * Overrides default method
  */
-void FloatingTextWidget::draw(QPainter & p, int offsetX, int offsetY)
+void FloatingTextWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     int w = width();
     int h = height();

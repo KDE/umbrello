@@ -49,7 +49,7 @@ PackageWidget::~PackageWidget()
 {
 }
 
-void PackageWidget::draw(QPainter & p, int offsetX, int offsetY)
+void PackageWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )

@@ -36,7 +36,7 @@ RegionWidget::RegionWidget(UMLView * view, Uml::IDType id)
 
 RegionWidget::~RegionWidget() {}
 
-void RegionWidget::draw(QPainter & p, int offsetX, int offsetY)
+void RegionWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     const int w = width();

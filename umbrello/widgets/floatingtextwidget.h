@@ -96,7 +96,7 @@ public:
 
     static bool isTextValid(const QString &text);
 
-    void draw(QPainter & p, int offsetX, int offsetY);
+    void paint(QPainter & p, int offsetX, int offsetY);
 
     void handleRename();
 

@@ -159,7 +159,7 @@ void ActivityWidget::showPropertiesDialog()
 /**
  * Overrides the standard paint event.
  */
-void ActivityWidget::draw(QPainter & p, int offsetX, int offsetY)
+void ActivityWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     int w = width();
     int h = height();

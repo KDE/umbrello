@@ -556,7 +556,7 @@ UMLClassifier *ClassifierWidget::classifier()
     return static_cast<UMLClassifier*>(m_pObject);
 }
 
-void ClassifierWidget::draw(QPainter & p, int offsetX, int offsetY)
+void ClassifierWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() )

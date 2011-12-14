@@ -38,7 +38,7 @@ public:
     void setShowPackage(bool _status);
     void toggleShowPackage();
 
-    void draw(QPainter& p, int offsetX, int offsetY);
+    void paint(QPainter& p, int offsetX, int offsetY);
 
     bool loadFromXMI(QDomElement& qElement);
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

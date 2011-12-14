@@ -64,7 +64,7 @@ QSize ForkJoinWidget::calculateSize()
 /**
  * Draws a slim solid black rectangle.
  */
-void ForkJoinWidget::draw(QPainter& p, int offsetX, int offsetY)
+void ForkJoinWidget::paint(QPainter& p, int offsetX, int offsetY)
 {
     p.fillRect( offsetX, offsetY, width(), height(), QBrush( Qt::black ));
 

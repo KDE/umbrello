@@ -70,7 +70,7 @@ ObjectWidget::~ObjectWidget()
 {
 }
 
-void ObjectWidget::draw(QPainter & p , int offsetX, int offsetY)
+void ObjectWidget::paint(QPainter & p , int offsetX, int offsetY)
 {
     if ( m_drawAsActor )
         drawActor( p, offsetX, offsetY );

@@ -44,7 +44,7 @@ public:
 
     void slotMenuSelection(QAction* action);
 
-    void draw(QPainter & p, int offsetX, int offsetY);
+    void paint(QPainter & p, int offsetX, int offsetY);
 
     bool loadFromXMI(QDomElement & qElement);
     void saveToXMI(QDomDocument& qDoc, QDomElement& qElement);

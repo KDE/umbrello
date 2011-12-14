@@ -37,7 +37,7 @@ BoxWidget::~BoxWidget()
 /**
  * Draws a rectangle.
  */
-void BoxWidget::draw(QPainter& p, int offsetX, int offsetY)
+void BoxWidget::paint(QPainter& p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
     p.drawRect( offsetX, offsetY, width(), height() );

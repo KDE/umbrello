@@ -42,7 +42,7 @@ StateWidget::~StateWidget()
 {
 }
 
-void StateWidget::draw(QPainter & p, int offsetX, int offsetY)
+void StateWidget::paint(QPainter & p, int offsetX, int offsetY)
 {
     setPenFromSettings(p);
     const int w = width();

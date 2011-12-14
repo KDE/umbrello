@@ -46,7 +46,7 @@ public:
     explicit NoteWidget(UMLView * view, NoteWidget::NoteType noteType = Normal, Uml::IDType id = Uml::id_None );
     virtual ~NoteWidget();
 
-    void draw(QPainter & p, int offsetX, int offsetY);
+    void paint(QPainter & p, int offsetX, int offsetY);
 
     NoteType getNoteType() const;
     NoteType getNoteType(const QString& noteType) const;

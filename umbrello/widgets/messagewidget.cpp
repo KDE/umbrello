@@ -113,7 +113,7 @@ void MessageWidget::updateResizability()
         UMLWidget::m_resizable = false;
 }
 
-void MessageWidget::draw(QPainter& p, int offsetX, int offsetY)
+void MessageWidget::paint(QPainter& p, int offsetX, int offsetY)
 {
     if(!m_pOw[Uml::A] || !m_pOw[Uml::B]) {
         return;

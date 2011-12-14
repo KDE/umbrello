@@ -40,7 +40,7 @@ ArtifactWidget::~ArtifactWidget()
 /**
  * Overrides standard method
  */
-void ArtifactWidget::draw(QPainter& p, int offsetX, int offsetY)
+void ArtifactWidget::paint(QPainter& p, int offsetX, int offsetY)
 {
     UMLWidget::setPenFromSettings(p);
     if ( UMLWidget::getUseFillColour() ) {

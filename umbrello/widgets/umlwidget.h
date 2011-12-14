@@ -220,7 +220,7 @@ public:
      * @param offsetY y position to start the drawing.
      *
      */
-    virtual void draw(QPainter & p, int offsetX, int offsetY) = 0;
+    virtual void paint(QPainter & p, int offsetX, int offsetY) = 0;
 
     /**
      * Set the pen.
